@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPRebar.Core.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <!-- global.json pins test.runner = Microsoft.Testing.Platform; xunit.v3 speaks it natively -->
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPRebar.Core\HPRebar.Core.csproj"/>
+    </ItemGroup>
+
+</Project>

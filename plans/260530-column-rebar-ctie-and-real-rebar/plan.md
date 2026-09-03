@@ -1,6 +1,8 @@
 # Column Rebar Viewer — Đai chữ C + Vẽ thép thật
 
-Feature: `RevitAIApp/MyRevitAIApp/Column Rebar Viewer/`
+> **SUPERSEDED (2026-09-03)** bởi `plans/260903-2307-port-column-rebar-to-hprebar/`. Code của plan này nằm trong `RevitAIApp/MyRevitAIApp/` — folder đã bị xoá, git không có history (1 commit `Updata`). Chỉ còn giá trị ở mục "Ghi chú API" bên dưới.
+
+Feature: `RevitAIApp/MyRevitAIApp/Column Rebar Viewer/` (không còn tồn tại)
 Active build: `Debug.R27`
 
 ## Mục tiêu (user request)

@@ -8,100 +8,157 @@ Your role is to analyze user requirements, delegate tasks to appropriate sub-age
 
 ## Repository Layout
 
-This repo bundles **three deliverables** for a Revit API 2022–2027 course; treat them as separate concerns — do not cross-wire them:
+This repo bundles **four unrelated deliverables**; treat them as separate concerns — do not cross-wire them:
 
 | Path | What it is | Stack |
 |---|---|---|
-| `RevitAIApp/` | Working Revit Add-In (the "real" code). Multi-version (R23–R27). | C# / .NET Framework 4.8 (R23–R24) or .NET 8 (R25–R27) / WPF / Nice3point.Revit.Sdk |
-| `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`) deployed via `vercel.json` | Plain HTML |
-| `scripts/generate_revit_api_infographics.py` | One-off generator for course infographics (output → `output/`) | Python + `google-genai` (run via `.claude/skills/.venv`) |
-| `docs/` | Project docs — `system-architecture.md`, `code-standards.md` (Vietnamese). **Authoritative** for stack rules. |
-| `plans/` | Stack-Aware 6-phase plans produced by `/bs:plan`; phase files live under timestamped subfolders. |
-| `RevitTemplates-Huong-Dan-Tieng-Viet.md`, `RevitTemplates-Infographic-Prompt.md` | Reference material on Nice3point templates (Vietnamese). |
+| `HPRebar/` | The Revit Add-In (the "real" product). Multi-version R23–R27. | C# / Nice3point.Revit.Sdk / WPF / Serilog |
+| `revit-market-research/` | Apify actor scraping the Revit plugin market | Node ≥24 / TypeScript / Crawlee / vitest |
+| `scripts/skill_sync/` + `tests/skill-sync/` | Engine that keeps `.claude/`, `.agents/`, `.codex/` agent configs in sync | Python 3 / stdlib `unittest` |
+| `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`), deployed via `vercel.json` | Plain HTML |
+| `scripts/generate_revit_api_infographics.py` | One-off course infographic generator | Python + `google-genai` |
+| `docs/` | Project docs — `system-architecture.md`, `code-standards.md` (Vietnamese) | |
+| `plans/` | Stack-Aware 6-phase plans from `/bs:plan`, in timestamped subfolders. `plans/templates/` holds bug-fix / feature / refactor templates. | |
+| `RevitTemplates-*.md` | Reference material on Nice3point templates (Vietnamese) | |
 
-**Inside `RevitAIApp/`** (mirrors Nice3point `revit-solution` template):
-- `RevitAIApp.sln` — solution; configurations are `Debug.R23..R27` / `Release.R23..R27` (suffix = Revit version).
-- `MyRevitAIApp/` — the actual add-in project. Entry `Application.cs` registers ribbon → `Commands/StartupCommand.cs` opens `Views/MyRevitAIAppView.xaml` bound to `ViewModels/MyRevitAIAppViewModel.cs` (`ObservableObject` from CommunityToolkit.Mvvm).
-- `MyRevitAIApp/MyRevitAIApp.addin` — Revit manifest (AddInId GUID, FullClassName).
-- `build/` — ModularPipelines (.NET 10 console) automation: `Program.cs` registers `CompileProjectModule` (default) and `CreateInstallerModule` (when `pack` arg given).
-- `install/` — WixSharp installer (`Installer.Generator.cs`, `Installer.Versioning.cs`) invoked implicitly by the build pipeline; outputs to `RevitAIApp/output/` (folder created on first build).
-- `source/` — empty placeholder folder; treat as reserved, do not dump files here unless the template convention says so.
+## HPRebar — Build, Run, Debug
 
-## Feature Folder Convention (MANDATORY)
+Solution is **`HPRebar/HPRebar.slnx`** (XML `.slnx` format, *not* `.sln`). `global.json` pins .NET SDK `10.0.300` and sets the test runner to `Microsoft.Testing.Platform`.
 
-Mọi feature mới trong `RevitAIApp/MyRevitAIApp/` MUST có folder riêng theo template:
-
-```
-MyRevitAIApp/
-└── <Feature Name With Spaces>/         ← tên feature có space cho readability (vd "View Sheet Creator")
-    ├── <FeatureName>Command.cs         ← ExternalCommand entry, ở root feature folder
-    ├── <FeatureName>Service.cs         ← Services ở root feature folder (không subfolder Services/)
-    ├── Models/
-    ├── View/
-    └── View Models/                    ← đúng tên có space
-```
-
-**Quy tắc bắt buộc:**
-- Tên folder feature có thể (và nên) dùng space (vd `View Sheet Creator`) cho readability
-- 3 subfolder bắt buộc: `Models`, `View`, `View Models` (đúng chính tả, View Models có space)
-- ExternalCommand entry + Services nằm ở **root** của feature folder — KHÔNG tạo subfolder `Commands/`, `Services/` bên trong feature folder
-- C# namespace MUST khai báo **explicit** trong mỗi `.cs` file, strip space + PascalCase. Ví dụ folder `View Sheet Creator/Models/` → `namespace MyRevitAIApp.ViewSheetCreator.Models;`. KHÔNG dựa vào auto-namespace của IDE (sẽ propose `View_Sheet_Creator.View_Models` với underscore — phải sửa thủ công).
-- XAML files cũng update `x:Class="MyRevitAIApp.<FeatureNameNoSpace>.Views.XxxView"` và `xmlns:vm="clr-namespace:MyRevitAIApp.<FeatureNameNoSpace>.ViewModels"`.
-- `Resources/` (Theme.xaml, icons, fonts) là **shared cross-feature** → NẰM Ở root project (`MyRevitAIApp/Resources/`), KHÔNG nhân bản trong từng feature folder.
-- KHÔNG tạo folder phẳng `Commands/`, `Services/`, `ViewModels/`, `Views/` ở root project nữa cho feature mới (legacy structure từ Nice3point template, không migrate).
-- Template gốc `MyRevitAIApp/Commands/StartupCommand.cs` + `Views/MyRevitAIAppView.xaml` + `ViewModels/MyRevitAIAppViewModel.cs` giữ nguyên (không trong scope migrate, chỉ áp dụng convention cho feature MỚI).
-
-**Lý do:**
-1. Feature-based organization giúp dễ tìm code khi project có nhiều feature (vd 20+ command/dialog)
-2. Cô lập dependencies (Models, ViewModels, Services của 1 feature gói chung)
-3. Dễ remove/disable 1 feature (chỉ cần exclude folder)
-4. Khớp với cách user phân tích domain — mỗi business workflow = 1 feature folder
-
-**Reference implementation:** `RevitAIApp/MyRevitAIApp/View Sheet Creator/` (đầu tiên áp dụng convention này, plan tại `C:\Users\NC\.claude\plans\t-i-c-n-t-o-m-t-crispy-hennessy.md`).
-
-## Build, Run, Debug
-
-All commands run from `RevitAIApp/` unless noted. **Always pick the Revit-version-suffixed configuration** — plain `Debug` / `Release` exists in the .sln but is not what you want for an add-in build.
+Configurations are `Debug.R23..R27` / `Release.R23..R27` — the `R##` suffix is what the Revit MSBuild SDK parses to pick `RevitVersion`, `TargetFramework`, and the `REVIT####` constants. **There is no plain `Debug`/`Release`** for the add-in project; always pass a suffixed configuration.
 
 ```bash
-# Restore + build for a specific Revit version (replace R27 with R23..R27)
-dotnet build RevitAIApp.sln -c Debug.R27
-dotnet build RevitAIApp.sln -c Release.R27
+# From HPRebar/ — build one Revit version
+dotnet build HPRebar.slnx -c Debug.R27
+dotnet build HPRebar/HPRebar.csproj -c Debug.R27   # add-in project only
 
-# Build the single MyRevitAIApp project only
-dotnet build MyRevitAIApp/MyRevitAIApp.csproj -c Debug.R27
-
-# Compile everything via the ModularPipelines build (default action)
-cd build && dotnet run
-
-# Produce the MSI installer (cleans first, then runs CreateInstallerModule)
-cd build && dotnet run -- pack
+# ModularPipelines automation — from HPRebar/build/
+dotnet run              # CompileProjectModule: builds EVERY Release.R* config
+dotnet run -- test      # + TestProjectModule (skipped on CI via [SkipIf<IsCI>])
+dotnet run -- pack      # Clean -> CreateBundle -> CreateInstaller, into output/
 ```
 
-Debug-build outputs auto-deploy to `%ProgramData%\Autodesk\Revit\Addins\<version>\` (driven by `<DeployAddin>true</DeployAddin>` + `<LaunchRevit>true</LaunchRevit>` in `MyRevitAIApp.csproj`). F5 from Rider/VS launches Revit and attaches the debugger. The HARD-GATE-BUILD-VERIFY rule in `/bs:cook` requires `dotnet build -c Debug.R<active-version>` to pass after every `.cs`/`.xaml` change — do not skip it.
+Rider run configs `Compile` / `Pack` in `HPRebar/.run/` wrap the same two pipeline entry points.
 
-**Multi-version conditional compilation** uses constants emitted by the Nice3point MSBuild SDK based on configuration name:
+**Pipeline internals worth knowing** (`HPRebar/build/`):
+- `ResolveConfigurationsModule` reads `.slnx` `BuildTypes` and **filters to `Release.R*` only** — `dotnet run` never produces Debug output.
+- `ResolveVersioningModule` derives the version from git (GitVersion) unless `Build:Version` is set in `build/appsettings.json`, a user secret, or an env var.
+- `Solutions.HPRebar` is generated by `Sourcy.DotNet`; `HPRebar/.sourcyroot` marks the scan root.
+- Bundle vendor metadata lives in `build/appsettings.json` (`Bundle:VendorName` etc.), currently the template default `"Development"`.
+
+Debug builds auto-deploy to `%ProgramData%\Autodesk\Revit\Addins\<version>\` via `<DeployAddin>true</DeployAddin>`; `<LaunchRevit>true</LaunchRevit>` makes F5 start Revit and attach. `<IsRepackable>true</IsRepackable>` + ILRepack merge dependencies, and `<EnableDynamicLoading>true</EnableDynamicLoading>` isolates the assembly load context.
+
+**Multi-version conditional compilation** uses SDK-emitted constants (`REVIT2023`, `REVIT2024_OR_GREATER`, …). Gate removed APIs by inverting: `#if !REVIT2023_OR_GREATER`.
+
 ```csharp
 #if REVIT2024_OR_GREATER
-    long id = elementId.Value;      // .Value is long since 2024
+    long id = elementId.Value;       // .Value is long since 2024
 #else
     int id = elementId.IntegerValue; // legacy
 #endif
 ```
-Constants: `REVIT2023`, `REVIT2024_OR_GREATER`, etc. Use `!REVIT<XX>_OR_GREATER` to gate code removed in newer versions.
 
-**Tests:** no test project exists yet. When adding one, follow the framework decision tree in `.claude/skills/revit-test/` — TUnit for in-process (needs Revit context), xUnit for pure logic, ricaun-io `RevitTest` if the VS Test Adapter UI is required. Pure-logic code MUST be in a layer that does not touch the Revit API so it remains xUnit-testable (`Document` is sealed, cannot be mocked).
+Tag each block with `// Multi-version: <topic>` so it stays greppable. Edit `<Configurations>` in `.csproj` by hand — IDEs corrupt them.
 
-## Architecture Cheatsheet (Nice3point + MVVM)
+## HPRebar — Current State (read before planning)
 
-Read `docs/system-architecture.md` for the full diagram; the load-bearing facts are:
+`HPRebar/HPRebar/` is still a **bare Nice3point scaffold**. It contains only:
+- `Application.cs` — `ExternalApplication`; `OnStartup()` calls `CreateLogger()` (Serilog → Debug sink only, no file sink) then `CreateRibbon()`, which registers one panel `"Commands"` with a single `StartupCommand` push button.
+- `Commands/StartupCommand.cs` — `ExternalCommand` with an **empty** `Execute()`.
+- `Resources/Icons/` — ribbon PNGs, declared as `<Resource>` in the csproj.
 
-1. **Entry**: Revit loads `MyRevitAIApp.addin` → instantiates `Application : ExternalApplication` → `OnStartup()` configures Serilog + `CreateRibbon()` registers buttons via `Application.CreatePanel(...).AddPushButton<T>(...)`.
+Consequences for any plan touching the add-in:
+- **No `Views/`, `ViewModels/`, `Models/`, or `Theme.xaml` exist yet.** Anything in `docs/system-architecture.md` describing them is aspirational.
+- **`CommunityToolkit.Mvvm` is not referenced** in `HPRebar.csproj`. The first ViewModel must add the `PackageReference` — do not assume it is there.
+- **No DI container is wired.** `Application.cs` uses the static `Log.Logger`, not `ILogger<T>`.
+- **No .NET test project exists.** `TestProjectModule` runs `dotnet test` against the solution and currently matches nothing.
+- Existing files use **block-scoped namespaces** (`namespace HPRebar { … }`), which contradicts the file-scoped-namespace rule in `.claude/rules/development-rules.md`. New files follow the rule; do not churn those two template files just to reformat them.
+
+Add-in identity lives in `HPRebar/HPRebar/HPRebar.addin` — `AddInId` GUID `AB6B2397-2618-4A8F-A86F-B0EBB5E58D2B`, `FullClassName` `HPRebar.Application`. Renaming the assembly or root namespace requires updating this manifest and the `/HPRebar;component/...` icon pack URIs in `Application.cs`.
+
+## Agent Config Sync (`.claude` ↔ `.agents` ↔ `.codex`)
+
+**`AGENTS.md` is a generated mirror of `CLAUDE.md`** (same content, `.claude` → `.Codex` path rewrites). Edit `CLAUDE.md` and re-sync; never hand-edit `AGENTS.md` — the edit will be overwritten.
+
+The engine is `scripts/sync-agent-skills.py` (thin wrapper) over the `scripts/skill_sync/` package:
+
+```bash
+python scripts/sync-agent-skills.py {scan|status|check|apply|validate} [--root DIR] [--config FILE] [--json]
+```
+
+- Config defaults to `.skill-sync/config.json` (**gitignored**, `schema_version: 1`, keys `claude_dir` / `portable_dir` / `state_dir`, all repository-relative — absolute paths, `..`, and symlinks are rejected).
+- Providers are registered in `skill_sync/adapters/__init__.py`: `claude`, `portable`/`codex`, `antigravity`. Only `claude ↔ portable` conversions are supported (`supported_conversion_ids()`).
+- `check` is read-only and exits non-zero on drift; `apply` mutates. Writes are staged then swapped (`atomic_io.py`) under an advisory lock (`advisory_lock.py`, stale after `lock_stale_seconds`, default 3600).
+- A directory is a skill **only if it contains `SKILL.md`**; `_shared/` is a dependency, never a skill; `.venv` is ignored.
+
+### Running the sync tests
+
+Tests are stdlib `unittest`, black-box — they shell out to the CLI against fixtures copied into a temp dir. They need **both** the repo root and the test dir on `sys.path`: `support.py` imports are dir-relative while `test_bootstrap.py` imports `scripts.skill_sync.*` absolutely.
+
+```bash
+# From repo root — 41 tests
+PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync
+
+# Single module / single test
+PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync -p test_apply.py
+cd tests/skill-sync && python -m unittest test_validation.ValidationTests.test_apply_adapts_an_established_portable_edit_and_refreshes_manifest_bases
+```
+
+**Known environment failure:** ~10 tests fail on a fresh Windows checkout because `core.autocrlf=true` and there is no `.gitattributes` — fixture bytes come back CRLF while expectations are LF (`b'---\r\nname:...' != b'---\nname:...'`). These are not regressions. Confirm a failure is CRLF-shaped before chasing it; the real fix is a `.gitattributes` forcing LF under `tests/skill-sync/fixtures/`.
+
+Each fixture in `tests/skill-sync/fixtures/<Letter>-<name>/` pins one contract — see `fixtures/README.md` for the table. Fixtures deliberately never reference the live `.claude/` or `.agents/` trees.
+
+## revit-market-research
+
+Standalone Apify actor. Node ≥24, ESM (`type: module`). Run from `revit-market-research/`:
+
+```bash
+npm run build       # tsc -p tsconfig.json
+npm test            # vitest run
+npm run test:watch
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint src tests
+npm run smoke:live  # apify run — hits the network
+```
+
+## Feature Folder Convention (MANDATORY)
+
+Every new feature in `HPRebar/HPRebar/` MUST get its own folder:
+
+```
+HPRebar/HPRebar/
+└── <Feature Name With Spaces>/         ← spaces OK for readability, e.g. "View Sheet Creator"
+    ├── <FeatureName>Command.cs         ← ExternalCommand entry, at feature-folder root
+    ├── <FeatureName>Service.cs         ← Services at feature-folder root (no Services/ subfolder)
+    ├── Models/
+    ├── View/
+    └── View Models/                    ← exactly this name, with the space
+```
+
+**Rules:**
+- Three required subfolders: `Models`, `View`, `View Models`.
+- ExternalCommand entry + Services sit at the **root** of the feature folder — do NOT create `Commands/` or `Services/` subfolders inside it.
+- C# namespaces MUST be declared **explicitly** in every `.cs` file, with spaces stripped and PascalCased: folder `View Sheet Creator/Models/` → `namespace HPRebar.ViewSheetCreator.Models;`. Never accept the IDE's auto-namespace — it proposes underscores (`View_Sheet_Creator.View_Models`).
+- XAML mirrors this: `x:Class="HPRebar.<FeatureNameNoSpace>.Views.XxxView"`, `xmlns:vm="clr-namespace:HPRebar.<FeatureNameNoSpace>.ViewModels"`.
+- `Resources/` (Theme.xaml, icons, fonts) is **shared cross-feature** → stays at project root (`HPRebar/HPRebar/Resources/`). Do not duplicate it per feature.
+- Do NOT add to the flat root-level `Commands/` folder for new features — it is legacy Nice3point scaffolding. The existing `Commands/StartupCommand.cs` stays put; the convention applies to NEW features only.
+
+**Why:** feature-based grouping keeps 20+ commands navigable, isolates each feature's dependencies, makes a feature removable by excluding one folder, and matches how the domain is analyzed (one business workflow = one feature folder).
+
+## Architecture Notes (Nice3point + MVVM)
+
+Read `docs/system-architecture.md` for the full diagram, but note it describes the *target* design, not what is currently in `HPRebar/`. Load-bearing facts:
+
+1. **Entry**: Revit reads `HPRebar.addin` → instantiates `Application : ExternalApplication` → `OnStartup()` configures Serilog + `CreateRibbon()` registers buttons via `Application.CreatePanel(...).AddPushButton<T>(...)`.
 2. **Command pattern**: every button is a class deriving `ExternalCommand` (Nice3point.Revit.Toolkit) with `[Transaction(TransactionMode.Manual)]`. `Execute()` constructs ViewModel → View → `ShowDialog()`.
 3. **MVVM**: `sealed partial class XxxViewModel : ObservableObject`; `[ObservableProperty]` on private fields, `[RelayCommand]` on methods. Code-behind is `InitializeComponent()` + `DataContext = vm` only — never set DataContext in XAML, never put logic in `*.xaml.cs`.
-4. **Revit API access**: wrap every document mutation in `using var t = doc.NewTransaction("..."); t.Start(); ... t.Commit();`. Modeless windows must marshal API calls through `ExternalEvent` (cannot call Revit API from arbitrary threads).
-5. **Theme/styles**: every color, spacing, font-size goes through `{DynamicResource Brush.X}` / `{DynamicResource Spacing.X}` so dark/light swap works. Hardcoded values break the runtime theme switch — see `/bs:revit-xaml-styles`.
-6. **Logging**: Serilog, daily rolling file at `%LocalAppData%\<AddinName>\logs\addin-YYYY-MM-DD.log`. Always log via DI-injected `ILogger<T>`, not `Log.Logger` directly (except in `Application.cs` bootstrap).
+4. **Revit API access**: wrap every document mutation in `using var t = doc.NewTransaction("..."); t.Start(); ... t.Commit();`. Modeless windows must marshal API calls through `ExternalEvent` — the Revit API cannot be called from arbitrary threads.
+5. **Theme/styles**: every color, spacing and font-size goes through `{DynamicResource Brush.X}` / `{DynamicResource Spacing.X}` so the dark/light swap works. Hardcoded values break the runtime theme switch — see `/bs:revit-xaml-styles`.
+6. **Testing**: `Document` is sealed and cannot be mocked, so pure logic MUST live in a layer that never touches the Revit API to stay xUnit-testable. Framework decision tree is in `.claude/skills/revit-test/` — TUnit for in-process, xUnit for pure logic, ricaun-io `RevitTest` when the VS Test Adapter UI is required.
+
+## Stale Documentation Warning
+
+Several docs and plans still reference the pre-rename `RevitAIApp/MyRevitAIApp/` layout, which no longer exists: `docs/duplicate-sheets-design.md`, `docs/superpowers/specs/2026-08-23-*.md`, and the `plans/260530-*`, `plans/260614-*`, `plans/260823-*` folders. Map those paths to `HPRebar/HPRebar/` when reading, and do not trust file paths quoted in them without checking.
 
 ## Workflows
 
@@ -111,70 +168,49 @@ Read `docs/system-architecture.md` for the full diagram; the load-bearing facts 
 - Documentation management: `./.claude/rules/documentation-management.md`
 - And other workflows: `./.claude/rules/*`
 
-**IMPORTANT:** Analyze the skills catalog and activate the skills that are needed for the task during the process.
-**IMPORTANT:** DO NOT modify skills in `~/.claude/skills` directory directly. **MUST** modify skills in this current working directory. Unless you are asked to do so.
-**IMPORTANT:** You must follow strictly the development rules in `./.claude/rules/development-rules.md` file.
-**IMPORTANT:** Before you plan or proceed any implementation, always read the `./README.md` file first to get context.
+**IMPORTANT:** Analyze the skills catalog and activate the skills needed for the task during the process.
+**IMPORTANT:** DO NOT modify skills in `~/.claude/skills` directly. **MUST** modify skills in this working directory, unless asked otherwise.
+**IMPORTANT:** You must follow strictly the development rules in `./.claude/rules/development-rules.md`.
 **IMPORTANT:** Sacrifice grammar for the sake of concision when writing reports.
 **IMPORTANT:** In reports, list any unresolved questions at the end, if any.
 
 ## Git
 
-**DO NOT** use `chore` and `docs` in commit messages of file changes in `.claude` directory.
+**DO NOT** use `chore` or `docs` types in commit messages for file changes under the `.claude` directory.
 
 ## Hook Response Protocol
+
+`.claude/settings.json` registers hooks that can block tool calls: `simplify-gate` (UserPromptSubmit), `descriptive-name` (PreToolUse on Write), and `scout-block` + `privacy-block` (PreToolUse on Bash/Glob/Grep/Read/Edit/Write). All run through `bash .claude/hooks/node-hook-runner.sh`.
 
 ### Privacy Block Hook (`@@PRIVACY_PROMPT@@`)
 
 When a tool call is blocked by the privacy-block hook, the output contains a JSON marker between `@@PRIVACY_PROMPT_START@@` and `@@PRIVACY_PROMPT_END@@`. **You MUST use the `AskUserQuestion` tool** to get proper user approval.
 
-**Required Flow:**
+1. Parse the JSON from the hook output.
+2. Call `AskUserQuestion` with the question data from that JSON.
+3. On **"Yes, approve access"** → read the file with `bash cat "filepath"` (bash is auto-approved). On **"No, skip this file"** → continue without it.
 
-1. Parse the JSON from the hook output
-2. Use `AskUserQuestion` with the question data from the JSON
-3. Based on user's selection:
-   - **"Yes, approve access"** → Use `bash cat "filepath"` to read the file (bash is auto-approved)
-   - **"No, skip this file"** → Continue without accessing the file
-
-**Example AskUserQuestion call:**
-```json
-{
-  "questions": [{
-    "question": "I need to read \".env\" which may contain sensitive data. Do you approve?",
-    "header": "File Access",
-    "options": [
-      { "label": "Yes, approve access", "description": "Allow reading .env this time" },
-      { "label": "No, skip this file", "description": "Continue without accessing this file" }
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-**IMPORTANT:** Always ask the user via `AskUserQuestion` first. Never try to work around the privacy block without explicit user approval.
+**IMPORTANT:** Always ask via `AskUserQuestion` first. Never work around the privacy block without explicit user approval.
 
 ## Python Scripts (Skills)
 
-When running Python scripts from `.claude/skills/`, use the venv Python interpreter:
-- **Linux/macOS:** `.claude/skills/.venv/bin/python3 scripts/xxx.py`
-- **Windows:** `.claude\skills\.venv\Scripts\python.exe scripts\xxx.py`
+`.claude/scripts/requirements.txt` pins `pyyaml>=6.0`. There is currently **no `.claude/skills/.venv`** in this checkout — the system `python` is what runs. If a skill script needs `google-genai`, `pypdf`, etc., create the venv first rather than assuming it exists.
 
-This ensures packages installed by `install.sh` (google-genai, pypdf, etc.) are available.
-
-**IMPORTANT:** When scripts of skills failed, don't stop, try to fix them directly.
+**IMPORTANT:** When a skill script fails, don't stop — fix it directly.
 
 ## [IMPORTANT] Consider Modularization
+
 - If a code file exceeds 200 lines of code, consider modularizing it
-- Check existing modules before creating new
+- Check existing modules before creating new ones
 - Analyze logical separation boundaries (functions, classes, concerns)
-- Use kebab-case naming with long descriptive names, it's fine if the file name is long because this ensures file names are self-documenting for LLM tools (Grep, Glob, Search)
+- Use kebab-case naming with long descriptive names — long is fine, it makes file names self-documenting for LLM tools (Grep, Glob, Search)
 - Write descriptive code comments
-- After modularization, continue with main task
-- When not to modularize: Markdown files, plain text files, bash scripts, configuration files, environment variables files, etc.
+- After modularization, continue with the main task
+- When not to modularize: Markdown, plain text, bash scripts, config files, dotenv files
 
 ## Documentation Management
 
-We keep all important docs in `./docs` folder and keep updating them, structure like below:
+Keep all important docs in `./docs` and keep them updated:
 
 ```
 ./docs
@@ -187,4 +223,4 @@ We keep all important docs in `./docs` folder and keep updating them, structure 
 └── project-roadmap.md
 ```
 
-**IMPORTANT:** *MUST READ* and *MUST COMPLY* all *INSTRUCTIONS* in project `./CLAUDE.md`, especially *WORKFLOWS* section is *CRITICALLY IMPORTANT*, this rule is *MANDATORY. NON-NEGOTIABLE. NO EXCEPTIONS. MUST REMEMBER AT ALL TIMES!!!*
+**IMPORTANT:** *MUST READ* and *MUST COMPLY* with all *INSTRUCTIONS* in this `./CLAUDE.md`, especially the *WORKFLOWS* section. This rule is *MANDATORY. NON-NEGOTIABLE. NO EXCEPTIONS.*

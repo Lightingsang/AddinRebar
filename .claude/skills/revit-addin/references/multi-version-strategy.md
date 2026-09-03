@@ -30,11 +30,17 @@ Project `.csproj` mặc định scaffold ra:
 | 2022 | `net48` | .NET Framework 4.8 | Legacy |
 | 2023 | `net48` | .NET Framework 4.8 | Legacy |
 | 2024 | `net48` | .NET Framework 4.8 | Legacy |
-| 2025 | `net8.0-windows` | .NET 8 | Modern, assembly isolation |
-| 2026 | `net8.0-windows` | .NET 8 | |
-| 2027 | `net8.0-windows` | .NET 8 | |
+| 2025 | `net8.0-windows7.0` | .NET 8 | Modern, assembly isolation |
+| 2026 | `net8.0-windows7.0` | .NET 8 | |
+| 2027 | `net10.0-windows7.0` | **.NET 10** | Cần SDK .NET 10 — pin trong `global.json` |
 
 SDK tự switch — không cần config tay.
+
+Nguồn: `~/.nuget/packages/nice3point.revit.sdk/6.2.3/Sdk/*.props` —
+`>= 2021 → net48`, `>= 2025 → net8.0-windows7.0`, `>= 2027 → net10.0-windows7.0`.
+Kiểm chứng thực tế: `dotnet build -c Debug.R27` resolve `net10.0-windows7.0` +
+`Nice3point.Revit.Api.RevitAPI 2027.2.0`. Bảng cũ ghi 2027 = `net8.0-windows` và bỏ hậu tố
+`7.0` cho 2025/2026 — sai.
 
 ## Preprocessor Constants
 
