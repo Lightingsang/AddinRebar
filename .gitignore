@@ -1,0 +1,29 @@
+﻿# Visual Studio / IDE
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.idea/
+.vscode/
+
+# Build outputs & Binaries
+[Bb]in/
+[Oo]bj/
+output/
+destination/
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.class
+
+# Caches & System-locked agent files
+.skill-sync/
+.superpowers/
+
+# Windows OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini

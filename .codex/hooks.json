@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\node-hook-runner.sh' 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\descriptive-name.cjs'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Glob|Grep|Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\node-hook-runner.sh' 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\scout-block.cjs'"
+          },
+          {
+            "type": "command",
+            "command": "bash 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\node-hook-runner.sh' 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\privacy-block.cjs'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\node-hook-runner.sh' 'G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.codex\\hooks\\simplify-gate.cjs'"
+          }
+        ]
+      }
+    ]
+  }
+}

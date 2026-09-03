@@ -1,0 +1,136 @@
+{
+  "title": "Revit Market Research input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "runMode": {
+      "title": "Run mode",
+      "description": "Use sample for safe fixtures or full for complete public SERP discovery.",
+      "type": "string",
+      "editor": "select",
+      "enum": ["sample", "full"],
+      "default": "sample"
+    },
+    "sampleSize": {
+      "title": "Sample size",
+      "description": "Maximum number of products to include in the research output.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "default": 20
+    },
+    "maxRequests": {
+      "title": "Maximum requests",
+      "description": "Safety cap for public web requests during the run.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5000,
+      "default": 120
+    },
+    "maxConcurrency": {
+      "title": "Maximum concurrency",
+      "description": "Maximum simultaneous public web requests.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 10
+    },
+    "searchProviders": {
+      "title": "Search providers",
+      "description": "Public search providers used for product discovery.",
+      "type": "array",
+      "editor": "select",
+      "items": { "type": "string", "enum": ["google", "bing"] },
+      "minItems": 1,
+      "default": ["google", "bing"]
+    },
+    "categories": {
+      "title": "Product categories",
+      "description": "Revit market categories to research.",
+      "type": "array",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Revit Automation",
+          "BIM Productivity",
+          "Model QA/QC",
+          "Parameter Management",
+          "Family Management",
+          "Sheet/View Automation",
+          "Documentation",
+          "Export/Import",
+          "MEP/Structural/Architecture tools",
+          "AI tools for Revit"
+        ]
+      },
+      "minItems": 1,
+      "default": [
+        "Revit Automation",
+        "BIM Productivity",
+        "Model QA/QC",
+        "Parameter Management",
+        "Family Management",
+        "Sheet/View Automation",
+        "Documentation",
+        "Export/Import",
+        "MEP/Structural/Architecture tools",
+        "AI tools for Revit"
+      ]
+    },
+    "outputLanguage": {
+      "title": "Report language",
+      "description": "Language for the market report.",
+      "type": "string",
+      "editor": "select",
+      "enum": ["vi", "en"],
+      "default": "vi"
+    },
+    "targetCurrency": {
+      "title": "Target currency",
+      "description": "Currency used when reporting pricing information.",
+      "type": "string",
+      "editor": "select",
+      "enum": ["USD"],
+      "default": "USD"
+    },
+    "serpActorIds": {
+      "title": "SERP Actor IDs",
+      "description": "Optional per-provider Apify Actor ID overrides for public search discovery.",
+      "type": "object",
+      "editor": "json",
+      "default": {
+        "google": "scraper-engine/google-search-results-scraper",
+        "bing": "crawlerbros/bing-search-scraper"
+      }
+    },
+    "searchQueriesPerCategory": {
+      "title": "Search queries per category",
+      "description": "Number of public search queries generated for each selected category.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 2
+    },
+    "cacheTtlHours": {
+      "title": "Cache TTL hours",
+      "description": "How long discovered public data can be reused before it is refreshed.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 720,
+      "default": 24
+    },
+    "includeForums": {
+      "title": "Include forums",
+      "description": "Include eligible public forum sources in market research.",
+      "type": "boolean",
+      "default": true
+    },
+    "includeGitHub": {
+      "title": "Include GitHub",
+      "description": "Include eligible public GitHub sources in market research.",
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

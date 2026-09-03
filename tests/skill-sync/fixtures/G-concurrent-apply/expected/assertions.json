@@ -1,0 +1,1 @@
+{"allowed_exit_codes": [0, 4], "logical_skill_id": "concurrent", "manifest": ".skill-sync/manifest.json", "expected_paths": ["claude/concurrent/SKILL.md", "portable/concurrent/SKILL.md"]}

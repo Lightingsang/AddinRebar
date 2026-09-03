@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buổi 2 — Vẽ Thép Cột + Revit MCP | Revit Graphics API 2027 với AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0A0F1E;
+    --bg-card: #131C33;
+    --bg-card-hover: #1A2540;
+    --border: rgba(45, 127, 249, 0.15);
+    --border-bright: rgba(45, 127, 249, 0.4);
+    --primary: #2D7FF9;
+    --revit: #0696D7;
+    --ai-purple: #A855F7;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(6, 150, 215, 0.12), transparent 60%),
+      linear-gradient(rgba(45, 127, 249, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 127, 249, 0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 48px 48px, 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .topnav {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 15, 30, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 16px 0;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 600; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: var(--text-dim); }
+
+  .hero { padding: 60px 0 40px; text-align: center; }
+  .lesson-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #0696D7 0%, #2D7FF9 100%);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(6, 150, 215, 0.3);
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: clamp(16px, 1.8vw, 19px);
+    color: var(--text-muted);
+    max-width: 720px;
+    margin: 0 auto 32px;
+  }
+  .hero-meta {
+    display: inline-flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .meta-item strong { color: var(--text); }
+
+  .coming-soon-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 48px;
+    margin: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .coming-soon-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(6, 150, 215, 0.1), transparent 70%);
+    pointer-events: none;
+  }
+  .coming-soon-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 2s infinite ease-in-out;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .coming-soon-card h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .coming-soon-card > p {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 580px;
+    margin: 0 auto 40px;
+  }
+
+  .preview-section {
+    text-align: left;
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(10, 15, 30, 0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+  }
+  .preview-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--revit);
+  }
+  .preview-list {
+    list-style: none;
+    padding: 0;
+  }
+  .preview-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .preview-list li:last-child { border-bottom: none; }
+  .preview-list li::before {
+    content: '→';
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .preview-list strong { color: var(--text); display: inline-block; margin-right: 6px; }
+
+  .notify-box {
+    margin: 32px auto 0;
+    max-width: 580px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(45, 127, 249, 0.05));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .notify-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .notify-box strong { color: var(--ai-purple); }
+
+  .footer-nav {
+    margin: 60px 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .nav-link {
+    display: block;
+    padding: 24px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s;
+  }
+  .nav-link:hover {
+    border-color: var(--border-bright);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+  }
+  .nav-link .nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .nav-link .nav-title { font-size: 17px; font-weight: 700; }
+  .nav-link.next { text-align: right; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  footer a { color: var(--primary); text-decoration: none; }
+
+  @media (max-width: 768px) {
+    .footer-nav { grid-template-columns: 1fr; }
+    .coming-soon-card { padding: 40px 24px; }
+    .preview-section { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">← Lộ Trình Khóa Học</a>
+      <span class="sep">/</span>
+      <span>Buổi 2</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="lesson-badge">📚 Buổi 02 / 04</div>
+    <h1>Vẽ Thép Cột + Revit MCP</h1>
+    <p class="hero-subtitle">
+      Add-in vẽ thép cột với UI canvas trực quan · Phát triển Revit MCP Server kết nối Claude/Antigravity ↔ Revit
+    </p>
+    <div class="hero-meta">
+      <span class="meta-item">⏱️ <strong>180 phút</strong></span>
+      <span class="meta-item">🎯 <strong>Add-in thực chiến đầu tiên</strong></span>
+      <span class="meta-item">🔌 <strong>Học MCP từ A-Z</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="coming-soon-card">
+    <div class="coming-soon-icon">🚧</div>
+    <h2>Nội Dung Đang Được Biên Soạn</h2>
+    <p>Trang chi tiết Buổi 2 sẽ có đầy đủ: download links, prompt mẫu, code samples, video demo và bài tập về nhà.</p>
+
+    <div class="preview-section">
+      <h3>📋 Nội Dung Sẽ Có</h3>
+      <ul class="preview-list">
+        <li><strong>UI Canvas Trực Quan</strong> — Vẽ thanh thép realtime trên WPF Canvas, drag-drop, parametric. Số thép thay đổi → hình ảnh cập nhật theo.</li>
+        <li><strong>Vẽ Rebar Thật trong Revit</strong> — Plan → CAD code → tạo Rebar element, wrap Transaction, validate hình học.</li>
+        <li><strong>Revit MCP Server</strong> — Phát triển MCP server từ con số 0, expose Revit API functions cho AI.</li>
+        <li><strong>Kết Nối AI ↔ Revit</strong> — Claude Code / Antigravity gọi MCP, bóc geometry cột, tạo thép tự động bằng prompt.</li>
+        <li><strong>Bài Tập Về Nhà</strong> — Mở rộng vẽ thép cho dầm, sàn, móng · Export báo cáo bóc tách thép ra PDF.</li>
+      </ul>
+    </div>
+
+    <div class="notify-box">
+      <div class="notify-icon">📬</div>
+      <div>
+        <strong>Đăng ký thông báo:</strong> Khi nội dung buổi 2 sẵn sàng, giảng viên sẽ gửi email cho học viên đã hoàn thành bài tập Buổi 1.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="footer-nav">
+    <a href="lesson-01.html" class="nav-link">
+      <div class="nav-label">← Buổi Trước</div>
+      <div class="nav-title">01 · Setup & Add-in Đầu Tiên</div>
+    </a>
+    <a href="lesson-03.html" class="nav-link next">
+      <div class="nav-label">Buổi Tiếp Theo →</div>
+      <div class="nav-title">03 · Add-in Chuyên Sâu</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p><strong>Buổi 02 — Vẽ Thép Cột + Revit MCP</strong> · Khóa Học Revit Graphics API 2027 với AI</p>
+    <p style="margin-top: 8px; opacity: 0.6;">
+      <a href="index.html">Quay về Lộ Trình</a> ·
+      <a href="https://claude.com/claude-code" target="_blank">Claude Code</a> ·
+      <a href="https://github.com/Nice3point/RevitTemplates" target="_blank">Nice3point Templates</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

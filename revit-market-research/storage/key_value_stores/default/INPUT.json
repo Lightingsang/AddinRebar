@@ -1,0 +1,17 @@
+{
+  "runMode": "sample",
+  "sampleSize": 20,
+  "maxRequests": 120,
+  "maxConcurrency": 10,
+  "searchProviders": ["google", "bing"],
+  "serpActorIds": {
+    "google": "scraper-engine/google-search-results-scraper",
+    "bing": "crawlerbros/bing-search-scraper"
+  },
+  "searchQueriesPerCategory": 2,
+  "cacheTtlHours": 24,
+  "includeForums": true,
+  "includeGitHub": true,
+  "outputLanguage": "vi",
+  "targetCurrency": "USD"
+}

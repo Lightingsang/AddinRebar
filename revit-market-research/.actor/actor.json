@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "revit-market-research",
+  "title": "Revit Market Research",
+  "description": "Public-data research for the Revit add-in market.",
+  "version": "0.1",
+  "meta": {
+    "generatedBy": "Codex with GPT-5"
+  },
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "dockerfile": "../Dockerfile",
+  "usesStandbyMode": false
+}

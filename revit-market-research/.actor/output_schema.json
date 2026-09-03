@@ -1,0 +1,26 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Revit Market Research output",
+  "properties": {
+    "dataset": {
+      "type": "string",
+      "title": "Default dataset",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "PRODUCTS_JSON": {
+      "type": "string",
+      "title": "Products JSON",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/PRODUCTS_JSON"
+    },
+    "PRODUCTS_CSV": {
+      "type": "string",
+      "title": "Products CSV",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/PRODUCTS_CSV"
+    },
+    "MARKET_REPORT": {
+      "type": "string",
+      "title": "Market report",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/MARKET_REPORT"
+    }
+  }
+}

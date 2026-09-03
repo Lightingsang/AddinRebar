@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buổi 1 — Setup & Add-in Đầu Tiên | Revit Graphics API 2027 với AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0A0F1E;
+    --bg-navy: #0F172A;
+    --bg-card: #131C33;
+    --bg-card-hover: #1A2540;
+    --bg-code: #0A0E1A;
+    --border: rgba(45, 127, 249, 0.15);
+    --border-bright: rgba(45, 127, 249, 0.4);
+
+    --primary: #2D7FF9;
+    --revit: #0696D7;
+    --ai-purple: #A855F7;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --pink: #EC4899;
+
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+
+    --grad-primary: linear-gradient(135deg, #2D7FF9 0%, #0696D7 100%);
+    --grad-ai: linear-gradient(135deg, #A855F7 0%, #2D7FF9 100%);
+    --grad-success: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(45, 127, 249, 0.12), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(168, 85, 247, 0.08), transparent 60%),
+      linear-gradient(rgba(45, 127, 249, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 127, 249, 0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ========== TOP NAV ========== */
+  .topnav {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 15, 30, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 16px 0;
+  }
+  .topnav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: var(--text-dim); }
+
+  .toc-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(45, 127, 249, 0.1);
+    border: 1px solid var(--border-bright);
+    border-radius: 100px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toc-toggle:hover { background: rgba(45, 127, 249, 0.2); }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding: 60px 0 40px;
+    text-align: center;
+  }
+
+  .lesson-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background: var(--grad-primary);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(45, 127, 249, 0.3);
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(16px, 1.8vw, 19px);
+    color: var(--text-muted);
+    max-width: 720px;
+    margin: 0 auto 32px;
+  }
+
+  .hero-meta {
+    display: inline-flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .meta-item strong { color: var(--text); }
+
+  /* ========== TOC ========== */
+  .toc {
+    margin: 40px auto 60px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+  }
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ai-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .toc li {
+    counter-increment: toc;
+    padding: 6px 0;
+    break-inside: avoid;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    display: inline-block;
+    width: 32px;
+    color: var(--primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--primary); }
+
+  /* ========== SECTIONS ========== */
+  section {
+    padding: 40px 0;
+    scroll-margin-top: 80px;
+  }
+
+  .section-num {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 20px 0 8px;
+  }
+
+  p {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  p strong, li strong { color: var(--text); }
+
+  ul, ol {
+    color: var(--text-muted);
+    padding-left: 24px;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  ul li, ol li { margin-bottom: 6px; }
+
+  a.inline-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dashed rgba(45, 127, 249, 0.4);
+    transition: all 0.2s;
+  }
+  a.inline-link:hover { border-bottom-style: solid; }
+
+  /* ========== CONCEPT BOX ========== */
+  .concept {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.06), rgba(45, 127, 249, 0.04));
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-left: 4px solid var(--ai-purple);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .concept-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ai-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+  }
+  .concept h4 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .concept p:last-child { margin-bottom: 0; }
+
+  /* ========== DOWNLOAD CARDS ========== */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .download-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .download-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-bright);
+    background: var(--bg-card-hover);
+    box-shadow: 0 12px 32px rgba(45, 127, 249, 0.15);
+  }
+
+  .download-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .download-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--grad-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .download-card.purple .download-icon { background: var(--grad-ai); }
+  .download-card.green .download-icon { background: var(--grad-success); }
+  .download-card.orange .download-icon { background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%); }
+
+  .download-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .download-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .download-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    flex-grow: 1;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: rgba(45, 127, 249, 0.12);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .download-btn:hover {
+    background: var(--primary);
+    color: white;
+  }
+  .download-btn::after {
+    content: '↗';
+    font-size: 14px;
+  }
+
+  .download-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(45, 127, 249, 0.15);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .tag.required { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+  .tag.optional { background: rgba(100, 116, 139, 0.2); color: var(--text-muted); }
+  .tag.free { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+
+  /* ========== STEPS ========== */
+  .steps {
+    counter-reset: step;
+    margin: 24px 0;
+  }
+  .step {
+    counter-increment: step;
+    position: relative;
+    padding-left: 56px;
+    padding-bottom: 28px;
+    margin-bottom: 8px;
+  }
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--grad-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(45, 127, 249, 0.3);
+  }
+  .step::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 44px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--border-bright), transparent);
+  }
+  .step:last-child::after { display: none; }
+
+  .step-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  /* ========== CODE BLOCK ========== */
+  .code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .keyword { color: var(--ai-purple); font-weight: 600; }
+  .code-block .string { color: #7DD3FC; }
+  .code-block .func { color: var(--success); }
+  .code-block .prompt { color: var(--success); font-weight: 700; }
+  .code-block .var { color: #F59E0B; }
+  .code-block .tag-xml { color: #EC4899; }
+
+  /* ========== PROMPT CARDS ========== */
+  .prompt-card {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(45, 127, 249, 0.05));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .prompt-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ai-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .prompt-label::before {
+    content: '✨';
+    font-size: 14px;
+  }
+  .prompt-text {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #E2E8F0;
+    white-space: pre-wrap;
+  }
+
+  /* ========== TIP / WARNING BOX ========== */
+  .callout {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .callout-content { flex: 1; }
+  .callout-content p { margin-bottom: 0; }
+
+  .callout.tip {
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+  }
+  .callout.tip .callout-icon { background: var(--success); }
+  .callout.tip strong { color: var(--success); }
+
+  .callout.warning {
+    background: rgba(245, 158, 11, 0.06);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+  }
+  .callout.warning .callout-icon { background: var(--warning); }
+  .callout.warning strong { color: var(--warning); }
+
+  .callout.danger {
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+  .callout.danger .callout-icon { background: var(--danger); }
+  .callout.danger strong { color: var(--danger); }
+
+  /* ========== TEMPLATE CARDS ========== */
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .template-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.2s;
+  }
+  .template-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+  .template-card .tmpl-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .template-card h4 {
+    font-size: 15px;
+    margin: 6px 0 4px;
+  }
+  .template-card p {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+
+  /* ========== LAB CARDS ========== */
+  .lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .lab-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .lab-card::before {
+    content: 'LAB';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--warning);
+    background: rgba(245, 158, 11, 0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .lab-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(45, 127, 249, 0.12);
+  }
+  .lab-card h4 {
+    font-size: 17px;
+    margin: 4px 0 8px;
+    padding-right: 50px;
+  }
+  .lab-card p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .lab-card .lab-prompt {
+    background: var(--bg-code);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #7DD3FC;
+    line-height: 1.5;
+  }
+
+  /* ========== HOMEWORK ========== */
+  .homework {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(239, 68, 68, 0.04));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .homework-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--warning);
+  }
+  .homework ol {
+    color: var(--text);
+  }
+  .homework li { margin-bottom: 12px; }
+  .homework li strong { color: var(--warning); }
+
+  /* ========== FOOTER NAV ========== */
+  .footer-nav {
+    margin: 80px 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .nav-link {
+    display: block;
+    padding: 24px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s;
+  }
+  .nav-link:hover {
+    border-color: var(--border-bright);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+  }
+  .nav-link .nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .nav-link .nav-title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .nav-link.next { text-align: right; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  footer a { color: var(--primary); text-decoration: none; }
+
+  /* ========== SCROLL REVEAL ========== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .toc ol { columns: 1; }
+    .footer-nav { grid-template-columns: 1fr; }
+    .step { padding-left: 48px; }
+    .step::before { width: 36px; height: 36px; font-size: 12px; }
+    .step::after { left: 17px; top: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<nav class="topnav">
+  <div class="container">
+    <div class="topnav-inner">
+      <div class="breadcrumb">
+        <a href="index.html">← Lộ Trình Khóa Học</a>
+        <span class="sep">/</span>
+        <span>Buổi 1</span>
+      </div>
+      <a href="#toc" class="toc-toggle">📋 Mục Lục</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="container">
+    <div class="lesson-badge">📚 Buổi 01 / 04</div>
+    <h1>Setup & Add-in Đầu Tiên</h1>
+    <p class="hero-subtitle">
+      Cài đặt môi trường vibe-coding · Cài Nice3point template · Build add-in "Hello World" trong 5 phút · Lab: Selection, Duplicate Sheet, Import Excel
+    </p>
+    <div class="hero-meta">
+      <span class="meta-item">⏱️ <strong>180 phút</strong></span>
+      <span class="meta-item">🎯 <strong>6 phần lý thuyết</strong></span>
+      <span class="meta-item">🧪 <strong>5 bài lab</strong></span>
+      <span class="meta-item">📝 <strong>3 bài tập về nhà</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- ========== TOC ========== -->
+<div class="container">
+  <div id="toc" class="toc reveal">
+    <div class="toc-title">Mục Lục</div>
+    <ol>
+      <li><a href="#part-1">Cài Đặt Phần Mềm Cần Thiết</a></li>
+      <li><a href="#part-2">Triết Lý Vibe-Coding</a></li>
+      <li><a href="#part-3">Cài Nice3point RevitTemplates</a></li>
+      <li><a href="#part-4">Tạo Project Revit Đầu Tiên</a></li>
+      <li><a href="#part-5">Add-in "Hello World"</a></li>
+      <li><a href="#part-6">Lab: Selection, Duplicate, Excel</a></li>
+      <li><a href="#part-7">Tại Sao Phải Dùng Skill?</a></li>
+      <li><a href="#part-8">Bài Tập Về Nhà</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ========== PART 1 — INSTALLATION ========== -->
+<section id="part-1">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 01 / 08</span>
+      <h2>Cài Đặt Phần Mềm Cần Thiết</h2>
+      <p>
+        Tất cả phần mềm dưới đây <strong>đều miễn phí</strong> (trừ Revit — bạn có thể dùng bản trial 30 ngày hoặc bản giáo dục).
+        Cài theo thứ tự từ trên xuống dưới. Tổng dung lượng ~5GB, tổng thời gian cài ~30-45 phút.
+      </p>
+    </div>
+
+    <h3 class="reveal">📥 Phần Mềm BẮT BUỘC (4 cái)</h3>
+
+    <div class="download-grid">
+
+      <div class="download-card reveal">
+        <div class="download-header">
+          <div class="download-icon">🟣</div>
+          <div>
+            <div class="download-title">.NET SDK 8.0</div>
+            <div class="download-sub">Microsoft · ~250MB</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag required">Bắt buộc</span>
+          <span class="tag free">Free</span>
+        </div>
+        <div class="download-desc">
+          Bộ công cụ để build add-in Revit (Revit 2025+ chạy trên .NET 8). Chứa <code>dotnet</code> CLI để cài template và build project.
+        </div>
+        <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank" class="download-btn">Tải .NET 8 SDK</a>
+      </div>
+
+      <div class="download-card reveal">
+        <div class="download-header">
+          <div class="download-icon">📝</div>
+          <div>
+            <div class="download-title">Git</div>
+            <div class="download-sub">git-scm.com · ~50MB</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag required">Bắt buộc</span>
+          <span class="tag free">Free</span>
+        </div>
+        <div class="download-desc">
+          Quản lý code, đồng bộ với GitHub. Claude Code dùng Git để theo dõi thay đổi và rollback khi cần.
+        </div>
+        <a href="https://git-scm.com/downloads" target="_blank" class="download-btn">Tải Git</a>
+      </div>
+
+      <div class="download-card purple reveal">
+        <div class="download-header">
+          <div class="download-icon">🤖</div>
+          <div>
+            <div class="download-title">Claude Code</div>
+            <div class="download-sub">Anthropic · CLI + VSCode ext</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag required">Bắt buộc</span>
+          <span class="tag">Pro $20/tháng</span>
+        </div>
+        <div class="download-desc">
+          AI agent chính trong khóa học. Chạy trong terminal hoặc VSCode/Cursor. <strong>Đây là công cụ vibe-coding chủ lực</strong>.
+        </div>
+        <a href="https://claude.com/claude-code" target="_blank" class="download-btn">Tải Claude Code</a>
+      </div>
+
+      <div class="download-card orange reveal">
+        <div class="download-header">
+          <div class="download-icon">🏗️</div>
+          <div>
+            <div class="download-title">Autodesk Revit 2027</div>
+            <div class="download-sub">Autodesk · ~10GB</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag required">Bắt buộc</span>
+          <span class="tag">Trial 30 ngày</span>
+        </div>
+        <div class="download-desc">
+          Phần mềm BIM chính. Add-in của bạn sẽ chạy trên Revit. Khóa học support Revit 2023 → 2027 (multi-version).
+        </div>
+        <a href="https://www.autodesk.com/products/revit/free-trial" target="_blank" class="download-btn">Tải Revit Trial</a>
+      </div>
+
+    </div>
+
+    <h3 class="reveal">📥 Phần Mềm KHUYẾN KHÍCH (3 cái)</h3>
+
+    <div class="download-grid">
+
+      <div class="download-card reveal">
+        <div class="download-header">
+          <div class="download-icon">💻</div>
+          <div>
+            <div class="download-title">Visual Studio Code</div>
+            <div class="download-sub">Microsoft · ~100MB</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag">Khuyến khích</span>
+          <span class="tag free">Free</span>
+        </div>
+        <div class="download-desc">
+          IDE chính để code C#. Claude Code có extension chạy trong VSCode rất mượt. Nhẹ hơn Visual Studio Full nhiều.
+        </div>
+        <a href="https://code.visualstudio.com/" target="_blank" class="download-btn">Tải VSCode</a>
+      </div>
+
+      <div class="download-card purple reveal">
+        <div class="download-header">
+          <div class="download-icon">🌌</div>
+          <div>
+            <div class="download-title">Antigravity</div>
+            <div class="download-sub">Google · IDE AI</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag">Khuyến khích</span>
+          <span class="tag free">Free Preview</span>
+        </div>
+        <div class="download-desc">
+          IDE AI-first của Google. Tương tự Cursor/Claude Code nhưng dùng Gemini. Đối thủ trực tiếp — học cả 2 để có lựa chọn.
+        </div>
+        <a href="https://antigravity.google" target="_blank" class="download-btn">Tải Antigravity</a>
+      </div>
+
+      <div class="download-card green reveal">
+        <div class="download-header">
+          <div class="download-icon">📦</div>
+          <div>
+            <div class="download-title">Node.js LTS</div>
+            <div class="download-sub">~50MB</div>
+          </div>
+        </div>
+        <div class="download-tags">
+          <span class="tag">Buổi 2+</span>
+          <span class="tag free">Free</span>
+        </div>
+        <div class="download-desc">
+          Cần để chạy MCP servers (Revit MCP ở buổi 2) và build web bán hàng (buổi 4). Cài trước cho đỡ phải dừng giữa chừng.
+        </div>
+        <a href="https://nodejs.org/" target="_blank" class="download-btn">Tải Node.js</a>
+      </div>
+
+    </div>
+
+    <div class="callout warning reveal">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <p><strong>Quan trọng:</strong> Sau khi cài .NET SDK, mở terminal mới (PowerShell hoặc Command Prompt) và chạy <code>dotnet --version</code> để kiểm tra. Nếu báo "command not found", restart máy. Tương tự với <code>git --version</code> và <code>node --version</code>.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal">🔐 Tạo Tài Khoản Claude Pro</h3>
+    <div class="reveal">
+      <p>Để dùng Claude Code, bạn cần một trong các gói:</p>
+      <ul>
+        <li><strong>Claude Pro ($20/tháng)</strong> — đủ cho học và làm việc cá nhân, ~5x lượt prompt mỗi 5 giờ</li>
+        <li><strong>Claude Max ($100-200/tháng)</strong> — cho dev pro, gấp 5-20x Pro, không lo hết quota</li>
+        <li><strong>API key</strong> — pay-as-you-go, dùng cho test/dev tự động</li>
+      </ul>
+      <p>Đăng ký tại <a href="https://claude.ai" target="_blank" class="inline-link">claude.ai</a>, sau đó đăng nhập trong Claude Code bằng lệnh <code>claude login</code>.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 2 — VIBE CODING PHILOSOPHY ========== -->
+<section id="part-2">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 02 / 08</span>
+      <h2>Triết Lý Vibe-Coding</h2>
+      <p>
+        Trước khi gõ dòng prompt đầu tiên, bạn phải hiểu <em>tại sao</em> chúng ta làm việc theo cách này.
+        Nếu không, bạn sẽ vẫn ngồi gõ tay từng dòng code như 10 năm trước.
+      </p>
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Khái Niệm Cốt Lõi</div>
+      <h4>Vibe-Coding là gì?</h4>
+      <p>
+        Là phương pháp lập trình mà <strong>bạn ra mô tả bằng tiếng Việt/Anh</strong>, AI viết toàn bộ code, bạn chỉ
+        <strong>review plan trước khi AI code</strong> và <strong>kiểm tra kết quả sau khi AI chạy xong</strong>. Bạn không gõ tay, không debug, không đọc lỗi compiler.
+      </p>
+    </div>
+
+    <h3 class="reveal">📊 So Sánh 2 Cách Tiếp Cận</h3>
+
+    <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;">
+
+      <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 16px; padding: 24px;">
+        <h4 style="color: var(--danger); margin-top: 0;">❌ Code Tay (cách cũ)</h4>
+        <ul style="margin: 12px 0;">
+          <li>Học cú pháp C# 3-6 tháng</li>
+          <li>Đọc Revit API docs hàng nghìn trang</li>
+          <li>1 add-in mất 2-4 tuần</li>
+          <li>Debug từng warning, từng lỗi</li>
+          <li>Phải nhớ tên hàm, tên class</li>
+          <li>Code lặp lại 90%, mệt</li>
+        </ul>
+      </div>
+
+      <div style="background: rgba(34, 197, 94, 0.06); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 16px; padding: 24px;">
+        <h4 style="color: var(--success); margin-top: 0;">✅ Vibe-Coding (cách mới)</h4>
+        <ul style="margin: 12px 0;">
+          <li>Học prompt + concept (1 tuần)</li>
+          <li>AI đọc docs giúp bạn</li>
+          <li>1 add-in mất 5-30 phút</li>
+          <li>AI tự đọc lỗi, tự sửa</li>
+          <li>Nói tiếng Việt, AI hiểu</li>
+          <li>Tập trung nghiệp vụ, không syntax</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Nguyên Tắc Vàng</div>
+      <h4>Quy tắc 99/1 — 99% AI, 1% bạn</h4>
+      <p>
+        Trong khóa học này, bạn sẽ <strong>không chạm tay vào file .cs nào quá 1%</strong>. Toàn bộ:
+        tạo file, sửa file, đặt tên, refactor, thêm thư viện, build, test, fix lỗi — đều là việc của AI.
+      </p>
+      <p>
+        Việc của bạn là <strong>3 thứ duy nhất</strong>:
+      </p>
+      <ol>
+        <li><strong>Mô tả mục tiêu</strong> — viết prompt rõ ràng bằng tiếng Việt</li>
+        <li><strong>Review plan</strong> — đọc kế hoạch AI đề xuất, chấp nhận hoặc điều chỉnh</li>
+        <li><strong>Kiểm tra kết quả</strong> — bấm F5, xem add-in chạy đúng không trong Revit</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 3 — NICE3POINT TEMPLATE ========== -->
+<section id="part-3">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 03 / 08</span>
+      <h2>Cài Nice3point RevitTemplates</h2>
+      <p>
+        <a href="https://github.com/Nice3point/RevitTemplates" target="_blank" class="inline-link">Nice3point RevitTemplates</a> là bộ scaffolder chính thức của cộng đồng Revit (422★ trên GitHub).
+        Nó giúp bạn tạo 1 project Revit Add-in hoàn chỉnh trong 30 giây — đã có sẵn MVVM, DI, Serilog, multi-version, auto-deploy.
+      </p>
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Khái Niệm Quan Trọng</div>
+      <h4>Template Engine là gì?</h4>
+      <p>
+        <code>.NET Template Engine</code> là cơ chế của .NET cho phép bạn cài các "khuôn mẫu" project. Khi bạn gõ
+        <code>dotnet new revit-addin</code>, .NET sẽ sinh ra toàn bộ cấu trúc thư mục, file <code>.csproj</code>, file <code>.addin</code>, code mẫu — sẵn sàng build ngay.
+      </p>
+      <p>
+        Thay vì copy-paste project cũ rồi đổi tên (dễ sót), bạn dùng template = chuẩn hóa = không lỗi.
+      </p>
+    </div>
+
+    <h3 class="reveal">⚙️ Cài Đặt Một Lần Duy Nhất</h3>
+
+    <div class="steps">
+
+      <div class="step reveal">
+        <h4 class="step-title">Mở terminal (PowerShell / Terminal / iTerm)</h4>
+        <p>Trên Windows: nhấn <code>Win + R</code> → gõ <code>powershell</code>. Trên Mac: <code>Cmd + Space</code> → gõ <code>terminal</code>.</p>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Chạy lệnh cài template</h4>
+        <div class="code-block" data-lang="terminal"><span class="prompt">$</span> dotnet new install Nice3point.Revit.Templates</div>
+        <p>Lệnh này tải template từ NuGet và đăng ký vào hệ thống. Mất ~20 giây. Bạn chỉ cần làm <strong>1 lần duy nhất</strong> cho cả đời.</p>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Kiểm tra cài đặt thành công</h4>
+        <div class="code-block" data-lang="terminal"><span class="prompt">$</span> dotnet new list revit</div>
+        <p>Nếu thấy danh sách 6 templates (revit-addin, revit-application, v.v.), bạn đã cài thành công.</p>
+      </div>
+
+    </div>
+
+    <h3 class="reveal">📦 6 Templates Có Sẵn</h3>
+    <p class="reveal">Mỗi template tương ứng một loại project. Trong khóa học, ta dùng chính <code>revit-addin</code> (đơn giản) và <code>revit-solution</code> (production-grade).</p>
+
+    <div class="template-grid">
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-addin</div>
+        <h4>🧩 Single Project</h4>
+        <p>Quickstart 1 project, gọn nhẹ. Dùng cho Hello World và bài tập buổi 1.</p>
+      </div>
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-application</div>
+        <h4>⚓ Modular Entry</h4>
+        <p>Có entry-point tách biệt, dễ scale. Dùng khi muốn modular hóa.</p>
+      </div>
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-module</div>
+        <h4>🧱 Business Module</h4>
+        <p>Module nghiệp vụ riêng, plug vào application. Tách concerns rõ.</p>
+      </div>
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-solution</div>
+        <h4>🏭 Enterprise</h4>
+        <p>Full solution: app + tests + CI/CD + installer. Dùng cho buổi 3-4.</p>
+      </div>
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-benchmark</div>
+        <h4>⏱️ Performance</h4>
+        <p>Đo performance code chạy trong Revit thread. Optimize bottleneck.</p>
+      </div>
+      <div class="template-card reveal">
+        <div class="tmpl-name">revit-test</div>
+        <h4>🧪 Unit Tests</h4>
+        <p>TUnit framework, có access full Revit API. Test isolation trong Revit.</p>
+      </div>
+    </div>
+
+    <div class="callout tip reveal">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <p><strong>Đừng nhớ 6 cái này.</strong> Cứ hỏi Claude Code: "Tôi muốn làm add-in X, dùng template nào?" — AI sẽ chọn đúng. Đây là tinh thần vibe-coding.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 4 — CREATE PROJECT ========== -->
+<section id="part-4">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 04 / 08</span>
+      <h2>Tạo Project Revit Đầu Tiên</h2>
+      <p>
+        Giờ ta tạo project thực tế. Khác với khóa học khác bắt bạn gõ lệnh, ở đây ta <strong>để Claude Code làm tất cả</strong> — bạn chỉ ngồi xem và confirm.
+      </p>
+    </div>
+
+    <div class="steps">
+
+      <div class="step reveal">
+        <h4 class="step-title">Tạo thư mục project</h4>
+        <div class="code-block" data-lang="terminal"><span class="prompt">$</span> mkdir <span class="var">~/RevitAddins</span>
+<span class="prompt">$</span> cd <span class="var">~/RevitAddins</span></div>
+        <p>Đây sẽ là thư mục chứa tất cả add-in của bạn trong khóa học.</p>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Khởi động Claude Code</h4>
+        <div class="code-block" data-lang="terminal"><span class="prompt">$</span> claude</div>
+        <p>Claude Code sẽ mở interactive session. Bạn gõ prompt bằng tiếng Việt được — AI hiểu hết.</p>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Ra lệnh cho AI tạo project</h4>
+        <p>Đây là prompt đầu tiên trong cuộc đời lập trình Revit của bạn. Copy nguyên đoạn dưới đây:</p>
+
+        <div class="prompt-card">
+          <div class="prompt-label">Prompt #1 — Tạo Project</div>
+          <div class="prompt-text">Hãy tạo cho tôi một project Revit Add-in mới bằng Nice3point template.
+
+- Tên project: HelloRevit
+- Template: revit-addin (single project quickstart)
+- Multi-version: hỗ trợ Revit 2023, 2024, 2025, 2026, 2027
+- Manifest type: application
+- Dependency Injection: bật (hosting mode)
+- Logging: bật Serilog
+
+Sau khi tạo xong, hãy:
+1. Mở file .csproj cho tôi xem
+2. Giải thích cấu trúc thư mục vừa sinh
+3. Cho tôi biết file nào là entry point</div>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">AI tạo plan — Bạn review</h4>
+        <p>Claude Code sẽ <strong>không chạy lệnh ngay</strong>. Nó sẽ trình bày kế hoạch trước:</p>
+        <ul>
+          <li>Lệnh sắp chạy: <code>dotnet new revit-addin -n HelloRevit ...</code></li>
+          <li>Cấu trúc thư mục dự kiến</li>
+          <li>Các file sẽ được sinh</li>
+        </ul>
+        <p>Bạn đọc plan, nếu OK thì gõ <code>yes</code> hoặc nhấn Enter để confirm. <strong>Đây chính là "review plan"</strong> — bước quan trọng nhất.</p>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Xem cấu trúc project được sinh</h4>
+        <p>Sau khi AI chạy xong, thư mục <code>HelloRevit/</code> sẽ có:</p>
+        <div class="code-block" data-lang="filetree"><span class="comment">HelloRevit/</span>
+├── Application.cs              <span class="comment">← Entry point (IExternalApplication)</span>
+├── Host.cs                     <span class="comment">← Dependency Injection bootstrap</span>
+├── HelloRevit.csproj           <span class="comment">← Project file (SDK=Nice3point.Revit.Sdk)</span>
+├── HelloRevit.addin            <span class="comment">← Revit XML manifest</span>
+├── Commands/
+│   └── StartupCommand.cs       <span class="comment">← Logic button trên Ribbon</span>
+├── Configuration/
+│   ├── HostingConfiguration.cs
+│   └── LoggerConfiguration.cs
+├── Models/                     <span class="comment">← Data layer (rỗng)</span>
+├── ViewModels/
+│   └── MainViewModel.cs        <span class="comment">← MVVM (CommunityToolkit.Mvvm)</span>
+├── Views/
+│   ├── MainView.xaml           <span class="comment">← WPF UI</span>
+│   └── MainView.xaml.cs
+└── Resources/Icons/
+    ├── RibbonIcon16.png
+    └── RibbonIcon32.png</div>
+      </div>
+
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Khái Niệm</div>
+      <h4>Multi-version Build là gì?</h4>
+      <p>
+        Revit 2023, 2024, 2025, 2026, 2027 dùng <strong>RevitAPI.dll khác nhau</strong> và <strong>.NET version khác nhau</strong>:
+      </p>
+      <ul>
+        <li>Revit 2023-2024: .NET Framework 4.8</li>
+        <li>Revit 2025-2027: .NET 8.0</li>
+      </ul>
+      <p>
+        Bình thường bạn phải tạo 5 project khác nhau. Nhưng Nice3point có MSBuild SDK tự pick đúng phiên bản:
+        khi bạn chọn config <code>Debug R27</code>, nó link đúng <code>RevitAPI 2027.dll</code> và compile với .NET 8.
+        Code C# dùng <code>#if REVIT2027_OR_GREATER</code> để xử lý API khác nhau giữa các version.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 5 — HELLO WORLD ========== -->
+<section id="part-5">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 05 / 08</span>
+      <h2>Add-in "Hello World" — Button Đầu Tiên</h2>
+      <p>
+        Bây giờ ta sẽ làm add-in đơn giản nhất: 1 button trên ribbon Revit, click vào hiện popup "Hello World".
+        Mục tiêu: <strong>chứng minh add-in chạy được, debug được</strong>.
+      </p>
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Khái Niệm</div>
+      <h4>IExternalCommand vs IExternalApplication</h4>
+      <ul>
+        <li><strong>IExternalApplication</strong> — chạy 1 lần khi Revit khởi động. Dùng để tạo Ribbon panel, buttons.</li>
+        <li><strong>IExternalCommand</strong> — chạy mỗi khi user click button. Đây là nơi viết logic nghiệp vụ.</li>
+      </ul>
+      <p>Template đã sinh sẵn <code>Application.cs</code> (Application) và <code>StartupCommand.cs</code> (Command). Bạn không cần viết từ đầu.</p>
+    </div>
+
+    <h3 class="reveal">🚀 Tạo Button "Hello World"</h3>
+
+    <div class="steps">
+
+      <div class="step reveal">
+        <h4 class="step-title">Ra lệnh cho AI</h4>
+        <div class="prompt-card">
+          <div class="prompt-label">Prompt #2 — Hello World Button</div>
+          <div class="prompt-text">Trong project HelloRevit:
+
+1. Sửa Application.cs để tạo một Ribbon Panel tên "Khóa Học AI" trong tab "Add-Ins"
+2. Trong panel đó, thêm 1 button có:
+   - Text: "Hello World"
+   - Icon: dùng sẵn Resources/Icons/RibbonIcon32.png
+   - Tooltip: "Click để chào thế giới"
+
+3. Sửa StartupCommand.cs để khi click button hiện MessageBox với nội dung:
+   "Xin chào! Đây là add-in Revit đầu tiên của tôi được tạo bằng AI."
+
+4. Cấu hình project để khi tôi nhấn F5:
+   - Build .csproj với config Debug R27
+   - Auto-copy DLL + .addin vào %ProgramData%\Autodesk\Revit\Addins\2027\
+   - Tự động mở Revit.exe 2027
+   - Attach debugger để tôi đặt breakpoint được
+
+Sau khi xong, giải thích cho tôi từng file đã thay đổi.</div>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">AI viết code, bạn review</h4>
+        <p>Claude Code sẽ thay đổi 2-3 files. Mỗi thay đổi nó sẽ cho bạn xem diff (trước/sau). Bạn chỉ cần nhìn và confirm.</p>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <p><strong>Không hiểu code? Không sao.</strong> Gõ tiếp: "Giải thích cho tôi từng dòng" hoặc "Đoạn này làm gì?". AI sẽ giảng cho bạn như giáo viên 1-1.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Nhấn F5 — Revit tự mở</h4>
+        <p>Đây là khoảnh khắc thần kỳ:</p>
+        <ol>
+          <li>VSCode build project (~10-30 giây cho lần đầu)</li>
+          <li>DLL được copy vào folder Revit Addins tự động</li>
+          <li>Revit 2027 tự khởi động</li>
+          <li>Bạn vào tab <strong>Add-Ins</strong> → thấy panel <strong>Khóa Học AI</strong> → button <strong>Hello World</strong></li>
+          <li>Click vào → popup hiện ra: "Xin chào!..."</li>
+        </ol>
+      </div>
+
+      <div class="step reveal">
+        <h4 class="step-title">Đặt breakpoint và debug</h4>
+        <p>Trong VSCode, mở <code>StartupCommand.cs</code>, click vào lề trái của dòng <code>TaskDialog.Show(...)</code> để đặt breakpoint (chấm đỏ). Quay lại Revit, click button — debugger sẽ <strong>dừng ngay tại dòng đó</strong>. Bạn xem được giá trị biến, step qua từng dòng, modify rồi tiếp tục.</p>
+      </div>
+
+    </div>
+
+    <div class="callout tip reveal">
+      <div class="callout-icon">🎉</div>
+      <div class="callout-content">
+        <p><strong>Chúc mừng!</strong> Bạn vừa tạo add-in Revit đầu tiên — bằng <em>tiếng Việt</em>, không gõ một dòng C# nào. Đây là chuẩn mực mới của khóa học. Từ giờ, mọi add-in đều theo flow này.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 6 — LABS ========== -->
+<section id="part-6">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 06 / 08</span>
+      <h2>Bài Lab Thực Hành Trong Buổi</h2>
+      <p>
+        Sau Hello World, ta làm 5 lab khó dần. Mỗi lab là một prompt cho AI — bạn copy, paste, F5, xem kết quả.
+        <strong>Mỗi lab dưới 10 phút</strong>. Không gõ code tay.
+      </p>
+    </div>
+
+    <div class="lab-grid">
+
+      <div class="lab-card reveal">
+        <h4>🎯 Lab 1 — Selection Elements</h4>
+        <p>Tạo button "Đếm Elements" — user chọn nhiều object trong Revit, click button, popup hiện số lượng và loại từng object.</p>
+        <div class="lab-prompt">Thêm button mới "Đếm Elements" vào panel "Khóa Học AI". Khi click: lấy current selection từ UIDocument, hiện TaskDialog với tổng số element và breakdown theo Category.</div>
+      </div>
+
+      <div class="lab-card reveal">
+        <h4>📄 Lab 2 — Duplicate Sheet</h4>
+        <p>Tạo button "Nhân Bản Sheet" — user chọn 1 sheet trong Project Browser, click button, sheet được clone với tên mới + suffix "(Copy)".</p>
+        <div class="lab-prompt">Tạo command DuplicateSheetCommand. Lấy sheet đang active, dùng ViewSheet.Create() để clone, copy tất cả viewports, đặt tên mới. Wrap trong Transaction.</div>
+      </div>
+
+      <div class="lab-card reveal">
+        <h4>🖼️ Lab 3 — Duplicate View</h4>
+        <p>Tương tự Lab 2 nhưng cho View (floor plan, section, 3D view). Test với cả ViewDuplicateOption (Duplicate vs WithDetailing).</p>
+        <div class="lab-prompt">Tạo button "Nhân Bản View". Detect loại view đang active, dùng View.Duplicate(ViewDuplicateOption.WithDetailing), đặt tên mới có timestamp.</div>
+      </div>
+
+      <div class="lab-card reveal">
+        <h4>📊 Lab 4 — Import Sheets từ Excel</h4>
+        <p>Tạo button "Import Sheets" — user chọn file Excel có cột [Sheet Number, Sheet Name], add-in tạo hàng loạt sheet trong Revit.</p>
+        <div class="lab-prompt">Cài NuGet ClosedXML. Tạo command đọc Excel, parse rows, tạo ViewSheet.Create() cho từng row trong 1 transaction. Report kết quả: X sheets created, Y errors.</div>
+      </div>
+
+      <div class="lab-card reveal">
+        <h4>🏗️ Lab 5 — Tạo Cốt Thép Rầm/Sàn từ Family</h4>
+        <p>Add-in nâng cao: load family rebar, đặt instance vào cấu kiện dầm hoặc sàn đã chọn, theo grid cài đặt sẵn.</p>
+        <div class="lab-prompt">Tạo button "Tạo Cốt Thép". User chọn dầm/sàn. AI load family Rebar mẫu, tính bố trí theo cover & spacing, dùng Rebar.CreateFromCurves() để place. Visualize trong 3D view.</div>
+      </div>
+
+    </div>
+
+    <div class="callout warning reveal">
+      <div class="callout-icon">⚡</div>
+      <div class="callout-content">
+        <p><strong>Khi AI gặp lỗi build:</strong> Đừng panic. Cứ gõ "build bị lỗi, hãy đọc và sửa". AI sẽ chạy <code>dotnet build</code>, parse lỗi, sửa code, build lại — vòng lặp tự động cho đến khi pass. Bạn ngồi uống cà phê.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 7 — SKILLS ========== -->
+<section id="part-7">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 07 / 08</span>
+      <h2>Tại Sao Phải Dùng Skill?</h2>
+      <p>
+        Đến đây bạn đã làm được vài add-in. Nhưng nếu chỉ ra prompt linh tinh, code sẽ <strong>không nhất quán</strong>:
+        chỗ thì có error handling, chỗ không; chỗ wrap transaction, chỗ không; chỗ có log, chỗ không.
+        <strong>Skill</strong> giải quyết vấn đề này.
+      </p>
+    </div>
+
+    <div class="concept reveal">
+      <div class="concept-label">Khái Niệm Cốt Lõi</div>
+      <h4>Skill là gì trong Claude Code?</h4>
+      <p>
+        Skill là <strong>quy trình chuẩn hóa</strong> mà bạn dạy cho AI làm theo mỗi khi develop. Ví dụ skill <code>revit-feature-dev</code> sẽ bắt AI:
+      </p>
+      <ol>
+        <li><strong>Plan trước</strong> — viết kế hoạch chi tiết các file sẽ tạo/sửa, transaction names, error cases</li>
+        <li><strong>User review plan</strong> — bạn duyệt plan, có thể sửa</li>
+        <li><strong>Implement</strong> — AI mới bắt đầu code theo plan</li>
+        <li><strong>Build & Test</strong> — AI tự chạy <code>dotnet build</code> và unit tests</li>
+        <li><strong>Đọc warnings/errors</strong> — AI parse output, tự sửa</li>
+        <li><strong>Loop cho đến khi pass</strong> — 0 warnings, 0 errors, tests xanh</li>
+        <li><strong>Report cuối cùng</strong> — tóm tắt thay đổi, file ảnh hưởng</li>
+      </ol>
+    </div>
+
+    <h3 class="reveal">🎯 Lợi Ích Thực Tế Của Skill</h3>
+
+    <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 24px 0;">
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <h4 style="color: var(--primary); margin-top: 0;">🔄 Nhất Quán</h4>
+        <p style="font-size: 13px; margin-bottom: 0;">Mọi feature đều có log, transaction, error handling, unit test — không sót bước nào.</p>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <h4 style="color: var(--ai-purple); margin-top: 0;">🧠 Plan Trước</h4>
+        <p style="font-size: 13px; margin-bottom: 0;">Tránh AI code lung tung 200 dòng rồi mới nhận ra hướng sai. Plan giúp catch sớm.</p>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <h4 style="color: var(--success); margin-top: 0;">🤖 Auto-Fix</h4>
+        <p style="font-size: 13px; margin-bottom: 0;">AI tự đọc compiler warning, tự sửa, tự test lại. Bạn không cần xem terminal output.</p>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <h4 style="color: var(--warning); margin-top: 0;">📋 User Chỉ Review</h4>
+        <p style="font-size: 13px; margin-bottom: 0;">Bạn không phải đọc error log, không debug. Chỉ duyệt plan + xem demo cuối cùng.</p>
+      </div>
+
+    </div>
+
+    <h3 class="reveal">⚙️ Dùng Skill Trong Khóa Học</h3>
+    <div class="reveal">
+      <p>Trong khóa học có sẵn 2 skill chính (sẽ cài ở buổi 2):</p>
+      <ul>
+        <li><code>revit-addin-planner</code> — bắt AI plan kỹ trước khi code, output là markdown file chi tiết</li>
+        <li><code>revit-addin-implementer</code> — code theo plan, auto-build, auto-test, auto-fix loop</li>
+      </ul>
+      <p>Khi bạn gõ trong Claude Code:</p>
+      <div class="code-block" data-lang="claude-code"><span class="prompt">$</span> <span class="keyword">/revit-addin-planner</span> Tôi muốn add-in xuất schedule Door ra Excel
+<span class="prompt">$</span> <span class="keyword">/revit-addin-implementer</span> <span class="comment"># sau khi review plan xong</span></div>
+      <p>AI sẽ tuân thủ <strong>nguyên 7 bước</strong> ở khái niệm trên. Bạn chỉ duyệt plan ở bước 2 và xem report ở bước 7.</p>
+    </div>
+
+    <div class="callout tip reveal">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <p><strong>Tinh thần chính:</strong> Việc của con người là <em>review plan thật kỹ</em>, không phải <em>đọc warning thật kỹ</em>. AI gánh phần khó, bạn gánh phần quan trọng (định hướng nghiệp vụ).</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== PART 8 — HOMEWORK ========== -->
+<section id="part-8">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-num">PHẦN 08 / 08</span>
+      <h2>Bài Tập Về Nhà</h2>
+      <p>Hoàn thành 3 bài này trước buổi 2. Mỗi bài <strong>không quá 15 phút</strong> với vibe-coding. Nếu mất hơn — bạn đang gõ tay quá nhiều, dừng lại và ra prompt rõ hơn.</p>
+    </div>
+
+    <div class="homework reveal">
+      <div class="homework-title">📝 3 Bài Tập Tự Làm — Tạo Add-in Hoàn Toàn Bằng AI</div>
+
+      <p style="margin-bottom: 16px;">Tất cả 3 bài tập đều phải dùng <strong>MVVM pattern</strong> + <strong>giao diện WPF</strong>. Code 100% sinh bằng AI (Claude Code / Cursor / Copilot), bạn chỉ làm prompt engineering và verify kết quả.</p>
+
+      <ol>
+        <li>
+          <strong>Add-in "Duplicate Sheet"</strong> — Add-in cho phép user chọn một hoặc nhiều sheet trong project, nhập số lượng bản sao + prefix tên, sau đó tự động duplicate kèm theo views trên sheet. Giao diện WPF có danh sách sheet (DataGrid), input số lượng, preview tên sheet mới trước khi confirm.
+        </li>
+        <li>
+          <strong>Add-in "Import Sheet from Excel"</strong> — Add-in đọc file Excel (.xlsx) chứa danh sách sheet (cột: Sheet Number, Sheet Name, Title Block), tự động tạo các sheet tương ứng trong Revit. Giao diện WPF có Browse Excel, preview bảng data từ Excel, chọn Title Block từ dropdown, button "Import All".
+        </li>
+        <li>
+          <strong>Add-in "Dim Định Vị Cột"</strong> — Add-in tự động tạo dimension định vị tất cả cột trong mặt bằng (Structural Column) tới các grid line gần nhất theo phương X và Y. Giao diện WPF cho user chọn view mặt bằng, filter loại cột, tùy chọn dimension style, button "Generate Dimensions".
+        </li>
+      </ol>
+
+      <div class="callout warning" style="margin-top: 20px;">
+        <div class="callout-icon">📤</div>
+        <div class="callout-content">
+          <p><strong>Yêu cầu nộp bài:</strong></p>
+          <ul style="margin: 8px 0 0 20px;">
+            <li><strong>Source code:</strong> Push code lên GitHub repo riêng của bạn (1 repo cho cả 3 add-in, hoặc 3 repo riêng), gửi link cho giảng viên.</li>
+            <li><strong>Video quay kết quả:</strong> Quay video demo từng add-in chạy thực tế trong Revit — show ribbon button, mở WPF dialog, chọn input, click run, kết quả trong project Revit. Upload YouTube/Drive/Loom, gửi link.</li>
+          </ul>
+          <p style="margin-top: 12px;"><strong>Không làm bài tập = không được học buổi 2.</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== FOOTER NAV ========== -->
+<div class="container">
+  <div class="footer-nav">
+    <a href="index.html" class="nav-link">
+      <div class="nav-label">← Quay Lại</div>
+      <div class="nav-title">Lộ Trình Khóa Học</div>
+    </a>
+    <a href="lesson-02.html" class="nav-link next">
+      <div class="nav-label">Buổi Tiếp Theo →</div>
+      <div class="nav-title">02 · Vẽ Thép Cột + Revit MCP</div>
+    </a>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <p>
+      <strong>Buổi 01 — Setup & Add-in Đầu Tiên</strong> ·
+      Khóa Học Revit Graphics API 2027 với AI
+    </p>
+    <p style="margin-top: 8px; opacity: 0.6;">
+      Powered by <a href="https://claude.com/claude-code">Claude Code</a> ·
+      <a href="https://github.com/Nice3point/RevitTemplates">Nice3point Templates</a> ·
+      <a href="https://www.autodesk.com/products/revit">Autodesk Revit</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

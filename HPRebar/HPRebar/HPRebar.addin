@@ -1,0 +1,14 @@
+<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>HPRebar</Name>
+        <Assembly>HPRebar\HPRebar.dll</Assembly>
+        <AddInId>AB6B2397-2618-4A8F-A86F-B0EBB5E58D2B</AddInId>
+        <FullClassName>HPRebar.Application</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>HPRebar</ContextName>
+    </ManifestSettings>
+</RevitAddIns>

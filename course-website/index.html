@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lộ Trình Khóa Học — Revit Graphics API 2027 với AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0A0F1E;
+    --bg-navy: #0F172A;
+    --bg-card: #131C33;
+    --bg-card-hover: #1A2540;
+    --border: rgba(45, 127, 249, 0.15);
+    --border-bright: rgba(45, 127, 249, 0.4);
+
+    --primary: #2D7FF9;
+    --revit: #0696D7;
+    --ai-purple: #A855F7;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+
+    --grad-primary: linear-gradient(135deg, #2D7FF9 0%, #0696D7 100%);
+    --grad-ai: linear-gradient(135deg, #A855F7 0%, #2D7FF9 100%);
+    --grad-success: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+    --grad-warning: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 40px rgba(45, 127, 249, 0.25);
+    --shadow-glow-purple: 0 0 40px rgba(168, 85, 247, 0.25);
+
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Background grid + radial */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(45, 127, 249, 0.15), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(168, 85, 247, 0.1), transparent 60%),
+      linear-gradient(rgba(45, 127, 249, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 127, 249, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: float 20s infinite ease-in-out;
+  }
+  .particle:nth-child(1) { top: 10%; left: 5%; width: 6px; height: 6px; background: var(--primary); box-shadow: 0 0 20px var(--primary); animation-delay: 0s; }
+  .particle:nth-child(2) { top: 30%; right: 8%; width: 4px; height: 4px; background: var(--ai-purple); box-shadow: 0 0 15px var(--ai-purple); animation-delay: -5s; }
+  .particle:nth-child(3) { top: 60%; left: 10%; width: 8px; height: 8px; background: var(--revit); box-shadow: 0 0 25px var(--revit); animation-delay: -10s; }
+  .particle:nth-child(4) { top: 80%; right: 12%; width: 5px; height: 5px; background: var(--success); box-shadow: 0 0 18px var(--success); animation-delay: -15s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); opacity: 0.6; }
+    25% { transform: translate(30px, -40px); opacity: 1; }
+    50% { transform: translate(-20px, -80px); opacity: 0.4; }
+    75% { transform: translate(-40px, -30px); opacity: 0.8; }
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .badge-row {
+    display: inline-flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(45, 127, 249, 0.1);
+    border: 1px solid var(--border-bright);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    backdrop-filter: blur(10px);
+  }
+  .badge.purple { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: var(--ai-purple); }
+  .badge.green { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.4); color: var(--success); }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  h1 .highlight {
+    background: var(--grad-ai);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+
+  .subtitle {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-muted);
+    max-width: 720px;
+    margin: 0 auto 40px;
+    font-weight: 400;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-bright);
+    box-shadow: var(--shadow-glow);
+  }
+  .stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* ========== PHILOSOPHY SECTION ========== */
+  .philosophy {
+    padding: 100px 0 60px;
+    text-align: center;
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ai-purple);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .section-lead {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 720px;
+    margin: 0 auto 48px;
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .compare-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-card.old {
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  .compare-card.new {
+    border-color: rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 60px rgba(34, 197, 94, 0.1);
+  }
+
+  .compare-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .compare-card.old .compare-icon { background: rgba(239, 68, 68, 0.15); }
+  .compare-card.new .compare-icon { background: rgba(34, 197, 94, 0.15); }
+
+  .compare-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .compare-card .label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .compare-card.old .label { color: var(--danger); }
+  .compare-card.new .label { color: var(--success); }
+
+  .compare-card ul {
+    list-style: none;
+    margin-top: 16px;
+  }
+  .compare-card li {
+    padding: 8px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .compare-card li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 9px;
+  }
+  .compare-card.old li::before { background: var(--danger); }
+  .compare-card.new li::before { background: var(--success); }
+
+  .compare-arrow {
+    font-size: 48px;
+    color: var(--primary);
+    font-weight: 300;
+  }
+
+  /* ========== TIMELINE ========== */
+  .timeline-section {
+    padding: 100px 0;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 48px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--ai-purple) 50%, var(--success) 100%);
+    opacity: 0.3;
+  }
+
+  .lesson {
+    position: relative;
+    padding-left: 120px;
+    margin-bottom: 60px;
+  }
+
+  .lesson-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid var(--border-bright);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    transition: all 0.4s ease;
+    z-index: 2;
+  }
+  .lesson:nth-child(1) .lesson-marker { border-color: var(--primary); box-shadow: var(--shadow-glow); }
+  .lesson:nth-child(2) .lesson-marker { border-color: var(--revit); box-shadow: 0 0 40px rgba(6, 150, 215, 0.3); }
+  .lesson:nth-child(3) .lesson-marker { border-color: var(--ai-purple); box-shadow: var(--shadow-glow-purple); }
+  .lesson:nth-child(4) .lesson-marker { border-color: var(--success); box-shadow: 0 0 40px rgba(34, 197, 94, 0.3); }
+
+  .lesson-marker .label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .lesson-marker .num {
+    font-size: 32px;
+    font-weight: 900;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .lesson:nth-child(3) .lesson-marker .num { background: var(--grad-ai); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .lesson:nth-child(4) .lesson-marker .num { background: var(--grad-success); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .lesson-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    transition: all 0.4s ease;
+  }
+  .lesson-card:hover {
+    transform: translateX(8px);
+    border-color: var(--border-bright);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-card);
+  }
+
+  .lesson-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .lesson h3 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .lesson-tagline {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .topic {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+  }
+  .topic:hover {
+    background: rgba(45, 127, 249, 0.08);
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+
+  .topic-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--grad-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .lesson:nth-child(3) .topic-icon { background: var(--grad-ai); }
+  .lesson:nth-child(4) .topic-icon { background: var(--grad-success); }
+
+  .topic h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .topic p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .code-block {
+    background: #0A0E1A;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block::before {
+    content: '$ terminal';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .code-block code {
+    color: #7DD3FC;
+  }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .keyword { color: var(--ai-purple); }
+
+  .deliverable {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .lesson-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 12px 22px;
+    background: var(--grad-primary);
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(45, 127, 249, 0.3);
+  }
+  .lesson-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(45, 127, 249, 0.5);
+  }
+  .lesson-cta::after {
+    content: '→';
+    font-size: 16px;
+    transition: transform 0.3s ease;
+  }
+  .lesson-cta:hover::after { transform: translateX(4px); }
+  .lesson:nth-child(3) .lesson-cta { background: var(--grad-ai); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3); }
+  .lesson:nth-child(4) .lesson-cta { background: var(--grad-success); box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3); }
+  .lesson-cta.coming-soon {
+    background: rgba(100, 116, 139, 0.2);
+    color: var(--text-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  .lesson-cta.coming-soon:hover { transform: none; box-shadow: none; }
+  .lesson-cta.coming-soon::after { content: '🔒'; }
+
+  .practice-box {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(239, 68, 68, 0.05));
+    border-left: 3px solid var(--warning);
+    border-radius: 8px;
+  }
+  .practice-box .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warning);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .practice-box p {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* ========== CERTIFICATION ========== */
+  .certification {
+    padding: 80px 0 120px;
+    text-align: center;
+  }
+
+  .cert-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(168, 85, 247, 0.08));
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(34, 197, 94, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cert-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: var(--grad-success);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 12px 40px rgba(34, 197, 94, 0.4);
+  }
+
+  .cert-card h2 {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+
+  .cert-card p {
+    color: var(--text-muted);
+    font-size: 17px;
+    margin-bottom: 28px;
+  }
+
+  .cert-features {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cert-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .cert-feature .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--success);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  footer a { color: var(--primary); text-decoration: none; }
+
+  /* ========== SCROLL REVEAL ========== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 768px) {
+    .compare-grid {
+      grid-template-columns: 1fr;
+    }
+    .compare-arrow {
+      transform: rotate(90deg);
+      text-align: center;
+    }
+    .timeline::before { left: 24px; }
+    .lesson { padding-left: 70px; }
+    .lesson-marker { width: 56px; height: 56px; }
+    .lesson-marker .num { font-size: 20px; }
+    .lesson-marker .label { font-size: 8px; }
+    .lesson h3 { font-size: 22px; }
+    .lesson-card { padding: 24px; }
+    header { padding: 60px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+
+<!-- ========== HEADER ========== -->
+<header>
+  <div class="container">
+    <div class="badge-row reveal">
+      <span class="badge purple">✨ AI-First Curriculum</span>
+      <span class="badge">🏗️ Revit 2023 → 2027</span>
+      <span class="badge green">🎓 4 Buổi · Có Chứng Nhận</span>
+    </div>
+
+    <h1 class="reveal">
+      Lộ Trình Khóa Học<br>
+      <span class="highlight">Revit Graphics API 2027 với AI</span>
+    </h1>
+
+    <p class="subtitle reveal">
+      Từ con số 0 đến phát triển — bán — quản lý license add-in Revit chuyên nghiệp.
+      Tất cả bằng <strong style="color: var(--ai-purple)">vibe-coding</strong>: AI viết 99% code, bạn chỉ review plan.
+    </p>
+
+    <div class="stats">
+      <div class="stat-card reveal">
+        <div class="stat-value">99%</div>
+        <div class="stat-label">Code do AI viết</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">&lt;1%</div>
+        <div class="stat-label">Sửa code thủ công</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">5 phút</div>
+        <div class="stat-label">Tạo xong 1 add-in</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">4 buổi</div>
+        <div class="stat-label">Từ Hello World → Bán hàng</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== PHILOSOPHY ========== -->
+<section class="philosophy">
+  <div class="container">
+    <span class="section-eyebrow reveal">Triết Lý Khóa Học</span>
+    <h2 class="reveal">Vibe-Coding — Cách Mạng Tốc Độ Phát Triển</h2>
+    <p class="section-lead reveal">
+      Bạn không cần học cú pháp C# từng dòng. Bạn học cách <em>điều khiển AI</em> để nó viết code thay bạn.
+    </p>
+
+    <div class="compare-grid">
+      <div class="compare-card old reveal">
+        <div class="compare-icon">⏳</div>
+        <div class="label">Cách Cũ — Code Tay</div>
+        <h3>1 Tháng / Add-in</h3>
+        <ul>
+          <li>Học cú pháp C# từ đầu (3-6 tháng)</li>
+          <li>Đọc tài liệu Revit API hàng nghìn trang</li>
+          <li>Debug từng dòng, từng warning</li>
+          <li>Tự build, tự test, tự fix lỗi</li>
+          <li>Nản chí, bỏ cuộc giữa chừng</li>
+        </ul>
+      </div>
+
+      <div class="compare-arrow reveal">→</div>
+
+      <div class="compare-card new reveal">
+        <div class="compare-icon">⚡</div>
+        <div class="label">Cách Mới — Vibe-Coding</div>
+        <h3>5 Phút / Add-in</h3>
+        <ul>
+          <li>AI viết 99% code — bạn chỉ review plan</li>
+          <li>Skill tự tuân thủ quy trình chuẩn (plan → code → test → fix)</li>
+          <li>AI tự build, tự đọc lỗi, tự sửa</li>
+          <li>Bạn tập trung vào nghiệp vụ, không phải syntax</li>
+          <li>Ship add-in thực tế ngay từ buổi 1</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TIMELINE ========== -->
+<section class="timeline-section">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <span class="section-eyebrow reveal">Lộ Trình Học</span>
+      <h2 class="reveal">4 Buổi Học · 4 Bước Tiến Hóa</h2>
+      <p class="section-lead reveal">Mỗi buổi đều có bài tập. Mỗi bài tập đều dùng AI để hoàn thành.</p>
+    </div>
+
+    <div class="timeline">
+
+      <!-- LESSON 1 -->
+      <div class="lesson reveal">
+        <div class="lesson-marker">
+          <span class="label">Buổi</span>
+          <span class="num">01</span>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header">
+            <span class="deliverable">✓ Hello World Add-in</span>
+            <span class="deliverable">✓ Selection</span>
+            <span class="deliverable">✓ Duplicate Sheet</span>
+          </div>
+          <h3>Setup & Add-in Đầu Tiên</h3>
+          <p class="lesson-tagline">Cài môi trường vibe-coding · Tạo project · Build add-in đầu tiên trong 5 phút</p>
+
+          <div class="lesson-grid">
+            <div class="topic">
+              <div class="topic-icon">🛠️</div>
+              <h4>Cài Đặt Môi Trường</h4>
+              <p>Claude Code, Antigravity, .NET SDK, Git, Revit 2023-2027</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📦</div>
+              <h4>Nice3point Template</h4>
+              <p>Dùng AI cài template & tạo project mới — không gõ tay 1 dòng</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">👋</div>
+              <h4>Hello World Add-in</h4>
+              <p>AI tạo button trên ribbon, auto-launch Revit, debug F5</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📋</div>
+              <h4>Duplicate Sheet / View</h4>
+              <p>Selection elements · Import sheet từ Excel · Tạo tab</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🏗️</div>
+              <h4>Cốt Thép Rầm Sàn</h4>
+              <p>Tạo các đối tượng cơ bản từ Family bằng AI</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🧠</div>
+              <h4>Tại Sao Dùng Skill?</h4>
+              <p>Plan → Implement → Review → Test → Fix. AI tự lo, bạn chỉ review plan.</p>
+            </div>
+          </div>
+
+          <div class="code-block">
+<span class="comment"># AI làm tất cả — bạn chỉ ra lệnh:</span>
+<span class="keyword">$</span> <code>dotnet new install Nice3point.Revit.Templates</code>
+<span class="keyword">$</span> <code>claude "Tạo add-in Hello World và auto-launch Revit 2027"</code>
+          </div>
+
+          <div class="practice-box">
+            <div class="label">📝 Bài Tập Về Nhà</div>
+            <p>Tạo 3 add-in nhỏ: Đổi tên view hàng loạt · Đếm số phòng theo tầng · Export schedule ra Excel</p>
+          </div>
+
+          <a href="lesson-01.html" class="lesson-cta">Xem Chi Tiết Buổi 01</a>
+        </div>
+      </div>
+
+      <!-- LESSON 2 -->
+      <div class="lesson reveal">
+        <div class="lesson-marker">
+          <span class="label">Buổi</span>
+          <span class="num">02</span>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header">
+            <span class="deliverable">✓ Add-in Vẽ Thép Cột</span>
+            <span class="deliverable">✓ Canvas Visualization</span>
+            <span class="deliverable">✓ Revit MCP Server</span>
+          </div>
+          <h3>Vẽ Thép Cột + Revit MCP</h3>
+          <p class="lesson-tagline">Add-in thực chiến với UI canvas trực quan · Phát triển MCP server kết nối AI ↔ Revit</p>
+
+          <div class="lesson-grid">
+            <div class="topic">
+              <div class="topic-icon">🎨</div>
+              <h4>UI Canvas Trực Quan</h4>
+              <p>Vẽ minh họa thanh thép trên canvas — số lượng thay đổi → hình ảnh cập nhật realtime</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🔩</div>
+              <h4>Tạo Rebar Thật</h4>
+              <p>Plan → CAD code → tạo rebar trong Revit — 100% vibe-coding từ A đến Z</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🔌</div>
+              <h4>Revit MCP Server</h4>
+              <p>Cách phát triển MCP server mới cho Revit từ con số 0</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🌉</div>
+              <h4>Kết Nối AI ↔ Revit</h4>
+              <p>Claude Code / Antigravity gọi MCP → bóc hình học cột → tạo thép</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📐</div>
+              <h4>Bóc Hình Học Cột</h4>
+              <p>AI đọc geometry cột, tính toán bố trí thép, gọi API tạo rebar</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">⚙️</div>
+              <h4>Auto Build & Test</h4>
+              <p>AI tự cài thư viện, build, run test, đọc lỗi và sửa — bạn không chạm tay</p>
+            </div>
+          </div>
+
+          <div class="practice-box">
+            <div class="label">📝 Bài Tập Về Nhà</div>
+            <p>Mở rộng add-in: vẽ thép cho dầm · vẽ thép cho sàn · export báo cáo bóc tách thép ra PDF</p>
+          </div>
+
+          <a href="lesson-02.html" class="lesson-cta">Xem Chi Tiết Buổi 02</a>
+        </div>
+      </div>
+
+      <!-- LESSON 3 -->
+      <div class="lesson reveal">
+        <div class="lesson-marker">
+          <span class="label">Buổi</span>
+          <span class="num">03</span>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header">
+            <span class="deliverable">✨ RevitAIKit</span>
+            <span class="deliverable">✓ Batch Automation</span>
+            <span class="deliverable">✓ Production-Grade</span>
+          </div>
+          <h3>RevitAIKit + Add-in Chuyên Sâu</h3>
+          <p class="lesson-tagline">Cài bộ <strong>AgentSkills RevitAIKit</strong> · Phát triển add-in theo chuẩn production · Bài tập tùy chỉnh</p>
+
+          <div class="lesson-grid">
+            <div class="topic" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(45, 127, 249, 0.06)); border-color: rgba(168, 85, 247, 0.3);">
+              <div class="topic-icon">✨</div>
+              <h4>RevitAIKit (Trọng Tâm)</h4>
+              <p>Bộ 6 AgentSkills chuẩn production: plan, implement, test, review, package, debug</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📊</div>
+              <h4>BIM Data Export</h4>
+              <p>Xuất khối lượng, schedule, properties → Excel / JSON / Database</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🗂️</div>
+              <h4>Family Management</h4>
+              <p>Add-in quản lý family library, batch load, replace, audit</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🔄</div>
+              <h4>Batch Processing</h4>
+              <p>Automation workflows: xử lý hàng loạt file Revit qua scripts</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🎯</div>
+              <h4>Custom Per Student</h4>
+              <p>Mỗi học viên đề xuất 1 add-in riêng — AI giúp triển khai end-to-end</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🧪</div>
+              <h4>Unit Test với TUnit</h4>
+              <p>AI tự viết test, run trong Revit context, đảm bảo code production-ready</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📦</div>
+              <h4>Đóng Gói MSI</h4>
+              <p>WixSharp installer · Autodesk App Store bundle · CI/CD GitHub Actions</p>
+            </div>
+          </div>
+
+          <div class="practice-box">
+            <div class="label">📝 Bài Tập Về Nhà</div>
+            <p>Hoàn thiện add-in cá nhân · Viết tài liệu hướng dẫn · Build MSI installer sẵn sàng phát hành</p>
+          </div>
+
+          <a href="lesson-03.html" class="lesson-cta">Xem Chi Tiết Buổi 03</a>
+        </div>
+      </div>
+
+      <!-- LESSON 4 -->
+      <div class="lesson reveal">
+        <div class="lesson-marker">
+          <span class="label">Buổi</span>
+          <span class="num">04</span>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header">
+            <span class="deliverable">✓ Web Bán Add-in</span>
+            <span class="deliverable">✓ License Server</span>
+            <span class="deliverable">✓ Auto Payment</span>
+          </div>
+          <h3>Thương Mại Hóa · License · Web Bán Hàng</h3>
+          <p class="lesson-tagline">Bán add-in tự động · Quản lý license · Thanh toán & email — tất cả bằng AI Agent</p>
+
+          <div class="lesson-grid">
+            <div class="topic">
+              <div class="topic-icon">🔐</div>
+              <h4>License Management</h4>
+              <p>Cách giải mã & quản lý license · Bảo vệ add-in chống crack</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🌐</div>
+              <h4>Web Bán Add-in</h4>
+              <p>AI Agent build full-stack landing page + dashboard quản lý</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">💳</div>
+              <h4>Thanh Toán Tự Động</h4>
+              <p>Tích hợp VNPay / Stripe — học viên trả tiền, hệ thống cấp license tự động</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📧</div>
+              <h4>Email Automation</h4>
+              <p>Gửi license key, hướng dẫn cài đặt, follow-up — AI Agent tự động hết</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">🔑</div>
+              <h4>Login UI Trong Revit</h4>
+              <p>Form đăng nhập trong add-in, kiểm tra license online, kích hoạt features</p>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">📈</div>
+              <h4>License Server</h4>
+              <p>Server quản lý license, hết hạn, revoke, multi-device — production-grade</p>
+            </div>
+          </div>
+
+          <div class="practice-box">
+            <div class="label">📝 Bài Tập Tốt Nghiệp</div>
+            <p>Triển khai end-to-end: 1 add-in + 1 web bán hàng + 1 license server. Bán thử cho 1 khách hàng thật.</p>
+          </div>
+
+          <a href="lesson-04.html" class="lesson-cta">Xem Chi Tiết Buổi 04</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CERTIFICATION ========== -->
+<section class="certification">
+  <div class="container">
+    <div class="cert-card reveal">
+      <div class="cert-icon">🎓</div>
+      <h2>Chứng Nhận Tốt Nghiệp</h2>
+      <p>Hoàn thành tất cả bài tập của 4 buổi → nhận chứng nhận chính thức.<br>
+      Bạn không chỉ học — bạn ra trường với add-in thật, web thật, license server thật, và khách hàng đầu tiên.</p>
+
+      <div class="cert-features">
+        <span class="cert-feature"><span class="check">✓</span> Chứng nhận chính thức</span>
+        <span class="cert-feature"><span class="check">✓</span> Portfolio add-in thực tế</span>
+        <span class="cert-feature"><span class="check">✓</span> Web bán hàng đang chạy</span>
+        <span class="cert-feature"><span class="check">✓</span> Khả năng kiếm tiền ngay</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <p>
+      <strong>Khóa Học Revit Graphics API 2027 với AI</strong> ·
+      Powered by <a href="https://claude.com/claude-code">Claude Code</a> +
+      <a href="https://antigravity.google">Antigravity</a> +
+      <a href="https://github.com/Nice3point/RevitTemplates">Nice3point Templates</a>
+    </p>
+    <p style="margin-top: 8px; opacity: 0.6;">From 1 tháng of boilerplate to 5 phút of vibe-coding · Built for the Revit community</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stagger reveal for stat cards
+  document.querySelectorAll('.stat-card.reveal').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 100}ms`;
+  });
+
+  // Stagger lesson markers
+  document.querySelectorAll('.lesson.reveal').forEach((lesson, i) => {
+    lesson.style.transitionDelay = `${i * 150}ms`;
+  });
+</script>
+
+</body>
+</html>
