@@ -1,0 +1,42 @@
+{
+  "name": "tag_all_walls",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "wall",
+    "tag",
+    "annotation"
+  ],
+  "title": "Tag walls in the current view",
+  "description": "Place a wall tag at the midpoint of every wall visible in the active view. Walls already tagged in the view are skipped. tagTypeId picks a wall tag family type (OST_WallTags); otherwise the first loaded one is used.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "useLeader": {
+        "type": "boolean",
+        "default": false
+      },
+      "tagTypeId": {
+        "type": "integer",
+        "description": "Wall tag FamilySymbol ElementId (optional)"
+      },
+      "wallIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Only these walls (optional)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

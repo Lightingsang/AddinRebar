@@ -1,0 +1,37 @@
+{
+  "name": "analyze_model_statistics",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "statistics",
+    "audit",
+    "query"
+  ],
+  "title": "Analyze model statistics",
+  "description": "Model audit: total elements, types, families, views, sheets; per-category counts (optionally broken down by family/type) and per-level element distribution (elevations in mm).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeDetailedTypes": {
+        "type": "boolean",
+        "default": true,
+        "description": "Break each category down by family and type"
+      },
+      "topCategories": {
+        "type": "integer",
+        "default": 40,
+        "description": "Maximum categories to list (largest first, 0 = all)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "name": "create_point_based_element",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 90,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "door",
+    "window",
+    "furniture",
+    "column",
+    "create"
+  ],
+  "title": "Create point-based elements",
+  "description": "Place family instances at points in mm: doors and windows (hosted in a wall — hostWallId or the nearest wall within 1500 mm), furniture, columns, generic models, etc. Category is taken from typeId when given; otherwise pass category and the first loaded type is used. rotation in degrees about Z; facingFlipped flips doors/windows. width/height/depth are applied only when the instance exposes writable parameters of those names.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Free text label for the report"
+            },
+            "category": {
+              "type": "string",
+              "description": "BuiltInCategory when typeId is omitted, e.g. OST_Doors, OST_Windows, OST_Furniture, OST_StructuralColumns, OST_GenericModel"
+            },
+            "typeId": {
+              "type": "integer",
+              "description": "ElementId of a FamilySymbol (optional)"
+            },
+            "locationPoint": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "z"
+              ]
+            },
+            "width": {
+              "type": "number"
+            },
+            "depth": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "baseLevel": {
+              "type": "number",
+              "description": "Base elevation in mm (nearest level is used)"
+            },
+            "baseOffset": {
+              "type": "number",
+              "default": 0
+            },
+            "rotation": {
+              "type": "number",
+              "default": 0,
+              "description": "Degrees about the vertical axis"
+            },
+            "hostWallId": {
+              "type": "integer",
+              "description": "Wall to host a door/window (optional)"
+            },
+            "facingFlipped": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "locationPoint",
+            "baseLevel"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

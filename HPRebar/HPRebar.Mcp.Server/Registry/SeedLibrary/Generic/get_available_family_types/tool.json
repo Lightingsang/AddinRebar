@@ -1,0 +1,43 @@
+{
+  "name": "get_available_family_types",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Generic",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "types",
+    "families",
+    "query"
+  ],
+  "title": "Get available family types",
+  "description": "Loaded family types (FamilySymbol) plus system types (wall, floor, roof, ceiling, curtain system) in the project. Filter by BuiltInCategory names and/or a partial family or type name. Returns the type ids other create_* tools need.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "categoryList": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "BuiltInCategory names, e.g. [\"OST_Walls\", \"OST_Doors\"]"
+      },
+      "familyNameFilter": {
+        "type": "string",
+        "description": "Case-insensitive substring matched against family name and type name"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "description": "Maximum types to return (0 = no limit)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

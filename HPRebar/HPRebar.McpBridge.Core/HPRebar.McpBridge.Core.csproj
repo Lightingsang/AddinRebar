@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPRebar.McpBridge.Core</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Everything in the bridge that does not touch a Revit type: pipe listener, dispatcher, models,
+             Roslyn guard/compiler. Must never reference Autodesk.Revit.* so it stays xUnit-testable
+             without a Revit process. -->
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+    </ItemGroup>
+
+</Project>

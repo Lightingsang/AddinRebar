@@ -1,0 +1,66 @@
+{
+  "name": "create_level",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "level",
+    "create"
+  ],
+  "title": "Create levels",
+  "description": "Create one or more levels at elevations in millimetres (from project origin), optionally with a floor plan and/or ceiling plan view each. Existing level names are skipped and reported. Use dryRun first on a shared model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Level name, e.g. 'Level 2', 'Roof'"
+            },
+            "elevation": {
+              "type": "number",
+              "description": "Elevation in mm"
+            },
+            "isBuildingStory": {
+              "type": "boolean",
+              "default": true
+            },
+            "createFloorPlan": {
+              "type": "boolean",
+              "default": true
+            },
+            "createCeilingPlan": {
+              "type": "boolean",
+              "default": false
+            },
+            "createStructuralPlan": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "elevation"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

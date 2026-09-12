@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Full audit",
+    "args": {
+      "includeDetailedTypes": true
+    }
+  },
+  {
+    "title": "Counts only, top 15 categories",
+    "args": {
+      "includeDetailedTypes": false,
+      "topCategories": 15
+    }
+  }
+]

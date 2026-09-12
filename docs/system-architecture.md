@@ -238,3 +238,25 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 | Setup / chạy test | `/bs:revit-test` |
 | Plan feature mới | `/bs:plan` (Stack-Aware 6-phase) |
 | Implement plan | `/bs:cook` (build verify gate) |
+
+## MCP Bridge (thực tế, 2026-09-12)
+
+Kiến trúc thứ hai trong repo, độc lập với add-in rebar: **hai tiến trình**.
+
+```mermaid
+flowchart LR
+    AI["AI agent<br/>(Claude Code)"] -- "stdio · JSON-RPC 2.0" --> S["HPRebar.Mcp.Server<br/>net10 console · ModelContextProtocol 2.2.0"]
+    S -- "Named Pipe hprebar-mcp-r2026<br/>JSON-RPC 2.0, 1 object/dòng" --> L["PipeListener + RequestDispatcher<br/>(HPRebar.McpBridge.Core, trong Revit)"]
+    L --> G["ScriptGuard → ScriptCompiler<br/>(Roslyn, pipe thread, cache)"]
+    G --> H["McpBridgeExternalEventHandler<br/>ExternalEvent → Revit API thread"]
+    H --> R["ScriptRunner<br/>TransactionGroup 'MCP: label' → Revit API 2026"]
+    R --> A["AuditLogger · LastRun → cửa sổ trạng thái"]
+    S --- REG["Tool Registry<br/>tools-library (files) · registry.db (SQLite/FTS5)<br/>ToolManager · DynamicToolRegistrar"]
+    REG -- "tool published → ToolCollection.Add → list_changed" --> S
+```
+
+Vì sao hai tiến trình: host AI phải launch MCP server stdio làm child process — `Revit.exe` không thể là child đó (ADR-01). Server không reference Revit; bridge không reference MCP SDK; `HPRebar.Mcp.Contracts` (netstandard2.0) là điểm chung duy nhất. Mọi thứ không đụng Revit của bridge nằm ở `HPRebar.McpBridge.Core` (net8) để xUnit test qua pipe thật với fake executor — cùng nguyên tắc "Core ↔ Revit" của add-in rebar.
+
+**Tầng registry (ADR-05/06):** tool cố định và tool AI tự sinh đều là *dữ liệu* (`tool.json + code.cs + examples.json`), chạy qua đúng đường `revit.execute` với `args`; không có command native nào trong bridge. Vòng đời `draft → tested → pending_approval → published → quarantined | deprecated`, cổng publish là người (CLI `registry approve`) theo policy `manual`; độ ổn định tính từ `runs`, quarantine tự động khi ≥ 5 run và lỗi > 40 %. Server phát `notifications/tools/list_changed` khi file thay đổi nên approve không cần restart.
+
+Điểm giòn đã biết: Roslyn assembly không unload (đếm `CompiledScriptCount`, cảnh báo >500 → restart Revit); timeout chỉ cooperative (script không kiểm `ct` → Revit treo tới khi xong); Revit hỏi "publisher could not be verified" với DLL chưa ký sau một số lần rebuild. Chi tiết quyết định: `plans/260912-1521-dynamic-revit-mcp-server-2026/adr/`.

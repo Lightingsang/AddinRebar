@@ -15,7 +15,8 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Create the Autodesk .bundle package.
+///     Create one Autodesk .bundle package per add-in project: the rebar add-in and the MCP bridge ship
+///     as separate bundles so either can be installed, updated or removed on its own.
 /// </summary>
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<CompileProjectModule>]
@@ -26,13 +27,23 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
         var versioningResult = await context.GetModule<ResolveVersioningModule>();
         var versioning = versioningResult.ValueOrDefault!;
 
-        var bundleTarget = new File(Projects.HPRebar.FullName);
+        FileInfo[] addins = [Projects.HPRebar, Projects.HPRebar_McpBridge];
+
+        foreach (var addin in addins)
+        {
+            await context.SubModule(addin.Name, async () => await BundleAsync(context, addin, versioning, cancellationToken));
+        }
+    }
+
+    private async Task BundleAsync(IModuleContext context, FileInfo project, ResolveVersioningResult versioning, CancellationToken cancellationToken)
+    {
+        var bundleTarget = new File(project.FullName);
         var targetDirectories = bundleTarget.Folder!
             .GetFolder("bin")
             .GetFolders(folder => folder.Name == "publish")
             .ToArray();
 
-        targetDirectories.ShouldNotBeEmpty("No content were found to create a bundle");
+        targetDirectories.ShouldNotBeEmpty($"No content were found to create a bundle for {bundleTarget.NameWithoutExtension}");
 
         var outputFolder = context.Git().RootDirectory.GetFolder(buildOptions.Value.OutputDirectory);
         var bundleFolder = outputFolder.CreateFolder($"{bundleTarget.NameWithoutExtension}.bundle");
@@ -46,7 +57,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
         context.Files.Zip.ZipFolder(bundleFolder, outputFile.Path);
         await bundleFolder.DeleteAsync(cancellationToken);
 
-        context.Summary.KeyValue("Artifacts", "Bundle", outputFile.Path);
+        context.Summary.KeyValue("Artifacts", $"Bundle {bundleTarget.NameWithoutExtension}", outputFile.Path);
     }
 
     private static void PackFiles(Folder[] targetDirectories, Folder contentFolder)

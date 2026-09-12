@@ -1,0 +1,28 @@
+[
+  {
+    "title": "5 × 4 grid, 4000 × 3000 mm",
+    "args": {
+      "xCount": 5,
+      "xSpacing": 4000,
+      "yCount": 4,
+      "ySpacing": 3000
+    }
+  },
+  {
+    "title": "Numeric columns, letters rows, custom extents",
+    "args": {
+      "xCount": 3,
+      "xSpacing": 6000,
+      "xStartLabel": "1",
+      "xNamingStyle": "numeric",
+      "yCount": 2,
+      "ySpacing": 5000,
+      "yStartLabel": "A",
+      "yNamingStyle": "alphabetic",
+      "xExtentMin": -2000,
+      "xExtentMax": 14000,
+      "yExtentMin": -2000,
+      "yExtentMax": 7000
+    }
+  }
+]

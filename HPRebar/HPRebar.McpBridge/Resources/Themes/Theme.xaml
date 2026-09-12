@@ -1,0 +1,17 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Color tokens. Default = Dark (match Revit 2024+); swapped at runtime by ThemeSwitcher. -->
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/ThemeDark.xaml"/>
+
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/Typography.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/Spacing.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/Buttons.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/TextBoxes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar.McpBridge;component/Resources/Themes/ThemeIcons.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

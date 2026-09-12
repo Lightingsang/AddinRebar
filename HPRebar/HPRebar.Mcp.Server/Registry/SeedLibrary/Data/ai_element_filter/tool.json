@@ -1,0 +1,89 @@
+{
+  "name": "ai_element_filter",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "elements",
+    "filter",
+    "query"
+  ],
+  "title": "Find elements by criteria",
+  "description": "Query elements by category (BuiltInCategory name or display name), element class name (e.g. Wall, FamilyInstance, Floor), family type id, visibility in the current view and/or a bounding box in millimetres. Returns rich per-element info (type, family, level, location, bounding box, key parameters) so the AI can answer questions such as 'walls taller than 5 m'. At least one of filterCategory, filterElementType or filterFamilySymbolId is required.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filterCategory": {
+        "type": "string",
+        "description": "BuiltInCategory (OST_Walls) or category display name (Walls)"
+      },
+      "filterElementType": {
+        "type": "string",
+        "description": "Revit API class name: Wall, Floor, FamilyInstance, Level, Grid, ..."
+      },
+      "filterFamilySymbolId": {
+        "type": "integer",
+        "description": "ElementId of a FamilySymbol; only instances of that type"
+      },
+      "includeTypes": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include element types"
+      },
+      "includeInstances": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include element instances"
+      },
+      "filterVisibleInCurrentView": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only elements visible in the active view"
+      },
+      "boundingBoxMin": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        },
+        "description": "Min corner in mm (with boundingBoxMax)"
+      },
+      "boundingBoxMax": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        },
+        "description": "Max corner in mm (with boundingBoxMin)"
+      },
+      "maxElements": {
+        "type": "integer",
+        "default": 50,
+        "description": "Maximum elements to return"
+      }
+    },
+    "additionalProperties": false
+  }
+}

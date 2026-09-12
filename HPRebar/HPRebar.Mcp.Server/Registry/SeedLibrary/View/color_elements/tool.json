@@ -1,0 +1,60 @@
+{
+  "name": "color_elements",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "View",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "color",
+    "view",
+    "analysis"
+  ],
+  "title": "Colour elements by parameter value",
+  "description": "In the active view, colour every element of a category (BuiltInCategory or display name) by the value of a parameter: each distinct value gets its own colour (random palette, a gradient, or your customColors in order). Returns the legend (value → colour → count). Undo with operate_element ResetIsolate? No — clear overrides via the view's Visibility/Graphics or run again with another parameter.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "categoryName": {
+        "type": "string",
+        "description": "e.g. OST_StructuralColumns or 'Structural Columns'"
+      },
+      "parameterName": {
+        "type": "string",
+        "description": "Instance or type parameter name, e.g. 'Type Name', 'Level', 'Comments', 'Mark'"
+      },
+      "useGradient": {
+        "type": "boolean",
+        "default": false
+      },
+      "customColors": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "r": {
+              "type": "integer"
+            },
+            "g": {
+              "type": "integer"
+            },
+            "b": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "categoryName",
+      "parameterName"
+    ],
+    "additionalProperties": false
+  }
+}

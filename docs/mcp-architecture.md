@@ -1,5 +1,10 @@
 # Revit MCP — Overall Architecture
 
+> **Tài liệu tham khảo cũ (TypeScript/TCP) — KHÔNG phải kiến trúc đang chạy.** Kiến trúc thật của MCP bridge (C#, named pipe,
+> Roslyn) nằm ở `docs/system-architecture.md` § "MCP Bridge" và `plans/260912-1521-dynamic-revit-mcp-server-2026/`. Giữ file này
+> chỉ để so sánh với repo tham khảo `mcp-servers-for-revit`.
+
+
 ```mermaid
 flowchart TD
     subgraph CLIENT["🤖 AI Client"]

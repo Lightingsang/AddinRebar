@@ -1,0 +1,105 @@
+{
+  "name": "create_grid",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "grid",
+    "create"
+  ],
+  "title": "Create grid system",
+  "description": "Create a rectangular grid: X-axis grids are vertical lines at xStartPosition + i·xSpacing running from yExtentMin to yExtentMax; Y-axis grids are horizontal lines at yStartPosition + j·ySpacing running from xExtentMin to xExtentMax. Labels alphabetic (A, B, … Z, AA) or numeric (1, 2, …); names already used get a suffix. All lengths in mm.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "xCount": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Number of X-axis (vertical) grids"
+      },
+      "xSpacing": {
+        "type": "number",
+        "description": "Spacing between X-axis grids in mm"
+      },
+      "xStartLabel": {
+        "type": "string",
+        "default": "A"
+      },
+      "xNamingStyle": {
+        "type": "string",
+        "enum": [
+          "alphabetic",
+          "numeric"
+        ],
+        "default": "alphabetic"
+      },
+      "yCount": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Number of Y-axis (horizontal) grids"
+      },
+      "ySpacing": {
+        "type": "number",
+        "description": "Spacing between Y-axis grids in mm"
+      },
+      "yStartLabel": {
+        "type": "string",
+        "default": "1"
+      },
+      "yNamingStyle": {
+        "type": "string",
+        "enum": [
+          "alphabetic",
+          "numeric"
+        ],
+        "default": "numeric"
+      },
+      "xStartPosition": {
+        "type": "number",
+        "default": 0,
+        "description": "X of the first vertical grid (mm)"
+      },
+      "yStartPosition": {
+        "type": "number",
+        "default": 0,
+        "description": "Y of the first horizontal grid (mm)"
+      },
+      "xExtentMin": {
+        "type": "number",
+        "description": "Where horizontal grids start (mm); default = xStartPosition − 1000"
+      },
+      "xExtentMax": {
+        "type": "number",
+        "description": "Where horizontal grids end (mm); default = last X grid + 1000"
+      },
+      "yExtentMin": {
+        "type": "number",
+        "description": "Where vertical grids start (mm); default = yStartPosition − 1000"
+      },
+      "yExtentMax": {
+        "type": "number",
+        "description": "Where vertical grids end (mm); default = last Y grid + 1000"
+      },
+      "elevation": {
+        "type": "number",
+        "default": 0,
+        "description": "Z of the grid lines in mm"
+      }
+    },
+    "required": [
+      "xCount",
+      "xSpacing",
+      "yCount",
+      "ySpacing"
+    ],
+    "additionalProperties": false
+  }
+}

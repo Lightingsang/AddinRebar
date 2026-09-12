@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Everything selected",
+    "args": {}
+  },
+  {
+    "title": "First 10 selected",
+    "args": {
+      "limit": 10
+    }
+  }
+]

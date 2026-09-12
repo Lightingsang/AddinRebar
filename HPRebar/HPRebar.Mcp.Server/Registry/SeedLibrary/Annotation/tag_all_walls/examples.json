@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Tag every wall in the view",
+    "args": {}
+  },
+  {
+    "title": "Specific walls with leader",
+    "args": {
+      "wallIds": [
+        1001,
+        1002
+      ],
+      "useLeader": true
+    }
+  }
+]

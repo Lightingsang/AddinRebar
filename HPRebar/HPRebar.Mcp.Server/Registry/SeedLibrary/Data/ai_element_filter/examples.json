@@ -1,0 +1,27 @@
+[
+  {
+    "title": "All walls with geometry",
+    "args": {
+      "filterCategory": "OST_Walls",
+      "maxElements": 50
+    }
+  },
+  {
+    "title": "Family instances inside a box, visible in view",
+    "args": {
+      "filterElementType": "FamilyInstance",
+      "filterVisibleInCurrentView": true,
+      "boundingBoxMin": {
+        "x": 0,
+        "y": 0,
+        "z": -2000
+      },
+      "boundingBoxMax": {
+        "x": 8000,
+        "y": 6000,
+        "z": 4000
+      },
+      "maxElements": 30
+    }
+  }
+]

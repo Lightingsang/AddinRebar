@@ -1,0 +1,87 @@
+{
+  "name": "create_structural_framing_system",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structure",
+  "transaction": "auto",
+  "timeoutSeconds": 90,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "beam",
+    "beam system",
+    "structure",
+    "create"
+  ],
+  "title": "Create beam system",
+  "description": "Create a Revit BeamSystem inside a rectangle (mm) on a named level: beams at fixed spacing, running perpendicular to the chosen edge, with beginning/center/end justification. beamTypeName matches a loaded structural framing family or type name (first one otherwise). A missing level named 'Level N' is created at N × 4000 mm, as in the reference implementation.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "levelName": {
+        "type": "string"
+      },
+      "xMin": {
+        "type": "number"
+      },
+      "xMax": {
+        "type": "number"
+      },
+      "yMin": {
+        "type": "number"
+      },
+      "yMax": {
+        "type": "number"
+      },
+      "spacing": {
+        "type": "number",
+        "description": "Beam spacing in mm"
+      },
+      "directionEdge": {
+        "type": "string",
+        "enum": [
+          "bottom",
+          "right",
+          "top",
+          "left"
+        ],
+        "default": "bottom",
+        "description": "Beams run perpendicular to this edge"
+      },
+      "justify": {
+        "type": "string",
+        "enum": [
+          "beginning",
+          "center",
+          "end",
+          "directionline"
+        ],
+        "default": "center"
+      },
+      "beamTypeName": {
+        "type": "string"
+      },
+      "is3D": {
+        "type": "boolean",
+        "default": false
+      },
+      "elevation": {
+        "type": "number",
+        "description": "Optional absolute elevation in mm; default = level elevation"
+      }
+    },
+    "required": [
+      "levelName",
+      "xMin",
+      "xMax",
+      "yMin",
+      "yMax",
+      "spacing"
+    ],
+    "additionalProperties": false
+  }
+}

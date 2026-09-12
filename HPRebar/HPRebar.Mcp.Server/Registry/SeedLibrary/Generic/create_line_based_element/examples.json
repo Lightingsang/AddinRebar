@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Two walls 200 mm, 3 m high on Level 1 (0 mm)",
+    "args": {
+      "data": [
+        {
+          "category": "OST_Walls",
+          "locationLine": {
+            "p0": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "p1": {
+              "x": 8000,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "thickness": 200,
+          "height": 3000,
+          "baseLevel": 0,
+          "baseOffset": 0
+        },
+        {
+          "category": "OST_Walls",
+          "locationLine": {
+            "p0": {
+              "x": 8000,
+              "y": 0,
+              "z": 0
+            },
+            "p1": {
+              "x": 8000,
+              "y": 6000,
+              "z": 0
+            }
+          },
+          "thickness": 200,
+          "height": 3000,
+          "baseLevel": 0,
+          "baseOffset": 0
+        }
+      ]
+    }
+  },
+  {
+    "title": "One beam at +3500 with an explicit type",
+    "args": {
+      "data": [
+        {
+          "category": "OST_StructuralFraming",
+          "typeId": 123456,
+          "locationLine": {
+            "p0": {
+              "x": 0,
+              "y": 0,
+              "z": 3500
+            },
+            "p1": {
+              "x": 6000,
+              "y": 0,
+              "z": 3500
+            }
+          },
+          "baseLevel": 3500,
+          "baseOffset": 0
+        }
+      ]
+    }
+  }
+]

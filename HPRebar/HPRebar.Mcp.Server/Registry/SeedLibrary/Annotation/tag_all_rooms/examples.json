@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Tag every room in the view",
+    "args": {}
+  },
+  {
+    "title": "Two rooms with leaders",
+    "args": {
+      "roomIds": [
+        4501,
+        4502
+      ],
+      "useLeader": true
+    }
+  }
+]

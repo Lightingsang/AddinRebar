@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Wall types",
+    "args": {
+      "categoryList": [
+        "OST_Walls"
+      ]
+    }
+  },
+  {
+    "title": "Columns named 300",
+    "args": {
+      "categoryList": [
+        "OST_StructuralColumns"
+      ],
+      "familyNameFilter": "300",
+      "limit": 20
+    }
+  }
+]

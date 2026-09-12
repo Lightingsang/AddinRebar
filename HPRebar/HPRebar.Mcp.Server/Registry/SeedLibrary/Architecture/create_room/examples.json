@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Office and meeting room",
+    "args": {
+      "data": [
+        {
+          "name": "Office",
+          "number": "101",
+          "location": {
+            "x": 2000,
+            "y": 1500,
+            "z": 0
+          },
+          "department": "Admin"
+        },
+        {
+          "name": "Meeting",
+          "number": "102",
+          "location": {
+            "x": 6000,
+            "y": 1500,
+            "z": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "title": "Room with explicit level and limits",
+    "args": {
+      "data": [
+        {
+          "name": "Storage",
+          "location": {
+            "x": 1000,
+            "y": 1000,
+            "z": 3500
+          },
+          "levelId": 311,
+          "upperLimitId": 312,
+          "limitOffset": 0,
+          "comments": "cold"
+        }
+      ]
+    }
+  }
+]

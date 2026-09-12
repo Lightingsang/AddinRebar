@@ -1,0 +1,116 @@
+{
+  "name": "create_dimensions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "dimension",
+    "annotation",
+    "create"
+  ],
+  "title": "Create dimensions",
+  "description": "Create linear dimensions in a plan/section view (active view by default). Either give elementIds (walls, columns, grids, family instances — one reference per element, the planar face or datum best aligned with the start→end direction) or leave them empty to auto-detect the nearest wall/grid/column at startPoint and endPoint. linePoint moves the dimension line; coordinates in mm.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "dimensions": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "startPoint": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "z"
+              ]
+            },
+            "endPoint": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "z"
+              ]
+            },
+            "linePoint": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "description": "Optional point the dimension line passes through; default = 1000 mm beside the segment"
+            },
+            "elementIds": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Elements to dimension between; empty = auto-detect at the two points"
+            },
+            "dimensionStyleId": {
+              "type": "integer",
+              "description": "DimensionType ElementId; -1 = view default"
+            },
+            "viewId": {
+              "type": "integer",
+              "description": "View ElementId; -1 = active view"
+            }
+          },
+          "required": [
+            "startPoint",
+            "endPoint"
+          ]
+        }
+      }
+    },
+    "required": [
+      "dimensions"
+    ],
+    "additionalProperties": false
+  }
+}

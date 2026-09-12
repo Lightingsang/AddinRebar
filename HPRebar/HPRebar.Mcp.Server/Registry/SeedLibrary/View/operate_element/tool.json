@@ -1,0 +1,70 @@
+{
+  "name": "operate_element",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "View",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "select",
+    "hide",
+    "isolate",
+    "color",
+    "delete",
+    "view"
+  ],
+  "title": "Operate on elements",
+  "description": "Act on elements by id: Select, SetColor (RGB, view override with solid fill), SetTransparency (0–100), Highlight (red), Hide, TempHide, Isolate, Unhide, ResetIsolate (clears temporary hide/isolate), Delete. View operations target the active view. SelectionBox is interactive and not available through MCP. Use dryRun for Delete.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "elementIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Element ids (may be empty for ResetIsolate)"
+      },
+      "action": {
+        "type": "string",
+        "enum": [
+          "Select",
+          "SetColor",
+          "SetTransparency",
+          "Highlight",
+          "Hide",
+          "TempHide",
+          "Isolate",
+          "Unhide",
+          "ResetIsolate",
+          "Delete"
+        ]
+      },
+      "colorValue": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "description": "[r, g, b] for SetColor (default red)"
+      },
+      "transparencyValue": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "additionalProperties": false
+  }
+}

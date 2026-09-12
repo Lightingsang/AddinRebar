@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Isolate three beams",
+    "args": {
+      "elementIds": [
+        2001,
+        2002,
+        2003
+      ],
+      "action": "Isolate"
+    }
+  },
+  {
+    "title": "Colour columns blue",
+    "args": {
+      "elementIds": [
+        3001,
+        3002
+      ],
+      "action": "SetColor",
+      "colorValue": [
+        0,
+        90,
+        255
+      ]
+    }
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Two storeys",
+    "args": {
+      "data": [
+        {
+          "name": "Level 2",
+          "elevation": 3500
+        },
+        {
+          "name": "Level 3",
+          "elevation": 7000
+        }
+      ]
+    }
+  },
+  {
+    "title": "Roof with structural plan only",
+    "args": {
+      "data": [
+        {
+          "name": "Roof",
+          "elevation": 10500,
+          "createFloorPlan": false,
+          "createStructuralPlan": true
+        }
+      ]
+    }
+  }
+]

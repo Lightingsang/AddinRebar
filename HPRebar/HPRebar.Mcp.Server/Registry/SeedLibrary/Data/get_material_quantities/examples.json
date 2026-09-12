@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Concrete elements only",
+    "args": {
+      "categoryFilters": [
+        "OST_StructuralColumns",
+        "OST_StructuralFraming",
+        "OST_Floors"
+      ]
+    }
+  },
+  {
+    "title": "Current selection",
+    "args": {
+      "selectedElementsOnly": true
+    }
+  }
+]

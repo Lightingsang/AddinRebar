@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <RootNamespace>HPRebar.Mcp.Contracts</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Shared by the net10 server and the net8 bridge; netstandard2.0 is the common floor -->
+        <PackageReference Include="System.Text.Json" Version="10.0.12"/>
+        <!-- record / init / required on netstandard2.0 -->
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+{
+  "name": "delete_element",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Generic",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "delete"
+  ],
+  "title": "Delete elements",
+  "description": "Delete elements by id. Revit also removes dependents (tags, dimensions, hosted elements); the response counts both. Use dryRun=true first to see what would go.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "elementIds": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer"
+        },
+        "description": "Element ids (numbers; numeric strings accepted)"
+      }
+    },
+    "required": [
+      "elementIds"
+    ],
+    "additionalProperties": false
+  }
+}

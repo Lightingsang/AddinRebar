@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Delete two elements",
+    "args": {
+      "elementIds": [
+        5001,
+        5002
+      ]
+    }
+  },
+  {
+    "title": "Ids as strings",
+    "args": {
+      "elementIds": [
+        "5003"
+      ]
+    }
+  }
+]

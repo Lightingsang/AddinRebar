@@ -1,0 +1,25 @@
+{
+  "name": "get_current_view_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "View",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "view",
+    "query"
+  ],
+  "title": "Get current view info",
+  "description": "Details of the active Revit view: id, name, view type, scale, detail level, discipline, level, template state. Use before view-dependent tools (tags, dimensions, colouring).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  }
+}

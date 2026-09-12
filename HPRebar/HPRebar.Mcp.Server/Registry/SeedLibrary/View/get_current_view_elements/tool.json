@@ -1,0 +1,51 @@
+{
+  "name": "get_current_view_elements",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "View",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "view",
+    "elements",
+    "query"
+  ],
+  "title": "Get elements in the current view",
+  "description": "Elements visible in the active view, filtered by model and/or annotation categories (BuiltInCategory names such as OST_Walls, OST_Doors, OST_Dimensions). Without filters a default set of common model + annotation categories is used. Locations and lengths are reported in millimetres.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "modelCategoryList": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Model categories, e.g. [\"OST_Walls\", \"OST_StructuralColumns\"]"
+      },
+      "annotationCategoryList": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Annotation categories, e.g. [\"OST_Dimensions\", \"OST_TextNotes\"]"
+      },
+      "includeHidden": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include elements hidden in the view"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "description": "Maximum elements to return (0 = no limit)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

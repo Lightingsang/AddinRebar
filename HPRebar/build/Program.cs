@@ -28,6 +28,7 @@ if (args.Contains("pack"))
 {
     builder.Services.AddModule<CleanProjectModule>();
     builder.Services.AddModule<CreateBundleModule>();
+    builder.Services.AddModule<PublishServerModule>();
     builder.Services.AddModule<CreateInstallerModule>();
 }
 

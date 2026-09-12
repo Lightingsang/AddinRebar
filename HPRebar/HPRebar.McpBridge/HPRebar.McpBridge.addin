@@ -1,0 +1,14 @@
+<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>HPRebar MCP Bridge</Name>
+        <Assembly>HPRebar.McpBridge\HPRebar.McpBridge.dll</Assembly>
+        <AddInId>A1F50652-27B4-48D4-8BA9-9694B1AA9E65</AddInId>
+        <FullClassName>HPRebar.McpBridge.Application</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>HPRebar.McpBridge</ContextName>
+    </ManifestSettings>
+</RevitAddIns>

@@ -1,0 +1,42 @@
+{
+  "name": "tag_all_rooms",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "room",
+    "tag",
+    "annotation"
+  ],
+  "title": "Tag rooms in the current view",
+  "description": "Place a room tag at the centre of every placed room visible in the active plan view (or only roomIds). Rooms already tagged in the view are skipped. tagTypeId picks a RoomTagType; otherwise the first loaded room tag type is used.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "useLeader": {
+        "type": "boolean",
+        "default": false
+      },
+      "tagTypeId": {
+        "type": "integer",
+        "description": "RoomTagType ElementId (optional)"
+      },
+      "roomIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Only these rooms (optional)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "get_material_quantities",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 90,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "materials",
+    "quantities",
+    "takeoff",
+    "query"
+  ],
+  "title": "Get material quantities",
+  "description": "Material take-off: per material name/class, total area (m²), volume (m³), element count and element ids. Optionally restricted to categories (BuiltInCategory names) or to the current selection.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "categoryFilters": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "e.g. [\"OST_Walls\", \"OST_Floors\"]; empty = all categories"
+      },
+      "selectedElementsOnly": {
+        "type": "boolean",
+        "default": false
+      },
+      "maxElementIdsPerMaterial": {
+        "type": "integer",
+        "default": 50,
+        "description": "Cap on element ids listed per material"
+      }
+    },
+    "additionalProperties": false
+  }
+}

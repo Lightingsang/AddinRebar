@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Placed rooms only",
+    "args": {}
+  },
+  {
+    "title": "Everything incl. unplaced",
+    "args": {
+      "includeUnplacedRooms": true,
+      "includeNotEnclosedRooms": true
+    }
+  }
+]

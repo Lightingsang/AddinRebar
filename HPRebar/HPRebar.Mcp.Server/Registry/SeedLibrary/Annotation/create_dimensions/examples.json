@@ -1,0 +1,49 @@
+[
+  {
+    "title": "Between two walls by id",
+    "args": {
+      "dimensions": [
+        {
+          "startPoint": {
+            "x": 0,
+            "y": -500,
+            "z": 0
+          },
+          "endPoint": {
+            "x": 8000,
+            "y": -500,
+            "z": 0
+          },
+          "elementIds": [
+            1001,
+            1002
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "title": "Auto-detect grids, custom line position",
+    "args": {
+      "dimensions": [
+        {
+          "startPoint": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "endPoint": {
+            "x": 4000,
+            "y": 0,
+            "z": 0
+          },
+          "linePoint": {
+            "x": 0,
+            "y": -1500,
+            "z": 0
+          }
+        }
+      ]
+    }
+  }
+]

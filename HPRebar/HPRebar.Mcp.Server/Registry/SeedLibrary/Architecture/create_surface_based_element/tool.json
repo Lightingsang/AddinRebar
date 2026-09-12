@@ -1,0 +1,135 @@
+{
+  "name": "create_surface_based_element",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 90,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "floor",
+    "ceiling",
+    "roof",
+    "create"
+  ],
+  "title": "Create floors, ceilings and roofs",
+  "description": "Create floors (default), ceilings or footprint roofs from a closed outer loop of line segments in mm. baseLevel is an elevation in mm (nearest level + offset). thickness picks or creates a floor/ceiling type of that thickness when typeId is omitted.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "OST_Floors",
+                "OST_Ceilings",
+                "OST_Roofs"
+              ],
+              "default": "OST_Floors"
+            },
+            "typeId": {
+              "type": "integer"
+            },
+            "boundary": {
+              "type": "object",
+              "properties": {
+                "outerLoop": {
+                  "type": "array",
+                  "minItems": 3,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "p0": {
+                        "type": "object",
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ]
+                      },
+                      "p1": {
+                        "type": "object",
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "p0",
+                      "p1"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "outerLoop"
+              ]
+            },
+            "thickness": {
+              "type": "number",
+              "description": "Slab thickness in mm (floors/ceilings, when typeId omitted)"
+            },
+            "baseLevel": {
+              "type": "number",
+              "description": "Elevation in mm (nearest level is used)"
+            },
+            "baseOffset": {
+              "type": "number",
+              "default": 0
+            },
+            "structural": {
+              "type": "boolean",
+              "default": true,
+              "description": "Floors: structural floor"
+            }
+          },
+          "required": [
+            "boundary",
+            "baseLevel"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

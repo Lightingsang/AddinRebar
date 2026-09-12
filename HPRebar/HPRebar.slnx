@@ -45,6 +45,18 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="HPRebar.Mcp.Server.Tests/HPRebar.Mcp.Server.Tests.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
     <Project Path="HPRebar.Core.Tests/HPRebar.Core.Tests.csproj">
       <BuildType Solution="Debug.R23|*" Project="Debug" />
       <BuildType Solution="Debug.R24|*" Project="Debug" />
@@ -59,6 +71,60 @@
     </Project>
   </Folder>
   <Project Path="HPRebar/HPRebar.csproj" />
+  <Folder Name="/Mcp/">
+    <!-- MCP server (net10 console) and the assemblies it shares with the bridge. Plain Debug/Release
+         projects: every Release.R* solution configuration maps to Release, same as HPRebar.Core. -->
+    <Project Path="HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
+    <Project Path="HPRebar.Mcp.Server/HPRebar.Mcp.Server.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
+    <Project Path="HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
+    <!-- The bridge add-in only exists for the net8 Revit versions (2025/2026); under any other
+         solution configuration it is skipped rather than compiled against a framework it cannot target. -->
+    <Project Path="HPRebar.McpBridge/HPRebar.McpBridge.csproj">
+      <BuildType Solution="Debug.R25|*" Project="Debug.R25" />
+      <BuildType Solution="Debug.R26|*" Project="Debug.R26" />
+      <BuildType Solution="Release.R25|*" Project="Release.R25" />
+      <BuildType Solution="Release.R26|*" Project="Release.R26" />
+      <Build Solution="Debug.R23|*" Project="false" />
+      <Build Solution="Debug.R24|*" Project="false" />
+      <Build Solution="Debug.R27|*" Project="false" />
+      <Build Solution="Release.R23|*" Project="false" />
+      <Build Solution="Release.R24|*" Project="false" />
+      <Build Solution="Release.R27|*" Project="false" />
+    </Project>
+  </Folder>
   <Project Path="HPRebar.Core/HPRebar.Core.csproj">
     <BuildType Solution="Debug.R23|*" Project="Debug" />
     <BuildType Solution="Debug.R24|*" Project="Debug" />

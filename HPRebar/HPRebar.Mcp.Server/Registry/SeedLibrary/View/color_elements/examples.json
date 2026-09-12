@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Columns by type",
+    "args": {
+      "categoryName": "OST_StructuralColumns",
+      "parameterName": "Type Name"
+    }
+  },
+  {
+    "title": "Walls by level, gradient",
+    "args": {
+      "categoryName": "Walls",
+      "parameterName": "Base Constraint",
+      "useGradient": true
+    }
+  }
+]

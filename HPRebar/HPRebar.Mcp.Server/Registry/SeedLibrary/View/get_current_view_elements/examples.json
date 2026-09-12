@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Walls and columns in the active view",
+    "args": {
+      "modelCategoryList": [
+        "OST_Walls",
+        "OST_StructuralColumns"
+      ],
+      "limit": 50
+    }
+  },
+  {
+    "title": "Default categories, include hidden",
+    "args": {
+      "includeHidden": true,
+      "limit": 20
+    }
+  }
+]

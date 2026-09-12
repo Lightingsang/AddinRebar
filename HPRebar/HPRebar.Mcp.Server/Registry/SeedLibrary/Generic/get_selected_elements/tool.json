@@ -1,0 +1,31 @@
+{
+  "name": "get_selected_elements",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Generic",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "selection",
+    "query"
+  ],
+  "title": "Get selected elements",
+  "description": "Elements currently selected in Revit (id, uniqueId, name, category, type, family, level). Empty list when nothing is selected.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "description": "Maximum elements to return (0 = no limit)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

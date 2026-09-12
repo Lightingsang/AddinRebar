@@ -1,0 +1,35 @@
+{
+  "name": "export_room_data",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "rooms",
+    "export",
+    "query"
+  ],
+  "title": "Export room data",
+  "description": "All rooms with name, number, level, area (m²), volume (m³), perimeter (mm), unbounded height (mm), department, comments, occupancy and phase. Unplaced and not-enclosed rooms are excluded unless requested.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeUnplacedRooms": {
+        "type": "boolean",
+        "default": false
+      },
+      "includeNotEnclosedRooms": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

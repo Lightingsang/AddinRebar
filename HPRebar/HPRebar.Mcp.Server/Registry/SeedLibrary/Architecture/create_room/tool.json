@@ -1,0 +1,88 @@
+{
+  "name": "create_room",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "revitVersions": [
+    "2025",
+    "2026"
+  ],
+  "tags": [
+    "room",
+    "create"
+  ],
+  "title": "Create rooms",
+  "description": "Place rooms at points in mm inside enclosed wall boundaries and set name, number, department, comments and limits. Level from levelId or the nearest level to the point's Z. Reports whether each room ended up enclosed (area > 0).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "number": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "z"
+              ]
+            },
+            "levelId": {
+              "type": "integer"
+            },
+            "upperLimitId": {
+              "type": "integer",
+              "description": "Level ElementId for the upper limit"
+            },
+            "limitOffset": {
+              "type": "number",
+              "description": "mm"
+            },
+            "baseOffset": {
+              "type": "number",
+              "description": "mm"
+            },
+            "department": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "location"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "title": "A door in the nearest wall",
+    "args": {
+      "data": [
+        {
+          "name": "entrance door",
+          "category": "OST_Doors",
+          "locationPoint": {
+            "x": 2000,
+            "y": 0,
+            "z": 0
+          },
+          "baseLevel": 0,
+          "baseOffset": 0
+        }
+      ]
+    }
+  },
+  {
+    "title": "Two columns with explicit type, rotated",
+    "args": {
+      "data": [
+        {
+          "category": "OST_StructuralColumns",
+          "typeId": 234567,
+          "locationPoint": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "baseLevel": 0,
+          "rotation": 90
+        },
+        {
+          "category": "OST_StructuralColumns",
+          "typeId": 234567,
+          "locationPoint": {
+            "x": 4000,
+            "y": 0,
+            "z": 0
+          },
+          "baseLevel": 0
+        }
+      ]
+    }
+  }
+]

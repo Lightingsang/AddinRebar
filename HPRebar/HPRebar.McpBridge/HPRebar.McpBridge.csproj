@@ -1,0 +1,54 @@
+<Project Sdk="Nice3point.Revit.Sdk/6.2.3">
+
+    <PropertyGroup>
+        <UseWPF>true</UseWPF>
+        <DeployAddin>true</DeployAddin>
+        <LaunchRevit>true</LaunchRevit>
+        <!-- Roslyn ships as separate copy-local assemblies; merging ~15 MB of Microsoft.CodeAnalysis into
+             the add-in DLL would only make version conflicts with other add-ins harder to diagnose. -->
+        <IsRepackable>false</IsRepackable>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <RootNamespace>HPRebar.McpBridge</RootNamespace>
+        <!-- net8 versions only: Revit 2025/2026. R23/R24 (net48) have no AssemblyLoadContext isolation for
+             Roslyn and R27 (net10) still breaks the main add-in; both stay out until proven. -->
+        <Configurations>Debug.R25;Debug.R26;Release.R25;Release.R26</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Revit Dependencies -->
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
+
+        <!-- UI -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+
+        <!-- Logging -->
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+
+        <!-- Development Dependencies -->
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="Resources\Icons\McpBridge16.png"/>
+        <Resource Include="Resources\Icons\McpBridge32.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- One theme for both add-ins: the colour, typography, spacing and control dictionaries are linked
+             from HPRebar as-is. Only Theme.xaml (pack URIs pointing at the HPRebar assembly) has a bridge copy. -->
+        <Page Include="..\HPRebar\Resources\Themes\*.xaml"
+              Exclude="..\HPRebar\Resources\Themes\Theme.xaml"
+              Link="Resources\Themes\%(Filename)%(Extension)"/>
+    </ItemGroup>
+
+</Project>
