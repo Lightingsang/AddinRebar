@@ -1,0 +1,27 @@
+<Project Sdk="Nice3point.Revit.Sdk/6.2.3">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <EnableTUnitPolyfills>false</EnableTUnitPolyfills>
+        <!-- Only the Revit versions installed on the build machine: these tests load Revit in-process. -->
+        <Configurations>Debug.R25;Debug.R26</Configurations>
+        <Configurations>$(Configurations);Release.R25;Release.R26</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.TUnit.Revit" Version="$(RevitVersion).*"/>
+        <PackageReference Include="TUnit" Version="1.61.38"/>
+        <PackageReference Include="Polyfill" Version="11.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPRebar\HPRebar.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Fixtures\**" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+</Project>

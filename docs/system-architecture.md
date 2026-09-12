@@ -1,6 +1,9 @@
 # System Architecture — Revit Add-In (Nice3point Stack)
 
-> Project structure mặc định khi scaffold `dotnet new revit-addin` với DI mode `container`, WPF enabled, Serilog logging enabled.
+> **Phần 1–N dưới đây mô tả cấu trúc *mặc định* của template Nice3point (`dotnet new revit-addin`, DI mode `container`).
+> Đó KHÔNG phải cấu trúc thật của HPRebar** — HPRebar chưa nối DI container, và tên file trong sơ đồ
+> (`MyAddIn`, `WallReportView`) chỉ là ví dụ của template. Xem **mục cuối — "Column Rebar (thực tế)"** cho
+> kiến trúc đang chạy, và `docs/codebase-summary.md` cho bản đồ file đầy đủ.
 
 ## 1. High-Level Diagram
 
@@ -238,6 +241,116 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 | Setup / chạy test | `/bs:revit-test` |
 | Plan feature mới | `/bs:plan` (Stack-Aware 6-phase) |
 | Implement plan | `/bs:cook` (build verify gate) |
+
+
+---
+
+# Column Rebar — kiến trúc thực tế
+
+Cập nhật 2026-09-04. Đây là feature duy nhất hiện có, và là bản mẫu cho convention feature-folder.
+
+## Tách Core ↔ Revit
+
+Ràng buộc gốc: `Autodesk.Revit.DB.Document` là `sealed` → không mock được → mọi thứ chạm Revit API đều không unit-test được. Nên toán tách hẳn ra project riêng.
+
+```
+┌─────────────────────────────────────────┐   ┌──────────────────────────────┐
+│ HPRebar.Core  (netstandard2.0)          │   │ HPRebar  (net48/net8/net10)  │
+│ KHÔNG reference Autodesk.Revit.*        │◄──┤ Toàn bộ code chạm Revit API  │
+│ Đơn vị: millimét                        │   │ Đơn vị: feet (nội bộ Revit)  │
+│                                         │   │                              │
+│ BarLayoutCalculator                     │   │ ColumnStackReader   ──┐      │
+│ SpliceCalculator                        │   │ ColumnStackValidator  │      │
+│ BarPolylineBuilder                      │   │ RebarCreationService  │ mm ↔ ft
+│ StirrupDistributionCalculator           │   │ DimensionCreator      │  qua  │
+│ BarScheduleCalculator                   │   │ PointMapper         ──┘ RevitUnits
+│ CanvasScaleCalculator                   │   │                              │
+│                                         │   │ ColumnRebarOrchestrator      │
+│ 99 test xUnit — chạy không cần Revit    │   │ 16 test TUnit — cần Revit    │
+└─────────────────────────────────────────┘   └──────────────────────────────┘
+                                                ILRepack merge Core vào 1 DLL
+```
+
+Chỉ **2 điểm** đổi đơn vị: `RevitUnits.MmToFt` / `FtToMm`. Đọc model quy về mm ngay tại `ColumnStackReader`; ghi ngược ra feet tại `PointMapper` và `StirrupGeometry`.
+
+## Pipeline
+
+```
+ColumnRebarCommand.Execute                    (không mở transaction nào)
+ │
+ ├─ PickObjects + StructuralColumnSelectionFilter
+ ├─ sort theo cao độ mặt đáy
+ ├─ ColumnStackValidator.Validate ──► 14 rule, trả lỗi ĐẦU TIÊN gặp phải
+ ├─ ColumnStackReader.Read        ──► ColumnStack { ColumnSection[] mm, ColumnFaces[] Revit }
+ ├─ DefaultRebarSpecBuilder.Build ──► spec mặc định
+ │
+ └─ ColumnRebarView.ShowDialog()   (modal, Owner = Revit main window)
+      │
+      ├─ Cancel ──► không gọi Run ──► không có gì để rollback
+      │
+      └─ OK ──► RevitRebarRunner ──► ColumnRebarOrchestrator.Run
+                                       │
+                                       │  ★ NƠI DUY NHẤT mở TransactionGroup
+                                       │
+                                       ├─ Tx "Create Detail View"       2 mặt đứng
+                                       ├─ Tx "Create Section View"      1 mặt cắt / đoạn cột
+                                       ├─ Tx "Create Dimension View"    dim mặt đứng
+                                       ├─ Tx "Create Dimension Section" dim mặt cắt
+                                       ├─ Tx "Create Stirrup Bars"      đai + đai phụ
+                                       ├─ Tx "Create Main Bars"         thép chủ
+                                       ├─ Tx "Create Tag Bars"          bảng thống kê
+                                       │
+                                       ├─ thành công ──► Assimilate()  → undo 1 bước
+                                       └─ lỗi        ──► RollBack()    → model nguyên vẹn
+```
+
+**Quyết định D8:** `new TransactionGroup` xuất hiện **đúng 1 lần** trong toàn feature (`ColumnRebarOrchestrator.cs`). Các service chỉ mở `Transaction`. Nhờ vậy orchestrator test được độc lập, undo gọn 1 bước, và Cancel không cần cơ chế rollback riêng.
+
+## UI
+
+```
+ColumnRebarView (Window)
+ ├─ ListBox nav ──────► 8 tab, DataTemplate theo type ViewModel
+ ├─ ContentControl ───► SelectedTab
+ ├─ ColumnElevationCanvas ──┐
+ └─ footer: progress, OK/Cancel, EN⇄VN
+                            │
+        ┌───────────────────┴────────────────────┐
+        │        ColumnRebarSession               │  state dùng chung
+        │  ColumnStack + ColumnSpecEditor[]       │  mọi tab đọc/ghi vào đây
+        │  SelectedColumnIndex                    │  tab không nói chuyện với nhau
+        └───────────────────┬────────────────────┘
+                            │ PropertyChanged
+                            ▼
+        Canvas gọi ĐÚNG calculator mà service tạo thép dùng
+        ⇒ preview và kết quả không thể lệch nhau
+```
+
+Điểm này khác bản gốc có chủ đích: `R01_ColumnsRebar` có 2 đường code song song (`DrawStirrupItemRectangle0` tính lại số đai bằng tay, tách rời `CreateStirrupTypeItem1`), nên preview có thể lệch model.
+
+Code-behind chỉ `InitializeComponent` + `DataContext` (+ theme và dialog-result ở shell). Không `x:Name`, không `DataContext` trong XAML, không `Canvas.Children` từ ViewModel.
+
+## Theme + i18n
+
+- `Resources/Themes/` 8 file. Mọi màu/spacing/font qua `{DynamicResource}`.
+- `ThemeSwitcher.ApplyFromRevit` đọc `UIThemeManager` (R24+) rồi swap dictionary màu. R23 không có API → mặc định Dark.
+- Canvas lấy màu qua `CanvasPalette.From(element)` → `TryFindResource`, thiếu key thì fallback + log warning, không throw.
+- `UiStrings` là record ~110 field; đổi ngôn ngữ = thay cả record một lần → mọi binding refresh, dialog không đóng.
+
+## Multi-version
+
+Chỉ **2 block `#if`**, cả hai có comment `// Multi-version:`:
+
+| Vị trí | Vấn đề |
+|---|---|
+| `MainBarCreator` | `Rebar.CreateFreeForm` — overload `out RebarFreeFormValidationResult` bị xóa ở R27; overload `RebarStyle` chỉ có từ R26; khác cả return type |
+| `ThemeSwitcher` | `UIThemeManager` chỉ có từ R24 |
+
+Đối chiếu đầy đủ 106 type API: `plans/260903-2307-port-column-rebar-to-hprebar/reports/api-surface-check.md`.
+
+## Điểm giòn đã biết
+
+`DimensionCreator.ToLinearReference` đổi token `SURFACE` → `LINEAR` trong stable representation của `PlanarFace.Reference`. Revit chỉ nhận reference LINEAR khi dimension trong section view, nhưng face trả về SURFACE. Cách này **undocumented**, có thể vỡ ở version mới. Cô lập trong 1 method; mọi caller `try/catch` → log warning và bỏ qua dimension, không làm hỏng cốt thép vừa dựng.
 
 ## MCP Bridge (thực tế, 2026-09-12)
 

@@ -1,0 +1,116 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.AdditionalStirrupsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:HPRebar.ColumnRebar.View.Controls">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding Localization.Strings.AdditionalProperty}"
+                       Style="{DynamicResource Heading}"/>
+
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Localization.Strings.ColumnsNo}"
+                               Width="140" VerticalAlignment="Center"/>
+                    <ComboBox Width="140"
+                              ItemsSource="{Binding Session.Columns}"
+                              DisplayMemberPath="DisplayName"
+                              SelectedIndex="{Binding Session.SelectedColumnIndex}"/>
+                    <Button Style="{DynamicResource SecondaryButton}"
+                            Content="{Binding Localization.Strings.ApplyAllColumns}"
+                            Command="{Binding ApplyToAllColumnsCommand}"
+                            Margin="{DynamicResource Spacing.MediumHorizontal}"/>
+                </StackPanel>
+            </Border>
+
+            <Grid Margin="{DynamicResource Spacing.MediumTop}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Horizontal legs -->
+                <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                    <TextBlock Text="{Binding Localization.Strings.AdditionalHorizontal}"
+                               Style="{DynamicResource Subheading}"/>
+                    <Border Style="{DynamicResource Card}"
+                            Margin="{DynamicResource Spacing.SmallTop}"
+                            DataContext="{Binding Session.SelectedColumn}">
+                        <StackPanel>
+                            <CheckBox Content="{Binding DataContext.Localization.Strings.Horizontal,
+                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      IsChecked="{Binding AddHorizontalTies}"
+                                      Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+
+                            <StackPanel Margin="{DynamicResource Spacing.SmallTop}"
+                                        IsEnabled="{Binding AddHorizontalTies}">
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.Type,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <ComboBox Margin="{DynamicResource Spacing.SmallVertical}"
+                                          ItemsSource="{Binding DataContext.TieTypes,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          SelectedIndex="{Binding HorizontalTieType}"/>
+
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.LegLength,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Margin="{DynamicResource Spacing.SmallVertical}"
+                                         Text="{Binding HorizontalTieLeg, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.LegCount,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Margin="{DynamicResource Spacing.SmallVertical}"
+                                         Text="{Binding HorizontalTieCount, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Vertical legs -->
+                <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                    <TextBlock Text="{Binding Localization.Strings.AdditionalVertical}"
+                               Style="{DynamicResource Subheading}"/>
+                    <Border Style="{DynamicResource Card}"
+                            Margin="{DynamicResource Spacing.SmallTop}"
+                            DataContext="{Binding Session.SelectedColumn}">
+                        <StackPanel>
+                            <CheckBox Content="{Binding DataContext.Localization.Strings.Vertical,
+                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      IsChecked="{Binding AddVerticalTies}"
+                                      Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+
+                            <StackPanel Margin="{DynamicResource Spacing.SmallTop}"
+                                        IsEnabled="{Binding AddVerticalTies}">
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.Type,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <ComboBox Margin="{DynamicResource Spacing.SmallVertical}"
+                                          ItemsSource="{Binding DataContext.TieTypes,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          SelectedIndex="{Binding VerticalTieType}"/>
+
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.LegLength,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Margin="{DynamicResource Spacing.SmallVertical}"
+                                         Text="{Binding VerticalTieLeg, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <TextBlock Text="{Binding DataContext.Localization.Strings.LegCount,
+                                           RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Margin="{DynamicResource Spacing.SmallVertical}"
+                                         Text="{Binding VerticalTieCount, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <Border Style="{DynamicResource Card}"
+                    Margin="{DynamicResource Spacing.MediumTop}"
+                    HorizontalAlignment="Left">
+                <controls:ColumnSectionCanvas Column="{Binding Session.SelectedColumn}"/>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

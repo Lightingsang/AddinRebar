@@ -10,6 +10,12 @@ namespace HPRebar.Core.ColumnRebar;
 public static class StirrupDistributionCalculator
 {
     /// <summary>
+    ///     Most bar positions one tie group may hold. Revit's own layout call refuses anything larger, so
+    ///     the limit is enforced here where it can be caught before a transaction is open.
+    /// </summary>
+    public const int MaxBarPositions = 1002;
+
+    /// <summary>
     ///     Length of the tie run. Ties normally stop under the beam; <see cref="StirrupSpec.IsTiesUp"/>
     ///     carries them back up through the beam depth.
     /// </summary>
@@ -49,7 +55,7 @@ public static class StirrupDistributionCalculator
         {
             RequirePositiveSpacing(spec.S, nameof(spec.S));
 
-            var count = (int)(runLength / spec.S) + 1;
+            var count = RequireUsableCount((int)(runLength / spec.S) + 1, spec.S);
 
             return new[]
             {
@@ -67,8 +73,8 @@ public static class StirrupDistributionCalculator
 
         var (l1, l2) = ComputeZones(runLength, spec.TypeDis);
 
-        var denseCount = (int)(l1 / spec.S1) + 1;
-        var sparseCount = (int)(l2 / spec.S2) + 1;
+        var denseCount = RequireUsableCount((int)(l1 / spec.S1) + 1, spec.S1);
+        var sparseCount = RequireUsableCount((int)(l2 / spec.S2) + 1, spec.S2);
         var denseSlack = (l1 - (denseCount - 1) * spec.S1) / 2;
         var sparseSlack = (l2 - (sparseCount - 1) * spec.S2) / 2;
 
@@ -78,6 +84,18 @@ public static class StirrupDistributionCalculator
             new StirrupRun { Count = sparseCount, Spacing = spec.S2, StartOffset = sparseSlack + l1 },
             new StirrupRun { Count = denseCount, Spacing = spec.S1, StartOffset = denseSlack + l1 + l2 }
         };
+    }
+
+    private static int RequireUsableCount(int count, double spacing)
+    {
+        if (count > MaxBarPositions)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(spacing), spacing,
+                $"A spacing of {spacing} needs {count} ties, more than the {MaxBarPositions} a rebar set can hold.");
+        }
+
+        return count;
     }
 
     private static void RequirePositiveSpacing(double spacing, string name)

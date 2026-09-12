@@ -1,0 +1,117 @@
+namespace HPRebar.ColumnRebar.Model;
+
+/// <summary>The two languages the window ships with. English is the record's own defaults.</summary>
+public static class UiStringsCatalog
+{
+    public static UiStrings English { get; } = new() { LanguageToggle = "VN" };
+
+    public static UiStrings Vietnamese { get; } = new()
+    {
+        WindowTitle = "Thép Cột",
+        Ok = "Thực Hiện",
+        Cancel = "Huỷ",
+        Column = "Cột",
+        LanguageToggle = "EN",
+
+        TabSetting = "Cài Đặt",
+        TabGeometry = "Hình Dạng",
+        TabStirrups = "Thép Đai",
+        TabAdditionalStirrups = "Đai tăng cường",
+        TabBars = "Thép chủ",
+        TabTopDowels = "Neo Thép Trên",
+        TabBottomDowels = "Neo Thép Dưới",
+        TabBarsDivision = "Cắt Thép",
+
+        NameBar = "Loại Thép",
+        LayerBar = "Lớp",
+        Bar = "Thép",
+        Type = "Loại",
+        Distance = "KC",
+        NumberBar = "SL",
+        BarNumber = "Số hiệu",
+        HookLength = "Dài Móc",
+        HookType = "Loại Móc",
+        ColumnsNumber = "Cột số",
+        Apply = "Áp dụng",
+        Modify = "Sửa",
+        Thickness = "Dày",
+        Length = "Dài",
+        Cover = "Lớp bảo vệ",
+        Diameter = "Đường kính",
+
+        RebarShapeHook = "Dạng Thép Và Hook",
+        StirrupShape = "Dạng Thép Đai",
+        AntiShape = "Anti Đai",
+        ParameterColumns = "Parameter Cột",
+        ColumnsName = "Tên Cột",
+        DetailViewName = "Tên Chi tiết",
+        SectionViewName = "Tên Mặt cắt",
+        PrefixLevel = "Tiền tố Level",
+        PrefixSection = "Tiền tố Section",
+        ReinforcementStructural = "Ghi chú Thép",
+        UseRealRebar = "Dựng thép thật",
+        UseRealRebarLocked = "Chế độ Detail Item chưa hỗ trợ.",
+
+        Identification = "Nhận dạng Cột",
+        FamilyName = "Tên Family",
+        TypeName = "Tên Type",
+        Style = "Loại Cột",
+        ColumnsDimention = "Kích thước cột",
+        ColumnsProperty = "Thông số Cột",
+        Width = "Bề rộng",
+        Depth = "Bề dày",
+        Height = "Chiều cao",
+        BeamDepth = "Chiều cao dầm",
+        BeamDrop = "Hạ dầm",
+
+        StirrupsProperty = "Thông số Đai",
+        ColumnsNo = "Cột Số",
+        ApplyAllColumns = "Áp dụng các Cột",
+        StirrupsParameter = "Parameter Đai",
+        StirrupsDistribute = "Phân bố Thép Đai",
+        TiesUpToBeams = "Sát dầm",
+        SpacingEven = "Khoảng cách",
+        SpacingDense = "Khoảng cách (đầu)",
+        SpacingSparse = "Khoảng cách (giữa)",
+        RunLength = "Chiều dài rải",
+
+        AdditionalProperty = "Thông số Đai tăng cường",
+        AdditionalHorizontal = "Tăng cường ngang",
+        AdditionalVertical = "Tăng cường dọc",
+        Horizontal = "Phương ngang",
+        Vertical = "Phương dọc",
+        LegLength = "Dài nhánh",
+        LegCount = "Số nhánh",
+
+        BarsProperty = "Thông số thép",
+        SplitOverlap = "Cắt nối chồng",
+        Overlap = "Đoạn cắt",
+        BarsInformation = "Thông tin Thép",
+        BarsAlongWidth = "Thép theo bề rộng",
+        BarsAlongDepth = "Thép theo bề dày",
+        BarsAround = "Thép quanh chu vi",
+        BarCount = "Số thanh",
+
+        TopDowelsProperty = "Thông số Neo thép trên",
+        BottomDowelsProperty = "Thông số Neo thép dưới",
+        ApplyAllBar = "Áp dụng hết",
+        Top = "Trên",
+        Bottom = "Dưới",
+        TopDowels = "Neo Thép Trên",
+        BottomDowels = "Neo Thép dưới",
+        DowelsOn = "Neo thép",
+        DowelStyle = "Kiểu",
+        HookLengthLa = "Móc (La)",
+        AnchorLengthLb = "Neo (Lb)",
+        StartHeightLc = "Cao độ bắt đầu (Lc)",
+
+        DivisionProperty = "Thông số Chia thép",
+        MainBarsDivision = "Thép chủ",
+        Shape = "Hình dạng",
+        CutLength = "Chiều dài cắt",
+        IdenticalColumns = "Số cột giống nhau",
+
+        NothingToCreate = "Không có gì để dựng với thiết lập hiện tại.",
+        Working = "Đang dựng cốt thép…"
+    };
+}

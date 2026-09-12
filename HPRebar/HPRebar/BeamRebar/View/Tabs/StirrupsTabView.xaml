@@ -1,0 +1,170 @@
+<UserControl x:Class="HPRebar.BeamRebar.View.Tabs.StirrupsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="{DynamicResource Spacing.Small}">
+            <TextBlock Text="{Binding Localization.Strings.TabStirrups}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+            <!-- Shear Stirrups Distribution -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.StirrupLayout}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.StirrupLayout}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding LayoutOptions}"
+                                      SelectedItem="{Binding Session.StirrupLayout}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.BarType}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding Session.BarTypes}"
+                                      SelectedItem="{Binding Session.StirrupBarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.DenseSpacing}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.StirrupSpacingDense, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.MidspanSpacing}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.StirrupSpacingSparse, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.StartOffset}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.StirrupStartOffset, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <CheckBox IsChecked="{Binding Session.IncludeStirrupsInNodes}"
+                              Content="Carry Stirrups Through Support Column/Wall Nodes"
+                              Margin="{DynamicResource Spacing.SmallTop}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Deep Beam Side Skin Reinforcement -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.SideBarsHeader}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <CheckBox IsChecked="{Binding Session.AutoSkinBars}"
+                              Content="{Binding Localization.Strings.AutoDeepBeamRule}"
+                              Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding Session.AutoSkinBars}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Depth Threshold (mm)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.DepthThreshold, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.BarType}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding Session.BarTypes}"
+                                      SelectedItem="{Binding Session.SideBarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Max Vertical Spacing (mm)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.MaxVerticalSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Cross-Ties -->
+                    <CheckBox IsChecked="{Binding Session.IncludeCrossTies}"
+                              Content="{Binding Localization.Strings.CrossTies}"
+                              Margin="{DynamicResource Spacing.MediumTop}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding Session.IncludeCrossTies}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Cross-Tie Bar Type" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding Session.BarTypes}"
+                                      SelectedItem="{Binding Session.CrossTieBarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Tie Spacing Along Beam (mm)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.CrossTieSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Secondary Beam Joint Reinforcement -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.SecondaryFramingHeader}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <CheckBox IsChecked="{Binding Session.EnableHangingStirrups}"
+                              Content="{Binding Localization.Strings.HangingStirrups}"
+                              Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding Session.EnableHangingStirrups}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Pairs Per Joint Side" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.HangingStirrupsPerSide, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Hanging Tie Spacing (mm)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.HangingStirrupSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

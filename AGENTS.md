@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to the host coding agent (claude.ai/code) when working with code in this repository.
 
 ## Role & Responsibilities
 
@@ -8,173 +8,843 @@ Your role is to analyze user requirements, delegate tasks to appropriate sub-age
 
 ## Repository Layout
 
-This repo bundles **three deliverables** for a Revit API 2022–2027 course; treat them as separate concerns — do not cross-wire them:
+This repo bundles **four unrelated deliverables**; treat them as separate concerns — do not cross-wire them:
 
 | Path | What it is | Stack |
 |---|---|---|
-| `RevitAIApp/` | Working Revit Add-In (the "real" code). Multi-version (R23–R27). | C# / .NET Framework 4.8 (R23–R24) or .NET 8 (R25–R27) / WPF / Nice3point.Revit.Sdk |
-| `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`) deployed via `vercel.json` | Plain HTML |
-| `scripts/generate_revit_api_infographics.py` | One-off generator for course infographics (output → `output/`) | Python + `google-genai` (run via `.Codex/skills/.venv`) |
-| `docs/` | Project docs — `system-architecture.md`, `code-standards.md` (Vietnamese). **Authoritative** for stack rules. |
-| `plans/` | Stack-Aware 6-phase plans produced by `/bs:plan`; phase files live under timestamped subfolders. |
-| `RevitTemplates-Huong-Dan-Tieng-Viet.md`, `RevitTemplates-Infographic-Prompt.md` | Reference material on Nice3point templates (Vietnamese). |
+| `HPRebar/` | The Revit Add-In (the "real" product). Multi-version R23–R27. Also hosts the **MCP bridge** projects (see "HPRebar MCP Bridge" below). | C# / Nice3point.Revit.Sdk / WPF / Serilog / ModelContextProtocol |
+| `revit-market-research/` | Apify actor scraping the Revit plugin market | Node ≥24 / TypeScript / Crawlee / vitest |
+| `scripts/skill_sync/` + `tests/skill-sync/` | Engine that keeps `.claude/`, `.agents/`, `.codex/` agent configs in sync | Python 3 / stdlib `unittest` |
+| `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`), deployed via `vercel.json` | Plain HTML |
+| `scripts/generate_revit_api_infographics.py` | One-off course infographic generator | Python + `google-genai` |
+| `docs/` | Project docs — `system-architecture.md`, `code-standards.md` (Vietnamese) | |
+| `plans/` | Stack-Aware 6-phase plans from `/bs:plan`, in timestamped subfolders. `plans/templates/` holds bug-fix / feature / refactor templates. | |
+| `RevitTemplates-*.md` | Reference material on Nice3point templates (Vietnamese) | |
 
-**Inside `RevitAIApp/`** (mirrors Nice3point `revit-solution` template):
-- `RevitAIApp.sln` — solution; configurations are `Debug.R23..R27` / `Release.R23..R27` (suffix = Revit version).
-- `MyRevitAIApp/` — the actual add-in project. Entry `Application.cs` registers ribbon → `Commands/StartupCommand.cs` opens `Views/MyRevitAIAppView.xaml` bound to `ViewModels/MyRevitAIAppViewModel.cs` (`ObservableObject` from CommunityToolkit.Mvvm).
-- `MyRevitAIApp/MyRevitAIApp.addin` — Revit manifest (AddInId GUID, FullClassName).
-- `build/` — ModularPipelines (.NET 10 console) automation: `Program.cs` registers `CompileProjectModule` (default) and `CreateInstallerModule` (when `pack` arg given).
-- `install/` — WixSharp installer (`Installer.Generator.cs`, `Installer.Versioning.cs`) invoked implicitly by the build pipeline; outputs to `RevitAIApp/output/` (folder created on first build).
-- `source/` — empty placeholder folder; treat as reserved, do not dump files here unless the template convention says so.
+## HPRebar — Build, Run, Debug
 
-## Feature Folder Convention (MANDATORY)
+Solution is **`HPRebar/HPRebar.slnx`** (XML `.slnx` format, *not* `.sln`). `global.json` pins .NET SDK `10.0.300` and sets the test runner to `Microsoft.Testing.Platform`.
 
-Mọi feature mới trong `RevitAIApp/MyRevitAIApp/` MUST có folder riêng theo template:
-
-```
-MyRevitAIApp/
-└── <Feature Name With Spaces>/         ← tên feature có space cho readability (vd "View Sheet Creator")
-    ├── <FeatureName>Command.cs         ← ExternalCommand entry, ở root feature folder
-    ├── <FeatureName>Service.cs         ← Services ở root feature folder (không subfolder Services/)
-    ├── Models/
-    ├── View/
-    └── View Models/                    ← đúng tên có space
-```
-
-**Quy tắc bắt buộc:**
-- Tên folder feature có thể (và nên) dùng space (vd `View Sheet Creator`) cho readability
-- 3 subfolder bắt buộc: `Models`, `View`, `View Models` (đúng chính tả, View Models có space)
-- ExternalCommand entry + Services nằm ở **root** của feature folder — KHÔNG tạo subfolder `Commands/`, `Services/` bên trong feature folder
-- C# namespace MUST khai báo **explicit** trong mỗi `.cs` file, strip space + PascalCase. Ví dụ folder `View Sheet Creator/Models/` → `namespace MyRevitAIApp.ViewSheetCreator.Models;`. KHÔNG dựa vào auto-namespace của IDE (sẽ propose `View_Sheet_Creator.View_Models` với underscore — phải sửa thủ công).
-- XAML files cũng update `x:Class="MyRevitAIApp.<FeatureNameNoSpace>.Views.XxxView"` và `xmlns:vm="clr-namespace:MyRevitAIApp.<FeatureNameNoSpace>.ViewModels"`.
-- `Resources/` (Theme.xaml, icons, fonts) là **shared cross-feature** → NẰM Ở root project (`MyRevitAIApp/Resources/`), KHÔNG nhân bản trong từng feature folder.
-- KHÔNG tạo folder phẳng `Commands/`, `Services/`, `ViewModels/`, `Views/` ở root project nữa cho feature mới (legacy structure từ Nice3point template, không migrate).
-- Template gốc `MyRevitAIApp/Commands/StartupCommand.cs` + `Views/MyRevitAIAppView.xaml` + `ViewModels/MyRevitAIAppViewModel.cs` giữ nguyên (không trong scope migrate, chỉ áp dụng convention cho feature MỚI).
-
-**Lý do:**
-1. Feature-based organization giúp dễ tìm code khi project có nhiều feature (vd 20+ command/dialog)
-2. Cô lập dependencies (Models, ViewModels, Services của 1 feature gói chung)
-3. Dễ remove/disable 1 feature (chỉ cần exclude folder)
-4. Khớp với cách user phân tích domain — mỗi business workflow = 1 feature folder
-
-**Reference implementation:** `RevitAIApp/MyRevitAIApp/View Sheet Creator/` (đầu tiên áp dụng convention này, plan tại `C:\Users\NC\.Codex\plans\t-i-c-n-t-o-m-t-crispy-hennessy.md`).
-
-## Build, Run, Debug
-
-All commands run from `RevitAIApp/` unless noted. **Always pick the Revit-version-suffixed configuration** — plain `Debug` / `Release` exists in the .sln but is not what you want for an add-in build.
+Configurations are `Debug.R23..R27` / `Release.R23..R27` — the `R##` suffix is what the Revit MSBuild SDK parses to pick `RevitVersion`, `TargetFramework`, and the `REVIT####` constants. **There is no plain `Debug`/`Release`** for the add-in project; always pass a suffixed configuration.
 
 ```bash
-# Restore + build for a specific Revit version (replace R27 with R23..R27)
-dotnet build RevitAIApp.sln -c Debug.R27
-dotnet build RevitAIApp.sln -c Release.R27
+# From HPRebar/ — build one Revit version
+dotnet build HPRebar.slnx -c Debug.R26             # primary: the dev machine has Revit 2026
+dotnet build HPRebar/HPRebar.csproj -c Debug.R26   # add-in project only
+dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false   # when Revit is open and locking the DLL
 
-# Build the single MyRevitAIApp project only
-dotnet build MyRevitAIApp/MyRevitAIApp.csproj -c Debug.R27
+dotnet test HPRebar.Core.Tests                     # 334 xUnit tests, no Revit needed
+dotnet test HPRebar.Mcp.Server.Tests               # 159 xUnit tests: MCP server, registry, bridge pipe over a real named pipe, seed tools compiled against the Revit API reference assemblies — no Revit needed
+dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26  # TUnit, excluded from solution builds
 
-# Compile everything via the ModularPipelines build (default action)
-cd build && dotnet run
-
-# Produce the MSI installer (cleans first, then runs CreateInstallerModule)
-cd build && dotnet run -- pack
+# ModularPipelines automation — from HPRebar/build/
+dotnet run              # CompileProjectModule: builds EVERY Release.R* config
+dotnet run -- test      # + TestProjectModule (skipped on CI via [SkipIf<IsCI>])
+dotnet run -- pack      # Clean -> CreateBundle (HPRebar + HPRebar.McpBridge) -> PublishServer -> CreateInstaller, into output/
 ```
 
-Debug-build outputs auto-deploy to `%ProgramData%\Autodesk\Revit\Addins\<version>\` (driven by `<DeployAddin>true</DeployAddin>` + `<LaunchRevit>true</LaunchRevit>` in `MyRevitAIApp.csproj`). F5 from Rider/VS launches Revit and attaches the debugger. The HARD-GATE-BUILD-VERIFY rule in `/bs:cook` requires `dotnet build -c Debug.R<active-version>` to pass after every `.cs`/`.xaml` change — do not skip it.
+Rider run configs `Compile` / `Pack` in `HPRebar/.run/` wrap the same two pipeline entry points.
 
-**Multi-version conditional compilation** uses constants emitted by the Nice3point MSBuild SDK based on configuration name:
+**Pipeline internals worth knowing** (`HPRebar/build/`):
+- `ResolveConfigurationsModule` reads `.slnx` `BuildTypes` and **filters to `Release.R*` only** — `dotnet run` never produces Debug output.
+- `ResolveVersioningModule` derives the version from git (GitVersion) unless `Build:Version` is set in `build/appsettings.json`, a user secret, or an env var.
+- `Solutions.HPRebar` is generated by `Sourcy.DotNet`; `HPRebar/.sourcyroot` marks the scan root.
+- Bundle vendor metadata lives in `build/appsettings.json` (`Bundle:VendorName` etc.), currently the template default `"Development"`.
+
+Debug builds auto-deploy to `%AppData%\Autodesk\Revit\Addins\<version>\` (per-user, **not** `%ProgramData%` — the SDK's `AddinDeployDir` default is `$(AppData)\...`) via `<DeployAddin>true</DeployAddin>`; `<LaunchRevit>true</LaunchRevit>` makes F5 start Revit and attach. `<IsRepackable>true</IsRepackable>` + ILRepack merge dependencies, and `<EnableDynamicLoading>true</EnableDynamicLoading>` isolates the assembly load context.
+
+**Multi-version conditional compilation** uses SDK-emitted constants (`REVIT2023`, `REVIT2024_OR_GREATER`, …). Gate removed APIs by inverting: `#if !REVIT2023_OR_GREATER`.
+
 ```csharp
 #if REVIT2024_OR_GREATER
-    long id = elementId.Value;      // .Value is long since 2024
+    long id = elementId.Value;       // .Value is long since 2024
 #else
     int id = elementId.IntegerValue; // legacy
 #endif
 ```
-Constants: `REVIT2023`, `REVIT2024_OR_GREATER`, etc. Use `!REVIT<XX>_OR_GREATER` to gate code removed in newer versions.
 
-**Tests:** no test project exists yet. When adding one, follow the framework decision tree in `.Codex/skills/revit-test/` — TUnit for in-process (needs Revit context), xUnit for pure logic, ricaun-io `RevitTest` if the VS Test Adapter UI is required. Pure-logic code MUST be in a layer that does not touch the Revit API so it remains xUnit-testable (`Document` is sealed, cannot be mocked).
+Tag each block with `// Multi-version: <topic>` so it stays greppable. Edit `<Configurations>` in `.csproj` by hand — IDEs corrupt them.
 
-## Architecture Cheatsheet (Nice3point + MVVM)
+## HPRebar — Current State (read before planning)
 
-Read `docs/system-architecture.md` for the full diagram; the load-bearing facts are:
+The solution holds **nine** projects plus the two automation ones (four rebar, five MCP). Read `docs/codebase-summary.md` for the full picture; the load-bearing facts are:
 
-1. **Entry**: Revit loads `MyRevitAIApp.addin` → instantiates `Application : ExternalApplication` → `OnStartup()` configures Serilog + `CreateRibbon()` registers buttons via `Application.CreatePanel(...).AddPushButton<T>(...)`.
+| Project | TFM | Notes |
+|---|---|---|
+| `HPRebar/` | net48 (R23/R24) · net8.0-windows7.0 (R25/R26) · net10.0-windows7.0 (R27) | The add-in. `CommunityToolkit.Mvvm` 8.4.0, `Serilog.Sinks.File`, `ProjectReference` to Core |
+| `HPRebar.Core/` | netstandard2.0 | Pure maths. **Must never reference `Autodesk.Revit.*`** — `Document` is sealed and unmockable, so anything testable lives here |
+| `HPRebar.Core.Tests/` | net8.0 | xUnit **v3** (not v2 — v2's runner cannot speak the `Microsoft.Testing.Platform` runner pinned in `global.json`). 334 tests |
+| `HPRebar.Tests/` | R25/R26 only | TUnit, loads Revit in-process. **`<Build Project="false"/>` in `.slnx`** — under an R23/R24 configuration it compiles net8 against a net48 `HPRebar.dll` and Polyfill's span types collide (`CS0433`). Build it by project path |
+| `HPRebar.Mcp.Contracts/` | netstandard2.0 | JSON-RPC envelope + DTOs shared by the MCP server and the bridge. No Revit, no MCP SDK |
+| `HPRebar.Mcp.Server/` | net10.0 console | The MCP server (`ModelContextProtocol` 2.2.0, stdio). Never references Revit; talks to the bridge over a named pipe |
+| `HPRebar.McpBridge.Core/` | net8.0 | Revit-free half of the bridge: pipe listener/dispatcher, Roslyn guard/compiler/cache, settings, audit. xUnit-testable |
+| `HPRebar.McpBridge/` | R25/R26 only (net8.0-windows7.0) | Second add-in (own `.addin`, GUID `A1F50652-27B4-48D4-8BA9-9694B1AA9E65`, own ALC `HPRebar.McpBridge`). `IsRepackable=false` on purpose — Roslyn ships as loose DLLs. Skipped under R23/R24/R27 via `.slnx` `<Build … Project="false"/>` |
+| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3, 43 tests: real named-pipe round trips with a fake executor, ScriptGuard deny-list, compiler cache, TypeInspector, AuditLogger |
+
+Three features exist, all following the feature-folder convention below: **`ColumnRebar/`** (81 files, ~7.0k lines), **`BeamRebar/`** (68 files, ~6.8k lines) and **`FoundationRebar/`** (24 files, ~1.7k lines). `Resources/Themes/` holds 8 theme files; `ThemeSwitcher` follows Revit's own Dark/Light.
+
+**`BeamRebar` and `FoundationRebar` do not compile under `Debug.R27`/`Release.R27`** — 10 errors, all from `RebarHookOrientation` and the `Curve.Intersect(Curve, out …)` overload, which Revit 2027 removed. `#pragma warning disable CS0618` suppresses the deprecation warning but cannot survive removal; those call sites need a version-gated branch, or a move to the stable API `ColumnRebar` already uses (`Rebar.CreateFromRebarShape`, zero suppressions, compiles on all five). Gate on `Debug.R26` until that is fixed.
+
+Still true:
+- **No DI container is wired.** `Application.cs` uses the static `Log.Logger`, not `ILogger<T>`. Feature classes are constructed by hand in `ColumnRebarCommand`.
+- `Application.cs` and `Commands/StartupCommand.cs` use **block-scoped namespaces**, which contradicts the file-scoped rule in `.agents/rules/development-rules.md`. New files follow the rule; do not churn those two template files just to reformat them.
+- `TestProjectModule` (`dotnet run -- test`) runs the whole solution per `Release.R*`, so it picks up `HPRebar.Core.Tests` and `HPRebar.Mcp.Server.Tests`; the TUnit project stays excluded.
+
+**The rebar add-in has not been verified at runtime.** Every Revit version is build-only for `HPRebar/`; the 16 TUnit tests skip because `HPRebar.Tests/Fixtures/column-stack-2-storey.rvt` does not exist. Do not describe any version as "supported". The **MCP bridge is different**: it has been run end-to-end in Revit 2026 on the dev machine (2026-09-12) — see the section below.
+
+**A running Revit locks the deployed DLL.** Add `-p:DeployAddin=false` to any build meant only to check compilation.
+
+Add-in identity lives in `HPRebar/HPRebar/HPRebar.addin` — `AddInId` GUID `AB6B2397-2618-4A8F-A86F-B0EBB5E58D2B`, `FullClassName` `HPRebar.Application`. Renaming the assembly or root namespace requires updating this manifest and the `/HPRebar;component/...` icon pack URIs in `Application.cs`.
+
+## HPRebar MCP Bridge (Dynamic Revit MCP Server)
+
+Turns Revit into a runtime for an AI agent, with a **tool registry** that remembers reviewed scripts as MCP tools. Design of record: `plans/260912-1521-dynamic-revit-mcp-server-2026/` (`architecture.md`, `adr/adr-01..06`, `research/ai-bim-self-extending-tool-registry-design.md`).
+
+Tool surface (34 on the dev machine): 4 core — `execute_revit_code` (C# script via Roslyn, `Destructive`), `get_revit_context`, `inspect_type` (both `ReadOnly`), `cancel_execution`; 8 registry — `search_tools`, `get_tool`, `run_tool`, `get_run`, `propose_tool`, `test_tool`, `publish_tool`, `manage_tool`; plus every **published library tool** (21 seeds ported from `mcp-servers-for-revit` + whatever the AI proposed and a human approved). Resources `revit://document/info`, `revit://selection`, `registry://tools[/{name}]`; prompts `revit_query_template`, `revit_modify_template`, `toolify_run`. **Never add a native command class to the bridge for a tool** (ADR-05): a tool is `tool.json + code.cs + examples.json` in the library and runs through the same `revit.execute` path as ad-hoc code.
+
+```
+the host coding agent ──stdio──▶ HPRebar.Mcp.Server (net10) ──named pipe hprebar-mcp-r2026, JSON-RPC 2.0 NDJSON──▶ HPRebar.McpBridge (inside Revit)
+                                                                                              guard → Roslyn compile (pipe thread) → ExternalEvent → TransactionGroup "MCP: <label>" → Revit API
+```
+
+Load-bearing facts:
+- **Two processes, never one.** A stdio MCP server must be a child process of the host AI, so `Revit.exe` cannot host it (ADR-01). The server never references `Autodesk.Revit.*`; the bridge never references the MCP SDK; `HPRebar.Mcp.Contracts` is the only shared assembly.
+- **Everything Revit-free lives in `HPRebar.McpBridge.Core`** (pipe, dispatcher, `ScriptGuard`, `ScriptCompiler`, settings, audit) so it is tested by `HPRebar.Mcp.Server.Tests` over a real named pipe with a fake executor. Only `McpBridgeExternalEventHandler`, `ScriptRunner`, `ResultSerializer`, `RevitContextReader` and the WPF window touch Revit.
+- **Security is defense-in-depth, not a sandbox** (ADR-04): opt-in checkbox "Allow AI code execution" in the bridge window, OFF on every Revit start and never persisted; `ScriptGuard` deny-list (`System.IO/Net/Reflection/Process`, `await`, `Task`, `Thread`, `dynamic`, `unsafe`); timeout 5–120 s cooperative via `ct`; audit JSON-lines in `%AppData%\HPRebar\McpBridge\audit\`; pipe ACL `CurrentUserOnly`. A timeout always fails the run and rolls back, even if the script returned.
+- **Transaction policy** (ADR-03): `transaction` = `auto` (bridge wraps one Transaction inside a TransactionGroup) | `manual` (script opens its own) | `none` (read-only); `dryRun` always rolls the group back. Every run is one Undo entry `MCP: <label>`.
+- Bridge settings/logs: `%AppData%\HPRebar\McpBridge\settings.json` (`AutoStartListener` only), runtime log `%LocalAppData%\HPRebar\McpBridge\logs\`. `ScriptingSelfCheck` compiles and runs one script at startup and logs `MCP scripting self-check OK` — if that line is missing, Roslyn did not load in the add-in's load context.
+- **Scripts get `args`** (`ScriptArgs`: `Double/Int/Long/Str/Bool/Strings/Longs/List/Obj/Has/Require`, case-insensitive, coercing) beside `doc/uidoc/app/uiapp/ct/log/progress`. Parameters travel as data so a stored tool's text never changes and compiles once per Revit session. `revit.analyze` (pipe thread, no Revit thread, no opt-in) returns guard/compile verdicts plus literals and `args` keys — the registry validates proposals with it.
+- **Tool registry** (ADR-06): files under `%AppData%\HPRebar\McpServer\tools-library\<Category>\<name>\` are the source of truth (`Registry:LibraryPath` to relocate, e.g. into a git checkout); `registry.db` (SQLite WAL + FTS5) indexes them and keeps `runs`/`registry_events`. A `FileSystemWatcher` reloads on edits and the SDK's `ToolCollection` sends `notifications/tools/list_changed`, so approving a tool never needs a server restart. Lifecycle `draft → tested → pending_approval → published → quarantined | deprecated`; policy `manual` (default) means the AI stops at `pending_approval` + `_review/<name>.md` and a human runs `HPRebar.Mcp.Server.exe registry approve <name> --by <who>` (or `list | pending | show | reject | deprecate | quarantine | restore | stats | export | import`). Stability = success rate over the last 50 runs damped for < 10 runs; ≥ 5 runs with > 40 % failures quarantines a tool automatically (tests and bridge-unavailable errors do not count). Seeds are embedded in the server (`Registry/SeedLibrary/**`, `<Compile Remove>` + `EmbeddedResource`), installed once, and upgraded only while their `_seeds.json` checksum proves the user never edited them.
+- **Seed/tool code contract:** plain script body ending in `return`, mm at the boundary, `args.X("key", default)` for every input, `HPRebar.McpBridge.Core.Scripting.ScriptArgs` spelled in full when a helper takes it as a parameter (the bridge's default imports gain that namespace only on the next add-in deploy). `SeedLibraryTests` compiles every seed against `~/.nuget/packages/nice3point.revit.api.revitapi/2026.*/ref/net8.0-windows7.0/RevitAPI.dll` — the wrapper must mirror the bridge's imports exactly, or a script passes the test and fails in Revit.
+- **Revit prompts "publisher could not be verified" for the unsigned bridge DLL** after some rebuilds; the user must click *Always Load* on the Revit window. Redeploying (`DeployAddin`) needs Revit closed.
+
+Client wiring: `.mcp.json` (untracked, machine-specific) has `hprebar-revit` pointing at the published exe `HPRebar/output/HPRebar.Mcp.Server/HPRebar.Mcp.Server.exe` (produce it with `dotnet publish HPRebar/HPRebar.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -o HPRebar/output/HPRebar.Mcp.Server`, or `dotnet run -- pack`). Env `HPREBAR_MCP_Bridge__RevitVersion` selects the pipe (default 2026). For a smoke test without a host AI, a stdio harness lives in the session scratchpad (`mcp_call.py`); the MCP Inspector CLI works too but drops environment variables.
+
+Verified live in Revit 2026 (2026-09-12, `plans/…/reports/phase-09-live-verify.md`): the three registry scenarios — a seed hit, a miss packaged into `set_mark_from_comments` and approved through the CLI, a fragile tool quarantined after 5 failures — plus every seed at least in dryRun. Known gaps: no TUnit tests for `ScriptRunner` inside Revit; Dynamo/RevitPythonShell coexistence with Roslyn untested; `.mcp.json` server entry is per machine; R25 builds but is unverified at runtime; tools needing families the RC template lacks (doors, room tags with rooms, ceilings, roofs) are compile-checked only; policy `auto` and `test_tool realRun=true` exercised only in xUnit.
+
+## Agent Config Sync (`.claude` ↔ `.agents` ↔ `.codex`)
+
+**`AGENTS.md` is a generated mirror of `AGENTS.md`.** Edit `AGENTS.md` and re-sync; never hand-edit `AGENTS.md` — the edit will be overwritten. The rewrite table is `_TO_PORTABLE` in `scripts/skill_sync/adapters/portable_markdown.py`: `.agents/skills` → `.agents/skills`, `.agents/rules` → `.agents/rules`, `AGENTS.md` → `AGENTS.md`, `the host coding agent` → `the host coding agent`, tool names → host capability names. Paths it deliberately leaves alone — `.claude/settings.json`, `.claude/hooks/`, `.claude/scripts/` — are real the host coding agent files with no portable equivalent; rewriting them would make `AGENTS.md` wrong. Regenerate with the engine's own table rather than by hand:
+
+```bash
+python -c "import io,sys; sys.path.insert(0,'.'); from scripts.skill_sync.adapters import portable_markdown as pm; s=io.open('AGENTS.md',encoding='utf-8').read(); io.open('AGENTS.md','w',encoding='utf-8',newline='
+').write(pm._replace(pm._normalize_newlines(s), pm._TO_PORTABLE))"
+```
+
+The engine is `scripts/sync-agent-skills.py` (thin wrapper) over the `scripts/skill_sync/` package:
+
+```bash
+python scripts/sync-agent-skills.py {scan|status|check|apply|validate} [--root DIR] [--config FILE] [--json]
+```
+
+- Config defaults to `.skill-sync/config.json` (**gitignored**, `schema_version: 1`, keys `claude_dir` / `portable_dir` / `state_dir`, all repository-relative — absolute paths, `..`, and symlinks are rejected).
+- Providers are registered in `skill_sync/adapters/__init__.py`: `claude`, `portable`/`codex`, `antigravity`. Only `claude ↔ portable` conversions are supported (`supported_conversion_ids()`).
+- `check` is read-only and exits non-zero on drift; `apply` mutates. Writes are staged then swapped (`atomic_io.py`) under an advisory lock (`advisory_lock.py`, stale after `lock_stale_seconds`, default 3600).
+- A directory is a skill **only if it contains `SKILL.md`**; `_shared/` is a dependency, never a skill; `.venv` is ignored.
+
+### Running the sync tests
+
+Tests are stdlib `unittest`, black-box — they shell out to the CLI against fixtures copied into a temp dir. They need **both** the repo root and the test dir on `sys.path`: `support.py` imports are dir-relative while `test_bootstrap.py` imports `scripts.skill_sync.*` absolutely.
+
+```bash
+# From repo root — 41 tests
+PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync
+
+# Single module / single test
+PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync -p test_apply.py
+cd tests/skill-sync && python -m unittest test_validation.ValidationTests.test_apply_adapts_an_established_portable_edit_and_refreshes_manifest_bases
+```
+
+**Known environment failure: 6 tests, and it is NOT the CRLF problem this file used to describe.** A
+`.gitattributes` forcing LF under `tests/skill-sync/fixtures/` now exists and fixed 4 of the original 10
+failures. The remaining 6 have a different root cause: Windows 8.3 short paths. `tempfile.gettempdir()`
+returns the short form (`C:\Users\STR-HP~1.HOA\...`) while `Path.resolve()` returns the long form
+(`C:\Users\STR-HP03.HOANGPHUC\...`), so `relative_to` throws
+`ValueError: ... is not in the subpath of ...`. That is a real bug in `skill_sync` — it should normalise
+both sides before comparing — not an environment quirk to work around. If a fixture byte comparison ever
+fails again, run `git check-attr text -- <file>` before assuming CRLF.
+
+Each fixture in `tests/skill-sync/fixtures/<Letter>-<name>/` pins one contract — see `fixtures/README.md` for the table. Fixtures deliberately never reference the live `.claude/` or `.agents/` trees.
+
+## revit-market-research
+
+Standalone Apify actor. Node ≥24, ESM (`type: module`). Run from `revit-market-research/`:
+
+```bash
+npm run build       # tsc -p tsconfig.json
+npm test            # vitest run
+npm run test:watch
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint src tests
+npm run smoke:live  # apify run — hits the network
+```
+
+## Feature Folder Convention (MANDATORY)
+
+Every feature in `HPRebar/HPRebar/` gets its own folder, named with no spaces:
+
+```
+HPRebar/HPRebar/
+└── <FeatureName>/                          ← no spaces, e.g. AutoDimColumn, ColumnRebar
+    ├── Model/                              ← singular
+    ├── Service/                             ← singular; ALL services live here
+    ├── View/
+    ├── ViewModel/                           ← singular, no space
+    ├── <FeatureName>Command.cs              ← ExternalCommand entry
+    ├── <FeatureName>ExternalEventHandler.cs ← IExternalEventHandler, marshals to Revit's API thread
+    ├── <FeatureName>Request.cs              ← one queued unit of work + TaskCompletionSource
+    └── <FeatureName>SelectionFilter.cs      ← ISelectionFilter for the pick
+```
+
+**Rules:**
+- Feature folder name: PascalCase, **no spaces**.
+- Four required subfolders, all **singular**: `Model`, `Service`, `View`, `ViewModel`.
+- The feature-folder **root holds exactly those four `<FeatureName>*.cs` files** and nothing else. Every creator, reader, validator, orchestrator, calculator, catalog and helper goes in `Service/`. Do NOT create `Commands/` or `Services/` (plural) subfolders.
+- `View/` and `ViewModel/` may nest one level (`View/Tabs/`, `View/Controls/`, `ViewModel/Tabs/`) when a feature has tabbed UI.
+- The runner contract the view model talks to (`I<FeatureName>Runner`) lives in `ViewModel/` — the handler at the root implements it.
+- C# namespaces MUST be declared **explicitly** in every `.cs` file and match the folder path exactly, keeping the singular names: folder `AutoDimColumn/Service/` → `namespace HPRebar.AutoDimColumn.Service;`. Never accept the IDE's auto-namespace.
+- **A feature's own `View` namespace shadows `Autodesk.Revit.DB.View`.** Inside `HPRebar.<FeatureName>.*`, name the Revit type through an alias — `using RevitView = Autodesk.Revit.DB.View;` — or the compiler reports `CS0118: 'View' is a namespace but is used like a type`.
+- XAML mirrors the namespaces: `x:Class="HPRebar.<FeatureName>.View.XxxView"`, `xmlns:vm="clr-namespace:HPRebar.<FeatureName>.ViewModel"`.
+- Class names follow their file names — a file called `<FeatureName>SelectionFilter.cs` declares `<FeatureName>SelectionFilter`.
+- `Resources/` (Theme.xaml, icons, fonts) is **shared cross-feature** → stays at project root (`HPRebar/HPRebar/Resources/`). Do not duplicate it per feature.
+- Do NOT add to the flat root-level `Commands/` folder for new features — it is legacy Nice3point scaffolding. The existing `Commands/StartupCommand.cs` stays put.
+
+**Windows are modeless.** The command picks elements, builds the session and calls `view.Show()`, then returns — Revit stays usable. Consequences that are not optional:
+- A `static` field on the command holds the window: it keeps the window off the collector, and a second click calls `Activate()` instead of opening a rival session.
+- **Never set `DialogResult`** — it throws on a non-modal window. The view model raises `event Action? CloseRequested` and the view subscribes `viewModel.CloseRequested += Close`.
+- Every document mutation goes through the handler: the view model awaits `RunAsync`, which queues a `<FeatureName>Request` and calls `ExternalEvent.Raise()`; Revit calls `Execute(UIApplication)` back on its API thread, where the transaction is legal.
+- Transactions and transaction groups open **inside** the handler's `Execute`, never around a window's lifetime.
+- The handler owns its `ExternalEvent` and is disposed from the window's `Closed` event.
+- The result `TaskDialog` is shown from `Execute`, which is the thread that knows the run finished.
+
+**Reference implementations:** `ColumnRebar/`, `BeamRebar/`, `FoundationRebar/`.
+
+**Why:** feature-based grouping keeps 20+ commands navigable, isolates each feature's dependencies, makes a feature removable by excluding one folder, and matches how the domain is analyzed (one business workflow = one feature folder).
+
+## Architecture Notes (Nice3point + MVVM)
+
+Read `docs/system-architecture.md` for the full diagram, but note it describes the *target* design, not what is currently in `HPRebar/`. Load-bearing facts:
+
+1. **Entry**: Revit reads `HPRebar.addin` → instantiates `Application : ExternalApplication` → `OnStartup()` configures Serilog + `CreateRibbon()` registers buttons via `Application.CreatePanel(...).AddPushButton<T>(...)`.
 2. **Command pattern**: every button is a class deriving `ExternalCommand` (Nice3point.Revit.Toolkit) with `[Transaction(TransactionMode.Manual)]`. `Execute()` constructs ViewModel → View → `ShowDialog()`.
 3. **MVVM**: `sealed partial class XxxViewModel : ObservableObject`; `[ObservableProperty]` on private fields, `[RelayCommand]` on methods. Code-behind is `InitializeComponent()` + `DataContext = vm` only — never set DataContext in XAML, never put logic in `*.xaml.cs`.
-4. **Revit API access**: wrap every document mutation in `using var t = doc.NewTransaction("..."); t.Start(); ... t.Commit();`. Modeless windows must marshal API calls through `ExternalEvent` (cannot call Revit API from arbitrary threads).
-5. **Theme/styles**: every color, spacing, font-size goes through `{DynamicResource Brush.X}` / `{DynamicResource Spacing.X}` so dark/light swap works. Hardcoded values break the runtime theme switch — see `/bs:revit-xaml-styles`.
-6. **Logging**: Serilog, daily rolling file at `%LocalAppData%\<AddinName>\logs\addin-YYYY-MM-DD.log`. Always log via DI-injected `ILogger<T>`, not `Log.Logger` directly (except in `Application.cs` bootstrap).
+4. **Revit API access**: wrap every document mutation in `using var t = doc.NewTransaction("..."); t.Start(); ... t.Commit();`. Modeless windows must marshal API calls through `ExternalEvent` — the Revit API cannot be called from arbitrary threads.
+5. **Theme/styles**: every color, spacing and font-size goes through `{DynamicResource Brush.X}` / `{DynamicResource Spacing.X}` so the dark/light swap works. Hardcoded values break the runtime theme switch — see `/bs:revit-xaml-styles`.
+6. **Testing**: `Document` is sealed and cannot be mocked, so pure logic MUST live in a layer that never touches the Revit API to stay xUnit-testable. Framework decision tree is in `.agents/skills/revit-test/` — TUnit for in-process, xUnit for pure logic, ricaun-io `RevitTest` when the VS Test Adapter UI is required.
+
+## Stale Documentation Warning
+
+Several docs and plans still reference the pre-rename `RevitAIApp/MyRevitAIApp/` layout, which no longer exists: `docs/duplicate-sheets-design.md`, `docs/superpowers/specs/2026-08-23-*.md`, and the `plans/260530-*`, `plans/260614-*`, `plans/260823-*` folders. Map those paths to `HPRebar/HPRebar/` when reading, and do not trust file paths quoted in them without checking.
 
 ## Workflows
 
-- Primary workflow: `./.Codex/rules/primary-workflow.md`
-- Development rules: `./.Codex/rules/development-rules.md`
-- Orchestration protocols: `./.Codex/rules/orchestration-protocol.md`
-- Documentation management: `./.Codex/rules/documentation-management.md`
-- And other workflows: `./.Codex/rules/*`
+- Primary workflow: `./.agents/rules/primary-workflow.md`
+- Development rules: `./.agents/rules/development-rules.md`
+- Orchestration protocols: `./.agents/rules/orchestration-protocol.md`
+- Documentation management: `./.agents/rules/documentation-management.md`
+- And other workflows: `./.agents/rules/*`
 
-**IMPORTANT:** Analyze the skills catalog and activate the skills that are needed for the task during the process.
-**IMPORTANT:** DO NOT modify skills in `~/.Codex/skills` directory directly. **MUST** modify skills in this current working directory. Unless you are asked to do so.
-**IMPORTANT:** You must follow strictly the development rules in `./.Codex/rules/development-rules.md` file.
-**IMPORTANT:** Before you plan or proceed any implementation, always read the `./README.md` file first to get context.
-**IMPORTANT:** Sacrifice grammar for the sake of concision when writing reports.
-**IMPORTANT:** In reports, list any unresolved questions at the end, if any.
+**IMPORTANT:** Analyze the skills catalog and activate the skills needed for the task during the process.
+**IMPORTANT:** DO NOT modify skills in `.agents/skills` directly. **MUST** modify skills in this working directory, unless asked otherwise.
+**IMPORTANT:** You must follow strictly the development rules in `./.agents/rules/development-rules.md`.
+**IMPORTANT:** Sacrifice grammar for the sake of concision when writing report *files* under `plans/`; user-facing responses follow the *Response Format* section below.
+**IMPORTANT:** In reports, list at the end only the unresolved questions that genuinely need the user's decision — self-resolve technical ones (see *Response Format* below).
+
+## Response Format — Antigravity Style (MANDATORY)
+
+Mọi phản hồi kết quả làm việc phải theo phong cách Antigravity: rõ ràng, có cấu trúc, dễ đọc, phân biệt chính xác giữa kế hoạch, triển khai, kiểm tra và phần cần người dùng can thiệp.
+
+Mục tiêu là để người dùng chỉ cần đọc trong khoảng 30–60 giây là hiểu ngay:
+
+* Bạn đang làm gì.
+* Bạn đã làm được gì.
+* Bạn chưa làm được gì.
+* Phần nào chỉ mới lập kế hoạch.
+* Phần nào đã implement.
+* Phần nào đã build/test/verify.
+* Có vấn đề hay rủi ro gì.
+* Người dùng có cần can thiệp hay quyết định gì không.
+* Bước tiếp theo nên là gì.
+
+Không trả về dạng report kỹ thuật khó đọc, không dump quá nhiều file, không liệt kê hàng loạt unresolved questions nếu bạn có thể tự xử lý.
+
+---
+
+### 1. KHI CHUẨN BỊ TRIỂN KHAI
+
+Trước mỗi task lớn, feature, phase hoặc thay đổi đáng kể, hãy trả về theo format sau.
+
+Template — emit đúng heading level dưới đây:
+
+# Kế hoạch Triển khai: `[Tên task / feature]`
+
+## Mục tiêu
+
+Mô tả ngắn gọn:
+
+* Task này nhằm giải quyết vấn đề gì.
+* Kết quả cuối cùng mong muốn là gì.
+* Phạm vi của bước này.
+
+Nếu đây chỉ là bước planning/research, phải ghi rõ:
+
+> Đây là bước lập kế hoạch. Chưa thay đổi source code.
+
+---
+
+## Phạm vi Thay đổi
+
+Liệt kê các folder, module hoặc file chính dự kiến bị tác động.
+
+Ví dụ:
+
+```text
+project/
+├── src/
+│   ├── server/
+│   └── bridge/
+├── tests/
+└── config/
+```
+
+Chỉ liệt kê những phần quan trọng.
+
+Không dump toàn bộ repository.
+
+---
+
+## Thiết kế Kỹ thuật Chi tiết
+
+Chia thành từng phần rõ ràng:
+
+### 1. `[Component / Module / File]`
+
+Giải thích:
+
+* Vai trò.
+* Thay đổi dự kiến.
+* Cách hoạt động.
+* Input / Output nếu cần.
+* Dependency liên quan nếu quan trọng.
+
+### 2. `[Component tiếp theo]`
+
+Tiếp tục tương tự.
+
+Nếu có workflow nhiều bước, mô tả bằng danh sách:
+
+1. Bước 1.
+2. Bước 2.
+3. Bước 3.
+
+Ưu tiên ngôn ngữ dễ hiểu trước, thuật ngữ kỹ thuật sau.
+
+---
+
+## Luồng Hoạt động
+
+Nếu task có nhiều thành phần, mô tả flow từ đầu đến cuối.
+
+Ví dụ:
+
+```text
+the host coding agent
+    ↓
+MCP Server
+    ↓
+Named Pipe
+    ↓
+Revit Bridge
+    ↓
+Revit API
+    ↓
+Result
+```
+
+Có thể dùng Mermaid nếu nó thực sự giúp dễ hiểu hơn.
+
+---
+
+## Các Quyết định Kỹ thuật
+
+Chỉ liệt kê các quyết định quan trọng.
+
+Ví dụ:
+
+| Quyết định | Lựa chọn   | Lý do                           |
+| ---------- | ---------- | ------------------------------- |
+| IPC        | Named Pipe | Phù hợp giao tiếp local process |
+| Execution  | Roslyn     | Cho phép chạy C# động           |
+| Runtime    | .NET 10    | Phù hợp MCP SDK                 |
+
+Không đưa các chi tiết quá nhỏ hoặc không ảnh hưởng tới architecture.
+
+---
+
+## Rủi ro & Cách Xử lý
+
+Mỗi rủi ro phải trình bày theo format:
+
+### Rủi ro 1 — `[Tên rủi ro]`
+
+**Vấn đề:**
+Mô tả ngắn.
+
+**Ảnh hưởng:**
+Nếu không xử lý thì chuyện gì có thể xảy ra.
+
+**Cách xử lý:**
+Phương án bạn đề xuất.
+
+**Có chặn implementation không:** Có / Không.
+
+---
+
+## User Review Required
+
+Chỉ dùng mục này nếu thực sự cần người dùng quyết định.
+
+Nếu cần:
+
+> [!IMPORTANT]
+> Người dùng cần xác nhận:
+>
+> 1. ...
+> 2. ...
+
+Với mỗi quyết định, phải đưa ra recommendation.
+
+Ví dụ:
+
+> **Khuyến nghị:** chỉ support Revit 2026 trong MVP.
+
+Nếu bạn có thể tự chọn theo engineering best practice thì không hỏi người dùng.
+
+Nếu không cần người dùng quyết định:
+
+> [!NOTE]
+> Không có quyết định nào cần người dùng can thiệp ở bước này. Claude có thể tiếp tục theo phương án đề xuất.
+
+---
+
+## Kế hoạch Kiểm tra & Xác minh
+
+### Kiểm tra Tự động
+
+Ví dụ:
+
+1. Build project.
+2. Run unit tests.
+3. Validate syntax.
+4. Validate config.
+5. Test error paths.
+
+### Kiểm tra Tích hợp
+
+Ví dụ:
+
+1. Kiểm tra giao tiếp giữa các process.
+2. Kiểm tra MCP tool gọi bridge.
+3. Kiểm tra response/error mapping.
+
+### Kiểm tra Thủ công
+
+Chỉ liệt kê các bước thực sự bắt buộc người dùng thao tác.
+
+Nếu Claude có thể tự test thì không đẩy việc đó cho người dùng.
+
+---
+
+## Điều kiện Hoàn thành
+
+Task chỉ được coi là hoàn thành khi các tiêu chí phù hợp đã đạt.
+
+Ví dụ:
+
+* [ ] Implementation hoàn tất.
+* [ ] Build pass.
+* [ ] Test pass.
+* [ ] Không còn compile error.
+* [ ] Main workflow đã verify.
+* [ ] Các lỗi/rủi ro còn lại đã được báo rõ.
+
+Không dùng từ "Xong", "Done" hoặc "Complete" nếu mới chỉ hoàn thành planning hoặc research.
+
+---
+
+## Bước Tiếp theo
+
+Luôn kết thúc plan bằng:
+
+**Claude đề xuất:**
+
+> `[Bước tiếp theo cụ thể]`
+
+**Cần người dùng can thiệp:** Có / Không.
+
+Nếu không cần:
+
+> Claude có thể tự tiếp tục implementation.
+
+---
+
+### 2. SAU KHI TRIỂN KHAI
+
+Sau khi thực hiện xong một task, phase hoặc feature, không lặp lại toàn bộ plan.
+
+Template — emit đúng heading level dưới đây:
+
+# Kết quả Triển khai: `[Tên task / feature]`
+
+## Tổng quan
+
+Mô tả ngắn 2–4 câu:
+
+* Đã làm gì.
+* Kết quả tổng thể.
+* Hoàn thành hoàn toàn hay một phần.
+* Có phần nào chưa verify hay không.
+
+---
+
+## Trạng thái
+
+Luôn có bảng trạng thái:
+
+| Hạng mục | Trạng thái             | Ghi chú |
+| -------- | ---------------------- | ------- |
+| ...      | ✅ Hoàn thành           | ...     |
+| ...      | 🟡 Hoàn thành một phần | ...     |
+| ...      | ❌ Chưa làm             | ...     |
+| ...      | ⚠️ Có vấn đề           | ...     |
+| ...      | 👤 Cần người dùng      | ...     |
+
+Chỉ dùng các trạng thái:
+
+* ✅ Hoàn thành
+* 🟡 Hoàn thành một phần
+* ❌ Chưa làm
+* ⚠️ Có vấn đề
+* 👤 Cần người dùng
+
+---
+
+## Những gì Đã Thực hiện
+
+Chia theo từng phần:
+
+### 1. `[Phần đã thực hiện]`
+
+* Đã tạo...
+* Đã sửa...
+* Đã implement...
+* Đã test...
+* Đã verify...
+
+### 2. `[Phần tiếp theo]`
+
+...
+
+Chỉ mô tả thay đổi quan trọng.
+
+---
+
+## File Quan trọng Đã Thay đổi
+
+Liệt kê ngắn gọn file quan trọng.
+
+Ví dụ:
+
+```text
+src/
+├── Server/Program.cs
+├── Bridge/RevitBridge.cs
+└── Contracts/ExecuteRequest.cs
+```
+
+Mỗi file chỉ cần mô tả một câu về mục đích.
+
+Không dump file phụ, generated file hoặc file không đáng chú ý.
+
+---
+
+## Kiểm tra Đã Chạy
+
+Phải có bảng:
+
+| Kiểm tra          | Kết quả      |
+| ----------------- | ------------ |
+| `dotnet build`    | ✅ Pass       |
+| Unit tests        | ✅ 18/18      |
+| Integration test  | 🟡 Chưa chạy |
+| Config validation | ✅ Pass       |
+
+Không được nói "verified" nếu thực tế chưa chạy kiểm tra.
+
+Nếu chưa test phải ghi rõ:
+
+> CHƯA TEST.
+
+Nếu chỉ suy luận mà chưa xác minh:
+
+> GIẢ ĐỊNH CHƯA XÁC MINH.
+
+---
+
+## Những gì Chưa Hoàn thành
+
+Nếu còn bất kỳ phần nào chưa làm, phải ghi rõ.
+
+Ví dụ:
+
+* Chưa test trực tiếp trong Revit.
+* Chưa verify multi-instance.
+* Chưa kiểm tra Dynamo coexistence.
+* Chưa tạo installer.
+
+Không để người dùng phải tự suy luận từ report.
+
+---
+
+## Vấn đề Phát hiện
+
+Nếu có vấn đề, trình bày:
+
+### Vấn đề 1 — `[Tên]`
+
+**Hiện trạng:**
+...
+
+**Ảnh hưởng:**
+...
+
+**Đã xử lý:** Có / Không.
+
+**Cách xử lý / khuyến nghị:**
+...
+
+Nếu bạn có thể tự sửa, hãy ưu tiên tự sửa và chạy test lại trước khi báo người dùng.
+
+---
+
+## User Action Required
+
+Chỉ xuất hiện nếu thực sự cần người dùng thao tác.
+
+Nếu cần:
+
+> [!IMPORTANT]
+> Bạn cần thực hiện:
+>
+> 1. ...
+> 2. ...
+> 3. ...
+
+Nếu không cần:
+
+> [!NOTE]
+> Hiện tại không cần bạn thao tác gì.
+
+---
+
+## Bước Tiếp theo
+
+Kết thúc bằng:
+
+**Đề xuất tiếp theo:**
+
+> `[Task cụ thể tiếp theo]`
+
+**Claude có thể tự tiếp tục:** Có / Không.
+
+---
+
+### 3. QUY TẮC PHÂN BIỆT TRẠNG THÁI
+
+Bạn phải phân biệt rõ các trạng thái sau:
+
+#### Planned
+
+Đã lập kế hoạch nhưng chưa thay đổi source code.
+
+#### Implemented
+
+Đã viết hoặc sửa source code.
+
+#### Built
+
+Đã chạy build và build thành công.
+
+#### Tested
+
+Đã chạy test cụ thể.
+
+#### Verified
+
+Đã xác minh workflow hoạt động trong môi trường mục tiêu.
+
+#### Blocked
+
+Không thể tiếp tục vì thiếu dependency, môi trường, quyền truy cập hoặc cần quyết định của người dùng.
+
+Không được dùng các từ này thay thế lẫn nhau.
+
+Ví dụ:
+
+Không được nói:
+
+> Feature đã hoàn thành.
+
+nếu thực tế mới chỉ:
+
+> Planned + Implemented nhưng chưa Tested.
+
+---
+
+### 4. QUY TẮC TỰ CHỦ KỸ THUẬT
+
+Không hỏi người dùng các quyết định kỹ thuật mà bạn có thể tự xử lý hợp lý.
+
+Do not ask the user to make a technical decision unless their product, business, security, cost, compatibility, or workflow preference is genuinely required.
+
+Nếu một quyết định có thể được đưa ra dựa trên engineering best practices:
+
+1. Tự nghiên cứu.
+2. Chọn phương án hợp lý nhất.
+3. Ghi rõ assumption.
+4. Implement.
+5. Test.
+6. Báo lại kết quả.
+
+Chỉ dừng và hỏi người dùng nếu tiếp tục có nguy cơ:
+
+* Implement sai behavior sản phẩm.
+* Gây thay đổi irreversible.
+* Xóa dữ liệu.
+* Gây ảnh hưởng security.
+* Thay đổi compatibility quan trọng.
+* Phát sinh chi phí.
+* Thay đổi workflow mà người dùng phải lựa chọn.
+
+---
+
+### 5. KHÔNG ĐƯỢC LÀM
+
+Không trả kết quả theo kiểu:
+
+* "Xong. Plan-only deliverable hoàn tất."
+* Dump 10–20 unresolved questions.
+* Liệt kê hàng chục file nhưng không giải thích trạng thái.
+* Kết thúc bằng một command mà không giải thích command đó làm gì.
+* Bắt người dùng chọn các vấn đề kỹ thuật mà bạn có thể tự test.
+* Nói "done" khi chưa build/test.
+* Nói "verified" khi chưa chạy môi trường thực tế.
+* Chỉ liệt kê ADR, phase, research report mà không giải thích bằng ngôn ngữ dễ hiểu.
+
+---
+
+### 6. NGUYÊN TẮC BẮT BUỘC CHO MỌI TASK LỚN
+
+Every substantial task must have two human-readable checkpoints:
+
+1. `Kế hoạch Triển khai` trước implementation.
+2. `Kết quả Triển khai` sau implementation.
+
+Do not mix planning and completion reporting.
+
+Workflow chuẩn phải là:
+
+```text
+Nhận yêu cầu
+    ↓
+Kế hoạch Triển khai
+    ↓
+User Review nếu thực sự cần
+    ↓
+Implementation
+    ↓
+Build / Test / Verify
+    ↓
+Kết quả Triển khai
+    ↓
+Bước tiếp theo
+```
+
+---
+
+### 7. ƯU TIÊN TRẢ LỜI
+
+Khi phản hồi, ưu tiên theo thứ tự:
+
+1. Trạng thái hiện tại.
+2. Kết quả chính.
+3. Việc đã làm.
+4. Việc chưa làm.
+5. Lỗi / rủi ro.
+6. Việc cần người dùng can thiệp.
+7. Bước tiếp theo.
+
+Mục tiêu cuối cùng:
+
+> Người dùng phải có thể nhìn vào response và hiểu ngay dự án đang ở đâu, phần nào thực sự đã hoàn thành, phần nào chưa, và có cần làm gì hay không.
 
 ## Git
 
-**DO NOT** use `chore` and `docs` in commit messages of file changes in `.Codex` directory.
+**DO NOT** use `chore` or `docs` types in commit messages for file changes under the `.claude` directory.
 
 ## Hook Response Protocol
 
+`.claude/settings.json` registers hooks that can block tool calls: `simplify-gate` (UserPromptSubmit), `descriptive-name` (PreToolUse on Write), and `scout-block` + `privacy-block` (PreToolUse on Bash/Glob/Grep/Read/Edit/Write). All run through `bash .claude/hooks/node-hook-runner.sh`.
+
 ### Privacy Block Hook (`@@PRIVACY_PROMPT@@`)
 
-When a tool call is blocked by the privacy-block hook, the output contains a JSON marker between `@@PRIVACY_PROMPT_START@@` and `@@PRIVACY_PROMPT_END@@`. **You MUST use the `AskUserQuestion` tool** to get proper user approval.
+When a tool call is blocked by the privacy-block hook, the output contains a JSON marker between `@@PRIVACY_PROMPT_START@@` and `@@PRIVACY_PROMPT_END@@`. **You MUST use the `host user-input capability` tool** to get proper user approval.
 
-**Required Flow:**
+1. Parse the JSON from the hook output.
+2. Call `host user-input capability` with the question data from that JSON.
+3. On **"Yes, approve access"** → read the file with `bash cat "filepath"` (bash is auto-approved). On **"No, skip this file"** → continue without it.
 
-1. Parse the JSON from the hook output
-2. Use `AskUserQuestion` with the question data from the JSON
-3. Based on user's selection:
-   - **"Yes, approve access"** → Use `bash cat "filepath"` to read the file (bash is auto-approved)
-   - **"No, skip this file"** → Continue without accessing the file
-
-**Example AskUserQuestion call:**
-```json
-{
-  "questions": [{
-    "question": "I need to read \".env\" which may contain sensitive data. Do you approve?",
-    "header": "File Access",
-    "options": [
-      { "label": "Yes, approve access", "description": "Allow reading .env this time" },
-      { "label": "No, skip this file", "description": "Continue without accessing this file" }
-    ],
-    "multiSelect": false
-  }]
-}
-```
-
-**IMPORTANT:** Always ask the user via `AskUserQuestion` first. Never try to work around the privacy block without explicit user approval.
+**IMPORTANT:** Always ask via `host user-input capability` first. Never work around the privacy block without explicit user approval.
 
 ## Python Scripts (Skills)
 
-When running Python scripts from `.Codex/skills/`, use the venv Python interpreter:
-- **Linux/macOS:** `.Codex/skills/.venv/bin/python3 scripts/xxx.py`
-- **Windows:** `.Codex\skills\.venv\Scripts\python.exe scripts\xxx.py`
+`.claude/scripts/requirements.txt` pins `pyyaml>=6.0`. There is currently **no `.agents/skills/.venv`** in this checkout — the system `python` is what runs. If a skill script needs `google-genai`, `pypdf`, etc., create the venv first rather than assuming it exists.
 
-This ensures packages installed by `install.sh` (google-genai, pypdf, etc.) are available.
+**IMPORTANT:** When a skill script fails, don't stop — fix it directly.
 
-**IMPORTANT:** When scripts of skills failed, don't stop, try to fix them directly.
+## NotebookLM (`notebooklm-py`)
+
+Unofficial client for Google Gemini Notebook, wired in on three surfaces. Upstream is `teng-lin/notebooklm-py` (MIT) — it talks to undocumented Google APIs, so treat breakage as expected, not exceptional.
+
+| Surface | Where | Notes |
+|---|---|---|
+| CLI `notebooklm` | `uv tool install "notebooklm-py[browser,markdown]"` → `~/.local/bin` | Pinned at 0.8.2. Deliberately **without** the `mcp` extra |
+| Agent skill | `.agents/skills/notebooklm/` + mirror `.agents/skills/notebooklm/` | `SKILL.md` + `LICENSE` only |
+| MCP server | `.mcp.json` → `uvx --from "notebooklm-py[mcp]" notebooklm-mcp` | 38 tools, stdio |
+| Python lib | `scripts/.venv` + `scripts/notebooklm_client.py` | Pinned in `scripts/requirements-notebooklm.txt` |
+
+**Rules — all three exist because the obvious command does the wrong thing here:**
+
+- **Never run `notebooklm skill install`.** It writes `.agents/skills/notebooklm/`, which this file forbids. Reinstall via `npx -y skills add teng-lin/notebooklm-py --skill notebooklm --agent claude-code`, then **prune** — that installer clones the whole 111 MB upstream repo into the skill dir, including a nested `AGENTS.md`. Keep `SKILL.md` + `LICENSE`, delete the rest.
+- **Never run `notebooklm mcp install claude-code`.** It writes user-global `~/.claude.json`; the project config is `.mcp.json`.
+- The local `notebooklm-mcp` binary is a broken shim without the `mcp` extra (`ModuleNotFoundError: fastmcp`). `.mcp.json` goes through `uvx`, which resolves its own env — do not "fix" this by adding the extra to the tool install.
+- Credentials live at `~/.notebooklm/profiles/<profile>/`, outside the worktree, and must stay there. `storage_state.json` is a live Google session; it and `master_token.json` are matched by `.claude/hooks/lib/privacy-checker.cjs` and `.gitignore`.
+- Auth is interactive (`notebooklm login`) and does not self-heal. Check with `notebooklm auth check --test --json` before anything that spends quota.
+- Free tier is the binding constraint: **3 audio/day**, 10 quiz·flashcards·mind-map·report/day, 50 chats/day, rolling reset windows. Any pipeline must be idempotent and cache what it already produced.
 
 ## [IMPORTANT] Consider Modularization
+
 - If a code file exceeds 200 lines of code, consider modularizing it
-- Check existing modules before creating new
+- Check existing modules before creating new ones
 - Analyze logical separation boundaries (functions, classes, concerns)
-- Use kebab-case naming with long descriptive names, it's fine if the file name is long because this ensures file names are self-documenting for LLM tools (Grep, Glob, Search)
+- Use kebab-case naming with long descriptive names — long is fine, it makes file names self-documenting for LLM tools (Grep, Glob, Search)
 - Write descriptive code comments
-- After modularization, continue with main task
-- When not to modularize: Markdown files, plain text files, bash scripts, configuration files, environment variables files, etc.
+- After modularization, continue with the main task
+- When not to modularize: Markdown, plain text, bash scripts, config files, dotenv files
 
 ## Documentation Management
 
-We keep all important docs in `./docs` folder and keep updating them, structure like below:
+Keep all important docs in `./docs` and keep them updated:
 
 ```
 ./docs
@@ -187,4 +857,4 @@ We keep all important docs in `./docs` folder and keep updating them, structure 
 └── project-roadmap.md
 ```
 
-**IMPORTANT:** *MUST READ* and *MUST COMPLY* all *INSTRUCTIONS* in project `./AGENTS.md`, especially *WORKFLOWS* section is *CRITICALLY IMPORTANT*, this rule is *MANDATORY. NON-NEGOTIABLE. NO EXCEPTIONS. MUST REMEMBER AT ALL TIMES!!!*
+**IMPORTANT:** *MUST READ* and *MUST COMPLY* with all *INSTRUCTIONS* in this `./AGENTS.md`, especially the *WORKFLOWS* section. This rule is *MANDATORY. NON-NEGOTIABLE. NO EXCEPTIONS.*

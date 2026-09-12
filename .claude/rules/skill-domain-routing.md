@@ -35,6 +35,7 @@ User wants to...
 ├── Inline diagram trong markdown            → /bs:mermaidjs-v11
 ├── Publish-grade SVG diagram                → /bs:tech-graph
 ├── Editable canvas (Excalidraw)             → /bs:excalidraw
+├── Nạp tài liệu → NotebookLM, sinh học liệu → /notebooklm
 ├── Hand-off / session summary               → /bs:watzup
 └── Sprint retro từ git history              → /bs:retro
 ```

@@ -1,0 +1,113 @@
+<UserControl x:Class="HPRebar.BeamRebar.View.Tabs.ViewsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="{DynamicResource Spacing.Small}">
+            <TextBlock Text="{Binding Localization.Strings.ViewGeneration}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+            <!-- Detail Elevation View -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.CreateElevationView}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <CheckBox IsChecked="{Binding Session.CreateElevationView}"
+                              Content="{Binding Localization.Strings.CreateElevationView}"
+                              Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding Session.CreateElevationView}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.ElevationViewName}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="View Scale (1:N)" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding ScaleOptions}"
+                                      SelectedItem="{Binding Session.ElevationScale}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Cross-Section Views -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.CreateSectionViews}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <CheckBox IsChecked="{Binding Session.CreateSectionViews}"
+                              Content="{Binding Localization.Strings.CreateSectionViews}"
+                              Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding Session.CreateSectionViews}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Sections Per Span" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding SectionsPerSpanOptions}"
+                                      SelectedItem="{Binding Session.SectionsPerSpan}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.SectionViewPrefix}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Annotations & Schedule Settings -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Annotations &amp; Partition"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0"
+                                  IsChecked="{Binding Session.CreateDimensions}"
+                                  Content="{Binding Localization.Strings.CreateDimensions}"
+                                  VerticalAlignment="Center"/>
+
+                        <CheckBox Grid.Column="1"
+                                  IsChecked="{Binding Session.CreateTags}"
+                                  Content="{Binding Localization.Strings.CreateTags}"
+                                  VerticalAlignment="Center"/>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.Partition}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.PartitionName, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,146 @@
+<UserControl x:Class="HPRebar.BeamRebar.View.Tabs.MainBarsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="{DynamicResource Spacing.Small}">
+            <TextBlock Text="{Binding Localization.Strings.TabMainBars}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+            <!-- Top Main Reinforcement -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.MainTopBars}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.ContinuousBarCount}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.TopBarCount, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.BarType}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding Session.BarTypes}"
+                                      SelectedItem="{Binding Session.TopBarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Start Anchorage" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding TopAnchorageOptions}"
+                                      SelectedItem="{Binding Session.TopStartAnchorage}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="End Anchorage" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding TopAnchorageOptions}"
+                                      SelectedItem="{Binding Session.TopEndAnchorage}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Bottom Main Reinforcement -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.MainBottomBars}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.ContinuousBarCount}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.BottomBarCount, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.BarType}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding Session.BarTypes}"
+                                      SelectedItem="{Binding Session.BottomBarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Start Anchorage" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding BottomAnchorageOptions}"
+                                      SelectedItem="{Binding Session.BottomStartAnchorage}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="End Anchorage" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding BottomAnchorageOptions}"
+                                      SelectedItem="{Binding Session.BottomEndAnchorage}"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Commercial Splicing & Cover Rules -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.TabSettings}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding Localization.Strings.Cover}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.Cover, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Max Stock Length (mm)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.MaxStockLength, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Lap Multiplier (x d)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Session.LapFactor, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}" VerticalAlignment="Center">
+                            <CheckBox IsChecked="{Binding Session.EnableStagger}"
+                                      Content="{Binding Localization.Strings.StaggeredSplice}"
+                                      Margin="{DynamicResource Spacing.MediumTop}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

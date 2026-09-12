@@ -1,0 +1,1 @@
+- [Bash heredoc fails for large markdown](project_bash_heredoc_large_markdown_fails.md) — use Write tool for plan/phase files > ~80 lines in this repo

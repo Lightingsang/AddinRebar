@@ -1,0 +1,96 @@
+<UserControl x:Class="HPRebar.FoundationRebar.View.FoundationGeometryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="350" d:DesignWidth="600"
+             FontFamily="{DynamicResource Font.Family.Default}"
+             FontSize="{DynamicResource Font.Size.Body}"
+             Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{DynamicResource Spacing.Medium}">
+            <!-- Header Card -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="Foundation Slab Overview"
+                               FontWeight="SemiBold"
+                               FontSize="{DynamicResource Font.Size.BodyStrong}"
+                               Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+                    <TextBlock Text="Geometric dimensions extracted directly from Revit Floor element."
+                               FontSize="{DynamicResource Font.Size.Caption}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                               Margin="{DynamicResource Spacing.SmallTop}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Dimensions Grid Card -->
+            <Border Style="{DynamicResource Card}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Length -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Length (Dir X):"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Style="{DynamicResource NumberTextBox}"
+                             IsReadOnly="True"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Length, StringFormat={}{0:F1} mm, Mode=OneWay}"/>
+
+                    <!-- Width -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Width (Dir Y):"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Style="{DynamicResource NumberTextBox}"
+                             IsReadOnly="True"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Width, StringFormat={}{0:F1} mm, Mode=OneWay}"/>
+
+                    <!-- Thickness -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Thickness (H):"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Style="{DynamicResource NumberTextBox}"
+                             IsReadOnly="True"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Thickness, StringFormat={}{0:F1} mm, Mode=OneWay}"/>
+
+                    <!-- Top Elevation -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Top Elevation (Z_top):"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                             Style="{DynamicResource NumberTextBox}"
+                             IsReadOnly="True"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding TopElevation, StringFormat={}{0:F1} mm, Mode=OneWay}"/>
+
+                    <!-- Bottom Elevation -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Bottom Elevation (Z_bot):"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                             Style="{DynamicResource NumberTextBox}"
+                             IsReadOnly="True"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding BottomElevation, StringFormat={}{0:F1} mm, Mode=OneWay}"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

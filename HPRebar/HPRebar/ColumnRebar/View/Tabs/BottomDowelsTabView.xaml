@@ -1,0 +1,66 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.BottomDowelsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:HPRebar.ColumnRebar.View.Controls">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Localization.Strings.BottomDowelsProperty}"
+                   Style="{DynamicResource Heading}"/>
+
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Localization.Strings.ColumnsNo}"
+                           Width="140" VerticalAlignment="Center"/>
+                <ComboBox Width="140"
+                          ItemsSource="{Binding Session.Columns}"
+                          DisplayMemberPath="DisplayName"
+                          SelectedIndex="{Binding Session.SelectedColumnIndex}"/>
+                <Button Style="{DynamicResource SecondaryButton}"
+                        Content="{Binding Localization.Strings.ApplyAllBar}"
+                        Command="{Binding ApplyToAllBarsCommand}"
+                        Margin="{DynamicResource Spacing.MediumHorizontal}"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="{DynamicResource Spacing.MediumTop}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- The neighbouring section is drawn dashed behind, so the offset between them is visible. -->
+        <Border Grid.Column="0" Style="{DynamicResource Card}">
+            <controls:ColumnSectionCanvas Column="{Binding Session.SelectedColumn}"
+                                          GhostColumn="{Binding Session.ColumnBelow}"/>
+        </Border>
+
+        <DataGrid Grid.Column="1"
+                  Margin="{DynamicResource Spacing.MediumHorizontal}"
+                  ItemsSource="{Binding Session.SelectedColumn.Splices}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  Background="{DynamicResource Brush.Surface}"
+                  RowBackground="{DynamicResource Brush.Surface}"
+                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
+                  Foreground="{DynamicResource Brush.Foreground.Primary}"
+                  BorderBrush="{DynamicResource Brush.Border}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Binding="{Binding BarNumber}" IsReadOnly="True" Width="70"/>
+                <DataGridCheckBoxColumn Header="Bottom" Binding="{Binding IsBottomDowels, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="Style" Binding="{Binding BottomDowelsType, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="La" Binding="{Binding LaBottom, StringFormat={}{0:0.#}, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                <DataGridTextColumn Header="Lb" Binding="{Binding LbBottom, StringFormat={}{0:0.#}, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                <DataGridTextColumn Header="Lc" Binding="{Binding LcBottom, StringFormat={}{0:0.#}, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

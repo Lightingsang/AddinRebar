@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: "Preview canvas (elevation + section + dowels + distribution diagrams)"
-status: pending
+status: partial
 priority: P2
 effort: "3d"
 dependencies: [6]
@@ -60,14 +60,54 @@ Session → canvas: VM expose `Session`; XAML `<controls:ColumnElevationCanvas S
 10. Gate: build `Debug.R26` + `Debug.R23` (net48 WPF `DrawingContext` API giống), full F5 pass.
 
 ## Success Criteria
-- [ ] 4 control render đúng trong Dark + Light (Phase 6 đã bật Light)
-- [ ] Không `Canvas.Children` thao tác từ VM; grep `FindChild` = 0
-- [ ] Mỗi `Drawing/*.cs` < 300 dòng (DrawImage 2219 phải chia ≥ 4 file hoặc bỏ hàm không dùng)
-- [ ] Đổi input bất kỳ → canvas cập nhật < 100 ms với stack 5 cột (đo bằng Stopwatch log)
-- [ ] `CanvasScaleCalculator` test pass; scale khớp gốc (`Width=600`, `Height≥850`)
+- [ ] **BLOCKED (F5)** 4 control render đúng trong Dark + Light (Phase 6 đã bật Light)
+- [x] Không `Canvas.Children` thao tác từ VM; grep `FindChild` = 0 (cả hai CLEAN)
+- [x] Mỗi file Controls < 300 dòng (lớn nhất `ElevationPainter.cs` 196) (DrawImage 2219 phải chia ≥ 4 file hoặc bỏ hàm không dùng)
+- [ ] **BLOCKED (F5)** Đổi input bất kỳ → canvas cập nhật < 100 ms — có debounce 50 ms (`DispatcherTimer`), chưa đo thật
+- [x] `CanvasScaleCalculator` test pass (11 test trong 99); scale khớp gốc (`Width=600`, `Height≥850`)
 
 ## Risk Assessment
 - **Khối lượng**: 5.4k dòng → cắt bằng cách chỉ port hàm có call-site; ước tính còn ~2.5k. Nếu 7a trượt > 1.5d → tạm chấp nhận elevation không có dim text, ghi nợ.
 - **Hit-test / click thanh** (plan cũ có) — gốc R01 **không** có click trên canvas → không làm (YAGNI).
 - **Font/text đo bằng `FormattedText`** khác net48 vs net8 (ctor có `pixelsPerDip` từ .NET Core) → `// Multi-version: FormattedText ctor` trong `DrawPrimitives.Text(...)`, 1 chỗ duy nhất.
 - **Performance `OnRender` mỗi keystroke** → debounce 50 ms trong control (`DispatcherTimer`) nếu cần.
+
+## Cook notes (2026-09-04)
+
+### Build gate
+`Debug.R23` / `R24` / `R25` / `R26` / `R27` = **0 error, 0 warning CS**. Core test 99/99.
+
+### File tao (8, plan de xuat 10 + NavIcons)
+| File | Dong | Vai tro |
+|---|---|---|
+| `CanvasPalette.cs` | 129 | resolve 6 brush canvas tu Theme -> `Pen`/`Brush` frozen, thieu key thi fallback + log |
+| `DrawPrimitives.cs` | 117 | Line/Box/Circle/Polyline/DimensionH/V/Caption |
+| `ElevationBars.cs` | 54 | goi Core calculator dung y het `RebarCreationService` |
+| `ElevationPainter.cs` | 196 | mat dung 2 huong, dam, dai, thep chu, dim |
+| `ColumnElevationCanvas.cs` | 129 | `FrameworkElement` + DP + debounce |
+| `SectionPainter.cs` | 149 | mat cat + dai + thep danh so |
+| `ColumnSectionCanvas.cs` | 144 | DP `Column` + `GhostColumn` (chong 2 tiet dien) |
+| `DistributionDiagram.cs` | 97 | so do phan bo dai TypeDis 0-3 |
+
+### KHONG port 5.4k dong draw code — ve lai tu Core
+Quyet dinh **D4** noi ro: doi `Canvas.Children` sang `DrawingContext.OnRender`. Do la 2 mo hinh render khac han, nen "port" theo nghia dich tung dong khong ap dung. Thay vao do:
+
+`ElevationBars.For()` goi **dung** `BarLayoutCalculator` + `SpliceCalculator` + `BarPolylineBuilder` ma `RebarCreationService` dung. `ElevationPainter.PaintStirrups` goi **dung** `StirrupDistributionCalculator`. => **Cai user thay tren canvas la cai se duoc dung that**, khong phai 2 duong code song song co the lech nhau (do la diem yeu that su cua ban goc: `DrawStirrupItemRectangle0` tinh lai `n`/`del` bang tay, tach roi khoi `CreateStirrupTypeItem1`).
+
+Da doi chieu: `DrawStirrupItemRectangle0` dung `n = (int)(L/S)`, `del = 0.5*(L - n*S)`, ve `n+1` duong. `CreateStirrupTypeItem1` dung `n' = (int)(L/S)+1`, offset `(L-(n'-1)S)/2`. **Tuong duong** (`n' = n+1`, `offset = del`) — nen dung `StirrupRun` cho ca hai la dung.
+
+He toa do giu nguyen ban goc: `x = left + modelX/scale`, `y = top - modelZ/scale`, 2 mat dung canh nhau.
+
+### Bo duoc 1 `#if` ma plan du kien
+Plan Risk ghi "`FormattedText` ctor khac net48 vs net8 -> can `// Multi-version:`". **Khong can.** Overload co `pixelsPerDip` ton tai tu **.NET Framework 4.6.2**, va ctor cu bi `[Obsolete]` o **ca net48 lan net8** (build R23/R24 canh bao CS0618 y het R26). Dung 1 overload cho moi version, DPI lay tu `VisualTreeHelper.GetDpi(this)` moi lan render. Tong `#if REVIT` trong project van la **2** (`CreateFreeForm` Phase 4, `UIThemeManager` Phase 6).
+
+Ban dau da viet `#if NETFRAMEWORK` roi phat hien no van warning tren R23 -> bo han.
+
+### Chua lam
+1. **`NavIcons.xaml`** (8 PathGeometry) — nav van chi co text. Can design, khong chan chuc nang.
+2. **`AddBarPainter`** — thep gia cuong (AddBar) chua ton tai o Core/Phase 4, nen chua co gi de ve.
+3. **Dim text chi tiet tren mat dung** (khoang cach dai tung vung, cao do level) — moi co dim tong chieu cao + be rong. Plan Risk da cho phep "chap nhan elevation khong co dim text, ghi no".
+4. **Hit-test click thanh** — ban goc khong co, plan ghi YAGNI. Khong lam.
+
+### Con BLOCKED
+Moi thu ve hinh anh: 4 control render dung khong, Dark/Light, toc do redraw. Deu can F5 Revit 2026.

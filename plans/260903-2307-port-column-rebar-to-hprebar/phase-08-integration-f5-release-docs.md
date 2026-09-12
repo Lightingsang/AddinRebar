@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: "Integration, F5 smoke, Release all configs, docs"
-status: pending
+status: partial
 priority: P1
 effort: "1.5d"
 dependencies: [4, 5, 7]
@@ -59,14 +59,60 @@ Execute
 8. Đóng plan: `status: completed`, cập nhật Unresolved.
 
 ## Success Criteria
-- [ ] 8 case F5 pass trên Revit 2026, case 1–3 pass trên Revit 2025, kết quả ghi file
-- [ ] `dotnet run` (Compile) pass 5 config; `dotnet run -- test` pass
-- [ ] Code review không còn finding severity ≥ high
-- [ ] `CLAUDE.md`, `docs/system-architecture.md`, `docs/codebase-summary.md`, changelog cập nhật
-- [ ] Report nói rõ R23/R24/R27 **build-only, chưa verify runtime**
-- [ ] `git status` sạch sau commit `feat(column-rebar): port R01_ColumnsRebar to HPRebar` (conventional, không AI reference)
+- [ ] **BLOCKED** 10 case F5 — file kết quả đã tạo (`reports/f5-smoke-results.md`) với trạng thái CHƯA CHẠY + cách chạy + 5 điểm cần soi kỹ nhất
+- [~] Release 5 config pass **0 error, 0 warning CS** (build trực tiếp). `cd build && dotnet run` chưa chạy — pipeline deploy nên vấp file lock khi Revit mở
+- [x] Code review (tự làm, không spawn agent) — 0 finding ≥ high; sửa 1 finding low
+- [x] `CLAUDE.md`, `docs/system-architecture.md` (+mục thực tế), `docs/codebase-summary.md` (mới), `docs/project-changelog.md` (mới)
+- [x] Report nói rõ R23/R24/R27 build-only — và **cả R25/R26 cũng chưa verify runtime**, mạnh hơn plan yêu cầu
+- [ ] **CHƯA COMMIT** (chờ user quyết) `git status` sạch sau commit `feat(column-rebar): port R01_ColumnsRebar to HPRebar` (conventional, không AI reference)
 
 ## Risk Assessment
 - **Không có Revit 2023/2024/2027 trên máy** → net48 và net10 runtime chưa bao giờ chạy thật; build pass là bằng chứng duy nhất. Rủi ro thật ở R23 (net48 WPF `FormattedText` ctor, `MinBy` polyfill) và R27 (.NET 10 + package chưa có). Ghi rõ, không tuyên bố "đã hỗ trợ R23–R27".
 - **`dotnet run -- pack` cần WixSharp/Autodesk.PackageBuilder** → optional, không block.
 - **Regression Phase 7 khi nối** → chạy lại xUnit + F5 case 2 sau mỗi fix.
+
+## Cook notes (2026-09-04)
+
+### Buoc 1 — day noi: DA XONG TU TRUOC
+Phase 5 va 6 da noi het. `ColumnRebarCommand` khong con spec hardcode, khong con `TransactionGroup`. Grep `TODO|FIXME|HACK|Phase [0-9]` trong feature + Core: **0 hit**.
+
+### Buoc 3 — Release build
+| Config | Debug | Release |
+|---|---|---|
+| R23, R24 (net48) | 0 error | 0 error |
+| R25, R26 (net8) | 0 error | 0 error |
+| R27 (net10) | 0 error | 0 error |
+
+**0 warning `CS` o moi config.** 196 warning con lai deu la `EXEC` cua ILRepack, co tu baseline Phase 0 truoc khi feature bat dau.
+
+`cd build && dotnet run` **chua chay**: `DeployAddin` hardcode `true` trong `HPRebar.csproj` (SDK default la `false`), nen pipeline se copy vao `%AppData%\Autodesk\Revit\Addins\2026\` va vap file lock vi Revit dang mo. Build truc tiep 5 config Release voi `-p:DeployAddin=false` phu cung be mat compile.
+
+### Buoc 4 — code review
+Lam truc tiep, khong spawn `code-reviewer` agent (harness cam goi Agent tool khi user khong yeu cau ro).
+
+| Check | Ket qua |
+|---|---|
+| `Transaction` ngoai `using` | 0 |
+| Start/Commit can bang | 7/7 |
+| `.First()`/`.Single()` co the throw | 2 hit, **ca hai sau `GroupBy`** -> group luon co >= 1 phan tu, an toan |
+| `!` null-forgiving | 6 hit, **ca sau deu trong nhanh da guard** (`BothRectangular`, `style == Rectangle`, nhanh circular) |
+| `catch {}` nuot loi | 0 |
+| File > 300 dong | 0 |
+| `Console.Write`/`Debug.WriteLine` sot | 0 |
+
+**1 finding (low) da sua:** `DistributionDiagram` co ternary chet `TiesUpToBeams ? bottom : bottom` va hang so `0.12` lap 2 cho. Rut thanh `BeamBandFraction`, bo bien `baseline`.
+
+### Buoc 6 — docs
+- **`docs/codebase-summary.md`** — tao moi. Bang 6 project, ranh gioi Core/Revit, luong day du, bang file theo nhom, lenh build, bang trang thai verify.
+- **`docs/project-changelog.md`** — tao moi. Entry dau tien = feature nay: them / sua (7 bug) / bo / hoan / gioi han.
+- **`docs/system-architecture.md`** — them canh bao dau file (phan 1-N la template Nice3point, KHONG phai HPRebar) + muc moi "Column Rebar — kien truc thuc te" voi so do tach Core/Revit, pipeline transaction, UI, theme/i18n, 2 block `#if`, diem gion da biet.
+- **`CLAUDE.md`** — viet lai muc "Current State" (khong con bare scaffold), them lenh test + `-p:DeployAddin=false`.
+
+**2 fact sai trong `CLAUDE.md` da sua:**
+1. Deploy path la `%AppData%\Autodesk\Revit\Addins\<ver>\`, **khong** phai `%ProgramData%`. SDK default `AddinDeployDir = $(AppData)\...`.
+2. Muc "Known environment failure" chan doan sai. `.gitattributes` (Phase 3) sua 4/10 test. 6 test con lai **khong phai CRLF** ma la **Windows 8.3 short path** — `tempfile.gettempdir()` tra `STR-HP~1.HOA`, `Path.resolve()` tra `STR-HP03.HOANGPHUC`, `relative_to` throw. Do la bug that cua `skill_sync`, khong phai quirk moi truong.
+
+### Con BLOCKED
+Toan bo verify runtime. `reports/f5-smoke-results.md` da liet ke 10 case + cach chay + **5 diem cau soi ky nhat xep theo rui ro** (hack SURFACE->LINEAR dung dau).
+
+**Chua commit** — cho user quyet.

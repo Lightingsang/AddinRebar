@@ -130,4 +130,42 @@ public sealed class BarLayoutCalculatorTests
         Assert.Throws<ArgumentOutOfRangeException>(
             () => BarLayoutCalculator.Compute(TestSections.Circular(), TestSections.Ring(6)));
     }
+
+    [Fact]
+    public void AHighAspectRatioWallColumnPlacesBarsCorrectly()
+    {
+        // 200 x 1200 mm column, 2 bars along width, 6 bars along depth = 12 bars total
+        var section = TestSections.Rectangle(b: 200, h: 1200);
+        var spec = TestSections.Grid(2, 6);
+
+        var bars = BarLayoutCalculator.Compute(section, spec);
+
+        Assert.Equal(12, bars.Count);
+        Assert.Equal(BarSide.South, bars[0].Side);
+        Assert.Equal(BarSide.South, bars[1].Side);
+        Assert.Equal(BarSide.East, bars[2].Side);
+        Assert.Equal(BarSide.East, bars[5].Side);
+        Assert.Equal(BarSide.North, bars[6].Side);
+        Assert.Equal(BarSide.North, bars[7].Side);
+        Assert.Equal(BarSide.West, bars[8].Side);
+        Assert.Equal(BarSide.West, bars[11].Side);
+    }
+
+    [Theory]
+    [InlineData(16)]
+    [InlineData(20)]
+    public void DenseCircularRingsWith16And20BarsAreSupported(int barCount)
+    {
+        var section = TestSections.Circular(600);
+        var spec = TestSections.Ring(barCount);
+
+        var bars = BarLayoutCalculator.Compute(section, spec);
+
+        Assert.Equal(barCount, bars.Count);
+        for (var i = 0; i < bars.Count; i++)
+        {
+            Assert.Equal(i + 1, bars[i].BarNumber);
+            Assert.True(bars[i].Side is BarSide.South or BarSide.East or BarSide.North or BarSide.West);
+        }
+    }
 }

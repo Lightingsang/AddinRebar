@@ -8,13 +8,17 @@ Generated: 2026-09-03 (cook Phase 1, step 6)
 
 **Result: 106 Revit API types referenced. 0 of them missing in any of the three versions. Zero member-name-level differences among used members.**
 
+> **This result is weaker than it looks.** Phase 4 found a genuine breaking change the sweep could not
+> detect — see the `Rebar.CreateFreeForm` correction below. Treat the table as "nothing was renamed or
+> deleted", not as "everything still compiles".
+
 ## Targeted checks (the risks the plan called out)
 
 | Symbol | R23 | R26 | R27 | Verdict |
 |---|---|---|---|---|
 | `Structure.RebarHookOrientation` (type) | present | present | **REMOVED** | Plan claim confirmed. Source **does not use it** (grep: 0 hit) — no action needed |
 | `Rebar.CreateFromCurves` | 4 overloads | 6 | **2** | Overload set churned. Decision D3 (do not use) confirmed correct |
-| `Rebar.CreateFreeForm` | 3 overloads | 5 | 3 | Present in all three |
+| `Rebar.CreateFreeForm` | 3 overloads | 5 | 3 | Present by name in all three — **but the overload set is not compatible, see below** |
 | `Rebar.CreateFromRebarShape` | 1 | 1 | 1 | Present in all three |
 | `RebarShapeDrivenAccessor.ScaleToBox(XYZ,XYZ,XYZ)` | present | present | present | Identical signature |
 | `RebarShapeDrivenAccessor.SetLayoutAsNumberWithSpacing(int,double,bool,bool,bool)` | present | present | present | Identical signature |
@@ -23,6 +27,27 @@ Generated: 2026-09-03 (cook Phase 1, step 6)
 > Correction to the plan's Validation Log: `ScaleToBox` and `SetLayoutAsNumberWithSpacing` are **not** members of `Rebar`.
 > They live on `RebarShapeDrivenAccessor` / `RebarFreeFormAccessor`, reached via `rebar.GetShapeDrivenAccessor()` /
 > `rebar.GetFreeFormAccessor()`. The methods exist and are stable — only the owning type was misattributed.
+
+## Correction — `Rebar.CreateFreeForm` (added during Phase 4)
+
+The overload-count column above was not enough. Comparing the full signatures shows the overload set is
+**not** compatible across the range, which the name-level sweep could not see:
+
+| Overload | R23 | R24 | R25 | R26 | R27 |
+|---|---|---|---|---|---|
+| `(Document, RebarBarType, Element, IList<CurveLoop>, out RebarFreeFormValidationResult)` | yes | yes | yes | deprecated | **removed** |
+| `(Document, RebarBarType, Element, IList<CurveLoop>, RebarStyle)` | no | no | no | **added** | yes |
+
+The two also differ in return type: the older one returns `Rebar`, the newer returns
+`RebarFreeFormCreationResult`, whose `Rebar` and `Error` properties carry what the `out` parameter used to.
+`RebarFreeFormValidationResult` itself still exists in R27 as the type of `Error`.
+
+There is therefore no single call that compiles across R23 to R27, and `MainBarCreator` guards it with
+`#if REVIT2026_OR_GREATER`. `RebarStyle.Standard` and `RebarStyle.StirrupTie` exist in every version, so the
+enum argument itself needs no guard.
+
+`Rebar.CreateFromRebarShape(Document, RebarShape, RebarBarType, Element, XYZ, XYZ, XYZ)` was re-checked at
+full signature level and **is** identical in R23, R26 and R27.
 
 ## Caveats
 

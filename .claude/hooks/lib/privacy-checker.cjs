@@ -36,6 +36,8 @@ const PRIVACY_PATTERNS = [
   /\.key$/,               // Private keys
   /id_rsa/,               // SSH keys
   /id_ed25519/,           // SSH keys
+  /storage_state\.json$/, // NotebookLM: live Google session cookies
+  /master_token\.json$/,  // NotebookLM: durable account credential
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

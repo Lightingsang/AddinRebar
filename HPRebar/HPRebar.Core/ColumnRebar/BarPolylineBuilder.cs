@@ -152,6 +152,75 @@ public static class BarPolylineBuilder
         return true;
     }
 
+    /// <summary>
+    ///     How far a point may sit off the line between its neighbours and still count as lying on it.
+    ///     Millimetres, and far below anything the bar geometry produces: the points of a straight run are
+    ///     built from the same plan numbers, so a real corner is never this close to straight.
+    /// </summary>
+    private const double CollinearToleranceMm = 1.0e-6;
+
+    /// <summary>
+    ///     The points where the bar actually turns. An interior point lying on the straight run between the
+    ///     point before it and the point after it carries no bend, so it is dropped and the run becomes one
+    ///     segment; the two ends are always kept. A point that doubles back is a corner however straight the
+    ///     line through it is, and is kept.
+    /// </summary>
+    public static IReadOnlyList<Point3> Corners(IReadOnlyList<Point3> points)
+    {
+        if (points is null) throw new ArgumentNullException(nameof(points));
+
+        if (points.Count < 2)
+        {
+            throw new ArgumentException("A centre-line needs at least two points.", nameof(points));
+        }
+
+        var kept = new List<Point3> { points[0] };
+
+        for (var i = 1; i < points.Count - 1; i++)
+        {
+            if (!LiesBetween(kept[kept.Count - 1], points[i], points[i + 1]))
+            {
+                kept.Add(points[i]);
+            }
+        }
+
+        kept.Add(points[points.Count - 1]);
+
+        return kept;
+    }
+
+    /// <summary>
+    ///     True when <paramref name="middle"/> sits on the straight run from <paramref name="first"/> to
+    ///     <paramref name="last"/> — on the line, and between the two rather than past either end.
+    /// </summary>
+    private static bool LiesBetween(Point3 first, Point3 middle, Point3 last)
+    {
+        var ux = last.X - first.X;
+        var uy = last.Y - first.Y;
+        var uz = last.Z - first.Z;
+
+        var lengthSquared = ux * ux + uy * uy + uz * uz;
+
+        // The two ends coincide, so the middle point is the only thing giving the run a shape.
+        if (lengthSquared <= 0d) return false;
+
+        var vx = middle.X - first.X;
+        var vy = middle.Y - first.Y;
+        var vz = middle.Z - first.Z;
+
+        var along = (vx * ux + vy * uy + vz * uz) / lengthSquared;
+
+        if (along < 0d || along > 1d) return false;
+
+        var crossX = vy * uz - vz * uy;
+        var crossY = vz * ux - vx * uz;
+        var crossZ = vx * uy - vy * ux;
+
+        var offLine = Math.Sqrt(crossX * crossX + crossY * crossY + crossZ * crossZ) / Math.Sqrt(lengthSquared);
+
+        return offLine <= CollinearToleranceMm;
+    }
+
     /// <summary>Summed segment length of a centre-line.</summary>
     public static double Length(IReadOnlyList<Point3> points)
     {

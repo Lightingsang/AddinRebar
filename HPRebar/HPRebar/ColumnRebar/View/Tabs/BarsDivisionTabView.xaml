@@ -1,0 +1,52 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.BarsDivisionTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Localization.Strings.DivisionProperty}"
+                   Style="{DynamicResource Heading}"/>
+
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Localization.Strings.IdenticalColumns}"
+                           Width="180" VerticalAlignment="Center"/>
+                <TextBox Style="{DynamicResource NumberTextBox}" Width="120"
+                         Text="{Binding Session.IdenticalColumns, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Style="{DynamicResource SecondaryButton}"
+                        Content="{Binding Localization.Strings.Apply}"
+                        Command="{Binding RefreshCommand}"
+                        Margin="{DynamicResource Spacing.MediumHorizontal}"/>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Grid.Row="2"
+                  Margin="{DynamicResource Spacing.MediumTop}"
+                  ItemsSource="{Binding Items}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  Background="{DynamicResource Brush.Surface}"
+                  RowBackground="{DynamicResource Brush.Surface}"
+                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
+                  Foreground="{DynamicResource Brush.Foreground.Primary}"
+                  BorderBrush="{DynamicResource Brush.Border}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="80"/>
+                <DataGridTextColumn Header="Shape" Binding="{Binding Shape}" Width="100"/>
+                <DataGridTextColumn Header="No" Binding="{Binding Count}" Width="70"/>
+                <DataGridTextColumn Header="D" Binding="{Binding Diameter, StringFormat={}{0:0.#}}" Width="80"/>
+                <DataGridTextColumn Header="L" Binding="{Binding L, StringFormat={}{0:0.#}}" Width="110"/>
+                <DataGridTextColumn Header="La" Binding="{Binding La, StringFormat={}{0:0.#}}" Width="110"/>
+                <DataGridTextColumn Header="Lb" Binding="{Binding Lb, StringFormat={}{0:0.#}}" Width="110"/>
+                <DataGridTextColumn Header="Length" Binding="{Binding Length, StringFormat={}{0:0.#}}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,213 @@
+<UserControl x:Class="HPRebar.FoundationRebar.View.FoundationSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="550" d:DesignWidth="600"
+             FontFamily="{DynamicResource Font.Family.Default}"
+             FontSize="{DynamicResource Font.Size.Body}"
+             Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{DynamicResource Spacing.Medium}">
+
+            <!-- Bottom Mat Reinforcement -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <TextBlock Text="Bottom Mat (Lớp Dưới)"
+                               FontWeight="SemiBold"
+                               FontSize="{DynamicResource Font.Size.BodyStrong}"
+                               Foreground="{DynamicResource Brush.Foreground.Primary}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Dir X Diameter -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Direction X Diameter (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+                                  ItemsSource="{Binding StandardDiameters}"
+                                  SelectedItem="{Binding DiameterBottomX, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="{DynamicResource Spacing.SmallVertical}"/>
+
+                        <!-- Dir X Spacing -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Direction X Spacing (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding SpacingBottomX, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Dir Y Diameter -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Direction Y Diameter (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1"
+                                  ItemsSource="{Binding StandardDiameters}"
+                                  SelectedItem="{Binding DiameterBottomY, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="{DynamicResource Spacing.SmallVertical}"/>
+
+                        <!-- Dir Y Spacing -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Direction Y Spacing (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="3" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding SpacingBottomY, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Top Mat Reinforcement -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <DockPanel LastChildFill="False" Margin="{DynamicResource Spacing.SmallBottom}">
+                        <TextBlock Text="Top Mat (Lớp Trên)"
+                                   FontWeight="SemiBold"
+                                   FontSize="{DynamicResource Font.Size.BodyStrong}"
+                                   Foreground="{DynamicResource Brush.Foreground.Primary}"
+                                   VerticalAlignment="Center"/>
+                        <CheckBox DockPanel.Dock="Right"
+                                  Content="Enable Top Mat"
+                                  IsChecked="{Binding IsTopMatEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                  VerticalAlignment="Center"/>
+                    </DockPanel>
+
+                    <Grid IsEnabled="{Binding IsTopMatEnabled}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Dir X Diameter -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Direction X Diameter (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+                                  ItemsSource="{Binding StandardDiameters}"
+                                  SelectedItem="{Binding DiameterTopX, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="{DynamicResource Spacing.SmallVertical}"/>
+
+                        <!-- Dir X Spacing -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Direction X Spacing (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding SpacingTopX, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Dir Y Diameter -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Direction Y Diameter (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1"
+                                  ItemsSource="{Binding StandardDiameters}"
+                                  SelectedItem="{Binding DiameterTopY, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="{DynamicResource Spacing.SmallVertical}"/>
+
+                        <!-- Dir Y Spacing -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Direction Y Spacing (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="3" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding SpacingTopY, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Concrete Covers & Hooks -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Clear Cover &amp; Anchorage Hooks"
+                               FontWeight="SemiBold"
+                               FontSize="{DynamicResource Font.Size.BodyStrong}"
+                               Foreground="{DynamicResource Brush.Foreground.Primary}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Cover Top -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Top Cover (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding CoverTop, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Cover Bottom -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Bottom Cover (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding CoverBottom, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Cover Side -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Side Cover (mm):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="2" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding CoverSide, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Hook Type -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Anchorage Hook Type:"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1"
+                                  ItemsSource="{Binding AvailableHookTypes}"
+                                  SelectedItem="{Binding HookType, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="{DynamicResource Spacing.SmallVertical}"/>
+
+                        <!-- Hook Length -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Hook Length (0 = auto 15d):"
+                                   VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBox Grid.Row="4" Grid.Column="1"
+                                 Style="{DynamicResource NumberTextBox}"
+                                 Margin="{DynamicResource Spacing.SmallVertical}"
+                                 Text="{Binding HookLength, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

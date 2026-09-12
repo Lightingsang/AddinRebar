@@ -45,6 +45,17 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Tests/">
+    <!-- TUnit loads Revit in-process, so this project only targets the versions installed on the
+         build machine and is kept out of whole-solution builds: under an R23 or R24 configuration it
+         would be compiled for net8 against a net48 HPRebar.dll and the Polyfill span types would
+         collide. Build and run it explicitly against the HPRebar.Tests project under Debug.R26. -->
+    <Project Path="HPRebar.Tests/HPRebar.Tests.csproj">
+      <BuildType Solution="Debug.R25|*" Project="Debug.R25" />
+      <BuildType Solution="Debug.R26|*" Project="Debug.R26" />
+      <BuildType Solution="Release.R25|*" Project="Release.R25" />
+      <BuildType Solution="Release.R26|*" Project="Release.R26" />
+      <Build Project="false" />
+    </Project>
     <Project Path="HPRebar.Mcp.Server.Tests/HPRebar.Mcp.Server.Tests.csproj">
       <BuildType Solution="Debug.R23|*" Project="Debug" />
       <BuildType Solution="Debug.R24|*" Project="Debug" />

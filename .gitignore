@@ -23,6 +23,15 @@ __pycache__/
 .skill-sync/
 .superpowers/
 
+# NotebookLM credentials — never commit
+.notebooklm/
+storage_state.json
+master_token.json
+
+# Python virtualenvs
+.venv/
+
+
 # Windows OS
 Thumbs.db
 ehthumbs.db

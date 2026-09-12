@@ -1,0 +1,144 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.BarsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:HPRebar.ColumnRebar.View.Controls">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Localization.Strings.BarsProperty}"
+                   Style="{DynamicResource Heading}"/>
+
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Localization.Strings.ColumnsNo}"
+                           Width="140" VerticalAlignment="Center"/>
+                <ComboBox Width="140"
+                          ItemsSource="{Binding Session.Columns}"
+                          DisplayMemberPath="DisplayName"
+                          SelectedIndex="{Binding Session.SelectedColumnIndex}"/>
+                <Button Style="{DynamicResource SecondaryButton}"
+                        Content="{Binding Localization.Strings.ApplyAllColumns}"
+                        Command="{Binding ApplyToAllColumnsCommand}"
+                        Margin="{DynamicResource Spacing.MediumHorizontal}"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Style="{DynamicResource Card}"
+                Margin="{DynamicResource Spacing.MediumTop}"
+                DataContext="{Binding Session.SelectedColumn}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.Bar,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" Margin="{DynamicResource Spacing.SmallVertical}"
+                          ItemsSource="{Binding DataContext.Session.BarTypes,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          DisplayMemberPath="Name"
+                          SelectedItem="{Binding MainBarType}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.BarsAlongWidth,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                         Margin="{DynamicResource Spacing.SmallVertical}"
+                         IsEnabled="{Binding IsRectangular}"
+                         Text="{Binding BarsAlongWidth, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.BarsAlongDepth,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                         Margin="{DynamicResource Spacing.SmallVertical}"
+                         IsEnabled="{Binding IsRectangular}"
+                         Text="{Binding BarsAlongDepth, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.BarsAround,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                         Margin="{DynamicResource Spacing.SmallVertical}"
+                         Text="{Binding BarsAround, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.SplitOverlap,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <ComboBox Grid.Row="0" Grid.Column="3" Margin="{DynamicResource Spacing.SmallVertical}"
+                          ItemsSource="{Binding DataContext.SplitOverlaps,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          SelectedItem="{Binding SplitOverlap}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.Overlap,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <TextBox Grid.Row="1" Grid.Column="3" Style="{DynamicResource NumberTextBox}"
+                         Margin="{DynamicResource Spacing.SmallVertical}"
+                         Text="{Binding OverlapFactor, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding DataContext.Localization.Strings.BarCount,
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center"
+                           Style="{DynamicResource BodyStrong}"
+                           Margin="{DynamicResource Spacing.SmallVertical}"
+                           Text="{Binding BarCount}"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="3" Margin="{DynamicResource Spacing.MediumTop}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{DynamicResource Card}">
+            <controls:ColumnSectionCanvas Column="{Binding Session.SelectedColumn}"/>
+        </Border>
+
+        <DataGrid Grid.Column="1"
+                  Margin="{DynamicResource Spacing.MediumHorizontal}"
+                  ItemsSource="{Binding Positions}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  Background="{DynamicResource Brush.Surface}"
+                  RowBackground="{DynamicResource Brush.Surface}"
+                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
+                  Foreground="{DynamicResource Brush.Foreground.Primary}"
+                  BorderBrush="{DynamicResource Brush.Border}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Binding="{Binding BarNumber}" Width="80"/>
+                <DataGridTextColumn Header="X" Binding="{Binding X0, StringFormat={}{0:0.#}}" Width="140"/>
+                <DataGridTextColumn Header="Y" Binding="{Binding Y0, StringFormat={}{0:0.#}}" Width="140"/>
+                <DataGridTextColumn Header="Side" Binding="{Binding Side}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

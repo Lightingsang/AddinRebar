@@ -1,0 +1,7 @@
+[mcp_servers.notebooklm]
+command = "uvx"
+args = [
+    "--from",
+    "notebooklm-py[mcp]",
+    "notebooklm-mcp",
+]

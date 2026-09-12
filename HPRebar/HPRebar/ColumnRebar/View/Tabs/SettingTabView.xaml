@@ -1,0 +1,85 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.SettingTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding Localization.Strings.ParameterColumns}"
+                       Style="{DynamicResource Heading}"/>
+
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Localization.Strings.ColumnsName}"
+                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Session.PartitionName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Localization.Strings.DetailViewName}"
+                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Localization.Strings.SectionViewName}"
+                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Session.SectionViewName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Localization.Strings.PrefixLevel}"
+                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Session.LevelPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding Localization.Strings.PrefixSection}"
+                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </Border>
+
+            <TextBlock Text="{Binding Localization.Strings.ReinforcementStructural}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.MediumTop}"/>
+
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel>
+                    <CheckBox Content="{Binding Localization.Strings.UseRealRebar}"
+                              IsChecked="{Binding Session.UseRealRebar}"
+                              IsEnabled="{Binding CanChooseDrawingMode}"
+                              Foreground="{DynamicResource Brush.Foreground.Primary}"
+                              ToolTip="{Binding Localization.Strings.UseRealRebarLocked}"/>
+                    <TextBlock Text="{Binding Localization.Strings.UseRealRebarLocked}"
+                               Margin="{DynamicResource Spacing.SmallTop}"
+                               FontSize="{DynamicResource Font.Size.Caption}"
+                               Foreground="{DynamicResource Brush.Foreground.Tertiary}"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding Localization.Strings.IdenticalColumns}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.MediumTop}"/>
+
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <TextBox Style="{DynamicResource NumberTextBox}"
+                         Width="120" HorizontalAlignment="Left"
+                         Text="{Binding Session.IdenticalColumns, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

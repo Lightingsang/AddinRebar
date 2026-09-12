@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using HPRebar.Core.ColumnRebar;
 using HPRebar.Core.ColumnRebar.Models;
@@ -202,5 +204,189 @@ public sealed class BarPolylineBuilderTests
         };
 
         Assert.Equal(3400d, BarPolylineBuilder.Length(points), Precision);
+    }
+
+    /// <summary>Segments shorter than this are dropped before the bar reaches Revit, which rejects them.</summary>
+    private const double MinimumSegmentMm = 1.0;
+
+    /// <summary>The same thinning the rebar creator applies before it turns points into curves.</summary>
+    private static IReadOnlyList<Point3> Simplify(IReadOnlyList<Point3> points)
+    {
+        var kept = new List<Point3> { points[0] };
+
+        for (var i = 1; i < points.Count; i++)
+        {
+            if (BarPolylineBuilder.Distance(kept[kept.Count - 1], points[i]) >= MinimumSegmentMm)
+            {
+                kept.Add(points[i]);
+            }
+        }
+
+        return kept;
+    }
+
+    /// <summary>How far <paramref name="point"/> sits off the straight run from one corner to the next.</summary>
+    private static double DistanceToSegment(Point3 point, Point3 from, Point3 to)
+    {
+        var ux = to.X - from.X;
+        var uy = to.Y - from.Y;
+        var uz = to.Z - from.Z;
+
+        var lengthSquared = ux * ux + uy * uy + uz * uz;
+
+        if (lengthSquared <= 0) return BarPolylineBuilder.Distance(point, from);
+
+        var along = ((point.X - from.X) * ux + (point.Y - from.Y) * uy + (point.Z - from.Z) * uz) / lengthSquared;
+        along = Math.Max(0d, Math.Min(1d, along));
+
+        var closest = new Point3(from.X + along * ux, from.Y + along * uy, from.Z + along * uz);
+
+        return BarPolylineBuilder.Distance(point, closest);
+    }
+
+    private static double GreatestDeviation(IReadOnlyList<Point3> points, IReadOnlyList<Point3> corners)
+    {
+        var worst = 0d;
+
+        foreach (var point in points)
+        {
+            var nearest = double.MaxValue;
+
+            for (var i = 1; i < corners.Count; i++)
+            {
+                nearest = Math.Min(nearest, DistanceToSegment(point, corners[i - 1], corners[i]));
+            }
+
+            worst = Math.Max(worst, nearest);
+        }
+
+        return worst;
+    }
+
+    [Fact]
+    public void CornersReducesAStraightRunToItsTwoEnds()
+    {
+        var points = new[]
+        {
+            new Point3(100, 200, 0),
+            new Point3(100, 200, 1500),
+            new Point3(100, 200, 2600),
+            new Point3(100, 200, 3000)
+        };
+
+        var corners = BarPolylineBuilder.Corners(points);
+
+        Assert.Equal(2, corners.Count);
+        Assert.Equal(0d, corners[0].Z, Precision);
+        Assert.Equal(3000d, corners[1].Z, Precision);
+    }
+
+    [Fact]
+    public void CornersKeepsEveryPointThatTurns()
+    {
+        var points = new[]
+        {
+            new Point3(100, 160, 0),
+            new Point3(100, 200, 0),
+            new Point3(100, 200, 2400),
+            new Point3(250, 200, 3000),
+            new Point3(250, 200, 3700)
+        };
+
+        var corners = BarPolylineBuilder.Corners(points);
+
+        Assert.Equal(5, corners.Count);
+    }
+
+    [Fact]
+    public void CornersTreatsADoublingBackAsATurnEvenThoughItIsCollinear()
+    {
+        var points = new[]
+        {
+            new Point3(0, 0, 0),
+            new Point3(0, 0, 1000),
+            new Point3(0, 0, 400)
+        };
+
+        var corners = BarPolylineBuilder.Corners(points);
+
+        Assert.Equal(3, corners.Count);
+        Assert.Equal(1000d, corners[1].Z, Precision);
+    }
+
+    /// <summary>
+    ///     A bar hooked at the base, bending across into the column above, whose top anchorage is too short
+    ///     to survive the minimum-segment thinning. That thinning shifts the last three points along, and the
+    ///     creator used to read the shifted pair as proof the whole middle of the bar was one straight run —
+    ///     dropping the point where it starts to bend and running the bar diagonally from its base instead.
+    /// </summary>
+    [Fact]
+    public void CornersKeepsTheBendStartWhenTheTopAnchorIsTooShortToSurvive()
+    {
+        var section = TestSections.Rectangle();
+        var spec = TestSections.Grid();
+        var bar = FirstBar(section, spec);
+
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomDowelsType = 1,
+            LbBottom = 100,
+            LaBottom = 40,
+            IsTopDowels = true,
+            TopDowelsType = 0,
+            LbTop = 0
+        };
+
+        var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(bar.X0 + 150, bar.Y0));
+        var points = Simplify(polyline.Points);
+
+        Assert.Equal(4, points.Count);
+
+        var corners = BarPolylineBuilder.Corners(points);
+
+        Assert.Equal(4, corners.Count);
+        Assert.Equal(section.TopPosition - section.BendDepth, corners[2].Z, Precision);
+        Assert.Equal(bar.X0, corners[2].X, Precision);
+    }
+
+    /// <summary>
+    ///     The property the old two-line shortcut broke: whatever survives the thinning has to end up on the
+    ///     bar that gets built, otherwise the bar is a different shape from the one that was calculated.
+    /// </summary>
+    [Theory]
+    [InlineData(0d, 150d)]
+    [InlineData(0.5d, 150d)]
+    [InlineData(700d, 150d)]
+    [InlineData(700d, 0d)]
+    [InlineData(0d, 0d)]
+    public void CornersNeverMovesAPointOffTheBar(double lbTop, double crossOverOffset)
+    {
+        var section = TestSections.Rectangle();
+        var spec = TestSections.Grid();
+        var bar = FirstBar(section, spec);
+
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomDowelsType = 1,
+            LbBottom = 100,
+            LaBottom = 40,
+            IsTopDowels = true,
+            TopDowelsType = 0,
+            LbTop = lbTop
+        };
+
+        var upper = new PlanPoint(bar.X0 + crossOverOffset, bar.Y0);
+        var points = Simplify(BarPolylineBuilder.Build(section, spec, bar, splice, upper).Points);
+        var corners = BarPolylineBuilder.Corners(points);
+
+        Assert.True(GreatestDeviation(points, corners) < 1e-6);
+    }
+
+    [Fact]
+    public void CornersRefusesASinglePoint()
+    {
+        Assert.Throws<ArgumentException>(() => BarPolylineBuilder.Corners(new[] { new Point3(0, 0, 0) }));
     }
 }

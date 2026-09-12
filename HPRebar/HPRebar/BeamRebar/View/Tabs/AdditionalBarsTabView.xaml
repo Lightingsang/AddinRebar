@@ -1,0 +1,187 @@
+<UserControl x:Class="HPRebar.BeamRebar.View.Tabs.AdditionalBarsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="{DynamicResource Spacing.Small}">
+            <TextBlock Text="{Binding Localization.Strings.AdditionalTopHeader}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+            <!-- Top Negative Reinforcement (Gối) -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
+                <StackPanel>
+                    <Grid Margin="{DynamicResource Spacing.SmallBottom}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Localization.Strings.SupportNode}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding SupportTopBars}"
+                                      SelectedItem="{Binding Session.SelectedSupportEditor, Mode=TwoWay}"
+                                      DisplayMemberPath="SupportName"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="2"
+                                Style="{DynamicResource SecondaryButton}"
+                                Content="{Binding Localization.Strings.ApplyAll}"
+                                Command="{Binding ApplySupportToAllCommand}"
+                                VerticalAlignment="Bottom"
+                                MinWidth="130" Height="28"/>
+                    </Grid>
+
+                    <!-- Layer 1 Top Settings -->
+                    <TextBlock Text="Layer 1 (L/3 Cutoff)" Style="{DynamicResource BodyStrong}" Margin="{DynamicResource Spacing.SmallTop}"/>
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" DataContext="{Binding Session.SelectedSupportEditor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding DataContext.Localization.Strings.Count, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Extension Ratio (L/3)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Layer1ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding DataContext.Localization.Strings.BarType, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Session.BarTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      SelectedItem="{Binding BarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Layer 2 Top Settings -->
+                    <StackPanel DataContext="{Binding Session.SelectedSupportEditor}">
+                        <CheckBox IsChecked="{Binding EnableLayer2}"
+                                  Content="Enable Layer 2 (L/4 Cutoff Underneath)"
+                                  Margin="{DynamicResource Spacing.SmallTop}"/>
+
+                        <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding EnableLayer2}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                                <TextBlock Text="Layer 2 Count" Style="{DynamicResource Caption}"/>
+                                <TextBox Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                                <TextBlock Text="Extension Ratio (L/4)" Style="{DynamicResource Caption}"/>
+                                <TextBox Text="{Binding Layer2ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                                <TextBlock Text="Vertical Gap (mm)" Style="{DynamicResource Caption}"/>
+                                <TextBox Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Bottom Positive Reinforcement (Bụng) -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Localization.Strings.AdditionalBottomHeader}"
+                               Style="{DynamicResource BodyStrong}"
+                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallBottom}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Localization.Strings.Span}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding SpanBottomBars}"
+                                      SelectedItem="{Binding Session.SelectedSpanEditor, Mode=TwoWay}"
+                                      DisplayMemberPath="SpanName"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="2"
+                                Style="{DynamicResource SecondaryButton}"
+                                Content="{Binding Localization.Strings.ApplyAll}"
+                                Command="{Binding ApplySpanToAllCommand}"
+                                VerticalAlignment="Bottom"
+                                MinWidth="130" Height="28"/>
+                    </Grid>
+
+                    <!-- Layer 1 Bottom Settings -->
+                    <TextBlock Text="Layer 1 (L/7 Cutoff from Support)" Style="{DynamicResource BodyStrong}" Margin="{DynamicResource Spacing.SmallTop}"/>
+                    <Grid Margin="{DynamicResource Spacing.SmallVertical}" DataContext="{Binding Session.SelectedSpanEditor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding DataContext.Localization.Strings.Count, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="Cutoff Ratio (Ln/7)" Style="{DynamicResource Caption}"/>
+                            <TextBox Text="{Binding CutoffRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Text="{Binding DataContext.Localization.Strings.BarType, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Session.BarTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      SelectedItem="{Binding BarType}"
+                                      DisplayMemberPath="Name"
+                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Layer 2 Bottom Settings -->
+                    <StackPanel DataContext="{Binding Session.SelectedSpanEditor}">
+                        <CheckBox IsChecked="{Binding EnableLayer2}"
+                                  Content="Enable Layer 2 (Above Layer 1)"
+                                  Margin="{DynamicResource Spacing.SmallTop}"/>
+
+                        <Grid Margin="{DynamicResource Spacing.SmallVertical}" IsEnabled="{Binding EnableLayer2}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                                <TextBlock Text="Layer 2 Count" Style="{DynamicResource Caption}"/>
+                                <TextBox Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                                <TextBlock Text="Vertical Gap (mm)" Style="{DynamicResource Caption}"/>
+                                <TextBox Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

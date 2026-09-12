@@ -1,0 +1,15 @@
+{
+  "notebook_title": "HPRebar - Revit Add-In Knowledge Base",
+  "language": "vi",
+  "instructions": "Viet toan bo noi dung bang tieng Viet. Giu nguyen thuat ngu ky thuat tieng Anh (Revit API, ExternalCommand, ViewModel, Transaction, MVVM, Nice3point) khong dich.",
+  "sources": [
+    "RevitTemplates-Huong-Dan-Tieng-Viet.md",
+    "RevitTemplates-Infographic-Prompt.md",
+    "docs/revit-etabs-structural-automation-workflow.md",
+    "docs/system-architecture.md",
+    "docs/duplicate-sheets-design.md",
+    "docs/code-standards.md",
+    "docs/codebase-summary.md"
+  ],
+  "artifacts": ["report", "quiz", "flashcards", "mind_map", "audio"]
+}

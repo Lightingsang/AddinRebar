@@ -1,6 +1,8 @@
-﻿using System.IO;
+using System.IO;
+using HPRebar.BeamRebar;
 using HPRebar.ColumnRebar;
 using HPRebar.Commands;
+using HPRebar.FoundationRebar;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
 using Serilog.Events;
@@ -16,7 +18,21 @@ namespace HPRebar
         public override void OnStartup()
         {
             CreateLogger();
-            CreateRibbon();
+
+            try
+            {
+                CreateRibbon();
+            }
+            catch (Exception exception)
+            {
+                // An exception escaping here makes Revit drop the add-in with nothing but a journal entry
+                // to go on. Log it to the file sink first so there is something to read, then let Revit
+                // report the failure as it normally would.
+                Log.Fatal(exception, "HPRebar could not build its ribbon");
+                Log.CloseAndFlush();
+
+                throw;
+            }
         }
 
         public override void OnShutdown()
@@ -35,6 +51,14 @@ namespace HPRebar
             var rebarPanel = Application.CreatePanel("Rebar", "HPRebar");
 
             rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar")
+                .SetImage("/HPRebar;component/Resources/Icons/ColumnRebar16.png")
+                .SetLargeImage("/HPRebar;component/Resources/Icons/ColumnRebar32.png");
+
+            rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar")
+                .SetImage("/HPRebar;component/Resources/Icons/BeamRebar16.png")
+                .SetLargeImage("/HPRebar;component/Resources/Icons/BeamRebar32.png");
+
+            rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar")
                 .SetImage("/HPRebar;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/HPRebar;component/Resources/Icons/RibbonIcon32.png");
         }

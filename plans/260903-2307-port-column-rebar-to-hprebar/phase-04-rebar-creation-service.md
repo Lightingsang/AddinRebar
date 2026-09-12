@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Rebar creation service (stirrup / main / add / dowels)"
-status: pending
+status: partial
 priority: P1
 effort: "2d"
 dependencies: [3]
@@ -68,15 +68,59 @@ Column Rebar/
 10. Build gate `Debug.R26` + `Debug.R23`.
 
 ## Success Criteria
-- [ ] F5 Revit 2026: 2 cột 400×600 → 300×500: 8 thép chủ, thanh cột dưới bẻ xiên dưới đáy dầm, neo lên cột trên 35d/70d so le; đai đều S = b/2
-- [ ] Thiếu family `M_T1` → dialog rõ ràng, không exception, model không đổi
-- [ ] Undo 1 lần xoá toàn bộ (Assimilate đúng)
-- [ ] `grep -rn "TransactionGroup" "Column Rebar"` chỉ khớp ở `ColumnRebarCommand.cs` (tạm) — **không** trong `RebarCreationService`
-- [ ] TUnit `RebarCreationServiceTests` pass
-- [ ] Không có `#if REVIT` trong phase này (API đã verify chung R23–R26); nếu R27 cần → helper + `// Multi-version:`
+- [ ] **BLOCKED (can user + fixture)** F5 Revit 2026: 2 cột 400×600 → 300×500: 8 thép chủ, thanh cột dưới bẻ xiên dưới đáy dầm, neo lên cột trên 35d/70d so le; đai đều S = b/2
+- [ ] **BLOCKED (runtime)** Thiếu family `M_T1` → dialog rõ ràng — code path co (`RebarShapeResolver.Require` chay TRUOC transaction dau tien), không exception, model không đổi
+- [ ] **BLOCKED (runtime)** Undo 1 lần xoá toàn bộ (Assimilate đúng)
+- [x] `grep -rn "TransactionGroup" "Column Rebar"` chỉ khớp ở `ColumnRebarCommand.cs` (tạm) — **không** trong `RebarCreationService`
+- [ ] **BLOCKED** TUnit `RebarCreationServiceTests`: 5 test viet xong + build pass, skip het vi thieu fixture
+- [x] ~~Không có `#if REVIT` trong phase này~~ **SAI GIA DINH — can 1 block**, xem ghi chu (API đã verify chung R23–R26); nếu R27 cần → helper + `// Multi-version:`
 
 ## Risk Assessment
 - **`CreateFreeForm` validation fail** (curve loop không hợp lệ, đoạn quá ngắn) → log `RebarFreeFormValidationResult` + đơn giản hoá polyline (bỏ đoạn < 1 mm) trong `MainBarCreator`.
 - **Hướng `SetLayoutAsNumberWithSpacing(barsOnNormalSide)`** sai → đai rải ngược Z; plan cũ đã ghi rủi ro này; verify F5 và flip bool nếu cần.
 - **AddH/AddV logic 640 dòng chưa đọc** → nếu phức tạp hơn dự kiến, tách thành Phase 4.5 riêng, không nhồi.
 - **`Partition` param không tồn tại** → null-safe, không fail.
+
+## Cook notes (2026-09-04)
+
+### Build gate
+`Debug.R23` / `R24` / `R25` / `R26` / `R27` = **0 error, 0 warning**. Core test 99/99. `HPRebar.slnx` R26 + R23 sach.
+
+### PHAT HIEN LON: `Rebar.CreateFreeForm` KHONG tuong thich R23 -> R27
+
+Plan viet "Khong co `#if REVIT` trong phase nay (API da verify chung R23-R26)". **Gia dinh sai.** Build R26 canh bao `CS0618`, dao sau ra:
+
+| Overload | R23 | R24 | R25 | R26 | R27 |
+|---|---|---|---|---|---|
+| `(Document, RebarBarType, Element, IList<CurveLoop>, out RebarFreeFormValidationResult)` -> `Rebar` | co | co | co | **deprecated** | **BI XOA** |
+| `(Document, RebarBarType, Element, IList<CurveLoop>, RebarStyle)` -> `RebarFreeFormCreationResult` | khong | khong | khong | **moi them** | co |
+
+Khac ca **signature lan return type**. Ban moi tra `RebarFreeFormCreationResult` (co `.Rebar` + `.Error`). **Khong co cach goi nao compile duoc ca 5 version** -> `MainBarCreator.cs` phai co 1 block `#if REVIT2026_OR_GREATER` (kem comment `// Multi-version:`). `RebarStyle.Standard`/`StirrupTie` co o moi version nen doi so khong can guard.
+
+**Tai sao API sweep Phase 1 khong bat duoc:** sweep chi so **ten** type/member, khong so signature — dung nhu muc Caveats cua `reports/api-surface-check.md` da canh bao. Da them muc "Correction" vao report do. `CreateFromRebarShape` re-check full signature: **giong het** R23/R26/R27, khong can guard.
+
+### File tao (11, plan de xuat 8)
+| File | Dong | Ghi chu |
+|---|---|---|
+| `RebarTypeCatalog.cs` | 63 | bar type sort theo duong kinh + cover default `[1]` |
+| `RebarShapeResolver.cs` | 84 | ten hardcode `M_T1`/`M_T3`/`M_T10*`; `Require()` chay truoc transaction |
+| `PointMapper.cs` | 50 | Core mm -> XYZ; goc = goc Tay-Nam cot day chieu len datum |
+| `MainBarCreator.cs` | 139 | `CreateFreeForm` + 3 nhanh curve loop + `#if` multi-version |
+| **`StirrupGeometry.cs`** | 206 | **MOI** — tach 8 ham origin/scale-box ra khoi 2 creator (neu gop se > 400 dong) |
+| `StirrupCreator.cs` | 63 | dai chinh |
+| `AdditionalTieCreator.cs` | 238 | dai phu H/V, rect + cyl |
+| `RebarCreationService.cs` | 211 | 2 Transaction, khong Group |
+| **`DefaultRebarSpecBuilder.cs`** | 64 | **MOI** — spec mac dinh, plan de trong command |
+| `Models/RebarTypeInfo.cs` `ColumnRebarSpec.cs` `CreatedRebar.cs` | 13/28/20 | |
+
+### 2 bug trong source giu nguyen / da sua
+1. **`CreateAddVerticalStirrupRectangleType1Item` dung `BarH` thay vi `BarV`** cho shape, bar type, list va partition (StirrupModel.cs:456-471). Ro rang la copy-paste: ham ten "Vertical" nhung ca 4 cho deu tro sang thanh Horizontal. **Da sua** trong port (`AdditionalTieCreator.RectangleVertical` dung dung tie bar type) vi neu giu se tao dai phu doc bang shape cua dai phu ngang -> sai hinh hoc thay ro. Neu user muon giong het ban goc thi noi.
+2. **So hieu leg style lech 1 giua rect va cyl.** Rect: `TypeH/V` 1 -> `M_T10B`, 2 -> `M_T10`, 3 -> `M_T10C`. Cyl: `TypeV` 0 -> `M_T10B`, 1 -> `M_T10`, 2 -> `M_T10C`. Giu nguyen (port cong 1 truoc khi tra) va ghi comment.
+
+### Khac plan
+- Plan buoc 1 noi bar default "index 3"; da them guard: it hon 4 loai thi lay day nhat, khong crash.
+- `SetPartitionRebar` goc goi `LookupParameter("Partition").Set(...)` khong null-check -> `NullReferenceException` neu template khong co param. Port dung `is { IsReadOnly: false }`.
+- Progress dung `IProgress<int>` (plan yeu cau) nhung command chua noi vao UI — Phase 6.
+
+### Con BLOCKED
+5 TUnit test `RebarCreationServiceTests` (dem thanh, planned vs actual, rollback sach, shape check, host dung) build pass nhung **skip het** — van thieu `Fixtures/column-stack-2-storey.rvt`. F5 + kiem tra undo/thieu-family cung can Revit.

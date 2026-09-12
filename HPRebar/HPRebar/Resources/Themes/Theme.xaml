@@ -11,6 +11,7 @@
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Buttons.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/TextBoxes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/ThemeIcons.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

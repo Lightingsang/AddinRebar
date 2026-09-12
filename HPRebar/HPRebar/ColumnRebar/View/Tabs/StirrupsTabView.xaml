@@ -1,0 +1,122 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.StirrupsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:HPRebar.ColumnRebar.View.Controls">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding Localization.Strings.StirrupsProperty}"
+                       Style="{DynamicResource Heading}"/>
+
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Localization.Strings.ColumnsNo}"
+                               Width="140" VerticalAlignment="Center"/>
+                    <ComboBox Width="140"
+                              ItemsSource="{Binding Session.Columns}"
+                              DisplayMemberPath="DisplayName"
+                              SelectedIndex="{Binding Session.SelectedColumnIndex}"/>
+                    <Button Style="{DynamicResource SecondaryButton}"
+                            Content="{Binding Localization.Strings.ApplyAllColumns}"
+                            Command="{Binding ApplyToAllColumnsCommand}"
+                            Margin="{DynamicResource Spacing.MediumHorizontal}"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding Localization.Strings.StirrupsParameter}"
+                       Style="{DynamicResource Heading}"
+                       Margin="{DynamicResource Spacing.MediumTop}"/>
+
+            <Border Style="{DynamicResource Card}"
+                    Margin="{DynamicResource Spacing.MediumTop}"
+                    DataContext="{Binding Session.SelectedColumn}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.Bar,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              Margin="{DynamicResource Spacing.SmallVertical}"
+                              ItemsSource="{Binding DataContext.Session.BarTypes,
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding StirrupBarType}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.Cover,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Cover, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.StirrupsDistribute,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1"
+                              Margin="{DynamicResource Spacing.SmallVertical}"
+                              ItemsSource="{Binding DataContext.DistributionTypes,
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              SelectedIndex="{Binding DistributionType}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.SpacingEven,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding Spacing, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.SpacingDense,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding SpacingDense, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding DataContext.Localization.Strings.SpacingSparse,
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallVertical}"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Style="{DynamicResource NumberTextBox}"
+                             Margin="{DynamicResource Spacing.SmallVertical}"
+                             Text="{Binding SpacingSparse, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <CheckBox Grid.Row="0" Grid.Column="2"
+                              Margin="{DynamicResource Spacing.MediumHorizontal}"
+                              VerticalAlignment="Center"
+                              Foreground="{DynamicResource Brush.Foreground.Primary}"
+                              Content="{Binding DataContext.Localization.Strings.TiesUpToBeams,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              IsChecked="{Binding TiesUpToBeams}"/>
+
+                    <controls:DistributionDiagram Grid.Row="2" Grid.Column="2" Grid.RowSpan="4"
+                                                  Margin="{DynamicResource Spacing.MediumHorizontal}"
+                                                  VerticalAlignment="Top"
+                                                  DistributionType="{Binding DistributionType}"
+                                                  TiesUpToBeams="{Binding TiesUpToBeams}"/>
+
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal"
+                                Margin="{DynamicResource Spacing.MediumHorizontal}">
+                        <TextBlock Text="{Binding DataContext.Localization.Strings.RunLength,
+                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding StirrupRunLength, StringFormat={}{0:0.#}}"
+                                   Style="{DynamicResource BodyStrong}"
+                                   Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

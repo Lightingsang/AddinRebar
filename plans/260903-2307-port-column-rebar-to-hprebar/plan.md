@@ -1,6 +1,6 @@
 ---
 title: "Port feature Column Rebar (R01_ColumnsRebar) sang HPRebar"
-status: pending
+status: partial
 created: 2026-09-03
 validated: 2026-09-03
 scope: project
@@ -25,7 +25,7 @@ Port tool `R01_ColumnsRebar` (~19.5k dòng, .NET 4.8, Revit 2021, MVVM tự vi�
 |---|---|---|
 | D1 | Pure math → project riêng `HPRebar.Core` (netstandard2.0, không ref RevitAPI) | `docs/code-standards.md` §8 bắt buộc; xUnit không chạy được nếu assembly load RevitAPI. ILRepack merge vào 1 DLL khi deploy |
 | D2 | Toàn bộ Core tính bằng **mm** (`double`); convert sang feet chỉ ở boundary Revit qua `UnitUtils.ConvertToInternalUnits` | Bỏ hack `double.Parse(UnitFormatUtils.Format())` phụ thuộc culture; bỏ luôn error 15 |
-| D3 | Không dùng `Rebar.CreateFromCurves` | Tool gốc dùng `CreateFreeForm` + `CreateFromRebarShape` — cả 2 tồn tại R23→R26 (verified NuGet XML). Né R27 break `RebarHookOrientation` |
+| D3 | Không dùng `Rebar.CreateFromCurves` | Tool gốc dùng `CreateFreeForm` + `CreateFromRebarShape`. **[cook Phase 4]** `CreateFromRebarShape` signature giống hệt R23→R27. `CreateFreeForm` thì **KHÔNG**: overload `out RebarFreeFormValidationResult` bị xóa ở R27, overload `RebarStyle` chỉ có từ R26 → cần 1 `#if REVIT2026_OR_GREATER` trong `MainBarCreator` |
 | D4 | Canvas → custom `FrameworkElement` với DependencyProperty, vẽ trong `OnRender` | Source vẽ trực tiếp từ VM lên `Canvas` (vi phạm MVVM, không test được). Ưu tiên `DrawingContext` thay `Canvas.Children` |
 | D5 | i18n EN/VN → `LocalizationService : ObservableObject` giữ 1 `UiStrings` record, swap runtime | Giữ hành vi đổi ngôn ngữ live như gốc, KISS hơn resx + culture reload |
 | D6 | `System.Windows.Forms.MessageBox` → `TaskDialog` | net8/net10 không cần WinForms ref; đồng bộ UX Revit |
@@ -39,12 +39,12 @@ Port tool `R01_ColumnsRebar` (~19.5k dòng, .NET 4.8, Revit 2021, MVVM tự vi�
 | 0 | ✅ Scaffold feature folder + Core project + Theme + logging + baseline build | [phase-00](phase-00-scaffold-feature-folder-and-baseline.md) | 0.5d | — |
 | 1 | ✅ Multi-version compat + R27 restore verify | [phase-01](phase-01-multi-version-compat-shims.md) | 0.5d | 0 |
 | 2 | ✅ Core pure logic (layout / splice / stirrup / schedule) + xUnit | [phase-02](phase-02-pure-logic-domain-and-xunit.md) | 2d | 0 |
-| 3 | Revit geometry readers + validation (fix 6 bug) + fixture + TUnit | [phase-03](phase-03-revit-geometry-readers-and-validation.md) | 2d | 1, 2 |
-| 4 | Rebar creation service (stirrup / main / add / dowels) | [phase-04](phase-04-rebar-creation-service.md) | 2d | 3 |
-| 5 | Views + dimension + tag + detail shop + orchestrator | [phase-05](phase-05-views-dimensions-tags-detail-shop.md) | 1.5d | 4 |
-| 6 | WPF shell + 8 tab ViewModels/Views + Theme Dark/Light | [phase-06](phase-06-wpf-shell-and-tab-viewmodels.md) | 3d | 2, 3 |
-| 7 | Preview canvas (elevation + section + dowels + diagrams) | [phase-07](phase-07-preview-canvas.md) | 3d | 6 |
-| 8 | Integration, F5 smoke, Release all configs, docs | [phase-08](phase-08-integration-f5-release-docs.md) | 1.5d | 4, 5, 7 |
+| 3 | 🟡 Revit geometry readers + validation (fix 6 bug) + fixture + TUnit | [phase-03](phase-03-revit-geometry-readers-and-validation.md) | 2d | 1, 2 |
+| 4 | 🟡 Rebar creation service (stirrup / main / add / dowels) | [phase-04](phase-04-rebar-creation-service.md) | 2d | 3 |
+| 5 | 🟡 Views + dimension + tag + detail shop + orchestrator | [phase-05](phase-05-views-dimensions-tags-detail-shop.md) | 1.5d | 4 |
+| 6 | 🟡 WPF shell + 8 tab ViewModels/Views + Theme Dark/Light | [phase-06](phase-06-wpf-shell-and-tab-viewmodels.md) | 3d | 2, 3 |
+| 7 | 🟡 Preview canvas (elevation + section + dowels + diagrams) | [phase-07](phase-07-preview-canvas.md) | 3d | 6 |
+| 8 | 🟡 Integration, F5 smoke, Release all configs, docs | [phase-08](phase-08-integration-f5-release-docs.md) | 1.5d | 4, 5, 7 |
 
 Tổng ≈ 16 ngày. Phase 2 và 6 chạy song song được sau Phase 0.
 
@@ -74,9 +74,10 @@ dotnet test HPRebar.Core.Tests                # từ Phase 2
 
 ## Rủi ro chính
 
-1. ~~**R27 không verify được runtime**~~ **HẠ RỦI RO (Phase 1):** package `2027.2.0` restore + build pass, TFM `net10.0-windows7.0`. API sweep cho thấy 106 type source dùng đều còn nguyên ở R27 → **0 `#if REVIT` cần thiết**. Vẫn build-only (máy không cài Revit 2027) nhưng rủi ro compile đã loại.
+1. ~~**R27 không verify được runtime**~~ **HẠ RỦI RO (Phase 1):** package `2027.2.0` restore + build pass, TFM `net10.0-windows7.0`. Vẫn build-only (máy không cài Revit 2027) nhưng rủi ro compile đã loại — cả 5 config build 0 error.
+   ⚠️ **[cook Phase 4] Đính chính Phase 1:** kết luận "0 `#if REVIT` cần thiết" **sai**. API sweep chỉ so **tên** type/member nên bỏ sót `Rebar.CreateFreeForm` — overload đổi cả signature lẫn return type giữa R25→R26→R27. Đã cần 1 `#if`. Khi cook phase sau, **đừng tin sweep tên là đủ** cho API sẽ gọi thật; check signature tay.
 2. **R23/R24 (net48) cũng build-only** — rủi ro thật ở `FormattedText` ctor (Phase 7) và Polyfill `MinBy` (Phase 3).
-3. **Canvas ~5.4k dòng draw code** — phase nặng nhất. Phase 7 chia 4 sub-step có gate riêng; ước tính chỉ port ~2.5k (chỉ hàm có call-site).
+3. ~~**Canvas ~5.4k dòng draw code** — phase nặng nhất.~~ **ĐÃ GIẢI QUYẾT (Phase 6+7):** cả hai rủi ro khối lượng đều không thành hiện thực vì toán đã nằm ở Core. Phase 6 VM lớn nhất 58 dòng (gốc 517). Phase 7 tổng 8 file / 1015 dòng (gốc 5.4k) — vì D4 đổi sang `DrawingContext` nên canvas gọi thẳng Core calculator thay vì tính lại, đúng cái mà bản gốc làm sai (`DrawStirrupItemRectangle0` tính lại `n`/`del` tách rời khỏi `CreateStirrupTypeItem1`). Phase 7 chia 4 sub-step có gate riêng; ước tính chỉ port ~2.5k (chỉ hàm có call-site).
 4. **`Reference.ParseFromStableRepresentation` hack `SURFACE→LINEAR`** cho dimension — fragile, undocumented. Không verify được R27 → Phase 5 wrap try/catch, skip dimension thay vì fail.
 5. **Family phụ thuộc**: rebar shape `M_T1`/`M_T3` (bắt buộc) + detail shop `DS*` (optional, thiếu thì bỏ qua). Phase 3 tạo fixture `.rvt` có sẵn 2 shape này.
 
@@ -167,10 +168,34 @@ Phát hiện thêm (không phải claim của plan): `Application.cs:27` panel h
 - Effort: bảng phases (0.5+0.5+2+2+2+1.5+3+3+1.5 = 16d) khớp frontmatter từng file. ✅
 - **Không còn mâu thuẫn chưa giải quyết.** Đủ điều kiện cook.
 
+## Trạng thái (cook 2026-09-04)
+
+| Phase | Code | Verify runtime |
+|---|---|---|
+| 0 Scaffold | ✅ | ⬜ F5 |
+| 1 Multi-version | ✅ | — (build-only theo thiết kế) |
+| 2 Core + xUnit | ✅ | ✅ 99/99 test |
+| 3 Geometry + validator | ✅ | ⬜ fixture + F5 |
+| 4 Tạo thép | ✅ | ⬜ fixture + F5 |
+| 5 Views/dim/tag + orchestrator | ✅ | ⬜ fixture + F5 |
+| 6 UI 8 tab | ✅ | ⬜ F5 |
+| 7 Canvas | ✅ | ⬜ F5 |
+| 8 Integration + docs | ✅ docs | ⬜ F5 matrix |
+
+**Code: xong hết.** ~6.5k dòng feature + ~1.5k Core. Build sạch 10/10 config (Debug + Release × R23–R27), 0 error, 0 warning CS. 99 test xUnit pass.
+
+**Verify: chưa có version Revit nào chạy thật.** 16 test TUnit skip vì thiếu fixture. Chi tiết + cách chạy: [reports/f5-smoke-results.md](reports/f5-smoke-results.md).
+
+**2 thứ chặn:** (a) `HPRebar.Tests/Fixtures/column-stack-2-storey.rvt` — spec ở `HPRebar/HPRebar.Tests/Fixtures/README.md`; (b) 1 lần F5 với Revit đóng trước khi build.
+
 ## Unresolved questions
 
 0. **[MỚI — cook Phase 2]** `GetItemDivision` map shape không nhất quán khi thanh **có móc dưới**: nhánh `TopDowels!=0 && LaTop==0` trả `LaBottom>0 ? DS01 : DS04`, ngược với 2 nhánh còn lại (`DS04 : DS01`). Giống typo của tác giả gốc. Đã port nguyên bản (`BarShapeClassifier.cs`) vì sửa sẽ đổi family detail-shop đặt trong bản vẽ. **Hỏi user:** giữ nguyên hay sửa cho nhất quán?
 
 1. ~~**Package `Nice3point.Revit.Api.RevitAPI 2027.*`** có tồn tại trên nuget.org không?~~ **ĐÃ GIẢI QUYẾT (cook Phase 0, 2026-09-03):** có. `dotnet build -c Debug.R27` restore + build **pass, 0 error**; resolve `Nice3point.Revit.Api.RevitAPI/2027.2.0` + `RevitAPIUI/2027.2.0` + `Toolkit/2027.0.0`, TFM `net10.0-windows7.0` (đúng như bảng đã sửa). R27 giữ trong scope, build-only.
 2. **File `.rvt` mẫu + family `DS*`** từ tool gốc — user có không? Không có thì detail shop (Phase 5) chỉ verify được đường "family thiếu → bỏ qua", không verify được đường tạo thật.
-3. **`Bundle:VendorName`** trong `HPRebar/build/appsettings.json` vẫn là `"Development"` (template default) — đổi trước khi pack MSI? (Phase 8, hỏi user)
+   **[cook Phase 3]** Câu hỏi này giờ CHẶN Phase 3: 11 TUnit test build pass nhưng skip hết vì thiếu `HPRebar/HPRebar.Tests/Fixtures/column-stack-2-storey.rvt`. Spec đầy đủ ở `HPRebar/HPRebar.Tests/Fixtures/README.md`. Cần user dựng trong Revit 2026 (~30–60 phút) hoặc cung cấp file có sẵn.
+3. **[MỚI — cook Phase 5]** `ViewSchedule` (detail component schedule) **đã bỏ** — bản gốc lọc field theo tên chuỗi tiếng Anh, và nó chỉ phục vụ detail shop vốn đã cắt. Cần lại thì làm cùng plan detail-shop.
+4. **[MỚI — cook Phase 5]** Family `DS*` (detail shop) — user có `.rfa` không? Không có thì `DetailShopCreator` chưa viết được (code không test được lần nào). Cùng câu hỏi với `.rvt` fixture.
+
+5. **`Bundle:VendorName`** trong `HPRebar/build/appsettings.json` vẫn là `"Development"` (template default) — đổi trước khi pack MSI? (Phase 8, hỏi user)

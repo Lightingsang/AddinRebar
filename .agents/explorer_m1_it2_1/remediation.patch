@@ -1,0 +1,96 @@
+--- a/HPRebar/HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs
++++ b/HPRebar/HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs
+@@ -141,7 +141,15 @@ public sealed class BeamMainBarCalculatorTests
+     [Fact]
+     public void LapLengthCalculatesCorrectlyFromMultiplierAndBarDiameter()
+     {
+-        var spec = TestBeamData.MainBarSpec(topDiameter: 25);
+-        double lap = spec.LapFactor * spec.TopDiameter;
+-
+-        Assert.Equal(1000.0, lap, Precision); // 40 * 25 = 1000 mm
++        // 3-span continuous beam (18 m) forces splicing across commercial stock length limit (11.7 m)
++        var stack = TestBeamData.ThreeSpan(l1: 6000, l2: 6000, l3: 6000);
++        var spec = TestBeamData.MainBarSpec(topDiameter: 25.0) with { LapFactor = 40.0, MaxStockLength = 11700.0 };
++        var bars = BeamMainBarCalculator.ComputeTopMainBars(stack, spec, stirrupDiameterMm: 8.0);
++
++        // Segment 1 (bars[0]) and Segment 2 (bars[1]) form the spliced pair for bar line 0
++        double seg1EndX = bars[0].Points[bars[0].Points.Count - 1].X;
++        double seg2StartX = bars[1].Points[0].X;
++        double actualLapOverlap = seg1EndX - seg2StartX;
++
++        // Verify production calculator applies exactly LapFactor * TopDiameter = 40 * 25 = 1000 mm
++        Assert.Equal(1000.0, actualLapOverlap, Precision);
+     }
+@@ -233,17 +241,55 @@ public sealed class BeamMainBarCalculatorTests
+     [Fact]
+     public void MultiLayerTopBarsOffsetSecondLayerVerticallyWithSpecifiedGap()
+     {
+-        double z1 = 3600 - 25 - 8 - 10;
+-        double z2 = z1 - 50.0;
+-
+-        Assert.Equal(50.0, z1 - z2, Precision);
++        var stack = TestBeamData.TwoSpan();
++        var mainSpec = TestBeamData.MainBarSpec(topDiameter: 20.0);
++        var mainBars = BeamMainBarCalculator.ComputeTopMainBars(stack, mainSpec, stirrupDiameterMm: 8.0);
++
++        var addConfig = new SupportAdditionalTopBarConfig
++        {
++            SupportIndex = 1,
++            Layer1Count = 2,
++            Layer1Diameter = 20.0,
++            Layer2Count = 2,
++            Layer2Diameter = 20.0,
++            LayerGap = 50.0
++        };
++        var addSpec = new BeamAdditionalTopBarSpec { SupportTopBars = new[] { addConfig } };
++        var addBars = BeamAdditionalBarCalculator.ComputeSupportTopBars(stack, addSpec, stirrupDiameterMm: 8.0);
++
++        var layer1MainBar = mainBars.First();
++        var layer1AddBar = addBars.First(b => b.Layer == 1);
++        var layer2AddBar = addBars.First(b => b.Layer == 2);
++
++        // Continuous main top bars and Layer 1 additional bars share identical elevation
++        Assert.Equal(layer1MainBar.Points[1].Z, layer1AddBar.Points[0].Z, Precision);
++
++        // Layer 2 additional bars are offset vertically downward from Layer 1 by specified gap
++        double z1 = layer1MainBar.Points[1].Z;
++        double z2 = layer2AddBar.Points[0].Z;
++        Assert.Equal(50.0, z1 - z2, Precision);
+     }
+ 
+     [Fact]
+     public void MultiLayerBottomBarsOffsetSecondLayerVerticallyUpwards()
+     {
+-        double z1 = 0 + 25 + 8 + 10;
+-        double z2 = z1 + 50.0;
+-
+-        Assert.True(z2 > z1);
++        var stack = TestBeamData.SingleSpan();
++        var mainSpec = TestBeamData.MainBarSpec(bottomDiameter: 20.0);
++        var mainBars = BeamMainBarCalculator.ComputeBottomMainBars(stack, mainSpec, stirrupDiameterMm: 8.0);
++
++        var addConfig = new SpanAdditionalBottomBarConfig
++        {
++            SpanIndex = 0,
++            Layer1Count = 2,
++            Layer1Diameter = 20.0,
++            Layer2Count = 2,
++            Layer2Diameter = 20.0,
++            LayerGap = 50.0
++        };
++        var addSpec = new BeamAdditionalBottomBarSpec { SpanBottomBars = new[] { addConfig } };
++        var addBars = BeamAdditionalBarCalculator.ComputeSpanBottomBars(stack, addSpec, stirrupDiameterMm: 8.0);
++
++        var layer1MainBar = mainBars.First();
++        var layer1AddBar = addBars.First(b => b.Layer == 1);
++        var layer2AddBar = addBars.First(b => b.Layer == 2);
++
++        // Continuous main bottom bars and Layer 1 additional bars share identical elevation
++        Assert.Equal(layer1MainBar.Points[1].Z, layer1AddBar.Points[0].Z, Precision);
++
++        // Layer 2 additional bars are offset vertically upwards from Layer 1 by specified gap
++        double z1 = layer1MainBar.Points[1].Z;
++        double z2 = layer2AddBar.Points[0].Z;
++        Assert.True(z2 > z1);
++        Assert.Equal(50.0, z2 - z1, Precision);
+     }

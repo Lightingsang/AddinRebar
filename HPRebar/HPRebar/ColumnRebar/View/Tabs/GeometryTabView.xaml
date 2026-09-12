@@ -1,0 +1,58 @@
+<UserControl x:Class="HPRebar.ColumnRebar.View.Tabs.GeometryTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Localization.Strings.Identification}"
+                   Style="{DynamicResource Heading}"/>
+
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallVertical}">
+                    <TextBlock Text="{Binding Localization.Strings.FamilyName}" Width="160"/>
+                    <TextBlock Text="{Binding FamilyName}" Style="{DynamicResource BodyStrong}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallVertical}">
+                    <TextBlock Text="{Binding Localization.Strings.Style}" Width="160"/>
+                    <TextBlock Text="{Binding StyleName}" Style="{DynamicResource BodyStrong}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Grid.Row="2"
+                  Margin="{DynamicResource Spacing.MediumTop}"
+                  ItemsSource="{Binding Session.Columns}"
+                  SelectedIndex="{Binding Session.SelectedColumnIndex}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  Background="{DynamicResource Brush.Surface}"
+                  RowBackground="{DynamicResource Brush.Surface}"
+                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
+                  Foreground="{DynamicResource Brush.Foreground.Primary}"
+                  BorderBrush="{DynamicResource Brush.Border}"
+                  HorizontalGridLinesBrush="{DynamicResource Brush.Border}">
+            <DataGrid.Columns>
+                <!-- Literal header: a DataGrid column is not part of the visual tree, so a
+                     RelativeSource binding to the view cannot resolve and would silently show nothing. -->
+                <DataGridTextColumn Header="Column" Binding="{Binding DisplayName}" Width="80"/>
+                <DataGridTextColumn Header="b" Binding="{Binding Section.B, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="h" Binding="{Binding Section.H, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="D" Binding="{Binding Section.D, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="hc" Binding="{Binding Section.Hc, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="hb" Binding="{Binding Section.Hb, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="zb" Binding="{Binding Section.Zb, StringFormat={}{0:0.#}}" Width="90"/>
+                <DataGridTextColumn Header="Bottom" Binding="{Binding Section.BottomPosition, StringFormat={}{0:0.#}}" Width="*"/>
+                <DataGridTextColumn Header="Top" Binding="{Binding Section.TopPosition, StringFormat={}{0:0.#}}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

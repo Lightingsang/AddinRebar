@@ -7,6 +7,7 @@ effort: 18h
 branch: "N/A — environment is not a Git worktree"
 tags: [agents, skills, migration, portability, sync]
 created: 2026-08-23
+blockedBy: [260904-1038-install-notebooklm-py-integration]  # thêm skill notebooklm làm lệch baseline 60 SKILL.md
 ---
 
 # Agent-skill portability and bidirectional sync

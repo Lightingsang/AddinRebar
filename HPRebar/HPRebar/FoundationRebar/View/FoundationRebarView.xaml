@@ -1,0 +1,108 @@
+<Window x:Class="HPRebar.FoundationRebar.View.FoundationRebarView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:HPRebar.FoundationRebar.View"
+        mc:Ignorable="d"
+        Title="Foundation Rebar"
+        Width="750" Height="680"
+        MinWidth="650" MinHeight="550"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="{DynamicResource Spacing.Medium}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                BorderBrush="{DynamicResource Brush.Border}"
+                BorderThickness="0,0,0,1"
+                Padding="{DynamicResource Spacing.SmallBottom}"
+                Margin="{DynamicResource Spacing.SmallBottom}">
+            <DockPanel LastChildFill="True">
+                <Border Style="{DynamicResource Badge}" DockPanel.Dock="Right">
+                    <TextBlock Text="HPRebar Foundation" Style="{DynamicResource BadgeText}"/>
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Foundation Reinforcement Generator"
+                               FontSize="{DynamicResource Font.Size.Title}"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+                    <TextBlock Text="Automated 2-way mat reinforcement generation for foundation slabs."
+                               FontSize="{DynamicResource Font.Size.Caption}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Tab Content -->
+        <TabControl Grid.Row="1"
+                    Background="{DynamicResource Brush.Surface}"
+                    BorderBrush="{DynamicResource Brush.Border}">
+            <TabItem Header="Geometry"
+                     Foreground="{DynamicResource Brush.Foreground.Primary}"
+                     FontSize="{DynamicResource Font.Size.BodyStrong}">
+                <views:FoundationGeometryView DataContext="{Binding Geometry}"/>
+            </TabItem>
+            <TabItem Header="Rebar Settings"
+                     Foreground="{DynamicResource Brush.Foreground.Primary}"
+                     FontSize="{DynamicResource Font.Size.BodyStrong}">
+                <views:FoundationSettingView DataContext="{Binding Setting}"/>
+            </TabItem>
+        </TabControl>
+
+        <!-- Error Banner -->
+        <Border Grid.Row="2"
+                Visibility="{Binding HasValidationError, Converter={StaticResource BoolToVis}}"
+                Background="{DynamicResource Brush.Danger}"
+                CornerRadius="4"
+                Padding="{DynamicResource Spacing.Small}"
+                Margin="{DynamicResource Spacing.SmallTop}">
+            <TextBlock Text="{Binding ValidationMessage}"
+                       Foreground="{DynamicResource Brush.Foreground.OnAccent}"
+                       TextWrapping="Wrap"
+                       FontWeight="SemiBold"
+                       FontSize="{DynamicResource Font.Size.Caption}"/>
+        </Border>
+
+        <!-- Footer Buttons -->
+        <Grid Grid.Row="3" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1"
+                    Content="Cancel"
+                    Style="{DynamicResource SecondaryButton}"
+                    Command="{Binding CancelCommand}"
+                    MinWidth="100"
+                    Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+            <Button Grid.Column="2"
+                    Content="Generate Rebar"
+                    Style="{DynamicResource PrimaryButton}"
+                    Command="{Binding ApplyCommand}"
+                    MinWidth="130"/>
+        </Grid>
+    </Grid>
+</Window>
