@@ -375,3 +375,29 @@ Engine host-neutral ở `McpShared/`: `PipeListener`, `ScriptGuard`, `ScriptComp
 **Tầng registry (ADR-05/06):** tool cố định + tool AI tự sinh đều là *dữ liệu* (`tool.json + code.cs + examples.json`), chạy qua `revit.execute` với `args`. Không native command nào trong bridge. Vòng đời: `draft → tested → pending_approval → published → quarantined | deprecated`. Approve = CLI `registry approve` theo policy `manual`. Độ ổn định từ `runs`; tự quarantine nếu ≥ 5 run và > 40% thất bại. `FileSystemWatcher` reload files nên approve không cần restart.
 
 Điểm giòn: Roslyn assembly không unload; timeout chỉ cooperative; Revit hỏi "publisher could not be verified" với DLL chưa ký. Chi tiết: `plans/260912-1521-dynamic-revit-mcp-server-2026/adr/`.
+
+## AutoCAD MCP Bridge (Phase 1, 2026-09-14)
+
+Cùng kiến trúc với Revit nhưng cho AutoCAD 2026 (R25.1, .NET 8). Đã verify phase 1 (loader, ALC, bundle, spike) sống động; phase 2–5 tiếp theo.
+
+```
+AI ──stdio──▶ HPAutoCad.Mcp.Server (phase 3)
+              ↓
+            Named pipe hpautocad-mcp-2026 (phase 2+)
+              ↓
+            HPAutoCad.McpBridge.Loader ──reflection──▶ BridgeLoadContext ("HPAutoCad.McpBridge")
+                                                       │
+                                                       └─ HPAutoCad.McpBridge (Roslyn + pipe listener, phase 2+)
+                                                          ↓
+                                                       acad.exe (main thread)
+                                                       ↓
+                                                       Idle tick → ExternalEvent → TransactionGroup → AutoCAD API
+```
+
+**Load context (ALC) tách riêng:** AutoCAD tải Roslyn 4.10 + Immutable 8.0 ở default context; bridge cần 5.9 + 10 → private deps.json qua `AssemblyDependencyResolver` (verified: Roslyn/Immutable ở "HPAutoCad.McpBridge", AcMgd/AcCoreMgd/AcDbMgd ở Default). Phase 1 nhanh compile (~1 s), main thread qua Idle + `LockDocument` + transaction commit (~0.9 s).
+
+**Security mode:** env var `HPAUTOCAD_MCP_SPIKE=1` bật spike (phase 1 test); chưa có listener. Trên máy người dùng: SECURELOAD prompt "publisher could not be verified" → *Always Load* (same as Revit).
+
+**Bundle:** `PackageContents.xml` SchemaVersion 1.0, platform AutoCAD, R25.1, 24 file / 14 MB. Deploy → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\` (Debug build tự động).
+
+**Mục tiêu phase 2–5:** pipe listener + main-thread executor (phase 2), server + tools (phase 3), tests (phase 4), multi-version R26/R27 (phase 5).

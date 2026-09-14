@@ -2,6 +2,25 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge phase 1: loader, ALC, bundle, spike
+
+Bổ sung: loader DLL với BridgeLoadContext (Roslyn 5.9 + Immutable 10 riêng, AutoCAD API shared), self-check startup, 4 core command (HPMCPBRIDGE/STATUS/START/STOP) + spike 2 command tạm thời, bundle 24 file / 14 MB → `%AppData%\Autodesk\ApplicationPlugins\`. Spike chạy 5/5 lần ×3 run liên tiếp, cuối cùng unattended (SECURELOAD auto-click, `Document.CloseAndDiscard()` + `Quit()` exit code 0).
+
+**Xác minh:** Build zero warn/err, tests 70+106+334 xUnit pass, live in AutoCAD 2026 (2026-09-14).
+
+**Các quyết định:**
+- ADR-02 Accepted: Idle one-shot, timeout hủy subscribe (không để hang), executor rule: complete request trước unsubscribe
+- ADR-05 Accepted: SECURELOAD prompt trên mỗi hash loader mới → "Always Load"; signing hoãn tới pack phase
+- Spike gated `HPAUTOCAD_MCP_SPIKE=1` env var; xóa ngay khi phase 2 đâm ống listener
+
+**Những chưa làm:**
+- Pipe listener + executor (phase 2)
+- MCP server exe + tools (phase 3)
+- Modal dialog + Dynamo coexistence test
+- Multi-version (R26/R27)
+
+Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phase 1/6 done).
+
 ## 2026-09-14 — Tách MCP engine host-neutral, scaffold AutoCAD
 
 Refactor hạ tầng MCP để dùng chung cho Revit + AutoCAD. Tách engine (neutral với host) ra thư mục `McpShared/` cấp cao nhất; tạo scaffold `HPAutoCad/` để bắt đầu bridge AutoCAD.

@@ -21,7 +21,7 @@ Gồm 4 unrelated deliverables (không cross-wire):
 |---|---|---|---|
 | `HPRebar/` | net48 (R23/R24) · net8.0-windows7.0 (R25/R26) · net10.0-windows7.0 (R27) | Add-in. Chạm Revit API | ✅ |
 | `HPRebar.Core/` | netstandard2.0 | Toán thuần. **Không** reference Revit | ✅ |
-| `HPRebar.Core.Tests/` | net8.0 | xUnit v3 — 102 test | ✅ |
+| `HPRebar.Core.Tests/` | net8.0 | xUnit v3 — 334 test | ✅ |
 | `HPRebar.Tests/` | R25/R26 | TUnit, load Revit in-process | ❌ |
 | `HPRebar.Mcp.Server/` | net10.0 console | Thin exe (`Program.cs` một dòng) + 21 seed nhúng + CLI `registry …` | ✅ |
 | `HPRebar.McpBridge/` | net8.0-windows7.0 (R25/R26) | Add-in thứ hai — bridge trong Revit (nút ExternalEvent + cửa sổ) | ✅ R25/R26 |
@@ -41,12 +41,14 @@ Gồm 4 unrelated deliverables (không cross-wire):
 
 ## HPAutoCad Solution
 
-`HPAutoCad/HPAutoCad.slnx` + global.json (scaffold). Reference McpShared only; không dùng HPRebar.
+`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phase 1 (2026-09-14): loader + ALC + bundle + spike verified.
 
-| Project | TFM | Vai trò |
-|---|---|---|
-| `HPAutoCad.Mcp.Server/` | net10.0 console | (incoming) |
-| `HPAutoCad.McpBridge/` | net8.0 | (incoming) |
+| Project | TFM | Vai trò | Build? |
+|---|---|---|---|
+| `HPAutoCad.McpBridge.Loader/` | net8.0-windows | IExtensionApplication + HPMCP* commands (HPMCPBRIDGE/STATUS/START/STOP/SPIKE/SPIKEQUIT); tạo BridgeLoadContext, khởi động bridge bằng reflection | ✅ |
+| `HPAutoCad.McpBridge/` | net8.0-windows, UseWPF | Roslyn + self-check (phase 1); pipe listener, executor, transaction policy (phase 2) | ✅ |
+| `HPAutoCad.Mcp.Server/` | net10.0 console | MCP server exe + AutocadHostProfile + tools/resources (phase 3) | ⏳ |
+| `HPAutoCad.Mcp.Server.Tests/` | net10.0 | xUnit v3: profile, tools, seed compile check (phase 3–4) | ⏳ |
 
 `HPRebar.Tests` bị loại khỏi solution build có chủ đích: dưới config R23/R24 nó sẽ compile net8 rồi reference `HPRebar.dll` net48 → `CS0433 ReadOnlySpan<T> exists in both` (Polyfill nhúng span type vào assembly). Chạy riêng:
 
@@ -149,7 +151,7 @@ Mỗi thư mục có `global.json` pin runner, nên test chạy từ trong thư 
 cd HPRebar
 dotnet build HPRebar.slnx -c Debug.R26          # chính (máy dev có Revit 2026)
 dotnet build HPRebar.slnx -c Debug.R23          # net48, bắt lỗi TFM sớm
-dotnet test HPRebar.Core.Tests                  # 102 test xUnit
+dotnet test HPRebar.Core.Tests                  # 334 test xUnit
 dotnet test HPRebar.Mcp.Server.Tests            # 106 test xUnit — registry + 21 seed thực
 dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26   # TUnit, cần Revit
 
@@ -160,16 +162,19 @@ cd build && dotnet run -- pack                  # Bundle → output/
 cd McpShared
 dotnet test HPRebar.Mcp.Server.Core.Tests       # 70 test xUnit — host-neutral engine
 
-# HPAutoCad (scaffold)
+# HPAutoCad
 cd HPAutoCad
-dotnet build HPAutoCad.slnx                     # chỉ build, chưa có class gì
+dotnet build HPAutoCad.slnx -c Debug             # deploy bundle → %AppData%\Autodesk\ApplicationPlugins\
+dotnet build HPAutoCad.slnx -c Debug -p:DeployBundle=false   # khi AutoCAD đang mở (DLL khóa)
+dotnet test HPAutoCad.Mcp.Server.Tests          # (phase 3+)
 ```
 
 **Revit đang mở sẽ khóa DLL đã deploy** → thêm `-p:DeployAddin=false` khi chỉ cần verify compile.
 
 ## Trạng thái verify
 
-| Revit | Build | Runtime |
+### Revit
+| Version | Build | Runtime |
 |---|---|---|
 | 2023, 2024 | ✅ | ❌ không cài trên máy dev |
 | 2025 | ✅ | ⚠️ chưa chạy |
@@ -178,7 +183,13 @@ dotnet build HPAutoCad.slnx                     # chỉ build, chưa có class g
 
 **Add-in rebar chưa có phiên bản nào được verify runtime.** 16 TUnit test đã viết nhưng skip hết vì thiếu model mẫu — xem `HPRebar/HPRebar.Tests/Fixtures/README.md`.
 
-**MCP bridge** thì khác: đã chạy end-to-end trong Revit 2026 ngày 2026-09-12 (self-check Roslyn, `get_revit_context`, `inspect_type`, 15 kịch bản `execute_revit_code` gồm dryRun/commit/exception rollback/cancel/timeout). Xem mục dưới.
+**MCP bridge** thì khác: đã chạy end-to-end trong Revit 2026 ngày 2026-09-12 (self-check Roslyn, `get_revit_context`, `inspect_type`, 15 kịch bản `execute_revit_code` gồm dryRun/commit/exception rollback/cancel/timeout).
+
+### AutoCAD
+| Version | Build | Runtime |
+|---|---|---|
+| 2026 | ✅ | ✅ 2026-09-14 (phase 1 spike 5/5 ×3 run, unattended + SECURELOAD auto-click, exit 0) |
+| 2027 .NET 10 | ❌ scaffold chưa test | ❌ |
 
 ## Ngoài add-in — tooling Python
 
