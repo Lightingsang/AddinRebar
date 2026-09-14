@@ -237,6 +237,46 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 | Scaffold mới | `/bs:revit-addin` |
 | Sửa ViewModel/View | `/bs:revit-wpf-mvvm` |
 | Sửa XAML style | `/bs:revit-xaml-styles` |
+
+---
+
+# AutoCAD MCP Bridge — Server Architecture (Phases 1–3, 2026-09-14)
+
+## Diagram — Stdio Server to Bridge
+
+```
+Host AI (Claude Code)
+    ↓ stdio, JSON-RPC 2.0
+HPAutoCad.Mcp.Server (net10 console)
+    ├─ AutocadHostProfile (12 tools, resources, prompts)
+    ├─ ExecuteCodeService (Roslyn guard → compile)
+    └─ BridgeClient ──named pipe hpautocad-mcp-2026──→ HPAutoCad.McpBridge (inside acad.exe)
+                                                           ├─ MainThreadQueue (ConcurrentQueue)
+                                                           ├─ Application.Idle wake (PostMessage WM_NULL)
+                                                           ├─ AutocadScriptRunner (outer TransactionGroup, inner tr)
+                                                           ├─ DatabaseChangeCounter (HANDSEED + ObjectOpenedForModify)
+                                                           ├─ AutocadContextReader (units mm, handles, layers, blocks)
+                                                           ├─ AutocadResultSerializer (Entity, ObjectId, Point3d shapes)
+                                                           └─ XAML status window (opt-in, OFF on load, never persisted)
+```
+
+## ContextService.Shape — Per-Host Shaping
+
+`HPRebar.Mcp.Server.Core/Services/ContextService.cs` serializes context differently per host:
+
+| Host | Output | Notes |
+|---|---|---|
+| Revit | Original object path | `revitVersion`, `isFamily`, full set; regression-tested byte-identical |
+| AutoCAD | JsonObject via `SerializeToNode` | Drops `revitVersion` + `isFamily` (Revit-only semantics); preserves `hostVersion`, `isModifiable` (per-host docs in XML) |
+
+The `Shape` method (`.cs:54-72`) checks `HostId == revit`, returning verbatim for Revit (no extra serialization cost), or filtering for non-Revit to hide Revit-specific fields.
+
+## Phases 4–5 Planned
+
+| Phase | Work | Notes |
+|---|---|---|
+| 4 | Seed tools for AutoCAD; engine meta-tool descriptions (host-neutral wording or profile-driven); `get_run` record host field alias | Registry seeding, tool library |
+| 5 | Modal dialog + ESC-then-retry; per-run undo (`ExecuteInCommandContextAsync`); live Dynamo coexistence test | UX, cleanup |
 | Debug F5 / runtime issue | `/bs:revit-debug` |
 | Setup / chạy test | `/bs:revit-test` |
 | Plan feature mới | `/bs:plan` (Stack-Aware 6-phase) |

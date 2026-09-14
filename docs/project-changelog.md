@@ -2,6 +2,31 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge phase 3: server exe over stdio
+
+Bổ sung: `HPAutoCad.Mcp.Server` (net10 console exe) + `AutocadHostProfile` (12 tools: 4 core + 8 registry, `autocad://` resources, 2 prompts), registry root `%AppData%\HPAutoCad\McpServer\`, pipe `hpautocad-mcp-2026`, env prefix `HPAUTOCAD_MCP_`. Core: `ContextService.Shape` drops `revitVersion`/`isFamily` for non-Revit hosts (wire unchanged, Revit output byte-identical, regression test 89/89).
+
+**Xác minh:** Publish exe 7.4 MB, stdio harness 7/7 ×2 (lead + tester): initialize, 12 tools/list, context without Revit fields, execute none/dryRun/real with runId + hint, get_run from registry.db. Revit exe 34 tools unchanged with Revit 2026 running side-by-side. Build zero warn/err. Tests: AutoCAD 8/8 + McpShared 89/89 + HPRebar MCP 106/106 (203 total). Harness files (`mcp-call.py`, `run-server-smoke.ps1`, `run-bridge-unattended.ps1`, `harness-common.ps1`) live in repo.
+
+**Các quyết định:**
+- `revitVersion`/`isFamily` hidden in `ContextService.Shape` (non-Revit hosts); Revit: wire unchanged, output byte-identical
+- `IsModifiable` documented in Contracts XML comment + descriptions per host (Revit: transaction open; AutoCAD: writable + quiescent)
+- Description length 1717 chars (AutoCAD contract needs `tr`/deny/units/semantics; plan budget ~1200, real budget 1800)
+- Harnesses in repo (Python + PowerShell 7.3+, JSON quoting safe, depth guards)
+- `.mcp.json` entry user adds (untracked); snippet in `HPAutoCad/README.md` + smoke report
+
+**Những chưa làm:**
+- Engine meta-tool descriptions still say "Revit"/`execute_revit_code` (phase 4: host-neutral wording or profile-driven text)
+- Seed tools for AutoCAD (phase 4)
+- R27 AutoCAD support (not planned)
+
+**Các gaps được chấp nhận:**
+- `runId`/`hint` branch exercised only by live smoke, not by xUnit (registry-less `ExecuteCodeService` in tests; phase 4 will add AutoCAD test with temp-dir `ToolManager`)
+- Modal dialog while waiting + ESC-then-retry (phase 5 manual)
+- Per-run undo (needs `ExecuteInCommandContextAsync`, phase 5)
+
+Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phases 1–3/6 done).
+
 ## 2026-09-14 — AutoCAD MCP bridge phase 2: bridge runtime
 
 Bổ sung: `MainThreadExecutor` (Application.Idle + IsQuiescent, PostMessage WM_NULL wake, busy grace 8 s), `AutocadScriptRunner` (outer = group, inner = `tr`, commit inner trước quyết định outer, dryRun rollback), `DatabaseChangeCounter` (HANDSEED + ObjectOpenedForModify + IsErased, không giữ wrapper), `AutocadContextReader`/`AutocadResultSerializer` (entities, ObjectId handles, units mm ↔ drawing), XAML status window (theme dark/light override, per-session opt-in "Allow AI code execution"), Core `MainThreadQueue` + `BridgeRequestException` + `AutocadInsunits` + guard deny `StartTransaction`/`LockDocument`.

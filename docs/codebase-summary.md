@@ -10,7 +10,7 @@ Gồm 4 unrelated deliverables (không cross-wire):
 |---|---|---|
 | `HPRebar/` | Revit add-in + server MCP | C# / Nice3point / WPF / xUnit / TUnit |
 | `McpShared/` | Host-neutral MCP engine | netstandard2.0 · net8.0 · net10.0 |
-| `HPAutoCad/` | AutoCAD add-in + server MCP (scaffold) | C# / AutoCAD.NET / Roslyn (kế thừa từ McpShared) |
+| `HPAutoCad/` | AutoCAD add-in + server MCP (phases 1–3 ✅ verified) | C# / AutoCAD.NET / Roslyn (kế thừa từ McpShared) |
 | `revit-market-research/` · `scripts/skill_sync/` · `course-website/` | Tooling | Node / Python / HTML |
 
 ## HPRebar Solution
@@ -41,20 +41,22 @@ Gồm 4 unrelated deliverables (không cross-wire):
 
 ## HPAutoCad Solution
 
-`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phases 1–2 (2026-09-14): loader + ALC + bundle + bridge runtime verified live.
+`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phases 1–3 (2026-09-14): loader + ALC + bundle + bridge runtime + stdio server ✅ verified live.
 
 | Project | TFM | Vai trò | Build? |
 |---|---|---|---|
 | `HPAutoCad.McpBridge.Loader/` | net8.0-windows | IExtensionApplication + HPMCP* commands (HPMCPBRIDGE/STATUS/START/STOP); tạo BridgeLoadContext, khởi động bridge bằng reflection | ✅ |
 | `HPAutoCad.McpBridge/` | net8.0-windows, UseWPF | Phases 1–2: Roslyn + self-check; `MainThreadExecutor` (Idle + IsQuiescent + PostMessage WM_NULL), `AutocadScriptRunner` (outer/inner transaction via `doc.TransactionManager`, dryRun, timeout), `DatabaseChangeCounter` (HANDSEED + events), `AutocadContextReader`/`AutocadResultSerializer`, XAML status window (theme-merged, opt-in "Allow AI code execution") | ✅ |
-| `HPAutoCad.Mcp.Server/` | net10.0 console | MCP server exe + AutocadHostProfile + tools/resources (phase 3) | ⏳ |
-| `HPAutoCad.Mcp.Server.Tests/` | net10.0 | xUnit v3: profile, tools, seed compile check (phase 3–4) | ⏳ |
+| `HPAutoCad.Mcp.Server/` | net10.0 console | Phase 3 ✅: thin exe + `AutocadHostProfile` + 12 tools (4 core + 8 registry) + `autocad://` resources + 2 prompts. Registry root `%AppData%\HPAutoCad\McpServer\` (registry.db + tools-library). Pipe `hpautocad-mcp-2026`, env prefix `HPAUTOCAD_MCP_` | ✅ |
+| `HPAutoCad.Mcp.Server.Tests/` | net10.0 | xUnit v3: 8 tests (profile, options, tool surface, context/resource/execute/refusal over pipe); seed compile check phase 4 | ✅ |
 
-**Core additions (phase 2):** `MainThreadQueue.cs` (9 test), `BridgeRequestException.cs`, `AutocadInsunits.cs`, `GuardProfile.AutoCAD` + deny `StartTransaction/StartOpenCloseTransaction/TopTransaction/LockDocument`. Tests: McpShared 88/88, HPRebar MCP 106/106.
+**Phase 2 additions:** `MainThreadQueue.cs`, `BridgeRequestException.cs`, `AutocadInsunits.cs`, `GuardProfile.AutoCAD` + deny `StartTransaction/StartOpenCloseTransaction/TopTransaction/LockDocument`. Tests: McpShared 89/89, HPRebar MCP 106/106.
 
-**Unattended harness & verification:** `HPAutoCad/tools/harness/` (Python + PowerShell) 21/21 scenarios: Idle wake, busy grace 8 s, timeout/cancel/none-document, dryRun, undo merging, SECURELOAD auto-accept, UI Automation opt-in, COM close/busy/REGEN. Run 2× independent (lead + tester) 21/21 ✅; zero `.NET Runtime 1026` crashes; audit 234+ lines.
+**Phase 3 harness & verification:** `HPAutoCad/tools/harness/` (Python + PowerShell) publish exe 7/7 stdio, 21/21 bridge scenarios: context without Revit fields, 12 tools/list unchanged with Revit exe, none/dryRun/real execute through pipe, get_run from registry.db. Registry separate `%AppData%\HPAutoCad\` vs `%AppData%\HPRebar\`. SECURELOAD auto-accept, UI Automation opt-in. Zero crashes.
 
-**Runtime platform:** AutoCAD 2026 base release (R25.1, .NET 8) verified 2026-09-14.
+**Publish:** `dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server` (7.4 MB). `.mcp.json` entry (user adds) → `hprebar-autocad` → that exe + env `HPAUTOCAD_MCP_Bridge__HostVersion=2026`.
+
+**Runtime platform:** AutoCAD 2026 base release (R25.1, .NET 8) verified 2026-09-14. Harness in repo: `mcp-call.py`, `run-server-smoke.ps1`, `run-bridge-unattended.ps1`, `harness-common.ps1`.
 
 `HPRebar.Tests` bị loại khỏi solution build có chủ đích: dưới config R23/R24 nó sẽ compile net8 rồi reference `HPRebar.dll` net48 → `CS0433 ReadOnlySpan<T> exists in both` (Polyfill nhúng span type vào assembly). Chạy riêng:
 
