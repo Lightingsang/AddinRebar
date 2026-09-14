@@ -51,7 +51,7 @@
 ```
 - `Platform="AutoCAD"` (không `AutoCAD*`): tránh nạp vào Civil 3D 2026 / Advance Steel 2026 cùng R25.1 trên máy dev khi chưa verify (pipe cùng tên sẽ tranh nhau — `PipeListener` fail-fast). Mở `AutoCAD*` là một dòng sửa sau khi verify.
 - `LoadOnAutoCADStartup="True"`: listener **không** tự start (setting `AutoStartListener` persisted, mặc định OFF như Revit); startup chỉ tạo ALC + self-check + đăng ký command.
-- Dialog "unsigned executable"/`SECURELOAD`: bundle trong `ApplicationPlugins` nằm trong trusted locations mặc định `[unverified — plugin cũ của user nạp được từ đó, không thấy dialog được ghi nhận]`; nếu AutoCAD hỏi, user chọn *Always Load* (giống Revit).
+- Dialog "unsigned executable"/`SECURELOAD`: **verified 2026-09-14 — AutoCAD 2026 hỏi "Security - Unsigned Executable File" cho `Contents\HPAutoCad.McpBridge.Loader.dll` mỗi khi DLL đổi hash** (bundle trong `ApplicationPlugins` không được miễn); *Always Load* (giống Revit) → chạy tiếp; harness unattended tự bấm nút. Chưa rõ *Always Load* có ghi `TRUSTEDPATHS` hay chỉ nhớ hash — phase 5 ghi docs; ký DLL là việc của pack (ngoài MVP).
 
 ### 3. Build / deploy dev loop
 - csproj bridge: property `AutocadVersion` (mặc định `2026`) → `AutocadSeries` `R25.1`, `AutocadPackageVersion` `[25.1.0]`, `PipeName` không cần (bridge đọc `Application.Version.Major/Minor` runtime → `PipeNaming.For("autocad", 2026)`; map series→năm bằng bảng nhỏ trong bridge, fallback `AutocadVersion` build-time constant).

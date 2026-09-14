@@ -1,6 +1,6 @@
 ---
 title: "Phase 1 — Scaffold plugin AutoCAD 2026: Loader + AssemblyLoadContext riêng, bundle, spike threading/Roslyn"
-status: built + verified in AutoCAD 2026 (2026-09-14) — spike 5/5 pass unattended (reports/phase-01-spike.md); ALC isolation + Idle marshalling confirmed; ExecuteInApplicationContext rejected
+status: built + verified in AutoCAD 2026 (2026-09-14) — spike 5/5 pass unattended ×3 (reports/phase-01-spike.md); ALC isolation + Idle marshalling confirmed; ExecuteInApplicationContext rejected; code review 7/10 → 16/16 findings resolved (reports/phase-01-code-review.md §Resolution), AutoCAD tự thoát sau spike
 priority: P1
 effort: 8h (actual ≈ 4h)
 depends_on: [phase-00 bước 1–2]
@@ -60,7 +60,7 @@ Xem [architecture.md §5](architecture.md#5-layout-project-mới--sửa--giữ-)
 
 ## Todo
 - [x] 1 csproj + build (bridge output: deps.json, Roslyn 5.9 ×4, Immutable 10, không `Ac*`) · [x] 2 ALC (`BridgeLoadContext`, resolver + từ chối `Ac*/Ad*/Autodesk.*`) · [x] 3 loader/entry (`BridgeLoaderApplication` reflection → `BridgeEntry.Start` trả `IReadOnlyDictionary<string, Delegate>`) · [x] 4 self-check (`ScriptingSelfCheck`, OK 1 577 ms) · [x] 5 bundle/deploy/slnx (`DeployBundle` target trong Loader csproj; `HPAutoCad.slnx` 2 project) · [x] 6 spike trong AutoCAD + report (unattended `acad.exe /b spike.scr` → `HPMCPSPIKEQUIT`; 5/5 pass, modal chưa test) · [x] 7 ADR-02/05 → Accepted
-- Sai lệch: placeholder window dựng bằng code (không XAML) cho tới phase 2; `HPMCPSPIKEQUIT` không tự thoát AutoCAD (harness kill).
+- Sai lệch: placeholder window dựng bằng code (không XAML) cho tới phase 2. `HPMCPSPIKE*` chỉ chạy khi env `HPAUTOCAD_MCP_SPIKE=1` (vẽ vào drawing đang mở); quit unattended = `CloseAndDiscard` + `Quit` trên hai Idle tick (verified run 3). SECURELOAD hỏi mỗi hash mới của loader DLL → harness bấm *Always Load*.
 
 ## Success criteria
 - `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false` vẫn xanh và **không** build gì của `HPAutoCad/`.

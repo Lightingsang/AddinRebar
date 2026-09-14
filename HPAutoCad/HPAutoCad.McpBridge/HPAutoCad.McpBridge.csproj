@@ -8,11 +8,14 @@
         <UseWPF>true</UseWPF>
         <RootNamespace>HPAutoCad.McpBridge</RootNamespace>
         <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
         <!-- Loaded by HPAutoCad.McpBridge.Loader into its own AssemblyLoadContext: EnableDynamicLoading writes the
              deps.json the resolver reads and copies every dependency (Roslyn, System.Collections.Immutable 10,
              System.Text.Json 10, Serilog, Mvvm) next to the DLL so the isolated context can load private copies. -->
         <EnableDynamicLoading>true</EnableDynamicLoading>
-        <AutocadVersion Condition="'$(AutocadVersion)' == ''">2026</AutocadVersion>
+        <!-- Roslyn ships 13 localized resource folders (7 MB); the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
         <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
     </PropertyGroup>
 

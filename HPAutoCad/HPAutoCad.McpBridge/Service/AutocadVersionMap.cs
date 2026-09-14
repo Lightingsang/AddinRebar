@@ -7,7 +7,7 @@ namespace HPAutoCad.McpBridge.Service;
 /// </summary>
 public static class AutocadVersionMap
 {
-    /// <summary>The product year this build targets (csproj `AutocadVersion`).</summary>
+    /// <summary>The product year this build targets; keep in step with `AutocadPackageVersion` in the csproj.</summary>
     public const int BuiltFor = 2026;
 
     private static readonly IReadOnlyDictionary<(int Major, int Minor), int> SeriesToYear = new Dictionary<(int, int), int>

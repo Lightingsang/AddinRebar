@@ -27,12 +27,14 @@ public static class BridgeLoaderCommands
     /// <summary>
     ///     Phase-1 spike: proves Roslyn in the isolated load context, a modeless WPF window, and the two ways
     ///     of reaching AutoCAD's main thread from a background thread. Writes a report under
-    ///     %LocalAppData%\HPAutoCad\McpBridge\logs. Removed once the bridge runtime (phase 2) lands.
+    ///     %LocalAppData%\HPAutoCad\McpBridge\logs. It draws into the active drawing, so the bridge refuses
+    ///     it unless HPAUTOCAD_MCP_SPIKE=1 is set in acad.exe's environment. Removed once the bridge
+    ///     runtime (phase 2) lands.
     /// </summary>
     [CommandMethod("HPMCPSPIKE")]
     public static void RunSpike() => Run("spike", false);
 
-    /// <summary>Same spike, then closes the drawing without saving and quits — for an unattended `acad.exe /b` run.</summary>
+    /// <summary>Same spike, then discards the drawing and quits — for an unattended `acad.exe /b` run. Same gate.</summary>
     [CommandMethod("HPMCPSPIKEQUIT")]
     public static void RunSpikeAndQuit() => Run("spike", true);
 

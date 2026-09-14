@@ -3,12 +3,14 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using HPAutoCad.McpBridge.Model;
 using HPRebar.McpBridge.Core.Scripting;
 using Serilog;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
+using AcMgdApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace HPAutoCad.McpBridge.Service;
 
@@ -16,14 +18,20 @@ namespace HPAutoCad.McpBridge.Service;
 ///     Phase-1 spike (ADR-02 / ADR-05 open questions). Steps 1–3 run on the command thread; steps 4–6
 ///     run from a background thread because that is where the pipe listener will call from. Every step
 ///     records a verdict; the report goes to the bridge log folder so an unattended `acad.exe /b` run
-///     leaves evidence behind. Deleted once phase 2 replaces it with the real executor.
+///     leaves evidence behind. It appends geometry to the active drawing and, with quit, discards it —
+///     so it only runs when <see cref="EnableVariable"/> is set in acad.exe's environment. Deleted once
+///     phase 2 replaces it with the real executor.
 /// </summary>
 public sealed class SpikeRunner
 {
+    /// <summary>Set to "1" before starting AutoCAD to allow the spike commands; anything else makes them a no-op.</summary>
+    public const string EnableVariable = "HPAUTOCAD_MCP_SPIKE";
+
     private static readonly TimeSpan StepTimeout = TimeSpan.FromSeconds(15);
 
     private readonly ScriptCompiler _compiler;
     private readonly string _logDirectory;
+    private readonly object _gate = new();
     private readonly List<string> _lines = [];
     private int _mainThreadId;
 
@@ -33,13 +41,22 @@ public sealed class SpikeRunner
         _logDirectory = logDirectory;
     }
 
+    public static bool Enabled => Environment.GetEnvironmentVariable(EnableVariable) == "1";
+
     public string ReportPath => Path.Combine(_logDirectory, "spike-report.md");
 
     /// <summary>Called on AutoCAD's command thread. Returns immediately; the background part finishes on its own.</summary>
     public string Start(bool quitWhenDone)
     {
-        _mainThreadId = Environment.CurrentManagedThreadId;
-        _lines.Clear();
+        if (!Enabled)
+            return $"[HPAutoCad MCP] spike disabled: it draws into the active drawing{(quitWhenDone ? " and discards it" : "")}. Set {EnableVariable}=1 before starting AutoCAD to run it.";
+
+        lock (_gate)
+        {
+            _mainThreadId = Environment.CurrentManagedThreadId;
+            _lines.Clear();
+        }
+
         Record($"# HPAutoCad MCP bridge — phase 1 spike ({DateTime.Now:yyyy-MM-dd HH:mm:ss})");
         Record($"main thread {_mainThreadId}; AutoCAD {AcadApp.Version}; quitWhenDone={quitWhenDone}");
 
@@ -54,13 +71,33 @@ public sealed class SpikeRunner
 
     private async Task BackgroundAsync(bool quitWhenDone)
     {
-        await StepAsync("4a idle from background thread", IdleFromBackgroundAsync);
-        await StepAsync("4b ExecuteInApplicationContext from background thread", ApplicationContextFromBackgroundAsync);
-        await StepAsync("5 busy: command in progress", BusyCommandAsync);
-        Record("6 modal dialog while idle: NOT TESTED (unattended run cannot dismiss a dialog)");
-        WriteReport();
+        try
+        {
+            await StepAsync("4a idle from background thread", IdleFromBackgroundAsync);
+            // 4b ExecuteInApplicationContext from a background thread: rejected by the first run (callback on the
+            // calling thread, 12.9 s block) and it blocked the spike for good on the second — not repeated.
+            await StepAsync("5 busy: command in progress", BusyCommandAsync);
+            Record("6 modal dialog while idle: NOT TESTED (unattended run cannot dismiss a dialog)");
+            WriteReport();
 
-        if (quitWhenDone) await OnIdleAsync(() => Document().SendStringToExecute("_.CLOSE _N _.QUIT ", true, false, true), "quit");
+            if (quitWhenDone) await QuitAsync();
+        }
+        catch (Exception exception)
+        {
+            // Nothing awaits this task; a throw here would otherwise vanish as an unobserved exception.
+            Log.Error(exception, "spike background part failed");
+        }
+    }
+
+    /// <summary>
+    ///     Both calls need the application context, hence the Idle ticks. CloseAndDiscard [undocumented, AcMgd]
+    ///     drops the drawing without the save prompt a command-line `_.CLOSE` would raise; Quit on the next
+    ///     tick ends acad.exe. The harness still kills the process if this does not.
+    /// </summary>
+    private async Task QuitAsync()
+    {
+        Record(await OnIdleAsync(() => Document().CloseAndDiscard(), "close and discard"));
+        Record(await OnIdleAsync(AcadApp.Quit, "quit"));
     }
 
     // ---- steps -----------------------------------------------------------------------------------
@@ -70,19 +107,22 @@ public sealed class SpikeRunner
         var roslyn = typeof(Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript).Assembly;
         var immutable = typeof(System.Collections.Immutable.ImmutableArray).Assembly;
         var acdb = typeof(Database).Assembly;
+        var acmgd = typeof(AcMgdApp).Assembly;
         var self = typeof(SpikeRunner).Assembly;
 
-        Record($"bridge '{ScriptingSelfCheck.ContextOf(self)}' · Roslyn {roslyn.GetName().Version} '{ScriptingSelfCheck.ContextOf(roslyn)}' · Immutable {immutable.GetName().Version} '{ScriptingSelfCheck.ContextOf(immutable)}' · AcDbMgd {acdb.GetName().Version} '{ScriptingSelfCheck.ContextOf(acdb)}'");
+        Record($"bridge '{ScriptingSelfCheck.ContextOf(self)}' · Roslyn {roslyn.GetName().Version} '{ScriptingSelfCheck.ContextOf(roslyn)}' · Immutable {immutable.GetName().Version} '{ScriptingSelfCheck.ContextOf(immutable)}' · AcDbMgd {acdb.GetName().Version} '{ScriptingSelfCheck.ContextOf(acdb)}' · AcMgd {acmgd.GetName().Version} '{ScriptingSelfCheck.ContextOf(acmgd)}'");
 
         if (ScriptingSelfCheck.ContextOf(roslyn) != "HPAutoCad.McpBridge") throw new InvalidOperationException("Roslyn resolved outside the bridge load context");
         if (roslyn.GetName().Version?.Major != 5) throw new InvalidOperationException("Roslyn is not the 5.x the bridge ships (AutoCAD's 4.10 won)");
         if (ScriptingSelfCheck.ContextOf(acdb) == "HPAutoCad.McpBridge") throw new InvalidOperationException("AcDbMgd loaded twice — AutoCAD API must come from the default context");
+        if (ScriptingSelfCheck.ContextOf(acmgd) == "HPAutoCad.McpBridge") throw new InvalidOperationException("AcMgd loaded twice — AutoCAD API must come from the default context");
     }
 
     private void CompileAndRunWithDocument()
     {
         var doc = Document();
-        var compiled = _compiler.GetOrCompile("return db.Filename + \" | layer \" + tr.GetObject(db.Clayer, OpenMode.ForRead).GetType().Name + \" | \" + units.ToDrawing(25.4);");
+        // `Application.DocumentManager` is the AcMgd idiom every AutoCAD sample uses; it must resolve in a script.
+        var compiled = _compiler.GetOrCompile("return db.Filename + \" | layer \" + tr.GetObject(db.Clayer, OpenMode.ForRead).GetType().Name + \" | \" + units.ToDrawing(25.4) + \" | docs \" + Application.DocumentManager.Count;");
         if (!compiled.Succeeded) throw new InvalidOperationException(string.Join("; ", compiled.Diagnostics.Select(d => $"{d.Line}:{d.Column} {d.Message}")));
 
         using var transaction = doc.Database.TransactionManager.StartTransaction();
@@ -129,34 +169,6 @@ public sealed class SpikeRunner
         Record(result);
     }
 
-    private async Task ApplicationContextFromBackgroundAsync()
-    {
-        var completion = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var call = Stopwatch.StartNew();
-        long returnedAfter;
-        bool ranBeforeReturn;
-
-        try
-        {
-            AcadApp.DocumentManager.ExecuteInApplicationContext(_ =>
-            {
-                completion.TrySetResult($"callback on thread {Environment.CurrentManagedThreadId} (main={Environment.CurrentManagedThreadId == _mainThreadId}), quiescent={AcadApp.IsQuiescent}, {call.ElapsedMilliseconds} ms after the call");
-            }, null);
-            returnedAfter = call.ElapsedMilliseconds;
-            ranBeforeReturn = completion.Task.IsCompleted; // true = the call blocked the background thread until the callback finished
-        }
-        catch (Exception exception)
-        {
-            Record($"ExecuteInApplicationContext threw from the background thread: {exception.GetType().Name}: {exception.Message}");
-            return;
-        }
-
-        var finished = await Task.WhenAny(completion.Task, Task.Delay(StepTimeout));
-        Record(finished == completion.Task
-            ? $"call returned after {returnedAfter} ms, blocking={ranBeforeReturn}; {completion.Task.Result}"
-            : $"call returned after {returnedAfter} ms but the callback never ran within {StepTimeout.TotalSeconds}s");
-    }
-
     private async Task BusyCommandAsync()
     {
         // Start an interactive command from the main thread, then observe what a request would see.
@@ -175,14 +187,21 @@ public sealed class SpikeRunner
 
     // ---- helpers ---------------------------------------------------------------------------------
 
-    /// <summary>Runs <paramref name="work"/> on the next Idle tick; the subscribe itself happens on the calling (background) thread.</summary>
-    private Task<string> OnIdleAsync(Func<string> work, string label)
+    /// <summary>
+    ///     Runs <paramref name="work"/> on the next Idle tick; the subscribe itself happens on the calling
+    ///     (background) thread. A timeout completes the request first and then unsubscribes, so a tick that
+    ///     arrives late finds the request finished and never touches the document — the contract the
+    ///     bridge's main-thread executor keeps as well.
+    /// </summary>
+    private async Task<string> OnIdleAsync(Func<string> work, string label)
     {
         var completion = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
         EventHandler? handler = null;
         handler = (_, _) =>
         {
             AcadApp.Idle -= handler;
+            if (completion.Task.IsCompleted) return;
+
             try { completion.TrySetResult(work()); }
             catch (Exception exception) { completion.TrySetResult($"{label}: idle handler threw {exception.GetType().Name}: {exception.Message}"); }
         };
@@ -193,16 +212,26 @@ public sealed class SpikeRunner
         }
         catch (Exception exception)
         {
-            completion.TrySetResult($"{label}: Idle += from thread {Environment.CurrentManagedThreadId} threw {exception.GetType().Name}: {exception.Message}");
+            return $"{label}: Idle += from thread {Environment.CurrentManagedThreadId} threw {exception.GetType().Name}: {exception.Message}";
         }
 
-        return Task.WhenAny(completion.Task, Task.Delay(StepTimeout)).ContinueWith(t =>
-            t.Result == completion.Task ? completion.Task.Result : $"{label}: no Idle tick within {StepTimeout.TotalSeconds}s (subscribed from thread {Environment.CurrentManagedThreadId})");
+        using var timeout = new CancellationTokenSource();
+        var finished = await Task.WhenAny(completion.Task, Task.Delay(StepTimeout, timeout.Token));
+        if (finished == completion.Task)
+        {
+            timeout.Cancel();
+            return completion.Task.Result;
+        }
+
+        var timedOut = $"{label}: no Idle tick within {StepTimeout.TotalSeconds}s (subscribed from thread {Environment.CurrentManagedThreadId})";
+        completion.TrySetResult(timedOut);
+        AcadApp.Idle -= handler;
+        return timedOut;
     }
 
-    private Task OnIdleAsync(Action work, string label) => OnIdleAsync(() => { work(); return label + ": ok"; }, label);
+    private Task<string> OnIdleAsync(Action work, string label) => OnIdleAsync(() => { work(); return label + ": ok"; }, label);
 
-    private static Autodesk.AutoCAD.ApplicationServices.Document Document() =>
+    private static Document Document() =>
         AcadApp.DocumentManager.MdiActiveDocument ?? throw new InvalidOperationException("No drawing is open");
 
     private void Step(string name, Action action)
@@ -219,7 +248,7 @@ public sealed class SpikeRunner
 
     private void Record(string line)
     {
-        lock (_lines) _lines.Add(line);
+        lock (_gate) _lines.Add(line);
         Log.Information("spike: {Line}", line);
     }
 
@@ -228,7 +257,9 @@ public sealed class SpikeRunner
         try
         {
             Directory.CreateDirectory(_logDirectory);
-            lock (_lines) File.WriteAllText(ReportPath, string.Join(Environment.NewLine, _lines) + Environment.NewLine, new UTF8Encoding(false));
+            string report;
+            lock (_gate) report = string.Join(Environment.NewLine, _lines) + Environment.NewLine;
+            File.WriteAllText(ReportPath, report, new UTF8Encoding(false));
             Log.Information("spike report written to {Path}", ReportPath);
         }
         catch (Exception exception)

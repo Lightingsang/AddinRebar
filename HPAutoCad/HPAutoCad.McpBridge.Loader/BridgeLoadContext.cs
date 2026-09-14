@@ -27,8 +27,10 @@ internal sealed class BridgeLoadContext : AssemblyLoadContext
         var name = assemblyName.Name ?? string.Empty;
 
         // Never a second copy of the AutoCAD API, whatever the deps.json says: the bridge must see the
-        // Document/Database instances AutoCAD hands it, not types from a duplicate assembly.
-        if (HostAssemblyPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.Ordinal))) return null;
+        // Document/Database instances AutoCAD hands it, not types from a duplicate assembly. The bridge's
+        // deps.json already carries no Autodesk entry (ExcludeAssets=runtime), so this is belt and braces;
+        // case-insensitive because the assembly identities are "accoremgd" and "acdbmgdbrep".
+        if (HostAssemblyPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))) return null;
 
         var path = _resolver.ResolveAssemblyToPath(assemblyName);
         if (path is null) return null;

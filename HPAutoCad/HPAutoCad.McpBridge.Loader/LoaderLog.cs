@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace HPAutoCad.McpBridge.Loader;
 
 /// <summary>
@@ -9,16 +7,16 @@ namespace HPAutoCad.McpBridge.Loader;
 /// </summary>
 internal static class LoaderLog
 {
-    public static string Directory { get; } = Path.Combine(
+    public static string LogDirectory { get; } = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "HPAutoCad", "McpBridge", "logs");
 
-    public static string FilePath { get; } = Path.Combine(Directory, "loader.log");
+    public static string FilePath { get; } = Path.Combine(LogDirectory, "loader.log");
 
     public static void Write(string message)
     {
         try
         {
-            System.IO.Directory.CreateDirectory(Directory);
+            Directory.CreateDirectory(LogDirectory);
             File.AppendAllText(FilePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [{Environment.CurrentManagedThreadId}] {message}{Environment.NewLine}");
         }
         catch

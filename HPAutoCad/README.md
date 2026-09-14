@@ -9,12 +9,16 @@ Plan of record: [`../plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/26091
 
 ## Status
 
-Scaffold only (phase 0). The projects below are added by the later phases:
+Phase 1 done (2026-09-14): loader, isolated load context, bundle and a spike verified in AutoCAD 2026. The bridge
+has no pipe listener yet — that is phase 2. Commands today: `HPMCPBRIDGE` (placeholder window), `HPMCPSTATUS`,
+`HPMCPSTART`/`HPMCPSTOP` (no-ops until phase 2), and the temporary `HPMCPSPIKE`/`HPMCPSPIKEQUIT`, which draw into
+the active drawing and therefore only run when `HPAUTOCAD_MCP_SPIKE=1` is set in acad.exe's environment (removed
+in phase 2).
 
 | Project | Phase | Purpose |
 |---|---|---|
-| `HPAutoCad.McpBridge.Loader` | 1 | The DLL AutoCAD loads: `IExtensionApplication`, `HPMCPBRIDGE` command, an isolated `AssemblyLoadContext` for the real bridge |
-| `HPAutoCad.McpBridge` | 1–2 | The bridge: pipe listener, Roslyn, main-thread executor, transaction policy, status window |
+| `HPAutoCad.McpBridge.Loader` | 1 ✅ | The DLL AutoCAD loads: `IExtensionApplication`, the `HPMCP*` commands, an isolated `AssemblyLoadContext` for the real bridge |
+| `HPAutoCad.McpBridge` | 1 ✅ · 2 | The bridge: Roslyn + start-up self-check (phase 1); pipe listener, main-thread executor, transaction policy, status window (phase 2) |
 | `HPAutoCad.Mcp.Server` | 3 | The MCP server exe: `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, prompts, resources, embedded seed tools |
 | `HPAutoCad.Mcp.Server.Tests` | 3–4 | xUnit v3: profile, tools over a real pipe, seed compile checks against `AutoCAD.NET` 25.1.0 |
 
@@ -26,7 +30,7 @@ Shared engine (referenced, never copied): `../McpShared/HPRebar.Mcp.Contracts`, 
 AutoCAD 2026 base release (R25.1, .NET 8). `AutoCAD.NET` NuGet pinned to `[25.1.0]` — `25.1.1` and `26.0.0` are
 the .NET 10 builds (2026 Update 1.2 / 2027) and do not load on the base release.
 
-## Commands (once the projects exist)
+## Commands
 
 ```bash
 dotnet build HPAutoCad/HPAutoCad.slnx -c Debug                     # deploys the bundle to %AppData%\Autodesk\ApplicationPlugins\

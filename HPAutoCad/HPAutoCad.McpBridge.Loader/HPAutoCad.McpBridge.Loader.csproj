@@ -7,13 +7,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>HPAutoCad.McpBridge.Loader</RootNamespace>
         <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
         <!-- AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
-        <AutocadVersion Condition="'$(AutocadVersion)' == ''">2026</AutocadVersion>
         <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
         <!-- Copy the bundle to %AppData%\Autodesk\ApplicationPlugins after a Debug build; pass -p:DeployBundle=false while AutoCAD is open. -->
         <DeployBundle Condition="'$(DeployBundle)' == ''">true</DeployBundle>
-        <BundleDir>$(APPDATA)\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\</BundleDir>
-        <BridgeOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad.McpBridge\bin\$(Configuration)\net8.0-windows\</BridgeOutDir>
+        <BundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\</BundleDir>
+        <BridgeOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad.McpBridge\bin\$(Configuration)\$(TargetFramework)\</BridgeOutDir>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,13 +32,20 @@
         <None Include="Bundle\PackageContents.xml"/>
     </ItemGroup>
 
-    <Target Name="DeployBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(Configuration)' == 'Debug'">
+    <!-- Both projects share one TFM; the bridge output folder is derived from it, so a TFM change cannot silently deploy nothing. -->
+    <Target Name="DeployBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(Configuration)' == 'Debug' And '$(DesignTimeBuild)' != 'true'">
+        <Error Condition="!Exists('$(BridgeOutDir)HPAutoCad.McpBridge.dll')" Text="Bridge output missing at $(BridgeOutDir) - build HPAutoCad.McpBridge first"/>
         <ItemGroup>
             <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml"/>
             <_BridgeFiles Include="$(BridgeOutDir)**\*"/>
+            <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
         </ItemGroup>
+        <!-- Start from a clean Contents\Bridge: stale dependencies from an earlier build would not break the resolver
+             (deps.json wins) but they bloat the bundle and confuse debugging. Fails loudly while AutoCAD holds the files. -->
+        <RemoveDir Directories="$(BundleDir)Contents\Bridge"/>
         <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
-        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(BundleDir)Contents\" ContinueOnError="true"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
         <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
         <Message Importance="high" Text="HPAutoCad bundle deployed to $(BundleDir)"/>
     </Target>

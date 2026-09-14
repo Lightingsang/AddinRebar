@@ -1,5 +1,6 @@
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -41,8 +42,12 @@ public static class BridgeEntry
 
         var version = AcadApp.Version;
         var year = AutocadVersionMap.YearFor(version, out var knownYear);
-        Log.Information("HPAutoCad MCP bridge starting from {Directory}; AutoCAD {Version} → {Year}{Note}; pipe would be {Pipe}",
-            bridgeDirectory, version, year, knownYear ? "" : " (unknown series, using the build target)", PipeNaming.For(PipeNaming.AutocadHost, year));
+        Log.Information("HPAutoCad MCP bridge starting from {Directory}; AutoCAD {Version} → {Year}{Note}; runtime {Runtime}; pipe would be {Pipe}",
+            bridgeDirectory, version, year, knownYear ? "" : " (unknown series, using the build target)", RuntimeInformation.FrameworkDescription, PipeNaming.For(PipeNaming.AutocadHost, year));
+
+        // AutoCAD 2026 Update 1.2 reports the same 25.1 series but runs on .NET 10; this net8 build is untested there.
+        if (Environment.Version.Major != 8)
+            Log.Warning("Host runtime is .NET {Major}, this bridge was built and verified for .NET 8", Environment.Version.Major);
 
         var store = new BridgeSettingsStore(VendorFolder, ProductFolder);
         _settings = store.Load();
@@ -68,15 +73,16 @@ public static class BridgeEntry
     ///     The compiler sees the three AutoCAD API assemblies exactly as acad.exe loaded them (the load
     ///     context never duplicates them) plus the Core assembly that defines `args`/`units`. Imports come
     ///     from <see cref="HostScriptContracts.AutocadImports"/> so the server's tool description and the
-    ///     seed compile checks describe the same environment.
+    ///     seed compile checks describe the same environment; the seed tests must reference the same three
+    ///     AutoCAD assemblies, or a script passes there and fails here.
     /// </summary>
     private static ScriptCompiler CreateCompiler(int cacheSize)
     {
         Assembly[] references =
         [
-            typeof(Document).Assembly,      // AcMgd
-            typeof(AcadApp).Assembly,       // AcCoreMgd
-            typeof(Database).Assembly,      // AcDbMgd
+            typeof(Autodesk.AutoCAD.ApplicationServices.Application).Assembly, // AcMgd: Application.DocumentManager, DocumentExtension
+            typeof(Document).Assembly,                                        // AcCoreMgd: Document, Editor, Core.Application
+            typeof(Database).Assembly,                                        // AcDbMgd
             typeof(object).Assembly, typeof(Enumerable).Assembly, typeof(List<>).Assembly,
             Assembly.Load("netstandard"), Assembly.Load("System.Runtime"), Assembly.Load("System.Collections"),
             typeof(ScriptArgs).Assembly, typeof(System.Text.Json.JsonElement).Assembly,

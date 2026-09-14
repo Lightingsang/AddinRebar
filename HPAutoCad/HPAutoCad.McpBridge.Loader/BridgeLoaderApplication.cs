@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Autodesk.AutoCAD.Runtime;
 using HPAutoCad.McpBridge.Loader;
 
@@ -28,7 +29,7 @@ public sealed class BridgeLoaderApplication : IExtensionApplication
     {
         var loaderPath = Assembly.GetExecutingAssembly().Location;
         var bridgePath = Path.Combine(Path.GetDirectoryName(loaderPath)!, "Bridge", BridgeAssemblyFile);
-        LoaderLog.Write($"initialize: loader={loaderPath}");
+        LoaderLog.Write($"initialize: loader={loaderPath}; runtime {RuntimeInformation.FrameworkDescription}");
 
         try
         {
@@ -48,18 +49,22 @@ public sealed class BridgeLoaderApplication : IExtensionApplication
             Bridge = handle as IReadOnlyDictionary<string, Delegate>
                      ?? throw new InvalidCastException($"{EntryTypeName}.{EntryMethodName} must return IReadOnlyDictionary<string, Delegate>");
 
-            LoaderLog.Write($"bridge started in load context '{AssemblyLoadContext(assembly)}' with {Bridge.Count} entry points");
+            LoaderLog.Write($"bridge started in load context '{LoadContextNameOf(assembly)}' with {Bridge.Count} entry points");
         }
         catch (System.Exception exception)
         {
             // AutoCAD would swallow this into a one-line "failed to initialize" — keep the full story on disk.
-            StartupError = exception.GetType().Name + ": " + exception.Message;
+            // Invoke wraps whatever Start threw; the commands print StartupError, so unwrap it for them.
+            var cause = exception is TargetInvocationException { InnerException: { } inner } ? inner : exception;
+            StartupError = cause.GetType().Name + ": " + cause.Message;
             LoaderLog.Write("bridge failed to start", exception);
         }
     }
 
     public void Terminate()
     {
+        if (Bridge is null) return;
+
         try
         {
             Invoke("dispose");
@@ -79,6 +84,6 @@ public sealed class BridgeLoaderApplication : IExtensionApplication
         return entry.DynamicInvoke(args);
     }
 
-    private static string AssemblyLoadContext(Assembly assembly) =>
+    private static string LoadContextNameOf(Assembly assembly) =>
         System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(assembly)?.Name ?? "<unknown>";
 }
