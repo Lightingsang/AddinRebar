@@ -5,6 +5,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <!-- Same namespace as the Revit test project: these files were moved out of it with the engine. -->
         <RootNamespace>HPRebar.Mcp.Server.Tests</RootNamespace>
         <Configurations>Debug;Release</Configurations>
         <IsPackable>false</IsPackable>
@@ -22,17 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!-- Revit-specific tests: the seed library embedded in the exe, the registry over real seeds, the Revit profile. Engine
-             tests (pipe round trips, guard, compiler, args, analyzer) moved to McpShared/HPRebar.Mcp.Server.Core.Tests. -->
-        <ProjectReference Include="..\HPRebar.Mcp.Server\HPRebar.Mcp.Server.csproj"/>
-        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj"/>
-        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
-        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- One fake executor for both test projects; linked rather than copied. -->
-        <Compile Include="..\..\McpShared\HPRebar.Mcp.Server.Core.Tests\Fakes\FakeRevitExecutor.cs" Link="Fakes\FakeRevitExecutor.cs"/>
+        <!-- The engine and the Revit-free half of a bridge: a real named pipe between them needs no CAD host.
+             Nothing here references a host exe — host-specific tests (seeds, profiles) live beside each exe. -->
+        <ProjectReference Include="..\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj"/>
+        <ProjectReference Include="..\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
     </ItemGroup>
 
 </Project>

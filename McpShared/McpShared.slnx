@@ -12,4 +12,5 @@
   <Project Path="HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
   <Project Path="HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
   <Project Path="HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  <Project Path="HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj" />
 </Solution>
