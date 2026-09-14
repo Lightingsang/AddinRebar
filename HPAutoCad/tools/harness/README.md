@@ -12,9 +12,11 @@ Three scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation 
   pickfirst set, MISS → `propose_tool` → `test_tool` → `publish_tool` → CLI `registry approve` → `tools/list_changed`
   → call by name, an unguarded tool quarantined then restored/fixed/re-approved, the Revit exe beside it; with
   `-IncludeIsolation` also a second AutoCAD (pipe in use) and Civil 3D (bundle not loaded). `-OnlyIsolation`,
-  `-SkipRevit`, `-RevitExe <path>`. Re-runnable: it deletes its own `move_text_between_layers` and
-  `mcp_verify_count_block_refs` folders from the library first (`--reset-verify-tools`); the entities it draws stay in
-  the harness's unsaved drawing. Outputs under `HPAutoCad/output/live-verify/`.
+  `-SkipRevit`, `-RevitExe <path>`. The server and the CLI run on an **isolated registry root**
+  (`HPAutoCad/output/live-verify/registry`, via `HPAUTOCAD_MCP_Registry__LibraryPath/DbPath`; seeds are installed into it
+  on first start), so runs, quarantines and the two tools it proposes never touch `%AppData%\HPAutoCad\McpServer`
+  (`-UseLiveRegistry` opts back in). The entities it draws stay in the harness's unsaved drawing. It kills only the
+  AutoCAD/Civil 3D processes it started. Outputs under `HPAutoCad/output/live-verify/`.
 
 `run-bridge-unattended.ps1` drives the bridge run without a human:
 

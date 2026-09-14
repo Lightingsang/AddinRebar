@@ -87,7 +87,7 @@ public sealed class PipeListener : IDisposable
                 Log.Error(exception, "MCP bridge could not create pipe {Pipe}", PipeName);
                 _cts?.Cancel(); // IsListening must read false: nothing will accept until Start() is called again
                 Faulted?.Invoke(exception is IOException
-                    ? $"Pipe {PipeName} is already in use — another {_dispatcher.HostName} {PipeName[^4..]} instance is serving MCP."
+                    ? $"Pipe {PipeName} is already in use — another {_dispatcher.HostName} {_dispatcher.HostVersion} instance is serving MCP."
                     : $"Pipe {PipeName} could not be created: {exception.GetType().Name}: {exception.Message}");
                 return;
             }

@@ -5,7 +5,7 @@ react over time (notifications/tools/list_changed after a CLI approve, cancel_ex
     from mcp_session import Server        # (imported by file path in live-verify.py)
     s = Server(exe); s.initialize(); s.tool("get_autocad_context", {"includeSelection": True}); s.close()
 """
-import json, os, subprocess, threading, time
+import json, os, queue, subprocess, threading, time
 
 
 class Server:
@@ -18,6 +18,10 @@ class Server:
         self.pending = {}            # id -> response that arrived while waiting for another id
         self.next_id = 0
         self.name = name
+        # A reader thread feeds a queue so wait() can time out even when the server stops answering (a hung
+        # bridge or a modal AutoCAD would otherwise block the harness forever with AutoCAD still running).
+        self.lines = queue.Queue()
+        threading.Thread(target=self._pump, daemon=True).start()
 
     # ---- wire -------------------------------------------------------------------------------------------------
     def send(self, method, params=None):
@@ -36,9 +40,14 @@ class Server:
         self.proc.stdin.write((json.dumps(msg) + "\n").encode("utf-8"))
         self.proc.stdin.flush()
 
-    def _read_one(self):
-        line = self.proc.stdout.readline()
-        if not line:
+    def _pump(self):
+        for line in iter(self.proc.stdout.readline, b""):
+            self.lines.put(line)
+        self.lines.put(None)  # closed
+
+    def _read_one(self, timeout):
+        line = self.lines.get(timeout=timeout)
+        if line is None:
             err = b"".join(self.stderr).decode("utf-8", "replace")[-4000:]
             raise RuntimeError(f"{self.name}: server closed stdout; stderr tail:\n{err}")
         try:
@@ -53,22 +62,19 @@ class Server:
 
     def wait(self, msg_id, timeout=180.0):
         deadline = time.time() + timeout
-        while time.time() < deadline:
+        while True:
             if msg_id in self.pending:
                 return self.pending.pop(msg_id)
-            self._read_one()
-        raise TimeoutError(f"{self.name}: no response for id {msg_id}")
+            remaining = deadline - time.time()
+            if remaining <= 0:
+                raise TimeoutError(f"{self.name}: no response for id {msg_id} within {timeout:.0f}s")
+            try:
+                self._read_one(remaining)
+            except queue.Empty:
+                raise TimeoutError(f"{self.name}: no response for id {msg_id} within {timeout:.0f}s")
 
     def rpc(self, method, params=None, timeout=180.0):
         return self.wait(self.send(method, params), timeout)
-
-    def drain(self, seconds):
-        """Read whatever the server pushes for a while (used to catch tools/list_changed)."""
-        end = time.time() + seconds
-        # stdout.readline blocks, so poll through a tiny request instead: ping the tool list.
-        while time.time() < end:
-            self.rpc("ping", None, timeout=30)
-            time.sleep(0.25)
 
     # ---- MCP -------------------------------------------------------------------------------------------------
     def initialize(self):

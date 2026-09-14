@@ -2,7 +2,7 @@
 
 Machine: dev (AutoCAD 2026 R25.1.74 started by the harness from `acad.dwt`, Inches; Revit 2026 open with `NhaDanDung-3Tang-KetCau.rvt` and the deployed Revit bridge, opt-in off). Client: `HPAutoCad/output/HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.exe` over stdio, **one session** for A–D (`tools/list_changed` must reach a running server), `HPRebar/HPRebar.Mcp.Server/bin/Debug/net10.0/HPRebar.Mcp.Server.exe` for E (the published Revit exe is locked by this session's `hprebar-revit` MCP). Harness: `HPAutoCad/tools/harness/run-live-verify.ps1` → `live-verify.py` (+ `mcp-session.py`); logs `phase-05-live-verify-run{1,2}.log`, `phase-05-live-verify-isolation.log`, `phase-05-bridge-harness.log`.
 
-**Result:** run 2 (after the two engine fixes below) **65/65 pass, 1 skip** (Revit opt-in) + isolation **4/4** + bridge harness regression **21/21**. No `.NET Runtime 1026` event, no AutoCAD left running.
+**Result:** run 2 (after the two engine fixes below) **64 pass + 1 skip** (Revit opt-in) + isolation **4/4** + bridge harness regression **21/21**; run 3 after the review fixes, on an isolated registry root (`output/live-verify/registry`), 64 pass + 1 skip again (`phase-05-live-verify-run3.log`). No `.NET Runtime 1026` event, no AutoCAD left running.
 
 ## A — Execute matrix over stdio (18)
 | Scenario | Result |
@@ -65,7 +65,7 @@ Machine: dev (AutoCAD 2026 R25.1.74 started by the harness from `acad.dwt`, Inch
 
 ## Defects found and fixed during verification
 1. **Seed `insert_block` was quarantined by the harness itself** (Event Log: "Tool insert_block quarantined: 3/5 recent runs failed") — the phase-4 smoke runs called it with `NO-SUCH-BLOCK` on purpose; those `ArgumentException` refusals counted as tool failures, so two correct runs in B tipped it over. Fix (engine, both hosts): runs whose error starts with `Argument…Exception:` are the caller's and are excluded from the stability window (`ToolRegistryDb.StabilityRunFilter`); they stay in the history. `insert_block` restored + re-approved through the CLI; test `Argument_errors_are_the_callers_and_never_quarantine_a_tool`.
-2. **A restored tool was re-quarantined on its first successful run** (run 1: `mcp_verify_count_block_refs` ended quarantined although D passed — the old failures were still in the window). Fix: the window starts at the tool's last `approved` / `published` / `restore` / `proposed_version` event; test `A_restored_tool_starts_with_a_clean_stability_window`. Same behaviour would have hit Revit's `count_rooms_strict` from phase 9.
+2. **A restored tool was re-quarantined on its first successful run** (run 1: `mcp_verify_count_block_refs` ended quarantined although D passed — the old failures were still in the window). Fix: the window starts at the tool's last `approved` / `published` / `restore` / `proposed_version` / `imported` / `status_changed` event (the last one is written by the reload when a status was edited by hand in tool.json — the reviewer's catch); tests `A_restored_tool_starts_with_a_clean_stability_window`, `A_status_edited_by_hand_in_tool_json_also_starts_a_clean_window`. Same behaviour would have hit Revit's `count_rooms_strict` from phase 9.
 3. Pipe-in-use message said "another **Revit** … instance" on AutoCAD → `RequestDispatcher.HostName`, test `A_second_listener_on_the_same_pipe_faults_and_names_the_host`. Bridge log sink `shared: true` so a second instance can log the fault; `StatusDetail` got an `AutomationId` for the harness.
 
 ## Not verified

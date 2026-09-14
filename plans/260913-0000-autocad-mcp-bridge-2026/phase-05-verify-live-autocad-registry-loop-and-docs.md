@@ -1,6 +1,6 @@
 ---
 title: "Phase 5 — Verify live trong AutoCAD 2026: ma trận execute, 3 kịch bản registry (HIT · MISS→approve · HỎNG→quarantine→restore), hồi quy Revit, docs"
-status: built + tested + verified (2026-09-14) — live-verify 65/65 (+4/4 isolation, 1 skip: Revit opt-in), bridge harness 21/21; 2 engine defects found live and fixed (stability window: argument errors excluded, clean window after restore); reports/phase-05-live-verify.md
+status: built + tested + verified (2026-09-14) — live-verify 65/65 (+4/4 isolation, 1 skip: Revit opt-in), bridge harness 21/21; 2 engine defects found live and fixed (stability window: argument errors excluded, clean window after approve/restore/new version/hand edit); review 7.5/10 → 16/16 findings fixed, live run 3 on an isolated registry 64 + 1 skip; reports/phase-05-live-verify.md
 priority: P1
 effort: 10h
 depends_on: [phase-02, phase-03, phase-04]
@@ -41,7 +41,7 @@ F. **Xung đột/cách ly** — mở Civil 3D 2026 song song (cùng R25.1): bund
 5. Memory: cập nhật `dynamic-revit-mcp-server-plan` hoặc thêm `autocad-mcp-bridge-plan` (trạng thái verified, leftovers).
 
 ## Todo
-- [x] 1 deploy/publish (bundle redeployed, AutoCAD exe published; Revit exe published only as Debug build — `HPRebar/output` locked by the running `hprebar-revit` MCP; `.mcp.json` = user) · [x] 2 A (18, incl. busy→ESC→retry automated) · [x] 2 B (18, `insert_block` with a real block, pickfirst selection) · [x] 2 C (13, approve → `tools/list_changed` 0.5 s) · [x] 2 D (7, quarantine → restore → newVersion → re-approve; argument errors never quarantine) · [x] 2 E (5 + 1 skip: Revit opt-in off — seed/execute on Revit need the box ticked) · [x] 2 F (4: second instance fail-fast, Civil 3D no load) · [x] 3 fixes (stability window ×2, pipe-in-use host name, shared bridge log) · [x] 4 docs · [x] 5 memory
+- [x] 1 deploy/publish (bundle redeployed, AutoCAD exe published; Revit exe published only as Debug build — `HPRebar/output` locked by the running `hprebar-revit` MCP; `.mcp.json` = user) · [x] 2 A (18, incl. busy→ESC→retry automated) · [x] 2 B (18, `insert_block` with a real block, pickfirst selection) · [x] 2 C (13, approve → `tools/list_changed` 0.5 s) · [x] 2 D (7, quarantine → restore → newVersion → re-approve; argument errors never quarantine) · [x] 2 E (5 + 1 skip: Revit opt-in off — seed/execute on Revit need the box ticked) · [x] 2 F (4: second instance fail-fast, Civil 3D no load) · [x] 3 fixes (stability window ×2 + hand-edited tool.json path + events index, pipe-in-use host name/version, shared bridge log both hosts, harness isolated registry + pid-scoped cleanup + hard timeouts) · [x] 4 docs · [x] 5 memory
 - Sai lệch: harness dùng `mcp-session.py` (1 phiên stdio) thay vì `mcp_call.py` scratchpad; D dùng tool **không guard** (`eKeyNotFound`) vì lỗi `ArgumentException` nay không tính vào stability (quyết định phase 5, xem report); E chạy với exe Revit Debug; `test_tool realRun=true`, modal dialog, Revit 2025 vẫn chưa verify.
 
 ## Success criteria

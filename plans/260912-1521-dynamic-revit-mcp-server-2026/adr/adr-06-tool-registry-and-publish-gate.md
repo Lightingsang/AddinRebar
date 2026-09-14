@@ -20,7 +20,7 @@
 | Kiểm trước khi nhận | `ToolValidator`: slug/reserved, category, schema subset, args ↔ schema 2 chiều, guard + compile qua `revit.analyze`, transaction khớp, ví dụ ≥ 1 (khuyến nghị ≥ 2, khác args), literal nghi ngờ → warning | cơ học, rẻ, không đoán "hữu ích hay không" |
 | Test | `test_tool` chạy ví dụ với **dryRun** (rollback) → `tested`; `realRun` chỉ khi được yêu cầu | không đổi model của user khi kiểm |
 | Ai tổng quát hoá | client LLM (prompt `toolify_run` + `get_run` literal) | không API key, không chi phí server |
-| Ổn định | `stability = successRate(50 run) × min(1, runs/10)`; quarantine khi ≥ 5 run và lỗi > 40 %; test và lỗi hạ tầng (bridge vắng/opt-in tắt) **không** tính | tool hỏng tự rút khỏi `tools/list`, có ghi chú lý do |
+| Ổn định | `stability = successRate(50 run) × min(1, runs/10)`; quarantine khi ≥ 5 run và lỗi > 40 %; test và lỗi hạ tầng (bridge vắng/opt-in tắt) **không** tính. **Revised 2026-09-14 (AutoCAD phase 5, engine chung):** lỗi `Argument…Exception` do script tự từ chối đối số là lỗi của người gọi → **không** tính; cửa sổ chỉ đếm run **sau** lần approve / publish / restore / new version / sửa `status` trong tool.json gần nhất (tool được restore không bị quarantine lại bởi lỗi cũ) | tool hỏng tự rút khỏi `tools/list`, có ghi chú lý do |
 | Tìm kiếm | FTS5 `bm25 × (0.5 + 0.5·stability) × statusWeight` (published 1 · tested 0.6 · pending 0.4 · draft 0.2 · khác 0); fallback token-match nếu thiếu FTS5 | offline, đủ tới vài trăm tool; embedding để sau |
 
 ## Consequences

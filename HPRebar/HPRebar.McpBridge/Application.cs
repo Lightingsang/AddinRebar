@@ -140,7 +140,8 @@ public class Application : ExternalApplication
                 restrictedToMinimumLevel: LogEventLevel.Debug,
                 outputTemplate: outputTemplate,
                 rollingInterval: RollingInterval.Day,
-                retainedFileCountLimit: 7)
+                retainedFileCountLimit: 7,
+                shared: true) // a second Revit must be able to log why its listener refused to start
             .MinimumLevel.Debug()
             .CreateLogger();
 

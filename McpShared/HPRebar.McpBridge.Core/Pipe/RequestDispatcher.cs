@@ -20,10 +20,11 @@ public sealed class RequestDispatcher
     /// <summary>"Revit", "AutoCAD" — for messages that name the host.</summary>
     public string HostName { get; }
 
+    /// <summary>Major version of the host application, e.g. "2026".</summary>
+    public string HostVersion { get; }
+
     private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
-    private readonly string _hostVersion;
-    private readonly string _hostName;
 
     /// <param name="hostVersion">Major version of the host application, e.g. "2026".</param>
     /// <param name="hostName">Display name used in messages, e.g. "Revit" or "AutoCAD".</param>
@@ -31,8 +32,7 @@ public sealed class RequestDispatcher
     {
         _executor = executor;
         _settings = settings;
-        _hostVersion = hostVersion;
-        _hostName = hostName;
+        HostVersion = hostVersion;
         HostName = hostName;
     }
 
@@ -89,7 +89,7 @@ public sealed class RequestDispatcher
         switch (JsonRpcMethods.Suffix(method))
         {
             case JsonRpcMethods.PingSuffix:
-                return JsonRpcEnvelope.Success(id, new BridgePingResult(true, _hostVersion, _settings.ExecutionEnabled, _executor.IsBusy));
+                return JsonRpcEnvelope.Success(id, new BridgePingResult(true, HostVersion, _settings.ExecutionEnabled, _executor.IsBusy));
 
             case JsonRpcMethods.CancelSuffix:
                 return JsonRpcEnvelope.Success(id, _executor.Cancel());
@@ -131,10 +131,10 @@ public sealed class RequestDispatcher
 
         if (!_settings.ExecutionEnabled)
             return JsonRpcEnvelope.Failure(id, BridgeErrorCode.ExecutionDisabled,
-                $"Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HP MCP Bridge window inside {_hostName}.");
+                $"Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HP MCP Bridge window inside {HostName}.");
 
         if (_executor.IsBusy)
-            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.Busy, $"Another script is still running in {_hostName}. Wait for it to finish or call cancel_execution.");
+            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.Busy, $"Another script is still running in {HostName}. Wait for it to finish or call cancel_execution.");
 
         var parameters = request.ParamsAs<ExecuteRequest>();
         if (parameters is null || string.IsNullOrWhiteSpace(parameters.Code))

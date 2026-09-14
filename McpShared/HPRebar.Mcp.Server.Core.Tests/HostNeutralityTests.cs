@@ -187,7 +187,7 @@ public sealed class HostNeutralityTests
     [Fact]
     public async Task A_second_listener_on_the_same_pipe_faults_and_names_the_host()
     {
-        var pipe = "hpautocad-mcp-test-" + Guid.NewGuid().ToString("N") + "-2026"; // the message quotes the last four characters as the host version
+        var pipe = "hpautocad-mcp-test-" + Guid.NewGuid().ToString("N");
         var settings = new BridgeSettings();
         using var first = new PipeListener(pipe, new RequestDispatcher(new FakeRevitExecutor(), settings, "2026", "AutoCAD"));
         using var second = new PipeListener(pipe, new RequestDispatcher(new FakeRevitExecutor(), settings, "2026", "AutoCAD"));

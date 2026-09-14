@@ -1,8 +1,10 @@
-# Phase-5 live verification, unattended: starts AutoCAD 2026 with the bridge, then drives the published
+# Live verification of the whole AutoCAD MCP loop, unattended: starts AutoCAD 2026 with the bridge, then drives the published
 # HPAutoCad.Mcp.Server.exe over one stdio session (live-verify.py) through the execute matrix, every seed,
 # the MISS -> propose -> approve -> HIT loop and the quarantine -> restore loop; checks the Revit exe beside it;
 # optionally proves isolation (a second AutoCAD fails fast on the pipe, Civil 3D never loads the bundle).
-# Kills every AutoCAD it started. Publish both exes first (see HPAutoCad/README.md).
+# Kills only the AutoCAD/Civil 3D processes it started (tracked by pid). The server and the CLI run on an isolated
+# registry root under $OutDir (Registry:LibraryPath/DbPath overrides) so the user's %AppData% registry is never
+# written; seeds are installed into it on first start. Publish both exes first (see HPAutoCad/README.md).
 #Requires -Version 7.3
 param(
     [string]$Exe = (Join-Path $PSScriptRoot '..\..\output\HPAutoCad.Mcp.Server\HPAutoCad.Mcp.Server.exe'),
@@ -11,7 +13,8 @@ param(
     [int]$StartupTimeoutSec = 420,
     [switch]$IncludeIsolation,
     [switch]$OnlyIsolation,
-    [switch]$SkipRevit
+    [switch]$SkipRevit,
+    [switch]$UseLiveRegistry   # write to %AppData%\HPAutoCad\McpServer instead of the isolated root under $OutDir
 )
 
 . (Join-Path $PSScriptRoot 'harness-common.ps1')
@@ -25,6 +28,14 @@ $OutDir = (Resolve-Path $OutDir).Path
 $py = Join-Path $PSScriptRoot 'live-verify.py'
 $mcp = Join-Path $PSScriptRoot 'mcp-call.py'
 $env:PYTHONIOENCODING = 'utf-8'
+if (-not $UseLiveRegistry) {
+    $registryRoot = Join-Path $OutDir 'registry'
+    if (Test-Path $registryRoot) { Remove-Item $registryRoot -Recurse -Force }
+    New-Item -ItemType Directory -Force $registryRoot | Out-Null
+    $env:HPAUTOCAD_MCP_Registry__LibraryPath = Join-Path $registryRoot 'tools-library'
+    $env:HPAUTOCAD_MCP_Registry__DbPath = Join-Path $registryRoot 'registry.db'
+    Write-Host "registry root for this run: $registryRoot"
+}
 $logDir = "$env:LOCALAPPDATA\HPAutoCad\McpBridge\logs"
 $loaderLog = Join-Path $logDir 'loader.log'
 $summaries = @()
@@ -59,25 +70,25 @@ try {
 
     if ($OnlyIsolation) { $IncludeIsolation = $true }
     if (-not $OnlyIsolation) {
-    "=== opt-in OFF: execute must be refused"
-    $null = Set-OptIn $false
-    Run 'disabled' @()
+        "=== opt-in OFF: execute must be refused"
+        $null = Set-OptIn $false
+        Run 'disabled' @()
 
-    "=== opt-in ON: matrix, seeds, registry loops" + $(if ($revit) { ', Revit beside' } else { '' })
-    if (-not (Set-OptIn $true)) { throw 'could not tick the opt-in' }
-    $mainArgs = @('--reset-verify-tools')
-    if ($revit) { $mainArgs += @('--revit-exe', $revit) }
-    Run '' $mainArgs
+        "=== opt-in ON: matrix, seeds, registry loops" + $(if ($revit) { ', Revit beside' } else { '' })
+        if (-not (Set-OptIn $true)) { throw 'could not tick the opt-in' }
+        $mainArgs = @('--reset-verify-tools')
+        if ($revit) { $mainArgs += @('--revit-exe', $revit) }
+        Run '' $mainArgs
 
-    "=== no drawing: close the drawing through COM, expect a refusal"
-    powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$a.ActiveDocument.Close(`$false); 'closed, docs left: ' + `$a.Documents.Count"
-    Start-Sleep -Seconds 3
-    Run 'nodoc' @()
+        "=== no drawing: close the drawing through COM, expect a refusal"
+        powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$a.ActiveDocument.Close(`$false); 'closed, docs left: ' + `$a.Documents.Count"
+        Start-Sleep -Seconds 3
+        Run 'nodoc' @()
 
-    "=== busy: LINE waiting for input -> refused after the grace; ESC posted -> retry succeeds"
-    powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$null = `$a.Documents.Add(); 'new drawing, docs: ' + `$a.Documents.Count"
-    Start-Sleep -Seconds 3
-    Run 'busy' @()
+        "=== busy: LINE waiting for input -> refused after the grace; ESC posted -> retry succeeds"
+        powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$null = `$a.Documents.Add(); 'new drawing, docs: ' + `$a.Documents.Count"
+        Start-Sleep -Seconds 3
+        Run 'busy' @()
     }
 
     if ($IncludeIsolation) {
@@ -96,7 +107,8 @@ try {
         Check 'F second instance logged the pipe fault (shared log file)' ($logText -match 'could not create pipe') ''
         $ctx = python $mcp $Exe tools/call get_autocad_context '{}' | ConvertFrom-Json
         $ctxText = $ctx.result.content[0].text | ConvertFrom-Json
-        Check 'F first instance still serves during the second' ($ctxText.host -eq 'autocad' -and -not $ctx.result.isError) (($ctxText | ConvertTo-Json -Compress).Substring(0, 120))
+        $ctxShort = ($ctxText | ConvertTo-Json -Compress); $ctxShort = $ctxShort.Substring(0, [Math]::Min(120, $ctxShort.Length))
+        Check 'F first instance still serves during the second' ($ctxText.host -eq 'autocad' -and -not $ctx.result.isError) $ctxShort
         if (-not $p2.HasExited) { Stop-Process -Id $p2.Id -Force -Confirm:$false }
         Start-Sleep -Seconds 5
 
@@ -111,8 +123,10 @@ try {
             $now = if (Test-Path $loaderLog) { (Get-Content $loaderLog).Count } else { 0 }
             if ($now -gt $loaderLines) { $loaded = $true; break }
             if ($c3d.HasExited) { break }
+            $c3d.Refresh()   # MainWindowHandle is cached on first read
             if ($sw.Elapsed.TotalSeconds -ge 180 -and $c3d.MainWindowHandle -ne 0) { break }   # window up for a while, nothing loaded
         }
+        $c3d.Refresh()
         $mainUp = $c3d.MainWindowHandle -ne 0
         Check 'F Civil 3D started and never wrote to loader.log' ($mainUp -and -not $loaded) ("window=$mainUp loaded=$loaded after $([int]$sw.Elapsed.TotalSeconds) s")
         if (-not $c3d.HasExited) { Stop-Process -Id $c3d.Id -Force -Confirm:$false }
@@ -123,8 +137,10 @@ catch {
 }
 finally {
     "=== killing acad"
-    if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -Confirm:$false }
-    Get-Process acad -ErrorAction SilentlyContinue | Where-Object { $_.StartTime -gt $p.StartTime.AddSeconds(-1) } | Stop-Process -Force -Confirm:$false -ErrorAction SilentlyContinue
+    # only the processes this script started — never an AutoCAD the user opened meanwhile
+    foreach ($proc in @($p, (Get-Variable p2 -ValueOnly -ErrorAction SilentlyContinue), (Get-Variable c3d -ValueOnly -ErrorAction SilentlyContinue))) {
+        if ($proc -and -not $proc.HasExited) { Stop-Process -Id $proc.Id -Force -Confirm:$false -ErrorAction SilentlyContinue }
+    }
 }
 
 "=== pipes seen by this user"

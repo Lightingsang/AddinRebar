@@ -87,7 +87,15 @@ public sealed class ToolManager
                 }
 
                 next[record.Name] = record;
-                if (!previous.TryGetValue(record.Name, out var old) || old.Checksum != record.Checksum) _db.UpsertTool(record);
+                if (previous.TryGetValue(record.Name, out var old) && old.Checksum == record.Checksum) continue;
+
+                // A status edited by hand in tool.json (the documented second approval path) is a lifecycle event
+                // like an approve: without it a quarantined tool set back to published would be re-quarantined by
+                // the failures that got it quarantined.
+                var stored = old?.Status ?? _db.StoredStatus(record.Name);
+                _db.UpsertTool(record);
+                if (stored is { } was && was != record.Status)
+                    _db.InsertEvent(record.Name, "status_changed", "file", $"{ToolRegistryDb.StatusText(was)} -> {ToolRegistryDb.StatusText(record.Status)}");
             }
 
             _db.RemoveToolsNotIn(next.Keys);

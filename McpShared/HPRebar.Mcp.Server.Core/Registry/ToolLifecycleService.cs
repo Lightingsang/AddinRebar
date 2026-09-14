@@ -206,8 +206,9 @@ public sealed class ToolLifecycleService
     {
         if (!_manager.TryGet(name, out var record)) throw new ToolNotFoundException(name);
         var stamp = $"{DateTimeOffset.UtcNow:u} by {actor}: {reason}";
+        var normalized = action.Trim().ToLowerInvariant();
 
-        switch (action.Trim().ToLowerInvariant())
+        switch (normalized)
         {
             case "deprecate":
                 record.Status = ToolStatus.Deprecated;
@@ -226,7 +227,7 @@ public sealed class ToolLifecycleService
                 throw new ArgumentException("action must be deprecate, quarantine or restore.");
         }
 
-        _manager.Save(record, action.ToLowerInvariant(), actor, reason);
+        _manager.Save(record, normalized, actor, reason);
         return record;
     }
 

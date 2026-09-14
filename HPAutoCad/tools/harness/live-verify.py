@@ -191,7 +191,8 @@ def cli(exe, *args):
 
 
 def library_root():
-    return os.path.join(os.environ["APPDATA"], "HPAutoCad", "McpServer", "tools-library")
+    # The wrapper points the server at an isolated root through the same option override the exe honours.
+    return os.environ.get("HPAUTOCAD_MCP_Registry__LibraryPath") or os.path.join(os.environ["APPDATA"], "HPAutoCad", "McpServer", "tools-library")
 
 
 def remove_tool_folder(category, name):
@@ -485,7 +486,8 @@ def scenario_e(revit_exe):
     try:
         init = rv.initialize()
         tools = rv.tools()
-        check("E Revit exe: 34 tools, Revit names only", len(tools) == 34 and "execute_revit_code" in tools and not any("autocad" in n for n in tools), f"{init.get('serverInfo')} {len(tools)} tools")
+        core = {"execute_revit_code", "get_revit_context", "inspect_type", "cancel_execution", "search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool"}
+        check("E Revit exe: core + registry + seeds (>= 34), Revit names only", len(tools) >= 34 and core <= set(tools) and not any("autocad" in n for n in tools), f"{init.get('serverInfo')} {len(tools)} tools")
         ctx = rv.tool("get_revit_context", {"includeSelection": False})
         check("E get_revit_context (Revit 2026 running)", not ctx.get("isError") and ctx.get("revitVersion") == "2026" and ctx.get("docTitle"), short(ctx))
         if ctx.get("executionEnabled"):
@@ -546,11 +548,12 @@ def main():
     for proc in detached:
         try: proc.kill()
         except Exception: pass
-    passed = sum(1 for r in results if r["pass"])
-    summary = {"passed": passed, "total": len(results), "failed": [r["name"] for r in results if not r["pass"]], "skipped": [r["name"] for r in results if r.get("skipped")]}
+    skipped = [r["name"] for r in results if r.get("skipped")]
+    passed = sum(1 for r in results if r["pass"] and not r.get("skipped"))
+    summary = {"passed": passed, "skipped": len(skipped), "total": len(results), "failed": [r["name"] for r in results if not r["pass"]], "skippedNames": skipped}
     save("summary-" + "-".join(only), {"results": results, **summary})
     print(json.dumps(summary), flush=True)
-    sys.exit(0 if passed == len(results) else 1)
+    sys.exit(0 if passed + len(skipped) == len(results) else 1)
 
 
 if __name__ == "__main__":

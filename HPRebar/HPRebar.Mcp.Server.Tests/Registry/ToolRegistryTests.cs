@@ -387,6 +387,29 @@ public sealed class ToolManagerTests
     }
 
     [Fact]
+    public async Task A_status_edited_by_hand_in_tool_json_also_starts_a_clean_window()
+    {
+        await using var f = new RegistryFixture(o => { o.QuarantineMinRuns = 3; o.QuarantineMaxFailureRate = 0.5; });
+        f.Store.Write(RegistryFixture.NewRecord("hand_edited"));
+        await f.Manager.LoadAllAsync(TestContext.Current.CancellationToken);
+        f.Executor.ExecuteHandler = _ => ExecuteResult.Failure("NullReferenceException: no room");
+        for (var i = 0; i < 3; i++) await f.Manager.RunAsync("hand_edited", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+        Assert.Equal(ToolStatus.Quarantined, f.Manager.Get("hand_edited")!.Record.Status);
+
+        // The second documented approval path: a human sets "status": "published" in tool.json and the watcher reloads.
+        await Task.Delay(5, TestContext.Current.CancellationToken);
+        var toolJson = Path.Combine(f.Store.FindFolder("hand_edited")!, "tool.json");
+        File.WriteAllText(toolJson, File.ReadAllText(toolJson).Replace("\"status\": \"quarantined\"", "\"status\": \"published\""));
+        await f.Manager.LoadAllAsync(TestContext.Current.CancellationToken);
+
+        Assert.Equal(ToolStatus.Published, f.Manager.Get("hand_edited")!.Record.Status);
+        Assert.Equal(RunStats.Empty, f.Db.Stats("hand_edited", 50));
+        f.Executor.ExecuteHandler = _ => new ExecuteResult { Value = JsonSerializer.SerializeToElement(1) };
+        await f.Manager.RunAsync("hand_edited", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+        Assert.Equal(ToolStatus.Published, f.Manager.Get("hand_edited")!.Record.Status);
+    }
+
+    [Fact]
     public async Task Adhoc_runs_are_remembered_with_code_only_on_success()
     {
         await using var f = new RegistryFixture();
