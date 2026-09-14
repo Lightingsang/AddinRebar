@@ -1,5 +1,6 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using HPRebar.Mcp.Contracts;
 using HPRebar.Mcp.Contracts.Messages;
 using RevitView = Autodesk.Revit.DB.View;
 
@@ -16,6 +17,8 @@ public static class RevitContextReader
         var result = new ContextResult
         {
             RevitVersion = uiapp.Application.VersionNumber,
+            Host = PipeNaming.RevitHost,
+            HostVersion = uiapp.Application.VersionNumber,
             ExecutionEnabled = executionEnabled,
             OpenDocs = uiapp.Application.Documents.Cast<Document>().Select(d => d.Title).ToArray(),
         };

@@ -12,11 +12,13 @@ Not an MCP server and not an add-in. This folder holds the code that every HP MC
 Consumers: `../HPRebar/` (Revit MCP) and `../HPAutoCad/` (AutoCAD MCP). The dependency direction is always
 MCP folder → `McpShared/`; an MCP folder never references another MCP folder.
 
-Rules (enforced by `NoHostLeakTests`):
+Rules (the assembly rule is enforced by `HostNeutralityTests.Shared_assemblies_reference_no_host_api`):
 
-- No `PackageReference` to Autodesk packages, no `using Autodesk.*`.
-- No host name baked into user-facing text; the host arrives through `IHostProfile` (server) and the
-  `hostName` / `GuardProfile` / `AnalyzerProfile` parameters (bridge core).
+- No `PackageReference` to Autodesk packages, no `using Autodesk.*` — no host *assembly* ever.
+- Host names reach user-facing text only through `IHostProfile` (server) and the `hostName` /
+  `GuardProfile` / `AnalyzerProfile` parameters (bridge core). Per-host *data* (deny-list names, default
+  imports, the Revit defaults every constructor falls back to) may live here because it is plain strings
+  the tests of every host need without referencing that host's API.
 - Contracts changes must stay wire-compatible with every deployed bridge: add fields, never rename or
   remove them.
 
@@ -25,5 +27,9 @@ atomic cleanup once both MCPs are green.
 
 ```bash
 dotnet build McpShared/McpShared.slnx
-dotnet test  McpShared/HPRebar.Mcp.Server.Core.Tests
+cd McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests
 ```
+
+`dotnet test` must run with the current directory inside this folder: `global.json` here pins the
+Microsoft.Testing.Platform runner, and from the repository root (no `global.json`) the command finds
+no tests and still exits 0.

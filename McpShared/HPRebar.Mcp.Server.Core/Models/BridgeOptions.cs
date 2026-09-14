@@ -25,12 +25,19 @@ public sealed class BridgeOptions
 
     private string? _pipeName;
 
-    /// <summary>Derived from <see cref="HostId"/> + <see cref="HostVersion"/> unless set explicitly (tests, unusual setups).</summary>
+    /// <summary>
+    ///     Derived from <see cref="HostId"/> + <see cref="HostVersion"/> unless set explicitly (tests, unusual
+    ///     setups). The configuration binder reads this getter and writes the value back through the setter;
+    ///     a value equal to the current default is therefore ignored, so only a real override ever sticks and
+    ///     a later change of <see cref="HostId"/> (PostConfigure) still takes effect.
+    /// </summary>
     public string PipeName
     {
-        get => _pipeName ?? PipeNaming.For(HostId, HostVersion);
-        set => _pipeName = string.IsNullOrWhiteSpace(value) ? null : value;
+        get => _pipeName ?? DefaultPipeName;
+        set => _pipeName = string.IsNullOrWhiteSpace(value) || value == DefaultPipeName ? null : value;
     }
+
+    private string DefaultPipeName => PipeNaming.For(HostId, HostVersion);
 
     /// <summary>How long a single pipe connect attempt may take before it counts as "Revit not running".</summary>
     public int ConnectTimeoutMs { get; set; } = 2000;
@@ -47,9 +54,6 @@ public sealed class BridgeOptions
     public int PingIntervalSeconds { get; set; } = 10;
 
     public int MaxReconnectAttempts { get; set; } = 5;
-
-    /// <summary>Revit's historical rule; the bootstrap validates against the profile's versions instead.</summary>
-    public bool IsValid() => IsValid(new[] { 2025, 2026 });
 
     public bool IsValid(IReadOnlyCollection<int> validVersions) =>
         validVersions.Contains(HostVersion)

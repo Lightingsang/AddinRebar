@@ -18,7 +18,7 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     private const int PreviewLines = 20;
 
     private readonly IMcpBridgeRunner _runner;
-    private readonly SynchronizationContext _ui;
+    private readonly Action<Action> _onUiThread;
     private readonly Action<string>? _copyToClipboard;
 
     [ObservableProperty] private bool _isListening;
@@ -39,11 +39,16 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(RestartBridgeCommand))] private bool _isBusy;
 
     /// <param name="copyToClipboard">The view's clipboard (WPF `Clipboard.SetText`); the view model has no UI framework of its own.</param>
-    public McpBridgeStatusViewModel(IMcpBridgeRunner runner, Action<string>? copyToClipboard = null)
+    /// <param name="onUiThread">
+    ///     Marshals a refresh onto the window's thread — runner events arrive on pipe and host threads, and a
+    ///     refresh raises PropertyChanged/CanExecuteChanged that WPF only accepts on its own thread. Required:
+    ///     Core cannot know the host's UI framework, and a CAD host's native message loop does not install a
+    ///     SynchronizationContext to fall back on. The WPF view passes `Dispatcher.CurrentDispatcher.InvokeAsync`.
+    /// </param>
+    public McpBridgeStatusViewModel(IMcpBridgeRunner runner, Action<Action> onUiThread, Action<string>? copyToClipboard = null)
     {
         _runner = runner;
-        // Captured on the thread that builds the window (the host's UI thread); runner events arrive on any thread.
-        _ui = SynchronizationContext.Current ?? new SynchronizationContext();
+        _onUiThread = onUiThread ?? throw new ArgumentNullException(nameof(onUiThread));
         _copyToClipboard = copyToClipboard;
         _runner.StateChanged += OnRunnerStateChanged;
         Refresh();
@@ -55,7 +60,7 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     /// <summary>Stops listening to the runner once the window is gone; the runner outlives the window.</summary>
     public void Detach() => _runner.StateChanged -= OnRunnerStateChanged;
 
-    private void OnRunnerStateChanged() => _ui.Post(_ => Refresh(), null);
+    private void OnRunnerStateChanged() => _onUiThread(Refresh);
 
     private void Refresh()
     {

@@ -2,6 +2,7 @@ using System.Windows.Interop;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
 using System.Windows;
+using System.Windows.Threading;
 using HPRebar.McpBridge.Core.Host;
 using HPRebar.McpBridge.Core.ViewModel;
 using HPRebar.McpBridge.View;
@@ -38,7 +39,9 @@ public sealed class McpBridgeCommand : ExternalCommand
             return;
         }
 
-        var viewModel = new McpBridgeStatusViewModel(host, Clipboard.SetText);
+        // Same marshalling the view model used before it moved to Core: the WPF dispatcher of this (Revit UI) thread.
+        var dispatcher = Dispatcher.CurrentDispatcher;
+        var viewModel = new McpBridgeStatusViewModel(host, action => dispatcher.InvokeAsync(action), Clipboard.SetText);
         var view = new McpBridgeStatusView(viewModel);
 
         // Application is the inherited UIApplication of ExternalCommand, not HPRebar.McpBridge.Application.

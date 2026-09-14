@@ -67,10 +67,12 @@ public sealed class McpBridgeExternalEventHandler : IExternalEventHandler, IBrid
             return ExecuteResult.Failure("Another script is still running in Revit. Wait for it to finish or call cancel_execution.");
 
         var stopwatch = Stopwatch.StartNew();
-        StateChanged?.Invoke();
 
         try
         {
+            // Inside the try: a subscriber (the status window) that throws must not leave _busy set forever.
+            StateChanged?.Invoke();
+
             var guard = ScriptGuard.Check(request.Code);
             if (guard.Count > 0) return Finish(request, Diagnostics("guard", guard), stopwatch);
 

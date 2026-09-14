@@ -80,6 +80,7 @@ public sealed class ToolLifecycleService
             CreatedFromRunId = input.SourceRunId,
             CreatedAt = input.NewVersion && existing is not null ? existing.CreatedAt : null,
             RevitVersions = _bridge.LastStatus?.RevitVersion is { } v ? [v] : [],
+            HostVersions = _bridge.LastStatus?.RevitVersion is { } hv ? [hv] : [],
             Host = _bridge.Profile.HostId,
         };
 

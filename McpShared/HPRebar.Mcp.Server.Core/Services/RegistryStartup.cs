@@ -42,7 +42,12 @@ public sealed class RegistryStartup : IHostedService
             _store.EnsureRoot();
             _db.Initialize();
             // Seeds are embedded in the host exe, not in this engine assembly.
-            if (_options.InstallSeeds) SeedInstaller.Install(_store, _logger, _profile.HostAssembly);
+            if (_options.InstallSeeds)
+            {
+                if (SeedInstaller.ListSeeds(_profile.HostAssembly).Count == 0)
+                    _logger.LogWarning("No seed tools embedded in {Assembly}; the library starts empty", _profile.HostAssembly.GetName().Name);
+                SeedInstaller.Install(_store, _logger, _profile.HostAssembly);
+            }
 
             _manager.Changed += () => _registrar.Sync();
             await _manager.LoadAllAsync(cancellationToken).ConfigureAwait(false);

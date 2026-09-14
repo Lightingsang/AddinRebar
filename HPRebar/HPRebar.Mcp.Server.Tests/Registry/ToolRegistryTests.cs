@@ -290,6 +290,25 @@ public sealed class ToolManagerTests
     }
 
     [Fact]
+    public async Task Tools_without_a_host_load_and_tools_of_another_host_are_skipped()
+    {
+        await using var f = new RegistryFixture();
+        var legacy = RegistryFixture.NewRecord("legacy_tool");
+        legacy.Host = null;                                  // every tool.json written before the field existed
+        var foreign = RegistryFixture.NewRecord("foreign_tool");
+        foreign.Host = "autocad";                            // copied by hand from another host's library
+        f.Store.Write(legacy);
+        f.Store.Write(foreign);
+
+        Assert.Equal(1, await f.Manager.LoadAllAsync(TestContext.Current.CancellationToken));
+        Assert.True(f.Manager.TryGet("legacy_tool", out var loaded));
+        Assert.Equal("revit", loaded.Host);
+        Assert.False(f.Manager.TryGet("foreign_tool", out _));
+        // Loading never rewrites the file: a legacy tool.json stays without a host key until it is saved again.
+        Assert.DoesNotContain("\"host\"", File.ReadAllText(Path.Combine(f.Store.FindFolder("legacy_tool")!, ToolLibraryStore.ToolFile)));
+    }
+
+    [Fact]
     public async Task Unpublished_and_deprecated_tools_are_gated()
     {
         await using var f = new RegistryFixture();

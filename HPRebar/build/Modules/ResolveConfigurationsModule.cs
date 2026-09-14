@@ -15,7 +15,7 @@ public sealed class ResolveConfigurationsModule : Module<string[]>
 {
     protected override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var solutionModel = await LoadSolutionModelAsync(context, cancellationToken);
+        var solutionModel = await LoadSolutionModelAsync(cancellationToken);
         var configurations = solutionModel.BuildTypes
             .Where(configuration => configuration.Contains("Release.R", StringComparison.OrdinalIgnoreCase))
             .ToArray();
@@ -29,7 +29,7 @@ public sealed class ResolveConfigurationsModule : Module<string[]>
     ///     Reads HPRebar.slnx by its Sourcy-resolved path. The repository holds other solutions
     ///     (McpShared, HPAutoCad), so searching the git root for "any .slnx" would pick one of those.
     /// </summary>
-    private static async Task<SolutionModel> LoadSolutionModelAsync(IModuleContext context, CancellationToken cancellationToken)
+    private static async Task<SolutionModel> LoadSolutionModelAsync(CancellationToken cancellationToken)
     {
         var solution = new File(Solutions.HPRebar.FullName);
         solution.Exists.ShouldBeTrue($"Solution file not found: {solution.Path}");

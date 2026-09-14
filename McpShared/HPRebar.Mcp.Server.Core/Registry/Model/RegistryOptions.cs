@@ -21,19 +21,27 @@ public sealed class RegistryOptions
     public static string DefaultRootFor(string productFolder) =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), productFolder, "McpServer");
 
-    /// <summary>Folder of tool records: &lt;Category&gt;/&lt;name&gt;/{tool.json, code.cs, examples.json}. Source of truth.</summary>
+    /// <summary>
+    ///     Folder of tool records: &lt;Category&gt;/&lt;name&gt;/{tool.json, code.cs, examples.json}. Source of truth.
+    ///     The configuration binder writes the getter value back through the setter; a value equal to the
+    ///     current default is ignored so a later <see cref="ProductFolder"/> (PostConfigure) still applies.
+    /// </summary>
     public string LibraryPath
     {
-        get => _libraryPath ?? Path.Combine(DefaultRootFor(ProductFolder), "tools-library");
-        set => _libraryPath = string.IsNullOrWhiteSpace(value) ? null : value;
+        get => _libraryPath ?? DefaultLibraryPath;
+        set => _libraryPath = string.IsNullOrWhiteSpace(value) || value == DefaultLibraryPath ? null : value;
     }
 
     /// <summary>SQLite index + run history. Derived from the library; safe to delete.</summary>
     public string DbPath
     {
-        get => _dbPath ?? Path.Combine(DefaultRootFor(ProductFolder), "registry.db");
-        set => _dbPath = string.IsNullOrWhiteSpace(value) ? null : value;
+        get => _dbPath ?? DefaultDbPath;
+        set => _dbPath = string.IsNullOrWhiteSpace(value) || value == DefaultDbPath ? null : value;
     }
+
+    private string DefaultLibraryPath => Path.Combine(DefaultRootFor(ProductFolder), "tools-library");
+
+    private string DefaultDbPath => Path.Combine(DefaultRootFor(ProductFolder), "registry.db");
 
     /// <summary>`manual`: a human approves before a tool is published. `auto`: tested tools publish themselves.</summary>
     public string PublishPolicy { get; set; } = PolicyManual;

@@ -35,8 +35,14 @@ public static class JsonRpcMethods
     public const string RevitPrefix = "revit.";
     public const string AutocadPrefix = "autocad.";
 
-    /// <summary>Builds <c>{prefix}{suffix}</c>; the prefix must end with a dot.</summary>
-    public static string For(string prefix, string suffix) => prefix + suffix;
+    /// <summary>Builds <c>{prefix}{suffix}</c>; the prefix must end with a dot, otherwise the suffix could not be split off again.</summary>
+    public static string For(string prefix, string suffix)
+    {
+        if (string.IsNullOrEmpty(prefix) || prefix[prefix.Length - 1] != '.') throw new ArgumentException("method prefix must end with '.'", nameof(prefix));
+        if (string.IsNullOrEmpty(suffix) || suffix.IndexOf('.') >= 0) throw new ArgumentException("method suffix must be a single segment", nameof(suffix));
+
+        return prefix + suffix;
+    }
 
     /// <summary>The part after the first dot, or the whole name when there is none: <c>autocad.execute</c> → <c>execute</c>.</summary>
     public static string Suffix(string? method)

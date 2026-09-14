@@ -25,6 +25,10 @@ public static class McpServerHost
 
     public static HostApplicationBuilder CreateBuilder(string[] args, IHostProfile profile)
     {
+        var engine = typeof(McpServerHost).Assembly;
+        if (profile.HostAssembly == engine)
+            throw new ArgumentException("profile.HostAssembly must be the host exe (it holds the host's tools and seed library), not the engine assembly.", nameof(profile));
+
         // The host AI launches this process with an arbitrary working directory, so anchor configuration
         // (appsettings.json) to the executable's folder rather than the current directory.
         var builder = Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
@@ -38,21 +42,7 @@ public static class McpServerHost
         builder.Logging.AddConsole(options => options.LogToStandardErrorThreshold = LogLevel.Trace);
         builder.Configuration.AddEnvironmentVariables(profile.EnvPrefix);
 
-        builder.Services.AddSingleton(profile);
-
-        builder.Services
-            .AddOptions<BridgeOptions>()
-            .Bind(builder.Configuration.GetSection(BridgeOptions.SectionName))
-            .PostConfigure(options => options.HostId = profile.HostId)
-            .Validate(options => options.IsValid(profile.ValidVersions), "Bridge options out of range; see BridgeOptions.IsValid")
-            .ValidateOnStart();
-
-        builder.Services
-            .AddOptions<RegistryOptions>()
-            .Bind(builder.Configuration.GetSection(RegistryOptions.SectionName))
-            .PostConfigure(options => options.ProductFolder = profile.ProductFolder)
-            .Validate(options => options.IsValid(), "Registry options out of range; see RegistryOptions.IsValid")
-            .ValidateOnStart();
+        ConfigureOptions(builder.Services, builder.Configuration, profile);
 
         // One pipe connection for the whole process; the SDK creates a DI scope per tool call, so the tools
         // themselves are transient and only borrow these.
@@ -71,7 +61,6 @@ public static class McpServerHost
         builder.Services.AddSingleton<DynamicToolRegistrar>();
         builder.Services.AddHostedService<RegistryStartup>();
 
-        var engine = typeof(McpServerHost).Assembly;
         var version = engine.GetName().Version?.ToString(3) ?? "0.0.0";
 
         builder.Services
@@ -93,6 +82,34 @@ public static class McpServerHost
             .WithPromptsFromAssembly(profile.HostAssembly);
 
         return builder;
+    }
+
+    /// <summary>
+    ///     Registers <see cref="BridgeOptions"/> and <see cref="RegistryOptions"/> with the profile applied
+    ///     both <em>before</em> binding and after it. Before, because the configuration binder reads every
+    ///     property's current value and writes it back through the setter — a pipe name or library path
+    ///     computed while the profile was still the Revit default would be pinned. After, so that no
+    ///     configuration key can point this exe at another host's pipe or registry.
+    /// </summary>
+    public static void ConfigureOptions(IServiceCollection services, IConfiguration configuration, IHostProfile profile)
+    {
+        services.AddSingleton(profile);
+
+        services
+            .AddOptions<BridgeOptions>()
+            .Configure(options => options.HostId = profile.HostId)
+            .Bind(configuration.GetSection(BridgeOptions.SectionName))
+            .PostConfigure(options => options.HostId = profile.HostId)
+            .Validate(options => options.IsValid(profile.ValidVersions), "Bridge options out of range; see BridgeOptions.IsValid")
+            .ValidateOnStart();
+
+        services
+            .AddOptions<RegistryOptions>()
+            .Configure(options => options.ProductFolder = profile.ProductFolder)
+            .Bind(configuration.GetSection(RegistryOptions.SectionName))
+            .PostConfigure(options => options.ProductFolder = profile.ProductFolder)
+            .Validate(options => options.IsValid(), "Registry options out of range; see RegistryOptions.IsValid")
+            .ValidateOnStart();
     }
 
     /// <summary>
