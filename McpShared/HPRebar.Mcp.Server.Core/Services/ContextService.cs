@@ -45,20 +45,26 @@ public sealed class ContextService(IRevitBridgeClient bridge, ResultFormatter fo
     }
 
     /// <summary>
-    ///     The wire keeps the historical <c>revitVersion</c> field for older bridges; another host's AI
-    ///     should not see a Revit-named field, so it is dropped and <c>hostVersion</c> stands alone.
-    ///     Revit output is byte-for-byte what it was.
+    ///     The wire keeps the historical <c>revitVersion</c> and <c>isFamily</c> fields for older bridges;
+    ///     another host's AI should not see Revit-named fields, so they are dropped and <c>hostVersion</c>
+    ///     stands alone. Revit output is byte-for-byte what it was.
     /// </summary>
     private object Shape(ContextResult context)
     {
         if (bridge.Profile.HostId == PipeNaming.RevitHost) return context;
 
         var node = JsonSerializer.SerializeToNode(context, BridgeJson.Options) as JsonObject ?? new JsonObject();
-        node.Remove(RevitVersionField);
+        foreach (var field in RevitOnlyFields) node.Remove(field);
         return node;
     }
 
-    private static readonly string RevitVersionField = BridgeJson.Options.PropertyNamingPolicy?.ConvertName(nameof(ContextResult.RevitVersion)) ?? nameof(ContextResult.RevitVersion);
+    private static readonly string[] RevitOnlyFields =
+    [
+        WireName(nameof(ContextResult.RevitVersion)),
+        WireName(nameof(ContextResult.IsFamily)),
+    ];
+
+    private static string WireName(string property) => BridgeJson.Options.PropertyNamingPolicy?.ConvertName(property) ?? property;
 
     private Task<ContextResult> FetchAsync(bool includeSelection, CancellationToken cancellationToken) =>
         bridge.SendAsync<ContextResult>(

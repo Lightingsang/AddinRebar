@@ -18,7 +18,7 @@ public sealed class AutocadContextTool(ContextService service)
         Idempotent = true,
         OpenWorld = false)]
     [Description(
-        "Returns the current AutoCAD session: hostVersion, active drawing title/path (docPath is null for an unsaved drawing), isReadOnly, " +
+        "Returns the current AutoCAD session: hostVersion, active drawing title and docPath (absent for an unsaved drawing), isReadOnly, " +
         "isModifiable (true when the drawing is writable and AutoCAD is idle — no command or dialog in progress), units.length (drawing unit from INSUNITS), " +
         "activeView (current layout: Model or a paper-space layout), openDocs, executionEnabled, and autocad {insunits, measurement (English/Metric), " +
         "currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing}. With includeSelection the current selection comes back as " +

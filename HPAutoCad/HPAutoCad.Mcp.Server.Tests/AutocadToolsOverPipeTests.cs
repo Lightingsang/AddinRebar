@@ -72,6 +72,7 @@ public sealed class AutocadToolsOverPipeTests : IAsyncLifetime
         Assert.Equal("autocad", root.GetProperty("host").GetString());
         Assert.Equal("2026", root.GetProperty("hostVersion").GetString());
         Assert.False(root.TryGetProperty("revitVersion", out _));
+        Assert.False(root.TryGetProperty("isFamily", out _));
         Assert.Equal("Metric", root.GetProperty("autocad").GetProperty("measurement").GetString());
         Assert.True(root.GetProperty("autocad").GetProperty("isQuiescent").GetBoolean());
         Assert.Equal("WALLS", root.GetProperty("selection")[0].GetProperty("category").GetString());

@@ -8,7 +8,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>HPAutoCad.Mcp.Server</RootNamespace>
         <Configurations>Debug;Release</Configurations>
-        <Version>0.1.0</Version>
         <!-- stdio MCP server: the host AI launches this exe as a child process and owns its lifetime -->
         <InvariantGlobalization>true</InvariantGlobalization>
         <!-- e_sqlite3 native library must be extracted next to a single-file publish -->

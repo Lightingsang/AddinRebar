@@ -2,7 +2,7 @@
 
 **Cách chạy:** `dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server` (7,4 MB) → `pwsh HPAutoCad/tools/harness/run-server-smoke.ps1` (start AutoCAD với `bridge.scr`, UIA tick opt-in, `mcp-call.py` stdio như host AI, kill acad). Không cần `.mcp.json`.
 
-## Stdio smoke (harness run 1): 7/7
+## Stdio smoke (harness run 1 + run 2 sau review): 7/7 ×2
 
 | # | Bước | Kết quả |
 |---|---|---|

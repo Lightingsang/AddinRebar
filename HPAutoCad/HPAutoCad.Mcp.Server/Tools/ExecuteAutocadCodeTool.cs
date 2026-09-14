@@ -30,14 +30,13 @@ public sealed class ExecuteAutocadCodeTool(ExecuteCodeService service)
         "Globals: doc (Document), db (Database), ed (Editor — WriteMessage/SelectImplied/SelectAll only; every Get* prompt is blocked), app (DocumentCollection), " +
         "tr (the Transaction the bridge opened: read with tr.GetObject(id, OpenMode.ForRead), add with AppendEntity + tr.AddNewlyCreatedDBObject(obj, true); never Commit/Abort/Dispose it and never call StartTransaction or LockDocument — the guard rejects them), " +
         "units (drawing unit from INSUNITS: units.ToDrawing(mm), units.ToMm(du), units.Label — all coordinates are drawing units), " +
-        "ct (CancellationToken — check it inside long loops), log(string), progress(int current, int total, string message), " +
-        "args (data from the `args` parameter: args.Str/Double/Int/Long/Bool(key, fallback), args.Obj/List(key), args.Has/Require(key)). " +
-        "Prefer args over literals so identical script text compiles once and is cached. " +
+        "ct (check it inside long loops), log(string), progress(int current, int total, string message), " +
+        "args (args.Str/Double/Int/Long/Bool(key, fallback), args.Obj/List(key), args.Has/Require(key); prefer args over literals so identical text compiles once). " +
         "End with `return <value>;`. Returned AutoCAD objects are summarised: ObjectId → {handle,class}, Entity → {handle,type,layer,dxfName}, Point3d → {x,y,z}, ObjectIdCollection/SelectionSet → arrays of ids. " +
         "Default usings: System, System.Linq, System.Collections.Generic, Autodesk.AutoCAD.ApplicationServices, DatabaseServices, EditorInput, Geometry, Colors. " +
-        "transaction=auto commits when the script returns; none is read-only and fails if anything changed; manual is accepted but runs like auto. dryRun runs everything and rolls it back, reporting `changed`. " +
+        "transaction=auto commits when the script returns; none is read-only and fails if anything changed; manual runs like auto. dryRun runs everything, rolls it back and still reports `changed`. " +
         "U in AutoCAD reverts every AI run made since the user's last command. " +
-        "Fails with isError=true and diagnostics when the code does not compile, throws, is blocked by the guard, or exceeds the timeout; nothing is kept in those cases. " +
+        "Fails with isError=true and diagnostics on compile error, exception, guard rejection or timeout; nothing is kept then. " +
         "Requires the user to tick 'Allow AI code execution' in the HPAutoCad MCP Bridge window (command HPMCPBRIDGE) inside AutoCAD.")]
     public Task<CallToolResult> ExecuteAsync(
         [Description("C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Diagnostics.Process / reflection, no Editor prompts or commands (blocked by the guard).")]

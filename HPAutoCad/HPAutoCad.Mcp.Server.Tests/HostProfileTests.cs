@@ -78,7 +78,9 @@ public sealed class HostProfileTests
         Assert.Contains("tr.AddNewlyCreatedDBObject", execute.Description);
         Assert.Contains("never call StartTransaction", execute.Description);
         Assert.Contains("HPMCPBRIDGE", execute.Description);
-        Assert.True(execute.Description!.Length <= 2200, $"description is {execute.Description.Length} chars");
+        // The AutoCAD contract (tr, units, deny list, transaction semantics) needs more words than Revit's 1 270;
+        // anything above this budget belongs in the prompts, not the tool description.
+        Assert.True(execute.Description!.Length <= 1800, $"description is {execute.Description.Length} chars");
     }
 
     [Fact]

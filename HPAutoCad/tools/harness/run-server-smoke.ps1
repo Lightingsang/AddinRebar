@@ -3,6 +3,7 @@
 # mcp-call.py exactly as a host AI would: initialize, tools/list, get_autocad_context, execute_autocad_code
 # (read, dry run, real run, count). Kills AutoCAD at the end. Publish the exe first:
 #   dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server
+#Requires -Version 7.3
 param(
     [string]$Exe = (Join-Path $PSScriptRoot '..\..\output\HPAutoCad.Mcp.Server\HPAutoCad.Mcp.Server.exe'),
     [string]$OutDir = (Join-Path $PSScriptRoot '..\..\output\smoke'),
@@ -26,6 +27,7 @@ function Call([string]$name, [string]$method, [string[]]$extra) {
 }
 
 function ExecuteText($r) { $r.result.content[0].text | ConvertFrom-Json }
+function Short($o, [int]$max = 300) { $t = $o | ConvertTo-Json -Compress -Depth 6; if ($t.Length -gt $max) { $t.Substring(0, $max) } else { $t } }
 
 $p = Start-AcadWithBridge (Join-Path $PSScriptRoot 'bridge.scr') $StartupTimeoutSec
 $results = @()
@@ -37,7 +39,7 @@ try {
     if (-not (Set-OptIn $true)) { throw 'could not tick the opt-in' }
 
     $init = Call 'initialize' 'initialize' @()
-    Check 'initialize' ($init.result.serverInfo.name -eq 'HPAutoCad MCP') ("serverInfo=" + ($init.result.serverInfo | ConvertTo-Json -Compress))
+    Check 'initialize' ($init.result.serverInfo.name -eq 'HPAutoCad MCP') ("serverInfo=" + (Short $init.result.serverInfo))
 
     $list = Call 'tools-list' 'tools/list' @()
     $names = @($list.result.tools | % name | Sort-Object)
@@ -45,7 +47,7 @@ try {
 
     $ctx = Call 'context' 'tools/call' @('get_autocad_context', '{"includeSelection": true}')
     $ctxText = ExecuteText $ctx
-    Check 'get_autocad_context' ($ctxText.host -eq 'autocad' -and $ctxText.hostVersion -eq '2026' -and $null -eq $ctxText.revitVersion -and $ctxText.executionEnabled -eq $true) (($ctxText | ConvertTo-Json -Compress).Substring(0, 300))
+    Check 'get_autocad_context' ($ctxText.host -eq 'autocad' -and $ctxText.hostVersion -eq '2026' -and $null -eq $ctxText.revitVersion -and $ctxText.executionEnabled -eq $true) (Short $ctxText)
 
     $count = 'var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead); var ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead); var n = 0; foreach (ObjectId id in ms) if (id.ObjectClass.DxfName == "LINE") n++; return n;'
     $line = 'var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead); var ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite); var l = new Line(Point3d.Origin, new Point3d(units.ToDrawing(args.Double("lengthMm", 1000)), 0, 0)); ms.AppendEntity(l); tr.AddNewlyCreatedDBObject(l, true); log("added " + l.Handle); return new { handle = l.Handle.ToString(), length = l.Length };'
@@ -56,14 +58,14 @@ try {
     $before = (ExecuteText (Call 'count-before' 'tools/call' @('execute_autocad_code', (@{ code = $count; transaction = 'none'; label = 'count' } | ConvertTo-Json -Compress)))).value
     $dry = ExecuteText (Call 'execute-dryrun' 'tools/call' @('execute_autocad_code', (@{ code = $line; transaction = 'auto'; dryRun = $true; label = 'dry line'; args = @{ lengthMm = 500 } } | ConvertTo-Json -Compress)))
     $afterDry = (ExecuteText (Call 'count-after-dry' 'tools/call' @('execute_autocad_code', (@{ code = $count; transaction = 'none'; label = 'count' } | ConvertTo-Json -Compress)))).value
-    Check 'execute dryRun line' (-not $dry.isError -and $dry.rolledBack -eq $true -and $dry.changed.added -eq 1 -and $afterDry -eq $before) ("changed=" + ($dry.changed | ConvertTo-Json -Compress) + " rolledBack=$($dry.rolledBack) value=" + ($dry.value | ConvertTo-Json -Compress) + " count $before->$afterDry")
+    Check 'execute dryRun line' (-not $dry.isError -and $dry.rolledBack -eq $true -and $dry.changed.added -eq 1 -and $afterDry -eq $before) ("changed=" + (Short $dry.changed) + " rolledBack=$($dry.rolledBack) value=" + (Short $dry.value) + " count $before->$afterDry")
 
     $real = ExecuteText (Call 'execute-real' 'tools/call' @('execute_autocad_code', (@{ code = $line; transaction = 'auto'; label = 'real line'; args = @{ lengthMm = 1234.5 } } | ConvertTo-Json -Compress)))
     $afterReal = (ExecuteText (Call 'count-after-real' 'tools/call' @('execute_autocad_code', (@{ code = $count; transaction = 'none'; label = 'count' } | ConvertTo-Json -Compress)))).value
-    Check 'execute real line' (-not $real.isError -and $real.rolledBack -eq $false -and $real.changed.added -eq 1 -and $afterReal -eq ($before + 1) -and $real.runId -gt 0) ("changed=" + ($real.changed | ConvertTo-Json -Compress) + " runId=$($real.runId) hint=$($real.hint) count $before->$afterReal")
+    Check 'execute real line' (-not $real.isError -and $real.rolledBack -eq $false -and $real.changed.added -eq 1 -and $afterReal -eq ($before + 1) -and $real.runId -gt 0) ("changed=" + (Short $real.changed) + " runId=$($real.runId) hint=$($real.hint) count $before->$afterReal")
 
     $run = ExecuteText (Call 'get-run' 'tools/call' @('get_run', (@{ runId = [int]$real.runId } | ConvertTo-Json -Compress)))
-    Check 'get_run of the real run' ($run.runId -eq $real.runId -or $run.id -eq $real.runId -or ($run | ConvertTo-Json -Compress) -match 'real line') (($run | ConvertTo-Json -Compress).Substring(0, [Math]::Min(300, ($run | ConvertTo-Json -Compress).Length)))
+    Check 'get_run of the real run' ($run.id -eq $real.runId) (Short $run)
 }
 catch {
     Check 'smoke aborted' $false $_.Exception.Message

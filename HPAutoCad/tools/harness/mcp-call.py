@@ -6,7 +6,7 @@ Usage:
   python mcp_call.py <exe> initialize
 Prints the JSON-RPC result (or error) as JSON.
 """
-import json, os, subprocess, sys, time
+import json, os, subprocess, sys, threading, time
 
 
 def rpc(proc, msg_id, method, params=None):
@@ -19,7 +19,8 @@ def rpc(proc, msg_id, method, params=None):
     while time.time() < deadline:
         line = proc.stdout.readline()
         if not line:
-            raise SystemExit("server closed stdout; stderr:\n" + proc.stderr.read().decode("utf-8", "replace")[-4000:])
+            time.sleep(0.2)
+            raise SystemExit("server closed stdout; stderr:\n" + b"".join(stderr_chunks).decode("utf-8", "replace")[-4000:])
         try:
             data = json.loads(line.decode("utf-8"))
         except json.JSONDecodeError:
@@ -56,6 +57,9 @@ def main():
             i += 1
     exe, method = rest[0], rest[1]
     proc = subprocess.Popen([exe], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    # The server logs to stderr; drain it on a thread so a chatty server can never fill the pipe and stall.
+    stderr_chunks = []
+    threading.Thread(target=lambda: stderr_chunks.append(proc.stderr.read()), daemon=True).start()
     try:
         init = rpc(proc, 1, "initialize", {
             "protocolVersion": "2025-06-18",

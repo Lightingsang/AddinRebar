@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!-- AutoCAD-specific tests: the profile this exe registers, its tools over a real pipe, and (phase 4) the
+        <!-- AutoCAD-specific tests: the profile this exe registers, its tools over a real pipe, and later the
              seed library. Engine tests live in McpShared/HPRebar.Mcp.Server.Core.Tests. -->
         <ProjectReference Include="..\HPAutoCad.Mcp.Server\HPAutoCad.Mcp.Server.csproj"/>
         <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj"/>

@@ -59,7 +59,7 @@ Xem [architecture.md §1, §3, §5](architecture.md). Không thay đổi `McpSha
 
 ## Todo
 - [x] 1 exe (`HPAutoCad.Mcp.Server`, Program 1 dòng, appsettings `Bridge.HostVersion`) · [x] 2 profile (`AutocadHostProfile`, ValidVersions {2026}) · [x] 3 host files (execute/context tool, `autocad://` resources, 2 prompt) · [x] 4 tests (`HostProfileTests` 4 + `AutocadToolsOverPipeTests` 4) · [x] 5 publish + stdio smoke (`tools/harness/run-server-smoke.ps1` 7/7) · [x] 6 two-exe smoke (Revit 34 không đổi, AutoCAD 12)
-- Sai lệch: `revitVersion` ẩn cho host ≠ revit ở `ContextService` (Core, +test Revit giữ nguyên); `IsModifiable` doc trong Contracts XML + description; harness stdio `mcp-call.py` + `run-server-smoke.ps1` vào repo; `get_run` record vẫn có `revitVersion` (engine DTO) → phase 4.
+- Sai lệch: description `execute_autocad_code` 1 717 ký tự (plan ≤ ~1 200, Revit 1 270) — `tr`/deny list/units/transaction semantics là quy tắc bắt buộc, không đẩy sang prompt được; review 8/10 → mọi finding đã xử lý (reports/phase-03-code-review.md §Resolution); `revitVersion` + `isFamily` ẩn cho host ≠ revit ở `ContextService` (Core, +test Revit giữ nguyên); `IsModifiable` doc trong Contracts XML + description; harness stdio `mcp-call.py` + `run-server-smoke.ps1` vào repo; `get_run` record vẫn có `revitVersion` (engine DTO) → phase 4.
 
 ## Success criteria
 - `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet test HPAutoCad/HPAutoCad.Mcp.Server.Tests` xanh (≥ 6 test).
