@@ -41,14 +41,20 @@ Gồm 4 unrelated deliverables (không cross-wire):
 
 ## HPAutoCad Solution
 
-`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phase 1 (2026-09-14): loader + ALC + bundle + spike verified.
+`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phases 1–2 (2026-09-14): loader + ALC + bundle + bridge runtime verified live.
 
 | Project | TFM | Vai trò | Build? |
 |---|---|---|---|
-| `HPAutoCad.McpBridge.Loader/` | net8.0-windows | IExtensionApplication + HPMCP* commands (HPMCPBRIDGE/STATUS/START/STOP/SPIKE/SPIKEQUIT); tạo BridgeLoadContext, khởi động bridge bằng reflection | ✅ |
-| `HPAutoCad.McpBridge/` | net8.0-windows, UseWPF | Roslyn + self-check (phase 1); pipe listener, executor, transaction policy (phase 2) | ✅ |
+| `HPAutoCad.McpBridge.Loader/` | net8.0-windows | IExtensionApplication + HPMCP* commands (HPMCPBRIDGE/STATUS/START/STOP); tạo BridgeLoadContext, khởi động bridge bằng reflection | ✅ |
+| `HPAutoCad.McpBridge/` | net8.0-windows, UseWPF | Phases 1–2: Roslyn + self-check; `MainThreadExecutor` (Idle + IsQuiescent + PostMessage WM_NULL), `AutocadScriptRunner` (outer/inner transaction via `doc.TransactionManager`, dryRun, timeout), `DatabaseChangeCounter` (HANDSEED + events), `AutocadContextReader`/`AutocadResultSerializer`, XAML status window (theme-merged, opt-in "Allow AI code execution") | ✅ |
 | `HPAutoCad.Mcp.Server/` | net10.0 console | MCP server exe + AutocadHostProfile + tools/resources (phase 3) | ⏳ |
 | `HPAutoCad.Mcp.Server.Tests/` | net10.0 | xUnit v3: profile, tools, seed compile check (phase 3–4) | ⏳ |
+
+**Core additions (phase 2):** `MainThreadQueue.cs` (9 test), `BridgeRequestException.cs`, `AutocadInsunits.cs`, `GuardProfile.AutoCAD` + deny `StartTransaction/StartOpenCloseTransaction/TopTransaction/LockDocument`. Tests: McpShared 88/88, HPRebar MCP 106/106.
+
+**Unattended harness & verification:** `HPAutoCad/tools/harness/` (Python + PowerShell) 21/21 scenarios: Idle wake, busy grace 8 s, timeout/cancel/none-document, dryRun, undo merging, SECURELOAD auto-accept, UI Automation opt-in, COM close/busy/REGEN. Run 2× independent (lead + tester) 21/21 ✅; zero `.NET Runtime 1026` crashes; audit 234+ lines.
+
+**Runtime platform:** AutoCAD 2026 base release (R25.1, .NET 8) verified 2026-09-14.
 
 `HPRebar.Tests` bị loại khỏi solution build có chủ đích: dưới config R23/R24 nó sẽ compile net8 rồi reference `HPRebar.dll` net48 → `CS0433 ReadOnlySpan<T> exists in both` (Polyfill nhúng span type vào assembly). Chạy riêng:
 

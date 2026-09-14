@@ -14,7 +14,7 @@ This repo bundles **five unrelated deliverables** plus one shared library folder
 |---|---|---|
 | `HPRebar/` | The Revit Add-In (the "real" product). Multi-version R23–R27. Also hosts the **Revit MCP** (server exe + bridge add-in, see "HPRebar MCP Bridge" below). | C# / Nice3point.Revit.Sdk / WPF / Serilog / ModelContextProtocol |
 | `McpShared/` | **Host-neutral MCP engine** shared by every HP MCP: `HPRebar.Mcp.Contracts` (wire DTOs), `HPRebar.McpBridge.Core` (pipe listener, Roslyn guard/compiler, settings, bridge host + status view model), `HPRebar.Mcp.Server.Core` (server bootstrap, pipe client, execute/context services, tool registry engine, registry meta tools, CLI) and their tests. Never references `Autodesk.*`; the host arrives through `IHostProfile` / `IBridgeExecutor`. Assembly names keep the historical `HPRebar.*` prefix. Own `McpShared.slnx` + `global.json`. | C# / net8 · net10 / ModelContextProtocol / Roslyn |
-| `HPAutoCad/` | The **AutoCAD MCP** (phase 1 done: loader, ALC, bundle, spike verified live; phases 2–5 → `plans/260913-0000-autocad-mcp-bridge-2026/`). Own `HPAutoCad.slnx` + `global.json`; references `../McpShared/` only. | C# / net8 / AutoCAD.NET 25.1.0 |
+| `HPAutoCad/` | The **AutoCAD MCP** (phases 1–2 done: loader, ALC, bundle, bridge runtime verified live in AutoCAD 2026; server exe phase 3 → `plans/260913-0000-autocad-mcp-bridge-2026/`). Own `HPAutoCad.slnx` + `global.json`; references `../McpShared/` only. | C# / net8 / AutoCAD.NET 25.1.0 |
 | `revit-market-research/` | Apify actor scraping the Revit plugin market | Node ≥24 / TypeScript / Crawlee / vitest |
 | `scripts/skill_sync/` + `tests/skill-sync/` | Engine that keeps `.claude/`, `.agents/`, `.codex/` agent configs in sync | Python 3 / stdlib `unittest` |
 | `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`), deployed via `vercel.json` | Plain HTML |
@@ -38,7 +38,7 @@ dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false   # when Revit is op
 dotnet test HPRebar.Core.Tests                     # 334 xUnit tests, no Revit needed
 dotnet test HPRebar.Mcp.Server.Tests               # 106 xUnit tests (Revit-specific): registry over the real seeds, seed tools compiled against the Revit API reference assemblies — no Revit needed
 # Engine tests live beside the engine (run from McpShared/ — each folder has its own global.json pinning the MTP runner):
-(cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 70 xUnit tests: pipe round trips with a fake executor, guard/compiler/args/analyzer, host-neutrality rules
+(cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 88 xUnit tests: pipe round trips with a fake executor, guard/compiler/args/analyzer/AutoCAD-insunits, host-neutrality rules, MainThreadQueue
 dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26  # TUnit, excluded from solution builds
 
 # ModularPipelines automation — from HPRebar/build/
@@ -84,7 +84,7 @@ The solution holds **ten** projects plus the two automation ones (four rebar, si
 | `../McpShared/HPRebar.Mcp.Server.Core/` | net10.0 | Host-free half of a server: `McpServerHost.CreateBuilder(args, IHostProfile)`, `RevitBridgeClient` (name kept; profile-driven), `ExecuteCodeService`/`ContextService`, tool registry engine + 8 meta tools, `inspect_type`, `cancel_execution`, `toolify_run`, `RegistryCli`. Every engine constructor defaults to `HostProfile.Revit` |
 | `HPRebar.Mcp.Server/` | net10.0 console | The Revit MCP server exe (`ModelContextProtocol` 2.2.0, stdio): a 6-line `Program.cs`, `Hosts/Revit/` (`RevitHostProfile`, `execute_revit_code`, `get_revit_context`, `revit://` resources, prompts) and the embedded seed library. Never references Revit |
 | `HPRebar.McpBridge/` | R25/R26 only (net8.0-windows7.0) | Second add-in (own `.addin`, GUID `A1F50652-27B4-48D4-8BA9-9694B1AA9E65`, own ALC `HPRebar.McpBridge`). `IsRepackable=false` on purpose — Roslyn ships as loose DLLs. Skipped under R23/R24/R27 via `.slnx` `<Build … Project="false"/>` |
-| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3, 106 tests: registry lifecycle over the real Revit seeds, seed compile checks. Engine tests (70) are in `../McpShared/HPRebar.Mcp.Server.Core.Tests/`; the fake executor is one file linked into both |
+| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3, 106 tests: registry lifecycle over the real Revit seeds, seed compile checks. Engine tests (88) are in `../McpShared/HPRebar.Mcp.Server.Core.Tests/`; the fake executor is one file linked into both |
 
 Three features exist, all following the feature-folder convention below: **`ColumnRebar/`** (81 files, ~7.0k lines), **`BeamRebar/`** (68 files, ~6.8k lines) and **`FoundationRebar/`** (24 files, ~1.7k lines). `Resources/Themes/` holds 8 theme files; `ThemeSwitcher` follows Revit's own Dark/Light.
 
@@ -130,21 +130,19 @@ Verified live in Revit 2026 (2026-09-12, `plans/…/reports/phase-09-live-verify
 
 ## HPAutoCad MCP Bridge (Dynamic AutoCAD MCP Server)
 
-Phase 1 (2026-09-14): loader + isolated `AssemblyLoadContext` + bundle + spike verified live in AutoCAD 2026 R25.1. Phases 2–5 ahead (`plans/260913-0000-autocad-mcp-bridge-2026/`).
+Phases 1–2 (2026-09-14): loader + isolated ALC + bundle + **bridge runtime verified live** in AutoCAD 2026 R25.1. Server exe phase 3 ahead (`plans/260913-0000-autocad-mcp-bridge-2026/`).
 
-**Why the isolated ALC:** AutoCAD ships Roslyn 4.10 + System.Collections.Immutable 8.0 in the default context; the bridge needs 5.9 + 10 → private copies via `AssemblyDependencyResolver` from bridge's `deps.json`. Verified: `Roslyn` and `Immutable` resolve to ALC context; `AcMgd`, `AcCoreMgd`, `AcDbMgd` fall through to Default and stay shared.
+**Runtime flow:** `HPMCPBRIDGE` command opens opt-in "Allow AI code execution" XAML window (OFF on every start, never persisted). Pipe `hpautocad-mcp-2026` (JSON-RPC 2.0 NDJSON) carries methods `autocad.ping`, `autocad.context`, `autocad.execute`, `autocad.cancel`, `autocad.inspect`, `autocad.analyze`. On execute: pipe thread guard + Roslyn compile → `MainThreadQueue` (ConcurrentQueue) → `Application.Idle` tick → main thread runs queued work with `PostMessage(WM_NULL)` wake; busy grace 8 s (older requests fail with `-32002`); no drawing → `-32003`. Script gets `doc/db/ed/app/tr/units/ct/log/progress/args` globals (mm at boundary via `ScriptUnits`).
 
-**Threading (ADR-02 Accepted):** `Application.Idle` subscribed from a background (pipe) thread fires the handler on AutoCAD's main thread; `IsQuiescent` + `LockDocument` + transaction commit verified (~0.9 s). `DocumentCollection.ExecuteInApplicationContext` from a background thread runs the callback on the *calling* thread and blocked indefinitely once → rejected, guard denies it. Executor rule for phase 2: complete the request before unsubscribing on timeout; the handler no-ops on a completed request.
+**Transactions (ADR-03 revised):** Bridge opens outer transaction (TransactionGroup role) + inner `tr` for script. Inner commits immediately after script returns (database events only fire on outermost commit) → change counts via HANDSEED + ObjectOpenedForModify + IsErased. `transaction=auto|none`; `manual` accepted but runs as `auto` + log (guard denies `StartTransaction`/`StartOpenCloseTransaction`/`TopTransaction`/`LockDocument` — an undisposed wrapper crashes acad.exe at GC finalize). dryRun rolls back both. `none` mode still opens transaction (read needs `tr` in AutoCAD), always aborts, sums to zero if no modifications. Undo merges consecutive MCP runs per user command in named lock "HPMCP"; per-run undo out of MVP.
 
-**Bundle & security:** `PackageContents.xml` SchemaVersion 1.0, Platform AutoCAD, SeriesMin/Max R25.1. Deploy → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\` (24 files, 14 MB). AutoCAD prompts "Security - Unsigned Executable File" on first loader load per hash → user clicks *Always Load* (once per dev rebuild, same as Revit's publisher prompt).
+**Change counting:** Added via database `Handseed` delta. Modified/Deleted via `ObjectOpenedForModify` events + `ObjectId.IsErased` check before inner commit. No `DBObject` wrappers retained outside transaction (finalizer safety). Approximate, documented in tool description.
 
-**Spike (phase 1 only):** Two commands `HPMCPSPIKE` (draw a line, start LINE command) and `HPMCPSPIKEQUIT` (discard active drawing, quit) gated by env var `HPAUTOCAD_MCP_SPIKE=1`. Run unattended: 5/5 passes ×3 consecutive runs; final run quits via `Document.CloseAndDiscard()` + `Quit()` → exit code 0 after 18 s. Deleted in phase 2 once pipe listener works.
+**Security & logging:** Opt-in checkbox (never persisted, unchecked each load), `ScriptGuard` deny-list, timeout 5–120 s cooperative via `ct`, audit JSON-lines `%AppData%\HPAutoCad\McpBridge\audit\`. Isolated ALC: Roslyn 5.9 + Immutable 10 private; AutoCAD APIs shared. Bundle 24 files → `%AppData%\Autodesk\ApplicationPlugins\`.
 
-**Logs:** loader → `%LocalAppData%\HPAutoCad\McpBridge\logs\loader.log`; bridge → `mcpbridge-*.log`; spike report → `spike-report.md`. Settings `%AppData%\HPAutoCad\McpBridge\settings.json` (currently `AutoStartListener` only). Pipe name (phase 2+): `hpautocad-mcp-2026`.
+**Verified unattended:** `HPAutoCad/tools/harness/` (Python + PowerShell) 21/21 scenarios twice: opt-in off/-32001, 18 execute/context variants, no-document/-32003, busy-after-8s/-32002, dryRun, none-mode, cancel, timeout, undo, SECURELOAD auto-accept, UI Automation opt-in, COM reachback (close/busy/REGEN/U). Zero `.NET Runtime 1026` crashes; 234+ audit lines.
 
-Load-bearing facts mirrored from Revit: two processes (server never references `Autodesk.*`, bridge never references the MCP SDK), everything host-neutral lives in `../McpShared/`, only executor/runner/context reader/serializer touch the AutoCAD API. Plan ADRs: ADR-02 (threading) and ADR-05 (bundle + ALC) Accepted; ADR-06 (one MCP per top-level folder) decided; ADR-03 (outermost `tr` transaction, `Abort` = rollback, no TransactionGroup in AutoCAD, `units` mm ↔ drawing units) and ADR-04 (registry per product under `%AppData%\HPAutoCad\McpServer\`) land with phases 2–3.
-
-**Known gaps:** modal dialog open while a request waits for `Idle` (untested); whether *Always Load* remembers the hash or writes `TRUSTEDPATHS`; AutoCAD 2026 Update 1.2 / 2027 (.NET 10, same R25.1 series for Update 1.2) untested — the bridge logs the host runtime and warns when it is not .NET 8; no pipe listener or server exe yet.
+**Known gaps:** modal dialog while request waits (phase 5 manual); `IsModifiable` semantics (phase 3); per-run undo (needs `ExecuteInCommandContextAsync`).
 
 ## Agent Config Sync (`.claude` ↔ `.agents` ↔ `.codex`)
 

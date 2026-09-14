@@ -2,6 +2,25 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge phase 2: bridge runtime
+
+Bổ sung: `MainThreadExecutor` (Application.Idle + IsQuiescent, PostMessage WM_NULL wake, busy grace 8 s), `AutocadScriptRunner` (outer = group, inner = `tr`, commit inner trước quyết định outer, dryRun rollback), `DatabaseChangeCounter` (HANDSEED + ObjectOpenedForModify + IsErased, không giữ wrapper), `AutocadContextReader`/`AutocadResultSerializer` (entities, ObjectId handles, units mm ↔ drawing), XAML status window (theme dark/light override, per-session opt-in "Allow AI code execution"), Core `MainThreadQueue` + `BridgeRequestException` + `AutocadInsunits` + guard deny `StartTransaction`/`LockDocument`.
+
+**Xác minh:** Build zero warn/err, tests McpShared 88/88 + HPRebar MCP 106/106, harness unattended 21/21 (lead + tester independent), AutoCAD 2026 R25.1, 234+ audit lines, zero crashes.
+
+**Các quyết định:**
+- ADR-03 Accepted (revised): outer transaction = TransactionGroup role, inner = `tr`, inner commit → event fire → count → outer decision; `transaction=manual` chạy như `auto` + cảnh báo, guard deny `StartTransaction` (vì finalizer crash ở GC thread)
+- `transaction=none`: vẫn mở transaction (read cần tr ở AutoCAD), luôn abort, sửa như Revit nếu modified
+- Undo merged per user command trong lock "HPMCP"; per-run undo out of MVP
+- Idle one-shot, busy grace bị cắt bớt (tester #2), bỏ BusyGrace default 10s → enforce deadline
+
+**Những chưa làm:**
+- Modal dialog + ESC-then-retry (phase 5 manual)
+- Per-run undo (needs `ExecuteInCommandContextAsync`)
+- `IsModifiable` semantics document (phase 3)
+
+Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phases 1–2/6 done).
+
 ## 2026-09-14 — AutoCAD MCP bridge phase 1: loader, ALC, bundle, spike
 
 Bổ sung: loader DLL với BridgeLoadContext (Roslyn 5.9 + Immutable 10 riêng, AutoCAD API shared), self-check startup, 4 core command (HPMCPBRIDGE/STATUS/START/STOP) + spike 2 command tạm thời, bundle 24 file / 14 MB → `%AppData%\Autodesk\ApplicationPlugins\`. Spike chạy 5/5 lần ×3 run liên tiếp, cuối cùng unattended (SECURELOAD auto-click, `Document.CloseAndDiscard()` + `Quit()` exit code 0).

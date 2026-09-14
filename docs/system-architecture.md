@@ -376,28 +376,56 @@ Engine host-neutral ở `McpShared/`: `PipeListener`, `ScriptGuard`, `ScriptComp
 
 Điểm giòn: Roslyn assembly không unload; timeout chỉ cooperative; Revit hỏi "publisher could not be verified" với DLL chưa ký. Chi tiết: `plans/260912-1521-dynamic-revit-mcp-server-2026/adr/`.
 
-## AutoCAD MCP Bridge (Phase 1, 2026-09-14)
+## AutoCAD MCP Bridge (Phases 1–2, 2026-09-14)
 
-Cùng kiến trúc với Revit nhưng cho AutoCAD 2026 (R25.1, .NET 8). Đã verify phase 1 (loader, ALC, bundle, spike) sống động; phase 2–5 tiếp theo.
+Cùng kiến trúc với Revit nhưng cho AutoCAD 2026 (R25.1, .NET 8). Đã verify phases 1–2 (loader, ALC, bundle, bridge runtime) sống động; phase 3–5 tiếp theo.
+
+### Runtime flow (phase 2)
 
 ```
 AI ──stdio──▶ HPAutoCad.Mcp.Server (phase 3)
               ↓
-            Named pipe hpautocad-mcp-2026 (phase 2+)
+            Named pipe hpautocad-mcp-2026
               ↓
-            HPAutoCad.McpBridge.Loader ──reflection──▶ BridgeLoadContext ("HPAutoCad.McpBridge")
-                                                       │
-                                                       └─ HPAutoCad.McpBridge (Roslyn + pipe listener, phase 2+)
-                                                          ↓
-                                                       acad.exe (main thread)
-                                                       ↓
-                                                       Idle tick → ExternalEvent → TransactionGroup → AutoCAD API
+   guard check (Roslyn, pipe thread) → compile
+              ↓
+   MainThreadQueue (ConcurrentQueue, FIFO)
+              ↓
+   Application.Idle (one-shot) → main thread
+              ↓
+   PostMessage(WM_NULL) if queue has work
+              ↓
+   IsQuiescent + busy grace 8 s
+              ↓
+   LockDocument → outer tx (TransactionGroup role)
+       ↓
+       StartTransaction → inner tx (`tr`)
+       ↓
+       run script (gets doc/db/ed/app/tr/units/ct/log/args)
+       ↓
+       serialize result (before inner commit)
+       ↓
+       inner.Commit() → database events fire
+       ↓
+       change count (HANDSEED + ObjectOpenedForModify + IsErased)
+       ↓
+   outer.Commit() (success) | outer.Abort() (dryRun/none/error/timeout)
+              ↓
+   audit JSON-line + status update
 ```
 
-**Load context (ALC) tách riêng:** AutoCAD tải Roslyn 4.10 + Immutable 8.0 ở default context; bridge cần 5.9 + 10 → private deps.json qua `AssemblyDependencyResolver` (verified: Roslyn/Immutable ở "HPAutoCad.McpBridge", AcMgd/AcCoreMgd/AcDbMgd ở Default). Phase 1 nhanh compile (~1 s), main thread qua Idle + `LockDocument` + transaction commit (~0.9 s).
+**Threading (ADR-02):** pipe thread calls `Application.Idle` → fires handler on main thread (AutoCAD enforces this). `IsQuiescent` check guards busy state. Busy grace 8 s—older requests fail `-32002`. No drawing → `-32003`. `PostMessage(WM_NULL)` wakes main loop from blocking waits.
 
-**Security mode:** env var `HPAUTOCAD_MCP_SPIKE=1` bật spike (phase 1 test); chưa có listener. Trên máy người dùng: SECURELOAD prompt "publisher could not be verified" → *Always Load* (same as Revit).
+**Transactions (ADR-03 revised):** Outer = bridge's TransactionGroup control. Inner `tr` = script's transaction handle. Script does NOT call `StartTransaction` (guard denies it—finalizer crashes acad.exe at GC time). `transaction=manual` accepted but runs as `auto` + log. `none` mode still opens (read needs `tr`), always aborts, rejects if modified. dryRun rolls back both. Undo merges MCP runs per user command in lock "HPMCP"; per-run undo out of MVP.
 
-**Bundle:** `PackageContents.xml` SchemaVersion 1.0, platform AutoCAD, R25.1, 24 file / 14 MB. Deploy → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\` (Debug build tự động).
+**Change counting (ADR-03 revised):** `added` = Handseed after − before. `modified`/`deleted` = ObjectOpenedForModify events + `ObjectId.IsErased` before inner commit. No DBObject wrappers retained (finalizer safety). Approximate, documented in tool.
 
-**Mục tiêu phase 2–5:** pipe listener + main-thread executor (phase 2), server + tools (phase 3), tests (phase 4), multi-version R26/R27 (phase 5).
+**Security & observability:**
+- Per-session opt-in "Allow AI code execution" checkbox (OFF on start, never persisted); `ScriptGuard` deny-list; timeout 5–120 s cooperative via `ct`.
+- Audit: `%AppData%\HPAutoCad\McpBridge\audit\` JSON-lines (request, result, changed counts, error).
+- Isolated ALC: Roslyn 5.9 + Immutable 10 private (verified); AutoCAD APIs shared.
+- Bundle: 24 files / 14 MB → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\`.
+
+**Verified unattended (21/21 scenarios ×2):** `HPAutoCad/tools/harness/` (Python + PowerShell): opt-in off, execute variants, dryRun, none-mode, cancel, timeout, busy after 8 s, SECURELOAD auto-accept, UI Automation opt-in, no document, undo merge, COM reachback (close/busy/REGEN/U). Zero `.NET Runtime 1026` crashes; 234+ audit lines.
+
+**Mục tiêu phase 3–5:** server exe + AutocadHostProfile + tools/resources (phase 3), tests (phase 4), multi-version R26/R27 (phase 5).
