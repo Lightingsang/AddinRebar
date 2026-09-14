@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.SolutionPersistence.Model;
+using Microsoft.VisualStudio.SolutionPersistence.Model;
 using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using Shouldly;
+using Sourcy.DotNet;
+using File = ModularPipelines.FileSystem.File;
 
 namespace Build.Modules;
 
@@ -24,19 +25,16 @@ public sealed class ResolveConfigurationsModule : Module<string[]>
         return configurations;
     }
 
+    /// <summary>
+    ///     Reads HPRebar.slnx by its Sourcy-resolved path. The repository holds other solutions
+    ///     (McpShared, HPAutoCad), so searching the git root for "any .slnx" would pick one of those.
+    /// </summary>
     private static async Task<SolutionModel> LoadSolutionModelAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var solution = context.Git().RootDirectory.FindFile(file => file.Extension == ".slnx");
-        if (solution is not null)
-        {
-            await using var slnxStream = solution.GetStream();
-            return await SolutionSerializers.SlnXml.OpenAsync(slnxStream, cancellationToken);
-        }
+        var solution = new File(Solutions.HPRebar.FullName);
+        solution.Exists.ShouldBeTrue($"Solution file not found: {solution.Path}");
 
-        solution = context.Git().RootDirectory.FindFile(file => file.Extension == ".sln");
-        solution.ShouldNotBeNull("Solution file not found.");
-
-        await using var slnStream = solution.GetStream();
-        return await SolutionSerializers.SlnFileV12.OpenAsync(slnStream, cancellationToken);
+        await using var slnxStream = solution.GetStream();
+        return await SolutionSerializers.SlnXml.OpenAsync(slnxStream, cancellationToken);
     }
 }
