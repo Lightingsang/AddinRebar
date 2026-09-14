@@ -183,4 +183,29 @@ public sealed class HostNeutralityTests
         Assert.EndsWith(Path.Combine("HPAutoCad", "McpBridge"), autocad.Directory);
         Assert.NotEqual(revit.AuditDirectory, autocad.AuditDirectory);
     }
+
+    [Fact]
+    public async Task A_second_listener_on_the_same_pipe_faults_and_names_the_host()
+    {
+        var pipe = "hpautocad-mcp-test-" + Guid.NewGuid().ToString("N") + "-2026"; // the message quotes the last four characters as the host version
+        var settings = new BridgeSettings();
+        using var first = new PipeListener(pipe, new RequestDispatcher(new FakeRevitExecutor(), settings, "2026", "AutoCAD"));
+        using var second = new PipeListener(pipe, new RequestDispatcher(new FakeRevitExecutor(), settings, "2026", "AutoCAD"));
+        var faulted = new TaskCompletionSource<string>();
+        second.Faulted += reason => faulted.TrySetResult(reason);
+
+        first.Start();
+        // Both accept loops race to create the pipe; wait until the first one owns it before starting the second.
+        var deadline = DateTime.UtcNow.AddSeconds(10);
+        while (DateTime.UtcNow < deadline && !Directory.EnumerateFiles(@"\\.\pipe\").Any(f => f.EndsWith(pipe, StringComparison.Ordinal))) await Task.Delay(50, TestContext.Current.CancellationToken);
+        second.Start();
+        var reason = await faulted.Task.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
+
+        Assert.Contains("already in use", reason);
+        Assert.Contains("another AutoCAD 2026 instance", reason);
+        Assert.DoesNotContain("Revit", reason);
+        Assert.False(second.IsListening);
+        Assert.True(first.IsListening);
+        await first.StopAsync();
+    }
 }

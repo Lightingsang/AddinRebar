@@ -213,10 +213,21 @@ public sealed class ToolRegistryDb
         return Query(connection, RunSelect + " WHERE tool_name = @tool ORDER BY ts DESC LIMIT @n;", ReadRun, ("@tool", toolName), ("@n", limit));
     }
 
+    /// <summary>
+    ///     Runs that count towards a tool's stability: not tests; not refusals of the caller's own arguments (a
+    ///     script that throws an ArgumentException — "block 'X' is not defined" — reports a wrong call, not a broken
+    ///     tool, and counting those would quarantine every seed that validates its inputs); and nothing older than
+    ///     the tool's last approval, restore or new version — otherwise the failures that quarantined a tool would
+    ///     quarantine it again on the first run after a human restored it.
+    /// </summary>
+    private const string StabilityRunFilter =
+        "kind <> 'test' AND (error IS NULL OR error NOT LIKE 'Argument%Exception:%') " +
+        "AND ts >= COALESCE((SELECT MAX(e.ts) FROM registry_events e WHERE e.tool_name = runs.tool_name AND e.event IN ('approved', 'published', 'restore', 'proposed_version')), 0)";
+
     public RunStats Stats(string toolName, int window)
     {
         using var connection = Open();
-        var rows = Query(connection, "SELECT success, ts, error FROM runs WHERE tool_name = @tool AND kind <> 'test' ORDER BY ts DESC LIMIT @n;",
+        var rows = Query(connection, $"SELECT success, ts, error FROM runs WHERE tool_name = @tool AND {StabilityRunFilter} ORDER BY ts DESC LIMIT @n;",
             r => (Success: r.GetInt64(0) == 1, Ts: r.GetInt64(1), Error: r.IsDBNull(2) ? null : r.GetString(2)), ("@tool", toolName), ("@n", window));
         if (rows.Count == 0) return RunStats.Empty;
         return new RunStats(rows.Count, rows.Count(r => r.Success), DateTimeOffset.FromUnixTimeMilliseconds(rows[0].Ts), rows.FirstOrDefault(r => !r.Success).Error);
@@ -225,10 +236,10 @@ public sealed class ToolRegistryDb
     public IReadOnlyDictionary<string, RunStats> AllStats(int window)
     {
         using var connection = Open();
-        var rows = Query(connection, """
+        var rows = Query(connection, $"""
             SELECT tool_name, success, ts, error FROM (
                 SELECT tool_name, success, ts, error, ROW_NUMBER() OVER (PARTITION BY tool_name ORDER BY ts DESC) AS rn
-                FROM runs WHERE tool_name IS NOT NULL AND kind <> 'test') WHERE rn <= @n ORDER BY tool_name, ts DESC;
+                FROM runs WHERE tool_name IS NOT NULL AND {StabilityRunFilter}) WHERE rn <= @n ORDER BY tool_name, ts DESC;
             """,
             r => (Tool: r.GetString(0), Success: r.GetInt64(1) == 1, Ts: r.GetInt64(2), Error: r.IsDBNull(3) ? null : r.GetString(3)), ("@n", window));
 

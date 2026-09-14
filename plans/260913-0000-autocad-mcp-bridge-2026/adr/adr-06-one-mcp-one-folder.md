@@ -1,6 +1,6 @@
 # ADR-06 — Mỗi MCP một folder top-level, mã chung tách ra folder thứ ba `McpShared/`
 
-**Ngày:** 2026-09-14 · **Status:** Proposed (Claude tự chốt theo ràng buộc user 2026-09-14; supersedes phần "server" của [ADR-01](adr-01-reuse-mcp-server-host-profile.md)) · **Owner:** HPRebar
+**Ngày:** 2026-09-14 · **Status:** **Accepted (2026-09-14)** (Claude tự chốt theo ràng buộc user 2026-09-14; supersedes phần "server" của [ADR-01](adr-01-reuse-mcp-server-host-profile.md)) — verified by `reports/phase-05-live-verify.md`: hai exe, hai pipe (`hprebar-mcp-r2026` + `hpautocad-mcp-2026`) cùng sống, hai registry root, Revit 34 tool không đổi; F: instance AutoCAD thứ hai fail-fast, Civil 3D không nạp bundle · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-01 topology](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-01-two-process-topology.md) · [Revit ADR-06 registry](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-06-tool-registry-and-publish-gate.md) · `CLAUDE.md` § Repository Layout ("four unrelated deliverables … do not cross-wire them")
 
 ## Context

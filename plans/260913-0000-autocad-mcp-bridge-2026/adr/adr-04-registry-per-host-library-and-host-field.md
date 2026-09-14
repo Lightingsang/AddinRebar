@@ -1,6 +1,6 @@
 # ADR-04 — Registry: một engine trong `McpShared/`, dữ liệu tách theo exe (root `%AppData%\<Product>\McpServer\`), seed nhúng trong từng exe, `host` là metadata tự mô tả
 
-**Ngày:** 2026-09-13 · **Revised 2026-09-14** theo [ADR-06](adr-06-one-mcp-one-folder.md) (hai exe riêng → "tách theo host" trở thành "tách theo exe"; bản 2026-09-13 với `tools-library-autocad` cạnh `tools-library` và `SeedLibrary/<Host>/` **bị thay**) · **Status:** Proposed · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** theo [ADR-06](adr-06-one-mcp-one-folder.md) (hai exe riêng → "tách theo host" trở thành "tách theo exe"; bản 2026-09-13 với `tools-library-autocad` cạnh `tools-library` và `SeedLibrary/<Host>/` **bị thay**) · **Status:** **Accepted (2026-09-14)** — verified by `reports/phase-05-live-verify.md` (C: propose/test/publish/CLI approve on the AutoCAD exe, `Host: autocad` in the review, `tools/list_changed` 0.5 s; E: Revit library hash unchanged while both exes run). Addendum from phase 5: the stability window ignores `Argument…Exception` refusals (the caller's) and restarts at the last approve/restore/new version · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-05 tool = data](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-05-typed-tools-are-script-templates.md) · [Revit ADR-06 registry & publish gate](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-06-tool-registry-and-publish-gate.md)
 
 ## Context

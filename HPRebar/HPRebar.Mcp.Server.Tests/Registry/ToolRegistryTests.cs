@@ -345,6 +345,48 @@ public sealed class ToolManagerTests
     }
 
     [Fact]
+    public async Task Argument_errors_are_the_callers_and_never_quarantine_a_tool()
+    {
+        await using var f = new RegistryFixture(o => { o.QuarantineMinRuns = 3; o.QuarantineMaxFailureRate = 0.5; });
+        f.Store.Write(RegistryFixture.NewRecord("strict"));
+        await f.Manager.LoadAllAsync(TestContext.Current.CancellationToken);
+        f.Executor.ExecuteHandler = _ => ExecuteResult.Failure("ArgumentException: Block 'NOPE' is not defined in this drawing.");
+
+        for (var i = 0; i < 5; i++) await f.Manager.RunAsync("strict", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+
+        Assert.Equal(ToolStatus.Published, f.Manager.Get("strict")!.Record.Status);
+        Assert.Equal(RunStats.Empty, f.Db.Stats("strict", 50));                       // wrong calls are not evidence about the tool
+        Assert.DoesNotContain("strict", f.Db.AllStats(50).Keys);
+        Assert.Equal(5, f.Db.RecentRuns("strict", 10).Count);                       // but they stay in the history
+
+        f.Executor.ExecuteHandler = _ => ExecuteResult.Failure("NullReferenceException: no room");
+        for (var i = 0; i < 3; i++) await f.Manager.RunAsync("strict", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+        Assert.Equal(ToolStatus.Quarantined, f.Manager.Get("strict")!.Record.Status);
+    }
+
+    [Fact]
+    public async Task A_restored_tool_starts_with_a_clean_stability_window()
+    {
+        await using var f = new RegistryFixture(o => { o.QuarantineMinRuns = 3; o.QuarantineMaxFailureRate = 0.5; });
+        f.Store.Write(RegistryFixture.NewRecord("flaky"));
+        await f.Manager.LoadAllAsync(TestContext.Current.CancellationToken);
+        var lifecycle = new ToolLifecycleService(f.Manager, f.Bridge, NullLogger<ToolLifecycleService>.Instance);
+        f.Executor.ExecuteHandler = _ => ExecuteResult.Failure("NullReferenceException: no room");
+        for (var i = 0; i < 3; i++) await f.Manager.RunAsync("flaky", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+        Assert.Equal(ToolStatus.Quarantined, f.Manager.Get("flaky")!.Record.Status);
+
+        await Task.Delay(5, TestContext.Current.CancellationToken); // events and runs share a millisecond clock
+        lifecycle.Manage("flaky", "restore", "fixed the model", "tester");
+        lifecycle.Approve("flaky", "tester", force: true);
+        Assert.Equal(RunStats.Empty, f.Db.Stats("flaky", 50));                    // the old failures no longer count
+
+        f.Executor.ExecuteHandler = _ => new ExecuteResult { Value = System.Text.Json.JsonSerializer.SerializeToElement(1) };
+        await f.Manager.RunAsync("flaky", null, false, false, RunRecord.KindTool, TestContext.Current.CancellationToken);
+        Assert.Equal(ToolStatus.Published, f.Manager.Get("flaky")!.Record.Status);
+        Assert.Equal(1, f.Db.Stats("flaky", 50).Runs);
+    }
+
+    [Fact]
     public async Task Adhoc_runs_are_remembered_with_code_only_on_success()
     {
         await using var f = new RegistryFixture();

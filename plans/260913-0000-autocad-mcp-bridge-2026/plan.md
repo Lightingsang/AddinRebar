@@ -1,7 +1,7 @@
 ---
 title: "HPAutoCad MCP Bridge 2026"
 description: "AI → MCP → AutoCAD 2026 runtime trong folder top-level riêng HPAutoCad/, mã chung ở McpShared/ (Contracts, script engine, registry engine); vòng lặp tự sinh & ghi nhớ tool ánh xạ 1:1 với Revit"
-status: in-progress
+status: completed
 priority: P2
 effort: 64h
 branch: RebarVersion1
@@ -12,7 +12,7 @@ revised: 2026-09-14
 
 # HPAutoCad MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ràng buộc mới: mỗi MCP một folder top-level → [ADR-06](adr/adr-06-one-mcp-one-folder.md); bản 2026-09-13 "một exe + host profile" superseded) · **Status:** in-progress — phase 0 built + tested + smoke-verified 2026-09-14 (9 commit trên `RebarVersion1`, chưa push); phase 1–5 planned · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (phase 0 = di dời mã chung + scaffold; phase 3 WPF gộp vào 2; phase 4 = registry theo profile)
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ràng buộc mới: mỗi MCP một folder top-level → [ADR-06](adr/adr-06-one-mcp-one-folder.md); bản 2026-09-13 "một exe + host profile" superseded) · **Status:** completed — phase 0–5 built + tested + verified live 2026-09-14 (AutoCAD 2026 + Revit 2026 side by side; `reports/phase-05-live-verify.md`); branch `RebarVersion1`, chưa push · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (phase 0 = di dời mã chung + scaffold; phase 3 WPF gộp vào 2; phase 4 = registry theo profile)
 
 ## Executive summary
 - **Ba folder top-level:** `HPRebar/` (Revit add-in + Revit MCP, hành vi không đổi) · `HPAutoCad/` (AutoCAD MCP: exe `HPAutoCad.Mcp.Server`, `HPAutoCad.McpBridge.Loader`, `HPAutoCad.McpBridge`, tests, `HPAutoCad.slnx`) · `McpShared/` (thư viện host-neutral, **không phải MCP**: `HPRebar.Mcp.Contracts`, `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Server.Core` mới tách từ exe Revit, tests engine). Chiều phụ thuộc duy nhất: MCP → `McpShared`; không bao giờ MCP → MCP (ADR-06).
@@ -31,7 +31,7 @@ revised: 2026-09-14
 | 2 | [phase-02](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe | **built + tested + verified in AutoCAD 2026 (2026-09-14)** — harness 21/21 ×2; review 7.5/10 → 16/17 fix; 88+106 test; ADR-03 Accepted (revised: 2 transaction, script không mở transaction, undo gộp) | 0, 1 | 14h (≈7h) |
 | 3 | [phase-03](phase-03-server-autocad-host-tools-prompts-resources.md) — exe `HPAutoCad.Mcp.Server` (Program mỏng + `AutocadHostProfile` + 4 tool/prompt/resource), tests, `.mcp.json`, hai-exe smoke | **built + tested + verified (2026-09-14)** — stdio 7/7 với AutoCAD 2026, 34/12 hai exe, 8 test | 0 | 6h (≈2h) |
 | 4 | [phase-04](phase-04-registry-per-host-and-autocad-seed-tools.md) — registry theo profile trong `McpShared` (categories/validator/text/`host`), **12 seed AutoCAD** nhúng trong exe + compile-check | **built + tested + verified (2026-09-14)** — 58 seed test, 12/12 seed live qua stdio (smoke 22/22), tools/list 24; Revit 34 tên/schema không đổi; review 7.5/10 → 12 finding fixed | 0, 3 | 12h (≈4h) |
-| 5 | [phase-05](phase-05-verify-live-autocad-registry-loop-and-docs.md) — execute matrix 14 · mọi seed · **HIT · MISS→approve→gọi tên · HỎNG→quarantine→restore** · hồi quy Revit + hai exe song song · docs/CLAUDE.md/AGENTS.md | planned | 2, 3, 4 | 10h |
+| 5 | [phase-05](phase-05-verify-live-autocad-registry-loop-and-docs.md) — execute matrix 14 · mọi seed · **HIT · MISS→approve→gọi tên · HỎNG→quarantine→restore** · hồi quy Revit + hai exe song song · docs/CLAUDE.md/AGENTS.md | **built + tested + verified (2026-09-14)** — harness `run-live-verify.ps1` 65/65 + isolation 4/4 + bridge 21/21; 2 engine fixes (stability window); docs/ADR/memory synced | 2, 3, 4 | 10h (≈3h) |
 
 ## Key decisions
 - Mỗi MCP một folder + `McpShared/` cho mã chung; hai exe riêng; `IHostProfile` là seam compile-time (không env switch). Wire-compat với bridge Revit đã deploy: Contracts chỉ thêm; dispatcher nhận cả `revit.*` và `autocad.*`.

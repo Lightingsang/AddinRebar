@@ -173,7 +173,8 @@ public static class BridgeEntry
                 restrictedToMinimumLevel: LogEventLevel.Debug,
                 outputTemplate: outputTemplate,
                 rollingInterval: RollingInterval.Day,
-                retainedFileCountLimit: 7)
+                retainedFileCountLimit: 7,
+                shared: true) // a second AutoCAD must be able to log why its listener refused to start
             .MinimumLevel.Debug()
             .CreateLogger();
     }

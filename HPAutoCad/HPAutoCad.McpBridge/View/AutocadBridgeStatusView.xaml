@@ -74,7 +74,8 @@
 
                 <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                     <TextBlock Style="{DynamicResource Subheading}" Text="{Binding StatusText}" TextWrapping="Wrap"/>
-                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding StatusDetail}" Foreground="{DynamicResource Brush.Danger}"/>
+                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding StatusDetail}" Foreground="{DynamicResource Brush.Danger}"
+                               AutomationProperties.AutomationId="StatusDetail"/>
                     <TextBlock Style="{DynamicResource Caption}">
                         <Run Text="Pipe"/> <Run Text="{Binding PipeName, Mode=OneWay}"/> <Run Text="· AutoCAD"/> <Run Text="{Binding RevitVersion, Mode=OneWay}"/>
                     </TextBlock>

@@ -81,13 +81,13 @@ public sealed class PipeListener : IDisposable
             }
             catch (Exception exception)
             {
-                // IOException "All pipe instances are busy" = another Revit of this version already owns the
+                // IOException "All pipe instances are busy" = another instance of this host version already owns the
                 // name; anything else is a platform/ACL problem. Either way the loop cannot continue, and a
-                // silent death here would look exactly like "Revit not running" from the server's side.
+                // silent death here would look exactly like "host not running" from the server's side.
                 Log.Error(exception, "MCP bridge could not create pipe {Pipe}", PipeName);
                 _cts?.Cancel(); // IsListening must read false: nothing will accept until Start() is called again
                 Faulted?.Invoke(exception is IOException
-                    ? $"Pipe {PipeName} is already in use — another Revit {PipeName[^4..]} instance is serving MCP."
+                    ? $"Pipe {PipeName} is already in use — another {_dispatcher.HostName} {PipeName[^4..]} instance is serving MCP."
                     : $"Pipe {PipeName} could not be created: {exception.GetType().Name}: {exception.Message}");
                 return;
             }

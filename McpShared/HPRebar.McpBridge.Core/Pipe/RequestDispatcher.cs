@@ -17,6 +17,9 @@ namespace HPRebar.McpBridge.Core.Pipe;
 /// </summary>
 public sealed class RequestDispatcher
 {
+    /// <summary>"Revit", "AutoCAD" — for messages that name the host.</summary>
+    public string HostName { get; }
+
     private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
     private readonly string _hostVersion;
@@ -30,6 +33,7 @@ public sealed class RequestDispatcher
         _settings = settings;
         _hostVersion = hostVersion;
         _hostName = hostName;
+        HostName = hostName;
     }
 
     public async Task HandleLineAsync(string line, NdjsonPipeWriter writer, CancellationToken cancellationToken)
