@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using HPRebar.Mcp.Contracts;
 using HPRebar.Mcp.Contracts.JsonRpc;
 using HPRebar.Mcp.Contracts.Messages;
 using ModelContextProtocol;
@@ -22,7 +25,7 @@ public sealed class ContextService(IRevitBridgeClient bridge, ResultFormatter fo
         {
             var context = await FetchAsync(includeSelection, cancellationToken).ConfigureAwait(false);
 
-            return formatter.Text(context);
+            return formatter.Text(Shape(context));
         });
     }
 
@@ -33,13 +36,29 @@ public sealed class ContextService(IRevitBridgeClient bridge, ResultFormatter fo
         {
             var context = await FetchAsync(includeSelection, cancellationToken).ConfigureAwait(false);
 
-            return BridgeJson.Serialize(context);
+            return BridgeJson.Serialize(Shape(context));
         }
         catch (Exception exception) when (exception is BridgeUnavailableException or BridgeTimeoutException or BridgeErrorException)
         {
             throw new McpException(ResultFormatter.StripPaths(exception.Message));
         }
     }
+
+    /// <summary>
+    ///     The wire keeps the historical <c>revitVersion</c> field for older bridges; another host's AI
+    ///     should not see a Revit-named field, so it is dropped and <c>hostVersion</c> stands alone.
+    ///     Revit output is byte-for-byte what it was.
+    /// </summary>
+    private object Shape(ContextResult context)
+    {
+        if (bridge.Profile.HostId == PipeNaming.RevitHost) return context;
+
+        var node = JsonSerializer.SerializeToNode(context, BridgeJson.Options) as JsonObject ?? new JsonObject();
+        node.Remove(RevitVersionField);
+        return node;
+    }
+
+    private static readonly string RevitVersionField = BridgeJson.Options.PropertyNamingPolicy?.ConvertName(nameof(ContextResult.RevitVersion)) ?? nameof(ContextResult.RevitVersion);
 
     private Task<ContextResult> FetchAsync(bool includeSelection, CancellationToken cancellationToken) =>
         bridge.SendAsync<ContextResult>(

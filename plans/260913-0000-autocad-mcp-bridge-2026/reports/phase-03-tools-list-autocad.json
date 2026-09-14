@@ -1,0 +1,461 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "execute_autocad_code",
+        "title": "Execute C# in AutoCAD",
+        "description": "Runs a C# script inside the open AutoCAD drawing with the user's full privileges. Globals: doc (Document), db (Database), ed (Editor — WriteMessage/SelectImplied/SelectAll only; every Get* prompt is blocked), app (DocumentCollection), tr (the Transaction the bridge opened: read with tr.GetObject(id, OpenMode.ForRead), add with AppendEntity + tr.AddNewlyCreatedDBObject(obj, true); never Commit/Abort/Dispose it and never call StartTransaction or LockDocument — the guard rejects them), units (drawing unit from INSUNITS: units.ToDrawing(mm), units.ToMm(du), units.Label — all coordinates are drawing units), ct (CancellationToken — check it inside long loops), log(string), progress(int current, int total, string message), args (data from the `args` parameter: args.Str/Double/Int/Long/Bool(key, fallback), args.Obj/List(key), args.Has/Require(key)). Prefer args over literals so identical script text compiles once and is cached. End with `return <value>;`. Returned AutoCAD objects are summarised: ObjectId → {handle,class}, Entity → {handle,type,layer,dxfName}, Point3d → {x,y,z}, ObjectIdCollection/SelectionSet → arrays of ids. Default usings: System, System.Linq, System.Collections.Generic, Autodesk.AutoCAD.ApplicationServices, DatabaseServices, EditorInput, Geometry, Colors. transaction=auto commits when the script returns; none is read-only and fails if anything changed; manual is accepted but runs like auto. dryRun runs everything and rolls it back, reporting `changed`. U in AutoCAD reverts every AI run made since the user's last command. Fails with isError=true and diagnostics when the code does not compile, throws, is blocked by the guard, or exceeds the timeout; nothing is kept in those cases. Requires the user to tick 'Allow AI code execution' in the HPAutoCad MCP Bridge window (command HPMCPBRIDGE) inside AutoCAD.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Diagnostics.Process / reflection, no Editor prompts or commands (blocked by the guard).",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): the bridge commits `tr` when the script returns. none: read-only; any change fails. manual: accepted for compatibility, behaves like auto.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Run the script, then roll everything back. Use first for destructive changes; `changed` still reports what would have happened.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120. The script sees it through `ct`; a script that ignores `ct` blocks AutoCAD until it returns.",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name for the audit log and the AutoCAD command line summary. Max 64 characters.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"lengthMm\": 1500, \"layer\": \"WALLS\"}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in AutoCAD",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from execute_revit_code, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when Revit is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through Revit",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in Revit. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_autocad_context",
+        "title": "Get AutoCAD context",
+        "description": "Returns the current AutoCAD session: hostVersion, active drawing title/path (docPath is null for an unsaved drawing), isReadOnly, isModifiable (true when the drawing is writable and AutoCAD is idle — no command or dialog in progress), units.length (drawing unit from INSUNITS), activeView (current layout: Model or a paper-space layout), openDocs, executionEnabled, and autocad {insunits, measurement (English/Metric), currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing}. With includeSelection the current selection comes back as {id = handle value, category = layer, name = DXF name}. Call this before execute_autocad_code so the script matches the real drawing and its units.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include the entities currently selected in AutoCAD (id = handle, category = layer, name = DXF name).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get AutoCAD context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as execute_revit_code. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the model.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled in Revit but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "Architecture | Structure | MEP | Annotation | View | Data | Generic",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as execute_revit_code plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (bridge wraps a Transaction) | manual (code opens its own) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute_revit_code run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run `HPRebar.Mcp.Server.exe registry approve <name>` (or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a Revit API type",
+        "description": "Reflects over a Revit API type loaded in the running Revit and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall', 'FilteredElementCollector', or fully qualified 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a Revit API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside Revit with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored Revit tools BEFORE writing code with execute_revit_code. Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "Architecture | Structure | MEP | Annotation | View | Data | Generic",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

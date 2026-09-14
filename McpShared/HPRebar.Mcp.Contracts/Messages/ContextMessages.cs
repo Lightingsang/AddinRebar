@@ -31,6 +31,11 @@ public sealed class ContextResult
 
     public bool IsReadOnly { get; set; }
 
+    /// <summary>
+    ///     Host-specific readiness flag. Revit: a transaction is currently open on the document
+    ///     (<c>Document.IsModifiable</c>). AutoCAD: the drawing is writable and the editor is quiescent —
+    ///     no command or dialog in progress — so a script can run now.
+    /// </summary>
     public bool IsModifiable { get; set; }
 
     public UnitsInfo Units { get; set; } = new UnitsInfo("mm");

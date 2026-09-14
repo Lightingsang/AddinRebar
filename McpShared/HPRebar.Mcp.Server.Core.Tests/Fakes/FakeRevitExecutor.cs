@@ -51,9 +51,16 @@ public sealed class FakeRevitExecutor : IBridgeExecutor
     /// <summary>Set to make context reads fail the way a host with no document or a busy main thread does.</summary>
     public Exception? ContextFailure { get; set; }
 
+    /// <summary>Replaces the default Revit-shaped snapshot, e.g. with one carrying <see cref="ContextResult.Autocad"/>.</summary>
+    public Func<bool, ContextResult>? ContextHandler { get; set; }
+
+    public bool LastContextIncludedSelection { get; private set; }
+
     public Task<ContextResult> GetContextAsync(bool includeSelection, CancellationToken cancellationToken)
     {
+        LastContextIncludedSelection = includeSelection;
         if (ContextFailure is not null) return Task.FromException<ContextResult>(ContextFailure);
+        if (ContextHandler is not null) return Task.FromResult(ContextHandler(includeSelection));
 
         return Task.FromResult(new ContextResult
         {

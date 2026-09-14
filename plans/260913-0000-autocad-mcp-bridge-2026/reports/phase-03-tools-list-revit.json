@@ -1,0 +1,1807 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "create_grid",
+        "title": "Create grid system",
+        "description": "Create a rectangular grid: X-axis grids are vertical lines at xStartPosition + i·xSpacing running from yExtentMin to yExtentMax; Y-axis grids are horizontal lines at yStartPosition + j·ySpacing running from xExtentMin to xExtentMax. Labels alphabetic (A, B, … Z, AA) or numeric (1, 2, …); names already used get a suffix. All lengths in mm. [Registry tool v1, Architecture, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "xCount": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of X-axis (vertical) grids"
+            },
+            "xSpacing": {
+              "type": "number",
+              "description": "Spacing between X-axis grids in mm"
+            },
+            "xStartLabel": {
+              "type": "string",
+              "default": "A"
+            },
+            "xNamingStyle": {
+              "type": "string",
+              "enum": [
+                "alphabetic",
+                "numeric"
+              ],
+              "default": "alphabetic"
+            },
+            "yCount": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of Y-axis (horizontal) grids"
+            },
+            "ySpacing": {
+              "type": "number",
+              "description": "Spacing between Y-axis grids in mm"
+            },
+            "yStartLabel": {
+              "type": "string",
+              "default": "1"
+            },
+            "yNamingStyle": {
+              "type": "string",
+              "enum": [
+                "alphabetic",
+                "numeric"
+              ],
+              "default": "numeric"
+            },
+            "xStartPosition": {
+              "type": "number",
+              "default": 0,
+              "description": "X of the first vertical grid (mm)"
+            },
+            "yStartPosition": {
+              "type": "number",
+              "default": 0,
+              "description": "Y of the first horizontal grid (mm)"
+            },
+            "xExtentMin": {
+              "type": "number",
+              "description": "Where horizontal grids start (mm); default = xStartPosition − 1000"
+            },
+            "xExtentMax": {
+              "type": "number",
+              "description": "Where horizontal grids end (mm); default = last X grid + 1000"
+            },
+            "yExtentMin": {
+              "type": "number",
+              "description": "Where vertical grids start (mm); default = yStartPosition − 1000"
+            },
+            "yExtentMax": {
+              "type": "number",
+              "description": "Where vertical grids end (mm); default = last Y grid + 1000"
+            },
+            "elevation": {
+              "type": "number",
+              "default": 0,
+              "description": "Z of the grid lines in mm"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "xCount",
+            "xSpacing",
+            "yCount",
+            "ySpacing"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create grid system",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "ai_element_filter",
+        "title": "Find elements by criteria",
+        "description": "Query elements by category (BuiltInCategory name or display name), element class name (e.g. Wall, FamilyInstance, Floor), family type id, visibility in the current view and/or a bounding box in millimetres. Returns rich per-element info (type, family, level, location, bounding box, key parameters) so the AI can answer questions such as 'walls taller than 5 m'. At least one of filterCategory, filterElementType or filterFamilySymbolId is required. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "filterCategory": {
+              "type": "string",
+              "description": "BuiltInCategory (OST_Walls) or category display name (Walls)"
+            },
+            "filterElementType": {
+              "type": "string",
+              "description": "Revit API class name: Wall, Floor, FamilyInstance, Level, Grid, ..."
+            },
+            "filterFamilySymbolId": {
+              "type": "integer",
+              "description": "ElementId of a FamilySymbol; only instances of that type"
+            },
+            "includeTypes": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include element types"
+            },
+            "includeInstances": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include element instances"
+            },
+            "filterVisibleInCurrentView": {
+              "type": "boolean",
+              "default": false,
+              "description": "Only elements visible in the active view"
+            },
+            "boundingBoxMin": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "description": "Min corner in mm (with boundingBoxMax)"
+            },
+            "boundingBoxMax": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "description": "Max corner in mm (with boundingBoxMin)"
+            },
+            "maxElements": {
+              "type": "integer",
+              "default": 50,
+              "description": "Maximum elements to return"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Find elements by criteria",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_available_family_types",
+        "title": "Get available family types",
+        "description": "Loaded family types (FamilySymbol) plus system types (wall, floor, roof, ceiling, curtain system) in the project. Filter by BuiltInCategory names and/or a partial family or type name. Returns the type ids other create_* tools need. [Registry tool v1, Generic, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "categoryList": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "BuiltInCategory names, e.g. [\"OST_Walls\", \"OST_Doors\"]"
+            },
+            "familyNameFilter": {
+              "type": "string",
+              "description": "Case-insensitive substring matched against family name and type name"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "description": "Maximum types to return (0 = no limit)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get available family types",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "export_room_data",
+        "title": "Export room data",
+        "description": "All rooms with name, number, level, area (m²), volume (m³), perimeter (mm), unbounded height (mm), department, comments, occupancy and phase. Unplaced and not-enclosed rooms are excluded unless requested. [Registry tool v1, Architecture, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeUnplacedRooms": {
+              "type": "boolean",
+              "default": false
+            },
+            "includeNotEnclosedRooms": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Export room data",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "execute_revit_code",
+        "title": "Execute C# in Revit",
+        "description": "Runs a C# script inside the open Revit session with the user's full privileges. Globals: doc (Document), uidoc (UIDocument), app (Application), uiapp (UIApplication), ct (CancellationToken — check it inside long loops), log(string) to append output, progress(int current, int total, string message) to report progress, args (data passed in the `args` parameter: args.Str/Double/Int/Long/Bool(key, fallback), args.Obj(key), args.List(key), args.Has(key), args.Require(key)). Prefer args over literals for anything that may change between calls — a script whose text stays identical compiles once and is cached. End with `return <value>;` to send a result; Revit objects are summarised (ElementId as number, XYZ as {x,y,z} in feet, Element as {id,name,category}). Default usings: System, System.Linq, System.Collections.Generic, Autodesk.Revit.DB, Autodesk.Revit.UI, Autodesk.Revit.DB.Structure. All model changes land in one undoable group named 'MCP: <label>'. Use dryRun=true first for anything destructive. Fails with isError=true and diagnostics when the code does not compile, throws, is blocked by the guard, or exceeds the timeout; nothing is committed in those cases. Requires the user to have enabled code execution in the HPRebar MCP Bridge window inside Revit.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Diagnostics.Process / reflection (blocked by the guard).",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): the bridge wraps the script in one Transaction. manual: the script opens its own Transaction(s) inside one TransactionGroup. none: read-only; any modification fails.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Run the script, then roll everything back. Use first for destructive changes.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120. The script sees it through `ct`.",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name shown in Revit's Undo history as 'MCP: <label>'. Max 64 characters.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"spacing\": 150, \"names\": [\"A\",\"B\"]}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in Revit",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_selected_elements",
+        "title": "Get selected elements",
+        "description": "Elements currently selected in Revit (id, uniqueId, name, category, type, family, level). Empty list when nothing is selected. [Registry tool v1, Generic, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "default": 100,
+              "description": "Maximum elements to return (0 = no limit)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get selected elements",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_surface_based_element",
+        "title": "Create floors, ceilings and roofs",
+        "description": "Create floors (default), ceilings or footprint roofs from a closed outer loop of line segments in mm. baseLevel is an elevation in mm (nearest level + offset). thickness picks or creates a floor/ceiling type of that thickness when typeId is omitted. [Registry tool v1, Architecture, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "OST_Floors",
+                      "OST_Ceilings",
+                      "OST_Roofs"
+                    ],
+                    "default": "OST_Floors"
+                  },
+                  "typeId": {
+                    "type": "integer"
+                  },
+                  "boundary": {
+                    "type": "object",
+                    "properties": {
+                      "outerLoop": {
+                        "type": "array",
+                        "minItems": 3,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "p0": {
+                              "type": "object",
+                              "properties": {
+                                "x": {
+                                  "type": "number"
+                                },
+                                "y": {
+                                  "type": "number"
+                                },
+                                "z": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "x",
+                                "y",
+                                "z"
+                              ]
+                            },
+                            "p1": {
+                              "type": "object",
+                              "properties": {
+                                "x": {
+                                  "type": "number"
+                                },
+                                "y": {
+                                  "type": "number"
+                                },
+                                "z": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "x",
+                                "y",
+                                "z"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "p0",
+                            "p1"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "outerLoop"
+                    ]
+                  },
+                  "thickness": {
+                    "type": "number",
+                    "description": "Slab thickness in mm (floors/ceilings, when typeId omitted)"
+                  },
+                  "baseLevel": {
+                    "type": "number",
+                    "description": "Elevation in mm (nearest level is used)"
+                  },
+                  "baseOffset": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "structural": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Floors: structural floor"
+                  }
+                },
+                "required": [
+                  "boundary",
+                  "baseLevel"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create floors, ceilings and roofs",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from execute_revit_code, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when Revit is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through Revit",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a Revit API type",
+        "description": "Reflects over a Revit API type loaded in the running Revit and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall', 'FilteredElementCollector', or fully qualified 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a Revit API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "operate_element",
+        "title": "Operate on elements",
+        "description": "Act on elements by id: Select, SetColor (RGB, view override with solid fill), SetTransparency (0–100), Highlight (red), Hide, TempHide, Isolate, Unhide, ResetIsolate (clears temporary hide/isolate), Delete. View operations target the active view. SelectionBox is interactive and not available through MCP. Use dryRun for Delete. [Registry tool v1, View, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "elementIds": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Element ids (may be empty for ResetIsolate)"
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "Select",
+                "SetColor",
+                "SetTransparency",
+                "Highlight",
+                "Hide",
+                "TempHide",
+                "Isolate",
+                "Unhide",
+                "ResetIsolate",
+                "Delete"
+              ]
+            },
+            "colorValue": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "description": "[r, g, b] for SetColor (default red)"
+            },
+            "transparencyValue": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 50
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Operate on elements",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_line_based_element",
+        "title": "Create line-based elements",
+        "description": "Create walls, beams (structural framing), ducts, pipes, conduits, cable trays or any line-based family instance from start/end points in mm. baseLevel is an elevation in mm — the nearest level is used and the remainder becomes the base offset. Walls: thickness picks/creates a wall type of that width, height is the unconnected height. Beams/MEP curves use the points' Z as absolute elevation. Give typeId (from get_available_family_types) to pick a specific type; otherwise the first type of the category is used and reported. [Registry tool v1, Generic, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "description": "OST_Walls, OST_StructuralFraming, OST_DuctCurves, OST_PipeCurves, OST_Conduit, OST_CableTray, or a category with line-based families"
+                  },
+                  "typeId": {
+                    "type": "integer",
+                    "description": "ElementId of the type to use (optional)"
+                  },
+                  "locationLine": {
+                    "type": "object",
+                    "properties": {
+                      "p0": {
+                        "type": "object",
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ]
+                      },
+                      "p1": {
+                        "type": "object",
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "p0",
+                      "p1"
+                    ]
+                  },
+                  "thickness": {
+                    "type": "number",
+                    "description": "Wall width / duct width / pipe diameter in mm (optional)"
+                  },
+                  "height": {
+                    "type": "number",
+                    "description": "Wall height in mm (default 3000) / duct height"
+                  },
+                  "baseLevel": {
+                    "type": "number",
+                    "description": "Base elevation in mm (nearest level is used)"
+                  },
+                  "baseOffset": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Offset from the base level in mm"
+                  },
+                  "structural": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Walls: structural usage"
+                  }
+                },
+                "required": [
+                  "category",
+                  "locationLine",
+                  "baseLevel"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create line-based elements",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run `HPRebar.Mcp.Server.exe registry approve <name>` (or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_material_quantities",
+        "title": "Get material quantities",
+        "description": "Material take-off: per material name/class, total area (m²), volume (m³), element count and element ids. Optionally restricted to categories (BuiltInCategory names) or to the current selection. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "categoryFilters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "e.g. [\"OST_Walls\", \"OST_Floors\"]; empty = all categories"
+            },
+            "selectedElementsOnly": {
+              "type": "boolean",
+              "default": false
+            },
+            "maxElementIdsPerMaterial": {
+              "type": "integer",
+              "default": 50,
+              "description": "Cap on element ids listed per material"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get material quantities",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_revit_context",
+        "title": "Get Revit context",
+        "description": "Returns the current Revit session: version, active document title/path, whether it is a family or read-only, display length unit, active view, open documents, whether code execution is enabled, and optionally the current selection as {id, category, name}. Call this before execute_revit_code so the script matches the real document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include the elements currently selected in Revit (id, category, name).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Revit context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored Revit tools BEFORE writing code with execute_revit_code. Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "Architecture | Structure | MEP | Annotation | View | Data | Generic",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_room",
+        "title": "Create rooms",
+        "description": "Place rooms at points in mm inside enclosed wall boundaries and set name, number, department, comments and limits. Level from levelId or the nearest level to the point's Z. Reports whether each room ended up enclosed (area > 0). [Registry tool v1, Architecture, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "number": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ]
+                  },
+                  "levelId": {
+                    "type": "integer"
+                  },
+                  "upperLimitId": {
+                    "type": "integer",
+                    "description": "Level ElementId for the upper limit"
+                  },
+                  "limitOffset": {
+                    "type": "number",
+                    "description": "mm"
+                  },
+                  "baseOffset": {
+                    "type": "number",
+                    "description": "mm"
+                  },
+                  "department": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "location"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create rooms",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_current_view_info",
+        "title": "Get current view info",
+        "description": "Details of the active Revit view: id, name, view type, scale, detail level, discipline, level, template state. Use before view-dependent tools (tags, dimensions, colouring). [Registry tool v1, View, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get current view info",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "color_elements",
+        "title": "Colour elements by parameter value",
+        "description": "In the active view, colour every element of a category (BuiltInCategory or display name) by the value of a parameter: each distinct value gets its own colour (random palette, a gradient, or your customColors in order). Returns the legend (value → colour → count). Undo with operate_element ResetIsolate? No — clear overrides via the view's Visibility/Graphics or run again with another parameter. [Registry tool v1, View, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "categoryName": {
+              "type": "string",
+              "description": "e.g. OST_StructuralColumns or 'Structural Columns'"
+            },
+            "parameterName": {
+              "type": "string",
+              "description": "Instance or type parameter name, e.g. 'Type Name', 'Level', 'Comments', 'Mark'"
+            },
+            "useGradient": {
+              "type": "boolean",
+              "default": false
+            },
+            "customColors": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "r": {
+                    "type": "integer"
+                  },
+                  "g": {
+                    "type": "integer"
+                  },
+                  "b": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "categoryName",
+            "parameterName"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Colour elements by parameter value",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "tag_all_walls",
+        "title": "Tag walls in the current view",
+        "description": "Place a wall tag at the midpoint of every wall visible in the active view. Walls already tagged in the view are skipped. tagTypeId picks a wall tag family type (OST_WallTags); otherwise the first loaded one is used. [Registry tool v1, Annotation, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "useLeader": {
+              "type": "boolean",
+              "default": false
+            },
+            "tagTypeId": {
+              "type": "integer",
+              "description": "Wall tag FamilySymbol ElementId (optional)"
+            },
+            "wallIds": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Only these walls (optional)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Tag walls in the current view",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in Revit. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_dimensions",
+        "title": "Create dimensions",
+        "description": "Create linear dimensions in a plan/section view (active view by default). Either give elementIds (walls, columns, grids, family instances — one reference per element, the planar face or datum best aligned with the start→end direction) or leave them empty to auto-detect the nearest wall/grid/column at startPoint and endPoint. linePoint moves the dimension line; coordinates in mm. [Registry tool v1, Annotation, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "dimensions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "startPoint": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ]
+                  },
+                  "endPoint": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ]
+                  },
+                  "linePoint": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "description": "Optional point the dimension line passes through; default = 1000 mm beside the segment"
+                  },
+                  "elementIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "Elements to dimension between; empty = auto-detect at the two points"
+                  },
+                  "dimensionStyleId": {
+                    "type": "integer",
+                    "description": "DimensionType ElementId; -1 = view default"
+                  },
+                  "viewId": {
+                    "type": "integer",
+                    "description": "View ElementId; -1 = active view"
+                  }
+                },
+                "required": [
+                  "startPoint",
+                  "endPoint"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "dimensions"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create dimensions",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_level",
+        "title": "Create levels",
+        "description": "Create one or more levels at elevations in millimetres (from project origin), optionally with a floor plan and/or ceiling plan view each. Existing level names are skipped and reported. Use dryRun first on a shared model. [Registry tool v1, Architecture, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Level name, e.g. 'Level 2', 'Roof'"
+                  },
+                  "elevation": {
+                    "type": "number",
+                    "description": "Elevation in mm"
+                  },
+                  "isBuildingStory": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "createFloorPlan": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "createCeilingPlan": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "createStructuralPlan": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "name",
+                  "elevation"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create levels",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "set_mark_from_comments",
+        "title": "Set Mark from Comments",
+        "description": "Copy each element's Comments into its Mark parameter for one category, optionally with a prefix, without overwriting existing marks unless asked. [Registry tool v1, Data, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "default": "OST_StructuralColumns",
+              "description": "BuiltInCategory name"
+            },
+            "prefix": {
+              "type": "string",
+              "default": "",
+              "description": "Prepended to the Comments value"
+            },
+            "overwrite": {
+              "type": "boolean",
+              "default": false,
+              "description": "Replace an existing Mark"
+            },
+            "maxLength": {
+              "type": "integer",
+              "default": 100,
+              "description": "Truncate the Mark to this many characters"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          }
+        },
+        "annotations": {
+          "title": "Set Mark from Comments",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_structural_framing_system",
+        "title": "Create beam system",
+        "description": "Create a Revit BeamSystem inside a rectangle (mm) on a named level: beams at fixed spacing, running perpendicular to the chosen edge, with beginning/center/end justification. beamTypeName matches a loaded structural framing family or type name (first one otherwise). A missing level named 'Level N' is created at N × 4000 mm, as in the reference implementation. [Registry tool v1, Structure, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "levelName": {
+              "type": "string"
+            },
+            "xMin": {
+              "type": "number"
+            },
+            "xMax": {
+              "type": "number"
+            },
+            "yMin": {
+              "type": "number"
+            },
+            "yMax": {
+              "type": "number"
+            },
+            "spacing": {
+              "type": "number",
+              "description": "Beam spacing in mm"
+            },
+            "directionEdge": {
+              "type": "string",
+              "enum": [
+                "bottom",
+                "right",
+                "top",
+                "left"
+              ],
+              "default": "bottom",
+              "description": "Beams run perpendicular to this edge"
+            },
+            "justify": {
+              "type": "string",
+              "enum": [
+                "beginning",
+                "center",
+                "end",
+                "directionline"
+              ],
+              "default": "center"
+            },
+            "beamTypeName": {
+              "type": "string"
+            },
+            "is3D": {
+              "type": "boolean",
+              "default": false
+            },
+            "elevation": {
+              "type": "number",
+              "description": "Optional absolute elevation in mm; default = level elevation"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "levelName",
+            "xMin",
+            "xMax",
+            "yMin",
+            "yMax",
+            "spacing"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create beam system",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_point_based_element",
+        "title": "Create point-based elements",
+        "description": "Place family instances at points in mm: doors and windows (hosted in a wall — hostWallId or the nearest wall within 1500 mm), furniture, columns, generic models, etc. Category is taken from typeId when given; otherwise pass category and the first loaded type is used. rotation in degrees about Z; facingFlipped flips doors/windows. width/height/depth are applied only when the instance exposes writable parameters of those names. [Registry tool v1, Architecture, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Free text label for the report"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "BuiltInCategory when typeId is omitted, e.g. OST_Doors, OST_Windows, OST_Furniture, OST_StructuralColumns, OST_GenericModel"
+                  },
+                  "typeId": {
+                    "type": "integer",
+                    "description": "ElementId of a FamilySymbol (optional)"
+                  },
+                  "locationPoint": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ]
+                  },
+                  "width": {
+                    "type": "number"
+                  },
+                  "depth": {
+                    "type": "number"
+                  },
+                  "height": {
+                    "type": "number"
+                  },
+                  "baseLevel": {
+                    "type": "number",
+                    "description": "Base elevation in mm (nearest level is used)"
+                  },
+                  "baseOffset": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "rotation": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Degrees about the vertical axis"
+                  },
+                  "hostWallId": {
+                    "type": "integer",
+                    "description": "Wall to host a door/window (optional)"
+                  },
+                  "facingFlipped": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "locationPoint",
+                  "baseLevel"
+                ]
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create point-based elements",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "analyze_model_statistics",
+        "title": "Analyze model statistics",
+        "description": "Model audit: total elements, types, families, views, sheets; per-category counts (optionally broken down by family/type) and per-level element distribution (elevations in mm). [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeDetailedTypes": {
+              "type": "boolean",
+              "default": true,
+              "description": "Break each category down by family and type"
+            },
+            "topCategories": {
+              "type": "integer",
+              "default": 40,
+              "description": "Maximum categories to list (largest first, 0 = all)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Analyze model statistics",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_current_view_elements",
+        "title": "Get elements in the current view",
+        "description": "Elements visible in the active view, filtered by model and/or annotation categories (BuiltInCategory names such as OST_Walls, OST_Doors, OST_Dimensions). Without filters a default set of common model + annotation categories is used. Locations and lengths are reported in millimetres. [Registry tool v1, View, transaction=none. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "modelCategoryList": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Model categories, e.g. [\"OST_Walls\", \"OST_StructuralColumns\"]"
+            },
+            "annotationCategoryList": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Annotation categories, e.g. [\"OST_Dimensions\", \"OST_TextNotes\"]"
+            },
+            "includeHidden": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include elements hidden in the view"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 100,
+              "description": "Maximum elements to return (0 = no limit)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get elements in the current view",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "tag_all_rooms",
+        "title": "Tag rooms in the current view",
+        "description": "Place a room tag at the centre of every placed room visible in the active plan view (or only roomIds). Rooms already tagged in the view are skipped. tagTypeId picks a RoomTagType; otherwise the first loaded room tag type is used. [Registry tool v1, Annotation, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "useLeader": {
+              "type": "boolean",
+              "default": false
+            },
+            "tagTypeId": {
+              "type": "integer",
+              "description": "RoomTagType ElementId (optional)"
+            },
+            "roomIds": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Only these rooms (optional)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Tag rooms in the current view",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "delete_element",
+        "title": "Delete elements",
+        "description": "Delete elements by id. Revit also removes dependents (tags, dimensions, hosted elements); the response counts both. Use dryRun=true first to see what would go. [Registry tool v1, Generic, transaction=auto. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "elementIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "integer"
+              },
+              "description": "Element ids (numbers; numeric strings accepted)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "elementIds"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Delete elements",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as execute_revit_code. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the model.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled in Revit but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "Architecture | Structure | MEP | Annotation | View | Data | Generic",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as execute_revit_code plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (bridge wraps a Transaction) | manual (code opens its own) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute_revit_code run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside Revit with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

@@ -71,6 +71,19 @@ public sealed class PipeRoundTripTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Context_service_keeps_the_revit_named_version_field_for_the_revit_profile()
+    {
+        // Other hosts drop `revitVersion` from what the AI sees; the Revit exe's output must stay byte-identical.
+        var service = new ContextService(_client, new ResultFormatter());
+
+        var text = await service.ReadAsync(includeSelection: false, TestContext.Current.CancellationToken);
+
+        using var json = System.Text.Json.JsonDocument.Parse(text);
+        Assert.Equal("2026", json.RootElement.GetProperty("revitVersion").GetString());
+        Assert.Equal("Project1", json.RootElement.GetProperty("docTitle").GetString());
+    }
+
+    [Fact]
     public async Task A_request_exception_from_the_executor_keeps_its_own_error_code()
     {
         _executor.ContextFailure = BridgeRequestException.NoActiveDocument("AutoCAD", "drawing");

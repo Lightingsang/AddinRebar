@@ -1,8 +1,8 @@
 ---
 title: "Phase 3 — Exe `HPAutoCad.Mcp.Server`: AutocadHostProfile, execute_autocad_code, get_autocad_context, prompts, resources, .mcp.json"
-status: planned
+status: built + tested + verified (2026-09-14) — exe over stdio with AutoCAD 2026 7/7, two exes side by side 34/12 (reports/phase-03-server-smoke-two-exes.md); 8 AutoCAD tests
 priority: P1
-effort: 6h
+effort: 6h (actual ≈ 2h)
 depends_on: [phase-00]
 created: 2026-09-13
 revised: 2026-09-14 (ADR-06 — exe riêng trong `HPAutoCad/`, không host switch)
@@ -58,7 +58,8 @@ Xem [architecture.md §1, §3, §5](architecture.md). Không thay đổi `McpSha
 6. Song song: `mcp_call.py <exe Revit> tools/list` = 34 với Revit 2026 → ghi `reports/phase-03-two-exes.md`.
 
 ## Todo
-- [ ] 1 exe · [ ] 2 profile · [ ] 3 host files · [ ] 4 tests · [ ] 5 publish + stdio smoke AutoCAD · [ ] 6 two-exe smoke
+- [x] 1 exe (`HPAutoCad.Mcp.Server`, Program 1 dòng, appsettings `Bridge.HostVersion`) · [x] 2 profile (`AutocadHostProfile`, ValidVersions {2026}) · [x] 3 host files (execute/context tool, `autocad://` resources, 2 prompt) · [x] 4 tests (`HostProfileTests` 4 + `AutocadToolsOverPipeTests` 4) · [x] 5 publish + stdio smoke (`tools/harness/run-server-smoke.ps1` 7/7) · [x] 6 two-exe smoke (Revit 34 không đổi, AutoCAD 12)
+- Sai lệch: `revitVersion` ẩn cho host ≠ revit ở `ContextService` (Core, +test Revit giữ nguyên); `IsModifiable` doc trong Contracts XML + description; harness stdio `mcp-call.py` + `run-server-smoke.ps1` vào repo; `get_run` record vẫn có `revitVersion` (engine DTO) → phase 4.
 
 ## Success criteria
 - `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet test HPAutoCad/HPAutoCad.Mcp.Server.Tests` xanh (≥ 6 test).
