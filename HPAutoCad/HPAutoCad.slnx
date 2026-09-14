@@ -1,0 +1,22 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- AutoCAD MCP. Projects arrive in the phases of plans/260913-0000-autocad-mcp-bridge-2026:
+         phase 1  HPAutoCad.McpBridge.Loader, HPAutoCad.McpBridge
+         phase 3  HPAutoCad.Mcp.Server, HPAutoCad.Mcp.Server.Tests
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>
