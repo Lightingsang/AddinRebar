@@ -13,6 +13,11 @@ No MCP server involved: `pipe-scenarios.py` speaks NDJSON JSON-RPC straight to t
    COM so the bridge answers `-32002` after the busy grace;
 4. kills AutoCAD (the bridge itself never quits the host).
 
+**Destructive by design — read before running:** it refuses to start while any AutoCAD is running, and every
+COM call checks it is talking to the acad.exe it started; still, the drawings it opens are closed without
+saving, the process is killed at the end, and answering the SECURELOAD prompt with *Always Load* trusts the
+bundle folder permanently for this Windows user.
+
 ```powershell
 pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1      # AutoCAD must be closed; ~2 minutes warm
 python HPAutoCad/tools/harness/pipe-scenarios.py --only ping,context   # against an AutoCAD you started yourself

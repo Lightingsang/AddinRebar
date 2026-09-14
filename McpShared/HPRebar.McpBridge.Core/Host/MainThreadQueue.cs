@@ -27,8 +27,8 @@ public sealed class MainThreadWorkItem
 
     public CancellationToken CancellationToken { get; }
 
-    /// <summary>Set by the queue; the busy grace period counts from here.</summary>
-    public DateTimeOffset EnqueuedAt { get; internal set; }
+    /// <summary>Monotonic milliseconds at enqueue (set by the queue); the busy grace counts from here.</summary>
+    public long EnqueuedAtMs { get; internal set; }
 
     public TaskCompletionSource<object> Completion { get; } =
         new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -37,11 +37,11 @@ public sealed class MainThreadWorkItem
 /// <summary>
 ///     Marshals work onto a host whose API is only legal on its main thread and that offers no external
 ///     event of its own (AutoCAD): the host calls <see cref="OnTick"/> from its idle event, the queue runs
-///     what is waiting once the host is quiescent. A tick that finds the host busy (a command or dialog in
-///     progress) leaves the work queued for up to <see cref="BusyGrace"/> and then fails it with the
-///     actionable "busy" code, so the server sees a clear answer instead of a timeout. A request that was
-///     completed elsewhere (cancelled, timed out) is skipped: a late tick never runs stale work.
-///     Host-neutral so the ordering rules are covered by tests without the host.
+///     what is waiting once the host is quiescent. Every wait is bounded by <see cref="BusyGrace"/>: a
+///     request older than that is refused with the actionable "busy" code whether the host is quiescent
+///     by then or not, because the server has given up on it and late work must not run. A request whose
+///     token was cancelled while it waited, or that was completed elsewhere, is skipped for the same
+///     reason. Host-neutral so the ordering rules are covered by tests without the host.
 /// </summary>
 public sealed class MainThreadQueue
 {
@@ -49,7 +49,7 @@ public sealed class MainThreadQueue
     private readonly Func<bool> _isQuiescent;
     private readonly string _hostName;
     private readonly Action? _wakeMainThread;
-    private readonly Func<DateTimeOffset> _clock;
+    private readonly Func<long> _clockMs;
     private int _ticking;
 
     /// <param name="isQuiescent">True when no command, script or dialog is active in the host. Read on the main thread.</param>
@@ -57,16 +57,17 @@ public sealed class MainThreadQueue
     ///     Optional nudge after an enqueue — a host that only raises its idle event after processing a
     ///     message would otherwise sit on the work until the user moves the mouse.
     /// </param>
-    public MainThreadQueue(Func<bool> isQuiescent, string hostName, TimeSpan busyGrace, Action? wakeMainThread = null, Func<DateTimeOffset>? clock = null)
+    /// <param name="clockMs">Monotonic milliseconds; defaults to <see cref="Environment.TickCount64"/> so a wall-clock jump cannot age a request.</param>
+    public MainThreadQueue(Func<bool> isQuiescent, string hostName, TimeSpan busyGrace, Action? wakeMainThread = null, Func<long>? clockMs = null)
     {
         _isQuiescent = isQuiescent;
         _hostName = hostName;
         BusyGrace = busyGrace;
         _wakeMainThread = wakeMainThread;
-        _clock = clock ?? (() => DateTimeOffset.Now);
+        _clockMs = clockMs ?? (() => Environment.TickCount64);
     }
 
-    /// <summary>How long a request waits for the host to become quiescent before it fails as busy.</summary>
+    /// <summary>How long a request may wait for a quiescent tick before it fails as busy.</summary>
     public TimeSpan BusyGrace { get; }
 
     public int PendingCount => _pending.Count;
@@ -74,7 +75,7 @@ public sealed class MainThreadQueue
     /// <summary>Called from the pipe thread. The task completes on a later tick, or with the busy error after the grace period.</summary>
     public Task<object> RunAsync(MainThreadWorkItem item)
     {
-        item.EnqueuedAt = _clock();
+        item.EnqueuedAtMs = _clockMs();
         _pending.Enqueue(item);
 
         try
@@ -108,7 +109,19 @@ public sealed class MainThreadQueue
 
             while (_pending.TryDequeue(out var item))
             {
-                if (item.Completion.Task.IsCompleted) continue; // cancelled or timed out while it waited
+                if (item.Completion.Task.IsCompleted) continue; // completed elsewhere while it waited
+
+                if (item.CancellationToken.IsCancellationRequested)
+                {
+                    item.Completion.TrySetCanceled(item.CancellationToken); // the caller gave up: never start it
+                    continue;
+                }
+
+                if (IsExpired(item))
+                {
+                    Refuse(item);
+                    continue;
+                }
 
                 try
                 {
@@ -127,21 +140,23 @@ public sealed class MainThreadQueue
         }
     }
 
-    /// <summary>Completes every waiting request as busy; called when the host shuts down or the listener stops.</summary>
+    /// <summary>Completes every waiting request with the given error; called when the host shuts down or the listener stops.</summary>
     public void FailAll(Exception reason)
     {
         while (_pending.TryDequeue(out var item)) item.Completion.TrySetException(reason);
     }
 
+    private bool IsExpired(MainThreadWorkItem item) => _clockMs() - item.EnqueuedAtMs >= (long)BusyGrace.TotalMilliseconds;
+
+    /// <summary>FIFO: once the head is young enough, everything behind it is too.</summary>
     private void FailExpired()
     {
-        var now = _clock();
+        while (_pending.TryPeek(out var head) && IsExpired(head) && _pending.TryDequeue(out var item)) Refuse(item);
+    }
 
-        while (_pending.TryPeek(out var head) && now - head.EnqueuedAt >= BusyGrace)
-        {
-            _pending.TryDequeue(out _);
-            if (head.Completion.TrySetException(BridgeRequestException.Busy(_hostName)))
-                Log.Information("MCP bridge work '{Name}' refused: {Host} not quiescent for {Grace}s", head.Name, _hostName, BusyGrace.TotalSeconds);
-        }
+    private void Refuse(MainThreadWorkItem item)
+    {
+        if (item.Completion.TrySetException(BridgeRequestException.Busy(_hostName)))
+            Log.Information("MCP bridge work '{Name}' refused: {Host} not quiescent within {Grace}s", item.Name, _hostName, BusyGrace.TotalSeconds);
     }
 }

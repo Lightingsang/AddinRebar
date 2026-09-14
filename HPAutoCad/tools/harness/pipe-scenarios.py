@@ -82,22 +82,17 @@ def check(name, cond, detail=""):
     print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:400])
 
 
-def send_escape():
-    """Two ESC keystrokes to AutoCAD's frame after bringing it to the front (COM is rejected while a command waits for input)."""
-    ps = ("Add-Type -AssemblyName System.Windows.Forms; "
-          "$sig='[DllImport(\"user32.dll\")] public static extern bool SetForegroundWindow(IntPtr h);'; "
-          "$W = Add-Type -MemberDefinition $sig -Name Fg -Namespace U -PassThru; "
-          "$h = (Get-Process acad).MainWindowHandle; $null = $W::SetForegroundWindow($h); Start-Sleep -Milliseconds 500; "
-          "[System.Windows.Forms.SendKeys]::SendWait('{ESC}{ESC}')")
-    subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False, timeout=30)
-
-
 def acad_com(script, wait=True):
-    """Drives the running AutoCAD through COM automation (Windows PowerShell 5.1 still has GetActiveObject).
-    A command that waits for input (LINE) never returns from SendCommand, so those run detached."""
+    """Drives the AutoCAD the wrapper started through COM automation (Windows PowerShell 5.1 still has
+    GetActiveObject). Refuses to run unless exactly one acad.exe exists and it is the harness's own
+    (HP_HARNESS_ACAD_PID): the calls close drawings without saving. A command that waits for input
+    (LINE) never returns from SendCommand, so those run detached."""
     if os.environ.get("HP_HARNESS_KEYS") != "1":
         return False
-    ps = "$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); " + script
+    expected = os.environ.get("HP_HARNESS_ACAD_PID", "")
+    ps = ("$ids = @(Get-Process acad -ErrorAction SilentlyContinue | % Id); "
+          f"if ($ids.Count -ne 1 -or [string]$ids[0] -ne '{expected}') {{ throw \"refusing COM: acad pids $ids, harness owns '{expected}'\" }}; "
+          "$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); " + script)
     if wait:
         subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False, timeout=60)
         return True
@@ -111,8 +106,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pipe", default=PIPE)
     ap.add_argument("--only", default="")
+    ap.add_argument("--com", default="", help="run one COM statement against the harness's AutoCAD and exit")
     a = ap.parse_args()
     only = set(x for x in a.only.split(",") if x)
+
+    if a.com:
+        acad_com(a.com)
+        return
 
     def want(k):
         return not only or k in only
@@ -286,7 +286,7 @@ return "finished late";"""
         r = execute(p, "return 1;", transaction="none", label="busy", wait=40)
         elapsed = time.time() - t0
         err = r.get("error", {})
-        check("busy -> -32002 after grace", err.get("code") == -32002 and 8 <= elapsed <= 30, f"error={err} result={r.get('result')} after {elapsed:.1f}s")
+        check("busy -> -32002 after grace", err.get("code") == -32002 and 6 <= elapsed <= 30, f"error={err} result={r.get('result')} after {elapsed:.1f}s")
         # ESC + retry is a manual check (phase 5): no reliable way to type into AutoCAD from here.
 
     if want("undo") and os.environ.get("HP_HARNESS_KEYS") == "1":

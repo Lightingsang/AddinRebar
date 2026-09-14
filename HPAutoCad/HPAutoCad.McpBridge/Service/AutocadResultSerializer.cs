@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using HPRebar.Mcp.Contracts.JsonRpc;
 
@@ -100,9 +101,29 @@ public sealed class AutocadResultSerializer
             switch (value)
             {
                 case ObjectId id:
+                    WriteId(writer, id);
+                    break;
+
+                case ObjectIdCollection ids:
+                    writer.WriteStartArray();
+                    foreach (ObjectId id in ids) WriteId(writer, id);
+                    writer.WriteEndArray();
+                    break;
+
+                case SelectionSet set:
+                    writer.WriteStartArray();
+                    foreach (var id in Safe(set.GetObjectIds) ?? []) WriteId(writer, id);
+                    writer.WriteEndArray();
+                    break;
+
+                case PromptSelectionResult selection:
                     writer.WriteStartObject();
-                    writer.WriteString("handle", id.IsNull ? null : id.Handle.ToString());
-                    writer.WriteString("class", id.IsNull ? null : SafeDxfName(id));
+                    writer.WriteString("status", selection.Status.ToString());
+                    writer.WriteNumber("count", selection.Value?.Count ?? 0);
+                    writer.WritePropertyName("ids");
+                    writer.WriteStartArray();
+                    foreach (var id in (selection.Value is { } selected ? Safe(selected.GetObjectIds) : null) ?? []) WriteId(writer, id);
+                    writer.WriteEndArray();
                     writer.WriteEndObject();
                     break;
 
@@ -161,6 +182,14 @@ public sealed class AutocadResultSerializer
             }
         }
 
+        private static void WriteId(Utf8JsonWriter writer, ObjectId id)
+        {
+            writer.WriteStartObject();
+            writer.WriteString("handle", id.IsNull ? null : id.Handle.ToString());
+            writer.WriteString("class", id.IsNull ? null : SafeDxfName(id));
+            writer.WriteEndObject();
+        }
+
         private static void WritePoint(Utf8JsonWriter writer, double x, double y, double? z)
         {
             writer.WriteStartObject();
@@ -172,10 +201,10 @@ public sealed class AutocadResultSerializer
 
         private static string? SafeDxfName(ObjectId id) => id.IsNull ? null : Safe(() => id.ObjectClass?.DxfName);
 
-        private static string? Safe(Func<string?> read)
+        private static TValue? Safe<TValue>(Func<TValue?> read) where TValue : class
         {
             try { return read(); }
-            catch { return null; } // closed object, erased object: no name to give
+            catch { return null; } // closed object, erased object, stale selection: nothing to give
         }
     }
 }

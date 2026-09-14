@@ -42,6 +42,12 @@
 7. **XAML trong ALC riêng chạy được** với `AssemblyLoadContext.EnterContextualReflection()` quanh `InitializeComponent()` (WPF resolve `;component` bằng `Assembly.Load`).
 8. **SECURELOAD:** sau *Always Load* một lần, các bản build sau **không hỏi lại** (run 1–10 không prompt dù loader DLL đổi hash) → *Always Load* tin cả folder, không chỉ hash. Cập nhật ADR-05.
 
+## Sau code review (run 11, 2026-09-14)
+- Grace busy 10 s → **8 s** (dưới thời gian chờ ngắn nhất của server 5 + 5 s) và **áp dụng cả khi AutoCAD đã rảnh lại**: request già hơn grace bị từ chối `-32002` thay vì chạy muộn; token cancel trong lúc chờ → không chạy. Refusal (`-32002`/`-32003`) nay có dòng audit + `RunCompleted` như Revit.
+- Guard deny thêm `LockDocument`; script commit/abort `tr` qua alias → lỗi "committed or aborted `tr` itself" + rollback.
+- Serializer: `ObjectIdCollection`, `SelectionSet`, `PromptSelectionResult`. Lệnh `HPMCP*` có `CommandFlags.Session` (gõ được khi không có bản vẽ).
+- Harness từ chối chạy khi có acad.exe khác; COM chỉ đụng acad.exe do harness khởi động (pid). Run 11: 21/21 (busy `-32002` sau 8,0 s).
+
 ## Sai lệch so với phase-02 plan
 - `AutocadUnitsFactory` → bảng `AutocadInsunits` trong Core (test được, AcDbMgd không load ngoài acad).
 - `MainThreadExecutorTests` → `MainThreadQueueTests` (Core, 7 test) + `AutocadInsunits` (2 theory) + dispatcher code test.

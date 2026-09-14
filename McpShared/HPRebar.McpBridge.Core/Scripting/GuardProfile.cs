@@ -32,8 +32,8 @@ public sealed class GuardProfile
             // command-context escapes and modal UI
             "SendStringToExecute", "Command", "CommandAsync", "ExecuteInApplicationContext", "ExecuteInCommandContextAsync",
             "ShowModalDialog", "ShowModalWindow", "ShowAlertDialog", "Quit", "CloseAndDiscard", "CloseAndSave",
-            // transactions of the script's own (see summary)
-            "StartTransaction", "StartOpenCloseTransaction", "TopTransaction",
+            // transactions and locks of the script's own (see summary): the bridge already holds both
+            "StartTransaction", "StartOpenCloseTransaction", "TopTransaction", "LockDocument",
         },
         deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
         {

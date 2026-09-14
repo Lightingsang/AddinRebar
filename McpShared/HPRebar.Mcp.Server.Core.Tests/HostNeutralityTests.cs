@@ -147,6 +147,7 @@ public sealed class HostNeutralityTests
 
         Assert.Contains(ScriptGuard.Check(nested, GuardProfile.Autocad), d => d.Message.Contains("StartTransaction"));
         Assert.Contains(ScriptGuard.Check(top, GuardProfile.Autocad), d => d.Message.Contains("TopTransaction"));
+        Assert.Contains(ScriptGuard.Check("using (doc.LockDocument()) { return 1; }", GuardProfile.Autocad), d => d.Message.Contains("LockDocument"));
         Assert.Empty(ScriptGuard.Check(fine, GuardProfile.Autocad));
         Assert.Empty(ScriptGuard.Check(nested)); // Revit scripts may still open their own
     }

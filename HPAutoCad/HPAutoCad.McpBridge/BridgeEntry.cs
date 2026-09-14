@@ -33,8 +33,12 @@ public static class BridgeEntry
     public const string ProductFolder = "McpBridge";
     private const string HostName = "AutoCAD";
 
-    /// <summary>How long a request waits for AutoCAD to finish a command or dialog before it fails as busy.</summary>
-    private static readonly TimeSpan BusyGrace = TimeSpan.FromSeconds(10);
+    /// <summary>
+    ///     How long a request waits for AutoCAD to finish a command or dialog before it fails as busy. Below
+    ///     the server's shortest wait (timeout 5 s + 5 s extra) so the AI sees the actionable busy code
+    ///     rather than a generic timeout.
+    /// </summary>
+    private static readonly TimeSpan BusyGrace = TimeSpan.FromSeconds(8);
 
     private static readonly string LogDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), VendorFolder, ProductFolder, "logs");

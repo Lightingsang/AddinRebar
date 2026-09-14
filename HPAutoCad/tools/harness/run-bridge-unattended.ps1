@@ -4,9 +4,13 @@
 # finally kills AutoCAD (nothing in the bridge may quit the host).
 param([int]$StartupTimeoutSec = 420)
 
+# The harness closes drawings without saving, types into AutoCAD through COM and kills acad.exe at the end:
+# it must only ever touch the AutoCAD it started itself.
+if (Get-Process acad -ErrorAction SilentlyContinue) { throw 'Close every AutoCAD before running the harness: it discards drawings and kills acad.exe.' }
+
 $sig = @'
 using System; using System.Text; using System.Runtime.InteropServices;
-public static class Spike {
+public static class Native {
   public delegate bool Proc(IntPtr h, IntPtr l);
   [DllImport("user32.dll")] public static extern IntPtr FindWindow(string cls, string title);
   [DllImport("user32.dll")] static extern bool EnumChildWindows(IntPtr parent, Proc p, IntPtr l);
@@ -22,10 +26,10 @@ Add-Type -TypeDefinition $sig
 Add-Type -AssemblyName UIAutomationClient; Add-Type -AssemblyName UIAutomationTypes
 
 function Answer-SecureLoad {
-    $dlg = [Spike]::FindWindow('#32770', 'Security - Unsigned Executable File')
+    $dlg = [Native]::FindWindow('#32770', 'Security - Unsigned Executable File')
     if ($dlg -eq [IntPtr]::Zero) { return $false }
-    $btn = [Spike]::FindButton($dlg, 'Always Load')
-    if ($btn -ne [IntPtr]::Zero) { [Spike]::SendMessage($btn, 0x00F5, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null; "SECURELOAD answered 'Always Load' at $(Get-Date -Format HH:mm:ss)"; return $true }
+    $btn = [Native]::FindButton($dlg, 'Always Load')
+    if ($btn -ne [IntPtr]::Zero) { [Native]::SendMessage($btn, 0x00F5, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null; "SECURELOAD answered 'Always Load' (trusts the bundle folder permanently) at $(Get-Date -Format HH:mm:ss)"; return $true }
     return $false
 }
 
@@ -59,11 +63,12 @@ function Set-OptIn([bool]$on) {
 $log = "$env:LOCALAPPDATA\HPAutoCad\McpBridge\logs"
 $scr = Join-Path $PSScriptRoot 'bridge.scr'
 $py = Join-Path $PSScriptRoot 'pipe-scenarios.py'
-$bridgeLog = Get-ChildItem "$log\mcpbridge-*.log" | Sort-Object LastWriteTime | Select-Object -Last 1
-$bridgeLines = (Get-Content $bridgeLog.FullName).Count
+$bridgeLog = Get-ChildItem "$log\mcpbridge-*.log" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object -Last 1
+$bridgeLines = if ($bridgeLog) { (Get-Content $bridgeLog.FullName).Count } else { 0 }
 
 $p = Start-Process -FilePath 'C:\Program Files\Autodesk\AutoCAD 2026\acad.exe' -ArgumentList @('/nologo', '/product', 'ACAD', '/language', '"en-US"', '/b', "`"$scr`"") -PassThru
 $script:acadPid = $p.Id
+$env:HP_HARNESS_ACAD_PID = $p.Id   # every COM call checks it talks to this process and no other
 "acad pid $($p.Id) started $(Get-Date -Format HH:mm:ss)"
 
 $sw = [Diagnostics.Stopwatch]::StartNew()
@@ -87,11 +92,11 @@ try {
         if (Set-OptIn $true) {
             python $py
             "=== no document: expect -32003"
-            powershell -NoProfile -Command "`$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$a.ActiveDocument.Close(`$false); 'closed via COM, docs left: ' + `$a.Documents.Count"
+            python $py --com "`$a.ActiveDocument.Close(`$false); 'closed via COM, docs left: ' + `$a.Documents.Count"
             Start-Sleep -Seconds 3
             python $py --only nodoc
             "=== busy: LINE waiting for input, expect -32002 after the 10 s grace"
-            powershell -NoProfile -Command "`$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$null = `$a.Documents.Add(); 'new drawing, docs: ' + `$a.Documents.Count"
+            python $py --com "`$null = `$a.Documents.Add(); 'new drawing, docs: ' + `$a.Documents.Count"
             Start-Sleep -Seconds 3
             python $py --only busy
         }
@@ -105,4 +110,5 @@ finally {
 "=== audit lines"
 Get-ChildItem "$env:APPDATA\HPAutoCad\McpBridge\audit\*.log" -ErrorAction SilentlyContinue | % { "$($_.Name): $((Get-Content $_.FullName).Count) lines" }
 "=== new bridge log lines (filtered)"
+$bridgeLog = Get-ChildItem "$log\mcpbridge-*.log" | Sort-Object LastWriteTime | Select-Object -Last 1
 Get-Content $bridgeLog.FullName | Select-Object -Skip $bridgeLines | Select-String -Pattern 'starting|ready|listening|connected|refused|failed|Error|WRN|ERR|window|stopped' | Select-Object -First 60

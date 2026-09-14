@@ -1,6 +1,6 @@
 ---
 title: "Phase 2 — Bridge runtime AutoCAD: executor main thread, script runner (lock/transaction/dryRun), context, serializer, status window"
-status: built + tested + verified in AutoCAD 2026 (2026-09-14) — harness 21/21 unattended (reports/phase-02-bridge-runtime.md); ADR-03 revised by live evidence (two transactions, no script transactions, undo merged per user command)
+status: built + tested + verified in AutoCAD 2026 (2026-09-14) — harness 21/21 unattended ×2 (reports/phase-02-bridge-runtime.md); code review 7.5/10 → 16/17 resolved, #11 → phase 3 (reports/phase-02-code-review.md §Resolution); ADR-03 revised by live evidence
 priority: P1
 effort: 14h (actual ≈ 6h, 10 harness runs)
 depends_on: [phase-00, phase-01]

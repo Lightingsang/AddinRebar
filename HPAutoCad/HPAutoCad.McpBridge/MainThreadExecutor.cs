@@ -36,6 +36,7 @@ public sealed class MainThreadExecutor : IBridgeExecutor, IDisposable
     private readonly EventHandler _onIdle;
     private readonly DocumentCollectionEventHandler _onDocumentActivated;
     private readonly DocumentCollectionEventHandler _onDocumentToBeDestroyed;
+    private readonly IntPtr _mainWindow;
     private int _busy;
     private volatile CancellationTokenSource? _currentCancel;
     private string? _activeDocumentTitle;
@@ -51,6 +52,7 @@ public sealed class MainThreadExecutor : IBridgeExecutor, IDisposable
         _audit = audit;
         _hostVersion = hostVersion;
         _queue = new MainThreadQueue(() => AcadApp.IsQuiescent, HostName, busyGrace, WakeMainThread);
+        _mainWindow = AcadApp.MainWindow?.Handle ?? IntPtr.Zero; // read here, on the main thread; PostMessage itself is thread-safe
 
         _onIdle = (_, _) => _queue.OnTick();
         _onDocumentActivated = (_, e) => SetActiveDocumentTitle(e.Document?.Name);
@@ -114,9 +116,15 @@ public sealed class MainThreadExecutor : IBridgeExecutor, IDisposable
                 cancel.Dispose();
             }
         }
-        catch (BridgeRequestException)
+        catch (BridgeRequestException exception)
         {
-            throw; // busy past the grace period or no drawing: the dispatcher turns the code into the reply
+            // Busy past the grace period or no drawing: audited like any other outcome, then the dispatcher turns the code into the reply.
+            Finish(request, ExecuteResult.Failure(exception.Message), stopwatch);
+            throw;
+        }
+        catch (OperationCanceledException)
+        {
+            return Finish(request, ExecuteResult.Failure("Script was cancelled before it started. Nothing ran."), stopwatch);
         }
         catch (Exception exception)
         {
@@ -175,10 +183,9 @@ public sealed class MainThreadExecutor : IBridgeExecutor, IDisposable
     ///     AutoCAD raises Idle after it processes a message; with nothing happening in the UI the queue
     ///     would wait for the next timer or mouse move. An empty message is enough to wake the loop.
     /// </summary>
-    private static void WakeMainThread()
+    private void WakeMainThread()
     {
-        var handle = AcadApp.MainWindow?.Handle ?? IntPtr.Zero;
-        if (handle != IntPtr.Zero) PostMessage(handle, WmNull, IntPtr.Zero, IntPtr.Zero);
+        if (_mainWindow != IntPtr.Zero) PostMessage(_mainWindow, WmNull, IntPtr.Zero, IntPtr.Zero);
     }
 
     [DllImport("user32.dll", SetLastError = false)]

@@ -15,11 +15,13 @@ public sealed class MainThreadQueueTests
 {
     private static readonly TimeSpan Grace = TimeSpan.FromSeconds(10);
 
-    private DateTimeOffset _now = new DateTimeOffset(2026, 9, 14, 12, 0, 0, TimeSpan.Zero);
+    private long _nowMs = 1_000_000;
     private bool _quiescent = true;
     private int _wakes;
 
-    private MainThreadQueue NewQueue() => new MainThreadQueue(() => _quiescent, "AutoCAD", Grace, () => _wakes++, () => _now);
+    private MainThreadQueue NewQueue() => new MainThreadQueue(() => _quiescent, "AutoCAD", Grace, () => _wakes++, () => _nowMs);
+
+    private void Advance(int seconds) => _nowMs += seconds * 1000L;
 
     [Fact]
     public async Task Work_runs_on_the_tick_and_completes_the_request()
@@ -49,12 +51,12 @@ public sealed class MainThreadQueueTests
 
         var task = queue.RunAsync(new MainThreadWorkItem("execute", _ => { ran = true; return 1; }, CancellationToken.None));
 
-        _now += TimeSpan.FromSeconds(9);
+        Advance(9);
         queue.OnTick();
         Assert.False(task.IsCompleted);
         Assert.Equal(1, queue.PendingCount);
 
-        _now += TimeSpan.FromSeconds(2);
+        Advance(2);
         queue.OnTick();
 
         var error = await Assert.ThrowsAsync<BridgeRequestException>(() => task);
@@ -74,10 +76,59 @@ public sealed class MainThreadQueueTests
         queue.OnTick();
 
         _quiescent = true;
-        _now += TimeSpan.FromSeconds(3);
+        Advance(3);
         queue.OnTick();
 
         Assert.Equal("done", await task);
+    }
+
+    [Fact]
+    public async Task A_request_older_than_the_grace_is_refused_even_on_a_quiescent_tick()
+    {
+        // The server stops waiting after its own timeout; work that old must not run late and commit unseen.
+        var queue = NewQueue();
+        var ran = false;
+        var task = queue.RunAsync(new MainThreadWorkItem("execute", _ => { ran = true; return 1; }, CancellationToken.None));
+
+        Advance(11);
+        queue.OnTick();
+
+        var error = await Assert.ThrowsAsync<BridgeRequestException>(() => task);
+        Assert.Equal(BridgeErrorCode.Busy, error.Code);
+        Assert.False(ran);
+    }
+
+    [Fact]
+    public async Task A_request_cancelled_while_waiting_is_never_started()
+    {
+        var queue = NewQueue();
+        using var cancel = new CancellationTokenSource();
+        var ran = false;
+        var task = queue.RunAsync(new MainThreadWorkItem("execute", _ => { ran = true; return 1; }, cancel.Token));
+
+        cancel.Cancel(); // cancel_execution or the server went away before the host got to it
+        queue.OnTick();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        Assert.False(ran);
+        Assert.Equal(0, queue.PendingCount);
+    }
+
+    [Fact]
+    public async Task A_tick_raised_from_inside_the_work_does_not_start_the_next_request()
+    {
+        // A script that pumps messages makes the host raise Idle again while the first one is still running.
+        var order = new List<string>();
+        var queue = NewQueue();
+
+        var first = queue.RunAsync(new MainThreadWorkItem("first", _ => { order.Add("first-start"); queue.OnTick(); order.Add("first-end"); return 1; }, CancellationToken.None));
+        var second = queue.RunAsync(new MainThreadWorkItem("second", _ => { order.Add("second"); return 2; }, CancellationToken.None));
+
+        queue.OnTick();
+
+        Assert.Equal(1, await first);
+        Assert.Equal(2, await second);
+        Assert.Equal(["first-start", "first-end", "second"], order);
     }
 
     [Fact]
@@ -88,7 +139,7 @@ public sealed class MainThreadQueueTests
         var item = new MainThreadWorkItem("execute", _ => { ran = true; return 1; }, CancellationToken.None);
 
         _ = queue.RunAsync(item);
-        item.Completion.TrySetCanceled(); // the pipe side gave up (server disconnected, timeout)
+        item.Completion.TrySetCanceled(TestContext.Current.CancellationToken); // the pipe side gave up (server disconnected, timeout)
 
         queue.OnTick();
 
@@ -128,7 +179,7 @@ public sealed class MainThreadQueueTests
     [Fact]
     public void A_wake_that_throws_does_not_lose_the_request()
     {
-        var queue = new MainThreadQueue(() => true, "AutoCAD", Grace, () => throw new InvalidOperationException("no window"), () => _now);
+        var queue = new MainThreadQueue(() => true, "AutoCAD", Grace, () => throw new InvalidOperationException("no window"), () => _nowMs);
 
         var task = queue.RunAsync(new MainThreadWorkItem("read", _ => 1, CancellationToken.None));
         queue.OnTick();
