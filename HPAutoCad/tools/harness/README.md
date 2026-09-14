@@ -1,7 +1,13 @@
-# Bridge harness — unattended pipe scenarios in AutoCAD 2026
+# Harnesses — unattended checks against a live AutoCAD 2026
 
-No MCP server involved: `pipe-scenarios.py` speaks NDJSON JSON-RPC straight to the bridge's named pipe
-`\.\pipe\hpautocad-mcp-2026`. `run-bridge-unattended.ps1` drives the whole thing without a human:
+Two scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation opt-in, guarded AutoCAD start):
+
+- `run-bridge-unattended.ps1` — the bridge alone: `pipe-scenarios.py` speaks NDJSON JSON-RPC straight to the
+  named pipe `\.\pipe\hpautocad-mcp-2026`, no MCP server involved.
+- `run-server-smoke.ps1` — the published `HPAutoCad.Mcp.Server.exe` over stdio through `mcp-call.py`, exactly as a
+  host AI would (initialize, tools/list, get_autocad_context, execute_autocad_code read / dry run / real run, get_run).
+
+`run-bridge-unattended.ps1` drives the bridge run without a human:
 
 1. starts `acad.exe /b bridge.scr` (`HPMCPBRIDGE` opens the status window, `HPMCPSTART` the listener) and
    answers the SECURELOAD prompt with *Always Load* if it appears;
@@ -20,7 +26,9 @@ bundle folder permanently for this Windows user.
 
 ```powershell
 pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1      # AutoCAD must be closed; ~2 minutes warm
+pwsh HPAutoCad/tools/harness/run-server-smoke.ps1           # same, for the published exe (publish first — see its header)
 python HPAutoCad/tools/harness/pipe-scenarios.py --only ping,context   # against an AutoCAD you started yourself
+python HPAutoCad/tools/harness/mcp-call.py <exe> tools/list            # any HP MCP exe, no AutoCAD/Revit needed
 ```
 
 COM automation goes through Windows PowerShell 5.1 (`GetActiveObject` is not in PowerShell 7); a `SendCommand`

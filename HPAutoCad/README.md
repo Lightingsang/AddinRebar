@@ -9,19 +9,21 @@ Plan of record: [`../plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/26091
 
 ## Status
 
-Phase 2 done (2026-09-14): the bridge runs scripts end-to-end inside AutoCAD 2026 — pipe listener, main-thread
+Phase 3 done (2026-09-14): `HPAutoCad.Mcp.Server.exe` serves MCP over stdio — 12 tools (4 core + 8 registry),
+`autocad://` resources, 2 prompts — and `execute_autocad_code` runs end-to-end through the bridge inside AutoCAD 2026
+(verified with `tools/harness/run-server-smoke.ps1`, 7/7). Phase 2 gave the bridge itself: pipe listener, main-thread
 executor (`Application.Idle` + `IsQuiescent`), two bridge-owned transactions (`tr` is the script's), change counting,
-audit, status window. Verified unattended with `tools/harness/` (21/21 scenarios). No MCP server exe yet — phase 3.
-Commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI code execution" opt-in), `HPMCPSTART`,
+audit, status window (`tools/harness/run-bridge-unattended.ps1`, 21/21). No seed tools yet — phase 4.
+AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI code execution" opt-in), `HPMCPSTART`,
 `HPMCPSTOP`, `HPMCPSTATUS`.
 
 | Project | Phase | Purpose |
 |---|---|---|
 | `HPAutoCad.McpBridge.Loader` | 1 ✅ | The DLL AutoCAD loads: `IExtensionApplication`, the `HPMCP*` commands, an isolated `AssemblyLoadContext` for the real bridge |
 | `HPAutoCad.McpBridge` | 1–2 ✅ | The bridge: Roslyn + self-check, `MainThreadExecutor`, `AutocadScriptRunner` (lock + outer/inner transaction, dryRun, timeout), context reader, serializer, XAML status window |
-| `tools/harness/` | 2 ✅ | Unattended pipe harness (Python + PowerShell): SECURELOAD, UIA opt-in, 21 JSON-RPC scenarios, COM for close/busy/undo |
-| `HPAutoCad.Mcp.Server` | 3 | The MCP server exe: `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, prompts, resources, embedded seed tools |
-| `HPAutoCad.Mcp.Server.Tests` | 3–4 | xUnit v3: profile, tools over a real pipe, seed compile checks against `AutoCAD.NET` 25.1.0 |
+| `tools/harness/` | 2–3 ✅ | Unattended harnesses (Python + PowerShell): `run-bridge-unattended.ps1` (pipe, 21 scenarios), `run-server-smoke.ps1` (published exe over stdio, 7 steps), shared SECURELOAD/UIA/COM helpers |
+| `HPAutoCad.Mcp.Server` | 3 ✅ | The MCP server exe (net10, stdio): `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, `autocad://` resources, prompts; seed tools arrive in phase 4 |
+| `HPAutoCad.Mcp.Server.Tests` | 3 ✅ · 4 | xUnit v3: profile, tool surface, tools over a real pipe (8); seed compile checks against `AutoCAD.NET` 25.1.0 in phase 4 |
 
 Shared engine (referenced, never copied): `../McpShared/HPRebar.Mcp.Contracts`, `../McpShared/HPRebar.McpBridge.Core`,
 `../McpShared/HPRebar.Mcp.Server.Core`. This folder never references `../HPRebar/`.
@@ -36,7 +38,9 @@ the .NET 10 builds (2026 Update 1.2 / 2027) and do not load on the base release.
 ```bash
 dotnet build HPAutoCad/HPAutoCad.slnx -c Debug                     # deploys the bundle to %AppData%\Autodesk\ApplicationPlugins\
 dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false   # AutoCAD open (DLL locked)
-cd HPAutoCad && dotnet test HPAutoCad.Mcp.Server.Tests
+cd HPAutoCad && dotnet test HPAutoCad.Mcp.Server.Tests            # 8 tests, no AutoCAD needed
+pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1            # live: bridge over the pipe (AutoCAD must be closed)
+pwsh HPAutoCad/tools/harness/run-server-smoke.ps1                 # live: published exe over stdio (publish first)
 dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server
 HPAutoCad/output/HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.exe registry approve <tool> --by <who>
 ```
