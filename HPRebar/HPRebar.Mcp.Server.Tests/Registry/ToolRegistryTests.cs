@@ -18,6 +18,9 @@ namespace HPRebar.Mcp.Server.Tests.Registry;
 /// <summary>Temp library + temp database + the real pipe with a fake executor: the registry without Revit.</summary>
 public sealed class RegistryFixture : IAsyncDisposable
 {
+    /// <summary>Seeds are embedded in the Revit exe, not in the engine assembly the fixture exercises.</summary>
+    public static readonly System.Reflection.Assembly RevitSeeds = typeof(Hosts.Revit.ExecuteRevitCodeTool).Assembly;
+
     public readonly string Root = Path.Combine(Path.GetTempPath(), "hprebar-registry-" + Guid.NewGuid().ToString("N"));
     public readonly FakeRevitExecutor Executor = new();
     public readonly BridgeSettings Settings = new() { ExecutionEnabled = true };
@@ -118,13 +121,13 @@ public sealed class ToolLibraryStoreTests
     {
         await using var f = new RegistryFixture();
 
-        var first = SeedInstaller.Install(f.Store, NullLogger.Instance);
+        var first = SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds);
         Assert.Equal(21, first.Count);
         Assert.Equal(21, f.Store.ReadAll().Count);
 
         var marker = Path.Combine(f.Store.FindFolder("create_grid")!, "code.cs");
         File.WriteAllText(marker, "return 1;");
-        var second = SeedInstaller.Install(f.Store, NullLogger.Instance);
+        var second = SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds);
 
         Assert.Empty(second);
         Assert.Equal("return 1;", File.ReadAllText(marker));
@@ -135,7 +138,7 @@ public sealed class ToolLibraryStoreTests
     public async Task Untouched_seed_is_upgraded_when_the_shipped_version_changes()
     {
         await using var f = new RegistryFixture();
-        SeedInstaller.Install(f.Store, NullLogger.Instance);
+        SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds);
         var manifestPath = Path.Combine(f.Store.Root, SeedInstaller.ManifestFile);
         var manifest = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(manifestPath), RegistryJson.Options)!;
 
@@ -145,14 +148,14 @@ public sealed class ToolLibraryStoreTests
         manifest["create_grid"] = f.Store.TryRead(folder)!.Checksum;
         File.WriteAllText(manifestPath, System.Text.Json.JsonSerializer.Serialize(manifest, RegistryJson.Options));
 
-        var written = SeedInstaller.Install(f.Store, NullLogger.Instance);
+        var written = SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds);
 
         Assert.Equal(["create_grid"], written);
         Assert.DoesNotContain("return \"old\";", File.ReadAllText(Path.Combine(folder, "code.cs")));
 
         // a user edit on top of the recorded install is never overwritten
         File.WriteAllText(Path.Combine(folder, "code.cs"), "return \"mine\";");
-        Assert.Empty(SeedInstaller.Install(f.Store, NullLogger.Instance));
+        Assert.Empty(SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds));
         Assert.Equal("return \"mine\";", File.ReadAllText(Path.Combine(folder, "code.cs")));
     }
 
@@ -255,7 +258,7 @@ public sealed class ToolManagerTests
     public async Task Load_search_and_run_a_stored_tool_through_the_pipe()
     {
         await using var f = new RegistryFixture();
-        SeedInstaller.Install(f.Store, NullLogger.Instance);
+        SeedInstaller.Install(f.Store, NullLogger.Instance, RegistryFixture.RevitSeeds);
         var changes = 0;
         f.Manager.Changed += () => changes++;
 

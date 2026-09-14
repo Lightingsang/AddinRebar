@@ -1,18 +1,14 @@
 using System.ComponentModel;
-using HPRebar.Mcp.Contracts.JsonRpc;
-using HPRebar.Mcp.Contracts.Messages;
 using HPRebar.Mcp.Server.Services;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
-namespace HPRebar.Mcp.Server.Tools;
+namespace HPRebar.Mcp.Server.Hosts.Revit;
 
 /// <summary>Read-only snapshot of the Revit session so the AI can write correct code before touching the model.</summary>
 [McpServerToolType]
-public sealed class RevitContextTool(IRevitBridgeClient bridge, ResultFormatter formatter)
+public sealed class RevitContextTool(ContextService service)
 {
-    internal static readonly TimeSpan Timeout = TimeSpan.FromSeconds(15);
-
     [McpServerTool(
         Name = "get_revit_context",
         Title = "Get Revit context",
@@ -29,16 +25,6 @@ public sealed class RevitContextTool(IRevitBridgeClient bridge, ResultFormatter 
         bool includeSelection = false,
         CancellationToken cancellationToken = default)
     {
-        return formatter.RunAsync(async () =>
-        {
-            var context = await bridge.SendAsync<ContextResult>(
-                JsonRpcMethods.Context,
-                new ContextRequest(includeSelection),
-                Timeout,
-                null,
-                cancellationToken).ConfigureAwait(false);
-
-            return formatter.Text(context);
-        });
+        return service.GetAsync(includeSelection, cancellationToken);
     }
 }

@@ -68,6 +68,14 @@ public sealed class ToolManager
 
             foreach (var record in records)
             {
+                // A file copied by hand from another host's library: its code cannot run here.
+                record.Host ??= _bridge.Profile.HostId;
+                if (!string.Equals(record.Host, _bridge.Profile.HostId, StringComparison.OrdinalIgnoreCase))
+                {
+                    _logger.LogWarning("Tool {Name} targets host {Host}; this server serves {Ours} — skipped", record.Name, record.Host, _bridge.Profile.HostId);
+                    continue;
+                }
+
                 if (next.ContainsKey(record.Name))
                 {
                     _logger.LogWarning("Tool {Name} exists in two folders ({A}, {B}); keeping the first", record.Name, next[record.Name].Folder, record.Folder);
@@ -157,7 +165,7 @@ public sealed class ToolManager
         ExecuteResult result;
         try
         {
-            result = await _bridge.SendAsync<ExecuteResult>(JsonRpcMethods.Execute, request, TimeSpan.FromSeconds(timeout + _bridgeOptions.ExtraTimeoutSeconds), null, cancellationToken).ConfigureAwait(false);
+            result = await _bridge.SendAsync<ExecuteResult>(_bridge.Profile.Method(JsonRpcMethods.ExecuteSuffix), request, TimeSpan.FromSeconds(timeout + _bridgeOptions.ExtraTimeoutSeconds), null, cancellationToken).ConfigureAwait(false);
         }
         catch (BridgeTimeoutException exception)
         {

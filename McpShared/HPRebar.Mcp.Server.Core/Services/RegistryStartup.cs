@@ -1,3 +1,4 @@
+using HPRebar.Mcp.Server.Hosts;
 using HPRebar.Mcp.Server.Registry;
 using HPRebar.Mcp.Server.Registry.Model;
 using Microsoft.Extensions.Hosting;
@@ -19,10 +20,11 @@ public sealed class RegistryStartup : IHostedService
     private readonly ToolManager _manager;
     private readonly DynamicToolRegistrar _registrar;
     private readonly ILogger<RegistryStartup> _logger;
+    private readonly IHostProfile _profile;
     private int _reloading;
 
     public RegistryStartup(IOptions<RegistryOptions> options, ToolLibraryStore store, ToolRegistryDb db, ToolManager manager,
-        DynamicToolRegistrar registrar, ILogger<RegistryStartup> logger)
+        DynamicToolRegistrar registrar, ILogger<RegistryStartup> logger, IHostProfile? profile = null)
     {
         _options = options.Value;
         _store = store;
@@ -30,6 +32,7 @@ public sealed class RegistryStartup : IHostedService
         _manager = manager;
         _registrar = registrar;
         _logger = logger;
+        _profile = profile ?? HostProfile.Revit;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -38,7 +41,8 @@ public sealed class RegistryStartup : IHostedService
         {
             _store.EnsureRoot();
             _db.Initialize();
-            if (_options.InstallSeeds) SeedInstaller.Install(_store, _logger);
+            // Seeds are embedded in the host exe, not in this engine assembly.
+            if (_options.InstallSeeds) SeedInstaller.Install(_store, _logger, _profile.HostAssembly);
 
             _manager.Changed += () => _registrar.Sync();
             await _manager.LoadAllAsync(cancellationToken).ConfigureAwait(false);

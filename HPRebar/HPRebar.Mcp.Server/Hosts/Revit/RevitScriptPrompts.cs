@@ -2,7 +2,7 @@ using System.ComponentModel;
 using Microsoft.Extensions.AI;
 using ModelContextProtocol.Server;
 
-namespace HPRebar.Mcp.Server.Prompts;
+namespace HPRebar.Mcp.Server.Hosts.Revit;
 
 /// <summary>
 ///     Reusable conversation openers that teach the model the script contract (globals, return, transaction

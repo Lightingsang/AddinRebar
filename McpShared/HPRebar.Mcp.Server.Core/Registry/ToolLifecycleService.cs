@@ -47,11 +47,11 @@ public sealed class ToolLifecycleService
     {
         try
         {
-            return await _bridge.SendAsync<AnalyzeResult>(JsonRpcMethods.Analyze, new AnalyzeRequest(code), AnalyzeTimeout, null, cancellationToken).ConfigureAwait(false);
+            return await _bridge.SendAsync<AnalyzeResult>(_bridge.Profile.Method(JsonRpcMethods.AnalyzeSuffix), new AnalyzeRequest(code), AnalyzeTimeout, null, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception exception) when (exception is BridgeUnavailableException or BridgeTimeoutException or BridgeErrorException)
         {
-            _logger.LogInformation("revit.analyze unavailable ({Message}); validating without the compiler", exception.Message);
+            _logger.LogInformation("{Method} unavailable ({Message}); validating without the compiler", _bridge.Profile.Method(JsonRpcMethods.AnalyzeSuffix), exception.Message);
             return null;
         }
     }
@@ -80,6 +80,7 @@ public sealed class ToolLifecycleService
             CreatedFromRunId = input.SourceRunId,
             CreatedAt = input.NewVersion && existing is not null ? existing.CreatedAt : null,
             RevitVersions = _bridge.LastStatus?.RevitVersion is { } v ? [v] : [],
+            Host = _bridge.Profile.HostId,
         };
 
         var analysis = string.IsNullOrWhiteSpace(record.Code) ? null : await AnalyzeAsync(record.Code, cancellationToken).ConfigureAwait(false);

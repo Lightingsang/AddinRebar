@@ -309,10 +309,10 @@ public sealed class ReusableHintTests
     public void Heuristic_flags_loops_changes_and_size_only_on_success()
     {
         var ok = new ExecuteResult();
-        Assert.False(ExecuteRevitCodeTool.LooksReusable("return 1;", ok));
-        Assert.True(ExecuteRevitCodeTool.LooksReusable("foreach (var x in y) { }\nreturn 1;", ok));
-        Assert.True(ExecuteRevitCodeTool.LooksReusable("return 1;", new ExecuteResult { Changed = new ChangedCounts(3, 0, 0) }));
-        Assert.True(ExecuteRevitCodeTool.LooksReusable(string.Join("\n", Enumerable.Repeat("var a = 1;", 12)) + "\nreturn a;", ok));
-        Assert.False(ExecuteRevitCodeTool.LooksReusable("foreach (var x in y) { }", ExecuteResult.Failure("boom")));
+        Assert.False(ExecuteCodeService.LooksReusable("return 1;", ok));
+        Assert.True(ExecuteCodeService.LooksReusable("foreach (var x in y) { }\nreturn 1;", ok));
+        Assert.True(ExecuteCodeService.LooksReusable("return 1;", new ExecuteResult { Changed = new ChangedCounts(3, 0, 0) }));
+        Assert.True(ExecuteCodeService.LooksReusable(string.Join("\n", Enumerable.Repeat("var a = 1;", 12)) + "\nreturn a;", ok));
+        Assert.False(ExecuteCodeService.LooksReusable("foreach (var x in y) { }", ExecuteResult.Failure("boom")));
     }
 }

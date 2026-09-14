@@ -42,9 +42,9 @@ public sealed class InspectTypeTool(IRevitBridgeClient bridge, ResultFormatter f
             var request = new InspectRequest(typeName.Trim(), memberFilter?.Trim(), Math.Clamp(maxMembers, 1, MaxMembersCeiling));
 
             var result = await bridge.SendAsync<InspectResult>(
-                JsonRpcMethods.Inspect,
+                bridge.Profile.Method(JsonRpcMethods.InspectSuffix),
                 request,
-                RevitContextTool.Timeout,
+                ContextService.Timeout,
                 null,
                 cancellationToken).ConfigureAwait(false);
 

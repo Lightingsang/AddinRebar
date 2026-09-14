@@ -28,7 +28,7 @@ public sealed class SeedLibraryTests
 
     private static IReadOnlyList<Seed> LoadSeedsCore()
     {
-        var assembly = typeof(Tools.ExecuteRevitCodeTool).Assembly;
+        var assembly = typeof(Hosts.Revit.ExecuteRevitCodeTool).Assembly;
         var names = assembly.GetManifestResourceNames().Where(n => n.StartsWith("SeedLibrary/", StringComparison.Ordinal)).ToArray();
         string Read(string name)
         {

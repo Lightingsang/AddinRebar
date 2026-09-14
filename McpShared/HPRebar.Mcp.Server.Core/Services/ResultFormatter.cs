@@ -68,7 +68,7 @@ public sealed class ResultFormatter
         }
         catch (BridgeErrorException exception)
         {
-            throw new McpException($"Revit bridge error {exception.Code}: {StripPaths(exception.Message)}");
+            throw new McpException($"Bridge error {exception.Code}: {StripPaths(exception.Message)}");
         }
     }
 

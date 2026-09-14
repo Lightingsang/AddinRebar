@@ -1,4 +1,5 @@
 using HPRebar.Mcp.Contracts.Messages;
+using HPRebar.Mcp.Server.Hosts;
 
 namespace HPRebar.Mcp.Server.Services;
 
@@ -9,6 +10,9 @@ namespace HPRebar.Mcp.Server.Services;
 public interface IRevitBridgeClient
 {
     bool IsConnected { get; }
+
+    /// <summary>The host this client is configured for; tools take method names from it.</summary>
+    IHostProfile Profile { get; }
 
     string PipeName { get; }
 

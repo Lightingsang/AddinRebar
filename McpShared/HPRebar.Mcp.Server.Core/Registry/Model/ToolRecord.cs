@@ -47,6 +47,12 @@ public sealed class ToolRecord
 
     public bool Destructive { get; set; } = true;
 
+    /// <summary>Host the code targets (`revit`, `autocad`). Null in files written before the field existed — read as the exe's host.</summary>
+    public string? Host { get; set; }
+
+    /// <summary>Host versions the tool was written/tested against. Older files use <see cref="RevitVersions"/>.</summary>
+    public List<string> HostVersions { get; set; } = [];
+
     public List<string> RevitVersions { get; set; } = [];
 
     /// <summary>`hprebar` for seeds, `ai` for proposals, `human:&lt;name&gt;` for hand-written tools.</summary>

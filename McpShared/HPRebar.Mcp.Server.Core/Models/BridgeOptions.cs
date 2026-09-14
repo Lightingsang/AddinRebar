@@ -3,22 +3,32 @@ using HPRebar.Mcp.Contracts;
 namespace HPRebar.Mcp.Server.Models;
 
 /// <summary>
-///     `Bridge` section of appsettings.json (override with HPREBAR_MCP_Bridge__* environment variables).
-///     Everything the server needs to find and talk to the add-in running inside Revit.
+///     `Bridge` section of appsettings.json (override with {EnvPrefix}Bridge__* environment variables).
+///     Everything the server needs to find and talk to the add-in running inside the CAD host.
 /// </summary>
 public sealed class BridgeOptions
 {
     public const string SectionName = "Bridge";
 
-    /// <summary>Revit major version whose bridge this server talks to. One pipe per version.</summary>
-    public int RevitVersion { get; set; } = 2026;
+    /// <summary>Host application the pipe name is built for; the exe's profile sets it, config never needs to.</summary>
+    public string HostId { get; set; } = PipeNaming.RevitHost;
+
+    /// <summary>Host major version whose bridge this server talks to. One pipe per host and version.</summary>
+    public int HostVersion { get; set; } = 2026;
+
+    /// <summary>Alias of <see cref="HostVersion"/> so existing `Bridge:RevitVersion` configuration keeps working.</summary>
+    public int RevitVersion
+    {
+        get => HostVersion;
+        set => HostVersion = value;
+    }
 
     private string? _pipeName;
 
-    /// <summary>Derived from <see cref="RevitVersion"/> unless set explicitly (tests, unusual setups).</summary>
+    /// <summary>Derived from <see cref="HostId"/> + <see cref="HostVersion"/> unless set explicitly (tests, unusual setups).</summary>
     public string PipeName
     {
-        get => _pipeName ?? PipeNaming.For(RevitVersion);
+        get => _pipeName ?? PipeNaming.For(HostId, HostVersion);
         set => _pipeName = string.IsNullOrWhiteSpace(value) ? null : value;
     }
 
@@ -38,8 +48,11 @@ public sealed class BridgeOptions
 
     public int MaxReconnectAttempts { get; set; } = 5;
 
-    public bool IsValid() =>
-        RevitVersion is 2025 or 2026
+    /// <summary>Revit's historical rule; the bootstrap validates against the profile's versions instead.</summary>
+    public bool IsValid() => IsValid(new[] { 2025, 2026 });
+
+    public bool IsValid(IReadOnlyCollection<int> validVersions) =>
+        validVersions.Contains(HostVersion)
         && ConnectTimeoutMs is >= 100 and <= 30_000
         && ExtraTimeoutSeconds is >= 0 and <= 60
         && MaxSourceBytes is >= 1024 and <= 1024 * 1024

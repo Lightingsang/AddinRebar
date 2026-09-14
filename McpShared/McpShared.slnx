@@ -11,4 +11,5 @@
        Nothing here may reference Autodesk.* : the host arrives through IHostProfile / IBridgeExecutor. -->
   <Project Path="HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
   <Project Path="HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+  <Project Path="HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
 </Solution>

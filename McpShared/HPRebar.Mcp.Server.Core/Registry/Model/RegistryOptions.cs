@@ -12,13 +12,28 @@ public sealed class RegistryOptions
     public const string PolicyManual = "manual";
     public const string PolicyAuto = "auto";
 
-    private static string DefaultRoot => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HPRebar", "McpServer");
+    private string? _libraryPath;
+    private string? _dbPath;
+
+    /// <summary>`%AppData%\{ProductFolder}\McpServer\`; the exe's profile sets the product, so two MCPs never share a root.</summary>
+    public string ProductFolder { get; set; } = "HPRebar";
+
+    public static string DefaultRootFor(string productFolder) =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), productFolder, "McpServer");
 
     /// <summary>Folder of tool records: &lt;Category&gt;/&lt;name&gt;/{tool.json, code.cs, examples.json}. Source of truth.</summary>
-    public string LibraryPath { get; set; } = Path.Combine(DefaultRoot, "tools-library");
+    public string LibraryPath
+    {
+        get => _libraryPath ?? Path.Combine(DefaultRootFor(ProductFolder), "tools-library");
+        set => _libraryPath = string.IsNullOrWhiteSpace(value) ? null : value;
+    }
 
     /// <summary>SQLite index + run history. Derived from the library; safe to delete.</summary>
-    public string DbPath { get; set; } = Path.Combine(DefaultRoot, "registry.db");
+    public string DbPath
+    {
+        get => _dbPath ?? Path.Combine(DefaultRootFor(ProductFolder), "registry.db");
+        set => _dbPath = string.IsNullOrWhiteSpace(value) ? null : value;
+    }
 
     /// <summary>`manual`: a human approves before a tool is published. `auto`: tested tools publish themselves.</summary>
     public string PublishPolicy { get; set; } = PolicyManual;

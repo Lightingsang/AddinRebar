@@ -26,9 +26,9 @@ public sealed class CancelExecutionTool(IRevitBridgeClient bridge, ResultFormatt
         return formatter.RunAsync(async () =>
         {
             var result = await bridge.SendAsync<CancelResult>(
-                JsonRpcMethods.Cancel,
+                bridge.Profile.Method(JsonRpcMethods.CancelSuffix),
                 null,
-                RevitContextTool.Timeout,
+                ContextService.Timeout,
                 null,
                 cancellationToken).ConfigureAwait(false);
 

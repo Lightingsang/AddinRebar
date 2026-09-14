@@ -15,14 +15,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
         <InternalsVisibleTo Include="HPRebar.Mcp.Server.Tests" />
-        <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj" />
+        <!-- Everything host-neutral (bootstrap, pipe client, registry engine, meta tools) comes from the
+             shared engine; this exe adds the Revit profile, its core tools and the seed library. -->
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
