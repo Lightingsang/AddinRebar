@@ -8,11 +8,13 @@ Your role is to analyze user requirements, delegate tasks to appropriate sub-age
 
 ## Repository Layout
 
-This repo bundles **four unrelated deliverables**; treat them as separate concerns — do not cross-wire them:
+This repo bundles **five unrelated deliverables** plus one shared library folder; treat them as separate concerns — do not cross-wire them. The only permitted dependency direction is MCP folder → `McpShared/`; `HPRebar/` and `HPAutoCad/` never reference each other:
 
 | Path | What it is | Stack |
 |---|---|---|
-| `HPRebar/` | The Revit Add-In (the "real" product). Multi-version R23–R27. Also hosts the **MCP bridge** projects (see "HPRebar MCP Bridge" below). | C# / Nice3point.Revit.Sdk / WPF / Serilog / ModelContextProtocol |
+| `HPRebar/` | The Revit Add-In (the "real" product). Multi-version R23–R27. Also hosts the **Revit MCP** (server exe + bridge add-in, see "HPRebar MCP Bridge" below). | C# / Nice3point.Revit.Sdk / WPF / Serilog / ModelContextProtocol |
+| `McpShared/` | **Host-neutral MCP engine** shared by every HP MCP: `HPRebar.Mcp.Contracts` (wire DTOs), `HPRebar.McpBridge.Core` (pipe listener, Roslyn guard/compiler, settings, bridge host + status view model), `HPRebar.Mcp.Server.Core` (server bootstrap, pipe client, execute/context services, tool registry engine, registry meta tools, CLI) and their tests. Never references `Autodesk.*`; the host arrives through `IHostProfile` / `IBridgeExecutor`. Assembly names keep the historical `HPRebar.*` prefix. Own `McpShared.slnx` + `global.json`. | C# / net8 · net10 / ModelContextProtocol / Roslyn |
+| `HPAutoCad/` | The **AutoCAD MCP** (scaffold as of 2026-09-14 — projects arrive per `plans/260913-0000-autocad-mcp-bridge-2026/`). Own `HPAutoCad.slnx` + `global.json`; references `../McpShared/` only. | C# / net8 · net10 / AutoCAD.NET 25.1.0 |
 | `revit-market-research/` | Apify actor scraping the Revit plugin market | Node ≥24 / TypeScript / Crawlee / vitest |
 | `scripts/skill_sync/` + `tests/skill-sync/` | Engine that keeps `.claude/`, `.agents/`, `.codex/` agent configs in sync | Python 3 / stdlib `unittest` |
 | `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`), deployed via `vercel.json` | Plain HTML |
@@ -34,7 +36,9 @@ dotnet build HPRebar/HPRebar.csproj -c Debug.R26   # add-in project only
 dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false   # when Revit is open and locking the DLL
 
 dotnet test HPRebar.Core.Tests                     # 334 xUnit tests, no Revit needed
-dotnet test HPRebar.Mcp.Server.Tests               # 159 xUnit tests: MCP server, registry, bridge pipe over a real named pipe, seed tools compiled against the Revit API reference assemblies — no Revit needed
+dotnet test HPRebar.Mcp.Server.Tests               # 105 xUnit tests (Revit-specific): registry over the real seeds, seed tools compiled against the Revit API reference assemblies — no Revit needed
+# Engine tests live beside the engine (run from McpShared/ — each folder has its own global.json pinning the MTP runner):
+(cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 66 xUnit tests: pipe round trips with a fake executor, guard/compiler/args/analyzer, host-neutrality rules
 dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26  # TUnit, excluded from solution builds
 
 # ModularPipelines automation — from HPRebar/build/
@@ -67,7 +71,7 @@ Tag each block with `// Multi-version: <topic>` so it stays greppable. Edit `<Co
 
 ## HPRebar — Current State (read before planning)
 
-The solution holds **nine** projects plus the two automation ones (four rebar, five MCP). Read `docs/codebase-summary.md` for the full picture; the load-bearing facts are:
+The solution holds **ten** projects plus the two automation ones (four rebar, six MCP — four of which live in `../McpShared/` and are referenced by relative path). Read `docs/codebase-summary.md` for the full picture; the load-bearing facts are:
 
 | Project | TFM | Notes |
 |---|---|---|
@@ -75,11 +79,12 @@ The solution holds **nine** projects plus the two automation ones (four rebar, f
 | `HPRebar.Core/` | netstandard2.0 | Pure maths. **Must never reference `Autodesk.Revit.*`** — `Document` is sealed and unmockable, so anything testable lives here |
 | `HPRebar.Core.Tests/` | net8.0 | xUnit **v3** (not v2 — v2's runner cannot speak the `Microsoft.Testing.Platform` runner pinned in `global.json`). 334 tests |
 | `HPRebar.Tests/` | R25/R26 only | TUnit, loads Revit in-process. **`<Build Project="false"/>` in `.slnx`** — under an R23/R24 configuration it compiles net8 against a net48 `HPRebar.dll` and Polyfill's span types collide (`CS0433`). Build it by project path |
-| `HPRebar.Mcp.Contracts/` | netstandard2.0 | JSON-RPC envelope + DTOs shared by the MCP server and the bridge. No Revit, no MCP SDK |
-| `HPRebar.Mcp.Server/` | net10.0 console | The MCP server (`ModelContextProtocol` 2.2.0, stdio). Never references Revit; talks to the bridge over a named pipe |
-| `HPRebar.McpBridge.Core/` | net8.0 | Revit-free half of the bridge: pipe listener/dispatcher, Roslyn guard/compiler/cache, settings, audit. xUnit-testable |
+| `../McpShared/HPRebar.Mcp.Contracts/` | netstandard2.0 | JSON-RPC envelope + DTOs shared by every MCP server and bridge. No host API, no MCP SDK. Changes must be additive (deployed bridges) |
+| `../McpShared/HPRebar.McpBridge.Core/` | net8.0 | Host-free half of a bridge: pipe listener/dispatcher (dispatches on the method suffix, so `revit.execute` ≡ `autocad.execute`), Roslyn guard/compiler/cache with `GuardProfile`/`AnalyzerProfile`, `ScriptArgs`, `ScriptUnits`, settings store per vendor/product, `McpBridgeHost`, status view model (no WPF). xUnit-testable |
+| `../McpShared/HPRebar.Mcp.Server.Core/` | net10.0 | Host-free half of a server: `McpServerHost.CreateBuilder(args, IHostProfile)`, `RevitBridgeClient` (name kept; profile-driven), `ExecuteCodeService`/`ContextService`, tool registry engine + 8 meta tools, `inspect_type`, `cancel_execution`, `toolify_run`, `RegistryCli`. Every engine constructor defaults to `HostProfile.Revit` |
+| `HPRebar.Mcp.Server/` | net10.0 console | The Revit MCP server exe (`ModelContextProtocol` 2.2.0, stdio): a 6-line `Program.cs`, `Hosts/Revit/` (`RevitHostProfile`, `execute_revit_code`, `get_revit_context`, `revit://` resources, prompts) and the embedded seed library. Never references Revit |
 | `HPRebar.McpBridge/` | R25/R26 only (net8.0-windows7.0) | Second add-in (own `.addin`, GUID `A1F50652-27B4-48D4-8BA9-9694B1AA9E65`, own ALC `HPRebar.McpBridge`). `IsRepackable=false` on purpose — Roslyn ships as loose DLLs. Skipped under R23/R24/R27 via `.slnx` `<Build … Project="false"/>` |
-| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3, 43 tests: real named-pipe round trips with a fake executor, ScriptGuard deny-list, compiler cache, TypeInspector, AuditLogger |
+| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3, 105 tests: registry lifecycle over the real Revit seeds, seed compile checks. Engine tests (66) are in `../McpShared/HPRebar.Mcp.Server.Core.Tests/`; the fake executor is one file linked into both |
 
 Three features exist, all following the feature-folder convention below: **`ColumnRebar/`** (81 files, ~7.0k lines), **`BeamRebar/`** (68 files, ~6.8k lines) and **`FoundationRebar/`** (24 files, ~1.7k lines). `Resources/Themes/` holds 8 theme files; `ThemeSwitcher` follows Revit's own Dark/Light.
 
@@ -88,7 +93,8 @@ Three features exist, all following the feature-folder convention below: **`Colu
 Still true:
 - **No DI container is wired.** `Application.cs` uses the static `Log.Logger`, not `ILogger<T>`. Feature classes are constructed by hand in `ColumnRebarCommand`.
 - `Application.cs` and `Commands/StartupCommand.cs` use **block-scoped namespaces**, which contradicts the file-scoped rule in `.agents/rules/development-rules.md`. New files follow the rule; do not churn those two template files just to reformat them.
-- `TestProjectModule` (`dotnet run -- test`) runs the whole solution per `Release.R*`, so it picks up `HPRebar.Core.Tests` and `HPRebar.Mcp.Server.Tests`; the TUnit project stays excluded.
+- `TestProjectModule` (`dotnet run -- test`) runs the whole solution per `Release.R*`, so it picks up `HPRebar.Core.Tests` and `HPRebar.Mcp.Server.Tests`; the TUnit project stays excluded, and so are the engine tests in `McpShared/` (run them separately).
+- `ResolveConfigurationsModule` reads `HPRebar.slnx` through Sourcy (`Solutions.HPRebar`), not by searching the git root for "any .slnx" — `McpShared/` and `HPAutoCad/` carry their own solutions.
 
 **The rebar add-in has not been verified at runtime.** Every Revit version is build-only for `HPRebar/`; the 16 TUnit tests skip because `HPRebar.Tests/Fixtures/column-stack-2-storey.rvt` does not exist. Do not describe any version as "supported". The **MCP bridge is different**: it has been run end-to-end in Revit 2026 on the dev machine (2026-09-12) — see the section below.
 
@@ -109,7 +115,7 @@ the host coding agent ──stdio──▶ HPRebar.Mcp.Server (net10) ──name
 
 Load-bearing facts:
 - **Two processes, never one.** A stdio MCP server must be a child process of the host AI, so `Revit.exe` cannot host it (ADR-01). The server never references `Autodesk.Revit.*`; the bridge never references the MCP SDK; `HPRebar.Mcp.Contracts` is the only shared assembly.
-- **Everything Revit-free lives in `HPRebar.McpBridge.Core`** (pipe, dispatcher, `ScriptGuard`, `ScriptCompiler`, settings, audit) so it is tested by `HPRebar.Mcp.Server.Tests` over a real named pipe with a fake executor. Only `McpBridgeExternalEventHandler`, `ScriptRunner`, `ResultSerializer`, `RevitContextReader` and the WPF window touch Revit.
+- **Everything host-free lives in `../McpShared/`** — bridge side in `HPRebar.McpBridge.Core` (pipe, dispatcher, `ScriptGuard`, `ScriptCompiler`, settings, audit, bridge host, status view model), server side in `HPRebar.Mcp.Server.Core` (bootstrap, pipe client, services, registry engine, meta tools) — so it is tested by `McpShared/HPRebar.Mcp.Server.Core.Tests` over a real named pipe with a fake executor. `IHostProfile` (server) and the `hostName`/`GuardProfile`/`AnalyzerProfile` parameters (bridge core) are the only way a host name gets in; `HostProfile.Revit` is the default everywhere, so the Revit server behaves exactly as before the split (tools/list byte-identical, `plans/260913-0000-autocad-mcp-bridge-2026/reports/phase-00-tools-list-*.json`). Only `McpBridgeExternalEventHandler`, `ScriptRunner`, `ResultSerializer`, `RevitContextReader` and the WPF window touch Revit.
 - **Security is defense-in-depth, not a sandbox** (ADR-04): opt-in checkbox "Allow AI code execution" in the bridge window, OFF on every Revit start and never persisted; `ScriptGuard` deny-list (`System.IO/Net/Reflection/Process`, `await`, `Task`, `Thread`, `dynamic`, `unsafe`); timeout 5–120 s cooperative via `ct`; audit JSON-lines in `%AppData%\HPRebar\McpBridge\audit\`; pipe ACL `CurrentUserOnly`. A timeout always fails the run and rolls back, even if the script returned.
 - **Transaction policy** (ADR-03): `transaction` = `auto` (bridge wraps one Transaction inside a TransactionGroup) | `manual` (script opens its own) | `none` (read-only); `dryRun` always rolls the group back. Every run is one Undo entry `MCP: <label>`.
 - Bridge settings/logs: `%AppData%\HPRebar\McpBridge\settings.json` (`AutoStartListener` only), runtime log `%LocalAppData%\HPRebar\McpBridge\logs\`. `ScriptingSelfCheck` compiles and runs one script at startup and logs `MCP scripting self-check OK` — if that line is missing, Roslyn did not load in the add-in's load context.
