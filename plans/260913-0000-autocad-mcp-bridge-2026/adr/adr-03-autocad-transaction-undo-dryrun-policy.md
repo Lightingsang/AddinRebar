@@ -1,6 +1,6 @@
 # ADR-03 — Transaction / Undo / dryRun trong AutoCAD: một transaction ngoài cùng do bridge mở, `tr` global, abort = rollback
 
-**Ngày:** 2026-09-13 · **Status:** Proposed · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project `HPAutoCad.McpBridge` trong `HPAutoCad/`; `units` là kiểu Core `ScriptUnits`) · **Status:** Proposed · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-03 §Transaction policy](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-03-roslyn-in-process-execution.md) (`auto|manual|none` + `dryRun`, timeout luôn fail + rollback) · Research: [autocad-dotnet-api-2026-report.md §0.1 #2, §5, §6, §9](../research/autocad-dotnet-api-2026-report.md)
 
 ## Context
@@ -23,7 +23,7 @@
 | `ed` | `Editor` | `doc.Editor` — chỉ `WriteMessage`, `SelectImplied`, `SelectAll`; prompt bị guard deny |
 | `app` | `DocumentCollection` | `Application.DocumentManager` (`Application` là static class, không có instance để gán) |
 | **`tr`** | `Transaction` | transaction ngoài cùng do bridge mở — **luôn non-null** trong cả 3 mode (xem bảng dưới). Script dùng `tr.GetObject(...)`, `tr.AddNewlyCreatedDBObject(...)`; **không** gọi `tr.Commit()/Abort()` (guard deny member `Commit`/`Abort` trên identifier `tr`; `ScriptAnalyzer` báo `UsesTransaction=true` khi thấy `StartTransaction()`/`StartOpenCloseTransaction()` → validator yêu cầu `manual`). |
-| **`units`** | `AutocadUnits` (bridge) | `units.Insunits`, `units.ToDrawing(double mm)`, `units.ToMm(double du)`, `units.Factor`; `Unitless` → hệ số 1 + `log` cảnh báo. Lý do: 12 seed đều cần mm ↔ drawing unit, ADR-05 Revit cấm chia file trong tool. |
+| **`units`** | `HPRebar.McpBridge.Core.Scripting.ScriptUnits` (Core, host-neutral; bridge tạo từ `db.Insunits`) | `units.Label`, `units.ToDrawing(double mm)`, `units.ToMm(double du)`, `units.MmPerUnit`; `Unitless` → hệ số 1 + `log` cảnh báo. Lý do: 12 seed đều cần mm ↔ drawing unit, ADR-05 Revit cấm chia file trong tool. |
 | `ct`, `log`, `progress`, `args` | như Revit | `ScriptArgs` tái dùng nguyên |
 
 ### Policy (nhìn từ AI giống hệt Revit)
@@ -34,7 +34,7 @@
 | `none` | `LockDocument()` (lock đọc vẫn cần ở application context) → `tr = StartTransaction()` → run | **luôn `tr.Abort()`**; nếu `Changed` ≠ 0 → `IsError` "script modified the drawing in transaction=none; use auto" (tương đương Revit `ModificationOutsideTransactionException`) | `tr.Abort()` | (đã abort) |
 
 - **Timeout luôn thất bại + Abort** kể cả khi script `return` kịp sau khi thấy `ct` — giữ đúng quy tắc Revit đã verified (ScriptRunner: "A script that noticed the timeout and returned early still timed out").
-- **Change counting:** `DatabaseChangeCounter` subscribe `db.ObjectAppended/ObjectModified/ObjectErased` trước `StartTransaction`, unsubscribe trong `finally`; đếm `ObjectId` distinct (Modified có thể bắn nhiều lần/object `[unverified: tần suất]` → dùng `HashSet<ObjectId>`; `Appended` rồi `Erased` cùng run → trừ). Đặt trong `HPRebar.McpBridge.Autocad/Service/DatabaseChangeCounter.cs` (mirror `DocumentChangeCounter.cs`).
+- **Change counting:** `DatabaseChangeCounter` subscribe `db.ObjectAppended/ObjectModified/ObjectErased` trước `StartTransaction`, unsubscribe trong `finally`; đếm `ObjectId` distinct (Modified có thể bắn nhiều lần/object `[unverified: tần suất]` → dùng `HashSet<ObjectId>`; `Appended` rồi `Erased` cùng run → trừ). Đặt trong `HPAutoCad.McpBridge/Service/DatabaseChangeCounter.cs` (mirror `DocumentChangeCounter.cs`).
 - **Undo label:** AutoCAD không đặt tên mục Undo qua API `[verified: không có API trong XML docs]`. Bridge ghi `ed.WriteMessage("\n[MCP] <label>: committed, N objects. Undo with U.")` sau Commit để user thấy; `LastRunInfo`/status window hiển thị như Revit. Không cố `UNDO BE/END` (command context).
 - **Guards trước run** (mirror `ScriptRunner.Run` Revit): không `MdiActiveDocument` → "No drawing is open in AutoCAD"; `doc.IsReadOnly` và mode ≠ `none` → lỗi; `db.TransactionManager.NumberOfActiveTransactions > 0` trước khi bridge mở → lỗi "AutoCAD already has a transaction open" (tương đương `doc.IsModifiable`).
 - **Lỗi AutoCAD:** `Autodesk.AutoCAD.Runtime.Exception` → message `"{ErrorStatus}: {Message}"` (ErrorStatus enum là thứ AI hiểu: `eLockViolation`, `eNotOpenForWrite`, `eWasErased`…), `SafeText.StripPaths` như Revit.

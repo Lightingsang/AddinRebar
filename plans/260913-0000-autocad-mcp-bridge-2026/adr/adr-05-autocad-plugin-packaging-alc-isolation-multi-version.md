@@ -1,7 +1,7 @@
 # ADR-05 — Packaging & deploy plugin AutoCAD: bundle autoloader, loader mỏng + AssemblyLoadContext riêng cho Roslyn, MVP chỉ 2026 (.NET 8)
 
-**Ngày:** 2026-09-13 · **Status:** Proposed · **Owner:** HPRebar
-**Kế thừa:** [Revit ADR-01 (bridge = add-in riêng, Roslyn không ILRepack)](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-01-two-process-topology.md) · Research: [autocad-dotnet-api-2026-report.md §0.1–0.3, §3, §12](../research/autocad-dotnet-api-2026-report.md) · [reference report Addendum](../research/autocad-bridge-reference-report.md)
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project sống trong `HPAutoCad/`, solution riêng, pipe `hpautocad-mcp-2026`, settings `%AppData%\HPAutoCad\McpBridge\`) · **Status:** Proposed · **Owner:** HPRebar
+**Kế thừa:** [ADR-06 one MCP one folder](adr-06-one-mcp-one-folder.md) · [Revit ADR-01 (bridge = add-in riêng, Roslyn không ILRepack)](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-01-two-process-topology.md) · Research: [autocad-dotnet-api-2026-report.md §0.1–0.3, §3, §12](../research/autocad-dotnet-api-2026-report.md) · [reference report Addendum](../research/autocad-bridge-reference-report.md)
 
 ## Context (facts đã kiểm 2026-09-13)
 
@@ -15,36 +15,36 @@
 ### 1. Hai assembly, một bundle
 
 ```
-%AppData%\Autodesk\ApplicationPlugins\HPRebar.McpBridge.Autocad.bundle\
+%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\
 ├── PackageContents.xml
 └── Contents\
-    ├── HPRebar.McpBridge.Autocad.Loader.dll        ← AutoCAD NETLOAD cái này (default ALC); chỉ ref AcMgd/AcCoreMgd/AcDbMgd
+    ├── HPAutoCad.McpBridge.Loader.dll        ← AutoCAD NETLOAD cái này (default ALC); chỉ ref AcMgd/AcCoreMgd/AcDbMgd
     └── Bridge\
-        ├── HPRebar.McpBridge.Autocad.dll            ← bridge thật (WPF, Contracts, Core, Roslyn) — nạp vào BridgeLoadContext
-        ├── HPRebar.McpBridge.Autocad.deps.json      ← AssemblyDependencyResolver đọc file này
+        ├── HPAutoCad.McpBridge.dll            ← bridge thật (WPF, Contracts, Core, Roslyn) — nạp vào BridgeLoadContext
+        ├── HPAutoCad.McpBridge.deps.json      ← AssemblyDependencyResolver đọc file này
         ├── HPRebar.McpBridge.Core.dll · HPRebar.Mcp.Contracts.dll
         ├── Microsoft.CodeAnalysis*.dll (5.9.0) · System.Collections.Immutable.dll (10.x) · System.Reflection.Metadata.dll (10.x)
         ├── System.Text.Json.dll (10.x) · CommunityToolkit.Mvvm.dll · Serilog*.dll
         └── … (mọi copy-local của project bridge)
 ```
 
-- **Loader** (`HPRebar.McpBridge.Autocad.Loader`, `net8.0-windows`, không WPF): `[assembly: ExtensionApplication(typeof(BridgeLoaderApplication))]`, `[assembly: CommandClass(typeof(BridgeLoaderCommands))]`. `Initialize()`: tạo `BridgeLoadContext : AssemblyLoadContext("HPRebar.McpBridge.Autocad", isCollectible: false)` với `AssemblyDependencyResolver(<Contents>\Bridge\HPRebar.McpBridge.Autocad.dll)`; `Load(AssemblyName)` → `resolver.ResolveAssemblyToPath(name)` → có path thì `LoadFromAssemblyPath`, **không có thì `null`** (rơi về default ALC: shared framework, WPF, **AutoCAD API** — nhờ `ExcludeAssets="runtime"` nên các assembly Autodesk không nằm trong runtime assets của `deps.json`). `LoadUnmanagedDll` tương tự cho native (không có trong MVP). Sau đó **reflection**: `alc.LoadFromAssemblyPath(main).GetType("HPRebar.McpBridge.Autocad.BridgeEntry")!.GetMethod("Start")!.Invoke(null, [logSink])` — **không** reference compile-time tới assembly chính (nếu có, JIT của loader sẽ nạp nó vào default ALC trước, phá cách ly). Entry trả về một `BridgeHandle` gồm các `Action`/`Func` (`ShowWindow`, `Start`, `Stop`, `Dispose`, `Status`) — delegate type từ CoreLib nên chia sẻ được qua ranh giới ALC.
+- **Loader** (`HPAutoCad.McpBridge.Loader`, `net8.0-windows`, không WPF): `[assembly: ExtensionApplication(typeof(BridgeLoaderApplication))]`, `[assembly: CommandClass(typeof(BridgeLoaderCommands))]`. `Initialize()`: tạo `BridgeLoadContext : AssemblyLoadContext("HPAutoCad.McpBridge", isCollectible: false)` với `AssemblyDependencyResolver(<Contents>\Bridge\HPAutoCad.McpBridge.dll)`; `Load(AssemblyName)` → `resolver.ResolveAssemblyToPath(name)` → có path thì `LoadFromAssemblyPath`, **không có thì `null`** (rơi về default ALC: shared framework, WPF, **AutoCAD API** — nhờ `ExcludeAssets="runtime"` nên các assembly Autodesk không nằm trong runtime assets của `deps.json`). `LoadUnmanagedDll` tương tự cho native (không có trong MVP). Sau đó **reflection**: `alc.LoadFromAssemblyPath(main).GetType("HPAutoCad.McpBridge.BridgeEntry")!.GetMethod("Start")!.Invoke(null, [logSink])` — **không** reference compile-time tới assembly chính (nếu có, JIT của loader sẽ nạp nó vào default ALC trước, phá cách ly). Entry trả về một `BridgeHandle` gồm các `Action`/`Func` (`ShowWindow`, `Start`, `Stop`, `Dispose`, `Status`) — delegate type từ CoreLib nên chia sẻ được qua ranh giới ALC.
 - **Commands** (trong loader, vì AutoCAD chỉ quét `CommandClass` của assembly nó NETLOAD): `HPMCPBRIDGE` (mở status window), `HPMCPSTART`, `HPMCPSTOP`, `HPMCPSTATUS` (in ra command line). `CommandFlags.Modal` mặc định — chúng chỉ gọi delegate, không đụng document.
-- **Bridge thật** (`HPRebar.McpBridge.Autocad`, `net8.0-windows`, `UseWPF=true`, `EnableDynamicLoading=true` để sinh `deps.json` + copy-local đầy đủ, `IsRepackable` không áp dụng): ref `Contracts`, `McpBridge.Core`, `AutoCAD.NET` **[25.1.0]** `ExcludeAssets="runtime"` `PrivateAssets="all"`, `CommunityToolkit.Mvvm` 8.4.0, Serilog.
-- **Canary bắt buộc ở `Start()`**: `ScriptingSelfCheck` compile + run `return db.Filename;`-style probe với `ScriptCompiler` (Roslyn 5.9 trong ALC riêng) và log `MCP scripting self-check OK` (mirror Revit `ScriptingSelfCheck.cs`); thêm log `AssemblyLoadContext.GetLoadContext(typeof(CSharpScript).Assembly).Name` để chứng minh Roslyn nằm trong `HPRebar.McpBridge.Autocad` chứ không phải default (phòng bind nhầm vào Roslyn 4.10 của AutoCAD).
+- **Bridge thật** (`HPAutoCad.McpBridge`, `net8.0-windows`, `UseWPF=true`, `EnableDynamicLoading=true` để sinh `deps.json` + copy-local đầy đủ, `IsRepackable` không áp dụng): ref `Contracts`, `McpBridge.Core`, `AutoCAD.NET` **[25.1.0]** `ExcludeAssets="runtime"` `PrivateAssets="all"`, `CommunityToolkit.Mvvm` 8.4.0, Serilog.
+- **Canary bắt buộc ở `Start()`**: `ScriptingSelfCheck` compile + run `return db.Filename;`-style probe với `ScriptCompiler` (Roslyn 5.9 trong ALC riêng) và log `MCP scripting self-check OK` (mirror Revit `ScriptingSelfCheck.cs`); thêm log `AssemblyLoadContext.GetLoadContext(typeof(CSharpScript).Assembly).Name` để chứng minh Roslyn nằm trong `HPAutoCad.McpBridge` chứ không phải default (phòng bind nhầm vào Roslyn 4.10 của AutoCAD).
 
 ### 2. `PackageContents.xml` (MVP)
 
 ```xml
 <ApplicationPackage SchemaVersion="1.0" AutodeskProduct="AutoCAD" ProductType="Application"
-                    Name="HPRebar MCP Bridge for AutoCAD" AppVersion="0.1.0"
+                    Name="HPAutoCad MCP Bridge" AppVersion="0.1.0"
                     Description="MCP bridge: AI-generated C# runs inside AutoCAD (opt-in)"
                     ProductCode="{<GUID mới, cố định>}">
   <CompanyDetails Name="HPRebar" />
   <Components Description="AutoCAD 2026 (.NET 8)">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R25.1" SeriesMax="R25.1" />
-    <ComponentEntry AppName="HPRebar.McpBridge.Autocad" Version="0.1.0"
-                    ModuleName="./Contents/HPRebar.McpBridge.Autocad.Loader.dll"
+    <ComponentEntry AppName="HPAutoCad.McpBridge" Version="0.1.0"
+                    ModuleName="./Contents/HPAutoCad.McpBridge.Loader.dll"
                     AppType=".NET" LoadOnAutoCADStartup="True" />
   </Components>
 </ApplicationPackage>
@@ -55,16 +55,16 @@
 
 ### 3. Build / deploy dev loop
 - csproj bridge: property `AutocadVersion` (mặc định `2026`) → `AutocadSeries` `R25.1`, `AutocadPackageVersion` `[25.1.0]`, `PipeName` không cần (bridge đọc `Application.Version.Major/Minor` runtime → `PipeNaming.For("autocad", 2026)`; map series→năm bằng bảng nhỏ trong bridge, fallback `AutocadVersion` build-time constant).
-- Target `DeployBundle` (AfterBuild, `Condition="'$(Configuration)' == 'Debug' And '$(DeployBundle)' != 'false'"`) copy `PackageContents.xml` + `Loader.dll` + `Bridge\**` sang `%AppData%\Autodesk\ApplicationPlugins\HPRebar.McpBridge.Autocad.bundle\`. AutoCAD đang mở khoá DLL → `-p:DeployBundle=false` (đối xứng `-p:DeployAddin=false` của Revit).
+- Target `DeployBundle` (AfterBuild, `Condition="'$(Configuration)' == 'Debug' And '$(DeployBundle)' != 'false'"`) copy `PackageContents.xml` + `Loader.dll` + `Bridge\**` sang `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\`. AutoCAD đang mở khoá DLL → `-p:DeployBundle=false` (đối xứng `-p:DeployAddin=false` của Revit).
 - `Properties/launchSettings.json`: profile `AutoCAD 2026` → `executablePath: C:\Program Files\Autodesk\AutoCAD 2026\acad.exe`, `commandLineArgs: /nologo` để F5 attach.
-- `.slnx`: hai project mới trong folder `/Mcp/`, map mọi `Debug.R##|*` → `Debug`, `Release.R##|*` → `Release` (như Contracts) — không phụ thuộc Revit version; `dotnet build HPRebar.slnx -c Debug.R26` build luôn cả bridge AutoCAD (deploy nếu Debug). `HPRebar.Mcp.Server.Tests` thêm `ProjectReference` tới `HPRebar.McpBridge.Autocad`? **Không** — test compile seed chỉ cần đường dẫn DLL trong NuGet cache (`~/.nuget/packages/autocad.net.model/25.1.0/lib/net8.0/AcDbMgd.dll` …); project bridge reference package để bảo đảm cache có sẵn.
-- Pipeline `build/`: thêm `CreateAutocadBundleModule` (Release → `output/HPRebar.McpBridge.Autocad.bundle/`) — phase 5, optional cho MVP.
+- **Solution riêng (ADR-06, revised 2026-09-14):** `HPAutoCad/HPAutoCad.slnx` (configurations `Debug`/`Release` thường, không hậu tố `R##`) chứa `HPAutoCad.Mcp.Server`, `HPAutoCad.McpBridge.Loader`, `HPAutoCad.McpBridge`, `HPAutoCad.Mcp.Server.Tests` và reference `../McpShared/HPRebar.Mcp.Contracts`, `../McpShared/HPRebar.McpBridge.Core`, `../McpShared/HPRebar.Mcp.Server.Core`. `HPAutoCad/global.json` copy từ `HPRebar/global.json`. `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug` deploy bundle; **không** đụng `HPRebar.slnx`. `HPAutoCad.Mcp.Server.Tests` không ref project bridge — compile-check seed chỉ cần DLL trong NuGet cache (`~/.nuget/packages/autocad.net.model/25.1.0/lib/net8.0/AcDbMgd.dll` …); project bridge reference package để bảo đảm cache có sẵn.
+- Pipeline: MVP **không** có `HPAutoCad/build/` (ModularPipelines) — `dotnet build/publish` + target `DeployBundle`; `HPAutoCad/.run/` (Rider) optional. Pipeline pack (`CreateBundle` cho AutoCAD + `PublishServer`) là bước sau MVP, copy cấu trúc `HPRebar/build/` với Sourcy root riêng (`HPAutoCad/.sourcyroot`).
 
 ### 4. Multi-version
 | Mục tiêu | Trạng thái trong plan | Cách mở |
 |---|---|---|
 | **AutoCAD 2026 base (.NET 8, R25.1)** | **MVP** — build + verify live | — |
-| AutoCAD 2025 (.NET 8, R25.0) | Không build trong MVP | `AutocadVersion=2025` → `AutoCAD.NET [25.0.1]`, `SeriesMin R25.0`; API managed 2025→2026 được cho là source-compatible `[unverified]`; pipe `hprebar-mcp-acad2025`; thêm configuration `Debug.A25`/`Release.A25` nếu cần build song song (property `AutocadVersion` đọc từ hậu tố như Nice3point làm với `R##`) |
+| AutoCAD 2025 (.NET 8, R25.0) | Không build trong MVP | `AutocadVersion=2025` → `AutoCAD.NET [25.0.1]`, `SeriesMin R25.0`; API managed 2025→2026 được cho là source-compatible `[unverified]`; pipe `hpautocad-mcp-2025`; thêm configuration `Debug.A25`/`Release.A25` nếu cần build song song (property `AutocadVersion` đọc từ hậu tố như Nice3point làm với `R##`) |
 | AutoCAD 2026 Update 1.2 / 2027 (.NET 10) | Ngoài scope | TFM `net10.0-windows`, `AutoCAD.NET [25.1.1]` / `[26.0.0]`; Roslyn 5.9 có `lib/net10.0` (deps khớp framework 10) nhưng vẫn cần ALC riêng vì AutoCAD ship Roslyn 4.10; `.NET 8` EOL 11/2026 → đây là bước kế tiếp hợp lý sau MVP |
 
 ## Alternatives rejected
@@ -77,6 +77,6 @@
 ## Consequences
 
 - Phase 1 là **spike có gate**: (1) bundle nạp; (2) `HPMCPBRIDGE` mở WPF window từ ALC riêng (`Core.Application.ShowModelessWindow(Window)`); (3) self-check Roslyn OK trong ALC riêng; (4) `Idle` subscribe từ thread ngoài. Fail (3) → kích hoạt phương án B; fail (4) → subscribe vĩnh viễn ở `Initialize()` (ADR-02).
-- Hai dự án mới + `.slnx` + `Directory.Build.props`? (không có sẵn) — chỉ csproj tự chứa.
+- Hai dự án mới trong `HPAutoCad/` + `HPAutoCad.slnx` + `global.json`; không `Directory.Build.props` (repo không có) — csproj tự chứa.
 - `Contracts` net standard 2.0 + `System.Text.Json` 10 vào ALC riêng — OK (đã chạy trong ALC Revit).
-- Log/settings tách khỏi Revit: `%AppData%\HPRebar\McpBridge.Autocad\settings.json`, audit `…\audit\`, log `%LocalAppData%\HPRebar\McpBridge.Autocad\logs\` → `BridgeSettingsStore` (Core) nhận `productFolder` thay vì hằng `"McpBridge"` (phase 0).
+- Log/settings tách khỏi Revit: `%AppData%\HPAutoCad\McpBridge\settings.json`, audit `…\audit\`, log `%LocalAppData%\HPAutoCad\McpBridge\logs\` → `BridgeSettingsStore` (Core) nhận `(vendorFolder, productFolder)` thay vì hằng `("HPRebar", "McpBridge")` (phase 0); AutoCAD truyền `("HPAutoCad", "McpBridge")`.

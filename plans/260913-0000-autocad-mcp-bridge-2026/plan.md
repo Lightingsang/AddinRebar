@@ -1,68 +1,69 @@
 ---
-title: "HPRebar AutoCAD MCP Bridge 2026"
-description: "AI → MCP → AutoCAD 2026 runtime, tái dùng server/registry/Core của Revit bridge; vòng lặp tự sinh & ghi nhớ tool ánh xạ 1:1"
+title: "HPAutoCad MCP Bridge 2026"
+description: "AI → MCP → AutoCAD 2026 runtime trong folder top-level riêng HPAutoCad/, mã chung ở McpShared/ (Contracts, script engine, registry engine); vòng lặp tự sinh & ghi nhớ tool ánh xạ 1:1 với Revit"
 status: planned
 priority: P2
-effort: 62h
+effort: 64h
 branch: RebarVersion1
-tags: [autocad, mcp, roslyn, named-pipe, registry, assemblyloadcontext]
+tags: [autocad, mcp, roslyn, named-pipe, registry, assemblyloadcontext, mcpshared]
 created: 2026-09-13
+revised: 2026-09-14
 ---
 
-# HPRebar AutoCAD MCP Bridge 2026 — Plan
+# HPAutoCad MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-13 · **Status:** planned (chưa đổi source) · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (biến thể: phase 0 = host abstraction thay scaffold Nice3point; phase 3 WPF gộp vào phase 2; phase 4 = registry theo host)
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ràng buộc mới: mỗi MCP một folder top-level → [ADR-06](adr/adr-06-one-mcp-one-folder.md); bản 2026-09-13 "một exe + host profile" superseded) · **Status:** planned (chưa đổi source) · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (phase 0 = di dời mã chung + scaffold; phase 3 WPF gộp vào 2; phase 4 = registry theo profile)
 
 ## Executive summary
-- **Một exe `HPRebar.Mcp.Server`, một instance = một host** (`HPREBAR_MCP_Host=autocad`, pipe `hprebar-mcp-acad2026`). 8 registry tool, `toolify_run`, CLI `registry approve`, `ToolManager`/`ToolValidator`/`DynamicToolRegistrar`/SQLite/watcher **dùng chung mã**; chỉ 4 core tool + 2 prompt + 2 resource là file mỏng theo host (ADR-01).
-- **Bridge AutoCAD** = 2 assembly: loader mỏng (`IExtensionApplication`, command `HPMCPBRIDGE`) tạo **AssemblyLoadContext riêng** cho bridge thật (Core + Roslyn 5.9 + Contracts) vì AutoCAD 2026 nạp plugin vào default ALC, ship sẵn Roslyn 4.10 và framework .NET 8 chỉ có `System.Collections.Immutable` 8.0 (Roslyn 5.9 cần 10.0.1) — **đã kiểm trên máy dev** (ADR-05, research §0.3).
-- Thread: `Application.Idle` one-shot + `IsQuiescent` + `LockDocument` (ADR-02; precedent = plugin AutoCadMcp cũ của user trên chính máy này). Transaction: bridge mở transaction ngoài cùng, script nhận `tr`; `Abort` = rollback cho dryRun/none/lỗi/timeout (ADR-03; AutoCAD không có TransactionGroup).
-- Registry: library + DB **riêng theo host** (`tools-library-autocad`, `registry-autocad.db`), `tool.json` thêm `host`, seed `SeedLibrary/<Host>/…`, categories/reserved theo profile; 22 tool Revit đã cài không đổi chỗ (ADR-04). 12 seed AutoCAD compile-check trong xUnit bằng `AutoCAD.NET` 25.1.0 (`lib/net8.0`, có sẵn trong NuGet cache).
+- **Ba folder top-level:** `HPRebar/` (Revit add-in + Revit MCP, hành vi không đổi) · `HPAutoCad/` (AutoCAD MCP: exe `HPAutoCad.Mcp.Server`, `HPAutoCad.McpBridge.Loader`, `HPAutoCad.McpBridge`, tests, `HPAutoCad.slnx`) · `McpShared/` (thư viện host-neutral, **không phải MCP**: `HPRebar.Mcp.Contracts`, `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Server.Core` mới tách từ exe Revit, tests engine). Chiều phụ thuộc duy nhất: MCP → `McpShared`; không bao giờ MCP → MCP (ADR-06).
+- **Hai exe, một engine:** 8 registry tool, `toolify_run`, CLI `registry approve`, `ToolManager`/`ToolValidator`/`DynamicToolRegistrar`/SQLite/watcher, pipe client, `ExecuteCodeService` sống trong `McpShared/HPRebar.Mcp.Server.Core`; mỗi exe chỉ còn `Program.cs` mỏng + `IHostProfile` + 4 tool/prompt/resource + seed nhúng. Registry root theo product: `%AppData%\HPRebar\McpServer\` (không đổi) / `%AppData%\HPAutoCad\McpServer\` (ADR-04 revised).
+- **Bridge AutoCAD** = loader mỏng (default ALC, `IExtensionApplication`, command `HPMCPBRIDGE`) + bridge thật trong **AssemblyLoadContext riêng** — bắt buộc: AutoCAD 2026 ship Roslyn 4.10, framework .NET 8 chỉ có `System.Collections.Immutable` 8.0 (Roslyn 5.9 cần 10.0.1), **đã kiểm trên máy dev** (ADR-05, research §0.3). Thread: `Application.Idle` + `IsQuiescent` + `LockDocument` (ADR-02). Transaction: bridge mở transaction ngoài cùng → global `tr`; `Abort` = rollback (ADR-03).
+- 12 seed AutoCAD nhúng trong exe AutoCAD, compile-check xUnit bằng `AutoCAD.NET` 25.1.0 (`lib/net8.0`, có trong NuGet cache). 21 seed Revit **không di chuyển**.
 
 ## Design of record
-[architecture.md](architecture.md) (component/sequence + registry loop §1–2, tool surface §3, IPC §4, layout §5, ma trận tái dùng §6, **bảng Revit ↔ AutoCAD 20 hàng §7**) · ADR: [01 server reuse (ma trận 3 phương án)](adr/adr-01-reuse-mcp-server-host-profile.md) · [02 main thread](adr/adr-02-autocad-main-thread-marshalling.md) · [03 transaction/undo/dryRun](adr/adr-03-autocad-transaction-undo-dryrun-policy.md) · [04 registry per host](adr/adr-04-registry-per-host-library-and-host-field.md) · [05 packaging/ALC/multi-version](adr/adr-05-autocad-plugin-packaging-alc-isolation-multi-version.md) · Research: [AutoCAD .NET API 2026 (+§0 corrections, on-machine)](research/autocad-dotnet-api-2026-report.md) · [repo tham khảo + precedent .NET](research/autocad-bridge-reference-report.md) · [NotebookLM Q13](research/notebooklm-addendum-q13-server-granularity.md) · Revit: [ADR-01..06](../260912-1521-dynamic-revit-mcp-server-2026/adr/), [NotebookLM Q01–Q12](../260912-1521-dynamic-revit-mcp-server-2026/research/notebooklm-mcp-csharp-report.md).
+[architecture.md](architecture.md) (3 folder, 2 exe §1; sequence + registry loop §2; tool surface §3; IPC §4; layout §5; ma trận tái dùng §6; **bảng Revit ↔ AutoCAD 21 hàng §7**) · ADR: [06 one MCP one folder (ma trận a/b/c)](adr/adr-06-one-mcp-one-folder.md) · [01 (superseded phần server, giữ ma trận lịch sử)](adr/adr-01-reuse-mcp-server-host-profile.md) · [02 main thread](adr/adr-02-autocad-main-thread-marshalling.md) · [03 transaction/undo/dryRun](adr/adr-03-autocad-transaction-undo-dryrun-policy.md) · [04 registry per exe (revised)](adr/adr-04-registry-per-host-library-and-host-field.md) · [05 packaging/ALC/multi-version](adr/adr-05-autocad-plugin-packaging-alc-isolation-multi-version.md) · Research: [AutoCAD .NET API 2026 (+§0 corrections, on-machine)](research/autocad-dotnet-api-2026-report.md) · [repo tham khảo + precedent .NET](research/autocad-bridge-reference-report.md) · [NotebookLM Q13](research/notebooklm-addendum-q13-server-granularity.md) · Revit: [ADR-01..06](../260912-1521-dynamic-revit-mcp-server-2026/adr/).
 
-## Phases
+## Phases (tên file giữ để không vỡ link; tiêu đề trong file đã cập nhật)
 | # | File | Status | Depends | Effort |
 |---|---|---|---|---|
-| 0 | [phase-00-host-profile-server-and-core-neutralization.md](phase-00-host-profile-server-and-core-neutralization.md) — `IHostProfile`, `ExecuteCodeService`, dispatcher suffix, `GuardProfile`/`AnalyzerProfile`, ViewModel/Host → Core; **0 đổi hành vi Revit** (gate 159 test + `tools/list`=34) | planned | — | 8h |
-| 1 | [phase-01-autocad-plugin-scaffold-loader-alc-spike.md](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — 2 project, bundle, ALC, **spike có gate** (Roslyn trong ALC, Idle từ thread ngoài, WPF modeless) | planned | — (∥ 0) | 8h |
-| 2 | [phase-02-autocad-bridge-runtime-threading-transactions-context.md](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe 10 kịch bản | planned | 0, 1 | 14h |
-| 3 | [phase-03-server-autocad-host-tools-prompts-resources.md](phase-03-server-autocad-host-tools-prompts-resources.md) — `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, prompts, resources, `.mcp.json`, dual-host smoke | planned | 0 | 8h |
-| 4 | [phase-04-registry-per-host-and-autocad-seed-tools.md](phase-04-registry-per-host-and-autocad-seed-tools.md) — ADR-04 trong mã chung, seed Revit → `SeedLibrary/Revit/`, **12 seed AutoCAD** + compile-check, registry tests theo host | planned | 3 | 14h |
-| 5 | [phase-05-verify-live-autocad-registry-loop-and-docs.md](phase-05-verify-live-autocad-registry-loop-and-docs.md) — execute matrix 14 · mọi seed · **HIT · MISS→approve→gọi tên · HỎNG→quarantine→restore** · hồi quy Revit + dual-host · docs/CLAUDE.md/AGENTS.md | planned | 2, 3, 4 | 10h |
+| 0 | [phase-00](phase-00-host-profile-server-and-core-neutralization.md) — **Extract `McpShared/`** (git mv Contracts/Core, tách `Server.Core` khỏi exe Revit, test engine theo mã, `McpShared.slnx`, `HPRebar.slnx` path, fix `ResolveConfigurationsModule`), Core host-neutral, scaffold `HPAutoCad/`; **0 đổi hành vi Revit** (gate: tổng test = 159 + mới, `tools/list` snapshot before ≡ after, bridge Revit không redeploy); bước cuối: CLAUDE.md/AGENTS.md | planned | — | 14h |
+| 1 | [phase-01](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — `HPAutoCad/` 2 project bridge, bundle, ALC, **spike có gate** (Roslyn trong ALC, Idle từ thread ngoài, WPF modeless) | planned | 0 (bước 1–2) | 8h |
+| 2 | [phase-02](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe 10 kịch bản | planned | 0, 1 | 14h |
+| 3 | [phase-03](phase-03-server-autocad-host-tools-prompts-resources.md) — exe `HPAutoCad.Mcp.Server` (Program mỏng + `AutocadHostProfile` + 4 tool/prompt/resource), tests, `.mcp.json`, hai-exe smoke | planned | 0 | 6h |
+| 4 | [phase-04](phase-04-registry-per-host-and-autocad-seed-tools.md) — registry theo profile trong `McpShared` (categories/validator/text/`host`), **12 seed AutoCAD** nhúng trong exe + compile-check | planned | 3 | 12h |
+| 5 | [phase-05](phase-05-verify-live-autocad-registry-loop-and-docs.md) — execute matrix 14 · mọi seed · **HIT · MISS→approve→gọi tên · HỎNG→quarantine→restore** · hồi quy Revit + hai exe song song · docs/CLAUDE.md/AGENTS.md | planned | 2, 3, 4 | 10h |
 
 ## Key decisions
-- Host switch trong một exe, instance domain-focused (ADR-01; NotebookLM Q13). Wire-compat với bridge Revit đã deploy: Contracts chỉ thêm; dispatcher nhận cả `revit.*` và `autocad.*`.
+- Mỗi MCP một folder + `McpShared/` cho mã chung; hai exe riêng; `IHostProfile` là seam compile-time (không env switch). Wire-compat với bridge Revit đã deploy: Contracts chỉ thêm; dispatcher nhận cả `revit.*` và `autocad.*`.
 - MVP **AutoCAD 2026 base .NET 8** (máy dev R25.1.74, chưa Update 1.2). `AutoCAD.NET` pin **[25.1.0]** (25.1.1/26.0.0 là net10). Đường mở 2025 (25.0.1) và .NET 10 ghi ADR-05 §4.
-- Loader + ALC riêng là **bắt buộc**, không phải tối ưu (research §0.3). Canary `ScriptingSelfCheck` + log tên ALC của Roslyn.
-- Script contract AutoCAD: `doc, db, ed, app, tr, units, ct, log, progress, args`; không import `Autodesk.AutoCAD.Runtime`/`.Core`; guard deny mọi prompt `ed.Get*`, `SendStringToExecute`, `Command*`, modal, `tr.Commit/Abort`.
+- Script contract AutoCAD: `doc, db, ed, app, tr, units, ct, log, progress, args` (`units` = Core `ScriptUnits`); không import `Autodesk.AutoCAD.Runtime`/`.Core`; guard deny mọi prompt `ed.Get*`, `SendStringToExecute`, `Command*`, modal, `tr.Commit/Abort`.
 - `none` = mở `tr` + luôn Abort + lỗi nếu `Changed ≠ 0`; timeout luôn fail + Abort (giữ quy tắc Revit đã verified).
 
 ## Top-5 risks
 | Risk | L×I | Mitigation |
 |---|---|---|
-| Roslyn 5.9 trong ALC riêng vẫn bind Roslyn 4.10 / Immutable 8.0 của AutoCAD (default ALC) | M×H | ALC `Load` ưu tiên resolver cho mọi assembly trong deps.json; canary phase 1; phương án B: compile trong server gửi IL (Revit ADR-03 alt 1) |
-| `Application.Idle` không subscribe được từ pipe thread / `ExecuteInApplicationContext` không gọi được từ thread ngoài | M×M | spike phase 1; fallback subscribe vĩnh viễn ở `Start()`; ADR-02 cập nhật theo kết quả |
-| Script treo AutoCAD (prompt/vòng lặp không hợp tác) | M×M | guard deny `ed.Get*`/command; `ct` cooperative; `BusyGraceSeconds` → `-32002`; description nói rõ "cannot abort" |
-| Document lock / command đang chạy / modal → `eLockViolation`, `-32002` liên tục | M×M | `IsQuiescent` gate + grace + thông điệp "press ESC"; `LockDocument` luôn; verify F phase 5 |
-| Bundle không nạp (SECURELOAD/TRUSTEDPATHS) hoặc nạp nhầm vào Civil 3D/Advance Steel cùng R25.1 → tranh pipe | L×M | `Platform="AutoCAD"` MVP; NETLOAD tay + TRUSTEDPATHS docs; pipe `maxInstances=1` fail-fast; hai host Revit/AutoCAD khác tên pipe nên **không** xung đột nhau |
+| Roslyn 5.9 trong ALC riêng vẫn bind Roslyn 4.10 / Immutable 8.0 của AutoCAD | M×H | ALC `Load` ưu tiên resolver cho mọi assembly trong deps.json; canary phase 1; phương án B: compile trong server gửi IL |
+| Di dời `McpShared/` phá build/test Revit (`.slnx` `..\` `[unverified]`, `FindFile(".slnx")` bắt nhầm solution, `SeedInstaller` mặc định assembly sai, `WithToolsFromAssembly` quét sai assembly) | M×M | phase 0 là phase riêng, không đổi hành vi; snapshot `tools/list` before/after; pin `Solutions.HPRebar`; `SeedInstaller(hostAssembly)`; fallback `.sln`/`McpServerTool.Create` |
+| `Application.Idle` không subscribe được từ pipe thread / `ExecuteInApplicationContext` chưa verify | M×M | spike phase 1; fallback subscribe vĩnh viễn ở `Start()`; ADR-02 cập nhật theo kết quả |
+| Script treo AutoCAD (prompt/vòng lặp không hợp tác) hoặc AutoCAD bận (command/modal) | M×M | guard deny `ed.Get*`/command; `ct` cooperative; `IsQuiescent` + `BusyGraceSeconds` → `-32002` "press ESC"; `LockDocument` luôn |
+| Bundle không nạp (SECURELOAD/TRUSTEDPATHS) hoặc nạp vào Civil 3D/Advance Steel cùng R25.1 → tranh pipe | L×M | `Platform="AutoCAD"` MVP; NETLOAD tay + TRUSTEDPATHS docs; pipe `maxInstances=1` fail-fast; pipe Revit/AutoCAD khác tên nên hai MCP không xung đột nhau |
 
 ## Quyết định Claude tự chốt (đổi được)
 | # | Vấn đề | Chốt | Lý do |
 |---|---|---|---|
-| 1 | Thêm globals `tr` và `units` ngoài danh sách user | Thêm | AutoCAD không đọc/ghi được nếu không cầm `Transaction`; `units` tránh lặp 12 lần trong seed (ADR-03) — **xem câu hỏi 1** |
-| 2 | Library path | Revit giữ `tools-library`/`registry.db`; AutoCAD `tools-library-autocad`/`registry-autocad.db` (không `tools-library/<host>/`) | zero migration cho 22 tool Revit đã cài (ADR-04) |
-| 3 | Seed embedded | `git mv` 21 seed Revit → `SeedLibrary/Revit/`, AutoCAD → `SeedLibrary/Autocad/` | đối xứng; checksum nội dung không đổi → không ghi đè library user |
-| 4 | `IRevitExecutor` → `IBridgeExecutor`; `McpBridgeHost` + ViewModel → Core; `BridgeSettingsStore(productFolder)` | Làm ở phase 0 | rename cơ học, compile-checked, 159 test là gate |
-| 5 | Field wire `revitVersion`/`RevitVersions`/cột `revit_version` | Giữ tên, thêm `Host`/`HostVersion(s)` additive | không phá bridge Revit đã deploy; dọn tên sau |
-| 6 | `app` global | `DocumentCollection` (`Application.DocumentManager`) | `Application` là static class |
-| 7 | Default usings | không `Autodesk.AutoCAD.Runtime` (CS0104 `Exception`), không `.Core` (`Application` trùng) | tránh lỗi compile hàng loạt |
-| 8 | Bundle `Platform` | `"AutoCAD"` (không `*`) cho MVP | tránh Civil 3D/Advance Steel 2026 trên máy dev nạp cùng pipe — **xem câu hỏi 2** |
-| 9 | `.mcp.json` | 2 entry cùng exe, khác env | theo sách: một codebase, cấu hình bằng env |
+| 1 | Tên folder | `HPAutoCad/` (mirror `HPRebar/`), `McpShared/` (thư viện chung) | theo gợi ý user; `McpShared` không mang tên host — **xem câu hỏi 1** |
+| 2 | Tên exe / project AutoCAD | `HPAutoCad.Mcp.Server`, `HPAutoCad.McpBridge.Loader`, `HPAutoCad.McpBridge`, `HPAutoCad.Mcp.Server.Tests`; pipe `hpautocad-mcp-2026`; env prefix `HPAUTOCAD_MCP_`; bundle `HPAutoCad.McpBridge.bundle` | đối xứng với Revit |
+| 3 | Cách chia mã chung | (b) folder `McpShared/` với 3 lib + tests engine (ADR-06 ma trận) | không cross-wire, build độc lập, chi phí một lần |
+| 4 | Tên assembly/namespace mã chung | **giữ** `HPRebar.Mcp.Contracts`, `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Server.Core` (mới, cùng tiền tố cho nhất quán) trong phase 0; rename `HPMcp.*` là bước sau | git mv sạch, không churn ~90 file `using` — **xem câu hỏi 2** |
+| 5 | `build/` | Revit giữ `HPRebar/build/` (+1 dòng pin solution); AutoCAD MVP **không** có pipeline — `dotnet build/publish` + target `DeployBundle`; `McpShared/` chỉ `.slnx` | YAGNI; pack AutoCAD sau MVP |
+| 6 | Test engine | git mv theo mã sang `McpShared/HPRebar.Mcp.Server.Core.Tests`; Revit giữ test seed/profile Revit; gate = tổng hai suite ≥ 159 + mới | test của engine sống cạnh engine |
+| 7 | Registry root / `host` field / seed | root `%AppData%\<Product>\McpServer\`; `host` giữ làm metadata + hàng rào copy tay; seed nhúng per exe, prefix `SeedLibrary/` không đổi | zero migration cho 22 tool Revit; không di chuyển 63 file seed |
+| 8 | Globals `tr` + `units` (đã xác nhận khuyến nghị 2026-09-13, chưa có trả lời) | Thêm | AutoCAD không đọc/ghi được nếu không cầm `Transaction`; `units` tránh lặp 12 lần |
+| 9 | Bundle `Platform` | `"AutoCAD"` (không `*`) cho MVP | tránh Civil 3D/Advance Steel 2026 cùng R25.1 tranh pipe |
 | 10 | Feature-folder convention | AutoCAD bridge không phải Nice3point add-in nhưng giữ `Model/ Service/ View/ ViewModel/` | đồng nhất repo |
 
-## Cần người dùng quyết định (tối đa 3, kèm khuyến nghị)
-1. **Globals `tr` + `units`** thêm vào contract `execute_autocad_code` (user liệt kê 8 globals, plan đề xuất 10). **Khuyến nghị: thêm** — không có `tr` thì không script AutoCAD nào chạy được.
-2. **Bundle nạp vào Civil 3D 2026 / Advance Steel 2026** hay chỉ AutoCAD? **Khuyến nghị: chỉ AutoCAD (`Platform="AutoCAD"`)** trong MVP; mở `AutoCAD*` sau khi verify F.
-3. **Runtime mục tiêu:** AutoCAD 2026 base (.NET 8, đang cài) hay cài Update 1.2 (.NET 10) trước khi implement? **Khuyến nghị: .NET 8 như đang cài**; .NET 10 là bước sau MVP (ADR-05 §4) — nếu bạn định cài Update 1.2 sớm, báo trước để phase 1 đổi TFM + `[25.1.1]`.
+## Quyết định user đã xác nhận (2026-09-14, theo khuyến nghị)
+1. **Tên folder:** `HPAutoCad/` + `McpShared/` — **xác nhận**.
+2. **Rename assembly chung sang `HPMcp.*`:** **để sau** phase 0 (commit atomic riêng khi Revit + AutoCAD đều xanh) — **xác nhận**.
+3. **Runtime mục tiêu:** AutoCAD 2026 base **.NET 8** (đang cài); .NET 10 (Update 1.2) là bước sau MVP — **xác nhận**. Gate đầu phase 1: kiểm lại `acdbmgd.runtimeconfig.json`.
+Cũng đã xác nhận (từ 2026-09-13): globals `tr` + `units`; bundle `Platform="AutoCAD"`.

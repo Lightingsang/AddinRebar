@@ -1,6 +1,6 @@
-# ADR-01 — Tái dùng `HPRebar.Mcp.Server` cho AutoCAD: host profile trong một exe, một instance = một host
+# ADR-01 — (Superseded) Tái dùng `HPRebar.Mcp.Server` cho AutoCAD: host profile trong một exe, một instance = một host
 
-**Ngày:** 2026-09-13 · **Status:** Proposed (Claude tự chốt, chờ user xác nhận khi bắt đầu phase 0) · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Status:** **Superseded by [ADR-06](adr-06-one-mcp-one-folder.md) (2026-09-14) ở phần server** — ràng buộc mới của user: mỗi MCP một folder top-level, không dùng chung exe. Ma trận A/B/C dưới giữ làm lịch sử; phần còn sống: khái niệm `IHostProfile` (seam compile-time trong `McpShared/HPRebar.Mcp.Server.Core`), tách `ExecuteCodeService`/`ContextService`, Contracts chỉ additive, wire-compat với bridge Revit đã deploy. **Không còn** `HPREBAR_MCP_Host`, không còn `Hosts/Autocad/` trong `HPRebar/`. · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-01 topology](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-01-two-process-topology.md) · [Revit ADR-02 IPC](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-02-ipc-named-pipe.md) · [Revit ADR-06 registry](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-06-tool-registry-and-publish-gate.md)
 
 ## Context

@@ -1,75 +1,81 @@
 ---
-title: "Phase 3 — Server host=autocad: profile, execute_autocad_code, get_autocad_context, prompts, resources, .mcp.json"
+title: "Phase 3 — Exe `HPAutoCad.Mcp.Server`: AutocadHostProfile, execute_autocad_code, get_autocad_context, prompts, resources, .mcp.json"
 status: planned
 priority: P1
-effort: 8h
+effort: 6h
 depends_on: [phase-00]
 created: 2026-09-13
+revised: 2026-09-14 (ADR-06 — exe riêng trong `HPAutoCad/`, không host switch)
 ---
 
-# Phase 3 — Server AutoCAD host surface
+# Phase 3 — AutoCAD MCP server exe
+
+> Revised 2026-09-14: đây là **exe riêng** `HPAutoCad/HPAutoCad.Mcp.Server` (net10, ~15 dòng `Program.cs` gọi `McpServerHost.CreateBuilder` từ `McpShared/HPRebar.Mcp.Server.Core`), không còn `HPREBAR_MCP_Host`/`HostProfileFactory`/`Hosts/Autocad/` trong `HPRebar/`.
 
 ## Context
-- [ADR-01](adr/adr-01-reuse-mcp-server-host-profile.md) · [architecture.md §3 tool surface, §4 IPC](architecture.md) · phase 0 đã có `IHostProfile`, `ExecuteCodeService`, `ContextService`, dispatcher suffix.
-- Mẫu: `Hosts/Revit/*` sau phase 0 (thin tool classes), `Prompts/RevitScriptPrompts.cs` (persona + few-shot), `Resources/RevitDocumentResources.cs`, `.mcp.json` entry `hprebar-revit`.
-- NotebookLM: tool `Name` tường minh snake_case (Q04/Q13), `ToolAnnotations` (Q12), resource URI lowercase self-describing (Q13 §3), prompts tập trung (Q06/Q13).
+- [ADR-06](adr/adr-06-one-mcp-one-folder.md) · [ADR-04 revised](adr/adr-04-registry-per-host-library-and-host-field.md) · [architecture.md §3 tool surface, §4 IPC, §5 layout](architecture.md) · phase 0 đã có `McpServerHost`, `IHostProfile`, `ExecuteCodeService`, `ContextService`, dispatcher suffix.
+- Mẫu: `HPRebar/HPRebar.Mcp.Server/{Program.cs, Hosts/Revit/*}` sau phase 0 (exe mỏng), `.mcp.json` entry `hprebar-revit`.
+- NotebookLM: tool `Name` tường minh snake_case (Q04/Q13), `ToolAnnotations` (Q12), resource URI lowercase (Q13 §3), server domain-focused (Q13 §1).
 
 ## Overview
-Thêm `AutocadHostProfile` + 4 file host-specific mỏng. Sau phase này, `HPREBAR_MCP_Host=autocad` cho `tools/list` = 4 core + 8 registry (+ 0 seed cho tới phase 4) và `execute_autocad_code` chạy được end-to-end qua stdio với bridge phase 2.
+Tạo exe AutoCAD với 4 file host-specific + profile + `appsettings.json`. Sau phase này, `HPAutoCad.Mcp.Server.exe` cho `tools/list` = 4 core + 8 registry (+ 0 seed cho tới phase 4) và `execute_autocad_code` chạy end-to-end qua stdio với bridge phase 2.
 
 ## Key insights
 - Description của `execute_autocad_code` là "tài liệu API" duy nhất AI đọc trước khi viết script → phải nêu `tr`, `units`, usings, cấm prompt/Commit, drawing units, handle.
-- `ContextResult` dùng chung nhưng AutoCAD điền thêm `Autocad` object; tool `get_autocad_context` mô tả các field đó.
-- `.mcp.json` là file untracked, machine-specific → plan chỉ ghi snippet; user thêm entry (User Action ở phase 5).
+- `ContextResult` dùng chung nhưng AutoCAD điền thêm `Autocad` object; `get_autocad_context` mô tả các field đó; `revitVersion` không lộ ra AI khi `Host != revit` (serializer bỏ qua — quyết định khi implement, ưu tiên ẩn).
+- `.mcp.json` untracked, machine-specific → plan chỉ ghi snippet; user thêm entry (User Action ở phase 5).
+- Registry root của exe này: `%AppData%\HPAutoCad\McpServer\` (ADR-04) — tạo tự động khi start; `registry.db` riêng.
 
 ## Requirements
 Functional
-- `Hosts/Autocad/AutocadHostProfile.cs`: `HostId="autocad"`, `DisplayName="AutoCAD"`, `ServerName="HPRebar AutoCAD MCP"`, `DefaultVersion=2026`, `ValidVersions={2026}` (2025 mở sau, ADR-05 §4), `PipeName(v)=PipeNaming.For("autocad", v)`, `MethodPrefix="autocad."`, `ExecuteToolName="execute_autocad_code"`, `ContextToolName="get_autocad_context"`, `ResourceScheme="autocad"`, `Categories={Drawing, Layer, Block, Annotation, Layout, Data, Generic}`, `SeedResourcePrefix="SeedLibrary/Autocad/"`, `LibraryPathDefault=…\tools-library-autocad`, `DbPathDefault=…\registry-autocad.db`, `SettingsFolder="McpBridge.Autocad"`, `ScriptContractSummary` (globals + usings + units + tr rule).
-- `Hosts/Autocad/ExecuteAutocadCodeTool.cs`: `[McpServerTool(Name="execute_autocad_code", Title="Execute C# in AutoCAD", Destructive=true, ReadOnly=false, Idempotent=false, OpenWorld=false)]`; tham số y hệt Revit (`code, transaction, dryRun, timeoutSeconds, label, args, progress, ct`); thân = `ExecuteCodeService.ExecuteAsync(...)`. Description (rút gọn, đầy đủ trong code): "Runs a C# script inside the open AutoCAD session with the user's privileges. Globals: doc (Document), db (Database), ed (Editor — only WriteMessage/SelectImplied/SelectAll; prompts are blocked), app (DocumentCollection), tr (the outermost Transaction the bridge opened — use tr.GetObject / tr.AddNewlyCreatedDBObject, never Commit/Abort it), units (units.ToDrawing(mm), units.ToMm(du), units.Insunits — coordinates are drawing units), ct, log(string), progress(cur,total,msg), args (…). Default usings: … . End with `return <value>;`; ObjectId → {handle,class}, Point3d → {x,y,z}, Entity → {handle,type,layer}. transaction auto|manual|none, dryRun rolls back, one Undo step per run. Fails with isError + diagnostics when … Requires the user to tick 'Allow AI code execution' in the HPRebar MCP Bridge window (command HPMCPBRIDGE) inside AutoCAD."
-- `Hosts/Autocad/AutocadContextTool.cs` (`get_autocad_context`, ReadOnly): mô tả `Autocad{insunits, measurement, currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing}` + selection `{id=handle value, category=layer, name=dxfName}`.
-- `Hosts/Autocad/AutocadDocumentResources.cs`: `autocad://document/info`, `autocad://selection`.
-- `Hosts/Autocad/AutocadScriptPrompts.cs`: `autocad_query_template` (few-shot: đếm entity trên layer bằng `ed.SelectAll(filter)`; `transaction:"none"`), `autocad_modify_template` (few-shot: dryRun tạo `Polyline` từ `args.List("points")` với `units.ToDrawing`, rồi real run; nhắc `tr.AddNewlyCreatedDBObject`).
-- `Program.cs`: `HostProfileFactory` map `"autocad"` → `AutocadHostProfile`; đăng ký 4 host primitives theo profile.
-- `ResultFormatter`/`RevitBridgeClient` thông điệp "… not connected. Open {DisplayName} {version} and enable HPRebar MCP Bridge (pipe …)" — lấy `DisplayName` từ profile (phase 0 đã chuẩn bị).
-- `appsettings.json`: `"Host": "revit"` mặc định; comment (trong docs) cách đổi qua env.
-- Snippet `.mcp.json` (docs + `plan.md`): entry `hprebar-autocad` → cùng exe, `env: {"HPREBAR_MCP_Host":"autocad","HPREBAR_MCP_Bridge__HostVersion":"2026"}`.
+- `HPAutoCad/HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj`: `Exe`, `net10.0`, `InvariantGlobalization`, `IncludeNativeLibrariesForSelfExtract`, `ProjectReference ../../McpShared/HPRebar.Mcp.Server.Core`, `Content appsettings.json`, `EmbeddedResource Registry/SeedLibrary/**` với `LogicalName="SeedLibrary/%(RecursiveDir)%(Filename)%(Extension)"` + `Compile Remove` (copy pattern từ csproj Revit; seed đến ở phase 4).
+- `Program.cs`: `return await McpServerHost.RunAsync(args, new AutocadHostProfile());` (helper bao `CreateBuilder` + nhánh CLI + `RunAsync`).
+- `Hosts/AutocadHostProfile.cs`: `HostId="autocad"`, `DisplayName="AutoCAD"`, `ServerName="HPAutoCad MCP"`, `ProductFolder="HPAutoCad"`, `EnvPrefix="HPAUTOCAD_MCP_"`, `DefaultVersion=2026`, `ValidVersions={2026}` (2025 mở sau, ADR-05 §4), `PipeName(v)=PipeNaming.For("autocad", v)` → `hpautocad-mcp-2026`, `MethodPrefix="autocad."`, `ExecuteToolName="execute_autocad_code"`, `ContextToolName="get_autocad_context"`, `ResourceScheme="autocad"`, `Categories={Drawing, Layer, Block, Annotation, Layout, Data, Generic}`, `CoreToolNames`, `ScriptContractSummary` (globals + usings từ `HostScriptContracts.AutocadImports` + units + tr rule), `HostAssembly`.
+- `Tools/ExecuteAutocadCodeTool.cs`: `[McpServerTool(Name="execute_autocad_code", Title="Execute C# in AutoCAD", Destructive=true, ReadOnly=false, Idempotent=false, OpenWorld=false)]`; tham số y hệt Revit; thân = `ExecuteCodeService.ExecuteAsync(...)`. Description (rút gọn): "Runs a C# script inside the open AutoCAD session with the user's privileges. Globals: doc (Document), db (Database), ed (Editor — only WriteMessage/SelectImplied/SelectAll; prompts are blocked), app (DocumentCollection), tr (the outermost Transaction the bridge opened — use tr.GetObject / tr.AddNewlyCreatedDBObject, never Commit/Abort it), units (units.ToDrawing(mm), units.ToMm(du), units.Label — coordinates are drawing units), ct, log(string), progress(cur,total,msg), args (…). Default usings: … . End with `return <value>;`; ObjectId → {handle,class}, Point3d → {x,y,z}, Entity → {handle,type,layer}. transaction auto|manual|none, dryRun rolls back, one Undo step per run. Fails with isError + diagnostics when … Requires the user to tick 'Allow AI code execution' in the HPAutoCad MCP Bridge window (command HPMCPBRIDGE) inside AutoCAD."
+- `Tools/AutocadContextTool.cs` (`get_autocad_context`, ReadOnly): mô tả `Autocad{insunits, measurement, currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing}` + selection `{id=handle value, category=layer, name=dxfName}`; thân = `ContextService`.
+- `Resources/AutocadDocumentResources.cs`: `autocad://document/info`, `autocad://selection`.
+- `Prompts/AutocadScriptPrompts.cs`: `autocad_query_template` (few-shot: đếm entity trên layer bằng `ed.SelectAll(filter)`; `transaction:"none"`), `autocad_modify_template` (few-shot: dryRun tạo `Polyline` từ `args.List("points")` với `units.ToDrawing`, rồi real run; nhắc `tr.AddNewlyCreatedDBObject`).
+- `appsettings.json`: `Bridge: { HostVersion: 2026, … }` (copy Revit, bỏ `RevitVersion`), `Registry: { PublishPolicy: manual, … }` (không đặt `LibraryPath`/`DbPath` → default theo product).
+- `HPAutoCad.slnx` thêm exe + `HPAutoCad.Mcp.Server.Tests` (xUnit v3, net10, `UseMicrosoftTestingPlatformRunner`, ref exe + `Server.Core` + `McpBridge.Core` cho fake executor/pipe).
+- Snippet `.mcp.json` (docs + `HPAutoCad/README.md`): entry `hprebar-autocad` → `command: "<repo>\\HPAutoCad\\output\\HPAutoCad.Mcp.Server\\HPAutoCad.Mcp.Server.exe"`, `env: { "HPAUTOCAD_MCP_Bridge__HostVersion": "2026" }` (tuỳ chọn).
 Non-functional
-- `mcp_call.py` (harness stdio, tạo lại trong scratchpad nếu chưa có — ~60 dòng: spawn exe với env, `initialize`, `tools/list`, `tools/call`) chạy được cho cả 2 host chỉ bằng đổi env.
+- `mcp_call.py` (harness stdio, scratchpad; ~60 dòng: spawn exe, `initialize`, `tools/list`, `tools/call`) nhận đường dẫn exe → dùng cho cả hai exe.
 
 ## Architecture
-Xem [architecture.md §1, §5](architecture.md). Không có thay đổi Contracts/Core ở phase này.
+Xem [architecture.md §1, §3, §5](architecture.md). Không thay đổi `McpShared/` ở phase này (mọi seam đã có từ phase 0).
 
 ## Related code files
-- **Tái dùng nguyên:** `Services/ExecuteCodeService`, `Services/ContextService`, `Services/{RevitBridgeClient,ResultFormatter,NdjsonPipeTransport}`, `Tools/{InspectTypeTool,CancelExecutionTool}`, toàn bộ `Registry/*`, `Tools/Registry/*`, `Prompts/ToolifyPrompts` (persona từ profile).
-- **Tách ra chung / sửa:** `Program.cs`/`Hosts/HostProfileFactory.cs` (+autocad), `Models/BridgeOptions.cs` (valid versions từ profile — đã phase 0).
-- **Viết mới:** `Hosts/Autocad/{AutocadHostProfile,ExecuteAutocadCodeTool,AutocadContextTool,AutocadDocumentResources,AutocadScriptPrompts}.cs`; tests `HostProfileTests` (+autocad: pipe `hprebar-mcp-acad2026`, method `autocad.execute`, tool list chứa `execute_autocad_code` và **không** chứa `execute_revit_code`), `AutocadToolsOverPipeTests` (pipe thật + `FakeRevitExecutor` trả `ContextResult` có `Autocad` → tool trả JSON đúng field).
+- **Tái dùng nguyên (`McpShared/HPRebar.Mcp.Server.Core`):** `McpServerHost`, `ExecuteCodeService`, `ContextService`, `RevitBridgeClient`, `ResultFormatter`, `NdjsonPipeTransport`, `InspectTypeTool`, `CancelExecutionTool`, toàn bộ `Registry/*`, `Tools/Registry/*`, `ToolifyPrompts`, `ToolRegistryResources`, `RegistryCli`.
+- **Tách ra chung / sửa:** không (nếu `McpServerHost` thiếu tham số nào → sửa ở Core, kèm test).
+- **Viết mới (`HPAutoCad/`):** `HPAutoCad.Mcp.Server/{HPAutoCad.Mcp.Server.csproj, Program.cs, appsettings.json, Hosts/AutocadHostProfile.cs, Tools/ExecuteAutocadCodeTool.cs, Tools/AutocadContextTool.cs, Resources/AutocadDocumentResources.cs, Prompts/AutocadScriptPrompts.cs}`; `HPAutoCad.Mcp.Server.Tests/{csproj, HostProfileTests.cs (pipe `hpautocad-mcp-2026`, method `autocad.execute`, `tools/list` chứa `execute_autocad_code` và **không** chứa `execute_revit_code`, root `%AppData%\HPAutoCad\McpServer`), AutocadToolsOverPipeTests.cs (pipe thật + `FakeRevitExecutor` trả `ContextResult` có `Autocad` → tool trả JSON đúng field; `execute_autocad_code` gửi `autocad.execute` với `ExecuteRequest` đúng)}`; `HPAutoCad.slnx` cập nhật.
 
 ## Implementation steps
-1. `AutocadHostProfile` + factory; test profile.
-2. 4 file host-specific; description theo architecture §3.
-3. `Program.cs` đăng ký; `ServerInfo.Name`.
-4. Tests pipe: `execute_autocad_code` gửi `autocad.execute` với `ExecuteRequest` đúng (mode normalize, args), `get_autocad_context` gửi `autocad.context`; `tools/list` theo host (dùng `McpServerOptions.ToolCollection` + registered names sau build host — kiểm qua `IServiceProvider`).
-5. Publish exe; `mcp_call.py` với env autocad: `tools/list` = 12 (4 + 8), `get_autocad_context` với AutoCAD 2026 + bridge phase 2 đang chạy; `execute_autocad_code` `return db.Filename` (none) và dryRun tạo Line; kiểm `runId` + `hint` xuất hiện (registry AutoCAD rỗng nhưng `runs` ghi vào `registry-autocad.db`).
-6. Chạy song song: `mcp_call.py` host revit vẫn hoạt động với Revit 2026 (2 server, 2 pipe) → ghi vào `reports/phase-03-dual-host.md`.
+1. csproj exe + `Program.cs` + `appsettings.json`; build.
+2. `AutocadHostProfile`; test profile.
+3. 4 file host-specific; description theo architecture §3.
+4. Test project + 2 test class; chạy `dotnet test HPAutoCad/HPAutoCad.Mcp.Server.Tests`.
+5. Publish exe (lệnh ở architecture §5); `mcp_call.py <exe> tools/list` = 12 (4 + 8); `initialize` → `serverInfo.name = "HPAutoCad MCP"`; với AutoCAD 2026 + bridge phase 2: `get_autocad_context`; `execute_autocad_code` `return db.Filename` (none) và dryRun tạo Line; kiểm `runId` + `hint` (registry rỗng nhưng `runs` ghi vào `%AppData%\HPAutoCad\McpServer\registry.db`).
+6. Song song: `mcp_call.py <exe Revit> tools/list` = 34 với Revit 2026 → ghi `reports/phase-03-two-exes.md`.
 
 ## Todo
-- [ ] 1 profile · [ ] 2 host files · [ ] 3 Program · [ ] 4 tests · [ ] 5 publish + stdio smoke AutoCAD · [ ] 6 dual-host smoke
+- [ ] 1 exe · [ ] 2 profile · [ ] 3 host files · [ ] 4 tests · [ ] 5 publish + stdio smoke AutoCAD · [ ] 6 two-exe smoke
 
 ## Success criteria
-- `dotnet test HPRebar/HPRebar.Mcp.Server.Tests` xanh (+ ≥ 6 test mới).
-- `HPREBAR_MCP_Host=autocad mcp_call.py tools/list` = 12 tool đúng tên; `HPREBAR_MCP_Host=revit` = 34 (không đổi).
-- `execute_autocad_code` end-to-end qua stdio: none-read OK; dryRun `rolledBack=true`; real run → Line trong drawing; `runId` trả về; `initialize` trả `serverInfo.name = "HPRebar AutoCAD MCP"`.
-- Hai server (revit + autocad) chạy cùng lúc trong một phiên `mcp_call.py`/Claude Code không ảnh hưởng nhau.
+- `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet test HPAutoCad/HPAutoCad.Mcp.Server.Tests` xanh (≥ 6 test).
+- `tools/list` AutoCAD = 12 tool đúng tên; Revit = 34 (không đổi); `serverInfo.name` đúng theo exe.
+- `execute_autocad_code` end-to-end qua stdio: none-read OK; dryRun `rolledBack=true`; real run → Line trong drawing; `runId` trả về.
+- Hai exe chạy cùng lúc trong một phiên `mcp_call.py`/Claude Code không ảnh hưởng nhau; `%AppData%\HPRebar\McpServer\` không đổi.
 
 ## Risks
 | Risk | Mitigation |
 |---|---|
 | Description quá dài (token) | giữ ≤ 1 200 ký tự; chi tiết chuyển sang prompt template |
 | AI nhầm `Application` (2 namespace) | usings mặc định không có `.Core`; description nói rõ |
-| `ContextResult.RevitVersion` gây hiểu nhầm trong JSON trả AI | `ExecuteCodeService`/`ContextService` không lộ field này: `ContextResult` serialize thêm `host`, `hostVersion`; `revitVersion` giữ nhưng docs ghi "legacy" — hoặc `[JsonIgnore]` khi `Host != revit` (quyết định khi implement, ưu tiên ẩn) |
+| `ContextResult.RevitVersion` lộ ra AI trong JSON AutoCAD | `ContextService` ẩn field khi `Host != revit` (`JsonIgnore` có điều kiện hoặc DTO chiếu) |
+| Hai exe cùng tên tool registry (`search_tools`…) trong một phiên Claude | host AI prefix theo server (`hprebar-revit:`/`hprebar-autocad:`); `ServerName` khác nhau |
 
 ## Security
 Annotations giữ như Revit; `execute_autocad_code` `Destructive=true` → host AI hỏi user mỗi lần (Q12). Không lộ path (`SafeText`).
 
 ## Next steps
-Phase 4: registry theo host + seed AutoCAD để `tools/list` có tool thật và vòng lặp propose/test/publish chạy trên AutoCAD.
+Phase 4: registry theo profile + seed AutoCAD nhúng trong exe này để `tools/list` có tool thật và vòng lặp propose/test/publish chạy trên AutoCAD.

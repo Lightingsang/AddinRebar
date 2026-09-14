@@ -1,6 +1,6 @@
 # ADR-02 — Marshal script lên main thread AutoCAD: `Application.Idle` one-shot + `IsQuiescent` gate + `LockDocument`
 
-**Ngày:** 2026-09-13 · **Status:** Proposed · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: executor sống trong `HPAutoCad/HPAutoCad.McpBridge`; phần Revit-free `IdleQueue` nếu tách thì vào `McpShared/HPRebar.McpBridge.Core`) · **Status:** Proposed · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-03 (ExternalEvent, compile trên pipe thread / run trên Revit thread)](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-03-roslyn-in-process-execution.md) · Research: [autocad-dotnet-api-2026-report.md §0.2, §0.4, §4](../research/autocad-dotnet-api-2026-report.md) · [autocad-bridge-reference-report.md Addendum](../research/autocad-bridge-reference-report.md)
 
 ## Context
@@ -15,7 +15,7 @@
 
 ## Decision
 
-1. **Đường chính — `MainThreadExecutor` (Revit-free trong `HPRebar.McpBridge.Autocad`, không phải Core vì đụng AutoCAD API):**
+1. **Đường chính — `MainThreadExecutor` (Revit-free trong `HPAutoCad.McpBridge`, không phải Core vì đụng AutoCAD API):**
    - Pipe thread: guard + compile như Revit (`ScriptGuard`, `ScriptCompiler` — pipe thread, không đụng AutoCAD), rồi `Enqueue(work)` vào `ConcurrentQueue<AutocadBridgeRequest>` (cùng shape `McpBridgeRequest`: `Name`, `Work`, `CancellationToken`, `TaskCompletionSource<object>(RunContinuationsAsynchronously)`), rồi **subscribe `Application.Idle` nếu chưa subscribe** (`Interlocked` flag). Subscribe/unsubscribe event từ thread ngoài: **spike phase 1** — nếu AutoCAD từ chối, subscribe `Idle` **một lần vĩnh viễn ở `Initialize()`** và handler chỉ làm việc khi queue không rỗng (chi phí: một check `IsEmpty` mỗi idle tick, chấp nhận).
    - Main thread (`OnIdle`): `if (queue.IsEmpty) { unsubscribe; return; }` → `if (!Application.IsQuiescent) return;` (giữ subscribe, thử lại tick sau) → `Application.Idle -= OnIdle` → drain queue: mỗi request `Completion.TrySetResult(Work(state, ct))`, exception → `TrySetException`. Giống `McpBridgeExternalEventHandler.Execute` từng dòng.
    - `Work` của execute: `AutocadScriptRunner.Run(...)` (ADR-03) mở `doc.LockDocument()` **trước** transaction; lock là bắt buộc vì đang ở application context (report §4, help OARX 2025 "Lock and Unlock a Document").
@@ -51,5 +51,5 @@ reply over pipe
 
 - Latency: script chờ tới `Idle` tick kế tiếp (thường < 50 ms khi AutoCAD rảnh); cộng guard/compile trên pipe thread như Revit.
 - Khi user đang gõ lệnh dở, request chờ tối đa `BusyGraceSeconds` rồi trả `Busy` — AI thấy thông điệp hành động được (giống U-C4N "press ESC").
-- Test không cần AutoCAD: `MainThreadExecutor` nhận `Func<bool> isQuiescent` + `Action<EventHandler> subscribeIdle` qua constructor → xUnit giả lập idle tick (đặt phần Revit-free này trong `HPRebar.McpBridge.Autocad` nhưng test qua interface; hoặc tách `IdleQueue` nhỏ vào Core nếu hoàn toàn không đụng AutoCAD API — quyết định khi implement, ưu tiên Core).
+- Test không cần AutoCAD: `MainThreadExecutor` nhận `Func<bool> isQuiescent` + `Action<EventHandler> subscribeIdle` qua constructor → xUnit giả lập idle tick (đặt phần Revit-free này trong `HPAutoCad.McpBridge` nhưng test qua interface; hoặc tách `IdleQueue` nhỏ vào Core nếu hoàn toàn không đụng AutoCAD API — quyết định khi implement, ưu tiên Core).
 - Cần spike phase 1 cho: subscribe `Idle` từ thread ngoài; `ExecuteInApplicationContext` từ thread ngoài; hành vi khi modal dialog mở.
