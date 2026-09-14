@@ -9,20 +9,27 @@ namespace HPRebar.McpBridge.Core.Pipe;
 
 /// <summary>
 ///     Turns one incoming line into one outgoing line. Cheap methods (ping, cancel, inspect) answer on
-///     the pipe thread; context and execute go through <see cref="IRevitExecutor"/> and wait for Revit.
-///     Every failure becomes a JSON-RPC error with a message the AI can read — never a dropped request.
+///     the pipe thread; context and execute go through <see cref="IBridgeExecutor"/> and wait for the
+///     host's API thread. Methods are matched on the part after the host prefix (`revit.execute` and
+///     `autocad.execute` are the same request), and every reply notification reuses the caller's prefix
+///     so a server only ever sees the names it sent. Every failure becomes a JSON-RPC error with a
+///     message the AI can read — never a dropped request.
 /// </summary>
 public sealed class RequestDispatcher
 {
-    private readonly IRevitExecutor _executor;
+    private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
-    private readonly string _revitVersion;
+    private readonly string _hostVersion;
+    private readonly string _hostName;
 
-    public RequestDispatcher(IRevitExecutor executor, BridgeSettings settings, string revitVersion)
+    /// <param name="hostVersion">Major version of the host application, e.g. "2026".</param>
+    /// <param name="hostName">Display name used in messages, e.g. "Revit" or "AutoCAD".</param>
+    public RequestDispatcher(IBridgeExecutor executor, BridgeSettings settings, string hostVersion, string hostName = "Revit")
     {
         _executor = executor;
         _settings = settings;
-        _revitVersion = revitVersion;
+        _hostVersion = hostVersion;
+        _hostName = hostName;
     }
 
     public async Task HandleLineAsync(string line, NdjsonPipeWriter writer, CancellationToken cancellationToken)
@@ -67,65 +74,79 @@ public sealed class RequestDispatcher
 
     private async Task<JsonRpcEnvelope> DispatchAsync(long id, JsonRpcEnvelope request, NdjsonPipeWriter writer, CancellationToken cancellationToken)
     {
-        switch (request.Method)
-        {
-            case JsonRpcMethods.Ping:
-                return JsonRpcEnvelope.Success(id, new BridgePingResult(true, _revitVersion, _settings.ExecutionEnabled, _executor.IsBusy));
+        var method = request.Method ?? string.Empty;
 
-            case JsonRpcMethods.Cancel:
+        switch (JsonRpcMethods.Suffix(method))
+        {
+            case JsonRpcMethods.PingSuffix:
+                return JsonRpcEnvelope.Success(id, new BridgePingResult(true, _hostVersion, _settings.ExecutionEnabled, _executor.IsBusy));
+
+            case JsonRpcMethods.CancelSuffix:
                 return JsonRpcEnvelope.Success(id, _executor.Cancel());
 
-            case JsonRpcMethods.Inspect:
+            case JsonRpcMethods.InspectSuffix:
             {
                 var parameters = request.ParamsAs<InspectRequest>();
                 return parameters is null || string.IsNullOrWhiteSpace(parameters.TypeName)
-                    ? JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, "revit.inspect needs a typeName.")
+                    ? JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, $"{method} needs a typeName.")
                     : JsonRpcEnvelope.Success(id, _executor.Inspect(parameters));
             }
 
-            case JsonRpcMethods.Analyze:
+            case JsonRpcMethods.AnalyzeSuffix:
             {
                 var parameters = request.ParamsAs<AnalyzeRequest>();
                 return parameters is null || string.IsNullOrWhiteSpace(parameters.Code)
-                    ? JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, "revit.analyze needs a non-empty code.")
+                    ? JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, $"{method} needs a non-empty code.")
                     : JsonRpcEnvelope.Success(id, _executor.Analyze(parameters));
             }
 
-            case JsonRpcMethods.Context:
+            case JsonRpcMethods.ContextSuffix:
             {
                 var parameters = request.ParamsAs<ContextRequest>() ?? new ContextRequest();
                 var context = await _executor.GetContextAsync(parameters.IncludeSelection, cancellationToken).ConfigureAwait(false);
                 return JsonRpcEnvelope.Success(id, context);
             }
 
-            case JsonRpcMethods.Execute:
+            case JsonRpcMethods.ExecuteSuffix:
                 return await ExecuteAsync(id, request, writer, cancellationToken).ConfigureAwait(false);
 
             default:
-                return JsonRpcEnvelope.Failure(id, BridgeErrorCode.MethodNotFound, $"Method not found: {request.Method}");
+                return JsonRpcEnvelope.Failure(id, BridgeErrorCode.MethodNotFound, $"Method not found: {method}");
         }
     }
 
     private async Task<JsonRpcEnvelope> ExecuteAsync(long id, JsonRpcEnvelope request, NdjsonPipeWriter writer, CancellationToken cancellationToken)
     {
+        var method = request.Method ?? string.Empty;
+
         if (!_settings.ExecutionEnabled)
             return JsonRpcEnvelope.Failure(id, BridgeErrorCode.ExecutionDisabled,
-                "Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HPRebar MCP Bridge window inside Revit.");
+                $"Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HP MCP Bridge window inside {_hostName}.");
 
         if (_executor.IsBusy)
-            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.Busy, "Another script is still running in Revit. Wait for it to finish or call cancel_execution.");
+            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.Busy, $"Another script is still running in {_hostName}. Wait for it to finish or call cancel_execution.");
 
         var parameters = request.ParamsAs<ExecuteRequest>();
         if (parameters is null || string.IsNullOrWhiteSpace(parameters.Code))
-            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, "revit.execute needs a non-empty code.");
+            return JsonRpcEnvelope.Failure(id, BridgeErrorCode.InvalidRequest, $"{method} needs a non-empty code.");
 
-        // Progress callbacks arrive from the Revit thread; Post returns as soon as the line is queued behind the
+        // Progress callbacks arrive from the host's API thread; Post returns as soon as the line is queued behind the
         // write lock, and the synchronous forwarder keeps the notifications in the order the script raised them.
+        // The notification carries the caller's prefix so the server matches it against the names it knows.
+        var progressMethod = ProgressMethodFor(method);
         var progress = new SynchronousProgress<ScriptProgress>(p =>
-            writer.Post(JsonRpcEnvelope.Notification(JsonRpcMethods.ProgressNotification, new ProgressParams(id, p.Current, p.Total, p.Message))));
+            writer.Post(JsonRpcEnvelope.Notification(progressMethod, new ProgressParams(id, p.Current, p.Total, p.Message))));
 
         var result = await _executor.ExecuteAsync(parameters, progress, cancellationToken).ConfigureAwait(false);
 
         return JsonRpcEnvelope.Success(id, result);
+    }
+
+    /// <summary>`autocad.execute` → `autocad.progress`; a prefix-less request keeps the historical Revit name.</summary>
+    private static string ProgressMethodFor(string method)
+    {
+        var dot = method.IndexOf('.');
+
+        return dot < 0 ? JsonRpcMethods.ProgressNotification : method.Substring(0, dot + 1) + JsonRpcMethods.ProgressSuffix;
     }
 }

@@ -5,21 +5,33 @@ using Serilog;
 namespace HPRebar.McpBridge.Core.Model;
 
 /// <summary>
-///     Persists the few settings that should survive a Revit restart. The per-session execution switch
+///     Persists the few settings that should survive a host restart. The per-session execution switch
 ///     is stripped on save and forced off on load so the file can never pre-authorise AI code.
+///     Paths are per product (`%AppData%\{vendor}\{product}\`) so two bridges on one machine — Revit
+///     and AutoCAD — never read each other's file.
 /// </summary>
-public static class BridgeSettingsStore
+public sealed class BridgeSettingsStore
 {
     private static readonly JsonSerializerOptions Options = new JsonSerializerOptions { WriteIndented = true };
 
-    public static string Directory { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HPRebar", "McpBridge");
+    /// <summary>The Revit bridge's store: `%AppData%\HPRebar\McpBridge\`, unchanged since the first release.</summary>
+    public static BridgeSettingsStore Revit { get; } = new BridgeSettingsStore("HPRebar", "McpBridge");
 
-    public static string SettingsPath => Path.Combine(Directory, "settings.json");
+    public BridgeSettingsStore(string vendorFolder, string productFolder)
+    {
+        if (string.IsNullOrWhiteSpace(vendorFolder)) throw new ArgumentException("vendorFolder is required", nameof(vendorFolder));
+        if (string.IsNullOrWhiteSpace(productFolder)) throw new ArgumentException("productFolder is required", nameof(productFolder));
 
-    public static string AuditDirectory => Path.Combine(Directory, "audit");
+        Directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), vendorFolder, productFolder);
+    }
 
-    public static BridgeSettings Load()
+    public string Directory { get; }
+
+    public string SettingsPath => Path.Combine(Directory, "settings.json");
+
+    public string AuditDirectory => Path.Combine(Directory, "audit");
+
+    public BridgeSettings Load()
     {
         try
         {
@@ -41,7 +53,7 @@ public static class BridgeSettingsStore
         return new BridgeSettings();
     }
 
-    public static void Save(BridgeSettings settings)
+    public void Save(BridgeSettings settings)
     {
         try
         {

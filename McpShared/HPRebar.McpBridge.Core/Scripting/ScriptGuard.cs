@@ -9,7 +9,8 @@ namespace HPRebar.McpBridge.Core.Scripting;
 ///     Static deny-list over the script's syntax tree. This is NOT a sandbox: reflection can reach
 ///     anything the process can, and a determined script can get around a name check. It exists to stop
 ///     the accidental cases — an AI reaching for File.WriteAllText, Process.Start or `await` — before
-///     they run on the Revit thread, and to give the model a line-numbered reason it can act on.
+///     they run on the host's API thread, and to give the model a line-numbered reason it can act on.
+///     The base list is host-neutral; a <see cref="GuardProfile"/> adds what is dangerous in one host.
 /// </summary>
 public static class ScriptGuard
 {
@@ -46,29 +47,35 @@ public static class ScriptGuard
 
     private static readonly string[] DeniedLiteralFragments = ["System.Reflection", "System.IO", "System.Net", "System.Diagnostics.Process"];
 
-    public static IReadOnlyList<ScriptDiagnostic> Check(string code)
+    /// <summary>Checks with the Revit profile — the behaviour the Revit bridge shipped with.</summary>
+    public static IReadOnlyList<ScriptDiagnostic> Check(string code) => Check(code, GuardProfile.Revit);
+
+    public static IReadOnlyList<ScriptDiagnostic> Check(string code, GuardProfile profile)
     {
         var tree = CSharpSyntaxTree.ParseText(code, new CSharpParseOptions(kind: SourceCodeKind.Script));
-        var walker = new DenyListWalker();
+        var walker = new DenyListWalker(profile);
         walker.Visit(tree.GetRoot());
         return walker.Diagnostics;
     }
 
-    private static bool IsDeniedNamespace(string dotted)
+    private static bool IsDeniedNamespace(string dotted, GuardProfile profile)
     {
         if (AllowedQualifiedPrefixes.Any(p => dotted == p || dotted.StartsWith(p + ".", StringComparison.Ordinal))) return false;
 
-        return DeniedNamespaces.Any(ns => dotted == ns || dotted.StartsWith(ns + ".", StringComparison.Ordinal));
+        return DeniedNamespaces.Concat(profile.DeniedNamespaces)
+            .Any(ns => dotted == ns || dotted.StartsWith(ns + ".", StringComparison.Ordinal));
     }
 
-    private sealed class DenyListWalker : CSharpSyntaxWalker
+    private sealed class DenyListWalker(GuardProfile profile) : CSharpSyntaxWalker
     {
+        private readonly string _host = profile.HostName;
+
         public List<ScriptDiagnostic> Diagnostics { get; } = [];
 
         public override void VisitUsingDirective(UsingDirectiveSyntax node)
         {
             var name = node.Name?.ToString() ?? string.Empty;
-            if (IsDeniedNamespace(name)) Report(node, $"using {name} is not allowed in Revit scripts.");
+            if (IsDeniedNamespace(name, profile)) Report(node, $"using {name} is not allowed in {_host} scripts.");
             base.VisitUsingDirective(node);
         }
 
@@ -78,7 +85,7 @@ public static class ScriptGuard
             if (node.Parent is not QualifiedNameSyntax)
             {
                 var dotted = node.ToString().Replace(" ", string.Empty);
-                if (IsDeniedNamespace(dotted)) Report(node, $"{dotted} is not allowed in Revit scripts.");
+                if (IsDeniedNamespace(dotted, profile)) Report(node, $"{dotted} is not allowed in {_host} scripts.");
             }
 
             base.VisitQualifiedName(node);
@@ -89,15 +96,22 @@ public static class ScriptGuard
             if (node.Parent is not MemberAccessExpressionSyntax)
             {
                 var dotted = node.ToString().Replace(" ", string.Empty);
-                if (IsDeniedNamespace(dotted)) Report(node, $"{dotted} is not allowed in Revit scripts.");
+                if (IsDeniedNamespace(dotted, profile)) Report(node, $"{dotted} is not allowed in {_host} scripts.");
             }
 
             var member = node.Name.Identifier.ValueText;
-            if (DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed: reflection and process control are blocked in Revit scripts.");
+            if (DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed: reflection and process control are blocked in {_host} scripts.");
+            else if (profile.DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed in {_host} scripts: it prompts the user, leaves the bridge's transaction, or opens modal UI.");
+
+            // Members denied only on a named global, e.g. tr.Commit() — the bridge owns that transaction.
+            if (node.Expression is IdentifierNameSyntax { Identifier.ValueText: var receiver }
+                && profile.DeniedMembersOnIdentifier.TryGetValue(receiver, out var denied)
+                && Array.IndexOf(denied, member) >= 0)
+                Report(node.Name, $"{receiver}.{member} is not allowed: the bridge owns `{receiver}` and commits or rolls it back for you.");
 
             // Type.GetType("...") is reflection by string; instance .GetType().Name stays allowed.
             if (member == "GetType" && node.Expression is IdentifierNameSyntax { Identifier.ValueText: "Type" })
-                Report(node, "Type.GetType(string) is not allowed in Revit scripts.");
+                Report(node, $"Type.GetType(string) is not allowed in {_host} scripts.");
 
             base.VisitMemberAccessExpression(node);
         }
@@ -108,16 +122,17 @@ public static class ScriptGuard
 
             // A member access like `doc.Assembly` is judged by VisitMemberAccessExpression; here only bare type names.
             var isMemberName = node.Parent is MemberAccessExpressionSyntax access && access.Name == node;
-            if (!isMemberName && DeniedIdentifiers.Contains(text)) Report(node, $"{text} is not allowed in Revit scripts.");
+            if (!isMemberName && (DeniedIdentifiers.Contains(text) || profile.DeniedIdentifiers.Contains(text)))
+                Report(node, $"{text} is not allowed in {_host} scripts.");
 
-            if (text == "dynamic" && node.Parent is not MemberAccessExpressionSyntax) Report(node, "dynamic is not allowed in Revit scripts.");
+            if (text == "dynamic" && node.Parent is not MemberAccessExpressionSyntax) Report(node, $"dynamic is not allowed in {_host} scripts.");
 
             base.VisitIdentifierName(node);
         }
 
         public override void VisitAwaitExpression(AwaitExpressionSyntax node)
         {
-            Report(node, "await is not allowed: scripts run synchronously on Revit's API thread.");
+            Report(node, $"await is not allowed: scripts run synchronously on {_host}'s API thread.");
             base.VisitAwaitExpression(node);
         }
 
@@ -129,7 +144,7 @@ public static class ScriptGuard
 
         public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
         {
-            Report(node, "unsafe code is not allowed in Revit scripts.");
+            Report(node, $"unsafe code is not allowed in {_host} scripts.");
             base.VisitUnsafeStatement(node);
         }
 
@@ -147,7 +162,7 @@ public static class ScriptGuard
 
         private void CheckAsync(SyntaxToken asyncKeyword, SyntaxNode node, Action visitBase)
         {
-            if (asyncKeyword.IsKind(SyntaxKind.AsyncKeyword)) Report(node, "async lambdas are not allowed: scripts run synchronously on Revit's API thread.");
+            if (asyncKeyword.IsKind(SyntaxKind.AsyncKeyword)) Report(node, $"async lambdas are not allowed: scripts run synchronously on {_host}'s API thread.");
             visitBase();
         }
 

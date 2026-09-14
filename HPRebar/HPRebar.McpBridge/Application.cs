@@ -4,6 +4,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using HPRebar.McpBridge.Core.Host;
 using HPRebar.McpBridge.Core.Model;
 using HPRebar.McpBridge.Core.Scripting;
 using HPRebar.McpBridge.Model;
@@ -82,7 +83,7 @@ public class Application : ExternalApplication
     /// </summary>
     private void CreateBridge()
     {
-        var settings = BridgeSettingsStore.Load();
+        var settings = BridgeSettingsStore.Revit.Load();
         var revitApi = new[] { typeof(Document).Assembly, typeof(UIDocument).Assembly };
 
         var references = revitApi.Concat(
@@ -96,7 +97,7 @@ public class Application : ExternalApplication
         var compiler = new ScriptCompiler(references, ScriptImports, typeof(ScriptGlobals), settings.ScriptCacheSize);
         var runner = new ScriptRunner(settings, new ResultSerializer(settings.MaxOutputBytes));
         var inspector = new TypeInspector(revitApi);
-        var audit = new AuditLogger(BridgeSettingsStore.AuditDirectory);
+        var audit = new AuditLogger(BridgeSettingsStore.Revit.AuditDirectory);
 
         _handler = new McpBridgeExternalEventHandler(settings, compiler, runner, inspector, audit);
         var host = new McpBridgeHost(_handler, settings, Application.ControlledApplication.VersionNumber);

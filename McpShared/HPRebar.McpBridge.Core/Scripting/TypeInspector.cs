@@ -4,8 +4,8 @@ using HPRebar.Mcp.Contracts.Messages;
 namespace HPRebar.McpBridge.Core.Scripting;
 
 /// <summary>
-///     Answers "what does this type look like?" by reflection over the assemblies it is given (the Revit
-///     API assemblies, in the add-in). Read-only, needs no Revit thread, and cheap enough for the AI to
+///     Answers "what does this type look like?" by reflection over the assemblies it is given (the host
+///     API assemblies, in the add-in). Read-only, needs no host thread, and cheap enough for the AI to
 ///     call before every unfamiliar API — cheaper than a compile error round trip.
 /// </summary>
 public sealed class TypeInspector
@@ -14,8 +14,12 @@ public sealed class TypeInspector
 
     private readonly Lazy<Type[]> _types;
 
-    public TypeInspector(IReadOnlyCollection<Assembly> assemblies)
+    private readonly string _hostName;
+
+    /// <param name="hostName">Display name for messages ("Revit", "AutoCAD").</param>
+    public TypeInspector(IReadOnlyCollection<Assembly> assemblies, string hostName = "Revit")
     {
+        _hostName = hostName;
         _types = new Lazy<Type[]>(() => assemblies.SelectMany(SafeExportedTypes).ToArray());
     }
 
@@ -38,7 +42,7 @@ public sealed class TypeInspector
             {
                 TypeName = wanted,
                 Message = close.Length == 0
-                    ? $"No public type named '{wanted}' in the Revit API assemblies."
+                    ? $"No public type named '{wanted}' in the {_hostName} API assemblies."
                     : $"No type named '{wanted}'. Close matches: {string.Join(", ", close)}",
             };
         }

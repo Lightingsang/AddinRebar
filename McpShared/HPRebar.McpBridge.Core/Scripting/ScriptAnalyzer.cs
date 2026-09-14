@@ -15,11 +15,13 @@ public static class ScriptAnalyzer
 {
     private const int ContextLength = 80;
 
-    /// <summary>Guard + compile + syntax facts, the full `revit.analyze` answer.</summary>
-    public static AnalyzeResult Run(ScriptCompiler compiler, string code)
+    /// <summary>Guard + compile + syntax facts, the full `*.analyze` answer, with the Revit profiles.</summary>
+    public static AnalyzeResult Run(ScriptCompiler compiler, string code) => Run(compiler, code, GuardProfile.Revit, AnalyzerProfile.Revit);
+
+    public static AnalyzeResult Run(ScriptCompiler compiler, string code, GuardProfile guard, AnalyzerProfile analyzer)
     {
-        var result = Analyze(code);
-        result.GuardViolations = ScriptGuard.Check(code);
+        var result = Analyze(code, analyzer);
+        result.GuardViolations = ScriptGuard.Check(code, guard);
 
         if (result.GuardViolations.Count == 0)
         {
@@ -32,11 +34,13 @@ public static class ScriptAnalyzer
         return result;
     }
 
-    /// <summary>Syntax facts only — no guard, no compiler.</summary>
-    public static AnalyzeResult Analyze(string code)
+    /// <summary>Syntax facts only — no guard, no compiler — with the Revit profile.</summary>
+    public static AnalyzeResult Analyze(string code) => Analyze(code, AnalyzerProfile.Revit);
+
+    public static AnalyzeResult Analyze(string code, AnalyzerProfile profile)
     {
         var tree = CSharpSyntaxTree.ParseText(code, new CSharpParseOptions(kind: SourceCodeKind.Script));
-        var walker = new FactsWalker(tree);
+        var walker = new FactsWalker(tree, profile);
         walker.Visit(tree.GetRoot());
 
         return new AnalyzeResult
@@ -49,7 +53,7 @@ public static class ScriptAnalyzer
         };
     }
 
-    private sealed class FactsWalker(SyntaxTree tree) : CSharpSyntaxWalker
+    private sealed class FactsWalker(SyntaxTree tree, AnalyzerProfile profile) : CSharpSyntaxWalker
     {
         public List<CodeLiteral> Literals { get; } = [];
 
@@ -94,6 +98,10 @@ public static class ScriptAnalyzer
                 ArgKeys.Add(new ArgUsage(key.Token.ValueText, access.Name.Identifier.ValueText, line));
             }
 
+            // db.TransactionManager.StartTransaction() — hosts whose transactions are started by a call, not a constructor
+            if (node.Expression is MemberAccessExpressionSyntax { Name.Identifier.ValueText: var invoked } && profile.TransactionMethodNames.Contains(invoked))
+                UsesTransaction = true;
+
             base.VisitInvocationExpression(node);
         }
 
@@ -116,7 +124,7 @@ public static class ScriptAnalyzer
                 QualifiedNameSyntax q => q.Right.Identifier.ValueText,
                 _ => null,
             };
-            if (name is "Transaction" or "TransactionGroup" or "SubTransaction") UsesTransaction = true;
+            if (name is not null && profile.TransactionTypeNames.Contains(name)) UsesTransaction = true;
         }
 
         /// <summary>The string inside `args.X("…")` is a key, not a candidate parameter.</summary>

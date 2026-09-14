@@ -10,10 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Everything in the bridge that does not touch a Revit type: pipe listener, dispatcher, models,
-             Roslyn guard/compiler. Must never reference Autodesk.Revit.* so it stays xUnit-testable
-             without a Revit process. -->
+        <!-- Everything in a bridge that does not touch a host API type: pipe listener, dispatcher, models,
+             Roslyn guard/compiler/analyzer, bridge host state machine, status view model. Must never
+             reference Autodesk.* so it stays xUnit-testable without Revit or AutoCAD. -->
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0"/>
+        <!-- Status-window view model: ObservableObject/RelayCommand only, no WPF (the view lives in each host add-in). -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="Serilog" Version="4.4.0"/>
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
     </ItemGroup>

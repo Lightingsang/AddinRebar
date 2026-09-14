@@ -1,9 +1,10 @@
 using System.Windows.Interop;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
-using HPRebar.McpBridge.Service;
+using System.Windows;
+using HPRebar.McpBridge.Core.Host;
+using HPRebar.McpBridge.Core.ViewModel;
 using HPRebar.McpBridge.View;
-using HPRebar.McpBridge.ViewModel;
 using Nice3point.Revit.Toolkit.External;
 
 namespace HPRebar.McpBridge;
@@ -37,7 +38,7 @@ public sealed class McpBridgeCommand : ExternalCommand
             return;
         }
 
-        var viewModel = new McpBridgeStatusViewModel(host);
+        var viewModel = new McpBridgeStatusViewModel(host, Clipboard.SetText);
         var view = new McpBridgeStatusView(viewModel);
 
         // Application is the inherited UIApplication of ExternalCommand, not HPRebar.McpBridge.Application.

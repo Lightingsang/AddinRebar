@@ -1,13 +1,11 @@
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
-using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HPRebar.McpBridge.Core.Model;
 using Serilog;
 
-namespace HPRebar.McpBridge.ViewModel;
+namespace HPRebar.McpBridge.Core.ViewModel;
 
 /// <summary>
 ///     What the status window shows and can toggle. State comes from <see cref="IMcpBridgeRunner"/>, which
@@ -20,7 +18,8 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     private const int PreviewLines = 20;
 
     private readonly IMcpBridgeRunner _runner;
-    private readonly Dispatcher _dispatcher;
+    private readonly SynchronizationContext _ui;
+    private readonly Action<string>? _copyToClipboard;
 
     [ObservableProperty] private bool _isListening;
     [ObservableProperty] private bool _isExecutionEnabled;
@@ -39,10 +38,13 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     [ObservableProperty] private string _auditDirectory = string.Empty;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(RestartBridgeCommand))] private bool _isBusy;
 
-    public McpBridgeStatusViewModel(IMcpBridgeRunner runner)
+    /// <param name="copyToClipboard">The view's clipboard (WPF `Clipboard.SetText`); the view model has no UI framework of its own.</param>
+    public McpBridgeStatusViewModel(IMcpBridgeRunner runner, Action<string>? copyToClipboard = null)
     {
         _runner = runner;
-        _dispatcher = Dispatcher.CurrentDispatcher;
+        // Captured on the thread that builds the window (the host's UI thread); runner events arrive on any thread.
+        _ui = SynchronizationContext.Current ?? new SynchronizationContext();
+        _copyToClipboard = copyToClipboard;
         _runner.StateChanged += OnRunnerStateChanged;
         Refresh();
     }
@@ -53,7 +55,7 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     /// <summary>Stops listening to the runner once the window is gone; the runner outlives the window.</summary>
     public void Detach() => _runner.StateChanged -= OnRunnerStateChanged;
 
-    private void OnRunnerStateChanged() => _dispatcher.InvokeAsync(Refresh);
+    private void OnRunnerStateChanged() => _ui.Post(_ => Refresh(), null);
 
     private void Refresh()
     {
@@ -64,7 +66,7 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
         StatusKind = status.ToString();
         StatusText = status switch
         {
-            BridgeStatus.Stopped => "Stopped — the MCP server cannot reach Revit",
+            BridgeStatus.Stopped => $"Stopped — the MCP server cannot reach {_runner.HostName}",
             BridgeStatus.Listening => "Listening — waiting for an MCP server to connect",
             BridgeStatus.Connected => "Connected — MCP server attached, idle",
             BridgeStatus.Busy => "Running a script…",
@@ -148,7 +150,10 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     private void CopyLastScript()
     {
         var source = _runner.LastRun?.Source;
-        if (!string.IsNullOrEmpty(source)) Clipboard.SetText(source);
+        if (string.IsNullOrEmpty(source)) return;
+
+        if (_copyToClipboard is null) StatusDetail = "Clipboard is not available in this window.";
+        else _copyToClipboard(source);
     }
 
     [RelayCommand]

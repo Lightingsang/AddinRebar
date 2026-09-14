@@ -3,31 +3,47 @@ using HPRebar.Mcp.Contracts.JsonRpc;
 using HPRebar.Mcp.Contracts.Messages;
 using HPRebar.McpBridge.Core.Model;
 using HPRebar.McpBridge.Core.Pipe;
-using HPRebar.McpBridge.ViewModel;
+using HPRebar.McpBridge.Core.ViewModel;
 using Serilog;
 
-namespace HPRebar.McpBridge.Service;
+namespace HPRebar.McpBridge.Core.Host;
 
 /// <summary>
 ///     The bridge's state machine: owns the listener, the settings and the last-run record, and is the one
-///     object both the ribbon window and the executor talk to. Created once in Application.OnStartup and
-///     kept in <see cref="Current"/> because the command that opens the window has no other way to find it.
+///     object both the status window and the executor talk to. Created once when the host add-in starts
+///     and kept in <see cref="Current"/> because the command that opens the window has no other way to
+///     find it. Host-neutral: the add-in passes the pipe name, the settings store and the wire prefix.
 /// </summary>
 public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
 {
-    private readonly IRevitExecutor _executor;
+    private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
+    private readonly BridgeSettingsStore _store;
     private readonly PipeListener _listener;
+    private readonly string _statusMethod;
     private string? _statusMessage;
 
-    public McpBridgeHost(IRevitExecutor executor, BridgeSettings settings, string revitVersion)
+    /// <summary>Revit constructor, unchanged in behaviour: pipe `hprebar-mcp-r{version}`, the Revit settings store, prefix `revit.`.</summary>
+    public McpBridgeHost(IBridgeExecutor executor, BridgeSettings settings, string revitVersion)
+        : this(executor, settings, BridgeSettingsStore.Revit, revitVersion, PipeNaming.For(int.Parse(revitVersion)), "Revit", JsonRpcMethods.RevitPrefix)
+    {
+    }
+
+    /// <param name="hostVersion">Major version of the host, e.g. "2026".</param>
+    /// <param name="hostName">Display name ("Revit", "AutoCAD") for the window and error messages.</param>
+    /// <param name="methodPrefix">Wire prefix of the notifications this bridge sends, e.g. "autocad.".</param>
+    public McpBridgeHost(IBridgeExecutor executor, BridgeSettings settings, BridgeSettingsStore store,
+        string hostVersion, string pipeName, string hostName, string methodPrefix)
     {
         _executor = executor;
         _settings = settings;
-        RevitVersion = revitVersion;
-        PipeName = PipeNaming.For(int.Parse(revitVersion));
+        _store = store;
+        RevitVersion = hostVersion;
+        HostName = hostName;
+        PipeName = pipeName;
+        _statusMethod = JsonRpcMethods.For(methodPrefix, JsonRpcMethods.StatusSuffix);
 
-        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, revitVersion));
+        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, hostVersion, hostName));
         _listener.StateChanged += OnListenerStateChanged;
         _listener.Faulted += OnListenerFaulted;
         _executor.StateChanged += OnListenerStateChanged;
@@ -45,9 +61,12 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
 
     public string PipeName { get; }
 
+    /// <summary>Host major version; the name predates the AutoCAD bridge (see <see cref="IMcpBridgeRunner"/>).</summary>
     public string RevitVersion { get; }
 
-    public string AuditDirectory => BridgeSettingsStore.AuditDirectory;
+    public string HostName { get; }
+
+    public string AuditDirectory => _store.AuditDirectory;
 
     public BridgeStatus Status { get; private set; } = BridgeStatus.Stopped;
 
@@ -76,7 +95,7 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
             if (_settings.AutoStartListener == value) return;
 
             _settings.AutoStartListener = value;
-            BridgeSettingsStore.Save(_settings);
+            _store.Save(_settings);
             StateChanged?.Invoke();
         }
     }
@@ -138,7 +157,7 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
     {
         Status = ComputeStatus();
 
-        _listener.CurrentWriter?.Post(JsonRpcEnvelope.Notification(JsonRpcMethods.StatusNotification,
+        _listener.CurrentWriter?.Post(JsonRpcEnvelope.Notification(_statusMethod,
             new StatusParams(_listener.IsListening, _settings.ExecutionEnabled, _executor.IsBusy, _executor.ActiveDocumentTitle, RevitVersion)));
 
         StateChanged?.Invoke();

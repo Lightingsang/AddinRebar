@@ -1,16 +1,20 @@
 using HPRebar.McpBridge.Core.Model;
 
-namespace HPRebar.McpBridge.ViewModel;
+namespace HPRebar.McpBridge.Core.ViewModel;
 
 /// <summary>
-///     Everything the status window may read or toggle. No Revit types cross this line, so the view model
-///     can be exercised without Revit and the host can change how it talks to Revit without touching the UI.
+///     Everything the status window may read or toggle. No host API types cross this line, so the view model
+///     can be exercised without the host and each bridge can change how it talks to its host without touching the UI.
 /// </summary>
 public interface IMcpBridgeRunner
 {
     string PipeName { get; }
 
+    /// <summary>Host major version; historical name kept for the Revit XAML binding.</summary>
     string RevitVersion { get; }
+
+    /// <summary>Display name of the host application: "Revit", "AutoCAD".</summary>
+    string HostName { get; }
 
     string AuditDirectory { get; }
 
@@ -21,7 +25,7 @@ public interface IMcpBridgeRunner
 
     bool HasClient { get; }
 
-    /// <summary>The per-session opt-in for execute_revit_code. Never persisted.</summary>
+    /// <summary>The per-session opt-in for AI code execution. Never persisted.</summary>
     bool ExecutionEnabled { get; set; }
 
     bool AutoStartListener { get; set; }

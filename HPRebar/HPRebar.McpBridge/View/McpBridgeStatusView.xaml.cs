@@ -1,6 +1,6 @@
 using System.Windows;
+using HPRebar.McpBridge.Core.ViewModel;
 using HPRebar.McpBridge.Service;
-using HPRebar.McpBridge.ViewModel;
 
 namespace HPRebar.McpBridge.View;
 

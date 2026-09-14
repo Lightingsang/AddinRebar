@@ -11,7 +11,17 @@ public sealed record ContextRequest(bool IncludeSelection = false);
 /// </summary>
 public sealed class ContextResult
 {
+    /// <summary>Major version of the host; the name predates the AutoCAD bridge and stays for wire compatibility.</summary>
     public string RevitVersion { get; set; } = string.Empty;
+
+    /// <summary>Host application id (`revit`, `autocad`). Null from bridges built before the field existed — read as `revit`.</summary>
+    public string? Host { get; set; }
+
+    /// <summary>Same value as <see cref="RevitVersion"/> under a host-neutral name; null from older bridges.</summary>
+    public string? HostVersion { get; set; }
+
+    /// <summary>AutoCAD-only facts; null for Revit.</summary>
+    public AutocadInfo? Autocad { get; set; }
 
     public string? DocTitle { get; set; }
 
@@ -36,6 +46,20 @@ public sealed class ContextResult
 
 /// <summary>Display unit for lengths in the document; the Revit API itself always works in feet.</summary>
 public sealed record UnitsInfo(string Length);
+
+/// <summary>
+///     What an AutoCAD script needs to know that has no Revit counterpart: drawing units are a label
+///     (<see cref="Insunits"/>), the current layout/space decides where new entities land, and a
+///     non-quiescent editor means a command or dialog is blocking the main thread.
+/// </summary>
+public sealed record AutocadInfo(
+    string Insunits,
+    string Measurement,
+    string? CurrentLayout,
+    string? CurrentLayer,
+    bool IsModelSpace,
+    bool IsQuiescent,
+    bool IsNamedDrawing);
 
 public sealed record ViewInfo(long Id, string Name, string Type);
 

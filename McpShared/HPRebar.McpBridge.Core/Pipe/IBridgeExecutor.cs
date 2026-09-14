@@ -7,7 +7,7 @@ namespace HPRebar.McpBridge.Core.Pipe;
 ///     What the pipe side asks of Revit. Implemented by the external-event handler, which owns the only
 ///     legal path onto Revit's API thread; the dispatcher never touches a Revit object itself.
 /// </summary>
-public interface IRevitExecutor
+public interface IBridgeExecutor
 {
     /// <summary>A script is running (or queued) on the Revit thread; one at a time, the rest get "busy".</summary>
     bool IsBusy { get; }

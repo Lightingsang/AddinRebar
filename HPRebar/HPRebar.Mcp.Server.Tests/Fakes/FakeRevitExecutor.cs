@@ -9,7 +9,7 @@ namespace HPRebar.Mcp.Server.Tests.Fakes;
 ///     progress it reports, whether it is busy. Records what it was asked so tests can assert on the
 ///     request that crossed the pipe.
 /// </summary>
-public sealed class FakeRevitExecutor : IRevitExecutor
+public sealed class FakeRevitExecutor : IBridgeExecutor
 {
     public bool IsBusy { get; set; }
 

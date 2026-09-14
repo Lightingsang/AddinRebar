@@ -14,12 +14,12 @@ namespace HPRebar.McpBridge;
 
 /// <summary>
 ///     Moves work from the pipe thread onto Revit's API thread. The dispatcher calls the
-///     <see cref="IRevitExecutor"/> side; guard and compile happen right there on the pipe thread, and
+///     <see cref="IBridgeExecutor"/> side; guard and compile happen right there on the pipe thread, and
 ///     only the run is queued and raised. Revit calls <see cref="Execute"/> back on its own thread, where
 ///     touching the document is legal. Same shape as the ColumnRebar handler, minus the TaskDialog: the
 ///     caller is an AI, so results go back over the pipe instead of onto the screen.
 /// </summary>
-public sealed class McpBridgeExternalEventHandler : IExternalEventHandler, IRevitExecutor, IDisposable
+public sealed class McpBridgeExternalEventHandler : IExternalEventHandler, IBridgeExecutor, IDisposable
 {
     private readonly ConcurrentQueue<McpBridgeRequest> _pending = new ConcurrentQueue<McpBridgeRequest>();
     private readonly ExternalEvent _externalEvent;
