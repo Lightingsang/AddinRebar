@@ -10,7 +10,7 @@
           "properties": {
             "text": {
               "type": "string",
-              "description": "The text; MText accepts \\P for a line break"
+              "description": "The text; MText accepts \\\\P for a line break"
             },
             "position": {
               "type": "object",
@@ -74,7 +74,7 @@
       {
         "name": "list_layers",
         "title": "List layers",
-        "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight (hundredths of a mm as create_layer takes it; -3 = default, -1 ByLayer, -2 ByBlock); optionally the number of model-space entities on each layer. Read-only. [Registry tool v1, Layer, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+        "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight; optionally the number of model-space entities on each layer. Read-only. [Registry tool v1, Layer, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
         "inputSchema": {
           "type": "object",
           "properties": {
@@ -197,7 +197,7 @@
             },
             "attributes": {
               "type": "object",
-              "description": "Attribute values by tag, e.g. {\"TAG\": \"D01\"}; tags not listed keep their default",
+              "description": "Attribute values by tag, e.g. {\\\"TAG\\\": \\\"D01\\\"}; tags not listed keep their default",
               "properties": {}
             },
             "dryRun": {
@@ -310,7 +310,7 @@
       {
         "name": "get_drawing_info",
         "title": "Get drawing info",
-        "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents (null until the drawing has any; as of the last regen/save) in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+        "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
         "inputSchema": {
           "type": "object",
           "properties": {
@@ -333,7 +333,7 @@
       {
         "name": "publish_tool",
         "title": "Publish a registry tool",
-        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run `HPRebar.Mcp.Server.exe registry approve <name>` (or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
         "inputSchema": {
           "type": "object",
           "properties": {
@@ -370,7 +370,7 @@
               "default": null
             },
             "category": {
-              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "description": "One of the host's categories, e.g. Architecture | Structure | MEP | Annotation | View | Data | Generic (Revit) or Drawing | Layer | Block | Annotation | Layout | Data | Generic (AutoCAD)",
               "type": [
                 "string",
                 "null"
@@ -405,7 +405,7 @@
           "properties": {
             "name": {
               "type": "string",
-              "description": "Layer name (AutoCAD naming rules: no < > / \\ \" : ; ? * | , = ` characters)"
+              "description": "Layer name (AutoCAD naming rules: no <>/\\\\\\\":;?*|,=` characters)"
             },
             "colorIndex": {
               "type": "integer",
@@ -886,7 +886,7 @@
               "type": "string"
             },
             "category": {
-              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "description": "Architecture | Structure | MEP | Annotation | View | Data | Generic",
               "type": "string"
             },
             "inputSchema": {
@@ -922,7 +922,7 @@
               "default": null
             },
             "transaction": {
-              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "description": "auto (bridge wraps a Transaction) | manual (code opens its own) | none (read-only)",
               "type": "string",
               "default": "auto"
             },

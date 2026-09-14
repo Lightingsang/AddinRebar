@@ -24,13 +24,13 @@ public sealed class ToolLifecycleTools(ToolLifecycleService lifecycle, ToolManag
     public Task<CallToolResult> Propose(
         [Description("snake_case name, e.g. color_beams_by_type")] string name,
         [Description("What the tool does, for search and for the reviewer (≥ 20 chars)")] string description,
-        [Description("Architecture | Structure | MEP | Annotation | View | Data | Generic")] string category,
+        [Description(RegistryToolText.Category)] string category,
         [Description("JSON Schema of the args object")] JsonElement inputSchema,
         [Description("Script body: same globals as the execute tool plus args; must end with return")] string code,
         [Description("Usage examples: [{\"title\": \"...\", \"args\": {...}}]")] JsonElement examples,
         [Description("Human title, e.g. 'Colour beams by type'")] string? title = null,
         [Description("Search tags")] string[]? tags = null,
-        [Description("auto (bridge wraps a Transaction) | manual (code opens its own) | none (read-only)")] string transaction = "auto",
+        [Description(RegistryToolText.Transaction)] string transaction = "auto",
         [Description("5–120 seconds")] int timeoutSeconds = 60,
         [Description("runId of the execute run this comes from (see get_run)")] long? sourceRunId = null,
         [Description("Propose a new version of an existing tool name")] bool newVersion = false,
@@ -112,7 +112,7 @@ public sealed class ToolLifecycleTools(ToolLifecycleService lifecycle, ToolManag
     [McpServerTool(Name = "publish_tool", Title = "Publish a registry tool", ReadOnly = false, Destructive = false, Idempotent = true, OpenWorld = false)]
     [Description(
         "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run " +
-        "`HPRebar.Mcp.Server.exe registry approve <name>` (or set status=published in tool.json). Policy auto: tested tools publish immediately. " +
+        "the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. " +
         "Published tools appear in tools/list of every running server.")]
     public CallToolResult Publish([Description("Tool name")] string name)
     {

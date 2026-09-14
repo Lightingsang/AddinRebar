@@ -17,7 +17,7 @@
     "drawing"
   ],
   "title": "List layers",
-  "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight; optionally the number of model-space entities on each layer. Read-only.",
+  "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight (hundredths of a mm as create_layer takes it; -3 = default, -1 ByLayer, -2 ByBlock); optionally the number of model-space entities on each layer. Read-only.",
   "inputSchema": {
     "type": "object",
     "properties": {

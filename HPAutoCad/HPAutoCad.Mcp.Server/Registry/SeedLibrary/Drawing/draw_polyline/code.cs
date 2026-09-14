@@ -11,7 +11,10 @@ void RequireLayer(string layerName)
 
 var polyline = new Polyline();
 for (var i = 0; i < points.Count; i++)
+{
+    if (!points[i].Has("x") || !points[i].Has("y")) throw new ArgumentException($"points[{i}] must be an object {{x, y}} in millimetres.");
     polyline.AddVertexAt(i, new Point2d(units.ToDrawing(points[i].Double("x")), units.ToDrawing(points[i].Double("y"))), 0, 0, 0);
+}
 polyline.Closed = closed;
 if (!string.IsNullOrWhiteSpace(layer)) { RequireLayer(layer); polyline.Layer = layer; }
 if (colorIndex >= 0) polyline.ColorIndex = colorIndex;

@@ -71,6 +71,8 @@ try {
     $search = ExecuteText (Call 'search-layer' 'tools/call' @('search_tools', '{"query": "list layers", "limit": 10}'))
     $found = @($search.tools | % name)
     Check 'search_tools "list layers" finds the layer seeds' (($found -contains 'list_layers') -and ($found -contains 'create_layer')) ($found -join ', ')
+    $byCategory = @((ExecuteText (Call 'search-layer-category' 'tools/call' @('search_tools', '{"query": "layers", "category": "Layer"}'))).tools | % name | sort)
+    Check 'search_tools category=Layer returns exactly the two Layer seeds' (($byCategory -join ',') -eq 'create_layer,list_layers') ($byCategory -join ', ')
 
     function Seed([string]$name, [string]$json) { ExecuteText (Call "seed-$name" 'tools/call' @($name, $json)) }
     $layers = Seed 'list_layers' '{"includeCounts": true}'

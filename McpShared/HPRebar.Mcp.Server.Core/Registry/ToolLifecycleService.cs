@@ -174,7 +174,7 @@ public sealed class ToolLifecycleService
         }
 
         return new PublishOutcome(name, "pending_approval",
-            $"Waiting for a human. Ask the user to review {reviewFile} and run: HPRebar.Mcp.Server.exe registry approve {name} --by <their name>. " +
+            $"Waiting for a human. Ask the user to review {reviewFile} and run: {_bridge.Profile.CliExecutable} registry approve {name} --by <their name>. " +
             "Until then the tool runs only through run_tool with allowUnpublished=true.", reviewFile);
     }
 
@@ -239,7 +239,7 @@ public sealed class ToolLifecycleService
         sb.AppendLine($"# Review: {record.Name} v{record.Version}");
         sb.AppendLine();
         sb.AppendLine($"- **Title:** {record.Title}");
-        sb.AppendLine($"- **Category:** {record.Category} · **Tags:** {string.Join(", ", record.Tags)}");
+        sb.AppendLine($"- **Host:** {record.Host ?? _bridge.Profile.HostId} {string.Join("/", record.HostVersions)} · **Category:** {record.Category} · **Tags:** {string.Join(", ", record.Tags)}");
         sb.AppendLine($"- **Status:** {ToolRegistryDb.StatusText(record.Status)} · **Author:** {record.Author} · **From run:** {record.CreatedFromRunId?.ToString() ?? "-"}");
         sb.AppendLine($"- **Transaction:** {record.Transaction} · **Timeout:** {record.TimeoutSeconds}s · **Destructive:** {record.Destructive}");
         sb.AppendLine($"- **Runs (window):** {stats.Runs}, success {stats.SuccessRate:P0}, stability {StabilityScorer.Score(stats)}");
@@ -268,8 +268,8 @@ public sealed class ToolLifecycleService
         sb.AppendLine();
         sb.AppendLine("## Decide");
         sb.AppendLine("```");
-        sb.AppendLine($"HPRebar.Mcp.Server.exe registry approve {record.Name} --by <your name>");
-        sb.AppendLine($"HPRebar.Mcp.Server.exe registry reject {record.Name} --by <your name> --reason \"why\"");
+        sb.AppendLine($"{_bridge.Profile.CliExecutable} registry approve {record.Name} --by <your name>");
+        sb.AppendLine($"{_bridge.Profile.CliExecutable} registry reject {record.Name} --by <your name> --reason \"why\"");
         sb.AppendLine("```");
         sb.AppendLine($"Or edit `{record.Folder}\\tool.json` and set `\"status\": \"published\"` — running servers pick it up within a second.");
 

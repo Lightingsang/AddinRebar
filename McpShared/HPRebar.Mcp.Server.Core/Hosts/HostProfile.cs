@@ -32,7 +32,10 @@ public sealed class HostProfile : IHostProfile
             "Revit API lengths are in feet; accept millimetres in args and convert with UnitUtils. " +
             "transaction: auto when the code modifies the model and opens no Transaction itself; none when it only reads; manual only if it opens its own Transaction.",
         HostAssembly = typeof(HostProfile).Assembly,
+        CliExecutable = "HPRebar.Mcp.Server.exe",
     };
+
+    private readonly string? _cliExecutable;
 
     public required string HostId { get; init; }
 
@@ -66,6 +69,13 @@ public sealed class HostProfile : IHostProfile
 
     public required Assembly HostAssembly { get; init; }
 
+    /// <summary>Defaults to the host assembly's name + `.exe`, which is what the published server is called.</summary>
+    public string CliExecutable
+    {
+        get => _cliExecutable ?? HostAssembly.GetName().Name + ".exe";
+        init => _cliExecutable = value;
+    }
+
     public string PipeName(int version) => PipeNaming.For(HostId, version);
 
     public string Method(string suffix) => JsonRpcMethods.For(MethodPrefix, suffix);
@@ -76,6 +86,6 @@ public sealed class HostProfile : IHostProfile
         HostId = HostId, DisplayName = DisplayName, ServerName = ServerName, ProductFolder = ProductFolder, EnvPrefix = EnvPrefix,
         DefaultVersion = DefaultVersion, ValidVersions = ValidVersions, MethodPrefix = MethodPrefix, ExecuteToolName = ExecuteToolName,
         ContextToolName = ContextToolName, ResourceScheme = ResourceScheme, Categories = Categories, CoreToolNames = CoreToolNames,
-        ScriptImports = ScriptImports, ScriptContractSummary = ScriptContractSummary, HostAssembly = assembly,
+        ScriptImports = ScriptImports, ScriptContractSummary = ScriptContractSummary, HostAssembly = assembly, CliExecutable = CliExecutable,
     };
 }

@@ -40,7 +40,7 @@ foreach (var id in ids.Take(limit))
         // some entities (empty blocks, rays) have no finite extents
     }
 
-    items.Add(new { handle = entity.Handle.ToString(), type = id.ObjectClass.DxfName, layer = entity.Layer, bboxMm = bbox });
+    items.Add(new { handle = entity.Handle.ToString(), type = id.ObjectClass.DxfName ?? id.ObjectClass.Name, layer = entity.Layer, bboxMm = bbox });
 }
 
 log($"{ids.Length} entities match, returning {items.Count}");

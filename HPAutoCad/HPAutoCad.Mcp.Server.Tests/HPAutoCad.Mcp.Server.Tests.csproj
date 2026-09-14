@@ -19,6 +19,9 @@
         <!-- xunit.v3.common pins 6.0.0 while Contracts (netstandard2.0, System.Text.Json 10) compiled against 10.x;
              unify so MSB3277 stays quiet and one copy ships. -->
         <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.12"/>
+        <!-- Restore-only: SeedLibraryTests reads AcMgd/AcCoreMgd/AcDbMgd 25.1.0 from the NuGet cache as metadata; nothing is
+             compiled or copied against them here (they are mixed-mode and need acad.exe), so a clean checkout never skips. -->
+        <PackageReference Include="AutoCAD.NET" Version="[25.1.0]" ExcludeAssets="all" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>

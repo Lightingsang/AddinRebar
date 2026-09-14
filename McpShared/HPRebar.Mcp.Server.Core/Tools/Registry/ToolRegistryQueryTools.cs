@@ -21,7 +21,7 @@ public sealed class ToolRegistryQueryTools(ToolManager manager, ResultFormatter 
         "or through run_tool. Empty query lists tools (optionally by category).")]
     public CallToolResult Search(
         [Description("What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'")] string? query = null,
-        [Description("One of the host's categories, e.g. Architecture | Structure | MEP | Annotation | View | Data | Generic (Revit) or Drawing | Layer | Block | Annotation | Layout | Data | Generic (AutoCAD)")] string? category = null,
+        [Description(RegistryToolText.Category)] string? category = null,
         [Description("Maximum results, 1–50 (default 5)")] int limit = 5,
         [Description("Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)")] bool includeUnpublished = false)
     {
@@ -33,7 +33,7 @@ public sealed class ToolRegistryQueryTools(ToolManager manager, ResultFormatter 
             count = hits.Count,
             hint = hits.Count == 0
                 ? $"No stored tool matches. Write the task with {manager.Profile.ExecuteToolName}; a successful run can be packaged with propose_tool."
-                : "Call the tool by name (published) or run_tool {name, args}. Use dryRun first for tools that modify the model.",
+                : "Call the tool by name (published) or run_tool {name, args}. Use dryRun first for tools that modify the document.",
             tools = hits,
         });
     }

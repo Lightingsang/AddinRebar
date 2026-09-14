@@ -1,6 +1,11 @@
 string blockName = args.Str("blockName");
 if (string.IsNullOrWhiteSpace(blockName)) throw new ArgumentException("blockName is required.");
-var position = args.Obj("position");
+Point3d P(HPRebar.McpBridge.Core.Scripting.ScriptArgs point, string key)
+{
+    if (!point.Has("x") || !point.Has("y")) throw new ArgumentException($"{key} must be an object {{x, y}} in millimetres.");
+    return new Point3d(units.ToDrawing(point.Double("x")), units.ToDrawing(point.Double("y")), 0);
+}
+var position = P(args.Obj("position"), "position");
 double scale = args.Double("scale", 1);
 if (scale <= 0) throw new ArgumentException("scale must be greater than 0.");
 double rotation = args.Double("rotationDeg", 0) * Math.PI / 180.0;
@@ -16,7 +21,7 @@ var blockTable = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
 if (!blockTable.Has(blockName)) throw new ArgumentException($"Block '{blockName}' is not defined in this drawing; run list_block_definitions to see the available names.");
 var definition = (BlockTableRecord)tr.GetObject(blockTable[blockName], OpenMode.ForRead);
 
-var reference = new BlockReference(new Point3d(units.ToDrawing(position.Double("x")), units.ToDrawing(position.Double("y")), 0), definition.ObjectId)
+var reference = new BlockReference(position, definition.ObjectId)
 {
     ScaleFactors = new Scale3d(scale),
     Rotation = rotation,

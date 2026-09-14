@@ -55,6 +55,9 @@ public interface IHostProfile
     /// <summary>The exe assembly: where the host's tool classes and embedded seed library live.</summary>
     Assembly HostAssembly { get; }
 
+    /// <summary>File name of the server exe in human-facing instructions: `{CliExecutable} registry approve …`.</summary>
+    string CliExecutable { get; }
+
     string PipeName(int version);
 
     /// <summary>`Method("execute")` → `revit.execute` / `autocad.execute`.</summary>

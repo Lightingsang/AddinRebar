@@ -37,5 +37,6 @@ public static class AutocadHostProfile
             "transaction: auto when the code changes the drawing, none when it only reads; manual is accepted but runs like auto. " +
             "Editor prompts, SendStringToExecute and modal dialogs are blocked. U in AutoCAD reverts the runs made since the user's last command.",
         HostAssembly = typeof(AutocadHostProfile).Assembly,
+        CliExecutable = "HPAutoCad.Mcp.Server.exe",
     };
 }

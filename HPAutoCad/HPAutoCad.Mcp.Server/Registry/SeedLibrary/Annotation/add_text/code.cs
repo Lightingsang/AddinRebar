@@ -1,6 +1,11 @@
 string text = args.Str("text");
 if (string.IsNullOrEmpty(text)) throw new ArgumentException("text is required.");
-var position = args.Obj("position");
+Point3d P(HPRebar.McpBridge.Core.Scripting.ScriptArgs point, string key)
+{
+    if (!point.Has("x") || !point.Has("y")) throw new ArgumentException($"{key} must be an object {{x, y}} in millimetres.");
+    return new Point3d(units.ToDrawing(point.Double("x")), units.ToDrawing(point.Double("y")), 0);
+}
+var point = P(args.Obj("position"), "position");
 double heightMm = args.Double("heightMm");
 if (heightMm <= 0) throw new ArgumentException("heightMm must be greater than 0.");
 double rotation = args.Double("rotationDeg", 0) * Math.PI / 180.0;
@@ -13,7 +18,6 @@ void RequireLayer(string layerName)
     if (!table.Has(layerName)) throw new ArgumentException($"Layer '{layerName}' does not exist in this drawing; run create_layer first or omit layer.");
 }
 
-var point = new Point3d(units.ToDrawing(position.Double("x")), units.ToDrawing(position.Double("y")), 0);
 Entity entity;
 if (mtext)
 {

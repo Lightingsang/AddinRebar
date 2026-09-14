@@ -57,7 +57,7 @@
       },
       "attributes": {
         "type": "object",
-        "description": "Attribute values by tag, e.g. {\\\"TAG\\\": \\\"D01\\\"}; tags not listed keep their default",
+        "description": "Attribute values by tag, e.g. {\"TAG\": \"D01\"}; tags not listed keep their default",
         "properties": {}
       }
     },

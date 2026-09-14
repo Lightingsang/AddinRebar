@@ -12,7 +12,7 @@ foreach (var id in selection.Value.GetObjectIds().Take(limit))
 {
     ct.ThrowIfCancellationRequested();
     if (tr.GetObject(id, OpenMode.ForRead) is not Entity entity) continue;
-    items.Add(new { handle = entity.Handle.ToString(), type = id.ObjectClass.DxfName, layer = entity.Layer });
+    items.Add(new { handle = entity.Handle.ToString(), type = id.ObjectClass.DxfName ?? id.ObjectClass.Name, layer = entity.Layer });
 }
 log($"{selection.Value.Count} selected, returning {items.Count}");
 return items;

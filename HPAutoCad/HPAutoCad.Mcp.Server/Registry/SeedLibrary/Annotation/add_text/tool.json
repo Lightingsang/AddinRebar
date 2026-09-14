@@ -23,7 +23,7 @@
     "properties": {
       "text": {
         "type": "string",
-        "description": "The text; MText accepts \\\\P for a line break"
+        "description": "The text; MText accepts \\P for a line break"
       },
       "position": {
         "type": "object",

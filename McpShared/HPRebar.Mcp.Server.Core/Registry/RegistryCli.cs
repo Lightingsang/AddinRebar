@@ -4,14 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 namespace HPRebar.Mcp.Server.Registry;
 
 /// <summary>
-///     The human's door into the registry: `HPRebar.Mcp.Server.exe registry &lt;command&gt;`. Runs in the
+///     The human's door into the registry: `&lt;server&gt;.exe registry &lt;command&gt;` (the exe name comes from the
+///     host profile: `HPRebar.Mcp.Server.exe`, `HPAutoCad.Mcp.Server.exe`). Runs in the
 ///     same process image as the MCP server but never starts the transport; it edits the library files
 ///     and exits, and every running server picks the change up through its folder watcher.
 /// </summary>
 public static class RegistryCli
 {
-    public const string Usage = """
-        HPRebar.Mcp.Server.exe registry <command> [options]
+    public static string Usage(string exe) => exe + """
+         registry <command> [options]
 
           list [--status <draft|tested|pending_approval|published|quarantined|deprecated>]
           pending                          tools waiting for approval, with their review files
@@ -27,11 +28,11 @@ public static class RegistryCli
     public static async Task<int> RunAsync(IServiceProvider services, string[] args, TextWriter? output = null)
     {
         output ??= Console.Out;
-        if (args.Length == 0 || args[0] is "help" or "--help" or "-h") { output.WriteLine(Usage); return 0; }
+        var manager = services.GetRequiredService<ToolManager>();
+        if (args.Length == 0 || args[0] is "help" or "--help" or "-h") { output.WriteLine(Usage(manager.Profile.CliExecutable)); return 0; }
 
         var store = services.GetRequiredService<ToolLibraryStore>();
         var db = services.GetRequiredService<ToolRegistryDb>();
-        var manager = services.GetRequiredService<ToolManager>();
         var lifecycle = services.GetRequiredService<ToolLifecycleService>();
 
         store.EnsureRoot();
@@ -141,6 +142,9 @@ public static class RegistryCli
                     {
                         var record = store.TryRead(folder);
                         if (record is null) { output.WriteLine($"skipped {folder}: unreadable"); continue; }
+                        // Same fence as LoadAllAsync: a folder copied from the other host's library never becomes a live tool here.
+                        if (record.Host is not null && !string.Equals(record.Host, manager.Profile.HostId, StringComparison.OrdinalIgnoreCase)) { output.WriteLine($"skipped {folder}: host '{record.Host}' is not '{manager.Profile.HostId}'"); continue; }
+                        record.Host ??= manager.Profile.HostId;
                         if (record.Status == ToolStatus.Published && manager.Options.PublishPolicy == RegistryOptions.PolicyManual) record.Status = ToolStatus.Tested; // re-approve locally
                         record.Folder = null;
                         manager.Save(record, "imported", by, folder);
@@ -151,7 +155,7 @@ public static class RegistryCli
                     return 0;
                 }
                 default:
-                    output.WriteLine(Usage);
+                    output.WriteLine(Usage(manager.Profile.CliExecutable));
                     return 2;
             }
         }

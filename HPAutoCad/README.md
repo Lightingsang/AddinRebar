@@ -10,10 +10,10 @@ Plan of record: [`../plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/26091
 ## Status
 
 Phase 4 done (2026-09-14): `HPAutoCad.Mcp.Server.exe` serves MCP over stdio — 24 tools (4 core + 8 registry + 12 seed
-tools installed into `%AppData%\HPAutoCad\McpServer	ools-library\` on first start), `autocad://` resources, 2 prompts —
+tools installed into `%AppData%\HPAutoCad\McpServer\tools-library\` on first start), `autocad://` resources, 2 prompts —
 and every seed runs end-to-end inside AutoCAD 2026 (verified with `tools/harness/run-server-smoke.ps1`, 21/21). Phase 2 gave the bridge itself: pipe listener, main-thread
 executor (`Application.Idle` + `IsQuiescent`), two bridge-owned transactions (`tr` is the script's), change counting,
-audit, status window (`tools/harness/run-bridge-unattended.ps1`, 21/21). No seed tools yet — phase 4.
+audit, status window (`tools/harness/run-bridge-unattended.ps1`, 21/21).
 AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI code execution" opt-in), `HPMCPSTART`,
 `HPMCPSTOP`, `HPMCPSTATUS`.
 
@@ -21,7 +21,7 @@ AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI co
 |---|---|---|
 | `HPAutoCad.McpBridge.Loader` | 1 ✅ | The DLL AutoCAD loads: `IExtensionApplication`, the `HPMCP*` commands, an isolated `AssemblyLoadContext` for the real bridge |
 | `HPAutoCad.McpBridge` | 1–2 ✅ | The bridge: Roslyn + self-check, `MainThreadExecutor`, `AutocadScriptRunner` (lock + outer/inner transaction, dryRun, timeout), context reader, serializer, XAML status window |
-| `tools/harness/` | 2–3 ✅ | Unattended harnesses (Python + PowerShell): `run-bridge-unattended.ps1` (pipe, 21 scenarios), `run-server-smoke.ps1` (published exe over stdio, 7 steps), shared SECURELOAD/UIA/COM helpers |
+| `tools/harness/` | 2–3 ✅ | Unattended harnesses (Python + PowerShell): `run-bridge-unattended.ps1` (pipe, 21 scenarios), `run-server-smoke.ps1` (published exe over stdio, 22 steps incl. every seed), shared SECURELOAD/UIA/COM helpers |
 | `HPAutoCad.Mcp.Server` | 3–4 ✅ | The MCP server exe (net10, stdio): `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, `autocad://` resources, prompts, 12 embedded seed tools (`Registry/SeedLibrary/`) |
 | `HPAutoCad.Mcp.Server.Tests` | 3–4 ✅ | xUnit v3 (46): profile, tool surface, tools over a real pipe, every seed compile-checked against `AutoCAD.NET` 25.1.0 from the NuGet cache (no AutoCAD needed) |
 

@@ -18,7 +18,7 @@
     "query"
   ],
   "title": "Get drawing info",
-  "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only.",
+  "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents (null until the drawing has any; as of the last regen/save) in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only.",
   "inputSchema": {
     "type": "object",
     "properties": {

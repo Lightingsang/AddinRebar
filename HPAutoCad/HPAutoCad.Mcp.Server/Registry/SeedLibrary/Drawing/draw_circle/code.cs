@@ -1,4 +1,9 @@
-var center = args.Obj("center");
+Point3d P(HPRebar.McpBridge.Core.Scripting.ScriptArgs point, string key)
+{
+    if (!point.Has("x") || !point.Has("y")) throw new ArgumentException($"{key} must be an object {{x, y}} in millimetres.");
+    return new Point3d(units.ToDrawing(point.Double("x")), units.ToDrawing(point.Double("y")), 0);
+}
+var center = P(args.Obj("center"), "center");
 double radiusMm = args.Double("radiusMm");
 if (radiusMm <= 0) throw new ArgumentException("radiusMm must be greater than 0.");
 string layer = args.Str("layer");
@@ -8,7 +13,7 @@ void RequireLayer(string layerName)
     if (!table.Has(layerName)) throw new ArgumentException($"Layer '{layerName}' does not exist in this drawing; run create_layer first or omit layer.");
 }
 
-var circle = new Circle(new Point3d(units.ToDrawing(center.Double("x")), units.ToDrawing(center.Double("y")), 0), Vector3d.ZAxis, units.ToDrawing(radiusMm));
+var circle = new Circle(center, Vector3d.ZAxis, units.ToDrawing(radiusMm));
 if (!string.IsNullOrWhiteSpace(layer)) { RequireLayer(layer); circle.Layer = layer; }
 
 var space = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);

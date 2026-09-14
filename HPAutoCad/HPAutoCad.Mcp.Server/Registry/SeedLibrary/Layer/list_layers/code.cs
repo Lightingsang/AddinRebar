@@ -23,7 +23,7 @@ var layers = records.OrderBy(l => l.Name, StringComparer.OrdinalIgnoreCase).Sele
     isFrozen = l.IsFrozen,
     isLocked = l.IsLocked,
     isPlottable = l.IsPlottable,
-    lineweight = l.LineWeight.ToString(),
+    lineweight = (int)l.LineWeight, // hundredths of a mm as create_layer takes it; -3 default, -1 ByLayer, -2 ByBlock
     entityCount = includeCounts ? (int?)(counts.TryGetValue(l.Name, out var n) ? n : 0) : null,
 }).ToList();
 log($"{layers.Count} layers");

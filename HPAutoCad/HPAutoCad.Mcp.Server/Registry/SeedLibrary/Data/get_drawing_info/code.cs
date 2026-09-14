@@ -9,7 +9,7 @@ foreach (ObjectId id in modelSpace)
     total++;
     if (!countByType) continue;
     ct.ThrowIfCancellationRequested();
-    var dxf = id.ObjectClass.DxfName;
+    var dxf = id.ObjectClass.DxfName ?? id.ObjectClass.Name; // custom ARX classes may carry no DXF name
     counts[dxf] = counts.TryGetValue(dxf, out var c) ? c + 1 : 1;
 }
 
@@ -26,11 +26,14 @@ return new
     measurement = db.Measurement.ToString(),
     unitsLabel = units.Label,
     mmPerUnit = units.MmPerUnit,
-    extentsMm = new
-    {
-        min = new { x = Mm(db.Extmin.X), y = Mm(db.Extmin.Y), z = Mm(db.Extmin.Z) },
-        max = new { x = Mm(db.Extmax.X), y = Mm(db.Extmax.Y), z = Mm(db.Extmax.Z) },
-    },
+    // EXTMIN/EXTMAX hold ±1e20 sentinels until the drawing has extents; they refresh on regen/save.
+    extentsMm = db.Extmin.X <= db.Extmax.X
+        ? new
+        {
+            min = new { x = Mm(db.Extmin.X), y = Mm(db.Extmin.Y), z = Mm(db.Extmin.Z) },
+            max = new { x = Mm(db.Extmax.X), y = Mm(db.Extmax.Y), z = Mm(db.Extmax.Z) },
+        }
+        : null,
     currentLayout = LayoutManager.Current.CurrentLayout,
     currentLayer,
     layerCount,

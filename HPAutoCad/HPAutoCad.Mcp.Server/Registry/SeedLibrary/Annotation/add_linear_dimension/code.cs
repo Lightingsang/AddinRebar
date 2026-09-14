@@ -1,13 +1,17 @@
-Point3d P(HPRebar.McpBridge.Core.Scripting.ScriptArgs a) => new Point3d(units.ToDrawing(a.Double("x")), units.ToDrawing(a.Double("y")), 0);
+Point3d P(HPRebar.McpBridge.Core.Scripting.ScriptArgs point, string key)
+{
+    if (!point.Has("x") || !point.Has("y")) throw new ArgumentException($"{key} must be an object {{x, y}} in millimetres.");
+    return new Point3d(units.ToDrawing(point.Double("x")), units.ToDrawing(point.Double("y")), 0);
+}
 void RequireLayer(string layerName)
 {
     var table = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead);
     if (!table.Has(layerName)) throw new ArgumentException($"Layer '{layerName}' does not exist in this drawing; run create_layer first or omit layer.");
 }
 
-var p1 = P(args.Obj("p1"));
-var p2 = P(args.Obj("p2"));
-var dimLinePoint = P(args.Obj("dimLinePoint"));
+var p1 = P(args.Obj("p1"), "p1");
+var p2 = P(args.Obj("p2"), "p2");
+var dimLinePoint = P(args.Obj("dimLinePoint"), "dimLinePoint");
 bool aligned = args.Bool("aligned", false);
 double rotation = args.Double("rotationDeg", 0) * Math.PI / 180.0;
 string dimStyle = args.Str("dimStyle");

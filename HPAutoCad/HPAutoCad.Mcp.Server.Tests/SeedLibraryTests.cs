@@ -2,6 +2,8 @@ using System.Text;
 using System.Text.Json;
 using HPAutoCad.Mcp.Server.Hosts;
 using HPRebar.Mcp.Contracts;
+using HPRebar.Mcp.Server.Registry;
+using HPRebar.Mcp.Server.Registry.Model;
 using HPRebar.McpBridge.Core.Scripting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -98,6 +100,9 @@ public sealed class SeedLibraryTests
         var required = tool.GetProperty("inputSchema").TryGetProperty("required", out var r) ? r.EnumerateArray().Select(e => e.GetString()!).ToArray() : [];
         Assert.All(required, name => Assert.Contains(name, properties));
 
+        // A JSON string written as if inside a C# literal reaches the AI double-escaped (`\\P` instead of `\P`).
+        Assert.All(Strings(tool).Concat(Strings(seed.Examples)), s => Assert.False(s.Contains("\\\\") || s.Contains("\\\""), "double-escaped: " + s));
+
         Assert.True(seed.Examples.GetArrayLength() >= 2, "need at least two examples");
         var distinct = seed.Examples.EnumerateArray().Select(e => JsonSerializer.Serialize(e.GetProperty("args"))).Distinct().Count();
         Assert.True(distinct >= 2, "examples must differ in args");
@@ -108,6 +113,20 @@ public sealed class SeedLibraryTests
             Assert.All(argsKeys, k => Assert.Contains(k, properties));
             Assert.All(required, k => Assert.Contains(k, argsKeys, StringComparer.OrdinalIgnoreCase));
         }
+    }
+
+    [Theory]
+    [MemberData(nameof(Seeds))]
+    public void Seed_record_passes_the_registry_validator_for_the_autocad_profile(string key)
+    {
+        var seed = Get(key);
+        var record = RegistryJson.Deserialize<ToolRecord>(seed.Tool.GetRawText())!;
+        record.Code = seed.Code;
+        record.Examples = RegistryJson.Deserialize<List<ToolExample>>(seed.Examples.GetRawText())!;
+
+        var report = ToolValidator.Validate(record, null, [], false, AutocadHostProfile.Instance);
+
+        Assert.True(report.IsValid, string.Join("; ", report.Errors));
     }
 
     [Theory]
@@ -154,7 +173,15 @@ public sealed class SeedLibraryTests
         Assert.Contains(ScriptGuard.Check("var p = ed.GetPoint(\"pick\"); return p.Value;", GuardProfile.Autocad), d => d.Message.Contains("GetPoint"));
     }
 
-    private static bool ToolValidatorIsReserved(string name) => HPRebar.Mcp.Server.Registry.ToolValidator.IsReserved(name, AutocadHostProfile.Instance);
+    private static bool ToolValidatorIsReserved(string name) => ToolValidator.IsReserved(name, AutocadHostProfile.Instance);
+
+    private static IEnumerable<string> Strings(JsonElement element) => element.ValueKind switch
+    {
+        JsonValueKind.String => [element.GetString()!],
+        JsonValueKind.Object => element.EnumerateObject().SelectMany(p => Strings(p.Value)),
+        JsonValueKind.Array => element.EnumerateArray().SelectMany(Strings),
+        _ => [],
+    };
 
     /// <summary>
     ///     Wraps a script body in a class with the bridge's globals and compiles it against the AutoCAD 2026
