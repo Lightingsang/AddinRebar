@@ -27,8 +27,8 @@ revised: 2026-09-14
 | # | File | Status | Depends | Effort |
 |---|---|---|---|---|
 | 0 | [phase-00](phase-00-host-profile-server-and-core-neutralization.md) — **Extract `McpShared/`** (git mv Contracts/Core, tách `Server.Core` khỏi exe Revit, test engine theo mã, `McpShared.slnx`, `HPRebar.slnx` path, fix `ResolveConfigurationsModule`), Core host-neutral, scaffold `HPAutoCad/`; CLAUDE.md/AGENTS.md | **built + tested + smoke-verified (2026-09-14)** — 9 commit `8a1144f..876c3d6`; 70 + 106 test; `tools/list` byte-identical; live `get_revit_context` với bridge cũ OK; review 6.5/10 → 2 major đã fix (VM marshaller, options binder) | — | 14h (≈12h) |
-| 1 | [phase-01](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — `HPAutoCad/` 2 project bridge, bundle, ALC, **spike có gate** (Roslyn trong ALC, Idle từ thread ngoài, WPF modeless) | planned — **sẵn sàng** (phase 0 xong) | 0 | 8h |
-| 2 | [phase-02](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe 10 kịch bản | planned | 0, 1 | 14h |
+| 1 | [phase-01](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — `HPAutoCad/` 2 project bridge, bundle, ALC, **spike có gate** | **built + verified in AutoCAD 2026 (2026-09-14)** — spike 5/5 unattended: ALC OK, Idle OK, `ExecuteInApplicationContext` loại (`reports/phase-01-spike.md`) | 0 | 8h (≈4h) |
+| 2 | [phase-02](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe 10 kịch bản | planned — **sẵn sàng** | 0, 1 | 14h |
 | 3 | [phase-03](phase-03-server-autocad-host-tools-prompts-resources.md) — exe `HPAutoCad.Mcp.Server` (Program mỏng + `AutocadHostProfile` + 4 tool/prompt/resource), tests, `.mcp.json`, hai-exe smoke | planned | 0 | 6h |
 | 4 | [phase-04](phase-04-registry-per-host-and-autocad-seed-tools.md) — registry theo profile trong `McpShared` (categories/validator/text/`host`), **12 seed AutoCAD** nhúng trong exe + compile-check | planned | 3 | 12h |
 | 5 | [phase-05](phase-05-verify-live-autocad-registry-loop-and-docs.md) — execute matrix 14 · mọi seed · **HIT · MISS→approve→gọi tên · HỎNG→quarantine→restore** · hồi quy Revit + hai exe song song · docs/CLAUDE.md/AGENTS.md | planned | 2, 3, 4 | 10h |
@@ -42,9 +42,9 @@ revised: 2026-09-14
 ## Top-5 risks
 | Risk | L×I | Mitigation |
 |---|---|---|
-| Roslyn 5.9 trong ALC riêng vẫn bind Roslyn 4.10 / Immutable 8.0 của AutoCAD | M×H | ALC `Load` ưu tiên resolver cho mọi assembly trong deps.json; canary phase 1; phương án B: compile trong server gửi IL |
+| ~~Roslyn 5.9 trong ALC riêng vẫn bind Roslyn 4.10 / Immutable 8.0 của AutoCAD~~ **ĐÃ LOẠI (spike 2026-09-14)** | — | ALC riêng verified; canary `ScriptingSelfCheck` giữ ở startup |
 | Di dời `McpShared/` phá build/test Revit (`.slnx` `..\` `[unverified]`, `FindFile(".slnx")` bắt nhầm solution, `SeedInstaller` mặc định assembly sai, `WithToolsFromAssembly` quét sai assembly) | M×M | phase 0 là phase riêng, không đổi hành vi; snapshot `tools/list` before/after; pin `Solutions.HPRebar`; `SeedInstaller(hostAssembly)`; fallback `.sln`/`McpServerTool.Create` |
-| `Application.Idle` không subscribe được từ pipe thread / `ExecuteInApplicationContext` chưa verify | M×M | spike phase 1; fallback subscribe vĩnh viễn ở `Start()`; ADR-02 cập nhật theo kết quả |
+| ~~`Application.Idle` không subscribe được từ pipe thread~~ **ĐÃ LOẠI (spike)**: subscribe từ thread ngoài OK, handler trên main thread; `ExecuteInApplicationContext` bị loại (callback trên thread gọi) | — | ADR-02 Accepted |
 | Script treo AutoCAD (prompt/vòng lặp không hợp tác) hoặc AutoCAD bận (command/modal) | M×M | guard deny `ed.Get*`/command; `ct` cooperative; `IsQuiescent` + `BusyGraceSeconds` → `-32002` "press ESC"; `LockDocument` luôn |
 | Bundle không nạp (SECURELOAD/TRUSTEDPATHS) hoặc nạp vào Civil 3D/Advance Steel cùng R25.1 → tranh pipe | L×M | `Platform="AutoCAD"` MVP; NETLOAD tay + TRUSTEDPATHS docs; pipe `maxInstances=1` fail-fast; pipe Revit/AutoCAD khác tên nên hai MCP không xung đột nhau |
 

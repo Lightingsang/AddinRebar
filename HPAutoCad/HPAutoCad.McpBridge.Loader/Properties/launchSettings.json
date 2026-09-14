@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "AutoCAD 2026": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Autodesk\\AutoCAD 2026\\acad.exe",
+      "commandLineArgs": "/nologo /product ACAD /language \"en-US\""
+    }
+  }
+}

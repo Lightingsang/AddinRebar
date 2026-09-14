@@ -1,6 +1,6 @@
 # ADR-05 — Packaging & deploy plugin AutoCAD: bundle autoloader, loader mỏng + AssemblyLoadContext riêng cho Roslyn, MVP chỉ 2026 (.NET 8)
 
-**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project sống trong `HPAutoCad/`, solution riêng, pipe `hpautocad-mcp-2026`, settings `%AppData%\HPAutoCad\McpBridge\`) · **Status:** Proposed · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project sống trong `HPAutoCad/`, solution riêng, pipe `hpautocad-mcp-2026`, settings `%AppData%\HPAutoCad\McpBridge\`) · **Status:** **Accepted (2026-09-14)** — §1 (loader + ALC riêng) và §2 (manifest) verified by `reports/phase-01-spike.md`: Roslyn 5.9 + Immutable 10 nạp vào context `HPAutoCad.McpBridge`, AcDbMgd ở Default, self-check 1,6 s, bundle autoload không dialog · **Owner:** HPRebar
 **Kế thừa:** [ADR-06 one MCP one folder](adr-06-one-mcp-one-folder.md) · [Revit ADR-01 (bridge = add-in riêng, Roslyn không ILRepack)](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-01-two-process-topology.md) · Research: [autocad-dotnet-api-2026-report.md §0.1–0.3, §3, §12](../research/autocad-dotnet-api-2026-report.md) · [reference report Addendum](../research/autocad-bridge-reference-report.md)
 
 ## Context (facts đã kiểm 2026-09-13)

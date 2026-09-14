@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPAutoCad.McpBridge</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <!-- Loaded by HPAutoCad.McpBridge.Loader into its own AssemblyLoadContext: EnableDynamicLoading writes the
+             deps.json the resolver reads and copies every dependency (Roslyn, System.Collections.Immutable 10,
+             System.Text.Json 10, Serilog, Mvvm) next to the DLL so the isolated context can load private copies. -->
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <AutocadVersion Condition="'$(AutocadVersion)' == ''">2026</AutocadVersion>
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile against the AutoCAD 2026 API, never copy it: the running acad.exe supplies these assemblies
+             and the load context deliberately refuses to load a second copy of them. -->
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+</Project>

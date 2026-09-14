@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPAutoCad.McpBridge.Loader</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
+        <AutocadVersion Condition="'$(AutocadVersion)' == ''">2026</AutocadVersion>
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+        <!-- Copy the bundle to %AppData%\Autodesk\ApplicationPlugins after a Debug build; pass -p:DeployBundle=false while AutoCAD is open. -->
+        <DeployBundle Condition="'$(DeployBundle)' == ''">true</DeployBundle>
+        <BundleDir>$(APPDATA)\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\</BundleDir>
+        <BridgeOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad.McpBridge\bin\$(Configuration)\net8.0-windows\</BridgeOutDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The only assembly AutoCAD loads directly. It carries the extension entry point and the commands,
+             creates an isolated AssemblyLoadContext and starts the real bridge from Contents\Bridge by reflection —
+             so this project must never reference HPAutoCad.McpBridge or anything it depends on. -->
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Build ordering only: the bundle needs the bridge's output, but the loader must not reference its assembly. -->
+        <ProjectReference Include="..\HPAutoCad.McpBridge\HPAutoCad.McpBridge.csproj" ReferenceOutputAssembly="false" Private="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Bundle\PackageContents.xml"/>
+    </ItemGroup>
+
+    <Target Name="DeployBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(Configuration)' == 'Debug'">
+        <ItemGroup>
+            <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml"/>
+            <_BridgeFiles Include="$(BridgeOutDir)**\*"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(BundleDir)Contents\" ContinueOnError="true"/>
+        <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Message Importance="high" Text="HPAutoCad bundle deployed to $(BundleDir)"/>
+    </Target>
+
+</Project>

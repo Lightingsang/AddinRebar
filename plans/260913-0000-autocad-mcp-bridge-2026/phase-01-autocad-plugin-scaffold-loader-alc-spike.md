@@ -1,8 +1,8 @@
 ---
 title: "Phase 1 — Scaffold plugin AutoCAD 2026: Loader + AssemblyLoadContext riêng, bundle, spike threading/Roslyn"
-status: planned
+status: built + verified in AutoCAD 2026 (2026-09-14) — spike 5/5 pass unattended (reports/phase-01-spike.md); ALC isolation + Idle marshalling confirmed; ExecuteInApplicationContext rejected
 priority: P1
-effort: 8h
+effort: 8h (actual ≈ 4h)
 depends_on: [phase-00 bước 1–2]
 created: 2026-09-13
 revised: 2026-09-14 (ADR-06 — project trong `HPAutoCad/`, solution riêng)
@@ -59,7 +59,8 @@ Xem [architecture.md §5](architecture.md#5-layout-project-mới--sửa--giữ-)
 7. Cập nhật `Status`/Decision của ADR-02 (đường chính Idle hay ExecuteInApplicationContext) và ADR-05 (ALC OK / phương án B).
 
 ## Todo
-- [ ] 1 csproj + build · [ ] 2 ALC · [ ] 3 loader/entry · [ ] 4 self-check · [ ] 5 bundle/deploy/slnx · [ ] 6 spike trong AutoCAD + report · [ ] 7 ADR update
+- [x] 1 csproj + build (bridge output: deps.json, Roslyn 5.9 ×4, Immutable 10, không `Ac*`) · [x] 2 ALC (`BridgeLoadContext`, resolver + từ chối `Ac*/Ad*/Autodesk.*`) · [x] 3 loader/entry (`BridgeLoaderApplication` reflection → `BridgeEntry.Start` trả `IReadOnlyDictionary<string, Delegate>`) · [x] 4 self-check (`ScriptingSelfCheck`, OK 1 577 ms) · [x] 5 bundle/deploy/slnx (`DeployBundle` target trong Loader csproj; `HPAutoCad.slnx` 2 project) · [x] 6 spike trong AutoCAD + report (unattended `acad.exe /b spike.scr` → `HPMCPSPIKEQUIT`; 5/5 pass, modal chưa test) · [x] 7 ADR-02/05 → Accepted
+- Sai lệch: placeholder window dựng bằng code (không XAML) cho tới phase 2; `HPMCPSPIKEQUIT` không tự thoát AutoCAD (harness kill).
 
 ## Success criteria
 - `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false` vẫn xanh và **không** build gì của `HPAutoCad/`.
