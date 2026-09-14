@@ -63,6 +63,13 @@ try {
     else { Check 'exactly one tab after switching workspace and back' ($afterSwitch.Count -eq 1 -and $afterBack.Count -eq 1 -and $now -eq $original) ("'$original' -> '$OtherWorkspace': $($afterSwitch.Count) tab(s); back to '$now': $($afterBack.Count) tab(s)") }
 
     $selected = Select-RibbonTab $p.Id 'HPAUTOCAD_MCP_TAB'
+    $null = Save-RibbonScreenshot $p.Id (Join-Path $OutDir 'ribbon-tab.png')
+    if (Test-Path $pipe) {
+        # The user's settings.json may auto-start the listener; the baseline must not depend on it.
+        Write-Host 'listener auto-started (AutoStartListener=true): pressing "Tắt listener" to establish the baseline'
+        $null = Invoke-RibbonButton $p.Id '^Tắt listener'
+        $null = Wait-Pipe $false 10
+    }
     Check 'listener is off before the button test' (-not (Test-Path $pipe)) "pipe exists=$(Test-Path $pipe)"
     if (Invoke-RibbonButton $p.Id '^Bật listener') { Check 'button "Bật listener" brings the pipe up' (Wait-Pipe $true 10) "pipe exists=$(Test-Path $pipe)" }
     else { Manual 'button "Bật listener" brings the pipe up' 'button not found through UIA' }
@@ -75,11 +82,14 @@ try {
         if ($window) { $box = $window.FindFirst([System.Windows.Automation.TreeScope]::Descendants, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'AllowExecution'))) }
         Check 'button "Bảng điều khiển" opens the bridge window' ([bool]$box) ("window=" + $(if ($window) { $window.Current.Name } else { 'none' }))
     } else { Manual 'button "Bảng điều khiển" opens the bridge window' 'button not found through UIA' }
+    $beforeStatus = (Get-Content $loaderLog).Count
     if (Invoke-RibbonButton $p.Id '^Trạng thái') {
         Start-Sleep -Seconds 2
-        $failed = (Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match 'failed'
-        Check 'button "Trạng thái" runs without a failure in loader.log' ($failed.Count -eq 0) ("failed lines: $($failed.Count)")
+        $failed = (Get-Content $loaderLog | Select-Object -Skip $beforeStatus) -match 'failed'
+        Check 'button "Trạng thái" runs without a failure in loader.log' ($failed.Count -eq 0) ("failed lines after the click: $($failed.Count)")
     } else { Manual 'button "Trạng thái" runs without a failure' 'button not found through UIA' }
+    $anyFailure = (Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match 'failed|exception'
+    Check 'no failure or exception in loader.log for the whole run' ($anyFailure.Count -eq 0) ("lines: $($anyFailure.Count)")
 }
 catch {
     Check 'ribbon check aborted' $false $_.Exception.Message

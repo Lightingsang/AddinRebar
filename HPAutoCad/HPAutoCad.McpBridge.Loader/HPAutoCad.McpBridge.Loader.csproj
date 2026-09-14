@@ -32,6 +32,8 @@
 
     <ItemGroup>
         <None Include="Bundle\PackageContents.xml"/>
+        <!-- The Ribbon's "Hướng dẫn" button opens the README beside the loader DLL: in the bundle (DeployBundle copies it) and in bin (NETLOAD try-outs). -->
+        <None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
     <!-- Both projects share one TFM; the bridge output folder is derived from it, so a TFM change cannot silently deploy nothing. -->

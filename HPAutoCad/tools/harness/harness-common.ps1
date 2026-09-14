@@ -126,3 +126,22 @@ function Invoke-RibbonButton([int]$processId, [string]$namePattern) {
     try { $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); return $true }
     catch { Write-Host "invoke /$namePattern/ failed: $($_.Exception.Message)"; return $false }
 }
+
+function Save-RibbonScreenshot([int]$processId, [string]$path) {
+    # A picture of the AutoCAD frame (top 260 px: title, Ribbon tabs, the selected tab's panels) so icons and
+    # layout can be checked from a log folder without a person at the screen.
+    try {
+        Add-Type -AssemblyName System.Drawing
+        $frame = Get-AcadFrame $processId
+        if (-not $frame) { return $false }
+        $r = $frame.Current.BoundingRectangle
+        $h = [Math]::Min(260, [int]$r.Height)
+        $bmp = New-Object System.Drawing.Bitmap([int]$r.Width, $h)
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.CopyFromScreen([int]$r.X, [int]$r.Y, 0, 0, $bmp.Size)
+        $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
+        $g.Dispose(); $bmp.Dispose()
+        Write-Host "ribbon screenshot: $path"
+        return $true
+    } catch { Write-Host "screenshot failed: $($_.Exception.Message)"; return $false }
+}

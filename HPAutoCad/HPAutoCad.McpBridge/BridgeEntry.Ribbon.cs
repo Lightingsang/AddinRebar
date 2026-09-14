@@ -11,16 +11,26 @@ namespace HPAutoCad.McpBridge;
 /// </summary>
 public static partial class BridgeEntry
 {
-    /// <summary>Folder of the MCP server's tool library — the AI's stored tools, one folder per tool.</summary>
+    /// <summary>
+    ///     Folder of the MCP server's tool library — the AI's stored tools, one folder per tool. Mirrors the
+    ///     server's default (RegistryOptions.DefaultRootFor + "tools-library"); a relocated library
+    ///     (Registry:LibraryPath) lives in the server's own config, which this process cannot read.
+    /// </summary>
     private static readonly string ToolLibraryDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), VendorFolder, "McpServer", "tools-library");
 
     private static void AddRibbonEntryPoints(Dictionary<string, Delegate> entries, McpBridgeHost host, BridgeSettingsStore store)
     {
-        // Subscribe to state changes: the callback gets (kind, text) now and on every change; the returned Action unsubscribes.
-        entries["status.subscribe"] = new Func<Action<string, string>, Action>(callback =>
+        // Subscribe to state changes: the callback gets (kind, text, autoStart) now and on every change; the returned
+        // Action unsubscribes. The callback is foreign code across the load-context boundary, raised on whatever
+        // thread noticed the change (the pipe thread included): a throw must never reach the listener.
+        entries["status.subscribe"] = new Func<Action<string, string, bool>, Action>(callback =>
         {
-            void Publish() => callback(StatusKind(host), StatusText(host));
+            void Publish()
+            {
+                try { callback(StatusKind(host), StatusText(host), host.AutoStartListener); }
+                catch (Exception exception) { Serilog.Log.Warning(exception, "Ribbon status callback failed"); }
+            }
             host.StateChanged += Publish;
             Publish();
             return () => host.StateChanged -= Publish;
@@ -60,7 +70,7 @@ public static partial class BridgeEntry
         var state = host.Status switch
         {
             BridgeStatus.Stopped => "Bridge sẵn sàng — listener tắt",
-            BridgeStatus.Listening => host.HasClient ? "MCP server đã kết nối" : $"Đang lắng nghe trên {host.PipeName} — chờ MCP server",
+            BridgeStatus.Listening => host.HasClient ? "MCP server đã kết nối" : "Đang lắng nghe — chờ MCP server",
             BridgeStatus.Connected => "MCP server đã kết nối",
             BridgeStatus.Busy => "MCP server đã kết nối — đang chạy script",
             BridgeStatus.Error => "Lỗi listener: " + (host.StatusMessage ?? "xem nhật ký"),
