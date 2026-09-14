@@ -1,7 +1,7 @@
 ---
 title: "HPAutoCad — Ribbon tab \"MCP AutoCAD\""
 description: "Tab Ribbon trong AutoCAD 2026 cho các chức năng bridge hiện có (cửa sổ, listener, trạng thái sống, script cuối, thư mục log/audit/library, tự khởi động, hướng dẫn) — Autodesk.Windows API trong loader, không CUIx, không server"
-status: in-progress
+status: completed
 priority: P2
 effort: 6h
 branch: RebarVersion1
@@ -30,7 +30,7 @@ Mở rộng **loader** bằng `Autodesk.Windows` (RibbonTab id `HPAUTOCAD_MCP_TA
 | # | File | Status | Effort |
 |---|---|---|---|
 | 1 | [phase-01](phase-01-ribbon-tab-and-bridge-entry-points.md) — entry point mới trong `BridgeEntry`, `Ribbon/` trong loader (tab, handler, icon, status presenter), idempotent + workspace-safe | **built + tested + verified (2026-09-14)** — 0 warning, 58 test, live 8/8 | 4h (≈1.5h) |
-| 2 | [phase-02](phase-02-harness-deploy-verify-docs.md) — `run-ribbon-check.ps1` (UIA), deploy bundle, hồi quy 21/21 + 22/22, README/CLAUDE.md, report | in-progress — harness + hồi quy + README done; tester/review/docs/journal pending | 2h |
+| 2 | [phase-02](phase-02-harness-deploy-verify-docs.md) — `run-ribbon-check.ps1` (UIA), deploy bundle, hồi quy 21/21 + 22/22, README/CLAUDE.md, report | **built + tested + verified (2026-09-14)** — live 9/9, hồi quy 21/21 + 22/22, review 8/10 → 14 fixed | 2h (≈1h) |
 
 ## Quyết định
 | Quyết định | Lựa chọn | Lý do |

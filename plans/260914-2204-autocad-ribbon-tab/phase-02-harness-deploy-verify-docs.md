@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Harness Ribbon, deploy bundle, hồi quy, docs"
-status: in-progress
+status: completed
 priority: P2
 effort: "2h"
 dependencies: [1]
@@ -36,7 +36,7 @@ Chứng minh tab hoạt động trong AutoCAD 2026 thật bằng harness không 
 - [x] `run-ribbon-check.ps1`: 8/8 PASS, 0 MANUAL (run 3; UIA tìm tab theo AutomationId, workspace qua `SetVariable`) — `reports/ribbon-live-check.md`
 - [x] `run-bridge-unattended.ps1` 21/21, `run-server-smoke.ps1` 22/22 (assertion tools/list nới `>= 24` vì registry máy dev có 2 tool đã duyệt)
 - [x] loader.log không có exception mới; không AutoCAD sót
-- [ ] README/CLAUDE.md/AGENTS.md/changelog cập nhật; report Antigravity phân biệt (a) test tự động, (b) build, (c) harness trong AutoCAD, (d) checklist tay
+- [x] README/CLAUDE.md/AGENTS.md/changelog cập nhật; report `ribbon-live-check.md` phân biệt rõ (a) build+58 test, (b) harness 9/9 trong AutoCAD, (c) checklist tay; review 8/10 → 14 finding fixed
 
 ## Risk Assessment
 - UIA của AdWindows có thể không expose tab (AutomationPeer) → thử `TreeScope.Descendants` từ cửa sổ chính; nếu vẫn không, dùng `ComponentManager` không được từ ngoài → ghi MANUAL, người dùng kiểm tay (không claim).

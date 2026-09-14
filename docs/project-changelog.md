@@ -2,6 +2,35 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge: Ribbon tab "MCP AutoCAD" (plan 260914-2204-autocad-ribbon-tab)
+
+**Bổ sung:** Ribbon tab "MCP AutoCAD" (bundle 0.2.0) in the loader via Autodesk.Windows (compile-time only). Tab id `HPAUTOCAD_MCP_TAB`; three panels (Kết nối: status window, start/stop, status, live label; Công cụ: copy last script, tool library; Thiết lập: logs, audit, auto-start toggle, guide); 9 buttons + 1 live label, all forward to bridge entry points (status.subscribe, copyLastScript, autoStart.get/set, path, show/start/stop/status). Entry points cross ALC via BCL types only. No CUIx modification. Tab lifecycle: created once on Ribbon init, re-created after workspace switch (SystemVariableChanged → Idle → EnsureCreated guard), guarded against duplication, removed on Terminate. Icons are vector drawings in code. When bridge unavailable, Ribbon buttons disabled with tooltip.
+
+**Xác minh:** Live run 2026-09-14 via `run-ribbon-check.ps1` 8/8 (UIA automation): tab exactly once, survives workspace round trip, Bật listener → pipe up, Tắt → down, Bảng điều khiển → window, Trạng thái clean. Regressions: bridge 21/21 (`run-bridge-unattended.ps1`), server 22/22 (`run-server-smoke.ps1`, now accepts approved tools ≥ 24). Build 0 warn/err (HPAutoCad.McpBridge.Loader.csproj, -UseWPF, -DeployBundle copy README.md). Tests: 263 total (96 McpShared, 109 HPRebar MCP, 58 AutoCAD). Code: loader 6 files / 398 LOC (BridgeActions 78, McpRibbonTab 181, RibbonStatusPresenter 52, RibbonCommandHandler 27, RibbonIcons 65), bridge BridgeEntry.Ribbon 71; harness +run-ribbon-check.ps1 98 + harness-common.ps1 +49 helper functions.
+
+**Load-bearing gotchas for future work:**
+- `UseWPF` on the loader removes implicit `System.IO` using → add explicitly
+- AdWindows exposes Ribbon tab header as `Button` with `AutomationId=tab id` (not `TabItem`)
+- RibbonButton is `Button` named after its text once tab selected
+- `SendCommand('_.WSCURRENT …')` over COM never returns → use `ActiveDocument.SetVariable('WSCURRENT', …)` instead
+- Workspace switch drops code-added tabs → loader re-creates them automatically
+
+**Các quyết định:**
+- Ribbon entry points BCL-only: `Func<Action<string,string>, Action>` (status.subscribe), `Func<string>` (show/status/copyLastScript/path), `Func<bool>` (autoStart.get), `Action<bool>` (autoStart.set) — no bridge types cross ALC
+- Commands + buttons share `BridgeActions` runner to prevent duplication
+- Tab never duplicates via `FindTab` guard + `EnsureCreated` logic
+- Not on Ribbon: opt-in checkbox (stays in window, OFF on load), tool-run button (server owns tools, never bridge)
+- Icons: vector DrawingImage in code, no external image files
+
+**Bước tiếp:**
+- Ribbon plan (260914-2204) complete on top of the finished bridge plan (260913-0000, phases 0–5)
+- Phases 4–5 known gaps remain: Revit opt-in runtime unverified (harness E1 skipped), Revit 2025, AutoCAD 2026 Update 1.2 (.NET 10), modal dialog + ESC-retry, per-run undo
+- Next: user smoke test in live AutoCAD (normal Start menu launch, clicks while command waits, clipboard/Explorer effects)
+
+**Commits:** e5fae0a feat (ribbon + 4 entry points + bundle 0.2.0), phased into [`plans/260914-2204-autocad-ribbon-tab/`](../plans/260914-2204-autocad-ribbon-tab/plan.md).
+
+---
+
 ## 2026-09-14 — AutoCAD MCP bridge phase 5: live verification harness + stability-window fixes, plan complete
 
 **Bổ sung:** Live verification harness (unattended) tại `HPAutoCad/tools/harness/` — `run-live-verify.ps1` + `live-verify.py` + `mcp-session.py` (≈560 + 120 + 150 lines) dùng một stdio MCP session để chạy 65 scenario (64 pass + 1 skip) trên registry riêng (isolated `output/live-verify/`) sinh động trong AutoCAD + Revit: execute matrix 18 (none/dryRun/commit, exception, none+modify, manual, guard trên `GetPoint`/`Commit`/`SendStringToExecute`, compile error, `cancel_execution` racing, timeout 5s, **busy → ESC posted → retry automated**, no drawing, audit), every seed 18 (real block, pickfirst set, dryRun), MISS → ad-hoc code + `propose_tool` → `test_tool` → `publish_tool` → CLI approve → `tools/list_changed` in 0.5s → call by name, fragile tool (unguarded `eKeyNotFound`) → 5× fail → quarantine → `manage_tool restore` + `propose_tool newVersion` (guarded, `ArgumentException`) → re-approve → stays published on 5× fail, Revit exe beside (34 tools, Revit lib hash unchanged, opt-in off → E1 skipped), isolation (second AutoCAD fails fast naming host, Civil 3D never loads).
