@@ -43,7 +43,10 @@ try {
 
     $list = Call 'tools-list' 'tools/list' @()
     $names = @($list.result.tools | % name | Sort-Object)
-    Check 'tools/list = 4 core + 8 registry + 12 seeds, autocad names only' ($names.Count -eq 24 -and ($names -contains 'execute_autocad_code') -and ($names -contains 'list_layers') -and -not ($names -match 'revit')) ($names -join ', ')
+    # >= 24: the user's registry may hold tools approved after the seeds (the phase-5 loop left two); the 12 seeds and the core must all be there.
+    $seeds = @('list_layers', 'list_block_definitions', 'get_entities', 'list_layouts', 'get_drawing_info', 'get_selected_entities', 'draw_polyline', 'draw_circle', 'add_text', 'create_layer', 'insert_block', 'add_linear_dimension')
+    $missing = @($seeds | ? { $names -notcontains $_ })
+    Check 'tools/list = 4 core + 8 registry + 12 seeds (+ approved tools), autocad names only' ($names.Count -ge 24 -and $missing.Count -eq 0 -and ($names -contains 'execute_autocad_code') -and ($names -contains 'search_tools') -and -not ($names -match 'revit')) ("$($names.Count) tools; missing seeds: $($missing -join ', ')")
 
     $ctx = Call 'context' 'tools/call' @('get_autocad_context', '{"includeSelection": true}')
     $ctxText = ExecuteText $ctx

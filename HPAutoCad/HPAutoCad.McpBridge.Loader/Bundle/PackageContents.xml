@@ -13,14 +13,14 @@
                     AutodeskProduct="AutoCAD"
                     ProductType="Application"
                     Name="HPAutoCad MCP Bridge"
-                    AppVersion="0.1.0"
+                    AppVersion="0.2.0"
                     Description="MCP bridge: AI-generated C# runs inside AutoCAD after the user opts in"
                     ProductCode="{7B4E9C2D-5A61-4F0E-9D3B-2C8F1E6A7D54}">
   <CompanyDetails Name="HPRebar" />
   <Components Description="AutoCAD 2026 (.NET 8)">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R25.1" SeriesMax="R25.1" />
     <ComponentEntry AppName="HPAutoCad.McpBridge"
-                    Version="0.1.0"
+                    Version="0.2.0"
                     ModuleName="./Contents/HPAutoCad.McpBridge.Loader.dll"
                     AppType=".NET"
                     LoadOnAutoCADStartup="True" />

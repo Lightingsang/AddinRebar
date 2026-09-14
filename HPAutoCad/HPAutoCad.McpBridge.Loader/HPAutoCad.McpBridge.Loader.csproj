@@ -6,8 +6,10 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>HPAutoCad.McpBridge.Loader</RootNamespace>
+        <!-- The Ribbon tab (Autodesk.Windows in AdWindows.dll) is WPF: ImageSource, Dispatcher. Compile-time only. -->
+        <UseWPF>true</UseWPF>
         <Configurations>Debug;Release</Configurations>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <!-- AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
         <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
         <!-- Copy the bundle to %AppData%\Autodesk\ApplicationPlugins after a Debug build; pass -p:DeployBundle=false while AutoCAD is open. -->
@@ -37,6 +39,7 @@
         <Error Condition="!Exists('$(BridgeOutDir)HPAutoCad.McpBridge.dll')" Text="Bridge output missing at $(BridgeOutDir) - build HPAutoCad.McpBridge first"/>
         <ItemGroup>
             <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml"/>
+            <_Guide Include="$(MSBuildThisFileDirectory)..\README.md"/>
             <_BridgeFiles Include="$(BridgeOutDir)**\*"/>
             <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
         </ItemGroup>
@@ -46,6 +49,7 @@
         <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>
         <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_Guide)" DestinationFolder="$(BundleDir)Contents\"/>
         <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
         <Message Importance="high" Text="HPAutoCad bundle deployed to $(BundleDir)"/>
     </Target>

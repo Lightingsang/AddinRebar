@@ -77,3 +77,52 @@ function Start-AcadWithBridge([string]$scriptPath, [int]$timeoutSec = 420) {
     }
     return $p
 }
+
+# ---- Ribbon (UI Automation) -------------------------------------------------------------------------------------
+# AdWindows exposes the Ribbon through WPF automation peers: a tab header is a Button whose AutomationId is the
+# RibbonTab.Id and whose Name is its title; a RibbonButton is a Button named after its text (newlines become
+# spaces) once its tab is selected. Everything is looked up under the AutoCAD frame of the harness's own pid.
+
+function Get-AcadFrame([int]$processId) {
+    $root = [System.Windows.Automation.AutomationElement]::RootElement
+    $byPid = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $processId)
+    $frames = $root.FindAll([System.Windows.Automation.TreeScope]::Children, $byPid)
+    foreach ($f in $frames) { if ($f.Current.ClassName -like 'Afx*') { return $f } }
+    if ($frames.Count -gt 0) { return $frames[0] }
+    return $null
+}
+
+function Find-RibbonTabs([int]$processId, [string]$tabId) {
+    $frame = Get-AcadFrame $processId
+    if (-not $frame) { return @() }
+    $cond = New-Object System.Windows.Automation.AndCondition(
+        (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)),
+        (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $tabId)))
+    $found = $frame.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)
+    $list = @(); foreach ($t in $found) { $list += $t }
+    return $list
+}
+
+function Select-RibbonTab([int]$processId, [string]$tabId) {
+    $tabs = Find-RibbonTabs $processId $tabId
+    if ($tabs.Count -eq 0) { return $false }
+    try { $tabs[0].GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); Start-Sleep -Milliseconds 1500; return $true } catch { Write-Host "select tab failed: $($_.Exception.Message)"; return $false }
+}
+
+function Find-RibbonButton([int]$processId, [string]$namePattern) {
+    $frame = Get-AcadFrame $processId
+    if (-not $frame) { return $null }
+    $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
+    foreach ($b in $frame.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) {
+        $name = ($b.Current.Name -replace "`r?`n", ' ')
+        if ($name -match $namePattern) { return $b }
+    }
+    return $null
+}
+
+function Invoke-RibbonButton([int]$processId, [string]$namePattern) {
+    $button = Find-RibbonButton $processId $namePattern
+    if (-not $button) { Write-Host "ribbon button /$namePattern/ not found"; return $false }
+    try { $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); return $true }
+    catch { Write-Host "invoke /$namePattern/ failed: $($_.Exception.Message)"; return $false }
+}

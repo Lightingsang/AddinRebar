@@ -27,7 +27,7 @@ namespace HPAutoCad.McpBridge;
 ///     delegates, the only shape both load contexts agree on. Runs on AutoCAD's main thread, before any
 ///     drawing is open.
 /// </summary>
-public static class BridgeEntry
+public static partial class BridgeEntry
 {
     public const string VendorFolder = "HPAutoCad";
     public const string ProductFolder = "McpBridge";
@@ -84,7 +84,7 @@ public static class BridgeEntry
         Log.Information("MCP bridge ready on pipe {Pipe}; auto-start listener = {AutoStart}", _host.PipeName, settings.AutoStartListener);
 
         var host = _host;
-        return new Dictionary<string, Delegate>(StringComparer.Ordinal)
+        var entries = new Dictionary<string, Delegate>(StringComparer.Ordinal)
         {
             ["show"] = new Func<string>(ShowWindow),
             ["start"] = new Func<string>(() => { host.Start(); return $"[HPAutoCad MCP] listener starting on {host.PipeName}"; }),
@@ -92,6 +92,8 @@ public static class BridgeEntry
             ["status"] = new Func<string>(Status),
             ["dispose"] = new Action(Dispose),
         };
+        AddRibbonEntryPoints(entries, host, store);
+        return entries;
     }
 
     /// <summary>The three assemblies acad.exe loaded; the load context never duplicates them, so these are the live ones.</summary>

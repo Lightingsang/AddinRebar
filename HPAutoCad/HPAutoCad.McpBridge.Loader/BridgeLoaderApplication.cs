@@ -1,7 +1,9 @@
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Autodesk.AutoCAD.Runtime;
 using HPAutoCad.McpBridge.Loader;
+using HPAutoCad.McpBridge.Loader.Ribbon;
 
 [assembly: ExtensionApplication(typeof(BridgeLoaderApplication))]
 [assembly: CommandClass(typeof(BridgeLoaderCommands))]
@@ -59,10 +61,30 @@ public sealed class BridgeLoaderApplication : IExtensionApplication
             StartupError = cause.GetType().Name + ": " + cause.Message;
             LoaderLog.Write("bridge failed to start", exception);
         }
+
+        // The Ribbon tab is built even when the bridge failed (its buttons then say why); a Ribbon failure
+        // must never take the bridge or the commands down, so it gets its own guard.
+        try
+        {
+            McpRibbonTab.Install();
+        }
+        catch (System.Exception exception)
+        {
+            LoaderLog.Write("ribbon install failed", exception);
+        }
     }
 
     public void Terminate()
     {
+        try
+        {
+            McpRibbonTab.Uninstall();
+        }
+        catch (System.Exception exception)
+        {
+            LoaderLog.Write("ribbon uninstall failed", exception);
+        }
+
         if (Bridge is null) return;
 
         try
