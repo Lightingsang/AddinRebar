@@ -2,6 +2,21 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge phase 4: registry per host profile + 12 seed tools
+
+Bổ sung: Registry engine per `IHostProfile` (categories, reserved names from profile, host stamp); 12 embedded AutoCAD seed tools (6 read-only: list_layers, list_block_definitions, get_entities, list_layouts, get_drawing_info, get_selected_entities; 6 auto-transaction: draw_polyline, draw_circle, add_text, create_layer, insert_block, add_linear_dimension) installed into `%AppData%\HPAutoCad\McpServer\tools-library\` on first run across 7 categories (Drawing, Layer, Block, Annotation, Layout, Data, Generic); `SeedLibraryTests` 58 xUnit tests compile every seed against AutoCAD.NET 25.1.0 with bridge's exact imports/globals (0 skipped); meta-tool descriptions host-neutral (8 engine tools + inspect_type title worded for any host).
+
+**Xác minh:** Live smoke harness `run-server-smoke.ps1` 22/22 (all 12 seeds by name, category filters, dryRun, layer round-trip), code review 7.5/10 with 12 actionable findings fixed the same day (no re-score), zero crashes, no .NET Runtime 1026 event. Tests: McpShared 95/95, HPRebar MCP 106/106, AutoCAD 58/58 (259 total). Build zero warn/err. Registry per host: `registry stats` prints `host: autocad (AutoCAD)` on AutoCAD server. Revit tools/list 34 names/schemas/annotations byte-identical to phase 0 (descriptions of 8 + title differ).
+
+**Các quyết định:**
+- `IHostProfile.CliExecutable` names the exe in every human instruction (publish_tool message, _review/*.md, CLI usage banner); defaults from assembly name if not overridden (Revit explicit `HPRebar.Mcp.Server.exe`, AutoCAD `HPAutoCad.Mcp.Server.exe`)
+- Seed points as `{x, y}` objects not `[x, y]` arrays; mm at every edge via `ScriptUnits.ToDrawing/ToMm`; guard denies `StartTransaction/Commit/Abort/LockDocument`, `ed.Get*`
+- No seed creates missing layer — clear error "run create_layer first"; only the `autocad_modify_template` prompt auto-creates
+- Seed contract: no `tr` open/close (guard catches `UsesTransaction`), reads via `GetBlockModelSpaceId`, writes via `db.CurrentSpaceId` + `AppendEntity` + `AddNewlyCreatedDBObject`
+- New `Validate(record, analysis, existing, newVersion, profile)` overload; the four-argument overload keeps the Revit behaviour locked (tests unchanged)
+
+**Commits:** 69e3505 feat (engine + 12 seeds), f257071 fix (12 review findings). Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phases 0–4 of 6 done).
+
 ## 2026-09-14 — AutoCAD MCP bridge phase 3: server exe over stdio
 
 Bổ sung: `HPAutoCad.Mcp.Server` (net10 console exe) + `AutocadHostProfile` (12 tools: 4 core + 8 registry, `autocad://` resources, 2 prompts), registry root `%AppData%\HPAutoCad\McpServer\`, pipe `hpautocad-mcp-2026`, env prefix `HPAUTOCAD_MCP_`. Core: `ContextService.Shape` drops `revitVersion`/`isFamily` for non-Revit hosts (wire unchanged, Revit output byte-identical, regression test 89/89).

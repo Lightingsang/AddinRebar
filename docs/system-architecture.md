@@ -240,7 +240,7 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 
 ---
 
-# AutoCAD MCP Bridge — Server Architecture (Phases 1–3, 2026-09-14)
+# AutoCAD MCP Bridge — Server Architecture (Phases 1–4, 2026-09-14)
 
 ## Diagram — Stdio Server to Bridge
 
@@ -248,7 +248,7 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 Host AI (Claude Code)
     ↓ stdio, JSON-RPC 2.0
 HPAutoCad.Mcp.Server (net10 console)
-    ├─ AutocadHostProfile (12 tools, resources, prompts)
+    ├─ AutocadHostProfile (24 tools: 4 core + 8 registry + 12 seeds, resources, prompts)
     ├─ ExecuteCodeService (Roslyn guard → compile)
     └─ BridgeClient ──named pipe hpautocad-mcp-2026──→ HPAutoCad.McpBridge (inside acad.exe)
                                                            ├─ MainThreadQueue (ConcurrentQueue)
@@ -271,12 +271,12 @@ HPAutoCad.Mcp.Server (net10 console)
 
 The `Shape` method (`.cs:54-72`) checks `HostId == revit`, returning verbatim for Revit (no extra serialization cost), or filtering for non-Revit to hide Revit-specific fields.
 
-## Phases 4–5 Planned
+## Phases 4–5 Status
 
-| Phase | Work | Notes |
+| Phase | Work | Status |
 |---|---|---|
-| 4 | Seed tools for AutoCAD; engine meta-tool descriptions (host-neutral wording or profile-driven); `get_run` record host field alias | Registry seeding, tool library |
-| 5 | Modal dialog + ESC-then-retry; per-run undo (`ExecuteInCommandContextAsync`); live Dynamo coexistence test | UX, cleanup |
+| 4 ✅ | 12 embedded AutoCAD seed tools (6 read-only + 6 auto-transaction, 7 categories); registry per host profile (categories, reserved names, host stamp, CLI exe name); engine meta-tool descriptions host-neutral (8 tools); `ToolValidator`, `ToolLifecycleService` profile-driven; `SeedLibraryTests` 58 compile-checks; live 22/22 harness all seeds | Completed 2026-09-14 |
+| 5 | Modal dialog + ESC-then-retry; per-run undo (`ExecuteInCommandContextAsync`); live Dynamo coexistence test; `insert_block` with real block; FTS name boost; `get_run.revitVersion` alias | Planned |
 | Debug F5 / runtime issue | `/bs:revit-debug` |
 | Setup / chạy test | `/bs:revit-test` |
 | Plan feature mới | `/bs:plan` (Stack-Aware 6-phase) |
