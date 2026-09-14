@@ -85,7 +85,7 @@
   <Folder Name="/Mcp/">
     <!-- MCP server (net10 console) and the assemblies it shares with the bridge. Plain Debug/Release
          projects: every Release.R* solution configuration maps to Release, same as HPRebar.Core. -->
-    <Project Path="HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj">
       <BuildType Solution="Debug.R23|*" Project="Debug" />
       <BuildType Solution="Debug.R24|*" Project="Debug" />
       <BuildType Solution="Debug.R25|*" Project="Debug" />
@@ -109,7 +109,7 @@
       <BuildType Solution="Release.R26|*" Project="Release" />
       <BuildType Solution="Release.R27|*" Project="Release" />
     </Project>
-    <Project Path="HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj">
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj">
       <BuildType Solution="Debug.R23|*" Project="Debug" />
       <BuildType Solution="Debug.R24|*" Project="Debug" />
       <BuildType Solution="Debug.R25|*" Project="Debug" />

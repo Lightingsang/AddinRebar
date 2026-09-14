@@ -24,8 +24,8 @@
     <ItemGroup>
         <!-- Server + the Revit-free half of the bridge: a real named pipe between them needs no Revit. -->
         <ProjectReference Include="..\HPRebar.Mcp.Server\HPRebar.Mcp.Server.csproj"/>
-        <ProjectReference Include="..\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
-        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
     </ItemGroup>
 
 </Project>

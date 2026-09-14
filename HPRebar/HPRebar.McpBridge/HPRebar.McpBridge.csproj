@@ -34,8 +34,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
-        <ProjectReference Include="..\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
