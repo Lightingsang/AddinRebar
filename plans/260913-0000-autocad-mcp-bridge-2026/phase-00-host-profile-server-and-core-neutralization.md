@@ -1,8 +1,8 @@
 ---
 title: "Phase 0 — Tách mã chung ra `McpShared/` (ADR-06) + scaffold folder `HPAutoCad/`; Core host-neutral; hành vi Revit không đổi"
-status: planned
+status: built + tested + smoke-verified (2026-09-14) — 9 commits 8a1144f..876c3d6; 70 engine + 106 Revit tests; tools/list byte-identical; live get_revit_context OK against the deployed bridge; reviewed 6.5/10 → 2 major fixed
 priority: P1
-effort: 14h
+effort: 14h (actual ≈ 12h incl. review fixes)
 depends_on: []
 created: 2026-09-13
 revised: 2026-09-14 (ADR-06 — thay "host profile trong một exe" bằng "tách McpShared + folder riêng")
@@ -81,14 +81,18 @@ Xem [architecture.md §1, §5, §6](architecture.md) và [ADR-06 §Decision](adr
 10. `CLAUDE.md`: § Repository Layout thêm `McpShared/` (thư viện chung của hai MCP, không phải deliverable riêng) và `HPAutoCad/`; § HPRebar Current State + § MCP Bridge sửa lệnh test (`dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests` + `dotnet test HPRebar/HPRebar.Mcp.Server.Tests`), ghi `ResolveConfigurationsModule` pin solution; regen `AGENTS.md` bằng engine. (Bước này chạm file ngoài plan → thực hiện khi `/bs:cook`, không phải bây giờ.)
 
 ## Todo
-- [ ] 1 snapshot before · [ ] 2 git mv Contracts/Core + slnx/csproj · [ ] 3 ResolveConfigurations · [ ] 4 Contracts additive · [ ] 5 Core neutral · [ ] 6 Server.Core extract + Program mỏng + Hosts/Revit · [ ] 7 tests split + mới · [ ] 8 snapshot after + smoke Revit · [ ] 9 scaffold HPAutoCad · [ ] 10 CLAUDE.md/AGENTS.md
+- [x] 1 snapshot before (159 test, 34 tool → `reports/phase-00-tools-list-before.json`) · [x] 2 git mv Contracts/Core + slnx/csproj (`8a1144f`) · [x] 3 ResolveConfigurations (`96ec3a9`) · [x] 4 Contracts additive · [x] 5 Core neutral (`89c3928`) · [x] 6 Server.Core extract + Program mỏng + Hosts/Revit (`648b3bd`) · [x] 7 tests split + mới (`0fa3985`; một class `HostNeutralityTests` + `ProfileOptionsBindingTests` thay vì 5 file dự kiến) · [x] 8 snapshot after (`reports/phase-00-tools-list-after.json` ≡ before) + smoke `get_revit_context` với bridge Revit **cũ** OK; `execute_revit_code` trả `-32001` vì opt-in OFF trong phiên Revit (đường lỗi cũng đúng) · [x] 9 scaffold HPAutoCad (`bf680f4`) · [x] 10 CLAUDE.md/AGENTS.md (`884a229`)
+- [x] Review `code-reviewer` (`reports/phase-00-code-review.md`, 6.5/10) → fix F1 (VM marshaller bắt buộc, `StateChanged` trong `try`), F2 (setter bỏ qua write-back của binder + `Configure` trước `Bind`, 4 regression test), F5/F9/F10/F12/F14/F15, README (`876c3d6`)
+- [x] Tester (`reports/phase-00-test-report.md`): 8/8 gate xanh kể cả `Debug.R23` và `HPRebar.Core.Tests` 334
 
-## Success criteria
-- `dotnet build McpShared/McpShared.slnx` xanh; `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false` xanh (kể cả `Debug.R23` để chắc project `Debug`/`Release` map đúng); `cd HPRebar/build && dotnet run` (Compile) xanh.
-- `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests` + `dotnet test HPRebar/HPRebar.Mcp.Server.Tests`: tổng pass ≥ 159 + mới, 0 fail; `NoHostLeakTests` pass.
-- `reports/phase-00-tools-list-before.json` ≡ `-after.json` (34 tool, schema giống); `get_revit_context` OK với bridge Revit chưa redeploy.
-- `git status`/`git diff --stat`: không chạm `HPRebar/HPRebar/`, `HPRebar/HPRebar.Core*`, `docs/` (trừ bước 10 CLAUDE.md/AGENTS.md); `git log --follow` thấy rename cho file đã mv.
-- `HPAutoCad/` tồn tại với `HPAutoCad.slnx` build xanh (rỗng).
+## Success criteria (kết quả 2026-09-14)
+- [x] `dotnet build McpShared/McpShared.slnx` xanh; `HPRebar.slnx -c Debug.R26` và `-c Debug.R23` xanh (`-p:DeployAddin=false`). `cd HPRebar/build && dotnet build` xanh; **`dotnet run` (Compile mọi Release.R\*) không chạy** vì R27 fail sẵn (BeamRebar/FoundationRebar, ngoài scope) — pipeline kiểm bằng compile + đọc mã.
+- [x] `cd McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests` = 70, `cd HPRebar && dotnet test HPRebar.Mcp.Server.Tests` = 106 → 176 = 159 + 17 mới, 0 fail (`HostNeutralityTests.Shared_assemblies_reference_no_host_api` thay tên `NoHostLeakTests`). `HPRebar.Core.Tests` 334 không đổi.
+- [x] `reports/phase-00-tools-list-before.json` ≡ `-after.json` (byte-identical, 34 tool); `get_revit_context` OK với bridge Revit chưa redeploy (doc THBB2-HPC-ZZ-ZZ-CM-ES-0001).
+- [x] Không chạm `HPRebar/HPRebar/`, `HPRebar/HPRebar.Core*`, `docs/`; rename detection: 28 + 30 file.
+- [x] `HPAutoCad/HPAutoCad.slnx` build xanh (chỉ project shared).
+- Thay đổi hành vi Revit **có chủ ý** (review F3/F4, chấp nhận): `initialize.serverInfo.name` = `HPRebar Revit MCP` (trước: tên assembly); 3 chuỗi lỗi AI-visible bỏ chữ "HPRebar"/"Revit" cứng (`Bridge error N`, `the HP MCP Bridge`), bridge cũ vẫn gửi text cũ tới khi redeploy.
+- Chưa làm (không chặn): rename `FakeRevitExecutor` → `FakeBridgeExecutor` (F13); `GuardProfile.Autocad`/`AutocadImports` ở lại `McpShared` (F6 — quyết định giữ, lý do trong README); dispatcher chấp nhận mọi prefix (F16).
 
 ## Risks
 | Risk | Mitigation |

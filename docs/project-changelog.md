@@ -2,6 +2,48 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — Tách MCP engine host-neutral, scaffold AutoCAD
+
+Refactor hạ tầng MCP để dùng chung cho Revit + AutoCAD. Tách engine (neutral với host) ra thư mục `McpShared/` cấp cao nhất; tạo scaffold `HPAutoCad/` để bắt đầu bridge AutoCAD.
+
+Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/phase-00-…`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phase 0 xong; phase 1–5 tiếp theo).
+
+### Thêm
+
+- **`McpShared/`** (thư mục cấp cao nhất, slnx + global.json riêng):
+  - `HPRebar.Mcp.Contracts/` (moved từ HPRebar) — netstandard2.0, hợp đồng dây JSON-RPC.
+  - `HPRebar.McpBridge.Core/` (moved, refactor) — net8.0, pipe listener/dispatcher, guard/compiler, `BridgeSettingsStore`, `RequestDispatcher` dispatch theo method suffix (`revit.*` vs `autocad.*`), `IHostProfile` interface mới, `HostNeutralityTests`.
+  - `HPRebar.Mcp.Server.Core/` (NEW) — net10.0 class lib, `McpServerHost` builder pattern, `HostProfile` abstraction, `ExecuteCodeService`/`ContextService`, Registry engine (`ToolRecord.Host/HostVersions`, SQLite WAL+FTS5), 4 core tool + registry CLI.
+  - `HPRebar.Mcp.Server.Core.Tests/` (NEW) — net10.0 xUnit v3, 70 test: host-neutrality, guard/compiler/args/analyzer, HostProfile binding, registry store/db/manager, pipe round-trip fake executor.
+
+- **`HPAutoCad/`** (thư mục cấp cao nhất, slnx + global.json, scaffold):
+  - `HPAutoCad.slnx` reference `../McpShared/...` projects only.
+  - `README.md` ghi layout, không có project class C# chưa.
+
+### Sửa
+
+| Vấn đề | Xử lý |
+|---|---|
+| HPRebar.Mcp.Server bị phồng (server + registry + pipe client) | Tách pipe client + registry → McpShared; server nay là thin exe (Program.cs một dòng) |
+| Registry instance-per-app (Revit 2026 lúc này) | HostProfile dùng chung, registry root = `%AppData%\<Product>\McpServer` |
+| Server build từ HPRebar cwd, khó test riêng | McpShared.slnx độc lập, test từ `cd McpShared && dotnet test` |
+| Revit ↔ AutoCAD share pipes/registry mà không có cách select | RequestDispatcher routing: method prefix suffix xác định executor (`revit.execute` ≡ `autocad.execute`, ngoài các tool factory/impl riêng) |
+
+### Bỏ
+
+- HPRebar.Mcp.Server không còn phụ thuộc trực tiếp `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Contracts` (khác HPRebar folder).
+- Hard-code "HPRebar"/"Revit" ở vài chỗ error string (engine chỉ biết host qua HostProfile).
+
+### Hoãn
+
+- AutoCAD bridge + server implementation (phase 01–02 chưa làm).
+
+### Giới hạn
+
+- McpShared test chạy từ McpShared cwd (global.json pin), HPRebar test chạy từ HPRebar cwd.
+- Revit bridge DLL chưa rebuild → vẫn dùng được exe mới (backward compatible).
+- Deploy builder auto-generate `Solutions.HPRebar` via Sourcy thay cho scan repo — phần này cần verify HPAutoCad tương tự.
+
 ## 2026-09-04 — Tích hợp NotebookLM (`notebooklm-py`)
 
 Nối `teng-lin/notebooklm-py` 0.8.2 (MIT, unofficial) vào repo trên ba mặt, kèm pipeline nạp tài liệu Revit của repo lên notebook rồi kéo học liệu về.

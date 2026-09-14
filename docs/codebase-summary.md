@@ -1,24 +1,52 @@
-# Codebase Summary — HPRebar
+# Codebase Summary — HPRebar + AutoCAD Bridge
 
-Cập nhật: 2026-09-12 (tối)
+Cập nhật: 2026-09-14
 
-## Solution
+## Repository Layout
 
-`HPRebar/HPRebar.slnx` (định dạng XML `.slnx`, **không phải** `.sln`). `global.json` pin .NET SDK `10.0.300`, test runner `Microsoft.Testing.Platform`.
+Gồm 4 unrelated deliverables (không cross-wire):
 
-| Project | TFM | Vai trò | Trong solution build? |
+| Thư mục | Loại | Stack |
+|---|---|---|
+| `HPRebar/` | Revit add-in + server MCP | C# / Nice3point / WPF / xUnit / TUnit |
+| `McpShared/` | Host-neutral MCP engine | netstandard2.0 · net8.0 · net10.0 |
+| `HPAutoCad/` | AutoCAD add-in + server MCP (scaffold) | C# / AutoCAD.NET / Roslyn (kế thừa từ McpShared) |
+| `revit-market-research/` · `scripts/skill_sync/` · `course-website/` | Tooling | Node / Python / HTML |
+
+## HPRebar Solution
+
+`HPRebar/HPRebar.slnx` + global.json pin .NET SDK `10.0.300`, test runner `Microsoft.Testing.Platform`. Reference McpShared projects qua đường dẫn `../McpShared/...`.
+
+| Project | TFM | Vai trò | Build? |
 |---|---|---|---|
-| `HPRebar/` | net48 (R23/R24) · net8.0-windows7.0 (R25/R26) · net10.0-windows7.0 (R27) | Add-in. Mọi thứ chạm Revit API | ✅ |
+| `HPRebar/` | net48 (R23/R24) · net8.0-windows7.0 (R25/R26) · net10.0-windows7.0 (R27) | Add-in. Chạm Revit API | ✅ |
 | `HPRebar.Core/` | netstandard2.0 | Toán thuần. **Không** reference Revit | ✅ |
-| `HPRebar.Core.Tests/` | net8.0 | xUnit v3 trên `HPRebar.Core` — 102 test | ✅ |
-| `HPRebar.Tests/` | theo config R25/R26 | TUnit, load Revit in-process | ❌ `<Build Project="false"/>` |
-| `HPRebar.Mcp.Contracts/` | netstandard2.0 | Envelope JSON-RPC + DTO dùng chung server ↔ bridge | ✅ |
-| `HPRebar.Mcp.Server/` | net10.0 console | MCP server stdio (`ModelContextProtocol` 2.2.0) + **tool registry** (`Registry/`, SQLite/FTS5, 21 seed nhúng). Không reference Revit. Cũng là CLI `registry …` | ✅ |
-| `HPRebar.McpBridge.Core/` | net8.0 | Nửa bridge không đụng Revit: pipe listener/dispatcher, Roslyn guard/compiler/cache, settings, audit | ✅ |
-| `HPRebar.McpBridge/` | net8.0-windows7.0 (R25/R26) | Add-in thứ hai — bridge trong Revit: ExternalEvent, ScriptRunner, cửa sổ trạng thái | ✅ R25/R26, ❌ R23/R24/R27 (`<Build … Project="false"/>`) |
-| `HPRebar.Mcp.Server.Tests/` | net10.0 | xUnit v3 — 159 test: pipe round-trip thật với fake executor, ScriptGuard/Analyzer/Args, registry (store, db, manager, registrar, validator, lifecycle, CLI), 21 seed compile với RevitAPI ref assemblies | ✅ |
+| `HPRebar.Core.Tests/` | net8.0 | xUnit v3 — 102 test | ✅ |
+| `HPRebar.Tests/` | R25/R26 | TUnit, load Revit in-process | ❌ |
+| `HPRebar.Mcp.Server/` | net10.0 console | Thin exe (`Program.cs` một dòng) + 21 seed nhúng + CLI `registry …` | ✅ |
+| `HPRebar.McpBridge/` | net8.0-windows7.0 (R25/R26) | Add-in thứ hai — bridge trong Revit (nút ExternalEvent + cửa sổ) | ✅ R25/R26 |
 | `build/` | — | ModularPipelines | ❌ |
 | `install/` | — | WixSharp installer | ❌ |
+
+## McpShared Solution
+
+`McpShared/McpShared.slnx` + global.json. Host-neutral engine dùng chung cho Revit + AutoCAD.
+
+| Project | TFM | Vai trò |
+|---|---|---|
+| `HPRebar.Mcp.Contracts/` | netstandard2.0 | Envelope JSON-RPC + DTO chung server ↔ bridge. Không Revit, không MCP SDK |
+| `HPRebar.McpBridge.Core/` | net8.0 | Pipe listener/dispatcher, Roslyn `ScriptGuard`/`ScriptCompiler`, `BridgeSettingsStore`, `RequestDispatcher`. Logic không chạm Revit; test xUnit + pipe thật |
+| `HPRebar.Mcp.Server.Core/` | net10.0 | `McpServerHost` (builder pattern), `HostProfile` interface + Revit impl, `ExecuteCodeService`/`ContextService`, Registry engine (SQLite/FTS5 + FileSystemWatcher), 4 core tool + registry CLI |
+| `HPRebar.Mcp.Server.Core.Tests/` | net10.0 | xUnit v3 — 70 test: host-neutrality, guard/compiler/args, HostProfile binding, registry store/db, pipe round-trip fake executor |
+
+## HPAutoCad Solution
+
+`HPAutoCad/HPAutoCad.slnx` + global.json (scaffold). Reference McpShared only; không dùng HPRebar.
+
+| Project | TFM | Vai trò |
+|---|---|---|
+| `HPAutoCad.Mcp.Server/` | net10.0 console | (incoming) |
+| `HPAutoCad.McpBridge/` | net8.0 | (incoming) |
 
 `HPRebar.Tests` bị loại khỏi solution build có chủ đích: dưới config R23/R24 nó sẽ compile net8 rồi reference `HPRebar.dll` net48 → `CS0433 ReadOnlySpan<T> exists in both` (Polyfill nhúng span type vào assembly). Chạy riêng:
 
@@ -114,18 +142,27 @@ Chi tiết đối chiếu API: [`plans/260903-2307-…/reports/api-surface-check
 
 ## Lệnh
 
-```bash
-cd HPRebar
+Mỗi thư mục có `global.json` pin runner, nên test chạy từ trong thư mục đó:
 
+```bash
+# HPRebar
+cd HPRebar
 dotnet build HPRebar.slnx -c Debug.R26          # chính (máy dev có Revit 2026)
 dotnet build HPRebar.slnx -c Debug.R23          # net48, bắt lỗi TFM sớm
-dotnet test HPRebar.Core.Tests                  # 334 test xUnit
-dotnet test HPRebar.Mcp.Server.Tests            # 159 test xUnit — MCP server + registry + bridge Core, không cần Revit
-
+dotnet test HPRebar.Core.Tests                  # 102 test xUnit
+dotnet test HPRebar.Mcp.Server.Tests            # 106 test xUnit — registry + 21 seed thực
 dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26   # TUnit, cần Revit
 
 cd build && dotnet run                          # Release cả 5 config
-cd build && dotnet run -- pack                  # 2 bundle (HPRebar, HPRebar.McpBridge) + HPRebar.Mcp.Server.zip + installer → output/
+cd build && dotnet run -- pack                  # Bundle → output/
+
+# McpShared
+cd McpShared
+dotnet test HPRebar.Mcp.Server.Core.Tests       # 70 test xUnit — host-neutral engine
+
+# HPAutoCad (scaffold)
+cd HPAutoCad
+dotnet build HPAutoCad.slnx                     # chỉ build, chưa có class gì
 ```
 
 **Revit đang mở sẽ khóa DLL đã deploy** → thêm `-p:DeployAddin=false` khi chỉ cần verify compile.
@@ -159,28 +196,31 @@ Không thuộc solution `.slnx`, không ảnh hưởng build Revit.
 
 ## MCP bridge — Revit làm runtime cho AI
 
-Thiết kế gốc: `plans/260912-1521-dynamic-revit-mcp-server-2026/architecture.md` + `adr/`. Tóm tắt luồng:
+Thiết kế gốc: `plans/260912-1521-dynamic-revit-mcp-server-2026/architecture.md` + `adr/`. Hai tiến trình: host AI launch server exe làm child; server không reference Revit; bridge không reference MCP SDK; cầu nối chỉ qua `HPRebar.Mcp.Contracts`.
 
 ```
-Claude Code ──stdio──▶ HPRebar.Mcp.Server ──named pipe hprebar-mcp-r2026 (JSON-RPC 2.0, 1 object/dòng)──▶ HPRebar.McpBridge (trong Revit)
-                        4 core + 8 registry + N tool thư viện   ScriptGuard → ScriptCompiler (pipe thread, cache SHA-256)
-                        3 resource · 3 prompt                   revit.analyze (guard+compile+literal, pipe thread)
-                                                                → McpBridgeExternalEventHandler → Revit thread
-                                                                → ScriptRunner: TransactionGroup "MCP: <label>" → Revit API
+Claude Code ──stdio──▶ HPRebar.Mcp.Server (net10 console) ──named pipe hprebar-mcp-r2026 (JSON-RPC 2.0, 1 object/dòng)──▶ PipeListener (McpShared)
+  (any AI host)         (thin exe: Program.cs một dòng)      guard/compile pipe thread                               ↓
+                        + 21 seed nhúng                      ScriptGuard → ScriptCompiler (cache SHA-256)             ExternalEvent → Revit thread
+                        + Registry engine (McpShared)        revit.analyze (no Revit needed)                           ↓
+                                                                                                        McpBridgeExternalEventHandler → TransactionGroup → Revit API
 ```
 
-| Thành phần | Ở đâu | Việc |
+| Thành phần | Ở đâu | Vai trò |
 |---|---|---|
-| `JsonRpcEnvelope`, `ExecuteRequest/Result`, `SafeText`, `SynchronousProgress` | `HPRebar.Mcp.Contracts/` | Hợp đồng dây, strip path, forward progress đúng thứ tự |
-| `RevitBridgeClient`, `NdjsonPipeTransport`, `ResultFormatter` | `HPRebar.Mcp.Server/Services/` | Ghép id↔response, timeout+`revit.cancel`, reconnect backoff, map lỗi → `isError` / `McpException` |
-| `ExecuteRevitCodeTool` (+3 tool), `RevitDocumentResources`, `RevitScriptPrompts` | `HPRebar.Mcp.Server/Tools|Resources|Prompts/` | Bề mặt MCP; validation kích thước/shape |
-| `PipeListener`, `RequestDispatcher`, `IRevitExecutor` | `HPRebar.McpBridge.Core/Pipe/` | Listener 1 instance, ACL user, `-32001` disabled / `-32002` busy / `-32003` no doc |
-| `ScriptGuard`, `ScriptCompiler`, `ScriptCache`, `TypeInspector`, `ScriptArgs`, `ScriptAnalyzer` | `HPRebar.McpBridge.Core/Scripting/` | Deny-list syntax walker, Roslyn + `InteractiveAssemblyLoader.RegisterDependency`, LRU 50, reflection Revit API; `args` global typed; literal/args-key walker cho `revit.analyze` |
-| `ToolLibraryStore`, `ToolRegistryDb`, `ToolManager`, `DynamicToolRegistrar`, `ToolValidator`, `ToolLifecycleService`, `SeedInstaller`, `RegistryCli` | `HPRebar.Mcp.Server/Registry/` | Files (`tools-library/<Category>/<name>/`) = sự thật; SQLite WAL+FTS5 = chỉ mục + `runs`; tool published → `McpServerTool` từ `AIFunction` trong `ToolCollection` (`list_changed`); validate → propose → test (dryRun) → publish gate → approve (CLI) → quarantine tự động |
-| `ToolRegistryQueryTools`, `RunToolTool`, `ToolLifecycleTools`, `RunHistoryTools`, `ToolifyPrompts`, `ToolRegistryResources` | `HPRebar.Mcp.Server/Tools/Registry|Prompts|Resources/` | `search_tools` · `get_tool` · `run_tool` · `get_run` · `propose_tool` · `test_tool` · `publish_tool` · `manage_tool`; prompt `toolify_run`; `registry://tools[/{name}]` |
-| `BridgeSettings`, `BridgeSettingsStore`, `AuditLogger` | `HPRebar.McpBridge.Core/Model/` | Opt-in không persist; audit JSON-lines `%AppData%\HPRebar\McpBridge\audit\` |
-| `McpBridgeExternalEventHandler`, `Service/ScriptRunner.cs`, `ResultSerializer`, `RevitContextReader` | `HPRebar.McpBridge/` | Chỉ phần này chạm Revit API |
-| `McpBridgeHost`, `McpBridgeCommand`, `View/McpBridgeStatusView`, `ViewModel/McpBridgeStatusViewModel` | `HPRebar.McpBridge/` | State machine + cửa sổ modeless (opt-in, listener, last run) |
+| **Hợp đồng dây** | | |
+| `JsonRpcEnvelope`, `ExecuteRequest/Result`, `SafeText`, `SynchronousProgress` | `McpShared/HPRebar.Mcp.Contracts/` | Envelope strip path, forward progress đúng thứ tự |
+| **Host-neutral engine** | | |
+| `PipeListener`, `RequestDispatcher`, `IBridgeExecutor` | `McpShared/HPRebar.McpBridge.Core/Pipe/` | Listener 1 instance, ACL user, error code (`-32001`/`-32002`/`-32003`) |
+| `ScriptGuard`, `ScriptCompiler`, `ScriptCache`, `TypeInspector`, `ScriptArgs`, `ScriptAnalyzer` | `McpShared/HPRebar.McpBridge.Core/Scripting/` | Deny-list walker, Roslyn cache LRU 50, reflection Revit API; `args` typed; literal/key walker cho `revit.analyze` |
+| `BridgeSettingsStore`, `AuditLogger` | `McpShared/HPRebar.McpBridge.Core/Model/` | Settings per product (`%AppData%\<Product>\McpBridge`), audit JSON-lines |
+| `IHostProfile`, `HostProfile`, `BridgeOptions`, `Host/*` | `McpShared/HPRebar.Mcp.Server.Core/` | Chọn executor (Revit/AutoCAD/khác), ProductFolder, HostVersion |
+| `RegistryEngine`, `ToolRegistry`, `ToolRecord`, registry CLI | `McpShared/HPRebar.Mcp.Server.Core/Registry/` | SQLite WAL+FTS5, files = source, tool lifecycle, auto-quarantine |
+| **Revit-cụ thể** | | |
+| `RevitHostProfile`, `ExecuteRevitCodeTool`, `RevitContextTool` | `HPRebar/HPRebar.Mcp.Server/Hosts/Revit/` | Revit profile impl, 4 core tool + seed registry |
+| `RevitBridgeClient`, `NdjsonPipeTransport`, `ResultFormatter` | `HPRebar.Mcp.Server/Services/` (mapped từ Core) | Ghép id↔response, timeout, reconnect backoff |
+| `McpBridgeExternalEventHandler`, `ScriptRunner`, `RevitContextReader` | `HPRebar/HPRebar.McpBridge/` | Chỉ phần này chạm Revit API |
+| `McpBridgeStatusView`, `McpBridgeStatusViewModel` | `HPRebar/HPRebar.McpBridge/View|ViewModel/` | Cửa sổ modeless, opt-in listener, last run |
 
 Chính sách transaction: `auto` (bridge mở Transaction trong Group) · `manual` (script tự mở) · `none` (chỉ đọc) · `dryRun` luôn rollback. Timeout 5–120 s cooperative qua `ct`; hết hạn = thất bại + rollback kể cả khi script `return`. Không sandbox — 9 lớp phòng thủ (ADR-04).
 

@@ -1,7 +1,7 @@
 ---
 title: "HPAutoCad MCP Bridge 2026"
 description: "AI → MCP → AutoCAD 2026 runtime trong folder top-level riêng HPAutoCad/, mã chung ở McpShared/ (Contracts, script engine, registry engine); vòng lặp tự sinh & ghi nhớ tool ánh xạ 1:1 với Revit"
-status: planned
+status: in-progress
 priority: P2
 effort: 64h
 branch: RebarVersion1
@@ -12,7 +12,7 @@ revised: 2026-09-14
 
 # HPAutoCad MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ràng buộc mới: mỗi MCP một folder top-level → [ADR-06](adr/adr-06-one-mcp-one-folder.md); bản 2026-09-13 "một exe + host profile" superseded) · **Status:** planned (chưa đổi source) · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (phase 0 = di dời mã chung + scaffold; phase 3 WPF gộp vào 2; phase 4 = registry theo profile)
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ràng buộc mới: mỗi MCP một folder top-level → [ADR-06](adr/adr-06-one-mcp-one-folder.md); bản 2026-09-13 "một exe + host profile" superseded) · **Status:** in-progress — phase 0 built + tested + smoke-verified 2026-09-14 (9 commit trên `RebarVersion1`, chưa push); phase 1–5 planned · **Branch:** `RebarVersion1` · Template: Stack-Aware 6-phase (phase 0 = di dời mã chung + scaffold; phase 3 WPF gộp vào 2; phase 4 = registry theo profile)
 
 ## Executive summary
 - **Ba folder top-level:** `HPRebar/` (Revit add-in + Revit MCP, hành vi không đổi) · `HPAutoCad/` (AutoCAD MCP: exe `HPAutoCad.Mcp.Server`, `HPAutoCad.McpBridge.Loader`, `HPAutoCad.McpBridge`, tests, `HPAutoCad.slnx`) · `McpShared/` (thư viện host-neutral, **không phải MCP**: `HPRebar.Mcp.Contracts`, `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Server.Core` mới tách từ exe Revit, tests engine). Chiều phụ thuộc duy nhất: MCP → `McpShared`; không bao giờ MCP → MCP (ADR-06).
@@ -26,8 +26,8 @@ revised: 2026-09-14
 ## Phases (tên file giữ để không vỡ link; tiêu đề trong file đã cập nhật)
 | # | File | Status | Depends | Effort |
 |---|---|---|---|---|
-| 0 | [phase-00](phase-00-host-profile-server-and-core-neutralization.md) — **Extract `McpShared/`** (git mv Contracts/Core, tách `Server.Core` khỏi exe Revit, test engine theo mã, `McpShared.slnx`, `HPRebar.slnx` path, fix `ResolveConfigurationsModule`), Core host-neutral, scaffold `HPAutoCad/`; **0 đổi hành vi Revit** (gate: tổng test = 159 + mới, `tools/list` snapshot before ≡ after, bridge Revit không redeploy); bước cuối: CLAUDE.md/AGENTS.md | planned | — | 14h |
-| 1 | [phase-01](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — `HPAutoCad/` 2 project bridge, bundle, ALC, **spike có gate** (Roslyn trong ALC, Idle từ thread ngoài, WPF modeless) | planned | 0 (bước 1–2) | 8h |
+| 0 | [phase-00](phase-00-host-profile-server-and-core-neutralization.md) — **Extract `McpShared/`** (git mv Contracts/Core, tách `Server.Core` khỏi exe Revit, test engine theo mã, `McpShared.slnx`, `HPRebar.slnx` path, fix `ResolveConfigurationsModule`), Core host-neutral, scaffold `HPAutoCad/`; CLAUDE.md/AGENTS.md | **built + tested + smoke-verified (2026-09-14)** — 9 commit `8a1144f..876c3d6`; 70 + 106 test; `tools/list` byte-identical; live `get_revit_context` với bridge cũ OK; review 6.5/10 → 2 major đã fix (VM marshaller, options binder) | — | 14h (≈12h) |
+| 1 | [phase-01](phase-01-autocad-plugin-scaffold-loader-alc-spike.md) — `HPAutoCad/` 2 project bridge, bundle, ALC, **spike có gate** (Roslyn trong ALC, Idle từ thread ngoài, WPF modeless) | planned — **sẵn sàng** (phase 0 xong) | 0 | 8h |
 | 2 | [phase-02](phase-02-autocad-bridge-runtime-threading-transactions-context.md) — executor, runner (lock/tr/dryRun), context, serializer, change counter, status window; harness pipe 10 kịch bản | planned | 0, 1 | 14h |
 | 3 | [phase-03](phase-03-server-autocad-host-tools-prompts-resources.md) — exe `HPAutoCad.Mcp.Server` (Program mỏng + `AutocadHostProfile` + 4 tool/prompt/resource), tests, `.mcp.json`, hai-exe smoke | planned | 0 | 6h |
 | 4 | [phase-04](phase-04-registry-per-host-and-autocad-seed-tools.md) — registry theo profile trong `McpShared` (categories/validator/text/`host`), **12 seed AutoCAD** nhúng trong exe + compile-check | planned | 3 | 12h |

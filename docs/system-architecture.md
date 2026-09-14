@@ -352,24 +352,26 @@ Chỉ **2 block `#if`**, cả hai có comment `// Multi-version:`:
 
 `DimensionCreator.ToLinearReference` đổi token `SURFACE` → `LINEAR` trong stable representation của `PlanarFace.Reference`. Revit chỉ nhận reference LINEAR khi dimension trong section view, nhưng face trả về SURFACE. Cách này **undocumented**, có thể vỡ ở version mới. Cô lập trong 1 method; mọi caller `try/catch` → log warning và bỏ qua dimension, không làm hỏng cốt thép vừa dựng.
 
-## MCP Bridge (thực tế, 2026-09-12)
+## MCP Bridge (thực tế, 2026-09-14)
 
-Kiến trúc thứ hai trong repo, độc lập với add-in rebar: **hai tiến trình**.
+Kiến trúc thứ hai, độc lập với add-in rebar: **hai tiến trình, một engine host-neutral**.
 
 ```mermaid
 flowchart LR
-    AI["AI agent<br/>(Claude Code)"] -- "stdio · JSON-RPC 2.0" --> S["HPRebar.Mcp.Server<br/>net10 console · ModelContextProtocol 2.2.0"]
-    S -- "Named Pipe hprebar-mcp-r2026<br/>JSON-RPC 2.0, 1 object/dòng" --> L["PipeListener + RequestDispatcher<br/>(HPRebar.McpBridge.Core, trong Revit)"]
+    AI["AI agent<br/>(Claude Code)"] -- "stdio · JSON-RPC 2.0" --> S["HPRebar.Mcp.Server (net10)<br/>thin exe + 21 seed + Registry<br/>(McpShared projects)"]
+    S -- "Named Pipe hprebar-mcp-r2026<br/>JSON-RPC 2.0, 1 object/dòng" --> L["PipeListener + RequestDispatcher<br/>(McpShared/HPRebar.McpBridge.Core)"]
     L --> G["ScriptGuard → ScriptCompiler<br/>(Roslyn, pipe thread, cache)"]
-    G --> H["McpBridgeExternalEventHandler<br/>ExternalEvent → Revit API thread"]
-    H --> R["ScriptRunner<br/>TransactionGroup 'MCP: label' → Revit API 2026"]
-    R --> A["AuditLogger · LastRun → cửa sổ trạng thái"]
-    S --- REG["Tool Registry<br/>tools-library (files) · registry.db (SQLite/FTS5)<br/>ToolManager · DynamicToolRegistrar"]
+    G --> H["McpBridgeExternalEventHandler<br/>(HPRebar.McpBridge, ExternalEvent → Revit API thread)"]
+    H --> R["ScriptRunner<br/>TransactionGroup 'MCP: label' → Revit 2026"]
+    R --> A["AuditLogger · LastRun"]
+    S --- REG["Registry Engine<br/>(McpShared/HPRebar.Mcp.Server.Core)<br/>files + SQLite/FTS5 + FileSystemWatcher"]
     REG -- "tool published → ToolCollection.Add → list_changed" --> S
 ```
 
-Vì sao hai tiến trình: host AI phải launch MCP server stdio làm child process — `Revit.exe` không thể là child đó (ADR-01). Server không reference Revit; bridge không reference MCP SDK; `HPRebar.Mcp.Contracts` (netstandard2.0) là điểm chung duy nhất. Mọi thứ không đụng Revit của bridge nằm ở `HPRebar.McpBridge.Core` (net8) để xUnit test qua pipe thật với fake executor — cùng nguyên tắc "Core ↔ Revit" của add-in rebar.
+Vì sao hai tiến trình (ADR-01): host AI phải launch MCP server stdio làm child — `Revit.exe` không thể là child đó. Server không reference Revit; bridge không reference MCP SDK. Cầu nối: `HPRebar.Mcp.Contracts` (netstandard2.0, hợp đồng dây).
 
-**Tầng registry (ADR-05/06):** tool cố định và tool AI tự sinh đều là *dữ liệu* (`tool.json + code.cs + examples.json`), chạy qua đúng đường `revit.execute` với `args`; không có command native nào trong bridge. Vòng đời `draft → tested → pending_approval → published → quarantined | deprecated`, cổng publish là người (CLI `registry approve`) theo policy `manual`; độ ổn định tính từ `runs`, quarantine tự động khi ≥ 5 run và lỗi > 40 %. Server phát `notifications/tools/list_changed` khi file thay đổi nên approve không cần restart.
+Engine host-neutral ở `McpShared/`: `PipeListener`, `ScriptGuard`, `ScriptCompiler`, registry engine chạy không cần Revit. Test xUnit với fake executor qua pipe thật. Chỉ phần Revit-specific (`ExternalEventHandler`, `ScriptRunner`) nằm trong `HPRebar.McpBridge/`.
 
-Điểm giòn đã biết: Roslyn assembly không unload (đếm `CompiledScriptCount`, cảnh báo >500 → restart Revit); timeout chỉ cooperative (script không kiểm `ct` → Revit treo tới khi xong); Revit hỏi "publisher could not be verified" với DLL chưa ký sau một số lần rebuild. Chi tiết quyết định: `plans/260912-1521-dynamic-revit-mcp-server-2026/adr/`.
+**Tầng registry (ADR-05/06):** tool cố định + tool AI tự sinh đều là *dữ liệu* (`tool.json + code.cs + examples.json`), chạy qua `revit.execute` với `args`. Không native command nào trong bridge. Vòng đời: `draft → tested → pending_approval → published → quarantined | deprecated`. Approve = CLI `registry approve` theo policy `manual`. Độ ổn định từ `runs`; tự quarantine nếu ≥ 5 run và > 40% thất bại. `FileSystemWatcher` reload files nên approve không cần restart.
+
+Điểm giòn: Roslyn assembly không unload; timeout chỉ cooperative; Revit hỏi "publisher could not be verified" với DLL chưa ký. Chi tiết: `plans/260912-1521-dynamic-revit-mcp-server-2026/adr/`.
