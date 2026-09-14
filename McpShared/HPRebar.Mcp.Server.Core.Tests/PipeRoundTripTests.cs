@@ -71,6 +71,26 @@ public sealed class PipeRoundTripTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task A_request_exception_from_the_executor_keeps_its_own_error_code()
+    {
+        _executor.ContextFailure = BridgeRequestException.NoActiveDocument("AutoCAD", "drawing");
+
+        var error = await Assert.ThrowsAsync<BridgeErrorException>(() =>
+            _client.SendAsync<ContextResult>(JsonRpcMethods.Context, new ContextRequest(), Timeout, null, TestContext.Current.CancellationToken));
+
+        Assert.Equal(BridgeErrorCode.NoActiveDocument, error.Code);
+        Assert.True(BridgeErrorCode.IsActionable(error.Code));
+        Assert.Contains("No drawing is open in AutoCAD", error.Message);
+
+        _executor.ContextFailure = new InvalidOperationException(@"C:\secret\path.dwg exploded");
+        error = await Assert.ThrowsAsync<BridgeErrorException>(() =>
+            _client.SendAsync<ContextResult>(JsonRpcMethods.Context, new ContextRequest(), Timeout, null, TestContext.Current.CancellationToken));
+
+        Assert.Equal(BridgeErrorCode.InternalError, error.Code);
+        Assert.DoesNotContain("secret", error.Message);
+    }
+
+    [Fact]
     public async Task Execute_returns_result_and_forwards_progress_for_the_right_request()
     {
         _settings.ExecutionEnabled = true;

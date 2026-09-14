@@ -101,7 +101,7 @@ public static class ScriptGuard
 
             var member = node.Name.Identifier.ValueText;
             if (DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed: reflection and process control are blocked in {_host} scripts.");
-            else if (profile.DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed in {_host} scripts: it prompts the user, leaves the bridge's transaction, or opens modal UI.");
+            else if (profile.DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed in {_host} scripts: it prompts the user, leaves or replaces the bridge's transaction, or opens modal UI.");
 
             // Members denied only on a named global, e.g. tr.Commit() — the bridge owns that transaction.
             if (node.Expression is IdentifierNameSyntax { Identifier.ValueText: var receiver }

@@ -48,13 +48,20 @@ public sealed class FakeRevitExecutor : IBridgeExecutor
         return ExecuteHandler(request);
     }
 
-    public Task<ContextResult> GetContextAsync(bool includeSelection, CancellationToken cancellationToken) =>
-        Task.FromResult(new ContextResult
+    /// <summary>Set to make context reads fail the way a host with no document or a busy main thread does.</summary>
+    public Exception? ContextFailure { get; set; }
+
+    public Task<ContextResult> GetContextAsync(bool includeSelection, CancellationToken cancellationToken)
+    {
+        if (ContextFailure is not null) return Task.FromException<ContextResult>(ContextFailure);
+
+        return Task.FromResult(new ContextResult
         {
             RevitVersion = "2026",
             DocTitle = ActiveDocumentTitle,
             Selection = includeSelection ? [new ElementInfo(1001, "Walls", "Basic Wall")] : [],
         });
+    }
 
     public InspectResult Inspect(InspectRequest request) => new InspectResult
     {

@@ -62,6 +62,12 @@ public sealed class RequestDispatcher
         {
             reply = JsonRpcEnvelope.Failure(id, BridgeErrorCode.InternalError, "Request cancelled because the bridge is shutting down.");
         }
+        catch (BridgeRequestException exception)
+        {
+            // The executor chose the code (busy past the grace period, no document): actionable for the AI, not a bridge fault.
+            Log.Information("MCP bridge refused {Method}: {Code} {Message}", envelope.Method, exception.Code, exception.Message);
+            reply = JsonRpcEnvelope.Failure(id, exception.Code, exception.Message);
+        }
         catch (Exception exception)
         {
             Log.Error(exception, "MCP bridge failed to handle {Method}", envelope.Method);

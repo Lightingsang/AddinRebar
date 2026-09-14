@@ -1,6 +1,6 @@
 # ADR-03 — Transaction / Undo / dryRun trong AutoCAD: một transaction ngoài cùng do bridge mở, `tr` global, abort = rollback
 
-**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project `HPAutoCad.McpBridge` trong `HPAutoCad/`; `units` là kiểu Core `ScriptUnits`) · **Status:** Proposed · **Owner:** HPRebar
+**Ngày:** 2026-09-13 · **Revised 2026-09-14** (ADR-06: project `HPAutoCad.McpBridge` trong `HPAutoCad/`; `units` là kiểu Core `ScriptUnits`) · **Status:** **Accepted (2026-09-14, revised by live run)** — verified by `reports/phase-02-bridge-runtime.md` 21/21; xem §"Revised after phase 2" cuối file · **Owner:** HPRebar
 **Kế thừa:** [Revit ADR-03 §Transaction policy](../../260912-1521-dynamic-revit-mcp-server-2026/adr/adr-03-roslyn-in-process-execution.md) (`auto|manual|none` + `dryRun`, timeout luôn fail + rollback) · Research: [autocad-dotnet-api-2026-report.md §0.1 #2, §5, §6, §9](../research/autocad-dotnet-api-2026-report.md)
 
 ## Context
@@ -55,3 +55,13 @@
 - `ToolValidator` không đổi logic: "UsesTransaction && mode != manual → error" vẫn đúng.
 - Description `execute_autocad_code` phải nói rõ `tr` và cấm `tr.Commit()`; prompt template AutoCAD few-shot dùng `tr.GetObject`.
 - TUnit/in-process test cho `AutocadScriptRunner` không có (như Revit hiện tại) → live verify phase 5 là gate: 10 kịch bản execute (read, dryRun, commit, exception, `none`+modify, manual đúng/sai, guard, compile error, cancel, timeout, busy).
+
+## Revised after phase 2 (2026-09-14, verified live — `reports/phase-02-bridge-runtime.md`)
+
+Những điểm dưới **thay** bảng Policy ở trên khi mâu thuẫn:
+
+1. **Hai transaction do bridge mở, cả hai qua `doc.TransactionManager`** (không phải `db.TransactionManager` — chỉ transaction của Document mới vào undo stack và flush graphics): `outer` = vai TransactionGroup (commit = giữ, abort = dryRun/none/lỗi/timeout/cancel), `inner` = `tr` của script, **bridge commit `inner` ngay khi script return** rồi mới quyết định `outer`. Lý do: `ObjectAppended/ObjectModified/ObjectErased` chỉ bắn khi transaction ngoài cùng commit → không đếm được dryRun bằng event.
+2. **Script không được mở transaction riêng.** Guard AutoCAD deny `StartTransaction`, `StartOpenCloseTransaction`, `TopTransaction`. `transaction=manual` được chấp nhận trên wire (contract chung với Revit) nhưng chạy **y như `auto`** + một dòng `logs` giải thích. Bằng chứng: acad.exe chết (`.NET Runtime 1026`, AccessViolation trong `Transaction.CheckTopTransaction` từ `DisposableWrapper.Finalize`) khi wrapper `Transaction` của script không được Dispose bị GC finalize sau khi native transaction đã kết thúc; bridge không có cách chạm vào wrapper đó. Hệ quả: `ToolValidator` "UsesTransaction → manual" không còn kích hoạt cho AutoCAD (guard chặn trước); mô tả tool `execute_autocad_code` phải nói "dùng `tr`, không `StartTransaction`".
+3. **Đếm `Changed`:** `added` = `Database.Handseed` sau − trước; `modified`/`deleted` = `ObjectOpenedForModify` (bắn ngay khi open ForWrite) rồi `ObjectId.IsErased` đọc **trước khi `inner` commit**; bỏ `SymbolTable`/`BlockTableRecord`. Không giữ wrapper `DBObject` nào ngoài transaction (`Transaction.GetAllObjects()` → finalizer crash). Thất bại/rollback → `Changed = 0` như Revit; dryRun → đếm thật + `rolledBack=true`.
+4. **Undo:** `LockDocument(DocumentLockMode.ProtectedAutoWrite, "HPMCP", "HPMCP", false)` — tên hiện trong UNDO. Ở application context AutoCAD **gộp mọi run MCP liên tiếp kể từ lệnh cuối của user thành một bước Undo** (`U` sau 2 run commit gỡ cả 2; sau `REGEN` thì `U` gỡ đúng 1). Chấp nhận cho MVP, ghi rõ trong description tool + status window ("U reverts the AI's runs since your last command"). Per-run undo cần `ExecuteInCommandContextAsync` + `UNDO _BE/_E` → ngoài phạm vi.
+5. Serialize `Value` **trước** khi `inner` commit (object mở qua `tr` bị dispose khi transaction kết thúc). `ed.WriteMessage` một dòng `[MCP] <label>: ok/…; N added, M modified, K erased; undo with U` sau mỗi run; `FlushGraphics()` + `UpdateScreen()` sau commit (ngoài command AutoCAD không tự vẽ lại).

@@ -1,0 +1,319 @@
+"""Phase-2 pipe harness: talks NDJSON JSON-RPC to the AutoCAD bridge over its named pipe and runs the
+execute scenarios of the plan. No MCP server involved (that is phase 3). Prints one line per scenario
+and a JSON summary at the end; exit code 1 when any scenario fails.
+
+Usage: python pipe-scenarios.py [--pipe hpautocad-mcp-2026] [--only a,b,c]
+Set HP_HARNESS_KEYS=1 when the PowerShell wrapper can type into AutoCAD (busy/undo scenarios).
+"""
+import json, sys, time, argparse, os, subprocess
+
+PIPE = r"\\.\pipe\hpautocad-mcp-2026"
+_id = 0
+results = []
+detached = []
+
+
+class Pipe:
+    def __init__(self, path):
+        self.f = open(path, "r+b", buffering=0)
+
+    def call(self, method, params=None, timeout=60.0):
+        global _id
+        _id += 1
+        rid = _id
+        msg = {"jsonrpc": "2.0", "id": rid, "method": method}
+        if params is not None:
+            msg["params"] = params
+        self.f.write((json.dumps(msg) + "\n").encode("utf-8"))
+        deadline = time.time() + timeout
+        notes = []
+        while time.time() < deadline:
+            line = self.f.readline()
+            if not line:
+                raise RuntimeError("pipe closed")
+            obj = json.loads(line.decode("utf-8"))
+            if obj.get("id") == rid:
+                obj["_notifications"] = notes
+                return obj
+            notes.append(obj)
+        raise TimeoutError(method)
+
+    def notify(self, method, params=None):
+        msg = {"jsonrpc": "2.0", "method": method}
+        if params is not None:
+            msg["params"] = params
+        self.f.write((json.dumps(msg) + "\n").encode("utf-8"))
+
+    def close(self):
+        self.f.close()
+
+
+def execute(p, code, transaction="auto", dry_run=False, timeout_s=30, label="harness", args=None, wait=90.0):
+    params = {"code": code, "transaction": transaction, "dryRun": dry_run, "timeoutSeconds": timeout_s, "label": label}
+    if args is not None:
+        params["args"] = args
+    return p.call("autocad.execute", params, timeout=wait)
+
+
+COUNT_LINES = """
+var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+var ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+var n = 0; foreach (ObjectId id in ms) if (id.ObjectClass.DxfName == "LINE") n++;
+return n;"""
+
+ADD_LINE_BODY = """
+var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+var ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+var line = new Line(Point3d.Origin, new Point3d(units.ToDrawing(args.Double("lengthMm", 1000)), 0, 0));
+ms.AppendEntity(line); tr.AddNewlyCreatedDBObject(line, true);
+log("added " + line.Handle);"""
+ADD_LINE = ADD_LINE_BODY + """
+return new { handle = line.Handle.ToString(), layer = line.Layer, length = line.Length };"""
+
+
+def count_lines(p):
+    r = execute(p, COUNT_LINES, transaction="none", label="count")
+    assert "result" in r, r
+    return r["result"]["value"]
+
+
+def check(name, cond, detail=""):
+    results.append({"name": name, "pass": bool(cond), "detail": detail})
+    print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:400])
+
+
+def send_escape():
+    """Two ESC keystrokes to AutoCAD's frame after bringing it to the front (COM is rejected while a command waits for input)."""
+    ps = ("Add-Type -AssemblyName System.Windows.Forms; "
+          "$sig='[DllImport(\"user32.dll\")] public static extern bool SetForegroundWindow(IntPtr h);'; "
+          "$W = Add-Type -MemberDefinition $sig -Name Fg -Namespace U -PassThru; "
+          "$h = (Get-Process acad).MainWindowHandle; $null = $W::SetForegroundWindow($h); Start-Sleep -Milliseconds 500; "
+          "[System.Windows.Forms.SendKeys]::SendWait('{ESC}{ESC}')")
+    subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False, timeout=30)
+
+
+def acad_com(script, wait=True):
+    """Drives the running AutoCAD through COM automation (Windows PowerShell 5.1 still has GetActiveObject).
+    A command that waits for input (LINE) never returns from SendCommand, so those run detached."""
+    if os.environ.get("HP_HARNESS_KEYS") != "1":
+        return False
+    ps = "$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); " + script
+    if wait:
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False, timeout=60)
+        return True
+    # detached: no inherited handles, or the wrapper's pipeline waits for this child forever
+    proc = subprocess.Popen(["powershell", "-NoProfile", "-Command", ps], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+    detached.append(proc)
+    return True
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--pipe", default=PIPE)
+    ap.add_argument("--only", default="")
+    a = ap.parse_args()
+    only = set(x for x in a.only.split(",") if x)
+
+    def want(k):
+        return not only or k in only
+
+    global _id
+    p = Pipe(a.pipe)
+
+    if "disabled" in only:
+        r = execute(p, "return 1;", transaction="none", label="disabled")
+        err = r.get("error", {})
+        check("execute while opt-in off -> -32001", err.get("code") == -32001, json.dumps(err))
+        p.close(); finish(); return
+
+    if "nodoc" in only:
+        r = p.call("autocad.context")
+        ctx = r.get("result", {})
+        r2 = execute(p, "return 1;", transaction="none", label="nodoc")
+        err = r2.get("error", {})
+        check("no drawing -> context without doc, execute -32003", not ctx.get("docTitle") and err.get("code") == -32003, f"openDocs={ctx.get('openDocs')} error={err}")
+        p.close(); finish(); return
+
+    if want("ping"):
+        r = p.call("autocad.ping")
+        check("ping", r.get("result", {}).get("pong") is True and r["result"].get("revitVersion") == "2026", json.dumps(r.get("result")))
+
+    if want("context"):
+        r = p.call("autocad.context", {"includeSelection": True})
+        res = r.get("result", {})
+        check("context", res.get("host") == "autocad" and res.get("docTitle") and res.get("autocad", {}).get("isQuiescent") is True,
+              json.dumps({k: res.get(k) for k in ("host", "hostVersion", "docTitle", "units", "activeView", "autocad", "openDocs", "executionEnabled")}))
+
+    if want("read"):
+        r = execute(p, "return db.Filename;", transaction="none", label="read")
+        res = r.get("result", {})
+        check("read (none)", not res.get("isError") and isinstance(res.get("value"), str) and res.get("value"), json.dumps(res)[:300])
+
+    base = count_lines(p)
+    print(f"  model space lines before: {base}")
+
+    if want("dryrun"):
+        r = execute(p, ADD_LINE, dry_run=True, label="dry line", args={"lengthMm": 500})
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("dryRun line", not res.get("isError") and res.get("changed", {}).get("added") == 1 and res.get("rolledBack") is True and after == base,
+              f"changed={res.get('changed')} rolledBack={res.get('rolledBack')} value={res.get('value')} count {base}->{after} logs={res.get('logs')}")
+
+    if want("commit"):
+        r = execute(p, ADD_LINE, label="real line", args={"lengthMm": 1234.5})
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("commit line", not res.get("isError") and res.get("changed", {}).get("added") == 1 and res.get("rolledBack") is False and after == base + 1,
+              f"changed={res.get('changed')} value={res.get('value')} durationMs={res.get('durationMs')} count {base}->{after}")
+        base = after
+
+    if want("exception"):
+        r = execute(p, ADD_LINE_BODY + '\nthrow new InvalidOperationException("boom after append");', label="throw")
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("exception rolls back", res.get("isError") and res.get("rolledBack") is True and "boom" in (res.get("message") or "") and after == base,
+              f"message={res.get('message')} changed={res.get('changed')} count {after}")
+
+    if want("none-modify"):
+        r = execute(p, ADD_LINE, transaction="none", label="none modify")
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("none + modify refused", res.get("isError") and "transaction=\"none\"" in (res.get("message") or "") and after == base,
+              f"message={res.get('message')} rolledBack={res.get('rolledBack')} count {after}")
+
+    if want("manual"):
+        # AutoCAD scripts may not start transactions of their own (a leaked wrapper crashes acad.exe at GC time):
+        # the guard refuses StartTransaction, and transaction=manual runs like auto with a note in the logs.
+        code = "using (var t = db.TransactionManager.StartTransaction()) { t.Commit(); } return 1;"
+        r = execute(p, code, transaction="manual", label="manual nested")
+        res = r.get("result", {})
+        check("guard denies StartTransaction", res.get("isError") and any("StartTransaction" in d.get("message", "") for d in res.get("diagnostics", [])),
+              json.dumps(res.get("diagnostics"))[:200])
+        r = execute(p, ADD_LINE, transaction="manual", label="manual like auto")
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("manual runs like auto", not res.get("isError") and res.get("changed", {}).get("added") == 1 and after == base + 1 and any("manual" in l for l in res.get("logs", [])),
+              f"changed={res.get('changed')} logs={res.get('logs')} count {base}->{after}")
+        base = after
+
+    if want("modify-erase"):
+        code = """
+var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+var ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+var lines = new List<ObjectId>(); foreach (ObjectId id in ms) if (id.ObjectClass.DxfName == "LINE") lines.Add(id);
+var first = (Line)tr.GetObject(lines[0], OpenMode.ForWrite); first.ColorIndex = 1;
+var second = (Line)tr.GetObject(lines[1], OpenMode.ForWrite); second.Erase();
+return lines.Count;"""
+        r = execute(p, code, label="modify+erase")
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("modify + erase counted", not res.get("isError") and res.get("changed") == {"added": 0, "modified": 1, "deleted": 1} and after == base - 1,
+              f"changed={res.get('changed')} message={res.get('message')} count {base}->{after}")
+        base = after
+
+    if want("guard"):
+        r = execute(p, 'var pt = ed.GetPoint("pick"); return pt.Value;', label="guard")
+        res = r.get("result", {})
+        check("guard denies ed.GetPoint", res.get("isError") and any("GetPoint" in d.get("message", "") for d in res.get("diagnostics", [])),
+              json.dumps(res.get("diagnostics"))[:200])
+
+    if want("guard-tr"):
+        r = execute(p, 'tr.Commit(); return 1;', label="guard tr")
+        res = r.get("result", {})
+        check("guard denies tr.Commit", res.get("isError") and res.get("diagnostics"), json.dumps(res.get("diagnostics"))[:200])
+
+    if want("compile"):
+        r = execute(p, "return nothingHere + 1;", label="compile")
+        res = r.get("result", {})
+        check("compile error", res.get("isError") and any(d.get("id", "").startswith("CS") for d in res.get("diagnostics", [])),
+              json.dumps(res.get("diagnostics"))[:200])
+
+    if want("cancel"):
+        code = ADD_LINE_BODY + """
+var end = DateTime.Now.AddSeconds(20);
+while (DateTime.Now < end) { ct.ThrowIfCancellationRequested(); }
+return "not cancelled";"""
+        # Send the execute, then cancel after a second while the script spins on the main thread.
+        _id += 1
+        rid = _id
+        p.f.write((json.dumps({"jsonrpc": "2.0", "id": rid, "method": "autocad.execute",
+                               "params": {"code": code, "transaction": "auto", "timeoutSeconds": 60, "label": "cancel me"}}) + "\n").encode())
+        time.sleep(1.5)
+        _id += 1
+        cid = _id
+        p.f.write((json.dumps({"jsonrpc": "2.0", "id": cid, "method": "autocad.cancel"}) + "\n").encode())
+        got = {}
+        deadline = time.time() + 40
+        while time.time() < deadline and len(got) < 2:
+            line = p.f.readline()
+            obj = json.loads(line.decode())
+            if obj.get("id") in (rid, cid):
+                got[obj["id"]] = obj
+        res = got.get(rid, {}).get("result", {})
+        after = count_lines(p)
+        check("cancel", got.get(cid, {}).get("result", {}).get("cancelled") is True and res.get("isError") and res.get("rolledBack") is True and not res.get("timedOut") and after == base,
+              f"cancel={got.get(cid, {}).get('result')} message={res.get('message')} durationMs={res.get('durationMs')} count {after}")
+
+    if want("timeout"):
+        code = ADD_LINE_BODY + """
+var end = DateTime.Now.AddSeconds(7);
+while (DateTime.Now < end) { }
+return "finished late";"""
+        r = execute(p, code, timeout_s=5, label="timeout", wait=60)
+        res = r.get("result", {})
+        after = count_lines(p)
+        check("timeout", res.get("isError") and res.get("timedOut") is True and res.get("rolledBack") is True and after == base,
+              f"message={res.get('message')} durationMs={res.get('durationMs')} count {after}")
+
+    if want("progress"):
+        code = "for (var i = 1; i <= 3; i++) { progress(i, 3, \"step \" + i); log(\"line \" + i); } return 3;"
+        r = execute(p, code, transaction="none", label="progress")
+        notes = [n for n in r.get("_notifications", []) if n.get("method") == "autocad.progress"]
+        check("progress + logs", len(notes) == 3 and r.get("result", {}).get("logs") == ["line 1", "line 2", "line 3"], f"notifications={len(notes)} logs={r.get('result', {}).get('logs')}")
+
+    if want("args-value"):
+        code = "return new { handle = db.BlockTableId, pt = new Point3d(1, 2, 3), n = args.Int(\"n\", 0), s = args.Str(\"s\") };"
+        r = execute(p, code, transaction="none", label="serialize", args={"n": 7, "s": "hi"})
+        res = r.get("result", {})
+        v = res.get("value") or {}
+        check("serializer + args", not res.get("isError") and v.get("n") == 7 and v.get("s") == "hi" and v.get("pt", {}).get("z") == 3 and "handle" in v.get("handle", {}),
+              json.dumps(v)[:200])
+
+    if "busy" in only and os.environ.get("HP_HARNESS_KEYS") == "1":
+        acad_com("$a.ActiveDocument.SendCommand('_LINE ')", wait=False)
+        time.sleep(2.5)
+        t0 = time.time()
+        r = execute(p, "return 1;", transaction="none", label="busy", wait=40)
+        elapsed = time.time() - t0
+        err = r.get("error", {})
+        check("busy -> -32002 after grace", err.get("code") == -32002 and 8 <= elapsed <= 30, f"error={err} result={r.get('result')} after {elapsed:.1f}s")
+        # ESC + retry is a manual check (phase 5): no reliable way to type into AutoCAD from here.
+
+    if want("undo") and os.environ.get("HP_HARNESS_KEYS") == "1":
+        # Runs happen in application context: AutoCAD merges everything since the last user command into
+        # one undo step, so a user command (REGEN) marks the boundary the test needs.
+        acad_com("$a.ActiveDocument.SendCommand('_REGEN ')")
+        time.sleep(1)
+        before = count_lines(p)
+        r = execute(p, ADD_LINE, label="undo me")
+        mid = count_lines(p)
+        acad_com("$a.ActiveDocument.SendCommand('_U ')")
+        time.sleep(2)
+        after = count_lines(p)
+        check("U reverts the MCP runs since the last user command", mid == before + 1 and after == before, f"count {before}->{mid}->{after}")
+
+    p.close()
+    finish()
+
+
+def finish():
+    for proc in detached:
+        try: proc.kill()
+        except Exception: pass
+    passed = sum(1 for r in results if r["pass"])
+    print(json.dumps({"passed": passed, "total": len(results), "failed": [r["name"] for r in results if not r["pass"]]}))
+    sys.exit(0 if passed == len(results) else 1)
+
+
+if __name__ == "__main__":
+    main()

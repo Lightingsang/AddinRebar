@@ -139,6 +139,19 @@ public sealed class HostNeutralityTests
     }
 
     [Fact]
+    public void Guard_profile_autocad_denies_transactions_of_the_scripts_own()
+    {
+        const string nested = "using (var t = db.TransactionManager.StartTransaction()) { t.Commit(); } return 1;";
+        const string top = "var t = db.TransactionManager.TopTransaction; return 1;";
+        const string fine = "var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead); return bt.Has(\"x\");";
+
+        Assert.Contains(ScriptGuard.Check(nested, GuardProfile.Autocad), d => d.Message.Contains("StartTransaction"));
+        Assert.Contains(ScriptGuard.Check(top, GuardProfile.Autocad), d => d.Message.Contains("TopTransaction"));
+        Assert.Empty(ScriptGuard.Check(fine, GuardProfile.Autocad));
+        Assert.Empty(ScriptGuard.Check(nested)); // Revit scripts may still open their own
+    }
+
+    [Fact]
     public void Analyzer_profile_autocad_detects_transactions_started_by_call()
     {
         const string code = "using (var t = db.TransactionManager.StartTransaction()) { t.Commit(); } return 1;";

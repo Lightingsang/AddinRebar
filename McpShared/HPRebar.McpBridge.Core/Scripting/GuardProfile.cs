@@ -14,8 +14,10 @@ public sealed class GuardProfile
     /// <summary>
     ///     AutoCAD adds what would block or bypass the bridge: every interactive Editor prompt (waits for
     ///     the user on the main thread while the server waits on the pipe), command-context escapes
-    ///     (async, no return value, outside the bridge's transaction), modal UI, and committing or
-    ///     aborting the bridge-owned `tr` transaction from inside a script.
+    ///     (async, no return value, outside the bridge's transaction), modal UI, committing or aborting
+    ///     the bridge-owned `tr` transaction from inside a script, and starting a transaction of the
+    ///     script's own — a Transaction wrapper the script forgets to dispose is finalised later on the
+    ///     GC thread and takes acad.exe down (verified live), so `tr` is the only transaction a script gets.
     /// </summary>
     public static readonly GuardProfile Autocad = new GuardProfile(
         "AutoCAD",
@@ -30,6 +32,8 @@ public sealed class GuardProfile
             // command-context escapes and modal UI
             "SendStringToExecute", "Command", "CommandAsync", "ExecuteInApplicationContext", "ExecuteInCommandContextAsync",
             "ShowModalDialog", "ShowModalWindow", "ShowAlertDialog", "Quit", "CloseAndDiscard", "CloseAndSave",
+            // transactions of the script's own (see summary)
+            "StartTransaction", "StartOpenCloseTransaction", "TopTransaction",
         },
         deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
         {

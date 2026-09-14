@@ -1,8 +1,8 @@
 ---
 title: "Phase 2 — Bridge runtime AutoCAD: executor main thread, script runner (lock/transaction/dryRun), context, serializer, status window"
-status: planned
+status: built + tested + verified in AutoCAD 2026 (2026-09-14) — harness 21/21 unattended (reports/phase-02-bridge-runtime.md); ADR-03 revised by live evidence (two transactions, no script transactions, undo merged per user command)
 priority: P1
-effort: 14h
+effort: 14h (actual ≈ 6h, 10 harness runs)
 depends_on: [phase-00, phase-01]
 created: 2026-09-13
 revised: 2026-09-14 (ADR-06 — đường dẫn `HPAutoCad/`, `McpShared/`)
@@ -73,7 +73,8 @@ McpShared/HPRebar.McpBridge.Core/Scripting/AnalyzerProfile.cs ✎ + AnalyzerProf
 9. Kiểm trong AutoCAD bằng harness pipe thuần (Python ~40 dòng: `win32pipe`/`open(r'\\.\pipe\hpautocad-mcp-2026','r+b')` NDJSON): `autocad.ping` → pong; `autocad.context` → JSON; `autocad.execute` 10 kịch bản: read (`return db.Filename`), dryRun tạo Line (`changed.added=1, rolledBack=true`, drawing không đổi), commit thật (Line xuất hiện, `U` undo được), exception (`throw`) → rolledBack, `none` + tạo Line → `IsError` + rolledBack, `manual` đúng (nested Commit) → commit, `manual` sai (nested để mở) → lỗi + rollback, guard (`ed.GetPoint`) → diagnostics, compile error → diagnostics, cancel (`cancel_execution` qua `autocad.cancel` giữa vòng lặp `ct`) → rolledBack, timeout 5 s với vòng lặp không hợp tác → `timedOut` + rolledBack, busy (gõ `LINE` dở) → `-32002` sau grace.
 
 ## Todo
-- [ ] 1 guard/analyzer profile · [ ] 2 globals/units · [ ] 3 counter/serializer · [ ] 4 runner · [ ] 5 executor · [ ] 6 context · [ ] 7 entry/self-check · [ ] 8 UI/commands · [ ] 9 harness pipe 10 kịch bản → `reports/phase-02-bridge-runtime.md`
+- [x] 1 guard/analyzer profile (+ deny `StartTransaction`/`StartOpenCloseTransaction`/`TopTransaction`; test) · [x] 2 globals/units (`AutocadInsunits` trong Core, 2 theory) · [x] 3 counter (`Handseed` + `ObjectOpenedForModify` + `ObjectId.IsErased`) / serializer · [x] 4 runner (outer+inner qua `doc.TransactionManager`, lock có tên `HPMCP`, manual = auto) · [x] 5 executor (`MainThreadQueue` Core 7 test + `MainThreadExecutor`, Idle vĩnh viễn + `WM_NULL`) · [x] 6 context · [x] 7 entry (host/executor/audit/window), self-check giữ probe không document; `SpikeRunner`/`HPMCPSPIKE*` xoá · [x] 8 XAML window + theme dark/light (`COLORTHEME`) + `EnterContextualReflection`; loader 4 lệnh · [x] 9 harness `HPAutoCad/tools/harness/` 21/21 → `reports/phase-02-bridge-runtime.md`
+- Sai lệch: `-32002/-32003` qua `BridgeRequestException` (Core) + dispatcher map; ESC-rồi-retry và modal dialog = kiểm tay phase 5; undo gộp theo lệnh user (ADR-03 §Revised).
 
 ## Success criteria
 - `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false` xanh; `dotnet build McpShared/McpShared.slnx` xanh.

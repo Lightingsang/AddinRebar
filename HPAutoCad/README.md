@@ -9,16 +9,17 @@ Plan of record: [`../plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/26091
 
 ## Status
 
-Phase 1 done (2026-09-14): loader, isolated load context, bundle and a spike verified in AutoCAD 2026. The bridge
-has no pipe listener yet — that is phase 2. Commands today: `HPMCPBRIDGE` (placeholder window), `HPMCPSTATUS`,
-`HPMCPSTART`/`HPMCPSTOP` (no-ops until phase 2), and the temporary `HPMCPSPIKE`/`HPMCPSPIKEQUIT`, which draw into
-the active drawing and therefore only run when `HPAUTOCAD_MCP_SPIKE=1` is set in acad.exe's environment (removed
-in phase 2).
+Phase 2 done (2026-09-14): the bridge runs scripts end-to-end inside AutoCAD 2026 — pipe listener, main-thread
+executor (`Application.Idle` + `IsQuiescent`), two bridge-owned transactions (`tr` is the script's), change counting,
+audit, status window. Verified unattended with `tools/harness/` (21/21 scenarios). No MCP server exe yet — phase 3.
+Commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI code execution" opt-in), `HPMCPSTART`,
+`HPMCPSTOP`, `HPMCPSTATUS`.
 
 | Project | Phase | Purpose |
 |---|---|---|
 | `HPAutoCad.McpBridge.Loader` | 1 ✅ | The DLL AutoCAD loads: `IExtensionApplication`, the `HPMCP*` commands, an isolated `AssemblyLoadContext` for the real bridge |
-| `HPAutoCad.McpBridge` | 1 ✅ · 2 | The bridge: Roslyn + start-up self-check (phase 1); pipe listener, main-thread executor, transaction policy, status window (phase 2) |
+| `HPAutoCad.McpBridge` | 1–2 ✅ | The bridge: Roslyn + self-check, `MainThreadExecutor`, `AutocadScriptRunner` (lock + outer/inner transaction, dryRun, timeout), context reader, serializer, XAML status window |
+| `tools/harness/` | 2 ✅ | Unattended pipe harness (Python + PowerShell): SECURELOAD, UIA opt-in, 21 JSON-RPC scenarios, COM for close/busy/undo |
 | `HPAutoCad.Mcp.Server` | 3 | The MCP server exe: `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, prompts, resources, embedded seed tools |
 | `HPAutoCad.Mcp.Server.Tests` | 3–4 | xUnit v3: profile, tools over a real pipe, seed compile checks against `AutoCAD.NET` 25.1.0 |
 

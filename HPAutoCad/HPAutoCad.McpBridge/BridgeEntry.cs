@@ -2,13 +2,18 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Threading;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using HPAutoCad.McpBridge.Model;
 using HPAutoCad.McpBridge.Service;
+using HPAutoCad.McpBridge.View;
 using HPRebar.Mcp.Contracts;
+using HPRebar.Mcp.Contracts.JsonRpc;
+using HPRebar.McpBridge.Core.Host;
 using HPRebar.McpBridge.Core.Model;
 using HPRebar.McpBridge.Core.Scripting;
+using HPRebar.McpBridge.Core.ViewModel;
 using Serilog;
 using Serilog.Events;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
@@ -17,22 +22,27 @@ namespace HPAutoCad.McpBridge;
 
 /// <summary>
 ///     Entry point the loader calls by reflection once this assembly sits in its own load context. Wires
-///     logging, settings and the Roslyn compiler, runs the scripting self-check, and hands back the
-///     entry points the loader's commands forward to — as plain delegates, the only shape both load
-///     contexts agree on. Phase 1: no pipe listener yet; that arrives with the executor in phase 2.
+///     logging, settings, the Roslyn compiler, the main-thread executor and the pipe host, runs the
+///     scripting self-check, and hands back the entry points the loader's commands forward to — as plain
+///     delegates, the only shape both load contexts agree on. Runs on AutoCAD's main thread, before any
+///     drawing is open.
 /// </summary>
 public static class BridgeEntry
 {
     public const string VendorFolder = "HPAutoCad";
     public const string ProductFolder = "McpBridge";
+    private const string HostName = "AutoCAD";
+
+    /// <summary>How long a request waits for AutoCAD to finish a command or dialog before it fails as busy.</summary>
+    private static readonly TimeSpan BusyGrace = TimeSpan.FromSeconds(10);
 
     private static readonly string LogDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), VendorFolder, ProductFolder, "logs");
 
-    private static ScriptCompiler? _compiler;
-    private static BridgeSettings? _settings;
+    private static McpBridgeHost? _host;
+    private static MainThreadExecutor? _executor;
     private static bool _selfCheckOk;
-    private static Window? _window;
+    private static AutocadBridgeStatusView? _window;
 
     /// <param name="bridgeDirectory">Contents\Bridge — where this assembly and its dependencies were loaded from.</param>
     /// <param name="loaderLog">The loader's file log, for anything worth recording beside the Serilog file.</param>
@@ -42,88 +52,110 @@ public static class BridgeEntry
 
         var version = AcadApp.Version;
         var year = AutocadVersionMap.YearFor(version, out var knownYear);
-        Log.Information("HPAutoCad MCP bridge starting from {Directory}; AutoCAD {Version} → {Year}{Note}; runtime {Runtime}; pipe would be {Pipe}",
-            bridgeDirectory, version, year, knownYear ? "" : " (unknown series, using the build target)", RuntimeInformation.FrameworkDescription, PipeNaming.For(PipeNaming.AutocadHost, year));
+        Log.Information("HPAutoCad MCP bridge starting from {Directory}; AutoCAD {Version} → {Year}{Note}; runtime {Runtime}",
+            bridgeDirectory, version, year, knownYear ? "" : " (unknown series, using the build target)", RuntimeInformation.FrameworkDescription);
 
         // AutoCAD 2026 Update 1.2 reports the same 25.1 series but runs on .NET 10; this net8 build is untested there.
         if (Environment.Version.Major != 8)
             Log.Warning("Host runtime is .NET {Major}, this bridge was built and verified for .NET 8", Environment.Version.Major);
 
         var store = new BridgeSettingsStore(VendorFolder, ProductFolder);
-        _settings = store.Load();
+        var settings = store.Load();
+        var autocadApi = AutocadApiAssemblies();
 
-        _compiler = CreateCompiler(_settings.ScriptCacheSize);
-        _selfCheckOk = ScriptingSelfCheck.Run(_compiler);
+        var compiler = new ScriptCompiler(CompilerReferences(autocadApi), HostScriptContracts.AutocadImports, typeof(AutocadScriptGlobals), settings.ScriptCacheSize);
+        _selfCheckOk = ScriptingSelfCheck.Run(compiler);
         loaderLog($"bridge self-check {(_selfCheckOk ? "OK" : "FAILED")} — see {LogDirectory}");
 
-        var spike = new SpikeRunner(_compiler, LogDirectory);
+        var runner = new AutocadScriptRunner(settings, new AutocadResultSerializer(settings.MaxOutputBytes));
+        var inspector = new TypeInspector(autocadApi, HostName);
+        var audit = new AuditLogger(store.AuditDirectory);
+        var hostVersion = year.ToString();
 
+        _executor = new MainThreadExecutor(settings, compiler, runner, inspector, audit, hostVersion, BusyGrace);
+        _host = new McpBridgeHost(_executor, settings, store, hostVersion, PipeNaming.For(PipeNaming.AutocadHost, year), HostName, JsonRpcMethods.AutocadPrefix);
+        McpBridgeHost.Install(_host);
+
+        if (settings.AutoStartListener) _host.Start();
+        Log.Information("MCP bridge ready on pipe {Pipe}; auto-start listener = {AutoStart}", _host.PipeName, settings.AutoStartListener);
+
+        var host = _host;
         return new Dictionary<string, Delegate>(StringComparer.Ordinal)
         {
             ["show"] = new Func<string>(ShowWindow),
-            ["start"] = new Func<string>(() => "[HPAutoCad MCP] the pipe listener arrives with phase 2; nothing to start yet."),
-            ["stop"] = new Func<string>(() => "[HPAutoCad MCP] the pipe listener arrives with phase 2; nothing to stop."),
+            ["start"] = new Func<string>(() => { host.Start(); return $"[HPAutoCad MCP] listener starting on {host.PipeName}"; }),
+            ["stop"] = new Func<string>(() => { host.Stop(); return "[HPAutoCad MCP] listener stopping"; }),
             ["status"] = new Func<string>(Status),
-            ["spike"] = new Func<bool, string>(quit => spike.Start(quit)),
             ["dispose"] = new Action(Dispose),
         };
     }
 
+    /// <summary>The three assemblies acad.exe loaded; the load context never duplicates them, so these are the live ones.</summary>
+    private static Assembly[] AutocadApiAssemblies() =>
+    [
+        typeof(Autodesk.AutoCAD.ApplicationServices.Application).Assembly, // AcMgd: Application.DocumentManager, DocumentExtension
+        typeof(Document).Assembly,                                        // AcCoreMgd: Document, Editor, Core.Application
+        typeof(Database).Assembly,                                        // AcDbMgd
+    ];
+
     /// <summary>
-    ///     The compiler sees the three AutoCAD API assemblies exactly as acad.exe loaded them (the load
-    ///     context never duplicates them) plus the Core assembly that defines `args`/`units`. Imports come
-    ///     from <see cref="HostScriptContracts.AutocadImports"/> so the server's tool description and the
-    ///     seed compile checks describe the same environment; the seed tests must reference the same three
+    ///     The AutoCAD API plus the Core assembly that defines `args`/`units`. Imports come from
+    ///     <see cref="HostScriptContracts.AutocadImports"/> so the server's tool description and the seed
+    ///     compile checks describe the same environment; the seed tests must reference the same three
     ///     AutoCAD assemblies, or a script passes there and fails here.
     /// </summary>
-    private static ScriptCompiler CreateCompiler(int cacheSize)
-    {
-        Assembly[] references =
-        [
-            typeof(Autodesk.AutoCAD.ApplicationServices.Application).Assembly, // AcMgd: Application.DocumentManager, DocumentExtension
-            typeof(Document).Assembly,                                        // AcCoreMgd: Document, Editor, Core.Application
-            typeof(Database).Assembly,                                        // AcDbMgd
-            typeof(object).Assembly, typeof(Enumerable).Assembly, typeof(List<>).Assembly,
-            Assembly.Load("netstandard"), Assembly.Load("System.Runtime"), Assembly.Load("System.Collections"),
-            typeof(ScriptArgs).Assembly, typeof(System.Text.Json.JsonElement).Assembly,
-        ];
-
-        return new ScriptCompiler(references, HostScriptContracts.AutocadImports, typeof(AutocadScriptGlobals), cacheSize);
-    }
+    private static Assembly[] CompilerReferences(Assembly[] autocadApi) => autocadApi.Concat(
+    [
+        typeof(object).Assembly, typeof(Enumerable).Assembly, typeof(List<>).Assembly,
+        Assembly.Load("netstandard"), Assembly.Load("System.Runtime"), Assembly.Load("System.Collections"),
+        typeof(ScriptArgs).Assembly, typeof(System.Text.Json.JsonElement).Assembly,
+    ]).ToArray();
 
     private static string ShowWindow()
     {
-        if (_window is { IsVisible: true })
+        if (_window is not null)
         {
             _window.Activate();
             return string.Empty;
         }
 
-        // Placeholder until phase 2 brings the real status window and its shared view model.
-        _window = new Window
+        var host = _host ?? throw new InvalidOperationException("The bridge did not start; see " + LogDirectory);
+
+        // The command runs on AutoCAD's main thread, which owns the WPF dispatcher the window will live on.
+        var dispatcher = Dispatcher.CurrentDispatcher;
+        var viewModel = new McpBridgeStatusViewModel(host, action => dispatcher.InvokeAsync(action), Clipboard.SetText);
+        var view = new AutocadBridgeStatusView(viewModel);
+
+        view.Closed += (_, _) =>
         {
-            Title = "HPAutoCad MCP Bridge",
-            Width = 420, Height = 160,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            Content = new System.Windows.Controls.TextBlock
-            {
-                Margin = new Thickness(16),
-                TextWrapping = TextWrapping.Wrap,
-                Text = Status(),
-            },
+            viewModel.Detach();
+            _window = null;
         };
-        _window.Closed += (_, _) => _window = null;
-        AcadApp.ShowModelessWindow(_window);
+
+        _window = view;
+        AcadApp.ShowModelessWindow(view);
+        Log.Information("MCP bridge status window opened (visible={Visible}, dispatcher thread {Thread})", view.IsVisible, view.Dispatcher.Thread.ManagedThreadId);
         return string.Empty;
     }
 
-    private static string Status() =>
-        $"[HPAutoCad MCP] phase 1 — self-check {(_selfCheckOk ? "OK" : "FAILED")}, compiled scripts {_compiler?.CompiledCount ?? 0}, " +
-        $"listener: not built yet (phase 2). Logs: {LogDirectory}";
+    private static string Status()
+    {
+        var host = _host;
+        if (host is null) return "[HPAutoCad MCP] bridge not started; see " + LogDirectory;
+
+        var last = host.LastRun is { } run
+            ? $"last run '{run.Label}' {(run.IsError ? "failed" : "ok")} at {run.Timestamp:HH:mm:ss}"
+            : "no script has run yet";
+
+        return $"[HPAutoCad MCP] {host.Status} on pipe {host.PipeName}; execution {(host.ExecutionEnabled ? "ENABLED" : "disabled")}; " +
+               $"self-check {(_selfCheckOk ? "OK" : "FAILED")}; compiled scripts {host.CompiledScriptCount}; {last}. Logs: {LogDirectory}";
+    }
 
     private static void Dispose()
     {
         _window?.Close();
+        _host?.Dispose();
+        _executor?.Dispose();
         Log.Information("HPAutoCad MCP bridge stopped");
         Log.CloseAndFlush();
     }
