@@ -1,0 +1,70 @@
+{
+  "name": "insert_block",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Block",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "blocks",
+    "insert",
+    "attributes"
+  ],
+  "title": "Insert a block reference",
+  "description": "Inserts a reference to an existing block definition at a point in millimetres with uniform scale and rotation in degrees, fills its attributes from a {tag: value} object, optionally on an existing layer. Fails with a clear message when the block is not defined (list_block_definitions shows the names).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "blockName": {
+        "type": "string",
+        "description": "Name of an existing block definition"
+      },
+      "position": {
+        "type": "object",
+        "description": "Insertion point in millimetres",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "scale": {
+        "type": "number",
+        "default": 1,
+        "description": "Uniform scale factor (> 0)"
+      },
+      "rotationDeg": {
+        "type": "number",
+        "default": 0,
+        "description": "Rotation in degrees, counter-clockwise"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer name; default: the current layer"
+      },
+      "attributes": {
+        "type": "object",
+        "description": "Attribute values by tag, e.g. {\\\"TAG\\\": \\\"D01\\\"}; tags not listed keep their default",
+        "properties": {}
+      }
+    },
+    "required": [
+      "blockName",
+      "position"
+    ],
+    "additionalProperties": false
+  }
+}

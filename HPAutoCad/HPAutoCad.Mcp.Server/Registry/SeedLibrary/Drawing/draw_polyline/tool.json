@@ -1,0 +1,64 @@
+{
+  "name": "draw_polyline",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Drawing",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "polyline",
+    "draw",
+    "geometry"
+  ],
+  "title": "Draw a polyline",
+  "description": "Draws a lightweight polyline through the given points (millimetres, {x, y} each, at least 2 — two points still give an LWPOLYLINE, not a LINE) in the current space, optionally closed, on an existing layer and with an ACI colour. Returns handle, length in mm and vertex count.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "points": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "description": "Vertex in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "description": "Vertices in millimetres, in order"
+      },
+      "closed": {
+        "type": "boolean",
+        "default": false,
+        "description": "Close the polyline back to the first vertex"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer name; default: the current layer"
+      },
+      "colorIndex": {
+        "type": "integer",
+        "description": "ACI colour index 0–256; default: ByLayer"
+      }
+    },
+    "required": [
+      "points"
+    ],
+    "additionalProperties": false
+  }
+}

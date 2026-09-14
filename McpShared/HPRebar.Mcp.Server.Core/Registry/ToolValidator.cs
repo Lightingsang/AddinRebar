@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using HPRebar.Mcp.Contracts.Messages;
+using HPRebar.Mcp.Server.Hosts;
 using HPRebar.Mcp.Server.Registry.Model;
 
 namespace HPRebar.Mcp.Server.Registry;
@@ -18,34 +19,35 @@ public sealed record ValidationReport(IReadOnlyList<string> Errors, IReadOnlyLis
 /// </summary>
 public static partial class ToolValidator
 {
-    public static readonly string[] Categories = ["Architecture", "Structure", "MEP", "Annotation", "View", "Data", "Generic"];
-
-    /// <summary>Names the server owns; a registry tool may not shadow them.</summary>
-    public static readonly HashSet<string> ReservedNames = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "execute_revit_code", "get_revit_context", "inspect_type", "cancel_execution",
-        "search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool",
-    };
+    /// <summary>The engine's own tools, reserved in every host; the host's core tools come from its profile.</summary>
+    public static readonly string[] RegistryToolNames = ["search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool"];
 
     private static readonly HashSet<string> SchemaTypes = new(StringComparer.Ordinal) { "string", "number", "integer", "boolean", "array", "object" };
 
     [GeneratedRegex("^[a-z][a-z0-9_]{2,63}$")]
     private static partial Regex NamePattern();
 
-    public static ValidationReport Validate(ToolRecord candidate, AnalyzeResult? analysis, IReadOnlyCollection<ToolRecord> existing, bool newVersion)
+    /// <summary>The Revit server's behaviour before profiles existed.</summary>
+    public static ValidationReport Validate(ToolRecord candidate, AnalyzeResult? analysis, IReadOnlyCollection<ToolRecord> existing, bool newVersion) =>
+        Validate(candidate, analysis, existing, newVersion, HostProfile.Revit);
+
+    /// <param name="profile">Decides the categories, the reserved names and the host a record must declare.</param>
+    public static ValidationReport Validate(ToolRecord candidate, AnalyzeResult? analysis, IReadOnlyCollection<ToolRecord> existing, bool newVersion, IHostProfile profile)
     {
         var errors = new List<string>();
         var warnings = new List<string>();
 
         // ---- identity ----
         if (!NamePattern().IsMatch(candidate.Name)) errors.Add("name must be snake_case: lowercase letters, digits, underscores, 3–64 chars, starting with a letter.");
-        if (ReservedNames.Contains(candidate.Name)) errors.Add($"name '{candidate.Name}' is reserved by the server.");
+        if (IsReserved(candidate.Name, profile)) errors.Add($"name '{candidate.Name}' is reserved by the server.");
+        if (candidate.Host is not null && !string.Equals(candidate.Host, profile.HostId, StringComparison.OrdinalIgnoreCase))
+            errors.Add($"host must be '{profile.HostId}' (this server serves {profile.DisplayName}); got '{candidate.Host}'.");
         var clash = existing.FirstOrDefault(t => string.Equals(t.Name, candidate.Name, StringComparison.OrdinalIgnoreCase));
         if (clash is not null && !newVersion) errors.Add($"tool '{candidate.Name}' already exists (v{clash.Version}, {ToolRegistryDb.StatusText(clash.Status)}); pass newVersion=true to propose version {clash.Version + 1}, or pick another name.");
         if (clash is null && newVersion) warnings.Add("newVersion=true but no tool with that name exists; creating version 1.");
 
         if (string.IsNullOrWhiteSpace(candidate.Description) || candidate.Description.Trim().Length < 20) errors.Add("description must say what the tool does (≥ 20 characters).");
-        if (!Categories.Contains(candidate.Category, StringComparer.OrdinalIgnoreCase)) errors.Add($"category must be one of {string.Join(", ", Categories)}.");
+        if (!profile.Categories.Contains(candidate.Category, StringComparer.OrdinalIgnoreCase)) errors.Add($"category must be one of {string.Join(", ", profile.Categories)}.");
         if (TransactionModes.Normalize(candidate.Transaction) is null) errors.Add("transaction must be auto, manual or none.");
         if (candidate.TimeoutSeconds is < 5 or > 120) errors.Add("timeoutSeconds must be between 5 and 120.");
         if (string.IsNullOrWhiteSpace(candidate.Code)) errors.Add("code is empty.");
@@ -100,6 +102,9 @@ public static partial class ToolValidator
 
         return new ValidationReport(errors, warnings);
     }
+
+    public static bool IsReserved(string name, IHostProfile profile) =>
+        RegistryToolNames.Contains(name, StringComparer.OrdinalIgnoreCase) || profile.CoreToolNames.Contains(name, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>Accepts the JSON Schema subset the dynamic tool layer can express; returns the top-level property names.</summary>
     private static HashSet<string> ValidateSchema(JsonElement schema, List<string> errors)

@@ -1,8 +1,8 @@
 ---
 title: "Phase 4 — Registry theo profile trong `McpShared` (categories/validator/text/host field) + 12 seed AutoCAD nhúng trong exe AutoCAD + compile-check xUnit"
-status: planned
+status: built + tested + verified (2026-09-14) — 12 seeds compile-checked (46 tests) and all 12 run live in AutoCAD 2026 over stdio (reports/phase-04-seeds-registry.md); tools/list 24 / Revit 34 names+schemas unchanged (descriptions host-neutral)
 priority: P1
-effort: 12h
+effort: 12h (actual ≈ 3h)
 depends_on: [phase-03]
 created: 2026-09-13
 revised: 2026-09-14 (ADR-06/ADR-04 revised — seed Revit không di chuyển; root theo product; không `--host`)
@@ -76,7 +76,8 @@ Xem [ADR-04 revised §Decision](adr/adr-04-registry-per-host-library-and-host-fi
 7. Revit không đổi: `tools/list` = 34; `HPRebar.Mcp.Server.exe registry stats` không đổi; `%AppData%\HPRebar\McpServer\` hash không đổi.
 
 ## Todo
-- [ ] 1 registry profile-driven · [ ] 2 AutocadImports · [ ] 3 12 seed · [ ] 4 SeedLibraryTests AutoCAD · [ ] 5 registry tests theo profile · [ ] 6 publish + smoke autocad · [ ] 7 smoke revit không đổi
+- [x] 1 registry profile-driven (validator/lifecycle/registrar/toolify/CLI; meta tool wording host-neutral) · [x] 2 AutocadImports (đã có từ phase 0/2, wrapper test đọc từ Contracts) · [x] 3 12 seed · [x] 4 SeedLibraryTests AutoCAD (46, 0 skip) · [x] 5 registry tests theo profile (`RegistryProfileTests` 3) · [x] 6 publish + smoke (24 tool, 12 seed live, `registry stats`) · [x] 7 Revit: 34 tool, tên/schema y hệt phase 0, library không đổi; **description 7 engine tool đổi chữ** (host-neutral)
+- Sai lệch: điểm dạng `{x,y}` thay vì `[x,y]`; seed không tự tạo layer (lỗi rõ); `ToolRecord.RevitVersions`/cột DB giữ nguyên; FTS name boost → follow-up.
 
 ## Success criteria
 - `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests`, `dotnet test HPRebar/HPRebar.Mcp.Server.Tests`, `dotnet test HPAutoCad/HPAutoCad.Mcp.Server.Tests`: 0 fail; 12 seed AutoCAD compile-check pass (không skip trên máy dev vì cache có 25.1.0).

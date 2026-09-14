@@ -1,0 +1,12 @@
+[
+  {
+    "title": "All tabs",
+    "args": {}
+  },
+  {
+    "title": "Paper-space layouts only",
+    "args": {
+      "includeModel": false
+    }
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "name": "get_drawing_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "drawing",
+    "units",
+    "statistics",
+    "query"
+  ],
+  "title": "Get drawing info",
+  "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "countByType": {
+        "type": "boolean",
+        "default": true,
+        "description": "Count model-space entities per DXF type"
+      }
+    },
+    "additionalProperties": false
+  }
+}

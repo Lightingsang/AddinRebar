@@ -1,0 +1,46 @@
+{
+  "name": "get_entities",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "entities",
+    "select",
+    "query",
+    "bounding box"
+  ],
+  "title": "Find entities",
+  "description": "Selects entities by DXF type (LINE, LWPOLYLINE, CIRCLE, ARC, INSERT, TEXT, MTEXT, DIMENSION, HATCH…) and/or layer, in model space or the current space, and returns handle, type, layer and bounding box in millimetres for up to limit of them. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "DXF entity name such as LINE, LWPOLYLINE, CIRCLE, INSERT, TEXT, MTEXT, DIMENSION; omit for any type"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Exact layer name; omit for any layer"
+      },
+      "space": {
+        "type": "string",
+        "default": "model",
+        "description": "model (default), current (the active layout), or all"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "description": "Maximum entities to return (1–2000)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "title": "All lines in model space",
+    "args": {
+      "type": "LINE"
+    }
+  },
+  {
+    "title": "Block references on layer A-DOOR, first 50",
+    "args": {
+      "type": "INSERT",
+      "layer": "A-DOOR",
+      "limit": 50
+    }
+  }
+]

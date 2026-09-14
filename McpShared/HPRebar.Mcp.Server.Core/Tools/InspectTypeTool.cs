@@ -8,7 +8,7 @@ using ModelContextProtocol.Server;
 namespace HPRebar.Mcp.Server.Tools;
 
 /// <summary>
-///     Lets the AI look up a Revit API type by reflection in the running Revit instead of guessing member
+///     Lets the AI look up a host API type by reflection in the running application instead of guessing member
 ///     names from training data — the cheapest way to avoid compile errors on rarely used APIs.
 /// </summary>
 [McpServerToolType]
@@ -18,16 +18,16 @@ public sealed class InspectTypeTool(IRevitBridgeClient bridge, ResultFormatter f
 
     [McpServerTool(
         Name = "inspect_type",
-        Title = "Inspect a Revit API type",
+        Title = "Inspect a host API type",
         ReadOnly = true,
         Destructive = false,
         Idempotent = true,
         OpenWorld = false)]
     [Description(
-        "Reflects over a Revit API type loaded in the running Revit and returns its public members as C#-like signatures " +
+        "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures " +
         "(kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.")]
     public Task<CallToolResult> InspectAsync(
-        [Description("Type name, e.g. 'Wall', 'FilteredElementCollector', or fully qualified 'Autodesk.Revit.DB.Structure.Rebar'.")]
+        [Description("Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.")]
         string typeName,
         [Description("Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.")]
         string? memberFilter = null,

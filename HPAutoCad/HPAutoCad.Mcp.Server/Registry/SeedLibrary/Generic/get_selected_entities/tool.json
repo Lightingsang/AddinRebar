@@ -1,0 +1,31 @@
+{
+  "name": "get_selected_entities",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Generic",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "selection",
+    "query"
+  ],
+  "title": "Get selected entities",
+  "description": "Returns the entities the user currently has selected in AutoCAD (handle, DXF type, layer), up to limit. Empty when nothing is selected. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "description": "Maximum entities to return (1–2000)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

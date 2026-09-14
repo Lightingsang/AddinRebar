@@ -1,0 +1,12 @@
+[
+  {
+    "title": "All layers",
+    "args": {}
+  },
+  {
+    "title": "Layers with entity counts",
+    "args": {
+      "includeCounts": true
+    }
+  }
+]

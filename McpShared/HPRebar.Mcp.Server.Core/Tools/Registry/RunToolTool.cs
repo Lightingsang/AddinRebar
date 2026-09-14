@@ -19,7 +19,7 @@ public sealed class RunToolTool(ToolManager manager, ResultFormatter formatter)
     [McpServerTool(Name = "run_tool", Title = "Run a registry tool", ReadOnly = false, Destructive = true, Idempotent = false, OpenWorld = false)]
     [Description(
         "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). " +
-        "Same result shape as execute_revit_code. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the model.")]
+        "Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.")]
     public Task<CallToolResult> Run(
         [Description("Tool name")] string name,
         [Description("Arguments object for the tool")] JsonElement? args = null,

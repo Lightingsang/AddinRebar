@@ -1,0 +1,55 @@
+{
+  "name": "draw_circle",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Drawing",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "circle",
+    "draw",
+    "geometry"
+  ],
+  "title": "Draw a circle",
+  "description": "Draws a circle from a centre point and radius given in millimetres, in the current space, optionally on an existing layer. Returns handle, radius and area.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "center": {
+        "type": "object",
+        "description": "Centre in millimetres",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "radiusMm": {
+        "type": "number",
+        "description": "Radius in millimetres (> 0)"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer name; default: the current layer"
+      }
+    },
+    "required": [
+      "center",
+      "radiusMm"
+    ],
+    "additionalProperties": false
+  }
+}

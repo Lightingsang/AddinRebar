@@ -1,0 +1,74 @@
+{
+  "name": "add_text",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "text",
+    "mtext",
+    "annotation"
+  ],
+  "title": "Add text",
+  "description": "Places single-line text (DBText) or multi-line text (MText) at a position given in millimetres, with height in mm and rotation in degrees, optionally on an existing layer. Returns handle and the entity type created.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text; MText accepts \\\\P for a line break"
+      },
+      "position": {
+        "type": "object",
+        "description": "Insertion point in millimetres (bottom-left for DBText, top-left for MText)",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "heightMm": {
+        "type": "number",
+        "description": "Text height in millimetres (> 0)"
+      },
+      "rotationDeg": {
+        "type": "number",
+        "default": 0,
+        "description": "Rotation in degrees, counter-clockwise"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer name; default: the current layer"
+      },
+      "mtext": {
+        "type": "boolean",
+        "default": false,
+        "description": "Create MText instead of single-line DBText"
+      },
+      "widthMm": {
+        "type": "number",
+        "description": "MText only: wrapping width in millimetres (0 = no wrap)"
+      }
+    },
+    "required": [
+      "text",
+      "position",
+      "heightMm"
+    ],
+    "additionalProperties": false
+  }
+}

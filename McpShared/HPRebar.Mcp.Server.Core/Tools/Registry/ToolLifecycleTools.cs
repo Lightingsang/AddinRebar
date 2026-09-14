@@ -19,20 +19,20 @@ public sealed class ToolLifecycleTools(ToolLifecycleService lifecycle, ToolManag
     [Description(
         "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") " +
         "and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). " +
-        "The code is guard-checked and compiled in Revit but not run. Give ≥ 2 examples with different args; test_tool runs them. " +
+        "The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. " +
         "Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.")]
     public Task<CallToolResult> Propose(
         [Description("snake_case name, e.g. color_beams_by_type")] string name,
         [Description("What the tool does, for search and for the reviewer (≥ 20 chars)")] string description,
         [Description("Architecture | Structure | MEP | Annotation | View | Data | Generic")] string category,
         [Description("JSON Schema of the args object")] JsonElement inputSchema,
-        [Description("Script body: same globals as execute_revit_code plus args; must end with return")] string code,
+        [Description("Script body: same globals as the execute tool plus args; must end with return")] string code,
         [Description("Usage examples: [{\"title\": \"...\", \"args\": {...}}]")] JsonElement examples,
         [Description("Human title, e.g. 'Colour beams by type'")] string? title = null,
         [Description("Search tags")] string[]? tags = null,
         [Description("auto (bridge wraps a Transaction) | manual (code opens its own) | none (read-only)")] string transaction = "auto",
         [Description("5–120 seconds")] int timeoutSeconds = 60,
-        [Description("runId of the execute_revit_code run this comes from (see get_run)")] long? sourceRunId = null,
+        [Description("runId of the execute run this comes from (see get_run)")] long? sourceRunId = null,
         [Description("Propose a new version of an existing tool name")] bool newVersion = false,
         CancellationToken cancellationToken = default)
     {
@@ -75,7 +75,7 @@ public sealed class ToolLifecycleTools(ToolLifecycleService lifecycle, ToolManag
 
     [McpServerTool(Name = "test_tool", Title = "Test a registry tool", ReadOnly = false, Destructive = true, Idempotent = false, OpenWorld = false)]
     [Description(
-        "Run a tool's examples (or the given cases) inside Revit with dryRun — every change is rolled back — and record the outcomes. " +
+        "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. " +
         "All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).")]
     public Task<CallToolResult> Test(
         [Description("Tool name")] string name,

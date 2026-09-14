@@ -12,8 +12,8 @@ namespace HPRebar.Mcp.Server.Registry;
 
 /// <summary>
 ///     An MCP tool backed by a library record: schema from tool.json, execution through
-///     <see cref="ToolManager.RunAsync"/>. `dryRun` is added to every tool that writes, matching
-///     <c>execute_revit_code</c>. Built as an <see cref="AIFunction"/> so the SDK can host a tool whose
+///     <see cref="ToolManager.RunAsync"/>. `dryRun` is added to every tool that writes, matching the
+///     host's execute tool. Built as an <see cref="AIFunction"/> so the SDK can host a tool whose
 ///     schema is data rather than a C# signature.
 /// </summary>
 public sealed class RegistryToolFunction : AIFunction
@@ -32,7 +32,7 @@ public sealed class RegistryToolFunction : AIFunction
         _manager = manager;
         _formatter = formatter;
         _schema = BuildSchema(record);
-        _description = $"{record.Description} [Registry tool v{record.Version}, {record.Category}, transaction={record.Transaction}. Registry tools run stored, reviewed C# inside Revit — prefer them over execute_revit_code for the same task.]";
+        _description = $"{record.Description} [Registry tool v{record.Version}, {record.Category}, transaction={record.Transaction}. Registry tools run stored, reviewed C# inside {manager.Profile.DisplayName} — prefer them over {manager.Profile.ExecuteToolName} for the same task.]";
     }
 
     public ToolRecord Record => _record;

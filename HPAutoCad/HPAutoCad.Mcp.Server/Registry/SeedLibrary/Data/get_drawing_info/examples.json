@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Full summary",
+    "args": {}
+  },
+  {
+    "title": "Without per-type counts",
+    "args": {
+      "countByType": false
+    }
+  }
+]

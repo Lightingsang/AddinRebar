@@ -1,0 +1,36 @@
+{
+  "name": "list_block_definitions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Block",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "blocks",
+    "query"
+  ],
+  "title": "List block definitions",
+  "description": "Lists the block definitions of the drawing (not layouts, not xref-dependent blocks) with entity count, number of references, whether they carry attributes, and whether they are xrefs. Wildcards * and ? in pattern. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "pattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name pattern with * and ? wildcards, case-insensitive"
+      },
+      "includeAnonymous": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include anonymous blocks (*U…, *D…, hatch/dimension blocks)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

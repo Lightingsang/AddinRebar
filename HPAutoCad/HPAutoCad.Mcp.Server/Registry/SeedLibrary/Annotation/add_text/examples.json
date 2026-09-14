@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Room label",
+    "args": {
+      "text": "KITCHEN",
+      "position": {
+        "x": 1500,
+        "y": 2250
+      },
+      "heightMm": 250
+    }
+  },
+  {
+    "title": "Wrapped note in MText, rotated",
+    "args": {
+      "text": "General note:\\\\Pverify on site",
+      "position": {
+        "x": 0,
+        "y": -1000
+      },
+      "heightMm": 180,
+      "mtext": true,
+      "widthMm": 3000,
+      "rotationDeg": 0
+    }
+  }
+]

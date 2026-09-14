@@ -19,7 +19,7 @@ public sealed class CancelExecutionTool(IRevitBridgeClient bridge, ResultFormatt
         Idempotent = true,
         OpenWorld = false)]
     [Description(
-        "Signals cancellation to the script currently running in Revit. Cancellation is cooperative: the script stops at its next `ct` check, " +
+        "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, " +
         "and its transaction group is rolled back. Returns whether anything was running.")]
     public Task<CallToolResult> CancelAsync(CancellationToken cancellationToken = default)
     {

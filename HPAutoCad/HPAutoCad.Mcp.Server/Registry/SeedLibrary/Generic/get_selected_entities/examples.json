@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Current selection",
+    "args": {}
+  },
+  {
+    "title": "First 20 of the selection",
+    "args": {
+      "limit": 20
+    }
+  }
+]

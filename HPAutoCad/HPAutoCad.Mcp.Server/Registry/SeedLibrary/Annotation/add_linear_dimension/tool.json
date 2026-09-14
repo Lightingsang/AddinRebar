@@ -1,0 +1,98 @@
+{
+  "name": "add_linear_dimension",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "dimension",
+    "annotation",
+    "measure"
+  ],
+  "title": "Add a linear dimension",
+  "description": "Adds a dimension between two points given in millimetres, with the dimension line through dimLinePoint: rotated (horizontal by default, or at rotationDeg) or aligned to the two points. Uses the current dimension style unless dimStyle names another. Returns handle and the measured length in mm.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "p1": {
+        "type": "object",
+        "description": "First extension-line origin in millimetres",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "p2": {
+        "type": "object",
+        "description": "Second extension-line origin in millimetres",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "dimLinePoint": {
+        "type": "object",
+        "description": "A point the dimension line passes through, in millimetres",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "aligned": {
+        "type": "boolean",
+        "default": false,
+        "description": "Aligned dimension (parallel to p1–p2) instead of a rotated one"
+      },
+      "rotationDeg": {
+        "type": "number",
+        "default": 0,
+        "description": "Rotated dimensions only: angle of the dimension line in degrees (0 = horizontal, 90 = vertical)"
+      },
+      "dimStyle": {
+        "type": "string",
+        "description": "Existing dimension style name; default: the current style"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer name; default: the current layer"
+      }
+    },
+    "required": [
+      "p1",
+      "p2",
+      "dimLinePoint"
+    ],
+    "additionalProperties": false
+  }
+}

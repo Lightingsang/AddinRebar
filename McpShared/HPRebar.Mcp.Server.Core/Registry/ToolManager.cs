@@ -1,6 +1,7 @@
 using System.Text.Json;
 using HPRebar.Mcp.Contracts.JsonRpc;
 using HPRebar.Mcp.Contracts.Messages;
+using HPRebar.Mcp.Server.Hosts;
 using HPRebar.Mcp.Server.Models;
 using HPRebar.Mcp.Server.Registry.Model;
 using HPRebar.Mcp.Server.Services;
@@ -44,6 +45,9 @@ public sealed class ToolManager
     }
 
     public RegistryOptions Options => _options;
+
+    /// <summary>The host this exe serves; every text and rule that names the host reads it from here.</summary>
+    public IHostProfile Profile => _bridge.Profile;
 
     public ToolLibraryStore Store => _store;
 
@@ -150,7 +154,7 @@ public sealed class ToolManager
     /// <summary>
     ///     Executes a stored tool: its code + the caller's args down the ordinary execute path. Only
     ///     outcomes the tool is responsible for (script error, timeout, success) enter its run history;
-    ///     a closed Revit or a missing opt-in is reported but not counted against the tool.
+    ///     a closed host or a missing opt-in is reported but not counted against the tool.
     /// </summary>
     public async Task<ExecuteResult> RunAsync(string name, JsonElement? args, bool dryRun, bool allowUnpublished, string kind, CancellationToken cancellationToken)
     {
@@ -209,7 +213,7 @@ public sealed class ToolManager
         return id;
     }
 
-    /// <summary>Records an ad-hoc `execute_revit_code` run so a successful one can later become a tool.</summary>
+    /// <summary>Records an ad-hoc execute run so a successful one can later become a tool.</summary>
     public long RecordAdhoc(string code, JsonElement? args, bool dryRun, ExecuteResult result)
     {
         var argsJson = args is { ValueKind: not JsonValueKind.Undefined } a ? RegistryJson.Canonical(a) : null;

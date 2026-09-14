@@ -42,7 +42,7 @@ public sealed class ToolLifecycleService
         _logger = logger;
     }
 
-    /// <summary>Guard + compile + literals from the bridge; null when Revit is not reachable (validation degrades to warnings).</summary>
+    /// <summary>Guard + compile + literals from the bridge; null when the host is not reachable (validation degrades to warnings).</summary>
     public async Task<AnalyzeResult?> AnalyzeAsync(string code, CancellationToken cancellationToken)
     {
         try
@@ -66,7 +66,7 @@ public sealed class ToolLifecycleService
             Name = name,
             Title = string.IsNullOrWhiteSpace(input.Title) ? name.Replace('_', ' ') : input.Title.Trim(),
             Description = (input.Description ?? string.Empty).Trim(),
-            Category = ToolValidator.Categories.FirstOrDefault(c => string.Equals(c, input.Category?.Trim(), StringComparison.OrdinalIgnoreCase)) ?? (input.Category ?? "Generic"),
+            Category = _bridge.Profile.Categories.FirstOrDefault(c => string.Equals(c, input.Category?.Trim(), StringComparison.OrdinalIgnoreCase)) ?? (input.Category ?? "Generic"),
             Tags = input.Tags.Where(t => !string.IsNullOrWhiteSpace(t)).Select(t => t.Trim().ToLowerInvariant()).Distinct().ToList(),
             InputSchema = input.InputSchema,
             Code = (input.Code ?? string.Empty).Trim(),
@@ -85,7 +85,7 @@ public sealed class ToolLifecycleService
         };
 
         var analysis = string.IsNullOrWhiteSpace(record.Code) ? null : await AnalyzeAsync(record.Code, cancellationToken).ConfigureAwait(false);
-        var report = ToolValidator.Validate(record, analysis, _manager.Tools, input.NewVersion);
+        var report = ToolValidator.Validate(record, analysis, _manager.Tools, input.NewVersion, _bridge.Profile);
         if (!report.IsValid)
             return new ProposeOutcome(false, report, null, "Fix the errors and call propose_tool again.");
 

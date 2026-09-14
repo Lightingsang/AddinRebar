@@ -58,7 +58,7 @@ public sealed class ToolRecord
     /// <summary>`hprebar` for seeds, `ai` for proposals, `human:&lt;name&gt;` for hand-written tools.</summary>
     public string Author { get; set; } = "ai";
 
-    /// <summary>The ad-hoc `execute_revit_code` run this tool was packaged from.</summary>
+    /// <summary>The ad-hoc execute run this tool was packaged from.</summary>
     public long? CreatedFromRunId { get; set; }
 
     public string? ApprovedBy { get; set; }

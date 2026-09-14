@@ -15,12 +15,12 @@ public sealed class RunHistoryTools(ToolManager manager, ToolLifecycleService li
 {
     [McpServerTool(Name = "get_run", Title = "Get a past run", ReadOnly = true, Idempotent = true, OpenWorld = false)]
     [Description(
-        "Details of one run from the history (runId comes back from execute_revit_code, run_tool and test_tool): outcome, args, the code when it was a successful " +
-        "ad-hoc script, and — when Revit is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. " +
+        "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful " +
+        "ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. " +
         "Use it before propose_tool to decide which literals become parameters.")]
     public Task<CallToolResult> Get(
         [Description("Run id")] long runId,
-        [Description("Analyse the code (guard, compile, literals) through Revit")] bool analyze = true,
+        [Description("Analyse the code (guard, compile, literals) through the host application")] bool analyze = true,
         CancellationToken cancellationToken = default)
     {
         return formatter.RunAsync(async () =>

@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Door block at 1200, 0",
+    "args": {
+      "blockName": "DOOR",
+      "position": {
+        "x": 1200,
+        "y": 0
+      }
+    }
+  },
+  {
+    "title": "Scaled, rotated, with a tag",
+    "args": {
+      "blockName": "DOOR",
+      "position": {
+        "x": 3000,
+        "y": 4500
+      },
+      "scale": 1.5,
+      "rotationDeg": 90,
+      "attributes": {
+        "TAG": "D01"
+      }
+    }
+  }
+]

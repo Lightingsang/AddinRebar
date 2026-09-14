@@ -1,0 +1,32 @@
+{
+  "name": "list_layouts",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Layout",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "layouts",
+    "paper space",
+    "query"
+  ],
+  "title": "List layouts",
+  "description": "Lists the layouts (Model and every paper-space tab) with tab order, viewport count and which one is current. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeModel": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include the Model tab in the list"
+      }
+    },
+    "additionalProperties": false
+  }
+}

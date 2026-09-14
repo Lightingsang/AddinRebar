@@ -1,0 +1,47 @@
+{
+  "name": "create_layer",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Layer",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "layers",
+    "create"
+  ],
+  "title": "Create or update a layer",
+  "description": "Creates a layer with an ACI colour index and optional lineweight; when the layer already exists it is skipped or updated according to ifExists. Returns whether it was created or updated.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Layer name (AutoCAD naming rules: no <>/\\\\\\\":;?*|,=` characters)"
+      },
+      "colorIndex": {
+        "type": "integer",
+        "default": 7,
+        "description": "ACI colour index 1–255 (7 = white/black)"
+      },
+      "lineweight": {
+        "type": "integer",
+        "description": "Lineweight in hundredths of a millimetre: 0, 5, 9, 13, 15, 18, 20, 25, 30, 35, 40, 50, 53, 60, 70, 80, 90, 100, 106, 120, 140, 158, 200, 211; omit for default"
+      },
+      "ifExists": {
+        "type": "string",
+        "default": "skip",
+        "description": "skip (default) or update the colour/lineweight of an existing layer"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "title": "All named blocks",
+    "args": {}
+  },
+  {
+    "title": "Door blocks, anonymous included",
+    "args": {
+      "pattern": "DOOR*",
+      "includeAnonymous": true
+    }
+  }
+]

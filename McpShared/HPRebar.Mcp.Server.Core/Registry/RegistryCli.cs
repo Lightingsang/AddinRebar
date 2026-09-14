@@ -115,6 +115,7 @@ public static class RegistryCli
                 }
                 case "stats":
                 {
+                    output.WriteLine($"host: {manager.Profile.HostId} ({manager.Profile.DisplayName})");
                     output.WriteLine($"library: {store.Root}");
                     output.WriteLine($"database: {db.Path} (FTS5={db.HasFullTextSearch})");
                     output.WriteLine($"policy: {manager.Options.PublishPolicy}");

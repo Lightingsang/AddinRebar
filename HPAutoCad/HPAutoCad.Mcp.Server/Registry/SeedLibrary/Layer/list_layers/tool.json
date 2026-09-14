@@ -1,0 +1,32 @@
+{
+  "name": "list_layers",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Layer",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "layers",
+    "query",
+    "drawing"
+  ],
+  "title": "List layers",
+  "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight; optionally the number of model-space entities on each layer. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeCounts": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also count the model-space entities on each layer (slower on big drawings)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Red walls layer",
+    "args": {
+      "name": "A-WALL",
+      "colorIndex": 1,
+      "lineweight": 50
+    }
+  },
+  {
+    "title": "Update an existing layer's colour",
+    "args": {
+      "name": "0",
+      "colorIndex": 7,
+      "ifExists": "update"
+    }
+  }
+]

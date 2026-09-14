@@ -8,7 +8,7 @@ using ModelContextProtocol.Server;
 namespace HPRebar.Mcp.Server.Tools.Registry;
 
 /// <summary>
-///     Read side of the tool memory. `search_tools` is the first thing the AI should call for any Revit
+///     Read side of the tool memory. `search_tools` is the first thing the AI should call for any host
 ///     task: a stored tool is reviewed, parameterised and cheaper than generating code again.
 /// </summary>
 [McpServerToolType]
@@ -16,12 +16,12 @@ public sealed class ToolRegistryQueryTools(ToolManager manager, ResultFormatter 
 {
     [McpServerTool(Name = "search_tools", Title = "Search the tool registry", ReadOnly = true, Idempotent = true, OpenWorld = false)]
     [Description(
-        "Search the registry of stored Revit tools BEFORE writing code with execute_revit_code. Full-text over name, description, tags and examples, " +
+        "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, " +
         "ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) " +
         "or through run_tool. Empty query lists tools (optionally by category).")]
     public CallToolResult Search(
         [Description("What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'")] string? query = null,
-        [Description("Architecture | Structure | MEP | Annotation | View | Data | Generic")] string? category = null,
+        [Description("One of the host's categories, e.g. Architecture | Structure | MEP | Annotation | View | Data | Generic (Revit) or Drawing | Layer | Block | Annotation | Layout | Data | Generic (AutoCAD)")] string? category = null,
         [Description("Maximum results, 1–50 (default 5)")] int limit = 5,
         [Description("Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)")] bool includeUnpublished = false)
     {
@@ -32,7 +32,7 @@ public sealed class ToolRegistryQueryTools(ToolManager manager, ResultFormatter 
             category,
             count = hits.Count,
             hint = hits.Count == 0
-                ? "No stored tool matches. Write the task with execute_revit_code; a successful run can be packaged with propose_tool."
+                ? $"No stored tool matches. Write the task with {manager.Profile.ExecuteToolName}; a successful run can be packaged with propose_tool."
                 : "Call the tool by name (published) or run_tool {name, args}. Use dryRun first for tools that modify the model.",
             tools = hits,
         });

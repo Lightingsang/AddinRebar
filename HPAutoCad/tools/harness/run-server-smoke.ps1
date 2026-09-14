@@ -43,7 +43,7 @@ try {
 
     $list = Call 'tools-list' 'tools/list' @()
     $names = @($list.result.tools | % name | Sort-Object)
-    Check 'tools/list = 12, autocad names only' ($names.Count -eq 12 -and ($names -contains 'execute_autocad_code') -and -not ($names -match 'revit')) ($names -join ', ')
+    Check 'tools/list = 4 core + 8 registry + 12 seeds, autocad names only' ($names.Count -eq 24 -and ($names -contains 'execute_autocad_code') -and ($names -contains 'list_layers') -and -not ($names -match 'revit')) ($names -join ', ')
 
     $ctx = Call 'context' 'tools/call' @('get_autocad_context', '{"includeSelection": true}')
     $ctxText = ExecuteText $ctx
@@ -66,6 +66,40 @@ try {
 
     $run = ExecuteText (Call 'get-run' 'tools/call' @('get_run', (@{ runId = [int]$real.runId } | ConvertTo-Json -Compress)))
     Check 'get_run of the real run' ($run.id -eq $real.runId) (Short $run)
+
+    # ---- the 12 seed tools, called by name as real MCP tools -------------------------------------------------
+    $search = ExecuteText (Call 'search-layer' 'tools/call' @('search_tools', '{"query": "list layers", "limit": 10}'))
+    $found = @($search.tools | % name)
+    Check 'search_tools "list layers" finds the layer seeds' (($found -contains 'list_layers') -and ($found -contains 'create_layer')) ($found -join ', ')
+
+    function Seed([string]$name, [string]$json) { ExecuteText (Call "seed-$name" 'tools/call' @($name, $json)) }
+    $layers = Seed 'list_layers' '{"includeCounts": true}'
+    Check 'list_layers' (-not $layers.isError -and @($layers.value).Count -ge 1 -and ($layers.value | % name) -contains '0') (Short $layers.value)
+    $blocks = Seed 'list_block_definitions' '{}'
+    Check 'list_block_definitions' (-not $blocks.isError) ("count=" + @($blocks.value).Count)
+    $ents = Seed 'get_entities' '{"type": "LINE"}'
+    Check 'get_entities LINE' (-not $ents.isError -and $ents.value.count -ge 1 -and $ents.value.items[0].bboxMm.max.x -gt 0) (Short $ents.value)
+    $layouts = Seed 'list_layouts' '{}'
+    Check 'list_layouts' (-not $layouts.isError -and ($layouts.value | ? isModel).Count -eq 1) (Short $layouts.value)
+    $info = Seed 'get_drawing_info' '{}'
+    Check 'get_drawing_info' (-not $info.isError -and $info.value.insunits -and $info.value.currentLayer -eq '0') (Short $info.value)
+    $selected = Seed 'get_selected_entities' '{}'
+    Check 'get_selected_entities (nothing selected)' (-not $selected.isError -and @($selected.value).Count -eq 0) (Short $selected)
+
+    $created = Seed 'create_layer' '{"name": "MCP-TEST", "colorIndex": 1, "lineweight": 50}'
+    Check 'create_layer' (-not $created.isError -and $created.value.created -eq $true -and $created.changed.added -eq 1) (Short $created.value)
+    $pl = Seed 'draw_polyline' '{"points": [{"x":0,"y":0},{"x":3000,"y":0},{"x":3000,"y":4500},{"x":0,"y":4500}], "closed": true, "layer": "MCP-TEST"}'
+    Check 'draw_polyline on the new layer' (-not $pl.isError -and $pl.value.vertexCount -eq 4 -and [math]::Abs($pl.value.lengthMm - 15000) -lt 1) (Short $pl.value)
+    $dryCircle = Seed 'draw_circle' '{"center": {"x": 1500, "y": 2250}, "radiusMm": 500, "dryRun": true}'
+    Check 'draw_circle dryRun' (-not $dryCircle.isError -and $dryCircle.rolledBack -eq $true -and $dryCircle.changed.added -eq 1) (Short $dryCircle)
+    $txt = Seed 'add_text' '{"text": "KITCHEN", "position": {"x": 1500, "y": 2250}, "heightMm": 250, "mtext": true, "widthMm": 2000}'
+    Check 'add_text (MText)' (-not $txt.isError -and $txt.value.type -eq 'MText') (Short $txt.value)
+    $dim = Seed 'add_linear_dimension' '{"p1": {"x":0,"y":0}, "p2": {"x":3000,"y":0}, "dimLinePoint": {"x":1500,"y":-600}}'
+    Check 'add_linear_dimension measures 3000 mm' (-not $dim.isError -and [math]::Abs($dim.value.measurementMm - 3000) -lt 1) (Short $dim.value)
+    $missing = Seed 'insert_block' '{"blockName": "NO-SUCH-BLOCK", "position": {"x":0,"y":0}}'
+    Check 'insert_block refuses an unknown block' ($missing.isError -and $missing.message -match 'not defined') (Short $missing.message)
+    $undo = Seed 'get_entities' '{"layer": "MCP-TEST"}'
+    Check 'get_entities on MCP-TEST sees the polyline' (-not $undo.isError -and $undo.value.count -ge 1) (Short $undo.value)
 }
 catch {
     Check 'smoke aborted' $false $_.Exception.Message

@@ -61,7 +61,7 @@ public sealed class RegistryOptions
     /// <summary>Watch the library folder and re-register tools when files change (approval by editing tool.json).</summary>
     public bool WatchLibrary { get; set; } = true;
 
-    /// <summary>Ad-hoc `execute_revit_code` runs whose code is kept for `propose_tool`; older ones are pruned.</summary>
+    /// <summary>Ad-hoc execute runs whose code is kept for `propose_tool`; older ones are pruned.</summary>
     public int KeepAdhocRuns { get; set; } = 500;
 
     public bool IsValid() =>

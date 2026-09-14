@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Circle r = 250 mm at origin",
+    "args": {
+      "center": {
+        "x": 0,
+        "y": 0
+      },
+      "radiusMm": 250
+    }
+  },
+  {
+    "title": "Circle r = 1000 mm on layer 0",
+    "args": {
+      "center": {
+        "x": 5000,
+        "y": 2500
+      },
+      "radiusMm": 1000,
+      "layer": "0"
+    }
+  }
+]
