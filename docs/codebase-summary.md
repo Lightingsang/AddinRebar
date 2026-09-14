@@ -37,11 +37,11 @@ Gồm 4 unrelated deliverables (không cross-wire):
 | `HPRebar.Mcp.Contracts/` | netstandard2.0 | Envelope JSON-RPC + DTO chung server ↔ bridge. Không Revit, không MCP SDK |
 | `HPRebar.McpBridge.Core/` | net8.0 | Pipe listener/dispatcher, Roslyn `ScriptGuard`/`ScriptCompiler`, `BridgeSettingsStore`, `RequestDispatcher`. Logic không chạm Revit; test xUnit + pipe thật |
 | `HPRebar.Mcp.Server.Core/` | net10.0 | `McpServerHost` (builder pattern), `HostProfile` interface + Revit impl, `ExecuteCodeService`/`ContextService`, Registry engine (SQLite/FTS5 + FileSystemWatcher), 4 core tool + registry CLI |
-| `HPRebar.Mcp.Server.Core.Tests/` | net10.0 | xUnit v3 — 95 test: host-neutrality, registry per profile, guard/compiler/args/analyzer, HostProfile binding, registry store/db/validator, pipe round-trip fake executor, both Revit + AutoCAD profiles |
+| `HPRebar.Mcp.Server.Core.Tests/` | net10.0 | xUnit v3 — 96 test: host-neutrality, registry per profile, guard/compiler/args/analyzer, HostProfile binding, registry store/db/validator, pipe round-trip fake executor, both Revit + AutoCAD profiles, stability window |
 
 ## HPAutoCad Solution
 
-`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phases 1–4 (2026-09-14): loader + ALC + bundle + bridge runtime + stdio server + registry per host profile + 12 embedded seed tools ✅ verified live.
+`HPAutoCad/HPAutoCad.slnx` + global.json. Reference McpShared only; không dùng HPRebar. Phases 1–5 (2026-09-14): loader + ALC + bundle + bridge runtime + stdio server + registry per host profile + 12 embedded seed tools + live verification harness ✅ plan complete.
 
 | Project | TFM | Vai trò | Build? |
 |---|---|---|---|
@@ -52,9 +52,11 @@ Gồm 4 unrelated deliverables (không cross-wire):
 
 **Phase 2 additions:** `MainThreadQueue.cs`, `BridgeRequestException.cs`, `AutocadInsunits.cs`, `GuardProfile.AutoCAD` + deny `StartTransaction/StartOpenCloseTransaction/TopTransaction/LockDocument/ed.Get*`.
 
-**Phase 4 additions:** Registry per host profile (`ToolValidator`, `ToolLifecycleService` on `IHostProfile`; categories, reserved names, host stamp from profile); 12 embedded seed tools (categories Drawing/Layer/Block/Annotation/Layout/Data/Generic); `RegistryToolText` host-neutral descriptions (8 engine tools); `SeedLibraryTests` 58 compile-checks + validate. Tests: McpShared 95/95, HPRebar MCP 106/106, AutoCAD 58/58.
+**Phase 4 additions:** Registry per host profile (`ToolValidator`, `ToolLifecycleService` on `IHostProfile`; categories, reserved names, host stamp from profile); 12 embedded seed tools (categories Drawing/Layer/Block/Annotation/Layout/Data/Generic); `RegistryToolText` host-neutral descriptions (8 engine tools); `SeedLibraryTests` 58 compile-checks + validate. Tests: McpShared 96/96, HPRebar MCP 109/109, AutoCAD 58/58.
 
-**Phase 3–4 harness & verification:** `HPAutoCad/tools/harness/` (Python + PowerShell) `run-bridge-unattended.ps1` 21/21 bridge scenarios (context without Revit fields, 12 tools/list unchanged with Revit exe, none/dryRun/real execute through pipe, get_run from registry.db). `run-server-smoke.ps1` 22/22 (every seed by name through `tools/list` + `search_tools` category filter + dryRun + layer round-trip). Registry separate `%AppData%\HPAutoCad\` vs `%AppData%\HPRebar\`. SECURELOAD auto-accept, UI Automation opt-in. Zero crashes, no `.NET Runtime 1026` event.
+**Phase 5 additions (harness & stability window):** `HPAutoCad/tools/harness/`: `run-live-verify.ps1`, `live-verify.py`, `mcp-session.py` (one stdio session, 65 scenarios isolated to ephemeral registry under `output/live-verify/`); matrix 18 (execute variants, guard, `cancel_execution`, busy → ESC → retry automated, timeout, audit), seeds 18 (real block, pickfirst), MISS → propose → test → publish → CLI approve (0.5 s `tools/list_changed`), fragile tool → quarantine → restore + newVersion (stays published on arg errors). Stability window: argument errors excluded, window restarts at lifecycle event so restored tool not re-quarantined. Live run 3: 64 pass + 1 skip + 4/4 isolation + 21/21 regression; xUnit 96/96 engine, 109/109 Revit server, 58/58 AutoCAD server (263 total).
+
+**Phase 3–4 harness & verification:** `run-bridge-unattended.ps1` 21/21 bridge scenarios (context without Revit fields, 12 tools/list unchanged with Revit exe, none/dryRun/real execute through pipe, get_run from registry.db). `run-server-smoke.ps1` 22/22 (every seed by name through `tools/list` + `search_tools` category filter + dryRun + layer round-trip). Registry separate `%AppData%\HPAutoCad\` vs `%AppData%\HPRebar\`. SECURELOAD auto-accept, UI Automation opt-in. Zero crashes, no `.NET Runtime 1026` event.
 
 **Publish:** `dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server` (7.4 MB). `.mcp.json` entry (user adds) → `hprebar-autocad` → that exe + env `HPAUTOCAD_MCP_Bridge__HostVersion=2026`.
 

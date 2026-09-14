@@ -2,6 +2,22 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-14 — AutoCAD MCP bridge phase 5: live verification harness + stability-window fixes, plan complete
+
+**Bổ sung:** Live verification harness (unattended) tại `HPAutoCad/tools/harness/` — `run-live-verify.ps1` + `live-verify.py` + `mcp-session.py` (≈560 + 120 + 150 lines) dùng một stdio MCP session để chạy 65 scenario (64 pass + 1 skip) trên registry riêng (isolated `output/live-verify/`) sinh động trong AutoCAD + Revit: execute matrix 18 (none/dryRun/commit, exception, none+modify, manual, guard trên `GetPoint`/`Commit`/`SendStringToExecute`, compile error, `cancel_execution` racing, timeout 5s, **busy → ESC posted → retry automated**, no drawing, audit), every seed 18 (real block, pickfirst set, dryRun), MISS → ad-hoc code + `propose_tool` → `test_tool` → `publish_tool` → CLI approve → `tools/list_changed` in 0.5s → call by name, fragile tool (unguarded `eKeyNotFound`) → 5× fail → quarantine → `manage_tool restore` + `propose_tool newVersion` (guarded, `ArgumentException`) → re-approve → stays published on 5× fail, Revit exe beside (34 tools, Revit lib hash unchanged, opt-in off → E1 skipped), isolation (second AutoCAD fails fast naming host, Civil 3D never loads).
+
+**Stability window fixes (engine, both hosts):** Runs với lỗi `Argument…Exception:` không được tính (là lỗi caller, không tool), window restarts ở lifecycle event cuối (approved/published/restore/proposed_version/imported/status_changed), restored tool không bị re-quarantine bởi lỗi cũ. Hai defect tìm live: (1) seed `insert_block` bị quarantine bởi smoke tests của chính nó — fixed by excluding arg errors; (2) restored tool `mcp_verify_count_block_refs` bị re-quarantine ngay lần chạy đầu — fixed by restarting window at lifecycle event. Harness chạy registry isolated (không chạm `%AppData%` live) với flag `-IncludeIsolation` / `-OnlyIsolation` / `-SkipRevit` / `-UseLiveRegistry`.
+
+**Xác minh:** Live run 2 (sau 2 engine fix) = 64 pass + 1 skip (Revit opt-in off) + isolation 4/4 + bridge regression 21/21; run 3 trên registry isolated: 64 pass + 1 skip. Build zero warn/err. Tests: McpShared 96/96, HPRebar MCP 109/109, AutoCAD 58/58 (263 total). Code review 7.5/10 → 16 actionable findings fixed; majors: the two engine fixes, harness registry isolation, pid-scoped cleanup. Open: Revit opt-in with new engine unverified at runtime (harness E skip); Revit 2025; AutoCAD 2026 U1.2 (.NET 10); modal dialog while waiting; per-run undo; `HPRebar/output/…exe` not republished (locked by running `hprebar-revit` MCP).
+
+**Các quyết định:**
+- Stability window logic: lỗi `Argument…Exception` do script tự từ chối đối số là lỗi caller, không phải tool failure → exclude khỏi quarantine check; window restart ở cuối lifecycle event mình = approved/published/restore/proposed_version/imported/status_changed từ bất cứ nguồn (manual edit `tool.json` triggered reload writes event, manual CLI action, etc.)
+- Harness: one stdio session vì `notifications/tools/list_changed` chỉ reach running server; registry isolation = env var override LibraryPath + DbPath để server + CLI không chạm user's %AppData%; pid guard cleanup to avoid killing user-opened processes; `-UseLiveRegistry` opt để bypass isolation khi user muốn test on live registry
+- Bridge `RequestDispatcher.HostVersion` + pipe-in-use message names host + version; Revit bridge log sink `shared: true` like AutoCAD
+- `ToolRegistryDb` split: schema/search (cs) + runs/stability (Runs.cs partial)
+
+**Commits:** d8507e8 feat (harness + engine fixes), 1b2ba8b fix (16 review findings). Plan: [`plans/260913-0000-autocad-mcp-bridge-2026/`](../plans/260913-0000-autocad-mcp-bridge-2026/plan.md) (phases 0–5 of 6 done, **plan complete**).
+
 ## 2026-09-14 — AutoCAD MCP bridge phase 4: registry per host profile + 12 seed tools
 
 Bổ sung: Registry engine per `IHostProfile` (categories, reserved names from profile, host stamp); 12 embedded AutoCAD seed tools (6 read-only: list_layers, list_block_definitions, get_entities, list_layouts, get_drawing_info, get_selected_entities; 6 auto-transaction: draw_polyline, draw_circle, add_text, create_layer, insert_block, add_linear_dimension) installed into `%AppData%\HPAutoCad\McpServer\tools-library\` on first run across 7 categories (Drawing, Layer, Block, Annotation, Layout, Data, Generic); `SeedLibraryTests` 58 xUnit tests compile every seed against AutoCAD.NET 25.1.0 with bridge's exact imports/globals (0 skipped); meta-tool descriptions host-neutral (8 engine tools + inspect_type title worded for any host).
