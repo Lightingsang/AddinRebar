@@ -47,7 +47,7 @@
 | Pipe | `hpnavis-mcp-2026` | `PipeNaming.For("navis", 2026)` — nhánh mặc định đã sinh đúng (E14); thêm `case NavisHost` cho tường minh |
 | Wire prefix | `navis.` → `navis.execute`… | `JsonRpcMethods.NavisPrefix` (additive); dispatcher đã nhận mọi prefix (E14) |
 | Tool core | `execute_navis_code`, `get_navis_context`, `inspect_type`, `cancel_execution` | mirror AutoCAD |
-| Resource scheme | `navis://document/info`, `navis://selection`, `navis://models`, `registry://tools[/{name}]` | `ResourceScheme = "navis"` |
+| Resource scheme | `navis://document/info`, `navis://selection` (models are inside `document/info`), `registry://tools[/{name}]` | `ResourceScheme = "navis"` |
 | Server exe / `ServerName` | `HPNavis.Mcp.Server.exe` / `HPNavis MCP` | |
 | Env prefix | `HPNAVIS_MCP_` → `HPNAVIS_MCP_Bridge__HostVersion=2026` | |
 | Registry root | `%AppData%\HPNavis\McpServer\` (`registry.db`, `tools-library\<Category>\<name>\`) | `ProductFolder = "HPNavis"` |

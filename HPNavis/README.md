@@ -13,9 +13,9 @@ only for requests from this plugin), and the start-up self-check verifies they c
 | Project | TFM | What |
 |---|---|---|
 | `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `AddInPlugin` "HPNavis MCP" in the Add-ins menu (status window). |
-| `HPNavis.Mcp.Server` | net10 | (phase 3) stdio MCP server exe, `NavisHostProfile`, seeds. |
+| `HPNavis.Mcp.Server` | net10 | The stdio MCP server exe the host AI launches: `NavisHostProfile` (pipe `hpnavis-mcp-2026`, prefix `navis.`, registry root `%AppData%\HPNavis\McpServer\`, 600 s ceiling), `execute_navis_code`, `get_navis_context`, prompts `navis_query_template` / `navis_review_template`, resources `navis://document/info` and `navis://selection`, plus the engine's `inspect_type`, `cancel_execution` and 8 registry tools. Never references the Navisworks API. |
 | `HPNavis.McpBridge.Tests` | net48 | xUnit v3 over the plugin's pure layers: undo rules, heavy gate, fingerprint delta, serializer bounds, resolver folder test — 62 cases, no Navisworks running (needs the API installed to build the plugin). |
-| `HPNavis.Mcp.Server.Tests` | net10 | (not yet added) |
+| `HPNavis.Mcp.Server.Tests` | net10 | xUnit v3: the profile and tool surface this exe registers, the tools over a real pipe with a fake executor (600 s pass-through, refusal codes naming Navisworks, no-bridge error without machine paths) — 12 tests. |
 
 ## Build, deploy, remove
 
@@ -31,6 +31,25 @@ dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false  # Navisworks o
 
 Deploy target: `%AppData%\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge\` — Navisworks requires the folder
 name to equal the assembly name. Remove the plugin by deleting that folder; disable it temporarily by renaming the folder.
+
+## Server exe and client wiring
+
+```bash
+dotnet publish HPNavis/HPNavis.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -o HPNavis/output/HPNavis.Mcp.Server
+```
+
+`.mcp.json` entry (machine-specific, never commit it): `hprebar-navis` → that exe, env `HPNAVIS_MCP_Bridge__HostVersion=2026`. The exe
+is locked while the server runs inside the host AI; stop it before republishing. `HPNavis.Mcp.Server.exe registry <command>` is the human
+side of the tool registry (approve/reject/…), same CLI as the other hosts.
+
+Smoke without a host AI (Navisworks closed, plugin deployed, exe published — Windows PowerShell 5.1):
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-server-smoke.ps1
+```
+
+Starts Roamer with `gatehouse_pub.nwd`, ticks the opt-in, then runs one stdio session (`server-smoke.py`): initialize, tools/list,
+get_navis_context, read-only execute, dry-run edit, heavy refusal, inspect_type, search_tools — 8/8 on 2026-09-15.
 
 ## Using it
 

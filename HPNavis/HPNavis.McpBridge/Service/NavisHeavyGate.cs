@@ -21,8 +21,8 @@ public sealed class NavisHeavyGate
     /// <summary>Cooperative timeout ceiling when heavy operations are off — the shared server default.</summary>
     public const int NormalMaxTimeoutSeconds = 120;
 
-    /// <summary>Ceiling when heavy operations are on; the Navisworks server profile advertises the same number.</summary>
-    public const int HeavyMaxTimeoutSeconds = 600;
+    /// <summary>Ceiling when heavy operations are on; the Navisworks server profile advertises the same constant.</summary>
+    public const int HeavyMaxTimeoutSeconds = HPRebar.Mcp.Contracts.HostScriptContracts.NavisHeavyMaxTimeoutSeconds;
 
     /// <summary>Document members that load, merge, save, export, or run a clash test.</summary>
     public static readonly HashSet<string> HeavyMembers = new(StringComparer.Ordinal)

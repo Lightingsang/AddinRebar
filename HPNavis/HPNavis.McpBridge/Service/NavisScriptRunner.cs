@@ -51,6 +51,7 @@ public sealed class NavisScriptRunner
         if (mode == TransactionModes.Manual) logs.Add("transaction=\"manual\" behaves like \"auto\" in Navisworks: the bridge owns the only transaction.");
 
         var timeoutSeconds = Math.Clamp(request.TimeoutSeconds, 5, maxTimeoutSeconds);
+        if (request.TimeoutSeconds > maxTimeoutSeconds) logs.Add($"timeoutSeconds {request.TimeoutSeconds} clamped to {maxTimeoutSeconds} (the ceiling is {NavisHeavyGate.HeavyMaxTimeoutSeconds} only while heavy operations are allowed).");
         using var timeoutSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSeconds));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancelSource.Token, timeoutSource.Token);
 
@@ -142,7 +143,7 @@ public sealed class NavisScriptRunner
             IsError = message is not null,
             Message = message,
             Logs = logs,
-            Changed = rolledBack ? new ChangedCounts(0, 0, 0) : changed,
+            Changed = changed, // what the script did, even when it was undone right after: a dry run exists to report exactly that
             RolledBack = rolledBack,
             TimedOut = timedOut,
             DurationMs = stopwatch.ElapsedMilliseconds,

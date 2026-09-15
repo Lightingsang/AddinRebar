@@ -185,3 +185,8 @@ Console `Net48RunProbe` (net48, `AutoGenerateBindingRedirects=false` to mimic a 
 ## E19 · Automation-started Roamer dies on this machine — V (control run without our plugin)
 
 - `New-Object Autodesk.Navisworks.Api.Automation.NavisworksApplication` (Windows PowerShell 5.1): plugin logs `ready`, then the process is gone within ~15 s, invisible to `Get-Process Roamer`; `OpenFile` → `0x800706BE` (RPC call failed) / `0x800706BA` (RPC server unavailable). Same with `Plugins\HPNavis.McpBridge` renamed away → not caused by the plugin. `Roamer.exe "<model>"` started directly stays up (16–26 s to a titled main window). `ExecuteAddInPlugin` therefore unverified.
+
+## E20 · net10 stdio server ↔ net48 bridge over the named pipe — V (phase 3 smoke, 2026-09-15)
+
+- `HPNavis.Mcp.Server.exe` (published net10, `NdjsonPipeTransport` with `PipeOptions.CurrentUserOnly`) connected to the plugin's `NamedPipeServerStream` created with `PipeSecurity.SetOwner(current user) + FullControl` on .NET Framework 4.8: `MCP server connected on hpnavis-mcp-2026`, `get_navis_context` answered in 0.20 s, no `UnauthorizedAccessException` — the owner-SID check the .NET client performs is satisfied by the explicit owner the net48 listener sets. Both processes unelevated.
+- `serverInfo.name` "HPNavis MCP"; `tools/list` 12 names; heavy refusal (`HEAVY`) and dry-run (`rolledBack=true`, `changed.added=1`) survive the server's result mapping unchanged.

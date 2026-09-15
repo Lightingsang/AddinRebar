@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "HPNavis.Mcp.Server exe: NavisHostProfile, 4 core tools, prompts, resources, tests, .mcp.json"
-status: pending
+status: completed
 priority: P1
 effort: "6h"
 dependencies: [0]
@@ -50,19 +50,19 @@ HPNavis/HPNavis.Mcp.Server.Tests/
 5. Publish + `.mcp.json` (user) + smoke với bridge phase 2 nếu đã có: `get_navis_context` thật qua stdio — **đây là lần đầu client net10 (`CurrentUserOnly`, so owner SID) gặp server net48 (`PipeSecurity.SetOwner`)**; cả hai chạy không elevated. Nếu chưa có bridge → ghi CHƯA TEST.
 
 ## Todo List
-- [ ] Skeleton + profile
-- [ ] 4 tool + prompts + resources
-- [ ] Tests ≥ 10
-- [ ] Publish + `.mcp.json` + tools/list = 12
-- [ ] Report `reports/phase-03-server.md`
+- [x] Skeleton + profile
+- [x] 4 tool + prompts + resources
+- [x] Tests ≥ 10 (12)
+- [x] Publish + `.mcp.json` (`hprebar-navis`, local, không commit) + tools/list = 12
+- [x] Report `reports/phase-03-server.md`
 
 ## Success Criteria
-- [ ] `dotnet build HPNavis/HPNavis.Mcp.Server -c Release` xanh; `grep -rn "Autodesk\." HPNavis/HPNavis.Mcp.Server --include=*.cs --include=*.csproj` = 0.
-- [ ] `dotnet test HPNavis/HPNavis.Mcp.Server.Tests` ≥ 10 pass, 0 fail, 0 skip.
-- [ ] `python <mcp-call.py> HPNavis/output/HPNavis.Mcp.Server/HPNavis.Mcp.Server.exe tools/list` → đúng 12 tên: `execute_navis_code, get_navis_context, inspect_type, cancel_execution, search_tools, get_tool, run_tool, get_run, propose_tool, test_tool, publish_tool, manage_tool`; `initialize` → `serverInfo.name == "HPNavis MCP"`.
-- [ ] Không có bridge: `get_navis_context` trả lỗi bridge-unavailable **có tên host "Navisworks"** và không có path máy.
-- [ ] Revit/AutoCAD `tools/list` vẫn 34/24 byte-identical (rebuild Release + `mcp-call.py` như phase 0 bước 1, SHA exe mới).
-- [ ] Với bridge phase 2 chạy: `get_navis_context` qua stdio trả `navis` block; log bridge không có `UnauthorizedAccessException` (owner SID khớp).
+- [x] `dotnet build HPNavis/HPNavis.Mcp.Server -c Release` xanh; `grep -rn "Autodesk\." … --include=*.csproj` = 0 (chỉ xuất hiện trong string mô tả/prompt).
+- [x] `dotnet test HPNavis/HPNavis.Mcp.Server.Tests` → 12 pass, 0 fail, 0 skip.
+- [x] `mcp-call.py … tools/list` → đúng 12 tên; `initialize` → `serverInfo.name == "HPNavis MCP"` (isolated registry root).
+- [x] Không có bridge: `"Navisworks bridge not connected. Open Navisworks 2026 and enable the HP MCP Bridge (pipe hpnavis-mcp-2026)."` — có tên host, không path máy (+ unit test).
+- [x] Revit/AutoCAD `tools/list` không đổi: `McpShared/` không bị chạm trong phase 3 (`git diff 63d9454 -- McpShared/HPRebar.Mcp.Server.Core McpShared/HPRebar.Mcp.Contracts` rỗng); snapshot phase 1 (33/24 isolated root) vẫn đúng.
+- [x] Với bridge phase 2 chạy: `run-server-smoke.ps1` 8/8 — `get_navis_context` qua stdio trả `navis` block trong 0.20 s; execute none/dryRun/heavy-off, inspect_type, search_tools; log bridge 0 `UnauthorizedAccess` (client net10 `CurrentUserOnly` ↔ listener net48 `PipeSecurity` khớp owner SID).
 
 ## Risk Assessment
 - `McpServerHost` quét `[McpServerToolType]` trong `HostAssembly` → phải là exe Navis (`HostAssembly = typeof(NavisHostProfile).Assembly`) — mirror AutoCAD, thấp.

@@ -9,14 +9,17 @@
     <File Path="README.md" />
   </Folder>
   <!-- Navisworks MCP: the plugin that runs inside Roamer.exe (.NET Framework 4.8) and the stdio server exe the host
-       AI launches (not yet added). Shared engine, always referenced by relative path, never copied:
+       AI launches. Shared engine, always referenced by relative path, never copied:
          ../McpShared/HPRebar.Mcp.Contracts
          ../McpShared/HPRebar.McpBridge.Core   (net48 asset)
          ../McpShared/HPRebar.Mcp.Server.Core  (server) -->
   <Project Path="HPNavis.McpBridge/HPNavis.McpBridge.csproj" />
   <Project Path="HPNavis.McpBridge.Tests/HPNavis.McpBridge.Tests.csproj" />
+  <Project Path="HPNavis.Mcp.Server/HPNavis.Mcp.Server.csproj" />
+  <Project Path="HPNavis.Mcp.Server.Tests/HPNavis.Mcp.Server.Tests.csproj" />
   <Folder Name="/Shared/">
     <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
     <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
   </Folder>
 </Solution>

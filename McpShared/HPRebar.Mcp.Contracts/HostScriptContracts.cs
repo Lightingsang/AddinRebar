@@ -57,4 +57,11 @@ public static class HostScriptContracts
     ///     mm ↔ <c>Document.Units</c>. The bridge owns the only transaction, so there is no `tr`.
     /// </summary>
     public static readonly string[] NavisGlobals = { "doc", "app", "units", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest Navisworks run once the user allowed heavy operations (a clash run or a file append cannot be
+    ///     interrupted). The bridge clamps to it at run time and the server profile advertises it; one constant so
+    ///     the net48 and net10 sides cannot drift.
+    /// </summary>
+    public const int NavisHeavyMaxTimeoutSeconds = 600;
 }
