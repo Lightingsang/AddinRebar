@@ -162,3 +162,26 @@ Console `Net48RunProbe` (net48, `AutoGenerateBindingRedirects=false` to mimic a 
 - `ScriptGuard.cs:104` emits one fixed message for every `profile.DeniedMembers` hit — a heavy-specific message must come from a host-side pre-pass.
 - `MainThreadQueue` (`Host/MainThreadQueue.cs`) is host-neutral (isQuiescent + wake + clock injected) — reusable for Navisworks as is (net48 shim only for the default clock).
 - `AutocadHostProfile.cs`, `AutocadToolsOverPipeTests.cs`, `SeedLibraryTests.cs`, `tools/harness/*` are the templates to mirror (paths in the phase files).
+
+## E15 · Plugin loads in Roamer.exe, no security prompt — V (2026-09-15, spike S-01/S-02, 6+ starts)
+
+- Log `HPNavis MCP bridge starting from %AppData%\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge; Navisworks runtime 23.0 → 2026; CLR 4.0.30319.42000 (.NET Framework 4.8.9181.0)`; `MCP scripting self-check OK in 2762 ms (5 assemblies resolved by the plugin)`. No dialog of any kind for the unsigned DLL.
+- Resolver traffic: `Serilog 4.2.0.0→4.4.0.0` (Serilog.Sinks.File 7 references 4.2), `System.Memory 4.0.1.2/4.0.2.0→4.0.5.0`, `System.Collections.Immutable 10.0.0.0→10.0.0.1`, `System.Reflection.Metadata 10.0.0.0→10.0.0.1`; 85/85 lines `requested by <none>` with `NavisworksMCPPlugin` enabled.
+
+## E16 · Discovery reflects every type before the plugin runs — V (probe + Roamer)
+
+- `[Reflection.Assembly]::LoadFrom(plugin).GetTypes()` in Windows PowerShell (after `Add-Type` of the API DLLs) reproduced Roamer's "The Plugin was not found": `ReflectionTypeLoadException … System.Text.Json, Version=10.0.0.0`. `System.Text.Json 10.0.12` package: `lib/netstandard2.0` = assembly **10.0.0.0**, `lib/net462` = **10.0.0.12** (`[Reflection.AssemblyName]::GetAssemblyName`). After `HPRebar.Mcp.Contracts` → `netstandard2.0;net48`: 400 types, 2 `[Plugin]` types, Roamer loads the plugin.
+
+## E17 · `Application.Idle` is silent under a native modal — V (spike S-07)
+
+- Open dialog (Ctrl+O) up → `navis.context` never answered until the dialog closed (first attempt); with `MainThreadQueue(expireWithoutTicks: true)`: `work 'context' refused: Navisworks not quiescent within 8s`, `-32002` at 8 s per request. Main window `IsEnabled=false` while the dialog is up (UIA), so `!IsWindowEnabled(main)` detects it; `GW_ENABLEDPOPUP` also matched the bridge's own modeless window → dropped.
+
+## E18 · Progress events, clash API timing, undo of `CurrentSelection` — V (spike S-05c/S-08)
+
+- Loading `gatehouse_pub.nwd`: `ProgressBeginning: Working…` → `SubOperationBegan` ×n (depth up to 3) → `ProgressEnded` → depth 0 within ~1 s.
+- `ClashTest{Hard, Tolerance 0}` between 29/30 root children + `TestsRunTest` → 852 results, `Status Complete`, 61–62 ms; the `ClashTest` wrapper held across `TestsRunTest` throws `ObjectDisposedException (WeakRef)` on `.Children` afterwards — re-resolve from `TestsData.Tests`.
+- `doc.CurrentSelection.Clear(); Add(root)` inside `BeginTransaction("MCP: spike current")` → `NextUndo == "MCP: spike current"` (undoable → W1).
+
+## E19 · Automation-started Roamer dies on this machine — V (control run without our plugin)
+
+- `New-Object Autodesk.Navisworks.Api.Automation.NavisworksApplication` (Windows PowerShell 5.1): plugin logs `ready`, then the process is gone within ~15 s, invisible to `Get-Process Roamer`; `OpenFile` → `0x800706BE` (RPC call failed) / `0x800706BA` (RPC server unavailable). Same with `Plugins\HPNavis.McpBridge` renamed away → not caused by the plugin. `Roamer.exe "<model>"` started directly stays up (16–26 s to a titled main window). `ExecuteAddInPlugin` therefore unverified.

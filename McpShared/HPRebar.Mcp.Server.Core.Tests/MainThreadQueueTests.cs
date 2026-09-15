@@ -187,6 +187,32 @@ public sealed class MainThreadQueueTests
         Assert.Equal(TaskStatus.RanToCompletion, task.Status); // not IsCompletedSuccessfully: this file is also linked into the net48 test project
     }
 
+    [Fact]
+    public async Task With_expireWithoutTicks_a_host_that_never_ticks_fails_the_request_as_busy_after_the_grace()
+    {
+        // real clock: the expiry comes from a timer, not from a tick (a native modal dialog swallows the host's idle event)
+        var queue = new MainThreadQueue(() => false, "Navisworks", TimeSpan.FromMilliseconds(150), expireWithoutTicks: true);
+
+        var task = queue.RunAsync(new MainThreadWorkItem("execute", _ => 1, CancellationToken.None));
+
+        var exception = await Assert.ThrowsAsync<BridgeRequestException>(() => task.WaitAsync(TimeSpan.FromSeconds(5)));
+        Assert.Equal(BridgeErrorCode.Busy, exception.Code);
+        Assert.Equal(0, queue.PendingCount);
+    }
+
+    [Fact]
+    public async Task Without_expireWithoutTicks_a_host_that_never_ticks_keeps_the_request_waiting()
+    {
+        // the default the Revit and AutoCAD bridges rely on: only a tick can refuse work
+        var queue = new MainThreadQueue(() => false, "AutoCAD", TimeSpan.FromMilliseconds(150));
+
+        var task = queue.RunAsync(new MainThreadWorkItem("execute", _ => 1, CancellationToken.None));
+        await Task.Delay(500);
+
+        Assert.False(task.IsCompleted);
+        Assert.Equal(1, queue.PendingCount);
+    }
+
     [Theory]
     [InlineData(4, "Millimeters", 1.0)]
     [InlineData(1, "Inches", 25.4)]

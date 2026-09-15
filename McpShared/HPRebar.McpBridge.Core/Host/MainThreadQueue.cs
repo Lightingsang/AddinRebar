@@ -50,6 +50,8 @@ public sealed class MainThreadQueue
     private readonly string _hostName;
     private readonly Action? _wakeMainThread;
     private readonly Func<long> _clockMs;
+    private readonly bool _expireWithoutTicks;
+    private readonly object _dequeueGate = new object();
     private int _ticking;
 #if NET48
     private static readonly System.Diagnostics.Stopwatch MonotonicClock = System.Diagnostics.Stopwatch.StartNew();
@@ -61,12 +63,19 @@ public sealed class MainThreadQueue
     ///     message would otherwise sit on the work until the user moves the mouse.
     /// </param>
     /// <param name="clockMs">Monotonic milliseconds; defaults to <see cref="Environment.TickCount64"/> so a wall-clock jump cannot age a request.</param>
-    public MainThreadQueue(Func<bool> isQuiescent, string hostName, TimeSpan busyGrace, Action? wakeMainThread = null, Func<long>? clockMs = null)
+    /// <param name="expireWithoutTicks">
+    ///     Also refuse expired work from a timer, not only from a tick. For a host whose idle event stops
+    ///     entirely while a native modal dialog runs its own message loop (Navisworks' file dialogs), a
+    ///     request would otherwise wait until the dialog closes instead of failing as busy after the grace.
+    ///     Off by default: the existing hosts keep their tick-only behaviour.
+    /// </param>
+    public MainThreadQueue(Func<bool> isQuiescent, string hostName, TimeSpan busyGrace, Action? wakeMainThread = null, Func<long>? clockMs = null, bool expireWithoutTicks = false)
     {
         _isQuiescent = isQuiescent;
         _hostName = hostName;
         BusyGrace = busyGrace;
         _wakeMainThread = wakeMainThread;
+        _expireWithoutTicks = expireWithoutTicks;
 #if NET48
         // .NET Framework has no Environment.TickCount64; a running Stopwatch is the monotonic clock there
         // (ElapsedMilliseconds scales through a double, so a high-frequency QPC cannot overflow the multiply).
@@ -96,7 +105,23 @@ public sealed class MainThreadQueue
             Log.Debug(exception, "MCP bridge could not wake the main thread; waiting for the next idle tick");
         }
 
+        if (_expireWithoutTicks) ScheduleExpiry();
+
         return item.Completion.Task;
+    }
+
+    /// <summary>
+    ///     One grace period after an enqueue, refuse whatever expired at the head of the queue even if no tick
+    ///     came. Only queued items are touched — a tick dequeues before it runs — so a running script is never
+    ///     failed from here. The thread-pool continuation costs nothing while the host ticks normally.
+    /// </summary>
+    private void ScheduleExpiry()
+    {
+        Task.Delay(BusyGrace + TimeSpan.FromMilliseconds(50)).ContinueWith(_ =>
+        {
+            try { FailExpired(); }
+            catch (Exception exception) { Log.Debug(exception, "MCP bridge queue expiry check failed"); }
+        }, TaskScheduler.Default);
     }
 
     /// <summary>
@@ -116,7 +141,7 @@ public sealed class MainThreadQueue
                 return;
             }
 
-            while (_pending.TryDequeue(out var item))
+            while (TryDequeue(out var item))
             {
                 if (item.Completion.Task.IsCompleted) continue; // completed elsewhere while it waited
 
@@ -160,7 +185,23 @@ public sealed class MainThreadQueue
     /// <summary>FIFO: once the head is young enough, everything behind it is too.</summary>
     private void FailExpired()
     {
-        while (_pending.TryPeek(out var head) && IsExpired(head) && _pending.TryDequeue(out var item)) Refuse(item);
+        while (TryDequeueExpired(out var item)) Refuse(item);
+    }
+
+    private bool TryDequeue(out MainThreadWorkItem item)
+    {
+        lock (_dequeueGate) return _pending.TryDequeue(out item!);
+    }
+
+    /// <summary>Peek and dequeue as one step: the expiry timer and a tick would otherwise take turns on the same queue.</summary>
+    private bool TryDequeueExpired(out MainThreadWorkItem item)
+    {
+        lock (_dequeueGate)
+        {
+            if (_pending.TryPeek(out var head) && IsExpired(head)) return _pending.TryDequeue(out item!);
+            item = null!;
+            return false;
+        }
     }
 
     private void Refuse(MainThreadWorkItem item)

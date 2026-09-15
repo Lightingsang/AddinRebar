@@ -1,0 +1,61 @@
+# HPNavis — MCP bridge for Autodesk Navisworks Manage 2026
+
+Turns Navisworks into a runtime for an AI agent, the way `HPRebar/` does for Revit and `HPAutoCad/` for AutoCAD:
+a plugin inside `Roamer.exe` compiles and runs reviewed C# against the open model over a named pipe, and (from
+phase 3) a stdio MCP server exe the host AI launches. Shared engine: `../McpShared/` only — this folder never
+references `HPRebar/` or `HPAutoCad/`.
+
+**Navisworks runs on .NET Framework 4.8**, unlike Revit/AutoCAD 2026 (.NET 8). The plugin is `net48` and consumes the
+`net48` asset of `HPRebar.McpBridge.Core`. There is no isolated load context on .NET Framework; instead
+`PluginAssemblyResolver` binds Roslyn and its System.* companions to the copies beside the plugin (allow-list,
+only for requests from this plugin), and the start-up self-check verifies they came from there.
+
+| Project | TFM | What |
+|---|---|---|
+| `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `AddInPlugin` "HPNavis MCP" in the Add-ins menu (status window). |
+| `HPNavis.Mcp.Server` | net10 | (phase 3) stdio MCP server exe, `NavisHostProfile`, seeds. |
+| `HPNavis.McpBridge.Tests` / `HPNavis.Mcp.Server.Tests` | net48 / net10 | (phase 2/3) |
+
+## Build, deploy, remove
+
+The API is referenced from the installed product (no NuGet exists). `Directory.Build.props` finds it through
+`-p:NavisworksInstallDir=…`, `HPNAVIS_NAVISWORKS_DIR`, the installer's registry key, or
+`%ProgramW6432%\Autodesk\Navisworks Manage 2026\`. Without it, the plugin and its tests do not build (one readable error);
+the server and its tests do.
+
+```bash
+dotnet build HPNavis/HPNavis.slnx -c Debug                      # Navisworks closed: deploys the plugin too
+dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false  # Navisworks open (it locks the files)
+```
+
+Deploy target: `%AppData%\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge\` — Navisworks requires the folder
+name to equal the assembly name. Remove the plugin by deleting that folder; disable it temporarily by renaming the folder.
+
+## Using it
+
+1. Start Navisworks, open a model. Add-ins ▸ **HPNavis MCP** opens the bridge window.
+2. **Start listener** (or tick auto-start). Pipe: `hpnavis-mcp-2026`.
+3. Tick **Allow AI code execution** — per session, never persisted. Tick **Allow heavy operations** only when the AI needs
+   to append/merge files, save/export, or run a clash test: those cannot be undone or interrupted.
+4. Every run is one Undo entry `MCP: <label>`; dry runs are undone right after they commit; a run whose transaction
+   produced no undo entry never touches your own undo history.
+
+Logs: `%LocalAppData%\HPNavis\McpBridge\logs\` (look for `MCP scripting self-check OK`). Audit: `%AppData%\HPNavis\McpBridge\audit\`.
+Settings (`AutoStartListener` only): `%AppData%\HPNavis\McpBridge\settings.json`.
+
+## Unattended check (phase-1 spike harness)
+
+```powershell
+# Windows PowerShell 5.1 (not pwsh); Navisworks closed; plugin deployed
+powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-bridge-spike.ps1 -Runs 2 -WithModal
+```
+
+Starts `Roamer.exe` with `Samples\gatehouse\gatehouse_pub.nwd` and the process-scoped variable
+`HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1` (the bridge opens its status window once the GUI is up — only the window; the
+execution opt-in still starts OFF), ticks the opt-ins through UI Automation, drives `pipe-scenarios.py` over the pipe
+(read, W1 edits, dryRun, empty transaction, exception, guard, heavy gate, timeout, cancel, clash with heavy ON, a modal
+dialog), closes Navisworks without saving and writes `output/spike/run-N.{log,json}`. Verified 2/2 on 2026-09-15 —
+`plans/260915-0824-navisworks-mcp-2026/reports/phase-01-spike.md`. The Automation API (`NavisworksApplication`) is not
+used: a Roamer started that way exits within seconds on the dev machine.
+
+Plan and evidence: `plans/260915-0824-navisworks-mcp-2026/`.

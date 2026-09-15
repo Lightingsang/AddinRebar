@@ -155,7 +155,7 @@ public sealed partial class McpBridgeStatusViewModel : ObservableObject
     private void CopyLastScript()
     {
         var source = _runner.LastRun?.Source;
-        if (string.IsNullOrEmpty(source)) return;
+        if (source is null || source.Length == 0) return; // spelled out: net48's IsNullOrEmpty carries no nullability annotation
 
         if (_copyToClipboard is null) StatusDetail = "Clipboard is not available in this window.";
         else _copyToClipboard(source);

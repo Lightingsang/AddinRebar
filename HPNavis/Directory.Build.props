@@ -1,0 +1,28 @@
+<Project>
+
+  <!--
+    Where the Navisworks API lives on this machine. Autodesk publishes no NuGet package for the Navisworks .NET
+    API, so every project under HPNavis/ that needs Autodesk.Navisworks.*.dll compiles against the installed
+    product and never copies it (Private=false). Resolution order:
+      1. -p:NavisworksInstallDir=<dir>  or  env HPNAVIS_NAVISWORKS_DIR
+      2. the registry key the Navisworks installer writes (verified on Manage 2026: ...\Navisworks API Runtime\23\Navisworks Manage\Path)
+      3. %ProgramW6432%\Autodesk\Navisworks Manage <year>\
+    NavisworksApiAvailable lets a project fail with one readable error instead of hundreds of CS0246.
+  -->
+  <PropertyGroup>
+    <NavisworksMajor Condition="'$(NavisworksMajor)' == ''">23</NavisworksMajor>
+    <NavisworksYear Condition="'$(NavisworksYear)' == ''">2026</NavisworksYear>
+
+    <NavisworksInstallDir Condition="'$(NavisworksInstallDir)' == '' And '$(HPNAVIS_NAVISWORKS_DIR)' != ''">$(HPNAVIS_NAVISWORKS_DIR)</NavisworksInstallDir>
+    <NavisworksInstallDir Condition="'$(NavisworksInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\Navisworks API Runtime\$(NavisworksMajor)\Navisworks Manage', 'Path', null, RegistryView.Registry64))</NavisworksInstallDir>
+    <NavisworksInstallDir Condition="'$(NavisworksInstallDir)' == ''">$(ProgramW6432)\Autodesk\Navisworks Manage $(NavisworksYear)\</NavisworksInstallDir>
+    <NavisworksInstallDir Condition="!HasTrailingSlash('$(NavisworksInstallDir)')">$(NavisworksInstallDir)\</NavisworksInstallDir>
+
+    <NavisworksApiAvailable>false</NavisworksApiAvailable>
+    <NavisworksApiAvailable Condition="Exists('$(NavisworksInstallDir)Autodesk.Navisworks.Api.dll')">true</NavisworksApiAvailable>
+
+    <!-- Where Navisworks looks for per-user plugins: %AppData%\Autodesk\Navisworks Manage <year>\Plugins\<AssemblyName>\ -->
+    <NavisworksPluginsDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\Navisworks Manage $(NavisworksYear)\Plugins\</NavisworksPluginsDir>
+  </PropertyGroup>
+
+</Project>

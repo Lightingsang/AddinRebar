@@ -69,3 +69,9 @@
 - Bridge Navis (`HPNavis.McpBridge`) là **net48** + `UseWPF` (WPF net48 hợp lệ) hoặc WinForms; không có ALC/loader tách đôi như AutoCAD — một assembly + thư mục dependency phẳng, `AssemblyResolve` thay ALC.
 - Roslyn 5.9 (`LangVersion` mới nhất) compile script cho runtime net48: script không dùng được API .NET 8-only (`Span` slicing phức tạp, `Random.Shared`, `Parallel`…); `HostScriptContracts.NavisImports` và mô tả tool phải nói rõ "runtime .NET Framework 4.8".
 - Nếu Autodesk chuyển Navisworks sang .NET 8/10 ở bản sau, chỉ cần đổi TFM của `HPNavis.McpBridge`; Core đã có cả hai.
+
+## Addendum 2026-09-15 (phase 1 spike)
+
+- **`HPRebar.Mcp.Contracts` cũng phải multi-target `netstandard2.0;net48`** (additive; net8/net10 consumer vẫn nhận asset netstandard2.0 — `tools/list` Revit/AutoCAD byte-identical sau đổi). Lý do: gói `System.Text.Json 10.0.12` có assembly version **10.0.0.0** trong `lib/netstandard2.0` nhưng **10.0.0.12** trong `lib/net462`; Roamer reflect toàn bộ kiểu plugin trước khi `AssemblyResolve` của ta được cài → `FileNotFoundException System.Text.Json 10.0.0.0` → "The Plugin was not found" (D1 trong `reports/phase-01-spike.md`).
+- **`MainThreadQueue(…, expireWithoutTicks)`** — tham số tuỳ chọn mới, default `false`; chỉ Navis truyền `true` (ADR-04 §2). Không đổi hành vi Revit/AutoCAD (test 128/60/109/58 pass).
+- Self-check trong Roamer: Roslyn 5.9 + Immutable 10.0.0.1 từ thư mục plugin, 5 resolve (`Serilog 4.2→4.4`, `System.Memory 4.0.1.2/4.0.2.0→4.0.5.0`, `Immutable 10.0.0.0→10.0.0.1`, `Reflection.Metadata 10.0.0.0→10.0.0.1`), 2.7–3.1 s.

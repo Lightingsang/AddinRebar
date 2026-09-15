@@ -34,8 +34,10 @@
 
 - `HPNavis.McpBridge.csproj` target `DeployPlugin` `AfterTargets=Build`, `Condition Debug && DeployPlugin!=false` → `RemoveDir` + `Copy` toàn bộ `$(OutDir)` sang `$(AppData)\Autodesk\Navisworks Manage $(NavisworksYear)\Plugins\HPNavis.McpBridge\` (mirror `HPAutoCad.McpBridge.Loader.csproj:36–57` `DeployBundle`). `-p:DeployPlugin=false` khi Roamer đang mở (file lock).
 - Gỡ: xoá thư mục đó. Không registry, không `.addin`. `HPNavis/README.md` ghi 3 dòng: cài (build Debug), tắt tạm (đổi tên thư mục), gỡ (xoá).
-- Bảo mật khi nạp: **[chưa xác minh]** → spike S-01 ghi lại có prompt hay không; nếu có prompt "Always Load"-kiểu → docs như Revit/AutoCAD. Không ký số trong MVP (giống hai host cũ).
-- Plugin lạ `NavisworksMCPPlugin` (E3): trước live verify **đổi tên thư mục** thành `NavisworksMCPPlugin.disabled` (không xoá — của user) để kết quả không nhiễu; ghi trong harness README + hỏi user một lần ở phase 5 (thao tác trên máy user → 👤).
+- Bảo mật khi nạp: **verified S-01 2026-09-15 — KHÔNG có prompt** cho DLL không ký trong `%AppData%\…\Plugins\` (2 lần mở unattended). Không ký số trong MVP.
+- **Discovery gotcha (S-01, D1):** Navisworks `GetTypes()` toàn assembly plugin **trước** khi static ctor (resolver) chạy → mọi dependency mà kiểu của plugin kéo theo phải bind **đúng version** không cần resolver. `HPRebar.Mcp.Contracts` phải multi-target `netstandard2.0;net48` (asset netstandard2.0 tham chiếu `System.Text.Json 10.0.0.0`, asset net462 của gói là `10.0.0.12`). Kiểm nhanh: `[Reflection.Assembly]::LoadFrom(plugin).GetTypes()` trong Windows PowerShell sau khi `Add-Type` API DLL.
+- **Harness:** `ExecuteAddInPlugin` **chưa xác minh được** — Roamer mở qua `Autodesk.Navisworks.Automation` trên máy dev thoát sau ~15 s (có/không plugin ta); harness mở `Roamer.exe "<model>"` trực tiếp + env process-scoped `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1` (chỉ mở cửa sổ; opt-in vẫn OFF, UIA tick). Xem `reports/phase-01-spike.md`.
+- Plugin lạ `NavisworksMCPPlugin` (E3): spike phase 1 chạy **với plugin này bật** — không xung đột, resolver không trả lời requester ngoài thư mục (85/85 dòng `requested by <none>`). Phase 5: hỏi user một lần có muốn tắt tạm (đổi tên `.disabled`) cho live verify sạch hay không → 👤; harness không tự đụng.
 
 ### 3. Định danh riêng — không đụng entry đang chạy
 

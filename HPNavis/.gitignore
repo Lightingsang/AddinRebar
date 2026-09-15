@@ -1,0 +1,7 @@
+*bin/
+*obj/
+/output/
+
+# Autodesk DLLs are never checked in (EULA) — the bridge references them from the install folder
+*.dll
+!**/bin/**

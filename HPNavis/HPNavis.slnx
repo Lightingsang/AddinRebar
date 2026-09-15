@@ -1,0 +1,21 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- Navisworks MCP: the plugin that runs inside Roamer.exe (.NET Framework 4.8) and the stdio server exe the host
+       AI launches (not yet added). Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core   (net48 asset)
+         ../McpShared/HPRebar.Mcp.Server.Core  (server) -->
+  <Project Path="HPNavis.McpBridge/HPNavis.McpBridge.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+  </Folder>
+</Solution>

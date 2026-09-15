@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <!-- netstandard2.0 for the net8/net10 hosts (unchanged asset); net48 for the Navisworks bridge. The System.Text.Json
+             package ships assembly version 10.0.0.0 in lib/netstandard2.0 but 10.0.0.12 in lib/net462, and .NET Framework binds
+             by exact version with no redirects inside a plugin, so a net48 consumer must get a Contracts compiled against
+             the net462 asset or Roamer.exe cannot even reflect over the plugin's types. -->
+        <TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>

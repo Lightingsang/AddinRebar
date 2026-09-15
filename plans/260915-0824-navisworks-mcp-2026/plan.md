@@ -14,13 +14,13 @@ blocks: []
 
 # HPNavis MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-15 · **Status:** in-progress — phase 0 + 0b done & committed; phase 1–5 planned; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
+**Ngày:** 2026-09-15 · **Status:** in-progress — phase 0 + 0b done & committed; phase 1 done (spike 2/2, reviewed); phase 2–5 planned; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
 
 ## Executive summary
 - **Host khác hẳn hai host cũ:** Roamer.exe = .NET Framework 4.8 (E1). `McpShared/HPRebar.McpBridge.Core` (net8.0) **đa mục tiêu `net8.0;net48`** — probe: 2 shim `#if NET48` + 4 property type + Polyfill; Roslyn 5.9 scripting **đã chạy** trên 4.8.9181 với `AssemblyResolve` hẹp ([ADR-01](adr/adr-01-net48-host-multitarget-mcpbridge-core.md), E12–E13). Automation API chỉ open/append/save/print → ngoài tiến trình **loại** (E7).
 - **Navisworks là công cụ rà soát:** geometry chỉ đọc. Ghi được (W1): selection set, viewpoint, comment, appearance override, hidden/required, clash test + status, TimeLiner task; ghép/lưu/xuất file + chạy clash = **heavy** (W2: không undo, chạy lâu → checkbox opt-in thứ hai host-side, pre-pass `HEAVY`, timeout 600 s qua profile, audit `started`+`[heavy]`); SQL nhúng/ComApi/transaction riêng cấm (W3) ([ADR-02](adr/adr-02-navis-transaction-dryrun-and-writable-surface.md), [ADR-04](adr/adr-04-navis-main-thread-busy-heavy-ops-guard-globals.md)). **12 seed** = 8 read-only + 3 ghi nhẹ + 1 heavy.
 - **Transaction:** `BeginTransaction` có, **không rollback in-flight**; `Document.Rollback()` undo transaction **vừa commit của toàn document** → chỉ gọi khi `NextUndo == "MCP: <label>"` (rỗng → không gọi, không đụng undo của user); `manual` ≡ `auto`; `none` = wrap + fingerprint (E6; red-team Critical).
-- **Thread:** `Application.Idle` + `MainThreadQueue` (Core, không đổi) + `PostMessage(WM_NULL)`; quiescence = depth counter Progress + modal check + `IsActiveTransaction`; `context` trả busy ngay khi script đang chạy (E5).
+- **Thread:** `Application.Idle` + `MainThreadQueue` (Core; **`expireWithoutTicks` opt-in cho Navis** vì Idle im khi modal native — S-07) + `PostMessage(WM_NULL)`; quiescence = depth counter Progress + `!IsWindowEnabled(main)` + `IsActiveTransaction`; `context` trả busy ngay khi script đang chạy (E5).
 - **Folder:** `HPNavis/` (`HPNavis.slnx`, `global.json`, `Directory.Build.props` dò thư mục cài qua registry `Navisworks API Runtime\23`, `HPNavis.McpBridge` net48, `HPNavis.McpBridge.Tests` net48, `HPNavis.Mcp.Server` net10, `HPNavis.Mcp.Server.Tests` net10, `tools/harness/`, `output/`); chỉ `ProjectReference ../McpShared/*` ([ADR-03](adr/adr-03-navisworks-api-reference-and-test-without-navisworks.md), [ADR-05](adr/adr-05-navis-plugin-packaging-deploy-identity.md)). Pipe `hpnavis-mcp-2026`, prefix `navis.`, env `HPNAVIS_MCP_`, `.mcp.json` `hprebar-navis`, registry root `%AppData%\HPNavis\McpServer\`. MVP không Ribbon (Add-ins menu mở cửa sổ).
 
 ## Design of record
@@ -30,7 +30,7 @@ blocks: []
 | # | File | Status | Depends | Effort |
 |---|---|---|---|---|
 | 0 | [phase-00](phase-00-mcpshared-net48-multitarget-and-navis-contracts.md) — `McpShared` đa mục tiêu net48 (**bảng sửa engine authoritative, 14 mục**), `Net48Tests`, hằng/profile Navis, `MaxTimeoutSeconds` qua 3 site; gate byte-identical trên exe rebuild | **built + tested + reviewed + committed (2026-09-15)** — `fb65f25` (phase 0) + 0b deny-list gốc; 126 + 58 + 109 + 58 test; `tools/list` 33/24 identical; review 8.5/10 → 7/8 fix; Core `.cs` additions only (`reports/phase-00-report.md`) | — | 8h (≈5h) |
-| 1 | [phase-01](phase-01-hpnavis-scaffold-plugin-spike-with-gate.md) — scaffold `HPNavis/`, plugin net48 + resolver hẹp + self-check + cửa sổ tối giản, **spike S-01…S-11 (gate)**: nạp/prompt, Roslyn, Idle/wake, `RollbackOwn` (kể cả transaction rỗng), modal/append/clash, plugin lạ, pre-pass | planned | 0 | 10h |
+| 1 | [phase-01](phase-01-hpnavis-scaffold-plugin-spike-with-gate.md) — scaffold `HPNavis/`, plugin net48 + resolver hẹp + self-check + cửa sổ tối giản, **spike S-01…S-11 (gate)**: nạp/prompt, Roslyn, Idle/wake, `RollbackOwn` (kể cả transaction rỗng), modal/append/clash, plugin lạ, pre-pass | **built + verified live 2/2 (2026-09-15)** — plugin nạp Roamer không prompt, self-check OK, S-01…S-11 pass/kết luận (`reports/phase-01-spike.md`); 4 fix engine additive (Contracts net48, `expireWithoutTicks` + dequeue lock, VM) — 128/60/109/58 test, `tools/list` identical; review 7/10 → 12/15 finding fixed cùng ngày (`reports/code-review-phase-01.md`) | 0 | 10h (≈6h) |
 | 2 | [phase-02](phase-02-navis-bridge-runtime-transactions-context-window.md) — runner (ma trận có điều kiện), fingerprint, serializer, context, heavy gate host-side, cửa sổ 2 checkbox, `HPNavis.McpBridge.Tests` net48; harness pipe ≥ 22 | planned | 0, 1 | 12h |
 | 3 | [phase-03](phase-03-hpnavis-mcp-server-exe-profile-tools-tests.md) — exe `HPNavis.Mcp.Server` + `NavisHostProfile` (600 s) + 4 tool/prompt/resource + tests; `.mcp.json`; lần đầu client net10 ↔ bridge net48 thật | planned | 0 | 6h |
 | 4 | [phase-04](phase-04-navis-seed-library-and-registry-per-host.md) — 12 seed, compile-check net48, structure test net10, registry live (heavy qua `run_tool`) | planned | 0, 2, 3 | 10h |
@@ -51,12 +51,12 @@ blocks: []
 ## Top risks
 | Risk | L×I | Mitigation |
 |---|---|---|
-| Roslyn bind lỗi **trong Roamer** (plugin lạ có resolver riêng) | M×H | resolver allow-list + RequestingAssembly; self-check kiểm `Assembly.Location`; S-02/S-10 gate |
+| ~~Roslyn bind lỗi **trong Roamer**~~ — **đã qua** (S-02/S-10: 5 resolve, plugin lạ bật, không xung đột) | — | resolver allow-list + RequestingAssembly; **+ Contracts net48** (discovery bind trước resolver — D1) |
 | `Rollback()` hoàn lại nhầm / không hoàn lại 1 loại edit | M×H | điều kiện `NextUndo`; S-05/S-05b/S-05c; hàng "W1?" |
-| `Idle` không bắn khi modal/append/clash; Progress không cân | M×H | depth counter + reset + staleness + modal Win32; S-07/S-08; `-32002` |
+| ~~`Idle` không bắn khi modal~~ — **xác nhận & xử lý** (S-07: timer expiry; S-08: depth về 0) | — | `expireWithoutTicks` + depth counter + `!IsWindowEnabled`; clash từ GUI chưa tự động hoá |
 | Clash run > 600 s, không ngắt được; UI đóng băng | M×M | heavy gate, audit `started`, mô tả "save first", harness sample nhỏ |
 | Guard vượt bằng reflection-by-expression ở Revit/AutoCAD (base list) | M×M | Navis profile đã cấm; base list = user quyết |
-| Prompt bảo mật khi nạp plugin unsigned; Roamer elevated ↔ server không elevated | L×M | S-01 ghi lại; harness kiểm `IsElevated`; docs |
+| ~~Prompt bảo mật khi nạp plugin unsigned~~ — **không có prompt (S-01)**; Roamer elevated ↔ server không elevated còn để phase 3 | L×M | harness kiểm `IsElevated`; docs |
 
 ## Quyết định user đã xác nhận (2026-09-15, theo khuyến nghị)
 1. **Deny-list gốc `ScriptGuard`** (Revit/AutoCAD): thêm `System.Linq.Expressions`, `Expression`, `Delegate`, `CreateDelegate`, `Compile` — **làm, commit riêng sau phase 0**, có test guard + snapshot `tools/list` (tool surface không đổi; guard từ chối thêm mẫu). Ghi là bước **0b** trong phase 0 (không gộp vào gate byte-identical của phase 0).

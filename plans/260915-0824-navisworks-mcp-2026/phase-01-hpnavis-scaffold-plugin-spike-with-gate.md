@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "HPNavis scaffold + plugin spike (gate)"
-status: pending
+status: completed
 priority: P1
 effort: "10h"
 dependencies: [0]
@@ -72,23 +72,23 @@ HPNavis/
 7. `reports/phase-01-spike.md`: bảng S-01…S-11 với trích log, số resolve, thời gian clash; **cập nhật ADR-02/ADR-04** các mục `[chưa xác minh]`.
 
 ## Todo List
-- [ ] Scaffold + slnx + props + README
-- [ ] Resolver + 2 plugin + self-check
-- [ ] Executor spike + quiescence + pre-pass
-- [ ] Cửa sổ tối giản + Deploy target
-- [ ] S-01…S-11 ≥ 2 lần unattended
-- [ ] Report + ADR update
+- [x] Scaffold + slnx + props + README
+- [x] Resolver + 2 plugin + self-check
+- [x] Executor spike + quiescence + pre-pass
+- [x] Cửa sổ tối giản + Deploy target
+- [x] S-01…S-11 ≥ 2 lần unattended
+- [x] Report + ADR update
 
 ## Success Criteria
-- [ ] `dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false` xanh; `-p:NavisworksInstallDir=C:\nope\` fail đúng 1 lỗi có hướng dẫn.
-- [ ] `grep -rn "HPRebar/\|HPAutoCad/\|HPCivil3D" HPNavis --include=*.csproj --include=*.slnx` = 0 (chỉ `..\McpShared\`).
-- [ ] `pwsh HPNavis/tools/harness/run-bridge-spike.ps1` → S-01…S-06, S-09, S-11 **pass 2/2**; S-05b/c/d, S-07, S-08, S-10 có kết luận trong report; log có `MCP scripting self-check OK`.
-- [ ] Không prompt bảo mật, hoặc prompt được ghi lại + docs; gỡ sạch bằng xoá thư mục (xoá → mở Roamer → không log HPNavis).
-- [ ] Không có bypass opt-in nào trong code (grep `HPNAVIS_SPIKE`/`ENABLE_EXECUTION` = 0).
+- [x] `dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false` xanh; `-p:NavisworksInstallDir=C:\nope\` fail đúng 1 lỗi có hướng dẫn.
+- [x] `grep -rn "HPRebar/\|HPAutoCad/\|HPCivil3D" HPNavis --include=*.csproj --include=*.slnx` = 0 (chỉ `..\McpShared\`).
+- [x] `powershell.exe -File HPNavis/tools/harness/run-bridge-spike.ps1 -Runs 2 -WithModal` (Windows PowerShell 5.1, không pwsh) → S-01…S-06, S-07, S-08 (script-driven), S-09, S-11 **pass 2/2**; S-05b/c, S-10 kết luận; S-05d bỏ (guard) — `reports/phase-01-spike.md`; log `MCP scripting self-check OK in 2762 ms`.
+- [x] Không prompt bảo mật (S-01 ×2). Gỡ sạch: đổi tên thư mục → mở Roamer → không log HPNavis (control run cho Automation probe, 13:38).
+- [x] Không có bypass opt-in nào trong code (grep `HPNAVIS_SPIKE`/`ENABLE_EXECUTION` = 0). Env duy nhất `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW` chỉ mở cửa sổ.
 
 ## Risk Assessment
 - Roslyn bind trong Roamer khác probe console → resolver log; **không** eager-LoadFrom (vô nghĩa với bind đúng version — E13); S-02 + S-10 quyết định.
 - `Application.Gui` null tại `OnLoaded` → handle ở `GuiCreated`.
 - `Idle` không bắn khi Roamer nằm im → S-03 quyết định wake dự phòng.
-- UIA tick checkbox trên cửa sổ WPF của ta — dễ (cửa sổ của ta); mở cửa sổ unattended qua Automation `ExecuteAddInPlugin` **[chưa xác minh]** → fallback UIA menu.
-- Plugin lạ của user: S-10 cần nó **bật**; các scenario khác tắt (đổi tên `.disabled`, khôi phục `finally`) — 👤 báo user trước khi đụng profile.
+- UIA tick checkbox trên cửa sổ WPF của ta — ✅; mở cửa sổ unattended qua Automation `ExecuteAddInPlugin` **không kiểm được** (Roamer mở qua Automation thoát sau ~15 s trên máy dev) → dùng env `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1` + `Roamer.exe "<model>"` trực tiếp.
+- Plugin lạ của user: **không đụng** — spike chạy với nó bật, không xung đột (S-10). Tắt tạm cho live verify phase 5 = 👤 hỏi user.

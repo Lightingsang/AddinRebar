@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Navisworks Manage 2026 (Roamer.exe) runs on .NET Framework 4.8: the plugin and the shared engine's net48 asset. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPNavis.McpBridge</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- Roslyn ships 13 localized resource folders (7 MB); the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- Copy the plugin folder to %AppData%\Autodesk\Navisworks Manage 2026\Plugins after a Debug build; pass -p:DeployPlugin=false while Navisworks is open. -->
+        <DeployPlugin Condition="'$(DeployPlugin)' == ''">true</DeployPlugin>
+        <PluginDeployDir>$(NavisworksPluginsDir)$(AssemblyName)\</PluginDeployDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile against the installed Navisworks API, never copy it: Roamer.exe supplies these assemblies and its own
+             app.config redirects every 23.0.x request to the loaded copy. Only what the MVP touches. -->
+        <Reference Include="Autodesk.Navisworks.Api"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Api.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Autodesk.Navisworks.Clash"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Clash.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Autodesk.Navisworks.Timeliner"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Timeliner.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="System.Security"/>
+        <!-- Application.Gui.MainWindow is a WinForms IWin32Window (Roamer is a WinForms host); only the handle is read. -->
+        <Reference Include="System.Windows.Forms"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+        <!-- records / collection expressions / Convert.ToHexString on .NET Framework — source-only, nothing shipped -->
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <!-- One readable error instead of hundreds of CS0246 when the product is not installed here. -->
+    <Target Name="RequireNavisworksApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NavisworksApiAvailable)' != 'true'">
+        <Error Text="Navisworks Manage $(NavisworksYear) API not found at '$(NavisworksInstallDir)'. Install Navisworks, or pass -p:NavisworksInstallDir=&lt;dir&gt; / set HPNAVIS_NAVISWORKS_DIR. Only HPNavis.Mcp.Server and its tests build without it."/>
+    </Target>
+
+    <!-- Navisworks loads Plugins\<Folder>\<Folder>.dll — the folder name must equal the assembly name. Deploy the whole output
+         (Roslyn and friends beside the plugin; the plugin's AssemblyResolve handler binds them). Fails loudly while Roamer holds the files. -->
+    <Target Name="DeployPlugin" AfterTargets="Build" Condition="'$(DeployPlugin)' == 'true' And '$(Configuration)' == 'Debug' And '$(DesignTimeBuild)' != 'true'">
+        <ItemGroup>
+            <_PluginFiles Include="$(OutDir)**\*" Exclude="$(OutDir)**\*.xml"/>
+        </ItemGroup>
+        <RemoveDir Directories="$(PluginDeployDir)"/>
+        <Copy SourceFiles="@(_PluginFiles)" DestinationFiles="@(_PluginFiles->'$(PluginDeployDir)%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Message Importance="high" Text="HPNavis plugin deployed to $(PluginDeployDir)"/>
+    </Target>
+
+</Project>

@@ -25,7 +25,9 @@
 
 `isQuiescent = () => _progressDepth == 0 && !ModalOpen() && !(doc?.IsActiveTransaction ?? false)`:
 - `_progressDepth`: `ProgressBeginning`/`ProgressSubOperationBegan` → `++`; `ProgressEnded`/`ProgressSubOperationEnded` → `--` (không âm). **Reset về 0** khi work item của bridge bắt đầu và kết thúc (append do script gọi tự sinh Progress). **Staleness:** nếu `_progressDepth > 0` quá `ProgressStaleSeconds` (mặc định 120) mà không có Progress event mới **và** `IsWindowEnabled(mainHandle)` → reset + log Warning ("progress depth reset after stale N s"). Mọi chuyển trạng thái log Debug; `NavisInfo.IsBusy` phơi composite để harness assert về idle sau S-08.
-- `ModalOpen()`: `GetWindow(mainHandle, GW_ENABLEDPOPUP) != 0 || !IsWindowEnabled(mainHandle)` (bắt cả dialog native). **[chưa xác minh]** `Idle` có bắn khi modal mở (S-07).
+- `ModalOpen()`: **`!IsWindowEnabled(mainHandle)` — chỉ vậy** (dialog modal native/WPF/WinForms đều disable owner). *Revised 2026-09-15 (S-07):* `GW_ENABLEDPOPUP` bị bỏ vì nó báo cả **cửa sổ trạng thái modeless của chính bridge** (owned by main) → mọi request `-32002` khi cửa sổ mở.
+- **`Idle` KHÔNG bắn khi modal native mở (S-07 verified):** request treo tới khi user đóng dialog. Fix: `MainThreadQueue(…, expireWithoutTicks: true)` — engine **additive, opt-in**, default `false` (Revit/AutoCAD giữ tick-only): `Task.Delay(grace+50 ms)` → `FailExpired()` chỉ đụng item còn trong queue → `-32002` sau 8 s (đo 8 s/request, 16.3 s cho context+execute). Test: `MainThreadQueueTests` +2 (net10 + net48).
+- **Progress depth verified (S-08):** load file → depth 1→3→0 trong ~1 s; clash 852 kết quả 61 ms; sau run `IsBusy=false`. Request thứ hai gửi khi một run đang chạy → `-32002` ngay (một run một lúc).
 - `RequireDocument()`: `ActiveDocument` null hoặc `IsClear` → `-32003`.
 - `BusyGrace = 8 s`; mã lỗi `-32002/-32003/-32001` không đổi.
 
@@ -92,4 +94,4 @@
 
 - Core additive: `GuardProfile.Navis`, `AnalyzerProfile.Navis`, `IHostProfile/HostProfile.MaxTimeoutSeconds` (+ 3 site clamp), hằng Contracts. **Không đổi:** `MainThreadQueue`, `RequestDispatcher`, `AuditEntry`, `BridgeSettings`, `IMcpBridgeRunner`, `McpBridgeStatusViewModel`, `ToolRecord`, `AnalyzeRequest`, `IBridgeExecutor`.
 - Host-side mới: `NavisHeavyGate` (pre-pass + path policy + clamp), `NavisBridgeStatusViewModel` (bao Core VM + cờ heavy), quiescence counter, audit `started`.
-- Spike S-03/S-07/S-08 xác minh `[chưa xác minh]`; S-11 (phase 1) kiểm pre-pass chặn `Expression.Call`/`NavisworksCommand`.
+- ~~Spike S-03/S-07/S-08 xác minh~~ **Đã xác minh 2026-09-15** (`reports/phase-01-spike.md`): S-03 ping 0.01 s/context 0.08 s không chạm chuột (wake `WM_NULL` đủ); S-07 → `-32002` sau 8 s (cần `expireWithoutTicks`); S-08 (script-driven) depth về 0, clash chạy từ GUI chưa tự động hoá; S-11 7 guard + 3 heavy case đều `GUARD`/`HEAVY`, không chạy.

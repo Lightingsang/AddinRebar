@@ -1,0 +1,168 @@
+<Window x:Class="HPNavis.McpBridge.View.NavisBridgeStatusView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:HPNavis.McpBridge.ViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:NavisBridgeStatusViewModel}"
+        Title="HPNavis MCP Bridge"
+        Width="560" Height="660"
+        MinWidth="480" MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HPNavis.McpBridge;component/Resources/Themes/NavisTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Status dot colour follows the bridge state; brushes are theme tokens. -->
+            <Style x:Key="StatusDot" TargetType="Ellipse">
+                <Setter Property="Width" Value="12"/>
+                <Setter Property="Height" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Foreground.Tertiary}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Listening">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Info}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Connected">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Success}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Busy">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Warning}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Error">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Danger}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="SelfCheckText" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelfCheckOk}" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Brush.Danger}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="{DynamicResource Spacing.Medium}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: state + listener toggle -->
+        <Border Grid.Row="0" Style="{DynamicResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse Grid.Column="0" Style="{DynamicResource StatusDot}" Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+                <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                    <TextBlock Style="{DynamicResource Subheading}" Text="{Binding Core.StatusText}" TextWrapping="Wrap"/>
+                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding Core.StatusDetail}" Foreground="{DynamicResource Brush.Danger}"
+                               AutomationProperties.AutomationId="StatusDetail"/>
+                    <TextBlock Style="{DynamicResource Caption}">
+                        <Run Text="Pipe"/> <Run Text="{Binding Core.PipeName, Mode=OneWay}"/> <Run Text="· Navisworks"/> <Run Text="{Binding Core.RevitVersion, Mode=OneWay}"/>
+                        <Run Text="· host:"/> <Run Text="{Binding HostState, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Style="{DynamicResource SelfCheckText}" Text="{Binding SelfCheckText}" AutomationProperties.AutomationId="SelfCheck"/>
+                </StackPanel>
+
+                <Button Grid.Column="2" Style="{DynamicResource PrimaryButton}" MinWidth="120" VerticalAlignment="Center"
+                        AutomationProperties.AutomationId="ToggleListener"
+                        Content="{Binding Core.ToggleButtonText}" Command="{Binding Core.ToggleListenerCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Safety: the two per-session opt-ins and what they mean -->
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel>
+                <TextBlock Style="{DynamicResource BodyStrong}" Text="Safety"/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
+                          IsChecked="{Binding Core.IsExecutionEnabled}"
+                          Content="Allow AI code execution in this Navisworks session"
+                          ToolTip="Scripts written by the AI run inside Navisworks with your full user rights. The bridge blocks obvious escapes (files, network, processes, SQL, reflection, dialogs) but is not a sandbox. Turned off again every time Navisworks starts."/>
+
+                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
+                           Text="Off by default. Every script runs inside a transaction the bridge owns and shows up as one Undo entry 'MCP: …'. Dry runs are undone right after they commit."/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowHeavy"
+                          IsChecked="{Binding IsHeavyEnabled}" IsEnabled="{Binding CanEnableHeavy}"
+                          Content="Allow heavy operations (append/merge files, save, export, run clash tests)"
+                          ToolTip="These cannot be undone or interrupted and may take minutes. Off on every start; only available while code execution is allowed. Save your work first."/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
+                          IsChecked="{Binding Core.AutoStartListener}"
+                          Content="Start the listener automatically when Navisworks opens"
+                          ToolTip="Only the listener. Code execution still needs the box above, every session."/>
+            </StackPanel>
+        </Border>
+
+        <!-- Last run -->
+        <Border Grid.Row="2" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0">
+                    <Button DockPanel.Dock="Right" Style="{DynamicResource LinkButton}" Content="Copy script"
+                            Command="{Binding Core.CopyLastScriptCommand}"/>
+                    <TextBlock Style="{DynamicResource BodyStrong}" Text="Last run"/>
+                </DockPanel>
+
+                <TextBlock Grid.Row="1" Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                           Text="{Binding Core.LastRunSummary}"/>
+
+                <TextBox Grid.Row="2" Style="{DynamicResource StandardTextBox}" Margin="{DynamicResource Spacing.SmallTop}"
+                         Text="{Binding Core.LastScriptPreview, Mode=OneWay}" IsReadOnly="True"
+                         FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}"
+                         AcceptsReturn="True" TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </Grid>
+        </Border>
+
+        <!-- Footer -->
+        <Grid Grid.Row="3" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Style="{DynamicResource Caption}">
+                    <Run Text="Compiled scripts:"/> <Run Text="{Binding Core.CompiledScriptCount, Mode=OneWay}"/>
+                    <Run Text=" (each stays in memory until Navisworks restarts)"/>
+                </TextBlock>
+                <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
+                        Command="{Binding Core.OpenAuditFolderCommand}" ToolTip="{Binding Core.AuditDirectory}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Style="{DynamicResource SecondaryButton}" MinWidth="100" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                        Content="Restart bridge" Command="{Binding Core.RestartBridgeCommand}"
+                        ToolTip="Drops the current MCP connection and reopens the pipe. Does not free compiled scripts."/>
+                <Button Style="{DynamicResource PrimaryButton}" MinWidth="100"
+                        Content="Close" Command="{Binding Core.CloseCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
