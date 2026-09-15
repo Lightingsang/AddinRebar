@@ -1,6 +1,7 @@
 """Stdio smoke of the published HPNavis.Mcp.Server.exe against a running bridge (Roamer.exe with the plugin,
 listener up, execution opt-in ticked — run-server-smoke.ps1 does that part). One session: initialize,
-tools/list, get_navis_context, a read-only execute, a dry-run edit, inspect_type, search_tools. Prints one
+tools/list (12 core + registry + the 12 embedded seeds), get_navis_context, a read-only execute, a dry-run edit, the heavy
+refusal, inspect_type, search_tools hit + miss. Prints one
 line per check and a JSON summary; exit 1 on any failure.
 
 Usage: python server-smoke.py <exe> --registry <isolated root dir>
@@ -16,7 +17,7 @@ for stream in (sys.stdout, sys.stderr):
 HERE = os.path.dirname(os.path.abspath(__file__))
 import importlib.util
 
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "HPAutoCad", "tools", "harness", "mcp-session.py"))
+spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
 mcp_session = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mcp_session)
 
@@ -45,8 +46,9 @@ def main():
         check("initialize: serverInfo.name == HPNavis MCP", init.get("serverInfo", {}).get("name") == "HPNavis MCP", json.dumps(init.get("serverInfo")))
 
         tools = s.tools()
-        expected = {"execute_navis_code", "get_navis_context", "inspect_type", "cancel_execution", "search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool"}
-        check("tools/list == the 12 core + registry tools", set(tools) == expected, f"{len(tools)}: {sorted(tools)}")
+        core = {"execute_navis_code", "get_navis_context", "inspect_type", "cancel_execution", "search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool"}
+        # 12 core + registry tools plus the 12 embedded seeds installed on first start (an approved tool would add more)
+        check("tools/list: the 12 core + registry tools and >= 12 seeds (24+)", core <= set(tools) and len(tools) >= 24, f"{len(tools)}: {sorted(tools)}")
 
         t0 = time.time()
         ctx = s.tool("get_navis_context", {"includeSelection": True})   # the context snapshot itself
@@ -79,7 +81,10 @@ def main():
         check("inspect_type SelectionSet: members listed", not r.get("isError") and "DisplayName" in text, text[:160])
 
         r = s.tool("search_tools", {"query": "selection set"})
-        check("search_tools answers with an empty registry: 0 hits and the execute hint", not r.get("rpcError") and r.get("count") == 0 and "execute_navis_code" in (r.get("hint") or ""), json.dumps(r)[:120])
+        names = [t.get("name") for t in (r.get("tools") or [])]
+        check("search_tools 'selection set' hits the seeds", not r.get("rpcError") and r.get("count", 0) >= 1 and "list_selection_sets" in names, json.dumps(names)[:160])
+        r = s.tool("search_tools", {"query": "qzxvw"})
+        check("search_tools miss: 0 hits and the execute hint", not r.get("rpcError") and r.get("count") == 0 and "execute_navis_code" in (r.get("hint") or ""), json.dumps(r)[:120])
     finally:
         s.close()
 

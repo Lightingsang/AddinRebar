@@ -1,20 +1,21 @@
 # HPNavis — MCP bridge for Autodesk Navisworks Manage 2026
 
 Turns Navisworks into a runtime for an AI agent, the way `HPRebar/` does for Revit and `HPAutoCad/` for AutoCAD:
-a plugin inside `Roamer.exe` compiles and runs reviewed C# against the open model over a named pipe, and (from
-phase 3) a stdio MCP server exe the host AI launches. Shared engine: `../McpShared/` only — this folder never
+a plugin inside `Roamer.exe` compiles and runs reviewed C# against the open model over a named pipe, and a stdio MCP
+server exe the host AI launches. Plan complete (phases 0–5, 2026-09-15), everything verified live in Navisworks Manage 2026. Shared engine: `../McpShared/` only — this folder never
 references `HPRebar/` or `HPAutoCad/`.
 
 **Navisworks runs on .NET Framework 4.8**, unlike Revit/AutoCAD 2026 (.NET 8). The plugin is `net48` and consumes the
 `net48` asset of `HPRebar.McpBridge.Core`. There is no isolated load context on .NET Framework; instead
-`PluginAssemblyResolver` binds Roslyn and its System.* companions to the copies beside the plugin (allow-list,
-only for requests from this plugin), and the start-up self-check verifies they came from there.
+`PluginAssemblyResolver` binds Roslyn and its System.* companions to the copies beside the plugin (allow-list; Roamer
+passes no requesting assembly, so the gate is the version family — same major, not newer than our file), and the start-up
+self-check verifies they came from there.
 
 | Project | TFM | What |
 |---|---|---|
 | `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `AddInPlugin` "HPNavis MCP" in the Add-ins menu (status window). |
 | `HPNavis.Mcp.Server` | net10 | The stdio MCP server exe the host AI launches: `NavisHostProfile` (pipe `hpnavis-mcp-2026`, prefix `navis.`, registry root `%AppData%\HPNavis\McpServer\`, 600 s ceiling), `execute_navis_code`, `get_navis_context`, prompts `navis_query_template` / `navis_review_template`, resources `navis://document/info` and `navis://selection`, plus the engine's `inspect_type`, `cancel_execution` and 8 registry tools. Never references the Navisworks API. |
-| `HPNavis.McpBridge.Tests` | net48 | xUnit v3 over the plugin's pure layers: undo rules, heavy gate, fingerprint delta, serializer bounds, resolver folder test — 62 cases, no Navisworks running (needs the API installed to build the plugin). |
+| `HPNavis.McpBridge.Tests` | net48 | xUnit v3 over the plugin's pure layers: undo rules, heavy gate, fingerprint delta, serializer bounds, resolver folder test, every seed compiled with the bridge's own compiler — 124 cases, no Navisworks running (needs the API installed to build the plugin). |
 | `HPNavis.Mcp.Server.Tests` | net10 | xUnit v3: the profile and tool surface this exe registers, the tools over a real pipe with a fake executor (600 s pass-through, refusal codes naming Navisworks, no-bridge error without machine paths) — 12 tests. |
 
 ## Build, deploy, remove
@@ -61,7 +62,7 @@ powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-server-sm
 ```
 
 Starts Roamer with `gatehouse_pub.nwd`, ticks the opt-in, then runs one stdio session (`server-smoke.py`): initialize, tools/list,
-get_navis_context, read-only execute, dry-run edit, heavy refusal, inspect_type, search_tools — 8/8 on 2026-09-15.
+get_navis_context, read-only execute, dry-run edit, heavy refusal, inspect_type, search_tools hit + miss — 9/9 on 2026-09-15 (the seeded registry lists 24 tools).
 
 ## Using it
 
@@ -75,7 +76,23 @@ get_navis_context, read-only execute, dry-run edit, heavy refusal, inspect_type,
 Logs: `%LocalAppData%\HPNavis\McpBridge\logs\` (look for `MCP scripting self-check OK`). Audit: `%AppData%\HPNavis\McpBridge\audit\`.
 Settings (`AutoStartListener` only): `%AppData%\HPNavis\McpBridge\settings.json`.
 
-## Unattended check (phase-1 spike harness)
+## Unattended checks
+
+All in `tools/harness/` (README there), Windows PowerShell 5.1, Navisworks closed, plugin deployed. The phase-5 proof:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-live-verify.ps1 -WithNoDoc -IncludeIsolation
+```
+
+One stdio session per phase against the published exe on an isolated registry root: opt-in off, the execute matrix (15),
+every seed (14), the registry loop (18: MISS → ad-hoc → `propose_tool` → `test_tool` → `publish_tool` → CLI `registry approve`
+→ visible in 0.5 s → call by name; fragile tool quarantined after 5 failures → `restore` + `newVersion` → re-approved;
+heavy proposal refused), context/resources/prompts (5), a modal dialog (busy, then fine again), heavy ON (clash test, file
+append), a Roamer without a model, and isolation (second Roamer → "pipe already in use — another Navisworks 2026 instance";
+plugin folder parked → silent Roamer, restored in `finally`). 2026-09-15: 62 pass, 0 skip, 0 fail, ~150 s, runs 2–4 (run 1: 59 + 1 harness-assertion fail) —
+`plans/260915-0824-navisworks-mcp-2026/reports/phase-05-live-verify.md`.
+
+### Bridge over the pipe (phase-2 harness)
 
 ```powershell
 # Windows PowerShell 5.1 (not pwsh); Navisworks closed; plugin deployed

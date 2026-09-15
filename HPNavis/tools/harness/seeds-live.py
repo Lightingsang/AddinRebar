@@ -17,7 +17,7 @@ for stream in (sys.stdout, sys.stderr):
         pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "HPAutoCad", "tools", "harness", "mcp-session.py"))
+spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
 mcp_session = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mcp_session)
 

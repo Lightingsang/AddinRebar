@@ -1,7 +1,7 @@
 ---
 title: "HPNavis MCP Bridge 2026 (Navisworks Manage 2026, .NET Framework 4.8)"
 description: "AI → MCP → Navisworks 2026 trong folder top-level riêng HPNavis/, engine chung ở McpShared/ đa mục tiêu net8.0;net48; tool surface nghiêng truy vấn/phân tích/báo cáo; dryRun = commit-then-Rollback có điều kiện"
-status: in-progress
+status: completed
 priority: P2
 effort: 56h
 branch: RebarVersion1
@@ -14,7 +14,7 @@ blocks: []
 
 # HPNavis MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-15 · **Status:** in-progress — phase 0–3 committed; phase 4 done (12 seeds live, 24 tools); phase 5 planned; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
+**Ngày:** 2026-09-15 · **Status:** **complete** — phases 0–5 committed and verified live in Navisworks Manage 2026 (2026-09-15); harness 62 pass ×3, Revit/AutoCAD byte-identical; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
 
 ## Executive summary
 - **Host khác hẳn hai host cũ:** Roamer.exe = .NET Framework 4.8 (E1). `McpShared/HPRebar.McpBridge.Core` (net8.0) **đa mục tiêu `net8.0;net48`** — probe: 2 shim `#if NET48` + 4 property type + Polyfill; Roslyn 5.9 scripting **đã chạy** trên 4.8.9181 với `AssemblyResolve` hẹp ([ADR-01](adr/adr-01-net48-host-multitarget-mcpbridge-core.md), E12–E13). Automation API chỉ open/append/save/print → ngoài tiến trình **loại** (E7).
@@ -34,7 +34,7 @@ blocks: []
 | 2 | [phase-02](phase-02-navis-bridge-runtime-transactions-context-window.md) — runner (ma trận có điều kiện), fingerprint, serializer, context, heavy gate host-side, cửa sổ 2 checkbox, `HPNavis.McpBridge.Tests` net48; harness pipe ≥ 22 | **built + tested + verified live 2/2 (2026-09-15)** — `NavisUndoDecision`, bounded serializer, `HPNavis.McpBridge.Tests` 62, harness 43 check/run + no-doc (`reports/phase-02-bridge-runtime.md`); commit `a1b1b0b` | 0, 1 | 12h (≈5h) |
 | 3 | [phase-03](phase-03-hpnavis-mcp-server-exe-profile-tools-tests.md) — exe `HPNavis.Mcp.Server` + `NavisHostProfile` (600 s) + 4 tool/prompt/resource + tests; `.mcp.json`; lần đầu client net10 ↔ bridge net48 thật | **built + tested + verified live (2026-09-15)** — exe published, 12 tests, stdio smoke 8/8 qua bridge thật (net10 ↔ net48 pipe ACL OK), `.mcp.json` `hprebar-navis` (local) (`reports/phase-03-server.md`); commit `3ef5c36` | 0 | 6h (≈2h) |
 | 4 | [phase-04](phase-04-navis-seed-library-and-registry-per-host.md) — 12 seed, compile-check net48, structure test net10, registry live (heavy qua `run_tool`) | **built + tested + verified live (2026-09-15)** — 12 seed, compile-check net48 qua compiler của bridge (124), structure net10 (49), live 18/18 + heavy 2/2, `tools/list` 24; review 8/10 → Hi1, M1–M4 fixed (`reports/phase-04-seeds.md`); commit `db1a6dc` | 0, 2, 3 | 10h (≈3h) |
-| 5 | [phase-05](phase-05-live-verify-harness-registry-loop-and-docs.md) — `McpShared/tools/` canonical, harness ≈ 62 scenario ×3, registry loop, hồi quy, docs/CLAUDE.md/AGENTS.md | planned | 2, 3, 4 | 10h |
+| 5 | [phase-05](phase-05-live-verify-harness-registry-loop-and-docs.md) — `McpShared/tools/` canonical, harness ≈ 62 scenario ×3, registry loop, hồi quy, docs/CLAUDE.md/AGENTS.md | **built + tested + verified live (2026-09-15)** — `McpShared/tools/` canonical, `run-live-verify.ps1` 62 pass ×3 (E 15 / S 14 / R 18 / C 5 + modal/heavy/nodoc/isolation), Revit 33 / AutoCAD 24 `tools/list` byte-identical, tests 128+60+109+58+124+49, docs + CLAUDE.md section; review 8/10 → M1–M3 fixed (`reports/phase-05-live-verify.md`); commit __COMMIT5__ | 2, 3, 4 | 10h (≈4h) |
 
 ## Key decisions (Claude tự chốt — đổi được)
 | # | Vấn đề | Chốt | Lý do |

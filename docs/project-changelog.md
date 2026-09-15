@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-15 — Navisworks MCP (plan 260915-0824-navisworks-mcp-2026, phases 0–5)
+
+**Bổ sung:** `HPNavis/` — plugin `HPNavis.McpBridge` (net48) trong Roamer.exe + server `HPNavis.Mcp.Server` (net10, stdio) với `NavisHostProfile`, 24 tools (4 core + 8 registry + 12 seed nhúng: 8 read-only, 3 review edit, 1 heavy `create_and_run_clash_test`), resources `navis://document/info`/`navis://selection`, prompts `navis_query_template`/`navis_review_template`. Engine `McpShared/`: `HPRebar.Mcp.Contracts` multi-target `netstandard2.0;net48`, `HPRebar.McpBridge.Core` `net8.0;net48` (`PipeSecurity` ACL, `MainThreadQueue(expireWithoutTicks)`), `HostScriptContracts.NavisHeavyMaxTimeoutSeconds = 600`, `McpShared/tools/` (script stdio host-neutral). Undo policy commit-rồi-`Rollback()` chỉ khi `NextUndo` là entry của bridge; heavy gate với opt-in thứ hai; quiescence bằng Progress depth + `IsWindowEnabled`.
+
+**Xác minh:** live trong Navisworks Manage 2026: bridge 43 check ×2 + no-doc, server smoke 9/9, seeds 18/18 + 2/2, live-verify 62 pass trên run 2–4 (run 1: 59 + 1 fail ở assertion của harness) (execute matrix, mọi seed, registry loop MISS→propose→test→publish→CLI approve→list_changed 0.5 s→gọi theo tên, quarantine→restore→newVersion, heavy proposal bị từ chối, modal, heavy ON clash 3 015 kết quả + append, no-doc, isolation Roamer thứ hai + gỡ plugin). Hồi quy: Revit 33 / AutoCAD 24 `tools/list` byte-identical với snapshot phase 0 sau rebuild Release; tests 128 + 60 + 109 + 58 + 124 + 49. Chưa làm: Ribbon tab Navisworks (quyết định để sau phase 5).
+
 ## 2026-09-14 — AutoCAD MCP bridge: Ribbon tab "MCP AutoCAD" (plan 260914-2204-autocad-ribbon-tab)
 
 **Bổ sung:** Ribbon tab "MCP AutoCAD" (bundle 0.2.0) in the loader via Autodesk.Windows (compile-time only). Tab id `HPAUTOCAD_MCP_TAB`; three panels (Kết nối: status window, start/stop, status, live label; Công cụ: copy last script, tool library; Thiết lập: logs, audit, auto-start toggle, guide); 9 buttons + 1 live label, all forward to bridge entry points (status.subscribe, copyLastScript, autoStart.get/set, path, show/start/stop/status). Entry points cross ALC via BCL types only. No CUIx modification. Tab lifecycle: created once on Ribbon init, re-created after workspace switch (SystemVariableChanged → Idle → EnsureCreated guard), guarded against duplication, removed on Terminate. Icons are vector drawings in code. When bridge unavailable, Ribbon buttons disabled with tooltip.

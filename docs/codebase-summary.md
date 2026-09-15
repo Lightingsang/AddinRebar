@@ -1,16 +1,17 @@
-# Codebase Summary — HPRebar + AutoCAD Bridge
+# Codebase Summary — HPRebar + AutoCAD Bridge + Navisworks Bridge
 
-Cập nhật: 2026-09-14
+Cập nhật: 2026-09-15
 
 ## Repository Layout
 
-Gồm 4 unrelated deliverables (không cross-wire):
+Gồm 5 unrelated deliverables + 1 thư mục engine chung (không cross-wire; chiều phụ thuộc duy nhất: thư mục MCP → `McpShared/`):
 
 | Thư mục | Loại | Stack |
 |---|---|---|
 | `HPRebar/` | Revit add-in + server MCP | C# / Nice3point / WPF / xUnit / TUnit |
-| `McpShared/` | Host-neutral MCP engine | netstandard2.0 · net8.0 · net10.0 |
-| `HPAutoCad/` | AutoCAD add-in + server MCP (phases 1–3 ✅ verified) | C# / AutoCAD.NET / Roslyn (kế thừa từ McpShared) |
+| `McpShared/` | Host-neutral MCP engine (+ `tools/` script harness stdio dùng chung) | netstandard2.0 · net48 · net8.0 · net10.0 |
+| `HPAutoCad/` | AutoCAD add-in + server MCP (phases 1–5 ✅ verified) | C# / AutoCAD.NET / Roslyn (kế thừa từ McpShared) |
+| `HPNavis/` | Navisworks Manage 2026 plugin + server MCP (phases 0–5 ✅ verified 2026-09-15) | C# / net48 (plugin) · net10 (server) / Navisworks API 23.0 |
 | `revit-market-research/` · `scripts/skill_sync/` · `course-website/` | Tooling | Node / Python / HTML |
 
 ## HPRebar Solution
@@ -34,8 +35,8 @@ Gồm 4 unrelated deliverables (không cross-wire):
 
 | Project | TFM | Vai trò |
 |---|---|---|
-| `HPRebar.Mcp.Contracts/` | netstandard2.0 | Envelope JSON-RPC + DTO chung server ↔ bridge. Không Revit, không MCP SDK |
-| `HPRebar.McpBridge.Core/` | net8.0 | Pipe listener/dispatcher, Roslyn `ScriptGuard`/`ScriptCompiler`, `BridgeSettingsStore`, `RequestDispatcher`. Logic không chạm Revit; test xUnit + pipe thật |
+| `HPRebar.Mcp.Contracts/` | netstandard2.0 · net48 | Envelope JSON-RPC + DTO chung server ↔ bridge. Không Revit, không MCP SDK. Asset net48 vì Roamer.exe reflect mọi type plugin trước khi resolver chạy |
+| `HPRebar.McpBridge.Core/` | net8.0 · net48 | Pipe listener/dispatcher, Roslyn `ScriptGuard`/`ScriptCompiler`, `BridgeSettingsStore`, `RequestDispatcher`. Logic không chạm Revit; test xUnit + pipe thật |
 | `HPRebar.Mcp.Server.Core/` | net10.0 | `McpServerHost` (builder pattern), `HostProfile` interface + Revit impl, `ExecuteCodeService`/`ContextService`, Registry engine (SQLite/FTS5 + FileSystemWatcher), 4 core tool + registry CLI |
 | `HPRebar.Mcp.Server.Core.Tests/` | net10.0 | xUnit v3 — 96 test: host-neutrality, registry per profile, guard/compiler/args/analyzer, HostProfile binding, registry store/db/validator, pipe round-trip fake executor, both Revit + AutoCAD profiles, stability window |
 
@@ -252,3 +253,17 @@ Chính sách transaction: `auto` (bridge mở Transaction trong Group) · `manua
 Client: `.mcp.json` (untracked) entry `hprebar-revit` → `HPRebar/output/HPRebar.Mcp.Server/HPRebar.Mcp.Server.exe` (từ `dotnet publish … -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true`). Bridge cần bật listener (auto-start theo `settings.json`) và tick "Allow AI code execution" mỗi phiên Revit.
 
 Registry (ADR-05/06): tool = `tool.json + code.cs + examples.json` ở `%AppData%\HPRebar\McpServer\tools-library\` (đổi qua `Registry:LibraryPath`); `registry.db` giữ lịch sử chạy + độ ổn định; policy `manual` — AI dừng ở `pending_approval` + `_review/<name>.md`, người duyệt bằng `HPRebar.Mcp.Server.exe registry approve <name> --by <ai>`; server đang chạy nhận thay đổi qua watcher (không restart). Đã verify live 3 kịch bản ngày 2026-09-12 (`plans/…/reports/phase-09-live-verify.md`).
+
+## HPNavis Solution
+
+`HPNavis/HPNavis.slnx` + global.json + `Directory.Build.props` (API lấy từ bản Navisworks cài trên máy — không NuGet). Reference McpShared only. Phases 0–5 (2026-09-15) verified live trong Navisworks Manage 2026 (23.0.1432.76). Chi tiết: mục "HPNavis MCP Bridge" trong `CLAUDE.md`, plan `plans/260915-0824-navisworks-mcp-2026/`.
+
+| Project | TFM | Vai trò |
+|---|---|---|
+| `HPNavis.McpBridge/` | net48 | Plugin trong Roamer.exe: `HPNavisBridgePlugin` (EventWatcher: listener + `NavisMainThreadExecutor`) + `HPNavisWindowPlugin` (Add-in "HPNavis MCP" → status window WPF). `PluginAssemblyResolver` (allow-list + version family cho Roslyn 5.9/Immutable 10 trên .NET Framework), `NavisScriptRunner` + `NavisUndoDecision` (commit rồi `Rollback()` chỉ khi `NextUndo` là entry của mình), `NavisHeavyGate` (opt-in thứ hai, path policy, ceiling 600 s), `NavisQuiescence`, `NavisChangeCounter`, `NavisResultSerializer` (`BoundedOutputStream`, collection cap 200), `ScriptingSelfCheck` |
+| `HPNavis.Mcp.Server/` | net10.0 console | `NavisHostProfile` (HostId `navis`, 600 s, categories Model/Search/Selection/Viewpoint/Clash/Timeliner/Report/Data/Generic), `execute_navis_code`/`get_navis_context`, resources `navis://document/info`, `navis://selection`, prompts `navis_query_template`/`navis_review_template`, 12 seed nhúng (`Registry/SeedLibrary/**`) → 24 tools |
+| `HPNavis.McpBridge.Tests/` | net48 | xUnit v3 — 124 test: heavy gate, undo decision, change counter, serializer bound (pull-count), resolver, mọi seed compile qua `BridgeEntry.CreateScriptCompiler` (import/reference/globals thật của bridge) |
+| `HPNavis.Mcp.Server.Tests/` | net10.0 | xUnit v3 — 49 test: profile, tool surface, tools qua pipe thật với fake executor, cấu trúc seed record dưới profile Navis |
+| `tools/harness/` | PowerShell 5.1 + Python | `run-bridge-unattended.ps1` (43 check/run), `run-server-smoke.ps1` (9), `run-seeds-live.ps1` (18 + 2), `run-live-verify.ps1` + `live-verify.py` (phase 5: 62 pass on runs 2–4, run 1 59 + 1 harness-assertion fail, import `McpShared/tools/mcp-session.py`) |
+
+**Sự thật load-bearing:** Navisworks 2026 chạy .NET Framework 4.8 → không có AssemblyLoadContext; `HPRebar.Mcp.Contracts` phải có asset `net48` thật (asset netstandard tham chiếu System.Text.Json 10.0.0.0 không bind được với package asset net462 10.0.0.12). `Application.Idle` im lặng dưới native modal → `MainThreadQueue(expireWithoutTicks: true)` hết hạn busy grace bằng timer. Roamer khởi động qua Automation API tự thoát sau ~15 s trên máy dev → harness chạy `Roamer.exe "<model>"` trực tiếp với `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1`.

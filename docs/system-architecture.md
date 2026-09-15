@@ -494,3 +494,30 @@ AI ──stdio──▶ HPAutoCad.Mcp.Server (phase 3)
 **Verified unattended (21/21 scenarios ×2):** `HPAutoCad/tools/harness/` (Python + PowerShell): opt-in off, execute variants, dryRun, none-mode, cancel, timeout, busy after 8 s, SECURELOAD auto-accept, UI Automation opt-in, no document, undo merge, COM reachback (close/busy/REGEN/U). Zero `.NET Runtime 1026` crashes; 234+ audit lines.
 
 **Mục tiêu phase 3–5:** server exe + AutocadHostProfile + tools/resources (phase 3), tests (phase 4), multi-version R26/R27 (phase 5).
+
+# Navisworks MCP Bridge — Architecture (Phases 0–5, 2026-09-15)
+
+```
+Claude Code ──stdio──▶ HPNavis.Mcp.Server (net10)                       HPNavis.McpBridge (net48, inside Roamer.exe)
+                        ├─ NavisHostProfile (24 tools, resources, prompts)   ├─ PluginAssemblyResolver (Roslyn 5.9 + Immutable 10, allow-list + version family)
+                        ├─ Registry engine per host (SQLite + FTS5, CLI)     ├─ RequestDispatcher (navis.* ≡ revit.* suffix routing)
+                        └─ BridgeClient ──pipe hpnavis-mcp-2026──▶            ├─ ScriptGuard(GuardProfile.Navis) + ScriptCompiler (pipe thread)
+                              PipeSecurity owner-SID ACL (= CurrentUserOnly)  ├─ NavisHeavyGate (HEAVY diagnostic, second opt-in, path policy, 600 s ceiling)
+                                                                              ├─ MainThreadQueue(expireWithoutTicks) → Application.Idle + PostMessage(WM_NULL)
+                                                                              │    quiescent = Progress depth 0 ∧ IsWindowEnabled(main) ∧ no transaction
+                                                                              ├─ NavisScriptRunner → one Transaction "MCP: <label>"; NavisUndoDecision:
+                                                                              │    dryRun = commit then Document.Rollback() iff NextUndo is ours ∧ changed
+                                                                              ├─ NavisChangeCounter (fingerprint sets/viewpoints/models/selection/clash/NextUndo)
+                                                                              └─ NavisResultSerializer (BoundedOutputStream, collections ≤ 200)
+```
+
+| Quyết định | Lựa chọn | Lý do |
+|---|---|---|
+| Runtime plugin | `net48`, không ALC | Roamer.exe host CLR 4.8; resolver process-wide thay cho load context |
+| Contracts TFM | `netstandard2.0;net48` | Roamer reflect mọi type plugin trước khi plugin chạy (discovery-before-resolver) |
+| Transaction | Bridge sở hữu transaction duy nhất; `manual` ≡ `auto` | Navisworks không có scoped rollback; `Document.Rollback()` undo entry đầu stack |
+| Heavy ops | Opt-in thứ hai + pre-pass syntax + path policy | Append/Save/Export/Clash không undo, không interrupt |
+| Busy | Timer hết hạn grace 8 s | `Application.Idle` không bắn dưới native modal (file dialog) |
+| Harness | `Roamer.exe "<model>"` trực tiếp, UIA chỉ trong cửa sổ của ta | Automation API Roamer tự thoát ~15 s; UIA desktop-wide timeout |
+
+Live verify 2026-09-15 (`HPNavis/tools/harness/run-live-verify.ps1 -WithNoDoc -IncludeIsolation`): 62 pass on runs 2–4 (run 1: 59 + 1 fail in the harness's own assertion), ~150 s/run; Revit/AutoCAD `tools/list` byte-identical với snapshot phase 0 sau rebuild Release; tests 128 + 60 + 109 + 58 + 124 + 49.
