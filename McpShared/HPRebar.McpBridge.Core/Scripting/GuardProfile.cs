@@ -41,6 +41,39 @@ public sealed class GuardProfile
         },
         deniedNamespaces: new[] { "Autodesk.AutoCAD.Interop", "System.Windows.Forms" });
 
+    /// <summary>
+    ///     Navisworks (Roamer.exe, .NET Framework 4.8) is a review tool: geometry is read-only and the API
+    ///     offers no scoped rollback, so the bridge owns the only transaction and decides undo itself.
+    ///     Denied here: anything that touches the undo stack or opens a transaction of the script's own
+    ///     (<c>Document.Rollback()</c> undoes the user's last edit, not the script's); the embedded SQLite
+    ///     surface (<c>Document.Database</c> → <c>NavisworksCommand</c> executes arbitrary SQL, <c>ATTACH</c>
+    ///     reads/writes files); COM/Automation (spawns a second Navisworks or bypasses the .NET API);
+    ///     reflection-by-expression (<c>Expression.Call(...).Compile()</c>, <c>Delegate.CreateDelegate</c>
+    ///     reach any member by name, past this deny-list); modal UI. Heavy file/clash operations are not
+    ///     listed: the Navisworks bridge gates those behind a second user opt-in with its own pre-pass.
+    /// </summary>
+    public static readonly GuardProfile Navis = new GuardProfile(
+        "Navisworks",
+        deniedIdentifiers: new[]
+        {
+            "MessageBox", "Transaction", "Expression", "Delegate",
+            "NavisworksApplication", "ComApiBridge", "NavisworksCommand", "NavisworksConnection", "NavisworksDataAdapter",
+        },
+        deniedMembers: new[]
+        {
+            // undo stack and transactions belong to the bridge
+            "BeginTransaction", "Undo", "Redo", "Rollback", "TryUndo", "TryRedo", "TryRollback", "StartDisableUndo", "EndDisableUndo",
+            // source-model units are the user's decision, custom properties need COM
+            "SetModelUnitsAndTransform", "SetUserDefined",
+            // embedded database and reflection-by-expression
+            "Database", "ToNavisworksConnection", "CreateDelegate", "Compile",
+        },
+        deniedNamespaces: new[]
+        {
+            "System.Windows.Forms", "Microsoft.Win32", "System.Data", "System.Linq.Expressions",
+            "Autodesk.Navisworks.Api.Automation", "Autodesk.Navisworks.Api.Interop", "Autodesk.Navisworks.Api.ComApi", "Autodesk.Navisworks.Api.Data",
+        });
+
     public GuardProfile(
         string hostName,
         IReadOnlyCollection<string>? deniedIdentifiers = null,
@@ -58,11 +91,21 @@ public sealed class GuardProfile
     /// <summary>Used in diagnostics: "… is not allowed in {HostName} scripts."</summary>
     public string HostName { get; }
 
+#if NET48
+    // IReadOnlySet<T> does not exist on .NET Framework; the read-only collection view keeps the set immutable to
+    // scripts (which import this namespace) — the backing HashSet still answers Contains in O(1).
+    /// <summary>Bare type/identifier names denied on top of the base list.</summary>
+    public IReadOnlyCollection<string> DeniedIdentifiers { get; }
+
+    /// <summary>Member names (any receiver) denied on top of the base list.</summary>
+    public IReadOnlyCollection<string> DeniedMembers { get; }
+#else
     /// <summary>Bare type/identifier names denied on top of the base list.</summary>
     public IReadOnlySet<string> DeniedIdentifiers { get; }
 
     /// <summary>Member names (any receiver) denied on top of the base list.</summary>
     public IReadOnlySet<string> DeniedMembers { get; }
+#endif
 
     /// <summary>Member names denied only when the receiver is a specific global, e.g. `tr.Commit()`.</summary>
     public IReadOnlyDictionary<string, string[]> DeniedMembersOnIdentifier { get; }

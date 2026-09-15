@@ -75,9 +75,23 @@ public sealed class PipeListener : IDisposable
             NamedPipeServerStream stream;
             try
             {
+#if NET48
+                // .NET Framework has no PipeOptions.CurrentUserOnly. Reproduce what the .NET client checks on its side
+                // (NdjsonPipeTransport connects with CurrentUserOnly, which compares the pipe's owner SID with the caller's
+                // WindowsIdentity.Owner): own the pipe as that SID and grant it alone. An elevated host therefore rejects a
+                // non-elevated server and vice versa — the same rule the net8 bridges already live under.
+                using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                var owner = identity.Owner ?? throw new InvalidOperationException("The current Windows identity has no owner SID.");
+                var security = new PipeSecurity();
+                security.SetOwner(owner);
+                security.AddAccessRule(new PipeAccessRule(owner, PipeAccessRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+                stream = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
+                    PipeOptions.Asynchronous, BufferSize, BufferSize, security);
+#else
                 // CurrentUserOnly = ACL for the current Windows user only; no other account can connect.
                 stream = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
                     PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly, BufferSize, BufferSize);
+#endif
             }
             catch (Exception exception)
             {

@@ -170,7 +170,7 @@ public sealed class ToolManager
         if (!record.IsRunnable) throw new ToolNotRunnableException($"Tool '{name}' is deprecated.");
         if (!record.IsPublished && !allowUnpublished) throw new ToolNotRunnableException($"Tool '{name}' is {ToolRegistryDb.StatusText(record.Status)}; pass allowUnpublished=true to run it anyway (it has not been approved).");
 
-        var timeout = Math.Clamp(record.TimeoutSeconds, 5, 120);
+        var timeout = Math.Clamp(record.TimeoutSeconds, ExecuteCodeService.MinTimeoutSeconds, _bridge.Profile.MaxTimeoutSeconds);
         var request = new ExecuteRequest(record.Code, record.Transaction, dryRun, timeout, name, args);
         var started = DateTimeOffset.UtcNow;
 

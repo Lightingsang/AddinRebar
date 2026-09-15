@@ -184,7 +184,7 @@ public sealed class MainThreadQueueTests
         var task = queue.RunAsync(new MainThreadWorkItem("read", _ => 1, CancellationToken.None));
         queue.OnTick();
 
-        Assert.True(task.IsCompletedSuccessfully);
+        Assert.Equal(TaskStatus.RanToCompletion, task.Status); // not IsCompletedSuccessfully: this file is also linked into the net48 test project
     }
 
     [Theory]

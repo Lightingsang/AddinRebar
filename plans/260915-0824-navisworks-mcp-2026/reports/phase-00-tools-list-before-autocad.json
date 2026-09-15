@@ -1,0 +1,996 @@
+[
+  {
+    "name": "add_linear_dimension",
+    "title": "Add a linear dimension",
+    "description": "Adds a dimension between two points given in millimetres, with the dimension line through dimLinePoint: rotated (horizontal by default, or at rotationDeg) or aligned to the two points. Uses the current dimension style unless dimStyle names another. Returns handle and the measured length in mm. [Registry tool v1, Annotation, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "p1": {
+          "type": "object",
+          "description": "First extension-line origin in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "p2": {
+          "type": "object",
+          "description": "Second extension-line origin in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "dimLinePoint": {
+          "type": "object",
+          "description": "A point the dimension line passes through, in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "aligned": {
+          "type": "boolean",
+          "default": false,
+          "description": "Aligned dimension (parallel to p1–p2) instead of a rotated one"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "default": 0,
+          "description": "Rotated dimensions only: angle of the dimension line in degrees (0 = horizontal, 90 = vertical)"
+        },
+        "dimStyle": {
+          "type": "string",
+          "description": "Existing dimension style name; default: the current style"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Existing layer name; default: the current layer"
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "p1",
+        "p2",
+        "dimLinePoint"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Add a linear dimension",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "add_text",
+    "title": "Add text",
+    "description": "Places single-line text (DBText) or multi-line text (MText) at a position given in millimetres, with height in mm and rotation in degrees, optionally on an existing layer. Returns handle and the entity type created. [Registry tool v1, Annotation, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The text; MText accepts \\P for a line break"
+        },
+        "position": {
+          "type": "object",
+          "description": "Insertion point in millimetres (bottom-left for DBText, top-left for MText)",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "heightMm": {
+          "type": "number",
+          "description": "Text height in millimetres (> 0)"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "default": 0,
+          "description": "Rotation in degrees, counter-clockwise"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Existing layer name; default: the current layer"
+        },
+        "mtext": {
+          "type": "boolean",
+          "default": false,
+          "description": "Create MText instead of single-line DBText"
+        },
+        "widthMm": {
+          "type": "number",
+          "description": "MText only: wrapping width in millimetres (0 = no wrap)"
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "text",
+        "position",
+        "heightMm"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Add text",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "cancel_execution",
+    "title": "Cancel running script",
+    "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    },
+    "annotations": {
+      "title": "Cancel running script",
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "create_layer",
+    "title": "Create or update a layer",
+    "description": "Creates a layer with an ACI colour index and optional lineweight; when the layer already exists it is skipped or updated according to ifExists. Returns whether it was created or updated. [Registry tool v1, Layer, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Layer name (AutoCAD naming rules: no < > / \\ \" : ; ? * | , = ` characters)"
+        },
+        "colorIndex": {
+          "type": "integer",
+          "default": 7,
+          "description": "ACI colour index 1–255 (7 = white/black)"
+        },
+        "lineweight": {
+          "type": "integer",
+          "description": "Lineweight in hundredths of a millimetre: 0, 5, 9, 13, 15, 18, 20, 25, 30, 35, 40, 50, 53, 60, 70, 80, 90, 100, 106, 120, 140, 158, 200, 211; omit for default"
+        },
+        "ifExists": {
+          "type": "string",
+          "default": "skip",
+          "description": "skip (default) or update the colour/lineweight of an existing layer"
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Create or update a layer",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "draw_circle",
+    "title": "Draw a circle",
+    "description": "Draws a circle from a centre point and radius given in millimetres, in the current space, optionally on an existing layer. Returns handle, radius and area. [Registry tool v1, Drawing, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "center": {
+          "type": "object",
+          "description": "Centre in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "radiusMm": {
+          "type": "number",
+          "description": "Radius in millimetres (> 0)"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Existing layer name; default: the current layer"
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "center",
+        "radiusMm"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Draw a circle",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "draw_polyline",
+    "title": "Draw a polyline",
+    "description": "Draws a lightweight polyline through the given points (millimetres, {x, y} each, at least 2 — two points still give an LWPOLYLINE, not a LINE) in the current space, optionally closed, on an existing layer and with an ACI colour. Returns handle, length in mm and vertex count. [Registry tool v1, Drawing, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "description": "Vertex in millimetres",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "description": "Vertices in millimetres, in order"
+        },
+        "closed": {
+          "type": "boolean",
+          "default": false,
+          "description": "Close the polyline back to the first vertex"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Existing layer name; default: the current layer"
+        },
+        "colorIndex": {
+          "type": "integer",
+          "description": "ACI colour index 0–256; default: ByLayer"
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "points"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Draw a polyline",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "execute_autocad_code",
+    "title": "Execute C# in AutoCAD",
+    "description": "Runs a C# script inside the open AutoCAD drawing with the user's full privileges. Globals: doc (Document), db (Database), ed (Editor — WriteMessage/SelectImplied/SelectAll only; every Get* prompt is blocked), app (DocumentCollection), tr (the Transaction the bridge opened: read with tr.GetObject(id, OpenMode.ForRead), add with AppendEntity + tr.AddNewlyCreatedDBObject(obj, true); never Commit/Abort/Dispose it and never call StartTransaction or LockDocument — the guard rejects them), units (drawing unit from INSUNITS: units.ToDrawing(mm), units.ToMm(du), units.Label — all coordinates are drawing units), ct (check it inside long loops), log(string), progress(int current, int total, string message), args (args.Str/Double/Int/Long/Bool(key, fallback), args.Obj/List(key), args.Has/Require(key); prefer args over literals so identical text compiles once). End with `return <value>;`. Returned AutoCAD objects are summarised: ObjectId → {handle,class}, Entity → {handle,type,layer,dxfName}, Point3d → {x,y,z}, ObjectIdCollection/SelectionSet → arrays of ids. Default usings: System, System.Linq, System.Collections.Generic, Autodesk.AutoCAD.ApplicationServices, DatabaseServices, EditorInput, Geometry, Colors. transaction=auto commits when the script returns; none is read-only and fails if anything changed; manual runs like auto. dryRun runs everything, rolls it back and still reports `changed`. U in AutoCAD reverts every AI run made since the user's last command. Fails with isError=true and diagnostics on compile error, exception, guard rejection or timeout; nothing is kept then. Requires the user to tick 'Allow AI code execution' in the HPAutoCad MCP Bridge window (command HPMCPBRIDGE) inside AutoCAD.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Diagnostics.Process / reflection, no Editor prompts or commands (blocked by the guard).",
+          "type": "string"
+        },
+        "transaction": {
+          "description": "auto (default): the bridge commits `tr` when the script returns. none: read-only; any change fails. manual: accepted for compatibility, behaves like auto.",
+          "type": "string",
+          "default": "auto"
+        },
+        "dryRun": {
+          "description": "Run the script, then roll everything back. Use first for destructive changes; `changed` still reports what would have happened.",
+          "type": "boolean",
+          "default": false
+        },
+        "timeoutSeconds": {
+          "description": "Cooperative timeout in seconds, 5–120. The script sees it through `ct`; a script that ignores `ct` blocks AutoCAD until it returns.",
+          "type": "integer",
+          "default": 30
+        },
+        "label": {
+          "description": "Short name for the audit log and the AutoCAD command line summary. Max 64 characters.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "args": {
+          "description": "Optional JSON object handed to the script as `args` (e.g. {\"lengthMm\": 1500, \"layer\": \"WALLS\"}). Keys are matched case-insensitively.",
+          "default": null
+        }
+      },
+      "required": [
+        "code"
+      ]
+    },
+    "annotations": {
+      "title": "Execute C# in AutoCAD",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "get_autocad_context",
+    "title": "Get AutoCAD context",
+    "description": "Returns the current AutoCAD session: hostVersion, active drawing title and docPath (absent for an unsaved drawing), isReadOnly, isModifiable (true when the drawing is writable and AutoCAD is idle — no command or dialog in progress), units.length (drawing unit from INSUNITS), activeView (current layout: Model or a paper-space layout), openDocs, executionEnabled, and autocad {insunits, measurement (English/Metric), currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing}. With includeSelection the current selection comes back as {id = handle value, category = layer, name = DXF name}. Call this before execute_autocad_code so the script matches the real drawing and its units.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "includeSelection": {
+          "description": "Include the entities currently selected in AutoCAD (id = handle, category = layer, name = DXF name).",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "annotations": {
+      "title": "Get AutoCAD context",
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_drawing_info",
+    "title": "Get drawing info",
+    "description": "Summary of the active drawing: file name, INSUNITS and measurement system, millimetres per drawing unit, model-space extents (null until the drawing has any; as of the last regen/save) in mm, current layout and layer, layer count, and optionally the number of model-space entities per DXF type. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "countByType": {
+          "type": "boolean",
+          "default": true,
+          "description": "Count model-space entities per DXF type"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Get drawing info",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_entities",
+    "title": "Find entities",
+    "description": "Selects entities by DXF type (LINE, LWPOLYLINE, CIRCLE, ARC, INSERT, TEXT, MTEXT, DIMENSION, HATCH…) and/or layer, in model space or the current space, and returns handle, type, layer and bounding box in millimetres for up to limit of them. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "DXF entity name such as LINE, LWPOLYLINE, CIRCLE, INSERT, TEXT, MTEXT, DIMENSION; omit for any type"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Exact layer name; omit for any layer"
+        },
+        "space": {
+          "type": "string",
+          "default": "model",
+          "description": "model (default), current (the active layout), or all"
+        },
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Maximum entities to return (1–2000)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Find entities",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_run",
+    "title": "Get a past run",
+    "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "description": "Run id",
+          "type": "integer"
+        },
+        "analyze": {
+          "description": "Analyse the code (guard, compile, literals) through the host application",
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "runId"
+      ]
+    },
+    "annotations": {
+      "title": "Get a past run",
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_selected_entities",
+    "title": "Get selected entities",
+    "description": "Returns the entities the user currently has selected in AutoCAD (handle, DXF type, layer), up to limit. Empty when nothing is selected. Read-only. [Registry tool v1, Generic, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Maximum entities to return (1–2000)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Get selected entities",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_tool",
+    "title": "Get a registry tool",
+    "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Tool name from search_tools",
+          "type": "string"
+        },
+        "includeCode": {
+          "description": "Include the C# source",
+          "type": "boolean",
+          "default": true
+        },
+        "recentRuns": {
+          "description": "How many recent runs to include (0–50)",
+          "type": "integer",
+          "default": 10
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "annotations": {
+      "title": "Get a registry tool",
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "insert_block",
+    "title": "Insert a block reference",
+    "description": "Inserts a reference to an existing block definition at a point in millimetres with uniform scale and rotation in degrees, fills its attributes from a {tag: value} object, optionally on an existing layer. Fails with a clear message when the block is not defined (list_block_definitions shows the names). [Registry tool v1, Block, transaction=auto. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "blockName": {
+          "type": "string",
+          "description": "Name of an existing block definition"
+        },
+        "position": {
+          "type": "object",
+          "description": "Insertion point in millimetres",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "scale": {
+          "type": "number",
+          "default": 1,
+          "description": "Uniform scale factor (> 0)"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "default": 0,
+          "description": "Rotation in degrees, counter-clockwise"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Existing layer name; default: the current layer"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Attribute values by tag, e.g. {\"TAG\": \"D01\"}; tags not listed keep their default",
+          "properties": {}
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run the tool, then roll everything back. Use first on a model you care about."
+        }
+      },
+      "required": [
+        "blockName",
+        "position"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Insert a block reference",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "inspect_type",
+    "title": "Inspect a host API type",
+    "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "typeName": {
+          "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+          "type": "string"
+        },
+        "memberFilter": {
+          "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "maxMembers": {
+          "description": "Maximum number of members to return (default 100, max 500).",
+          "type": "integer",
+          "default": 100
+        }
+      },
+      "required": [
+        "typeName"
+      ]
+    },
+    "annotations": {
+      "title": "Inspect a host API type",
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_block_definitions",
+    "title": "List block definitions",
+    "description": "Lists the block definitions of the drawing (not layouts, not xref-dependent blocks) with entity count, number of references, whether they carry attributes, and whether they are xrefs. Wildcards * and ? in pattern. Read-only. [Registry tool v1, Block, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "default": "*",
+          "description": "Name pattern with * and ? wildcards, case-insensitive"
+        },
+        "includeAnonymous": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include anonymous blocks (*U…, *D…, hatch/dimension blocks)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "List block definitions",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_layers",
+    "title": "List layers",
+    "description": "Lists every layer of the active drawing: name, ACI colour index, off/frozen/locked/plottable flags and lineweight (hundredths of a mm as create_layer takes it; -3 = default, -1 ByLayer, -2 ByBlock); optionally the number of model-space entities on each layer. Read-only. [Registry tool v1, Layer, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "includeCounts": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also count the model-space entities on each layer (slower on big drawings)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "List layers",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_layouts",
+    "title": "List layouts",
+    "description": "Lists the layouts (Model and every paper-space tab) with tab order, viewport count and which one is current. Read-only. [Registry tool v1, Layout, transaction=none. Registry tools run stored, reviewed C# inside AutoCAD — prefer them over execute_autocad_code for the same task.]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "includeModel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include the Model tab in the list"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "List layouts",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "manage_tool",
+    "title": "Deprecate, quarantine or restore a tool",
+    "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Tool name",
+          "type": "string"
+        },
+        "action": {
+          "description": "deprecate | quarantine | restore",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name",
+        "action"
+      ]
+    },
+    "annotations": {
+      "title": "Deprecate, quarantine or restore a tool",
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "propose_tool",
+    "title": "Propose a new registry tool",
+    "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "snake_case name, e.g. color_beams_by_type",
+          "type": "string"
+        },
+        "description": {
+          "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+          "type": "string"
+        },
+        "category": {
+          "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+          "type": "string"
+        },
+        "inputSchema": {
+          "description": "JSON Schema of the args object"
+        },
+        "code": {
+          "description": "Script body: same globals as the execute tool plus args; must end with return",
+          "type": "string"
+        },
+        "examples": {
+          "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+        },
+        "title": {
+          "description": "Human title, e.g. 'Colour beams by type'",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "tags": {
+          "description": "Search tags",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "default": null
+        },
+        "transaction": {
+          "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+          "type": "string",
+          "default": "auto"
+        },
+        "timeoutSeconds": {
+          "description": "5–120 seconds",
+          "type": "integer",
+          "default": 60
+        },
+        "sourceRunId": {
+          "description": "runId of the execute run this comes from (see get_run)",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        },
+        "newVersion": {
+          "description": "Propose a new version of an existing tool name",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "category",
+        "inputSchema",
+        "code",
+        "examples"
+      ]
+    },
+    "annotations": {
+      "title": "Propose a new registry tool",
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "publish_tool",
+    "title": "Publish a registry tool",
+    "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Tool name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "annotations": {
+      "title": "Publish a registry tool",
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "run_tool",
+    "title": "Run a registry tool",
+    "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Tool name",
+          "type": "string"
+        },
+        "args": {
+          "description": "Arguments object for the tool",
+          "default": null
+        },
+        "dryRun": {
+          "description": "Run then roll back",
+          "type": "boolean",
+          "default": false
+        },
+        "allowUnpublished": {
+          "description": "Allow running a tool that is not published yet",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "annotations": {
+      "title": "Run a registry tool",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "search_tools",
+    "title": "Search the tool registry",
+    "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "category": {
+          "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "limit": {
+          "description": "Maximum results, 1–50 (default 5)",
+          "type": "integer",
+          "default": 5
+        },
+        "includeUnpublished": {
+          "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "annotations": {
+      "title": "Search the tool registry",
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "test_tool",
+    "title": "Test a registry tool",
+    "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Tool name",
+          "type": "string"
+        },
+        "cases": {
+          "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+          "default": null
+        },
+        "realRun": {
+          "description": "Commit instead of rolling back",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "annotations": {
+      "title": "Test a registry tool",
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  }
+]

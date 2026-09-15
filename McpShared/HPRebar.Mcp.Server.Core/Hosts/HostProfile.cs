@@ -69,6 +69,17 @@ public sealed class HostProfile : IHostProfile
 
     public required Assembly HostAssembly { get; init; }
 
+    private readonly int _maxTimeoutSeconds = 120;
+
+    /// <summary>120 unless a host raises it; see <see cref="IHostProfile.MaxTimeoutSeconds"/>. Never below the minimum a script may ask for.</summary>
+    public int MaxTimeoutSeconds
+    {
+        get => _maxTimeoutSeconds;
+        init => _maxTimeoutSeconds = value >= Services.ExecuteCodeService.MinTimeoutSeconds
+            ? value
+            : throw new ArgumentOutOfRangeException(nameof(MaxTimeoutSeconds), value, $"must be at least {Services.ExecuteCodeService.MinTimeoutSeconds} seconds");
+    }
+
     /// <summary>Defaults to the host assembly's name + `.exe`, which is what the published server is called.</summary>
     public string CliExecutable
     {
@@ -87,5 +98,6 @@ public sealed class HostProfile : IHostProfile
         DefaultVersion = DefaultVersion, ValidVersions = ValidVersions, MethodPrefix = MethodPrefix, ExecuteToolName = ExecuteToolName,
         ContextToolName = ContextToolName, ResourceScheme = ResourceScheme, Categories = Categories, CoreToolNames = CoreToolNames,
         ScriptImports = ScriptImports, ScriptContractSummary = ScriptContractSummary, HostAssembly = assembly, CliExecutable = CliExecutable,
+        MaxTimeoutSeconds = MaxTimeoutSeconds,
     };
 }

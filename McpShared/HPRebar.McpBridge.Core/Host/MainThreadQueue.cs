@@ -51,6 +51,9 @@ public sealed class MainThreadQueue
     private readonly Action? _wakeMainThread;
     private readonly Func<long> _clockMs;
     private int _ticking;
+#if NET48
+    private static readonly System.Diagnostics.Stopwatch MonotonicClock = System.Diagnostics.Stopwatch.StartNew();
+#endif
 
     /// <param name="isQuiescent">True when no command, script or dialog is active in the host. Read on the main thread.</param>
     /// <param name="wakeMainThread">
@@ -64,7 +67,13 @@ public sealed class MainThreadQueue
         _hostName = hostName;
         BusyGrace = busyGrace;
         _wakeMainThread = wakeMainThread;
+#if NET48
+        // .NET Framework has no Environment.TickCount64; a running Stopwatch is the monotonic clock there
+        // (ElapsedMilliseconds scales through a double, so a high-frequency QPC cannot overflow the multiply).
+        _clockMs = clockMs ?? (() => MonotonicClock.ElapsedMilliseconds);
+#else
         _clockMs = clockMs ?? (() => Environment.TickCount64);
+#endif
     }
 
     /// <summary>How long a request may wait for a quiescent tick before it fails as busy.</summary>

@@ -30,9 +30,31 @@ public static class HostScriptContracts
         "HPRebar.McpBridge.Core.Scripting",
     };
 
+    /// <summary>
+    ///     Default `using`s of a Navisworks script. <c>Autodesk.Navisworks.Api.DocumentParts</c> holds the
+    ///     document collections (<c>DocumentSelectionSets</c>, <c>DocumentModels</c>); Clash and Timeliner
+    ///     live in their own assemblies/namespaces. Deliberately without <c>ApplicationParts</c> (bridge-only
+    ///     GUI plumbing), <c>Plugins</c>, and the <c>Interop</c>/<c>ComApi</c>/<c>Automation</c>/<c>Data</c>
+    ///     namespaces the guard denies.
+    /// </summary>
+    public static readonly string[] NavisImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Autodesk.Navisworks.Api", "Autodesk.Navisworks.Api.DocumentParts",
+        "Autodesk.Navisworks.Api.Clash", "Autodesk.Navisworks.Api.Timeliner",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
     /// <summary>Global names a Revit script may use (`doc`, `uidoc`, …).</summary>
     public static readonly string[] RevitGlobals = { "doc", "uidoc", "app", "uiapp", "ct", "log", "progress", "args" };
 
     /// <summary>Global names an AutoCAD script may use; `tr` is the bridge's outermost transaction, `units` converts mm ↔ drawing units.</summary>
     public static readonly string[] AutocadGlobals = { "doc", "db", "ed", "app", "tr", "units", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Global names a Navisworks script may use: `doc` is the active <c>Document</c>, `app` a small wrapper
+    ///     over the static <c>Application</c> (version, documents, clash module present), `units` converts
+    ///     mm ↔ <c>Document.Units</c>. The bridge owns the only transaction, so there is no `tr`.
+    /// </summary>
+    public static readonly string[] NavisGlobals = { "doc", "app", "units", "ct", "log", "progress", "args" };
 }

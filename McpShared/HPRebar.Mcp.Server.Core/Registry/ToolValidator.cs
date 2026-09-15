@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using HPRebar.Mcp.Contracts.Messages;
 using HPRebar.Mcp.Server.Hosts;
 using HPRebar.Mcp.Server.Registry.Model;
+using HPRebar.Mcp.Server.Services;
 
 namespace HPRebar.Mcp.Server.Registry;
 
@@ -49,7 +50,8 @@ public static partial class ToolValidator
         if (string.IsNullOrWhiteSpace(candidate.Description) || candidate.Description.Trim().Length < 20) errors.Add("description must say what the tool does (≥ 20 characters).");
         if (!profile.Categories.Contains(candidate.Category, StringComparer.OrdinalIgnoreCase)) errors.Add($"category must be one of {string.Join(", ", profile.Categories)}.");
         if (TransactionModes.Normalize(candidate.Transaction) is null) errors.Add("transaction must be auto, manual or none.");
-        if (candidate.TimeoutSeconds is < 5 or > 120) errors.Add("timeoutSeconds must be between 5 and 120.");
+        if (candidate.TimeoutSeconds < ExecuteCodeService.MinTimeoutSeconds || candidate.TimeoutSeconds > profile.MaxTimeoutSeconds)
+            errors.Add($"timeoutSeconds must be between {ExecuteCodeService.MinTimeoutSeconds} and {profile.MaxTimeoutSeconds}.");
         if (string.IsNullOrWhiteSpace(candidate.Code)) errors.Add("code is empty.");
         if (System.Text.Encoding.UTF8.GetByteCount(candidate.Code) > 32 * 1024) errors.Add("code exceeds 32 KB.");
 

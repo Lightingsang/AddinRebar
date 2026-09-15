@@ -23,6 +23,9 @@ public sealed class ContextResult
     /// <summary>AutoCAD-only facts; null for Revit.</summary>
     public AutocadInfo? Autocad { get; set; }
 
+    /// <summary>Navisworks-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public NavisInfo? Navis { get; set; }
+
     public string? DocTitle { get; set; }
 
     public string? DocPath { get; set; }
@@ -65,6 +68,28 @@ public sealed record AutocadInfo(
     bool IsModelSpace,
     bool IsQuiescent,
     bool IsNamedDrawing);
+
+/// <summary>
+///     What a Navisworks script needs to know that has no counterpart elsewhere: the document unit every
+///     API length is expressed in, the appended models (each with its source unit), how many review
+///     artefacts exist, whether the Clash module is available (Manage vs Simulate), whether the user has
+///     enabled heavy operations, and the bridge's own busy/idle composite.
+/// </summary>
+public sealed record NavisInfo(
+    string DocumentUnits,
+    int ModelCount,
+    IReadOnlyList<ModelSummary> Models,
+    int SelectionSetCount,
+    int SavedViewpointCount,
+    int ClashTestCount,
+    bool HasClashModule,
+    bool HeavyOperationsEnabled,
+    bool IsClear,
+    bool IsBusy,
+    bool IsModified);
+
+/// <summary>One appended model: file name, the unit its geometry was authored in, and the source it came from.</summary>
+public sealed record ModelSummary(string FileName, string Units, string? SourceFileName);
 
 public sealed record ViewInfo(long Id, string Name, string Type);
 

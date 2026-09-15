@@ -21,6 +21,8 @@ namespace HPRebar.Mcp.Server.Services;
 public sealed class ExecuteCodeService(IRevitBridgeClient bridge, ResultFormatter formatter, IOptions<BridgeOptions> options, ToolManager? registry = null)
 {
     public const int MinTimeoutSeconds = 5;
+
+    /// <summary>Historical ceiling; the effective one is <see cref="IHostProfile.MaxTimeoutSeconds"/> of the connected host (120 for Revit/AutoCAD).</summary>
     public const int MaxTimeoutSeconds = 120;
     private const int MaxLabelLength = 64;
     private const int ReusableMinLines = 12;
@@ -56,7 +58,7 @@ public sealed class ExecuteCodeService(IRevitBridgeClient bridge, ResultFormatte
             if (mode is null)
                 return formatter.Error($"transaction must be one of: {string.Join(", ", TransactionModes.All)} (got '{transaction}').");
 
-            var timeout = Math.Clamp(timeoutSeconds, MinTimeoutSeconds, MaxTimeoutSeconds);
+            var timeout = Math.Clamp(timeoutSeconds, MinTimeoutSeconds, bridge.Profile.MaxTimeoutSeconds);
             var cleanLabel = string.IsNullOrWhiteSpace(label) ? "script" : label.Trim();
             if (cleanLabel.Length > MaxLabelLength) cleanLabel = cleanLabel[..MaxLabelLength];
 

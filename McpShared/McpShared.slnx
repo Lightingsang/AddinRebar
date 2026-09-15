@@ -13,4 +13,6 @@
   <Project Path="HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
   <Project Path="HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
   <Project Path="HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj" />
+  <!-- The bridge engine as a .NET Framework 4.8 host loads it: linked guard/queue tests + net48-specific compiler and pipe tests. -->
+  <Project Path="HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj" />
 </Solution>

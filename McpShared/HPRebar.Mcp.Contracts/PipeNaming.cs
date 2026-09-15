@@ -16,6 +16,9 @@ public static class PipeNaming
 
     public const string AutocadHost = "autocad";
 
+    /// <summary>Navisworks Manage; pipe <c>hpnavis-mcp-{version}</c> — the same name the generic branch below produces.</summary>
+    public const string NavisHost = "navis";
+
     /// <summary>Revit pipe, e.g. <c>hprebar-mcp-r2026</c>. Unchanged since the first release.</summary>
     public static string For(int revitVersion) => Prefix + revitVersion;
 
@@ -33,6 +36,7 @@ public static class PipeNaming
         {
             RevitHost => For(version),
             AutocadHost => "hpautocad-mcp-" + version,
+            NavisHost => "hpnavis-mcp-" + version,
             _ => "hp" + key + "-mcp-" + version,
         };
     }

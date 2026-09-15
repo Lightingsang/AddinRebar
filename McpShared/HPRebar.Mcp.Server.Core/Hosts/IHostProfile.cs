@@ -58,6 +58,14 @@ public interface IHostProfile
     /// <summary>File name of the server exe in human-facing instructions: `{CliExecutable} registry approve …`.</summary>
     string CliExecutable { get; }
 
+    /// <summary>
+    ///     Upper bound of a script's cooperative timeout, in seconds, for `execute_*_code`, `run_tool`/`test_tool`
+    ///     and the registry validator alike. 120 for Revit and AutoCAD (what they shipped with); a host whose
+    ///     long operations cannot be interrupted (Navisworks clash runs) raises it so the server does not give
+    ///     up and record a failure while the host is still working.
+    /// </summary>
+    int MaxTimeoutSeconds { get; }
+
     string PipeName(int version);
 
     /// <summary>`Method("execute")` → `revit.execute` / `autocad.execute`.</summary>

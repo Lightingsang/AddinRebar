@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- The engine's net48 asset as a .NET Framework 4.8 host (Navisworks 2026) sees it. Only the parts of the
+             engine test suite that do not need the net10 server core are linked; the rest is net48-specific. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPRebar.Mcp.Server.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <!-- global.json pins test.runner = Microsoft.Testing.Platform; xunit.v3 ships a net472 runner for it -->
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <!-- The Roslyn packages resolve to 10.x/6.x builds of the System.* shims; the exe gets the redirects a plugin
+             inside Roamer.exe cannot have — there the bridge's AssemblyResolve handler plays this role. -->
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+        <!-- records / collection expressions / string.Contains(StringComparison) in the linked tests and the fake -->
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Linked verbatim: host-free and free of net10-only calls. ScriptCompilerTests/ScriptArgsAndAnalyzerTests use
+             partial-name Assembly.Load (fails on .NET Framework) and PipeRoundTripTests needs the net10 server core,
+             so their net48 counterparts live in this project instead. -->
+        <Compile Include="..\HPRebar.Mcp.Server.Core.Tests\ScriptGuardTests.cs" Link="ScriptGuardTests.cs"/>
+        <Compile Include="..\HPRebar.Mcp.Server.Core.Tests\MainThreadQueueTests.cs" Link="MainThreadQueueTests.cs"/>
+        <Compile Include="..\HPRebar.Mcp.Server.Core.Tests\Fakes\FakeRevitExecutor.cs" Link="Fakes\FakeRevitExecutor.cs"/>
+    </ItemGroup>
+
+</Project>
