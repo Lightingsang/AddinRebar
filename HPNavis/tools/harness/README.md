@@ -1,6 +1,6 @@
 # Harnesses — unattended checks against a live Navisworks Manage 2026
 
-Four PowerShell wrappers share `harness-common.ps1` (guarded `Roamer.exe` start with `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1`,
+Five PowerShell wrappers share `harness-common.ps1` (guarded `Roamer.exe` start with `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1`,
 UI Automation opt-ins on the HPNavis window only, Win32 for Roamer's own dialogs, graceful close that answers the
 save prompt with *No*). The Python side speaks to the server through the host-neutral scripts in
 `../../../McpShared/tools/` (`mcp-session.py`, `mcp-call.py`) — the folder that every HP MCP harness may import.
@@ -29,6 +29,13 @@ save prompt with *No*). The Python side speaks to the server through the host-ne
 
   Flags: `-WithNoDoc`, `-IncludeIsolation`, `-SkipModal`, `-SkipHeavy`, `-Tag run1` (own output folder), `-Exe`, `-Model`,
   `-AppendFile`. Outputs: `live-verify.log`, `summary-<phase>.json`, `run-summary.json`.
+- `run-ribbon-check.ps1` — the Ribbon tab **HPNavis** ▸ **MCP** ▸ **MCP Bridge**: Roamer started *without* the show-window
+  variable, tab header found once through UI Automation under the Roamer main window (`Find-RibbonTabHeaders`, a `Button`
+  whose `AutomationId` is the tab id), selected with whichever pattern works (Invoke, then SelectionItem — verified by the button coming on
+  screen), screenshot of the Ribbon (the one MANUAL: icon crisp), button
+  click → bridge window + `MCP bridge status window opened` log line, second click → still one window, no `HPNavis MCP`
+  Add-ins entry, no ERR/FTL; `-WithNoDoc` adds a Roamer without a model where Navisworks' start page greys every tab
+  (header present, disabled). Exit 1 on FAIL, 2 when UI Automation was blind. Outputs under `HPNavis/output/ribbon-check/`.
 
 **Destructive by design — read before running:** every wrapper refuses to start while any `Roamer.exe` is running,
 closes only the Roamer it started (`CloseMainWindow`, save prompt answered *No*, kill as last resort) and never saves
@@ -40,9 +47,12 @@ pwsh HPNavis/tools/harness/run-bridge-unattended.ps1 -Runs 2 -WithModal -WithNoD
 pwsh HPNavis/tools/harness/run-server-smoke.ps1                                     # published exe, ~1.5 min (publish first — see HPNavis/README.md)
 pwsh HPNavis/tools/harness/run-seeds-live.ps1                                       # 12 seeds, ~2 min
 pwsh HPNavis/tools/harness/run-live-verify.ps1 -WithNoDoc -IncludeIsolation -Tag run1   # phase-5 proof, ~2.5–3 min (4 Roamer starts)
+pwsh HPNavis/tools/harness/run-ribbon-check.ps1 -WithNoDoc                              # Ribbon tab/button, ~2.5 min (2 Roamer starts)
 python HPNavis/tools/harness/live-verify.py <exe> --registry <dir> --phase main       # against a Roamer you started and opted in yourself
 python McpShared/tools/mcp-call.py <exe> tools/list                                  # any HP MCP exe, no host needed
 ```
 
-Windows PowerShell 5.1 only (UIA + `SendKeys`; the wrappers relaunch themselves from pwsh). A Roamer started through
+Windows PowerShell 5.1 only (UIA + `SendKeys`; the wrappers relaunch themselves from pwsh). UI Automation is used only
+inside the bridge's own window and, for the Ribbon check, under the main window of the Roamer we started — never from the
+desktop root; Roamer is brought to the foreground before a tab is selected or the Ribbon is photographed. A Roamer started through
 the Automation API exits within ~15 s on the dev machine, so the harness launches `Roamer.exe "<model>"` directly.

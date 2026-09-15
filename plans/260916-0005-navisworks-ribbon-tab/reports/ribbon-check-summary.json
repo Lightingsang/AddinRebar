@@ -1,0 +1,82 @@
+﻿{
+    "pass":  14,
+    "fail":  0,
+    "manual":  1,
+    "results":  [
+                    {
+                        "name":  "deployed en-US\\HPNavisRibbon.xaml",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "deployed en-US\\HPNavisRibbon.name",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "deployed Images\\McpBridge_16.png",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "deployed Images\\McpBridge_32.png",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "model tab \u0027HPNavis\u0027 visible exactly once",
+                        "result":  "PASS",
+                        "detail":  "found 1 header(s), control type ControlType.Button"
+                    },
+                    {
+                        "name":  "model icon crisp and reads as a window with a plug",
+                        "result":  "MANUAL",
+                        "detail":  "see F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPNavis\\output\\ribbon-check\\ribbon-model.png (tab selected: True, button on screen: True)"
+                    },
+                    {
+                        "name":  "model no bridge window before the click (no show-window variable)",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "model button \u0027MCP Bridge\u0027 enabled",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "model button \u0027MCP Bridge\u0027 opens the bridge window",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "model log says the status window opened",
+                        "result":  "PASS",
+                        "detail":  "x1"
+                    },
+                    {
+                        "name":  "model second click activates, does not open a twin",
+                        "result":  "PASS",
+                        "detail":  "windows: 1"
+                    },
+                    {
+                        "name":  "model no \u0027HPNavis MCP\u0027 Add-ins entry (no Add-ins tab at all)",
+                        "result":  "PASS",
+                        "detail":  ""
+                    },
+                    {
+                        "name":  "model no ERR/FTL in the bridge log",
+                        "result":  "PASS",
+                        "detail":  "x0"
+                    },
+                    {
+                        "name":  "nodoc tab \u0027HPNavis\u0027 visible exactly once",
+                        "result":  "PASS",
+                        "detail":  "found 1 header(s), control type ControlType.Button"
+                    },
+                    {
+                        "name":  "nodoc tab header disabled with the start page up (Navisworks greys every tab)",
+                        "result":  "PASS",
+                        "detail":  ""
+                    }
+                ]
+}

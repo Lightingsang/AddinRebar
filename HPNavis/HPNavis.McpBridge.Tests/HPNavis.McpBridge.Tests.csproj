@@ -27,8 +27,9 @@
 
     <ItemGroup>
         <!-- The plugin compiles against the installed Navisworks API (Directory.Build.props); those assemblies are not
-             copied here. Tests only touch types that never load them; NavisworksApiProbe resolves them from the install
-             folder if a test ever does. -->
+             copied here. Most tests touch types that never load them; the Ribbon tests read the plugin attributes
+             (Autodesk.Navisworks.Api.Plugins), which NavisworksApiProbe resolves from the install folder at run time. -->
+        <Reference Include="Autodesk.Navisworks.Api"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Api.dll</HintPath><Private>false</Private></Reference>
         <ProjectReference Include="..\HPNavis.McpBridge\HPNavis.McpBridge.csproj"/>
         <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
         <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>

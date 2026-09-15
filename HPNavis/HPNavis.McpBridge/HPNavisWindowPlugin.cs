@@ -3,13 +3,13 @@ using Autodesk.Navisworks.Api.Plugins;
 namespace HPNavis.McpBridge;
 
 /// <summary>
-///     The one button the MVP puts in Navisworks: Add-ins ▸ "HPNavis MCP" opens (or activates) the status
-///     window where the user starts the listener and ticks the per-session opt-ins. An
-///     <see cref="AddInPlugin"/> costs no XAML, no strings file and no icons — the Ribbon tab is a later
-///     step, as it was for AutoCAD.
+///     Opens (or activates) the status window programmatically:
+///     <c>Application.Plugins.ExecuteAddInPlugin("HPNavis.McpBridge.Window.HPNV")</c>. Hidden from the
+///     Add-ins menu (<see cref="AddInLocation.None"/>) since the Ribbon button of
+///     <see cref="HPNavisRibbonPlugin"/> took over that role — one visible entry point, not two.
 /// </summary>
 [Plugin("HPNavis.McpBridge.Window", "HPNV", DisplayName = "HPNavis MCP", ToolTip = "Open the HPNavis MCP bridge window")]
-[AddInPlugin(AddInLocation.AddIn)]
+[AddInPlugin(AddInLocation.None)]
 public sealed class HPNavisWindowPlugin : AddInPlugin
 {
     public override int Execute(params string[] parameters)

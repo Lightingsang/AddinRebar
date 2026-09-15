@@ -1,0 +1,18 @@
+# Strings of the HPNavis MCP bridge Ribbon ([Strings("HPNavisRibbon.name")]). UTF-8. A line ending in "="
+# is a key; the next line is its value. Values here override the attribute text, the layout XAML overrides both.
+$utf8
+
+DisplayName=
+HPNavis MCP Ribbon
+
+ID_HPNAVIS.DisplayName=
+HPNavis
+
+ID_HPNAVIS_MCP_BRIDGE.DisplayName=
+MCP Bridge
+
+ID_HPNAVIS_MCP_BRIDGE.ToolTip=
+Open the MCP bridge window
+
+ID_HPNAVIS_MCP_BRIDGE.ExtendedToolTip=
+Start or stop the listener and allow AI code execution for this Navisworks session. Works with or without a model open.

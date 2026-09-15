@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ribbon layout of the HPNavis MCP bridge, read by Navisworks from en-US\ beside the plugin DLL
+     ([RibbonLayout("HPNavisRibbon.xaml")] on HPNavisRibbonPlugin). Ids must match the [RibbonTab]/[Command] attributes.
+     The root element and its namespaces are what Navisworks expects (see the SDK CustomRibbon example); only the
+     x:Uid of the root has to be unique across plugins. -->
+<RibbonControl x:Uid="HPNavisRibbon"
+    xmlns="clr-namespace:Autodesk.Windows;assembly=AdWindows"
+    xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:adwi="clr-namespace:Autodesk.Internal.Windows;assembly=AdWindows"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Autodesk.Navisworks.Gui.Roamer.AIRLook;assembly=navisworks.gui.roamer">
+
+  <!-- Mirrors the Revit MCP bridge: product tab, panel "MCP", one button "MCP Bridge" that opens the status window. -->
+  <RibbonTab Id="ID_HPNAVIS" Title="HPNavis" KeyTip="HN">
+    <RibbonPanel x:Uid="HPNavis_RibbonPanel_MCP">
+      <RibbonPanelSource x:Uid="HPNavis_RibbonPanelSource_MCP" Title="MCP">
+        <!-- Image paths are relative to this file: the PNGs live in Images\ beside the DLL (16 px small, 32 px large). -->
+        <local:NWRibbonButton x:Uid="HPNavis_Button_McpBridge" Id="ID_HPNAVIS_MCP_BRIDGE"
+                              Size="Large" Orientation="Vertical" ShowText="True"
+                              Image="..\Images/McpBridge_16.png" LargeImage="..\Images/McpBridge_32.png"
+                              KeyTip="MB"/>
+      </RibbonPanelSource>
+    </RibbonPanel>
+  </RibbonTab>
+
+</RibbonControl>

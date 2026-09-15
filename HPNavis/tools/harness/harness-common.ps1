@@ -53,14 +53,15 @@ function Assert-PluginDeployed {
     if (-not (Test-Path (Join-Path $script:PluginDir 'HPNavis.McpBridge.dll'))) { throw "Plugin not deployed at $script:PluginDir - run: dotnet build HPNavis/HPNavis.slnx -c Debug (Navisworks closed)" }
 }
 
-# Starts Roamer.exe with the model on its command line and the show-window variable set for that process only.
+# Starts Roamer.exe with the model on its command line and (by default) the show-window variable set for that process
+# only; the Ribbon check passes -showWindow:$false so the window must come from the button.
 # Returns the Process; waits until the main window title carries the model name (load finished) or the timeout.
-function Start-NavisworksWithModel([string]$modelPath, [int]$timeoutSec = 180) {
+function Start-NavisworksWithModel([string]$modelPath, [int]$timeoutSec = 180, [bool]$showWindow = $true) {
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName = Join-Path $script:NavisDir 'Roamer.exe'
     $psi.Arguments = if ($modelPath) { '"' + $modelPath + '"' } else { '' }
     $psi.UseShellExecute = $false
-    $psi.EnvironmentVariables['HPNAVIS_MCP_BRIDGE_SHOW_WINDOW'] = '1'
+    if ($showWindow) { $psi.EnvironmentVariables['HPNAVIS_MCP_BRIDGE_SHOW_WINDOW'] = '1' }
     $proc = [System.Diagnostics.Process]::Start($psi)
     $script:navisPid = $proc.Id
     $script:bridgeWindow = $null
@@ -243,4 +244,122 @@ function Stop-Navisworks($proc) {
     $proc.Refresh()
     if (-not $proc.HasExited) { Write-Host 'Roamer did not exit after CloseMainWindow; killing'; Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue }
     else { Write-Host "Roamer exited with code $($proc.ExitCode)" }
+}
+
+# ---- Ribbon (UI Automation scoped to the Roamer we started; never a desktop-wide walk) -----------------------------------
+
+# The Roamer main window as a UIA element, or $null before the window exists.
+function Get-RoamerMainAutomationElement {
+    $h = Get-RoamerMainWindowHandle
+    if ($h -eq [IntPtr]::Zero) { return $null }
+    try { return [System.Windows.Automation.AutomationElement]::FromHandle($h) } catch { return $null }
+}
+
+# Ribbon tab headers of the Roamer main window matching the tab id (AdWindows exposes a header as a Button whose
+# AutomationId is the tab id) or the visible title; Buttons and TabItems are both accepted.
+function Find-RibbonTabHeaders([string]$tabId, [string]$title) {
+    $main = Get-RoamerMainAutomationElement
+    if (-not $main) { return @() }
+    $byId = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $tabId)
+    $byName = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, $title)
+    $isButton = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
+    $isTab = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::TabItem)
+    $cond = New-Object System.Windows.Automation.AndCondition(
+        (New-Object System.Windows.Automation.OrCondition($isButton, $isTab)),
+        (New-Object System.Windows.Automation.OrCondition($byId, $byName)))
+    $list = @()
+    try { foreach ($t in $main.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) { $list += $t } }
+    catch { Write-Host "ribbon tab lookup failed: $($_.Exception.Message)" }
+    return $list
+}
+
+# Selects the tab and proves it: after each pattern the header offers (Invoke first — the one that worked live —
+# then SelectionItem, which reports success without switching) the button named by $verifyButton must come on screen.
+# (The managed UIA client has no LegacyIAccessiblePattern; a mouse click would be the next fallback.)
+# Roamer is brought to the foreground first: AdWindows ignores a selection while another application covers it.
+# The header element goes stale while the Ribbon is still being built right after start-up, so the lookup repeats.
+function Select-RibbonTab([string]$tabId, [string]$title, [string]$verifyButton, [int]$attempts = 4) {
+    for ($attempt = 1; $attempt -le $attempts; $attempt++) {
+        $null = Set-RoamerMainWindowForeground
+        Start-Sleep -Milliseconds 300
+        $tabs = @(Find-RibbonTabHeaders $tabId $title)
+        if ($tabs.Count -eq 0) { Start-Sleep -Seconds 1; continue }
+        $t = $tabs[0]
+        # (a `continue` inside a PowerShell switch only leaves the switch, so the pattern is resolved before acting)
+        $candidates = @(
+            @{ Name = 'Invoke';        Id = [System.Windows.Automation.InvokePattern]::Pattern;        Act = { param($p) $p.Invoke() } },
+            @{ Name = 'SelectionItem'; Id = [System.Windows.Automation.SelectionItemPattern]::Pattern; Act = { param($p) $p.Select() } })
+        foreach ($c in $candidates) {
+            $pattern = $null
+            if (-not $t.TryGetCurrentPattern($c.Id, [ref]$pattern)) { continue }
+            try {
+                & $c.Act $pattern
+                if (-not $verifyButton) { Start-Sleep -Milliseconds 1500; return $true }
+                if (Wait-RibbonButtonVisible $verifyButton 4) { return $true }
+                Write-Host "select tab attempt $attempt via $($c.Name) ran but the tab did not display"
+            } catch { Write-Host "select tab attempt $attempt via $($c.Name) failed: $($_.Exception.Message.Split([char]10)[0])" }
+        }
+        Start-Sleep -Seconds 2
+    }
+    return $false
+}
+
+# Waits until a Ribbon button with that name is in the tree and on screen (its tab is the displayed one).
+function Wait-RibbonButtonVisible([string]$namePattern, [int]$timeoutSec = 10) {
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    while ($sw.Elapsed.TotalSeconds -lt $timeoutSec) {
+        $b = Find-RibbonButton $namePattern
+        if ($b) { try { if (-not $b.Current.IsOffscreen) { return $b } } catch { } }
+        Start-Sleep -Milliseconds 500
+    }
+    return $null
+}
+
+# First Button under the Roamer main window whose name (line breaks collapsed) matches the pattern; $null if none.
+function Find-RibbonButton([string]$namePattern) {
+    $main = Get-RoamerMainAutomationElement
+    if (-not $main) { return $null }
+    $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
+    try {
+        foreach ($b in $main.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) {
+            $name = ($b.Current.Name -replace "`r?`n", ' ')
+            if ($name -match $namePattern) { return $b }
+        }
+    } catch { Write-Host "ribbon button lookup failed: $($_.Exception.Message)" }
+    return $null
+}
+
+function Invoke-RibbonButton([string]$namePattern) {
+    $button = Find-RibbonButton $namePattern
+    if (-not $button) { Write-Host "ribbon button /$namePattern/ not found"; return $false }
+    try { $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); return $true }
+    catch { Write-Host "invoke /$namePattern/ failed: $($_.Exception.Message)"; return $false }
+}
+
+# Number of visible top-level windows of our Roamer titled like the bridge window (proves Activate, not a twin).
+function Count-BridgeWindows {
+    $n = 0
+    foreach ($h in [HPNavisHarness.Win32]::TopLevelWindowsOf($script:navisPid)) {
+        if ([HPNavisHarness.Win32]::TitleOf($h) -eq 'HPNavis MCP Bridge') { $n++ }
+    }
+    return $n
+}
+
+# A picture of the top of the Roamer main window (title, Ribbon tabs, the selected tab's panels) so the icon and
+# layout can be checked from a log folder without a person at the screen.
+function Save-RibbonScreenshot([string]$path, [int]$height = 260) {
+    try {
+        Add-Type -AssemblyName System.Drawing
+        $main = Get-RoamerMainAutomationElement
+        if (-not $main) { return $false }
+        $r = $main.Current.BoundingRectangle
+        $h = [Math]::Min($height, [int]$r.Height)
+        $bmp = New-Object System.Drawing.Bitmap([int]$r.Width, $h)
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.CopyFromScreen([int]$r.X, [int]$r.Y, 0, 0, $bmp.Size)
+        $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
+        $g.Dispose(); $bmp.Dispose()
+        Write-Host "ribbon screenshot: $path"
+        return $true
+    } catch { Write-Host "screenshot failed: $($_.Exception.Message)"; return $false }
 }

@@ -45,6 +45,15 @@
         <None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <!-- The Ribbon layout is Navisworks' XAML, not ours: keep it out of WPF markup compilation (UseWPF globs **\*.xaml as
+             Page) and ship it verbatim in the culture folder beside the DLL, the icons in Images\ — the two folders Roamer reads. -->
+        <Page Remove="Ribbon\**\*.xaml"/>
+        <None Remove="Ribbon\**"/>
+        <None Include="Ribbon\en-US\*" Link="en-US\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
+        <None Include="Ribbon\Images\*.png" Link="Images\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
     <!-- One readable error instead of hundreds of CS0246 when the product is not installed here. -->
     <Target Name="RequireNavisworksApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NavisworksApiAvailable)' != 'true'">
         <Error Text="Navisworks Manage $(NavisworksYear) API not found at '$(NavisworksInstallDir)'. Install Navisworks, or pass -p:NavisworksInstallDir=&lt;dir&gt; / set HPNAVIS_NAVISWORKS_DIR. Only HPNavis.Mcp.Server and its tests build without it."/>

@@ -13,7 +13,7 @@ self-check verifies they came from there.
 
 | Project | TFM | What |
 |---|---|---|
-| `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `AddInPlugin` "HPNavis MCP" in the Add-ins menu (status window). |
+| `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `CommandHandlerPlugin` Ribbon tab **HPNavis** ▸ **MCP** ▸ **MCP Bridge** (status window; layout `Ribbon/en-US/HPNavisRibbon.xaml`, icons `Ribbon/Images/`) + a hidden `AddInPlugin` for `ExecuteAddInPlugin`. |
 | `HPNavis.Mcp.Server` | net10 | The stdio MCP server exe the host AI launches: `NavisHostProfile` (pipe `hpnavis-mcp-2026`, prefix `navis.`, registry root `%AppData%\HPNavis\McpServer\`, 600 s ceiling), `execute_navis_code`, `get_navis_context`, prompts `navis_query_template` / `navis_review_template`, resources `navis://document/info` and `navis://selection`, plus the engine's `inspect_type`, `cancel_execution` and 8 registry tools. Never references the Navisworks API. |
 | `HPNavis.McpBridge.Tests` | net48 | xUnit v3 over the plugin's pure layers: undo rules, heavy gate, fingerprint delta, serializer bounds, resolver folder test, every seed compiled with the bridge's own compiler — 124 cases, no Navisworks running (needs the API installed to build the plugin). |
 | `HPNavis.Mcp.Server.Tests` | net10 | xUnit v3: the profile and tool surface this exe registers, the tools over a real pipe with a fake executor (600 s pass-through, refusal codes naming Navisworks, no-bridge error without machine paths) — 12 tests. |
@@ -66,7 +66,7 @@ get_navis_context, read-only execute, dry-run edit, heavy refusal, inspect_type,
 
 ## Using it
 
-1. Start Navisworks, open a model. Add-ins ▸ **HPNavis MCP** opens the bridge window.
+1. Start Navisworks, open a model. Ribbon tab **HPNavis** ▸ **MCP** ▸ **MCP Bridge** opens the bridge window (with no model Navisworks shows its start page and greys every tab — open a model first, or start Roamer with `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1`).
 2. **Start listener** (or tick auto-start). Pipe: `hpnavis-mcp-2026`.
 3. Tick **Allow AI code execution** — per session, never persisted. Tick **Allow heavy operations** only when the AI needs
    to append/merge files, save/export, or run a clash test: those cannot be undone or interrupted.
@@ -78,7 +78,18 @@ Settings (`AutoStartListener` only): `%AppData%\HPNavis\McpBridge\settings.json`
 
 ## Unattended checks
 
-All in `tools/harness/` (README there), Windows PowerShell 5.1, Navisworks closed, plugin deployed. The phase-5 proof:
+All in `tools/harness/` (README there), Windows PowerShell 5.1, Navisworks closed, plugin deployed. The Ribbon:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-ribbon-check.ps1 -WithNoDoc
+```
+
+Starts Roamer without the show-window variable, finds the **HPNavis** tab header through UI Automation (exactly once), selects
+it, screenshots the Ribbon (`output/ribbon-check/ribbon-model.png` — the one human check: icon crisp), clicks **MCP Bridge**
+(window appears + log line), clicks again (one window), asserts no Add-ins entry and no error; with `-WithNoDoc` also that
+the tab header is greyed on the start page. 2026-09-16: 14 PASS, 0 FAIL, 1 MANUAL.
+
+The phase-5 proof:
 
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-live-verify.ps1 -WithNoDoc -IncludeIsolation
