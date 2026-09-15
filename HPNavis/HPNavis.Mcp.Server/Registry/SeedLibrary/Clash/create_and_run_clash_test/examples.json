@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Architecture vs MEP, 10 mm",
+    "args": {
+      "name": "Arch vs MEP",
+      "toleranceMm": 10,
+      "a": {
+        "category": "Item",
+        "property": "Source File",
+        "op": "contains",
+        "value": "Architecture"
+      },
+      "b": {
+        "category": "Item",
+        "property": "Source File",
+        "op": "contains",
+        "value": "MEP"
+      }
+    }
+  },
+  {
+    "title": "Walls vs ducts, any intersection",
+    "args": {
+      "name": "Walls vs Ducts",
+      "a": {
+        "category": "Element",
+        "property": "Category",
+        "value": "Walls"
+      },
+      "b": {
+        "category": "Element",
+        "property": "Category",
+        "value": "Ducts"
+      }
+    }
+  }
+]

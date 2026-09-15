@@ -66,9 +66,8 @@ public static class BridgeEntry
         var settings = store.Load();
         var app = new NavisApp(() => NavisClashModule.IsAvailable);
         var navisApi = NavisApiAssemblies();
-        var imports = ImportsFor(navisApi);
 
-        var compiler = new ScriptCompiler(CompilerReferences(navisApi), imports, typeof(NavisScriptGlobals), settings.ScriptCacheSize);
+        var compiler = CreateScriptCompiler(settings.ScriptCacheSize);
         _selfCheckOk = ScriptingSelfCheck.Run(compiler, app, pluginFolder);
 
         var heavy = new NavisHeavyGate();
@@ -123,6 +122,17 @@ public static class BridgeEntry
         if (NavisApplication.Gui is not null) once(null, EventArgs.Empty);
         else NavisApplication.GuiCreated += once;
         Log.Information("MCP bridge: {Variable}=1, the status window opens once the GUI is up", ShowWindowOnStartVariable);
+    }
+
+    /// <summary>
+    ///     The script compiler exactly as the bridge runs it (imports, references, globals type). Public so the
+    ///     seed compile-check compiles every stored tool through the same configuration — a seed that passes
+    ///     there compiles inside Roamer too.
+    /// </summary>
+    public static ScriptCompiler CreateScriptCompiler(int cacheSize)
+    {
+        var navisApi = NavisApiAssemblies();
+        return new ScriptCompiler(CompilerReferences(navisApi), ImportsFor(navisApi), typeof(NavisScriptGlobals), cacheSize);
     }
 
     /// <summary>The Navisworks assemblies Roamer already loaded; Clash is optional (Manage only).</summary>

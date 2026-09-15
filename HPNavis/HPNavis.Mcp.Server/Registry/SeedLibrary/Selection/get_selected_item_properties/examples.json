@@ -1,0 +1,13 @@
+[
+  {
+    "title": "First 5 selected items, all categories",
+    "args": {}
+  },
+  {
+    "title": "Only the Element category of the first 5",
+    "args": {
+      "maxItems": 5,
+      "category": "Element"
+    }
+  }
+]

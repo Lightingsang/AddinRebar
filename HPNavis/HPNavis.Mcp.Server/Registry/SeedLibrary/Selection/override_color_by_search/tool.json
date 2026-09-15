@@ -1,0 +1,88 @@
+{
+  "name": "override_color_by_search",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Selection",
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "appearance",
+    "search",
+    "review"
+  ],
+  "title": "Colour items found by a search",
+  "description": "Finds items by property (like find_items_by_property) and applies a permanent colour override (r, g, b 0–255) and optionally a transparency (0–1) to them; reset=true removes the overrides instead. Permanent overrides are saved with the file and undoable — one Undo entry; dryRun undoes it again.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "category": {
+        "type": "string",
+        "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+      },
+      "property": {
+        "type": "string",
+        "description": "Property display name inside that category, e.g. Name, Type, Level"
+      },
+      "op": {
+        "type": "string",
+        "enum": [
+          "equals",
+          "contains",
+          "wildcard",
+          "gt",
+          "lt"
+        ],
+        "default": "equals",
+        "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+      },
+      "value": {
+        "type": "string",
+        "description": "Value to compare with (numbers as text for gt / lt)"
+      },
+      "r": {
+        "type": "integer",
+        "default": 255,
+        "minimum": 0,
+        "maximum": 255,
+        "description": "Red 0–255"
+      },
+      "g": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 255,
+        "description": "Green 0–255"
+      },
+      "b": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 255,
+        "description": "Blue 0–255"
+      },
+      "transparency": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Optional transparency 0 (opaque) – 1 (invisible)"
+      },
+      "reset": {
+        "type": "boolean",
+        "default": false,
+        "description": "Remove the permanent colour/transparency overrides of the matching items instead of colouring them"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "category",
+      "property",
+      "value"
+    ]
+  }
+}

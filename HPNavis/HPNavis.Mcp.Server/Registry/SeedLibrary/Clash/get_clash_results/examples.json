@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Every test, first 100 results each",
+    "args": {}
+  },
+  {
+    "title": "Counts only for one test",
+    "args": {
+      "testName": "Architecture vs MEP",
+      "maxResults": 0
+    }
+  }
+]

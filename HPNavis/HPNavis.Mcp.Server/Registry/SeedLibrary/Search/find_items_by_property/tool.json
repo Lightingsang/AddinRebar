@@ -1,0 +1,63 @@
+{
+  "name": "find_items_by_property",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Search",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "search",
+    "query",
+    "properties"
+  ],
+  "title": "Find items by property",
+  "description": "Runs a Navisworks Search over the whole model for items whose property matches (equals / contains / wildcard / gt / lt) and returns up to maxResults of them with name, class, path, guid and bounding box in millimetres, plus the total hit count. Read-only — use create_selection_set_from_search to keep the result.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "category": {
+        "type": "string",
+        "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+      },
+      "property": {
+        "type": "string",
+        "description": "Property display name inside that category, e.g. Name, Type, Level"
+      },
+      "op": {
+        "type": "string",
+        "enum": [
+          "equals",
+          "contains",
+          "wildcard",
+          "gt",
+          "lt"
+        ],
+        "default": "equals",
+        "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+      },
+      "value": {
+        "type": "string",
+        "description": "Value to compare with (numbers as text for gt / lt)"
+      },
+      "maxResults": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 1000,
+        "description": "How many matching items to return (the total is always reported)"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "category",
+      "property",
+      "value"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "get_model_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Model",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "model",
+    "query",
+    "units"
+  ],
+  "title": "Get model info",
+  "description": "Overview of the open Navisworks document: title, file, document units, modified flag, the appended models (file, source file, units) and the number of root items; optionally the root item names. Call it first so later scripts use the right units. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeRootItems": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list the display name and class of each root item (one per appended model, usually)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

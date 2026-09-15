@@ -32,6 +32,18 @@ dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false  # Navisworks o
 Deploy target: `%AppData%\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge\` — Navisworks requires the folder
 name to equal the assembly name. Remove the plugin by deleting that folder; disable it temporarily by renaming the folder.
 
+## Seed tools
+
+12 seeds ship inside the server (`HPNavis.Mcp.Server/Registry/SeedLibrary/<Category>/<name>/{tool.json, code.cs, examples.json}`) and are
+installed into `%AppData%\HPNavis\McpServer\tools-library\` on first start: 8 read-only (`get_model_info`, `get_selected_item_properties`,
+`find_items_by_property`, `list_selection_sets`, `list_viewpoints`, `get_clash_results`, `get_timeliner_tasks`, `summarize_by_category`),
+3 review edits (`create_selection_set_from_search`, `create_viewpoint`, `override_color_by_search`) and one heavy tool
+(`create_and_run_clash_test`, `tags:["heavy"]`, 600 s, needs "Allow heavy operations"). `tools/list` therefore shows 24 tools.
+Seed contract: script body ending in `return`, `args.X("key", default)` for every input (the tests prove schema ⇔ code), millimetres at
+the boundary via `units`, searches through `Search` + `SearchCondition` (never `Descendants` without `PruneBelowMatch`/`Take`), no
+`Transaction`. `HPNavis.McpBridge.Tests` compiles every seed with the bridge's own compiler on .NET Framework 4.8;
+`HPNavis.Mcp.Server.Tests` checks the records. Live check: `powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-seeds-live.ps1`.
+
 ## Server exe and client wiring
 
 ```bash

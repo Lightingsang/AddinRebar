@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Items whose name contains Wall",
+    "args": {
+      "category": "Item",
+      "property": "Name",
+      "op": "contains",
+      "value": "Wall"
+    }
+  },
+  {
+    "title": "Doors by Revit category, first 50",
+    "args": {
+      "category": "Element",
+      "property": "Category",
+      "op": "equals",
+      "value": "Doors",
+      "maxResults": 50
+    }
+  },
+  {
+    "title": "Elements whose Level equals 02",
+    "args": {
+      "category": "Element",
+      "property": "Level",
+      "value": "02"
+    }
+  }
+]

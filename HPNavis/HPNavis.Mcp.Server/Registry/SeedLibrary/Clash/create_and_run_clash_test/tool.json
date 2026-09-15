@@ -1,0 +1,123 @@
+{
+  "name": "create_and_run_clash_test",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Clash",
+  "transaction": "auto",
+  "timeoutSeconds": 600,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "clash",
+    "heavy",
+    "review"
+  ],
+  "title": "Create and run a clash test",
+  "description": "HEAVY: creates a Clash Detective test between two searches (a and b, each category/property/op/value), with a tolerance in millimetres, and runs it. Needs 'Allow heavy operations' ticked in the bridge window; the run cannot be interrupted or undone (the test definition itself is undoable), may take minutes on big models — save the file first. Returns result counts by status and the elapsed time; read results with get_clash_results.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Display name of the new clash test"
+      },
+      "toleranceMm": {
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "description": "Clash tolerance in millimetres (0 = any intersection)"
+      },
+      "testType": {
+        "type": "string",
+        "enum": [
+          "Hard",
+          "HardConservative",
+          "Clearance",
+          "Duplicate"
+        ],
+        "default": "Hard",
+        "description": "Clash test type"
+      },
+      "a": {
+        "type": "object",
+        "description": "Selection A as a search: {category, property, op, value}",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+          },
+          "property": {
+            "type": "string",
+            "description": "Property display name inside that category, e.g. Name, Type, Level"
+          },
+          "op": {
+            "type": "string",
+            "enum": [
+              "equals",
+              "contains",
+              "wildcard",
+              "gt",
+              "lt"
+            ],
+            "default": "equals",
+            "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value to compare with (numbers as text for gt / lt)"
+          }
+        },
+        "required": [
+          "category",
+          "property",
+          "value"
+        ]
+      },
+      "b": {
+        "type": "object",
+        "description": "Selection B as a search: {category, property, op, value}",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+          },
+          "property": {
+            "type": "string",
+            "description": "Property display name inside that category, e.g. Name, Type, Level"
+          },
+          "op": {
+            "type": "string",
+            "enum": [
+              "equals",
+              "contains",
+              "wildcard",
+              "gt",
+              "lt"
+            ],
+            "default": "equals",
+            "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value to compare with (numbers as text for gt / lt)"
+          }
+        },
+        "required": [
+          "category",
+          "property",
+          "value"
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "name",
+      "a",
+      "b"
+    ]
+  }
+}

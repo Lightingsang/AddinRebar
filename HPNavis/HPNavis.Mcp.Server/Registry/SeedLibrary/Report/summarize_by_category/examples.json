@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Item classes",
+    "args": {}
+  },
+  {
+    "title": "Item types, top 50",
+    "args": {
+      "groupBy": "Item.Type",
+      "maxGroups": 50
+    }
+  },
+  {
+    "title": "Elements per level",
+    "args": {
+      "groupBy": "Element.Level"
+    }
+  }
+]

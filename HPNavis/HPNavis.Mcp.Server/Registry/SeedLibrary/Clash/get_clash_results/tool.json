@@ -1,0 +1,38 @@
+{
+  "name": "get_clash_results",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Clash",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "clash",
+    "query",
+    "report"
+  ],
+  "title": "Get clash test results",
+  "description": "Clash Detective tests — status, last run, result counts by status for every test (tests[]) — followed by up to maxResults results per test (results[]: test, name, status, distance and center in millimetres, the two clashing items). Optionally one test by name. Needs Navisworks Manage (hasClashModule). Read-only — run tests with create_and_run_clash_test.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "testName": {
+        "type": "string",
+        "description": "Only the test with this display name; empty = every test"
+      },
+      "maxResults": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 0,
+        "maximum": 1000,
+        "description": "Results listed per test (counts are always complete)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

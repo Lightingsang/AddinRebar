@@ -1,0 +1,13 @@
+[
+  {
+    "title": "All tasks",
+    "args": {}
+  },
+  {
+    "title": "First 50 tasks with selections",
+    "args": {
+      "maxTasks": 50,
+      "includeSelection": true
+    }
+  }
+]

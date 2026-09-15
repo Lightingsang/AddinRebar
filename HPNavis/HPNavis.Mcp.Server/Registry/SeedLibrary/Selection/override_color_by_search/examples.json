@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Walls in red",
+    "args": {
+      "category": "Item",
+      "property": "Name",
+      "op": "contains",
+      "value": "Wall",
+      "r": 255,
+      "g": 0,
+      "b": 0
+    }
+  },
+  {
+    "title": "Doors half transparent blue",
+    "args": {
+      "category": "Element",
+      "property": "Category",
+      "value": "Doors",
+      "r": 0,
+      "g": 0,
+      "b": 255,
+      "transparency": 0.5
+    }
+  },
+  {
+    "title": "Remove the wall overrides",
+    "args": {
+      "category": "Item",
+      "property": "Name",
+      "op": "contains",
+      "value": "Wall",
+      "reset": true
+    }
+  }
+]

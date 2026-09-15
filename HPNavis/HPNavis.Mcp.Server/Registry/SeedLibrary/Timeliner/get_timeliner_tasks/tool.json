@@ -1,0 +1,39 @@
+{
+  "name": "get_timeliner_tasks",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Timeliner",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "timeliner",
+    "schedule",
+    "query"
+  ],
+  "title": "Get TimeLiner tasks",
+  "description": "Flat list of the TimeLiner tasks with their nesting level, planned and actual dates, status, task type and optionally the attached selection. An empty list is a valid answer (no schedule). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "maxTasks": {
+        "type": "integer",
+        "default": 500,
+        "minimum": 1,
+        "maximum": 5000,
+        "description": "Stop after this many tasks"
+      },
+      "includeSelection": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include the display string of each task's attached selection"
+      }
+    },
+    "additionalProperties": false
+  }
+}

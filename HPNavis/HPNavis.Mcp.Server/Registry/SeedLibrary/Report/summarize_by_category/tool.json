@@ -1,0 +1,45 @@
+{
+  "name": "summarize_by_category",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Report",
+  "transaction": "none",
+  "timeoutSeconds": 120,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "report",
+    "count",
+    "query"
+  ],
+  "title": "Summarize items by category or property",
+  "description": "Counts model items grouped by class (default) or by the value of one property given as 'Category.Property' (e.g. Item.Type, Element.Level). Walks at most maxItems items (default 200000) and returns up to maxGroups groups sorted by count. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "groupBy": {
+        "type": "string",
+        "default": "",
+        "description": "'Category.Property' display names to group by, e.g. Item.Type; empty groups by item class"
+      },
+      "maxGroups": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 5000,
+        "description": "Groups returned (largest first)"
+      },
+      "maxItems": {
+        "type": "integer",
+        "default": 200000,
+        "minimum": 1,
+        "description": "Items visited before the walk stops (the answer says whether it was complete)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

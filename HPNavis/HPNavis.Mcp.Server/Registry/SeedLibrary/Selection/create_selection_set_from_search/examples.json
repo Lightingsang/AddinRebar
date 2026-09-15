@@ -1,0 +1,21 @@
+[
+  {
+    "title": "All walls",
+    "args": {
+      "name": "Walls",
+      "category": "Item",
+      "property": "Name",
+      "op": "contains",
+      "value": "Wall"
+    }
+  },
+  {
+    "title": "Level 02 elements",
+    "args": {
+      "name": "Level 02",
+      "category": "Element",
+      "property": "Level",
+      "value": "02"
+    }
+  }
+]

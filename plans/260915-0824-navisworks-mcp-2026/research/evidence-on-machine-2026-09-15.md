@@ -190,3 +190,11 @@ Console `Net48RunProbe` (net48, `AutoGenerateBindingRedirects=false` to mimic a 
 
 - `HPNavis.Mcp.Server.exe` (published net10, `NdjsonPipeTransport` with `PipeOptions.CurrentUserOnly`) connected to the plugin's `NamedPipeServerStream` created with `PipeSecurity.SetOwner(current user) + FullControl` on .NET Framework 4.8: `MCP server connected on hpnavis-mcp-2026`, `get_navis_context` answered in 0.20 s, no `UnauthorizedAccessException` — the owner-SID check the .NET client performs is satisfied by the explicit owner the net48 listener sets. Both processes unelevated.
 - `serverInfo.name` "HPNavis MCP"; `tools/list` 12 names; heavy refusal (`HEAVY`) and dry-run (`rolledBack=true`, `changed.added=1`) survive the server's result mapping unchanged.
+
+## E21 · Seed-library facts from the live run — V (phase 4, 2026-09-15)
+
+- `VariantData.ToDisplayString()` throws `NotSupportedException: Not supported if '!IsDisplayString'` for any other variant type (Int32, Boolean, Double, DateTime, NamedConstant…): property readers must dispatch on `Is*` first (`IsDisplayString/IsIdentifierString/IsDoubleLength/IsAnyDouble/IsInt32/IsBoolean/IsDateTime`, fallback `ToString()`).
+- `Search` without `Locations = SearchLocations.DescendantsAndSelf` matched only the root file item in the phase-2 harness; with it, `Item.Type equals "PolyFace Mesh"` finds 718 of gatehouse's 2 006 items. `PruneBelowMatch = true` keeps matched items' descendants out of the result.
+- gatehouse item classes: PolyFace Mesh 718, Block 614, Insert 614, Layer, File (`summarize_by_category`); most geometry items have an empty `DisplayName` and `InstanceGuid == Guid.Empty`; the ancestor path reads `gatehouse_pub.nwd / 0 /  / OBJECT_14` (layer "0", unnamed insert).
+- Hard clash PolyFace Mesh (718) vs Block (614), tolerance 0: **3 015 results in 96 ms**, `ClashTest.Status Complete`, every result `New`, `Distance` negative (penetration) e.g. −205.74 mm. `TimelinerTask.PlannedStartDate/PlannedEndDate` are settable; `TaskAddCopy` inside the bridge transaction is undoable; `TaskStatus` shows `PlannedOnly`.
+- `test_tool` (dry run) on the heavy seed is refused before running with the heavy diagnostic; `run_tool` with heavy ON honours the 600 s record (no clamp log) — the registry path carries the profile's ceiling end to end.

@@ -1,0 +1,38 @@
+{
+  "name": "get_selected_item_properties",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Selection",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "selection",
+    "properties",
+    "query"
+  ],
+  "title": "Get properties of the selected items",
+  "description": "Property categories and values of the items currently selected in Navisworks (max maxItems, default 5), optionally one category only. Length values are converted to millimetres; everything else is the display string. Read-only; select items in Navisworks first.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "maxItems": {
+        "type": "integer",
+        "default": 5,
+        "minimum": 1,
+        "maximum": 50,
+        "description": "How many selected items to describe (every category of an item is ~5 KB of output)"
+      },
+      "category": {
+        "type": "string",
+        "description": "Only this property category (display name, e.g. Item, Element); empty = every category"
+      }
+    },
+    "additionalProperties": false
+  }
+}

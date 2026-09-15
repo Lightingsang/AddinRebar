@@ -1,0 +1,31 @@
+{
+  "name": "list_viewpoints",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Viewpoint",
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "viewpoints",
+    "query"
+  ],
+  "title": "List saved viewpoints",
+  "description": "Flat list of the saved viewpoints (folders as path segments): name, guid, camera position in millimetres, number of comments and optionally the comment texts. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeComments": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include each comment's author, status and text"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "list_selection_sets",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Selection",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "selection-sets",
+    "query"
+  ],
+  "title": "List selection and search sets",
+  "description": "Flat list of every saved selection set and search set (folders included as path segments): name, kind (search / explicit / folder), guid and folder path; optionally how many items each set currently resolves to. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeCounts": {
+        "type": "boolean",
+        "default": false,
+        "description": "Resolve each set against the model and report its item count (slower on big models)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

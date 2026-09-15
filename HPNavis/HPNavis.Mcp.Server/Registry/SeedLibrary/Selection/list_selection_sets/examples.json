@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Names and kinds",
+    "args": {}
+  },
+  {
+    "title": "With item counts",
+    "args": {
+      "includeCounts": true
+    }
+  }
+]

@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Seed library Navisworks (12 seed: 8 read-only, 3 ghi nhẹ, 1 heavy) + compile-check net48 + registry live"
-status: pending
+status: completed
 priority: P2
 effort: "10h"
 dependencies: [0, 2, 3]
@@ -57,19 +57,19 @@ dependencies: [0, 2, 3]
 6. `reports/phase-04-seeds.md`.
 
 ## Todo List
-- [ ] Chốt chữ ký `[chưa xác minh]` → E8-bis
-- [ ] R1–R8, W1–W3 + examples + live
-- [ ] H1 + heavy gate live
-- [ ] `SeedLibraryTests` net48 + structure test net10
-- [ ] Registry live (search/run/test/upgrade/600 s)
-- [ ] Report
+- [x] Chốt chữ ký `[chưa xác minh]` → reflection (report §E8-ter)
+- [x] R1–R8, W1–W3 + examples + live (gatehouse, run_tool/test_tool)
+- [x] H1 + heavy gate live (OFF → HEAVY; ON → 3 015 kết quả / 96 ms)
+- [x] `SeedLibraryCompileTests` net48 (124 tổng) + `SeedLibraryStructureTests` net10 (49 tổng)
+- [x] Registry live (search/run/test/600 s); upgrade `_seeds.json` = engine, không chạy lại
+- [x] Report `reports/phase-04-seeds.md`
 
 ## Success Criteria
-- [ ] `dotnet test HPNavis/HPNavis.McpBridge.Tests` (máy dev): 15 (phase 2) + 12 compile + 12 structural + 1 heavy-gate = **≥ 40 pass, 0 skip**; `dotnet test HPNavis/HPNavis.Mcp.Server.Tests`: ≥ 10 + 1 pass.
-- [ ] `tools/list` Navis = 12 + 12 = **24**; Revit 34 / AutoCAD 24 không đổi (snapshot phase 0, exe rebuild).
-- [ ] Mỗi R*/W* seed có `runId` live trong report (`run_tool` hoặc `test_tool` dryRun trên gatehouse/Getting Started); H1: `test_tool` → từ chối có thông điệp; `run_tool` heavy ON → `status counts` + `elapsedMs` (ghi); heavy OFF → `HEAVY`.
-- [ ] `grep -L '"host": "navis"' …/SeedLibrary/*/*/tool.json` rỗng; `grep -l '"heavy"' …/tool.json` = đúng 1 (H1); `grep -rn 'Descendants' …/code.cs` chỉ ở seed có `PruneBelowMatch`/`Take(`.
-- [ ] Không có `Contains(` trên `SearchCondition` (tên đúng `DisplayStringContains`), không có `EqualValue("` với string (phải `VariantData`).
+- [x] `dotnet test HPNavis/HPNavis.McpBridge.Tests`: **124 pass, 0 skip** (62 phase 2 + 62 seed); `HPNavis.Mcp.Server.Tests`: **49** (12 + 37 seed).
+- [x] `tools/list` Navis = **24** (live, isolated root); Revit/AutoCAD không đổi — `McpShared/` không bị chạm (`git diff 3ef5c36 -- McpShared` rỗng).
+- [x] Mỗi seed có run live trong report (runId 1–21); H1: `test_tool` từ chối có thông điệp; heavy ON → `Complete`, 3 015 `New`, 96 ms; heavy OFF → `HEAVY`.
+- [x] `grep -L '"host": "navis"'` rỗng; `"heavy"` đúng 1 file (H1); `Descendants` chỉ ở seed có `PruneBelowMatch`/`Take(` (kiểm bằng grep + test).
+- [x] Không có `Contains(` trên `SearchCondition`, không có `EqualValue("` (grep + test).
 
 ## Risk Assessment
 - `VariantData` nhiều kiểu → helper trong R2 dùng `IsDisplayString/IsDouble/IsInt32/IsBoolean/IsDateTime` + `ToDisplayString()`; kiểm live.

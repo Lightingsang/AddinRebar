@@ -1,0 +1,61 @@
+{
+  "name": "create_selection_set_from_search",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Selection",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "selection-sets",
+    "search",
+    "review"
+  ],
+  "title": "Create a search set",
+  "description": "Saves a search set (a live Navisworks Search: category, property, operator, value) under the given name in Sets; returns its guid and how many items it resolves to right now (counted up to 1000). One Undo entry; dryRun undoes it again.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Display name of the new set"
+      },
+      "category": {
+        "type": "string",
+        "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+      },
+      "property": {
+        "type": "string",
+        "description": "Property display name inside that category, e.g. Name, Type, Level"
+      },
+      "op": {
+        "type": "string",
+        "enum": [
+          "equals",
+          "contains",
+          "wildcard",
+          "gt",
+          "lt"
+        ],
+        "default": "equals",
+        "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+      },
+      "value": {
+        "type": "string",
+        "description": "Value to compare with (numbers as text for gt / lt)"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "name",
+      "category",
+      "property",
+      "value"
+    ]
+  }
+}

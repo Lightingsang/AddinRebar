@@ -1,0 +1,43 @@
+{
+  "name": "create_viewpoint",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Viewpoint",
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "viewpoints",
+    "review",
+    "comments"
+  ],
+  "title": "Save the current view as a viewpoint",
+  "description": "Saves the current camera as a named viewpoint (optionally with a first comment and its author) and returns its guid and position in millimetres. One Undo entry; dryRun undoes it again.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Display name of the viewpoint"
+      },
+      "comment": {
+        "type": "string",
+        "description": "Optional comment text attached to the viewpoint"
+      },
+      "author": {
+        "type": "string",
+        "default": "MCP",
+        "description": "Author recorded on the comment"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "name"
+    ]
+  }
+}

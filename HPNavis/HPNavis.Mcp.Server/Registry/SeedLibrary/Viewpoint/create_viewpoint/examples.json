@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Plain viewpoint",
+    "args": {
+      "name": "Entrance check"
+    }
+  },
+  {
+    "title": "Viewpoint with a review comment",
+    "args": {
+      "name": "Clash at grid B3",
+      "comment": "Duct crosses the beam here",
+      "author": "Reviewer"
+    }
+  }
+]
