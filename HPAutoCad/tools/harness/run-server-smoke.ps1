@@ -1,6 +1,6 @@
 # Unattended stdio smoke of the published server exe against a live AutoCAD: starts AutoCAD with the bridge
 # (bridge.scr), ticks the opt-in through UI Automation, then drives HPAutoCad.Mcp.Server.exe over stdio with
-# mcp-call.py exactly as a host AI would: initialize, tools/list, get_autocad_context, execute_autocad_code
+# McpShared/tools/mcp-call.py exactly as a host AI would: initialize, tools/list, get_autocad_context, execute_autocad_code
 # (read, dry run, real run, count). Kills AutoCAD at the end. Publish the exe first:
 #   dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server
 #Requires -Version 7.3
@@ -16,7 +16,7 @@ if (-not (Test-Path $Exe)) { throw "Server exe not found: $Exe (publish it first
 $Exe = (Resolve-Path $Exe).Path
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $OutDir = (Resolve-Path $OutDir).Path
-$mcp = Join-Path $PSScriptRoot 'mcp-call.py'
+$mcp = Join-Path $PSScriptRoot '..\..\..\McpShared\tools\mcp-call.py'   # shared stdio helper (McpShared/tools)
 $env:PYTHONIOENCODING = 'utf-8'
 
 function Call([string]$name, [string]$method, [string[]]$extra) {

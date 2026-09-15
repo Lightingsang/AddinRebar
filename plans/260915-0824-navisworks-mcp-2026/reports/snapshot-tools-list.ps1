@@ -5,7 +5,7 @@ param([Parameter(Mandatory)][ValidatePattern('^(before|after)$')][string]$Tag)
 $ErrorActionPreference = 'Stop'
 $root = (Get-Location).Path
 $reports = Join-Path $root 'plans\260915-0824-navisworks-mcp-2026\reports'
-$py = Join-Path $root 'HPAutoCad\tools\harness\mcp-call.py'
+$py = Join-Path $root 'McpShared\tools\mcp-call.py'   # the shared stdio helper (the AutoCAD copy moved here 2026-09-16)
 $iso = Join-Path $env:TEMP "hp-mcp-snapshot-$Tag"
 New-Item -ItemType Directory -Force $iso | Out-Null
 

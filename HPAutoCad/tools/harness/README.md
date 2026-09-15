@@ -4,10 +4,10 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
 
 - `run-bridge-unattended.ps1` — the bridge alone: `pipe-scenarios.py` speaks NDJSON JSON-RPC straight to the
   named pipe `\.\pipe\hpautocad-mcp-2026`, no MCP server involved.
-- `run-server-smoke.ps1` — the published `HPAutoCad.Mcp.Server.exe` over stdio through `mcp-call.py`, exactly as a
+- `run-server-smoke.ps1` — the published `HPAutoCad.Mcp.Server.exe` over stdio through `McpShared/tools/mcp-call.py`, exactly as a
   host AI would (initialize, tools/list, get_autocad_context, execute_autocad_code read / dry run / real run, get_run,
   every seed by name — 22 steps).
-- `run-live-verify.ps1` — the full phase-5 proof through `live-verify.py` on **one** stdio session (`mcp-session.py`):
+- `run-live-verify.ps1` — the full phase-5 proof through `live-verify.py` on **one** stdio session (`McpShared/tools/mcp-session.py`, the helper every HP MCP harness shares):
   the execute matrix (incl. busy → ESC posted → retry, no drawing, opt-in off), every seed with a real block and a
   pickfirst set, MISS → `propose_tool` → `test_tool` → `publish_tool` → CLI `registry approve` → `tools/list_changed`
   → call by name, an unguarded tool quarantined then restored/fixed/re-approved, the Revit exe beside it; with
@@ -47,7 +47,7 @@ pwsh HPAutoCad/tools/harness/run-live-verify.ps1 -IncludeIsolation   # phase-5 p
 pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # Ribbon tab: one tab, still one after a workspace round trip, buttons drive the pipe/window (~3 min)
 python HPAutoCad/tools/harness/live-verify.py --exe <autocad exe> --revit-exe <revit exe> --only e   # Revit beside, no AutoCAD start
 python HPAutoCad/tools/harness/pipe-scenarios.py --only ping,context   # against an AutoCAD you started yourself
-python HPAutoCad/tools/harness/mcp-call.py <exe> tools/list            # any HP MCP exe, no AutoCAD/Revit needed
+python McpShared/tools/mcp-call.py <exe> tools/list                    # any HP MCP exe, no AutoCAD/Revit needed
 ```
 
 COM automation goes through Windows PowerShell 5.1 (`GetActiveObject` is not in PowerShell 7); a `SendCommand`

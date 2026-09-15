@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-16 — Harness AutoCAD dùng script stdio chung `McpShared/tools/`
+
+**Thay đổi:** Xóa `HPAutoCad/tools/harness/{mcp-call.py, mcp-session.py}` (chỉ khác bản canonical ở docstring); `live-verify.py` import `../../../McpShared/tools/mcp-session.py`, `run-live-verify.ps1`/`run-server-smoke.ps1` gọi `McpShared/tools/mcp-call.py`; `plans/260915-…/reports/snapshot-tools-list.ps1` cũng trỏ sang đó. Chiều phụ thuộc giữ nguyên: thư mục MCP → `McpShared/`, không có bản copy nào khác trong repo.
+
+**Xác minh:** `python McpShared/tools/mcp-call.py <AutoCAD exe> tools/list` → 24 tools; `HPAutoCad/tools/harness/run-live-verify.ps1 -SkipRevit` live trong AutoCAD 2026: main A–D 56/56, disabled 1/1, nodoc 1/1, busy 2/2 (wrapper 4 bước, 0 fail; Revit không chạy nên E bỏ qua — lần chạy đầy đủ trước đó chỉ fail 2 check E vì bridge Revit chưa mở); `run-server-smoke.ps1` 22/22 (lần đầu pipe không lên vì AutoCAD khởi động sau khi bị kill — hiện tượng môi trường, chạy lại PASS). Sửa kèm: bước nodoc retry `ActiveDocument.Close` 5 lần khi AutoCAD trả `RPC_E_CALL_REJECTED`. Không đổi code C#.
+
 ## 2026-09-16 — Navisworks MCP bridge: Ribbon tab "HPNavis" ▸ "MCP" ▸ "MCP Bridge" (plan 260916-0005-navisworks-ribbon-tab)
 
 **Bổ sung:** `HPNavisRibbonPlugin : CommandHandlerPlugin` (`[RibbonLayout("HPNavisRibbon.xaml")]`, `[RibbonTab("ID_HPNAVIS")]`, `[Command("ID_HPNAVIS_MCP_BRIDGE", CallCanExecute = Always)]`) mở/activate cửa sổ bridge — cùng bề mặt 1 nút như ribbon MCP Revit, nhãn English. Layout `Ribbon/en-US/HPNavisRibbon.xaml` (XAML của Navisworks, `<Page Remove>` khỏi WPF markup compile) + `HPNavisRibbon.name`; icon `Ribbon/Images/McpBridge_16|32.png` render pixel-exact từ 1 glyph vector (cửa sổ + phích cắm, ink #3C3C3C / accent #0696D7) bằng `tools/icons/render-ribbon-icons.ps1`. `HPNavisWindowPlugin` → `AddInLocation.None` (hết trùng nút Add-ins, vẫn `ExecuteAddInPlugin`). Deploy target sẵn có copy `en-US\` + `Images\`.

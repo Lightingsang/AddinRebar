@@ -11,7 +11,8 @@ steps that need the box off (disabled) or no drawing (nodoc). Prints PASS/FAIL l
 import argparse, ctypes, ctypes.wintypes as wt, hashlib, importlib.util, json, os, shutil, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "mcp-session.py"))
+# the stdio session helper is shared by every HP MCP harness (MCP folder -> McpShared, never the other way round)
+spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
 mcp_session = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mcp_session)
 Server = mcp_session.Server

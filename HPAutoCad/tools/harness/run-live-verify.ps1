@@ -26,7 +26,7 @@ if (-not $revit) { Write-Host 'Revit exe not found or skipped: scenario E will n
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $OutDir = (Resolve-Path $OutDir).Path
 $py = Join-Path $PSScriptRoot 'live-verify.py'
-$mcp = Join-Path $PSScriptRoot 'mcp-call.py'
+$mcp = Join-Path $PSScriptRoot '..\..\..\McpShared\tools\mcp-call.py'   # shared stdio helper (McpShared/tools)
 $env:PYTHONIOENCODING = 'utf-8'
 if (-not $UseLiveRegistry) {
     $registryRoot = Join-Path $OutDir 'registry'
@@ -81,7 +81,8 @@ try {
         Run '' $mainArgs
 
         "=== no drawing: close the drawing through COM, expect a refusal"
-        powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); `$a.ActiveDocument.Close(`$false); 'closed, docs left: ' + `$a.Documents.Count"
+        # AutoCAD answers RPC_E_CALL_REJECTED while it is still busy right after the main scenarios; retry the close a few times
+        powershell -NoProfile -Command "`$ids = @(Get-Process acad | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM' }; `$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); for (`$i = 1; `$i -le 5; `$i++) { try { `$a.ActiveDocument.Close(`$false); break } catch { if (`$i -eq 5) { throw }; 'close rejected (attempt ' + `$i + '), retrying'; Start-Sleep -Seconds 3 } }; 'closed, docs left: ' + `$a.Documents.Count"
         Start-Sleep -Seconds 3
         Run 'nodoc' @()
 
