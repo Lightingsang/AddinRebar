@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-16 — `McpShared/tools/harness_common.py`: bookkeeping chung cho harness Python
+
+**Thay đổi:** `Checklist` (check/skip/save/finish → PASS/FAIL/SKIP + JSON summary + exit code), `utf8_console()`, `ok`/`short`, re-export `Server`/`mcp_session`; 4 script (`HPNavis` live-verify/seeds-live/server-smoke, `HPAutoCad` live-verify) bỏ ~30 dòng lặp mỗi file và import theo đường tương đối. Shape JSON summary giữ nguyên các key wrapper đọc (`passed`, `total`, `failed`, `phase`…), thêm `skipped`/`skippedNames` ở mọi script. Self-test: `python McpShared/tools/harness_common.py`.
+
+**Xác minh:** Navisworks: `run-server-smoke.ps1` PASS 9/9, `run-seeds-live.ps1` PASS, `run-live-verify.ps1 -WithNoDoc -IncludeIsolation` PASS (main 52, heavy 3, nodoc 1, isolation 3; modal skip vì `SetForegroundWindow` bị từ chối khi người dùng đang thao tác app khác — đường skip có sẵn). AutoCAD: `run-live-verify.ps1 -SkipRevit` wrapper 4 bước 0 fail, main 56/56. Không đổi code C#.
+
 ## 2026-09-16 — Harness AutoCAD dùng script stdio chung `McpShared/tools/`
 
 **Thay đổi:** Xóa `HPAutoCad/tools/harness/{mcp-call.py, mcp-session.py}` (chỉ khác bản canonical ở docstring); `live-verify.py` import `../../../McpShared/tools/mcp-session.py`, `run-live-verify.ps1`/`run-server-smoke.ps1` gọi `McpShared/tools/mcp-call.py`; `plans/260915-…/reports/snapshot-tools-list.ps1` cũng trỏ sang đó. Chiều phụ thuộc giữ nguyên: thư mục MCP → `McpShared/`, không có bản copy nào khác trong repo.

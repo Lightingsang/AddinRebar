@@ -8,39 +8,19 @@
 The PowerShell wrapper (run-live-verify.ps1) starts AutoCAD, toggles the opt-in and calls this with --only for the
 steps that need the box off (disabled) or no drawing (nodoc). Prints PASS/FAIL lines and a JSON summary.
 """
-import argparse, ctypes, ctypes.wintypes as wt, hashlib, importlib.util, json, os, shutil, subprocess, sys, time
+import argparse, ctypes, ctypes.wintypes as wt, hashlib, json, os, shutil, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# the stdio session helper is shared by every HP MCP harness (MCP folder -> McpShared, never the other way round)
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
-mcp_session = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mcp_session)
-Server = mcp_session.Server
+# the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
+sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "McpShared", "tools"))
+from harness_common import Checklist, Server, mcp_session, ok, short, utf8_console  # noqa: E402
 
-results = []
+utf8_console()
+
+CL = Checklist()
+check, skip, save = CL.check, CL.skip, CL.save
 detached = []
 OUT = None
-
-
-def check(name, cond, detail=""):
-    results.append({"name": name, "pass": bool(cond), "detail": str(detail)[:600]})
-    print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:500], flush=True)
-
-
-def skip(name, reason):
-    results.append({"name": name, "pass": True, "skipped": True, "detail": reason})
-    print(f"SKIP {name} {reason}", flush=True)
-
-
-def short(o, n=260):
-    t = json.dumps(o, ensure_ascii=False, default=str)
-    return t if len(t) <= n else t[:n] + "…"
-
-
-def save(name, obj):
-    if OUT:
-        with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8") as f:
-            json.dump(obj, f, indent=2, ensure_ascii=False, default=str)
 
 
 # ---- AutoCAD side helpers (COM through Windows PowerShell 5.1, pid-guarded; ESC through the focused window) -------
@@ -517,8 +497,7 @@ def main():
     ap.add_argument("--reset-verify-tools", action="store_true", help="delete the harness's own tool folders from the library first (re-runnable)")
     a = ap.parse_args()
     OUT = a.out or None
-    if OUT:
-        os.makedirs(OUT, exist_ok=True)
+    CL.out_dir = OUT
     only = [x for x in a.only.split(",") if x] or ["a", "b", "c", "d"] + (["e"] if a.revit_exe else [])
 
     if a.reset_verify_tools:
@@ -549,12 +528,7 @@ def main():
     for proc in detached:
         try: proc.kill()
         except Exception: pass
-    skipped = [r["name"] for r in results if r.get("skipped")]
-    passed = sum(1 for r in results if r["pass"] and not r.get("skipped"))
-    summary = {"passed": passed, "skipped": len(skipped), "total": len(results), "failed": [r["name"] for r in results if not r["pass"]], "skippedNames": skipped}
-    save("summary-" + "-".join(only), {"results": results, **summary})
-    print(json.dumps(summary), flush=True)
-    sys.exit(0 if passed + len(skipped) == len(results) else 1)
+    sys.exit(CL.finish("summary-" + "-".join(only)))
 
 
 if __name__ == "__main__":

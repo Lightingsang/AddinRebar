@@ -8,31 +8,19 @@
 
 Usage: python seeds-live.py <exe> --registry <dir> --phase normal|heavy
 """
-import argparse, json, os, sys, time, importlib.util
-
-for stream in (sys.stdout, sys.stderr):
-    try:
-        stream.reconfigure(encoding="utf-8", errors="replace")
-    except (AttributeError, ValueError):
-        pass
+import argparse, json, os, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
-mcp_session = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mcp_session)
+# the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
+sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "McpShared", "tools"))
+from harness_common import Checklist, Server, mcp_session, ok, short, utf8_console  # noqa: E402
+
+utf8_console()
 
 SEEDS = ["get_model_info", "get_selected_item_properties", "find_items_by_property", "list_selection_sets", "list_viewpoints", "get_clash_results",
          "get_timeliner_tasks", "summarize_by_category", "create_selection_set_from_search", "create_viewpoint", "override_color_by_search", "create_and_run_clash_test"]
-results = []
-
-
-def check(name, cond, detail=""):
-    results.append({"name": name, "pass": bool(cond), "detail": detail})
-    print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:420])
-
-
-def ok(r):
-    return not r.get("isError") and not r.get("rpcError")
+CL = Checklist(line_limit=420)
+check = CL.check
 
 
 def phase_normal(s):
@@ -161,9 +149,7 @@ def main():
     finally:
         s.close()
 
-    passed = sum(1 for x in results if x["pass"])
-    print(json.dumps({"phase": a.phase, "passed": passed, "total": len(results), "failed": [x["name"] for x in results if not x["pass"]]}))
-    sys.exit(0 if passed == len(results) else 1)
+    sys.exit(CL.finish(phase=a.phase))
 
 
 if __name__ == "__main__":

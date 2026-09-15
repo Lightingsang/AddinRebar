@@ -10,48 +10,19 @@ The PowerShell wrapper (run-live-verify.ps1) starts Roamer, ticks the opt-ins an
 isolated registry root: --phase disabled (before the execution opt-in), main (E+S+R+C), heavy (after "Allow heavy
 operations"), modal (a dialog is open) + aftermodal (closed again), nodoc (a Roamer without a model). Prints PASS/FAIL lines and a JSON summary; exit 1 on any failure.
 """
-import argparse, glob, importlib.util, json, os, subprocess, sys, time
-
-for stream in (sys.stdout, sys.stderr):
-    try:
-        stream.reconfigure(encoding="utf-8", errors="replace")
-    except (AttributeError, ValueError):
-        pass
+import argparse, glob, json, os, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
-mcp_session = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mcp_session)
-Server = mcp_session.Server
+# the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
+sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "McpShared", "tools"))
+from harness_common import Checklist, Server, mcp_session, ok, short, utf8_console  # noqa: E402
 
-results = []
+utf8_console()
+
+CL = Checklist()
+check, skip, save = CL.check, CL.skip, CL.save
 OUT = None
 EXE = None
-
-
-def check(name, cond, detail=""):
-    results.append({"name": name, "pass": bool(cond), "detail": str(detail)[:600]})
-    print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:500], flush=True)
-
-
-def skip(name, reason):
-    results.append({"name": name, "pass": True, "skipped": True, "detail": reason})
-    print(f"SKIP {name} {reason}", flush=True)
-
-
-def short(o, n=260):
-    t = json.dumps(o, ensure_ascii=False, default=str)
-    return t if len(t) <= n else t[:n] + "…"
-
-
-def save(name, obj):
-    if OUT:
-        with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8") as f:
-            json.dump(obj, f, indent=2, ensure_ascii=False, default=str)
-
-
-def ok(r):
-    return not r.get("isError") and not r.get("rpcError")
 
 
 # ---- scripts ---------------------------------------------------------------------------------------------------------
@@ -468,8 +439,7 @@ def main():
     a = ap.parse_args()
     EXE = a.exe
     OUT = a.out
-    if OUT:
-        os.makedirs(OUT, exist_ok=True)
+    CL.out_dir = a.out
 
     env = dict(os.environ)
     env["HPNAVIS_MCP_Registry__LibraryPath"] = os.path.join(a.registry, "tools-library")
@@ -500,12 +470,7 @@ def main():
     finally:
         s.close()
 
-    passed = sum(1 for x in results if x["pass"])
-    skipped = sum(1 for x in results if x.get("skipped"))
-    summary = {"phase": a.phase, "passed": passed - skipped, "skipped": skipped, "failed": [x["name"] for x in results if not x["pass"]], "total": len(results), "seconds": round(time.time() - started, 1)}
-    save(f"summary-{a.phase}", {"summary": summary, "results": results})
-    print(json.dumps(summary))
-    sys.exit(0 if not summary["failed"] else 1)
+    sys.exit(CL.finish(f"summary-{a.phase}", phase=a.phase, seconds=round(time.time() - started, 1)))
 
 
 if __name__ == "__main__":

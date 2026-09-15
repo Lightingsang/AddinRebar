@@ -8,25 +8,15 @@ Usage: python server-smoke.py <exe> --registry <isolated root dir>
 """
 import argparse, json, os, sys, time
 
-for stream in (sys.stdout, sys.stderr):
-    try:
-        stream.reconfigure(encoding="utf-8", errors="replace")
-    except (AttributeError, ValueError):
-        pass
-
 HERE = os.path.dirname(os.path.abspath(__file__))
-import importlib.util
+# the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
+sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "McpShared", "tools"))
+from harness_common import Checklist, Server, mcp_session, ok, short, utf8_console  # noqa: E402
 
-spec = importlib.util.spec_from_file_location("mcp_session", os.path.join(HERE, "..", "..", "..", "McpShared", "tools", "mcp-session.py"))
-mcp_session = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mcp_session)
+utf8_console()
 
-results = []
-
-
-def check(name, cond, detail=""):
-    results.append({"name": name, "pass": bool(cond), "detail": detail})
-    print(f"{'PASS' if cond else 'FAIL'} {name} {detail}"[:400])
+CL = Checklist(line_limit=400)
+check = CL.check
 
 
 def main():
@@ -88,9 +78,7 @@ def main():
     finally:
         s.close()
 
-    passed = sum(1 for x in results if x["pass"])
-    print(json.dumps({"passed": passed, "total": len(results), "failed": [x["name"] for x in results if not x["pass"]]}))
-    sys.exit(0 if passed == len(results) else 1)
+    sys.exit(CL.finish())
 
 
 if __name__ == "__main__":
