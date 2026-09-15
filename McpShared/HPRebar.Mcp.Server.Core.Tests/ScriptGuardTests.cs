@@ -36,6 +36,11 @@ public sealed class ScriptGuardTests
     [InlineData("Action a = async () => { }; return 1;", "async lambdas")]
     [InlineData("var s = \"System.Reflection.Assembly\"; return s;", "System.Reflection")]
     [InlineData("new Thread(() => { }).Start(); return 1;", "Thread is not allowed")]
+    [InlineData("var call = Expression.Call(Expression.Constant(doc), \"Delete\", null, Expression.Constant(id)); return 1;", "Expression is not allowed")]
+    [InlineData("var f = Expression.Lambda<Action>(Expression.Empty()).Compile(); f(); return 1;", ".Compile")]
+    [InlineData("var d = Delegate.CreateDelegate(typeof(Action), doc, \"Delete\"); return 1;", "Delegate is not allowed")]
+    [InlineData("var m = ((Func<int>)(() => 1)).Method; return m.Name;", ".Method")]
+    [InlineData("using System.Linq.Expressions; return 1;", "System.Linq.Expressions")]
     public void Rejects_escapes_with_line_and_reason(string code, string expectedFragment)
     {
         var diagnostics = ScriptGuard.Check(code);

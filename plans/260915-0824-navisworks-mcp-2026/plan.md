@@ -14,7 +14,7 @@ blocks: []
 
 # HPNavis MCP Bridge 2026 — Plan
 
-**Ngày:** 2026-09-15 · **Status:** in-progress — phase 0 built + tested + reviewed (chưa commit, 0b pending); phase 1–5 planned; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
+**Ngày:** 2026-09-15 · **Status:** in-progress — phase 0 + 0b done & committed; phase 1–5 planned; red-team 4 lens cùng ngày (36 finding → 17 dedup, 14 accept + 2 partial + 1 user) · mọi khẳng định API/runtime đã kiểm trên máy dev — [research/evidence-on-machine-2026-09-15.md](research/evidence-on-machine-2026-09-15.md) · Template: Stack-Aware 6-phase (phase 0 = engine chung; WPF gộp vào 2)
 
 ## Executive summary
 - **Host khác hẳn hai host cũ:** Roamer.exe = .NET Framework 4.8 (E1). `McpShared/HPRebar.McpBridge.Core` (net8.0) **đa mục tiêu `net8.0;net48`** — probe: 2 shim `#if NET48` + 4 property type + Polyfill; Roslyn 5.9 scripting **đã chạy** trên 4.8.9181 với `AssemblyResolve` hẹp ([ADR-01](adr/adr-01-net48-host-multitarget-mcpbridge-core.md), E12–E13). Automation API chỉ open/append/save/print → ngoài tiến trình **loại** (E7).
@@ -29,7 +29,7 @@ blocks: []
 ## Phases
 | # | File | Status | Depends | Effort |
 |---|---|---|---|---|
-| 0 | [phase-00](phase-00-mcpshared-net48-multitarget-and-navis-contracts.md) — `McpShared` đa mục tiêu net48 (**bảng sửa engine authoritative, 14 mục**), `Net48Tests`, hằng/profile Navis, `MaxTimeoutSeconds` qua 3 site; gate byte-identical trên exe rebuild | **built + tested + reviewed (2026-09-15)** — 121 + 53 + 109 + 58 test; `tools/list` 33/24 identical; review 8.5/10 → 7/8 fix; Core `.cs` +80/−0; **0b chưa làm**, chưa commit (`reports/phase-00-report.md`) | — | 8h (≈4h) |
+| 0 | [phase-00](phase-00-mcpshared-net48-multitarget-and-navis-contracts.md) — `McpShared` đa mục tiêu net48 (**bảng sửa engine authoritative, 14 mục**), `Net48Tests`, hằng/profile Navis, `MaxTimeoutSeconds` qua 3 site; gate byte-identical trên exe rebuild | **built + tested + reviewed + committed (2026-09-15)** — `fb65f25` (phase 0) + 0b deny-list gốc; 126 + 58 + 109 + 58 test; `tools/list` 33/24 identical; review 8.5/10 → 7/8 fix; Core `.cs` additions only (`reports/phase-00-report.md`) | — | 8h (≈5h) |
 | 1 | [phase-01](phase-01-hpnavis-scaffold-plugin-spike-with-gate.md) — scaffold `HPNavis/`, plugin net48 + resolver hẹp + self-check + cửa sổ tối giản, **spike S-01…S-11 (gate)**: nạp/prompt, Roslyn, Idle/wake, `RollbackOwn` (kể cả transaction rỗng), modal/append/clash, plugin lạ, pre-pass | planned | 0 | 10h |
 | 2 | [phase-02](phase-02-navis-bridge-runtime-transactions-context-window.md) — runner (ma trận có điều kiện), fingerprint, serializer, context, heavy gate host-side, cửa sổ 2 checkbox, `HPNavis.McpBridge.Tests` net48; harness pipe ≥ 22 | planned | 0, 1 | 12h |
 | 3 | [phase-03](phase-03-hpnavis-mcp-server-exe-profile-tools-tests.md) — exe `HPNavis.Mcp.Server` + `NavisHostProfile` (600 s) + 4 tool/prompt/resource + tests; `.mcp.json`; lần đầu client net10 ↔ bridge net48 thật | planned | 0 | 6h |

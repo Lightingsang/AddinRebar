@@ -1,6 +1,6 @@
 # Phase 0 — `McpShared` đa mục tiêu `net8.0;net48` + hằng/profile Navis — Kết quả
 
-**Ngày:** 2026-09-15 · **Trạng thái:** Implemented + Built + Tested + Reviewed (code-reviewer 8.5/10 → 6 finding đã fix; tester độc lập 9/9 gate) — không có phần Verified live: phase 0 không chạm host nào · **Chưa commit.**
+**Ngày:** 2026-09-15 · **Trạng thái:** Implemented + Built + Tested + Reviewed (code-reviewer 8.5/10 → 7 finding đã fix; tester độc lập 9/9 gate) — không có phần Verified live: phase 0 không chạm host nào · **Đã commit** `fb65f25` + commit 0b (xem cuối).
 
 ## Đã làm (khớp bảng authoritative 14 mục)
 
@@ -61,7 +61,7 @@
 | L6 | Chưa assert `AutocadHostProfile.MaxTimeoutSeconds == 120` | ⏭ hoãn — đụng `HPAutoCad/` (phase 0 không chạm); ghi vào phase kế tiếp có sửa HPAutoCad |
 | Info | mutability qua cast trên cả hai TFM; `NavisImports` import `Clash`/`Timeliner` cứng (Simulate không có Clash); `IHostProfile` thêm abstract member (chỉ `HostProfile` implement) | ghi nhận; `NavisImports` → phase 1/2 quyết định bỏ import khi assembly thiếu |
 
-## Còn lại của phase 0
+## Commit
 
-- **0b (commit riêng, user đã duyệt):** deny-list gốc `ScriptGuard` + `System.Linq.Expressions`/`Expression`/`Delegate`/`CreateDelegate`/`Compile`/`Method` + test + snapshot lại `tools/list`. Chưa làm.
-- Commit phase 0 — chờ user quyết (review + tester đã xong).
+- Phase 0: `fb65f25` (`feat(mcpshared): multi-target the bridge engine to net48 and add the Navisworks profile`).
+- **0b (user duyệt, commit riêng):** deny-list gốc `ScriptGuard.cs` + `System.Linq.Expressions` (namespace), `Expression`/`Delegate` (identifier), `CreateDelegate`/`Compile`/`Method` (member); `GuardProfile.Navis` bỏ các mục trùng; 5 case mới trong `ScriptGuardTests` (link sang net48 → 58). Gate: 126 + 58 + 109 + 58 pass; `tools/list` 33/24 identical; 21 seed Revit + 12 seed AutoCAD không dính guard mới (suite host pass nguyên số). CLAUDE.md security model cập nhật.

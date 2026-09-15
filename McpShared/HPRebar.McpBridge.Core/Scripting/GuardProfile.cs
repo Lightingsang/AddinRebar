@@ -47,16 +47,15 @@ public sealed class GuardProfile
     ///     Denied here: anything that touches the undo stack or opens a transaction of the script's own
     ///     (<c>Document.Rollback()</c> undoes the user's last edit, not the script's); the embedded SQLite
     ///     surface (<c>Document.Database</c> → <c>NavisworksCommand</c> executes arbitrary SQL, <c>ATTACH</c>
-    ///     reads/writes files); COM/Automation (spawns a second Navisworks or bypasses the .NET API);
-    ///     reflection-by-expression (<c>Expression.Call(...).Compile()</c>, <c>Delegate.CreateDelegate</c>
-    ///     reach any member by name, past this deny-list); modal UI. Heavy file/clash operations are not
-    ///     listed: the Navisworks bridge gates those behind a second user opt-in with its own pre-pass.
+    ///     reads/writes files); COM/Automation (spawns a second Navisworks or bypasses the .NET API); modal UI.
+    ///     Reflection-by-expression is denied by the base list for every host. Heavy file/clash operations are
+    ///     not listed: the Navisworks bridge gates those behind a second user opt-in with its own pre-pass.
     /// </summary>
     public static readonly GuardProfile Navis = new GuardProfile(
         "Navisworks",
         deniedIdentifiers: new[]
         {
-            "MessageBox", "Transaction", "Expression", "Delegate",
+            "MessageBox", "Transaction",
             "NavisworksApplication", "ComApiBridge", "NavisworksCommand", "NavisworksConnection", "NavisworksDataAdapter",
         },
         deniedMembers: new[]
@@ -65,12 +64,12 @@ public sealed class GuardProfile
             "BeginTransaction", "Undo", "Redo", "Rollback", "TryUndo", "TryRedo", "TryRollback", "StartDisableUndo", "EndDisableUndo",
             // source-model units are the user's decision, custom properties need COM
             "SetModelUnitsAndTransform", "SetUserDefined",
-            // embedded database and reflection-by-expression
-            "Database", "ToNavisworksConnection", "CreateDelegate", "Compile",
+            // embedded database
+            "Database", "ToNavisworksConnection",
         },
         deniedNamespaces: new[]
         {
-            "System.Windows.Forms", "Microsoft.Win32", "System.Data", "System.Linq.Expressions",
+            "System.Windows.Forms", "System.Data",
             "Autodesk.Navisworks.Api.Automation", "Autodesk.Navisworks.Api.Interop", "Autodesk.Navisworks.Api.ComApi", "Autodesk.Navisworks.Api.Data",
         });
 

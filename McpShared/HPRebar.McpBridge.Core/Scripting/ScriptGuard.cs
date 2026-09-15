@@ -22,6 +22,9 @@ public static class ScriptGuard
         "System.IO", "System.Net", "System.Diagnostics.Process", "System.Reflection",
         "System.Runtime.InteropServices", "System.Runtime.Loader", "System.Threading.Tasks", "System.Security",
         "Microsoft.CodeAnalysis", "Microsoft.Win32",
+        // Expression trees are reflection by another name: Expression.Call(obj, "AnyMember").Compile() reaches a
+        // member without ever spelling it as an identifier this walker would see.
+        "System.Linq.Expressions",
     ];
 
     private static readonly string[] AllowedQualifiedPrefixes = ["System.IO.Path"];
@@ -34,6 +37,7 @@ public static class ScriptGuard
         "MethodInfo", "MethodBase", "PropertyInfo", "FieldInfo", "ConstructorInfo", "BindingFlags",
         "DllImportAttribute", "DllImport", "Registry", "RegistryKey", "WebClient", "HttpClient", "Socket",
         "File", "Directory", "FileStream", "StreamWriter", "StreamReader", "FileInfo", "DirectoryInfo",
+        "Expression", "Delegate",
     };
 
     /// <summary>Member names that only make sense for reflection or process control.</summary>
@@ -43,6 +47,9 @@ public static class ScriptGuard
         "GetConstructor", "GetConstructors", "GetNestedType", "GetNestedTypes", "GetTypes", "GetExportedTypes",
         "InvokeMember", "DynamicInvoke", "CreateInstance", "LoadFrom", "LoadFile", "Exit", "FailFast",
         "Assembly", "Module", "DeclaringMethod",
+        // Delegate.CreateDelegate(type, target, "Name") and LambdaExpression.Compile() bind members by string; a
+        // delegate's .Method hands out a MethodInfo without ever naming the type.
+        "CreateDelegate", "Compile", "Method",
     };
 
     private static readonly string[] DeniedLiteralFragments = ["System.Reflection", "System.IO", "System.Net", "System.Diagnostics.Process"];

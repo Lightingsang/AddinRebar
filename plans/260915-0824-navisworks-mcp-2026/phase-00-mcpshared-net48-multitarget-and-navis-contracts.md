@@ -1,7 +1,7 @@
 ---
 phase: 0
 title: "McpShared: multi-target net48 + Navis contracts (additive)"
-status: in-progress
+status: completed
 priority: P1
 effort: "8h"
 dependencies: []
@@ -69,7 +69,7 @@ Làm cho engine bridge dùng chung nạp được vào .NET Framework 4.8 **mà 
 - [x] Test mới Server.Core.Tests
 - [x] Gate byte-identical + build R26/AutoCAD
 - [x] Report
-- [ ] 0b: deny-list gốc (commit riêng)
+- [x] 0b: deny-list gốc (commit riêng)
 
 ## Success Criteria
 - [ ] `dotnet build McpShared/McpShared.slnx -c Debug` xanh; `bin/Debug/net48/HPRebar.McpBridge.Core.dll` tồn tại.
