@@ -31,7 +31,7 @@ blocks: []
 ## Phases
 | # | File | Status | Effort |
 |---|---|---|---|
-| 1 | [phase-01](phase-01-ribbon-tab-mcp-bridge-button.md) — plugin class, layout/strings, icon script + PNG, csproj, tests, harness `run-ribbon-check.ps1`, docs | **built + tested + verified live (2026-09-16)** — 0 warning, tests 135, ribbon check 14 PASS + 1 MANUAL (icon), hồi quy live-verify 62 + bridge 43; report [reports/ribbon-live-check.md](reports/ribbon-live-check.md); commit __COMMIT__ | 3h (≈2h) |
+| 1 | [phase-01](phase-01-ribbon-tab-mcp-bridge-button.md) — plugin class, layout/strings, icon script + PNG, csproj, tests, harness `run-ribbon-check.ps1`, docs | **built + tested + verified live (2026-09-16)** — 0 warning, tests 135, ribbon check 14 PASS + 1 MANUAL (icon), hồi quy live-verify 62 + bridge 43; report [reports/ribbon-live-check.md](reports/ribbon-live-check.md); commit `894a4a3` | 3h (≈2h) |
 
 ## Quyết định kỹ thuật
 | Quyết định | Lựa chọn | Lý do |
