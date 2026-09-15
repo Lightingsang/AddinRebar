@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Same runtime as Roamer.exe: the plugin's pure layers (undo rules, heavy gate, fingerprint delta, serializer
+             bounds, version table) are tested on .NET Framework 4.8 with the engine's net48 asset, no Navisworks running. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPNavis.McpBridge.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <!-- global.json pins test.runner = Microsoft.Testing.Platform; xunit.v3 ships a net472 runner for it -->
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <!-- The exe gets binding redirects for the 10.x/6.x System.* shims Roslyn pulls in; inside Roamer the plugin's
+             AssemblyResolve handler plays this role. -->
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The plugin compiles against the installed Navisworks API (Directory.Build.props); those assemblies are not
+             copied here. Tests only touch types that never load them; NavisworksApiProbe resolves them from the install
+             folder if a test ever does. -->
+        <ProjectReference Include="..\HPNavis.McpBridge\HPNavis.McpBridge.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+    </ItemGroup>
+
+    <Target Name="RequireNavisworksApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NavisworksApiAvailable)' != 'true'">
+        <Error Text="Navisworks Manage $(NavisworksYear) API not found at '$(NavisworksInstallDir)'. These tests build the plugin, which needs it; pass -p:NavisworksInstallDir=&lt;dir&gt; or set HPNAVIS_NAVISWORKS_DIR."/>
+    </Target>
+
+</Project>

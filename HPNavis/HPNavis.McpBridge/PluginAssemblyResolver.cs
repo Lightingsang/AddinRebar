@@ -12,7 +12,7 @@ namespace HPNavis.McpBridge;
 ///     come from nowhere (Roslyn's reflective loads) or from this plugin's own folder. Another plugin in
 ///     Roamer asking for System.Text.Json 8.0 must never be handed our 10.0.
 /// </summary>
-internal static class PluginAssemblyResolver
+public static class PluginAssemblyResolver
 {
     private static readonly HashSet<string> AllowList = new(StringComparer.OrdinalIgnoreCase)
     {

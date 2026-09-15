@@ -1,4 +1,4 @@
-# Shared by the Navisworks harness scripts. Windows PowerShell 5.1 (powershell.exe): it starts Roamer.exe directly
+﻿# Shared by the Navisworks harness scripts. Windows PowerShell 5.1 (powershell.exe): it starts Roamer.exe directly
 # with a model and HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1 (the bridge opens its status window once the GUI is up), then
 # uses UI Automation to tick the per-session opt-ins on that window. Dot-source it:
 # `. (Join-Path $PSScriptRoot 'harness-common.ps1')`.
@@ -20,6 +20,31 @@ $script:navisPid = 0
 
 Add-Type -AssemblyName UIAutomationClient; Add-Type -AssemblyName UIAutomationTypes; Add-Type -AssemblyName System.Windows.Forms
 
+# Win32 for the things UI Automation is unreliable at on a busy desktop: enumerating Roamer's top-level windows,
+# reading the main window's enabled state (a modal disables its owner) and closing a dialog with WM_CLOSE.
+Add-Type -Namespace HPNavisHarness -Name Win32 -MemberDefinition @'
+    public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+    [DllImport("user32.dll")] public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+    [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+    [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr hWnd);
+    [DllImport("user32.dll")] public static extern bool IsWindowEnabled(IntPtr hWnd);
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern int GetClassName(IntPtr hWnd, System.Text.StringBuilder name, int max);
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern int GetWindowText(IntPtr hWnd, System.Text.StringBuilder text, int max);
+    [DllImport("user32.dll")] public static extern IntPtr GetWindow(IntPtr hWnd, uint cmd);
+    [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+    public const uint WM_CLOSE = 0x0010;
+    public const uint GW_OWNER = 4;
+    public static System.Collections.Generic.List<IntPtr> TopLevelWindowsOf(int pid)
+    {
+        var list = new System.Collections.Generic.List<IntPtr>();
+        EnumWindows((h, l) => { uint p; GetWindowThreadProcessId(h, out p); if (p == pid && IsWindowVisible(h)) list.Add(h); return true; }, IntPtr.Zero);
+        return list;
+    }
+    public static string ClassOf(IntPtr h) { var sb = new System.Text.StringBuilder(256); GetClassName(h, sb, 256); return sb.ToString(); }
+    public static string TitleOf(IntPtr h) { var sb = new System.Text.StringBuilder(512); GetWindowText(h, sb, 512); return sb.ToString(); }
+'@
+
 function Assert-NoNavisworksRunning {
     if (Get-Process Roamer -ErrorAction SilentlyContinue) { throw 'Close every Navisworks before running the harness: it closes Roamer.exe at the end.' }
 }
@@ -38,6 +63,7 @@ function Start-NavisworksWithModel([string]$modelPath, [int]$timeoutSec = 180) {
     $psi.EnvironmentVariables['HPNAVIS_MCP_BRIDGE_SHOW_WINDOW'] = '1'
     $proc = [System.Diagnostics.Process]::Start($psi)
     $script:navisPid = $proc.Id
+    $script:bridgeWindow = $null
     Write-Host "Roamer pid $script:navisPid started $(Get-Date -Format HH:mm:ss) with $modelPath"
     $expect = if ($modelPath) { [IO.Path]::GetFileNameWithoutExtension($modelPath) } else { 'Autodesk Navisworks' }
     $sw = [Diagnostics.Stopwatch]::StartNew()
@@ -46,16 +72,36 @@ function Start-NavisworksWithModel([string]$modelPath, [int]$timeoutSec = 180) {
         $proc.Refresh()
         if ($proc.HasExited) { throw "Roamer exited during startup with code $($proc.ExitCode)" }
         if ($proc.MainWindowTitle -like "*$expect*") { Write-Host "main window '$($proc.MainWindowTitle)' after $([int]$sw.Elapsed.TotalSeconds) s"; return $proc }
+        if ($sw.Elapsed.TotalSeconds -gt 30 -and ($sw.Elapsed.TotalSeconds % 10) -lt 2) {
+            # a startup prompt (autosave recovery after a killed Roamer, licensing) blocks the load: report and dismiss it
+            foreach ($d in Get-RoamerDialogs) { Write-Host "startup dialog: '$($d.Title)' ($($d.Class))" }
+            $null = Close-RoamerDialogs
+        }
     }
     Write-Host "main window title still '$($proc.MainWindowTitle)' after $timeoutSec s"
     return $proc
 }
 
+# Top-level windows of the Roamer we started only (TreeScope.Children + ProcessId): a Descendants search from the
+# desktop root walks every application's tree and times out whenever any other app's UI thread is busy.
 function Find-BridgeWindow([int]$retries = 5) {
+    # cached per Roamer: every desktop-root query can time out when some unrelated app's UI thread is busy
+    if ($script:bridgeWindow) {
+        try { if ($script:bridgeWindow.Current.ProcessId -eq $script:navisPid) { return $script:bridgeWindow } } catch { }
+        $script:bridgeWindow = $null
+    }
     $root = [System.Windows.Automation.AutomationElement]::RootElement
+    $byPid = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $script:navisPid)
     $byName = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'HPNavis MCP Bridge')
     for ($i = 0; $i -lt $retries; $i++) {
-        try { $w = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $byName); if ($w) { return $w } }
+        try {
+            # the owned WPF window may sit beside or below Roamer's main window in the UIA tree: check both, Roamer only
+            foreach ($top in $root.FindAll([System.Windows.Automation.TreeScope]::Children, $byPid)) {
+                if ($top.Current.Name -eq 'HPNavis MCP Bridge') { $script:bridgeWindow = $top; return $top }
+                $w = $top.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $byName)
+                if ($w) { $script:bridgeWindow = $w; return $w }
+            }
+        }
         catch { Write-Host "UIA lookup retry $($i + 1): $($_.Exception.Message)" }
         Start-Sleep -Seconds 2
     }
@@ -110,6 +156,55 @@ function Get-BridgeLogTail([int]$lines = 60) {
     if ($log) { Get-Content $log.FullName -Tail $lines } else { @('<no bridge log>') }
 }
 
+# Roamer's own main window handle (WinForms, title carries "Navisworks").
+function Get-RoamerMainWindowHandle {
+    foreach ($h in [HPNavisHarness.Win32]::TopLevelWindowsOf($script:navisPid)) {
+        if ([HPNavisHarness.Win32]::ClassOf($h) -like 'WindowsForms10.Window*' -and [HPNavisHarness.Win32]::TitleOf($h) -like '*Navisworks*') { return $h }
+    }
+    return [IntPtr]::Zero
+}
+
+# Every other visible top-level window of the Roamer we started: a file dialog, a message box, a recovery prompt.
+# The bridge's own status window is excluded.
+function Get-RoamerDialogs {
+    $main = Get-RoamerMainWindowHandle
+    if ($main -eq [IntPtr]::Zero) { return @() }   # no main window known: nothing may be closed
+    $list = @()
+    foreach ($h in [HPNavisHarness.Win32]::TopLevelWindowsOf($script:navisPid)) {
+        if ($h -eq $main) { continue }
+        # only real dialogs (#32770: file dialogs, message boxes, recovery prompts) — never a floating dock pane
+        $class = [HPNavisHarness.Win32]::ClassOf($h)
+        if ($class -ne '#32770') { continue }
+        $list += [pscustomobject]@{ Handle = $h; Title = [HPNavisHarness.Win32]::TitleOf($h); Class = $class }
+    }
+    return $list
+}
+
+# Keyboard focus to Roamer's main window itself (the bridge's owned WPF window otherwise keeps it and eats the keys).
+function Set-RoamerMainWindowForeground {
+    $main = Get-RoamerMainWindowHandle
+    if ($main -eq [IntPtr]::Zero) { return $false }
+    return [HPNavisHarness.Win32]::SetForegroundWindow($main)
+}
+
+# A modal dialog disables its owner: the same test the bridge's quiescence check makes.
+function Test-RoamerMainWindowEnabled {
+    $main = Get-RoamerMainWindowHandle
+    if ($main -eq [IntPtr]::Zero) { return $null }
+    return [HPNavisHarness.Win32]::IsWindowEnabled($main)
+}
+
+# Closes every dialog Roamer has up with WM_CLOSE (a file dialog cancels, a message box takes its cancel/close path).
+function Close-RoamerDialogs {
+    $closed = @()
+    foreach ($d in Get-RoamerDialogs) {
+        $null = [HPNavisHarness.Win32]::PostMessage($d.Handle, [HPNavisHarness.Win32]::WM_CLOSE, [IntPtr]::Zero, [IntPtr]::Zero)
+        $closed += "$($d.Title) ($($d.Class))"
+    }
+    if ($closed.Count -gt 0) { Write-Host "closed dialog(s): $($closed -join ' | ')"; Start-Sleep -Milliseconds 700 }
+    return $closed
+}
+
 # Navisworks asks "Do you want to save changes?" when the harness edited the model; answer No.
 function Answer-SavePromptNo {
     try {
@@ -132,6 +227,10 @@ function Stop-Navisworks($proc) {
     try {
         $proc.Refresh()
         if (-not $proc.HasExited) {
+            # a dialog left open (file dialog, message box) would swallow WM_CLOSE and force a kill — and a killed
+            # Roamer greets the next start with a recovery prompt that blocks the whole next run
+            $null = Close-RoamerDialogs
+            Start-Sleep -Milliseconds 500
             $null = $proc.CloseMainWindow()
             $sw = [Diagnostics.Stopwatch]::StartNew()
             while (-not $proc.HasExited -and $sw.Elapsed.TotalSeconds -lt 25) {

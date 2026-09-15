@@ -1,6 +1,6 @@
 # Phase 1 — spike report: HPNavis plugin in Roamer.exe (Navisworks Manage 2026)
 
-**Date:** 2026-09-15 · **Machine:** dev box, Navisworks Manage 2026 23.0.1432.76, .NET Framework 4.8.9181 · **Model:** `Samples\gatehouse\gatehouse_pub.nwd` (1 model, 1 pre-existing clash test) · **Runner:** `powershell.exe -File HPNavis/tools/harness/run-bridge-spike.ps1 -Runs 2 -WithModal` · **Raw output:** `HPNavis/output/spike/run-{1,2}.{log,json}` (gitignored) · **Bridge log:** `%LocalAppData%\HPNavis\McpBridge\logs\mcpbridge-20260915.log`
+**Date:** 2026-09-15 · **Machine:** dev box, Navisworks Manage 2026 23.0.1432.76, .NET Framework 4.8.9181 · **Model:** `Samples\gatehouse\gatehouse_pub.nwd` (1 model, 1 pre-existing clash test) · **Runner:** `powershell.exe -File HPNavis/tools/harness/run-bridge-spike.ps1 -Runs 2 -WithModal` (renamed `run-bridge-unattended.ps1` in phase 2) · **Raw output:** `HPNavis/output/spike/run-{1,2}.{log,json}` (gitignored) · **Bridge log:** `%LocalAppData%\HPNavis\McpBridge\logs\mcpbridge-20260915.log`
 
 **Gate result: 2/2 runs PASS** — main set 21/21 ×2, clash 2/2 ×2, modal 1/1 ×2, S-01/S-02/S-09 ×2. Foreign plugin `NavisworksMCPPlugin` **enabled** throughout (never touched).
 

@@ -16,8 +16,18 @@ namespace HPNavis.McpBridge.Service;
 /// </summary>
 public static class ScriptingSelfCheck
 {
-    /// <summary>Needs no document: the plugin loads before any file is open.</summary>
-    private const string Probe = "return \"navisworks \" + app.Version + \" | year \" + app.Year + \" | units \" + units.Label + \" | args \" + args.Int(\"x\", 41) + 1;";
+    /// <summary>
+    ///     Needs no document: the plugin loads before any file is open. Touches every global the scripts get
+    ///     (units conversion, progress, log, args) and builds a Search with a SearchCondition so the default
+    ///     imports and the Navisworks API reference are proven, not assumed.
+    /// </summary>
+    private const string Probe = """
+        var search = new Search();
+        search.SearchConditions.Add(SearchCondition.HasPropertyByDisplayName("Item", "Name").DisplayStringContains("wall"));
+        progress(1, 1, "self-check");
+        log("units " + units.Label + " mm/unit " + units.MmPerUnit);
+        return "navisworks " + app.Version + " | year " + app.Year + " | units " + units.Label + " | conditions " + search.SearchConditions.Count + " | mm " + units.ToMm(1.0) + " | args " + (args.Int("x", 41) + 1);
+        """;
 
     /// <summary>Assemblies that must come from the plugin folder; a foreign copy means the resolver lost the race.</summary>
     private static readonly string[] MustBeOurs =

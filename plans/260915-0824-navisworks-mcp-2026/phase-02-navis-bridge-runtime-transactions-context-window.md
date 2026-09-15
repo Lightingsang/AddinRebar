@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Navis bridge runtime: runner, transactions/dryRun, context, serializer, heavy gate, window; bridge tests net48"
-status: pending
+status: completed
 priority: P1
 effort: "12h"
 dependencies: [0, 1]
@@ -73,18 +73,18 @@ Quiescence = depth counter + `ModalOpen()` + `IsActiveTransaction` (ADR-04 §2, 
 5. `reports/phase-02-bridge-runtime.md` (bảng pass/fail, thời gian clash, RAM Roamer trước/sau append, kết luận S-05c → hàng "W1?" ADR-02).
 
 ## Todo List
-- [ ] Runner/counter/gate + `HPNavis.McpBridge.Tests` ≥ 15
-- [ ] Serializer/context/self-check
-- [ ] Cửa sổ 2 checkbox + VM bao Core
-- [ ] Harness ≥ 22 scenario pass ×2
-- [ ] Report + cập nhật ADR-02 §3
+- [x] Runner/counter/gate + `HPNavis.McpBridge.Tests` ≥ 15 (62 test cases, net48)
+- [x] Serializer/context/self-check (bounded writer, collection cap, probe with Search/progress/units)
+- [x] Cửa sổ 2 checkbox + VM bao Core (+ Open log folder; heavy disabled khi execution OFF — verified UIA)
+- [x] Harness ≥ 22 scenario pass ×2 (43 check/run ×2 + no-doc, `reports/phase-02-bridge-runtime.md`)
+- [x] Report + cập nhật ADR-02 §3
 
 ## Success Criteria
-- [ ] `dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false` xanh; `dotnet test HPNavis/HPNavis.McpBridge.Tests` ≥ 15 pass (runner log `.NET Framework 4.8`).
-- [ ] `pwsh HPNavis/tools/harness/run-bridge-unattended.ps1` → **≥ 22/22 pass, 2 lần liên tiếp**, Roamer tự thoát; report trích log `RollbackOwn` cho dryRun/timeout/rỗng.
-- [ ] Undo menu Navisworks hiện `MCP: <label>` sau run `auto` có edit; **không** có entry sau run `auto` rỗng.
-- [ ] Heavy OFF: script chứa `AppendFile` **không** chạy (diagnostic id `HEAVY`, text nhắc checkbox); heavy ON: chạy, audit có dòng `"outcome":"started"` trước và dòng `Message` bắt đầu `[heavy]` sau; run thường không có `[heavy]`.
-- [ ] `grep -rn "HeavyOperationsEnabled" McpShared/` = 0 (cờ chỉ ở HPNavis); `wc -l` mọi `.cs` mới < 300; `grep -c '#[0-9A-Fa-f]\{6\}' HPNavis/HPNavis.McpBridge/View/*.xaml` = 0.
+- [x] `dotnet build HPNavis/HPNavis.slnx -c Debug -p:DeployPlugin=false` xanh; `dotnet test HPNavis/HPNavis.McpBridge.Tests` → 62 pass trên net48.
+- [x] `powershell.exe -File HPNavis/tools/harness/run-bridge-unattended.ps1 -Runs 2 -WithModal -WithNoDoc` → **43/43 ×2 + nodoc 1/1**, Roamer thoát exit 0 (Windows PowerShell 5.1, không pwsh).
+- [x] `doc.NextUndo` = `MCP: <label>` sau run `auto` có edit; không đổi sau run `auto` rỗng (kiểm qua API, không mở menu).
+- [x] Heavy OFF: `AppendFile` không chạy (`HEAVY` + checkbox); heavy ON: `MEP.nwc` append 0.1 s, audit `started:[heavy] queued` → `ok:[heavy] ok`; run thường không `[heavy]`.
+- [x] `grep -rn "HeavyOperationsEnabled" McpShared/` = 1 — chỉ field DTO `NavisInfo` (phase 0, wire), không có cờ/setting; mọi `.cs` < 300 (executor tách partial `.Audit.cs`); hex colour trong View = 0.
 
 ## Risk Assessment
 - S-05c cho `CurrentSelection` không undo → hàng "W1?" thành "không undo, ghi trong mô tả"; không chặn.

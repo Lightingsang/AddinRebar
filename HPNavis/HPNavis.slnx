@@ -14,6 +14,7 @@
          ../McpShared/HPRebar.McpBridge.Core   (net48 asset)
          ../McpShared/HPRebar.Mcp.Server.Core  (server) -->
   <Project Path="HPNavis.McpBridge/HPNavis.McpBridge.csproj" />
+  <Project Path="HPNavis.McpBridge.Tests/HPNavis.McpBridge.Tests.csproj" />
   <Folder Name="/Shared/">
     <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
     <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />

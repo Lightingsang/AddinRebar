@@ -1,4 +1,7 @@
+using System.Diagnostics;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HPRebar.McpBridge.Core.ViewModel;
 
 namespace HPNavis.McpBridge.ViewModel;
@@ -19,10 +22,11 @@ public sealed partial class NavisBridgeStatusViewModel : ObservableObject
     [ObservableProperty] private string _hostState = string.Empty;
 
     public NavisBridgeStatusViewModel(IMcpBridgeRunner runner, NavisMainThreadExecutor executor, Action<Action> onUiThread,
-        Action<string>? copyToClipboard, bool selfCheckOk)
+        Action<string>? copyToClipboard, bool selfCheckOk, string logDirectory)
     {
         _executor = executor;
         _onUiThread = onUiThread;
+        LogDirectory = logDirectory;
         Core = new McpBridgeStatusViewModel(runner, onUiThread, copyToClipboard);
         SelfCheckOk = selfCheckOk;
         SelfCheckText = selfCheckOk ? "Scripting self-check OK" : "Scripting self-check FAILED — see the log; the listener will not start";
@@ -41,6 +45,24 @@ public sealed partial class NavisBridgeStatusViewModel : ObservableObject
     public bool SelfCheckOk { get; }
 
     public string SelfCheckText { get; }
+
+    /// <summary>Where the runtime log lives; the window offers it because the self-check line is the first thing to look for.</summary>
+    public string LogDirectory { get; }
+
+    [RelayCommand]
+    private void OpenLogFolder()
+    {
+        try
+        {
+            Directory.CreateDirectory(LogDirectory);
+            // Quoted: the local profile path contains the user name, which may contain spaces.
+            Process.Start(new ProcessStartInfo("explorer.exe", $"\"{LogDirectory}\"") { UseShellExecute = true });
+        }
+        catch (Exception exception)
+        {
+            Core.StatusDetail = "Could not open the log folder: " + exception.Message;
+        }
+    }
 
     public event Action? CloseRequested
     {

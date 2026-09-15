@@ -14,7 +14,8 @@ only for requests from this plugin), and the start-up self-check verifies they c
 |---|---|---|
 | `HPNavis.McpBridge` | net48 | The plugin: `EventWatcherPlugin` (listener, executor) + `AddInPlugin` "HPNavis MCP" in the Add-ins menu (status window). |
 | `HPNavis.Mcp.Server` | net10 | (phase 3) stdio MCP server exe, `NavisHostProfile`, seeds. |
-| `HPNavis.McpBridge.Tests` / `HPNavis.Mcp.Server.Tests` | net48 / net10 | (phase 2/3) |
+| `HPNavis.McpBridge.Tests` | net48 | xUnit v3 over the plugin's pure layers: undo rules, heavy gate, fingerprint delta, serializer bounds, resolver folder test — 62 cases, no Navisworks running (needs the API installed to build the plugin). |
+| `HPNavis.Mcp.Server.Tests` | net10 | (not yet added) |
 
 ## Build, deploy, remove
 
@@ -47,15 +48,18 @@ Settings (`AutoStartListener` only): `%AppData%\HPNavis\McpBridge\settings.json`
 
 ```powershell
 # Windows PowerShell 5.1 (not pwsh); Navisworks closed; plugin deployed
-powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-bridge-spike.ps1 -Runs 2 -WithModal
+powershell.exe -ExecutionPolicy Bypass -File HPNavis/tools/harness/run-bridge-unattended.ps1 -Runs 2 -WithModal -WithNoDoc
 ```
 
 Starts `Roamer.exe` with `Samples\gatehouse\gatehouse_pub.nwd` and the process-scoped variable
 `HPNAVIS_MCP_BRIDGE_SHOW_WINDOW=1` (the bridge opens its status window once the GUI is up — only the window; the
 execution opt-in still starts OFF), ticks the opt-ins through UI Automation, drives `pipe-scenarios.py` over the pipe
-(read, W1 edits, dryRun, empty transaction, exception, guard, heavy gate, timeout, cancel, clash with heavy ON, a modal
-dialog), closes Navisworks without saving and writes `output/spike/run-N.{log,json}`. Verified 2/2 on 2026-09-15 —
-`plans/260915-0824-navisworks-mcp-2026/reports/phase-01-spike.md`. The Automation API (`NavisworksApplication`) is not
+(reads, W1 edits, dryRun, same-label dry run, empty transaction, `none` violation, compile error, exception, guard, heavy
+gate, big result bound, busy while running, timeout, cancel, clash + file append with heavy ON, a modal dialog, and with
+`-WithNoDoc` a Roamer without a model), closes Navisworks without saving and writes `output/spike/run-N.{log,json}`.
+43 checks per run, verified 2/2 on 2026-09-15 — `plans/260915-0824-navisworks-mcp-2026/reports/phase-02-bridge-runtime.md`.
+Dialogs and focus are handled through Win32 (`EnumWindows`, `SetForegroundWindow`, `WM_CLOSE`); UI Automation is used only
+inside the bridge's own window. The Automation API (`NavisworksApplication`) is not
 used: a Roamer started that way exits within seconds on the dev machine.
 
 Plan and evidence: `plans/260915-0824-navisworks-mcp-2026/`.

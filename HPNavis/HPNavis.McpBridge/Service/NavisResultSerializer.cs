@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,11 +15,16 @@ namespace HPNavis.McpBridge.Service;
 ///     never walked: a <see cref="ModelItem"/> reaches the whole tree through Parent/Children and its
 ///     property categories are hundreds of entries, so one line per item (name, class, model, guid,
 ///     bounding box in mm) is what the model actually uses. Lengths are converted with the document
-///     units captured for the run.
+///     units captured for the run. Output is bounded while it is written (<see cref="BoundedOutputStream"/>)
+///     and Navisworks collections stop after <see cref="MaxCollectionItems"/> entries, so a script that
+///     returns the whole model tree costs the main thread one screen of JSON, not a full walk.
 /// </summary>
 public sealed class NavisResultSerializer
 {
     private const string TruncationMarker = "…[truncated]";
+
+    /// <summary>Items of one Navisworks collection written before the rest is summarised in a trailing marker object.</summary>
+    public const int MaxCollectionItems = 200;
 
     private readonly int _maxOutputBytes;
 
@@ -36,26 +42,27 @@ public sealed class NavisResultSerializer
         options.Converters.Add(new NavisObjectConverterFactory(units));
 
         var typeName = FriendlyName(value.GetType());
-        byte[] bytes;
+        using var stream = new BoundedOutputStream(_maxOutputBytes);
 
         try
         {
-            bytes = JsonSerializer.SerializeToUtf8Bytes(value, value.GetType(), options);
+            // The Stream overload flushes to the stream every ~15 KB (its FlushThreshold); the Utf8JsonWriter overload
+            // would buffer the whole document and only hit the bound at the end, after walking every item.
+            JsonSerializer.Serialize(stream, value, value.GetType(), options);
+        }
+        catch (OutputLimitReachedException)
+        {
+            var head = Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length).TrimEnd('�') + TruncationMarker;
+            return (JsonSerializer.SerializeToElement(head, options), typeName, true);
         }
         catch (Exception exception)
         {
             var fallback = new { type = typeName, text = SafeToString(value), note = "value is not serializable: " + exception.GetType().Name };
-            bytes = JsonSerializer.SerializeToUtf8Bytes(fallback, options);
+            return (JsonSerializer.SerializeToElement(fallback, options), typeName, false);
         }
 
-        if (bytes.Length <= _maxOutputBytes)
-        {
-            using var document = JsonDocument.Parse(bytes);
-            return (document.RootElement.Clone(), typeName, false);
-        }
-
-        var head = Encoding.UTF8.GetString(bytes, 0, _maxOutputBytes).TrimEnd('�') + TruncationMarker;
-        return (JsonSerializer.SerializeToElement(head, options), typeName, true);
+        using var document = JsonDocument.Parse(stream.ToArray());
+        return (document.RootElement.Clone(), typeName, false);
     }
 
     /// <summary>`List<String>` / `ModelItem` / `object` (anonymous) instead of assembly-qualified generic soup.</summary>
@@ -83,8 +90,45 @@ public sealed class NavisResultSerializer
     {
         public override bool CanConvert(Type typeToConvert) => !typeToConvert.IsEnum && !typeToConvert.IsPrimitive && IsNavisType(typeToConvert);
 
-        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
-            (JsonConverter)Activator.CreateInstance(typeof(NavisObjectConverter<>).MakeGenericType(typeToConvert), units)!;
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+        {
+            // ModelItemCollection, SavedItemCollection, search results…: enumerate (capped) instead of one {type,text} line.
+            var converter = typeof(IEnumerable).IsAssignableFrom(typeToConvert) ? typeof(NavisCollectionConverter<>) : typeof(NavisObjectConverter<>);
+            return (JsonConverter)Activator.CreateInstance(converter.MakeGenericType(typeToConvert), units)!;
+        }
+    }
+
+    /// <summary>A Navisworks collection: at most <see cref="MaxCollectionItems"/> entries, then one marker object with the remainder count.</summary>
+    private sealed class NavisCollectionConverter<T>(ScriptUnits units) : JsonConverter<T>
+    {
+        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+            throw new NotSupportedException("Navisworks objects are write-only in results.");
+
+        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        {
+            writer.WriteStartArray();
+            var written = 0;
+            var more = false;
+            foreach (var item in (IEnumerable)value!)
+            {
+                // stop pulling at the cap: a lazy Navisworks enumeration must not be walked just to count the rest
+                if (written >= MaxCollectionItems) { more = true; break; }
+                if (item is null) writer.WriteNullValue();
+                else JsonSerializer.Serialize(writer, item, item.GetType(), options);
+                written++;
+            }
+
+            if (more)
+            {
+                var total = value is ICollection collection ? collection.Count.ToString() : "unknown";
+                writer.WriteStartObject();
+                writer.WriteString("truncated", $"… only the first {MaxCollectionItems} item(s) are shown (total {total}); filter in the script instead");
+                writer.WriteEndObject();
+            }
+
+            writer.WriteEndArray();
+            _ = units; // lengths inside items are converted by the item converters
+        }
     }
 
     private sealed class NavisObjectConverter<T>(ScriptUnits units) : JsonConverter<T>

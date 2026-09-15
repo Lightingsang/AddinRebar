@@ -152,8 +152,12 @@
                     <Run Text="Compiled scripts:"/> <Run Text="{Binding Core.CompiledScriptCount, Mode=OneWay}"/>
                     <Run Text=" (each stays in memory until Navisworks restarts)"/>
                 </TextBlock>
-                <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
-                        Command="{Binding Core.OpenAuditFolderCommand}" ToolTip="{Binding Core.AuditDirectory}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
+                            Command="{Binding Core.OpenAuditFolderCommand}" ToolTip="{Binding Core.AuditDirectory}"/>
+                    <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open log folder" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                            Command="{Binding OpenLogFolderCommand}" ToolTip="{Binding LogDirectory}" AutomationProperties.AutomationId="OpenLogs"/>
+                </StackPanel>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal">

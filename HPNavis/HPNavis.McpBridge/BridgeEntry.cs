@@ -73,7 +73,7 @@ public static class BridgeEntry
 
         var heavy = new NavisHeavyGate();
         var quiescence = new NavisQuiescence(ProgressStaleAfter);
-        var runner = new NavisScriptRunner(settings, new NavisResultSerializer(settings.MaxOutputBytes), heavy, app);
+        var runner = new NavisScriptRunner(settings, new NavisResultSerializer(settings.MaxOutputBytes), app);
         var inspector = new TypeInspector(navisApi, HostName);
         var audit = new AuditLogger(store.AuditDirectory);
         var hostVersion = year.ToString();
@@ -170,7 +170,7 @@ public static class BridgeEntry
         var executor = _executor!;
         var dispatcher = _mainDispatcher ?? Dispatcher.CurrentDispatcher;
 
-        var viewModel = new NavisBridgeStatusViewModel(host, executor, action => dispatcher.InvokeAsync(action), Clipboard.SetText, _selfCheckOk);
+        var viewModel = new NavisBridgeStatusViewModel(host, executor, action => dispatcher.InvokeAsync(action), Clipboard.SetText, _selfCheckOk, LogDirectory);
         var view = new NavisBridgeStatusView(viewModel);
 
         var main = executor.Quiescence.MainWindow;

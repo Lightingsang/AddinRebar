@@ -23,24 +23,22 @@ public sealed class NavisScriptRunner
 {
     private readonly BridgeSettings _settings;
     private readonly NavisResultSerializer _serializer;
-    private readonly NavisHeavyGate _heavy;
     private readonly NavisApp _app;
 
-    public NavisScriptRunner(BridgeSettings settings, NavisResultSerializer serializer, NavisHeavyGate heavy, NavisApp app)
+    public NavisScriptRunner(BridgeSettings settings, NavisResultSerializer serializer, NavisApp app)
     {
         _settings = settings;
         _serializer = serializer;
-        _heavy = heavy;
         _app = app;
     }
 
     /// <param name="cancelSource">Cancelled by cancel_execution; the runner adds the timeout on top.</param>
     /// <param name="hasHeavyCalls">The pre-pass saw a heavy member: never claim a rollback and refuse dry runs.</param>
-    public ExecuteResult Run(Document doc, ExecuteRequest request, Script<object> script, bool hasHeavyCalls,
+    /// <param name="maxTimeoutSeconds">Ceiling captured on the pipe thread with the heavy verdict, so a toggle of the heavy opt-in mid-request cannot move it.</param>
+    public ExecuteResult Run(Document doc, ExecuteRequest request, Script<object> script, bool hasHeavyCalls, int maxTimeoutSeconds,
         IProgress<ScriptProgress>? progress, CancellationTokenSource cancelSource)
     {
         var mode = TransactionModes.Normalize(request.Transaction) ?? TransactionModes.Auto;
-        var label = "MCP: " + (string.IsNullOrWhiteSpace(request.Label) ? "script" : request.Label!.Trim());
 
         if (doc.IsActiveTransaction)
             return ExecuteResult.Failure("Navisworks already has a transaction open (an operation is in progress). Finish it and retry.");
@@ -52,16 +50,13 @@ public sealed class NavisScriptRunner
         var units = UnitsOf(doc, logs);
         if (mode == TransactionModes.Manual) logs.Add("transaction=\"manual\" behaves like \"auto\" in Navisworks: the bridge owns the only transaction.");
 
-        var timeoutSeconds = Math.Clamp(request.TimeoutSeconds, 5, _heavy.MaxTimeoutSeconds);
+        var timeoutSeconds = Math.Clamp(request.TimeoutSeconds, 5, maxTimeoutSeconds);
         using var timeoutSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSeconds));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancelSource.Token, timeoutSource.Token);
 
         var stopwatch = Stopwatch.StartNew();
         var before = NavisChangeCounter.Snapshot(doc, NavisClashModule.TestCount);
-        // "Ours" is decided by comparing NextUndo before and after. When the previous run had the same label (the
-        // registry always labels a tool run with the tool name), an identical top entry would hide our own commit
-        // and a dry run would silently persist, so the label gets a suffix until it differs from the current top.
-        for (var attempt = 2; before.NextUndo == label; attempt++) label = "MCP: " + (string.IsNullOrWhiteSpace(request.Label) ? "script" : request.Label!.Trim()) + $" ({attempt})";
+        var label = NavisUndoDecision.LabelFor(request.Label, before.NextUndo);
         System.Text.Json.JsonElement? valueJson = null;
         var valueType = "null";
         var truncated = false;
@@ -96,7 +91,7 @@ public sealed class NavisScriptRunner
         {
             timedOut = timeoutSource.IsCancellationRequested && !cancelSource.IsCancellationRequested;
             message = timedOut
-                ? $"Script timed out after {timeoutSeconds}s (cooperative timeout). Raise timeoutSeconds (max {_heavy.MaxTimeoutSeconds}) or do less per call."
+                ? $"Script timed out after {timeoutSeconds}s (cooperative timeout). Raise timeoutSeconds (max {maxTimeoutSeconds}) or do less per call."
                 : hasHeavyCalls
                     ? "Script was cancelled; the cancel arrived after a heavy call had already completed, so its effect persisted."
                     : "Script was cancelled.";
@@ -107,29 +102,36 @@ public sealed class NavisScriptRunner
             message = SafeText.StripPaths($"{exception.GetType().Name}: {exception.Message}");
         }
 
-        // Commit is mandatory even after a failure; the undo decision comes right after.
+        // Commit is mandatory even after a failure; the undo decision comes right after (rules in NavisUndoDecision).
         var committed = Commit(transaction, label);
         var after = NavisChangeCounter.Snapshot(doc, NavisClashModule.TestCount);
         var changed = NavisChangeCounter.Delta(before, after);
-        var undoIsOurs = committed && after.NextUndo == label && after.NextUndo != before.NextUndo;
+        var documentChanged = !before.SameAs(after);
+        var undoIsOurs = NavisUndoDecision.IsOurs(committed, label, before.NextUndo, after.NextUndo);
+        var reason = NavisUndoDecision.Classify(mode, request.DryRun, message is not null, undoIsOurs, documentChanged);
 
-        if (mode == TransactionModes.None && message is null && (undoIsOurs || !before.SameAs(after)))
-        {
-            rolledBack = undoIsOurs && RollbackOwn(doc, label);
-            message = $"The script declared transaction=\"none\" but modified the document (rolled back: {(rolledBack ? "yes" : "no")}). Use transaction=\"auto\" for scripts that change anything.";
-        }
-        else if (message is not null || request.DryRun)
-        {
-            if (undoIsOurs) rolledBack = RollbackOwn(doc, label);
-            else if (request.DryRun && message is null) logs.Add("dry run: the script produced no undoable change; nothing to roll back.");
-            else if (message is not null && !before.SameAs(after)) message += " Changes could not be rolled back (no undo entry of this run on top of the stack).";
-        }
-
+        if (NavisUndoDecision.ShouldRollBack(reason, undoIsOurs)) rolledBack = RollbackOwn(doc, label);
         if (hasHeavyCalls && rolledBack)
         {
             // File and clash-run effects are outside the undo stack: never let the AI read "rolledBack" for them.
             rolledBack = false;
-            logs.Add("heavy operations in this run are not undoable; only the review edits were rolled back.");
+            logs.Add(NavisUndoDecision.HeavyNotUndoable);
+        }
+
+        switch (reason)
+        {
+            case UndoReason.NoneViolation:
+                message = NavisUndoDecision.NoneViolationMessage(rolledBack);
+                break;
+            case UndoReason.DryRun when !undoIsOurs && documentChanged:
+                message = NavisUndoDecision.DryRunChangePersisted;
+                break;
+            case UndoReason.DryRun when !undoIsOurs:
+                logs.Add(NavisUndoDecision.DryRunNothingToUndo);
+                break;
+            case UndoReason.Failure when !undoIsOurs && documentChanged:
+                message += NavisUndoDecision.FailureNotUndone;
+                break;
         }
 
         stopwatch.Stop();

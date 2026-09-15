@@ -22,7 +22,7 @@ namespace HPNavis.McpBridge;
 ///     running script. Heavy runs are audited twice: a "started" line before the work is queued, so a
 ///     Navisworks killed mid-clash still leaves a trace.
 /// </summary>
-public sealed class NavisMainThreadExecutor : IBridgeExecutor, IDisposable
+public sealed partial class NavisMainThreadExecutor : IBridgeExecutor, IDisposable
 {
     private const string HostName = "Navisworks";
     private const uint WmNull = 0x0000;
@@ -116,8 +116,10 @@ public sealed class NavisMainThreadExecutor : IBridgeExecutor, IDisposable
         {
             StateChanged?.Invoke();
 
-            // Heavy pre-pass first (its message tells the AI which checkbox to ask for), then the shared guard.
+            // Heavy pre-pass first (its message tells the AI which checkbox to ask for), then the shared guard. The
+            // timeout ceiling is read at the same moment so a heavy toggle mid-request cannot change the clamp.
             var heavy = _heavy.Check(request.Code, out hasHeavyCalls);
+            var maxTimeoutSeconds = _heavy.MaxTimeoutSeconds;
             var guard = ScriptGuard.Check(request.Code, GuardProfile.Navis);
             var refused = heavy.Concat(guard).ToArray();
             if (refused.Length > 0) return Finish(request, Diagnostics(heavy.Count > 0 ? "heavy" : "guard", refused), stopwatch, hasHeavyCalls);
@@ -136,7 +138,7 @@ public sealed class NavisMainThreadExecutor : IBridgeExecutor, IDisposable
                     _ =>
                     {
                         _quiescence.Reset("run start");
-                        try { return _runner.Run(RequireDocument(), request, compiled.Script!, hasHeavyCalls, progress, cancel); }
+                        try { return _runner.Run(RequireDocument(), request, compiled.Script!, hasHeavyCalls, maxTimeoutSeconds, progress, cancel); }
                         finally { _quiescence.Reset("run end"); }
                     },
                     cancel.Token);
@@ -256,54 +258,6 @@ public sealed class NavisMainThreadExecutor : IBridgeExecutor, IDisposable
     [DllImport("user32.dll", SetLastError = false)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    private static ExecuteResult Diagnostics(string stage, IReadOnlyList<ScriptDiagnostic> diagnostics) => new ExecuteResult
-    {
-        IsError = true,
-        Message = stage switch
-        {
-            "heavy" => "The script calls heavy operations the user has not allowed in this session. See the listed lines.",
-            "guard" => "The script uses APIs the bridge blocks. Fix the listed lines and retry.",
-            _ => "The script does not compile. Fix the listed errors and retry.",
-        },
-        Diagnostics = diagnostics,
-    };
-
-    private void AuditStarted(ExecuteRequest request)
-    {
-        try
-        {
-            _audit.Write(new AuditEntry(DateTimeOffset.Now, Environment.UserName, _activeDocumentTitle, null, ScriptCompiler.Hash(request.Code),
-                request.Code, request.Transaction, request.DryRun, "started", 0, 0, 0, 0, "[heavy] queued"));
-        }
-        catch (Exception exception)
-        {
-            Log.Warning(exception, "MCP audit write failed");
-        }
-    }
-
-    private ExecuteResult Finish(ExecuteRequest request, ExecuteResult result, Stopwatch stopwatch, bool hasHeavyCalls)
-    {
-        if (result.DurationMs == 0) result.DurationMs = stopwatch.ElapsedMilliseconds;
-
-        var outcome = !result.IsError ? "ok" : result.TimedOut ? "timeout" : result.Diagnostics.Count > 0 ? "rejected" : "error";
-        var message = hasHeavyCalls ? "[heavy] " + (result.Message ?? "ok") : result.Message;
-
-        try
-        {
-            _audit.Write(new AuditEntry(DateTimeOffset.Now, Environment.UserName, _activeDocumentTitle, null, ScriptCompiler.Hash(request.Code), request.Code,
-                request.Transaction, request.DryRun, outcome, result.DurationMs, result.Changed.Added, result.Changed.Modified, result.Changed.Deleted, message));
-        }
-        catch (Exception exception)
-        {
-            Log.Warning(exception, "MCP audit write failed");
-        }
-
-        RunCompleted?.Invoke(new LastRunInfo(DateTimeOffset.Now, request.Label ?? "script", request.Code, result.IsError, result.Message,
-            result.DurationMs, result.RolledBack, result.Changed.Added, result.Changed.Modified, result.Changed.Deleted));
-
-        return result;
-    }
 
     public void Dispose()
     {

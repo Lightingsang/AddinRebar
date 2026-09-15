@@ -1,11 +1,20 @@
-"""Phase-1 spike harness: talks NDJSON JSON-RPC to the Navisworks bridge over its named pipe and runs the
-spike scenarios of the plan (S-03..S-06, S-05b/c, S-11). No MCP server involved (that is phase 3).
-Prints one line per scenario and a JSON summary at the end; exit code 1 when any scenario fails.
+"""Bridge harness: talks NDJSON JSON-RPC to the Navisworks bridge over its named pipe and runs the scenario
+matrix of the plan (read, W1 edits, dryRun, none, errors, guard, heavy gate, timeout, cancel, busy, big results).
+No MCP server involved. Prints one line per scenario and a JSON summary at the end; exit code 1 on any failure.
 
-Usage: python pipe-scenarios.py [--pipe hpnavis-mcp-2026] [--only a,b,c]
-Scenario keys: ping context read counts w1 dryrun samelabel empty current exception guard heavy timeout cancel; exclusive: disabled modal clash nodoc
+Usage: python pipe-scenarios.py [--pipe hpnavis-mcp-2026] [--only a,b,c] [--audit <dir>]
+Default set: ping context read models search counts w1 dryrun samelabel empty current selected manual nonemod compile
+             exception guard heavy bigreturn timeout cancel contextbusy
+Exclusive (need runner setup): disabled modal clash heavyappend nodoc
 """
-import json, sys, time, argparse
+import json, os, sys, time, argparse, glob
+
+# the runner captures stdout through a Windows console codepage; scenario names carry arrows and ellipses
+for stream in (sys.stdout, sys.stderr):
+    try:
+        stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 
 PIPE = r"\\.\pipe\hpnavis-mcp-2026"
 _id = 0
@@ -88,6 +97,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pipe", default=PIPE)
     ap.add_argument("--only", default="")
+    ap.add_argument("--audit", default=os.path.join(os.environ.get("APPDATA", ""), "HPNavis", "McpBridge", "audit"))
     a = ap.parse_args()
     only = set(x for x in a.only.split(",") if x)
 
@@ -165,6 +175,41 @@ return new { tests = dc.Tests.Count, results = ran.Children.Count, a = half, b =
               f"isBusy={nav.get('isBusy')} clashTestCount={nav.get('clashTestCount')} heavy={nav.get('heavyOperationsEnabled')}")
         p.close(); finish(); return
 
+    if "heavyappend" in only:
+        nwc = os.environ.get("HPNAVIS_APPEND_FILE", "")
+        assert nwc and os.path.exists(nwc), "HPNAVIS_APPEND_FILE must point at an .nwc"
+        code = "doc.AppendFile(args.Str(\"path\", \"\")); return doc.Models.Count;"
+        before = counts(p)
+        r = execute(p, code, dry_run=True, label="append dry", args={"path": nwc}, timeout_s=300)
+        v = r.get("result", {})
+        check("heavy ON + dryRun: AppendFile refused before running", v.get("isError") is True and "dryRun cannot undo" in (v.get("message") or "") and counts(p)["models"] == before["models"],
+              v.get("message"))
+        t0 = time.time()
+        r = execute(p, code, label="append mep", args={"path": nwc}, timeout_s=300, wait=400)
+        v = r.get("result", {})
+        after = counts(p)
+        check("heavy ON: AppendFile adds a model, rolledBack=false, changed.added=1",
+              not v.get("isError") and after["models"] == before["models"] + 1 and v.get("rolledBack") is False and v.get("changed", {}).get("added") == 1,
+              f"models {before['models']}->{after['models']} value={v.get('value')} in {time.time() - t0:.1f}s")
+        # the two audit lines of the real append: "started" when it was queued, then the outcome — later `counts`
+        # reads add lines of their own, so pick the append's lines by source
+        lines = [l for l in audit_tail(a.audit, 12) if "AppendFile" in (l.get("source") or "") and not l.get("dryRun")][-2:]
+        check("heavy audit: a 'started' line before and a '[heavy]' message after",
+              len(lines) == 2 and lines[0].get("outcome") == "started" and (lines[0].get("message") or "").startswith("[heavy]")
+              and lines[1].get("outcome") == "ok" and (lines[1].get("message") or "").startswith("[heavy]"),
+              " | ".join(f"{l.get('outcome')}:{(l.get('message') or '')[:40]}" for l in lines))
+        r = execute(p, "doc.AppendFile(@\"\\\\srv\\models\\x.nwc\"); return 1;", label="append unc", timeout_s=300)
+        v = r.get("result", {})
+        check("heavy ON: UNC path still refused (HEAVY path policy)", v.get("isError") is True and any(d.get("id") == "HEAVY" and "UNC" in d.get("message", "") for d in v.get("diagnostics", [])),
+              " | ".join(d.get("message", "")[:80] for d in v.get("diagnostics", [])))
+        rc = p.call("navis.context")
+        nav = rc.get("result", {}).get("navis") or {}
+        check("context after append: modelCount +1, per-model units, not busy, heavy flag on",
+              nav.get("modelCount") == before["models"] + 1 and len(nav.get("models") or []) == nav.get("modelCount") and all(m.get("units") for m in nav.get("models") or [])
+              and nav.get("isBusy") is False and nav.get("heavyOperationsEnabled") is True,
+              json.dumps({k: nav.get(k) for k in ("modelCount", "isBusy", "heavyOperationsEnabled", "isModified")}) + " models=" + json.dumps(nav.get("models"))[:200])
+        p.close(); finish(); return
+
     if "nodoc" in only:
         r = p.call("navis.context")
         ctx = r.get("result", {})
@@ -195,6 +240,29 @@ return new { tests = dc.Tests.Count, results = ran.Children.Count, a = half, b =
         v = r.get("result", {})
         check("S-04 read doc.Title under none", "result" in r and not v.get("isError") and isinstance(v.get("value"), str) and v.get("changed") == {"added": 0, "modified": 0, "deleted": 0} and v.get("rolledBack") is False,
               json.dumps({k: v.get(k) for k in ("value", "changed", "rolledBack", "durationMs", "logs")}))
+
+    if want("models"):
+        r = execute(p, "return doc.Models.Select(m => new { m.FileName, units = m.Units.ToString(), roots = m.RootItem.Children.Count() }).ToList();", transaction="none", label="models")
+        v = r.get("result", {})
+        arr = v.get("value") or []
+        check("read: doc.Models projection under none", not v.get("isError") and isinstance(arr, list) and len(arr) >= 1 and arr[0].get("fileName", "").endswith(".nwd") and arr[0].get("units"),
+              json.dumps(arr)[:200])
+
+    if want("search"):
+        code = """
+var search = new Search();
+search.Selection.SelectAll();
+search.SearchConditions.Add(SearchCondition.HasPropertyByDisplayName("Item", "Name").DisplayStringContains(args.Str("text", "a")));
+return search.FindAll(doc, false);"""
+        t0 = time.time()
+        r = execute(p, code, transaction="none", label="search", args={"text": "a"})
+        v = r.get("result", {})
+        arr = v.get("value")
+        marker = [x for x in (arr or []) if isinstance(x, dict) and "truncated" in x]
+        items = [x for x in (arr or []) if isinstance(x, dict) and x.get("type") == "ModelItem"]
+        check("read: Search → ModelItemCollection serialised as ModelItem summaries (capped at 200 + marker)",
+              not v.get("isError") and isinstance(arr, list) and len(items) >= 1 and all("displayName" in x for x in items) and len(items) <= 200 and v.get("changed") == {"added": 0, "modified": 0, "deleted": 0},
+              f"{len(items)} items, marker={marker[:1]}, first={json.dumps(items[:1])[:160]} in {time.time() - t0:.1f}s")
 
     if want("counts"):
         c = counts(p)
@@ -249,6 +317,39 @@ return new { tests = dc.Tests.Count, results = ran.Children.Count, a = half, b =
         check("S-05c CurrentSelection.Add: record whether it creates an undo entry (informational)", "result" in r,
               f"undo before={before['undo']!r} after={after['undo']!r} selected {before['selected']}->{after['selected']} value={v.get('value')!r} changed={v.get('changed')}")
 
+    if want("selected"):
+        r = execute(p, "return doc.CurrentSelection.SelectedItems;", transaction="none", label="selected")
+        v = r.get("result", {})
+        arr = v.get("value")
+        check("read: CurrentSelection.SelectedItems after the harness selected one item (auto run above)",
+              not v.get("isError") and isinstance(arr, list) and len(arr) == 1 and arr[0].get("type") == "ModelItem" and v.get("rolledBack") is False,
+              json.dumps(arr)[:200])
+
+    if want("manual"):
+        before = counts(p)
+        r = execute(p, W1_EDITS, transaction="manual", label="spike manual", args={"name": "MCP manual"})
+        v = r.get("result", {})
+        after = counts(p)
+        check("manual ≡ auto: commits, logs the note, undo entry carries the label",
+              not v.get("isError") and after["sets"] == before["sets"] + 1 and after["undo"] == "MCP: spike manual" and any("behaves like" in l for l in v.get("logs", [])),
+              f"undo={after['undo']!r} logs={v.get('logs')}")
+
+    if want("nonemod"):
+        before = counts(p)
+        r = execute(p, "doc.SelectionSets.AddCopy(new SelectionSet(new ModelItemCollection()) { DisplayName = \"MCP none\" }); return 1;", transaction="none", label="none mod")
+        v = r.get("result", {})
+        after = counts(p)
+        check("none + edit: isError with the 'declared none' message, rolledBack=true, sets unchanged, user's undo top restored",
+              v.get("isError") is True and 'declared transaction="none"' in (v.get("message") or "") and v.get("rolledBack") is True and after["sets"] == before["sets"] and after["undo"] == before["undo"],
+              f"msg={v.get('message')!r} sets {before['sets']}->{after['sets']} undo {before['undo']!r}->{after['undo']!r}")
+
+    if want("compile"):
+        r = execute(p, "return doc.NoSuchMember;", transaction="none", label="compile")
+        v = r.get("result", {})
+        diags = v.get("diagnostics", [])
+        check("compile error: isError with a CS diagnostic, nothing ran", v.get("isError") is True and any(d.get("id", "").startswith("CS") for d in diags) and v.get("durationMs", 1) >= 0,
+              " | ".join(f"{d.get('id')} {d.get('message', '')[:60]}" for d in diags))
+
     if want("exception"):
         before = counts(p)
         code = "doc.SelectionSets.AddCopy(new SelectionSet(new ModelItemCollection()) { DisplayName = \"MCP boom\" }); throw new InvalidOperationException(\"boom\");"
@@ -288,6 +389,38 @@ return new { tests = dc.Tests.Count, results = ran.Children.Count, a = half, b =
                   v.get("isError") is True and any(d.get("id") == "HEAVY" and "Allow heavy operations" in d.get("message", "") for d in diags),
                   " | ".join(d.get("message", "")[:120] for d in diags))
 
+    if want("bigreturn"):
+        t0 = time.time()
+        r = execute(p, "return doc.Models.RootItems.First().DescendantsAndSelf.ToList();", transaction="none", label="big", timeout_s=60)
+        v = r.get("result", {})
+        val = v.get("value")
+        cut = v.get("truncated") is True or (isinstance(val, list) and any(isinstance(x, dict) and "truncated" in x for x in val))
+        check("big result: the whole tree comes back bounded (truncated flag or collection marker), fast",
+              not v.get("isError") and cut and time.time() - t0 < 30, f"truncated={v.get('truncated')} type={v.get('valueType')} len={len(val) if isinstance(val, list) else len(str(val))} in {time.time() - t0:.1f}s")
+
+    if want("contextbusy"):
+        # a long script is running: context must answer busy at once instead of waiting for the main thread
+        _id += 1
+        rid = _id
+        p.f.write((json.dumps({"jsonrpc": "2.0", "id": rid, "method": "navis.execute", "params": {"code": "while (!ct.IsCancellationRequested) { } return 1;", "transaction": "none", "dryRun": False, "timeoutSeconds": 30, "label": "spin-context"}}) + "\n").encode("utf-8"))
+        time.sleep(1.0)
+        t0 = time.time()
+        rc = p.call("navis.context")
+        dt = time.time() - t0
+        err = rc.get("error", {})
+        cancel = p.call("navis.cancel")
+        got = next((n for n in (rc.get("_notifications", []) + cancel.get("_notifications", [])) if n.get("id") == rid), None)
+        deadline = time.time() + 30
+        while got is None and time.time() < deadline:
+            line = p.f.readline()
+            if not line:
+                break
+            obj = json.loads(line.decode("utf-8"))
+            if obj.get("id") == rid:
+                got = obj
+        check("context while a script runs: -32002 within 1 s (no wait on the main thread)", err.get("code") == -32002 and dt < 1.0 and got is not None,
+              f"error={json.dumps(err)[:100]} in {dt:.2f}s; spin result={(got or {}).get('result', {}).get('message')!r}")
+
     if want("timeout"):
         t0 = time.time()
         r = execute(p, "while (!ct.IsCancellationRequested) { } return 1;", transaction="none", timeout_s=5, label="spin", wait=60)
@@ -318,6 +451,21 @@ return new { tests = dc.Tests.Count, results = ran.Children.Count, a = half, b =
 
     p.close()
     finish()
+
+
+def audit_tail(folder, n):
+    files = sorted(glob.glob(os.path.join(folder, "audit-*.log")))
+    if not files:
+        return []
+    with open(files[-1], "r", encoding="utf-8") as f:
+        lines = [l for l in f.read().splitlines() if l.strip()]
+    out = []
+    for l in lines[-n:]:
+        try:
+            out.append(json.loads(l))
+        except ValueError:
+            out.append({})
+    return out
 
 
 def finish():
