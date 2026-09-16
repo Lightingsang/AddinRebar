@@ -27,7 +27,7 @@ namespace HPAutoCad.McpBridge;
 ///     delegates, the only shape both load contexts agree on. Runs on AutoCAD's main thread, before any
 ///     drawing is open.
 /// </summary>
-public static partial class BridgeEntry
+public static class BridgeEntry
 {
     public const string VendorFolder = "HPAutoCad";
     public const string ProductFolder = "McpBridge";
@@ -92,7 +92,6 @@ public static partial class BridgeEntry
             ["status"] = new Func<string>(Status),
             ["dispose"] = new Action(Dispose),
         };
-        AddRibbonEntryPoints(entries, host, store);
         return entries;
     }
 

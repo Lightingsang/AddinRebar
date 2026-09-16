@@ -271,29 +271,16 @@ HPAutoCad.Mcp.Server (net10 console)
 
 The `Shape` method (`.cs:54-72`) checks `HostId == revit`, returning verbatim for Revit (no extra serialization cost), or filtering for non-Revit to hide Revit-specific fields.
 
-## Ribbon Tab "MCP AutoCAD" — Loader UI Entry (plan 260914-2204)
+## Ribbon Tab "HPAutoCad" ▸ "MCP" ▸ "MCP Bridge" — Loader UI Entry
 
 ```
-Loader → Ribbon tab "MCP AutoCAD" (id=HPAUTOCAD_MCP_TAB)
+Loader → Ribbon tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)
   │
-  ├─ BridgeActions (shared command/button runner) ──┐
-  │                                                  ↓
-  ├─ Kết nối panel ──→ [Bảng điều khiển] ──show──→ status window
-  │                   [Bật listener] ────start──→ McpBridgeHost.Start
-  │                   [Tắt listener] ────stop───→ McpBridgeHost.Stop
-  │                   [Trạng thái] ─────status──→ command line / alert
-  │                   [live label] ────status.subscribe ──→ StateChanged event
-  │
-  ├─ Công cụ panel ────→ [Sao chép script] ──copyLastScript ──→ LastRun.Source → clipboard
-  │                      [Thư viện tool] ───path("library") ──→ tools-library folder
-  │
-  ├─ Thiết lập panel ───→ [Mở nhật ký] ──────────────────→ logs folder
-  │                      [Mở audit] ──path("audit")──────→ audit folder
-  │                      [Tự khởi động] ─autoStart.get/set→ settings.json
-  │                      [Hướng dẫn] ──────────────────→ Contents\README.md
+  └─ panel "MCP" ──→ [MCP Bridge] ──BridgeActions.Run("show")──→ bridge status window
+                       (vector icon: window + plug, ink per COLORTHEME, accent #0696D7)
 ```
 
-Implemented in the loader (2026-09-14, commit e5fae0a, plan 260914-2204-autocad-ribbon-tab): `BridgeActions.cs` (78 LOC), `Ribbon/` folder (McpRibbonTab 181, RibbonStatusPresenter 52, RibbonCommandHandler 27, RibbonIcons 65), `BridgeEntry.Ribbon.cs` (71). All entry points cross the ALC boundary via BCL types only. Tab lifecycle: created once on Ribbon init, re-created after workspace switch (via `SystemVariableChanged` event), guarded against duplication, removed on `Terminate`. No CUIx modification. Verified 2026-09-14: `run-ribbon-check.ps1` 8/8 (tab once, survives workspace round trip, all 9 buttons functional, live status label updates, no crashes). Regressions: bridge 21/21, server 22/22.
+Same one-button surface as the Revit (`HPRebar` ▸ `MCP` ▸ `MCP Bridge`) and Navisworks (`HPNavis` ▸ `MCP` ▸ `MCP Bridge`) bridges. Bundle 0.2.0 (2026-09-14, plan 260914-2204) had three panels and ten buttons; every one of them duplicated a control of the status window, so 0.3.0 (2026-09-16) keeps only the window opener: `Ribbon/McpRibbonTab.cs` (one panel, one button, the workspace/COLORTHEME/ItemInitialized re-creation logic), `Ribbon/RibbonIcons.cs` (one frozen `DrawingImage`, even coordinates so 16 px = ½ of 32 px), `Ribbon/RibbonCommandHandler.cs`; `RibbonStatusPresenter.cs` and the bridge's `BridgeEntry.Ribbon.cs` (entry points `status.subscribe`, `copyLastScript`, `autoStart.get/set`, `path`) are gone — the bridge exposes `show/start/stop/status/dispose` only. Tab lifecycle unchanged: created once the Ribbon exists, re-created after a workspace switch, rebuilt after a theme change (`SystemVariableChanged` → `Application.Idle` → `EnsureCreated` + `FindTab`), removed on `Terminate`. No CUIx modification. Verified 2026-09-16: `run-ribbon-check.ps1` 12/12 + 1 MANUAL (icon screenshots per theme, inspected crisp); regressions bridge 21/21, server 22/22.
 
 ## Phases 4–5 + Ribbon Status
 
@@ -301,7 +288,7 @@ Implemented in the loader (2026-09-14, commit e5fae0a, plan 260914-2204-autocad-
 |---|---|---|
 | 4 ✅ | 12 embedded AutoCAD seed tools (6 read-only + 6 auto-transaction, 7 categories); registry per host profile (categories, reserved names, host stamp, CLI exe name); engine meta-tool descriptions host-neutral (8 tools); `ToolValidator`, `ToolLifecycleService` profile-driven; `SeedLibraryTests` 58 compile-checks; live 22/22 harness all seeds | Completed 2026-09-14 |
 | 5 ✅ | Live verification harness (one stdio session, 65 scenarios, isolated registry, automate busy → ESC → retry); stability window fixes (arg errors excluded, window restarts at lifecycle event, restored tool not re-quarantined); two live-found defects fixed (seed quarantined by own tests, restored tool re-quarantined); runs 263 total (96 + 109 + 58), live 64 pass + 1 skip + isolation 4/4 + regression 21/21 | Completed 2026-09-14 |
-| 6 ✅ | Ribbon tab "MCP AutoCAD" (Autodesk.Windows, 3 panels, 9 buttons + 1 live label, 398 LOC); entry points (status.subscribe, copyLastScript, autoStart.get/set, path) BCL-only across ALC; workspace-safe (round-trip guard), no CUIx; live 8/8 harness (tab once, survives switch, buttons work, regressions pass) | Completed 2026-09-14 |
+| 6 ✅ | Ribbon tab: 2026-09-14 "MCP AutoCAD" (3 panels, 9 buttons + live label, bundle 0.2.0, live 8/8) → 2026-09-16 reduced to the Revit-style `HPAutoCad` ▸ `MCP` ▸ `MCP Bridge` (bundle 0.3.0, vector icon per theme, ribbon-only entry points removed; live 12/12 + icon MANUAL, bridge 21/21, smoke 22/22) | Completed 2026-09-16 |
 | Debug F5 / runtime issue | `/bs:revit-debug` |
 | Setup / chạy test | `/bs:revit-test` |
 | Plan feature mới | `/bs:plan` (Stack-Aware 6-phase) |

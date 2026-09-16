@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-16 — AutoCAD MCP bridge: Ribbon thu về kiểu Revit `HPAutoCad` ▸ `MCP` ▸ `MCP Bridge` (bundle 0.3.0)
+
+**Thay đổi:** Tab `HPAutoCad` (id `HPAUTOCAD_MCP_TAB` giữ nguyên) ▸ panel `MCP` ▸ 1 nút `MCP Bridge` → `BridgeActions.Run("show")` (cùng delegate `HPMCPBRIDGE`), cùng bề mặt với ribbon MCP của Revit và Navisworks. Bỏ 3 panel / 10 nút của 0.2.0 (mọi nút đều là control có sẵn trong cửa sổ trạng thái) → xoá `RibbonStatusPresenter.cs`, `BridgeEntry.Ribbon.cs` (entry point `status.subscribe`/`copyLastScript`/`autoStart.*`/`path`), `BridgeActions.Query/OpenPath`, bước copy README vào bundle. Icon vector `DrawingImage` vẽ trong code (cửa sổ + phích cắm, cùng glyph với Navis; toạ độ chẵn nên 16 px = ½ 32 px; mực `#E6E6E6` theme tối / `#3C3C3C` theme sáng, accent `#0696D7`), tab rebuild khi `COLORTHEME` đổi.
+
+**Xác minh:** `dotnet build HPAutoCad.slnx -c Debug` 0 warning; `run-ribbon-check.ps1` (viết lại) 12/12 PASS + 1 MANUAL (icon — 2 screenshot theo theme, đã xem: sắc nét cả hai): tab đúng 1 lần, vẫn 1 sau đổi workspace và sau đổi COLORTHEME, `MCP Bridge` mở cửa sổ, bấm lần 2 không mở cửa sổ thứ hai, loader.log sạch. Hồi quy: `run-bridge-unattended.ps1` 21/21, `run-server-smoke.ps1` 22/22.
+
 ## 2026-09-16 — `McpShared/tools/harness_common.py`: bookkeeping chung cho harness Python
 
 **Thay đổi:** `Checklist` (check/skip/save/finish → PASS/FAIL/SKIP + JSON summary + exit code), `utf8_console()`, `ok`/`short`, re-export `Server`/`mcp_session`; 4 script (`HPNavis` live-verify/seeds-live/server-smoke, `HPAutoCad` live-verify) bỏ ~30 dòng lặp mỗi file và import theo đường tương đối. Shape JSON summary giữ nguyên các key wrapper đọc (`passed`, `total`, `failed`, `phase`…), thêm `skipped`/`skippedNames` ở mọi script. Self-test: `python McpShared/tools/harness_common.py`.

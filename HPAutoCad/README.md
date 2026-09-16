@@ -18,7 +18,7 @@ failing fast on the pipe and Civil 3D not loading the bundle (`tools/harness/run
 executor (`Application.Idle` + `IsQuiescent`), two bridge-owned transactions (`tr` is the script's), change counting,
 audit, status window (`tools/harness/run-bridge-unattended.ps1`, 21/21).
 AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI code execution" opt-in), `HPMCPSTART`,
-`HPMCPSTOP`, `HPMCPSTATUS` — and, since bundle 0.2.0, the Ribbon tab **MCP AutoCAD** (see below).
+`HPMCPSTOP`, `HPMCPSTATUS` — and the Ribbon tab **HPAutoCad** ▸ **MCP** ▸ **MCP Bridge** (see below).
 
 | Project | Phase | Purpose |
 |---|---|---|
@@ -31,36 +31,26 @@ AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI co
 Shared engine (referenced, never copied): `../McpShared/HPRebar.Mcp.Contracts`, `../McpShared/HPRebar.McpBridge.Core`,
 `../McpShared/HPRebar.Mcp.Server.Core`. This folder never references `../HPRebar/`.
 
-## Ribbon tab "MCP AutoCAD"
+## Ribbon tab "HPAutoCad" ▸ "MCP" ▸ "MCP Bridge"
 
-Built by the loader with `Autodesk.Windows` (AdWindows.dll from the `AutoCAD.NET` package — compile-time only, never
-copied). Tab id `HPAUTOCAD_MCP_TAB`; created once the Ribbon exists, re-created after a workspace switch, guarded by
-`FindTab` so it never duplicates; removed on `Terminate`. Every button forwards to a bridge entry point — the same
-delegates the `HPMCP*` commands call — so a click needs no drawing, never edits one, and works while a command is
-waiting for input. Icons are vector drawings in code. No CUIx, no change to the user's `acad.cuix` or workspaces.
-
-| Panel | Nút | Handler → bridge entry point | Command tương đương |
-|---|---|---|---|
-| Kết nối | Bảng điều khiển | `BridgeActions.Run("show")` → status window | `HPMCPBRIDGE` |
-| Kết nối | Bật listener / Tắt listener | `Run("start")` / `Run("stop")` → `McpBridgeHost.Start/Stop` | `HPMCPSTART` / `HPMCPSTOP` |
-| Kết nối | Trạng thái | `Run("status")` → command line, or an alert when no drawing is open | `HPMCPSTATUS` |
-| Kết nối | (label) | `status.subscribe` → `McpBridgeHost.StateChanged`; text distinguishes bridge ready · listening · server connected (+ busy/error) and the opt-in | — |
-| Công cụ | Sao chép script cuối | `copyLastScript` → clipboard ← `McpBridgeHost.LastRun.Source` | (window button) |
-| Công cụ | Thư viện tool | `path("library")` → `%AppData%\HPAutoCad\McpServer\tools-library` in Explorer | — |
-| Thiết lập | Mở nhật ký | `%LocalAppData%\HPAutoCad\McpBridge\logs` in Explorer | — |
-| Thiết lập | Mở audit | `path("audit")` → `%AppData%\HPAutoCad\McpBridge\audit` | (window button) |
-| Thiết lập | Tự khởi động listener (toggle) | `autoStart.get/set` → `settings.json` `AutoStartListener` | (window checkbox) |
-| Thiết lập | Hướng dẫn | opens `Contents\README.md` shipped in the bundle | — |
-
-Not on the Ribbon, on purpose: the "Allow AI code execution" opt-in (stays in the window, off on every start) and any
-"run a tool" button (tools run through the MCP server, which Claude Code owns — the bridge never starts or stops it).
-When the bridge failed to start, the bridge-backed buttons are disabled and their tooltip says to open the log.
+The same one-button surface as the Revit and Navisworks bridges (bundle 0.3.0; 0.2.0 carried three panels and ten
+buttons — every one of them is a control of the status window, so the tab only opens that window now). Built by the
+loader with `Autodesk.Windows` (AdWindows.dll from the `AutoCAD.NET` package — compile-time only, never copied). Tab
+id `HPAUTOCAD_MCP_TAB`, title `HPAutoCad`; panel `MCP`; button `MCP Bridge` → `BridgeActions.Run("show")`, the same
+delegate `HPMCPBRIDGE` calls, so a click needs no drawing and never edits one. The icon is a vector `DrawingImage`
+drawn in code (window + plug, the glyph shared with the Navisworks bridge): every coordinate even, so the 16-px
+small image is an exact half of the 32-px one; the frame ink follows `COLORTHEME` (light ink on the dark theme,
+`#3C3C3C` on the light one), the plug is the HP MCP blue `#0696D7`. The tab is created once the Ribbon exists,
+re-created after a workspace switch (`WSCURRENT`) and after a theme change (`COLORTHEME` → rebuilt with the other
+ink), guarded by `FindTab` so it never duplicates, removed on `Terminate`. When the bridge failed to start, the
+button is disabled and its tooltip names the loader log. No CUIx, no change to the user's `acad.cuix` or workspaces.
 
 Install / update / remove: `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug` with AutoCAD closed deploys the bundle
 (`%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\`, autoloaded by `PackageContents.xml`,
 `Platform="AutoCAD"`, R25.1); removing that folder uninstalls. Trusted location = the bundle folder (answer *Always
 Load* once; SECURELOAD stays on). To try a build without the bundle: `NETLOAD` `Contents\HPAutoCad.McpBridge.Loader.dll`
-from a copy of the bundle. Live check: `pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1`.
+from a copy of the bundle. Live check: `pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1` (12 checks + the icon as a
+MANUAL item with a screenshot per theme).
 
 ## Target
 
@@ -76,7 +66,7 @@ cd HPAutoCad && dotnet test HPAutoCad.Mcp.Server.Tests            # 58 tests, no
 pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1            # live: bridge over the pipe (AutoCAD must be closed)
 pwsh HPAutoCad/tools/harness/run-server-smoke.ps1                 # live: published exe over stdio (publish first)
 pwsh HPAutoCad/tools/harness/run-live-verify.ps1 -IncludeIsolation   # live: the phase-5 proof (registry loops, Revit beside, isolation)
-pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # live: the Ribbon tab (UIA: one tab, workspace switch, buttons → pipe/window)
+pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # live: the Ribbon tab (UIA: one tab, workspace + theme round trips, button → window)
 dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server
 HPAutoCad/output/HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.exe registry approve <tool> --by <who>
 ```

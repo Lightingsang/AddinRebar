@@ -1,31 +1,30 @@
-using System.IO;
-using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.Windows;
 
 namespace HPAutoCad.McpBridge.Loader.Ribbon;
 
 /// <summary>
-///     The "MCP AutoCAD" Ribbon tab. Every button forwards to the same bridge entry points the HPMCP*
-///     commands use, so a click needs no document and never edits the drawing. The tab exists at most once
-///     per Ribbon: every path that could add it — start-up, any Ribbon item initialising (covers the RIBBON
-///     command after RIBBONCLOSE), a workspace switch (rebuilds the Ribbon from the CUI and drops tabs added
-///     in code), a COLORTHEME change (icons follow the theme) — goes through <see cref="EnsureCreated"/>
-///     and its <c>FindTab</c> guard.
+///     The "HPAutoCad" Ribbon tab: one panel "MCP" with one button "MCP Bridge" — the same surface as the
+///     Revit and Navisworks bridges. The button forwards to the bridge entry point HPMCPBRIDGE uses, so a
+///     click needs no document and never edits the drawing; everything else (listener, opt-in, last script,
+///     audit, logs) lives in the window it opens. The tab exists at most once per Ribbon: every path that could
+///     add it — start-up, any Ribbon item initialising (covers the RIBBON command after RIBBONCLOSE), a
+///     workspace switch (rebuilds the Ribbon from the CUI and drops tabs added in code), a COLORTHEME change
+///     (the icon ink follows the theme) — goes through <see cref="EnsureCreated"/> and its <c>FindTab</c> guard.
 /// </summary>
 internal static class McpRibbonTab
 {
     public const string TabId = "HPAUTOCAD_MCP_TAB";
-    public const string TabTitle = "MCP AutoCAD";
-    private const string BridgeDownHint = "\n\nBridge chưa khởi động — xem loader.log (nút Mở nhật ký).";
+    public const string TabTitle = "HPAutoCad";
+    public const string PanelId = "HPAUTOCAD_MCP_PANEL";
+    public const string ButtonId = "HPAUTOCAD_MCP_BRIDGE";
+    public const string ButtonText = "MCP Bridge";
 
     private static bool _installed;
     private static bool _idlePending;
     private static bool _rebuild;
     private static bool _building;
-    private static RibbonStatusPresenter? _status;
 
     public static void Install()
     {
@@ -47,8 +46,6 @@ internal static class McpRibbonTab
         Application.Idle -= OnIdle;
         _idlePending = false;
         _rebuild = false;
-        _status?.Dispose();
-        _status = null;
 
         var ribbon = ComponentManager.Ribbon;
         if (ribbon?.FindTab(TabId) is { } tab) ribbon.Tabs.Remove(tab);
@@ -64,7 +61,6 @@ internal static class McpRibbonTab
             if (ribbon is null || ribbon.FindTab(TabId) is not null) return;
 
             _building = true;
-            _status?.Dispose();
             ribbon.Tabs.Add(Build());
             LoaderLog.Write($"ribbon tab {TabId} created (bridge {(BridgeActions.BridgeAvailable ? "available" : "unavailable")})");
         }
@@ -86,7 +82,7 @@ internal static class McpRibbonTab
         var workspace = string.Equals(e.Name, "WSCURRENT", StringComparison.OrdinalIgnoreCase);
         var theme = string.Equals(e.Name, "COLORTHEME", StringComparison.OrdinalIgnoreCase);
         if (!workspace && !theme) return;
-        if (theme) _rebuild = true; // icons are picked per theme, so the tab is rebuilt
+        if (theme) _rebuild = true; // the icon ink is picked per theme, so the tab is rebuilt
         if (_idlePending) return;
         _idlePending = true;
         Application.Idle += OnIdle; // the new Ribbon is complete by the next idle tick
@@ -99,7 +95,14 @@ internal static class McpRibbonTab
         if (_rebuild)
         {
             _rebuild = false;
-            if (ComponentManager.Ribbon?.FindTab(TabId) is { } tab) ComponentManager.Ribbon.Tabs.Remove(tab);
+            try
+            {
+                if (ComponentManager.Ribbon?.FindTab(TabId) is { } tab) ComponentManager.Ribbon.Tabs.Remove(tab);
+            }
+            catch (System.Exception exception)
+            {
+                LoaderLog.Write("ribbon tab removal for rebuild failed", exception);
+            }
         }
         EnsureCreated();
     }
@@ -108,33 +111,34 @@ internal static class McpRibbonTab
     {
         var tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
         var bridge = BridgeActions.BridgeAvailable;
-        var icons = new RibbonIcons(IsDarkTheme());
+        var icon = new RibbonIcons(IsDarkTheme()).McpBridge;
 
-        var connection = Panel("HPAUTOCAD_MCP_PANEL_CONNECTION", "Kết nối");
-        connection.Source.Items.Add(Button("HPAUTOCAD_MCP_SHOW", "Bảng\nđiều khiển", "Mở cửa sổ trạng thái bridge: bật/tắt listener, tick \"Allow AI code execution\" cho phiên này, script cuối.", "HPMCPBRIDGE", icons.Panel, () => BridgeActions.Run("show"), bridge));
-        connection.Source.Items.Add(Button("HPAUTOCAD_MCP_START", "Bật\nlistener", "Mở named pipe để MCP server (do Claude Code chạy) kết nối. Không khởi động server.", "HPMCPSTART", icons.Start, () => BridgeActions.Run("start"), bridge));
-        connection.Source.Items.Add(Button("HPAUTOCAD_MCP_STOP", "Tắt\nlistener", "Đóng named pipe; MCP server sẽ báo \"bridge not connected\".", "HPMCPSTOP", icons.Stop, () => BridgeActions.Run("stop"), bridge));
-        connection.Source.Items.Add(Button("HPAUTOCAD_MCP_STATUS", "Trạng\nthái", "In trạng thái bridge (pipe, listener, opt-in, self-check, script cuối) ra dòng lệnh — hoặc hộp thoại khi chưa mở bản vẽ.", "HPMCPSTATUS", icons.Info, () => BridgeActions.Run("status"), bridge));
-        var label = new RibbonLabel { Id = "HPAUTOCAD_MCP_STATUS_TEXT", Text = "…" };
-        var row = new RibbonRowPanel();
-        row.Items.Add(label);
-        connection.Source.Items.Add(row);
-        tab.Panels.Add(connection);
+        var button = new RibbonButton
+        {
+            Id = ButtonId,
+            Text = ButtonText,
+            ShowText = true,
+            ShowImage = true,
+            Size = RibbonItemSize.Large,
+            Orientation = Orientation.Vertical,
+            Image = icon,
+            LargeImage = icon,
+            CommandHandler = new RibbonCommandHandler(ButtonId, () => BridgeActions.Run("show")),
+            IsEnabled = bridge,
+        };
+        button.ToolTip = new RibbonToolTip
+        {
+            Title = ButtonText,
+            Content = bridge
+                ? "Opens the MCP bridge status window: start or stop the listener, allow AI code execution for this session, see the last script, open the audit and log folders."
+                : "The bridge did not start, so the window cannot open. See loader.log in " + LoaderLog.LogDirectory,
+            Command = "HPMCPBRIDGE",
+            IsHelpEnabled = false,
+        };
 
-        var tools = Panel("HPAUTOCAD_MCP_PANEL_TOOLS", "Công cụ");
-        tools.Source.Items.Add(Button("HPAUTOCAD_MCP_COPY", "Sao chép\nscript cuối", "Sao chép mã C# của lần chạy gần nhất vào clipboard để xem lại hoặc gửi cho AI.", null, icons.Clipboard, () => BridgeActions.Run("copyLastScript"), bridge));
-        tools.Source.Items.Add(Button("HPAUTOCAD_MCP_LIBRARY", "Thư viện\ntool", "Mở thư mục tools-library của MCP server: mỗi tool đã lưu là một thư mục tool.json + code.cs + examples.json.", null, icons.Library, () => BridgeActions.OpenPath(BridgeActions.Query<string>("path", "library"), "thư viện tool"), bridge));
-        tab.Panels.Add(tools);
-
-        var settings = Panel("HPAUTOCAD_MCP_PANEL_SETTINGS", "Thiết lập");
-        settings.Source.Items.Add(Button("HPAUTOCAD_MCP_LOGS", "Mở\nnhật ký", "Mở thư mục log của bridge (loader.log, mcpbridge-*.log).", null, icons.Logs, () => BridgeActions.OpenPath(LoaderLog.LogDirectory, "thư mục nhật ký"), true));
-        settings.Source.Items.Add(Button("HPAUTOCAD_MCP_AUDIT", "Mở\naudit", "Mở thư mục audit: mỗi script AI đã chạy là một dòng JSON.", null, icons.Audit, () => BridgeActions.OpenPath(BridgeActions.Query<string>("path", "audit"), "thư mục audit"), bridge));
-        var toggle = AutoStartToggle(icons, bridge);
-        settings.Source.Items.Add(toggle);
-        settings.Source.Items.Add(Button("HPAUTOCAD_MCP_GUIDE", "Hướng\ndẫn", "Mở hướng dẫn sử dụng (README đóng gói cùng bundle).", null, icons.Guide, () => BridgeActions.OpenPath(GuidePath(), "hướng dẫn"), true));
-        tab.Panels.Add(settings);
-
-        _status = new RibbonStatusPresenter(label, toggle);
+        var panel = new RibbonPanel { Source = new RibbonPanelSource { Id = PanelId, Title = "MCP" } };
+        panel.Source.Items.Add(button);
+        tab.Panels.Add(panel);
         return tab;
     }
 
@@ -144,62 +148,4 @@ internal static class McpRibbonTab
         try { return Convert.ToInt32(Application.GetSystemVariable("COLORTHEME")) == 0; }
         catch (System.Exception) { return true; }
     }
-
-    private static RibbonPanel Panel(string id, string title) => new RibbonPanel { Source = new RibbonPanelSource { Id = id, Title = title } };
-
-    private static RibbonButton Button(string id, string text, string tooltip, string? command, ImageSource icon, Action action, bool enabled)
-    {
-        var button = new RibbonButton
-        {
-            Id = id,
-            Text = text,
-            ShowText = true,
-            ShowImage = true,
-            Size = RibbonItemSize.Large,
-            Orientation = Orientation.Vertical,
-            Image = icon,
-            LargeImage = icon,
-            CommandHandler = new RibbonCommandHandler(id, action),
-            IsEnabled = enabled,
-        };
-        button.ToolTip = ToolTip(text, tooltip, command, enabled);
-        return button;
-    }
-
-    private static RibbonToolTip ToolTip(string text, string tooltip, string? command, bool enabled) => new RibbonToolTip
-    {
-        Title = text.Replace('\n', ' '),
-        Content = enabled ? tooltip : tooltip + BridgeDownHint,
-        Command = command ?? string.Empty,
-        IsHelpEnabled = false,
-    };
-
-    /// <summary>Reads and writes the persisted AutoStartListener setting; the button never guesses its own state.</summary>
-    private static RibbonToggleButton AutoStartToggle(RibbonIcons icons, bool enabled)
-    {
-        var toggle = new RibbonToggleButton
-        {
-            Id = "HPAUTOCAD_MCP_AUTOSTART",
-            Text = "Tự khởi động\nlistener",
-            ShowText = true,
-            ShowImage = true,
-            Size = RibbonItemSize.Large,
-            Orientation = Orientation.Vertical,
-            Image = icons.AutoStart,
-            LargeImage = icons.AutoStart,
-            IsEnabled = enabled,
-            IsChecked = enabled && BridgeActions.Query<bool>("autoStart.get"),
-        };
-        toggle.ToolTip = ToolTip(toggle.Text, "Bật: listener mở pipe ngay khi AutoCAD khởi động (lưu trong settings.json). Không ảnh hưởng opt-in \"Allow AI code execution\", luôn tắt khi mở AutoCAD.", null, enabled);
-        toggle.CommandHandler = new RibbonCommandHandler(toggle.Id, () =>
-        {
-            var value = !BridgeActions.Query<bool>("autoStart.get");
-            BridgeActions.Run("autoStart.set", value);
-            // Posted, so it lands after any toggling the control does on its own, whichever order AdWindows uses.
-            ComponentManager.Ribbon?.Dispatcher.InvokeAsync(() => toggle.IsChecked = value);
-        });
-        return toggle;
-    }
-
-    private static string GuidePath() => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "README.md");
 }

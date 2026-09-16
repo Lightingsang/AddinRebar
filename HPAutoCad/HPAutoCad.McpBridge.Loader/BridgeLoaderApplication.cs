@@ -62,7 +62,7 @@ public sealed class BridgeLoaderApplication : IExtensionApplication
             LoaderLog.Write("bridge failed to start", exception);
         }
 
-        // The Ribbon tab is built even when the bridge failed (its buttons then say why); a Ribbon failure
+        // The Ribbon tab is built even when the bridge failed (its button is disabled, the tooltip says why); a Ribbon failure
         // must never take the bridge or the commands down, so it gets its own guard.
         try
         {

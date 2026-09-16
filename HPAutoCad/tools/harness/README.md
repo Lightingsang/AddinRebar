@@ -19,9 +19,10 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   AutoCAD/Civil 3D processes it started. Outputs under `HPAutoCad/output/live-verify/`.
 - `run-ribbon-check.ps1` — the Ribbon tab through UI Automation (AdWindows exposes a tab header as a Button whose
   AutomationId is the tab id, and a RibbonButton as a Button named after its text): exactly one `HPAUTOCAD_MCP_TAB`,
-  still exactly one after `WSCURRENT` to another workspace and back (COM), then Invoke "Bật listener" (pipe appears),
-  "Tắt listener" (pipe gone), "Bảng điều khiển" (window with `AllowExecution`), "Trạng thái" (no failure in
-  loader.log). Anything UIA cannot see is printed as MANUAL and exits 2 — never a PASS.
+  still exactly one after `WSCURRENT` to another workspace and back and after a `COLORTHEME` round trip (COM;
+  the loader rebuilds the tab so the icon ink follows the theme — one screenshot per theme), then Invoke
+  "MCP Bridge" (window with `AllowExecution` appears), Invoke it again (still one window), no failure in loader.log.
+  The icon itself is a MANUAL item (UIA cannot read pixels): the run exits 2 with the two screenshots — never a PASS.
 
 `run-bridge-unattended.ps1` drives the bridge run without a human:
 
@@ -44,7 +45,7 @@ bundle folder permanently for this Windows user.
 pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1      # AutoCAD must be closed; ~2 minutes warm
 pwsh HPAutoCad/tools/harness/run-server-smoke.ps1           # same, for the published exe (publish first — see its header)
 pwsh HPAutoCad/tools/harness/run-live-verify.ps1 -IncludeIsolation   # phase-5 proof (~6 min, +8 with isolation)
-pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # Ribbon tab: one tab, still one after a workspace round trip, buttons drive the pipe/window (~3 min)
+pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # Ribbon tab: one tab, still one after workspace + theme round trips, MCP Bridge opens the window once (~2 min)
 python HPAutoCad/tools/harness/live-verify.py --exe <autocad exe> --revit-exe <revit exe> --only e   # Revit beside, no AutoCAD start
 python HPAutoCad/tools/harness/pipe-scenarios.py --only ping,context   # against an AutoCAD you started yourself
 python McpShared/tools/mcp-call.py <exe> tools/list                    # any HP MCP exe, no AutoCAD/Revit needed
