@@ -1,0 +1,87 @@
+{
+  // Default AEC classification rules (embedded). Copy to %AppData%\HPAutoCad\McpServer\rules\aec-classification.json to
+  // override for a project. Sizes in mm; layer/block patterns are AutoCAD wildcards (* any run, ? one char, comma-free);
+  // text patterns are regular expressions. Every set criterion must hold; nearbyTextPattern only adds confidence.
+  //
+  // Pattern discipline: a stem is always anchored to a name boundary ("DAM", "DAM-*", "*-DAM", "*-DAM-*", "*_DAM*") — never
+  // "*DAM*", which would also match M-DAMPER; "*ONG*" would match S-MONG and ONGGIO; "*COT*" would match COTAS; "*SAN*" would
+  // match P-SANR-FIXT; "*TRUC*" would match STRUCT. Layer families: AIA/NCS (S-COL, A-WALL, M-PIPE…), plain English (*COLUMN*)
+  // and Vietnamese (COT, DAM, TUONG, SAN, ONG, CUA…). When two rules can both match (door vs window block), the more specific
+  // one carries the higher confidence so ties never fall back to file order.
+  "version": 2,
+  "rules": [
+    { "id": "s-column-outline", "aecType": "StructuralColumn", "confidence": 0.9,
+      "layers": ["S-COL*", "S-COLS*", "*COLUMN*", "*-COL", "*-COL-*", "*_COL", "*_COL_*", "COL", "COL-*", "COL_*", "COT", "COT-*", "COT_*", "*-COT", "*-COT-*", "*_COT", "*_COT_*"],
+      "types": ["LWPOLYLINE", "POLYLINE", "CIRCLE", "HATCH", "SOLID"], "closed": true, "minSizeMm": 150, "maxSizeMm": 2500, "maxAspectRatio": 5,
+      "nearbyTextPattern": "^C\\d+|^COL", "nearbyRadiusMm": 800, "evidence": "closed outline on a column layer" },
+    { "id": "s-column-block", "aecType": "StructuralColumn", "confidence": 0.85, "types": ["INSERT"],
+      "blockNames": ["COL-*", "COL_*", "COLUMN*", "*-COLUMN*", "*_COLUMN*", "COT-*", "COT_*", "*-COT-*"], "evidence": "column block reference" },
+    { "id": "s-beam-run", "aecType": "StructuralBeam", "confidence": 0.85,
+      "layers": ["S-BEAM*", "S-GIRD*", "*BEAM*", "DAM", "DAM-*", "DAM_*", "*-DAM", "*-DAM-*", "*_DAM", "*_DAM_*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "closed": false, "minSizeMm": 300,
+      "nearbyTextPattern": "^[BG]\\d+|^BEAM|^DAM", "nearbyRadiusMm": 1500, "evidence": "run on a beam layer" },
+    { "id": "s-beam-outline", "aecType": "StructuralBeam", "confidence": 0.8,
+      "layers": ["S-BEAM*", "S-GIRD*", "*BEAM*", "DAM", "DAM-*", "DAM_*", "*-DAM", "*-DAM-*", "*_DAM", "*_DAM_*"],
+      "types": ["LWPOLYLINE", "POLYLINE"], "closed": true, "minAspectRatio": 3, "evidence": "elongated closed outline on a beam layer" },
+    { "id": "s-wall-run", "aecType": "StructuralWall", "confidence": 0.85,
+      "layers": ["S-WALL*", "S-CORE*", "*SHEAR*", "VACH", "VACH-*", "VACH_*", "*-VACH", "*-VACH-*", "*_VACH*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "structural wall layer" },
+    { "id": "s-slab-outline", "aecType": "StructuralSlab", "confidence": 0.85,
+      "layers": ["S-SLAB*", "S-FLOR*", "*SLAB*", "SAN", "SAN-*", "SAN_*", "*-SAN", "*-SAN-*", "*_SAN", "*_SAN_*"],
+      "types": ["LWPOLYLINE", "POLYLINE", "HATCH"], "closed": true, "minSizeMm": 1000, "evidence": "closed outline on a slab layer" },
+    { "id": "s-opening-outline", "aecType": "StructuralOpening", "confidence": 0.85,
+      "layers": ["S-OPEN*", "*OPENING*", "*-VOID*", "LOTHUNG*", "LO-THUNG*", "*-LOTHUNG*", "*-LO-THUNG*"],
+      "types": ["LWPOLYLINE", "POLYLINE", "CIRCLE"], "closed": true, "evidence": "closed outline on an opening layer" },
+    { "id": "s-grid-line", "aecType": "StructuralGrid", "confidence": 0.9,
+      "layers": ["S-GRID*", "A-GRID*", "GRID", "GRID-*", "GRID_*", "*-COL-GRID*", "*-GRID-LINE*", "*_GRID", "TRUC", "TRUC-*", "TRUC_*", "*-TRUC", "*-TRUC-*", "*_TRUC*", "*-AXIS", "*-AXIS-*", "AXIS*"],
+      "types": ["LINE", "XLINE", "LWPOLYLINE"], "closed": false, "evidence": "line on a grid layer" },
+    { "id": "s-grid-bubble", "aecType": "StructuralGrid", "confidence": 0.8,
+      "layers": ["S-GRID*", "A-GRID*", "GRID", "GRID-*", "GRID_*", "*-COL-GRID*", "*-GRID-LINE*", "*_GRID", "TRUC", "TRUC-*", "TRUC_*", "*-TRUC", "*-TRUC-*", "*_TRUC*", "*-AXIS", "*-AXIS-*", "AXIS*"],
+      "types": ["CIRCLE", "INSERT"], "evidence": "bubble on a grid layer" },
+
+    { "id": "a-wall-run", "aecType": "ArchitecturalWall", "confidence": 0.85,
+      "layers": ["A-WALL*", "*-WALL", "*-WALL-*", "*_WALL*", "WALL*", "TUONG", "TUONG-*", "TUONG_*", "*-TUONG", "*-TUONG-*", "*_TUONG*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "wall layer" },
+    { "id": "a-door-arc", "aecType": "Door", "confidence": 0.85,
+      "layers": ["A-DOOR*", "*-DOOR", "*-DOOR-*", "*_DOOR*", "DOOR*", "CUA", "CUA-DI*", "CUADI*", "*-CUA", "*-CUA-DI*", "*_CUA-DI*", "*_CUADI*"],
+      "types": ["ARC", "LWPOLYLINE", "LINE"], "evidence": "door swing on a door layer" },
+    { "id": "a-door-block", "aecType": "Door", "confidence": 0.9, "types": ["INSERT"],
+      "blockNames": ["DOOR*", "*-DOOR*", "*_DOOR*", "CUA", "CUA-*", "CUA_*", "CUADI*", "*-CUA-DI*"], "evidence": "door block reference" },
+    { "id": "a-window-block", "aecType": "Window", "confidence": 0.92, "types": ["INSERT"],
+      "blockNames": ["WINDOW*", "*-WINDOW*", "*_WINDOW*", "WIN-*", "WIN_*", "CUASO*", "CUA-SO*", "*-CUASO*", "*-CUA-SO*"], "evidence": "window block reference" },
+    { "id": "a-window-layer", "aecType": "Window", "confidence": 0.87,
+      "layers": ["A-WIND*", "A-GLAZ*", "*-WINDOW*", "*_WINDOW*", "WINDOW*", "CUASO", "CUASO-*", "CUA-SO", "CUA-SO-*", "*-CUASO", "*-CUASO-*", "*-CUA-SO", "*-CUA-SO-*"],
+      "evidence": "window layer" },
+    { "id": "a-room-outline", "aecType": "Room", "confidence": 0.85,
+      "layers": ["A-ROOM*", "A-AREA*", "*-ROOM", "*-ROOM-*", "*_ROOM*", "ROOM*", "*-SPACE*", "PHONG", "PHONG-*", "*-PHONG", "*-PHONG-*"],
+      "types": ["LWPOLYLINE", "POLYLINE", "HATCH"], "closed": true, "minSizeMm": 1000,
+      "nearbyTextPattern": "[A-Za-z]{3,}", "nearbyRadiusMm": 500, "evidence": "closed outline on a room/area layer" },
+    { "id": "a-stair", "aecType": "Stair", "confidence": 0.8,
+      "layers": ["A-STAIR*", "A-FLOR-STRS*", "*-STAIR*", "*_STAIR*", "STAIR*", "THANG", "THANG-*", "*-THANG", "*-THANG-*", "*_THANG*"], "evidence": "stair layer" },
+    { "id": "a-furniture-block", "aecType": "Furniture", "confidence": 0.85, "types": ["INSERT"],
+      "layers": ["A-FURN*", "I-FURN*", "*-FURN", "*-FURN-*", "*_FURN*", "FURN*", "NOITHAT*", "*-NOITHAT*"], "evidence": "block on a furniture layer" },
+    { "id": "a-furniture-layer", "aecType": "Furniture", "confidence": 0.7,
+      "layers": ["A-FURN*", "I-FURN*", "*-FURN", "*-FURN-*", "*_FURN*", "FURN*", "NOITHAT*", "*-NOITHAT*"], "evidence": "furniture layer" },
+
+    { "id": "m-duct-run", "aecType": "Duct", "confidence": 0.9,
+      "layers": ["M-DUCT*", "M-HVAC*", "*-DUCT", "*-DUCT-*", "*_DUCT*", "DUCT*", "ONGGIO*", "ONG-GIO*", "*-ONGGIO*", "*-ONG-GIO*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "run on a duct layer" },
+    { "id": "m-pipe-run", "aecType": "Pipe", "confidence": 0.85,
+      "layers": ["M-PIPE*", "M-CHW*", "M-HHW*", "P-PIPE*", "P-DOMW*", "P-SANR-PIPE*", "*-PIPE", "*-PIPE-*", "*_PIPE*", "PIPE*", "ONG", "ONG-*", "ONG_*", "*-ONG", "*-ONG-*", "*_ONG", "*_ONG_*", "ONGNUOC*", "DUONG-ONG*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC"], "closed": false, "evidence": "run on a pipe layer" },
+    { "id": "e-tray-run", "aecType": "CableTray", "confidence": 0.85,
+      "layers": ["E-TRAY*", "E-CABL*", "*-TRAY", "*-TRAY-*", "*_TRAY*", "TRAY*", "*-CABLE*", "MANGCAP*", "MANG-CAP*", "*-MANGCAP*"],
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "run on a cable tray layer" },
+    { "id": "m-equipment-block", "aecType": "Equipment", "confidence": 0.85, "types": ["INSERT"],
+      "layers": ["M-EQPM*", "M-EQUIP*", "E-EQPM*", "P-EQPM*", "*-EQUIP*", "*_EQUIP*", "EQUIP*", "THIETBI*", "THIET-BI*", "*-THIETBI*"], "evidence": "block on an equipment layer" },
+    { "id": "m-equipment-outline", "aecType": "Equipment", "confidence": 0.7,
+      "layers": ["M-EQPM*", "M-EQUIP*", "E-EQPM*", "P-EQPM*", "*-EQUIP*", "*_EQUIP*", "EQUIP*", "THIETBI*", "THIET-BI*", "*-THIETBI*"],
+      "types": ["LWPOLYLINE", "POLYLINE", "CIRCLE"], "closed": true, "evidence": "closed outline on an equipment layer" },
+    { "id": "p-fixture-block", "aecType": "Fixture", "confidence": 0.85, "types": ["INSERT"],
+      "layers": ["P-FIXT*", "P-SANR-FIXT*", "*-FIXT", "*-FIXT-*", "*_FIXT*", "VESINH*", "VE-SINH*", "*-VESINH*"], "evidence": "block on a fixture layer" },
+    { "id": "m-terminal-block", "aecType": "Terminal", "confidence": 0.85, "types": ["INSERT"],
+      "layers": ["M-DIFF*", "M-TERM*", "*-DIFFUSER*", "*-GRILLE*", "DIFFUSER*", "GRILLE*", "MIENGGIO*", "MIENG-GIO*", "*-MIENGGIO*"], "evidence": "block on a diffuser/grille layer" },
+    { "id": "m-fitting-block", "aecType": "Fitting", "confidence": 0.8, "types": ["INSERT"],
+      "blockNames": ["ELBOW*", "*-ELBOW*", "*_ELBOW*", "TEE-*", "TEE_*", "*-TEE", "*-TEE-*", "FITTING*", "*-FITTING*", "REDUCER*", "*-REDUCER*", "VALVE*", "*-VALVE*", "CO-*", "*-CO-*"], "evidence": "fitting block reference" }
+  ]
+}

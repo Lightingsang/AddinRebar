@@ -31,6 +31,8 @@
     <ItemGroup>
         <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
         <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <!-- The AEC engine scripts call (HPAutoCad.Aec.AecTools): ships in Contents\Bridge beside this DLL, loaded in the same context. -->
+        <ProjectReference Include="..\HPAutoCad.Aec\HPAutoCad.Aec.csproj"/>
     </ItemGroup>
 
 </Project>

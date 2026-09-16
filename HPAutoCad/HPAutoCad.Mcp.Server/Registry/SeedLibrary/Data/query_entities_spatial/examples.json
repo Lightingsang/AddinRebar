@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Pipes that cross structural beams",
+    "args": {
+      "source": {
+        "types": [
+          "LWPOLYLINE",
+          "LINE"
+        ],
+        "layers": [
+          "M-PIPE*"
+        ]
+      },
+      "target": {
+        "layers": [
+          "S-BEAM*"
+        ]
+      },
+      "relation": "crosses"
+    }
+  },
+  {
+    "title": "Nearest column to every beam, within 300 mm",
+    "args": {
+      "source": {
+        "layers": [
+          "S-BEAM"
+        ]
+      },
+      "target": {
+        "layers": [
+          "S-COL"
+        ]
+      },
+      "relation": "nearest",
+      "maxDistance": 300
+    }
+  },
+  {
+    "title": "Everything inside one room outline",
+    "args": {
+      "source": {
+        "types": [
+          "INSERT",
+          "TEXT",
+          "MTEXT"
+        ]
+      },
+      "target": {
+        "handles": [
+          "2F1A"
+        ]
+      },
+      "relation": "within",
+      "limit": 200
+    }
+  }
+]

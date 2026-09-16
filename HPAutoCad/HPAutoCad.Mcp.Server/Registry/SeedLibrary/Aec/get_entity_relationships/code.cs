@@ -1,0 +1,10 @@
+var filter = args.Obj("filter");
+var handles = args.Strings("handles");
+var target = args.Obj("target");
+var relations = args.Strings("relations");
+double? maxDistance = args.DoubleOrNull("maxDistance");
+var tolerance = args.Obj("tolerance");
+string ruleSet = args.Str("ruleSet");
+int limit = args.Int("limit", 100);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.EntityRelationships(db, ed, tr, units, ct, log, filter, handles, target, relations, maxDistance, tolerance, ruleSet, limit, maxCandidates);

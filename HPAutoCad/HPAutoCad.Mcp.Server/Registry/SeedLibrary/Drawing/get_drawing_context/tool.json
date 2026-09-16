@@ -1,0 +1,41 @@
+{
+  "name": "get_drawing_context",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Drawing",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "context",
+    "drawing",
+    "units",
+    "layout",
+    "layers",
+    "extents",
+    "aec"
+  ],
+  "title": "Drawing context",
+  "description": "Describes the open drawing before any analysis or edit: file name and path, AutoCAD version, drawing units (INSUNITS, measurement, mm per unit), active space and layout, current layer/color/linetype, UCS origin and axes, model and paper extents in mm, annotation scale, text and dimension styles, linetype scale, the current view, and counts of entities, layers, block definitions, xrefs, layouts and styles; optionally the layout list and the layer table. Use this first when the user asks about the drawing, its units, what is open, or before running spatial, classification or editing tools. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeLayouts": {
+        "type": "boolean",
+        "default": true,
+        "description": "List the layouts with their entity counts"
+      },
+      "includeLayers": {
+        "type": "boolean",
+        "default": false,
+        "description": "List the layer table (name, on/frozen/locked, color, linetype, lineweight), capped at 200"
+      }
+    },
+    "additionalProperties": false
+  }
+}

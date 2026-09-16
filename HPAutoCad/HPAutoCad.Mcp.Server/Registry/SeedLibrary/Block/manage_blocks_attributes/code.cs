@@ -1,0 +1,15 @@
+string op = args.Str("op");
+string namePattern = args.Str("namePattern");
+bool includeAnonymous = args.Bool("includeAnonymous", false);
+var filter = args.Obj("filter");
+var handles = args.Strings("handles");
+var items = args.List("items");
+var attributes = args.Obj("attributes");
+var properties = args.Obj("properties");
+var insert = args.Obj("insert");
+string space = args.Str("space");
+bool atomic = args.Bool("atomic", true);
+int limit = args.Int("limit", 100);
+int offset = args.Int("offset", 0);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ManageBlocksAttributes(db, ed, tr, units, ct, log, op, namePattern, includeAnonymous, filter, handles, items, attributes, properties, insert, space, atomic, limit, offset, maxCandidates);

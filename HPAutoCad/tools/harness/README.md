@@ -17,6 +17,30 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   on first start), so runs, quarantines and the two tools it proposes never touch `%AppData%\HPAutoCad\McpServer`
   (`-UseLiveRegistry` opts back in). The entities it draws stay in the harness's unsaved drawing. It kills only the
   AutoCAD/Civil 3D processes it started. Outputs under `HPAutoCad/output/live-verify/`.
+- `run-aec-tools-live.ps1` + `aec-tools-live.py` — the AEC tools (phases A–B) in one stdio session on an isolated registry root: draws a
+  scene with deliberate defects through `execute_autocad_code` (columns, beams incl. a 7 mm gap and a duplicate, a room, an almost-closed
+  outline, overlapping and gapped walls, a bow-tie, a zero-length line, a pipe crossing a beam, a circle, text, an arc), then
+  `get_drawing_context`, `query_entities` (filters, paging, detail, property selector), `query_entities_spatial` (crosses, within,
+  nearest, distance_to, touches ± tolerance), `measure_geometry` (every measure), `detect_geometry_issues` (every issue kind, restricted
+  types, tolerance), the error paths (INVALID_HANDLE, ERASED, NOT_CLOSED, ArgumentException), geometry that only reads right through
+  AutoCAD's own maths (a mirrored arc with normal -Z, a bulge polyline, a hatch loop, a block with an attribute) and a 3 000-line
+  performance grid (layer query, spatial nearest, issue scan, timed), `classify_aec_entities` (columns, beams, walls, pipe, door block,
+  unknowns, discipline filter + paging) and `get_entity_relationships` (connected with a 7 mm gap, intersect, self-set parallel de-dup,
+  empty source refused; honest `count` past the relationship cap, classify page cap warning, every relationship located off the origin, a closed polyline with a repeated closing vertex read as 4 vertices). Defaults to the Debug server exe so new seeds run without republishing; 55 checks. 2026-09-16: 51/51, after the phase-B review round 55/55.
+- `run-aec-edit-tools-live.ps1` + `aec-edit-tools-live.py` — the AEC write tools (phase C) through the same launcher (`run-aec-tools-live.ps1 -Script`)
+  on their own output folder: a scene with a locked and a frozen layer, a room, a column, an open outline, a text and an attributed block;
+  `create_entities_batch` (5 types in one atomic batch, atomic refusal on a locked layer with nothing created, non-atomic partial, frozen
+  warning, block + dimension, dryRun rolled back, empty refused), `update_entities_batch` (shared set, per-item text/geometry/rotate/move,
+  LAYER_LOCKED, atomic refusal leaving the drawing untouched, ERASED / INVALID_HANDLE / UNSUPPORTED_ENTITY), `manage_blocks_attributes`
+  (every op; setDynamic refused on a plain block), `manage_annotations` (text, mtext, four dimension kinds with measurements, mleader,
+  update, delete refusing geometry), `manage_hatches` (ANSI31 from a polyline with area, SOLID from a seed point, detectBoundary innermost
+  first, NOT_CLOSED, update, delete), `manage_xrefs` (a DWG written by `Wblock` + `SaveAs`, attach + overlay, unload → bind refused,
+  reload, detach, bind), then `U` over COM after a REGEN boundary reverting the last batch; after the phase-C review: structural refusals for
+  locked layers on single creates, an attribute on a locked layer, an atomic update with a bad key (change counter 0), block-definition entities,
+  duplicate handles, a hatch keeping its layer/colour, a polygon hatch with a style, an associative hatch following its moved boundary,
+  resolveStatus, invalid xref names/paths, detach refused whole, dryRun on every write tool. 62 checks. 2026-09-16: 62/62 (first run 40/40, before the review: 33/40:
+  `Hatch.Area` is not readable in the creating transaction → boundary fallback; a top-level `using var` compiles in the seed test's method
+  wrapper but not as a Roslyn script).
 - `run-ribbon-check.ps1` — the Ribbon tab through UI Automation (AdWindows exposes a tab header as a Button whose
   AutomationId is the tab id, and a RibbonButton as a Button named after its text): exactly one `HPAUTOCAD_MCP_TAB`,
   still exactly one after `WSCURRENT` to another workspace and back and after a `COLORTHEME` round trip (COM;

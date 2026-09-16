@@ -1,0 +1,49 @@
+[
+  {
+    "title": "Polylines on the structural column layers",
+    "args": {
+      "filter": {
+        "types": [
+          "LWPOLYLINE"
+        ],
+        "layers": [
+          "S-COL*"
+        ]
+      }
+    }
+  },
+  {
+    "title": "Door blocks with their attributes, second page",
+    "args": {
+      "filter": {
+        "types": [
+          "INSERT"
+        ],
+        "blockNames": [
+          "DOOR*"
+        ]
+      },
+      "properties": [
+        "block",
+        "attributes",
+        "position"
+      ],
+      "limit": 50,
+      "offset": 50
+    }
+  },
+  {
+    "title": "Full geometry of three known entities",
+    "args": {
+      "filter": {
+        "handles": [
+          "1A2B",
+          "1A2C",
+          "1A2D"
+        ],
+        "space": "all"
+      },
+      "mode": "detail"
+    }
+  }
+]

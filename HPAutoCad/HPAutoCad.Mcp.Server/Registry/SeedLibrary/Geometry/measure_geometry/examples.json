@@ -1,0 +1,48 @@
+[
+  {
+    "title": "Total length of three walls",
+    "args": {
+      "measure": "totalLength",
+      "handles": [
+        "1F3",
+        "1F4",
+        "1F5"
+      ]
+    }
+  },
+  {
+    "title": "Area of a room outline",
+    "args": {
+      "measure": "area",
+      "handles": [
+        "2A7C"
+      ]
+    }
+  },
+  {
+    "title": "Distance between two points",
+    "args": {
+      "measure": "distance",
+      "points": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 3000,
+          "y": 4000
+        }
+      ]
+    }
+  },
+  {
+    "title": "Where a pipe meets a beam",
+    "args": {
+      "measure": "intersections",
+      "handles": [
+        "91A",
+        "83D"
+      ]
+    }
+  }
+]

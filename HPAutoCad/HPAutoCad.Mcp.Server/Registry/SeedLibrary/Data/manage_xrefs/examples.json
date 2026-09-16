@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Which xrefs are attached and are they found?",
+    "args": {
+      "op": "list"
+    }
+  },
+  {
+    "title": "Attach the architectural background as an overlay at the origin",
+    "args": {
+      "op": "attach",
+      "attach": {
+        "path": "D:/Projects/Tower/A-L01-BACKGROUND.dwg",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "overlay": true,
+        "layer": "X-ARCH"
+      }
+    }
+  },
+  {
+    "title": "Reload two xrefs after the architect issued a new set",
+    "args": {
+      "op": "reload",
+      "names": [
+        "A-L01-BACKGROUND",
+        "A-L01-CEILING"
+      ]
+    }
+  },
+  {
+    "title": "Bind a resolved xref before issuing",
+    "args": {
+      "op": "bind",
+      "names": [
+        "S-DETAILS"
+      ],
+      "insertBind": true
+    }
+  }
+]

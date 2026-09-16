@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Which door blocks exist and how many times each is placed",
+    "args": {
+      "op": "listDefinitions",
+      "namePattern": "DOOR*"
+    }
+  },
+  {
+    "title": "Find every DOOR-* reference on architectural layers with its mark",
+    "args": {
+      "op": "findReferences",
+      "filter": {
+        "blockNames": [
+          "DOOR-*"
+        ],
+        "layers": [
+          "A-DOOR*"
+        ]
+      }
+    }
+  },
+  {
+    "title": "Insert a door with its mark",
+    "args": {
+      "op": "insert",
+      "insert": {
+        "blockName": "DOOR-0900",
+        "position": {
+          "x": 3000,
+          "y": 0
+        },
+        "rotationDeg": 90,
+        "layer": "A-DOOR",
+        "attributes": {
+          "MARK": "D05"
+        }
+      }
+    }
+  },
+  {
+    "title": "Set the same REV attribute on every title block of layout Sheet-01",
+    "args": {
+      "op": "batchUpdateAttributes",
+      "filter": {
+        "blockNames": [
+          "TITLE*"
+        ],
+        "space": "Sheet-01"
+      },
+      "attributes": {
+        "REV": "B"
+      }
+    }
+  },
+  {
+    "title": "Read a dynamic block's properties, then set its length",
+    "args": {
+      "op": "inspectDynamic",
+      "handles": [
+        "4C2"
+      ]
+    }
+  },
+  {
+    "title": "Set a dynamic block's Distance1 to 1200 mm",
+    "args": {
+      "op": "setDynamic",
+      "handles": [
+        "4C2"
+      ],
+      "properties": {
+        "Distance1": 1200
+      }
+    }
+  }
+]

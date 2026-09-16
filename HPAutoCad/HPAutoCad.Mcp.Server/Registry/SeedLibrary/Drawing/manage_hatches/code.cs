@@ -1,0 +1,10 @@
+string op = args.Str("op");
+var hatch = args.Obj("hatch");
+var handles = args.Strings("handles");
+var set = args.Obj("set");
+var seedPoint = args.Obj("seedPoint");
+string space = args.Str("space");
+bool atomic = args.Bool("atomic", true);
+int limit = args.Int("limit", 20);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ManageHatches(db, ed, tr, units, ct, log, op, hatch, handles, set, seedPoint, space, atomic, limit, maxCandidates);

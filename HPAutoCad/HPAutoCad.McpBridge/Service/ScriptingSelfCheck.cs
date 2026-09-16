@@ -16,8 +16,11 @@ namespace HPAutoCad.McpBridge.Service;
 /// </summary>
 public static class ScriptingSelfCheck
 {
-    /// <summary>Needs no document: the extension initialises before the first drawing may be ready.</summary>
-    private const string Probe = "return \"autocad \" + Autodesk.AutoCAD.ApplicationServices.Core.Application.Version + \" | units \" + units.Label;";
+    /// <summary>
+    ///     Needs no document: the extension initialises before the first drawing may be ready. The AEC engine
+    ///     call proves HPAutoCad.Aec resolved into this load context — an AEC seed would otherwise fail with CS0246.
+    /// </summary>
+    private const string Probe = "return \"autocad \" + Autodesk.AutoCAD.ApplicationServices.Core.Application.Version + \" | units \" + units.Label + \" | aec tolerance \" + HPAutoCad.Aec.Geometry.GeometryTolerance.Default.PointEquality;";
 
     public static bool Run(ScriptCompiler compiler)
     {

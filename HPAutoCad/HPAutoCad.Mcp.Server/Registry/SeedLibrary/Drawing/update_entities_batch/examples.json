@@ -1,0 +1,75 @@
+[
+  {
+    "title": "Move every listed entity to layer S-BEAM in red",
+    "args": {
+      "handles": [
+        "2A3",
+        "2A4",
+        "2A5"
+      ],
+      "set": {
+        "layer": "S-BEAM",
+        "colorIndex": 1
+      }
+    }
+  },
+  {
+    "title": "Renumber two marks and shift a block",
+    "args": {
+      "items": [
+        {
+          "handle": "3F1",
+          "set": {
+            "text": "C12"
+          }
+        },
+        {
+          "handle": "3F2",
+          "set": {
+            "text": "C13",
+            "heightMm": 200
+          }
+        },
+        {
+          "handle": "3F9",
+          "set": {
+            "move": {
+              "dx": 0,
+              "dy": 500
+            },
+            "attributes": {
+              "MARK": "D07"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "title": "Stretch a beam line and rotate a column outline about its centre, keep going past bad handles",
+    "args": {
+      "atomic": false,
+      "items": [
+        {
+          "handle": "2A3",
+          "set": {
+            "geometry": {
+              "end": {
+                "x": 6200,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "handle": "2B0",
+          "set": {
+            "rotate": {
+              "angleDeg": 90
+            }
+          }
+        }
+      ]
+    }
+  }
+]

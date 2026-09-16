@@ -28,6 +28,8 @@ public static class HostScriptContracts
         "Autodesk.AutoCAD.ApplicationServices", "Autodesk.AutoCAD.DatabaseServices",
         "Autodesk.AutoCAD.EditorInput", "Autodesk.AutoCAD.Geometry", "Autodesk.AutoCAD.Colors",
         "HPRebar.McpBridge.Core.Scripting",
+        // The AEC engine facade (AecTools) the AEC seeds call; HPAutoCad.Aec ships beside the bridge.
+        "HPAutoCad.Aec",
     };
 
     /// <summary>

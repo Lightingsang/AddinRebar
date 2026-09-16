@@ -104,16 +104,18 @@ public static class BridgeEntry
     ];
 
     /// <summary>
-    ///     The AutoCAD API plus the Core assembly that defines `args`/`units`. Imports come from
+    ///     The AutoCAD API plus the Core assembly that defines `args`/`units` and the AEC engine
+    ///     (<see cref="HPAutoCad.Aec.AecTools"/>) the AEC seeds call. Imports come from
     ///     <see cref="HostScriptContracts.AutocadImports"/> so the server's tool description and the seed
-    ///     compile checks describe the same environment; the seed tests must reference the same three
-    ///     AutoCAD assemblies, or a script passes there and fails here.
+    ///     compile checks describe the same environment; the seed tests must reference the same
+    ///     assemblies, or a script passes there and fails here.
     /// </summary>
     private static Assembly[] CompilerReferences(Assembly[] autocadApi) => autocadApi.Concat(
     [
         typeof(object).Assembly, typeof(Enumerable).Assembly, typeof(List<>).Assembly,
         Assembly.Load("netstandard"), Assembly.Load("System.Runtime"), Assembly.Load("System.Collections"),
         typeof(ScriptArgs).Assembly, typeof(System.Text.Json.JsonElement).Assembly,
+        typeof(HPAutoCad.Aec.AecTools).Assembly,
     ]).ToArray();
 
     private static string ShowWindow()

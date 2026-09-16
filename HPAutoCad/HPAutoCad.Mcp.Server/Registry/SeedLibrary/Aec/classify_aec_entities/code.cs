@@ -1,0 +1,10 @@
+var filter = args.Obj("filter");
+var handles = args.Strings("handles");
+var disciplines = args.Strings("disciplines");
+double minConfidence = args.Double("minConfidence", 0.5);
+bool includeUnknown = args.Bool("includeUnknown", false);
+string ruleSet = args.Str("ruleSet");
+int limit = args.Int("limit", 50);
+int offset = args.Int("offset", 0);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ClassifyEntities(db, ed, tr, units, ct, log, filter, handles, disciplines, minConfidence, includeUnknown, ruleSet, limit, offset, maxCandidates);

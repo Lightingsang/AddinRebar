@@ -13,6 +13,8 @@
          ../McpShared/HPRebar.McpBridge.Core
          ../McpShared/HPRebar.Mcp.Server.Core -->
   <Project Path="HPAutoCad.McpBridge.Loader/HPAutoCad.McpBridge.Loader.csproj" />
+  <Project Path="HPAutoCad.Aec/HPAutoCad.Aec.csproj" />
+  <Project Path="HPAutoCad.Aec.Tests/HPAutoCad.Aec.Tests.csproj" />
   <Project Path="HPAutoCad.McpBridge/HPAutoCad.McpBridge.csproj" />
   <Project Path="HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj" />
   <Project Path="HPAutoCad.Mcp.Server.Tests/HPAutoCad.Mcp.Server.Tests.csproj" />

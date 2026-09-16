@@ -1,0 +1,185 @@
+{
+  "name": "manage_blocks_attributes",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Block",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "blocks",
+    "attributes",
+    "dynamic",
+    "insert",
+    "find"
+  ],
+  "title": "Manage blocks, attributes and dynamic properties",
+  "description": "One tool for block work, chosen by op. Read ops return the analysis envelope {success, summary, items, count, offset, truncated, warnings, errors}: listDefinitions (namePattern wildcard, includeAnonymous; name, isXref, isDynamic, attributeTags, referenceCount…), findReferences (filter {blockNames, layers, space, textContains…} or handles; position/rotation/scale/attributes per reference), readAttributes (handles → {tag: value}), inspectDynamic (handles → dynamic properties with value, unitsType, allowedValues, readOnly). Write ops return the edit envelope {success, createdCount, modifiedCount, affectedHandles, items, warnings, errors}: insert (insert {blockName, position, scale?, rotationDeg?, layer?, attributes{tag: value}?}), writeAttributes (handles + attributes {tag: value}), batchUpdateAttributes (items [{handle, attributes}], or handles + attributes, or filter + attributes for every matching reference, max 500), setDynamic (handles[0] + properties {name: value} — distances in mm, angles in degrees). Unknown tags are warnings (insert too); a block without any of the tags, or an attribute whose own layer is locked/frozen, refuses that item. readAttributes reads up to 100 handles and inspectDynamic 20 per call (truncated + warning beyond); attributes per item are cut at 8 values / 120 chars (attributesTruncated says how many more). setDynamic validates every property first (exists, writable) and a value the property rejects aborts the run — a block is never half-changed. Millimetres at the boundary. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "op": {
+        "type": "string",
+        "enum": [
+          "listDefinitions",
+          "findReferences",
+          "insert",
+          "readAttributes",
+          "writeAttributes",
+          "batchUpdateAttributes",
+          "inspectDynamic",
+          "setDynamic"
+        ]
+      },
+      "namePattern": {
+        "type": "string",
+        "description": "listDefinitions: wildcard on the block name (* any run, ? one char)"
+      },
+      "includeAnonymous": {
+        "type": "boolean",
+        "default": false,
+        "description": "listDefinitions: also list anonymous *U/*D blocks"
+      },
+      "filter": {
+        "type": "object",
+        "properties": {
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "textContains": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "findReferences / batchUpdateAttributes: which block references (wildcards allowed)"
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Entity handles (hex, as every AEC tool reports them)",
+        "maxItems": 200
+      },
+      "items": {
+        "type": "array",
+        "maxItems": 200,
+        "items": {
+          "type": "object",
+          "properties": {
+            "handle": {
+              "type": "string"
+            },
+            "attributes": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "handle",
+            "attributes"
+          ]
+        },
+        "description": "batchUpdateAttributes: per-reference attribute values"
+      },
+      "attributes": {
+        "type": "object",
+        "description": "writeAttributes / batchUpdateAttributes: {TAG: value} applied to every selected reference"
+      },
+      "properties": {
+        "type": "object",
+        "description": "setDynamic: {propertyName: value}; distances in mm, angles in degrees, lists by their allowed value"
+      },
+      "insert": {
+        "type": "object",
+        "properties": {
+          "blockName": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "scale": {
+            "type": "number",
+            "default": 1
+          },
+          "rotationDeg": {
+            "type": "number",
+            "default": 0
+          },
+          "layer": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object"
+          }
+        },
+        "description": "insert: the reference to create"
+      },
+      "space": {
+        "type": "string",
+        "default": "current",
+        "description": "Where new entities go: current (default), model, or a layout name"
+      },
+      "atomic": {
+        "type": "boolean",
+        "default": true,
+        "description": "true (default): every item is validated first (layers, styles, keys per entity type, attribute tags) and one invalid item refuses the whole batch — success false, zero counts, every refusal in items[i].error, nothing written and nothing opened for write; a failure while writing aborts the transaction. false: invalid items are listed per item and the rest is written; an item that fails midway reports what it had changed"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 200,
+        "description": "listDefinitions: definitions per page (max 200); findReferences: references per page (max 100 — a reference with 8 attributes is ~500 B)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    },
+    "required": [
+      "op"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Concrete hatch inside a column outline",
+    "args": {
+      "op": "create",
+      "hatch": {
+        "boundaryHandles": [
+          "2B0"
+        ],
+        "pattern": "ANSI31",
+        "scale": 25,
+        "layer": "S-HATCH"
+      }
+    }
+  },
+  {
+    "title": "Solid fill of the room around a point",
+    "args": {
+      "op": "create",
+      "hatch": {
+        "seedPoint": {
+          "x": 2500,
+          "y": 2500
+        },
+        "pattern": "SOLID",
+        "colorIndex": 8
+      }
+    }
+  },
+  {
+    "title": "What closed outlines surround this point?",
+    "args": {
+      "op": "detectBoundary",
+      "seedPoint": {
+        "x": 2500,
+        "y": 2500
+      }
+    }
+  },
+  {
+    "title": "Change a hatch's pattern and angle",
+    "args": {
+      "op": "update",
+      "handles": [
+        "5A1"
+      ],
+      "set": {
+        "pattern": "ANSI32",
+        "angleDeg": 45,
+        "scale": 20
+      }
+    }
+  }
+]

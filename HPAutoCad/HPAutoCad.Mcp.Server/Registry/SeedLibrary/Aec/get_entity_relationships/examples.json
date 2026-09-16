@@ -1,0 +1,57 @@
+[
+  {
+    "title": "Which columns each beam is connected to",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-BEAM*"
+        ]
+      },
+      "target": {
+        "layers": [
+          "S-COL*"
+        ]
+      },
+      "relations": [
+        "connected"
+      ]
+    }
+  },
+  {
+    "title": "Everything inside one room outline",
+    "args": {
+      "filter": {
+        "handles": [
+          "2F1A"
+        ]
+      },
+      "target": {
+        "types": [
+          "INSERT",
+          "CIRCLE",
+          "TEXT"
+        ]
+      },
+      "relations": [
+        "contains"
+      ]
+    }
+  },
+  {
+    "title": "Walls that are aligned or parallel to each other",
+    "args": {
+      "filter": {
+        "layers": [
+          "A-WALL*"
+        ]
+      },
+      "relations": [
+        "aligned",
+        "parallel"
+      ],
+      "tolerance": {
+        "collinearity": 5
+      }
+    }
+  }
+]

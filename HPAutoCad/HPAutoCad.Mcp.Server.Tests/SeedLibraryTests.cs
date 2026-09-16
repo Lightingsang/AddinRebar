@@ -63,12 +63,88 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_twelve_seeds_are_embedded()
+    public void All_twenty_five_seeds_are_embedded()
     {
+        // 12 drawing/data seeds + 7 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
+        // relationships) + 6 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs)
         var seeds = LoadSeeds();
-        Assert.Equal(12, seeds.Count);
+        Assert.Equal(25, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(6, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(13, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+    }
+
+    [Theory]
+    [InlineData("get_drawing_context")]
+    [InlineData("query_entities")]
+    [InlineData("query_entities_spatial")]
+    [InlineData("measure_geometry")]
+    [InlineData("detect_geometry_issues")]
+    [InlineData("classify_aec_entities")]
+    [InlineData("get_entity_relationships")]
+    public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
+    {
+        // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
+        var seed = LoadSeeds().Single(s => s.Name == name);
+        Assert.Equal("none", seed.Tool.GetProperty("transaction").GetString());
+        AssertThinShim(seed, maxLines: 12);
+        Assert.Contains("Read-only", seed.Tool.GetProperty("description").GetString());
+    }
+
+    [Theory]
+    [InlineData("create_entities_batch")]
+    [InlineData("update_entities_batch")]
+    [InlineData("manage_blocks_attributes")]
+    [InlineData("manage_annotations")]
+    [InlineData("manage_hatches")]
+    [InlineData("manage_xrefs")]
+    public void Aec_write_seed_is_a_thin_shim_that_documents_its_side_effects(string name)
+    {
+        // Write seeds run under the bridge's auto transaction (dryRun rolls back), read every declared arg, and say what they change.
+        var seed = LoadSeeds().Single(s => s.Name == name);
+        Assert.Equal("auto", seed.Tool.GetProperty("transaction").GetString());
+        Assert.True(seed.Tool.GetProperty("destructive").GetBoolean());
+        AssertThinShim(seed, maxLines: 18);
+        var description = seed.Tool.GetProperty("description").GetString()!;
+        Assert.Contains("Side effects:", description);
+        Assert.Contains("dryRun", description);
+        Assert.Contains("envelope", description);
+    }
+
+    private static void AssertThinShim(Seed seed, int maxLines)
+    {
+        Assert.Contains("return AecTools.", seed.Code);
+        Assert.Equal(1, seed.Code.Split("AecTools.").Length - 1);
+        Assert.True(seed.Code.Split('\n').Length <= maxLines, "an AEC seed reads args and calls the engine — no logic of its own");
+    }
+
+    [Theory]
+    [InlineData("classify_aec_entities", HPAutoCad.Aec.AecTools.MaxClassifyLimit)]
+    [InlineData("get_entity_relationships", HPAutoCad.Aec.AecTools.MaxRelationshipLimit)]
+    [InlineData("query_entities", HPAutoCad.Aec.AecTools.MaxLimit)]
+    [InlineData("detect_geometry_issues", HPAutoCad.Aec.AecTools.MaxLimit)]
+    [InlineData("manage_blocks_attributes", HPAutoCad.Aec.Cad.BlockService.MaxDefinitionLimit)]
+    public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
+    {
+        // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.
+        var limit = LoadSeeds().Single(s => s.Name == name).Tool.GetProperty("inputSchema").GetProperty("properties").GetProperty("limit");
+        Assert.Equal(engineCap, limit.GetProperty("maximum").GetInt32());
+        Assert.True(limit.GetProperty("default").GetInt32() <= engineCap);
+    }
+
+    [Theory]
+    [InlineData("create_entities_batch", "items")]
+    [InlineData("update_entities_batch", "items")]
+    [InlineData("update_entities_batch", "handles")]
+    [InlineData("manage_blocks_attributes", "items")]
+    [InlineData("manage_blocks_attributes", "handles")]
+    [InlineData("manage_annotations", "items")]
+    [InlineData("manage_annotations", "handles")]
+    [InlineData("manage_hatches", "handles")]
+    public void Aec_write_seed_batch_sizes_match_the_engine_cap(string name, string key)
+    {
+        // 200 items with every one refused (error + grouped warning) still serialise under the 64 KB cap (EditResultTests pins the bytes).
+        var property = LoadSeeds().Single(s => s.Name == name).Tool.GetProperty("inputSchema").GetProperty("properties").GetProperty(key);
+        Assert.Equal(HPAutoCad.Aec.Cad.BatchEditService.MaxBatchItems, property.GetProperty("maxItems").GetInt32());
     }
 
     [Theory]
@@ -185,9 +261,10 @@ public sealed class SeedLibraryTests
 
     /// <summary>
     ///     Wraps a script body in a class with the bridge's globals and compiles it against the AutoCAD 2026
-    ///     assemblies from the NuGet cache (metadata only — they are mixed-mode and never loaded). Null when
-    ///     the cache lacks them.
+    ///     assemblies from the NuGet cache (metadata only — they are mixed-mode and never loaded) plus the
+    ///     AEC engine the bridge references (HPAutoCad.Aec). Null when the cache lacks them.
     /// </summary>
+    internal static string[]? CompileProbe(string code) => CompileAgainstAutocad(code);
     private static string[]? CompileAgainstAutocad(string code)
     {
         var acMgd = FindAutocadReference("autocad.net", "AcMgd.dll");
@@ -230,6 +307,7 @@ public sealed class SeedLibraryTests
                 MetadataReference.CreateFromFile(acCoreMgd),
                 MetadataReference.CreateFromFile(acDbMgd),
                 MetadataReference.CreateFromFile(typeof(ScriptArgs).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(HPAutoCad.Aec.AecTools).Assembly.Location),
             ]);
 
         var compilation = CSharpCompilation.Create("seed_check",

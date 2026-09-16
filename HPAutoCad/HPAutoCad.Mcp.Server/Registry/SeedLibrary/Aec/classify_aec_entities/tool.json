@@ -1,0 +1,150 @@
+{
+  "name": "classify_aec_entities",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Aec",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "aec",
+    "classify",
+    "semantic",
+    "column",
+    "beam",
+    "wall",
+    "door",
+    "pipe",
+    "duct",
+    "rules"
+  ],
+  "title": "Classify AEC entities",
+  "description": "Reads entities as AEC objects: StructuralColumn / StructuralBeam / StructuralWall / StructuralSlab / StructuralOpening / StructuralGrid, ArchitecturalWall / Door / Window / Room / Stair / Furniture, Pipe / Duct / CableTray / Equipment / Fixture / Terminal / Fitting — each with a confidence, the evidence (layer, block name, closed footprint and size, nearby text mark) and dimensions in mm (width x depth, length, area, orientation, centroid, diameter). Rules come from a JSON rule set (embedded default, or a project file under the MCP server's rules folder) matching layer wildcards, entity types, block names, closed/open, size ranges, aspect ratio and text. Use this before any structural, architectural or MEP question, when the user asks 'what is this', 'find the columns/beams/walls/pipes/doors', or to feed handles into relationship, connectivity, clash or schedule tools. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "description": "Which entities to consider. Types, layers and block names accept AutoCAD wildcards (* and ?) and comma lists; handles short-circuit everything else.",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "DXF names: LINE, LWPOLYLINE, POLYLINE, CIRCLE, ARC, ELLIPSE, SPLINE, HATCH, SOLID, INSERT (block reference), TEXT, MTEXT, DIMENSION, LEADER, MULTILEADER…"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Layer names or wildcards, e.g. [\"S-BEAM\", \"S-COL*\"]"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ACI index as text (\"1\"), \"ByLayer\", \"ByBlock\" or a true-colour name"
+          },
+          "linetypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Linetype names or wildcards"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block definition names or wildcards (INSERT entities only)"
+          },
+          "textContains": {
+            "type": "string",
+            "description": "Case-insensitive substring of the text / dimension text / block attribute values"
+          },
+          "handles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Exact entity handles (hex); when given, the other criteria only narrow this list"
+          },
+          "visibleOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Skip invisible entities and entities on off/frozen layers"
+          },
+          "space": {
+            "type": "string",
+            "default": "model",
+            "description": "model (default), current (the active layout), all, or a layout name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Classify exactly these entities instead of a filter"
+      },
+      "disciplines": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "Structural",
+            "Architecture",
+            "MEP"
+          ]
+        },
+        "description": "Only rules of these disciplines; omit for all"
+      },
+      "minConfidence": {
+        "type": "number",
+        "default": 0.5,
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Drop objects below this confidence (they count as unknown)"
+      },
+      "includeUnknown": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also return entities no rule matched, as aecType Unknown with the runner-up rules"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "default (embedded), user (rules\\aec-classification.json beside the server registry) or the name of another JSON file there; omitted = user if present, else default"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "minimum": 1,
+        "maximum": 50,
+        "description": "Objects per page (an object with evidence and dimensions is ~0.5–1 KB; 50 keeps the answer under the 64 KB cap)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many objects (paging)"
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "description": "Cap on entities read"
+      }
+    },
+    "additionalProperties": false
+  }
+}

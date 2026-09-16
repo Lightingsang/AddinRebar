@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Everything structural on the S-* layers",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*"
+        ]
+      },
+      "disciplines": [
+        "Structural"
+      ]
+    }
+  },
+  {
+    "title": "What are these three entities, even if unsure",
+    "args": {
+      "handles": [
+        "1A2B",
+        "1A2C",
+        "1A2D"
+      ],
+      "includeUnknown": true,
+      "minConfidence": 0
+    }
+  },
+  {
+    "title": "Doors and windows with the default rule set, explicitly",
+    "args": {
+      "filter": {
+        "types": [
+          "INSERT",
+          "ARC"
+        ]
+      },
+      "disciplines": [
+        "Architecture"
+      ],
+      "ruleSet": "default"
+    }
+  }
+]

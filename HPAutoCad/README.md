@@ -23,10 +23,12 @@ AutoCAD commands: `HPMCPBRIDGE` (status window with the per-session "Allow AI co
 | Project | Phase | Purpose |
 |---|---|---|
 | `HPAutoCad.McpBridge.Loader` | 1 ✅ | The DLL AutoCAD loads: `IExtensionApplication`, the `HPMCP*` commands, the Ribbon tab (`Ribbon/`, Autodesk.Windows), an isolated `AssemblyLoadContext` for the real bridge |
-| `HPAutoCad.McpBridge` | 1–2 ✅ | The bridge: Roslyn + self-check, `MainThreadExecutor`, `AutocadScriptRunner` (lock + outer/inner transaction, dryRun, timeout), context reader, serializer, XAML status window |
+| `HPAutoCad.McpBridge` | 1–2 ✅ | The bridge: Roslyn + self-check, `MainThreadExecutor`, `AutocadScriptRunner` (lock + outer/inner transaction, dryRun, timeout), context reader, serializer, XAML status window; references `HPAutoCad.Aec` and hands it to Roslyn |
+| `HPAutoCad.Aec` | AEC A–C ✅ | The AEC engine (net8.0-windows): pure geometry/spatial/issue/classification/relationship code + `Cad/` adapters; `AecTools` facade the AEC seeds call (see "AEC tools" below) |
+| `HPAutoCad.Aec.Tests` | AEC A–C ✅ | xUnit v3 (122): geometry maths, spatial predicates + index, issue detector, filters/tolerance/envelopes, review regressions (phases A + B), classification rules + rule-set loading, relationship predicates — no AutoCAD |
 | `tools/harness/` | 2–5 ✅ | Unattended harnesses (Python + PowerShell): `run-bridge-unattended.ps1` (pipe, 21 scenarios), `run-server-smoke.ps1` (published exe over stdio, 22 steps incl. every seed), `run-live-verify.ps1` (phase-5 proof on one stdio session: matrix, seeds, registry loops, Revit beside, isolation), shared SECURELOAD/UIA/COM helpers |
-| `HPAutoCad.Mcp.Server` | 3–4 ✅ | The MCP server exe (net10, stdio): `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, `autocad://` resources, prompts, 12 embedded seed tools (`Registry/SeedLibrary/`) |
-| `HPAutoCad.Mcp.Server.Tests` | 3–4 ✅ | xUnit v3 (46): profile, tool surface, tools over a real pipe, every seed compile-checked against `AutoCAD.NET` 25.1.0 from the NuGet cache (no AutoCAD needed) |
+| `HPAutoCad.Mcp.Server` | 3–4 ✅ | The MCP server exe (net10, stdio): `AutocadHostProfile`, `execute_autocad_code`, `get_autocad_context`, `autocad://` resources, prompts, 19 embedded seed tools (`Registry/SeedLibrary/`: 12 drawing seeds + 7 AEC seeds) |
+| `HPAutoCad.Mcp.Server.Tests` | 3–4 ✅ | xUnit v3 (136): profile, tool surface, tools over a real pipe, every seed compile-checked against `AutoCAD.NET` 25.1.0 from the NuGet cache + `HPAutoCad.Aec` (no AutoCAD needed) |
 
 Shared engine (referenced, never copied): `../McpShared/HPRebar.Mcp.Contracts`, `../McpShared/HPRebar.McpBridge.Core`,
 `../McpShared/HPRebar.Mcp.Server.Core`. This folder never references `../HPRebar/`.
@@ -52,6 +54,42 @@ Load* once; SECURELOAD stays on). To try a build without the bundle: `NETLOAD` `
 from a copy of the bundle. Live check: `pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1` (12 checks + the icon as a
 MANUAL item with a screenshot per theme).
 
+## AEC tools (plan `plans/260916-1140-aec-automation-mcp-autocad/`, phases A–C done 2026-09-16)
+
+Beyond drawing commands the server exposes an AEC layer: tools that read and understand the drawing. A tool is still a seed
+(`tool.json` + `code.cs` + `examples.json`); the script is a shim that reads `args` and calls one method of
+`HPAutoCad.Aec.AecTools`, so the logic is compiled, unit-tested C# in `HPAutoCad.Aec` (the bridge references it and adds it to
+Roslyn's references; `HostScriptContracts.AutocadImports` imports the namespace, so ad-hoc scripts can use it too). The seven
+analysis tools are read-only (`transaction: none` — the runner refuses any modification), take lengths in **mm** whatever INSUNITS is,
+answer with `{ success, summary, items, count, offset, truncated, warnings, errors[{code, message, handle}] }`, and page
+(`limit` ≤ 500, `offset`) so a result stays under the bridge's 64 KB cap. The six write tools run under the bridge's `auto`
+transaction (one undo entry, `dryRun` rolls back) and answer with the edit envelope `{ success, createdCount, modifiedCount, deletedCount,
+affectedHandles, items[{index, ok, handle, type, changed, error}], warnings, errors }`; `atomic` (default) validates every item first (read-open, no mutation) and
+refuses the whole batch on one invalid item — nothing written, change counter 0 — while `atomic: false` writes the valid items and lists the rest per item; single-item
+ops refuse the whole op on any bad key; batches take up to 200 items.
+
+| Tool | Category | What it answers |
+|---|---|---|
+| `get_drawing_context` | Drawing | file, AutoCAD version, units/INSUNITS/measurement, active space + layout, current layer/color/linetype, UCS, extents, annotation scale, text/dim styles, current view, counts (entities, layers, blocks, xrefs, layouts, styles), optional layouts + layers |
+| `query_entities` | Data | filter {types, layers (wildcards), colors, linetypes, blockNames, textContains, handles, visibleOnly, space} → records (handle, type, layer, space, boundsMm, length, text, block; `mode: detail` adds geometry vertices, area, attributes, position, color, linetype); `properties[]` selector |
+| `query_entities_spatial` | Data | source × target under within / contains / intersects / crosses / overlaps / touches / nearest / distance_to / inside_bbox / inside_polygon, with distance + crossing points; `tolerance` overrides |
+| `measure_geometry` | Geometry | length, totalLength, area, perimeter, centroid, boundingBox, angle, distance, closestPoint, intersections over handles and/or points (exact AutoCAD curve maths where available) |
+| `detect_geometry_issues` | Audit | duplicate, near_duplicate, overlapping_segments, tiny_segment, zero_length, open_polyline, endpoint_gap, self_intersection, invalid_geometry → issues `GEO-nnnn` with severity, handles, location, value, tolerance, suggested action |
+| `classify_aec_entities` | Aec | entities → AEC objects (StructuralColumn/Beam/Wall/Slab/Opening/Grid, ArchitecturalWall/Door/Window/Room/Stair/Furniture, Pipe/Duct/CableTray/Equipment/Fixture/Terminal/Fitting) with confidence, evidence, dimensions, alternatives; rules from `HPAutoCad.Aec/Rules/aec-classification.default.json` (26, AIA/NCS + English + Vietnamese layer names) or a project file `%AppData%\HPAutoCad\McpServer\rules\aec-classification.json` (`ruleSet: user`) |
+| `get_entity_relationships` | Aec | intersect / connected (end-of-run gap + confidence) / near / inside / contains / touching / aligned / parallel / perpendicular between a source set and a target set (or the source set with itself), ends named by AEC type |
+| `create_entities_batch` | Drawing | items[] of line / polyline (bulges) / circle / arc / point / text / mtext / blockReference (+ attributes) / dimension (linear, aligned) with layer, colour, linetype, lineweight; handles back in input order; layer must exist and be unlocked (frozen → warning) |
+| `update_entities_batch` | Drawing | items [{handle, set}] or handles + set: layer/colour/linetype/lineweight/visible, text, heightMm, rotationDeg, scale, style, dimStyle, textOverride, attributes, geometry per type, move / rotate / scaleBy on any entity; LAYER_LOCKED / LAYER_FROZEN / ERASED / UNSUPPORTED_ENTITY per item |
+| `manage_blocks_attributes` | Block | op listDefinitions / findReferences / insert / readAttributes / writeAttributes / batchUpdateAttributes (items, handles or filter) / inspectDynamic / setDynamic (mm, degrees) |
+| `manage_annotations` | Annotation | op create (text, mtext, dimension linear/aligned/angular/radial/diameter with measurement, mleader) / update / batchUpdate / delete (annotation entities only — geometry is refused) |
+| `manage_hatches` | Drawing | op create (boundaryHandles of closed curves, a polygon, or a seedPoint → smallest closed entity around it; pattern, scale, angle, style; NOT_CLOSED refuses) / update / delete / detectBoundary (closed entities containing a point, innermost first) |
+| `manage_xrefs` | Data | op list / resolveStatus / attach (absolute existing .dwg, overlay) / detach (references erased) / reload / unload / bind (only Resolved + loaded) |
+
+Tolerances (mm / degrees, `GeometryTolerance`): pointEquality 0.5 · endpointConnection 10 · collinearity 1 · parallelAngle 0.5° ·
+duplicate 1 · tinySegment 5 · roomGap 25 — any member can be overridden per call. Error codes (`ToolErrorCode`): INVALID_ARGUMENT,
+INVALID_HANDLE, ERASED, NOT_AN_ENTITY, UNSUPPORTED_ENTITY, NO_GEOMETRY, LAYER_LOCKED, LAYER_FROZEN, LIMIT_EXCEEDED, NOT_CLOSED, INTERNAL.
+Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (55 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 62 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
+Next phases: C editing, D QA/QC, E structural, F architecture, G MEP, H coordination, I change sets — see the plan.
+
 ## Target
 
 AutoCAD 2026 base release (R25.1, .NET 8). `AutoCAD.NET` NuGet pinned to `[25.1.0]` — `25.1.1` and `26.0.0` are
@@ -62,11 +100,14 @@ the .NET 10 builds (2026 Update 1.2 / 2027) and do not load on the base release.
 ```bash
 dotnet build HPAutoCad/HPAutoCad.slnx -c Debug                     # deploys the bundle to %AppData%\Autodesk\ApplicationPlugins\
 dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -p:DeployBundle=false   # AutoCAD open (DLL locked)
-cd HPAutoCad && dotnet test HPAutoCad.Mcp.Server.Tests            # 58 tests, no AutoCAD needed
+cd HPAutoCad && dotnet test HPAutoCad.Mcp.Server.Tests            # 93 tests, no AutoCAD needed
+cd HPAutoCad && dotnet test HPAutoCad.Aec.Tests                    # 122 tests, the AEC engine's pure parts
 pwsh HPAutoCad/tools/harness/run-bridge-unattended.ps1            # live: bridge over the pipe (AutoCAD must be closed)
 pwsh HPAutoCad/tools/harness/run-server-smoke.ps1                 # live: published exe over stdio (publish first)
 pwsh HPAutoCad/tools/harness/run-live-verify.ps1 -IncludeIsolation   # live: the phase-5 proof (registry loops, Revit beside, isolation)
 pwsh HPAutoCad/tools/harness/run-ribbon-check.ps1                 # live: the Ribbon tab (UIA: one tab, workspace + theme round trips, button → window)
+pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1               # live: the 7 AEC analysis tools on a drawn scene (55 checks; Debug exe, isolated registry)
+pwsh HPAutoCad/tools/harness/run-aec-edit-tools-live.ps1          # live: the 6 AEC write tools (62 checks; dryRun + commit + undo, own output folder)
 dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server
 HPAutoCad/output/HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.exe registry approve <tool> --by <who>
 ```

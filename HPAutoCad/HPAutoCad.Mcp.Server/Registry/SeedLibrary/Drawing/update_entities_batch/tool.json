@@ -1,0 +1,68 @@
+{
+  "name": "update_entities_batch",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Drawing",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "update",
+    "batch",
+    "layer",
+    "color",
+    "move",
+    "rotate",
+    "text",
+    "attributes"
+  ],
+  "title": "Update entities in a batch",
+  "description": "Changes existing entities by handle. Give items [{handle, set}] or handles [] + one set applied to all. set keys: layer, colorIndex|color, linetype, lineweight, visible, text (TEXT/MTEXT/dimension override), heightMm, rotationDeg (text/blocks), scale (blocks), style (text style), dimStyle, textOverride, attributes {tag: value} (blocks), geometry per type (line {start, end}; circle/arc {center, radiusMm, startAngleDeg, endAngleDeg}; polyline {points, closed}; text/mtext/block/point {position}), and the transforms move {dx, dy}, rotate {angleDeg, about?}, scaleBy {factor, about?} that work on any entity. Millimetres and degrees. Entities on locked or frozen layers are refused with LAYER_LOCKED / LAYER_FROZEN (an attribute on a locked layer refuses its block too), erased handles with ERASED, entities inside a block definition and keys that do not apply to the entity type with UNSUPPORTED_ENTITY, unknown keys with INVALID_ARGUMENT. set.layer may move an entity onto a locked or frozen layer (warned): it is then not editable through this tool until the layer is unlocked/thawed. Up to 200 items per call. Returns the edit envelope {success, createdCount, modifiedCount, deletedCount, affectedHandles, items[{index, ok, handle, type, changed, error}], warnings, errors[{code, message, handle}]}. items[i].changed lists what was applied. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "items": {
+        "type": "array",
+        "maxItems": 200,
+        "items": {
+          "type": "object",
+          "properties": {
+            "handle": {
+              "type": "string"
+            },
+            "set": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "handle",
+            "set"
+          ]
+        },
+        "description": "Per-entity changes"
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Entity handles (hex, as every AEC tool reports them)",
+        "maxItems": 200
+      },
+      "set": {
+        "type": "object",
+        "description": "One change applied to every handle in handles[] (ignored when items[] is given)"
+      },
+      "atomic": {
+        "type": "boolean",
+        "default": true,
+        "description": "true (default): every item is validated first (layers, styles, keys per entity type, attribute tags) and one invalid item refuses the whole batch — success false, zero counts, every refusal in items[i].error, nothing written and nothing opened for write; a failure while writing aborts the transaction. false: invalid items are listed per item and the rest is written; an item that fails midway reports what it had changed"
+      }
+    }
+  }
+}

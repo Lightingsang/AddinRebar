@@ -1,0 +1,48 @@
+[
+  {
+    "title": "Double lines and gaps on the wall layers",
+    "args": {
+      "filter": {
+        "types": [
+          "LINE",
+          "LWPOLYLINE"
+        ],
+        "layers": [
+          "A-WALL*"
+        ]
+      },
+      "issueTypes": [
+        "duplicate",
+        "near_duplicate",
+        "endpoint_gap"
+      ]
+    }
+  },
+  {
+    "title": "Everything wrong on the structural layers, 25 mm connection tolerance",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*"
+        ]
+      },
+      "tolerance": {
+        "endpointConnection": 25
+      }
+    }
+  },
+  {
+    "title": "Check three suspicious polylines",
+    "args": {
+      "handles": [
+        "1A2B",
+        "1A2C",
+        "1A2D"
+      ],
+      "issueTypes": [
+        "self_intersection",
+        "open_polyline"
+      ]
+    }
+  }
+]

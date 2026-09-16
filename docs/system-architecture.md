@@ -282,6 +282,26 @@ Loader → Ribbon tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)
 
 Same one-button surface as the Revit (`HPRebar` ▸ `MCP` ▸ `MCP Bridge`) and Navisworks (`HPNavis` ▸ `MCP` ▸ `MCP Bridge`) bridges. Bundle 0.2.0 (2026-09-14, plan 260914-2204) had three panels and ten buttons; every one of them duplicated a control of the status window, so 0.3.0 (2026-09-16) keeps only the window opener: `Ribbon/McpRibbonTab.cs` (one panel, one button, the workspace/COLORTHEME/ItemInitialized re-creation logic), `Ribbon/RibbonIcons.cs` (one frozen `DrawingImage`, even coordinates so 16 px = ½ of 32 px), `Ribbon/RibbonCommandHandler.cs`; `RibbonStatusPresenter.cs` and the bridge's `BridgeEntry.Ribbon.cs` (entry points `status.subscribe`, `copyLastScript`, `autoStart.get/set`, `path`) are gone — the bridge exposes `show/start/stop/status/dispose` only. Tab lifecycle unchanged: created once the Ribbon exists, re-created after a workspace switch, rebuilt after a theme change (`SystemVariableChanged` → `Application.Idle` → `EnsureCreated` + `FindTab`), removed on `Terminate`. No CUIx modification. Verified 2026-09-16: `run-ribbon-check.ps1` 12/12 + 1 MANUAL (icon screenshots per theme, inspected crisp); regressions bridge 21/21, server 22/22.
 
+## AEC Engine — `HPAutoCad.Aec` (plan 260916-1140, phases A–C 2026-09-16)
+
+Phase B adds `Classification/` (rule-driven AEC types, `AecClassifier`) and `Relationships/` (`RelationshipDetector`); phase C adds the write side: `Model/EditResult` (edit envelope), `Cad/EditContext` (layer guard, space, points, properties), `EntityFactory` / `EntityUpdater` / `BatchEditService` (atomic = validate all, refuse on one invalid item, throw on a write failure so the bridge aborts), `BlockService`, `AnnotationService`, `HatchService`, `XrefService`, facade `AecTools.Editing`. Write seeds are `transaction: auto`; `dryRun` on the request rolls the bridge's transaction back. Read ops under a write tool return the analysis envelope, write ops the edit envelope.
+
+### Phase A
+
+```
+seed code.cs (args → one AecTools call → envelope)
+   └─▶ HPAutoCad.Aec.AecTools ──▶ Cad/ adapters (EntityQueryService, EntityShapeReader, MeasureService, SpatialQueryService, DrawingContextReader)
+                                     └─▶ pure engine: Geometry/ (Pt, Box, Seg, PlanShape, GeometryTolerance, GeometryMath) · Spatial/ (SpatialIndex, SpatialPredicates) · Issues/ (GeometryIssueDetector)
+       AutoCAD API only inside Cad/: SelectionFilter broad phase, GeometricExtents, Curve maths (length, area, GetClosestPointTo, IntersectWith), GetArcSegmentAt/GetSamplePoints
+```
+
+Tools stay seeds (ADR-01): the registry validates/lists/quarantines them like every other tool, `transaction: none` makes them read-only, and the
+logic is compiled C# the bridge references (`BridgeEntry.CompilerReferences` += Aec, `HostScriptContracts.AutocadImports` += `HPAutoCad.Aec`).
+Contracts (ADR-02): mm at the boundary via `units`; `GeometryTolerance` (pointEquality 0.5, endpointConnection 10, collinearity 1, parallelAngle 0.5°,
+duplicate 1, tinySegment 5, roomGap 25) overridable per call; handles only; envelopes `{success, summary, items, count, offset, truncated, warnings, errors}`;
+`ToolErrorCode` codes; `ArgumentException` for input that makes a run meaningless. Phase A tools: `get_drawing_context`, `query_entities`,
+`query_entities_spatial`, `measure_geometry`, `detect_geometry_issues`. Verified live 2026-09-16: `run-aec-tools-live.ps1` 33/33.
+
 ## Phases 4–5 + Ribbon Status
 
 | Phase | Work | Status |

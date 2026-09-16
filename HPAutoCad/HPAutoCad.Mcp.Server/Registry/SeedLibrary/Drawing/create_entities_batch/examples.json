@@ -1,0 +1,121 @@
+[
+  {
+    "title": "A column outline, its axis line and a mark in one call",
+    "args": {
+      "items": [
+        {
+          "type": "polyline",
+          "layer": "S-COL",
+          "closed": true,
+          "points": [
+            {
+              "x": 0,
+              "y": 0
+            },
+            {
+              "x": 400,
+              "y": 0
+            },
+            {
+              "x": 400,
+              "y": 400
+            },
+            {
+              "x": 0,
+              "y": 400
+            }
+          ]
+        },
+        {
+          "type": "line",
+          "layer": "S-GRID",
+          "start": {
+            "x": 200,
+            "y": -1000
+          },
+          "end": {
+            "x": 200,
+            "y": 1400
+          },
+          "linetype": "CENTER"
+        },
+        {
+          "type": "text",
+          "layer": "S-TEXT",
+          "text": "C1",
+          "position": {
+            "x": 450,
+            "y": 100
+          },
+          "heightMm": 150
+        }
+      ]
+    }
+  },
+  {
+    "title": "Insert three door blocks with marks, keep the rest if one block name is wrong",
+    "args": {
+      "atomic": false,
+      "items": [
+        {
+          "type": "blockReference",
+          "blockName": "DOOR-0900",
+          "position": {
+            "x": 1000,
+            "y": 0
+          },
+          "attributes": {
+            "MARK": "D01"
+          }
+        },
+        {
+          "type": "blockReference",
+          "blockName": "DOOR-0900",
+          "position": {
+            "x": 4000,
+            "y": 0
+          },
+          "rotationDeg": 90,
+          "attributes": {
+            "MARK": "D02"
+          }
+        },
+        {
+          "type": "blockReference",
+          "blockName": "DOOR-1200",
+          "position": {
+            "x": 7000,
+            "y": 0
+          },
+          "attributes": {
+            "MARK": "D03"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "title": "Dimension a beam in paper space",
+    "args": {
+      "space": "Layout1",
+      "items": [
+        {
+          "type": "dimension",
+          "kind": "aligned",
+          "p1": {
+            "x": 0,
+            "y": 0
+          },
+          "p2": {
+            "x": 5600,
+            "y": 0
+          },
+          "dimLinePoint": {
+            "x": 2800,
+            "y": -600
+          }
+        }
+      ]
+    }
+  }
+]

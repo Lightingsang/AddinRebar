@@ -1,0 +1,175 @@
+{
+  "name": "detect_geometry_issues",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Audit",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "audit",
+    "qa",
+    "duplicate",
+    "overlap",
+    "gap",
+    "zero length",
+    "self-intersection",
+    "cleanup",
+    "aec"
+  ],
+  "title": "Detect geometry issues",
+  "description": "Finds drafting defects in the selected entities and returns them as located, measured issues: exact duplicates, near duplicates, overlapping collinear segments between entities, tiny and zero-length segments, polylines that are almost closed, gaps between endpoints that were meant to meet, self-intersecting polylines, and entities whose geometry cannot be read. Each issue has an id (GEO-0001…), type, severity, the handles involved, a location in mm, the measured value, the tolerance applied and a suggested action. Use this for drawing clean-up, QA before issue, 'find double lines', 'find gaps in the walls'. Give a layer/type filter or handles; tolerances in mm can be overridden. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "description": "Which entities to consider. Types, layers and block names accept AutoCAD wildcards (* and ?) and comma lists; handles short-circuit everything else.",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "DXF names: LINE, LWPOLYLINE, POLYLINE, CIRCLE, ARC, ELLIPSE, SPLINE, HATCH, SOLID, INSERT (block reference), TEXT, MTEXT, DIMENSION, LEADER, MULTILEADER…"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Layer names or wildcards, e.g. [\"S-BEAM\", \"S-COL*\"]"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ACI index as text (\"1\"), \"ByLayer\", \"ByBlock\" or a true-colour name"
+          },
+          "linetypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Linetype names or wildcards"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block definition names or wildcards (INSERT entities only)"
+          },
+          "textContains": {
+            "type": "string",
+            "description": "Case-insensitive substring of the text / dimension text / block attribute values"
+          },
+          "handles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Exact entity handles (hex); when given, the other criteria only narrow this list"
+          },
+          "visibleOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Skip invisible entities and entities on off/frozen layers"
+          },
+          "space": {
+            "type": "string",
+            "default": "model",
+            "description": "model (default), current (the active layout), all, or a layout name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Check exactly these entities instead of a filter"
+      },
+      "issueTypes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "duplicate",
+            "near_duplicate",
+            "overlapping_segments",
+            "tiny_segment",
+            "zero_length",
+            "open_polyline",
+            "endpoint_gap",
+            "self_intersection",
+            "invalid_geometry"
+          ]
+        },
+        "description": "Issue kinds to look for; omit for all"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Overrides of the geometry tolerances in millimetres (angles in degrees); omitted members keep the defaults shown.",
+        "properties": {
+          "pointEquality": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Two points are the same point"
+          },
+          "endpointConnection": {
+            "type": "number",
+            "default": 10,
+            "description": "Endpoints this close were meant to meet (gaps, connectivity, touches)"
+          },
+          "collinearity": {
+            "type": "number",
+            "default": 1,
+            "description": "Offset within which segments count as collinear/overlapping"
+          },
+          "parallelAngle": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Degrees within which directions count as parallel or perpendicular"
+          },
+          "duplicate": {
+            "type": "number",
+            "default": 1,
+            "description": "Vertex distance within which two entities are near-duplicates"
+          },
+          "tinySegment": {
+            "type": "number",
+            "default": 5,
+            "description": "Segments shorter than this are reported as tiny"
+          },
+          "roomGap": {
+            "type": "number",
+            "default": 25,
+            "description": "An open polyline whose ends are this close was probably meant to be closed"
+          }
+        },
+        "additionalProperties": false
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum issues returned per call (count tells the total; about 350 bytes per issue, so 100 keeps the answer well under the 64 KB cap)"
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "description": "Cap on entities examined"
+      }
+    },
+    "additionalProperties": false
+  }
+}

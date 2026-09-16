@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPAutoCad.Aec</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8 — same pin as the bridge, never upgraded here. -->
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The AEC engine the bridge references and scripts call. Geometry/, Spatial/, Issues/, Model/, Classification/ and
+             Relationships/ never touch an AutoCAD type (unit-tested without acad.exe); Cad/ holds the adapters that read
+             entities through the bridge's transaction. Compile against the AutoCAD API, never copy it: acad.exe supplies
+             these assemblies. -->
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- ScriptArgs (nested tool inputs) and ScriptUnits (mm <-> drawing units) are the bridge's script globals. -->
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The default AEC classification rule set: data, editable per project by copying it to the MCP server's rules folder
+             (%AppData%\HPAutoCad\McpServer\rules\aec-classification.json). -->
+        <EmbeddedResource Include="Rules\aec-classification.default.json" LogicalName="HPAutoCad.Aec.Rules.aec-classification.default.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPAutoCad.Aec.Tests"/>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,235 @@
+{
+  "name": "query_entities_spatial",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "spatial",
+    "intersect",
+    "within",
+    "nearest",
+    "distance",
+    "clash",
+    "relationship",
+    "aec"
+  ],
+  "title": "Spatial query",
+  "description": "Answers spatial questions between two sets of entities in plan view: which sources are within / contain / intersect / cross / overlap / touch which targets, the nearest target per source, every target within a distance (distance_to + maxDistance), or sources inside a bounding box or polygon. Each set is a filter (types, layers, block names, handles…); results list source/target handles with the distance and the crossing points in mm. Use this for 'which pipes cross beams', 'what is inside this room', 'nearest column to each beam end', 'walls closer than 100 mm to the grid'. Tolerances are in mm and can be overridden. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "source": {
+        "type": "object",
+        "description": "Which entities to consider. Types, layers and block names accept AutoCAD wildcards (* and ?) and comma lists; handles short-circuit everything else.",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "DXF names: LINE, LWPOLYLINE, POLYLINE, CIRCLE, ARC, ELLIPSE, SPLINE, HATCH, SOLID, INSERT (block reference), TEXT, MTEXT, DIMENSION, LEADER, MULTILEADER…"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Layer names or wildcards, e.g. [\"S-BEAM\", \"S-COL*\"]"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ACI index as text (\"1\"), \"ByLayer\", \"ByBlock\" or a true-colour name"
+          },
+          "linetypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Linetype names or wildcards"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block definition names or wildcards (INSERT entities only)"
+          },
+          "textContains": {
+            "type": "string",
+            "description": "Case-insensitive substring of the text / dimension text / block attribute values"
+          },
+          "handles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Exact entity handles (hex); when given, the other criteria only narrow this list"
+          },
+          "visibleOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Skip invisible entities and entities on off/frozen layers"
+          },
+          "space": {
+            "type": "string",
+            "default": "model",
+            "description": "model (default), current (the active layout), all, or a layout name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "target": {
+        "type": "object",
+        "description": "Which entities to consider. Types, layers and block names accept AutoCAD wildcards (* and ?) and comma lists; handles short-circuit everything else.",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "DXF names: LINE, LWPOLYLINE, POLYLINE, CIRCLE, ARC, ELLIPSE, SPLINE, HATCH, SOLID, INSERT (block reference), TEXT, MTEXT, DIMENSION, LEADER, MULTILEADER…"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Layer names or wildcards, e.g. [\"S-BEAM\", \"S-COL*\"]"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ACI index as text (\"1\"), \"ByLayer\", \"ByBlock\" or a true-colour name"
+          },
+          "linetypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Linetype names or wildcards"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block definition names or wildcards (INSERT entities only)"
+          },
+          "textContains": {
+            "type": "string",
+            "description": "Case-insensitive substring of the text / dimension text / block attribute values"
+          },
+          "handles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Exact entity handles (hex); when given, the other criteria only narrow this list"
+          },
+          "visibleOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Skip invisible entities and entities on off/frozen layers"
+          },
+          "space": {
+            "type": "string",
+            "default": "model",
+            "description": "model (default), current (the active layout), all, or a layout name"
+          }
+        },
+        "additionalProperties": false
+      },
+      "relation": {
+        "type": "string",
+        "enum": [
+          "within",
+          "contains",
+          "intersects",
+          "crosses",
+          "overlaps",
+          "touches",
+          "nearest",
+          "distance_to",
+          "inside_bbox",
+          "inside_polygon"
+        ],
+        "description": "Relation tested from each source to each target"
+      },
+      "maxDistance": {
+        "type": "number",
+        "description": "mm — required for distance_to; optional search radius for nearest"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Overrides of the geometry tolerances in millimetres (angles in degrees); omitted members keep the defaults shown.",
+        "properties": {
+          "pointEquality": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Two points are the same point"
+          },
+          "endpointConnection": {
+            "type": "number",
+            "default": 10,
+            "description": "Endpoints this close were meant to meet (gaps, connectivity, touches)"
+          },
+          "collinearity": {
+            "type": "number",
+            "default": 1,
+            "description": "Offset within which segments count as collinear/overlapping"
+          },
+          "parallelAngle": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Degrees within which directions count as parallel or perpendicular"
+          },
+          "duplicate": {
+            "type": "number",
+            "default": 1,
+            "description": "Vertex distance within which two entities are near-duplicates"
+          },
+          "tinySegment": {
+            "type": "number",
+            "default": 5,
+            "description": "Segments shorter than this are reported as tiny"
+          },
+          "roomGap": {
+            "type": "number",
+            "default": 25,
+            "description": "An open polyline whose ends are this close was probably meant to be closed"
+          }
+        },
+        "additionalProperties": false
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum matches returned (count tells the total)"
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "description": "Cap on entities read per set"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "relation"
+    ]
+  }
+}

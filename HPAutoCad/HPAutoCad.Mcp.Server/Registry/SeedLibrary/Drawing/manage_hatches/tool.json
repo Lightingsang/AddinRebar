@@ -1,0 +1,184 @@
+{
+  "name": "manage_hatches",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Drawing",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "hatch",
+    "fill",
+    "boundary",
+    "pattern"
+  ],
+  "title": "Manage hatches",
+  "description": "Hatches, chosen by op. create (hatch {boundaryHandles [closed curves: first outer, others islands] | points [polygon in mm] | seedPoint {x, y} → the smallest closed entity around it, pattern (default SOLID; ANSI31, AR-CONC… from acad.pat/acadiso.pat), patternType predefined|userDefined|custom, scale, angleDeg, hatchStyle normal|outer|ignore, associative, layer, colorIndex|color}); a boundary that is not closed (for AutoCAD or within the point tolerance) is refused with NOT_CLOSED, a wrong layer/property with LAYER_LOCKED / INVALID_ARGUMENT — nothing is created; a pattern AutoCAD rejects aborts the run. associative: true makes the hatch follow its boundary entities. update (handles[0] + set {pattern, patternType, scale, angleDeg, hatchStyle, layer, colorIndex|color, linetype, lineweight, visible} — every key validated first, an unknown key or bad value refuses the whole update), delete (handles — hatches only), detectBoundary (seedPoint → closed entities containing the point, innermost first: handle, type, layer, areaMm2; found geometrically, so it works outside a command). Read op returns the analysis envelope, write ops the edit envelope with the hatch's area in mm². Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "op": {
+        "type": "string",
+        "enum": [
+          "create",
+          "update",
+          "delete",
+          "detectBoundary"
+        ]
+      },
+      "hatch": {
+        "type": "object",
+        "properties": {
+          "boundaryHandles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ]
+            }
+          },
+          "seedPoint": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "pattern": {
+            "type": "string",
+            "default": "SOLID"
+          },
+          "patternType": {
+            "type": "string",
+            "enum": [
+              "predefined",
+              "userDefined",
+              "custom"
+            ]
+          },
+          "scale": {
+            "type": "number",
+            "default": 1
+          },
+          "angleDeg": {
+            "type": "number",
+            "default": 0
+          },
+          "hatchStyle": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "outer",
+              "ignore"
+            ]
+          },
+          "associative": {
+            "type": "boolean",
+            "default": false
+          },
+          "layer": {
+            "type": "string"
+          },
+          "colorIndex": {
+            "type": "integer"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "description": "create: the hatch to add (one of boundaryHandles, points, seedPoint)"
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Entity handles (hex, as every AEC tool reports them)",
+        "maxItems": 200
+      },
+      "set": {
+        "type": "object",
+        "description": "update: the change"
+      },
+      "seedPoint": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "space": {
+        "type": "string",
+        "default": "current",
+        "description": "Where new entities go: current (default), model, or a layout name"
+      },
+      "atomic": {
+        "type": "boolean",
+        "default": true,
+        "description": "delete only: true (default): every item is validated first (layers, styles, keys per entity type, attribute tags) and one invalid item refuses the whole batch — success false, zero counts, every refusal in items[i].error, nothing written and nothing opened for write; a failure while writing aborts the transaction. false: invalid items are listed per item and the rest is written; an item that fails midway reports what it had changed"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 20,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "detectBoundary: containing entities returned"
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    },
+    "required": [
+      "op"
+    ]
+  }
+}

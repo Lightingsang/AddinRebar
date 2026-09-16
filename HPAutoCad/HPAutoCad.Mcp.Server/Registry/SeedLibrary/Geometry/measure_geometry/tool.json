@@ -1,0 +1,123 @@
+{
+  "name": "measure_geometry",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "measure",
+    "length",
+    "area",
+    "distance",
+    "angle",
+    "centroid",
+    "bounding box",
+    "intersection",
+    "aec"
+  ],
+  "title": "Measure geometry",
+  "description": "Measures entities and points in millimetres: length / totalLength / perimeter of curves, area (mm² and m²) of closed shapes and hatches, centroid, bounding box (per entity and overall), direction angle of lines and the angle between two, distance between two points / two entities / a point and an entity, the closest point on an entity to a point, and the intersection points of two entities (exact AutoCAD curve maths where available). Use this when the user asks how long, how big, how far, at what angle, or where two things meet. Give handles[] and/or points[] ({x, y, z} in mm). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "measure": {
+        "type": "string",
+        "enum": [
+          "length",
+          "totalLength",
+          "area",
+          "perimeter",
+          "centroid",
+          "boundingBox",
+          "angle",
+          "distance",
+          "closestPoint",
+          "intersections"
+        ],
+        "description": "What to measure"
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Entity handles to measure (two for distance/intersections/angle-between)"
+      },
+      "points": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "description": "Points in mm (two for distance/angle, one for closestPoint, three+ for a polygon centroid)"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Overrides of the geometry tolerances in millimetres (angles in degrees); omitted members keep the defaults shown.",
+        "properties": {
+          "pointEquality": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Two points are the same point"
+          },
+          "endpointConnection": {
+            "type": "number",
+            "default": 10,
+            "description": "Endpoints this close were meant to meet (gaps, connectivity, touches)"
+          },
+          "collinearity": {
+            "type": "number",
+            "default": 1,
+            "description": "Offset within which segments count as collinear/overlapping"
+          },
+          "parallelAngle": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Degrees within which directions count as parallel or perpendicular"
+          },
+          "duplicate": {
+            "type": "number",
+            "default": 1,
+            "description": "Vertex distance within which two entities are near-duplicates"
+          },
+          "tinySegment": {
+            "type": "number",
+            "default": 5,
+            "description": "Segments shorter than this are reported as tiny"
+          },
+          "roomGap": {
+            "type": "number",
+            "default": 25,
+            "description": "An open polyline whose ends are this close was probably meant to be closed"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "measure"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Aligned dimension of a beam, 600 mm below it",
+    "args": {
+      "op": "create",
+      "annotation": {
+        "type": "dimension",
+        "kind": "aligned",
+        "p1": {
+          "x": 200,
+          "y": 0
+        },
+        "p2": {
+          "x": 5800,
+          "y": 0
+        },
+        "dimLinePoint": {
+          "x": 3000,
+          "y": -600
+        },
+        "layer": "S-DIMS"
+      }
+    }
+  },
+  {
+    "title": "Leader note pointing at a column",
+    "args": {
+      "op": "create",
+      "annotation": {
+        "type": "mleader",
+        "text": "C1 400x400",
+        "arrowPoint": {
+          "x": 200,
+          "y": 200
+        },
+        "landingPoint": {
+          "x": 1200,
+          "y": 900
+        },
+        "heightMm": 150
+      }
+    }
+  },
+  {
+    "title": "Radius of a circle",
+    "args": {
+      "op": "create",
+      "annotation": {
+        "type": "dimension",
+        "kind": "radial",
+        "center": {
+          "x": 2000,
+          "y": 2500
+        },
+        "chordPoint": {
+          "x": 2300,
+          "y": 2500
+        },
+        "leaderLengthMm": 400
+      }
+    }
+  },
+  {
+    "title": "Renumber a mark and make it bigger",
+    "args": {
+      "op": "update",
+      "handles": [
+        "3F1"
+      ],
+      "set": {
+        "text": "C12",
+        "heightMm": 200
+      }
+    }
+  },
+  {
+    "title": "Delete two texts (a LINE in the list would be refused and nothing deleted)",
+    "args": {
+      "op": "delete",
+      "handles": [
+        "3F1",
+        "3F2"
+      ]
+    }
+  }
+]

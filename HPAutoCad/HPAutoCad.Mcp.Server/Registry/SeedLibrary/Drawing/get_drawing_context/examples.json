@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Units, active layout, extents and counts",
+    "args": {}
+  },
+  {
+    "title": "Also list the layers",
+    "args": {
+      "includeLayers": true,
+      "includeLayouts": false
+    }
+  }
+]

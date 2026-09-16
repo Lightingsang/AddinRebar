@@ -1,0 +1,113 @@
+{
+  "name": "manage_xrefs",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "xref",
+    "external reference",
+    "attach",
+    "bind",
+    "reload"
+  ],
+  "title": "Manage external references",
+  "description": "External references (xrefs), chosen by op. list (namePattern?) and resolveStatus (re-resolves paths first) return the analysis envelope with name, path, foundPath, found, status (Resolved|Unloaded|Unreferenced|FileNotFound|Unresolved), loaded, overlay, referenceCount, nestedIn. Write ops return the edit envelope: attach (attach {path — fully qualified .dwg that exists (D:/folder/file.dwg or //server/share/file.dwg, no drive-relative or .. paths; a network share is resolved synchronously), name? (valid block name), position, overlay?, scale?, rotationDeg?, layer?} — reads the file from disk, saves the path as given and inserts one reference), detach (names — all must be xrefs; erases every reference of each and counts them in deletedCount; a nested xref aborts the run), reload, unload (names), bind (names, insertBind? — only resolved, loaded xrefs; one refused xref refuses the whole bind). modifiedCount counts block-table records for reload/unload/bind; affectedHandles holds entity handles only. Millimetres at the boundary. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change. attach/detach/bind change the block table as well as the entities.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "op": {
+        "type": "string",
+        "enum": [
+          "list",
+          "attach",
+          "detach",
+          "reload",
+          "unload",
+          "bind",
+          "resolveStatus"
+        ]
+      },
+      "names": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "detach / reload / unload / bind: xref names as list reports them"
+      },
+      "namePattern": {
+        "type": "string",
+        "description": "list: wildcard on the xref name"
+      },
+      "attach": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "overlay": {
+            "type": "boolean",
+            "default": false
+          },
+          "scale": {
+            "type": "number",
+            "default": 1
+          },
+          "rotationDeg": {
+            "type": "number",
+            "default": 0
+          },
+          "layer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "position"
+        ],
+        "description": "attach: what to attach and where"
+      },
+      "insertBind": {
+        "type": "boolean",
+        "default": false,
+        "description": "bind: merge names INSERT-style instead of prefixing them with the xref name"
+      },
+      "space": {
+        "type": "string",
+        "default": "current",
+        "description": "Where new entities go: current (default), model, or a layout name"
+      }
+    },
+    "required": [
+      "op"
+    ]
+  }
+}

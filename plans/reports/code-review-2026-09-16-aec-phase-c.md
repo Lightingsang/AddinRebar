@@ -1,0 +1,93 @@
+> **Status 2026-09-16 (later the same day): every finding (H1–H3, M1–M10, L1–L12) fixed; M3 decided as recommended (refuse the whole op). Pinned by `HPAutoCad.Aec.Tests` 122/122, `HPAutoCad.Mcp.Server.Tests` 136/136 and `run-aec-edit-tools-live.ps1` 62/62 — see `plans/260916-1140-aec-automation-mcp-autocad/reports/phase-C-editing-live.md` § Review round.**
+
+# Code review — AEC Automation MCP (AutoCAD), phase C: editing
+
+Date 2026-09-16 · Plan `plans/260916-1140-aec-automation-mcp-autocad/` · Scope: `HPAutoCad.Aec` `Model/EditResult.cs`, `Cad/{EditContext,EntityFactory,EntityUpdater,BatchEditService,BlockService,AnnotationService,HatchService,XrefService}.cs`, `AecTools.Editing.cs`, 6 write seeds, `EditResultTests`, `SeedLibraryTests` write theory, `tools/harness/aec-edit-tools-live.py` (2 539 LOC).
+
+Verified: `dotnet test HPAutoCad.Aec.Tests` 104/104 · `dotnet test HPAutoCad.Mcp.Server.Tests` 127/127 · live harness not re-run (40/40 on 2026-09-16 taken as given) · envelope sizes measured with a scratchpad probe (camelCase, nulls dropped) · `SetDatabaseDefaults` semantics checked against the ObjectARX reference.
+
+## Score: 6 / 10
+
+Two-phase atomic create is real (validate → dispose on refuse → write, verified live), erased/locked/frozen/invalid handles are structured in every batch path, unit conversion is applied everywhere it was questioned (bulge unitless, leader length, MText width, dynamic distances, hatch area mm²), bind is safe-only and all-or-nothing, detach reports the erased references, seeds are thin shims and the examples nest their keys the way the code reads them. Held back by: a hatch that silently discards `layer`/`color`/`linetype`/`lineweight` (H1), an AutoCAD exception leaking on the attribute path that can quarantine the tool (H2), and the 64 KB cap breached again at the schema maxima and on the error path of a batch (H3 — third phase in a row, see recurring-checks memory).
+
+## Atomic contract — what actually holds
+
+| Service / op | Phase 1 validates (no writes) | Invalid → structured refuse | Write failure → throw (abort) | atomic=false honest? |
+|---|---|---|---|---|
+| `CreateBatch` | full (`factory.Create`, entities disposed on refuse) | yes | yes (`InvalidOperationException`) | yes |
+| `UpdateBatch` | handle + layer only; **`set` keys validated while writing** | handle/layer yes; **`set` errors → `ArgumentException`, first error only** (M1) | yes | yes, except the `AcadException` catch reports `changed=[]` after `ApplyProperties` already applied keys (M10) |
+| `WriteAttributesOp` | handle + layer + is-INSERT | yes | `ArgumentException` after partial writes (ok, abort) | **no catch at all** — one `eOnLockedLayer` aborts the whole batch as a raw exception (H2/M10) |
+| `AnnotationService.Delete` | full | yes | n/a | yes |
+| `HatchService.Delete` | full | yes but items carry no per-item error (L5) | n/a | yes |
+| `HatchService.Update`, `SetDynamic`, `XrefService.Detach` | single item | **no: partial change committed with `success=false`** (M3) | pattern errors throw | n/a |
+| `Insert`, `AnnotationService.Create`, `HatchService.Create`, `Attach` | single item | **no: `LAYER_LOCKED`/`INVALID_ARGUMENT` become `ArgumentException`, code lost** (M4) | hatch: `Erase` + throw (no half-built hatch) | n/a |
+
+Phase-1 `UpgradeOpen` on every valid entity of a refused atomic batch is itself counted by the bridge's `DatabaseChangeCounter` (`ObjectOpenedForModify`) → the run reports `changed.modified = N` for a run that wrote nothing (M2).
+
+## Findings
+
+### High
+
+| # | Where | Problem | Failure scenario | Pin |
+|---|---|---|---|---|
+| H1 | `HatchService.cs:64-75` | `hatch.LayerId`, `ApplyProperties` (colour, linetype, lineweight, visible) are applied, then `hatch.SetDatabaseDefaults()` at :75 resets Layer/Color/Linetype/Lineweight/Visibility to CLAYER/CECOLOR/… (ARX: setDatabaseDefaults sets exactly those). Description promises `layer, colorIndex|color`. | `manage_hatches create {boundaryHandles, layer: "S-HATCH", colorIndex: 8}` → hatch lands on the current layer with the current colour; the harness (`:254`, `:259`) asserts pattern + area only, never the layer. | Live: create with `layer` + `colorIndex`, then `query_entities handles:[h]` → assert `layer == S-HATCH`, `color == 8`. Fix: call `SetDatabaseDefaults(cx.Db)` first (before :64) or drop it. |
+| H2 | `BlockService.cs:210` (`WriteAttributes`), callers `:182` and `EntityUpdater.cs:35` | `attribute.UpgradeOpen()` on an `AttributeReference` whose own layer is locked throws `eOnLockedLayer`; only the INSERT's layer was checked (`LayerAllowsEdit`). `WriteAttributesOp` has no catch → raw AutoCAD exception to the client, coded as an engine failure (counts in the stability window → 5 calls quarantine `manage_blocks_attributes`). Tags before the throwing one are already written. | Title block whose ATTDEFs sit on `A-ANNO-TTLB-TEXT` (NCS style); user locks that layer; `writeAttributes {REV: "B"}` → exception, not `LAYER_LOCKED`. | Live: DOOR-TEST variant with the ATTDEF on the LOCKED layer → expect `errors[0].code == LAYER_LOCKED`, `modifiedCount 0`. Fix: `LayerAllowsEdit(attribute)` per attribute before any `UpgradeOpen`, collect as item error. |
+| H3 | `BlockService.cs:22-55, 59-90, 128-146, 221-255`; `BatchEditService.cs:18`; `EditResult.cs:66-72`; `manage_blocks_attributes/tool.json:161-166` | 64 KB cap breached (measured): `findReferences` limit 500 (schema max) = 121–207 KB; default 100 with 40-attribute title blocks = 148 KB (attributes uncapped — phase B capped them at 8); `listDefinitions` 500 = 96–140 KB; `readAttributes`/`inspectDynamic` have no cap on `handles` (1 000 × 8 attrs = 254 KB); `update_entities_batch` 500 × LAYER_LOCKED = 155 KB (`Settle` copies every item error into `errors[]` — twice the bytes), 500 frozen-layer warnings = 87 KB, 500 unknown-key warnings = 146 KB. `MaxBatchItems` comment (":17 ~100 B per outcome") is true only on the happy path. Overflow = head-as-text → for a **write** tool the entities are committed but the AI cannot read the handles. | `findReferences {filter:{blockNames:["TITLE*"]}, limit: 500}` on a 30-sheet set; or `update_entities_batch` non-atomic on 500 entities of a locked layer. | xUnit in `HPAutoCad.Aec.Tests`: serialise synthetic envelopes at the caps with the bridge options (as `EditResultTests` does) and assert `< 60 000` B; extend `Aec_seed_page_limits_match_the_engine_caps…` to `manage_blocks_attributes` with a measured cap (≈150 for findReferences with attributes capped at 8, ≈200 for listDefinitions), `maxItems` on `handles`, and stop duplicating item errors in `errors[]` (or keep `errors[]` to the first 20 + count). |
+
+### Medium
+
+| # | Where | Problem | Failure scenario | Pin |
+|---|---|---|---|---|
+| M1 | `BatchEditService.cs:95-106, 136-137`; `update_entities_batch/tool.json:63` | Atomic `update`: only handle + layer are validated first; `set` validation (unknown layer/linetype/style, bad colour, `UNSUPPORTED_ENTITY` key, `heightMm ≤ 0`) happens while writing → `ArgumentException` naming the first error only. Description says "every item is validated first — one invalid item refuses the whole batch" (structured). Item 0 is partially modified before the throw (rolled back by the abort — correct, but only because of the bridge). | `update_entities_batch {items:[{2A3, set:{text:"C4"}}, {2B0 (LINE), set:{heightMm:100}}]}` → `isError` "items[1] … UNSUPPORTED_ENTITY" instead of `success=false, refused, errors[]`. Never ran live (harness only tests atomic + locked). | Live check exactly that; fix: run `EntityUpdater.Apply` in phase 1 against a **read-open** entity with a dry `errors` list? Not possible without writing — instead split `EntityUpdater` into `Validate(set, entity)` (type/key/lookup checks, no mutation) + `Apply`. |
+| M2 | `EditContext.cs:93-108` via `BatchEditService.cs:98`, `BlockService.cs:160`, `AnnotationService.cs:61`, `HatchService.cs:155` | Phase 1 opens every valid entity for write; on atomic refusal nothing is written but `DatabaseChangeCounter` (bridge, `ObjectOpenedForModify`) reports `changed.modified = N` and the audit line says the run modified N objects; AutoCAD also records an empty undo entry. | Harness `:191-193` checks the envelope only; the run's `changed` is wrong. | Live: atomic + locked → assert `run.changed.modified == 0`. Fix: phase 1 = `OpenEntity` + `LayerAllowsEdit`; `UpgradeOpen` in phase 2. |
+| M3 | `HatchService.cs:118-146`, `BlockService.cs:267-292`, `XrefService.cs:84-93` | Single-item ops apply what they can and return `success=false` with the change **committed** (no throw): hatch `{colorIndex:4, layer:"NOPE"}` → colour committed; `setDynamic {Distance1: 1200, Flip: 9}` → distance committed; detach of 2 names, 1 nested → 1 detached. `EditResult` doc (`:7-9`) and the atomic description say `success=false` ⇒ nothing written. | AI reads `success=false`, retries with the corrected key → the first change is applied twice / the AI believes nothing happened. | Live: `manage_hatches update {colorIndex:4, layer:"NOPE"}` → decide: refuse whole (throw `ArgumentException` or validate first) **or** `success=true` + warning. Same for `setDynamic`, `detach`. |
+| M4 | `BlockService.cs:99`, `AnnotationService.cs:34`, `HatchService.cs:64,69`, `XrefService.cs:54` | `built.Error`/`layerError` (`LAYER_LOCKED`, `INVALID_ARGUMENT` with the layer name) is rethrown as `ArgumentException(message)` — the code is lost and the phase criterion ("locked/frozen/erased paths return structured errors, never exceptions") is not met for single creates. | `manage_annotations create {…, layer:"LOCKED"}` → `isError` text, no `LAYER_LOCKED`. | Live check; fix: `return result.Fail(built.Error)` with `Items=[ItemOutcome(0,false,…)]`. |
+| M5 | `BlockService.cs:112-124` vs `:194-217`; `tool.json:22` "Unknown tags are warnings" | `AppendAttributes` (insert, `create_entities_batch` blockReference) silently drops unknown tags; `WriteAttributes` warns. `insert.summary.attributesSet` (`:107`) counts every attribute reference, not the ones set. | `insert {attributes:{MARC:"D05"}}` → `success=true, attributesSet 1`, MARK still the default. | Live: insert with a misspelt tag → expect a warning; unit-testable if `AppendAttributes` returns the unmatched keys. |
+| M6 | `HatchService.cs:85` | `associative = true` sets the flag but never adds the hatch as a persistent reactor on the boundary entities (ARX requirement for associativity); the hatch reports `Associative=true` and does not follow the boundary. `associative:true` never ran live. | Create associative from polyline `2B0`, move `2B0` with `update_entities_batch` → hatch stays. | Live: create associative → move boundary → `hatch.Area`/bounds follow? If not: `boundary.UpgradeOpen(); boundary.AddPersistentReactor(hatch.ObjectId)` per loop (and the boundary's layer must then be unlocked — a new LAYER_LOCKED path). |
+| M7 | `BlockService.cs:27-46` | `listDefinitions` opens **every object of every block definition** (`AttributeDefinitions` → `tr.GetObject` per id, `entityCount` → full iteration), including resolved xref BTRs (100 k+ objects), before paging; no `ct`. | Site drawing with 3 xrefs of 80 k entities → seconds on the UI thread, 240 k wrappers in the transaction. | Use `btr.HasAttributeDefinitions` before scanning, skip `entityCount` for xrefs (or report `null`), `ct.ThrowIfCancellationRequested()` in the loop. Live timing on `run-aec-tools-live` scene + one big xref. |
+| M8 | `AnnotationService.cs:18` (`ATTDEF`, `TOLERANCE`), `EditContext.cs:93` (no owner check) | `delete` accepts `ATTDEF` — an attribute definition lives inside a block definition; erasing it edits the block for every reference. More generally every write path resolves handles DB-wide: an entity inside a BTR can be modified/erased with no warning. Description lists TEXT/MTEXT/DIMENSION/LEADER/MULTILEADER only. | `manage_annotations delete [attdef handle]` → DOOR-TEST loses its MARK for future inserts. | Live: delete DOOR-TEST's ATTDEF handle → expect `UNSUPPORTED_ENTITY`. Fix: drop ATTDEF/TOLERANCE, refuse (or warn) when `entity.OwnerId` is not a layout BTR (`BlockTableRecord.IsLayout`). |
+| M9 | `XrefService.cs:44-47, 62, 167` | Path policy: `Path.IsPathRooted` accepts `\x.dwg` and `C:x.dwg` (drive-relative → resolved against the process cwd); UNC accepted and `File.Exists` / `FindFile` (list, per xref) block AutoCAD's UI thread for the SMB timeout, uncancellable by `ct`; saved path is always absolute (REFPATHTYPE ignored → not portable across machines); `name` never passes `SymbolUtilityServices.ValidateSymbolName` so `name:"A/B"` fails with the misleading "must be a readable DWG that does not reference this drawing"; self/circular reference relies on AutoCAD (`eSelfReference`, fine). `attach` + `dryRun` never ran live. | `attach {path:"\\\\dead-server\\x.dwg"}` → AutoCAD frozen ~20–60 s; `attach {path:"C:notes.dwg"}` → attaches a file from an unexpected folder. | Unit: extract `XrefPathPolicy.Validate(path)` (pure) → tests reject `\x.dwg`, `C:x.dwg`, `..\x.dwg`, accept `D:/a/b.dwg`; require `Path.IsPathFullyQualified`; validate `name`. Live: attach + dryRun → definition gone. |
+| M10 | `BatchEditService.cs:128-133`; `BlockService.cs:172-187` | Non-atomic honesty: `UpdateBatch` catch sets `changed = []` although `ApplyProperties` (layer/colour) may already have applied; `WriteAttributesOp` has no `AcadException` catch → the "rest is written" promise breaks with a raw exception. | Same setup as H2 with `atomic:false`. | Live (H2 scene); fix: keep the `changed` list built so far (pass it into `Apply`), add the catch to `WriteAttributesOp`. |
+
+### Low
+
+| # | Where | Problem |
+|---|---|---|
+| L1 | `XrefService.cs:114, 127` | `affectedHandles` of bind/reload/unload contain xref **names** (`Modified(r.Name)`), not handles; AI resolving them gets `INVALID_HANDLE`. Put names in `summary` only. |
+| L2 | `EntityUpdater.cs:23-24, 271-279, 284` | Unknown `set` keys are warnings (typo `colour` silently ignored even in atomic mode); `rotate {}` without `angleDeg` rotates by 0° and reports `rotate` changed; `scaleBy` message when `about` fails names the wrong cause. |
+| L3 | `BlockService.cs:303 vs 315` | Dynamic `Area` property: outbound converted to mm², inbound not (drawing² expected) — asymmetric. |
+| L4 | `XrefService.cs:88, 94` | Nested-xref detach failure coded `INTERNAL` (counts against stability) though the caller chose it; `detached` counted by parsing warning strings. |
+| L5 | `HatchService.cs:159, 167` | `delete` items carry no per-item `error` (atomic and non-atomic), unlike every other batch — `Settle` not used. |
+| L6 | `EditContext.cs:99` | Duplicate handle in `handles[]` → second `UpgradeOpen` may return `eWasOpenForWrite` → `INTERNAL` → whole atomic batch refused. Unverified; live check `handles:[X, X]` or de-duplicate up front. |
+| L7 | harness | Never ran live: `resolveStatus` (`ResolveXrefs(useThreadEngine: true)` inside the bridge transaction), `associative`, `points` polygon hatch, `hatchStyle`/`patternType`, `manage_annotations batchUpdate`, `setDynamic`/`inspectDynamic` on a real dynamic block, `space: <layout>` for create, dryRun for every op except `create_entities_batch`. Phase criterion "every op ran live with dryRun and real commit" is not met. |
+| L8 | `BlockService.cs` 351 lines, `EntityUpdater.cs` 310 lines | Over the 300-line rule (split blocks: definitions/references vs attributes/dynamic; updater: properties vs geometry/transforms). |
+| L9 | `AnnotationService.cs:33` | `result.Warnings.AddRange(built.Warnings.Where(…))` where `built.Warnings` **is** `result.Warnings` for dimension/mleader — enumerating a list while adding to it; safe only because the filter always rejects. Pass a fresh list. |
+| L10 | `HatchService.cs:36 vs 189` | `boundaryHandles` requires `curve.Closed` (NOT_CLOSED for a visually closed open polyline) while `seedPoint` accepts `PlanShape.Closed` (tolerance) — the same polyline is refused by one path and used by the other. |
+| L11 | `manage_annotations/examples.json` #5 | Title "a line in the list is refused" but both handles are the text handles from earlier examples. |
+| L12 | `EditContext.cs:157-167` | `set.layer = <locked layer>` moves an entity onto a locked layer with only a warning — the entity is then uneditable through this tool. Design choice; document it in the description. |
+
+## Description ⇔ code
+
+| Seed | Mismatch |
+|---|---|
+| `manage_hatches` | `create … layer, colorIndex\|color` — discarded (H1); `atomic` documented generically, used by `delete` only. |
+| `manage_blocks_attributes` | "Unknown tags are warnings" — not for `insert` (M5); `attributesSet` semantics (M5); `limit ≤ 500` unsafe (H3). |
+| `update_entities_batch` / `manage_annotations` | "every item is validated first" — handle + layer only (M1). |
+| `manage_annotations` | delete accepts ATTDEF/TOLERANCE, description omits them (M8). |
+| `manage_xrefs` | ok; note absolute saved path (M9). Examples' nesting (`insert{}`, `annotation{}`, `hatch{}` + top-level `seedPoint`, `attach{}`) matches the code. |
+
+## Positive
+
+Two-phase atomic create with dispose-on-refuse (`BatchEditService.cs:35-41`); per-item indexed errors in input order (`Indexed`); `LayerForCreate` (frozen = warn) vs `LayerAllowsEdit` (frozen = refuse) is the right asymmetry; `HatchService.Create` erases + throws on AutoCAD refusal (no half-built hatch), NOT_CLOSED structured; bind safe-only all-or-nothing, detach reports erased references via `deletedCount`/`affectedHandles`; radial/diameter/angular constructors and argument order correct; dynamic distances/angles converted both ways; `EditResultTests` pin the envelope; the write-seed theory pins `auto` + `destructive` + "Side effects:"; harness covers the batch refusal semantics that matter most.
+
+## Recommended order
+
+1. H1 (one-line move), H2 + M10 (attribute layer check + catch), M4 (structured single-item errors) — same afternoon.
+2. H3: cap attributes at 8 in `findReferences`, pin `maximum` from a measured size, `maxItems` on `handles`, stop duplicating item errors — add the size test.
+3. M1/M2: split `EntityUpdater` into validate + apply; read-open in phase 1.
+4. M3: decide the single-item policy (refuse whole or succeed with warnings) and apply to hatch update / setDynamic / detach.
+5. M6, M9, M7, M8, then the Lows; re-run `run-aec-edit-tools-live.ps1` with the added checks (L7 list).
+
+## Unresolved (user decision)
+
+- M3 policy for single-item ops with a bad key: refuse the whole op (consistent with atomic batches) or apply the valid keys and return `success=true` + warnings? Recommendation: refuse (validate first), since the AI retries on `success=false`.
