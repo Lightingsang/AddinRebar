@@ -66,4 +66,29 @@ public static class HostScriptContracts
     ///     the net48 and net10 sides cannot drift.
     /// </summary>
     public const int NavisHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of an ETABS script. The API is the managed <c>ETABSv1.dll</c> wrapper (namespace
+    ///     <c>ETABSv1</c>: <c>cSapModel</c>, <c>cOAPI</c>, <c>eUnits</c>, …), not the generic <c>CSiAPIv1</c>
+    ///     twin. Nothing from <c>System.Runtime.InteropServices</c>: the COM boundary lives inside the wrapper.
+    /// </summary>
+    public static readonly string[] EtabsImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "ETABSv1",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names an ETABS script may use: `sapModel` is the attached <c>cSapModel</c>, `etabs` the
+    ///     <c>cOAPI</c> root, `units` reports the unit system the bridge forces for the run (kN, mm, °C).
+    ///     Attaching is the bridge's job, so there is no `helper` and no transaction global — ETABS has none.
+    /// </summary>
+    public static readonly string[] EtabsGlobals = { "sapModel", "etabs", "units", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest ETABS run once the user allowed destructive operations (an analysis run, a file open/save
+    ///     cannot be interrupted). Shared by the bridge clamp and the server profile like the Navisworks constant.
+    /// </summary>
+    public const int EtabsHeavyMaxTimeoutSeconds = 600;
 }

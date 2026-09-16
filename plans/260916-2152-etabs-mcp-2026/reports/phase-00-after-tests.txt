@@ -1,0 +1,118 @@
+# phase-00 after — 2026-09-16 23:55
+
+## build revit server
+$ dotnet build HPRebar.Mcp.Server -c Release
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  HPRebar.Mcp.Contracts -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Release\netstandard2.0\HPRebar.Mcp.Contracts.dll
+  HPRebar.Mcp.Server.Core -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core\bin\Release\net10.0\HPRebar.Mcp.Server.Core.dll
+  HPRebar.Mcp.Server -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Mcp.Server\bin\Release\net10.0\HPRebar.Mcp.Server.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.44
+exit=0
+
+## build autocad server
+$ dotnet build HPAutoCad.Mcp.Server -c Release
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  HPRebar.Mcp.Contracts -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Release\netstandard2.0\HPRebar.Mcp.Contracts.dll
+  HPRebar.Mcp.Server.Core -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core\bin\Release\net10.0\HPRebar.Mcp.Server.Core.dll
+  HPAutoCad.Mcp.Server -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPAutoCad\HPAutoCad.Mcp.Server\bin\Release\net10.0\HPAutoCad.Mcp.Server.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.88
+exit=0
+
+## build navis server
+$ dotnet build HPNavis.Mcp.Server -c Release
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  HPRebar.Mcp.Contracts -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Release\netstandard2.0\HPRebar.Mcp.Contracts.dll
+  HPRebar.Mcp.Server.Core -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core\bin\Release\net10.0\HPRebar.Mcp.Server.Core.dll
+  HPNavis.Mcp.Server -> F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\HPNavis.Mcp.Server\bin\Release\net10.0\HPNavis.Mcp.Server.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.72
+exit=0
+
+## snapshot after
+revit    tools= 33  Server.Core.dll sha256=40C1FEE354687D9C
+autocad  tools= 40  Server.Core.dll sha256=40C1FEE354687D9C
+navis    tools= 24  Server.Core.dll sha256=40C1FEE354687D9C
+
+## test McpShared Server.Core
+$ dotnet test HPRebar.Mcp.Server.Core.Tests
+Running tests from F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64)
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64) passed (3s 276ms)
+
+Test run summary: Passed!
+  total: 162
+  failed: 0
+  succeeded: 162
+  skipped: 0
+  duration: 3s 485ms
+exit=0
+
+## test McpShared Bridge.Core net48
+$ dotnet test HPRebar.McpBridge.Core.Net48Tests
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\MainThreadQueueTests.cs(210,15): warning xUnit1051: Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken to allow test cancellation to be more responsive. (https://xunit.net/xunit.analyzers/rules/xUnit1051) [F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\HPRebar.McpBridge.Core.Net48Tests.csproj]
+Running tests from F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\bin\Debug\net48\HPRebar.McpBridge.Core.Net48Tests.exe (net48|x64)
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\bin\Debug\net48\HPRebar.McpBridge.Core.Net48Tests.exe (net48|x64) passed (5s 604ms)
+
+Test run summary: Passed!
+  total: 60
+  failed: 0
+  succeeded: 60
+  skipped: 0
+  duration: 6s 083ms
+exit=0
+
+## test Revit server
+$ dotnet test HPRebar.Mcp.Server.Tests
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Mcp.Server.Tests\Registry\ToolRegistryTests.cs(442,9): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Single instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Mcp.Server.Tests\HPRebar.Mcp.Server.Tests.csproj]
+Running tests from F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Mcp.Server.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Tests.dll (net10.0|x64)
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Mcp.Server.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Tests.dll (net10.0|x64) passed (9s 077ms)
+
+Test run summary: Passed!
+  total: 109
+  failed: 0
+  succeeded: 109
+  skipped: 0
+  duration: 9s 486ms
+exit=0
+
+## test AutoCAD server
+$ dotnet test HPAutoCad.Mcp.Server.Tests
+Running tests from F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPAutoCad\HPAutoCad.Mcp.Server.Tests\bin\Debug\net10.0-windows\HPAutoCad.Mcp.Server.Tests.dll (net10.0|x64)
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPAutoCad\HPAutoCad.Mcp.Server.Tests\bin\Debug\net10.0-windows\HPAutoCad.Mcp.Server.Tests.dll (net10.0|x64) passed (6s 937ms)
+
+Test run summary: Passed!
+  total: 153
+  failed: 0
+  succeeded: 153
+  skipped: 0
+  duration: 7s 333ms
+exit=0
+
+## test Navis server
+$ dotnet test HPNavis.Mcp.Server.Tests
+Running tests from F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\HPNavis.Mcp.Server.Tests\bin\Debug\net10.0\HPNavis.Mcp.Server.Tests.dll (net10.0|x64)
+F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\HPNavis.Mcp.Server.Tests\bin\Debug\net10.0\HPNavis.Mcp.Server.Tests.dll (net10.0|x64) passed (1s 338ms)
+
+Test run summary: Passed!
+  total: 49
+  failed: 0
+  succeeded: 49
+  skipped: 0
+  duration: 1s 809ms
+exit=0

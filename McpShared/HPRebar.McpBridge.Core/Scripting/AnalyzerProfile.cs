@@ -24,6 +24,11 @@ public sealed class AnalyzerProfile
         transactionTypeNames: new[] { "Transaction" },
         transactionMethodNames: new[] { "BeginTransaction" });
 
+    /// <summary>ETABS has no transaction of any kind, so no script can ever "manage" one; the profile exists so the ETABS bridge never borrows Revit's.</summary>
+    public static readonly AnalyzerProfile Etabs = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: Array.Empty<string>());
+
     public AnalyzerProfile(IReadOnlyCollection<string> transactionTypeNames, IReadOnlyCollection<string> transactionMethodNames)
     {
         TransactionTypeNames = new HashSet<string>(transactionTypeNames, StringComparer.Ordinal);

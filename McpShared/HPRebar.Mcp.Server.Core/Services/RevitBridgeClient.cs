@@ -82,7 +82,9 @@ public sealed class RevitBridgeClient : IRevitBridgeClient, IAsyncDisposable
         {
             TryCancelInRevit(id);
             throw new BridgeTimeoutException(
-                $"{_profile.DisplayName} did not answer within {timeout.TotalSeconds:0}s. The timeout is cooperative: {_profile.DisplayName} may still be finishing the script, and nothing has been committed until it does.");
+                $"{_profile.DisplayName} did not answer within {timeout.TotalSeconds:0}s. "
+                + (_profile.TimeoutSemanticsHint
+                   ?? $"The timeout is cooperative: {_profile.DisplayName} may still be finishing the script, and nothing has been committed until it does."));
         }
         catch (OperationCanceledException)
         {
@@ -136,7 +138,9 @@ public sealed class RevitBridgeClient : IRevitBridgeClient, IAsyncDisposable
         {
             await transport.DisposeAsync().ConfigureAwait(false);
             throw new BridgeUnavailableException(
-                $"{_profile.DisplayName} bridge not connected. Open {_profile.DisplayName} {_options.HostVersion} and enable the HP MCP Bridge (pipe {_options.PipeName}).",
+                $"{_profile.DisplayName} bridge not connected. "
+                + (_profile.BridgeNotConnectedHint
+                   ?? $"Open {_profile.DisplayName} {_options.HostVersion} and enable the HP MCP Bridge (pipe {_options.PipeName})."),
                 exception);
         }
 

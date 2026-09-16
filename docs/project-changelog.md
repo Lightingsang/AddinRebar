@@ -2,6 +2,18 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-16 — McpShared: ETABS MCP engine constants, profiles, hints (phase 0 — additive only)
+
+**Bổ sung:** `McpShared/` thêm hằng/profile/DTO/hint cho host thứ tư (ETABS 22, chưa code) — `PipeNaming.EtabsHost`, `JsonRpcMethods.EtabsPrefix`, `HostScriptContracts.Etabs{Imports,Globals,HeavyMaxTimeoutSeconds}`, `ContextResult.Etabs` + `EtabsInfo` (10 field), `ExecuteResult.Snapshot` (tên file snapshot), `AnalyzeRequest.Transaction` (forwarded qua `ToolLifecycleService`), `GuardProfile.Etabs`/`AnalyzerProfile.Etabs`, `IHostProfile.BridgeNotConnectedHint`/`TimeoutSemanticsHint` (hint text), `RequestDispatcher`/`McpBridgeHost` optional `executionDisabledMessage`, `McpServerHost.ConfigureOptions` seed `BridgeOptions.HostVersion` (phần engine không apply trước đó), `ScriptGuard.IsDeniedNamespace` strip tiền tố `global::` (pre-existing bypass, vá làm ETABS guard có tác dụng), `ResultFormatter.FromExecute` strip path khỏi `Snapshot`.
+
+**Xác minh:** `tools/list` 3 host (Revit 33, AutoCAD 37, Navisworks 24) byte-identical sau rebuild; 5 test suite nguyên số: McpShared 96 + 60, HPRebar 109, AutoCAD 58, Navisworks 49 (= 372 cũ); McpShared Core.Tests 128 → **162** (thêm 34 test ETABS: `EtabsProfileTests`, `EtabsBridgeMessagesTests`, `EtabsTestProfile`). Build 0 error. Report: `plans/260916-2152-…/reports/phase-00-…`.
+
+## 2026-09-16 — AutoCAD MCP: AEC phase D — QA/QC (`cad_standards_check`, `audit_aec_drawing`, `create_issue_markup`)
+
+**Bổ sung:** `HPAutoCad.Aec/Standards/` (rule set JSON nhúng `cad-standards.default.json` hoặc file project `rules\cad-standards.json` qua `RuleFileLocator` dùng chung; checker thuần trên record + `DrawingTables`: layer_naming, entity_layer, layer_zero, color/linetype/lineweight_override, text_style, text_height, dim_style, block_naming, unused_layer → `STD-nnnn` thứ tự ổn định), `Issues/AuditIssue` (record chung, `Ordered` critical → warning → info, `AtLeast`), `Cad/AuditService` (một query, section geometry + standards, giữ id GEO-/STD-), `Cad/IssueMarkupService` (circle/rectangle/revcloud + MLeader `<id>: <mô tả>` trên layer `HP-MCP-ISSUES` tự tạo, màu theo severity, hai pha), `AecTools.Audit`; record thêm `Style`, `TextHeightMm`. 3 seed → server 40 tool.
+
+**Xác minh:** build 0 warning; `HPAutoCad.Aec.Tests` 141/141; `HPAutoCad.Mcp.Server.Tests` 153/153 (28 seed); live `run-aec-tools-live.ps1` 63/63 (bước T) + `run-aec-edit-tools-live.ps1` 67/67 (bước K). Report `plans/260916-1140-…/reports/phase-D-qaqc-live.md`.
+
 ## 2026-09-16 — AutoCAD MCP: AEC phase C — 6 tool ghi (`create_entities_batch`, `update_entities_batch`, `manage_blocks_attributes`, `manage_annotations`, `manage_hatches`, `manage_xrefs`)
 
 **Bổ sung:** `HPAutoCad.Aec/Model/EditResult` (edit envelope + `ItemOutcome` theo thứ tự input), `Cad/EditContext` (layer guard LAYER_LOCKED/LAYER_FROZEN, space, điểm mm, thuộc tính chung), `EntityFactory` / `EntityUpdater` / `BatchEditService` (atomic: validate hết → một item lỗi từ chối cả batch, không ghi gì; lỗi lúc ghi ném → bridge abort; `atomic:false` ghi phần hợp lệ), `BlockService` (định nghĩa, reference, attribute, dynamic property mm/độ), `AnnotationService` (text, mtext, dimension linear/aligned/angular/radial/diameter, mleader; delete chỉ annotation), `HatchService` (boundaryHandles / polygon / seedPoint, NOT_CLOSED, detectBoundary hình học), `XrefService` (list/resolveStatus/attach/detach/reload/unload/bind an toàn), `AecTools.Editing`; 6 seed `transaction: auto`, mô tả nêu side effect + dryRun. Server 37 tool. Harness mới `run-aec-edit-tools-live.ps1` (40 check).

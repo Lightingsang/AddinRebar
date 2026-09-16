@@ -87,6 +87,12 @@ public sealed class HostProfile : IHostProfile
         init => _cliExecutable = value;
     }
 
+    /// <summary>Null (the generic add-in sentence) unless a host sets it; see <see cref="IHostProfile.BridgeNotConnectedHint"/>.</summary>
+    public string? BridgeNotConnectedHint { get; init; }
+
+    /// <summary>Null (the generic rollback sentence) unless a host sets it; see <see cref="IHostProfile.TimeoutSemanticsHint"/>.</summary>
+    public string? TimeoutSemanticsHint { get; init; }
+
     public string PipeName(int version) => PipeNaming.For(HostId, version);
 
     public string Method(string suffix) => JsonRpcMethods.For(MethodPrefix, suffix);
@@ -98,6 +104,6 @@ public sealed class HostProfile : IHostProfile
         DefaultVersion = DefaultVersion, ValidVersions = ValidVersions, MethodPrefix = MethodPrefix, ExecuteToolName = ExecuteToolName,
         ContextToolName = ContextToolName, ResourceScheme = ResourceScheme, Categories = Categories, CoreToolNames = CoreToolNames,
         ScriptImports = ScriptImports, ScriptContractSummary = ScriptContractSummary, HostAssembly = assembly, CliExecutable = CliExecutable,
-        MaxTimeoutSeconds = MaxTimeoutSeconds,
+        MaxTimeoutSeconds = MaxTimeoutSeconds, BridgeNotConnectedHint = BridgeNotConnectedHint, TimeoutSemanticsHint = TimeoutSemanticsHint,
     };
 }

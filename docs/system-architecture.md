@@ -240,6 +240,10 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 
 ---
 
+# MCP Bridge Architecture — Multi-Host Support
+
+The `McpShared/` engine supports three verified MCP hosts (Revit 2026, AutoCAD 2026, Navisworks Manage 2026) and a fourth host in planning (ETABS 22, out-of-process COM, bridge = standalone app). All hosts share the same engine constants, profiles, and DTO contracts via `HPRebar.Mcp.Contracts`, pipe routing via method suffix (`revit.execute` ≡ `autocad.execute` ≡ `navis.execute` ≡ `etabs.execute`), and the registry system. Phase 0 (2026-09-16) introduced ETABS engine constants (`PipeNaming.EtabsHost`, `GuardProfile.Etabs`, `ContextResult.Etabs` with `EtabsInfo`, `HostScriptContracts.EtabsImports/Globals`, `IHostProfile` hints) with no `HPEtabs/` folder yet — phases 1–4 pending.
+
 # AutoCAD MCP Bridge — Server Architecture (Phases 1–4, 2026-09-14)
 
 ## Diagram — Stdio Server to Bridge
@@ -282,9 +286,9 @@ Loader → Ribbon tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)
 
 Same one-button surface as the Revit (`HPRebar` ▸ `MCP` ▸ `MCP Bridge`) and Navisworks (`HPNavis` ▸ `MCP` ▸ `MCP Bridge`) bridges. Bundle 0.2.0 (2026-09-14, plan 260914-2204) had three panels and ten buttons; every one of them duplicated a control of the status window, so 0.3.0 (2026-09-16) keeps only the window opener: `Ribbon/McpRibbonTab.cs` (one panel, one button, the workspace/COLORTHEME/ItemInitialized re-creation logic), `Ribbon/RibbonIcons.cs` (one frozen `DrawingImage`, even coordinates so 16 px = ½ of 32 px), `Ribbon/RibbonCommandHandler.cs`; `RibbonStatusPresenter.cs` and the bridge's `BridgeEntry.Ribbon.cs` (entry points `status.subscribe`, `copyLastScript`, `autoStart.get/set`, `path`) are gone — the bridge exposes `show/start/stop/status/dispose` only. Tab lifecycle unchanged: created once the Ribbon exists, re-created after a workspace switch, rebuilt after a theme change (`SystemVariableChanged` → `Application.Idle` → `EnsureCreated` + `FindTab`), removed on `Terminate`. No CUIx modification. Verified 2026-09-16: `run-ribbon-check.ps1` 12/12 + 1 MANUAL (icon screenshots per theme, inspected crisp); regressions bridge 21/21, server 22/22.
 
-## AEC Engine — `HPAutoCad.Aec` (plan 260916-1140, phases A–C 2026-09-16)
+## AEC Engine — `HPAutoCad.Aec` (plan 260916-1140, phases A–D 2026-09-16)
 
-Phase B adds `Classification/` (rule-driven AEC types, `AecClassifier`) and `Relationships/` (`RelationshipDetector`); phase C adds the write side: `Model/EditResult` (edit envelope), `Cad/EditContext` (layer guard, space, points, properties), `EntityFactory` / `EntityUpdater` / `BatchEditService` (atomic = validate all, refuse on one invalid item, throw on a write failure so the bridge aborts), `BlockService`, `AnnotationService`, `HatchService`, `XrefService`, facade `AecTools.Editing`. Write seeds are `transaction: auto`; `dryRun` on the request rolls the bridge's transaction back. Read ops under a write tool return the analysis envelope, write ops the edit envelope.
+Phase B adds `Classification/` (rule-driven AEC types, `AecClassifier`) and `Relationships/` (`RelationshipDetector`); phase C adds the write side: `Model/EditResult` (edit envelope), `Cad/EditContext` (layer guard, space, points, properties), `EntityFactory` / `EntityUpdater` / `BatchEditService` (atomic = validate all, refuse on one invalid item, throw on a write failure so the bridge aborts), `BlockService`, `AnnotationService`, `HatchService`, `XrefService`, facade `AecTools.Editing`. Write seeds are `transaction: auto`; `dryRun` on the request rolls the bridge's transaction back. Read ops under a write tool return the analysis envelope, write ops the edit envelope. Phase D adds QA/QC: `Standards/` (rule set JSON + a pure checker over records and drawing tables), the shared `Issues/AuditIssue` with a stable severity order, `Cad/AuditService` (one query, several sections, ids kept) and `Cad/IssueMarkupService` (markers + leaders on a markup layer, two-phase).
 
 ### Phase A
 

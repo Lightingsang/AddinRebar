@@ -73,6 +73,24 @@ public sealed class GuardProfile
             "Autodesk.Navisworks.Api.Automation", "Autodesk.Navisworks.Api.Interop", "Autodesk.Navisworks.Api.ComApi", "Autodesk.Navisworks.Api.Data",
         });
 
+    /// <summary>
+    ///     ETABS (out-of-process COM through the managed <c>ETABSv1.dll</c> wrapper; the bridge is a separate desktop
+    ///     app). Denied: the <c>Helper</c> class (attaching to or starting an ETABS instance is the bridge's job, and
+    ///     every <c>cHelper</c> member is unreachable once the class cannot be named); the <c>cOAPI</c> members that
+    ///     start, exit, hide or re-register the application; the bridge's own assembly and the engine's host layer
+    ///     (a script only needs <c>HPRebar.McpBridge.Core.Scripting</c>); modal UI. Reflection, interop and process
+    ///     control are already on the base list. Writing and destructive OAPI members are not listed here: the
+    ///     ETABS bridge classifies them per run behind its snapshot and its second user opt-in.
+    /// </summary>
+    public static readonly GuardProfile Etabs = new GuardProfile(
+        "ETABS",
+        deniedIdentifiers: new[] { "Helper", "MessageBox" },
+        deniedMembers: new[]
+        {
+            "ApplicationExit", "ApplicationStart", "Hide", "Unhide", "SetAsActiveObject", "UnsetAsActiveObject", "InternalExec",
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPEtabs.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
     public GuardProfile(
         string hostName,
         IReadOnlyCollection<string>? deniedIdentifiers = null,

@@ -66,6 +66,20 @@ public interface IHostProfile
     /// </summary>
     int MaxTimeoutSeconds { get; }
 
+    /// <summary>
+    ///     What the AI should tell the user when the pipe cannot be opened. Null keeps the generic sentence
+    ///     ("Open {DisplayName} {version} and enable the HP MCP Bridge"), which assumes the bridge is an add-in
+    ///     inside the host; a host whose bridge is a separate program names that program instead.
+    /// </summary>
+    string? BridgeNotConnectedHint { get; }
+
+    /// <summary>
+    ///     What a timeout means for this host. Null keeps the generic sentence ("nothing has been committed
+    ///     until it does"), true for hosts that roll a timed-out run back; a host with no rollback (ETABS)
+    ///     says instead that changes made before the timeout persisted.
+    /// </summary>
+    string? TimeoutSemanticsHint { get; }
+
     string PipeName(int version);
 
     /// <summary>`Method("execute")` → `revit.execute` / `autocad.execute`.</summary>

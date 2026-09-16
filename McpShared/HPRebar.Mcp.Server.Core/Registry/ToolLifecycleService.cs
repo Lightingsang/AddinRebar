@@ -42,12 +42,16 @@ public sealed class ToolLifecycleService
         _logger = logger;
     }
 
-    /// <summary>Guard + compile + literals from the bridge; null when the host is not reachable (validation degrades to warnings).</summary>
-    public async Task<AnalyzeResult?> AnalyzeAsync(string code, CancellationToken cancellationToken)
+    /// <summary>
+    ///     Guard + compile + literals from the bridge; null when the host is not reachable (validation degrades to
+    ///     warnings). <paramref name="transaction"/> is the mode a proposal declares, so a bridge that tells reads
+    ///     from writes statically can refuse a `none` tool that writes; ad-hoc callers leave it null.
+    /// </summary>
+    public async Task<AnalyzeResult?> AnalyzeAsync(string code, CancellationToken cancellationToken, string? transaction = null)
     {
         try
         {
-            return await _bridge.SendAsync<AnalyzeResult>(_bridge.Profile.Method(JsonRpcMethods.AnalyzeSuffix), new AnalyzeRequest(code), AnalyzeTimeout, null, cancellationToken).ConfigureAwait(false);
+            return await _bridge.SendAsync<AnalyzeResult>(_bridge.Profile.Method(JsonRpcMethods.AnalyzeSuffix), new AnalyzeRequest(code, transaction), AnalyzeTimeout, null, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception exception) when (exception is BridgeUnavailableException or BridgeTimeoutException or BridgeErrorException)
         {
@@ -84,7 +88,7 @@ public sealed class ToolLifecycleService
             Host = _bridge.Profile.HostId,
         };
 
-        var analysis = string.IsNullOrWhiteSpace(record.Code) ? null : await AnalyzeAsync(record.Code, cancellationToken).ConfigureAwait(false);
+        var analysis = string.IsNullOrWhiteSpace(record.Code) ? null : await AnalyzeAsync(record.Code, cancellationToken, record.Transaction).ConfigureAwait(false);
         var report = ToolValidator.Validate(record, analysis, _manager.Tools, input.NewVersion, _bridge.Profile);
         if (!report.IsValid)
             return new ProposeOutcome(false, report, null, "Fix the errors and call propose_tool again.");

@@ -97,7 +97,14 @@ public static class McpServerHost
 
         services
             .AddOptions<BridgeOptions>()
-            .Configure(options => options.HostId = profile.HostId)
+            // The profile's default version seeds HostVersion before binding: BridgeOptions defaults to 2026, which
+            // only matched the first three hosts by coincidence; a host numbered differently (ETABS 22) would fail
+            // validation whenever appsettings.json and the env var are both absent. Configuration still overrides.
+            .Configure(options =>
+            {
+                options.HostId = profile.HostId;
+                options.HostVersion = profile.DefaultVersion;
+            })
             .Bind(configuration.GetSection(BridgeOptions.SectionName))
             .PostConfigure(options => options.HostId = profile.HostId)
             .Validate(options => options.IsValid(profile.ValidVersions), "Bridge options out of range; see BridgeOptions.IsValid")

@@ -25,15 +25,21 @@ public sealed class RequestDispatcher
 
     private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
+    private readonly string? _executionDisabledMessage;
 
     /// <param name="hostVersion">Major version of the host application, e.g. "2026".</param>
     /// <param name="hostName">Display name used in messages, e.g. "Revit" or "AutoCAD".</param>
-    public RequestDispatcher(IBridgeExecutor executor, BridgeSettings settings, string hostVersion, string hostName = "Revit")
+    /// <param name="executionDisabledMessage">
+    ///     Replaces the opt-in refusal text, which otherwise tells the user to look for the bridge window "inside"
+    ///     the host — true for an add-in, wrong for a bridge that is a separate program. Null keeps the text.
+    /// </param>
+    public RequestDispatcher(IBridgeExecutor executor, BridgeSettings settings, string hostVersion, string hostName = "Revit", string? executionDisabledMessage = null)
     {
         _executor = executor;
         _settings = settings;
         HostVersion = hostVersion;
         HostName = hostName;
+        _executionDisabledMessage = executionDisabledMessage;
     }
 
     public async Task HandleLineAsync(string line, NdjsonPipeWriter writer, CancellationToken cancellationToken)
@@ -131,7 +137,7 @@ public sealed class RequestDispatcher
 
         if (!_settings.ExecutionEnabled)
             return JsonRpcEnvelope.Failure(id, BridgeErrorCode.ExecutionDisabled,
-                $"Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HP MCP Bridge window inside {HostName}.");
+                _executionDisabledMessage ?? $"Code execution is disabled. Ask the user to tick 'Allow AI code execution' in the HP MCP Bridge window inside {HostName}.");
 
         if (_executor.IsBusy)
             return JsonRpcEnvelope.Failure(id, BridgeErrorCode.Busy, $"Another script is still running in {HostName}. Wait for it to finish or call cancel_execution.");

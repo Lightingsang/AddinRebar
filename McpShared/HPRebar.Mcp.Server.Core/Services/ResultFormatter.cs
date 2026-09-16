@@ -27,6 +27,8 @@ public sealed class ResultFormatter
     public CallToolResult FromExecute(ExecuteResult result)
     {
         if (result.Message is not null) result.Message = StripPaths(result.Message);
+        // The snapshot is a file name by contract; a bridge that sends a full path anyway must not leak it here.
+        if (result.Snapshot is not null) result.Snapshot = Path.GetFileName(result.Snapshot);
 
         if (result.Diagnostics.Count > 0)
         {

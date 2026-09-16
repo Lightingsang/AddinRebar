@@ -67,6 +67,10 @@ public static class ScriptGuard
 
     private static bool IsDeniedNamespace(string dotted, GuardProfile profile)
     {
+        // `global::System.IO.File` names the same namespace as `System.IO.File`; without this the alias would slip
+        // past every prefix below, and `File` sits in member position where the identifier check does not look.
+        if (dotted.StartsWith("global::", StringComparison.Ordinal)) dotted = dotted.Substring("global::".Length);
+
         if (AllowedQualifiedPrefixes.Any(p => dotted == p || dotted.StartsWith(p + ".", StringComparison.Ordinal))) return false;
 
         return DeniedNamespaces.Concat(profile.DeniedNamespaces)

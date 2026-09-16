@@ -2,8 +2,13 @@ using System.Collections.Generic;
 
 namespace HPRebar.Mcp.Contracts.Messages;
 
-/// <summary>Parameters of `revit.analyze`: look at a script without running it.</summary>
-public sealed record AnalyzeRequest(string Code);
+/// <summary>
+///     Parameters of `revit.analyze`: look at a script without running it. <see cref="Transaction"/> is the
+///     mode a proposed tool declares (`none` / `auto` / `manual`); a host whose reads and writes are told apart
+///     statically (ETABS) refuses a `none` declaration on code that writes. Null when unknown; bridges that do
+///     not care ignore it.
+/// </summary>
+public sealed record AnalyzeRequest(string Code, string? Transaction = null);
 
 /// <summary>
 ///     Static facts about a script, computed on the bridge's pipe thread (guard, compile, syntax walk) —

@@ -19,6 +19,12 @@ public static class PipeNaming
     /// <summary>Navisworks Manage; pipe <c>hpnavis-mcp-{version}</c> — the same name the generic branch below produces.</summary>
     public const string NavisHost = "navis";
 
+    /// <summary>
+    ///     CSI ETABS; pipe <c>hpetabs-mcp-{version}</c> where the version is CSI's own major number (22 for ETABS 22),
+    ///     not a year — again the name the generic branch below produces.
+    /// </summary>
+    public const string EtabsHost = "etabs";
+
     /// <summary>Revit pipe, e.g. <c>hprebar-mcp-r2026</c>. Unchanged since the first release.</summary>
     public static string For(int revitVersion) => Prefix + revitVersion;
 
@@ -37,6 +43,7 @@ public static class PipeNaming
             RevitHost => For(version),
             AutocadHost => "hpautocad-mcp-" + version,
             NavisHost => "hpnavis-mcp-" + version,
+            EtabsHost => "hpetabs-mcp-" + version,
             _ => "hp" + key + "-mcp-" + version,
         };
     }

@@ -77,9 +77,12 @@ public sealed class FakeRevitExecutor : IBridgeExecutor
         Members = [new MemberSignature("property", "ElementId Id { get; }")],
     };
 
+    public AnalyzeRequest? LastAnalyzeRequest { get; private set; }
+
     /// <summary>Real syntax analysis and guard; "compiles" unless the code carries the COMPILE_ERROR marker (no Roslyn compile in the fake).</summary>
     public AnalyzeResult Analyze(AnalyzeRequest request)
     {
+        LastAnalyzeRequest = request;
         var result = HPRebar.McpBridge.Core.Scripting.ScriptAnalyzer.Analyze(request.Code);
         result.GuardViolations = HPRebar.McpBridge.Core.Scripting.ScriptGuard.Check(request.Code);
         var broken = request.Code.Contains("COMPILE_ERROR", StringComparison.Ordinal);

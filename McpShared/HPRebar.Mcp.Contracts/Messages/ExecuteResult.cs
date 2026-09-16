@@ -43,6 +43,13 @@ public sealed class ExecuteResult
     /// <summary>Set by the server: a nudge when the run looks worth packaging as a tool.</summary>
     public string? Hint { get; set; }
 
+    /// <summary>
+    ///     File name (never a directory) of the model copy a bridge took before a writing run, for hosts that
+    ///     have no transaction to roll back (ETABS). Null — and omitted from the JSON — for every other host
+    ///     and for runs that did not write; the bridge window shows where the copies live.
+    /// </summary>
+    public string? Snapshot { get; set; }
+
     public static ExecuteResult Failure(string message, bool rolledBack = false, bool timedOut = false) => new ExecuteResult
     {
         IsError = true,

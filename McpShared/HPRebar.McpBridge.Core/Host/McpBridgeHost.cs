@@ -32,8 +32,9 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
     /// <param name="hostVersion">Major version of the host, e.g. "2026".</param>
     /// <param name="hostName">Display name ("Revit", "AutoCAD") for the window and error messages.</param>
     /// <param name="methodPrefix">Wire prefix of the notifications this bridge sends, e.g. "autocad.".</param>
+    /// <param name="executionDisabledMessage">Opt-in refusal text for a bridge that is not an add-in inside the host; null keeps the generic one.</param>
     public McpBridgeHost(IBridgeExecutor executor, BridgeSettings settings, BridgeSettingsStore store,
-        string hostVersion, string pipeName, string hostName, string methodPrefix)
+        string hostVersion, string pipeName, string hostName, string methodPrefix, string? executionDisabledMessage = null)
     {
         _executor = executor;
         _settings = settings;
@@ -43,7 +44,7 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
         PipeName = pipeName;
         _statusMethod = JsonRpcMethods.For(methodPrefix, JsonRpcMethods.StatusSuffix);
 
-        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, hostVersion, hostName));
+        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, hostVersion, hostName, executionDisabledMessage));
         _listener.StateChanged += OnListenerStateChanged;
         _listener.Faulted += OnListenerFaulted;
         _executor.StateChanged += OnListenerStateChanged;

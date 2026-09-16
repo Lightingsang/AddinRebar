@@ -26,6 +26,9 @@ public sealed class ContextResult
     /// <summary>Navisworks-only facts; null for the other hosts (and omitted from the JSON).</summary>
     public NavisInfo? Navis { get; set; }
 
+    /// <summary>ETABS-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public EtabsInfo? Etabs { get; set; }
+
     public string? DocTitle { get; set; }
 
     public string? DocPath { get; set; }
@@ -90,6 +93,27 @@ public sealed record NavisInfo(
 
 /// <summary>One appended model: file name, the unit its geometry was authored in, and the source it came from.</summary>
 public sealed record ModelSummary(string FileName, string Units, string? SourceFileName);
+
+/// <summary>
+///     What an ETABS script needs to know that has no counterpart elsewhere. The bridge is a separate desktop
+///     app attached over COM to one running ETABS: whether it is attached and to which process, the OAPI
+///     wrapper version, whether the model is locked (definitions cannot change until it is unlocked, which
+///     discards results), the unit system the user's API session is in and the one the model is stored in
+///     (the bridge forces kN/mm for every run and restores this afterwards), whether the user allowed
+///     destructive operations, and coarse object counts. Path, title, host version and busy state travel in
+///     the common <see cref="ContextResult"/> fields. Version and units are null while nothing is attached.
+/// </summary>
+public sealed record EtabsInfo(
+    bool IsAttached,
+    int AttachedPid,
+    string? OapiVersion,
+    bool IsLocked,
+    string? PresentUnits,
+    string? DatabaseUnits,
+    bool DestructiveOperationsEnabled,
+    int PointCount,
+    int FrameCount,
+    int AreaCount);
 
 public sealed record ViewInfo(long Id, string Name, string Type);
 
