@@ -32,7 +32,11 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   in one severity order, minSeverity, paging, sections). Phase E adds step N: `structural_detect_grids` (a stub merged into grid A, bubble 2 as a block
   labelled by its attribute, 4 intersections, spacing), `structural_detect_members` (4 drawn columns + a `COL-400` block measured without its MARK attribute and
   marked by it, beams with axes, slab, openings), connectivity (7 mm gap at 5 mm), column alignment (10 mm off grid B at 5 mm; the far block column has no grid),
-  opening conflicts (through / outside). 68 checks. 2026-09-17: 68/68 (2026-09-16 phase D: 63/63).
+  opening conflicts (through / outside). Phase F adds step R: `arch_detect_rooms` (the closed and the 12 mm-open outlines, the 2 × 1 m rectangle, and a
+  two-room single-line plan whose 900 mm doorways are bridged — `PHONG KHACH` / `101` read from the texts, `B01` not a number, the right room open by a
+  250 mm gap; roomGap 5, maxOpeningMm 800, maxGapMm above minOpeningMm refused), `arch_room_boundary_check` (12 open ends, one boundary_gap between
+  the ends, closed gaps, openings, unlabelled rooms), `arch_generate_area_schedule` (by name, percentages, unknown groupBy refused). 75 checks.
+  2026-09-17: 75/75 (phase E: 68/68; 2026-09-16 phase D: 63/63).
 - `run-aec-edit-tools-live.ps1` + `aec-edit-tools-live.py` — the AEC write tools (phases C–D) through the same launcher (`run-aec-tools-live.ps1 -Script`)
   on their own output folder: a scene with a locked and a frozen layer, a room, a column, an open outline, a text and an attributed block;
   `create_entities_batch` (5 types in one atomic batch, atomic refusal on a locked layer with nothing created, non-atomic partial, frozen
@@ -48,8 +52,11 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   from audit issues on a created markup layer coloured by severity, a rectangle around two handles, dryRun, atomic refusal, locked markup layer;
   after the phase-D review: table findings skipped, unresolvable handles refused, structured LAYER_LOCKED, a paper-space finding drawn on its layout, radius kept at a
   location, `filter.space` alone a filter; phase E step M: `structural_tag_members` preview / apply / overwrite in place with `prefixes` (3 texts modified, same
-  handles) / idempotence / foreign marks under the defaults, `structural_generate_member_schedule` refused on a locked layer (nothing created), rows, ACAD_TABLE.
-  78 checks. 2026-09-17: 78/78 (2026-09-16 phase D: 67/67 (phase C round: 62/62 (first run 40/40, before the review: 33/40:
+  handles) / idempotence / foreign marks under the defaults, `structural_generate_member_schedule` refused on a locked layer (nothing created), rows, ACAD_TABLE;
+  phase F step A: `arch_create_room_tags` preview / dryRun / locked layer / unknown placeholder / block attribute the block lacks (refused before any write) /
+  block preview / apply (one MTEXT at the label point, `written` not the plan) / detect after tagging reads the tag back as the name, `arch_auto_dimension_plan`
+  plan / unknown rule / apply (2 aligned dimensions measuring the room's bounds).
+  89 checks. 2026-09-17: 89/89 (phase E: 78/78; 2026-09-16 phase D: 67/67 (phase C round: 62/62 (first run 40/40, before the review: 33/40:
   `Hatch.Area` is not readable in the creating transaction → boundary fallback; a top-level `using var` compiles in the seed test's method
   wrapper but not as a Roslyn script).
 - `run-ribbon-check.ps1` — the Ribbon tab through UI Automation (AdWindows exposes a tab header as a Button whose

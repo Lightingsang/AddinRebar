@@ -1,4 +1,3 @@
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using HPAutoCad.Aec.Model;
@@ -126,7 +125,7 @@ public static partial class StructuralWriteService
             }
 
             target ??= (BlockTableRecord)cx.Tr.GetObject(spaceId, OpenMode.ForWrite);
-            if (layerId.IsNull) layerId = EnsureLayer(cx, layer, out layerCreated);
+            if (layerId.IsNull) layerId = cx.EnsureLayer(layer, DefaultTagColor, out layerCreated);
             var at = new Point3d(cx.ToDrawing(tag.Member.CenterMm.X), cx.ToDrawing(tag.Member.CenterMm.Y), 0);
             var text = new DBText();
             text.SetDatabaseDefaults(cx.Db);
@@ -164,17 +163,4 @@ public static partial class StructuralWriteService
     };
 
     private static ScriptArgs Values(string mark) => new(System.Text.Json.JsonSerializer.SerializeToElement(new Dictionary<string, string> { [MarkAttributeTag] = mark }));
-
-    private static ObjectId EnsureLayer(EditContext cx, string name, out bool created)
-    {
-        var table = (LayerTable)cx.Tr.GetObject(cx.Db.LayerTableId, OpenMode.ForRead);
-        created = false;
-        if (table.Has(name)) return table[name];
-        table.UpgradeOpen();
-        var record = new LayerTableRecord { Name = name, Color = Color.FromColorIndex(ColorMethod.ByAci, DefaultTagColor) };
-        var id = table.Add(record);
-        cx.Tr.AddNewlyCreatedDBObject(record, true);
-        created = true;
-        return id;
-    }
 }

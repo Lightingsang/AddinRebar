@@ -8,7 +8,7 @@
   // match P-SANR-FIXT; "*TRUC*" would match STRUCT. Layer families: AIA/NCS (S-COL, A-WALL, M-PIPE…), plain English (*COLUMN*)
   // and Vietnamese (COT, DAM, TUONG, SAN, ONG, CUA…). When two rules can both match (door vs window block), the more specific
   // one carries the higher confidence so ties never fall back to file order.
-  "version": 2,
+  "version": 3,
   "rules": [
     { "id": "s-column-outline", "aecType": "StructuralColumn", "confidence": 0.9,
       "layers": ["S-COL*", "S-COLS*", "*COLUMN*", "*-COL", "*-COL-*", "*_COL", "*_COL_*", "COL", "COL-*", "COL_*", "COT", "COT-*", "COT_*", "*-COT", "*-COT-*", "*_COT", "*_COT_*"],
@@ -41,7 +41,7 @@
 
     { "id": "a-wall-run", "aecType": "ArchitecturalWall", "confidence": 0.85,
       "layers": ["A-WALL*", "*-WALL", "*-WALL-*", "*_WALL*", "WALL*", "TUONG", "TUONG-*", "TUONG_*", "*-TUONG", "*-TUONG-*", "*_TUONG*"],
-      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "wall layer" },
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC", "ELLIPSE"], "evidence": "wall layer" },
     { "id": "a-door-arc", "aecType": "Door", "confidence": 0.85,
       "layers": ["A-DOOR*", "*-DOOR", "*-DOOR-*", "*_DOOR*", "DOOR*", "CUA", "CUA-DI*", "CUADI*", "*-CUA", "*-CUA-DI*", "*_CUA-DI*", "*_CUADI*"],
       "types": ["ARC", "LWPOLYLINE", "LINE"], "evidence": "door swing on a door layer" },

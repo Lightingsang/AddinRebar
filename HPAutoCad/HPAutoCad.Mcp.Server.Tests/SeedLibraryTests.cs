@@ -63,15 +63,15 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_thirty_five_seeds_are_embedded()
+    public void All_forty_seeds_are_embedded()
     {
         // 12 drawing/data seeds + 14 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
         // relationships, standards, audit, grids, members, connectivity, alignment, openings) + 9 AEC write seeds (batch create/update,
         // blocks + attributes, annotations, hatches, xrefs, issue markup, member tagging, member schedule)
         var seeds = LoadSeeds();
-        Assert.Equal(35, seeds.Count);
+        Assert.Equal(40, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(20, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(23, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
     }
 
     [Theory]
@@ -89,6 +89,9 @@ public sealed class SeedLibraryTests
     [InlineData("structural_member_connectivity_check")]
     [InlineData("structural_column_alignment_check")]
     [InlineData("structural_opening_conflict_check")]
+    [InlineData("arch_detect_rooms")]
+    [InlineData("arch_room_boundary_check")]
+    [InlineData("arch_generate_area_schedule")]
     public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
     {
         // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
@@ -108,6 +111,8 @@ public sealed class SeedLibraryTests
     [InlineData("create_issue_markup")]
     [InlineData("structural_tag_members")]
     [InlineData("structural_generate_member_schedule")]
+    [InlineData("arch_create_room_tags")]
+    [InlineData("arch_auto_dimension_plan")]
     public void Aec_write_seed_is_a_thin_shim_that_documents_its_side_effects(string name)
     {
         // Write seeds run under the bridge's auto transaction (dryRun rolls back), read every declared arg, and say what they change.
@@ -141,6 +146,9 @@ public sealed class SeedLibraryTests
     [InlineData("structural_member_connectivity_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
     [InlineData("structural_column_alignment_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
     [InlineData("structural_opening_conflict_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("arch_detect_rooms", HPAutoCad.Aec.AecTools.MaxRoomLimit)]
+    [InlineData("arch_room_boundary_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("arch_generate_area_schedule", HPAutoCad.Aec.AecTools.MaxAreaRowLimit)]
     public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
     {
         // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.
@@ -344,5 +352,20 @@ public sealed class SeedLibraryTests
         if (string.IsNullOrEmpty(root)) root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
         var path = Path.Combine(root, package, PackageVersion, "lib", "net8.0", file);
         return File.Exists(path) ? path : null;
+    }
+
+    [Fact]
+    public void Architecture_seeds_share_the_detection_block_so_room_ids_agree()
+    {
+        string[] tools = ["arch_detect_rooms", "arch_room_boundary_check", "arch_create_room_tags", "arch_generate_area_schedule", "arch_auto_dimension_plan"];
+        foreach (var name in tools)
+        {
+            var seed = LoadSeeds().Single(s => s.Name == name);
+            var properties = seed.Tool.GetProperty("inputSchema").GetProperty("properties");
+            foreach (var key in new[] { "filter", "ruleSet", "tolerance", "detection", "maxCandidates" })
+                Assert.True(properties.TryGetProperty(key, out _), $"{name} lacks {key}");
+            var detection = properties.GetProperty("detection").GetProperty("properties").EnumerateObject().Select(p => p.Name).Order().ToArray();
+            Assert.Equal(HPAutoCad.Aec.AecTools.DetectionKeys.Order(), detection);
+        }
     }
 }

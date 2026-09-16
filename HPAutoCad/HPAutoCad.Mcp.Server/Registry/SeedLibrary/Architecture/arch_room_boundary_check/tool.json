@@ -1,0 +1,117 @@
+{
+  "name": "arch_room_boundary_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "architecture",
+    "room",
+    "boundary",
+    "gap",
+    "check"
+  ],
+  "title": "Check room boundaries",
+  "description": "Read-only. Reports what keeps the walls from reading as rooms: open_boundary (critical — a wall end that reaches nothing, no wall within detection.maxGapMm), boundary_gap (warning — one per gap: a wall end within maxGapMm of another wall but farther than tolerance.roomGap; both handles, the location between the ends, valueMm = the gap), boundary_gap_closed and opening_assumed (info — the gaps the room detection closed and the doorways it bridged, so the drawing itself is still open there), room_overlap (warning — explicit room outlines whose interiors overlap; a shared wall edge or corner is how outlines tile and is not reported), room_inside_room (info — one outline inside another; both are scheduled), duplicate_room (warning), unlabelled_room (info). Issues carry the shared audit fields (issueId ARC-nnn, category architecture, severity critical|warning|info, handles, locationMm, valueMm, description, suggestedAction) in severity order and can be passed to create_issue_markup. Same detection block as arch_detect_rooms. Millimetres. Returns the analysis envelope (max 100 issues per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Wall and room layers are recognised by the classification rule set (A-WALL, WALL, TUONG…, A-ROOM, PHONG…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap — roomGap is the gap the loop finder closes; keep it below detection.maxGapMm)"
+      },
+      "labels": {
+        "type": "object",
+        "properties": {
+          "numberPattern": {
+            "type": "string"
+          },
+          "departmentPattern": {
+            "type": "string"
+          },
+          "ignorePattern": {
+            "type": "string"
+          }
+        },
+        "description": "How texts inside a room are read: numberPattern (regex the room number matches, default ^[A-Z]{0,2}-?\\d{1,4}[A-Z]?$), departmentPattern (regex; its first group is the department), ignorePattern (area annotations, default numbers with m2/m²); the longest other text is the name"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "maxGapMm": {
+            "type": "number"
+          },
+          "minOpeningMm": {
+            "type": "number"
+          },
+          "maxOpeningMm": {
+            "type": "number"
+          },
+          "minAreaMm2": {
+            "type": "number"
+          },
+          "minWidthMm": {
+            "type": "number"
+          },
+          "maxWallThicknessMm": {
+            "type": "number"
+          }
+        },
+        "description": "How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      }
+    }
+  }
+}

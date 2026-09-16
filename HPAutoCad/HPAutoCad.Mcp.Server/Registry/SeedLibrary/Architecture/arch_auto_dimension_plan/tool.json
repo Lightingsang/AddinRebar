@@ -1,0 +1,157 @@
+{
+  "name": "arch_auto_dimension_plan",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "architecture",
+    "dimension",
+    "annotation",
+    "rules"
+  ],
+  "title": "Auto-dimension a plan by rules",
+  "description": "Draws dimensions from rules given as data. subject rooms (default) dimensions the rooms arch_detect_rooms finds with the same filter / tolerance / detection (roomIds narrows); subject entities dimensions the closed outlines the filter matches (handles must resolve, layers, types). rules [{rule, ...options}] — known rules: overall (the axis-aligned bounding box of each outline: aligned dimensions offsetMm (600) outside it on sides bottom|top|left|right, default bottom + right). Every dimension is an ALIGNED dimension on layer (default: current layer; locked refused) with dimStyle (default: current), in space (default: the space the subjects were read from). apply: false plans only (summary.dimensions lists rule, subject, side, p1Mm, p2Mm, dimLineMm, measurementMm) and writes nothing; after a write the items carry [rule:subject:side, N mm]. Max 120 dimensions per call. Returns the edit envelope {success, createdCount, items[{index, ok, handle, type DIMENSION, changed}], summary {planned, drawn, layer, dimStyle, byRule, bySubject, dimensions (preview only)}, warnings, errors}. Side effects: adds dimension entities inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back; the outlines are never modified. An unknown rule or side is an ArgumentException.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Wall and room layers are recognised by the classification rule set (A-WALL, WALL, TUONG…, A-ROOM, PHONG…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap — roomGap is the gap the loop finder closes)"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "maxGapMm": {
+            "type": "number"
+          },
+          "minOpeningMm": {
+            "type": "number"
+          },
+          "maxOpeningMm": {
+            "type": "number"
+          },
+          "minAreaMm2": {
+            "type": "number"
+          },
+          "minWidthMm": {
+            "type": "number"
+          },
+          "maxWallThicknessMm": {
+            "type": "number"
+          }
+        },
+        "description": "How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default"
+      },
+      "subject": {
+        "type": "string",
+        "enum": [
+          "rooms",
+          "entities"
+        ],
+        "default": "rooms"
+      },
+      "roomIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Room ids (R-001…) or wall/outline handles from arch_detect_rooms; empty = every room"
+      },
+      "rules": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "rule": {
+              "type": "string",
+              "enum": [
+                "overall"
+              ]
+            },
+            "offsetMm": {
+              "type": "number"
+            },
+            "sides": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "bottom",
+                  "top",
+                  "left",
+                  "right"
+                ]
+              }
+            }
+          },
+          "required": [
+            "rule"
+          ]
+        },
+        "description": "Dimension rules, in order; at least one"
+      },
+      "layer": {
+        "type": "string",
+        "description": "Existing layer for the dimensions (default: current layer)"
+      },
+      "dimStyle": {
+        "type": "string",
+        "description": "Existing dimension style (default: current)"
+      },
+      "space": {
+        "type": "string",
+        "description": "Where the entities go: model or a layout name; default = the space the rooms were read from (filter.space, model unless given)"
+      },
+      "apply": {
+        "type": "boolean",
+        "default": true
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      }
+    },
+    "required": [
+      "rules"
+    ]
+  }
+}

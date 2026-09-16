@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Every room of the plan",
+    "args": {}
+  },
+  {
+    "title": "Rooms on the A-* layers, gaps up to 50 mm closed, doorways up to 3 m, Vietnamese numbering P.101",
+    "args": {
+      "filter": {
+        "layers": [
+          "A-*"
+        ]
+      },
+      "tolerance": {
+        "roomGap": 50
+      },
+      "detection": {
+        "maxOpeningMm": 3000
+      },
+      "labels": {
+        "numberPattern": "^P\\.?\\d{3}$"
+      }
+    }
+  },
+  {
+    "title": "A light page without outlines",
+    "args": {
+      "includeOutline": false,
+      "limit": 30,
+      "offset": 30
+    }
+  }
+]

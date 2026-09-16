@@ -1,0 +1,16 @@
+var filter = args.Obj("filter");
+string ruleSet = args.Str("ruleSet");
+var tolerance = args.Obj("tolerance");
+var labels = args.Obj("labels");
+var detection = args.Obj("detection");
+var roomIds = args.Strings("roomIds");
+bool onlyUnlabelled = args.Bool("onlyUnlabelled", false);
+string format = args.Str("format");
+string layer = args.Str("layer");
+double textHeightMm = args.Double("textHeightMm", 250);
+string blockName = args.Str("blockName");
+var attributes = args.Obj("attributes");
+string space = args.Str("space");
+bool apply = args.Bool("apply", true);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ArchCreateRoomTags(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, labels, detection, roomIds, onlyUnlabelled, format, layer, textHeightMm, blockName, attributes, space, apply, maxCandidates);

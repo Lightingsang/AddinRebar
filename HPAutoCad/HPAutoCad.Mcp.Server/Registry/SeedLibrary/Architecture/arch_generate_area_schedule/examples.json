@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Area per room",
+    "args": {}
+  },
+  {
+    "title": "Area per department, departments read from texts like \"DEPT: SALES\"",
+    "args": {
+      "groupBy": "department",
+      "labels": {
+        "departmentPattern": "^DEPT:\\s*(.+)$"
+      }
+    }
+  }
+]

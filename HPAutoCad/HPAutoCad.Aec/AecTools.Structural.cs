@@ -191,7 +191,7 @@ public static partial class AecTools
     private static string WriteSpace(string? space, EntityFilter filter)
     {
         if (!string.IsNullOrWhiteSpace(space)) return space.Trim();
-        if (filter.Space.Equals("all", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("the members were read from every space (filter.space all / handles): pass space (model or a layout name) to say where the marks go.");
+        if (filter.Space.Equals("all", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("the entities were read from every space (filter.space all / handles): pass space (model or a layout name) to say where the new entities go.");
         return filter.Space;
     }
 

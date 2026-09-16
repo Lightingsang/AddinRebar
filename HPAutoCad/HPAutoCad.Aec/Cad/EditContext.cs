@@ -14,7 +14,7 @@ namespace HPAutoCad.Aec.Cad;
 ///     {x, y} in millimetres. Every check answers with a <see cref="ToolError"/> instead of throwing, so a batch can
 ///     report per item.
 /// </summary>
-public sealed class EditContext(Database db, Transaction tr, ScriptUnits units)
+public sealed partial class EditContext(Database db, Transaction tr, ScriptUnits units)
 {
     public Database Db { get; } = db;
 

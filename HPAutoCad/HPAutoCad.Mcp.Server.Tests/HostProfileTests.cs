@@ -36,7 +36,8 @@ public sealed class HostProfileTests
         Assert.Contains("tr", profile.ScriptContractSummary);
         Assert.Contains("never start a transaction", profile.ScriptContractSummary);
         Assert.Same(typeof(AutocadHostProfile).Assembly, profile.HostAssembly);
-        Assert.DoesNotContain(profile.Categories, c => c is "Architecture" or "MEP");
+        Assert.Contains("Architecture", profile.Categories);
+        Assert.DoesNotContain(profile.Categories, c => c is "MEP" or "Coordination");
     }
 
     [Fact]

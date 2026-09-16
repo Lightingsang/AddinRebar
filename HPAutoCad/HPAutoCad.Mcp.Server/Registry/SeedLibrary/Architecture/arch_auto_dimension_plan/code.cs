@@ -1,0 +1,13 @@
+var filter = args.Obj("filter");
+string ruleSet = args.Str("ruleSet");
+var tolerance = args.Obj("tolerance");
+var detection = args.Obj("detection");
+string subject = args.Str("subject");
+var roomIds = args.Strings("roomIds");
+var rules = args.List("rules");
+string layer = args.Str("layer");
+string dimStyle = args.Str("dimStyle");
+string space = args.Str("space");
+bool apply = args.Bool("apply", true);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ArchAutoDimensionPlan(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, detection, subject, roomIds, rules, layer, dimStyle, space, apply, maxCandidates);

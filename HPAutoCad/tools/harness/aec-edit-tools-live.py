@@ -452,6 +452,47 @@ def main():
         check("M writeTable -> one ACAD_TABLE created at (30000, 0) on S-ANNO-TEXT, rows in the summary", tbl.get("createdCount") == 1 and tblq.get("count") == 1 and (tblq.get("items") or [{}])[0].get("layer") == "S-ANNO-TEXT" and (tbl.get("summary") or {}).get("table", {}).get("rows") == len(sch.get("items", [])), short(tbl.get("summary"), 250))
         save("structural-write", {"preview": preview, "tag": tg, "overwrite": ow, "again": again, "foreign": foreign, "refusedTable": tblr, "schedule": sch, "table": tbl})
 
+        # ---- A: architecture writes (room tags + rule-driven dimensions) ---------------------------------------------------------
+        n_a = count()
+        # by now the U step renamed the room text to OFFICE 02 and moved the outline, and the structural step left a "B01" mark inside the room —
+        # which the default number pattern does not take for a room number
+        arch_labels = {}
+        rdet = value(s.tool("arch_detect_rooms", {"labels": arch_labels})) or {}
+        rroom = (rdet.get("items") or [{}])[0]
+        rarea = rroom.get("areaM2")
+        rtp = value(s.tool("arch_create_room_tags", {"labels": arch_labels, "apply": False})) or {}
+        rtps = rtp.get("summary") or {}
+        check("A room tag preview -> the one room (OFFICE 02 from the text inside; the B01 mark is not a number) renders 'OFFICE 02 / <area> m²', nothing written",
+              rdet.get("count") == 1 and rroom.get("name") == "OFFICE 02" and rroom.get("number") is None and rtp.get("createdCount") == 0 and rtps.get("requested") == 1 and (rtps.get("tags") or [{}])[0].get("text") == f"OFFICE 02\\P{rarea:g} m²" and count() == n_a, f"room={short(rroom, 200)} {short(rtps, 200)}")
+        rtd = s.tool("arch_create_room_tags", {"format": "{name}\\P{areaM2} m²", "dryRun": True})
+        check("A room tags dryRun -> created in the run, rolled back", (value(rtd) or {}).get("createdCount") == 1 and count() == n_a, short(rtd.get("changed")))
+        rtl = value(s.tool("arch_create_room_tags", {"layer": "LOCKED"})) or {}
+        check("A room tags on a locked layer -> LAYER_LOCKED refusal, nothing created", rtl.get("success") is False and (rtl.get("errors") or [{}])[0].get("code") == "LAYER_LOCKED" and count() == n_a, short(rtl.get("errors"), 200))
+        rtb = s.tool("arch_create_room_tags", {"format": "{name} {level}"})
+        check("A unknown placeholder -> ArgumentException naming it", rtb.get("isError") and "level" in (rtb.get("message") or "") and count() == n_a, short(rtb.get("message")))
+        rta = s.tool("arch_create_room_tags", {"blockName": "DOOR-TEST", "attributes": {"ROOMNAME": "{name}"}})
+        check("A block tag with an attribute the block does not define -> ArgumentException naming its tags, nothing inserted", rta.get("isError") and "MARK" in (rta.get("message") or "") and count() == n_a, short(rta.get("message")))
+        rtk = value(s.tool("arch_create_room_tags", {"blockName": "DOOR-TEST", "attributes": {"MARK": "{name}"}, "apply": False})) or {}
+        check("A block tag preview lists the attribute values", rtk.get("createdCount") == 0 and ((rtk.get("summary") or {}).get("tags") or [{}])[0].get("text", "").startswith("MARK=OFFICE 02"), short(rtk.get("summary"), 200))
+        rt = value(s.tool("arch_create_room_tags", {"labels": arch_labels, "format": "{number} {name}\\P{areaM2} m²", "textHeightMm": 300})) or {}
+        rtq = value(s.tool("query_entities", {"filter": {"layers": ["A-ANNO-ROOM"], "types": ["MTEXT"]}, "properties": ["type", "text", "position"]})) or {}
+        rtext = str((rtq.get("items") or [{}])[0].get("text", ""))
+        check("A room tags apply -> one MTEXT 'OFFICE 02 / <area> m²' (empty number dropped) on the created layer A-ANNO-ROOM at the room's label point; summary lists what was written, not the plan", rt.get("createdCount") == 1 and (rt.get("summary") or {}).get("layerCreated") is True and (rt.get("summary") or {}).get("tags") is None and len((rt.get("summary") or {}).get("written") or []) == 1 and rtq.get("count") == 1 and rtext.startswith("OFFICE 02") and f"{rarea:g} m" in rtext and rroom.get("labelPointMm") == (rtq.get("items") or [{}])[0].get("positionMm"), f"{short(rt.get('summary'), 200)} q={short(rtq.get('items'), 200)}")
+        rt2 = value(s.tool("arch_detect_rooms", {})) or {}
+        check("A detect after tagging: the tool's own MTEXT reads back as the name (area line ignored), still one room named OFFICE 02", rt2.get("count") == 1 and (rt2.get("items") or [{}])[0].get("name") == "OFFICE 02", short((rt2.get("items") or [{}])[0], 200))
+        dp = value(s.tool("arch_auto_dimension_plan", {"rules": [{"rule": "overall"}], "apply": False})) or {}
+        dps = dp.get("summary") or {}
+        rb = rroom.get("boundsMm") or {}
+        rsize = sorted([round(rb["max"]["x"] - rb["min"]["x"], 1), round(rb["max"]["y"] - rb["min"]["y"], 1)])
+        check("A auto-dimension plan (overall, bottom + right) -> 2 dimensions planned for the room, measuring its bounds, nothing drawn",
+              dp.get("createdCount") == 0 and dps.get("planned") == 2 and sorted(d.get("measurementMm") for d in dps.get("dimensions", [])) == rsize and count() == n_a + 1, f"{short(dps, 250)} size={rsize}")
+        dbad = s.tool("arch_auto_dimension_plan", {"rules": [{"rule": "chain"}]})
+        check("A unknown rule -> ArgumentException listing the known rules", dbad.get("isError") and "overall" in (dbad.get("message") or ""), short(dbad.get("message")))
+        dd = value(s.tool("arch_auto_dimension_plan", {"rules": [{"rule": "overall", "offsetMm": 800, "sides": ["bottom", "right"]}]})) or {}
+        ddq = value(s.tool("query_entities", {"filter": {"types": ["DIMENSION"], "handles": dd.get("affectedHandles", [])}, "properties": ["type", "text"]})) or {}
+        check("A auto-dimension apply -> 2 aligned DIMENSION entities measuring the room's bounds", dd.get("createdCount") == 2 and ddq.get("count") == 2 and sorted(round(float(i.get("text") or 0), 1) for i in ddq.get("items", [])) == rsize and count() == n_a + 3, f"{short(dd.get('summary'), 200)} q={short(ddq.get('items'), 300)}")
+        save("architecture-write", {"preview": rtp, "tags": rt, "plan": dp, "dimensions": [dd, ddq]})
+
         # ---- D: undo -------------------------------------------------------------------------------------------------------
         acad_com("$a.ActiveDocument.SendCommand('_REGEN ')"); time.sleep(1)
         before_u = count()

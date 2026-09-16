@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Plan the overall dimensions of every room without drawing",
+    "args": {
+      "rules": [
+        {
+          "rule": "overall"
+        }
+      ],
+      "apply": false
+    }
+  },
+  {
+    "title": "Overall dimensions of two rooms, 800 mm out, on the A-ANNO-DIMS layer",
+    "args": {
+      "roomIds": [
+        "R-001",
+        "R-002"
+      ],
+      "rules": [
+        {
+          "rule": "overall",
+          "offsetMm": 800,
+          "sides": [
+            "bottom",
+            "left"
+          ]
+        }
+      ],
+      "layer": "A-ANNO-DIMS"
+    }
+  },
+  {
+    "title": "Overall dimensions of the closed outlines on the slab layer",
+    "args": {
+      "subject": "entities",
+      "filter": {
+        "layers": [
+          "S-SLAB"
+        ],
+        "types": [
+          "LWPOLYLINE"
+        ]
+      },
+      "rules": [
+        {
+          "rule": "overall"
+        }
+      ]
+    }
+  }
+]

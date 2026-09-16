@@ -1,0 +1,147 @@
+{
+  "name": "arch_create_room_tags",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "architecture",
+    "room",
+    "tag",
+    "annotation",
+    "mtext"
+  ],
+  "title": "Create room tags",
+  "description": "Tags rooms (detected as arch_detect_rooms does with the same filter / tolerance / labels / detection, so R-nnn ids agree; roomIds narrows — an id or a wall/outline handle, a party wall selects both rooms; onlyUnlabelled skips rooms that already carry a name or number) with one middle-centred MTEXT per room at its labelPointMm, rendered from format with placeholders {name} {number} {department} {id} {areaM2} {areaMm2} {perimeterMm} (\\P = new line; blank lines are dropped; default \"{name}\\P{areaM2} m²\"), on layer (default A-ANNO-ROOM, created if missing; locked/frozen refused, off warned), textHeightMm (default 250), in space (default: the space the rooms were read from). With blockName, one block reference per room instead, its attributes filled from attributes {TAG: format} rendered the same way — every TAG must exist on the block (checked before anything is written; the preview lists the attribute values). apply: false only decides (summary.tags lists room, name, number, text, atMm) and writes nothing; after a write summary.written lists room, handle, text. Max 120 rooms per call. Returns the edit envelope {success, createdCount, items[{index, ok, handle, type MTEXT|INSERT, changed [room:R-001]}], summary {requested, tagged, layer, layerCreated, blockName, tags | written}, warnings, errors}. Two-phase: every tag renders and every attribute tag resolves before anything is written (an unknown placeholder or attribute refuses the call). The tool's own tags read back on the next run as the room name plus an ignored area line. Side effects: adds MTEXT / INSERT entities (and possibly a layer) inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back; walls and existing texts are never modified.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Wall and room layers are recognised by the classification rule set (A-WALL, WALL, TUONG…, A-ROOM, PHONG…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap — roomGap is the gap the loop finder closes; keep it below detection.maxGapMm)"
+      },
+      "labels": {
+        "type": "object",
+        "properties": {
+          "numberPattern": {
+            "type": "string"
+          },
+          "departmentPattern": {
+            "type": "string"
+          },
+          "ignorePattern": {
+            "type": "string"
+          }
+        },
+        "description": "How texts inside a room are read: numberPattern (regex the room number matches, default ^[A-Z]{0,2}-?\\d{1,4}[A-Z]?$), departmentPattern (regex; its first group is the department), ignorePattern (area annotations, default numbers with m2/m²); the longest other text is the name"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "maxGapMm": {
+            "type": "number"
+          },
+          "minOpeningMm": {
+            "type": "number"
+          },
+          "maxOpeningMm": {
+            "type": "number"
+          },
+          "minAreaMm2": {
+            "type": "number"
+          },
+          "minWidthMm": {
+            "type": "number"
+          },
+          "maxWallThicknessMm": {
+            "type": "number"
+          }
+        },
+        "description": "How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default"
+      },
+      "roomIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Room ids (R-001…) or wall/outline handles from arch_detect_rooms; empty = every room"
+      },
+      "onlyUnlabelled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Tag only rooms with no name or number text"
+      },
+      "format": {
+        "type": "string",
+        "default": "{name}\\P{areaM2} m²"
+      },
+      "layer": {
+        "type": "string",
+        "default": "A-ANNO-ROOM"
+      },
+      "textHeightMm": {
+        "type": "number",
+        "default": 250,
+        "minimum": 0
+      },
+      "blockName": {
+        "type": "string",
+        "description": "Tag block to insert instead of MTEXT (must be defined)"
+      },
+      "attributes": {
+        "type": "object",
+        "description": "{TAG: format} attribute values for the tag block, same placeholders as format"
+      },
+      "space": {
+        "type": "string",
+        "description": "Where the entities go: model or a layout name; default = the space the rooms were read from (filter.space, model unless given)"
+      },
+      "apply": {
+        "type": "boolean",
+        "default": true
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      }
+    }
+  }
+}

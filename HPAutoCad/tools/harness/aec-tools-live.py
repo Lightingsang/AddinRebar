@@ -129,6 +129,17 @@ colBlk.AttributeCollection.AppendAttribute(colBlkAtt); tr.AddNewlyCreatedDBObjec
 Add("slab", Rect(-500, -500, 7000, 6000), slab);
 Add("open1", Rect(100, 100, 300, 300), open);
 Add("open2", Rect(20000, 8000, 500, 500), open);
+// a two-room plan drawn as single-line walls: an 8 x 5 m box at (50000, 0) split at x = 54000, a 900 door in the party wall and one in the
+// bottom wall of the left room, room texts inside, and a 250 mm gap in the top wall of the right room (a gap, not a doorway)
+Add("hS1", new Line(P(50000, 0), P(51500, 0)), wall); Add("hS2", new Line(P(52400, 0), P(58000, 0)), wall);
+Add("hE", new Line(P(58000, 0), P(58000, 5000)), wall);
+Add("hN1", new Line(P(58000, 5000), P(56125, 5000)), wall); Add("hN2", new Line(P(55875, 5000), P(50000, 5000)), wall);
+Add("hW", new Line(P(50000, 5000), P(50000, 0)), wall);
+Add("hM1", new Line(P(54000, 0), P(54000, 2000)), wall); Add("hM2", new Line(P(54000, 2900), P(54000, 5000)), wall);
+Add("hT1", new DBText { Position = P(51500, 2500), Height = Du(200), TextString = "PHONG KHACH" }, txt);
+Add("hT2", new DBText { Position = P(51500, 2000), Height = Du(200), TextString = "101" }, txt);
+Add("hT3", new DBText { Position = P(55500, 2500), Height = Du(200), TextString = "BEDROOM" }, txt);
+Add("hT4", new DBText { Position = P(55500, 2000), Height = Du(200), TextString = "B01" }, txt);
 // standards defects: a text on a wall layer, a line on layer 0, a colour override, a badly named layer with nothing on it
 Add("stdText", new DBText { Position = P(40000, 0), Height = Du(200), TextString = "NOT ON A TEXT LAYER" }, wall);
 Add("stdZero", new Line(P(40000, 4000), P(41000, 4000)), lt["0"]);
@@ -214,7 +225,7 @@ def main():
         # ---- S: scene -------------------------------------------------------------------------------------------------
         scene = s.tool("execute_autocad_code", {"code": SCENE, "transaction": "auto", "label": "aec scene", "timeoutSeconds": 60}, timeout=120)
         h = value(scene) or {}
-        check("S scene drawn (43 entities, 9 layers)", not scene.get("isError") and len(h) == 43 and (scene.get("changed") or {}).get("added", 0) >= 43, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
+        check("S scene drawn (55 entities, 9 layers)", not scene.get("isError") and len(h) == 55 and (scene.get("changed") or {}).get("added", 0) >= 55, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
         save("scene-handles", h)
         if not h:
             return CL.finish("aec-tools-live")
@@ -356,7 +367,7 @@ def main():
         c1 = by.get(h["c1"]) or {}
         check("B column object: confidence >= 0.9, evidence names the layer and the 400x400 footprint, properties width/depth/area/centroid",
               c1.get("aecType") == "StructuralColumn" and c1.get("confidence", 0) >= 0.9 and any("S-COL" in e for e in c1.get("evidence", [])) and near((c1.get("properties") or {}).get("widthMm"), 400) and near((c1.get("properties") or {}).get("areaMm2"), 160000) and (c1.get("properties") or {}).get("centroidMm"), short(c1, 400))
-        door = by.get(h["door"]) or {}
+        door = ((value(s.tool("classify_aec_entities", {"filter": {"handles": [h["door"]]}})) or {}).get("items") or [{}])[0]
         check("B door block: Door 0.9 via block name, attributes carried", door.get("aecType") == "Door" and near(door.get("confidence"), 0.9) and ((door.get("properties") or {}).get("attributes") or {}).get("MARK") == "D01", short(door, 300))
         structural = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-COL", "S-BEAM", "A-*", "M-*"]}, "disciplines": ["Structural"], "limit": 5, "offset": 5})) or {}
         check("B disciplines=Structural + paging: count 8, page 2 has 3 items, ruleSet reported", structural.get("count") == 8 and len(structural.get("items", [])) == 3 and (structural.get("summary") or {}).get("ruleSet", {}).get("rules", 0) >= 20, short(structural.get("summary"), 300))
@@ -412,6 +423,42 @@ def main():
         check("N opening conflicts: open1 through column c1 (critical, STR-OPN-001), open2 outside the slab (warning)",
               opn.get("count") == 2 and ot.get("opening_through_column", {}).get("handles") == [h["open1"], h["c1"]] and ot["opening_through_column"]["issueId"] == "STR-OPN-001" and ot.get("opening_outside_host", {}).get("handles") == [h["open2"]], short(opn.get("items"), 300))
         save("structural", {"grids": gr, "members": mem, "connectivity": [con, con5], "alignment": [aln, aln5], "openings": opn})
+
+        # ---- R: architecture (rooms from the A-WALL scene) ----------------------------------------------------------------------
+        rm = value(s.tool("arch_detect_rooms", {})) or {}
+        rsum = rm.get("summary") or {}
+        rooms = {tuple(sorted(r.get("handles", []))): r for r in rm.get("items", [])}
+        office = rooms.get((h["room"],), {})
+        openr = rooms.get((h["openroom"],), {})
+        dupr = rooms.get((h["dupclose"],), {})
+        left = next((r for r in rm.get("items", []) if h["hW"] in r.get("handles", [])), {})
+        right = next((r for r in rm.get("items", []) if h["hE"] in r.get("handles", [])), {})
+        check("R detect_rooms: 4 rooms from walls — the closed outline (12 m², OFFICE 01), the 12 mm-open outline closed by roomGap (12 m², unlabelled), the 2 × 1 m rectangle, and PHONG KHACH 101 (20 m²) of the two-room plan, kept whole by the two 900 mm doorways bridged; the right room is open (250 mm gap); bow-tie halves too small; total 46 m²",
+              rm.get("count") == 4 and rsum.get("fromWalls") == 4 and near(office.get("areaM2"), 12) and office.get("name") == "OFFICE 01" and office.get("textHandles") == [h["text"]] and near(openr.get("areaM2"), 12) and openr.get("name") is None
+              and near(dupr.get("areaM2"), 2) and near(rsum.get("totalAreaM2"), 46) and rsum.get("closedGaps") == 2 and rsum.get("tinyFaces") == 2 and rsum.get("openings") == 2 and len(office.get("outlineMm", [])) == 4 and office.get("source") == "walls"
+              and near(left.get("areaM2"), 20) and (left.get("name"), left.get("number")) == ("PHONG KHACH", "101") and not right and h["hM1"] in left.get("handles", []) and h["hS1"] in left.get("handles", []), f"{short(rsum, 300)} left={short(left, 160)}")
+        strict = value(s.tool("arch_detect_rooms", {"tolerance": {"roomGap": 5}})) or {}
+        check("R roomGap 5 mm -> the 12 mm-open outline is no longer a room (3 rooms), the 7 mm g1/g2 gap stays open", strict.get("count") == 3 and (strict.get("summary") or {}).get("closedGaps") == 0, short(strict.get("summary"), 200))
+        nodoor = value(s.tool("arch_detect_rooms", {"detection": {"maxOpeningMm": 800}})) or {}
+        check("R detection.maxOpeningMm 800 -> the 900 mm doorways are no longer bridged: the left room is open too (3 rooms), no openings", nodoor.get("count") == 3 and (nodoor.get("summary") or {}).get("openings") == 0, short(nodoor.get("summary"), 200))
+        badd = s.tool("arch_detect_rooms", {"detection": {"maxGapMm": 700}})
+        check("R detection.maxGapMm above minOpeningMm -> ArgumentException", badd.get("isError") and "minOpeningMm" in (badd.get("message") or ""), short(badd.get("message")))
+        bc = value(s.tool("arch_room_boundary_check", {})) or {}
+        bt_ = {i["type"]: [x for x in bc.get("items", []) if x["type"] == i["type"]] for i in bc.get("items", [])}
+        closed_g = [i for i in bt_.get("boundary_gap_closed", []) if sorted(i["handles"]) == sorted([h["g1"], h["g2"]])]
+        gap400 = [i for i in bt_.get("boundary_gap", []) if sorted(i["handles"]) == sorted([h["hN1"], h["hN2"]])]
+        check("R boundary check: open_boundary critical for the 12 free wall ends (w1/w2, g1/g2, both arcs, the semicircle, the coloured line), one boundary_gap (250 mm, hN1+hN2, located between the ends), boundary_gap_closed for openroom (12 mm) + g1→g2 (7 mm), opening_assumed ×2, unlabelled_room ×2; ids ARC-nnn severity-first",
+              bc.get("success") and len(bt_.get("open_boundary", [])) == 12 and len(gap400) == 1 and near(gap400[0].get("valueMm"), 250) and near(gap400[0]["locationMm"]["x"], 56000) and len(bt_.get("boundary_gap", [])) == 1
+              and len(bt_.get("boundary_gap_closed", [])) == 2 and len(closed_g) == 1 and near(closed_g[0].get("valueMm"), 7, 0.5) and len(bt_.get("opening_assumed", [])) == 2 and len(bt_.get("unlabelled_room", [])) == 2
+              and bc["items"][0]["issueId"] == "ARC-001" and bc["items"][0]["severity"] == "critical" and (bc.get("summary") or {}).get("openEnds") == 14, f"{short((bc.get('summary') or {}).get('byType'), 200)} gap={short(gap400, 200)}")
+        sched = value(s.tool("arch_generate_area_schedule", {"groupBy": "name"})) or {}
+        srows = {r["group"]: r for r in sched.get("items", [])}
+        check("R area schedule by name: PHONG KHACH 20 m² (43.5 %), OFFICE 01 12 m², (none) 14 m² (2 rooms); total 46 m²; the 101 room listed as '101 PHONG KHACH'",
+              sched.get("count") == 3 and near(srows.get("PHONG KHACH", {}).get("areaM2"), 20) and near(srows.get("PHONG KHACH", {}).get("percent"), 43.5, 0.15) and srows.get("PHONG KHACH", {}).get("rooms") == ["101 PHONG KHACH"] and near(srows.get("OFFICE 01", {}).get("areaM2"), 12)
+              and srows.get("(none)", {}).get("count") == 2 and near(srows.get("(none)", {}).get("areaM2"), 14) and near((sched.get("summary") or {}).get("totalAreaM2"), 46), short(sched.get("items"), 300))
+        bad = s.tool("arch_generate_area_schedule", {"groupBy": "colour"})
+        check("R groupBy colour -> ArgumentException", bad.get("isError") and "groupBy" in (bad.get("message") or ""), short(bad.get("message")))
+        save("architecture", {"rooms": rm, "strict": strict, "boundary": bc, "schedule": sched})
 
         # ---- T: standards + audit ---------------------------------------------------------------------------------------
         std = value(s.tool("cad_standards_check", {})) or {}

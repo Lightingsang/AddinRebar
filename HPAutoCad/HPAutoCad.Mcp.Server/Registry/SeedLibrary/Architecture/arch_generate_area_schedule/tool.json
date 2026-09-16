@@ -1,0 +1,133 @@
+{
+  "name": "arch_generate_area_schedule",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "architecture",
+    "room",
+    "area",
+    "schedule",
+    "quantities"
+  ],
+  "title": "Generate an area schedule",
+  "description": "Read-only. Rooms (detected as arch_detect_rooms does with the same filter / tolerance / labels / detection; roomIds narrows) grouped by groupBy — room (one row each, default), name, or department (read by labels.departmentPattern; rooms without one fall under \"(none)\"; names are compared case-insensitively and shown upper-case) — into rows {group, count, areaMm2, areaM2, percent of the total, rooms (first 20 as \"number name\", id order)}, largest first. No room standard is built in: departments and names are whatever the texts inside the rooms say. A zone outline holding room outlines is not scheduled (summary.zones). summary: rooms, groups, totalAreaM2, unlabelled, byDepartment, zones. Millimetres. Returns the analysis envelope (max 50 rows per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Wall and room layers are recognised by the classification rule set (A-WALL, WALL, TUONG…, A-ROOM, PHONG…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap — roomGap is the gap the loop finder closes; keep it below detection.maxGapMm)"
+      },
+      "labels": {
+        "type": "object",
+        "properties": {
+          "numberPattern": {
+            "type": "string"
+          },
+          "departmentPattern": {
+            "type": "string"
+          },
+          "ignorePattern": {
+            "type": "string"
+          }
+        },
+        "description": "How texts inside a room are read: numberPattern (regex the room number matches, default ^[A-Z]{0,2}-?\\d{1,4}[A-Z]?$), departmentPattern (regex; its first group is the department), ignorePattern (area annotations, default numbers with m2/m²); the longest other text is the name"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "maxGapMm": {
+            "type": "number"
+          },
+          "minOpeningMm": {
+            "type": "number"
+          },
+          "maxOpeningMm": {
+            "type": "number"
+          },
+          "minAreaMm2": {
+            "type": "number"
+          },
+          "minWidthMm": {
+            "type": "number"
+          },
+          "maxWallThicknessMm": {
+            "type": "number"
+          }
+        },
+        "description": "How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default"
+      },
+      "roomIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Room ids (R-001…) or wall/outline handles from arch_detect_rooms; empty = every room"
+      },
+      "groupBy": {
+        "type": "string",
+        "enum": [
+          "room",
+          "name",
+          "department"
+        ],
+        "default": "room"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "minimum": 1,
+        "maximum": 50
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      }
+    }
+  }
+}

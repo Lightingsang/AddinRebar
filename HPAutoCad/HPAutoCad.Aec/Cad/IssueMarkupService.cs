@@ -87,7 +87,7 @@ public static partial class IssueMarkupService
         }
 
         // Phase 2: layer, then one marker + leader per issue in its own space.
-        var layerId = EnsureLayer(cx, layer, out var layerCreated);
+        var layerId = cx.EnsureLayer(layer, DefaultMarkupColor, out var layerCreated);
         var spaces = new Dictionary<ObjectId, BlockTableRecord>();
         var outcomes = new ItemOutcome[issues.Count];
         var placed = new List<object>();
@@ -142,18 +142,5 @@ public static partial class IssueMarkupService
             spaces = markups.Where(m => m is { Skip: null }).Select(m => m!.SpaceName).Distinct(StringComparer.OrdinalIgnoreCase).ToArray(), markups = placed,
         };
         return result;
-    }
-
-    private static ObjectId EnsureLayer(EditContext cx, string name, out bool created)
-    {
-        var table = (LayerTable)cx.Tr.GetObject(cx.Db.LayerTableId, OpenMode.ForRead);
-        created = false;
-        if (table.Has(name)) return table[name];
-        table.UpgradeOpen();
-        var record = new LayerTableRecord { Name = name, Color = Color.FromColorIndex(ColorMethod.ByAci, DefaultMarkupColor) };
-        var id = table.Add(record);
-        cx.Tr.AddNewlyCreatedDBObject(record, true);
-        created = true;
-        return id;
     }
 }

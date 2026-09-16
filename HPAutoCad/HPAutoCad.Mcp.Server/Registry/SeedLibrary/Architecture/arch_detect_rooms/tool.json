@@ -1,0 +1,121 @@
+{
+  "name": "arch_detect_rooms",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Architecture",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "architecture",
+    "room",
+    "loop",
+    "area",
+    "walls"
+  ],
+  "title": "Detect rooms from walls and room outlines",
+  "description": "Read-only. Finds rooms: walls on wall layers (classified ArchitecturalWall — lines and polylines; with no layers/types in the filter the scan is narrowed to the rule set's wall and room layers) are cut at every crossing and T-junction, ends within tolerance.roomGap (25 mm) are closed onto the wall they miss, doorways are bridged (two wall ends facing each other along one line, or two jamb lines facing each other across a double-line wall, detection.minOpeningMm..maxOpeningMm apart — no door objects needed), dangling pieces are set aside (a wall overshooting the corner it crosses is not an open end), and every bounded face of the remaining plan is a room; closed outlines on room layers (classified Room) are rooms as drawn and replace the wall loop they duplicate; an outline holding other outlines is a zone, not a room. Faces below detection.minAreaMm2, thinner than detection.minWidthMm (the cavity between the two lines of a wall) and the outer line of a double-line wall are dropped and counted; an island inside a room (a column, a shaft) is its own face and the room's area stays gross. Each room: id R-nnn, source walls|outline, name / number / department read from the lines of the TEXT/MTEXT inside it by labels (the default number needs a separator after letters — 101, A-101, P.101, 1.01 — so marks like B01 are not numbers), areaMm2, areaM2, perimeterMm, centroidMm, labelPointMm (surely inside), boundsMm, outlineMm (first 32 vertices), handles (first 32 walls, handleCount), textHandles (first 16, textCount). summary: walls, wallSegments, outlines, zones, rooms by source, totalAreaM2, labelled, openEnds, closedGaps, openings, overshoots, cavities, tinyFaces, nested, detection. Millimetres. Returns the analysis envelope (max 30 rooms per page with outlines; includeOutline false for a lighter page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Wall and room layers are recognised by the classification rule set (A-WALL, WALL, TUONG…, A-ROOM, PHONG…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap — roomGap is the gap the loop finder closes; keep it below detection.maxGapMm)"
+      },
+      "labels": {
+        "type": "object",
+        "properties": {
+          "numberPattern": {
+            "type": "string"
+          },
+          "departmentPattern": {
+            "type": "string"
+          },
+          "ignorePattern": {
+            "type": "string"
+          }
+        },
+        "description": "How texts inside a room are read: numberPattern (regex the room number matches, default ^[A-Z]{0,2}-?\\d{1,4}[A-Z]?$), departmentPattern (regex; its first group is the department), ignorePattern (area annotations, default numbers with m2/m²); the longest other text is the name"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "maxGapMm": {
+            "type": "number"
+          },
+          "minOpeningMm": {
+            "type": "number"
+          },
+          "maxOpeningMm": {
+            "type": "number"
+          },
+          "minAreaMm2": {
+            "type": "number"
+          },
+          "minWidthMm": {
+            "type": "number"
+          },
+          "maxWallThicknessMm": {
+            "type": "number"
+          }
+        },
+        "description": "How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default"
+      },
+      "includeOutline": {
+        "type": "boolean",
+        "default": true
+      },
+      "limit": {
+        "type": "integer",
+        "default": 30,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Preview the tags of every room",
+    "args": {
+      "apply": false
+    }
+  },
+  {
+    "title": "Name, number and area on the A-ANNO-ROOM layer",
+    "args": {
+      "format": "{number} {name}\\P{areaM2} m²",
+      "textHeightMm": 300
+    }
+  },
+  {
+    "title": "Room tag block with attributes, only rooms that have no label yet",
+    "args": {
+      "blockName": "ROOM-TAG",
+      "attributes": {
+        "NAME": "{name}",
+        "NUMBER": "{number}",
+        "AREA": "{areaM2}"
+      },
+      "onlyUnlabelled": true
+    }
+  }
+]

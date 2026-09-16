@@ -183,6 +183,13 @@ public static partial class BlockService
         return null;
     }
 
+    /// <summary>The tags a block definition's non-constant attribute definitions carry (none for an xref) — what a tag block can be asked to fill.</summary>
+    public static IReadOnlyList<string> AttributeTags(Transaction tr, ObjectId definitionId)
+    {
+        var definition = (BlockTableRecord)tr.GetObject(definitionId, OpenMode.ForRead);
+        return definition.IsFromExternalReference || !definition.HasAttributeDefinitions ? [] : AttributeDefinitions(tr, definition).Select(a => a.Tag).ToArray();
+    }
+
     private static IEnumerable<AttributeDefinition> AttributeDefinitions(Transaction tr, BlockTableRecord definition)
     {
         foreach (ObjectId id in definition)

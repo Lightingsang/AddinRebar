@@ -59,10 +59,10 @@ MANUAL item with a screenshot per theme).
 Beyond drawing commands the server exposes an AEC layer: tools that read and understand the drawing. A tool is still a seed
 (`tool.json` + `code.cs` + `examples.json`); the script is a shim that reads `args` and calls one method of
 `HPAutoCad.Aec.AecTools`, so the logic is compiled, unit-tested C# in `HPAutoCad.Aec` (the bridge references it and adds it to
-Roslyn's references; `HostScriptContracts.AutocadImports` imports the namespace, so ad-hoc scripts can use it too). The fourteen
+Roslyn's references; `HostScriptContracts.AutocadImports` imports the namespace, so ad-hoc scripts can use it too). The seventeen
 analysis tools are read-only (`transaction: none` — the runner refuses any modification), take lengths in **mm** whatever INSUNITS is,
 answer with `{ success, summary, items, count, offset, truncated, warnings, errors[{code, message, handle}] }`, and page
-(`limit` ≤ 500, `offset`) so a result stays under the bridge's 64 KB cap. The nine write tools run under the bridge's `auto`
+(`limit` ≤ 500, `offset`) so a result stays under the bridge's 64 KB cap. The eleven write tools run under the bridge's `auto`
 transaction (one undo entry, `dryRun` rolls back) and answer with the edit envelope `{ success, createdCount, modifiedCount, deletedCount,
 affectedHandles, items[{index, ok, handle, type, changed, error}], warnings, errors }`; `atomic` (default) validates every item first (read-open, no mutation) and
 refuses the whole batch on one invalid item — nothing written, change counter 0 — while `atomic: false` writes the valid items and lists the rest per item; single-item
@@ -92,13 +92,18 @@ ops refuse the whole op on any bad key; batches take up to 200 items.
 | `structural_opening_conflict_check` | Structural | openings vs columns and hosts: `opening_through_column` (interiors overlap), `opening_near_column` (< clearanceMm 300, 0 when touching), `opening_outside_host` → `STR-OPN-nnn` |
 | `structural_tag_members` | Structural | marks `{prefix}{n}` per kind in reading order (max 120 per call): a block's MARK attribute, the existing mark text edited in place, or a new TEXT at the centre on `S-ANNO-TEXT`; existing marks kept (number reserved) or `kept_foreign` unless `overwrite`; `apply: false` decides only |
 | `structural_generate_member_schedule` | Structural | rows by kind + section {count, totalLengthMm, totalAreaMm2, marks, handles}; `writeTable` draws an ACAD_TABLE at `insertPoint` |
+| `arch_detect_rooms` | Architecture | rooms as the bounded faces of the walls (gaps ≤ roomGap closed, doorways bridged, cavities / outer wall lines dropped) or explicit outlines on room layers; name / number / department from the texts inside by caller patterns; area, perimeter, label point, outline; paged 30 |
+| `arch_room_boundary_check` | Architecture | `open_boundary`, `boundary_gap` (one per gap), `boundary_gap_closed`, `opening_assumed`, `room_overlap`, `room_inside_room`, `duplicate_room`, `unlabelled_room` → `ARC-nnn` |
+| `arch_create_room_tags` | Architecture | one MTEXT per room from a `format` with placeholders (or a tag block with attributes) at the room's inside point on `A-ANNO-ROOM`; `apply: false` previews; max 120 |
+| `arch_generate_area_schedule` | Architecture | rows by room / name / department {count, areaM2, percent, rooms}; no room standard built in |
+| `arch_auto_dimension_plan` | Architecture | rules as data (`overall`: bounding-box dimensions on chosen sides) over detected rooms or closed outlines; aligned dimensions; `apply: false` plans; max 120 |
 | `create_issue_markup` | Annotation | circle / rectangle / revcloud + MLeader `<id>: <description>` per issue object on `HP-MCP-ISSUES` (created on demand), coloured by severity; original geometry never touched |
 
 Tolerances (mm / degrees, `GeometryTolerance`): pointEquality 0.5 · endpointConnection 10 · collinearity 1 · parallelAngle 0.5° ·
 duplicate 1 · tinySegment 5 · roomGap 25 — any member can be overridden per call. Error codes (`ToolErrorCode`): INVALID_ARGUMENT,
 INVALID_HANDLE, ERASED, NOT_AN_ENTITY, UNSUPPORTED_ENTITY, NO_GEOMETRY, LAYER_LOCKED, LAYER_FROZEN, LIMIT_EXCEEDED, NOT_CLOSED, INTERNAL.
-Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (68 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 78 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
-Next phases: F architecture, G MEP, H coordination, I change sets — see the plan (phases A–E done: 35 seeds, 47 tools on the server).
+Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (75 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 89 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
+Next phases: G MEP, H coordination, I change sets — see the plan (phases A–F done: 40 seeds, 52 tools on the server).
 
 ## Target
 

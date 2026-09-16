@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Every boundary problem of the plan",
+    "args": {}
+  },
+  {
+    "title": "Only real gaps: nothing closed automatically, walls up to 500 mm apart count as gaps (doorways start at 600)",
+    "args": {
+      "tolerance": {
+        "roomGap": 0.5
+      },
+      "detection": {
+        "maxGapMm": 500
+      }
+    }
+  }
+]

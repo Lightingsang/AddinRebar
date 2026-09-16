@@ -1,0 +1,11 @@
+var filter = args.Obj("filter");
+string ruleSet = args.Str("ruleSet");
+var tolerance = args.Obj("tolerance");
+var labels = args.Obj("labels");
+var detection = args.Obj("detection");
+var roomIds = args.Strings("roomIds");
+string groupBy = args.Str("groupBy");
+int limit = args.Int("limit", 50);
+int offset = args.Int("offset", 0);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.ArchGenerateAreaSchedule(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, labels, detection, roomIds, groupBy, limit, offset, maxCandidates);
