@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Openings of the plan with the default 300 mm clearance",
+    "args": {}
+  },
+  {
+    "title": "500 mm clearance on the slab layers",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-SLAB*",
+          "S-OPEN*",
+          "S-COL*"
+        ]
+      },
+      "clearanceMm": 500
+    }
+  }
+]

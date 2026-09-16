@@ -146,41 +146,46 @@ public sealed class EditContext(Database db, Transaction tr, ScriptUnits units)
         return result;
     }
 
-    /// <summary>The block table record new entities are appended to: <c>current</c> (default), <c>model</c>, or a layout name.</summary>
+    /// <summary>The block table record new entities are appended to: <c>current</c> (default), <c>model</c>, or a layout name — opened for write.</summary>
     public BlockTableRecord? Space(string? space, out ToolError? error)
+    {
+        var id = SpaceId(space, out error);
+        return id.IsNull ? null : (BlockTableRecord)Tr.GetObject(id, OpenMode.ForWrite);
+    }
+
+    /// <summary>The id of a space without opening it for write — phase 1 of a write resolves, phase 2 opens.</summary>
+    public ObjectId SpaceId(string? space, out ToolError? error)
     {
         error = null;
         var name = (space ?? "current").Trim();
-        ObjectId id;
         switch (name.ToLowerInvariant())
         {
             case "":
             case "current":
-                id = Db.CurrentSpaceId;
-                break;
+                return Db.CurrentSpaceId;
             case "model":
-                id = SymbolUtilityServices.GetBlockModelSpaceId(Db);
-                break;
+                return SymbolUtilityServices.GetBlockModelSpaceId(Db);
             default:
                 var layouts = (DBDictionary)Tr.GetObject(Db.LayoutDictionaryId, OpenMode.ForRead);
-                id = ObjectId.Null;
                 foreach (var entry in layouts)
-                {
-                    if (!string.Equals(entry.Key, name, StringComparison.OrdinalIgnoreCase)) continue;
-                    id = ((Layout)Tr.GetObject(entry.Value, OpenMode.ForRead)).BlockTableRecordId;
-                    break;
-                }
-
-                if (id.IsNull)
-                {
-                    error = ToolError.Argument($"space '{space}' is not a layout of this drawing (use current, model, or a layout name).");
-                    return null;
-                }
-
-                break;
+                    if (string.Equals(entry.Key, name, StringComparison.OrdinalIgnoreCase)) return ((Layout)Tr.GetObject(entry.Value, OpenMode.ForRead)).BlockTableRecordId;
+                error = ToolError.Argument($"space '{space}' is not a layout of this drawing (use current, model, or a layout name).");
+                return ObjectId.Null;
         }
+    }
 
-        return (BlockTableRecord)Tr.GetObject(id, OpenMode.ForWrite);
+    /// <summary>A symbol name AutoCAD accepts for a layer or block; the reason when it does not.</summary>
+    public static string? RefuseSymbolName(string name, string what)
+    {
+        try
+        {
+            SymbolUtilityServices.ValidateSymbolName(name, false);
+            return null;
+        }
+        catch (AcadException)
+        {
+            return $"{what} '{name}' is not a valid AutoCAD name (no < > / \\ \" : ; ? * | , = ` characters).";
+        }
     }
 
     /// <summary>

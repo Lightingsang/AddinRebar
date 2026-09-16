@@ -166,20 +166,26 @@ public static class AnnotationService
         if (string.IsNullOrEmpty(text) || arrow is null || landing is null)
             return new EntityFactory.Built(null, error ?? ToolError.Argument("mleader needs text, arrowPoint and landingPoint (mm); optional heightMm."), warnings);
 
+        return factory.Finish(BuildMLeader(cx, text, arrow.Value, landing.Value, item.Double("heightMm")), item, warnings);
+    }
+
+    /// <summary>A multileader with MText content: one leader line from the arrow to the landing, text at the landing. Database defaults first.</summary>
+    internal static MLeader BuildMLeader(EditContext cx, string text, Point3d arrow, Point3d landing, double heightMm)
+    {
         var leader = new MLeader();
-        leader.SetDatabaseDefaults();
+        leader.SetDatabaseDefaults(cx.Db);
         leader.ContentType = ContentType.MTextContent;
         var mtext = new MText();
-        mtext.SetDatabaseDefaults();
+        mtext.SetDatabaseDefaults(cx.Db);
         mtext.Contents = text;
-        mtext.Location = landing.Value;
-        if (item.Double("heightMm") > 0) mtext.TextHeight = cx.ToDrawing(item.Double("heightMm"));
+        mtext.Location = landing;
+        if (heightMm > 0) mtext.TextHeight = cx.ToDrawing(heightMm);
         leader.MText = mtext;
         var leaderIndex = leader.AddLeader();
         var lineIndex = leader.AddLeaderLine(leaderIndex);
-        leader.AddFirstVertex(lineIndex, arrow.Value);
-        leader.AddLastVertex(lineIndex, landing.Value);
-        return factory.Finish(leader, item, warnings);
+        leader.AddFirstVertex(lineIndex, arrow);
+        leader.AddLastVertex(lineIndex, landing);
+        return leader;
     }
 
     private static object Measurement(EditContext cx, Dimension d) => d switch

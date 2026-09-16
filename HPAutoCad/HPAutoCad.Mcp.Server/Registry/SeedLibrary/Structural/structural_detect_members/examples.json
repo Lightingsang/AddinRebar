@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Every column with its section",
+    "args": {
+      "kinds": [
+        "column"
+      ]
+    }
+  },
+  {
+    "title": "Beams and walls on the structural layers, project rules and Vietnamese mark prefixes (D = dầm)",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*",
+          "KC-*"
+        ]
+      },
+      "kinds": [
+        "beam",
+        "wall"
+      ],
+      "ruleSet": "user",
+      "prefixes": {
+        "beam": "D",
+        "column": "C"
+      }
+    }
+  }
+]

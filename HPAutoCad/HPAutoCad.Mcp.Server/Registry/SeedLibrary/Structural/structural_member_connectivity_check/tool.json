@@ -1,0 +1,77 @@
+{
+  "name": "structural_member_connectivity_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structural",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "structural",
+    "beam",
+    "support",
+    "connectivity",
+    "check"
+  ],
+  "title": "Check beam-to-support connectivity",
+  "description": "Read-only. Each beam end must land on a support (column, wall or another beam) within tolerance.endpointConnection (10 mm): a gap up to 3× the tolerance is gap_to_support (warning, valueMm = gap), farther is unsupported_end (critical), both ends free is beam_without_supports (critical). Duplicates of the same beam on the same axis do not count as supports. Ids STR-CON-nnn. Issues come back as the shared issue objects {issueId, category structural, type, severity, handles, locationMm, valueMm, description, suggestedAction} in a stable order — pass them to create_issue_markup. Read-only; geometry only — it says nothing about structural capacity.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Structural layers are recognised by the classification rule set (S-COL, DAM, S-GRID, TRUC…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    }
+  }
+}

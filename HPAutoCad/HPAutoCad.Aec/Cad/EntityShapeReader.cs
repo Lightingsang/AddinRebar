@@ -104,6 +104,8 @@ public sealed partial class EntityShapeReader
         Pt? position = null;
         double? length = null;
         double? area = null;
+        string? style = null;
+        double? textHeight = null;
 
         try
         {
@@ -136,22 +138,29 @@ public sealed partial class EntityShapeReader
                     blockName = BlockName(block);
                     attributes = ReadAttributes(block);
                     position = ToPt(block.Position);
-                    shape = bounds is { } bb ? PlanShape.Rectangle(bb) : null;
+                    // The extents of a reference include its attributes; the stand-in footprint is the symbol alone when there are any.
+                    var symbol = attributes is null ? bounds : SymbolBounds(block) ?? bounds;
+                    shape = symbol is { } bb ? PlanShape.Rectangle(bb) : null;
                     break;
                 case DBText dbText:
                     text = dbText.TextString;
                     position = ToPt(dbText.Position);
                     shape = bounds is { } tb ? PlanShape.Rectangle(tb) : null;
+                    style = StyleName(dbText.TextStyleId);
+                    textHeight = Mm(dbText.Height);
                     break;
                 case MText mText:
                     text = mText.Text;
                     position = ToPt(mText.Location);
                     shape = bounds is { } mb ? PlanShape.Rectangle(mb) : null;
+                    style = StyleName(mText.TextStyleId);
+                    textHeight = Mm(mText.TextHeight);
                     break;
                 case Dimension dimension:
                     text = string.IsNullOrEmpty(dimension.DimensionText) ? Mm(dimension.Measurement).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : dimension.DimensionText;
                     position = ToPt(dimension.TextPosition);
                     shape = bounds is { } db2 ? PlanShape.Rectangle(db2) : null;
+                    style = StyleName(dimension.DimensionStyle);
                     break;
                 case Xline or Ray:
                     note = "infinite construction line — no bounded geometry";
@@ -191,6 +200,8 @@ public sealed partial class EntityShapeReader
             LengthMm = length is null ? null : Math.Round(length.Value, 1),
             AreaMm2 = area is null ? null : Math.Round(area.Value, 1),
             Text = text,
+            Style = style,
+            TextHeightMm = textHeight is null ? null : Math.Round(textHeight.Value, 2),
             BlockName = blockName,
             Attributes = attributes,
             PositionMm = position?.Rounded(),

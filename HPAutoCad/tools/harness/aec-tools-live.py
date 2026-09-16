@@ -7,6 +7,11 @@
   I  detect_geometry_issues: duplicate, near_duplicate, overlapping_segments, endpoint_gap, open_polyline, self_intersection, zero_length, restricted types
   B  classify_aec_entities (default rules on the scene: columns, beams, walls, pipe, door block; unknowns) + get_entity_relationships (connected with gap,
      intersect, self-set parallel with de-duplication, empty source refused)
+  N  structural_detect_grids (A/B × 1/2 with bubbles + labels, intersections, spacing), structural_detect_members (columns 400×400, beams,
+     slab, openings, marks), connectivity (b2 gap 7 mm under a 5 mm tolerance), column alignment (grid B at y = 5010 → 2 columns off by
+     10 mm under a 5 mm tolerance), opening conflicts (one through column c1, one outside the slab)
+  T  cad_standards_check (layer naming, entity layer, layer 0, colour override, unused layer; stable STD ids; checks subset; bad rule set) +
+     audit_aec_drawing (geometry + standards in one stable order, minSeverity, paging, sections)
   E  error paths: invalid handle -> errors[] with INVALID_HANDLE, erased handle, unknown measure -> isError (ArgumentException)
   P  performance: 3 000 extra lines on PERF-* layers; query_entities with a layer filter < 1 s, spatial nearest and issue detection timed
 The PowerShell wrapper (run-aec-tools-live.ps1) starts AutoCAD, ticks the opt-in and calls this. Prints PASS/FAIL lines and a JSON summary.
@@ -87,13 +92,55 @@ dup.AddVertexAt(0, new Point2d(Du(24000), Du(7000)), 0, 0, 0); dup.AddVertexAt(1
 dup.AddVertexAt(2, new Point2d(Du(26000), Du(8000)), 0, 0, 0); dup.AddVertexAt(3, new Point2d(Du(24000), Du(8000)), 0, 0, 0);
 dup.AddVertexAt(4, new Point2d(Du(24000), Du(7000)), 0, 0, 0); dup.Closed = true;
 Add("dupclose", dup, wall);
+// structural grid A/B (horizontal, B 10 mm off the columns) × 1/2 (vertical) with bubbles and labels, a slab, two openings
+var grid = Layer("S-GRID", 8); var slab = Layer("S-SLAB", 9); var open = Layer("S-OPEN", 30);
+Add("gA", new Line(P(0, 0), P(7500, 0)), grid); Add("gB", new Line(P(-1500, 5010), P(7500, 5010)), grid);
+Add("gl1", new Line(P(0, -1500), P(0, 6500)), grid); Add("gl2", new Line(P(6000, -1500), P(6000, 6500)), grid);
+foreach (var (key, c, label) in new[] { ("bubA", P(-1900, 0), "A"), ("bubB", P(-1900, 5010), "B"), ("bub1", P(0, 6900), "1") })
+{
+    Add(key, new Circle(c, Vector3d.ZAxis, Du(400)), grid);
+    Add(key + "t", new DBText { Position = new Point3d(c.X - Du(100), c.Y - Du(100), 0), Height = Du(200), TextString = label }, grid);
+}
+// the stub that carries bubble A (collinear with grid A: one grid line, not two), and bubble 2 as a block with its label in an attribute
+Add("gAs", new Line(P(-1500, 0), P(0, 0)), grid);
+var bt0 = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForWrite);
+var bubDef = new BlockTableRecord { Name = "GRID-BUB" };
+var bubDefId = bt0.Add(bubDef); tr.AddNewlyCreatedDBObject(bubDef, true);
+var bubCircle = new Circle(new Point3d(0, 0, 0), Vector3d.ZAxis, Du(400)); bubDef.AppendEntity(bubCircle); tr.AddNewlyCreatedDBObject(bubCircle, true);
+var bubAtt = new AttributeDefinition(new Point3d(-Du(100), -Du(100), 0), "X", "GRIDLABEL", "Grid label", db.Textstyle) { Height = Du(200) };
+bubDef.AppendEntity(bubAtt); tr.AddNewlyCreatedDBObject(bubAtt, true);
+var bub2 = new BlockReference(P(6000, 6900), bubDefId);
+Add("bub2", bub2, grid);
+var bub2Att = new AttributeReference(); bub2Att.SetAttributeFromBlock(bubAtt, bub2.BlockTransform); bub2Att.TextString = "2";
+bub2.AttributeCollection.AppendAttribute(bub2Att); tr.AddNewlyCreatedDBObject(bub2Att, true);
+// a column block with its MARK attribute 600 mm to the right of the symbol: the footprint is the symbol, the mark is the attribute
+var colDef = new BlockTableRecord { Name = "COL-400" };
+var colDefId = bt0.Add(colDef); tr.AddNewlyCreatedDBObject(colDef, true);
+var colRect = new Polyline(4);
+colRect.AddVertexAt(0, new Point2d(-Du(200), -Du(200)), 0, 0, 0); colRect.AddVertexAt(1, new Point2d(Du(200), -Du(200)), 0, 0, 0);
+colRect.AddVertexAt(2, new Point2d(Du(200), Du(200)), 0, 0, 0); colRect.AddVertexAt(3, new Point2d(-Du(200), Du(200)), 0, 0, 0); colRect.Closed = true;
+colDef.AppendEntity(colRect); tr.AddNewlyCreatedDBObject(colRect, true);
+var colAtt = new AttributeDefinition(new Point3d(Du(600), 0, 0), "C0", "MARK", "Column mark", db.Textstyle) { Height = Du(200) };
+colDef.AppendEntity(colAtt); tr.AddNewlyCreatedDBObject(colAtt, true);
+var colBlk = new BlockReference(P(30000, 5000), colDefId);
+Add("colblk", colBlk, col);
+var colBlkAtt = new AttributeReference(); colBlkAtt.SetAttributeFromBlock(colAtt, colBlk.BlockTransform); colBlkAtt.TextString = "C9";
+colBlk.AttributeCollection.AppendAttribute(colBlkAtt); tr.AddNewlyCreatedDBObject(colBlkAtt, true);
+Add("slab", Rect(-500, -500, 7000, 6000), slab);
+Add("open1", Rect(100, 100, 300, 300), open);
+Add("open2", Rect(20000, 8000, 500, 500), open);
+// standards defects: a text on a wall layer, a line on layer 0, a colour override, a badly named layer with nothing on it
+Add("stdText", new DBText { Position = P(40000, 0), Height = Du(200), TextString = "NOT ON A TEXT LAYER" }, wall);
+Add("stdZero", new Line(P(40000, 4000), P(41000, 4000)), lt["0"]);
+Add("stdColor", new Line(P(40000, 2000), P(41000, 2000)) { ColorIndex = 1 }, wall);
+Layer("walls_old", 3);
 // a solid hatch over a 2000 x 1000 rectangle
 var hatch = new Hatch(); hatch.SetHatchPattern(HatchPatternType.PreDefined, "SOLID");
 Add("hatch", hatch, wall);
 hatch.AppendLoop(HatchLoopTypes.Outermost, new Point2dCollection { new Point2d(Du(24000), Du(4000)), new Point2d(Du(26000), Du(4000)), new Point2d(Du(26000), Du(5000)), new Point2d(Du(24000), Du(5000)) }, new DoubleCollection { 0, 0, 0, 0 });
 hatch.EvaluateHatch(true);
 // a block definition with one attribute, inserted once with MARK = D01
-var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForWrite);
+var bt = bt0;
 var def = new BlockTableRecord { Name = "DOOR-TEST" };
 var defId = bt.Add(def); tr.AddNewlyCreatedDBObject(def, true);
 var doorLine = new Line(new Point3d(0, 0, 0), new Point3d(Du(900), 0, 0)); def.AppendEntity(doorLine); tr.AddNewlyCreatedDBObject(doorLine, true);
@@ -162,12 +209,12 @@ def main():
         check("initialize", init.get("serverInfo", {}).get("name") == "HPAutoCad MCP", short(init.get("serverInfo")))
         names = s.tools()
         aec = ["get_drawing_context", "query_entities", "query_entities_spatial", "measure_geometry", "detect_geometry_issues"]
-        check("tools/list holds the 5 AEC seeds (+ the 24 others)", all(n in names for n in aec) and len(names) >= 29, f"{len(names)} tools")
+        check("tools/list holds the AEC seeds (+ the core and registry tools)", all(n in names for n in aec) and len(names) >= 40, f"{len(names)} tools")
 
         # ---- S: scene -------------------------------------------------------------------------------------------------
         scene = s.tool("execute_autocad_code", {"code": SCENE, "transaction": "auto", "label": "aec scene", "timeoutSeconds": 60}, timeout=120)
         h = value(scene) or {}
-        check("S scene drawn (24 entities, 5 layers)", not scene.get("isError") and len(h) == 24 and (scene.get("changed") or {}).get("added", 0) >= 24, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
+        check("S scene drawn (43 entities, 9 layers)", not scene.get("isError") and len(h) == 43 and (scene.get("changed") or {}).get("added", 0) >= 43, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
         save("scene-handles", h)
         if not h:
             return CL.finish("aec-tools-live")
@@ -176,7 +223,7 @@ def main():
         ctx = s.tool("get_drawing_context", {"includeLayouts": True, "includeLayers": True})
         v = value(ctx) or {}
         counts = v.get("counts") or {}
-        check("C context: units, layout, counts, ucs, extents", not ctx.get("isError") and v.get("units", {}).get("mmPerUnit") and v.get("activeLayout") and counts.get("modelSpaceEntities", 0) >= 24 and counts.get("layers", 0) >= 6 and v.get("ucs", {}).get("isWorld") is not None,
+        check("C context: units, layout, counts, ucs, extents", not ctx.get("isError") and v.get("units", {}).get("mmPerUnit") and v.get("activeLayout") and counts.get("modelSpaceEntities", 0) >= 42 and counts.get("layers", 0) >= 6 and v.get("ucs", {}).get("isWorld") is not None,
               f"units={short(v.get('units'), 80)} layout={v.get('activeLayout')} entities={counts.get('modelSpaceEntities')} layers={counts.get('layers')}")
         check("C context lists layouts and the S-COL layer", any(l.get("name") == "Model" for l in (v.get("layouts") or [])) and any(l.get("name") == "S-COL" and l.get("color") == "1" for l in (v.get("layers") or [])), short(v.get("layouts")))
         save("context", v)
@@ -184,8 +231,8 @@ def main():
         # ---- Q: query_entities ----------------------------------------------------------------------------------------
         q = value(s.tool("query_entities", {"filter": {"types": ["LWPOLYLINE"], "layers": ["S-COL"]}})) or {}
         check("Q columns by type + layer: 4 records with bounds", q.get("success") and q.get("count") == 4 and len(q.get("items", [])) == 4 and all(i.get("boundsMm") for i in q["items"]), short(q.get("summary")))
-        paged = value(s.tool("query_entities", {"filter": {"layers": ["S-*"]}, "limit": 3, "offset": 3})) or {}
-        check("Q paging: layers S-* limit 3 offset 3 -> count 7, 3 items, truncated", paged.get("count") == 7 and len(paged.get("items", [])) == 3 and paged.get("truncated") is True and paged.get("offset") == 3, short(paged.get("summary")))
+        paged = value(s.tool("query_entities", {"filter": {"layers": ["S-COL", "S-BEAM"]}, "limit": 3, "offset": 3})) or {}
+        check("Q paging: layers S-COL + S-BEAM limit 3 offset 3 -> count 8 (4 columns + the column block + 3 beams), 3 items, truncated", paged.get("count") == 8 and len(paged.get("items", [])) == 3 and paged.get("truncated") is True and paged.get("offset") == 3, short(paged.get("summary")))
         detail = value(s.tool("query_entities", {"filter": {"handles": [h["c1"]]}, "mode": "detail"})) or {}
         item = (detail.get("items") or [{}])[0]
         geom = item.get("geometry") or {}
@@ -303,16 +350,16 @@ def main():
         cls = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-*", "A-*", "M-*"]}, "includeUnknown": True, "minConfidence": 0})) or {}
         by = {o["handle"]: o for o in cls.get("items", [])}
         summary = (cls.get("summary") or {}).get("byAecType") or {}
-        check("B classify: 4 columns, 3 beams, 1 pipe, 1 door block, walls; circle/text/hatch unknown",
-              cls.get("success") and summary.get("StructuralColumn") == 4 and summary.get("StructuralBeam") == 3 and summary.get("Pipe") == 1 and summary.get("Door") == 1 and summary.get("ArchitecturalWall", 0) >= 8
+        check("B classify: 5 columns (4 outlines + the COL-400 block), 3 beams, 1 pipe, 1 door block, walls; circle/text/hatch unknown",
+              cls.get("success") and summary.get("StructuralColumn") == 5 and summary.get("StructuralBeam") == 3 and summary.get("Pipe") == 1 and summary.get("Door") == 1 and summary.get("ArchitecturalWall", 0) >= 8
               and by.get(h["circle"], {}).get("aecType") == "Unknown" and by.get(h["text"], {}).get("aecType") == "Unknown", short(summary))
         c1 = by.get(h["c1"]) or {}
         check("B column object: confidence >= 0.9, evidence names the layer and the 400x400 footprint, properties width/depth/area/centroid",
               c1.get("aecType") == "StructuralColumn" and c1.get("confidence", 0) >= 0.9 and any("S-COL" in e for e in c1.get("evidence", [])) and near((c1.get("properties") or {}).get("widthMm"), 400) and near((c1.get("properties") or {}).get("areaMm2"), 160000) and (c1.get("properties") or {}).get("centroidMm"), short(c1, 400))
         door = by.get(h["door"]) or {}
         check("B door block: Door 0.9 via block name, attributes carried", door.get("aecType") == "Door" and near(door.get("confidence"), 0.9) and ((door.get("properties") or {}).get("attributes") or {}).get("MARK") == "D01", short(door, 300))
-        structural = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-*", "A-*", "M-*"]}, "disciplines": ["Structural"], "limit": 5, "offset": 5})) or {}
-        check("B disciplines=Structural + paging: count 7, page 2 has 2 items, ruleSet reported", structural.get("count") == 7 and len(structural.get("items", [])) == 2 and (structural.get("summary") or {}).get("ruleSet", {}).get("rules", 0) >= 20, short(structural.get("summary"), 300))
+        structural = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-COL", "S-BEAM", "A-*", "M-*"]}, "disciplines": ["Structural"], "limit": 5, "offset": 5})) or {}
+        check("B disciplines=Structural + paging: count 8, page 2 has 3 items, ruleSet reported", structural.get("count") == 8 and len(structural.get("items", [])) == 3 and (structural.get("summary") or {}).get("ruleSet", {}).get("rules", 0) >= 20, short(structural.get("summary"), 300))
         rel = value(s.tool("get_entity_relationships", {"filter": {"layers": ["S-BEAM"]}, "target": {"layers": ["S-COL"]}, "relations": ["connected"]})) or {}
         pairs = {(r["source"], r["target"]): r for r in rel.get("items", [])}
         b2c4 = pairs.get((h["b2"], h["c4"])) or {}
@@ -327,12 +374,76 @@ def main():
         check("B relationships limit 2: count stays 6 (the total), 2 items, truncated", capped.get("count") == 6 and len(capped.get("items", [])) == 2 and capped.get("truncated") is True, short({k: capped.get(k) for k in ("count", "truncated")}))
         big = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-*", "A-*", "M-*"]}, "limit": 100})) or {}
         check("B classify limit 100 -> warned, capped at 50 per page", len(big.get("items", [])) <= 50 and any("capped at 50" in w for w in big.get("warnings", [])), short(big.get("warnings")))
-        every = value(s.tool("get_entity_relationships", {"filter": {"layers": ["S-*", "A-WALL"]}, "relations": ["intersect", "connected", "near", "touching", "inside", "contains"], "maxDistance": 500})) or {}
+        every = value(s.tool("get_entity_relationships", {"filter": {"layers": ["S-COL", "S-BEAM", "A-WALL"]}, "relations": ["intersect", "connected", "near", "touching", "inside", "contains"], "maxDistance": 500})) or {}
         origin = [r for r in every.get("items", []) if near((r.get("locationMm") or {}).get("x"), 0, 1) and near((r.get("locationMm") or {}).get("y"), 0, 1)]
         check("B every proximity relationship carries a real location (none at the origin)", every.get("count", 0) >= 10 and all(r.get("locationMm") for r in every.get("items", [])) and not origin, f"{every.get('count')} relationships, at origin: {len(origin)}")
         badrel = s.tool("get_entity_relationships", {"relations": ["connected"]})
         check("B empty source -> ArgumentException", badrel.get("isError") and "source" in (badrel.get("message") or ""), short(badrel.get("message")))
         save("semantic", {"classify": cls, "structural": structural, "connected": rel, "intersect": inter, "parallel": par, "capped": capped, "big": big, "every": every})
+
+        # ---- N: structural ---------------------------------------------------------------------------------------------------
+        gr = value(s.tool("structural_detect_grids", {})) or {}
+        gsum = gr.get("summary") or {}
+        lines = {l["handle"]: l for l in gr.get("items", [])}
+        check("N detect_grids: 4 lines labelled A, B, 1, 2 (A's stub merged into it, 2 read from the block bubble's attribute), 4 intersections, spacing 5010 / 6000",
+              gr.get("count") == 4 and gsum.get("labels") == ["1", "2", "A", "B"] and lines.get(h["gA"], {}).get("label") == "A" and lines.get(h["gA"], {}).get("bubbleHandle") == h["bubA"] and lines.get(h["gA"], {}).get("mergedSegments") == 2 and gsum.get("merged") == 1
+              and lines.get(h["gl2"], {}).get("direction") == "vertical" and lines.get(h["gl2"], {}).get("label") == "2" and lines.get(h["gl2"], {}).get("bubbleHandle") == h["bub2"]
+              and gsum.get("intersectionCount") == 4 and (gsum.get("spacingMm") or {}).get("horizontal") == [5010] and (gsum.get("spacingMm") or {}).get("vertical") == [6000], short(gsum, 300))
+        mem = value(s.tool("structural_detect_members", {})) or {}
+        msum = mem.get("summary") or {}
+        by_handle = {m["handle"]: m for m in mem.get("items", [])}
+        check("N detect_members: 5 columns (4 drawn 400×400 + the block 400×400 despite its attribute, mark C9 from the MARK attribute), 3 beams L 5600/5593, 1 slab, 2 openings",
+              (msum.get("byKind") or {}).get("column") == 5 and (msum.get("byKind") or {}).get("beam") == 3 and (msum.get("byKind") or {}).get("slab") == 1 and (msum.get("byKind") or {}).get("opening") == 2
+              and by_handle.get(h["c1"], {}).get("section") == "400×400" and near((by_handle.get(h["c1"], {}).get("centerMm") or {}).get("x"), 0) and by_handle.get(h["b2"], {}).get("section") == "L 5593" and by_handle.get(h["b2"], {}).get("axisMm")
+              and by_handle.get(h["colblk"], {}).get("section") == "400×400" and by_handle.get(h["colblk"], {}).get("mark") == "C9" and by_handle.get(h["colblk"], {}).get("markSource") == "attribute" and by_handle.get(h["colblk"], {}).get("markHandle") == h["colblk"], f"{short(msum, 200)} colblk={short(by_handle.get(h['colblk']), 200)}")
+        con = value(s.tool("structural_member_connectivity_check", {})) or {}
+        con5 = value(s.tool("structural_member_connectivity_check", {"tolerance": {"endpointConnection": 5}})) or {}
+        c5 = [i for i in con5.get("items", []) if i["type"] == "gap_to_support"]
+        check("N connectivity: no issue at 10 mm; at 5 mm b2 -> c4 is a 7 mm gap_to_support (STR-CON-001, warning)",
+              con.get("count") == 0 and (con.get("summary") or {}).get("scope", {}).get("beams") == 3 and len(c5) == 1 and c5[0]["handles"] == [h["b2"], h["c4"]] and near(c5[0].get("valueMm"), 7) and c5[0]["issueId"] == "STR-CON-001", short(c5, 300))
+        aln = value(s.tool("structural_column_alignment_check", {})) or {}
+        aln5 = value(s.tool("structural_column_alignment_check", {"alignmentToleranceMm": 5})) or {}
+        off = [i for i in aln5.get("items", []) if i["type"] == "column_off_grid"]
+        nogrid = [i for i in aln.get("items", []) if i["type"] == "column_no_grid"]
+        check("N column alignment: the 4 drawn columns on grid at 25 mm, the block column 24 m away has no grid (column_no_grid); at 5 mm c3 + c4 are 10 mm off grid B (STR-ALN, handles column + 2 grid lines)",
+              aln.get("count") == 1 and nogrid and nogrid[0]["handles"] == [h["colblk"]] and (aln.get("summary") or {}).get("scope", {}).get("intersections") == 4 and len(off) == 2 and {o["handles"][0] for o in off} == {h["c3"], h["c4"]} and all(near(o.get("valueMm"), 10) and h["gB"] in o["handles"] for o in off), short(off, 300))
+        opn = value(s.tool("structural_opening_conflict_check", {})) or {}
+        ot = {i["type"]: i for i in opn.get("items", [])}
+        check("N opening conflicts: open1 through column c1 (critical, STR-OPN-001), open2 outside the slab (warning)",
+              opn.get("count") == 2 and ot.get("opening_through_column", {}).get("handles") == [h["open1"], h["c1"]] and ot["opening_through_column"]["issueId"] == "STR-OPN-001" and ot.get("opening_outside_host", {}).get("handles") == [h["open2"]], short(opn.get("items"), 300))
+        save("structural", {"grids": gr, "members": mem, "connectivity": [con, con5], "alignment": [aln, aln5], "openings": opn})
+
+        # ---- T: standards + audit ---------------------------------------------------------------------------------------
+        std = value(s.tool("cad_standards_check", {})) or {}
+        st = {i["type"]: [x for x in std.get("items", []) if x["type"] == i["type"]] for i in std.get("items", [])}
+        check("T cad_standards_check whole drawing: layer_naming walls_old, entity_layer text, layer_zero line, color_override, unused_layer walls_old; ids STD-nnnn",
+              std.get("success") and (std.get("summary") or {}).get("wholeDrawing") is True
+              and any(i.get("layer") == "walls_old" for i in st.get("layer_naming", [])) and any(i.get("handles") == [h["stdText"]] for i in st.get("entity_layer", []))
+              and any(i.get("handles") == [h["stdZero"]] for i in st.get("layer_zero", [])) and any(i.get("handles") == [h["stdColor"]] for i in st.get("color_override", []))
+              and any(i.get("layer") == "walls_old" for i in st.get("unused_layer", [])) and std["items"][0].get("issueId") == "STD-0001", short((std.get("summary") or {}).get("byType"), 200))
+        std2 = value(s.tool("cad_standards_check", {})) or {}
+        check("T standards ids and order are identical on a second run", [(i["issueId"], i["type"], i.get("handles"), i.get("layer")) for i in std.get("items", [])] == [(i["issueId"], i["type"], i.get("handles"), i.get("layer")) for i in std2.get("items", [])], f"{len(std.get('items', []))} issues")
+        sub = value(s.tool("cad_standards_check", {"checks": ["layer_naming", "bogus"], "filter": {"layers": ["S-*"]}})) or {}
+        sub2 = value(s.tool("cad_standards_check", {"checks": ["unused_layer"], "filter": {"layers": ["S-*"]}})) or {}
+        check("T checks subset + filter: only layer_naming issues, unknown check warned; unused_layer on a subset skipped with a warning",
+              all(i["type"] == "layer_naming" for i in sub.get("items", [])) and (sub.get("summary") or {}).get("checkedTypes") == ["layer_naming"] and any("bogus" in w for w in sub.get("warnings", []))
+              and sub2.get("count") == 0 and (sub2.get("summary") or {}).get("checkedTypes") == [] and any("unused_layer skipped" in w for w in sub2.get("warnings", [])), short(sub2.get("warnings"), 250))
+        badrs = s.tool("cad_standards_check", {"ruleSet": "does-not-exist"})
+        check("T unknown rule set -> ArgumentException without the profile path", badrs.get("isError") and "not found" in (badrs.get("message") or "") and "AppData" not in (badrs.get("message") or ""), short(badrs.get("message")))
+        aud = value(s.tool("audit_aec_drawing", {})) or {}
+        asum = aud.get("summary") or {}
+        sev = [i["severity"] for i in aud.get("items", [])]
+        rank = {"critical": 0, "warning": 1, "info": 2}
+        check("T audit_aec_drawing: geometry + standards sections, GEO and STD ids, severity-ordered, bySeverity totals add up",
+              aud.get("success") and asum.get("sections") == ["geometry", "standards"] and any(i["issueId"].startswith("GEO-") for i in aud.get("items", [])) and any(i["issueId"].startswith("STD-") for i in aud.get("items", []))
+              and sev == sorted(sev, key=lambda x: rank[x]) and sum((asum.get("bySeverity") or {}).values()) == aud.get("count"), short(asum, 300))
+        warn = value(s.tool("audit_aec_drawing", {"minSeverity": "warning"})) or {}
+        check("T minSeverity warning drops the info issues and counts them", warn.get("count") == asum.get("bySeverity", {}).get("critical", 0) + asum.get("bySeverity", {}).get("warning", 0) and (warn.get("summary") or {}).get("belowMinSeverity") == asum.get("bySeverity", {}).get("info"), short(warn.get("summary"), 200))
+        page = value(s.tool("audit_aec_drawing", {"limit": 3, "offset": 3})) or {}
+        check("T paging: offset 3 limit 3 returns items 4-6 of the same order", [i["issueId"] for i in page.get("items", [])] == [i["issueId"] for i in aud.get("items", [])][3:6] and page.get("truncated") is True, short(page.get("items"), 200))
+        geo_only = value(s.tool("audit_aec_drawing", {"sections": ["geometry"], "filter": {"layers": ["S-*", "A-WALL"]}})) or {}
+        check("T sections geometry only: no STD issues, no ruleSet in the summary", all(i["category"] == "geometry" for i in geo_only.get("items", [])) and (geo_only.get("summary") or {}).get("ruleSet") is None and (geo_only.get("summary") or {}).get("sections") == ["geometry"], short(geo_only.get("summary"), 200))
+        save("audit", {"standards": std, "subset": sub, "audit": aud, "warn": warn, "page": page, "geometryOnly": geo_only})
 
         # ---- E: error paths ---------------------------------------------------------------------------------------------
         badh = value(s.tool("query_entities", {"filter": {"handles": ["ZZZZZZ", "nothex", h["c1"]]}})) or {}

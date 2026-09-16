@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Cloud the critical issues an audit found (pass the items back as they came)",
+    "args": {
+      "style": "revcloud",
+      "issues": [
+        {
+          "issueId": "GEO-0003",
+          "category": "geometry",
+          "type": "endpoint_gap",
+          "severity": "critical",
+          "handles": [
+            "2A3",
+            "2A9"
+          ],
+          "locationMm": {
+            "x": 5793,
+            "y": 5000
+          },
+          "description": "Wall 2A3 ends 7 mm short of wall 2A9"
+        }
+      ]
+    }
+  },
+  {
+    "title": "Circle one location without a leader, on a project layer",
+    "args": {
+      "issues": [
+        {
+          "issueId": "RFI-12",
+          "locationMm": {
+            "x": 12000,
+            "y": 3400
+          }
+        }
+      ],
+      "withLeader": false,
+      "layer": "A-ANNO-MARK",
+      "radiusMm": 300
+    }
+  }
+]

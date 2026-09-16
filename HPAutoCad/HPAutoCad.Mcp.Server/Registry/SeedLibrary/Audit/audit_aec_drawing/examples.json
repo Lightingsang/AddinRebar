@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Full audit, everything",
+    "args": {}
+  },
+  {
+    "title": "Only what must be fixed before issue (warnings and above) on the structural layers",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*"
+        ]
+      },
+      "minSeverity": "warning"
+    }
+  },
+  {
+    "title": "Geometry only with a looser gap tolerance, page 2",
+    "args": {
+      "sections": [
+        "geometry"
+      ],
+      "tolerance": {
+        "endpointConnection": 25
+      },
+      "limit": 50,
+      "offset": 50
+    }
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Columns within 25 mm of their grid intersection",
+    "args": {}
+  },
+  {
+    "title": "Tight 5 mm check, grid may be 3 m away",
+    "args": {
+      "alignmentToleranceMm": 5,
+      "searchRadiusMm": 3000
+    }
+  }
+]

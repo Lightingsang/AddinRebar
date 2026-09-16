@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Schedule rows as data",
+    "args": {}
+  },
+  {
+    "title": "Draw the column and beam schedule beside the plan",
+    "args": {
+      "kinds": [
+        "column",
+        "beam"
+      ],
+      "writeTable": true,
+      "insertPoint": {
+        "x": 20000,
+        "y": 0
+      },
+      "title": "COLUMN & BEAM SCHEDULE",
+      "layer": "S-ANNO-TEXT"
+    }
+  }
+]

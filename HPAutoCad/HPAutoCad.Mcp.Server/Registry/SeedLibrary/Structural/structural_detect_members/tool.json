@@ -1,0 +1,98 @@
+{
+  "name": "structural_detect_members",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structural",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "structural",
+    "columns",
+    "beams",
+    "walls",
+    "slabs",
+    "sections"
+  ],
+  "title": "Detect structural members",
+  "description": "Read-only. Classifies the structural discipline (rule set) and returns members with their sizes: kind column|beam|wall|slab|opening, section (width×depth or Ø of a footprint; L <length> for a beam or wall however it is drawn), widthMm, depthMm, lengthMm, areaMm2, orientationDeg, centerMm, boundsMm (a block's symbol without its attributes), axisMm (runs), confidence, and the existing mark: mark + markHandle + markSource — a block reference's own MARK attribute (markSource attribute), else a mark-shaped TEXT (C1, B12, KC-3) on or within 300 mm of the member whose letters are a known prefix (defaults C, B, W, S, O or prefixes) (markSource text); every text belongs to one member only — the one containing it, else the nearest. summary counts by kind, the most common sections, marked members and duplicateExisting marks. Millimetres. Returns the analysis envelope (items ~470 B, max 100 per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Structural layers are recognised by the classification rule set (S-COL, DAM, S-GRID, TRUC…)"
+      },
+      "kinds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "column",
+            "beam",
+            "wall",
+            "slab",
+            "opening"
+          ]
+        },
+        "description": "Member kinds; empty = all"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "prefixes": {
+        "type": "object",
+        "description": "{column, beam, wall, slab, opening} → mark prefix (defaults C, B, W, S, O); a TEXT beside a member counts as its mark only when its letters are one of these"
+      },
+      "minConfidence": {
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 1
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    }
+  }
+}

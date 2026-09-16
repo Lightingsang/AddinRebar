@@ -29,6 +29,8 @@
         <!-- The default AEC classification rule set: data, editable per project by copying it to the MCP server's rules folder
              (%AppData%\HPAutoCad\McpServer\rules\aec-classification.json). -->
         <EmbeddedResource Include="Rules\aec-classification.default.json" LogicalName="HPAutoCad.Aec.Rules.aec-classification.default.json"/>
+        <!-- The default CAD standards: layer/block naming, entity-layer expectations, overrides, styles; overridable per project the same way. -->
+        <EmbeddedResource Include="Rules\cad-standards.default.json" LogicalName="HPAutoCad.Aec.Rules.cad-standards.default.json"/>
     </ItemGroup>
 
     <ItemGroup>

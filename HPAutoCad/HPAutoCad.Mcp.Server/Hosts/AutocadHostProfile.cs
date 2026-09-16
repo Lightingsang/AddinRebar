@@ -29,7 +29,7 @@ public static class AutocadHostProfile
         ContextToolName = ContextToolName,
         ResourceScheme = PipeNaming.AutocadHost,
         // Geometry / Audit / Aec hold the AEC engine seeds (measure, spatial, issue detection, classification, relationships).
-        Categories = new[] { "Drawing", "Layer", "Block", "Annotation", "Layout", "Data", "Generic", "Geometry", "Audit", "Aec" },
+        Categories = new[] { "Drawing", "Layer", "Block", "Annotation", "Layout", "Data", "Generic", "Geometry", "Audit", "Aec", "Structural" },
         CoreToolNames = new[] { ExecuteToolName, ContextToolName, "inspect_type", "cancel_execution" },
         ScriptImports = HostScriptContracts.AutocadImports,
         ScriptContractSummary =

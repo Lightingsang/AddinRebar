@@ -1,0 +1,13 @@
+var filter = args.Obj("filter");
+var kinds = args.Strings("kinds");
+string ruleSet = args.Str("ruleSet");
+var prefixes = args.Obj("prefixes");
+int start = args.Int("start", 1);
+int digits = args.Int("digits", 1);
+string sortBy = args.Str("sortBy");
+bool overwrite = args.Bool("overwrite", false);
+string layer = args.Str("layer");
+double textHeightMm = args.Double("textHeightMm", 200);
+string space = args.Str("space");
+bool apply = args.Bool("apply", true);
+return AecTools.StructuralTagMembers(db, ed, tr, units, ct, log, filter, kinds, ruleSet, prefixes, start, digits, sortBy, overwrite, layer, textHeightMm, space, apply);

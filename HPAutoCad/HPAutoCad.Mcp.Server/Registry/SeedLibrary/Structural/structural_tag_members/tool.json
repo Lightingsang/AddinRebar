@@ -1,0 +1,117 @@
+{
+  "name": "structural_tag_members",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structural",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "structural",
+    "tag",
+    "mark",
+    "numbering",
+    "annotation"
+  ],
+  "title": "Tag structural members",
+  "description": "Numbers the classified members (max 120 per call — tag one kind or a filter at a time, start continues the numbering) and writes each mark where the member keeps it: a block reference's MARK attribute when it has one, the member's existing mark TEXT edited in place when it is renumbered, else a new middle-centred TEXT at the member's centre on the tag layer (default S-ANNO-TEXT, created if missing; locked/frozen refused, off warned) in space (default: the space the members were read from). Marks are {prefix}{n}: prefixes per kind (defaults C, B, W, S, O — override with prefixes {column: \"KC\"}), from start, padded to digits, in sortBy order: row (top-left to bottom-right, rows 250 mm apart, default), column, handle. Existing marks (a MARK attribute, or a mark text on / within 300 mm whose letters are a known prefix) are respected unless overwrite is true: same prefix → kept_existing and its number reserved (C01 reserves 1 whatever the padding); another prefix → kept_foreign, untouched; duplicates are warned. overwrite true renumbers everything in place. apply: false only decides (summary.marks lists every member, mark, outcome — assigned | kept_existing | kept_foreign | overwritten — and markHandle) and writes nothing. Returns the edit envelope {success, createdCount (new texts), modifiedCount (attributes + texts edited in place), items[{index, ok, handle, type, changed [mark:C1, for:<member> | was:<old>]}], summary {assigned, keptExisting, keptForeign, overwritten, byKind, marks, written [{handle, mark, via attribute|text|newText, textHandle}]}, warnings, errors}. Two-phase: nothing is written unless every mark can be (a mark text on a locked layer refuses the whole call). Side effects: adds/edits text entities (and possibly a layer) inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back; member geometry is never modified.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Structural layers are recognised by the classification rule set (S-COL, DAM, S-GRID, TRUC…)"
+      },
+      "kinds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "column",
+            "beam",
+            "wall",
+            "slab",
+            "opening"
+          ]
+        },
+        "description": "Member kinds; empty = all"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "prefixes": {
+        "type": "object",
+        "description": "{column, beam, wall, slab, opening} → mark prefix (defaults C, B, W, S, O); a TEXT beside a member counts as its mark only when its letters are one of these"
+      },
+      "start": {
+        "type": "integer",
+        "default": 1,
+        "minimum": 0
+      },
+      "digits": {
+        "type": "integer",
+        "default": 1,
+        "minimum": 1,
+        "maximum": 6,
+        "description": "Zero-padding width (2 → C01)"
+      },
+      "sortBy": {
+        "type": "string",
+        "enum": [
+          "row",
+          "column",
+          "handle"
+        ],
+        "default": "row"
+      },
+      "overwrite": {
+        "type": "boolean",
+        "default": false,
+        "description": "Renumber members that already carry a mark (attribute or text), editing the mark in place"
+      },
+      "layer": {
+        "type": "string",
+        "default": "S-ANNO-TEXT"
+      },
+      "textHeightMm": {
+        "type": "number",
+        "default": 200
+      },
+      "space": {
+        "type": "string",
+        "description": "Where new mark texts go: model or a layout name; default = the space the members were read from (filter.space, model unless given)"
+      },
+      "apply": {
+        "type": "boolean",
+        "default": true,
+        "description": "false = decide only, write nothing"
+      }
+    }
+  }
+}

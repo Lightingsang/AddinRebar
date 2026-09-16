@@ -1,4 +1,5 @@
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using HPAutoCad.Aec.Geometry;
 using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 
@@ -91,6 +92,57 @@ public sealed partial class EntityShapeReader
         }
 
         return attributes;
+    }
+
+    /// <summary>
+    ///     The symbol's own extents — the block definition without its attribute definitions, transformed by the reference — so a
+    ///     block with a visible label beside it (a column with its MARK to the right) measures as the symbol, not symbol + label.
+    ///     Cached per definition; null when the definition has no measurable geometry.
+    /// </summary>
+    private Box? SymbolBounds(BlockReference block)
+    {
+        if (!_definitionExtents.TryGetValue(block.BlockTableRecord, out var extents))
+        {
+            extents = null;
+            try
+            {
+                var definition = (BlockTableRecord)_tr.GetObject(block.BlockTableRecord, OpenMode.ForRead);
+                foreach (ObjectId id in definition)
+                {
+                    if (_tr.GetObject(id, OpenMode.ForRead) is not Entity entity || entity is AttributeDefinition) continue;
+                    try
+                    {
+                        var own = entity.GeometricExtents;
+                        if (extents is { } acc) { acc.AddExtents(own); extents = acc; }
+                        else extents = own;
+                    }
+                    catch (AcadException)
+                    {
+                        // an entity without finite extents (a point, an xline) adds nothing
+                    }
+                }
+            }
+            catch (AcadException)
+            {
+                extents = null;
+            }
+
+            _definitionExtents[block.BlockTableRecord] = extents;
+        }
+
+        if (extents is not { } box) return null;
+        box.TransformBy(block.BlockTransform);
+        return Box.Of(ToPt(box.MinPoint), ToPt(box.MaxPoint));
+    }
+
+    private readonly Dictionary<ObjectId, Extents3d?> _definitionExtents = new();
+
+    /// <summary>The name of a text or dimension style record; null when the id is not a symbol table record.</summary>
+    private string? StyleName(ObjectId styleId)
+    {
+        if (styleId.IsNull) return null;
+        try { return (_tr.GetObject(styleId, OpenMode.ForRead) as SymbolTableRecord)?.Name; }
+        catch (AcadException) { return null; }
     }
 
     private static string ColorOf(Entity entity)

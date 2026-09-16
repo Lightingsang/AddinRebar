@@ -63,14 +63,15 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_twenty_five_seeds_are_embedded()
+    public void All_thirty_five_seeds_are_embedded()
     {
-        // 12 drawing/data seeds + 7 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
-        // relationships) + 6 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs)
+        // 12 drawing/data seeds + 14 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
+        // relationships, standards, audit, grids, members, connectivity, alignment, openings) + 9 AEC write seeds (batch create/update,
+        // blocks + attributes, annotations, hatches, xrefs, issue markup, member tagging, member schedule)
         var seeds = LoadSeeds();
-        Assert.Equal(25, seeds.Count);
+        Assert.Equal(35, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(13, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(20, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
     }
 
     [Theory]
@@ -81,6 +82,13 @@ public sealed class SeedLibraryTests
     [InlineData("detect_geometry_issues")]
     [InlineData("classify_aec_entities")]
     [InlineData("get_entity_relationships")]
+    [InlineData("cad_standards_check")]
+    [InlineData("audit_aec_drawing")]
+    [InlineData("structural_detect_grids")]
+    [InlineData("structural_detect_members")]
+    [InlineData("structural_member_connectivity_check")]
+    [InlineData("structural_column_alignment_check")]
+    [InlineData("structural_opening_conflict_check")]
     public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
     {
         // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
@@ -97,6 +105,9 @@ public sealed class SeedLibraryTests
     [InlineData("manage_annotations")]
     [InlineData("manage_hatches")]
     [InlineData("manage_xrefs")]
+    [InlineData("create_issue_markup")]
+    [InlineData("structural_tag_members")]
+    [InlineData("structural_generate_member_schedule")]
     public void Aec_write_seed_is_a_thin_shim_that_documents_its_side_effects(string name)
     {
         // Write seeds run under the bridge's auto transaction (dryRun rolls back), read every declared arg, and say what they change.
@@ -123,6 +134,13 @@ public sealed class SeedLibraryTests
     [InlineData("query_entities", HPAutoCad.Aec.AecTools.MaxLimit)]
     [InlineData("detect_geometry_issues", HPAutoCad.Aec.AecTools.MaxLimit)]
     [InlineData("manage_blocks_attributes", HPAutoCad.Aec.Cad.BlockService.MaxDefinitionLimit)]
+    [InlineData("cad_standards_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("audit_aec_drawing", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("structural_detect_grids", HPAutoCad.Aec.AecTools.MaxGridLimit)]
+    [InlineData("structural_detect_members", HPAutoCad.Aec.AecTools.MaxMemberLimit)]
+    [InlineData("structural_member_connectivity_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("structural_column_alignment_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("structural_opening_conflict_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
     public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
     {
         // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.

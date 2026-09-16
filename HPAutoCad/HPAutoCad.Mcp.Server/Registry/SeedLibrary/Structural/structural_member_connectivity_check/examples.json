@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Every beam of the plan against its supports",
+    "args": {}
+  },
+  {
+    "title": "Strict 5 mm landing tolerance on level 3 layers",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*-L3"
+        ]
+      },
+      "tolerance": {
+        "endpointConnection": 5
+      }
+    }
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "title": "The grid of the whole plan",
+    "args": {}
+  },
+  {
+    "title": "Grid on a Vietnamese TRUC layer with bubbles far from the line ends",
+    "args": {
+      "filter": {
+        "layers": [
+          "TRUC*"
+        ]
+      },
+      "reachMm": 4000
+    }
+  }
+]

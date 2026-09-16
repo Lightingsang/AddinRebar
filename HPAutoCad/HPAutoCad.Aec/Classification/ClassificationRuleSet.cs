@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using HPAutoCad.Aec.Model;
 
 namespace HPAutoCad.Aec.Classification;
 
@@ -36,35 +37,19 @@ public sealed class ClassificationRuleSet
     public IReadOnlyList<ClassificationRule> Rules { get; init; } = [];
 
     /// <summary>Where user rule sets live: one JSON file per name, next to the AutoCAD MCP server's registry.</summary>
-    public static string UserRulesDirectory =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HPAutoCad", "McpServer", "rules");
+    public static string UserRulesDirectory => RuleFileLocator.UserRulesDirectory;
 
     /// <summary>
     ///     <c>default</c> → the embedded set; <c>user</c> → <c>rules\aec-classification.json</c>; any other plain name → <c>rules\&lt;name&gt;.json</c>;
-    ///     null/empty → the user set when the file exists, else the default. Names with path separators are refused.
+    ///     null/empty → the user set when the file exists, else the default. Names with path separators are refused (see <see cref="RuleFileLocator"/>).
     /// </summary>
     public static ClassificationRuleSet Load(string? name)
     {
-        name = string.IsNullOrWhiteSpace(name) ? null : name.Trim();
-        if (name is not null && (name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || name.Contains('/') || name.Contains('\\') || name.Contains("..")))
-            throw new ArgumentException($"ruleSet must be 'default', 'user' or a plain file name inside {UserRulesDirectory}.");
-
-        if (string.Equals(name, DefaultName, StringComparison.OrdinalIgnoreCase)) return LoadEmbedded();
-
-        var fileName = name is null || string.Equals(name, UserName, StringComparison.OrdinalIgnoreCase) ? "aec-classification.json" : name.EndsWith(".json", StringComparison.OrdinalIgnoreCase) ? name : name + ".json";
-        var path = Path.Combine(UserRulesDirectory, fileName);
-        if (File.Exists(path)) return Parse(File.ReadAllText(path), name ?? UserName, "rules\\" + fileName); // the folder is fixed; never echo the profile path
-        if (name is null) return LoadEmbedded();
-        throw new ArgumentException($"ruleSet '{name}' not found: expected {path}.");
+        var resolved = RuleFileLocator.Resolve(name, "aec-classification.json");
+        return resolved.Json is null ? LoadEmbedded() : Parse(resolved.Json, resolved.Name, resolved.Source);
     }
 
-    public static ClassificationRuleSet LoadEmbedded()
-    {
-        using var stream = typeof(ClassificationRuleSet).Assembly.GetManifestResourceStream(EmbeddedResource)
-                           ?? throw new InvalidOperationException($"embedded rule set {EmbeddedResource} is missing from {typeof(ClassificationRuleSet).Assembly.GetName().Name}");
-        using var reader = new StreamReader(stream);
-        return Parse(reader.ReadToEnd(), DefaultName, "embedded");
-    }
+    public static ClassificationRuleSet LoadEmbedded() => Parse(RuleFileLocator.ReadEmbedded(typeof(ClassificationRuleSet), EmbeddedResource), DefaultName, "embedded");
 
     public static ClassificationRuleSet Parse(string json, string name, string source)
     {

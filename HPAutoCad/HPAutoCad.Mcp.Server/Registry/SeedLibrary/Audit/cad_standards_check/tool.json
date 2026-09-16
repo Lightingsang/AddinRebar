@@ -1,0 +1,107 @@
+{
+  "name": "cad_standards_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Audit",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "standards",
+    "layers",
+    "naming",
+    "audit",
+    "qa"
+  ],
+  "title": "Check CAD standards",
+  "description": "Read-only. Checks the drawing against a CAD standards rule set (JSON, data): layer_naming (regex with exemptions), entity_layer (text/dimension/hatch on the expected layers), layer_zero (non-block entities on layer 0), color_override / linetype_override / lineweight_override (anything but ByLayer, hatches and blocks exempt), text_style / dim_style (allowed names), text_height (allowed heights in mm per space), block_naming, unused_layer (only when the whole drawing is examined — no filter; a layer used only inside a block definition counts as used; hidden system layers and xref-dependent layers/blocks are never reported). Rules: ruleSet default (embedded, AIA/NCS-shaped and permissive) or user (%AppData%\\HPAutoCad\\McpServer\\rules\\cad-standards.json) or a plain file name there; checks[] narrows to some types. Issues are STD-nnnn in a stable order (critical → warning → info, then type, then handle text). filter {space} alone narrows the space (wholeDrawing false). A requested check the rule set does not enable is warned about. The summary lists the allowed styles/heights and the entity-layer rules so a finding's action can be resolved. Returns the analysis envelope {success, summary, items[issue], count, offset, truncated, warnings, errors}; an issue is {issueId, category, type, severity critical|warning|info, handles[], locationMm, valueMm, description, suggestedAction, layer, rule} — pass items straight to create_issue_markup. Millimetres at the boundary.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to examine (wildcards); empty = the whole drawing, every space"
+      },
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Check exactly these entities (table checks still run)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "default | user | <file name in the rules folder>; omitted = user file when it exists, else default"
+      },
+      "checks": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "layer_naming",
+            "entity_layer",
+            "layer_zero",
+            "color_override",
+            "linetype_override",
+            "lineweight_override",
+            "text_style",
+            "text_height",
+            "dim_style",
+            "block_naming",
+            "unused_layer"
+          ]
+        },
+        "description": "Only these checks; empty = every check the rule set enables"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100,
+        "description": "Issues per page (max 100 — an issue is up to ~500 B)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    }
+  }
+}

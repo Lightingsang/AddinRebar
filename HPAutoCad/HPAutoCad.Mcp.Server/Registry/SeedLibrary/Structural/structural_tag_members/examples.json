@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Preview column and beam marks without writing",
+    "args": {
+      "kinds": [
+        "column",
+        "beam"
+      ],
+      "apply": false
+    }
+  },
+  {
+    "title": "Tag columns KC01, KC02… reading order, 250 mm text",
+    "args": {
+      "kinds": [
+        "column"
+      ],
+      "prefixes": {
+        "column": "KC"
+      },
+      "digits": 2,
+      "textHeightMm": 250
+    }
+  },
+  {
+    "title": "Renumber every beam from B1, overwriting old marks",
+    "args": {
+      "kinds": [
+        "beam"
+      ],
+      "overwrite": true
+    }
+  }
+]

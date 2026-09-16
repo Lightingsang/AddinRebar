@@ -1,0 +1,112 @@
+{
+  "name": "structural_generate_member_schedule",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structural",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "structural",
+    "schedule",
+    "table",
+    "quantities"
+  ],
+  "title": "Generate a member schedule",
+  "description": "Groups the classified members by kind and section and returns schedule rows {kind, section, count, totalLengthMm, totalAreaMm2, marks, handles (first 20)} in the analysis envelope (kinds column → beam → wall → slab → opening, biggest groups first; marks as structural_detect_members finds them — MARK attributes and mark texts whose letters are a default or given prefix). With writeTable true it also draws the schedule as an AutoCAD Table (title row, header Kind | Section | Count | Total length (m) | Marks — first 20 marks per cell, one row per line) at insertPoint {x, y} mm on layer (default: current layer), rowHeightMm / columnWidthMm / textHeightMm in mm, in space (default: the space the members were read from), and returns the edit envelope with the table handle and the rows in summary.schedule; no members = ArgumentException, nothing drawn. Side effects: only with writeTable — adds one ACAD_TABLE inside one undo entry; dryRun rolls it back; nothing is modified otherwise.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Structural layers are recognised by the classification rule set (S-COL, DAM, S-GRID, TRUC…)"
+      },
+      "kinds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "column",
+            "beam",
+            "wall",
+            "slab",
+            "opening"
+          ]
+        },
+        "description": "Member kinds; empty = all"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "prefixes": {
+        "type": "object",
+        "description": "{column, beam, wall, slab, opening} → mark prefix (defaults C, B, W, S, O); a TEXT beside a member counts as its mark only when its letters are one of these"
+      },
+      "writeTable": {
+        "type": "boolean",
+        "default": false
+      },
+      "insertPoint": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "description": "writeTable: top-left corner of the table, mm"
+      },
+      "title": {
+        "type": "string",
+        "default": "MEMBER SCHEDULE"
+      },
+      "layer": {
+        "type": "string"
+      },
+      "rowHeightMm": {
+        "type": "number",
+        "default": 400
+      },
+      "columnWidthMm": {
+        "type": "number",
+        "default": 3000
+      },
+      "textHeightMm": {
+        "type": "number",
+        "default": 200
+      },
+      "space": {
+        "type": "string",
+        "description": "Where the table goes: model or a layout name; default = the space the members were read from (filter.space, model unless given)"
+      }
+    }
+  }
+}

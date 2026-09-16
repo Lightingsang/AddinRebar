@@ -1,0 +1,10 @@
+var issues = args.List("issues");
+string style = args.Str("style");
+string layer = args.Str("layer");
+double radiusMm = args.Double("radiusMm", 500);
+double textHeightMm = args.Double("textHeightMm", 150);
+bool withLeader = args.Bool("withLeader", true);
+bool colorBySeverity = args.Bool("colorBySeverity", true);
+string space = args.Str("space");
+bool atomic = args.Bool("atomic", true);
+return AecTools.CreateIssueMarkup(db, ed, tr, units, ct, log, issues, style, layer, radiusMm, textHeightMm, withLeader, colorBySeverity, space, atomic);

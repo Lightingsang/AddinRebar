@@ -12,7 +12,26 @@ namespace HPAutoCad.Aec.Issues;
 /// </summary>
 public static class GeometryIssueDetector
 {
+    /// <summary>
+    ///     Every space is checked on its own: a title block repeated on two layouts is not a duplicate and a sheet border is never
+    ///     "near" a model-space grid line. Records without a space count as model space. Ids are sequential over the whole run.
+    /// </summary>
     public static IReadOnlyList<GeometryIssue> Detect(IReadOnlyList<AecEntityRecord> records, IReadOnlySet<string> types, GeometryTolerance tol, CancellationToken ct, int maxIssues = 2000)
+    {
+        var groups = records.GroupBy(r => r.Space ?? "Model", StringComparer.OrdinalIgnoreCase).ToArray();
+        if (groups.Length <= 1) return DetectInSpace(records, types, tol, ct, maxIssues);
+        var all = new List<GeometryIssue>();
+        foreach (var group in groups)
+        {
+            var remaining = maxIssues - all.Count;
+            if (remaining <= 0) break;
+            all.AddRange(DetectInSpace(group.ToArray(), types, tol, ct, remaining));
+        }
+
+        return all.Select((i, n) => i with { IssueId = $"GEO-{n + 1:0000}" }).ToArray();
+    }
+
+    private static IReadOnlyList<GeometryIssue> DetectInSpace(IReadOnlyList<AecEntityRecord> records, IReadOnlySet<string> types, GeometryTolerance tol, CancellationToken ct, int maxIssues)
     {
         var issues = new List<GeometryIssue>();
         var withShape = records.Where(r => r.Shape is not null && !r.Shape.IsPoint).ToArray();

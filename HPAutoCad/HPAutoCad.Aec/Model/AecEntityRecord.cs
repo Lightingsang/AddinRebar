@@ -50,6 +50,12 @@ public sealed class AecEntityRecord
 
     public string? Text { get; init; }
 
+    /// <summary>Text style of TEXT/MTEXT, dimension style of a DIMENSION — what a standards check compares against the allowed lists.</summary>
+    public string? Style { get; init; }
+
+    /// <summary>Height of TEXT/MTEXT in mm (model or paper space as drawn).</summary>
+    public double? TextHeightMm { get; init; }
+
     public string? BlockName { get; init; }
 
     public IReadOnlyDictionary<string, string>? Attributes { get; init; }

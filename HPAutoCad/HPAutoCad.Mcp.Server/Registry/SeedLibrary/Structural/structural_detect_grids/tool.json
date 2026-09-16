@@ -1,0 +1,81 @@
+{
+  "name": "structural_detect_grids",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Structural",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "structural",
+    "grid",
+    "axis",
+    "bubbles"
+  ],
+  "title": "Detect structural grids",
+  "description": "Read-only. Finds the grid: open runs on grid layers (classified StructuralGrid — S-GRID, A-GRID, GRID, TRUC, AXIS… per the rule set) are grid lines (collinear pieces such as the stub carrying a bubble merge into one line; a jogged polyline follows its longest segment; XLINE/RAY grids have no extent and are only counted), circles / block references on those layers are bubbles, and the label is a short TEXT inside the bubble or a block bubble's attribute. A line takes the bubble sitting on its axis nearest either end (within reachMm); with no bubble, a short TEXT within 50 mm of its midpoint. Returns lines {handle, label, direction horizontal|vertical|skewed, startMm, endMm, lengthMm, directionDeg, bubbleHandle, mergedSegments} and, in the summary, labels, spacingMm per direction, and intersections [{a, b, pointMm, handleA, handleB}] (lines extended by reachMm so lines that stop at the bubble still cross; first 200 listed, intersectionCount exact). Millimetres. Returns the analysis envelope (max 100 lines per page, offset to page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space. Structural layers are recognised by the classification rule set (S-COL, DAM, S-GRID, TRUC…)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "reachMm": {
+        "type": "number",
+        "default": 2500,
+        "description": "How far past a line's end a bubble or a crossing line may sit (0 = default 2500)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      }
+    }
+  }
+}

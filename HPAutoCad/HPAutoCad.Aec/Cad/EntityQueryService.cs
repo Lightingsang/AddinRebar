@@ -217,6 +217,8 @@ public static class EntityQueryService
         if (Wants("length") && record.LengthMm is not null) item["lengthMm"] = record.LengthMm;
         if (Wants("area") && record.AreaMm2 is not null) item["areaMm2"] = record.AreaMm2;
         if (Wants("text") && record.Text is not null) item["text"] = record.Text;
+        if (Wants("style") && record.Style is not null) item["style"] = record.Style;
+        if (Wants("textHeight") && record.TextHeightMm is not null) item["textHeightMm"] = record.TextHeightMm;
         if (Wants("block") && record.BlockName is not null) item["blockName"] = record.BlockName;
         if (Wants("attributes") && record.Attributes is not null) item["attributes"] = record.Attributes;
         if (Wants("position") && record.PositionMm is not null) item["positionMm"] = record.PositionMm;
@@ -228,5 +230,5 @@ public static class EntityQueryService
     public static readonly HashSet<string> DefaultKeys = new(StringComparer.Ordinal) { "space", "bounds", "text", "block", "length" };
 
     public static readonly IReadOnlyList<string> PropertyNames =
-        ["space", "bounds", "color", "linetype", "lineweight", "visible", "length", "area", "text", "block", "attributes", "position", "geometry"];
+        ["space", "bounds", "color", "linetype", "lineweight", "visible", "length", "area", "text", "style", "textHeight", "block", "attributes", "position", "geometry"];
 }

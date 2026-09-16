@@ -9,6 +9,10 @@
   A  manage_annotations: text, mtext, aligned/angular/radial/diameter dimensions with measurements, mleader, update, delete, geometry refused
   H  manage_hatches: boundaryHandles ANSI31 with area, seedPoint SOLID, detectBoundary innermost first, NOT_CLOSED, update, delete, non-hatch refused
   X  manage_xrefs: list, attach (a DWG written by Wblock), overlay, unload → bind refused, reload, detach, bind (safe), missing file refused
+  K  create_issue_markup: revclouds + leaders from audit issues on a created markup layer (coloured by severity), rectangle from handles,
+     dryRun rolled back, atomic refusal for an issue without a location, locked markup layer refused
+  M  structural_tag_members (preview, apply → texts on S-ANNO-TEXT, existing mark kept, dryRun) + structural_generate_member_schedule
+     (rows; writeTable → one ACAD_TABLE)
   D  undo: U after a REGEN boundary reverts the last batch (COM)
 The PowerShell wrapper (run-aec-edit-tools-live.ps1) starts AutoCAD, ticks the opt-in and calls this. Prints PASS/FAIL lines and a JSON summary.
 """
@@ -122,8 +126,8 @@ def main():
         init = s.initialize()
         check("initialize", init.get("serverInfo", {}).get("name") == "HPAutoCad MCP", short(init.get("serverInfo")))
         names = s.tools()
-        edit_tools = ["create_entities_batch", "update_entities_batch", "manage_blocks_attributes", "manage_annotations", "manage_hatches", "manage_xrefs"]
-        check("tools/list holds the 6 AEC write seeds (+ the 31 others)", all(n in names for n in edit_tools) and len(names) >= 37, f"{len(names)} tools")
+        edit_tools = ["create_entities_batch", "update_entities_batch", "manage_blocks_attributes", "manage_annotations", "manage_hatches", "manage_xrefs", "create_issue_markup", "structural_tag_members", "structural_generate_member_schedule"]
+        check("tools/list holds the 9 AEC write seeds (+ the others)", all(n in names for n in edit_tools) and len(names) >= 47, f"{len(names)} tools")
         raw_tool = s.tool  # the unparsed run (changed / rolledBack) beside the tool value
 
         def count():
@@ -378,6 +382,75 @@ def main():
         xmiss = s.tool("manage_xrefs", {"op": "attach", "attach": {"path": os.path.join(out_dir, "does-not-exist.dwg"), "position": {"x": 0, "y": 0}}})
         check("X attach of a missing file -> ArgumentException", xmiss.get("isError") and "not found" in (xmiss.get("message") or ""), short(xmiss.get("message")))
         save("xrefs", {"list0": x0, "attach": [xa, xb], "list": xl, "unload": xu, "bindRefused": xbind_refused, "reload": xr, "detach": xd, "bind": xbind, "local": local})
+
+        # ---- K: issue markup -------------------------------------------------------------------------------------------------
+        aud = value(s.tool("audit_aec_drawing", {"minSeverity": "warning", "limit": 30})) or {}
+        # table-level findings (layer naming, unused layers) have nothing to cloud: pick issues that point somewhere
+        picked = [i for i in aud.get("items", []) if i.get("handles") or i.get("locationMm")][:3]
+        mk = value(s.tool("create_issue_markup", {"issues": picked, "style": "revcloud"})) or {}
+        msum = mk.get("summary") or {}
+        mq = value(s.tool("query_entities", {"filter": {"layers": ["HP-MCP-ISSUES"], "space": "all"}, "properties": ["type", "color"]})) or {}
+        mtypes = sorted(i.get("type") for i in mq.get("items", []))
+        check("K revcloud markup of 3 audit issues -> 3 clouds + 3 leaders on the created layer HP-MCP-ISSUES, coloured by severity",
+              len(picked) == 3 and mk.get("createdCount") == 6 and msum.get("layerCreated") is True and len(msum.get("markups", [])) == 3 and all(m.get("leaderHandle") for m in msum["markups"])
+              and mtypes == ["LWPOLYLINE"] * 3 + ["MULTILEADER"] * 3 and all(str(i.get("color")) in ("1", "2") for i in mq.get("items", [])), f"{short(msum, 200)} types={mtypes}")
+        rect = value(s.tool("create_issue_markup", {"issues": [{"issueId": "RFI-1", "severity": "info", "handles": [h["col"], h["beam"]], "description": "check column/beam"}], "style": "rectangle", "withLeader": False})) or {}
+        rq, _ = query((rect.get("items") or [{}])[0].get("handle") or "0", detail=True)
+        check("K rectangle from two handles without a leader -> one closed polyline around both, info colour cyan", rect.get("createdCount") == 1 and (rq.get("geometry") or {}).get("closed") is True and (rq.get("boundsMm") or {}).get("min", {}).get("x", 1) < 1000 and (rq.get("boundsMm") or {}).get("max", {}).get("x", 0) > 7400 and str(rq.get("color")) == "4", short(rq.get("boundsMm"), 120))
+        n_before = count()
+        mdry = s.tool("create_issue_markup", {"issues": [{"issueId": "DRY", "locationMm": {"x": 0, "y": 0}}], "dryRun": True})
+        check("K dryRun -> 2 would be created, rolled back", (value(mdry) or {}).get("createdCount") == 2 and mdry.get("rolledBack") is True and count() == n_before, f"rolledBack={mdry.get('rolledBack')}")
+        mskip = value(s.tool("create_issue_markup", {"issues": [{"issueId": "OK", "locationMm": {"x": 0, "y": 0}}, {"issueId": "TABLE", "type": "layer_naming", "layer": "walls_old"}]})) or {}
+        check("K a table-level finding (no location, no handles) is skipped with a warning, the other issue drawn", mskip.get("success") is True and mskip.get("createdCount") == 2 and (mskip.get("summary") or {}).get("skipped") == 1 and any("TABLE" in w for w in mskip.get("warnings", [])), short(mskip.get("summary"), 200))
+        mref = value(s.tool("create_issue_markup", {"issues": [{"issueId": "OK", "locationMm": {"x": 0, "y": 0}}, {"issueId": "LOST", "handles": ["ZZZZ"]}]})) or {}
+        check("K atomic + an issue whose handles do not resolve -> refused, nothing drawn, error names it", mref.get("success") is False and mref.get("createdCount") == 0 and "LOST" in (mref.get("errors") or [{}])[0].get("message", "") and count() == n_before + 2, short(mref.get("errors"), 200))
+        mlock = value(s.tool("create_issue_markup", {"issues": [{"issueId": "X", "locationMm": {"x": 0, "y": 0}}], "layer": "LOCKED"})) or {}
+        check("K locked markup layer -> structural LAYER_LOCKED refusal", mlock.get("success") is False and (mlock.get("errors") or [{}])[0].get("code") == "LAYER_LOCKED", short(mlock.get("errors"), 200))
+        gap = next((i for i in aud.get("items", []) if i["type"] == "endpoint_gap"), None) or next((i for i in (value(s.tool("audit_aec_drawing", {"sections": ["geometry"]})) or {}).get("items", []) if i["type"] == "endpoint_gap"), None)
+        mg = value(s.tool("create_issue_markup", {"issues": [gap] if gap else [{"issueId": "GAP", "locationMm": {"x": 15007, "y": 6000}, "handles": [h["beam"], h["col"]]}], "withLeader": False})) or {}
+        check("K an issue with locationMm and handles keeps radius 500 at the location (not the handles' extents)", near((mg.get("summary") or {}).get("markups", [{}])[0].get("radiusMm"), 500) and (mg.get("summary") or {}).get("markups", [{}])[0].get("sizedByHandles") is False, short(mg.get("summary"), 200))
+        sheet = value(s.tool("cad_standards_check", {"filter": {"space": "Layout1"}, "checks": ["layer_zero"]})) or {}
+        sheet_issue = next((i for i in sheet.get("items", []) if i["type"] == "layer_zero"), None)
+        mp = value(s.tool("create_issue_markup", {"issues": [sheet_issue] if sheet_issue else [], "withLeader": False})) if sheet_issue else {}
+        mpq = value(s.tool("query_entities", {"filter": {"layers": ["HP-MCP-ISSUES"], "space": "Layout1"}})) or {}
+        check("K a paper-space finding (SHEET NOTE on layer 0 in Layout1; filter.space alone is a filter, wholeDrawing false) is drawn on Layout1 with space auto",
+              (sheet.get("summary") or {}).get("wholeDrawing") is False and sheet_issue is not None and (mp or {}).get("createdCount") == 1 and (mp.get("summary") or {}).get("spaces") == ["Layout1"] and mpq.get("count") == 1, f"issue={short(sheet_issue, 120)} spaces={(mp or {}).get('summary', {}).get('spaces')} onLayout={mpq.get('count')}")
+        save("markup", {"audit": aud, "revcloud": mk, "rectangle": rect, "skipped": mskip, "refused": mref, "gap": mg, "sheet": [sheet, mp]})
+
+        # ---- M: structural tagging + schedule --------------------------------------------------------------------------------
+        preview = value(s.tool("structural_tag_members", {"kinds": ["column", "beam"], "apply": False})) or {}
+        psum = preview.get("summary") or {}
+        # members left on S-* layers: the column, the bound xref block named xref-column (a column block by name) and the beam, which has the stray "C3" text within 300 mm — a mark with another prefix
+        c3 = next((m for m in psum.get("marks", []) if m.get("existing") == "C3"), {})
+        check("M tag preview (apply false) -> the beam keeps its foreign C3 text (kept_foreign, markHandle = that text), the two columns are assigned, nothing written",
+              preview.get("createdCount") == 0 and psum.get("assigned") == 2 and psum.get("keptForeign") == 1 and c3.get("handle") == h["beam"] and c3.get("markHandle") == created[3] and (psum.get("byKind") or {}).get("column") == 2 and (psum.get("byKind") or {}).get("beam") == 1, short(psum, 300))
+        tg = value(s.tool("structural_tag_members", {"kinds": ["column", "beam"], "digits": 2})) or {}
+        tsum = tg.get("summary") or {}
+        tq = value(s.tool("query_entities", {"filter": {"layers": ["S-ANNO-TEXT"]}, "properties": ["type", "text"]})) or {}
+        texts = sorted(i.get("text") for i in tq.get("items", []))
+        check("M tag apply -> new TEXT marks C01 + C02 on the created layer S-ANNO-TEXT, the beam's foreign C3 untouched", tg.get("createdCount") == 2 and tsum.get("layerCreated") is True and texts == ["C01", "C02"] and tsum.get("keptForeign") == 1, f"{texts} {short(tsum.get('written'), 200)}")
+        ow = value(s.tool("structural_tag_members", {"kinds": ["column", "beam"], "digits": 2, "overwrite": True, "prefixes": {"column": "KC"}})) or {}
+        osum = ow.get("summary") or {}
+        owc3 = next((w for w in osum.get("written", []) if w.get("textHandle") == created[3]), {})
+        c3now = value(s.tool("query_entities", {"filter": {"handles": [created[3]]}, "properties": ["text"]})) or {}
+        check("M overwrite true with prefixes column KC -> every mark renumbered in place (3 texts modified, none created): C01/C02 become KC01/KC02, the beam's C3 text becomes B01, same handles",
+              ow.get("createdCount") == 0 and ow.get("modifiedCount") == 3 and osum.get("overwritten") == 3 and all(w.get("via") == "text" for w in osum.get("written", [])) and owc3.get("was") == "C3" and (c3now.get("items") or [{}])[0].get("text") == "B01", f"{short(osum.get('written'), 300)} c3now={short(c3now.get('items'), 100)}")
+        again = value(s.tool("structural_tag_members", {"kinds": ["column", "beam"], "digits": 2, "prefixes": {"column": "KC"}})) or {}
+        asum = again.get("summary") or {}
+        check("M tagging again keeps the existing marks (kept_existing 3, nothing created)", again.get("createdCount") == 0 and asum.get("keptExisting") == 3 and asum.get("assigned") == 0, short(asum, 200))
+        foreign = value(s.tool("structural_tag_members", {"kinds": ["column", "beam"], "digits": 2, "apply": False})) or {}
+        fsum = foreign.get("summary") or {}
+        check("M under the default prefixes KC is not a mark prefix: the columns count as unmarked (assigned), the beam keeps B01 (kept_existing) — a door tag never becomes a member mark", fsum.get("assigned") == 2 and fsum.get("keptExisting") == 1 and fsum.get("keptForeign") == 0 and fsum.get("overwritten") == 0 and foreign.get("createdCount") == 0, short(fsum, 200))
+        n_tbl = count()
+        tblr = value(s.tool("structural_generate_member_schedule", {"kinds": ["column", "beam"], "prefixes": {"column": "KC"}, "writeTable": True, "insertPoint": {"x": 30000, "y": 0}, "layer": "LOCKED"})) or {}
+        check("M writeTable on a locked layer -> LAYER_LOCKED refusal, nothing created (space never opened for write)", tblr.get("success") is False and (tblr.get("errors") or [{}])[0].get("code") == "LAYER_LOCKED" and tblr.get("createdCount") == 0 and count() == n_tbl, short(tblr.get("errors"), 200))
+        sch = value(s.tool("structural_generate_member_schedule", {"kinds": ["column", "beam"], "prefixes": {"column": "KC"}})) or {}
+        rows = {(r["kind"], r["section"]): r for r in sch.get("items", [])}
+        check("M schedule rows (prefixes KC): column 400×400 with its KC mark, beam L 6000 with mark B01", ("column", "400×400") in rows and rows[("column", "400×400")]["count"] == 1 and len(rows[("column", "400×400")]["marks"]) == 1 and rows[("column", "400×400")]["marks"][0].startswith("KC") and ("beam", "L 6000") in rows and rows[("beam", "L 6000")]["marks"] == ["B01"] and (sch.get("summary") or {}).get("unmarked") == 0, short(sch.get("items"), 300))
+        tbl = value(s.tool("structural_generate_member_schedule", {"kinds": ["column", "beam"], "prefixes": {"column": "KC"}, "writeTable": True, "insertPoint": {"x": 30000, "y": 0}, "layer": "S-ANNO-TEXT"})) or {}
+        tblq = value(s.tool("query_entities", {"filter": {"types": ["ACAD_TABLE"]}})) or {}
+        check("M writeTable -> one ACAD_TABLE created at (30000, 0) on S-ANNO-TEXT, rows in the summary", tbl.get("createdCount") == 1 and tblq.get("count") == 1 and (tblq.get("items") or [{}])[0].get("layer") == "S-ANNO-TEXT" and (tbl.get("summary") or {}).get("table", {}).get("rows") == len(sch.get("items", [])), short(tbl.get("summary"), 250))
+        save("structural-write", {"preview": preview, "tag": tg, "overwrite": ow, "again": again, "foreign": foreign, "refusedTable": tblr, "schedule": sch, "table": tbl})
 
         # ---- D: undo -------------------------------------------------------------------------------------------------------
         acad_com("$a.ActiveDocument.SendCommand('_REGEN ')"); time.sleep(1)

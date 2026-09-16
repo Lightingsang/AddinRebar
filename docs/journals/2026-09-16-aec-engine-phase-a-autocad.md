@@ -100,6 +100,17 @@ definitions out of reach, caps measured by a serialisation test at 200 refused i
 whole op. Associativity turned out to need nothing but the right order (`Associative = true` before `AppendLoop(ids)`): the managed API has
 no persistent-reactor call, and the live run shows the hatch following its moved boundary. 62/62 after the round.
 
+## Phase D — standards as data, one audit, marks in the drawing
+
+CAD standards are the least universal thing in a drawing office, so the checker is a JSON file: a layer-naming regex with exemptions,
+which entity types belong on which layers, whether colour/linetype/lineweight may be overridden, allowed styles and text heights, block
+names, unused layers. The checker itself is pure — records plus the symbol tables read once — so the eleven checks have unit tests on
+synthetic layers and entities, and an `unused_layer` verdict is only given when the whole drawing was examined. `audit_aec_drawing` runs the
+geometry detector and the standards checker over one query and returns them in one severity-first order with their own ids, so a page at
+`offset 3` is the same page tomorrow. `create_issue_markup` closes the loop: the issue objects a tool returned go back in and come out as
+revision clouds with a leader reading the id, on a markup layer created on demand and coloured by severity — the original geometry is only
+read for its extents. 63/63 and 67/67 live.
+
 ## Lessons
 
 - **Atomic without nested transactions = validate everything first, throw only while writing**: the refusal envelope carries every error and writes nothing; the throw path lets the bridge keep its one-undo-entry promise.

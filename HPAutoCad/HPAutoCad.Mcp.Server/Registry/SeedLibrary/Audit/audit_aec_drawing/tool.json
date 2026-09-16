@@ -1,0 +1,104 @@
+{
+  "name": "audit_aec_drawing",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Audit",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "audit",
+    "qa",
+    "geometry",
+    "standards",
+    "report"
+  ],
+  "title": "Audit the drawing",
+  "description": "Read-only. One report over several audit sections: geometry (duplicate, near_duplicate, overlapping_segments, tiny_segment, zero_length, open_polyline, endpoint_gap, self_intersection, invalid_geometry — every space checked on its own, so a title block repeated on two layouts is not a duplicate; capped at 2 000 findings with truncated + a warning) and standards (as cad_standards_check with ruleSet). Empty filter = every space; filter {space} alone narrows it. Issues keep their own ids (GEO-nnnn, STD-nnnn) and come back in one stable order — critical → warning → info, then category, type, handle — so paging with offset never reorders; minSeverity drops the rest (summary.belowMinSeverity counts them). summary: sections run, examined, bySeverity {critical, warning, info}, byCategory, byType, checkedStandards, tolerance. tolerance {pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap} in mm/degrees overrides the defaults. Returns the analysis envelope {success, summary, items[issue], count, offset, truncated, warnings, errors}; an issue is {issueId, category, type, severity critical|warning|info, handles[], locationMm, valueMm, description, suggestedAction, layer, rule} — pass items straight to create_issue_markup.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "blockNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to examine (wildcards); empty = the whole drawing, every space"
+      },
+      "sections": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "geometry",
+            "standards"
+          ]
+        },
+        "description": "Which sections to run; empty = all"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (any member)"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Standards rule set: default | user | <file name>"
+      },
+      "minSeverity": {
+        "type": "string",
+        "enum": [
+          "critical",
+          "warning",
+          "info"
+        ],
+        "default": "info",
+        "description": "Report only issues at least this severe"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000
+      }
+    }
+  }
+}

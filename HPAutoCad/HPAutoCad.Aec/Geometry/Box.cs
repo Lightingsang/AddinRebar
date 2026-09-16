@@ -37,6 +37,10 @@ public readonly record struct Box(Pt Min, Pt Max)
     [JsonIgnore]
     public double ShortSideXY => Math.Min(Width, Height);
 
+    /// <summary>Half the plan diagonal — the radius of the smallest circle around the box's centre that covers it.</summary>
+    [JsonIgnore]
+    public double HalfDiagonalXY => Math.Sqrt(Width * Width + Height * Height) / 2;
+
     public static Box Of(Pt a, Pt b) => new(
         new Pt(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), Math.Min(a.Z, b.Z)),
         new Pt(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y), Math.Max(a.Z, b.Z)));

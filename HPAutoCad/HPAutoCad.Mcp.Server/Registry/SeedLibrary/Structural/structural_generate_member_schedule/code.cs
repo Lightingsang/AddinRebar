@@ -1,0 +1,13 @@
+var filter = args.Obj("filter");
+var kinds = args.Strings("kinds");
+string ruleSet = args.Str("ruleSet");
+var prefixes = args.Obj("prefixes");
+bool writeTable = args.Bool("writeTable", false);
+var insertPoint = args.Obj("insertPoint");
+string title = args.Str("title");
+string layer = args.Str("layer");
+double rowHeightMm = args.Double("rowHeightMm", 400);
+double columnWidthMm = args.Double("columnWidthMm", 3000);
+double textHeightMm = args.Double("textHeightMm", 200);
+string space = args.Str("space");
+return AecTools.StructuralGenerateMemberSchedule(db, ed, tr, units, ct, log, filter, kinds, ruleSet, prefixes, writeTable, insertPoint, title, layer, rowHeightMm, columnWidthMm, textHeightMm, space);

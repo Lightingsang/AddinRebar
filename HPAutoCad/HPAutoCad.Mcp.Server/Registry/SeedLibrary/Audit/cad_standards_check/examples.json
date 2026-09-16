@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Whole-drawing standards check with the default rules",
+    "args": {}
+  },
+  {
+    "title": "Only layer naming and unused layers",
+    "args": {
+      "checks": [
+        "layer_naming",
+        "unused_layer"
+      ]
+    }
+  },
+  {
+    "title": "Colour/linetype overrides on the structural layers, project rules",
+    "args": {
+      "filter": {
+        "layers": [
+          "S-*"
+        ]
+      },
+      "checks": [
+        "color_override",
+        "linetype_override"
+      ],
+      "ruleSet": "user"
+    }
+  }
+]

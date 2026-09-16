@@ -1,0 +1,37 @@
+{
+  // Default CAD standards (embedded). Copy to %AppData%\HPAutoCad\McpServer\rules\cad-standards.json to override for a project.
+  // Every section is optional — remove one to stop that check. Name patterns are regexes (case-sensitive); exemptions and
+  // layer/type lists are AutoCAD wildcards (* any run, ? one char). Severities: critical | warning | info.
+  //
+  // The default is deliberately permissive: an AIA/NCS-shaped layer name (discipline + major group, optional minor groups incl.
+  // pen-weight suffixes like A-ANNO-TEXT-0.25) in upper case, digits, dashes and dots — S-COL, S-COLUMNS, A-WALL-INTR,
+  // M-HVAC-DUCT-SUPL, KT-KICHTHUOC — so that a clean project passes and a "walls_old" or "Layer1" is flagged. Stems in the
+  // entity-layer lists are anchored (*-KT, *-KT-*, never KT-*) because KT- is also the Vietnamese architecture discipline prefix.
+  "version": 1,
+  "layerNaming": {
+    "pattern": "^[A-Z]{1,2}-[A-Z0-9]{2,12}(-[A-Z0-9.]{1,12}){0,5}$",
+    "exempt": ["0", "Defpoints", "HP-MCP-*"],
+    "severity": "warning",
+    "description": "discipline-major[-minor…], upper case, e.g. S-COL, A-WALL-INTR"
+  },
+  "entityLayer": [
+    { "id": "text-on-annotation-layer", "types": ["TEXT", "MTEXT"], "layers": ["*TEXT*", "*ANNO*", "*NOTE*", "*-TXT*", "CHU", "CHU-*", "*-CHU", "*-CHU-*", "*GHICHU*"], "severity": "warning",
+      "message": "text belongs on an annotation layer" },
+    { "id": "dimension-on-dimension-layer", "types": ["DIMENSION", "ARC_DIMENSION", "LARGE_RADIAL_DIMENSION"], "layers": ["*DIM*", "*ANNO*", "*KICHTHUOC*", "*-KT", "*-KT-*"], "severity": "warning",
+      "message": "dimensions belong on a dimension layer" },
+    { "id": "hatch-on-pattern-layer", "types": ["HATCH"], "layers": ["*HATCH*", "*PATT*", "*FILL*", "*-H", "*TOMAU*"], "severity": "info",
+      "message": "hatches belong on a hatch/pattern layer" }
+  ],
+  "layerZero": { "allowedTypes": ["INSERT"], "severity": "warning" },
+  "overrides": { "color": true, "linetype": true, "lineweight": true, "exemptTypes": ["HATCH", "INSERT"], "exemptLayers": ["HP-MCP-*"], "severity": "info" },
+  "textStyles": { "allowed": [], "severity": "warning" },
+  "textHeights": { "allowedMm": [], "toleranceMm": 0.05, "space": "paper", "severity": "info" },
+  "dimStyles": { "allowed": [], "severity": "warning" },
+  "blockNaming": {
+    "pattern": "^[A-Z0-9][A-Z0-9_.-]*$",
+    "exempt": ["*Model_Space", "*Paper_Space*", "A$*", "_*"],
+    "severity": "info",
+    "description": "upper case, digits, dash, underscore, dot"
+  },
+  "unusedLayers": { "exempt": ["0", "Defpoints", "HP-MCP-*"], "severity": "info" }
+}

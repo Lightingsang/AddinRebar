@@ -1,7 +1,7 @@
 ---
 phase: E
 title: "Structural — grids, members, connectivity, alignment, openings, tagging, schedule"
-status: pending
+status: completed
 priority: P2
 effort: "22h"
 dependencies: [B]
