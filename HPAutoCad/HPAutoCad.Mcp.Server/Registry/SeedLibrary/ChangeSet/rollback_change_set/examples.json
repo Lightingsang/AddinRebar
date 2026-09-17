@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Undo a committed set",
+    "args": {
+      "changeSetId": "CS-001"
+    }
+  },
+  {
+    "title": "Keep the work, release the undo",
+    "args": {
+      "changeSetId": "CS-001",
+      "keep": true
+    }
+  },
+  {
+    "title": "Throw away a set never committed",
+    "args": {
+      "changeSetId": "CS-002"
+    }
+  }
+]

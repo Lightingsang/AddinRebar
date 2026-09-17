@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace HPAutoCad.Aec.Model;
 
 /// <summary>What happened to one input item of a batch, in input order: the handle it produced or touched, or the error that stopped it.</summary>
@@ -34,6 +36,10 @@ public sealed class EditResult
     /// <summary>Every entity handle the run created, modified or erased, in the order it happened.</summary>
     public List<string> AffectedHandles { get; } = [];
 
+    /// <summary>The created handles alone — what a change-set rollback erases. Not serialised: <see cref="AffectedHandles"/> is the envelope.</summary>
+    [JsonIgnore]
+    public List<string> CreatedHandles { get; } = [];
+
     /// <summary>Per-item outcomes in input order, so <c>items[i]</c> answers for <c>request.items[i]</c>.</summary>
     public IReadOnlyList<ItemOutcome> Items { get; set; } = [];
 
@@ -65,6 +71,7 @@ public sealed class EditResult
     {
         CreatedCount++;
         AffectedHandles.Add(handle);
+        CreatedHandles.Add(handle);
     }
 
     public void Modified(string handle)

@@ -23,7 +23,7 @@
     "dimension"
   ],
   "title": "Create entities in a batch",
-  "description": "Creates up to 200 entities in one call. Each item has a type — line {start, end}, polyline {points[{x, y, bulge?}], closed}, circle {center, radiusMm}, arc {center, radiusMm, startAngleDeg, endAngleDeg}, point {position}, text {text, position, heightMm, rotationDeg?, style?}, mtext {text, position, heightMm, widthMm?, rotationDeg?, style?}, blockReference {blockName, position, scale?, rotationDeg?, attributes{tag: value}?}, dimension {kind linear|aligned, p1, p2, dimLinePoint, rotationDeg?, dimStyle?, textOverride?} — plus optional layer (must exist and be unlocked; frozen → warning), colorIndex (0 ByBlock, 1–255, 256 ByLayer) or color (#RRGGBB|ByLayer|ByBlock), linetype (loaded), lineweight (hundredths of mm), visible. All coordinates and sizes in millimetres, angles in degrees. Returns the edit envelope {success, createdCount, modifiedCount, deletedCount, affectedHandles, items[{index, ok, handle, type, changed, error}], warnings, errors[{code, message, handle}]}. items[i] answers for request.items[i] with the new handle; unknown attribute tags of a blockReference are warnings. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change.",
+  "description": "Creates up to 200 entities in one call. Each item has a type — line {start, end}, polyline {points[{x, y, bulge?}], closed}, circle {center, radiusMm}, arc {center, radiusMm, startAngleDeg, endAngleDeg}, point {position}, text {text, position, heightMm, rotationDeg?, style?}, mtext {text, position, heightMm, widthMm?, rotationDeg?, style?}, blockReference {blockName, position, scale?, rotationDeg?, attributes{tag: value}?}, dimension {kind linear|aligned, p1, p2, dimLinePoint, rotationDeg?, dimStyle?, textOverride?} — plus optional layer (must exist and be unlocked; frozen → warning), colorIndex (0 ByBlock, 1–255, 256 ByLayer) or color (#RRGGBB|ByLayer|ByBlock), linetype (loaded), lineweight (hundredths of mm), visible. All coordinates and sizes in millimetres, angles in degrees. Returns the edit envelope {success, createdCount, modifiedCount, deletedCount, affectedHandles, items[{index, ok, handle, type, changed, error}], warnings, errors[{code, message, handle}]}. items[i] answers for request.items[i] with the new handle; unknown attribute tags of a blockReference are warnings. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -82,6 +82,10 @@
         "type": "boolean",
         "default": true,
         "description": "true (default): every item is validated first (layers, styles, keys per entity type, attribute tags) and one invalid item refuses the whole batch — success false, zero counts, every refusal in items[i].error, nothing written and nothing opened for write; a failure while writing aborts the transaction. false: invalid items are listed per item and the rest is written; an item that fails midway reports what it had changed"
+      },
+      "changeSetId": {
+        "type": "string",
+        "description": "Record this call into the change set (begin_change_set) instead of applying it: the handles it names are checked now, nothing is written until commit_change_set"
       }
     },
     "required": [

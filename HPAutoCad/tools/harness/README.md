@@ -61,8 +61,12 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   handles) / idempotence / foreign marks under the defaults, `structural_generate_member_schedule` refused on a locked layer (nothing created), rows, ACAD_TABLE;
   phase F step A: `arch_create_room_tags` preview / dryRun / locked layer / unknown placeholder / block attribute the block lacks (refused before any write) /
   block preview / apply (one MTEXT at the label point, `written` not the plan) / detect after tagging reads the tag back as the name, `arch_auto_dimension_plan`
-  plan / unknown rule / apply (2 aligned dimensions measuring the room's bounds).
-  89 checks. 2026-09-17: 89/89 (phase E: 78/78; 2026-09-16 phase D: 67/67 (phase C round: 62/62 (first run 40/40, before the review: 33/40:
+  plan / unknown rule / apply (2 aligned dimensions measuring the room's bounds); phase H step O: `aec_create_opening_requests` preview (the 6.75 m chord
+  across the room outline skipped, `maxChordMm` takes it) / clash agreement / dryRun / locked layer / bad size key / empty hosts / apply; phase I step Z:
+  change sets (six calls recorded, bad handles / unknown op / xref bind refused, preview, commit dryRun noticed, commit, rollback dryRun noticed,
+  rollback on a locked layer partial and still committed, rollback restores by handle incl. a hatch and a dimension, keep closes, a 30-op set as one
+  undo entry reverted by `U`, a second drawing has its own store).
+  109 checks. 2026-09-17: 109/109 (phase H: 96/96; phase G: 89/89 (phase E: 78/78; 2026-09-16 phase D: 67/67 (phase C round: 62/62 (first run 40/40, before the review: 33/40:
   `Hatch.Area` is not readable in the creating transaction → boundary fallback; a top-level `using var` compiles in the seed test's method
   wrapper but not as a Roslyn script).
 - `run-ribbon-check.ps1` — the Ribbon tab through UI Automation (AdWindows exposes a tab header as a Button whose

@@ -162,6 +162,7 @@ public static class BridgeEntry
     {
         _window?.Close();
         _host?.Dispose();
+        HPAutoCad.Aec.Cad.ChangeSetStore.DropAll(); // change-set snapshots are non-resident clones: release them here, never on the finaliser thread
         _executor?.Dispose();
         Log.Information("HPAutoCad MCP bridge stopped");
         Log.CloseAndFlush();

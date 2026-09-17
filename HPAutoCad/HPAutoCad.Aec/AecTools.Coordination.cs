@@ -63,8 +63,9 @@ public static partial class AecTools
     }
 
     public static EditResult AecCreateOpeningRequests(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        ScriptArgs routes, ScriptArgs hosts, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs sizes, double maxChordMm, string? layer, double textHeightMm, string? space, bool apply, int maxCandidates)
+        ScriptArgs routes, ScriptArgs hosts, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs sizes, double maxChordMm, string? layer, double textHeightMm, string? space, bool apply, int maxCandidates, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "aec_create_opening_requests", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var probe = new AnalysisResult<object>();
         var rules = ClassificationRuleSet.Load(ruleSet);

@@ -1,7 +1,7 @@
 ---
 title: "AEC Automation MCP for AutoCAD (HPAutoCad) — from drawing commands to AEC understanding, rules, QA/QC"
 description: "Grow the AutoCAD MCP into an AEC automation layer: drawing context, entity + spatial query, geometry analysis, AEC classification, relationships, batch editing, CAD standards, structural / architecture / MEP checks, clash + opening coordination, change sets. Tools stay seeds (tool.json + code.cs) over the existing execute path; the logic lives in a new HPAutoCad.Aec assembly the bridge references and scripts call."
-status: in-progress
+status: completed
 priority: P1
 effort: 120h
 branch: RebarVersion1
@@ -31,7 +31,7 @@ requested layering onto what `HPAutoCad/` + `McpShared/` already are, and fixes 
 | F — Architecture | [phase-F](phase-F-architecture.md) | `arch_detect_rooms`, `arch_room_boundary_check`, `arch_create_room_tags`, `arch_generate_area_schedule`, `arch_auto_dimension_plan` | completed 2026-09-17 — [report](reports/phase-F-architecture-live.md) (incl. review round 5/10 → fixed) |
 | G — MEP | [phase-G](phase-G-mep-network.md) | `mep_detect_network`, `mep_connectivity_check`, `mep_endpoint_check` | completed 2026-09-17 — [report](reports/phase-G-mep-live.md) (incl. review round 5.5/10 → fixed) |
 | H — Coordination | [phase-H](phase-H-coordination-clash-openings.md) | `aec_clash_check`, `aec_create_opening_requests` | completed 2026-09-17 — [report](reports/phase-H-coordination-live.md) (incl. review round 5.5/10 → fixed) |
-| I — Change management | [phase-I](phase-I-change-sets.md) | begin / preview / commit / rollback / summary of logical change sets | pending |
+| I — Change management | [phase-I](phase-I-change-sets.md) | `begin_change_set`, `preview_change_set`, `get_change_summary`, `commit_change_set`, `rollback_change_set` (+ `changeSetId` on the 12 write tools) | completed 2026-09-17 — [report](reports/phase-I-change-sets-live.md) (incl. review round 6/10 → fixed) |
 
 Each phase ends with: build 0 warnings, xUnit (Aec pure + seed compile), live smoke of every new tool through the stdio server against
 AutoCAD 2026 (`tools/harness`), a code review, docs. A tool is "done" only after it ran live.

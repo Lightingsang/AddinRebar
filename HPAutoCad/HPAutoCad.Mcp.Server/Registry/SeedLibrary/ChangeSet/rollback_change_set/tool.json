@@ -1,0 +1,36 @@
+{
+  "name": "rollback_change_set",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "ChangeSet",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "change set",
+    "rollback",
+    "undo",
+    "discard"
+  ],
+  "title": "Roll back or discard a change set",
+  "description": "A pending set is discarded (nothing was ever written; the response says so). A committed set is undone in this run: the entities the commit created are erased, the ones it erased are un-erased (same handles — AutoCAD keeps erased objects in the open drawing), and the ones it modified get their original state back from the snapshots taken as the commit ran (same handles, so references stay; dimensions and hatches are recomputed). Layers and block definitions the commit added stay and are listed. A handle that cannot be undone (a layer locked since the commit) is an error on that handle, the rest is restored — and the set then stays committed with its snapshots: fix the cause and roll back again. keep true undoes nothing: the committed work stays and only the undo is released (state closed) — the way to finish a set you want to keep. Returns the edit envelope {success, deletedCount (erased), modifiedCount (restored), createdCount (un-erased), affectedHandles, summary {changeSetId, rolledBack | closed | discarded, erased[], restored[], unerased[], missing[], layersKept, blocksKept, failed, failedByCode}, warnings, errors (first 20 + a count)}. Side effects: the undo, inside one undo entry 'MCP: <label>'; dryRun on the request rolls the undo back — the engine notices on the next call and the set is committed again, its undo still available.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "changeSetId": {
+        "type": "string",
+        "description": "The change set (CS-nnn) begin_change_set returned"
+      },
+      "keep": {
+        "type": "boolean",
+        "default": false,
+        "description": "true = keep the committed work, release its undo (close the set); false = undo it"
+      }
+    }
+  }
+}

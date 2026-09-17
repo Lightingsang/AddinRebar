@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Commit the set as one undo entry",
+    "args": {
+      "changeSetId": "CS-001"
+    }
+  },
+  {
+    "title": "Commit what succeeds, report the rest",
+    "args": {
+      "changeSetId": "CS-001",
+      "atomic": false
+    }
+  }
+]

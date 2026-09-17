@@ -12,4 +12,5 @@ bool atomic = args.Bool("atomic", true);
 int limit = args.Int("limit", 100);
 int offset = args.Int("offset", 0);
 int maxCandidates = args.Int("maxCandidates", 5000);
-return AecTools.ManageBlocksAttributes(db, ed, tr, units, ct, log, op, namePattern, includeAnonymous, filter, handles, items, attributes, properties, insert, space, atomic, limit, offset, maxCandidates);
+string changeSetId = args.Str("changeSetId");
+return AecTools.ManageBlocksAttributes(db, ed, tr, units, ct, log, op, namePattern, includeAnonymous, filter, handles, items, attributes, properties, insert, space, atomic, limit, offset, maxCandidates, changeSetId, args);

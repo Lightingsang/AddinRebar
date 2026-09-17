@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Start a set for the level-3 duct rerouting",
+    "args": {
+      "label": "L3 duct reroute"
+    }
+  },
+  {
+    "title": "Start an unlabelled set",
+    "args": {}
+  }
+]

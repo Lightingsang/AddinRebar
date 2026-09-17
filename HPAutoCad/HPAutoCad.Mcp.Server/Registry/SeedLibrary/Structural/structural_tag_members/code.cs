@@ -10,4 +10,5 @@ string layer = args.Str("layer");
 double textHeightMm = args.Double("textHeightMm", 200);
 string space = args.Str("space");
 bool apply = args.Bool("apply", true);
-return AecTools.StructuralTagMembers(db, ed, tr, units, ct, log, filter, kinds, ruleSet, prefixes, start, digits, sortBy, overwrite, layer, textHeightMm, space, apply);
+string changeSetId = args.Str("changeSetId");
+return AecTools.StructuralTagMembers(db, ed, tr, units, ct, log, filter, kinds, ruleSet, prefixes, start, digits, sortBy, overwrite, layer, textHeightMm, space, apply, changeSetId, args);

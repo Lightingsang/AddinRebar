@@ -1,0 +1,36 @@
+{
+  "name": "commit_change_set",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "ChangeSet",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "change set",
+    "commit",
+    "apply",
+    "transaction"
+  ],
+  "title": "Commit a change set",
+  "description": "Replays every op recorded into a pending change set, in order, inside this one run — one undo entry 'MCP: <label>' for the whole set. Each op runs exactly as the write tool would have (same arguments, same validation, same envelope rules); while it runs, the original state of every entity it opens for write is snapshotted so rollback_change_set can restore it. atomic (default true): an op that does not succeed (an op recorded with atomic false that partly fails counts as not succeeding) is refused as an ArgumentException naming the op — the run is aborted, nothing of the set is written, the set stays pending; atomic false keeps what succeeded and reports the failed ops per item. A set is committed once: commit again is refused; roll it back or close it (rollback_change_set keep) first. Returns the edit envelope {success, createdCount, modifiedCount, deletedCount, affectedHandles (up to 100), items[{index = op − 1, ok, type = tool, changed [op N, created n, modified n, deleted n], error}], summary {changeSetId, ops, failedOps, created, modified, deleted, layersCreated, blocksCreated, snapshots, snapshotsComplete, byTool}, warnings (grouped by message with op indices), errors (first 20 + a count)}. Side effects: everything the recorded ops do, inside one undo entry 'MCP: <label>'; dryRun on the request rolls it all back — the response's rolledBack says so at once and the engine notices on the next call, the set is pending again.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "changeSetId": {
+        "type": "string",
+        "description": "The change set (CS-nnn) begin_change_set returned"
+      },
+      "atomic": {
+        "type": "boolean",
+        "default": true,
+        "description": "true = any failed op aborts the whole run; false = keep the ops that succeeded"
+      }
+    }
+  }
+}

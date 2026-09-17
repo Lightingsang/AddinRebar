@@ -9,4 +9,5 @@ double textHeightMm = args.Double("textHeightMm", 150);
 string space = args.Str("space");
 bool apply = args.Bool("apply", true);
 int maxCandidates = args.Int("maxCandidates", 5000);
-return AecTools.AecCreateOpeningRequests(db, ed, tr, units, ct, log, routes, hosts, ruleSet, tolerance, sizes, maxChordMm, layer, textHeightMm, space, apply, maxCandidates);
+string changeSetId = args.Str("changeSetId");
+return AecTools.AecCreateOpeningRequests(db, ed, tr, units, ct, log, routes, hosts, ruleSet, tolerance, sizes, maxChordMm, layer, textHeightMm, space, apply, maxCandidates, changeSetId, args);

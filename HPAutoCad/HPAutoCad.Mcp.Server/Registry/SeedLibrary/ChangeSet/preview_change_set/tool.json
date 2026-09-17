@@ -1,0 +1,41 @@
+{
+  "name": "preview_change_set",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "ChangeSet",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "change set",
+    "preview",
+    "plan"
+  ],
+  "title": "Preview a change set",
+  "description": "Read-only. Lists the ops recorded into a change set in the order they will replay: index, tool, a one-line summary (op, item / handle counts), the handles the call names, and its raw arguments cut at 500 characters. The summary carries the set (state, ops by tool, commit counts when committed) and the number of distinct handles named. A committed set whose run turned out to be rolled back by its request (dryRun, U) is reported pending again with a note; a rolled-back set whose undo was rolled back is committed again. For the real effect of a commit without keeping it, call commit_change_set with dryRun true on the request. Paged (max 30 ops per page). Returns the analysis envelope.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "changeSetId": {
+        "type": "string",
+        "description": "The change set (CS-nnn) begin_change_set returned"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 30,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      }
+    }
+  }
+}

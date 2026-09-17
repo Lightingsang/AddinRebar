@@ -69,8 +69,9 @@ public static partial class AecTools
     }
 
     public static EditResult ArchCreateRoomTags(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        ScriptArgs filterArgs, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs labels, ScriptArgs detection, IReadOnlyList<string> roomIds, bool onlyUnlabelled, string? format, string? layer, double textHeightMm, string? blockName, ScriptArgs attributes, string? space, bool apply, int maxCandidates)
+        ScriptArgs filterArgs, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs labels, ScriptArgs detection, IReadOnlyList<string> roomIds, bool onlyUnlabelled, string? format, string? layer, double textHeightMm, string? blockName, ScriptArgs attributes, string? space, bool apply, int maxCandidates, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "arch_create_room_tags", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var probe = new AnalysisResult<object>();
         textHeightMm = PositiveOrDefault(textHeightMm, RoomWriteService.DefaultTagHeightMm, "textHeightMm");
@@ -109,8 +110,9 @@ public static partial class AecTools
     }
 
     public static EditResult ArchAutoDimensionPlan(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        ScriptArgs filterArgs, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs detection, string? subject, IReadOnlyList<string> roomIds, IReadOnlyList<ScriptArgs> rules, string? layer, string? dimStyle, string? space, bool apply, int maxCandidates)
+        ScriptArgs filterArgs, string? ruleSet, ScriptArgs toleranceArgs, ScriptArgs detection, string? subject, IReadOnlyList<string> roomIds, IReadOnlyList<ScriptArgs> rules, string? layer, string? dimStyle, string? space, bool apply, int maxCandidates, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "arch_auto_dimension_plan", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var probe = new AnalysisResult<object>();
         var which = (subject ?? "rooms").Trim().ToLowerInvariant();

@@ -39,7 +39,7 @@ public sealed class HostProfileTests
         Assert.Contains("Architecture", profile.Categories);
         Assert.Contains("MEP", profile.Categories);
         Assert.Contains("Coordination", profile.Categories);
-        Assert.DoesNotContain(profile.Categories, c => c is "ChangeSets");
+        Assert.Contains("ChangeSet", profile.Categories);
     }
 
     [Fact]

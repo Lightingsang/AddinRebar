@@ -16,6 +16,10 @@
   O  aec_create_opening_requests: a pipe line through the beam, a wall line and across the room outline -> preview 2 requests + the 6.75 m
      chord skipped (maxChordMm 8000 takes it; aec_clash_check agrees on the pairs), dryRun rolled back, locked request layer refused, bad
      size key refused, empty hosts warned, apply -> 2 rectangles + 2 leaders
+  Z  change sets: begin -> 6 write calls recorded (bad handles, unknown op, xref bind refused) -> preview -> commit dryRun rolled back (set
+     pending again) -> commit (create / modify text, hatch, dimension / delete) -> second commit refused -> rollback dryRun (set committed again)
+     -> rollback on a locked layer (partial, stays committed) -> rollback restores everything by handle -> keep closes a set -> a 30-op set
+     committed as one undo entry (U reverts all) -> a second drawing has its own empty store
   D  undo: U after a REGEN boundary reverts the last batch (COM)
 The PowerShell wrapper (run-aec-edit-tools-live.ps1) starts AutoCAD, ticks the opt-in and calls this. Prints PASS/FAIL lines and a JSON summary.
 """
@@ -549,6 +553,124 @@ def main():
               and otypes == ["LWPOLYLINE", "LWPOLYLINE", "MULTILEADER", "MULTILEADER"] and og.get("closed") is True and len(og.get("vertices") or []) == 4 and near(og.get("areaMm2"), 250 * 250, 1)
               and all(i.get("ok") and i.get("handle") and any(c.startswith("leader:") for c in i.get("changed") or []) for i in oa.get("items", [])) and count() == n_o + 5, f"{short(oas, 300)} q={short(otypes)} g={short(og, 200)}")
         save("coordination-write", {"preview": op, "wide": opw, "clash": cx, "apply": oa, "query": oq})
+
+        # ---- Z: change sets ---------------------------------------------------------------------------------------------------
+        n_z = count()
+        cs = value(s.tool("begin_change_set", {"label": "harness set"})) or {}
+        cs_id = (cs.get("summary") or {}).get("changeSetId")
+        check("Z begin_change_set -> CS-nnn pending in this drawing, the write tools listed, nothing drawn",
+              cs.get("success") and str(cs_id).startswith("CS-") and (cs.get("items") or [{}])[0].get("state") == "pending" and "create_entities_batch" in ((cs.get("summary") or {}).get("writeTools") or []) and count() == n_z, short(cs.get("summary"), 300))
+        t_before, _ = query(h["text"], detail=True)
+        r1 = value(s.tool("create_entities_batch", {"changeSetId": cs_id, "items": [{"type": "line", "start": {"x": 0, "y": 14000}, "end": {"x": 3000, "y": 14000}}, {"type": "circle", "center": {"x": 4000, "y": 14000}, "radiusMm": 200}]})) or {}
+        r2 = value(s.tool("update_entities_batch", {"changeSetId": cs_id, "items": [{"handle": h["text"], "set": {"text": "CHANGED BY SET", "heightMm": 150}}]})) or {}
+        r3 = value(s.tool("manage_annotations", {"changeSetId": cs_id, "op": "create", "annotation": {"type": "mtext", "text": "set note", "position": {"x": 0, "y": 15000}, "heightMm": 200}})) or {}
+        r4 = value(s.tool("manage_annotations", {"changeSetId": cs_id, "op": "delete", "handles": [created[3]]})) or {}
+        hatch_h = (hc.get("items") or [{}])[0].get("handle")
+        dim_h = (ann["aligned"].get("items") or [{}])[0].get("handle")
+
+        def hatch_pattern(handle):
+            return value(s.tool("execute_autocad_code", {"code": f"var id = db.GetObjectId(false, new Handle(0x{handle}), 0); return ((Hatch)tr.GetObject(id, OpenMode.ForRead)).PatternName;", "transaction": "none", "label": "hatch pattern"}, timeout=60))
+        hatch_before = {"pattern": hatch_pattern(hatch_h)}
+        dim_before, _ = query(dim_h, detail=True)
+        r5 = value(s.tool("manage_hatches", {"changeSetId": cs_id, "op": "update", "handles": [hatch_h], "set": {"pattern": "SOLID"}})) or {}
+        r6 = value(s.tool("manage_annotations", {"changeSetId": cs_id, "op": "update", "handles": [dim_h], "set": {"textOverride": "8.0 m"}})) or {}
+        rbad = value(s.tool("update_entities_batch", {"changeSetId": cs_id, "items": [{"handle": "ZZZZ", "set": {"text": "x"}}]})) or {}
+        rbad_b = value(s.tool("manage_hatches", {"changeSetId": cs_id, "op": "create", "hatch": {"boundaryHandles": ["ZZZZ"]}})) or {}
+        rbad_op = value(s.tool("manage_annotations", {"changeSetId": cs_id, "op": "bogus", "handles": [dim_h]})) or {}
+        rbad_x = value(s.tool("manage_xrefs", {"changeSetId": cs_id, "op": "bind", "names": ["SITE"]})) or {}
+        check("Z six write calls with changeSetId are recorded as ops 1..6 (create, update the room text, an mtext, delete a text, a hatch pattern, a dimension text), nothing written; a bad handle (items / hatch.boundaryHandles), an unknown op and an xref bind are refused and not recorded",
+              all((r.get("summary") or {}).get("recorded") is True for r in (r1, r2, r3, r4, r5, r6)) and [(r.get("summary") or {}).get("opIndex") for r in (r1, r2, r3, r4, r5, r6)] == [1, 2, 3, 4, 5, 6] and r1.get("createdCount") == 0
+              and any("nothing is written" in w for w in r1.get("warnings", [])) and rbad.get("success") is False and any(e.get("code") == "INVALID_HANDLE" for e in rbad.get("errors", [])) and (rbad.get("summary") or {}).get("refused") is True
+              and rbad_b.get("success") is False and any(e.get("code") == "INVALID_HANDLE" for e in rbad_b.get("errors", [])) and rbad_op.get("success") is False and "op must be one of" in ((rbad_op.get("summary") or {}).get("reason") or "")
+              and rbad_x.get("success") is False and "cannot be undone" in ((rbad_x.get("summary") or {}).get("reason") or "") and count() == n_z,
+              f"{short([r.get('summary') for r in (r1, r2, r3, r4, r5, r6)], 400)} bad={short([rbad.get('errors'), rbad_b.get('errors'), (rbad_op.get('summary') or {}).get('reason'), (rbad_x.get('summary') or {}).get('reason')], 400)}")
+        pv = value(s.tool("preview_change_set", {"changeSetId": cs_id})) or {}
+        check("Z preview lists the 6 ops in order with tool, summary, handles and raw args; the set is pending with byTool counts",
+              pv.get("count") == 6 and [i["tool"] for i in pv.get("items", [])] == ["create_entities_batch", "update_entities_batch", "manage_annotations", "manage_annotations", "manage_hatches", "manage_annotations"] and pv["items"][0]["summary"] == "items 2" and pv["items"][1]["handles"] == [h["text"]]
+              and "CHANGED BY SET" in pv["items"][1]["args"] and pv["items"][3]["summary"] == "op delete · handles 1" and ((pv.get("summary") or {}).get("set") or {}).get("state") == "pending" and ((pv.get("summary") or {}).get("set") or {}).get("byTool", {}).get("manage_annotations") == 3, short(pv.get("items"), 500))
+        cd = s.tool("commit_change_set", {"changeSetId": cs_id, "dryRun": True})
+        cdv = value(cd) or {}
+        sm = value(s.tool("get_change_summary", {"changeSetId": cs_id})) or {}
+        t_dry, _ = query(h["text"], detail=True)
+        check("Z commit with dryRun -> the run reports 3 created / 3 modified / 1 deleted then rolled back; the next call sees the rollback and the set is pending again with a note; the text unchanged",
+              cdv.get("createdCount") == 3 and cdv.get("modifiedCount") == 3 and cdv.get("deletedCount") == 1 and cd.get("rolledBack") is True and count() == n_z and t_dry.get("text") == t_before.get("text")
+              and (sm.get("items") or [{}])[0].get("state") == "pending" and "rolled back" in ((sm.get("items") or [{}])[0].get("note") or ""), f"{short(cdv.get('summary'), 300)} state={short((sm.get('items') or [{}])[0], 200)}")
+        cm = value(s.tool("commit_change_set", {"changeSetId": cs_id})) or {}
+        cms = cm.get("summary") or {}
+        t_after, _ = query(h["text"], detail=True)
+        del_q = value(s.tool("query_entities", {"filter": {"handles": [created[3]], "space": "all"}})) or {}
+        hatch_after = {"pattern": hatch_pattern(hatch_h)}
+        dim_after, _ = query(dim_h, detail=True)
+        check("Z commit -> 3 created (line, circle, mtext), the room text changed (CHANGED BY SET / 150), the hatch SOLID, the dimension reading 8.0 m, the text erased (ERASED on query); set committed with the counts, snapshots for the 4 touched entities, items carry op N, one undo entry",
+              cm.get("success") is True and cm.get("createdCount") == 3 and cm.get("modifiedCount") == 3 and cm.get("deletedCount") == 1 and cms.get("committed") is True and cms.get("snapshots") == 4 and cms.get("snapshotsComplete") is True
+              and t_after.get("text") == "CHANGED BY SET" and near(t_after.get("textHeightMm"), 150) and hatch_after.get("pattern") == "SOLID" and dim_after.get("text") == "8.0 m" and any(e.get("code") == "ERASED" for e in del_q.get("errors", []))
+              and count() == n_z + 3 - 1 and all(i.get("ok") and "op 1" in (cm["items"][0].get("changed") or []) for i in cm.get("items", [])), f"counts {cm.get('createdCount')}/{cm.get('modifiedCount')}/{cm.get('deletedCount')} snap={cms.get('snapshots')} text={t_after.get('text')}/{t_after.get("textHeightMm")} hatch={short(hatch_after, 150)} dim={dim_after.get('text')} n={count() - n_z}")
+        again = s.tool("commit_change_set", {"changeSetId": cs_id})
+        rec_after = value(s.tool("create_entities_batch", {"changeSetId": cs_id, "items": [{"type": "line", "start": {"x": 0, "y": 0}, "end": {"x": 1, "y": 0}}]})) or {}
+        check("Z a committed set commits no second time (ArgumentException) and records nothing more (refused)", again.get("isError") and "committed" in (again.get("message") or "") and rec_after.get("success") is False and (rec_after.get("summary") or {}).get("refused") is True and count() == n_z + 2, short([again.get("message"), rec_after.get("summary")], 300))
+        rdry = s.tool("rollback_change_set", {"changeSetId": cs_id, "dryRun": True})
+        sm2 = value(s.tool("get_change_summary", {"changeSetId": cs_id})) or {}
+        t_rdry, _ = query(h["text"], detail=True)
+        check("Z rollback with dryRun -> the undo runs then is rolled back; the next call sees it and the set is committed again with a note, its undo still available; the text still changed",
+              (value(rdry) or {}).get("deletedCount") == 3 and rdry.get("rolledBack") is True and (sm2.get("items") or [{}])[0].get("state") == "committed" and "rollback was rolled back" in ((sm2.get("items") or [{}])[0].get("note") or "")
+              and ((sm2.get("items") or [{}])[0].get("commit") or {}).get("undoAvailable") is True and t_rdry.get("text") == "CHANGED BY SET" and count() == n_z + 2, short((sm2.get("items") or [{}])[0], 300))
+        s.tool("execute_autocad_code", {"code": "var lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead); var l = (LayerTableRecord)tr.GetObject(lt[\"A-TEXT\"], OpenMode.ForWrite); l.IsLocked = true; return l.Name;", "transaction": "auto", "label": "lock A-TEXT"}, timeout=60)
+        rpart = value(s.tool("rollback_change_set", {"changeSetId": cs_id})) or {}
+        sm3 = value(s.tool("get_change_summary", {"changeSetId": cs_id})) or {}
+        s.tool("execute_autocad_code", {"code": "var lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead); var l = (LayerTableRecord)tr.GetObject(lt[\"A-TEXT\"], OpenMode.ForWrite); l.IsLocked = false; return l.Name;", "transaction": "auto", "label": "unlock A-TEXT"}, timeout=60)
+        check("Z rollback with the texts' layer locked -> LAYER_LOCKED on the modified text and the erased one (both on A-TEXT), the rest undone, success false; the set stays committed with its snapshots and a note (roll back again once fixed)",
+              rpart.get("success") is False and any(e.get("code") == "LAYER_LOCKED" for e in rpart.get("errors", [])) and rpart.get("deletedCount") == 3 and (rpart.get("summary") or {}).get("failedByCode", {}).get("LAYER_LOCKED") == 2
+              and (sm3.get("items") or [{}])[0].get("state") == "committed" and "left 2 handle" in ((sm3.get("items") or [{}])[0].get("note") or "") and ((sm3.get("items") or [{}])[0].get("commit") or {}).get("undoAvailable") is True,
+              f"{short(rpart.get('summary'), 300)} state={short((sm3.get('items') or [{}])[0], 250)}")
+        rb = value(s.tool("rollback_change_set", {"changeSetId": cs_id})) or {}
+        rbs = rb.get("summary") or {}
+        t_back, _ = query(h["text"], detail=True)
+        hatch_back = {"pattern": hatch_pattern(hatch_h)}
+        dim_back, _ = query(dim_h, detail=True)
+        back_q = value(s.tool("query_entities", {"filter": {"handles": [created[3]]}, "properties": ["type", "text"]})) or {}
+        check("Z rollback again (layer unlocked) -> the 3 created stay erased, the room text restored (same handle, original text and height), the hatch pattern and the dimension text back, the erased text back with its handle; state rolled_back and confirmed on the next call",
+              rb.get("success") is True and rb.get("modifiedCount") == 3 and rbs.get("rolledBack") is True and len(rbs.get("erased") or []) == 3
+              and t_back.get("text") == t_before.get("text") and near(t_back.get("textHeightMm"), t_before.get("textHeightMm")) and hatch_back.get("pattern") == hatch_before.get("pattern") == "ANSI32" and dim_back.get("text") == dim_before.get("text")
+              and back_q.get("count") == 1 and count() == n_z
+              and (value(s.tool("get_change_summary", {"changeSetId": cs_id})) or {}).get("items", [{}])[0].get("state") == "rolled_back", f"rb {rb.get('deletedCount')}/{rb.get('modifiedCount')}/{rb.get('createdCount')} text={t_back.get('text')}/{t_back.get("textHeightMm")} before={t_before.get('text')}/{t_before.get("textHeightMm")} hatch={hatch_back.get('pattern')}/{hatch_before.get('pattern')} dim={dim_back.get('text')}/{dim_before.get('text')} back={back_q.get('count')} n={count() - n_z}")
+        # keep: a committed set closed without undoing it
+        keep_id = (value(s.tool("begin_change_set", {"label": "keep"})) or {}).get("summary", {}).get("changeSetId")
+        s.tool("create_entities_batch", {"changeSetId": keep_id, "items": [{"type": "circle", "center": {"x": 9000, "y": 14000}, "radiusMm": 150}]})
+        ck = value(s.tool("commit_change_set", {"changeSetId": keep_id})) or {}
+        kept = value(s.tool("rollback_change_set", {"changeSetId": keep_id, "keep": True})) or {}
+        ksum = value(s.tool("get_change_summary", {"changeSetId": keep_id})) or {}
+        kagain = s.tool("rollback_change_set", {"changeSetId": keep_id})
+        check("Z rollback keep -> the committed circle stays, the set is closed (undo released), a later rollback is refused",
+              ck.get("createdCount") == 1 and (kept.get("summary") or {}).get("closed") is True and kept.get("deletedCount") == 0 and (ksum.get("items") or [{}])[0].get("state") == "closed" and ((ksum.get("items") or [{}])[0].get("commit") or {}).get("undoAvailable") is False
+              and kagain.get("isError") and "closed" in (kagain.get("message") or "") and count() == n_z + 1, f"{short(kept.get('summary'), 200)} state={short((ksum.get('items') or [{}])[0], 200)}")
+        n_z = count()
+        # a 30-op set: one create per op, committed as one undo entry, U reverts all of it
+        big = (value(s.tool("begin_change_set", {"label": "thirty"})) or {}).get("summary", {}).get("changeSetId")
+        for k in range(30):
+            s.tool("create_entities_batch", {"changeSetId": big, "items": [{"type": "line", "start": {"x": 1000 * k, "y": 16000}, "end": {"x": 1000 * k + 500, "y": 16000}}]})
+        pv30 = value(s.tool("preview_change_set", {"changeSetId": big, "limit": 30})) or {}
+        acad_com("$a.ActiveDocument.SendCommand('_REGEN ')"); time.sleep(1)
+        b30 = count()
+        c30 = value(s.tool("commit_change_set", {"changeSetId": big})) or {}
+        m30 = count()
+        acad_com("$a.ActiveDocument.SendCommand('_U ')"); time.sleep(2)
+        a30 = count()
+        check("Z a 30-op set: previewed (30 ops, one page), committed -> 30 entities in one run, one U reverts all 30",
+              pv30.get("count") == 30 and len(pv30.get("items", [])) == 30 and pv30.get("truncated") is False and c30.get("createdCount") == 30 and m30 == b30 + 30 and a30 == b30, f"count {b30}->{m30}->{a30} {short(c30.get('summary'), 200)}")
+        # the store is per drawing: a second document sees no sets; the first keeps its own
+        acad_com("$a.Documents.Add() | Out-Null"); time.sleep(3)
+        other = value(s.tool("get_change_summary", {})) or {}
+        other_get = s.tool("preview_change_set", {"changeSetId": cs_id})
+        acad_com("$a.ActiveDocument.Close($false)"); time.sleep(3)
+        home = value(s.tool("get_change_summary", {})) or {}
+        home_by = {i.get("changeSetId"): i.get("state") for i in home.get("items", [])}
+        check("Z a second drawing has no change sets and cannot see CS-001; back in the first drawing the sets are still there — the first rolled_back, the kept one closed, the thirty pending again (U rolled its commit back, noticed on this call)",
+              other.get("count") == 0 and other_get.get("isError") and "there are none" in (other_get.get("message") or "") and home.get("count") == 3 and home_by.get(cs_id) == "rolled_back" and home_by.get(keep_id) == "closed" and home_by.get(big) == "pending",
+              f"other={short(other.get('summary'), 150)} home={short([(i.get('changeSetId'), i.get('state')) for i in home.get('items', [])], 200)}")
+        unknown = s.tool("commit_change_set", {"changeSetId": "CS-999"})
+        empty = s.tool("commit_change_set", {"changeSetId": (value(s.tool("begin_change_set", {})) or {}).get("summary", {}).get("changeSetId")})
+        check("Z unknown set / empty set -> ArgumentException naming the sets / asking for ops", unknown.get("isError") and "unknown" in (unknown.get("message") or "") and empty.get("isError") and "no ops" in (empty.get("message") or ""), short([unknown.get("message"), empty.get("message")], 300))
+        save("change-sets", {"begin": cs, "preview": pv, "dry": cdv, "commit": cm, "rollback": rb, "thirty": c30, "home": home})
 
         # ---- D: undo -------------------------------------------------------------------------------------------------------
         acad_com("$a.ActiveDocument.SendCommand('_REGEN ')"); time.sleep(1)

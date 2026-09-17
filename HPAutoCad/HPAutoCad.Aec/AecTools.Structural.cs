@@ -125,8 +125,9 @@ public static partial class AecTools
     }
 
     public static EditResult StructuralTagMembers(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        ScriptArgs filterArgs, IReadOnlyList<string> kinds, string? ruleSet, ScriptArgs prefixes, int start, int digits, string? sortBy, bool overwrite, string? layer, double textHeightMm, string? space, bool apply)
+        ScriptArgs filterArgs, IReadOnlyList<string> kinds, string? ruleSet, ScriptArgs prefixes, int start, int digits, string? sortBy, bool overwrite, string? layer, double textHeightMm, string? space, bool apply, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "structural_tag_members", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var probe = new AnalysisResult<object>();
         var (filter, rules, tol) = StructuralInputs(filterArgs, ruleSet, ScriptArgs.Empty, probe);
@@ -147,8 +148,9 @@ public static partial class AecTools
     }
 
     public static object StructuralGenerateMemberSchedule(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        ScriptArgs filterArgs, IReadOnlyList<string> kinds, string? ruleSet, ScriptArgs prefixes, bool writeTable, ScriptArgs insertPoint, string? title, string? layer, double rowHeightMm, double columnWidthMm, double textHeightMm, string? space)
+        ScriptArgs filterArgs, IReadOnlyList<string> kinds, string? ruleSet, ScriptArgs prefixes, bool writeTable, ScriptArgs insertPoint, string? title, string? layer, double rowHeightMm, double columnWidthMm, double textHeightMm, string? space, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "structural_generate_member_schedule", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var result = new AnalysisResult<ScheduleRow>();
         var (filter, rules, tol) = StructuralInputs(filterArgs, ruleSet, ScriptArgs.Empty, result);

@@ -18,7 +18,7 @@
     "rules"
   ],
   "title": "Auto-dimension a plan by rules",
-  "description": "Draws dimensions from rules given as data. subject rooms (default) dimensions the rooms arch_detect_rooms finds with the same filter / tolerance / detection (roomIds narrows); subject entities dimensions the closed outlines the filter matches (handles must resolve, layers, types). rules [{rule, ...options}] — known rules: overall (the axis-aligned bounding box of each outline: aligned dimensions offsetMm (600) outside it on sides bottom|top|left|right, default bottom + right). Every dimension is an ALIGNED dimension on layer (default: current layer; locked refused) with dimStyle (default: current), in space (default: the space the subjects were read from). apply: false plans only (summary.dimensions lists rule, subject, side, p1Mm, p2Mm, dimLineMm, measurementMm) and writes nothing; after a write the items carry [rule:subject:side, N mm]. Max 120 dimensions per call. Returns the edit envelope {success, createdCount, items[{index, ok, handle, type DIMENSION, changed}], summary {planned, drawn, layer, dimStyle, byRule, bySubject, dimensions (preview only)}, warnings, errors}. Side effects: adds dimension entities inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back; the outlines are never modified. An unknown rule or side is an ArgumentException.",
+  "description": "Draws dimensions from rules given as data. subject rooms (default) dimensions the rooms arch_detect_rooms finds with the same filter / tolerance / detection (roomIds narrows); subject entities dimensions the closed outlines the filter matches (handles must resolve, layers, types). rules [{rule, ...options}] — known rules: overall (the axis-aligned bounding box of each outline: aligned dimensions offsetMm (600) outside it on sides bottom|top|left|right, default bottom + right). Every dimension is an ALIGNED dimension on layer (default: current layer; locked refused) with dimStyle (default: current), in space (default: the space the subjects were read from). apply: false plans only (summary.dimensions lists rule, subject, side, p1Mm, p2Mm, dimLineMm, measurementMm) and writes nothing; after a write the items carry [rule:subject:side, N mm]. Max 120 dimensions per call. Returns the edit envelope {success, createdCount, items[{index, ok, handle, type DIMENSION, changed}], summary {planned, drawn, layer, dimStyle, byRule, bySubject, dimensions (preview only)}, warnings, errors}. Side effects: adds dimension entities inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back; the outlines are never modified. An unknown rule or side is an ArgumentException. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -148,6 +148,10 @@
         "minimum": 1,
         "maximum": 100000,
         "description": "Entities scanned (walls and room outlines when the filter names no layers/types)"
+      },
+      "changeSetId": {
+        "type": "string",
+        "description": "Record this call into the change set (begin_change_set) instead of applying it: the handles it names are checked now, nothing is written until commit_change_set"
       }
     },
     "required": [

@@ -15,8 +15,9 @@ namespace HPAutoCad.Aec;
 public static partial class AecTools
 {
     public static EditResult CreateEntitiesBatch(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        IReadOnlyList<ScriptArgs> items, string? space, bool atomic)
+        IReadOnlyList<ScriptArgs> items, string? space, bool atomic, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "create_entities_batch", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var result = BatchEditService.CreateBatch(new EditContext(db, tr, units), items, space, atomic, ct);
         log($"create_entities_batch: {items.Count} item(s) → {result.CreatedCount} created, {result.Errors.Count} error(s), atomic={atomic}, {watch.ElapsedMilliseconds} ms");
@@ -24,8 +25,9 @@ public static partial class AecTools
     }
 
     public static EditResult UpdateEntitiesBatch(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        IReadOnlyList<ScriptArgs> items, IReadOnlyList<string> handles, ScriptArgs set, bool atomic)
+        IReadOnlyList<ScriptArgs> items, IReadOnlyList<string> handles, ScriptArgs set, bool atomic, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "update_entities_batch", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var result = BatchEditService.UpdateBatch(new EditContext(db, tr, units), items, handles, set, atomic, ct);
         log($"update_entities_batch: {Math.Max(items.Count, handles.Count)} item(s) → {result.ModifiedCount} modified, {result.Errors.Count} error(s), atomic={atomic}, {watch.ElapsedMilliseconds} ms");
@@ -34,8 +36,9 @@ public static partial class AecTools
 
     public static object ManageBlocksAttributes(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
         string? op, string? namePattern, bool includeAnonymous, ScriptArgs filterArgs, IReadOnlyList<string> handles, IReadOnlyList<ScriptArgs> items, ScriptArgs attributes, ScriptArgs properties,
-        ScriptArgs insert, string? space, bool atomic, int limit, int offset, int maxCandidates)
+        ScriptArgs insert, string? space, bool atomic, int limit, int offset, int maxCandidates, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "manage_blocks_attributes", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var cx = new EditContext(db, tr, units);
         limit = Math.Clamp(limit, 1, MaxLimit);
@@ -58,8 +61,9 @@ public static partial class AecTools
     }
 
     public static object ManageAnnotations(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        string? op, ScriptArgs annotation, IReadOnlyList<string> handles, IReadOnlyList<ScriptArgs> items, ScriptArgs set, string? space, bool atomic)
+        string? op, ScriptArgs annotation, IReadOnlyList<string> handles, IReadOnlyList<ScriptArgs> items, ScriptArgs set, string? space, bool atomic, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "manage_annotations", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var cx = new EditContext(db, tr, units);
         object result = Op(op, AnnotationService.Ops) switch
@@ -75,8 +79,9 @@ public static partial class AecTools
     }
 
     public static object ManageHatches(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        string? op, ScriptArgs hatch, IReadOnlyList<string> handles, ScriptArgs set, ScriptArgs seedPoint, string? space, bool atomic, int limit, int maxCandidates)
+        string? op, ScriptArgs hatch, IReadOnlyList<string> handles, ScriptArgs set, ScriptArgs seedPoint, string? space, bool atomic, int limit, int maxCandidates, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "manage_hatches", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var cx = new EditContext(db, tr, units);
         limit = Math.Clamp(limit, 1, MaxLimit);
@@ -94,8 +99,9 @@ public static partial class AecTools
     }
 
     public static object ManageXrefs(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        string? op, IReadOnlyList<string> names, string? namePattern, ScriptArgs attach, bool insertBind, string? space)
+        string? op, IReadOnlyList<string> names, string? namePattern, ScriptArgs attach, bool insertBind, string? space, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "manage_xrefs", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var cx = new EditContext(db, tr, units);
         object result = Op(op, XrefService.Ops) switch

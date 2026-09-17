@@ -18,7 +18,7 @@
     "quantities"
   ],
   "title": "Generate a member schedule",
-  "description": "Groups the classified members by kind and section and returns schedule rows {kind, section, count, totalLengthMm, totalAreaMm2, marks, handles (first 20)} in the analysis envelope (kinds column → beam → wall → slab → opening, biggest groups first; marks as structural_detect_members finds them — MARK attributes and mark texts whose letters are a default or given prefix). With writeTable true it also draws the schedule as an AutoCAD Table (title row, header Kind | Section | Count | Total length (m) | Marks — first 20 marks per cell, one row per line) at insertPoint {x, y} mm on layer (default: current layer), rowHeightMm / columnWidthMm / textHeightMm in mm, in space (default: the space the members were read from), and returns the edit envelope with the table handle and the rows in summary.schedule; no members = ArgumentException, nothing drawn. Side effects: only with writeTable — adds one ACAD_TABLE inside one undo entry; dryRun rolls it back; nothing is modified otherwise.",
+  "description": "Groups the classified members by kind and section and returns schedule rows {kind, section, count, totalLengthMm, totalAreaMm2, marks, handles (first 20)} in the analysis envelope (kinds column → beam → wall → slab → opening, biggest groups first; marks as structural_detect_members finds them — MARK attributes and mark texts whose letters are a default or given prefix). With writeTable true it also draws the schedule as an AutoCAD Table (title row, header Kind | Section | Count | Total length (m) | Marks — first 20 marks per cell, one row per line) at insertPoint {x, y} mm on layer (default: current layer), rowHeightMm / columnWidthMm / textHeightMm in mm, in space (default: the space the members were read from), and returns the edit envelope with the table handle and the rows in summary.schedule; no members = ArgumentException, nothing drawn. Side effects: only with writeTable — adds one ACAD_TABLE inside one undo entry; dryRun rolls it back; nothing is modified otherwise. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -106,6 +106,10 @@
       "space": {
         "type": "string",
         "description": "Where the table goes: model or a layout name; default = the space the members were read from (filter.space, model unless given)"
+      },
+      "changeSetId": {
+        "type": "string",
+        "description": "Record this call into the change set (begin_change_set) instead of applying it: the handles it names are checked now, nothing is written until commit_change_set"
       }
     }
   }

@@ -89,8 +89,9 @@ public static partial class AecTools
     }
 
     public static EditResult CreateIssueMarkup(Database db, Editor ed, Transaction tr, ScriptUnits units, CancellationToken ct, Action<string> log,
-        IReadOnlyList<ScriptArgs> issues, string? style, string? layer, double radiusMm, double textHeightMm, bool withLeader, bool colorBySeverity, string? space, bool atomic)
+        IReadOnlyList<ScriptArgs> issues, string? style, string? layer, double radiusMm, double textHeightMm, bool withLeader, bool colorBySeverity, string? space, bool atomic, string? changeSetId, ScriptArgs args)
     {
+        if (ChangeSetRecorder.TryRecord(db, tr, changeSetId, "create_issue_markup", args, out var recordedOp)) return recordedOp;
         var watch = Stopwatch.StartNew();
         var result = IssueMarkupService.Create(new EditContext(db, tr, units), ct, issues, style, layer, radiusMm, textHeightMm, withLeader, colorBySeverity, space, atomic);
         log($"create_issue_markup: {issues.Count} issue(s) → {result.CreatedCount} entities, {result.Errors.Count} error(s), {watch.ElapsedMilliseconds} ms");

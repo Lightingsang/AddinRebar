@@ -1,0 +1,31 @@
+{
+  "name": "begin_change_set",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "ChangeSet",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "change set",
+    "transaction",
+    "plan",
+    "begin"
+  ],
+  "title": "Begin a change set",
+  "description": "Read-only for the drawing. Starts a logical change set and returns its id (CS-nnn). Any write tool called with changeSetId then records its call into the set instead of applying it — the handles it names (handles, items[].handle, issues[].handles, hatch.boundaryHandles, filter.handles) must be entities and its op must be one the tool takes and a rollback can undo (manage_xrefs: attach only), checked at once; everything else when the set is committed. preview_change_set lists what was recorded, commit_change_set replays every op inside one run (one undo entry, atomic by default), rollback_change_set discards a pending set, undoes a committed one (erases what it created, un-erases what it erased, restores what it modified from snapshots taken as the commit ran — up to 2 000 entities) or, with keep, closes it (work kept, undo released). States: pending → committed → rolled_back | closed; pending → discarded; a commit or rollback undone by its request (dryRun, U) steps back on the next call. The store lives in the AutoCAD process per drawing (a set never replays into another document), survives between requests and is dropped when the drawing closes; at most 20 live (pending or committed) sets per drawing — at the cap the oldest committed set is closed to make room —, 200 ops per set. Returns the analysis envelope: items[0] = the set {changeSetId, label, state pending, ops 0, createdAt}, summary {changeSetId, document, byState, maxOps, maxLiveSets, closed (the set closed to make room, if any), writeTools (the tools a set may hold)}.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "label": {
+        "type": "string",
+        "description": "What the set is for (≤ 120 characters), shown in summaries"
+      }
+    }
+  }
+}

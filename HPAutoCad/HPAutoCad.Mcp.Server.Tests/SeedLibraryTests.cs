@@ -63,16 +63,16 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_forty_five_seeds_are_embedded()
+    public void All_fifty_seeds_are_embedded()
     {
-        // 12 drawing/data seeds + 21 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
+        // 12 drawing/data seeds + 24 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
         // relationships, standards, audit, grids, members, connectivity, alignment, openings, rooms, room boundary, area schedule, MEP network,
-        // MEP connectivity, MEP endpoints, clash check) + 12 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs, issue markup,
-        // member tagging, member schedule, room tags, auto dimensions, opening requests)
+        // MEP connectivity, MEP endpoints, clash check, change-set begin / preview / summary) + 14 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs, issue markup,
+        // member tagging, member schedule, room tags, auto dimensions, opening requests, change-set commit / rollback)
         var seeds = LoadSeeds();
-        Assert.Equal(45, seeds.Count);
+        Assert.Equal(50, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(27, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(30, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
     }
 
     [Theory]
@@ -97,6 +97,9 @@ public sealed class SeedLibraryTests
     [InlineData("mep_connectivity_check")]
     [InlineData("mep_endpoint_check")]
     [InlineData("aec_clash_check")]
+    [InlineData("begin_change_set")]
+    [InlineData("preview_change_set")]
+    [InlineData("get_change_summary")]
     public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
     {
         // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
@@ -119,6 +122,8 @@ public sealed class SeedLibraryTests
     [InlineData("arch_create_room_tags")]
     [InlineData("arch_auto_dimension_plan")]
     [InlineData("aec_create_opening_requests")]
+    [InlineData("commit_change_set")]
+    [InlineData("rollback_change_set")]
     public void Aec_write_seed_is_a_thin_shim_that_documents_its_side_effects(string name)
     {
         // Write seeds run under the bridge's auto transaction (dryRun rolls back), read every declared arg, and say what they change.
@@ -159,6 +164,7 @@ public sealed class SeedLibraryTests
     [InlineData("mep_connectivity_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
     [InlineData("mep_endpoint_check", HPAutoCad.Aec.AecTools.MaxEndpointLimit)]
     [InlineData("aec_clash_check", HPAutoCad.Aec.AecTools.MaxClashLimit)]
+    [InlineData("preview_change_set", HPAutoCad.Aec.AecTools.MaxChangeOpLimit)]
     public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
     {
         // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.
@@ -377,6 +383,26 @@ public sealed class SeedLibraryTests
             var detection = properties.GetProperty("detection").GetProperty("properties").EnumerateObject().Select(p => p.Name).Order().ToArray();
             Assert.Equal(HPAutoCad.Aec.AecTools.DetectionKeys.Order(), detection);
         }
+    }
+
+    [Fact]
+    public void Every_write_seed_can_be_recorded_into_a_change_set_and_the_replay_table_matches()
+    {
+        // A recorded call replays through WriteToolTable, which reads the arguments as the seed's shim does: the two lists must be the same set,
+        // and every such seed declares changeSetId (the analyzer pin proves the shim reads it).
+        var writeSeeds = LoadSeeds().Where(s => s.Tool.GetProperty("transaction").GetString() == "auto" && s.Code.Contains("AecTools.") && s.Name is not ("commit_change_set" or "rollback_change_set")).ToArray();
+        Assert.Equal(HPAutoCad.Aec.Cad.WriteToolTable.Names, writeSeeds.Select(s => s.Name).Order(StringComparer.Ordinal).ToArray());
+        foreach (var seed in writeSeeds)
+        {
+            Assert.True(seed.Tool.GetProperty("inputSchema").GetProperty("properties").TryGetProperty("changeSetId", out _), $"{seed.Name} lacks changeSetId");
+            Assert.Contains("changeSetId", seed.Code);
+            Assert.Contains("changeSetId, args);", seed.Code);
+        }
+
+        // a replay abort is the set's content — the caller's — so it must never count against commit_change_set's stability
+        Assert.Contains("ArgumentException", LoadSeeds().Single(s => s.Name == "commit_change_set").Tool.GetProperty("description").GetString());
+        foreach (var name in new[] { "begin_change_set", "rollback_change_set" })
+            Assert.Contains("keep", LoadSeeds().Single(s => s.Name == name).Tool.GetProperty("description").GetString());
     }
 
     [Fact]

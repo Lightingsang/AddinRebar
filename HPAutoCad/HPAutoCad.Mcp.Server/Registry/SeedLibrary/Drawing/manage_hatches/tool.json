@@ -18,7 +18,7 @@
     "pattern"
   ],
   "title": "Manage hatches",
-  "description": "Hatches, chosen by op. create (hatch {boundaryHandles [closed curves: first outer, others islands] | points [polygon in mm] | seedPoint {x, y} → the smallest closed entity around it, pattern (default SOLID; ANSI31, AR-CONC… from acad.pat/acadiso.pat), patternType predefined|userDefined|custom, scale, angleDeg, hatchStyle normal|outer|ignore, associative, layer, colorIndex|color}); a boundary that is not closed (for AutoCAD or within the point tolerance) is refused with NOT_CLOSED, a wrong layer/property with LAYER_LOCKED / INVALID_ARGUMENT — nothing is created; a pattern AutoCAD rejects aborts the run. associative: true makes the hatch follow its boundary entities. update (handles[0] + set {pattern, patternType, scale, angleDeg, hatchStyle, layer, colorIndex|color, linetype, lineweight, visible} — every key validated first, an unknown key or bad value refuses the whole update), delete (handles — hatches only), detectBoundary (seedPoint → closed entities containing the point, innermost first: handle, type, layer, areaMm2; found geometrically, so it works outside a command). Read op returns the analysis envelope, write ops the edit envelope with the hatch's area in mm². Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change.",
+  "description": "Hatches, chosen by op. create (hatch {boundaryHandles [closed curves: first outer, others islands] | points [polygon in mm] | seedPoint {x, y} → the smallest closed entity around it, pattern (default SOLID; ANSI31, AR-CONC… from acad.pat/acadiso.pat), patternType predefined|userDefined|custom, scale, angleDeg, hatchStyle normal|outer|ignore, associative, layer, colorIndex|color}); a boundary that is not closed (for AutoCAD or within the point tolerance) is refused with NOT_CLOSED, a wrong layer/property with LAYER_LOCKED / INVALID_ARGUMENT — nothing is created; a pattern AutoCAD rejects aborts the run. associative: true makes the hatch follow its boundary entities. update (handles[0] + set {pattern, patternType, scale, angleDeg, hatchStyle, layer, colorIndex|color, linetype, lineweight, visible} — every key validated first, an unknown key or bad value refuses the whole update), delete (handles — hatches only), detectBoundary (seedPoint → closed entities containing the point, innermost first: handle, type, layer, areaMm2; found geometrically, so it works outside a command). Read op returns the analysis envelope, write ops the edit envelope with the hatch's area in mm². Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -175,6 +175,10 @@
         "default": 5000,
         "minimum": 1,
         "maximum": 100000
+      },
+      "changeSetId": {
+        "type": "string",
+        "description": "Record this call into the change set (begin_change_set) instead of applying it: the handles it names are checked now, nothing is written until commit_change_set"
       }
     },
     "required": [

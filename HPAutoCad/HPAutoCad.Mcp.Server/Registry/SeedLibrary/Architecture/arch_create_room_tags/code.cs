@@ -13,4 +13,5 @@ var attributes = args.Obj("attributes");
 string space = args.Str("space");
 bool apply = args.Bool("apply", true);
 int maxCandidates = args.Int("maxCandidates", 5000);
-return AecTools.ArchCreateRoomTags(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, labels, detection, roomIds, onlyUnlabelled, format, layer, textHeightMm, blockName, attributes, space, apply, maxCandidates);
+string changeSetId = args.Str("changeSetId");
+return AecTools.ArchCreateRoomTags(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, labels, detection, roomIds, onlyUnlabelled, format, layer, textHeightMm, blockName, attributes, space, apply, maxCandidates, changeSetId, args);

@@ -10,4 +10,5 @@ string dimStyle = args.Str("dimStyle");
 string space = args.Str("space");
 bool apply = args.Bool("apply", true);
 int maxCandidates = args.Int("maxCandidates", 5000);
-return AecTools.ArchAutoDimensionPlan(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, detection, subject, roomIds, rules, layer, dimStyle, space, apply, maxCandidates);
+string changeSetId = args.Str("changeSetId");
+return AecTools.ArchAutoDimensionPlan(db, ed, tr, units, ct, log, filter, ruleSet, tolerance, detection, subject, roomIds, rules, layer, dimStyle, space, apply, maxCandidates, changeSetId, args);

@@ -1,0 +1,30 @@
+{
+  "name": "get_change_summary",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "ChangeSet",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "change set",
+    "summary",
+    "status"
+  ],
+  "title": "List the change sets of the drawing",
+  "description": "Read-only. Lists the change sets of the current drawing (or one by changeSetId): id, label, state (pending | committed | rolled_back | closed | discarded), ops and ops by tool, createdAt / endedAt, a note when something happened outside the normal path (a commit or rollback undone by dryRun / U, a rollback that could not restore every handle), and for a committed set the commit counts (created / modified / deleted handles, layers and block definitions created, whether every modification was snapshotted, whether its undo is still available, failed ops). Summary: document, sets, byState, live sets against the cap of 20. The store lives in the AutoCAD process per drawing (a set never replays into another document), survives between requests and is dropped when the drawing closes; at most 20 live (pending or committed) sets per drawing — at the cap the oldest committed set is closed to make room —, 200 ops per set. Returns the analysis envelope.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "changeSetId": {
+        "type": "string",
+        "description": "One set only; empty = every set of the drawing"
+      }
+    }
+  }
+}

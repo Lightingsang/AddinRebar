@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Every change set of the drawing",
+    "args": {}
+  },
+  {
+    "title": "One set",
+    "args": {
+      "changeSetId": "CS-001"
+    }
+  }
+]
