@@ -1,0 +1,35 @@
+{
+  "name": "get_stories_and_grids",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "story",
+    "grid",
+    "query"
+  ],
+  "title": "Get stories and grid systems",
+  "description": "Lists the stories (name, elevation and height in mm, master/similar flags, splice) from the base up and the names of the grid systems. Read-only.",
+  "notes": "OAPI: cStory.GetStories_2 (10 ref parameters, BaseElevation first), cGridSys.GetNameList.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

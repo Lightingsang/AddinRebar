@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Names and types",
+    "args": {}
+  },
+  {
+    "title": "With combination members, first 50 of each",
+    "args": {
+      "includeComboCases": true,
+      "limit": 50
+    }
+  }
+]

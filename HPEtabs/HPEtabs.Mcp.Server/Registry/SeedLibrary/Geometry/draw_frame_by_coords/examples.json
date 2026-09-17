@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Column 3 m tall",
+    "args": {
+      "x1": 0,
+      "y1": 0,
+      "z1": 0,
+      "x2": 0,
+      "y2": 0,
+      "z2": 3000
+    }
+  },
+  {
+    "title": "Beam with a section and a name",
+    "args": {
+      "x1": 0,
+      "y1": 0,
+      "z1": 3000,
+      "x2": 6000,
+      "y2": 0,
+      "z2": 3000,
+      "section": "B300X500",
+      "name": "B1"
+    }
+  }
+]

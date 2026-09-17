@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Default modal case",
+    "args": {}
+  },
+  {
+    "title": "First 12 modes of a named case",
+    "args": {
+      "caseName": "Modal",
+      "limit": 12
+    }
+  }
+]

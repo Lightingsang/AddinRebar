@@ -1,0 +1,44 @@
+{
+  "name": "assign_frame_section",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Property",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "frame",
+    "section",
+    "assign"
+  ],
+  "title": "Assign a frame section",
+  "description": "Assigns one frame section property to the given frame objects (unique names). Writes the model: the bridge saves it and copies a .EDB snapshot first; ETABS has no undo. Frames ETABS refuses are listed in errors.",
+  "notes": "OAPI: cFrameObj.SetSection (a Set* on an existing object leaves its name in place, so the result's changed stays 0), cPropFrame.GetNameList to validate the section (the defined casing is passed on).",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "frameNames",
+      "section"
+    ],
+    "properties": {
+      "frameNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "description": "Unique names of the frames"
+      },
+      "section": {
+        "type": "string",
+        "description": "Frame section property name (must exist)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

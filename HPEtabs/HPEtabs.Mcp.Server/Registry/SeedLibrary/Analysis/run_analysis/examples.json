@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Everything",
+    "args": {}
+  },
+  {
+    "title": "Dead and Live only, fresh results",
+    "args": {
+      "cases": [
+        "Dead",
+        "Live"
+      ],
+      "deleteResultsFirst": true
+    }
+  }
+]

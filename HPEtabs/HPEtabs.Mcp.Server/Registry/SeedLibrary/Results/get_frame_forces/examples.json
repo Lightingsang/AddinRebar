@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Every frame under Dead",
+    "args": {
+      "caseOrCombo": "Dead",
+      "limit": 500
+    }
+  },
+  {
+    "title": "Two beams under a combination",
+    "args": {
+      "caseOrCombo": "UDStlS1",
+      "frameNames": [
+        "12",
+        "13"
+      ]
+    }
+  }
+]

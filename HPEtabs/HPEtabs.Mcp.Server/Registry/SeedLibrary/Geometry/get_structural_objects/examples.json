@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Frames on story 1",
+    "args": {
+      "kind": "frame",
+      "story": "Story1"
+    }
+  },
+  {
+    "title": "Second page of all points",
+    "args": {
+      "kind": "point",
+      "limit": 100,
+      "offset": 100
+    }
+  },
+  {
+    "title": "Areas whose label contains F",
+    "args": {
+      "kind": "area",
+      "nameLike": "F"
+    }
+  }
+]

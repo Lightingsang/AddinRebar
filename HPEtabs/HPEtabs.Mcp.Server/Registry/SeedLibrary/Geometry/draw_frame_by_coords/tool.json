@@ -1,0 +1,68 @@
+{
+  "name": "draw_frame_by_coords",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "frame",
+    "create",
+    "geometry"
+  ],
+  "title": "Draw a frame by coordinates",
+  "description": "Adds one frame object between two points given in mm (global coordinates), optionally with a frame section and a user name. Writes the model: the bridge saves it and copies a .EDB snapshot first (see the result's snapshot); ETABS has no undo. Returns the new frame's unique name.",
+  "notes": "OAPI: cFrameObj.AddByCoord (creates the frame plus its two end points, so the result's changed.added is 3), cPropFrame.GetNameList to validate the section (the defined casing is passed on).",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "x1",
+      "y1",
+      "z1",
+      "x2",
+      "y2",
+      "z2"
+    ],
+    "properties": {
+      "x1": {
+        "type": "number",
+        "description": "Start X in mm"
+      },
+      "y1": {
+        "type": "number",
+        "description": "Start Y in mm"
+      },
+      "z1": {
+        "type": "number",
+        "description": "Start Z in mm"
+      },
+      "x2": {
+        "type": "number",
+        "description": "End X in mm"
+      },
+      "y2": {
+        "type": "number",
+        "description": "End Y in mm"
+      },
+      "z2": {
+        "type": "number",
+        "description": "End Z in mm"
+      },
+      "section": {
+        "type": "string",
+        "description": "Frame section property name; default the model's default section"
+      },
+      "name": {
+        "type": "string",
+        "description": "User name for the new frame; default ETABS numbers it"
+      }
+    },
+    "additionalProperties": false
+  }
+}

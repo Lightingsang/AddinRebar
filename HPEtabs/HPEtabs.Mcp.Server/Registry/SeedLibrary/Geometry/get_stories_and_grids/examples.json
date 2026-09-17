@@ -1,0 +1,12 @@
+[
+  {
+    "title": "All stories",
+    "args": {}
+  },
+  {
+    "title": "First 5 stories",
+    "args": {
+      "limit": 5
+    }
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "name": "assign_frame_load",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Load",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "frame",
+    "load",
+    "assign"
+  ],
+  "title": "Assign a frame load",
+  "description": "Assigns a uniformly distributed load (kN/m over the whole length) or a point load (kN at a relative position 0–1) to frame objects under a load pattern. direction 10 = gravity by default (a positive value acts downward); 1–3 are the frame's local axes, 4–6 global X/Y/Z, 7–9 projected. Writes the model: the bridge saves it and copies a .EDB snapshot first; ETABS has no undo.",
+  "notes": "OAPI: cFrameObj.SetLoadDistributed / SetLoadPoint (MyType 1 = force; Dir 1–3 need CSys = Local, 4–11 CSys = Global: 4–6 global X/Y/Z, 7–9 projected, 10 gravity, 11 projected gravity), cLoadPatterns.GetNameList to validate the pattern. Values are entered per mm under the forced units: kN/m ÷ 1000.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "frameNames",
+      "pattern"
+    ],
+    "properties": {
+      "frameNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "description": "Unique names of the frames"
+      },
+      "pattern": {
+        "type": "string",
+        "description": "Load pattern name (must exist)"
+      },
+      "loadType": {
+        "type": "string",
+        "enum": [
+          "distributed",
+          "point"
+        ],
+        "default": "distributed",
+        "description": "Uniform distributed load or a single point load"
+      },
+      "valueKNperM": {
+        "type": "number",
+        "description": "Distributed load in kN/m (positive = along the direction; downward for gravity directions 10/11)"
+      },
+      "valueKN": {
+        "type": "number",
+        "description": "Point load in kN"
+      },
+      "relativePosition": {
+        "type": "number",
+        "default": 0.5,
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Point load position as a fraction of the length from the I end"
+      },
+      "direction": {
+        "type": "integer",
+        "default": 10,
+        "minimum": 1,
+        "maximum": 11,
+        "description": "1–3 frame local axes, 4–6 global X/Y/Z, 7–9 projected global, 10 gravity, 11 projected gravity"
+      },
+      "replace": {
+        "type": "boolean",
+        "default": true,
+        "description": "Replace existing loads of this pattern on the frame (false = add)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Uniform gravity load on two beams",
+    "args": {
+      "frameNames": [
+        "12",
+        "13"
+      ],
+      "pattern": "Live",
+      "valueKNperM": 15
+    }
+  },
+  {
+    "title": "Mid-span point load, added to existing",
+    "args": {
+      "frameNames": [
+        "12"
+      ],
+      "pattern": "Dead",
+      "loadType": "point",
+      "valueKN": 50,
+      "relativePosition": 0.5,
+      "replace": false
+    }
+  }
+]

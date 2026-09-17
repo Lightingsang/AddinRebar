@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "Seed library 12 (8 R + 3 W + 1 D) + registry per host + compile-check trong server tests (skip quan sát được) + structure test"
-status: pending
+status: completed
 priority: P2
 effort: "4h"
 dependencies: [0, 2]
@@ -63,18 +63,18 @@ HPEtabs/HPEtabs.Mcp.Server.Tests/SeedLibraryStructureTests.cs   tool.json schema
 6. `reports/phase-03-seeds.md`.
 
 ## Todo List
-- [ ] Tra CHM → `tool.json.notes`
-- [ ] 8 R + 3 W + 1 D
-- [ ] `SeedLibraryCompileTests` (server tests, skip quan sát được) + `SeedLibraryStructureTests`
-- [ ] Registry live 12 seed ≥ 1 lần (`--phase seeds`) 👤
-- [ ] Report
+- [x] Chữ ký OAPI qua reflection trên DLL → `tool.json.notes` (thay tra CHM)
+- [x] 8 R + 3 W + 1 D
+- [x] `SeedLibraryCompileTests` (25, `Assert.SkipWhen` không ETABS) + `SeedLibraryStructureTests` (38)
+- [x] Registry live 12 seed ×3 (`-Phase seeds`: 20 + 9 mỗi lần, 2026-09-17)
+- [x] Report `reports/phase-03-seeds.md`
 
 ## Success Criteria
-- [ ] `dotnet test HPEtabs/HPEtabs.Mcp.Server.Tests` → máy dev: ≥ 14 + 12 (compile) + 12 (structure) pass, 0 skip; máy không ETABS: 12 **SKIP** "ETABS 22 not installed" (quan sát được), còn lại pass.
-- [ ] `python McpShared/tools/mcp-call.py <server exe> tools/list` (registry cách ly, sau start đầu) → **24** tool; `tools-library\` có 12 thư mục / 6 category.
-- [ ] `powershell.exe -File HPEtabs/tools/harness/run-live-verify.ps1 -Phase seeds` → 12/12 (R ×8 `run_tool`; W ×3 `test_tool realRun=true` + `run_tool` + snapshot file; D1 `test_tool` → `PREVIEW`, ON `run_tool` pass, OFF `-32001` ×5 vẫn published) ≥ 1 lần 👤.
-- [ ] `propose_tool` code gọi `RunAnalysis` → từ chối (`DESTRUCTIVE`/`PREVIEW` trong lỗi validator); proposal `transaction:none` + `SetSection` → từ chối `PREVIEW`.
-- [ ] Structure grep: 0 seed chứa `SetPresentUnits|Helper|OpenFile|ExportFile|ImportFile|ImportProp|CSVFile|MergeAnalysisResults|ShowTablesInExcel`; `Save(`/`Delete`/`RunAnalysis` chỉ trong D1.
+- [x] `dotnet test HPEtabs/HPEtabs.Mcp.Server.Tests` → máy dev **81** pass, 0 skip (17 + 25 compile/tier + 39 structure); máy không ETABS: 25 SKIP "ETABS 22 not installed" (thiết kế `Assert.SkipWhen`, chưa chạy trên máy như vậy).
+- [x] `tools/list` registry cách ly → **24** tool; `tools-library\` 12 thư mục / 6 category; `_seeds.json`.
+- [x] `run-live-verify.ps1 -Phase seeds` → `seeds` 20/20 + `seedsdestructive` 9/9, ×3 (R ×8 `run_tool`; W ×3 `test_tool realRun=true` + `run_tool` + snapshot; D1 `test_tool` → preview, ON `run_analysis` 14 s + reactions/forces/modal, OFF `-32001` ×5 vẫn published).
+- [x] `propose_tool` RunAnalysis → "is destructive … cannot be stored as a tool"; `none` + SetSection → "declared transaction: none, but … writes".
+- [x] Structure grep: cấm + `RunAnalysis|DeleteResults|Save|Delete*` chỉ D1 (`Only_the_destructive_seed_names_destructive_members_and_no_seed_takes_a_path`).
 
 ## Risk Assessment
 - Chữ ký `ref`/`out` mảng (researcher-01 #20–#21) đoán sai → bước 1 + compile-check trên máy dev.

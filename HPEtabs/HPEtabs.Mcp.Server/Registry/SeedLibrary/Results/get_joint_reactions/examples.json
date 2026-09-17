@@ -1,0 +1,26 @@
+[
+  {
+    "title": "All reactions for Dead",
+    "args": {
+      "caseOrCombo": "Dead"
+    }
+  },
+  {
+    "title": "Two joints under a combination",
+    "args": {
+      "caseOrCombo": "UDStlS1",
+      "pointNames": [
+        "1",
+        "2"
+      ]
+    }
+  },
+  {
+    "title": "Base story only",
+    "args": {
+      "caseOrCombo": "Dead",
+      "story": "Base",
+      "limit": 50
+    }
+  }
+]

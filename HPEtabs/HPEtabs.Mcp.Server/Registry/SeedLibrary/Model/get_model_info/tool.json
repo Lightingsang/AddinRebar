@@ -1,0 +1,33 @@
+{
+  "name": "get_model_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Model",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "model",
+    "query",
+    "units"
+  ],
+  "title": "Get model info",
+  "description": "Overview of the ETABS model the bridge is attached to: file name and folder, lock state, present and database units, ETABS version, object counts (points, frames, areas) and optionally the stories. Call it first: every script works in kN and mm whatever the model's units. Read-only.",
+  "notes": "OAPI: cSapModel.GetModelFilename/GetModelFilepath/GetModelIsLocked/GetPresentUnits/GetDatabaseUnits/GetVersion, cPointObj/cFrameObj/cAreaObj.GetNameList, cStory.GetStories_2 (documentation topics of the same names). After a save GetModelFilename reports the .$et working copy; the seed reports the .EDB.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeStories": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list the stories with elevation and height in mm"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "get_structural_objects",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "frame",
+    "area",
+    "point",
+    "geometry",
+    "query"
+  ],
+  "title": "Get structural objects",
+  "description": "Pages through the frame, area or point objects: unique name, label and story, the frame section (areas: none — the API's section member is blocked), end points or vertices in mm and the frame length in mm. Filter by story or by a substring of the name. Read-only.",
+  "notes": "OAPI: cFrameObj.GetNameList/GetLabelFromName/GetSection/GetPoints, cAreaObj.GetNameList/GetLabelFromName/GetPoints, cPointObj.GetNameList/GetLabelFromName/GetCoordCartesian. cAreaObj.GetProperty is a base-guard collision (reflection name) and is not used.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "kind": {
+        "type": "string",
+        "enum": [
+          "frame",
+          "area",
+          "point"
+        ],
+        "default": "frame",
+        "description": "Which objects to list"
+      },
+      "story": {
+        "type": "string",
+        "description": "Only objects on this story (exact story name)"
+      },
+      "nameLike": {
+        "type": "string",
+        "description": "Only objects whose unique name or label contains this text (case-insensitive)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many items first (paging)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

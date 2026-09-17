@@ -1,0 +1,42 @@
+{
+  "name": "get_modal_results",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Results",
+  "host": "etabs",
+  "hostVersions": [
+    "22"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "results",
+    "modal",
+    "period",
+    "mass",
+    "query"
+  ],
+  "title": "Get modal results",
+  "description": "Periods, frequencies and participating mass ratios (UX, UY, UZ, RX, RY, RZ with their sums) of the modal load case. Needs analysis results with a modal case (run_analysis first). Read-only.",
+  "notes": "OAPI: cLoadCases.GetTypeOAPI (must be Modal), cAnalyze.GetCaseStatus (4 = finished), cAnalysisResultsSetup.* (output selection), cAnalysisResults.ModalPeriod, cAnalysisResults.ModalParticipatingMassRatios.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "caseName": {
+        "type": "string",
+        "default": "Modal",
+        "description": "The modal load case"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

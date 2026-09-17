@@ -146,7 +146,9 @@ public sealed class EtabsScriptRunner
             }
 
             if (message is not null && writes)
-                message += $" Changes made before that persisted — ETABS has no rollback; snapshot {snapshot} holds the model as saved before the run.";
+                message += changed.Added + changed.Deleted > 0
+                    ? $" Changes made before that persisted — ETABS has no rollback; snapshot {snapshot} holds the model as saved before the run."
+                    : $" No additions or deletions were recorded (a Set* change would not be counted); snapshot {snapshot} holds the model as saved before the run.";
         });
 
         if (unitsFailure is not null) return new ExecuteResult { IsError = true, Message = unitsFailure, Logs = logs };

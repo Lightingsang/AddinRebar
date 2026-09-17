@@ -6,13 +6,15 @@
 #   spike     - (-Phase spike|all, ETABS 22 must be running with a throw-away model) click Attach, then E13/E13b/E17/E18/T1
 #   bridge    - (-Phase bridge|all, ETABS 22 running with a SAVED throw-away model) attach, phase bridge (writes + snapshots, D off),
 #               tick 'Allow destructive operations', phase bridgedestructive (deletes what bridge added), untick
+#   seeds     - (-Phase seeds|all, same model) phase seeds (12 seeds, writes for real), tick, phase seedsdestructive (run_analysis,
+#               results seeds, cleanup + unlock), untick
 #   nomodel / modal / closed - (-Interactive) the script asks you to close the model / open a dialog / close ETABS, then runs the phase
 # Never starts, stops or drives ETABS itself; closes only the bridge it started. Windows PowerShell 5.1 (UIA); relaunches itself from pwsh.
 #
-#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|bridge|all] [-Interactive]
+#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|bridge|seeds|all] [-Interactive]
 #                  [-Exe <server exe>] [-BridgeExe <bridge exe>] [-Tag run1] [-Runs 1]
 param(
-    [ValidateSet('detached', 'spike', 'bridge', 'all')][string]$Phase = 'detached',
+    [ValidateSet('detached', 'spike', 'bridge', 'seeds', 'all')][string]$Phase = 'detached',
     [switch]$Interactive,
     [string]$Exe = '',
     [string]$BridgeExe = '',
@@ -106,6 +108,13 @@ for ($run = 1; $run -le $Runs; $run++) {
                 $null = Invoke-Phase $runName 'bridge'
                 if (-not (Set-OptIn 'AllowDestructive' $true)) { throw 'could not tick Allow destructive operations' }
                 try { $null = Invoke-Phase $runName 'bridgedestructive' }
+                finally { Set-OptIn 'AllowDestructive' $false | Out-Null }
+            }
+
+            if ($Phase -in @('seeds', 'all')) {
+                $null = Invoke-Phase $runName 'seeds'
+                if (-not (Set-OptIn 'AllowDestructive' $true)) { throw 'could not tick Allow destructive operations' }
+                try { $null = Invoke-Phase $runName 'seedsdestructive' }
                 finally { Set-OptIn 'AllowDestructive' $false | Out-Null }
             }
 

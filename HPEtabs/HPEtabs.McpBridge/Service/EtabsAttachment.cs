@@ -58,7 +58,10 @@ public sealed class EtabsAttachment : IDisposable
             {
                 // Helper implements cHelper explicitly: the members are only reachable through the interface.
                 cHelper helper = new Helper();
-                etabs = helper.GetObject(ProgId) ?? throw new InvalidOperationException("ETABS did not answer GetObject.");
+                // Null = nothing under the ProgID in this session's running-object table: ETABS is still loading, or it was started
+                // "as administrator" — an elevated process registers in a table a non-elevated app cannot see.
+                etabs = helper.GetObject(ProgId) ?? throw new InvalidOperationException(
+                    "ETABS is running but not registered for the API in this session. If it was started as administrator, close it and start it normally (an elevated ETABS is invisible to this app); otherwise wait for it to finish loading and click Attach again.");
             }
             catch (COMException exception)
             {

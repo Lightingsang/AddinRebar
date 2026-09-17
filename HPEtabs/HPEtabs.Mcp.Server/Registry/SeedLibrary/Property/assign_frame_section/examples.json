@@ -1,0 +1,22 @@
+[
+  {
+    "title": "One frame",
+    "args": {
+      "frameNames": [
+        "12"
+      ],
+      "section": "B300X500"
+    }
+  },
+  {
+    "title": "Three columns",
+    "args": {
+      "frameNames": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "section": "C400X400"
+    }
+  }
+]

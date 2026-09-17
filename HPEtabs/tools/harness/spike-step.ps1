@@ -2,7 +2,7 @@
 # (close the model, open a dialog, close ETABS) and the bridge must stay up in between. Each call is one action:
 #   start            start the bridge exe, start the listener, tick the execution opt-in; writes the pid to output/live-verify/spike/bridge.pid
 #   attach           click Attach and wait for "Attached to ETABS …"
-#   phase <name>     run live-verify.py --phase <name> (spike | nomodel | modal | closed | detached | bridge | bridgedestructive)
+#   phase <name>     run live-verify.py --phase <name> (spike | nomodel | modal | closed | detached | bridge | bridgedestructive | seeds | seedsdestructive)
 #   destructive on|off  tick/untick "Allow destructive operations"
 #   state            print the attach state / warning / self-check texts
 #   stop             close the bridge started by `start`

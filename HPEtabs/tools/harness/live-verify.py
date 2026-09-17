@@ -13,6 +13,10 @@ calls this once per phase:
               exception after a write persists, D refused -32001, path policy, compile error, timeout (B1-B13)
   bridgedestructive - the wrapper ticked 'Allow destructive operations': the frames phase bridge added are deleted under D
               (cleanup) with snapshot + [destructive] audit, run-time path refusals, dryRun preview (D0-D5)
+  seeds     - attached to a SAVED throw-away model, destructive OFF: the 12 seeds through run_tool/test_tool — 5 reads, the
+              3 writes for real (snapshot), run_analysis refused -32001 ×5 and still published, proposals with RunAnalysis /
+              none+SetSection refused (S0-S16)
+  seedsdestructive - opt-in ON: restrain the seeded columns, run_analysis for real, reactions/forces/modes, cleanup + unlock (D0-D6)
 Prints PASS/FAIL lines and a JSON summary; exit 1 on any failure.
 """
 import argparse, json, os, sys, time
@@ -345,6 +349,205 @@ def phase_bridgedestructive(s):
     check("D5 dryRun on a destructive script is a static preview even with the opt-in on", r.get("isError") and "PREVIEW" in diag_ids(r) and r.get("rolledBack") is True, short(r))
 
 
+# ---- phase 3: the seed library ----------------------------------------------------------------------------------------------
+FIX_BASE = """
+var names = args.Strings("frames");
+int fixedCount = 0;
+foreach (var frame in names)
+{
+    string p1 = "", p2 = "";
+    int ret = sapModel.FrameObj.GetPoints(frame, ref p1, ref p2);
+    if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.GetPoints({frame})");
+    bool[] restraint = { true, true, true, true, true, true };
+    int rr = sapModel.PointObj.SetRestraint(p1, ref restraint);
+    if (rr != 0) throw new InvalidOperationException($"ETABS returned {rr} from PointObj.SetRestraint({p1})");
+    fixedCount++;
+}
+return fixedCount;"""
+
+CLEANUP = """
+var names = args.Strings("frames");
+int deleted = 0;
+if (sapModel.GetModelIsLocked()) { int ru = sapModel.SetModelIsLocked(false); if (ru != 0) throw new InvalidOperationException($"ETABS returned {ru} from SetModelIsLocked(false)"); }
+foreach (var frame in names) { if (sapModel.FrameObj.Delete(frame, eItemType.Objects) == 0) deleted++; }
+int rf = sapModel.Analyze.SetRunCaseFlag("", true, true);
+return new { deleted, locked = sapModel.GetModelIsLocked(), runFlagsRestored = rf == 0 };"""
+
+PROPOSE_SCHEMA = {"type": "object", "properties": {"frame": {"type": "string"}}, "required": ["frame"], "additionalProperties": False}
+
+
+def run_tool(s, name, args=None, wait=120.0):
+    return s.tool("run_tool", {"name": name, "args": args or {}}, timeout=wait)
+
+
+def frame_names(s):
+    r = run_tool(s, "get_structural_objects", {"kind": "frame", "limit": 500})
+    return sorted(i.get("name") for i in ((r.get("value") or {}).get("items") or []))
+
+
+def phase_seeds(s):
+    """Attached, saved model, destructive OFF: every read seed, the three write seeds for real (snapshot), D refused, proposals refused."""
+    ctx = s.tool("get_etabs_context", {})
+    e = ctx.get("etabs") or {}
+    if not (ok(ctx) and e.get("isAttached") and ctx.get("docPath")):
+        check("S0 attached to a saved model", False, short(ctx))
+        return
+    tools = s.tools()
+    check("S0 tools/list has the 12 seeds beside the 12 core tools", len(tools) == 24 and all(n in tools for n in ["get_model_info", "run_analysis", "assign_frame_load"]), f"{len(tools)} tools")
+    frames_before = frame_names(s)
+
+    r = run_tool(s, "get_model_info", {"includeStories": True})
+    v = r.get("value") or {}
+    check("S1 get_model_info: success, counts, units label kN_mm_C, stories listed", ok(r) and v.get("success") is True and isinstance((v.get("counts") or {}).get("frames"), int) and v.get("scriptUnits") == "kN_mm_C" and isinstance(v.get("stories"), list), short(v))
+
+    r = run_tool(s, "get_stories_and_grids", {})
+    v = r.get("value") or {}
+    check("S2 get_stories_and_grids: stories + grid systems", ok(r) and isinstance(v.get("storyCount"), int) and isinstance(v.get("gridSystems"), list), short(v))
+
+    r = run_tool(s, "get_structural_objects", {"kind": "frame", "limit": 10})
+    v = r.get("value") or {}
+    check("S3 get_structural_objects(frame): envelope with items/count/total", ok(r) and v.get("kind") == "frame" and isinstance(v.get("items"), list) and isinstance(v.get("total"), int), short(v))
+    r = run_tool(s, "get_structural_objects", {"kind": "wall"})
+    check("S3b get_structural_objects(wall): ArgumentException (caller error, never counted)", r.get("isError") and "ArgumentException" in msg(r) and "kind must be" in msg(r), short(msg(r)))
+
+    r = run_tool(s, "get_materials_and_sections", {"limit": 30})
+    v = r.get("value") or {}
+    sections = [x.get("name") for x in (v.get("frameSections") or [])]
+    check("S4 get_materials_and_sections: materials with E in MPa, frame sections with area in mm²", ok(r) and sections and any(isinstance(m.get("eMPa"), (int, float)) for m in v.get("materials") or []) and any(isinstance(x.get("areaMm2"), (int, float)) for x in v.get("frameSections") or []), f"{len(v.get('materials') or [])} materials, {len(sections)} sections e.g. {sections[:3]}")
+    section = sections[0] if sections else None
+
+    r = run_tool(s, "get_load_definitions", {"includeComboCases": True})
+    v = r.get("value") or {}
+    patterns = [p.get("name") for p in (v.get("patterns") or [])]
+    cases = [c.get("name") for c in (v.get("cases") or [])]
+    check("S5 get_load_definitions: patterns, cases, combos", ok(r) and patterns and cases and isinstance(v.get("combos"), list), f"patterns {patterns} cases {cases} combos {len(v.get('combos') or [])}")
+    pattern = patterns[0] if patterns else "Dead"
+
+    t = s.tool("test_tool", {"name": "draw_frame_by_coords"})
+    ttext = json.dumps(t, ensure_ascii=False)
+    check("S6 test_tool draw_frame_by_coords (dryRun): every case fails with the static preview — a writing seed is never 'tested' by a preview", t.get("passed") == 0 and (t.get("failed") or 0) >= 1 and "static preview" in ttext and "nothing ran" in ttext, short(t))
+
+    t = s.tool("test_tool", {"name": "draw_frame_by_coords", "realRun": True, "cases": [{"title": "live column", "args": {"x1": 9000, "y1": 9000, "z1": 0, "x2": 9000, "y2": 9000, "z2": 3000}}]}, timeout=120)
+    check("S7 test_tool draw_frame_by_coords realRun=true: the case runs for real (saved + snapshot)", t.get("passed") == 1 and t.get("failed") == 0, short(t))
+
+    r = run_tool(s, "draw_frame_by_coords", {"x1": 12000, "y1": 9000, "z1": 0, "x2": 12000, "y2": 9000, "z2": 3000, "section": section, "name": "MCPSEED"})
+    v = r.get("value") or {}
+    new_name = (v.get("affectedNames") or [None])[0]
+    check("S8 run_tool draw_frame_by_coords: createdCount 1, name back, changed.added 3 (frame + 2 points), snapshot named", ok(r) and v.get("createdCount") == 1 and new_name and (r.get("changed") or {}).get("added") == 3 and (r.get("snapshot") or "").endswith(".EDB"), short(r))
+
+    r = run_tool(s, "get_structural_objects", {"kind": "frame", "limit": 1, "offset": 1})
+    v = r.get("value") or {}
+    check("S8b get_structural_objects paging: limit 1 offset 1 → count 1, offset 1, matched honest (null when truncated, else ≥ 2)", ok(r) and v.get("count") == 1 and v.get("offset") == 1 and (v.get("matched") is None or v.get("matched") >= 2) and (v.get("matchedAtLeast") or 0) >= 2, short(v))
+
+    r = run_tool(s, "assign_frame_section", {"frameNames": [new_name], "section": section}) if new_name else {}
+    v = r.get("value") or {}
+    check("S9 run_tool assign_frame_section: modifiedCount 1, snapshot, changed 0 (Set* not counted)", ok(r) and v.get("modifiedCount") == 1 and (r.get("snapshot") or "").endswith(".EDB") and r.get("changed") == {"added": 0, "modified": 0, "deleted": 0}, short(r))
+    r = run_tool(s, "assign_frame_section", {"frameNames": [new_name or "x"], "section": "HPETABS-NO-SUCH-SECTION"})
+    check("S9b assign_frame_section with an unknown section: ArgumentException (caller error), changed 0, the message says nothing was recorded (a W run always snapshots first)", r.get("isError") and "ArgumentException" in msg(r) and r.get("changed") == {"added": 0, "modified": 0, "deleted": 0} and "No additions or deletions were recorded" in msg(r) and (r.get("snapshot") or "").endswith(".EDB"), short(msg(r)))
+
+    r = run_tool(s, "assign_frame_load", {"frameNames": [new_name], "pattern": pattern, "valueKNperM": 10}) if new_name else {}
+    v = r.get("value") or {}
+    check("S10 run_tool assign_frame_load (distributed 10 kN/m): modifiedCount 1, snapshot", ok(r) and v.get("modifiedCount") == 1 and (r.get("snapshot") or "").endswith(".EDB"), short(r))
+    r = run_tool(s, "assign_frame_load", {"frameNames": [new_name], "pattern": pattern, "loadType": "point", "valueKN": 25, "relativePosition": 0.5, "replace": False}) if new_name else {}
+    check("S10b assign_frame_load (point 25 kN, added): modifiedCount 1", ok(r) and (r.get("value") or {}).get("modifiedCount") == 1, short(r))
+    r = run_tool(s, "assign_frame_load", {"frameNames": [new_name], "pattern": pattern, "valueKNperM": 3, "direction": 2, "replace": False}) if new_name else {}
+    check("S10c assign_frame_load direction 2 (frame local axis → CSys Local): modifiedCount 1, coordinateSystem Local", ok(r) and (r.get("value") or {}).get("modifiedCount") == 1 and (r.get("value") or {}).get("coordinateSystem") == "Local", short(r))
+
+    t = s.tool("test_tool", {"name": "run_analysis"})
+    check("S11 test_tool run_analysis (dryRun): static preview naming RunAnalysis (D), not run", t.get("passed") == 0 and "static preview" in json.dumps(t, ensure_ascii=False) and "cAnalyze.RunAnalysis (D)" in json.dumps(t, ensure_ascii=False), short(t))
+    for i in range(5):
+        r = run_tool(s, "run_analysis", {})
+        if not (r.get("isError") and "Allow destructive operations" in msg(r)):
+            break
+    tool_state = s.tool("get_tool", {"name": "run_analysis"})
+    check("S12 run_tool run_analysis ×5 with the opt-in off: refused -32001 each time, tool still published (refusals never count)", r.get("isError") and "Allow destructive operations" in msg(r) and tool_state.get("status") == "published", f"{short(msg(r))}; status={tool_state.get('status')}")
+
+    p = s.tool("propose_tool", {"name": "mcp_verify_run_it", "title": "Run it", "description": "Runs the analysis from a stored tool, which the bridge must refuse.", "category": "Analysis",
+                               "inputSchema": PROPOSE_SCHEMA, "code": "var f = args.Str(\"frame\"); return sapModel.Analyze.RunAnalysis();",
+                               "examples": [{"title": "a", "args": {"frame": "1"}}, {"title": "b", "args": {"frame": "2"}}], "transaction": "auto"})
+    ptext = json.dumps(p, ensure_ascii=False)
+    check("S13 propose_tool with RunAnalysis: refused — 'cAnalyze.RunAnalysis is destructive … cannot be stored as a tool'", not p.get("accepted") and "cAnalyze.RunAnalysis is destructive" in ptext and "cannot be stored as a tool" in ptext, short(p))
+
+    p = s.tool("propose_tool", {"name": "mcp_verify_set_it", "title": "Set it", "description": "Assigns a section but declares itself read-only, which the bridge must refuse.", "category": "Property",
+                               "inputSchema": PROPOSE_SCHEMA, "code": "return sapModel.FrameObj.SetSection(args.Str(\"frame\"), \"C40x40\");",
+                               "examples": [{"title": "a", "args": {"frame": "1"}}, {"title": "b", "args": {"frame": "2"}}], "transaction": "none"})
+    ptext = json.dumps(p, ensure_ascii=False)
+    check("S14 propose_tool transaction=none with SetSection: refused — 'declared transaction: none, but cFrameObj.SetSection (W) writes'", not p.get("accepted") and "declared transaction: none, but cFrameObj.SetSection (W) writes" in ptext, short(p))
+
+    r = run_tool(s, "get_joint_reactions", {"caseOrCombo": "HPETABS-NO-SUCH-CASE"})
+    check("S15 get_joint_reactions with an unknown case: ArgumentException", r.get("isError") and "ArgumentException" in msg(r), short(msg(r)))
+    r = run_tool(s, "get_frame_forces", {"caseOrCombo": pattern, "frameNames": ["HPETABS-LABEL-NOT-NAME"]})
+    check("S15b get_frame_forces with a label instead of a unique name: ArgumentException naming get_structural_objects.name (never a stability failure)", r.get("isError") and "ArgumentException" in msg(r) and "labels are not names" in msg(r), short(msg(r)))
+    r = run_tool(s, "get_joint_reactions", {"caseOrCombo": pattern})
+    check("S15c get_joint_reactions for a defined case that was not run: InvalidOperationException 'has no results … run_analysis first' (no empty table)", r.get("isError") and "has no results" in msg(r) and "run_analysis first" in msg(r), short(msg(r)))
+    r = run_tool(s, "get_modal_results", {"caseName": pattern})
+    check("S15d get_modal_results with a non-modal case: ArgumentException naming the case type", r.get("isError") and "ArgumentException" in msg(r) and "not a modal case" in msg(r), short(msg(r)))
+    r = run_tool(s, "run_analysis", {"cases": ["HPETABS-NO-SUCH-CASE"]})
+    check("S15e run_analysis with an unknown case: refused before any flag changes (D off → -32001 comes first; the validation is pinned by the compile test)", r.get("isError"), short(msg(r)))
+
+    added = [n for n in frame_names(s) if n not in frames_before]
+    check("S16 the writes left exactly two new frames (test_tool realRun + run_tool)", len(added) == 2 and (new_name in added), f"added {added}")
+    save("seeds-state", {"added": added, "section": section, "pattern": pattern, "cases": cases, "new_name": new_name})
+
+
+def phase_seedsdestructive(s):
+    """Destructive opt-in ON: fix the new columns at the base, run_analysis for real, read reactions/forces/modes, then delete the frames and unlock."""
+    state = {}
+    try:
+        with open(os.path.join(CL.out_dir or ".", "seeds-state.json"), encoding="utf-8") as f:
+            state = json.load(f)
+    except OSError:
+        pass
+    added = state.get("added") or []
+    pattern = state.get("pattern") or "Dead"
+    cases = state.get("cases") or []
+    if not added:
+        skip("D1 run_analysis on the seeded columns", "phase seeds added no frames")
+        return
+
+    r = execute(s, FIX_BASE, transaction="auto", label="fix base", args={"frames": added}, timeout_s=60, wait=90)
+    check("D0 execute (W): base points of the new columns restrained (SetRestraint), snapshot", ok(r) and r.get("value") == len(added) and (r.get("snapshot") or "").endswith(".EDB"), short(r))
+
+    t0 = time.time()
+    r = run_tool(s, "run_analysis", {"cases": [pattern], "deleteResultsFirst": True}, wait=660)
+    v = r.get("value") or {}
+    dt = time.time() - t0
+    check("D1 run_tool run_analysis (opt-in on): ran, the case finished, no CASE_FAILED, model locked, snapshot", ok(r) and v.get("success") is True and v.get("errors") == [] and any(c.get("name") == pattern and c.get("status") == "finished" for c in v.get("ranCases") or []) and v.get("isLocked") is True and (r.get("snapshot") or "").endswith(".EDB"), f"{short(v)} in {dt:.1f}s")
+    save("seeds-analysis", r)
+
+    r = run_tool(s, "get_joint_reactions", {"caseOrCombo": pattern})
+    v = r.get("value") or {}
+    items = v.get("items") or []
+    check("D2 get_joint_reactions after the run: ≥ 1 row, fzKN numeric (self-weight of the columns)", ok(r) and len(items) >= 1 and all(isinstance(i.get("fzKN"), (int, float)) for i in items), short(v))
+
+    r = run_tool(s, "get_frame_forces", {"caseOrCombo": pattern, "frameNames": added[:1]})
+    v = r.get("value") or {}
+    items = v.get("items") or []
+    check("D3 get_frame_forces for one column: ≥ 2 stations, pKN/m3KNm numeric", ok(r) and len(items) >= 2 and all(isinstance(i.get("pKN"), (int, float)) and isinstance(i.get("m3KNm"), (int, float)) for i in items), short(v))
+
+    if "Modal" in cases:
+        r = run_tool(s, "run_analysis", {"cases": ["Modal"]}, wait=660)
+        check("D4a run_analysis Modal", ok(r) and (r.get("value") or {}).get("success") is True, short(r))
+        r = run_tool(s, "get_modal_results", {"limit": 3})
+        v = r.get("value") or {}
+        first = (v.get("modes") or [{}])[0]
+        check("D4 get_modal_results: modes with period and mass ratios (ux/uy numeric), no warnings", ok(r) and (v.get("count") or 0) >= 1 and isinstance(first.get("periodS"), (int, float)) and isinstance(first.get("ux"), (int, float)) and not v.get("warnings"), short(v))
+        save("seeds-modal", r)
+    else:
+        skip("D4 get_modal_results", "no Modal case in this model")
+
+    r = run_tool(s, "get_joint_reactions", {"caseOrCombo": pattern, "story": "HPETABS-NO-SUCH-STORY"})
+    check("D5 get_joint_reactions with a story filter that matches nothing: success, 0 items", ok(r) and (r.get("value") or {}).get("count") == 0, short(r))
+
+    r = execute(s, CLEANUP, transaction="auto", label="cleanup seeds", args={"frames": added}, timeout_s=60, wait=90)
+    v = r.get("value") or {}
+    check("D6 cleanup (D): unlock + delete the seeded frames, model unlocked again, run flags back to all", ok(r) and v.get("deleted") == len(added) and v.get("locked") is False and v.get("runFlagsRestored") is True, short(r))
+
+    r = execute(s, "int n = 0; string[] names = null; int[] st = null; int ret = sapModel.Analyze.GetCaseStatus(ref n, ref names, ref st); return new { ret, status = Enumerable.Range(0, n).ToDictionary(i => names[i], i => st[i]) };", label="E10 status after unlock")
+    statuses = ((r.get("value") or {}).get("status") or {})
+    check("D7 (E10) after SetModelIsLocked(false) every case reads 'not run' (1): unlocking discards the analysis results", ok(r) and statuses and all(v == 1 for v in statuses.values()), short(statuses))
+
+
 def phase_closed(s):
     t0 = time.time()
     r = execute(s, "return sapModel.GetModelFilename();", label="E19 closed")
@@ -357,7 +560,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("exe")
     ap.add_argument("--registry", required=True)
-    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed", "bridge", "bridgedestructive"], default="detached")
+    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed", "bridge", "bridgedestructive", "seeds", "seedsdestructive"], default="detached")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     CL.out_dir = a.out
@@ -373,7 +576,7 @@ def main():
         s.initialize()
         time.sleep(0.5)
         {"disabled": phase_disabled, "detached": phase_detached, "spike": phase_spike, "nomodel": phase_nomodel, "modal": phase_modal, "closed": phase_closed,
-         "bridge": phase_bridge, "bridgedestructive": phase_bridgedestructive}[a.phase](s)
+         "bridge": phase_bridge, "bridgedestructive": phase_bridgedestructive, "seeds": phase_seeds, "seedsdestructive": phase_seedsdestructive}[a.phase](s)
     finally:
         s.close()
 
