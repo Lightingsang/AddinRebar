@@ -1,6 +1,6 @@
 # HPAutoCad MCP — tool catalog: drawing + data (context, entity query, spatial query, batch create / update, hatches, xrefs, layers, layouts, selection)
 
-Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in the host coding agent. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in Claude Code. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Drawing
 
@@ -102,7 +102,7 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 
 ### `manage_xrefs` — Manage external references
 
-*destructiveHint.* External references (xrefs), chosen by op. list (namePattern?) and resolveStatus (re-resolves paths first) return the analysis envelope with name, path, foundPath, found, status (Resolved|Unloaded|Unreferenced|FileNotFound|Unresolved), loaded, overlay, referenceCount, nestedIn. Write ops return the edit envelope: attach (attach {path — fully qualified .dwg that exists (<host-path>), name? (valid block name), position, overlay?, scale?, rotationDeg?, layer?} — reads the file from disk, saves the path as given and inserts one reference), detach (names — all must be xrefs; erases every reference of each and counts them in deletedCount; a nested xref aborts the run), reload, unload (names), bind (names, insertBind? — only resolved, loaded xrefs; one refused xref refuses the whole bind). modifiedCount counts block-table records for reload/unload/bind; affectedHandles holds entity handles only. Millimetres at the boundary. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change. attach/detach/bind change the block table as well as the entities. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).
+*destructiveHint.* External references (xrefs), chosen by op. list (namePattern?) and resolveStatus (re-resolves paths first) return the analysis envelope with name, path, foundPath, found, status (Resolved|Unloaded|Unreferenced|FileNotFound|Unresolved), loaded, overlay, referenceCount, nestedIn. Write ops return the edit envelope: attach (attach {path — fully qualified .dwg that exists (D:/folder/file.dwg or //server/share/file.dwg, no drive-relative or .. paths; a network share is resolved synchronously), name? (valid block name), position, overlay?, scale?, rotationDeg?, layer?} — reads the file from disk, saves the path as given and inserts one reference), detach (names — all must be xrefs; erases every reference of each and counts them in deletedCount; a nested xref aborts the run), reload, unload (names), bind (names, insertBind? — only resolved, loaded xrefs; one refused xref refuses the whole bind). modifiedCount counts block-table records for reload/unload/bind; affectedHandles holds entity handles only. Millimetres at the boundary. Side effects: modifies the current drawing inside one undo entry 'MCP: <label>' (U reverts it); dryRun on the request rolls everything back and still reports what would change. attach/detach/bind change the block table as well as the entities. With changeSetId the call is recorded into that change set instead of applied (see begin_change_set).
 
 | arg | type | default | description |
 |---|---|---|---|
@@ -183,3 +183,4 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 | arg | type | default | description |
 |---|---|---|---|
 | `limit` | integer | 200 | Maximum entities to return (1–2000) |
+

@@ -1,6 +1,6 @@
 # HPAutoCad MCP — tool catalog: AEC classification / relationships and the structural tools
 
-Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in the host coding agent. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in Claude Code. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Aec
 
@@ -150,3 +150,4 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 | `apply` | boolean | true | false = decide only, write nothing |
 | `changeSetId` | string |  | Record this call into the change set (begin_change_set) instead of applying it: the handles it names are checked now, nothing is written until commit_change_set |
 | `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
+

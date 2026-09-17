@@ -1,6 +1,6 @@
 # HPAutoCad MCP — tool catalog: core + registry (execute / context / inspect / cancel, search / get / run / get_run / propose / test / publish / manage)
 
-Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in the host coding agent. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in Claude Code. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Core
 
@@ -128,3 +128,4 @@ Package a working C# script as a reusable tool (status draft). Replace every lit
 | `name` REQ | string |  | Tool name |
 | `cases` |  |  | Optional cases [{"title": "...", "args": {...}}]; default = the tool's examples |
 | `realRun` | boolean | false | Commit instead of rolling back |
+

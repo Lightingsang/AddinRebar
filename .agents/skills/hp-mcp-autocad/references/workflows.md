@@ -22,7 +22,7 @@ Every sequence starts with `get_autocad_context` (opt-in, quiescence, INSUNITS).
 
 1. `arch_detect_rooms {}` → `R-nnn` rooms as the bounded faces of the wall drawing (single- or double-line; doorways 600–2500 mm bridged automatically; gaps ≤ `tolerance.roomGap` 25 snapped) with `name`/`number`/`department` read from the texts inside, `areaM2`, `labelPointMm`, `outlineMm` (≤ 32 vertices). Explicit closed outlines on room layers replace the wall loop they duplicate.
 2. `arch_room_boundary_check {detection: {maxGapMm: 300}}` → `open_boundary`, `boundary_gap` (one per facing pair), `opening_assumed`, `unlabelled_room` … (`ARC-*`).
-3. `arch_create_room_tags {format: "{number} {name}<host-path>", apply: false}` → the tags planned; `apply: true` writes one MTEXT per room on `A-ANNO-ROOM`; `blockName` + `attributes {NAME: "{name}"}` for a tag block; `onlyUnlabelled: true` to skip rooms already labelled.
+3. `arch_create_room_tags {format: "{number} {name}\\P{areaM2} m²", apply: false}` → the tags planned; `apply: true` writes one MTEXT per room on `A-ANNO-ROOM`; `blockName` + `attributes {NAME: "{name}"}` for a tag block; `onlyUnlabelled: true` to skip rooms already labelled.
 4. `arch_generate_area_schedule {groupBy: "department"}` → rows with `areaM2`, `percent`, `rooms`.
 5. `arch_auto_dimension_plan {rules: [{rule: "overall", sides: ["bottom", "right"], offsetMm: 800}], apply: false}` → aligned dimensions planned per room; `apply: true` draws them.
 

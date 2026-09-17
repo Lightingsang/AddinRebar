@@ -1,6 +1,6 @@
 # HPAutoCad MCP — tool catalog: blocks, annotations, measure, geometry issues, CAD standards, audit, issue markup
 
-Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in the host coding agent. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in Claude Code. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Block
 
@@ -172,3 +172,4 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 | `tolerance` | object |  | Overrides of the geometry tolerances in millimetres (angles in degrees); omitted members keep the defaults shown. |
 | `limit` | integer | 100 | Maximum issues returned per call (count tells the total; about 350 bytes per issue, so 100 keeps the answer well under the 64 KB cap) |
 | `maxCandidates` | integer | 5000 | Cap on entities examined |
+

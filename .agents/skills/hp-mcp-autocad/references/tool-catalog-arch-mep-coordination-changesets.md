@@ -1,6 +1,6 @@
 # HPAutoCad MCP — tool catalog: architecture, MEP, coordination and change sets
 
-Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in the host coding agent. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-autocad__<name>` in Claude Code. `REQ` = required; every length is millimetres, points are `{x, y}` objects in mm; handles are hex strings. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 | `detection` | object |  | How rooms are found (same block on every arch_* tool so room ids agree): maxGapMm 300 (a free wall end farther from every wall is open_boundary, nearer is boundary_gap), minOpeningMm 600 / maxOpeningMm 2500 (facing wall ends or jamb lines that far apart are a doorway, bridged), minAreaMm2 500000 (smaller faces are not rooms), minWidthMm 450 (thinner faces are wall cavities), maxWallThicknessMm 500 (a loop hugging the loop around it that closely is the inner line of a double wall); 0 = default |
 | `roomIds` | array<string> |  | Room ids (R-001…) or wall/outline handles from arch_detect_rooms; empty = every room |
 | `onlyUnlabelled` | boolean | false | Tag only rooms with no name or number text |
-| `format` | string | "{name}<host-path>" |  |
+| `format` | string | "{name}\\P{areaM2} m²" |  |
 | `layer` | string | "A-ANNO-ROOM" |  |
 | `textHeightMm` | number | 250 |  |
 | `blockName` | string |  | Tag block to insert instead of MTEXT (must be defined) |
@@ -227,3 +227,4 @@ Generated from `tools/list` of `HPAutoCad.Mcp.Server.exe` (62 tools in all) on a
 | `changeSetId` | string |  | The change set (CS-nnn) begin_change_set returned |
 | `keep` | boolean | false | true = keep the committed work, release its undo (close the set); false = undo it |
 | `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
+
