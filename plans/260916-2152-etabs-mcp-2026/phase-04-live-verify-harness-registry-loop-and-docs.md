@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Live-verify harness --phase full (automatable vs manual-only) + registry loop + hồi quy 3 host + docs/CLAUDE.md/AGENTS.md"
-status: pending
+status: completed
 priority: P2
 effort: "4h"
 dependencies: [2, 3]
@@ -51,20 +51,20 @@ run-live-verify.ps1 -Phase full ──▶ harness-common.ps1 (start HPEtabs.McpB
 5. `reports/phase-04-live-verify.md` + `plan.md` status.
 
 ## Todo List
-- [ ] `--phase full` ≈ 53 scenario pass ×3 👤
-- [ ] X hồi quy byte-identical + 5 suite = baseline
-- [ ] M checklist 👤
-- [ ] Docs/CLAUDE.md/AGENTS.md/README/memory
-- [ ] Report + plan status
+- [x] `-Phase full -Publish -Runs 3` → 3 × **102** pass (A+E+S+R groups qua 8 phase harness; 2026-09-17)
+- [x] X hồi quy: Revit 33/33, Navis 24/24, AutoCAD 37/37 (+3 do plan AEC); suites sau đổi engine xanh
+- [x] M checklist trong `reports/phase-04-live-verify.md` (4/5 chưa làm — ghi rõ, không Verified)
+- [x] Docs/CLAUDE.md/AGENTS.md/README (HPEtabs + harness + McpShared)/system-architecture/codebase-summary/changelog/memory
+- [x] Report + plan status
 
 ## Success Criteria
-- [ ] `powershell.exe -File HPEtabs/tools/harness/run-live-verify.ps1 -Phase full -Runs 3` → **≈ 53 pass, 0 fail**, SKIP chỉ với `-SkipNoModel`/`-SkipClose`/không `-UncModelPath` (ghi số); mỗi run < 10 phút; bridge tự thoát; ETABS còn chạy.
-- [ ] `tools/list_changed` ≤ 0.5 s sau approve; quarantine sau đúng 5 fail; restore + newVersion → 5 `ArgumentException` vẫn published; **5× D-off → `-32001`, `run_analysis` vẫn published** (registry không wipe).
-- [ ] Revit/AutoCAD/Navis `tools/list` byte-identical với snapshot phase 0; 5 suite = `reports/phase-00-baseline.md`.
-- [ ] `git diff --stat HPRebar/ HPAutoCad/ HPNavis/` rỗng; `McpShared/` chỉ diff bảng phase 0.
-- [ ] Snapshot: sau chuỗi W có `prerun\` ≥ 2, `presave\` = số lần user save (0–1 trong run auto); sau 11 W `prerun\` = 10.
-- [ ] Bridge chạy từ **publish folder**: log `MCP scripting self-check OK` (`Assembly.Location` khác rỗng).
-- [ ] `AGENTS.md` regen qua `_TO_PORTABLE`; diff chỉ mục ETABS. Nhóm M: 5 ô có kết quả 👤 hoặc "chưa làm" — không ghi Verified cho ô chưa làm.
+- [x] `run-live-verify.ps1 -Phase full -Publish -Runs 3` → **3 × 102 pass, 0 fail, 0 skip**; ~80 s/run; bridge tự thoát; ETABS còn chạy (no-model/closed/UNC không trong `full` — phase riêng, verified phase 1–2).
+- [x] `tools/list_changed` ≤ 0.5 s sau approve (R10); quarantine sau đúng 5 fail (R14); restore + newVersion → 5 `ArgumentException` vẫn published (R17); 5× D-off → `-32001`, `run_analysis` vẫn published (S12) — cùng registry trong run.
+- [x] Revit 33/33, Navis 24/24 byte-identical; AutoCAD 37/37 + 3 tool đổi bởi plan AEC (git proof); suites xanh (McpShared 164 + 62, Revit 109, Navis 49 + 135, AutoCAD 241, ETABS 81 + 184).
+- [x] `git diff --stat HPRebar/ HPNavis/` rỗng (`HPAutoCad/` = working tree session AEC); `McpShared/` chỉ `a8c867b` (`#r`/`#load`) kể từ phase 0.
+- [x] Snapshot: prerun 10 (retention), presave 5 (cap) sau nhiều run; đúng bucket.
+- [x] Bridge từ publish folder: `MCP scripting self-check OK … ETABSv1.dll from …` (3 run).
+- [x] `AGENTS.md` regen qua `_TO_PORTABLE`; nhóm M: 1 ghi nhận (modal không block), 4 "chưa làm" — không Verified.
 
 ## Risk Assessment
 - UIA trên cửa sổ WPF của ta: đã chứng minh với Navis/AutoCAD — thấp.

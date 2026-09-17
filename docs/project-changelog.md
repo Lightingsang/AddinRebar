@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-17 — ETABS MCP: phase 4 — `-Phase full` từ publish folder, registry loop live, hồi quy 3 host — **plan hoàn tất**
+
+**Bổ sung:** harness phase `registry` (R1–R19: MISS → ad-hoc → `get_run`/`toolify_run` → `propose_tool` → `test_tool` → `publish_tool` → CLI approve → listed ≤ 0.5 s → gọi theo tên; tool mong manh → quarantine sau 5 fail → `manage_tool restore` + newVersion guarded → 5 `ArgumentException` vẫn published); `run-live-verify.ps1 -Phase full [-Publish] [-Runs n]` (publish 2 exe rồi chạy từ `HPEtabs/output/`, 1 registry root mỗi run, không wipe giữa nhóm); `tools/harness/README.md`; `reports/regression-tools-list-phase-04.py`; seed results: case chưa chạy → `ArgumentException` (không làm seed bị quarantine khi người dùng hỏi trước khi chạy analysis); README `HPEtabs/` status + gotchas; CLAUDE.md known gaps.
+
+**Xác minh:** `-Phase full -Publish -Runs 3` → **3 × 102 PASS, 0 fail, 0 skip** (236 s), self-check OK từ publish folder; hồi quy `tools/list`: Revit 33/33, Navis 24/24, AutoCAD 37/37 identical (3 tool khác = commit AEC 28b075d); suites sau đổi engine: McpShared 164 + 62, Revit 109, Navis 49 + 135, AutoCAD 241, ETABS 81 + 184. Chưa làm (manual): kill ETABS giữa call, licence seat, restore snapshot trong GUI, `run_analysis` project thật. Gotcha: `os.environ` Windows upper-case key; wrapper `-Runs N` dùng chung registry → MISS sai + quarantine tích luỹ (đã tách registry mỗi run).
+
 ## 2026-09-17 — ETABS MCP: phase 3 — 12 seed nhúng, `tools/list` 24, verify live kể cả `run_analysis` thật
 
 **Bổ sung:** `HPEtabs.Mcp.Server/Registry/SeedLibrary/**` 12 seed (8 R: model info, stories/grids, structural objects, materials/sections, load definitions, joint reactions, frame forces, modal; 3 W: draw frame, assign section, assign load; 1 D: `run_analysis` 600 s) — chữ ký OAPI đọc bằng reflection từ `ETABSv1.dll`, ghi `tool.json.notes`; `SeedLibraryStructureTests` (38) + `SeedLibraryCompileTests` (25, compile + tier khớp fixture, `Assert.SkipWhen` không ETABS); harness `live-verify.py --phase seeds|seedsdestructive`, `run-live-verify.ps1 -Phase seeds`. Runner: message sau exception W/D phân biệt `changed` 0. Attach: thông báo trường hợp ETABS không đăng ký ROT / elevated.

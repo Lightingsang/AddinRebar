@@ -18,7 +18,7 @@ int rc = sapModel.Analyze.GetCaseStatus(ref nc, ref caseNames, ref caseStatus);
 if (rc != 0) throw new InvalidOperationException($"ETABS returned {rc} from Analyze.GetCaseStatus");
 int caseIndex = Array.FindIndex(caseNames ?? new string[0], c => string.Equals(c, caseOrCombo, StringComparison.OrdinalIgnoreCase));
 // A load case that exists but was never run has no results: say so instead of reporting an empty table (status 4 = finished).
-if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new InvalidOperationException($"case '{caseOrCombo}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first");
+if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new ArgumentException($"case '{caseOrCombo}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first or pick a case that ran");
 int r0 = sapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
 if (r0 != 0) throw new InvalidOperationException($"ETABS returned {r0} from Results.Setup.DeselectAllCasesAndCombosForOutput");
 bool selected = sapModel.Results.Setup.SetCaseSelectedForOutput(caseOrCombo) == 0 || sapModel.Results.Setup.SetComboSelectedForOutput(caseOrCombo) == 0;

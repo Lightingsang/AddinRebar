@@ -1,7 +1,7 @@
 ---
 title: "HPEtabs MCP 2026 (ETABS 22 host for the shared HP MCP engine)"
 description: "AI → MCP → ETABS 22 (v22.7.0.4095, OAPI 2.10) trong folder top-level riêng HPEtabs/; bridge = WPF app độc lập giữ 1 COM attachment; không transaction → snapshot vô điều kiện + 3 tier allow-list R/W/D + 2 opt-in; engine McpShared/ chỉ thêm hằng/profile/hint"
-status: in-progress
+status: completed
 priority: P2
 effort: 28h
 branch: RebarVersion1
@@ -14,7 +14,7 @@ blocks: []
 
 # HPEtabs MCP 2026 — Plan
 
-**Ngày:** 2026-09-16 · **Status:** in-progress — phase 0 **done 2026-09-16**, phase 1 **done 2026-09-17** (scaffold cả 2 exe + spike E9–E20 với ETABS 22 thật; [spike report](reports/phase-01-spike.md)); phase 2 **done 2026-09-17** (tier semantic từ fixture, snapshot vô điều kiện, fingerprint, path policy; live `-Phase bridge -Runs 2` 48 ×2, review round fixed; [report](reports/phase-02-bridge-runtime.md)); phase 3 **done 2026-09-17** (12 seed, `tools/list` 24, live `-Phase seeds` 29 ×3 incl. `run_analysis` thật + E10 đóng; [report](reports/phase-03-seeds.md)); phase 4 pending · revised sau red-team cùng ngày · mọi khẳng định OAPI/runtime có nguồn — [evidence E1–E8](research/evidence-on-machine-2026-09-16.md) + CHM › topic; còn lại `[chưa xác minh]` · ck CLI không có → file plan viết trực tiếp, như các plan trước · Template: Stack-Aware (phase 0 = engine chung; server gộp vào phase 1; WPF gộp vào 2)
+**Ngày:** 2026-09-16 · **Status:** completed — phase 0 **done 2026-09-16**, phase 1 **done 2026-09-17** (scaffold cả 2 exe + spike E9–E20 với ETABS 22 thật; [spike report](reports/phase-01-spike.md)); phase 2 **done 2026-09-17** (tier semantic từ fixture, snapshot vô điều kiện, fingerprint, path policy; live `-Phase bridge -Runs 2` 48 ×2, review round fixed; [report](reports/phase-02-bridge-runtime.md)); phase 3 **done 2026-09-17** (12 seed, `tools/list` 24, live `-Phase seeds` incl. `run_analysis` thật + E10 đóng; [report](reports/phase-03-seeds.md)); phase 4 **done 2026-09-17** (`-Phase full -Publish -Runs 3` → 3 × 102 PASS từ publish folder, registry loop live, hồi quy 3 host; [report](reports/phase-04-live-verify.md)) — **PLAN COMPLETE** · revised sau red-team cùng ngày · mọi khẳng định OAPI/runtime có nguồn — [evidence E1–E8](research/evidence-on-machine-2026-09-16.md) + CHM › topic; còn lại `[chưa xác minh]` · ck CLI không có → file plan viết trực tiếp, như các plan trước · Template: Stack-Aware (phase 0 = engine chung; server gộp vào phase 1; WPF gộp vào 2)
 
 ## Executive summary
 - **Host thứ tư, kiểu thứ ba:** ETABS.exe = COM LocalServer out-of-process (E3), API = `ETABSv1.dll` netstandard2.0 (E2), không add-in nạp lúc khởi động (E4) → bridge = **WPF app độc lập** `HPEtabs.McpBridge` (net8.0-windows, publish **folder**) giữ **một** attachment `Helper.GetObject` tới instance user đang mở (không pid picker; > 1 ETABS → chỉ dẫn "Tools › Active Instance for API"); pipe `hpetabs-mcp-22` + `McpBridgeHost`/`RequestDispatcher`/`BridgeClient` không đổi ([ADR-01](adr/adr-01-standalone-bridge-app-vs-in-process-server.md)). Server `HPEtabs.Mcp.Server` (net10, single-file) hình dạng `HPAutoCad.Mcp.Server`, **không** tham chiếu `ETABSv1.dll`.
@@ -35,7 +35,7 @@ blocks: []
 | 1 | [phase-01](phase-01-hpetabs-scaffold-props-bridge-skeleton-com-attach-spike.md) — scaffold **cả 2 exe + 2 test project**, props CLSID, `EtabsHostProfile` + 4 tool, spike E9…E20 qua stdio `live-verify.py --phase spike` (gate) 👤 | **completed 2026-09-17** — [spike](reports/phase-01-spike.md) · [review](reports/code-review-phase-01.md) · [tests](reports/test-report-phase-01.md) | 0 | 8h |
 | 2 | [phase-02](phase-02-etabs-bridge-runtime-executor-tiers-snapshot-window.md) — runtime: fixture tier (semantic), snapshot, fingerprint, path policy, `PREVIEW`/`-32001`, liveness, cửa sổ 2 checkbox; bridge tests 184 (cần ETABS) | **done 2026-09-17** | 0, 1 | 8h |
 | 3 | [phase-03](phase-03-etabs-seed-library-and-registry-per-host.md) — 12 seed, compile-check trong server tests (skip quan sát được), structure test, `test_tool realRun=true` cho W | **done 2026-09-17** | 0, 2 | 4h |
-| 4 | [phase-04](phase-04-live-verify-harness-registry-loop-and-docs.md) — `--phase full` ≈ 53 scenario, registry loop (registry giữ qua OFF/ON), hồi quy 3 host, docs/CLAUDE.md/AGENTS.md | pending | 2, 3 | 4h |
+| 4 | [phase-04](phase-04-live-verify-harness-registry-loop-and-docs.md) — `--phase full` ≈ 53 scenario, registry loop (registry giữ qua OFF/ON), hồi quy 3 host, docs/CLAUDE.md/AGENTS.md | **done 2026-09-17** | 2, 3 | 4h |
 
 ## Key dependencies / constraints
 - `HPEtabs/` chỉ `ProjectReference ../McpShared/*`; không `HPRebar/`, `HPAutoCad/`, `HPNavis/`, `HPCivil3D/` (không tồn tại hôm nay); prefix `HPEtabs.*`. Máy dev: ETABS 22 v22.7.0.4095, `ETABSv1.dll` 2.10.0.0 (E1). Spike cần 👤 mở ETABS với model bỏ đi + duyệt 2 probe ghi.

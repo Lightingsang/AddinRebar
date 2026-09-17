@@ -19,7 +19,7 @@
   ],
   "title": "Get joint reactions",
   "description": "Reactions at the restrained joints for one load case or combination: forces in kN and moments in kN·m, per joint and step. Needs analysis results (run_analysis first, or run it in ETABS). Filter by point names or by story. Read-only — selecting the output case is a results setting, not a model change.",
-  "notes": "OAPI: cAnalyze.GetCaseStatus (a load case must be finished = 4), cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cPointObj.GetNameList (names validated), cAnalysisResults.JointReact (group 'All' or per object), cPointObj.GetLabelFromName. Moments arrive in kN·mm under the forced units and are divided by 1000.",
+  "notes": "OAPI: cAnalyze.GetCaseStatus (a load case must be finished = 4 — otherwise ArgumentException, so asking before the analysis never counts against the tool), cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cPointObj.GetNameList (names validated), cAnalysisResults.JointReact (group 'All' or per object), cPointObj.GetLabelFromName. Moments arrive in kN·mm under the forced units and are divided by 1000.",
   "inputSchema": {
     "type": "object",
     "required": [

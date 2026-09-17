@@ -66,12 +66,24 @@ audit `%AppData%\HPEtabs\McpBridge\audit\`, log `%LocalAppData%\HPEtabs\McpBridg
 ```powershell
 pwsh HPEtabs/tools/harness/run-live-verify.ps1 -Phase detached          # bridge only: opt-in, guard, preview, refusal codes — no ETABS needed
 pwsh HPEtabs/tools/harness/run-live-verify.ps1 -Phase spike             # + Attach to the running ETABS: units, GetNameList, timeout
-pwsh HPEtabs/tools/harness/spike-step.ps1 -Action start|attach|phase <p>|probe <id>|stop   # one step at a time while you change ETABS's state
+pwsh HPEtabs/tools/harness/run-live-verify.ps1 -Phase bridge            # + writes with snapshots, destructive on/off (writes the open model!)
+pwsh HPEtabs/tools/harness/run-live-verify.ps1 -Phase seeds             # + the 12 seeds, the registry loop, a real run_analysis
+pwsh HPEtabs/tools/harness/run-live-verify.ps1 -Phase full -Publish -Runs 3   # everything from the publish folders (3 × 102 checks, 2026-09-17)
+pwsh HPEtabs/tools/harness/spike-step.ps1 -Action start|attach|phase <p>|destructive on|off|state|stop   # one step at a time while you change ETABS's state
 ```
 
-The harness starts and stops only the bridge exe it launched; it never starts, closes or sends keys to ETABS.
+The harness starts and stops only the bridge exe it launched; it never starts, closes or sends keys to ETABS. The `bridge` and
+`seeds` phases save and modify the open model — a throw-away copy only. Details: `tools/harness/README.md`.
 
 ## Status
 
-Phase 1 (scaffold + spike). Read-only scripts run; writing and destructive scripts are statically previewed and refused until
-the save-and-snapshot path lands. No seeds yet. Nothing is "verified" beyond what `reports/phase-01-spike.md` in the plan folder records.
+**Plan complete (phases 0–4, 2026-09-17), verified live on ETABS 22 v22.7.0.4095.** 24 tools (4 core + 8 registry + 12 seeds), the
+three tiers with the save-and-snapshot path, the registry loop (propose → test → publish → CLI approve → quarantine → restore),
+all driven by `run-live-verify.ps1 -Phase full -Publish` from the publish folders (3 × 102 checks). Reports:
+`../plans/260916-2152-etabs-mcp-2026/reports/phase-0[1-4]-*.md`. Not done: kill ETABS in the middle of a call, a second licence seat,
+restoring a snapshot in the ETABS GUI, `run_analysis` on a real project — see the known-gaps list in the root `CLAUDE.md`.
+
+Gotchas: start ETABS from its shortcut and then File › Open the model — an instance started another way may not register its API
+object (`GetObject` null; "not registered for the API in this session"); an elevated ETABS is invisible to the non-elevated bridge.
+Rebuilding the bridge fails (MSB3027) while any `HPEtabs.McpBridge.exe` runs. `File.Save(path)` is a save-as; after any save
+`GetModelFilename` reports the `.$et` working copy — the bridge and the seeds report the `.EDB`. Unlocking the model discards its results.

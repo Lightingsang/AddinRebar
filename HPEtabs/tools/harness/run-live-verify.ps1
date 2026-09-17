@@ -6,16 +6,19 @@
 #   spike     - (-Phase spike|all, ETABS 22 must be running with a throw-away model) click Attach, then E13/E13b/E17/E18/T1
 #   bridge    - (-Phase bridge|all, ETABS 22 running with a SAVED throw-away model) attach, phase bridge (writes + snapshots, D off),
 #               tick 'Allow destructive operations', phase bridgedestructive (deletes what bridge added), untick
-#   seeds     - (-Phase seeds|all, same model) phase seeds (12 seeds, writes for real), tick, phase seedsdestructive (run_analysis,
-#               results seeds, cleanup + unlock), untick
+#   seeds     - (-Phase seeds|all, same model) phase seeds (12 seeds, writes for real), phase registry (MISS → propose → approve →
+#               quarantine → restore), tick, phase seedsdestructive (run_analysis, results seeds, cleanup + unlock), untick
+#   full      - everything above on ONE registry root per run (never wiped between groups); with -Publish the two exes are published first and
+#               the bridge runs from HPEtabs/output/HPEtabs.McpBridge (the self-check must pass from the publish folder)
 #   nomodel / modal / closed - (-Interactive) the script asks you to close the model / open a dialog / close ETABS, then runs the phase
 # Never starts, stops or drives ETABS itself; closes only the bridge it started. Windows PowerShell 5.1 (UIA); relaunches itself from pwsh.
 #
-#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|bridge|seeds|all] [-Interactive]
+#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|bridge|seeds|full|all] [-Publish] [-Interactive]
 #                  [-Exe <server exe>] [-BridgeExe <bridge exe>] [-Tag run1] [-Runs 1]
 param(
-    [ValidateSet('detached', 'spike', 'bridge', 'seeds', 'all')][string]$Phase = 'detached',
+    [ValidateSet('detached', 'spike', 'bridge', 'seeds', 'full', 'all')][string]$Phase = 'detached',
     [switch]$Interactive,
+    [switch]$Publish,
     [string]$Exe = '',
     [string]$BridgeExe = '',
     [string]$Tag = '',
@@ -26,6 +29,7 @@ if ($PSVersionTable.PSEdition -ne 'Desktop') {
     $ps = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
     $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-Phase', $Phase, '-Runs', $Runs)
     if ($Interactive) { $argList += '-Interactive' }
+    if ($Publish) { $argList += '-Publish' }
     if ($Exe) { $argList += @('-Exe', $Exe) }
     if ($BridgeExe) { $argList += @('-BridgeExe', $BridgeExe) }
     if ($Tag) { $argList += @('-Tag', $Tag) }
@@ -37,17 +41,29 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'harness-common.ps1')
 
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
+if ($Publish) {
+    # The shipped shape: single-file server, folder-published bridge (Roslyn needs real file locations). Publish fails while a bridge or a server from these folders is running.
+    Write-Host 'publishing HPEtabs.Mcp.Server (single-file) and HPEtabs.McpBridge (folder)…'
+    & dotnet publish (Join-Path $repo 'HPEtabs\HPEtabs.Mcp.Server') -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -o (Join-Path $repo 'HPEtabs\output\HPEtabs.Mcp.Server') --nologo -v q | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'publish of the server failed' }
+    & dotnet publish (Join-Path $repo 'HPEtabs\HPEtabs.McpBridge') -c Release -r win-x64 -p:SelfContained=false -o (Join-Path $repo 'HPEtabs\output\HPEtabs.McpBridge') --nologo -v q | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'publish of the bridge failed' }
+    if (-not $Exe) { $Exe = Join-Path $repo 'HPEtabs\output\HPEtabs.Mcp.Server\HPEtabs.Mcp.Server.exe' }
+    if (-not $BridgeExe) { $BridgeExe = Join-Path $repo 'HPEtabs\output\HPEtabs.McpBridge\HPEtabs.McpBridge.exe' }
+}
 if (-not $Exe) { $Exe = Join-Path $repo 'HPEtabs\HPEtabs.Mcp.Server\bin\Debug\net10.0\HPEtabs.Mcp.Server.exe' }
 if (-not $BridgeExe) { $BridgeExe = Join-Path $repo 'HPEtabs\HPEtabs.McpBridge\bin\Debug\net8.0-windows\HPEtabs.McpBridge.exe' }
 if (-not (Test-Path $Exe)) { throw "server exe not found: $Exe - build HPEtabs/HPEtabs.slnx first" }
 if (-not (Test-Path $BridgeExe)) { throw "bridge exe not found: $BridgeExe - build HPEtabs/HPEtabs.slnx first" }
+$Exe = (Resolve-Path $Exe).Path
+$BridgeExe = (Resolve-Path $BridgeExe).Path
 $verify = Join-Path $PSScriptRoot 'live-verify.py'
 $outDir = Join-Path $repo 'HPEtabs\output\live-verify'
 if ($Tag) { $outDir = Join-Path $outDir $Tag }
 New-Item -ItemType Directory -Force $outDir | Out-Null
-$registry = Join-Path $outDir 'registry'
-if (Test-Path $registry) { Remove-Item -Recurse -Force $registry }
-New-Item -ItemType Directory -Force $registry | Out-Null
+# One isolated registry root per run (a run = a fresh install; inside a run nothing is wiped between the groups, so the
+# opt-in OFF/ON steps and the registry loop see the same tools-library and registry.db).
+$registry = $null
 $logPath = Join-Path $outDir 'live-verify.log'
 if (Test-Path $logPath) { Remove-Item $logPath }
 $env:PYTHONIOENCODING = 'utf-8'
@@ -63,7 +79,7 @@ $clock = [Diagnostics.Stopwatch]::StartNew()
 function Invoke-Phase([string]$run, [string]$phase) {
     Write-Host "`n--- $run / phase $phase ($([int]$clock.Elapsed.TotalSeconds) s) ---"
     $ErrorActionPreference = 'Continue'
-    $out = & python $verify $Exe --registry $registry --phase $phase --out $outDir 2>&1 | ForEach-Object { "$_" }
+    $out = & python $verify $Exe --registry $script:registry --phase $phase --out $outDir 2>&1 | ForEach-Object { "$_" }
     $exit = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     "=== $run / phase $phase ===" | Add-Content -Path $logPath -Encoding UTF8
@@ -84,6 +100,9 @@ function Wait-UserStep([string]$instruction) {
 for ($run = 1; $run -le $Runs; $run++) {
     $proc = $null
     $runName = "run$run"
+    $script:registry = Join-Path $outDir "registry-$runName"
+    if (Test-Path $script:registry) { Remove-Item -Recurse -Force $script:registry }
+    New-Item -ItemType Directory -Force $script:registry | Out-Null
     try {
         $proc = Start-Bridge $BridgeExe
         Start-Sleep -Seconds 2
@@ -104,15 +123,16 @@ for ($run = 1; $run -le $Runs; $run++) {
             Write-Host "attach: $state"
             $null = Invoke-Phase $runName 'spike'
 
-            if ($Phase -in @('bridge', 'all')) {
+            if ($Phase -in @('bridge', 'full', 'all')) {
                 $null = Invoke-Phase $runName 'bridge'
                 if (-not (Set-OptIn 'AllowDestructive' $true)) { throw 'could not tick Allow destructive operations' }
                 try { $null = Invoke-Phase $runName 'bridgedestructive' }
                 finally { Set-OptIn 'AllowDestructive' $false | Out-Null }
             }
 
-            if ($Phase -in @('seeds', 'all')) {
+            if ($Phase -in @('seeds', 'full', 'all')) {
                 $null = Invoke-Phase $runName 'seeds'
+                $null = Invoke-Phase $runName 'registry'
                 if (-not (Set-OptIn 'AllowDestructive' $true)) { throw 'could not tick Allow destructive operations' }
                 try { $null = Invoke-Phase $runName 'seedsdestructive' }
                 finally { Set-OptIn 'AllowDestructive' $false | Out-Null }

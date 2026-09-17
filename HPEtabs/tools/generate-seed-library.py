@@ -350,7 +350,7 @@ int rc = sapModel.Analyze.GetCaseStatus(ref nc, ref caseNames, ref caseStatus);
 if (rc != 0) throw new InvalidOperationException($"ETABS returned {rc} from Analyze.GetCaseStatus");
 int caseIndex = Array.FindIndex(caseNames ?? new string[0], c => string.Equals(c, caseOrCombo, StringComparison.OrdinalIgnoreCase));
 // A load case that exists but was never run has no results: say so instead of reporting an empty table (status 4 = finished).
-if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new InvalidOperationException($"case '{caseOrCombo}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first");
+if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new ArgumentException($"case '{caseOrCombo}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first or pick a case that ran");
 int r0 = sapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
 if (r0 != 0) throw new InvalidOperationException($"ETABS returned {r0} from Results.Setup.DeselectAllCasesAndCombosForOutput");
 bool selected = sapModel.Results.Setup.SetCaseSelectedForOutput(caseOrCombo) == 0 || sapModel.Results.Setup.SetComboSelectedForOutput(caseOrCombo) == 0;
@@ -362,7 +362,7 @@ seed("Results", "get_joint_reactions", {
     "tags": ["results", "reaction", "joint", "query"],
     "title": "Get joint reactions",
     "description": "Reactions at the restrained joints for one load case or combination: forces in kN and moments in kN·m, per joint and step. Needs analysis results (run_analysis first, or run it in ETABS). Filter by point names or by story. Read-only — selecting the output case is a results setting, not a model change.",
-    "notes": "OAPI: cAnalyze.GetCaseStatus (a load case must be finished = 4), cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cPointObj.GetNameList (names validated), cAnalysisResults.JointReact (group 'All' or per object), cPointObj.GetLabelFromName. Moments arrive in kN·mm under the forced units and are divided by 1000.",
+    "notes": "OAPI: cAnalyze.GetCaseStatus (a load case must be finished = 4 — otherwise ArgumentException, so asking before the analysis never counts against the tool), cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cPointObj.GetNameList (names validated), cAnalysisResults.JointReact (group 'All' or per object), cPointObj.GetLabelFromName. Moments arrive in kN·mm under the forced units and are divided by 1000.",
     "inputSchema": {"type": "object", "required": ["caseOrCombo"], "properties": {
         "caseOrCombo": {"type": "string", "description": "Load case or combination name whose results to read"},
         "pointNames": {"type": "array", "items": {"type": "string"}, "description": "Only these joints — unique names from get_structural_objects.name, not labels; default every joint with a reaction"},
@@ -512,7 +512,7 @@ int nc = 0; string[] caseNames = null; int[] caseStatus = null;
 int rc = sapModel.Analyze.GetCaseStatus(ref nc, ref caseNames, ref caseStatus);
 if (rc != 0) throw new InvalidOperationException($"ETABS returned {rc} from Analyze.GetCaseStatus");
 int caseIndex = Array.FindIndex(caseNames ?? new string[0], c => string.Equals(c, caseName, StringComparison.OrdinalIgnoreCase));
-if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new InvalidOperationException($"case '{caseName}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first");
+if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new ArgumentException($"case '{caseName}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first or pick a case that ran");
 int r0 = sapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
 if (r0 != 0) throw new InvalidOperationException($"ETABS returned {r0} from Results.Setup.DeselectAllCasesAndCombosForOutput");
 if (sapModel.Results.Setup.SetCaseSelectedForOutput(caseName) != 0) throw new InvalidOperationException($"ETABS returned non-zero from Results.Setup.SetCaseSelectedForOutput({caseName})");

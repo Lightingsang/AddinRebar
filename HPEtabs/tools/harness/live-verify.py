@@ -17,9 +17,11 @@ calls this once per phase:
               3 writes for real (snapshot), run_analysis refused -32001 ×5 and still published, proposals with RunAnalysis /
               none+SetSection refused (S0-S16)
   seedsdestructive - opt-in ON: restrain the seeded columns, run_analysis for real, reactions/forces/modes, cleanup + unlock (D0-D6)
+  registry  - after seeds, opt-in OFF: MISS → ad-hoc → get_run/toolify_run → propose → test → publish → CLI approve → listed in ≤ 5 s
+              → call by name; fragile tool quarantined after 5 failures → restore + guarded v2 → 5 caller errors keep it published (R1-R19)
 Prints PASS/FAIL lines and a JSON summary; exit 1 on any failure.
 """
-import argparse, json, os, sys, time
+import argparse, json, os, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
@@ -30,6 +32,7 @@ utf8_console()
 
 CL = Checklist()
 check, skip, save = CL.check, CL.skip, CL.save
+EXE = None
 
 # ---- scripts ---------------------------------------------------------------------------------------------------------
 NAME_LIST = """
@@ -257,7 +260,7 @@ def phase_bridge(s):
     presave_now = len(os.listdir(os.path.join(snap, "presave"))) if os.path.isdir(os.path.join(snap, "presave")) else 0
     presave_logged = any("presave snapshot" in line for line in r.get("logs") or [])
     check("B5a the snapshot file exists in the prerun bucket; a presave copy was taken iff the file on disk was not last written by this bridge (the log says which)",
-          bool(snapshot) and os.path.isfile(os.path.join(snap, "prerun", snapshot)) and (presave_now == presave_before + 1) == presave_logged,
+          bool(snapshot) and os.path.isfile(os.path.join(snap, "prerun", snapshot)) and (presave_now == min(presave_before + 1, 5)) == presave_logged,  # the presave bucket keeps 5
           f"presave {presave_before}->{presave_now} logged={presave_logged}; prerun={os.listdir(os.path.join(snap, 'prerun')) if os.path.isdir(os.path.join(snap, 'prerun')) else []}")
     check("B5b the run's log names the snapshot and the forced save", any("snapshot" in line and "saved" in line for line in r.get("logs") or []), short(r.get("logs")))
     save("bridge-add-frame", r)
@@ -479,7 +482,7 @@ def phase_seeds(s):
     r = run_tool(s, "get_frame_forces", {"caseOrCombo": pattern, "frameNames": ["HPETABS-LABEL-NOT-NAME"]})
     check("S15b get_frame_forces with a label instead of a unique name: ArgumentException naming get_structural_objects.name (never a stability failure)", r.get("isError") and "ArgumentException" in msg(r) and "labels are not names" in msg(r), short(msg(r)))
     r = run_tool(s, "get_joint_reactions", {"caseOrCombo": pattern})
-    check("S15c get_joint_reactions for a defined case that was not run: InvalidOperationException 'has no results … run_analysis first' (no empty table)", r.get("isError") and "has no results" in msg(r) and "run_analysis first" in msg(r), short(msg(r)))
+    check("S15c get_joint_reactions for a defined case that was not run: ArgumentException 'has no results … run_analysis first' (no empty table, never a stability failure)", r.get("isError") and "ArgumentException" in msg(r) and "has no results" in msg(r) and "run_analysis first" in msg(r), short(msg(r)))
     r = run_tool(s, "get_modal_results", {"caseName": pattern})
     check("S15d get_modal_results with a non-modal case: ArgumentException naming the case type", r.get("isError") and "ArgumentException" in msg(r) and "not a modal case" in msg(r), short(msg(r)))
     r = run_tool(s, "run_analysis", {"cases": ["HPETABS-NO-SUCH-CASE"]})
@@ -548,6 +551,168 @@ def phase_seedsdestructive(s):
     check("D7 (E10) after SetModelIsLocked(false) every case reads 'not run' (1): unlocking discards the analysis results", ok(r) and statuses and all(v == 1 for v in statuses.values()), short(statuses))
 
 
+# ---- phase 4: the registry loop -----------------------------------------------------------------------------------------------
+COUNT_BY_SECTION_ADHOC = """
+int n = 0; string[] names = null;
+int ret = sapModel.FrameObj.GetNameList(ref n, ref names);
+if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.GetNameList");
+var counts = new Dictionary<string, int>();
+foreach (var name in names ?? new string[0]) { ct.ThrowIfCancellationRequested(); string sec = "", auto = ""; if (sapModel.FrameObj.GetSection(name, ref sec, ref auto) == 0) counts[sec] = counts.TryGetValue(sec, out var c) ? c + 1 : 1; }
+return counts.Select(kv => new { section = kv.Key, count = kv.Value }).OrderByDescending(x => x.count).ToList();"""
+
+COUNT_BY_SECTION_TOOL = """
+int limit = Math.Clamp(args.Int("limit", 50), 1, 500);
+int n = 0; string[] names = null;
+int ret = sapModel.FrameObj.GetNameList(ref n, ref names);
+if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.GetNameList");
+var counts = new Dictionary<string, int>();
+foreach (var name in names ?? new string[0]) { ct.ThrowIfCancellationRequested(); string sec = "", auto = ""; if (sapModel.FrameObj.GetSection(name, ref sec, ref auto) == 0) counts[sec] = counts.TryGetValue(sec, out var c) ? c + 1 : 1; }
+var items = counts.Select(kv => new { section = kv.Key, count = kv.Value }).OrderByDescending(x => x.count).Take(limit).ToList();
+return new { success = true, items, count = items.Count, total = counts.Count, truncated = counts.Count > items.Count, summary = $"{n} frames in {counts.Count} sections" };"""
+
+FRAME_SECTION_FRAGILE = """
+string frame = args.Require("frame");
+string section = "", auto = "";
+int ret = sapModel.FrameObj.GetSection(frame, ref section, ref auto);
+if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.GetSection({frame})");
+return new { frame, section };"""
+
+FRAME_SECTION_GUARDED = """
+string frame = args.Require("frame");
+int n = 0; string[] names = null;
+int rn = sapModel.FrameObj.GetNameList(ref n, ref names);
+if (rn != 0) throw new InvalidOperationException($"ETABS returned {rn} from FrameObj.GetNameList");
+if (!(names ?? new string[0]).Contains(frame, StringComparer.OrdinalIgnoreCase)) throw new ArgumentException($"'{frame}' is not a unique frame name — see get_structural_objects.name");
+string section = "", auto = "";
+int ret = sapModel.FrameObj.GetSection(frame, ref section, ref auto);
+if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.GetSection({frame})");
+return new { frame, section };"""
+
+
+def schema(props, required):
+    return {"type": "object", "properties": props, "required": required, "additionalProperties": False}
+
+
+def cli(*args):
+    p = subprocess.run([EXE, "registry", *args], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
+    return p.returncode, (p.stdout + p.stderr)
+
+
+def wait_for_tool(s, name, present=True, seconds=10.0):
+    t0 = time.time()
+    while time.time() - t0 < seconds:
+        if (name in s.tools()) == present:
+            return round(time.time() - t0, 2)
+        time.sleep(0.25)
+    return None
+
+
+def phase_registry(s):
+    """MISS → ad-hoc run → toolify → propose → test → publish → CLI approve → visible without a restart → call by name; a fragile tool is quarantined after 5 failures, restored with a guarded version and survives 5 caller errors. Runs after phase seeds (its frames are the fragile tool's examples)."""
+    state = {}
+    try:
+        with open(os.path.join(CL.out_dir or ".", "seeds-state.json"), encoding="utf-8") as f:
+            state = json.load(f)
+    except OSError:
+        pass
+    frames = state.get("added") or []
+    if len(frames) < 2:
+        skip("R registry loop", "phase seeds left fewer than two frames to point the fragile tool at")
+        return
+
+    name = "count_frames_by_section"
+    miss = s.tool("search_tools", {"query": "count frames by section", "limit": 5})
+    check("R1 search_tools misses before the tool exists", ok(miss) and not any(t.get("name") == name for t in miss.get("tools", [])), [t.get("name") for t in miss.get("tools", [])])
+
+    real = execute(s, COUNT_BY_SECTION_ADHOC, transaction="none", label="count by section")
+    check("R2 ad-hoc read-only run returns the counts, a runId and the propose_tool hint", ok(real) and isinstance(real.get("value"), list) and real.get("runId") and "propose_tool" in (real.get("hint") or ""), f"runId={real.get('runId')} sections={len(real.get('value') or [])}")
+    run_id = real.get("runId")
+
+    run = s.tool("get_run", {"runId": run_id, "analyze": True})
+    check("R3 get_run returns the code and its analysis", run.get("codeAvailable") and "analysis" in run, short(run.get("analysis")))
+    prompt = s.prompt("toolify_run", {"runId": str(run_id)})
+    ptext = json.dumps(prompt, ensure_ascii=False)
+    check("R4 toolify_run prompt names the run, ETABS and propose_tool", str(run_id) in ptext and "ETABS" in ptext and "propose_tool" in ptext, f"{len(ptext)} chars")
+
+    proposed = s.tool("propose_tool", {
+        "name": name, "title": "Count frames by section",
+        "description": "Counts the frame objects per frame section property, most used first (limit caps the rows). Read-only.",
+        "category": "geometry", "tags": ["frame", "section", "count"],
+        "inputSchema": schema({"limit": {"type": "integer", "default": 50, "description": "Rows to return"}}, []),
+        "code": COUNT_BY_SECTION_TOOL,
+        "examples": [{"title": "default", "args": {}}, {"title": "top 3", "args": {"limit": 3}}],
+        "transaction": "none", "timeoutSeconds": 60, "sourceRunId": run_id})
+    tool_json = json.load(open(os.path.join(proposed.get("folder") or "", "tool.json"), encoding="utf-8")) if proposed.get("folder") else {}
+    check("R5 propose_tool accepted as draft; tool.json stamped host=etabs, hostVersions [22], category normalised to Geometry",
+          proposed.get("accepted") and proposed.get("status") == "draft" and tool_json.get("host") == "etabs" and tool_json.get("category") == "Geometry" and tool_json.get("hostVersions") == ["22"], short(proposed))
+    save("registry-propose", proposed)
+
+    tested = s.tool("test_tool", {"name": name})
+    check("R6 test_tool runs both examples (read-only tools test under dryRun): 2/2, status tested", tested.get("passed") == 2 and tested.get("failed") == 0 and tested.get("status") == "tested", short(tested))
+
+    published = s.tool("publish_tool", {"name": name})
+    review = published.get("reviewFile")
+    review_text = open(review, encoding="utf-8").read() if review and os.path.exists(review) else ""
+    check("R7 publish_tool → pending_approval; the review file names this host and this exe's approve command", published.get("status") == "pending_approval" and "**Host:** etabs" in review_text and "HPEtabs.Mcp.Server.exe registry approve" in review_text and "HPRebar.Mcp.Server.exe" not in review_text, f"review={review}")
+    gated = s.tool("run_tool", {"name": name, "args": {}})
+    check("R8 run_tool refuses a pending tool", gated.get("isError") and "pending" in (gated.get("message") or "").lower(), short(gated.get("message")))
+
+    t0 = time.time()
+    code, out = cli("approve", name, "--by", "harness (CLI)")
+    check("R9 CLI approve on the ETABS exe → published", code == 0 and "published" in out.lower(), out.strip()[:200])
+    latency = wait_for_tool(s, name, True, 15)
+    check("R10 the running server lists the tool within 5 s of the approve (no restart; tools/list_changed)", latency is not None and latency <= 5, f"visible after {latency}s; list_changed={len(s.list_changed_since(t0))}")
+
+    hit = s.tool("search_tools", {"query": "count frames by section", "limit": 5})
+    check("R11 search_tools now hits", any(t.get("name") == name for t in hit.get("tools", [])), [t.get("name") for t in hit.get("tools", [])])
+    r = s.tool(name, {"limit": 3})
+    check("R12 call by name: envelope with items, runId", ok(r) and isinstance((r.get("value") or {}).get("items"), list) and r.get("runId"), short(r))
+
+    fragile = "mcp_verify_frame_section"
+    examples = [{"title": "first", "args": {"frame": frames[0]}}, {"title": "second", "args": {"frame": frames[1]}}]
+    proposed = s.tool("propose_tool", {
+        "name": fragile, "title": "Frame section of a frame", "description": "Reads the section property of one frame object by unique name; fails when the name does not exist.",
+        "category": "Property", "tags": ["frame", "section"],
+        "inputSchema": schema({"frame": {"type": "string"}}, ["frame"]), "code": FRAME_SECTION_FRAGILE,
+        "examples": examples, "transaction": "none", "timeoutSeconds": 30})
+    tested = s.tool("test_tool", {"name": fragile})
+    published = s.tool("publish_tool", {"name": fragile})
+    code, out = cli("approve", fragile, "--by", "harness (CLI)")
+    check("R13 propose/test/publish/approve the fragile tool", proposed.get("accepted") and tested.get("failed") == 0 and published.get("status") == "pending_approval" and code == 0 and wait_for_tool(s, fragile, True, 15) is not None, f"tested={tested.get('passed')}/{tested.get('failed')} approve={out.strip()[:80]}")
+
+    fails = sum(1 for _ in range(5) if s.tool(fragile, {"frame": "HPETABS-NONEXISTENT"}).get("isError"))
+    gone = wait_for_tool(s, fragile, False, 10)
+    detail = s.tool("get_tool", {"name": fragile})
+    save("registry-quarantined", detail)
+    check("R14 5 failing runs (InvalidOperationException: ETABS returned non-zero) → quarantined, out of tools/list", fails == 5 and gone is not None and detail.get("status") == "quarantined", f"fails={fails} gone after {gone}s status={detail.get('status')}")
+    refused = s.tool("run_tool", {"name": fragile, "args": {"frame": frames[0]}})
+    check("R15 run_tool refuses a quarantined tool", refused.get("isError") and "quarantin" in (refused.get("message") or "").lower(), short(refused.get("message")))
+
+    restored = s.tool("manage_tool", {"name": fragile, "action": "restore", "reason": "guard the frame name"})
+    fixed = s.tool("propose_tool", {
+        "name": fragile, "title": "Frame section of a frame", "description": "Reads the section property of one frame object by unique name; refuses an unknown name as a caller error.",
+        "category": "Property", "tags": ["frame", "section"],
+        "inputSchema": schema({"frame": {"type": "string"}}, ["frame"]), "code": FRAME_SECTION_GUARDED,
+        "examples": examples, "transaction": "none", "timeoutSeconds": 30, "newVersion": True})
+    tested = s.tool("test_tool", {"name": fragile})
+    published = s.tool("publish_tool", {"name": fragile})
+    code, out = cli("approve", fragile, "--by", "harness (CLI)")
+    back = wait_for_tool(s, fragile, True, 15)
+    check("R16 restore → newVersion (v2, guarded) → test → publish → approve → listed again", (restored.get("status") or "").lower() == "draft" and fixed.get("accepted") and fixed.get("version") == 2 and tested.get("failed") == 0 and code == 0 and back is not None, f"restored={restored.get('status')} v={fixed.get('version')} tested={tested.get('passed')}/{tested.get('failed')} back={back}")
+    for _ in range(5):
+        r = s.tool(fragile, {"frame": "HPETABS-NONEXISTENT"})
+    still = wait_for_tool(s, fragile, True, 3)
+    detail = s.tool("get_tool", {"name": fragile})
+    check("R17 5 argument errors (ArgumentException) do not quarantine the guarded tool", r.get("isError") and "ArgumentException" in (r.get("message") or "") and still is not None and detail.get("status") == "published", f"status={detail.get('status')}")
+
+    r = s.tool(fragile, {"frame": frames[0]})
+    check("R18 the guarded tool answers for a real frame", ok(r) and (r.get("value") or {}).get("frame") == frames[0], short(r))
+
+    listed = cli("list")
+    stats = cli("stats")
+    check("R19 CLI list/stats run on the isolated registry and see the new tools", listed[0] == 0 and name in listed[1] and fragile in listed[1] and stats[0] == 0 and "etabs" in stats[1].lower(), (listed[1] + stats[1]).strip()[:160])
+
+
 def phase_closed(s):
     t0 = time.time()
     r = execute(s, "return sapModel.GetModelFilename();", label="E19 closed")
@@ -560,15 +725,19 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("exe")
     ap.add_argument("--registry", required=True)
-    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed", "bridge", "bridgedestructive", "seeds", "seedsdestructive"], default="detached")
+    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed", "bridge", "bridgedestructive", "seeds", "seedsdestructive", "registry"], default="detached")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     CL.out_dir = a.out
+    global EXE
+    EXE = a.exe
 
+    # The CLI (registry approve/stats) inherits the process environment: point it at the same isolated registry as the server.
+    library = os.path.join(a.registry, "tools-library")
+    os.environ["HPETABS_MCP_Registry__LibraryPath"] = library  # Windows upper-cases the key; .NET binds it case-insensitively
+    os.environ["HPETABS_MCP_Registry__DbPath"] = os.path.join(a.registry, "registry.db")
     env = dict(os.environ)
-    env["HPETABS_MCP_Registry__LibraryPath"] = os.path.join(a.registry, "tools-library")
-    env["HPETABS_MCP_Registry__DbPath"] = os.path.join(a.registry, "registry.db")
-    os.makedirs(env["HPETABS_MCP_Registry__LibraryPath"], exist_ok=True)
+    os.makedirs(library, exist_ok=True)
 
     started = time.time()
     s = Server(a.exe, env=env, name="etabs-verify")
@@ -576,7 +745,8 @@ def main():
         s.initialize()
         time.sleep(0.5)
         {"disabled": phase_disabled, "detached": phase_detached, "spike": phase_spike, "nomodel": phase_nomodel, "modal": phase_modal, "closed": phase_closed,
-         "bridge": phase_bridge, "bridgedestructive": phase_bridgedestructive, "seeds": phase_seeds, "seedsdestructive": phase_seedsdestructive}[a.phase](s)
+         "bridge": phase_bridge, "bridgedestructive": phase_bridgedestructive, "seeds": phase_seeds, "seedsdestructive": phase_seedsdestructive,
+         "registry": phase_registry}[a.phase](s)
     finally:
         s.close()
 

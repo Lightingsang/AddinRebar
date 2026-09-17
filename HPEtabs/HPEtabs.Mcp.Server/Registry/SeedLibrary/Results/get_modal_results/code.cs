@@ -7,7 +7,7 @@ int nc = 0; string[] caseNames = null; int[] caseStatus = null;
 int rc = sapModel.Analyze.GetCaseStatus(ref nc, ref caseNames, ref caseStatus);
 if (rc != 0) throw new InvalidOperationException($"ETABS returned {rc} from Analyze.GetCaseStatus");
 int caseIndex = Array.FindIndex(caseNames ?? new string[0], c => string.Equals(c, caseName, StringComparison.OrdinalIgnoreCase));
-if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new InvalidOperationException($"case '{caseName}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first");
+if (caseIndex >= 0 && caseStatus[caseIndex] != 4) throw new ArgumentException($"case '{caseName}' has no results (status {(caseStatus[caseIndex] == 1 ? "not run" : caseStatus[caseIndex] == 2 ? "could not start" : "not finished")}) — run_analysis first or pick a case that ran");
 int r0 = sapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
 if (r0 != 0) throw new InvalidOperationException($"ETABS returned {r0} from Results.Setup.DeselectAllCasesAndCombosForOutput");
 if (sapModel.Results.Setup.SetCaseSelectedForOutput(caseName) != 0) throw new InvalidOperationException($"ETABS returned non-zero from Results.Setup.SetCaseSelectedForOutput({caseName})");
