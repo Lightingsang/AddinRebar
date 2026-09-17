@@ -103,7 +103,7 @@ Still true:
 
 **A running Revit locks the deployed DLL.** Add `-p:DeployAddin=false` to any build meant only to check compilation.
 
-Add-in identity lives in `HPRebar/HPRebar/HPRebar.addin` — `AddInId` GUID `AB6B2397-2618-4A8F-A86F-B0EBB5E58D2B`, `FullClassName` `HPRebar.Application`. Renaming the assembly or root namespace requires updating this manifest and the `/HPRebar;component/...` icon pack URIs in `Application.cs`.
+Add-in identity lives in `HPRebar/HPRebar/HPRebar.addin` — `AddInId` GUID `AB6B2397-2618-4A8F-A86F-B0EBB5E58D2B`, `FullClassName` `HPRebar.Application`. Renaming the assembly or root namespace requires updating this manifest and the `/HPRebar;component/...` pack URIs of `Resources/Themes/Theme.xaml`. **Ribbon icons are vector, drawn in code** (`HPRebar/Resources/Icons/RibbonIcons.cs`, 2026-09-17): one frozen 32×32 `DrawingImage` per button (column section, beam elevation, footing, play, window-with-plug — the same MCP glyph as the AutoCAD/Navisworks bridges), every coordinate even so the 16-px slot is an exact half, ink `#3C3C3C`/`#E6E6E6` by `UIThemeManager.CurrentTheme` and repainted on `UIControlledApplication.ThemeChanged` (both gated `#if REVIT2024_OR_GREATER`), steel accent `#E0641E`, MCP accent `#0696D7`; no PNG resources remain. The file is linked into `HPRebar.McpBridge` for its one button. `HPRebar/tools/icons/preview-ribbon-icons.ps1` parses that file and renders 16/32/64 px on both themes + a contact sheet into `HPRebar/output/icons/` for review. The `SetImage(pack URI)` extension is no longer used.
 
 ## HPRebar MCP Bridge (Dynamic Revit MCP Server)
 

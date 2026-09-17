@@ -1,8 +1,11 @@
 using System.IO;
+using System.Windows.Media;
+using Autodesk.Revit.UI;
 using HPRebar.BeamRebar;
 using HPRebar.ColumnRebar;
 using HPRebar.Commands;
 using HPRebar.FoundationRebar;
+using HPRebar.Resources.Icons;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
 using Serilog.Events;
@@ -15,6 +18,12 @@ namespace HPRebar
     [UsedImplicitly]
     public class Application : ExternalApplication
     {
+        // Every button with the glyph it shows, so a theme change can repaint all of them at once.
+        private readonly List<(PushButton Button, Func<RibbonIcons, ImageSource> Icon)> _buttons = new();
+#if REVIT2024_OR_GREATER
+        private EventHandler<Autodesk.Revit.UI.Events.ThemeChangedEventArgs>? _onThemeChanged;
+#endif
+
         public override void OnStartup()
         {
             CreateLogger();
@@ -37,30 +46,45 @@ namespace HPRebar
 
         public override void OnShutdown()
         {
+            // Multi-version: ThemeChanged exists since Revit 2024
+#if REVIT2024_OR_GREATER
+            if (_onThemeChanged is not null) Application.ThemeChanged -= _onThemeChanged;
+#endif
             Log.CloseAndFlush();
         }
 
         private void CreateRibbon()
         {
             var panel = Application.CreatePanel("Commands", "HPRebar");
-
-            panel.AddPushButton<StartupCommand>("Execute")
-                .SetImage("/HPRebar;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/HPRebar;component/Resources/Icons/RibbonIcon32.png");
+            Track(panel.AddPushButton<StartupCommand>("Execute"), icons => icons.Execute);
 
             var rebarPanel = Application.CreatePanel("Rebar", "HPRebar");
+            Track(rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar"), icons => icons.ColumnRebar);
+            Track(rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar"), icons => icons.BeamRebar);
+            Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
 
-            rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar")
-                .SetImage("/HPRebar;component/Resources/Icons/ColumnRebar16.png")
-                .SetLargeImage("/HPRebar;component/Resources/Icons/ColumnRebar32.png");
+            // Vector glyphs drawn in code (RibbonIcons): crisp at any DPI, ink follows Revit's UI theme.
+            ApplyIcons();
 
-            rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar")
-                .SetImage("/HPRebar;component/Resources/Icons/BeamRebar16.png")
-                .SetLargeImage("/HPRebar;component/Resources/Icons/BeamRebar32.png");
+            // Multi-version: ThemeChanged exists since Revit 2024
+#if REVIT2024_OR_GREATER
+            _onThemeChanged = (_, _) => ApplyIcons();
+            Application.ThemeChanged += _onThemeChanged;
+#endif
+        }
 
-            rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar")
-                .SetImage("/HPRebar;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/HPRebar;component/Resources/Icons/RibbonIcon32.png");
+        private void Track(PushButton button, Func<RibbonIcons, ImageSource> icon) => _buttons.Add((button, icon));
+
+        /// <summary>One 32×32 DrawingImage serves both slots: the ribbon scales it to 16 px for the small image.</summary>
+        private void ApplyIcons()
+        {
+            var icons = new RibbonIcons(RibbonIcons.RevitIsDark());
+            foreach (var (button, icon) in _buttons)
+            {
+                var image = icon(icons);
+                button.Image = image;
+                button.LargeImage = image;
+            }
         }
 
         private static void CreateLogger()

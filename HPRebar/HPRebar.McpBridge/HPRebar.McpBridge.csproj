@@ -39,8 +39,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Icons\McpBridge16.png"/>
-        <Resource Include="Resources\Icons\McpBridge32.png"/>
+        <!-- The ribbon glyphs are drawn in code and shared with HPRebar; the bridge button uses the MCP one. -->
+        <Compile Include="..\HPRebar\Resources\Icons\RibbonIcons.cs" Link="Resources\Icons\RibbonIcons.cs"/>
     </ItemGroup>
 
     <ItemGroup>

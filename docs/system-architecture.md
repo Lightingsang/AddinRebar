@@ -97,8 +97,7 @@ MyAddIn/
 │
 └── Resources/
     ├── Icons/
-    │   ├── RibbonIcon16.png            ← Small icon (16x16)
-    │   └── RibbonIcon32.png            ← Large icon (32x32)
+    │   └── RibbonIcons.cs              ← Vector ribbon glyphs (DrawingImage, theme-aware); linked into HPRebar.McpBridge
     └── Themes/
         ├── Theme.xaml                  ← Master ResourceDictionary
         ├── ThemeDark.xaml              ← Dark color palette

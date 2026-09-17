@@ -9,6 +9,7 @@ using HPRebar.McpBridge.Core.Model;
 using HPRebar.McpBridge.Core.Scripting;
 using HPRebar.McpBridge.Model;
 using HPRebar.McpBridge.Service;
+using HPRebar.Resources.Icons;
 using Nice3point.Revit.Toolkit;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
@@ -32,6 +33,10 @@ public class Application : ExternalApplication
     ];
 
     private McpBridgeExternalEventHandler? _handler;
+    private PushButton? _bridgeButton;
+#if REVIT2024_OR_GREATER
+    private EventHandler<Autodesk.Revit.UI.Events.ThemeChangedEventArgs>? _onThemeChanged;
+#endif
     private EventHandler<ViewActivatedEventArgs>? _onViewActivated;
     private EventHandler<DocumentClosingEventArgs>? _onDocumentClosing;
     private EventHandler<ApplicationInitializedEventArgs>? _onInitialized;
@@ -59,6 +64,10 @@ public class Application : ExternalApplication
 
     public override void OnShutdown()
     {
+        // Multi-version: ThemeChanged exists since Revit 2024
+#if REVIT2024_OR_GREATER
+        if (_onThemeChanged is not null) Application.ThemeChanged -= _onThemeChanged;
+#endif
         if (_onViewActivated is not null) Application.ViewActivated -= _onViewActivated;
         if (_onDocumentClosing is not null) Application.ControlledApplication.DocumentClosing -= _onDocumentClosing;
         if (_onInitialized is not null) Application.ControlledApplication.ApplicationInitialized -= _onInitialized;
@@ -72,9 +81,25 @@ public class Application : ExternalApplication
     {
         var panel = Application.CreatePanel("MCP", "HPRebar");
 
-        panel.AddPushButton<McpBridgeCommand>("MCP Bridge")
-            .SetImage("/HPRebar.McpBridge;component/Resources/Icons/McpBridge16.png")
-            .SetLargeImage("/HPRebar.McpBridge;component/Resources/Icons/McpBridge32.png");
+        // The window-with-plug glyph every HP MCP bridge shows, drawn in code (RibbonIcons, linked from HPRebar):
+        // crisp at any DPI, ink follows Revit's UI theme.
+        _bridgeButton = panel.AddPushButton<McpBridgeCommand>("MCP Bridge");
+        ApplyIcon();
+
+        // Multi-version: ThemeChanged exists since Revit 2024
+#if REVIT2024_OR_GREATER
+        _onThemeChanged = (_, _) => ApplyIcon();
+        Application.ThemeChanged += _onThemeChanged;
+#endif
+    }
+
+    /// <summary>One 32×32 DrawingImage serves both slots: the ribbon scales it to 16 px for the small image.</summary>
+    private void ApplyIcon()
+    {
+        if (_bridgeButton is null) return;
+        var image = new RibbonIcons(RibbonIcons.RevitIsDark()).McpBridge;
+        _bridgeButton.Image = image;
+        _bridgeButton.LargeImage = image;
     }
 
     /// <summary>
