@@ -59,7 +59,7 @@ MANUAL item with a screenshot per theme).
 Beyond drawing commands the server exposes an AEC layer: tools that read and understand the drawing. A tool is still a seed
 (`tool.json` + `code.cs` + `examples.json`); the script is a shim that reads `args` and calls one method of
 `HPAutoCad.Aec.AecTools`, so the logic is compiled, unit-tested C# in `HPAutoCad.Aec` (the bridge references it and adds it to
-Roslyn's references; `HostScriptContracts.AutocadImports` imports the namespace, so ad-hoc scripts can use it too). The seventeen
+Roslyn's references; `HostScriptContracts.AutocadImports` imports the namespace, so ad-hoc scripts can use it too). The twenty
 analysis tools are read-only (`transaction: none` — the runner refuses any modification), take lengths in **mm** whatever INSUNITS is,
 answer with `{ success, summary, items, count, offset, truncated, warnings, errors[{code, message, handle}] }`, and page
 (`limit` ≤ 500, `offset`) so a result stays under the bridge's 64 KB cap. The eleven write tools run under the bridge's `auto`
@@ -97,13 +97,16 @@ ops refuse the whole op on any bad key; batches take up to 200 items.
 | `arch_create_room_tags` | Architecture | one MTEXT per room from a `format` with placeholders (or a tag block with attributes) at the room's inside point on `A-ANNO-ROOM`; `apply: false` previews; max 120 |
 | `arch_generate_area_schedule` | Architecture | rows by room / name / department {count, areaM2, percent, rooms}; no room standard built in |
 | `arch_auto_dimension_plan` | Architecture | rules as data (`overall`: bounding-box dimensions on chosen sides) over detected rooms or closed outlines; aligned dimensions; `apply: false` plans; max 120 |
+| `mep_detect_network` | MEP | pipes / ducts / trays as runs, equipment / fixtures / terminals / fittings as nodes → networks `N-nnn` (joined, tee, node connections within endpointConnection; inline nodes attached; a node never merges systems; crossings not connections); systems from `detection.systems` or the layer; paged 30 |
+| `mep_connectivity_check` | MEP | `near_miss` (one per facing pair), `open_end`, `disconnected_run`, `orphan_node`, `duplicate_run` (collinear or a copy a few mm off), `mixed_system` → `MEP-nnn` |
+| `mep_endpoint_check` | MEP | every open end (near misses first) with location, state, what it connects to, the nearest run/node and the gap; `includeConnected` for all ends; paged 150 |
 | `create_issue_markup` | Annotation | circle / rectangle / revcloud + MLeader `<id>: <description>` per issue object on `HP-MCP-ISSUES` (created on demand), coloured by severity; original geometry never touched |
 
 Tolerances (mm / degrees, `GeometryTolerance`): pointEquality 0.5 · endpointConnection 10 · collinearity 1 · parallelAngle 0.5° ·
 duplicate 1 · tinySegment 5 · roomGap 25 — any member can be overridden per call. Error codes (`ToolErrorCode`): INVALID_ARGUMENT,
 INVALID_HANDLE, ERASED, NOT_AN_ENTITY, UNSUPPORTED_ENTITY, NO_GEOMETRY, LAYER_LOCKED, LAYER_FROZEN, LIMIT_EXCEEDED, NOT_CLOSED, INTERNAL.
-Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (75 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 89 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
-Next phases: G MEP, H coordination, I change sets — see the plan (phases A–F done: 40 seeds, 52 tools on the server).
+Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (83 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 89 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
+Next phases: H coordination, I change sets — see the plan (phases A–G done: 43 seeds, 55 tools on the server).
 
 ## Target
 

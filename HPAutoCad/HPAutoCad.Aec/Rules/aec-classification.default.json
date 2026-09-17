@@ -8,7 +8,7 @@
   // match P-SANR-FIXT; "*TRUC*" would match STRUCT. Layer families: AIA/NCS (S-COL, A-WALL, M-PIPE…), plain English (*COLUMN*)
   // and Vietnamese (COT, DAM, TUONG, SAN, ONG, CUA…). When two rules can both match (door vs window block), the more specific
   // one carries the higher confidence so ties never fall back to file order.
-  "version": 3,
+  "version": 4,
   "rules": [
     { "id": "s-column-outline", "aecType": "StructuralColumn", "confidence": 0.9,
       "layers": ["S-COL*", "S-COLS*", "*COLUMN*", "*-COL", "*-COL-*", "*_COL", "*_COL_*", "COL", "COL-*", "COL_*", "COT", "COT-*", "COT_*", "*-COT", "*-COT-*", "*_COT", "*_COT_*"],
@@ -65,13 +65,13 @@
 
     { "id": "m-duct-run", "aecType": "Duct", "confidence": 0.9,
       "layers": ["M-DUCT*", "M-HVAC*", "*-DUCT", "*-DUCT-*", "*_DUCT*", "DUCT*", "ONGGIO*", "ONG-GIO*", "*-ONGGIO*", "*-ONG-GIO*"],
-      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "run on a duct layer" },
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC", "SPLINE"], "closed": false, "evidence": "run on a duct layer" },
     { "id": "m-pipe-run", "aecType": "Pipe", "confidence": 0.85,
       "layers": ["M-PIPE*", "M-CHW*", "M-HHW*", "P-PIPE*", "P-DOMW*", "P-SANR-PIPE*", "*-PIPE", "*-PIPE-*", "*_PIPE*", "PIPE*", "ONG", "ONG-*", "ONG_*", "*-ONG", "*-ONG-*", "*_ONG", "*_ONG_*", "ONGNUOC*", "DUONG-ONG*"],
-      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC"], "closed": false, "evidence": "run on a pipe layer" },
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC", "SPLINE"], "closed": false, "evidence": "run on a pipe layer" },
     { "id": "e-tray-run", "aecType": "CableTray", "confidence": 0.85,
       "layers": ["E-TRAY*", "E-CABL*", "*-TRAY", "*-TRAY-*", "*_TRAY*", "TRAY*", "*-CABLE*", "MANGCAP*", "MANG-CAP*", "*-MANGCAP*"],
-      "types": ["LINE", "LWPOLYLINE", "POLYLINE"], "evidence": "run on a cable tray layer" },
+      "types": ["LINE", "LWPOLYLINE", "POLYLINE", "ARC", "SPLINE"], "closed": false, "evidence": "run on a cable tray layer" },
     { "id": "m-equipment-block", "aecType": "Equipment", "confidence": 0.85, "types": ["INSERT"],
       "layers": ["M-EQPM*", "M-EQUIP*", "E-EQPM*", "P-EQPM*", "*-EQUIP*", "*_EQUIP*", "EQUIP*", "THIETBI*", "THIET-BI*", "*-THIETBI*"], "evidence": "block on an equipment layer" },
     { "id": "m-equipment-outline", "aecType": "Equipment", "confidence": 0.7,
@@ -82,6 +82,6 @@
     { "id": "m-terminal-block", "aecType": "Terminal", "confidence": 0.85, "types": ["INSERT"],
       "layers": ["M-DIFF*", "M-TERM*", "*-DIFFUSER*", "*-GRILLE*", "DIFFUSER*", "GRILLE*", "MIENGGIO*", "MIENG-GIO*", "*-MIENGGIO*"], "evidence": "block on a diffuser/grille layer" },
     { "id": "m-fitting-block", "aecType": "Fitting", "confidence": 0.8, "types": ["INSERT"],
-      "blockNames": ["ELBOW*", "*-ELBOW*", "*_ELBOW*", "TEE-*", "TEE_*", "*-TEE", "*-TEE-*", "FITTING*", "*-FITTING*", "REDUCER*", "*-REDUCER*", "VALVE*", "*-VALVE*", "CO-*", "*-CO-*"], "evidence": "fitting block reference" }
+      "blockNames": ["ELBOW*", "*-ELBOW*", "*_ELBOW*", "TEE-*", "TEE_*", "*-TEE", "*-TEE-*", "FITTING*", "*-FITTING*", "REDUCER*", "*-REDUCER*", "VALVE*", "*-VALVE*", "CO-ONG*", "CO_ONG*", "*-CO-ONG*"], "evidence": "fitting block reference" }
   ]
 }

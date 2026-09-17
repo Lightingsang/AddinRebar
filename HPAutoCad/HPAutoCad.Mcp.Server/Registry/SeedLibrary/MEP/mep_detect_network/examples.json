@@ -1,0 +1,40 @@
+[
+  {
+    "title": "Every MEP network of the plan",
+    "args": {}
+  },
+  {
+    "title": "Chilled and heating water systems named by layer, 25 mm connection tolerance",
+    "args": {
+      "detection": {
+        "systems": {
+          "CHW": [
+            "M-CHW*",
+            "*-CHWS",
+            "*-CHWR"
+          ],
+          "HHW": [
+            "M-HHW*",
+            "*-HHWS",
+            "*-HHWR"
+          ]
+        }
+      },
+      "tolerance": {
+        "endpointConnection": 25
+      }
+    }
+  },
+  {
+    "title": "Ducts only",
+    "args": {
+      "filter": {
+        "layers": [
+          "M-DUCT*",
+          "M-HVAC*",
+          "M-DIFF*"
+        ]
+      }
+    }
+  }
+]

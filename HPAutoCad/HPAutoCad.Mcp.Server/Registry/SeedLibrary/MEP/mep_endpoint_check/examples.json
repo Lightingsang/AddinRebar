@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Every open end with its location",
+    "args": {}
+  },
+  {
+    "title": "Every end of the chilled-water runs, connected or not",
+    "args": {
+      "filter": {
+        "layers": [
+          "M-CHW*"
+        ]
+      },
+      "includeConnected": true
+    }
+  }
+]

@@ -63,15 +63,16 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_forty_seeds_are_embedded()
+    public void All_forty_three_seeds_are_embedded()
     {
-        // 12 drawing/data seeds + 14 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
-        // relationships, standards, audit, grids, members, connectivity, alignment, openings) + 9 AEC write seeds (batch create/update,
-        // blocks + attributes, annotations, hatches, xrefs, issue markup, member tagging, member schedule)
+        // 12 drawing/data seeds + 20 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
+        // relationships, standards, audit, grids, members, connectivity, alignment, openings, rooms, room boundary, area schedule, MEP network,
+        // MEP connectivity, MEP endpoints) + 11 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs, issue markup,
+        // member tagging, member schedule, room tags, auto dimensions)
         var seeds = LoadSeeds();
-        Assert.Equal(40, seeds.Count);
+        Assert.Equal(43, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(23, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(26, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
     }
 
     [Theory]
@@ -92,6 +93,9 @@ public sealed class SeedLibraryTests
     [InlineData("arch_detect_rooms")]
     [InlineData("arch_room_boundary_check")]
     [InlineData("arch_generate_area_schedule")]
+    [InlineData("mep_detect_network")]
+    [InlineData("mep_connectivity_check")]
+    [InlineData("mep_endpoint_check")]
     public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
     {
         // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
@@ -149,6 +153,9 @@ public sealed class SeedLibraryTests
     [InlineData("arch_detect_rooms", HPAutoCad.Aec.AecTools.MaxRoomLimit)]
     [InlineData("arch_room_boundary_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
     [InlineData("arch_generate_area_schedule", HPAutoCad.Aec.AecTools.MaxAreaRowLimit)]
+    [InlineData("mep_detect_network", HPAutoCad.Aec.AecTools.MaxNetworkLimit)]
+    [InlineData("mep_connectivity_check", HPAutoCad.Aec.AecTools.MaxIssueLimit)]
+    [InlineData("mep_endpoint_check", HPAutoCad.Aec.AecTools.MaxEndpointLimit)]
     public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
     {
         // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.
@@ -366,6 +373,19 @@ public sealed class SeedLibraryTests
                 Assert.True(properties.TryGetProperty(key, out _), $"{name} lacks {key}");
             var detection = properties.GetProperty("detection").GetProperty("properties").EnumerateObject().Select(p => p.Name).Order().ToArray();
             Assert.Equal(HPAutoCad.Aec.AecTools.DetectionKeys.Order(), detection);
+        }
+    }
+
+    [Fact]
+    public void Mep_seeds_share_the_detection_block()
+    {
+        foreach (var name in new[] { "mep_detect_network", "mep_connectivity_check", "mep_endpoint_check" })
+        {
+            var properties = LoadSeeds().Single(s => s.Name == name).Tool.GetProperty("inputSchema").GetProperty("properties");
+            foreach (var key in new[] { "filter", "ruleSet", "tolerance", "detection", "maxCandidates" })
+                Assert.True(properties.TryGetProperty(key, out _), $"{name} lacks {key}");
+            var detection = properties.GetProperty("detection").GetProperty("properties").EnumerateObject().Select(p => p.Name).Order().ToArray();
+            Assert.Equal(HPAutoCad.Aec.AecTools.MepDetectionKeys.Order(), detection);
         }
     }
 }

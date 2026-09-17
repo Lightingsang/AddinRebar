@@ -1,0 +1,96 @@
+{
+  "name": "mep_connectivity_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "MEP",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "mep",
+    "connectivity",
+    "open end",
+    "check"
+  ],
+  "title": "Check MEP connectivity",
+  "description": "Read-only. Reports what keeps the MEP drawing from reading as connected systems: near_miss (warning — a run end within detection.nearMissMm of a run or node it does not reach; two facing ends are one issue at their midpoint; valueMm = the gap), open_end (warning — a run end connected to nothing), disconnected_run (warning — one issue for a run loose at both ends that nothing touches and nothing is near), orphan_node (warning for equipment / fixtures / terminals no run touches or passes through, info for a lone fitting block; not reported when the drawing has no runs at all), duplicate_run (warning — two runs of one system drawn over each other or a copy a few mm off-axis, the shared length in valueMm), mixed_system (info — runs of several systems joined directly; a node never merges systems). Issues carry the shared audit fields (issueId MEP-nnn, category mep, severity, handles, locationMm, valueMm, description, suggestedAction) in severity order and can be passed to create_issue_markup. Same detection block as mep_detect_network; single-line drafting assumed (double-line ducts are warned). Millimetres. Returns the analysis envelope (max 100 issues per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space, narrowed to the rule set's MEP layers (M-PIPE, M-DUCT, E-TRAY, M-EQPM, M-DIFF, ONG, ONGGIO, MANGCAP, THIETBI…) and fitting block names"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection — a run end within this of another run's end or body, or of a node entity, is connected —, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "nearMissMm": {
+            "type": "number"
+          },
+          "systems": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "{name: [layer wildcards]}; the first system in declaration order whose wildcard matches the layer wins"
+          }
+        },
+        "description": "Same block on every mep_* tool: nearMissMm 100 (an open end this close to a run or node is a near_miss with the gap; 0 = default; must be above tolerance.endpointConnection), systems {name: [layer wildcards]} — a run whose layer matches is of that system (first declared match wins), else its layer is its system"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 100
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (MEP layers and fitting blocks when the filter names no layers/types)"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Every connectivity problem of the plan",
+    "args": {}
+  },
+  {
+    "title": "Strict: 5 mm connections, misses up to 300 mm named",
+    "args": {
+      "tolerance": {
+        "endpointConnection": 5
+      },
+      "detection": {
+        "nearMissMm": 300
+      }
+    }
+  }
+]

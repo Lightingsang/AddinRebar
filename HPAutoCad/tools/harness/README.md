@@ -35,8 +35,11 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   opening conflicts (through / outside). Phase F adds step R: `arch_detect_rooms` (the closed and the 12 mm-open outlines, the 2 × 1 m rectangle, and a
   two-room single-line plan whose 900 mm doorways are bridged — `PHONG KHACH` / `101` read from the texts, `B01` not a number, the right room open by a
   250 mm gap; roomGap 5, maxOpeningMm 800, maxGapMm above minOpeningMm refused), `arch_room_boundary_check` (12 open ends, one boundary_gap between
-  the ends, closed gaps, openings, unlabelled rooms), `arch_generate_area_schedule` (by name, percentages, unknown groupBy refused). 75 checks.
-  2026-09-17: 75/75 (phase E: 68/68; 2026-09-16 phase D: 63/63).
+  the ends, closed gaps, openings, unlabelled rooms), `arch_generate_area_schedule` (by name, percentages, unknown groupBy refused). Phase G adds step V on an
+  MEP set (a pipe main with a tee branch, a branch 50 mm short, a lost run, a copy over the main, an inline valve block, a duct served by a diffuser block, an
+  orphan diffuser): `mep_detect_network` (5 networks, the valve attached, 2 m drawn twice, systems by layer map, endpointConnection 60 joins the short branch,
+  nearMissMm not above endpointConnection refused), `mep_connectivity_check` (near miss, open ends, disconnected runs, duplicate, one orphan; no runs → warned,
+  no orphans), `mep_endpoint_check` (open ends near misses first, includeConnected). 83 checks. 2026-09-17: 83/83 (phase F: 75/75; phase E: 68/68; 2026-09-16 phase D: 63/63).
 - `run-aec-edit-tools-live.ps1` + `aec-edit-tools-live.py` — the AEC write tools (phases C–D) through the same launcher (`run-aec-tools-live.ps1 -Script`)
   on their own output folder: a scene with a locked and a frozen layer, a room, a column, an open outline, a text and an attributed block;
   `create_entities_batch` (5 types in one atomic batch, atomic refusal on a locked layer with nothing created, non-atomic partial, frozen

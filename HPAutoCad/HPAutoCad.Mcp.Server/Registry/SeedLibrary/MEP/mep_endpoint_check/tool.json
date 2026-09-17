@@ -1,0 +1,100 @@
+{
+  "name": "mep_endpoint_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "MEP",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "mep",
+    "endpoint",
+    "open end",
+    "check"
+  ],
+  "title": "List MEP run endpoints",
+  "description": "Read-only. Lists run endpoints with their location and connection: {run, kind, layer, system, end start|end, pointMm, state joined|tee|node|open, connectedTo (first 4 handles, connectedCount), nearestHandle + nearestGapMm when open and something is within detection.nearMissMm}. By default only the open ends, near misses first (includeConnected true lists every end). summary: endpoints, byState, open, nearMisses, bySystem (open ends per system). Same detection block as mep_detect_network. Millimetres. Returns the analysis envelope (max 150 endpoints per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space, narrowed to the rule set's MEP layers (M-PIPE, M-DUCT, E-TRAY, M-EQPM, M-DIFF, ONG, ONGGIO, MANGCAP, THIETBI…) and fitting block names"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection — a run end within this of another run's end or body, or of a node entity, is connected —, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "nearMissMm": {
+            "type": "number"
+          },
+          "systems": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "{name: [layer wildcards]}; the first system in declaration order whose wildcard matches the layer wins"
+          }
+        },
+        "description": "Same block on every mep_* tool: nearMissMm 100 (an open end this close to a run or node is a near_miss with the gap; 0 = default; must be above tolerance.endpointConnection), systems {name: [layer wildcards]} — a run whose layer matches is of that system (first declared match wins), else its layer is its system"
+      },
+      "includeConnected": {
+        "type": "boolean",
+        "default": false
+      },
+      "limit": {
+        "type": "integer",
+        "default": 150,
+        "minimum": 1,
+        "maximum": 150
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (MEP layers and fitting blocks when the filter names no layers/types)"
+      }
+    }
+  }
+}

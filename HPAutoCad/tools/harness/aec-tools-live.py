@@ -140,6 +140,26 @@ Add("hT1", new DBText { Position = P(51500, 2500), Height = Du(200), TextString 
 Add("hT2", new DBText { Position = P(51500, 2000), Height = Du(200), TextString = "101" }, txt);
 Add("hT3", new DBText { Position = P(55500, 2500), Height = Du(200), TextString = "BEDROOM" }, txt);
 Add("hT4", new DBText { Position = P(55500, 2000), Height = Du(200), TextString = "B01" }, txt);
+// an MEP set at (60000, 0): a chilled-water main with a tee branch, a branch stopping 50 mm short (near miss), a lost run, a run drawn over the main
+// (duplicate); a duct served by a diffuser block at its end, and a second diffuser nothing reaches
+var duct = Layer("M-DUCT", 5); var diff = Layer("M-DIFF", 6);
+Add("mpMain", new Line(P(60000, 0), P(70000, 0)), pipe); Add("mpBr", new Line(P(64000, 0), P(64000, 3000)), pipe);
+Add("mpShort", new Line(P(67000, 50), P(67000, 3000)), pipe); Add("mpLost", new Line(P(60000, 8000), P(63000, 8000)), pipe);
+Add("mpDup", new Line(P(61000, 0), P(63000, 0)), pipe);
+Add("mdMain", new Line(P(60000, -5000), P(66000, -5000)), duct);
+var difDef = new BlockTableRecord { Name = "DIFFUSER-600" };
+var difDefId = bt0.Add(difDef); tr.AddNewlyCreatedDBObject(difDef, true);
+var difRect = new Polyline(4);
+difRect.AddVertexAt(0, new Point2d(-Du(300), -Du(300)), 0, 0, 0); difRect.AddVertexAt(1, new Point2d(Du(300), -Du(300)), 0, 0, 0);
+difRect.AddVertexAt(2, new Point2d(Du(300), Du(300)), 0, 0, 0); difRect.AddVertexAt(3, new Point2d(-Du(300), Du(300)), 0, 0, 0); difRect.Closed = true;
+difDef.AppendEntity(difRect); tr.AddNewlyCreatedDBObject(difRect, true);
+Add("dif1", new BlockReference(P(66000, -5000), difDefId), diff);
+Add("dif2", new BlockReference(P(70000, -5000), difDefId), diff);
+// an inline gate valve block (a fitting by block name) sitting on the unbroken main
+var valveDef = new BlockTableRecord { Name = "VALVE-GATE" };
+var valveDefId = bt0.Add(valveDef); tr.AddNewlyCreatedDBObject(valveDef, true);
+var valveBody = new Circle(new Point3d(0, 0, 0), Vector3d.ZAxis, Du(120)); valveDef.AppendEntity(valveBody); tr.AddNewlyCreatedDBObject(valveBody, true);
+Add("mpValve", new BlockReference(P(62000, 0), valveDefId), pipe);
 // standards defects: a text on a wall layer, a line on layer 0, a colour override, a badly named layer with nothing on it
 Add("stdText", new DBText { Position = P(40000, 0), Height = Du(200), TextString = "NOT ON A TEXT LAYER" }, wall);
 Add("stdZero", new Line(P(40000, 4000), P(41000, 4000)), lt["0"]);
@@ -225,7 +245,7 @@ def main():
         # ---- S: scene -------------------------------------------------------------------------------------------------
         scene = s.tool("execute_autocad_code", {"code": SCENE, "transaction": "auto", "label": "aec scene", "timeoutSeconds": 60}, timeout=120)
         h = value(scene) or {}
-        check("S scene drawn (55 entities, 9 layers)", not scene.get("isError") and len(h) == 55 and (scene.get("changed") or {}).get("added", 0) >= 55, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
+        check("S scene drawn (64 entities, 11 layers)", not scene.get("isError") and len(h) == 64 and (scene.get("changed") or {}).get("added", 0) >= 64, f"handles={len(h)} changed={short(scene.get('changed'))} {short(scene.get('message'))}")
         save("scene-handles", h)
         if not h:
             return CL.finish("aec-tools-live")
@@ -252,7 +272,7 @@ def main():
         pi = (props.get("items") or [{}])[0]
         check("Q textContains + property selector + unknown property warning", props.get("count") == 1 and pi.get("text") == "OFFICE 01" and pi.get("positionMm") and "boundsMm" not in pi and any("bogus" in w for w in props.get("warnings", [])), short(props))
         unknown = value(s.tool("query_entities", {"filter": {"layer": "M-PIPE", "colour": "4"}})) or {}
-        check("Q singular key + unknown filter key -> warning, 2 pipe entities", unknown.get("count") == 2 and any("colour" in w for w in unknown.get("warnings", [])), short(unknown.get("warnings")))
+        check("Q singular key + unknown filter key -> warning, 8 M-PIPE entities", unknown.get("count") == 8 and any("colour" in w for w in unknown.get("warnings", [])), short(unknown.get("warnings")))
         save("query", {"columns": q, "paged": paged, "detail": detail, "props": props})
 
         # ---- R: spatial -----------------------------------------------------------------------------------------------
@@ -361,8 +381,8 @@ def main():
         cls = value(s.tool("classify_aec_entities", {"filter": {"layers": ["S-*", "A-*", "M-*"]}, "includeUnknown": True, "minConfidence": 0})) or {}
         by = {o["handle"]: o for o in cls.get("items", [])}
         summary = (cls.get("summary") or {}).get("byAecType") or {}
-        check("B classify: 5 columns (4 outlines + the COL-400 block), 3 beams, 1 pipe, 1 door block, walls; circle/text/hatch unknown",
-              cls.get("success") and summary.get("StructuralColumn") == 5 and summary.get("StructuralBeam") == 3 and summary.get("Pipe") == 1 and summary.get("Door") == 1 and summary.get("ArchitecturalWall", 0) >= 8
+        check("B classify: 5 columns (4 outlines + the COL-400 block), 3 beams, 6 pipes (the polyline + the MEP set), 1 door block, walls; circle/text/hatch unknown",
+              cls.get("success") and summary.get("StructuralColumn") == 5 and summary.get("StructuralBeam") == 3 and summary.get("Pipe") == 6 and summary.get("Door") == 1 and summary.get("ArchitecturalWall", 0) >= 8
               and by.get(h["circle"], {}).get("aecType") == "Unknown" and by.get(h["text"], {}).get("aecType") == "Unknown", short(summary))
         c1 = by.get(h["c1"]) or {}
         check("B column object: confidence >= 0.9, evidence names the layer and the 400x400 footprint, properties width/depth/area/centroid",
@@ -459,6 +479,42 @@ def main():
         bad = s.tool("arch_generate_area_schedule", {"groupBy": "colour"})
         check("R groupBy colour -> ArgumentException", bad.get("isError") and "groupBy" in (bad.get("message") or ""), short(bad.get("message")))
         save("architecture", {"rooms": rm, "strict": strict, "boundary": bc, "schedule": sched})
+
+        # ---- V: MEP ------------------------------------------------------------------------------------------------------------
+        net = value(s.tool("mep_detect_network", {})) or {}
+        nsum = net.get("summary") or {}
+        by_run = {}
+        for n in net.get("items", []):
+            for rh in n.get("runHandles", []): by_run[rh] = n
+        main = by_run.get(h["mpMain"], {})
+        ductn = by_run.get(h["mdMain"], {})
+        check("V detect_network: 5 networks — the pipe main + tee branch + overlapping copy (15 m, 2 m drawn twice, N-001, 3 open ends, the inline valve attached), the duct with its diffuser (node), the old pipe polyline, the lost run, the short branch; 1 orphan diffuser, 1 duplicate, 0 crossings",
+              net.get("count") == 5 and nsum.get("runs") == 7 and nsum.get("nodes") == 3 and main.get("id") == "N-001" and main.get("runs") == 3 and near(main.get("lengthMm"), 15000) and near(main.get("duplicateOverlapMm"), 2000) and main.get("openEnds") == 3 and h["mpBr"] in main.get("runHandles", []) and h["mpDup"] in main.get("runHandles", [])
+              and main.get("nodeHandles") == [h["mpValve"]] and ductn.get("nodes") == 1 and ductn.get("nodeHandles") == [h["dif1"]] and ductn.get("openEnds") == 1 and nsum.get("orphanNodes") == 1 and nsum.get("orphanHandles") == [h["dif2"]] and nsum.get("duplicates") == 1 and nsum.get("crossings") == 0
+              and by_run.get(h["mpShort"], {}).get("runs") == 1 and (by_run.get(h["mpShort"], {}).get("openEndsMm") or [{}])[0].get("nearest") == h["mpMain"], f"{short(nsum, 300)} main={short(main, 200)}")
+        sysn = value(s.tool("mep_detect_network", {"detection": {"systems": {"CHW": ["M-PIPE*"], "SA": ["M-DUCT*"]}}})) or {}
+        check("V systems by layer map -> the pipe networks are CHW, the duct network SA", {n.get("system") for n in sysn.get("items", [])} == {"CHW", "SA"} and set((sysn.get("summary") or {}).get("bySystem", {}).keys()) == {"CHW", "SA"}, short((sysn.get("summary") or {}).get("bySystem"), 200))
+        loose = value(s.tool("mep_detect_network", {"tolerance": {"endpointConnection": 60}})) or {}
+        check("V endpointConnection 60 mm -> the short branch joins the main (4 networks)", loose.get("count") == 4 and by_run and any(h["mpShort"] in n.get("runHandles", []) and h["mpMain"] in n.get("runHandles", []) for n in loose.get("items", [])), short(loose.get("summary"), 200))
+        cc = value(s.tool("mep_connectivity_check", {})) or {}
+        ct_ = {i["type"]: [x for x in cc.get("items", []) if x["type"] == i["type"]] for i in cc.get("items", [])}
+        miss = ct_.get("near_miss", [])
+        check("V connectivity check: near_miss 50 mm (short → main), open_end ×5 (main both ends, branch, short end, duct start), disconnected_run ×2 (lost run, the old polyline), duplicate_run 2000 mm, orphan_node warning for the far diffuser only (the inline valve is attached); ids MEP-nnn",
+              cc.get("success") and len(miss) == 1 and miss[0]["handles"] == [h["mpShort"], h["mpMain"]] and near(miss[0].get("valueMm"), 50) and len(ct_.get("open_end", [])) == 5 and len(ct_.get("disconnected_run", [])) == 2
+              and {i["handles"][0] for i in ct_.get("disconnected_run", [])} == {h["mpLost"], h["pipe"]} and len(ct_.get("duplicate_run", [])) == 1 and near(ct_["duplicate_run"][0].get("valueMm"), 2000)
+              and len(ct_.get("orphan_node", [])) == 1 and ct_["orphan_node"][0]["handles"] == [h["dif2"]] and ct_["orphan_node"][0]["severity"] == "warning" and cc["items"][0]["issueId"] == "MEP-001", short((cc.get("summary") or {}).get("byType"), 200))
+        ep = value(s.tool("mep_endpoint_check", {})) or {}
+        eps = ep.get("summary") or {}
+        first = (ep.get("items") or [{}])[0]
+        check("V endpoint check: 10 open ends listed, the near miss first with its gap; 14 endpoints in all, byState joined/tee/node/open", ep.get("count") == 10 and eps.get("endpoints") == 14 and first.get("run") == h["mpShort"] and first.get("nearestHandle") == h["mpMain"] and near(first.get("nearestGapMm"), 50)
+              and (eps.get("byState") or {}).get("open") == 10 and (eps.get("byState") or {}).get("tee") == 3 and (eps.get("byState") or {}).get("node") == 1, f"{short(eps, 250)} first={short(first, 150)}")
+        epall = value(s.tool("mep_endpoint_check", {"includeConnected": True, "filter": {"layers": ["M-PIPE"]}})) or {}
+        check("V includeConnected + pipe layer -> 12 endpoints, the tee ends name the main", epall.get("count") == 12 and any(e.get("state") == "tee" and e.get("connectedTo") == [h["mpMain"]] for e in epall.get("items", [])), short(epall.get("summary"), 200))
+        badm = s.tool("mep_detect_network", {"detection": {"nearMissMm": 10}})
+        check("V nearMissMm not above endpointConnection -> ArgumentException", badm.get("isError") and "endpointConnection" in (badm.get("message") or ""), short(badm.get("message")))
+        nor = value(s.tool("mep_connectivity_check", {"filter": {"layers": ["M-DIFF"]}})) or {}
+        check("V connectivity on the diffuser layer alone (no runs) -> warned, no orphan issues", nor.get("count") == 0 and any("No pipe" in w for w in nor.get("warnings", [])), short(nor.get("warnings"), 200))
+        save("mep", {"network": net, "systems": sysn, "loose": loose, "connectivity": cc, "endpoints": [ep, epall]})
 
         # ---- T: standards + audit ---------------------------------------------------------------------------------------
         std = value(s.tool("cad_standards_check", {})) or {}

@@ -1,7 +1,7 @@
 ---
 phase: G
 title: "MEP — network graph, connectivity, open endpoints"
-status: pending
+status: completed
 priority: P2
 effort: "16h"
 dependencies: [B]
@@ -17,7 +17,7 @@ dependencies: [B]
 disconnected runs, orphan fittings, duplicate connections), `mep_endpoint_check` (every unconnected endpoint with location).
 
 ## Success Criteria
-- [ ] Graph built from polylines/lines on M-* layers with `EndpointConnection` tolerance; systems from layer/rule config
+- [x] Graph built from lines / polylines / arcs / splines on the rule set's MEP layers with `tolerance.endpointConnection`; systems from `detection.systems` (layer wildcards) else the layer — `reports/phase-G-mep-live.md`
 
 ## Risk Assessment
 Same as phase A (output cap, ALC visibility of `HPAutoCad.Aec`, tolerance defaults); phase-specific risks are added when the phase starts.

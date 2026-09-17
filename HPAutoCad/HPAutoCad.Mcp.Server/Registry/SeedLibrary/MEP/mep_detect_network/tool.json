@@ -1,0 +1,98 @@
+{
+  "name": "mep_detect_network",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "MEP",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "mep",
+    "pipe",
+    "duct",
+    "tray",
+    "network",
+    "graph"
+  ],
+  "title": "Detect MEP networks",
+  "description": "Read-only. Builds the MEP graph from single-line (centreline) drafting: pipes, ducts and cable trays (classified Pipe / Duct / CableTray — open lines, polylines, arcs, splines) are runs; equipment, fixtures, terminals and fittings (Equipment / Fixture / Terminal / Fitting — blocks and closed outlines) are nodes. A run end is connected when it meets another run's end (joined), lands on a run's body — another run's or its own loop — (tee) or touches a node, all within tolerance.endpointConnection (10 mm); a node is also attached to every run passing through it (inline valves, pumps, VAVs). Runs that only cross each other in plan are not connected and are counted as crossings. Runs joined directly form a network N-nnn, longest first; through a node only runs of the same system join (supply and return meet at an AHU without merging) and a node belongs to every network it touches: {id, system (one, or mixed when runs of different systems join directly), systems, runs, runHandles (first 16), byKind, lengthMm, duplicateOverlapMm, nodes, nodeHandles (first 16), byNodeKind, openEnds, openEndsMm (first 8 with the nearest run/node within detection.nearMissMm and the gap), boundsMm}. Systems come from detection.systems, else the layer name. summary: examined, runs, nodes, networks, totalLengthMm, bySystem (first 20, systemsTotal), byKind, mixedNetworks, openEnds, nearMisses, orphanNodes (+ handles), duplicates (collinear or a copy a few mm off-axis, same system), duplicateOverlapMm, crossings, doubleLineDucts (a warning when duct drafting looks double-line), closedRunsIgnored, tinyRunsIgnored. Millimetres. Returns the analysis envelope (max 30 networks per page).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "filter": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space": {
+            "type": "string"
+          },
+          "visibleOnly": {
+            "type": "boolean"
+          }
+        },
+        "description": "Which entities to classify (wildcards); empty = model space, narrowed to the rule set's MEP layers (M-PIPE, M-DUCT, E-TRAY, M-EQPM, M-DIFF, ONG, ONGGIO, MANGCAP, THIETBI…) and fitting block names"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection — a run end within this of another run's end or body, or of a node entity, is connected —, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "detection": {
+        "type": "object",
+        "properties": {
+          "nearMissMm": {
+            "type": "number"
+          },
+          "systems": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "{name: [layer wildcards]}; the first system in declaration order whose wildcard matches the layer wins"
+          }
+        },
+        "description": "Same block on every mep_* tool: nearMissMm 100 (an open end this close to a run or node is a near_miss with the gap; 0 = default; must be above tolerance.endpointConnection), systems {name: [layer wildcards]} — a run whose layer matches is of that system (first declared match wins), else its layer is its system"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 30,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned (MEP layers and fitting blocks when the filter names no layers/types)"
+      }
+    }
+  }
+}
