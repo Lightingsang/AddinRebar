@@ -73,6 +73,8 @@ Giữ cho trường hợp tương lai cần build MCP server cho Revit (vd. expo
 
 ```
 User wants to...
+├── Đọc/sửa/phân tích model ETABS qua MCP    → /hp-mcp-etabs (server hprebar-etabs; kết nối bridge, tier R/W/D, snapshot, script ETABSv1)
+├── Đọc/sửa/phân tích bản vẽ AutoCAD qua MCP → /hp-mcp-autocad (server hprebar-autocad; bridge + opt-in, 62 tool AEC, dryRun, change set, script AutoCAD .NET)
 ├── Build MCP server                         → /bs:mcp-builder
 ├── Convert code thành CLI/MCP               → /bs:agentize
 └── Discover/execute MCP tools               → /bs:use-mcp

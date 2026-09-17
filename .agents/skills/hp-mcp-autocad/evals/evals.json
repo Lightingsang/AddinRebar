@@ -1,0 +1,40 @@
+{
+  "skill_name": "hp-mcp-autocad",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Bản vẽ AutoCAD đang mở, liệt kê các cột và dầm trên layer S-* và cho tôi biết cột nào lệch lưới.",
+      "expected_output": "Calls get_autocad_context first, then structural_detect_members (kinds column/beam, filter layers S-*) and structural_column_alignment_check with the same filter — not an ad-hoc execute_autocad_code script — reports members by handle with sizes in mm and the STR-ALN issues with locationMm, and pages with offset instead of raising maxCandidates when truncated.",
+      "files": [],
+      "assertions": [
+        {"id": "context-first", "text": "get_autocad_context is called before any other AutoCAD tool"},
+        {"id": "seed-over-script", "text": "structural_detect_members and structural_column_alignment_check are used instead of an ad-hoc execute_autocad_code script"},
+        {"id": "same-filter", "text": "The same filter / ruleSet / tolerance is passed to both structural tools so ids agree"},
+        {"id": "handles-and-mm", "text": "Members are reported by handle with sizes in mm; issues carry issueId, severity and locationMm"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Đổi tất cả text trên layer A-TEXT sang chiều cao 250 mm trong AutoCAD.",
+      "expected_output": "Checks the context (executionEnabled, isQuiescent), collects the handles with query_entities (filter types TEXT/MTEXT, layers A-TEXT, paging), runs update_entities_batch with handles + set {heightMm: 250} and dryRun: true first, shows the modifiedCount / rolledBack result and asks the user to confirm, then runs it without dryRun with a short label, and explains LAYER_LOCKED as a structured refusal (nothing written, atomic) if it appears.",
+      "files": [],
+      "assertions": [
+        {"id": "handles-from-query", "text": "Handles come from query_entities on this drawing, never guessed"},
+        {"id": "dryrun-then-confirm", "text": "update_entities_batch runs with dryRun: true first and the user is asked to confirm before the real run"},
+        {"id": "mm-units", "text": "The height is given in mm (heightMm), whatever INSUNITS is"},
+        {"id": "locked-layer", "text": "A LAYER_LOCKED error is explained as a structured atomic refusal the user must unlock, not worked around"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tool AutoCAD trả -32001 khi tôi gọi create_entities_batch, và trước đó bridge nói pipe hpautocad-mcp-2026 không có. Sửa sao?",
+      "expected_output": "Explains that -32001 means 'Allow AI code execution' is off in the HPAutoCad MCP Bridge window (ribbon HPAutoCad > MCP > MCP Bridge or HPMCPBRIDGE; it resets on every AutoCAD start), that a missing pipe means the bundle is not loaded or AutoCAD is closed (check the ApplicationPlugins bundle, SECURELOAD Always Load, the check-autocad-mcp.ps1 script), that the refusal is not a failed run and does not quarantine the tool, and does not suggest any bypass of the opt-in.",
+      "files": [],
+      "assertions": [
+        {"id": "meaning", "text": "-32001 is identified as the execution opt-in being off in the bridge window"},
+        {"id": "pipe-diagnosis", "text": "A missing pipe is diagnosed as bridge/bundle not loaded or AutoCAD closed, with the bundle folder and the health-check script named"},
+        {"id": "no-bypass", "text": "No workaround that bypasses the opt-in (settings edit, automation) is suggested"}
+      ]
+    }
+  ]
+}
