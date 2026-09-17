@@ -25,6 +25,13 @@ public static class PipeNaming
     /// </summary>
     public const string EtabsHost = "etabs";
 
+    /// <summary>
+    ///     Autodesk Civil 3D — an AutoCAD vertical that runs on the same acad.exe (R25.1 for 2026). Its own pipe
+    ///     <c>hpcivil3d-mcp-{version}</c> so AutoCAD 2026 and Civil 3D 2026 can serve at the same time; again the
+    ///     name the generic branch below produces.
+    /// </summary>
+    public const string Civil3dHost = "civil3d";
+
     /// <summary>Revit pipe, e.g. <c>hprebar-mcp-r2026</c>. Unchanged since the first release.</summary>
     public static string For(int revitVersion) => Prefix + revitVersion;
 
@@ -44,6 +51,7 @@ public static class PipeNaming
             AutocadHost => "hpautocad-mcp-" + version,
             NavisHost => "hpnavis-mcp-" + version,
             EtabsHost => "hpetabs-mcp-" + version,
+            Civil3dHost => "hpcivil3d-mcp-" + version,
             _ => "hp" + key + "-mcp-" + version,
         };
     }

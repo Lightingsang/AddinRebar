@@ -29,6 +29,11 @@ public sealed class AnalyzerProfile
         transactionTypeNames: Array.Empty<string>(),
         transactionMethodNames: Array.Empty<string>());
 
+    /// <summary>Civil 3D scripts run on the AutoCAD transaction manager, so the AutoCAD rule applies: opening a transaction of one's own is what marks a script as managing one.</summary>
+    public static readonly AnalyzerProfile Civil3d = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: new[] { "StartTransaction", "StartOpenCloseTransaction" });
+
     public AnalyzerProfile(IReadOnlyCollection<string> transactionTypeNames, IReadOnlyCollection<string> transactionMethodNames)
     {
         TransactionTypeNames = new HashSet<string>(transactionTypeNames, StringComparer.Ordinal);

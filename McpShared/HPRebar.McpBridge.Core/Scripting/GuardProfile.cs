@@ -91,6 +91,41 @@ public sealed class GuardProfile
         },
         deniedNamespaces: new[] { "System.Windows.Forms", "HPEtabs.McpBridge", "HPRebar.McpBridge.Core.Host" });
 
+    /// <summary>
+    ///     Civil 3D is an AutoCAD vertical on the same acad.exe, so everything the AutoCAD profile denies applies
+    ///     unchanged (the lists below start from it). On top, the Civil API has three things AutoCAD lacks:
+    ///     rebuilds (<c>Corridor.Rebuild</c>, <c>CorridorCollection.RebuildAll</c>, <c>Surface.Rebuild</c>/
+    ///     <c>RebuildSnapshot</c> — minutes long, not cancellable through <c>ct</c>, and the subject of Autodesk
+    ///     knowledge-base articles about corridors vanishing after a rebuild), state that lives outside the drawing
+    ///     (data-shortcut working/project folders and references, the survey database — an aborted transaction
+    ///     cannot undo those), and members that read or write files through the native wrapper (<c>ExportToDEM</c>,
+    ///     <c>CreateFromLandXML</c>, <c>CreateFromTin</c>, <c>CreateFromDEM</c>, <c>CreateFromIMX</c>,
+    ///     <c>ImportPoints</c>/<c>ExportPoints</c>, the <c>CreateSolidsAt…ToFile</c> family), which would bypass the
+    ///     base list's <c>System.IO</c> denial; <c>StyleBase.ExportTo</c> is denied for a neighbouring reason — it
+    ///     writes styles into another open drawing, outside this drawing's transaction. The names are matched on any
+    ///     receiver, so <c>Spline.Rebuild</c>/<c>NurbSurface.Rebuild</c> are caught too — accepted breadth. The dialog
+    ///     assembly <c>AeccUiMgd</c> and the <c>Autodesk.AECC.Interop</c>
+    ///     COM wrappers are denied as namespaces. <c>RebuildAutomatic</c>/<c>AutoRebuild</c> stay allowed: scripts
+    ///     read them, and the setter is an undoable drawing setting, not a rebuild.
+    /// </summary>
+    public static readonly GuardProfile Civil3d = new GuardProfile(
+        "Civil 3D",
+        deniedIdentifiers: Autocad.DeniedIdentifiers.Concat(new[] { "DataShortcuts", "SurveyProject", "SurveyProjectCollection" }).ToArray(),
+        deniedMembers: Autocad.DeniedMembers.Concat(new[]
+        {
+            // rebuilds
+            "Rebuild", "RebuildAll", "RebuildSnapshot",
+            // state outside the drawing
+            "SetWorkingFolder", "SetCurrentProjectFolder", "CreateProjectFolder", "AssociateDSProject", "CreateReference",
+            "CreatePartialReferenceSurface", "UpdatePartialReferenceSurface", "RepairBrokenDRef",
+            "CreateDataShortcutManager", "SaveDataShortcutManager", "SurveyProjects",
+            // file members (native wrapper reads/writes the path itself) + cross-drawing style export
+            "ExportToDEM", "ExportTo", "CreateFromLandXML", "CreateFromTin", "CreateFromDEM", "CreateFromIMX", "ImportPoints", "ExportPoints",
+            "CreateSolidsAtFixedElevationToFile", "CreateSolidsAtDepthToFile", "CreateSolidsAtSurfaceToFile",
+        }).ToArray(),
+        deniedMembersOnIdentifier: Autocad.DeniedMembersOnIdentifier,
+        deniedNamespaces: Autocad.DeniedNamespaces.Concat(new[] { "Autodesk.Civil.DataShortcuts", "Autodesk.Civil.AeccUiMgd", "Autodesk.AECC.Interop" }).ToArray());
+
     public GuardProfile(
         string hostName,
         IReadOnlyCollection<string>? deniedIdentifiers = null,

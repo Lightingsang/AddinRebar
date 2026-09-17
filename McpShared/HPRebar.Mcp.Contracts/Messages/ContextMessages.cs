@@ -29,6 +29,9 @@ public sealed class ContextResult
     /// <summary>ETABS-only facts; null for the other hosts (and omitted from the JSON).</summary>
     public EtabsInfo? Etabs { get; set; }
 
+    /// <summary>Civil 3D-only facts; null for the other hosts (and omitted from the JSON). The Civil 3D bridge also fills <see cref="Autocad"/>.</summary>
+    public Civil3dInfo? Civil3d { get; set; }
+
     public string? DocTitle { get; set; }
 
     public string? DocPath { get; set; }
@@ -114,6 +117,26 @@ public sealed record EtabsInfo(
     int PointCount,
     int FrameCount,
     int AreaCount);
+
+/// <summary>
+///     What a Civil 3D script needs to know beyond the AutoCAD facts (which the Civil 3D bridge reports too):
+///     which product hosts the bridge, whether the active drawing is a Civil document, the Civil drawing unit
+///     (Meters or Feet — the unit every Civil coordinate, station and elevation is expressed in), the coordinate
+///     system code when a zone is assigned, whether INSUNITS disagrees with the Civil unit, and coarse object
+///     counts so the AI can pick a tool before querying.
+/// </summary>
+public sealed record Civil3dInfo(
+    string Product,
+    bool IsCivilDocument,
+    string? DrawingUnit,
+    string? CoordinateSystemCode,
+    bool InsunitsMismatch,
+    int AlignmentCount,
+    int SurfaceCount,
+    int CorridorCount,
+    int PipeNetworkCount,
+    int PressureNetworkCount,
+    int CogoPointCount);
 
 public sealed record ViewInfo(long Id, string Name, string Type);
 

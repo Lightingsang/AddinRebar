@@ -136,6 +136,24 @@ public static class ScriptGuard
             base.VisitMemberAccessExpression(node);
         }
 
+        // `a?.b` is a member binding, not a member access: without this override the null-conditional form of
+        // every denied member (`corridor?.Rebuild()`, `db.TransactionManager?.StartTransaction()`, `tr?.Commit()`)
+        // walked past the guard unjudged. The member name is judged exactly as in VisitMemberAccessExpression;
+        // the receiver of the identifier-scoped rule is the conditional access this binding hangs off.
+        public override void VisitMemberBindingExpression(MemberBindingExpressionSyntax node)
+        {
+            var member = node.Name.Identifier.ValueText;
+            if (DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed: reflection and process control are blocked in {_host} scripts.");
+            else if (profile.DeniedMembers.Contains(member)) Report(node.Name, $".{member} is not allowed in {_host} scripts: it prompts the user, leaves or replaces the bridge's transaction, or opens modal UI.");
+
+            if (node.FirstAncestorOrSelf<ConditionalAccessExpressionSyntax>() is { Expression: IdentifierNameSyntax { Identifier.ValueText: var receiver } }
+                && profile.DeniedMembersOnIdentifier.TryGetValue(receiver, out var denied)
+                && Array.IndexOf(denied, member) >= 0)
+                Report(node.Name, $"{receiver}.{member} is not allowed: the bridge owns `{receiver}` and commits or rolls it back for you.");
+
+            base.VisitMemberBindingExpression(node);
+        }
+
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
             var text = node.Identifier.ValueText;

@@ -91,4 +91,30 @@ public static class HostScriptContracts
     ///     cannot be interrupted). Shared by the bridge clamp and the server profile like the Navisworks constant.
     /// </summary>
     public const int EtabsHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of a Civil 3D script: the AutoCAD set (Civil 3D is an AutoCAD vertical, every Civil
+    ///     object is an AutoCAD <c>Entity</c> read through <c>tr</c>) plus the Civil API namespaces of
+    ///     <c>AeccDbMgd.dll</c> — <c>CivilApplication</c>/<c>CivilDocument</c>, the alignment/surface/corridor/
+    ///     pipe/parcel/COGO classes, their styles and the drawing settings (units, zone). Deliberately without
+    ///     <c>Autodesk.Civil.DataShortcuts</c> (state outside the drawing), <c>Autodesk.Civil.AeccUiMgd</c>
+    ///     (dialogs) and the <c>Autodesk.AECC.Interop</c> COM wrappers, all of which the guard denies; and without
+    ///     the AutoCAD AEC engine facade, which does not ship with this bridge.
+    /// </summary>
+    public static readonly string[] Civil3dImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Autodesk.AutoCAD.ApplicationServices", "Autodesk.AutoCAD.DatabaseServices",
+        "Autodesk.AutoCAD.EditorInput", "Autodesk.AutoCAD.Geometry", "Autodesk.AutoCAD.Colors",
+        "Autodesk.Civil", "Autodesk.Civil.ApplicationServices", "Autodesk.Civil.DatabaseServices",
+        "Autodesk.Civil.DatabaseServices.Styles", "Autodesk.Civil.Settings",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Civil 3D script may use: the AutoCAD set plus `civil`, the active <c>CivilDocument</c>
+    ///     (null when the drawing is not a Civil document). `units` converts mm ↔ the Civil drawing unit
+    ///     (Meters or Feet from the drawing settings, not INSUNITS); stations and elevations stay in drawing units.
+    /// </summary>
+    public static readonly string[] Civil3dGlobals = { "doc", "db", "ed", "app", "tr", "units", "civil", "ct", "log", "progress", "args" };
 }

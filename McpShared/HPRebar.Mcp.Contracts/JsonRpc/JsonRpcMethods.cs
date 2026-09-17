@@ -36,6 +36,7 @@ public static class JsonRpcMethods
     public const string AutocadPrefix = "autocad.";
     public const string NavisPrefix = "navis.";
     public const string EtabsPrefix = "etabs.";
+    public const string Civil3dPrefix = "civil3d.";
 
     /// <summary>Builds <c>{prefix}{suffix}</c>; the prefix must end with a dot, otherwise the suffix could not be split off again.</summary>
     public static string For(string prefix, string suffix)

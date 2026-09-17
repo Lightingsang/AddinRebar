@@ -62,4 +62,38 @@ public sealed class ScriptGuardTests
         Assert.Equal(3, hit.Line);
         Assert.Equal(1, hit.Column);
     }
+
+    // `a?.b` is a MemberBindingExpression, not a MemberAccessExpression; every denied member used to slip
+    // through in its null-conditional form, in every profile.
+    public static IEnumerable<object[]> NullConditionalEscapes()
+    {
+        yield return [GuardProfile.Revit, "var t = Type.GetType(\"System.IO.File\"); var m = t?.GetMethod(\"WriteAllText\"); return 1;", ".GetMethod"];
+        yield return [GuardProfile.Autocad, "var t = db.TransactionManager?.StartTransaction(); return 1;", ".StartTransaction"];
+        yield return [GuardProfile.Autocad, "tr?.Commit(); return 1;", "tr.Commit"];
+        yield return [GuardProfile.Autocad, "var p = ed?.GetPoint(\"p\"); return 1;", ".GetPoint"];
+        yield return [GuardProfile.Navis, "doc?.BeginTransaction(\"x\"); return 1;", ".BeginTransaction"];
+        yield return [GuardProfile.Etabs, "etabs?.ApplicationExit(false); return 1;", ".ApplicationExit"];
+        yield return [GuardProfile.Civil3d, "corridor?.Rebuild(); return 1;", ".Rebuild"];
+        yield return [GuardProfile.Civil3d, "surface?.ExportToDEM(\"f\", \"c\", 1.0, default); return 1;", ".ExportToDEM"];
+        yield return [GuardProfile.Civil3d, "var ids = civil?.CogoPoints?.Add(pt, \"d\", true); return 1;", "ALLOWED"];
+    }
+
+    [Theory]
+    [MemberData(nameof(NullConditionalEscapes))]
+    public void Null_conditional_member_access_is_judged_like_a_dot(GuardProfile profile, string code, string expected)
+    {
+        var diagnostics = ScriptGuard.Check(code, profile);
+
+        if (expected == "ALLOWED")
+        {
+            Assert.Empty(diagnostics);
+            return;
+        }
+
+        Assert.NotEmpty(diagnostics);
+        Assert.Contains(diagnostics, d => d.Message.Contains(expected, StringComparison.Ordinal));
+        // and the plain form reports the same member, so the two spellings cannot drift apart
+        var plain = ScriptGuard.Check(code.Replace("?.", "."), profile);
+        Assert.Contains(plain, d => d.Message.Contains(expected, StringComparison.Ordinal));
+    }
 }
