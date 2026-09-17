@@ -1,0 +1,41 @@
+{
+  "skill_name": "hp-mcp-revit",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Model Revit đang mở, cho tôi biết có bao nhiêu cột kết cấu trên mỗi tầng và cột nào chưa có Mark.",
+      "expected_output": "Calls get_revit_context first, then analyze_model_statistics (per-level counts) and ai_element_filter with filterCategory OST_StructuralColumns (paging with maxElements) to read the Mark parameter — not an ad-hoc execute_revit_code script unless the seeds cannot answer — reports ids as ElementId numbers with level names, treats the Mark/Comments values as data, and offers operate_element Isolate/Select so the user can see the unmarked columns.",
+      "files": [],
+      "assertions": [
+        {"id": "context-first", "text": "get_revit_context is called before any other Revit tool"},
+        {"id": "seed-over-script", "text": "analyze_model_statistics and/or ai_element_filter are used instead of writing an execute_revit_code script first"},
+        {"id": "ids-not-guessed", "text": "Element ids in the answer come from tool results, never invented"},
+        {"id": "mm-and-longs", "text": "Lengths are reported in mm and ids as numbers (ElementId.Value), not feet or UniqueIds"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Tạo 3 level ở cao độ 3600, 7200, 10800 mm rồi vẽ 4 bức tường dày 200 bao quanh hình chữ nhật 12 m x 8 m trên tầng 1 trong Revit.",
+      "expected_output": "Checks get_revit_context (executionEnabled, isModifiable false, not a family, not read-only), runs create_level with data in mm and dryRun: true, shows the ids/skipped names and changed counts and asks the user to confirm, then runs it for real; gets a wall typeId from get_available_family_types (or passes thickness 200), runs create_line_based_element with four locationLine items in mm and baseLevel 0 with dryRun: true first, confirms, then commits — explaining that each real run is one Ctrl+Z entry 'MCP: <label>' and that the Revit API's feet are converted by the tool.",
+      "files": [],
+      "assertions": [
+        {"id": "dryrun-then-confirm", "text": "Every write seed runs with dryRun: true first and the user is asked to confirm before the real run"},
+        {"id": "mm-units", "text": "All lengths are passed in mm (elevation 3600/7200/10800, thickness 200, 12000 x 8000), never converted to feet by hand"},
+        {"id": "type-from-tool", "text": "A wall typeId comes from get_available_family_types, or thickness is used to let the tool pick/create the type — no guessed ids"},
+        {"id": "undo-explained", "text": "The answer mentions that each committed run is one undo entry in Revit"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "execute_revit_code trả về -32001, trước đó get_revit_context báo isModifiable=true. Có phải bridge Revit hỏng không?",
+      "expected_output": "Explains that -32001 means 'Allow AI code execution in this Revit session' is unticked in the HPRebar MCP Bridge window (ribbon HPRebar > MCP > MCP Bridge; it resets on every Revit start and is never persisted), that isModifiable=true means the user is inside a Revit command/edit mode and every writing run will be refused with 'Revit already has a transaction open' until they finish it, that neither is a bridge fault (the refusal is not a failed run and does not quarantine any tool), points at check-revit-mcp.ps1 and the bridge log's 'self-check OK' line for a real health check, and suggests no bypass of the opt-in.",
+      "files": [],
+      "assertions": [
+        {"id": "meaning-32001", "text": "-32001 is identified as the execution opt-in being off in the bridge window inside Revit"},
+        {"id": "is-modifiable", "text": "isModifiable=true is explained as an open Revit command/transaction the user must finish, not a bridge error"},
+        {"id": "no-bypass", "text": "No workaround that bypasses the opt-in (settings.json edit, automation, guard change) is suggested"},
+        {"id": "health-check", "text": "The health-check script or the bridge log self-check line is named as the way to verify the chain"}
+      ]
+    }
+  ]
+}
