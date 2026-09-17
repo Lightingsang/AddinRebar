@@ -41,6 +41,8 @@ public sealed class ScriptGuardTests
     [InlineData("var d = Delegate.CreateDelegate(typeof(Action), doc, \"Delete\"); return 1;", "Delegate is not allowed")]
     [InlineData("var m = ((Func<int>)(() => 1)).Method; return m.Name;", ".Method")]
     [InlineData("using System.Linq.Expressions; return 1;", "System.Linq.Expressions")]
+    [InlineData("#r \"C:\\x\\evil.dll\"\nreturn 1;", "#r is not allowed")]
+    [InlineData("#load \"C:\\x\\part.csx\"\nreturn 1;", "#load is not allowed")]
     public void Rejects_escapes_with_line_and_reason(string code, string expectedFragment)
     {
         var diagnostics = ScriptGuard.Check(code);

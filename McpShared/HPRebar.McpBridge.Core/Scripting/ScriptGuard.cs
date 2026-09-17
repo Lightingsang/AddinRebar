@@ -61,7 +61,16 @@ public static class ScriptGuard
     {
         var tree = CSharpSyntaxTree.ParseText(code, new CSharpParseOptions(kind: SourceCodeKind.Script));
         var walker = new DenyListWalker(profile);
-        walker.Visit(tree.GetRoot());
+        var root = tree.GetCompilationUnitRoot();
+
+        // `#r` / `#load` are trivia, not nodes: the walker never sees them, yet the script compiler would honour them —
+        // a DLL or a file from disk would run with none of the checks below. Scripts get the bridge's references only.
+        foreach (var directive in root.GetReferenceDirectives().Cast<DirectiveTriviaSyntax>().Concat(root.GetLoadDirectives()))
+        {
+            walker.ReportDirective(directive, $"{directive.HashToken}{directive.DirectiveNameToken} is not allowed in {profile.HostName} scripts: they use the bridge's references only, never a file from disk.");
+        }
+
+        walker.Visit(root);
         return walker.Diagnostics;
     }
 
@@ -182,5 +191,7 @@ public static class ScriptGuard
             var position = node.GetLocation().GetLineSpan().StartLinePosition;
             Diagnostics.Add(new ScriptDiagnostic(position.Line + 1, position.Character + 1, DiagnosticId, message));
         }
+
+        public void ReportDirective(DirectiveTriviaSyntax directive, string message) => Report(directive, message);
     }
 }
