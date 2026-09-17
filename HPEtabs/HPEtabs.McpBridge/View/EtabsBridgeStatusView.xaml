@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:EtabsBridgeStatusViewModel}"
         Title="HPEtabs MCP Bridge"
+        Icon="/Resources/HPEtabsMcpBridge.ico"
         Width="600" Height="760"
         MinWidth="520" MinHeight="640"
         WindowStartupLocation="CenterScreen"

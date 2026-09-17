@@ -17,8 +17,13 @@
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
         <!-- Never single-file: the script compiler references this assembly and the engine by Assembly.Location. -->
         <PublishSingleFile>false</PublishSingleFile>
-        <ApplicationIcon />
+        <!-- One glyph for Explorer/taskbar (this) and the window title bar (Window.Icon): tools/icons/render-app-icon.ps1 (rendered from one vector glyph) -->
+        <ApplicationIcon>Resources\HPEtabsMcpBridge.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Resource Include="Resources\HPEtabsMcpBridge.ico"/>
+    </ItemGroup>
 
     <ItemGroup>
         <!-- Compile against the installed ETABS OAPI wrapper, never copy it: the bridge resolves ETABSv1.dll again at run
