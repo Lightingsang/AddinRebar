@@ -61,6 +61,10 @@ public readonly record struct Box(Pt Min, Pt Max)
     /// <summary>Grown (or shrunk with a negative value) by the same amount on every side in the plan.</summary>
     public Box Expand(double byMm) => IsEmpty ? this : new Box(new Pt(Min.X - byMm, Min.Y - byMm, Min.Z), new Pt(Max.X + byMm, Max.Y + byMm, Max.Z));
 
+    /// <summary>True when the boxes are at least <paramref name="distance"/> apart along x or along y — a cheap, conservative "farther than" test (no square root).</summary>
+    public bool SeparatedByXY(Box other, double distance) =>
+        other.Min.X - Max.X >= distance || Min.X - other.Max.X >= distance || other.Min.Y - Max.Y >= distance || Min.Y - other.Max.Y >= distance;
+
     /// <summary>Plan-view overlap test; touching edges count as intersecting when the tolerance is ≥ 0.</summary>
     public bool IntersectsXY(Box other, double tolerance = 0) =>
         !IsEmpty && !other.IsEmpty

@@ -1,0 +1,51 @@
+[
+  {
+    "title": "MEP routes against the structure, 50 mm clearance",
+    "args": {
+      "setA": {
+        "aecTypes": [
+          "Pipe",
+          "Duct",
+          "CableTray"
+        ]
+      },
+      "setB": {
+        "aecTypes": [
+          "StructuralColumn",
+          "StructuralBeam",
+          "StructuralWall"
+        ]
+      },
+      "clearanceMm": 50
+    }
+  },
+  {
+    "title": "Ducts against the pipes and trays: services crossing each other in plan",
+    "args": {
+      "setA": {
+        "aecTypes": [
+          "Duct"
+        ]
+      },
+      "setB": {
+        "aecTypes": [
+          "Pipe",
+          "CableTray"
+        ]
+      }
+    }
+  },
+  {
+    "title": "Every MEP run of the plan against every other, joints and tees listed too",
+    "args": {
+      "setA": {
+        "aecTypes": [
+          "Pipe",
+          "Duct",
+          "CableTray"
+        ]
+      },
+      "minSeverity": "info"
+    }
+  }
+]

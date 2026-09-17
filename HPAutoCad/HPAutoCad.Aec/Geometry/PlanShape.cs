@@ -61,6 +61,28 @@ public sealed class PlanShape
         }
     }
 
+    /// <summary>The bounding box of each segment, in <see cref="Segments"/> order — the broad phase inside every segment-pair loop.</summary>
+    public IReadOnlyList<Box> SegmentBounds => SegmentBoundsArray;
+
+    /// <summary>The segments and their boxes as arrays for the hot loops (segment pairs by the million): no interface dispatch per element.</summary>
+    internal (Seg[] Segments, Box[] Bounds) Hot => (SegmentArray, SegmentBoundsArray);
+
+    private Seg[] SegmentArray => _segments ?? (Seg[])Segments;
+
+    private Box[] SegmentBoundsArray
+    {
+        get
+        {
+            if (_segmentBounds is not null) return _segmentBounds;
+            var segments = SegmentArray;
+            var bounds = new Box[segments.Length];
+            for (var i = 0; i < bounds.Length; i++) bounds[i] = segments[i].Bounds;
+            return _segmentBounds = bounds;
+        }
+    }
+
+    private Box[]? _segmentBounds;
+
     /// <summary>Tessellated length; prefer <see cref="ExactLengthMm"/> when present.</summary>
     public double LengthMm => ExactLengthMm ?? Segments.Sum(s => s.Length);
 

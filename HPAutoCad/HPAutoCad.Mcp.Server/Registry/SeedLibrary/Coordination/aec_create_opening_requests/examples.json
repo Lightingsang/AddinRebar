@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Preview every opening request of the plan",
+    "args": {
+      "apply": false
+    }
+  },
+  {
+    "title": "Ducts through beams and structural walls, 600 mm ducts, thick walls up to 1.5 m",
+    "args": {
+      "routes": {
+        "aecTypes": [
+          "Duct"
+        ]
+      },
+      "hosts": {
+        "aecTypes": [
+          "StructuralBeam",
+          "StructuralWall"
+        ]
+      },
+      "sizes": {
+        "ductMm": 600,
+        "marginMm": 75
+      },
+      "maxChordMm": 1500
+    }
+  },
+  {
+    "title": "Pipes on the M-PIPE layers through the walls, on a project layer",
+    "args": {
+      "routes": {
+        "filter": {
+          "layers": [
+            "M-PIPE*"
+          ]
+        },
+        "aecTypes": [
+          "Pipe"
+        ]
+      },
+      "hosts": {
+        "aecTypes": [
+          "ArchitecturalWall",
+          "StructuralWall"
+        ]
+      },
+      "layer": "S-OPENING-REQ",
+      "textHeightMm": 200
+    }
+  }
+]

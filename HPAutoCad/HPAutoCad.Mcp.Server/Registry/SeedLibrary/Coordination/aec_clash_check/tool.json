@@ -1,0 +1,157 @@
+{
+  "name": "aec_clash_check",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "clash",
+    "coordination",
+    "clearance",
+    "mep",
+    "structure",
+    "check"
+  ],
+  "title": "Clash check between two sets in plan",
+  "description": "Read-only. Finds where two sets of classified AEC entities meet in plan and says what the meeting means. hard_clash (critical): an MEP element (pipe, duct, cable tray, equipment…) interpenetrates something it cannot share the plan with — it crosses, overlaps, lies inside or ends inside a column, beam, wall or door/window, or two runs of different services cross; locationMm = the crossing (or a point inside the overlap). clearance_clash (warning): the shapes stay apart but their boundaries are closer than clearanceMm; valueMm = the gap, locationMm = its middle. contact (info): the boundaries meet without interpenetration — a beam end on a column face or at its centre, a pipe teeing into a main (a few mm of overshoot included), equipment on the end of a duct, a door in its wall, any two structural/architectural members meeting: joints, not clashes. area_overlap (info): one lies inside, or crosses the edge of, a Room or StructuralSlab outline — the normal state of a floor. minSeverity (default warning) lists hard and clearance clashes only; contacts and area overlaps are still counted in the summary (contacts, areaOverlaps, belowMinSeverity) and listed with minSeverity info. A set is {filter, aecTypes}: the filter picks entities (wildcards, handles, space), they are classified with the rule set, and aecTypes keeps the types wanted (empty = every classified type). setB {} = check setA against itself (each pair once, never an entity against itself). Subjects pair only within one space (model, or one layout). A set that classifies nothing is warned, not refused. A plan has no heights: a duct crossing a beam in plan is a clash to confirm on the sections, and the description says so; MEP-through-structure pairs point at aec_create_opening_requests. Issues carry the shared audit fields (issueId CL-nnnn, category coordination, type, severity, handles [a, b], locationMm, valueMm, description, suggestedAction, rule 'TypeA×TypeB') severity-first and can be passed to create_issue_markup. Broad phase over bounding boxes grown by the clearance, narrow phase over the exact plan shapes; stops at 200 000 candidate pairs or 200 000 000 segment pairs with a warning and truncated. Millimetres. Returns the analysis envelope (max 80 issues per page; summary: found, listed, belowMinSeverity, hard, clearance, contacts, areaOverlaps, bySeverity, byPair (hard + clearance, top 20), pairsChecked).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "setA": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "layers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "handles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "space": {
+                "type": "string"
+              },
+              "visibleOnly": {
+                "type": "boolean"
+              }
+            },
+            "description": "Which entities to classify (wildcards, handles); empty = model space"
+          },
+          "aecTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "AEC types kept after classification (StructuralColumn, StructuralBeam, StructuralWall, StructuralSlab, ArchitecturalWall, Door, Window, Room, Pipe, Duct, CableTray, Equipment, Fixture, Terminal, Fitting…); empty = every classified type"
+          }
+        },
+        "description": "The first set; empty = every classified entity of model space"
+      },
+      "setB": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "layers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "handles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "space": {
+                "type": "string"
+              },
+              "visibleOnly": {
+                "type": "boolean"
+              }
+            },
+            "description": "Which entities to classify (wildcards, handles); empty = model space"
+          },
+          "aecTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "AEC types kept after classification (StructuralColumn, StructuralBeam, StructuralWall, StructuralSlab, ArchitecturalWall, Door, Window, Room, Pipe, Duct, CableTray, Equipment, Fixture, Terminal, Fitting…); empty = every classified type"
+          }
+        },
+        "description": "The second set; {} = setA against itself"
+      },
+      "ruleSet": {
+        "type": "string",
+        "description": "Classification rule set: default | user | <file name in the rules folder>"
+      },
+      "tolerance": {
+        "type": "object",
+        "description": "Geometry tolerances in mm / degrees (pointEquality, endpointConnection, collinearity, parallelAngle, duplicate, tinySegment, roomGap)"
+      },
+      "clearanceMm": {
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "description": "Required clearance between the two sets' boundaries in plan; 0 = hard clashes only"
+      },
+      "minSeverity": {
+        "type": "string",
+        "enum": [
+          "critical",
+          "warning",
+          "info"
+        ],
+        "default": "warning",
+        "description": "Lowest severity listed: warning (default) = hard + clearance clashes; info adds contacts and area overlaps"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 80,
+        "minimum": 1,
+        "maximum": 80
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      },
+      "maxCandidates": {
+        "type": "integer",
+        "default": 5000,
+        "minimum": 1,
+        "maximum": 100000,
+        "description": "Entities scanned per set"
+      }
+    }
+  }
+}

@@ -30,7 +30,7 @@ requested layering onto what `HPAutoCad/` + `McpShared/` already are, and fixes 
 | E — Structural | [phase-E](phase-E-structural.md) | `structural_detect_grids`, `structural_detect_members`, `structural_member_connectivity_check`, `structural_column_alignment_check`, `structural_opening_conflict_check`, `structural_tag_members`, `structural_generate_member_schedule` | completed 2026-09-17 — [report](reports/phase-E-structural-live.md) (incl. review round 5/10 → fixed) |
 | F — Architecture | [phase-F](phase-F-architecture.md) | `arch_detect_rooms`, `arch_room_boundary_check`, `arch_create_room_tags`, `arch_generate_area_schedule`, `arch_auto_dimension_plan` | completed 2026-09-17 — [report](reports/phase-F-architecture-live.md) (incl. review round 5/10 → fixed) |
 | G — MEP | [phase-G](phase-G-mep-network.md) | `mep_detect_network`, `mep_connectivity_check`, `mep_endpoint_check` | completed 2026-09-17 — [report](reports/phase-G-mep-live.md) (incl. review round 5.5/10 → fixed) |
-| H — Coordination | [phase-H](phase-H-coordination-clash-openings.md) | `aec_clash_check`, `aec_create_opening_requests` | pending |
+| H — Coordination | [phase-H](phase-H-coordination-clash-openings.md) | `aec_clash_check`, `aec_create_opening_requests` | completed 2026-09-17 — [report](reports/phase-H-coordination-live.md) (incl. review round 5.5/10 → fixed) |
 | I — Change management | [phase-I](phase-I-change-sets.md) | begin / preview / commit / rollback / summary of logical change sets | pending |
 
 Each phase ends with: build 0 warnings, xUnit (Aec pure + seed compile), live smoke of every new tool through the stdio server against

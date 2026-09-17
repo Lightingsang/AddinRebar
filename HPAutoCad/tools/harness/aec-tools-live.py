@@ -10,6 +10,10 @@
   N  structural_detect_grids (A/B × 1/2 with bubbles + labels, intersections, spacing), structural_detect_members (columns 400×400, beams,
      slab, openings, marks), connectivity (b2 gap 7 mm under a 5 mm tolerance), column alignment (grid B at y = 5010 → 2 columns off by
      10 mm under a 5 mm tolerance), opening conflicts (one through column c1, one outside the slab)
+  R  arch_detect_rooms / arch_room_boundary_check / arch_generate_area_schedule on the two-room plan
+  V  mep_detect_network / mep_connectivity_check / mep_endpoint_check on the MEP set
+  W  aec_clash_check (pipe × beams / room wall hard, slab edge an area overlap; minSeverity; clearance 50 mm on the 7 mm beam gap located
+     in the gap; a frame against itself = contacts only; the pipe set: overlap / clearance / tee; paging; argument errors, empty set warned)
   T  cad_standards_check (layer naming, entity layer, layer 0, colour override, unused layer; stable STD ids; checks subset; bad rule set) +
      audit_aec_drawing (geometry + standards in one stable order, minSeverity, paging, sections)
   E  error paths: invalid handle -> errors[] with INVALID_HANDLE, erased handle, unknown measure -> isError (ArgumentException)
@@ -515,6 +519,57 @@ def main():
         nor = value(s.tool("mep_connectivity_check", {"filter": {"layers": ["M-DIFF"]}})) or {}
         check("V connectivity on the diffuser layer alone (no runs) -> warned, no orphan issues", nor.get("count") == 0 and any("No pipe" in w for w in nor.get("warnings", [])), short(nor.get("warnings"), 200))
         save("mep", {"network": net, "systems": sysn, "loose": loose, "connectivity": cc, "endpoints": [ep, epall]})
+
+        # ---- W: coordination (clash check) ---------------------------------------------------------------------------------
+        hosts_w = {"filter": {"handles": [h["b1"], h["b2"], h["b3"], h["room"], h["slab"]]}}
+        cw = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["pipe"]]}, "aecTypes": ["Pipe"]}, "setB": hosts_w})) or {}
+        cws = cw.get("summary") or {}
+        cw_by = {i["handles"][1]: i for i in cw.get("items", [])}
+        check("W clash check pipe x {b1, b2, b3, room, slab}: 3 hard clashes listed — crosses b1 and b3 at (3000,0), crosses the room wall at (3000,1000); the slab edge crossing is an area_overlap (info) counted, not listed; b2 clear; ids CL-0001..3, all critical, rule Pipe×Type, byPair counts",
+              cw.get("success") and cw.get("count") == 3 and set(cw_by) == {h["b1"], h["b3"], h["room"]} and all(i["type"] == "hard_clash" and i["severity"] == "critical" and i["handles"][0] == h["pipe"] and i["category"] == "coordination" for i in cw.get("items", []))
+              and [i["issueId"] for i in cw["items"]] == ["CL-0001", "CL-0002", "CL-0003"] and near(cw_by[h["b1"]]["locationMm"]["x"], 3000) and near(cw_by[h["b1"]]["locationMm"]["y"], 0) and "crosses" in cw_by[h["b1"]]["description"]
+              and near(cw_by[h["room"]]["locationMm"]["x"], 3000) and near(cw_by[h["room"]]["locationMm"]["y"], 1000) and cw_by[h["room"]].get("rule") == "Pipe×ArchitecturalWall"
+              and cws.get("hard") == 3 and cws.get("clearance") == 0 and cws.get("areaOverlaps") == 1 and cws.get("found") == 4 and cws.get("listed") == 3 and cws.get("belowMinSeverity") == 1 and cws.get("minSeverity") == "warning"
+              and (cws.get("byPair") or {}).get("Pipe×StructuralBeam") == 2 and (cws.get("setA") or {}).get("subjects") == 1 and (cws.get("setB") or {}).get("subjects") == 5 and cws.get("sameSet") is False,
+              f"{short(cws, 300)} items={short([(i['handles'][1], i['description']) for i in cw.get('items', [])], 400)}")
+        cwi = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["pipe"]]}}, "setB": hosts_w, "minSeverity": "info"})) or {}
+        slab_i = next((i for i in cwi.get("items", []) if i["handles"][1] == h["slab"]), {})
+        check("W minSeverity info lists the slab edge crossing too: area_overlap info 'crosses the edge of' at (3000,-500), last", cwi.get("count") == 4 and slab_i.get("type") == "area_overlap" and slab_i.get("severity") == "info" and "crosses the edge of" in slab_i.get("description", "")
+              and near(slab_i.get("locationMm", {}).get("y"), -500) and cwi["items"][-1]["issueId"] == "CL-0004", short(slab_i, 300))
+        cwp = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["pipe"]]}}, "setB": hosts_w, "limit": 1, "offset": 1})) or {}
+        check("W paging offset 1 limit 1 -> CL-0002 alone, count 3, truncated", [i["issueId"] for i in cwp.get("items", [])] == ["CL-0002"] and cwp.get("count") == 3 and cwp.get("truncated") is True and cwp.get("offset") == 1, short(cwp.get("items"), 200))
+        cl50 = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b2"]]}}, "setB": {"filter": {"handles": [h["c4"], h["c3"]]}}, "clearanceMm": 50})) or {}
+        cl50i = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b2"]]}}, "setB": {"filter": {"handles": [h["c4"], h["c3"]]}}, "clearanceMm": 50, "minSeverity": "info"})) or {}
+        cl5 = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b2"]]}}, "setB": {"filter": {"handles": [h["c4"]]}}, "clearanceMm": 5})) or {}
+        gap = (cl50.get("items") or [{}])[0]
+        check("W clearance 50 mm: b2 stops 7 mm short of c4 -> clearance_clash warning, valueMm 7, located in the gap (x 5793..5800, y 5000); b2 on c3 is a contact counted (info, listed with minSeverity info as 'meets'); clearance 5 mm -> nothing",
+              cl50.get("count") == 1 and gap.get("type") == "clearance_clash" and gap.get("severity") == "warning" and gap.get("handles") == [h["b2"], h["c4"]] and near(gap.get("valueMm"), 7, 0.01) and "50 mm required" in gap.get("description", "")
+              and 5793 <= gap.get("locationMm", {}).get("x", 0) <= 5800 and near(gap.get("locationMm", {}).get("y"), 5000) and (cl50.get("summary") or {}).get("contacts") == 1 and (cl50.get("summary") or {}).get("clearance") == 1
+              and cl50i.get("count") == 2 and any(i["type"] == "contact" and i["handles"] == [h["b2"], h["c3"]] and "meets" in i["description"] for i in cl50i.get("items", [])) and cl5.get("count") == 0 and cl5.get("success") is True,
+              f"{short(gap, 300)} info={short(cl50i.get('items'), 300)} cl5={cl5.get('count')}")
+        same = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b1"], h["b3"], h["c1"], h["c2"]]}}})) or {}
+        samei = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b1"], h["b3"], h["c1"], h["c2"]]}}, "minSeverity": "info"})) or {}
+        same_pairs = sorted(tuple(sorted(i["handles"])) for i in samei.get("items", []))
+        check("W a frame against itself: no clash — 5 contacts (b1×b3 runs along, each beam meets both columns), each pair once, never an entity with itself; summary sameSet + no setB; listed only with minSeverity info",
+              same.get("count") == 0 and (same.get("summary") or {}).get("contacts") == 5 and (same.get("summary") or {}).get("hard") == 0 and (same.get("summary") or {}).get("pairsChecked") == 5 and (same.get("summary") or {}).get("sameSet") is True and (same.get("summary") or {}).get("setB") is None
+              and samei.get("count") == 5 and len(same_pairs) == len(set(same_pairs)) and all(a != b for a, b in same_pairs) and all(i["type"] == "contact" and i["severity"] == "info" for i in samei.get("items", []))
+              and any(set(i["handles"]) == {h["b1"], h["b3"]} and "runs along" in i["description"] for i in samei.get("items", [])), f"{short(same.get('summary'), 250)} pairs={same_pairs}")
+        mep = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["mpMain"], h["mpBr"], h["mpDup"], h["mpShort"]]}}, "clearanceMm": 100})) or {}
+        mep_by = {i["type"]: i for i in mep.get("items", [])}
+        check("W the pipe set against itself, clearance 100: the copy over the main is a hard overlap, the 50 mm short branch a clearance clash at (67000, 25), the tee a contact counted",
+              mep.get("count") == 2 and set(mep_by["hard_clash"]["handles"]) == {h["mpMain"], h["mpDup"]} and "overlaps" in mep_by["hard_clash"]["description"]
+              and set(mep_by["clearance_clash"]["handles"]) == {h["mpMain"], h["mpShort"]} and near(mep_by["clearance_clash"].get("valueMm"), 50, 0.01) and near(mep_by["clearance_clash"]["locationMm"]["x"], 67000) and near(mep_by["clearance_clash"]["locationMm"]["y"], 25)
+              and (mep.get("summary") or {}).get("contacts") == 1 and (mep.get("summary") or {}).get("hard") == 1, f"{short(mep.get('summary'), 250)} items={short(mep.get('items'), 400)}")
+        cwb = s.tool("aec_clash_check", {"setA": {"aecTypes": ["Bogus"]}})
+        cwn = value(s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["text"]]}}})) or {}
+        cwc = s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b1"]]}}, "clearanceMm": -1})
+        cwk = s.tool("aec_clash_check", {"setA": {"layers": ["S-*"]}})
+        cwm = s.tool("aec_clash_check", {"setA": {"filter": {"handles": [h["b1"]]}}, "minSeverity": "high"})
+        check("W errors: unknown AEC type, negative clearance, a set key that is not filter/aecTypes, an unknown minSeverity -> ArgumentException each; a set that classifies nothing -> empty result with a warning",
+              cwb.get("isError") and "not an AEC type" in (cwb.get("message") or "") and cwn.get("success") is True and cwn.get("count") == 0 and any("matched no classified entity" in w for w in cwn.get("warnings", []))
+              and cwc.get("isError") and "clearanceMm" in (cwc.get("message") or "") and cwk.get("isError") and "not a set key" in (cwk.get("message") or "") and cwm.get("isError") and "minSeverity" in (cwm.get("message") or ""),
+              short([cwb.get("message"), cwn.get("warnings"), cwc.get("message"), cwk.get("message"), cwm.get("message")], 500))
+        save("coordination", {"clash": cw, "info": cwi, "page": cwp, "clearance": cl50, "same": samei, "mep": mep})
 
         # ---- T: standards + audit ---------------------------------------------------------------------------------------
         std = value(s.tool("cad_standards_check", {})) or {}

@@ -100,13 +100,15 @@ ops refuse the whole op on any bad key; batches take up to 200 items.
 | `mep_detect_network` | MEP | pipes / ducts / trays as runs, equipment / fixtures / terminals / fittings as nodes → networks `N-nnn` (joined, tee, node connections within endpointConnection; inline nodes attached; a node never merges systems; crossings not connections); systems from `detection.systems` or the layer; paged 30 |
 | `mep_connectivity_check` | MEP | `near_miss` (one per facing pair), `open_end`, `disconnected_run`, `orphan_node`, `duplicate_run` (collinear or a copy a few mm off), `mixed_system` → `MEP-nnn` |
 | `mep_endpoint_check` | MEP | every open end (near misses first) with location, state, what it connects to, the nearest run/node and the gap; `includeConnected` for all ends; paged 150 |
+| `aec_clash_check` | Coordination | two sets `{filter, aecTypes}` in plan: `hard_clash` (an MEP element crossing / inside / ending inside a member or another service's run), `clearance_clash` (< `clearanceMm`, located in the gap), `contact` and `area_overlap` (info, counted; listed with `minSeverity: info`) → `CL-nnnn`; setB `{}` = setA against itself; one space at a time |
+| `aec_create_opening_requests` | Coordination | one request per route pass through a wall / beam (line: side change; outline: the stretch inside, ≤ `maxChordMm`): rectangle turned along the host + MLeader `OPN-nnn` on `HP-MCP-OPENINGS`; sizes per route kind + margin; `apply: false` previews; max 100 |
 | `create_issue_markup` | Annotation | circle / rectangle / revcloud + MLeader `<id>: <description>` per issue object on `HP-MCP-ISSUES` (created on demand), coloured by severity; original geometry never touched |
 
 Tolerances (mm / degrees, `GeometryTolerance`): pointEquality 0.5 · endpointConnection 10 · collinearity 1 · parallelAngle 0.5° ·
 duplicate 1 · tinySegment 5 · roomGap 25 — any member can be overridden per call. Error codes (`ToolErrorCode`): INVALID_ARGUMENT,
 INVALID_HANDLE, ERASED, NOT_AN_ENTITY, UNSUPPORTED_ENTITY, NO_GEOMETRY, LAYER_LOCKED, LAYER_FROZEN, LIMIT_EXCEEDED, NOT_CLOSED, INTERNAL.
-Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (83 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 89 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
-Next phases: H coordination, I change sets — see the plan (phases A–G done: 43 seeds, 55 tools on the server).
+Live check: `pwsh HPAutoCad/tools/harness/run-aec-tools-live.ps1` (90 checks on a scene the harness draws; the write tools: `run-aec-edit-tools-live.ps1`, 96 checks — every op with dryRun + commit, locked/frozen/erased/block-definition paths, an associative hatch following its boundary, an xref the run writes itself, `U` reverting a batch — incl. a mirrored arc, a bulge polyline, a hatch, a block with attributes, classification + relationships, and a 3 000-line performance grid; Debug exe, isolated registry).
+Next phase: I change sets — see the plan (phases A–H done: 45 seeds, 57 tools on the server).
 
 ## Target
 

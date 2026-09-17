@@ -38,7 +38,8 @@ public sealed class HostProfileTests
         Assert.Same(typeof(AutocadHostProfile).Assembly, profile.HostAssembly);
         Assert.Contains("Architecture", profile.Categories);
         Assert.Contains("MEP", profile.Categories);
-        Assert.DoesNotContain(profile.Categories, c => c is "Coordination");
+        Assert.Contains("Coordination", profile.Categories);
+        Assert.DoesNotContain(profile.Categories, c => c is "ChangeSets");
     }
 
     [Fact]

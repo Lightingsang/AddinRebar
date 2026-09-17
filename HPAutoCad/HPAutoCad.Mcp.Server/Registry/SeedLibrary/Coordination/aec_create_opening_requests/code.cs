@@ -1,0 +1,12 @@
+var routes = args.Obj("routes");
+var hosts = args.Obj("hosts");
+string ruleSet = args.Str("ruleSet");
+var tolerance = args.Obj("tolerance");
+var sizes = args.Obj("sizes");
+double maxChordMm = args.Double("maxChordMm", 1000);
+string layer = args.Str("layer");
+double textHeightMm = args.Double("textHeightMm", 150);
+string space = args.Str("space");
+bool apply = args.Bool("apply", true);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.AecCreateOpeningRequests(db, ed, tr, units, ct, log, routes, hosts, ruleSet, tolerance, sizes, maxChordMm, layer, textHeightMm, space, apply, maxCandidates);

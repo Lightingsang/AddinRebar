@@ -39,7 +39,10 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
   MEP set (a pipe main with a tee branch, a branch 50 mm short, a lost run, a copy over the main, an inline valve block, a duct served by a diffuser block, an
   orphan diffuser): `mep_detect_network` (5 networks, the valve attached, 2 m drawn twice, systems by layer map, endpointConnection 60 joins the short branch,
   nearMissMm not above endpointConnection refused), `mep_connectivity_check` (near miss, open ends, disconnected runs, duplicate, one orphan; no runs → warned,
-  no orphans), `mep_endpoint_check` (open ends near misses first, includeConnected). 83 checks. 2026-09-17: 83/83 (phase F: 75/75; phase E: 68/68; 2026-09-16 phase D: 63/63).
+  no orphans), `mep_endpoint_check` (open ends near misses first, includeConnected). Phase H adds step W: `aec_clash_check` (the pipe polyline × beams / room wall
+  = hard, the slab edge an area_overlap behind minSeverity; clearance 50 mm on the 7 mm beam gap located in the gap; a frame against itself = contacts
+  only; the pipe set: overlap / clearance / tee; paging; argument errors; an empty set warned). 90 checks. 2026-09-17: 90/90 (phase G: 83/83; phase F: 75/75;
+  phase E: 68/68; 2026-09-16 phase D: 63/63).
 - `run-aec-edit-tools-live.ps1` + `aec-edit-tools-live.py` — the AEC write tools (phases C–D) through the same launcher (`run-aec-tools-live.ps1 -Script`)
   on their own output folder: a scene with a locked and a frozen layer, a room, a column, an open outline, a text and an attributed block;
   `create_entities_batch` (5 types in one atomic batch, atomic refusal on a locked layer with nothing created, non-atomic partial, frozen

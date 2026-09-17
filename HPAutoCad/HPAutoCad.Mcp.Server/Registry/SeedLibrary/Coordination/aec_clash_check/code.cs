@@ -1,0 +1,10 @@
+var setA = args.Obj("setA");
+var setB = args.Obj("setB");
+string ruleSet = args.Str("ruleSet");
+var tolerance = args.Obj("tolerance");
+double clearanceMm = args.Double("clearanceMm", 0);
+string minSeverity = args.Str("minSeverity");
+int limit = args.Int("limit", 80);
+int offset = args.Int("offset", 0);
+int maxCandidates = args.Int("maxCandidates", 5000);
+return AecTools.AecClashCheck(db, ed, tr, units, ct, log, setA, setB, ruleSet, tolerance, clearanceMm, minSeverity, limit, offset, maxCandidates);

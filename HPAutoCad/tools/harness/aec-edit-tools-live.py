@@ -13,6 +13,9 @@
      dryRun rolled back, atomic refusal for an issue without a location, locked markup layer refused
   M  structural_tag_members (preview, apply → texts on S-ANNO-TEXT, existing mark kept, dryRun) + structural_generate_member_schedule
      (rows; writeTable → one ACAD_TABLE)
+  O  aec_create_opening_requests: a pipe line through the beam, a wall line and across the room outline -> preview 2 requests + the 6.75 m
+     chord skipped (maxChordMm 8000 takes it; aec_clash_check agrees on the pairs), dryRun rolled back, locked request layer refused, bad
+     size key refused, empty hosts warned, apply -> 2 rectangles + 2 leaders
   D  undo: U after a REGEN boundary reverts the last batch (COM)
 The PowerShell wrapper (run-aec-edit-tools-live.ps1) starts AutoCAD, ticks the opt-in and calls this. Prints PASS/FAIL lines and a JSON summary.
 """
@@ -92,6 +95,16 @@ return args.Str("path");
 '''
 
 COUNT = "var ms = (BlockTableRecord)tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead); var n = 0; foreach (ObjectId id in ms) if (!id.IsErased) n++; return n;"
+
+PIPE = r'''
+var lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForWrite);
+var rec = new LayerTableRecord { Name = "M-PIPE", Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 4) };
+var layerId = lt.Add(rec); tr.AddNewlyCreatedDBObject(rec, true);
+var ms = (BlockTableRecord)tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForWrite);
+var line = new Line(new Point3d(units.ToDrawing(5000), units.ToDrawing(-1000), 0), new Point3d(units.ToDrawing(5000), units.ToDrawing(8000), 0)) { LayerId = layerId };
+ms.AppendEntity(line); tr.AddNewlyCreatedDBObject(line, true);
+return line.Handle.ToString();
+'''
 
 
 def value(r):
@@ -492,6 +505,50 @@ def main():
         ddq = value(s.tool("query_entities", {"filter": {"types": ["DIMENSION"], "handles": dd.get("affectedHandles", [])}, "properties": ["type", "text"]})) or {}
         check("A auto-dimension apply -> 2 aligned DIMENSION entities measuring the room's bounds", dd.get("createdCount") == 2 and ddq.get("count") == 2 and sorted(round(float(i.get("text") or 0), 1) for i in ddq.get("items", [])) == rsize and count() == n_a + 3, f"{short(dd.get('summary'), 200)} q={short(ddq.get('items'), 300)}")
         save("architecture-write", {"preview": rtp, "tags": rt, "plan": dp, "dimensions": [dd, ddq]})
+
+        # ---- O: coordination writes (opening requests) ---------------------------------------------------------------------------
+        n_o = count()
+        # a pipe line crossing the whole plan at x = 5000: the beam (y 1200), the S-BEAM line the U step moved onto A-WALL (y 4800) and the room
+        # outline (in at y 0, out at y 6750 on the raised top edge — a 6.75 m chord, a run across the room, not an opening); the column and the
+        # open outline are elsewhere
+        pipe_r = s.tool("execute_autocad_code", {"code": PIPE, "transaction": "auto", "label": "pipe line"}, timeout=60)
+        pipe_h = value(pipe_r)
+        hosts_o = {"filter": {"handles": [h["beam"], h["room"], created[1]]}}
+        routes_o = {"filter": {"handles": [pipe_h]}}
+        op_r = s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "apply": False})
+        op = value(op_r) or {}
+        ops = (op.get("summary") or {}).get("plan") or {}
+        centres = sorted((round(r["centerMm"]["x"]), round(r["centerMm"]["y"])) for r in ops.get("requests", []))
+        check("O preview -> 2 requests OPN-001..2 for the pipe: through the beam at (5000,1200) and the wall line at (5000,4800); the 6.75 m chord across the room outline skipped and counted (longChordsSkipped 1 + warning); 250 x 250 (pipe 150 + 2 x 50), nothing drawn",
+              isinstance(pipe_h, str) and op.get("createdCount") == 0 and ops.get("requested") == 2 and ops.get("drawn") == 0 and ops.get("truncated") is False and centres == [(5000, 1200), (5000, 4800)]
+              and [r["id"] for r in ops.get("requests", [])] == ["OPN-001", "OPN-002"] and all(r["widthMm"] == 250 and r["heightMm"] == 250 and r["route"] == pipe_h and r["routeType"] == "Pipe" for r in ops.get("requests", []))
+              and {r["host"] for r in ops.get("requests", [])} == {h["beam"], created[1]} and (op.get("summary") or {}).get("routes") == 1 and (op.get("summary") or {}).get("hosts") == 3
+              and (op.get("summary") or {}).get("longChordsSkipped") == 1 and (op.get("summary") or {}).get("maxChordMm") == 1000 and any("longer than maxChordMm" in w for w in op.get("warnings", [])) and count() == n_o + 1,
+              f"pipe={short(pipe_r.get('message') or pipe_h)} {short(op.get('summary') or op_r, 500)}")
+        opw = value(s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "apply": False, "maxChordMm": 8000})) or {}
+        opws = (opw.get("summary") or {}).get("plan") or {}
+        check("O maxChordMm 8000 -> the room outline pass too, at the route's middle inside (5000,3375); 3 requests, nothing skipped",
+              opws.get("requested") == 3 and any(round(r["centerMm"]["x"]) == 5000 and round(r["centerMm"]["y"]) == 3375 and r["host"] == h["room"] for r in opws.get("requests", [])) and (opw.get("summary") or {}).get("longChordsSkipped") == 0, short(opws, 300))
+        cx = value(s.tool("aec_clash_check", {"setA": routes_o, "setB": hosts_o})) or {}
+        check("O aec_clash_check on the same sets agrees: 3 hard clashes, one per host, the same route/host pairs as the 3-request plan", cx.get("count") == 3 and sorted(i["handles"][1] for i in cx.get("items", [])) == sorted(r["host"] for r in opws.get("requests", [])) and all(i["handles"][0] == pipe_h and i["type"] == "hard_clash" for i in cx.get("items", [])), short(cx.get("summary"), 200))
+        od = s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "sizes": {"pipeMm": 200}, "dryRun": True})
+        check("O dryRun -> 4 entities created in the run (2 rectangles + 2 leaders), rolled back, nothing persists", (value(od) or {}).get("createdCount") == 4 and od.get("rolledBack") is True and count() == n_o + 1, short(od.get("changed")))
+        ol = value(s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "layer": "LOCKED"})) or {}
+        check("O request layer locked -> LAYER_LOCKED refusal, nothing created", ol.get("success") is False and (ol.get("errors") or [{}])[0].get("code") == "LAYER_LOCKED" and count() == n_o + 1, short(ol.get("errors"), 200))
+        ob = s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "sizes": {"pipe": 200}})
+        oh = value(s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": {"filter": {"handles": [h["text"]]}}})) or {}
+        check("O unknown size key -> ArgumentException; hosts that classify to nothing -> warned, 0 requested, nothing drawn", ob.get("isError") and "sizes.pipe" in (ob.get("message") or "") and ((oh.get("summary") or {}).get("plan") or {}).get("requested") == 0 and any("hosts matched no" in w for w in oh.get("warnings", [])) and count() == n_o + 1, short([ob.get("message"), oh.get("warnings")], 300))
+        oa = value(s.tool("aec_create_opening_requests", {"routes": routes_o, "hosts": hosts_o, "sizes": {"pipeMm": 200, "marginMm": 25}, "textHeightMm": 200})) or {}
+        oas = (oa.get("summary") or {}).get("plan") or {}
+        oq = value(s.tool("query_entities", {"filter": {"layers": ["HP-MCP-OPENINGS"]}, "properties": ["type", "layer"]})) or {}
+        otypes = sorted(i.get("type") for i in oq.get("items", []))
+        orect = value(s.tool("query_entities", {"filter": {"handles": [(oas.get("written") or [{}])[0].get("rectangleHandle", "0")]}, "mode": "detail"})) or {}
+        og = ((orect.get("items") or [{}])[0].get("geometry") or {})
+        check("O apply -> 4 entities on the created layer HP-MCP-OPENINGS (2 closed 4-vertex LWPOLYLINE 250 x 250 = 200 + 2 x 25, 2 MULTILEADER); summary lists what was written with both handles per request; the pipe and hosts untouched",
+              oa.get("createdCount") == 4 and oas.get("drawn") == 2 and oas.get("layerCreated") is True and oas.get("layer") == "HP-MCP-OPENINGS" and len(oas.get("written") or []) == 2 and all(w.get("rectangleHandle") and w.get("leaderHandle") for w in oas["written"])
+              and otypes == ["LWPOLYLINE", "LWPOLYLINE", "MULTILEADER", "MULTILEADER"] and og.get("closed") is True and len(og.get("vertices") or []) == 4 and near(og.get("areaMm2"), 250 * 250, 1)
+              and all(i.get("ok") and i.get("handle") and any(c.startswith("leader:") for c in i.get("changed") or []) for i in oa.get("items", [])) and count() == n_o + 5, f"{short(oas, 300)} q={short(otypes)} g={short(og, 200)}")
+        save("coordination-write", {"preview": op, "wide": opw, "clash": cx, "apply": oa, "query": oq})
 
         # ---- D: undo -------------------------------------------------------------------------------------------------------
         acad_com("$a.ActiveDocument.SendCommand('_REGEN ')"); time.sleep(1)

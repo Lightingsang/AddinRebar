@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using HPAutoCad.Aec.Geometry;
 
 namespace HPAutoCad.Aec.Spatial;
@@ -11,20 +12,59 @@ public sealed record SpatialMatch(bool Holds, double? DistanceMm, IReadOnlyList<
 /// </summary>
 public static class SpatialPredicates
 {
-    /// <summary>Shortest plan distance between the two shapes' geometry; 0 when they intersect or one lies inside the other.</summary>
-    public static double DistanceXY(PlanShape a, PlanShape b, GeometryTolerance tol)
+    /// <summary>Above this many segment pairs the larger shape's segments are indexed once (cached per shape) and each segment of the other queries it.</summary>
+    public const int IndexedSegmentPairs = 4096;
+
+    private static readonly ConditionalWeakTable<PlanShape, SpatialIndex<int>> SegmentIndexes = new();
+
+    private static SpatialIndex<int> SegmentIndex(PlanShape shape) => SegmentIndexes.GetValue(shape, s =>
+    {
+        var index = new SpatialIndex<int>();
+        var (_, bounds) = s.Hot;
+        for (var i = 0; i < bounds.Length; i++) index.Insert(bounds[i], i);
+        return index;
+    });
+
+    /// <summary>
+    ///     Shortest plan distance between the two shapes' geometry; 0 when they intersect or one lies inside the other. With
+    ///     <paramref name="upTo"/> the search stops caring beyond it: the result is exact below the bound and at least the bound otherwise,
+    ///     which lets a clearance check skip every segment pair whose boxes are already further apart.
+    /// </summary>
+    public static double DistanceXY(PlanShape a, PlanShape b, GeometryTolerance tol, double upTo = double.PositiveInfinity)
     {
         if (a.IsPoint && b.IsPoint) return a.Start.DistanceXY(b.Start);
         if (a.IsPoint) return PointToShape(a.Start, b, tol);
         if (b.IsPoint) return PointToShape(b.Start, a, tol);
+        if (a.Bounds.DistanceXY(b.Bounds) >= upTo) return upTo;
         if (a.Bounds.IntersectsXY(b.Bounds, tol.PointEquality) && (AnyVertexInside(a, b, tol) || AnyVertexInside(b, a, tol))) return 0;
 
-        var best = double.PositiveInfinity;
-        foreach (var s in a.Segments)
-        foreach (var t in b.Segments)
+        var best = upTo;
+        var (sa, ba) = a.Hot;
+        var (sb, bb) = b.Hot;
+        var indexed = (long)sa.Length * sb.Length > IndexedSegmentPairs;
+        if (indexed && double.IsPositiveInfinity(best)) best = Math.Min(b.DistanceToBoundaryXY(a.Start), a.DistanceToBoundaryXY(b.Start)); // a finite bound to query with
+        var index = indexed ? SegmentIndex(b) : null;
+        for (var i = 0; i < sa.Length; i++)
         {
-            best = Math.Min(best, s.DistanceXY(t));
-            if (best <= 0) return 0;
+            if (ba[i].SeparatedByXY(b.Bounds, best)) continue;
+            if (index is null)
+            {
+                for (var j = 0; j < sb.Length; j++)
+                {
+                    if (ba[i].SeparatedByXY(bb[j], best)) continue;
+                    best = Math.Min(best, sa[i].DistanceXY(sb[j]));
+                    if (best <= 0) return 0;
+                }
+            }
+            else
+            {
+                foreach (var j in index.Query(ba[i], best))
+                {
+                    if (ba[i].SeparatedByXY(bb[j], best)) continue;
+                    best = Math.Min(best, sa[i].DistanceXY(sb[j]));
+                    if (best <= 0) return 0;
+                }
+            }
         }
 
         return best;
@@ -116,20 +156,20 @@ public static class SpatialPredicates
     {
         if (!a.Bounds.IntersectsXY(b.Bounds, tol.PointEquality)) return [];
         var points = new List<Pt>();
-        foreach (var s in a.Segments)
+        var (sa, ba) = a.Hot;
+        var (sb, bb) = b.Hot;
+        var index = (long)sa.Length * sb.Length > IndexedSegmentPairs ? SegmentIndex(b) : null;
+        for (var i = 0; i < sa.Length; i++)
         {
-            var sb = s.Bounds.Expand(tol.PointEquality);
-            foreach (var t in b.Segments)
+            if (!ba[i].IntersectsXY(b.Bounds, tol.PointEquality)) continue;
+            if (index is null)
             {
-                if (!sb.IntersectsXY(t.Bounds)) continue;
-                if (proper)
-                {
-                    if (GeometryMath.CrossesProperlyXY(s, t, tol.PointEquality, out var p)) AddDistinct(points, p, tol.PointEquality);
-                }
-                else if (GeometryMath.IntersectXY(s, t, tol.PointEquality, out var p) != IntersectionKind.None)
-                {
-                    AddDistinct(points, p, tol.PointEquality);
-                }
+                for (var j = 0; j < sb.Length; j++)
+                    if (ba[i].IntersectsXY(bb[j], tol.PointEquality)) Meet(sa[i], sb[j], proper, tol, points);
+            }
+            else
+            {
+                foreach (var j in index.Query(ba[i], tol.PointEquality)) Meet(sa[i], sb[j], proper, tol, points);
             }
         }
 
@@ -150,6 +190,18 @@ public static class SpatialPredicates
         }
 
         return points;
+    }
+
+    private static void Meet(Seg s, Seg t, bool proper, GeometryTolerance tol, List<Pt> points)
+    {
+        if (proper)
+        {
+            if (GeometryMath.CrossesProperlyXY(s, t, tol.PointEquality, out var p)) AddDistinct(points, p, tol.PointEquality);
+        }
+        else if (GeometryMath.IntersectXY(s, t, tol.PointEquality, out var p) != IntersectionKind.None)
+        {
+            AddDistinct(points, p, tol.PointEquality);
+        }
     }
 
     private static bool AnyVertexInside(PlanShape candidate, PlanShape ring, GeometryTolerance tol)
