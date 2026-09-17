@@ -2,14 +2,13 @@
 # (close the model, open a dialog, close ETABS) and the bridge must stay up in between. Each call is one action:
 #   start            start the bridge exe, start the listener, tick the execution opt-in; writes the pid to output/live-verify/spike/bridge.pid
 #   attach           click Attach and wait for "Attached to ETABS …"
-#   phase <name>     run live-verify.py --phase <name> (spike | nomodel | modal | closed | detached)
-#   probe <id>       click a probe button (ProbeSaveAs | ProbeUnlock | ProbeApartment) and print the result text
+#   phase <name>     run live-verify.py --phase <name> (spike | nomodel | modal | closed | detached | bridge | bridgedestructive)
 #   destructive on|off  tick/untick "Allow destructive operations"
 #   state            print the attach state / warning / self-check texts
 #   stop             close the bridge started by `start`
 # Windows PowerShell 5.1 (UIA); relaunches itself from pwsh. Never starts, stops or drives ETABS itself.
 param(
-    [Parameter(Mandatory)][ValidateSet('start', 'attach', 'phase', 'probe', 'destructive', 'state', 'stop')][string]$Action,
+    [Parameter(Mandatory)][ValidateSet('start', 'attach', 'phase', 'destructive', 'state', 'stop')][string]$Action,
     [string]$Arg = '',
     [string]$Exe = '',
     [string]$BridgeExe = ''
@@ -74,17 +73,6 @@ switch ($Action) {
         & python (Join-Path $PSScriptRoot 'live-verify.py') $Exe --registry $registry --phase $Arg --out $outDir 2>&1 | ForEach-Object { "$_" }
         exit $LASTEXITCODE
     }
-    'probe' {
-        Use-StartedBridge
-        if (-not (Invoke-BridgeButton $Arg)) { throw "probe button $Arg not available (attached? execution on?)" }
-        $text = $null
-        for ($i = 0; $i -lt 60 -and -not $text; $i++) {
-            Start-Sleep -Milliseconds 500
-            $t = Read-BridgeText 'ProbeResult'
-            if ($t -and $t -notlike '*running…*' -and $t -ne '') { $text = $t }
-        }
-        "probe ${Arg}: $text"
-    }
     'destructive' {
         Use-StartedBridge
         $on = $Arg -eq 'on'
@@ -95,7 +83,6 @@ switch ($Action) {
         "attach: $(Read-BridgeText 'AttachState')"
         "warning: $(Read-BridgeText 'AttachWarning')"
         "self-check: $(Read-BridgeText 'SelfCheck')"
-        "probe: $(Read-BridgeText 'ProbeResult')"
     }
     'stop' {
         if (Test-Path $pidFile) {

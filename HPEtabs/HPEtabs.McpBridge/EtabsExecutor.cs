@@ -24,8 +24,12 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
 {
     public const string HostName = "ETABS";
 
+    /// <summary>The engine's timeout ceiling for read-only and writing runs; destructive runs get <see cref="HPRebar.Mcp.Contracts.HostScriptContracts.EtabsHeavyMaxTimeoutSeconds"/>.</summary>
+    public const int DefaultMaxTimeoutSeconds = 120;
+
     private readonly BridgeSettings _settings;
     private readonly ScriptCompiler _compiler;
+    private readonly EtabsTierAnalyzer _analyzer;
     private readonly EtabsScriptRunner _runner;
     private readonly EtabsAttachment _attachment;
     private readonly TypeInspector _inspector;
@@ -41,11 +45,12 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
     private volatile CancellationTokenSource? _currentCancel;
     private volatile bool _destructiveEnabled;
 
-    public EtabsExecutor(BridgeSettings settings, ScriptCompiler compiler, EtabsScriptRunner runner, EtabsAttachment attachment,
+    public EtabsExecutor(BridgeSettings settings, ScriptCompiler compiler, EtabsTierAnalyzer analyzer, EtabsScriptRunner runner, EtabsAttachment attachment,
         TypeInspector inspector, AuditLogger audit, string hostVersion, TimeSpan busyGrace)
     {
         _settings = settings;
         _compiler = compiler;
+        _analyzer = analyzer;
         _runner = runner;
         _attachment = attachment;
         _inspector = inspector;
@@ -91,19 +96,6 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
 
     public event Action<LastRunInfo>? RunCompleted;
 
-    /// <summary>Runs a piece of work on the STA worker ahead of any queued script: Attach, Detach and the window's probes.</summary>
-    public Task<object?> RunOnWorkerAsync(string name, Func<object?> work)
-    {
-        var completion = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-        _control.Enqueue((name, work, completion));
-        _wake.Set();
-        return completion.Task;
-    }
-
-    public Task AttachAsync() => RunOnWorkerAsync("attach", () => _attachment.Attach());
-
-    public Task DetachAsync() => RunOnWorkerAsync("detach", () => { _attachment.Detach("user clicked Detach"); return null; });
-
     public async Task<ExecuteResult> ExecuteAsync(ExecuteRequest request, IProgress<ScriptProgress>? progress, CancellationToken cancellationToken)
     {
         if (Interlocked.CompareExchange(ref _busy, 1, 0) != 0)
@@ -121,18 +113,24 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
             var compiled = _compiler.GetOrCompile(request.Code);
             if (!compiled.Succeeded) return Finish(request, Diagnostics("compile", compiled.Diagnostics), stopwatch);
 
-            var (tier, hits) = EtabsTierGate.Inspect(request.Code);
-            var maxTimeoutSeconds = _destructiveEnabled ? HPRebar.Mcp.Contracts.HostScriptContracts.EtabsHeavyMaxTimeoutSeconds : 120;
+            var verdict = _analyzer.Inspect(compiled.Script!);
+            if (verdict.Refusals.Count > 0) return Finish(request, Diagnostics("path", verdict.Refusals), stopwatch);
+
+            // `none` or dryRun on a writing script is a static preview: the AI sees which members it would call, nothing runs —
+            // so it needs no opt-in, destructive members included.
+            var mode = TransactionModes.Normalize(request.Transaction) ?? TransactionModes.Auto;
+            if (verdict.Tier >= EtabsTier.Write && (request.DryRun || mode == TransactionModes.None)) return Finish(request, Preview(verdict.Hits), stopwatch);
 
             // A destructive member with the second opt-in off is refused with the opt-in code, never counted as a run of the tool.
-            if (tier == EtabsTier.Destructive && !_destructiveEnabled)
+            if (verdict.Tier == EtabsTier.Destructive && !_destructiveEnabled)
                 throw new BridgeRequestException(BridgeErrorCode.ExecutionDisabled,
                     "Destructive operations are disabled. Ask the user to tick 'Allow destructive operations' in the HPEtabs MCP Bridge window.");
 
-            // Writing tiers are previewed, never run, until the save-and-snapshot path exists: the AI sees exactly which members it would call.
-            if (tier >= EtabsTier.Write) return Finish(request, Preview(hits), stopwatch);
-
             if (!_attachment.Attached) throw EtabsAttachment.NotAttached();
+
+            // Destructive runs may take minutes (RunAnalysis); everything else keeps the engine's ceiling.
+            var maxTimeoutSeconds = verdict.Tier == EtabsTier.Destructive ? HPRebar.Mcp.Contracts.HostScriptContracts.EtabsHeavyMaxTimeoutSeconds : DefaultMaxTimeoutSeconds;
+
 
             var cancel = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             _currentCancel = cancel;
@@ -144,7 +142,8 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
                     {
                         var (etabs, sapModel) = _attachment.Require();
                         _running = true;
-                        try { return _runner.Run(etabs, sapModel, request, compiled.Script!, maxTimeoutSeconds, progress, cancel); }
+                        // The audit "started" line goes in right before the forced save overwrites the user's file — after the run-time path check, so it never announces a save that did not happen.
+                        try { return _runner.Run(etabs, sapModel, request, compiled.Script!, verdict, maxTimeoutSeconds, progress, cancel, () => AuditStarted(request, verdict.Tier)); }
                         finally { _running = false; }
                     }),
                     cancel.Token);
@@ -152,7 +151,7 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
                 var result = await _queue.RunAsync(work).ConfigureAwait(false) as ExecuteResult
                              ?? ExecuteResult.Failure($"{HostName} returned no result for the script.");
 
-                return Finish(request, result, stopwatch);
+                return Finish(request, result, stopwatch, verdict.Tier);
             }
             finally
             {
@@ -193,36 +192,26 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
         return (ContextResult)await _queue.RunAsync(work).ConfigureAwait(false);
     }
 
-    /// <summary>Runs OAPI work on the STA worker; a COM disconnect drops the attachment and becomes the "not attached" refusal.</summary>
-    private object OnWorker(Func<object> work)
-    {
-        try
-        {
-            return work();
-        }
-        catch (Exception exception)
-        {
-            var refusal = _attachment.DetachIfGone(exception);
-            if (refusal is not null) throw refusal;
-            throw;
-        }
-    }
-
     public InspectResult Inspect(InspectRequest request) => _inspector.Inspect(request);
 
     /// <summary>Analysis never depends on the per-session opt-ins: a destructive member makes a proposal invalid, a `none` declaration on a writing script too.</summary>
     public AnalyzeResult Analyze(AnalyzeRequest request)
     {
         var result = ScriptAnalyzer.Run(_compiler, request.Code, GuardProfile.Etabs, AnalyzerProfile.Etabs);
-        var (tier, hits) = EtabsTierGate.Inspect(request.Code);
-        var extra = new List<ScriptDiagnostic>();
+        if (!result.Compiles) return result;
 
-        if (tier == EtabsTier.Destructive)
-            extra.AddRange(hits.Where(h => h.Tier == EtabsTier.Destructive)
+        var compiled = _compiler.GetOrCompile(request.Code);
+        if (compiled.Script is null) return result;
+
+        var verdict = _analyzer.Inspect(compiled.Script);
+        var extra = new List<ScriptDiagnostic>(verdict.Refusals);
+
+        if (verdict.Tier == EtabsTier.Destructive)
+            extra.AddRange(verdict.Hits.Where(h => h.Tier == EtabsTier.Destructive)
                 .Select(h => new ScriptDiagnostic(h.Line, h.Column, "DESTRUCTIVE", $"{h.Member} is destructive (unlock, analysis, file or delete): it needs the user's second opt-in on every run and cannot be stored as a tool.")));
 
-        if (tier >= EtabsTier.Write && string.Equals(TransactionModes.Normalize(request.Transaction), TransactionModes.None, StringComparison.Ordinal))
-            extra.AddRange(EtabsTierGate.Preview(hits, EtabsTier.Write)
+        if (verdict.Tier >= EtabsTier.Write && string.Equals(TransactionModes.Normalize(request.Transaction), TransactionModes.None, StringComparison.Ordinal))
+            extra.AddRange(EtabsTierAnalyzer.Preview(verdict.Hits, EtabsTier.Write)
                 .Select(d => d with { Message = $"declared transaction: none, but {d.Message} writes — declare auto" }));
 
         if (extra.Count > 0) result.GuardViolations = extra.Concat(result.GuardViolations).ToArray();
@@ -244,56 +233,6 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
             return new CancelResult(false, false);
         }
     }
-
-    /// <summary>
-    ///     Not attached counts as quiescent so the queued work reaches the tick and fails fast; a disabled main window
-    ///     means a modal dialog; a handle that no longer names a window (ETABS re-created it) must not read as busy forever.
-    /// </summary>
-    private bool IsQuiescent()
-    {
-        if (_running) return false;
-        if (!_attachment.Attached) return true;
-        var handle = _attachment.MainWindowHandle;
-        return handle == IntPtr.Zero || !IsWindow(handle) || IsWindowEnabled(handle);
-    }
-
-    private void WorkerLoop()
-    {
-        Log.Debug("HPEtabs COM worker started (STA={Sta})", Thread.CurrentThread.GetApartmentState() == ApartmentState.STA);
-
-        while (!_stop)
-        {
-            _wake.WaitOne(TimeSpan.FromMilliseconds(250));
-            DrainControlLane();
-            try { _queue.OnTick(); }
-            catch (Exception exception) { Log.Error(exception, "MCP bridge worker tick failed"); }
-        }
-
-        DrainControlLane();
-        Log.Debug("HPEtabs COM worker stopped");
-    }
-
-    private void DrainControlLane()
-    {
-        while (_control.TryDequeue(out var item))
-        {
-            try { item.completion.TrySetResult(item.work()); }
-            catch (Exception exception)
-            {
-                Log.Warning(exception, "MCP bridge control lane '{Name}' failed", item.name);
-                item.completion.TrySetException(exception);
-            }
-            StateChanged?.Invoke();
-        }
-    }
-
-    [DllImport("user32.dll", SetLastError = false)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool IsWindowEnabled(IntPtr hWnd);
-
-    [DllImport("user32.dll", SetLastError = false)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool IsWindow(IntPtr hWnd);
 
     public void Dispose()
     {

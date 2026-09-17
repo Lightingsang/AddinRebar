@@ -23,7 +23,7 @@ public partial class App : Application
         var dispatcher = Dispatcher.CurrentDispatcher;
 
         _viewModel = new EtabsBridgeStatusViewModel(host, executor, action => dispatcher.InvokeAsync(action), Clipboard.SetText,
-            BridgeEntry.SelfCheckOk, BridgeEntry.ApiAvailable, BridgeEntry.LogDirectory);
+            BridgeEntry.SelfCheckOk, BridgeEntry.ApiAvailable, BridgeEntry.LogDirectory, BridgeEntry.SnapshotDirectory);
         var window = new EtabsBridgeStatusView(_viewModel);
         window.Closing += (_, args) =>
         {

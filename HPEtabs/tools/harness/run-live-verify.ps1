@@ -4,13 +4,15 @@
 #   disabled  - before the execution opt-in: execute refused naming the separate app, context answers
 #   detached  - opt-in on, nothing attached: guard (E20), static preview, destructive -32001, fast not-attached, inspect_type
 #   spike     - (-Phase spike|all, ETABS 22 must be running with a throw-away model) click Attach, then E13/E13b/E17/E18/T1
+#   bridge    - (-Phase bridge|all, ETABS 22 running with a SAVED throw-away model) attach, phase bridge (writes + snapshots, D off),
+#               tick 'Allow destructive operations', phase bridgedestructive (deletes what bridge added), untick
 #   nomodel / modal / closed - (-Interactive) the script asks you to close the model / open a dialog / close ETABS, then runs the phase
 # Never starts, stops or drives ETABS itself; closes only the bridge it started. Windows PowerShell 5.1 (UIA); relaunches itself from pwsh.
 #
-#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|all] [-Interactive]
+#   powershell.exe -ExecutionPolicy Bypass -File HPEtabs/tools/harness/run-live-verify.ps1 [-Phase detached|spike|bridge|all] [-Interactive]
 #                  [-Exe <server exe>] [-BridgeExe <bridge exe>] [-Tag run1] [-Runs 1]
 param(
-    [ValidateSet('detached', 'spike', 'all')][string]$Phase = 'detached',
+    [ValidateSet('detached', 'spike', 'bridge', 'all')][string]$Phase = 'detached',
     [switch]$Interactive,
     [string]$Exe = '',
     [string]$BridgeExe = '',
@@ -99,6 +101,13 @@ for ($run = 1; $run -le $Runs; $run++) {
             if (-not $state) { throw "attach did not complete: $(Read-BridgeText 'AttachState') / $(Read-BridgeText 'AttachWarning')" }
             Write-Host "attach: $state"
             $null = Invoke-Phase $runName 'spike'
+
+            if ($Phase -in @('bridge', 'all')) {
+                $null = Invoke-Phase $runName 'bridge'
+                if (-not (Set-OptIn 'AllowDestructive' $true)) { throw 'could not tick Allow destructive operations' }
+                try { $null = Invoke-Phase $runName 'bridgedestructive' }
+                finally { Set-OptIn 'AllowDestructive' $false | Out-Null }
+            }
 
             if ($Interactive) {
                 Wait-UserStep 'In ETABS: close the model (File > Close) but keep ETABS open.'

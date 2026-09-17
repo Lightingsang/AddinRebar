@@ -18,17 +18,17 @@ namespace HPEtabs.Mcp.Server.Tools;
 [McpServerToolType]
 public sealed class ExecuteEtabsCodeTool(ExecuteCodeService service)
 {
-    /// <summary>Kept under 1 500 characters: the tiers, the forced save and the two refusal codes must all fit in what a model reads first.</summary>
+    /// <summary>Kept under 1 800 characters: the tiers, the forced save and the two refusal codes must all fit in what a model reads first.</summary>
     public const string ToolDescription =
-        "Runs a C# script against the ETABS 22 model the HPEtabs MCP Bridge app is attached to (ETABSv1 API over COM). " +
-        "Globals: sapModel (cSapModel), etabs (cOAPI), units (present units forced to kN_mm_C for the run: mm, kN, kN·mm, kN/mm²; restored after), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool(key, fallback)). " +
+        "Runs a C# script against the ETABS 22 model the HPEtabs MCP Bridge app is attached to (ETABSv1 API). " +
+        "Globals: sapModel (cSapModel), etabs (cOAPI), units (forced to kN_mm_C for the run: mm, kN, kN·mm, kN/mm²; restored after), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool(key, fallback)). " +
         "OAPI calls return int: check ret, throw InvalidOperationException($\"ETABS returned {ret} from X\"); bad inputs → ArgumentException. End with `return <value>;`. " +
         "No transaction or undo. Tiers, decided statically from `sapModel.X.Member(...)` chains (an alias, cast, ?., lambda or argument of a global = D): R read-only (Get*/Is*/Has*/Count/RefreshView/all of sapModel.Results/GetTableForDisplayArray; transaction=none). " +
         "W write (other members; transaction=auto): the bridge saves your model and copies a .EDB snapshot first (`snapshot` names it); unsaved or UNC models are refused; rolledBack:false after an exception means the changes persisted. " +
-        "D destructive (SetModelIsLocked, RunAnalysis, DeleteResults, OpenFile/New*/Save(path), ApplyEditedTables, Start*/Modify*/Merge*/Reset*/Clear*/Rename*/Show*/Export*/Import*, any path-taking member): needs 'Allow destructive operations' in the bridge window, else error -32001; up to 600 s. " +
-        "dryRun or transaction=none on a writing script = static preview (nothing runs; a PREVIEW diagnostic lists the members); manual runs like auto; changed = additions/deletions only. " +
-        "cancel/timeout cannot interrupt a running ETABS call; the snapshot save counts against the timeout. Paths: a literal or args.Str(\"key\"), never UNC. " +
-        "No Helper/ApplicationExit/dialogs; the base guard also blocks the File and GetProperty identifiers. Needs 'Allow AI code execution' in the HPEtabs MCP Bridge window (a separate app, not inside ETABS).";
+        "D destructive (SetModelIsLocked, RunAnalysis, DeleteResults, OpenFile/New*/Save, ApplyEditedTables, Start*/Modify*/Merge*/Reset*/Clear*/Rename*/Show*/Export*/Import*/Delete*, any path-taking member): needs 'Allow destructive operations' in the bridge window, else error -32001; up to 600 s. " +
+        "dryRun or transaction=none on a writing script = static preview (nothing runs; PREVIEW lists the members); manual = auto; changed counts additions/deletions only. " +
+        "cancel/timeout cannot interrupt a running ETABS call; the save counts against the timeout. Paths: a literal or args.Str(\"key\") under the model folder or %LocalAppData%\\HPEtabs, never UNC; every path-shaped args string is screened. " +
+        "No Helper/ApplicationExit/dialogs/#r/#load. Needs 'Allow AI code execution' in the HPEtabs MCP Bridge window (a separate app, not inside ETABS).";
 
     [McpServerTool(
         Name = EtabsHostProfile.ExecuteToolName,

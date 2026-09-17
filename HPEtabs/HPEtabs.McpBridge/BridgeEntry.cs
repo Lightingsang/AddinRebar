@@ -39,6 +39,10 @@ public static class BridgeEntry
     public static readonly string LogDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), VendorFolder, ProductFolder, "logs");
 
+    /// <summary>Where the pre-run `.EDB` copies go, per model: `snapshots\<model>\prerun\` and `presave\`. Shown in the window, never sent over the pipe.</summary>
+    public static readonly string SnapshotDirectory = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), VendorFolder, ProductFolder, "snapshots");
+
     private static McpBridgeHost? _host;
     private static EtabsExecutor? _executor;
 
@@ -65,15 +69,16 @@ public static class BridgeEntry
         var settings = store.Load();
         var wrapper = ApiAvailable ? Assembly.Load("ETABSv1") : null;
 
-        var compiler = new ScriptCompiler(CompilerReferences(wrapper), HostScriptContracts.EtabsImports, typeof(EtabsScriptGlobals), settings.ScriptCacheSize);
+        var compiler = CreateScriptCompiler(settings, wrapper);
         SelfCheckOk = ApiAvailable && ScriptingSelfCheck.Run(compiler);
 
         var attachment = new EtabsAttachment();
-        var runner = new EtabsScriptRunner(settings, new EtabsResultSerializer(settings.MaxOutputBytes));
+        var analyzer = new EtabsTierAnalyzer(EtabsTierTable.Embedded);
+        var runner = new EtabsScriptRunner(settings, new EtabsResultSerializer(settings.MaxOutputBytes), new EtabsSnapshotManager(SnapshotDirectory));
         var inspector = new TypeInspector(wrapper is null ? [] : [wrapper], HostName);
         var audit = new AuditLogger(store.AuditDirectory);
 
-        _executor = new EtabsExecutor(settings, compiler, runner, attachment, inspector, audit, HostVersion, BusyGrace);
+        _executor = new EtabsExecutor(settings, compiler, analyzer, runner, attachment, inspector, audit, HostVersion, BusyGrace);
         _host = new McpBridgeHost(_executor, settings, store, HostVersion, PipeNaming.For(PipeNaming.EtabsHost, HostVersionNumber), HostName,
             JsonRpcMethods.EtabsPrefix, ExecutionDisabledMessage);
         McpBridgeHost.Install(_host);
@@ -83,6 +88,10 @@ public static class BridgeEntry
 
         return (_host, _executor);
     }
+
+    /// <summary>The bridge's exact script environment — references, imports, globals — so tests analyze what the bridge runs.</summary>
+    internal static ScriptCompiler CreateScriptCompiler(BridgeSettings settings, Assembly? wrapper) =>
+        new(CompilerReferences(wrapper), HostScriptContracts.EtabsImports, typeof(EtabsScriptGlobals), settings.ScriptCacheSize);
 
     /// <summary>
     ///     The wrapper plus the engine assembly that defines `args`/`units` and this assembly (the globals type).

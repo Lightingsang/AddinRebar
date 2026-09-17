@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Bridge runtime: EtabsExecutor (tiers từ fixture, snapshot vô điều kiện, fingerprint, path policy, audit), window 2 checkbox, HPEtabs.McpBridge.Tests ≥ 25 (cần ETABS)"
-status: pending
+status: completed
 priority: P1
 effort: "8h"
 dependencies: [0, 1]
@@ -63,20 +63,20 @@ HPEtabs/tools/generate-oapi-tier-fixture.py one-off: CHM index → fixture; khô
 7. `reports/phase-02-bridge-runtime.md`.
 
 ## Todo List
-- [ ] Fixture + index + `EtabsTierFixtureTests`
-- [ ] Tier analyzer + path policy (+ tests)
-- [ ] Snapshot + fingerprint (+ tests)
-- [ ] Runner ma trận/budget + units + serializer (+ tests)
-- [ ] Executor + audit + context + liveness + VM/View
-- [ ] `--phase bridge` ≥ 20 scenario ×2 👤
-- [ ] Report
+- [x] Fixture + index + `EtabsTierFixtureTests` (reflection trên DLL — `generate-oapi-tier-fixture.ps1`; 1 281 dòng; CHM 1 107/1 107 phủ)
+- [x] Tier analyzer (semantic) + path policy (+ tests)
+- [x] Snapshot + fingerprint (+ tests)
+- [x] Runner ma trận/budget + units + serializer (+ tests)
+- [x] Executor + audit + context + liveness + VM/View (probe gỡ; link thư mục snapshot)
+- [x] `--phase bridge` 17 + `bridgedestructive` 7 scenario ×2 với ETABS thật (2026-09-17)
+- [x] Report `reports/phase-02-bridge-runtime.md`
 
 ## Success Criteria
-- [ ] `dotnet test HPEtabs/HPEtabs.McpBridge.Tests` → **≥ 25** pass, 0 fail, **0 skip** trên máy dev (máy không ETABS: project không build — `<Error>` rõ, README).
-- [ ] `dotnet build HPEtabs/HPEtabs.slnx -c Debug` xanh; `grep -rn "Helper\." HPEtabs/HPEtabs.McpBridge --include=*.cs` chỉ trong `EtabsAttachment.cs` + `ScriptingSelfCheck.cs`; `grep -rn "public static" HPEtabs/HPEtabs.McpBridge --include=*.cs` không có executor/analyzer/snapshot manager.
-- [ ] `powershell.exe -File HPEtabs/tools/harness/run-live-verify.ps1 -Phase bridge -Runs 2` → ≥ 20 pass 2/2; `%LocalAppData%\HPEtabs\McpBridge\snapshots\model\prerun\*.EDB` ≥ 2 và `presave\*.EDB` = 1 sau chuỗi bước 6; audit có `started` **trước** dòng forced save cho mỗi W/D, `[destructive]` cho D.
-- [ ] D với checkbox OFF: JSON-RPC error `-32001` (log server "bridge refused"), **không** `ExecuteResult.isError`.
-- [ ] Fixture: 0 topic `c*.X Method` không phân loại (test); danh sách va chạm base deny ghi `reports/phase-02-bridge-runtime.md`.
+- [x] `dotnet test HPEtabs/HPEtabs.McpBridge.Tests` → **184** pass, 0 fail, **0 skip** trên máy dev (166 trước review round).
+- [x] `dotnet build HPEtabs/HPEtabs.slnx -c Debug` xanh; `Helper\.` chỉ trong `EtabsAttachment.cs`; không public static executor/analyzer/snapshot manager (chỉ hàm thuần).
+- [x] `run-live-verify.ps1 -Phase bridge -Runs 2` → 48 pass ×2; prerun 10 (retention), presave 2; audit `started` trước forced save (B5c), `[destructive]` (D2), không `started` khi path bị từ chối (D4a).
+- [x] D với checkbox OFF: JSON-RPC `-32001` (B9, unit test `A_destructive_member_with_the_second_opt_in_off_is_a_json_rpc_refusal_not_a_run`).
+- [x] Fixture: 1 107/1 107 topic CHM có dòng (`Every_documented_method_topic_has_a_row`); va chạm guard ≤ 12 tên, không gồm member thường dùng (`The_guard_denies_few_oapi_member_names…`).
 
 ## Risk Assessment
 - Fixture sinh sai tier ở member biên (vd `SetPresentUnits` = W đúng; `GetTableForDisplayCSVFile` = D đúng) → review tay + test pin các member red-team #2.

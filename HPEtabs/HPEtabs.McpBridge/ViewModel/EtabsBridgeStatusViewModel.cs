@@ -11,7 +11,7 @@ namespace HPEtabs.McpBridge.ViewModel;
 ///     What the status window binds to: the shared bridge view model (listener, execution opt-in, last run,
 ///     audit) plus what only this host has — the COM attachment (Attach/Detach, which ETABS, the more-than-one
 ///     warning), the second opt-in for destructive operations (in memory on the executor, never persisted) and
-///     the three spike probes the user runs on a throw-away model. The window is the only way to flip the
+///     the snapshot folder a writing script copies the model into. The window is the only way to flip the
 ///     destructive flag: scripts cannot name this assembly.
 /// </summary>
 public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
@@ -25,15 +25,14 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
     [ObservableProperty] private string _attachWarning = string.Empty;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AttachCommand))] [NotifyCanExecuteChangedFor(nameof(DetachCommand))] private bool _isAttached;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AttachCommand))] [NotifyCanExecuteChangedFor(nameof(DetachCommand))] private bool _isAttaching;
-    [ObservableProperty] private string _probeResult = string.Empty;
-    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ProbeSaveAsCommand))] [NotifyCanExecuteChangedFor(nameof(ProbeUnlockCommand))] [NotifyCanExecuteChangedFor(nameof(ProbeApartmentCommand))] private bool _canProbe;
 
     public EtabsBridgeStatusViewModel(IMcpBridgeRunner runner, EtabsExecutor executor, Action<Action> onUiThread,
-        Action<string>? copyToClipboard, bool selfCheckOk, bool apiAvailable, string logDirectory)
+        Action<string>? copyToClipboard, bool selfCheckOk, bool apiAvailable, string logDirectory, string snapshotDirectory)
     {
         _executor = executor;
         _onUiThread = onUiThread;
         LogDirectory = logDirectory;
+        SnapshotDirectory = snapshotDirectory;
         Core = new McpBridgeStatusViewModel(runner, onUiThread, copyToClipboard);
         SelfCheckOk = selfCheckOk;
         SelfCheckText = !apiAvailable
@@ -56,6 +55,9 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
     public string SelfCheckText { get; }
 
     public string LogDirectory { get; }
+
+    /// <summary>Where writing scripts leave the `.EDB` copies (`<model>\prerun\`, `<model>\presave\`); the folder name carries the user name, so it is shown here, never sent over the pipe.</summary>
+    public string SnapshotDirectory { get; }
 
     private bool CanAttach => !IsAttached && !IsAttaching;
 
@@ -94,41 +96,23 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
         }
     }
 
-    [RelayCommand(CanExecute = nameof(CanProbe))]
-    private Task ProbeSaveAsAsync() => RunProbeAsync("save-as probe", SpikeProbes.SaveAsSemantics);
-
-    [RelayCommand(CanExecute = nameof(CanProbe))]
-    private Task ProbeUnlockAsync() => RunProbeAsync("unlock probe", SpikeProbes.UnlockSemantics);
-
-    [RelayCommand(CanExecute = nameof(CanProbe))]
-    private Task ProbeApartmentAsync() => RunProbeAsync("apartment probe", SpikeProbes.ApartmentSemantics);
-
-    private async Task RunProbeAsync(string name, Func<ETABSv1.cSapModel, string> probe)
-    {
-        ProbeResult = name + " running…";
-        try
-        {
-            var text = await _executor.RunOnWorkerAsync(name, () => probe(_executor.Attachment.Require().sapModel));
-            ProbeResult = text as string ?? string.Empty;
-        }
-        catch (Exception exception)
-        {
-            ProbeResult = $"{name} failed: {exception.GetType().Name}: {exception.Message}";
-        }
-    }
+    [RelayCommand]
+    private void OpenLogFolder() => OpenFolder(LogDirectory, "log");
 
     [RelayCommand]
-    private void OpenLogFolder()
+    private void OpenSnapshotFolder() => OpenFolder(SnapshotDirectory, "snapshot");
+
+    private void OpenFolder(string directory, string what)
     {
         try
         {
-            Directory.CreateDirectory(LogDirectory);
+            Directory.CreateDirectory(directory);
             // Quoted: the local profile path contains the user name, which may contain spaces.
-            Process.Start(new ProcessStartInfo("explorer.exe", $"\"{LogDirectory}\"") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo("explorer.exe", $"\"{directory}\"") { UseShellExecute = true });
         }
         catch (Exception exception)
         {
-            Core.StatusDetail = "Could not open the log folder: " + exception.Message;
+            Core.StatusDetail = $"Could not open the {what} folder: " + exception.Message;
         }
     }
 
@@ -164,6 +148,5 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
             ? $"Attached to ETABS pid {(attachment.Pid == 0 ? "?" : attachment.Pid)} (OAPI {attachment.OapiVersion ?? "?"})"
             : "Not attached — start ETABS 22, open a model, then click Attach";
         if (attachment.Warning is { } warning) AttachWarning = warning;
-        CanProbe = attachment.Attached && Core.IsExecutionEnabled && !_executor.IsBusy;
     }
 }

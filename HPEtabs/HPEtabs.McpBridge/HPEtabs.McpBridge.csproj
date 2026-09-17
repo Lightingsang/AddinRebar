@@ -45,6 +45,13 @@
         <InternalsVisibleTo Include="HPEtabs.McpBridge.Tests"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <!-- The tier allow-list (generated from ETABSv1.dll by tools\generate-oapi-tier-fixture.ps1, reviewed by hand) and the
+             CHM index snapshot the tests check it against. Derived data, not CSI binaries. -->
+        <EmbeddedResource Include="Resources\etabs-oapi-tiers.txt" LogicalName="HPEtabs.McpBridge.Resources.etabs-oapi-tiers.txt"/>
+        <EmbeddedResource Include="Resources\etabs-oapi-index.txt" LogicalName="HPEtabs.McpBridge.Resources.etabs-oapi-index.txt"/>
+    </ItemGroup>
+
     <!-- One readable error instead of hundreds of CS0246 when the product is not installed here. -->
     <Target Name="RequireEtabsApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(EtabsApiAvailable)' != 'true'">
         <Error Text="ETABS $(EtabsMajor) OAPI not found at '$(EtabsInstallDir)ETABSv1.dll'. Install ETABS $(EtabsMajor), or pass -p:EtabsInstallDir=&lt;dir&gt; / set HPETABS_ETABS_DIR. Only HPEtabs.Mcp.Server and its tests build without it (HPEtabs.McpBridge and HPEtabs.McpBridge.Tests need it)."/>

@@ -47,7 +47,7 @@ public static class ScriptingSelfCheck
                 return false;
             }
 
-            var globals = new EtabsScriptGlobals(null!, null!, EtabsScriptRunner.Units, CancellationToken.None, _ => { }, (_, _, _) => { });
+            var globals = new EtabsScriptGlobals(null!, null!, EtabsUnitsPolicy.Units, CancellationToken.None, _ => { }, (_, _, _) => { });
             var value = compiled.Script!.RunAsync(globals).GetAwaiter().GetResult().ReturnValue;
 
             Log.Information("MCP scripting self-check OK in {Elapsed} ms: {Value} (ETABSv1.dll from {Path}, {Version})",

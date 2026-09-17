@@ -118,8 +118,14 @@
                           Content="Allow AI code execution against the attached ETABS model"
                           ToolTip="Scripts written by the AI run against your live ETABS model with your full user rights. ETABS has no undo: a writing script first saves the model and copies a .EDB snapshot. The bridge blocks obvious escapes (files, network, processes, reflection, dialogs) but is not a sandbox. Turned off again every time this app starts."/>
 
-                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
-                           Text="Off by default. Read-only scripts run as they are; writing scripts save the model first and keep a .EDB copy you can restore. Nothing is undoable in ETABS."/>
+                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" TextWrapping="Wrap"
+                           Text="Off by default. Read-only scripts run as they are. A writing script saves the model first (overwriting the .EDB on disk with what ETABS holds in memory) and copies it into the snapshot folder below before it runs; restoring means opening that copy. Nothing is undoable in ETABS."/>
+                <StackPanel Orientation="Horizontal" Margin="{DynamicResource Spacing.XSmall}">
+                    <TextBlock Style="{DynamicResource Caption}" VerticalAlignment="Center" Text="Snapshots:"/>
+                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="{Binding SnapshotDirectory}"
+                            Command="{Binding OpenSnapshotFolderCommand}" ToolTip="Open the snapshot folder (newest 10 pre-run copies and 5 pre-save copies per model)"
+                            AutomationProperties.AutomationId="OpenSnapshots"/>
+                </StackPanel>
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowDestructive"
                           IsChecked="{Binding IsDestructiveEnabled}" IsEnabled="{Binding CanEnableDestructive}"
@@ -140,8 +146,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <DockPanel Grid.Row="0">
@@ -159,17 +163,6 @@
                          AcceptsReturn="True" TextWrapping="NoWrap"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
 
-                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallTop}">
-                    <TextBlock Style="{DynamicResource Caption}" VerticalAlignment="Center" Text="Probes (throw-away model only):"/>
-                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Save-as probe" Command="{Binding ProbeSaveAsCommand}"
-                            AutomationProperties.AutomationId="ProbeSaveAs" ToolTip="Writes a copy of the model next to it and saves the original again: tells whether Save(path) re-points the model."/>
-                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Unlock probe" Command="{Binding ProbeUnlockCommand}"
-                            AutomationProperties.AutomationId="ProbeUnlock" ToolTip="Unlocks the model and reports the analysis case status before and after."/>
-                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Apartment probe" Command="{Binding ProbeApartmentCommand}"
-                            AutomationProperties.AutomationId="ProbeApartment" ToolTip="Read-only: calls the proxy from the STA worker and from a thread-pool thread."/>
-                </StackPanel>
-                <TextBlock Grid.Row="4" Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" Text="{Binding ProbeResult}" TextWrapping="Wrap"
-                           AutomationProperties.AutomationId="ProbeResult"/>
             </Grid>
         </Border>
 

@@ -9,9 +9,13 @@ calls this once per phase:
   nomodel   - (user closed the model, ETABS still up) context / execute report the empty state (E12)
   modal     - (user opened a dialog in ETABS) execute answers busy within the grace (E15)
   closed    - (user closed ETABS) execute -> -32003 at once, context isAttached=false (E19 first half)
+  bridge    - attached to a SAVED throw-away model, destructive OFF: read, previews, two writes with snapshot/presave/audit,
+              exception after a write persists, D refused -32001, path policy, compile error, timeout (B1-B13)
+  bridgedestructive - the wrapper ticked 'Allow destructive operations': the frames phase bridge added are deleted under D
+              (cleanup) with snapshot + [destructive] audit, run-time path refusals, dryRun preview (D0-D5)
 Prints PASS/FAIL lines and a JSON summary; exit 1 on any failure.
 """
-import argparse, os, sys, time
+import argparse, json, os, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # the bookkeeping + stdio session helper every HP MCP harness shares (MCP folder -> McpShared, never the other way round)
@@ -105,8 +109,11 @@ def phase_detached(s):
     r = execute(s, "return sapModel.File.Save();", transaction="auto", label="file member")
     check("E20.8 `sapModel.File.Save()` passes the guard (File in member position) and is tiered destructive → -32001", r.get("isError") and "Allow destructive operations" in msg(r) and "GUARD" not in diag_ids(r), short(msg(r)))
 
-    r = execute(s, "int ret = sapModel.FrameObj.SetSection(\"F1\", \"C40x40\"); return ret;", transaction="auto", label="write preview")
-    check("P1 writing script → static preview: isError, PREVIEW diagnostic names FrameObj.SetSection (W), nothing ran", r.get("isError") and "PREVIEW" in diag_ids(r) and any("FrameObj.SetSection" in d.get("message", "") for d in r["diagnostics"]) and r.get("rolledBack") is True, short(r))
+    r = execute(s, "int ret = sapModel.FrameObj.SetSection(\"F1\", \"C40x40\"); return ret;", transaction="none", label="write preview")
+    check("P1 writing script under none → static preview: isError, PREVIEW diagnostic names cFrameObj.SetSection (W), nothing ran", r.get("isError") and "PREVIEW" in diag_ids(r) and any("cFrameObj.SetSection (W)" == d.get("message", "") for d in r["diagnostics"]) and r.get("rolledBack") is True, short(r))
+
+    r = execute(s, "int ret = sapModel.FrameObj.SetSection(\"F1\", \"C40x40\"); return ret;", transaction="auto", label="write not attached")
+    check("P1b writing script under auto while not attached → -32003 'click Attach' before any save", r.get("isError") and "click Attach" in msg(r) and not r.get("snapshot"), short(msg(r)))
 
     r = execute(s, "return sapModel.Analyze.RunAnalysis();", transaction="auto", label="destructive off")
     check("P2 destructive member with the second opt-in off → -32001 naming 'Allow destructive operations'", r.get("isError") and "Allow destructive operations" in msg(r), short(msg(r)))
@@ -152,6 +159,8 @@ def phase_spike(s):
 def phase_nomodel(s):
     ctx = s.tool("get_etabs_context", {})
     r = execute(s, NAME_LIST, label="E12 no model")
+    w = execute(s, "return sapModel.FrameObj.SetSection(\"F1\", \"C40x40\");", transaction="auto", label="E12b write no model")
+    check("E12b no model open: a writing script under auto is refused with -32003 'No model (.EDB)' before any save", w.get("isError") and "No model (.EDB)" in msg(w) and not w.get("snapshot"), short(msg(w)))
     e = ctx.get("etabs") or {}
     check("E12 no model open: still attached, docTitle/docPath absent (not '(Untitled)'), openDocs empty, isModifiable false, a read still runs",
           ok(ctx) and e.get("isAttached") is True and not ctx.get("docTitle") and not ctx.get("docPath") and not ctx.get("openDocs") and ctx.get("isModifiable") is False and ok(r),
@@ -170,6 +179,172 @@ def phase_modal(s):
     save("modal-execute", {"result": r, "seconds": round(dt, 1)})
 
 
+# ---- phase 2: the writing runtime -----------------------------------------------------------------------------------------
+ADD_FRAME = """
+string name = "";
+double dx = args.Double("dx", 0);
+int ret = sapModel.FrameObj.AddByCoord(dx, 0, 0, dx, 0, 3000, ref name);
+if (ret != 0) throw new InvalidOperationException($"ETABS returned {ret} from FrameObj.AddByCoord");
+return name;"""
+
+ADD_FRAME_THEN_THROW = ADD_FRAME.replace("return name;", "log(\"added \" + name); throw new InvalidOperationException(\"after the write: \" + name);")
+
+FIRST_SECTION = """
+int n = 0; string[] names = null;
+int ret = sapModel.PropFrame.GetNameList(ref n, ref names);
+return n > 0 ? names[0] : null;"""
+
+
+def snapshot_dir(model_title):
+    """Mirrors EtabsSnapshotManager.ModelDirectory: SanitizeLabel(stem, 60) — ASCII [A-Za-z0-9_-], others '_', trimmed, cut at 60."""
+    stem = os.path.splitext(model_title or "")[0]
+    stem = "".join(c if (c.isascii() and c.isalnum()) or c in "_-" else "_" for c in stem).strip("_-") or "script"
+    return os.path.join(os.environ.get("LOCALAPPDATA", ""), "HPEtabs", "McpBridge", "snapshots", stem[:60])
+
+
+def audit_lines():
+    import glob
+    folder = os.path.join(os.environ.get("APPDATA", ""), "HPEtabs", "McpBridge", "audit")
+    files = sorted(glob.glob(os.path.join(folder, "audit-*.log")))
+    if not files:
+        return []
+    with open(files[-1], encoding="utf-8") as f:
+        return [line for line in f.read().splitlines() if line.strip()]
+
+
+def phase_bridge(s):
+    """Attached, model saved, destructive opt-in OFF: reads run, writes snapshot first, exceptions persist, D refused, paths policed."""
+    ctx = s.tool("get_etabs_context", {})
+    e = ctx.get("etabs") or {}
+    title = ctx.get("docTitle")
+    if not (ok(ctx) and e.get("isAttached") and title and ctx.get("docPath")):
+        check("B1 attached to a saved model (docTitle/docPath present)", False, short(ctx))
+        return
+    check("B1 attached to a saved model (docTitle/docPath present)", True, f"{title} frames={e.get('frameCount')} units={e.get('presentUnits')}")
+    frames_before = e.get("frameCount") or 0
+    units_before = e.get("presentUnits")
+    snap = snapshot_dir(title)
+    prerun_before = len(os.listdir(os.path.join(snap, "prerun"))) if os.path.isdir(os.path.join(snap, "prerun")) else 0
+    presave_before = len(os.listdir(os.path.join(snap, "presave"))) if os.path.isdir(os.path.join(snap, "presave")) else 0
+    audit_before = len(audit_lines())
+
+    r = execute(s, "return sapModel.GetModelFilename();", label="B2 read")
+    check("B2 read-only script under none runs: value, changed 0/0/0, no snapshot", ok(r) and isinstance(r.get("value"), str) and r.get("changed") == {"added": 0, "modified": 0, "deleted": 0} and not r.get("snapshot"), short(r))
+
+    r = execute(s, "return sapModel.FrameObj.SetSection(\"F1\", \"C40x40\");", label="B3 preview none")
+    check("B3 writing script under none → static preview: isError, rolledBack, PREVIEW cFrameObj.SetSection (W)", r.get("isError") and r.get("rolledBack") is True and any(d.get("id") == "PREVIEW" and "cFrameObj.SetSection (W)" == d.get("message") for d in r.get("diagnostics") or []), short(r))
+
+    r = execute(s, ADD_FRAME, transaction="auto", dry_run=True, label="B4 preview dryRun", args={"dx": 1000})
+    ctx2 = s.tool("get_etabs_context", {})
+    check("B4 writing script with dryRun → static preview, nothing ran (frame count unchanged, no snapshot)", r.get("isError") and "PREVIEW" in diag_ids(r) and (ctx2.get("etabs") or {}).get("frameCount") == frames_before and not r.get("snapshot"), short(r))
+
+    added = []
+    t0 = time.time()
+    r = execute(s, ADD_FRAME, transaction="auto", label="B5 add frame", args={"dx": 1000}, timeout_s=60, wait=90)
+    dt = time.time() - t0
+    name = r.get("value") if ok(r) else None
+    if name:
+        added.append(name)
+    snapshot = r.get("snapshot") or ""
+    ctx3 = s.tool("get_etabs_context", {})
+    check("B5 writing script under auto runs: value = new frame name, changed.added = 1 frame + its 2 points (log 'FrameObj: +1'), snapshot = file name only, frame count +1",
+          ok(r) and bool(name) and (r.get("changed") or {}).get("added") == 3 and any("FrameObj: +1 -0" in line for line in r.get("logs") or []) and snapshot.endswith(".EDB") and "\\" not in snapshot and "/" not in snapshot and (ctx3.get("etabs") or {}).get("frameCount") == frames_before + 1,
+          f"{short(r)} in {dt:.1f}s")
+    presave_now = len(os.listdir(os.path.join(snap, "presave"))) if os.path.isdir(os.path.join(snap, "presave")) else 0
+    presave_logged = any("presave snapshot" in line for line in r.get("logs") or [])
+    check("B5a the snapshot file exists in the prerun bucket; a presave copy was taken iff the file on disk was not last written by this bridge (the log says which)",
+          bool(snapshot) and os.path.isfile(os.path.join(snap, "prerun", snapshot)) and (presave_now == presave_before + 1) == presave_logged,
+          f"presave {presave_before}->{presave_now} logged={presave_logged}; prerun={os.listdir(os.path.join(snap, 'prerun')) if os.path.isdir(os.path.join(snap, 'prerun')) else []}")
+    check("B5b the run's log names the snapshot and the forced save", any("snapshot" in line and "saved" in line for line in r.get("logs") or []), short(r.get("logs")))
+    save("bridge-add-frame", r)
+
+    lines = audit_lines()
+    new = lines[audit_before:]
+    started = [i for i, line in enumerate(new) if '"started"' in line and "B5 add frame" in line or ('"started"' in line and "forced save" in line)]
+    finished = [i for i, line in enumerate(new) if ('"ok"' in line or '"error"' in line) and "[tier:W]" in line]
+    check("B5c audit: a 'started … forced save' line precedes the completed [tier:W] line of the write", bool(started) and bool(finished) and min(started) < min(finished), short(new[-3:]))
+
+    r = execute(s, FIRST_SECTION, label="B6 first section")
+    section = r.get("value") if ok(r) else None
+    r = execute(s, f"return sapModel.FrameObj.SetSection(\"{added[0] if added else 'F1'}\", \"{section}\");", transaction="manual", label="../x", timeout_s=60, wait=90) if section else {}
+    check("B6 second write (manual ≡ auto + log, label ../x): no new presave (the bridge wrote the file last), snapshot name sanitized, changed 0 (Set* is not counted)",
+          bool(section) and ok(r) and (r.get("snapshot") or "").endswith("-x.EDB") and len(os.listdir(os.path.join(snap, "presave"))) == presave_now and r.get("changed") == {"added": 0, "modified": 0, "deleted": 0} and any("manual" in line for line in r.get("logs") or []),
+          short(r))
+
+    r = execute(s, ADD_FRAME_THEN_THROW, transaction="auto", label="B7 throw after write", args={"dx": 2000}, timeout_s=60, wait=90)
+    ctx4 = s.tool("get_etabs_context", {})
+    thrown_name = None
+    for line in r.get("logs") or []:
+        if line.startswith("added "):
+            thrown_name = line[len("added "):]
+    if thrown_name:
+        added.append(thrown_name)
+    check("B7 exception after a write: isError, rolledBack false, message says the change persisted and names the snapshot, changed.added 3 (frame + 2 points), frame count +2",
+          r.get("isError") and r.get("rolledBack") is False and "persisted" in msg(r) and (r.get("snapshot") or "") in msg(r) and (r.get("changed") or {}).get("added") == 3 and (ctx4.get("etabs") or {}).get("frameCount") == frames_before + 2,
+          short(r))
+
+    check("B8 units restored after the writes (context presentUnits unchanged)", (ctx4.get("etabs") or {}).get("presentUnits") == units_before, f"{units_before} → {(ctx4.get('etabs') or {}).get('presentUnits')}")
+
+    r = execute(s, f"return sapModel.FrameObj.Delete(\"{added[0] if added else 'F1'}\", eItemType.Objects);", transaction="auto", label="B9 delete off")
+    check("B9 destructive member with the second opt-in off → -32001 (no PREVIEW, no run)", r.get("isError") and "Allow destructive operations" in msg(r) and not r.get("diagnostics"), short(msg(r)))
+
+    r = execute(s, "return sapModel.File.Save(\"\\\\\\\\srv\\\\share\\\\x.EDB\");", transaction="auto", label="B10 unc literal")
+    check("B10 UNC path literal → PATH refusal before any opt-in question", r.get("isError") and "PATH" in diag_ids(r) and "UNC" in " ".join(d.get("message", "") for d in r.get("diagnostics") or []), short(r))
+
+    r = execute(s, "var p = args.Str(\"k\"); return sapModel.File.Save(p);", transaction="auto", label="B11 path variable", args={"k": "x"})
+    check("B11 path through a variable → PATH refusal (must be a literal or args.Str(\"key\"))", r.get("isError") and "PATH" in diag_ids(r), short(r))
+
+    r = execute(s, "return sapModel.NoSuchMember();", label="B12 compile")
+    check("B12 compile error is reported as such", r.get("isError") and "does not compile" in msg(r) and r.get("diagnostics"), short(msg(r)))
+
+    r = execute(s, "int i = 0; while (true) { ct.ThrowIfCancellationRequested(); i++; }", timeout_s=5, label="B13 timeout", wait=40)
+    check("B13 cooperative timeout 5 s → timedOut", r.get("isError") and r.get("timedOut") is True, short(msg(r)))
+    r = execute(s, "return sapModel.GetModelFilename();", label="B13b after timeout")
+    check("B13b the next request runs (the worker is free again)", ok(r), short(r))
+
+    save("bridge-frames", {"added": added, "snapshot_dir": snap, "prerun_before": prerun_before})
+
+
+def phase_bridgedestructive(s):
+    """The wrapper ticked 'Allow destructive operations': the frames added in phase bridge are deleted (cleanup) under D with a snapshot and a [destructive] audit line."""
+    state = {}
+    try:
+        with open(os.path.join(CL.out_dir or ".", "bridge-frames.json"), encoding="utf-8") as f:
+            state = json.load(f)
+    except OSError:
+        pass
+    added = state.get("added") or []
+    if not added:
+        skip("D1 delete the frames added under W", "phase bridge added no frames")
+        return
+
+    ctx = s.tool("get_etabs_context", {})
+    e = ctx.get("etabs") or {}
+    check("D0 context reports destructiveOperationsEnabled true", ok(ctx) and e.get("destructiveOperationsEnabled") is True, short(e))
+    frames_before = e.get("frameCount") or 0
+    audit_before = len(audit_lines())
+
+    code = "int deleted = 0; " + " ".join(f"if (sapModel.FrameObj.Delete(\"{n}\", eItemType.Objects) == 0) deleted++;" for n in added) + " return deleted;"
+    r = execute(s, code, transaction="auto", label="D1 delete frames", timeout_s=60, wait=90)
+    ctx2 = s.tool("get_etabs_context", {})
+    check("D1 destructive script with the opt-in on runs: value = frames deleted, changed.deleted = frames + their orphaned points (log 'FrameObj: +0 -N'), snapshot taken, frame count back",
+          ok(r) and r.get("value") == len(added) and (r.get("changed") or {}).get("deleted") >= len(added) and any(f"FrameObj: +0 -{len(added)}" in line for line in r.get("logs") or []) and (r.get("snapshot") or "").endswith(".EDB") and (ctx2.get("etabs") or {}).get("frameCount") == frames_before - len(added),
+          short(r))
+    new = audit_lines()[audit_before:]
+    check("D2 audit: 'started' with [destructive] precedes the completed [destructive] line", any('"started"' in line and "[destructive]" in line for line in new) and any(("\"ok\"" in line) and "[destructive]" in line for line in new), short(new[-2:]))
+    audit_mid = len(audit_lines())
+
+    r = execute(s, "return sapModel.File.Save(\"C:\\\\Windows\\\\Temp\\\\x.EDB\");", transaction="auto", label="D3 path elsewhere")
+    check("D3 with D on, a literal path outside the model folder is still refused at run time (PATH)", r.get("isError") and "PATH" in diag_ids(r) and "under the model folder" in " ".join(d.get("message", "") for d in r.get("diagnostics") or []), short(r))
+
+    r = execute(s, "return sapModel.File.Save(args.Str(\"out\"));", transaction="auto", label="D4 args path", args={"out": "C:\\Windows\\Temp\\y.EDB"})
+    check("D4 with D on, an args path outside the model folder is refused at run time (PATH names args.out)", r.get("isError") and "PATH" in diag_ids(r) and any("args.out" in d.get("message", "") for d in r.get("diagnostics") or []), short(r))
+    check("D4a a run-time path refusal writes no 'started' audit line (nothing was saved)", not any('"started"' in line for line in audit_lines()[audit_mid:]), short(audit_lines()[audit_mid:]))
+
+    r = execute(s, "return sapModel.FrameObj.Delete(\"HPETABS-NO-SUCH-FRAME\", eItemType.Objects);", transaction="auto", dry_run=True, label="D5 dryRun D")
+    check("D5 dryRun on a destructive script is a static preview even with the opt-in on", r.get("isError") and "PREVIEW" in diag_ids(r) and r.get("rolledBack") is True, short(r))
+
+
 def phase_closed(s):
     t0 = time.time()
     r = execute(s, "return sapModel.GetModelFilename();", label="E19 closed")
@@ -182,7 +357,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("exe")
     ap.add_argument("--registry", required=True)
-    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed"], default="detached")
+    ap.add_argument("--phase", choices=["disabled", "detached", "spike", "nomodel", "modal", "closed", "bridge", "bridgedestructive"], default="detached")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     CL.out_dir = a.out
@@ -197,7 +372,8 @@ def main():
     try:
         s.initialize()
         time.sleep(0.5)
-        {"disabled": phase_disabled, "detached": phase_detached, "spike": phase_spike, "nomodel": phase_nomodel, "modal": phase_modal, "closed": phase_closed}[a.phase](s)
+        {"disabled": phase_disabled, "detached": phase_detached, "spike": phase_spike, "nomodel": phase_nomodel, "modal": phase_modal, "closed": phase_closed,
+         "bridge": phase_bridge, "bridgedestructive": phase_bridgedestructive}[a.phase](s)
     finally:
         s.close()
 
