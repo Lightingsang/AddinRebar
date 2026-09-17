@@ -20,10 +20,12 @@ Version numbers are CSI's (**22**, not a year): pipe `hpetabs-mcp-22`, env `HPET
 ```
 HPEtabs.slnx · global.json · Directory.Build.props   (finds the ETABS install folder: -p:EtabsInstallDir / HPETABS_ETABS_DIR / COM registration / Program Files)
 HPEtabs.McpBridge/          WPF desktop app, net8.0-windows — attachment, STA worker, tier gate, opt-in window. References ETABSv1.dll, never copies it.
+                            Icon: a three-storey frame on its foundation + the MCP plug (Resources/HPEtabsMcpBridge.ico, ApplicationIcon + Window.Icon).
 HPEtabs.McpBridge.Tests/    xUnit, needs ETABS 22 installed (it references the bridge)
 HPEtabs.Mcp.Server/         net10 stdio MCP server — profile, 4 core tools, prompts, resources, seed library
 HPEtabs.Mcp.Server.Tests/   xUnit, builds and runs on any machine (no ETABS needed)
 tools/harness/              run-live-verify.ps1 + live-verify.py + spike-step.ps1 (UIA on our own window; never drives ETABS)
+tools/icons/                render-app-icon.ps1 — the one vector glyph behind HPEtabs.McpBridge/Resources/HPEtabsMcpBridge.ico (exe + title bar)
 output/                     publish targets and harness output (git-ignored)
 ```
 

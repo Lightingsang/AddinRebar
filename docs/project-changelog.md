@@ -2,6 +2,12 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-17 — ETABS MCP: icon ứng dụng bridge (exe + titlebar)
+
+**Bổ sung:** `HPEtabs/tools/icons/render-app-icon.ps1` (PS 5.1 STA, WPF render một glyph vector → `.ico` 9 cỡ 16..256 PNG-entry + PNG 256 preview): khung kết cấu 3 tầng trên móng + phích MCP có dây cắm vào dầm giữa — cùng họ glyph host + plug `#0696D7` của Revit/AutoCAD/Navis. `HPEtabs.McpBridge.csproj` `<ApplicationIcon>` + `<Resource>`; `EtabsBridgeStatusView.xaml` `Icon="/Resources/HPEtabsMcpBridge.ico"`.
+
+**Xác minh:** build Debug + publish Release OK; exe publish `ExtractAssociatedIcon` 32×32 (212 px ink / 124 px accent); bridge publish khởi động lại (pid mới), titlebar hiện icon (PrintWindow screenshot); attach ETABS + `get_etabs_context` qua MCP server thật OK. Gotcha: Bash heredoc biến `icons\render` thành CR trong comment csproj — dùng `/` trong comment.
+
 ## 2026-09-17 — ETABS MCP: phase 4 — `-Phase full` từ publish folder, registry loop live, hồi quy 3 host — **plan hoàn tất**
 
 **Bổ sung:** harness phase `registry` (R1–R19: MISS → ad-hoc → `get_run`/`toolify_run` → `propose_tool` → `test_tool` → `publish_tool` → CLI approve → listed ≤ 0.5 s → gọi theo tên; tool mong manh → quarantine sau 5 fail → `manage_tool restore` + newVersion guarded → 5 `ArgumentException` vẫn published); `run-live-verify.ps1 -Phase full [-Publish] [-Runs n]` (publish 2 exe rồi chạy từ `HPEtabs/output/`, 1 registry root mỗi run, không wipe giữa nhóm); `tools/harness/README.md`; `reports/regression-tools-list-phase-04.py`; seed results: case chưa chạy → `ArgumentException` (không làm seed bị quarantine khi người dùng hỏi trước khi chạy analysis); README `HPEtabs/` status + gotchas; CLAUDE.md known gaps.
