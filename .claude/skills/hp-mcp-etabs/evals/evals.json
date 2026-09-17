@@ -1,0 +1,40 @@
+{
+  "skill_name": "hp-mcp-etabs",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Model ETABS đang mở, cho tôi biết phản lực chân cột tại tầng Base cho case Dead.",
+      "expected_output": "Calls get_etabs_context first, then the get_joint_reactions seed with caseOrCombo 'Dead' and story 'Base' (not execute_etabs_code), reports FX/FY/FZ in kN and moments in kN·m, and explains 'has no results' as 'run_analysis first' when the case was never run.",
+      "files": [],
+      "assertions": [
+        {"id": "context-first", "text": "get_etabs_context is called before any other ETABS tool"},
+        {"id": "seed-over-script", "text": "get_joint_reactions is used instead of an ad-hoc execute_etabs_code script"},
+        {"id": "units-labelled", "text": "Forces are reported in kN and moments in kN·m"},
+        {"id": "not-run-handling", "text": "A not-run case is explained as needing run_analysis (destructive, second opt-in), not treated as an empty table"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Gán tiết diện C40x40 cho tất cả cột ở Story2 trong ETABS.",
+      "expected_output": "Checks the context (docPath present, isLocked false), lists frames on Story2 with get_structural_objects (unique names, column orientation), previews with dryRun=true (assign_frame_section or a script whose PREVIEW lists cFrameObj.SetSection), asks the user to confirm, then runs with transaction=auto and a short label, and reports the snapshot file name from the result.",
+      "files": [],
+      "assertions": [
+        {"id": "lock-check", "text": "The lock state and docPath are checked before writing"},
+        {"id": "unique-names", "text": "Frames are addressed by unique name from get_structural_objects, never by label"},
+        {"id": "preview-then-confirm", "text": "A dryRun/PREVIEW step precedes the real run and the user is asked to confirm"},
+        {"id": "snapshot-reported", "text": "The .EDB snapshot name from the result is reported to the user"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tool ETABS trả về -32001 khi tôi chạy run_analysis, sửa thế nào?",
+      "expected_output": "Explains that -32001 means the 'Allow destructive operations' checkbox in the HPEtabs MCP Bridge window is off, that the user must tick it (it resets on every bridge start), that the refusal is not a failed run and does not quarantine the tool, and that timeoutSeconds should follow the last analysis time in the GUI because a timeout does not abort ETABS.",
+      "files": [],
+      "assertions": [
+        {"id": "meaning", "text": "-32001 is identified as the destructive opt-in being off in the bridge window"},
+        {"id": "no-bypass", "text": "No workaround that bypasses the opt-in (settings edit, automation) is suggested"},
+        {"id": "timeout-advice", "text": "Advises choosing timeoutSeconds from the GUI analysis time and warns that a timeout does not stop ETABS"}
+      ]
+    }
+  ]
+}
