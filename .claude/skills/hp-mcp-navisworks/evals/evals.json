@@ -1,0 +1,41 @@
+{
+  "skill_name": "hp-mcp-navisworks",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Model Navisworks đang mở, tìm tất cả ống có tên chứa 'CHW', lưu thành một search set tên 'MCP CHW' và tô màu xanh cho chúng.",
+      "expected_output": "Calls get_navis_context first (executionEnabled, isBusy, document units), uses find_items_by_property (category/property display names such as Item/Name, op contains, value CHW) to confirm the hit count, then create_selection_set_from_search and override_color_by_search with dryRun: true first, shows changed/rolledBack and asks the user to confirm, then runs them for real — explaining that each real run is one Undo entry 'MCP: <label>' and that the colour override is permanent until reset: true; no ad-hoc execute_navis_code script unless the seeds cannot do it.",
+      "files": [],
+      "assertions": [
+        {"id": "context-first", "text": "get_navis_context is called before any other Navisworks tool"},
+        {"id": "seed-over-script", "text": "find_items_by_property, create_selection_set_from_search and override_color_by_search are used instead of an ad-hoc execute_navis_code script"},
+        {"id": "dryrun-then-confirm", "text": "Every write seed runs with dryRun: true first and the user is asked to confirm before the real run"},
+        {"id": "permanent-colour", "text": "The answer says the colour override is permanent (saved with the file) and how to remove it (reset: true)"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Chạy clash test giữa ống và dầm trong Navisworks với dung sai 10 mm rồi cho tôi danh sách va chạm.",
+      "expected_output": "Checks get_navis_context for hasClashModule, heavyOperationsEnabled and isModified, explains that running a clash test is a heavy operation (not undoable, not interruptible, may take minutes) that needs the user to tick 'Allow heavy operations' and to save first, does not try to bypass it, then calls create_and_run_clash_test with two searches (a: pipes, b: beams), toleranceMm 10, a timeout up to 600 s and no dryRun, and reads the results with get_clash_results {testName} reporting distanceMm, centerMm and the two items.",
+      "files": [],
+      "assertions": [
+        {"id": "heavy-explained", "text": "The clash run is identified as heavy: second opt-in 'Allow heavy operations', not undoable, not interruptible, save first"},
+        {"id": "no-bypass", "text": "No workaround for the heavy gate or the execution opt-in is suggested"},
+        {"id": "no-dryrun-heavy", "text": "create_and_run_clash_test is not called with dryRun (it is refused for heavy calls)"},
+        {"id": "results-tool", "text": "Results are read with get_clash_results by testName, in mm"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "execute_navis_code trả về diagnostic HEAVY khi tôi gọi doc.AppendFile, và lúc nãy get_navis_context báo -32002. Bridge Navisworks bị lỗi à?",
+      "expected_output": "Explains that HEAVY means the script names a heavy member (AppendFile) while 'Allow heavy operations' is unticked in the HPNavis MCP Bridge window (ribbon HPNavis > MCP > MCP Bridge; both opt-ins reset on every Navisworks start), that -32002 means Navisworks was busy — a modal dialog, a file load, a clash run or another script — answered after the 8 s grace and the user should close the dialog or wait, that neither is a bridge fault (no failed run, no quarantine), points at check-navisworks-mcp.ps1 and the bridge log's self-check line, and suggests no bypass.",
+      "files": [],
+      "assertions": [
+        {"id": "meaning-heavy", "text": "HEAVY is identified as the heavy-operations opt-in being off for a heavy member such as AppendFile"},
+        {"id": "meaning-32002", "text": "-32002 is explained as Navisworks busy (modal dialog / load / clash run / running script) after the grace period, not a bridge error"},
+        {"id": "no-bypass", "text": "No workaround that bypasses either opt-in (settings.json edit, automation, guard change) is suggested"},
+        {"id": "health-check", "text": "The health-check script or the bridge log self-check line is named as the way to verify the chain"}
+      ]
+    }
+  ]
+}

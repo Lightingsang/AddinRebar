@@ -17,7 +17,7 @@ metadata:
 
 Dạy Claude dùng đúng 33 tool của MCP server `hprebar-revit` (`mcp__hprebar-revit__*`; 34 trên máy dev vì có `set_mark_from_comments` do user approve) trên model Revit 2026 đang mở: chuỗi **Claude → HPRebar.Mcp.Server (stdio) → pipe `hprebar-mcp-r2026` → HPRebar.McpBridge (add-in trong Revit) → guard → Roslyn → ExternalEvent → TransactionGroup `MCP: <label>` → Revit API**. Mọi run ghi là **một undo entry** trong Revit (Ctrl+Z hoàn tác); `dryRun: true` chạy thật rồi **rollback cả group** nên mọi thay đổi đều xem trước được.
 
-**Scope:** skill này xử lý *sử dụng* MCP Revit (kết nối, chọn tool, gọi đúng args, đọc envelope, viết script, gỡ lỗi). **Không** xử lý: sửa source `HPRebar/` (xem `CLAUDE.md` mục "HPRebar MCP Bridge"), feature rebar của add-in `HPRebar` (ColumnRebar/BeamRebar/FoundationRebar — code add-in, không phải MCP), AutoCAD/Navisworks/ETABS MCP (`hp-mcp-autocad`, `hp-mcp-etabs`), kết luận thiết kế (tool trả số liệu; quyết định kỹ thuật thuộc kỹ sư).
+**Scope:** skill này xử lý *sử dụng* MCP Revit (kết nối, chọn tool, gọi đúng args, đọc envelope, viết script, gỡ lỗi). **Không** xử lý: sửa source `HPRebar/` (xem `CLAUDE.md` mục "HPRebar MCP Bridge"), feature rebar của add-in `HPRebar` (ColumnRebar/BeamRebar/FoundationRebar — code add-in, không phải MCP), AutoCAD/Navisworks/ETABS MCP (`hp-mcp-autocad`, `hp-mcp-navisworks`, `hp-mcp-etabs`), kết luận thiết kế (tool trả số liệu; quyết định kỹ thuật thuộc kỹ sư).
 
 ## Bước 0 — Kết nối (checklist, theo thứ tự)
 
