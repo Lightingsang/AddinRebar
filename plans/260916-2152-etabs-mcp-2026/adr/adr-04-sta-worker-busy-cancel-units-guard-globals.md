@@ -60,3 +60,10 @@ Base list giữ nguyên (đã có `System.IO/Net/Reflection/Process`, **`System.
 
 ## Open items `[chưa xác minh]` → spike
 E14 STA outbound không pump; E15 modal (block/reject/mã); E12 no-model probe; E13 overload units; mã `COMException` khi ETABS đóng; `IsWindowEnabled` có phản ánh modal WPF của ETABS .NET 8; member access `.File` qua guard.
+
+### Kết quả spike 2026-09-17 ([reports/phase-01-spike.md](../reports/phase-01-spike.md))
+- **E14 verified:** proxy tạo trên STA gọi được từ MTA — STA worker giữ vì "1 chủ, tuần tự", không phải bắt buộc.
+- **E15 observed:** dialog Define mở → `IsWindowEnabled(main)` = true và OAPI trả lời 0.5 s (ETABS .NET 8 phục vụ COM trong message loop lồng) — pre-check vô hại; file dialog native `[chưa xác minh]`.
+- **E13 verified:** ép `kN_mm_C` trong run, restore `finally` về units user (N_mm_C); overload `eUnits GetPresentUnits()` dùng được.
+- **E19 verified:** `Process.Exited` → detach → `-32003` trong 0.1 s; Attach lại không restart bridge; thêm: mọi `COMException` 0x800706BA/0x800706BE/0x80010108/0x80010012/0x80010007 trên call → Detach + `-32003`.
+- **E20 verified:** guard chặn 7 mẫu kể cả `global::`; `sapModel.File.Save()` qua guard (`File` ở vị trí member) → tier D `-32001`.

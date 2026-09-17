@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- A standalone desktop app the user runs beside ETABS 22: it holds the one COM attachment (through the managed
+             ETABSv1.dll wrapper), the pipe listener and the opt-in window. Nothing of this loads into ETABS.exe. -->
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPEtabs.McpBridge</RootNamespace>
+        <AssemblyName>HPEtabs.McpBridge</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- Roslyn ships 13 localized resource folders (7 MB); the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- Never single-file: the script compiler references this assembly and the engine by Assembly.Location. -->
+        <PublishSingleFile>false</PublishSingleFile>
+        <ApplicationIcon />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile against the installed ETABS OAPI wrapper, never copy it: the bridge resolves ETABSv1.dll again at run
+             time from the same install folder (EtabsAssemblyResolver), so the wrapper always matches the ETABS that is
+             running and no CSI binary is ever redistributed. -->
+        <Reference Include="ETABSv1">
+            <HintPath>$(EtabsInstallDir)ETABSv1.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPEtabs.McpBridge.Tests"/>
+    </ItemGroup>
+
+    <!-- One readable error instead of hundreds of CS0246 when the product is not installed here. -->
+    <Target Name="RequireEtabsApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(EtabsApiAvailable)' != 'true'">
+        <Error Text="ETABS $(EtabsMajor) OAPI not found at '$(EtabsInstallDir)ETABSv1.dll'. Install ETABS $(EtabsMajor), or pass -p:EtabsInstallDir=&lt;dir&gt; / set HPETABS_ETABS_DIR. Only HPEtabs.Mcp.Server and its tests build without it (HPEtabs.McpBridge and HPEtabs.McpBridge.Tests need it)."/>
+    </Target>
+
+</Project>

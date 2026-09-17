@@ -1,0 +1,28 @@
+<Project>
+
+  <!--
+    Where the ETABS OAPI lives on this machine. CSI publishes no NuGet package, so the bridge (and the seed
+    compile checks) compile against the installed product's ETABSv1.dll and never copy it (Private=false; the
+    bridge resolves it again at run time from the same place). Resolution order:
+      1. -p:EtabsInstallDir=<dir>  or  env HPETABS_ETABS_DIR
+      2. the COM registration ETABS writes: HKLM\SOFTWARE\Classes\CLSID\{e4f6d00f-51a5-4d65-a09a-ba00fcbf1f82}\LocalServer32
+         = full path of ETABS.exe (the ProgID CSI.ETABS.API.ETABSObject points at this CLSID; there is no
+         HKLM\SOFTWARE\Computers and Structures key to read instead)
+      3. %ProgramW6432%\Computers and Structures\ETABS <major>\
+    EtabsApiAvailable lets a project fail with one readable error instead of hundreds of CS0246.
+  -->
+  <PropertyGroup>
+    <EtabsMajor Condition="'$(EtabsMajor)' == ''">22</EtabsMajor>
+    <EtabsObjectClsid>{e4f6d00f-51a5-4d65-a09a-ba00fcbf1f82}</EtabsObjectClsid>
+
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == '' And '$(HPETABS_ETABS_DIR)' != ''">$(HPETABS_ETABS_DIR)</EtabsInstallDir>
+    <_EtabsLocalServer Condition="'$(EtabsInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\$(EtabsObjectClsid)\LocalServer32', '', null, RegistryView.Registry64))</_EtabsLocalServer>
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == '' And '$(_EtabsLocalServer)' != ''">$([System.IO.Path]::GetDirectoryName($(_EtabsLocalServer.Trim('&quot;'))))</EtabsInstallDir>
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == ''">$(ProgramW6432)\Computers and Structures\ETABS $(EtabsMajor)\</EtabsInstallDir>
+    <EtabsInstallDir Condition="!HasTrailingSlash('$(EtabsInstallDir)')">$(EtabsInstallDir)\</EtabsInstallDir>
+
+    <EtabsApiAvailable>false</EtabsApiAvailable>
+    <EtabsApiAvailable Condition="Exists('$(EtabsInstallDir)ETABSv1.dll')">true</EtabsApiAvailable>
+  </PropertyGroup>
+
+</Project>

@@ -85,3 +85,10 @@ Không rollback in-flight; không undo; preview không chạy gì; `Changed` add
 
 ## Open items `[chưa xác minh]` → spike phase 1
 E9 `Save(path)` save-as; E10 unlock xoá kết quả (`GetCaseStatus`); E11 `Save()` dialog; E12 no-model probe; E13b chữ ký `GetNameList` từng receiver; mã `COMException` khi ETABS đóng; số member CHM index không phân loại được tự động (kỳ vọng 0 sau review tay).
+
+### Kết quả spike 2026-09-17 ([reports/phase-01-spike.md](../reports/phase-01-spike.md))
+- **E9 verified:** `File.Save(path)` **đổi tên hiện tại** (save-as); sau bất kỳ `Save` nào `GetModelFilename(true)` trả **`.$et`** (file working) — snapshot phase 2 chuẩn hoá `Path.ChangeExtension(…, ".EDB")`, copy `.EDB` (sidecar `.$et`/`.ico` bỏ qua); `Save()` ~1 s / 74 KB, không dialog (E11).
+- **E10 still `[chưa xác minh trong CHM]`:** model bỏ đi chưa có kết quả → chưa quan sát "unlock xoá kết quả"; `GetCaseStatus(ref int, ref string[], ref int[])` + status 1 = not-run verified.
+- **E12 verified:** no model = `GetModelFilename(true)` không rooted / "(Untitled)"; `GetNameList` ret 0 count 0 — R vô hại, W/D từ chối theo rule "no file path".
+- **E13b verified:** fingerprint dùng `GetNameList` trên 8 receiver + `Story.GetStories_2` (10 tham số) — tất cả ret 0.
+- **E18 observed:** >1 instance → `GetObject` trả instance mới hơn; warning đúng; liveness bổ sung COM-disconnect (không watch pid khi >1).

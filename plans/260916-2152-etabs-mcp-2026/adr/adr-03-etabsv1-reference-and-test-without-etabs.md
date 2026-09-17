@@ -67,3 +67,8 @@ Không commit `ETABSv1.dll`/`CSiAPIv1.dll`/`.tlb`; `.gitignore` `*.dll` ngoài `
 - `Microsoft.Win32.Registry 5.0.0.0` bind inbox trên net8 — self-check xác nhận.
 - EULA CSI về redistribution — mặc định không.
 - ~~Định dạng `LocalServer32`~~ — **đóng**: path thuần (red-team fact-check).
+
+### Kết quả spike 2026-09-17 ([reports/phase-01-spike.md](../reports/phase-01-spike.md))
+- **E16 verified:** `ETABSv1.dll` resolve từ `C:\Program Files\Computers and Structures\ETABS 22\` (2.10.0.0) qua CLSID `LocalServer32`; `bin/` và publish folder không có DLL; `Assembly.Location` khác rỗng trên publish folder (bridge publish **folder**, server single-file).
+- **E17 verified:** Roslyn compile script `ETABSv1` trong bridge process qua stdio; `Helper` implement `cHelper` **explicit** (gọi qua interface).
+- `HPEtabs.McpBridge.Tests` 26 test (cần ETABS cài; module initializer cài resolver vì `ETABSv1.dll` không copy vào bin test); `HPEtabs.Mcp.Server.Tests` 17 (không cần).

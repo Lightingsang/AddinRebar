@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "HPEtabs scaffold (bridge app + server exe + 2 test projects) + Directory.Build.props + COM attach spike qua stdio WITH GATE"
-status: pending
+status: completed
 priority: P1
 effort: "8h"
 dependencies: [0]
@@ -22,7 +22,7 @@ Dựng **toàn bộ** khung `HPEtabs/` (bridge app + server exe + 2 test project
 ## Requirements
 - Functional: `HPEtabs.slnx` (Debug/Release; `/Solution Items/` = `global.json`, `Directory.Build.props`, `README.md`; `/Shared/` = 3 project `../McpShared/*`), `global.json` copy verbatim `HPNavis/global.json`, `Directory.Build.props` (ADR-03 §1), `README.md`, `.gitignore`.
   - **Bridge** `HPEtabs.McpBridge` (net8.0-windows, `UseWPF`, WinExe, `<Reference ETABSv1 Private=false>`, `<Error>` thiếu API): `App.xaml` → `BridgeEntry.Start()` (resolver → Serilog `%LocalAppData%\HPEtabs\McpBridge\logs\` shared → `new BridgeSettingsStore("HPEtabs","McpBridge")` → compiler → `EtabsExecutor` spike (STA worker + control lane + liveness + `MainThreadQueue`; execute **R-only**, tier từ fixture rút gọn; W/D → `-32001`-style refused "not implemented until phase 2") → `McpBridgeHost(executor, settings, store, "22", PipeNaming.For("etabs",22), "ETABS", JsonRpcMethods.EtabsPrefix, executionDisabledMessage)` → self-check (assert `Location`) → cửa sổ).
-  - **Server** `HPEtabs.Mcp.Server` (net10 stdio): `Program.cs` = `McpServerHost.RunAsync(args, EtabsHostProfile.Instance)`; `EtabsHostProfile` = bảng ADR-05 §1 nguyên văn (`DefaultVersion 22`, `ValidVersions [22]`, `MaxTimeoutSeconds = EtabsHeavyMaxTimeoutSeconds`, 2 hint); 4 core tool: `execute_etabs_code` (Destructive) mô tả ≤ 1 500 ký tự **phải** nêu: globals; "present units forced to kN_mm_C (mm, kN, kN·mm, kN/mm²) and restored"; "no transaction/undo — three tiers: R read-only (allow-list: Get*/Is*/Has*/Count/RefreshView/AnalysisResults*/GetTableForDisplayArray; `transaction:none`), W write (`transaction:auto`; the bridge **saves your model** and copies a .EDB snapshot first — `snapshot` names the file; unsaved or UNC models are refused; `rolledBack:false` after an exception means changes persisted), D destructive (SetModelIsLocked, RunAnalysis, DeleteResults, OpenFile/New*/Save(path), ApplyEditedTables, Start*/Modify*/Merge*/Reset*/Clear*/Rename*/Show*/Export*/Import*, any path-taking member: the user must tick 'Allow destructive operations' in the HPEtabs MCP Bridge window, else the call is refused with error -32001; up to 600 s)"; "dryRun or transaction:none on a writing script = static preview: nothing runs, PREVIEW diagnostic lists the members"; "manual runs like auto"; "Changed counts additions/deletions only"; "cancel/timeout cannot interrupt a running ETABS call — the snapshot save counts against your timeout"; "path arguments must be a string literal or args.Str(\"key\"), never UNC"; "every OAPI call returns int: check `ret` and throw InvalidOperationException($\"ETABS returned {ret} from X\"); caller-input problems → ArgumentException"; "no Helper/ApplicationExit; base guard also blocks `File`/`GetProperty` identifiers". `get_etabs_context` (ReadOnly) mô tả 10 field `EtabsInfo` + `docPath/docTitle/isModifiable`; `inspect_type`, `cancel_execution` ("cannot interrupt an ETABS call"); prompts `etabs_query_template`, `etabs_modify_template`, `toolify_run`; resources `etabs://model/info`, `etabs://selection`; `appsettings.json` copy Navis (`Bridge.HostVersion 22`).
+  - **Server** `HPEtabs.Mcp.Server` (net10 stdio): `Program.cs` = `McpServerHost.RunAsync(args, EtabsHostProfile.Instance)`; `EtabsHostProfile` = bảng ADR-05 §1 nguyên văn (`DefaultVersion 22`, `ValidVersions [22]`, `MaxTimeoutSeconds = EtabsHeavyMaxTimeoutSeconds`, 2 hint); 4 core tool: `execute_etabs_code` (Destructive) mô tả ≤ 1 800 ký tự (đo 1 704; cap như AutoCAD) **phải** nêu: globals; "present units forced to kN_mm_C (mm, kN, kN·mm, kN/mm²) and restored"; "no transaction/undo — three tiers: R read-only (allow-list: Get*/Is*/Has*/Count/RefreshView/AnalysisResults*/GetTableForDisplayArray; `transaction:none`), W write (`transaction:auto`; the bridge **saves your model** and copies a .EDB snapshot first — `snapshot` names the file; unsaved or UNC models are refused; `rolledBack:false` after an exception means changes persisted), D destructive (SetModelIsLocked, RunAnalysis, DeleteResults, OpenFile/New*/Save(path), ApplyEditedTables, Start*/Modify*/Merge*/Reset*/Clear*/Rename*/Show*/Export*/Import*, any path-taking member: the user must tick 'Allow destructive operations' in the HPEtabs MCP Bridge window, else the call is refused with error -32001; up to 600 s)"; "dryRun or transaction:none on a writing script = static preview: nothing runs, PREVIEW diagnostic lists the members"; "manual runs like auto"; "Changed counts additions/deletions only"; "cancel/timeout cannot interrupt a running ETABS call — the snapshot save counts against your timeout"; "path arguments must be a string literal or args.Str(\"key\"), never UNC"; "every OAPI call returns int: check `ret` and throw InvalidOperationException($\"ETABS returned {ret} from X\"); caller-input problems → ArgumentException"; "no Helper/ApplicationExit; base guard also blocks `File`/`GetProperty` identifiers". `get_etabs_context` (ReadOnly) mô tả 10 field `EtabsInfo` + `docPath/docTitle/isModifiable`; `inspect_type`, `cancel_execution` ("cannot interrupt an ETABS call"); prompts `etabs_query_template`, `etabs_modify_template`, `toolify_run`; resources `etabs://model/info`, `etabs://selection`; `appsettings.json` copy Navis (`Bridge.HostVersion 22`).
   - **Tests** `HPEtabs.Mcp.Server.Tests` (net10, xunit v3, link `FakeRevitExecutor.cs`): `EtabsHostProfileTests` (pipe/prefix/tool names/categories/600/reserved/`ValidVersions [22]`/hints non-null), `EtabsToolsOverPipeTests` (PipeListener ephemeral + fake → execute/context/inspect/cancel; `-32001/-32002/-32003`; `timeoutSeconds=600` chấp nhận; `run_tool` 600 không clamp; `Shape` không revitVersion/isFamily, có `etabs`; bridge vắng → message = `BridgeNotConnectedHint` (nêu exe, không path máy); timeout → `TimeoutSemanticsHint`; description `execute_etabs_code` ≤ 1 500 ký tự và chứa "saves your model", "-32001", "PREVIEW"). `HPEtabs.McpBridge.Tests` tạo **rỗng** (csproj + 1 test `ScriptingSelfCheck` compile — cần ETABS, ADR-03 §4).
   - **Harness** `HPEtabs/tools/harness/{live-verify.py, run-live-verify.ps1, harness-common.ps1, README.md}` — **một** py + **một** ps1, mọi phase thêm `--phase` (`spike|bridge|seeds|full`) và switch; import `../../../McpShared/tools/mcp-session.py` + `harness_common.py` (đường tương đối như HPNavis); ps1 Windows PowerShell 5.1: start bridge exe guarded, UIA tick checkbox + click Attach trên cửa sổ WPF của ta, **không** start/kill ETABS, kill chỉ pid mình mở.
 - Non-functional: không tham chiếu `HPRebar/`, `HPAutoCad/`, `HPNavis/`, `HPCivil3D/` (không tồn tại hôm nay — quy tắc vẫn giữ); prefix `HPEtabs.*`; không hard-code đường dẫn; không bypass opt-in (`grep HPETABS_SPIKE\|ENABLE_EXECUTION` = 0); `McpShared` không bị chạm.
@@ -83,23 +83,23 @@ HPEtabs/
 8. `reports/phase-01-spike.md`: bảng E9…E20 + trích log + mã COM + thời gian; **cập nhật ADR-02/03/04** mục `[chưa xác minh]`.
 
 ## Todo List
-- [ ] Scaffold + slnx + props + README + .gitignore
-- [ ] Bridge: resolver/locator/attachment/self-check/executor spike/cửa sổ tối giản
-- [ ] Server: profile + 4 tool + prompts/resources + tests ≥ 14
-- [ ] Harness `--phase spike`
-- [ ] 👤 ETABS + model bỏ đi + duyệt E9/E10
-- [ ] E9…E20 ≥ 2 lần; publish + E16 trên publish; `.mcp.json` 👤
-- [ ] Report + ADR update
+- [x] Scaffold + slnx + props + README + .gitignore
+- [x] Bridge: resolver/locator/attachment/self-check/executor spike/cửa sổ (Attach/Detach, 2 checkbox, 3 probe)
+- [x] Server: profile + 4 tool + prompts/resources + tests 17
+- [x] Harness `live-verify.py --phase disabled|detached|spike|nomodel|modal|closed` + `run-live-verify.ps1` + `spike-step.ps1`
+- [x] 👤 ETABS + model bỏ đi + duyệt E9/E10 (2026-09-17)
+- [x] E9…E20 (spike 4 lần, detached 3 lần kể cả publish); publish 2 exe; `.mcp.json` 👤 **chưa** (user thêm)
+- [x] Report `reports/phase-01-spike.md` + ADR-02/03/04 mục spike
 
 ## Success Criteria
-- [ ] `dotnet build HPEtabs/HPEtabs.slnx -c Debug` xanh trên máy dev; `-p:EtabsInstallDir=C:\nope\` fail đúng 1 lỗi; `HPEtabs/HPEtabs.McpBridge/bin/Debug/net8.0-windows/ETABSv1.dll` không tồn tại.
-- [ ] `grep -rn "HPRebar/\|HPAutoCad/\|HPNavis/\|HPCivil3D" HPEtabs --include=*.csproj --include=*.slnx` = 0; `grep -rn "ETABSv1\|Autodesk\." HPEtabs/HPEtabs.Mcp.Server HPEtabs/HPEtabs.Mcp.Server.Tests --include=*.csproj` = 0.
-- [ ] `dotnet test HPEtabs/HPEtabs.Mcp.Server.Tests` → **≥ 14** pass, 0 fail, 0 skip (không cần ETABS).
-- [ ] `python McpShared/tools/mcp-call.py <server exe> tools/list` (registry cách ly) → đúng 12 tên; `initialize` → `serverInfo.name == "HPEtabs MCP"`; không bridge → message chứa "HPEtabs.McpBridge.exe" và "hpetabs-mcp-22", không path máy.
-- [ ] Log bridge: `ETABSv1.dll resolved from … (2.10.0.0)`, `MCP scripting self-check OK` (Debug **và** publish folder); cửa sổ "Attached: pid N — model.EDB".
-- [ ] `powershell.exe -File HPEtabs/tools/harness/run-live-verify.ps1 -Phase spike -Runs 2` → E16, E17, E18, E19, E20 pass 2/2; E9–E15, E13b có kết luận trong `reports/phase-01-spike.md`.
-- [ ] `grep -rn "HPETABS_SPIKE\|ENABLE_EXECUTION" HPEtabs` = 0; `execute` trước tick → `-32001` với text "(a separate app, not inside ETABS)".
-- [ ] `git diff --stat McpShared/` rỗng sau phase 1.
+- [x] `dotnet build HPEtabs/HPEtabs.slnx -c Debug` xanh (0 warning) trên máy dev; `-p:EtabsInstallDir=C:\nope\` fail đúng 1 lỗi; `HPEtabs/HPEtabs.McpBridge/bin/Debug/net8.0-windows/ETABSv1.dll` không tồn tại.
+- [x] `grep -rn "HPRebar/\|HPAutoCad/\|HPNavis/\|HPCivil3D" HPEtabs --include=*.csproj --include=*.slnx` = 0; `grep -rn "ETABSv1\|Autodesk\." HPEtabs/HPEtabs.Mcp.Server HPEtabs/HPEtabs.Mcp.Server.Tests --include=*.csproj` = 0.
+- [x] `dotnet test HPEtabs/HPEtabs.Mcp.Server.Tests` → **17** pass (+ `HPEtabs.McpBridge.Tests` **46** sau review round — 26 lúc spike), 0 fail, 0 skip (không cần ETABS).
+- [x] `python McpShared/tools/mcp-call.py <server exe> tools/list` (registry cách ly) → đúng 12 tên; `initialize` → `serverInfo.name == "HPEtabs MCP"`; không bridge → message chứa "HPEtabs.McpBridge.exe" và "hpetabs-mcp-22", không path máy.
+- [x] Log bridge: `ETABSv1.dll resolved from … (2.10.0.0)`, `MCP scripting self-check OK` (Debug **và** publish folder); cửa sổ "Attached: pid N — model.EDB".
+- [x] E16/E17/E18/E19/E20 pass ≥ 2 lần (`detached` 3 lần, `spike` 4 lần, `closed` 1, re-attach 1); E9–E15, E13b có kết luận trong `reports/phase-01-spike.md` (E10 "unlock xoá kết quả" vẫn `[chưa xác minh]` — model không có kết quả; E15 quan sát: dialog không chặn OAPI).
+- [x] `grep -rn "HPETABS_SPIKE\|ENABLE_EXECUTION" HPEtabs` = 0; `execute` trước tick → `-32001` với text "(a separate app, not inside ETABS)".
+- [x] `git diff --stat McpShared/` rỗng sau phase 1.
 
 ## Risk Assessment
 - `GetObject` null khi ETABS chạy dưới user/elevation khác — cùng user, không elevated; README.

@@ -1,0 +1,205 @@
+<Window x:Class="HPEtabs.McpBridge.View.EtabsBridgeStatusView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:HPEtabs.McpBridge.ViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:EtabsBridgeStatusViewModel}"
+        Title="HPEtabs MCP Bridge"
+        Width="600" Height="760"
+        MinWidth="520" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <!-- Status dot colour follows the bridge state; brushes are theme tokens. -->
+            <Style x:Key="StatusDot" TargetType="Ellipse">
+                <Setter Property="Width" Value="12"/>
+                <Setter Property="Height" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Foreground.Tertiary}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Listening">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Info}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Connected">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Success}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Busy">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Warning}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Core.StatusKind}" Value="Error">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Danger}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="SelfCheckText" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelfCheckOk}" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Brush.Danger}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="{DynamicResource Spacing.Medium}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: state + listener toggle -->
+        <Border Grid.Row="0" Style="{DynamicResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse Grid.Column="0" Style="{DynamicResource StatusDot}" Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+                <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                    <TextBlock Style="{DynamicResource Subheading}" Text="{Binding Core.StatusText}" TextWrapping="Wrap"/>
+                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding Core.StatusDetail}" Foreground="{DynamicResource Brush.Danger}"
+                               AutomationProperties.AutomationId="StatusDetail"/>
+                    <TextBlock Style="{DynamicResource Caption}">
+                        <Run Text="Pipe"/> <Run Text="{Binding Core.PipeName, Mode=OneWay}"/> <Run Text="· ETABS"/> <Run Text="{Binding Core.RevitVersion, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Style="{DynamicResource SelfCheckText}" Text="{Binding SelfCheckText}" AutomationProperties.AutomationId="SelfCheck"/>
+                </StackPanel>
+
+                <Button Grid.Column="2" Style="{DynamicResource PrimaryButton}" MinWidth="120" VerticalAlignment="Center"
+                        AutomationProperties.AutomationId="ToggleListener"
+                        Content="{Binding Core.ToggleButtonText}" Command="{Binding Core.ToggleListenerCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Attachment: which ETABS this bridge talks to -->
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Style="{DynamicResource BodyStrong}" Text="ETABS attachment"/>
+                    <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" Text="{Binding AttachState}" TextWrapping="Wrap"
+                               AutomationProperties.AutomationId="AttachState"/>
+                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding AttachWarning}" Foreground="{DynamicResource Brush.Warning}" TextWrapping="Wrap"
+                               AutomationProperties.AutomationId="AttachWarning"/>
+                </StackPanel>
+                <Button Grid.Column="1" Style="{DynamicResource SecondaryButton}" MinWidth="90" VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                        Content="Attach" Command="{Binding AttachCommand}" AutomationProperties.AutomationId="Attach"
+                        ToolTip="Attach to the ETABS instance ETABS calls active (Tools › Active Instance for API when more than one is running)."/>
+                <Button Grid.Column="2" Style="{DynamicResource SecondaryButton}" MinWidth="90" VerticalAlignment="Center"
+                        Content="Detach" Command="{Binding DetachCommand}" AutomationProperties.AutomationId="Detach"/>
+            </Grid>
+        </Border>
+
+        <!-- Safety: the two per-session opt-ins and what they mean -->
+        <Border Grid.Row="2" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel>
+                <TextBlock Style="{DynamicResource BodyStrong}" Text="Safety"/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
+                          IsChecked="{Binding Core.IsExecutionEnabled}"
+                          Content="Allow AI code execution against the attached ETABS model"
+                          ToolTip="Scripts written by the AI run against your live ETABS model with your full user rights. ETABS has no undo: a writing script first saves the model and copies a .EDB snapshot. The bridge blocks obvious escapes (files, network, processes, reflection, dialogs) but is not a sandbox. Turned off again every time this app starts."/>
+
+                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
+                           Text="Off by default. Read-only scripts run as they are; writing scripts save the model first and keep a .EDB copy you can restore. Nothing is undoable in ETABS."/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowDestructive"
+                          IsChecked="{Binding IsDestructiveEnabled}" IsEnabled="{Binding CanEnableDestructive}"
+                          Content="Allow destructive operations (unlock model, run analysis, open/save/export files, delete results)"
+                          ToolTip="These cannot be undone or interrupted, may take minutes, and unlocking discards analysis results. Off on every start; only available while code execution is allowed."/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
+                          IsChecked="{Binding Core.AutoStartListener}"
+                          Content="Start the listener automatically when this app opens"
+                          ToolTip="Only the listener. Code execution still needs the box above, every session."/>
+            </StackPanel>
+        </Border>
+
+        <!-- Last run + spike probes -->
+        <Border Grid.Row="3" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0">
+                    <Button DockPanel.Dock="Right" Style="{DynamicResource LinkButton}" Content="Copy script"
+                            Command="{Binding Core.CopyLastScriptCommand}"/>
+                    <TextBlock Style="{DynamicResource BodyStrong}" Text="Last run"/>
+                </DockPanel>
+
+                <TextBlock Grid.Row="1" Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                           Text="{Binding Core.LastRunSummary}"/>
+
+                <TextBox Grid.Row="2" Style="{DynamicResource StandardTextBox}" Margin="{DynamicResource Spacing.SmallTop}"
+                         Text="{Binding Core.LastScriptPreview, Mode=OneWay}" IsReadOnly="True"
+                         FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}"
+                         AcceptsReturn="True" TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallTop}">
+                    <TextBlock Style="{DynamicResource Caption}" VerticalAlignment="Center" Text="Probes (throw-away model only):"/>
+                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Save-as probe" Command="{Binding ProbeSaveAsCommand}"
+                            AutomationProperties.AutomationId="ProbeSaveAs" ToolTip="Writes a copy of the model next to it and saves the original again: tells whether Save(path) re-points the model."/>
+                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Unlock probe" Command="{Binding ProbeUnlockCommand}"
+                            AutomationProperties.AutomationId="ProbeUnlock" ToolTip="Unlocks the model and reports the analysis case status before and after."/>
+                    <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallHorizontal}" Content="Apartment probe" Command="{Binding ProbeApartmentCommand}"
+                            AutomationProperties.AutomationId="ProbeApartment" ToolTip="Read-only: calls the proxy from the STA worker and from a thread-pool thread."/>
+                </StackPanel>
+                <TextBlock Grid.Row="4" Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" Text="{Binding ProbeResult}" TextWrapping="Wrap"
+                           AutomationProperties.AutomationId="ProbeResult"/>
+            </Grid>
+        </Border>
+
+        <!-- Footer -->
+        <Grid Grid.Row="4" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Style="{DynamicResource Caption}">
+                    <Run Text="Compiled scripts:"/> <Run Text="{Binding Core.CompiledScriptCount, Mode=OneWay}"/>
+                    <Run Text=" (each stays in memory until this app restarts)"/>
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
+                            Command="{Binding Core.OpenAuditFolderCommand}" ToolTip="{Binding Core.AuditDirectory}"/>
+                    <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open log folder" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                            Command="{Binding OpenLogFolderCommand}" ToolTip="{Binding LogDirectory}" AutomationProperties.AutomationId="OpenLogs"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Style="{DynamicResource SecondaryButton}" MinWidth="100" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                        Content="Restart bridge" Command="{Binding Core.RestartBridgeCommand}"
+                        ToolTip="Drops the current MCP connection and reopens the pipe. Does not free compiled scripts or detach from ETABS."/>
+                <Button Style="{DynamicResource PrimaryButton}" MinWidth="100"
+                        Content="Close" Command="{Binding Core.CloseCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

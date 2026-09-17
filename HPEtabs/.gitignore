@@ -1,0 +1,7 @@
+*bin/
+*obj/
+/output/
+
+# CSI binaries are never checked in (EULA) — the bridge references ETABSv1.dll from the install folder
+*.dll
+!**/bin/**
