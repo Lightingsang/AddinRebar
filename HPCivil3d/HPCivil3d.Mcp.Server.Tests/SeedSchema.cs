@@ -21,6 +21,11 @@ internal static class SeedSchema
         }
     }
 
+    /// <summary>The fallback literal of every `args.X("key", fallback)` read of the given top-level key (`args.Int("limit", 100)` → "100").</summary>
+    public static IEnumerable<string> ArgReadsWithFallback(string code, string key) =>
+        System.Text.RegularExpressions.Regex.Matches(code, @"(?<![A-Za-z0-9_.])args\.(?:Str|Double|Int|Long|Bool)\(\s*""" + System.Text.RegularExpressions.Regex.Escape(key) + @"""\s*,\s*(?<fallback>""[^""]*""|[-A-Za-z0-9_.]+)\s*\)")
+            .Select(m => m.Groups["fallback"].Value);
+
     /// <summary>`receiver.Str("key")` / `.Double(` / … where the receiver is not the `args` global.</summary>
     public static IEnumerable<string> NestedArgReads(string code) =>
         System.Text.RegularExpressions.Regex.Matches(code, @"(?<![A-Za-z0-9_.])(?<receiver>[A-Za-z_][A-Za-z0-9_]*(?:\[[^\]]*\])?)\.(?:Str|Double|Int|Long|Bool|Has|Require|Obj|List|Strings|Doubles|Longs)\(\s*""(?<key>[^""]+)""")

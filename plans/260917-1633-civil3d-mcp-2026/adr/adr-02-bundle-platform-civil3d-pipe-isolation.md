@@ -1,6 +1,6 @@
 # ADR-02 — Bundle riêng `HPCivil3d.McpBridge.bundle`, `Platform="Civil3D"`, pipe `hpcivil3d-mcp-2026`, hai product chạy song song không đụng nhau
 
-**Ngày:** 2026-09-17 · **Status:** **Accepted** 2026-09-18 — spike phase 1 S-01/S-02/S-02b/S-03 PASS ([reports/phase-01-spike.md](../reports/phase-01-spike.md) run 1) · **Owner:** HPCivil3d
+**Ngày:** 2026-09-17 · **Status:** **Accepted (verified live)** 2026-09-18 — spike phase 1 S-01/S-02/S-02b/S-03 PASS; phase 4 isolation 8/8 ×1 + 3 run ([phase-04](../reports/phase-04-live-verify.md)) ([reports/phase-01-spike.md](../reports/phase-01-spike.md) run 1) · **Owner:** HPCivil3d
 **Kế thừa:** [AutoCAD ADR-05 §2 (`Platform="AutoCAD"` để né Civil 3D)](../../260913-0000-autocad-mcp-bridge-2026/adr/adr-05-autocad-plugin-packaging-alc-isolation-multi-version.md) · [ADR-06 định danh](adr-06-server-profile-client-wiring-ribbon-identity.md)
 **Bằng chứng:** [E1, E4, E13, E14, E15](../research/evidence-on-machine-2026-09-17.md) · [researcher-02 §1, §6](../research/researcher-02-civil3d-autoloader-launch-rebuild-facts.md) · `HPAutoCad/HPAutoCad.McpBridge.Loader/Bundle/PackageContents.xml:13–15` (comment giải thích `Platform="AutoCAD"`) · `HPAutoCad/tools/harness/run-live-verify.ps1:116–132` (isolation 2: Civil 3D không nạp bundle AutoCAD — pass 2026-09-14) · `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs:41–48`.
 

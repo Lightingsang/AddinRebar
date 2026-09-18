@@ -61,6 +61,12 @@ function Find-OptInCheckbox {
     return $null
 }
 
+function Test-PipeUp([string]$PipeName) {
+    # A directory listing, not Test-Path: Test-Path opens the pipe, which the bridge counts as a client and drops -
+    # the name vanishes for a moment while it re-listens, and a second check races it.
+    try { return [bool]([System.IO.Directory]::GetFiles('\\.\pipe\') | Where-Object { [System.IO.Path]::GetFileName($_) -eq $PipeName }) } catch { return $false }
+}
+
 function Set-OptIn([bool]$on) {
     $box = Find-OptInCheckbox
     if (-not $box) { Write-Host "opt-in: checkbox not found in any window of acad.exe"; return $false }
@@ -121,7 +127,7 @@ function Start-AcadWithBridge([string]$scriptPath, [int]$timeoutSec = 420, [stri
     $script:pipeUp = $false
     while ($sw.Elapsed.TotalSeconds -lt $timeoutSec) {
         Answer-SecureLoad | Out-Null
-        if ($PipeName -and (Test-Path ("\\.\pipe\" + $PipeName))) { $script:pipeUp = $true; Write-Host "pipe $PipeName up after $([int]$sw.Elapsed.TotalSeconds) s"; break }
+        if ($PipeName -and (Test-PipeUp $PipeName)) { $script:pipeUp = $true; Write-Host "pipe $PipeName up after $([int]$sw.Elapsed.TotalSeconds) s"; break }
         if ($p.HasExited) { Write-Host "acad exited early (code $($p.ExitCode))"; break }
         Start-Sleep -Seconds 2
     }

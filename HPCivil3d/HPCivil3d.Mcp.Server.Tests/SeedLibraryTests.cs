@@ -226,6 +226,29 @@ public sealed class SeedLibraryTests
     }
 
     [Theory]
+    [MemberData(nameof(Seeds))]
+    public void Schema_defaults_equal_the_code_fallbacks(string key)
+    {
+        // Nothing fills a missing argument: the code's own fallback is what runs, and the schema `default` is what the AI reads.
+        // The two must be the same literal, or a caller who omits the key gets a different answer from the one the schema promised
+        // (a lowered `maximum` once left `partLimit` falling back to 200 while the schema said 60 — the seed refused its own default).
+        var seed = Get(key);
+        foreach (var property in seed.Tool.GetProperty("inputSchema").GetProperty("properties").EnumerateObject())
+        {
+            if (!property.Value.TryGetProperty("default", out var schemaDefault)) continue;
+            var reads = SeedSchema.ArgReadsWithFallback(seed.Code, property.Name).ToArray();
+            Assert.True(reads.Length > 0, $"{seed.Name}.{property.Name} has a schema default but the code never reads it with a literal fallback (an expression fallback cannot be compared)");
+            var expected = schemaDefault.ValueKind switch
+            {
+                JsonValueKind.True => "true", JsonValueKind.False => "false",
+                JsonValueKind.String => "\"" + schemaDefault.GetString() + "\"",
+                _ => schemaDefault.GetRawText(),
+            };
+            Assert.All(reads, fallback => Assert.True(string.Equals(fallback, expected, StringComparison.Ordinal), $"{seed.Name}.{property.Name}: schema default {expected} but code falls back to {fallback}"));
+        }
+    }
+
+    [Theory]
     [InlineData("create_cogo_points")]
     [InlineData("create_alignment_from_polyline")]
     public void Write_seed_documents_its_side_effects_and_dry_run(string name)

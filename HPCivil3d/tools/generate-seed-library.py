@@ -450,7 +450,7 @@ seed("Pipe", "list_pipe_networks", {
     "description": "Lists the gravity pipe networks (handle, name, reference alignment and surface, parts list, pipe and structure counts) and, with includeParts, the pipes (family, size, start/end in mm with elevation in drawing units, slope, 2D/3D length in mm, inner diameter in mm, shape, flow direction, start/end structure, minimum cover in mm) and structures (family, size, position, rim/sump elevation in drawing units, sump depth, height and inner diameter in mm, connected pipes) — partLimit is the total number of parts listed across the answer (default 60, max 100, so a page stays under 64 KB); a network cut short reports partsTruncated, and networks past the budget list none; pressure networks are summarised by counts. Read-only.",
     "inputSchema": {"type": "object", "properties": {
         "namePattern": NAME_PATTERN,
-        "includeParts": {"type": "boolean", "default": False, "description": "Also list the pipes and structures of each network (up to partLimit of each per network)"},
+        "includeParts": {"type": "boolean", "default": False, "description": "Also list the pipes and structures of each network (partLimit is the total budget across the answer)"},
         "limit": limit(50),
         "partLimit": {"type": "integer", "default": 60, "minimum": 1, "maximum": 100, "description": "Total budget of parts (pipes + structures) listed across the whole answer (1–100); networks past the budget report partsTruncated"}},
         "additionalProperties": False}},
@@ -458,7 +458,7 @@ r'''
 string namePattern = args.Str("namePattern", "*");
 bool includeParts = args.Bool("includeParts", false);
 int limit = args.Int("limit", 50);
-int partLimit = args.Int("partLimit", 200);
+int partLimit = args.Int("partLimit", 60);
 if (limit <= 0 || limit > 500) throw new ArgumentException("limit must be 1–500.");
 if (partLimit <= 0 || partLimit > 100) throw new ArgumentException("partLimit must be 1–100.");
 if (civil == null) throw new InvalidOperationException("The active drawing has no Civil document.");''' + LIKE + ERR + r'''

@@ -1,6 +1,6 @@
 # ADR-05 — 12 seed MVP (10 đọc `none` + 2 ghi `auto`), hợp đồng seed = AutoCAD, category theo `Civil3dHostProfile`
 
-**Ngày:** 2026-09-17 · **Status:** **Accepted (revised)** 2026-09-18 — U2/U3/U5/U7/U8/U9 đóng bởi spike ([reports/phase-01-spike.md](../reports/phase-01-spike.md)); U6 và loại polyline chờ phase 3 · **Owner:** HPCivil3d
+**Ngày:** 2026-09-17 · **Status:** **Accepted (verified live)** 2026-09-18 — 12 seed live ×3 (phase 4 S 24 check); U2/U3/U5/U7/U8/U9 đóng bởi spike ([reports/phase-01-spike.md](../reports/phase-01-spike.md)); U6 và loại polyline chờ phase 3 · **Owner:** HPCivil3d
 **Kế thừa:** CLAUDE.md § "HPAutoCad MCP Bridge › Seed contract" (body kết thúc `return`, điểm `{x, y}` mm, `tr` của bridge, `args.X("literal", default)` mọi key, `limit ≤ 500`, envelope < 64 KB, lỗi caller = `ArgumentException`) · [ADR-03](adr-03-globals-units-context.md) (đơn vị, `drawingUnit` envelope) · [ADR-04 §2](adr-04-transactions-rebuilds-guard-civil3d.md) (không rebuild) · [ADR-06 §1](adr-06-server-profile-client-wiring-ribbon-identity.md) (10 category)
 **Bằng chứng:** [addendum §2–§10](../research/reflection-addendum-verified-signatures.md) (mọi member dưới đây đều có trong addendum trừ chỗ ghi `[chưa xác minh]`) · [E5, E6](../research/evidence-on-machine-2026-09-17.md) (sample code + tutorial drawings) · `HPAutoCad/HPAutoCad.Mcp.Server/Registry/SeedLibrary/Layer/list_layers/{tool.json,code.cs,examples.json}` (khuôn file) · `HPAutoCad/HPAutoCad.Mcp.Server.Tests/SeedLibraryTests.cs:25,274,282` (compile-check + `Assert.SkipWhen`).
 

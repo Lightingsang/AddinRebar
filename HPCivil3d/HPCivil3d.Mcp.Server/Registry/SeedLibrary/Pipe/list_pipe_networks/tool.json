@@ -31,7 +31,7 @@
       "includeParts": {
         "type": "boolean",
         "default": false,
-        "description": "Also list the pipes and structures of each network (up to partLimit of each per network)"
+        "description": "Also list the pipes and structures of each network (partLimit is the total budget across the answer)"
       },
       "limit": {
         "type": "integer",

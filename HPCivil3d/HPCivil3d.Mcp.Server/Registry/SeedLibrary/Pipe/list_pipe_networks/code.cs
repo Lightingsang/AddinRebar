@@ -1,7 +1,7 @@
 string namePattern = args.Str("namePattern", "*");
 bool includeParts = args.Bool("includeParts", false);
 int limit = args.Int("limit", 50);
-int partLimit = args.Int("partLimit", 200);
+int partLimit = args.Int("partLimit", 60);
 if (limit <= 0 || limit > 500) throw new ArgumentException("limit must be 1–500.");
 if (partLimit <= 0 || partLimit > 100) throw new ArgumentException("partLimit must be 1–100.");
 if (civil == null) throw new InvalidOperationException("The active drawing has no Civil document.");
