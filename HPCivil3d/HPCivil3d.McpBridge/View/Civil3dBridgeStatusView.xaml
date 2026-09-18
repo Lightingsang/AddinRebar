@@ -77,7 +77,7 @@
                     <TextBlock Style="{DynamicResource Caption}" Text="{Binding StatusDetail}" Foreground="{DynamicResource Brush.Danger}"
                                AutomationProperties.AutomationId="StatusDetail"/>
                     <TextBlock Style="{DynamicResource Caption}">
-                        <Run Text="Pipe"/> <Run Text="{Binding PipeName, Mode=OneWay}"/> <Run Text="· AutoCAD"/> <Run Text="{Binding RevitVersion, Mode=OneWay}"/>
+                        <Run Text="Pipe"/> <Run Text="{Binding PipeName, Mode=OneWay}"/> <Run Text="· Civil 3D"/> <Run Text="{Binding RevitVersion, Mode=OneWay}"/>
                     </TextBlock>
                 </StackPanel>
 
@@ -93,15 +93,15 @@
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
                           IsChecked="{Binding IsExecutionEnabled}"
-                          Content="Allow AI code execution in this AutoCAD session"
-                          ToolTip="Scripts written by the AI run inside AutoCAD with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox. Turned off again every time AutoCAD starts."/>
+                          Content="Allow AI code execution in this Civil 3D session"
+                          ToolTip="Scripts written by the AI run inside Civil 3D with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox. Turned off again every time Civil 3D starts."/>
 
                 <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
-                           Text="Off by default. Every script runs inside a transaction the bridge owns; U in AutoCAD reverts the AI's runs since your last command. Dry runs never commit."/>
+                           Text="Off by default. Every script runs inside a transaction the bridge owns; U in Civil 3D reverts the AI's runs since your last command. Dry runs never commit."/>
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
                           IsChecked="{Binding AutoStartListener}"
-                          Content="Start the listener automatically when AutoCAD opens"
+                          Content="Start the listener automatically when Civil 3D opens"
                           ToolTip="Only the listener. Code execution still needs the box above, every session."/>
             </StackPanel>
         </Border>
@@ -142,7 +142,7 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                 <TextBlock Style="{DynamicResource CompileCountText}">
                     <Run Text="Compiled scripts:"/> <Run Text="{Binding CompiledScriptCount, Mode=OneWay}"/>
-                    <Run Text=" (each stays in memory until AutoCAD restarts)"/>
+                    <Run Text=" (each stays in memory until Civil 3D restarts)"/>
                 </TextBlock>
                 <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
                         Command="{Binding OpenAuditFolderCommand}" ToolTip="{Binding AuditDirectory}"/>

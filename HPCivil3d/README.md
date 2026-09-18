@@ -34,9 +34,12 @@ dotnet build HPCivil3d/HPCivil3d.slnx -c Debug -p:Civil3dInstallDir=X:\nowhere\ 
 ## Script contract (what the AI sees)
 
 Globals `doc, db, ed, app, tr, units, civil, ct, log, progress, args` — the AutoCAD set plus `civil` (the active
-`CivilDocument`, null when the drawing holds no Civil data). `units` converts mm ↔ the **Civil drawing unit**
-(Meters or Feet from the drawing settings, not INSUNITS); plan geometry crosses the tool boundary in mm, stations and
-elevations stay in drawing units and every envelope says which. `transaction=auto|none|manual` and `dryRun` behave as in
+`CivilDocument`; every drawing opened in Civil 3D has one, Civil settings are created lazily, so null is only the
+defensive path). `units` converts mm ↔ the **Civil drawing unit** (Meters or Feet from the drawing settings, not
+INSUNITS); plan geometry crosses the tool boundary in mm, stations and elevations stay in drawing units and every
+envelope says which. A drawing without Civil settings (a plain `acad.dwt` drawing opened in Civil 3D) reports
+`DrawingUnits = Feet` whatever INSUNITS says — `get_civil3d_context` flags that as `insunitsMismatch: true`, the
+scripts follow the Civil unit, and a seed must warn before writing coordinates into such a drawing. `transaction=auto|none|manual` and `dryRun` behave as in
 the AutoCAD MCP (outer transaction aborted = nothing kept). Blocked on top of the AutoCAD guard: `Rebuild`/`RebuildAll`/
 `RebuildSnapshot`, data shortcuts, the survey database, file import/export members, `AeccUiMgd` dialogs, `Autodesk.AECC.Interop`.
 
@@ -47,7 +50,29 @@ the AutoCAD MCP (outer transaction aborted = nothing kept). Blocked on top of th
 with env `HPCIVIL3D_MCP_Bridge__HostVersion=2026`. Open Civil 3D, ribbon **HPCivil3d ▸ MCP ▸ MCP Bridge**, start the
 listener, tick *Allow AI code execution* (off on every start, never persisted).
 
+## Tests (`HPCivil3d.McpBridge.Tests`, net10, xunit v3 — no AutoCAD or Civil reference, builds anywhere)
+
+`dotnet test HPCivil3d/HPCivil3d.McpBridge.Tests` (41): **MirrorTests** read `tools/mirror-tokens.json` and require every
+mirrored file to equal its `HPAutoCad/` source after the tokens are applied (in order) and the `// civil-only: begin/end`
+(`<!-- civil-only: begin/end -->`) blocks are stripped — a block may only add lines; `civilOwnedFiles` (BridgeEntry, the
+self-check, the csproj, the bundle manifest, the units readers) are not compared; every source file under the two bridge
+projects must be in one list or the other; versions are neutralised so a bump on either side is not drift. Changing one
+character outside a block fails exactly one test naming the file and line. `Civil3dUnitTableTests` pin the unit rule
+(`Civil3dUnitTable.cs` is linked into the test project): Meters 1000 / Feet 304.8, INSUNITS only without a Civil unit,
+`insunitsMismatch` when they disagree, US survey feet = feet, `"."` = no zone.
+
 ## Harness (`tools/harness/`)
+
+`run-bridge-unattended.ps1` (Windows PowerShell 5.1) is the pipe harness: starts Civil 3D with `bridge.scr`
+(`HPC3DMCPBRIDGE` + `HPC3DMCPSTART`), answers SECURELOAD (*Load Once*, its own acad.exe only), ticks the opt-in through
+UI Automation, opens a copy of `Align-7C.dwg` and runs `pipe-scenarios.py` straight against the pipe (no MCP server):
+the AutoCAD set — read, dryRun, commit, exception, `none` + modify, `manual`, modify + erase, guard ×3, compile error,
+cancel, timeout, progress, serializer, `U` — plus the Civil set C1–C9 (context `civil3d` block, alignments and
+alignment entities serialised, COGO point dryRun / commit + `U`, guard `RebuildAll` and data shortcuts, a Civil exception
+as `PointNotOnEntityException: …`, a style with its name), then opt-in off → `-32001`, no drawing → `-32003`, busy →
+`-32002` → ESC → retry. 31 checks. `run-ribbon-check.ps1` (pwsh 7) checks the `HPCivil3d ▸ MCP ▸ MCP Bridge` tab the way
+the AutoCAD one does (exactly one tab, workspace and COLORTHEME round trips, the button opens one window; icon = MANUAL
+with screenshots under `output/ribbon-check/`).
 
 `run-spike.ps1` (Windows PowerShell 5.1) is the phase-1 spike: builds and deploys, starts Civil 3D unattended, ticks the
 opt-in through UI Automation, runs `spike.py` over stdio (copies of the Civil tutorial drawings from
@@ -57,5 +82,5 @@ load the bundle and that AutoCAD + Civil 3D serve two pipes at once. It closes d
 `Platform="AutoCAD*"` on the dev machine (`Civil3dMcp.bundle`, `AutoCadMcp.bundle`) load into every product; the harness
 leaves them alone.
 
-`tools/mirror-tokens.json` is the token table the copy from `HPAutoCad/` used; the phase-2 mirror tests apply it to the
-AutoCAD file and require the Civil file to match (outside the `// civil-only: begin/end` blocks).
+`tools/mirror-tokens.json` is the mirror contract (tokens, version patterns, mirrored and Civil-owned files) — its `note`
+states the rules; the MirrorTests above enforce them.

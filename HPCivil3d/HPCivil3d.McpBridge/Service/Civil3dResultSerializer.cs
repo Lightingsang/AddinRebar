@@ -2,6 +2,14 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Autodesk.AutoCAD.DatabaseServices;
+// civil-only: begin
+// aliases, not a namespace import: Autodesk.Civil.DatabaseServices has its own Entity/DBObject and would make `case Entity` ambiguous
+using Autodesk.Civil.DatabaseServices.Styles;
+using AlignmentCurve = Autodesk.Civil.DatabaseServices.AlignmentCurve;
+using AlignmentEntity = Autodesk.Civil.DatabaseServices.AlignmentEntity;
+using AlignmentSubEntity = Autodesk.Civil.DatabaseServices.AlignmentSubEntity;
+using CogoPoint = Autodesk.Civil.DatabaseServices.CogoPoint;
+// civil-only: end
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using HPRebar.Mcp.Contracts.JsonRpc;
@@ -74,10 +82,7 @@ public sealed class Civil3dResultSerializer
         return IsAutocadType(type) ? type.FullName! : type.Name;
     }
 
-    // civil-only: begin
-    // Civil entities live in Autodesk.Civil.* but are AutoCAD DBObjects; the prefix takes both API families (and Autodesk.Aec.*).
     private static bool IsAutocadType(Type type) => type.Namespace is { } ns && ns.StartsWith("Autodesk.", StringComparison.Ordinal);
-    // civil-only: end
 
     private static string SafeToString(object value)
     {
@@ -159,6 +164,37 @@ public sealed class Civil3dResultSerializer
                     writer.WriteEndObject();
                     break;
 
+                // civil-only: begin
+                case AlignmentSubEntity sub:
+                    writer.WriteStartObject();
+                    writer.WriteString("type", sub.GetType().Name);
+                    writer.WriteString("subEntityType", sub.SubEntityType.ToString());
+                    writer.WriteNumber("startStation", sub.StartStation);
+                    writer.WriteNumber("endStation", sub.EndStation);
+                    writer.WriteNumber("length", sub.Length);
+                    writer.WritePropertyName("start");
+                    WritePoint(writer, sub.StartPoint.X, sub.StartPoint.Y, null);
+                    writer.WritePropertyName("end");
+                    WritePoint(writer, sub.EndPoint.X, sub.EndPoint.Y, null);
+                    writer.WriteEndObject();
+                    break;
+
+                case AlignmentEntity alignmentEntity:
+                    writer.WriteStartObject();
+                    writer.WriteString("type", alignmentEntity.GetType().Name);
+                    writer.WriteString("entityType", alignmentEntity.EntityType.ToString());
+                    writer.WriteNumber("entityId", alignmentEntity.EntityId);
+                    writer.WriteNumber("subEntityCount", alignmentEntity.SubEntityCount);
+                    if (alignmentEntity is AlignmentCurve curve)
+                    {
+                        writer.WriteNumber("startStation", curve.StartStation);
+                        writer.WriteNumber("endStation", curve.EndStation);
+                        writer.WriteNumber("length", curve.Length);
+                    }
+                    writer.WriteEndObject();
+                    break;
+                // civil-only: end
+
                 case Entity entity:
                     writer.WriteStartObject();
                     writer.WriteString("handle", entity.Handle.ToString());
@@ -167,6 +203,17 @@ public sealed class Civil3dResultSerializer
                     writer.WriteString("dxfName", SafeDxfName(entity.ObjectId));
                     // civil-only: begin
                     if (entity is Autodesk.Civil.DatabaseServices.Entity civilEntity) writer.WriteString("name", Safe(() => civilEntity.Name));
+                    if (entity is CogoPoint cogo)
+                    {
+                        // a COGO point is an AutoCAD entity, not a Civil one: number and location are what a seed reads back
+                        if (Safe(() => (long?)cogo.PointNumber) is { } number) writer.WriteNumber("number", number);
+                        else writer.WriteNull("number");
+                        writer.WriteString("name", Safe(() => cogo.PointName));
+                        writer.WriteString("description", Safe(() => cogo.FullDescription));
+                        writer.WriteNumber("x", cogo.Easting);
+                        writer.WriteNumber("y", cogo.Northing);
+                        writer.WriteNumber("elevation", cogo.Elevation);
+                    }
                     // civil-only: end
                     writer.WriteEndObject();
                     break;
@@ -176,6 +223,9 @@ public sealed class Civil3dResultSerializer
                     writer.WriteString("handle", dbObject.Handle.ToString());
                     writer.WriteString("type", dbObject.GetType().Name);
                     if (dbObject is SymbolTableRecord record) writer.WriteString("name", Safe(() => record.Name));
+                    // civil-only: begin
+                    if (dbObject is StyleBase style) writer.WriteString("name", Safe(() => style.Name));
+                    // civil-only: end
                     writer.WriteEndObject();
                     break;
 
@@ -212,5 +262,13 @@ public sealed class Civil3dResultSerializer
             try { return read(); }
             catch { return null; } // closed object, erased object, stale selection: nothing to give
         }
+
+        // civil-only: begin
+        private static TValue? Safe<TValue>(Func<TValue?> read) where TValue : struct
+        {
+            try { return read(); }
+            catch { return null; }
+        }
+        // civil-only: end
     }
 }

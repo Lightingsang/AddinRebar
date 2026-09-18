@@ -21,7 +21,8 @@ public sealed class Civil3dContextTool(ContextService service)
         "Returns the current Civil 3D session: hostVersion, active drawing title and docPath (absent for an unsaved drawing), isReadOnly, " +
         "isModifiable (true when the drawing is writable and the editor is idle), units.length (the Civil drawing unit: Meters or Feet), activeView, openDocs, executionEnabled, " +
         "autocad {insunits, measurement, currentLayout, currentLayer, isModelSpace, isQuiescent, isNamedDrawing} and " +
-        "civil3d {product (Civil3D when the bridge runs where it should), isCivilDocument, drawingUnit, coordinateSystemCode (absent without a zone), insunitsMismatch, " +
+        "civil3d {product (Civil3D when the bridge runs where it should), isCivilDocument, drawingUnit (Meters or Feet — a drawing without Civil settings reports Feet), coordinateSystemCode (absent without a zone), " +
+        "insunitsMismatch (true when INSUNITS disagrees with the Civil unit: scripts follow the Civil unit, so warn the user before writing coordinates), " +
         "alignmentCount, surfaceCount, corridorCount, pipeNetworkCount, pressureNetworkCount, cogoPointCount}. With includeSelection the current selection comes back as " +
         "{id = handle value, category = layer, name = DXF name}. Call this before execute_civil3d_code so the script matches the real drawing and its unit.")]
     public Task<CallToolResult> GetContextAsync(

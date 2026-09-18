@@ -65,13 +65,40 @@ function Set-OptIn([bool]$on) {
     $box = Find-OptInCheckbox
     if (-not $box) { Write-Host "opt-in: checkbox not found in any window of acad.exe"; return $false }
     $toggle = $box.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
-    $isOn = $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
-    if ($isOn -ne $on) { $toggle.Toggle(); Start-Sleep -Milliseconds 700 }
-    $isOn = $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
+    # A toggle right after another one can be swallowed while the window re-binds: poll, then try again.
+    for ($attempt = 0; $attempt -lt 3; $attempt++) {
+        $isOn = $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
+        if ($isOn -eq $on) { break }
+        $toggle.Toggle()
+        for ($wait = 0; $wait -lt 10; $wait++) {
+            Start-Sleep -Milliseconds 300
+            $isOn = $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
+            if ($isOn -eq $on) { break }
+        }
+    }
     Write-Host "opt-in now $isOn"
     return ($isOn -eq $on)
 }
 
+
+# Stops the acad.exe this harness started: first the polite way over COM (close every drawing without saving, then
+# Quit — no Drawing Recovery entries, no stale .dwl locks), pid-guarded like every COM call; Stop-Process only when
+# the process is still alive after the grace (a modal dialog or a running command refuses COM).
+function Stop-Acad([System.Diagnostics.Process]$p, [int]$graceSec = 45) {
+    if (-not $p) { return }
+    $p.Refresh()
+    if ($p.HasExited) { return }
+    $ps = "`$ids = @(Get-Process acad -ErrorAction SilentlyContinue | % Id); if (`$ids.Count -ne 1 -or [string]`$ids[0] -ne '$($p.Id)') { throw 'refusing COM: not the harness acad.exe' }; " +
+          "`$a = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application'); " +
+          "for (`$i = 0; `$i -lt 20 -and `$a.Documents.Count -gt 0; `$i++) { `$a.Documents.Item(0).Close(`$false) }; `$a.Quit()"
+    $out = powershell -NoProfile -Command $ps 2>&1
+    if ($LASTEXITCODE -ne 0) { Write-Host "acad pid $($p.Id): graceful quit refused ($((($out -join ' ') -replace '\s+', ' ').Substring(0, [Math]::Min(120, ($out -join ' ').Length)))) - killing it"; Stop-Process -Id $p.Id -Force -Confirm:$false -ErrorAction SilentlyContinue; Start-Sleep -Seconds 3; return }
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    while ($sw.Elapsed.TotalSeconds -lt $graceSec) { $p.Refresh(); if ($p.HasExited) { Write-Host "acad pid $($p.Id) quit gracefully after $([int]$sw.Elapsed.TotalSeconds) s"; return }; Start-Sleep -Seconds 1 }
+    Write-Host "acad pid $($p.Id) did not quit within $graceSec s - killing it"
+    Stop-Process -Id $p.Id -Force -Confirm:$false -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 3
+}
 
 # Starts acad.exe with the given script, answers SECURELOAD, waits for the bridge pipe. Returns the process.
 function Start-AcadWithBridge([string]$scriptPath, [int]$timeoutSec = 420, [string]$Product = 'C3D', [string]$ProfileName = '<<C3D_Metric>>', [string]$PipeName = 'hpcivil3d-mcp-2026', [switch]$NoAecBase) {

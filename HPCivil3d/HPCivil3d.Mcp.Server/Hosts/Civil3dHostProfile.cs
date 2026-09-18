@@ -35,8 +35,8 @@ public static class Civil3dHostProfile
         ScriptImports = HostScriptContracts.Civil3dImports,
         ScriptContractSummary =
             "Globals: doc (Document), db (Database), ed (Editor), app (DocumentCollection), tr (the bridge's Transaction — use tr.GetObject / tr.AddNewlyCreatedDBObject, never Commit/Abort/Dispose it, never start a transaction or lock of your own), " +
-            "civil (CivilDocument — GetAlignmentIds/GetSurfaceIds/GetPipeNetworkIds/CorridorCollection/CogoPoints/Settings/Styles; null when the drawing has no Civil data), " +
-            "units (mm ↔ the Civil drawing unit, Meters or Feet: units.ToDrawing(mm), units.ToMm(du), units.Label — plan geometry crosses the tool boundary in mm, stations and elevations stay in drawing units), ct, log(string), progress(cur,total,msg), args. " +
+            "civil (CivilDocument — GetAlignmentIds/GetSurfaceIds/GetPipeNetworkIds/CorridorCollection/CogoPoints/Settings/Styles; present for every drawing opened in Civil 3D), " +
+            "units (mm ↔ the Civil drawing unit, Meters or Feet: units.ToDrawing(mm), units.ToMm(du), units.Label — plan geometry crosses the tool boundary in mm, stations and elevations stay in drawing units; a drawing without Civil settings defaults to Feet, so check the context's insunitsMismatch), ct, log(string), progress(cur,total,msg), args. " +
             "transaction: auto when the code changes the drawing, none when it only reads; manual is accepted but runs like auto. " +
             "Editor prompts, SendStringToExecute, modal dialogs, corridor/surface Rebuild, data shortcuts, the survey database and file import/export members are blocked. U in Civil 3D reverts the runs made since the user's last command.",
         HostAssembly = typeof(Civil3dHostProfile).Assembly,

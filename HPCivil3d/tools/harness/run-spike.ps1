@@ -39,10 +39,9 @@ function Runtime-Log {
     $since = if ($script:runStartedAt) { $script:runStartedAt.ToString('yyyy-MM-dd HH:mm:ss') } else { '' }
     (Get-Content $f.FullName | Where-Object { $_.Length -ge 19 -and $_.Substring(0, 19) -ge $since }) -join "`n"
 }
-function Stop-Acad([System.Diagnostics.Process]$p) { if ($p -and -not $p.HasExited) { Stop-Process -Id $p.Id -Force -Confirm:$false }; Start-Sleep -Seconds 4 }
 
 New-Item -ItemType Directory -Force $scene, $registry, (Join-Path $registry 'tools-library') | Out-Null
-Get-ChildItem $scene -Include '*.dwl', '*.dwl2' -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+Get-ChildItem $scene -Force -Include '*.dwl', '*.dwl2' -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue   # lock files are hidden
 foreach ($f in 'Align-7C.dwg', 'Profile-1.dwg', 'Profile-5F.dwg', 'Surface-1B.dwg', 'Corridor-1a.dwg', 'Corridor-2b.dwg', 'Corridor-5c.dwg', 'Parcel-1E.dwg', 'Parcel-2C.dwg', 'Points-1a.dwg', 'Pipe Networks-1C.dwg', 'Pipe Networks-3C.dwg') {
     $src = Join-Path $tutorials $f
     if (Test-Path $src) { Copy-Item $src (Join-Path $scene $f) -Force } else { "scene: $f missing in the tutorials folder" }
@@ -140,6 +139,8 @@ try {
             Check 'S-03 autocad context served (host=autocad)' ($at.host -eq 'autocad') (($at | ConvertTo-Json -Compress).Substring(0, [Math]::Min(120, ($at | ConvertTo-Json -Compress).Length)))
             $rt = Runtime-Log
             Check 'S-03 Civil bridge never reported its pipe in use' ($rt -notmatch 'could not create pipe') ''
+            # two acad.exe are alive here, so the pid-guarded COM quit refuses and the AutoCAD instance is killed
+            # (Drawing Recovery entry for it only); the Civil instance, which held the drawings, then quits gracefully
             Stop-Acad $acad; $acad = $null
             Stop-Acad $civil; $civil = $null
         }
@@ -151,7 +152,7 @@ catch {
 finally {
     "=== killing what we started"
     Stop-Acad $civil; Stop-Acad $acad
-    Get-ChildItem $scene -Include '*.dwl', '*.dwl2' -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem $scene -Force -Include '*.dwl', '*.dwl2' -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue   # lock files are hidden
     Remove-Item Env:HPCIVIL3D_MCP_Registry__LibraryPath, Env:HPCIVIL3D_MCP_Registry__DbPath, Env:HP_HARNESS_ACAD_PID -ErrorAction SilentlyContinue
 }
 

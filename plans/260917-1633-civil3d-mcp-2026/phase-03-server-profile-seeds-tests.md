@@ -53,6 +53,9 @@ Non-functional
 6. Publish single-file; `HPCivil3d/README.md` cập nhật (`.mcp.json` entry mẫu — user tự thêm).
 7. Code review → fix → tests + smoke lại.
 
+## Từ review phase 2 ([code-review-phase-02.md](reports/code-review-phase-02.md) I12/Q3)
+- `HPCivil3d.Mcp.Server/**` cũng là copy (`Civil3dHostProfile` ← `AutocadHostProfile`, `ExecuteCivil3dCodeTool`, `Civil3dContextTool`, `Program.cs`, csproj) nhưng ngoài mirror contract → phase 3 quyết: đưa vào `mirroredFiles` (token thêm `AutocadHostProfile`→`Civil3dHostProfile`, `execute_autocad_code`→…) **hoặc** `ownedCounterparts` (pin sha256) — không để cây thứ ba không rào. Seed files (`Registry/SeedLibrary/**`) là Civil-owned.
+
 ## Todo List
 - [ ] Profile/tools/prompts/resources · [ ] R1–R10 · [ ] W1–W2 · [ ] Structure tests · [ ] Compile tests (+ skip path quan sát) · [ ] `tools/list` 24 · [ ] Smoke ≥ 9 · [ ] Publish · [ ] Report + review
 

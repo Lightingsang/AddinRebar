@@ -1,6 +1,10 @@
 {
-  "note": "Token table applied when HPAutoCad.McpBridge{,.Loader} was copied into HPCivil3d/. MirrorTests apply it to the AutoCAD file and compare with the Civil file.",
+  "note": "How HPCivil3d/ mirrors HPAutoCad/ (ADR-01 option A). MirrorTests read this file. Rules: (1) `tokens` are applied to the AutoCAD text IN ORDER (exact strings — identifiers, constants and the few one-line differences); (2) lines between `// civil-only: begin` and `// civil-only: end` (C#) or `<!-- civil-only: begin -->` … `<!-- civil-only: end -->` (XAML/XML) exist only in the Civil file and are stripped before comparing — a block may only ADD lines, never replace one; (3) `versionPatterns` are replaced by a placeholder on both sides so a version bump on either product is not drift; (4) `civilOwnedFiles` are Civil-specific and not compared line by line; those hand-ported from an AutoCAD file are listed in `ownedCounterparts` with the sha256 of the AutoCAD text (CRLF folded, BOM dropped) they were ported from — when AutoCAD changes that file the pin fails until the change is ported (or declined) and the hash re-pinned; (5) every source file of both bridge trees must appear in `mirroredFiles`, `civilOwnedFiles` or `ownedCounterparts`. Blank lines, trailing whitespace, CRLF and the BOM are ignored.",
   "tokens": [
+    {
+      "autocad": "\"HPAutoCad.McpBridge.BridgeEntry\"",
+      "civil3d": "\"HPCivil3d.McpBridge.Civil3dBridgeEntry\""
+    },
     {
       "autocad": "HPAutoCad.McpBridge.Loader",
       "civil3d": "HPCivil3d.McpBridge.Loader"
@@ -20,10 +24,6 @@
     {
       "autocad": "HPAUTOCAD_MCP_",
       "civil3d": "HPCIVIL3D_MCP_"
-    },
-    {
-      "autocad": "hpautocad-mcp",
-      "civil3d": "hpcivil3d-mcp"
     },
     {
       "autocad": "HPMCPBRIDGE",
@@ -106,27 +106,206 @@
       "civil3d": "\"HPCivil3d\", \"McpBridge\", \"logs\""
     },
     {
-      "autocad": "<Version>0.3.0</Version>",
-      "civil3d": "<Version>0.1.0</Version>"
-    },
-    {
-      "autocad": "AppVersion=\"0.3.0\"",
-      "civil3d": "AppVersion=\"0.1.0\""
-    },
-    {
-      "autocad": "Version=\"0.3.0\"",
-      "civil3d": "Version=\"0.1.0\""
-    },
-    {
       "autocad": "class BridgeEntry",
       "civil3d": "class Civil3dBridgeEntry"
     },
     {
-      "autocad": "\"HPCivil3d.McpBridge.BridgeEntry\"",
-      "civil3d": "\"HPCivil3d.McpBridge.Civil3dBridgeEntry\""
+      "autocad": "[\"Ac\", \"Ad\", \"Autodesk.\"]",
+      "civil3d": "[\"Ac\", \"Ad\", \"Aec\", \"Autodesk.\"]"
+    },
+    {
+      "autocad": "Never a second copy of the AutoCAD API, whatever",
+      "civil3d": "Never a second copy of the AutoCAD or Civil 3D API (Aec*/Aecc*), whatever"
+    },
+    {
+      "autocad": "The \"HPAutoCad\" Ribbon tab",
+      "civil3d": "The \"HPCivil3d\" Ribbon tab"
+    },
+    {
+      "autocad": "inner, units, linked.Token,",
+      "civil3d": "inner, civil, units, linked.Token,"
+    },
+    {
+      "autocad": "failed in AutoCAD",
+      "civil3d": "failed in Civil 3D"
+    },
+    {
+      "autocad": "ns.StartsWith(\"Autodesk.AutoCAD\", StringComparison.Ordinal)",
+      "civil3d": "ns.StartsWith(\"Autodesk.\", StringComparison.Ordinal)"
+    },
+    {
+      "autocad": "Applies to every Autodesk.AutoCAD.* type",
+      "civil3d": "Applies to every Autodesk.* type"
+    },
+    {
+      "autocad": "Transaction tr, ScriptUnits units,",
+      "civil3d": "Transaction tr, CivilDocument? civil, ScriptUnits units,"
+    },
+    {
+      "autocad": "<Run Text=\"· AutoCAD\"/>",
+      "civil3d": "<Run Text=\"· Civil 3D\"/>"
+    },
+    {
+      "autocad": "Allow AI code execution in this AutoCAD session",
+      "civil3d": "Allow AI code execution in this Civil 3D session"
+    },
+    {
+      "autocad": "run inside AutoCAD with your full user rights",
+      "civil3d": "run inside Civil 3D with your full user rights"
+    },
+    {
+      "autocad": "U in AutoCAD reverts",
+      "civil3d": "U in Civil 3D reverts"
+    },
+    {
+      "autocad": "Start the listener automatically when AutoCAD opens",
+      "civil3d": "Start the listener automatically when Civil 3D opens"
+    },
+    {
+      "autocad": "(each stays in memory until AutoCAD restarts)",
+      "civil3d": "(each stays in memory until Civil 3D restarts)"
+    },
+    {
+      "autocad": "behaves like \\\"auto\\\" in AutoCAD",
+      "civil3d": "behaves like \\\"auto\\\" in Civil 3D"
+    },
+    {
+      "autocad": "/// <summary>mm ↔ drawing units, from the drawing's INSUNITS.</summary>",
+      "civil3d": "/// <summary>mm ↔ the Civil drawing unit (Meters or Feet from the drawing settings); INSUNITS only when Civil has no unit.</summary>"
+    },
+    {
+      "autocad": "Turned off again every time AutoCAD starts.",
+      "civil3d": "Turned off again every time Civil 3D starts."
     }
+  ],
+  "versionPatterns": [
+    "<Version>[^<]*</Version>",
+    "AppVersion=\"[^\"]*\""
+  ],
+  "mirroredFiles": [
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/BridgeActions.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/BridgeActions.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/BridgeLoadContext.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/BridgeLoadContext.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/BridgeLoaderApplication.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/BridgeLoaderApplication.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/BridgeLoaderCommands.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/BridgeLoaderCommands.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/LoaderLog.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/LoaderLog.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/Ribbon/McpRibbonTab.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/Ribbon/McpRibbonTab.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/Ribbon/RibbonCommandHandler.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/Ribbon/RibbonCommandHandler.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/Ribbon/RibbonIcons.cs",
+      "civil3d": "HPCivil3d.McpBridge.Loader/Ribbon/RibbonIcons.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/HPAutoCad.McpBridge.Loader.csproj",
+      "civil3d": "HPCivil3d.McpBridge.Loader/HPCivil3d.McpBridge.Loader.csproj"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/MainThreadExecutor.cs",
+      "civil3d": "HPCivil3d.McpBridge/MainThreadExecutor.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Model/AutocadScriptGlobals.cs",
+      "civil3d": "HPCivil3d.McpBridge/Model/Civil3dScriptGlobals.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadScriptRunner.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dScriptRunner.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadResultSerializer.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dResultSerializer.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadContextReader.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dContextReader.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadThemeSwitcher.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dThemeSwitcher.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/DatabaseChangeCounter.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/DatabaseChangeCounter.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadVersionMap.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/AutocadVersionMap.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/View/AutocadBridgeStatusView.xaml",
+      "civil3d": "HPCivil3d.McpBridge/View/Civil3dBridgeStatusView.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/View/AutocadBridgeStatusView.xaml.cs",
+      "civil3d": "HPCivil3d.McpBridge/View/Civil3dBridgeStatusView.xaml.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/AutocadTheme.xaml",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/Civil3dTheme.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/AutocadThemeLight.xaml",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/Civil3dThemeLight.xaml"
+    }
+  ],
+  "civilOwnedFiles": [
+    "HPCivil3d.McpBridge/Civil3dBridgeEntry.cs",
+    "HPCivil3d.McpBridge/HPCivil3d.McpBridge.csproj",
+    "HPCivil3d.McpBridge/Service/ScriptingSelfCheck.cs",
+    "HPCivil3d.McpBridge/Service/Civil3dUnits.cs",
+    "HPCivil3d.McpBridge/Service/Civil3dDocumentAccess.cs",
+    "HPCivil3d.McpBridge.Loader/Bundle/PackageContents.xml",
+    "HPCivil3d.McpBridge.Loader/Properties/launchSettings.json",
+    "HPCivil3d.McpBridge/Service/Civil3dUnitTable.cs"
   ],
   "renames": {
     "BridgeEntry.cs": "Civil3dBridgeEntry.cs"
-  }
+  },
+  "ownedCounterparts": [
+    {
+      "autocad": "HPAutoCad.McpBridge/BridgeEntry.cs",
+      "civil3d": "HPCivil3d.McpBridge/Civil3dBridgeEntry.cs",
+      "autocadSha256": "d6ae4b3398e837433cecc4b5273ea00d470bb8af35d4e41dd3f12589e75c986f"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/ScriptingSelfCheck.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/ScriptingSelfCheck.cs",
+      "autocadSha256": "c5b1668a378a8571ac9610365e696eefc023380c56f56ee11b8344976872b19d"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/HPAutoCad.McpBridge.csproj",
+      "civil3d": "HPCivil3d.McpBridge/HPCivil3d.McpBridge.csproj",
+      "autocadSha256": "10532d5a90856208bc6c31b78c8272753f23e09fb752d9a04f2bd7a15c5fa379"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/Bundle/PackageContents.xml",
+      "civil3d": "HPCivil3d.McpBridge.Loader/Bundle/PackageContents.xml",
+      "autocadSha256": "22d566c8faec996572452d3fab99fdceaa0d89732f6f42b28df86f3602c1ef28"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader/Properties/launchSettings.json",
+      "civil3d": "HPCivil3d.McpBridge.Loader/Properties/launchSettings.json",
+      "autocadSha256": "12719c1a074a8150892aaab0ec2bed1c9c004cd23d46abf50ba476fb2b6975f4"
+    }
+  ]
 }

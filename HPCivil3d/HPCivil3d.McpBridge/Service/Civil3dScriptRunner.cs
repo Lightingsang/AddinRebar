@@ -56,15 +56,16 @@ public sealed class Civil3dScriptRunner
         var logs = new List<string>();
         var droppedLogs = 0;
         var label = string.IsNullOrWhiteSpace(request.Label) ? "script" : request.Label!;
+        var units = AutocadInsunits.For((int)db.Insunits);
         // civil-only: begin
         var civil = Civil3dDocumentAccess.TryGetActive();
-        var units = Civil3dUnits.For(civil, db, out _, out _);
+        units = Civil3dUnits.For(civil, db, out _, out _);
         if (civil is null) logs.Add("No Civil 3D document in the active drawing: `civil` is null; units follow INSUNITS.");
         // civil-only: end
         if (units.Note is not null) logs.Add(units.Note);
         // The guard refuses StartTransaction in AutoCAD scripts (a leaked Transaction wrapper is finalised later and
         // takes acad.exe down), so "manual" cannot mean "the script opens its own": it runs exactly like auto.
-        if (mode == TransactionModes.Manual) logs.Add("transaction=\"manual\" behaves like \"auto\" in AutoCAD: `tr` is the only transaction a script gets.");
+        if (mode == TransactionModes.Manual) logs.Add("transaction=\"manual\" behaves like \"auto\" in Civil 3D: `tr` is the only transaction a script gets.");
 
         using var timeoutSource = new CancellationTokenSource(TimeSpan.FromSeconds(Math.Clamp(request.TimeoutSeconds, 5, 120)));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancelSource.Token, timeoutSource.Token);

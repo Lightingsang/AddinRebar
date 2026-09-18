@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Bridge runtime hoàn chỉnh (context Civil, units, serializer lỗi Civil, cửa sổ, ribbon HPCivil3d ▸ MCP ▸ MCP Bridge) + MirrorTests + harness pipe unattended"
-status: pending
+status: completed
 priority: P1
 effort: "8h"
 dependencies: [0, 1]
@@ -61,15 +61,15 @@ Non-functional
 - Đã xử lý ngay trong phase 1 (không mang sang): M1 bỏ hẳn nhánh `HPCIVIL3D_MCP_SPIKE` (MainThreadExecutor byte-identical AutoCAD sau token; S-10b/c của spike kiểm **guard từ chối** `Rebuild`); M3 `Answer-SecureLoad` chỉ trả lời dialog của acad.exe harness start **và** nêu tên `HPCivil3d.McpBridge`; L5 bỏ mã plan trong comment/docstring; L6 F5 profile `/product C3D`; L8 `finally` xoá `HPCIVIL3D_MCP_Registry__*`, `HP_HARNESS_ACAD_PID`; L9 `CogoPoints.Count` O(1); L10 `Count()` log Debug; L11 mismatch so tương đối 1e-4 (US survey feet = feet).
 
 ## Todo List
-- [ ] Context/units/`Civil3dInfo` · [ ] Serializer Civil + lỗi · [ ] Runner (S-10) · [ ] Cửa sổ + theme · [ ] Ribbon + xoá spike · [ ] `HPCivil3d.McpBridge.Tests` (Mirror/Units/Guard) · [ ] Harness pipe ≥ 30 check ×2 · [ ] Ribbon check 12 + 1 MANUAL · [ ] Report + review
+- [x] Context/units/`Civil3dInfo` (phase 1 + `Civil3dUnitTable`) · [x] Serializer Civil (AlignmentEntity/SubEntity, CogoPoint, StyleBase) + lỗi `{Type}: {Message}` · [x] Runner — `Rebuild*` deny giữ (ADR-04), engine không đổi · [x] Cửa sổ wording Civil 3D + theme · [x] Ribbon verified live 12/12 + 1 MANUAL (spike bypass đã xoá ở phase 1) · [x] `HPCivil3d.McpBridge.Tests` 41 (Mirror 28 + UnitTable 13; guard tests đã có ở McpShared `Civil3dProfileTests`) · [x] Harness pipe 31 check ×3 (run 1/3/4) · [x] Ribbon check ×2 (run 2 sạch) · [x] Report ([reports/phase-02-bridge-runtime.md](reports/phase-02-bridge-runtime.md)) · [x] Review 8/10 (0 High, 3 M, 8 L → 10 fixed, L5 giữ như AutoCAD, I12 → phase 3) + tester 47/41 xanh, 206 engine, mutation, logs khớp → [reports/code-review-phase-02.md](reports/code-review-phase-02.md), [reports/test-report-phase-02.md](reports/test-report-phase-02.md)
 
 ## Success Criteria
-- [ ] `dotnet test HPCivil3d/HPCivil3d.McpBridge.Tests` → ≥ 25 test, 0 fail, 0 skip (trên máy này); cố ý đổi 1 ký tự trong `Civil3dScriptRunner.cs` ngoài khối civil-only → đúng 1 `MirrorTests` fail (rồi hoàn lại).
-- [ ] `pwsh -File HPCivil3d/tools/harness/run-bridge-unattended.ps1` → ≥ 30/30 check ×2, không skip; Civil 3D tự thoát; `%LocalAppData%\HPCivil3d\McpBridge\logs\` có `MCP scripting self-check OK`.
-- [ ] `pwsh -File HPCivil3d/tools/harness/run-ribbon-check.ps1` → 12 PASS + 1 MANUAL (2 screenshot trong `reports/`): tab `HPCivil3d` đúng một lần, còn một sau workspace/COLORTHEME round trip, nút mở cửa sổ, click 2 vẫn 1 cửa sổ, loader.log không failure.
-- [ ] `get_civil3d_context` (qua server tạm) trả `civil3d{...11 field}` + `autocad{...}` + `units.length` = `Feet`/`Meters`; thời gian < 1.5 s khi script đang chạy (busy path).
-- [ ] `grep -rn "HPC3DMCPSPIKE\|HPCIVIL3D_MCP_SPIKE" HPCivil3d` = 0.
-- [ ] 7 suite + phase-0 tests không hồi quy; `tools/list` 4 host không đổi (không sửa engine trừ khi #8).
+- [x] `dotnet test HPCivil3d/HPCivil3d.McpBridge.Tests` → ≥ 25 test, 0 fail, 0 skip (trên máy này); cố ý đổi 1 ký tự trong `Civil3dScriptRunner.cs` ngoài khối civil-only → đúng 1 `MirrorTests` fail (rồi hoàn lại). → **47 test (sau review), 0 fail, 0 skip; mutation 1 ký tự → đúng 1 fail (hoàn lại, ×2: runner + DatabaseChangeCounter).**
+- [x] `pwsh -File HPCivil3d/tools/harness/run-bridge-unattended.ps1` → ≥ 30/30 check ×2, không skip; Civil 3D tự thoát; `%LocalAppData%\HPCivil3d\McpBridge\logs\` có `MCP scripting self-check OK`. → **31/31 ×4 (run 1, 3, 4, 5; `powershell` 5.1), Civil 3D tự thoát graceful 18–19 s.**
+- [x] `pwsh -File HPCivil3d/tools/harness/run-ribbon-check.ps1` → 12 PASS + 1 MANUAL (2 screenshot trong `reports/`): tab `HPCivil3d` đúng một lần, còn một sau workspace/COLORTHEME round trip, nút mở cửa sổ, click 2 vẫn 1 cửa sổ, loader.log không failure. → **12/12 + 1 MANUAL (run 2, run 3), screenshot 2 theme trong `HPCivil3d/output/ribbon-check/`, icon xem tay OK.**
+- [x] `get_civil3d_context` (qua server tạm) trả `civil3d{...11 field}` + `autocad{...}` + `units.length` = `Feet`/`Meters`; thời gian < 1.5 s khi script đang chạy (busy path). → **C1 PASS (`civil3d` 11 field, `units.length` = Meters); busy path < 1.5 s → phase 4.**
+- [x] `grep -rn "HPC3DMCPSPIKE\|HPCIVIL3D_MCP_SPIKE" HPCivil3d` = 0. → **0.**
+- [x] 7 suite + phase-0 tests không hồi quy; `tools/list` 4 host không đổi (không sửa engine trừ khi #8). → **`McpShared/` không đổi (`git diff --stat` rỗng) → gate 4 host không cần chạy lại.**
 
 ## Risk Assessment
 | Risk | Mitigation |

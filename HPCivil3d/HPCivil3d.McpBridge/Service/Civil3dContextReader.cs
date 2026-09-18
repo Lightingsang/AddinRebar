@@ -1,21 +1,26 @@
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+// civil-only: begin
 using Autodesk.Civil.ApplicationServices;
+using Serilog;
+// civil-only: end
 using HPRebar.Mcp.Contracts;
 using HPRebar.Mcp.Contracts.Messages;
 using HPRebar.McpBridge.Core.Scripting;
-using Serilog;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
 namespace HPCivil3d.McpBridge.Service;
 
 /// <summary>
-///     Builds the session snapshot the AI asks for before scripting. Runs on the main thread. The
+///     Builds the session snapshot the AI asks for before scripting. Runs on AutoCAD's main thread. The
 ///     Revit-shaped fields are filled with their AutoCAD equivalents (a layout is the "view", a layer is
-///     the "category"); what has no Revit counterpart goes into <see cref="ContextResult.Autocad"/>, and
-///     what only Civil 3D has — the product, the Civil drawing unit and zone, coarse object counts — into
-///     <see cref="ContextResult.Civil3d"/>. Counts come from the id collections, no object is opened.
+///     the "category"); what has no Revit counterpart goes into <see cref="ContextResult.Autocad"/>.
+// civil-only: begin
+///     What only Civil 3D has — the product, the Civil drawing unit and zone, coarse object counts — goes into
+///     <see cref="ContextResult.Civil3d"/>; the counts come from the id collections, no object is opened, and
+///     `units` follows the Civil drawing unit rather than INSUNITS.
+// civil-only: end
 /// </summary>
 public static class Civil3dContextReader
 {
@@ -48,7 +53,10 @@ public static class Civil3dContextReader
         result.DocPath = doc.IsNamedDrawing ? db.Filename : null;
         result.IsReadOnly = doc.IsReadOnly;
         result.IsModifiable = !doc.IsReadOnly && quiescent;
+        result.Units = new UnitsInfo(AutocadInsunits.LabelFor(insunits));
+        // civil-only: begin
         result.Units = new UnitsInfo(units.Label);
+        // civil-only: end
         result.ActiveView = new ViewInfo(db.CurrentSpaceId.Handle.Value, currentLayout ?? (db.TileMode ? "Model" : "Layout"), db.TileMode ? "Model" : "Layout");
         result.Autocad = new AutocadInfo(
             Insunits: AutocadInsunits.LabelFor(insunits),
