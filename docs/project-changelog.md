@@ -2,11 +2,15 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-18 — Civil 3D MCP: skill `hp-mcp-civil3d`
+
+**Bổ sung:** `.claude/skills/hp-mcp-civil3d/` (SKILL.md 130 dòng theo khuôn `hp-mcp-etabs`/`hp-mcp-autocad`: Bước 0 kết nối, quy tắc đơn vị mm ↔ drawing unit, decision tree, bảng seed, ghi với dryRun, contract `execute_civil3d_code`, toolify, bảng lỗi, security policy; `references/tool-catalog.md` sinh từ `tools/list` exe publish (24 tool), `script-contract.md`, `civil-api-cheatsheet.md` (chỉ member đã chạy thật, 1 mục `[unverified]`), `troubleshooting.md`; `scripts/check-civil3d-mcp.ps1` health check read-only, `scripts/generate-tool-catalog.py`; `evals/evals.json` 3 prompt). Mirror `.agents/skills/hp-mcp-civil3d/` bằng `sync-agent-skills.py apply` (drift none). `.claude/rules/skill-domain-routing.md` thêm dòng Civil 3D.
+
 ## 2026-09-18 — Civil 3D MCP: phase 5 — publish, docs, `AGENTS.md` regen — **plan hoàn tất**
 
 **Bổ sung:** exe publish `HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe` (single-file 7.1 MB; `tools/list` từ exe publish = 24 — `reports/phase-05-tools-list-civil3d-published.json`); bundle deploy lại từ Debug; CLAUDE.md (câu chiều phụ thuộc "six deliverables" + ngoại lệ tooling cross-MCP, hàng `HPCivil3d/`, mục "HPCivil3d MCP Bridge"); `AGENTS.md` regen bằng lệnh `_TO_PORTABLE` (idempotent, `sync-agent-skills.py check` drift none); `docs/codebase-summary.md`, `docs/system-architecture.md`, README HPCivil3d + harness + McpShared. `.mcp.json` entry `hprebar-civil3d` do user tự thêm (untracked).
 
-**Chưa làm (known gaps):** modal Civil khi script chờ; corridor dự án thật (`Rebuild*` deny); data shortcut; pressure parts / point group; `test_tool realRun`; Civil 3D 2025 / .NET 10; skill `hp-mcp-civil3d`; follow-up B `AcadShared/`.
+**Chưa làm (known gaps):** modal Civil khi script chờ; corridor dự án thật (`Rebuild*` deny); data shortcut; pressure parts / point group; `test_tool realRun`; Civil 3D 2025 / .NET 10; follow-up B `AcadShared/` (skill `hp-mcp-civil3d` làm ngay sau — mục trên).
 
 ## 2026-09-18 — Civil 3D MCP: phase 4 — live-verify harness, registry loop, isolation hai chiều
 

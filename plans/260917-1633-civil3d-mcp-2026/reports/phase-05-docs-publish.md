@@ -23,7 +23,7 @@ Kiểm path: script nhỏ đọc mục CLAUDE.md mới + hàng bảng, lấy m�
 `.mcp.json` (tracked, path máy — không commit): thêm `hprebar-civil3d` → `HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe` + env `HPCIVIL3D_MCP_Bridge__HostVersion=2026`; Civil 3D: ribbon **HPCivil3d ▸ MCP ▸ MCP Bridge** → start listener → tick *Allow AI code execution*. Exe publish bị lock khi server đang chạy → restart Claude Code trước khi publish lại.
 
 ## Ngoài scope (follow-up)
-- Skill `.claude/skills/hp-mcp-civil3d/` (+ mirror `.agents/`) như 4 host khác.
+- ~~Skill `.claude/skills/hp-mcp-civil3d/` (+ mirror `.agents/`) như 4 host khác.~~ → làm ngay sau phase 5 (2026-09-18): SKILL.md + 4 reference + 2 script + evals; mirror bằng sync engine, drift none.
 - ADR-01 option B `AcadShared/` — chỉ khi user muốn, sau khi hai bridge verified (đã).
 - Seeds: `create_tin_surface_from_points`, `import_landxml` (cần path policy), point-group membership, pressure parts.
 - Civil 3D 2025 / AutoCAD 2026 Update 1.2 (.NET 10).

@@ -1,0 +1,41 @@
+{
+  "skill_name": "hp-mcp-civil3d",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Bản vẽ Civil 3D đang mở, liệt kê các alignment và cho tôi chiều dài từng tuyến theo mét.",
+      "expected_output": "Calls get_civil3d_context first and reads civil3d.drawingUnit (and insunitsMismatch), then the list_alignments seed (not execute_civil3d_code), converts lengthMm to metres, reports start/end stations in the drawing unit with their labels, and pages with limit/offset when truncated.",
+      "files": [],
+      "assertions": [
+        {"id": "context-first", "text": "get_civil3d_context is called before any other Civil 3D tool and the drawing unit is read from civil3d.drawingUnit"},
+        {"id": "seed-over-script", "text": "list_alignments is used instead of an ad-hoc execute_civil3d_code script"},
+        {"id": "units-converted", "text": "Lengths are converted from mm to metres and stations are reported in the drawing unit (Meters or Feet), never mixed"},
+        {"id": "paging", "text": "A truncated result is paged with offset instead of raising limit past the schema maximum"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Tạo alignment từ polyline handle 2F3A tên 'Tuyen-01' trong Civil 3D.",
+      "expected_output": "Checks the context (isReadOnly false, executionEnabled true, drawingUnit), runs create_alignment_from_polyline with dryRun=true first and shows the resulting length/stations and changed counts, asks the user to confirm, then runs it for real (transaction auto) and reports the alignment handle, name, length in mm/metres and stations, mentioning that U in Civil 3D undoes it; a duplicate name or missing layer is explained as an ArgumentException the user must fix.",
+      "files": [],
+      "assertions": [
+        {"id": "readonly-check", "text": "isReadOnly / executionEnabled are checked before the write"},
+        {"id": "dryrun-then-confirm", "text": "A dryRun=true call precedes the real run and the user is asked to confirm"},
+        {"id": "no-rebuild", "text": "No script or tool attempts Rebuild/RebuildAll or a data shortcut"},
+        {"id": "undo-mentioned", "text": "The answer says U in Civil 3D reverts the AI run"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tool Civil 3D trả -32002 'Civil 3D is running a command or showing a dialog' dù tôi không làm gì, sửa thế nào?",
+      "expected_output": "Explains that -32002 means the bridge waited ~8 s for an idle editor: a running MCP script (scripts run on the main thread, so even get_civil3d_context queues behind one), a command in progress or a modal dialog (Panorama/Toolspace) in Civil 3D; advises pressing ESC / closing the dialog, waiting for the running script or calling cancel_execution, then retrying; never suggests bypassing the opt-in or editing settings.json.",
+      "files": [],
+      "assertions": [
+        {"id": "meaning", "text": "-32002 is identified as the busy grace (editor not quiescent) rather than a failed run"},
+        {"id": "main-thread", "text": "Mentions that a running script blocks the context call because scripts run on Civil 3D's main thread"},
+        {"id": "actions", "text": "Advises ESC / close the dialog / wait or cancel_execution, then retry"},
+        {"id": "no-bypass", "text": "No workaround that bypasses the opt-in or edits bridge settings is suggested"}
+      ]
+    }
+  ]
+}
