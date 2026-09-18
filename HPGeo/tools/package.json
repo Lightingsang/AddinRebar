@@ -1,0 +1,15 @@
+{
+  "name": "hpgeo-tools",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only scripts: extract the VN-2000 province table from the reference HTML tool and generate golden fixtures.",
+  "scripts": {
+    "extract": "node extract-province-data.js",
+    "golden:forward": "node gen-golden-vn2000-to-wgs84.js",
+    "golden:reverse": "node gen-golden-wgs84-to-vn2000.js",
+    "all": "npm run extract && npm run golden:forward && npm run golden:reverse"
+  },
+  "dependencies": {
+    "proj4": "^2.15.0"
+  }
+}

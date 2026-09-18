@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- The add-in proper: drawing readers, the three command bodies and the WPF dialog. Loaded by HPGeo.AutoCad.Loader
+             into its own AssemblyLoadContext from Contents\App\, so its dependencies (HPGeo.Core, CommunityToolkit.Mvvm) never
+             collide with the copies other bundles load into AutoCAD's default context. No AutoCAD attributes here. -->
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPGeo.AutoCad</RootNamespace>
+        <AssemblyName>HPGeo.AutoCad</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- EnableDynamicLoading writes the deps.json the loader's AssemblyDependencyResolver reads and copies every
+             dependency next to the DLL. -->
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8 — compile against it, never copy it (acad.exe supplies the assemblies). -->
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPGeo.Core\HPGeo.Core.csproj" />
+    </ItemGroup>
+
+</Project>
