@@ -53,6 +53,13 @@ Non-functional
 6. Harness pipe + ribbon check; chạy ×2; `reports/phase-02-*`.
 7. Code review → fix → mirror test + harness lại.
 
+## Từ review phase 1 ([code-review-phase-01.md](reports/code-review-phase-01.md), 7.5/10) — việc chuyển sang phase 2
+- **M2 marker `civil-only`:** chỉ 3/8 file drift có `// civil-only: begin/end` (ContextReader, ResultSerializer, ScriptRunner). Còn `Civil3dBridgeEntry` (10 hunk), `Civil3dScriptGlobals`, `ScriptingSelfCheck`, `Loader/BridgeLoadContext.cs:16,30`, `Loader/Ribbon/McpRibbonTab.cs:8`, `Bundle/PackageContents.xml`. MirrorTests quyết quy ước trước khi viết: marker cho hunk nhỏ, **file được liệt kê "Civil-owned"** (không mirror) cho `Civil3dBridgeEntry`/`Civil3dScriptGlobals`/`ScriptingSelfCheck`; XML/`launchSettings.json` so bằng token + regex version (`<Version>`/`AppVersion` strip — L13: bảng token pin `0.3.0→0.1.0`, áp **theo thứ tự**).
+- **M4 description:** `ExecuteCivil3dCodeTool`, `Civil3dHostProfile`, README §Script contract phải nói `DrawingUnits` mặc định **Feet** khi DWG không có Civil settings và `insunitsMismatch` cảnh báo (ADR-03 revised); `get_civil3d_context` trả `insunitsMismatch` — description nhắc AI đọc context trước khi ghi toạ độ.
+- **L7 wording cửa sổ:** XAML còn "in this AutoCAD session" / "when AutoCAD opens" / "· AutoCAD 2026" (5 literal) → đổi "Civil 3D" + thêm 5 literal vào bảng token (mirror giữ).
+- **L12 harness:** `Stop-Acad` thử `_.QUIT _N` qua COM (pid-guard) với 20 s grace trước `Stop-Process -Force` (Drawing Recovery entries); sweep `.dwl` đã có trong `finally`.
+- Đã xử lý ngay trong phase 1 (không mang sang): M1 bỏ hẳn nhánh `HPCIVIL3D_MCP_SPIKE` (MainThreadExecutor byte-identical AutoCAD sau token; S-10b/c của spike kiểm **guard từ chối** `Rebuild`); M3 `Answer-SecureLoad` chỉ trả lời dialog của acad.exe harness start **và** nêu tên `HPCivil3d.McpBridge`; L5 bỏ mã plan trong comment/docstring; L6 F5 profile `/product C3D`; L8 `finally` xoá `HPCIVIL3D_MCP_Registry__*`, `HP_HARNESS_ACAD_PID`; L9 `CogoPoints.Count` O(1); L10 `Count()` log Debug; L11 mismatch so tương đối 1e-4 (US survey feet = feet).
+
 ## Todo List
 - [ ] Context/units/`Civil3dInfo` · [ ] Serializer Civil + lỗi · [ ] Runner (S-10) · [ ] Cửa sổ + theme · [ ] Ribbon + xoá spike · [ ] `HPCivil3d.McpBridge.Tests` (Mirror/Units/Guard) · [ ] Harness pipe ≥ 30 check ×2 · [ ] Ribbon check 12 + 1 MANUAL · [ ] Report + review
 

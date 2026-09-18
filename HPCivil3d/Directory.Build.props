@@ -1,0 +1,34 @@
+<Project>
+
+  <!--
+    Where the Civil 3D API lives on this machine. Autodesk publishes no NuGet package for the Civil 3D .NET API
+    (AeccDbMgd.dll and friends), so the bridge — and the seed compile checks — compile against the installed product
+    and never copy it (Private=false). Civil 3D is an AutoCAD vertical: the install folder is AutoCAD's, the Civil
+    assemblies sit in its C3D\ subfolder and the AEC base assemblies in ACA\. Resolution order:
+      1. -p:Civil3dInstallDir=<dir>  or  env HPCIVIL3D_C3D_DIR   (the C3D\ folder itself)
+      2. the product key the Civil 3D installer writes: HKLM\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9100:409\Location
+         (9100 = Civil 3D, 9101 = AutoCAD, 9126 = Advance Steel — same folder, different product ids) + C3D\
+      3. %ProgramW6432%\Autodesk\AutoCAD 2026\C3D\
+    Civil3dApiAvailable lets a project fail with one readable error instead of hundreds of CS0246.
+  -->
+  <PropertyGroup>
+    <Civil3dSeries Condition="'$(Civil3dSeries)' == ''">R25.1</Civil3dSeries>
+    <Civil3dProductKey Condition="'$(Civil3dProductKey)' == ''">ACAD-9100:409</Civil3dProductKey>
+    <Civil3dYear Condition="'$(Civil3dYear)' == ''">2026</Civil3dYear>
+
+    <Civil3dInstallDir Condition="'$(Civil3dInstallDir)' == '' And '$(HPCIVIL3D_C3D_DIR)' != ''">$(HPCIVIL3D_C3D_DIR)</Civil3dInstallDir>
+    <_AcadLocation Condition="'$(Civil3dInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\$(Civil3dSeries)\$(Civil3dProductKey)', 'Location', null, RegistryView.Registry64))</_AcadLocation>
+    <_AcadLocation Condition="'$(_AcadLocation)' != '' And !HasTrailingSlash('$(_AcadLocation)')">$(_AcadLocation)\</_AcadLocation>
+    <Civil3dInstallDir Condition="'$(Civil3dInstallDir)' == '' And '$(_AcadLocation)' != ''">$(_AcadLocation)C3D\</Civil3dInstallDir>
+    <Civil3dInstallDir Condition="'$(Civil3dInstallDir)' == ''">$(ProgramW6432)\Autodesk\AutoCAD $(Civil3dYear)\C3D\</Civil3dInstallDir>
+    <Civil3dInstallDir Condition="!HasTrailingSlash('$(Civil3dInstallDir)')">$(Civil3dInstallDir)\</Civil3dInstallDir>
+
+    <!-- AecBaseMgd.dll (the AEC object model AeccDbMgd builds on) lives beside C3D\ in ACA\ -->
+    <AecBaseDir Condition="'$(AecBaseDir)' == ''">$([System.IO.Path]::GetFullPath('$(Civil3dInstallDir)..\ACA\'))</AecBaseDir>
+    <AecBaseDir Condition="!HasTrailingSlash('$(AecBaseDir)')">$(AecBaseDir)\</AecBaseDir>
+
+    <Civil3dApiAvailable>false</Civil3dApiAvailable>
+    <Civil3dApiAvailable Condition="Exists('$(Civil3dInstallDir)AeccDbMgd.dll') And Exists('$(AecBaseDir)AecBaseMgd.dll')">true</Civil3dApiAvailable>
+  </PropertyGroup>
+
+</Project>

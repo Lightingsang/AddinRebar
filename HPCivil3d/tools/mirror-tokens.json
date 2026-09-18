@@ -1,0 +1,132 @@
+{
+  "note": "Token table applied when HPAutoCad.McpBridge{,.Loader} was copied into HPCivil3d/. MirrorTests apply it to the AutoCAD file and compare with the Civil file.",
+  "tokens": [
+    {
+      "autocad": "HPAutoCad.McpBridge.Loader",
+      "civil3d": "HPCivil3d.McpBridge.Loader"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge",
+      "civil3d": "HPCivil3d.McpBridge"
+    },
+    {
+      "autocad": "HPAutoCad MCP",
+      "civil3d": "HPCivil3d MCP"
+    },
+    {
+      "autocad": "HPAutoCad bundle",
+      "civil3d": "HPCivil3d bundle"
+    },
+    {
+      "autocad": "HPAUTOCAD_MCP_",
+      "civil3d": "HPCIVIL3D_MCP_"
+    },
+    {
+      "autocad": "hpautocad-mcp",
+      "civil3d": "hpcivil3d-mcp"
+    },
+    {
+      "autocad": "HPMCPBRIDGE",
+      "civil3d": "HPC3DMCPBRIDGE"
+    },
+    {
+      "autocad": "HPMCPSTART",
+      "civil3d": "HPC3DMCPSTART"
+    },
+    {
+      "autocad": "HPMCPSTOP",
+      "civil3d": "HPC3DMCPSTOP"
+    },
+    {
+      "autocad": "HPMCPSTATUS",
+      "civil3d": "HPC3DMCPSTATUS"
+    },
+    {
+      "autocad": "AutocadScriptGlobals",
+      "civil3d": "Civil3dScriptGlobals"
+    },
+    {
+      "autocad": "AutocadScriptRunner",
+      "civil3d": "Civil3dScriptRunner"
+    },
+    {
+      "autocad": "AutocadResultSerializer",
+      "civil3d": "Civil3dResultSerializer"
+    },
+    {
+      "autocad": "AutocadContextReader",
+      "civil3d": "Civil3dContextReader"
+    },
+    {
+      "autocad": "AutocadThemeSwitcher",
+      "civil3d": "Civil3dThemeSwitcher"
+    },
+    {
+      "autocad": "AutocadBridgeStatusView",
+      "civil3d": "Civil3dBridgeStatusView"
+    },
+    {
+      "autocad": "AutocadTheme",
+      "civil3d": "Civil3dTheme"
+    },
+    {
+      "autocad": "PipeNaming.AutocadHost",
+      "civil3d": "PipeNaming.Civil3dHost"
+    },
+    {
+      "autocad": "JsonRpcMethods.AutocadPrefix",
+      "civil3d": "JsonRpcMethods.Civil3dPrefix"
+    },
+    {
+      "autocad": "HostScriptContracts.AutocadImports",
+      "civil3d": "HostScriptContracts.Civil3dImports"
+    },
+    {
+      "autocad": "GuardProfile.Autocad",
+      "civil3d": "GuardProfile.Civil3d"
+    },
+    {
+      "autocad": "AnalyzerProfile.Autocad",
+      "civil3d": "AnalyzerProfile.Civil3d"
+    },
+    {
+      "autocad": "private const string HostName = \"AutoCAD\";",
+      "civil3d": "private const string HostName = \"Civil 3D\";"
+    },
+    {
+      "autocad": "public const string TabTitle = \"HPAutoCad\";",
+      "civil3d": "public const string TabTitle = \"HPCivil3d\";"
+    },
+    {
+      "autocad": "public const string VendorFolder = \"HPAutoCad\";",
+      "civil3d": "public const string VendorFolder = \"HPCivil3d\";"
+    },
+    {
+      "autocad": "\"HPAutoCad\", \"McpBridge\", \"logs\"",
+      "civil3d": "\"HPCivil3d\", \"McpBridge\", \"logs\""
+    },
+    {
+      "autocad": "<Version>0.3.0</Version>",
+      "civil3d": "<Version>0.1.0</Version>"
+    },
+    {
+      "autocad": "AppVersion=\"0.3.0\"",
+      "civil3d": "AppVersion=\"0.1.0\""
+    },
+    {
+      "autocad": "Version=\"0.3.0\"",
+      "civil3d": "Version=\"0.1.0\""
+    },
+    {
+      "autocad": "class BridgeEntry",
+      "civil3d": "class Civil3dBridgeEntry"
+    },
+    {
+      "autocad": "\"HPCivil3d.McpBridge.BridgeEntry\"",
+      "civil3d": "\"HPCivil3d.McpBridge.Civil3dBridgeEntry\""
+    }
+  ],
+  "renames": {
+    "BridgeEntry.cs": "Civil3dBridgeEntry.cs"
+  }
+}

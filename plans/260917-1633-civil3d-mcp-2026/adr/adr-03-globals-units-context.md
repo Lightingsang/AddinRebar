@@ -1,6 +1,6 @@
 # ADR-03 — Globals `civil` thêm vào AutoCAD; đơn vị: mm cho hình học phẳng, đơn vị bản vẽ cho station/elevation; `Civil3dInfo` trong context
 
-**Ngày:** 2026-09-17 · **Status:** Proposed (S-04/S-06 phase 1 quyết) · **Owner:** HPCivil3d
+**Ngày:** 2026-09-17 · **Status:** **Accepted (revised)** 2026-09-18 — S-04a/b, S-06 PASS; U1 và U11 sửa như dưới ([reports/phase-01-spike.md](../reports/phase-01-spike.md) run 2–4) · **Owner:** HPCivil3d
 **Kế thừa:** [AutoCAD ADR-03 §Globals (`tr`, `units`)](../../260913-0000-autocad-mcp-bridge-2026/adr/adr-03-autocad-transaction-undo-dryrun-policy.md) · AEC ADR-02 "mm at the tool boundary whatever INSUNITS is" (CLAUDE.md § AEC engine) · Navis ADR-04 §4 (`units` từ `Document.Units`)
 **Bằng chứng:** [addendum §2–3, §12 U1/U10/U11](../research/reflection-addendum-verified-signatures.md) · [researcher-02 §5](../research/researcher-02-civil3d-autoloader-launch-rebuild-facts.md) · `McpShared/HPRebar.McpBridge.Core/Scripting/ScriptUnits.cs:11–41` (`ScriptUnits(label, mmPerUnit, note)`, `ToDrawing`, `ToMm`) · `HPAutoCad/HPAutoCad.McpBridge/Model/AutocadScriptGlobals.cs:17–55` · `HPAutoCad/HPAutoCad.McpBridge/Service/AutocadScriptRunner.cs:59` (`AutocadInsunits.For((int)db.Insunits)`) · `McpShared/HPRebar.Mcp.Contracts/Messages/ContextMessages.cs:24–30, 66–73` (`AutocadInfo` 7 field, slot per host) · `McpShared/HPRebar.Mcp.Server.Core/Services/ContextService.cs:52–65` (`Shape` bỏ `revitVersion/isFamily` cho non-Revit; null bị bỏ).
 
@@ -58,5 +58,8 @@ public sealed record Civil3dInfo(
 - Phase 2: `Civil3dScriptGlobals`, `Civil3dContextReader` (copy AutoCAD + đếm), units từ Civil settings + mismatch log.
 - Phase 3: mọi seed khai `drawingUnit`/`lengthUnit` trong envelope; `SeedLibraryTests` kiểm mỗi field số có hậu tố `Mm` **hoặc** thuộc danh sách "drawing-unit fields" (`station*`, `elevation*`, `rim*`, `sump*`, `z`, `area*`, `slope*`) — test cơ học "every field unit-labelled".
 
-## Open items `[chưa xác minh]`
-- U1 `ActiveDocument` trong DWG không có Civil object / AutoCAD thuần (S-04). U10 mọi field Pipe/Surface đúng drawing unit (S-06). U11 `GetCoordinateSystemByCode("")` (S-06). `Units.Length` label "Meters"/"Feet" có làm AI AutoCAD-quen hiểu sai không → description nói rõ.
+## Open items — đóng bởi spike 2026-09-18
+- ~~U1~~ → **revised**: `CivilApplication.ActiveDocument` trả `CivilDocument` cho **mọi** DWG mở trong Civil 3D, kể cả drawing mới từ `acad.dwt` (S-04b: `isCivilDocument true`, `DrawingUnits Feet` mặc định). `civil` thực tế không null trong Civil 3D; nhánh null của `Civil3dScriptRunner` chỉ là phòng thủ. Hệ quả: template không có Civil settings → `DrawingUnits` mặc định **Feet** dù INSUNITS khác → `insunitsMismatch true` là tình huống thật, description tool phải nói rõ.
+- ~~U11~~ → **revised**: "không zone" là `CoordinateSystemCode == "."` (không rỗng); `GetCoordinateSystemByCode("")` ném `ArgumentException`; `GetCoordinateSystemByCode(".")` trả "No Datum, No Projection". Bridge chuẩn hoá `"."`/rỗng → `coordinateSystemCode null` (`Civil3dUnits.ReadCoordinateSystemCode`). Có zone: `NH83F` → "NAD83 New Hampshire State Planes, US Foot".
+- ~~U10~~ → station/elevation/area đọc ra đúng drawing unit (S-05 alignment 1 399.81 với `DrawingUnits Meters`; S-09 `Parcel.Area` 3 349 m²; S-07 elevation 65.21). Pipe network field chưa đọc live (không seed pipe nào là W; R8 ở phase 3 kiểm bằng `Pipe Networks-1C`).
+- Label `Units.Length` = "Meters"/"Feet" (Civil) thay cho tên INSUNITS: giữ; description `execute_civil3d_code` nói rõ mm ở biên, station/elevation theo drawing unit.

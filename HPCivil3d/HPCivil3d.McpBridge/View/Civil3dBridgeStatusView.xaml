@@ -1,0 +1,160 @@
+<Window x:Class="HPCivil3d.McpBridge.View.Civil3dBridgeStatusView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:HPRebar.McpBridge.Core.ViewModel;assembly=HPRebar.McpBridge.Core"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:McpBridgeStatusViewModel}"
+        Title="HPCivil3d MCP Bridge"
+        Width="560" Height="620"
+        MinWidth="480" MinHeight="520"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HPCivil3d.McpBridge;component/Resources/Themes/Civil3dTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Status dot colour follows the bridge state; brushes are theme tokens so the dark/light swap applies. -->
+            <Style x:Key="StatusDot" TargetType="Ellipse">
+                <Setter Property="Width" Value="12"/>
+                <Setter Property="Height" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Foreground.Tertiary}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding StatusKind}" Value="Listening">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Info}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding StatusKind}" Value="Connected">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Success}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding StatusKind}" Value="Busy">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Warning}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding StatusKind}" Value="Error">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Danger}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="CompileCountText" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsCompileCountHigh}" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource Brush.Warning}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="{DynamicResource Spacing.Medium}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: state + listener toggle -->
+        <Border Grid.Row="0" Style="{DynamicResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse Grid.Column="0" Style="{DynamicResource StatusDot}" Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+                <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                    <TextBlock Style="{DynamicResource Subheading}" Text="{Binding StatusText}" TextWrapping="Wrap"/>
+                    <TextBlock Style="{DynamicResource Caption}" Text="{Binding StatusDetail}" Foreground="{DynamicResource Brush.Danger}"
+                               AutomationProperties.AutomationId="StatusDetail"/>
+                    <TextBlock Style="{DynamicResource Caption}">
+                        <Run Text="Pipe"/> <Run Text="{Binding PipeName, Mode=OneWay}"/> <Run Text="· AutoCAD"/> <Run Text="{Binding RevitVersion, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+
+                <Button Grid.Column="2" Style="{DynamicResource PrimaryButton}" MinWidth="120" VerticalAlignment="Center"
+                        Content="{Binding ToggleButtonText}" Command="{Binding ToggleListenerCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Safety: the per-session opt-in and what it means -->
+        <Border Grid.Row="1" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <StackPanel>
+                <TextBlock Style="{DynamicResource BodyStrong}" Text="Safety"/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
+                          IsChecked="{Binding IsExecutionEnabled}"
+                          Content="Allow AI code execution in this AutoCAD session"
+                          ToolTip="Scripts written by the AI run inside AutoCAD with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox. Turned off again every time AutoCAD starts."/>
+
+                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
+                           Text="Off by default. Every script runs inside a transaction the bridge owns; U in AutoCAD reverts the AI's runs since your last command. Dry runs never commit."/>
+
+                <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
+                          IsChecked="{Binding AutoStartListener}"
+                          Content="Start the listener automatically when AutoCAD opens"
+                          ToolTip="Only the listener. Code execution still needs the box above, every session."/>
+            </StackPanel>
+        </Border>
+
+        <!-- Last run -->
+        <Border Grid.Row="2" Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0">
+                    <Button DockPanel.Dock="Right" Style="{DynamicResource LinkButton}" Content="Copy script"
+                            Command="{Binding CopyLastScriptCommand}"/>
+                    <TextBlock Style="{DynamicResource BodyStrong}" Text="Last run"/>
+                </DockPanel>
+
+                <TextBlock Grid.Row="1" Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                           Text="{Binding LastRunSummary}"/>
+
+                <TextBox Grid.Row="2" Style="{DynamicResource StandardTextBox}" Margin="{DynamicResource Spacing.SmallTop}"
+                         Text="{Binding LastScriptPreview, Mode=OneWay}" IsReadOnly="True"
+                         FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}"
+                         AcceptsReturn="True" TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </Grid>
+        </Border>
+
+        <!-- Footer -->
+        <Grid Grid.Row="3" Margin="{DynamicResource Spacing.MediumTop}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Style="{DynamicResource CompileCountText}">
+                    <Run Text="Compiled scripts:"/> <Run Text="{Binding CompiledScriptCount, Mode=OneWay}"/>
+                    <Run Text=" (each stays in memory until AutoCAD restarts)"/>
+                </TextBlock>
+                <Button Style="{DynamicResource LinkButton}" HorizontalAlignment="Left" Content="Open audit folder"
+                        Command="{Binding OpenAuditFolderCommand}" ToolTip="{Binding AuditDirectory}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Style="{DynamicResource SecondaryButton}" MinWidth="100" Margin="{DynamicResource Spacing.SmallHorizontal}"
+                        Content="Restart bridge" Command="{Binding RestartBridgeCommand}"
+                        ToolTip="Drops the current MCP connection and reopens the pipe. Does not free compiled scripts."/>
+                <Button Style="{DynamicResource PrimaryButton}" MinWidth="100"
+                        Content="Close" Command="{Binding CloseCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

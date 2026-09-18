@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPCivil3d.McpBridge.Loader</RootNamespace>
+        <!-- The Ribbon tab (Autodesk.Windows in AdWindows.dll) is WPF: ImageSource, DrawingImage. Compile-time only. -->
+        <UseWPF>true</UseWPF>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+        <!-- Copy the bundle to %AppData%\Autodesk\ApplicationPlugins after a Debug build; pass -p:DeployBundle=false while AutoCAD is open. -->
+        <DeployBundle Condition="'$(DeployBundle)' == ''">true</DeployBundle>
+        <BundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPCivil3d.McpBridge.bundle\</BundleDir>
+        <BridgeOutDir>$(MSBuildThisFileDirectory)..\HPCivil3d.McpBridge\bin\$(Configuration)\$(TargetFramework)\</BridgeOutDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The only assembly AutoCAD loads directly. It carries the extension entry point and the commands,
+             creates an isolated AssemblyLoadContext and starts the real bridge from Contents\Bridge by reflection —
+             so this project must never reference HPCivil3d.McpBridge or anything it depends on. -->
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Build ordering only: the bundle needs the bridge's output, but the loader must not reference its assembly. -->
+        <ProjectReference Include="..\HPCivil3d.McpBridge\HPCivil3d.McpBridge.csproj" ReferenceOutputAssembly="false" Private="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Bundle\PackageContents.xml"/>
+    </ItemGroup>
+
+    <!-- Both projects share one TFM; the bridge output folder is derived from it, so a TFM change cannot silently deploy nothing. -->
+    <Target Name="DeployBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(Configuration)' == 'Debug' And '$(DesignTimeBuild)' != 'true'">
+        <Error Condition="!Exists('$(BridgeOutDir)HPCivil3d.McpBridge.dll')" Text="Bridge output missing at $(BridgeOutDir) - build HPCivil3d.McpBridge first"/>
+        <ItemGroup>
+            <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml"/>
+            <_BridgeFiles Include="$(BridgeOutDir)**\*"/>
+            <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
+        </ItemGroup>
+        <!-- Start from a clean Contents\Bridge: stale dependencies from an earlier build would not break the resolver
+             (deps.json wins) but they bloat the bundle and confuse debugging. Fails loudly while AutoCAD holds the files. -->
+        <RemoveDir Directories="$(BundleDir)Contents\Bridge"/>
+        <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Message Importance="high" Text="HPCivil3d bundle deployed to $(BundleDir)"/>
+    </Target>
+
+</Project>

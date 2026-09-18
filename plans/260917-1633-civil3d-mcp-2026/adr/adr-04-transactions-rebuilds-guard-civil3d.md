@@ -1,6 +1,6 @@
 # ADR-04 — Transaction/dryRun kế thừa AutoCAD nguyên vẹn; rebuild/data-shortcut/survey/UI/file-taking bị guard chặn trong MVP; spike chứng minh abort với Civil object
 
-**Ngày:** 2026-09-17 · **Status:** Proposed (S-05 phase 1 quyết phần rebuild) · **Owner:** HPCivil3d
+**Ngày:** 2026-09-17 · **Status:** **Accepted (revised)** 2026-09-18 — §1 verified W1/W2/S-10a/S-10b/S-10c; §3 giữ deny `Rebuild*` trong MVP với lý do thời gian, không phải an toàn ([reports/phase-01-spike.md](../reports/phase-01-spike.md) run 2–5) · **Owner:** HPCivil3d
 **Kế thừa:** [AutoCAD ADR-03 + "Revised after phase 2"](../../260913-0000-autocad-mcp-bridge-2026/adr/adr-03-autocad-transaction-undo-dryrun-policy.md) (outer/inner qua `doc.TransactionManager`, script không mở transaction, `Changed` từ HANDSEED + `ObjectOpenedForModify`, undo gộp `HPMCP`) · [Navis ADR-04 §3 heavy gate](../../260915-0824-navisworks-mcp-2026/adr/adr-04-navis-main-thread-busy-heavy-ops-guard-globals.md) · [ETABS ADR-02 §4 path policy](../../260916-2152-etabs-mcp-2026/adr/adr-02-no-transaction-snapshot-tiers-and-opt-ins.md)
 **Bằng chứng:** [addendum §6–7, §11, §12 U4](../research/reflection-addendum-verified-signatures.md) · [E17](../research/evidence-on-machine-2026-09-17.md) · [researcher-02 §4, §7](../research/researcher-02-civil3d-autoloader-launch-rebuild-facts.md) (KB Autodesk "corridor disappears when rebuilt", "stuck in a loop to Rebuild") · `McpShared/HPRebar.McpBridge.Core/Scripting/GuardProfile.cs:22–45` (`Autocad`), `AnalyzerProfile.cs:14–16`.
 
@@ -53,10 +53,10 @@ Khác ETABS: mọi member nhận path đã deny (§2) → không cần `EtabsPat
 
 ## Consequences
 - Phase 0: `GuardProfile.Civil3d`, `AnalyzerProfile.Civil3d` + test (cấm `civil.CorridorCollection.RebuildAll()`, `DataShortcuts.SetWorkingFolder("x")`, `surface.ExportToDEM(...)`, `CivilApplication.SurveyProjects`, `new Autodesk.Civil.AeccUiMgd.X()`, `Autodesk.AECC.Interop.Land.AeccApplication`; cho phép `civil.GetAlignmentIds()`, `surface.FindElevationAtXY(x,y)`, `civil.CogoPoints.Add(pt, "d", true)`, `Alignment.Create(civil, opts, …)`, `corridor.IsOutOfDate`, `corridor.RebuildAutomatic`).
-- Phase 1 S-05 → phase 2 quyết `Rebuild` mở/đóng; ADR này `Accepted (revised)` sau spike.
+- Phase 1 spike (S-10b/c) → **quyết:** `Rebuild/RebuildAll/RebuildSnapshot` **vẫn deny** trong MVP. Bằng chứng an toàn dữ liệu đủ (`Abort()` và `U` hoàn lại rebuild sạch, corridor không biến mất), bằng chứng thời gian chưa (corridor tutorial up-to-date, 43 ms). Mở lại chỉ khi có heavy tier (timeout 600 s + checkbox thứ hai như Navis) và một lần đo trên corridor out-of-date — follow-up sau phase 4, không phải MVP.
 - Description `execute_civil3d_code` liệt kê rõ: `tr` của bridge; không rebuild trong MVP; data shortcut/survey/UI/file export bị chặn; station/elevation đơn vị bản vẽ.
 
-## Open items `[chưa xác minh]`
-- U4: `Abort()` hoàn lại `Rebuild()`/`AddVertices`/`Alignment.Create` + `Profile.CreateFromSurface` phụ thuộc sạch không; corridor có "biến mất" không (S-05).
-- `DocumentLock` có đủ cho Civil object khi gọi từ `Application.Idle` (application context) — AutoCAD verified; Civil giả định như nhau (S-05 chạy qua đúng đường bridge).
-- `RebuildAutomatic` bật + sửa alignment → rebuild ngầm trong `inner.Commit()`? thời gian? (S-05 (d) trên `Corridor-1.dwg`).
+## Open items — kết quả spike 2026-09-18
+- ~~U4~~ → **verified** (spike run 2–5): `outer.Abort()` hoàn lại sạch `CogoPoints.Add` (W1: 0→3→0), `Alignment.Create` (W2: 0→1→0), `TinSurface.AddVertex` (S-10a: 23 092→23 093→23 092 và 778→779→778 trên surface out-of-date), `Corridor.Rebuild()` (S-10b: corridor `CB3` + 4 corridor surface còn, `erased false`, `changed.modified 5`, `rolledBack true`); `U` hoàn lại cả ba loại (W1, W2, S-10c). Corridor **không biến mất**. `Profile.CreateFromSurface` chưa thử (không seed MVP nào ghi profile).
+- ~~`DocumentLock` từ `Application.Idle`~~ → mọi W chạy qua đúng đường bridge (pipe → Idle → runner), không lỗi `eLockViolation`; Civil object hành xử như AutoCAD entity.
+- Còn mở (không chặn MVP): `RebuildAutomatic` bật + sửa alignment → rebuild ngầm trong `inner.Commit()`? (mọi corridor tutorial có `RebuildAutomatic false`; cần drawing tự bật) · thời gian `Rebuild()` corridor out-of-date / dự án thật (KB: phút) → điều kiện mở deny.

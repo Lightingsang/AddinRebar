@@ -6,7 +6,7 @@ Probe riêng (`System.Reflection.MetadataLoadContext`, metadata-only, không n�
 | Khẳng định | Thực tế (reflection) |
 |---|---|
 | r01: `CivilDocument` NOT FOUND | Có — **`Autodesk.Civil.ApplicationServices.CivilDocument`** (r01 tra nhầm `DatabaseServices`), 36 member, base `Autodesk.AutoCAD.Runtime.DisposableWrapper` |
-| r01/r02: `Parcel.Area`, `Parcel.Perimeter`, `ParcelLoops`, `ParcelSegments` | **Không có** trong .NET API 2026 (chỉ COM `AeccParcel`). `Parcel` khai báo: `Number`, `TaxId`, `Address`, `Centroid`, `AreaLocation`, `AreaSelectionLabel*`, UDP get/set; kế thừa `Name/Description/StyleName/StyleId` từ `Autodesk.Civil.DatabaseServices.Entity`. Diện tích → `[chưa xác minh]` (spike S-09) |
+| r01/r02: `Parcel.Area`, `Parcel.Perimeter`, `ParcelLoops`, `ParcelSegments` | **ĐÍNH CHÍNH 2026-09-18 (spike S-09, `inspect_type` runtime):** `Parcel` **có `Double Area { get; }`** (kế thừa — probe metadata của addendum chỉ dump member *declared* nên bỏ sót; `Perimeter`, `ParcelLoops`, `ParcelSegments` vẫn không thấy). Declared: `Number`, `TaxId`, `Address`, `Centroid`, `AreaLocation`, `AreaSelectionLabel*`, UDP get/set; kế thừa `Name/Description/StyleName/StyleId`. Seed `list_parcels` đọc `p.Area` (drawing unit²) |
 | r02: "không có API bật/tắt Rebuild – Automatic" | Có — `Corridor.RebuildAutomatic { get; set; }`, `Surface.AutoRebuild { get; set; }` |
 | r02: `CogoPointCollection.Renumber()` | `Renumber` nằm trên **`CogoPoint`**: `UInt32 Renumber(UInt32 newPointNumber[, PointNumberResolveType])`; collection có `SetPointNumber(ObjectId, UInt32)` |
 | r02: `Alignment.GetStationAndOffsetAtPoint` | Không có. Đúng: `StationOffset(Double easting, Double northing, ref Double station, ref Double offset)` (+ overload `tolerance`; `StationOffsetAcceptOutOfRange(..., ref Boolean outofrange)`) |
@@ -123,17 +123,17 @@ StyleBase : DBObject — String Name {set;} (get qua DBObject? `[chưa xác minh
 ## 11. Data shortcuts / survey / UI (→ guard deny, ADR-04)
 `Autodesk.Civil.DataShortcuts.DataShortcuts` (static): `GetWorkingFolder` · **`SetWorkingFolder(String)`** · `GetCurrentProjectFolder` · **`SetCurrentProjectFolder(String)`** · **`CreateProjectFolder(...)`** · **`AssociateDSProject(...)`** · **`CreateReference(...)`** · **`CreatePartialReferenceSurface`** · **`RepairBrokenDRef`** · **`CreateDataShortcutManager(ref Boolean)`** · **`SaveDataShortcutManager`** · `Validate()` · `GetDSProjectId`. `Autodesk.Civil.SurveyProject`, `SurveyProjectCollection` (38 type `Survey*`). Exceptions: `Autodesk.Civil.CivilException`, `EntityNotFoundException`, `PointNotOnEntityException`, `SurfaceException`, `SurveyException`, `PointGroupQuery*Exception`.
 
-## 12. Member `[chưa xác minh]` → spike phase 1
+## 12. Member `[chưa xác minh]` → spike phase 1 — kết quả 2026-09-18 trong [reports/phase-01-spike.md](../reports/phase-01-spike.md)
 | # | Member / hành vi | Spike |
 |---|---|---|
-| U1 | `CivilApplication.ActiveDocument` khi DWG không phải Civil / trong AutoCAD thuần | S-04 |
-| U2 | `Alignment.Create(..., siteName: "" …)` = siteless; labelSetName rỗng có được không | W2 |
-| U3 | `Surface.FindElevationAtXY` ngoài biên ném kiểu gì | S-07 |
-| U4 | `Corridor.Rebuild()`/`Surface.Rebuild()` dưới `outer.Abort()` | S-05 |
-| U5 | `Parcel` diện tích/chu vi từ .NET (AecPropData? label text? không có) | S-09 |
-| U6 | `Profile.Name` (qua `Feature`) và `Feature` member | S-08 |
-| U7 | `TreeNodeCollectionBase.Item`/`CorridorCollection.Item`/`AlignmentEntityCollection.Item` indexer (int vs string) | S-08 |
-| U8 | `StyleBase.Name` getter; `LabelSetStylesRoot` member cho alignment label set | S-08 |
-| U9 | `CogoPointCollection.Add(Point3dCollection, desc, useNextPointNumSetting)` với số điểm trùng | W1 |
-| U10 | Đơn vị `Surface`/`Pipe` field = drawing unit (Meters/Feet) đúng như giả định | S-06 |
-| U11 | `GetCoordinateSystemByCode("")` khi bản vẽ không có zone | S-06 |
+| U1 | ~~`CivilApplication.ActiveDocument` khi DWG không phải Civil~~ **đóng 2026-09-18 (S-04a/b):** trả `CivilDocument` cho mọi DWG trong Civil 3D, kể cả `acad.dwt` (`DrawingUnits Feet` mặc định); AutoCAD thuần không nạp bundle nên không có case | S-04 |
+| U2 | ~~siteless / labelSetName rỗng~~ **đóng (W2):** `siteName ""` = siteless OK; `labelSetName ""` → `ArgumentException: Label set name must be at least one character` → lấy `Styles.LabelSetStyles.AlignmentLabelSetStyles[0]` | W2 |
+| U3 | ~~ngoài biên ném kiểu gì~~ **đóng (S-07):** `Autodesk.Civil.PointNotOnEntityException` "Point Outside Surface." | S-07 |
+| U4 | ~~`Corridor.Rebuild()` dưới `outer.Abort()`~~ **đóng (S-10b/c):** hoàn lại sạch, corridor + 4 corridor surface còn, `U` cũng hoàn lại; `TinSurface.AddVertex` hoàn lại (S-10a ×2). `Surface.Rebuild()` chưa gọi trực tiếp | S-10 |
+| U5 | ~~`Parcel` diện tích~~ **đóng 2026-09-18:** `Parcel.Area` có (runtime reflection); chu vi không thấy | S-09 |
+| U6 | `Profile.Name` (qua `Feature`) — `inspect_type Feature` 200 member (có `Name`); chưa đọc live trên Profile → phase 3 | S-08 |
+| U7 | ~~indexer int vs string~~ **đóng (S-08):** `AlignmentEntityCollection[int]`, `AlignmentEntity[int]` (sub-entity), `CorridorCollection[int]` (+ `GetEnumerator`); `TreeNodeCollectionBase` 17 member có `Contains(string)` | S-08 |
+| U8 | ~~`StyleBase.Name`; label set root~~ **đóng (S-08):** `Name` qua `DBObject` ("Local Road"); `civil.Styles.LabelSetStyles.AlignmentLabelSetStyles` (`LabelSetStylesRoot` 9 member) | S-08 |
+| U9 | ~~`Add` với số điểm trùng~~ **đóng (W1):** `Add(pt, desc, useNextPointNumSetting: true)` cấp số kế tiếp (9, 10, 11), không trùng | W1 |
+| U10 | ~~drawing unit~~ **đóng (S-05/07/09):** station 1 399.81 (Meters), elevation 65.21, `Parcel.Area` 3 349 m² — đúng drawing unit; Pipe field chưa đọc live (phase 3/4) | S-06 |
+| U11 | ~~`GetCoordinateSystemByCode("")`~~ **đóng (S-06 ×2):** không zone = code `"."` (→ "No Datum, No Projection"); `""` ném `ArgumentException`; có zone `NH83F` → "NAD83 New Hampshire State Planes, US Foot" | S-06 |

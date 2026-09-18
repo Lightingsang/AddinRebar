@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- Civil 3D MCP: the bridge (loader + isolated bridge) that runs inside acad.exe /product C3D and the stdio
+       server exe the host AI launches. Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core
+       Nothing here references HPAutoCad/: the bridge is a copy of the AutoCAD one with Civil tokens, kept in step
+       by HPCivil3d.McpBridge.Tests (mirror tests, phase 2). -->
+  <Project Path="HPCivil3d.McpBridge.Loader/HPCivil3d.McpBridge.Loader.csproj" />
+  <Project Path="HPCivil3d.McpBridge/HPCivil3d.McpBridge.csproj" />
+  <Project Path="HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "Scaffold HPCivil3d/ (2 project bridge + props), bundle Platform=Civil3D, spike có gate: nạp chỉ trong Civil 3D, civil resolve, đọc alignment, ghi + dryRun rollback, coexist với AutoCAD 2026"
-status: pending
+status: completed
 priority: P1
 effort: "8h"
 dependencies: [0]
@@ -81,13 +81,13 @@ Xem [architecture.md §2–3](architecture.md). Spike chạy qua đường thậ
 8. Code review → fix → chạy lại spike (≥ 2 lần pass liên tiếp).
 
 ## Todo List
-- [ ] props/slnx/json/README · [ ] Loader copy + token + `Aec` prefix + GUID · [ ] Bridge copy + refs + `civil` + units + probe · [ ] Server tạm · [ ] Harness spike + scene copy · [ ] S-01…S-11, W1–W2 pass/kết luận (×2) · [ ] ADR-02/03/04/05 cập nhật · [ ] Report + review
+- [x] props/slnx/json/README · [x] Loader copy + token + `Aec` prefix + GUID · [x] Bridge copy + refs + `civil` + units + probe · [x] Server tạm · [x] Harness spike + scene copy (census + pick theo năng lực) · [x] S-01…S-11, W1–W2 pass/kết luận (S-01 ×5, W1/W2/S-10a ×2, còn lại ×1 sau khi harness ổn — run 5 0 FAIL) · [x] ADR-02/03/04/05 cập nhật · [x] Report ([reports/phase-01-spike.md](reports/phase-01-spike.md)) · [x] Review 7.5/10 (0 High, 4 M, 9 L → 9 fixed cùng ngày, 5 chuyển phase 2) + tester 557 test xanh → [reports/code-review-phase-01.md](reports/code-review-phase-01.md), [reports/test-report-phase-01.md](reports/test-report-phase-01.md); spike chạy lại run 6/8 sau fix 0 FAIL
 
 ## Success Criteria
-- [ ] `dotnet build HPCivil3d/HPCivil3d.slnx -c Debug -p:DeployBundle=false` → 0 error; `-p:Civil3dInstallDir=X:\nowhere\` → đúng 1 error text "Civil 3D 2026 not found…" ở bridge, server vẫn build.
-- [ ] `pwsh -File HPCivil3d/tools/harness/run-spike.ps1` → S-01, S-02, S-02b, S-03, S-03b, S-11, W1 **PASS**; S-04…S-10, W2 có **kết luận ghi rõ** (kể cả "không được" là kết luận hợp lệ); Civil 3D/AutoCAD tự thoát; 2 lần liên tiếp cùng kết quả.
-- [ ] `reports/phase-01-spike.md` tồn tại; ADR-02 Accepted (hoặc §4 fallback kích hoạt), ADR-03 §4 text chốt, ADR-04 §3 quyết `Rebuild`, ADR-05 R6/R9/W2 điền.
-- [ ] 7 suite cũ + `HPRebar.Mcp.Server.Core.Tests` (phase 0) không hồi quy; `HPAutoCad` build xanh; harness AutoCAD `run-bridge-unattended.ps1` 21/21 vẫn pass **sau khi bundle Civil tồn tại** (bundle Civil không nạp vào AutoCAD — chính là S-02 nhìn từ phía AutoCAD).
+- [x] `dotnet build HPCivil3d/HPCivil3d.slnx -c Debug -p:DeployBundle=false` → 0 error (Release cũng xanh; 2 warning MSB3277 từ `Aecc*Mgd` tham chiếu net8 khác version — phase 2 xét `MSBuildWarningsAsMessages`); `-p:Civil3dInstallDir=X:\nowhere\` → 1 error `RequireCivil3dApi` ở bridge, server vẫn build (kiểm 2026-09-18).
+- [x] `run-spike.ps1` (Windows PowerShell 5.1): S-01/S-03b ×5, S-02/S-02b/S-03 (run 1), S-04a/b, W1 ×2, S-11 busy ×3 + ESC/retry ×2, disabled, nodoc **PASS**; S-05…S-10 kết luận ghi rõ (run 4–5); W2 ×2; Civil 3D/AutoCAD/Advance Steel tự thoát mỗi run. Run 5 = 0 FAIL toàn bộ. **Chưa** có 2 run liên tiếp *toàn bộ* 0 FAIL (run 1–4 mỗi run có bug harness khác nhau) — phase 4 harness đầy đủ chạy ×3 bù.
+- [x] `reports/phase-01-spike.md`; ADR-02 **Accepted**; ADR-03 **Accepted (revised)** (U1: `civil` luôn có; U11: `"."`); ADR-04 **Accepted (revised)** — `Rebuild*` **vẫn deny** MVP (an toàn verified, thời gian chưa); ADR-05 **Accepted (revised)** (U2/U3/U5/U7/U8/U9 điền; `Parcel.Area` có).
+- [x] Harness AutoCAD `run-bridge-unattended.ps1` **21/21 PASS** với bundle Civil đã deploy (08:34; Civil loader.log giữ 107 dòng). `McpShared/` không đổi trong phase 1 → suite engine/host không cần chạy lại (phase 0 đã chạy đủ 7 suite); `HPAutoCad` không đổi.
 
 ## Risk Assessment
 | Risk | Mitigation |
@@ -103,4 +103,6 @@ Xem [architecture.md §2–3](architecture.md). Spike chạy qua đường thậ
 - Spike-only commands/guard bypass chỉ khi env `HPCIVIL3D_MCP_SPIKE=1` (xoá cuối phase 2 như AutoCAD `HPMCPSPIKE`). Opt-in vẫn OFF mỗi khởi động; harness tick qua UIA trên cửa sổ của ta.
 
 ## Next Steps
-- Phase 2 hoàn thiện runtime + ribbon + mirror test theo kết luận spike; phase 3 server/seed cần ADR-05 R6/R9/W2 đã chốt.
+- Phase 2 hoàn thiện runtime + ribbon + mirror test theo kết luận spike: bỏ nhánh `HPCIVIL3D_MCP_SPIKE` (hiện `#if DEBUG` trong `MainThreadExecutor`), giữ `GuardProfile.Civil3d` deny `Rebuild*`; `insunitsMismatch` vào description; `MSB3277` xử lý; harness pipe copy AutoCAD 21 → Civil.
+- Phase 3 server/seed: ADR-05 R6/R9/W2 đã chốt (label set đầu, `PointNotOnEntityException`, `Parcel.Area`); U6 `Profile.Name` và loại polyline kiểm trong `SeedLibraryTests` + live phase 4.
+- Harness spike giữ lại làm evidence tái chạy (`run-spike.ps1 -SkipBuild -SkipIsolation -SkipCoexist -Only corr,busy`).

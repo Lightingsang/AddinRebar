@@ -1,6 +1,6 @@
 # ADR-02 — Bundle riêng `HPCivil3d.McpBridge.bundle`, `Platform="Civil3D"`, pipe `hpcivil3d-mcp-2026`, hai product chạy song song không đụng nhau
 
-**Ngày:** 2026-09-17 · **Status:** Proposed (spike S-01…S-03 phase 1 quyết Accepted) · **Owner:** HPCivil3d
+**Ngày:** 2026-09-17 · **Status:** **Accepted** 2026-09-18 — spike phase 1 S-01/S-02/S-02b/S-03 PASS ([reports/phase-01-spike.md](../reports/phase-01-spike.md) run 1) · **Owner:** HPCivil3d
 **Kế thừa:** [AutoCAD ADR-05 §2 (`Platform="AutoCAD"` để né Civil 3D)](../../260913-0000-autocad-mcp-bridge-2026/adr/adr-05-autocad-plugin-packaging-alc-isolation-multi-version.md) · [ADR-06 định danh](adr-06-server-profile-client-wiring-ribbon-identity.md)
 **Bằng chứng:** [E1, E4, E13, E14, E15](../research/evidence-on-machine-2026-09-17.md) · [researcher-02 §1, §6](../research/researcher-02-civil3d-autoloader-launch-rebuild-facts.md) · `HPAutoCad/HPAutoCad.McpBridge.Loader/Bundle/PackageContents.xml:13–15` (comment giải thích `Platform="AutoCAD"`) · `HPAutoCad/tools/harness/run-live-verify.ps1:116–132` (isolation 2: Civil 3D không nạp bundle AutoCAD — pass 2026-09-14) · `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs:41–48`.
 
@@ -58,7 +58,8 @@ Demand-load theo product key: `HKCU\Software\Autodesk\AutoCAD\R25.1\ACAD-9100:40
 - Harness AutoCAD isolation 2 (Civil 3D không nạp bundle AutoCAD) **vẫn phải pass** sau khi bundle Civil tồn tại — loader.log của AutoCAD là file khác (`%LocalAppData%\HPAutoCad\McpBridge\logs\loader.log`); harness Civil kiểm chiều ngược.
 - Người dùng có 2 plugin MCP cũ nạp vào Civil 3D: harness ghi nhận dialog/log lạ nếu có, không xử lý.
 
-## Open items `[chưa xác minh]`
-- Chiều "không nạp vào AutoCAD thuần / Advance Steel" (semantics docs, chưa có precedent local) — S-02/S-02b.
-- AutoCAD 2026 chỉ quét `%AppData%` (bỏ `%ProgramData%`) — researcher-02 dẫn forum; không ảnh hưởng vì ta deploy `%AppData%`.
-- SECURELOAD prompt trong Civil 3D giống AutoCAD — S-01 quan sát.
+## Open items — đóng bởi spike 2026-09-18
+- ~~Chiều "không nạp vào AutoCAD thuần / Advance Steel"~~ → **verified**: S-02 (`/product ACAD`, 90 s) và S-02b (`/product ADVS /p "<<ADVS>>"`, 120 s) loader.log không đổi, không pipe `hpcivil3d` (`reports/phase-01-spike.md` run 1).
+- ~~SECURELOAD prompt trong Civil 3D~~ → **đo được run 6–8:** dialog cho **mỗi hash DLL không ký** (4 DLL của ta), chặn nạp hẳn tới khi trả lời (run 7: 420 s không nạp); run 1–5 bị harness bấm *Always Load* im lặng. Harness từ nay bấm *Load Once* chỉ cho pid của mình và log; user bấm *Always Load* (≤ 4 lần) lần đầu và sau mỗi rebuild — phase 5 README/CLAUDE.md ghi.
+- AutoCAD 2026 chỉ quét `%AppData%` — không ảnh hưởng (deploy `%AppData%`); không cần xác minh.
+- Coexist AutoCAD 2026 + Civil 3D 2026 cùng lúc: S-03 PASS — hai pipe, hai context (`host=civil3d` Meters vs `host=autocad` Inches).

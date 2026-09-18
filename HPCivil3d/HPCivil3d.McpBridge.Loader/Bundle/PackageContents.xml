@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Autodesk autoloader manifest. Deployed by the DeployBundle target to
+    %AppData%\Autodesk\ApplicationPlugins\HPCivil3d.McpBridge.bundle\
+  with Contents\HPCivil3d.McpBridge.Loader.dll (the assembly Civil 3D loads) and Contents\Bridge\*
+  (the real bridge, loaded by the loader into its own AssemblyLoadContext).
+
+  SeriesMin/Max are AutoCAD's internal release numbers, not years: Civil 3D 2026 runs on AutoCAD 2026 = R25.1.
+  Platform="Civil3D" is the autoloader token Autodesk documents for "loaded and only loaded in Civil 3D": plain
+  AutoCAD 2026 and Advance Steel 2026 share the same acad.exe and R25.1, but they must not load this bundle —
+  the Civil API assemblies are not there, and the HPAutoCad bundle already serves AutoCAD on its own pipe.
+-->
+<ApplicationPackage SchemaVersion="1.0"
+                    AutodeskProduct="AutoCAD"
+                    ProductType="Application"
+                    Name="HPCivil3d MCP Bridge"
+                    AppVersion="0.1.0"
+                    Description="MCP bridge: AI-generated C# runs inside Civil 3D after the user opts in"
+                    ProductCode="{04F557F5-1C26-4EDF-A376-60926B8DD1D1}">
+  <CompanyDetails Name="HPRebar" />
+  <Components Description="Civil 3D 2026 (.NET 8)">
+    <RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R25.1" SeriesMax="R25.1" />
+    <ComponentEntry AppName="HPCivil3d.McpBridge"
+                    Version="0.1.0"
+                    ModuleName="./Contents/HPCivil3d.McpBridge.Loader.dll"
+                    AppType=".NET"
+                    LoadOnAutoCADStartup="True" />
+  </Components>
+</ApplicationPackage>

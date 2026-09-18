@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPCivil3d.McpBridge</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- Loaded by HPCivil3d.McpBridge.Loader into its own AssemblyLoadContext: EnableDynamicLoading writes the
+             deps.json the resolver reads and copies every dependency (Roslyn, System.Collections.Immutable 10,
+             System.Text.Json 10, Serilog, Mvvm) next to the DLL so the isolated context can load private copies. -->
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <!-- Roslyn ships 13 localized resource folders (7 MB); the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- Civil 3D 2026 runs on AutoCAD 2026 base release: R25.1 on .NET 8. 25.1.1 and 26.0.0 are the .NET 10 builds. -->
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile against the AutoCAD 2026 API, never copy it: the running acad.exe supplies these assemblies
+             and the load context deliberately refuses to load a second copy of them. -->
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <!-- The Civil 3D API has no NuGet package: compile against the installed product (Directory.Build.props resolves the
+         folders) and never copy it — acad.exe /product C3D loads these itself and the load context refuses duplicates. -->
+    <Target Name="RequireCivil3dApi" BeforeTargets="ResolveAssemblyReferences;CoreCompile">
+        <Error Condition="'$(Civil3dApiAvailable)' != 'true'"
+               Text="Civil 3D 2026 not found (looked for AeccDbMgd.dll in '$(Civil3dInstallDir)' and AecBaseMgd.dll in '$(AecBaseDir)'). Install Civil 3D 2026, or pass -p:Civil3dInstallDir=&lt;dir&gt; / set HPCIVIL3D_C3D_DIR."/>
+    </Target>
+    <ItemGroup>
+        <Reference Include="AeccDbMgd">
+            <HintPath>$(Civil3dInstallDir)AeccDbMgd.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="AeccPressurePipesMgd">
+            <HintPath>$(Civil3dInstallDir)AeccPressurePipesMgd.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="AecBaseMgd">
+            <HintPath>$(AecBaseDir)AecBaseMgd.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+</Project>
