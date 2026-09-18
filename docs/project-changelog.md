@@ -2,6 +2,46 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-09-18 — Civil 3D MCP: phase 5 — publish, docs, `AGENTS.md` regen — **plan hoàn tất**
+
+**Bổ sung:** exe publish `HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe` (single-file 7.1 MB; `tools/list` từ exe publish = 24 — `reports/phase-05-tools-list-civil3d-published.json`); bundle deploy lại từ Debug; CLAUDE.md (câu chiều phụ thuộc "six deliverables" + ngoại lệ tooling cross-MCP, hàng `HPCivil3d/`, mục "HPCivil3d MCP Bridge"); `AGENTS.md` regen bằng lệnh `_TO_PORTABLE` (idempotent, `sync-agent-skills.py check` drift none); `docs/codebase-summary.md`, `docs/system-architecture.md`, README HPCivil3d + harness + McpShared. `.mcp.json` entry `hprebar-civil3d` do user tự thêm (untracked).
+
+**Chưa làm (known gaps):** modal Civil khi script chờ; corridor dự án thật (`Rebuild*` deny); data shortcut; pressure parts / point group; `test_tool realRun`; Civil 3D 2025 / .NET 10; skill `hp-mcp-civil3d`; follow-up B `AcadShared/`.
+
+## 2026-09-18 — Civil 3D MCP: phase 4 — live-verify harness, registry loop, isolation hai chiều
+
+**Bổ sung:** `HPCivil3d/tools/harness/run-live-verify.ps1` (PS 5.1) + `live-verify.py`: một phiên stdio qua exe publish trên registry root cách ly — A context 4, E execute matrix 20 + E' 4 (opt-in off / no doc / busy → ESC → retry), S 24 (12 seed trên copy `Profile-5F.dwg` Feet + `Corridor-1a.dwg` Meters, paging, `partsTruncated`, write qua `test_tool` → `run_tool` → `U`), R 21 (MISS → propose `mcp_verify_count_cogo_points` → test → publish → CLI approve → `list_changed` 0.5 s → HIT; fragile → quarantine → restore/newVersion; proposal `RebuildAll` bị guard từ chối; tool `none` mà ghi fail test), X 3 (exe AutoCAD bên cạnh trên root cách ly); isolation: Civil thứ hai "pipe in use", AutoCAD thuần nạp bundle mình + coexist 2 pipe, Advance Steel không nạp gì, harness AutoCAD `-OnlyIsolation` 4/4. `Test-PipeUp` (liệt kê thư mục pipe — `Test-Path` kết nối vào pipe làm tên biến mất thoáng qua). Bug seed `list_pipe_networks` `partLimit` fallback 200 ≠ schema 60 → sửa + test `Schema_defaults_equal_the_code_fallbacks`.
+
+**Review round (7.5/10 → sửa cùng ngày):** exe AutoCAD "bên cạnh" từng ghi `%AppData%\HPAutoCad\McpServer\registry.db` → root cách ly `registry-autocad` + hash 2 root thật trước/sau; SKIP rows thay `Write-Host`; assert default có literal; baseline pipe; audit phải tăng; `status` field; `list_changed ≥ 1`; `open_drawing` fail khi read-only; mọi tool harness `mcp_verify_*`; `Registry-Reset -KeepExisting`; README điều kiện isolation.
+
+**Xác minh:** `-Runs 3 -IncludeIsolation` → **3 × 76 PASS + 8/8**; sau review `-Runs 1 -IncludeIsolation` → **80/80 + 9/9**, 0 skip, 0 fail, registry thật hai sản phẩm không đổi; hồi quy `tools/list` Revit 33 / AutoCAD 62 / Navis 24 / ETABS 24 byte-identical; 9 suite xanh (…/55/106).
+
+## 2026-09-18 — Civil 3D MCP: phase 3 — server profile, 12 seed nhúng, `tools/list` 24
+
+**Bổ sung:** `Civil3dHostProfile` (10 category), `execute_civil3d_code` (1 777 chars), `get_civil3d_context`, prompts/resources `civil3d://`; 12 seed sinh bởi `tools/generate-seed-library.py` (10 `none`: document info, alignments, alignment geometry, profiles, surfaces, surface elevation, corridors, pipe networks, parcels, COGO points; 2 `auto`: `create_cogo_points`, `create_alignment_from_polyline`) — mm ở biên, station/elevation/area theo drawing unit + `drawingUnit`, page cap theo bytes đo được (< 64 KB), `errors[{code,message,handle}]`, `ArgumentException` cho lỗi caller; server tree fenced bởi mirror contract.
+
+**Review round (7/10 → 14/14 sửa):** `partLimit` một budget; `insunitsMismatch` dead-false; nested keys regex; forbidden token `Rebuild(`/`RebuildAll`/`RebuildSnapshot` (không bắt `RebuildAutomatic`); mô tả 2 695 → 1 784.
+
+**Xác minh:** `HPCivil3d.Mcp.Server.Tests` 106 (compile mọi seed với Civil API cài sẵn), `HPCivil3d.McpBridge.Tests` 55; `run-server-smoke.ps1` 28/28 live.
+
+## 2026-09-18 — Civil 3D MCP: phase 2 — runtime Civil, mirror tests, harness pipe + ribbon
+
+**Bổ sung:** `HPCivil3d.McpBridge` deltas: global `civil`, `Civil3dUnitTable` (Meters 1000 / Feet 304.8, INSUNITS fallback, US survey feet = feet), context block `civil3d`, serializer Civil (alias type — `Autodesk.Civil.DatabaseServices` có `Entity`/`DBObject` riêng), `GuardProfile.Civil3d`; `HPCivil3d.McpBridge.Tests` MirrorTests (`tools/mirror-tokens.json`, mutation 1 ký tự → 1 fail); harness `run-bridge-unattended.ps1` (31 check), `run-ribbon-check.ps1`; `Stop-Acad` graceful; `Set-OptIn` retry.
+
+**Xác minh:** pipe 31/31 ×3–4; ribbon 12/12 + 1 MANUAL; review 8/10 → 10 sửa.
+
+## 2026-09-17/18 — Civil 3D MCP: phase 1 — scaffold `HPCivil3d/` + spike với Civil 3D 2026 thật
+
+**Bổ sung:** `HPCivil3d/` (slnx, global.json, `Directory.Build.props` dò `ACAD-9100:409\Location`), Loader + bundle `Platform="Civil3D"`, bridge copy từ AutoCAD, server; `run-spike.ps1` + `spike.py` 8 run (S-01…S-11): bundle chỉ nạp trong Civil 3D, AutoCAD/Advance Steel không nạp, coexist 2 pipe; mọi DWG có `CivilDocument`; `"."` = không zone; `Parcel.Area` có; `PointNotOnEntityException`; `Abort()`/`U` hoàn lại CogoPoint/Alignment/TinSurface vertex/corridor rebuild; SECURELOAD 1 prompt/hash DLL, chặn nạp; harness gotchas (`Documents.Open` trùng → read-only copy, `.dwl` hidden, UIA Popup).
+
+**Review round (7.5/10 → 9 sửa):** bỏ hẳn nhánh nới guard `HPCIVIL3D_MCP_SPIKE`; spike S-10b/c chuyển sang assert guard từ chối `Rebuild`.
+
+## 2026-09-17 — Civil 3D MCP: phase 0 — hằng số engine Civil 3D + sửa bypass `?.` trong guard cho mọi host
+
+**Bổ sung (McpShared, additive):** `PipeNaming.Civil3dHost` (`hpcivil3d-mcp-2026`), `JsonRpcMethods.Civil3dPrefix`, `HostScriptContracts.Civil3dImports/Globals`, `ContextResult.Civil3d`/`Civil3dInfo`, `GuardProfile.Civil3d`/`AnalyzerProfile.Civil3d`; `ScriptGuard` không còn bỏ qua member access qua `?.` (bypass áp dụng cho cả 5 host).
+
+**Xác minh:** `tools/list` Revit 33 / AutoCAD 62 / Navis 24 / ETABS 24 byte-identical trước/sau (`reports/phase-00-*`); Core.Tests xanh.
+
 ## 2026-09-17 — ETABS MCP: icon ứng dụng bridge (exe + titlebar)
 
 **Bổ sung:** `HPEtabs/tools/icons/render-app-icon.ps1` (PS 5.1 STA, WPF render một glyph vector → `.ico` 9 cỡ 16..256 PNG-entry + PNG 256 preview): khung kết cấu 3 tầng trên móng + phích MCP có dây cắm vào dầm giữa — cùng họ glyph host + plug `#0696D7` của Revit/AutoCAD/Navis. `HPEtabs.McpBridge.csproj` `<ApplicationIcon>` + `<Resource>`; `EtabsBridgeStatusView.xaml` `Icon="/Resources/HPEtabsMcpBridge.ico"`.

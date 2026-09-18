@@ -1,6 +1,7 @@
 # HPCivil3d — Civil 3D 2026 MCP
 
 The fifth HP MCP host: an AI agent scripts **Autodesk Civil 3D 2026** through the shared HP MCP engine (`../McpShared/`).
+**Plan complete 2026-09-18** — phases 0–5, verified live on the dev machine (`../plans/260917-1633-civil3d-mcp-2026/reports/phase-04-live-verify.md`).
 Civil 3D is an AutoCAD vertical — the same `acad.exe`, R25.1, .NET 8 — so this folder is the AutoCAD bridge
 (`../HPAutoCad/`) copied with Civil tokens plus the Civil API on top; it never references `HPAutoCad/`, and a mirror
 test (phase 2) keeps the copied files in step. Plan: `../plans/260917-1633-civil3d-mcp-2026/`.
@@ -64,11 +65,11 @@ Civil 3D). Edit `tools/generate-seed-library.py`, regenerate, retest.
 
 ## Tests
 
-`dotnet test HPCivil3d/HPCivil3d.Mcp.Server.Tests` (84, net10): `HostProfileTests` (every profile value, `tools/list` 12 before
+`dotnet test HPCivil3d/HPCivil3d.Mcp.Server.Tests` (106, net10): `HostProfileTests` (every profile value, `tools/list` 12 before
 seeds, description ≤ 1 800 chars), `Civil3dToolsOverPipeTests` (the two Civil tools over a real pipe with the shared fake
 executor — `civil3d.*` methods, the `civil3d` context block, refusal texts naming Civil 3D), `SeedLibraryTests` (record per
 seed for the civil3d profile, registry validator, guard + analyzer schema ⇔ `args`, forbidden members, unit labels and page
-caps, side-effect wording of the two writes, and the compile check against AutoCAD.NET 25.1.0 from the NuGet cache plus the
+caps, `Schema_defaults_equal_the_code_fallbacks` (a schema `default` must equal the literal `args.X("key", …)` fallback — nothing fills a missing argument at runtime), side-effect wording of the two writes, and the compile check against AutoCAD.NET 25.1.0 from the NuGet cache plus the
 installed `AeccDbMgd` / `AeccPressurePipesMgd` / `AecBaseMgd` — 13 tests skip with "Civil 3D 2026 not installed" when
 `HPCIVIL3D_C3D_DIR` / the registry / Program Files hold no C3D folder).
 
@@ -86,6 +87,14 @@ character outside a block fails exactly one test naming the file and line. `Civi
 `insunitsMismatch` when they disagree, US survey feet = feet, `"."` = no zone.
 
 ## Harness (`tools/harness/`)
+
+`run-live-verify.ps1 [-Runs n] [-IncludeIsolation] [-OnlyIsolation] [-SkipAutocad] [-UseLiveRegistry]` (Windows PowerShell 5.1) +
+`live-verify.py` is the end-to-end proof (see `tools/harness/README.md`): one stdio session through the **published** exe on an
+isolated registry root — context, execute matrix, the 12 seeds, the registry loop (MISS → propose → test → publish → CLI approve →
+HIT; fragile → quarantine → restore), the AutoCAD exe beside on its own isolated root, opt-in off / no drawing / busy, and with
+`-IncludeIsolation` a second Civil 3D, plain AutoCAD (coexistence), Advance Steel and the AutoCAD harness's `-OnlyIsolation`.
+2026-09-18: `-Runs 3 -IncludeIsolation` 3 × 76 PASS + 8/8; after the review round 80/80 + 9/9, 0 skip. Both products' live
+`%AppData%` registry roots are hashed before and after and must not move.
 
 `run-bridge-unattended.ps1` (Windows PowerShell 5.1) is the pipe harness: starts Civil 3D with `bridge.scr`
 (`HPC3DMCPBRIDGE` + `HPC3DMCPSTART`), answers SECURELOAD (*Load Once*, its own acad.exe only), ticks the opt-in through

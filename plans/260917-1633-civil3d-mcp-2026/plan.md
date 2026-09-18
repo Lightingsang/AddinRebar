@@ -1,13 +1,13 @@
 ---
 title: "HPCivil3d MCP 2026 (Civil 3D 2026 host for the shared HP MCP engine)"
 description: "AI → MCP → Civil 3D 2026 (acad.exe /product C3D, R25.1, .NET 8) trong folder top-level riêng HPCivil3d/; bridge = copy bundle AutoCAD với Platform=\"Civil3D\", pipe hpcivil3d-mcp-2026, global civil, guard chặn rebuild/data-shortcut; engine McpShared/ chỉ thêm hằng/profile/DTO"
-status: in-progress
+status: completed
 priority: P2
 effort: 38h
 branch: RebarVersion1
 tags: [civil3d, autocad, mcp, roslyn, named-pipe, registry, mcpshared, bundle]
 created: 2026-09-17
-revised: 2026-09-17
+revised: 2026-09-18
 blockedBy: []
 blocks: []
 ---
@@ -35,7 +35,7 @@ blocks: []
 | 2 | [phase-02](phase-02-civil3d-bridge-runtime-ribbon-mirror-tests.md) — runtime đầy đủ (context 11 field, units Civil, serializer Civil, `Rebuild` deny giữ), cửa sổ, ribbon `HPCivil3d ▸ MCP ▸ MCP Bridge`, **MirrorTests**, harness pipe ≥ 30 + ribbon 12+1 | **completed 2026-09-18** — serializer Civil (AlignmentEntity/SubEntity, CogoPoint, style name), `Civil3dUnitTable` thuần, description `insunitsMismatch`, cửa sổ Civil 3D; `HPCivil3d.McpBridge.Tests` 47 (mirror 21 file sau token + strip `civil-only`, AutoCAD-side coverage, 5 pin sha256; mutation 1 ký tự → 1 fail); harness pipe **31/31 ×4** (20 AutoCAD + 9 Civil + ESC/retry), ribbon **12/12 + 1 MANUAL ×2** (icon 2 theme xem tay); `Stop-Acad` graceful; review 8/10 → 10/13 fixed; SECURELOAD 4 × Load Once mỗi start ([report](reports/phase-02-bridge-runtime.md)); review + tester → [review](reports/code-review-phase-02.md) · [tests](reports/test-report-phase-02.md) | 0, 1 | 8h (≈3h) |
 | 3 | [phase-03](phase-03-server-profile-seeds-tests.md) — server hoàn chỉnh: profile, 4 core, prompts/resources, 12 seed nhúng, tests (structure/pipe mọi máy; compile-check skip quan sát được), `tools/list` 24, smoke ≥ 9, publish | **completed 2026-09-18** — prompts/resources `civil3d://`, description 1 784 chars, **12 seed** sinh bởi `tools/generate-seed-library.py` (mọi member compile-check trên API thật; cap trang theo byte đo), `HPCivil3d.Mcp.Server.Tests` 94 (13 skip quan sát được không có Civil), mirror contract phủ server tree (55), publish 7.47 MB, `tools/list` 24, smoke live **26/26 + 28/28 ×2** trên `Profile-5F` + `Corridor-1a`; review 7/10 → 14/14 xử lý ([report](reports/phase-03-server-seeds.md)); review + tester → [review](reports/code-review-phase-03.md) · [tests](reports/test-report-phase-03.md) | 0, 1 | 8h (≈3h) |
 | 4 | [phase-04](phase-04-live-verify-harness-registry-loop-isolation.md) — harness ≈ 70 scenario ×3 (execute matrix, 12 seed trên tutorial drawings, registry loop MISS→approve→quarantine→restore, isolation **hai chiều**, hồi quy 4 host) | **completed 2026-09-18** — `run-live-verify.ps1` + `live-verify.py`: **3 × 76 PASS** (A 4, E 20 + E' 4, S 24, R 21, X 3) + isolation **8/8** hai chiều (Civil thứ hai in use, ACAD nạp bundle mình + coexist 2 pipe, ADVS không nạp gì, AutoCAD harness 4/4); 4 host `tools/list` byte-identical; 9 suite xanh; 3 bug harness + 1 bug seed (`partLimit` fallback 200 — test `Schema_defaults_equal_the_code_fallbacks` bắt) sửa qua run 1–2 ([report](reports/phase-04-live-verify.md)); review 7.5/10 → M1 (root registry AutoCAD của exe bên cạnh cách ly, hash 2 root live trước = sau) + M2 (SKIP rows) + M3 (`Assert` default có literal) + 9 Low sửa cùng ngày, run 4 sau sửa **80/80 + 9/9**, 0 skip → [review](reports/code-review-phase-04.md) · [tests](reports/test-report-phase-04.md) | 2, 3 | 8h (≈3h) |
-| 5 | [phase-05](phase-05-publish-docs-claude-md-agents-md-mcp-json.md) — publish, CLAUDE.md (3 chỗ) + `AGENTS.md` regen bằng engine, docs ×4, README ×3, `.mcp.json` note 👤, memory | pending | 4 | 3h |
+| 5 | [phase-05](phase-05-publish-docs-claude-md-agents-md-mcp-json.md) — publish, CLAUDE.md (3 chỗ) + `AGENTS.md` regen bằng engine, docs ×4, README ×3, `.mcp.json` note 👤, memory | **completed 2026-09-18** — exe publish 7.12 MB, `tools/list` 24 từ exe publish; CLAUDE.md 4 chỗ (chiều phụ thuộc + ngoại lệ tooling, hàng McpShared, hàng `HPCivil3d/`, mục riêng); `AGENTS.md` regen idempotent + `sync-agent-skills.py check` drift none; docs ×3 + README ×3 + McpShared; `.mcp.json` `hprebar-civil3d` user tự thêm ([report](reports/phase-05-docs-publish.md)) | 4 | 3h (≈1h) |
 
 ## Key dependencies / constraints
 - Máy dev: Civil 3D 2026 + AutoCAD 2026 + Advance Steel 2026 cùng `C:\Program Files\Autodesk\AutoCAD 2026\` (E1); profile `<<C3D_Metric>>`/`<<C3D_Imperial>>` (E13); 163 tutorial drawing làm scene (E6). Bridge + compile-check **cần Civil 3D cài**; server + server tests build mọi máy.

@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "Publish (server single-file + bundle), docs: CLAUDE.md section + Repository Layout row, AGENTS.md regen bằng sync engine, docs/*, README, .mcp.json note (user), memory"
-status: pending
+status: completed
 priority: P2
 effort: "3h"
 dependencies: [4]
@@ -43,15 +43,15 @@ Không code mới ngoài publish. Docs trích mọi số từ `reports/phase-0{0
 6. Đề xuất commit theo phase cho user (không tự commit).
 
 ## Todo List
-- [ ] Publish exe + bundle · [ ] CLAUDE.md 3 chỗ · [ ] AGENTS.md regen + check · [ ] docs ×4 · [ ] README ×3 + McpShared · [ ] Memory · [ ] Report · [ ] Đề xuất commit
+- [x] Publish exe + bundle · [x] CLAUDE.md 3 chỗ · [x] AGENTS.md regen + check · [x] docs ×3 (`mcp-architecture.md` = tham khảo cũ, không đụng) · [x] README ×3 + McpShared · [x] Memory · [x] Report ([reports/phase-05-docs-publish.md](reports/phase-05-docs-publish.md)) · [x] Đề xuất commit
 
 ## Success Criteria
-- [ ] `python McpShared/tools/mcp-call.py HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe tools/list --env HPCIVIL3D_MCP_Registry__LibraryPath=<tmp> --env HPCIVIL3D_MCP_Registry__DbPath=<tmp>/registry.db` → 24 tool từ **exe publish**.
-- [ ] `grep -n "HPCivil3d" CLAUDE.md` ≥ 3 vị trí (câu chiều phụ thuộc, bảng, mục riêng); `grep -c "Civil 3D" AGENTS.md` > 0 **và** `AGENTS.md` = output đúng của lệnh `_TO_PORTABLE` (chạy lại lệnh → `git diff AGENTS.md` rỗng).
-- [ ] `python scripts/sync-agent-skills.py check` → exit 0 (hoặc drift chỉ ở file ngoài scope — ghi rõ).
-- [ ] Mọi path trong mục CLAUDE.md mới tồn tại (`ls` từng path — script nhỏ trong report).
-- [ ] Wording: "Verified" chỉ ở mục có số phase 4; nhóm M ghi "chưa làm"; không "supported" cho Civil 3D 2025.
-- [ ] `git status` không có `.mcp.json` staged; `output/` gitignored.
+- [x] → **24** từ exe publish 7.12 MB (`reports/phase-05-tools-list-civil3d-published.json`). `python McpShared/tools/mcp-call.py HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe tools/list --env HPCIVIL3D_MCP_Registry__LibraryPath=<tmp> --env HPCIVIL3D_MCP_Registry__DbPath=<tmp>/registry.db` → 24 tool từ **exe publish**.
+- [x] → 4 vị trí (:11, :16 McpShared, :20 hàng, :189 mục); AGENTS.md idempotent True, "Civil 3D" ×11. `grep -n "HPCivil3d" CLAUDE.md` ≥ 3 vị trí (câu chiều phụ thuộc, bảng, mục riêng); `grep -c "Civil 3D" AGENTS.md` > 0 **và** `AGENTS.md` = output đúng của lệnh `_TO_PORTABLE` (chạy lại lệnh → `git diff AGENTS.md` rỗng).
+- [x] → exit 0, drift none. `python scripts/sync-agent-skills.py check` → exit 0 (hoặc drift chỉ ở file ngoài scope — ghi rõ).
+- [x] → 21 path kiểm, đủ (chi tiết trong report). Mọi path trong mục CLAUDE.md mới tồn tại (`ls` từng path — script nhỏ trong report).
+- [x] Wording: "Verified" chỉ ở mục có số phase 4; nhóm M ghi "chưa làm"; không "supported" cho Civil 3D 2025.
+- [x] `git status` không có `.mcp.json` staged; `output/` gitignored.
 
 ## Risk Assessment
 | Risk | Mitigation |

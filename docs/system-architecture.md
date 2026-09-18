@@ -241,7 +241,7 @@ Setup: `Configuration/LoggerConfiguration.cs` (Nice3point template sinh sẵn).
 
 # MCP Bridge Architecture — Multi-Host Support
 
-The `McpShared/` engine supports four verified MCP hosts: Revit 2026, AutoCAD 2026, Navisworks Manage 2026 and ETABS 22 (out-of-process COM through the managed `ETABSv1.dll` wrapper; the bridge is a standalone WPF app `HPEtabs.McpBridge.exe` holding one STA COM attachment, the pipe `hpetabs-mcp-22` and two opt-in checkboxes; ETABS has no transaction, so scripts are tiered R/W/D from a generated allow-list bound semantically, W/D runs save the model and copy a `.EDB` snapshot first, and the destructive tier needs a second opt-in — plan `plans/260916-2152-etabs-mcp-2026/` complete 2026-09-17, 3 × 102 live checks). All hosts share the same engine constants, profiles, and DTO contracts via `HPRebar.Mcp.Contracts`, pipe routing via method suffix (`revit.execute` ≡ `autocad.execute` ≡ `navis.execute` ≡ `etabs.execute`), and the registry system. Phase 0 (2026-09-16) introduced the ETABS engine constants (`PipeNaming.EtabsHost`, `GuardProfile.Etabs`, `ContextResult.Etabs` with `EtabsInfo`, `HostScriptContracts.EtabsImports/Globals`, `IHostProfile` hints); phases 1–4 (2026-09-17) built `HPEtabs/` — bridge app, server, 12 seeds, live harness — and closed a `#r`/`#load` guard bypass in the engine for every host.
+The `McpShared/` engine supports five verified MCP hosts: Revit 2026, AutoCAD 2026, Navisworks Manage 2026, Civil 3D 2026 (an AutoCAD vertical on the same `acad.exe`: `HPCivil3d/` is the AutoCAD bridge copied with Civil tokens plus the Civil API, bundle `Platform="Civil3D"`, pipe `hpcivil3d-mcp-2026`, `civil` global, units from the Civil drawing settings, `Rebuild*` denied; drift fenced by a mirror test — plan `plans/260917-1633-civil3d-mcp-2026/` complete 2026-09-18, 3 × 76 + 80 live checks) and ETABS 22 (out-of-process COM through the managed `ETABSv1.dll` wrapper; the bridge is a standalone WPF app `HPEtabs.McpBridge.exe` holding one STA COM attachment, the pipe `hpetabs-mcp-22` and two opt-in checkboxes; ETABS has no transaction, so scripts are tiered R/W/D from a generated allow-list bound semantically, W/D runs save the model and copy a `.EDB` snapshot first, and the destructive tier needs a second opt-in — plan `plans/260916-2152-etabs-mcp-2026/` complete 2026-09-17, 3 × 102 live checks). All hosts share the same engine constants, profiles, and DTO contracts via `HPRebar.Mcp.Contracts`, pipe routing via method suffix (`revit.execute` ≡ `autocad.execute` ≡ `navis.execute` ≡ `etabs.execute` ≡ `civil3d.execute`), and the registry system. Phase 0 (2026-09-16) introduced the ETABS engine constants (`PipeNaming.EtabsHost`, `GuardProfile.Etabs`, `ContextResult.Etabs` with `EtabsInfo`, `HostScriptContracts.EtabsImports/Globals`, `IHostProfile` hints); phases 1–4 (2026-09-17) built `HPEtabs/` — bridge app, server, 12 seeds, live harness — and closed a `#r`/`#load` guard bypass in the engine for every host.
 
 # AutoCAD MCP Bridge — Server Architecture (Phases 1–4, 2026-09-14)
 
@@ -531,3 +531,27 @@ Claude Code ──stdio──▶ HPNavis.Mcp.Server (net10)                     
 | Harness | `Roamer.exe "<model>"` trực tiếp, UIA chỉ trong cửa sổ của ta | Automation API Roamer tự thoát ~15 s; UIA desktop-wide timeout |
 
 Live verify 2026-09-15 (`HPNavis/tools/harness/run-live-verify.ps1 -WithNoDoc -IncludeIsolation`): 62 pass on runs 2–4 (run 1: 59 + 1 fail in the harness's own assertion), ~150 s/run; Revit/AutoCAD `tools/list` byte-identical với snapshot phase 0 sau rebuild Release; tests 128 + 60 + 109 + 58 + 124 + 49.
+
+# Civil 3D MCP Bridge — Architecture (Phases 0–5, 2026-09-17/18)
+
+```
+Claude Code ──stdio──▶ HPCivil3d.Mcp.Server (net10)                          HPCivil3d.McpBridge (net8, inside acad.exe /product C3D)
+                        ├─ Civil3dHostProfile (24 tools, civil3d:// resources, prompts)   ├─ Loader: bundle Platform="Civil3D", ALC (Roslyn 5.9 + Immutable 10), ribbon HPCivil3d ▸ MCP
+                        ├─ Registry engine per host (SQLite + FTS5, CLI)                 ├─ RequestDispatcher (civil3d.* ≡ autocad.* suffix routing)
+                        └─ BridgeClient ──pipe hpcivil3d-mcp-2026──▶                      ├─ ScriptGuard(GuardProfile.Civil3d) + ScriptCompiler (pipe thread; refs AeccDbMgd/AeccPressurePipesMgd/AecBaseMgd installed)
+                                                                                          ├─ MainThreadExecutor (Idle + WM_NULL; busy 8 s -32002; no doc -32003; opt-in -32001)
+                                                                                          └─ Civil3dScriptRunner: outer/inner transaction, dryRun = Abort, globals + `civil`, units = Civil drawing unit
+```
+
+= the AutoCAD bridge copied (ADR-01 = A) with Civil deltas; `HPCivil3d.McpBridge.Tests` MirrorTests (`tools/mirror-tokens.json`: 24 mirrored files, 50 ordered tokens, `civil-only` blocks add-only, 10 sha256 pins of the hand-ported AutoCAD sources) fail on drift in either direction. No project reference between `HPCivil3d/` and `HPAutoCad/`; the only cross-folder use is tooling (mirror test reads AutoCAD source text; the live harness runs the AutoCAD harness's `bridge.scr` / `-OnlyIsolation` for the isolation steps).
+
+| Quyết định | Lựa chọn | Lý do |
+|---|---|---|
+| Bundle | `Platform="Civil3D"`, `SeriesMin/Max="R25.1"` | chỉ nạp trong Civil 3D; AutoCAD thuần / Advance Steel không nạp; bundle AutoCAD không nạp trong Civil → hai pipe song song (verified spike + isolation) |
+| Units | Civil drawing unit (Meters/Feet), INSUNITS chỉ khi thiếu Civil unit | drawing từ `acad.dwt` trong Civil = Feet dù INSUNITS Millimeters → `insunitsMismatch` cảnh báo; mm ở biên tool, station/elevation/area theo drawing unit + `drawingUnit` trong envelope |
+| Transactions | outer/inner như AutoCAD; `Abort()`/`U` hoàn lại mọi Civil object đã thử | CogoPoint, Alignment, TinSurface vertex, corridor rebuild đều hoàn lại sạch (spike S-10, W1/W2) |
+| `Rebuild*` | **deny** trong MVP | thời gian rebuild corridor thật chưa đo (tutorial 13–43 ms là no-op) |
+| Seeds | 12 nhúng, sinh bởi generator; page cap theo bytes đo được (< 64 KB) | `partLimit` một budget cho cả câu trả lời; schema default = literal fallback (test) |
+| Harness | exe publish + registry cách ly cho **cả** Civil và exe AutoCAD bên cạnh; hash 2 root thật trước/sau | review phase 4: exe AutoCAD bên cạnh từng ghi `%AppData%\HPAutoCad\McpServer` |
+
+Live verify 2026-09-18 (`HPCivil3d/tools/harness/run-live-verify.ps1 -Runs 3 -IncludeIsolation`): 3 × 76 PASS + isolation 8/8; after the review round `-Runs 1 -IncludeIsolation` 80/80 + 9/9, 0 skip, 0 fail; Revit 33 / AutoCAD 62 / Navisworks 24 / ETABS 24 `tools/list` byte-identical to the phase-0 snapshots (`plans/260917-1633-civil3d-mcp-2026/reports/`).
