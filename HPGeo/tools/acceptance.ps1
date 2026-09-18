@@ -9,7 +9,9 @@
   again, then -HPGEOKMZ five times (full export, points-only, wrong zone -> outside Viet Nam, mm unit -> refused,
   unknown key -> refused) and QUIT. Everything the commands print goes to the AutoCAD text log; the KMZ files go
   to a space-free folder under %LocalAppData%\HPGeo\acceptance. Answers SECURELOAD ("Always Load") for the acad it
-  started, kills only that process, never saves a drawing. Windows PowerShell 5.1 or pwsh.
+  started, kills only that process, never saves the user's drawings. FILEDIA, DYNMODE, OSMODE, LOGFILEPATH and
+  COLORTHEME are profile settings AutoCAD writes back on a clean exit: the script reads the user's values over COM
+  before it runs and restores them before QUIT (and again in the registry afterwards). Windows PowerShell 5.1 or pwsh.
 
 .PARAMETER TimeoutSec
   How long to wait for the script to finish before killing AutoCAD (default 300).
@@ -69,6 +71,10 @@ $textLogDir = Join-Path $work 'textlog'
 New-Item -ItemType Directory -Force $textLogDir | Out-Null
 
 $fmt = { param($v) $v.ToString('0.###', $inv) }
+# Profile sysvars the script changes; the user's values are read over COM once acad is up and put back before QUIT.
+$profileVars = @('FILEDIA', 'DYNMODE', 'OSMODE', 'LOGFILEPATH', 'CMDECHO')
+$originals = @{}
+function Build-Script([hashtable]$orig) {
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add("LOGFILEPATH")
 $lines.Add("$textLogDir\")
@@ -119,11 +125,17 @@ $lines.Add("_.OPEN")
 $lines.Add("$work\stored.dwg")
 $lines.Add("HPGEOINFO")
 $lines.Add("LOGFILEOFF")
+# Put the user's profile settings back before the clean exit saves the profile.
+$lines.Add("FILEDIA"); $lines.Add("$($orig.FILEDIA)")
+$lines.Add("DYNMODE"); $lines.Add("$($orig.DYNMODE)")
+$lines.Add("OSMODE"); $lines.Add("$($orig.OSMODE)")
+$lines.Add("CMDECHO"); $lines.Add("$($orig.CMDECHO)")
+$lines.Add("LOGFILEPATH"); $lines.Add("$($orig.LOGFILEPATH)")
 $lines.Add("_.QUIT")
 $lines.Add("_Y")
+return $lines
+}
 $scr = Join-Path $work 'acceptance.scr'
-[IO.File]::WriteAllLines($scr, $lines, (New-Object Text.UTF8Encoding($false)))
-Copy-Item $scr (Join-Path $evidence 'acceptance.scr') -Force
 
 # ---- run -----------------------------------------------------------------------------------------------------------
 # AutoCAD is started without a script: another bundle on this machine (CadAddinManager) injects an InitAddinManager
@@ -146,6 +158,10 @@ for ($attempt = 1; $attempt -le 20 -and -not $sent; $attempt++) {
         $ids = @(Get-Process acad | ForEach-Object Id)
         if ($ids.Count -ne 1 -or [string]$ids[0] -ne [string]$p.Id) { throw "refusing COM: acad processes $($ids -join ',') vs ours $($p.Id)" }
         $app = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application')
+        foreach ($v in $profileVars) { $originals[$v] = [string]$app.ActiveDocument.GetVariable($v) }
+        Write-Host ("user profile settings: " + (($profileVars | ForEach-Object { "$_=$($originals[$_])" }) -join ' '))
+        [IO.File]::WriteAllLines($scr, (Build-Script $originals), (New-Object Text.UTF8Encoding($false)))
+        Copy-Item $scr (Join-Path $evidence 'acceptance.scr') -Force
         $app.ActiveDocument.SendCommand("FILEDIA`n0`n_.SCRIPT`n$scr`n")
         $sent = $true
         Write-Host "script sent over COM at $(Get-Date -Format HH:mm:ss) (attempt $attempt)"
@@ -166,6 +182,20 @@ if (-not $done) {
     Write-Host "acad still running after $TimeoutSec s - killing pid $($p.Id)"
     Stop-Process -Id $p.Id -Force -Confirm:$false -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 3
+}
+
+# ---- profile safety net ------------------------------------------------------------------------------------------------
+# A clean exit saved the restored values; if anything went wrong before the restore lines ran, put the registry right.
+if ($originals.Count -gt 0) {
+    try {
+        $fixed = 'HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9101:409\FixedProfile\General Configuration'
+        $prof = 'HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9101:409\Profiles\<<Unnamed Profile>>'
+        Set-ItemProperty -Path $fixed -Name 'FileDialog' -Value ([int]$originals.FILEDIA) -Type DWord
+        Set-ItemProperty -Path $fixed -Name 'DYNMODE' -Value ([int]$originals.DYNMODE) -Type DWord
+        Set-ItemProperty -Path "$prof\General" -Name 'Osmode' -Value ([int]$originals.OSMODE) -Type DWord
+        Set-ItemProperty -Path "$prof\Editor Configuration" -Name 'LogFilePath' -Value $originals.LOGFILEPATH -Type String
+        Write-Host "profile settings restored in the registry (FILEDIA $($originals.FILEDIA), DYNMODE $($originals.DYNMODE), OSMODE $($originals.OSMODE), LOGFILEPATH $($originals.LOGFILEPATH))"
+    } catch { Write-Host "registry restore failed: $($_.Exception.Message)" }
 }
 
 # ---- evidence ------------------------------------------------------------------------------------------------------

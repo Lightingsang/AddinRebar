@@ -75,6 +75,9 @@ $inv = [Globalization.CultureInfo]::InvariantCulture
 New-Item -ItemType Directory -Force $work | Out-Null
 New-Item -ItemType Directory -Force $evidence | Out-Null
 $fmt = { param($v) $v.ToString('0.###', $inv) }
+$profileVars = @('FILEDIA', 'DYNMODE', 'OSMODE', 'COLORTHEME')
+$originals = @{}
+function Build-Script([hashtable]$orig) {
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add('DYNMODE'); $lines.Add('0'); $lines.Add('OSMODE'); $lines.Add('0')
 foreach ($s in $samples) { $lines.Add('_.POINT ' + (& $fmt $s.e) + ',' + (& $fmt $s.n)) }
@@ -86,9 +89,15 @@ $lines.Add('COLORTHEME'); $lines.Add('1')
 $lines.Add('_.HPGEO'); $lines.Add('')
 $lines.Add('COLORTHEME'); $lines.Add('0')
 $lines.Add('_.HPGEOIMPORT')                  # the import dialog (dark), closed by the harness without drawing
+# The user's profile settings go back before the clean exit saves the profile.
+$lines.Add('COLORTHEME'); $lines.Add("$($orig.COLORTHEME)")
+$lines.Add('FILEDIA'); $lines.Add("$($orig.FILEDIA)")
+$lines.Add('DYNMODE'); $lines.Add("$($orig.DYNMODE)")
+$lines.Add('OSMODE'); $lines.Add("$($orig.OSMODE)")
 $lines.Add('_.QUIT'); $lines.Add('_Y')
+return $lines
+}
 $scr = Join-Path $work 'dialog-check.scr'
-[IO.File]::WriteAllLines($scr, $lines, (New-Object Text.UTF8Encoding($false)))
 
 $logMark = Get-Date
 $p = Start-Process -FilePath $acad -ArgumentList @('/nologo', '/product', 'ACAD', '/language', '"en-US"') -PassThru
@@ -97,6 +106,18 @@ $sw = [Diagnostics.Stopwatch]::StartNew()
 while ($sw.Elapsed.TotalSeconds -lt 45) { Answer-SecureLoad | Out-Null; if ($p.HasExited) { throw 'acad exited during start-up' }; Start-Sleep -Seconds 2 }
 # SendCommand is synchronous: it returns only when the script has run to its end, i.e. after every modal dialog
 # has closed. It therefore runs in a background job while this process watches for the dialogs.
+# Read the user's profile settings first (they are restored by the script's last lines), then hand the script over.
+for ($attempt = 1; $attempt -le 20 -and $originals.Count -eq 0; $attempt++) {
+    try {
+        $ids = @(Get-Process acad | ForEach-Object Id)
+        if ($ids.Count -ne 1 -or [string]$ids[0] -ne [string]$p.Id) { throw 'refusing COM: another acad is running' }
+        $app = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application')
+        foreach ($v in $profileVars) { $originals[$v] = [string]$app.ActiveDocument.GetVariable($v) }
+    } catch { if ($_.Exception.Message -match 'refusing COM') { throw }; Start-Sleep -Seconds 3 }
+}
+if ($originals.Count -eq 0) { Stop-Process -Id $p.Id -Force -Confirm:$false; throw 'could not read the profile settings over COM' }
+Write-Host ("user profile settings: " + (($profileVars | ForEach-Object { "$_=$($originals[$_])" }) -join ' '))
+[IO.File]::WriteAllLines($scr, (Build-Script $originals), (New-Object Text.UTF8Encoding($false)))
 $job = Start-Job -ArgumentList $p.Id, $scr -ScriptBlock {
     param($acadPid, $scriptPath)
     $ids = @(Get-Process acad | ForEach-Object Id)
@@ -131,6 +152,15 @@ if (-not $done) { Write-Host 'acad still running - killing'; Stop-Process -Id $p
 $jobResult = try { Receive-Job $job -Wait -ErrorAction Stop } catch { "job failed: $($_.Exception.Message)" }
 Remove-Job $job -Force -ErrorAction SilentlyContinue
 Write-Host "COM job: $jobResult"
+# Registry safety net for the profile settings (a clean exit already saved the restored values).
+try {
+    $fixed = 'HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9101:409\FixedProfile\General Configuration'
+    $prof = 'HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9101:409\Profiles\<<Unnamed Profile>>'
+    Set-ItemProperty -Path $fixed -Name 'FileDialog' -Value ([int]$originals.FILEDIA) -Type DWord
+    Set-ItemProperty -Path $fixed -Name 'DYNMODE' -Value ([int]$originals.DYNMODE) -Type DWord
+    Set-ItemProperty -Path "$prof\General" -Name 'Osmode' -Value ([int]$originals.OSMODE) -Type DWord
+    Write-Host "profile settings restored in the registry (FILEDIA $($originals.FILEDIA), DYNMODE $($originals.DYNMODE), OSMODE $($originals.OSMODE), COLORTHEME $($originals.COLORTHEME))"
+} catch { Write-Host "registry restore failed: $($_.Exception.Message)" }
 
 $hp = @(Get-ChildItem (Join-Path $env:LOCALAPPDATA 'HPGeo\logs') -Include 'hpgeo-*.log','loader.log' -Recurse -ErrorAction SilentlyContinue |
     ForEach-Object { Get-Content $_.FullName -Encoding UTF8 } |
