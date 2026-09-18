@@ -1,8 +1,8 @@
 # Unattended check of the "HPAutoCad" Ribbon tab (panel "MCP", button "MCP Bridge") in a live AutoCAD 2026:
 # starts AutoCAD with the bridge (no listener: ribbon.scr opens nothing — the tab must appear on its own), then
 # through UI Automation finds the tab (exactly one), switches workspace there and back through COM and checks it
-# is still exactly one, flips COLORTHEME there and back (read back through COM, one loader.log "created" line per
-# flip, still one tab, a screenshot per theme), presses "MCP Bridge" (the bridge window appears) and presses it
+# is still exactly one, flips COLORTHEME there and back (read back through COM, one loader.log "panel added" line
+# per flip, still one tab, a screenshot per theme), presses "MCP Bridge" (the bridge window appears) and presses it
 # again (no second window). A check the automation peers cannot see — the icon — is reported as MANUAL with the
 # screenshots, never as PASS. Restores the workspace and theme in finally; kills only the AutoCAD it started.
 #Requires -Version 7.3
@@ -46,7 +46,9 @@ function Count-RibbonButtons([string]$name) {
     foreach ($b in $frame.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) { if (($b.Current.Name -replace "`r?`n", ' ') -eq $name) { $n++ } }
     return $n
 }
-function Count-CreatedLines { @((Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match "ribbon tab $tabId created").Count }
+# The tab is shared by every HP add-in for AutoCAD (one tab, one panel per tool): the loader logs "panel added" whenever
+# it (re)builds its own panel, and "tab created" only when it was the first add-in to reach the Ribbon.
+function Count-CreatedLines { @((Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match "ribbon panel HPAUTOCAD_MCP_PANEL added to tab $tabId").Count }
 # WSCURRENT and COLORTHEME are profile settings: whatever happens, the finally block puts them back.
 $originalWorkspace = $null
 $originalTheme = $null
@@ -61,8 +63,8 @@ try {
     $tabs = @()
     while ($sw.Elapsed.TotalSeconds -lt 120 -and $tabs.Count -eq 0) { Answer-SecureLoad | Out-Null; Start-Sleep -Seconds 5; try { $tabs = @(Find-RibbonTabs $p.Id $tabId) } catch { $tabs = @() } }
     if ($tabs.Count -eq 0 -and $p.HasExited) { throw "acad exited early (code $($p.ExitCode))" }
-    $created = (Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match "ribbon tab $tabId created \(bridge available\)"
-    Check 'loader.log says the tab was created with the bridge available' ([bool]$created) ("$($created.Count) line(s) after $([int]$sw.Elapsed.TotalSeconds) s")
+    $created = (Get-Content $loaderLog | Select-Object -Skip $loaderLines) -match "ribbon panel HPAUTOCAD_MCP_PANEL added to tab $tabId \(tab (created|existing), bridge available\)"
+    Check 'loader.log says the MCP panel was added to the shared tab with the bridge available' ([bool]$created) ("$($created.Count) line(s) after $([int]$sw.Elapsed.TotalSeconds) s")
     if ($tabs.Count -eq 0) {
         Manual 'tab "HPAutoCad" visible exactly once' "UI Automation did not expose a tab button with AutomationId $tabId; check by eye"
     } else {
@@ -89,8 +91,8 @@ try {
     $shot = Join-Path $OutDir 'ribbon-tab.png'
     $null = Save-RibbonScreenshot $p.Id $shot
 
-    # COLORTHEME flips the icon ink, so the loader removes and re-creates the tab on the next idle tick: the
-    # proof is the read-back value, one more "created" line in loader.log per flip, and still exactly one tab.
+    # COLORTHEME flips the icon ink, so the loader removes and re-creates its panel (never the shared tab) on the
+    # next idle tick: the proof is the read-back value, one more "panel added" line per flip, and still exactly one tab.
     # [int16]: COM SetVariable wants the VARIANT type the sysvar is stored as — AutoCAD integer sysvars are
     # 16-bit (VT_I2), the same reason the managed SetSystemVariable takes a short; [int] (VT_I4) is rejected.
     $theme = (Com "`$a.ActiveDocument.GetVariable('COLORTHEME')").Trim()
@@ -112,7 +114,7 @@ try {
     $createdAfterBack = Count-CreatedLines
     if ($themeBack -eq $theme) { $originalTheme = $null }   # restored on the happy path
     Check 'COLORTHEME flipped and came back through COM' ($themeNow -eq "$otherTheme" -and $themeBack -eq $theme) ("$theme -> $themeNow -> $themeBack")
-    Check 'the loader rebuilt the tab on each COLORTHEME change' ($createdAfterFlip -gt $createdBefore -and $createdAfterBack -gt $createdAfterFlip) ("created lines $createdBefore -> $createdAfterFlip -> $createdAfterBack")
+    Check 'the loader rebuilt its panel on each COLORTHEME change' ($createdAfterFlip -gt $createdBefore -and $createdAfterBack -gt $createdAfterFlip) ("panel-added lines $createdBefore -> $createdAfterFlip -> $createdAfterBack")
     if ($tabs.Count -eq 0) { Manual 'exactly one tab after switching COLORTHEME and back' 'UIA cannot count tabs' }
     else { Check 'exactly one tab after switching COLORTHEME and back' ($afterTheme.Count -eq 1 -and $afterThemeBack.Count -eq 1) ("theme $theme -> ${otherTheme}: $($afterTheme.Count) tab(s); back: $($afterThemeBack.Count) tab(s)") }
     $null = Select-RibbonTab $p.Id $tabId

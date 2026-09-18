@@ -188,7 +188,12 @@ function Check([string]$name, [bool]$ok, [string]$detail = '') {
 Write-Host "`nP2 - host adapter"
 Check 'acad ran the script to QUIT' $done "exit within $TimeoutSec s"
 Check 'HPGeo logged its load in AutoCAD' ($hp -match 'HPGeo \S+ loaded in "?AutoCAD') ($(if ($hp -match '(HPGeo \S+ loaded in [^\r\n]*)') { $Matches[1] } else { 'no load line' }))
-Check 'ribbon tab created' ($hp -match 'ribbon tab HPGEO_TAB created')
+Check 'HPGeo panel added to the shared HPAutoCad tab (no tab of its own)' (($hp -match 'ribbon panel HPGEO_VN2000_PANEL added to tab HPAUTOCAD_MCP_TAB \(tab (created|existing)') -and -not ($hp -match 'HPGEO_TAB'))
+$acadLoaderLog = Join-Path $env:LOCALAPPDATA 'HPAutoCad\McpBridge\logs\loader.log'
+$acadLoader = if (Test-Path $acadLoaderLog) { (Get-Content $acadLoaderLog -Encoding UTF8 | Where-Object { $_ -match '^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d' -and [datetime]::ParseExact($_.Substring(0, 19), 'yyyy-MM-dd HH:mm:ss', $inv) -ge $logMark.AddSeconds(-2) }) -join "`n" } else { '' }
+$tabCreators = @(@($hp, $acadLoader) | Where-Object { $_ -match 'added to tab HPAUTOCAD_MCP_TAB \(tab created' }).Count
+$tabJoiners = @(@($hp, $acadLoader) | Where-Object { $_ -match 'added to tab HPAUTOCAD_MCP_TAB \(tab existing' }).Count
+Check 'HPAutoCad MCP bridge and HPGeo share one tab: one created it, the other joined it' (($tabCreators -eq 1) -and ($tabJoiners -eq 1)) "created by $tabCreators add-in(s), joined by $tabJoiners (HPAutoCad loader.log $(if ($acadLoader) { 'read' } else { 'absent' }))"
 Check 'HPGEOINFO printed the header' ($text -match 'HPGeo 0\.\d+\.\d+')
 Check 'HPGEOINFO saw the empty drawing' ($text -match 'Model space: 0 POINT, 0 LWPOLYLINE')
 Check 'HPGEOINFO saw 13 points + 1 closed polyline in metres' (($text -match 'INSUNITS: 6 = Meters') -and ($text -match 'Model space: 13 POINT, 1 LWPOLYLINE \(1 closed\)'))

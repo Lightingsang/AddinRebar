@@ -8,13 +8,19 @@ namespace HPCivil3d.McpBridge.Loader.Ribbon;
 ///     The "HPCivil3d" Ribbon tab: one panel "MCP" with one button "MCP Bridge" — the same surface as the
 ///     Revit and Navisworks bridges. The button forwards to the bridge entry point HPC3DMCPBRIDGE uses, so a
 ///     click needs no document and never edits the drawing; everything else (listener, opt-in, last script,
-///     audit, logs) lives in the window it opens. The tab exists at most once per Ribbon: every path that could
-///     add it — start-up, any Ribbon item initialising (covers the RIBBON command after RIBBONCLOSE), a
-///     workspace switch (rebuilds the Ribbon from the CUI and drops tabs added in code), a COLORTHEME change
-///     (the icon ink follows the theme) — goes through <see cref="EnsureCreated"/> and its <c>FindTab</c> guard.
+///     audit, logs) lives in the window it opens.
+///     The tab is <b>shared by every HP add-in for this product</b> (rule: one tab, one panel per tool, never a
+///     new tab): whoever loads first creates the tab by its Id, everyone else finds it and adds only its own
+///     panel. So this class touches nothing but its own panel — <see cref="Uninstall"/> removes that panel and
+///     the tab only when it is left empty, and a COLORTHEME change (the icon ink follows the theme) rebuilds the
+///     panel, never the tab, so the other add-ins' panels survive. Every path that could add the panel —
+///     start-up, any Ribbon item initialising (covers the RIBBON command after RIBBONCLOSE), a workspace
+///     switch (rebuilds the Ribbon from the CUI and drops tabs added in code), a theme change — goes through
+///     <see cref="EnsureCreated"/> and its find-by-Id guards.
 /// </summary>
 internal static class McpRibbonTab
 {
+    /// <summary>Shared by every HP add-in for this product — keep the value, other bundles find the tab by it.</summary>
     public const string TabId = "HPCIVIL3D_MCP_TAB";
     public const string TabTitle = "HPCivil3d";
     public const string PanelId = "HPCIVIL3D_MCP_PANEL";
@@ -47,27 +53,37 @@ internal static class McpRibbonTab
         _idlePending = false;
         _rebuild = false;
 
-        var ribbon = ComponentManager.Ribbon;
-        if (ribbon?.FindTab(TabId) is { } tab) ribbon.Tabs.Remove(tab);
+        RemoveOwnPanel(removeEmptyTab: true);
     }
 
-    /// <summary>Adds the tab when the Ribbon exists and does not already show it.</summary>
+    /// <summary>Adds the panel when the Ribbon exists and does not already show it, creating the shared tab if no one has yet.</summary>
     public static void EnsureCreated()
     {
         if (_building) return;
         try
         {
             var ribbon = ComponentManager.Ribbon;
-            if (ribbon is null || ribbon.FindTab(TabId) is not null) return;
-
+            if (ribbon is null) return;
             _building = true;
-            ribbon.Tabs.Add(Build());
-            LoaderLog.Write($"ribbon tab {TabId} created (bridge {(BridgeActions.BridgeAvailable ? "available" : "unavailable")})");
+
+            var tab = ribbon.FindTab(TabId);
+            var createdTab = tab is null;
+            if (tab is null)
+            {
+                tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
+                ribbon.Tabs.Add(tab);
+            }
+            if (FindOwnPanel(tab) is not null) return;
+
+            tab.Panels.Add(BuildPanel());
+            var bridge = BridgeActions.BridgeAvailable ? "available" : "unavailable";
+            if (createdTab) LoaderLog.Write($"ribbon tab {TabId} created (bridge {bridge})");
+            LoaderLog.Write($"ribbon panel {PanelId} added to tab {TabId} ({(createdTab ? "tab created" : "tab existing")}, bridge {bridge})");
         }
         catch (System.Exception exception)
         {
             // The Ribbon is a convenience: a failure here must never take the bridge or its commands down.
-            LoaderLog.Write("ribbon tab creation failed", exception);
+            LoaderLog.Write("ribbon panel creation failed", exception);
         }
         finally
         {
@@ -82,7 +98,7 @@ internal static class McpRibbonTab
         var workspace = string.Equals(e.Name, "WSCURRENT", StringComparison.OrdinalIgnoreCase);
         var theme = string.Equals(e.Name, "COLORTHEME", StringComparison.OrdinalIgnoreCase);
         if (!workspace && !theme) return;
-        if (theme) _rebuild = true; // the icon ink is picked per theme, so the tab is rebuilt
+        if (theme) _rebuild = true; // the icon ink is picked per theme, so the panel is rebuilt
         if (_idlePending) return;
         _idlePending = true;
         Application.Idle += OnIdle; // the new Ribbon is complete by the next idle tick
@@ -95,21 +111,32 @@ internal static class McpRibbonTab
         if (_rebuild)
         {
             _rebuild = false;
-            try
-            {
-                if (ComponentManager.Ribbon?.FindTab(TabId) is { } tab) ComponentManager.Ribbon.Tabs.Remove(tab);
-            }
-            catch (System.Exception exception)
-            {
-                LoaderLog.Write("ribbon tab removal for rebuild failed", exception);
-            }
+            RemoveOwnPanel(removeEmptyTab: false);
         }
         EnsureCreated();
     }
 
-    private static RibbonTab Build()
+    private static RibbonPanel? FindOwnPanel(RibbonTab tab) => tab.Panels.FirstOrDefault(p => p.Source?.Id == PanelId);
+
+    /// <summary>Removes this add-in's panel only; the shared tab goes too when nothing is left on it and the caller says so.</summary>
+    private static void RemoveOwnPanel(bool removeEmptyTab)
     {
-        var tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
+        try
+        {
+            var ribbon = ComponentManager.Ribbon;
+            var tab = ribbon?.FindTab(TabId);
+            if (tab is null) return;
+            if (FindOwnPanel(tab) is { } panel) tab.Panels.Remove(panel);
+            if (removeEmptyTab && tab.Panels.Count == 0) ribbon!.Tabs.Remove(tab);
+        }
+        catch (System.Exception exception)
+        {
+            LoaderLog.Write("ribbon panel removal failed", exception);
+        }
+    }
+
+    private static RibbonPanel BuildPanel()
+    {
         var bridge = BridgeActions.BridgeAvailable;
         var icon = new RibbonIcons(IsDarkTheme()).McpBridge;
 
@@ -138,8 +165,7 @@ internal static class McpRibbonTab
 
         var panel = new RibbonPanel { Source = new RibbonPanelSource { Id = PanelId, Title = "MCP" } };
         panel.Source.Items.Add(button);
-        tab.Panels.Add(panel);
-        return tab;
+        return panel;
     }
 
     /// <summary>COLORTHEME 0 = dark (AutoCAD's default), 1 = light; unreadable → dark.</summary>

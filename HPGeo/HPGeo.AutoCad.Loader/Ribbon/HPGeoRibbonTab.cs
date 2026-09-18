@@ -6,16 +6,21 @@ using Autodesk.Windows;
 namespace HPGeo.AutoCad.Loader.Ribbon;
 
 /// <summary>
-/// The "HPGeo" Ribbon tab: one panel "VN2000" with one button "KMZ" that runs the HPGEO command. The tab
-/// exists at most once per Ribbon: start-up, any Ribbon item initialising (RIBBON after RIBBONCLOSE), a
-/// workspace switch (rebuilds the Ribbon from the CUI) and a COLORTHEME change (the icon ink follows the
-/// theme) all go through <see cref="EnsureCreated"/> and its FindTab guard.
+/// HPGeo's place on the Ribbon: the panel "VN2000" with the button "KMZ" (runs HPGEO) on the <b>shared</b>
+/// "HPAutoCad" tab — the rule for every HP add-in for AutoCAD is one tab, one panel per tool, never a new tab.
+/// The tab is found by the Id the HPAutoCad MCP loader publishes (<see cref="TabId"/>); whichever add-in loads
+/// first creates it, the others add their panel. This class touches nothing but its own panel: Uninstall removes
+/// that panel and the tab only when it is left empty; a COLORTHEME change (the icon ink follows the theme)
+/// rebuilds the panel, never the tab. Start-up, any Ribbon item initialising (RIBBON after RIBBONCLOSE), a
+/// workspace switch and a theme change all go through <see cref="EnsureCreated"/> and its find-by-Id guards.
 /// </summary>
 internal static class HPGeoRibbonTab
 {
-    public const string TabId = "HPGEO_TAB";
-    public const string TabTitle = "HPGeo";
+    /// <summary>The shared tab of the HP AutoCAD add-ins — the value HPAutoCad.McpBridge.Loader creates it with.</summary>
+    public const string TabId = "HPAUTOCAD_MCP_TAB";
+    public const string TabTitle = "HPAutoCad";
     public const string PanelId = "HPGEO_VN2000_PANEL";
+    public const string PanelTitle = "VN2000";
     public const string ButtonId = "HPGEO_KMZ";
     public const string ButtonText = "KMZ";
     public const string Command = "HPGEO";
@@ -43,8 +48,7 @@ internal static class HPGeoRibbonTab
         Application.Idle -= OnIdle;
         _idlePending = false;
         _rebuild = false;
-        var ribbon = ComponentManager.Ribbon;
-        if (ribbon?.FindTab(TabId) is { } tab) ribbon.Tabs.Remove(tab);
+        RemoveOwnPanel(removeEmptyTab: true);
     }
 
     public static void EnsureCreated()
@@ -53,15 +57,25 @@ internal static class HPGeoRibbonTab
         try
         {
             var ribbon = ComponentManager.Ribbon;
-            if (ribbon is null || ribbon.FindTab(TabId) is not null) return;
+            if (ribbon is null) return;
             _building = true;
-            ribbon.Tabs.Add(Build());
-            LoaderLog.Write($"ribbon tab {TabId} created (add-in {(HPGeoLoaderApplication.App is null ? "unavailable" : "available")})");
+
+            var tab = ribbon.FindTab(TabId);
+            var createdTab = tab is null;
+            if (tab is null)
+            {
+                tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
+                ribbon.Tabs.Add(tab);
+            }
+            if (FindOwnPanel(tab) is not null) return;
+
+            tab.Panels.Add(BuildPanel());
+            LoaderLog.Write($"ribbon panel {PanelId} added to tab {TabId} ({(createdTab ? "tab created" : "tab existing")}, add-in {(HPGeoLoaderApplication.App is null ? "unavailable" : "available")})");
         }
         catch (System.Exception exception)
         {
             // The Ribbon is a convenience: a failure here must never take the commands down.
-            LoaderLog.Write("ribbon tab creation failed", exception);
+            LoaderLog.Write("ribbon panel creation failed", exception);
         }
         finally
         {
@@ -89,21 +103,31 @@ internal static class HPGeoRibbonTab
         if (_rebuild)
         {
             _rebuild = false;
-            try
-            {
-                if (ComponentManager.Ribbon?.FindTab(TabId) is { } tab) ComponentManager.Ribbon.Tabs.Remove(tab);
-            }
-            catch (System.Exception exception)
-            {
-                LoaderLog.Write("ribbon tab removal for rebuild failed", exception);
-            }
+            RemoveOwnPanel(removeEmptyTab: false);
         }
         EnsureCreated();
     }
 
-    private static RibbonTab Build()
+    private static RibbonPanel? FindOwnPanel(RibbonTab tab) => tab.Panels.FirstOrDefault(p => p.Source?.Id == PanelId);
+
+    private static void RemoveOwnPanel(bool removeEmptyTab)
     {
-        var tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
+        try
+        {
+            var ribbon = ComponentManager.Ribbon;
+            var tab = ribbon?.FindTab(TabId);
+            if (tab is null) return;
+            if (FindOwnPanel(tab) is { } panel) tab.Panels.Remove(panel);
+            if (removeEmptyTab && tab.Panels.Count == 0) ribbon!.Tabs.Remove(tab);
+        }
+        catch (System.Exception exception)
+        {
+            LoaderLog.Write("ribbon panel removal failed", exception);
+        }
+    }
+
+    private static RibbonPanel BuildPanel()
+    {
         var icon = new RibbonIcons(IsDarkTheme()).Kmz;
         var button = new RibbonButton
         {
@@ -127,10 +151,9 @@ internal static class HPGeoRibbonTab
             Command = Command,
             IsHelpEnabled = false,
         };
-        var panel = new RibbonPanel { Source = new RibbonPanelSource { Id = PanelId, Title = "VN2000" } };
+        var panel = new RibbonPanel { Source = new RibbonPanelSource { Id = PanelId, Title = PanelTitle } };
         panel.Source.Items.Add(button);
-        tab.Panels.Add(panel);
-        return tab;
+        return panel;
     }
 
     /// <summary>A Ribbon click arrives outside any command context; the command is queued like a typed one.</summary>

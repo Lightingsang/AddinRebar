@@ -74,6 +74,19 @@
   #endif
   ```
 
+### AutoCAD Add-In rules (HPAutoCad, HPGeo, mọi tool AutoCAD sau này)
+- **Một tab ribbon chung `HPAutoCad` — KHÔNG tạo tab mới.** Tab Id `HPAUTOCAD_MCP_TAB`, title `HPAutoCad` (giá trị do `HPAutoCad.McpBridge.Loader/Ribbon/McpRibbonTab.cs` định nghĩa; giữ nguyên). Mỗi tool thêm **đúng một panel** của mình với Id riêng (`HPAUTOCAD_MCP_PANEL` "MCP", `HPGEO_VN2000_PANEL` "VN2000", …). Giao thức bắt buộc:
+  1. `ComponentManager.Ribbon.FindTab(TabId)` → chưa có thì tạo (`Id`, `Title`, `IsVisible`), có rồi thì dùng — ai load trước tạo, ai sau nối vào.
+  2. Chỉ thêm panel khi `tab.Panels` chưa có `Source.Id` của mình (guard chống nhân đôi khi RIBBON/RIBBONCLOSE, đổi workspace).
+  3. Đổi `COLORTHEME` → gỡ và tạo lại **panel** của mình (icon vector theo theme), không bao giờ gỡ tab.
+  4. `Terminate` → gỡ panel của mình; gỡ tab chỉ khi `tab.Panels.Count == 0`.
+  5. Log dòng `ribbon panel <PanelId> added to tab HPAUTOCAD_MCP_TAB (tab created|tab existing, …)` để harness chứng minh việc chia sẻ tab.
+  Mẫu: `HPAutoCad/HPAutoCad.McpBridge.Loader/Ribbon/McpRibbonTab.cs` và `HPGeo/HPGeo.AutoCad.Loader/Ribbon/HPGeoRibbonTab.cs`. Civil 3D là sản phẩm khác, tab riêng `HPCivil3d` (`HPCIVIL3D_MCP_TAB`) — cùng giao thức.
+- **Loader + `AssemblyLoadContext` riêng là bắt buộc** cho add-in .NET 8 của AutoCAD 2026: DLL AutoCAD load trực tiếp không được có NuGet dependency (chỉ AutoCAD.NET `ExcludeAssets=runtime` + framework); phần thật nằm trong `Contents\<App>\` với `EnableDynamicLoading=true`, resolver từ chối `Ac*/Ad*/Autodesk.*`. Lý do: default context không probe thư mục bundle, bản Serilog/Mvvm thứ hai = `FileLoadException` lúc JIT, `Initialize` không bao giờ chạy.
+- Bundle `PackageContents.xml`: `Platform="AutoCAD"` (không `AutoCAD*`), `SeriesMin/Max="R25.1"`; deploy `%AppData%\Autodesk\ApplicationPlugins\<Name>.bundle\` bằng target `DeployBundle` (`-p:DeployBundle=false` khi AutoCAD đang mở). SECURELOAD hỏi lại sau mỗi build.
+- WPF trong AutoCAD: `EnterContextualReflection` quanh `InitializeComponent`; mọi property bind TwoWay (`IsChecked`, `SelectedItem`, `Text`) phải có setter (thiếu → "AutoCAD Error Aborting"); `ShowModalWindow(MainWindow.Handle, window, false)`; UserControl dùng `DynamicResource`, không `StaticResource`; đặt `Background/Foreground` trực tiếp trên Window (implicit style không áp cho lớp kế thừa).
+- Lệnh ghi bản vẽ (kể cả chỉ ghi Xrecord NOD) không dùng `CommandFlags.NoUndoMarker`.
+
 ## Code Quality Guidelines
 - Read and follow codebase structure and code standards in `./docs`
 - Don't be too harsh on code linting, but **make sure there are no syntax errors and code are compilable**
