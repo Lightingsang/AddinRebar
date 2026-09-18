@@ -1,0 +1,41 @@
+[
+  {
+    "title": "One point with elevation",
+    "args": {
+      "points": [
+        {
+          "x": 1000,
+          "y": 2000,
+          "elevation": 12.5,
+          "description": "MCP TEST"
+        }
+      ]
+    }
+  },
+  {
+    "title": "Three named points",
+    "args": {
+      "points": [
+        {
+          "x": 0,
+          "y": 0,
+          "elevation": 10,
+          "name": "A"
+        },
+        {
+          "x": 5000,
+          "y": 0,
+          "elevation": 10.5,
+          "name": "B"
+        },
+        {
+          "x": 5000,
+          "y": 5000,
+          "elevation": 11,
+          "name": "C"
+        }
+      ],
+      "description": "SURVEY"
+    }
+  }
+]

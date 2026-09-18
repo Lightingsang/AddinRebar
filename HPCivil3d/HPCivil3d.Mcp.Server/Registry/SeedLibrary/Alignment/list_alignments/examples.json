@@ -1,0 +1,19 @@
+[
+  {
+    "title": "All alignments",
+    "args": {}
+  },
+  {
+    "title": "Road centerlines only",
+    "args": {
+      "namePattern": "*Center*",
+      "limit": 50
+    }
+  },
+  {
+    "title": "Siteless alignments",
+    "args": {
+      "site": ""
+    }
+  }
+]

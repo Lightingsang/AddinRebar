@@ -1,0 +1,34 @@
+[
+  {
+    "title": "One point",
+    "args": {
+      "surface": "EG",
+      "points": [
+        {
+          "x": 312450000,
+          "y": 23872000
+        }
+      ]
+    }
+  },
+  {
+    "title": "Grid of three points",
+    "args": {
+      "surface": "Existing Ground",
+      "points": [
+        {
+          "x": 5300000,
+          "y": 4166000
+        },
+        {
+          "x": 5350000,
+          "y": 4166000
+        },
+        {
+          "x": 5400000,
+          "y": 4166000
+        }
+      ]
+    }
+  }
+]

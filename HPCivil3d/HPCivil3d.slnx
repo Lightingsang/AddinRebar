@@ -19,6 +19,7 @@
   <Project Path="HPCivil3d.McpBridge/HPCivil3d.McpBridge.csproj" />
   <Project Path="HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.csproj" />
   <Project Path="HPCivil3d.McpBridge.Tests/HPCivil3d.McpBridge.Tests.csproj" />
+  <Project Path="HPCivil3d.Mcp.Server.Tests/HPCivil3d.Mcp.Server.Tests.csproj" />
   <Folder Name="/Shared/">
     <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
     <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />

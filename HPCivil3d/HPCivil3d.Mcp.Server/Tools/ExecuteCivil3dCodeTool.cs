@@ -27,20 +27,16 @@ public sealed class ExecuteCivil3dCodeTool(ExecuteCodeService service)
         OpenWorld = false)]
     [Description(
         "Runs a C# script inside the open Civil 3D drawing with the user's full privileges. " +
-        "Globals: doc (Document), db (Database), ed (Editor — WriteMessage/SelectImplied/SelectAll only; every Get* prompt is blocked), app (DocumentCollection), " +
-        "tr (the Transaction the bridge opened: read with tr.GetObject(id, OpenMode.ForRead), add with AppendEntity + tr.AddNewlyCreatedDBObject(obj, true); never Commit/Abort/Dispose it and never call StartTransaction or LockDocument), " +
-        "civil (CivilDocument: GetAlignmentIds(), GetSurfaceIds(), GetPipeNetworkIds(), GetSiteIds(), CorridorCollection, CogoPoints, GetAllPointIds(), Settings, Styles — every drawing opened in Civil 3D has one, even a plain acad.dwt drawing; null only if the API refuses), " +
-        "units (the Civil drawing unit, Meters or Feet: units.ToDrawing(mm), units.ToMm(du), units.Label — Civil coordinates, stations and elevations are drawing units; convert plan geometry to mm at the tool boundary, keep stations and elevations in drawing units and say so. " +
-        "A drawing without Civil settings defaults to Feet whatever INSUNITS says: read get_civil3d_context first and, when civil3d.insunitsMismatch is true, tell the user the numbers follow the Civil unit), " +
-        "ct (check it inside long loops), log(string), progress(int current, int total, string message), " +
-        "args (args.Str/Double/Int/Long/Bool(key, fallback), args.Obj/List(key), args.Has/Require(key); prefer args over literals so identical text compiles once). " +
-        "End with `return <value>;`. Returned objects are summarised: ObjectId → {handle,class}, Entity → {handle,type,layer,dxfName,name for Civil entities}, CogoPoint adds {number,x,y,elevation}, AlignmentEntity/AlignmentSubEntity → {type,stations,length}, Point3d → {x,y,z}. " +
-        "Default usings: System, System.Linq, System.Collections.Generic, Autodesk.AutoCAD.ApplicationServices/DatabaseServices/EditorInput/Geometry/Colors, Autodesk.Civil, Autodesk.Civil.ApplicationServices/DatabaseServices/DatabaseServices.Styles/Settings. " +
-        "transaction=auto commits when the script returns; none is read-only and fails if anything changed; manual runs like auto. dryRun runs everything, rolls it back and still reports `changed`. " +
-        "Blocked: Rebuild/RebuildAll/RebuildSnapshot, DataShortcuts, SurveyProjects, file import/export members (CreateFromLandXML, ExportToDEM, ImportPoints…), AeccUiMgd dialogs, COM interop. " +
-        "U in Civil 3D reverts every AI run made since the user's last command. " +
-        "Fails with isError=true and diagnostics on compile error, exception, guard rejection or timeout; nothing is kept then. " +
-        "Requires the user to tick 'Allow AI code execution' in the HPCivil3d MCP Bridge window (ribbon HPCivil3d > MCP > MCP Bridge, command HPC3DMCPBRIDGE) inside Civil 3D.")]
+        "Globals: doc, db, ed (WriteMessage/SelectImplied/SelectAll only), app, tr (the bridge's Transaction: tr.GetObject(id, OpenMode.ForRead), AppendEntity + tr.AddNewlyCreatedDBObject(obj, true); never Commit/Abort/Dispose it, never StartTransaction or LockDocument), " +
+        "civil (CivilDocument: GetAlignmentIds/GetSurfaceIds/GetPipeNetworkIds/GetSiteIds, CorridorCollection, CogoPoints, Settings, Styles), " +
+        "units (the Civil drawing unit, Meters or Feet: ToDrawing(mm), ToMm(du), Label — plan x/y cross the tool boundary in mm; stations, elevations and areas stay in the Civil unit; a drawing without Civil settings reports Feet whatever INSUNITS says, so read get_civil3d_context and warn on insunitsMismatch), " +
+        "ct, log(string), progress(cur, total, msg), args (Str/Double/Int/Long/Bool(key, fallback), Obj/List(key), Has/Require(key)). " +
+        "Civil and AutoCAD both define Entity/DBObject/Surface: write Autodesk.Civil.DatabaseServices.Surface in full. End with `return <value>;` (Entity → {handle,type,layer,dxfName,name}, CogoPoint adds number/x/y/elevation, Point3d → {x,y,z} — all in drawing units). " +
+        "Usings: the AutoCAD and Autodesk.Civil namespaces. " +
+        "transaction=auto commits on return; none is read-only and fails if anything changed; manual runs like auto. dryRun runs everything, rolls back and still reports `changed`. " +
+        "Blocked: Rebuild*, DataShortcuts, SurveyProjects, file import/export, AeccUiMgd dialogs, COM interop, Editor prompts. U in Civil 3D reverts every AI run since the user's last command. " +
+        "isError=true + diagnostics on compile error, exception, guard rejection or timeout; nothing is kept then. " +
+        "Requires 'Allow AI code execution' ticked in the HPCivil3d MCP Bridge window (command HPC3DMCPBRIDGE).")]
     public Task<CallToolResult> ExecuteAsync(
         [Description("C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Diagnostics.Process / reflection, no Editor prompts or commands, no Civil rebuilds or data-shortcut calls (blocked by the guard).")]
         string code,

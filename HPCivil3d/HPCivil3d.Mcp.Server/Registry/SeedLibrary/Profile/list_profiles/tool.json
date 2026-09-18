@@ -1,0 +1,39 @@
+{
+  "name": "list_profiles",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Profile",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "profile",
+    "query"
+  ],
+  "title": "List profiles",
+  "description": "Lists the vertical profiles of one alignment (name or handle) or of every alignment: handle, parent alignment, name, profile type (surface / layout), start/end station, min/max elevation (drawing units), length in mm, PVI count, entity count, style. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "alignment": {
+        "type": "string",
+        "description": "Alignment name or handle; omit for every alignment"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 180,
+        "description": "Maximum number of items to return (1–180)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

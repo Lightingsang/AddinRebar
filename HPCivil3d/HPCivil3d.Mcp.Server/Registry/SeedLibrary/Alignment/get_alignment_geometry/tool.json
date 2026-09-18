@@ -1,0 +1,62 @@
+{
+  "name": "get_alignment_geometry",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Alignment",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "alignment",
+    "geometry",
+    "query"
+  ],
+  "title": "Get alignment geometry",
+  "description": "Horizontal geometry of one alignment (by name or handle): its entities in order (paged by entityLimit/entityOffset) with type, start/end station (drawing units), length in mm, start/end point in mm, and for arcs radius (mm), centre (mm), direction and delta (radians), PI station; optional samples along the alignment every sampleStepMm (station in drawing units, x/y in mm, at most maxSamples). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "alignment": {
+        "type": "string",
+        "description": "Alignment name or handle (required)"
+      },
+      "entityLimit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 150,
+        "description": "Entities listed per call (1–150); page with entityOffset"
+      },
+      "entityOffset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many entities first (in alignment order)"
+      },
+      "sampleStepMm": {
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "description": "Sample points along the alignment every this many mm (0 = no samples; at least 1000 mm)"
+      },
+      "maxSamples": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 200,
+        "description": "Cap on the number of samples (1–200)"
+      }
+    },
+    "required": [
+      "alignment"
+    ],
+    "additionalProperties": false
+  }
+}

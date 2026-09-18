@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Siteless alignment with defaults",
+    "args": {
+      "polyline": "5F3E",
+      "name": "MCP Road A"
+    }
+  },
+  {
+    "title": "In a site, with curves, erasing the polyline",
+    "args": {
+      "polyline": "5F3E",
+      "name": "MCP Road B",
+      "site": "Site 1",
+      "style": "Local Road",
+      "addCurvesBetweenTangents": true,
+      "erasePolyline": true
+    }
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "name": "list_cogo_points",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Point",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "cogo",
+    "point",
+    "query"
+  ],
+  "title": "List COGO points",
+  "description": "Lists the COGO points of the active Civil 3D drawing: handle, point number, name, x/y (easting/northing) in mm, elevation in drawing units, raw and full description, primary point group. Filter by primary point group (must exist), description wildcard and number range (a range of at most 5 000 numbers is looked up directly instead of scanning every point); page with limit/offset in point-number order. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "pointGroup": {
+        "type": "string",
+        "description": "Primary point group name to restrict to (must exist in the drawing)"
+      },
+      "descriptionPattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Wildcard on the full description (* and ?), case-insensitive"
+      },
+      "numberFrom": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Lowest point number to include"
+      },
+      "numberTo": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Highest point number to include"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 300,
+        "description": "Maximum number of items to return (1–300)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many items first (paging, in the listed order)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

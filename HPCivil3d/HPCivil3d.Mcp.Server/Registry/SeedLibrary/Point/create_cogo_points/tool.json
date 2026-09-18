@@ -1,0 +1,70 @@
+{
+  "name": "create_cogo_points",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Point",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "seed",
+    "civil3d",
+    "cogo",
+    "point",
+    "create"
+  ],
+  "title": "Create COGO points",
+  "description": "Creates COGO points from a list of {x, y, elevation?, description?, name?} — x/y in mm, elevation in drawing units (0 when omitted) — numbered by the drawing's next-point-number setting; each item may carry its own description (default: the tool's description argument) and point name. Side effects: adds one CogoPoint per item to the drawing's point collection. dryRun creates them and rolls back, reporting the same envelope: createdCount, items[{index, handle, number}], affectedHandles.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "points": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 500,
+        "description": "Points to create: x/y in millimetres, elevation in drawing units",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "elevation": {
+              "type": "number",
+              "description": "Elevation in drawing units; omitted = 0"
+            },
+            "description": {
+              "type": "string",
+              "description": "Raw description for this point (default: the tool's description)"
+            },
+            "name": {
+              "type": "string",
+              "description": "Point name (optional)"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        }
+      },
+      "description": {
+        "type": "string",
+        "default": "MCP",
+        "description": "Raw description for points without their own"
+      }
+    },
+    "required": [
+      "points"
+    ],
+    "additionalProperties": false
+  }
+}

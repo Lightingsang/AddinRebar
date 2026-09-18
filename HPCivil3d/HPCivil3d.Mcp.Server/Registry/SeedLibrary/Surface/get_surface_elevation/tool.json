@@ -1,0 +1,58 @@
+{
+  "name": "get_surface_elevation",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Surface",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "surface",
+    "elevation",
+    "query"
+  ],
+  "title": "Get surface elevation at points",
+  "description": "Elevation of one surface (name or handle) at up to 500 plan points given in mm ({x, y}); each item reports ok with the elevation in drawing units, or ok=false with the reason (OUTSIDE_SURFACE when the point is off the surface — the other points still answer). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "surface": {
+        "type": "string",
+        "description": "Surface name or handle (required)"
+      },
+      "points": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 500,
+        "description": "Plan points in millimetres",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        }
+      }
+    },
+    "required": [
+      "surface",
+      "points"
+    ],
+    "additionalProperties": false
+  }
+}

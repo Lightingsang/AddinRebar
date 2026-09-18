@@ -1,0 +1,53 @@
+{
+  "name": "list_pipe_networks",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Pipe",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "pipe",
+    "network",
+    "query"
+  ],
+  "title": "List pipe networks",
+  "description": "Lists the gravity pipe networks (handle, name, reference alignment and surface, parts list, pipe and structure counts) and, with includeParts, the pipes (family, size, start/end in mm with elevation in drawing units, slope, 2D/3D length in mm, inner diameter in mm, shape, flow direction, start/end structure, minimum cover in mm) and structures (family, size, position, rim/sump elevation in drawing units, sump depth, height and inner diameter in mm, connected pipes) — partLimit is the total number of parts listed across the answer (default 60, max 100, so a page stays under 64 KB); a network cut short reports partsTruncated, and networks past the budget list none; pressure networks are summarised by counts. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "namePattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name filter with * and ? wildcards, case-insensitive; * = all"
+      },
+      "includeParts": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list the pipes and structures of each network (up to partLimit of each per network)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      },
+      "partLimit": {
+        "type": "integer",
+        "default": 60,
+        "minimum": 1,
+        "maximum": 100,
+        "description": "Total budget of parts (pipes + structures) listed across the whole answer (1–100); networks past the budget report partsTruncated"
+      }
+    },
+    "additionalProperties": false
+  }
+}

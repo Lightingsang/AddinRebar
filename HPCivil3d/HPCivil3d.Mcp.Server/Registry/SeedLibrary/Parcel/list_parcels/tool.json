@@ -1,0 +1,45 @@
+{
+  "name": "list_parcels",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Parcel",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "parcel",
+    "site",
+    "query"
+  ],
+  "title": "List parcels",
+  "description": "Lists the parcels of every site (or of one site) in the active Civil 3D drawing: handle, site, name, number, tax id, address, style, description, centroid in mm and area in drawing units squared (m² for Meters, ft² for Feet). Filter by name wildcard; page with limit. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "site": {
+        "type": "string",
+        "description": "Site name to restrict to; omit for every site"
+      },
+      "namePattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name filter with * and ? wildcards, case-insensitive; * = all"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 250,
+        "description": "Maximum number of items to return (1–250)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "list_alignments",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Alignment",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "alignment",
+    "query"
+  ],
+  "title": "List alignments",
+  "description": "Lists the alignments of the active Civil 3D drawing in handle order: handle, name, type, length in mm, start/end station (drawing units, raw and as formatted labels with equations), site (empty = siteless), style, profile count, entity count, description. Filter by name wildcard and site; page with limit/offset. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "namePattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name filter with * and ? wildcards, case-insensitive; * = all"
+      },
+      "site": {
+        "type": "string",
+        "description": "Site name to restrict to; \"\" = siteless alignments only; omit = every alignment"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 180,
+        "description": "Maximum number of items to return (1–180)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many items first (paging, in the listed order)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

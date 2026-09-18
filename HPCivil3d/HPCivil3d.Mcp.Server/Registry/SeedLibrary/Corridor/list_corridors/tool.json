@@ -1,0 +1,40 @@
+{
+  "name": "list_corridors",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Corridor",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "corridor",
+    "query"
+  ],
+  "title": "List corridors",
+  "description": "Lists the corridors of the active Civil 3D drawing: handle, name, out-of-date and rebuild-automatic flags, code set style, baselines (name, alignment, profile, region count) and corridor surfaces (name, linked surface). Read-only; a corridor is never rebuilt by this tool.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "namePattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name filter with * and ? wildcards, case-insensitive; * = all"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

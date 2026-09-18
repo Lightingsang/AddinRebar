@@ -1,0 +1,34 @@
+{
+  "name": "get_civil_document_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Document",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "document",
+    "units",
+    "query"
+  ],
+  "title": "Get Civil document info",
+  "description": "Overview of the active Civil 3D drawing: product, whether it is a Civil document, the Civil drawing unit (Meters or Feet — every station, elevation and area the other tools return is in this unit; plan geometry crosses the tool boundary in mm), the coordinate system (code, description, datum, unit; absent without a zone), INSUNITS and whether it disagrees with the Civil unit (insunitsMismatch — a drawing without Civil settings reports Feet), one count per object family (alignments, siteless alignments, sites, parcels, surfaces, corridors, pipe networks, pressure networks, COGO points, point groups) and up to 20 style names per family. Read-only. Call it first.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeStyles": {
+        "type": "boolean",
+        "default": true,
+        "description": "List up to 20 style names per family (alignment, profile, surface, point, parcel, pipe, structure, corridor)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "title": "All surfaces",
+    "args": {}
+  },
+  {
+    "title": "Existing ground surfaces",
+    "args": {
+      "namePattern": "EG*",
+      "limit": 10
+    }
+  }
+]

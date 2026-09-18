@@ -1,0 +1,14 @@
+[
+  {
+    "title": "All parcels",
+    "args": {}
+  },
+  {
+    "title": "Single-family lots of one site",
+    "args": {
+      "site": "Site 1",
+      "namePattern": "Single-Family*",
+      "limit": 50
+    }
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "title": "All corridors",
+    "args": {}
+  },
+  {
+    "title": "Corridors by name",
+    "args": {
+      "namePattern": "Corridor*",
+      "limit": 10
+    }
+  }
+]

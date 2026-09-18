@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "HPCivil3d.Mcp.Server hoàn chỉnh: Civil3dHostProfile, 4 core tool, prompts/resources, 12 seed nhúng, tests (structure + compile-check skip quan sát được), publish single-file"
-status: pending
+status: completed
 priority: P1
 effort: "8h"
 dependencies: [0, 1]
@@ -57,14 +57,15 @@ Non-functional
 - `HPCivil3d.Mcp.Server/**` cũng là copy (`Civil3dHostProfile` ← `AutocadHostProfile`, `ExecuteCivil3dCodeTool`, `Civil3dContextTool`, `Program.cs`, csproj) nhưng ngoài mirror contract → phase 3 quyết: đưa vào `mirroredFiles` (token thêm `AutocadHostProfile`→`Civil3dHostProfile`, `execute_autocad_code`→…) **hoặc** `ownedCounterparts` (pin sha256) — không để cây thứ ba không rào. Seed files (`Registry/SeedLibrary/**`) là Civil-owned.
 
 ## Todo List
-- [ ] Profile/tools/prompts/resources · [ ] R1–R10 · [ ] W1–W2 · [ ] Structure tests · [ ] Compile tests (+ skip path quan sát) · [ ] `tools/list` 24 · [ ] Smoke ≥ 9 · [ ] Publish · [ ] Report + review
+- [x] Profile/tools/prompts/resources (description 1 777 chars) · [x] R1–R10 · [x] W1–W2 · [x] Structure tests · [x] Compile tests (+ skip path: 13 skipped "Civil 3D 2026 not installed") · [x] `tools/list` 24 · [x] Smoke 26/26 + 28/28 (exe publish, Civil 3D thật) · [x] Publish 7.47 MB · [x] Report ([reports/phase-03-server-seeds.md](reports/phase-03-server-seeds.md)) · [x] Review 7/10 (1 H, 4 M, 9 L → 14/14 xử lý: cap theo byte, nested-key test, insunitsMismatch thật) + tester 84/55/206 xanh; smoke run 4 28/28 sau fix → [reports/code-review-phase-03.md](reports/code-review-phase-03.md), [reports/test-report-phase-03.md](reports/test-report-phase-03.md)
 
 ## Success Criteria
-- [ ] `dotnet test HPCivil3d/HPCivil3d.Mcp.Server.Tests` → ≥ 60 test, 0 fail, 0 skip trên máy này; với `HPCIVIL3D_C3D_DIR=X:\nowhere\` → đúng N (= số compile test) **skipped** với text "Civil 3D 2026 not installed", 0 fail.
-- [ ] `python McpShared/tools/mcp-call.py HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe tools/list --env HPCIVIL3D_MCP_Registry__LibraryPath=<tmp> --env HPCIVIL3D_MCP_Registry__DbPath=<tmp>/registry.db` → 24 tool (4 + 8 + 12), `execute_civil3d_code` description ≤ 1 800 ký tự; lưu `reports/phase-03-tools-list-civil3d.json`.
-- [ ] `pwsh -File HPCivil3d/tools/harness/run-server-smoke.ps1` → ≥ 9/9 với Civil 3D thật (R1, R2, R5 số hợp lý; W1 dryRun `changed.added` đúng, `rolledBack`).
-- [ ] `grep -rn "Rebuild\|DataShortcuts\|ExportTo\|CreateFrom" HPCivil3d/HPCivil3d.Mcp.Server/Registry/SeedLibrary --include=code.cs` = 0; `grep -rn "AeccDbMgd\|AutoCAD.NET" HPCivil3d/HPCivil3d.Mcp.Server/*.csproj` = 0.
-- [ ] `tools/list` 4 host cũ không đổi (không sửa engine ở phase này).
+- [x] `dotnet test HPCivil3d/HPCivil3d.Mcp.Server.Tests` → ≥ 60 test, 0 fail, 0 skip trên máy này; với `HPCIVIL3D_C3D_DIR=X:\nowhere\` → đúng N (= số compile test) **skipped** với text "Civil 3D 2026 not installed", 0 fail. → **94 test (sau review), 0 fail, 0 skip; với `HPCIVIL3D_C3D_DIR=X:
+owhere\` 13 skipped đúng text, 0 fail.**
+- [x] `python McpShared/tools/mcp-call.py HPCivil3d/output/HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.exe tools/list --env HPCIVIL3D_MCP_Registry__LibraryPath=<tmp> --env HPCIVIL3D_MCP_Registry__DbPath=<tmp>/registry.db` → 24 tool (4 + 8 + 12), `execute_civil3d_code` description ≤ 1 800 ký tự; lưu `reports/phase-03-tools-list-civil3d.json`. → **24 tool, description 1 784 chars.**
+- [x] `pwsh -File HPCivil3d/tools/harness/run-server-smoke.ps1` → ≥ 9/9 với Civil 3D thật (R1, R2, R5 số hợp lý; W1 dryRun `changed.added` đúng, `rolledBack`). → **26/26 (run 1) + 28/28 (run 2, thêm parcel) + 28/28 (run 4, seed sau review); R1/R2/R5 số thật, W1 dryRun `added 1` rolledBack, W2 dryRun/real/duplicate/bad handle.**
+- [x] `grep -rn "Rebuild\|DataShortcuts\|ExportTo\|CreateFrom" HPCivil3d/HPCivil3d.Mcp.Server/Registry/SeedLibrary --include=code.cs` = 0; `grep -rn "AeccDbMgd\|AutoCAD.NET" HPCivil3d/HPCivil3d.Mcp.Server/*.csproj` = 0. → **0 và 0 (test `Seed_never_names_a_rebuild…` pin; `RebuildAutomatic`/`AutoRebuild` đọc flag được phép).**
+- [x] `tools/list` 4 host cũ không đổi (không sửa engine ở phase này). → **engine không đổi (`git diff McpShared` rỗng).**
 
 ## Risk Assessment
 | Risk | Mitigation |

@@ -1,0 +1,40 @@
+{
+  "name": "list_surfaces",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Surface",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "seed",
+    "civil3d",
+    "surface",
+    "query"
+  ],
+  "title": "List surfaces",
+  "description": "Lists the surfaces of the active Civil 3D drawing: handle, name, kind (TinSurface, GridSurface, TinVolumeSurface, …), description, out-of-date and auto-rebuild flags, style, point count, min/mean/max elevation (drawing units), bounds in mm, and for TIN surfaces 2D/3D area (drawing units squared) and max slope. Read-only; never rebuilds.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "namePattern": {
+        "type": "string",
+        "default": "*",
+        "description": "Name filter with * and ? wildcards, case-insensitive; * = all"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "note": "How HPCivil3d/ mirrors HPAutoCad/ (ADR-01 option A). MirrorTests read this file. Rules: (1) `tokens` are applied to the AutoCAD text IN ORDER (exact strings — identifiers, constants and the few one-line differences); (2) lines between `// civil-only: begin` and `// civil-only: end` (C#) or `<!-- civil-only: begin -->` … `<!-- civil-only: end -->` (XAML/XML) exist only in the Civil file and are stripped before comparing — a block may only ADD lines, never replace one; (3) `versionPatterns` are replaced by a placeholder on both sides so a version bump on either product is not drift; (4) `civilOwnedFiles` are Civil-specific and not compared line by line; those hand-ported from an AutoCAD file are listed in `ownedCounterparts` with the sha256 of the AutoCAD text (CRLF folded, BOM dropped) they were ported from — when AutoCAD changes that file the pin fails until the change is ported (or declined) and the hash re-pinned; (5) every source file of both bridge trees must appear in `mirroredFiles`, `civilOwnedFiles` or `ownedCounterparts`. Blank lines, trailing whitespace, CRLF and the BOM are ignored.",
+  "note": "How HPCivil3d/ mirrors HPAutoCad/ (ADR-01 option A). MirrorTests read this file. Rules: (1) `tokens` are applied to the AutoCAD text IN ORDER (exact strings — identifiers, constants and the few one-line differences); (2) lines between `// civil-only: begin` and `// civil-only: end` (C#) or `<!-- civil-only: begin -->` … `<!-- civil-only: end -->` (XAML/XML) exist only in the Civil file and are stripped before comparing — a block may only ADD lines, never replace one; (3) `versionPatterns` are replaced by a placeholder on both sides so a version bump on either product is not drift; (4) `civilOwnedFiles` are Civil-specific and not compared line by line; those hand-ported from an AutoCAD file are listed in `ownedCounterparts` with the sha256 of the AutoCAD text (CRLF folded, BOM dropped) they were ported from — when AutoCAD changes that file the pin fails until the change is ported (or declined) and the hash re-pinned; (5) every source file of the bridge, loader and server trees (the seed library `Registry/SeedLibrary/**` excepted — seeds are written per host) must appear in `mirroredFiles`, `civilOwnedFiles` or `ownedCounterparts`. Blank lines, trailing whitespace, CRLF and the BOM are ignored.",
   "tokens": [
     {
       "autocad": "\"HPAutoCad.McpBridge.BridgeEntry\"",
@@ -176,6 +176,30 @@
     {
       "autocad": "Turned off again every time AutoCAD starts.",
       "civil3d": "Turned off again every time Civil 3D starts."
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server",
+      "civil3d": "HPCivil3d.Mcp.Server"
+    },
+    {
+      "autocad": "The AutoCAD MCP server:",
+      "civil3d": "The Civil 3D MCP server:"
+    },
+    {
+      "autocad": "this exe contributes the AutoCAD profile",
+      "civil3d": "this exe contributes the Civil 3D profile"
+    },
+    {
+      "autocad": "this exe adds the AutoCAD profile",
+      "civil3d": "this exe adds the Civil 3D profile"
+    },
+    {
+      "autocad": "references the AutoCAD API: scripts are text",
+      "civil3d": "references the AutoCAD or Civil 3D API: scripts are text"
+    },
+    {
+      "autocad": "AutocadHostProfile",
+      "civil3d": "Civil3dHostProfile"
     }
   ],
   "versionPatterns": [
@@ -266,6 +290,18 @@
     {
       "autocad": "HPAutoCad.McpBridge/Resources/Themes/AutocadThemeLight.xaml",
       "civil3d": "HPCivil3d.McpBridge/Resources/Themes/Civil3dThemeLight.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Program.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Program.cs"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/appsettings.json",
+      "civil3d": "HPCivil3d.Mcp.Server/appsettings.json"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj",
+      "civil3d": "HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.csproj"
     }
   ],
   "civilOwnedFiles": [
@@ -276,7 +312,12 @@
     "HPCivil3d.McpBridge/Service/Civil3dDocumentAccess.cs",
     "HPCivil3d.McpBridge.Loader/Bundle/PackageContents.xml",
     "HPCivil3d.McpBridge.Loader/Properties/launchSettings.json",
-    "HPCivil3d.McpBridge/Service/Civil3dUnitTable.cs"
+    "HPCivil3d.McpBridge/Service/Civil3dUnitTable.cs",
+    "HPCivil3d.Mcp.Server/Hosts/Civil3dHostProfile.cs",
+    "HPCivil3d.Mcp.Server/Tools/ExecuteCivil3dCodeTool.cs",
+    "HPCivil3d.Mcp.Server/Tools/Civil3dContextTool.cs",
+    "HPCivil3d.Mcp.Server/Prompts/Civil3dScriptPrompts.cs",
+    "HPCivil3d.Mcp.Server/Resources/Civil3dDocumentResources.cs"
   ],
   "renames": {
     "BridgeEntry.cs": "Civil3dBridgeEntry.cs"
@@ -306,6 +347,31 @@
       "autocad": "HPAutoCad.McpBridge.Loader/Properties/launchSettings.json",
       "civil3d": "HPCivil3d.McpBridge.Loader/Properties/launchSettings.json",
       "autocadSha256": "12719c1a074a8150892aaab0ec2bed1c9c004cd23d46abf50ba476fb2b6975f4"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Hosts/AutocadHostProfile.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Hosts/Civil3dHostProfile.cs",
+      "autocadSha256": "b9e29e06433a9c2de0ecba0451378a0038d59a6328754d4548921d6ba9bcdde1"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Tools/ExecuteAutocadCodeTool.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Tools/ExecuteCivil3dCodeTool.cs",
+      "autocadSha256": "bf3bced2e5ccaf7a590a7a6531c9ff5ef11cda5c9e42138acf54463b12badd15"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Tools/AutocadContextTool.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Tools/Civil3dContextTool.cs",
+      "autocadSha256": "3050d68c41ac727e16150ad9da5e80f0d86c1a00819aab83bc41853db23832b3"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Prompts/AutocadScriptPrompts.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Prompts/Civil3dScriptPrompts.cs",
+      "autocadSha256": "426f386a600bdfa5281b95e9fcc41b24c5c48da405a67901cf6e2b5a6c5d2d6f"
+    },
+    {
+      "autocad": "HPAutoCad.Mcp.Server/Resources/AutocadDocumentResources.cs",
+      "civil3d": "HPCivil3d.Mcp.Server/Resources/Civil3dDocumentResources.cs",
+      "autocadSha256": "b800029027568763d6197dedee15da58b0a2a79593e4f940f2d4c2b2898f535e"
     }
   ]
 }

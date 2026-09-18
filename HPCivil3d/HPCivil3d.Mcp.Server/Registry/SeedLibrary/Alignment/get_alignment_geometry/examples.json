@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Geometry of one alignment",
+    "args": {
+      "alignment": "Alignment - (1)"
+    }
+  },
+  {
+    "title": "With samples every 50 m",
+    "args": {
+      "alignment": "Alignment - (1)",
+      "sampleStepMm": 50000,
+      "maxSamples": 100
+    }
+  },
+  {
+    "title": "Second page of a long alignment",
+    "args": {
+      "alignment": "Alignment - (1)",
+      "entityLimit": 100,
+      "entityOffset": 100
+    }
+  }
+]

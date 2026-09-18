@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Networks only",
+    "args": {}
+  },
+  {
+    "title": "One network with its parts",
+    "args": {
+      "namePattern": "Storm*",
+      "includeParts": true,
+      "partLimit": 100
+    }
+  },
+  {
+    "title": "Every network, first 20 parts overall",
+    "args": {
+      "includeParts": true,
+      "partLimit": 20
+    }
+  }
+]

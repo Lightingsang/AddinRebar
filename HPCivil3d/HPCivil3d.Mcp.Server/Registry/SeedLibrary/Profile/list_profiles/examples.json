@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Profiles of every alignment",
+    "args": {}
+  },
+  {
+    "title": "Profiles of one alignment",
+    "args": {
+      "alignment": "Alignment - (1)",
+      "limit": 20
+    }
+  }
+]

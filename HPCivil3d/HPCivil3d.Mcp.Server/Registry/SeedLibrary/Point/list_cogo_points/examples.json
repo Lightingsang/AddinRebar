@@ -1,0 +1,15 @@
+[
+  {
+    "title": "First 200 points",
+    "args": {}
+  },
+  {
+    "title": "Points 100–199 described as trees",
+    "args": {
+      "numberFrom": 100,
+      "numberTo": 199,
+      "descriptionPattern": "*TREE*",
+      "limit": 100
+    }
+  }
+]

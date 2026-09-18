@@ -1,0 +1,70 @@
+{
+  "name": "create_alignment_from_polyline",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Alignment",
+  "host": "civil3d",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "seed",
+    "civil3d",
+    "alignment",
+    "create"
+  ],
+  "title": "Create alignment from polyline",
+  "description": "Creates a Civil 3D alignment from an existing lightweight polyline (handle) with a unique name: site (empty = siteless), layer (default: the current layer), alignment style and label set (defaults: the drawing's first ones — the label set is mandatory in the API), optional curves between tangents, optional erase of the polyline. Side effects: adds an Alignment (and its labels) to the drawing; with erasePolyline the source polyline is deleted. dryRun creates and rolls back. Returns the alignment's handle, name, length in mm, start/end station in drawing units, entity count, site and style.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "polyline": {
+        "type": "string",
+        "description": "Handle of an existing LWPOLYLINE (required)"
+      },
+      "name": {
+        "type": "string",
+        "description": "Alignment name, unique in the drawing (required)"
+      },
+      "site": {
+        "type": "string",
+        "default": "",
+        "description": "Site name; \"\" = siteless"
+      },
+      "layer": {
+        "type": "string",
+        "default": "",
+        "description": "Existing layer name; \"\" = the current layer"
+      },
+      "style": {
+        "type": "string",
+        "default": "",
+        "description": "Alignment style name; \"\" = the drawing's first alignment style (whatever the template lists first — pass a name to choose)"
+      },
+      "labelSet": {
+        "type": "string",
+        "default": "",
+        "description": "Alignment label set style name; \"\" = the drawing's first label set (the API refuses an empty one)"
+      },
+      "addCurvesBetweenTangents": {
+        "type": "boolean",
+        "default": false,
+        "description": "Insert curves between tangents"
+      },
+      "erasePolyline": {
+        "type": "boolean",
+        "default": false,
+        "description": "Erase the source polyline"
+      }
+    },
+    "required": [
+      "polyline",
+      "name"
+    ],
+    "additionalProperties": false
+  }
+}

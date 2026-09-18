@@ -65,7 +65,7 @@ public sealed class MirrorTests
             .Select(relative => Path.GetFullPath(MirrorTokenTable.CivilPath(relative)))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        var unknown = MirrorTokenTable.SourceFiles(root, "HPCivil3d.McpBridge", "HPCivil3d.McpBridge.Loader")
+        var unknown = MirrorTokenTable.SourceFiles(root, "HPCivil3d.McpBridge", "HPCivil3d.McpBridge.Loader", "HPCivil3d.Mcp.Server")
             .Where(path => !known.Contains(Path.GetFullPath(path)))
             .Select(path => Path.GetRelativePath(root, path))
             .ToArray();
@@ -84,7 +84,7 @@ public sealed class MirrorTests
             .Select(relative => Path.GetFullPath(MirrorTokenTable.AutocadPath(relative)))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        var unknown = MirrorTokenTable.SourceFiles(root, "HPAutoCad.McpBridge", "HPAutoCad.McpBridge.Loader")
+        var unknown = MirrorTokenTable.SourceFiles(root, "HPAutoCad.McpBridge", "HPAutoCad.McpBridge.Loader", "HPAutoCad.Mcp.Server")
             .Where(path => !known.Contains(Path.GetFullPath(path)))
             .Select(path => Path.GetRelativePath(root, path))
             .ToArray();
@@ -128,10 +128,7 @@ public sealed class MirrorTests
         Assert.SkipWhen(!Directory.Exists(autocadRoot), "HPAutoCad/ is not beside HPCivil3d/ in this checkout");
 
         // the whole AutoCAD bridge, Civil-owned counterparts included (BridgeEntry, the self-check, the bundle manifest)
-        var autocadTexts = new[] { "HPAutoCad.McpBridge", "HPAutoCad.McpBridge.Loader" }
-            .SelectMany(project => Directory.EnumerateFiles(Path.Combine(autocadRoot, project), "*.*", SearchOption.AllDirectories))
-            .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}") && !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}"))
-            .Where(path => Path.GetExtension(path) is ".cs" or ".xaml" or ".xml" or ".csproj" or ".json")
+        var autocadTexts = MirrorTokenTable.SourceFiles(autocadRoot, "HPAutoCad.McpBridge", "HPAutoCad.McpBridge.Loader", "HPAutoCad.Mcp.Server")
             .Select(File.ReadAllText)
             .ToArray();
         var dead = Table.Tokens.Where(token => !autocadTexts.Any(text => text.Contains(token.Autocad, StringComparison.Ordinal))).Select(token => token.Autocad).ToArray();

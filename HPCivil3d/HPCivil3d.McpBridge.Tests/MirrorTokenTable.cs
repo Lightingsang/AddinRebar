@@ -70,6 +70,8 @@ public sealed class MirrorTokenTable
     public static IEnumerable<string> SourceFiles(string root, params string[] projects) => projects
         .SelectMany(project => Directory.EnumerateFiles(Path.Combine(root, project), "*.*", SearchOption.AllDirectories))
         .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}") && !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}"))
+        // seed tools are written per host (tool.json + code.cs + examples.json), never mirrored
+        .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}Registry{Path.DirectorySeparatorChar}SeedLibrary{Path.DirectorySeparatorChar}"))
         .Where(path => Path.GetExtension(path).ToLowerInvariant() is not (".png" or ".ico" or ".dll" or ".pdb" or ".user" or ".cache" or ".md"));
 
     /// <summary>SHA-256 of the text with CRLF folded to LF and the BOM dropped, so line endings never count as a change.</summary>
