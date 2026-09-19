@@ -28,6 +28,12 @@ public sealed record GeoSettings
     public string? SavedBy { get; init; }
     /// <summary>Per user only: false keeps the satellite map panel off (nothing leaves the machine before an export).</summary>
     public bool MapEnabled { get; init; } = true;
+    /// <summary>Satellite imagery (HPGEOIMAGE): the tile source id, the target ground resolution and the margin around the boundary.</summary>
+    public string? ImageryProvider { get; init; }
+    public double? ImageryResolutionMPerPx { get; init; }
+    public double? ImageryMarginM { get; init; }
+    /// <summary>The image area as a multiple of the boundary's bounding-box area (the dialog's "vùng ×"); null = the default.</summary>
+    public double? ImageryAreaRatio { get; init; }
 
     public bool HasCentralMeridian => CentralMeridianDeg is { } cm && double.IsFinite(cm);
 }

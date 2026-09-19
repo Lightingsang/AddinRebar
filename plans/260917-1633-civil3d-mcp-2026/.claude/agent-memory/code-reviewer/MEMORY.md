@@ -1,0 +1,2 @@
+- [Mirror fence review pitfalls](mirror-fence-review-pitfalls.md) — per-file skip, one-directional coverage, add-only blocks keep stale AutoCAD doc lines; re-run the mutation yourself
+- [Seed review pitfalls](seed-review-pitfalls.md) — tests never multiply bytes/item × maximum (64 KB cap), analyzer blind to nested `p.Double("x")` keys, `units.Label == drawingUnit` by construction; hash the seed tree to prove generator idempotence

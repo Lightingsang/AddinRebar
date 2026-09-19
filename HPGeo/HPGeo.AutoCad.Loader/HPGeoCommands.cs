@@ -26,6 +26,9 @@ public sealed class HPGeoCommands
     [CommandMethod("-HPGEOIMPORT", CommandFlags.Modal)]
     public void ImportScript() => Invoke("import-script", "-HPGEOIMPORT");
 
+    [CommandMethod("-HPGEOIMAGE", CommandFlags.Modal)]
+    public void ImageScript() => Invoke("image-script", "-HPGEOIMAGE");
+
     /// <summary>Runs one add-in entry point; <paramref name="commandName"/> null = no console output (Terminate).</summary>
     internal static void Invoke(string key, string? commandName)
     {

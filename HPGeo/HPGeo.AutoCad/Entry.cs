@@ -16,7 +16,7 @@ public static class Entry
 
     /// <summary>
     /// Keys: <c>info</c> (HPGEOINFO), <c>kmz-script</c> (-HPGEOKMZ), <c>dialog</c> (HPGEO), <c>import</c> (HPGEOIMPORT),
-    /// <c>import-script</c> (-HPGEOIMPORT), <c>stop</c> (Terminate).
+    /// <c>import-script</c> (-HPGEOIMPORT), <c>image-script</c> (-HPGEOIMAGE), <c>stop</c> (Terminate).
     /// Every delegate is an <see cref="Action"/> that runs on AutoCAD's main thread inside the command context.
     /// </summary>
     public static IReadOnlyDictionary<string, Delegate> Start(string appDirectory, string product, string acadVersion)
@@ -29,6 +29,7 @@ public static class Entry
             ["dialog"] = new Action(HPGeoDialogCommand.Run),
             ["import"] = new Action(HPGeoImportCommand.Run),
             ["import-script"] = new Action(HPGeoImportScriptCommand.Run),
+            ["image-script"] = new Action(HPGeoImageScriptCommand.Run),
             ["stop"] = new Action(Stop),
         };
     }

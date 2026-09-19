@@ -30,4 +30,24 @@
         <ProjectReference Include="..\HPGeo.Core\HPGeo.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPGeo.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Build order only: the tile-fetch helper is a separate process, never a compile-time reference. -->
+        <ProjectReference Include="..\HPGeo.TileFetch\HPGeo.TileFetch.csproj" ReferenceOutputAssembly="false" Private="false" />
+    </ItemGroup>
+
+    <!-- The helper ships beside the add-in as TileFetch\HPGeo.TileFetch.exe (+ its dll, deps and runtimeconfig), so the
+         bundle deploy (which copies this project's whole output folder) carries it into Contents\App\TileFetch\.
+         acad.exe may be denied the network by a per-program firewall rule; a process of its own is not. -->
+    <Target Name="CopyTileFetchHelper" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true'">
+        <ItemGroup>
+            <_HelperFiles Include="$(MSBuildThisFileDirectory)..\HPGeo.TileFetch\bin\$(Configuration)\net8.0\**\*" />
+        </ItemGroup>
+        <Error Condition="'@(_HelperFiles)' == ''" Text="HPGeo.TileFetch output missing - build HPGeo.TileFetch first" />
+        <Copy SourceFiles="@(_HelperFiles)" DestinationFiles="@(_HelperFiles->'$(OutDir)TileFetch\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    </Target>
+
 </Project>

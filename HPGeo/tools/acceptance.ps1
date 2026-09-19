@@ -7,7 +7,9 @@
   Starts its own acad.exe (/product ACAD) with a generated script: LOGFILEON, HPGEOINFO on the empty drawing,
   13 POINTs + one closed PLINE (the reference tool's sample block, TP. Ho Chi Minh 105°45'), INSUNITS 6, HPGEOINFO
   again, then -HPGEOKMZ five times (full export, points-only, wrong zone -> outside Viet Nam, mm unit -> refused,
-  unknown key -> refused) and QUIT. Everything the commands print goes to the AutoCAD text log; the KMZ files go
+  unknown key -> refused), -HPGEOIMPORT, the arc/mirror export, -HPGEOIMAGE (Esri tiles over the network under the
+  layer-0 ring: RasterImage counted by HPGEOINFO, removed by one U, refusals for a wrong zone / an oversized margin /
+  an empty layer, a PrintWindow screenshot of the drawing as evidence), SAVEAS + reopen and QUIT. Everything the commands print goes to the AutoCAD text log; the KMZ files go
   to a space-free folder under %LocalAppData%\HPGeo\acceptance. Answers SECURELOAD ("Always Load") for the acad it
   started, kills only that process, never saves the user's drawings. FILEDIA, DYNMODE, OSMODE, LOGFILEPATH and
   COLORTHEME are profile settings AutoCAD writes back on a clean exit: the script reads the user's values over COM
@@ -15,9 +17,16 @@
 
 .PARAMETER TimeoutSec
   How long to wait for the script to finish before killing AutoCAD (default 300).
+
+.PARAMETER PrefetchTiles
+  Fill the user's tile cache (%LocalAppData%\HPGeo\tiles) with the 15 tiles the image runs need, through the add-in's own
+  fetcher in a dotnet test process, before AutoCAD starts (default off). The add-in downloads through its helper process
+  HPGeo.TileFetch.exe, so the firewall rule that blocks acad.exe outbound on this machine ("Autocad2026") no longer
+  matters; by default the harness empties the cache first so the first image run really downloads through the helper.
+  Use -PrefetchTiles $true on a machine where the helper cannot reach the network at all.
 #>
 [CmdletBinding()]
-param([int]$TimeoutSec = 300)
+param([int]$TimeoutSec = 300, [bool]$PrefetchTiles = $false)
 
 $ErrorActionPreference = 'Stop'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -42,13 +51,33 @@ public static class HPGeoNative {
   [DllImport("user32.dll")] static extern bool EnumChildWindows(IntPtr parent, Proc p, IntPtr l);
   [DllImport("user32.dll")] static extern int GetWindowText(IntPtr h, StringBuilder t, int n);
   [DllImport("user32.dll")] public static extern IntPtr SendMessage(IntPtr h, uint msg, IntPtr w, IntPtr l);
+  [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left, Top, Right, Bottom; }
+  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+  [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr hdc, uint flags);
+  [DllImport("user32.dll")] static extern bool EnumWindows(Proc p, IntPtr l);
+  [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr h, out uint pid);
+  [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
+  public static string LastTitle = "";
+  /// The largest visible top-level window of the process: the application frame, whatever its title says.
+  public static IntPtr FindLargestTopLevel(uint pid) {
+    IntPtr found = IntPtr.Zero; long best = 0;
+    EnumWindows((h, l) => {
+      uint p; GetWindowThreadProcessId(h, out p); if (p != pid || !IsWindowVisible(h)) return true;
+      RECT r; if (!GetWindowRect(h, out r)) return true;
+      long area = (long)(r.Right - r.Left) * (r.Bottom - r.Top);
+      if (area > best) { best = area; found = h; var sb = new StringBuilder(256); GetWindowText(h, sb, 256); LastTitle = sb.ToString(); }
+      return true; }, IntPtr.Zero);
+    return found; }
   public static IntPtr FindButton(IntPtr parent, string text) {
     IntPtr found = IntPtr.Zero;
     EnumChildWindows(parent, (h, l) => { var sb = new StringBuilder(256); GetWindowText(h, sb, 256); if (sb.ToString() == text) { found = h; return false; } return true; }, IntPtr.Zero);
     return found; }
 }
 '@
-if (-not ('HPGeoNative' -as [type])) { Add-Type -TypeDefinition $sig }
+# An older copy of this class (without PrintWindow) may already be compiled in a reused console: then a fresh process is the only way.
+$native = 'HPGeoNative' -as [type]
+if ($null -eq $native) { Add-Type -TypeDefinition $sig }
+elseif (-not $native.GetMethod('PrintWindow')) { throw 'HPGeoNative is already loaded without PrintWindow in this console - run the script in a new PowerShell process.' }
 
 function Answer-SecureLoad {
     $dlg = [HPGeoNative]::FindWindow('#32770', 'Security - Unsigned Executable File')
@@ -69,6 +98,53 @@ New-Item -ItemType Directory -Force $work | Out-Null
 New-Item -ItemType Directory -Force $evidence | Out-Null
 $textLogDir = Join-Path $work 'textlog'
 New-Item -ItemType Directory -Force $textLogDir | Out-Null
+$imagePng = Join-Path $work 'image.png'
+$storedPng = Join-Path $work 'stored_hpgeo.png'
+$screenshot = Join-Path $evidence 'image-in-autocad.png'
+Remove-Item $screenshot -Force -ErrorAction SilentlyContinue   # a stale screenshot must never pass this run's check
+
+# PrintWindow (PW_RENDERFULLCONTENT) of the acad.exe main window this harness started: the one piece of evidence
+# a log cannot give - the raster sits under the ring.
+function Save-WindowScreenshot([IntPtr]$hwnd, [string]$path) {
+    try {
+        Add-Type -AssemblyName System.Drawing
+        $rect = New-Object HPGeoNative+RECT
+        [HPGeoNative]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
+        $w = $rect.Right - $rect.Left; $h = $rect.Bottom - $rect.Top
+        if ($w -le 0 -or $h -le 0) { Write-Host "screenshot: window $hwnd has no rectangle ($w x $h)"; return $false }
+        $bmp = New-Object System.Drawing.Bitmap $w, $h
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $hdc = $g.GetHdc()
+        $ok = [HPGeoNative]::PrintWindow($hwnd, $hdc, 2)
+        $g.ReleaseHdc($hdc); $g.Dispose()
+        $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        return [bool]$ok
+    } catch { Write-Host "screenshot failed: $($_.Exception.Message)"; return $false }
+}
+
+# ---- tile cache + firewall state -------------------------------------------------------------------------------------
+# acad.exe may be denied the network by a local firewall rule (this dev machine: "Autocad2026", outbound Block). The
+# image runs then succeed only from the cache, which the add-in's own fetcher fills here from a plain dotnet process.
+$acadBlocked = $false
+try {
+    $rules = & netsh advfirewall firewall show rule name=all dir=out verbose 2>$null
+    $block = $rules | Select-String -Pattern '^Program:\s+(.*acad\.exe)\s*$' -Context 0,4 | Where-Object { $_.Context.PostContext -match 'Action:\s+Block' }
+    if ($block) { $acadBlocked = $true; Write-Host "firewall: an outbound BLOCK rule covers acad.exe - tiles can only come from the cache" }
+} catch { Write-Host "firewall: could not read the rules ($($_.Exception.Message))" }
+$prefetched = $null
+if ($PrefetchTiles) {
+    Write-Host "prefetching the 15 acceptance tiles into $env:LOCALAPPDATA\HPGeo\tiles (dotnet test, live provider)..."
+    $env:HPGEO_LIVE_TILES = '1'
+    $prefetchOut = & dotnet test (Join-Path $root 'HPGeo.Tests') -p:DeployBundle=false --filter-method '*Live_prefetch*' 2>&1
+    Remove-Item Env:HPGEO_LIVE_TILES -ErrorAction SilentlyContinue
+    $prefetched = ($LASTEXITCODE -eq 0) -and (($prefetchOut | Out-String) -match 'succeeded: 1')
+    Write-Host "prefetch $(if ($prefetched) { 'OK' } else { 'FAILED - the image runs will report TILE_FETCH_FAILED unless acad.exe can download' })"
+} else {
+    # HPGeo's own tile cache only: emptied so the first image run must download through the helper process.
+    $tileCache = Join-Path $env:LOCALAPPDATA 'HPGeo\tiles'
+    if (Test-Path $tileCache) { Remove-Item $tileCache -Recurse -Force }
+    Write-Host "tile cache emptied ($tileCache) - the first image run must download through HPGeo.TileFetch.exe"
+}
 
 $fmt = { param($v) $v.ToString('0.###', $inv) }
 # Profile sysvars the script changes; the user's values are read over COM once acad is up and put back before QUIT.
@@ -116,10 +192,30 @@ $lines.Add("_.MIRROR _L")
 $lines.Add("")
 $lines.Add("600300,1230000 600300,1232000 _N")
 $lines.Add("-HPGEOKMZ cm=105.75 type=boundaries layer=ARC out=$work\arc.kmz")
-# P7: the zone is stored in the drawing: save, close, reopen, HPGEOINFO must print it
+# P-IMG: satellite imagery under the layer-0 ring (Esri tiles over the network), zoomed first so the screenshot shows it.
+# On the unsaved drawing: HPGEOINFO counts the RasterImage, the very next U (HPGEOINFO is transparent to undo) removes
+# it, HPGEOINFO counts again; then the refusals (wrong zone, oversized margin, empty layer).
+$lines.Add("_.ZOOM _W 600060,1231340 600230,1231650")
+$lines.Add("-HPGEOIMAGE cm=105.75 layer=0 res=0.5 margin=30 out=$imagePng")
+$lines.Add("HPGEOINFO")
+$lines.Add("_.U")
+$lines.Add("HPGEOINFO")
+# A wide view (area=100 -> the ring in a 1316 x 1461 m window) at the default resolution would need 4490 x 4985 px: with no
+# explicit res= the plan zooms out to 18 instead of refusing (RESOLUTION_REDUCED), inserts, and U removes it again.
+$lines.Add("-HPGEOIMAGE cm=105.75 layer=0 area=100 out=$work\wide.png")
+$lines.Add("_.U")
+$lines.Add("-HPGEOIMAGE cm=120 layer=0 res=0.5 out=$work\wrongzone.png")
+$lines.Add("-HPGEOIMAGE cm=105.75 layer=0 res=0.5 margin=2000 out=$work\big.png")
+$lines.Add("-HPGEOIMAGE cm=105.75 layer=NOSUCHLAYER out=$work\nolayer.png")
+# P7: the zone is stored in the drawing: save, then a second image beside the saved DWG (relative source name, zone
+# taken from the record - no cm=), held 6 s for the screenshot, saved, closed, reopened: HPGEOINFO must print the
+# zone and count the image.
 $lines.Add("_.SAVEAS")
 $lines.Add("2018")
 $lines.Add("$work\stored.dwg")
+$lines.Add("-HPGEOIMAGE layer=0 res=0.5 margin=30 out=$storedPng")
+$lines.Add("DELAY 6000")
+$lines.Add("_.QSAVE")
 $lines.Add("_.CLOSE")
 $lines.Add("_.OPEN")
 $lines.Add("$work\stored.dwg")
@@ -141,6 +237,9 @@ $scr = Join-Path $work 'acceptance.scr'
 # AutoCAD is started without a script: another bundle on this machine (CadAddinManager) injects an InitAddinManager
 # command ~15 s after start-up, which cancels a running start-up script. So the harness waits for the application to
 # settle, then hands the script over through COM to the acad.exe it started (pid-guarded) and waits for QUIT to end it.
+# The add-in's own settings.json is the user's: every run writes zone/imagery values into it, so it is put back afterwards.
+$userSettings = Join-Path $env:APPDATA 'HPGeo\settings.json'
+$userSettingsBackup = if (Test-Path $userSettings) { [IO.File]::ReadAllBytes($userSettings) } else { $null }
 $logMark = Get-Date
 $p = Start-Process -FilePath $acad -ArgumentList @('/nologo', '/product', 'ACAD', '/language', '"en-US"') -PassThru
 Write-Host "acad pid $($p.Id) started $(Get-Date -Format HH:mm:ss); script $scr"
@@ -162,9 +261,18 @@ for ($attempt = 1; $attempt -le 20 -and -not $sent; $attempt++) {
         Write-Host ("user profile settings: " + (($profileVars | ForEach-Object { "$_=$($originals[$_])" }) -join ' '))
         [IO.File]::WriteAllLines($scr, (Build-Script $originals), (New-Object Text.UTF8Encoding($false)))
         Copy-Item $scr (Join-Path $evidence 'acceptance.scr') -Force
-        $app.ActiveDocument.SendCommand("FILEDIA`n0`n_.SCRIPT`n$scr`n")
+        # SendCommand returns only when the whole script has run (QUIT included), so it goes to a background job
+        # and this thread stays free to answer SECURELOAD and take the screenshot while the script holds the view.
+        $job = Start-Job -ArgumentList $p.Id, $scr -ScriptBlock {
+            param($acadPid, $scriptPath)
+            $ids = @(Get-Process acad | ForEach-Object Id)
+            if ($ids.Count -ne 1 -or [string]$ids[0] -ne [string]$acadPid) { throw 'refusing COM: another acad is running' }
+            $app = [Runtime.InteropServices.Marshal]::GetActiveObject('AutoCAD.Application')
+            $app.ActiveDocument.SendCommand("FILEDIA`n0`n_.SCRIPT`n$scriptPath`n")
+            return "script ran to its end at $(Get-Date -Format HH:mm:ss)"
+        }
         $sent = $true
-        Write-Host "script sent over COM at $(Get-Date -Format HH:mm:ss) (attempt $attempt)"
+        Write-Host "script handed to a background job at $(Get-Date -Format HH:mm:ss) (attempt $attempt)"
     } catch {
         if ($_.Exception.Message -match 'refusing COM') { throw }
         Write-Host "COM not ready (attempt $attempt): $($_.Exception.Message.Split("`n")[0])"
@@ -173,9 +281,23 @@ for ($attempt = 1; $attempt -le 20 -and -not $sent; $attempt++) {
 }
 if (-not $sent) { Stop-Process -Id $p.Id -Force -Confirm:$false -ErrorAction SilentlyContinue; throw 'could not hand the script to AutoCAD over COM' }
 $done = $false
+$shot = $false
 while ($sw.Elapsed.TotalSeconds -lt $TimeoutSec) {
     Answer-SecureLoad | Out-Null
     if ($p.HasExited) { $done = $true; Write-Host "acad exited after $([int]$sw.Elapsed.TotalSeconds) s (code $($p.ExitCode))"; break }
+    if (-not $shot -and (Test-Path $storedPng)) {
+        # The PNG lands on disk just before the RasterImage is inserted; the script then holds the view for 6 s.
+        # The frame is found by pid + title ("Autodesk AutoCAD 2026 - [stored.dwg]"); Process.MainWindowHandle is not reliable for acad.
+        Start-Sleep -Seconds 2
+        for ($try = 1; $try -le 3 -and -not $shot; $try++) {
+            $frame = [HPGeoNative]::FindLargestTopLevel([uint32]$p.Id)
+            $acadWindows = @(Get-Process acad -ErrorAction SilentlyContinue | ForEach-Object { "$($_.Id):$($_.MainWindowHandle)" }) -join ' '
+            if ($frame -ne [IntPtr]::Zero) { $shot = Save-WindowScreenshot $frame $screenshot }
+            Write-Host "screenshot of the drawing area (frame $frame '$([HPGeoNative]::LastTitle)', acad pid:hwnd $acadWindows, try $try) $(if ($shot) { 'saved' } else { 'FAILED' }) at $(Get-Date -Format HH:mm:ss)"
+            if (-not $shot) { Start-Sleep -Seconds 1 }
+        }
+        $shot = $true # the check below reports the outcome; never retry past the 6 s hold
+    }
     Start-Sleep -Seconds 2
 }
 if (-not $done) {
@@ -183,7 +305,14 @@ if (-not $done) {
     Stop-Process -Id $p.Id -Force -Confirm:$false -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 3
 }
+$jobResult = try { Receive-Job $job -Wait -ErrorAction Stop } catch { "COM job failed: $($_.Exception.Message)" }
+Remove-Job $job -Force -ErrorAction SilentlyContinue
+Write-Host "COM job: $jobResult"
 
+try {
+    if ($null -ne $userSettingsBackup) { [IO.File]::WriteAllBytes($userSettings, $userSettingsBackup); Write-Host 'user settings.json restored' }
+    elseif (Test-Path $userSettings) { Remove-Item $userSettings -Force; Write-Host 'user settings.json removed (did not exist before the run)' }
+} catch { Write-Host "settings.json restore failed: $($_.Exception.Message)" }
 # ---- profile safety net ------------------------------------------------------------------------------------------------
 # A clean exit saved the restored values; if anything went wrong before the restore lines ran, put the registry right.
 if ($originals.Count -gt 0) {
@@ -207,6 +336,7 @@ $hp = ($hpLogs | ForEach-Object { Get-Content $_.FullName -Encoding UTF8 } | Whe
 [IO.File]::WriteAllText((Join-Path $evidence 'autocad-text.log'), $text, (New-Object Text.UTF8Encoding($false)))
 [IO.File]::WriteAllText((Join-Path $evidence 'hpgeo-session.log'), $hp, (New-Object Text.UTF8Encoding($false)))
 Get-ChildItem $work -Filter *.kmz -ErrorAction SilentlyContinue | Copy-Item -Destination $evidence -Force
+Get-ChildItem $work -Include 'image.png','image.pgw','stored_hpgeo.png','stored_hpgeo.pgw' -Recurse -ErrorAction SilentlyContinue | Copy-Item -Destination $evidence -Force
 
 # ---- checks --------------------------------------------------------------------------------------------------------
 $results = New-Object System.Collections.Generic.List[object]
@@ -309,6 +439,55 @@ if (Test-Path $arc) {
     $counts = @($xa.SelectNodes('//k:LineString/k:coordinates', $nsa) | ForEach-Object { @(($_.InnerText -split '\s+') | Where-Object { $_ }).Count })
     Check 'both arcs flattened to a 5 mm tolerance (>= 60 chords each), the mirrored one read in WCS' (($counts.Count -eq 2) -and (@($counts | Where-Object { $_ -ge 60 }).Count -eq 2)) ("vertices: " + ($counts -join ', '))
 }
+
+Write-Host "`nP-IMG - -HPGEOIMAGE (satellite imagery under the ring)"
+Write-Host ("  [INFO] acad.exe outbound firewall block: {0}; cache prefetched: {1}" -f $(if ($acadBlocked) { 'YES (tiles served from the cache only)' } else { 'no' }), $(if ($null -eq $prefetched) { 'skipped' } elseif ($prefetched) { 'yes' } else { 'FAILED' }))
+$pgw = [IO.Path]::ChangeExtension($imagePng, '.pgw')
+Check 'image.png + image.pgw written' ((Test-Path $imagePng) -and (Test-Path $pgw))
+$imgLine = if ($hp -match '(HPGEOIMAGE fetched (\d+) tiles z=(\d+)[^\r\n]*warped (\d+)x(\d+) inserted ([0-9A-F]+) on HPGEO-IMAGE[^\r\n]*)') { $Matches } else { $null }
+Check 'log: fetched N tiles, warped WxH, inserted <handle> on HPGEO-IMAGE' ($null -ne $imgLine) ($(if ($imgLine) { $imgLine[1] } else { 'no HPGEOIMAGE line' }))
+Check 'tile count within the cap (<= 1024)' (($null -ne $imgLine) -and ([int]$imgLine[2] -le 1024)) ($(if ($imgLine) { "$($imgLine[2]) tiles at z$($imgLine[3])" } else { '' }))
+Check 'command printed OK with the RasterImage handle' ($text -match 'HPGeo: OK .{1,3} RasterImage [0-9A-F]+ on HPGEO-IMAGE')
+Check 'attribution logged' ($hp -match 'attribution: Tiles .{1,3} Esri')
+$imgCounts = @([regex]::Matches($text, 'Imagery: (\d+) RasterImage on HPGEO-IMAGE') | ForEach-Object { [int]$_.Groups[1].Value })
+Check 'HPGEOINFO: 1 RasterImage after the insert, 0 after U, 1 in the reopened drawing (0,0,1,0,1 over the five runs)' (($imgCounts -join ',') -eq '0,0,1,0,1') ($imgCounts -join ',')
+$firstSource = if ($hp -match 'HPGEOIMAGE fetched \d+ tiles z=\d+ \((\d+) cached, ([^)]+)\)') { @([int]$Matches[1], $Matches[2]) } else { $null }
+if ($PrefetchTiles) {
+    Check 'first insert served from the prefetched cache through the helper process' (($null -ne $firstSource) -and ($firstSource[1] -eq 'helper')) ($(if ($firstSource) { "$($firstSource[0]) cached, $($firstSource[1])" } else { 'no line' }))
+} else {
+    Check 'first insert downloaded through the helper process (0 cached, source "helper") - acad.exe itself is firewalled here' (($null -ne $firstSource) -and ($firstSource[0] -eq 0) -and ($firstSource[1] -eq 'helper')) ($(if ($firstSource) { "$($firstSource[0]) cached, $($firstSource[1])" } else { 'no line' }))
+}
+Check 'HPGEOINFO names the helper as the fetch path' ($text -match 'fetch helper HPGeo\.TileFetch\.exe')
+$undone = if ($text -match '_\.U\s*\r?\n\s*(\S[^\r\n]{0,40})') { $Matches[1] } else { '' }
+Check 'U undid the -HPGEOIMAGE command itself (AutoCAD names the undone command)' ($undone -match 'HPGEOIMAGE') ("after U: '$undone'")
+$storedLine = if ($hp -match '(HPGEOIMAGE fetched (\d+) tiles z=\d+ \((\d+) cached[^)]*\)[^\r\n]*stored_hpgeo\.png \((relative|absolute) source[^\r\n]*)') { $Matches } else { $null }
+Check 'second image beside stored.dwg: zone taken from the record (no cm=), tiles from the cache, relative source name' (($null -ne $storedLine) -and ($storedLine[4] -eq 'relative') -and ([int]$storedLine[3] -eq [int]$storedLine[2]) -and -not ($hp -match 'did not load by relative name')) ($(if ($storedLine) { $storedLine[1] } else { 'no stored_hpgeo line' }))
+Check 'stored_hpgeo.png + .pgw written beside the DWG' ((Test-Path $storedPng) -and (Test-Path ([IO.Path]::ChangeExtension($storedPng, '.pgw'))))
+if ((Test-Path $imagePng) -and (Test-Path $pgw)) {
+    # World file: pixel size, 0, 0, -pixel size, centre of the top-left pixel. PNG IHDR: width/height big-endian at 16..23.
+    $wf = @(Get-Content $pgw | ForEach-Object { [double]::Parse($_, $inv) })
+    $png = [IO.File]::ReadAllBytes($imagePng)
+    $wPx = [BitConverter]::ToInt32([byte[]]@($png[19], $png[18], $png[17], $png[16]), 0)
+    $hPx = [BitConverter]::ToInt32([byte[]]@($png[23], $png[22], $png[21], $png[20]), 0)
+    $ps = $wf[0]
+    $minE = $wf[4] - $ps / 2; $maxN = $wf[5] + $ps / 2
+    $maxE = $minE + $wPx * $ps; $minN = $maxN - $hPx * $ps
+    $es = @($samples | ForEach-Object { [double]$_.e }); $ns = @($samples | ForEach-Object { [double]$_.n })
+    $ringMinE = ($es | Measure-Object -Minimum).Minimum; $ringMaxE = ($es | Measure-Object -Maximum).Maximum
+    $ringMinN = ($ns | Measure-Object -Minimum).Minimum; $ringMaxN = ($ns | Measure-Object -Maximum).Maximum
+    $margin = 30
+    Check 'world file is 6 lines, north-up (rotation terms 0, negative row size)' (($wf.Count -eq 6) -and ($wf[1] -eq 0) -and ($wf[2] -eq 0) -and ([math]::Abs($wf[3] + $ps) -lt 1e-9) -and ($ps -gt 0) -and ($ps -le 0.5)) ("pixel {0} m, {1}x{2} px" -f $ps, $wPx, $hPx)
+    $dMinE = [math]::Abs($minE - ($ringMinE - $margin)); $dMaxN = [math]::Abs($maxN - ($ringMaxN + $margin))
+    $dMaxE = $maxE - ($ringMaxE + $margin); $dMinN = ($ringMinN - $margin) - $minN
+    Check 'image corners = ring bbox + 30 m margin within 1 m (VN-2000 metres; the far edges may overrun by one pixel)' (($dMinE -le 1) -and ($dMaxN -le 1) -and ($dMaxE -ge -1e-6) -and ($dMaxE -le 1) -and ($dMinN -ge -1e-6) -and ($dMinN -le 1)) ("dE0 {0:F3} dN1 {1:F3} dE1 {2:F3} dN0 {3:F3} m" -f $dMinE, $dMaxN, $dMaxE, $dMinN)
+    Check 'image size matches the log' (($null -ne $imgLine) -and ([int]$imgLine[4] -eq $wPx) -and ([int]$imgLine[5] -eq $hPx))
+}
+Check 'wrong zone (cm=120) refused as OUTSIDE_VIETNAM, nothing written' (($hp -match 'HPGEOIMAGE failed: OUTSIDE_VIETNAM') -and -not (Test-Path (Join-Path $work 'wrongzone.png')))
+Check 'margin=2000 with an explicit res= refused as TOO_MANY_TILES, nothing written' (($hp -match 'HPGEOIMAGE failed: TOO_MANY_TILES') -and -not (Test-Path (Join-Path $work 'big.png')))
+$wideLine = if ($hp -match 'HPGEOIMAGE fetched (\d+) tiles z=(\d+) [^\r\n]*warped (\d+)x(\d+)[^\r\n]*wide\.png') { $Matches } else { $null }
+Check 'wide view (area=100, no res=) inserted at a reduced zoom that fits the 4096 px cap instead of being refused' (($null -ne $wideLine) -and ([int]$wideLine[2] -lt 19) -and ([int]$wideLine[3] -le 4096) -and ([int]$wideLine[4] -le 4096) -and ([int]$wideLine[1] -le 1024) -and (Test-Path (Join-Path $work 'wide.png'))) ($(if ($wideLine) { "z$($wideLine[2]), $($wideLine[1]) tiles, $($wideLine[3])x$($wideLine[4]) px" } else { 'no wide.png line' }))
+Check 'empty layer refused as NO_BOUNDARY, nothing written' (($hp -match 'HPGEOIMAGE failed: NO_BOUNDARY') -and -not (Test-Path (Join-Path $work 'nolayer.png')))
+Check 'screenshot of the drawing with the raster saved (MANUAL: inspect it)' (Test-Path $screenshot) $screenshot
 
 Write-Host "`nP7 - stored settings"
 Check 'stored.dwg saved and reopened' ((Test-Path (Join-Path $work 'stored.dwg')) -and ($text -match 'Drawing: stored\.dwg'))

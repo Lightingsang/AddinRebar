@@ -2,6 +2,7 @@ using HPGeo.AutoCad.UI;
 using HPGeo.Core.Conversion;
 using HPGeo.Core.Kml;
 using HPGeo.Core.Model;
+using HPGeo.Core.Settings;
 using HPGeo.Core.Units;
 using Xunit;
 
@@ -28,6 +29,7 @@ public sealed class GeoExportViewModelTests
 
         public string? AskSavePath(string? initialDirectory, string suggestedFileName) => SavePath;
         public void OpenPath(string path) => Opened.Add(path);
+        public string OpenInGoogleEarth(string kmzPath) { Opened.Add(kmzPath); return "đã mở trong Google Earth (fake)"; }
         public void OpenUrl(string url) => Urls.Add(url);
     }
 
@@ -155,12 +157,14 @@ public sealed class GeoExportViewModelTests
             Assert.Equal(Path.GetFullPath(path), vm.LastExportPath);
             Assert.True(File.Exists(path));
             Assert.StartsWith("Đã ghi", vm.Status);
+            Assert.EndsWith("đã mở trong Google Earth (fake)", vm.Status);
+            Assert.Equal(new[] { Path.GetFullPath(path) }, shell.Opened);
             var kml = KmzWriter.ReadKml(path);
             Assert.Contains("<name>Site plan</name>", kml);
             Assert.DoesNotContain("<Polygon>", kml);
 
             vm.OpenGoogleEarthCommand.Execute(null);
-            Assert.Equal(new[] { Path.GetFullPath(path) }, shell.Opened);
+            Assert.Equal(new[] { Path.GetFullPath(path), Path.GetFullPath(path) }, shell.Opened);
             vm.OpenGoogleMapsCommand.Execute(null);
             Assert.StartsWith("https://www.google.com/maps?q=11.135", shell.Urls.Single()); // centroid of the three samples
         }
@@ -200,5 +204,54 @@ public sealed class GeoExportViewModelTests
         vm.CloseRequested += () => closed++;
         vm.CloseCommand.Execute(null);
         Assert.Equal(1, closed);
+    }
+
+    [Fact]
+    public void Insert_image_hands_back_the_dialogs_zone_unit_and_the_selections_extent_then_closes()
+    {
+        var ring = new BoundaryPolyline("Boundary 1", new[] { new PlanePoint(600102.308, 1231385.196), new PlanePoint(600185.982, 1231422.961), new PlanePoint(600138.509, 1231379.42) }, true, "267");
+        var vm = new GeoExportViewModel(Samples, new[] { ring }, "Site plan", null, DrawingUnit.Meters, new FakeShell(),
+            new GeoSettings { CentralMeridianDeg = 105.75, ImageryResolutionMPerPx = 0.6, ImageryAreaRatio = 4 });
+        Assert.Equal("0.6", vm.ImageResolutionText); // prefilled from the stored record
+        Assert.Equal("4", vm.ImageAreaRatioText);
+        var closed = 0;
+        vm.CloseRequested += () => closed++;
+
+        vm.ImageAreaRatioText = "10";
+        vm.InsertImageCommand.Execute(null);
+        Assert.Equal(1, closed);
+        var choice = vm.ImageChoice!;
+        Assert.Equal((105.75, 0.9999, DrawingUnit.Meters, 1.0, 0.6, 10.0, 3, 1), (choice.Tm.CentralMeridianDeg, choice.Tm.ScaleFactor, choice.Unit, choice.MetersPerUnit, choice.ResolutionMPerPx, choice.AreaRatio, choice.PointCount, choice.BoundaryCount));
+        // The extent covers the points AND the ring's vertices (a survey of points alone still gets its imagery).
+        Assert.Equal((600102.308, 1231379.42, 600185.982, 1231608.428), (choice.ExtentDrawingUnits.MinE, choice.ExtentDrawingUnits.MinN, choice.ExtentDrawingUnits.MaxE, choice.ExtentDrawingUnits.MaxN));
+        // The margin makes the image ten times the extent's area: (W + 2m)(H + 2m) = 10·W·H.
+        var w = 600185.982 - 600102.308; var h = 1231608.428 - 1231379.42; var m = choice.MarginM;
+        Assert.Equal(10.0, (w + 2 * m) * (h + 2 * m) / (w * h), 6);
+        var settings = vm.ToSettings();
+        Assert.Equal(("esri", 0.6, 10.0, m), (settings.ImageryProvider, settings.ImageryResolutionMPerPx, settings.ImageryAreaRatio, settings.ImageryMarginM));
+    }
+
+    [Fact]
+    public void Insert_image_refuses_a_bad_resolution_or_an_invalid_zone_without_closing()
+    {
+        var vm = Create();
+        var closed = 0;
+        vm.CloseRequested += () => closed++;
+        vm.ImageResolutionText = "0";
+        vm.InsertImageCommand.Execute(null);
+        Assert.Null(vm.ImageChoice);
+        Assert.Contains("độ phân giải", vm.Status);
+        vm.ImageResolutionText = "0.3";
+        vm.ImageAreaRatioText = "0.5"; // below 1 would cut into the plot
+        vm.InsertImageCommand.Execute(null);
+        Assert.Null(vm.ImageChoice);
+        vm.ImageAreaRatioText = "10";
+
+        vm.ImageResolutionText = "0.3";
+        vm.Crs.CentralMeridianText = "abc"; // no zone → the conversion fails → no imagery either
+        vm.InsertImageCommand.Execute(null);
+        Assert.Null(vm.ImageChoice);
+        Assert.Contains("hệ toạ độ", vm.Status);
+        Assert.Equal(0, closed);
     }
 }

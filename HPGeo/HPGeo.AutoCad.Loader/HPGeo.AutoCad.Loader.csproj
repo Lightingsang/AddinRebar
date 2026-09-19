@@ -43,6 +43,9 @@
             <_AppFiles Include="$(AppOutDir)**\*"/>
             <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
         </ItemGroup>
+        <!-- Probe the two DLLs a running AutoCAD holds before anything is removed: a locked file fails this Delete (MSB3061)
+             and the deployed bundle stays whole, instead of RemoveDir stripping every unlocked file around the locked ones. -->
+        <Delete Files="$(BundleDir)Contents\HPGeo.AutoCad.Loader.dll;$(BundleDir)Contents\App\HPGeo.AutoCad.dll" ContinueOnError="false"/>
         <RemoveDir Directories="$(BundleDir)Contents"/>
         <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>

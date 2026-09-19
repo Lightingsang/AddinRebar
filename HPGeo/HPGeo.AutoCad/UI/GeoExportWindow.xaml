@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:HPGeo.AutoCad.UI"
         Title="HPGeo · VN-2000 → KMZ"
-        Width="1040" Height="720" MinWidth="820" MinHeight="580"
+        Width="1040" Height="760" MinWidth="820" MinHeight="620"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="{DynamicResource Brush.Background}" Foreground="{DynamicResource Brush.Text}"
         FontFamily="Segoe UI" FontSize="12" UseLayoutRounding="True">
@@ -93,12 +93,29 @@
         </StackPanel>
 
         <!-- Buttons -->
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+        <!-- Bottom: the satellite-imagery controls on the left, the export buttons on the right — two rows, so nothing clips at 1040 px. -->
+        <Grid Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,8">
+                <TextBlock Text="Ảnh vệ tinh:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Width="48" Text="{Binding ImageResolutionText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" ToolTip="Độ phân giải mục tiêu (m/px) — nguồn Esri chỉ tới ~0.3 m/px"/>
+                <TextBlock Text="m/px · vùng ×" VerticalAlignment="Center" Margin="4,0,4,0"/>
+                <TextBox Width="36" Text="{Binding ImageAreaRatioText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" ToolTip="Vùng ảnh = bấy nhiêu lần diện tích khung ranh (10 = lô đất và xung quanh; 1 = vừa khít). Vùng quá rộng thì tự hạ độ phân giải để nằm trong giới hạn 4096 px"/>
+                <TextBlock Text="diện tích ranh" VerticalAlignment="Center" Margin="4,0,12,0"/>
+                <Button Content="Chèn ảnh vệ tinh vào CAD" Command="{Binding InsertImageCommand}" IsEnabled="{Binding CanExport}" Margin="0"
+                        ToolTip="HPGEOIMAGE: tải ảnh Esri World Imagery phủ toàn bộ điểm/ranh đã chọn và vùng xung quanh (mặc định ×10 diện tích), nắn lên lưới VN-2000 theo KTT ở trên và chèn làm RasterImage đúng toạ độ vào bản vẽ (layer HPGEO-IMAGE, một lần U gỡ hết). Hộp thoại đóng, tiến độ hiện ở dòng lệnh, Esc để huỷ."/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Xem KML" Command="{Binding ToggleKmlPreviewCommand}"/>
-            <Button Content="Xuất KMZ…" Style="{StaticResource Button.Primary}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"/>
+            <Button Content="Xuất KMZ &amp; mở Google Earth" Style="{StaticResource Button.Primary}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"
+                    ToolTip="Ghi file KMZ rồi mở ngay trong Google Earth Pro cài trên máy (không có thì theo liên kết .kmz của Windows)"/>
             <Button Content="Mở Google Earth" Command="{Binding OpenGoogleEarthCommand}" IsEnabled="{Binding CanExport}"/>
             <Button Content="Google Maps" Command="{Binding OpenGoogleMapsCommand}" IsEnabled="{Binding CanExport}"/>
             <Button Content="Đóng" Command="{Binding CloseCommand}" Margin="0"/>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

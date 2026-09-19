@@ -35,3 +35,12 @@ public sealed record UnitItem(DrawingUnit Unit, bool FromDrawing)
 
 /// <summary>One row of the preview table.</summary>
 public sealed record PreviewRow(string Label, string Easting, string Northing, string Lat, string Lon, string Note);
+
+/// <summary>
+/// What "Chèn ảnh vệ tinh vào CAD" hands back: the zone and unit the dialog shows, the resolution and the area
+/// ratio typed beside the button (the margin in metres derived from it), and the extent (drawing units) of
+/// everything the dialog holds — points and boundaries alike, so a survey of points alone gets its imagery too.
+/// The command runs the pipeline after the dialog closes.
+/// </summary>
+public sealed record GeoImageChoice(HPGeo.Core.Projection.TmParameters Tm, DrawingUnit Unit, double MetersPerUnit, double ResolutionMPerPx, double AreaRatio, double MarginM,
+    HPGeo.Core.Imagery.GridBoundingBox ExtentDrawingUnits, int PointCount, int BoundaryCount);

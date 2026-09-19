@@ -33,12 +33,14 @@ internal sealed record DrawingContext(string DocumentName, string? DirectoryPath
         string? dir = null;
         try
         {
-            if (!string.IsNullOrWhiteSpace(fileName) && Path.IsPathRooted(fileName) && File.Exists(fileName))
+            // An unsaved drawing's Database.Filename is the template it was made from (…\Template\acad.dwt), which
+            // exists — IsNamedDrawing is what says whether the drawing has a folder of its own.
+            if (doc.IsNamedDrawing && !string.IsNullOrWhiteSpace(fileName) && Path.IsPathRooted(fileName) && File.Exists(fileName))
                 dir = Path.GetDirectoryName(fileName);
         }
         catch (System.Exception)
         {
-            dir = null; // an unsaved drawing has a name like "Drawing1.dwg" that is not a path
+            dir = null; // a name like "Drawing1.dwg" that is not a path
         }
         var name = string.IsNullOrWhiteSpace(doc.Name) ? "Drawing" : Path.GetFileName(doc.Name);
         return new DrawingContext(name, dir, insUnits, DrawingUnitFactor.FromInsUnits(insUnits));

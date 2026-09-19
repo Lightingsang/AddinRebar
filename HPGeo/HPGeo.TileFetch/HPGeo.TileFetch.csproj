@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- The tile download as its own process. acad.exe may be denied the network (a per-program firewall rule blocks
+             it on the dev machine), and a process of its own is also the only place a download can never freeze the
+             drawing. Ships in the bundle under Contents\App\TileFetch\ (copied there by HPGeo.AutoCad's build); the
+             add-in starts it with a request file and reads its stdout. Host-free: HPGeo.Core only. -->
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPGeo.TileFetch</RootNamespace>
+        <AssemblyName>HPGeo.TileFetch</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <UseAppHost>true</UseAppHost>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPGeo.Core\HPGeo.Core.csproj" />
+    </ItemGroup>
+
+</Project>

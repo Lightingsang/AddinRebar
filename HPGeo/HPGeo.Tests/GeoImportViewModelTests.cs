@@ -18,6 +18,7 @@ public sealed class GeoImportViewModelTests
         public string? AskOpenPath() => OpenPath;
         public string? AskSavePath(string? initialDirectory, string suggestedFileName) => null;
         void IGeoExportShell.OpenPath(string path) { }
+        string IGeoExportShell.OpenInGoogleEarth(string kmzPath) => "";
         public void OpenUrl(string url) { }
     }
 

@@ -1,0 +1,1 @@
+- [HP MCP host review pitfalls](hp-mcp-host-review-pitfalls.md) — Debug is the deployed bundle config; SECURELOAD auto-answer global; civil-only marker coverage; harness env cleanup

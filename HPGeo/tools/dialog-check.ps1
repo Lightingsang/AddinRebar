@@ -1,6 +1,7 @@
 ﻿<#
 .SYNOPSIS
-  Opens the HPGEO dialog in AutoCAD 2026 on the 13 sample points, screenshots it (both COLORTHEMEs) and closes it.
+  Opens the HPGEO dialog in AutoCAD 2026 on the 13 sample points, screenshots it (both COLORTHEMEs), presses its
+  "Chen anh ve tinh vao CAD" button on the second run (UIA) so a RasterImage is inserted, then HPGEOIMPORT.
 
 .DESCRIPTION
   Same driving pattern as acceptance.ps1 (own acad.exe, settle, script over COM, SECURELOAD answered, QUIT).
@@ -51,6 +52,28 @@ public static class HPGeoWin {
 '@
 if (-not ('HPGeoWin' -as [type])) { Add-Type -TypeDefinition $sig }
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName UIAutomationClient
+Add-Type -AssemblyName UIAutomationTypes
+$imageButtonName = 'Chèn ảnh vệ tinh vào CAD'
+
+# Presses a WPF button of our own dialog through UI Automation (Invoke pattern); the dialog is ours, found by pid + title.
+function Invoke-DialogButton([IntPtr]$hwnd, [string]$name) {
+    try {
+        $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
+        $condition = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, $name)
+        $button = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condition)
+        if ($null -eq $button) { Write-Host "button '$name' not found in the dialog"; return $false }
+        if (-not $button.Current.IsEnabled) { Write-Host "button '$name' is disabled"; return $false }
+        $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+        return $true
+    } catch { Write-Host "UIA invoke failed: $($_.Exception.Message)"; return $false }
+}
+
+# The insert downloads its 15 tiles through the add-in's helper process (acad.exe itself is denied the network on this
+# machine by a firewall rule); HPGeo's own cache is emptied first so the run proves the download, not a warm cache.
+$tileCache = Join-Path $env:LOCALAPPDATA 'HPGeo\tiles'
+if (Test-Path $tileCache) { Remove-Item $tileCache -Recurse -Force }
+Write-Host "tile cache emptied ($tileCache) - the imagery button must download through HPGeo.TileFetch.exe"
 
 function Answer-SecureLoad {
     $dlg = [HPGeoWin]::FindWindow('#32770', 'Security - Unsigned Executable File')
@@ -99,6 +122,9 @@ return $lines
 }
 $scr = Join-Path $work 'dialog-check.scr'
 
+# The add-in's own settings.json is the user's: every run writes zone/imagery values into it, so it is put back afterwards.
+$userSettings = Join-Path $env:APPDATA 'HPGeo\settings.json'
+$userSettingsBackup = if (Test-Path $userSettings) { [IO.File]::ReadAllBytes($userSettings) } else { $null }
 $logMark = Get-Date
 $p = Start-Process -FilePath $acad -ArgumentList @('/nologo', '/product', 'ACAD', '/language', '"en-US"') -PassThru
 Write-Host "acad pid $($p.Id) started $(Get-Date -Format HH:mm:ss)"
@@ -142,7 +168,15 @@ while ($sw.Elapsed.TotalSeconds -lt $TimeoutSec -and -not $p.HasExited) {
         $size = Save-Window $h $file
         $shots += $file
         Write-Host "dialog captured -> $file ($size) at $(Get-Date -Format HH:mm:ss)"
-        [HPGeoWin]::PostMessage($h, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null   # WM_CLOSE
+        if ($shots.Count -eq 2) {
+            # The light-theme KMZ dialog is closed by its own "Chen anh ve tinh vao CAD" button (UIA Invoke): the HPGEO
+            # command then fetches (from the cache the prefetch filled), warps and inserts the RasterImage - the log proves it.
+            $pressed = Invoke-DialogButton $h $imageButtonName
+            Write-Host "imagery button pressed via UIA: $pressed at $(Get-Date -Format HH:mm:ss)"
+            if (-not $pressed) { [HPGeoWin]::PostMessage($h, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null }
+        } else {
+            [HPGeoWin]::PostMessage($h, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null   # WM_CLOSE
+        }
         Start-Sleep -Seconds 2
     }
     Start-Sleep -Milliseconds 500
@@ -152,6 +186,10 @@ if (-not $done) { Write-Host 'acad still running - killing'; Stop-Process -Id $p
 $jobResult = try { Receive-Job $job -Wait -ErrorAction Stop } catch { "job failed: $($_.Exception.Message)" }
 Remove-Job $job -Force -ErrorAction SilentlyContinue
 Write-Host "COM job: $jobResult"
+try {
+    if ($null -ne $userSettingsBackup) { [IO.File]::WriteAllBytes($userSettings, $userSettingsBackup); Write-Host 'user settings.json restored' }
+    elseif (Test-Path $userSettings) { Remove-Item $userSettings -Force; Write-Host 'user settings.json removed (did not exist before the run)' }
+} catch { Write-Host "settings.json restore failed: $($_.Exception.Message)" }
 # Registry safety net for the profile settings (a clean exit already saved the restored values).
 try {
     $fixed = 'HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.1\ACAD-9101:409\FixedProfile\General Configuration'
@@ -173,6 +211,9 @@ $errors | ForEach-Object { Write-Host "  $_" }
 $webviewUp = ([regex]::Matches($hp, 'WebView2 [\d.]+ initialised')).Count
 $tileUp = ([regex]::Matches($hp, 'map tile loaded')).Count
 Write-Host ("WebView2 initialised: {0} x, map tile loaded: {1} x (spike gate: >= 1 each)" -f $webviewUp, $tileUp)
+$imageLine = if ($hp -match '(HPGEOIMAGE fetched (\d+) tiles z=\d+ \((\d+) cached, ([^)]+)\)[^\r\n]*inserted ([0-9A-F]+) on HPGEO-IMAGE -> ([^\r\n]*?\.png)[^\r\n]*)') { $Matches } else { $null }
+$imageOk = ($null -ne $imageLine) -and ($imageLine[6] -match '\\HPGeo\\images\\Drawing1_hpgeo_esri-\d{8}-\d{6}\.png$') -and ($imageLine[4] -eq 'helper') -and ([int]$imageLine[3] -eq 0)
+Write-Host ("imagery button -> RasterImage inserted from the KMZ dialog: {0}" -f $(if ($imageOk) { "yes ($($imageLine[2]) tiles downloaded through the helper, handle $($imageLine[5]), $($imageLine[6]) - unsaved drawing, so under %LocalAppData%\HPGeo\images)" } elseif ($imageLine) { "inserted, but source '$($imageLine[4])' / $($imageLine[3]) cached / PNG at $($imageLine[6])" } else { 'NO - no HPGEOIMAGE line in the log' }))
 $evidenceLog = Join-Path $evidence 'dialog-check-session.log'
 [IO.File]::WriteAllText($evidenceLog, $hp, (New-Object Text.UTF8Encoding($false)))
-if ($shots.Count -ne $expected.Count -or -not $done -or $errors.Count -gt 0 -or $webviewUp -lt 1 -or $tileUp -lt 1) { exit 1 }
+if ($shots.Count -ne $expected.Count -or -not $done -or $errors.Count -gt 0 -or $webviewUp -lt 1 -or $tileUp -lt 1 -or -not $imageOk) { exit 1 }

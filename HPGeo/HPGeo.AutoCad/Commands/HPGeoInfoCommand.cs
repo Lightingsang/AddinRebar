@@ -3,7 +3,9 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using HPGeo.AutoCad.Cad;
+using HPGeo.AutoCad.Imagery;
 using HPGeo.Core.Catalog;
+using HPGeo.Core.Imagery;
 using HPGeo.Core.Model;
 using HPGeo.Core.Projection;
 
@@ -44,6 +46,9 @@ internal static class HPGeoInfoCommand
             ed.WriteMessage($"\n  Model space: {read.Points.Count} POINT, {read.Boundaries.Count} LWPOLYLINE ({closed} closed)");
             if (read.SkippedByType.Count > 0)
                 ed.WriteMessage($"\n  Other entities (ignored): {string.Join(", ", read.SkippedByType.Select(kv => $"{kv.Key} ×{kv.Value}"))}");
+            var images = RasterInserter.CountImages(tr, doc.Database);
+            var providerId = stored?.ImageryProvider ?? userSettings?.ImageryProvider ?? ImageryProviders.Default.Id;
+            ed.WriteMessage($"\n  Imagery: {images} RasterImage on {RasterInserter.LayerName}, provider {providerId} ({ProviderName(providerId)}), res {(stored?.ImageryResolutionMPerPx ?? userSettings?.ImageryResolutionMPerPx)?.ToString("0.###", ci) ?? "-"} m/px, margin {(stored?.ImageryMarginM ?? userSettings?.ImageryMarginM)?.ToString("0.#", ci) ?? "-"} m, tile cache {CacheSize()} ({TileCache.DefaultRoot}), fetch {(HelperTileFetcher.DefaultExePath() is null ? "in-process" : "helper HPGeo.TileFetch.exe")}, IMAGEQUALITY {RasterInserter.DisplayQualityLabel(tr, doc.Database)}");
 
             if (read.Points.Count > 0 && ctx.MetersPerUnit is { } factor)
             {
@@ -63,6 +68,26 @@ internal static class HPGeoInfoCommand
             HPGeoLog.Error("HPGEOINFO failed", exception);
         }
     }
+
+    private static string ProviderName(string id)
+    {
+        try { return ImageryProviders.Resolve(id).DisplayName; }
+        catch (ArgumentException) { return "unknown"; }
+    }
+
+    /// <summary>The cache walk must never take the rest of the printout down (a locked file, a removed drive).</summary>
+    private static string CacheSize()
+    {
+        try { return FormatBytes(TileCache.SizeBytes()); }
+        catch (System.Exception exception) { return $"unreadable ({exception.GetType().Name})"; }
+    }
+
+    private static string FormatBytes(long bytes) => bytes switch
+    {
+        < 1024 => $"{bytes} B",
+        < 1024 * 1024 => $"{bytes / 1024.0:F1} KB",
+        _ => $"{bytes / (1024.0 * 1024.0):F1} MB",
+    };
 
     private static string SystemVariable(string name)
     {

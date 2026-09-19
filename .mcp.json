@@ -14,6 +14,27 @@
       "env": {
         "HPREBAR_MCP_Bridge__RevitVersion": "2026"
       }
+    },
+    "hprebar-autocad": {
+      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPAutoCad\\output\\HPAutoCad.Mcp.Server\\HPAutoCad.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPAUTOCAD_MCP_Bridge__HostVersion": "2026"
+      }
+    },
+    "hprebar-navis": {
+      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPNavis\\output\\HPNavis.Mcp.Server\\HPNavis.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPNAVIS_MCP_Bridge__HostVersion": "2026"
+      }
+    },
+    "hprebar-etabs": {
+      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPEtabs\\output\\HPEtabs.Mcp.Server\\HPEtabs.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPETABS_MCP_Bridge__HostVersion": "22"
+      }
     }
   }
 }

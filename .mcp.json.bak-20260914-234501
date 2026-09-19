@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "notebooklm": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "notebooklm-py[mcp]",
+        "notebooklm-mcp"
+      ]
+    },
+    "hprebar-revit": {
+      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPRebar\\output\\HPRebar.Mcp.Server\\HPRebar.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPREBAR_MCP_Bridge__RevitVersion": "2026"
+      }
+    }
+  }
+}

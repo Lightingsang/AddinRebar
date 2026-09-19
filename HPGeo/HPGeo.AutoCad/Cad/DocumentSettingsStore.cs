@@ -67,6 +67,10 @@ internal static class DocumentSettingsStore
             PointColor = Str(values, "pcolor") ?? KmlColor.DefaultPoint,
             LineColor = Str(values, "lcolor") ?? KmlColor.DefaultLine,
             SavedBy = Str(values, "savedBy"),
+            ImageryProvider = Str(values, "imgProvider"),
+            ImageryResolutionMPerPx = Real(values, "imgRes"),
+            ImageryMarginM = Real(values, "imgMargin"),
+            ImageryAreaRatio = Real(values, "imgArea"),
         };
     }
 
@@ -90,6 +94,14 @@ internal static class DocumentSettingsStore
         AddReal(items, "k0", settings.ScaleFactor);
         AddReal(items, "fe", settings.FalseEasting);
         AddReal(items, "fn", settings.FalseNorthing);
+        if (settings.ImageryProvider is { Length: > 0 } provider)
+        {
+            items.Add(Key("imgProvider"));
+            items.Add(Text(provider));
+        }
+        AddReal(items, "imgRes", settings.ImageryResolutionMPerPx);
+        AddReal(items, "imgMargin", settings.ImageryMarginM);
+        AddReal(items, "imgArea", settings.ImageryAreaRatio);
         var data = new ResultBuffer(items.ToArray());
 
         if (nod.Contains(GeoSettings.Key) && tr.GetObject(nod.GetAt(GeoSettings.Key), OpenMode.ForWrite) is Xrecord existing)

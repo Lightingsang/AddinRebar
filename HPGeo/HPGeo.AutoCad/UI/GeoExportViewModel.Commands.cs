@@ -61,6 +61,10 @@ public sealed partial class GeoExportViewModel
             Status = $"Đã ghi {Path.GetFileName(outcome.WrittenPath)}: {kml.MarkerCount} điểm, {kml.BoundaryCount} ranh" +
                      (kml.BoundaryFromPoints ? " (ranh dựng từ thứ tự điểm)" : "");
             HPGeoLog.Information($"HPGEO wrote {outcome.WrittenPath}: {kml.MarkerCount} markers, {kml.BoundaryCount} boundaries, KTT {Crs.CurrentTm.CentralMeridianDeg.ToString(CultureInfo.InvariantCulture)}");
+            // The point of the export is to see the plot in Google Earth: the button opens it there at once, and says what happened.
+            var note = _shell.OpenInGoogleEarth(outcome.WrittenPath!);
+            Status += " · " + note;
+            HPGeoLog.Information($"HPGEO open after export: {note}");
         }
         catch (Exception exception)
         {
@@ -69,13 +73,13 @@ public sealed partial class GeoExportViewModel
         }
     }
 
-    /// <summary>Opens the last KMZ in Google Earth (file association); before an export, the centre as a web URL.</summary>
+    /// <summary>Opens the last KMZ in the desktop Google Earth; before an export, the centre as a web URL.</summary>
     [RelayCommand]
     private void OpenGoogleEarth()
     {
         if (LastExportPath is not null && File.Exists(LastExportPath))
         {
-            _shell.OpenPath(LastExportPath);
+            Status = _shell.OpenInGoogleEarth(LastExportPath);
             return;
         }
         if (LastConversion?.Center is { } c)
@@ -87,6 +91,35 @@ public sealed partial class GeoExportViewModel
     {
         if (LastConversion?.Center is { } c)
             _shell.OpenUrl(string.Create(CultureInfo.InvariantCulture, $"https://www.google.com/maps?q={c.LatDeg:F7},{c.LonDeg:F7}"));
+    }
+
+    /// <summary>
+    /// "Chèn ảnh vệ tinh vào CAD": the dialog only records the choice and closes; the command then fetches, warps
+    /// and inserts on the command line (progress printed, Escape cancels) — the drawing is never touched from here.
+    /// </summary>
+    [RelayCommand]
+    private void InsertImage()
+    {
+        if (LastConversion is not { Success: true })
+        {
+            Status = "Chưa chèn được ảnh: hệ toạ độ/đơn vị chưa hợp lệ (xem lỗi ở trên).";
+            return;
+        }
+        var res = ParseNumber(ImageResolutionText);
+        var ratio = ParseNumber(ImageAreaRatioText);
+        if (res is null || !(res > 0) || ratio is null || !(ratio >= 1))
+        {
+            Status = "Chưa chèn được ảnh: độ phân giải (m/px) phải > 0 và vùng ảnh (× diện tích ranh) phải ≥ 1.";
+            return;
+        }
+        if (_points.Count + _boundaries.Count == 0) return;
+        var extent = SelectionExtentDrawingUnits;
+        var f = Crs.MetersPerUnit;
+        var extentM = new Core.Imagery.GridBoundingBox(extent.MinE * f, extent.MinN * f, extent.MaxE * f, extent.MaxN * f);
+        var marginM = Core.Imagery.TileCoverage.MarginForAreaRatio(extentM, ratio.Value);
+        ImageChoice = new GeoImageChoice(Crs.CurrentTm, Crs.SelectedUnit?.Unit ?? HPGeo.Core.Units.DrawingUnit.Unknown, f, res.Value, ratio.Value, marginM,
+            extent, _points.Count, _boundaries.Count);
+        CloseRequested?.Invoke();
     }
 
     [RelayCommand]

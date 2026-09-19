@@ -5,3 +5,15 @@ args = [
     "notebooklm-py[mcp]",
     "notebooklm-mcp",
 ]
+
+[mcp_servers.hprebar-autocad]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPAutoCad\output\HPAutoCad.Mcp.Server\HPAutoCad.Mcp.Server.exe'
+
+[mcp_servers.hprebar-autocad.env]
+HPAUTOCAD_MCP_Bridge__HostVersion = "2026"
+
+[mcp_servers.hprebar-revit]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\output\HPRebar.Mcp.Server\HPRebar.Mcp.Server.exe'
+
+[mcp_servers.hprebar-revit.env]
+HPREBAR_MCP_Bridge__RevitVersion = "2026"

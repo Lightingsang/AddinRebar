@@ -1,0 +1,1 @@
+- [ScriptGuard global:: bypass](project-scriptguard-global-alias-bypass.md) — pre-existing guard gap reported 2026-09-16 (ETABS phase-0 review H1); verify fixed before re-reporting
