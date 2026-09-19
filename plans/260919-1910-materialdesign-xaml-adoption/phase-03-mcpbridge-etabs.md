@@ -37,7 +37,7 @@ Two one-window surfaces. The Revit bridge reuses HPRebar's dictionaries by link 
 
 ## Success Criteria
 - [x] Revit bridge window opens (dark theme verified; light/live switch not driven), `get_revit_context` + `execute_revit_code` via MCP work; log has `MCP scripting self-check OK`.
-- [x] HPEtabs 184 + 81 tests pass; window screenshots dark/light from Debug and the publish folder (`run-live-verify.ps1 -Phase bridge` needs ETABS started by the user — not run).
+- [x] HPEtabs 184 + 81 tests pass; window screenshots dark/light from Debug and the publish folder; `run-live-verify.ps1 -Phase bridge` **48/48** on the user's test model (UIA locators unchanged).
 - [x] Both windows: no `StaticResource` for a brush; code-behind = one `Attach` call.
 
 ## Risk Assessment
