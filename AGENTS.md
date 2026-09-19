@@ -337,6 +337,7 @@ Several docs and plans still reference the pre-rename `RevitAIApp/MyRevitAIApp/`
 - Development rules: `./.agents/rules/development-rules.md`
 - Orchestration protocols: `./.agents/rules/orchestration-protocol.md`
 - Documentation management: `./.agents/rules/documentation-management.md`
+- Antigravity routing: `./.agents/rules/antigravity-workflow.md`
 - And other workflows: `./.agents/rules/*`
 
 **IMPORTANT:** Analyze the skills catalog and activate the skills needed for the task during the process.
