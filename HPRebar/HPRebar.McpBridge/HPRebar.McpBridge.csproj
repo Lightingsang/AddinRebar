@@ -23,6 +23,9 @@
 
         <!-- UI -->
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <!-- Control styles, merged into HPRebar.McpBridge.dll by the RepackMaterialDesign target below (see HPRebar.csproj). -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true"/>
 
         <!-- Logging -->
         <PackageReference Include="Serilog" Version="4.4.0"/>
@@ -41,14 +44,32 @@
     <ItemGroup>
         <!-- The ribbon glyphs are drawn in code and shared with HPRebar; the bridge button uses the MCP one. -->
         <Compile Include="..\HPRebar\Resources\Icons\RibbonIcons.cs" Link="Resources\Icons\RibbonIcons.cs"/>
+        <!-- The theme bridge is assembly-neutral (palette URIs come from the linking assembly's name), so it is linked too. -->
+        <Compile Include="..\HPRebar\Resources\Themes\IHostTheme.cs" Link="Resources\Themes\IHostTheme.cs"/>
+        <Compile Include="..\HPRebar\Resources\Themes\RevitHostTheme.cs" Link="Resources\Themes\RevitHostTheme.cs"/>
+        <Compile Include="..\HPRebar\Resources\Themes\MaterialThemeBridge.cs" Link="Resources\Themes\MaterialThemeBridge.cs"/>
+        <Compile Include="..\HPRebar\Resources\Themes\ThemeInfo.cs" Link="Resources\Themes\ThemeInfo.cs"/>
     </ItemGroup>
 
     <ItemGroup>
         <!-- One theme for both add-ins: the colour, typography, spacing and control dictionaries are linked
              from HPRebar as-is. Only Theme.xaml (pack URIs pointing at the HPRebar assembly) has a bridge copy. -->
         <Page Include="..\HPRebar\Resources\Themes\*.xaml"
-              Exclude="..\HPRebar\Resources\Themes\Theme.xaml;..\HPRebar\Resources\Themes\MaterialBridge.xaml"
+              Exclude="..\HPRebar\Resources\Themes\Theme.xaml"
               Link="Resources\Themes\%(Filename)%(Extension)"/>
     </ItemGroup>
+
+    <!-- Only the toolkit is merged (IsRepackable stays off for Roslyn): WPF binds BAML types by simple name and takes the
+         last-loaded copy across load contexts, so a loose MaterialDesignThemes.Wpf.dll would mix with any other add-in's.
+         Primary input = the obj DLL, so an incremental build never merges twice; runs before Nice3point deploys the output. -->
+    <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
+        <PropertyGroup>
+            <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
+            <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
+        </PropertyGroup>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml"/>
+        <Message Importance="high" Text="RepackMaterialDesign: toolkit merged into $(AssemblyName).dll"/>
+    </Target>
 
 </Project>

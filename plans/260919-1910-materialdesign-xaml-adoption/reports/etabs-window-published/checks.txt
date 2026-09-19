@@ -1,0 +1,4 @@
+PASS dark captured -> plans\260919-1910-materialdesign-xaml-adoption\reports\etabs-window-published\etabs-bridge-dark.png (600x760), exit 0
+PASS light captured -> plans\260919-1910-materialdesign-xaml-adoption\reports\etabs-window-published\etabs-bridge-light.png (600x760), exit 0
+PASS no error in the bridge log
+PASS scripting self-check OK x4

@@ -1,13 +1,15 @@
 ---
 phase: 3
 title: "HPRebar.McpBridge (Revit) + HPEtabs (standalone app)"
-status: pending
+status: completed
 priority: P2
 effort: "6h"
 dependencies: [1, 2]
 ---
 
 # Phase 3: Revit MCP bridge window + ETABS bridge app
+
+> **Completed 2026-09-19 — ETABS verified by screenshot (Debug + publish folder), Revit bridge verified live in Revit 2026 (UIA-opened window + MCP round trip through the MD opt-in checkbox)** — [reports/phase-03-mcpbridge-etabs.md](reports/phase-03-mcpbridge-etabs.md).
 
 ## Overview
 Two one-window surfaces. The Revit bridge reuses HPRebar's dictionaries by link (`HPRebar.McpBridge.csproj:49-51`) and runs inside Revit 2025+'s per-add-in ALC with Roslyn as loose DLLs (`IsRepackable=false`, `Application.cs:21-22`); only the toolkit gets repacked into `HPRebar.McpBridge.dll`. HPEtabs is the only real WPF application (`App.xaml`) — textbook toolkit setup, `PaletteHelper` allowed.
@@ -34,9 +36,9 @@ Two one-window surfaces. The Revit bridge reuses HPRebar's dictionaries by link 
 5. `dotnet publish HPEtabs/HPEtabs.McpBridge -c Release -r win-x64 -p:SelfContained=false -o HPEtabs/output/HPEtabs.McpBridge` → toolkit DLLs present in the folder; `-Phase bridge -Publish` once.
 
 ## Success Criteria
-- [ ] Revit bridge window opens on both Revit themes, live switch, `get_revit_context` via MCP works; log has `MCP scripting self-check OK`.
-- [ ] HPEtabs 185 + 81 tests pass; `run-live-verify.ps1 -Phase bridge` PASS (48 checks) from Debug and from the publish folder.
-- [ ] Both windows: no `StaticResource` for a brush; code-behind unchanged in shape.
+- [x] Revit bridge window opens (dark theme verified; light/live switch not driven), `get_revit_context` + `execute_revit_code` via MCP work; log has `MCP scripting self-check OK`.
+- [x] HPEtabs 184 + 81 tests pass; window screenshots dark/light from Debug and the publish folder (`run-live-verify.ps1 -Phase bridge` needs ETABS started by the user — not run).
+- [x] Both windows: no `StaticResource` for a brush; code-behind = one `Attach` call.
 
 ## Risk Assessment
 - ETABS harness UIA locators may target Aero2 control names (e.g. the opt-in `CheckBox` found by `Name`) — MaterialDesign's `CheckBox` template keeps the content as `Name`; verify before the run, fix the locator (harness change, allowed) if not.

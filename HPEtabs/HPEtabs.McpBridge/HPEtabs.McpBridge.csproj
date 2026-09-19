@@ -37,6 +37,8 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <!-- Control styles. Loose DLLs beside the exe (own process, nothing else loads a toolkit here). -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
         <PackageReference Include="Serilog" Version="4.4.0"/>
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
     </ItemGroup>

@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 
-namespace HPRebar.Resources.Themes;
+namespace HPEtabs.McpBridge.Resources.Themes;
 
 /// <summary>
 ///     Keeps a window's two theme layers in step: the hand-tuned HP palette (ThemeDark/ThemeLight.xaml, the source
@@ -15,7 +15,8 @@ namespace HPRebar.Resources.Themes;
 /// </summary>
 public static class MaterialThemeBridge
 {
-    // Palette files live beside this file in whichever assembly links it (HPRebar, HPRebar.McpBridge, ...).
+    // Copy of HPRebar/HPRebar/Resources/Themes/MaterialThemeBridge.cs (namespace only differs): HP folders never reference each other.
+    // Palette files live beside this file in whichever assembly holds it.
     private static readonly string AssemblyName = typeof(MaterialThemeBridge).Assembly.GetName().Name!;
     private static readonly string DarkUri = $"pack://application:,,,/{AssemblyName};component/Resources/Themes/ThemeDark.xaml";
     private static readonly string LightUri = $"pack://application:,,,/{AssemblyName};component/Resources/Themes/ThemeLight.xaml";

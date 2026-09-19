@@ -1,6 +1,7 @@
 using System.Windows;
 using HPRebar.McpBridge.Core.ViewModel;
-using HPRebar.McpBridge.Service;
+using HPRebar.Resources.Icons;
+using HPRebar.Resources.Themes;
 
 namespace HPRebar.McpBridge.View;
 
@@ -11,7 +12,7 @@ public partial class McpBridgeStatusView : Window
         InitializeComponent();
 
         DataContext = viewModel;
-        ThemeSwitcher.ApplyFromRevit(this);
+        MaterialThemeBridge.Attach(this, RevitHostTheme.Instance, dark => new RibbonIcons(dark).McpBridge);
 
         // Modeless: there is no DialogResult to hand back, the window just goes away.
         viewModel.CloseRequested += Close;

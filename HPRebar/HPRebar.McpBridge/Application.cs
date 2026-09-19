@@ -88,7 +88,7 @@ public class Application : ExternalApplication
 
         // Multi-version: ThemeChanged exists since Revit 2024
 #if REVIT2024_OR_GREATER
-        _onThemeChanged = (_, _) => ApplyIcon();
+        _onThemeChanged = (_, _) => { ApplyIcon(); Resources.Themes.RevitHostTheme.Instance.NotifyChanged(); };
         Application.ThemeChanged += _onThemeChanged;
 #endif
     }
