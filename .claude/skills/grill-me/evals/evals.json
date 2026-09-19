@@ -1,0 +1,41 @@
+{
+  "skill_name": "grill-me",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Grill me trước khi làm: thêm một nút ribbon HPRebar tự động tạo dầm Revit từ đường CAD trong DWG link. Tôi muốn tool chạy nhanh và ít lỗi.",
+      "expected_output": "Đọc CLAUDE.md, quy ước feature folder và code BeamRebar liên quan trước, rồi hỏi trực tiếp tối đa ba câu cụ thể để thay thế các yêu cầu mơ hồ như “nhanh” và “ít lỗi”; chưa sửa file và không đặt bản tóm tắt trước câu hỏi.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Hãy phản biện yêu cầu này trước khi code: chuyển toàn bộ setting của HPRebar từ file JSON trong %AppData% sang Revit Extensible Storage vì chắc chắn cách đó luôn tốt hơn.",
+      "expected_output": "Kiểm tra cách lưu setting hiện tại của HPRebar, đưa bằng chứng và hệ quả về portability/migration/compatibility vào câu hỏi trực tiếp, rồi tiếp tục phỏng vấn đến khi đủ năm trường yêu cầu.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Grill me: tôi muốn một lần làm luôn trong HPRebar tool quản lý Revit link, tải file từ CDE, tự tạo workset, đồng bộ parameter và xuất báo cáo Excel.",
+      "expected_output": "Hỏi trực tiếp người dùng chọn ưu tiên vì có ít nhất ba outcome độc lập; chỉ đưa ra 2–3 phương án sau khi requirement contract đã sẵn sàng.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "[$grill-me] Tôi muốn cập nhật giao diện XAML của ColumnRebar vào các skill XAML liên quan (revit-xaml-styles). Hãy phỏng vấn tôi trước.",
+      "expected_output": "Phản hồi bắt đầu ngay bằng câu hỏi 1; không có skill announcement, codebase context, tóm tắt hay kế hoạch phía trước.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Dùng grill-me để hỏi thẳng tôi về việc chuẩn hóa Theme.xaml cho các feature của HPRebar. Tôi đang vội, đừng tóm tắt hay giải thích trước.",
+      "expected_output": "Phản hồi chỉ gồm 1–3 câu hỏi có lựa chọn cụ thể và không có phần mở đầu.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Grill me về một refactor lớn: gộp phần chung của HPAutoCad và HPCivil3d thành AcadShared. Chỉ đưa 1–3 câu hỏi có lựa chọn, không đưa codebase context hay bản tổng hợp trước câu hỏi.",
+      "expected_output": "Phản hồi bắt đầu trực tiếp bằng câu hỏi và dừng sau câu hỏi cuối.",
+      "files": []
+    }
+  ]
+}
