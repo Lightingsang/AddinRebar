@@ -1,5 +1,5 @@
 using System.Windows;
-using HPRebar.BeamRebar.Service;
+using HPRebar.Resources.Themes;
 using HPRebar.BeamRebar.ViewModel;
 
 namespace HPRebar.BeamRebar.View;
@@ -14,7 +14,7 @@ public partial class BeamRebarView : Window
         InitializeComponent();
 
         DataContext = viewModel;
-        ThemeSwitcher.ApplyFromRevit(this);
+        MaterialThemeBridge.Attach(this, RevitHostTheme.Instance, icons => icons.BeamRebar);
 
         // Modeless: there is no DialogResult to hand back, the window just goes away.
         viewModel.CloseRequested += Close;

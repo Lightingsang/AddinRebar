@@ -68,7 +68,7 @@ namespace HPRebar
 
             // Multi-version: ThemeChanged exists since Revit 2024
 #if REVIT2024_OR_GREATER
-            _onThemeChanged = (_, _) => ApplyIcons();
+            _onThemeChanged = (_, _) => { ApplyIcons(); Resources.Themes.RevitHostTheme.Instance.NotifyChanged(); };
             Application.ThemeChanged += _onThemeChanged;
 #endif
         }

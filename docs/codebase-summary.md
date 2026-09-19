@@ -166,13 +166,13 @@ ColumnRebarCommand.Execute
 | Tạo bản vẽ | `DetailViewCreator`, `SectionViewCreator`, `DimensionCreator`, `RebarTableTagCreator` |
 | Điều phối | `ColumnRebarOrchestrator`, `RevitRebarRunner`, `ColumnRebarCommand` |
 | UI | `View/` (9 XAML + code-behind ≤ 8 dòng), `View Models/` (13), `View/Controls/` (8 file vẽ canvas) |
-| Khác | `RevitUnits`, `RevitDialogs`, `LocalizationService`, `ThemeSwitcher` |
+| Khác | `RevitUnits`, `RevitDialogs`, `LocalizationService` |
 
 ### UI
 
 MVVM Toolkit. `ColumnRebarSession` giữ state dùng chung, 8 tab đọc/ghi vào nó. Preview canvas gọi **đúng** calculator mà service tạo thép dùng — cái user thấy chính là cái sẽ dựng.
 
-Theme: `Resources/Themes/` 8 file, mọi màu/spacing qua `{DynamicResource}`. `ThemeSwitcher` đọc `UIThemeManager` (R24+) để theo Dark/Light của Revit.
+Theme: MaterialDesignInXAML 5.3.2 merge vào `HPRebar.dll` (ILRepack) + palette HP trong `Resources/Themes/` (`MaterialBridge.xaml` merge đầu tiên trong `Theme.xaml`, `ThemeDark/Light.xaml` là nguồn `Brush.*`), mọi màu/spacing qua `{DynamicResource}`. `Resources/Themes/MaterialThemeBridge.Attach(window, RevitHostTheme.Instance, icons => icons.X)` đổi palette + brush toolkit bằng **overlay top-level** (swap dictionary lồng nhau không repaint), set icon vector, theo `Application.ThemeChanged` sống. Gate off-Revit: `HPRebar/tools/theme-gallery/` + `HPRebar.Core.Tests/Themes/ThemeTokenCoverageTests`. Chi tiết: `CLAUDE.md` ▸ Theme.
 
 i18n: `UiStrings` record ~110 field, `UiStringsCatalog.English`/`.Vietnamese`, đổi cả record một lần → mọi nhãn refresh.
 
@@ -183,7 +183,7 @@ i18n: `UiStrings` record ~110 field, `UiStringsCatalog.English`/`.Vietnamese`, �
 | Vị trí | Lý do |
 |---|---|
 | `MainBarCreator.cs` | `Rebar.CreateFreeForm`: overload `out RebarFreeFormValidationResult` bị xóa ở R27; overload `RebarStyle` chỉ có từ R26. Khác cả return type |
-| `ThemeSwitcher.cs` | `UIThemeManager` chỉ có từ R24; R23 mặc định Dark |
+| `Resources/Themes/RevitHostTheme.cs` | `UIThemeManager` chỉ có từ R24; R23 mặc định Dark |
 
 Chi tiết đối chiếu API: [`plans/260903-2307-…/reports/api-surface-check.md`](../plans/260903-2307-port-column-rebar-to-hprebar/reports/api-surface-check.md).
 

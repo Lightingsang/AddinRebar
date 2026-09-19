@@ -1,0 +1,19 @@
+# Spike S0-C — HPNavis (net48) beside a foreign plugin carrying MaterialDesignThemes 4.9.0 (2026-09-19)
+
+**Verdict: `go` either way; phase 5 uses the repack (same target as every other host) — the allow-list route also works but is never exercised.**
+
+Worktree spike: `HPNavis.McpBridge` + `MaterialDesignThemes 5.3.2` (net462 asset), `PluginAssemblyResolver.AllowList` += `MaterialDesignThemes.Wpf`, `MaterialDesignColors`, `Microsoft.Xaml.Behaviors`; `NavisBridgeStatusView.xaml` merges `BundledTheme(Light)` + `MaterialDesign2.Defaults.xaml` before `NavisTheme.xaml`, carries a spike `ComboBox` + `PackIcon`; code-behind logs on `Loaded` the **`MD-SPIKE` line**: version of the add-in's `typeof(BundledTheme)`, of the XAML-created `BundledTheme`, of a `SmartHint` template part in the tree, `isIMaterialDesignThemeDictionary`, `packIcon`, and every `MaterialDesignThemes.Wpf` assembly in the AppDomain as `version@folder`. `[assembly: ThemeInfo(None, SourceAssembly)]` added.
+
+Foreign stand-in: plugin folder `AAASpikeForeign` (net48 `EventWatcherPlugin`, **no compile-time toolkit reference** so Roamer's discovery reflection needs nothing) whose `OnLoaded` does `Assembly.LoadFrom` of a planted **MaterialDesignThemes.Wpf 4.9.0** + `MaterialDesignColors 2.1.4` + `Microsoft.Xaml.Behaviors 1.1.39` (net462, downloaded to the scratchpad) and writes `spike-foreign.log`. Driver `s0c-navis-resolver.ps1`: plants the folder, runs `HPNavis/tools/harness/run-ribbon-check.ps1` (own Roamer + gatehouse model, bridge window opened from the ribbon), reads the bridge log, removes the folder in `finally`. The foreign copy loads at **20:22:06 / 20:25:42**, our window opens ~65 s later — the "foreign first" case.
+
+| Variant | Ribbon check | `MD-SPIKE` line | Verdict |
+|---|---|---|---|
+| **loose** (`MaterialDesignThemes.Wpf.dll` beside the plugin, allow-list) | 12 PASS + 1 MANUAL (icon), exit 0 | `code=5.3.2.0 xamlBundledTheme=5.3.2.0 templatePart=5.3.2.0 isIMaterialDesignThemeDictionary=true packIcon=true copiesInProcess=4.9.0.0@AAASpikeForeign,5.3.2.0@HPNavis.McpBridge` | **binds to our copy** although the foreign 4.9.0 was loaded first; no error; the toolkit came in through Roamer's `LoadFrom`-context probing of the plugin folder — **no `AssemblyResolve` line, the allow-list entries were never asked** (the strong-named, versioned BAML reference `MaterialDesignThemes.Wpf, Version=5.3.2.0, PublicKeyToken=df2a72020bd7962a` is matched by identity, unlike the simple-name lookup that mixed copies on .NET 8 in S0-B) |
+| **repacked** (`RepackMaterialDesign` target, `HPNavis.McpBridge.dll` 10 920 448 B, no loose toolkit DLL) | 12 PASS + 1 MANUAL, exit 0 | `code=0.1.0.0 xamlBundledTheme=0.1.0.0 templatePart=0.1.0.0 isIMaterialDesignThemeDictionary=true packIcon=true copiesInProcess=4.9.0.0@AAASpikeForeign` | **everything from `HPNavis.McpBridge`**, the foreign copy is irrelevant; no error |
+
+Both runs: `MCP scripting self-check OK`, foreign `NavisworksMCPPlugin` beside ours untouched and silent, Roamer closed by the harness, foreign folder removed, plugin redeployed from the main tree afterwards (409 600 B, no toolkit DLL).
+
+## What this changes
+- Phase 5 drops the allow-list edit (S0-C shows it is dead code for this purpose) and takes the repack target + `ThemeInfo` like phases 2–4. The version-family gate stays as it is.
+- Not measured: a foreign **5.3.2** loaded first from another folder (same identity → the CLR would hand our BAML that copy; harmless while versions match) and a foreign **newer** version. Both are moot under the repack.
+- Gotcha met twice while scripting: a Bash heredoc / `printf` halves backslashes, so `\tools\ILRepack.exe` reached the csproj as `<TAB>ools\ILRepack.exe` (`ILRepack.exe` "exited with code 123"); write MSBuild text with the Edit tool or a Python script file.

@@ -1,0 +1,19 @@
+PASS deployed en-US\HPNavisRibbon.xaml 
+PASS deployed en-US\HPNavisRibbon.name 
+PASS deployed Images\McpBridge_16.png 
+PASS deployed Images\McpBridge_32.png 
+Roamer pid 7296 started 20:25:39 with C:\Program Files\Autodesk\Navisworks Manage 2026\Samples\gatehouse\gatehouse_pub.nwd
+main window 'gatehouse_pub.nwd - Autodesk Navisworks Manage 2026' after 26 s
+PASS model tab 'HPNavis' visible exactly once found 1 header(s), control type ControlType.Button
+ribbon screenshot: F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\output\ribbon-check\ribbon-model.png
+MANUAL model icon crisp and reads as a window with a plug see F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\output\ribbon-check\ribbon-model.png (tab selected: True, button on screen: True)
+PASS model no bridge window before the click (no show-window variable) 
+PASS model button 'MCP Bridge' enabled 
+PASS model button 'MCP Bridge' opens the bridge window 
+PASS model log says the status window opened x1
+PASS model second click activates, does not open a twin windows: 1
+PASS model no 'HPNavis MCP' Add-ins entry (no Add-ins tab at all) 
+PASS model no ERR/FTL in the bridge log x0
+Roamer exited with code 0
+
+ribbon check => 12 PASS, 0 FAIL, 1 MANUAL  (summary: F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\output\ribbon-check\summary.json)

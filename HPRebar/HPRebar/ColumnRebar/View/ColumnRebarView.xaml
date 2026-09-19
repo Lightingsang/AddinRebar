@@ -5,7 +5,6 @@
         xmlns:views="clr-namespace:HPRebar.ColumnRebar.View.Tabs"
         xmlns:controls="clr-namespace:HPRebar.ColumnRebar.View.Controls"
         Title="{Binding Localization.Strings.WindowTitle}"
-        Icon="/HPRebar;component/Resources/Icons/ColumnRebar32.png"
         Width="1040" Height="720"
         MinWidth="880" MinHeight="600"
         WindowStartupLocation="CenterOwner"

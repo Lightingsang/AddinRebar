@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!--
+        Off-Revit visual gate for the HPRebar theme: loads the built (ILRepack-merged) HPRebar.dll, hosts every tab
+        UserControl inside a window that merges Theme.xaml exactly as the real windows do, applies MaterialThemeBridge
+        for dark and light, and screenshots each one into HPRebar/output/theme-gallery/. Bindings have no view model,
+        so labels stay empty; what is checked is that every view parses, every style resolves and both palettes render.
+        Not part of HPRebar.slnx. Usage (from this folder, after building the add-in):
+          dotnet run -f net8.0-windows [args after a double dash] -Dll ..\..\HPRebar\bin\Debug.R26\HPRebar.dll -Out ..\..\output\theme-gallery
+          dotnet run -f net48 [args after a double dash] -Dll ..\..\HPRebar\bin\Debug.R24\HPRebar.dll -Out ..\..\output\theme-gallery-r24
+        Types that reference the Revit API are skipped (the installed Revit 2026 supplies RevitAPI/RevitAPIUI for
+        type loading only; -RevitDir overrides the folder).
+    -->
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>HPRebar.Tools.ThemeGallery</RootNamespace>
+        <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    </PropertyGroup>
+
+</Project>

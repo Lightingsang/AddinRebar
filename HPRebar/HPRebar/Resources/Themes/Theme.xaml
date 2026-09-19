@@ -3,13 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <!-- Color tokens. Default = Dark (match Revit 2024+); swapped at runtime by ThemeSwitcher. -->
+        <!-- MaterialDesign (theme + control defaults + the legacy Button/TextBox keys re-based on it). First, so every
+             dictionary below can still override a key. MaterialThemeBridge re-themes it from the palette at run time. -->
+        <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/MaterialBridge.xaml"/>
+
+        <!-- Color tokens. Default = Dark (match Revit 2024+); swapped at runtime by MaterialThemeBridge. -->
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/ThemeDark.xaml"/>
 
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Typography.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Spacing.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Buttons.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/TextBoxes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Controls.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/ThemeIcons.xaml"/>
     </ResourceDictionary.MergedDictionaries>

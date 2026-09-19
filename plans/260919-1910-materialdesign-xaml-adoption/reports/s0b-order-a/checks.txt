@@ -1,0 +1,8 @@
+﻿PASS bridge window opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-order-a\bridge-dark.png
+PASS HPGeo import window (dark) opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-order-a\geo-dark-combo-open.png
+PASS HPGeo import window (light) opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-order-a\geo-light-combo-open.png
+PASS each ALC loaded its own MaterialDesignThemes.Wpf (loader logs) 2026-09-19 20:11:03.022 [1] load MaterialDesignThemes.Wpf 5.3.2.0 <- MaterialDesignThemes.Wpf.dll | 2026-09-19 20:11:03.420 load MaterialDesignThemes.Wpf 5.3.2.0 <- MaterialDesignThemes.Wpf.dll
+PASS bridge MD-SPIKE line: same=True, packIcon=True 2026-09-19 20:11:03 [INF] MD-SPIKE HPAutoCad: code ALC=HPAutoCad.McpBridge xaml BundledTheme ALC=HPAutoCad.McpBridge template SmartHint ALC=HPAutoCad.McpBridge same=true isIMaterialDesignThemeDictionary=true copiesInProcess=1 packIcon=true
+PASS HPGeo MD-SPIKE line: same=True 2026-09-19 20:11:04.005 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=2 | 2026-09-19 20:11:12.571 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=2
+PASS no error / exception in either log 
+PASS acad quit cleanly 

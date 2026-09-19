@@ -47,7 +47,7 @@
         <!-- One theme for both add-ins: the colour, typography, spacing and control dictionaries are linked
              from HPRebar as-is. Only Theme.xaml (pack URIs pointing at the HPRebar assembly) has a bridge copy. -->
         <Page Include="..\HPRebar\Resources\Themes\*.xaml"
-              Exclude="..\HPRebar\Resources\Themes\Theme.xaml"
+              Exclude="..\HPRebar\Resources\Themes\Theme.xaml;..\HPRebar\Resources\Themes\MaterialBridge.xaml"
               Link="Resources\Themes\%(Filename)%(Extension)"/>
     </ItemGroup>
 

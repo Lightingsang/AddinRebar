@@ -1,0 +1,6 @@
+PASS foreign plugin loaded its 4.9.0 copy at start 2026-09-19 20:25:42 loaded 4.9.0.0 from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\Navisworks Manage 2026\Plugins\AAASpikeForeign\MaterialDesignThemes.Wpf.dll; PackIcon=True; colors 2.1.4.0; behaviors 1.1.0.0
+PASS ribbon check passed (window opened from the ribbon, no FAIL) exit 0
+PASS bridge window logged its MD-SPIKE line 2026-09-19 20:27:11 [INF] MD-SPIKE HPNavis: code=0.1.0.0 xamlBundledTheme=0.1.0.0 templatePart=0.1.0.0 isIMaterialDesignThemeDictionary=true packIcon=true copiesInProcess=4.9.0.0@AAASpikeForeign
+PASS repacked: no assembly named MaterialDesignThemes.Wpf but the foreign 4.9.0 (copiesInProcess lists only 4.9.0.0@AAASpikeForeign) 
+PASS isIMaterialDesignThemeDictionary=True + packIcon=True 
+PASS no error / exception in the bridge log 

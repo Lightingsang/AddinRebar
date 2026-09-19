@@ -1,0 +1,15 @@
+PASS assembly loaded HPRebar, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+PASS ThemeInfo(SourceAssembly) SourceAssembly
+PASS window constructed (InitializeComponent, BundledTheme + Defaults + Theme.xaml merged) 
+PASS base theme after load Dark
+PASS MaterialDesignWindow style applied #FF323232
+PASS PackIcon has a rendered child (generic.baml consulted) 24x24, children 1
+PASS Card rendered h=31.6
+PASS ComboBox uses a MaterialDesign template (toolkit-only parts in its visual tree) style BasedOn=True, tree: ToggleButton,SmartHint,ComboBoxPopup
+PASS legacy token Brush.Accent still resolves (Theme.xaml beside the toolkit) #FF0696D7
+PASS MaterialDesign.Brush.Primary resolves #FF2196F3
+PASS MaterialDesignFont (embedded Roboto) resolves pack://application:,,,/HPRebar;component/MaterialDesignThemes.Wpf/Resources/Roboto/#Roboto
+PASS ComboBox popup open 
+PASS base theme after toggle Light
+PASS MaterialDesign.Brush.Background changed to a light colour #FFF1F1F1
+PASS base theme after second toggle 

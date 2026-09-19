@@ -1,0 +1,82 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!--
+        MaterialDesign for the HP windows. Merged first by Theme.xaml so the legacy dictionaries after it keep the
+        last word on shared keys. MaterialThemeBridge re-themes the CustomColorTheme from the HP palette at run time.
+        Product palette: primary #0696D7 (Revit blue, the accent every host uses), secondary #E0641E (steel).
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <md:CustomColorTheme BaseTheme="Dark" PrimaryColor="#0696D7" SecondaryColor="#E0641E"/>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--
+        Segoe UI everywhere: the toolkit's own {md:MaterialDesignFont} builds a Roboto pack URI that cannot resolve once
+        the toolkit is ILRepack-merged, and Revit dialogs use Segoe UI anyway. Never use {md:MaterialDesignFont} in HP XAML.
+    -->
+    <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+
+    <!-- ===== Buttons: the legacy keys, re-based on the toolkit ===== -->
+    <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="MinWidth" Value="96"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="MinWidth" Value="96"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Danger}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Danger}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.OnAccent}"/>
+    </Style>
+
+    <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="LinkButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Padding" Value="4,0"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- ===== Text boxes ===== -->
+    <Style x:Key="StandardTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+    </Style>
+
+    <!-- Numbers right-aligned in the mono face; validation stays in the view model. -->
+    <Style x:Key="NumberTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Mono}"/>
+    </Style>
+
+    <Style x:Key="SearchTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">
+        <Setter Property="md:HintAssist.Hint" Value="Tìm kiếm..."/>
+        <Setter Property="Tag" Value="Tìm kiếm..."/>
+    </Style>
+</ResourceDictionary>

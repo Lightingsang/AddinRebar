@@ -1,0 +1,38 @@
+2026-09-19 20:14:59.312 [1] initialize: loader=C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\Contents\HPAutoCad.McpBridge.Loader.dll; runtime .NET 8.0.28
+2026-09-19 20:14:59.416 [1] load HPRebar.McpBridge.Core 1.0.0.0 <- HPRebar.McpBridge.Core.dll
+2026-09-19 20:14:59.435 [1] load HPRebar.Mcp.Contracts 1.0.0.0 <- HPRebar.Mcp.Contracts.dll
+2026-09-19 20:14:59.499 [1] load Serilog 4.4.0.0 <- Serilog.dll
+2026-09-19 20:14:59.505 [1] load Serilog.Sinks.File 7.0.0.0 <- Serilog.Sinks.File.dll
+2026-09-19 20:14:59.547 [1] load System.Text.Json 10.0.0.0 <- System.Text.Json.dll
+2026-09-19 20:14:59.557 [1] load System.Text.Encodings.Web 10.0.0.0 <- System.Text.Encodings.Web.dll
+2026-09-19 20:14:59.603 [1] load HPAutoCad.Aec 0.1.0.0 <- HPAutoCad.Aec.dll
+2026-09-19 20:14:59.655 [1] load Microsoft.CodeAnalysis.Scripting 5.9.0.0 <- Microsoft.CodeAnalysis.Scripting.dll
+2026-09-19 20:14:59.659 [1] load System.Collections.Immutable 10.0.0.0 <- System.Collections.Immutable.dll
+2026-09-19 20:14:59.663 [1] load Microsoft.CodeAnalysis 5.9.0.0 <- Microsoft.CodeAnalysis.dll
+2026-09-19 20:14:59.714 [1] load System.Reflection.Metadata 10.0.0.0 <- System.Reflection.Metadata.dll
+2026-09-19 20:14:59.729 [1] load Microsoft.CodeAnalysis.CSharp.Scripting 5.9.0.0 <- Microsoft.CodeAnalysis.CSharp.Scripting.dll
+2026-09-19 20:14:59.734 [1] load Microsoft.CodeAnalysis.CSharp 5.9.0.0 <- Microsoft.CodeAnalysis.CSharp.dll
+2026-09-19 20:15:01.209 [1] bridge self-check OK — see C:\Users\STR-HP03.HOANGPHUC\AppData\Local\HPAutoCad\McpBridge\logs
+2026-09-19 20:15:01.214 [1] bridge started in load context 'HPAutoCad.McpBridge' with 5 entry points
+2026-09-19 20:15:03.227 [1] ribbon tab HPAUTOCAD_MCP_TAB created (bridge available)
+2026-09-19 20:15:03.227 [1] ribbon panel HPAUTOCAD_MCP_PANEL added to tab HPAUTOCAD_MCP_TAB (tab created, bridge available)
+2026-09-19 20:15:41.512 [1] load CommunityToolkit.Mvvm 8.4.0.0 <- CommunityToolkit.Mvvm.dll
+2026-09-19 20:14:59 [INF] HPAutoCad MCP bridge starting from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\Contents\Bridge; AutoCAD 25.1.0.0 → 2026; runtime .NET 8.0.28
+2026-09-19 20:14:59 [INF] Roslyn 5.9.0.0 in load context 'HPAutoCad.McpBridge'; System.Collections.Immutable 10.0.0.0 in 'HPAutoCad.McpBridge'
+2026-09-19 20:15:01 [INF] MCP scripting self-check OK in 1475 ms: autocad 25.1.0.0 | units Millimeters | aec tolerance 0.5
+2026-09-19 20:15:01 [INF] MCP bridge listener start requested on hpautocad-mcp-2026
+2026-09-19 20:15:01 [INF] MCP bridge ready on pipe hpautocad-mcp-2026; auto-start listener = true
+2026-09-19 20:15:01 [INF] MCP bridge listening on pipe hpautocad-mcp-2026
+2026-09-19 20:15:41 [INF] MD-SPIKE HPAutoCad: code ALC=HPAutoCad.McpBridge xaml BundledTheme ALC=HPAutoCad.McpBridge template SmartHint ALC=HPAutoCad.McpBridge same=true isIMaterialDesignThemeDictionary=true copiesInProcess=0 packIcon=true
+2026-09-19 20:15:41 [INF] MCP bridge status window opened (visible=true, dispatcher thread 1)
+2026-09-19 20:16:00 [INF] HPAutoCad MCP bridge stopped
+2026-09-19 20:15:01.408 [INF] HPGeo 0.1.0 loaded in AutoCAD 25.1s (LMS Tech) from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\ApplicationPlugins\HPGeo.bundle\Contents\App
+2026-09-19 20:15:42.386 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=0
+2026-09-19 20:15:51.171 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=0
+2026-09-19 20:16:00.116 [INF] HPGeo 0.1.0 unloaded
+2026-09-19 20:15:01.228 HPGeo loader 0.1.0 in AutoCAD 25.1s (LMS Tech): loader=C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\ApplicationPlugins\HPGeo.bundle\Contents\HPGeo.AutoCad.Loader.dll; runtime .NET 8.0.28
+2026-09-19 20:15:01.331 load CommunityToolkit.Mvvm 8.4.0.0 <- CommunityToolkit.Mvvm.dll
+2026-09-19 20:15:01.347 load HPGeo.Core 0.1.0.0 <- HPGeo.Core.dll
+2026-09-19 20:15:01.409 HPGeo 0.1.0 loaded in AutoCAD 25.1s (LMS Tech): add-in started in load context 'HPGeo.AutoCad' with 7 entry points
+2026-09-19 20:15:03.229 ribbon panel HPGEO_VN2000_PANEL added to tab HPAUTOCAD_MCP_TAB (tab existing, add-in available)
+2026-09-19 20:16:00.116 HPGeo loader 0.1.0 terminated

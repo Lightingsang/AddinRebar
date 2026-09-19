@@ -92,7 +92,6 @@ public sealed class BeamRebarCommand : ExternalCommand
             var view = new BeamRebarView(viewModel);
 
             new WindowInteropHelper(view).Owner = Application.MainWindowHandle;
-            ThemeSwitcher.ApplyFromRevit(view);
 
             view.Closed += (_, _) =>
             {

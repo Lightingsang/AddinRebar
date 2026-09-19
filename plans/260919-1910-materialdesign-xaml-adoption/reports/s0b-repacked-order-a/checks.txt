@@ -1,0 +1,8 @@
+﻿PASS bridge window opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-repacked-order-a\bridge-dark.png
+PASS HPGeo import window (dark) opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-repacked-order-a\geo-dark-combo-open.png
+PASS HPGeo import window (light) opened + captured plans\260919-1910-materialdesign-xaml-adoption\reports\s0b-repacked-order-a\geo-light-combo-open.png
+PASS repacked: no assembly named MaterialDesignThemes.Wpf loaded (0 loader lines, every MD-SPIKE line copiesInProcess=0) loads=0 spikeLines=3 zero=3
+PASS bridge MD-SPIKE line: same=True, packIcon=True 2026-09-19 20:15:41 [INF] MD-SPIKE HPAutoCad: code ALC=HPAutoCad.McpBridge xaml BundledTheme ALC=HPAutoCad.McpBridge template SmartHint ALC=HPAutoCad.McpBridge same=true isIMaterialDesignThemeDictionary=true copiesInProcess=0 packIcon=true
+PASS HPGeo MD-SPIKE line: same=True 2026-09-19 20:15:42.386 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=0 | 2026-09-19 20:15:51.171 [INF] MD-SPIKE HPGeo: code ALC=HPGeo.AutoCad template part=SmartHint ALC=HPGeo.AutoCad same=True defaultsMerged=44 copiesInProcess=0
+PASS no error / exception in either log 
+PASS acad quit cleanly 

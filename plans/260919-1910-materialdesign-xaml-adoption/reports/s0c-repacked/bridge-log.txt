@@ -1,0 +1,32 @@
+2026-09-19 20:25:42 [INF] HPNavis MCP bridge starting from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge; Navisworks runtime 23.0 → 2026; CLR 4.0.30319.42000 (.NET Framework 4.8.9181.0)
+2026-09-19 20:25:42 [INF] Roslyn 5.9.0.0 from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge\Microsoft.CodeAnalysis.CSharp.Scripting.dll; System.Collections.Immutable 10.0.0.1 from C:\Users\STR-HP03.HOANGPHUC\AppData\Roaming\Autodesk\Navisworks Manage 2026\Plugins\HPNavis.McpBridge\System.Collections.Immutable.dll
+2026-09-19 20:25:45 [DBG] MCP bridge resolved Serilog, Version=4.2.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10 -> Serilog.dll 4.4.0.0 (requested by <none>)
+2026-09-19 20:25:45 [DBG] MCP bridge resolved System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 -> System.Memory.dll 4.0.5.0 (requested by <none>)
+2026-09-19 20:25:45 [DBG] MCP bridge resolved System.Collections.Immutable, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a -> System.Collections.Immutable.dll 10.0.0.1 (requested by <none>)
+2026-09-19 20:25:45 [DBG] MCP bridge resolved System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 -> System.Memory.dll 4.0.5.0 (requested by <none>)
+2026-09-19 20:25:45 [DBG] MCP bridge resolved System.Reflection.Metadata, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a -> System.Reflection.Metadata.dll 10.0.0.1 (requested by <none>)
+2026-09-19 20:25:45 [INF] MCP scripting self-check OK in 2842 ms (5 assemblies resolved by the plugin): navisworks 23.0 | year 2026 | units Millimeters | conditions 1 | mm 1 | args 42
+2026-09-19 20:25:45 [INF] MCP bridge listener start requested on hpnavis-mcp-2026
+2026-09-19 20:25:45 [INF] MCP bridge ready on pipe hpnavis-mcp-2026; auto-start listener = true; self-check OK
+2026-09-19 20:25:45 [INF] MCP bridge listening on pipe hpnavis-mcp-2026
+2026-09-19 20:26:03 [DBG] MCP bridge: ProgressBeginning: Working... → progress depth 1
+2026-09-19 20:26:03 [DBG] MCP bridge: ProgressEnded → progress depth 0
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressBeginning: Working... → progress depth 1
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 3
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 3
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 3
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 3
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 1
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationBegan → progress depth 3
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 2
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressSubOperationEnded → progress depth 1
+2026-09-19 20:26:04 [DBG] MCP bridge: ProgressEnded → progress depth 0
+2026-09-19 20:27:11 [INF] MD-SPIKE HPNavis: code=0.1.0.0 xamlBundledTheme=0.1.0.0 templatePart=0.1.0.0 isIMaterialDesignThemeDictionary=true packIcon=true copiesInProcess=4.9.0.0@AAASpikeForeign
+2026-09-19 20:27:11 [INF] MCP bridge status window opened
+2026-09-19 20:27:42 [INF] HPNavis MCP bridge stopped
