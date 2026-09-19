@@ -24,6 +24,9 @@
              and the load context deliberately refuses to load a second copy of them. -->
         <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <!-- Control styles, merged into this assembly by the RepackMaterialDesign target below. -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true"/>
         <PackageReference Include="Serilog" Version="4.4.0"/>
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
     </ItemGroup>
@@ -34,5 +37,19 @@
         <!-- The AEC engine scripts call (HPAutoCad.Aec.AecTools): ships in Contents\Bridge beside this DLL, loaded in the same context. -->
         <ProjectReference Include="..\HPAutoCad.Aec\HPAutoCad.Aec.csproj"/>
     </ItemGroup>
+
+    <!-- The toolkit is merged into this assembly: WPF binds BAML types by simple name and takes the last-loaded copy across
+         AssemblyLoadContexts, so a loose MaterialDesignThemes.Wpf.dll would be mixed with HPGeo's in the same acad.exe
+         (spike S0-B). Primary input = the obj DLL, so an incremental build never merges twice; the loose files are deleted
+         before DeployBundle copies Contents\Bridge. Roslyn and HPAutoCad.Aec stay loose. -->
+    <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
+        <PropertyGroup>
+            <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
+            <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
+        </PropertyGroup>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml"/>
+        <Message Importance="high" Text="RepackMaterialDesign: toolkit merged into $(AssemblyName).dll"/>
+    </Target>
 
 </Project>

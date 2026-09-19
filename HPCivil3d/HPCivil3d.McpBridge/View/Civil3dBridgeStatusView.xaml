@@ -18,6 +18,9 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- MaterialDesign first; the palette and the token dictionary below keep the last word (MaterialThemeBridge swaps both). -->
+                <ResourceDictionary Source="/HPCivil3d.McpBridge;component/Resources/Themes/MaterialBridge.xaml"/>
+                <ResourceDictionary Source="/HPCivil3d.McpBridge;component/Resources/Themes/ThemeDark.xaml"/>
                 <ResourceDictionary Source="/HPCivil3d.McpBridge;component/Resources/Themes/Civil3dTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 

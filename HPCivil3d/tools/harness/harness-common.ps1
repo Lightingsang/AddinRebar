@@ -48,7 +48,8 @@ function Find-OptInCheckbox {
     $root = [System.Windows.Automation.AutomationElement]::RootElement
     $byPid = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, [int]$script:acadPid)
     $byId = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'AllowExecution')
-    for ($i = 0; $i -lt 4; $i++) {
+    # 8 x 3 s: the bridge window loads its MaterialDesign dictionaries on first open, a second or two after the pipe is up.
+    for ($i = 0; $i -lt 8; $i++) {
         try {
             foreach ($w in @($root.FindAll([System.Windows.Automation.TreeScope]::Children, $byPid))) {
                 $box = $w.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $byId)

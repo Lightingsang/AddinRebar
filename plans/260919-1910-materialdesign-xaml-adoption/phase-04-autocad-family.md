@@ -1,13 +1,15 @@
 ---
 phase: 4
 title: "AutoCAD family — HPAutoCad → HPCivil3d (mirror + re-pin) → HPGeo (dark ComboBox fix)"
-status: pending
+status: completed
 priority: P2
 effort: "12h"
 dependencies: [0, 1]
 ---
 
 # Phase 4: AutoCAD family
+
+> **Completed 2026-09-19** — report [reports/phase-04-autocad-family.md](reports/phase-04-autocad-family.md) (evidence in `reports/autocad-live/`, `reports/civil3d-live/`, `reports/hpgeo-live/`).
 
 ## Overview
 Three isolated-ALC surfaces on the same `acad.exe` family. HPAutoCad first (one status window), ported verbatim to HPCivil3d with the mirror test re-pinned, then HPGeo's two modal dialogs where the toolkit's `MaterialDesignComboBox` closes the documented dark-theme gap (`HPGeo/HPGeo.AutoCad/UI/Theme.xaml:44-48` has no template/brushes). Load path = **S0-B verdict: repacked** into each add-in assembly (`RepackMaterialDesign` target, [spike-s0b-two-alc.md](reports/spike-s0b-two-alc.md)) — loose DLLs in two ALCs mixed (HPGeo's window bound to the bridge's copy in order B); repacked 8/8 in both orders with the HPGeo dark popup already MaterialDesign-dark.
@@ -35,11 +37,11 @@ Three isolated-ALC surfaces on the same `acad.exe` family. HPAutoCad first (one 
 5. Isolation regression: `pwsh HPAutoCad/tools/harness/run-live-verify.ps1 -OnlyIsolation` (4/4: second AutoCAD, Civil 3D never loads the AutoCAD bundle) and `HPCivil3d … -OnlyIsolation` (Advance Steel loads neither).
 
 ## Success Criteria
-- [ ] HPAutoCad ribbon check 12/12 + live re-theme check; bridge 21/21; smoke 22/22; window dark and light screenshots.
-- [ ] MirrorTests 55/55 with the new files classified and pins updated; Civil ribbon check passes; both Civil server tests 106/106.
-- [ ] HPGeo `dialog-check.ps1` screenshots show a dark ComboBox popup on COLORTHEME 0 (the known gap closed); `acceptance.ps1` 51/51; tests 154/154.
-- [ ] Co-load both orders clean; isolation 4/4 on both harnesses.
-- [ ] `BridgeEntry.CompilerReferences` and `HostScriptContracts.AutocadImports` unchanged (toolkit invisible to scripts).
+- [x] HPAutoCad ribbon check 12/12 + live re-theme (`autocad-bridge-theme-flip.ps1` 55 → 245 → 55); bridge 21/21; smoke 22/22; window dark and light screenshots.
+- [x] MirrorTests 60/60 with the new files classified and pins updated; Civil ribbon check 12/12 + flip 4/4; Civil server tests 106/106.
+- [x] HPGeo `dialog-check.ps1` PASS + `hpgeo-combobox-popup-check.ps1` (popup 352×384, mean brightness 50.1 on COLORTHEME 0 — the known gap closed); `acceptance.ps1` 52/52; tests 158/158.
+- [x] Co-load both orders clean (`autocad-coload-check.ps1` 6/6 ×2); isolation AutoCAD 4/4, Civil 9/9.
+- [x] `BridgeEntry.CompilerReferences` and `HostScriptContracts.AutocadImports` unchanged (toolkit invisible to scripts).
 
 ## Risk Assessment
 - `SystemVariableChanged` may fire on a non-UI thread or during a command — marshal through `Application.Idle` exactly as `McpRibbonTab.cs` does for its COLORTHEME rebuild; S0-B step 5 measured it.

@@ -58,8 +58,8 @@
       "civil3d": "Civil3dContextReader"
     },
     {
-      "autocad": "AutocadThemeSwitcher",
-      "civil3d": "Civil3dThemeSwitcher"
+      "autocad": "AutocadHostTheme",
+      "civil3d": "Civil3dHostTheme"
     },
     {
       "autocad": "AutocadBridgeStatusView",
@@ -264,10 +264,6 @@
       "civil3d": "HPCivil3d.McpBridge/Service/Civil3dContextReader.cs"
     },
     {
-      "autocad": "HPAutoCad.McpBridge/Service/AutocadThemeSwitcher.cs",
-      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dThemeSwitcher.cs"
-    },
-    {
       "autocad": "HPAutoCad.McpBridge/Service/DatabaseChangeCounter.cs",
       "civil3d": "HPCivil3d.McpBridge/Service/DatabaseChangeCounter.cs"
     },
@@ -288,10 +284,6 @@
       "civil3d": "HPCivil3d.McpBridge/Resources/Themes/Civil3dTheme.xaml"
     },
     {
-      "autocad": "HPAutoCad.McpBridge/Resources/Themes/AutocadThemeLight.xaml",
-      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/Civil3dThemeLight.xaml"
-    },
-    {
       "autocad": "HPAutoCad.Mcp.Server/Program.cs",
       "civil3d": "HPCivil3d.Mcp.Server/Program.cs"
     },
@@ -302,6 +294,34 @@
     {
       "autocad": "HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj",
       "civil3d": "HPCivil3d.Mcp.Server/HPCivil3d.Mcp.Server.csproj"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/MaterialBridge.xaml",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/MaterialBridge.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/ThemeDark.xaml",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/ThemeDark.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/ThemeLight.xaml",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/ThemeLight.xaml"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/MaterialThemeBridge.cs",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/MaterialThemeBridge.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/IHostTheme.cs",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/IHostTheme.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Resources/Themes/ThemeInfo.cs",
+      "civil3d": "HPCivil3d.McpBridge/Resources/Themes/ThemeInfo.cs"
+    },
+    {
+      "autocad": "HPAutoCad.McpBridge/Service/AutocadHostTheme.cs",
+      "civil3d": "HPCivil3d.McpBridge/Service/Civil3dHostTheme.cs"
     }
   ],
   "civilOwnedFiles": [
@@ -336,7 +356,7 @@
     {
       "autocad": "HPAutoCad.McpBridge/HPAutoCad.McpBridge.csproj",
       "civil3d": "HPCivil3d.McpBridge/HPCivil3d.McpBridge.csproj",
-      "autocadSha256": "10532d5a90856208bc6c31b78c8272753f23e09fb752d9a04f2bd7a15c5fa379"
+      "autocadSha256": "67a534f6f95404106fa4b2025feb0781799c38ca4486509271ad4884b3428b23"
     },
     {
       "autocad": "HPAutoCad.McpBridge.Loader/Bundle/PackageContents.xml",

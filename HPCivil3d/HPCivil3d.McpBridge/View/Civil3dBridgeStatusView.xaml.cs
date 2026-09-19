@@ -1,5 +1,6 @@
 using System.Runtime.Loader;
 using System.Windows;
+using HPCivil3d.McpBridge.Resources.Themes;
 using HPCivil3d.McpBridge.Service;
 using HPRebar.McpBridge.Core.ViewModel;
 
@@ -14,7 +15,7 @@ public partial class Civil3dBridgeStatusView : Window
         using (AssemblyLoadContext.GetLoadContext(typeof(Civil3dBridgeStatusView).Assembly)!.EnterContextualReflection())
         {
             InitializeComponent();
-            Civil3dThemeSwitcher.ApplyFromAutocad(this);
+            MaterialThemeBridge.Attach(this, Civil3dHostTheme.Instance);
         }
 
         DataContext = viewModel;

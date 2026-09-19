@@ -1,0 +1,18 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!--
+        MaterialDesign bootstrap for the HPGeo dialogs: the product palette (primary #0696D7, secondary #E0641E) and the
+        MD2 default control styles. Theme.xaml merges this first and bases its own styles on the toolkit's keys;
+        MaterialThemeBridge re-themes the CustomColorTheme from ThemeDark/ThemeLight.xaml at run time.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <md:CustomColorTheme BaseTheme="Dark" PrimaryColor="#0696D7" SecondaryColor="#E0641E"/>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Segoe UI everywhere (the product font; the toolkit's Roboto markup is never used in HP XAML). -->
+    <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+</ResourceDictionary>

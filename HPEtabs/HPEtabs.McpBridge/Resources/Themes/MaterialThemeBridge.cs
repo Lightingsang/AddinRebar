@@ -1,6 +1,9 @@
 using System.Windows;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
+#if NETCOREAPP
+using System.Runtime.Loader;
+#endif
 
 namespace HPEtabs.McpBridge.Resources.Themes;
 
@@ -15,11 +18,12 @@ namespace HPEtabs.McpBridge.Resources.Themes;
 /// </summary>
 public static class MaterialThemeBridge
 {
-    // Copy of HPRebar/HPRebar/Resources/Themes/MaterialThemeBridge.cs (namespace only differs): HP folders never reference each other.
+    // Copy of HPRebar/HPRebar/Resources/Themes/MaterialThemeBridge.cs (namespace + PaletteFolder may differ): HP folders never reference each other.
     // Palette files live beside this file in whichever assembly holds it.
+    private const string PaletteFolder = "Resources/Themes";
     private static readonly string AssemblyName = typeof(MaterialThemeBridge).Assembly.GetName().Name!;
-    private static readonly string DarkUri = $"pack://application:,,,/{AssemblyName};component/Resources/Themes/ThemeDark.xaml";
-    private static readonly string LightUri = $"pack://application:,,,/{AssemblyName};component/Resources/Themes/ThemeLight.xaml";
+    private static readonly string DarkUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeDark.xaml";
+    private static readonly string LightUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeLight.xaml";
     private const string OverlayMarker = "HPRebar.ThemeOverlay";
 
     /// <summary>
@@ -39,6 +43,12 @@ public static class MaterialThemeBridge
     /// <summary>One-shot: palette + MaterialDesign brushes for <paramref name="dark" />, swapped in at top level.</summary>
     public static void Apply(Window window, bool dark, Func<bool, ImageSource>? icon = null)
     {
+#if NETCOREAPP
+        // A pack URI is resolved through Assembly.Load, which searches the default load context; an add-in living in its
+        // own AssemblyLoadContext (the AutoCAD / Civil 3D / HPGeo bundles) must run the lookup inside that context. A no-op
+        // for assemblies in the default context.
+        using var reflectionScope = AssemblyLoadContext.GetLoadContext(typeof(MaterialThemeBridge).Assembly)?.EnterContextualReflection();
+#endif
         if (icon is not null) window.Icon = icon(dark);
 
         var palette = new ResourceDictionary { Source = new Uri(dark ? DarkUri : LightUri) };

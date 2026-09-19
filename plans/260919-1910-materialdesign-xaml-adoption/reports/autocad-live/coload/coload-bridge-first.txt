@@ -1,0 +1,6 @@
+﻿PASS MCP bridge window rendered dark (mean 55)
+PASS HPGeo dialog rendered dark (mean 50.9)
+PASS MCP bridge window rendered dark (mean 55)
+PASS acad quit cleanly
+PASS no error / exception in the HPAutoCad bridge log (28 lines this session)
+PASS no error / exception in the HPGeo log (12 lines this session)

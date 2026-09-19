@@ -23,6 +23,9 @@
     <ItemGroup>
         <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <!-- Control styles, merged into this assembly by the RepackMaterialDesign target below. -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
+        <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
     </ItemGroup>
 
@@ -48,6 +51,20 @@
         </ItemGroup>
         <Error Condition="'@(_HelperFiles)' == ''" Text="HPGeo.TileFetch output missing - build HPGeo.TileFetch first" />
         <Copy SourceFiles="@(_HelperFiles)" DestinationFiles="@(_HelperFiles->'$(OutDir)TileFetch\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    </Target>
+
+    <!-- The toolkit is merged into this assembly: WPF binds BAML types by simple name and takes the last-loaded copy across
+         AssemblyLoadContexts, so a loose MaterialDesignThemes.Wpf.dll would be mixed with the HPAutoCad MCP bridge's in the same
+         acad.exe. Primary input = the obj DLL, so an incremental build never merges twice; the loose files are deleted
+         before the loader's DeployBundle copies Contents\App. -->
+    <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
+        <PropertyGroup>
+            <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
+            <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
+        </PropertyGroup>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml"/>
+        <Message Importance="high" Text="RepackMaterialDesign: toolkit merged into $(AssemblyName).dll"/>
     </Target>
 
 </Project>

@@ -12,4 +12,9 @@
     <SolidColorBrush x:Key="Brush.Danger" Color="#C62828"/>
     <SolidColorBrush x:Key="Brush.Warning" Color="#B26A00"/>
     <SolidColorBrush x:Key="Brush.Success" Color="#2E7D32"/>
+    <!-- Names the theme bridge reads (the shared helper's vocabulary) = Brush.Text / Brush.TextMuted / Brush.Surface. Kept as
+         plain brushes: a StaticResource alias inside compiled BAML resolves to the wrong entry (deferred-load bug). -->
+    <SolidColorBrush x:Key="Brush.Foreground.Primary" Color="#1E1E1E"/>
+    <SolidColorBrush x:Key="Brush.Foreground.Secondary" Color="#5F5F5F"/>
+    <SolidColorBrush x:Key="Brush.SurfaceElevated" Color="#E8E8E8"/>
 </ResourceDictionary>

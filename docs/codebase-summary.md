@@ -93,6 +93,8 @@ Civil 3D 2026 là AutoCAD vertical (cùng `acad.exe /product C3D`, AutoCAD.NET 2
 
 **Publish:** `dotnet publish HPAutoCad/HPAutoCad.Mcp.Server -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=false -p:IncludeNativeLibrariesForSelfExtract=true -o HPAutoCad/output/HPAutoCad.Mcp.Server` (7.4 MB). `.mcp.json` entry (user adds) → `hprebar-autocad` → that exe + env `HPAUTOCAD_MCP_Bridge__HostVersion=2026`.
 
+**Theme (2026-09-19, MaterialDesign phase 4):** `HPAutoCad.McpBridge`, `HPCivil3d.McpBridge` (mirror, 7 file theme trong `mirroredFiles`, sha csproj re-pin) và `HPGeo.AutoCad` mỗi cái một bản copy `MaterialThemeBridge`/`IHostTheme`/`ThemeInfo`, `MaterialBridge.xaml` theo vocabulary riêng, palette `ThemeDark/ThemeLight.xaml`, host theme COLORTHEME (`AutocadHostTheme`/`Civil3dHostTheme`/`HPGeoHostTheme`) và target `RepackMaterialDesign` — toolkit merge vào từng assembly add-in vì 2 bản rời trong 2 ALC của một acad.exe trộn nhau. `*ThemeSwitcher.cs` + `*ThemeLight.xaml` cũ xoá. HPGeo: `UI/Theme.xaml` merge `MaterialBridge` trước, style re-base lên key toolkit, bỏ implicit `TextBox`/`ComboBox` (popup dark đúng — known gap đóng). Bằng chứng: `plans/260919-1910-materialdesign-xaml-adoption/reports/phase-04-autocad-family.md`.
+
 **Runtime platform:** AutoCAD 2026 base release (R25.1, .NET 8) verified 2026-09-14. Harness in repo: `mcp-call.py`, `run-server-smoke.ps1`, `run-bridge-unattended.ps1`, `harness-common.ps1`.
 
 `HPRebar.Tests` bị loại khỏi solution build có chủ đích: dưới config R23/R24 nó sẽ compile net8 rồi reference `HPRebar.dll` net48 → `CS0433 ReadOnlySpan<T> exists in both` (Polyfill nhúng span type vào assembly). Chạy riêng:

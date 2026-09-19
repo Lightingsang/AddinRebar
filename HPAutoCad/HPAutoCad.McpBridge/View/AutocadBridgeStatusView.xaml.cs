@@ -1,5 +1,6 @@
 using System.Runtime.Loader;
 using System.Windows;
+using HPAutoCad.McpBridge.Resources.Themes;
 using HPAutoCad.McpBridge.Service;
 using HPRebar.McpBridge.Core.ViewModel;
 
@@ -14,7 +15,7 @@ public partial class AutocadBridgeStatusView : Window
         using (AssemblyLoadContext.GetLoadContext(typeof(AutocadBridgeStatusView).Assembly)!.EnterContextualReflection())
         {
             InitializeComponent();
-            AutocadThemeSwitcher.ApplyFromAutocad(this);
+            MaterialThemeBridge.Attach(this, AutocadHostTheme.Instance);
         }
 
         DataContext = viewModel;

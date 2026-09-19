@@ -1,0 +1,4 @@
+﻿PASS HPGEO dialog opened (mean brightness 58.4)
+PASS ComboBox popup captured (352x384, mean brightness 50.1, state Expanded)
+PASS popup follows the theme (COLORTHEME 0)
+PASS acad quit cleanly

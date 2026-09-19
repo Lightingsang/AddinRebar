@@ -1,0 +1,4 @@
+﻿PASS window opened and captured (mean brightness dark=55 light=245.4 darkAgain=55)
+PASS the open window re-themed on COLORTHEME 0 -> 1 -> 0
+PASS acad quit cleanly
+PASS no error / exception in the bridge logs

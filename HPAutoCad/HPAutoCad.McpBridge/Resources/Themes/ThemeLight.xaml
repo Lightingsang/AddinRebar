@@ -1,4 +1,4 @@
-<!-- Light palette, merged over AutocadTheme.xaml when AutoCAD's COLORTHEME is light. Brushes only; styles stay. -->
+<!-- Light palette (COLORTHEME 1; accent = the HP product blue). Swapped at run time by MaterialThemeBridge (top-level overlay); keep both files' key sets identical. -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="Brush.Background" Color="#FFF3F3F3"/>
@@ -7,9 +7,9 @@
     <SolidColorBrush x:Key="Brush.Foreground.Primary" Color="#FF1E1E1E"/>
     <SolidColorBrush x:Key="Brush.Foreground.Secondary" Color="#FF5A5A5A"/>
     <SolidColorBrush x:Key="Brush.Foreground.Tertiary" Color="#FF9A9A9A"/>
-    <SolidColorBrush x:Key="Brush.Accent" Color="#FF1F6FC5"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="#FF0696D7"/>
     <SolidColorBrush x:Key="Brush.Accent.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="Brush.Info" Color="#FF1F6FC5"/>
+    <SolidColorBrush x:Key="Brush.Info" Color="#FF0696D7"/>
     <SolidColorBrush x:Key="Brush.Success" Color="#FF2E7D32"/>
     <SolidColorBrush x:Key="Brush.Warning" Color="#FFB26A00"/>
     <SolidColorBrush x:Key="Brush.Danger" Color="#FFC62828"/>

@@ -110,7 +110,7 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Xem KML" Command="{Binding ToggleKmlPreviewCommand}"/>
-            <Button Content="Xuất KMZ &amp; mở Google Earth" Style="{StaticResource Button.Primary}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"
+            <Button Content="Xuất KMZ" Style="{StaticResource Button.Primary}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"
                     ToolTip="Ghi file KMZ rồi mở ngay trong Google Earth Pro cài trên máy (không có thì theo liên kết .kmz của Windows)"/>
             <Button Content="Mở Google Earth" Command="{Binding OpenGoogleEarthCommand}" IsEnabled="{Binding CanExport}"/>
             <Button Content="Google Maps" Command="{Binding OpenGoogleMapsCommand}" IsEnabled="{Binding CanExport}"/>

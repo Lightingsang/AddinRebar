@@ -49,8 +49,16 @@ function Set-OptIn([bool]$on) {
     if (-not $win) { Write-Host "opt-in: bridge window not found"; return $false }
     Write-Host "opt-in: window found '$($win.Current.Name)' class $($win.Current.ClassName)"
     $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'AllowExecution')
-    $box = $win.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $cond)
-    if (-not $box) { Write-Host "opt-in: checkbox not found"; return $false }
+    # The bridge window loads its MaterialDesign dictionaries on first open (a second or two after the pipe is up), so the
+    # checkbox may not exist yet on the first look: poll for up to 20 s.
+    $box = $null
+    $poll = [Diagnostics.Stopwatch]::StartNew()
+    while (-not $box -and $poll.Elapsed.TotalSeconds -lt 20) {
+        $box = $win.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $cond)
+        if (-not $box) { Start-Sleep -Seconds 1 }
+    }
+    if (-not $box) { Write-Host "opt-in: checkbox not found after $([int]$poll.Elapsed.TotalSeconds) s"; return $false }
+    if ($poll.Elapsed.TotalSeconds -ge 1) { Write-Host "opt-in: checkbox appeared after $([int]$poll.Elapsed.TotalSeconds) s" }
     $toggle = $box.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
     $isOn = $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
     if ($isOn -ne $on) { $toggle.Toggle(); Start-Sleep -Milliseconds 700 }

@@ -3,15 +3,12 @@ using System.Windows;
 namespace HPGeo.AutoCad.UI;
 
 /// <summary>
-/// Loads the resource dictionaries by component URI. Must be called inside the assembly's contextual
-/// reflection scope (the add-in lives in the loader's AssemblyLoadContext).
+/// Loads the style dictionary (Theme.xaml, which merges the MaterialDesign bootstrap) by component URI. Must be
+/// called inside the assembly's contextual reflection scope (the add-in lives in the loader's AssemblyLoadContext).
+/// The Dark/Light palette is swapped in by <see cref="MaterialThemeBridge"/>.
 /// </summary>
 internal static class ThemeResources
 {
-    public static ResourceDictionary Brushes(bool dark) => Load(dark ? "UI/ThemeDark.xaml" : "UI/ThemeLight.xaml");
-
-    public static ResourceDictionary Styles() => Load("UI/Theme.xaml");
-
-    private static ResourceDictionary Load(string relativePath) =>
-        new() { Source = new Uri("/HPGeo.AutoCad;component/" + relativePath, UriKind.Relative) };
+    public static ResourceDictionary Styles() =>
+        new() { Source = new Uri("/HPGeo.AutoCad;component/UI/Theme.xaml", UriKind.Relative) };
 }
