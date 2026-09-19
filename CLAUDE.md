@@ -222,8 +222,7 @@ Built 2026-09-18 from the user's prompt template (P1 Core → P2 host adapter �
 **`AGENTS.md` is a generated mirror of `CLAUDE.md`.** Edit `CLAUDE.md` and re-sync; never hand-edit `AGENTS.md` — the edit will be overwritten. The rewrite table is `_TO_PORTABLE` in `scripts/skill_sync/adapters/portable_markdown.py`: `.claude/skills` → `.agents/skills`, `.claude/rules` → `.agents/rules`, `CLAUDE.md` → `AGENTS.md`, `Claude Code` → `the host coding agent`, tool names → host capability names. Paths it deliberately leaves alone — `.claude/settings.json`, `.claude/hooks/`, `.claude/scripts/` — are real Claude Code files with no portable equivalent; rewriting them would make `AGENTS.md` wrong. Regenerate with the engine's own table rather than by hand:
 
 ```bash
-python -c "import io,sys; sys.path.insert(0,'.'); from scripts.skill_sync.adapters import portable_markdown as pm; s=io.open('CLAUDE.md',encoding='utf-8').read(); io.open('AGENTS.md','w',encoding='utf-8',newline='
-').write(pm._replace(pm._normalize_newlines(s), pm._TO_PORTABLE))"
+python -c "import io,sys; sys.path.insert(0,'.'); from scripts.skill_sync.adapters import portable_markdown as pm; s=io.open('CLAUDE.md',encoding='utf-8').read(); io.open('AGENTS.md','w',encoding='utf-8',newline='\n').write(pm._replace(pm._normalize_newlines(s), pm._TO_PORTABLE))"
 ```
 
 The engine is `scripts/sync-agent-skills.py` (thin wrapper) over the `scripts/skill_sync/` package:
