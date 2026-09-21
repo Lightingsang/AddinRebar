@@ -1,40 +1,27 @@
-# DISPATCH — challenger_m1_1
+## 2026-09-21T13:40:19Z
+You are challenger_m1_1 (M1 Security Challenger) for the HPRobot MCP Subsystem.
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m1_1\
+Your parent is the Project Orchestrator (orchestrator_7, conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de).
 
-Role: Correctness & Boundary Stress Challenger 1
-Working Directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1
+MANDATORY FIRST STEP:
+Read g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md and g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_7\PROJECT.md.
+Also read worker_m1_1's changes and handoff:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m1_1\changes.md`
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m1_1\handoff.md`
 
-## Context & Inputs
-- Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-- Master Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-- Worker Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m1\handoff.md`
-- Target Code:
-  - `HPRebar/HPRebar.Core/BeamRebar/`
-  - `HPRebar/HPRebar.Core.Tests/BeamRebar/`
+YOUR MISSION:
+Empirically stress-test and challenge the security guard profile for Robot (`GuardProfile.Robot`):
+1. Write and run challenge tests in `McpShared/HPRebar.Mcp.Server.Core.Tests/` to verify:
+   - Denied method invocations (`Quit`, `ApplicationExit`, `Interactive`, `MessageBox`).
+   - Forbidden directives (`#r`, `#load`).
+   - File deletion / process creation attempts (`System.Diagnostics.Process`, `System.IO.File.Delete`).
+   - Reflection and threading attempts.
+   - Timeout clamping against `RobotHeavyMaxTimeoutSeconds` (300s).
+2. Run the test suite:
+   `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`
+3. Document your verdict (APPROVE or REQUEST_CHANGES).
 
-## Task
-1. Empirically verify the correctness and extreme boundary behavior of `HPRebar.Core/BeamRebar/Calculators/`:
-   - Can `BeamStirrupDistributionCalculator` be tricked into producing negative counts or >1002 positions without throwing?
-   - What happens with extreme cantilever configurations (e.g. left cantilever + right cantilever + 0 interior spans vs 5 interior spans)?
-   - What happens when beam depth transitions from 1200mm to 400mm? Are bottom bars correctly terminated with upward hooks?
-   - What happens with beam length of 50 meters? Are lap splices correctly staggered by 50% and located in midspan for top bars?
-2. Run test execution:
-   - Run `dotnet test HPRebar/HPRebar.Core.Tests` via terminal commands to empirically verify all 94 new tests + 102 existing tests pass.
-3. Issue a verdict: `APPROVE` (correctness verified) or `CHALLENGE_FAILED` (bugs found).
-
-## Output
-Write report to `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1\challenge_report.md` and `handoff.md`.
-Notify orchestrator via send_message.
-
-## 2026-09-07T07:51:00Z
-You are challenger_m1_1.
-Your working directory is: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1
-Read your task assignment at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1\DISPATCH.md
-Read the authoritative user request at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md
-Read worker_m1 handoff at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m1\handoff.md
-
-Stress-test and empirically challenge the correctness of HPRebar.Core/BeamRebar/Calculators/.
-Run:
-`dotnet test HPRebar/HPRebar.Core.Tests`
-Write your report to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1\challenge_report.md
-Write your handoff to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1\handoff.md
-Notify orchestrator via send_message with your verdict (APPROVE or CHALLENGE_FAILED).
+DELIVERABLES:
+Write your challenge report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m1_1\handoff.md`
+When finished, send a message to your parent with your verdict and report path.

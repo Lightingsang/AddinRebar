@@ -1,0 +1,36 @@
+{
+  "name": "select_objects",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Model",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["model", "select", "query", "filter"],
+  "title": "Select or query model objects",
+  "description": "Query or select objects in Tekla model by type (ALL, BEAM, COLUMN, CONTOURPLATE, REBAR) or count limit. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "typeFilter": {
+        "type": "string",
+        "default": "ALL",
+        "description": "Object type: ALL, BEAM, COLUMN, CONTOURPLATE, REBAR."
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "description": "Maximum number of objects to return (1-200)."
+      },
+      "setSelection": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to highlight objects in Tekla active UI selection."
+      }
+    },
+    "additionalProperties": false
+  }
+}

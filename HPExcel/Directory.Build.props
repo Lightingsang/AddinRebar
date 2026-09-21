@@ -1,0 +1,17 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPExcel.
+    Microsoft Excel MCP Ecosystem (Standalone WPF Bridge + Stdio MCP Server).
+    Hybrid COM Interop (Microsoft.Office.Interop.Excel) and headless OpenXML (ClosedXML).
+  -->
+  <PropertyGroup>
+    <ExcelDefaultVersion>2026</ExcelDefaultVersion>
+    <ClosedXmlVersion Condition="'$(ClosedXmlVersion)' == ''">0.104.2</ClosedXmlVersion>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);xUnit1051;NU1701</NoWarn>
+  </PropertyGroup>
+
+</Project>

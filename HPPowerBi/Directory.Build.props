@@ -1,0 +1,19 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPPowerBi.
+    Power BI Desktop Tabular Object Model (AMO-TOM) and ADOMD.NET are provided via official NuGet packages:
+    - Microsoft.AnalysisServices.NetCore.retail
+    - Microsoft.AnalysisServices.AdomdClient.NetCore.retail
+    - Microsoft.Identity.Client
+  -->
+  <PropertyGroup>
+    <PowerBiDefaultVersion>2026</PowerBiDefaultVersion>
+    <AnalysisServicesVersion Condition="'$(AnalysisServicesVersion)' == ''">19.117.0</AnalysisServicesVersion>
+    <MsalVersion Condition="'$(MsalVersion)' == ''">4.83.3</MsalVersion>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

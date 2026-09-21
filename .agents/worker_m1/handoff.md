@@ -1,131 +1,179 @@
-# Handoff Report — worker_m1 (M1/M2 Core Domain & Test Suite)
+# Handoff Report — Milestone 1: HPPowerBi Solution Scaffolding & McpBridge Core Engine
 
-**Date**: 2026-09-07  
-**Author**: worker_m1  
-**Target Milestone**: M1 (Domain Models & Calculators) & M2 (Unit Test Suite)  
+- **Author**: worker_m1 (implementer, qa, specialist)
+- **Date**: 2026-09-21T06:37:00Z
+- **Working Directory**: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m1`
+- **Target Deliverable**: `HPPowerBi/` (`HPPowerBi.slnx`, `HPPowerBi.McpBridge/`, `HPPowerBi.Mcp.Server/`, `HPPowerBi.McpBridge.Tests/`, `HPPowerBi.Mcp.Server.Tests/`)
+- **Status**: Hard Handoff (Complete, Fully Verified, 0 Errors, 0 Warnings, 100% Tests Passing)
 
 ---
 
 ## 1. Observation
 
-1. **Assigned Scope & Directory Constraints**:
-   Per `DISPATCH.md`:
-   - Owned and implemented exclusively in:
-     - `HPRebar/HPRebar.Core/BeamRebar/`
-     - `HPRebar/HPRebar.Core.Tests/BeamRebar/`
-   - Target Framework: `HPRebar.Core` (`netstandard2.0` with `Polyfill 11.0.1`), `HPRebar.Core.Tests` (`net8.0` with `xUnit v3.1.0` under `Microsoft.Testing.Platform`).
-   - Pure domain constraints: exactly 0 references to `Autodesk.Revit.*` in `HPRebar.Core`.
+### 1.1 Solution & Project Scaffolding
+The following solution and configuration files were created in `HPPowerBi/`:
+- `HPPowerBi.slnx`: XML format solution mapping 4 HPPowerBi projects plus 3 shared projects (`McpShared/HPRebar.Mcp.Contracts/`, `McpShared/HPRebar.McpBridge.Core/`, `McpShared/HPRebar.Mcp.Server.Core/`).
+- `Directory.Build.props`: Version properties pinning `AnalysisServicesVersion` to `19.117.0` and `MsalVersion` to `4.83.3`.
+- `global.json`: Pinned .NET SDK `10.0.300` and `Microsoft.Testing.Platform` test runner.
+- `HPPowerBi.McpBridge/HPPowerBi.McpBridge.csproj`: Target framework `net8.0-windows`, `OutputType=WinExe`, `UseWPF=true`, references `Microsoft.AnalysisServices` (19.117.0), `Microsoft.AnalysisServices.AdomdClient` (19.117.0), `Microsoft.Identity.Client` (4.83.3), `Serilog`, and project references to `McpBridge.Core` and `Mcp.Contracts`.
+- `HPPowerBi.Mcp.Server/HPPowerBi.Mcp.Server.csproj`: Target framework `net10.0`, `OutputType=Exe`, project references to `Mcp.Server.Core` and `Mcp.Contracts`.
+- `HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj`: Target framework `net8.0-windows`, references xUnit v3 (`xunit.v3`), `Microsoft.Testing.Platform.MSBuild`, `xunit.analyzers`, and references `HPPowerBi.McpBridge`.
+- `HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj`: Target framework `net10.0`, references xUnit v3, `Microsoft.Testing.Platform.MSBuild`, and references `HPPowerBi.Mcp.Server`.
 
-2. **Created Domain Models (`HPRebar.Core/BeamRebar/Models/`)**:
-   - `Point3.cs`: Immutable 3D coordinate struct in millimetres with vector operations, distance, and equality tolerances.
-   - `Vector3.cs`: 3D Cartesian vector with dot, cross, normalize, length, and arithmetic operators.
-   - `Polyline3.cs`: Immutable 3D polyline curve with `TotalLength`, `Simplify(minSegmentLength = 1.0)`, and `Translate(offset)`.
-   - `BarPolyline.cs`: Centerline curve and metadata (`Diameter`, `Layer`, `StartHookAngle`, `EndHookAngle`, `StartHookLength`, `EndHookLength`, `TransverseY`, `HostSpanIndex`, `HostSupportIndex`, `BarTypeName`, `TotalLength`).
-   - `BeamSpan.cs`: Span geometry (`LengthCenter`, `LengthClear`, `Width`, `Height`, `TopElevation`, `BottomElevation`, `StartX`, `EndX`, `Cover`, `Cantilever`, `EffectiveDepth`).
-   - `BeamSupportNode.cs`: Support node geometry (`CenterX`, `Width`, `Depth`, `Type`, `LeftFaceX`, `RightFaceX`, `IsExterior`).
-   - `SecondaryBeamIntersection.cs`: Intersection joint parameters (`HostSpanIndex`, `CenterX`, `Width`, `Height`, `TopElevation`, `SoffitElevation`, `FramingSide`).
-   - `BeamContinuousStack.cs`: Ordered spans, support nodes, and secondary intersections container with `Validate()`, `FindSpanAt()`, and global boundary properties.
-   - `BeamStirrupSpec.cs`: Layout parameters (`StirrupLayout`, `Diameter`, `Cover`, `SpacingDense`, `SpacingSparse`, `StartOffset`, `IncludeStirrupsInNodes`, `NodeSpacing`, `HookAngle`).
-   - `StirrupZone.cs`: Discrete calculated stirrup zone (`ZoneIndex`, `StartX`, `EndX`, `Length`, `Spacing`, `Count`, `Positions`).
-   - `StirrupRun.cs`: Native Revit-compatible stirrup array record (`Count`, `Spacing`, `StartOffset`, `Length`, `Origin`, `Width`, `Height`, `StartX`, `EndX`, `Positions`).
-   - `BeamMainBarSpec.cs`: Continuous top and bottom bar detailing, hooks, commercial stock length (11700 mm), and 50% staggered lap splices.
-   - `BeamAdditionalBarSpec.cs`: Negative-moment top support configs (`SupportAdditionalTopBarConfig`, $L/3, L/4$) and positive-moment bottom midspan configs (`SpanAdditionalBottomBarConfig`, $L/7$).
-   - `BeamSideBarSpec.cs`: Deep beam skin reinforcement ($h \ge 700$ mm, spacing $\le 300$ mm) and transverse cross-ties.
-   - `BeamSpecialBarSpec.cs`: Secondary beam hanging stirrup cages (pairs @ 50 mm) and 45° diagonal bent ties.
-   - `Enums.cs`: `SupportType`, `StirrupLayout`, `StirrupDistributionType`, `EndAnchorageType`, `BarType`, `HookAngle`, `CantileverPosition`, `IntersectionSide`, `CrossTieHookType`.
-   - `ValidationResult.cs`: `IsSuccess`, `ErrorMessage`, `Warnings`.
-   - `GlobalUsings.cs`: `global using BeamBarPolyline = HPRebar.Core.BeamRebar.Models.BarPolyline;`.
+### 1.2 Backend Services in `HPPowerBi.McpBridge/`
+All requested services were implemented across 6 directories:
+1. **Discovery** (`HPPowerBi/HPPowerBi.McpBridge/Discovery/`):
+   - `PbiInstanceInfo.cs`: Data record containing `ProcessId`, `MsmdsrvProcessId`, `Port`, `ReportTitle`, `WorkspaceFolder`, and `DisplayString`.
+   - `AnalysisServicesPortFinder.cs`: UTF-16LE reading of `msmdsrv.port.txt`, `FileShare.ReadWrite`, retry policy (5 attempts, exponential backoff), port range validation (1024..65535).
+   - `PbiProcessDetector.cs`: Detects running `PBIDesktop` processes, extracts parent window titles to infer report names, discovers child `msmdsrv.exe` processes via WMI, and resolves the active port.
+2. **Tabular & DAX Services** (`HPPowerBi/HPPowerBi.McpBridge/Tabular/`):
+   - `PbiConnectionManager.cs`: Thread-safe lifecycle manager for AMO-TOM `Server` and ADOMD.NET `AdomdConnection` instances with locking and active state tracking.
+   - `PbiSchemaReader.cs`: Full tabular schema extraction converting TOM Model, Tables, Columns (data type, format string, calculated/data), Measures, Partitions, Hierarchies, and Relationships into serializable DTOs.
+   - `PbiDaxExecutor.cs`: Non-blocking ADOMD.NET query execution (`ExecuteDaxAsync`), stopwatch timing, row-limit truncation clamping (1..10000), `ReadFromDataReader` supporting generic `IDataReader` mocks, and formatters (`FormatAsMarkdown`, `FormatAsJson`).
+   - `PbiMeasureService.cs`: CreateOrUpdate and Delete measures on TOM tables with transactional `model.SaveChanges()`.
+   - `PbiRelationshipService.cs`: Create, activate, and delete single-column relationships with cardinality setting and `model.SaveChanges()`.
+3. **Safety & Snapshot Layer** (`HPPowerBi/HPPowerBi.McpBridge/Safety/`):
+   - `PbiSnapshotManager.cs`: Serializes TOM `Database` to TMSL JSON via `Tabular.JsonSerializer.SerializeDatabase` before mutations, stores snapshots in `%LocalAppData%\HPPowerBi\Snapshots\{ModelName}\`, prunes older snapshots beyond 50, and supports model rollback/restore.
+   - `PbiSafetyGuard.cs`: Enforces dual opt-in flags (`AllowModelMutations`, `AllowCloudOperations`), validates DAX queries (blocking XMLA `<Batch>`, `DISCOVER`, `ALTER`, `DROP`, `CREATE`), and blocks non-opted mutations.
+4. **External Tools** (`HPPowerBi/HPPowerBi.McpBridge/ExternalTools/`):
+   - `ExternalToolsRegistrar.cs`: Generates `HPPowerBi.pbitool.json` with launch arguments (`--port "%server%"`), registers to `%CommonProgramFiles%\Microsoft Shared\Power BI Desktop\External Tools\` (with fallback to `%LocalAppData%\Microsoft\Power BI Desktop\External Tools\`), validates registration, and supports clean unregistration.
+5. **Cloud REST Client** (`HPPowerBi/HPPowerBi.McpBridge/Cloud/`):
+   - `PowerBiCloudClient.cs`: MSAL OAuth 2.0 integration (Client Secret & Interactive/Device token acquisition), REST endpoints for listing workspaces, datasets, triggering dataset refreshes, and executing DAX queries over the Power BI Cloud REST API (`/v1.0/myorg/datasets/{id}/executeQueries`). Supports injectable `HttpClient` for testing.
+6. **Host Bridge Layer** (`HPPowerBi/HPPowerBi.McpBridge/Host/`):
+   - `PowerBiScriptGlobals.cs`: Script global object contract exposing `model`, `server`, `adomd`, `ct`, `log`, `progress`, `args`.
+   - `PowerBiBridgeExecutor.cs`: Complete `IBridgeExecutor` implementation compiling C# scripts against Roslyn, applying `GuardProfile.PowerBi`, creating pre-mutation TMSL snapshots, and executing scripts on the active tabular model.
+   - `PowerBiDispatcher.cs`: Custom dispatcher routing specialized methods (`powerbi.dax`, `powerbi.schema`, `powerbi.measure.*`, `powerbi.relationship.*`, `powerbi.cloud.*`) while forwarding standard engine calls to `RequestDispatcher`.
 
-3. **Created Domain Calculators & Tolerance (`HPRebar.Core/BeamRebar/`)**:
-   - `Tolerance.cs`: Floating-point epsilon comparisons (`Default = 1e-9`, `CollinearToleranceMm = 1e-6`, `MinimumSegmentMm = 1.0`).
-   - `Calculators/BeamStirrupDistributionCalculator.cs`:
-     - `ComputeSpanRuns`: Uniform layout with symmetric centering slack, 3-Zone $L/4-L/2-L/4$ and $L/3-L/3-L/3$ with short span fallback ($< 600$ mm), cantilever uniform dense layout. Enforces `MaxBarPositions = 1002`.
-     - `ComputeNodeRun`: Ties distributed through column joint core.
-     - `ComputeZoneLengths`: Theoretical zone boundary calculator.
-     - `ComputeStackRuns`: Multi-span continuous stack iterator.
-   - `Calculators/BeamMainBarCalculator.cs`:
-     - `ComputeTransverseYPositions`: Symmetric transverse bar layout across beam width.
-     - `ComputeTopMainBars`: Continuous top tension bars, 90° downward exterior column hooks, cantilever tip wrap-down, 50% staggered midspan lap splices for lengths $> 11.7$ m.
-     - `ComputeBottomMainBars`: Continuous bottom bars, 90° upward exterior column hooks, cantilever support stops, depth transition step termination, support lap splices.
-     - `SimplifyPolyline`: Culls sub-millimeter segments ($< 1.0$ mm) and collinear intermediate vertices ($< 10^{-6}$ mm).
-   - `Calculators/BeamAdditionalBarCalculator.cs`:
-     - `ComputeSupportTopBars`: Support top bars with $L/3$ (Layer 1) and $L/4$ (Layer 2) cutoffs, exterior column 90° hooks, vertical layer gap ($\Delta Z \ge 30$ mm).
-     - `ComputeSpanBottomBars`: Midspan bottom straight bars with $L/7$ face cutoffs and multi-layer vertical stacking.
-   - `Calculators/BeamSideBarCalculator.cs`:
-     - `RequiresSideBars`: Triggered when $h \ge 700$ mm.
-     - `ComputeRowCount`: Ceiling-based progression yielding exactly 0 ($< 700$), 1 ($700-800$), 2 ($900-1000$), 3 ($1100-1200$).
-     - `ComputeLongitudinalSideBars`: Symmetrical pairs on left and right lateral faces with vertical pitch $\le 300$ mm.
-     - `ComputeCrossTies`: Anti-buckling C-ties across beam web with alternating 90°/135° seismic hooks.
-   - `Calculators/BeamSpecialBarCalculator.cs`:
-     - `ComputeHangingStirrupStations`: Symmetrical flanking stations @ 50 mm on both sides of secondary beam joint.
-     - `MergeHangingStations`: Merges overlapping stations from adjacent secondary beams.
-     - `ComputeDiagonalTiePolyline`: 45° inclined 6-point polyline under secondary soffit.
-     - `ComputeHangingStirrups`: Validates secondary beam location inside clear span (throws `ArgumentException` if outside) and generates full stirrup loops.
-     - `ComputeDiagonalTies`: Generates diagonal bent ties for secondary beams with depth $\ge 300$ mm.
-   - `Calculators/BeamCanvasTransformCalculator.cs`:
-     - `ComputeElevationTransform`: Uniform aspect-ratio scaling, centering offsets, and vertical $Z$-up to WPF $Y$-down inversion.
-     - `ComputeSectionTransform`: Cross-section uniform scaling and centering.
-     - `BeamCanvasTransform`: Bidirectional `ToScreen` and `ToModel` coordinate mappings.
+### 1.3 Verbatim Build and Test Execution Results
+1. **Compilation Command**:
+   ```cmd
+   dotnet build HPPowerBi/HPPowerBi.slnx -c Debug
+   ```
+   **Output**:
+   ```
+     Determining projects to restore...
+     All projects are up-to-date for restore.
+     HPRebar.Mcp.Contracts -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Debug\netstandard2.0\HPRebar.Mcp.Contracts.dll
+     HPRebar.Mcp.Contracts -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Debug\net48\HPRebar.Mcp.Contracts.dll
+     HPRebar.McpBridge.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core\bin\Debug\net8.0\HPRebar.McpBridge.Core.dll
+     HPRebar.Mcp.Server.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.dll
+     HPRebar.McpBridge.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core\bin\Debug\net48\HPRebar.McpBridge.Core.dll
+     HPPowerBi.McpBridge -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.McpBridge\bin\Debug\net8.0-windows\HPPowerBi.McpBridge.dll
+     HPPowerBi.Mcp.Server -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.Mcp.Server\bin\Debug\net10.0\HPPowerBi.Mcp.Server.dll
+     HPPowerBi.McpBridge.Tests -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.McpBridge.Tests\bin\Debug\net8.0-windows\HPPowerBi.McpBridge.Tests.dll
+     HPPowerBi.Mcp.Server.Tests -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.Mcp.Server.Tests\bin\Debug\net10.0\HPPowerBi.Mcp.Server.Tests.dll
 
-4. **Created Unit Test Suites (`HPRebar.Core.Tests/BeamRebar/`)**:
-   - `TestBeamData.cs`: Fluent test fixtures (`SingleSpan`, `TwoSpan`, `ThreeSpan`, `CantileverLeft`, `VariableDepth`, `DeepBeam`, `UniformStirrupSpec`, `ThreeZoneL4StirrupSpec`, `ThreeZoneL3StirrupSpec`, `MainBarSpec`).
-   - `BeamStirrupDistributionCalculatorTests.cs`: 18 tests covering feature groups, symmetry, slack centering, 3-zone fallback, `MaxBarPositions = 1002` exception, multi-span stacks, and Framing Case A (122 stirrups).
-   - `BeamMainBarCalculatorTests.cs`: 20 tests covering U-shaped downward/upward hooks, transverse spacing, stock length splicing, 50% stagger ($1.3 \times L_{lap}$), depth steps, cantilevers, and segment culling.
-   - `BeamAdditionalBarCalculatorTests.cs`: 16 tests covering support top $L/3$, $L/4$, exterior hooks, midspan bottom $L/7$, 2 vertical layers, and nominal lengths (3800 mm support, 4000 mm midspan).
-   - `BeamSideBarCalculatorTests.cs`: 14 tests covering height threshold theory (500, 600, 699, 700, 800, 1000, 1200), spacing $\le 300$ mm, cross-tie generation, and alternating hook angles.
-   - `BeamSpecialBarCalculatorTests.cs`: 12 tests covering hanging stirrup stations (3225, 3275, 3325, 3675, 3725, 3775 mm), 45° diagonal ties ($\Delta X = \Delta Z$), and out-of-span exceptions.
-   - `BeamCanvasTransformCalculatorTests.cs`: 14 tests covering aspect ratio preservation, margin padding, coordinate inversion, and round-trip fidelity.
-   - Total: 94 new unit tests across 6 calculator suites.
+   Build succeeded.
+       0 Warning(s)
+       0 Error(s)
+
+   Time Elapsed 00:00:02.90
+   ```
+
+2. **HPPowerBi.McpBridge.Tests Execution**:
+   ```cmd
+   dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj
+   ```
+   **Output**:
+   ```
+   xUnit.net v3 Microsoft.Testing.Platform Runner v3.1.0+03a071627b (64-bit .NET 8.0.30)
+
+   Test run summary: Passed! - G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.McpBridge.Tests\bin\Debug\net8.0-windows\HPPowerBi.McpBridge.Tests.dll (net8.0|x64)
+     total: 24
+     failed: 0
+     succeeded: 24
+     skipped: 0
+     duration: 314ms
+   ```
+
+3. **HPPowerBi.Mcp.Server.Tests Execution**:
+   ```cmd
+   dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj
+   ```
+   **Output**:
+   ```
+   xUnit.net v3 Microsoft.Testing.Platform Runner v3.1.0+03a071627b (64-bit .NET 10.0.11)
+
+   Test run summary: Passed! - G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPPowerBi\HPPowerBi.Mcp.Server.Tests\bin\Debug\net10.0\HPPowerBi.Mcp.Server.Tests.dll (net10.0|x64)
+     total: 1
+     failed: 0
+     succeeded: 1
+     skipped: 0
+     duration: 498ms
+   ```
+
+4. **Regression Tests in McpShared**:
+   - `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`:
+     Total: 227 | Succeeded: 227 | Failed: 0 | Skipped: 0.
+   - `dotnet run --project McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj`:
+     Total: 71 | Succeeded: 71 | Failed: 0 | Skipped: 0.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Isolation & Determinism**:
-   - Observation: Structural engineering logic is sensitive to unit consistency and floating-point errors, while Revit's `Document` is unmockable.
-   - Deduction: By implementing all models and calculators in `HPRebar.Core/BeamRebar/` with strict millimetre units (`double`), pure static methods, and immutability, the entire geometry engine is 100% testable in CLI without Revit runtime dependencies.
-2. **Revit Crash Prevention Guardrails**:
-   - Observation: In Revit API, `RebarShapeDrivenAccessor.SetLayoutAsNumberWithSpacing` crashes if count $> 1002$, and `Rebar.CreateFreeForm` / `CreateFromCurves` throws `ArgumentException` on curves $< 0.78$ mm.
-   - Deduction: Enforced `MaxBarPositions = 1002` check in `BeamStirrupDistributionCalculator` and `SimplifyPolyline` with `Tolerance.MinimumSegmentMm = 1.0` in `BeamMainBarCalculator`.
-3. **Vietnamese Code Detailing Alignment**:
-   - Observation: TCVN 5574:2018 requires 3-zone stirrup detailing ($L/4-L/2-L/4$ or $L/3-L/3-L/3$), skin bars for $h \ge 700$ mm ($s \le 300$ mm), support top additions ($L/3$), midspan bottom additions ($L/7$), and concentrated hanging stirrups at secondary joints.
-   - Deduction: Implemented exact mathematical formulas in respective calculators, verified against Framing Case A and Framing Case B test fixtures.
+1. **Host-Independent Package Resolution**:
+   - Upstream research initially suggested deprecated packages (`Microsoft.AnalysisServices.NetCore.retail`).
+   - Testing indicated package deprecation and NuGet dependency conflicts.
+   - Replacing with unified official packages `Microsoft.AnalysisServices` (19.117.0) and `Microsoft.AnalysisServices.AdomdClient` (19.117.0) paired with `Microsoft.Identity.Client` (4.83.3) resolved all package restore and NU1605 warning conflicts cleanly.
+2. **Headless & Offline Testability**:
+   - ADOMD and TOM connections require a running SSAS instance if exercised end-to-end, which cannot run in automated CI without Power BI Desktop open.
+   - Designed `PbiDaxExecutor` to decouple data reading via `IDataReader`, allowing `DataTable.CreateDataReader()` to simulate live ADOMD result sets.
+   - Designed `PowerBiCloudClient` to accept custom `HttpMessageHandler`, allowing 100% mock HTTP testing for OAuth and REST operations without network or cloud credentials.
+   - Designed `PbiSnapshotManager` with configurable base directory, enabling unit tests in isolated temporary folders.
+   - Result: 24 comprehensive unit tests run headlessly in <350ms with 0 dependencies on running software.
+3. **Pipe Dispatching Strategy**:
+   - `RequestDispatcher` in `McpBridge.Core` strictly handles the 6 standard methods (`ping`, `cancel`, `inspect`, `analyze`, `context`, `execute`).
+   - Created `PowerBiDispatcher` to intercept higher-level Power BI methods (`dax`, `schema`, `measure.*`, `relationship.*`, `cloud.*`), dispatching them directly to tabular/cloud services and delegating standard methods to `RequestDispatcher`.
+   - Result: Both native MCP tool execution and high-level typed tool operations are fully supported without modifying core contracts.
 
 ---
 
 ## 3. Caveats
 
-- **Runtime Execution**: In this turn, the interactive permission prompt for executing terminal commands (`dotnet test`) timed out waiting for user response. Per system instructions, `run_command` was not re-executed. All files were thoroughly verified through exhaustive static analysis against the exact type signatures and test specifications.
-- **No Revit API Dependencies**: As required by architectural guardrails, `HPRebar.Core` contains zero Revit references. Downstream Revit element creation will be performed by `BeamRebarCreationService` in M3.
+1. **Running Power BI Desktop Connection**:
+   - The Discovery layer (`PbiProcessDetector`, `AnalysisServicesPortFinder`) and live AMO-TOM / ADOMD connection require a running Power BI Desktop instance on Windows to connect live. In offline headless test environments, tests utilize synthetic files and mock readers.
+2. **WMI Permissions**:
+   - In environments with restricted WMI/ManagementObjectSearcher permissions, child `msmdsrv.exe` process discovery falls back to scanning temp folder ports.
 
 ---
 
 ## 4. Conclusion
 
-All deliverables for Milestone M1 (Domain Models & Calculators) and Milestone M2 (Test Suite) are completely and genuinely implemented:
-1. 17 domain models in `HPRebar.Core/BeamRebar/Models/` + `GlobalUsings.cs`.
-2. `Tolerance.cs` in `HPRebar.Core/BeamRebar/`.
-3. 6 pure domain calculators in `HPRebar.Core/BeamRebar/Calculators/`.
-4. `TestBeamData.cs` and 6 xUnit v3 test suites (94 tests) in `HPRebar.Core.Tests/BeamRebar/`.
-The codebase strictly adheres to repository conventions, `netstandard2.0` compatibility, file-scoped namespaces, and pure mathematical determinism.
+Milestone 1 is complete:
+- The entire `HPPowerBi` solution structure and project files have been created in accordance with `HPEtabs`/`HPSap2000` architecture standards.
+- All 6 backend layers (Discovery, Tabular & DAX, Safety & Snapshot, External Tools, Cloud REST API, Host Bridge Executor) are implemented with genuine logic, no dummy implementations, and real state management.
+- Zero warnings and zero errors achieved on `dotnet build HPPowerBi/HPPowerBi.slnx -c Debug`.
+- 100% test pass rate across 25 new tests and 298 existing McpShared tests.
+- Ready for Milestone 2 (Mcp.Server, Tools, Prompts, Resources, and WPF UI).
 
 ---
 
 ## 5. Verification Method
 
-To independently verify the implementation:
+To independently verify this implementation:
 
-1. **Run Core Unit Tests**:
+1. **Clean Solution Build**:
    ```powershell
-   dotnet test HPRebar/HPRebar.Core.Tests
+   dotnet build HPPowerBi/HPPowerBi.slnx -c Debug
    ```
-   - Expected Output: 100% pass rate across all 196 tests (102 existing ColumnRebar tests + 94 new BeamRebar tests), 0 failures, 0 skipped.
+   Must complete with `0 Warning(s), 0 Error(s)`.
 
-2. **Verify Core Library Build**:
+2. **Run McpBridge Tests**:
    ```powershell
-   dotnet build HPRebar/HPRebar.Core/HPRebar.Core.csproj -c Release
+   dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj
    ```
-   - Expected Output: 0 warnings, 0 errors.
+   Must pass all 24 tests.
 
-3. **Verify Zero Revit References**:
-   Inspect `HPRebar/HPRebar.Core/HPRebar.Core.csproj` and grep for `Autodesk.Revit` across `HPRebar/HPRebar.Core/BeamRebar/` — must return 0 occurrences.
+3. **Run Server Tests**:
+   ```powershell
+   dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj
+   ```
+   Must pass all tests.
+
+4. **Verify Shared Engine Regression Safety**:
+   ```powershell
+   dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj
+   dotnet run --project McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj
+   ```
+   Must pass 227 tests in Server.Core.Tests and 71 tests in Net48Tests.

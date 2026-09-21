@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPRobot.Mcp.Server.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <!-- global.json pins test.runner = Microsoft.Testing.Platform; xunit.v3 speaks it natively -->
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+        <!-- xunit.v3.common pins 6.0.0 while Contracts (netstandard2.0, System.Text.Json 10) compiled against 10.x;
+             unify so MSB3277 stays quiet and one copy ships. -->
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Robot-specific tests: the profile this exe registers, its tools over a real pipe, and the seed
+             library. Engine tests live in McpShared/HPRebar.Mcp.Server.Core.Tests. -->
+        <ProjectReference Include="..\HPRobot.Mcp.Server\HPRobot.Mcp.Server.csproj" />
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj" />
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj" />
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- One fake executor for every test project; linked rather than copied. -->
+        <Compile Include="..\..\McpShared\HPRebar.Mcp.Server.Core.Tests\Fakes\FakeRevitExecutor.cs" Link="Fakes\FakeRevitExecutor.cs" />
+    </ItemGroup>
+
+</Project>

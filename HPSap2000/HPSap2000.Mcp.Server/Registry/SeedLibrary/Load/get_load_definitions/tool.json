@@ -1,0 +1,45 @@
+{
+  "name": "get_load_definitions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Load",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "load",
+    "pattern",
+    "case",
+    "combo",
+    "query"
+  ],
+  "title": "Get load definitions",
+  "description": "Lists the load patterns (type, self-weight multiplier), the load cases (type, sub-type) and the load combinations (type and, on request, the cases with their scale factors). Read-only.",
+  "notes": "OAPI: cLoadPatterns.GetNameList/GetLoadType/GetSelfWTMultiplier, cLoadCases.GetNameList/GetTypeOAPI, cCombo.GetNameList/GetTypeOAPI/GetCaseList (sapModel.RespCombo is cCombo in the wrapper).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeComboCases": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list each combination's cases and scale factors"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

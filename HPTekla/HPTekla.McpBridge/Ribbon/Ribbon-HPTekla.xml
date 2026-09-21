@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tab Header="HP Tekla AI" IsCollapsed="false" IsUserDefined="true">
+  <SimpleButton 
+    X="0" 
+    Y="0" 
+    Width="3" 
+    Height="4" 
+    Command="Plugin.CatalogPluginComponentItem?HPTeklaBridge" 
+    Text="HP Tekla Bridge" 
+    Icon="HPTekla.ico" 
+    ShowText="true" 
+    ShowIcon="true" 
+    Tooltip="HP Tekla Structures MCP Bridge (AI Integration)" 
+  />
+</Tab>

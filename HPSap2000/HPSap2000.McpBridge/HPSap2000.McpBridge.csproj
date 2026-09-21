@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- A standalone desktop app the user runs beside SAP2000 27: it holds the one COM attachment (through the managed
+             SAP2000v1.dll wrapper), the pipe listener and the opt-in window. Nothing of this loads into SAP2000.exe. -->
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPSap2000.McpBridge</RootNamespace>
+        <AssemblyName>HPSap2000.McpBridge</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- Roslyn ships 13 localized resource folders (7 MB); the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- Never single-file: the script compiler references this assembly and the engine by Assembly.Location. -->
+        <PublishSingleFile>false</PublishSingleFile>
+        <!-- One glyph for Explorer/taskbar (this) and the window title bar (Window.Icon): tools/icons/render-app-icon.ps1 (rendered from vector glyphs) -->
+        <ApplicationIcon>Resources\HPSap2000McpBridge.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Resource Include="Resources\HPSap2000McpBridge.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Compile against the installed SAP2000 OAPI wrapper, never copy it: the bridge resolves SAP2000v1.dll again at run
+             time from the same install folder (SapApiLocator/SapAssemblyResolver), so the wrapper always matches the SAP2000 that is
+             running and no CSI binary is ever redistributed. -->
+        <Reference Include="SAP2000v1">
+            <HintPath>$(Sap2000InstallDir)SAP2000v1.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <!-- Control styles. Loose DLLs beside the exe (own process, nothing else loads a toolkit here). -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPSap2000.McpBridge.Tests"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The tier allow-list fixture -->
+        <EmbeddedResource Include="Resources\sap2000-oapi-tiers.txt" LogicalName="HPSap2000.McpBridge.Resources.sap2000-oapi-tiers.txt" Condition="Exists('Resources\sap2000-oapi-tiers.txt')"/>
+    </ItemGroup>
+
+    <!-- One readable error instead of hundreds of CS0246 when the product is not installed here. -->
+    <Target Name="RequireSap2000Api" BeforeTargets="ResolveAssemblyReferences" Condition="'$(Sap2000ApiAvailable)' != 'true'">
+        <Error Text="SAP2000 $(Sap2000Major) OAPI not found at '$(Sap2000InstallDir)SAP2000v1.dll'. Install SAP2000 $(Sap2000Major), or pass -p:Sap2000InstallDir=&lt;dir&gt; / set HPSAP2000_SAP2000_DIR. Only HPSap2000.Mcp.Server and its tests build without it (HPSap2000.McpBridge and HPSap2000.McpBridge.Tests need it)."/>
+    </Target>
+
+</Project>

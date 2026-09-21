@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPTekla.McpBridge.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <OutputType>Exe</OutputType>
+        <IsTestProject>true</IsTestProject>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Tekla.Structures"><HintPath>$(TeklaInstallDir)Tekla.Structures.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Model"><HintPath>$(TeklaInstallDir)Tekla.Structures.Model.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Catalogs"><HintPath>$(TeklaInstallDir)Tekla.Structures.Catalogs.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Drawing"><HintPath>$(TeklaInstallDir)Tekla.Structures.Drawing.dll</HintPath><Private>false</Private></Reference>
+        <ProjectReference Include="..\HPTekla.McpBridge\HPTekla.McpBridge.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+    </ItemGroup>
+
+</Project>

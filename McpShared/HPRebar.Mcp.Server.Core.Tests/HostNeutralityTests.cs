@@ -21,7 +21,7 @@ namespace HPRebar.Mcp.Server.Tests;
 /// </summary>
 public sealed class HostNeutralityTests
 {
-    private static readonly string[] HostApiAssemblies = ["RevitAPI", "RevitAPIUI", "AcDbMgd", "AcMgd", "AcCoreMgd", "Nice3point"];
+    private static readonly string[] HostApiAssemblies = ["RevitAPI", "RevitAPIUI", "AcDbMgd", "AcMgd", "AcCoreMgd", "Nice3point", "Tekla.Structures"];
 
     public static IEnumerable<object[]> SharedAssemblies() =>
     [
@@ -47,6 +47,8 @@ public sealed class HostNeutralityTests
         Assert.Equal("hprebar-mcp-r2026", PipeNaming.For("revit", 2026));
         Assert.Equal("hpautocad-mcp-2026", PipeNaming.For("AutoCAD", 2026));
         Assert.Equal("hpcivil3d-mcp-2026", PipeNaming.For("civil3d", 2026));
+        Assert.Equal("hptekla-mcp-2025", PipeNaming.For("tekla", 2025));
+        Assert.Equal("hptekla-mcp-2025", PipeNaming.For(PipeNaming.TeklaHost, 2025));
     }
 
     [Fact]
@@ -119,6 +121,44 @@ public sealed class HostNeutralityTests
 
         var unknown = await Assert.ThrowsAsync<BridgeErrorException>(() =>
             client.SendAsync<object>("autocad.nope", null, TimeSpan.FromSeconds(10), null, TestContext.Current.CancellationToken));
+        Assert.Equal(BridgeErrorCode.MethodNotFound, unknown.Code);
+
+        await listener.StopAsync();
+    }
+
+    [Fact]
+    public async Task Dispatcher_custom_handler_routes_custom_method_and_falls_back_to_not_found()
+    {
+        var pipe = "hprebar-mcp-test-" + Guid.NewGuid().ToString("N");
+        var executor = new FakeRevitExecutor();
+        var settings = new BridgeSettings { ExecutionEnabled = true };
+
+        Task<JsonRpcEnvelope?> CustomHandler(long id, JsonRpcEnvelope request, NdjsonPipeWriter writer, CancellationToken ct)
+        {
+            if (request.Method == "custom.hello")
+            {
+                return Task.FromResult<JsonRpcEnvelope?>(JsonRpcEnvelope.Success(id, new { Message = "world" }));
+            }
+            return Task.FromResult<JsonRpcEnvelope?>(null);
+        }
+
+        using var listener = new PipeListener(pipe, new RequestDispatcher(executor, settings, "2026", "CustomHost", customHandler: CustomHandler));
+        listener.Start();
+
+        var options = Options.Create(new BridgeOptions { PipeName = pipe, ConnectTimeoutMs = 3000, PingIntervalSeconds = 60 });
+        await using var client = new RevitBridgeClient(options, NullLogger<RevitBridgeClient>.Instance);
+
+        // Custom method is routed successfully
+        var customResult = await client.SendAsync<System.Text.Json.JsonElement>("custom.hello", null, TimeSpan.FromSeconds(10), null, TestContext.Current.CancellationToken);
+        Assert.Equal("world", customResult.GetProperty("message").GetString());
+
+        // Standard ping still works
+        var pong = await client.SendAsync<BridgePingResult>(JsonRpcMethods.Ping, null, TimeSpan.FromSeconds(10), null, TestContext.Current.CancellationToken);
+        Assert.True(pong.Pong);
+
+        // Unhandled custom method falls through to MethodNotFound
+        var unknown = await Assert.ThrowsAsync<BridgeErrorException>(() =>
+            client.SendAsync<object>("custom.unhandled", null, TimeSpan.FromSeconds(10), null, TestContext.Current.CancellationToken));
         Assert.Equal(BridgeErrorCode.MethodNotFound, unknown.Code);
 
         await listener.StopAsync();

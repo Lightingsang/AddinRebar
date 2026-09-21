@@ -1,0 +1,29 @@
+{
+  "result": {
+    "resources": [
+      {
+        "name": "robot_model_info",
+        "title": "Robot model info",
+        "uri": "robot://model/info",
+        "description": "Attached Robot Structural Analysis model: version, file title and path, structure type, calculation status, object counts.",
+        "mimeType": "application/json"
+      },
+      {
+        "name": "robot_selection",
+        "title": "Robot selection",
+        "uri": "robot://selection",
+        "description": "Objects currently selected in Robot Structural Analysis, plus the model snapshot.",
+        "mimeType": "application/json"
+      },
+      {
+        "name": "registry_tools",
+        "title": "Tool registry",
+        "uri": "registry://tools",
+        "description": "Every tool in the library with status, category, version and stability.",
+        "mimeType": "application/json"
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

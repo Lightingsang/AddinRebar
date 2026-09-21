@@ -1,46 +1,48 @@
-# BRIEFING — 2026-09-07T09:21:00Z
+# BRIEFING — 2026-09-21T15:17:30Z
 
 ## Mission
-Investigate, design, and architect the complete Milestone M4 implementation (WPF MVVM UI, Dynamic Theming, and Interactive Preview Canvases) for Continuous Beam Rebar.
+Investigate sister host MCP server test projects (HPEtabs, HPSap2000, HPExcel) to design HPRobot.Mcp.Server.Tests architecture.
 
 ## 🔒 My Identity
 - Archetype: explorer
-- Roles: Milestone M4 UI & Preview Canvas Explorer
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M4
+- Roles: Teamwork explorer, read-only investigation, synthesis
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\explorer_m4_1
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de (orchestrator_7)
+- Milestone: Milestone 4 (HPRobot Test Architecture)
 
 ## 🔒 Key Constraints
-- Read-only investigation — do NOT implement
-- Multi-tab BeamRebarViewModel.cs with CommunityToolkit.Mvvm
-- BeamRebarView.xaml DynamicResource Brush.X theme-safe
-- Real-time BeamElevationCanvas.cs and BeamSectionCanvas.cs using OnRender(DrawingContext dc)
-- Feature folder convention: HPRebar/HPRebar/Beam Rebar/{View, View Models, Models}
-- Strictly follow AGENTS.md rules and revit-wpf-mvvm / revit-xaml-styles skills
+- Read-only investigation — do NOT implement or write source/test code
+- Only write metadata and reports to own agent directory (.agents/explorer_m4_1/)
+- Follow 5-component handoff report standard
+- Keep parent updated via send_message
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T09:21:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T15:17:30Z
 
 ## Investigation State
 - **Explored paths**:
-  - `HPRebar/HPRebar/Column Rebar/View/` and `View Models/` (golden standard for MVVM, CanvasPalette, DrawPrimitives, SectionPainter, ElevationPainter)
-  - `HPRebar/HPRebar/Resources/Themes/` (ThemeDark.xaml, ThemeLight.xaml, Buttons.xaml, Controls.xaml, TextBoxes.xaml, Spacing.xaml)
-  - `HPRebar.Core/BeamRebar/Models/` and `Calculators/` (BeamCanvasTransformCalculator, BeamSpan, BeamSupportNode, BeamContinuousStack, BeamStirrupSpec, BeamMainBarSpec, BeamAdditionalBarSpec, BeamSideBarSpec, BeamSpecialBarSpec)
-  - `HPRebar/HPRebar/Beam Rebar/` (BeamRebarCommand, BeamRebarViewModel, BeamRebarView, BeamRebarSession, IBeamRebarRunner, RevitRebarRunner)
+  - `HPEtabs/HPEtabs.Mcp.Server.Tests/` (81 tests, csproj, profile, over-pipe, seeds)
+  - `HPSap2000/HPSap2000.Mcp.Server.Tests/` (79 tests, csproj, profile, over-pipe, seeds)
+  - `HPExcel/HPExcel.Mcp.Server.Tests/` (90 tests, csproj, catalog, roundtrip, seeds)
+  - `HPPowerBi/HPPowerBi.Mcp.Server.Tests/` (96 tests)
+  - `HPRobot/HPRobot.McpBridge.Tests/` (197 tests)
+  - `HPRobot/HPRobot.Mcp.Server/` (csproj, tools, prompts, resources, 12 seeds)
+  - `C:\Program Files\Autodesk\Robot Structural Analysis Professional 2026\Exe\Interop.RobotOM.dll` (verified present)
 - **Key findings**:
-  - `BeamCanvasTransformCalculator` in Core already calculates pure mm-to-pixel aspect-ratio transformations with zero Revit dependencies and 100% test coverage.
-  - Theme resources already define all required `Brush.Canvas.*` tokens (`Fill`, `Bound`, `MainBar`, `MainBar.Selected`, `Stirrup`, `Tag`).
-  - Column Rebar pattern of `DispatcherTimer` debounce (50ms) + frozen pens in `CanvasPalette` delivers 60fps rendering without GC overhead.
-  - Streamlining into 5 tabs (Geometry, Main, Additional, Stirrups/Ties, Views) provides clean structural engineering UX.
-- **Unexplored areas**: None. All Milestone M4 components are fully investigated and architected.
+  - Target framework `net10.0`, `Exe`, `UseMicrosoftTestingPlatformRunner = true`.
+  - Packages: `xunit.v3` (3.1.0), `xunit.runner.visualstudio` (3.1.5), `Microsoft.Bcl.AsyncInterfaces` (10.0.12) to silence MSB3277.
+  - Linked `FakeRevitExecutor.cs` for real named pipe integration testing without running Robot.
+  - Dynamic Roslyn metadata loading for seed compile tests avoids hard compile-time dependency on COM DLL, supporting graceful skip if absent.
+  - 4 test classes recommended: `RobotHostProfileTests.cs`, `SeedCatalogTests.cs`, `SeedExecutionTests.cs`, `SeedCompilationTests.cs`.
+- **Unexplored areas**: None for this investigation phase; full blueprint delivered.
 
 ## Key Decisions Made
-- Designed 5-tab MVVM hierarchy (`GeometryTabViewModel`, `MainBarsTabViewModel`, `AdditionalBarsTabViewModel`, `StirrupsTabViewModel`, `ViewsTabViewModel`) deriving from `BeamRebarTabViewModel : ObservableObject`.
-- Designed `BeamElevationCanvas` and `BeamSectionCanvas` using direct `OnRender(DrawingContext dc)` and Core's `BeamCanvasTransformCalculator`.
-- Specified full DynamicResource theme binding matrix and minimal code-behind pattern.
-- Formulated `BeamProgressReport` multi-phase execution reporting protocol.
+- Formulated recommended `.csproj` specification and test layout for `HPRobot.Mcp.Server.Tests`.
+- Authored detailed test class specifications in `analysis.md` and self-contained 5-component report in `handoff.md`.
 
 ## Artifact Index
-- f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\ui_canvas_plan.md — Detailed Architecture & Design Plan
-- f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\handoff.md — Final handoff report
+- DISPATCH.md — Incoming dispatches
+- progress.md — Liveness heartbeat and progress
+- analysis.md — Investigation report
+- handoff.md — 5-component handoff report

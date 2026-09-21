@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPSap2000.Mcp.Server</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <!-- stdio MCP server: the host AI launches this exe as a child process and owns its lifetime -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <!-- e_sqlite3 native library must be extracted next to a single-file publish -->
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPSap2000.Mcp.Server.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Everything host-neutral (bootstrap, pipe client, registry engine, meta tools) comes from the
+             shared engine; this exe adds the SAP2000 profile, its core tools and the seed library. It never
+             references the CSI OAPI wrapper: scripts are text that the bridge app compiles and runs over COM. -->
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <!-- Seed tools library: one folder per tool (tool.json + code.cs + examples.json), installed into the
+             user's tools-library on first start. Logical names keep the folder structure: SeedLibrary/<Category>/<name>/<file> -->
+        <Compile Remove="Registry\SeedLibrary\**\*.cs" />
+        <EmbeddedResource Include="Registry\SeedLibrary\**\*" LogicalName="SeedLibrary/%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+</Project>

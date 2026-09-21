@@ -1,44 +1,33 @@
-# DISPATCH — auditor_m5_1
+# Forensic Audit Assignment: Milestone M5 Documentation Integrity Forensics
 
-## Mission
-You are the Forensic Integrity Auditor for Milestone M5 & Final Project Victory Audit.
+## Working Directory
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\auditor_m5_1`
 
 ## Mandatory Reading
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Repository Rules: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\AGENTS.md`
-4. Worker M5 Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m5\handoff.md`
+1. `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md` (§ 2026-09-21T09:44:29Z)
+2. `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_6\PROJECT.md` (§ Milestone M5)
+3. Worker M5 Handoff: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m5_1\handoff.md`
 
-## Forensic Audit Objectives
-Conduct an exhaustive forensic integrity audit across the entire migrated Continuous Beam Rebar module and solution:
-1. **Decoupling Integrity**:
-   - Inspect all files in `HPRebar.Core/` (especially `HPRebar.Core/BeamRebar/`).
-   - Confirm **ZERO references** to `Autodesk.Revit.*` (no usings, no types, no dependencies).
-2. **Zero Cheating & Authentic Implementations**:
-   - Inspect all 34 C# and XAML files in `HPRebar/HPRebar/Beam Rebar/`.
-   - Confirm zero dummy/facade implementations, zero `NotImplementedException`, zero `TODO`/`FIXME` stubs.
-   - Confirm zero fake or tautological unit tests in `HPRebar.Core.Tests/BeamRebar/`.
-3. **API Modernity & Multi-Version Safety**:
-   - Confirm zero deprecated APIs across all newly created/migrated code (zero `DisplayUnitType`, zero `IntegerValue`, modern ForgeTypeId `UnitTypeId.Millimeters`).
-4. **Ribbon & Transaction Atomicity**:
-   - Confirm `Application.cs` registers "Beam Rebar" on panel "Rebar".
-   - Confirm `BeamRebarOrchestrator.cs` wraps all element creation inside a single `TransactionGroup("Beam Rebar")` with explicit `RollBack()` in catch blocks and `Assimilate()` upon completion.
-5. **Binary Verdict**:
-   - If any cheating, hardcoding, tautological test, or decoupling violation is detected, your verdict MUST be **INTEGRITY_VIOLATION**.
-   - If completely clean, your verdict is **CLEAN**.
+## Mission
+Conduct a rigorous forensic integrity audit on Milestone M5:
+1. Documentation veracity & fabrication audit:
+   - Check if the capabilities, tools, parameters, and behaviors documented in `SKILL.md` and `AGENTS.md` genuinely match the actual codebase implementation.
+   - Verify that no fabricated tools or nonexistent flags are documented.
+2. Architecture isolation audit:
+   - Verify that documentation does not introduce or prescribe cross-wiring with sibling host projects.
+3. Solution integrity:
+   - Run `dotnet build HPExcel/HPExcel.slnx -c Debug` to confirm 0 errors/warnings.
+   - Run tests to confirm non-regression.
+4. Verdict determination:
+   - Must be **CLEAN** or **INTEGRITY VIOLATION**.
 
-## Output
-Write your audit report to:
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\auditor_m5_1\audit_report.md`
-Write your handoff to:
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\auditor_m5_1\handoff.md`
-Notify orchestrator via `send_message` with your binary verdict: **CLEAN** or **INTEGRITY_VIOLATION**.
+## Handoff Requirements
+Write your report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\auditor_m5_1\handoff.md`
+State clearly your verdict: **CLEAN** or **INTEGRITY VIOLATION**.
+Send a completion message back when done.
 
-## 2026-09-07T10:22:35Z
-Conduct an exhaustive Forensic Integrity Victory Audit for Milestone M5 and the entire Continuous Beam Rebar module:
-- Confirm HPRebar.Core has ZERO references to Autodesk.Revit.*.
-- Confirm zero cheating, hardcoding, dummy/facade implementations, or stubbed methods.
-- Confirm zero fake or tautological unit tests in HPRebar.Core.Tests.
-- Confirm zero deprecated Revit APIs across all newly migrated code.
-- Confirm TransactionGroup("Beam Rebar") atomicity (RollBack on catch, Assimilate on completion).
-- Binary verdict: CLEAN or INTEGRITY_VIOLATION.
+## 2026-09-21T11:44:32Z
+**Context**: Server restarted. Resume Milestone M5 Forensic Integrity Audit.
+**Content**: Please resume your forensic integrity audit of Milestone M5 per DISPATCH.md. Audit documentation veracity in `.agents/skills/hp-mcp-excel/SKILL.md` and `AGENTS.md`, architecture isolation, and run build/test verification. Write your complete report to handoff.md and deliver your binary verdict (CLEAN or INTEGRITY VIOLATION).
+**Action**: Finish audit and send completion message back.

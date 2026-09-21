@@ -1,0 +1,68 @@
+{
+  "name": "find_cells",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "find",
+    "search",
+    "cells",
+    "query"
+  ],
+  "title": "Find cells",
+  "description": "Search for matching text, numbers, or formula patterns across a worksheet or entire workbook. Returns matched cell addresses and values. Read-only.",
+  "notes": "Uses Range.Find loop with proper wrap detection.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "query"
+    ],
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Text or value to search for."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet name to search. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "lookIn": {
+        "type": "string",
+        "enum": [
+          "values",
+          "formulas"
+        ],
+        "default": "values",
+        "description": "Look in cell values or formulas."
+      },
+      "exactMatch": {
+        "type": "boolean",
+        "default": false,
+        "description": "Match entire cell contents vs substring."
+      },
+      "searchAllSheets": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, searches across all worksheets in the workbook."
+      },
+      "maxResults": {
+        "type": "integer",
+        "default": 100,
+        "description": "Maximum number of matched cells to return."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,83 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPAutoCad.Loader</RootNamespace>
+        <AssemblyName>HPAutoCad.Loader</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+
+        <!-- Deploy unified bundle to %AppData%\Autodesk\ApplicationPlugins\HPAutoCad.bundle\ -->
+        <DeployBundle Condition="'$(DeployBundle)' == ''">true</DeployBundle>
+        <BundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPAutoCad.bundle\</BundleDir>
+        <LegacyBridgeBundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\</LegacyBridgeBundleDir>
+        <LegacyGeoBundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPGeo.bundle\</LegacyGeoBundleDir>
+
+        <!-- Artifact source locations -->
+        <AppOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad\bin\$(Configuration)\$(TargetFramework)\</AppOutDir>
+        <BridgeOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad.McpBridge\bin\$(Configuration)\$(TargetFramework)\</BridgeOutDir>
+        <BridgeLoaderOutDir>$(MSBuildThisFileDirectory)..\HPAutoCad.McpBridge.Loader\bin\$(Configuration)\$(TargetFramework)\</BridgeLoaderOutDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Build ordering only: bundle needs outputs from App, Bridge, and Bridge.Loader, but loader must not reference their assemblies -->
+        <ProjectReference Include="..\HPAutoCad\HPAutoCad.csproj" ReferenceOutputAssembly="false" Private="false"/>
+        <ProjectReference Include="..\HPAutoCad.McpBridge\HPAutoCad.McpBridge.csproj" ReferenceOutputAssembly="false" Private="false"/>
+        <ProjectReference Include="..\HPAutoCad.McpBridge.Loader\HPAutoCad.McpBridge.Loader.csproj" ReferenceOutputAssembly="false" Private="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Bundle\PackageContents.xml"/>
+    </ItemGroup>
+
+    <!-- Unified DeployBundle Target -->
+    <Target Name="DeployBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(Configuration)' == 'Debug' And '$(DesignTimeBuild)' != 'true'">
+        <!-- Pre-flight checks -->
+        <Error Condition="!Exists('$(AppOutDir)HPAutoCad.dll')" Text="Add-in output missing at $(AppOutDir) - build HPAutoCad first"/>
+        <Error Condition="!Exists('$(BridgeOutDir)HPAutoCad.McpBridge.dll')" Text="Bridge output missing at $(BridgeOutDir) - build HPAutoCad.McpBridge first"/>
+        <Error Condition="!Exists('$(BridgeLoaderOutDir)HPAutoCad.McpBridge.Loader.dll')" Text="Bridge loader output missing at $(BridgeLoaderOutDir) - build HPAutoCad.McpBridge.Loader first"/>
+
+        <ItemGroup>
+            <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml"/>
+            <_AppFiles Include="$(AppOutDir)**\*"/>
+            <_BridgeFiles Include="$(BridgeOutDir)**\*"/>
+            <_BridgeLoaderDll Include="$(BridgeLoaderOutDir)HPAutoCad.McpBridge.Loader.dll"/>
+            <_BridgeLoaderPdb Include="$(BridgeLoaderOutDir)HPAutoCad.McpBridge.Loader.pdb" Condition="Exists('$(BridgeLoaderOutDir)HPAutoCad.McpBridge.Loader.pdb')"/>
+            <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
+        </ItemGroup>
+
+        <!-- 1. Lock Probe: fail loudly if AutoCAD is currently running and holding DLL locks -->
+        <Delete Files="$(BundleDir)Contents\HPAutoCad.Loader.dll;$(BundleDir)Contents\HPAutoCad.McpBridge.Loader.dll;$(BundleDir)Contents\App\HPAutoCad.dll;$(BundleDir)Contents\Bridge\HPAutoCad.McpBridge.dll" ContinueOnError="false"/>
+
+        <!-- 2. Clean up legacy separate bundles to prevent duplicate loading & pipe race conditions -->
+        <RemoveDir Directories="$(LegacyBridgeBundleDir)" Condition="Exists('$(LegacyBridgeBundleDir)')"/>
+        <RemoveDir Directories="$(LegacyGeoBundleDir)" Condition="Exists('$(LegacyGeoBundleDir)')"/>
+
+        <!-- 3. Clean target subdirectories to eliminate stale assemblies -->
+        <RemoveDir Directories="$(BundleDir)Contents\App"/>
+        <RemoveDir Directories="$(BundleDir)Contents\Bridge"/>
+
+        <!-- 4. Deploy Manifest & Loaders into Contents/ -->
+        <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_BridgeLoaderDll)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_BridgeLoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
+
+        <!-- 5. Deploy Isolated Bridge & App payloads -->
+        <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Copy SourceFiles="@(_AppFiles)" DestinationFiles="@(_AppFiles->'$(BundleDir)Contents\App\%(RecursiveDir)%(Filename)%(Extension)')"/>
+
+        <Message Importance="high" Text="HPAutoCad unified bundle successfully deployed to $(BundleDir)"/>
+    </Target>
+
+</Project>

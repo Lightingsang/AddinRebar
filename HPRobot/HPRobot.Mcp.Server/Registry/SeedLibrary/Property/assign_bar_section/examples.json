@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Assign IPE 300 to beam bars 1 to 5",
+    "args": {
+      "barNumbers": "1to5",
+      "sectionName": "IPE 300"
+    }
+  },
+  {
+    "title": "Assign HEA 200 to column bars 10 11 12",
+    "args": {
+      "barNumbers": "10 11 12",
+      "sectionName": "HEA 200"
+    }
+  }
+]

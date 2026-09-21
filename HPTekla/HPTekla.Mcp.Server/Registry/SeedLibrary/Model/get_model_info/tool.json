@@ -1,0 +1,31 @@
+{
+  "name": "get_model_info",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Model",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["model", "info", "query", "project"],
+  "title": "Get model info",
+  "description": "Returns an overview of the active Tekla Structures model: name, path, project info, current phase, and connection status. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeProjectInfo": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include project info (project name, number, designer, builder)."
+      },
+      "includePhaseInfo": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include current active phase details."
+      }
+    },
+    "additionalProperties": false
+  }
+}

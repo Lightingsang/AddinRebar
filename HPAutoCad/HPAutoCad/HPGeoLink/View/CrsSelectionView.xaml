@@ -1,0 +1,62 @@
+<UserControl x:Class="HPAutoCad.HPGeoLink.View.CrsSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:view="clr-namespace:HPAutoCad.HPGeoLink.View">
+    <!-- DataContext = CrsSelectionViewModel (set by the owner through binding). -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Style="{DynamicResource Text.Section}" Text="Hệ toạ độ (VN-2000, TM-3)"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Danh mục"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="{DynamicResource Margin.Row}">
+            <RadioButton Content="34 tỉnh/thành (sau sáp nhập 2025)" IsChecked="{Binding UseCurrentCatalog}"/>
+            <RadioButton Content="63 tỉnh/thành (trước 2025)" IsChecked="{Binding UseCurrentCatalog, Converter={x:Static view:InverseBoolConverter.Instance}}"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tỉnh / thành"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,0,16,8" ItemsSource="{Binding Provinces}" SelectedItem="{Binding SelectedProvince}"
+                  IsEditable="True" IsTextSearchEnabled="True" TextSearch.TextPath="Name" StaysOpenOnEdit="True"
+                  ToolTip="Gõ để tìm; tỉnh có nhiều kinh tuyến trục sẽ yêu cầu chọn KTT">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Hint}" Foreground="{DynamicResource Brush.TextMuted}" Margin="8,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="Kinh tuyến trục" Margin="0,0,8,0"/>
+        <ComboBox Grid.Row="2" Grid.Column="3" Margin="{DynamicResource Margin.Row}" ItemsSource="{Binding Meridians}" SelectedItem="{Binding SelectedMeridian}"
+                  DisplayMemberPath="Label" ToolTip="Kinh tuyến trục theo hồ sơ địa chính; tỉnh gộp hiện tên tỉnh cũ"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="KTT (độ)"/>
+        <DockPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="{DynamicResource Margin.Row}">
+            <TextBox Width="110" Text="{Binding CentralMeridianText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Nhập tay khi hồ sơ ghi KTT khác, vd 105.75 hoặc 105°45′" DockPanel.Dock="Left"/>
+            <TextBlock Style="{DynamicResource Text.Muted}" Margin="8,0,0,0" Text="{Binding MeridianNote}" TextTrimming="CharacterEllipsis"/>
+        </DockPanel>
+        <Expander Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Header="Nâng cao (k0, FE, FN, đơn vị bản vẽ)" Margin="0">
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                <TextBlock Text="k0"/><TextBox Width="64" Margin="4,0,12,0" Text="{Binding K0Text, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="FE"/><TextBox Width="72" Margin="4,0,12,0" Text="{Binding FalseEastingText, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="FN"/><TextBox Width="56" Margin="4,0,12,0" Text="{Binding FalseNorthingText, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Đơn vị"/>
+                <ComboBox Width="170" Margin="4,0,0,0" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}" DisplayMemberPath="Label"
+                          ToolTip="Đơn vị của toạ độ trong bản vẽ (INSUNITS); VN-2000 tính bằng mét"/>
+            </StackPanel>
+        </Expander>
+    </Grid>
+</UserControl>

@@ -1,44 +1,25 @@
-# Dispatch: reviewer_m3_1 — Milestone M3 Reviewer 1
+## 2026-09-21T14:37:43Z
+You are reviewer_m3_1 (M3 Tool Completeness Reviewer) for the HPRobot MCP Subsystem.
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m3_1\
+Your parent is the Project Orchestrator (orchestrator_7, conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de).
 
-## Mission
-Conduct an independent code and architecture review of the Continuous Beam Rebar Revit Add-In implementation in `HPRebar/HPRebar/Beam Rebar/` and `HPRebar/HPRebar/Application.cs`.
+MANDATORY FIRST STEP:
+Read g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md and g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_7\PROJECT.md.
+Also read worker_m3_1's changes and handoff:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3_1\changes.md`
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3_1\handoff.md`
 
-## Focus Areas
-1. Feature folder convention in AGENTS.md (models in `Models/`, views in `View/`, view models in `View Models/`, root files at feature root).
-2. Explicit file-scoped namespaces (`namespace HPRebar.BeamRebar;`, `namespace HPRebar.BeamRebar.Models;`, etc.).
-3. Revit API deprecation rules: zero `DisplayUnitType`, zero `CreateFreeForm`, correct `#if REVIT2024_OR_GREATER` for element IDs.
-4. Transaction safety: `BeamRebarOrchestrator` master `TransactionGroup("Beam Rebar")` with auto-rollback and assimilation.
-5. Error handling: `RebarFailureHandling` (`SwallowWarnings : IFailuresPreprocessor`), user cancel handling.
-6. Ribbon integration in `HPRebar/HPRebar/Application.cs`.
+YOUR MISSION:
+Review the complete 24 tools catalog and server implementation in `HPRobot/HPRobot.Mcp.Server/`:
+1. Verify that all 4 core tools (`execute_robot_code`, `get_robot_context`, `inspect_type`, `cancel_execution`), 8 registry meta tools, and all 12 embedded seeds are present.
+2. Verify that each of the 12 seeds in `Registry/SeedLibrary/` contains valid `tool.json`, `code.cs`, and `examples.json`.
+3. Verify `RobotHostProfile.cs` configuration (HostName="robot", PipeName="hprobot-mcp-2026", JsonRpcPrefix="robot.", MaxTimeoutSeconds=300).
+4. Run independent verification:
+   `dotnet build HPRobot/HPRobot.slnx -c Debug`
+   `dotnet build HPRobot/HPRobot.slnx -c Release`
+5. Document your verdict (APPROVE or REQUEST_CHANGES) with concrete evidence.
 
-## Inputs
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Worker Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3\handoff.md`
-4. Target Codebase: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\`
-
-## Deliverables
-- Detailed review report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1\review_report.md`
-- Self-contained handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1\handoff.md`
-- Notify orchestrator via `send_message` with your verdict (APPROVE or REQUEST_CHANGES).
-
-## 2026-09-07T08:42:50Z
-You are reviewer_m3_1.
-Your working directory is: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1
-Read your task assignment at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1\DISPATCH.md
-Read the authoritative user request at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md
-Read the worker handoff at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3\handoff.md
-Read the target codebase at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\
-Read ribbon registration in: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Application.cs
-
-Conduct an independent code and architecture review:
-- Verify feature folder convention in AGENTS.md.
-- Verify explicit file-scoped namespaces (`namespace HPRebar.BeamRebar;`, `namespace HPRebar.BeamRebar.Models;`, etc.).
-- Verify zero deprecated APIs (no DisplayUnitType, no CreateFreeForm, #if REVIT2024_OR_GREATER for elementId.Value).
-- Verify master TransactionGroup("Beam Rebar") atomicity, auto-rollback on error/cancel, and SwallowWarnings failure preprocessor.
-- Verify ribbon button registration.
-
-Write your review report to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1\review_report.md
-Write your handoff to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_1\handoff.md
-Notify orchestrator via send_message with your verdict (APPROVE or REQUEST_CHANGES).
-
+DELIVERABLES:
+Write your review report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m3_1\handoff.md`
+When finished, send a message to your parent with your verdict and report path.

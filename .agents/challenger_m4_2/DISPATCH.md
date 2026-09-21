@@ -1,26 +1,28 @@
-# Task Assignment: challenger_m4_2
+## 2026-09-21T15:27:40Z
+You are challenger_m4_2 (Full Solution & McpShared Regression Challenger) for the HPRobot MCP Subsystem.
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m4_2\
+Your parent is the Project Orchestrator (orchestrator_7, conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de).
 
-## Role
-Milestone M4 Challenger 2 (Canvas Geometry, Transforms & Memory Stress Test)
+MANDATORY FIRST STEP:
+Read g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (specifically the latest section ## 2026-09-21T13:16:14Z) and g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_7\PROJECT.md.
 
-## Working Directory
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_2`
+Read worker_m4_1's changes and handoff:
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\changes.md
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\handoff.md
 
-## Reference Documents
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Architecture Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\ui_canvas_plan.md`
-4. Worker Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4\handoff.md`
-5. Target Codebase: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\`
+YOUR MISSION:
+Empirically execute and stress-test the entire test estate across HPRobot and McpShared:
+1. Run all solution tests:
+   `dotnet test HPRobot/HPRobot.slnx`
+   Verify all 294 tests pass (197 bridge tests + 97 server tests).
+2. Run McpShared regression suites:
+   `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`
+   `dotnet run --project McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj`
+   Verify 685 tests pass with 0 regressions.
+3. Verify stdio MCP server still advertises 24 tools, 3 resources, 4 prompts.
+4. Document your verdict (APPROVE or REQUEST_CHANGES) with concrete evidence.
 
-## Task
-Stress-test and challenge the interactive preview canvases:
-- Challenge `BeamElevationCanvas` with extreme aspect ratios (very long multi-span beams, very short deep beams, cantilever overhangs).
-- Challenge `BeamSectionCanvas` with extreme cross-sections (wide transfer beams, tall thin beams).
-- Verify that `BeamDrawPrimitives` and `CanvasPalette` do NOT allocate new GDI/WPF pens or brushes during `OnRender` (frozen pen caching).
-- Verify that rapid parameter adjustments trigger debounced invalidation without UI thread stalls.
-
-## Deliverables
-- Challenge report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_2\challenge_report.md`
-- Handoff report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_2\handoff.md`
-- Notify orchestrator with binary verdict: `APPROVE` or `CHALLENGE_FAILED`.
+DELIVERABLES:
+Write your challenge report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m4_2\handoff.md`
+When finished, send a message to your parent with your verdict and report path.

@@ -1,0 +1,243 @@
+<Window x:Class="HPPowerBi.McpBridge.Views.StatusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:HPPowerBi.McpBridge.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:StatusViewModel}"
+        Title="HP Power BI MCP Bridge"
+        Width="640" Height="820"
+        MinWidth="540" MinHeight="680"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="StatusDot" TargetType="Ellipse">
+                <Setter Property="Width" Value="12"/>
+                <Setter Property="Height" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Foreground.Tertiary}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Success}"/>
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsConnected}" Value="False"/>
+                            <Condition Binding="{Binding IsListening}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Fill" Value="{DynamicResource Brush.Info}"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="StatValueText" TargetType="TextBlock" BasedOn="{StaticResource BodyStrong}">
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
+                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Subheading}"/>
+            </Style>
+            <Style x:Key="StatusMessageStyle" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="{DynamicResource Spacing.Medium}">
+
+            <!-- 1. Header & Status Bar -->
+            <Border Style="{DynamicResource Card}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Ellipse Grid.Column="0" Style="{DynamicResource StatusDot}" Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+                    <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}" VerticalAlignment="Center">
+                        <TextBlock Style="{DynamicResource Heading}" Text="HP Power BI MCP Bridge"/>
+                        <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                                   Text="{Binding ConnectionStatusText}"/>
+                        <TextBlock Style="{StaticResource StatusMessageStyle}" Margin="{DynamicResource Spacing.SmallTop}"
+                                   Text="{Binding StatusMessage}"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" Style="{DynamicResource SecondaryButton}" VerticalAlignment="Center"
+                            Content="Toggle Pipe" Command="{Binding ToggleListenerCommand}"
+                            ToolTip="Start or stop the named pipe listener"/>
+                </Grid>
+            </Border>
+
+            <!-- 2. Instance Switcher -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel>
+                    <TextBlock Style="{DynamicResource Subheading}" Text="Power BI Desktop Instances"/>
+                    <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                               Text="Select a running Power BI Desktop report to connect to its local SSAS tabular engine."/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallTop}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0" ItemsSource="{Binding AvailableInstances}"
+                                  SelectedItem="{Binding SelectedInstance}"
+                                  DisplayMemberPath="DisplayName"
+                                  VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallHorizontal}"/>
+
+                        <Button Grid.Column="1" Style="{DynamicResource SecondaryButton}" MinWidth="80"
+                                Content="Refresh" Command="{Binding RefreshInstancesCommand}"
+                                Margin="{DynamicResource Spacing.SmallHorizontal}"
+                                ToolTip="Scan for newly opened Power BI Desktop windows"/>
+
+                        <Button Grid.Column="2" Style="{DynamicResource PrimaryButton}" MinWidth="80"
+                                Content="Connect" Command="{Binding ConnectCommand}"
+                                Margin="{DynamicResource Spacing.SmallHorizontal}"
+                                ToolTip="Attach AMO-TOM and ADOMD to this instance"/>
+
+                        <Button Grid.Column="3" Style="{DynamicResource SecondaryButton}" MinWidth="80"
+                                Content="Disconnect" Command="{Binding DisconnectCommand}"
+                                ToolTip="Disconnect from active instance"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 3. Model Information -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel>
+                    <TextBlock Style="{DynamicResource Subheading}" Text="Active Tabular Model Information"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallTop}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Col 1: Identity -->
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Style="{DynamicResource Caption}" Text="Report / Model:"/>
+                            <TextBlock Style="{DynamicResource BodyStrong}" Text="{Binding ActiveReportName, TargetNullValue='(Not Connected)'}"/>
+
+                            <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}" Text="Database:"/>
+                            <TextBlock Style="{DynamicResource BodyStrong}" Text="{Binding DatabaseName, TargetNullValue='(None)'}"/>
+                        </StackPanel>
+
+                        <!-- Col 2: Ports & PID -->
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Style="{DynamicResource Caption}" Text="SSAS Local Port:"/>
+                            <TextBlock Style="{DynamicResource BodyStrong}" Text="{Binding LocalPort}"/>
+
+                            <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}" Text="Process ID:"/>
+                            <TextBlock Style="{DynamicResource BodyStrong}" Text="{Binding AttachedPid, TargetNullValue='N/A'}"/>
+                        </StackPanel>
+
+                        <!-- Col 3: Stats -->
+                        <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <TextBlock Style="{DynamicResource Caption}" Text="Tables:"/>
+                            <TextBlock Style="{DynamicResource StatValueText}" Text="{Binding TableCount}"/>
+
+                            <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}" Text="Measures / Relationships:"/>
+                            <TextBlock Style="{DynamicResource BodyStrong}">
+                                <Run Text="{Binding MeasureCount, Mode=OneWay}"/>
+                                <Run Text=" / "/>
+                                <Run Text="{Binding RelationshipCount, Mode=OneWay}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 4. Safety & Guarding Controls -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel>
+                    <TextBlock Style="{DynamicResource Subheading}" Text="Safety &amp; Guarding Controls"/>
+
+                    <CheckBox Margin="{DynamicResource Spacing.SmallTop}"
+                              IsChecked="{Binding IsExecutionEnabled}"
+                              Content="Allow DAX Execution &amp; C# Scripting"
+                              ToolTip="Enables reading schema, executing DAX queries, and evaluating Roslyn scripts via named pipe."/>
+
+                    <CheckBox Margin="{DynamicResource Spacing.SmallTop}"
+                              IsChecked="{Binding IsMutationEnabled}"
+                              IsEnabled="{Binding CanEnableMutation}"
+                              Content="Allow Model Mutations (Measures, Relationships &amp; TMSL SaveChanges)"
+                              ToolTip="Enables modifying measures and relationships. Pre-mutation TMSL snapshots are automatically captured before every mutation."/>
+
+                    <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                               Text="Safety Guard: Read-only DAX queries can be executed when DAX execution is allowed. Structural modifications require explicit Model Mutation opt-in and automatically trigger a pre-mutation JSON backup."/>
+                </StackPanel>
+            </Border>
+
+            <!-- 5. External Tools & Maintenance -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <StackPanel>
+                    <TextBlock Style="{DynamicResource Subheading}" Text="External Tools &amp; Maintenance"/>
+
+                    <Grid Margin="{DynamicResource Spacing.SmallTop}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <Button Style="{DynamicResource SecondaryButton}"
+                                    Content="Register in External Tools" Command="{Binding RegisterExternalToolCommand}"
+                                    ToolTip="Registers HPPowerBi.pbitool.json into Power BI Desktop's External Tools ribbon"/>
+                            <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallTop}"
+                                    Content="Open Logs Folder" Command="{Binding OpenLogFolderCommand}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                            <Button Style="{DynamicResource SecondaryButton}"
+                                    Content="Restore Latest Snapshot" Command="{Binding RestoreSnapshotCommand}"
+                                    ToolTip="Deserializes and restores the latest pre-mutation TMSL JSON snapshot"/>
+                            <Button Style="{DynamicResource LinkButton}" Margin="{DynamicResource Spacing.SmallTop}"
+                                    Content="Open Snapshots Folder" Command="{Binding OpenSnapshotFolderCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 6. Pipe Monitor & Cloud Status -->
+            <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.MediumTop}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                        <TextBlock Style="{DynamicResource Subheading}" Text="Named Pipe Monitor"/>
+                        <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                                   Text="{Binding PipeStatusText}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
+                        <TextBlock Style="{DynamicResource Subheading}" Text="Power BI Cloud REST Status"/>
+                        <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.SmallTop}"
+                                   Text="{Binding CloudStatusText}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

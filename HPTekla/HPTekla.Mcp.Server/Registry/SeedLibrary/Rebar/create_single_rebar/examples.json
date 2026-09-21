@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Create straight longitudinal bar D20 along a 6m beam",
+    "args": {
+      "fatherId": 100,
+      "points": [
+        { "x": 50, "y": 50, "z": 50 },
+        { "x": 5950, "y": 50, "z": 50 }
+      ],
+      "size": "20",
+      "grade": "B500B",
+      "name": "BOTTOM_BAR",
+      "rebarClass": 6
+    }
+  },
+  {
+    "title": "Create hooked longitudinal bar with 90-degree end bends",
+    "args": {
+      "fatherId": 100,
+      "points": [
+        { "x": 50, "y": 50, "z": 350 },
+        { "x": 50, "y": 50, "z": 50 },
+        { "x": 5950, "y": 50, "z": 50 },
+        { "x": 5950, "y": 50, "z": 350 }
+      ],
+      "size": "25",
+      "grade": "B500B",
+      "name": "HOOKED_BAR",
+      "rebarClass": 6
+    }
+  }
+]

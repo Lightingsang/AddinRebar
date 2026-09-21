@@ -1,0 +1,26 @@
+{
+  "name": "get_load_definitions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Load",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["load", "cases", "combinations"],
+  "title": "Get load definitions",
+  "description": "Reads all load cases (simple cases, dead, live, wind, seismic) and combinations with applied records count and factor definitions.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeRecords": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, extracts details for each load record inside the cases."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -159,4 +159,48 @@ public sealed class ScriptCompilerNet48Tests
         var error = await Assert.ThrowsAsync<BridgeRequestException>(() => task);
         Assert.Contains("Navisworks", error.Message);
     }
+
+    [Fact]
+    public void Guard_and_analyzer_with_the_Robot_profile_work_on_desktop_framework()
+    {
+        var violations = ScriptGuard.Check(
+            "robot.Quit();\n" +
+            "MessageBox.Show(\"hi\");\n" +
+            "return 1;",
+            GuardProfile.Robot);
+
+        Assert.Contains(violations, v => v.Message.Contains("Quit", StringComparison.Ordinal));
+        Assert.Contains(violations, v => v.Message.Contains("MessageBox", StringComparison.Ordinal));
+        Assert.All(violations, v => Assert.True(v.Message.IndexOf("Robot", StringComparison.OrdinalIgnoreCase) >= 0 || v.Message.Contains("bridge owns", StringComparison.Ordinal)));
+
+        var compiler = NewCompiler();
+        var analyzed = ScriptAnalyzer.Run(compiler, "return 1;", GuardProfile.Robot, AnalyzerProfile.Robot);
+        Assert.False(analyzed.UsesTransaction);
+        Assert.Empty(analyzed.GuardViolations);
+    }
+
+    [Fact]
+    public void Guard_and_analyzer_with_the_Tekla_profile_work_on_desktop_framework()
+    {
+        var violations = ScriptGuard.Check(
+            "model.CommitChanges();\n" +
+            "MessageBox.Show(\"hi\");\n" +
+            "var picker = new Picker();\n" +
+            "return 1;",
+            GuardProfile.Tekla);
+
+        Assert.Contains(violations, v => v.Message.Contains("CommitChanges", StringComparison.Ordinal));
+        Assert.Contains(violations, v => v.Message.Contains("MessageBox", StringComparison.Ordinal));
+        Assert.Contains(violations, v => v.Message.Contains("Picker", StringComparison.Ordinal));
+        Assert.All(violations, v => Assert.True(v.Message.IndexOf("Tekla", StringComparison.OrdinalIgnoreCase) >= 0 || v.Message.Contains("bridge owns", StringComparison.Ordinal)));
+
+        var compiler = NewCompiler();
+        var analyzed = ScriptAnalyzer.Run(compiler, "return 1;", GuardProfile.Tekla, AnalyzerProfile.Tekla);
+        Assert.False(analyzed.UsesTransaction);
+        Assert.Empty(analyzed.GuardViolations);
+
+        var analyzedCommit = ScriptAnalyzer.Run(compiler, "model.CommitChanges(); return 1;", GuardProfile.Tekla, AnalyzerProfile.Tekla);
+        Assert.True(analyzedCommit.UsesTransaction);
+        Assert.NotEmpty(analyzedCommit.GuardViolations);
+    }
 }

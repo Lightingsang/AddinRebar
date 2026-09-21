@@ -1,0 +1,20 @@
+{
+  "name": "get_coordinate_systems_and_grids",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "grid", "axes", "coordinates"],
+  "title": "Get coordinate systems and structural grids",
+  "description": "Reads defined structural axis grids (Cartesian, Cylindrical) including sequence coordinates, labels, and storey inclusions.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  }
+}

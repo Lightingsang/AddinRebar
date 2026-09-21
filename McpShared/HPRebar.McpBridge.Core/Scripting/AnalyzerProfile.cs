@@ -29,10 +29,38 @@ public sealed class AnalyzerProfile
         transactionTypeNames: Array.Empty<string>(),
         transactionMethodNames: Array.Empty<string>());
 
+    /// <summary>SAP2000 has no transaction of any kind, so no script can ever "manage" one; the profile exists so the SAP2000 bridge never borrows Revit's.</summary>
+    public static readonly AnalyzerProfile Sap2000 = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: Array.Empty<string>());
+
+    /// <summary>Power BI Tabular has no transactions in scripts; changes are saved via Model.SaveChanges().</summary>
+    public static readonly AnalyzerProfile PowerBi = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: Array.Empty<string>());
+
+    /// <summary>Excel has no transactions in scripts; safety is managed via tiers and file snapshots.</summary>
+    public static readonly AnalyzerProfile Excel = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: Array.Empty<string>());
+
+    /// <summary>Robot Structural Analysis has no transaction of any kind in scripts, so no script can ever "manage" one; the profile exists so the Robot bridge never borrows Revit's.</summary>
+    public static readonly AnalyzerProfile Robot = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: Array.Empty<string>());
+
     /// <summary>Civil 3D scripts run on the AutoCAD transaction manager, so the AutoCAD rule applies: opening a transaction of one's own is what marks a script as managing one.</summary>
     public static readonly AnalyzerProfile Civil3d = new AnalyzerProfile(
         transactionTypeNames: Array.Empty<string>(),
         transactionMethodNames: new[] { "StartTransaction", "StartOpenCloseTransaction" });
+
+    /// <summary>
+    ///     Tekla Structures scripts do not open Transaction objects; commit safety is managed by the bridge
+    ///     via dryRun and snapshot mechanisms.
+    /// </summary>
+    public static readonly AnalyzerProfile Tekla = new AnalyzerProfile(
+        transactionTypeNames: Array.Empty<string>(),
+        transactionMethodNames: new[] { "CommitChanges" });
 
     public AnalyzerProfile(IReadOnlyCollection<string> transactionTypeNames, IReadOnlyCollection<string> transactionMethodNames)
     {

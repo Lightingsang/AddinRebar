@@ -117,4 +117,118 @@ public static class HostScriptContracts
     ///     (Meters or Feet from the drawing settings, not INSUNITS); stations and elevations stay in drawing units.
     /// </summary>
     public static readonly string[] Civil3dGlobals = { "doc", "db", "ed", "app", "tr", "units", "civil", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Default `using`s of a SAP2000 script. The API is the managed <c>SAP2000v1.dll</c> wrapper (namespace
+    ///     <c>SAP2000v1</c>: <c>cSapModel</c>, <c>cOAPI</c>, <c>eUnits</c>, …).
+    /// </summary>
+    public static readonly string[] Sap2000Imports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "SAP2000v1",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a SAP2000 script may use: `sapModel` is the attached <c>cSapModel</c>, `sap` the
+    ///     <c>cOAPI</c> root, `units` reports the unit system the bridge forces for the run (kN, m, °C).
+    ///     Attaching is the bridge's job, so there is no `helper` and no transaction global — SAP2000 has none.
+    /// </summary>
+    public static readonly string[] Sap2000Globals = { "sapModel", "sap", "units", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest SAP2000 run once the user allowed destructive operations (an analysis run, a file open/save
+    ///     cannot be interrupted). Shared by the bridge clamp and the server profile like the ETABS constant.
+    /// </summary>
+    public const int Sap2000HeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of a Power BI script.
+    ///     AMO-TOM (<c>Microsoft.AnalysisServices.Tabular</c>) and ADOMD.NET (<c>Microsoft.AnalysisServices.AdomdClient</c>).
+    /// </summary>
+    public static readonly string[] PowerBiImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic", "System.Data",
+        "Microsoft.AnalysisServices.Tabular", "Microsoft.AnalysisServices.AdomdClient",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Power BI script may use: `model` is the active TOM <c>Model</c>, `server` is the TOM
+    ///     <c>Server</c> connected to local Analysis Services, `adomd` is the active <c>AdomdConnection</c> for DAX queries.
+    /// </summary>
+    public static readonly string[] PowerBiGlobals = { "model", "server", "adomd", "ct", "log", "progress", "args" };
+
+    /// <summary>Longest Power BI run timeout allowed.</summary>
+    public const int PowerBiHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of an Excel script.
+    ///     Includes Microsoft.Office.Interop.Excel, ClosedXML.Excel, and bridge scripting.
+    /// </summary>
+    public static readonly string[] ExcelImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Microsoft.Office.Interop.Excel",
+        "ClosedXML.Excel",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names an Excel script may use: `excel` is the attached Excel.Application,
+    ///     `workbook` is the active Workbook (or null), `sheet` is the active Worksheet (or null),
+    ///     `ct` is the cancellation token, `log` writes to output, `progress` reports steps, `args` carries parameters.
+    /// </summary>
+    public static readonly string[] ExcelGlobals = { "excel", "workbook", "sheet", "ct", "log", "progress", "args" };
+
+    /// <summary>Longest Excel run timeout allowed (seconds).</summary>
+    public const int ExcelHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of a Robot Structural Analysis script. The API is the COM interop wrapper
+    ///     <c>Interop.RobotOM.dll</c> (namespace <c>RobotOM</c>: <c>RobotApplication</c>, <c>RobotStructure</c>, …).
+    /// </summary>
+    public static readonly string[] RobotImports =
+    {
+        "RobotOM", "System", "System.Collections.Generic", "System.Linq",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Robot Structural Analysis script may use: `robot` is the attached <c>RobotApplication</c>,
+    ///     `structure` the active <c>RobotStructure</c>, `units` reports the unit system the bridge standardizes
+    ///     (Meter for length, kN for force, kN·m for moment, MPa for stress).
+    /// </summary>
+    public static readonly string[] RobotGlobals = { "robot", "structure", "units", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest Robot Structural Analysis run once the user allowed heavy operations (e.g. structural FEA calculations
+    ///     via CalcEngine.Calculate() or batch object deletions). The bridge clamps to it and the server profile advertises it.
+    /// </summary>
+    public const int RobotHeavyMaxTimeoutSeconds = 300;
+
+    /// <summary>
+    ///     Default `using`s of a Tekla Structures script. Covers the core Tekla Open API namespaces:
+    ///     general structures, model objects (Beam, Column, ContourPlate, RebarGroup), geometry (Point, Vector),
+    ///     and catalog definitions.
+    /// </summary>
+    public static readonly string[] TeklaImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Tekla.Structures", "Tekla.Structures.Model",
+        "Tekla.Structures.Geometry3d", "Tekla.Structures.Catalogs",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Tekla Structures script may use: `model` is the active Tekla Model instance,
+    ///     `ct` is cooperative cancellation, `log` writes output, `progress` reports steps, and `args` carries parameters.
+    /// </summary>
+    public static readonly string[] TeklaGlobals = { "model", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest Tekla Structures run allowed when heavy operations are enabled (e.g. batch model updates,
+    ///     IFC export, drawing generation).
+    /// </summary>
+    public const int TeklaHeavyMaxTimeoutSeconds = 600;
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "title": "All reactions for DEAD load case",
+    "args": {
+      "caseOrCombo": "DEAD"
+    }
+  },
+  {
+    "title": "Reactions at joint 1 for combo",
+    "args": {
+      "caseOrCombo": "COMB1",
+      "pointNames": [
+        "1"
+      ]
+    }
+  }
+]

@@ -1,1 +1,0 @@
-- [AutoCAD add-in review hotspots](project_autocad_addin_review_hotspots.md) — OCS `GetPoint2dAt`, arc chord count, `NoUndoMarker`, harness `U` target, main-thread waits, raster attach, undisposed DBObjects, arg precedence; grep first, probe with a scratch console

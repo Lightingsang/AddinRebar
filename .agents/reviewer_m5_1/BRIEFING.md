@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-07T10:30:00Z
+# BRIEFING — 2026-09-21T18:45:00+07:00
 
 ## Mission
-Conduct independent quality and adversarial review of Milestone M5 (Ribbon Integration, Multi-Version Compliance, and Architectural Standards).
+Milestone M5 Reviewer 1: Independently review and adversarial challenge the HPExcel MCP ecosystem documentation (`.agents/skills/hp-mcp-excel/SKILL.md`, `.claude/skills/hp-mcp-excel/SKILL.md`, `AGENTS.md`), verify build/test non-regression, and issue formal verdict.
 
 ## 🔒 My Identity
 - Archetype: reviewer-critic
@@ -10,65 +10,67 @@ Conduct independent quality and adversarial review of Milestone M5 (Ribbon Integ
 - Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
 - Milestone: M5
 - Instance: 1 of 2
+- Working directory (Milestone M5 HPExcel): g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1
+- Current parent: a6affb02-3586-4014-be6f-de9dfcd816bd
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
 - Actively check for integrity violations (hardcoded results, facades, shortcuts, self-certification)
 - Adhere to repository layout and feature-folder conventions in AGENTS.md
 - Issue clear verdict: APPROVE or REQUEST_CHANGES
+- Verify seed tools against actual C# implementations and schemas
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T10:30:00Z
+- Conversation ID: a6affb02-3586-4014-be6f-de9dfcd816bd
+- Updated: 2026-09-21T18:45:00+07:00
 
 ## Review Scope
 - **Files to review**:
-  - `HPRebar/HPRebar/Application.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamRebarCommand.cs`
-  - `HPRebar/HPRebar/Beam Rebar/ThemeSwitcher.cs`
-  - `HPRebar/HPRebar/Beam Rebar/RevitUnits.cs`
-  - `HPRebar/HPRebar/Beam Rebar/**`
-- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md, AGENTS.md
+  - `.agents/skills/hp-mcp-excel/SKILL.md`
+  - `.claude/skills/hp-mcp-excel/SKILL.md`
+  - `AGENTS.md` (HPExcel layout entry and section)
+  - `HPExcel/HPExcel.slnx` & projects
+  - Seed tool manifests in `HPExcel/HPExcel.Mcp.Server/Registry/SeedLibrary/**`
+- **Interface contracts**:
+  - `ORIGINAL_REQUEST.md` (§ 2026-09-21T09:44:29Z)
+  - `worker_m5_1/handoff.md`
 - **Review criteria**:
-  - Ribbon button registration ("Beam Rebar" on "Rebar" panel under "HPRebar" tab, icon URIs)
-  - ExternalCommand derivation and [Transaction(TransactionMode.Manual)]
-  - Multi-version compilation compliance (Debug.R25 and Debug.R26)
-  - Zero deprecated APIs (no DisplayUnitType, no IntegerValue, UnitTypeId.Millimeters used)
-  - File-scoped namespaces and feature folder conventions
+  - Correctness, completeness, parameter accuracy, default values, examples
+  - 3-tier safety engine & automatic snapshot explanation
+  - ClosedXML headless vs COM Interop differentiation
+  - Build and unit test suite clean pass (0 errors, 0 warnings, 0 failed tests)
 
 ## Key Decisions Made
-- Confirmed Application.cs registers "Beam Rebar" on panel "Rebar" with valid pack URIs and icon resources.
-- Confirmed BeamRebarCommand derives from ExternalCommand with [Transaction(TransactionMode.Manual)].
-- Confirmed multi-version compliance for Revit 2025 and 2026 (.NET 8, Revit SDK 6.2.3, #if REVIT2024_OR_GREATER).
-- Verified 0 occurrences of deprecated DisplayUnitType and IntegerValue; modern ForgeTypeId UnitTypeId.Millimeters used.
-- Verified 100% file-scoped namespaces (34 files) and strict feature-folder structure (Models, View, View Models).
-- Verified complete domain decoupling in HPRebar.Core (0 Revit references).
-- Adversarial red-team review passed with minor recommendations for empty project template catalog checks.
-- Verdict: APPROVE.
+- Confirmed `dotnet build HPExcel/HPExcel.slnx -c Debug` builds with 0 errors and 0 warnings.
+- Confirmed all 90 `HPExcel.Mcp.Server.Tests` pass 100%.
+- Confirmed all 110 `HPExcel.McpBridge.Tests` pass 100%.
+- Confirmed all 385 `McpShared/HPRebar.Mcp.Server.Core.Tests` pass 100%.
+- Verified YAML frontmatter, portable host contract, and 12 seed tool definitions against code.
 
 ## Artifact Index
-- `.agents/reviewer_m5_1/review_report.md` — Quality review and adversarial critique report
-- `.agents/reviewer_m5_1/handoff.md` — 5-component handoff report
+- `handoff.md` — Final 5-component review report and verdict
+- `DISPATCH.md` — Assignment logs
+- `progress.md` — Liveness heartbeat
 
 ## Review Checklist
 - **Items reviewed**:
-  - `Application.cs` ribbon registration and icon resources (PASS)
-  - `BeamRebarCommand.cs` inheritance, transaction mode, entry flow (PASS)
-  - `ThemeSwitcher.cs` conditional compilation and dynamic theming (PASS)
-  - `RevitUnits.cs` ForgeTypeId conversions (PASS)
-  - `HPRebar.slnx`, `HPRebar.csproj`, `HPRebar.Core.csproj`, `HPRebar.Core.Tests.csproj` configs (PASS)
-  - 34 C# files in `Beam Rebar/` namespaces and conventions (PASS)
-  - `HPRebar.Core/` decoupling and `HPRebar.Core.Tests/` unit test authenticity (PASS)
-- **Verdict**: APPROVE
-- **Unverified claims**: Interactive live Revit UI session (mitigated by static code/AST analysis and project contract verification)
+  - Frontmatter & triggers: PASS
+  - Portable host contract: PASS
+  - Architecture & Decision tree: PASS
+  - 12 Seed Tools schemas & examples: PASS
+  - Core tools & Roslyn globals: PASS
+  - 3-Tier Safety & Snapshot Manager: PASS
+  - Headless vs COM comparison: PASS
+  - Troubleshooting error codes: PASS
+  - Non-regression builds & tests: PASS
+- **Verdict**: APPROVE (pending final handoff writing)
+- **Unverified claims**: None
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - Empty selection / cancellation: Handled gracefully
-  - Non-collinear or non-continuous spans: Caught by BeamStackValidator
-  - Missing RebarShape: Caught by RebarCreationService.CanCreate
-  - View name collisions: Handled by DetailViewCreator.Rename fallback
-  - Non-fatal Revit warnings: Handled by RebarFailureHandling (SwallowWarnings)
-  - Transaction failure: Atomic rollback via TransactionGroup("Beam Rebar")
-- **Vulnerabilities found**: Minor: Empty RebarBarType catalog in blank Revit project could benefit from explicit error dialog
-- **Untested angles**: Live interactive Revit 2025/2026 graphics rendering pipeline (requires GUI Revit installation)
+  - Discrepancy between SKILL.md tool schemas and C# tool.json definitions: Tested and matched.
+  - Snapshot behavior on unsaved files: Checked path fallback to %TEMP%\.hpexcel_snapshots\.
+  - Error codes -32001, -32002, -32003 coverage: Thoroughly verified.
+  - Destructive tools classification: Checked `manage_worksheet` (delete) and `run_macro`.
+- **Vulnerabilities found**: None in documentation or implementation.
+- **Untested angles**: Live interaction with running EXCEL.EXE GUI process (requires manual user test, but headless ClosedXML and unit tests pass 100%).

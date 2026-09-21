@@ -1,61 +1,74 @@
-# BRIEFING — 2026-09-07T07:56:00Z
+# BRIEFING — 2026-09-21T13:43:00Z
 
 ## Mission
-Independent objective and adversarial review of Milestone 1 (HPRebar.Core/BeamRebar and HPRebar.Core.Tests/BeamRebar).
+Review McpShared code changes for Milestone M1 (Robot Structural Analysis host integration)
 
 ## 🔒 My Identity
-- Archetype: reviewer-critic
+- Archetype: reviewer / critic
 - Roles: reviewer, critic
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m1_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M1 (BeamRebar Core & Tests)
-- Instance: 1 of 2
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m1_1
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Milestone: M1
+- Instance: 1 of 1
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
-- Check for integrity violations (hardcoding, dummies, bypasses, fake tests)
-- Zero Autodesk.Revit.* dependencies in HPRebar.Core
-- Verification via dotnet test and dotnet build
-- Files for content delivery, messages for coordination
+- Report any failures or integrity issues as findings
+- Deliver handoff report and send message to parent
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T07:56:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T13:40:19Z
 
 ## Review Scope
 - **Files to review**:
-  - HPRebar/HPRebar.Core/BeamRebar/ (17 models, 6 calculators, Tolerance.cs, GlobalUsings.cs)
-  - HPRebar/HPRebar.Core.Tests/BeamRebar/ (6 test suites, TestBeamData.cs)
-- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md
-- **Review criteria**: Correctness, Completeness, Robustness, Conformance, Integrity
-
-## Key Decisions Made
-- Verdict: REQUEST_CHANGES
-- Flagged Critical Finding 1 as INTEGRITY VIOLATION due to dummy/tautological assertions in `BeamMainBarCalculatorTests.cs` (lines 232-249 and 140-147).
-- Flagged Critical Finding 2 for dropped Layer 2 on exterior supports in `BeamAdditionalBarCalculator.cs`.
-- Flagged Major Findings 3, 4, 5 for stirrup boundary duplication, skin bar code spacing violations, and single-splice overflow on long beams.
-
-## Artifact Index
-- DISPATCH.md — Task assignment
-- review_report.md — Detailed review report
-- handoff.md — 5-component handoff report
-- progress.md — Liveness heartbeat
+  - McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs
+  - McpShared/HPRebar.Mcp.Contracts/JsonRpc/JsonRpcMethods.cs
+  - McpShared/HPRebar.Mcp.Contracts/HostScriptContracts.cs
+  - McpShared/HPRebar.Mcp.Contracts/Messages/ContextMessages.cs
+  - McpShared/HPRebar.McpBridge.Core/Scripting/GuardProfile.cs
+  - McpShared/HPRebar.McpBridge.Core/Scripting/AnalyzerProfile.cs
+  - McpShared/HPRebar.Mcp.Server.Core.Tests/RobotTestProfile.cs
+  - McpShared/HPRebar.Mcp.Server.Core.Tests/RobotProfileTests.cs
+  - McpShared/HPRebar.Mcp.Server.Core.Tests/ExcelMilestone1Challenger2Tests.cs
+  - McpShared/HPRebar.McpBridge.Core.Net48Tests/ScriptCompilerNet48Tests.cs
+- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md, AGENTS.md
+- **Review criteria**: correctness, completeness, coding standards, integrity violations, stress-test edge cases
 
 ## Review Checklist
 - **Items reviewed**:
-  - `HPRebar.Core/BeamRebar/Models/*` (17 models)
-  - `HPRebar.Core/BeamRebar/Calculators/*` (6 calculators)
-  - `HPRebar.Core/BeamRebar/Tolerance.cs`
-  - `HPRebar.Core.Tests/BeamRebar/*` (6 test files + TestBeamData)
-- **Verdict**: REQUEST_CHANGES
-- **Unverified claims**: Test execution in CLI timed out; full static analysis completed.
+  - PipeNaming.cs: RobotHost constant and pipe name generation ("hprobot-mcp-2026")
+  - JsonRpcMethods.cs: RobotPrefix constant ("robot.")
+  - HostScriptContracts.cs: RobotImports, RobotGlobals, RobotHeavyMaxTimeoutSeconds (300s)
+  - ContextMessages.cs: ContextResult.Robot property, RobotInfo record DTO
+  - GuardProfile.cs: GuardProfile.Robot deny-lists
+  - AnalyzerProfile.cs: AnalyzerProfile.Robot empty transaction sets
+  - RobotTestProfile.cs: test fixture and profile provider
+  - RobotProfileTests.cs: 11 test facts and theories
+  - ExcelMilestone1Challenger2Tests.cs: multi-host isolation and regression resistance
+  - ScriptCompilerNet48Tests.cs: .NET Framework 4.8 compatibility tests
+- **Verdict**: APPROVE
+- **Unverified claims**: None; all claims verified independently via dotnet build and dotnet test
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - Stirrup zone boundary collision: Confirmed duplicate bar when intervals are exact multiples.
-  - Multi-layer exterior top bars: Confirmed Layer 2 dropped.
-  - Deep beam skin bar code spacing: Confirmed 357 mm spacing violates 300 mm code rule for h = 800 mm.
-  - Long beam commercial stock limit: Confirmed single splice fails for L > 22.5 m.
-  - Dummy test detection: Confirmed 3 dummy tests in `BeamMainBarCalculatorTests.cs`.
-- **Vulnerabilities found**: 2 Critical (1 Integrity Violation), 3 Major, 2 Minor.
-- **Untested angles**: Revit in-process runtime behavior (deferred to M3/M5).
+  - Namespace evasion via global:: alias (blocked by ScriptGuard)
+  - Member access via ?. conditional access (blocked by ScriptGuard)
+  - Cross-host context wire pollution (verified absent across sibling hosts)
+  - Case variations in pipe naming ("ROBOT" vs "robot") (verified equivalent)
+  - Non-Revit context shaping (verified revitVersion/isFamily dropped, robot block kept)
+  - Upper-bound timeout ceiling (verified 300 clamped in ToolValidator)
+  - Host neutrality violation (verified zero host API references in McpShared)
+- **Vulnerabilities found**: None
+- **Untested angles**: Live COM attachment with running robot.exe (deferred to M2/M4/M6 as designed)
+
+## Key Decisions Made
+- Confirmed zero regressions across McpShared (485/485 passing) and HPRebar.Mcp.Server.Tests (109/109 passing)
+- Verified absence of integrity violations
+- Issued APPROVE verdict for Milestone M1
+
+## Artifact Index
+- DISPATCH.md — Incoming messages log
+- BRIEFING.md — Working memory & status
+- progress.md — Liveness heartbeat
+- handoff.md — Final review report

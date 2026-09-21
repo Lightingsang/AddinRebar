@@ -1,0 +1,26 @@
+{
+  "name": "get_model_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Model",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["model", "query", "info", "units"],
+  "title": "Get model info",
+  "description": "Returns an overview of the active Robot Structural Analysis model: file path, project type, node/bar/panel counts, load case counts, calculation status, and active units. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeCases": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include summary list of load cases and combinations."
+      }
+    },
+    "additionalProperties": false
+  }
+}

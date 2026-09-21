@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Format table header",
+    "args": {
+      "range": "A1:E1",
+      "bold": true,
+      "backgroundColor": "#003366",
+      "fontColor": "#FFFFFF",
+      "horizontalAlignment": "center"
+    }
+  },
+  {
+    "title": "Format currency column",
+    "args": {
+      "range": "C2:C50",
+      "numberFormat": "$#,##0.00"
+    }
+  },
+  {
+    "title": "Add thin borders",
+    "args": {
+      "range": "A1:D20",
+      "border": "all_thin"
+    }
+  }
+]

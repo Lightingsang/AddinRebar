@@ -1,0 +1,137 @@
+# Milestone M3 Challenger Verification Report: Unified HPAutoCad.bundle Deployment & Test Suites
+
+**Challenger**: `challenger_m3_bundle`  
+**Parent Orchestrator**: `orchestrator_3` (Conversation ID: `050984c1-afaa-4911-859c-331e9279dc4f`)  
+**Verdict**: **APPROVE**  
+**Date**: 2026-09-20T14:08:00Z  
+
+---
+
+## 1. Observation
+
+### 1.1 Compilation Verification (Debug and Release)
+- **Debug Build Command**: `dotnet build HPAutoCad/HPAutoCad.slnx -c Debug`
+  - Output summary:
+    ```
+    HPAutoCad.Loader -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPAutoCad\HPAutoCad.Loader\bin\Debug\net8.0-windows\HPAutoCad.Loader.dll
+    HPAutoCad unified bundle successfully deployed to C:\Users\STR-HP03\AppData\Roaming\Autodesk\ApplicationPlugins\HPAutoCad.bundle\
+    Build succeeded.
+        1 Warning(s)
+        0 Error(s)
+    Time Elapsed 00:00:11.47
+    ```
+- **Release Build Command**: `dotnet build HPAutoCad/HPAutoCad.slnx -c Release`
+  - Output summary:
+    ```
+    HPAutoCad.Loader -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPAutoCad\HPAutoCad.Loader\bin\Release\net8.0-windows\HPAutoCad.Loader.dll
+    Build succeeded.
+        1 Warning(s)
+        0 Error(s)
+    Time Elapsed 00:00:10.54
+    ```
+
+### 1.2 Filesystem Verification of Deployed Bundle
+- Target path: `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.bundle\` (`C:\Users\STR-HP03\AppData\Roaming\Autodesk\ApplicationPlugins\HPAutoCad.bundle\`)
+- **Manifest**:
+  - `PackageContents.xml`: Exists (1,871 bytes). SHA256: `DE31C0B8F2BBE3DCB1A7932E653A2A6B4DE98E24B611A935782BFF9B6B39E701`, matching source file `HPAutoCad/HPAutoCad.Loader/Bundle/PackageContents.xml` byte-for-byte.
+  - Manifest contents:
+    - `<RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R25.1" SeriesMax="R25.1" />`
+    - `<ComponentEntry AppName="HPAutoCad.McpBridge" Version="0.3.0" ModuleName="./Contents/HPAutoCad.McpBridge.Loader.dll" AppType=".NET" LoadOnAutoCADStartup="True" />`
+    - `<ComponentEntry AppName="HPAutoCad" Version="0.1.0" ModuleName="./Contents/HPAutoCad.Loader.dll" AppType=".NET" LoadOnAutoCADStartup="True" />`
+- **Loaders in `Contents\`**:
+  - `Contents\HPAutoCad.Loader.dll` exists (28,160 bytes)
+  - `Contents\HPAutoCad.McpBridge.Loader.dll` exists (20,992 bytes)
+- **App Payload in `Contents\App\`**:
+  - `Contents\App\HPAutoCad.dll` exists (10,684,416 bytes, ILRepack merged with `MaterialDesignThemes`)
+  - `Contents\App\HPAutoCad.Core.dll` exists (205,312 bytes)
+  - `Contents\App\runtimes\win-x64\native\WebView2Loader.dll` exists (163,680 bytes)
+  - `Contents\App\TileFetch\HPAutoCad.TileFetch.exe` exists (152,064 bytes)
+- **Bridge Payload in `Contents\Bridge\`**:
+  - `Contents\Bridge\HPAutoCad.McpBridge.dll` exists (10,550,272 bytes, ILRepack merged with `MaterialDesignThemes`)
+  - `Contents\Bridge\HPAutoCad.Aec.dll` exists (1,022,464 bytes)
+  - `Contents\Bridge\Microsoft.CodeAnalysis.CSharp.dll` exists (7,554,344 bytes)
+  - `Contents\Bridge\Serilog.dll` exists (164,864 bytes)
+
+### 1.3 Absence of Legacy Standalone Bundles
+- `Test-Path "$env:APPDATA\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle"` -> `False`
+- `Test-Path "$env:APPDATA\Autodesk\ApplicationPlugins\HPGeo.bundle"` -> `False`
+- Verified directory listing of `%AppData%\Autodesk\ApplicationPlugins\`: only `HPAutoCad.bundle` is deployed for HPAutoCad.
+
+### 1.4 Test Suite Execution Results
+- **`HPAutoCad.Tests`**:
+  - Debug: `total: 161, failed: 0, succeeded: 158, skipped: 3, duration: 1s 702ms`
+  - Release: `total: 161, failed: 0, succeeded: 158, skipped: 3, duration: 1s 214ms`
+  - Note: 3 skipped tests (`Live_helper_fetches_four_real_tiles_...`, `Live_prefetch_...`, `Live_spike_...`) are intentionally gated by env var `HPGEO_LIVE_TILES=1` to prevent unmocked external web requests during automated builds.
+- **`HPAutoCad.Mcp.Server.Tests`**:
+  - Debug: `total: 280, failed: 0, succeeded: 280, skipped: 0, duration: 12s 490ms`
+  - Release: `total: 280, failed: 0, succeeded: 280, skipped: 0, duration: 7s 311ms`
+- **`HPCivil3d.McpBridge.Tests` (Mirror Invariant)**:
+  - `total: 60, failed: 0, succeeded: 60, skipped: 0, duration: 325ms`
+- **`HPAutoCad.Aec.Tests`**:
+  - `total: 225, failed: 0, succeeded: 225, skipped: 0, duration: 3s 070ms`
+
+---
+
+## 2. Logic Chain
+
+1. **Clean Dual Build**: Building `HPAutoCad.slnx` in both `Debug` and `Release` resulted in 0 compilation errors across all 11 projects. The single warning emitted is an ILRepack diagnostic on `MaterialDesignColors.Swatch` reflection references, identical to the production build of `HPRebar`.
+2. **Unified Autoloader Packaging**: In `PackageContents.xml`, both `HPAutoCad.McpBridge` and `HPAutoCad` are registered under the same `<Components>` element with `Platform="AutoCAD"` and `SeriesMin="R25.1" SeriesMax="R25.1"`. The relative module paths `./Contents/HPAutoCad.McpBridge.Loader.dll` and `./Contents/HPAutoCad.Loader.dll` point directly to the physical files generated by the MSBuild `DeployBundle` target.
+3. **ALC Separation & Runtime Safety**:
+   - The root `Contents\` directory contains only the two lightweight loader DLLs (`HPAutoCad.Loader.dll` and `HPAutoCad.McpBridge.Loader.dll`) and their symbols.
+   - All App dependencies (WebView2, MVVM Toolkit, HPAutoCad.Core, TileFetch helper) reside in `Contents\App\`.
+   - All Bridge dependencies (Roslyn 5.9, Serilog, AEC engine, MCP contracts) reside in `Contents\Bridge\`.
+   - `AppLoadContext` and `BridgeLoadContext` inherit from `AssemblyLoadContext(..., isCollectible: false)` and enforce that host assemblies (`Ac*`, `Ad*`, `Autodesk.*`) return null to fall through to the Default ALC, preserving AutoCAD document/database identity.
+4. **Collision Prevention**: `MaterialDesignThemes` 5.3.2 is ILRepacked into `HPAutoCad.dll` and `HPAutoCad.McpBridge.dll` respectively, with loose toolkit files purged from both `Contents\App\` and `Contents\Bridge\`.
+5. **No Regressions on Civil 3D**: Mirror invariant tests in `HPCivil3d.McpBridge.Tests` (60/60 passing) confirm that common shared files between AutoCAD and Civil 3D MCP bridges remain byte-for-byte consistent.
+
+---
+
+## 3. Caveats
+
+1. **Live Interactive GUI Testing**: This challenger run focused on static build verification, filesystem bundle layout, ALC integrity, and test suite execution. In-process UI interaction inside a live running `acad.exe` instance (including dialog rendering, theme flipping, and command execution via MCP) is scheduled for Milestone M4 using the unattended MCP test harness.
+2. **Offline Tile Tests**: 3 out of 161 tests in `HPAutoCad.Tests` skip unless `HPGEO_LIVE_TILES=1` is explicitly set, which is standard repo practice for CI/offline builds.
+
+---
+
+## 4. Conclusion
+
+**Verdict: APPROVE**
+
+The packaging, loader, and filesystem deployment for Milestone M3 meet all specifications:
+- `HPAutoCad.bundle` is cleanly deployed with dual loaders, isolated `App/` and `Bridge/` payloads, native `WebView2Loader.dll`, and `TileFetch.exe`.
+- Legacy separate bundles (`HPAutoCad.McpBridge.bundle` and `HPGeo.bundle`) have been removed from `%AppData%\Autodesk\ApplicationPlugins\`.
+- All geodetic tests (158/158 active), MCP server tests (280/280), Civil 3D mirror tests (60/60), and AEC tests (225/225) pass 100%.
+- Ready for Milestone M4 (Live closed-loop verification in AutoCAD 2026).
+
+---
+
+## 5. Verification Method
+
+To independently reproduce the challenger's results:
+
+1. **Clean and Build Solution in Debug and Release**:
+   ```powershell
+   dotnet build HPAutoCad/HPAutoCad.slnx -c Debug -nodereuse:false -p:UseSharedCompilation=false
+   dotnet build HPAutoCad/HPAutoCad.slnx -c Release -nodereuse:false -p:UseSharedCompilation=false
+   ```
+2. **Inspect Deployed Filesystem**:
+   ```powershell
+   $bundle = "$env:APPDATA\Autodesk\ApplicationPlugins\HPAutoCad.bundle"
+   Test-Path "$bundle\PackageContents.xml"
+   Test-Path "$bundle\Contents\HPAutoCad.Loader.dll"
+   Test-Path "$bundle\Contents\HPAutoCad.McpBridge.Loader.dll"
+   Test-Path "$bundle\Contents\App\HPAutoCad.dll"
+   Test-Path "$bundle\Contents\App\runtimes\win-x64\native\WebView2Loader.dll"
+   Test-Path "$bundle\Contents\App\TileFetch\HPAutoCad.TileFetch.exe"
+   Test-Path "$bundle\Contents\Bridge\HPAutoCad.McpBridge.dll"
+   Test-Path "$bundle\Contents\Bridge\HPAutoCad.Aec.dll"
+   !(Test-Path "$env:APPDATA\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle")
+   !(Test-Path "$env:APPDATA\Autodesk\ApplicationPlugins\HPGeo.bundle")
+   ```
+3. **Execute Test Suites**:
+   ```powershell
+   dotnet run --project HPAutoCad/HPAutoCad.Tests --no-build
+   dotnet run --project HPAutoCad/HPAutoCad.Mcp.Server.Tests --no-build
+   dotnet run --project HPCivil3d/HPCivil3d.McpBridge.Tests --no-build
+   dotnet run --project HPAutoCad/HPAutoCad.Aec.Tests --no-build
+   ```

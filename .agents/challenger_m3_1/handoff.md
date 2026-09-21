@@ -1,118 +1,195 @@
-# Handoff Report: Milestone M3 Geometry Readers, Support Detection & Validation Challenge
+# Handoff Report — Milestone M3 Seed Tools Challenger
 
-**Agent**: `challenger_m3_1` (EMPIRICAL CHALLENGER / critic, specialist)  
-**Milestone**: M3  
-**Target Codebase**: `HPRebar/HPRebar/Beam Rebar/`  
-**Verdict**: **CHALLENGE_FAILED**  
-**Timestamp**: 2026-09-07T15:55:00Z  
+**Agent**: challenger_m3_1 (Empirical Challenger)  
+**Parent**: orchestrator_7 (`b32c5a58-8b71-46dd-ba9a-5c9e4b6709de`)  
+**Verdict**: **REQUEST_CHANGES**  
+**Timestamp**: 2026-09-21T14:51:00Z  
 
 ---
 
 ## 1. Observation
 
-1. **Target Review Artifacts**:
-   - `BeamStackReader.cs` (lines 1–170)
-   - `BeamSolidFaceReader.cs` (lines 1–186)
-   - `BeamSupportFinder.cs` (lines 1–335)
-   - `BeamStackValidator.cs` (lines 1–176)
-   - `PointMapper.cs` (lines 1–56)
-   - Associated models in `HPRebar/HPRebar/Beam Rebar/Models/` and `HPRebar.Core/BeamRebar/Models/`
-2. **Key Code Observations**:
-   - `BeamSupportFinder.cs` lines 84–88:
-     ```csharp
-     if (total < sortedBeams.Count + 1)
+Direct empirical tests were executed against all 12 embedded seed tools located under:
+`HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/`
+using an automated xUnit test suite `SeedLibraryChallengerTests.cs` executed on `HPRobot.McpBridge.Tests` compiling against the actual installed Autodesk Robot Structural Analysis Professional 2026 interop assembly:
+`C:\Program Files\Autodesk\Robot Structural Analysis Professional 2026\Exe\Interop.RobotOM.dll`.
+
+### 1.1 Test Suite Execution Result
+Command executed:
+```powershell
+dotnet run --project HPRobot\HPRobot.McpBridge.Tests\HPRobot.McpBridge.Tests.csproj --no-build -- --filter-class "*SeedLibraryChallengerTests*"
+```
+Output:
+```
+Test run summary: Failed! - G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRobot\HPRobot.McpBridge.Tests\bin\Debug\net8.0-windows\HPRobot.McpBridge.Tests.dll (net8.0|x64)
+  total: 60
+  failed: 15
+  succeeded: 45
+  skipped: 0
+  duration: 9s 192ms
+```
+
+### 1.2 Seed Compilation Failures (3/12 seeds fail Roslyn compilation)
+
+#### Finding 1: `Load/get_load_definitions/code.cs`
+- **File**: `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Load/get_load_definitions/code.cs`
+- **Line 36, Col 35**:
+  ```csharp
+  caseComponents = comb.CaseComponents.Count
+  ```
+- **Verbatim Error**:
+  ```
+  Line 36, Col 35: 'IRobotCaseCombination' does not contain a definition for 'CaseComponents' and no accessible extension method 'CaseComponents' accepting a first argument of type 'IRobotCaseCombination' could be found (are you missing a using directive or an assembly reference?)
+  ```
+- **Inspection of `Interop.RobotOM.dll`**: `[RobotOM.IRobotCaseCombination]` contains property `CaseFactors` (`RobotOM.RobotCaseFactorMngr` / `IRobotCaseFactorMngr`), which exposes `.Count`. There is no member named `CaseComponents`.
+
+#### Finding 2: `Model/get_model_info/code.cs`
+- **File**: `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Model/get_model_info/code.cs`
+- **Lines 20–22**:
+  ```csharp
+  for (int i = 1; i <= cCol.Count; i++)
+  {
+      var c = cCol.Get(i);
+      list.Add(new { number = c.Number, name = c.Name, type = c.Type.ToString(), nature = c.Nature.ToString() });
+  }
+  ```
+- **Verbatim Errors**:
+  ```
+  Line 22, Col 35: 'object' does not contain a definition for 'Number' and no accessible extension method 'Number' accepting a first argument of type 'object' could be found
+  Line 22, Col 52: 'object' does not contain a definition for 'Name' and no accessible extension method 'Name' accepting a first argument of type 'object' could be found
+  Line 22, Col 67: 'object' does not contain a definition for 'Type' and no accessible extension method 'Type' accepting a first argument of type 'object' could be found
+  Line 22, Col 95: 'object' does not contain a definition for 'Nature' and no accessible extension method 'Nature' accepting a first argument of type 'object' could be found
+  ```
+- **Inspection of `Interop.RobotOM.dll`**: `structure.Cases.GetAll().Get(i)` returns `System.Object`. Without casting `(IRobotCase)cCol.Get(i)` or pattern matching `if (cCol.Get(i) is IRobotCase c)`, C# static compilation fails.
+
+#### Finding 3: `Property/get_materials_and_sections/code.cs`
+- **File**: `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Property/get_materials_and_sections/code.cs`
+- **Line 19, Col 31**:
+  ```csharp
+  unitWeight = data.UnitWeight
+  ```
+- **Lines 38–41, Col 39**:
+  ```csharp
+  ax = data.GetValue((short)IRobotBarSectionDataValueType.I_BSDV_AX),
+  iy = data.GetValue((short)IRobotBarSectionDataValueType.I_BSDV_IY),
+  iz = data.GetValue((short)IRobotBarSectionDataValueType.I_BSDV_IZ),
+  ix = data.GetValue((short)IRobotBarSectionDataValueType.I_BSDV_IX)
+  ```
+- **Verbatim Errors**:
+  ```
+  Line 19, Col 31: 'IRobotMaterialData' does not contain a definition for 'UnitWeight' and no accessible extension method 'UnitWeight' accepting a first argument of type 'IRobotMaterialData' could be found
+  Line 38, Col 39: The name 'IRobotBarSectionDataValueType' does not exist in the current context
+  Line 39, Col 39: The name 'IRobotBarSectionDataValueType' does not exist in the current context
+  Line 40, Col 39: The name 'IRobotBarSectionDataValueType' does not exist in the current context
+  Line 41, Col 39: The name 'IRobotBarSectionDataValueType' does not exist in the current context
+  ```
+- **Inspection of `Interop.RobotOM.dll`**:
+  - `IRobotMaterialData` represents density / unit weight via property `RO` (not `UnitWeight`).
+  - Section value constants enum in `RobotOM` is `IRobotBarSectionDataValue` (e.g. `IRobotBarSectionDataValue.I_BSDV_AX`), not `IRobotBarSectionDataValueType`.
+
+---
+
+### 1.3 Examples Schema Conformance Failures (12/12 seeds fail)
+
+Every one of the 12 seeds in `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/` fails schema conformance in `examples.json`:
+
+1. **Non-Standard Property `"input"` instead of `"args"`**:
+   All 12 seeds use:
+   ```json
+   [
      {
-         Log.Warning("BeamSupportFinder detected {Count} physical supports; synthesizing boundary nodes.", total);
-         return SynthesizeDefaultSupports(sortedBeams, beamAxis, originPoint);
+       "title": "...",
+       "input": { ... }
      }
-     ```
-   - `BeamStackReader.cs` line 91:
-     ```csharp
-     cantilever: CantileverPosition.None,
-     ```
-   - `BeamContinuousStack.cs` lines 99–100:
-     ```csharp
-     if (Supports.Count != Spans.Count + 1)
-         return ValidationResult.Fail($"Support count ({Supports.Count}) must equal Span count ({Spans.Count}) + 1.");
-     ```
-   - `BeamMainBarCalculator.cs` line 58:
-     ```csharp
-     double width = stack.Spans[0].Width;
-     var yPositions = ComputeTransverseYPositions(width, spec.TopCover, stirrupDiameterMm, spec.TopDiameter, spec.TopCount);
-     ```
-   - `BeamStackValidator.cs` lines 23–34:
-     Validator rules 1–10 check category, straight lines, single solid, rectangularity, collinearity, lateral offset, top elevation, contiguity, and positive dimensions. **No rule validates equal width across spans ($b_1 == b_2$)**.
-   - `BeamSupportFinder.cs` lines 34–36, 65–68, 311–333:
-     `FindSupports` bounding box outline reaches `box.Min.Z + 0.5`. `MeasureGirderSupport` does not check elevation relationships, misidentifying flush-soffit secondary beams as supporting girders.
-   - `BeamSpecialBarCalculator.cs` line 158–159:
-     ```csharp
-     var hostSpan = stack.FindSpanAt(sec.CenterX);
-     if (hostSpan == null)
-         throw new ArgumentException($"Secondary beam at station {sec.CenterX:0.#} is outside continuous beam clear span.");
-     ```
-   - `BeamSupportFinder.cs` lines 251–257:
-     `corners` is populated by iterating `top.EdgeLoops.get_Item(0)`. A circular edge has a single periodic endpoint (`EndPoint(0) == EndPoint(1)`), causing `widthS = 0.0`.
-   - `BeamSolidFaceReader.cs` lines 122–130:
-     `GetSectionStyle` checks `if (horizontal.Count < 2 || vertical.Count < 4) return Other;` without upper bounds, allowing T-beams, I-beams, and beams with MEP holes to be classified as `Rectangle`.
+   ]
+   ```
+   In `HPRebar.Mcp.Server.Registry.Model.ToolExample` (and throughout all sister hosts `HPExcel`, `HPEtabs`, `HPSap2000`, `HPNavis`, `HPCivil3d`), the contract requires:
+   ```json
+   [
+     {
+       "title": "...",
+       "args": { ... }
+     }
+   ]
+   ```
+   When deserialized with `RegistryJson.Deserialize<List<ToolExample>>()`, System.Text.Json ignores `"input"`. The `Args` property defaults to an empty object `{}`.
+
+2. **Single Example Violation (`count == 1`)**:
+   All 12 seeds supply exactly 1 example. Standard catalog requirements across all hosts dictate at least 2 distinct examples (`examples.Count >= 2` and distinct `args`).
+
+3. **Validation Rejections on Required Parameters**:
+   Because `args` defaults to `{}` due to the `"input"` key mismatch, `ToolValidator.Validate` flags missing required properties on every tool that defines required arguments (`draw_bar_by_coords`, `assign_node_support`, `assign_bar_section`, `assign_bar_load`, `get_bar_forces`, `get_node_reactions`).
+
+---
+
+### 1.4 Passing Checks (45/60 assertions passed)
+- **`Seed_ToolJson_SchemaValidity` (12/12 PASS)**: All 12 `tool.json` files have valid name, category, host="robot", version, status="published", title, description, and valid `inputSchema.type == "object"`.
+- **`Seed_Passes_SafetyGuard` (12/12 PASS)**: All 12 seeds pass `ScriptGuard.Check(code, GuardProfile.Robot)` with zero security violations.
+- **`Seed_ArgsRead_Match_DeclaredProperties` (12/12 PASS)**: All 12 seeds read only arguments that are declared in `inputSchema.properties`, and all declared properties are referenced in the script code.
+- **`Seed_Code_CompilesCleanly_AgainstRobotOM` (9/12 PASS)**: 9 seeds compile cleanly without any compilation errors.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Cantilever Breakdown**:
-   - *Observation*: `total < sortedBeams.Count + 1` triggers when an exterior support is absent.
-   - *Logic*: A beam with an overhang cantilever has only $N$ physical supports for $N$ spans. Because $N < N+1$, `BeamSupportFinder` discards all actual physical supports and runs `SynthesizeDefaultSupports`.
-   - *Impact*: Real columns are erased; a phantom column is generated at the free cantilever tip; top negative moment bars are terminated with anchor hooks in empty space.
-2. **Stepped Width Bars in Air**:
-   - *Observation*: `BeamStackValidator` does not check width equality, and `BeamMainBarCalculator` uses only `Spans[0].Width`.
-   - *Logic*: For center-aligned beams with $b_0 = 400$ mm and $b_1 = 300$ mm, validation passes. Outer top bars are placed at $Y = \pm 155$ mm. Span 1 concrete boundaries are $Y \in [-150, 150]$ mm.
-   - *Impact*: Continuous top bars protrude 5 mm outside the concrete beam in Span 1.
-3. **Secondary Beam & Girder Collision**:
-   - *Observation*: `FindSupports` outline extends up to `box.Min.Z + 0.5`, and `MeasureGirderSupport` never checks that the girder is below the beam.
-   - *Logic*: Flush secondary framing beams intersect this outline and are classified as `SupportType.Girder` in `rawSupports`.
-   - *Impact*: Middle-of-span secondary beams split span-support 1-to-1 indexing, corrupting downstream span lengths and rebar placement.
-4. **Unhandled Crash on Joint Secondary Beams**:
-   - *Observation*: `FindSpanAt(sec.CenterX)` returns `null` for secondary beams located in the column joint zone.
-   - *Logic*: `ComputeHangingStirrups` throws an unhandled `ArgumentException` when `hostSpan == null`.
-   - *Impact*: Uncaught exception aborts the master transaction group, crashing rebar generation.
-5. **Zero-Width Round Columns**:
-   - *Observation*: `MeasureColumnSupport` extracts vertices by querying `edge.AsCurve().GetEndPoint(0)`.
-   - *Logic*: A circular periodic edge has identical start and end points, leaving only 1 point in `corners`.
-   - *Impact*: Calculated width is $0.0$ mm, expanding clear span stirrups into the column core.
+1. **Premise 1**: All embedded seed tools must be production-ready and executable by AI agents without compilation errors against the host API.
+2. **Observation 1**: `Load/get_load_definitions`, `Model/get_model_info`, and `Property/get_materials_and_sections` fail Roslyn compilation when compiled against `Interop.RobotOM.dll` due to invalid property names (`CaseComponents`, `UnitWeight`), missing object-to-interface casts (`IRobotCase`), and invalid enum type names (`IRobotBarSectionDataValueType`).
+3. **Inference 1**: If an agent attempts to execute or test these 3 tools, Roslyn compilation in `RobotBridgeExecutor` or `ExecuteCodeService` will immediately throw compilation diagnostics and abort execution.
+4. **Premise 2**: Tool examples are consumed by the registry layer (`ToolExample`), `ToolValidator`, and AI users via MCP `tools/list`.
+5. **Observation 2**: All 12 `examples.json` files use `"input"` rather than `"args"`, causing `ToolExample.Args` to deserialize as `{}`. Furthermore, each tool provides only 1 example instead of the mandated minimum of 2.
+6. **Inference 2**: Tool examples are malformed and unusable by the dynamic tool registry, failing schema validation.
+7. **Conclusion**: Milestone M3 cannot be approved in its current state. The 3 compilation bugs and 12 example schema issues must be corrected.
 
 ---
 
 ## 3. Caveats
 
-1. **Runtime Verification**: Interactive shell `dotnet build` / `dotnet test` timed out due to the unattended environment prompt policy; verification was established through rigorous analytical AST evaluation, geometric proofs, and reference model tracing.
-2. **Simple Geometries**: For strictly collinear, uniform-section ($b_1 = b_2, h_1 = h_2$) rectangular beams on rectangular columns without cantilevers or flush secondary beams, the codebase operates cleanly and correctly.
+- Runtime execution against a live Robot GUI process was not tested, as Robot GUI execution is handled out-of-process in Milestone M6 live harness. Static compilation against the official `Interop.RobotOM.dll` (v39.0.1.11984) and full Roslyn AST analysis provide 100% conclusive static evidence.
+- A secondary finding was noted in `RobotTierTable.Classify` where standard C# `List.Add(...)` calls on local result lists trigger Tier W (Write) classification because `Add` is matched by simple name. This is an M2 subsystem classification nuance and did not block the M3 seeds themselves.
 
 ---
 
-## 4. Conclusion
+## 4. Conclusion & Required Changes
 
-The implementation has achieved clean structural organization and robust handling of collinearity, level elevation consistency, and reversed parameterization. However, it fails critically in core structural engineering edge cases:
-- **Cantilevers**: Completely broken via phantom column synthesis and hardcoded `CantileverPosition.None`.
-- **Stepped Widths**: Produces reinforcement floating outside concrete geometry.
-- **Secondary Intersections**: False-positive girder detections and uncaught crash exceptions.
-- **Circular Columns**: Yields zero bearing width.
-- **Non-Rectangular Profiles**: Misclassifies T-beams and MEP-penetrated beams as rectangular.
+**Verdict**: **REQUEST_CHANGES**
 
-**Verdict**: **CHALLENGE_FAILED**
+The following concrete fixes are required for Milestone M3 acceptance:
+
+1. **Fix `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Load/get_load_definitions/code.cs`**:
+   - Change `comb.CaseComponents.Count` to `comb.CaseFactors.Count`.
+
+2. **Fix `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Model/get_model_info/code.cs`**:
+   - Cast `cCol.Get(i)` to `IRobotCase`:
+     ```csharp
+     for (int i = 1; i <= cCol.Count; i++)
+     {
+         if (cCol.Get(i) is IRobotCase c)
+         {
+             list.Add(new { number = c.Number, name = c.Name, type = c.Type.ToString(), nature = c.Nature.ToString() });
+         }
+     }
+     ```
+
+3. **Fix `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/Property/get_materials_and_sections/code.cs`**:
+   - Change `data.UnitWeight` to `data.RO`.
+   - Change `IRobotBarSectionDataValueType.I_BSDV_*` to `IRobotBarSectionDataValue.I_BSDV_*`.
+
+4. **Fix All 12 `examples.json` Files in `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/**`**:
+   - Replace key `"input"` with `"args"`.
+   - Provide at least 2 distinct examples per tool with different argument sets.
+   - Ensure all required arguments are populated in both examples.
 
 ---
 
 ## 5. Verification Method
 
-To independently reproduce each finding when developer IDE or interactive terminal is available:
+To verify after fixes are applied:
 
-1. **Cantilever Synthesis Test**:
-   - Create a 2-span beam in Revit with a cantilever end (Column at $X = 0$, Column at $X = 6000$, Beam extending to $X = 8000$).
-   - Run `BeamSupportFinder.FindSupports`. Inspect `Supports`: Observe 3 synthetic 300 mm columns, with Support 3 located at $X = 8000$.
-2. **Stepped Width Bar Geometry Test**:
-   - Model Beam 1 ($400 \times 600$) and Beam 2 ($300 \times 600$) center-aligned on Grid 1.
-   - Run `BeamStackValidator.Validate(doc, beams)` -> Returns `ValidationResult.Ok`.
-   - Run `BeamMainBarCreator.Create(...)` -> Observe top bars at $Y = \pm 155$ mm, located outside Beam 2's lateral boundary ($Y = \pm 150$ mm).
-3. **Secondary Beam Exception Test**:
-   - Model a secondary framing beam framing directly into the column face of an interior support.
-   - Run `BeamSpecialBarCalculator.ComputeHangingStirrups` -> Uncaught `ArgumentException` thrown.
+```powershell
+# 1. Rebuild the solution
+dotnet build HPRobot/HPRobot.slnx -c Debug
+
+# 2. Run the empirical challenger test suite
+dotnet run --project HPRobot/HPRobot.McpBridge.Tests/HPRobot.McpBridge.Tests.csproj --no-build -- --filter-class "*SeedLibraryChallengerTests*"
+```
+Expected result upon remediation: **60/60 tests passing (0 failed)**.

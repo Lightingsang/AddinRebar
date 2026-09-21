@@ -1,18 +1,24 @@
 # Progress — auditor_m5_1
 
-Last visited: 2026-09-07T10:27:58Z
+Last visited: 2026-09-21T18:41:00+07:00
 
 ## Status
-Completed exhaustive Forensic Integrity Victory Audit for Milestone M5 and the Continuous Beam Rebar module.
+Initiating forensic integrity audit for Milestone M5 (HPExcel Documentation & Skill Veracity).
 
 ## Steps
-- [x] Read DISPATCH.md, ORIGINAL_REQUEST.md, worker_m5 handoff.md, AGENTS.md, PROJECT.md
-- [x] Initialize BRIEFING.md and progress.md
-- [x] Forensic Check 1: Decoupling Integrity in HPRebar.Core (Zero Autodesk.Revit.*) -> PASS
-- [x] Forensic Check 2: Authentic Implementation & Anti-Cheat Analysis (Zero dummy/facade, zero NotImplementedException, zero TODOs) -> PASS
-- [x] Forensic Check 3: Unit Test Suite Authenticity (No tautological tests, 99 real assertions, comprehensive coverage) -> PASS
-- [x] Forensic Check 4: Modern Revit API Compliance (No deprecated APIs: DisplayUnitType, IntegerValue, obsolete overloads) -> PASS
-- [x] Forensic Check 5: Transaction Group Atomicity in BeamRebarOrchestrator (RollBack on catch, Assimilate on completion) -> PASS
-- [x] Forensic Check 6: Ribbon Integration in Application.cs (Panel "Rebar", PushButton "Beam Rebar") -> PASS
-- [x] Finalize audit_report.md and handoff.md
-- [x] Communicate binary verdict to orchestrator via send_message -> CLEAN
+- [x] Read DISPATCH.md, ORIGINAL_REQUEST.md (§ 2026-09-21T09:44:29Z), worker_m5_1/handoff.md
+- [x] Update BRIEFING.md (preserving 🔒 sections) and progress.md
+- [ ] Phase 1: Source & Documentation Veracity Audit
+  - [ ] Check `.agents/skills/hp-mcp-excel/SKILL.md` tools against code (`HPExcel.Mcp.Server/Registry/SeedLibrary/*.cs`, `Hosts/ExcelHostProfile.cs`, etc.)
+  - [ ] Check parameters, types, defaults, and return values
+  - [ ] Check error codes (-32001, -32002, etc.) and safety tiers (ReadOnly, Write, Destructive)
+  - [ ] Check `.claude/skills/hp-mcp-excel/SKILL.md` sync
+  - [ ] Check `AGENTS.md` updates (layout table, architecture section)
+  - [ ] Check architecture isolation (no cross-wiring with sibling projects)
+- [ ] Phase 2: Solution Build & Behavioral Verification
+  - [ ] Run `dotnet build HPExcel/HPExcel.slnx -c Debug`
+  - [ ] Run `dotnet test HPExcel/HPExcel.Mcp.Server.Tests`
+  - [ ] Run `dotnet test HPExcel/HPExcel.McpBridge.Tests`
+- [ ] Phase 3: Final Report & Verdict
+  - [ ] Compile observations and logic chain into handoff.md
+  - [ ] Send verdict to parent via send_message

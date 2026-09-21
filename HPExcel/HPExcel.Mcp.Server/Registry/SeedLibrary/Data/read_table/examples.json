@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Read table by name",
+    "args": {
+      "tableName": "RebarSchedule"
+    }
+  },
+  {
+    "title": "Read table on specific sheet",
+    "args": {
+      "tableName": "Inventory",
+      "sheet": "Stock",
+      "maxRows": 50
+    }
+  }
+]

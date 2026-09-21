@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Write 2D table with autofit",
+    "args": {
+      "startCell": "A1",
+      "values": [
+        [
+          "Mark",
+          "Diameter",
+          "Count"
+        ],
+        [
+          "B1",
+          16,
+          12
+        ],
+        [
+          "B2",
+          20,
+          8
+        ]
+      ],
+      "autoFitColumns": true
+    }
+  },
+  {
+    "title": "Write calculated formulas",
+    "args": {
+      "startCell": "D2",
+      "values": [
+        [
+          "=B2*C2"
+        ],
+        [
+          "=B3*C3"
+        ]
+      ],
+      "isFormula": true
+    }
+  }
+]

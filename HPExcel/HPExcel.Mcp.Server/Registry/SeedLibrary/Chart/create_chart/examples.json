@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Create column chart",
+    "args": {
+      "dataRange": "A1:B10",
+      "chartType": "ColumnClustered",
+      "title": "Monthly Steel Usage",
+      "targetCell": "D2"
+    }
+  },
+  {
+    "title": "Create pie chart",
+    "args": {
+      "dataRange": "A1:B5",
+      "chartType": "Pie",
+      "title": "Bar Size Distribution",
+      "targetCell": "F2",
+      "width": 350,
+      "height": 250
+    }
+  }
+]

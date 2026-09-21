@@ -1,0 +1,31 @@
+{
+  "name": "get_reinforcement_info",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Rebar",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["rebar", "reinforcement", "schedule", "query"],
+  "title": "Get reinforcement info",
+  "description": "Retrieves reinforcement details (size, grade, quantity, length, weight) from the model or filtered by host part ID. Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "fatherId": {
+        "type": "integer",
+        "default": 0,
+        "description": "Optional host part ID to filter rebars (0 for all rebars)."
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "description": "Maximum number of rebars to return (1-200)."
+      }
+    },
+    "additionalProperties": false
+  }
+}

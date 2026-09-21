@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Query up to 50 beams without modifying selection",
+    "args": {
+      "typeFilter": "BEAM",
+      "limit": 50,
+      "setSelection": false
+    }
+  },
+  {
+    "title": "Select first 10 columns in Tekla UI",
+    "args": {
+      "typeFilter": "COLUMN",
+      "limit": 10,
+      "setSelection": true
+    }
+  }
+]

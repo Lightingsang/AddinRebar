@@ -1,0 +1,88 @@
+{
+  "name": "create_rebar_group",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Rebar",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["rebar", "stirrup", "reinforcement", "group"],
+  "title": "Create rebar group",
+  "description": "Creates a group of reinforcing bars (e.g. stirrups, ties) hosted by a concrete member with target spacing and bar shape polygon.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "fatherId": {
+        "type": "integer",
+        "description": "Identifier ID of the host concrete Part."
+      },
+      "shapePoints": {
+        "type": "array",
+        "description": "Polygon vertices [{x, y, z}] defining the bar cross-section curve.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": ["x", "y", "z"]
+        }
+      },
+      "startX": {
+        "type": "number",
+        "description": "Distribution start X coordinate in mm."
+      },
+      "startY": {
+        "type": "number",
+        "description": "Distribution start Y coordinate in mm."
+      },
+      "startZ": {
+        "type": "number",
+        "description": "Distribution start Z coordinate in mm."
+      },
+      "endX": {
+        "type": "number",
+        "description": "Distribution end X coordinate in mm."
+      },
+      "endY": {
+        "type": "number",
+        "description": "Distribution end Y coordinate in mm."
+      },
+      "endZ": {
+        "type": "number",
+        "description": "Distribution end Z coordinate in mm."
+      },
+      "spacing": {
+        "type": "number",
+        "default": 150,
+        "description": "Target spacing between bars in mm."
+      },
+      "size": {
+        "type": "string",
+        "default": "12",
+        "description": "Bar diameter/size."
+      },
+      "grade": {
+        "type": "string",
+        "default": "B500B",
+        "description": "Steel grade."
+      },
+      "name": {
+        "type": "string",
+        "default": "STIRRUP",
+        "description": "Rebar group name."
+      },
+      "rebarClass": {
+        "type": "integer",
+        "default": 7,
+        "description": "Color class (1-14)."
+      }
+    },
+    "required": ["fatherId", "shapePoints", "startX", "startY", "startZ", "endX", "endY", "endZ"],
+    "additionalProperties": false
+  }
+}

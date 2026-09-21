@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get full model overview with project and phase details",
+    "args": {
+      "includeProjectInfo": true,
+      "includePhaseInfo": true
+    }
+  },
+  {
+    "title": "Get basic model connection status and file path",
+    "args": {
+      "includeProjectInfo": false,
+      "includePhaseInfo": false
+    }
+  }
+]

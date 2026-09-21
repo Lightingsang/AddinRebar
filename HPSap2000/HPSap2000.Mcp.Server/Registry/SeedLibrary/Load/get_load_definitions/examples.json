@@ -1,0 +1,12 @@
+[
+  {
+    "title": "All load patterns, cases, and combos",
+    "args": {}
+  },
+  {
+    "title": "With combination member cases",
+    "args": {
+      "includeComboCases": true
+    }
+  }
+]

@@ -1,0 +1,25 @@
+<!-- Dark palette for Excel Bridge (Excel Medium Green accent #21A366) -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="Color.Background">#FF1E1E1E</Color>
+    <Color x:Key="Color.SurfaceElevated">#FF2D2D2D</Color>
+    <Color x:Key="Color.Border">#FF3E3E3E</Color>
+    <Color x:Key="Color.Foreground.Primary">#FFE8E8E8</Color>
+    <Color x:Key="Color.Foreground.Secondary">#FFB0B0B0</Color>
+    <Color x:Key="Color.Danger">#FFE05A4F</Color>
+
+    <SolidColorBrush x:Key="Brush.Background" Color="#FF1E1E1E"/>
+    <SolidColorBrush x:Key="Brush.Surface" Color="#FF2D2D2D"/>
+    <SolidColorBrush x:Key="Brush.Card" Color="#FF2D2D2D"/>
+    <SolidColorBrush x:Key="Brush.Border" Color="#FF3E3E3E"/>
+    <SolidColorBrush x:Key="Brush.Foreground" Color="#FFE8E8E8"/>
+    <SolidColorBrush x:Key="Brush.Foreground.Primary" Color="#FFE8E8E8"/>
+    <SolidColorBrush x:Key="Brush.Foreground.Secondary" Color="#FFB0B0B0"/>
+    <SolidColorBrush x:Key="Brush.Foreground.Tertiary" Color="#FF7A7A7A"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="#FF21A366"/>
+    <SolidColorBrush x:Key="Brush.Accent.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Info" Color="#FF21A366"/>
+    <SolidColorBrush x:Key="Brush.Success" Color="#FF4CAF50"/>
+    <SolidColorBrush x:Key="Brush.Warning" Color="#FFE6AD00"/>
+    <SolidColorBrush x:Key="Brush.Danger" Color="#FFE05A4F"/>
+</ResourceDictionary>

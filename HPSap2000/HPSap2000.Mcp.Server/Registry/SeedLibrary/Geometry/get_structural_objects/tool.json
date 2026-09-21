@@ -1,0 +1,64 @@
+{
+  "name": "get_structural_objects",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "frame",
+    "area",
+    "point",
+    "geometry",
+    "query"
+  ],
+  "title": "Get structural objects",
+  "description": "Pages through the frame, area or point objects: unique name, the frame section, end points or vertices in m and the frame length in m. Filter by group or by a substring of the name. Read-only.",
+  "notes": "OAPI: cFrameObj.GetNameList/GetSection/GetPoints, cAreaObj.GetNameList/GetPoints, cPointObj.GetNameList/GetCoordCartesian, cGroup.GetAssignments.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "kind": {
+        "type": "string",
+        "enum": [
+          "frame",
+          "area",
+          "point"
+        ],
+        "default": "frame",
+        "description": "Which objects to list"
+      },
+      "group": {
+        "type": "string",
+        "description": "Only objects in this group (exact group name)"
+      },
+      "nameLike": {
+        "type": "string",
+        "description": "Only objects whose unique name contains this text (case-insensitive)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Skip this many items first (paging)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

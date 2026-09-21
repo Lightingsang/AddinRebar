@@ -1,16 +1,17 @@
-# Progress: reviewer_m3_2
+# Progress - reviewer_m3_2
 
-**Last visited**: 2026-09-07T15:50:30+07:00
-
-## Status
-- [x] Initialized DISPATCH.md and BRIEFING.md
-- [x] Verified run_command environment restrictions (unattended permission prompt timeout)
-- [x] Codebase exploration: Reviewed all target creators, view generators, dimensioning
-- [x] Integrity check: Active check for facades, dummy logic, shortcuts, hardcoded values (ALL PASS)
-- [x] In-depth technical verification against specifications
-- [x] Adversarial stress-testing & failure mode analysis
-  - Detected Major Finding 1: Closed polyline curve truncation in `BeamMainBarCreator.BuildCurves`
-  - Detected Major Finding 2: Section view indexing desync on cantilever spans in `BeamRebarOrchestrator`
-- [x] Generated review_report.md
-- [x] Generated handoff.md
-- [ ] Send verdict to orchestrator via send_message
+- Last visited: 2026-09-21T14:43:00Z
+- Status: Independent verification completed; compiling review report.
+- Completed steps:
+  - Read ORIGINAL_REQUEST.md, PROJECT.md, changes.md, and handoff.md
+  - Verified project references in HPRobot.Mcp.Server.csproj (references only HPRebar.Mcp.Server.Core and optional Interop.RobotOM)
+  - Verified embedded manifest resources (36 files across 12 seeds with logical name SeedLibrary/%(RecursiveDir)%(Filename)%(Extension))
+  - Executed dotnet build HPRobot/HPRobot.slnx -c Debug (0 warnings, 0 errors)
+  - Executed dotnet build HPRobot/HPRobot.slnx -c Release (0 warnings, 0 errors)
+  - Executed dotnet run --project HPRobot/HPRobot.McpBridge.Tests/HPRobot.McpBridge.Tests.csproj (137 passed, 0 failed)
+  - Executed McpShared test suites (613 passed in Core.Tests, 72 passed in Net48Tests)
+  - Verified MCP protocol wire surface via mcp-call.py (24 tools, 3 resources, 4 prompts)
+  - Performed adversarial review of seeds and tools for integrity violations (all clean)
+- In progress:
+  - Updating BRIEFING.md
+  - Writing final handoff.md report

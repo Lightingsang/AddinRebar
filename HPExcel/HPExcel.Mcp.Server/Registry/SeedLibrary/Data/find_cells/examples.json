@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Find text in active sheet",
+    "args": {
+      "query": "Total"
+    }
+  },
+  {
+    "title": "Exact match across workbook",
+    "args": {
+      "query": "Pending",
+      "exactMatch": true,
+      "searchAllSheets": true
+    }
+  }
+]

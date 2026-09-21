@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>HPExcel.McpBridge</RootNamespace>
+    <AssemblyName>HPExcel.McpBridge</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <Version>0.1.0</Version>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <PublishSingleFile>false</PublishSingleFile>
+    <StartupObject>HPExcel.McpBridge.Program</StartupObject>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+    <ApplicationIcon>Resources\HPExcelMcpBridge.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\HPExcelMcpBridge.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Headless OpenXML Excel Engine -->
+    <PackageReference Include="ClosedXML" Version="$(ClosedXmlVersion)" />
+    <!-- COM Interop for Excel -->
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" NoWarn="NU1701" />
+
+    <!-- UI & MVVM -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
+
+    <!-- System Process / WMI Management -->
+    <PackageReference Include="System.Management" Version="8.0.0" />
+
+    <!-- Logging -->
+    <PackageReference Include="Serilog" Version="4.4.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj" />
+    <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="HPExcel.McpBridge.Tests" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Export sheet to PDF",
+    "args": {
+      "format": "pdf",
+      "sheet": "Summary",
+      "landscape": true,
+      "fitToPage": true
+    }
+  },
+  {
+    "title": "Export data sheet to CSV",
+    "args": {
+      "format": "csv",
+      "sheet": "RawData"
+    }
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Fixed base at point 1",
+    "args": {
+      "pointNames": [
+        "1"
+      ],
+      "type": "fixed"
+    }
+  },
+  {
+    "title": "Pinned supports",
+    "args": {
+      "pointNames": [
+        "1",
+        "2"
+      ],
+      "type": "pinned"
+    }
+  }
+]

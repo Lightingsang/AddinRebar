@@ -1,0 +1,65 @@
+{
+  "name": "create_table",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "table",
+    "listobject",
+    "create",
+    "format",
+    "style"
+  ],
+  "title": "Create table",
+  "description": "Convert a range of cells into a structured Excel Table (ListObject) with headers, applied styling, and optional totals row. Takes an automatic snapshot before writing.",
+  "notes": "Uses Worksheets.ListObjects.Add with xlSrcRange.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "range",
+      "tableName"
+    ],
+    "properties": {
+      "range": {
+        "type": "string",
+        "description": "Cell range to convert to table (e.g. 'A1:E50')."
+      },
+      "tableName": {
+        "type": "string",
+        "description": "Unique table name (e.g. 'RebarSchedule', 'Expenses')."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet name. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "hasHeaders": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether first row contains headers."
+      },
+      "tableStyle": {
+        "type": "string",
+        "default": "TableStyleMedium2",
+        "description": "Excel built-in table style name."
+      },
+      "showTotalsRow": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to display the table totals row."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- SAP2000 MCP: a standalone bridge desktop app (attaches to the running SAP2000 over COM through the managed
+       SAP2000v1.dll wrapper; nothing loads into SAP2000.exe) and the stdio server exe the host AI launches.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPSap2000.McpBridge/HPSap2000.McpBridge.csproj" />
+  <Project Path="HPSap2000.McpBridge.Tests/HPSap2000.McpBridge.Tests.csproj" />
+  <Project Path="HPSap2000.Mcp.Server/HPSap2000.Mcp.Server.csproj" />
+  <Project Path="HPSap2000.Mcp.Server.Tests/HPSap2000.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

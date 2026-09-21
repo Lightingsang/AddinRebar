@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Calculate sum of range",
+    "args": {
+      "formula": "SUM(B2:B20)"
+    }
+  },
+  {
+    "title": "Lookup value in table",
+    "args": {
+      "formula": "VLOOKUP(\"ColumnC1\", A1:C50, 2, FALSE)",
+      "sheet": "Data"
+    }
+  }
+]

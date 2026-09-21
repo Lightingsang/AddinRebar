@@ -1,0 +1,888 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "get_bar_forces",
+        "title": "Get bar internal forces",
+        "description": "Extracts internal forces (FX, FY, FZ, MX, MY, MZ) along a specified bar at N relative points (0.0 = start, 1.0 = end). [Registry tool v1, Results, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "barNumber": {
+              "type": "integer",
+              "description": "Bar number to extract forces for."
+            },
+            "caseNumber": {
+              "type": "integer",
+              "description": "Load case or combination number."
+            },
+            "pointsCount": {
+              "type": "integer",
+              "default": 5,
+              "enum": [
+                2,
+                3,
+                5,
+                11
+              ],
+              "description": "Number of calculation points along the bar length."
+            }
+          },
+          "required": [
+            "barNumber",
+            "caseNumber"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get bar internal forces",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_coordinate_systems_and_grids",
+        "title": "Get coordinate systems and structural grids",
+        "description": "Reads defined structural axis grids (Cartesian, Cylindrical) including sequence coordinates, labels, and storey inclusions. [Registry tool v1, Geometry, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get coordinate systems and structural grids",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "assign_bar_section",
+        "title": "Assign bar section",
+        "description": "Assigns a defined cross-section profile to specified bars in the Robot model. [Registry tool v1, Property, transaction=auto. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "barNumbers": {
+              "type": "string",
+              "description": "Bar selection text, e.g. '1 2 3' or '1to10'."
+            },
+            "sectionName": {
+              "type": "string",
+              "description": "Name of the section to assign (e.g. 'IPE 300', 'HEA 200')."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "barNumbers",
+            "sectionName"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Assign bar section",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "execute_robot_code",
+        "title": "Execute C# in Robot",
+        "description": "Runs a C# script against the Robot Structural Analysis Professional 2026 model the HPRobot MCP Bridge app is attached to (RobotOM API). Globals: robot (IRobotApplication), structure (IRobotStructure), units (IRobotUnitMngr; metric m, kN, kN·m, MPa enforced during run), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool). Robot has no transaction or undo API. Tiers decided statically: R read-only (Get*/Is*/Has*/Count/Find*/Exist/Query; transaction=none; no snapshot). W write (Create/Add*/SetLabel*/SetValue*/Store*/Update; transaction=auto; bridge saves model and copies a .rtd snapshot first; unsaved models are refused; rolledBack:false means changes persisted). D destructive/heavy (Calculate, Delete*, project.New/Open/Close/SaveAs): needs 'Allow heavy/destructive operations' in HPRobot MCP Bridge window, else error -32001; up to 300 s. dryRun or transaction=none on a writing script = static preview (nothing runs; PREVIEW diagnostic lists called members). cancel/timeout cannot interrupt a running Robot calculation solver call. No Quit/ApplicationExit/Interactive/MessageBox/Process/#r/#load. Needs 'Allow AI code execution' in the HPRobot MCP Bridge window.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. Globals: robot (IRobotApplication), structure (IRobotStructure), units, args, ct, log, progress. No await, no System.IO/Net, no Quit/dialogs/#r/#load.",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): writing script — bridge saves model and takes a .rtd snapshot before running. none: read-only; writing script is refused with a PREVIEW diagnostic. manual: behaves like auto.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Static preview for a writing script (nothing runs; PREVIEW diagnostic lists what would be called); read-only scripts run normally. Refused for destructive members.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120 (up to 300 while heavy operations are allowed). Checked between calls; a running Calculate solver cannot be interrupted.",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name for the audit log and snapshot file name. Max 64 characters; letters, digits, _ and - survive, the rest becomes _.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"nodeNumber\": 1, \"section\": \"HEA 200\"}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in Robot",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "assign_node_support",
+        "title": "Assign node support",
+        "description": "Assigns support conditions (boundary restraints) to specified node numbers. Supports standard types (Fixed, Pinned, Roller) or named support labels. [Registry tool v1, Geometry, transaction=auto. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "nodeNumbers": {
+              "type": "string",
+              "description": "Node selection string, e.g. '1 2 3' or '1to5'."
+            },
+            "supportType": {
+              "type": "string",
+              "description": "Support name or standard type: 'Fixed', 'Pinned', 'Roller'."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "nodeNumbers",
+            "supportType"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Assign node support",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through the host application",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a host API type",
+        "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a host API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_structural_objects",
+        "title": "Get structural objects",
+        "description": "Extracts structural nodes, bars, and panels with coordinates, connectivity, assigned sections, and materials. Supports filtering by object type and limit. [Registry tool v1, Geometry, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "objectType": {
+              "type": "string",
+              "enum": [
+                "all",
+                "nodes",
+                "bars",
+                "panels"
+              ],
+              "default": "all",
+              "description": "Category of structural elements to query."
+            },
+            "limit": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000,
+              "description": "Maximum number of items to return per category."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get structural objects",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "draw_bar_by_coords",
+        "title": "Draw bar by coordinates",
+        "description": "Creates a structural bar between start and end 3D coordinates (meters). Automatically creates or connects existing nodes at the endpoints and optionally assigns a cross-section. [Registry tool v1, Geometry, transaction=auto. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "startX": {
+              "type": "number",
+              "description": "Start X coordinate (m)"
+            },
+            "startY": {
+              "type": "number",
+              "description": "Start Y coordinate (m)"
+            },
+            "startZ": {
+              "type": "number",
+              "description": "Start Z coordinate (m)"
+            },
+            "endX": {
+              "type": "number",
+              "description": "End X coordinate (m)"
+            },
+            "endY": {
+              "type": "number",
+              "description": "End Y coordinate (m)"
+            },
+            "endZ": {
+              "type": "number",
+              "description": "End Z coordinate (m)"
+            },
+            "sectionName": {
+              "type": "string",
+              "description": "Optional section name to assign (e.g. 'IPE 300')"
+            },
+            "barNumber": {
+              "type": "integer",
+              "description": "Optional bar number. If 0 or omitted, next free number is used."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "startX",
+            "startY",
+            "startZ",
+            "endX",
+            "endY",
+            "endZ"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Draw bar by coordinates",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "assign_bar_load",
+        "title": "Assign bar load",
+        "description": "Applies a uniform or concentrated force load to structural bars in a specified load case. Uses metric units (kN/m for uniform, kN for concentrated). [Registry tool v1, Load, transaction=auto. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "caseNumber": {
+              "type": "integer",
+              "description": "Target load case number."
+            },
+            "barNumbers": {
+              "type": "string",
+              "description": "Bar selection text, e.g. '1 2' or '1to4'."
+            },
+            "loadType": {
+              "type": "string",
+              "enum": [
+                "uniform",
+                "concentrated"
+              ],
+              "default": "uniform",
+              "description": "Type of load."
+            },
+            "pz": {
+              "type": "number",
+              "description": "Load intensity in Z direction (kN/m or kN). Negative value indicates downwards."
+            },
+            "px": {
+              "type": "number",
+              "default": 0.0,
+              "description": "Load intensity in X direction."
+            },
+            "py": {
+              "type": "number",
+              "default": 0.0,
+              "description": "Load intensity in Y direction."
+            },
+            "relativePosition": {
+              "type": "number",
+              "default": 0.5,
+              "description": "Relative position along bar (0.0 to 1.0) for concentrated loads."
+            },
+            "isLocal": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether coordinates are in local bar system instead of global."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "required": [
+            "caseNumber",
+            "barNumbers",
+            "pz"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Assign bar load",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_node_reactions",
+        "title": "Get node reactions",
+        "description": "Extracts support reaction forces (FX, FY, FZ) and moments (MX, MY, MZ) for specified nodes and load case/combination. [Registry tool v1, Results, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "caseNumber": {
+              "type": "integer",
+              "description": "Load case or combination number."
+            },
+            "nodeNumbers": {
+              "type": "string",
+              "description": "Node selection text, e.g. '1 2' or 'all'."
+            }
+          },
+          "required": [
+            "caseNumber",
+            "nodeNumbers"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get node reactions",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_model_info",
+        "title": "Get model info",
+        "description": "Returns an overview of the active Robot Structural Analysis model: file path, project type, node/bar/panel counts, load case counts, calculation status, and active units. Read-only. [Registry tool v1, Model, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeCases": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include summary list of load cases and combinations."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get model info",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_calculations",
+        "title": "Run calculations",
+        "description": "Generates the computational FEA model and executes structural calculations. Heavy/Destructive operation requiring AllowHeavyOperations toggle. [Registry tool v1, Analysis, transaction=auto. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "autoGenerateModel": {
+              "type": "boolean",
+              "default": true,
+              "description": "Automatically regenerate mesh/computational model before solver execution."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Run calculations",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_robot_context",
+        "title": "Get Robot context",
+        "description": "Returns the Robot Structural Analysis session the bridge app is attached to: hostVersion (2026), docTitle and docPath of the model file (.rtd), isModifiable (attached and idle), executionEnabled, and robot info {isAttached, attachedPid, robotVersion, structureType, isCalculated, heavyOperationsEnabled, nodeCount, barCount, panelCount, loadCaseCount}. With includeSelection=true returns selected nodes, bars, and panels. Call this before execute_robot_code to verify model state and calculation readiness.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include current selection (selected nodes, bars, and panels).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Robot context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_load_definitions",
+        "title": "Get load definitions",
+        "description": "Reads all load cases (simple cases, dead, live, wind, seismic) and combinations with applied records count and factor definitions. [Registry tool v1, Load, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeRecords": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, extracts details for each load record inside the cases."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get load definitions",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_materials_and_sections",
+        "title": "Get materials and sections",
+        "description": "Lists all defined materials and bar cross-sections in the active Robot model with their engineering properties (E, G, density, area, moments of inertia). [Registry tool v1, Property, transaction=none. Registry tools run stored, reviewed C# inside Robot Structural Analysis — prefer them over execute_robot_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeMaterials": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include material definitions."
+            },
+            "includeSections": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include bar cross-section definitions."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get materials and sections",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as the execute tool plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

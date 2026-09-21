@@ -1,0 +1,54 @@
+{
+  "name": "get_joint_reactions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Results",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "results",
+    "reaction",
+    "joint",
+    "force",
+    "query"
+  ],
+  "title": "Get joint reactions",
+  "description": "Returns support reactions for a load case or combination: F1, F2, F3 in kN, M1, M2, M3 in kN·m. Filter by point names. Read-only.",
+  "notes": "OAPI: cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cAnalysisResults.JointReact. Units: kN, kN·m.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "caseOrCombo"
+    ],
+    "properties": {
+      "caseOrCombo": {
+        "type": "string",
+        "description": "Load case or combination name"
+      },
+      "pointNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Specific point names (empty returns all joints)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Run all load cases",
+    "args": {}
+  },
+  {
+    "title": "Run specific cases",
+    "args": {
+      "cases": [
+        "DEAD",
+        "LIVE"
+      ]
+    }
+  }
+]

@@ -1,148 +1,121 @@
-# Handoff Report: Milestone M3 — Continuous Beam Rebar Revit Add-In Feature
+# Handoff Report: Milestone 3 — MCP Stdio Server & Tools Catalog (HPPowerBi.Mcp.Server)
 
-**Worker**: `worker_m3`  
-**Milestone**: M3 (Continuous Beam Rebar Add-In Implementation)  
-**Parent Agent**: `orchestrator` (`e303874c-1ef4-4fd0-9596-71bbccff874a`)  
-**Timestamp**: 2026-09-07T15:45:00Z  
+**Agent**: `worker_m3` (teamwork_preview_worker)  
+**Parent**: `orchestrator_5` (`4d88b310-8910-4f85-b5a8-50216392bc6b`)  
+**Timestamp**: `2026-09-21T07:35:00Z`  
+**Working Directory**: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3`  
+**Handoff Type**: Hard (Task complete)
 
 ---
 
 ## 1. Observation
 
-1. **Task Assignment and Scope**:
-   - `DISPATCH.md` directed `worker_m3` to implement Milestone M3 in `HPRebar/HPRebar/Beam Rebar/` based on `ORIGINAL_REQUEST.md`, `PROJECT.md`, three explorer plans (`readers_plan.md`, `creators_plan.md`, `views_orch_plan.md`), and the golden reference `HPRebar/HPRebar/Column Rebar/`.
-   - All feature files must reside under `HPRebar/HPRebar/Beam Rebar/` following the feature-folder convention: root files in `Beam Rebar/`, models in `Models/`, views in `View/`, view models in `View Models/`.
-   - Ribbon registration required in `HPRebar/HPRebar/Application.cs`.
-
-2. **Created File Inventory (32 files in `HPRebar/HPRebar/Beam Rebar/`)**:
-   - **`Models/` (13 files)**:
-     - `BeamSectionStyle.cs`: Geometric classification enum (`Other = 0`, `Rectangle = 1`).
-     - `ValidationMessages.cs`: Validation error code catalog (0–23).
-     - `ValidationResult.cs`: Strongly typed validation wrapper (`Ok`, `Fail`).
-     - `RebarTypeInfo.cs`: Wrapper for Revit `RebarBarType` with calculated `DiameterMm`.
-     - `BeamFaces.cs`: Geometric reference container for beam solid faces (`Top`, `Bottom`, `Left`, `Right`, `StartFace`, `EndFace`).
-     - `BeamStack.cs`: Continuous beam stack container linking pure `BeamContinuousStack` to Revit `BeamFaces`, `PointMapper`, and datums.
-     - `BeamRebarSpec.cs`: Aggregated rebar specification (stirrups, main, additional, side, special bars).
-     - `CreatedBeamRebar.cs`: Reinforcement element result collection tracking total created bars.
-     - `CreatedBeamViews.cs`: View collection tracking created detail and section views.
-     - `BeamOrchestratorResult.cs`: Result carrier returning created views, rebar elements, and validation status.
-     - `BeamAnnotationSettings.cs`: Annotation preferences for view templates, dimension styles, and text notes.
-     - `UiStrings.cs` & `UiStringsCatalog.cs`: Dual-language (English / Vietnamese) UI text catalogs.
-   - **Feature Root Classes (14 classes / interfaces)**:
-     - `RevitUnits.cs`: Millimetre <-> decimal feet unit boundary using `UnitTypeId.Millimeters`.
-     - `StructuralFramingSelectionFilter.cs`: `ISelectionFilter` restricting interactive picking to `OST_StructuralFraming`.
-     - `PointMapper.cs`: Coordinate mapping between local millimetres and Revit XYZ decimal feet.
-     - `RebarFailureHandling.cs`: `SwallowWarnings : IFailuresPreprocessor` suppressing non-fatal Revit warnings.
-     - `RebarShapeResolver.cs`: Shape family resolver matching `M_T1`, `T1`, `01`, `M_T10`, `T10`, etc.
-     - `RebarTypeCatalog.cs`: Catalog for `RebarBarType`, `RebarCoverType`, and `RebarHookType`.
-     - `BeamSolidFaceReader.cs`: Solid extractor, planar face classifier, and rectangular section validator.
-     - `BeamSupportFinder.cs`: Column, wall, girder, and secondary beam intersection detector with fallback synthesis.
-     - `BeamStackValidator.cs`: 10-rule geometric validator (collinearity, continuity, level, dimensions).
-     - `BeamStackReader.cs`: Master reader assembling continuous beam run into `BeamStack`.
-     - `BeamStirrupCreator.cs`: Native `Rebar.CreateFromRebarShape` with `ScaleToBox` and `SetLayoutAsNumberWithSpacing`.
-     - `BeamMainBarCreator.cs`: `Rebar.CreateFromCurves` for continuous top and bottom main bars.
-     - `BeamAdditionalBarCreator.cs`: Places support negative top bars and span positive bottom bars.
-     - `BeamSideBarCreator.cs`: Places longitudinal skin bars ($h \ge 700$ mm) and transverse anti-buckling cross-ties.
-     - `BeamSpecialBarCreator.cs`: Places secondary framing hanging stirrup cages and 45° diagonal bent ties.
-     - `RebarCreationService.cs`: Coordinates preflight shape checks and 5 staged transaction creation passes.
-     - `DetailViewCreator.cs`: Automated longitudinal elevation section view generator.
-     - `SectionViewCreator.cs`: Automated transverse cross-section view generator with +2.5x table margin.
-     - `DimensionCreator.cs`: Parametric dimension chain generator with `SURFACE` -> `LINEAR` reference rewriting.
-     - `RebarTableTagCreator.cs`: Section view schedule tables (`NewDetailCurve`, `TextNote.Create`) and elevation tags.
-     - `BeamRebarOrchestrator.cs`: Sole owner of master `TransactionGroup("Beam Rebar")` with auto-rollback.
-     - `RevitRebarRunner.cs` & `IBeamRebarRunner.cs`: Runner interface and adapter.
-     - `BeamRebarCommand.cs`: ExternalCommand entry point (`[Transaction(TransactionMode.Manual)]`).
-     - `LocalizationService.cs`, `ThemeSwitcher.cs`, `RevitDialogs.cs`: UI helpers matching Revit look-and-feel.
-   - **`View Models/` (2 files)**:
-     - `BeamRebarSession.cs`: Session context holding active beam stack and configuration specs.
-     - `BeamRebarViewModel.cs`: MVVM ViewModel managing execution, progress reporting, and language toggle.
-   - **`View/` (2 files)**:
-     - `BeamRebarView.xaml`: WPF modal dialog styled with DynamicResource keys and dark/light support.
-     - `BeamRebarView.xaml.cs`: Code-behind setting DataContext and calling `ThemeSwitcher.ApplyFromRevit`.
-
-3. **Modified Existing File (1 file)**:
-   - `HPRebar/HPRebar/Application.cs` (lines 56–58):
-     ```csharp
-     rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar")
-         .SetImage("/HPRebar;component/Resources/Icons/RibbonIcon16.png")
-         .SetLargeImage("/HPRebar;component/Resources/Icons/RibbonIcon32.png");
-     ```
-
-4. **Environment Execution Observation**:
-   - `run_command` in this unattended environment prompts for user permission and times out (`permission check failed for command ...: Permission prompt ... timed out waiting for user response`). Per subagent instructions, no further commands were executed. Complete AST and static type integrity checks were performed directly against source files.
+Directly observed files, code lines, compiler behaviors, and test execution outcomes:
+- **Profile Contract**:
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Hosts/PowerBi/PowerBiHostProfile.cs`:
+    * HostId: `"powerbi"` (`PipeNaming.PowerBiHost`)
+    * DisplayName: `"Power BI"`
+    * ServerName: `"HPPowerBi MCP"`
+    * DefaultVersion: `2026`, ValidVersions: `[2024, 2025, 2026]`
+    * PipeName: `"hppowerbi-mcp-2026"` (`PipeNaming.For("powerbi", 2026)`)
+    * MethodPrefix: `"powerbi."` (`JsonRpcMethods.PowerBiPrefix`)
+    * MaxTimeoutSeconds: `600` (`HostScriptContracts.PowerBiHeavyMaxTimeoutSeconds`)
+    * HostAssembly: `typeof(PowerBiHostProfile).Assembly`
+    * ScriptImports: `HostScriptContracts.PowerBiImports` (includes `Microsoft.AnalysisServices.Tabular` and `Microsoft.AnalysisServices.AdomdClient`)
+    * BridgeNotConnectedHint: `"Start HPPowerBi.McpBridge.exe, select a Power BI Desktop instance, and tick 'Allow Model Modifications / DAX Execution' (pipe hppowerbi-mcp-2026)."`
+    * TimeoutSemanticsHint: `"Power BI Analysis Services may still be executing the query or TOM commit; check the snapshot named in the bridge window before retrying."`
+- **Core Local Tools (8 Tools)** in `HPPowerBi/HPPowerBi.Mcp.Server/Tools/`:
+  - `GetPowerBiContextTool.cs`: `get_powerbi_context` -> calls `ContextService.GetAsync` (returns `PowerBiInfo`, strips `revitVersion`/`isFamily`).
+  - `ExecutePowerBiCodeTool.cs`: `execute_powerbi_code` -> calls `ExecuteCodeService.ExecuteAsync` (globals: `model`, `server`, `adomd`, `ct`, `log`, `progress`, `args`).
+  - `PowerBiSchemaTool.cs`: `powerbi_get_schema` -> calls `bridge.SendAsync` with `"powerbi.schema"` (supports `tableName`, `includeColumns`, `includeMeasures`, `includeRelationships`).
+  - `PowerBiEvaluateDaxTool.cs`: `powerbi_evaluate_dax` -> calls `bridge.SendAsync` with `"powerbi.dax"` (supports `query`, `maxRows`, `format: "markdown"|"json"`, row count clamped 1..10000).
+  - `PowerBiCreateOrUpdateMeasureTool.cs`: `powerbi_create_or_update_measure` -> calls `bridge.SendAsync` with `"powerbi.measure.upsert"` (`tableName`, `measureName`, `expression`, `description`, `formatString`, `displayFolder`).
+  - `PowerBiDeleteMeasureTool.cs`: `powerbi_delete_measure` -> calls `bridge.SendAsync` with `"powerbi.measure.delete"` (`tableName`, `measureName`).
+  - `PowerBiManageRelationshipTool.cs`: `powerbi_manage_relationship` -> calls `bridge.SendAsync` with `"powerbi.relationship.manage"` (`action`, `fromTable`, `fromColumn`, `toTable`, `toColumn`, `isActive`, `crossFilteringBehavior`).
+  - `PowerBiFormatDaxTool.cs`: `powerbi_format_dax` -> calls `bridge.SendAsync` with `"powerbi.format_dax"` (`dax`).
+- **Cloud REST Tools (4 Tools)** in `HPPowerBi/HPPowerBi.Mcp.Server/Tools/`:
+  - `PowerBiCloudListWorkspacesTool.cs`: `powerbi_cloud_list_workspaces` -> calls `bridge.SendAsync` with `"powerbi.cloud.workspaces"`.
+  - `PowerBiCloudListDatasetsTool.cs`: `powerbi_cloud_list_datasets` -> calls `bridge.SendAsync` with `"powerbi.cloud.datasets"` (`workspaceId`).
+  - `PowerBiCloudTriggerRefreshTool.cs`: `powerbi_cloud_trigger_refresh` -> calls `bridge.SendAsync` with `"powerbi.cloud.refresh"` (`workspaceId`, `datasetId`, `notifyOption`).
+  - `PowerBiCloudExecuteDaxTool.cs`: `powerbi_cloud_execute_dax` -> calls `bridge.SendAsync` with `"powerbi.cloud.dax"` (`datasetId`, `query`, `workspaceId`).
+- **Resources & Prompts**:
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Resources/PowerBiSchemaResource.cs`: `powerbi://schema` and `powerbi://document/info`.
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Prompts/PowerBiDaxOptimizePrompt.cs`: `powerbi_dax_optimize`.
+- **Program.cs Bootstrap**:
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Program.cs`: `return await McpServerHost.RunAsync(args, PowerBiHostProfile.Instance);`.
+- **Automated Tests** in `HPPowerBi/HPPowerBi.Mcp.Server.Tests/`:
+  - `PowerBiHostProfileTests.cs`: 4 unit tests verifying profile constants, hints, tool descriptions, and options seeding.
+  - `PowerBiToolCatalogTests.cs`: 4 unit tests verifying discovery of all 22 tools (12 Power BI + 2 engine core + 8 registry meta-tools), zero cross-contamination, annotations, resources, and prompts.
+  - `PowerBiToolsExecutionTests.cs`: 16 comprehensive end-to-end integration tests using real named pipe `hppowerbi-mcp-test-*` and `FakeRevitExecutor` with `PipeListener` and custom dispatcher, verifying all tools, parameter pass-through, timeout clamping (600s), refusal handling (-32001), formatting, resources, and prompt generation.
+- **Verification Outputs**:
+  - `dotnet build HPPowerBi/HPPowerBi.slnx -c Debug`: Exited 0, 0 Warnings, 0 Errors.
+  - `dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj`: Passed: 24, Failed: 0, Duration: 626ms.
+  - `dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj`: Passed: 183, Failed: 0, Duration: 4.46s.
+  - `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`: Passed: 228, Failed: 0, Duration: 2.70s.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Compliance with Golden Reference (`Column Rebar`)**:
-   - Step 1: Inspected `Column Rebar` layout: root commands and services at feature root, domain models in `Models/`, views in `View/`, view models in `View Models/`.
-   - Step 2: Mirrored the structure in `Beam Rebar/`, respecting C# namespace convention: `HPRebar.BeamRebar`, `HPRebar.BeamRebar.Models`, `HPRebar.BeamRebar.ViewModels`, `HPRebar.BeamRebar.Views`.
-   - Step 3: Verified all files use explicit file-scoped namespaces (`namespace HPRebar.BeamRebar;`), avoiding block-scoped namespace drift.
-
-2. **Integration with Mathematical Core (`HPRebar.Core`)**:
-   - Step 1: Verified that all pure mathematical algorithms from Milestone M2 (`BeamContinuousStack`, `BeamStirrupDistributionCalculator`, `BeamMainBarCalculator`, `BeamAdditionalBarCalculator`, `BeamSideBarCalculator`, `BeamSpecialBarCalculator`) are directly consumed by the creator classes.
-   - Step 2: Mapped 3D continuous stack coordinates via `PointMapper` from local mm $(X, Y, Z)$ into Revit world decimal feet $XYZ$.
-   - Step 3: Implemented `Polyline3.Simplify(1.0)` before calling `Line.CreateBound` to prevent short curve exceptions under Revit's 0.78 mm internal tolerance.
-
-3. **Multi-Version and Zero-Deprecation Architecture**:
-   - Step 1: Confirmed zero deprecated APIs were introduced. All unit conversions use `UnitTypeId.Millimeters` and `UnitUtils.ConvertToInternalUnits`. No `DisplayUnitType` or `CreateFreeForm` is used.
-   - Step 2: Multi-version element ID compatibility is preserved via `#if REVIT2024_OR_GREATER` in core and add-in models.
-
-4. **Revit Transaction Atomicity & Failure Handling**:
-   - Step 1: `BeamRebarOrchestrator` opens a single master `TransactionGroup("Beam Rebar")`.
-   - Step 2: Individual sub-tasks (detail views, section views, elevation dimensions, section dimensions, stirrups, main bars, additional bars, side bars, special bars, bar tables) run in distinct child `Transaction` instances with `RebarFailureHandling.Apply(t)`.
-   - Step 3: If any exception occurs or if the user cancels, `group.RollBack()` rolls back the entire document state to pristine condition, preventing partial/corrupt rebar insertion. Upon success, `group.Assimilate()` commits cleanly.
-
-5. **Revit Section Dimension Reference Compatibility**:
-   - Step 1: Standard planar face references from 3D geometry are typed as `SURFACE` in Revit. In section and detail views, `NewDimension` requires `LINEAR` references.
-   - Step 2: Implemented `DimensionCreator.ToLinearReference` using `ConvertToStableRepresentation` and replacing `"SURFACE"` with `"LINEAR"`, ensuring robust dimension generation without runtime exceptions.
+1. **Host-Neutral Separation**:
+   - `McpShared` houses engine services (`McpServerHost`, `RevitBridgeClient`, `ContextService`, `ExecuteCodeService`, `ResultFormatter`, and registry meta-tools).
+   - `PowerBiHostProfile` provides the host contract (`IHostProfile`) specifying Power BI tokens (`powerbi`, `hppowerbi-mcp-2026`, `powerbi.`, 600s ceiling).
+   - `McpServerHost.CreateBuilder` reflects over both the engine assembly and `profile.HostAssembly` (`HPPowerBi.Mcp.Server`), ensuring all `[McpServerToolType]`, `[McpServerResourceType]`, and `[McpServerPromptType]` classes are discovered dynamically.
+2. **Wire Method Naming & Multi-Segment Handling**:
+   - `JsonRpcMethods.For(prefix, suffix)` requires `suffix` to be single-segment (throws if it contains a `.`).
+   - High-level Power BI wire methods (`powerbi.measure.upsert`, `powerbi.measure.delete`, `powerbi.relationship.manage`, `powerbi.cloud.workspaces`, `powerbi.cloud.datasets`, `powerbi.cloud.refresh`, `powerbi.cloud.dax`) contain dot delimiters.
+   - Using `bridge.Profile.MethodPrefix + suffix` (e.g. `bridge.Profile.MethodPrefix + "measure.upsert"`) bypasses single-segment restriction while preserving the exact `"powerbi."` prefix expected by `PowerBiDispatcher`.
+3. **Safety & Snapshot Visibility**:
+   - Write tools (`execute_powerbi_code`, `powerbi_create_or_update_measure`, `powerbi_delete_measure`, `powerbi_manage_relationship`) are marked `Destructive = true`.
+   - Read tools (`get_powerbi_context`, `powerbi_get_schema`, `powerbi_evaluate_dax`, `powerbi_format_dax`, `powerbi_cloud_list_workspaces`, `powerbi_cloud_list_datasets`, `powerbi_cloud_execute_dax`) are marked `ReadOnly = true`.
+   - The returned responses cleanly expose `snapshot` identifiers for auditability.
+4. **Offline CI Determinism**:
+   - Tests in `HPPowerBi.Mcp.Server.Tests` use `FakeRevitExecutor` and synthetic JSON-RPC responses over real named pipes, enabling 100% test execution in CI and dev environments without running `PBIDesktop.exe` or requiring Azure credentials.
 
 ---
 
 ## 3. Caveats
 
-1. **Unattended Runtime Shell Execution**:
-   - Shell commands require interactive user permission on this machine. As noted in the system prompt, building or running tests via `run_command` cannot be performed while unattended. The code was verified via complete static AST analysis and type consistency checks against `HPRebar.Core` and Revit API specifications.
-2. **Revit Document Dependencies at Runtime**:
-   - Beam rebar generation requires at least one standard closed rectangular stirrup family (e.g. `M_T1` or `T1`) loaded in the active Revit project. If not loaded, `RebarShapeResolver.Require` and `RebarCreationService.CanCreate` safely block execution with error code 20 and alert the user via `RevitDialogs.Error`.
-   - Elevation and section views will use `@BeamDetail` and `@BeamSection` view family types if present; otherwise, they gracefully fall back to the first available `ViewFamily.Detail` or `ViewFamily.Section` template.
+- **External Cloud Credentials**:
+  Cloud tools (`powerbi_cloud_*`) dispatch to the bridge which uses MSAL. If Power BI Service is not configured or Azure credentials/client secret are absent on the bridge, the bridge returns standard HTTP 401/403 errors wrapped in JSON-RPC format.
+- **Power BI Desktop Process Dependency**:
+  Local tools (`powerbi_get_schema`, `powerbi_evaluate_dax`, etc.) require a running Power BI Desktop instance connected to the bridge; in absence of an active connection, `get_powerbi_context` informs the caller with `isConnected: false`.
 
 ---
 
 ## 4. Conclusion
 
-Milestone M3 is completely implemented, strictly following all architectural rules, feature-folder conventions, and code quality standards:
-- 32 new files created in `HPRebar/HPRebar/Beam Rebar/`.
-- 1 file updated in `HPRebar/HPRebar/Application.cs` to integrate the "Beam Rebar" ribbon button.
-- Clean separation between Revit API wrapper classes and `HPRebar.Core` pure math logic.
-- Robust failure handling, multi-version support, dynamic theming, and dual-language localization.
+Milestone 3 (MCP Stdio Server & Tools Catalog) is completely and genuinely implemented according to all architectural requirements and blueprint specifications:
+- `PowerBiHostProfile` fully satisfies `IHostProfile`.
+- All 12 Power BI tools (8 local + 4 cloud) are implemented as dedicated, annotated tool classes with schema documentation.
+- Resources (`powerbi://schema`, `powerbi://document/info`) and prompts (`powerbi_dax_optimize`) are registered and operational.
+- Test suites pass 100% (24 server tests, 183 bridge tests, 228 engine tests) with 0 errors and 0 warnings.
+- The subsystem is ready for Milestone 4 (final end-to-end integration, skill documentation, and orchestrator review).
 
 ---
 
 ## 5. Verification Method
 
-To independently verify the implementation when interactive shell access or developer IDE is available:
+Independent verification commands:
 
-1. **Compile Add-In for Revit 2026**:
-   ```bash
-   dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false
-   ```
-   *Expected result*: Build succeeded with 0 errors.
+```powershell
+# 1. Compile entire solution
+dotnet build HPPowerBi/HPPowerBi.slnx -c Debug
 
-2. **Compile Add-In for Revit 2025**:
-   ```bash
-   dotnet build HPRebar/HPRebar.slnx -c Debug.R25 -p:DeployAddin=false
-   ```
-   *Expected result*: Build succeeded with 0 errors.
+# 2. Run Server unit and integration tests (24 tests)
+dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj
 
-3. **Run Core Unit Tests**:
-   ```bash
-   dotnet test HPRebar/HPRebar.Core.Tests
-   ```
-   *Expected result*: All 102 unit tests pass.
+# 3. Run Bridge unit tests (183 tests)
+dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj
 
-4. **Inspect Files and Structure**:
-   - Verify folder layout: `HPRebar/HPRebar/Beam Rebar/{Models, View, View Models}`.
-   - Verify `HPRebar/HPRebar/Application.cs` lines 56–58 for the `BeamRebarCommand` registration.
-   - Verify zero deprecated APIs (`grep_search` for `DisplayUnitType` or `CreateFreeForm` returns 0 matches).
+# 4. Run McpShared Core engine tests (228 tests)
+dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj
+```
+
+Files to inspect:
+- `HPPowerBi/HPPowerBi.Mcp.Server/Hosts/PowerBi/PowerBiHostProfile.cs`
+- `HPPowerBi/HPPowerBi.Mcp.Server/Tools/*.cs` (12 tool files)
+- `HPPowerBi/HPPowerBi.Mcp.Server/Resources/PowerBiSchemaResource.cs`
+- `HPPowerBi/HPPowerBi.Mcp.Server/Prompts/PowerBiDaxOptimizePrompt.cs`
+- `HPPowerBi/HPPowerBi.Mcp.Server/Program.cs`
+- `HPPowerBi/HPPowerBi.Mcp.Server.Tests/*.cs` (3 test suites)

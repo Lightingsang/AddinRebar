@@ -1,0 +1,29 @@
+<Project>
+
+  <!--
+    Where the Tekla Structures Open API lives on this machine. Trimble publishes no official NuGet package
+    for the complete Tekla Structures .NET Open API, so projects under HPTekla/ that need Tekla.Structures.*.dll
+    compile against the installed product and never copy it (Private=false). Resolution order:
+      1. -p:TeklaInstallDir=<dir> or env HPTEKLA_TEKLA_DIR
+      2. the registry key written by Trimble installer: HKEY_LOCAL_MACHINE\SOFTWARE\Trimble\Tekla Structures\2025.0\setup (MainDir + 2025.0\bin\)
+      3. %ProgramW6432%\Tekla Structures\2025.0\bin\
+    TeklaApiAvailable lets projects provide clear diagnostic messages if Tekla Structures is not installed.
+  -->
+  <PropertyGroup>
+    <TeklaMajor Condition="'$(TeklaMajor)' == ''">2025</TeklaMajor>
+    <TeklaVersion Condition="'$(TeklaVersion)' == ''">2025.0</TeklaVersion>
+
+    <TeklaInstallDir Condition="'$(TeklaInstallDir)' == '' And '$(HPTEKLA_TEKLA_DIR)' != ''">$(HPTEKLA_TEKLA_DIR)</TeklaInstallDir>
+    <_TeklaRegMainDir Condition="'$(TeklaInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Trimble\Tekla Structures\$(TeklaVersion)\setup', 'MainDir', null, RegistryView.Registry64))</_TeklaRegMainDir>
+    <TeklaInstallDir Condition="'$(TeklaInstallDir)' == '' And '$(_TeklaRegMainDir)' != ''">$(_TeklaRegMainDir)$(TeklaVersion)\bin\</TeklaInstallDir>
+    <TeklaInstallDir Condition="'$(TeklaInstallDir)' == ''">$(ProgramW6432)\Tekla Structures\$(TeklaVersion)\bin\</TeklaInstallDir>
+    <TeklaInstallDir Condition="!HasTrailingSlash('$(TeklaInstallDir)')">$(TeklaInstallDir)\</TeklaInstallDir>
+
+    <TeklaApiAvailable>false</TeklaApiAvailable>
+    <TeklaApiAvailable Condition="Exists('$(TeklaInstallDir)Tekla.Structures.dll')">true</TeklaApiAvailable>
+
+    <!-- Where Tekla Structures looks for extensions: %ProgramData%\Trimble\Tekla Structures\<version>\environments\common\extensions\<AssemblyName>\ -->
+    <TeklaExtensionsDir>$(ProgramData)\Trimble\Tekla Structures\$(TeklaVersion)\environments\common\extensions\</TeklaExtensionsDir>
+  </PropertyGroup>
+
+</Project>

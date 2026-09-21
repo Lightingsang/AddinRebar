@@ -1,0 +1,16 @@
+[
+  {
+    "title": "List all engineering drawings up to limit 50",
+    "args": {
+      "drawingType": "ALL",
+      "limit": 50
+    }
+  },
+  {
+    "title": "List only general arrangement (GA) drawings",
+    "args": {
+      "drawingType": "GA",
+      "limit": 20
+    }
+  }
+]

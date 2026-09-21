@@ -1,0 +1,88 @@
+{
+  "name": "format_range",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Format",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "format",
+    "style",
+    "color",
+    "font",
+    "border",
+    "numberformat"
+  ],
+  "title": "Format range",
+  "description": "Apply formatting to a range: number format, font styling (bold, size, color), fill background color (hex), borders, and alignment. Takes an automatic snapshot before writing.",
+  "notes": "Translates Hex colors to BGR integers for Excel Range.Interior.Color and Font.Color.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "range"
+    ],
+    "properties": {
+      "range": {
+        "type": "string",
+        "description": "Cell range address (e.g. 'A1:E1', 'B2:B20')."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet name. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "numberFormat": {
+        "type": "string",
+        "description": "Number format string (e.g. '$#,##0.00', '0.0%', 'YYYY-MM-DD', '#,##0')."
+      },
+      "bold": {
+        "type": "boolean"
+      },
+      "italic": {
+        "type": "boolean"
+      },
+      "fontSize": {
+        "type": "number"
+      },
+      "fontColor": {
+        "type": "string",
+        "description": "Hex color for text (e.g. '#FFFFFF', '#1A1A1A')."
+      },
+      "backgroundColor": {
+        "type": "string",
+        "description": "Hex fill background color (e.g. '#003366', '#E2EFDA')."
+      },
+      "horizontalAlignment": {
+        "type": "string",
+        "enum": [
+          "left",
+          "center",
+          "right",
+          "justify"
+        ]
+      },
+      "wrapText": {
+        "type": "boolean"
+      },
+      "border": {
+        "type": "string",
+        "enum": [
+          "all_thin",
+          "outline_thick",
+          "bottom_double",
+          "none"
+        ]
+      }
+    },
+    "additionalProperties": false
+  }
+}

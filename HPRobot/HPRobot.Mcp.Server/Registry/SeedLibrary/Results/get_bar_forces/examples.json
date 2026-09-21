@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Get internal forces at 5 points for bar 1 in load case 1",
+    "args": {
+      "barNumber": 1,
+      "caseNumber": 1,
+      "pointsCount": 5
+    }
+  },
+  {
+    "title": "Get end internal forces (2 points) for bar 2 in combination 3",
+    "args": {
+      "barNumber": 2,
+      "caseNumber": 3,
+      "pointsCount": 2
+    }
+  }
+]

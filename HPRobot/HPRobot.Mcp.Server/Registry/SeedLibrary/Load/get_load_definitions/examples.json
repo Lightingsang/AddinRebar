@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Get list of simple load cases and combinations",
+    "args": {
+      "includeRecords": false
+    }
+  },
+  {
+    "title": "Get load cases with detailed load records",
+    "args": {
+      "includeRecords": true
+    }
+  }
+]

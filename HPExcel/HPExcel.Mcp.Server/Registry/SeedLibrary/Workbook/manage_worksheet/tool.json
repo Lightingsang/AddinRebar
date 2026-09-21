@@ -1,0 +1,68 @@
+{
+  "name": "manage_worksheet",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Workbook",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "worksheet",
+    "add",
+    "rename",
+    "delete",
+    "hide",
+    "duplicate"
+  ],
+  "title": "Manage worksheet",
+  "description": "Manage workbook sheets: add, rename, duplicate, delete, or change visibility (visible, hidden, very_hidden). Deleting a sheet is DESTRUCTIVE. Takes an automatic snapshot before execution.",
+  "notes": "Deleting a worksheet turns on destructive tier gating. Sheet renaming validates invalid chars (: \\ / ? * [ ]).",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "action",
+      "sheet"
+    ],
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "add",
+          "rename",
+          "duplicate",
+          "delete",
+          "hide",
+          "unhide"
+        ],
+        "description": "Action to perform on worksheet."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Target sheet name."
+      },
+      "newSheetName": {
+        "type": "string",
+        "description": "New sheet name (required for 'rename' and optional for 'add'/'duplicate')."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "visibility": {
+        "type": "string",
+        "enum": [
+          "visible",
+          "hidden",
+          "very_hidden"
+        ],
+        "description": "Target visibility for 'hide'/'unhide'."
+      }
+    },
+    "additionalProperties": false
+  }
+}

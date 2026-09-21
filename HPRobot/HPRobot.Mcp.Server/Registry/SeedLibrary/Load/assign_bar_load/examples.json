@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Apply -15 kN/m uniform gravity load to bars 1 to 4 in case 1",
+    "args": {
+      "caseNumber": 1,
+      "barNumbers": "1to4",
+      "loadType": "uniform",
+      "pz": -15.0
+    }
+  },
+  {
+    "title": "Apply -25 kN concentrated load at midspan of bar 5 in case 2",
+    "args": {
+      "caseNumber": 2,
+      "barNumbers": "5",
+      "loadType": "concentrated",
+      "pz": -25.0,
+      "relativePosition": 0.5
+    }
+  }
+]

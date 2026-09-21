@@ -1,0 +1,28 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- Robot Structural Analysis Professional 2026 MCP:
+       A standalone bridge desktop app (attaches to running robot.exe over COM through
+       the managed Interop.RobotOM.dll wrapper; nothing loads into robot.exe) and the stdio
+       server exe the host AI launches.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPRobot.McpBridge/HPRobot.McpBridge.csproj" />
+  <Project Path="HPRobot.McpBridge.Tests/HPRobot.McpBridge.Tests.csproj" />
+  <Project Path="HPRobot.Mcp.Server/HPRobot.Mcp.Server.csproj" />
+  <Project Path="HPRobot.Mcp.Server.Tests/HPRobot.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

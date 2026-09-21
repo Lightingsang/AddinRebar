@@ -1,0 +1,66 @@
+{
+  "name": "create_beam",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Geometry",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "beam", "create", "steel", "concrete"],
+  "title": "Create structural beam",
+  "description": "Creates a new steel or concrete beam between start and end coordinates in Tekla Structures.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "startX": {
+        "type": "number",
+        "description": "Start X coordinate in mm."
+      },
+      "startY": {
+        "type": "number",
+        "description": "Start Y coordinate in mm."
+      },
+      "startZ": {
+        "type": "number",
+        "description": "Start Z coordinate in mm."
+      },
+      "endX": {
+        "type": "number",
+        "description": "End X coordinate in mm."
+      },
+      "endY": {
+        "type": "number",
+        "description": "End Y coordinate in mm."
+      },
+      "endZ": {
+        "type": "number",
+        "description": "End Z coordinate in mm."
+      },
+      "profile": {
+        "type": "string",
+        "default": "HEA300",
+        "description": "Profile string (e.g. HEA300, 400*600)."
+      },
+      "material": {
+        "type": "string",
+        "default": "S235JR",
+        "description": "Material string (e.g. S235JR, C30/37)."
+      },
+      "name": {
+        "type": "string",
+        "default": "BEAM",
+        "description": "Part name."
+      },
+      "partClass": {
+        "type": "string",
+        "default": "1",
+        "description": "Color class (1-14)."
+      }
+    },
+    "required": ["startX", "startY", "startZ", "endX", "endY", "endZ"],
+    "additionalProperties": false
+  }
+}

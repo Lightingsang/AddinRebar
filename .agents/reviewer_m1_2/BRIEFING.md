@@ -1,45 +1,66 @@
-# BRIEFING — 2026-09-07T07:56:00Z
+# BRIEFING — 2026-09-21T13:48:30Z
 
 ## Mission
-Independent, adversarial review and verification of HPRebar.Core/BeamRebar/ and HPRebar.Core.Tests/BeamRebar/ (M1/M2).
+Review the architectural integrity and isolation of Milestone M1 changes (Robot host neutrality in McpShared), verify zero vendor coupling, run independent test suites, stress-test neutrality across all hosts, and issue verdict.
 
 ## 🔒 My Identity
 - Archetype: reviewer_critic
 - Roles: reviewer, critic
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m1_2
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M1/M2 Review
-- Instance: 2 of 2
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m1_2
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de (orchestrator_7)
+- Milestone: M1 (Architecture & McpShared Foundation)
+- Instance: 1 of 1
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
-- Report any failures as findings — do NOT fix them yourself
-- Actively check for integrity violations (hardcoded test results, dummy implementations, shortcuts, fabricated verification)
-- Independently build and run test commands
-- Output files: review_report.md, handoff.md; notify caller via send_message
+- Check for integrity violations (hardcoded test cheats, facades, shortcuts, self-certification)
+- Ensure McpShared has zero vendor binary references (Autodesk.*, Interop.RobotOM.dll, etc.)
+- Verify multi-host neutrality (Revit, AutoCAD, Navisworks, ETABS, Civil 3D, SAP2000, Power BI, Excel)
+- Run independent test suites via dotnet test
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T07:56:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T13:48:30Z
 
 ## Review Scope
-- **Files to review**: `HPRebar.Core/BeamRebar/` (27 files) and `HPRebar.Core.Tests/BeamRebar/` (8 files)
-- **Interface contracts**: `PROJECT.md`, `ORIGINAL_REQUEST.md`
-- **Review criteria**: Numerical precision/tolerances, Revit COM guardrails (1002 limit, short segments), test suite coverage/assertion rigor, build health, zero Revit references in Core
-
-## Review Checklist
-- **Items reviewed**: All 27 Core domain files and 8 test files in BeamRebar
-- **Verdict**: APPROVE
-- **Unverified claims**: Live terminal execution timed out unattended; verified via comprehensive static AST analysis and equation tracing
-
-## Attack Surface
-- **Hypotheses tested**: 1002 limit guard, short segment culling, 0-bar count handling, long beam splicing, collinear hairpin culling, secondary intersection support proximity
-- **Vulnerabilities found**: 0-count main bar edge case (Minor Finding 1), single-splice limit on >22m beams (Adversarial Challenge 1), hairpin culling in SimplifyPolyline (Adversarial Challenge 2)
-- **Untested angles**: Runtime Revit API interaction (reserved for M3/M5)
+- **Files to review**: McpShared changes for Milestone M1 (Contracts, Bridge.Core, Server.Core, Tests)
+- **Interface contracts**: PROJECT.md, AGENTS.md, ORIGINAL_REQUEST.md
+- **Review criteria**: Correctness, architectural isolation, vendor neutrality, zero regression on existing hosts
 
 ## Key Decisions Made
-- Issued APPROVE verdict based on complete, genuine mathematical implementation, 0 Revit references, and 94 dedicated tests (101 executions).
+- [Verdict: APPROVE] Verified zero vendor coupling in McpShared across all 3 shared assemblies.
+- Verified 100% test pass rate on McpShared test suites (485/485) and zero regressions across 12 sibling test suites.
+- Verified that no hardcoded test results, facade implementations, or bypasses exist.
+
+## Review Checklist
+- **Items reviewed**:
+  - `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/JsonRpc/JsonRpcMethods.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/HostScriptContracts.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/Messages/ContextMessages.cs`
+  - `McpShared/HPRebar.McpBridge.Core/Scripting/GuardProfile.cs`
+  - `McpShared/HPRebar.McpBridge.Core/Scripting/AnalyzerProfile.cs`
+  - `McpShared/HPRebar.McpBridge.Core/Pipe/RequestDispatcher.cs`
+  - `McpShared/HPRebar.McpBridge.Core/Host/McpBridgeHost.cs`
+  - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotProfileTests.cs`
+  - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotTestProfile.cs`
+  - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotMilestone1ChallengerTests.cs`
+  - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotMilestone1Challenger2Tests.cs`
+  - `McpShared/HPRebar.McpBridge.Core.Net48Tests/ScriptCompilerNet48Tests.cs`
+- **Verdict**: APPROVE
+- **Unverified claims**: None. All claims independently verified by test execution and binary reflection.
+
+## Attack Surface
+- **Hypotheses tested**:
+  - McpShared references vendor DLLs? Tested: 0 references found via reflection and build inspection.
+  - Sibling host regressions? Tested: All sibling suites passed (HPRebar, HPAutoCad, HPNavis, HPEtabs, HPCivil3d, HPSap2000, HPPowerBi, HPExcel).
+  - Roslyn ScriptGuard evasion (global::, #r, #load, null-conditional invocations)? Tested: 200 challenger test cases all pass.
+  - Wire pollution in ContextResult? Tested: Robot property omitted when null; other host fields absent when Robot is active.
+- **Vulnerabilities found**: None.
+- **Untested angles**: Live COM interaction with running Robot 2026 process (explicitly scoped to Milestones M2-M6).
 
 ## Artifact Index
-- `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m1_2\review_report.md` — Detailed review findings
-- `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m1_2\handoff.md` — Formal handoff report
+- `.agents/reviewer_m1_2/DISPATCH.md` — Inbound instructions log
+- `.agents/reviewer_m1_2/progress.md` — Liveness & progress tracker
+- `.agents/reviewer_m1_2/BRIEFING.md` — Working memory & state index
+- `.agents/reviewer_m1_2/handoff.md` — Final review report

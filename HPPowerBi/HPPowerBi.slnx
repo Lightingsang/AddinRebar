@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- Power BI MCP: standalone bridge desktop app (connects to running Power BI Desktop local SSAS via AMO-TOM / ADOMD.NET
+       and Power BI Service REST API) and the stdio server exe the host AI launches.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPPowerBi.McpBridge/HPPowerBi.McpBridge.csproj" />
+  <Project Path="HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj" />
+  <Project Path="HPPowerBi.Mcp.Server/HPPowerBi.Mcp.Server.csproj" />
+  <Project Path="HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

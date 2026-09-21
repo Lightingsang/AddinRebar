@@ -1,137 +1,65 @@
-# Dispatch: worker_m3 — Milestone M3 Implementation
+# Dispatch: worker_m3
+Role: teamwork_preview_worker
+Target: Implement Milestone 3: MCP Stdio Server & Tools Catalog (HPPowerBi.Mcp.Server)
+Original Request: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md
+Project Blueprint: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_5\PROJECT.md
+Server Explorer Report: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\explorer_server_1\report.md
+Output: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3\handoff.md
 
-## Mandatory Integrity Warning
-DO NOT CHEAT. All implementations must be genuine. DO NOT hardcode test results, create dummy/facade implementations, or circumvent the intended task. A teamwork_preview_auditor will independently verify your work. Integrity violations WILL be detected and your work WILL be rejected.
+## 2026-09-21T07:22:35Z
+You are worker_m3, a teamwork_preview_worker.
+Your working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3
+Project root: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar
+Authoritative user request: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (specifically section ## 2026-09-21T06:10:48Z)
+Project Blueprint: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_5\PROJECT.md
+Server Explorer Report: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\explorer_server_1\report.md
 
-## Objective
-Implement Milestone M3 (Revit Add-In Feature Implementation for Continuous Beam Rebar) in `HPRebar/HPRebar/Beam Rebar/`.
+Objective:
+Implement Milestone 3: MCP Stdio Server & Tools Catalog (HPPowerBi.Mcp.Server).
 
-## Authoritative Inputs & Specifications
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Readers & Models Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_1\readers_plan.md`
-4. Creators & Shapes Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_2\creators_plan.md`
-5. Views, Orchestrator & Command Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_3\views_orch_plan.md`
-6. Golden Reference: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Column Rebar\`
-
-## File Ownership & Scope Boundaries
-You own all files under `HPRebar/HPRebar/Beam Rebar/`:
-- `HPRebar/HPRebar/Beam Rebar/Models/`:
-  - `BeamStack.cs`, `BeamFaces.cs`, `BeamRebarSpec.cs`, `BeamSectionStyle.cs`, `CreatedBeamRebar.cs`, `CreatedBeamViews.cs`, `BeamOrchestratorResult.cs`, `BeamAnnotationSettings.cs`, `RebarTypeInfo.cs`, `UiStrings.cs`, `UiStringsCatalog.cs`, `ValidationMessages.cs`, `ValidationResult.cs`
-- `HPRebar/HPRebar/Beam Rebar/` (Root):
-  - `StructuralFramingSelectionFilter.cs`
-  - `BeamSolidFaceReader.cs`
-  - `BeamStackReader.cs`
-  - `BeamSupportFinder.cs`
-  - `BeamStackValidator.cs`
-  - `PointMapper.cs`
-  - `RebarShapeResolver.cs`
-   colonial-safe and robust shape matching
-  - `RebarTypeCatalog.cs`
-  - `BeamStirrupCreator.cs`
-  - `BeamMainBarCreator.cs`
-  - `BeamAdditionalBarCreator.cs`
-  - `BeamSideBarCreator.cs`
-  - `BeamSpecialBarCreator.cs`
-  - `RebarCreationService.cs`
-  - `DetailViewCreator.cs`
-  - `SectionViewCreator.cs`
-  - `DimensionCreator.cs`
-  - `RebarTableTagCreator.cs`
-  - `BeamRebarOrchestrator.cs`
-  - `RevitRebarRunner.cs`
-  - `IBeamRebarRunner.cs`
-  - `BeamRebarCommand.cs`
-  - `RebarFailureHandling.cs`
-  - `RevitUnits.cs`
-  - `LocalizationService.cs`
-  - `ThemeSwitcher.cs`
-  - `RevitDialogs.cs`
-- `HPRebar/HPRebar/Beam Rebar/View Models/`:
-  - `BeamRebarSession.cs`, `BeamRebarViewModel.cs`, and `IBeamRebarRunner.cs`
-- `HPRebar/HPRebar/Beam Rebar/View/`:
-  - `BeamRebarView.xaml`, `BeamRebarView.xaml.cs` (initial functional modal dialog with dynamic theming)
-
-## Implementation Rules
-1. Follow the feature folder convention in AGENTS.md strictly:
-   - Root files at `Beam Rebar/` root.
-   - Models only in `Models/`.
-   - Views only in `View/`.
-   - ViewModels only in `View Models/` (with space).
-2. Use explicit file-scoped namespaces (`namespace HPRebar.BeamRebar;`, `namespace HPRebar.BeamRebar.Models;`, etc.).
-3. Zero deprecated APIs: no `DisplayUnitType`, no `CreateFreeForm`.
-4. Check multi-version compilation flags: `#if REVIT2024_OR_GREATER` for `elementId.Value`.
-5. Atomic transactions: `BeamRebarOrchestrator` owns `TransactionGroup("Beam Rebar")` with auto-rollback on error/cancel and clean assimilation on success.
-6. Attach `RebarFailureHandling.Apply(transaction)` to swallow non-fatal Revit warnings.
-
-## Verification Requirements
-Run builds and tests:
-- `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false`
-- `dotnet build HPRebar/HPRebar.slnx -c Debug.R25 -p:DeployAddin=false`
-- `dotnet test HPRebar/HPRebar.Core.Tests`
-
-Write your handoff report to: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3\handoff.md`
-When finished, notify orchestrator via `send_message`.
-
-## 2026-09-07T08:28:30Z
-You are worker_m3.
-Your working directory is: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3
-Read your task assignment and mandatory integrity warning at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3\DISPATCH.md
-Read the authoritative user request at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md
-Read the master project plan at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md
-Read the 3 detailed implementation plans:
-1. Readers & Models Plan: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_1\readers_plan.md
-2. Creators & Shapes Plan: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_2\creators_plan.md
-3. Views, Orchestration & Command Plan: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m3_3\views_orch_plan.md
-
-MANDATORY INTEGRITY WARNING:
-DO NOT CHEAT. All implementations must be genuine. DO NOT hardcode test results, create dummy/facade implementations, or circumvent the intended task. A teamwork_preview_auditor will independently verify your work. Integrity violations WILL be detected and your work WILL be rejected.
-
-Implement Milestone M3 (Revit Add-In Feature for Continuous Beam Rebar) in `HPRebar/HPRebar/Beam Rebar/`:
-1. Models in `HPRebar/HPRebar/Beam Rebar/Models/` (BeamStack.cs, BeamFaces.cs, BeamRebarSpec.cs, BeamSectionStyle.cs, CreatedBeamRebar.cs, CreatedBeamViews.cs, BeamOrchestratorResult.cs, BeamAnnotationSettings.cs, RebarTypeInfo.cs, UiStrings.cs, UiStringsCatalog.cs, ValidationMessages.cs, ValidationResult.cs)
-2. Feature Root Classes in `HPRebar/HPRebar/Beam Rebar/`:
-   - StructuralFramingSelectionFilter.cs
-   - BeamSolidFaceReader.cs
-   - BeamStackReader.cs
-   - BeamSupportFinder.cs
-   - BeamStackValidator.cs
-   - PointMapper.cs
-   - RebarShapeResolver.cs
-   - RebarTypeCatalog.cs
-   - BeamStirrupCreator.cs
-   - BeamMainBarCreator.cs
-   - BeamAdditionalBarCreator.cs
-   - BeamSideBarCreator.cs
-   - BeamSpecialBarCreator.cs
-   - RebarCreationService.cs
-   - DetailViewCreator.cs
-   - SectionViewCreator.cs
-   - DimensionCreator.cs
-   - RebarTableTagCreator.cs
-   - BeamRebarOrchestrator.cs
-   - RevitRebarRunner.cs
-   - IBeamRebarRunner.cs
-   - BeamRebarCommand.cs
-   - RebarFailureHandling.cs
-   - RevitUnits.cs
-   - LocalizationService.cs
-   - ThemeSwitcher.cs
-   - RevitDialogs.cs
-3. View Models in `HPRebar/HPRebar/Beam Rebar/View Models/`:
-   - BeamRebarSession.cs
-   - BeamRebarViewModel.cs
-4. Views in `HPRebar/HPRebar/Beam Rebar/View/`:
-   - BeamRebarView.xaml
-   - BeamRebarView.xaml.cs
-
-Ensure:
-- Strict file-scoped namespaces (`namespace HPRebar.BeamRebar;`, `namespace HPRebar.BeamRebar.Models;`, etc.).
-- Zero deprecated APIs (use UnitTypeId.Millimeters).
-- Correct `#if REVIT2024_OR_GREATER` for elementId.Value.
-- Verify compilation:
-  `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false`
-  `dotnet build HPRebar/HPRebar.slnx -c Debug.R25 -p:DeployAddin=false`
-  `dotnet test HPRebar/HPRebar.Core.Tests`
-
-Write your handoff report to: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3\handoff.md`
-When finished, notify orchestrator via send_message.
+Tasks:
+1. PowerBiHostProfile in HPPowerBi/HPPowerBi.Mcp.Server/Hosts/PowerBi/PowerBiHostProfile.cs:
+   - Implement IHostProfile:
+     * HostName: "Power BI"
+     * DefaultVersion: "2026"
+     * PipeName: PipeNaming.For(PipeNaming.PowerBiHost, 2026) ("hppowerbi-mcp-2026")
+     * MethodPrefix: JsonRpcMethods.PowerBiPrefix ("powerbi.")
+     * MaxTimeoutSeconds: HostScriptContracts.PowerBiHeavyMaxTimeoutSeconds (600)
+     * HostAssembly: typeof(PowerBiHostProfile).Assembly
+     * ScriptImports: HostScriptContracts.PowerBiImports
+     * BridgeNotConnectedHint & TimeoutSemanticsHint providing clear user guidance
+2. Core Local Tools in HPPowerBi/HPPowerBi.Mcp.Server/Tools/:
+   Annotate classes with [McpServerToolType] and methods with [McpServerTool]:
+   - GetPowerBiContextTool: "get_powerbi_context" -> calls ContextService to retrieve model summary, counts, and safety status.
+   - ExecutePowerBiCodeTool: "execute_powerbi_code" -> compiles and runs C# script with globals { model, server, adomd, ct, log, progress, args } via ExecuteCodeService.
+   - PowerBiSchemaTool: "powerbi_get_schema" -> calls bridge.SendAsync with "powerbi.schema" to get tables, columns, measures, partitions, relationships.
+   - PowerBiEvaluateDaxTool: "powerbi_evaluate_dax" -> calls bridge.SendAsync with "powerbi.dax" (passing query, maxRows, format: "markdown"|"json").
+   - PowerBiCreateOrUpdateMeasureTool: "powerbi_create_or_update_measure" -> calls bridge.SendAsync with "powerbi.measure.upsert" (tableName, measureName, expression, description, formatString).
+   - PowerBiDeleteMeasureTool: "powerbi_delete_measure" -> calls bridge.SendAsync with "powerbi.measure.delete" (tableName, measureName).
+   - PowerBiManageRelationshipTool: "powerbi_manage_relationship" -> calls bridge.SendAsync with "powerbi.relationship.manage" (fromTable, fromColumn, toTable, toColumn, isActive, crossFilteringBehavior).
+   - PowerBiFormatDaxTool: "powerbi_format_dax" -> calls bridge.SendAsync with "powerbi.format_dax" to format DAX queries deterministically.
+3. Cloud REST Tools in HPPowerBi/HPPowerBi.Mcp.Server/Tools/:
+   - PowerBiCloudListWorkspacesTool: "powerbi_cloud_list_workspaces" -> calls bridge.SendAsync with "powerbi.cloud.workspaces".
+   - PowerBiCloudListDatasetsTool: "powerbi_cloud_list_datasets" -> calls bridge.SendAsync with "powerbi.cloud.datasets" (workspaceId).
+   - PowerBiCloudTriggerRefreshTool: "powerbi_cloud_trigger_refresh" -> calls bridge.SendAsync with "powerbi.cloud.refresh" (workspaceId, datasetId).
+   - PowerBiCloudExecuteDaxTool: "powerbi_cloud_execute_dax" -> calls bridge.SendAsync with "powerbi.cloud.dax" (datasetId, query).
+4. Resources & Prompts in HPPowerBi/HPPowerBi.Mcp.Server/Resources/ and Prompts/:
+   - PowerBiSchemaResource: "powerbi://schema"
+   - PowerBiDaxOptimizePrompt: "powerbi_dax_optimize"
+5. Program.cs in HPPowerBi/HPPowerBi.Mcp.Server/:
+   - Single line: return await McpServerHost.RunAsync(args, PowerBiHostProfile.Instance);
+6. Automated Server Tests in HPPowerBi/HPPowerBi.Mcp.Server.Tests/:
+   - Add comprehensive tests:
+     * PowerBiHostProfileTests: verifies all profile invariants (name, version, pipe, prefix, timeout, imports).
+     * PowerBiToolCatalogTests: builds host with McpServerHost.CreateBuilder([], profile).Build() and verifies all 12 Power BI tools + 8 McpShared dynamic registry tools are registered with valid schemas and descriptions.
+     * PowerBiToolsExecutionTests: tests tool execution over pipe client backed by mock executor or fake pipe listener.
+7. Verification:
+   Run:
+   dotnet build HPPowerBi/HPPowerBi.slnx -c Debug
+   dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj
+   dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj
+   dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj
+   Ensure 0 errors, 0 warnings, and 100% tests pass.
+   Write handoff report to:
+   g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3\handoff.md
+   Send completion message via send_message to orchestrator_5 (conversation ID: 4d88b310-8910-4f85-b5a8-50216392bc6b).

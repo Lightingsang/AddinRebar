@@ -1,52 +1,74 @@
-# BRIEFING — 2026-09-07T08:30:00Z
+# BRIEFING — 2026-09-21T07:35:00Z
 
 ## Mission
-Implement Milestone M3: Continuous Beam Rebar Revit Add-In feature in `HPRebar/HPRebar/Beam Rebar/`.
+Implement Milestone 3: MCP Stdio Server & Tools Catalog (HPPowerBi.Mcp.Server) including PowerBiHostProfile, 8 core local tools, 4 cloud REST tools, resources, prompts, Program.cs, and comprehensive unit tests.
 
 ## 🔒 My Identity
 - Archetype: worker
 - Roles: implementer, qa, specialist
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m3
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M3 Continuous Beam Rebar Feature
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m3
+- Original parent: 4d88b310-8910-4f85-b5a8-50216392bc6b
+- Milestone: M3 Power BI MCP Server & Tools Catalog
 
 ## 🔒 Key Constraints
 - DO NOT CHEAT: Genuine logic only, no dummy/facade implementations.
-- Follow Feature Folder Convention: Root files in `Beam Rebar/`, models in `Models/`, views in `View/`, viewmodels in `View Models/`.
-- Strict file-scoped namespaces (`namespace HPRebar.BeamRebar;` etc.).
-- Zero deprecated APIs (use UnitTypeId.Millimeters).
-- Multi-version support with `#if REVIT2024_OR_GREATER` for elementId.Value.
-- Verify with `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false`, `Debug.R25`, and `dotnet test HPRebar/HPRebar.Core.Tests`.
+- Follow host-neutral MCP engine contracts from `McpShared/`.
+- Annotate server tool types with `[McpServerToolType]` and methods with `[McpServerTool]`.
+- Implement PowerBiHostProfile for `IHostProfile`.
+- Expose all 12 core and cloud tools matching specified parameter schemas.
+- Ensure 0 errors, 0 warnings, and 100% tests pass.
+- Verification commands:
+  * `dotnet build HPPowerBi/HPPowerBi.slnx -c Debug`
+  * `dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj`
+  * `dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj`
+  * `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T08:30:00Z
+- Conversation ID: 4d88b310-8910-4f85-b5a8-50216392bc6b
+- Updated: 2026-09-21T07:35:00Z
 
 ## Task Summary
-- **What to build**: Continuous Beam Rebar Add-In feature including readers, models, creators, views, viewmodels, orchestrator, and commands.
-- **Success criteria**: Clean compilation in R25 & R26, all core tests pass, complete feature structure following Column Rebar golden reference.
-- **Interface contracts**: PROJECT.md & explorer_m3_* plans.
-- **Code layout**: `HPRebar/HPRebar/Beam Rebar/`
+- **What was built**:
+  1. `PowerBiHostProfile` in `HPPowerBi/HPPowerBi.Mcp.Server/Hosts/PowerBi/PowerBiHostProfile.cs` implementing `IHostProfile` with pipe `hppowerbi-mcp-2026`, prefix `powerbi.`, timeout 600s, and hint text.
+  2. 8 Core Local Tools in `HPPowerBi/HPPowerBi.Mcp.Server/Tools/`: `GetPowerBiContextTool`, `ExecutePowerBiCodeTool`, `PowerBiSchemaTool`, `PowerBiEvaluateDaxTool`, `PowerBiCreateOrUpdateMeasureTool`, `PowerBiDeleteMeasureTool`, `PowerBiManageRelationshipTool`, `PowerBiFormatDaxTool`.
+  3. 4 Cloud REST Tools in `HPPowerBi/HPPowerBi.Mcp.Server/Tools/`: `PowerBiCloudListWorkspacesTool`, `PowerBiCloudListDatasetsTool`, `PowerBiCloudTriggerRefreshTool`, `PowerBiCloudExecuteDaxTool`.
+  4. Resources & Prompts in `HPPowerBi/HPPowerBi.Mcp.Server/Resources/` (`PowerBiSchemaResource`: `powerbi://schema`, `powerbi://document/info`) & `Prompts/` (`PowerBiDaxOptimizePrompt`: `powerbi_dax_optimize`).
+  5. `Program.cs` in `HPPowerBi/HPPowerBi.Mcp.Server/Program.cs` delegating to `McpServerHost.RunAsync`.
+  6. Automated Server Tests in `HPPowerBi/HPPowerBi.Mcp.Server.Tests/`: `PowerBiHostProfileTests`, `PowerBiToolCatalogTests`, `PowerBiToolsExecutionTests`.
+- **Success criteria**:
+  - `HPPowerBi.slnx` builds cleanly with 0 errors and 0 warnings.
+  - All Server Tests (24/24), Bridge Tests (183/183), and Server Core Tests (228/228) pass 100%.
 
 ## Change Tracker
-- **Files created**: 32 files under `HPRebar/HPRebar/Beam Rebar/` (13 Models, 14 Root classes, 2 ViewModels, 2 Views, 1 Service)
-- **Files modified**: `HPRebar/HPRebar/Application.cs` (registered "Beam Rebar" push button on "Rebar" panel)
-- **Build status**: Complete static AST & type verification passed (zero deprecated APIs, file-scoped namespaces throughout)
+- **Files created/modified**:
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Hosts/PowerBi/PowerBiHostProfile.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/GetPowerBiContextTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/ExecutePowerBiCodeTool.cs` (updated)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiSchemaTool.cs` (updated)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiEvaluateDaxTool.cs` (updated with maxRows parameter)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiCreateOrUpdateMeasureTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiDeleteMeasureTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiManageRelationshipTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiFormatDaxTool.cs` (updated)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiCloudListWorkspacesTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiCloudListDatasetsTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiCloudTriggerRefreshTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Tools/PowerBiCloudExecuteDaxTool.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Resources/PowerBiSchemaResource.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server/Prompts/PowerBiDaxOptimizePrompt.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server.Tests/PowerBiHostProfileTests.cs` (expanded)
+  - `HPPowerBi/HPPowerBi.Mcp.Server.Tests/PowerBiToolCatalogTests.cs` (created)
+  - `HPPowerBi/HPPowerBi.Mcp.Server.Tests/PowerBiToolsExecutionTests.cs` (created)
+- **Build status**: PASS (0 warnings, 0 errors)
 - **Pending issues**: None
 
 ## Quality Status
-- **Build/test result**: All 32 components implemented with genuine domain logic matching specifications
-- **Lint status**: 0 violations, compliant with code-standards.md
-- **Tests added/modified**: Verified against HPRebar.Core mathematical models (102 passing tests)
-
-## Loaded Skills
-- None
-
-## Key Decisions Made
-- Followed Column Rebar reference pattern and detailed plans from explorer_m3_1, explorer_m3_2, explorer_m3_3.
-- Reference string conversion `SURFACE` -> `LINEAR` implemented in `DimensionCreator.ToLinearReference` for Revit ViewSection compatibility.
-- Polyline3 segments filtered with `Simplify(1.0)` to eliminate Revit ShortCurveTolerance exceptions.
-- Master transaction group ownership encapsulated in `BeamRebarOrchestrator` with auto-rollback on error/cancel and clean assimilation on success.
+- **Build/test result**:
+  - `HPPowerBi.slnx`: 0 warnings, 0 errors.
+  - `HPPowerBi.Mcp.Server.Tests`: 24 passed, 0 failed.
+  - `HPPowerBi.McpBridge.Tests`: 183 passed, 0 failed.
+  - `HPRebar.Mcp.Server.Core.Tests`: 228 passed, 0 failed.
+- **Lint status**: clean
 
 ## Artifact Index
 - DISPATCH.md — Assignment and instructions

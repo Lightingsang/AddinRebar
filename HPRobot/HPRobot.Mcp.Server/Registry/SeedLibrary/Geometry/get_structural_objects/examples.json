@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get first 50 structural objects of all types",
+    "args": {
+      "objectType": "all",
+      "limit": 50
+    }
+  },
+  {
+    "title": "Query up to 100 bar elements",
+    "args": {
+      "objectType": "bars",
+      "limit": 100
+    }
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "name": "list_drawings",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Drawing",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["drawing", "ga", "assembly", "list"],
+  "title": "List engineering drawings",
+  "description": "Enumerates and filters engineering drawings in Tekla model (GA, Assembly, Single Part, Cast Unit). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "drawingType": {
+        "type": "string",
+        "default": "ALL",
+        "description": "Filter by drawing type: ALL, GA, ASSEMBLY, SINGLE_PART, CAST_UNIT."
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "description": "Maximum number of drawings to return (1-200)."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <!-- Tekla Structures 2025 MCP:
+       An in-process plugin running inside TeklaStructures.exe on .NET Framework 4.8
+       connecting via Tekla Open API 2025.0 and the stdio server exe the host AI launches.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPTekla.McpBridge/HPTekla.McpBridge.csproj" />
+  <Project Path="HPTekla.McpBridge.Tests/HPTekla.McpBridge.Tests.csproj" />
+  <Project Path="HPTekla.Mcp.Server/HPTekla.Mcp.Server.csproj" />
+  <Project Path="HPTekla.Mcp.Server.Tests/HPTekla.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

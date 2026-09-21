@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Distributed gravity load of 15 kN/m",
+    "args": {
+      "frameNames": [
+        "1"
+      ],
+      "pattern": "DEAD",
+      "loadType": "distributed",
+      "valueKNperM": 15
+    }
+  },
+  {
+    "title": "Point load of 50 kN at midspan",
+    "args": {
+      "frameNames": [
+        "1"
+      ],
+      "pattern": "LIVE",
+      "loadType": "point",
+      "valueKN": 50,
+      "relativePosition": 0.5
+    }
+  }
+]

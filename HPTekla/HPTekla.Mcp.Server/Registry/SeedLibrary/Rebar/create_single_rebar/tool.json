@@ -1,0 +1,59 @@
+{
+  "name": "create_single_rebar",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Rebar",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["rebar", "bar", "reinforcement", "single"],
+  "title": "Create single rebar",
+  "description": "Creates an individual reinforcing bar defined by a sequence of centerline coordinates hosted by a concrete member in Tekla Structures.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "fatherId": {
+        "type": "integer",
+        "description": "Identifier ID of the host Part."
+      },
+      "points": {
+        "type": "array",
+        "description": "Centerline points [{x, y, z}] defining bar polyline. Minimum 2 points.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": ["x", "y", "z"]
+        }
+      },
+      "size": {
+        "type": "string",
+        "default": "20",
+        "description": "Bar diameter/size."
+      },
+      "grade": {
+        "type": "string",
+        "default": "B500B",
+        "description": "Steel grade."
+      },
+      "name": {
+        "type": "string",
+        "default": "MAIN_BAR",
+        "description": "Bar name."
+      },
+      "rebarClass": {
+        "type": "integer",
+        "default": 6,
+        "description": "Color class (1-14)."
+      }
+    },
+    "required": ["fatherId", "points"],
+    "additionalProperties": false
+  }
+}

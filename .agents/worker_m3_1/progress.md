@@ -1,0 +1,41 @@
+# Progress — worker_m3_1
+
+Last visited: 2026-09-21T14:37:00Z
+
+- [x] Initialized workspace and memory (DISPATCH.md, BRIEFING.md, progress.md)
+- [x] Read mandatory first step files:
+  - ORIGINAL_REQUEST.md
+  - orchestrator_7/PROJECT.md
+  - explorer_survey_robot_3/analysis.md
+  - Sibling references (HPSap2000, HPEtabs, HPExcel, HPPowerBi)
+- [x] Inspect existing `HPRobot/` directory, `HPRobot.slnx`, `Directory.Build.props`
+- [x] Implement `HPRobot.Mcp.Server.csproj` and add to `HPRobot.slnx`
+- [x] Implement `Program.cs`, `appsettings.json`
+- [x] Implement `Hosts/Robot/`:
+  - `RobotHostProfile.cs`
+  - `RobotContextService.cs`
+  - `Tools/GetRobotContextTool.cs`
+  - `Tools/ExecuteRobotCodeTool.cs`
+  - `Resources/RobotResourceProvider.cs`
+  - `Prompts/RobotPromptProvider.cs`
+- [x] Implement 12 Embedded Seeds in `Registry/SeedLibrary/`:
+  - `Model/get_model_info`
+  - `Geometry/get_structural_objects`
+  - `Property/get_materials_and_sections`
+  - `Geometry/get_coordinate_systems_and_grids`
+  - `Load/get_load_definitions`
+  - `Geometry/draw_bar_by_coords`
+  - `Geometry/assign_node_support`
+  - `Property/assign_bar_section`
+  - `Load/assign_bar_load`
+  - `Analysis/run_calculations`
+  - `Results/get_node_reactions`
+  - `Results/get_bar_forces`
+- [x] Build verification: `dotnet build HPRobot/HPRobot.slnx -c Debug` and `-c Release` (0 warnings, 0 errors)
+- [x] Verification of stdio server:
+  - `tools/list` returns exactly 24 tools (4 core, 8 registry meta, 12 embedded seeds)
+  - `resources/list` returns 3 resources (`robot://model/info`, `robot://selection`, `registry://tools`)
+  - `prompts/list` returns 4 prompts (`robot_query_template`, `robot_modify_template`, `robot_analysis_template`, `toolify_run`)
+  - `HPRobot.McpBridge.Tests` passes 137/137 tests
+- [ ] Document in `changes.md` and `handoff.md`
+- [ ] Send handoff message to parent

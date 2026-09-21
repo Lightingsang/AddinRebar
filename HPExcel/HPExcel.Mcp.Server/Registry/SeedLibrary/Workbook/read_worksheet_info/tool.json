@@ -1,0 +1,37 @@
+{
+  "name": "read_worksheet_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Workbook",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "worksheet",
+    "metadata",
+    "tables",
+    "charts"
+  ],
+  "title": "Read worksheet info",
+  "description": "Inspect worksheets in the workbook: names, indices, visibility state, used range dimensions, tables, and charts. Read-only.",
+  "notes": "Enumerate Worksheets collection and their child ListObjects and ChartObjects.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "sheet": {
+        "type": "string",
+        "description": "Specific sheet name to inspect. If omitted, inspects all sheets in workbook."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      }
+    },
+    "additionalProperties": false
+  }
+}

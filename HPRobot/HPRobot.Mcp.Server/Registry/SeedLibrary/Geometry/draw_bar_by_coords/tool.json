@@ -1,0 +1,30 @@
+{
+  "name": "draw_bar_by_coords",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "bar", "create", "model"],
+  "title": "Draw bar by coordinates",
+  "description": "Creates a structural bar between start and end 3D coordinates (meters). Automatically creates or connects existing nodes at the endpoints and optionally assigns a cross-section.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "startX": { "type": "number", "description": "Start X coordinate (m)" },
+      "startY": { "type": "number", "description": "Start Y coordinate (m)" },
+      "startZ": { "type": "number", "description": "Start Z coordinate (m)" },
+      "endX": { "type": "number", "description": "End X coordinate (m)" },
+      "endY": { "type": "number", "description": "End Y coordinate (m)" },
+      "endZ": { "type": "number", "description": "End Z coordinate (m)" },
+      "sectionName": { "type": "string", "description": "Optional section name to assign (e.g. 'IPE 300')" },
+      "barNumber": { "type": "integer", "description": "Optional bar number. If 0 or omitted, next free number is used." }
+    },
+    "required": ["startX", "startY", "startZ", "endX", "endY", "endZ"],
+    "additionalProperties": false
+  }
+}

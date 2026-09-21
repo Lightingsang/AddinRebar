@@ -1,0 +1,30 @@
+{
+  "name": "assign_node_support",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "support", "boundary", "restraint"],
+  "title": "Assign node support",
+  "description": "Assigns support conditions (boundary restraints) to specified node numbers. Supports standard types (Fixed, Pinned, Roller) or named support labels.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "nodeNumbers": {
+        "type": "string",
+        "description": "Node selection string, e.g. '1 2 3' or '1to5'."
+      },
+      "supportType": {
+        "type": "string",
+        "description": "Support name or standard type: 'Fixed', 'Pinned', 'Roller'."
+      }
+    },
+    "required": ["nodeNumbers", "supportType"],
+    "additionalProperties": false
+  }
+}

@@ -1,47 +1,64 @@
-# BRIEFING — 2026-09-07T07:55:00Z
+# BRIEFING — 2026-09-21T13:43:30Z
 
 ## Mission
-Empirically challenge and stress-test HPRebar.Core/BeamRebar/Calculators/ domain logic and verify test suite pass.
+Empirically stress-test and challenge the security guard profile for Robot (GuardProfile.Robot) in McpShared, ensuring all hostile code patterns, forbidden namespaces/methods, script directives, and timeout clamps are strictly enforced.
 
 ## 🔒 My Identity
-- Archetype: challenger
+- Archetype: EMPIRICAL CHALLENGER
 - Roles: critic, specialist
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m1_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M1/M2 Core Domain & Test Suite Challenge
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m1_1\
+- Original parent: orchestrator_7 (b32c5a58-8b71-46dd-ba9a-5c9e4b6709de)
+- Milestone: M1 (McpShared Core Support for Robot)
 - Instance: 1 of 1
 
 ## 🔒 Key Constraints
-- Review-only — do NOT modify implementation code
-- Report any failures as findings — do NOT fix them yourself
-- Run verification code empirically — do NOT trust claims or logs
-- Keep .agents/ strictly metadata only
+- Review-only regarding worker code / adversarial challenge: write tests in `McpShared/HPRebar.Mcp.Server.Core.Tests/` to verify and challenge.
+- Empirical verification mandatory: do NOT trust worker claims without reproducing test execution.
+- Maintain layout compliance (.agents contains only metadata).
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T07:55:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T13:43:30Z
 
 ## Review Scope
-- Files to review: HPRebar/HPRebar.Core/BeamRebar/Calculators/*, HPRebar/HPRebar.Core.Tests/BeamRebar/*
-- Interface contracts: ORIGINAL_REQUEST.md, PROJECT.md
-- Review criteria: Correctness, edge cases, boundary behavior, test suite execution
-
-## Attack Surface
-- Hypotheses tested:
-  - BeamStirrupDistributionCalculator boundary conditions (negative counts, >1002 positions): PROVEN SAFE.
-  - Extreme cantilever configurations (left+right+0 interior vs 5 interior): PROVEN SOUND.
-  - Beam depth transitions (1200mm -> 400mm): UPWARD HOOKS VERIFIED, CLAMPING VERIFIED.
-  - 50m beam lap splices & 50% staggering: MIDSPAN LOCATION & 50% STAGGER VERIFIED; SINGLE-SPLICE SCOPE DOCUMENTED.
-- Vulnerabilities found: No blocking bugs. Two architectural caveats documented in challenge_report.md.
-- Untested angles: Runtime Revit element creation (delegated to M3/M4).
-
-## Loaded Skills
-- None
+- **Files to review**:
+  - `McpShared/HPRebar.McpBridge.Core/Security/GuardProfile.cs`
+  - `McpShared/HPRebar.McpBridge.Core/Security/AnalyzerProfile.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/HostScriptContracts.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs`
+  - `McpShared/HPRebar.Mcp.Contracts/JsonRpcMethods.cs`
+  - `McpShared/HPRebar.Mcp.Server.Core/Hosts/HostProfiles.cs`
+- **Tests written/run**:
+  - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotMilestone1ChallengerTests.cs` (120 new test scenarios)
+  - Full suite run: `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests/` (533 tests PASS)
+  - Framework suite run: `dotnet test McpShared/HPRebar.McpBridge.Core.Net48Tests/` (72 tests PASS)
+- **Review criteria**:
+  - Robustness against evasion (obfuscation, syntax tricks, null-conditionals, casing, reflection, file IO, thread, process, dialogs, forbidden directives)
+  - Accurate timeout clamping to RobotHeavyMaxTimeoutSeconds (300s)
 
 ## Key Decisions Made
-- Confirmed mathematical validity of all 6 calculators.
-- Issued verdict: APPROVE.
+- Authored comprehensive adversarial test class `RobotMilestone1ChallengerTests.cs` targeting 7 threat dimensions.
+- Verified empirical test execution with 100% pass rate.
+- Issued verdict: **APPROVE**.
 
 ## Artifact Index
-- challenge_report.md — Detailed stress testing findings and proofs
-- handoff.md — Official handoff report
+- `DISPATCH.md` — Record of dispatch instructions
+- `BRIEFING.md` — Situational awareness
+- `progress.md` — Liveness heartbeat and step tracking
+- `handoff.md` — Handoff report with challenge verdict and empirical evidence
+
+## Attack Surface
+- **Hypotheses tested**:
+  1. Can `Quit`, `ApplicationExit`, or `Interactive` be invoked via null-conditional (`?.`), delegate references, or lambda wrappers? (Result: BLOCKED)
+  2. Can external code be imported via `#r` or `#load` directives with leading/trailing whitespaces? (Result: BLOCKED)
+  3. Can `File.Delete`, `Process.Start`, or `Directory.Delete` bypass guard via `global::` or unadorned identifiers? (Result: BLOCKED)
+  4. Can reflection, `dynamic`, `unsafe`, or threading (`Thread`, `Task`, `await`) slip through? (Result: BLOCKED)
+  5. Does `ToolValidator` enforce timeout boundary between 5 and 300 seconds? (Result: ENFORCED)
+  6. Are legitimate `RobotOM` operations and `System.IO.Path` formatting permitted? (Result: ALLOWED)
+- **Vulnerabilities found**: None in `GuardProfile.Robot` or `McpShared` integration.
+- **Untested angles**: Live Robot COM process interaction (deferred to M2/M4/M6 live testing).
+
+## Loaded Skills
+- Source: None
+- Local copy: None
+- Core methodology: Adversarial empirical testing

@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Create a vertical steel column HEB300 from Z=0 to Z=3500 at origin",
+    "args": {
+      "x": 0,
+      "y": 0,
+      "baseZ": 0,
+      "topZ": 3500,
+      "profile": "HEB300",
+      "material": "S235JR",
+      "name": "COLUMN_C1",
+      "partClass": "2"
+    }
+  },
+  {
+    "title": "Create a square concrete column 400x400 from Z=0 to Z=4000 at grid intersection",
+    "args": {
+      "x": 6000,
+      "y": 6000,
+      "baseZ": 0,
+      "topZ": 4000,
+      "profile": "400*400",
+      "material": "C30/37",
+      "name": "CONC_COL",
+      "partClass": "3"
+    }
+  }
+]

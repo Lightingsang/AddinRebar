@@ -26,6 +26,7 @@ public sealed class RequestDispatcher
     private readonly IBridgeExecutor _executor;
     private readonly BridgeSettings _settings;
     private readonly string? _executionDisabledMessage;
+    private readonly Func<long, JsonRpcEnvelope, NdjsonPipeWriter, CancellationToken, Task<JsonRpcEnvelope?>>? _customHandler;
 
     /// <param name="hostVersion">Major version of the host application, e.g. "2026".</param>
     /// <param name="hostName">Display name used in messages, e.g. "Revit" or "AutoCAD".</param>
@@ -33,13 +34,23 @@ public sealed class RequestDispatcher
     ///     Replaces the opt-in refusal text, which otherwise tells the user to look for the bridge window "inside"
     ///     the host — true for an add-in, wrong for a bridge that is a separate program. Null keeps the text.
     /// </param>
-    public RequestDispatcher(IBridgeExecutor executor, BridgeSettings settings, string hostVersion, string hostName = "Revit", string? executionDisabledMessage = null)
+    /// <param name="customHandler">
+    ///     Optional handler for custom host-specific JSON-RPC methods not covered by standard engine suffixes.
+    /// </param>
+    public RequestDispatcher(
+        IBridgeExecutor executor,
+        BridgeSettings settings,
+        string hostVersion,
+        string hostName = "Revit",
+        string? executionDisabledMessage = null,
+        Func<long, JsonRpcEnvelope, NdjsonPipeWriter, CancellationToken, Task<JsonRpcEnvelope?>>? customHandler = null)
     {
         _executor = executor;
         _settings = settings;
         HostVersion = hostVersion;
         HostName = hostName;
         _executionDisabledMessage = executionDisabledMessage;
+        _customHandler = customHandler;
     }
 
     public async Task HandleLineAsync(string line, NdjsonPipeWriter writer, CancellationToken cancellationToken)
@@ -127,6 +138,13 @@ public sealed class RequestDispatcher
                 return await ExecuteAsync(id, request, writer, cancellationToken).ConfigureAwait(false);
 
             default:
+                if (_customHandler is not null)
+                {
+                    var customResponse = await _customHandler(id, request, writer, cancellationToken).ConfigureAwait(false);
+                    if (customResponse is not null)
+                        return customResponse;
+                }
+
                 return JsonRpcEnvelope.Failure(id, BridgeErrorCode.MethodNotFound, $"Method not found: {method}");
         }
     }

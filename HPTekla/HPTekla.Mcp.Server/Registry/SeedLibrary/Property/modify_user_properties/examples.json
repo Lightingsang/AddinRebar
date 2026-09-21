@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Set comment and phase on object ID 100",
+    "args": {
+      "objectId": 100,
+      "properties": {
+        "COMMENT": "Approved for fabrication",
+        "USER_FIELD_1": "Zone A"
+      }
+    }
+  },
+  {
+    "title": "Set erection sequence number on column ID 200",
+    "args": {
+      "objectId": 200,
+      "properties": {
+        "ERECTION_STATUS": "Ready",
+        "SEQUENCE_NO": 12
+      }
+    }
+  }
+]

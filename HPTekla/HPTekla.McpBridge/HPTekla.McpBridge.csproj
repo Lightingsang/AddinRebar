@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Tekla Structures 2025.0 (TeklaStructures.exe) runs on .NET Framework 4.8: the plugin and the shared engine's net48 asset. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPTekla.McpBridge</RootNamespace>
+        <AssemblyName>HPTekla.McpBridge</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- Roslyn ships localized resource folders; the bridge only ever shows English diagnostics. -->
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <!-- Copy the plugin folder to %ProgramData%\Trimble\Tekla Structures\2025.0\environments\common\extensions\HPTekla.McpBridge\ after a Debug build -->
+        <DeployPlugin Condition="'$(DeployPlugin)' == ''">false</DeployPlugin>
+        <PluginDeployDir>$(TeklaExtensionsDir)$(AssemblyName)\</PluginDeployDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile against the installed Tekla Structures Open API, never copy: TeklaStructures.exe supplies these assemblies -->
+        <Reference Include="Tekla.Structures"><HintPath>$(TeklaInstallDir)Tekla.Structures.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Model"><HintPath>$(TeklaInstallDir)Tekla.Structures.Model.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Catalogs"><HintPath>$(TeklaInstallDir)Tekla.Structures.Catalogs.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Datatype"><HintPath>$(TeklaInstallDir)Tekla.Structures.Datatype.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Drawing"><HintPath>$(TeklaInstallDir)Tekla.Structures.Drawing.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Plugins"><HintPath>$(TeklaInstallDir)Tekla.Structures.Plugins.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Tekla.Structures.Dialog"><HintPath>$(TeklaInstallDir)Tekla.Structures.Dialog.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Windows.Forms"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0"/>
+        <PackageReference Include="System.Text.Json" Version="10.0.12"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+        <!-- records / collection expressions / Convert.ToHexString on .NET Framework — source-only, nothing shipped -->
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Ribbon\Ribbon-HPTekla.xml" Link="Ribbon-HPTekla.xml" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <!-- Readable error when Tekla Structures is not installed here. -->
+    <Target Name="RequireTeklaApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(TeklaApiAvailable)' != 'true'">
+        <Error Text="Tekla Structures $(TeklaVersion) API not found at '$(TeklaInstallDir)'. Install Tekla Structures 2025.0, or pass -p:TeklaInstallDir=&lt;dir&gt; / set HPTEKLA_TEKLA_DIR."/>
+    </Target>
+
+    <!-- Deploy the plugin output if DeployPlugin=true -->
+    <Target Name="DeployPlugin" AfterTargets="Build" Condition="'$(DeployPlugin)' == 'true' And '$(Configuration)' == 'Debug' And '$(DesignTimeBuild)' != 'true'">
+        <ItemGroup>
+            <_PluginFiles Include="$(OutDir)**\*" Exclude="$(OutDir)**\*.xml"/>
+        </ItemGroup>
+        <RemoveDir Directories="$(PluginDeployDir)"/>
+        <Copy SourceFiles="@(_PluginFiles)" DestinationFiles="@(_PluginFiles->'$(PluginDeployDir)%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Message Importance="high" Text="HPTekla plugin deployed to $(PluginDeployDir)"/>
+    </Target>
+
+</Project>

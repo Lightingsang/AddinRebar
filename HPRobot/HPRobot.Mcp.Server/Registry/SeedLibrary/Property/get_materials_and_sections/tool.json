@@ -1,0 +1,31 @@
+{
+  "name": "get_materials_and_sections",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Property",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["property", "materials", "sections"],
+  "title": "Get materials and sections",
+  "description": "Lists all defined materials and bar cross-sections in the active Robot model with their engineering properties (E, G, density, area, moments of inertia).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeMaterials": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include material definitions."
+      },
+      "includeSections": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include bar cross-section definitions."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "name": "assign_joint_restraint",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "joint",
+    "restraint",
+    "support",
+    "assign"
+  ],
+  "title": "Assign joint restraints (supports)",
+  "description": "Assigns support boundary conditions to one or more points: fixed (all 6 DOFs), pinned (U1,U2,U3), roller (U3), free (all released), or custom (6 booleans). Writes the model: the bridge saves it and takes a .SDB snapshot first.",
+  "notes": "OAPI: cPointObj.SetRestraint (DOFs: U1, U2, U3, R1, R2, R3).",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "pointNames"
+    ],
+    "properties": {
+      "pointNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "description": "Unique names of the points"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "fixed",
+          "pinned",
+          "roller",
+          "free",
+          "custom"
+        ],
+        "default": "fixed",
+        "description": "Preset support type, or 'custom'"
+      },
+      "restraints": {
+        "type": "array",
+        "items": {
+          "type": "boolean"
+        },
+        "minItems": 6,
+        "maxItems": 6,
+        "description": "6 booleans [U1, U2, U3, R1, R2, R3] required when type is 'custom'"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "get_structural_objects",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "nodes", "bars", "panels"],
+  "title": "Get structural objects",
+  "description": "Extracts structural nodes, bars, and panels with coordinates, connectivity, assigned sections, and materials. Supports filtering by object type and limit.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "objectType": {
+        "type": "string",
+        "enum": ["all", "nodes", "bars", "panels"],
+        "default": "all",
+        "description": "Category of structural elements to query."
+      },
+      "limit": {
+        "type": "integer",
+        "default": 100,
+        "maximum": 1000,
+        "description": "Maximum number of items to return per category."
+      }
+    },
+    "additionalProperties": false
+  }
+}

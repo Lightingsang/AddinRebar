@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Inspect all worksheets in active workbook",
+    "args": {}
+  },
+  {
+    "title": "Inspect specific worksheet",
+    "args": {
+      "sheet": "Summary"
+    }
+  }
+]

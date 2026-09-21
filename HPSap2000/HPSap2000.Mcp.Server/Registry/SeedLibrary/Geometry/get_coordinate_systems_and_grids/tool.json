@@ -1,0 +1,38 @@
+{
+  "name": "get_coordinate_systems_and_grids",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "csys",
+    "grid",
+    "coordinate",
+    "geometry",
+    "query"
+  ],
+  "title": "Get coordinate systems and grid lines",
+  "description": "Lists coordinate systems defined in the SAP2000 model (origin in m, angles in degrees) and their grid lines (IDs, coordinates in m, visibility). Read-only.",
+  "notes": "OAPI: cCoordSys.GetNameList, cCoordSys.GetCoordSys_2.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeGridLines": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include individual grid line IDs and coordinates"
+      }
+    },
+    "additionalProperties": false
+  }
+}

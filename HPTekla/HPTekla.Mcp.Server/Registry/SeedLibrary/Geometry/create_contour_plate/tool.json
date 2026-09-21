@@ -1,0 +1,55 @@
+{
+  "name": "create_contour_plate",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Geometry",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "plate", "slab", "contour"],
+  "title": "Create contour plate",
+  "description": "Creates a contour plate or concrete slab defined by a polygon of boundary points in Tekla Structures.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "points": {
+        "type": "array",
+        "description": "Polygon contour vertices [{x, y, z}]. Minimum 3 points.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": ["x", "y", "z"]
+        }
+      },
+      "thickness": {
+        "type": "number",
+        "default": 20,
+        "description": "Plate thickness in mm."
+      },
+      "material": {
+        "type": "string",
+        "default": "S235JR",
+        "description": "Material string (e.g. S235JR, C30/37)."
+      },
+      "name": {
+        "type": "string",
+        "default": "PLATE",
+        "description": "Part name."
+      },
+      "partClass": {
+        "type": "string",
+        "default": "3",
+        "description": "Color class (1-14)."
+      }
+    },
+    "required": ["points"],
+    "additionalProperties": false
+  }
+}

@@ -1,69 +1,64 @@
-# BRIEFING — 2026-09-07T15:56:00Z
+# BRIEFING — 2026-09-21T14:38:00Z
 
 ## Mission
-Stress-test and empirically challenge the Geometry Readers, Support Detection, and Validation subsystems in `HPRebar/HPRebar/Beam Rebar/`.
+Empirically challenge all 12 embedded seed tools for the HPRobot MCP Subsystem, verifying JSON schema, examples conformance, compilation against RobotOM types, and safety/quality standards.
 
 ## 🔒 My Identity
-- Archetype: EMPIRICAL CHALLENGER
+- Archetype: Empirical Challenger
 - Roles: critic, specialist
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m3_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M3
-- Instance: 1 of 3
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m3_1\
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Milestone: M3 (Embedded Seed Tools)
+- Instance: 1 of 1
 
 ## 🔒 Key Constraints
-- Review-only — do NOT modify implementation code
-- Challenge and stress-test assumptions, failure modes, counter-examples
-- Verify BeamStackReader, BeamSolidFaceReader, BeamSupportFinder, BeamStackValidator
-- Unattended shell: run_command requires interactive prompt which times out; rely on deep analytical verification, formal edge-case tracing, and mathematical modeling
+- Review-only — do NOT modify implementation code directly (challenge and report only)
+- Empirical verification mandatory — run builds, tests, oracles, scripts yourself; no trusted claims
+- Verify against RobotOM types, JSON schemas, examples conformance, execution safety
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T15:56:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T14:38:00Z
 
 ## Review Scope
 - **Files to review**:
-  - `HPRebar/HPRebar/Beam Rebar/BeamStackReader.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamSolidFaceReader.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamSupportFinder.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamStackValidator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/PointMapper.cs`
-  - `HPRebar/HPRebar/Beam Rebar/Models/*`
+  - `HPRobot/HPRobot.Mcp.Server/Hosts/Robot/Seeds/*` (12 seeds)
+  - `HPRobot/HPRobot.Mcp.Server.Tests/SeedToolCompilationTests.cs`
+  - `HPRobot/HPRobot.Mcp.Server.Tests/RobotSeedRegistryTests.cs`
 - **Interface contracts**:
-  - `ORIGINAL_REQUEST.md`
-  - `PROJECT.md`
-  - `HPRebar.Core/Models/Beam/`
+  - `.agents/orchestrator_7/PROJECT.md`
+  - `.agents/worker_m3_1/changes.md`
+  - `.agents/worker_m3_1/handoff.md`
 - **Review criteria**:
-  - Out-of-order selection & reversed beam parameterization
-  - Stepped cross-sections & cantilever ends
-  - Rotated support columns (45°/90°) & secondary framing intersections
-  - Non-collinear beams & level mismatches
-  - Degenerated geometry, tolerance limits, edge cases
+  - Valid tool.json schema (MCP tool definition, inputSchema, types, descriptions)
+  - Valid examples.json schema and input matching
+  - Code compiles cleanly against RobotOM interop / mocks / contracts
+  - Roslyn script guards and conventions (no prohibited namespaces, correct return types)
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - H1: Out-of-order selection & reversed parameterization -> Confirmed handled by projection and abs-dot collinearity.
-  - H2: Cantilever support detection -> Confirmed FAILED: triggers dummy synthesis, creates phantom column at cantilever tip.
-  - H3: Stepped width beams -> Confirmed FAILED: not validated, places top bars outside concrete in narrower spans.
-  - H4: Flush secondary beams -> Confirmed FAILED: misclassified as supporting girders, corrupting support indexing.
-  - H5: Secondary beam at joint -> Confirmed FAILED: crashes with unhandled ArgumentException.
-  - H6: Circular columns -> Confirmed FAILED: calculates 0 mm width.
-  - H7: T-beams / I-beams / MEP holes -> Confirmed FAILED: misclassified as Rectangle.
+  - H1: Seed tool.json conforms to standard tool definition and inputSchema -> PASS (12/12 valid schemas).
+  - H2: Seed examples.json conforms to standard ToolExample schema (at least 2 examples, using "args" property) -> FAIL (12/12 fail: 1 example each, uses "input" instead of "args").
+  - H3: Seed code.cs compiles against actual RobotOM types without errors -> FAIL (3/12 fail compilation: CaseComponents, object cast for IRobotCase, UnitWeight vs RO, IRobotBarSectionDataValueType vs IRobotBarSectionDataValue).
+  - H4: Seed code.cs complies with Robot ScriptGuard safety profile -> PASS (12/12 clean).
+  - H5: Seed code.cs reads exactly the arguments declared in inputSchema -> PASS (12/12 match).
 - **Vulnerabilities found**:
-  - 3 Critical flaws, 1 High flaw, 2 Medium flaws.
+  - Compilation failure in Load/get_load_definitions (CaseComponents).
+  - Compilation failure in Model/get_model_info (missing cast from object to IRobotCase).
+  - Compilation failure in Property/get_materials_and_sections (UnitWeight and non-existent IRobotBarSectionDataValueType).
+  - All 12 examples.json files use "input" key instead of "args" key and contain only 1 example.
 - **Untested angles**:
-  - Multi-storey column vertical extensions through beam joints.
+  - Runtime execution of seeds against a running Autodesk Robot GUI process (requires interactive GUI session).
 
 ## Loaded Skills
-- **Source**: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\skills\code-review\SKILL.md
-- **Core methodology**: Adversarial code review, edge case mining, assumption stress-testing, bug hunting.
+- None explicitly assigned in dispatch; using core empirical challenger methodology
 
 ## Key Decisions Made
-- Issued verdict: CHALLENGE_FAILED due to critical structural detailing and crash failure modes.
+- Authored automated test suite `SeedLibraryChallengerTests` in `HPRobot.McpBridge.Tests` compiling all seeds with `RobotBridgeExecutor.CreateDefaultCompiler()` against `Interop.RobotOM.dll`.
+- Empirically reproduced and proved all 3 compilation failures and 12 schema failures.
+- Issued verdict: REQUEST_CHANGES.
 
 ## Artifact Index
-- `DISPATCH.md` — Task assignment
-- `BRIEFING.md` — Situational awareness
-- `progress.md` — Liveness heartbeat
-- `challenge_report.md` — Adversarial review report
-- `handoff.md` — Final handoff
+- `handoff.md` — Final challenge report
+- `progress.md` — Liveness and task tracking
+

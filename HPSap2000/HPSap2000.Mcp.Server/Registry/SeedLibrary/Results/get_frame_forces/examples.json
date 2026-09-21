@@ -1,0 +1,17 @@
+[
+  {
+    "title": "All frame forces for DEAD",
+    "args": {
+      "caseOrCombo": "DEAD"
+    }
+  },
+  {
+    "title": "Forces on frame 1 for combo",
+    "args": {
+      "caseOrCombo": "COMB1",
+      "frameNames": [
+        "1"
+      ]
+    }
+  }
+]

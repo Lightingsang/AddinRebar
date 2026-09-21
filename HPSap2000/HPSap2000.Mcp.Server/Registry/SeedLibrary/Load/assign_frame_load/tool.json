@@ -1,0 +1,85 @@
+{
+  "name": "assign_frame_load",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Load",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "load",
+    "frame",
+    "distributed",
+    "point",
+    "assign"
+  ],
+  "title": "Assign load to frame objects",
+  "description": "Assigns a distributed load (kN/m) or a point load (kN at relative position 0–1) to frame objects under a load pattern. Direction 1–3 local, 4–11 global (default 10 = Gravity / -Z global). Writes the model: the bridge saves it and takes a .SDB snapshot first.",
+  "notes": "OAPI: cFrameObj.SetLoadDistributed, cFrameObj.SetLoadPoint, cLoadPatterns.GetNameList.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "frameNames",
+      "pattern"
+    ],
+    "properties": {
+      "frameNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "description": "Unique names of the target frames"
+      },
+      "pattern": {
+        "type": "string",
+        "description": "Load pattern name (e.g. DEAD, LIVE)"
+      },
+      "loadType": {
+        "type": "string",
+        "enum": [
+          "distributed",
+          "point"
+        ],
+        "default": "distributed",
+        "description": "'distributed' (requires valueKNperM) or 'point' (requires valueKN)"
+      },
+      "valueKNperM": {
+        "type": "number",
+        "description": "Distributed load magnitude in kN/m (required if loadType='distributed')"
+      },
+      "valueKN": {
+        "type": "number",
+        "description": "Point load magnitude in kN (required if loadType='point')"
+      },
+      "relativePosition": {
+        "type": "number",
+        "default": 0.5,
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Position along the frame as a fraction 0–1 (point loads only)"
+      },
+      "direction": {
+        "type": "integer",
+        "default": 10,
+        "minimum": 1,
+        "maximum": 11,
+        "description": "1–3 local axes, 4–6 global X/Y/Z, 7–9 projected, 10 gravity (-Z), 11 projected gravity"
+      },
+      "replace": {
+        "type": "boolean",
+        "default": true,
+        "description": "Replace existing loads on this pattern (false to add)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

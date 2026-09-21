@@ -1,53 +1,33 @@
-## 2026-09-07T09:21:42Z
-# Task Assignment: worker_m4
+## 2026-09-21T07:49:52Z
 
-## Role
-Milestone M4 Implementation Worker (`teamwork_preview_worker`)
+Implement Milestone 4: End-to-End Test Suite Verification, Skill Documentation (.agents/skills/hp-mcp-powerbi/SKILL.md), and Repository Registration (AGENTS.md).
 
-## Working Directory
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4`
+Tasks:
+1. Create Skill Documentation:
+   File: .agents/skills/hp-mcp-powerbi/SKILL.md
+   Model after .agents/skills/hp-mcp-sap2000/SKILL.md and .agents/skills/hp-mcp-etabs/SKILL.md:
+   - YAML frontmatter with `name: hp-mcp-powerbi`, author: hoang, version: 1.0.0, mcp-server: hprebar-powerbi, description with triggers (Power BI, PBIDesktop, DAX, AMO-TOM, ADOMD, measure, relationship, TMSL, Power BI Service, workspaces, datasets, refresh, hppowerbi-mcp-2026, etc.).
+   - Portable host contract comments.
+   - Comprehensive documentation covering:
+     * Overview & Architecture: Claude -> HPPowerBi.Mcp.Server (stdio, .NET 10) -> named pipe `hppowerbi-mcp-2026` -> HPPowerBi.McpBridge.exe (WPF, .NET 8) -> local Analysis Services (TOM/ADOMD) & Power BI Service Cloud REST API (MSAL).
+     * Connection checklist: opening PBIDesktop, starting Bridge, opt-in toggles.
+     * Full 12 tools catalog: 8 local tools (get_powerbi_context, execute_powerbi_code, powerbi_get_schema, powerbi_evaluate_dax, powerbi_create_or_update_measure, powerbi_delete_measure, powerbi_manage_relationship, powerbi_format_dax) + 4 cloud tools (powerbi_cloud_list_workspaces, powerbi_cloud_list_datasets, powerbi_cloud_trigger_refresh, powerbi_cloud_execute_dax).
+     * 3-Layer Safety: Dual opt-in UI toggles, DAX query validation, automatic pre-mutation TMSL JSON snapshots with rollback.
+     * Resources (`powerbi://schema`, `powerbi://document/info`) and prompts (`powerbi_dax_optimize`).
+     * External Tools integration: HPPowerBi.pbitool.json.
+     * Troubleshooting and error codes.
 
-## Reference Documents
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Milestone M4 Architecture & Design Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\ui_canvas_plan.md`
-4. Golden Standard Reference: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Column Rebar\View\` and `View Models\`
-5. Dynamic Theme Palettes: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Resources\Themes\`
-6. Core Canvas Math: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar.Core\BeamRebar\Calculators\BeamCanvasTransformCalculator.cs`
+2. Register HPPowerBi in AGENTS.md:
+   - In the Repository Layout table, add `HPPowerBi/` as the 7th deliverable:
+     | `HPPowerBi/` | The **Power BI MCP** (standalone WPF bridge `HPPowerBi.McpBridge` net8.0-windows + stdio server `HPPowerBi.Mcp.Server` net10; connects to local PBIDesktop Analysis Services via AMO-TOM / ADOMD.NET and Power BI Service Cloud REST API via MSAL; 3-layer safety with TMSL snapshots, MaterialDesign 5.3.2 UI, External Tools auto-registration; pipe `hppowerbi-mcp-2026`). Own `HPPowerBi.slnx` + `global.json` + `Directory.Build.props`; references `../McpShared/` only. Tests `HPPowerBi.McpBridge.Tests` (203) + `HPPowerBi.Mcp.Server.Tests` (96). | C# / net8.0-windows · net10 / Microsoft.AnalysisServices (AMO-TOM / ADOMD) + Microsoft.Identity.Client |
+   - Add a dedicated section `## HPPowerBi — Build, Run, Debug` (similar to HPEtabs and HPSap2000 sections) detailing build commands, test commands, architecture notes, safety model, and tool catalog.
 
-## MANDATORY INTEGRITY WARNING
-DO NOT CHEAT. All implementations must be genuine. DO NOT hardcode test results, create dummy/facade implementations, or circumvent the intended task. A teamwork_preview_auditor will independently verify your work. Integrity violations WILL be detected and your work WILL be rejected.
-
-## Objective
-Implement the complete presentation tier for Milestone M4 (WPF MVVM UI, Dynamic Theming, and Interactive Preview Canvases) in `HPRebar/HPRebar/Beam Rebar/`:
-
-### 1. View Models (`HPRebar/HPRebar/Beam Rebar/View Models/`)
-- `BeamRebarSession.cs`: Holds active `BeamStack` and `BeamRebarSpec`, properties for selected span index, parameter mutation methods, and validation.
-- `Tabs/BeamRebarTabViewModel.cs`: Abstract base class with `ObservableObject` and localized `Title`.
-- `Tabs/GeometryTabViewModel.cs`: Span overview, clear lengths, support widths, dimensions.
-- `Tabs/MainBarsTabViewModel.cs`: Top & bottom bar counts, diameters, covers, hook angles (90°/180°).
-- `Tabs/AdditionalBarsTabViewModel.cs`: Top negative support bars (Layer 1/2, L/3, L/4) and bottom positive midspan bars.
-- `Tabs/StirrupsTabViewModel.cs`: Zone 1/2/3 spacings, diameters, anti-buckling cross ties, secondary hanging stirrup toggles.
-- `Tabs/ViewsTabViewModel.cs`: Detail view scale, section cuts per span, dimensions, schedule table options.
-- `BeamRebarViewModel.cs`: Multi-tab orchestrator with `[ObservableProperty]`, `[RelayCommand] Run`, `[RelayCommand] ToggleLanguage`, `IProgress<BeamProgressReport>` reporting, and `CloseRequested`.
-
-### 2. Custom Drawing Canvases (`HPRebar/HPRebar/Beam Rebar/View/Controls/`)
-- `CanvasPalette.cs`: Resolves and freezes Pens and Brushes from `{DynamicResource}` color tokens (`Color.Canvas.*`).
-- `BeamElevationCanvas.cs`: Custom `FrameworkElement` with direct `OnRender(DrawingContext dc)` using `BeamCanvasTransformCalculator` from `HPRebar.Core`. Draws continuous concrete outlines, support columns, longitudinal bars, and stirrups with a 50ms keystroke debounce timer.
-- `BeamSectionCanvas.cs`: Custom `FrameworkElement` with `OnRender(DrawingContext dc)` drawing transverse cross-section cut, stirrups, corner bars, layer 2 bars, and cross ties.
-
-### 3. WPF View & Code-Behind (`HPRebar/HPRebar/Beam Rebar/View/`)
-- `BeamRebarView.xaml`: 3-row dialog layout with Header, tabbed navigation + active tab + live canvas preview, and responsive Footer. Strictly all styling and colors bound via `{DynamicResource Brush.X}` and `{DynamicResource Spacing.X}` for 100% theme switching safety.
-- `BeamRebarView.xaml.cs`: Code-behind containing strictly `InitializeComponent()`, `DataContext = vm`, `ThemeSwitcher.ApplyFromRevit(this)`, and `CloseRequested` handler.
-
-### 4. Verification
-- Verify that `HPRebar.Core` continues to have ZERO references to `Autodesk.Revit.*`.
-- Verify compilation across configurations:
-  `dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false`
-  `dotnet build HPRebar/HPRebar.slnx -c Debug.R25 -p:DeployAddin=false`
-- Verify tests pass:
-  `dotnet test HPRebar/HPRebar.Core.Tests`
-
-## Deliverables
-- Handoff report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4\handoff.md`
-- Notify orchestrator upon completion.
+3. Complete Build & Verification:
+   Run and verify:
+   - `dotnet build HPPowerBi/HPPowerBi.slnx -c Debug` (MUST be 0 errors, 0 warnings)
+   - `dotnet run --project HPPowerBi/HPPowerBi.Mcp.Server.Tests/HPPowerBi.Mcp.Server.Tests.csproj` (100% pass)
+   - `dotnet run --project HPPowerBi/HPPowerBi.McpBridge.Tests/HPPowerBi.McpBridge.Tests.csproj` (100% pass)
+   - `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj` (100% pass, zero regression)
+   - `dotnet run --project McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj` (100% pass)
+   - `dotnet test HPRebar/HPRebar.Core.Tests/HPRebar.Core.Tests.csproj` (100% pass)
+   - `dotnet test HPRebar/HPRebar.Mcp.Server.Tests/HPRebar.Mcp.Server.Tests.csproj` (100% pass)

@@ -1,0 +1,26 @@
+{
+  "name": "run_calculations",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Analysis",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "auto",
+  "timeoutSeconds": 300,
+  "destructive": true,
+  "tags": ["analysis", "calculate", "fea", "solver", "destructive"],
+  "title": "Run calculations",
+  "description": "Generates the computational FEA model and executes structural calculations. Heavy/Destructive operation requiring AllowHeavyOperations toggle.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "autoGenerateModel": {
+        "type": "boolean",
+        "default": true,
+        "description": "Automatically regenerate mesh/computational model before solver execution."
+      }
+    },
+    "additionalProperties": false
+  }
+}

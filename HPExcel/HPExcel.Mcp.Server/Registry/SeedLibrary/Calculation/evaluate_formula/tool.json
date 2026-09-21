@@ -1,0 +1,44 @@
+{
+  "name": "evaluate_formula",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Calculation",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "formula",
+    "evaluate",
+    "calculate",
+    "expression"
+  ],
+  "title": "Evaluate formula",
+  "description": "Evaluate an Excel formula expression dynamically in the context of the active worksheet or workbook. Returns evaluated value and data type. Read-only.",
+  "notes": "Uses Application.Evaluate or Worksheet.Evaluate.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "formula"
+    ],
+    "properties": {
+      "formula": {
+        "type": "string",
+        "description": "Excel formula string (e.g. 'SUM(A1:A10)', 'VLOOKUP(\"Rebar\", B1:F20, 3, FALSE)'). Leading '=' optional."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Context worksheet. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      }
+    },
+    "additionalProperties": false
+  }
+}

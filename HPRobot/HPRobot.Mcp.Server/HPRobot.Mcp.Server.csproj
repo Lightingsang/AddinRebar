@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPRobot.Mcp.Server</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <!-- stdio MCP server: the host AI launches this exe as a child process and owns its lifetime -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <!-- e_sqlite3 native library must be extracted next to a single-file publish -->
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPRobot.Mcp.Server.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Shared host-neutral MCP server engine -->
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Reference Interop.RobotOM.dll from installed product if available -->
+        <Reference Include="Interop.RobotOM" Condition="'$(RobotApiAvailable)' == 'true' Or Exists('$(RobotInstallDir)Interop.RobotOM.dll')">
+            <HintPath>$(RobotInstallDir)Interop.RobotOM.dll</HintPath>
+            <Private>false</Private>
+            <EmbedInteropTypes>false</EmbedInteropTypes>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <!-- Seed tools library: one folder per tool (tool.json + code.cs + examples.json), installed into the
+             user's tools-library on first start. Logical names keep the folder structure: SeedLibrary/<Category>/<name>/<file> -->
+        <Compile Remove="Registry\SeedLibrary\**\*.cs" />
+        <EmbeddedResource Include="Registry\SeedLibrary\**\*" LogicalName="SeedLibrary/%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+</Project>

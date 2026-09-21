@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Create rectangular stirrup group D10@150 along a 6m beam",
+    "args": {
+      "fatherId": 100,
+      "shapePoints": [
+        { "x": 0, "y": 40, "z": 40 },
+        { "x": 0, "y": 260, "z": 40 },
+        { "x": 0, "y": 260, "z": 460 },
+        { "x": 0, "y": 40, "z": 460 },
+        { "x": 0, "y": 40, "z": 40 }
+      ],
+      "startX": 100,
+      "startY": 0,
+      "startZ": 0,
+      "endX": 5900,
+      "endY": 0,
+      "endZ": 0,
+      "spacing": 150,
+      "size": "10",
+      "grade": "B500B",
+      "name": "STIRRUP",
+      "rebarClass": 7
+    }
+  },
+  {
+    "title": "Create column tie group D12@200 along a 3.5m column",
+    "args": {
+      "fatherId": 200,
+      "shapePoints": [
+        { "x": 40, "y": 40, "z": 0 },
+        { "x": 360, "y": 40, "z": 0 },
+        { "x": 360, "y": 360, "z": 0 },
+        { "x": 40, "y": 360, "z": 0 },
+        { "x": 40, "y": 40, "z": 0 }
+      ],
+      "startX": 0,
+      "startY": 0,
+      "startZ": 100,
+      "endX": 0,
+      "endY": 0,
+      "endZ": 3400,
+      "spacing": 200,
+      "size": "12",
+      "grade": "B500B",
+      "name": "COLUMN_TIE",
+      "rebarClass": 8
+    }
+  }
+]

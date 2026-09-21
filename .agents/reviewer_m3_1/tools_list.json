@@ -1,0 +1,1095 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "get_excel_context",
+        "title": "Get Excel context",
+        "description": "Returns the Microsoft Excel session the bridge app is attached to: hostVersion (2026), docTitle and docPath of active workbook, isModifiable (workbook is open, Excel is idle — no modal dialog active), executionEnabled, destructiveOperationsEnabled, active sheet name, used range, selected cells/range, worksheet count, and open workbook count. Call this before execute_excel_code to understand the workbook layout and active sheet.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include the currently selected range or cells in Excel.",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Excel context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "format_range",
+        "title": "Format range",
+        "description": "Apply formatting to a range: number format, font styling (bold, size, color), fill background color (hex), borders, and alignment. Takes an automatic snapshot before writing. [Registry tool v1, Format, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "range"
+          ],
+          "properties": {
+            "range": {
+              "type": "string",
+              "description": "Cell range address (e.g. 'A1:E1', 'B2:B20')."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet name. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "numberFormat": {
+              "type": "string",
+              "description": "Number format string (e.g. '$#,##0.00', '0.0%', 'YYYY-MM-DD', '#,##0')."
+            },
+            "bold": {
+              "type": "boolean"
+            },
+            "italic": {
+              "type": "boolean"
+            },
+            "fontSize": {
+              "type": "number"
+            },
+            "fontColor": {
+              "type": "string",
+              "description": "Hex color for text (e.g. '#FFFFFF', '#1A1A1A')."
+            },
+            "backgroundColor": {
+              "type": "string",
+              "description": "Hex fill background color (e.g. '#003366', '#E2EFDA')."
+            },
+            "horizontalAlignment": {
+              "type": "string",
+              "enum": [
+                "left",
+                "center",
+                "right",
+                "justify"
+              ]
+            },
+            "wrapText": {
+              "type": "boolean"
+            },
+            "border": {
+              "type": "string",
+              "enum": [
+                "all_thin",
+                "outline_thick",
+                "bottom_double",
+                "none"
+              ]
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Format range",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through the host application",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a host API type",
+        "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a host API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "read_table",
+        "title": "Read table",
+        "description": "Read structured Excel table (ListObject) headers, data rows as JSON records, and totals row. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "tableName"
+          ],
+          "properties": {
+            "tableName": {
+              "type": "string",
+              "description": "Name of the Excel table (e.g. 'Table1', 'RebarList')."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet containing the table. If omitted, searches all worksheets."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "maxRows": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Maximum number of data rows to return."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Read table",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "read_range",
+        "title": "Read range",
+        "description": "Read cell values, formulas, or formatted text from a worksheet range (e.g. 'A1:D10') or named range into JSON. Supports fast batch array reads. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "range": {
+              "type": "string",
+              "description": "Cell range address (e.g. 'A1:C10', 'Sheet2!B5:E20') or named range. If omitted, reads the worksheet's used range."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet name. Defaults to active worksheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "outputFormat": {
+              "type": "string",
+              "enum": [
+                "values",
+                "formulas",
+                "formatted"
+              ],
+              "default": "values",
+              "description": "Output representation: 'values' (raw values), 'formulas' (formulas if present), 'formatted' (display text)."
+            },
+            "hasHeaders": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, treats the first row as headers and returns an array of JSON objects."
+            },
+            "maxRows": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Maximum number of rows to return."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Read range",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "evaluate_formula",
+        "title": "Evaluate formula",
+        "description": "Evaluate an Excel formula expression dynamically in the context of the active worksheet or workbook. Returns evaluated value and data type. Read-only. [Registry tool v1, Calculation, transaction=none. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "formula"
+          ],
+          "properties": {
+            "formula": {
+              "type": "string",
+              "description": "Excel formula string (e.g. 'SUM(A1:A10)', 'VLOOKUP(\"Rebar\", B1:F20, 3, FALSE)'). Leading '=' optional."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Context worksheet. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Evaluate formula",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_chart",
+        "title": "Create chart",
+        "description": "Create an embedded chart (Column, Line, Pie, Bar, Area, Scatter) linked to a data range. Custom title, size, and location. Takes an automatic snapshot before writing. [Registry tool v1, Chart, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "dataRange",
+            "chartType"
+          ],
+          "properties": {
+            "dataRange": {
+              "type": "string",
+              "description": "Cell range containing chart source data (e.g. 'A1:D10')."
+            },
+            "chartType": {
+              "type": "string",
+              "enum": [
+                "ColumnClustered",
+                "ColumnStacked",
+                "Line",
+                "LineMarkers",
+                "Pie",
+                "BarClustered",
+                "Area",
+                "Scatter"
+              ],
+              "description": "Chart type to create."
+            },
+            "title": {
+              "type": "string",
+              "description": "Chart title text."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet name. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "targetCell": {
+              "type": "string",
+              "default": "E2",
+              "description": "Top-left cell where the chart should be placed."
+            },
+            "width": {
+              "type": "number",
+              "default": 400,
+              "description": "Chart width in points."
+            },
+            "height": {
+              "type": "number",
+              "default": 250,
+              "description": "Chart height in points."
+            },
+            "hasLegend": {
+              "type": "boolean",
+              "default": true
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create chart",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "manage_worksheet",
+        "title": "Manage worksheet",
+        "description": "Manage workbook sheets: add, rename, duplicate, delete, or change visibility (visible, hidden, very_hidden). Deleting a sheet is DESTRUCTIVE. Takes an automatic snapshot before execution. [Registry tool v1, Workbook, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "action",
+            "sheet"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "rename",
+                "duplicate",
+                "delete",
+                "hide",
+                "unhide"
+              ],
+              "description": "Action to perform on worksheet."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Target sheet name."
+            },
+            "newSheetName": {
+              "type": "string",
+              "description": "New sheet name (required for 'rename' and optional for 'add'/'duplicate')."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "visibility": {
+              "type": "string",
+              "enum": [
+                "visible",
+                "hidden",
+                "very_hidden"
+              ],
+              "description": "Target visibility for 'hide'/'unhide'."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Manage worksheet",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "run_macro",
+        "title": "Run macro",
+        "description": "DESTRUCTIVE: Execute an existing VBA macro / Sub procedure in the active workbook with optional arguments. Requires explicit Destructive toggle enabled in Bridge UI. Takes an automatic snapshot before running. [Registry tool v1, Automation, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "macroName"
+          ],
+          "properties": {
+            "macroName": {
+              "type": "string",
+              "description": "Name of the VBA macro to execute (e.g. 'RefreshAllData', 'Module1.ProcessSchedule')."
+            },
+            "args": {
+              "type": "array",
+              "description": "Optional parameters to pass to the macro.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path containing the macro. Defaults to active workbook."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Run macro",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "execute_excel_code",
+        "title": "Execute C# in Excel",
+        "description": "Runs a C# script against the Microsoft Excel session attached to the HPExcel MCP Bridge. Globals: excel (Excel.Application), workbook (active Workbook), sheet (active Worksheet), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool(key, fallback)). ClosedXML.Excel is available for headless .xlsx manipulation. End with `return <value>;`. Three tiers: R read-only (read_range, read_worksheet_info, find_cells, read_table, evaluate_formula; transaction=none). W write (write_range, format_range, create_table, create_chart, export_worksheet; transaction=auto; automatic .xlsx snapshot saved before writing). D destructive (delete worksheet, clear contents, run_macro; requires 'Allow destructive operations' toggle in bridge UI; automatic snapshot saved before execution; timeout up to 600s). dryRun on a writing script provides a static preview without execution. Never call Application.Quit, Process.Start, or modal dialogs (blocked by guard). Requires 'Allow AI code execution' enabled in the HPExcel MCP Bridge desktop window.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / reflection / interop, no Quit/dialog calls (blocked by guard).",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): writing script — takes an automatic .xlsx backup snapshot before running. none: read-only script. manual: accepted for compatibility, behaves like auto.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Static preview for a writing script; a read-only script runs normally. Refused for destructive members.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120 (up to 600 while destructive operations are allowed).",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name for the audit log and snapshot file name. Max 64 characters; letters, digits, _ and - survive, the rest becomes _.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"range\": \"A1:D10\", \"sheet\": \"Sheet1\"}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in Excel",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_table",
+        "title": "Create table",
+        "description": "Convert a range of cells into a structured Excel Table (ListObject) with headers, applied styling, and optional totals row. Takes an automatic snapshot before writing. [Registry tool v1, Data, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "range",
+            "tableName"
+          ],
+          "properties": {
+            "range": {
+              "type": "string",
+              "description": "Cell range to convert to table (e.g. 'A1:E50')."
+            },
+            "tableName": {
+              "type": "string",
+              "description": "Unique table name (e.g. 'RebarSchedule', 'Expenses')."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet name. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "hasHeaders": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether first row contains headers."
+            },
+            "tableStyle": {
+              "type": "string",
+              "default": "TableStyleMedium2",
+              "description": "Excel built-in table style name."
+            },
+            "showTotalsRow": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to display the table totals row."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Create table",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "export_worksheet",
+        "title": "Export worksheet",
+        "description": "Export a worksheet or entire workbook to PDF or CSV format on disk. Returns generated file path and size. Takes an automatic snapshot before export. [Registry tool v1, Export, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "format"
+          ],
+          "properties": {
+            "format": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "csv"
+              ],
+              "description": "Export format: 'pdf' or 'csv'."
+            },
+            "outputPath": {
+              "type": "string",
+              "description": "Target destination file path. If omitted, exports beside the workbook."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet to export. Required for CSV; optional for PDF (exports full workbook if omitted)."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "landscape": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set orientation to landscape (PDF only)."
+            },
+            "fitToPage": {
+              "type": "boolean",
+              "default": true,
+              "description": "Fit content to 1 page wide (PDF only)."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Export worksheet",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "find_cells",
+        "title": "Find cells",
+        "description": "Search for matching text, numbers, or formula patterns across a worksheet or entire workbook. Returns matched cell addresses and values. Read-only. [Registry tool v1, Data, transaction=none. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Text or value to search for."
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Worksheet name to search. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "lookIn": {
+              "type": "string",
+              "enum": [
+                "values",
+                "formulas"
+              ],
+              "default": "values",
+              "description": "Look in cell values or formulas."
+            },
+            "exactMatch": {
+              "type": "boolean",
+              "default": false,
+              "description": "Match entire cell contents vs substring."
+            },
+            "searchAllSheets": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, searches across all worksheets in the workbook."
+            },
+            "maxResults": {
+              "type": "integer",
+              "default": 100,
+              "description": "Maximum number of matched cells to return."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Find cells",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "write_range",
+        "title": "Write range",
+        "description": "Batch write 2D values, arrays, or formulas to a range starting at target cell. Auto-sizes destination range. Takes an automatic snapshot before writing. [Registry tool v1, Data, transaction=auto. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "startCell",
+            "values"
+          ],
+          "properties": {
+            "startCell": {
+              "type": "string",
+              "description": "Starting cell address (e.g. 'A1', 'B5')."
+            },
+            "values": {
+              "type": "array",
+              "description": "2D array of rows and columns to write: [[row1_col1, row1_col2], [row2_col1, row2_col2]].",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "sheet": {
+              "type": "string",
+              "description": "Target worksheet. Defaults to active sheet."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            },
+            "autoFitColumns": {
+              "type": "boolean",
+              "default": false,
+              "description": "Auto-fit column widths after writing."
+            },
+            "isFormula": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, treats string values starting with '=' as active formulas."
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Write range",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "read_worksheet_info",
+        "title": "Read worksheet info",
+        "description": "Inspect worksheets in the workbook: names, indices, visibility state, used range dimensions, tables, and charts. Read-only. [Registry tool v1, Workbook, transaction=none. Registry tools run stored, reviewed C# inside Excel — prefer them over execute_excel_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sheet": {
+              "type": "string",
+              "description": "Specific sheet name to inspect. If omitted, inspects all sheets in workbook."
+            },
+            "workbook": {
+              "type": "string",
+              "description": "Workbook name or file path. Defaults to active workbook."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Read worksheet info",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as the execute tool plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "modify_user_properties",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Property",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["property", "uda", "modify", "attributes"],
+  "title": "Modify user-defined attributes",
+  "description": "Updates User-Defined Attributes (UDAs) on any Tekla model object.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "objectId": {
+        "type": "integer",
+        "description": "Identifier ID of the target model object."
+      },
+      "properties": {
+        "type": "object",
+        "description": "Key-value dictionary of attributes to set."
+      }
+    },
+    "required": ["objectId", "properties"],
+    "additionalProperties": false
+  }
+}

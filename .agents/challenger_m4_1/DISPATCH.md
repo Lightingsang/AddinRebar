@@ -1,29 +1,26 @@
-# Task Assignment: challenger_m4_1
+## 2026-09-21T15:27:40Z
 
-## Role
-Milestone M4 Challenger 1 (UI Parameter Validation & Binding Stress Test)
+You are challenger_m4_1 (Server Test Suites Challenger) for the HPRobot MCP Subsystem.
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m4_1\
+Your parent is the Project Orchestrator (orchestrator_7, conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de).
 
-## Working Directory
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_1`
+MANDATORY FIRST STEP:
+Read g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (specifically the latest section ## 2026-09-21T13:16:14Z) and g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_7\PROJECT.md.
 
-## Reference Documents
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Architecture Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\ui_canvas_plan.md`
-4. Worker Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4\handoff.md`
-5. Target Codebase: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\`
+Read worker_m4_1's changes and handoff:
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\changes.md
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\handoff.md
 
-## Task
-Stress-test and challenge the ViewModel state and parameter validation engine:
-- Challenge `BeamRebarSession.Validate(out string error)` against edge cases:
-  1. Bar count < 2 (e.g. 0, 1, negative).
-  2. Negative or zero cover / stirrup spacing.
-  3. Physical clearance violation: $2 \cdot Cover + 2 \cdot \phi_{stirrup} + \phi_{main} \ge \min(b, h)$.
-  4. Stirrup set element limit: > 1002 stirrups per span.
-- Verify that validation failures properly prevent runner execution and display clear user error messages.
-- Verify two-way binding synchronization between `BeamRebarSession`, tab ViewModels, and `BeamRebarSpec`.
+YOUR MISSION:
+Empirically stress-test the newly created `HPRobot.Mcp.Server.Tests`:
+1. Run `HPRobot.Mcp.Server.Tests`:
+   `dotnet run --project HPRobot/HPRobot.Mcp.Server.Tests/HPRobot.Mcp.Server.Tests.csproj`
+   Verify all test cases pass (expected: 97 tests).
+2. Empirically verify that `SeedCompilationTests` genuinely compiles against `Interop.RobotOM.dll` on this machine.
+3. Test edge conditions in `SeedExecutionTests` and `SeedCatalogTests`.
+4. Document your verdict (APPROVE or REQUEST_CHANGES) with concrete evidence.
 
-## Deliverables
-- Challenge report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_1\challenge_report.md`
-- Handoff report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_1\handoff.md`
-- Notify orchestrator with binary verdict: `APPROVE` or `CHALLENGE_FAILED`.
+DELIVERABLES:
+Write your challenge report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m4_1\handoff.md`
+When finished, send a message to your parent with your verdict and report path.

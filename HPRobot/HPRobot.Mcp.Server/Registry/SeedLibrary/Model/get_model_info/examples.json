@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Get model info with load cases overview",
+    "args": {
+      "includeCases": true
+    }
+  },
+  {
+    "title": "Get basic model summary without load cases",
+    "args": {
+      "includeCases": false
+    }
+  }
+]

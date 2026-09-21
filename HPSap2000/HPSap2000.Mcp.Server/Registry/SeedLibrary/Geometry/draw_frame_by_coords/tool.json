@@ -1,0 +1,72 @@
+{
+  "name": "draw_frame_by_coords",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "frame",
+    "draw",
+    "geometry",
+    "create"
+  ],
+  "title": "Draw a frame by coordinates",
+  "description": "Adds one straight frame object between (x1, y1, z1) and (x2, y2, z2) in metres, optionally with a section and a user name. Returns the generated unique frame name. Writes the model: the bridge saves it and takes a .SDB snapshot first.",
+  "notes": "OAPI: cFrameObj.AddByCoord (CSys='Global'). When section is omitted SAP2000 assigns 'Default'.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "x1",
+      "y1",
+      "z1",
+      "x2",
+      "y2",
+      "z2"
+    ],
+    "properties": {
+      "x1": {
+        "type": "number",
+        "description": "Start point X in metres"
+      },
+      "y1": {
+        "type": "number",
+        "description": "Start point Y in metres"
+      },
+      "z1": {
+        "type": "number",
+        "description": "Start point Z in metres"
+      },
+      "x2": {
+        "type": "number",
+        "description": "End point X in metres"
+      },
+      "y2": {
+        "type": "number",
+        "description": "End point Y in metres"
+      },
+      "z2": {
+        "type": "number",
+        "description": "End point Z in metres"
+      },
+      "section": {
+        "type": "string",
+        "description": "Frame section property name (optional)"
+      },
+      "name": {
+        "type": "string",
+        "description": "Optional user label for the frame"
+      }
+    },
+    "additionalProperties": false
+  }
+}

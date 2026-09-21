@@ -1,45 +1,28 @@
-# Task Assignment: reviewer_m4_2
+## 2026-09-21T15:27:40Z
 
-## Role
-Milestone M4 Reviewer 2 (Preview Canvases, Drawing Primitives, and Core Decoupling)
+You are reviewer_m4_2 (Architecture & Regression Reviewer) for the HPRobot MCP Subsystem.
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m4_2\
+Your parent is the Project Orchestrator (orchestrator_7, conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de).
 
-## Working Directory
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2`
+MANDATORY FIRST STEP:
+Read g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (specifically the latest section ## 2026-09-21T13:16:14Z) and g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_7\PROJECT.md.
 
-## Reference Documents
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Architecture Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\explorer_m4_1\ui_canvas_plan.md`
-4. Worker Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4\handoff.md`
-5. Target Codebase: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\`
+Read worker_m4_1's changes and handoff:
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\changes.md
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m4_1\handoff.md
 
-## Task
-Conduct an independent technical review of the custom preview canvases:
-- Verify `BeamElevationCanvas.cs`, `BeamElevationPainter.cs`, `BeamSectionCanvas.cs`, `BeamSectionPainter.cs`, `CanvasPalette.cs`, and `BeamDrawPrimitives.cs` in `View/Controls/`.
-- Confirm that coordinate scaling strictly calls `BeamCanvasTransformCalculator` from `HPRebar.Core`.
-- Confirm zero references to `Autodesk.Revit.*` in `HPRebar.Core`.
-- Verify 50ms keystroke debounce logic via `DispatcherTimer` to prevent UI lag on rapid parameter entry.
-- Verify that pens and brushes are frozen (`pen.Freeze()`) to prevent GC allocations per render frame.
+YOUR MISSION:
+Review the architectural integrity, solution integration, and regression baseline:
+1. Verify `HPRobot.Mcp.Server.Tests.csproj` references (references only `HPRobot.Mcp.Server` and `McpShared`, zero cross-host dependencies).
+2. Verify solution registration in `HPRobot/HPRobot.slnx`.
+3. Independently build solution in Debug and Release (`dotnet build HPRobot/HPRobot.slnx -c Debug` & `-c Release`).
+4. Run regression test suites in `McpShared/`:
+   `dotnet run --project McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`
+   `dotnet run --project McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj`
+   Verify 685 tests pass with 0 regressions.
+5. Document your verdict (APPROVE or REQUEST_CHANGES) with concrete evidence.
 
-## Deliverables
-- Review report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2\review_report.md`
-- Handoff report: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2\handoff.md`
-
-## 2026-09-07T09:36:56Z
-You are reviewer_m4_2.
-Your working directory is: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2
-Read your task assignment at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2\DISPATCH.md
-Read the authoritative user request at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md
-Read the worker handoff at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m4\handoff.md
-Read the target codebase at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\Beam Rebar\
-
-Conduct an independent technical review of the custom preview canvases:
-- Verify BeamElevationCanvas.cs, BeamElevationPainter.cs, BeamSectionCanvas.cs, BeamSectionPainter.cs, CanvasPalette.cs, and BeamDrawPrimitives.cs in View/Controls/.
-- Confirm coordinate scaling strictly calls BeamCanvasTransformCalculator from HPRebar.Core.
-- Confirm zero references to Autodesk.Revit.* in HPRebar.Core.
-- Verify 50ms keystroke debounce logic via DispatcherTimer.
-- Verify that pens and brushes are frozen (pen.Freeze()) to prevent GC allocations per render frame.
-
-Write your review report to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2\review_report.md
-Write your handoff to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_2\handoff.md
-Notify orchestrator via send_message with your verdict (APPROVE or REQUEST_CHANGES).
+DELIVERABLES:
+Write your review report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m4_2\handoff.md`
+When finished, send a message to your parent with your verdict and report path.

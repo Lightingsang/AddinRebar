@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Assign section to one frame",
+    "args": {
+      "frameNames": [
+        "1"
+      ],
+      "section": "W14X90"
+    }
+  },
+  {
+    "title": "Assign section to multiple frames",
+    "args": {
+      "frameNames": [
+        "1",
+        "2",
+        "3"
+      ],
+      "section": "W14X90"
+    }
+  }
+]

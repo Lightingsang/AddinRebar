@@ -1,0 +1,36 @@
+{
+  "name": "get_bar_forces",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Results",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["results", "forces", "bars", "moments", "diagrams"],
+  "title": "Get bar internal forces",
+  "description": "Extracts internal forces (FX, FY, FZ, MX, MY, MZ) along a specified bar at N relative points (0.0 = start, 1.0 = end).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "barNumber": {
+        "type": "integer",
+        "description": "Bar number to extract forces for."
+      },
+      "caseNumber": {
+        "type": "integer",
+        "description": "Load case or combination number."
+      },
+      "pointsCount": {
+        "type": "integer",
+        "default": 5,
+        "enum": [2, 3, 5, 11],
+        "description": "Number of calculation points along the bar length."
+      }
+    },
+    "required": ["barNumber", "caseNumber"],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- The add-in proper: drawing readers/writers, commands, WPF MVVM dialogs, and geodetic services.
+             Loaded by HPAutoCad.Loader into its own AssemblyLoadContext from Contents\App\, so dependencies
+             (CommunityToolkit.Mvvm, WebView2, HPAutoCad.Core) never collide with copies loaded by other plugins. -->
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPAutoCad</RootNamespace>
+        <AssemblyName>HPAutoCad</AssemblyName>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <!-- EnableDynamicLoading writes the deps.json the loader's AssemblyDependencyResolver reads and copies every
+             dependency next to the DLL. -->
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <!-- AutoCAD 2026 base release: R25.1 on .NET 8 — compile against it, never copy it (acad.exe supplies assemblies). -->
+        <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">[25.1.0]</AutocadPackageVersion>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <!-- Control styles, merged into this assembly by the RepackMaterialDesign target below. -->
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
+        <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
+        <PackageReference Include="PDFsharp" Version="6.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPAutoCad.Core\HPAutoCad.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPAutoCad.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Build order only: the tile-fetch helper is a separate process, never a compile-time reference. -->
+        <ProjectReference Include="..\HPAutoCad.TileFetch\HPAutoCad.TileFetch.csproj" ReferenceOutputAssembly="false" Private="false" />
+    </ItemGroup>
+
+    <!-- The helper ships beside the add-in as TileFetch\HPAutoCad.TileFetch.exe (+ its dll, deps and runtimeconfig), so the
+         bundle deploy (which copies this project's whole output folder) carries it into Contents\App\TileFetch\.
+         acad.exe may be denied the network by a per-program firewall rule; a process of its own is not. -->
+    <Target Name="CopyTileFetchHelper" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true'">
+        <ItemGroup>
+            <_HelperFiles Include="$(MSBuildThisFileDirectory)..\HPAutoCad.TileFetch\bin\$(Configuration)\net8.0\**\*" />
+        </ItemGroup>
+        <Error Condition="'@(_HelperFiles)' == ''" Text="HPAutoCad.TileFetch output missing - build HPAutoCad.TileFetch first" />
+        <Copy SourceFiles="@(_HelperFiles)" DestinationFiles="@(_HelperFiles->'$(OutDir)TileFetch\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    </Target>
+
+    <!-- The toolkit is merged into this assembly: WPF binds BAML types by simple name and takes the last-loaded copy across
+         AssemblyLoadContexts, so a loose MaterialDesignThemes.Wpf.dll would be mixed with the HPAutoCad MCP bridge's in the same
+         acad.exe (spike S0-B). Primary input = the obj DLL, so an incremental build never merges twice; the loose files are deleted
+         before the loader's DeployBundle copies Contents\App. -->
+    <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
+        <PropertyGroup>
+            <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
+            <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
+        </PropertyGroup>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml"/>
+        <Message Importance="high" Text="RepackMaterialDesign: toolkit merged into $(AssemblyName).dll"/>
+    </Target>
+
+</Project>

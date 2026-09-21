@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Draw 3m vertical column",
+    "args": {
+      "x1": 0,
+      "y1": 0,
+      "z1": 0,
+      "x2": 0,
+      "y2": 0,
+      "z2": 3
+    }
+  },
+  {
+    "title": "Draw beam with section",
+    "args": {
+      "x1": 0,
+      "y1": 0,
+      "z1": 3,
+      "x2": 6,
+      "y2": 0,
+      "z2": 3,
+      "section": "W14X90"
+    }
+  }
+]

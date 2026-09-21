@@ -1,0 +1,27 @@
+<Project>
+
+  <!--
+    Where the SAP2000 OAPI lives on this machine. CSI publishes no NuGet package, so the bridge (and the seed
+    compile checks) compile against the installed product's SAP2000v1.dll and never copy it (Private=false; the
+    bridge resolves it again at run time from the same place). Resolution order:
+      1. -p:Sap2000InstallDir=<dir>  or  env HPSAP2000_SAP2000_DIR
+      2. the COM registration SAP2000 writes: HKLM\SOFTWARE\Classes\CLSID\{B6B21850-FB75-41DE-85EC-BC9DBEC69BD3}\LocalServer32
+         = full path of SAP2000.exe (the ProgID CSI.SAP2000.API.SapObject points at this CLSID)
+      3. %ProgramW6432%\Computers and Structures\SAP2000 <major>\
+    Sap2000ApiAvailable lets a project fail with one readable error instead of hundreds of CS0246.
+  -->
+  <PropertyGroup>
+    <Sap2000Major Condition="'$(Sap2000Major)' == ''">27</Sap2000Major>
+    <Sap2000ObjectClsid>{B6B21850-FB75-41DE-85EC-BC9DBEC69BD3}</Sap2000ObjectClsid>
+
+    <Sap2000InstallDir Condition="'$(Sap2000InstallDir)' == '' And '$(HPSAP2000_SAP2000_DIR)' != ''">$(HPSAP2000_SAP2000_DIR)</Sap2000InstallDir>
+    <_Sap2000LocalServer Condition="'$(Sap2000InstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\$(Sap2000ObjectClsid)\LocalServer32', '', null, RegistryView.Registry64))</_Sap2000LocalServer>
+    <Sap2000InstallDir Condition="'$(Sap2000InstallDir)' == '' And '$(_Sap2000LocalServer)' != ''">$([System.IO.Path]::GetDirectoryName($(_Sap2000LocalServer.Trim('&quot;'))))</Sap2000InstallDir>
+    <Sap2000InstallDir Condition="'$(Sap2000InstallDir)' == ''">$(ProgramW6432)\Computers and Structures\SAP2000 $(Sap2000Major)\</Sap2000InstallDir>
+    <Sap2000InstallDir Condition="!HasTrailingSlash('$(Sap2000InstallDir)')">$(Sap2000InstallDir)\</Sap2000InstallDir>
+
+    <Sap2000ApiAvailable>false</Sap2000ApiAvailable>
+    <Sap2000ApiAvailable Condition="Exists('$(Sap2000InstallDir)SAP2000v1.dll')">true</Sap2000ApiAvailable>
+  </PropertyGroup>
+
+</Project>

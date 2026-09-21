@@ -92,6 +92,71 @@ public sealed class GuardProfile
         deniedNamespaces: new[] { "System.Windows.Forms", "HPEtabs.McpBridge", "HPRebar.McpBridge.Core.Host" });
 
     /// <summary>
+    ///     SAP2000 guard profile: mirror of ETABS (same CSI OAPI lifecycle and process model).
+    /// </summary>
+    public static readonly GuardProfile Sap2000 = new GuardProfile(
+        "SAP2000",
+        deniedIdentifiers: new[] { "Helper", "MessageBox" },
+        deniedMembers: new[]
+        {
+            "ApplicationExit", "ApplicationStart", "Hide", "Unhide", "SetAsActiveObject", "UnsetAsActiveObject", "InternalExec",
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPSap2000.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
+    /// <summary>
+    ///     Power BI Desktop (AMO-TOM and ADOMD.NET to local msmdsrv.exe).
+    ///     Denied: Disconnecting or closing the server connection, modal UI, the bridge's own assembly.
+    /// </summary>
+    public static readonly GuardProfile PowerBi = new GuardProfile(
+        "Power BI",
+        deniedIdentifiers: new[] { "MessageBox" },
+        deniedMembers: new[] { "Disconnect", "Dispose" },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            ["server"] = new[] { "Disconnect", "Dispose" },
+            ["adomd"] = new[] { "Close", "Dispose" },
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPPowerBi.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
+    /// <summary>
+    ///     Excel guard profile: standalone desktop bridge connected to Microsoft Excel via COM Interop
+    ///     and ClosedXML. Denied: modal UI, application termination (Quit), dialog prompts (InputBox,
+    ///     GetOpenFilename, GetSaveAsFilename), and bridge internals.
+    /// </summary>
+    public static readonly GuardProfile Excel = new GuardProfile(
+        "Excel",
+        deniedIdentifiers: new[] { "MessageBox" },
+        deniedMembers: new[]
+        {
+            "Quit", "ApplicationExit", "InputBox", "GetOpenFilename", "GetSaveAsFilename",
+        },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            ["excel"] = new[] { "Quit" },
+            ["app"] = new[] { "Quit" },
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPExcel.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
+    /// <summary>
+    ///     Robot Structural Analysis Professional (out-of-process COM through <c>Interop.RobotOM.dll</c>; the bridge is
+    ///     a separate desktop app). Denied: Application Quit/Exit, interactive mode changes, modal UI, and bridge internals.
+    ///     Base list already denies reflection, file I/O, processes, threads, #r/#load directives, and memory marshalling.
+    /// </summary>
+    public static readonly GuardProfile Robot = new GuardProfile(
+        "Robot Structural Analysis",
+        deniedIdentifiers: new[] { "MessageBox" },
+        deniedMembers: new[]
+        {
+            "Quit", "ApplicationExit", "Interactive",
+        },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            ["robot"] = new[] { "Quit", "Interactive" },
+            ["app"] = new[] { "Quit", "Interactive" },
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPRobot.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
+    /// <summary>
     ///     Civil 3D is an AutoCAD vertical on the same acad.exe, so everything the AutoCAD profile denies applies
     ///     unchanged (the lists below start from it). On top, the Civil API has three things AutoCAD lacks:
     ///     rebuilds (<c>Corridor.Rebuild</c>, <c>CorridorCollection.RebuildAll</c>, <c>Surface.Rebuild</c>/
@@ -125,6 +190,38 @@ public sealed class GuardProfile
         }).ToArray(),
         deniedMembersOnIdentifier: Autocad.DeniedMembersOnIdentifier,
         deniedNamespaces: Autocad.DeniedNamespaces.Concat(new[] { "Autodesk.Civil.DataShortcuts", "Autodesk.Civil.AeccUiMgd", "Autodesk.AECC.Interop" }).ToArray());
+
+    /// <summary>
+    ///     Tekla Structures (in-process .NET Framework 4.8 plugin inside TeklaStructures.exe).
+    ///     Denied: Modal dialogs (MessageBox), interactive picking (Picker) that freezes the main thread
+    ///     and named-pipe communication, process termination, direct commit bypass if bridge owns commit,
+    ///     and bridge internals.
+    /// </summary>
+    public static readonly GuardProfile Tekla = new GuardProfile(
+        "Tekla Structures",
+        deniedIdentifiers: new[] { "MessageBox", "Picker" },
+        deniedMembers: new[]
+        {
+            // Interactive UI picking methods that block waiting for mouse clicks
+            "PickObject", "PickObjects", "PickPoint", "PickPoints", "PickLine", "PickPolygon", "PickFace",
+            // Direct commit bypass on any receiver (bridge owns transaction commit and dryRun enforcement)
+            "CommitChanges",
+            // Application shutdown
+            "Exit", "Quit",
+        },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            // If bridge owns transaction commit and dryRun enforcement:
+            ["model"] = new[] { "CommitChanges" },
+        },
+        deniedNamespaces: new[]
+        {
+            "System.Windows.Forms",
+            "Tekla.Structures.Dialog",
+            "Tekla.Structures.Drawing.UI",
+            "HPTekla.McpBridge",
+            "HPRebar.McpBridge.Core.Host",
+        });
 
     public GuardProfile(
         string hostName,

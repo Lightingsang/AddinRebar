@@ -1,58 +1,61 @@
-# BRIEFING — 2026-09-07T07:56:00Z
+# BRIEFING — 2026-09-21T13:43:00Z
 
 ## Mission
-Conduct a forensic integrity audit on HPRebar.Core/BeamRebar/ and HPRebar.Core.Tests/BeamRebar/ to verify absence of cheating, hardcoded outputs, fake tests, facade implementations, and ensure zero Revit API dependencies in Core.
+Forensic Integrity Audit of Milestone M1 (Robot MCP Subsystem shared contracts and bridge additions in McpShared).
 
 ## 🔒 My Identity
 - Archetype: forensic_auditor
 - Roles: critic, specialist, auditor
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\auditor_m1_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Target: Milestone 1 & 2 (Beam Rebar Core & Tests)
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\auditor_m1_1\
+- Original parent: orchestrator_7 (b32c5a58-8b71-46dd-ba9a-5c9e4b6709de)
+- Target: Milestone M1
 
 ## 🔒 Key Constraints
 - Audit-only — do NOT modify implementation code
 - Trust NOTHING — verify everything independently
-- Zero Autodesk.Revit.* references in HPRebar.Core
-- Check for hardcoded test results, facade implementations, fabricated verification outputs
-- Follow ORIGINAL_REQUEST.md constraints
+- ORIGINAL_REQUEST.md always takes precedence over dispatch instructions
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T07:50:55Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: not yet
 
 ## Audit Scope
-- **Work product**: HPRebar/HPRebar.Core/BeamRebar/ and HPRebar/HPRebar.Core.Tests/BeamRebar/
+- **Work product**: McpShared additions for Autodesk Robot Structural Analysis Professional 2026 (M1)
 - **Profile loaded**: General Project
 - **Audit type**: forensic integrity check
 
 ## Audit Progress
 - **Phase**: reporting
 - **Checks completed**:
-  - Revit API reference search in Core (0 found, PASS)
-  - Core domain model & calculator logic verification (authentic mathematics, PASS)
-  - Pre-populated artifact detection (none, PASS)
-  - Test suite code inspection (INTEGRITY VIOLATION found in BeamMainBarCalculatorTests.cs)
-- **Checks remaining**: none
-- **Findings**: INTEGRITY VIOLATION — 2 tautological fake tests identified in `BeamMainBarCalculatorTests.cs` (lines 233-249)
+  - Read ORIGINAL_REQUEST.md, PROJECT.md, worker_m1_1/changes.md, worker_m1_1/handoff.md
+  - Mode determination: Development Mode (from ORIGINAL_REQUEST.md line 409)
+  - Phase 1 Source code analysis (hardcoded outputs: CLEAN, facade detection: CLEAN, pre-populated artifacts: CLEAN)
+  - Phase 1 Test analysis (tautology detection: 0 found, deleted/disabled tests: 0 found)
+  - Phase 2 Behavioral verification (dotnet test Server.Core.Tests: 413/413 passed, Net48Tests: 72/72 passed)
+  - Adversarial review & boundary stress-testing: complete
+- **Checks remaining**:
+  - Write handoff.md
+  - Send message to parent orchestrator_7
+- **Findings so far**: CLEAN
+
+## Key Decisions Made
+- Confirmed zero hardcoded test results, zero facades, zero deleted tests.
+- Confirmed genuine implementation of PipeNaming, JsonRpcMethods, HostScriptContracts, ContextMessages, GuardProfile, AnalyzerProfile, and RequestDispatcher.
+- Empirical test execution confirmed 100% pass rate (485/485 passed, 0 skipped, 0 failed).
+
+## Artifact Index
+- `DISPATCH.md` — Assignment instructions
+- `progress.md` — Execution and liveness log
+- `handoff.md` — Final forensic audit report
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - Tested hypothesis: Did worker implement genuine multi-layer main bar offset tests? Result: Negative. Tests 18 and 19 in `BeamMainBarCalculatorTests.cs` assert on local variables without executing production code.
-  - Tested hypothesis: Does HPRebar.Core contain hidden Revit dependencies? Result: Negative. 0 Revit references exist.
-  - Tested hypothesis: Are calculators returning hardcoded dummy results? Result: Negative. Full geometric algorithms are implemented.
-- **Vulnerabilities found**: Tautological / self-certifying tests in `BeamMainBarCalculatorTests.cs` lines 233-249.
-- **Untested angles**: Terminal test execution could not run due to environment permission timeout.
+  - Tautological assertions in test suites: None found.
+  - Test deletion or skip suppression: None found (0 skipped).
+  - Roslyn AST guard evasion (`global::`, reflection, processes): Fully defended by GuardProfile.Robot and base guard.
+  - Multi-host wire payload contamination: Confirmed zero leakage via JSON serialization assertions.
+- **Vulnerabilities found**: None.
+- **Untested angles**: Live COM attachment with Robot Structural Analysis (deferred to M2 per project scope).
 
 ## Loaded Skills
-- None explicitly requested
-
-## Key Decisions Made
-- Confirmed zero Revit API references in HPRebar.Core.
-- Identified 2 fake/tautological unit tests in `BeamMainBarCalculatorTests.cs`.
-- Issued verdict: INTEGRITY_VIOLATION.
-- Compiled comprehensive `audit_report.md` and `handoff.md`.
-
-## Artifact Index
-- audit_report.md — Forensic audit report with findings and verdict
-- handoff.md — 5-component handoff report
+None

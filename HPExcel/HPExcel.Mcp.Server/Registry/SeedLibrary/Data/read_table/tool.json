@@ -1,0 +1,49 @@
+{
+  "name": "read_table",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "table",
+    "listobject",
+    "data",
+    "records"
+  ],
+  "title": "Read table",
+  "description": "Read structured Excel table (ListObject) headers, data rows as JSON records, and totals row. Read-only.",
+  "notes": "Reads ListObject.HeaderRowRange, DataBodyRange, and TotalsRowRange.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "tableName"
+    ],
+    "properties": {
+      "tableName": {
+        "type": "string",
+        "description": "Name of the Excel table (e.g. 'Table1', 'RebarList')."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet containing the table. If omitted, searches all worksheets."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "maxRows": {
+        "type": "integer",
+        "default": 1000,
+        "description": "Maximum number of data rows to return."
+      }
+    },
+    "additionalProperties": false
+  }
+}

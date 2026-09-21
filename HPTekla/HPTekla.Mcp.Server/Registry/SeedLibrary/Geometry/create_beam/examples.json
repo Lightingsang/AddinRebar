@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Create a 6m steel beam HEA300 along X axis",
+    "args": {
+      "startX": 0,
+      "startY": 0,
+      "startZ": 3500,
+      "endX": 6000,
+      "endY": 0,
+      "endZ": 3500,
+      "profile": "HEA300",
+      "material": "S235JR",
+      "name": "MAIN_BEAM",
+      "partClass": "1"
+    }
+  },
+  {
+    "title": "Create a secondary concrete beam 300x500 along Y axis",
+    "args": {
+      "startX": 3000,
+      "startY": 0,
+      "startZ": 3500,
+      "endX": 3000,
+      "endY": 5000,
+      "endZ": 3500,
+      "profile": "300*500",
+      "material": "C30/37",
+      "name": "SEC_BEAM",
+      "partClass": "2"
+    }
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "name": "write_range",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "write",
+    "range",
+    "cells",
+    "values",
+    "batch"
+  ],
+  "title": "Write range",
+  "description": "Batch write 2D values, arrays, or formulas to a range starting at target cell. Auto-sizes destination range. Takes an automatic snapshot before writing.",
+  "notes": "Uses Range.Resize and 2D array assignment in a single COM call for speed.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "startCell",
+      "values"
+    ],
+    "properties": {
+      "startCell": {
+        "type": "string",
+        "description": "Starting cell address (e.g. 'A1', 'B5')."
+      },
+      "values": {
+        "type": "array",
+        "description": "2D array of rows and columns to write: [[row1_col1, row1_col2], [row2_col1, row2_col2]].",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Target worksheet. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "autoFitColumns": {
+        "type": "boolean",
+        "default": false,
+        "description": "Auto-fit column widths after writing."
+      },
+      "isFormula": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, treats string values starting with '=' as active formulas."
+      }
+    },
+    "additionalProperties": false
+  }
+}

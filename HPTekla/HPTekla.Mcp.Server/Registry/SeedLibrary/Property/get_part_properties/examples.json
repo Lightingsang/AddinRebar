@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get part properties and UDAs for part ID 100",
+    "args": {
+      "objectId": 100,
+      "includeUserProperties": true
+    }
+  },
+  {
+    "title": "Get basic geometrical properties for part ID 200 without UDAs",
+    "args": {
+      "objectId": 200,
+      "includeUserProperties": false
+    }
+  }
+]

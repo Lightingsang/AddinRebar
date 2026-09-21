@@ -32,6 +32,31 @@ public static class PipeNaming
     /// </summary>
     public const string Civil3dHost = "civil3d";
 
+    /// <summary>
+    ///     CSI SAP2000; pipe <c>hpsap2000-mcp-{version}</c> where the version is CSI's own major number (27 for SAP2000 27).
+    /// </summary>
+    public const string Sap2000Host = "sap2000";
+
+    /// <summary>
+    ///     Microsoft Power BI; pipe <c>hppowerbi-mcp-{version}</c> (e.g. 2026).
+    /// </summary>
+    public const string PowerBiHost = "powerbi";
+
+    /// <summary>
+    ///     Microsoft Excel; pipe <c>hpexcel-mcp-{version}</c> (e.g. 2026).
+    /// </summary>
+    public const string ExcelHost = "excel";
+
+    /// <summary>
+    ///     Autodesk Robot Structural Analysis Professional; pipe <c>hprobot-mcp-{version}</c> (e.g. 2026).
+    /// </summary>
+    public const string RobotHost = "robot";
+
+    /// <summary>
+    ///     Trimble Tekla Structures; pipe <c>hptekla-mcp-{version}</c> (e.g. 2025).
+    /// </summary>
+    public const string TeklaHost = "tekla";
+
     /// <summary>Revit pipe, e.g. <c>hprebar-mcp-r2026</c>. Unchanged since the first release.</summary>
     public static string For(int revitVersion) => Prefix + revitVersion;
 
@@ -52,6 +77,11 @@ public static class PipeNaming
             NavisHost => "hpnavis-mcp-" + version,
             EtabsHost => "hpetabs-mcp-" + version,
             Civil3dHost => "hpcivil3d-mcp-" + version,
+            Sap2000Host => "hpsap2000-mcp-" + version,
+            PowerBiHost => "hppowerbi-mcp-" + version,
+            ExcelHost => "hpexcel-mcp-" + version,
+            RobotHost => "hprobot-mcp-" + version,
+            TeklaHost => "hptekla-mcp-" + version,
             _ => "hp" + key + "-mcp-" + version,
         };
     }

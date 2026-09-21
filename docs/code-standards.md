@@ -151,3 +151,16 @@ Reference: skill `revit-test` (SKILL.md + references/test-setup-rider.md + proje
 | Nice3point templates source | https://github.com/Nice3point/RevitTemplates |
 | Revit API docs | https://www.revitapidocs.com/2027/ |
 | CommunityToolkit.Mvvm | https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/ |
+
+## 12. AutoCAD Feature-Folder Architecture & Standards (`HPAutoCad`)
+
+Following the unified `HPAutoCad` architecture (established with `HPAutoCad.HPGeoLink`, retiring legacy standalone `HPGeo`):
+
+**MUST:**
+- **Feature Folder Convention:** Every new AutoCAD tool or feature MUST be created inside `HPAutoCad/` as a dedicated feature folder:
+  - `HPAutoCad.Core/<ToolName>/`: Pure domain algorithms, models, calculators, and parsers (.NET 8.0, ZERO references to AutoCAD APIs, 100% testable via xUnit).
+  - `HPAutoCad/<ToolName>/`: UI, Commands, ViewModels, Views, and CAD readers/writers (.NET 8.0-windows, WPF + CommunityToolkit.Mvvm).
+  - `HPAutoCad.Tests/<ToolName>/`: Unit tests covering domain logic and ViewModel interactions.
+- **ALC Isolation:** New commands and views must be loaded through `HPAutoCad.Loader` in an isolated `AssemblyLoadContext` (`AppLoadContext`), never directly polluting AutoCAD's Default ALC.
+- **Theme Consistency:** UI views must merge `Resources/Themes/Theme.xaml` via `{DynamicResource ...}`, re-basing onto MaterialDesignThemes keys and using `MaterialThemeBridge.Attach` to track `COLORTHEME` runtime changes.
+- **Closed-Loop Verification:** Never declare an AutoCAD tool implementation or bug fix complete without verifying live in AutoCAD 2026 via the unattended MCP harness (`run-geolink-verify.ps1` or host-specific harness).

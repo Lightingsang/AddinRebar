@@ -32,6 +32,21 @@ public sealed class ContextResult
     /// <summary>Civil 3D-only facts; null for the other hosts (and omitted from the JSON). The Civil 3D bridge also fills <see cref="Autocad"/>.</summary>
     public Civil3dInfo? Civil3d { get; set; }
 
+    /// <summary>SAP2000-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public Sap2000Info? Sap2000 { get; set; }
+
+    /// <summary>Power BI-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public PowerBiInfo? PowerBi { get; set; }
+
+    /// <summary>Excel-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public ExcelInfo? Excel { get; set; }
+
+    /// <summary>Robot Structural Analysis-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public RobotInfo? Robot { get; set; }
+
+    /// <summary>Tekla Structures-only facts; null for the other hosts (and omitted from the JSON).</summary>
+    public TeklaInfo? Tekla { get; set; }
+
     public string? DocTitle { get; set; }
 
     public string? DocPath { get; set; }
@@ -137,6 +152,92 @@ public sealed record Civil3dInfo(
     int PipeNetworkCount,
     int PressureNetworkCount,
     int CogoPointCount);
+
+/// <summary>
+///     What a SAP2000 script needs to know that has no counterpart elsewhere. The bridge is a separate desktop
+///     app attached over COM to one running SAP2000: whether it is attached and to which process, the OAPI
+///     wrapper version, whether the model is locked, present and database units, whether the user allowed
+///     destructive operations, and coarse object counts.
+/// </summary>
+public sealed record Sap2000Info(
+    bool IsAttached,
+    int AttachedPid,
+    string? OapiVersion,
+    bool IsLocked,
+    string? PresentUnits,
+    string? DatabaseUnits,
+    bool DestructiveOperationsEnabled,
+    int PointCount,
+    int FrameCount,
+    int AreaCount);
+
+/// <summary>
+///     What a Power BI script needs to know: connection state, attached PID/local port, database name,
+///     compatibility level, whether mutation is enabled on the bridge, and coarse model object counts.
+/// </summary>
+public sealed record PowerBiInfo(
+    bool IsConnected,
+    int? AttachedPid,
+    int? LocalPort,
+    string? DatabaseName,
+    string? CompatibilityLevel,
+    bool MutationEnabled,
+    int TableCount,
+    int MeasureCount,
+    int RelationshipCount);
+
+/// <summary>
+///     What an Excel script needs to know: whether attached to a live running Excel process,
+///     attached PID, Excel version, active workbook name, active worksheet name, selection address,
+///     whether write operations are enabled, whether destructive operations are enabled,
+///     open workbook count, worksheet count, and whether there is an active workbook.
+/// </summary>
+public sealed record ExcelInfo(
+    bool IsAttached,
+    int? AttachedPid,
+    string? ExcelVersion,
+    string? ActiveWorkbookName,
+    string? ActiveWorksheetName,
+    string? SelectionAddress,
+    bool WriteEnabled,
+    bool DestructiveEnabled,
+    int OpenWorkbookCount,
+    int WorksheetCount,
+    bool HasActiveWorkbook);
+
+/// <summary>
+///     What a Robot Structural Analysis script needs to know that has no counterpart elsewhere. The bridge is a
+///     separate desktop app attached over COM to Robot Structural Analysis Professional: whether attached,
+///     attached PID, Robot version, project structure type, whether model is calculated,
+///     heavy operations enabled, and coarse structural object counts (nodes, bars, panels, load cases).
+/// </summary>
+public sealed record RobotInfo(
+    bool IsAttached,
+    int? AttachedPid,
+    string? RobotVersion,
+    string? StructureType,
+    bool IsCalculated,
+    bool HeavyOperationsEnabled,
+    int NodeCount,
+    int BarCount,
+    int PanelCount,
+    int LoadCaseCount);
+
+/// <summary>
+///     What a Tekla Structures script needs to know: connection state, active model name and folder path,
+///     project name, Tekla major version, whether heavy/destructive operations are enabled, and coarse
+///     object counts (parts, rebar, drawings).
+/// </summary>
+public sealed record TeklaInfo(
+    bool IsConnected,
+    string? ModelName,
+    string? ModelPath,
+    string? ProjectName,
+    string? TeklaVersion,
+    bool HeavyOperationsEnabled,
+    int PartCount,
+    int RebarCount,
+    int DrawingCount);
 
 public sealed record ViewInfo(long Id, string Name, string Type);
 

@@ -1,0 +1,82 @@
+{
+  "name": "create_chart",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Chart",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "chart",
+    "graph",
+    "plot",
+    "visualization"
+  ],
+  "title": "Create chart",
+  "description": "Create an embedded chart (Column, Line, Pie, Bar, Area, Scatter) linked to a data range. Custom title, size, and location. Takes an automatic snapshot before writing.",
+  "notes": "Uses ChartObjects.Add and Chart.SetSourceData.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "dataRange",
+      "chartType"
+    ],
+    "properties": {
+      "dataRange": {
+        "type": "string",
+        "description": "Cell range containing chart source data (e.g. 'A1:D10')."
+      },
+      "chartType": {
+        "type": "string",
+        "enum": [
+          "ColumnClustered",
+          "ColumnStacked",
+          "Line",
+          "LineMarkers",
+          "Pie",
+          "BarClustered",
+          "Area",
+          "Scatter"
+        ],
+        "description": "Chart type to create."
+      },
+      "title": {
+        "type": "string",
+        "description": "Chart title text."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet name. Defaults to active sheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "targetCell": {
+        "type": "string",
+        "default": "E2",
+        "description": "Top-left cell where the chart should be placed."
+      },
+      "width": {
+        "type": "number",
+        "default": 400,
+        "description": "Chart width in points."
+      },
+      "height": {
+        "type": "number",
+        "default": 250,
+        "description": "Chart height in points."
+      },
+      "hasLegend": {
+        "type": "boolean",
+        "default": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

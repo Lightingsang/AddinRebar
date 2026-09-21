@@ -1,124 +1,140 @@
-# Handoff Report: Milestone M4 UI & Preview Canvas Architecture
+# Handoff Report: Sister Host Test Architecture & HPRobot.Mcp.Server.Tests Blueprint
 
 ## 1. Observation
 
-Direct observations from codebase inspection across `HPRebar.Core`, `HPRebar/HPRebar/Resources/Themes/`, `HPRebar/HPRebar/Column Rebar/`, and `HPRebar/HPRebar/Beam Rebar/`:
+### 1.1 Sister Host Project Configurations
+- **HPEtabs.Mcp.Server.Tests**:
+  - File: `HPEtabs/HPEtabs.Mcp.Server.Tests/HPEtabs.Mcp.Server.Tests.csproj` (lines 4, 12–13, 17–21, 27–30, 35):
+    ```xml
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    ...
+    <PackageReference Include="xunit.v3" Version="3.1.0"/>
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.12"/>
+    ...
+    <ProjectReference Include="..\HPEtabs.Mcp.Server\HPEtabs.Mcp.Server.csproj"/>
+    <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj"/>
+    <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+    ...
+    <Compile Include="..\..\McpShared\HPRebar.Mcp.Server.Core.Tests\Fakes\FakeRevitExecutor.cs" Link="Fakes\FakeRevitExecutor.cs"/>
+    ```
+  - Executed command: `dotnet test HPEtabs.Mcp.Server.Tests` (Cwd: `HPEtabs/`).
+  - Result: `total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 6s 636ms`.
 
-1. **Pure Geometry & Canvas Math in Core**:
-   - File: `HPRebar.Core/BeamRebar/Calculators/BeamCanvasTransformCalculator.cs` lines 10-34:
-     ```csharp
-     public sealed record BeamCanvasTransform
-     {
-         public double Scale { get; init; }
-         public double OffsetX { get; init; }
-         public double OffsetY { get; init; }
-         public double Baseline { get; init; }
-         ...
-         public (double ScreenX, double ScreenY) ToScreen(double modelX, double modelZ) =>
-             (OffsetX + ((modelX - XMin) * Scale), Baseline - ((modelZ - ZMin) * Scale));
-     }
-     ```
-   - Confirmed 0 references to `Autodesk.Revit.*` in `HPRebar.Core/BeamRebar/`.
-   - Tests in `HPRebar.Core.Tests/BeamRebar/BeamCanvasTransformCalculatorTests.cs` (lines 14-65) verify uniform aspect ratio preservation, 40px margin padding, Y-inversion, and monotonicity.
+- **HPSap2000.Mcp.Server.Tests**:
+  - File: `HPSap2000/HPSap2000.Mcp.Server.Tests/HPSap2000.Mcp.Server.Tests.csproj` (lines 4, 12–13, 17–21, 27–30, 35):
+    - Identical structure: `net10.0`, `Exe`, `UseMicrosoftTestingPlatformRunner=true`, `xunit.v3 3.1.0`, `Microsoft.Bcl.AsyncInterfaces 10.0.12`, linked `FakeRevitExecutor.cs`.
+  - Executed command: `dotnet test HPSap2000.Mcp.Server.Tests` (Cwd: `HPSap2000/`).
+  - Result: `total: 79, failed: 0, succeeded: 79, skipped: 0, duration: 6s 702ms`.
 
-2. **Dynamic Theming Resources**:
-   - Files: `HPRebar/HPRebar/Resources/Themes/ThemeDark.xaml` (lines 63-75) and `ThemeLight.xaml` (lines 59-71) declare canvas tokens:
-     ```xml
-     <Color x:Key="Color.Canvas.Fill">#252526</Color>
-     <Color x:Key="Color.Canvas.MainBar">#E5484D</Color>
-     <Color x:Key="Color.Canvas.MainBar.Selected">#F5A623</Color>
-     <Color x:Key="Color.Canvas.Stirrup">#16C172</Color>
-     <Color x:Key="Color.Canvas.Bound">#CCCCCC</Color>
-     <Color x:Key="Color.Canvas.Tag">#8E8E93</Color>
-     ```
-   - `ThemeSwitcher.cs` in `Column Rebar` (lines 18-24) swaps the merged color dictionary dynamically matching Revit's `UIThemeManager.CurrentTheme` without recreating any window.
+- **HPExcel.Mcp.Server.Tests**:
+  - File: `HPExcel/HPExcel.Mcp.Server.Tests/HPExcel.Mcp.Server.Tests.csproj` (lines 4, 8–9, 13–15, 22–25, 29):
+    - Targets `net10.0`, `Exe`, `UseMicrosoftTestingPlatformRunner=true`, links `FakeRevitExecutor.cs`.
+  - Executed command: `dotnet test HPExcel.Mcp.Server.Tests` (Cwd: `HPExcel/`).
+  - Result: `total: 90, failed: 0, succeeded: 90, skipped: 0, duration: 9s 255ms`.
 
-3. **Golden Standard Canvas & MVVM Patterns**:
-   - File: `HPRebar/HPRebar/Column Rebar/View/Controls/ColumnElevationCanvas.cs` (lines 16-38):
-     ```csharp
-     private static readonly System.TimeSpan RedrawDelay = System.TimeSpan.FromMilliseconds(50);
-     ...
-     _redraw = new DispatcherTimer(DispatcherPriority.Background) { Interval = RedrawDelay };
-     _redraw.Tick += (_, _) =>
-     {
-         _redraw.Stop();
-         _painter = null;
-         InvalidateMeasure();
-         InvalidateVisual();
-     };
-     ```
-   - File: `HPRebar/HPRebar/Column Rebar/View/Controls/CanvasPalette.cs` (lines 95-101): Pens and Brushes are resolved via `element.TryFindResource(...)` and frozen (`pen.Freeze()`) to eliminate GC allocations per render frame.
-   - File: `HPRebar/HPRebar/Column Rebar/View Models/ColumnRebarViewModel.cs` (lines 30-65): Uses `ObservableCollection<ColumnRebarTabViewModel> Tabs`, `[RelayCommand] Run`, `[RelayCommand] ToggleLanguage`, and `Action<bool>? CloseRequested`.
-   - File: `HPRebar/HPRebar/Column Rebar/View/ColumnRebarView.xaml.cs` (lines 8-20): Code-behind strictly limited to `InitializeComponent()`, `DataContext = viewModel`, `ThemeSwitcher.ApplyFromRevit(this)`, and closing on `CloseRequested`.
+- **HPRobot.McpBridge.Tests**:
+  - File: `HPRobot/HPRobot.McpBridge.Tests/HPRobot.McpBridge.Tests.csproj`:
+    - Targets `net8.0-windows`, `UseWPF=true`.
+  - Executed command: `dotnet test HPRobot.McpBridge.Tests` (Cwd: `HPRobot/`).
+  - Result: `total: 197, failed: 0, succeeded: 197, skipped: 0, duration: 9s 063ms`.
 
-4. **Target Beam Rebar Current State**:
-   - File: `HPRebar/HPRebar/Beam Rebar/View Models/BeamRebarViewModel.cs` (lines 13-75): Currently has placeholder fields from Milestone M3 scaffolding.
-   - File: `HPRebar/HPRebar/Beam Rebar/View/BeamRebarView.xaml` (lines 28-89): Currently contains a static summary stack without tabs or interactive canvases.
-   - File: `HPRebar/HPRebar/Beam Rebar/Models/UiStrings.cs` (lines 16-105): Already contains comprehensive localized string resources for all tabs in English and Vietnamese.
+### 1.2 Host COM Wrapper Availability on Dev Machine
+- Executed command: `powershell -NoProfile -Command "Test-Path 'C:\Program Files\Autodesk\Robot Structural Analysis Professional 2026\Exe\Interop.RobotOM.dll'"`
+- Result: `True` (verified present on dev system).
+- `HPRobot/Directory.Build.props` lines 14–27 sets `RobotMajor` to 2026, resolves `RobotInstallDir`, and evaluates `RobotApiAvailable Condition="Exists('$(RobotInstallDir)Interop.RobotOM.dll')"`.
+
+### 1.3 Target Project State
+- `HPRobot/HPRobot.Mcp.Server/HPRobot.Mcp.Server.csproj` compiles cleanly with 0 errors and 0 warnings.
+- `HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/` contains all 12 seed tool packages (`Analysis/run_calculations`, `Geometry/assign_node_support`, `Geometry/draw_bar_by_coords`, `Geometry/get_coordinate_systems_and_grids`, `Geometry/get_structural_objects`, `Load/assign_bar_load`, `Load/get_load_definitions`, `Model/get_model_info`, `Property/assign_bar_section`, `Property/get_materials_and_sections`, `Results/get_bar_forces`, `Results/get_node_reactions`).
+- `HPRobot/HPRobot.slnx` currently contains `HPRobot.McpBridge`, `HPRobot.McpBridge.Tests`, and `HPRobot.Mcp.Server`. `HPRobot.Mcp.Server.Tests` is planned for Milestone 4 and is not yet created.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Decoupled Math & Canvas Performance**:
-   - Observation 1 establishes that `BeamCanvasTransformCalculator` in `HPRebar.Core` provides tested, pure coordinate scaling from continuous beam millimetres to canvas pixels with Z-inversion and aspect ratio preservation.
-   - Observation 3 shows that overriding `OnRender(DrawingContext dc)` and using frozen pens from `CanvasPalette` delivers fast 2D rendering without instantiating WPF visual tree nodes.
-   - Therefore, implementing `BeamElevationCanvas` and `BeamSectionCanvas` as custom `FrameworkElement`s calling `BeamCanvasTransformCalculator` will achieve sub-50ms render response times while keeping `HPRebar.Core` completely independent of Revit.
+1. **Test Runner Alignment**:
+   - `global.json` pins `Microsoft.Testing.Platform` (Observation 1.1).
+   - In .NET 10, running `xunit.v3` under Microsoft.Testing.Platform requires `<OutputType>Exe</OutputType>` and `<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>` in the `.csproj`.
+   - All three sister host test projects use this exact combination and successfully execute under `dotnet test` with 100% pass rates.
+   - Therefore, `HPRobot.Mcp.Server.Tests.csproj` must use these exact settings.
 
-2. **Seamless Dark/Light Mode Theming**:
-   - Observation 2 confirms that `ThemeDark.xaml` and `ThemeLight.xaml` already define the complete palette of `Brush.Canvas.*`, `Brush.Background`, `Brush.Surface`, and `Brush.Accent`.
-   - Observation 2 & 3 show that `ThemeSwitcher.ApplyFromRevit(this)` swaps the active theme dictionary at runtime, and all controls using `{DynamicResource ...}` immediately re-evaluate without restarting the window.
-   - Therefore, strictly employing `{DynamicResource Brush.X}` across `BeamRebarView.xaml` and resolving canvas pens dynamically will ensure 100% theme compliance across Revit 2024, 2025, and 2026.
+2. **Dependency & Warning Suppression**:
+   - `xunit.v3.common` references `Microsoft.Bcl.AsyncInterfaces` 6.0.0, while `HPRebar.Mcp.Contracts` targets `netstandard2.0` with `System.Text.Json` 10.x.
+   - In all sister hosts, an explicit package reference `<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.12" />` silences compiler warning `MSB3277` and unifies the assembly binding.
+   - Therefore, `HPRobot.Mcp.Server.Tests.csproj` must include this package reference.
 
-3. **5-Tab Structural Engineering Usability**:
-   - Observation 4 indicates that legacy UI scattered reinforcement settings across disconnected screens, while `Column Rebar` grouped them into a cohesive tabbed navigation list.
-   - Consolidating into 5 tabs (Tab 1: Spans & Geometry, Tab 2: Main Reinforcement, Tab 3: Additional Reinforcement, Tab 4: Stirrups & Ties, Tab 5: Views & Annotations) groups related parameters logically (e.g. support negative bars with midspan positive bars; stirrups with skin bars and hanging ties).
-   - Therefore, a tabbed architecture deriving from `BeamRebarTabViewModel : ObservableObject` delivers an ergonomic, clean interface for structural engineers.
+3. **Decoupled COM Verification Pattern**:
+   - `HPEtabs` and `HPSap2000` do not reference the host COM interop assembly directly in their test `.csproj` (Observation 1.1).
+   - Instead, `SeedLibraryCompileTests` resolves the wrapper path at runtime via environment variable, registry, or default Program Files path, creating a `MetadataReference.CreateFromFile(wrapper)` dynamically with Roslyn.
+   - If the wrapper is not found, tests skip gracefully using `Assert.SkipWhen(...)`.
+   - On this dev system, `Interop.RobotOM.dll` exists (Observation 1.2), ensuring all 12 seed compilation tests will execute live and pass, while preserving build integrity in any environment where Robot is absent.
+   - Therefore, `HPRobot.Mcp.Server.Tests` must adopt this dynamic Roslyn compilation pattern rather than a hard compile-time reference.
 
-4. **Validation Guardrails & API Stability**:
-   - Observation 3 shows `ColumnSpecEditor` guarding against Revit API limitations, specifically the maximum 1002 bar positions in a single set before `SetLayoutAsNumberWithSpacing` throws.
-   - Therefore, `BeamRebarSession.Validate` must enforce: minimum 2 bars, clearance $> 0$, spacing $> 0$, and tie count $\le 1002$ prior to execution, preventing runtime exceptions and Revit UI freezes.
+4. **Test Class Organization**:
+   - The repository standardizes on 4 core test concerns:
+     1. Host Profile, configuration binding, tool surface, prompts, and resources (`RobotHostProfileTests.cs`).
+     2. Seed manifest resources, schema validity, argument parity, and registry validation (`SeedCatalogTests.cs`).
+     3. Named pipe JSON-RPC integration via `FakeRevitExecutor` covering context, execution, timeout clamping, static preview, and refusals (`SeedExecutionTests.cs`).
+     4. Roslyn dynamic compilation of all 12 seeds against `Interop.RobotOM.dll` (`SeedCompilationTests.cs`).
+   - This 4-class architecture directly matches the orchestrator's blueprint in `PROJECT.md` lines 229–233.
 
 ---
 
 ## 3. Caveats
 
-- **No Caveats.** All required source models, canvas transformation calculators, theme dictionaries, and reference patterns were inspected and verified directly within the repository.
+1. **Timeout Threshold**: Robot Structural Analysis profile timeout ceiling is 300 seconds (`HostScriptContracts.RobotHeavyMaxTimeoutSeconds = 300`), unlike ETABS and SAP2000 which have 600 seconds. Tests must assert clamping against 300 seconds, not 600 seconds.
+2. **Units System**: Robot Structural Analysis script execution enforces Metric units (`m, kN, kN·m, MPa`) through `RobotUnitsPolicy` and `RobotHostProfile.ScriptContractSummary`. Tests should assert Metric units and avoid imperial assumptions.
+3. **Execution Directory**: When executing tests with `dotnet test`, commands should be run from `HPRobot/` or specify the test project path to ensure `global.json` settings are applied correctly.
 
 ---
 
 ## 4. Conclusion
 
-The architecture and design for Milestone M4 are fully specified and ready for implementation by the builder/cook agent:
-1. **ViewModel Architecture**: `BeamRebarViewModel` orchestrates 5 tabs (`GeometryTabViewModel`, `MainBarsTabViewModel`, `AdditionalBarsTabViewModel`, `StirrupsTabViewModel`, `ViewsTabViewModel`) bound to `BeamRebarSession`.
-2. **View & Theming**: `BeamRebarView.xaml` uses a 3-row layout with vertical navigation, active tab content, bottom elevation canvas, and footer. All styling binds to `{DynamicResource Brush.X}` for dark/light Revit theme adaptability.
-3. **Interactive Canvases**: `BeamElevationCanvas.cs` and `BeamSectionCanvas.cs` render directly via `OnRender(DrawingContext dc)` using `BeamCanvasTransformCalculator` and a 50ms keystroke debounce timer.
-4. Detailed design specifications are documented in `.agents/explorer_m4_1/ui_canvas_plan.md`.
+The recommended architecture for `HPRobot.Mcp.Server.Tests` is:
+1. **Target**: `net10.0`, `Exe`, `UseMicrosoftTestingPlatformRunner = true`.
+2. **Dependencies**: `xunit.v3` (3.1.0), `xunit.runner.visualstudio` (3.1.5), `Microsoft.Bcl.AsyncInterfaces` (10.0.12).
+3. **References**: `HPRobot.Mcp.Server`, `HPRebar.Mcp.Server.Core`, `HPRebar.McpBridge.Core`, `HPRebar.Mcp.Contracts`.
+4. **Shared Asset**: Linked `FakeRevitExecutor.cs`.
+5. **Test Classes**:
+   - `RobotHostProfileTests.cs`: 7+ facts validating profile properties, configuration, 12 static tools, prompts, resources.
+   - `SeedCatalogTests.cs`: Facts & theories validating 12 embedded seeds, schema compliance, argument parity, and `ToolValidator`.
+   - `SeedExecutionTests.cs`: Async pipe round-trip tests using `PipeListener` and `FakeRevitExecutor` verifying context, execute, static preview, and safety refusals.
+   - `SeedCompilationTests.cs`: Theories compiling all 12 seeds against `Interop.RobotOM.dll` with Roslyn `CSharpCompilation`.
+
+The complete specification, `.csproj` definition, and test class designs are documented in `analysis.md`.
 
 ---
 
 ## 5. Verification Method
 
-To verify the design and implementation independently:
-1. **Core Unit Test Command**:
-   ```bash
-   dotnet test HPRebar/HPRebar.Core.Tests
+To independently verify the findings and benchmark tests:
+1. Inspect sister test projects:
+   - `HPEtabs/HPEtabs.Mcp.Server.Tests/HPEtabs.Mcp.Server.Tests.csproj`
+   - `HPSap2000/HPSap2000.Mcp.Server.Tests/HPSap2000.Mcp.Server.Tests.csproj`
+   - `HPExcel/HPExcel.Mcp.Server.Tests/HPExcel.Mcp.Server.Tests.csproj`
+2. Run sister test suites:
+   ```powershell
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPEtabs"
+   dotnet test HPEtabs.Mcp.Server.Tests
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPSap2000"
+   dotnet test HPSap2000.Mcp.Server.Tests
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPExcel"
+   dotnet test HPExcel.Mcp.Server.Tests
    ```
-   Ensures all 102+ unit tests (including `BeamCanvasTransformCalculatorTests`) pass with 0 errors.
-
-2. **Add-In Compilation Check**:
-   ```bash
-   dotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false
+3. Run existing bridge tests for Robot:
+   ```powershell
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRobot"
+   dotnet test HPRobot.McpBridge.Tests
    ```
-   Confirms successful compilation with 0 errors and 0 warnings.
-
-3. **Files to Inspect**:
-   - `.agents/explorer_m4_1/ui_canvas_plan.md`: Complete architecture plan.
-   - `HPRebar/HPRebar/Beam Rebar/View Models/BeamRebarViewModel.cs`: ViewModel structure.
-   - `HPRebar/HPRebar/Beam Rebar/View/BeamRebarView.xaml`: Theme-safe XAML structure.
-   - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamElevationCanvas.cs`: Canvas rendering pipeline.
-
-4. **Invalidation Conditions**:
-   - If any `StaticResource` is used for color/brush keys in XAML.
-   - If `Autodesk.Revit.*` is imported in any Core class or canvas transform calculator.
-   - If canvas redraws freeze or stutter during rapid user typing in parameter text boxes.
+4. Verify Robot COM wrapper existence on dev machine:
+   ```powershell
+   Test-Path "C:\Program Files\Autodesk\Robot Structural Analysis Professional 2026\Exe\Interop.RobotOM.dll"
+   ```
+5. Invalidation conditions:
+   - If `dotnet test` fails under .NET 10 without MTP runner.
+   - If `xunit.v3` emits `MSB3277` warning due to missing `Microsoft.Bcl.AsyncInterfaces 10.0.12`.
+   - If seed tools fail Roslyn compilation against `Interop.RobotOM.dll`.

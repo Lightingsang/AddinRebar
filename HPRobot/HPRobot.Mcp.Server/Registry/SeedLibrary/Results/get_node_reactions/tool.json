@@ -1,0 +1,30 @@
+{
+  "name": "get_node_reactions",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Results",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["results", "reactions", "nodes", "supports"],
+  "title": "Get node reactions",
+  "description": "Extracts support reaction forces (FX, FY, FZ) and moments (MX, MY, MZ) for specified nodes and load case/combination.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "caseNumber": {
+        "type": "integer",
+        "description": "Load case or combination number."
+      },
+      "nodeNumbers": {
+        "type": "string",
+        "description": "Node selection text, e.g. '1 2' or 'all'."
+      }
+    },
+    "required": ["caseNumber", "nodeNumbers"],
+    "additionalProperties": false
+  }
+}

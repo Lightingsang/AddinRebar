@@ -1,0 +1,47 @@
+{
+  "name": "run_macro",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Automation",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "tags": [
+    "macro",
+    "vba",
+    "run",
+    "destructive"
+  ],
+  "title": "Run macro",
+  "description": "DESTRUCTIVE: Execute an existing VBA macro / Sub procedure in the active workbook with optional arguments. Requires explicit Destructive toggle enabled in Bridge UI. Takes an automatic snapshot before running.",
+  "notes": "Uses Application.Run. Only available in COM mode with running Excel instance.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "macroName"
+    ],
+    "properties": {
+      "macroName": {
+        "type": "string",
+        "description": "Name of the VBA macro to execute (e.g. 'RefreshAllData', 'Module1.ProcessSchedule')."
+      },
+      "args": {
+        "type": "array",
+        "description": "Optional parameters to pass to the macro.",
+        "items": {
+          "type": "string"
+        }
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path containing the macro. Defaults to active workbook."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "assign_bar_section",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Property",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["property", "section", "bar", "assign"],
+  "title": "Assign bar section",
+  "description": "Assigns a defined cross-section profile to specified bars in the Robot model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "barNumbers": {
+        "type": "string",
+        "description": "Bar selection text, e.g. '1 2 3' or '1to10'."
+      },
+      "sectionName": {
+        "type": "string",
+        "description": "Name of the section to assign (e.g. 'IPE 300', 'HEA 200')."
+      }
+    },
+    "required": ["barNumbers", "sectionName"],
+    "additionalProperties": false
+  }
+}

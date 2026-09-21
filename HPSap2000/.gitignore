@@ -1,0 +1,9 @@
+bin/
+obj/
+output/
+*.user
+*.suo
+.vs/
+*.EDB
+*.SDB
+prerun/

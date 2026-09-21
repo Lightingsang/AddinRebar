@@ -1,0 +1,39 @@
+{
+  "name": "get_materials_and_sections",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Property",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "material",
+    "section",
+    "property",
+    "query"
+  ],
+  "title": "Get materials and frame sections",
+  "description": "Lists the material properties (type, E in MPa, Poisson ratio, thermal coefficient, G in MPa) and the frame section properties (shape type, area in m², I22/I33 in m⁴, S/Z in m³, radii of gyration in m) defined in the model. Read-only.",
+  "notes": "OAPI: cPropMaterial.GetNameList/GetMaterial/GetMPIsotropic, cPropFrame.GetNameList/GetTypeOAPI/GetSectProps. Stresses come back in kN/m² under the forced units and are reported /1000 as MPa.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of items to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

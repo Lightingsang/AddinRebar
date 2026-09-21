@@ -1,0 +1,54 @@
+{
+  "name": "get_frame_forces",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Results",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "results",
+    "frame",
+    "force",
+    "moment",
+    "query"
+  ],
+  "title": "Get frame member forces",
+  "description": "Returns internal forces along frame objects for a load case or combination: axial P, shears V2/V3 in kN, torsion T, bending moments M2/M3 in kN·m, at output stations in m. Filter by frame names. Read-only.",
+  "notes": "OAPI: cAnalysisResultsSetup.DeselectAllCasesAndCombosForOutput/SetCaseSelectedForOutput/SetComboSelectedForOutput, cAnalysisResults.FrameForce. Units: kN, kN·m, m.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "caseOrCombo"
+    ],
+    "properties": {
+      "caseOrCombo": {
+        "type": "string",
+        "description": "Load case or combination name"
+      },
+      "frameNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Specific frame names (empty returns all frames)"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Maximum number of rows to return (1–500)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Draw vertical column from (0,0,0) to (0,0,3.5) with HEA 200 section",
+    "args": {
+      "startX": 0.0,
+      "startY": 0.0,
+      "startZ": 0.0,
+      "endX": 0.0,
+      "endY": 0.0,
+      "endZ": 3.5,
+      "sectionName": "HEA 200"
+    }
+  },
+  {
+    "title": "Draw horizontal beam from (0,0,3.5) to (6,0,3.5) with IPE 300 section",
+    "args": {
+      "startX": 0.0,
+      "startY": 0.0,
+      "startZ": 3.5,
+      "endX": 6.0,
+      "endY": 0.0,
+      "endZ": 3.5,
+      "sectionName": "IPE 300",
+      "barNumber": 101
+    }
+  }
+]

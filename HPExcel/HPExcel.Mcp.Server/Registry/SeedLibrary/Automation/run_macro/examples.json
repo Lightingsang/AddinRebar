@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Run macro without parameters",
+    "args": {
+      "macroName": "UpdateCalculations"
+    }
+  },
+  {
+    "title": "Run macro with arguments",
+    "args": {
+      "macroName": "GenerateReport",
+      "args": [
+        "Q3",
+        true
+      ]
+    }
+  }
+]

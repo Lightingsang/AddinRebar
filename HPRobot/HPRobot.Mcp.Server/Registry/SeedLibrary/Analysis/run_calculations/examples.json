@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Run full calculations with automatic model generation",
+    "args": {
+      "autoGenerateModel": true
+    }
+  },
+  {
+    "title": "Run solver on existing mesh without model regeneration",
+    "args": {
+      "autoGenerateModel": false
+    }
+  }
+]

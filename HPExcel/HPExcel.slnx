@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- Microsoft Excel MCP: standalone bridge desktop app (connects to running Excel via COM Interop
+       and headless OpenXML via ClosedXML) and the stdio server exe the host AI launches.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPExcel.McpBridge/HPExcel.McpBridge.csproj" />
+  <Project Path="HPExcel.McpBridge.Tests/HPExcel.McpBridge.Tests.csproj" />
+  <Project Path="HPExcel.Mcp.Server/HPExcel.Mcp.Server.csproj" />
+  <Project Path="HPExcel.Mcp.Server.Tests/HPExcel.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

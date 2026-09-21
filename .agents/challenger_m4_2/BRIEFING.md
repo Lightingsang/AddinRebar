@@ -1,61 +1,57 @@
-# BRIEFING — 2026-09-07T09:45:00Z
+# BRIEFING — 2026-09-21T15:35:00Z
 
 ## Mission
-Stress-test and challenge the interactive preview canvases: BeamElevationCanvas, BeamSectionCanvas, BeamDrawPrimitives, CanvasPalette, debounced invalidation.
+Full Solution & McpShared Regression Challenger for the HPRobot MCP Subsystem (Milestone 4). Empirically execute and stress-test test estates across HPRobot and McpShared, verify stdio MCP server capabilities (24 tools, 3 resources, 4 prompts), and provide an independent verdict.
 
 ## 🔒 My Identity
-- Archetype: EMPIRICAL CHALLENGER
+- Archetype: Empirical Challenger
 - Roles: critic, specialist
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\challenger_m4_2
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M4
-- Instance: challenger_m4_2
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\challenger_m4_2
+- Original parent: orchestrator_7 (b32c5a58-8b71-46dd-ba9a-5c9e4b6709de)
+- Milestone: Milestone 4 (Milestone 4 Challenger)
+- Instance: 1 of 1
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
-- Review and challenge Canvas Geometry, Transforms & Memory Stress Test
-- EMPIRICAL: write and execute tests/harnesses. Must run verification code yourself. Do NOT trust worker claims.
+- Empirical verification required: write and execute tests, run commands directly, do not take claims on trust
+- Output path discipline: write reports and artifacts only to `.agents/challenger_m4_2/`
+- Verification commands must be documented with exact results
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T09:45:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T15:35:00Z
 
 ## Review Scope
-- **Files to review**:
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamElevationCanvas.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamElevationPainter.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamSectionCanvas.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamSectionPainter.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/BeamDrawPrimitives.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/CanvasPalette.cs`
-  - `HPRebar.Core/BeamRebar/Calculators/BeamCanvasTransformCalculator.cs`
-  - `HPRebar.Core/BeamRebar/Models/BeamContinuousStack.cs`
-- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md, ui_canvas_plan.md
-- **Review criteria**:
-  - Extreme aspect ratios for BeamElevationCanvas (very long multi-span, very short deep, cantilevers)
-  - Extreme cross-sections for BeamSectionCanvas (wide transfer, tall thin)
-  - Pen/brush frozen caching during OnRender
-  - Debounced invalidation without UI thread stalls
-
-## Key Decisions Made
-- Issued verdict: **CHALLENGE_FAILED** due to 4 Critical geometric/projection failure modes and 1 High-severity memory allocation failure during `OnRender`.
-
-## Artifact Index
-- `challenge_report.md` — Detailed stress-test findings and challenge report
-- `handoff.md` — 5-component handoff report
-- `progress.md` — Liveness heartbeat and progress tracking
+- **Files to review**: HPRobot test projects, McpShared regression suites, worker_m4_1 changes and handoff
+- **Interface contracts**: `PROJECT.md`, `ORIGINAL_REQUEST.md`
+- **Review criteria**: Full empirical validation, 0 regressions in McpShared, 294 HPRobot tests passing, MCP capabilities intact (24 tools, 3 resources, 4 prompts)
 
 ## Attack Surface
-- **Hypotheses tested**:
-  - High aspect ratio (10 spans, 80m, 500mm depth) -> FAILED: top/bottom additional bars invert and penetrate concrete bounds.
-  - Low aspect ratio (1 span, 1200mm, 3000mm depth) -> FAILED: overall length dimension and support captions clipped off canvas bottom.
-  - Cantilever overhangs -> FAILED: `OverallStartX` excludes start cantilevers, projecting them to negative screen coordinates ($X < 0$) with 0 rebar.
-  - Extreme cross-sections -> FAILED: tall thin beams produce negative distribution step ($\Delta X < 0$); wide transfer beams produce 95% rebar volume clash.
-  - Frozen pen caching during OnRender -> FAILED: `CanvasPalette.From(this)` and `CanvasPalette.Dashed` allocate 19 pens and 11 dash styles on heap per frame.
-  - Debounced invalidation -> PASSED: 50ms `DispatcherTimer` coalesces typing without UI thread stalls.
-- **Vulnerabilities found**: 4 Critical, 1 High.
-- **Untested angles**: Runtime execution in active Revit 2026 UI window.
+- **Hypotheses tested**: 
+  - Test estate determinism under concurrent execution
+  - McpShared backward compatibility
+  - MCP stdio protocol capabilities (tools/list, resources/list, prompts/list)
+- **Vulnerabilities found**: 
+  - `HPRobot.Mcp.Server.Tests.SeedExecutionTests.Timeout_InformsModelThatChangesMayHavePersisted` line 356 has an unawaited async race condition between `TryCancelInRevit` background fire-and-forget task and `Assert.True(_executor.CancelCalls > 0)`. Reproduced failure in cold parallel `dotnet test HPRobot.slnx`.
+- **Untested angles**: Live COM attachment with active GUI robot.exe (reserved for M6 harness).
 
 ## Loaded Skills
-- revit-wpf-mvvm
-- revit-test
+- Source: revit-test
+- Local copy: None
+- Core methodology: Unit and integration testing, test runners, assertion verification
+
+## Key Decisions Made
+- Discovered flaky test race condition in `SeedExecutionTests.cs:356` via Task-18 empirical execution.
+- Verified McpShared regression suites: 685/685 tests pass with 0 regressions.
+- Verified stdio MCP server capabilities: 24 tools, 3 resources, 4 prompts.
+- Recommended verdict: REQUEST_CHANGES to patch the 1-line race condition in `SeedExecutionTests.cs`.
+
+## Artifact Index
+- `.agents/challenger_m4_2/DISPATCH.md` — Incoming dispatch record
+- `.agents/challenger_m4_2/progress.md` — Liveness heartbeat
+- `.agents/challenger_m4_2/tools.json` — tools/list dump from HPRobot.Mcp.Server.exe
+- `.agents/challenger_m4_2/resources.json` — resources/list dump from HPRobot.Mcp.Server.exe
+- `.agents/challenger_m4_2/prompts.json` — prompts/list dump from HPRobot.Mcp.Server.exe
+- `.agents/challenger_m4_2/verify_mcp.py` — MCP protocol verification script
+- `.agents/challenger_m4_2/stress_test.py` — Multi-run stress testing script
+- `.agents/challenger_m4_2/handoff.md` — Final challenge report

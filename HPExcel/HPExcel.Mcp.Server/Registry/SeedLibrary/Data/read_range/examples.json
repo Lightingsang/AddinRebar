@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Read active sheet used range",
+    "args": {}
+  },
+  {
+    "title": "Read range with headers",
+    "args": {
+      "range": "A1:D10",
+      "hasHeaders": true
+    }
+  },
+  {
+    "title": "Read formulas from range",
+    "args": {
+      "range": "E2:E20",
+      "outputFormat": "formulas"
+    }
+  }
+]

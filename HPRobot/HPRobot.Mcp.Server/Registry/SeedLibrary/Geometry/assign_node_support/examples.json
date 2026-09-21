@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Assign pinned support to base nodes 1 and 2",
+    "args": {
+      "nodeNumbers": "1 2",
+      "supportType": "Pinned"
+    }
+  },
+  {
+    "title": "Assign fixed support to column foundation nodes 1 to 4",
+    "args": {
+      "nodeNumbers": "1to4",
+      "supportType": "Fixed"
+    }
+  }
+]

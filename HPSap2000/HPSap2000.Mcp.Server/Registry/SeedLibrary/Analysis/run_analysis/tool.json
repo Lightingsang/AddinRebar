@@ -1,0 +1,43 @@
+{
+  "name": "run_analysis",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Analysis",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 600,
+  "destructive": true,
+  "tags": [
+    "destructive",
+    "analysis",
+    "run"
+  ],
+  "title": "Run the analysis",
+  "description": "DESTRUCTIVE: runs the SAP2000 analysis (all load cases, or only the ones named) after optionally deleting existing results, and reports each case's status. Needs the user's 'Allow destructive operations' checkbox in the bridge window on every call. Choose timeoutSeconds from the last analysis time in the SAP2000 GUI (up to 600): a timeout does not abort the analysis — SAP2000 keeps running it and later calls answer busy until it finishes. The model is saved and a .SDB snapshot copied first; results of a run cannot be undone.",
+  "notes": "OAPI: cAnalyze.SetRunCaseFlag (All=true clears/sets every case), cAnalyze.DeleteResults(All=true), cAnalyze.RunAnalysis (synchronous, no cancel), cAnalyze.GetCaseStatus (1 not run, 2 could not start, 3 not finished, 4 finished).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cases": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only run these load cases — the run flags of the others are switched off and stay off in the model until changed; default every case"
+      },
+      "deleteResultsFirst": {
+        "type": "boolean",
+        "default": false,
+        "description": "Delete all existing results before running"
+      }
+    },
+    "additionalProperties": false
+  }
+}

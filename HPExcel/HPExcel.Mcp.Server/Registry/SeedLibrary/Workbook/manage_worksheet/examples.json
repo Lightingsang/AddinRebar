@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Add new worksheet",
+    "args": {
+      "action": "add",
+      "sheet": "NewSheet",
+      "newSheetName": "Calculations"
+    }
+  },
+  {
+    "title": "Rename existing worksheet",
+    "args": {
+      "action": "rename",
+      "sheet": "Sheet1",
+      "newSheetName": "RebarSummary"
+    }
+  },
+  {
+    "title": "Hide worksheet",
+    "args": {
+      "action": "hide",
+      "sheet": "Settings",
+      "visibility": "very_hidden"
+    }
+  }
+]

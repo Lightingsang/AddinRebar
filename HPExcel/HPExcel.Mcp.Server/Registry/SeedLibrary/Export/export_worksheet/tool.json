@@ -1,0 +1,62 @@
+{
+  "name": "export_worksheet",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Export",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "export",
+    "pdf",
+    "csv",
+    "publish"
+  ],
+  "title": "Export worksheet",
+  "description": "Export a worksheet or entire workbook to PDF or CSV format on disk. Returns generated file path and size. Takes an automatic snapshot before export.",
+  "notes": "Uses Worksheet.ExportAsFixedFormat for PDF and SaveAs with xlCSV for CSV export.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "format"
+    ],
+    "properties": {
+      "format": {
+        "type": "string",
+        "enum": [
+          "pdf",
+          "csv"
+        ],
+        "description": "Export format: 'pdf' or 'csv'."
+      },
+      "outputPath": {
+        "type": "string",
+        "description": "Target destination file path. If omitted, exports beside the workbook."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet to export. Required for CSV; optional for PDF (exports full workbook if omitted)."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "landscape": {
+        "type": "boolean",
+        "default": false,
+        "description": "Set orientation to landscape (PDF only)."
+      },
+      "fitToPage": {
+        "type": "boolean",
+        "default": true,
+        "description": "Fit content to 1 page wide (PDF only)."
+      }
+    },
+    "additionalProperties": false
+  }
+}

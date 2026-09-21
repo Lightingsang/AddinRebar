@@ -1,103 +1,208 @@
-# Handoff Report — auditor_m1_1 (Forensic Integrity Audit M1/M2)
+# Forensic Audit Report — Milestone M1: McpShared Robot Integration
 
-**Date**: 2026-09-07  
-**Author**: auditor_m1_1  
-**Audit Target**: Milestone 1 (Domain Models & Calculators) & Milestone 2 (Unit Test Suite)  
-**Binary Verdict**: `INTEGRITY_VIOLATION`
+**Work Product**: Milestone M1 McpShared Robot Host Integration  
+**Auditor**: `auditor_m1_1` (M1 Forensic Auditor)  
+**Parent**: `orchestrator_7` (`b32c5a58-8b71-46dd-ba9a-5c9e4b6709de`)  
+**Profile**: General Project  
+**Integrity Mode**: Development Mode (inferred directly from `ORIGINAL_REQUEST.md` line 409: `Integrity mode: development`)  
+**Verdict**: **CLEAN**
 
 ---
 
 ## 1. Observation
 
-1. **Revit API Dependency Search in Core**:
-   Executed grep search for `Autodesk.Revit` across `HPRebar/HPRebar.Core/`:
-   `grep_search(SearchPath: "HPRebar/HPRebar.Core", Query: "Autodesk.Revit")` -> 0 occurrences found.
-   `HPRebar/HPRebar.Core/HPRebar.Core.csproj` targets `netstandard2.0` and references only `Polyfill 11.0.1`.
+### 1.1 Source Code Verification (McpShared Additions)
+Direct inspection of modified and newly created files in `McpShared/` revealed authentic, non-facade domain implementations:
+1. `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs`:
+   - Line 50: `public const string RobotHost = "robot";`
+   - Line 75: `RobotHost => "hprobot-mcp-" + version,`
+   - Standard pipe naming rule matching the 8 existing CAD/BIM/CAE sibling hosts.
+2. `McpShared/HPRebar.Mcp.Contracts/JsonRpc/JsonRpcMethods.cs`:
+   - Line 43: `public const string RobotPrefix = "robot.";`
+3. `McpShared/HPRebar.Mcp.Contracts/HostScriptContracts.cs`:
+   - Lines 188–208: Defines `RobotImports` (`RobotOM`, `System`, `System.Collections.Generic`, `System.Linq`, `HPRebar.McpBridge.Core.Scripting`), `RobotGlobals` (`robot`, `structure`, `units`, `ct`, `log`, `progress`, `args`), and `RobotHeavyMaxTimeoutSeconds = 300;`.
+4. `McpShared/HPRebar.Mcp.Contracts/Messages/ContextMessages.cs`:
+   - Line 44: `public RobotInfo? Robot { get; set; }` in `ContextResult`.
+   - Lines 210–222: Authentic record DTO `RobotInfo`:
+     ```csharp
+     public sealed record RobotInfo(
+         bool IsAttached,
+         int? AttachedPid,
+         string? RobotVersion,
+         string? StructureType,
+         bool IsCalculated,
+         bool HeavyOperationsEnabled,
+         int NodeCount,
+         int BarCount,
+         int PanelCount,
+         int LoadCaseCount);
+     ```
+5. `McpShared/HPRebar.McpBridge.Core/Scripting/GuardProfile.cs`:
+   - Lines 140–158: `GuardProfile.Robot` with active Roslyn AST deny-lists:
+     - `deniedIdentifiers: ["MessageBox"]`
+     - `deniedMembers: ["Quit", "ApplicationExit", "Interactive"]`
+     - `deniedMembersOnIdentifier: ["robot"] -> ["Quit", "Interactive"], ["app"] -> ["Quit", "Interactive"]`
+     - `deniedNamespaces: ["System.Windows.Forms", "HPRobot.McpBridge", "HPRebar.McpBridge.Core.Host"]`
+     - Evaluated in `ScriptGuard.Check` alongside the base deny-list (Process, File I/O, Reflection, Marshal, `#r`, `#load`, and `global::` alias evasion).
+6. `McpShared/HPRebar.McpBridge.Core/Scripting/AnalyzerProfile.cs`:
+   - Lines 49–53: `AnalyzerProfile.Robot` configured with empty transaction collections (RobotOM scripts do not manage internal transactions).
+7. `McpShared/HPRebar.McpBridge.Core/Host/McpBridgeHost.cs` & `McpShared/HPRebar.McpBridge.Core/Pipe/RequestDispatcher.cs`:
+   - Added optional `customHandler` delegate (`Func<long, JsonRpcEnvelope, NdjsonPipeWriter, CancellationToken, Task<JsonRpcEnvelope?>>?`) allowing host-specific fallback dispatch before returning `MethodNotFound`.
 
-2. **Domain Calculators Static Inspection (`HPRebar.Core/BeamRebar/Calculators/`)**:
-   - `BeamStirrupDistributionCalculator.cs`: Implements genuine spacing division, symmetric slack centering, 3-zone distributions ($L/4-L/2-L/4$ and $L/3-L/3-L/3$), short-span fallback (<600 mm), and Revit crash prevention (`MaxBarPositions = 1002`).
-   - `BeamMainBarCalculator.cs`: Implements transverse spacing, 90° exterior hooks, midspan top splices, support bottom splices, 50% staggering ($1.3 \times L_{lap}$), variable depth step upward hooks, and polyline simplification with 1.0 mm minimum segment and collinear vertex culling.
-   - `BeamAdditionalBarCalculator.cs`: Implements negative-moment top bars ($L/3$, $L/4$ cutoffs, vertical layer offsets) and positive-moment bottom bars ($L/7$ cutoffs).
-   - `BeamSideBarCalculator.cs`: Enforces $h \ge 700$ mm threshold, ceiling row count, lateral face pairs, and web cross-ties with alternating 90°/135° seismic hooks.
-   - `BeamSpecialBarCalculator.cs`: Calculates flanking hanging stirrup pairs (@ 50 mm), overlapping station merging, and 45° diagonal bent tie polylines.
-   - `BeamCanvasTransformCalculator.cs`: Implements aspect-ratio preservation, centering, and $Z$-up to WPF $Y$-down inversion.
-   No facade methods or dummy constants returned.
+### 1.2 Prohibited Patterns & Forensic Checks
+- **Hardcoded test results**: PASS. Ripgrep search for hardcoded PASS/FAIL or synthetic outputs yielded 0 instances. No constants or arrays bypass computation.
+- **Facade implementations**: PASS. All added methods, DTOs, and profile objects contain functional logic or standard immutable records.
+- **Pre-populated artifacts**: PASS. No leftover `.log`, `*.result`, or pre-fabricated verification artifacts exist in the repository.
+- **Tautological assertions**: PASS. Searched for `Assert.True(true)`, `Assert.False(false)`, `Assert.Equal(1, 1)`. 0 instances found. Every assertion in `RobotProfileTests.cs`, `RobotTestProfile.cs`, `ExcelMilestone1Challenger2Tests.cs`, and `ScriptCompilerNet48Tests.cs` verifies specific conditions, exceptions, AST violations, or JSON representations.
+- **Deleted or disabled tests**: PASS. Searched for `[Fact(Skip`, `[Theory(Skip`, and commented test attributes. 0 tests were deleted or skipped.
+- **Dependency audit**: PASS. Zero host assemblies or vendor libraries (`RobotOM`, `Interop.RobotOM`, `Autodesk.*`) are referenced by `McpShared/`. Confirmed by static reflection in `ExcelMilestone1Challenger2Tests.McpShared_never_references_any_host_api_across_all_eight_supported_hosts`.
 
-3. **Fake / Tautological Unit Tests in `HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs`**:
-   At lines 233–249 of `HPRebar/HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs`:
-   ```csharp
-   233:     [Fact]
-   234:     public void MultiLayerTopBarsOffsetSecondLayerVerticallyWithSpecifiedGap()
-   235:     {
-   236:         double z1 = 3600 - 25 - 8 - 10;
-   237:         double z2 = z1 - 50.0;
-   238: 
-   239:         Assert.Equal(50.0, z1 - z2, Precision);
-   240:     }
-   241: 
-   242:     [Fact]
-   243:     public void MultiLayerBottomBarsOffsetSecondLayerVerticallyUpwards()
-   244:     {
-   245:         double z1 = 0 + 25 + 8 + 10;
-   246:         double z2 = z1 + 50.0;
-   247: 
-   248:         Assert.True(z2 > z1);
-   249:     }
+### 1.3 Behavioral Verification (Build & Test Execution)
+Empirical execution of build and test commands yielded the following raw outputs:
+
+1. **Solution Build**:
    ```
-   Neither test calls `BeamMainBarCalculator` or any class in `HPRebar.Core`. Both perform local arithmetic on locally declared variables and assert self-evident truths (`50.0 == 50.0` and `z1 + 50.0 > z1`).
-   Furthermore, at lines 141–147:
-   ```csharp
-   141:     [Fact]
-   142:     public void LapLengthCalculatesCorrectlyFromMultiplierAndBarDiameter()
-   143:     {
-   144:         var spec = TestBeamData.MainBarSpec(topDiameter: 25);
-   145:         double lap = spec.LapFactor * spec.TopDiameter;
-   146: 
-   147:         Assert.Equal(1000.0, lap, Precision); // 40 * 25 = 1000 mm
-   148:     }
+   dotnet build McpShared/McpShared.slnx
    ```
-   Tests local multiplication rather than calculator behavior.
+   **Output**:
+   ```
+   Determining projects to restore...
+   All projects are up-to-date for restore.
+   HPRebar.Mcp.Contracts -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Debug\net48\HPRebar.Mcp.Contracts.dll
+   HPRebar.Mcp.Contracts -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Contracts\bin\Debug\netstandard2.0\HPRebar.Mcp.Contracts.dll
+   HPRebar.McpBridge.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core\bin\Debug\net8.0\HPRebar.McpBridge.Core.dll
+   HPRebar.Mcp.Server.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.dll
+   HPRebar.McpBridge.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core\bin\Debug\net48\HPRebar.McpBridge.Core.dll
+   HPRebar.Mcp.Server.Core.Tests -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll
+   HPRebar.McpBridge.Core.Net48Tests -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\bin\Debug\net48\HPRebar.McpBridge.Core.Net48Tests.exe
 
-4. **Authentic Unit Tests Across Remaining Suites**:
-   The remaining 91 tests across `BeamStirrupDistributionCalculatorTests.cs` (18 tests), `BeamAdditionalBarCalculatorTests.cs` (16 tests), `BeamSideBarCalculatorTests.cs` (14 tests), `BeamSpecialBarCalculatorTests.cs` (12 tests), `BeamCanvasTransformCalculatorTests.cs` (14 tests), and the other 17 tests in `BeamMainBarCalculatorTests.cs` genuinely invoke production methods with realistic parameters and perform rigorous geometric assertions.
+   Build succeeded.
+       0 Warning(s)
+       0 Error(s)
+
+   Time Elapsed 00:00:04.39
+   ```
+
+2. **Server Core Tests (.NET 10)**:
+   ```
+   dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj
+   ```
+   **Output**:
+   ```
+   Running tests from G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64)
+   G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64) passed (3s 046ms)
+
+   Test run summary: Passed!
+     total: 413
+     failed: 0
+     succeeded: 413
+     skipped: 0
+     duration: 3s 245ms
+   ```
+   *Baseline: 385 passed -> 413 passed (+28 tests).*
+
+3. **Bridge Core Net48 Tests (.NET Framework 4.8)**:
+   ```
+   dotnet test McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj
+   ```
+   **Output**:
+   ```
+   Running tests from G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\bin\Debug\net48\HPRebar.McpBridge.Core.Net48Tests.exe (net48|x64)
+   G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\bin\Debug\net48\HPRebar.McpBridge.Core.Net48Tests.exe (net48|x64) passed (2s 306ms)
+
+   Test run summary: Passed!
+     total: 72
+     failed: 0
+     succeeded: 72
+     skipped: 0
+     duration: 2s 567ms
+   ```
+   *Baseline: 71 passed -> 72 passed (+1 test).*
+
+Total verified McpShared test suite: **485 passed, 0 failed, 0 skipped (100% pass rate)**.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Rule**: Per the Forensic Auditor system instructions, any instance of Prohibited Pattern #1 (hardcoded test results / fake returns) or Prohibited Pattern #4 (self-certifying tests / assertions bypassing real logic) constitutes an INTEGRITY VIOLATION, requiring rejection of the work product.
-2. **Observation**: Lines 233–249 in `BeamMainBarCalculatorTests.cs` define tests (`MultiLayerTopBarsOffsetSecondLayerVerticallyWithSpecifiedGap` and `MultiLayerBottomBarsOffsetSecondLayerVerticallyUpwards`) that execute zero code in `HPRebar.Core` and assert only local arithmetic (`z1 - z2 == 50.0` where `z2 = z1 - 50.0`).
-3. **Deduction**: These tests are fake/tautological assertions introduced to artificially simulate test coverage for multi-layer bar offsets in `BeamMainBarCalculator` without actually implementing or testing it in that calculator.
-4. **Conclusion**: While the underlying domain calculators in `HPRebar.Core` are clean and authentic, the presence of fake/tautological tests in `HPRebar.Core.Tests` violates forensic integrity standards. The work product must be rejected with the verdict `INTEGRITY_VIOLATION` until repaired.
+1. **Step 1: Constraint Verification via Ground Truth**:
+   - `ORIGINAL_REQUEST.md` specifies `Integrity mode: development`.
+   - In Development Mode, verification enforces genuine logic, zero facades, zero hardcoded test strings, and zero fabricated results. Code reuse and standard patterns across sibling hosts are valid and expected.
+
+2. **Step 2: Source Authenticity & Completeness**:
+   - All 6 deliverables assigned to M1 in `PROJECT.md` are present:
+     - `PipeNaming.RobotHost` ("robot") and pipe formatting ("hprobot-mcp-2026") (Observation 1.1 #1).
+     - `JsonRpcMethods.RobotPrefix` ("robot.") (Observation 1.1 #2).
+     - `HostScriptContracts.RobotImports`, `RobotGlobals`, `RobotHeavyMaxTimeoutSeconds` (Observation 1.1 #3).
+     - `ContextResult.Robot` property and `RobotInfo` DTO record (Observation 1.1 #4).
+     - `GuardProfile.Robot` and `AnalyzerProfile.Robot` (Observation 1.1 #5, #6).
+     - Full unit test suites in `Mcp.Server.Core.Tests` and `McpBridge.Core.Net48Tests` (Observation 1.1 #7, Observation 1.3).
+   - No facades or dummy `return <constant>` methods were found. All classes and records are fully formed.
+
+3. **Step 3: Test Suite Integrity**:
+   - The test assertions in `RobotProfileTests.cs` and `ScriptCompilerNet48Tests.cs` directly test the real behavior:
+     - Roslyn AST traversal is tested with 14 distinct syntax patterns (Quit, Interactive, Process, Marshal, `#r`, `#load`, `MessageBox`, etc.).
+     - `global::` prefix evasion is actively tested and blocked.
+     - Bijective JSON-RPC prefix routing and case-insensitive pipe name resolution are verified against all 8 host ecosystems.
+     - Zero tautological assertions exist.
+     - Zero tests were skipped, commented out, or deleted.
+
+4. **Step 4: Cross-Host Regression Resistance**:
+   - `ContextResult` serialization omitting `RobotInfo` when null ensures that existing hosts (Revit, AutoCAD, Navisworks, ETABS, Civil 3D, SAP2000, Power BI, Excel) have zero payload leakage.
+   - All 456 pre-existing baseline tests continue to execute and pass cleanly without modification.
+
+5. **Step 5: Deduction of Verdict**:
+   - Every forensic check passed.
+   - Build is 100% clean (0 warnings, 0 errors).
+   - Tests execute with 100% success rate (485 passed, 0 skipped).
+   - Therefore, the verdict is unequivocally **CLEAN**.
 
 ---
 
 ## 3. Caveats
 
-- **Terminal Execution Permission Timeout**: During terminal command execution (`run_command`), interactive user permission timed out. Per explicit system instructions ("Do not use run_command to access a resource you were not able to access previously"), CLI commands (`dotnet test`, `dotnet build`) were not re-executed. All findings are derived with 100% certainty from direct static code examination.
-- **Scope of Violation**: The integrity violation is isolated to `HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs`. The core library implementation (`HPRebar.Core/BeamRebar/`) and the other five test files are clean, authentic, and free of Revit dependencies.
+- **Scope Boundary**: Milestone M1 covers strictly the shared engine contracts and profile registrations in `McpShared/`. It does NOT include the live COM attachment or the WPF UI, which are scoped to Milestone M2 (`HPRobot.McpBridge`).
+- **No other caveats**.
 
 ---
 
 ## 4. Conclusion
 
-**Verdict: `INTEGRITY_VIOLATION`**
-
-The work product contains two fake, self-certifying tests in `BeamMainBarCalculatorTests.cs` (lines 233–249) that bypass production code with tautological assertions.
-The work product must be remediated by:
-1. Removing or properly implementing the two fake tests in `BeamMainBarCalculatorTests.cs` so they invoke genuine calculator logic (or noting that multi-layer offsets are already authentically tested in `BeamAdditionalBarCalculatorTests.cs`).
-2. Cleaning up the redundant spec test at lines 141–147.
+Milestone M1 satisfies all requirements set forth in `ORIGINAL_REQUEST.md` and `PROJECT.md`. The implementation is genuine, well-tested, strictly host-neutral, and completely regression-free across all existing CAD/BIM/CAE hosts.
+**Verdict: CLEAN.** Milestone M1 is accepted. Downstream workers may proceed to Milestone M2 and M3.
 
 ---
 
 ## 5. Verification Method
 
-1. **Inspect Target File**:
-   View `HPRebar/HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs` lines 233–249 to verify that neither test calls `BeamMainBarCalculator`.
-2. **Post-Remediation Test Run**:
-   Execute:
+To independently reproduce this audit:
+
+1. **Verify Git Diff & Purity**:
    ```powershell
-   dotnet test HPRebar/HPRebar.Core.Tests
-   dotnet build HPRebar/HPRebar.Core/HPRebar.Core.csproj -c Release
+   git status McpShared/
+   git diff McpShared/
    ```
-   Verify 100% passing tests with zero tautological test methods.
+2. **Build the Shared Solution**:
+   ```powershell
+   dotnet build "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\McpShared.slnx"
+   ```
+3. **Execute Server.Core Tests**:
+   ```powershell
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared"
+   dotnet test HPRebar.Mcp.Server.Core.Tests
+   ```
+   *Expected: total: 413, failed: 0, succeeded: 413, skipped: 0.*
+4. **Execute Bridge.Core Net48 Tests**:
+   ```powershell
+   cd "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared"
+   dotnet test HPRebar.McpBridge.Core.Net48Tests
+   ```
+   *Expected: total: 72, failed: 0, succeeded: 72, skipped: 0.*
+5. **Inspect Key Files**:
+   - `McpShared/HPRebar.Mcp.Contracts/PipeNaming.cs`
+   - `McpShared/HPRebar.Mcp.Contracts/JsonRpc/JsonRpcMethods.cs`
+   - `McpShared/HPRebar.Mcp.Contracts/HostScriptContracts.cs`
+   - `McpShared/HPRebar.Mcp.Contracts/Messages/ContextMessages.cs`
+   - `McpShared/HPRebar.McpBridge.Core/Scripting/GuardProfile.cs`
+   - `McpShared/HPRebar.McpBridge.Core/Scripting/AnalyzerProfile.cs`
+   - `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotProfileTests.cs`

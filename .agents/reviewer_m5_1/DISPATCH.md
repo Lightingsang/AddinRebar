@@ -1,50 +1,53 @@
-# DISPATCH — reviewer_m5_1
+# Review Assignment: Milestone M5 Skill Documentation Review
 
-## Mission
-You are Reviewer 1 for Milestone M5 (Ribbon Integration, Multi-Version Compliance, and Architectural Standards).
+## Working Directory
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1`
 
 ## Mandatory Reading
-1. Authoritative User Request: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md`
-2. Master Project Plan: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\PROJECT.md`
-3. Repository Rules: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\AGENTS.md`
-4. Worker M5 Handoff: `f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m5\handoff.md`
-5. Codebase under review:
-   - `HPRebar/HPRebar/Application.cs`
-   - `HPRebar/HPRebar/Beam Rebar/BeamRebarCommand.cs`
-   - `HPRebar/HPRebar/Beam Rebar/ThemeSwitcher.cs`
-   - `HPRebar/HPRebar/Beam Rebar/RevitUnits.cs`
-   - `HPRebar/HPRebar/Beam Rebar/`
+1. `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md` (§ 2026-09-21T09:44:29Z)
+2. `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_6\PROJECT.md` (§ Milestone M5)
+3. Worker M5 Handoff: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m5_1\handoff.md`
 
-## Review Objectives
-- Verify that `Application.cs` creates/uses the "Rebar" panel under the "HPRebar" tab and registers the "Beam Rebar" push button with correct icon resource URIs.
-- Verify that `BeamRebarCommand` derives from `ExternalCommand` with `[Transaction(TransactionMode.Manual)]`.
-- Verify multi-version compilation compliance for both Revit 2025 (`Debug.R25`) and Revit 2026 (`Debug.R26`).
-- Verify zero deprecated APIs across `HPRebar/HPRebar/Beam Rebar/` (no `DisplayUnitType`, no `IntegerValue`, modern ForgeTypeId `UnitTypeId.Millimeters`).
-- Verify strict adherence to repository rules: file-scoped namespaces, PascalCase, no collateral file changes.
+## Mission
+Independently review `.agents/skills/hp-mcp-excel/SKILL.md`:
+1. Check YAML frontmatter (name `hp-mcp-excel`, description with trigger keywords and error codes, metadata).
+2. Check portable host contract.
+3. Check accuracy and completeness of tool documentation:
+   - All 12 Seed Tools described with correct parameters, defaults, and examples.
+   - Core tools (`get_excel_context`, `execute_excel_code`) described.
+   - 3-tier safety engine (ReadOnly, Write, Destructive) and snapshots accurately explained.
+   - Headless ClosedXML vs Live COM accurately explained.
+   - Troubleshooting guide covers error codes (-32000, -32001, -32002).
+4. Verify non-regression: `dotnet build HPExcel/HPExcel.slnx -c Debug` builds cleanly with 0 errors.
 
-## Output
-Write your review report to:
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1\review_report.md`
-Write your handoff to:
-`f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1\handoff.md`
-Notify orchestrator via `send_message` with your verdict: **APPROVE** or **REQUEST_CHANGES**.
+## Handoff Requirements
+Write your report to:
+`g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1\handoff.md`
+State clearly your verdict: **APPROVE** or **REQUEST_CHANGES**.
 
-## 2026-09-07T10:22:35Z
-You are reviewer_m5_1.
-Your working directory is: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1
-Read your task assignment at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1\DISPATCH.md
-Read the authoritative user request at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\ORIGINAL_REQUEST.md
-Read the worker handoff at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\worker_m5\handoff.md
-Read the target codebase at: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\HPRebar\
+## 2026-09-21T11:38:24Z
+You are Reviewer 1 (reviewer_m5_1) for Milestone M5 (Skill & Repository Documentation).
+Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1
 
-Conduct an independent review of Ribbon Integration and Multi-Version Compliance:
-- Verify Application.cs ribbon button registration ("Beam Rebar" on panel "Rebar", icon URIs).
-- Verify BeamRebarCommand.cs derives from ExternalCommand with [Transaction(TransactionMode.Manual)].
-- Verify multi-version compilation compliance for Revit 2025 and 2026.
-- Verify zero deprecated APIs (no DisplayUnitType, no IntegerValue, UnitTypeId.Millimeters used).
-- Verify file-scoped namespaces and feature folder conventions.
+MANDATORY: Read the original user request first:
+g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (§ 2026-09-21T09:44:29Z).
+Also read your task assignment at:
+g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1\DISPATCH.md
+And review the worker's handoff report at:
+g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\worker_m5_1\handoff.md
 
-Write your review report to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1\review_report.md
-Write your handoff to: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m5_1\handoff.md
-Notify orchestrator via send_message with your verdict (APPROVE or REQUEST_CHANGES).
+Review .agents/skills/hp-mcp-excel/SKILL.md:
+1. YAML frontmatter (name hp-mcp-excel, description with trigger keywords and error codes, metadata).
+2. Portable host contract.
+3. Completeness of tool documentation: all 12 seed tools, core tools, 3-tier safety, snapshots, ClosedXML vs COM, troubleshooting.
+4. Non-regression: dotnet build HPExcel/HPExcel.slnx -c Debug.
 
+Write your complete report to:
+g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m5_1\handoff.md
+State clearly your verdict: APPROVE or REQUEST_CHANGES.
+Send a completion message back when done.
+
+## 2026-09-21T11:44:15Z
+**Context**: Server restarted. Resume Milestone M5 Skill Documentation Review.
+**Content**: Please resume your review of `.agents/skills/hp-mcp-excel/SKILL.md` per your DISPATCH.md instructions. Check frontmatter, triggers, all 12 seed tools, core tools, 3-tier safety, snapshots, and build verification. Overwrite handoff.md with your complete report and verdict (APPROVE or REQUEST_CHANGES).
+**Action**: Finish review and send completion message back.

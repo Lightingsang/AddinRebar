@@ -1,0 +1,31 @@
+{
+  "name": "get_part_properties",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Property",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["property", "part", "report", "uda"],
+  "title": "Get part properties",
+  "description": "Returns detailed properties of a model part: profile, material, class, position, report values (length, weight, volume), and user-defined attributes (UDAs). Read-only.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "objectId": {
+        "type": "integer",
+        "description": "Tekla identifier ID of the part."
+      },
+      "includeUserProperties": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include user-defined attributes (UDAs)."
+      }
+    },
+    "required": ["objectId"],
+    "additionalProperties": false
+  }
+}

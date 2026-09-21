@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get all defined materials and bar sections",
+    "args": {
+      "includeMaterials": true,
+      "includeSections": true
+    }
+  },
+  {
+    "title": "List bar cross-sections only",
+    "args": {
+      "includeMaterials": false,
+      "includeSections": true
+    }
+  }
+]

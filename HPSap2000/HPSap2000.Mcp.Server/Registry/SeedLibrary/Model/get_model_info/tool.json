@@ -1,0 +1,36 @@
+{
+  "name": "get_model_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Model",
+  "host": "sap2000",
+  "hostVersions": [
+    "24",
+    "25",
+    "26",
+    "27"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "model",
+    "query",
+    "units"
+  ],
+  "title": "Get model info",
+  "description": "Overview of the SAP2000 model the bridge is attached to: file name and folder, lock state, present and database units, SAP2000 version, object counts (points, frames, areas) and optionally defined groups. Call it first: every script works in kN and m whatever the model's units. Read-only.",
+  "notes": "OAPI: cSapModel.GetModelFilename/GetModelFilepath/GetModelIsLocked/GetPresentUnits/GetDatabaseUnits/GetVersion, cPointObj/cFrameObj/cAreaObj.GetNameList, cGroupDef.GetNameList. After a save GetModelFilename reports the .$sb working copy; the seed reports the .SDB.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeGroups": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list defined groups in the model"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "stages": "A",
+    "passed": 4,
+    "skipped": 0,
+    "total": 4,
+    "failed": [],
+    "skippedNames": []
+  },
+  "results": [
+    {
+      "name": "A1 Server advertises exactly 24 tools total",
+      "pass": true,
+      "detail": "Tools count = 24"
+    },
+    {
+      "name": "A2 All 4 core tools present",
+      "pass": true,
+      "detail": "Core: ['execute_tekla_code', 'get_tekla_context', 'inspect_type', 'cancel_execution']"
+    },
+    {
+      "name": "A3 All 8 registry meta tools present",
+      "pass": true,
+      "detail": "Meta: ['search_tools', 'get_tool', 'run_tool', 'get_run', 'propose_tool', 'test_tool', 'publish_tool', 'manage_tool']"
+    },
+    {
+      "name": "A4 All 12 embedded seed tools present",
+      "pass": true,
+      "detail": "Seeds: ['get_model_info', 'select_objects', 'get_part_properties', 'create_beam', 'create_column', 'create_contour_plate', 'create_rebar_group', 'create_single_rebar', 'modify_user_properties', 'get_reinforcement_info', 'list_drawings', 'export_ifc']"
+    }
+  ]
+}

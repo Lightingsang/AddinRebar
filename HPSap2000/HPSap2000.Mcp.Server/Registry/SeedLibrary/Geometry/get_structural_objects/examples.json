@@ -1,0 +1,16 @@
+[
+  {
+    "title": "List frames",
+    "args": {
+      "kind": "frame",
+      "limit": 50
+    }
+  },
+  {
+    "title": "List points",
+    "args": {
+      "kind": "point",
+      "limit": 50
+    }
+  }
+]

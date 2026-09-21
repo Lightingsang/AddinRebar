@@ -1,0 +1,56 @@
+{
+  "result": {
+    "prompts": [
+      {
+        "name": "robot_analysis_template",
+        "title": "Run structural calculations",
+        "description": "Sets up FEA analysis: checks calculation status first, confirms AllowHeavyOperations, then runs project.CalcEngine.Calculate().",
+        "arguments": [
+          {
+            "name": "task",
+            "description": "Analysis task, e.g. 'run structural calculations and check reaction forces'",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "toolify_run",
+        "title": "Package a run as a tool",
+        "description": "Loads the code and literal analysis of a past execute_<host>_code run and instructs the model to generalise it into a registry tool.",
+        "arguments": [
+          {
+            "name": "runId",
+            "description": "runId returned by the execute tool (execute_revit_code / execute_autocad_code)",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "robot_query_template",
+        "title": "Query the Robot model",
+        "description": "Sets up a read-only investigation of the open Robot model: values returned by a script with transaction=\"none\".",
+        "arguments": [
+          {
+            "name": "question",
+            "description": "What the user wants to inspect in the model, e.g. 'how many bars are there and what sections do they use?'",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "robot_modify_template",
+        "title": "Modify the Robot model",
+        "description": "Sets up a writing change (draw bars, assign supports or sections, apply loads): context first, static preview with dryRun=true, then apply with transaction=\"auto\".",
+        "arguments": [
+          {
+            "name": "task",
+            "description": "The modification task, e.g. 'create a column from (0,0,0) to (0,0,4) and assign HEA 300'",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,29 @@
+<Project>
+
+  <!--
+    Where the Autodesk Robot Structural Analysis Professional 2026 OAPI lives on this machine.
+    Autodesk publishes no NuGet package for RobotOM, so the bridge (and seed compile checks)
+    compile against the installed product's Interop.RobotOM.dll and never copy it (Private=false;
+    the bridge resolves it at runtime from the same place). Resolution order:
+      1. -p:RobotInstallDir=<dir>  or  env HPROBOT_ROBOT_DIR
+      2. Registry HKCR\CLSID\{F7870790-CDE5-11D1-8FF1-00A02447BAAE}\LocalServer32
+         (or HKLM\SOFTWARE\Classes\CLSID\...)
+      3. %ProgramW6432%\Autodesk\Robot Structural Analysis Professional 2026\Exe\
+    RobotApiAvailable lets a project fail with a clear, readable error instead of hundreds of CS0246.
+  -->
+  <PropertyGroup>
+    <RobotMajor Condition="'$(RobotMajor)' == ''">2026</RobotMajor>
+    <RobotObjectClsid>{F7870790-CDE5-11D1-8FF1-00A02447BAAE}</RobotObjectClsid>
+
+    <RobotInstallDir Condition="'$(RobotInstallDir)' == '' And '$(HPROBOT_ROBOT_DIR)' != ''">$(HPROBOT_ROBOT_DIR)</RobotInstallDir>
+    <_RobotLocalServer Condition="'$(RobotInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\$(RobotObjectClsid)\LocalServer32', '', null, RegistryView.Registry64))</_RobotLocalServer>
+    <_RobotLocalServer Condition="'$(RobotInstallDir)' == '' And '$(_RobotLocalServer)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_CLASSES_ROOT\CLSID\$(RobotObjectClsid)\LocalServer32', '', null, RegistryView.Registry64))</_RobotLocalServer>
+    <RobotInstallDir Condition="'$(RobotInstallDir)' == '' And '$(_RobotLocalServer)' != ''">$([System.IO.Path]::GetDirectoryName($(_RobotLocalServer.Trim('&quot;'))))</RobotInstallDir>
+    <RobotInstallDir Condition="'$(RobotInstallDir)' == ''">$(ProgramW6432)\Autodesk\Robot Structural Analysis Professional 2026\Exe\</RobotInstallDir>
+    <RobotInstallDir Condition="!HasTrailingSlash('$(RobotInstallDir)')">$(RobotInstallDir)\</RobotInstallDir>
+
+    <RobotApiAvailable>false</RobotApiAvailable>
+    <RobotApiAvailable Condition="Exists('$(RobotInstallDir)Interop.RobotOM.dll')">true</RobotApiAvailable>
+  </PropertyGroup>
+
+</Project>

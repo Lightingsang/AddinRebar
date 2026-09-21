@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get reactions on all supported nodes for load case 1",
+    "args": {
+      "caseNumber": 1,
+      "nodeNumbers": "all"
+    }
+  },
+  {
+    "title": "Get reactions for nodes 1 and 2 in combination 3",
+    "args": {
+      "caseNumber": 3,
+      "nodeNumbers": "1 2"
+    }
+  }
+]

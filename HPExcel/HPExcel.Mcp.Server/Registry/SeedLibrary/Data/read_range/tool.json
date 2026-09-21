@@ -1,0 +1,61 @@
+{
+  "name": "read_range",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "excel",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "range",
+    "read",
+    "cells",
+    "values"
+  ],
+  "title": "Read range",
+  "description": "Read cell values, formulas, or formatted text from a worksheet range (e.g. 'A1:D10') or named range into JSON. Supports fast batch array reads. Read-only.",
+  "notes": "COM: Uses Range.Value2 batch 2D array read for maximum performance. Headless: Uses ClosedXML IXLRange.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "range": {
+        "type": "string",
+        "description": "Cell range address (e.g. 'A1:C10', 'Sheet2!B5:E20') or named range. If omitted, reads the worksheet's used range."
+      },
+      "sheet": {
+        "type": "string",
+        "description": "Worksheet name. Defaults to active worksheet."
+      },
+      "workbook": {
+        "type": "string",
+        "description": "Workbook name or file path. Defaults to active workbook."
+      },
+      "outputFormat": {
+        "type": "string",
+        "enum": [
+          "values",
+          "formulas",
+          "formatted"
+        ],
+        "default": "values",
+        "description": "Output representation: 'values' (raw values), 'formulas' (formulas if present), 'formatted' (display text)."
+      },
+      "hasHeaders": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, treats the first row as headers and returns an array of JSON objects."
+      },
+      "maxRows": {
+        "type": "integer",
+        "default": 1000,
+        "description": "Maximum number of rows to return."
+      }
+    },
+    "additionalProperties": false
+  }
+}

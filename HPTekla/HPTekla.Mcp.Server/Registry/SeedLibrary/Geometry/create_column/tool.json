@@ -1,0 +1,60 @@
+{
+  "name": "create_column",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Geometry",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["geometry", "column", "create", "steel", "concrete"],
+  "title": "Create structural column",
+  "description": "Creates a vertical structural column at coordinates (X, Y) from base elevation to top elevation in Tekla Structures.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "x": {
+        "type": "number",
+        "description": "Column insertion X coordinate in mm."
+      },
+      "y": {
+        "type": "number",
+        "description": "Column insertion Y coordinate in mm."
+      },
+      "baseZ": {
+        "type": "number",
+        "default": 0,
+        "description": "Base elevation Z in mm."
+      },
+      "topZ": {
+        "type": "number",
+        "default": 3500,
+        "description": "Top elevation Z in mm."
+      },
+      "profile": {
+        "type": "string",
+        "default": "HEB300",
+        "description": "Profile string (e.g. HEB300, 500*500)."
+      },
+      "material": {
+        "type": "string",
+        "default": "S235JR",
+        "description": "Material string (e.g. S235JR, C30/37)."
+      },
+      "name": {
+        "type": "string",
+        "default": "COLUMN",
+        "description": "Part name."
+      },
+      "partClass": {
+        "type": "string",
+        "default": "2",
+        "description": "Color class (1-14)."
+      }
+    },
+    "required": ["x", "y"],
+    "additionalProperties": false
+  }
+}

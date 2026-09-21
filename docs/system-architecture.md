@@ -274,16 +274,23 @@ HPAutoCad.Mcp.Server (net10 console)
 
 The `Shape` method (`.cs:54-72`) checks `HostId == revit`, returning verbatim for Revit (no extra serialization cost), or filtering for non-Revit to hide Revit-specific fields.
 
-## Ribbon Tab "HPAutoCad" ▸ "MCP" ▸ "MCP Bridge" — Loader UI Entry
+## Ribbon Tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB) — Unified Loader UI Entry
 
 ```
-Loader → Ribbon tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)
+HPAutoCad.Loader (Default ALC) → Ribbon tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)
+  ├─ panel "MCP" (id=HPAUTOCAD_MCP_PANEL)
+  │    └─ [MCP Bridge] ──BridgeActions.Run("show")──→ Bridge Status Window (BridgeLoadContext)
+  │         (vector icon: window + plug, ink per COLORTHEME, accent #0696D7)
   │
-  └─ panel "MCP" ──→ [MCP Bridge] ──BridgeActions.Run("show")──→ bridge status window
-                       (vector icon: window + plug, ink per COLORTHEME, accent #0696D7)
+  └─ panel "HPGeoLink" (id=HPGEOLINK_PANEL)
+       ├─ [KMZ] ──HPGeoDialogCommand──→ Geodetic Export Dialog (AppLoadContext / WebView2)
+       └─ SplitButton:
+            ├─ [-HPGEOKMZ] ──HPGeoKmzScriptCommand (CLI Export)
+            ├─ [HPGEOIMPORT] ──HPGeoImportCommand (Import Dialog)
+            └─ [HPGEOINFO] ──HPGeoInfoCommand (Coordinate Diagnostic)
 ```
 
-Same one-button surface as the Revit (`HPRebar` ▸ `MCP` ▸ `MCP Bridge`) and Navisworks (`HPNavis` ▸ `MCP` ▸ `MCP Bridge`) bridges. Bundle 0.2.0 (2026-09-14, plan 260914-2204) had three panels and ten buttons; every one of them duplicated a control of the status window, so 0.3.0 (2026-09-16) keeps only the window opener: `Ribbon/McpRibbonTab.cs` (one panel, one button, the workspace/COLORTHEME/ItemInitialized re-creation logic), `Ribbon/RibbonIcons.cs` (one frozen `DrawingImage`, even coordinates so 16 px = ½ of 32 px), `Ribbon/RibbonCommandHandler.cs`; `RibbonStatusPresenter.cs` and the bridge's `BridgeEntry.Ribbon.cs` (entry points `status.subscribe`, `copyLastScript`, `autoStart.get/set`, `path`) are gone — the bridge exposes `show/start/stop/status/dispose` only. Tab lifecycle unchanged: created once the Ribbon exists, re-created after a workspace switch, rebuilt after a theme change (`SystemVariableChanged` → `Application.Idle` → `EnsureCreated` + `FindTab`), removed on `Terminate`. No CUIx modification. Verified 2026-09-16: `run-ribbon-check.ps1` 12/12 + 1 MANUAL (icon screenshots per theme, inspected crisp); regressions bridge 21/21, server 22/22.
+The unified bundle `HPAutoCad.bundle` establishes a single Ribbon tab `HPAUTOCAD_MCP_TAB` housing both the AI MCP Bridge panel and the geodetic HPGeoLink UI panel. The tab survives AutoCAD workspace switches (`WSCURRENT`), theme flips (`COLORTHEME`), and is created idempotently without modifying CUIx.
 
 ## AEC Engine — `HPAutoCad.Aec` (plan 260916-1140, phases A–D 2026-09-16)
 
@@ -499,11 +506,94 @@ AI ──stdio──▶ HPAutoCad.Mcp.Server (phase 3)
 - Per-session opt-in "Allow AI code execution" checkbox (OFF on start, never persisted); `ScriptGuard` deny-list; timeout 5–120 s cooperative via `ct`.
 - Audit: `%AppData%\HPAutoCad\McpBridge\audit\` JSON-lines (request, result, changed counts, error).
 - Isolated ALC: Roslyn 5.9 + Immutable 10 private (verified); AutoCAD APIs shared.
-- Bundle: 24 files / 14 MB → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.McpBridge.bundle\`.
+- Bundle: Unified `HPAutoCad.bundle` → `%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.bundle\` (containing `PackageContents.xml`, `Contents\Bridge\` for MCP runtime, and `Contents\App\` for HPGeoLink UI).
 
 **Verified unattended (21/21 scenarios ×2):** `HPAutoCad/tools/harness/` (Python + PowerShell): opt-in off, execute variants, dryRun, none-mode, cancel, timeout, busy after 8 s, SECURELOAD auto-accept, UI Automation opt-in, no document, undo merge, COM reachback (close/busy/REGEN/U). Zero `.NET Runtime 1026` crashes; 234+ audit lines.
 
-**Mục tiêu phase 3–5:** server exe + AutocadHostProfile + tools/resources (phase 3), tests (phase 4), multi-version R26/R27 (phase 5).
+# HPAutoCad Ecosystem — Unified Architecture (MCP Bridge + AEC Engine + HPGeoLink)
+
+Integrated into `HPAutoCad` as a unified multi-project ecosystem deploying a single bundle `HPAutoCad.bundle` (`%AppData%\Autodesk\ApplicationPlugins\HPAutoCad.bundle\`) to AutoCAD 2026.
+
+## High-Level Architecture Diagram
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   AutoCAD 2026 Process                                 │
+│                                                                                        │
+│  Default ALC:                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ HPAutoCad.Loader.dll (IExtensionApplication entry)                                │  │
+│  │ ├─ Ribbon builder: Shared Ribbon Tab "HPAutoCad" (id=HPAUTOCAD_MCP_TAB)          │  │
+│  │ │   ├─ Panel "MCP": [MCP Bridge] button                                          │  │
+│  │ │   └─ Panel "HPGeoLink": [KMZ] dialog button + SplitButton (CLI/Import/Info)    │  │
+│  │ ├─ BridgeLoadContext ──loads──▶ Contents\Bridge\HPAutoCad.McpBridge.dll           │  │
+│  │ └─ AppLoadContext    ──loads──▶ Contents\App\HPAutoCad.dll                       │  │
+│  └───────────────────────────────────────┬──────────────────────────┬───────────────┘  │
+│                                          │                          │                  │
+│  Isolated ALC 1 (BridgeLoadContext):     │                          │                  │
+│  ┌───────────────────────────────────────▼───────────┐              │                  │
+│  │ HPAutoCad.McpBridge.dll                           │              │                  │
+│  │ ├─ Pipe Listener: \\.\pipe\hpautocad-mcp-2026     │              │                  │
+│  │ ├─ Roslyn Script Compiler (private Roslyn 5.9)    │              │                  │
+│  │ ├─ MainThreadQueue + Idle wakeup                  │              │                  │
+│  │ ├─ References HPAutoCad.Aec (AEC engine facade)   │              │                  │
+│  │ └─ MaterialDesignThemes 5.3.2 (ILRepacked)        │              │                  │
+│  └───────────────────────────────────────────────────┘              │                  │
+│                                                                     │                  │
+│  Isolated ALC 2 (AppLoadContext):                                   │                  │
+│  ┌──────────────────────────────────────────────────────────────────▼───────────────┐  │
+│  │ HPAutoCad.dll (UI, MVVM, Commands, Readers/Writers)                              │  │
+│  │ ├─ References HPAutoCad.Core (pure domain geodetics, zero host API)              │  │
+│  │ ├─ Spawns out-of-process: Contents\App\TileFetch\HPAutoCad.TileFetch.exe         │  │
+│  │ ├─ WebView2 1.0.4191.47 (runtimes\win-x64\native\WebView2Loader.dll)            │  │
+│  │ ├─ CommunityToolkit.Mvvm 8.4.0                                                   │  │
+│  │ └─ MaterialDesignThemes 5.3.2 (ILRepacked)                                       │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────▲─────────────────────────────────────────────┘
+                                           │ stdio (JSON-RPC 2.0)
+┌──────────────────────────────────────────▼─────────────────────────────────────────────┐
+│ HPAutoCad.Mcp.Server (net10 console, child process of Host AI)                         │
+│ ├─ AutocadHostProfile (24 tools: 4 core + 8 registry + 12 seeds, prompts, resources)    │
+│ ├─ DynamicToolRegistrar + SQLite Registry Engine (%AppData%\HPAutoCad\McpServer)       │
+│ └─ Connects via Named Pipe to HPAutoCad.McpBridge in acad.exe                          │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Subsystems in HPAutoCad
+
+1. **HPAutoCad.Core (.NET 8.0)**:
+   - Pure domain geodetic algorithm library with zero AutoCAD API dependencies.
+   - Snyder Transverse Mercator (TM-3) projection forward & inverse algorithms.
+   - 7-parameter Helmert coordinate-frame transformation (VN-2000 ↔ WGS84).
+   - Administrative province catalog (34 current, 63 legacy, 17 central meridians).
+   - Polyline arc bulge tessellation (5 mm tolerance).
+   - KML/KMZ pipeline: styled placemarks, polygon rings, doc.kml zip writer.
+   - Satellite imagery domain math: Web Mercator tile coordinates, tile coverage bounding, Catmull-Rom bicubic raster warper.
+
+2. **HPAutoCad.TileFetch (.NET 8.0 Console)**:
+   - Out-of-process console utility deployed to `Contents\App\TileFetch\HPAutoCad.TileFetch.exe`.
+   - Downloads map tiles in parallel without blocking AutoCAD or triggering `WSAEACCES` socket restrictions.
+   - Caches image tiles locally in `%LocalAppData%\HPGeo\tiles\<provider>\z\x\y.tile`.
+
+3. **HPAutoCad (.NET 8.0-windows)**:
+   - AutoCAD Add-In UI layer implementing MVVM pattern with CommunityToolkit.Mvvm.
+   - Commands: `HPGEO`, `-HPGEOKMZ`, `HPGEOIMPORT`, `-HPGEOIMPORT`, `-HPGEOIMAGE`, `HPGEOINFO`.
+   - WPF dialogs: `GeoExportWindow`, `GeoImportWindow`, `CrsSelectionView`, `MapPanel` (WebView2 + Leaflet).
+   - CAD metadata persistence via Named Object Dictionary Xrecord `HPGEO`.
+   - Dynamic theming matching AutoCAD `COLORTHEME` (dark/light) via `MaterialThemeBridge`.
+   - ILRepack merges MaterialDesignThemes into `HPAutoCad.dll` to eliminate BAML dictionary collisions.
+
+4. **HPAutoCad.Loader (.NET 8.0-windows)**:
+   - Autoloader running in Default ALC.
+   - Loads and isolates `HPAutoCad.McpBridge` in `BridgeLoadContext` and `HPAutoCad` in `AppLoadContext`.
+   - Builds the shared Ribbon tab `HPAUTOCAD_MCP_TAB` containing both MCP and HPGeoLink panels.
+
+5. **HPAutoCad.Tests (.NET 10.0-windows / xUnit v3 / MTP)**:
+   - 241 unit tests (238 passed, 3 live-tile skipped) verifying geodetic conversions, golden fixtures, KML export, ViewModels, and Loader reflection contracts.
+
+6. **Closed-Loop Live Verification Harness (`run-geolink-verify.ps1`)**:
+   - Automated unattended testing in live AutoCAD 2026 across 4 tiers (46 checkpoints).
+   - Verifies pipe connectivity, shared ribbon, geodetic commands, modal dialog capture via PrintWindow, undo cleanup, theme switching, and regression-free MCP/AEC tool execution.
 
 # Navisworks MCP Bridge — Architecture (Phases 0–5, 2026-09-15)
 

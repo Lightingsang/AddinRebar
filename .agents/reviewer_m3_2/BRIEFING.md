@@ -1,74 +1,60 @@
-# BRIEFING — 2026-09-07T15:50:40+07:00
+# BRIEFING — 2026-09-21T14:43:00Z
 
 ## Mission
-Conduct an independent technical correctness review and adversarial evaluation of Milestone M3 (Rebar Creators, View Generators, Dimensioning) in `HPRebar/HPRebar/Beam Rebar/`.
+Review the architectural integrity of HPRobot.Mcp.Server and verify test suite status without regressions.
 
 ## 🔒 My Identity
-- Archetype: reviewer_m3_2
+- Archetype: reviewer-critic
 - Roles: reviewer, critic
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m3_2
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m3_2
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
 - Milestone: M3
-- Instance: 2 of 2
+- Instance: reviewer_m3_2
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
-- Integrity check: actively detect hardcoded values, dummy implementations, shortcuts, self-certifying artifacts
-- Maintain adversarial rigor: stress test edge cases, geometric transformations, Revit API constraints
-- File convention: write only to own folder `.agents/reviewer_m3_2/`
+- Check for integrity violations actively (hardcoded results, facade implementations, bypassed tasks, fabricated outputs)
+- Output handoff report to g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m3_2\handoff.md
+- Use send_message to communicate verdict and report path to parent
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T15:50:00+07:00
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T14:43:00Z
 
 ## Review Scope
-- **Files to review**:
-  - `HPRebar/HPRebar/Beam Rebar/BeamStirrupCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamMainBarCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamAdditionalBarCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamSideBarCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/BeamSpecialBarCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/RebarCreationService.cs`
-  - `HPRebar/HPRebar/Beam Rebar/DetailViewCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/SectionViewCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/DimensionCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/RebarTableTagCreator.cs`
-  - `HPRebar/HPRebar/Beam Rebar/RevitUnits.cs`
-  - Supporting models and orchestrator classes
-- **Interface contracts**: `ORIGINAL_REQUEST.md`, `PROJECT.md`
-- **Review criteria**: Correctness, integrity, zero-deprecation, multi-version compatibility, adversarial edge cases
+- **Files to review**: HPRobot/HPRobot.Mcp.Server/**, HPRobot/HPRobot.slnx, HPRobot/HPRobot.McpBridge.Tests/**, worker_m3_1 deliverables
+- **Interface contracts**: ORIGINAL_REQUEST.md, PROJECT.md
+- **Review criteria**: McpShared dependency compliance, embedded manifest resource names, test suite health (137 tests passing), adversarial stress-testing
+
+## Key Decisions Made
+- Confirmed strict isolation: HPRobot.Mcp.Server only references McpShared/HPRebar.Mcp.Server.Core and never touches sibling host projects.
+- Confirmed embedded manifest resources: 36 files across 12 seeds correctly mapped to `SeedLibrary/%(RecursiveDir)%(Filename)%(Extension)`.
+- Confirmed 137/137 tests in HPRobot.McpBridge.Tests pass with 0 failures, 0 skipped.
+- Confirmed zero regressions across McpShared test suites (613 + 72 passed).
+- Confirmed integrity check passed: no facade logic, no hardcoded stubs, real RobotOM COM interop scripts.
+- Final verdict: APPROVE.
+
+## Artifact Index
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m3_2\handoff.md — Final review report and verdict
 
 ## Review Checklist
 - **Items reviewed**:
-  - BeamStirrupCreator: ScaleToBox, SetLayoutAsNumberWithSpacing, 1002 count limit verified.
-  - BeamMainBarCreator: CreateFromCurves, normal vector Y_beam, 90 hooks and staggered splices verified.
-  - BeamAdditionalBarCreator: 2 vertical layers with deltaZ offset, support L/3, L/4, midspan L/7 verified.
-  - BeamSideBarCreator: h >= 700 mm, spacing <= 300 mm, cross-ties normal X_beam verified.
-  - BeamSpecialBarCreator: hanging stirrups and 45 deg diagonal ties verified.
-  - RebarCreationService: CanCreate pre-flight, 5 staged transactions verified.
-  - DetailViewCreator & SectionViewCreator: elevation detail and transverse section with +2.5x margin verified.
-  - DimensionCreator: SURFACE -> LINEAR stable reference rewriting with exception guards verified.
-  - RebarTableTagCreator: detail curves and text notes verified.
-  - RevitUnits: UnitTypeId.Millimeters verified.
-- **Verdict**: REQUEST_CHANGES
-- **Unverified claims**: Interactive shell build/test commands (timed out due to unattended permission prompt).
+  - HPRobot/HPRobot.Mcp.Server/HPRobot.Mcp.Server.csproj
+  - HPRobot/HPRobot.slnx
+  - HPRobot/Directory.Build.props
+  - HPRobot/HPRobot.Mcp.Server/Program.cs
+  - HPRobot/HPRobot.Mcp.Server/appsettings.json
+  - HPRobot/HPRobot.Mcp.Server/Hosts/Robot/**
+  - HPRobot/HPRobot.Mcp.Server/Registry/SeedLibrary/** (all 12 seeds)
+  - HPRobot/HPRobot.McpBridge.Tests/** (all 137 tests)
+- **Verdict**: APPROVE
+- **Unverified claims**: none; all claims independently reproduced and verified
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - Closed polyline handling in `BuildCurves`: Found truncation defect for hanging stirrups.
-  - Variable section count handling in `BeamRebarOrchestrator`: Found cantilever index desynchronization defect.
-  - String replacement in `DimensionCreator`: Identified potential false-positive token replacement risk.
-  - Synchronous execution on UI thread: Verified impact on progress bar repainting.
-- **Vulnerabilities found**:
-  - Major: Missing closing line in `BeamMainBarCreator.BuildCurves` for closed polylines.
-  - Major: Hardcoded assumption of fixed section count per span in `BeamRebarOrchestrator.CreateDimensions` and `CreateTables`.
-- **Untested angles**: Runtime Revit graphics rendering in active Autodesk Revit session (environment is headless/unattended).
-
-## Key Decisions Made
-- Concluded in-depth code review.
-- Issued verdict REQUEST_CHANGES based on two clear functional defects with precise code fix recommendations.
-
-## Artifact Index
-- `review_report.md` — Detailed technical and adversarial review report
-- `handoff.md` — 5-component handoff report
-- `progress.md` — Liveness heartbeat and step tracking
+  - Sibling cross-references: Tested via csproj inspection and build dependency tree (none found).
+  - Malformed manifest logical names: Tested via GetManifestResourceNames() and SeedInstaller discovery (all 36 matched).
+  - Broken stdio tool resolution: Tested via mcp-call.py (24 tools enumerated cleanly).
+  - Test suite tampering: Tested via test source review and execution (all 137 tests genuine).
+- **Vulnerabilities found**: None.
+- **Untested angles**: Live execution against active robot.exe process (requires running Robot 2026 instance; planned for M6 live harness).

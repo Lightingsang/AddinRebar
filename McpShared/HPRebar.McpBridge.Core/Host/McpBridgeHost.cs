@@ -33,8 +33,17 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
     /// <param name="hostName">Display name ("Revit", "AutoCAD") for the window and error messages.</param>
     /// <param name="methodPrefix">Wire prefix of the notifications this bridge sends, e.g. "autocad.".</param>
     /// <param name="executionDisabledMessage">Opt-in refusal text for a bridge that is not an add-in inside the host; null keeps the generic one.</param>
-    public McpBridgeHost(IBridgeExecutor executor, BridgeSettings settings, BridgeSettingsStore store,
-        string hostVersion, string pipeName, string hostName, string methodPrefix, string? executionDisabledMessage = null)
+    /// <param name="customHandler">Optional custom request handler for host-specific methods not covered by standard engine suffixes.</param>
+    public McpBridgeHost(
+        IBridgeExecutor executor,
+        BridgeSettings settings,
+        BridgeSettingsStore store,
+        string hostVersion,
+        string pipeName,
+        string hostName,
+        string methodPrefix,
+        string? executionDisabledMessage = null,
+        Func<long, JsonRpcEnvelope, NdjsonPipeWriter, CancellationToken, Task<JsonRpcEnvelope?>>? customHandler = null)
     {
         _executor = executor;
         _settings = settings;
@@ -44,7 +53,7 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
         PipeName = pipeName;
         _statusMethod = JsonRpcMethods.For(methodPrefix, JsonRpcMethods.StatusSuffix);
 
-        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, hostVersion, hostName, executionDisabledMessage));
+        _listener = new PipeListener(PipeName, new RequestDispatcher(executor, settings, hostVersion, hostName, executionDisabledMessage, customHandler));
         _listener.StateChanged += OnListenerStateChanged;
         _listener.Faulted += OnListenerFaulted;
         _executor.StateChanged += OnListenerStateChanged;

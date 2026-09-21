@@ -1,55 +1,64 @@
-# BRIEFING — 2026-09-07T09:47:00Z
+# BRIEFING — 2026-09-21T15:32:00Z
 
 ## Mission
-Conduct independent code, MVVM architecture, theming, and XAML quality/adversarial review for Milestone M4 (Beam Rebar UI & MVVM).
+Review newly created HPRobot.Mcp.Server.Tests project for test code quality, coverage, assertion rigor, integrity violations, and run independent test execution.
 
 ## 🔒 My Identity
-- Archetype: reviewer / critic
+- Archetype: reviewer & adversarial critic
 - Roles: reviewer, critic
-- Working directory: f:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\.agents\reviewer_m4_1
-- Original parent: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Milestone: M4
-- Instance: 1 of 2
+- Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\reviewer_m4_1\
+- Original parent: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de (orchestrator_7)
+- Milestone: M4 (Server Tests Quality & Coverage Review)
+- Instance: 1 of 1
 
 ## 🔒 Key Constraints
-- Review-only — do NOT modify implementation code.
-- Report any defects or violations as findings for the worker to address.
-- Actively check for integrity violations (hardcoded test results, facade logic, bypassed requirements).
-- Confirm 100% {DynamicResource Brush.X} and {DynamicResource Spacing.X} usage in XAML (no hardcoded hex/color names or StaticResources).
-- Enforce CommunityToolkit.Mvvm patterns and file-scoped namespaces.
+- Review-only — do NOT modify implementation code
+- Actively check for integrity violations: hardcoded test results, facade implementations, tautological assertions, bypassing real checks
+- Evidence-based findings with exact file paths, line numbers, and tool outputs
+- Issue clear verdict: APPROVE or REQUEST_CHANGES
 
 ## Current Parent
-- Conversation ID: e303874c-1ef4-4fd0-9596-71bbccff874a
-- Updated: 2026-09-07T09:47:00Z
+- Conversation ID: b32c5a58-8b71-46dd-ba9a-5c9e4b6709de
+- Updated: 2026-09-21T15:32:00Z
 
 ## Review Scope
-- **Files reviewed**:
-  - `HPRebar/HPRebar/Beam Rebar/View Models/BeamRebarViewModel.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View Models/BeamRebarSession.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View Models/Tabs/*.cs` (5 Tab ViewModels)
-  - `HPRebar/HPRebar/Beam Rebar/View/BeamRebarView.xaml` and `.xaml.cs`
-  - `HPRebar/HPRebar/Beam Rebar/View/Tabs/*.xaml` and `.xaml.cs` (5 Tab UserControls)
-  - `HPRebar/HPRebar/Beam Rebar/View/Controls/*.cs` (Canvases, Painters, Palette, Primitives)
-- **Interface contracts**: `PROJECT.md`, `ORIGINAL_REQUEST.md`, `ui_canvas_plan.md`
-- **Review criteria**: Correctness, MVVM conformance, theming compliance, clean code-behind, namespace conventions.
+- **Files to review**:
+  - `HPRobot/HPRobot.Mcp.Server.Tests/RobotHostProfileTests.cs`
+  - `HPRobot/HPRobot.Mcp.Server.Tests/SeedCatalogTests.cs`
+  - `HPRobot/HPRobot.Mcp.Server.Tests/SeedExecutionTests.cs`
+  - `HPRobot/HPRobot.Mcp.Server.Tests/SeedCompilationTests.cs`
+  - `HPRobot/HPRobot.Mcp.Server.Tests/HPRobot.Mcp.Server.Tests.csproj`
+  - Solution file `HPRobot/HPRobot.slnx`
+- **Interface contracts**: PROJECT.md, AGENTS.md, worker_m4_1 handoff/changes
+- **Review criteria**: Correctness, coverage, non-tautological assertions, integrity, build & test execution
 
 ## Review Checklist
-- **Items reviewed**: Master VM, Session, 5 Tab VMs, View XAML, 5 Tab XAMLs, 6 code-behinds, 6 canvas/control files, theme resource dictionaries.
-- **Verdict**: REQUEST_CHANGES
-- **Unverified claims**: Worker claim of complete working build invalidated by CS1061 in `BeamElevationPainter.cs`.
+- **Items reviewed**:
+  - `HPRobot.Mcp.Server.Tests.csproj` (net10.0, Exe, MTP, xunit.v3, zero sibling project dependencies)
+  - `RobotHostProfileTests.cs` (8 facts, 100% pass)
+  - `SeedCatalogTests.cs` (2 facts + 4 theories x 12 seeds = 50 executions, 100% pass)
+  - `SeedExecutionTests.cs` (13 facts, 100% pass)
+  - `SeedCompilationTests.cs` (2 facts + 2 theories x 12 seeds = 26 executions, 100% pass, 0 skipped on local machine)
+  - Full suite execution: `dotnet run --project HPRobot/HPRobot.Mcp.Server.Tests/HPRobot.Mcp.Server.Tests.csproj` -> 97 passed, 0 failed, 0 skipped
+  - Sibling test suites: `HPRobot.McpBridge.Tests` (197 passed), `McpShared` regression (685 passed)
+- **Verdict**: APPROVE
+- **Unverified claims**: None.
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - Tested: Are there hardcoded hex/named colors in XAML? Result: None found (PASSED).
-  - Tested: Are all `{DynamicResource}` keys declared in Theme resource dictionaries? Result: `Spacing.SmallRight` and `Font.Size.Subtitle` missing (FAILED).
-  - Tested: Does `BeamElevationPainter.cs` compile against `BeamStack` model? Result: `OverallStartX` and `OverallEndX` do not exist on `BeamStack` (FAILED - CS1061).
-- **Vulnerabilities found**: 1 Critical compilation defect, 2 Major missing resource defects, 1 Minor tab title clarity defect.
-- **Untested angles**: Interactive in-Revit 2026 DirectX rendering.
+  - H1 (Facade Compilation): Do seed compilation tests actually compile against real `Interop.RobotOM.dll` or mock it? -> Proven real via `CS1061` on invalid members and clean compile on valid members.
+  - H2 (Tautological Assertions): Are assertions checking computed values or self-evident equalities? -> All assertions evaluate independent invariants and external contracts.
+  - H3 (IPC Wire Leakage): Does `get_robot_context` or `robot.execute` leak sibling host fields (Revit/AutoCAD/ETABS) or local paths? -> Proven clean via negative assertions.
+  - H4 (Timeout Clamping & Refusals): Does server enforce 300 s ceiling and propagate refusal messages? -> Proven over named pipe.
+- **Vulnerabilities found**: None.
+- **Untested angles**: Live Robot COM automation (deferred by design to M6 live harness).
 
 ## Key Decisions Made
-- Issued verdict `REQUEST_CHANGES` due to critical compilation failure and missing theme tokens.
+- Confirmed zero integrity violations, non-tautological assertions, and 100% test pass rate.
+- Formulated final verdict: APPROVE.
 
 ## Artifact Index
-- `.agents/reviewer_m4_1/review_report.md` — Detailed review findings and verdict
-- `.agents/reviewer_m4_1/handoff.md` — Formal 5-component handoff report
-- `.agents/reviewer_m4_1/progress.md` — Liveness and execution progress tracker
+- `.agents/reviewer_m4_1/DISPATCH.md`
+- `.agents/reviewer_m4_1/BRIEFING.md`
+- `.agents/reviewer_m4_1/progress.md`
+- `.agents/reviewer_m4_1/handoff.md`

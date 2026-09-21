@@ -1,151 +1,179 @@
-# Handoff Report — challenger_m1_2
+# Challenger Handoff Report — Milestone M1: HPRobot Wire Protocol & McpShared Integration
 
-**Date**: 2026-09-07  
-**Author**: challenger_m1_2 (Correctness & Invariant Challenger)  
-**Target Milestone**: M1 (Domain Models & Calculators) & M2 (Unit Test Suite)  
-**Verdict**: `CHALLENGE_FAILED`  
+**Agent:** `challenger_m1_2` (M1 Wire Protocol Challenger)  
+**Parent:** Project Orchestrator (`orchestrator_7`, conversation ID: `b32c5a58-8b71-46dd-ba9a-5c9e4b6709de`)  
+**Verdict:** **APPROVE**  
+**Date:** 2026-09-21  
+**Status:** Hard Handoff (Milestone M1 Empirical Challenge Complete)  
 
 ---
 
 ## 1. Observation
 
-1. **Test Execution Environment**:
-   - Executed: `dotnet test HPRebar/HPRebar.Core.Tests` via `run_command`.
-   - Result: `Permission prompt for action 'command' on target 'dotnet test HPRebar/HPRebar.Core.Tests' timed out waiting for user response.`
-   - Note: Unattended environment blocked interactive terminal execution (matching `worker_m1` caveat 98). All subsequent verifications were performed via exhaustive empirical mathematical derivation, boundary stress-testing, and static symbolic execution.
+### 1.1 Baseline State Before Challenge
+Prior to challenge execution, the worker `worker_m1_1` implemented the Robot host contracts and initial test cases. Test measurements:
+- `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`:
+  ```
+  Test run summary: Passed!
+    total: 413
+    failed: 0
+    succeeded: 413
+    skipped: 0
+    duration: 3s 501ms
+  ```
+- `dotnet test McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj`:
+  ```
+  Test run summary: Passed!
+    total: 72
+    failed: 0
+    succeeded: 72
+    skipped: 0
+    duration: 2s 597ms
+  ```
 
-2. **Target File Observations**:
-   - `HPRebar/HPRebar.Core/BeamRebar/Calculators/BeamStirrupDistributionCalculator.cs`:
-     - Lines 122–126:
-       ```csharp
-       double delta1 = (lDist1 - (intervals1 * spec.SpacingDense)) / 2.0;
-       double startX1 = spec.StartOffset + delta1;
-       ```
-     - Lines 145–146:
-       ```csharp
-       double delta2 = (l2 - (intervals2 * spec.SpacingSparse)) / 2.0;
-       double startX2 = l1 + delta2;
-       ```
-     - Observation: When $L_{dist1} = k_1 \cdot s_{dense}$ and $L_2 = k_2 \cdot s_{sparse}$, $\Delta_1 = 0.0$ and $\Delta_2 = 0.0$.
-       The last bar of Zone 1 is at $X = 50 + 0 + k_1 \cdot s_{dense} = L_1$.
-       The first bar of Zone 2 is at $X = L_1 + \Delta_2 = L_1$.
-       Distance between consecutive stirrups $= 0.0\text{ mm}$ (coincident coordinates).
-   - `HPRebar/HPRebar.Core/BeamRebar/Calculators/BeamSpecialBarCalculator.cs`:
-     - Lines 124–127:
-       ```csharp
-       var hostSpan = stack.FindSpanAt(sec.CenterX);
-       if (hostSpan == null)
-           throw new ArgumentException($"Secondary beam at station {sec.CenterX:0.#} is outside continuous beam clear span.");
-       ```
-     - Lines 35–44 (`ComputeHangingStirrupStations`):
-       ```csharp
-       for (int k = countPerSide; k >= 1; k--)
-           stations.Add(xSecL - (k * spacingMm));
-       ```
-     - Observation: When $x_{secL} - (k \cdot spacing) < \text{hostSpan.StartX}$, hanging stirrups are generated with coordinates inside the support column (e.g., $X \in \{75, 125, 175\}$ when $\text{hostSpan.StartX} = 200$).
-     - Lines 98–104 (`ComputeDiagonalTiePolyline`):
-       ```csharp
-       new(xSecL - deltaX - anchorLength, 0.0, zTopBar),
-       ```
-       Observation: For $\Delta Z = 536\text{ mm}$, $\Delta X + L_{anchor} = 956\text{ mm}$. If $x_{secL} < 956\text{ mm}$, the start coordinate is negative (outside the beam).
-   - `HPRebar/HPRebar.Core/BeamRebar/Calculators/BeamSideBarCalculator.cs`:
-     - Line 35:
-       ```csharp
-       return (int)Math.Ceiling((heightMm - 600.0) / 200.0);
-       ```
-     - Lines 60–62:
-       ```csharp
-       double zBotMain = span.BottomElevation + span.Cover + stirrupDiameterMm + (mainBarDiameterMm / 2.0);
-       double zTopMain = span.TopElevation - span.Cover - stirrupDiameterMm - (mainBarDiameterMm / 2.0);
-       double deltaZ = (zTopMain - zBotMain) / (nRows + 1);
-       ```
-     - Observation: For $H = 800\text{ mm}$, $z_{topMain} - z_{botMain} = 714\text{ mm}$, `nRows = 1`, $\Delta Z = 714 / 2 = 357.0\text{ mm} > 300.0\text{ mm}$.
-       For $H = 700\text{ mm}$, $z_{topMain} - z_{botMain} = 614\text{ mm}$, `nRows = 1`, $\Delta Z = 614 / 2 = 307.0\text{ mm} > 300.0\text{ mm}$.
-   - `HPRebar/HPRebar.Core/BeamRebar/Calculators/BeamMainBarCalculator.cs`:
-     - Lines 427–432:
-       ```csharp
-       var cross = v1.Cross(v2);
-       if (cross.Length > Tolerance.CollinearToleranceMm)
-       {
-           simplified.Add(pCurr);
-       }
-       ```
-     - Observation: For anti-parallel vectors ($v_1 = (1,0,0), v_2 = (-1,0,0)$), `cross.Length = 0`, causing 180° hairpin turn vertices to be culled.
-   - `HPRebar/HPRebar.Core.Tests/BeamRebar/BeamMainBarCalculatorTests.cs`:
-     - Lines 233–249:
-       ```csharp
-       [Fact]
-       public void MultiLayerTopBarsOffsetSecondLayerVerticallyWithSpecifiedGap()
-       {
-           double z1 = 3600 - 25 - 8 - 10;
-           double z2 = z1 - 50.0;
-           Assert.Equal(50.0, z1 - z2, Precision);
-       }
-       ```
-       Observation: The test asserts hardcoded local variable arithmetic without invoking any calculator code.
+### 1.2 Authored Challenge Test Suite
+To empirically challenge wire protocol, naming, context serialization, fake executor round-trips, and bijective routing, new tests were authored in:
+`McpShared/HPRebar.Mcp.Server.Core.Tests/RobotMilestone1Challenger2Tests.cs` (340 lines, 23 test methods / theories spanning 200 dynamic test iterations).
+
+The test suite exercises 6 critical dimensions:
+1. **Host Neutrality & Zero Host API Leakage Across All 9 Hosts**:
+   - Inspects referenced assemblies of `HPRebar.Mcp.Contracts.dll`, `HPRebar.McpBridge.Core.dll`, and `HPRebar.Mcp.Server.Core.dll`.
+   - Asserts zero references to `RobotOM`, `Interop.RobotOM`, or any of the forbidden prefixes for Revit, AutoCAD, Navisworks, ETABS, Civil 3D, SAP2000, Power BI, and Excel.
+2. **Pipe Naming Verification & Boundary Edge Cases**:
+   - `PipeNaming.For(PipeNaming.RobotHost, 2026)` strictly returns `"hprobot-mcp-2026"`.
+   - Casing and whitespace normalization: `"robot"`, `"ROBOT"`, `"Robot"`, `"rObOt"`, `"  robot  "`, `"\trobot\r\n"`, `" \n robot \t "`.
+   - Version variations (2024, 2025, 2026, 2027) correctly yield `"hprobot-mcp-{version}"`.
+   - Throws `ArgumentException` on null, empty string, or whitespace host string.
+   - All 9 host constants in `PipeNaming` (`revit`, `autocad`, `navis`, `etabs`, `civil3d`, `sap2000`, `powerbi`, `excel`, `robot`) are mutually distinct.
+   - All 9 pipe names at version 2026 are pairwise distinct and strictly follow prefix conventions.
+3. **JSON-RPC Methods & Bijective Routing Across All 9 Hosts**:
+   - All 9 method prefixes (`revit.`, `autocad.`, `navis.`, `etabs.`, `civil3d.`, `sap2000.`, `powerbi.`, `excel.`, `robot.`) end with `.` and are distinct.
+   - `JsonRpcMethods.For(JsonRpcMethods.RobotPrefix, suffix)` strictly uses `"robot."` prefix and is bijective with `JsonRpcMethods.Suffix(fullMethod)` across all 9 standard suffixes (`ping`, `context`, `inspect`, `execute`, `cancel`, `analyze`, `progress`, `log`, `status`).
+   - Notification detectors (`IsProgress`, `IsLog`, `IsStatus`) accurately identify notification methods and reject regular requests.
+   - `JsonRpcMethods.For` throws `ArgumentException` on prefix missing trailing `.` or suffix with internal `.`.
+4. **ContextResult Wire Invariants, CamelCase Serialization, Null Omission & Isolation**:
+   - When `context.Robot` is `null`, `"robot"` property is completely omitted from JSON (`Assert.DoesNotContain("\"robot\"", json)`).
+   - When `context.Robot` is populated, all properties serialize in camelCase (`isAttached`, `attachedPid`, `robotVersion`, `structureType`, `isCalculated`, `heavyOperationsEnabled`, `nodeCount`, `barCount`, `panelCount`, `loadCaseCount`) and deserialize back with exact record equality.
+   - When nullable properties (`AttachedPid`, `RobotVersion`, `StructureType`) are null, `JsonIgnoreCondition.WhenWritingNull` suppresses their keys from JSON, and deserialization preserves nullability.
+   - Wire isolation across all 9 hosts:
+     - Robot payload contains `"robot"` and zero properties of sibling hosts (`revitVersion`, `autocad`, `navis`, `etabs`, `civil3d`, `sap2000`, `powerbi`, `excel`).
+     - Sibling host payloads never contain `"robot"`.
+5. **Fake Executor Round-Trip Over Named Pipe**:
+   - Operates a real in-memory Windows Named Pipe (`NdjsonPipeTransport`) using `PipeListener` and `RevitBridgeClient` with `RobotTestProfile.Robot()` and `RequestDispatcher`.
+   - `robot.ping`: Returns `Pong = true`, `RevitVersion = "2026"`, `ExecutionEnabled = true`.
+   - `robot.context`: Returns `ContextResult` with `RobotInfo` over pipe.
+   - `ContextService.ReadAsync`: Shapes JSON by stripping Revit-specific fields (`revitVersion`, `isFamily`) while retaining `host = "robot"`, `hostVersion = "2026"`, and the `"robot"` block.
+   - `robot.execute`: Successfully dispatches script, passes `args`, returns `ExecuteResult` with `Snapshot` filename, and verifies 4 rapid progress notifications stream with `"robot.progress"` prefix in strict ascending order.
+   - Refusal on disabled execution: When `ExecutionEnabled = false`, throws `BridgeErrorException` with `BridgeErrorCode.ExecutionDisabled` and `RobotTestProfile.DisabledText`.
+   - Refusal on busy bridge: When `IsBusy = true`, returns `BridgeErrorCode.Busy`.
+   - `robot.cancel`: Successfully invokes cancel handler.
+   - `robot.analyze`: Analyzes code syntax over pipe.
+   - Unknown method: Returns `BridgeErrorCode.MethodNotFound`.
+6. **Roslyn Guard & Analyzer Profiles for Robot**:
+   - `AnalyzerProfile.Robot`: Zero transaction types and methods; ignores transaction syntax.
+   - `GuardProfile.Robot`: Blocks `robot.Quit()`, `app.Quit()`, `robot.ApplicationExit()`, `robot.Interactive`, `MessageBox`, `HPRobot.McpBridge`, `System.Diagnostics.Process`, `#r`, and `#load`. Allows valid `RobotOM` code.
+
+### 1.3 Test Execution Results
+1. `dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests/HPRebar.Mcp.Server.Core.Tests.csproj`:
+   ```
+   Running tests from G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64)
+   G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\bin\Debug\net10.0\HPRebar.Mcp.Server.Core.Tests.dll (net10.0|x64) passed (3s 653ms)
+
+   Test run summary: Passed!
+     total: 613
+     failed: 0
+     succeeded: 613
+     skipped: 0
+     duration: 4s 017ms
+   ```
+2. `dotnet test McpShared/HPRebar.McpBridge.Core.Net48Tests/HPRebar.McpBridge.Core.Net48Tests.csproj`:
+   ```
+   Test run summary: Passed!
+     total: 72
+     failed: 0
+     succeeded: 72
+     skipped: 0
+     duration: 2s 603ms
+   ```
+3. `dotnet build McpShared/McpShared.slnx`:
+   ```
+   Build succeeded.
+       0 Warning(s)
+       0 Error(s)
+   ```
+
+Total passed tests across `McpShared`: **685 passed, 0 failed, 0 skipped**.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Stirrup Boundary Invariant**:
-   - Per structural detailing specifications, stirrup intervals within a span must be strictly positive ($s \ge 50\text{ mm}$).
-   - In `BeamStirrupDistributionCalculator.cs`, Zone 1 and Zone 2 calculate independent centering slack $\Delta_1$ and $\Delta_2$.
-   - When $\Delta_1 = 0$ and $\Delta_2 = 0$, both Zone 1's rightmost bar and Zone 2's leftmost bar coincide at $X = L_1$.
-   - Conclusion: Coincident stirrups with $0.0\text{ mm}$ spacing are produced, causing duplicate elements and BOM miscounts.
+1. **Strict Naming & Prefix Enforcement**:
+   - Observation 1.2 Section 2 and Section 3 proved that `PipeNaming.For(PipeNaming.RobotHost, 2026)` strictly returns `"hprobot-mcp-2026"` across casing and whitespace variations.
+   - `JsonRpcMethods.For(JsonRpcMethods.RobotPrefix, suffix)` strictly uses `"robot."` prefix and is bijective with `JsonRpcMethods.Suffix`.
+   - All 9 host constants and 9 method prefixes are mutually distinct, proving zero collision with existing hosts.
 
-2. **Secondary Framing Boundary Invariant**:
-   - All reinforcement generated for a span must physically reside within that span's clear geometry ($[\text{StartX} + c, \text{EndX} - c]$).
-   - In `BeamSpecialBarCalculator.cs`, only the intersection center `sec.CenterX` is validated against `FindSpanAt`.
-   - When the secondary beam is located close to a support (e.g. $X_{center} = 350\text{ mm}$ with $b_s = 250\text{ mm}$ and $\text{StartX} = 200\text{ mm}$), the flanking stations extend to $X = 75, 125, 175\text{ mm}$.
-   - For diagonal bent ties with 1 meter horizontal projection, ties extend into negative coordinates ($X = -281\text{ mm}$).
-   - Conclusion: Special bars protrude into column cores and outside the beam bounding box.
+2. **Context Serialization & Wire Isolation**:
+   - Observation 1.2 Section 4 proved that `ContextResult` serializes `RobotInfo` in camelCase and suppresses null fields (`attachedPid`, `robotVersion`, `structureType`) as required by the MCP wire format.
+   - When `context.Robot` is null, `"robot"` is completely absent from the JSON string.
+   - Multi-host isolation guarantees that when serializing for Robot, no sibling host properties leak in, and when serializing for any of the other 8 hosts, `"robot"` never appears.
 
-3. **Code Compliance Invariant ($s \le 300\text{ mm}$)**:
-   - TCVN 5574:2018 §10.3.2 and ACI 318 §9.7.2.3 require vertical skin reinforcement spacing $\le 300\text{ mm}$.
-   - In `BeamSideBarCalculator.cs`, beams with $H = 700\text{ mm}$ and $H = 800\text{ mm}$ receive only 1 row of side bars, resulting in clear spacing of $307\text{ mm}$ and $357\text{ mm}$ respectively.
-   - Conclusion: Domain calculator generates reinforcement that violates mandatory building code spacing limits.
+3. **End-to-End Pipe Communication & Protocol Behavior**:
+   - Observation 1.2 Section 5 proved that `RevitBridgeClient` and `RequestDispatcher` operate without error over named pipe for Robot commands:
+     - Ping, Context, Execute, Cancel, Analyze, and Status/Progress notifications function properly.
+     - ContextService drops Revit-specific fields (`revitVersion`, `isFamily`) while retaining `host = "robot"`, `hostVersion = "2026"`, and `robot: { ... }`.
+     - Error conditions (`ExecutionDisabled`, `Busy`, `MethodNotFound`) return appropriate JSON-RPC errors and actionable messages.
 
-4. **Polyline Simplification Invariant**:
-   - A curve simplification algorithm must only cull intermediate points on a forward-progressing line.
-   - Using only the cross-product magnitude culls vectors with angle 180° ($v_1 \cdot v_2 = -1$).
-   - Conclusion: Hairpin hooks and return bends lose their apex vertex if simplified.
+4. **Zero Regressions & Zero Leaks**:
+   - McpShared builds cleanly across all target frameworks (`netstandard2.0`, `net48`, `net8.0`, `net10.0`) with 0 warnings and 0 errors.
+   - No host-specific assemblies (`RobotOM`, `Interop.RobotOM`) leaked into `McpShared` assemblies (Observation 1.2 Section 1).
+   - All 685 tests in McpShared pass 100%.
 
 ---
 
 ## 3. Caveats
 
-- Terminal execution (`dotnet test`) timed out waiting for user confirmation prompt in this environment, identical to `worker_m1`'s session.
-- Numerical transforms in `BeamCanvasTransformCalculator` were verified mathematically and proven to have exact isotropic scaling and round-trip fidelity to $< 10^{-10}\text{ mm}$.
-- Tests in `HPRebar.Core.Tests` currently pass only because tests selectively chose parameters that did not trigger these boundary edge cases (e.g. testing side bars on $H = 1200\text{ mm}$ only).
+- **Out-of-Process COM Runtime**: Unit tests verify the wire protocol, serialization, AST validation, and named pipe communication using a fake executor and in-memory named pipes without requiring an active instance of Autodesk Robot Structural Analysis Professional 2026. Live COM attachment and live execution will be verified in subsequent milestones (M2 through M6).
+- No other caveats.
 
 ---
 
 ## 4. Conclusion
 
-**Verdict: `CHALLENGE_FAILED`**
+**VERDICT: APPROVE**
 
-The domain models and architecture in `HPRebar.Core/BeamRebar/` are cleanly designed and decoupled from Revit API. However, the code cannot be approved in its current state due to 3 high/medium severity geometric and code compliance defects:
-1. Duplicate stirrups (0 mm distance) at 3-zone boundaries.
-2. Special bars (hanging stirrups and diagonal ties) penetrating support nodes and open air.
-3. Deep beam skin reinforcement exceeding the 300 mm code limit for $H \in [700, 800]$ mm.
+Milestone M1 (McpShared Robot Host Integration) satisfies all functional requirements and architectural guardrails:
+- `PipeNaming.For(PipeNaming.RobotHost, 2026)` strictly produces `"hprobot-mcp-2026"`.
+- `JsonRpcMethods` strictly uses `"robot."` prefix for all Robot methods.
+- ContextResult JSON round-trips with full fidelity, camelCase formatting, null property suppression, and zero cross-host contamination across all 9 CAD/BIM/CAE hosts.
+- Fake executor round-trips over named pipes confirm end-to-end transport stability and proper error handling.
+- The entire `McpShared` suite passes 100% (685 tests: 613 net10 + 72 net48).
 
-Fixing these domain bugs requires modest corrections in the respective calculator classes.
+Milestone M2 (`HPRobot.McpBridge`) and Milestone M3 (`HPRobot.Mcp.Server`) are cleared to proceed.
 
 ---
 
 ## 5. Verification Method
 
-To reproduce and verify these findings:
+To independently reproduce and verify this verdict:
 
-1. **Verify Stirrup Clash**:
-   Evaluate `BeamStirrupDistributionCalculator.ComputeSpanRuns(6200, spec)` with `ThreeZoneL4`, $s_1 = 100$, $s_2 = 100$, $offset = 50$.
-   Inspect `runs[0].Positions.Last()` ($1550.0$) and `runs[1].Positions.First()` ($1550.0$). Distance is $0.0\text{ mm}$.
+1. **Run Server.Core Test Suite**:
+   ```powershell
+   dotnet test "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.Mcp.Server.Core.Tests\HPRebar.Mcp.Server.Core.Tests.csproj"
+   ```
+   *Expected: 613 passed, 0 failed, 0 skipped.*
 
-2. **Verify Special Bar Boundary Penetration**:
-   Evaluate `BeamSpecialBarCalculator.ComputeHangingStirrups` on a stack with `StartX = 200` and secondary beam at $X = 350$.
-   Observe generated stations at $X \in \{75, 125, 175\}$, all $< 200$.
+2. **Run Net48 Bridge Test Suite**:
+   ```powershell
+   dotnet test "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\HPRebar.McpBridge.Core.Net48Tests\HPRebar.McpBridge.Core.Net48Tests.csproj"
+   ```
+   *Expected: 72 passed, 0 failed, 0 skipped.*
 
-3. **Verify Skin Spacing Violation**:
-   Evaluate `BeamSideBarCalculator.ComputeLongitudinalSideBars` on `DeepBeam(height: 800)`.
-   Observe `bars[0].Points[0].Z - zBotMain = 357.0\text{ mm} > 300.0\text{ mm}`.
+3. **Build Entire McpShared Solution**:
+   ```powershell
+   dotnet build "g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\McpShared\McpShared.slnx"
+   ```
+   *Expected: Build succeeded with 0 Warning(s) and 0 Error(s).*
+
+4. **Inspect Challenger Test Code**:
+   - File: `McpShared/HPRebar.Mcp.Server.Core.Tests/RobotMilestone1Challenger2Tests.cs`

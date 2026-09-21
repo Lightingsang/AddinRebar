@@ -1,0 +1,60 @@
+{
+  "name": "assign_bar_load",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Load",
+  "host": "robot",
+  "hostVersions": ["2023", "2024", "2025", "2026"],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": ["load", "bar", "uniform", "force"],
+  "title": "Assign bar load",
+  "description": "Applies a uniform or concentrated force load to structural bars in a specified load case. Uses metric units (kN/m for uniform, kN for concentrated).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "caseNumber": {
+        "type": "integer",
+        "description": "Target load case number."
+      },
+      "barNumbers": {
+        "type": "string",
+        "description": "Bar selection text, e.g. '1 2' or '1to4'."
+      },
+      "loadType": {
+        "type": "string",
+        "enum": ["uniform", "concentrated"],
+        "default": "uniform",
+        "description": "Type of load."
+      },
+      "pz": {
+        "type": "number",
+        "description": "Load intensity in Z direction (kN/m or kN). Negative value indicates downwards."
+      },
+      "px": {
+        "type": "number",
+        "default": 0.0,
+        "description": "Load intensity in X direction."
+      },
+      "py": {
+        "type": "number",
+        "default": 0.0,
+        "description": "Load intensity in Y direction."
+      },
+      "relativePosition": {
+        "type": "number",
+        "default": 0.5,
+        "description": "Relative position along bar (0.0 to 1.0) for concentrated loads."
+      },
+      "isLocal": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether coordinates are in local bar system instead of global."
+      }
+    },
+    "required": ["caseNumber", "barNumbers", "pz"],
+    "additionalProperties": false
+  }
+}

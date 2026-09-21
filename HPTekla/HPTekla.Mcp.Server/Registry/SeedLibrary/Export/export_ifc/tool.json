@@ -1,0 +1,36 @@
+{
+  "name": "export_ifc",
+  "version": 1,
+  "status": "published",
+  "author": "hptekla",
+  "category": "Export",
+  "host": "tekla",
+  "hostVersions": ["2025"],
+  "transaction": "auto",
+  "timeoutSeconds": 600,
+  "destructive": true,
+  "tags": ["export", "ifc", "destructive", "bim"],
+  "title": "Export model to IFC",
+  "description": "Exports the Tekla Structures model or selected objects to IFC format for BIM coordination. Destructive / heavy operation requiring bridge authorization.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "outputFilePath": {
+        "type": "string",
+        "description": "Absolute destination path for the exported .ifc file."
+      },
+      "format": {
+        "type": "string",
+        "default": "IFC4",
+        "description": "IFC standard version: IFC4 or IFC2X3."
+      },
+      "exportSelectedOnly": {
+        "type": "boolean",
+        "default": false,
+        "description": "Export only currently selected model objects."
+      }
+    },
+    "required": ["outputFilePath"],
+    "additionalProperties": false
+  }
+}

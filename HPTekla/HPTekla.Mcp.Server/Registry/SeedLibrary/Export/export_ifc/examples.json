@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Export entire model to IFC4 format",
+    "args": {
+      "outputFilePath": "C:\\TeklaExports\\ProjectModel.ifc",
+      "format": "IFC4",
+      "exportSelectedOnly": false
+    }
+  },
+  {
+    "title": "Export selected objects to IFC2X3 coordination view",
+    "args": {
+      "outputFilePath": "C:\\TeklaExports\\SelectedElements.ifc",
+      "format": "IFC2X3",
+      "exportSelectedOnly": true
+    }
+  }
+]

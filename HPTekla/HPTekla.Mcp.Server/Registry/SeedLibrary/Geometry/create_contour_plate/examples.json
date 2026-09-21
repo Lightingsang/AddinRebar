@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Create a 20mm steel base plate 400x400 at Z=0",
+    "args": {
+      "points": [
+        { "x": -200, "y": -200, "z": 0 },
+        { "x": 200, "y": -200, "z": 0 },
+        { "x": 200, "y": 200, "z": 0 },
+        { "x": -200, "y": 200, "z": 0 }
+      ],
+      "thickness": 20,
+      "material": "S235JR",
+      "name": "BASE_PLATE",
+      "partClass": "3"
+    }
+  },
+  {
+    "title": "Create a 200mm concrete slab panel 4000x6000 at Z=3500",
+    "args": {
+      "points": [
+        { "x": 0, "y": 0, "z": 3500 },
+        { "x": 4000, "y": 0, "z": 3500 },
+        { "x": 4000, "y": 6000, "z": 3500 },
+        { "x": 0, "y": 6000, "z": 3500 }
+      ],
+      "thickness": 200,
+      "material": "C30/37",
+      "name": "SLAB",
+      "partClass": "4"
+    }
+  }
+]

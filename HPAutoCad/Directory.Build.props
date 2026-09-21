@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'HPAutoCad.McpBridge.Loader'">
+    <!-- The unified HPAutoCad.bundle is deployed by HPAutoCad.Loader. Prevent McpBridge.Loader from deploying the legacy standalone bundle. -->
+    <DeployBundle>false</DeployBundle>
+  </PropertyGroup>
+</Project>
