@@ -16,6 +16,7 @@ public static class EtabsHostProfile
 {
     public const string ExecuteToolName = "execute_etabs_code";
     public const string ContextToolName = "get_etabs_context";
+    public const string ConnectToolName = "connect_etabs";
 
     /// <summary>The only ETABS release verified on the dev machine (v22.7.0.4095, OAPI wrapper 2.10).</summary>
     public const int Version = 22;
@@ -39,7 +40,7 @@ public static class EtabsHostProfile
         ContextToolName = ContextToolName,
         ResourceScheme = PipeNaming.EtabsHost,
         Categories = new[] { "Model", "Geometry", "Property", "Load", "Analysis", "Results", "Table", "Data", "Generic" },
-        CoreToolNames = new[] { ExecuteToolName, ContextToolName, "inspect_type", "cancel_execution" },
+        CoreToolNames = new[] { ExecuteToolName, ContextToolName, ConnectToolName, "inspect_type", "cancel_execution" },
         ScriptImports = HostScriptContracts.EtabsImports,
         ScriptContractSummary =
             "Globals: sapModel (cSapModel of the attached ETABS), etabs (cOAPI), units (present units are forced to kN_mm_C for the run: lengths mm, forces kN, moments kN·mm, stresses kN/mm²; restored afterwards), " +

@@ -100,6 +100,10 @@
                                AutomationProperties.AutomationId="AttachState"/>
                     <TextBlock Style="{DynamicResource Caption}" Text="{Binding AttachWarning}" Foreground="{DynamicResource Brush.Warning}" TextWrapping="Wrap"
                                AutomationProperties.AutomationId="AttachWarning"/>
+                    <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStart"
+                              IsChecked="{Binding AutoStart}"
+                              Content="Auto-start ETABS if not running when MCP request arrives"
+                              ToolTip="When enabled, if ETABS is not running when an MCP request arrives, the bridge will launch ETABS, create a blank model, and execute the request."/>
                 </StackPanel>
                 <Button Grid.Column="1" Style="{DynamicResource SecondaryButton}" MinWidth="90" VerticalAlignment="Center" Margin="{DynamicResource Spacing.SmallHorizontal}"
                         Content="Attach" Command="{Binding AttachCommand}" AutomationProperties.AutomationId="Attach"

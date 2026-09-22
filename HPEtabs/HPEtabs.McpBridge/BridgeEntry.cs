@@ -8,6 +8,7 @@ using HPRebar.Mcp.Contracts;
 using HPRebar.Mcp.Contracts.JsonRpc;
 using HPRebar.McpBridge.Core.Host;
 using HPRebar.McpBridge.Core.Model;
+using HPRebar.McpBridge.Core.Pipe;
 using HPRebar.McpBridge.Core.Scripting;
 using Serilog;
 using Serilog.Events;
@@ -72,7 +73,8 @@ public static class BridgeEntry
         var compiler = CreateScriptCompiler(settings, wrapper);
         SelfCheckOk = ApiAvailable && ScriptingSelfCheck.Run(compiler);
 
-        var attachment = new EtabsAttachment();
+        var connectionConfig = EtabsConnectionConfig.Load(VendorFolder, ProductFolder);
+        var attachment = new EtabsAttachment { Config = connectionConfig };
         var analyzer = new EtabsTierAnalyzer(EtabsTierTable.Embedded);
         var runner = new EtabsScriptRunner(settings, new EtabsResultSerializer(settings.MaxOutputBytes), new EtabsSnapshotManager(SnapshotDirectory));
         var inspector = new TypeInspector(wrapper is null ? [] : [wrapper], HostName);
@@ -80,13 +82,28 @@ public static class BridgeEntry
 
         _executor = new EtabsExecutor(settings, compiler, analyzer, runner, attachment, inspector, audit, HostVersion, BusyGrace);
         _host = new McpBridgeHost(_executor, settings, store, HostVersion, PipeNaming.For(PipeNaming.EtabsHost, HostVersionNumber), HostName,
-            JsonRpcMethods.EtabsPrefix, ExecutionDisabledMessage);
+            JsonRpcMethods.EtabsPrefix, ExecutionDisabledMessage,
+            customHandler: HandleCustomRequestAsync);
         McpBridgeHost.Install(_host);
 
         if (settings.AutoStartListener && SelfCheckOk) _host.Start();
         Log.Information("MCP bridge ready on pipe {Pipe}; auto-start listener = {AutoStart}; self-check {SelfCheck}", _host.PipeName, settings.AutoStartListener, SelfCheckOk ? "OK" : "FAILED");
 
         return (_host, _executor);
+    }
+
+    private static async Task<JsonRpcEnvelope?> HandleCustomRequestAsync(long id, JsonRpcEnvelope request, NdjsonPipeWriter writer, CancellationToken cancellationToken)
+    {
+        var method = request.Method ?? string.Empty;
+        if (string.Equals(JsonRpcMethods.Suffix(method), "connect", StringComparison.OrdinalIgnoreCase))
+        {
+            var config = request.ParamsAs<EtabsConnectionConfig>();
+            if (_executor is null) return JsonRpcEnvelope.Failure(id, BridgeErrorCode.InternalError, "Executor not initialized");
+            var result = await _executor.EnsureConnectedAsync(config).ConfigureAwait(false);
+            return JsonRpcEnvelope.Success(id, result);
+        }
+
+        return null;
     }
 
     /// <summary>The bridge's exact script environment — references, imports, globals — so tests analyze what the bridge runs.</summary>

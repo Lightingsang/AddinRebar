@@ -17,6 +17,15 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        DispatcherUnhandledException += (s, args) =>
+        {
+            Log.Error(args.Exception, "Unhandled dispatcher exception in bridge app");
+        };
+        AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+        {
+            Log.Error(args.ExceptionObject as Exception, "Unhandled domain exception in bridge app");
+        };
+
         base.OnStartup(e);
 
         var (host, executor) = BridgeEntry.Start();
@@ -39,6 +48,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        Log.Information("Bridge application OnExit with code {Code}", e.ApplicationExitCode);
         _viewModel?.Detach();
         BridgeEntry.Dispose();
         base.OnExit(e);

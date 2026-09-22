@@ -126,11 +126,14 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
                 throw new BridgeRequestException(BridgeErrorCode.ExecutionDisabled,
                     "Destructive operations are disabled. Ask the user to tick 'Allow destructive operations' in the HPEtabs MCP Bridge window.");
 
-            if (!_attachment.Attached) throw EtabsAttachment.NotAttached();
+            if (!_attachment.Attached)
+            {
+                if (!_attachment.Config.AutoStart && (!_attachment.Config.PreferExistingInstance || Process.GetProcessesByName(EtabsAttachment.ProcessName).Length == 0))
+                    throw EtabsAttachment.NotAttached();
+            }
 
             // Destructive runs may take minutes (RunAnalysis); everything else keeps the engine's ceiling.
             var maxTimeoutSeconds = verdict.Tier == EtabsTier.Destructive ? HPRebar.Mcp.Contracts.HostScriptContracts.EtabsHeavyMaxTimeoutSeconds : DefaultMaxTimeoutSeconds;
-
 
             var cancel = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             _currentCancel = cancel;
@@ -140,6 +143,10 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
                 var work = new MainThreadWorkItem("execute: " + (request.Label ?? "script"),
                     _ => OnWorker(() =>
                     {
+                        var conn = _attachment.EnsureConnected();
+                        if (conn.State == EtabsConnectionState.failed)
+                            throw EtabsAttachment.NotAttached(conn.ErrorMessage);
+
                         var (etabs, sapModel) = _attachment.Require();
                         _running = true;
                         // The audit "started" line goes in right before the forced save overwrites the user's file — after the run-time path check, so it never announces a save that did not happen.
@@ -186,7 +193,14 @@ public sealed partial class EtabsExecutor : IBridgeExecutor, IDisposable
         if (IsBusy) throw BridgeRequestException.Busy(HostName);
 
         var work = new MainThreadWorkItem("context",
-            _ => OnWorker(() => EtabsContextReader.Read(_attachment, includeSelection, _settings.ExecutionEnabled, _destructiveEnabled, _hostVersion, IsQuiescent())),
+            _ => OnWorker(() =>
+            {
+                if (!_attachment.Attached && (_attachment.Config.AutoStart || (_attachment.Config.PreferExistingInstance && Process.GetProcessesByName(EtabsAttachment.ProcessName).Length > 0)))
+                {
+                    _attachment.EnsureConnected();
+                }
+                return EtabsContextReader.Read(_attachment, includeSelection, _settings.ExecutionEnabled, _destructiveEnabled, _hostVersion, IsQuiescent());
+            }),
             cancellationToken);
 
         return (ContextResult)await _queue.RunAsync(work).ConfigureAwait(false);

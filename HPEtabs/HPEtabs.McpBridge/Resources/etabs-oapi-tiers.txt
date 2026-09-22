@@ -1,4 +1,4 @@
-# ETABS OAPI tier fixture - generated from ETABSv1.dll 2.10.0.0 by tools\generate-oapi-tier-fixture.ps1, reviewed by hand.
+# ETABS OAPI tier fixture - generated from ETABSv1.dll 2.14.0.0 by tools\generate-oapi-tier-fixture.ps1, reviewed by hand.
 # cInterface.Member<TAB>R|W|D[<TAB>path=<parameter indices>]   - R read-only, W writes the model (snapshot first), D destructive (second opt-in).
 # Rules in order: cHelper.* and the cOAPI lifecycle are D; a by-value path-taking parameter (FileName|csvFilePath|SourceFileName|FilePath|Path|fullPath) is D;
 # cAnalysisResults, cAnalysisResultsSetup, cView, cSelect are R (results, view, selection never change the model file); ^(Start|Modify|Merge|Reset|Clear|Rename|Show|Export|Import|Replicate|Delete) is D;
@@ -318,6 +318,10 @@ cDCoACI318_19.GetOverwrite	R
 cDCoACI318_19.GetPreference	R
 cDCoACI318_19.SetOverwrite	W
 cDCoACI318_19.SetPreference	W
+cDCoACI318_25.GetOverwrite	R
+cDCoACI318_25.GetPreference	R
+cDCoACI318_25.SetOverwrite	W
+cDCoACI318_25.SetPreference	W
 cDCoAS_3600_09.GetOverwrite	R
 cDCoAS_3600_09.GetPreference	R
 cDCoAS_3600_09.SetOverwrite	W
@@ -338,6 +342,10 @@ cDCoEurocode_2_2004.GetOverwrite	R
 cDCoEurocode_2_2004.GetPreference	R
 cDCoEurocode_2_2004.SetOverwrite	W
 cDCoEurocode_2_2004.SetPreference	W
+cDCoEurocode_2_2023.GetOverwrite	R
+cDCoEurocode_2_2023.GetPreference	R
+cDCoEurocode_2_2023.SetOverwrite	W
+cDCoEurocode_2_2023.SetPreference	W
 cDCoHong_Kong_CP_2013.GetOverwrite	R
 cDCoHong_Kong_CP_2013.GetPreference	R
 cDCoHong_Kong_CP_2013.SetOverwrite	W
@@ -378,8 +386,26 @@ cDCompColIS11384_2022.GetOverwrite	R
 cDCompColIS11384_2022.GetPreference	R
 cDCompColIS11384_2022.SetOverwrite	W
 cDCompColIS11384_2022.SetPreference	W
+cDCompColKDS143100_2022.GetOverwrite	R
+cDCompColKDS143100_2022.GetPreference	R
+cDCompColKDS143100_2022.SetOverwrite	W
+cDCompColKDS143100_2022.SetPreference	W
+cDConcreteShellDesignRequest.Add	W
+cDConcreteShellDesignRequest.ChangeName	W
+cDConcreteShellDesignRequest.Delete	D
+cDConcreteShellDesignRequest.GetComboList	R
+cDConcreteShellDesignRequest.GetGroupList	R
+cDConcreteShellDesignRequest.GetRequestList	R
+cDConcreteShellDesignRequest.SetAutoCombo	W
+cDConcreteShellDesignRequest.SetCombo	W
+cDConcreteShellDesignRequest.SetGroup	W
+cDConcShellEurocode_2_2004.GetOverwrite	R
+cDConcShellEurocode_2_2004.GetPreference_1	R
+cDConcShellEurocode_2_2004.SetOverwrite	W
+cDConcShellEurocode_2_2004.SetPreference_1	W
 cDConcSlabACI318_14.GetPreference	R
 cDConcSlabACI318_19.GetPreference	R
+cDConcSlabACI318_25.GetPreference	R
 cDCoNZS_3101_2006.GetOverwrite	R
 cDCoNZS_3101_2006.GetPreference	R
 cDCoNZS_3101_2006.SetOverwrite	W
@@ -388,6 +414,10 @@ cDCoSP63133302011.GetOverwrite	R
 cDCoSP63133302011.GetPreference	R
 cDCoSP63133302011.SetOverwrite	W
 cDCoSP63133302011.SetPreference	W
+cDCoTCVN5574_2018.GetOverwrite	R
+cDCoTCVN5574_2018.GetPreference	R
+cDCoTCVN5574_2018.SetOverwrite	W
+cDCoTCVN5574_2018.SetPreference	W
 cDCoTS_500_2000.GetOverwrite	R
 cDCoTS_500_2000.GetPreference	R
 cDCoTS_500_2000.SetOverwrite	W
@@ -454,6 +484,11 @@ cDesignConcrete.SetCode	W
 cDesignConcrete.SetComboStrength	W
 cDesignConcrete.SetDesignSection	W
 cDesignConcrete.StartDesign	D
+cDesignConcreteShell.DeleteResults	D
+cDesignConcreteShell.GetCode	R
+cDesignConcreteShell.ResetOverwrites	D
+cDesignConcreteShell.SetCode	W
+cDesignConcreteShell.StartDesign	D
 cDesignConcreteSlab.GetFlexureAndShear	R
 cDesignConcreteSlab.GetSummaryResultsFlexureAndShear	R
 cDesignConcreteSlab.GetSummaryResultsSpanDefinition	R
@@ -638,6 +673,10 @@ cDStItalianNTC2018S.GetOverwrite	R
 cDStItalianNTC2018S.GetPreference	R
 cDStItalianNTC2018S.SetOverwrite	W
 cDStItalianNTC2018S.SetPreference	W
+cDStKDS143100_2022.GetOverwrite	R
+cDStKDS143100_2022.GetPreference	R
+cDStKDS143100_2022.SetOverwrite	W
+cDStKDS143100_2022.SetPreference	W
 cDStNewZealand_NZS3404_97.GetOverwrite	R
 cDStNewZealand_NZS3404_97.GetPreference	R
 cDStNewZealand_NZS3404_97.SetOverwrite	W
@@ -650,6 +689,7 @@ cDStSP16_13330_2017.GetOverwrite	R
 cDStSP16_13330_2017.GetPreference	R
 cDStSP16_13330_2017.SetOverwrite	W
 cDStSP16_13330_2017.SetPreference	W
+cEditArea.MergeToCreateUserMesh	D
 cEditFrame.ChangeConnectivity	W
 cEditGeneral.Move	W
 cFile.ExportFile	D	path=0
@@ -1229,6 +1269,23 @@ cSapModel.SetProjectInfo	W
 cSapModel.TreeIsUpdateSuspended	W
 cSapModel.TreeResumeUpdateData	W
 cSapModel.TreeSuspendUpdateData	W
+cSectionCut.AddQuad	W
+cSectionCut.Delete	D
+cSectionCut.GetCutInfo	R
+cSectionCut.GetLocalAxesAdvancedAnalysis	R
+cSectionCut.GetLocalAxesAnalysis	R
+cSectionCut.GetLocalAxesAngleDesign	R
+cSectionCut.GetNameList	R
+cSectionCut.GetQuad	R
+cSectionCut.GetResultLocation	R
+cSectionCut.GetResultsSide	R
+cSectionCut.SetByGroup	W
+cSectionCut.SetByQuad	W
+cSectionCut.SetLocalAxesAdvancedAnalysis	W
+cSectionCut.SetLocalAxesAnalysis	W
+cSectionCut.SetLocalAxesAngleDesign	W
+cSectionCut.SetResultLocation	W
+cSectionCut.SetResultsSide	W
 cSelect.All	R
 cSelect.ClearSelection	R
 cSelect.GetSelected	R

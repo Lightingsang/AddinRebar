@@ -21,6 +21,7 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
 
     [ObservableProperty] private bool _isDestructiveEnabled;
     [ObservableProperty] private bool _canEnableDestructive;
+    [ObservableProperty] private bool _autoStart = true;
     [ObservableProperty] private string _attachState = "Not attached";
     [ObservableProperty] private string _attachWarning = string.Empty;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AttachCommand))] [NotifyCanExecuteChangedFor(nameof(DetachCommand))] private bool _isAttached;
@@ -133,6 +134,12 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
         if (_executor.DestructiveOperationsEnabled != value) _executor.DestructiveOperationsEnabled = value;
     }
 
+    partial void OnAutoStartChanged(bool value)
+    {
+        _executor.Attachment.Config.AutoStart = value;
+        _executor.Attachment.Config.Save(BridgeEntry.VendorFolder, BridgeEntry.ProductFolder);
+    }
+
     private void OnExecutorStateChanged() => _onUiThread(Refresh);
 
     private void Refresh()
@@ -144,9 +151,10 @@ public sealed partial class EtabsBridgeStatusViewModel : ObservableObject
 
         var attachment = _executor.Attachment;
         IsAttached = attachment.Attached;
+        AutoStart = attachment.Config.AutoStart;
         AttachState = attachment.Attached
             ? $"Attached to ETABS pid {(attachment.Pid == 0 ? "?" : attachment.Pid)} (OAPI {attachment.OapiVersion ?? "?"})"
-            : "Not attached — start ETABS 22, open a model, then click Attach";
+            : "Not attached — start ETABS 22 or let AutoStart launch it when calling MCP tools";
         if (attachment.Warning is { } warning) AttachWarning = warning;
     }
 }
