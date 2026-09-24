@@ -5,8 +5,7 @@ Symptom → cause → what to do. Every item below was seen on the dev machine d
 ## Connection
 
 | Symptom | Cause | Fix |
-|---|---|---|
-| Every tool answers `-32003` "… click Attach in the HPEtabs MCP Bridge window" | bridge running but not attached (fresh start, ETABS closed, COM disconnect `0x800706BA/BE`, `0x80010108/12/07`) | user clicks **Attach** (no bridge restart needed); if ETABS died, start it, open the model, Attach |
+| Every tool answers `-32003` "… click Attach in the HPEtabs MCP Bridge window" | bridge running but not attached while AutoStart is disabled (or ETABS failed to launch) | tick **AutoStart** or click **Attach** in the bridge window; or call `connect_etabs`. If ETABS crashed, starting it manually and clicking Attach also works |
 | Tools fail with "bridge not connected" / pipe error, hint names `HPEtabs.McpBridge.exe` | bridge app not running or listener stopped | start `HPEtabs/output/HPEtabs.McpBridge/HPEtabs.McpBridge.exe` → **Start listener** (settings `AutoStartListener` remembers it) |
 | Bridge says "not registered for the API in this session" / "ETABS is running but `GetObject` found nothing" | ETABS started by double-clicking the `.EDB` or another launcher (no running-object-table entry; `Tools › Active Instance for API` greyed), **or** ETABS elevated while the bridge is not | close ETABS; start it from its shortcut; File › Open the model; Attach. Never run ETABS or the bridge as administrator |
 | Bridge warns about more than one ETABS | `GetObject` returns the newer instance, never by pid | user closes the other instance or sets the right one active (Tools › Active Instance for API) |

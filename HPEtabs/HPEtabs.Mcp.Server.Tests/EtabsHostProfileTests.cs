@@ -47,7 +47,7 @@ public sealed class EtabsHostProfileTests
         Assert.Contains("Analysis", profile.Categories);
         Assert.Contains("Results", profile.Categories);
         Assert.DoesNotContain(profile.Categories, c => c is "Layer" or "Block" or "Wall" or "Clash" or "Viewpoint");
-        Assert.Equal(["execute_etabs_code", "get_etabs_context", "inspect_type", "cancel_execution"], profile.CoreToolNames);
+        Assert.Equal(["execute_etabs_code", "get_etabs_context", "connect_etabs", "inspect_type", "cancel_execution"], profile.CoreToolNames);
 
         // The bridge is a program the user starts, not an add-in: both hints say so and neither carries a machine path.
         Assert.Contains("HPEtabs.McpBridge.exe", profile.BridgeNotConnectedHint);
@@ -95,15 +95,16 @@ public sealed class EtabsHostProfileTests
     }
 
     [Fact]
-    public void Tool_surface_is_the_four_etabs_core_tools_plus_the_registry_and_nothing_from_the_other_hosts()
+    public void Tool_surface_is_the_five_etabs_core_tools_plus_the_registry_and_nothing_from_the_other_hosts()
     {
         using var host = McpServerHost.CreateBuilder([], EtabsHostProfile.Instance).Build();
 
         var names = host.Services.GetServices<McpServerTool>().Select(t => t.ProtocolTool.Name).OrderBy(n => n, StringComparer.Ordinal).ToArray();
 
-        Assert.Equal(12, names.Length);
+        Assert.Equal(13, names.Length);
         Assert.Contains("execute_etabs_code", names);
         Assert.Contains("get_etabs_context", names);
+        Assert.Contains("connect_etabs", names);
         Assert.Contains("inspect_type", names);
         Assert.Contains("cancel_execution", names);
         Assert.All(RegistryTools, tool => Assert.Contains(tool, names));

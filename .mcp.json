@@ -30,7 +30,7 @@
       }
     },
     "hprebar-etabs": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPEtabs\\output\\HPEtabs.Mcp.Server\\HPEtabs.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPEtabs\\output\\HPEtabs.Mcp.Server\\HPEtabs.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPETABS_MCP_Bridge__HostVersion": "22"

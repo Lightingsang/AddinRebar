@@ -24,6 +24,12 @@ public sealed partial class EtabsExecutor
 
     public Task DetachAsync() => RunOnWorkerAsync("detach", () => { _attachment.Detach("user clicked Detach"); return null; });
 
+    public async Task<HPEtabs.McpBridge.Service.EtabsConnectionResult> EnsureConnectedAsync(HPEtabs.McpBridge.Service.EtabsConnectionConfig? config = null)
+    {
+        var res = await RunOnWorkerAsync("ensure_connected", () => _attachment.EnsureConnected(config)).ConfigureAwait(false);
+        return (HPEtabs.McpBridge.Service.EtabsConnectionResult)res!;
+    }
+
     /// <summary>Runs OAPI work on the STA worker; a COM disconnect drops the attachment and becomes the "not attached" refusal.</summary>
     private object OnWorker(Func<object> work)
     {
