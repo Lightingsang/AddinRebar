@@ -581,3 +581,67 @@ Integrity mode: development
 - [ ] Toàn bộ test suite trong `HPTekla.McpBridge.Tests` pass 100%.
 - [ ] Thư mục `HPTekla/tools/harness/` chứa đầy đủ kịch bản kiểm thử trực tiếp với Tekla 2025.
 
+## 2026-09-23T23:47:49Z
+
+This is a single self-contained task; keep it small and focused. Integrate a project-local Archify v2.16.0 skill into the HPRebar repository for development architecture documentation, create two verifiable interactive architecture diagrams (HPRebar System Architecture and Column Rebar Workflow), and link them in the existing architecture documentation.
+
+Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar
+Integrity mode: development
+
+## Requirements
+
+### R1. Project-Local Archify v2.16.0 Skill Installation
+- Extract and install the minimal runtime of Archify from stable tag v2.16.0 into `.agents/skills/archify/` (portable skill) and mirror to `.claude/skills/archify/` (Claude skill).
+- Include only required files: `SKILL.md`, `package.json`, `assets/template.html`, `bin/` (`archify.mjs`, `preview.mjs`, `visual-check.mjs`, `open-artifact.mjs`), `renderers/`, `schemas/`, `recipes/`, `references/`, `delta/`, and minimal test fixtures/examples required to satisfy `archify doctor`.
+- Exclude website, demo, benchmarks, experiments, tests, DeepSeek integration (`archify-dsh`), and `archify-review`.
+- Do NOT run a global `sync-agent-skills.py apply` across the entire repo to avoid conflicting with existing drifted skills (`grill-me`, `hp-mcp-etabs`, `hp-mcp-excel`).
+- Do NOT add Node or Archify to any `.csproj`, installer, Revit runtime, or MCP build process.
+
+### R2. Archify System Architecture Diagram
+- Create `docs/architecture/diagrams/hprebar-system.architecture.json` adhering to `architecture.schema.json`.
+- Accurately model HPRebar's multi-tier boundary:
+  - `HPRebar.dll` (in-process Revit add-in, UI/MVVM, commands, external event handlers, Nice3point SDK, R23–R27 multi-version).
+  - `HPRebar.Core` (referenced library, netstandard2.0, pure math/geometry, strictly zero references to Autodesk.Revit.*).
+  - `Revit Process / Document` (Autodesk Revit host, API thread, element database, transactions).
+  - `HPRebar.McpBridge` (separate in-process plugin add-in on R25/R26, Roslyn compiler, pipe listener) and `HPRebar.Mcp.Server` (separate net10 stdio process connecting via named pipe `hprebar-mcp-2026`).
+
+### R3. Archify Column Rebar Workflow Diagram
+- Create `docs/architecture/diagrams/column-rebar.workflow.json` adhering to `workflow.schema.json`.
+- Accurately map the real execution sequence from code:
+  - Step 1: User interaction & UI parameters (`ColumnRebarView` / `ColumnRebarViewModel`).
+  - Step 2: Bar layout calculation & core rules (`HPRebar.Core`: `BarLayoutCalculator`, `SpliceCalculator`, `Tolerance`).
+  - Step 3: Dispatching to Revit main thread (`ColumnRebarExternalEventHandler.RunAsync()` → `ExternalEvent.Raise()`).
+  - Step 4: Transaction orchestration (`ColumnRebarOrchestrator.Run()` opening `TransactionGroup("Column Rebar")`).
+  - Step 5: Element generation (`CreateViews`, `CreateDimensions`, `RebarCreationService.Create`, `CreateTables`).
+  - Step 6: Commit transaction group (`group.Assimilate()`) or rollback on error (`group.RollBack()`).
+  - Step 7: [Proposed] Model QA/QC & clash check (clearly badged with status `proposed` and title `[Đề xuất] Hậu kiểm mô hình`).
+  - Step 8: [Proposed] Report & BOM/schedule export (clearly badged with status `proposed` and title `[Đề xuất] Xuất báo cáo & thống kê`).
+
+### R4. Verification, Rendering & Documentation Links
+- Run `node .agents/skills/archify/bin/archify.mjs doctor` to verify skill readiness.
+- Run `node .agents/skills/archify/bin/archify.mjs validate` on both JSON diagrams to ensure zero schema errors.
+- Run `node .agents/skills/archify/bin/archify.mjs deliver` to render standalone interactive HTML artifacts:
+  - `docs/architecture/diagrams/hprebar-system.architecture.html`
+  - `docs/architecture/diagrams/column-rebar.workflow.html`
+- Update `docs/system-architecture.md` to reference the new diagrams with clickable relative links and explanations.
+- Ensure `HPRebar.Core` remains 100% free of Autodesk API references and zero C# logic is modified.
+
+## Acceptance Criteria
+
+### Skill Installation & Health
+- [ ] `node .agents/skills/archify/bin/archify.mjs doctor` exits with code 0 and reports `[ok]` for all check items.
+- [ ] `.agents/skills/archify/SKILL.md` and `.claude/skills/archify/SKILL.md` are present with consistent metadata.
+- [ ] No website, benchmarks, experiments, or deepseek packages are copied into the repository.
+- [ ] No changes are made to `.csproj`, `.slnx`, or build/installer files.
+
+### Diagram Verification & Delivery
+- [ ] `node .agents/skills/archify/bin/archify.mjs validate docs/architecture/diagrams/hprebar-system.architecture.json` passes validation with zero errors.
+- [ ] `node .agents/skills/archify/bin/archify.mjs validate docs/architecture/diagrams/column-rebar.workflow.json` passes validation with zero errors.
+- [ ] `node .agents/skills/archify/bin/archify.mjs deliver docs/architecture/diagrams/hprebar-system.architecture.json` generates valid standalone HTML at `docs/architecture/diagrams/hprebar-system.architecture.html`.
+- [ ] `node .agents/skills/archify/bin/archify.mjs deliver docs/architecture/diagrams/column-rebar.workflow.json` generates valid standalone HTML at `docs/architecture/diagrams/column-rebar.workflow.html`.
+- [ ] In `column-rebar.workflow.json`, the post-check and report/export steps are explicitly marked as proposed (`[Đề xuất]`), not current features.
+
+### Documentation & Code Integrity
+- [ ] `docs/system-architecture.md` contains updated links to both rendered HTML and JSON diagram files.
+- [ ] Zero C# source files (`*.cs`) or XAML files (`*.xaml`) are modified.
+- [ ] `HPRebar.Core` references no Autodesk Revit assemblies.
