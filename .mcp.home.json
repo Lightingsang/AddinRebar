@@ -9,21 +9,21 @@
       ]
     },
     "hprebar-revit": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPRebar\\output\\HPRebar.Mcp.Server\\HPRebar.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPRebar\\output\\HPRebar.Mcp.Server\\HPRebar.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPREBAR_MCP_Bridge__RevitVersion": "2026"
       }
     },
     "hprebar-autocad": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPAutoCad\\output\\HPAutoCad.Mcp.Server\\HPAutoCad.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPAutoCad\\output\\HPAutoCad.Mcp.Server\\HPAutoCad.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPAUTOCAD_MCP_Bridge__HostVersion": "2026"
       }
     },
     "hprebar-navis": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPNavis\\output\\HPNavis.Mcp.Server\\HPNavis.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPNavis\\output\\HPNavis.Mcp.Server\\HPNavis.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPNAVIS_MCP_Bridge__HostVersion": "2026"
@@ -37,31 +37,38 @@
       }
     },
     "hprebar-sap2000": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPSap2000\\output\\HPSap2000.Mcp.Server\\HPSap2000.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPSap2000\\output\\HPSap2000.Mcp.Server\\HPSap2000.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPSAP2000_MCP_Bridge__HostVersion": "27"
       }
     },
     "hprebar-powerbi": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPPowerBi\\output\\HPPowerBi.Mcp.Server\\HPPowerBi.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPPowerBi\\output\\HPPowerBi.Mcp.Server\\HPPowerBi.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPPOWERBI_MCP_Bridge__HostVersion": "2026"
       }
     },
     "hprebar-excel": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPExcel\\output\\HPExcel.Mcp.Server\\HPExcel.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPExcel\\output\\HPExcel.Mcp.Server\\HPExcel.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPEXCEL_MCP_Bridge__HostVersion": "2026"
       }
     },
     "hprebar-robot": {
-      "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPRobot\\output\\HPRobot.Mcp.Server\\HPRobot.Mcp.Server.exe",
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPRobot\\output\\HPRobot.Mcp.Server\\HPRobot.Mcp.Server.exe",
       "args": [],
       "env": {
         "HPROBOT_MCP_Bridge__HostVersion": "2026"
+      }
+    },
+    "hprebar-tekla": {
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPTekla\\output\\HPTekla.Mcp.Server\\HPTekla.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPTEKLA_MCP_Bridge__HostVersion": "2025"
       }
     }
   }
