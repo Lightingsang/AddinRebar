@@ -36,6 +36,10 @@ Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosys
 - Cron 1 (HPTekla Progress): 9c2201a8-9827-4f5e-9938-46e09b933134/task-20 (*/8 * * * *)
 - Cron 2 (HPTekla Liveness): 9c2201a8-9827-4f5e-9938-46e09b933134/task-22 (*/10 * * * *)
 - Active Victory Auditor (HPTekla): [to be spawned on victory claim]
+- Active Orchestrator (Archify Integration): d9313c9b-4a0e-49ad-a578-34cc518ec229 (swe_1)
+- Cron 1 (Archify Progress): baf12e85-f773-4510-8171-9bd7048e4430/task-48 (*/8 * * * *)
+- Cron 2 (Archify Liveness): baf12e85-f773-4510-8171-9bd7048e4430/task-50 (*/10 * * * *)
+- Active Victory Auditor (Archify): [to be spawned on victory claim]
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
@@ -46,20 +50,21 @@ Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosys
 - Mandatory closed-loop live verification in AutoCAD 2026 via MCP before completion
 - Victory Auditor spawn mandatory upon victory claim
 - Independent post-victory audit is blocking for all completion claims
+- Route via Routing Decision Table: SWE Light -> teamwork_preview_swe
 
 ## User Context
-- **Last user request**: Build Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) including McpShared integration, In-Process Plugin Bridge (.NET 4.8), Stdio Console Server (.NET 10), 24 tools, automated test suites, and live verification harness.
+- **Last user request**: Integrate project-local Archify v2.16.0 skill into HPRebar repository, generate interactive system architecture and column rebar workflow diagrams, and link them in existing documentation.
 - **Pending clarifications**: none
 - **Delivered results**:
-  * Prior: Beam Rebar, Foundation Rebar, HPGeoLink, Smart Plot Pro, HPPowerBi, HPExcel, and HPRobot complete and verified.
+  * Prior: Beam Rebar, Foundation Rebar, HPGeoLink, Smart Plot Pro, HPPowerBi, HPExcel, HPRobot, and HPTekla complete and verified.
 
 ## Routing Decision
-- **Route**: General (`teamwork_preview_orchestrator`)
-- **Rationale**: Full multi-tier engineering project spanning McpShared additions, in-process net48 plugin bridge for Tekla Structures 2025.0, stdio MCP server net10.0, 24 tools (4 core, 8 meta, 12 embedded seeds for steel & rebar), 3-tier safety/dryRun rollback, Tekla Open API synchronization, automated test suites, and live harness.
+- **Route**: SWE Light (`teamwork_preview_swe`)
+- **Rationale**: Single self-contained development task with explicit lightness signal ("This is a single self-contained task; keep it small and focused.").
 
 ## Project Status
 - **Phase**: in progress
-- **Active Orchestrator**: orchestrator_8 (5d7560ee-5142-428f-a172-e73cf7738ac1)
+- **Active Orchestrator**: swe_1 (d9313c9b-4a0e-49ad-a578-34cc518ec229)
 - **Active Victory Auditor**: [to be spawned on victory claim]
 
 ## Victory Audit Status
@@ -69,5 +74,6 @@ Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosys
 
 ## Artifact Index
 - g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md — Authoritative user requirements record
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_8\context.md — Context passed to orchestrator_8
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\swe_1\context.md — Context passed to swe_1
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\swe_1\progress.md — Live progress of swe_1
 

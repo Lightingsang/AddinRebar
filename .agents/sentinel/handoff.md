@@ -1,32 +1,32 @@
-# Sentinel Handoff Report — HPTekla MCP Dispatch
+# Handoff Report — Sentinel Initialization (Archify Integration)
 
 ## Observation
-- Received comprehensive user request to build the HPTekla MCP Subsystem for Trimble Tekla Structures 2025.0 via Tekla Open API.
-- The requirements cover:
-  1. Additive McpShared integration (`PipeNaming.TeklaHost`, `HostScriptContracts.TeklaImports`, `GuardProfile.Tekla`, `AnalyzerProfile.Tekla`, `ContextResult.Tekla`, `HostProfile.Tekla`).
-  2. In-process plugin bridge (`HPTekla.McpBridge`, `net48`) for Tekla Structures 2025.0 with pipe `hptekla-mcp-2025`, thread-safe queue on Model/UI thread, 3-tier safety, dryRun rollback, snapshot manager, Ribbon button and status window.
-  3. Stdio MCP server (`HPTekla.Mcp.Server`, `net10.0`) with 24 tools (4 core, 8 registry meta, 12 embedded seeds for steel and rebar).
-  4. Test suites (`HPTekla.Mcp.Server.Tests`, `HPTekla.McpBridge.Tests`, `HPRebar.Mcp.Server.Core.Tests`) and live verification harness (`HPTekla/tools/harness/`).
-  5. Solution `HPTekla.slnx` and skill `.agents/skills/hp-mcp-tekla/SKILL.md`.
+- Received user request to integrate project-local Archify v2.16.0 skill into HPRebar repository, generate two interactive architecture diagrams (HPRebar System Architecture and Column Rebar Workflow), and link them in existing documentation.
+- The request explicitly states: "This is a single self-contained task; keep it small and focused."
+- Repository root: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar`.
 
 ## Logic Chain
-1. Verified user request verbatim and appended to `.agents/ORIGINAL_REQUEST.md` under timestamp `## 2026-09-21T17:20:33Z`.
-2. Applied Routing Decision Table: Full multi-tier engineering project -> routed to `General` (`teamwork_preview_orchestrator`).
-3. Set up workspace folder `.agents/orchestrator_8` and prepared `context.md`.
-4. Dispatched `teamwork_preview_orchestrator` (conversationId: `5d7560ee-5142-428f-a172-e73cf7738ac1`).
-5. Scheduled Sentinel monitoring crons:
-   - Cron 1 (Progress Reporting): `9c2201a8-9827-4f5e-9938-46e09b933134/task-20` (`*/8 * * * *`).
-   - Cron 2 (Liveness Check): `9c2201a8-9827-4f5e-9938-46e09b933134/task-22` (`*/10 * * * *`).
-6. Preserved append-only `🔒` sections and updated `BRIEFING.md`.
+1. Recorded the verbatim user prompt to `.agents/ORIGINAL_REQUEST.md` and `ORIGINAL_REQUEST.md` under timestamp header `## 2026-09-23T23:47:49Z`.
+2. Evaluated routing per Routing Decision Table:
+   - Not Document Review (not reviewing an attached manuscript/paper).
+   - Not Math/Proof.
+   - Single self-contained code change + explicit lightness signal ("keep it small and focused") -> Routed to SWE Light (`teamwork_preview_swe`).
+3. Prepared `.agents/swe_1/context.md`, `.agents/swe_1/DISPATCH.md`, and initial `progress.md`.
+4. Spawned `teamwork_preview_swe` (ID: `d9313c9b-4a0e-49ad-a578-34cc518ec229`).
+5. Activated monitoring crons:
+   - Cron 1 (Progress Reporting, `*/8 * * * *`): task-48
+   - Cron 2 (Liveness Check, `*/10 * * * *`): task-50
+6. Updated `.agents/sentinel/BRIEFING.md` while strictly preserving 🔒 append-only sections.
+7. Sent dispatch status notification to parent caller.
 
 ## Caveats
-- Sentinel strictly adheres to no technical decisions and no code writing.
-- When orchestrator reports completion, a `teamwork_preview_victory_auditor` must be spawned to independently verify all acceptance criteria before completion can be reported to user.
+- No technical decisions or code modifications are made by the Sentinel.
+- Completion claim from the SWE orchestrator will not be accepted at face value; independent Victory Auditor will be spawned and must return VICTORY CONFIRMED.
+- Crons must be cancelled and all subagents killed before declaring overall completion.
 
 ## Conclusion
-HPTekla MCP project successfully dispatched to `orchestrator_8`. Sentinel crons active and monitoring.
+SWE Light orchestrator `swe_1` is actively running. Sentinel is now monitoring execution and awaiting the victory claim or cron triggers.
 
 ## Verification Method
-- Check `ORIGINAL_REQUEST.md` entry.
-- Check `BRIEFING.md` state.
-- Monitor orchestrator progress via task-20 and task-22.
+- Check running tasks (`manage_task` with action "list"): verify Cron 1 (`task-48`) and Cron 2 (`task-50`) are running.
+- Check active subagents (`manage_subagents` with action "list"): verify `teamwork_preview_swe` (`d9313c9b-4a0e-49ad-a578-34cc518ec229`) is running.
