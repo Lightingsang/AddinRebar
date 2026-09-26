@@ -41,6 +41,7 @@ Tái dùng pattern (không tham chiếu chéo feature): `BeamStackReader.cs:21-4
 | 5 | [UI + ribbon](phase-05-ui-and-ribbon.md) | completed (build R26/R24, ThemeTokenCoverage, icon preview 16/32/64; chạy Revit CHƯA TEST) | 1d | build + ThemeTokenCoverageTests |
 | 6 | [Verify + docs](phase-06-verify-and-docs.md) | in-progress (4 lần chạy thật: T1-DX12 ×2, GMX3 ×2 — mọi ô khớp, B10 text, sửa giằng móng không đổi kết quả — [report](reports/phase-06-live-verify.md); còn đường lỗi Excel, vách, ghi Reverse) | 1d | live Revit 2026 khớp golden |
 | 7 | [Mặt đứng dải dầm](phase-07-elevation-view.md) | completed (review 8→fixed, 444 test, gallery 22/22; live GMX3 + T1-DX12 ✅ 2026-09-27) | 1.5d | test + gallery dark/light + live |
+| 8 | [Zoom/pan 2 chiều kiểu CAD](phase-08-canvas-zoom-pan-2d.md) | completed (review 8→fixed, 448 test, gallery 22/22, live GMX3 ✅ 2026-09-27) | 0.5d | test viewport + gallery + live |
 
 P2 chạy song song P1 (test tổng hợp từ report phân tích; golden cắm vào khi P1 xong). P3–P5 tuần tự.
 

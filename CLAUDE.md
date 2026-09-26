@@ -38,7 +38,7 @@ dotnet build HPRebar.slnx -c Debug.R26             # primary: the dev machine ha
 dotnet build HPRebar/HPRebar.csproj -c Debug.R26   # add-in project only
 dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false   # when Revit is open and locking the DLL
 
-dotnet test HPRebar.Core.Tests                     # 444 xUnit tests, no Revit needed
+dotnet test HPRebar.Core.Tests                     # 448 xUnit tests, no Revit needed
 dotnet test HPRebar.Mcp.Server.Tests               # 109 xUnit tests (Revit-specific): registry over the real seeds, seed tools compiled against the Revit API reference assemblies — no Revit needed
 # Engine tests live beside the engine (run from McpShared/ — each folder has its own global.json pinning the MTP runner):
 (cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 164 xUnit tests: pipe round trips with a fake executor, guard/compiler/args/analyzer, host-neutrality, registry per profile, ContextService.Shape all hosts, stability window, Navis profile + per-profile timeout ceiling, ETABS profile/hints/HostVersion seeding/`global::` guard (34 added 2026-09-16), `#r`/`#load` refused (2 added 2026-09-17)
@@ -81,7 +81,7 @@ The solution holds **ten** projects plus the two automation ones (four rebar, si
 |---|---|---|
 | `HPRebar/` | net48 (R23/R24) · net8.0-windows7.0 (R25/R26) · net10.0-windows7.0 (R27) | The add-in. `CommunityToolkit.Mvvm` 8.4.0, `Serilog.Sinks.File`, `ProjectReference` to Core |
 | `HPRebar.Core/` | netstandard2.0 | Pure maths. **Must never reference `Autodesk.Revit.*`** — `Document` is sealed and unmockable, so anything testable lives here |
-| `HPRebar.Core.Tests/` | net8.0 | xUnit **v3** (not v2 — v2's runner cannot speak the `Microsoft.Testing.Platform` runner pinned in `global.json`). 444 tests |
+| `HPRebar.Core.Tests/` | net8.0 | xUnit **v3** (not v2 — v2's runner cannot speak the `Microsoft.Testing.Platform` runner pinned in `global.json`). 448 tests |
 | `HPRebar.Tests/` | R25/R26 only | TUnit, loads Revit in-process. **`<Build Project="false"/>` in `.slnx`** — under an R23/R24 configuration it compiles net8 against a net48 `HPRebar.dll` and Polyfill's span types collide (`CS0433`). Build it by project path |
 | `../McpShared/HPRebar.Mcp.Contracts/` | netstandard2.0 | JSON-RPC envelope + DTOs shared by every MCP server and bridge. No host API, no MCP SDK. Changes must be additive (deployed bridges) |
 | `../McpShared/HPRebar.McpBridge.Core/` | net8.0 · net48 | Host-free half of a bridge (the `net48` asset is for hosts still on .NET Framework — Navisworks 2026 — and every net48-specific line sits behind `#if NET48`: `PipeSecurity` pipe ACL, `Stopwatch` clock, `IReadOnlyCollection` instead of `IReadOnlySet`; the net8.0 asset is unchanged): pipe listener/dispatcher (dispatches on the method suffix, so `revit.execute` ≡ `autocad.execute`), Roslyn guard/compiler/cache with `GuardProfile`/`AnalyzerProfile`, `ScriptArgs`, `ScriptUnits`, settings store per vendor/product, `McpBridgeHost`, status view model (no WPF). xUnit-testable |

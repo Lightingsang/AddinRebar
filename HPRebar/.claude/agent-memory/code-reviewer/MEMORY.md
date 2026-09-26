@@ -1,0 +1,1 @@
+- [Revit API XML docs + isolated builds](reference-revit-api-xml-docs-and-isolated-builds.md) — RevitAPI.xml exception contracts; `--artifacts-path` scratch builds; theme tests need a junction layout

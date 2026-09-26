@@ -38,12 +38,12 @@ internal sealed class KataElevationPainter
         if (_scene.SelectedColumn < 0 || _scene.SelectedColumn >= columns.Count) return;
 
         var (left, right) = _scene.ScreenSpan(columns[_scene.SelectedColumn].Extent, 10.0);
-        _draw.Box(_palette.SelectionFill, null, left, KataElevationScene.BubbleY + KataElevationScene.BubbleRadius + 4, right, _scene.ChainY + 6);
+        _draw.Box(_palette.SelectionFill, null, left, _scene.BubbleY + KataElevationScene.BubbleRadius + 4, right, _scene.ChainY + 6);
     }
 
     private void PaintGridLines()
     {
-        double top = KataElevationScene.BubbleY + KataElevationScene.BubbleRadius;
+        double top = _scene.BubbleY + KataElevationScene.BubbleRadius;
         foreach (var grid in _scene.Elevation.Grids)
         {
             double x = _scene.X(grid.X);
@@ -137,8 +137,8 @@ internal sealed class KataElevationPainter
             if (x + radius < 0 || x - radius > _scene.Width) continue;
             if (!lane.TryPlace(x - radius, x + radius)) continue;
 
-            _draw.Circle(_palette.Fill, _palette.Bubble, x, KataElevationScene.BubbleY, radius);
-            _draw.Centered(name, x, KataElevationScene.BubbleY - name.Height / 2.0);
+            _draw.Circle(_palette.Fill, _palette.Bubble, x, _scene.BubbleY, radius);
+            _draw.Centered(name, x, _scene.BubbleY - name.Height / 2.0);
         }
     }
 }

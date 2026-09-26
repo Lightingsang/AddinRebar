@@ -4,22 +4,27 @@ using HPRebar.Core.KataExport.Models;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Where everything goes on the canvas for one paint: the horizontal viewport, the exaggerated vertical scale
-/// and the fixed rows above and below the beam band (grid bubbles, stubs, letters, dimension chains, captions).
+/// Where everything goes on the canvas for one paint. The beam band is placed by the viewport (zoom and pan in both
+/// directions); the rows of labels above it (grid bubbles) and below it (letters, dimension chains, captions) keep
+/// fixed pixel distances from the band, so they move with the drawing like annotations in CAD and never scale.
 /// </summary>
 internal sealed class KataElevationScene
 {
-    public const double BubbleY = 16.0;
     public const double BubbleRadius = 11.0;
     public const double UpperStubPx = 24.0;
     public const double LowerStubPx = 32.0;
     public const double FootingPx = 26.0;
-    public const double MinBeamPx = 60.0;
 
-    private const double BeamTopY = 84.0;
-    private const double BelowBandPx = 150.0;
-    private const double MinBandPx = 40.0;
-    private const double MaxBandPx = 150.0;
+    /// <summary>Label rows above the band top: bubbles, grid offsets, column-above texts.</summary>
+    public const double AbovePx = 88.0;
+
+    /// <summary>Label rows below the band bottom: stubs, crossing texts, letters, two chains, two caption lines.</summary>
+    public const double BelowPx = 150.0;
+
+    /// <summary>The deepest beam is never drawn shallower than this, however long the run.</summary>
+    private const double MinBeamPx = 60.0;
+
+    private const double BubbleAboveBandPx = 68.0;
 
     public KataElevationScene(KataElevation elevation, KataElevationViewport viewport, double widthPx, double heightPx, int selectedColumn)
     {
@@ -29,11 +34,8 @@ internal sealed class KataElevationScene
         Height = heightPx;
         SelectedColumn = selectedColumn;
 
-        double bandDepth = elevation.TopMm - elevation.BottomMm;
-        double maxBand = System.Math.Max(MinBandPx, System.Math.Min(MaxBandPx, heightPx - BeamTopY - BelowBandPx));
-        VerticalScale = KataElevationViewport.VerticalScale(viewport.Scale, elevation.MaxBeamHeightMm, bandDepth, MinBeamPx, maxBand);
-
         BandBottomY = Y(elevation.BottomMm);
+        BubbleY = BandTopY - BubbleAboveBandPx;
         MarkerTextY = BandBottomY + LowerStubPx + 4.0;
         LetterY = MarkerTextY + 16.0;
         ChainY = LetterY + 34.0;
@@ -46,10 +48,10 @@ internal sealed class KataElevationScene
     public double Width { get; }
     public double Height { get; }
     public int SelectedColumn { get; }
-    public double VerticalScale { get; }
 
-    public double BandTopY => BeamTopY;
+    public double BandTopY => Viewport.OffsetYPx;
     public double BandBottomY { get; }
+    public double BubbleY { get; }
 
     /// <summary>Row of crossing-beam texts, just under the column stubs.</summary>
     public double MarkerTextY { get; }
@@ -59,10 +61,13 @@ internal sealed class KataElevationScene
     public double GridChainY { get; }
     public double CaptionY { get; }
 
+    /// <summary>Vertical scale that makes the deepest beam <see cref="MinBeamPx"/> tall when the run is zoomed out.</summary>
+    public static double MinVerticalScale(KataElevation elevation) => MinBeamPx / System.Math.Max(1.0, elevation.MaxBeamHeightMm);
+
     public double X(double station) => Viewport.ToScreen(station);
 
     /// <summary>Screen y of a height relative to the reference level.</summary>
-    public double Y(double heightMm) => BeamTopY + (Elevation.TopMm - heightMm) * VerticalScale;
+    public double Y(double heightMm) => Viewport.ToScreenY(Elevation.TopMm - heightMm);
 
     /// <summary>Top and bottom of the beams over <paramref name="extent"/> (the whole band when none reaches it).</summary>
     public (double Top, double Bottom) BeamFaces(Interval1D extent)

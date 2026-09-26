@@ -49,7 +49,7 @@ internal sealed class KataElevationAnnotations
     private void PaintGridOffsets()
     {
         var lane = new KataLabelLane();
-        double top = KataElevationScene.BubbleY + KataElevationScene.BubbleRadius + 2;
+        double top = _scene.BubbleY + KataElevationScene.BubbleRadius + 2;
         foreach (var grid in _scene.Elevation.Grids)
         {
             if (!IsNonZero(grid.OffsetText)) continue;

@@ -152,7 +152,9 @@
                                 Padding="10,2" Height="26"/>
                     </StackPanel>
                     <TextBlock DockPanel.Dock="Right"
-                               Text="Lăn chuột: phóng · Kéo: di chuyển · Bấm: chọn cột · Nhấp đúp: toàn dải"
+                               Text="Lăn: phóng · Giữa / Shift+kéo: di chuyển · Nhấp đúp: toàn dải"
+                               ToolTip="Lăn chuột: phóng quanh con trỏ · Giữ chuột giữa hoặc Shift + kéo chuột trái: di chuyển · Bấm trái: chọn cột Kata · Nhấp đúp: xem toàn dải"
+                               TextTrimming="CharacterEllipsis"
                                Foreground="{DynamicResource Brush.Foreground.Secondary}"
                                FontSize="{DynamicResource Font.Size.Caption}"
                                VerticalAlignment="Center"/>

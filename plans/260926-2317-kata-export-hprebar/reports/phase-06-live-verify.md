@@ -84,3 +84,7 @@ Lưới không nằm trong gối nào (4.1a, 7.1a, 9.1a, 9*.1a, 11.1a) đều b�
 - Hàng 11/19/21/22/23 + B3–B9: **giống hệt lần 1** (`diff` với `dam-after.txt`). Khác duy nhất có chủ đích: B10 `'-0.050` (String, NumberFormat `@`) thay số `-0.05` — sửa B10 đã xác minh. ✅
 - Không còn cảnh báo "cột đứng trên dầm" (khung cảnh báo ẩn) → sửa H2 xác minh trên dầm sàn. ✅
 - Hàng 14–17 (thép lớp 2/3 người dùng nhập trong mẫu Kata) của bản sao đã trống từ lần 2 (giữa 01:08 và 01:49), trước mọi thay đổi hôm nay. Writer chỉ xoá C+n..BZ hàng 11–23 (`KataExcelWriter.cs:70-71`; lần 2 n = 17 → từ cột T) nên không chạm C14..S17. Nguyên nhân (macro Kata khi đổi B3?) = GIẢ ĐỊNH CHƯA XÁC MINH; chỉ ảnh hưởng bản sao nháp.
+
+## Đường lỗi — Excel không chạy (2026-09-27 03:3x)
+- Mở Kata Export khi Excel tắt: dòng trạng thái đỏ "Microsoft Excel hiện không chạy hoặc không đăng ký trong hệ thống ROT.", "Chưa có workbook Kata (sheet Dam) đang kích hoạt", nút Xuất Excel bị khoá; preview + mặt đứng vẫn dựng. ✅
+- Còn lại: workbook không có sheet `Dam`, vách làm gối, ghi ở chế độ Reverse — CHƯA TEST.
