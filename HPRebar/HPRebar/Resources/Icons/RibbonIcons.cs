@@ -47,12 +47,20 @@ public sealed class RibbonIcons
         // Execute: a play triangle — the template command the button still points at.
         Execute = Glyph((ink, "M8,4 L28,16 L8,28 Z"));
 
+        // Kata Export: continuous beam run over two column supports with an export table/arrow.
+        KataExport = Glyph(
+            (ink, "M2,4 H30 V14 H2 Z M4,6 H28 V12 H4 Z M6,14 H12 V28 H6 Z M8,16 H10 V26 H8 Z M20,14 H26 V28 H20 Z M22,16 H24 V26 H22 Z"),
+            (Steel, "M14,18 H18 V20 H14 Z M14,22 H18 V24 H14 Z M12,26 L16,30 L20,26 Z"));
+
         // A window with a title bar (the status window) holding a plug (the connection the bridge offers):
         // frame 2 px, title bar 4 px; plug = two prongs, body, cable. Identical to the AutoCAD and Navisworks bridges.
         McpBridge = Glyph(
             (ink, "M2,4 H30 V28 H2 Z M4,8 H28 V26 H4 Z"),
             (McpAccent, "M10,10 H12 V14 H10 Z M20,10 H22 V14 H20 Z M8,14 H24 V20 H8 Z M14,20 H18 V24 H14 Z"));
     }
+
+    /// <summary>Continuous beam run exported to Kata Excel.</summary>
+    public ImageSource KataExport { get; }
 
     /// <summary>Column section with a tie and four corner bars.</summary>
     public ImageSource ColumnRebar { get; }

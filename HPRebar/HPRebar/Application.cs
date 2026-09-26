@@ -5,6 +5,7 @@ using HPRebar.BeamRebar;
 using HPRebar.ColumnRebar;
 using HPRebar.Commands;
 using HPRebar.FoundationRebar;
+using HPRebar.KataExport;
 using HPRebar.Resources.Icons;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
@@ -62,6 +63,7 @@ namespace HPRebar
             Track(rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar"), icons => icons.ColumnRebar);
             Track(rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar"), icons => icons.BeamRebar);
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
+            Track(rebarPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
 
             // Vector glyphs drawn in code (RibbonIcons): crisp at any DPI, ink follows Revit's UI theme.
             ApplyIcons();

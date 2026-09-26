@@ -85,6 +85,8 @@ internal static class Program
             }
         }
 
+        failures += KataElevationGallery.Run(assembly, apply, outDir, index, Pump, Capture);
+
         // Window icons are the theme-aware vector glyphs (no PNG): WPF must be able to turn the DrawingImage into an HICON.
         foreach (var dark in new[] { true, false })
         {
@@ -113,7 +115,7 @@ internal static class Program
         }
 
         File.WriteAllLines(Path.Combine(outDir, "index.txt"), index);
-        Console.WriteLine($"SUMMARY {views.Count + 2 - failures} pass, {failures} fail");
+        Console.WriteLine($"SUMMARY {views.Count + 2 + KataElevationGallery.SceneCount - failures} pass, {failures} fail");
         return failures == 0 ? 0 : 1;
     }
 

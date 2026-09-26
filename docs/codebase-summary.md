@@ -184,6 +184,25 @@ Theme: MaterialDesignInXAML 5.3.2 merge vào `HPRebar.dll` (ILRepack) + palette 
 
 i18n: `UiStrings` record ~110 field, `UiStringsCatalog.English`/`.Vietnamese`, đổi cả record một lần → mọi nhãn refresh.
 
+## Feature: Kata Export
+
+Xây lại tool pyRevit/Dynamo "Kata Export to Excel" (plan `plans/260926-2317-kata-export-hprebar/`). Tool đo một dải dầm thẳng trong Revit rồi ghi vào sheet `Dam` của workbook **Kata Pro** đang mở: B3:B10 và các hàng 11/19/21/22/23 từ cột C, 1 cột = 1 gối hoặc 1 nhịp. Hợp đồng từng ô nằm ở `reports/kata-cell-contract.md` của plan.
+
+```text
+Ribbon HPRebar ▸ Rebar ▸ Kata Export → KataExportCommand (selection | PickObjects)
+  → Service: KataRunReader → KataSupportCollector (cột / vách / móng / dầm giao, cột trên)
+             → KataGridReader → KataHeaderReader → KataExportSession (mm, trạm s dọc trục)
+  → HPRebar.Core/KataExport: KataSegmenter (1D gối/nhịp/joint, console) → KataRowBuilder → KataSheet
+  → Window: mặt đứng (KataElevationBuilder → KataElevationCanvas) + bảng cột C..BZ, chọn cột đồng bộ 2 chiều
+    (Name/Count/Reverse tính lại pure) → KataExcelWriter (COM) → Highlight dầm (ExternalEvent)
+```
+
+- **Đo gối:** đường dò chạy dọc tim dầm ở 4 cao độ, cắt với solid của gối (`Solid.IntersectWithCurve`). Dầm được chọn và dầm giao dùng hình học gốc (`GetOriginalGeometry`) để không bị ảnh hưởng bởi join hay cut.
+- **Excel:** dùng `oleaut32!GetActiveObject` và late binding `InvokeMember`, không thêm package. Quy tắc text/số của ô nằm trong `KataExcelCell` (core): B10 luôn là text `+3.300`; tên như `1-2` được ghi kèm tiền tố `'`.
+- **Mặt đứng:** `KataElevationBuilder` (core) dựng hình từ chính sheet sẽ ghi — mỗi số vẽ là chữ của ô Kata, số cột và hàng 11 phải khớp sheet (sai chiều → từ chối); `KataElevationViewport` (core) lo fit/zoom/pan/tỉ lệ đứng phóng (dầm ≥ 60 px). `View/Controls/KataElevationCanvas` vẽ bằng `OnRender` (painter + annotations, chữ không vừa thì bỏ), palette từ token `Brush.Canvas.*`, đổi theme qua DP `SurfaceBrush`. Chỉ hình học, không thép.
+- **Test:** `HPRebar.Core.Tests/KataExport` gồm segmenter, row builder, ca biên, ô Excel, mặt đứng và viewport. Ảnh ngoài Revit: `HPRebar/tools/theme-gallery` (`KataElevationGallery`, 5 cảnh dark/light).
+- **Live:** đã chạy 1 lần trên model BTCT thật, khớp phép đo độc lập (`reports/phase-06-live-verify.md`).
+
 ## Multi-version
 
 2 block `#if` trong toàn bộ codebase, cả hai có comment `// Multi-version:`:
