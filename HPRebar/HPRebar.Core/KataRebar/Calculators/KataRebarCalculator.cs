@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
@@ -50,6 +51,13 @@ public static class KataRebarCalculator
         return Calculate(spec, KataDetailingRuleBuilder.Build(spec));
     }
 
+    /// <summary>Lays out the spec with the rules derived from user settings and sheet cells.</summary>
+    public static KataRebarLayoutResult Calculate(KataBeamRebarSpec spec, KataSettings settings)
+    {
+        if (spec is null) throw new ArgumentNullException(nameof(spec));
+        return Calculate(spec, KataDetailingRuleBuilder.Build(spec, settings));
+    }
+
     public static KataRebarLayoutResult Calculate(KataBeamRebarSpec spec, KataDetailingRules rules)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
@@ -69,8 +77,10 @@ public static class KataRebarCalculator
         var blocking = new List<string>();
         var extraTop = KataSupportTopBarLayout.Build(spec, rules, stations, warnings, blocking, ref barId);
         var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId);
-        var sideBars = KataSideBarLayout.Build(spec, rules, stations, ref barId);
+        var (sideBars, sideTies) = KataSideBarLayout.Build(spec, rules, stations, warnings, ref barId);
+
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref barId);
+        var barSets = sideTies.Concat(KataInnerStirrupLayout.Build(spec, rules, zones, warnings)).ToList();
 
         return new KataRebarLayoutResult
         {
@@ -80,13 +90,14 @@ public static class KataRebarCalculator
             ExtraTopBars = extraTop,
             ExtraBottomBars = extraBottom,
             SideBars = sideBars,
+            BarSets = barSets,
             StirrupZones = zones,
             IndividualStirrups = stirrups,
             Warnings = warnings,
             Blocking = blocking,
             TotalSteelWeightKg = Math.Round(
                 WeightKg(mainTop) + WeightKg(mainBottom) + WeightKg(extraTop)
-                + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(stirrups), 2)
+                + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(stirrups) + WeightKg(barSets), 2)
         };
     }
 
@@ -99,6 +110,19 @@ public static class KataRebarCalculator
             double lengthM = bar.Polyline.TotalLength / 1000.0;
             double radiusM = bar.Diameter / 2000.0;
             total += Math.PI * radiusM * radiusM * lengthM * SteelDensityKgPerM3;
+        }
+
+        return total;
+    }
+
+    /// <summary>Steel weight of repeated flat bars (kg).</summary>
+    public static double WeightKg(IReadOnlyList<KataBarSet> sets)
+    {
+        double total = 0.0;
+        foreach (var set in sets)
+        {
+            double radiusM = set.Diameter / 2000.0;
+            total += Math.PI * radiusM * radiusM * set.BarLength / 1000.0 * SteelDensityKgPerM3 * set.Count;
         }
 
         return total;

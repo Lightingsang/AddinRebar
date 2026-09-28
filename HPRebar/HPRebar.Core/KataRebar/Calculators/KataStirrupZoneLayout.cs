@@ -48,14 +48,13 @@ public static class KataStirrupZoneLayout
             double sSparse = stSpec.MidspanSpacing > 0.0 ? stSpec.MidspanSpacing : 200.0;
             double sEnd = stSpec.EndSupportSpacing ?? sDense;
             double sCant = stSpec.CantileverSpacing > 0.0 ? stSpec.CantileverSpacing : 150.0;
-            var branches = stSpec.Branches.Count > 0 ? stSpec.Branches : new[] { KataStirrupBranchSpec.Outer };
 
             bool isCantilever = (s == 0 && st.IsLeftCantilever) || (s == st.SpanCount - 1 && st.IsRightCantilever);
             var runs = isCantilever
                 ? new List<(string Name, double Spacing, List<double> Stations)> { ("Console", sCant, CantileverStations(st, s, ln, sCant, rules)) }
                 : ThreeZones(st, s, ln, sDense, sSparse, sEnd, rules);
 
-            foreach (var branch in branches)
+            // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {
                 for (int z = 0; z < runs.Count; z++)
                 {
@@ -76,12 +75,12 @@ public static class KataStirrupZoneLayout
                         OutToOutHeight = box.Height,
                         BoxMinY = box.MinY,
                         BoxMinZ = box.MinZ,
-                        StirrupType = branch.ShapeType,
-                        BarMark = KataStirrupCurveFactory.MarkOf(branch.ShapeType)
+                        StirrupType = KataStirrupShapeType.ClosedHoop,
+                        BarMark = KataStirrupCurveFactory.MarkOf(KataStirrupShapeType.ClosedHoop)
                     });
 
                     foreach (double x in stations)
-                        stirrups.Add(KataStirrupCurveFactory.Create(branch.ShapeType, x, yMin, yMax, zTop, zBot, ds, barId++, s));
+                        stirrups.Add(KataStirrupCurveFactory.Create(KataStirrupShapeType.ClosedHoop, x, yMin, yMax, zTop, zBot, ds, barId++, s));
                 }
             }
         }
@@ -93,7 +92,8 @@ public static class KataStirrupZoneLayout
     {
         LeftZone => 0,
         MiddleZone => 1,
-        _ => 2
+        RightZone => 2,
+        _ => 0
     };
 
     private const string LeftZone = "Gối trái";

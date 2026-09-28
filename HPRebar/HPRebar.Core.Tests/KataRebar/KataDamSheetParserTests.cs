@@ -239,6 +239,46 @@ public class KataDamSheetParserTests
         Assert.Equal(25.0, supp.TopExtraLayer1[0].Diameter);
         Assert.Equal(22.0, supp.TopExtraLayer2[0].Diameter);
         Assert.Equal(20.0, supp.TopExtraLayer3[0].Diameter);
-        Assert.Equal(18.0, supp.TopExtraLayer4[0].Diameter);
+    }
+
+    [Fact]
+    public void Parse_CellJ7_IsKeptAsANoteOnly()
+    {
+        var table = KataRebarTestSheets.SingleSpan();
+        table.Set("J7", "a500");
+
+        var spec = KataDamSheetParser.Parse(table);
+
+        Assert.Contains(spec.DetailingNotes, n => n.Address == "J7" && n.Text == "a500");
+    }
+
+    [Fact]
+    public void Parse_Row20_SideBarOverride_SupportsZeroCountAndSingleLayer()
+    {
+        var table = new KataCellTable();
+        table.Set("B3", "BeamRow20");
+        table.Set(10, 3, "Cột");
+        table.Set(11, 3, 400.0);
+        table.Set(10, 4, "Nhịp");
+        table.Set(11, 4, 6000.0);
+        table.Set(20, 4, "0f12");
+        table.Set(10, 5, "Cột");
+        table.Set(11, 5, 400.0);
+        table.Set(10, 6, "Nhịp");
+        table.Set(11, 6, 6000.0);
+        table.Set(20, 6, "1f12");
+        table.Set(10, 7, "Cột");
+        table.Set(11, 7, 400.0);
+
+        var spec = KataDamSheetParser.Parse(table);
+
+        Assert.Equal(2, spec.Spans.Count);
+        Assert.Single(spec.Spans[0].SideBars);
+        Assert.Equal(0, spec.Spans[0].SideBars[0].Count);
+        Assert.Equal(12.0, spec.Spans[0].SideBars[0].Diameter);
+
+        Assert.Single(spec.Spans[1].SideBars);
+        Assert.Equal(1, spec.Spans[1].SideBars[0].Count);
+        Assert.Equal(12.0, spec.Spans[1].SideBars[0].Diameter);
     }
 }

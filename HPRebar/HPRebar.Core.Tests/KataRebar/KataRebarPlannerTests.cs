@@ -116,25 +116,12 @@ public sealed class KataRebarPlannerTests
     }
 
     [Fact]
-    public void Two_picked_beams_block()
+    public void A_span_drawn_as_two_framing_pieces_is_planned()
     {
         var spec = KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan());
         var plan = KataRebarPlanner.Plan(spec, KataRebarTestSheets.MeasuredSingleSpan() with { PieceCount = 2 });
 
-        Assert.False(plan.CanGenerate);
-    }
-
-    [Fact]
-    public void A_deep_beam_reports_its_automatic_side_bars_as_skipped()
-    {
-        var table = KataRebarTestSheets.SingleSpan();
-        table.Set("B5", 800.0);
-        var measured = KataRebarTestSheets.MeasuredSingleSpan() with { HeightMm = 800.0 };
-
-        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), measured);
-
-        Assert.Empty(plan.Layout.SideBars);
-        Assert.Contains(plan.Skipped, s => s.Contains("800"));
+        Assert.True(plan.CanGenerate);
     }
 
     [Fact]

@@ -21,6 +21,12 @@ public sealed class KataRebarGenerationResult
     /// <summary>Additional bottom bars in the spans.</summary>
     public int ExtraBottomBarCount { get; init; }
 
+    /// <summary>Side bars ("cốt giá").</summary>
+    public int SideBarCount { get; init; }
+
+    /// <summary>Sets of flat bars: C ties of the side bars, inner U / C stirrups.</summary>
+    public int BarSetCount { get; init; }
+
     public int StirrupSetCount { get; init; }
 
     /// <summary>Single stirrups drawn where a set could not be made.</summary>

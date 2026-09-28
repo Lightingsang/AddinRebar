@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
-using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using HPRebar.KataRebar.Model;
 using HPRebar.KataRebar.Service;
@@ -105,43 +103,8 @@ public sealed class KataRebarExternalEventHandler : IExternalEventHandler, IKata
         return KataBeamMatcher.Measure(doc, uidoc.ActiveView, beams);
     }
 
-    private static KataRebarGenerationResult Generate(UIDocument uidoc, KataRebarRequest request)
-    {
-        var doc = uidoc.Document;
-        if (request.Spec is null) return KataRebarGenerationResult.Failed("Chưa có dữ liệu sheet Dam.");
-
-        var match = Measure(uidoc, request.BeamIds);
-        if (!match.IsSuccess || match.Measured is null)
-            return KataRebarGenerationResult.Failed($"Không đo được dầm: {match.Message}");
-
-        var plan = KataRebarPlanner.Plan(request.Spec, match.Measured);
-        if (!plan.CanGenerate)
-            return KataRebarGenerationResult.Failed("Không vẽ: " + string.Join(" ", plan.Blocking));
-
-        var barTypes = new Dictionary<double, RebarBarType>();
-        var missing = new List<string>();
-        foreach (double diameter in Diameters(plan))
-        {
-            if (request.BarTypeIds.TryGetValue(diameter, out var id) && doc.GetElement(id) is RebarBarType type)
-                barTypes[diameter] = type;
-            else
-                missing.Add($"Ø{diameter:0.#}");
-        }
-
-        if (missing.Count > 0)
-            return KataRebarGenerationResult.Failed($"Thiếu RebarBarType cho {string.Join(", ", missing)}: tải kiểu thép vào dự án hoặc chọn kiểu khác trong bảng.");
-
-        var shape = KataRebarShapeResolver.ClosedStirrup(doc);
-        if (shape is null)
-            Log.Warning("Kata Rebar: no closed stirrup shape ({Names}) in the project; stirrups are drawn one by one", string.Join(", ", KataRebarShapeResolver.ClosedStirrupNames));
-
-        return KataRebarOrchestrator.Execute(doc, match, plan, barTypes, shape);
-    }
-
-    private static IEnumerable<double> Diameters(KataRebarPlan plan)
-    {
-        var diameters = plan.Layout.LongitudinalBars.Select(b => b.Diameter).ToList();
-        if (plan.Layout.StirrupZones.Count > 0) diameters.Add(plan.Rules.StirrupDiameter);
-        return diameters.Distinct();
-    }
+    private static KataRebarGenerationResult Generate(UIDocument uidoc, KataRebarRequest request) =>
+        request.Spec is null
+            ? KataRebarGenerationResult.Failed("Chưa có dữ liệu sheet Dam.")
+            : KataRebarWorkflow.Generate(uidoc.Document, uidoc.ActiveView, request.BeamIds, request.Spec, KataSettingsStore.Load(), request.BarTypeIds);
 }

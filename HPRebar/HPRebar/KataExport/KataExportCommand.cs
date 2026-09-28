@@ -8,6 +8,7 @@ using Autodesk.Revit.UI.Selection;
 using HPRebar.KataExport.Service;
 using HPRebar.KataExport.View;
 using HPRebar.KataExport.ViewModel;
+using HPRebar.KataRebar.Service;
 using JetBrains.Annotations;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
@@ -82,8 +83,8 @@ public sealed class KataExportCommand : ExternalCommand
                 return;
             }
 
-            var handler = new KataExportExternalEventHandler();
-            var viewModel = new KataExportViewModel(session, handler);
+            var handler = new KataExportExternalEventHandler(document, uiDocument.ActiveView);
+            var viewModel = new KataExportViewModel(session, handler, new KataRebarTypeResolver(document));
             var view = new KataExportView(viewModel);
 
             new WindowInteropHelper(view).Owner = Application.MainWindowHandle;

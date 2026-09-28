@@ -26,7 +26,11 @@ public static class KataSheetGeometryCheck
     public const double SilentToleranceMm = 2.0;
     public const double RefuseToleranceMm = 50.0;
 
-    public static KataGeometryCheckResult Compare(KataBeamRebarSpec spec, KataMeasuredBeam measured)
+    /// <param name="preferReversed">
+    /// How the sheet was written, when the caller knows it (Kata Export's direction). It settles a symmetric run,
+    /// which reads the same both ways; null reads such a run forward.
+    /// </param>
+    public static KataGeometryCheckResult Compare(KataBeamRebarSpec spec, KataMeasuredBeam measured, bool? preferReversed = null)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
         if (measured is null) throw new ArgumentNullException(nameof(measured));
@@ -54,8 +58,11 @@ public static class KataSheetGeometryCheck
             return new KataGeometryCheckResult(false, forward, blocking, warnings);
         }
 
-        // A symmetric run reads the same both ways up to measuring noise; only a clearly better fit reverses it.
-        bool reversed = backwardScore + SilentToleranceMm < forwardScore;
+        // A symmetric run reads the same both ways up to measuring noise: a clearly better fit decides, else the
+        // direction the sheet was written in when it is known, else forward.
+        bool reversed = Math.Abs(backwardScore - forwardScore) <= SilentToleranceMm
+            ? preferReversed ?? false
+            : backwardScore < forwardScore;
         var order = reversed ? backward : forward;
         for (int i = 0; i < sheet.Count; i++)
             CompareLength(warnings, blocking, sheet[i], order[i]);

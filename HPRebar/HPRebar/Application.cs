@@ -56,12 +56,17 @@ namespace HPRebar
 
         private void CreateRibbon()
         {
+#if KATA_ONLY
+            var kataPanel = Application.CreatePanel("Kata", "HPRebar");
+            Track(kataPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
+#else
             var rebarPanel = Application.CreatePanel("Rebar", "HPRebar");
             Track(rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar"), icons => icons.ColumnRebar);
             Track(rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar"), icons => icons.BeamRebar);
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
             Track(rebarPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
             Track(rebarPanel.AddPushButton<KataRebarCommand>("Kata Rebar"), icons => icons.KataRebar);
+#endif
 
             // Vector glyphs drawn in code (RibbonIcons): crisp at any DPI, ink follows Revit's UI theme.
             ApplyIcons();

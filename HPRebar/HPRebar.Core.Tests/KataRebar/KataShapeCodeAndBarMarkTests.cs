@@ -25,13 +25,7 @@ public class KataShapeCodeAndBarMarkTests
             {
                 Diameter = 8.0,
                 SupportSpacing = 100.0,
-                MidspanSpacing = 200.0,
-                Branches = new[]
-                {
-                    new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "Main"),
-                    new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "Cap"),
-                    new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "Tie")
-                }
+                MidspanSpacing = 200.0
             },
             Supports = new[]
             {
@@ -59,13 +53,18 @@ public class KataShapeCodeAndBarMarkTests
                 new KataSpanRebarSpec
                 {
                     SpanIndex = 0,
-                    Length = 5000.0,
-                    BottomExtraLayer1 = new[] { new KataBarItem(2, 18.0) }
+                    Length = 4000.0,
+                    BottomExtraLayer1 = new[] { new KataBarItem(2, 18.0) },
+                    InnerStirrups = new[]
+                    {
+                        new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "1-2", "C26"),
+                        new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "1", "C27")
+                    }
                 },
                 new KataSpanRebarSpec
                 {
                     SpanIndex = 1,
-                    Length = 5000.0,
+                    Length = 4000.0,
                     BottomExtraLayer1 = new[] { new KataBarItem(2, 18.0) }
                 }
             },
@@ -145,8 +144,8 @@ public class KataShapeCodeAndBarMarkTests
         foreach (var bar in layout.SideBars)
         {
             Assert.Equal("00", bar.ShapeCode);
-            Assert.Equal("5.1", bar.BarMark);
-            Assert.Contains("Cốt sườn H1", bar.BarDescription);
+            Assert.Equal($"5.{bar.HostSpanIndex + 1}.1", bar.BarMark);
+            Assert.Contains($"Cốt giá nhịp {bar.HostSpanIndex + 1} lớp 1", bar.BarDescription);
             Assert.Equal(5, bar.SttCad);
             Assert.True(bar.DimA > 0);
         }
@@ -163,21 +162,12 @@ public class KataShapeCodeAndBarMarkTests
             Assert.Equal(550.0, z.DimB); // 600 - 2*25
         }
 
-        var capZones = layout.StirrupZones.Where(z => z.StirrupType == KataStirrupShapeType.CapStirrup).ToList();
-        Assert.NotEmpty(capZones);
-        foreach (var z in capZones)
-        {
-            Assert.Equal("45", z.ShapeCode);
-            Assert.Equal("d2", z.BarMark);
-        }
-
-        var tieZones = layout.StirrupZones.Where(z => z.StirrupType == KataStirrupShapeType.CrossTie).ToList();
-        Assert.NotEmpty(tieZones);
-        foreach (var z in tieZones)
-        {
-            Assert.Equal("24a", z.ShapeCode);
-            Assert.Equal("d3", z.BarMark);
-        }
+        var capSets = layout.BarSets.Where(b => b.Role == KataBarRole.StirrupCap).ToList();
+        Assert.NotEmpty(capSets);
+        Assert.All(capSets, b => Assert.StartsWith("d2.1.", b.BarMark));
+        var tieSets = layout.BarSets.Where(b => b.Role == KataBarRole.CrossTie && b.ZoneName != "Cốt giá").ToList();
+        Assert.NotEmpty(tieSets);
+        Assert.All(tieSets, b => Assert.StartsWith("d3.1.", b.BarMark));
 
         // 7. Individual Stirrups
         var closedStirrups = layout.IndividualStirrups.Where(s => s.Role == KataBarRole.StirrupClosed).ToList();
@@ -190,26 +180,6 @@ public class KataShapeCodeAndBarMarkTests
             Assert.Equal(6, s.SttCad);
             Assert.Equal(250.0, s.DimA);
             Assert.Equal(550.0, s.DimB);
-        }
-
-        var capStirrups = layout.IndividualStirrups.Where(s => s.Role == KataBarRole.StirrupCap).ToList();
-        Assert.NotEmpty(capStirrups);
-        foreach (var s in capStirrups)
-        {
-            Assert.Equal("45", s.ShapeCode);
-            Assert.Equal("d2", s.BarMark);
-            Assert.Equal("Đai nắp chữ U", s.BarDescription);
-            Assert.Equal(7, s.SttCad);
-        }
-
-        var tieStirrups = layout.IndividualStirrups.Where(s => s.Role == KataBarRole.CrossTie).ToList();
-        Assert.NotEmpty(tieStirrups);
-        foreach (var s in tieStirrups)
-        {
-            Assert.Equal("24a", s.ShapeCode);
-            Assert.Equal("d3", s.BarMark);
-            Assert.Equal("Đai C / móc đan", s.BarDescription);
-            Assert.Equal(8, s.SttCad);
         }
     }
 }

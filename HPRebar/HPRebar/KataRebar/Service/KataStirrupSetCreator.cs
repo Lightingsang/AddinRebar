@@ -34,7 +34,7 @@ public static class KataStirrupSetCreator
             if (zone.Count <= 0 || zone.OutToOutWidth <= 0.0 || zone.OutToOutHeight <= 0.0) continue;
 
             var host = placement.HostAt((zone.StartStationX + zone.EndStationX) / 2.0);
-            if (shape is not null && TryCreateSet(doc, zone, placement, shape, barType, host, plan.Spec.BeamName, plan.Rules.StirrupCover))
+            if (shape is not null && zone.StirrupType == KataStirrupShapeType.ClosedHoop && TryCreateSet(doc, zone, placement, shape, barType, host, plan.Spec.BeamName, plan.Rules.StirrupCover))
             {
                 sets++;
                 continue;
@@ -159,7 +159,7 @@ public static class KataStirrupSetCreator
     {
         var stations = new HashSet<double>(zone.Stations.Select(s => Math.Round(s, 3)));
         var curves = plan.Layout.IndividualStirrups
-            .Where(s => s.HostSpanIndex == zone.SpanIndex && s.Role == KataBarRole.StirrupClosed)
+            .Where(s => s.HostSpanIndex == zone.SpanIndex && s.BarMark == zone.BarMark)
             .Where(s => stations.Contains(Math.Round(s.Polyline.Points[0].X, 3)))
             .ToList();
 

@@ -1,16 +1,18 @@
-﻿using Installer;
+using Installer;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
 
-const string outputName = "HPRebar";
-const string projectName = "HPRebar";
+var customName = args.FirstOrDefault(a => a.StartsWith("--name="))?.Substring("--name=".Length)
+                 ?? Environment.GetEnvironmentVariable("INSTALLER_PRODUCT_NAME")
+                 ?? "HPRebar";
+var cleanArgs = args.Where(a => !a.StartsWith("--name=")).ToArray();
 
-var versioning = Versioning.CreateFromVersionString(args[0]);
+var versioning = Versioning.CreateFromVersionString(cleanArgs[0]);
 var project = new Project
 {
     OutDir = "output",
-    Name = projectName,
+    Name = customName,
     Platform = Platform.x64,
     UI = WUI.WixUI_FeatureTree,
     MajorUpgrade = MajorUpgrade.Default,
@@ -25,7 +27,7 @@ var project = new Project
     }
 };
 
-var wixEntities = Generator.GenerateWixEntities(args[1..]);
+var wixEntities = Generator.GenerateWixEntities(cleanArgs[1..]);
 project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.CustomizeDlg);
 
 BuildSingleUserMsi();
@@ -34,7 +36,7 @@ BuildMultiUserMsi();
 void BuildSingleUserMsi()
 {
     project.Scope = InstallScope.perUser;
-    project.OutFileName = $"{outputName}-{versioning.Version}-SingleUser";
+    project.OutFileName = $"{customName}-{versioning.Version}-SingleUser";
     project.Dirs =
     [
         new Dir(@"%AppDataFolder%\Autodesk\Revit\Addins\", [.. wixEntities.Select(entity => entity.Directory)])
@@ -45,7 +47,7 @@ void BuildSingleUserMsi()
 void BuildMultiUserMsi()
 {
     project.Scope = InstallScope.perMachine;
-    project.OutFileName = $"{outputName}-{versioning.Version}-MultiUser";
+    project.OutFileName = $"{customName}-{versioning.Version}-MultiUser";
 
     project.Dirs = wixEntities
         .GroupBy(entity => entity.Version switch

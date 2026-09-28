@@ -40,14 +40,21 @@ public static class KataBarNotationParser
     /// Parses a bar notation string into a list of <see cref="KataBarItem"/>s.
     /// Supports compound notations separated by ';' or '+' or ',' (e.g. '2f20;2f16', '6f20;0', '2f20+1f18').
     /// </summary>
-    public static IReadOnlyList<KataBarItem> ParseBarList(string? text, int defaultLayer = 1)
+    public static IReadOnlyList<KataBarItem> ParseBarList(string? text, int defaultLayer = 1, bool allowZeroCount = false)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Array.Empty<KataBarItem>();
 
         string trimmed = text!.Trim();
-        if (trimmed == "0" || trimmed == "-" || trimmed == "*")
+        if (trimmed == "-" || trimmed == "*")
             return Array.Empty<KataBarItem>();
+
+        if (trimmed == "0")
+        {
+            return allowZeroCount
+                ? new[] { new KataBarItem(0, 0.0, defaultLayer, 0.0, "0") }
+                : Array.Empty<KataBarItem>();
+        }
 
         string[] tokens = trimmed.Split(new[] { ';', '+', ',' }, StringSplitOptions.RemoveEmptyEntries);
         var result = new List<KataBarItem>(tokens.Length);
@@ -55,13 +62,23 @@ public static class KataBarNotationParser
         foreach (var rawToken in tokens)
         {
             string token = rawToken.Trim();
-            if (string.IsNullOrEmpty(token) || token == "0" || token == "-")
+            if (string.IsNullOrEmpty(token) || token == "-")
                 continue;
 
-            var item = ParseSingleBar(token, defaultLayer);
-            if (item is not null && !item.IsEmpty)
+            if (token == "0")
             {
-                result.Add(item);
+                if (allowZeroCount)
+                    result.Add(new KataBarItem(0, 0.0, defaultLayer, 0.0, "0"));
+                continue;
+            }
+
+            var item = ParseSingleBar(token, defaultLayer);
+            if (item is not null)
+            {
+                if (!item.IsEmpty || (allowZeroCount && item.Count == 0))
+                {
+                    result.Add(item);
+                }
             }
         }
 

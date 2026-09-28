@@ -53,7 +53,7 @@ public static class KataSpanBottomBarLayout
                 continue;
             }
 
-            double cut = rules.BottomExtraCutFraction * span.Length;
+            double cut = rules.RoundDown(rules.BottomExtraCutFraction * span.Length);
             double xStart = st.SpanStart[s] + cut;
             double xEnd = st.SpanEnd[s] - cut;
 

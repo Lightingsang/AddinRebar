@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using HPRebar.Core.KataExport.Calculators;
 using HPRebar.Core.KataExport.Models;
+using HPRebar.Core.KataRebar.Models;
 using HPRebar.KataExport.ViewModel;
 
 // WPF types, not the Revit ones the SDK imports globally.
@@ -42,6 +43,22 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         nameof(SurfaceBrush), typeof(Brush), typeof(KataElevationCanvas),
         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, (d, _) => ((KataElevationCanvas)d)._palette = null));
 
+    public static readonly DependencyProperty RebarPlanProperty = DependencyProperty.Register(
+        nameof(RebarPlan), typeof(KataRebarPlan), typeof(KataElevationCanvas),
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty RebarStationMapProperty = DependencyProperty.Register(
+        nameof(RebarStationMap), typeof(KataStationMap), typeof(KataElevationCanvas),
+        new FrameworkPropertyMetadata(KataStationMap.Identity, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty ShowRebarProperty = DependencyProperty.Register(
+        nameof(ShowRebar), typeof(bool), typeof(KataElevationCanvas),
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty ShowSectionProperty = DependencyProperty.Register(
+        nameof(ShowSection), typeof(bool), typeof(KataElevationCanvas),
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+
     private KataCanvasPalette? _palette;
     private KataElevationViewport? _viewport;
     private bool _userFramed;
@@ -77,6 +94,32 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         set => SetValue(SurfaceBrushProperty, value);
     }
 
+    /// <summary>The sheet's bars planned on the measured beams; null before the sheet is read back.</summary>
+    public KataRebarPlan? RebarPlan
+    {
+        get => (KataRebarPlan?)GetValue(RebarPlanProperty);
+        set => SetValue(RebarPlanProperty, value);
+    }
+
+    /// <summary>Places the rebar layout's local X on this drawing's stations.</summary>
+    public KataStationMap RebarStationMap
+    {
+        get => (KataStationMap)GetValue(RebarStationMapProperty);
+        set => SetValue(RebarStationMapProperty, value);
+    }
+
+    public bool ShowRebar
+    {
+        get => (bool)GetValue(ShowRebarProperty);
+        set => SetValue(ShowRebarProperty, value);
+    }
+
+    public bool ShowSection
+    {
+        get => (bool)GetValue(ShowSectionProperty);
+        set => SetValue(ShowSectionProperty, value);
+    }
+
     protected override void OnRender(DrawingContext drawingContext)
     {
         var palette = _palette ??= KataCanvasPalette.From(this);
@@ -91,6 +134,17 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         var scene = new KataElevationScene(elevation, viewport, ActualWidth, ActualHeight, SelectedColumnIndex);
         new KataElevationPainter(scene, palette, draw).Paint();
         new KataElevationAnnotations(scene, palette, draw).Paint();
+
+        var map = RebarStationMap ?? KataStationMap.Identity;
+        if (ShowRebar && RebarPlan is not null)
+        {
+            new KataElevationRebarPainter(scene, palette, draw, RebarPlan.Layout, map).Paint();
+        }
+
+        if (ShowSection && RebarPlan is not null)
+        {
+            new KataElevationSectionPainter(scene, RebarPlan, map, palette, draw).Paint();
+        }
     }
 
     /// <summary>

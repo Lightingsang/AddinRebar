@@ -51,6 +51,6 @@ public static class KataRebarLog
 
     public static void Result(string beam, KataRebarGenerationResult result) =>
         Log.Information(
-            "Kata Rebar: beam {Beam} done — deleted {Deleted}, main bars {Main}, support top bars {ExtraTop}, span bottom bars {ExtraBottom}, stirrup sets {Sets}, single stirrups {Singles}, Revit warnings {Warnings}",
-            beam, result.DeletedCount, result.MainBarCount, result.ExtraTopBarCount, result.ExtraBottomBarCount, result.StirrupSetCount, result.StirrupSingleBarCount, result.RevitWarnings.Count);
+            "Kata Rebar: beam {Beam} done — deleted {Deleted}, main bars {Main}, support top bars {ExtraTop}, span bottom bars {ExtraBottom}, side bars {Side}, flat-bar sets {BarSets}, stirrup sets {Sets}, single stirrups {Singles}, Revit warnings {Warnings}",
+            beam, result.DeletedCount, result.MainBarCount, result.ExtraTopBarCount, result.ExtraBottomBarCount, result.SideBarCount, result.BarSetCount, result.StirrupSetCount, result.StirrupSingleBarCount, result.RevitWarnings.Count);
 }

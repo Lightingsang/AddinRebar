@@ -36,6 +36,12 @@ public sealed record KataSpanRebarSpec
     /// <summary>Web skin / side reinforcement bars for this span (sheet Dam row 20 or global).</summary>
     public IReadOnlyList<KataBarItem> SideBars { get; init; } = Array.Empty<KataBarItem>();
 
+    /// <summary>
+    /// Inner stirrups of the span's section (rows 25-44 of the column pair support | span: type in the support
+    /// column, wrapped top bars in the span column). The outer closed hoop is not listed.
+    /// </summary>
+    public IReadOnlyList<KataStirrupBranchSpec> InnerStirrups { get; init; } = Array.Empty<KataStirrupBranchSpec>();
+
     /// <summary>Optional stirrup specification overriding global stirrups for this span (sheet Dam row 22).</summary>
     public KataStirrupSpec? StirrupOverride { get; init; }
 

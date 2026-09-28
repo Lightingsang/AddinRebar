@@ -87,6 +87,9 @@ public sealed record KataBeamRebarSpec
     /// <summary>Global web skin / side bars configured for deep beams (sheet Dam cells G4, G5).</summary>
     public IReadOnlyList<KataBarItem> GlobalSideBars { get; init; } = Array.Empty<KataBarItem>();
 
+    /// <summary>C ties hold the side bars; a negative G5 turns them off.</summary>
+    public bool SideBarTies { get; init; } = true;
+
     /// <summary>Ordered list of supports along the continuous beam (odd columns C, E, G...).</summary>
     public IReadOnlyList<KataSupportRebarSpec> Supports { get; init; } = Array.Empty<KataSupportRebarSpec>();
 

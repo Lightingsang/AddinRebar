@@ -6,7 +6,7 @@
 |---|---|
 | M1 | ✅ Cảnh báo theo ô khi ô có chữ nhưng không vẽ được (không đọc được ký hiệu / gối biên chỉ có vế ngoài / điểm cắt không ra khỏi gối) |
 | M2 | ✅ Chặn khi một lớp gia cường cách thép chủ dưới < d/2 + max(25, d) + d_dưới/2 (`KataRebarLayoutResult.Blocking`) |
-| M3 | ⏭ Chưa sửa: chỉ xảy ra ở gối giữa (nhiều nhịp đang bị chặn); cần user chốt vị trí ngang của 2 vế trước khi mở nhiều nhịp |
+| M3 | ✅ Đã sửa: hai vế xen kẽ khe (`PartitionInterleaved`), vế ưu tiên/đường kính lớn lấy cặp khe ngoài, vế còn lại lấy cặp khe trong; assert Y rời rạc không trùng nhau |
 | M4 | ✅ I3 đọc như I5 theo đúng T3 đã duyệt: chỉ chữ "tâm" → tâm gối; trống/khác → mép gối |
 | L2 | ✅ Kiểm khe hàng 13 dùng đường kính lớn nhất của cả thép chủ và gia cường |
 | L3 | ✅ Lùi chân thép dưới kiểm thêm một lượt sau khi đã lùi |
@@ -44,7 +44,7 @@ None on the path Revit can draw today (single span, two supports).
 **M3 — T8 left/right bars coincide over the interior support** — [KataSupportTopBarLayout.cs:56-61](HPRebar/HPRebar.Core/KataRebar/Calculators/KataSupportTopBarLayout.cs#L56-L61), positions from [KataSupportTopBarLayout.cs:116-118](HPRebar/HPRebar.Core/KataRebar/Calculators/KataSupportTopBarLayout.cs#L116-L118)
 - Scenario (the unit-test sheet itself): `2f20;2f16` at support 1. Probe: 3.2.1T Ø20 at y ±53.5, z −43, x 4900→6757; 3.2.1P Ø16 at y ±53.5, z −43, x 6443→8300 → the two bar pairs occupy the same line over 314 mm. Edge bars of rows 14-16 always coincide (both sides start at the stirrup corners). `CheckSpacing` runs per side, so the union is never checked. The test only asserts X.
 - Latent: multi-span is blocked by the scope filter, so Revit cannot draw it yet. Becomes High when multi-span unlocks.
-- Fix options (the placement across Y is not covered by T8, so the user decides): place the P bars in the gaps the T bars leave (one `BetweenMainBars` over count L+R, split by side), or shift one side by one bar diameter in Y. Add a Y assertion to `An_interior_support_with_different_sides_draws_one_bar_per_side`.
+- Fix: Đối chiếu thực tế qua AutoCAD MCP (`Thep dam.dwg` trục 5) và Excel Kata (`Kata.xlsm` K14): Kata vẽ cả 2 thanh riêng biệt. Giải quyết theo phương án "Hai vế xen kẽ khe" qua `KataLayerPositions.PartitionInterleaved`: chia tổng số thanh của cả 2 vế trên cùng lớp (hoặc giữa thép chủ với lớp 1), phân bổ đối xứng qua tim dầm, vế ưu tiên/đường kính lớn nằm ở các cặp khe ngoài sát đai, vế còn lại nằm ở các cặp khe trong. Đã bổ sung assert kiểm tra tọa độ Y rời rạc không trùng nhau trong `KataSupportTopBarTests`.
 
 **M4 — I3 origin parsing contradicts T3 for blank/other text** — [KataDamSheetParser.cs:49-52](HPRebar/HPRebar.Core/KataRebar/Parsers/KataDamSheetParser.cs#L49-L52) (existing code, now driving geometry)
 - T3: "chứa 'tâm' → tâm gối, còn lại → mép gối". I5 follows it; I3 does the reverse ("contains mép → face, else centre"), so blank I3 or "L từ trục" → centre. Rows 14-16 then reach half a column width less than T3 says. Golden test sets I3 explicitly, so it does not catch this; `KataBeamRebarSpec.CutoffOriginLayer2` default is also `FromColumnCenter`.

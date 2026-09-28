@@ -8,6 +8,32 @@ namespace HPRebar.Core.Tests.KataRebar;
 
 public sealed class KataSheetGeometryCheckTests
 {
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData(false, false)]
+    [InlineData(true, true)]
+    public void A_symmetric_run_follows_the_direction_the_sheet_was_written_in(bool? prefer, bool reversed)
+    {
+        var spec = KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan());
+
+        var result = KataSheetGeometryCheck.Compare(spec, KataRebarTestSheets.MeasuredSingleSpan(), prefer);
+
+        Assert.Equal(reversed, result.Reversed);
+    }
+
+    [Fact]
+    public void A_clearly_better_fit_wins_over_the_preferred_direction()
+    {
+        var table = KataRebarTestSheets.SingleSpan();
+        table.Set("C11", 500.0);
+        table.Set("D11", 5900.0);
+        var spec = KataDamSheetParser.Parse(table);
+
+        var result = KataSheetGeometryCheck.Compare(spec, KataRebarTestSheets.MeasuredSingleSpan(500.0, 5900.0, 400.0), preferReversed: true);
+
+        Assert.False(result.Reversed);
+    }
+
     private static readonly KataBeamRebarSpec Sheet = KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan());
 
     [Fact]

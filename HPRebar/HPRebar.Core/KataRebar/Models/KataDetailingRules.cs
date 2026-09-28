@@ -26,6 +26,31 @@ public sealed record KataDetailingRules
     /// <summary>Anchorage of the bottom bars in diameters (G3, compression zone at the supports).</summary>
     public double BottomAnchorageFactor { get; init; }
 
+    /// <summary>Anchorage factor for beam side bars into supports in diameters (default 10d in Kata settings).</summary>
+    public double SideBarAnchorageFactor { get; init; } = 10.0;
+
+    /// <summary>Longest stock bar; a continuous bar beyond it is reported (laps are not drawn yet).</summary>
+    public double MaxBarLength { get; init; } = 11700.0;
+
+    /// <summary>Additional bars are cut on multiples of this length (mm).</summary>
+    public double RoundCutExtraMm { get; init; } = 50.0;
+
+    /// <summary>Spacing of the C ties holding the side bars (mm).</summary>
+    public double SideBarTieSpacing { get; init; } = 400.0;
+
+    public int ClosedStirrupHookAngle { get; init; } = 135;
+    public double ClosedStirrupHookFactor { get; init; } = 7.5;
+    public int CrossTieHookAngle { get; init; } = 180;
+    public double CrossTieHookFactor { get; init; } = 7.5;
+
+    /// <summary>A reach rounded up to the cut increment, so a rounded bar is never shorter.</summary>
+    public double RoundUp(double length) =>
+        RoundCutExtraMm > 0.0 ? Math.Ceiling(length / RoundCutExtraMm - 1e-9) * RoundCutExtraMm : length;
+
+    /// <summary>A distance kept free of a bar, rounded down to the cut increment.</summary>
+    public double RoundDown(double length) =>
+        RoundCutExtraMm > 0.0 ? Math.Floor(length / RoundCutExtraMm + 1e-9) * RoundCutExtraMm : length;
+
     /// <summary>Shortest bent leg of an anchorage, in diameters.</summary>
     public double MinimumLegFactor { get; init; } = 10.0;
 

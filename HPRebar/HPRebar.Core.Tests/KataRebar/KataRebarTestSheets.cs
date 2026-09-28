@@ -43,4 +43,25 @@ internal static class KataRebarTestSheets
             new(KataMeasuredSupportKind.None, span),
             new(KataMeasuredSupportKind.Column, right)
         }, 1);
+
+    /// <summary>The live-check beam continued over a third 400 mm column: spans 6000 and 4500.</summary>
+    public static KataCellTable TwoSpans()
+    {
+        var table = SingleSpan();
+        table.Set("F10", "Nhịp");
+        table.Set("G10", "Cột ");
+        table.Set("F11", 4500.0);
+        table.Set("G11", 400.0);
+        return table;
+    }
+
+    public static KataMeasuredBeam MeasuredTwoSpans(int pieces = 2) =>
+        new(300.0, 600.0, new List<KataMeasuredSegment>
+        {
+            new(KataMeasuredSupportKind.Column, 400.0),
+            new(KataMeasuredSupportKind.None, 6000.0),
+            new(KataMeasuredSupportKind.Column, 400.0),
+            new(KataMeasuredSupportKind.None, 4500.0),
+            new(KataMeasuredSupportKind.Column, 400.0)
+        }, pieces);
 }

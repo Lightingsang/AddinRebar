@@ -317,10 +317,10 @@ public class KataRebarCalculatorTests
         var span0Bot = result.ExtraBottomBars.Where(b => b.HostSpanIndex == 0).ToList();
         Assert.Equal(8, span0Bot.Count);
 
-        // Span 0 clear length = 10400. Cutoff L/7 = 1485.71 mm from faces.
+        // Span 0 clear length = 10400. Cutoff L/7 = 1485.71 mm from faces, rounded down to the 50 mm cut step.
         // Start face = 400. End face = 10800.
-        double expectedBotStart = 400.0 + (10400.0 / 7.0);
-        double expectedBotEnd = 10800.0 - (10400.0 / 7.0);
+        double expectedBotStart = 400.0 + 1450.0;
+        double expectedBotEnd = 10800.0 - 1450.0;
         Assert.Equal(expectedBotStart, span0Bot[0].Polyline.Points[0].X, precision: 1);
         Assert.Equal(expectedBotEnd, span0Bot[0].Polyline.Points[1].X, precision: 1);
 
@@ -331,6 +331,10 @@ public class KataRebarCalculatorTests
         Assert.Empty(span0Side);
         var span1Side = result.SideBars.Where(b => b.HostSpanIndex == 1).ToList();
         Assert.Equal(4, span1Side.Count);
+        // Side bar extends 10*dia = 120 mm into left and right supports (400 mm columns) per Kata settings
+        Assert.Equal(11080.0, span1Side[0].Polyline.Points[0].X);
+        Assert.Equal(17820.0, span1Side[0].Polyline.Points[1].X);
+        Assert.Equal(6740.0, span1Side[0].DimA); // 6500 + 2 * 120
 
         // 5. Stirrup Zones
         // 2 spans, 3 zones each = 6 zones
@@ -467,75 +471,17 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_DeepBeam_AutoGeneratesSideBarsWithMax300mmSpacing()
+    public void Calculate_InnerStirrups_FollowTheOuterZonesAsFlatBarSets()
     {
-        // Deep beam with h = 1100 mm, no explicit side bars in spec
-        var spec = new KataBeamRebarSpec
-        {
-            BeamName = "B_DEEP",
-            Width = 400.0,
-            Height = 1100.0,
-            CoverStirrup = 25.0,
-            TopContinuous = new KataBarItem(4, 25.0),
-            BottomContinuous = new KataBarItem(4, 25.0),
-            Supports = new[]
-            {
-                new KataSupportRebarSpec { SupportIndex = 0, ColumnWidth = 400.0 },
-                new KataSupportRebarSpec { SupportIndex = 1, ColumnWidth = 400.0 }
-            },
-            Spans = new[]
-            {
-                new KataSpanRebarSpec { SpanIndex = 0, Length = 6000.0 }
-            }
-        };
-
-        var result = KataRebarCalculator.Calculate(spec);
-
-        Assert.True(result.IsValid);
-        Assert.NotEmpty(result.SideBars);
-
-        // For h = 1100, clear web ~ 1005 mm -> 3 rows of side bar pairs = 6 bars
-        Assert.Equal(6, result.SideBars.Count);
-
-        // Symmetrical pairs on left and right faces
-        var leftBars = result.SideBars.Where(b => b.TransverseY < 0).ToList();
-        var rightBars = result.SideBars.Where(b => b.TransverseY > 0).ToList();
-        Assert.Equal(3, leftBars.Count);
-        Assert.Equal(3, rightBars.Count);
-
-        // Check vertical spacing <= 300 mm between adjacent rows
-        leftBars = leftBars.OrderBy(b => b.Polyline.Points[0].Z).ToList();
-        for (int i = 0; i < leftBars.Count - 1; i++)
-        {
-            double dz = leftBars[i + 1].Polyline.Points[0].Z - leftBars[i].Polyline.Points[0].Z;
-            Assert.True(dz <= 300.0);
-        }
-    }
-
-    [Fact]
-    public void Calculate_MultiTypeStirrups_GeneratesClosedHoopCapAndCrossTie()
-    {
-        // Beam specifying 3 stirrup types from rows 25-27: Closed hoop, Cap U, Cross tie C
         var spec = new KataBeamRebarSpec
         {
             BeamName = "B_STIRRUP_TYPES",
             Width = 400.0,
             Height = 600.0,
             CoverStirrup = 25.0,
-            TopContinuous = new KataBarItem(2, 20.0),
-            BottomContinuous = new KataBarItem(2, 20.0),
-            GlobalStirrup = new KataStirrupSpec
-            {
-                Diameter = 10.0,
-                SupportSpacing = 150.0,
-                MidspanSpacing = 200.0,
-                Branches = new[]
-                {
-                    new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "Outer"),
-                    new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "TopCap"),
-                    new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "MidTie")
-                }
-            },
+            TopContinuous = new KataBarItem(4, 20.0),
+            BottomContinuous = new KataBarItem(4, 20.0),
+            GlobalStirrup = new KataStirrupSpec { Diameter = 10.0, SupportSpacing = 150.0, MidspanSpacing = 200.0 },
             Supports = new[]
             {
                 new KataSupportRebarSpec { SupportIndex = 0, ColumnWidth = 400.0 },
@@ -543,38 +489,34 @@ public class KataRebarCalculatorTests
             },
             Spans = new[]
             {
-                new KataSpanRebarSpec { SpanIndex = 0, Length = 6000.0 }
+                new KataSpanRebarSpec
+                {
+                    SpanIndex = 0,
+                    Length = 6000.0,
+                    InnerStirrups = new[]
+                    {
+                        new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "1-4", "C25"), // the outer hoop itself
+                        new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "2-3", "C26"),
+                        new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "2", "C27")
+                    }
+                }
             }
         };
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        Assert.True(result.IsValid, string.Join(" | ", result.Warnings));
+        Assert.Equal(3, result.StirrupZones.Count);
+        Assert.All(result.StirrupZones, z => Assert.Equal(KataStirrupShapeType.ClosedHoop, z.StirrupType));
 
-        // 3 branches x 3 zones = 9 stirrup zones
-        Assert.Equal(9, result.StirrupZones.Count);
-
-        // Verify that ClosedHoop, CapStirrup, and CrossTie curves are generated
-        var closedHoops = result.IndividualStirrups.Where(s => s.Role == KataBarRole.StirrupClosed).ToList();
-        var capStirrups = result.IndividualStirrups.Where(s => s.Role == KataBarRole.StirrupCap).ToList();
-        var crossTies = result.IndividualStirrups.Where(s => s.Role == KataBarRole.CrossTie).ToList();
-
-        Assert.NotEmpty(closedHoops);
-        Assert.NotEmpty(capStirrups);
-        Assert.NotEmpty(crossTies);
-
-        // Closed hoop should be closed (4 corner vertices after Simplify removes redundant closing vertex)
-        Assert.True(closedHoops[0].Polyline.IsClosed);
-        Assert.Equal(4, closedHoops[0].Polyline.Points.Count);
-        Assert.True(closedHoops[0].Polyline.TotalLength > 0.0);
-
-        // Cap stirrup is open (4 vertices)
-        Assert.False(capStirrups[0].Polyline.IsClosed);
-        Assert.Equal(4, capStirrups[0].Polyline.Points.Count);
-
-        // Cross tie has 2 vertices
-        Assert.False(crossTies[0].Polyline.IsClosed);
-        Assert.Equal(2, crossTies[0].Polyline.Points.Count);
+        var caps = result.BarSets.Where(b => b.Role == KataBarRole.StirrupCap).ToList();
+        var ties = result.BarSets.Where(b => b.Role == KataBarRole.CrossTie).ToList();
+        Assert.Equal(3, caps.Count);
+        Assert.Equal(3, ties.Count);
+        Assert.Equal(result.StirrupZones.Sum(z => z.Count), caps.Sum(c => c.Count));
+        Assert.Equal(4, caps[0].Shape.Points.Count);
+        Assert.Equal(2, ties[0].Shape.Points.Count);
+        Assert.Equal((135, 180), (caps[0].HookAngle, ties[0].HookAngle));
     }
 
     [Fact]
@@ -838,10 +780,81 @@ public class KataRebarCalculatorTests
         }
     }
 
+    [Fact]
+    public void Calculate_MainBarsExceeding11700_ProducesWarningAndContinuousBars()
+    {
+        var spec = new KataBeamRebarSpec
+        {
+            BeamName = "B_LONG_CONTINUOUS",
+            Width = 300.0,
+            Height = 600.0,
+            CoverStirrup = 25.0,
+            TopContinuous = new KataBarItem(2, 20.0),
+            BottomContinuous = new KataBarItem(2, 20.0),
+            GlobalStirrup = new KataStirrupSpec { Diameter = 8.0, SupportSpacing = 100.0, MidspanSpacing = 200.0 },
+            Supports = new[]
+            {
+                new KataSupportRebarSpec { SupportIndex = 0, ColumnWidth = 400.0 },
+                new KataSupportRebarSpec { SupportIndex = 1, ColumnWidth = 400.0 },
+                new KataSupportRebarSpec { SupportIndex = 2, ColumnWidth = 400.0 }
+            },
+            Spans = new[]
+            {
+                new KataSpanRebarSpec { SpanIndex = 0, Length = 6000.0 },
+                new KataSpanRebarSpec { SpanIndex = 1, Length = 6000.0 }
+            }
+        };
+
+        var result = KataRebarCalculator.Calculate(spec);
+
+        Assert.Empty(result.Blocking);
+        Assert.NotEmpty(result.MainTopBars);
+        Assert.NotEmpty(result.MainBottomBars);
+        Assert.True(result.MainTopBars[0].TotalLength > 11700.0);
+        Assert.True(result.MainBottomBars[0].TotalLength > 11700.0);
+        Assert.Contains(result.Warnings, w => w.StartsWith("Thép chủ trên") && w.Contains("vượt chiều dài cây thép 11700"));
+        Assert.Contains(result.Warnings, w => w.StartsWith("Thép chủ dưới") && w.Contains("vượt chiều dài cây thép 11700"));
+    }
+
+    [Fact]
+    public void Calculate_SpanSideBarOverride_2f12_ReducesToSingleLayer()
+    {
+        var spec = new KataBeamRebarSpec
+        {
+            BeamName = "B_SIDE_OVERRIDE",
+            Width = 300.0,
+            Height = 750.0,
+            TopContinuous = new KataBarItem(2, 20.0),
+            BottomContinuous = new KataBarItem(2, 20.0),
+            GlobalSideBars = new[] { new KataBarItem(2, 12.0), new KataBarItem(2, 12.0) }, // 2 layers
+            Supports = new[]
+            {
+                new KataSupportRebarSpec { SupportIndex = 0, ColumnWidth = 400.0 },
+                new KataSupportRebarSpec { SupportIndex = 1, ColumnWidth = 400.0 }
+            },
+            Spans = new[]
+            {
+                new KataSpanRebarSpec
+                {
+                    SpanIndex = 0,
+                    Length = 6000.0,
+                    SideBars = new[] { new KataBarItem(2, 12.0) } // row 20 "2f12": two bars, one layer
+                }
+            }
+        };
+
+        var result = KataRebarCalculator.Calculate(spec);
+
+        Assert.True(result.IsValid);
+        // 1 layer override means 2 side bars total (1 left, 1 right)
+        Assert.Equal(2, result.SideBars.Count);
+        Assert.Equal(1, result.SideBars[0].Layer);
+        Assert.Equal(1, result.SideBars[1].Layer);
+    }
+
     /// <summary>
-    /// A 500-600 mm beam cannot fit a 40d leg for Ø20 bars: the only warnings allowed are the anchorage
-    /// shortfalls the layout reports.
+    /// The allowed warnings are anchorage shortfalls of shallow beams, extra bar cutoffs, or main bar length > 11.7 m.
     /// </summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
-        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường"), w));
+        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ"), w));
 }

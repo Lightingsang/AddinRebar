@@ -28,6 +28,44 @@ public static class KataRebarCurveFactory
         return rebar ?? throw new InvalidOperationException($"Revit không tạo được thanh thép '{barType.Name}' từ {curves.Count} đoạn cong.");
     }
 
+    /// <summary>
+    /// A bar whose two ends carry a Revit hook of <paramref name="hook"/>, each turned towards
+    /// <paramref name="hookTowardPoint"/> (a model point in the bar's plane) as seen from that end.
+    /// </summary>
+    public static Rebar CreateHooked(Document doc, RebarStyle style, RebarBarType barType, RebarHookType hook, Element host, XYZ normal, IList<Curve> curves, XYZ hookTowardPoint)
+    {
+        var first = curves[0];
+        var last = curves[curves.Count - 1];
+        bool startRight = IsRight(Direction(first), normal, hookTowardPoint - first.GetEndPoint(0));
+        bool endRight = IsRight(Direction(last), normal, hookTowardPoint - last.GetEndPoint(1));
+
+        // Multi-version: rebar terminations — see Create.
+#if REVIT2026_OR_GREATER
+        var terminations = new BarTerminationsData(doc)
+        {
+            HookTypeIdAtStart = hook.Id,
+            HookTypeIdAtEnd = hook.Id,
+            TerminationOrientationAtStart = startRight ? RebarTerminationOrientation.Right : RebarTerminationOrientation.Left,
+            TerminationOrientationAtEnd = endRight ? RebarTerminationOrientation.Right : RebarTerminationOrientation.Left
+        };
+        var rebar = Rebar.CreateFromCurves(doc, style, barType, host, normal, curves, terminations, true, true);
+#else
+        var rebar = Rebar.CreateFromCurves(
+            doc, style, barType, hook, hook, host, normal, curves,
+            startRight ? RebarHookOrientation.Right : RebarHookOrientation.Left,
+            endRight ? RebarHookOrientation.Right : RebarHookOrientation.Left, true, true);
+#endif
+        return rebar ?? throw new InvalidOperationException($"Revit không tạo được thanh thép có móc '{barType.Name}'.");
+    }
+
+    private static XYZ Direction(Curve curve) => (curve.GetEndPoint(1) - curve.GetEndPoint(0)).Normalize();
+
+    /// <summary>
+    /// Which side is "Right", measured in Revit 2026: facing along the bar's direction (start to end) at both
+    /// ends, the normal up — at the start too, although the API text reads "the bar behind you".
+    /// </summary>
+    private static bool IsRight(XYZ facing, XYZ normal, XYZ toward) => facing.CrossProduct(normal).DotProduct(toward) > 0.0;
+
     /// <summary>Model curves of a local polyline (mm), dropping segments Revit would refuse as too short.</summary>
     public static IList<Curve> Curves(Polyline3 polyline, PointMapper mapper)
     {

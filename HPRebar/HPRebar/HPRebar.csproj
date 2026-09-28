@@ -10,6 +10,10 @@
         <Configurations>$(Configurations);Release.R23;Release.R24;Release.R25;Release.R26;Release.R27</Configurations>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(KataOnly)' == 'true'">
+        <DefineConstants>$(DefineConstants);KATA_ONLY</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
         <!-- Revit Dependencies -->
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>

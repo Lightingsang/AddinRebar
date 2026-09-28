@@ -31,27 +31,30 @@ public sealed class KataStirrupSectionParserTests
         var spec = KataDamSheetParser.Parse(table);
 
         Assert.Single(spec.GlobalStirrup.Branches);
-        Assert.Empty(spec.DetailingNotes);
+        Assert.Empty(spec.Spans[0].InnerStirrups);
     }
 
     [Fact]
-    public void Each_column_pair_lists_inner_stirrups_by_type_and_wrapped_bars()
+    public void The_pair_support_span_lists_the_inner_stirrups_of_that_span()
     {
-        var table = KataRebarTestSheets.SingleSpan();
+        var table = KataRebarTestSheets.TwoSpans();
         table.Set("C25", "Đai U");
         table.Set("D25", "3-4");
         table.Set("C26", "Đai C");
         table.Set("D26", "2");
+        table.Set("E25", "Đai □");
+        table.Set("F25", "2-5");
         table.Set("M25", "Đai □");
-        table.Set("N25", "2-5");
+        table.Set("N25", "1-2");
 
-        var branches = KataDamSheetParser.Parse(table).GlobalStirrup.Branches;
+        var spans = KataDamSheetParser.Parse(table).Spans;
 
-        Assert.Equal(4, branches.Count);
-        Assert.True(branches[0].IsOuterHoop);
-        Assert.Equal(new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "3-4", "C25"), branches[1]);
-        Assert.Equal(new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "2", "C26"), branches[2]);
-        Assert.Equal(new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "2-5", "M25"), branches[3]);
+        Assert.Equal(new[]
+        {
+            new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, "3-4", "C25"),
+            new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, "2", "C26")
+        }, spans[0].InnerStirrups.ToArray());
+        Assert.Equal(new[] { new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "2-5", "E25") }, spans[1].InnerStirrups.ToArray());
     }
 
     [Fact]

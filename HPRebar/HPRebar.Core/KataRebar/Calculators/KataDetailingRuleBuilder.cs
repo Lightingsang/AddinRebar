@@ -19,9 +19,10 @@ public static class KataDetailingRuleBuilder
     public const double DefaultTopAnchorageFactor = 40.0;
     public const double DefaultBottomAnchorageFactor = 30.0;
 
-    public static KataDetailingRules Build(KataBeamRebarSpec spec)
+    public static KataDetailingRules Build(KataBeamRebarSpec spec, KataSettings? settings = null)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
+        settings ??= KataSettings.Default;
 
         var warnings = new List<string>();
         var errors = new List<string>();
@@ -63,6 +64,14 @@ public static class KataDetailingRuleBuilder
             StirrupDiameter = ds,
             TopAnchorageFactor = spec.TensionLapMultiplier > 0.0 ? spec.TensionLapMultiplier : DefaultTopAnchorageFactor,
             BottomAnchorageFactor = spec.CompressionLapMultiplier > 0.0 ? spec.CompressionLapMultiplier : DefaultBottomAnchorageFactor,
+            SideBarAnchorageFactor = settings.SideBarAnchorageFactor > 0.0 ? settings.SideBarAnchorageFactor : 10.0,
+            MaxBarLength = settings.MaxBarLength > 0.0 ? settings.MaxBarLength : 11700.0,
+            RoundCutExtraMm = Math.Max(0.0, settings.RoundCutExtraMm),
+            SideBarTieSpacing = settings.SideBarTieSpacing > 0.0 ? settings.SideBarTieSpacing : 400.0,
+            ClosedStirrupHookAngle = settings.ClosedStirrupHookAngle,
+            ClosedStirrupHookFactor = settings.ClosedStirrupHookFactor,
+            CrossTieHookAngle = settings.CrossTieHookAngle,
+            CrossTieHookFactor = settings.CrossTieHookFactor,
             Warnings = warnings,
             Errors = errors
         };

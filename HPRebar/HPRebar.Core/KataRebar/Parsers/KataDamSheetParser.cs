@@ -53,7 +53,7 @@ public static class KataDamSheetParser
 
         var (coverMain, coverStirrup) = KataBarNotationParser.ParseCover(accessor.GetText("J9"));
 
-        // 3. Global Stirrup (G6:G9, I8, Rows 25-27)
+        // 3. Global Stirrup (G6:G9, I8, J7, Rows 25-27)
         double stirrupDia = accessor.GetDouble("G6") ?? 10.0;
         string? g7Text = accessor.GetText("G7");
         string? g8Text = accessor.GetText("G8");
@@ -63,7 +63,9 @@ public static class KataDamSheetParser
         int defaultLegCount = accessor.GetInt("I8") ?? 2;
 
         var notes = new List<KataCellNote>();
-        var branches = KataStirrupSectionParser.Parse(accessor, FirstDataColumn, MaxDataColumn, notes);
+        // J7 is saved with every beam next to the stirrup spacings; what Kata does with it is not known.
+        Note(accessor, notes, 7, 10, "ô J7 (chưa rõ nghĩa)");
+        var branches = new[] { KataStirrupBranchSpec.Outer };
         var globalStirrup = new KataStirrupSpec
         {
             Diameter = stirrupDia,
@@ -82,7 +84,9 @@ public static class KataDamSheetParser
 
         // 5. Global Side Bars (G4, G5)
         double sideDia = accessor.GetDouble("G4") ?? 0.0;
-        int sideLayers = accessor.GetInt("G5") ?? 0;
+        // G5 counts the layers; a negative count keeps the layers and drops their C ties.
+        int g5 = accessor.GetInt("G5") ?? 0;
+        int sideLayers = Math.Abs(g5);
         var globalSideBars = new List<KataBarItem>();
         if (sideDia > 0.0 && sideLayers > 0)
         {
@@ -163,6 +167,7 @@ public static class KataDamSheetParser
             DetailingNotes = notes,
             GlobalStirrup = globalStirrup,
             GlobalSideBars = globalSideBars,
+            SideBarTies = g5 >= 0,
             Supports = supports,
             Spans = spans
         };
@@ -231,7 +236,7 @@ public static class KataDamSheetParser
         var botL2 = KataBarNotationParser.ParseBarList(botText2, defaultLayer: 2);
 
         var (topDrop, topDropBars) = KataBarNotationParser.ParseOffsetAndBars(accessor.GetText(19, col));
-        var sideBars = KataBarNotationParser.ParseBarList(accessor.GetText(20, col));
+        var sideBars = KataBarNotationParser.ParseBarList(accessor.GetText(20, col), allowZeroCount: true);
         var (soffitDrop, soffitDropBars) = KataBarNotationParser.ParseOffsetAndBars(accessor.GetText(21, col));
 
         string? stirrupOverrideText = accessor.GetText(22, col);
@@ -252,6 +257,7 @@ public static class KataDamSheetParser
         }
 
         Note(accessor, notes, 23, col, "đai gia cường của nhịp");
+        var innerStirrups = KataStirrupSectionParser.ParsePair(accessor, col - 1);
 
         return new KataSpanRebarSpec
         {
@@ -264,6 +270,7 @@ public static class KataDamSheetParser
             BottomExtraLayer2Text = botText2,
             SideBars = sideBars,
             StirrupOverride = stirrupOverride,
+            InnerStirrups = innerStirrups,
             TopDrop = topDrop,
             SoffitDrop = soffitDrop,
             TopDropBars = topDropBars,

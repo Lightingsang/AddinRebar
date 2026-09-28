@@ -13,7 +13,8 @@ namespace HPRebar.Core.Tests.KataRebar;
 /// </summary>
 public sealed class KataSpanBottomBarTests
 {
-    private const double Cut = 6000.0 / 7.0;
+    // 6000 / 7 = 857 kept free of the bars, rounded down to the 50 mm cut step.
+    private const double Cut = 850.0;
 
     private static KataRebarPlan Plan(KataCellTable table, KataMeasuredBeam? measured = null) =>
         KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), measured ?? KataRebarTestSheets.MeasuredSingleSpan());

@@ -48,38 +48,44 @@ public sealed class KataScopeFilterTests
     }
 
     [Fact]
-    public void Row_20_bars_are_skipped_but_a_zero_is_not()
+    public void Row_20_bars_are_kept_in_scope()
     {
-        Assert.Contains(Apply(("D20", "2f12")).Skipped, s => s.StartsWith("D20"));
-        Assert.DoesNotContain(Apply(("D20", "0")).Skipped, s => s.StartsWith("D20"));
+        var result = Apply(("D20", "2f12"));
+        Assert.Empty(result.Skipped);
+        Assert.Single(result.Filtered.Spans[0].SideBars);
+        Assert.Equal(12.0, result.Filtered.Spans[0].SideBars[0].Diameter);
     }
 
     [Fact]
-    public void Steps_and_span_stirrup_overrides_are_skipped()
+    public void Steps_are_skipped_and_span_stirrup_overrides_are_kept()
     {
         var result = Apply(("D19", "100;5f25"), ("D21", "-100"), ("D22", "a100/200"));
 
         Assert.Contains(result.Skipped, s => s.StartsWith("D19 '100;5f25'"));
         Assert.Contains(result.Skipped, s => s.StartsWith("D21 '-100'"));
-        Assert.Contains(result.Skipped, s => s.StartsWith("D22"));
-        Assert.Null(result.Filtered.Spans[0].StirrupOverride);
+        Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D22"));
+        Assert.NotNull(result.Filtered.Spans[0].StirrupOverride);
+        Assert.Equal(100.0, result.Filtered.Spans[0].StirrupOverride!.SupportSpacing);
+        Assert.Equal(200.0, result.Filtered.Spans[0].StirrupOverride!.MidspanSpacing);
     }
 
     [Fact]
-    public void Inner_stirrups_are_skipped_and_only_the_outer_hoop_stays()
+    public void Inner_stirrups_are_kept_in_scope()
     {
         var result = Apply(("C25", "Đai U"), ("D25", "3-4"));
 
-        Assert.Contains(result.Skipped, s => s.StartsWith("C25 'Đai U 3-4'"));
-        Assert.Equal(new[] { KataStirrupBranchSpec.Outer }, result.Filtered.GlobalStirrup.Branches.ToArray());
+        Assert.Empty(result.Skipped);
+        Assert.Contains(result.Filtered.Spans[0].InnerStirrups, b => b.ShapeType == KataStirrupShapeType.CapStirrup);
     }
 
     [Fact]
-    public void Two_spans_block()
+    public void Two_spans_are_supported()
     {
         var result = Apply(("F10", "Nhịp"), ("F11", 3000.0), ("G10", "Cột "), ("G11", 400.0));
 
-        Assert.NotEmpty(result.Blocking);
+        Assert.Empty(result.Blocking);
+        Assert.Equal(2, result.Filtered.Spans.Count);
+        Assert.Equal(3, result.Filtered.Supports.Count);
     }
 
     [Fact]

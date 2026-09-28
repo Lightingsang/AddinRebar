@@ -8,6 +8,7 @@ using HPRebar.Core.KataExport.Calculators;
 using HPRebar.Core.KataExport.Models;
 using HPRebar.KataExport.Model;
 using HPRebar.KataExport.Service;
+using HPRebar.KataRebar.Service;
 using Serilog;
 
 namespace HPRebar.KataExport.ViewModel;
@@ -65,10 +66,12 @@ public sealed partial class KataExportViewModel : ObservableObject
     [ObservableProperty] private string _axisOffsetValue = string.Empty;
     [ObservableProperty] private string _elevationValue = string.Empty;
 
-    public KataExportViewModel(KataExportSession session, IKataExportRunner runner)
+    /// <param name="typeResolver">Bar types of the model, read on the API thread; null leaves generation without types.</param>
+    public KataExportViewModel(KataExportSession session, IKataExportRunner runner, KataRebarTypeResolver? typeResolver = null)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _runner = runner ?? throw new ArgumentNullException(nameof(runner));
+        _typeResolver = typeResolver;
         LoadSession();
         ProbeWorkbook();
     }
@@ -128,7 +131,8 @@ public sealed partial class KataExportViewModel : ObservableObject
             PreviewColumns = columns;
             // A new item list clears the table's selection; the same run keeps the column the user picked.
             SelectedColumnIndex = selected < columns.Count ? selected : -1;
-            Warnings = _session.Warnings.Concat(sheet.Warnings).Distinct().ToList();
+            _exportWarnings = _session.Warnings.Concat(sheet.Warnings).Distinct().ToList();
+            PublishWarnings();
             AxisOffsetText = $"B9 = {sheet.HeaderColumn[6]} mm";
 
             BeamNameValue = sheet.HeaderColumn[0]?.ToString() ?? "-";
@@ -151,7 +155,8 @@ public sealed partial class KataExportViewModel : ObservableObject
             HeaderLine = string.Empty;
             PreviewColumns = Array.Empty<KataPreviewColumn>();
             SelectedColumnIndex = -1;
-            Warnings = _session.Warnings;
+            _exportWarnings = _session.Warnings;
+            PublishWarnings();
 
             BeamNameValue = "-";
             BeamCountValue = "-";
@@ -164,6 +169,7 @@ public sealed partial class KataExportViewModel : ObservableObject
         }
 
         SelectionText = KataPreviewBuilder.Describe(Elevation, SelectedColumnIndex);
+        RefreshStationMap();
         ShowState();
         ExportCommand.NotifyCanExecuteChanged();
     }
@@ -239,6 +245,8 @@ public sealed partial class KataExportViewModel : ObservableObject
             }
 
             _session = session;
+            // Bars planned on the previous beams must not be drawn on the new ones.
+            ClearRebar();
             LoadSession();
             ProbeWorkbook();
         }

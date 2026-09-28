@@ -173,7 +173,7 @@ public sealed partial class KataRebarViewModel : ObservableObject
     private KataRebarPlan Replan()
     {
         var measured = _match is { IsSuccess: true } ? _match.Measured : null;
-        var plan = KataRebarPlanner.Plan(_spec ?? new KataBeamRebarSpec(), measured);
+        var plan = KataRebarPlanner.Plan(_spec ?? new KataBeamRebarSpec(), measured, KataSettingsStore.Load());
         var spec = plan.Spec;
 
         BeamName = spec.BeamName;

@@ -13,7 +13,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 public static class KataRebarPlanner
 {
     /// <param name="measured">The picked beam as Revit models it; null before a beam is picked (sheet-only preview).</param>
-    public static KataRebarPlan Plan(KataBeamRebarSpec spec, KataMeasuredBeam? measured)
+    /// <param name="settings">The office detailing settings; null uses the Kata defaults.</param>
+    /// <param name="preferReversed">The direction the sheet was written in, when known (see <see cref="KataSheetGeometryCheck.Compare"/>).</param>
+    public static KataRebarPlan Plan(KataBeamRebarSpec spec, KataMeasuredBeam? measured, KataSettings? settings = null, bool? preferReversed = null)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
 
@@ -25,7 +27,7 @@ public static class KataRebarPlanner
         if (measured is not null)
         {
             blocking.AddRange(RunShape(measured));
-            var check = KataSheetGeometryCheck.Compare(spec, measured);
+            var check = KataSheetGeometryCheck.Compare(spec, measured, preferReversed);
             reversed = check.Reversed;
             blocking.AddRange(check.Blocking);
             warnings.AddRange(check.Warnings);
@@ -36,22 +38,11 @@ public static class KataRebarPlanner
         var scope = KataScopeFilter.Apply(effective);
         blocking.AddRange(scope.Blocking);
 
-        var rules = KataDetailingRuleBuilder.Build(scope.Filtered);
+        var rules = KataDetailingRuleBuilder.Build(scope.Filtered, settings);
         blocking.AddRange(rules.Errors);
 
         var layout = KataRebarCalculator.Calculate(scope.Filtered, rules);
         var skipped = scope.Skipped.ToList();
-        if (layout.SideBars.Count > 0)
-        {
-            skipped.Add($"Cốt giá tự động cho dầm cao {scope.Filtered.Height:0} mm (≥ 700) — chưa hỗ trợ, không vẽ.");
-            layout = layout with
-            {
-                SideBars = Array.Empty<KataRebarCurve>(),
-                TotalSteelWeightKg = Math.Round(
-                    layout.TotalSteelWeightKg - KataRebarCalculator.WeightKg(layout.SideBars), 2)
-            };
-        }
-
         warnings.AddRange(layout.Warnings);
         blocking.AddRange(layout.Blocking);
 
@@ -70,8 +61,10 @@ public static class KataRebarPlanner
     /// <summary>Run shapes this version cannot draw even when the sheet agrees with them.</summary>
     private static IEnumerable<string> RunShape(KataMeasuredBeam measured)
     {
-        if (measured.PieceCount != 1)
-            yield return $"Đã chọn {measured.PieceCount} dầm; bản này mới vẽ 1 dầm (1 nhịp) mỗi lần.";
+        // One framing element may run over several supports, or a span may be drawn in pieces: the bars
+        // follow the measured run either way, each hosted by the piece under its middle.
+        if (measured.PieceCount < 1)
+            yield return "Chưa chọn dầm nào trong Revit.";
 
         foreach (var segment in measured.Segments.Where(s => s.IsSupport))
         {

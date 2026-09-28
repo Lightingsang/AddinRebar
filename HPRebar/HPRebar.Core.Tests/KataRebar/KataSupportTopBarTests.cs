@@ -93,11 +93,93 @@ public sealed class KataSupportTopBarTests
         var result = KataRebarCalculator.Calculate(spec);
         var bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
 
-        // Support 1 spans 6400..6800; reach 0.25 × 6000 from the faces; each side ends at the far face − a.
-        Assert.Equal(new[] { 4900.0, 4900.0 }, bars.Where(b => b.Diameter == 20.0).Select(b => b.Polyline.Points[0].X).ToArray());
-        Assert.All(bars.Where(b => b.Diameter == 20.0), b => Assert.Equal(6800.0 - 43.0, b.Polyline.Points[1].X, 6));
-        Assert.All(bars.Where(b => b.Diameter == 16.0), b => Assert.Equal(6400.0 + 43.0, b.Polyline.Points[0].X, 6));
-        Assert.All(bars.Where(b => b.Diameter == 16.0), b => Assert.Equal(8300.0, b.Polyline.Points[1].X, 6));
+        // Support 1 spans 6400..6800; reach 0.25 × 6000 from the faces. 2Ø20 carries more steel: it crosses to
+        // the far face − a and bends down (400 − 43 < 40·20). 2Ø16 runs straight on 40·16 into the left span.
+        var strong = bars.Where(b => b.Diameter == 20.0).ToList();
+        var weak = bars.Where(b => b.Diameter == 16.0).ToList();
+        Assert.All(strong, b => Assert.Equal(4900.0, b.Polyline.Points[0].X, 6));
+        Assert.All(strong, b => Assert.Equal(6800.0 - 43.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));
+        Assert.All(strong, b => Assert.True(b.EndHookLength > 0.0));
+        Assert.All(weak, b => Assert.Equal((6400.0 - 640.0, 8300.0), (b.Polyline.Points[0].X, b.Polyline.Points[1].X)));
+        Assert.All(weak, b => Assert.Equal(0.0, b.StartHookLength));
+
+        // Finding M3: 20 mm and 16 mm bars must have disjoint Y coordinates (interleaved, not colliding)
+        var y20 = bars.Where(b => b.Diameter == 20.0).Select(b => b.Polyline.Points[0].Y).OrderBy(y => y).ToList();
+        var y16 = bars.Where(b => b.Diameter == 16.0).Select(b => b.Polyline.Points[0].Y).OrderBy(y => y).ToList();
+        Assert.Equal(2, y20.Count);
+        Assert.Equal(2, y16.Count);
+        Assert.Empty(y20.Intersect(y16));
+        Assert.Equal(-y20[0], y20[1], 4);
+        Assert.Equal(-y16[0], y16[1], 4);
+        Assert.True(Math.Abs(y20[0]) > Math.Abs(y16[0]));
+    }
+
+    [Fact]
+    public void PartitionInterleaved_splits_slots_symmetrically()
+    {
+        // 2 + 2: 4 slots [-107, -35.7, 35.7, 107]
+        var all4 = new[] { -107.0, -35.7, 35.7, 107.0 };
+        var (left4, right4) = KataLayerPositions.PartitionInterleaved(all4, 2, 2, leftPriority: true);
+        Assert.Equal(new[] { -107.0, 107.0 }, left4);
+        Assert.Equal(new[] { -35.7, 35.7 }, right4);
+
+        // 1 + 2: 3 slots [-107, 0, 107] -> left (odd) takes center 0, right takes outer pair
+        var all3 = new[] { -107.0, 0.0, 107.0 };
+        var (left3, right3) = KataLayerPositions.PartitionInterleaved(all3, 1, 2, leftPriority: true);
+        Assert.Equal(new[] { 0.0 }, left3);
+        Assert.Equal(new[] { -107.0, 107.0 }, right3);
+
+        // 2 + 1: 3 slots -> left takes outer pair, right takes center 0
+        var (left21, right21) = KataLayerPositions.PartitionInterleaved(all3, 2, 1, leftPriority: true);
+        Assert.Equal(new[] { -107.0, 107.0 }, left21);
+        Assert.Equal(new[] { 0.0 }, right21);
+
+        // 1 + 1: 2 slots -> [-107, 107]
+        var all2 = new[] { -107.0, 107.0 };
+        var (left2, right2) = KataLayerPositions.PartitionInterleaved(all2, 1, 1, leftPriority: true);
+        Assert.Equal(new[] { -107.0 }, left2);
+        Assert.Equal(new[] { 107.0 }, right2);
+    }
+
+    [Fact]
+    public void The_side_with_more_steel_hooks_even_when_it_is_on_the_right()
+    {
+        // 3Ø16 = 768 d² units against 2Ø20 = 800: the right side is the stronger one.
+        var spec = TwoSpans(new KataSideBars(new[] { new KataBarItem(3, 16.0) }, new[] { new KataBarItem(2, 20.0) }));
+        var bars = KataRebarCalculator.Calculate(spec).ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
+
+        Assert.All(bars.Where(b => b.Diameter == 20.0), b =>
+        {
+            Assert.Equal(6400.0 + 43.0, b.Polyline.Points[0].X, 6);
+            Assert.True(b.StartHookLength > 0.0);
+        });
+        Assert.All(bars.Where(b => b.Diameter == 16.0), b => Assert.Equal(6800.0 + 640.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));
+    }
+
+    [Fact]
+    public void At_an_interior_support_the_hooked_leg_stops_a_layer_gap_above_the_bottom_bars()
+    {
+        var spec = TwoSpans(new KataSideBars(new[] { new KataBarItem(2, 20.0) }, new[] { new KataBarItem(2, 16.0) }));
+        var bar = KataRebarCalculator.Calculate(spec).ExtraTopBars.First(b => b.HostSupportIndex == 1 && b.Diameter == 20.0);
+
+        var points = bar.Polyline.Points;
+        double legBottom = points[points.Count - 1].Z;
+        double bottomTop = -600.0 + 43.0 + 10.0; // bottom bar centre + Ø20 / 2
+        Assert.True(legBottom - 10.0 - bottomTop >= 25.0 - 1e-6, $"leg ends at {legBottom}");
+    }
+
+    [Fact]
+    public void Both_sides_of_an_interior_support_take_separate_slots_across_the_beam()
+    {
+        var spec = TwoSpans(new KataSideBars(new[] { new KataBarItem(2, 20.0) }, new[] { new KataBarItem(2, 16.0) }));
+        var bars = KataRebarCalculator.Calculate(spec).ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
+
+        var ys = bars.Select(b => System.Math.Round(b.TransverseY, 6)).ToList();
+        Assert.Equal(ys.Count, ys.Distinct().Count());
+        // The stronger side takes the outer slots.
+        double outerStrong = bars.Where(b => b.Diameter == 20.0).Max(b => System.Math.Abs(b.TransverseY));
+        double outerWeak = bars.Where(b => b.Diameter == 16.0).Max(b => System.Math.Abs(b.TransverseY));
+        Assert.True(outerStrong > outerWeak);
     }
 
     [Fact]

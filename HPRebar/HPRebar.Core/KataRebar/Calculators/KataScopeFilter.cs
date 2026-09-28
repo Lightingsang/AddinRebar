@@ -28,11 +28,11 @@ public static class KataScopeFilter
         var skipped = new List<string>();
         var blocking = new List<string>();
 
-        if (spec.Spans.Count != 1)
-            blocking.Add($"Sheet có {spec.Spans.Count} nhịp; bản này mới vẽ dầm 1 nhịp giữa 2 gối.");
+        if (spec.Spans.Count < 1)
+            blocking.Add("Sheet không có nhịp nào để vẽ.");
 
-        if (spec.Supports.Count != 2 || spec.Supports.Any(s => s.ColumnWidth <= 0.0))
-            blocking.Add("Hai đầu nhịp phải là gối có bề rộng > 0; console và điểm nối chưa hỗ trợ.");
+        if (spec.Supports.Count != spec.Spans.Count + 1 || spec.Supports.Any(s => s.ColumnWidth <= 0.0))
+            blocking.Add("Các gối phải có bề rộng > 0; console và điểm nối chưa hỗ trợ.");
 
         if (spec.TopContinuous.IsEmpty && spec.BottomContinuous.IsEmpty && spec.GlobalStirrup.Diameter <= 0.0)
             blocking.Add("B11, B12 trống và G6 không có đường kính đai: không có gì để vẽ.");
@@ -46,15 +46,9 @@ public static class KataScopeFilter
                 skipped.Add($"{Cell(19, span.SheetColumn)} '{Step(span.TopDrop, span.TopDropBars)}': giật mép trên / đổi thép chịu lực trên — {NotSupported}.");
             if (span.SoffitDrop != 0.0 || span.SoffitDropBars.Count > 0)
                 skipped.Add($"{Cell(21, span.SheetColumn)} '{Step(span.SoffitDrop, span.SoffitDropBars)}': giật mép dưới / đổi thép chịu lực dưới — {NotSupported}.");
-            Report(skipped, Cell(20, span.SheetColumn), span.SideBars, "cốt giá của nhịp");
-            if (span.StirrupOverride is not null)
-                skipped.Add($"{Cell(22, span.SheetColumn)}: bước đai riêng của nhịp — {NotSupported}; dùng G7/G8.");
         }
 
-        if (spec.GlobalSideBars.Count > 0)
-            skipped.Add($"G4/G5 '{spec.GlobalSideBars.Count} lớp Ø{spec.GlobalSideBars[0].Diameter:0}': cốt giá — {NotSupported}.");
-
-        foreach (var note in spec.DetailingNotes)
+        foreach (var note in spec.DetailingNotes.Where(n => n.Meaning != "đai trong"))
             skipped.Add($"{note.Address} '{note.Text}': {note.Meaning} — {NotSupported}.");
 
         return new KataScopeResult(Filter(spec), skipped, blocking);
@@ -64,16 +58,16 @@ public static class KataScopeFilter
     {
         TopMainItems = Single(spec.TopContinuous),
         BottomMainItems = Single(spec.BottomContinuous),
-        GlobalSideBars = Array.Empty<KataBarItem>(),
+        GlobalSideBars = spec.GlobalSideBars,
         GlobalStirrup = spec.GlobalStirrup with
         {
             EndSupportSpacing = null,
-            Branches = new[] { KataStirrupBranchSpec.Outer }
+            Branches = spec.GlobalStirrup.Branches.Count > 0 ? spec.GlobalStirrup.Branches : new[] { KataStirrupBranchSpec.Outer }
         },
         Spans = spec.Spans.Select(s => s with
         {
-            SideBars = Array.Empty<KataBarItem>(),
-            StirrupOverride = null,
+            SideBars = s.SideBars,
+            StirrupOverride = s.StirrupOverride,
             TopDrop = 0.0,
             SoffitDrop = 0.0,
             TopDropBars = Array.Empty<KataBarItem>(),

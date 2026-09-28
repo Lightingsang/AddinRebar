@@ -35,6 +35,25 @@ internal sealed class KataCanvasPalette
     public Pen Bubble { get; private init; } = null!;
     public Pen Marker { get; private init; } = null!;
     public Pen FreeEnd { get; private init; } = null!;
+    public Pen RebarMainTop { get; private init; } = null!;
+    public Pen RebarMainBottom { get; private init; } = null!;
+    public Pen RebarExtraTop1 { get; private init; } = null!;
+    public Pen RebarExtraTop2 { get; private init; } = null!;
+    public Pen RebarExtraBottom1 { get; private init; } = null!;
+    public Pen RebarExtraBottom2 { get; private init; } = null!;
+    public Pen RebarSide { get; private init; } = null!;
+    public Pen RebarStirrup { get; private init; } = null!;
+    public Brush RebarText { get; private init; } = null!;
+    public Brush RebarStirrupZoneFill { get; private init; } = null!;
+    public Brush RebarMainTopBrush { get; private init; } = null!;
+    public Brush RebarMainBottomBrush { get; private init; } = null!;
+    public Brush RebarExtraTop1Brush { get; private init; } = null!;
+    public Brush RebarExtraTop2Brush { get; private init; } = null!;
+    public Brush RebarExtraBottom1Brush { get; private init; } = null!;
+    public Brush RebarExtraBottom2Brush { get; private init; } = null!;
+    public Brush RebarSideBrush { get; private init; } = null!;
+    public Brush RebarStirrupBrush { get; private init; } = null!;
+    public Brush SectionCardFill { get; private init; } = null!;
 
     public static KataCanvasPalette From(FrameworkElement element)
     {
@@ -66,6 +85,24 @@ internal sealed class KataCanvasPalette
         var bubbleTextBrush = new SolidColorBrush(isDark ? Color.FromRgb(0xFF, 0xFF, 0xFF) : Color.FromRgb(0x21, 0x21, 0x21));
         bubbleTextBrush.Freeze();
 
+        // Rebar palette brushes
+        var rebarMainBrush = new SolidColorBrush(isDark ? Color.FromRgb(0x40, 0xC4, 0xFF) : Color.FromRgb(0x02, 0x88, 0xD1));
+        rebarMainBrush.Freeze();
+        var rebarTop1Brush = new SolidColorBrush(isDark ? Color.FromRgb(0xFF, 0xB7, 0x4D) : Color.FromRgb(0xEF, 0x6C, 0x00));
+        rebarTop1Brush.Freeze();
+        var rebarTop2Brush = new SolidColorBrush(isDark ? Color.FromRgb(0xFF, 0x70, 0x43) : Color.FromRgb(0xD8, 0x43, 0x15));
+        rebarTop2Brush.Freeze();
+        var rebarBot1Brush = new SolidColorBrush(isDark ? Color.FromRgb(0x66, 0xBB, 0x6A) : Color.FromRgb(0x2E, 0x7D, 0x32));
+        rebarBot1Brush.Freeze();
+        var rebarBot2Brush = new SolidColorBrush(isDark ? Color.FromRgb(0x26, 0xA6, 0x9A) : Color.FromRgb(0x00, 0x69, 0x5C));
+        rebarBot2Brush.Freeze();
+        var rebarSideBrush = new SolidColorBrush(isDark ? Color.FromRgb(0x90, 0xA4, 0xAE) : Color.FromRgb(0x54, 0x6E, 0x7A));
+        rebarSideBrush.Freeze();
+        var rebarStirrupBrush = new SolidColorBrush(isDark ? Color.FromRgb(0x9E, 0x9E, 0x9E) : Color.FromRgb(0x75, 0x75, 0x75));
+        rebarStirrupBrush.Freeze();
+        var rebarTextBrush = new SolidColorBrush(isDark ? Color.FromRgb(0xE0, 0xE0, 0xE0) : Color.FromRgb(0x21, 0x21, 0x21));
+        rebarTextBrush.Freeze();
+
         return new KataCanvasPalette
         {
             Fill = fill,
@@ -84,7 +121,26 @@ internal sealed class KataCanvasPalette
             GridLine = Freeze(new Pen(cadGrayBrush, 0.8)),
             Bubble = Freeze(new Pen(bubbleBorderBrush, 1.2)),
             Marker = Freeze(new Pen(marker, 1.2) { DashStyle = Dashes(5, 2, 1, 2) }),
-            FreeEnd = Freeze(new Pen(warning, 1.4) { DashStyle = Dashes(3, 2) })
+            FreeEnd = Freeze(new Pen(warning, 1.4) { DashStyle = Dashes(3, 2) }),
+            RebarMainTop = Freeze(new Pen(rebarMainBrush, 2.0)),
+            RebarMainBottom = Freeze(new Pen(rebarMainBrush, 2.0)),
+            RebarExtraTop1 = Freeze(new Pen(rebarTop1Brush, 2.0)),
+            RebarExtraTop2 = Freeze(new Pen(rebarTop2Brush, 2.0)),
+            RebarExtraBottom1 = Freeze(new Pen(rebarBot1Brush, 2.0)),
+            RebarExtraBottom2 = Freeze(new Pen(rebarBot2Brush, 2.0)),
+            RebarSide = Freeze(new Pen(rebarSideBrush, 1.2) { DashStyle = Dashes(4, 2) }),
+            RebarStirrup = Freeze(new Pen(rebarStirrupBrush, 0.8)),
+            RebarText = rebarTextBrush,
+            RebarStirrupZoneFill = Tint(rebarStirrupBrush, 16),
+            RebarMainTopBrush = rebarMainBrush,
+            RebarMainBottomBrush = rebarMainBrush,
+            RebarExtraTop1Brush = rebarTop1Brush,
+            RebarExtraTop2Brush = rebarTop2Brush,
+            RebarExtraBottom1Brush = rebarBot1Brush,
+            RebarExtraBottom2Brush = rebarBot2Brush,
+            RebarSideBrush = rebarSideBrush,
+            RebarStirrupBrush = rebarStirrupBrush,
+            SectionCardFill = Tint(fill, 235)
         };
     }
 

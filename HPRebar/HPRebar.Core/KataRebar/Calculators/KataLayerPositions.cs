@@ -62,4 +62,108 @@ public static class KataLayerPositions
             }
         }
     }
+
+    /// <summary>
+    /// Partitions <paramref name="allY"/> (length N = <paramref name="countLeft"/> + <paramref name="countRight"/>)
+    /// into two interleaved sets of transverse positions, symmetrically distributed about the centerline.
+    /// The higher priority side takes outer slots.
+    /// </summary>
+    public static (IReadOnlyList<double> Left, IReadOnlyList<double> Right) PartitionInterleaved(
+        IReadOnlyList<double> allY, int countLeft, int countRight, bool leftPriority)
+    {
+        if (countLeft <= 0) return (Array.Empty<double>(), allY);
+        if (countRight <= 0) return (allY, Array.Empty<double>());
+
+        int n = allY.Count;
+        if (n != countLeft + countRight)
+            throw new ArgumentException($"allY count ({n}) must equal countLeft ({countLeft}) + countRight ({countRight})");
+
+        var leftIndices = new HashSet<int>();
+        var rightIndices = new HashSet<int>();
+
+        int remainingLeft = countLeft;
+        int remainingRight = countRight;
+
+        // If N is odd, exactly one side is odd. That side takes the center slot (y = 0).
+        if (n % 2 != 0)
+        {
+            int center = n / 2;
+            if (remainingLeft % 2 != 0)
+            {
+                leftIndices.Add(center);
+                remainingLeft--;
+            }
+            else
+            {
+                rightIndices.Add(center);
+                remainingRight--;
+            }
+        }
+
+        int numPairs = n / 2;
+        var pairIndices = new List<(int Low, int High)>();
+        for (int p = 0; p < numPairs; p++)
+            pairIndices.Add((p, n - 1 - p));
+
+        // If both remaining counts are odd (N even, countLeft and countRight both odd):
+        // Assign the innermost pair (one to Left, one to Right) so remaining counts become even.
+        if (remainingLeft % 2 != 0 && remainingRight % 2 != 0 && pairIndices.Count > 0)
+        {
+            var innerPair = pairIndices[pairIndices.Count - 1];
+            pairIndices.RemoveAt(pairIndices.Count - 1);
+            if (leftPriority)
+            {
+                leftIndices.Add(innerPair.Low);
+                rightIndices.Add(innerPair.High);
+            }
+            else
+            {
+                rightIndices.Add(innerPair.Low);
+                leftIndices.Add(innerPair.High);
+            }
+            remainingLeft--;
+            remainingRight--;
+        }
+
+        int pairsLeft = remainingLeft / 2;
+        int pairsRight = remainingRight / 2;
+
+        for (int p = 0; p < pairIndices.Count; p++)
+        {
+            var pair = pairIndices[p];
+            bool assignToLeft;
+            if (pairsLeft > 0 && pairsRight > 0)
+            {
+                assignToLeft = p % 2 == 0 ? leftPriority : !leftPriority;
+                if (assignToLeft && pairsLeft > 0)
+                {
+                    leftIndices.Add(pair.Low);
+                    leftIndices.Add(pair.High);
+                    pairsLeft--;
+                }
+                else
+                {
+                    rightIndices.Add(pair.Low);
+                    rightIndices.Add(pair.High);
+                    pairsRight--;
+                }
+            }
+            else if (pairsLeft > 0)
+            {
+                leftIndices.Add(pair.Low);
+                leftIndices.Add(pair.High);
+                pairsLeft--;
+            }
+            else
+            {
+                rightIndices.Add(pair.Low);
+                rightIndices.Add(pair.High);
+                pairsRight--;
+            }
+        }
+
+        var left = leftIndices.OrderBy(i => i).Select(i => allY[i]).ToArray();
+        var right = rightIndices.OrderBy(i => i).Select(i => allY[i]).ToArray();
+        return (left, right);
+    }
 }

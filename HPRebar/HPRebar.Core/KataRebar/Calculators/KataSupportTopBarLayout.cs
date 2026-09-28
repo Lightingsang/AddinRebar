@@ -69,7 +69,7 @@ public static class KataSupportTopBarLayout
 
                 if (level is null) continue;
 
-                var (leftCut, rightCut) = Cuts(spec, st, k, layer, span);
+                var (leftCut, rightCut) = Cuts(spec, rules, st, k, layer, span);
                 // A cut beyond an end support would leave the beam: the bar then stops at that support's far face.
                 leftCut = Math.Max(leftCut, st.SupportStart[0] + rules.TopBarCentreDepth);
                 rightCut = Math.Min(rightCut, st.SupportEnd[last] - rules.TopBarCentreDepth);
@@ -83,9 +83,34 @@ public static class KataSupportTopBarLayout
                     Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
                 else
                 {
-                    double a = rules.TopBarCentreDepth;
-                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark + "T", new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(st.SupportEnd[k] - a, 0.0, 0.0));
-                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark + "P", new KataBarEnd(st.SupportStart[k] + a, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
+                    // Both sides are kept. Across the beam they share the level's slots, the side with more steel
+                    // on the outer ones; over the support that side runs to the far face and anchors like an end
+                    // support, the other runs straight through and on G2·d into the neighbouring span.
+                    bool leftStrong = Area(sides.Left) >= Area(sides.Right);
+                    int countLeft = sides.Left.Sum(i => i.Count);
+                    int countRight = sides.Right.Sum(i => i.Count);
+                    double maxD = sides.Left.Concat(sides.Right).Max(i => i.Diameter);
+                    double spacingD = layer == 0 && !spec.TopContinuous.IsEmpty ? Math.Max(maxD, spec.TopContinuous.Diameter) : maxD;
+
+                    var allYs = layer == 0
+                        ? KataLayerPositions.BetweenMainBars(mainY, countLeft + countRight, spec.Width, rules, maxD)
+                        : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, maxD, countLeft + countRight);
+                    KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(allYs) : allYs, spacingD, rules);
+                    var (ysLeft, ysRight) = KataLayerPositions.PartitionInterleaved(allYs, countLeft, countRight, leftStrong);
+
+                    double firstLimit = st.SupportStart[0] + rules.TopBarCentreDepth;
+                    double lastLimit = st.SupportEnd[last] - rules.TopBarCentreDepth;
+                    var leftEnd = leftStrong
+                        ? Anchor(spec, rules, st, k, level, sides.Left, outward: +1)
+                        : new KataBarEnd(Math.Min(lastLimit, st.SupportEnd[k] + rules.TopAnchorageFactor * MaxDiameter(sides.Left)), 0.0, 0.0);
+                    var rightStart = leftStrong
+                        ? new KataBarEnd(Math.Max(firstLimit, st.SupportStart[k] - rules.TopAnchorageFactor * MaxDiameter(sides.Right)), 0.0, 0.0)
+                        : Anchor(spec, rules, st, k, level, sides.Right, outward: -1);
+
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark + "T",
+                        new KataBarEnd(leftCut, 0.0, 0.0), leftEnd, ysLeft);
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark + "P",
+                        rightStart, new KataBarEnd(rightCut, 0.0, 0.0), ysRight);
                 }
             }
         }
@@ -97,15 +122,29 @@ public static class KataSupportTopBarLayout
     /// End of a bar of <paramref name="level"/> anchored in end support <paramref name="support"/>: G2·d from the
     /// inner face, bent down at the far face (inboard by the level's inset) when the support is too narrow.
     /// </summary>
-    public static KataBarEnd Anchor(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, KataTopLevel level, IReadOnlyList<KataBarItem> items)
+    public static KataBarEnd Anchor(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, KataTopLevel level, IReadOnlyList<KataBarItem> items) =>
+        Anchor(spec, rules, st, support, level, items, outward: support == 0 ? -1 : +1);
+
+    /// <param name="outward">+1 when the bar reaches the support from the span on its left, −1 from the right.</param>
+    private static KataBarEnd Anchor(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, KataTopLevel level, IReadOnlyList<KataBarItem> items, int outward)
     {
         double d = items.Count == 0 ? level.Diameter : items.Max(i => i.Diameter);
-        bool first = support == 0;
-        double innerFace = first ? st.SupportEnd[support] : st.SupportStart[support];
+        double innerFace = outward < 0 ? st.SupportEnd[support] : st.SupportStart[support];
         double legRoom = level.Z - (-spec.Height + rules.BottomBarCentreDepth);
-        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], first ? -1 : 1, rules.TopBarCentreDepth,
+        bool interior = support > 0 && support < st.SpanCount;
+        if (interior)
+        {
+            // The bottom bars run on through an interior support: the leg stops a layer gap above them.
+            double dBottom = spec.BottomContinuous.IsEmpty ? 0.0 : spec.BottomContinuous.Diameter;
+            legRoom -= (d + dBottom) / 2.0 + rules.LayerGap(d, dBottom);
+        }
+        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], outward, rules.TopBarCentreDepth,
             rules.TopAnchorageFactor * d, rules.MinimumLegFactor * d, legRoom, level.Inset);
     }
+
+    private static double Area(IEnumerable<KataBarItem> items) => items.Sum(i => i.Count * i.Diameter * i.Diameter);
+
+    private static double MaxDiameter(IReadOnlyList<KataBarItem> items) => items.Count == 0 ? 0.0 : items.Max(i => i.Diameter);
 
     private static string Cell(KataBeamRebarSpec spec, int support, int row) =>
         spec.Supports[support].SheetColumn > 0
@@ -113,14 +152,14 @@ public static class KataSupportTopBarLayout
             : $"Gối {support + 1} hàng {row}";
 
     /// <summary>Stations where a row's bars stop in the spans left and right of support <paramref name="k"/>.</summary>
-    private static (double Left, double Right) Cuts(KataBeamRebarSpec spec, KataBeamStations st, int k, int layer, double span)
+    private static (double Left, double Right) Cuts(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int k, int layer, double span)
     {
         bool firstRow = layer == 0;
         double ratio = firstRow ? spec.TopCutoffRatioLayer1 : spec.TopCutoffRatioLayer2;
         if (ratio <= 0.0) ratio = firstRow ? 0.25 : 0.20;
         bool fromCentre = (firstRow ? spec.CutoffOriginLayer1 : spec.CutoffOriginLayer2) == KataCutoffOrigin.FromColumnCenter;
 
-        double reach = ratio * span;
+        double reach = rules.RoundUp(ratio * span);
         double left = (fromCentre ? st.SupportCentre(k) : st.SupportStart[k]) - reach;
         double right = (fromCentre ? st.SupportCentre(k) : st.SupportEnd[k]) + reach;
         return (left, right);
@@ -141,7 +180,8 @@ public static class KataSupportTopBarLayout
         int support,
         string mark,
         KataBarEnd start,
-        KataBarEnd end)
+        KataBarEnd end,
+        IReadOnlyList<double>? customY = null)
     {
         int count = items.Sum(i => i.Count);
         if (count <= 0) return;
@@ -153,10 +193,11 @@ public static class KataSupportTopBarLayout
 
         double maxD = items.Max(i => i.Diameter);
         double spacingD = layer == 0 && !spec.TopContinuous.IsEmpty ? Math.Max(maxD, spec.TopContinuous.Diameter) : maxD;
-        var ys = layer == 0
+        var ys = customY ?? (layer == 0
             ? KataLayerPositions.BetweenMainBars(mainY, count, spec.Width, rules, maxD)
-            : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, maxD, count);
-        KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(ys) : ys, spacingD, rules);
+            : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, maxD, count));
+        if (customY is null)
+            KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(ys) : ys, spacingD, rules);
 
         foreach (var shortfall in new[] { start.Shortfall, end.Shortfall }.Where(s => s > 0.5))
             warnings.Add($"Neo thép gia cường {mark} thiếu {shortfall:0} mm: chân bẻ bị giới hạn bởi chiều cao dầm.");
