@@ -225,8 +225,10 @@ public static class KataDamSheetParser
         double length = accessor.GetDouble(11, col) ?? 0.0;
 
         // In Kata: Row 18 is Bottom Extra Layer 1, Row 17 is Bottom Extra Layer 2!
-        var botL1 = KataBarNotationParser.ParseBarList(accessor.GetText(18, col), defaultLayer: 1);
-        var botL2 = KataBarNotationParser.ParseBarList(accessor.GetText(17, col), defaultLayer: 2);
+        string botText1 = accessor.GetText(18, col)?.Trim() ?? "";
+        string botText2 = accessor.GetText(17, col)?.Trim() ?? "";
+        var botL1 = KataBarNotationParser.ParseBarList(botText1, defaultLayer: 1);
+        var botL2 = KataBarNotationParser.ParseBarList(botText2, defaultLayer: 2);
 
         var (topDrop, topDropBars) = KataBarNotationParser.ParseOffsetAndBars(accessor.GetText(19, col));
         var sideBars = KataBarNotationParser.ParseBarList(accessor.GetText(20, col));
@@ -258,6 +260,8 @@ public static class KataDamSheetParser
             Length = length,
             BottomExtraLayer1 = botL1,
             BottomExtraLayer2 = botL2,
+            BottomExtraLayer1Text = botText1,
+            BottomExtraLayer2Text = botText2,
             SideBars = sideBars,
             StirrupOverride = stirrupOverride,
             TopDrop = topDrop,

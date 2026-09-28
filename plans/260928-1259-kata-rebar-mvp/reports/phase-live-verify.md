@@ -31,3 +31,15 @@ Log Serilog (`%LocalAppData%\HPRebar\logs\hprebar-20260928.log`): mỗi lần c�
 - Revit 2025 / 2024 chạy thật (chỉ compile).
 - Dầm có cover host khác nhau trên/dưới/bên (code xử lý theo từng mặt, chưa có model thử).
 - Chiều "ngược" thật (sheet ghi từ đầu kia, dầm không đối xứng) chỉ có unit test.
+
+## Phase 05 — gia cường nhịp hàng 17–18 (2026-09-28 21:17)
+Build Debug.R26 sau review (736/736) deploy; Revit đóng êm (model nháp không có thay đổi chưa lưu), mở lại, *Load Once*, opt-in bật bằng UIA rồi tắt. Sheet nháp: B12 `2f20`, D18 `2f20`, D17 `2f18` (+ C13/C14/E14 của phase 04) = golden `KataSpanBottomBarTests`.
+
+| Kịch bản | Kết quả |
+|---|---|
+| Preview | ✅ hàng "Gia cường nhịp": hàng 18 2f20 tâm cách đáy 43, hàng 17 2f18 cách đáy 87; không mục chặn |
+| Tạo | ✅ "5 thanh thép chủ, 6 thanh gia cường gối, 4 thanh gia cường nhịp, 3 bộ đai; xoá 16 thanh của lần chạy trước", Revit warnings 0 |
+| Đo hàng 18 | ✅ Ø20 y ±35.7 z −557 x 1257.1 → 5542.9, thẳng, host dầm |
+| Đo hàng 17 | ✅ Ø18 y ±108 z −513 x 1257.1 → 5542.9 |
+| Hồi quy | ✅ thép chủ trên/dưới, gia cường gối 3.1.1 / 3.1.2 / 3.2.2, 3 bộ đai 15/15/15 khớp golden phase 04 |
+| Âm | ✅ B12 `1f20` + D18 `1f20` → [Chặn] "Thép gia cường 4.1.1: hai thanh chồng lên nhau (tâm cách 0 mm)"; sheet trả lại như trên |

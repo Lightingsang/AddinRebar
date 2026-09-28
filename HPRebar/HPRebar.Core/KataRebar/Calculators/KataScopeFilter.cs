@@ -14,7 +14,7 @@ public sealed record KataScopeResult(
 
 /// <summary>
 /// Limits a spec to what Kata Rebar draws today: one span between two supports, the first bar group of B11
-/// and B12, the additional top bars of rows 13-16 and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
+/// and B12, the additional top bars of rows 13-16, the additional bottom bars of rows 17-18 and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
 /// so the user knows what the model does not contain yet; a run shape this version cannot draw blocks.
 /// </summary>
 public static class KataScopeFilter
@@ -42,8 +42,6 @@ public static class KataScopeFilter
 
         foreach (var span in spec.Spans)
         {
-            Report(skipped, Cell(18, span.SheetColumn), span.BottomExtraLayer1, "thép gia cường dưới lớp 1");
-            Report(skipped, Cell(17, span.SheetColumn), span.BottomExtraLayer2, "thép gia cường dưới lớp 2");
             if (span.TopDrop != 0.0 || span.TopDropBars.Count > 0)
                 skipped.Add($"{Cell(19, span.SheetColumn)} '{Step(span.TopDrop, span.TopDropBars)}': giật mép trên / đổi thép chịu lực trên — {NotSupported}.");
             if (span.SoffitDrop != 0.0 || span.SoffitDropBars.Count > 0)
@@ -74,8 +72,6 @@ public static class KataScopeFilter
         },
         Spans = spec.Spans.Select(s => s with
         {
-            BottomExtraLayer1 = Array.Empty<KataBarItem>(),
-            BottomExtraLayer2 = Array.Empty<KataBarItem>(),
             SideBars = Array.Empty<KataBarItem>(),
             StirrupOverride = null,
             TopDrop = 0.0,

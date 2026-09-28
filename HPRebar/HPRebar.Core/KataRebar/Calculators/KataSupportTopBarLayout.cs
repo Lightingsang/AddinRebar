@@ -58,6 +58,9 @@ public static class KataSupportTopBarLayout
                     continue;
                 }
 
+                foreach (var token in KataBarNotationParser.UnreadableTokens(sides.Text))
+                    warnings.Add($"{cell} '{sides.Text}': không đọc được '{token}' — phần đó không vẽ.");
+
                 if ((spanSide > 0 && sides.Right.Count == 0) || (spanSide < 0 && sides.Left.Count == 0))
                 {
                     warnings.Add($"{cell} '{sides.Text}': gối biên chỉ dùng vế phía nhịp, vế đó trống — không vẽ.");
@@ -73,16 +76,16 @@ public static class KataSupportTopBarLayout
                 string mark = $"3.{k + 1}.{layer + 1}";
 
                 if (spanSide > 0)
-                    Add(bars, spec, rules, st, warnings, ref barId, sides.Right, layer, level, mainY, k, mark, Anchor(spec, rules, st, k, level, sides.Right), new KataBarEnd(rightCut, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark, Anchor(spec, rules, st, k, level, sides.Right), new KataBarEnd(rightCut, 0.0, 0.0));
                 else if (spanSide < 0)
-                    Add(bars, spec, rules, st, warnings, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), Anchor(spec, rules, st, k, level, sides.Left));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), Anchor(spec, rules, st, k, level, sides.Left));
                 else if (sides.IsSymmetric)
-                    Add(bars, spec, rules, st, warnings, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
                 else
                 {
                     double a = rules.TopBarCentreDepth;
-                    Add(bars, spec, rules, st, warnings, ref barId, sides.Left, layer, level, mainY, k, mark + "T", new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(st.SupportEnd[k] - a, 0.0, 0.0));
-                    Add(bars, spec, rules, st, warnings, ref barId, sides.Right, layer, level, mainY, k, mark + "P", new KataBarEnd(st.SupportStart[k] + a, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark + "T", new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(st.SupportEnd[k] - a, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark + "P", new KataBarEnd(st.SupportStart[k] + a, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
                 }
             }
         }
@@ -129,6 +132,7 @@ public static class KataSupportTopBarLayout
         KataDetailingRules rules,
         KataBeamStations st,
         List<string> warnings,
+        List<string> blocking,
         ref int barId,
         IReadOnlyList<KataBarItem> items,
         int layer,
@@ -152,7 +156,7 @@ public static class KataSupportTopBarLayout
         var ys = layer == 0
             ? KataLayerPositions.BetweenMainBars(mainY, count, spec.Width, rules, maxD)
             : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, maxD, count);
-        KataLayerPositions.CheckSpacing(warnings, mark, layer == 0 ? mainY.Concat(ys) : ys, spacingD, rules);
+        KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(ys) : ys, spacingD, rules);
 
         foreach (var shortfall in new[] { start.Shortfall, end.Shortfall }.Where(s => s > 0.5))
             warnings.Add($"Neo thép gia cường {mark} thiếu {shortfall:0} mm: chân bẻ bị giới hạn bởi chiều cao dầm.");

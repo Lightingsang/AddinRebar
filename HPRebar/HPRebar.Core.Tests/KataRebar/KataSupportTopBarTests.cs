@@ -159,6 +159,18 @@ public sealed class KataSupportTopBarTests
     }
 
     [Fact]
+    public void A_partly_unreadable_cell_is_reported()
+    {
+        var table = KataRebarTestSheets.SingleSpan();
+        table.Set("C14", "2f18+1y16");
+
+        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan());
+
+        Assert.Equal(2, plan.Layout.ExtraTopBars.Count);
+        Assert.Contains(plan.Warnings, w => w.StartsWith("C14 '2f18+1y16'") && w.Contains("'1y16'"));
+    }
+
+    [Fact]
     public void More_layers_than_the_depth_holds_block()
     {
         var table = KataRebarTestSheets.SingleSpan();

@@ -26,9 +26,10 @@ Hợp đồng: grill-me 2026-09-28 (user duyệt plan `~/.claude/plans/tiep-tuc-
 | 2 | [Revit: matcher (KataExport readers), tạo thép, transaction, UI](phase-02-revit.md) | done — build R26/R25/R24 |
 | 3 | [Review + live verify Revit 2026](phase-03-live-verify.md) | done — [review](reports/code-review-mvp.md) H1/M1–M5 sửa; [live](reports/phase-live-verify.md) 4 lần chạy + 3 case âm khớp golden |
 | 4 | [Gia cường gối hàng 13–16](phase-04-support-top-bars.md) | done — 720/720, live khớp golden; [review](reports/code-review-phase-04.md) M1/M2/M4 sửa, M3 chờ quyết định trước khi mở nhiều nhịp |
+| 5 | [Gia cường nhịp hàng 17–18](phase-05-span-bottom-bars.md) | code + 736/736 + build R26/R25/R24; [review](reports/code-review-phase-05.md) H1/M1/M2/L1–L5 sửa; live khớp golden + case âm chồng thanh; B1/B2 user giữ |
 
 ## Phase sau (mỗi phase verify live riêng)
-2. Gia cường nhịp 17–18. 3. Nhiều nhịp + neo/nối qua gối giữa.
+3. Nhiều nhịp + neo/nối qua gối giữa.
 4. Giật cấp hàng 19/21. 5. Cốt giá G4/G5 + hàng 20. 6. Đai U/C hàng 25–44 + bước hàng 22/23 + hàng 24.
 7. Console G9. 8. Dầm giao / vách. 9. Group / tag / view. 10. Kata Rebar vào bản KATA_ONLY.
 

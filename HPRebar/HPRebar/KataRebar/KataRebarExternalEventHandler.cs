@@ -140,7 +140,7 @@ public sealed class KataRebarExternalEventHandler : IExternalEventHandler, IKata
 
     private static IEnumerable<double> Diameters(KataRebarPlan plan)
     {
-        var diameters = plan.Layout.MainTopBars.Concat(plan.Layout.MainBottomBars).Concat(plan.Layout.ExtraTopBars).Select(b => b.Diameter).ToList();
+        var diameters = plan.Layout.LongitudinalBars.Select(b => b.Diameter).ToList();
         if (plan.Layout.StirrupZones.Count > 0) diameters.Add(plan.Rules.StirrupDiameter);
         return diameters.Distinct();
     }

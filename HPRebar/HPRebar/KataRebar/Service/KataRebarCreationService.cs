@@ -20,7 +20,7 @@ public static class KataRebarCreationService
         IReadOnlyDictionary<double, RebarBarType> barTypes)
     {
         int created = 0;
-        foreach (var bar in plan.Layout.MainTopBars.Concat(plan.Layout.MainBottomBars).Concat(plan.Layout.ExtraTopBars))
+        foreach (var bar in plan.Layout.LongitudinalBars)
         {
             var points = bar.Polyline.Points;
             var host = placement.HostAt((points[0].X + points[points.Count - 1].X) / 2.0);

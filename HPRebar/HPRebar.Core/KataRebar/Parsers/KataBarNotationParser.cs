@@ -17,6 +17,26 @@ public static class KataBarNotationParser
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     /// <summary>
+    /// The parts of a bar cell <see cref="ParseBarList"/> drops because they read as no bar
+    /// ("2x18" in "2f20+2x18"); the placeholders 0, - and * are not counted.
+    /// </summary>
+    public static IReadOnlyList<string> UnreadableTokens(string? text)
+    {
+        var bad = new List<string>();
+        if (string.IsNullOrWhiteSpace(text)) return bad;
+
+        foreach (var raw in text!.Split(new[] { ';', '+', ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            string token = raw.Trim();
+            if (token.Length == 0 || token == "0" || token == "-" || token == "*") continue;
+            var item = ParseSingleBar(token);
+            if (item is null || item.IsEmpty) bad.Add(token);
+        }
+
+        return bad;
+    }
+
+    /// <summary>
     /// Parses a bar notation string into a list of <see cref="KataBarItem"/>s.
     /// Supports compound notations separated by ';' or '+' or ',' (e.g. '2f20;2f16', '6f20;0', '2f20+1f18').
     /// </summary>

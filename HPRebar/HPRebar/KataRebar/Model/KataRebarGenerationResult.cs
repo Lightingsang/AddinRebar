@@ -18,6 +18,9 @@ public sealed class KataRebarGenerationResult
     /// <summary>Additional top bars over the supports.</summary>
     public int ExtraTopBarCount { get; init; }
 
+    /// <summary>Additional bottom bars in the spans.</summary>
+    public int ExtraBottomBarCount { get; init; }
+
     public int StirrupSetCount { get; init; }
 
     /// <summary>Single stirrups drawn where a set could not be made.</summary>

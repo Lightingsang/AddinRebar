@@ -23,6 +23,12 @@ public sealed record KataSpanRebarSpec
     /// <summary>Bottom extra positive reinforcement bars - Layer 2 (sheet Dam row 17).</summary>
     public IReadOnlyList<KataBarItem> BottomExtraLayer2 { get; init; } = Array.Empty<KataBarItem>();
 
+    /// <summary>Row 18 as written in the sheet, kept to report a cell none of which reads as bars.</summary>
+    public string BottomExtraLayer1Text { get; init; } = "";
+
+    /// <summary>Row 17 as written in the sheet.</summary>
+    public string BottomExtraLayer2Text { get; init; } = "";
+
     /// <summary>Convenience accessor for both bottom extra bar layers.</summary>
     public IReadOnlyList<IReadOnlyList<KataBarItem>> AllBottomExtraLayers =>
         new[] { BottomExtraLayer1, BottomExtraLayer2 };

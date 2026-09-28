@@ -39,6 +39,12 @@ public sealed record KataDetailingRules
     public double LayerGap(double upperDiameter, double lowerDiameter) =>
         Math.Max(LayerClearGap, Math.Max(upperDiameter, lowerDiameter));
 
+    /// <summary>
+    /// Where the additional bottom bars of a span (rows 17-18) stop, as a fraction of the clear span measured
+    /// from each support face. The sheet has no cell for it.
+    /// </summary>
+    public double BottomExtraCutFraction { get; init; } = 1.0 / 7.0;
+
     /// <summary>First and last stirrup of a span, measured from the support faces.</summary>
     public double FirstStirrupOffset { get; init; } = 50.0;
 

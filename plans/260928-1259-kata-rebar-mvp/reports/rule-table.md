@@ -19,7 +19,7 @@ Nguồn ô: dump Kata.xlsm (Update2025 + `C:\kata_pro`), VBA `Ve_dam` (`chuyen_t
 | H3+I3, H5+I5 | tỉ lệ cắt gia cường + gốc đo ("L từ tâm/mép cột") | `TopCutoffRatioLayer2/1`, `CutoffOriginLayer2/1` | H5/I5 hàng 13, H3/I3 hàng 14–16 |
 | J9 | `a/b` | `CoverMain` / `CoverStirrup` (0 = không ghi) | cover (C1–C4) |
 | 13–16 (gối) | gia cường trên (13 = lớp thép chủ, 14–16 xuống dưới), ô `trái;phải` | `TopExtraSides` (+ `TopExtraLayer1..4`) | **vẽ** (rule T1–T8, [phase-04](../phase-04-support-top-bars.md)) |
-| 17 / 18 (nhịp) | gia cường dưới lớp 2 / 1 | `BottomExtraLayer2/1` | bỏ qua |
+| 17 / 18 (nhịp) | gia cường dưới lớp 2 / 1 | `BottomExtraLayer2/1` (+Text) | **vẽ** (rule B1–B6, [phase-05](../phase-05-span-bottom-bars.md)): thẳng, cắt L0/7 từ mép gối; h18 xen giữa thép chủ dưới, h17 lớp trên |
 | 19 / 21 (nhịp) | giật mép trên / dưới `off;nfd` | `TopDrop(Bars)` / `SoffitDrop(Bars)` | bỏ qua |
 | 20 (nhịp) | cốt giá override (`2f12`, `0`) | `SideBars` | bỏ qua (≠ 0) |
 | 20–23 (gối) | rộng dầm giao / lệch / tên trục / lệch trục | `CrossingBeam*`, `Grid*` | không dùng |

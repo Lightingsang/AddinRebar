@@ -38,14 +38,23 @@ public static class KataLayerPositions
         return result;
     }
 
-    /// <summary>Warns when two neighbouring bars of a layer leave less than max(25, d) clear between them.</summary>
-    public static void CheckSpacing(List<string> warnings, string mark, IEnumerable<double> positions, double diameter, KataDetailingRules rules)
+    /// <summary>
+    /// Warns when two neighbouring bars of a layer leave less than max(25, d) clear between them, and blocks
+    /// when they would overlap: Revit would draw one bar through the other.
+    /// </summary>
+    public static void CheckSpacing(List<string> warnings, List<string> blocking, string mark, IEnumerable<double> positions, double diameter, KataDetailingRules rules)
     {
         var ys = positions.OrderBy(y => y).ToList();
         double needed = diameter + rules.LayerGap(diameter, diameter);
         for (int i = 1; i < ys.Count; i++)
         {
             double clear = ys[i] - ys[i - 1] - diameter;
+            if (clear < -1e-6)
+            {
+                blocking.Add($"Thép gia cường {mark}: hai thanh chồng lên nhau (tâm cách {ys[i] - ys[i - 1]:0} mm) — đổi số thanh của lớp.");
+                return;
+            }
+
             if (ys[i] - ys[i - 1] + 1e-6 < needed)
             {
                 warnings.Add($"Thép gia cường {mark}: khe thông thủy {clear:0} mm < {rules.LayerGap(diameter, diameter):0} mm, dầm hẹp cho số thanh này.");

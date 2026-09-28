@@ -68,7 +68,7 @@ public static class KataRebarCalculator
         var (mainTop, mainBottom) = KataMainBarLayout.Build(spec, rules, stations, warnings, ref barId);
         var blocking = new List<string>();
         var extraTop = KataSupportTopBarLayout.Build(spec, rules, stations, warnings, blocking, ref barId);
-        var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, ref barId);
+        var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId);
         var sideBars = KataSideBarLayout.Build(spec, rules, stations, ref barId);
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref barId);
 

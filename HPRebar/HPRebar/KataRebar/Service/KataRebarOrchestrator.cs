@@ -43,7 +43,8 @@ public static class KataRebarOrchestrator
                 : new KataStirrupOutcome(0, 0);
             int longitudinal = runner.Run("Kata Rebar: thép dọc", () => KataRebarCreationService.CreateLongitudinalBars(doc, plan, placement, barTypes));
             int extraTop = plan.Layout.ExtraTopBars.Count;
-            int mainBars = longitudinal - extraTop;
+            int extraBottom = plan.Layout.ExtraBottomBars.Count;
+            int mainBars = longitudinal - extraTop - extraBottom;
 
             var status = group.Assimilate();
             if (status != TransactionStatus.Committed)
@@ -54,12 +55,14 @@ public static class KataRebarOrchestrator
                 IsSuccess = true,
                 Message = $"Đã vẽ dầm {name}: {mainBars} thanh thép chủ"
                           + (extraTop > 0 ? $", {extraTop} thanh gia cường gối" : "")
+                          + (extraBottom > 0 ? $", {extraBottom} thanh gia cường nhịp" : "")
                           + $", {stirrups.Sets} bộ đai"
                           + (stirrups.SingleBars > 0 ? $" + {stirrups.SingleBars} đai lẻ" : "")
                           + (deleted > 0 ? $"; xoá {deleted} thanh của lần chạy trước." : "."),
                 DeletedCount = deleted,
                 MainBarCount = mainBars,
                 ExtraTopBarCount = extraTop,
+                ExtraBottomBarCount = extraBottom,
                 StirrupSetCount = stirrups.Sets,
                 StirrupSingleBarCount = stirrups.SingleBars,
                 RevitWarnings = runner.Warnings.Distinct().ToList()

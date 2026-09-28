@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HPRebar.Core.KataRebar.Models;
 
@@ -23,6 +24,10 @@ public sealed record KataRebarLayoutResult
 
     /// <summary>Bottom extra positive reinforcement bars at midspans.</summary>
     public IReadOnlyList<KataRebarCurve> ExtraBottomBars { get; init; } = Array.Empty<KataRebarCurve>();
+
+    /// <summary>The longitudinal bars Kata Rebar draws in Revit: main and additional, top and bottom.</summary>
+    public IEnumerable<KataRebarCurve> LongitudinalBars =>
+        MainTopBars.Concat(MainBottomBars).Concat(ExtraTopBars).Concat(ExtraBottomBars);
 
     /// <summary>Longitudinal web skin / side bars and cross-ties.</summary>
     public IReadOnlyList<KataRebarCurve> SideBars { get; init; } = Array.Empty<KataRebarCurve>();
