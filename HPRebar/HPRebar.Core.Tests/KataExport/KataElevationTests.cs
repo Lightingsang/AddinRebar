@@ -13,9 +13,9 @@ namespace HPRebar.Core.Tests.KataExport;
 /// </summary>
 public sealed class KataElevationTests
 {
-    private static KataElevation Elevation(KataRunInput input, bool reverse = false)
+    private static KataElevation Elevation(KataRunInput input, bool reverse = false, bool insertJoints = false)
     {
-        var options = new KataBuildOptions { Reverse = reverse };
+        var options = new KataBuildOptions { Reverse = reverse, InsertJoints = insertJoints };
         return KataElevationBuilder.Build(input, options, KataRowBuilder.Build(input, options));
     }
 
@@ -120,9 +120,10 @@ public sealed class KataElevationTests
             new[] { Column(-200, 200), Column(5800, 6200) },
             Array.Empty<KataGridCrossing>(),
             Header);
-        var sheet = KataRowBuilder.Build(input, new KataBuildOptions { Reverse = true });
+        var options = new KataBuildOptions { Reverse = true, InsertJoints = true };
+        var sheet = KataRowBuilder.Build(input, options);
 
-        var elevation = Elevation(input, reverse: true);
+        var elevation = Elevation(input, reverse: true, insertJoints: true);
 
         Assert.Equal(sheet.Row11.Select(KataColumnLetters.CellText), elevation.Columns.Select(c => c.Row11));
         Assert.Equal(
@@ -163,7 +164,7 @@ public sealed class KataElevationTests
     }
 
     [Fact]
-    public void JointBetweenTwoBeamsIsAZeroWidthColumn()
+    public void JointBetweenTwoBeamsIsAZeroWidthColumnWhenJointsEnabled()
     {
         var input = new KataRunInput(
             new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, key: "B2") },
@@ -171,7 +172,7 @@ public sealed class KataElevationTests
             Array.Empty<KataGridCrossing>(),
             Header);
 
-        var elevation = Elevation(input);
+        var elevation = Elevation(input, insertJoints: true);
 
         var joint = Assert.Single(elevation.Columns, c => c.Kind == KataColumnKind.Joint);
         Assert.Equal(3200.0, joint.Extent.Start);
@@ -203,7 +204,7 @@ public sealed class KataElevationTests
     }
 
     [Fact]
-    public void OnlyTheGridWrittenForASupportCarriesAnOffset()
+    public void GridsOutsideEverySupportAreNotDrawn()
     {
         var input = new KataRunInput(
             new[] { Piece(0, 6000) },
@@ -213,8 +214,9 @@ public sealed class KataElevationTests
 
         var elevation = Elevation(input);
 
-        Assert.Equal(new[] { "50", null, "0" }, elevation.Grids.Select(g => g.OffsetText));
-        Assert.Equal(new[] { "2950", "3000" }, elevation.GridDimensions.Select(d => d.Text));
+        Assert.Equal(new[] { "50", "0" }, elevation.Grids.Select(g => g.OffsetText));
+        Assert.Equal(new[] { "1", "2" }, elevation.Grids.Select(g => g.Name));
+        Assert.Equal(new[] { "5950" }, elevation.GridDimensions.Select(d => d.Text));
     }
 
     [Fact]
@@ -265,5 +267,69 @@ public sealed class KataElevationTests
         Assert.Equal("12.5", KataColumnLetters.CellText(12.5));
         Assert.Equal("+3.300", KataColumnLetters.CellText(new KataText("+3.300")));
         Assert.Equal("", KataColumnLetters.CellText(null));
+    }
+
+    [Fact]
+    public void FoundationSupportsWithUpperColumnsAreMappedToElevation()
+    {
+        // 2 footings (width 1700), span between them (clear span 2650), with upper column stubs of width 350
+        var footing1 = new KataSupport(KataSupportKind.Foundation, new Interval1D(25370, 27070), "F1", Upper: new Interval1D(26045, 26395));
+        var footing2 = new KataSupport(KataSupportKind.Foundation, new Interval1D(29720, 31420), "F2", Upper: new Interval1D(30395, 30745));
+        var piece = Piece(25370, 31420, b: 300, h: 500, key: "B1");
+        var input = new KataRunInput(
+            new[] { piece },
+            new[] { footing1, footing2 },
+            new[] { Grid("14A", 26220), Grid("16A", 30520) },
+            Header);
+
+        var elevation = Elevation(input);
+
+        Assert.Equal(3, elevation.Columns.Count);
+        Assert.Equal(KataSupportKind.Foundation, elevation.Supports[0].Kind);
+        Assert.Equal(KataSupportKind.Foundation, elevation.Supports[1].Kind);
+        Assert.NotNull(elevation.Supports[0].Upper);
+        Assert.NotNull(elevation.Supports[1].Upper);
+        Assert.Equal(350.0, elevation.Supports[0].Upper!.Extent.Length);
+        Assert.Equal(350.0, elevation.Supports[1].Upper!.Extent.Length);
+        // Distance from footing start to column start: 26045 - 25370 = 675
+        Assert.Equal(675.0, elevation.Supports[0].Upper!.Extent.Start - elevation.Supports[0].Extent.Start);
+        // Clear distance between columns: 30395 - 26395 = 4000
+        Assert.Equal(4000.0, elevation.Supports[1].Upper!.Extent.Start - elevation.Supports[0].Upper!.Extent.End);
+    }
+
+    [Fact]
+    public void SecondaryGridsPassingThroughFoundationAreExcludedFromElevation()
+    {
+        // Footing 14A has primary grid 14A at 26220 (inside column [26045, 26395])
+        // and secondary grid 15A at 26840 (inside footing [25370, 27070] but outside column).
+        // Footing 16A has primary grid 16A at 30520 and secondary grid 17A at 31140.
+        var footing1 = new KataSupport(KataSupportKind.Foundation, new Interval1D(25370, 27070), "F1", Upper: new Interval1D(26045, 26395));
+        var footing2 = new KataSupport(KataSupportKind.Foundation, new Interval1D(29720, 31420), "F2", Upper: new Interval1D(30395, 30745));
+        var piece = Piece(25370, 31420, b: 300, h: 500, key: "B1");
+        var input = new KataRunInput(
+            new[] { piece },
+            new[] { footing1, footing2 },
+            new[]
+            {
+                Grid("14A", 26220),
+                Grid("15A", 26840),
+                Grid("16A", 30520),
+                Grid("17A", 31140)
+            },
+            Header);
+
+        var sheet = KataRowBuilder.Build(input);
+        var elevation = Elevation(input);
+
+        // Sheet row 22 only picks primary grids 14A and 16A
+        Assert.Equal(new[] { "14A", "", "16A" }, sheet.Row22.Select(v => v?.ToString() ?? ""));
+        // Secondary grids 15A and 17A are silently skipped without "cross one support" warning
+        Assert.DoesNotContain(sheet.Warnings, w => w.Contains("cross one support"));
+
+        // Elevation only draws grids 14A and 16A
+        Assert.Equal(new[] { "14A", "16A" }, elevation.Grids.Select(g => g.Name));
+        // Grid dimension chain measures 4300 between 14A and 16A (30520 - 26220 = 4300), NOT 620
+        Assert.Single(elevation.GridDimensions);
+        Assert.Equal("4300", elevation.GridDimensions[0].Text);
     }
 }

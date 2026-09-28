@@ -84,5 +84,5 @@ public sealed record KataBuildOptions
     public bool Reverse { get; init; }
 
     /// <summary>Put a zero-width support where two framing elements meet without a support.</summary>
-    public bool InsertJoints { get; init; } = true;
+    public bool InsertJoints { get; init; } = false;
 }

@@ -4,6 +4,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using Autodesk.Windows;
 using HPRebar.McpBridge.Core.Host;
 using HPRebar.McpBridge.Core.Model;
 using HPRebar.McpBridge.Core.Scripting;
@@ -91,6 +92,8 @@ public class Application : ExternalApplication
         _onThemeChanged = (_, _) => { ApplyIcon(); Resources.Themes.RevitHostTheme.Instance.NotifyChanged(); };
         Application.ThemeChanged += _onThemeChanged;
 #endif
+
+        MoveMcpPanelToFront();
     }
 
     /// <summary>One 32×32 DrawingImage serves both slots: the ribbon scales it to 16 px for the small image.</summary>
@@ -139,6 +142,7 @@ public class Application : ExternalApplication
         // accept requests before the ribbon and events exist.
         _onInitialized = (_, _) =>
         {
+            MoveMcpPanelToFront();
             ScriptingSelfCheck.Run(compiler, RevitContext.UiApplication);
             if (settings.AutoStartListener) host.Start();
         };
@@ -148,6 +152,35 @@ public class Application : ExternalApplication
         Application.ControlledApplication.ApplicationInitialized += _onInitialized;
 
         Log.Information("MCP bridge ready on pipe {Pipe}; auto-start listener = {AutoStart}", host.PipeName, settings.AutoStartListener);
+    }
+
+    /// <summary>
+    ///     Rearranges the "HPRebar" tab panels so the "MCP" panel is always first (index 0).
+    /// </summary>
+    private static void MoveMcpPanelToFront()
+    {
+        try
+        {
+            var ribbon = ComponentManager.Ribbon;
+            if (ribbon is null) return;
+
+            var tab = ribbon.Tabs.FirstOrDefault(t => t.Id == "HPRebar" || t.Title == "HPRebar");
+            if (tab is null) return;
+
+            var mcpPanel = tab.Panels.FirstOrDefault(p =>
+                p.Source?.Title == "MCP" ||
+                p.Source?.Id == "MCP");
+
+            if (mcpPanel is not null && tab.Panels.IndexOf(mcpPanel) > 0)
+            {
+                tab.Panels.Remove(mcpPanel);
+                tab.Panels.Insert(0, mcpPanel);
+            }
+        }
+        catch (Exception exception)
+        {
+            Log.Warning(exception, "Could not move MCP panel to front of ribbon tab");
+        }
     }
 
     private static void CreateLogger()

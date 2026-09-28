@@ -56,6 +56,15 @@ public sealed partial class KataExportViewModel : ObservableObject
     [ObservableProperty] private IReadOnlyList<KataPreviewColumn> _previewColumns = Array.Empty<KataPreviewColumn>();
     [ObservableProperty] private KataElevation? _elevation;
 
+    [ObservableProperty] private string _beamNameValue = string.Empty;
+    [ObservableProperty] private string _beamCountValue = string.Empty;
+    [ObservableProperty] private string _heightValue = string.Empty;
+    [ObservableProperty] private string _widthValue = string.Empty;
+    [ObservableProperty] private string _slabThicknessValue = string.Empty;
+    [ObservableProperty] private string _axisGridNameValue = string.Empty;
+    [ObservableProperty] private string _axisOffsetValue = string.Empty;
+    [ObservableProperty] private string _elevationValue = string.Empty;
+
     public KataExportViewModel(KataExportSession session, IKataExportRunner runner)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
@@ -121,6 +130,15 @@ public sealed partial class KataExportViewModel : ObservableObject
             SelectedColumnIndex = selected < columns.Count ? selected : -1;
             Warnings = _session.Warnings.Concat(sheet.Warnings).Distinct().ToList();
             AxisOffsetText = $"B9 = {sheet.HeaderColumn[6]} mm";
+
+            BeamNameValue = sheet.HeaderColumn[0]?.ToString() ?? "-";
+            BeamCountValue = sheet.HeaderColumn[1]?.ToString() ?? "-";
+            HeightValue = sheet.HeaderColumn[2]?.ToString() ?? $"{_session.HeightMm:N0}";
+            WidthValue = sheet.HeaderColumn[3]?.ToString() ?? $"{_session.WidthMm:N0}";
+            SlabThicknessValue = sheet.HeaderColumn[4]?.ToString() ?? "0";
+            AxisGridNameValue = _session.AxisGridName ?? "-";
+            AxisOffsetValue = $"{sheet.HeaderColumn[6]} mm";
+            ElevationValue = sheet.HeaderColumn[7]?.ToString() ?? KataFormat.Elevation(_session.LevelElevationMm);
         }
         catch (Exception ex)
         {
@@ -134,6 +152,15 @@ public sealed partial class KataExportViewModel : ObservableObject
             PreviewColumns = Array.Empty<KataPreviewColumn>();
             SelectedColumnIndex = -1;
             Warnings = _session.Warnings;
+
+            BeamNameValue = "-";
+            BeamCountValue = "-";
+            HeightValue = $"{_session.HeightMm:N0}";
+            WidthValue = $"{_session.WidthMm:N0}";
+            SlabThicknessValue = _session.SlabThicknessMm is { } s ? $"{s:N0}" : "0";
+            AxisGridNameValue = _session.AxisGridName ?? "-";
+            AxisOffsetValue = "0 mm";
+            ElevationValue = KataFormat.Elevation(_session.LevelElevationMm);
         }
 
         SelectionText = KataPreviewBuilder.Describe(Elevation, SelectedColumnIndex);

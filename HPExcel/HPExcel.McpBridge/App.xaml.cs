@@ -25,6 +25,30 @@ public partial class App : Application
                 action => Dispatcher.InvokeAsync(action),
                 text => Clipboard.SetText(text));
 
+            if (System.Linq.Enumerable.Contains(e.Args, "--allow-execution") || 
+                System.Environment.GetEnvironmentVariable("HPEXCEL_ALLOW_EXECUTION") == "1")
+            {
+                viewModel.IsExecutionEnabled = true;
+            }
+            if (System.Linq.Enumerable.Contains(e.Args, "--allow-write") ||
+                System.Environment.GetEnvironmentVariable("HPEXCEL_ALLOW_WRITE") == "1")
+            {
+                viewModel.IsExecutionEnabled = true;
+                viewModel.IsWriteEnabled = true;
+            }
+            if (System.Linq.Enumerable.Contains(e.Args, "--auto-attach") ||
+                System.Environment.GetEnvironmentVariable("HPEXCEL_AUTO_ATTACH") == "1")
+            {
+                try
+                {
+                    viewModel.Attach();
+                }
+                catch (System.Exception ex)
+                {
+                    Serilog.Log.Warning(ex, "Auto-attach failed during startup");
+                }
+            }
+
             _mainWindow = new MainWindow(viewModel);
             MainWindow = _mainWindow;
             _mainWindow.Show();

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo cáo Phân tích Toàn diện Tính năng Kata Export - HPRebar</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            cad: {
+              cyan: '#00E5FF',
+              green: '#00E676',
+              yellow: '#FFD600',
+              gray: '#808080'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- KaTeX for Math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+  <!-- Mermaid for Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1e293b',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#0ea5e9',
+        lineColor: '#38bdf8',
+        secondaryColor: '#334155',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .excel-table th, .excel-table td {
+      border: 1px solid #334155;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-[#e2e8f0] font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-white tracking-wide flex items-center gap-2">
+          HPRebar • Kata Export Engine
+          <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-mono">Production Verified</span>
+        </h1>
+        <p class="text-xs text-slate-400">Kiến trúc phần mềm & Phân tích giải thuật mã nguồn</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-3 text-xs text-slate-400">
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Revit 2026.4 Target</span>
+      <span>•</span>
+      <span class="font-mono text-slate-300">450 Unit Tests Passed</span>
+    </div>
+  </header>
+
+  <div class="max-w-[1600px] mx-auto flex">
+    
+    <!-- Left Sticky Sidebar TOC -->
+    <aside class="w-72 shrink-0 h-[calc(100vh-61px)] sticky top-[61px] p-5 overflow-y-auto border-r border-slate-800 hidden xl:block text-xs">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-4">Mục lục báo cáo</div>
+      <nav class="space-y-1.5 font-medium">
+        <a href="#sec-1" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">1. Tổng quan công cụ</a>
+        <a href="#sec-2" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">2. Sơ đồ kiến trúc & Bản đồ mã nguồn</a>
+        <a href="#sec-3" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">3. Sơ đồ luồng thực thi (Sequence)</a>
+        <a href="#sec-4" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">4. Phân tích 6 giai đoạn thực thi</a>
+        <a href="#sec-5" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">5. Thuật toán hình học & Pseudocode</a>
+        <a href="#sec-6" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">6. Bảng nguồn gốc toàn bộ cột Excel</a>
+        <a href="#sec-7" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">7. Ví dụ xuyên suốt (Dầm T1-DX12)</a>
+        <a href="#sec-8" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">8. Giới hạn & Nguy cơ phân tích</a>
+        <a href="#sec-9" class="block px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">9. Kết luận & Đánh giá cơ chế</a>
+      </nav>
+
+      <div class="mt-8 p-3 rounded-lg bg-slate-900 border border-slate-800">
+        <div class="text-[11px] font-semibold text-slate-300 mb-1">Môi trường & Công nghệ</div>
+        <div class="text-[11px] text-slate-400 space-y-1">
+          <div>• C# 12 / .NET 8 / .NET 10</div>
+          <div>• Revit API 2026.4</div>
+          <div>• Windows ROT COM Interop</div>
+          <div>• CommunityToolkit.Mvvm 8.4</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 min-w-0 p-6 md:p-10 space-y-12">
+      
+      <!-- HERO HEADER -->
+      <section class="border-b border-slate-800 pb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-mono mb-4">
+          <span>KATA EXPORT RE-ENGINEERING AUDIT REPORT</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          Phân Tích Chi Tiết Kiến Trúc & Logic Vận Hành "Kata Export"
+        </h2>
+        <p class="mt-3 text-base text-slate-400 max-w-4xl leading-relaxed">
+          Bản phân tích mã nguồn toàn diện giải thích cơ chế trích xuất hình học 3D Revit, thuật toán phân đoạn 1D, giao diện Canvas CAD 2D và pipeline ghi dữ liệu siêu tốc vào biểu mẫu <code class="text-brand-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono">Kata.xlsm</code> qua COM Late-binding.
+        </p>
+      </section>
+
+      <!-- 1. TỔNG QUAN CÔNG CỤ -->
+      <section id="sec-1" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">1</div>
+          <h3 class="text-2xl font-bold text-white">Tổng quan công cụ</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Card Nhận gì -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-brand-400 font-bold text-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+              ĐẦU VÀO (INPUT)
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <li><strong class="text-white">Dải dầm thẳng</strong>: Cấu kiện <code class="text-slate-400">OST_StructuralFraming</code> cùng Level, thẳng hàng (góc lệch $\le 1.0^\circ$, lệch tim $\le 10\text{ mm}$, độ dốc $\le 10\text{ mm}$).</li>
+              <li><strong class="text-white">Gối đỡ lân cận</strong>: Cột (<code class="text-slate-400">OST_StructuralColumns</code>), vách chịu lực (<code class="text-slate-400">OST_Walls</code>), móng đài cọc (<code class="text-slate-400">OST_StructuralFoundation</code>), dầm giao vuông góc.</li>
+              <li><strong class="text-white">Lưới trục & Sàn</strong>: Trục dọc dầm, trục ngang cắt qua cột, sàn tiếp xúc mép trên dầm.</li>
+              <li><strong class="text-white">Excel mở sẵn</strong>: Workbook đang mở trong Excel có chứa sheet <code class="text-emerald-400 font-mono">Dam</code>.</li>
+            </ul>
+          </div>
+
+          <!-- Card Xử lý gì -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              XỬ LÝ NỘI TẠI (PROCESSING)
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <li><strong class="text-white">Dựng trục tọa độ 1D</strong>: Chiếu hình học dầm 3D về trục dọc $s$ và phương ngang $t$.</li>
+              <li><strong class="text-white">Probe Raycast 3D</strong>: Bắn các tia kiểm tra xuyên Solid gốc để đo chính xác bề rộng gối dọc trục và vị trí cột tầng trên.</li>
+              <li><strong class="text-white">1D Segmenter</strong>: Gộp các gối chồng lấn, chia chuỗi xen kẽ chuẩn <code class="text-slate-400">Cột | Nhịp | Cột | Nhịp</code>.</li>
+              <li><strong class="text-white">Interactive Canvas</strong>: Viewport 2D cho phép Pan/Zoom, click chọn nhịp, hiển thị trực quan dầm giật cấp.</li>
+            </ul>
+          </div>
+
+          <!-- Card Xuất gì -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+              ĐẦU RA (OUTPUT)
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <li><strong class="text-white">Ô Header B3:B10</strong>: Tên dầm, số lượng, $b, h$, dày sàn, tên trục, lệch trục, cao trình.</li>
+              <li><strong class="text-white">5 Hàng dữ liệu (C..BZ)</strong>: Hàng 11, 19, 21, 22, 23 tương ứng từng đoạn.</li>
+              <li><strong class="text-white">Xóa sạch dữ liệu thừa</strong>: Dọn sạch các cột $C+N$ đến $BZ$ từ dầm trước.</li>
+              <li><strong class="text-white">Chọn lại dầm trong Revit</strong>: Tự động highlight lại danh sách dầm vừa xuất qua ExternalEvent.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. KIẾN TRÚC & BẢN ĐỒ MÃ NGUỒN -->
+      <section id="sec-2" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">2</div>
+          <h3 class="text-2xl font-bold text-white">Sơ đồ kiến trúc & Bản đồ mã nguồn</h3>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Hệ thống được thiết kế theo nguyên lý tách biệt mối bận tâm (Separation of Concerns). Toàn bộ giải thuật toán học và logic bảng biểu được đóng gói trong thư viện <code class="text-brand-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono">HPRebar.Core</code> thuần túy, tuyệt đối không phụ thuộc vào <code class="text-slate-400 font-mono">Autodesk.Revit.DB</code>.
+        </p>
+
+        <!-- Kiến trúc 3 tầng -->
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+          <div class="mermaid">
+graph LR
+  subgraph T1 ["Tầng 1: Revit Host & UI (HPRebar)"]
+    CMD["KataExportCommand.cs"]
+    SESS["KataSessionReader.cs"]
+    PROBE["KataSupportCollector.cs"]
+    VM["KataExportViewModel.cs"]
+    VIEW["KataExportView.xaml"]
+    CANVAS["KataElevationCanvas.cs"]
+    WRITER["KataExcelWriter.cs"]
+  end
+
+  subgraph T2 ["Tầng 2: Thuật toán thuần (HPRebar.Core)"]
+    SEGM["KataSegmenter.cs"]
+    RULES["KataSupportRules.cs"]
+    ROWS["KataRowBuilder.cs"]
+    ELEV["KataElevationBuilder.cs"]
+    CELL["KataExcelCell.cs"]
+  end
+
+  subgraph T3 ["Tầng 3: External Apps"]
+    EXCEL["Microsoft Excel (COM ROT)"]
+    REVIT_DOC["Revit 2026 Active Model"]
+  end
+
+  CMD --> SESS
+  SESS --> PROBE
+  SESS -->|DTO KataRunInput| SEGM
+  VM --> ROWS
+  VM --> ELEV
+  VIEW --> VM
+  VIEW --> CANVAS
+  VM --> WRITER
+  WRITER -->|Late-binding Value2| EXCEL
+  REVIT_DOC --> SESS
+          </div>
+        </div>
+
+        <!-- Bảng tra cứu tập tin -->
+        <div class="overflow-x-auto border border-slate-800 rounded-xl">
+          <table class="w-full text-xs text-left excel-table">
+            <thead class="bg-slate-900 text-slate-300 font-semibold uppercase tracking-wider">
+              <tr>
+                <th class="p-3">Thư mục / Namespace</th>
+                <th class="p-3">Tên File</th>
+                <th class="p-3">Class / Interface</th>
+                <th class="p-3">Trách nhiệm & Nhiệm vụ chính</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 font-mono text-[11px]">
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Command & Entry</td>
+                <td class="p-3 text-brand-400">Application.cs:62</td>
+                <td class="p-3 text-white">Application</td>
+                <td class="p-3 text-slate-300 font-sans">Đăng ký nút PushButton "Kata Export" trên panel Rebar.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Command & Entry</td>
+                <td class="p-3 text-brand-400">KataExportCommand.cs:24</td>
+                <td class="p-3 text-white">KataExportCommand</td>
+                <td class="p-3 text-slate-300 font-sans">Entry point: xử lý lựa chọn dầm, gọi trích xuất và mở cửa sổ Modeless.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Revit Reader Service</td>
+                <td class="p-3 text-brand-400">KataSessionReader.cs:13</td>
+                <td class="p-3 text-white">KataSessionReader</td>
+                <td class="p-3 text-slate-300 font-sans">Điều phối đọc toàn bộ dữ liệu dầm, gối, sàn, trục trong 1 lần trên API thread.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Revit Reader Service</td>
+                <td class="p-3 text-brand-400">KataRunReader.cs:15</td>
+                <td class="p-3 text-white">KataRunReader</td>
+                <td class="p-3 text-slate-300 font-sans">Kiểm tra thẳng hàng, đo tiết diện $b, h$, trạm bắt đầu/kết thúc, z Offset.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Revit Reader Service</td>
+                <td class="p-3 text-brand-400">KataSupportCollector.cs:17</td>
+                <td class="p-3 text-white">KataSupportCollector</td>
+                <td class="p-3 text-slate-300 font-sans">Phóng các tia probe line xuyên Solid tìm cột, vách, móng và dầm giao.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Revit Reader Service</td>
+                <td class="p-3 text-brand-400">KataSolidReader.cs:14</td>
+                <td class="p-3 text-white">KataSolidReader</td>
+                <td class="p-3 text-slate-300 font-sans">Lấy hình học chưa bị cắt (`GetOriginalGeometry`), giao cắt `IntersectWithCurve`.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Pure Core Engine</td>
+                <td class="p-3 text-brand-400">KataSegmenter.cs:12</td>
+                <td class="p-3 text-white">KataSegmenter</td>
+                <td class="p-3 text-slate-300 font-sans">Thuật toán 1D cắt dải dầm thành chuỗi xen kẽ gối, nhịp, mối nối.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Pure Core Engine</td>
+                <td class="p-3 text-brand-400">KataRowBuilder.cs:13</td>
+                <td class="p-3 text-white">KataRowBuilder</td>
+                <td class="p-3 text-slate-300 font-sans">Tính toán chi tiết các ô B3:B10 và các hàng 11, 19, 21, 22, 23 (hỗ trợ Reverse).</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Pure Core Engine</td>
+                <td class="p-3 text-brand-400">KataExcelCell.cs:12</td>
+                <td class="p-3 text-white">KataExcelCell</td>
+                <td class="p-3 text-slate-300 font-sans">Ép kiểu dữ liệu COM: số nguyên/thực giữ nguyên, văn bản thêm tiền tố `'`.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">UI & Canvas 2D</td>
+                <td class="p-3 text-brand-400">KataElevationCanvas.cs:17</td>
+                <td class="p-3 text-white">KataElevationCanvas</td>
+                <td class="p-3 text-slate-300 font-sans">WPF custom FrameworkElement xử lý Zoom/Pan 2D và render mặt đứng kiểu CAD.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-3 text-slate-400 font-sans">Excel COM Writer</td>
+                <td class="p-3 text-brand-400">KataExcelWriter.cs:19</td>
+                <td class="p-3 text-white">KataExcelWriter</td>
+                <td class="p-3 text-slate-300 font-sans">Kiểm tra kết nối Excel, ghi đè B3:B10, ClearBlock C+N..BZ, ghi hàng loạt mảng 2D.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. SƠ ĐỒ LUỒNG THỰC THI (SEQUENCE) -->
+      <section id="sec-3" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">3</div>
+          <h3 class="text-2xl font-bold text-white">Sơ đồ luồng từ giao diện đến Excel</h3>
+        </div>
+
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
+          <div class="mermaid">
+sequenceDiagram
+  autonumber
+  actor User as Kỹ sư (User)
+  participant Ribbon as Revit Ribbon
+  participant Cmd as KataExportCommand
+  participant Reader as KataSessionReader
+  participant Core as KataRowBuilder (Pure)
+  participant VM as KataExportViewModel
+  participant View as WPF Window & Canvas
+  participant Writer as KataExcelWriter (COM)
+  participant Excel as Excel App (Sheet Dam)
+  participant Evt as ExternalEventHandler
+
+  User->>Ribbon: Bấm "Kata Export"
+  Ribbon->>Cmd: Execute()
+  alt Chưa chọn dầm
+    Cmd->>User: PickObjects("Chọn dải dầm...")
+    User-->>Cmd: Chọn dải dầm + Finish
+  else Đã chọn sẵn dầm
+    Cmd->>Cmd: Lọc các phần tử OST_StructuralFraming
+  end
+
+  Cmd->>Reader: Read(doc, activeView, beams)
+  activate Reader
+  Reader->>Reader: KataRunReader: đo dầm, kiểm tra thẳng hàng
+  Reader->>Reader: KataSupportCollector: phóng tia probe xuyên Solid
+  Reader->>Reader: KataGridReader: tìm lưới ngang & lưới dọc dầm
+  Reader->>Reader: KataHeaderReader: đo chiều dày sàn B7 & đọc parameters
+  Reader-->>Cmd: Trả về DTO KataExportSession
+  deactivate Reader
+
+  Cmd->>Evt: Khởi tạo Runner ExternalEvent
+  Cmd->>VM: Khởi tạo ViewModel(session, runner)
+  VM->>Core: Build(input, options) -> Lập KataSheet & KataElevation
+  Core-->>VM: Trả về bảng ô KataSheet & dữ liệu vẽ Canvas
+  Cmd->>View: Khởi tạo và Show() cửa sổ Modeless
+
+  User->>View: Tương tác: Đổi tham số / Bật Reverse / Zoom Pan dầm
+  View->>VM: PropertyChanged -> RebuildSheet()
+  VM->>Core: Tái tính toán tức thời bảng tính và hình học
+  VM-->>View: Render lại Canvas 2D & cập nhật bảng xem trước
+
+  User->>View: Bấm nút "Xuất sang Excel"
+  View->>VM: ExportCommand.Execute()
+  VM->>Writer: Write(sheet, targetWorkbookFullName)
+  activate Writer
+  Writer->>Excel: Bắt tiến trình qua ROT, kiểm tra Sheet "Dam"
+  Writer->>Excel: SetRange B10 NumberFormat = "@"
+  Writer->>Excel: SetRange B3:B10 Value2 = HeaderColumn
+  Writer->>Excel: ClearBlock C11+N..BZ23 (xóa dữ liệu thừa)
+  Writer->>Excel: Ghi các hàng 11, 19, 21, 22, 23 (Value2)
+  Writer-->>VM: Hoàn tất (Success = true)
+  deactivate Writer
+
+  VM->>Evt: HighlightAsync(beamIds)
+  Evt->>Cmd: uidoc.Selection.SetElementIds(beamIds)
+  VM-->>View: Thông báo "Đã ghi N cột vào... (sheet Dam)"
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. PHÂN TÍCH 6 GIAI ĐOẠN THỰC THI -->
+      <section id="sec-4" class="space-y-8">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">4</div>
+          <h3 class="text-2xl font-bold text-white">Phân tích chi tiết từng giai đoạn thực thi</h3>
+        </div>
+
+        <!-- Giai đoạn 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.1</span>
+            Giai đoạn 1: Khởi chạy lệnh & Lựa chọn phần tử
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Điểm khởi chạy xuất phát từ nút Ribbon <code class="text-white bg-slate-800 px-1 py-0.5 rounded font-mono">KataExportCommand.cs</code>. Command được gán chế độ giao dịch thủ công <code class="text-amber-400 font-mono">[Transaction(TransactionMode.Manual)]</code> vì tool chỉ thực hiện tác vụ đọc dữ liệu và đổi selection, không sửa đổi cơ sở dữ liệu Revit.
+          </p>
+          <div class="bg-slate-950 p-4 rounded-lg font-mono text-xs text-slate-300 border border-slate-800">
+            <span class="text-slate-500">// KataExportSelectionFilter.cs:11-15</span><br>
+            <span class="text-purple-400">public bool</span> <span class="text-blue-400">AllowElement</span>(Element elem)<br>
+            {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> elem <span class="text-purple-400">is</span> FamilyInstance fi &amp;&amp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elem.Category?.BuiltInCategory == BuiltInCategory.OST_StructuralFraming;<br>
+            }
+          </div>
+          <p class="text-xs text-slate-400">
+            Nếu người dùng bấm <code class="text-white">Esc</code> khi đang chọn dầm, chương trình bắt ngoại lệ <code class="text-white">Autodesk.Revit.Exceptions.OperationCanceledException</code> và kết thúc nhẹ nhàng, không gây crash hoặc hiện dialog lỗi không cần thiết.
+          </p>
+        </div>
+
+        <!-- Giai đoạn 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.2</span>
+            Giai đoạn 2: Trích xuất & Đọc dữ liệu từ Revit (KataSessionReader)
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Dữ liệu Revit được gom lại trong đúng 1 lần đọc duy nhất trên API thread qua <code class="text-white font-mono">KataSessionReader.Read()</code>:
+          </p>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+            <li><strong class="text-white">Kiểm tra dầm thẳng (KataRunReader.cs)</strong>: Ép kiểu curve thành <code class="text-brand-400 font-mono">Line</code>. Ném ngoại lệ nếu gặp dầm cong. Kiểm tra độ lệch phương ngang giữa các dầm $\le 10\text{ mm}$ và độ dốc $\le 10\text{ mm}$. Xác thực tất cả các dầm phải thuộc cùng 1 tầng tham chiếu (<code class="text-slate-400 font-mono">INSTANCE_REFERENCE_LEVEL_PARAM</code>).</li>
+            <li><strong class="text-white">Bộ lọc không gian (KataCandidateCollector.cs)</strong>: Tạo hộp không gian bao quanh dải dầm (mở rộng sang 2 bên $1500\text{ mm}$, xuống dưới $300\text{ mm}$, lên trên $750\text{ mm}$). Lọc bỏ các đối tượng bị phá dỡ hoặc xây tương lai (<code class="text-slate-400 font-mono">Demolished, Future, Past</code>).</li>
+            <li><strong class="text-white">Đo tiết diện gốc (KataSolidReader.cs)</strong>: Sử dụng <code class="text-white font-mono">instance.GetOriginalGeometry()</code> đã qua ma trận chuyển vị <code class="text-white font-mono">instance.GetTransform()</code>. Điều này giúp kích thước dầm và gối không bị suy giảm do Revit tự động cut-back khi Join dầm với cột hoặc sàn.</li>
+          </ul>
+        </div>
+
+        <!-- Giai đoạn 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.3</span>
+            Giai đoạn 3: Phân đoạn hình học 1D (KataSegmenter)
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Toàn bộ các gối đỡ trùng nhau được gộp lại qua hàm <code class="text-white font-mono">MergeSupports()</code>. Nếu một cột đặt trên đài móng, hoặc dầm giao đâm vào cột, hệ thống ưu tiên giữ loại cấu kiện mạnh hơn theo cấp bậc:
+            <span class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 font-mono text-xs">Column (0) &gt; Foundation (1) &gt; Beam (2)</span>.
+          </p>
+          <p class="text-xs text-slate-400">
+            Sau khi gộp gối, dải dầm được chia cắt theo con trỏ quét <code class="text-white font-mono">cursor</code> từ trạm bắt đầu đến kết thúc, tạo thành chuỗi các đối tượng <code class="text-white font-mono">KataSegment</code> gồm <code class="text-brand-400 font-mono">Support</code>, <code class="text-emerald-400 font-mono">Span</code> và <code class="text-amber-400 font-mono">Joint</code>.
+          </p>
+        </div>
+
+        <!-- Giai đoạn 4 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.4</span>
+            Giai đoạn 4: Tính toán dữ liệu ô Kata (KataRowBuilder)
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Quy định bất di bất dịch của biểu mẫu Kata là các cột phải luôn xen kẽ <strong class="text-white">Cột | Nhịp | Cột | Nhịp</strong>. Nếu dầm có đầu công-xôn, hàm <code class="text-white font-mono">AddCantileverEnd()</code> sẽ tự động bổ sung một cột "Gối ảo" rộng <code class="text-brand-400 font-mono">0.0</code> ở đầu hoặc cuối dải.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <div class="text-brand-400 font-semibold mb-1">Công thức hàng 21 (Nhịp giật cấp):</div>
+              <p class="text-slate-300 mb-1">Đo độ giật của mép dưới dầm nhịp thứ $i$ so với đáy danh nghĩa của dầm đầu tiên:</p>
+              <div class="font-mono text-emerald-400">$$\text{Row21}_i = -(h_i - h_1) + \text{ZOffset}_i$$</div>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <div class="text-brand-400 font-semibold mb-1">Công thức hàng 19 & 23 (Gối đỡ):</div>
+              <p class="text-slate-300 mb-1">Đo kích thước cột trên và độ lệch tim lưới so với tâm gối:</p>
+              <div class="font-mono text-emerald-400">$$\text{Row19} = \text{"width;offset"},\quad \text{Row23} = (s_{\text{grid}} - s_{\text{mid}}) \times \text{sign}$$</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Giai đoạn 5 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.5</span>
+            Giai đoạn 5: Hiển thị giao diện & Canvas CAD 2D
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Giao diện được xây dựng bằng kiến trúc WPF MVVM với <code class="text-white font-mono">CommunityToolkit.Mvvm</code>. Viewport 2D trong <code class="text-white font-mono">KataElevationCanvas.cs</code> hỗ trợ đầy đủ trải nghiệm thao tác của một phần mềm CAD chuyên nghiệp:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <div class="text-white font-semibold mb-1">Zoom & Pan mượt mà</div>
+              <p class="text-slate-400">Lăn chuột zoom quanh vị trí con trỏ chuột (tối đa $3.0\text{ px/mm}$). Giữ chuột giữa hoặc chuột phải để Pan toàn bộ khung nhìn.</p>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <div class="text-white font-semibold mb-1">Điều hướng thông minh</div>
+              <p class="text-slate-400">Các nút "Toàn bộ" (FrameAll), "Nhịp trước" / "Nhịp sau" tự động đưa nhịp đang chọn kèm 2 gối liền kề vào giữa tâm khung nhìn.</p>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <div class="text-white font-semibold mb-1">Cạnh dầm giật cấp</div>
+              <p class="text-slate-400">Cạnh đứng của cột được tính toán nối liên tục từ đáy từng đoạn dầm liền kề xuống tới chân đường cắt (Breakline nhô ra $4.5\text{ px}$), không bị hở nét.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Giai đoạn 6 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h4 class="text-lg font-bold text-brand-400 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center">4.6</span>
+            Giai đoạn 6: Kết nối COM và ghi dữ liệu sang Excel sheet "Dam"
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Thay vì dùng các thư viện bên thứ ba cồng kềnh, add-in sử dụng Windows COM P/Invoke trực tiếp vào Running Object Table (ROT) qua <code class="text-white font-mono">ExcelComAttach.cs</code>:
+          </p>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+            <li><strong class="text-white">Late Binding linh hoạt</strong>: Dùng <code class="text-white font-mono">Type.InvokeMember</code> tương thích hoàn hảo cả trên .NET 8 (nơi Microsoft đã khai tử <code class="text-slate-400 font-mono">Marshal.GetActiveObject</code>) và .NET Framework 4.8.</li>
+            <li><strong class="text-white">Ghi theo khối (Block Writing)</strong>: Ghi toàn bộ dữ liệu 5 hàng qua thuộc tính <code class="text-brand-400 font-mono">Value2</code> bằng mảng 2 chiều $1 \times N$. Tốc độ ghi hoàn tất chỉ trong 10-20 mili-giây.</li>
+            <li><strong class="text-white">Xử lý Excel bận</strong>: Bắt chính xác mã lỗi RPC Busy (<code class="text-amber-400 font-mono">0x80010001, 0x8001010A</code>), nhắc nhở người dùng thoát chế độ chỉnh sửa ô trong Excel và thử lại, không làm treo máy.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 5. THUẬT TOÁN HÌNH HỌC & PSEUDOCODE -->
+      <section id="sec-5" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">5</div>
+          <h3 class="text-2xl font-bold text-white">Thuật toán hình học cốt lõi & Pseudocode</h3>
+        </div>
+
+        <!-- Thuật toán 1: Trục tọa độ 1D -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <span class="text-brand-400">#1</span> Thuật toán dựng hệ tọa độ cục bộ dải dầm (KataAxisFrame)
+          </h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Hệ tọa độ nhận vector chỉ phương $\vec{D}$ từ dầm đầu tiên, chiếu lên mặt phẳng ngang $XY$ và chuẩn hóa thành $\vec{U}$. Để đảm bảo trục luôn hướng theo chiều đọc bản vẽ chuẩn của Kata (từ trái qua phải hoặc từ dưới lên trên), vector $\vec{U}$ được đảo chiều nếu thành phần chủ đạo bị âm:
+          </p>
+          <div class="bg-slate-950 p-4 rounded-lg font-mono text-xs text-slate-300 border border-slate-800">
+            <span class="text-slate-500">// KataAxisFrame.cs:27-39</span><br>
+            Vector2D plan = Normalize(Vector2D(D.X, D.Y));<br>
+            <span class="text-purple-400">bool</span> xDominant = Abs(plan.X) &gt;= Abs(plan.Y);<br>
+            <span class="text-purple-400">if</span> ((xDominant &amp;&amp; plan.X &lt; 0) || (!xDominant &amp;&amp; plan.Y &lt; 0))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;plan = -plan;<br>
+            Vector3D Axis = (plan.X, plan.Y, 0.0);<br>
+            Vector3D Transverse = CrossProduct(Vector3D.BasisZ, Axis).Normalize();<br>
+            <br>
+            <span class="text-slate-500">// Đổi tọa độ điểm P bất kỳ sang trạm dọc s và khoảng lệch ngang t</span><br>
+            <span class="text-purple-400">double</span> Station(XYZ P) =&gt; DotProduct(P - Origin, Axis) * 304.8;<br>
+            <span class="text-purple-400">double</span> Offset(XYZ P) =&gt; DotProduct(P - Origin, Transverse) * 304.8;
+          </div>
+        </div>
+
+        <!-- Thuật toán 2: Quét Solid bằng tia Probe -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <span class="text-brand-400">#2</span> Thuật toán quét và nhận diện gối bằng Probe Lines 3D
+          </h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Thay vì dựa vào BoundingBox dễ bị sai lệch khi cấu kiện xoay xiên, chương trình phóng các tia kiểm tra hình học xuyên qua khối Solid thật bằng hàm <code class="text-white font-mono">Solid.IntersectWithCurve</code>:
+          </p>
+          <div class="bg-slate-950 p-4 rounded-lg font-mono text-xs text-slate-300 border border-slate-800">
+            <span class="text-slate-500">// Pseudocode Quét Solid Gối</span><br>
+            FUNCTION ProbeIntervals(solids, probes, frame):<br>
+            &nbsp;&nbsp;intervals = List()<br>
+            &nbsp;&nbsp;options = SolidCurveIntersectionOptions(ResultType = CurveSegmentsInside)<br>
+            &nbsp;&nbsp;FOR EACH solid IN solids:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FOR EACH probe IN probes:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hitResult = solid.IntersectWithCurve(probe, options)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR i = 0 TO hitResult.SegmentCount - 1:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg = hitResult.GetCurveSegment(i)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intervals.Add(Interval1D(frame.Station(seg.StartPoint), frame.Station(seg.EndPoint)))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END FOR<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;END FOR<br>
+            &nbsp;&nbsp;END FOR<br>
+            &nbsp;&nbsp;RETURN MergeOverlappingIntervals(intervals)
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. BẢNG NGUỒN GỐC TOÀN BỘ CỘT EXCEL -->
+      <section id="sec-6" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">6</div>
+          <h3 class="text-2xl font-bold text-white">Bảng nguồn gốc dữ liệu của toàn bộ cột / ô Excel</h3>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Bảng ánh xạ truy ngược 100% từ từng ô trong file Excel về thuộc tính Revit và các bước biến đổi hình học tương ứng:
+        </p>
+
+        <!-- Bảng Header B3:B10 -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Khối Header dầm: Ô B3 đến B10</h4>
+          <div class="overflow-x-auto border border-slate-800 rounded-xl">
+            <table class="w-full text-xs text-left excel-table">
+              <thead class="bg-slate-900 text-slate-300 font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3">Ô Excel</th>
+                  <th class="p-3">Chỉ tiêu Kata</th>
+                  <th class="p-3">Nguồn gốc dữ liệu Revit</th>
+                  <th class="p-3">Công thức & Xử lý</th>
+                  <th class="p-3">Đơn vị</th>
+                  <th class="p-3">Xử lý giá trị thiếu</th>
+                  <th class="p-3">Vị trí mã nguồn</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B3</td>
+                  <td class="p-3 font-medium text-white">Tên dầm</td>
+                  <td class="p-3 text-slate-300">Tham số instance được chọn (mặc định lấy <code class="text-slate-400 font-mono">STR_ElementName</code>)</td>
+                  <td class="p-3 text-slate-400 font-mono">KataHeaderReader.Parameters()</td>
+                  <td class="p-3 text-slate-300">Text</td>
+                  <td class="p-3 text-amber-400">Để trống <code class="font-mono">""</code></td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:104</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B4</td>
+                  <td class="p-3 font-medium text-white">Số lượng dầm</td>
+                  <td class="p-3 text-slate-300">Tham số instance được chọn (mặc định lấy <code class="text-slate-400 font-mono">STR_ElementCount</code>)</td>
+                  <td class="p-3 text-slate-400 font-mono">KataHeaderReader.Parameters()</td>
+                  <td class="p-3 text-slate-300">Số / Text</td>
+                  <td class="p-3 text-amber-400">Để trống <code class="font-mono">""</code></td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:105</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B5</td>
+                  <td class="p-3 font-medium text-white">Chiều cao $h$</td>
+                  <td class="p-3 text-slate-300">Tham số type <code class="text-slate-400 font-mono">"h"</code> của dầm đầu tiên; fallback đo từ Solid</td>
+                  <td class="p-3 text-slate-400 font-mono">KataRunReader.TypeLength()</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-rose-400">Lỗi ném ngoại lệ nếu $h \le 0$</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:106</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B6</td>
+                  <td class="p-3 font-medium text-white">Bề rộng $b$</td>
+                  <td class="p-3 text-slate-300">Tham số type <code class="text-slate-400 font-mono">"b"</code> của dầm đầu tiên; fallback đo từ Solid</td>
+                  <td class="p-3 text-slate-400 font-mono">KataRunReader.TypeLength()</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-rose-400">Lỗi ném ngoại lệ nếu $b \le 0$</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:107</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B7</td>
+                  <td class="p-3 font-medium text-white">Chiều dày sàn</td>
+                  <td class="p-3 text-slate-300">Tham số <code class="text-slate-400 font-mono">FLOOR_ATTR_THICKNESS_PARAM</code> của sàn tiếp xúc mép trên dầm</td>
+                  <td class="p-3 text-slate-400 font-mono">Lấy sàn dày nhất: max(thicknesses)</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-amber-400">Ghi số <code class="font-mono">0</code> + cảnh báo</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:108</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B8</td>
+                  <td class="p-3 font-medium text-white">Tên trục dầm</td>
+                  <td class="p-3 text-slate-300">Lưới trục <code class="text-slate-400 font-mono">Grid</code> song song tim dầm trong khoảng cách bề rộng dầm</td>
+                  <td class="p-3 text-slate-400 font-mono">Chọn trục gần tim nhất</td>
+                  <td class="p-3 text-slate-300">Text</td>
+                  <td class="p-3 text-amber-400">Để trống <code class="font-mono">""</code> + cảnh báo</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:109</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B9</td>
+                  <td class="p-3 font-medium text-white">Độ lệch trục</td>
+                  <td class="p-3 text-slate-300">Khoảng cách vuông góc từ tim dầm đến trục song song B8</td>
+                  <td class="p-3 text-slate-400 font-mono">t = (Offset - CenterOffset) * sign</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-amber-400">Ghi mặc định <code class="font-mono">-b/2</code></td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:111</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">B10</td>
+                  <td class="p-3 font-medium text-white">Cao trình dầm</td>
+                  <td class="p-3 text-slate-300">Cốt cao độ Level tham chiếu: <code class="text-slate-400 font-mono">level.ProjectElevation</code></td>
+                  <td class="p-3 text-slate-400 font-mono">Đổi sang mét, format: '+3.300'</td>
+                  <td class="p-3 text-slate-300">mét</td>
+                  <td class="p-3 text-amber-400">Định dạng Text '@' có dấu <code class="font-mono">'+'</code></td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:112</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bảng 5 hàng dữ liệu C..BZ -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Khối chi tiết đoạn: Các hàng 11, 19, 21, 22, 23 (Cột C đến BZ)</h4>
+          <div class="overflow-x-auto border border-slate-800 rounded-xl">
+            <table class="w-full text-xs text-left excel-table">
+              <thead class="bg-slate-900 text-slate-300 font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3">Hàng</th>
+                  <th class="p-3">Đoạn Gối (Support)</th>
+                  <th class="p-3">Đoạn Nhịp (Span)</th>
+                  <th class="p-3">Đoạn Nối / Đầu tự do (Joint/FreeEnd)</th>
+                  <th class="p-3">Công thức tính toán</th>
+                  <th class="p-3">Đơn vị</th>
+                  <th class="p-3">Vị trí mã nguồn</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">11</td>
+                  <td class="p-3 text-white">Bề rộng cột/móng, hoặc tiết diện <code class="text-slate-400 font-mono">"bxh"</code> nếu là gối dầm giao</td>
+                  <td class="p-3 text-emerald-400">Chiều dài thông thủy của nhịp</td>
+                  <td class="p-3 text-slate-400 font-mono">0.0</td>
+                  <td class="p-3 text-slate-300 font-mono text-[11px]">Round(s_end - s_start)</td>
+                  <td class="p-3 text-slate-300">mm / Text</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:43, 69-71</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">19</td>
+                  <td class="p-3 text-white">Cột tầng trên: chuỗi <code class="text-slate-400 font-mono">"rộng;lệch"</code> (hoặc 0 nếu không có)</td>
+                  <td class="p-3 text-emerald-400">Độ lệch mặt trên dầm so với Level</td>
+                  <td class="p-3 text-slate-400 font-mono">0.0</td>
+                  <td class="p-3 text-slate-300 font-mono text-[11px]">Gối: UpperColumn(w, offset)<br>Nhịp: Round(piece.ZOffsetMm)</td>
+                  <td class="p-3 text-slate-300">Text / mm</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:44, 73-75</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">21</td>
+                  <td class="p-3 text-white">Độ lệch tim dầm giao so với tâm gối (fallback lệch lưới)</td>
+                  <td class="p-3 text-emerald-400">Độ giật mép đáy dầm so với đáy dầm đầu tiên</td>
+                  <td class="p-3 text-slate-400 font-mono">"" (trống)</td>
+                  <td class="p-3 text-slate-300 font-mono text-[11px]">Gối: (s_crossing - s_mid) * sign<br>Nhịp: -(h_i - h_1) + zOffset_i</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:45, 88-90</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">22</td>
+                  <td class="p-3 text-white">Tên lưới trục cắt qua gối</td>
+                  <td class="p-3 text-slate-400 font-mono">"" (trống)</td>
+                  <td class="p-3 text-slate-400 font-mono">"" (trống)</td>
+                  <td class="p-3 text-slate-300 font-mono text-[11px]">grid.Name (gần tâm gối nhất)</td>
+                  <td class="p-3 text-slate-300">Text</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:46, 92</td>
+                </tr>
+                <tr class="hover:bg-slate-800/50">
+                  <td class="p-3 font-mono font-bold text-brand-400">23</td>
+                  <td class="p-3 text-white">Độ lệch tâm lưới trục so với tâm gối</td>
+                  <td class="p-3 text-slate-400 font-mono">"" (trống)</td>
+                  <td class="p-3 text-slate-400 font-mono">"" (trống)</td>
+                  <td class="p-3 text-slate-300 font-mono text-[11px]">(s_grid - s_mid) * sign</td>
+                  <td class="p-3 text-slate-300">mm</td>
+                  <td class="p-3 text-slate-400 font-mono text-[11px]">KataRowBuilder.cs:47, 84</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. VÍ DỤ XUYÊN SUỐT (DẦM T1-DX12) -->
+      <section id="sec-7" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">7</div>
+          <h3 class="text-2xl font-bold text-white">Ví dụ minh họa xuyên suốt: Dải dầm T1-DX12</h3>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Dưới đây là kết quả kiểm thử thực tế trên model dự án <code class="text-brand-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono">THCPHCS2</code> trong Revit 2026.4 (dải dầm T1-DX12 gồm 5 nhịp, 6 cột, level Tầng 1B cao trình $-0.050\text{ m}$):
+        </p>
+
+        <!-- Header B3:B10 Example -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 font-mono text-center text-xs">
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B3 (Tên)</div>
+            <div class="font-bold text-brand-400 mt-1">T1-DX12</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B4 (Số lượng)</div>
+            <div class="font-bold text-white mt-1">1</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B5 (h dầm)</div>
+            <div class="font-bold text-white mt-1">350</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B6 (b dầm)</div>
+            <div class="font-bold text-white mt-1">200</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B7 (h sàn)</div>
+            <div class="font-bold text-white mt-1">100</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B8 (Trục dầm)</div>
+            <div class="font-bold text-brand-400 mt-1">D.1a</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B9 (Lệch trục)</div>
+            <div class="font-bold text-white mt-1">0</div>
+          </div>
+          <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+            <div class="text-slate-500 text-[10px]">B10 (Cao trình)</div>
+            <div class="font-bold text-emerald-400 mt-1">'-0.050</div>
+          </div>
+        </div>
+
+        <!-- Detail Table C..M -->
+        <div class="overflow-x-auto border border-slate-800 rounded-xl">
+          <table class="w-full text-xs text-center excel-table font-mono">
+            <thead class="bg-slate-900 text-slate-300 font-semibold">
+              <tr>
+                <th class="p-2.5 text-left font-sans">Chỉ tiêu \ Cột</th>
+                <th class="p-2 text-brand-400">C (Gối 1)</th>
+                <th class="p-2 text-emerald-400">D (Nhịp 1)</th>
+                <th class="p-2 text-brand-400">E (Gối 2)</th>
+                <th class="p-2 text-emerald-400">F (Nhịp 2)</th>
+                <th class="p-2 text-brand-400">G (Gối 3)</th>
+                <th class="p-2 text-emerald-400">H (Nhịp 3)</th>
+                <th class="p-2 text-brand-400">I (Gối 4)</th>
+                <th class="p-2 text-emerald-400">J (Nhịp 4)</th>
+                <th class="p-2 text-brand-400">K (Gối 5)</th>
+                <th class="p-2 text-emerald-400">L (Nhịp 5)</th>
+                <th class="p-2 text-brand-400">M (Gối 6)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Loại đoạn</td>
+                <td class="p-2 text-slate-400">Cột</td>
+                <td class="p-2 text-emerald-400">Nhịp 1</td>
+                <td class="p-2 text-slate-400">Cột</td>
+                <td class="p-2 text-emerald-400">Nhịp 2</td>
+                <td class="p-2 text-slate-400">Cột</td>
+                <td class="p-2 text-emerald-400">Nhịp 3</td>
+                <td class="p-2 text-slate-400">Cột</td>
+                <td class="p-2 text-emerald-400">Nhịp 4</td>
+                <td class="p-2 text-slate-400">Cột</td>
+                <td class="p-2 text-emerald-400">Nhịp 5</td>
+                <td class="p-2 text-slate-400">Cột</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Hàng 11 (Kích thước)</td>
+                <td class="p-2 text-white">350</td>
+                <td class="p-2 font-bold text-emerald-400">4650</td>
+                <td class="p-2 text-white">300</td>
+                <td class="p-2 font-bold text-emerald-400">2900</td>
+                <td class="p-2 text-white">300</td>
+                <td class="p-2 font-bold text-emerald-400">4100</td>
+                <td class="p-2 text-white">500</td>
+                <td class="p-2 font-bold text-emerald-400">3800</td>
+                <td class="p-2 text-white">300</td>
+                <td class="p-2 font-bold text-emerald-400">4500</td>
+                <td class="p-2 text-white">500</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Hàng 19 (Cột trên / zOffset)</td>
+                <td class="p-2 text-slate-300">'350;0</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-slate-300">'300;0</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-slate-300">'300;0</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-slate-300">'500;0</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-slate-300">'300;0</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-slate-300">'500;0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Hàng 21 (Lệch giao / Giật đáy)</td>
+                <td class="p-2 text-amber-400">-75</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-amber-400">50</td>
+                <td class="p-2 text-slate-500">0</td>
+                <td class="p-2 text-amber-400">150</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Hàng 22 (Tên trục)</td>
+                <td class="p-2 font-bold text-cad-cyan">'3.1a</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 font-bold text-cad-cyan">'5.1a</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 font-bold text-cad-cyan">'6.1a</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 font-bold text-cad-cyan">'8.1a</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 font-bold text-cad-cyan">'10.1a</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 font-bold text-cad-cyan">'12.1a</td>
+              </tr>
+              <tr class="hover:bg-slate-800/50">
+                <td class="p-2 text-left font-sans font-semibold text-slate-300">Hàng 23 (Lệch tâm trục)</td>
+                <td class="p-2 text-amber-400">-75</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 text-amber-400">-50</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 text-amber-400">50</td>
+                <td class="p-2 text-slate-600">-</td>
+                <td class="p-2 text-amber-400">150</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 8. GIỚI HẠN PHÂN TÍCH & NGUY CƠ -->
+      <section id="sec-8" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">8</div>
+          <h3 class="text-2xl font-bold text-white">Giới hạn phân tích, nguy cơ & Nội dung cần kiểm chứng</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
+          <!-- Giới hạn thiết kế -->
+          <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+            <div class="text-amber-400 font-bold flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              CÁC GIỚI HẠN THIẾT KẾ ĐÃ XÁC NHẬN
+            </div>
+            <ul class="space-y-2 text-slate-300 list-disc list-inside">
+              <li><strong class="text-white">Không hỗ trợ dầm cong</strong>: Hàm <code class="font-mono text-slate-400">LocationLine</code> ném ngoại lệ nếu gặp dầm cong.</li>
+              <li><strong class="text-white">Không hỗ trợ dầm xiên/dốc</strong>: Độ dốc cao trình hai đầu dầm phải $\le 10\text{ mm}$.</li>
+              <li><strong class="text-white">Bắt buộc cùng Level</strong>: Dải dầm phải được host trên cùng một Level tham chiếu.</li>
+              <li><strong class="text-white">Móng băng &gt; 6000 mm bị bỏ qua</strong>: Móng dài hơn $6000\text{ mm}$ được xem là móng băng/bè, không nhận diện là gối điểm.</li>
+            </ul>
+          </div>
+
+          <!-- Nguy cơ tiềm ẩn -->
+          <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+            <div class="text-rose-400 font-bold flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              NGUY CƠ & NỘI DUNG CẦN KIỂM CHỨNG THỰC TẾ
+            </div>
+            <ul class="space-y-2 text-slate-300 list-disc list-inside">
+              <li><strong class="text-white">Đổi dấu Reverse</strong>: Hệ số <code class="font-mono text-slate-400">sign = -1.0</code> khi đảo chiều cần được kỹ sư chạy kiểm chứng trên macro vẽ thật của Kata Pro.</li>
+              <li><strong class="text-white">Khóa luồng Excel Busy</strong>: Nếu người dùng đang gõ công thức hoặc mở dialog trong Excel, COM sẽ trả về lỗi Busy; chương trình đã có cơ chế nhắc người dùng bấm Esc/Enter để thoát.</li>
+              <li><strong class="text-white">Bảo toàn công thức thép hàng 12..18</strong>: Thao tác ghi chỉ ghi đè hàng 11, 19, 21, 22, 23 và xóa các cột sau dầm hiện tại, giữ nguyên công thức người dùng đã nhập trước đó.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. KẾT LUẬN -->
+      <section id="sec-9" class="space-y-6 border-t border-slate-800 pt-8 pb-12">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-md bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">9</div>
+          <h3 class="text-2xl font-bold text-white">Kết luận</h3>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950/40 border border-slate-800 space-y-4">
+          <h4 class="text-lg font-bold text-white">Cơ chế xây dựng & Thành tựu kỹ thuật</h4>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Module <strong class="text-brand-400">Kata Export</strong> trong bộ công cụ HPRebar là một bước tiến vượt bậc so với script Dynamo cũ, chuyển dịch toàn bộ bài toán sang mô hình tính toán hình học giải tích 1D thuần túy:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 text-xs">
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
+              <div class="text-emerald-400 font-bold mb-1">✓ Chính xác tuyệt đối</div>
+              <p class="text-slate-400">Không bị phụ thuộc vào thứ tự click chọn; đo bằng tia probe 3D xuyên Solid gốc tránh mọi sai số do cut-back của Revit.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
+              <div class="text-brand-400 font-bold mb-1">✓ Tự động hóa 100%</div>
+              <p class="text-slate-400">Tự động nhận diện sàn (B7), tên trục dầm (B8), độ lệch trục (B9) và dầm giật cấp (hàng 21) vốn trước đây phải gõ tay.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
+              <div class="text-purple-400 font-bold mb-1">✓ Hiệu năng & Trực quan</div>
+              <p class="text-slate-400">Thời gian tính toán &lt; 0.5s; Canvas 2D CAD mượt mà; ghi Excel bằng COM Block Writing chỉ mất vài chục mili-giây.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>

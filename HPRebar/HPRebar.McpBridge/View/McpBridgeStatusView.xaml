@@ -95,17 +95,17 @@
                           IsChecked="{Binding IsExecutionEnabled}"
                           Foreground="{DynamicResource Brush.Foreground.Primary}"
                           Content="Allow AI code execution in this Revit session"
-                          ToolTip="Scripts written by the AI run inside Revit with your full user rights. The bridge blocks obvious escapes (files, network, processes, reflection) but is not a sandbox. Turned off again every time Revit starts."/>
+                          ToolTip="Scripts written by the AI run inside Revit with your full user rights. The bridge blocks obvious escapes (files, network, processes, reflection) but is not a sandbox."/>
 
                 <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" TextWrapping="Wrap"
                            Foreground="{DynamicResource Brush.Foreground.Secondary}"
-                           Text="Off by default. Every script runs in one undo group named 'MCP: &lt;label&gt;' — Ctrl+Z in Revit reverts it. Dry runs never commit."/>
+                           Text="On by default. Every script runs in one undo group named 'MCP: &lt;label&gt;' — Ctrl+Z in Revit reverts it. Dry runs never commit."/>
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}"
                           IsChecked="{Binding AutoStartListener}"
                           Foreground="{DynamicResource Brush.Foreground.Primary}"
                           Content="Start the listener automatically when Revit opens"
-                          ToolTip="Only the listener. Code execution still needs the box above, every session."/>
+                          ToolTip="Start the listener and accept MCP connections automatically when Revit starts."/>
             </StackPanel>
         </Border>
 

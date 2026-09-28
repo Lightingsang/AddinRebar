@@ -74,13 +74,19 @@ public static class KataRowBuilder
             ? KataFormat.UpperColumn(column.Length, (column.Mid - extent.Mid) * sign)
             : 0.0;
 
+        var center = support.Upper is { } upperCol ? upperCol.Mid : extent.Mid;
         var onSupport = grids
             .Where(g => extent.Contains(g.StationMm))
-            .OrderBy(g => Math.Abs(g.StationMm - extent.Mid))
+            .OrderBy(g => Math.Abs(g.StationMm - center))
             .ToList();
         var grid = onSupport.FirstOrDefault();
-        if (onSupport.Count > 1)
-            warnings.Add($"Grids {string.Join(", ", onSupport.Select(g => g.Name))} cross one support; {grid!.Name} (nearest the centre) is written.");
+
+        var onColumn = support.Upper is { } col
+            ? onSupport.Where(g => col.Contains(g.StationMm)).ToList()
+            : onSupport;
+        if (onColumn.Count > 1)
+            warnings.Add($"Grids {string.Join(", ", onColumn.Select(g => g.Name))} cross one support; {grid!.Name} (nearest the centre) is written.");
+
         object gridOffset = grid is null ? Empty : KataFormat.Round((grid.StationMm - extent.Mid) * sign);
 
         // Kata row 21 at a column is the offset of the crossing beam from the column centre; the grid offset
@@ -106,7 +112,7 @@ public static class KataRowBuilder
             KataFormat.Clean(header.HeightMm),
             KataFormat.Clean(header.WidthMm),
             KataFormat.Clean(header.SlabThicknessMm ?? 0.0),
-            header.AxisGridName ?? Empty,
+            Empty, // B8: Kata Pro leaves beam axis grid name empty
             // Left of the run becomes right when the run is written from its far end.
             header.AxisOffsetMm is { } axisOffset ? KataFormat.Clean(axisOffset * sign) : KataFormat.Clean(-header.WidthMm / 2.0),
             new KataText(KataFormat.Elevation(header.LevelElevationMm))

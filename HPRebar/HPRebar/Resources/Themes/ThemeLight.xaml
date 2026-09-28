@@ -25,6 +25,7 @@
     <Color x:Key="Color.Border">#D0D0D0</Color>
     <Color x:Key="Color.Border.Focus">#0696D7</Color>
     <Color x:Key="Color.Border.Disabled">#E5E5E5</Color>
+    <Color x:Key="Color.GridLine">#B5B9C2</Color>
 
     <!-- ===== Semantic ===== -->
     <Color x:Key="Color.Success">#138A56</Color>
@@ -49,6 +50,7 @@
     <SolidColorBrush x:Key="Brush.Border" Color="{StaticResource Color.Border}"/>
     <SolidColorBrush x:Key="Brush.Border.Focus" Color="{StaticResource Color.Border.Focus}"/>
     <SolidColorBrush x:Key="Brush.Border.Disabled" Color="{StaticResource Color.Border.Disabled}"/>
+    <SolidColorBrush x:Key="Brush.GridLine" Color="{StaticResource Color.GridLine}"/>
     <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}"/>
     <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}"/>
     <SolidColorBrush x:Key="Brush.Danger" Color="{StaticResource Color.Danger}"/>

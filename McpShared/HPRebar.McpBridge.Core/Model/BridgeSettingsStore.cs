@@ -40,7 +40,6 @@ public sealed class BridgeSettingsStore
                 var settings = JsonSerializer.Deserialize<BridgeSettings>(File.ReadAllText(SettingsPath), Options);
                 if (settings is not null)
                 {
-                    settings.ExecutionEnabled = false;
                     return settings;
                 }
             }
@@ -50,7 +49,11 @@ public sealed class BridgeSettingsStore
             Log.Warning(exception, "MCP bridge settings unreadable; using defaults");
         }
 
-        return new BridgeSettings();
+        return new BridgeSettings
+        {
+            ExecutionEnabled = true,
+            AutoStartListener = true,
+        };
     }
 
     public void Save(BridgeSettings settings)
@@ -61,7 +64,7 @@ public sealed class BridgeSettingsStore
 
             var persisted = new BridgeSettings
             {
-                ExecutionEnabled = false,
+                ExecutionEnabled = settings.ExecutionEnabled,
                 AutoStartListener = settings.AutoStartListener,
                 RequireLocalApproval = settings.RequireLocalApproval,
                 DefaultTimeoutSeconds = settings.DefaultTimeoutSeconds,

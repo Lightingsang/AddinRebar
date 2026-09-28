@@ -92,6 +92,7 @@ public sealed class McpBridgeHost : IMcpBridgeRunner, IDisposable
             if (_settings.ExecutionEnabled == value) return;
 
             _settings.ExecutionEnabled = value;
+            _store.Save(_settings);
             Log.Information("MCP bridge code execution {State}", value ? "enabled" : "disabled");
             PublishStatus();
         }

@@ -10,21 +10,19 @@ namespace HPRebar.KataExport.View.Controls;
 /// </summary>
 internal sealed class KataElevationScene
 {
-    public const double BubbleRadius = 11.0;
-    public const double UpperStubPx = 24.0;
-    public const double LowerStubPx = 32.0;
+    public const double BubbleRadius = 12.0;
+    public const double UpperStubPx = 26.0;
+    public const double LowerStubPx = 28.0;
     public const double FootingPx = 26.0;
 
-    /// <summary>Label rows above the band top: bubbles, grid offsets, column-above texts.</summary>
-    public const double AbovePx = 88.0;
+    /// <summary>Margin above the beam band: upper column stubs, top dim chain, column letters, grid line top.</summary>
+    public const double AbovePx = 96.0;
 
-    /// <summary>Label rows below the band bottom: stubs, crossing texts, letters, two chains, two caption lines.</summary>
-    public const double BelowPx = 150.0;
+    /// <summary>Margin below the band bottom: lower column stubs, 2 dim chains, grid bubbles at bottom.</summary>
+    public const double BelowPx = 145.0;
 
     /// <summary>The deepest beam is never drawn shallower than this, however long the run.</summary>
     private const double MinBeamPx = 60.0;
-
-    private const double BubbleAboveBandPx = 68.0;
 
     public KataElevationScene(KataElevation elevation, KataElevationViewport viewport, double widthPx, double heightPx, int selectedColumn)
     {
@@ -35,12 +33,20 @@ internal sealed class KataElevationScene
         SelectedColumn = selectedColumn;
 
         BandBottomY = Y(elevation.BottomMm);
-        BubbleY = BandTopY - BubbleAboveBandPx;
+
+        // Above the beam band:
+        TopChainY = BandTopY - UpperStubPx - 20.0;
+        LetterY = TopChainY - 35.0;
+        CaptionY = BandTopY - 10.0;
+        GridLineTopY = TopChainY;
+        SelectionTopY = LetterY - 2.0;
+
+        // Below the beam band:
         MarkerTextY = BandBottomY + LowerStubPx + 4.0;
-        LetterY = MarkerTextY + 16.0;
-        ChainY = LetterY + 34.0;
-        GridChainY = ChainY + 26.0;
-        CaptionY = GridChainY + 8.0;
+        ChainY = BandBottomY + LowerStubPx + 22.0;
+        GridChainY = ChainY + 22.0;
+        BubbleY = GridChainY + 28.0;
+        GridLineBottomY = BubbleY + BubbleRadius + 8.0;
     }
 
     public KataElevation Elevation { get; }
@@ -57,9 +63,13 @@ internal sealed class KataElevationScene
     public double MarkerTextY { get; }
 
     public double LetterY { get; }
+    public double TopChainY { get; }
+    public double SelectionTopY { get; }
     public double ChainY { get; }
     public double GridChainY { get; }
     public double CaptionY { get; }
+    public double GridLineTopY { get; }
+    public double GridLineBottomY { get; }
 
     /// <summary>Vertical scale that makes the deepest beam <see cref="MinBeamPx"/> tall when the run is zoomed out.</summary>
     public static double MinVerticalScale(KataElevation elevation) => MinBeamPx / System.Math.Max(1.0, elevation.MaxBeamHeightMm);

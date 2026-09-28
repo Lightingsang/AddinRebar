@@ -1,0 +1,290 @@
+using System;
+using System.Collections.Generic;
+using HPRebar.Core.KataRebar.Models;
+
+namespace HPRebar.Core.KataRebar.Parsers;
+
+/// <summary>
+/// Parses sheet 'Dam' of Kata.xlsm into a strongly-typed <see cref="KataBeamRebarSpec"/>
+/// using an <see cref="IKataDamCellAccessor"/>.
+/// Pure logic layer with 0 dependencies on Excel or Autodesk.Revit.*.
+/// </summary>
+public static class KataDamSheetParser
+{
+    private const int FirstDataColumn = 3;  // Column C
+    private const int MaxDataColumn = 78;   // Column BZ
+
+    /// <summary>
+    /// Parses the entire sheet grid into a <see cref="KataBeamRebarSpec"/>.
+    /// </summary>
+    /// <param name="accessor">The cell accessor abstraction providing access to the sheet grid.</param>
+    /// <returns>A fully populated <see cref="KataBeamRebarSpec"/>.</returns>
+    public static KataBeamRebarSpec Parse(IKataDamCellAccessor accessor)
+    {
+        if (accessor is null)
+            throw new ArgumentNullException(nameof(accessor));
+
+        // 1. Header (B3:B10)
+        string beamName = accessor.GetText(3, 2) ?? "";
+        int beamCount = accessor.GetInt(4, 2) ?? 1;
+        if (beamCount < 1) beamCount = 1;
+        double height = accessor.GetDouble(5, 2) ?? 0.0;
+        double width = accessor.GetDouble(6, 2) ?? 0.0;
+        double slabThickness = accessor.GetDouble(7, 2) ?? 0.0;
+        string axisGridName = accessor.GetText(8, 2) ?? "";
+        double axisOffset = accessor.GetDouble(9, 2) ?? 0.0;
+        string levelElevation = accessor.GetText(10, 2) ?? "";
+
+        // 2. Detailing Rules (G1:G9, H3, H5, I3, I5, J9)
+        double tensionLap = accessor.GetDouble("G2") ?? 40.0;
+        double compLap = accessor.GetDouble("G3") ?? 30.0;
+        double topCutoffL2 = accessor.GetDouble("H3") ?? 0.20;
+        double topCutoffL1 = accessor.GetDouble("H5") ?? 0.25;
+
+        string originL1Text = accessor.GetText("I5") ?? "";
+        var originL1 = originL1Text.IndexOf("tâm", StringComparison.OrdinalIgnoreCase) >= 0
+            ? KataCutoffOrigin.FromColumnCenter
+            : KataCutoffOrigin.FromColumnFace;
+
+        string originL2Text = accessor.GetText("I3") ?? "";
+        var originL2 = originL2Text.IndexOf("mép", StringComparison.OrdinalIgnoreCase) >= 0
+            ? KataCutoffOrigin.FromColumnFace
+            : KataCutoffOrigin.FromColumnCenter;
+
+        string? coverText = accessor.GetText("J9");
+        var (coverMain, coverStirrup) = KataBarNotationParser.ParseCover(coverText, defaultMain: 30.0, defaultStirrup: 25.0);
+
+        // 3. Global Stirrup (G6:G9, I8, Rows 25-27)
+        double stirrupDia = accessor.GetDouble("G6") ?? 10.0;
+        string? g7Text = accessor.GetText("G7");
+        string? g8Text = accessor.GetText("G8");
+        var (sDense, _, _) = KataBarNotationParser.ParseStirrupSpacing(g7Text, 150.0, 150.0);
+        var (_, sMid, _) = KataBarNotationParser.ParseStirrupSpacing(g8Text, 200.0, 200.0);
+        double sCantilever = accessor.GetDouble("G9") ?? 150.0;
+        int defaultLegCount = accessor.GetInt("I8") ?? 2;
+
+        var branches = ParseStirrupBranches(accessor);
+        var globalStirrup = new KataStirrupSpec
+        {
+            Diameter = stirrupDia,
+            SupportSpacing = sDense,
+            MidspanSpacing = sMid,
+            CantileverSpacing = sCantilever,
+            DefaultLegCount = defaultLegCount,
+            Branches = branches
+        };
+
+        // 4. Continuous Main Bars (B11, B12)
+        var topBars = KataBarNotationParser.ParseBarList(accessor.GetText(11, 2));
+        var botBars = KataBarNotationParser.ParseBarList(accessor.GetText(12, 2));
+        var topContinuous = topBars.Count > 0 ? topBars[0] : KataBarItem.Empty;
+        var botContinuous = botBars.Count > 0 ? botBars[0] : KataBarItem.Empty;
+
+        // 5. Global Side Bars (G4, G5)
+        double sideDia = accessor.GetDouble("G4") ?? 0.0;
+        int sideLayers = accessor.GetInt("G5") ?? 0;
+        var globalSideBars = new List<KataBarItem>();
+        if (sideDia > 0.0 && sideLayers > 0)
+        {
+            for (int l = 1; l <= sideLayers; l++)
+            {
+                // Each layer has 2 bars (one on each face)
+                globalSideBars.Add(new KataBarItem(2, sideDia, l, 0.0, $"2f{sideDia:0}"));
+            }
+        }
+
+        // 6. Supports and Spans (Columns C..BZ)
+        var supports = new List<KataSupportRebarSpec>();
+        var spans = new List<KataSpanRebarSpec>();
+
+        int consecutiveEmptyCols = 0;
+        int supportIdx = 0;
+        int spanIdx = 0;
+
+        for (int col = FirstDataColumn; col <= MaxDataColumn; col++)
+        {
+            string? headerTag = accessor.GetText(10, col)?.Trim();
+            string? row11Text = accessor.GetText(11, col)?.Trim();
+
+            bool isColEmpty = string.IsNullOrEmpty(headerTag) && string.IsNullOrEmpty(row11Text);
+            if (isColEmpty)
+            {
+                consecutiveEmptyCols++;
+                if (consecutiveEmptyCols >= 2)
+                    break;
+                continue;
+            }
+            consecutiveEmptyCols = 0;
+
+            // Determine if column is Support or Span:
+            // In Kata, odd column index (C=3, E=5, G=7...) is Support; even (D=4, F=6...) is Span.
+            // If headerTag is explicitly "Cột" or "Nhịp", respect that.
+            bool isSupport = (col % 2 != 0);
+            if (headerTag is not null)
+            {
+                if (headerTag.IndexOf("cột", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    headerTag.IndexOf("cot", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    isSupport = true;
+                }
+                else if (headerTag.IndexOf("nhịp", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         headerTag.IndexOf("nhip", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    isSupport = false;
+                }
+            }
+
+            if (isSupport)
+            {
+                var supp = ParseSupport(accessor, col, supportIdx++);
+                supports.Add(supp);
+            }
+            else
+            {
+                var span = ParseSpan(accessor, col, spanIdx++, globalStirrup);
+                spans.Add(span);
+            }
+        }
+
+        return new KataBeamRebarSpec
+        {
+            BeamName = beamName,
+            BeamCount = beamCount,
+            Width = width,
+            Height = height,
+            SlabThickness = slabThickness,
+            AxisGridName = axisGridName,
+            AxisOffset = axisOffset,
+            LevelElevation = levelElevation,
+            TensionLapMultiplier = tensionLap,
+            CompressionLapMultiplier = compLap,
+            TopCutoffRatioLayer1 = topCutoffL1,
+            TopCutoffRatioLayer2 = topCutoffL2,
+            CutoffOriginLayer1 = originL1,
+            CutoffOriginLayer2 = originL2,
+            CoverMain = coverMain,
+            CoverStirrup = coverStirrup,
+            TopContinuous = topContinuous,
+            BottomContinuous = botContinuous,
+            GlobalStirrup = globalStirrup,
+            GlobalSideBars = globalSideBars,
+            Supports = supports,
+            Spans = spans
+        };
+    }
+
+    private static KataSupportRebarSpec ParseSupport(IKataDamCellAccessor accessor, int col, int supportIndex)
+    {
+        string? row11 = accessor.GetText(11, col);
+        var (width, _) = KataBarNotationParser.ParseSupportDimension(row11);
+        string supportSection = (row11 != null && (row11.Contains("x") || row11.Contains("*") || row11.Contains("/")))
+            ? row11
+            : "";
+
+        var topL1 = KataBarNotationParser.ParseBarList(accessor.GetText(13, col), defaultLayer: 1);
+        var topL2 = KataBarNotationParser.ParseBarList(accessor.GetText(14, col), defaultLayer: 2);
+        var topL3 = KataBarNotationParser.ParseBarList(accessor.GetText(15, col), defaultLayer: 3);
+        var topL4 = KataBarNotationParser.ParseBarList(accessor.GetText(16, col), defaultLayer: 4);
+
+        var (upperW, upperOffset) = KataBarNotationParser.ParsePair(accessor.GetText(19, col));
+        double crossingW = accessor.GetDouble(20, col) ?? 0.0;
+        double crossingOffset = accessor.GetDouble(21, col) ?? 0.0;
+        string gridName = accessor.GetText(22, col) ?? "";
+        double gridOffset = accessor.GetDouble(23, col) ?? 0.0;
+
+        return new KataSupportRebarSpec
+        {
+            SupportIndex = supportIndex,
+            ColumnWidth = width,
+            SupportSection = supportSection,
+            GridName = gridName,
+            GridOffset = gridOffset,
+            UpperColumnWidth = upperW,
+            UpperColumnOffset = upperOffset,
+            CrossingBeamWidth = crossingW,
+            CrossingBeamOffset = crossingOffset,
+            TopExtraLayer1 = topL1,
+            TopExtraLayer2 = topL2,
+            TopExtraLayer3 = topL3,
+            TopExtraLayer4 = topL4
+        };
+    }
+
+    private static KataSpanRebarSpec ParseSpan(
+        IKataDamCellAccessor accessor,
+        int col,
+        int spanIndex,
+        KataStirrupSpec globalStirrup)
+    {
+        double length = accessor.GetDouble(11, col) ?? 0.0;
+
+        // In Kata: Row 18 is Bottom Extra Layer 1, Row 17 is Bottom Extra Layer 2!
+        var botL1 = KataBarNotationParser.ParseBarList(accessor.GetText(18, col), defaultLayer: 1);
+        var botL2 = KataBarNotationParser.ParseBarList(accessor.GetText(17, col), defaultLayer: 2);
+
+        var (topDrop, topDropBars) = KataBarNotationParser.ParseOffsetAndBars(accessor.GetText(19, col));
+        var sideBars = KataBarNotationParser.ParseBarList(accessor.GetText(20, col));
+        var (soffitDrop, soffitDropBars) = KataBarNotationParser.ParseOffsetAndBars(accessor.GetText(21, col));
+
+        string? stirrupOverrideText = accessor.GetText(22, col);
+        KataStirrupSpec? stirrupOverride = null;
+        if (!string.IsNullOrWhiteSpace(stirrupOverrideText))
+        {
+            var (sDense, sMid, sEnd) = KataBarNotationParser.ParseStirrupSpacing(
+                stirrupOverrideText,
+                globalStirrup.SupportSpacing,
+                globalStirrup.MidspanSpacing);
+
+            stirrupOverride = globalStirrup with
+            {
+                SupportSpacing = sDense,
+                MidspanSpacing = sMid,
+                EndSupportSpacing = sEnd
+            };
+        }
+
+        return new KataSpanRebarSpec
+        {
+            SpanIndex = spanIndex,
+            Length = length,
+            BottomExtraLayer1 = botL1,
+            BottomExtraLayer2 = botL2,
+            SideBars = sideBars,
+            StirrupOverride = stirrupOverride,
+            TopDrop = topDrop,
+            SoffitDrop = soffitDrop,
+            TopDropBars = topDropBars,
+            SoffitDropBars = soffitDropBars
+        };
+    }
+
+    private static IReadOnlyList<KataStirrupBranchSpec> ParseStirrupBranches(IKataDamCellAccessor accessor)
+    {
+        var list = new List<KataStirrupBranchSpec>();
+
+        // Row 25: Outer closed hoop (Đai □)
+        string? row25 = accessor.GetText(25, 1);
+        if (!string.IsNullOrEmpty(row25))
+        {
+            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "Outer"));
+        }
+
+        // Row 26: Cap stirrup U (Đai U)
+        string? row26Tag = accessor.GetText(26, 3); // Col C
+        string? row26Pos = accessor.GetText(26, 4); // Col D
+        if (!string.IsNullOrEmpty(row26Tag) || !string.IsNullOrEmpty(row26Pos))
+        {
+            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, row26Pos ?? ""));
+        }
+
+        // Row 27: Cross tie C (Đai C)
+        string? row27Tag = accessor.GetText(27, 3); // Col C
+        string? row27Pos = accessor.GetText(27, 4); // Col D
+        if (!string.IsNullOrEmpty(row27Tag) || !string.IsNullOrEmpty(row27Pos))
+        {
+            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, row27Pos ?? ""));
+        }
+
+        return list;
+    }
+}

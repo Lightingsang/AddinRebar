@@ -68,7 +68,7 @@ public sealed class KataSegmenterTests
     }
 
     [Fact]
-    public void JointBetweenTwoBeamElementsWithoutSupportBecomesZeroWidthJoint()
+    public void TwoBeamElementsWithoutSupportMergeIntoOneContinuousSpanByDefault()
     {
         var input = new KataRunInput(
             new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, h: 600, key: "B2") },
@@ -79,25 +79,28 @@ public sealed class KataSegmenterTests
         var result = KataSegmenter.Segment(input);
 
         Assert.Equal(
+            new[] { KataSegmentKind.Support, KataSegmentKind.Span, KataSegmentKind.Support },
+            result.Segments.Select(s => s.Kind));
+        Assert.Equal(5600, result.Segments[1].Extent.Length, Precision);
+    }
+
+    [Fact]
+    public void JointBetweenTwoBeamElementsWithoutSupportBecomesZeroWidthJointWhenJointsEnabled()
+    {
+        var input = new KataRunInput(
+            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, h: 600, key: "B2") },
+            new[] { Column(-200, 200), Column(5800, 6200) },
+            Array.Empty<KataGridCrossing>(),
+            Header);
+
+        var result = KataSegmenter.Segment(input, new KataBuildOptions { InsertJoints = true });
+
+        Assert.Equal(
             new[] { KataSegmentKind.Support, KataSegmentKind.Span, KataSegmentKind.Joint, KataSegmentKind.Span, KataSegmentKind.Support },
             result.Segments.Select(s => s.Kind));
         Assert.Equal("B1", result.Segments[1].Piece!.ElementKey);
         Assert.Equal("B2", result.Segments[3].Piece!.ElementKey);
         Assert.Equal(3000, result.Segments[2].Extent.Start, Precision);
-    }
-
-    [Fact]
-    public void JointsCanBeSwitchedOff()
-    {
-        var input = new KataRunInput(
-            new[] { Piece(0, 3000), Piece(3000, 6000) },
-            new[] { Column(-200, 200), Column(5800, 6200) },
-            Array.Empty<KataGridCrossing>(),
-            Header);
-
-        var result = KataSegmenter.Segment(input, new KataBuildOptions { InsertJoints = false });
-
-        Assert.Equal(3, result.Segments.Count);
     }
 
     [Fact]

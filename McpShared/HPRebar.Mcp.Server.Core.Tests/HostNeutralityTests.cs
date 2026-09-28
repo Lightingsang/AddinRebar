@@ -225,6 +225,45 @@ public sealed class HostNeutralityTests
     }
 
     [Fact]
+    public void Settings_store_defaults_and_persists_execution_enabled_and_autostart()
+    {
+        var tempFolder = "HPTest-" + Guid.NewGuid().ToString("N");
+        var store = new BridgeSettingsStore("HPTestVendor", tempFolder);
+        try
+        {
+            // Default when file does not exist
+            var defaults = store.Load();
+            Assert.True(defaults.ExecutionEnabled);
+            Assert.True(defaults.AutoStartListener);
+
+            // Persist toggled off
+            defaults.ExecutionEnabled = false;
+            defaults.AutoStartListener = false;
+            store.Save(defaults);
+
+            var reloaded = store.Load();
+            Assert.False(reloaded.ExecutionEnabled);
+            Assert.False(reloaded.AutoStartListener);
+
+            // Persist toggled back on
+            reloaded.ExecutionEnabled = true;
+            reloaded.AutoStartListener = true;
+            store.Save(reloaded);
+
+            var reloadedOn = store.Load();
+            Assert.True(reloadedOn.ExecutionEnabled);
+            Assert.True(reloadedOn.AutoStartListener);
+        }
+        finally
+        {
+            if (Directory.Exists(store.Directory))
+            {
+                Directory.Delete(store.Directory, recursive: true);
+            }
+        }
+    }
+
+    [Fact]
     public async Task A_second_listener_on_the_same_pipe_faults_and_names_the_host()
     {
         var pipe = "hpautocad-mcp-test-" + Guid.NewGuid().ToString("N");

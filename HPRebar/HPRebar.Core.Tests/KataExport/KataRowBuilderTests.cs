@@ -10,14 +10,14 @@ namespace HPRebar.Core.Tests.KataExport;
 public sealed class KataRowBuilderTests
 {
     [Fact]
-    public void HeaderColumnHoldsSlabAxisNameAxisOffsetAndElevationTextWhenTheModelProvidesThem()
+    public void HeaderColumnLeavesAxisNameEmptyWhileHoldingSlabOffsetAndElevationWhenModelProvidesThem()
     {
         var header = Header with { SlabThicknessMm = 150, AxisGridName = "B", AxisOffsetMm = -100 };
         var input = TwoSpansOnColumns() with { Header = header };
 
         var sheet = KataRowBuilder.Build(input);
 
-        Assert.Equal(new object?[] { "D1", 2, 500.0, 220.0, 150.0, "B", -100.0, new KataText("+3.600") }, sheet.HeaderColumn);
+        Assert.Equal(new object?[] { "D1", 2, 500.0, 220.0, 150.0, "", -100.0, new KataText("+3.600") }, sheet.HeaderColumn);
         Assert.Empty(sheet.Warnings);
     }
 
@@ -205,7 +205,7 @@ public sealed class KataRowBuilderTests
     }
 
     [Fact]
-    public void JointBetweenElementsWritesZeroWidthSupport()
+    public void TwoBeamElementsWithoutSupportMergeIntoOneContinuousSpanByDefault()
     {
         var input = new KataRunInput(
             new[] { Piece(0, 3000), Piece(3000, 6000) },
@@ -214,6 +214,20 @@ public sealed class KataRowBuilderTests
             Header);
 
         var sheet = KataRowBuilder.Build(input);
+
+        Assert.Equal(new object?[] { 400.0, 5600.0, 400.0 }, sheet.Row11);
+    }
+
+    [Fact]
+    public void JointBetweenElementsWritesZeroWidthSupportWhenJointsEnabled()
+    {
+        var input = new KataRunInput(
+            new[] { Piece(0, 3000), Piece(3000, 6000) },
+            new[] { Column(-200, 200), Column(5800, 6200) },
+            Array.Empty<KataGridCrossing>(),
+            Header);
+
+        var sheet = KataRowBuilder.Build(input, new KataBuildOptions { InsertJoints = true });
 
         Assert.Equal(new object?[] { 400.0, 2800.0, 0.0, 2800.0, 400.0 }, sheet.Row11);
         Assert.Equal(0.0, sheet.Row19[2]);

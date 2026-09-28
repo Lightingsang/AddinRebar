@@ -37,7 +37,17 @@ public static class KataElevationBuilder
             .Aggregate(drawn, (range, upper) => upper is { } u ? range.Union(u) : range);
 
         var reach = new Interval1D(drawn.Start - GridReachMm, drawn.End + GridReachMm);
-        var grids = input.Grids.Where(g => reach.Contains(g.StationMm, 0.0)).ToList();
+        var supportExtents = natural
+            .Where(c => c.Kind == KataColumnKind.Support)
+            .Select(c => c.Extent)
+            .ToList();
+        var row22Grids = new HashSet<string>(
+            sheet.Row22.OfType<string>().Where(name => !string.IsNullOrEmpty(name)));
+        var grids = input.Grids
+            .Where(g => reach.Contains(g.StationMm, 0.0)
+                        && row22Grids.Contains(g.Name)
+                        && supportExtents.Any(s => s.Contains(g.StationMm, 0.0)))
+            .ToList();
         drawn = grids.Aggregate(drawn, (range, g) => range.Union(new Interval1D(g.StationMm, g.StationMm)));
         var map = new StationMap(drawn, options.Reverse);
 

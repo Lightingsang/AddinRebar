@@ -52,6 +52,13 @@ public sealed class RibbonIcons
             (ink, "M2,4 H30 V14 H2 Z M4,6 H28 V12 H4 Z M6,14 H12 V28 H6 Z M8,16 H10 V26 H8 Z M20,14 H26 V28 H20 Z M22,16 H24 V26 H22 Z"),
             (Steel, "M14,18 H18 V20 H14 Z M14,22 H18 V24 H14 Z M12,26 L16,30 L20,26 Z"));
 
+        // Kata Rebar: Beam with top/bottom bars, stirrups and downward generation arrow.
+        KataRebar = Glyph(
+            (ink, "M2,4 H30 V28 H2 Z M4,6 H28 V26 H4 Z"),
+            (Steel, "M6,8 H26 V10 H6 Z M6,22 H26 V24 H6 Z"),
+            (Steel, "M8,10 H10 V22 H8 Z M14,10 H16 V22 H14 Z M20,10 H22 V22 H20 Z M26,10 H28 V22 H26 Z"),
+            (Steel, "M12,14 L18,14 L18,12 L22,16 L18,20 L18,18 L12,18 Z"));
+
         // A window with a title bar (the status window) holding a plug (the connection the bridge offers):
         // frame 2 px, title bar 4 px; plug = two prongs, body, cable. Identical to the AutoCAD and Navisworks bridges.
         McpBridge = Glyph(
@@ -61,6 +68,9 @@ public sealed class RibbonIcons
 
     /// <summary>Continuous beam run exported to Kata Excel.</summary>
     public ImageSource KataExport { get; }
+
+    /// <summary>Generate 3D beam reinforcement from Kata Excel.</summary>
+    public ImageSource KataRebar { get; }
 
     /// <summary>Column section with a tie and four corner bars.</summary>
     public ImageSource ColumnRebar { get; }

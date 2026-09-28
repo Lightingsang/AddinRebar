@@ -1,0 +1,242 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using HPRebar.Core.KataRebar.Models;
+
+namespace HPRebar.Core.KataRebar.Parsers;
+
+/// <summary>
+/// High-performance, robust parser for Vietnamese structural reinforcing bar notation strings.
+/// Parses notations such as '2f18', '3f20', '6f25', '2d8', '2f20;2f16', '-50;5f20', 'a100/200/50', '50/25'.
+/// </summary>
+public static class KataBarNotationParser
+{
+    private static readonly Regex BarRegex = new(
+        @"^(?<count>\d+)?\s*(?:f|d|phi|ø|Ø|%%c|Φ)\s*(?<dia>\d+(?:\.\d+)?)$",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+    /// <summary>
+    /// Parses a bar notation string into a list of <see cref="KataBarItem"/>s.
+    /// Supports compound notations separated by ';' or '+' or ',' (e.g. '2f20;2f16', '6f20;0', '2f20+1f18').
+    /// </summary>
+    public static IReadOnlyList<KataBarItem> ParseBarList(string? text, int defaultLayer = 1)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return Array.Empty<KataBarItem>();
+
+        string trimmed = text!.Trim();
+        if (trimmed == "0" || trimmed == "-" || trimmed == "*")
+            return Array.Empty<KataBarItem>();
+
+        string[] tokens = trimmed.Split(new[] { ';', '+', ',' }, StringSplitOptions.RemoveEmptyEntries);
+        var result = new List<KataBarItem>(tokens.Length);
+
+        foreach (var rawToken in tokens)
+        {
+            string token = rawToken.Trim();
+            if (string.IsNullOrEmpty(token) || token == "0" || token == "-")
+                continue;
+
+            var item = ParseSingleBar(token, defaultLayer);
+            if (item is not null && !item.IsEmpty)
+            {
+                result.Add(item);
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Parses a single bar token (e.g. '2f18', 'f10', '3d20', '6f25') into a <see cref="KataBarItem"/>.
+    /// </summary>
+    public static KataBarItem? ParseSingleBar(string? token, int defaultLayer = 1)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+            return null;
+
+        string clean = token!.Trim();
+        var match = BarRegex.Match(clean);
+        if (!match.Success)
+            return null;
+
+        int count = 1;
+        if (match.Groups["count"].Success && !string.IsNullOrEmpty(match.Groups["count"].Value))
+        {
+            if (!int.TryParse(match.Groups["count"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out count))
+                count = 1;
+        }
+
+        if (!double.TryParse(match.Groups["dia"].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double dia) || dia <= 0)
+            return null;
+
+        return new KataBarItem(count, dia, defaultLayer, 0.0, clean);
+    }
+
+    /// <summary>
+    /// Parses stirrup spacing notations such as 'a150', '@150', '150', 'a100/200', 'a100/200/50'.
+    /// Returns (SupportDense, MidspanSparse, EndDense).
+    /// </summary>
+    public static (double DenseStart, double SparseMid, double? DenseEnd) ParseStirrupSpacing(
+        string? text,
+        double defaultDense = 150.0,
+        double defaultSparse = 200.0)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return (defaultDense, defaultSparse, null);
+
+        string clean = text!.Trim().ToLowerInvariant()
+            .Replace("a", "")
+            .Replace("@", "")
+            .Replace(" ", "");
+
+        if (string.IsNullOrEmpty(clean) || clean == "0" || clean == "-")
+            return (defaultDense, defaultSparse, null);
+
+        string[] parts = clean.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (parts.Length == 1)
+        {
+            if (double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double s) && s > 0)
+                return (s, s, null);
+        }
+        else if (parts.Length == 2)
+        {
+            double s1 = double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double p0) && p0 > 0 ? p0 : defaultDense;
+            double s2 = double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double p1) && p1 > 0 ? p1 : defaultSparse;
+            return (s1, s2, null);
+        }
+        else if (parts.Length >= 3)
+        {
+            double s1 = double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double p0) && p0 > 0 ? p0 : defaultDense;
+            double s2 = double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double p1) && p1 > 0 ? p1 : defaultSparse;
+            double s3 = double.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out double p2) && p2 > 0 ? p2 : defaultDense;
+            return (s1, s2, s3);
+        }
+
+        return (defaultDense, defaultSparse, null);
+    }
+
+    /// <summary>
+    /// Parses step drop and bar override strings from rows 19 & 21 (e.g. '-50', '100;5f25', '-100;5f20', '5f20').
+    /// </summary>
+    public static (double OffsetMm, IReadOnlyList<KataBarItem> Bars) ParseOffsetAndBars(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return (0.0, Array.Empty<KataBarItem>());
+
+        string trimmed = text!.Trim();
+        if (trimmed == "0" || trimmed == "-")
+            return (0.0, Array.Empty<KataBarItem>());
+
+        string[] tokens = trimmed.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+        double offset = 0.0;
+        var bars = new List<KataBarItem>();
+
+        foreach (var raw in tokens)
+        {
+            string t = raw.Trim();
+            if (string.IsNullOrEmpty(t)) continue;
+
+            // Check if it's pure numeric (offset)
+            if (double.TryParse(t, NumberStyles.Float, CultureInfo.InvariantCulture, out double num))
+            {
+                offset = num;
+            }
+            else
+            {
+                // Otherwise try parsing as bar notation (e.g. 5f25)
+                var parsedBars = ParseBarList(t);
+                if (parsedBars.Count > 0)
+                {
+                    bars.AddRange(parsedBars);
+                }
+            }
+        }
+
+        return (offset, bars);
+    }
+
+    /// <summary>
+    /// Parses concrete cover notation from cell J9 (e.g. '50/25', '30/20', '30').
+    /// Returns (CoverMain, CoverStirrup).
+    /// </summary>
+    public static (double CoverMain, double CoverStirrup) ParseCover(
+        string? text,
+        double defaultMain = 30.0,
+        double defaultStirrup = 25.0)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return (defaultMain, defaultStirrup);
+
+        string clean = text!.Trim().Replace(" ", "");
+        string[] parts = clean.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (parts.Length == 1)
+        {
+            if (double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double c) && c > 0)
+                return (c, defaultStirrup);
+        }
+        else if (parts.Length >= 2)
+        {
+            double cMain = double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double cm) && cm > 0 ? cm : defaultMain;
+            double cStirrup = double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double cs) && cs > 0 ? cs : defaultStirrup;
+            return (cMain, cStirrup);
+        }
+
+        return (defaultMain, defaultStirrup);
+    }
+
+    /// <summary>
+    /// Parses support dimension or section string from row 11 (e.g. '400', '300x500', '300*500').
+    /// Returns (Width, Height). If single number, Height is 0.
+    /// </summary>
+    public static (double Width, double Height) ParseSupportDimension(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return (0.0, 0.0);
+
+        string clean = text!.Trim().ToLowerInvariant().Replace(" ", "");
+        string[] parts = clean.Split(new[] { 'x', '*', '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (parts.Length == 1)
+        {
+            if (double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double w))
+                return (w, 0.0);
+        }
+        else if (parts.Length >= 2)
+        {
+            double w = double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double pw) ? pw : 0.0;
+            double h = double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double ph) ? ph : 0.0;
+            return (w, h);
+        }
+
+        return (0.0, 0.0);
+    }
+
+    /// <summary>
+    /// Parses a coordinate/dimension pair separated by ';' or ',' (e.g. '350;0', '250;790').
+    /// </summary>
+    public static (double First, double Second) ParsePair(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return (0.0, 0.0);
+
+        string[] parts = text!.Trim().Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+        {
+            if (double.TryParse(parts[0].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double f))
+                return (f, 0.0);
+        }
+        else if (parts.Length >= 2)
+        {
+            double f = double.TryParse(parts[0].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double pf) ? pf : 0.0;
+            double s = double.TryParse(parts[1].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double ps) ? ps : 0.0;
+            return (f, s);
+        }
+
+        return (0.0, 0.0);
+    }
+}

@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-22T00:21:30+07:00
+# BRIEFING — 2026-09-28T00:15:00+07:00
 
 ## Mission
-Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosystem connecting AI Agents with Tekla Open API, including McpShared integration, HPTekla.McpBridge (.NET Framework 4.8 in-process plugin with Ribbon UI), HPTekla.Mcp.Server (.NET 10 console stdio server, 24 tools), automated test suites, and live verification harness.
+Implement the **Kata Rebar** feature in the `HPRebar` ecosystem, enabling automated generation of 3D concrete beam reinforcement in Revit 2026 based on structural calculation and detailing data read from sheet `Dam` of `Kata.xlsm` (via active COM or file fallback).
 
 ## 🔒 My Identity
 - Archetype: sentinel
@@ -40,6 +40,10 @@ Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosys
 - Cron 1 (Archify Progress): baf12e85-f773-4510-8171-9bd7048e4430/task-48 (*/8 * * * *)
 - Cron 2 (Archify Liveness): baf12e85-f773-4510-8171-9bd7048e4430/task-50 (*/10 * * * *)
 - Active Victory Auditor (Archify): [to be spawned on victory claim]
+- Active Orchestrator (Kata Rebar): aa8876fc-b61d-4725-aacd-616632eb9cc0 (orchestrator_9)
+- Cron 1 (Kata Rebar Progress): 68d40caa-242b-4b75-9541-008aeac8f556/task-44 (*/8 * * * *)
+- Cron 2 (Kata Rebar Liveness): 68d40caa-242b-4b75-9541-008aeac8f556/task-46 (*/10 * * * *)
+- Active Victory Auditor (Kata Rebar): 362ec385-332d-422f-ba0a-ae2448a72635 (victory_auditor_6)
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
@@ -51,29 +55,34 @@ Build the complete Trimble Tekla Structures 2025.0 MCP Solution (HPTekla) ecosys
 - Victory Auditor spawn mandatory upon victory claim
 - Independent post-victory audit is blocking for all completion claims
 - Route via Routing Decision Table: SWE Light -> teamwork_preview_swe
+- Route via Routing Decision Table: General -> teamwork_preview_orchestrator
 
 ## User Context
-- **Last user request**: Integrate project-local Archify v2.16.0 skill into HPRebar repository, generate interactive system architecture and column rebar workflow diagrams, and link them in existing documentation.
+- **Last user request**: Implement the Kata Rebar feature in the HPRebar ecosystem (Revit 2026 / HPRebar.Core / WPF MVVM / Excel sheet Dam parser / Rebar generation).
 - **Pending clarifications**: none
 - **Delivered results**:
-  * Prior: Beam Rebar, Foundation Rebar, HPGeoLink, Smart Plot Pro, HPPowerBi, HPExcel, HPRobot, and HPTekla complete and verified.
+  * Prior deliverables complete: Beam Rebar, Foundation Rebar, HPGeoLink, Smart Plot Pro, HPPowerBi, HPExcel, HPRobot, HPTekla, Archify.
+  * Kata Rebar feature: 100% complete, independently audited, VICTORY CONFIRMED.
 
 ## Routing Decision
-- **Route**: SWE Light (`teamwork_preview_swe`)
-- **Rationale**: Single self-contained development task with explicit lightness signal ("This is a single self-contained task; keep it small and focused.").
+- **Route**: General (`teamwork_preview_orchestrator`)
+- **Rationale**: Multi-part software engineering project (Core parser, Core geometry calculator, Revit 3D rebar generation, WPF MVVM UI, xUnit tests) without explicit lightness signal.
 
 ## Project Status
-- **Phase**: in progress
-- **Active Orchestrator**: swe_1 (d9313c9b-4a0e-49ad-a578-34cc518ec229)
-- **Active Victory Auditor**: [to be spawned on victory claim]
+- **Phase**: complete
+- **Active Orchestrator**: orchestrator_9 (aa8876fc-b61d-4725-aacd-616632eb9cc0)
+- **Active Victory Auditor**: victory_auditor_6 (362ec385-332d-422f-ba0a-ae2448a72635)
 
 ## Victory Audit Status
-- **Triggered**: no
-- **Verdict**: pending
+- **Triggered**: yes
+- **Verdict**: VICTORY CONFIRMED
 - **Retry count**: 0
 
 ## Artifact Index
 - g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md — Authoritative user requirements record
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\swe_1\context.md — Context passed to swe_1
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\swe_1\progress.md — Live progress of swe_1
-
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\context.md — Context passed to orchestrator_9
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\DISPATCH.md — Dispatch log for orchestrator_9
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\progress.md — Live progress of orchestrator_9
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\DISPATCH.md — Dispatch log for victory_auditor_6
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\report.md — Independent Victory Audit Report (VICTORY CONFIRMED)
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\handoff.md — Victory Auditor handoff report

@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:HPRebar.KataExport.ViewModel"
         xmlns:controls="clr-namespace:HPRebar.KataExport.View.Controls"
         mc:Ignorable="d"
         Title="Xuất Dầm sang KATA Excel"
-        Width="1040" Height="920"
-        MinWidth="760" MinHeight="720"
+        Width="1180" Height="900"
+        MinWidth="960" MinHeight="680"
         WindowStartupLocation="CenterOwner"
         Background="{DynamicResource Brush.Background}"
         Foreground="{DynamicResource Brush.Foreground.Primary}"
@@ -26,249 +27,661 @@
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-            <!-- A card title: one bold line, no GroupBox header band (the window is short on height). -->
+            <!-- Card title style -->
             <Style x:Key="KataCardTitle" TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
             </Style>
-            <Style x:Key="KataCard" TargetType="Border">
-                <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="Padding" Value="10,8"/>
-                <Setter Property="Margin" Value="0,0,0,8"/>
+
+            <!-- Table property row label -->
+            <Style x:Key="PropertyLabel" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+            </Style>
+
+            <!-- Table property cell border -->
+            <Style x:Key="PropertyCellBorder" TargetType="Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.GridLine}"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Padding" Value="8,4"/>
+                <Setter Property="MinHeight" Value="28"/>
+            </Style>
+
+            <!-- Style for parameter picker combobox icon button -->
+            <Style x:Key="ParamPickerComboBoxStyle" TargetType="ComboBox">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Height" Value="22"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <ToggleButton x:Name="ToggleButton"
+                                              Focusable="False"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ClickMode="Press"
+                                              Background="Transparent"
+                                              BorderThickness="0"
+                                              Padding="0">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="BtnBorder" Background="Transparent" CornerRadius="3" Padding="1">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <md:PackIcon Kind="CogOutline" Width="13" Height="13" Foreground="{DynamicResource Brush.Foreground.Secondary}" VerticalAlignment="Center"/>
+                                                    <md:PackIcon Kind="MenuDown" Width="10" Height="10" Margin="-2,0,0,0" Foreground="{DynamicResource Brush.Foreground.Secondary}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource Brush.SurfaceHover}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <Popup x:Name="Popup"
+                                       Placement="Bottom"
+                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       PopupAnimation="Slide">
+                                    <Border x:Name="DropDown"
+                                            Background="{DynamicResource Brush.SurfaceElevated}"
+                                            BorderBrush="{DynamicResource Brush.GridLine}"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            MinWidth="130"
+                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                            SnapsToDevicePixels="True"
+                                            Margin="0,2,0,0">
+                                        <ScrollViewer Margin="2" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Padding" Value="8,4"/>
+                            <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ComboBoxItem">
+                                        <Border x:Name="ItemBorder" Background="Transparent" Padding="{TemplateBinding Padding}" CornerRadius="2">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource Brush.SurfaceHover}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource Brush.SurfacePressed}"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid Margin="{DynamicResource Spacing.Medium}">
         <Grid.RowDefinitions>
+            <!-- 0. Title Bar -->
             <RowDefinition Height="Auto"/>
+            <!-- 1. Top Action & Connection Bar -->
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" MinHeight="300"/>
+            <!-- 2. Middle Section: Left B3:B10 Table | Right View Canvas -->
+            <RowDefinition Height="*" MinHeight="260"/>
+            <!-- 3. Bottom Full-Width Table: KATA Columns C..BZ -->
             <RowDefinition Height="Auto"/>
+            <!-- 4. Warnings (Collapsible) -->
             <RowDefinition Height="Auto"/>
+            <!-- 5. Bottom Status & Final Action Bar -->
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
+        <!-- 0. TITLE BAR -->
         <DockPanel Grid.Row="0" Margin="0,0,0,8">
-            <Border Style="{DynamicResource Badge}" DockPanel.Dock="Right" VerticalAlignment="Center">
-                <TextBlock Text="HPRebar Kata" Style="{DynamicResource BadgeText}"/>
+            <Border Style="{DynamicResource Badge}" DockPanel.Dock="Right" VerticalAlignment="Center" Padding="10,3">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="FileExcel" Width="14" Height="14" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="HPRebar Kata Pro" Style="{DynamicResource BadgeText}"/>
+                </StackPanel>
             </Border>
-            <TextBlock Text="Xuất Dữ Liệu Dầm Sang KATA Excel"
-                       ToolTip="Đo 1D dọc trục dầm: gối, nhịp, cao trình, dầm giao và lệch trục, ghi vào sheet Dam của KATA."
-                       FontSize="{DynamicResource Font.Size.Subheading}"
-                       FontWeight="Bold"
-                       VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <md:PackIcon Kind="TableExport" Width="22" Height="22" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock Text="XUẤT DẦM SANG KATA EXCEL"
+                           FontSize="{DynamicResource Font.Size.Subheading}"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource Brush.Foreground.Primary}"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
         </DockPanel>
 
-        <!-- Parameters, direction and what was read -->
-        <Border Grid.Row="1" Style="{StaticResource KataCard}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <!-- 1. TOP ACTION & CONNECTION BAR -->
+        <md:Card Grid.Row="1" Margin="0,0,0,8" Padding="10,6" UniformCornerRadius="4">
+            <DockPanel LastChildFill="True">
+                <!-- Left: Action Buttons -->
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button Command="{Binding RepickCommand}"
+                            Style="{DynamicResource SecondaryButton}"
+                            Padding="12,4" Height="30" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="CursorDefaultClickOutline" Width="15" Height="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Chọn lại dầm" VerticalAlignment="Center" FontSize="{DynamicResource Font.Size.Caption}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding RefreshProbeCommand}"
+                            Style="{DynamicResource SecondaryButton}"
+                            Padding="10,4" Height="30">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="Refresh" Width="15" Height="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Kiểm tra Excel" VerticalAlignment="Center" FontSize="{DynamicResource Font.Size.Caption}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-                <DockPanel Grid.Row="0" Grid.Column="0" Margin="0,0,12,8">
-                    <TextBlock Text="Tên dầm (B3):" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox ItemsSource="{Binding AvailableParameters}"
-                              SelectedItem="{Binding SelectedNameParameter, Mode=TwoWay}"
-                              Height="28"/>
-                </DockPanel>
-
-                <DockPanel Grid.Row="0" Grid.Column="1" Margin="0,0,12,8">
-                    <TextBlock Text="Số lượng (B4):" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox ItemsSource="{Binding AvailableParameters}"
-                              SelectedItem="{Binding SelectedCountParameter, Mode=TwoWay}"
-                              Height="28"/>
-                </DockPanel>
-
-                <CheckBox Grid.Row="0" Grid.Column="2"
-                          Content="Đảo chiều (Reverse)"
-                          IsChecked="{Binding IsReverse, Mode=TwoWay}"
-                          VerticalAlignment="Center"
-                          Margin="0,0,0,8"/>
-
-                <UniformGrid Grid.Row="1" Grid.ColumnSpan="3" Columns="4">
-                    <UniformGrid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
-                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                            <Setter Property="Margin" Value="0,0,8,0"/>
-                        </Style>
-                    </UniformGrid.Resources>
-                    <StackPanel>
-                        <TextBlock Text="Số đoạn / chiều dài" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                        <TextBlock FontWeight="SemiBold">
-                            <Run Text="{Binding BeamCountText, Mode=OneWay}"/><Run Text=" · "/><Run Text="{Binding TotalLengthText, Mode=OneWay}"/>
+                <!-- Right: Excel Connection & Target Workbook Info -->
+                <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <md:PackIcon Kind="MicrosoftExcel" Width="22" Height="22" Foreground="#107C41" DockPanel.Dock="Left" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Excel: " FontWeight="Bold" FontSize="{DynamicResource Font.Size.Caption}"/>
+                            <TextBlock Text="{Binding TargetWorkbook}"
+                                       ToolTip="{Binding TargetWorkbook}"
+                                       FontSize="{DynamicResource Font.Size.Caption}"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource Brush.Foreground.Primary}"
+                                       TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   ToolTip="{Binding StatusMessage}"
+                                   FontSize="{DynamicResource Font.Size.Caption}"
+                                   TextTrimming="CharacterEllipsis">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasError}" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource Brush.Danger}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="Tiết diện / cao trình (B5 B6 B10)" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                        <TextBlock FontWeight="SemiBold">
-                            <Run Text="{Binding SectionText, Mode=OneWay}"/><Run Text=" · "/><Run Text="{Binding ElevationText, Mode=OneWay}"/>
-                        </TextBlock>
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="Chiều dày sàn (B7)" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                        <TextBlock Text="{Binding SlabThicknessText}" FontWeight="SemiBold"/>
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="Trục dầm (B8 / B9)" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                        <TextBlock FontWeight="SemiBold">
-                            <Run Text="{Binding AxisText, Mode=OneWay}"/><Run Text=" · "/><Run Text="{Binding AxisOffsetText, Mode=OneWay}"/>
-                        </TextBlock>
-                    </StackPanel>
-                </UniformGrid>
-            </Grid>
-        </Border>
-
-        <!-- Elevation: every number drawn is the text of the Kata cell it stands for -->
-        <Border Grid.Row="2" Style="{StaticResource KataCard}">
-            <DockPanel>
-                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6" LastChildFill="True">
-                    <TextBlock DockPanel.Dock="Left" Text="Mặt đứng dải dầm" Style="{StaticResource KataCardTitle}" Margin="0,0,12,0"/>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                        <Button Content="‹ Trước"
-                                Command="{Binding PreviousSpanCommand}"
-                                Style="{DynamicResource SecondaryButton}"
-                                Padding="10,2" Height="26" Margin="0,0,6,0"/>
-                        <Button Content="Tiếp ›"
-                                Command="{Binding NextSpanCommand}"
-                                Style="{DynamicResource SecondaryButton}"
-                                Padding="10,2" Height="26" Margin="0,0,6,0"/>
-                        <Button Content="Toàn dải"
-                                Command="{Binding FrameAllCommand}"
-                                Style="{DynamicResource SecondaryButton}"
-                                Padding="10,2" Height="26"/>
-                    </StackPanel>
-                    <TextBlock DockPanel.Dock="Right"
-                               Text="Lăn: phóng · Giữa / Shift+kéo: di chuyển · Nhấp đúp: toàn dải"
-                               ToolTip="Lăn chuột: phóng quanh con trỏ · Giữ chuột giữa hoặc Shift + kéo chuột trái: di chuyển · Bấm trái: chọn cột Kata · Nhấp đúp: xem toàn dải"
-                               TextTrimming="CharacterEllipsis"
-                               Foreground="{DynamicResource Brush.Foreground.Secondary}"
-                               FontSize="{DynamicResource Font.Size.Caption}"
-                               VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding SelectionText}"
-                               ToolTip="{Binding SelectionText}"
-                               FontSize="{DynamicResource Font.Size.Caption}"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="12,0"/>
                 </DockPanel>
-                <Border BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1">
-                    <controls:KataElevationCanvas Elevation="{Binding Elevation}"
-                                                  SelectedColumnIndex="{Binding SelectedColumnIndex, Mode=TwoWay}"
-                                                  FocusRequest="{Binding FocusRequest}"
-                                                  SurfaceBrush="{DynamicResource Brush.Canvas.Fill}"/>
-                </Border>
             </DockPanel>
-        </Border>
+        </md:Card>
 
-        <!-- Preview table: one column per Kata column, selection shared with the elevation -->
-        <Border Grid.Row="3" Style="{StaticResource KataCard}">
-            <StackPanel>
-                <DockPanel Margin="0,0,0,4">
-                    <TextBlock DockPanel.Dock="Left" Text="Ô ghi sang KATA (cột C..BZ)" Style="{StaticResource KataCardTitle}" Margin="0,0,12,0"/>
-                    <TextBlock Text="{Binding HeaderLine}"
-                               ToolTip="{Binding HeaderLine}"
-                               FontFamily="{DynamicResource Font.Family.Mono}"
-                               FontSize="{DynamicResource Font.Size.Caption}"
-                               Foreground="{DynamicResource Brush.Foreground.Secondary}"
-                               VerticalAlignment="Center"
-                               TextTrimming="CharacterEllipsis"/>
+        <!-- 2. MIDDLE SECTION: LEFT B3:B10 TABLE | RIGHT VIEW CANVAS -->
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: THÔNG SỐ KATA / Ô B3:B10 -->
+            <md:Card Grid.Column="0" Margin="0,0,8,0" Padding="10,8" UniformCornerRadius="4">
+                <DockPanel LastChildFill="True">
+                    <!-- Header -->
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
+                        <TextBlock Text="Ô B3:B10" DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                        <TextBlock Text="THÔNG SỐ KATA" Style="{StaticResource KataCardTitle}" VerticalAlignment="Center"/>
+                    </DockPanel>
+
+                    <!-- Table B3:B10 (Grid with Excel-style Borders and Lines) -->
+                    <Border BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="1" CornerRadius="0" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="105"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Row 1: Tên dầm (B3) -->
+                            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Tên dầm" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <Grid Margin="2,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding BeamNameValue}" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Accent}" TextTrimming="CharacterEllipsis"/>
+                                    <ComboBox Grid.Column="1"
+                                              Style="{StaticResource ParamPickerComboBoxStyle}"
+                                              ItemsSource="{Binding AvailableParameters}"
+                                              SelectedItem="{Binding SelectedNameParameter, Mode=TwoWay}"
+                                              ToolTip="Đổi tham số Revit nguồn cho Tên dầm (B3)"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Row 2: Số cấu kiện (B4) -->
+                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Số cấu kiện" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <Grid Margin="2,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding BeamCountValue}" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <ComboBox Grid.Column="1"
+                                              Style="{StaticResource ParamPickerComboBoxStyle}"
+                                              ItemsSource="{Binding AvailableParameters}"
+                                              SelectedItem="{Binding SelectedCountParameter, Mode=TwoWay}"
+                                              ToolTip="Đổi tham số Revit nguồn cho Số cấu kiện (B4)"
+                                              VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Row 3: h dầm (mm) (B5) -->
+                            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="h dầm (mm)" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding HeightValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Row 4: b dầm (mm) (B6) -->
+                            <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="b dầm (mm)" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding WidthValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Row 5: h sàn (mm) (B7) -->
+                            <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="h sàn (mm)" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding SlabThicknessValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Row 6: Tên trục dầm (B8) -->
+                            <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Tên trục dầm" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding AxisGridNameValue}" ToolTip="Trục dầm tham chiếu trong Revit (không ghi vào ô B8 Excel)" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Row 7: Độ lệch của trục (B9) -->
+                            <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Độ lệch của trục" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding AxisOffsetValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Warning}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Row 8: Cao trình dầm (B10) -->
+                            <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,0" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Cao trình dầm" Style="{StaticResource PropertyLabel}"/>
+                            </Border>
+                            <Border Grid.Row="7" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,0" Background="{DynamicResource Brush.Surface}">
+                                <TextBlock Text="{Binding ElevationValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </Border>
                 </DockPanel>
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Left" Margin="0,2,8,0">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Height" Value="17"/>
-                                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock Text="Cột"/>
-                        <TextBlock Text="Loại"/>
-                        <TextBlock Text="11 gối / nhịp"/>
-                        <TextBlock Text="19 cột trên / z"/>
-                        <TextBlock Text="21 dầm giao / đáy"/>
-                        <TextBlock Text="22 tên trục"/>
-                        <TextBlock Text="23 lệch trục"/>
-                    </StackPanel>
-                    <ListBox ItemsSource="{Binding PreviewColumns}"
-                             SelectedIndex="{Binding SelectedColumnIndex, Mode=TwoWay}"
-                             controls:ListBoxScrollSelection.IsEnabled="True"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                <Setter Property="Padding" Value="6,2"/>
-                                <Setter Property="MinWidth" Value="58"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type vm:KataPreviewColumn}">
-                                <StackPanel>
-                                    <StackPanel.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Height" Value="17"/>
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                            <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
-                                            <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Mono}"/>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <TextBlock Text="{Binding Letter}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Kind}"
-                                               FontFamily="{DynamicResource Font.Family.Default}"
-                                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                                    <TextBlock Text="{Binding Row11}"/>
-                                    <TextBlock Text="{Binding Row19}"/>
-                                    <TextBlock Text="{Binding Row21}"/>
-                                    <TextBlock Text="{Binding Row22}"/>
-                                    <TextBlock Text="{Binding Row23}"/>
+            </md:Card>
+
+            <!-- RIGHT: MẶT ĐỨNG DẢI DẦM (VIEW CANVAS & CONTROLS) -->
+            <md:Card Grid.Column="1" Padding="10,8" UniformCornerRadius="4">
+                <DockPanel LastChildFill="True">
+                    <!-- Toolbar -->
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6" LastChildFill="True">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <md:PackIcon Kind="AxisArrow" Width="16" Height="16" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="MẶT ĐỨNG DẢI DẦM" Style="{StaticResource KataCardTitle}"/>
+                        </StackPanel>
+
+                        <!-- Controls: Trước, Tiếp, Đảo chiều, Toàn dải -->
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" VerticalAlignment="Center">
+                            <Button Command="{Binding PreviousSpanCommand}"
+                                    Style="{DynamicResource SecondaryButton}"
+                                    Padding="8,2" Height="26" Margin="0,0,4,0"
+                                    ToolTip="Nhịp trước">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="ChevronLeft" Width="14" Height="14" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Trước" VerticalAlignment="Center" Margin="2,0,0,0" FontSize="{DynamicResource Font.Size.Caption}"/>
                                 </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </StackPanel>
-        </Border>
+                            </Button>
+                            <Button Command="{Binding NextSpanCommand}"
+                                    Style="{DynamicResource SecondaryButton}"
+                                    Padding="8,2" Height="26" Margin="0,0,10,0"
+                                    ToolTip="Nhịp tiếp theo">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Tiếp" VerticalAlignment="Center" Margin="0,0,2,0" FontSize="{DynamicResource Font.Size.Caption}"/>
+                                    <md:PackIcon Kind="ChevronRight" Width="14" Height="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
 
-        <!-- Warnings -->
-        <Border Grid.Row="4"
-                Background="{DynamicResource Brush.SurfaceElevated}"
-                BorderBrush="{DynamicResource Brush.Warning}"
-                BorderThickness="1"
-                CornerRadius="4"
-                Padding="8,4"
-                Margin="0,0,0,8"
-                Visibility="{Binding HasWarnings, Converter={StaticResource BoolToVis}}">
+                            <!-- Checkbox Đảo chiều (Reverse) on Toolbar -->
+                            <CheckBox IsChecked="{Binding IsReverse, Mode=TwoWay}"
+                                      VerticalAlignment="Center"
+                                      Cursor="Hand"
+                                      Margin="0,0,10,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="SwapHorizontal" Width="15" Height="15" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Đảo chiều" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}"/>
+                                </StackPanel>
+                            </CheckBox>
+
+                            <Button Command="{Binding FrameAllCommand}"
+                                    Style="{DynamicResource SecondaryButton}"
+                                    Padding="8,2" Height="26"
+                                    ToolTip="Xem toàn bộ dải dầm">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="FitToPageOutline" Width="14" Height="14" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Toàn dải" VerticalAlignment="Center" FontSize="{DynamicResource Font.Size.Caption}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Selection Badge -->
+                        <Border Background="{DynamicResource Brush.Accent}" CornerRadius="3" Padding="8,2" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0">
+                            <TextBlock Text="{Binding SelectionText}"
+                                       ToolTip="{Binding SelectionText}"
+                                       FontSize="{DynamicResource Font.Size.Caption}"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource Brush.Foreground.OnAccent}"
+                                       VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"/>
+                        </Border>
+                    </DockPanel>
+
+                    <!-- Canvas Drawing Area (with Tooltip navigation hints) -->
+                    <Border BorderBrush="{DynamicResource Brush.GridLine}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            ToolTip="Lăn chuột: phóng/thu · Chuột giữa / Shift + kéo: di chuyển · Nhấp đúp: toàn dải">
+                        <controls:KataElevationCanvas Elevation="{Binding Elevation}"
+                                                      SelectedColumnIndex="{Binding SelectedColumnIndex, Mode=TwoWay}"
+                                                      FocusRequest="{Binding FocusRequest}"
+                                                      SurfaceBrush="{DynamicResource Brush.Canvas.Fill}"/>
+                    </Border>
+                </DockPanel>
+            </md:Card>
+        </Grid>
+
+        <!-- 3. BOTTOM FULL-WIDTH TABLE: CÁC Ô GHI SANG KATA EXCEL — CỘT C…BZ -->
+        <md:Card Grid.Row="3" Margin="0,0,0,8" Padding="10,8" UniformCornerRadius="4">
+            <StackPanel>
+                <!-- Table Header -->
+                <DockPanel Margin="0,0,0,6">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <md:PackIcon Kind="TableLarge" Width="16" Height="16" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Các ô ghi sang Kata Excel" Style="{StaticResource KataCardTitle}"/>
+                    </StackPanel>
+                    <Border Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="3" Padding="8,2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding HeaderLine}"
+                                   ToolTip="{Binding HeaderLine}"
+                                   FontFamily="{DynamicResource Font.Family.Mono}"
+                                   FontSize="{DynamicResource Font.Size.Caption}"
+                                   Foreground="{DynamicResource Brush.Foreground.Primary}"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Border>
+                </DockPanel>
+
+                <!-- Full-Width Aligned Grid Table with Excel-Style Gridlines -->
+                <Border BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="1" CornerRadius="0" SnapsToDevicePixels="True">
+                    <DockPanel LastChildFill="True">
+                        <!-- Left 8 Row Header Labels (Width="230", matching Wireframe labels) -->
+                        <StackPanel DockPanel.Dock="Left" Width="230" Background="{DynamicResource Brush.Surface}">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Padding" Value="8,0,4,0"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}" SnapsToDevicePixels="True">
+                                <TextBlock Text="Thông tin" Foreground="{DynamicResource Brush.Accent}" FontWeight="Bold"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Loại"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Kích thước gối / nhịp"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Giật mép trên dầm"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Bề rộng dầm giao tại cột"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Độ lệch dầm giao so với tâm cột"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,1" SnapsToDevicePixels="True">
+                                <TextBlock Text="Tên các trục cột"/>
+                            </Border>
+                            <Border Height="24" BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="0,0,1,0" SnapsToDevicePixels="True">
+                                <TextBlock Text="Độ lệch của trục so với tâm cột"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Right Horizontal Columns List (C..BZ) -->
+                        <ListBox ItemsSource="{Binding PreviewColumns}"
+                                 SelectedIndex="{Binding SelectedColumnIndex, Mode=TwoWay}"
+                                 controls:ListBoxScrollSelection.IsEnabled="True"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Padding="0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="MinWidth" Value="62"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="ItemBorder"
+                                                        Background="{DynamicResource Brush.Surface}"
+                                                        BorderBrush="{DynamicResource Brush.GridLine}"
+                                                        BorderThickness="0,0,1,0"
+                                                        SnapsToDevicePixels="True">
+                                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource Brush.SurfaceHover}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource Brush.SurfacePressed}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:KataPreviewColumn}">
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <!-- Row 1: Thông tin (Cột C, D, E...) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="{DynamicResource Brush.SurfaceElevated}"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Letter}"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource Brush.Accent}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"/>
+                                        </Border>
+
+                                        <!-- Row 2: Loại (Cột, Nhịp 1...) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Kind}"
+                                                       Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 3: Kích thước gối / nhịp (Hàng 11) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row11}"
+                                                       FontWeight="SemiBold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 4: Giật mép trên dầm (Hàng 19) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row19}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 5: Bề rộng dầm giao tại cột (Hàng 20) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row20}"
+                                                       Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 6: Độ lệch dầm giao so với tâm cột (Hàng 21) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row21}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 7: Tên các trục cột (Hàng 22) -->
+                                        <Border Height="24"
+                                                BorderBrush="{DynamicResource Brush.GridLine}"
+                                                BorderThickness="0,0,0,1"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row22}"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource Brush.Accent}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+
+                                        <!-- Row 8: Độ lệch của trục so với tâm cột (Hàng 23) -->
+                                        <Border Height="24"
+                                                BorderThickness="0"
+                                                Background="Transparent"
+                                                SnapsToDevicePixels="True">
+                                            <TextBlock Text="{Binding Row23}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource Font.Family.Mono}"
+                                                       FontSize="{DynamicResource Font.Size.Caption}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+        </md:Card>
+
+        <!-- 4. WARNINGS BANNER (COLLAPSIBLE) -->
+        <md:Card Grid.Row="4"
+                 Background="{DynamicResource Brush.SurfaceElevated}"
+                 BorderBrush="{DynamicResource Brush.Warning}"
+                 BorderThickness="1"
+                 UniformCornerRadius="4"
+                 Padding="10,4"
+                 Margin="0,0,0,8"
+                 Visibility="{Binding HasWarnings, Converter={StaticResource BoolToVis}}">
             <DockPanel>
-                <TextBlock DockPanel.Dock="Left"
-                           Text="Cảnh báo:"
-                           FontWeight="Bold"
-                           FontSize="{DynamicResource Font.Size.Caption}"
-                           Foreground="{DynamicResource Brush.Warning}"
-                           Margin="0,0,8,0"/>
-                <ScrollViewer MaxHeight="52" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="0,0,10,0" VerticalAlignment="Top">
+                    <md:PackIcon Kind="AlertCircleOutline" Width="16" Height="16" Foreground="{DynamicResource Brush.Warning}" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Cảnh báo:"
+                               FontWeight="Bold"
+                               FontSize="{DynamicResource Font.Size.Caption}"
+                               Foreground="{DynamicResource Brush.Warning}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                <ScrollViewer MaxHeight="44" VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Warnings}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -280,70 +693,47 @@
                     </ItemsControl>
                 </ScrollViewer>
             </DockPanel>
-        </Border>
+        </md:Card>
 
-        <!-- Target workbook, status and actions -->
+        <!-- 5. BOTTOM STATUS & FINAL ACTION BAR -->
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0"
-                    Content="Chọn lại dầm"
-                    Command="{Binding RepickCommand}"
-                    Style="{DynamicResource SecondaryButton}"
-                    Padding="14,6"
-                    Height="32"
-                    Margin="0,0,8,0"/>
-
-            <Button Grid.Column="1"
-                    Content="Kiểm tra lại Excel"
-                    Command="{Binding RefreshProbeCommand}"
-                    Style="{DynamicResource SecondaryButton}"
-                    Padding="10,6"
-                    Height="32"/>
-
-            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="12,0">
-                <TextBlock Text="{Binding TargetWorkbook}"
-                           ToolTip="{Binding TargetWorkbook}"
-                           FontSize="{DynamicResource Font.Size.Caption}"
-                           FontWeight="SemiBold"
-                           TextTrimming="CharacterEllipsis"/>
-                <TextBlock Text="{Binding StatusMessage}"
-                           ToolTip="{Binding StatusMessage}"
-                           FontSize="{DynamicResource Font.Size.Caption}"
-                           TextTrimming="CharacterEllipsis">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasError}" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Danger}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+            <!-- Left: Beam Count & Total Length -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Số phần tử: " FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                <TextBlock Text="{Binding BeamCountText}" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Caption}" Margin="0,0,16,0"/>
+                <TextBlock Text="Tổng chiều dài: " FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                <TextBlock Text="{Binding TotalLengthText}" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Caption}"/>
             </StackPanel>
 
-            <Button Grid.Column="3"
-                    Content="Đóng"
+            <!-- Right: Đóng & Xuất Excel Buttons -->
+            <Button Grid.Column="1"
                     Command="{Binding CloseCommand}"
                     Style="{DynamicResource SecondaryButton}"
                     Padding="16,6"
-                    Height="32"
-                    Margin="0,0,8,0"/>
+                    Height="34"
+                    Margin="0,0,8,0">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Close" Width="15" Height="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Đóng" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
-            <Button Grid.Column="4"
-                    Content="Xuất Excel"
+            <Button Grid.Column="2"
                     Command="{Binding ExportCommand}"
                     Style="{DynamicResource PrimaryButton}"
                     Padding="20,6"
-                    Height="32"/>
+                    Height="34">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="FileExportOutline" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Xuất Excel" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </Window>

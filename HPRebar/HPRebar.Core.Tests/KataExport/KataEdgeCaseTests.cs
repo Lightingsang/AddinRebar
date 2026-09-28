@@ -116,7 +116,7 @@ public sealed class KataEdgeCaseTests
     {
         var input = Run(new[] { Piece(0, 5770), Piece(5770, 12000) }, ThreeColumns);
 
-        var result = KataSegmenter.Segment(input);
+        var result = KataSegmenter.Segment(input, new KataBuildOptions { InsertJoints = true });
 
         Assert.DoesNotContain(result.Segments, s => s.Kind == KataSegmentKind.Joint);
         Assert.Equal(5, result.Segments.Count);
@@ -179,5 +179,42 @@ public sealed class KataEdgeCaseTests
         var sheet = KataRowBuilder.Build(input, new KataBuildOptions { Reverse = true });
 
         Assert.Equal(new object?[] { "", -200.0, -100.0, 0.0, -50.0 }, sheet.Row21);
+    }
+
+    [Fact]
+    public void ContinuousBeamRunFormedByTwoPiecesWithoutMiddleSupportBecomesSingleSpanAndHidesMiddleGrid()
+    {
+        // Real-world scenario from Revit model: T1-DY40 (AD.1a to AG.1a) formed by 2 pieces meeting at AF.1a
+        // When crossing beam T1-DX24 at AF.1a is hidden, no support exists at AF.1a.
+        var pieces = new[]
+        {
+            Piece(53600, 57200, b: 200, h: 350, key: "9797022"),
+            Piece(57200, 60800, b: 200, h: 350, key: "9798811")
+        };
+        var supports = new[]
+        {
+            Column(53375, 53775, key: "Col_AD1a"),
+            Column(60575, 60975, key: "Col_AG1a")
+        };
+        var grids = new[]
+        {
+            Grid("AD.1a", 53600),
+            Grid("AF.1a", 57200),
+            Grid("AG.1a", 60800)
+        };
+
+        var input = new KataRunInput(pieces, supports, grids, Header);
+        var options = new KataBuildOptions();
+        var sheet = KataRowBuilder.Build(input, options);
+        var elevation = KataElevationBuilder.Build(input, options, sheet);
+
+        // 1. Sheet has exactly 3 columns: Support AD.1a, Continuous Span, Support AG.1a (No 0-width support at AF.1a)
+        Assert.Equal(3, sheet.ColumnCount);
+        Assert.Equal(new object?[] { 400.0, 6800.0, 400.0 }, sheet.Row11);
+        Assert.Equal(new object?[] { "AD.1a", "", "AG.1a" }, sheet.Row22);
+
+        // 2. Elevation drawing only draws grids on actual supports (AF.1a inside the span is omitted)
+        Assert.Equal(new[] { "AD.1a", "AG.1a" }, elevation.Grids.Select(g => g.Name));
+        Assert.DoesNotContain(elevation.Grids, g => g.Name == "AF.1a");
     }
 }

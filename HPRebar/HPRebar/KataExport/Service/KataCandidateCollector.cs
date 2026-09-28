@@ -22,12 +22,42 @@ public static class KataCandidateCollector
             new XYZ(boxes.Max(b => b.Max.X) + marginFt, boxes.Max(b => b.Max.Y) + marginFt, boxes.Max(b => b.Max.Z) + aboveFt));
 
         var phaseId = view.get_Parameter(BuiltInParameter.VIEW_PHASE)?.AsElementId();
+        var boundingBoxFilter = new BoundingBoxIntersectsFilter(outline);
 
-        return new FilteredElementCollector(doc)
-            .WhereElementIsNotElementType()
-            .WherePasses(new ElementMulticategoryFilter(categories))
-            .WherePasses(new BoundingBoxIntersectsFilter(outline))
-            .Where(e => IsBuilt(e, phaseId));
+        // Separate framing (crossing beams) from other support categories (columns, walls, foundations).
+        // Crossing beams must only be collected from the active view and must not be hidden in that view.
+        // Columns, walls and foundations are scanned across the document bounding box to avoid missing
+        // columns from storeys above/below or foundations below the view range.
+        var projectCategories = categories.Where(c => c != BuiltInCategory.OST_StructuralFraming).ToList();
+        var candidates = new List<Element>();
+
+        if (projectCategories.Count > 0)
+        {
+            var projectFilter = projectCategories.Count == 1
+                ? (ElementFilter)new ElementCategoryFilter(projectCategories[0])
+                : new ElementMulticategoryFilter(projectCategories);
+
+            var projectElements = new FilteredElementCollector(doc)
+                .WhereElementIsNotElementType()
+                .WherePasses(projectFilter)
+                .WherePasses(boundingBoxFilter)
+                .Where(e => IsBuilt(e, phaseId));
+
+            candidates.AddRange(projectElements);
+        }
+
+        if (categories.Contains(BuiltInCategory.OST_StructuralFraming))
+        {
+            var viewBeams = new FilteredElementCollector(doc, view.Id)
+                .OfCategory(BuiltInCategory.OST_StructuralFraming)
+                .WhereElementIsNotElementType()
+                .WherePasses(boundingBoxFilter)
+                .Where(e => IsBuilt(e, phaseId) && !e.IsHidden(view));
+
+            candidates.AddRange(viewBeams);
+        }
+
+        return candidates;
     }
 
     private static bool IsBuilt(Element element, ElementId? phaseId)
