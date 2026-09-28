@@ -31,6 +31,23 @@ public static class KataRebarPreviewBuilder
         var rows = new List<KataBarLayerPreviewItem>();
         Add(rows, "Thép chủ trên", plan.Spec.TopContinuous, plan.Layout.MainTopBars, plan.Rules.TopBarCentreDepth);
         Add(rows, "Thép chủ dưới", plan.Spec.BottomContinuous, plan.Layout.MainBottomBars, plan.Rules.BottomBarCentreDepth);
+        foreach (var group in plan.Layout.ExtraTopBars.GroupBy(b => b.BarMark))
+        {
+            var first = group.First();
+            var points = first.Polyline.Points;
+            double z = points[first.StartHookLength > 0.0 ? 1 : 0].Z;
+            rows.Add(new KataBarLayerPreviewItem
+            {
+                Category = "Gia cường gối",
+                Location = $"Gối {first.HostSupportIndex + 1}, hàng {12 + first.Layer}",
+                Notation = string.Join("+", group.GroupBy(b => b.Diameter).Select(g => $"{g.Count()}f{g.Key:0}")),
+                Count = group.Count(),
+                DiameterMm = group.Max(b => b.Diameter),
+                Details = $"tâm cách mép {-z:0}; x {points[0].X:0} → {points[points.Count - 1].X:0}; "
+                          + $"neo trái {End(first.StartHookLength)}, phải {End(first.EndHookLength)}"
+            });
+        }
+
         return rows;
     }
 

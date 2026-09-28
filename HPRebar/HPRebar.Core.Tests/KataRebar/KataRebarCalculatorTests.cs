@@ -260,7 +260,7 @@ public class KataRebarCalculatorTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // 1. Continuous Main Bars
         Assert.Equal(6, result.MainTopBars.Count);
@@ -434,7 +434,7 @@ public class KataRebarCalculatorTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // 4 layers x 4 bars = 16 extra top bars over Support 1
         var supp1Bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
@@ -456,14 +456,11 @@ public class KataRebarCalculatorTests
         double z3 = layer3[0].Polyline.Points[0].Z;
         double z4 = layer4[0].Polyline.Points[0].Z;
 
-        Assert.True(z1 > z2);
-        Assert.True(z2 > z3);
-        Assert.True(z3 > z4);
-
-        // Gap between layers >= 50mm
-        Assert.True(z1 - z2 >= 50.0);
-        Assert.True(z2 - z3 >= 50.0);
-        Assert.True(z3 - z4 >= 50.0);
+        // Row 13 shares the main bars' level; rows 14-16 stack below at a clear gap of max(25, d).
+        Assert.Equal(result.MainTopBars[0].Polyline.Points[1].Z, z1, 6);
+        Assert.Equal(25.0 / 2 + 25.0 + 25.0 / 2, z1 - z2, 6);
+        Assert.Equal(25.0 / 2 + 25.0 + 20.0 / 2, z2 - z3, 6);
+        Assert.Equal(20.0 / 2 + 25.0 + 20.0 / 2, z3 - z4, 6);
 
         // Cutoff extension lengths: Layer 1 (ratio = 0.333) should be longer than Layer 2 (ratio = 0.25)
         Assert.True(layer1[0].Polyline.TotalLength > layer2[0].Polyline.TotalLength);
@@ -846,5 +843,5 @@ public class KataRebarCalculatorTests
     /// shortfalls the layout reports.
     /// </summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
-        Assert.All(result.Warnings, w => Assert.StartsWith("Neo thép chủ", w));
+        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường"), w));
 }

@@ -57,9 +57,10 @@ public sealed class KataRebarTypeResolver
         return candidates.FirstOrDefault(b => b.Name.Contains(d)) ?? candidates[0];
     }
 
-    /// <summary>One row per diameter the plan draws: top bars, bottom bars, stirrups.</summary>
-    public IReadOnlyList<KataBarTypeMappingItem> BuildMappingItems(KataBeamRebarSpec spec)
+    /// <summary>One row per diameter the plan draws: top bars, bottom bars, additional top bars, stirrups.</summary>
+    public IReadOnlyList<KataBarTypeMappingItem> BuildMappingItems(KataRebarPlan plan)
     {
+        var spec = plan.Spec;
         var items = new List<KataBarTypeMappingItem>();
 
         void Add(string role, string notation, double diameter, bool longitudinal)
@@ -77,6 +78,8 @@ public sealed class KataRebarTypeResolver
 
         if (!spec.TopContinuous.IsEmpty) Add("Thép chủ trên", spec.TopContinuous.RawNotation, spec.TopContinuous.Diameter, true);
         if (!spec.BottomContinuous.IsEmpty) Add("Thép chủ dưới", spec.BottomContinuous.RawNotation, spec.BottomContinuous.Diameter, true);
+        foreach (var bar in plan.Layout.ExtraTopBars)
+            Add("Gia cường gối", $"Ø{bar.Diameter:0.#}", bar.Diameter, true);
         if (spec.GlobalStirrup.Diameter > 0.0) Add("Cốt đai", $"Ø{spec.GlobalStirrup.Diameter:0.#}", spec.GlobalStirrup.Diameter, false);
 
         return items;

@@ -121,7 +121,7 @@ public sealed partial class KataRebarViewModel : ObservableObject
             _spec = KataDamSheetParser.Parse(read.Cells!);
             WorkbookName = read.WorkbookName;
             var plan = Replan();
-            BarTypeMappings = KeepChoices(_typeResolver.BuildMappingItems(plan.Spec), BarTypeMappings);
+            BarTypeMappings = KeepChoices(_typeResolver.BuildMappingItems(plan), BarTypeMappings);
             Report($"Đã đọc sheet Dam của '{read.WorkbookName}'.", false);
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException)
@@ -163,7 +163,9 @@ public sealed partial class KataRebarViewModel : ObservableObject
         _match = result;
         if (result.IsSuccess) _beamIds = result.BeamIds;
         MatchStatusText = result.IsSuccess ? result.Message : $"Không đo được dầm: {result.Message}";
-        Replan();
+        var plan = Replan();
+        if (_spec is not null)
+            BarTypeMappings = KeepChoices(_typeResolver.BuildMappingItems(plan), BarTypeMappings);
         Report(CanGenerate ? "Sẵn sàng vẽ thép." : "Chưa vẽ được — xem tab Cảnh báo.", !CanGenerate);
     }
 

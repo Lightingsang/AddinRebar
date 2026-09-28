@@ -26,14 +26,14 @@ public sealed class KataScopeFilterTests
     }
 
     [Fact]
-    public void Additional_bars_are_reported_by_cell_and_left_out()
+    public void Support_top_bars_are_kept_and_span_bottom_bars_reported()
     {
         var result = Apply(("C14", "2f18"), ("D17", "2f18"), ("E13", "3f16"));
 
-        Assert.Contains(result.Skipped, s => s.StartsWith("C14 '2f18'"));
+        Assert.DoesNotContain(result.Skipped, s => s.StartsWith("C14") || s.StartsWith("E13"));
         Assert.Contains(result.Skipped, s => s.StartsWith("D17 '2f18'"));
-        Assert.Contains(result.Skipped, s => s.StartsWith("E13 '3f16'"));
-        Assert.All(result.Filtered.Supports, s => Assert.All(s.AllTopExtraLayers, Assert.Empty));
+        Assert.Equal(2, result.Filtered.Supports[0].TopExtraSides[1].Right[0].Count);
+        Assert.Equal(3, result.Filtered.Supports[1].TopExtraSides[0].Left[0].Count);
         Assert.All(result.Filtered.Spans, s => Assert.Empty(s.BottomExtraLayer2));
     }
 

@@ -14,7 +14,7 @@ public sealed record KataScopeResult(
 
 /// <summary>
 /// Limits a spec to what Kata Rebar draws today: one span between two supports, the first bar group of B11
-/// and B12, and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
+/// and B12, the additional top bars of rows 13-16 and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
 /// so the user knows what the model does not contain yet; a run shape this version cannot draw blocks.
 /// </summary>
 public static class KataScopeFilter
@@ -39,12 +39,6 @@ public static class KataScopeFilter
 
         ReportExtraItems(skipped, "B11", spec.TopMainItems, "nhóm thép chủ trên thứ 2 trở đi");
         ReportExtraItems(skipped, "B12", spec.BottomMainItems, "nhóm thép chủ dưới thứ 2 trở đi");
-
-        foreach (var support in spec.Supports)
-        {
-            for (int layer = 0; layer < 4; layer++)
-                Report(skipped, Cell(13 + layer, support.SheetColumn), support.AllTopExtraLayers[layer], $"thép gia cường trên lớp {layer + 1}");
-        }
 
         foreach (var span in spec.Spans)
         {
@@ -78,13 +72,6 @@ public static class KataScopeFilter
             EndSupportSpacing = null,
             Branches = new[] { KataStirrupBranchSpec.Outer }
         },
-        Supports = spec.Supports.Select(s => s with
-        {
-            TopExtraLayer1 = Array.Empty<KataBarItem>(),
-            TopExtraLayer2 = Array.Empty<KataBarItem>(),
-            TopExtraLayer3 = Array.Empty<KataBarItem>(),
-            TopExtraLayer4 = Array.Empty<KataBarItem>()
-        }).ToList(),
         Spans = spec.Spans.Select(s => s with
         {
             BottomExtraLayer1 = Array.Empty<KataBarItem>(),

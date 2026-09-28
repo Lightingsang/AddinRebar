@@ -336,18 +336,18 @@ public class KataStressAdversarialTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // Interior Support 1 extra top bars:
         // Lcutoff = max(2000, 12000) * 0.25 = 3000 mm from column faces!
         // Support 1 left face = 400 + 2000 = 2400 mm. Right face = 2900 mm.
-        // Xstart = 2400 - 3000 = -600 mm (extends past exterior Support 0 into world coordinates).
-        // Xend = 2900 + 3000 = 5900 mm.
+        // Xstart = 2400 - 3000 = -600 mm would leave the beam: the bar stops at Support 0's far face, its
+        // centre 25 + 10 + 22/2 = 46 mm inside. Xend = 2900 + 3000 = 5900 mm.
         var supp1Bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
         Assert.Equal(3, supp1Bars.Count);
-        Assert.Equal(-600.0, supp1Bars[0].Polyline.Points[0].X);
-        Assert.Equal(5900.0, supp1Bars[0].Polyline.Points[1].X);
-        Assert.Equal(6500.0, supp1Bars[0].Polyline.TotalLength);
+        Assert.Equal(46.0, supp1Bars[0].Polyline.Points[0].X, 6);
+        Assert.Equal(5900.0, supp1Bars[0].Polyline.Points[1].X, 6);
+        Assert.Equal(5854.0, supp1Bars[0].Polyline.TotalLength, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }
@@ -520,7 +520,7 @@ public class KataStressAdversarialTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         var supp1Bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
         Assert.Equal(16, supp1Bars.Count);
@@ -541,17 +541,11 @@ public class KataStressAdversarialTests
         double z3 = layer3[0].Polyline.Points[0].Z;
         double z4 = layer4[0].Polyline.Points[0].Z;
 
-        // Strict vertical ordering from top to bottom
-        Assert.True(zCont > z1, "Top continuous must be above Layer 1");
-        Assert.True(z1 > z2, "Layer 1 must be above Layer 2");
-        Assert.True(z2 > z3, "Layer 2 must be above Layer 3");
-        Assert.True(z3 > z4, "Layer 3 must be above Layer 4");
-
-        // Clear vertical spacing must be >= 50 mm between all consecutive layers
-        Assert.True(zCont - z1 >= 50.0, "Gap continuous-L1 < 50mm");
-        Assert.True(z1 - z2 >= 50.0, "Gap L1-L2 < 50mm");
-        Assert.True(z2 - z3 >= 50.0, "Gap L2-L3 < 50mm");
-        Assert.True(z3 - z4 >= 50.0, "Gap L3-L4 < 50mm");
+        // Row 13 shares the main bars' level; each lower row keeps a clear gap of max(25, d) to the one above.
+        Assert.Equal(zCont, z1, 6);
+        Assert.Equal(25.0 / 2 + 25.0 + 25.0 / 2, z1 - z2, 6);
+        Assert.Equal(25.0 / 2 + 25.0 + 20.0 / 2, z2 - z3, 6);
+        Assert.Equal(20.0 / 2 + 25.0 + 20.0 / 2, z3 - z4, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }
@@ -816,7 +810,7 @@ public class KataStressAdversarialTests
 
     /// <summary>The only warnings allowed are the anchorage shortfalls of shallow beams.</summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
-        Assert.All(result.Warnings, w => Assert.StartsWith("Neo thép chủ", w));
+        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường"), w));
 
     private static void AssertAllCurvesSimplifiedAndValid(KataRebarLayoutResult result)
     {

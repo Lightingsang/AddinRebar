@@ -49,6 +49,29 @@ public static class KataBarNotationParser
     }
 
     /// <summary>
+    /// Parses an additional-bar cell over a support: "left;right" (either side may be "0" or empty), or one
+    /// group list for both sides. '+' and ',' still join groups on one side.
+    /// </summary>
+    public static KataSideBars ParseSides(string? text, int layer)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return KataSideBars.None;
+
+        string trimmed = text!.Trim();
+        int split = trimmed.IndexOf(';');
+        if (split < 0)
+        {
+            var both = ParseBarList(trimmed, layer);
+            return new KataSideBars(both, both, trimmed);
+        }
+
+        return new KataSideBars(
+            ParseBarList(trimmed.Substring(0, split), layer),
+            ParseBarList(trimmed.Substring(split + 1), layer),
+            trimmed);
+    }
+
+    /// <summary>
     /// Parses a single bar token (e.g. '2f18', 'f10', '3d20', '6f25') into a <see cref="KataBarItem"/>.
     /// </summary>
     public static KataBarItem? ParseSingleBar(string? token, int defaultLayer = 1)

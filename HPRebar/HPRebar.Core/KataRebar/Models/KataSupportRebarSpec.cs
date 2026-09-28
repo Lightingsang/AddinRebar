@@ -53,6 +53,12 @@ public sealed record KataSupportRebarSpec
     /// <summary>Top extra negative reinforcement bars - Layer 4 (sheet Dam row 16).</summary>
     public IReadOnlyList<KataBarItem> TopExtraLayer4 { get; init; } = Array.Empty<KataBarItem>();
 
+    /// <summary>
+    /// Additional top bars of rows 13-16 split by side: a cell "left;right" gives the bars reaching into the
+    /// span on each side, a cell without ';' the same bars on both sides. Index 0 = row 13.
+    /// </summary>
+    public IReadOnlyList<KataSideBars> TopExtraSides { get; init; } = Array.Empty<KataSideBars>();
+
     /// <summary>Convenience accessor for all 4 top extra bar layers.</summary>
     public IReadOnlyList<IReadOnlyList<KataBarItem>> AllTopExtraLayers =>
         new[] { TopExtraLayer1, TopExtraLayer2, TopExtraLayer3, TopExtraLayer4 };

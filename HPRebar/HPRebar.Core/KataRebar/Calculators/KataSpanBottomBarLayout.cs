@@ -5,10 +5,13 @@ using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
 
-/// <summary>Additional bottom bars of the spans (rows 17-18), cut at a fixed L/7 from the support faces.</summary>
-public static partial class KataAdditionalBarLayout
+/// <summary>
+/// Additional bottom bars of the spans (rows 17-18), cut at a fixed L/7 from the support faces. Not drawn in
+/// Revit yet: the cut-off rule still has to be settled.
+/// </summary>
+public static class KataSpanBottomBarLayout
 {
-    private static List<KataRebarCurve> BuildBottom(
+    public static List<KataRebarCurve> Build(
         KataBeamRebarSpec spec,
         KataDetailingRules rules,
         KataBeamStations st,

@@ -36,6 +36,9 @@ public sealed record KataRebarLayoutResult
     /// <summary>Informative warnings and geometry discrepancy notes.</summary>
     public IReadOnlyList<string> Warnings { get; init; } = Array.Empty<string>();
 
+    /// <summary>Layouts that cannot be built (e.g. more layers than the beam depth holds); nothing is drawn.</summary>
+    public IReadOnlyList<string> Blocking { get; init; } = Array.Empty<string>();
+
     /// <summary>True if calculation completed without fatal errors.</summary>
     public bool IsValid => Warnings.Count == 0;
 

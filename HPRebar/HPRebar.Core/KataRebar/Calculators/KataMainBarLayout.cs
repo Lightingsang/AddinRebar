@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.BeamRebar.Models;
 using HPRebar.Core.KataRebar.Models;
 
@@ -86,11 +87,41 @@ public static class KataMainBarLayout
         double minimumLeg = rules.MinimumLegFactor * dBot;
         var end = Solve(st, support, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, 0.0);
 
-        if (spec.TopContinuous.IsEmpty || !KataAnchorage.LegsOverlap(topEnd, end, legRoom))
-            return end;
+        // The bottom leg moves inboard of the innermost top leg it would overlap: the main bars' or an
+        // additional level's, whose bends already sit inboard by the level's inset.
+        double zBottom = -spec.Height + rules.BottomBarCentreDepth;
+        var tops = TopEndsAt(spec, rules, st, support, dTop, topEnd).ToList();
+        double inset = 0.0;
+        // A leg moved inboard gets longer and may then reach a deeper top level: check once more with it.
+        for (int pass = 0; pass < 2; pass++)
+        {
+            foreach (var (level, top) in tops)
+            {
+                if (KataAnchorage.LegsOverlap(top, end, level.Z - zBottom))
+                    inset = Math.Max(inset, level.Inset + KataAnchorage.BottomLegInset(level.Diameter, dBot, rules.MinimumLegGap));
+            }
 
-        double inset = KataAnchorage.BottomLegInset(dTop, dBot, rules.MinimumLegGap);
-        return Solve(st, support, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, inset);
+            if (inset > 0.0) end = Solve(st, support, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, inset);
+        }
+
+        return end;
+    }
+
+    /// <summary>The top bends in an end support: the main bars' and those of each additional level on the span side.</summary>
+    private static IEnumerable<(KataTopLevel Level, KataBarEnd End)> TopEndsAt(
+        KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, double dTop, KataBarEnd mainEnd)
+    {
+        bool first = support == 0;
+        var levels = KataTopLayerStack.At(spec, rules, support, first ? 1 : -1);
+        if (!spec.TopContinuous.IsEmpty)
+            yield return (levels[0] with { Diameter = dTop }, mainEnd);
+
+        foreach (var level in levels)
+        {
+            var bars = KataTopLayerStack.Sides(spec, support, level.Row - KataTopLayerStack.FirstRow).Side(first);
+            if (bars.Count > 0)
+                yield return (level, KataSupportTopBarLayout.Anchor(spec, rules, st, support, level, bars));
+        }
     }
 
     private static KataBarEnd Solve(KataBeamStations st, int support, double cover, double required, double minimumLeg, double legRoom, double inset)

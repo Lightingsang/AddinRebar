@@ -47,9 +47,9 @@ public static class KataDamSheetParser
             : KataCutoffOrigin.FromColumnFace;
 
         string originL2Text = accessor.GetText("I3") ?? "";
-        var originL2 = originL2Text.IndexOf("mép", StringComparison.OrdinalIgnoreCase) >= 0
-            ? KataCutoffOrigin.FromColumnFace
-            : KataCutoffOrigin.FromColumnCenter;
+        var originL2 = originL2Text.IndexOf("tâm", StringComparison.OrdinalIgnoreCase) >= 0
+            ? KataCutoffOrigin.FromColumnCenter
+            : KataCutoffOrigin.FromColumnFace;
 
         var (coverMain, coverStirrup) = KataBarNotationParser.ParseCover(accessor.GetText("J9"));
 
@@ -180,6 +180,13 @@ public static class KataDamSheetParser
         var topL2 = KataBarNotationParser.ParseBarList(accessor.GetText(14, col), defaultLayer: 2);
         var topL3 = KataBarNotationParser.ParseBarList(accessor.GetText(15, col), defaultLayer: 3);
         var topL4 = KataBarNotationParser.ParseBarList(accessor.GetText(16, col), defaultLayer: 4);
+        var sides = new[]
+        {
+            KataBarNotationParser.ParseSides(accessor.GetText(13, col), 1),
+            KataBarNotationParser.ParseSides(accessor.GetText(14, col), 2),
+            KataBarNotationParser.ParseSides(accessor.GetText(15, col), 3),
+            KataBarNotationParser.ParseSides(accessor.GetText(16, col), 4)
+        };
 
         var (upperW, upperOffset) = KataBarNotationParser.ParsePair(accessor.GetText(19, col));
         double crossingW = accessor.GetDouble(20, col) ?? 0.0;
@@ -203,7 +210,8 @@ public static class KataDamSheetParser
             TopExtraLayer1 = topL1,
             TopExtraLayer2 = topL2,
             TopExtraLayer3 = topL3,
-            TopExtraLayer4 = topL4
+            TopExtraLayer4 = topL4,
+            TopExtraSides = sides
         };
     }
 

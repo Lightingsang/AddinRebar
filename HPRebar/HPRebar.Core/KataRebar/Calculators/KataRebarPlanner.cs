@@ -53,6 +53,7 @@ public static class KataRebarPlanner
         }
 
         warnings.AddRange(layout.Warnings);
+        blocking.AddRange(layout.Blocking);
 
         return new KataRebarPlan
         {

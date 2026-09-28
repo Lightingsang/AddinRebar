@@ -66,7 +66,9 @@ public static class KataRebarCalculator
         int barId = 1;
 
         var (mainTop, mainBottom) = KataMainBarLayout.Build(spec, rules, stations, warnings, ref barId);
-        var (extraTop, extraBottom) = KataAdditionalBarLayout.Build(spec, rules, stations, ref barId);
+        var blocking = new List<string>();
+        var extraTop = KataSupportTopBarLayout.Build(spec, rules, stations, warnings, blocking, ref barId);
+        var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, ref barId);
         var sideBars = KataSideBarLayout.Build(spec, rules, stations, ref barId);
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref barId);
 
@@ -81,6 +83,7 @@ public static class KataRebarCalculator
             StirrupZones = zones,
             IndividualStirrups = stirrups,
             Warnings = warnings,
+            Blocking = blocking,
             TotalSteelWeightKg = Math.Round(
                 WeightKg(mainTop) + WeightKg(mainBottom) + WeightKg(extraTop)
                 + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(stirrups), 2)

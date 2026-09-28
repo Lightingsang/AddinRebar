@@ -32,6 +32,13 @@ public sealed record KataDetailingRules
     /// <summary>Clear gap kept between a bottom-bar leg moved inboard and the top-bar leg beside it.</summary>
     public double MinimumLegGap { get; init; } = 25.0;
 
+    /// <summary>Smallest clear gap between two bar layers; the larger bar diameter wins when bigger.</summary>
+    public double LayerClearGap { get; init; } = 25.0;
+
+    /// <summary>Clear gap between two bar layers of the given diameters.</summary>
+    public double LayerGap(double upperDiameter, double lowerDiameter) =>
+        Math.Max(LayerClearGap, Math.Max(upperDiameter, lowerDiameter));
+
     /// <summary>First and last stirrup of a span, measured from the support faces.</summary>
     public double FirstStirrupOffset { get; init; } = 50.0;
 

@@ -32,12 +32,12 @@ public static class KataRebarLog
             rules.BottomAnchorageFactor,
             stirrupShape?.Name ?? "(none: single bars)");
 
-        foreach (var bar in plan.Layout.MainTopBars.Concat(plan.Layout.MainBottomBars).GroupBy(b => b.Role))
+        foreach (var bar in plan.Layout.MainTopBars.Concat(plan.Layout.MainBottomBars).Concat(plan.Layout.ExtraTopBars).GroupBy(b => b.BarMark))
         {
             var first = bar.First();
             Log.Information(
-                "Kata Rebar: {Role} {Count}Ø{Dia} x {Start:0}→{End:0} legs {StartLeg:0}/{EndLeg:0}",
-                bar.Key, bar.Count(), first.Diameter,
+                "Kata Rebar: mark {Mark} {Count}Ø{Dia} z={Z:0} x {Start:0}→{End:0} legs {StartLeg:0}/{EndLeg:0}",
+                bar.Key, bar.Count(), first.Diameter, first.Polyline.Points[first.StartHookLength > 0 ? 1 : 0].Z,
                 first.Polyline.Points[0].X, first.Polyline.Points[first.Polyline.Points.Count - 1].X,
                 first.StartHookLength, first.EndHookLength);
         }
