@@ -11,6 +11,9 @@ public sealed record KataSupportRebarSpec
     /// <summary>0-based index of this support along the beam run.</summary>
     public int SupportIndex { get; init; }
 
+    /// <summary>1-based sheet column this entry was read from (3 = C); 0 when the spec was not read from a sheet.</summary>
+    public int SheetColumn { get; init; }
+
     /// <summary>Column/support width along beam axis in mm (sheet Dam row 11). 0 indicates cantilever tip or free end.</summary>
     public double ColumnWidth { get; init; }
 

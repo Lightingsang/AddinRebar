@@ -38,6 +38,12 @@ public sealed record KataStirrupZoneResult
     /// <summary>Outer height of the stirrup loop in mm (BeamHeight - 2 * CoverStirrup).</summary>
     public double OutToOutHeight { get; init; }
 
+    /// <summary>Transverse coordinate of the stirrup's outer face on the -Y side in mm (beam centre = 0).</summary>
+    public double BoxMinY { get; init; }
+
+    /// <summary>Vertical coordinate of the stirrup's outer face at the bottom in mm (beam top = 0).</summary>
+    public double BoxMinZ { get; init; }
+
     /// <summary>Stirrup shape type (Closed hoop, Cap U, Cross tie C).</summary>
     public KataStirrupShapeType StirrupType { get; init; } = KataStirrupShapeType.ClosedHoop;
 

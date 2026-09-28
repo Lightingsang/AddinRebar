@@ -1,518 +1,205 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Structure;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using HPRebar.Core.KataRebar.Parsers;
-using HPRebar.KataRebar.Excel;
 using HPRebar.KataRebar.Model;
 using HPRebar.KataRebar.Service;
-using Microsoft.Win32;
 using Serilog;
-using RevitUnits = HPRebar.KataExport.Service.RevitUnits;
 
 namespace HPRebar.KataRebar.ViewModel;
 
-public sealed record KataSpanPreviewItem
-{
-    public int SpanNumber { get; init; }
-    public double LeftColumnWidthMm { get; init; }
-    public double ClearSpanLengthMm { get; init; }
-    public double RightColumnWidthMm { get; init; }
-    public string StirrupSpacing { get; init; } = "";
-    public string TopDrop { get; init; } = "";
-    public string SoffitDrop { get; init; } = "";
-}
-
-public sealed record KataBarLayerPreviewItem
-{
-    public string Category { get; init; } = "";
-    public string Location { get; init; } = "";
-    public string Notation { get; init; } = "";
-    public int Count { get; init; }
-    public double DiameterMm { get; init; }
-    public string Details { get; init; } = "";
-}
-
+/// <summary>
+/// Kata Rebar window: reads sheet 'Dam' of the open Kata workbook, measures the picked beam, previews the
+/// plan (bars, stirrup zones, what blocks and what is left out) and asks Revit to draw it.
+/// </summary>
 public sealed partial class KataRebarViewModel : ObservableObject
 {
     private readonly IKataRebarRunner _runner;
-    private readonly Document _document;
     private readonly KataRebarTypeResolver _typeResolver;
-    private KataBeamMatchResult? _matchResult;
     private KataBeamRebarSpec? _spec;
-    private KataRebarLayoutResult? _layout;
-    private IReadOnlyList<ElementId> _selectedBeamIds;
+    private KataBeamMatchResult? _match;
+    private IReadOnlyList<ElementId> _beamIds;
 
     public event Action? CloseRequested;
 
-    [ObservableProperty] private string _excelSourcePath = string.Empty;
-    [ObservableProperty] private bool _isComActive;
-    [ObservableProperty] private string _activeWorkbookName = string.Empty;
+    [ObservableProperty] private string _workbookName = "(chưa đọc)";
     [ObservableProperty] private string _beamName = string.Empty;
     [ObservableProperty] private string _dimensionsText = string.Empty;
     [ObservableProperty] private string _levelText = string.Empty;
-    [ObservableProperty] private string _totalLengthText = string.Empty;
     [ObservableProperty] private string _spansCountText = string.Empty;
+    [ObservableProperty] private string _totalLengthText = string.Empty;
     [ObservableProperty] private string _steelWeightText = string.Empty;
-    [ObservableProperty] private string _totalBarsCountText = string.Empty;
-
+    [ObservableProperty] private string _matchStatusText = "Chưa chọn dầm trong Revit";
     [ObservableProperty] private IReadOnlyList<KataBarTypeMappingItem> _barTypeMappings = Array.Empty<KataBarTypeMappingItem>();
     [ObservableProperty] private IReadOnlyList<KataSpanPreviewItem> _spansPreview = Array.Empty<KataSpanPreviewItem>();
     [ObservableProperty] private IReadOnlyList<KataStirrupZoneResult> _stirrupZonesPreview = Array.Empty<KataStirrupZoneResult>();
     [ObservableProperty] private IReadOnlyList<KataBarLayerPreviewItem> _barLayersPreview = Array.Empty<KataBarLayerPreviewItem>();
+    [ObservableProperty] private IReadOnlyList<string> _messages = Array.Empty<string>();
+    [ObservableProperty] private string _statusMessage = string.Empty;
+    [ObservableProperty] private bool _hasError;
 
-    [ObservableProperty] private bool _isBeamMatched;
-    [ObservableProperty] private string _matchStatusText = "Chưa kết nối dầm Revit";
-    [ObservableProperty] private IReadOnlyList<string> _warnings = Array.Empty<string>();
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(GenerateRebarCommand))]
+    private bool _canGenerate;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(GenerateRebarCommand), nameof(RepickBeamsCommand), nameof(RefreshFromExcelCommand))]
     private bool _isBusy;
 
-    [ObservableProperty] private string _statusMessage = string.Empty;
-    [ObservableProperty] private bool _hasError;
-
-    public KataRebarViewModel(
-        Document document,
-        IReadOnlyList<ElementId> initialBeamIds,
-        IKataRebarRunner runner)
+    public KataRebarViewModel(Document document, IReadOnlyList<ElementId> initialBeamIds, IKataRebarRunner runner)
     {
-        _document = document ?? throw new ArgumentNullException(nameof(document));
-        _selectedBeamIds = initialBeamIds ?? Array.Empty<ElementId>();
         _runner = runner ?? throw new ArgumentNullException(nameof(runner));
-        _typeResolver = new KataRebarTypeResolver(_document);
+        _typeResolver = new KataRebarTypeResolver(document ?? throw new ArgumentNullException(nameof(document)));
+        _beamIds = initialBeamIds ?? Array.Empty<ElementId>();
 
-        // Initial load from active Excel or prompt
-        LoadInitialData();
+        LoadSheet();
+        if (_beamIds.Count > 0) _ = MeasureAsync(_beamIds);
     }
 
-    public KataBeamRebarSpec? CurrentSpec => _spec;
-    public KataRebarLayoutResult? CurrentLayout => _layout;
-    public KataBeamMatchResult? CurrentMatchResult => _matchResult;
+    private bool IsIdle => !IsBusy;
 
-    private void LoadInitialData()
-    {
-        // 1. Try reading active Excel via COM
-        if (ComKataDamReader.TryReadActiveSheet(out var table, out var comError))
-        {
-            IsComActive = true;
-            ActiveWorkbookName = "Excel đang mở";
-            ExcelSourcePath = "Active Excel";
-            ParseAndCompute(table!);
-        }
-        else
-        {
-            IsComActive = false;
-            StatusMessage = string.IsNullOrEmpty(comError)
-                ? "Không phát hiện Excel đang mở chứa sheet 'Dam'. Hãy mở file Kata hoặc chọn file bên dưới."
-                : comError;
-        }
-    }
+    private bool CanRunGenerate => CanGenerate && !IsBusy;
 
-    [RelayCommand]
-    private void RefreshFromExcel()
-    {
-        if (IsBusy) return;
-        IsBusy = true;
-        StatusMessage = "Đang đọc lại dữ liệu sheet Dam...";
-        HasError = false;
+    [RelayCommand(CanExecute = nameof(IsIdle))]
+    private void RefreshFromExcel() => LoadSheet();
 
-        try
-        {
-            if (IsComActive && ComKataDamReader.TryReadActiveSheet(out var table, out _))
-            {
-                ActiveWorkbookName = "Excel đang mở";
-                ExcelSourcePath = "Active Excel";
-                ParseAndCompute(table!);
-                StatusMessage = "Đã tải dữ liệu từ Excel đang mở thành công.";
-            }
-            else if (!string.IsNullOrEmpty(ExcelSourcePath) && File.Exists(ExcelSourcePath))
-            {
-                if (ClosedXmlKataDamReader.TryReadFromFile(ExcelSourcePath, out var fileTable, out var fileErr))
-                {
-                    ParseAndCompute(fileTable!);
-                    StatusMessage = $"Đã tải dữ liệu từ file '{Path.GetFileName(ExcelSourcePath)}' thành công.";
-                }
-                else
-                {
-                    HasError = true;
-                    StatusMessage = fileErr ?? "Không đọc được file Excel.";
-                }
-            }
-            else
-            {
-                // Try active COM again
-                if (ComKataDamReader.TryReadActiveSheet(out var retryTable, out var retryErr))
-                {
-                    IsComActive = true;
-                    ActiveWorkbookName = "Excel đang mở";
-                    ExcelSourcePath = "Active Excel";
-                    ParseAndCompute(retryTable!);
-                    StatusMessage = "Đã phát hiện và tải dữ liệu từ Excel đang mở.";
-                }
-                else
-                {
-                    HasError = true;
-                    StatusMessage = retryErr ?? "Chưa có nguồn dữ liệu Excel hợp lệ.";
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            HasError = true;
-            StatusMessage = $"Lỗi khi đọc Excel: {ex.Message}";
-            Log.Error(ex, "Lỗi RefreshFromExcel");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-
-    [RelayCommand]
-    private void BrowseFile()
-    {
-        var dialog = new OpenFileDialog
-        {
-            Title = "Chọn file KATA Excel (.xlsm / .xlsx)",
-            Filter = "Excel Files (*.xlsm;*.xlsx)|*.xlsm;*.xlsx|All Files (*.*)|*.*",
-            CheckFileExists = true
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            ExcelSourcePath = dialog.FileName;
-            IsComActive = false;
-            ActiveWorkbookName = Path.GetFileName(dialog.FileName);
-
-            if (ClosedXmlKataDamReader.TryReadFromFile(dialog.FileName, out var table, out var error))
-            {
-                ParseAndCompute(table!);
-                StatusMessage = $"Đã đọc thành công file '{ActiveWorkbookName}'.";
-                HasError = false;
-            }
-            else
-            {
-                HasError = true;
-                StatusMessage = error ?? "Không đọc được file Excel đã chọn.";
-            }
-        }
-    }
-
-    private void ParseAndCompute(HPRebar.Core.KataRebar.Parsers.IKataDamCellAccessor accessor)
-    {
-        try
-        {
-            _spec = KataDamSheetParser.Parse(accessor);
-
-            BeamName = _spec.BeamName;
-            DimensionsText = $"{_spec.Width:0} × {_spec.Height:0} mm";
-            LevelText = !string.IsNullOrEmpty(_spec.LevelElevation) ? _spec.LevelElevation : "Theo mô hình";
-            SpansCountText = $"{_spec.Spans.Count} nhịp ({_spec.Supports.Count} gối)";
-
-            // Calculate 3D Rebar geometry
-            _layout = KataRebarCalculator.Calculate(_spec);
-            SteelWeightText = $"{_layout.TotalSteelWeightKg:0.#} kg";
-            TotalBarsCountText = $"{_layout.TotalBarCount} thanh/cụm";
-
-            double totalLen = _spec.Spans.Sum(s => s.Length) + _spec.Supports.Sum(s => s.ColumnWidth);
-            TotalLengthText = $"{totalLen:0} mm";
-
-            // Update UI Previews
-            BarTypeMappings = _typeResolver.BuildMappingItems(_spec);
-            SpansPreview = BuildSpansPreview(_spec);
-            StirrupZonesPreview = _layout.StirrupZones;
-            BarLayersPreview = BuildBarLayersPreview(_spec);
-
-            // Re-match Revit beams if already selected
-            if (_selectedBeamIds.Count > 0)
-            {
-                _ = TriggerMatchAsync(_selectedBeamIds);
-            }
-        }
-        catch (Exception ex)
-        {
-            HasError = true;
-            StatusMessage = $"Lỗi phân tích bảng tính Kata: {ex.Message}";
-            Log.Error(ex, "Lỗi ParseAndCompute trong KataRebarViewModel");
-        }
-    }
-
-    private static IReadOnlyList<KataSpanPreviewItem> BuildSpansPreview(KataBeamRebarSpec spec)
-    {
-        var list = new List<KataSpanPreviewItem>();
-        for (int i = 0; i < spec.Spans.Count; i++)
-        {
-            var span = spec.Spans[i];
-            double leftCol = (i < spec.Supports.Count) ? spec.Supports[i].ColumnWidth : 0.0;
-            double rightCol = (i + 1 < spec.Supports.Count) ? spec.Supports[i + 1].ColumnWidth : 0.0;
-
-            string stirrupStr = $"d{spec.GlobalStirrup.Diameter:0} a{spec.GlobalStirrup.SupportSpacing:0}/{spec.GlobalStirrup.MidspanSpacing:0}";
-            if (span.StirrupOverride is not null)
-            {
-                stirrupStr += $" (riêng: a{span.StirrupOverride.SupportSpacing:0}/{span.StirrupOverride.MidspanSpacing:0})";
-            }
-
-            list.Add(new KataSpanPreviewItem
-            {
-                SpanNumber = i + 1,
-                LeftColumnWidthMm = leftCol,
-                ClearSpanLengthMm = span.Length,
-                RightColumnWidthMm = rightCol,
-                StirrupSpacing = stirrupStr,
-                TopDrop = span.TopDrop != 0.0 ? $"{span.TopDrop:+0;-0} mm" : "-",
-                SoffitDrop = span.SoffitDrop != 0.0 ? $"{span.SoffitDrop:+0;-0} mm" : "-"
-            });
-        }
-        return list;
-    }
-
-    private static IReadOnlyList<KataBarLayerPreviewItem> BuildBarLayersPreview(KataBeamRebarSpec spec)
-    {
-        var list = new List<KataBarLayerPreviewItem>();
-
-        if (!spec.TopContinuous.IsEmpty)
-        {
-            list.Add(new KataBarLayerPreviewItem
-            {
-                Category = "Thép chủ dọc",
-                Location = "Trên suốt dầm",
-                Notation = spec.TopContinuous.RawNotation,
-                Count = spec.TopContinuous.Count,
-                DiameterMm = spec.TopContinuous.Diameter,
-                Details = "Chạy suốt từ đầu dầm đến cuối dầm kèm neo gối biên 90°"
-            });
-        }
-
-        if (!spec.BottomContinuous.IsEmpty)
-        {
-            list.Add(new KataBarLayerPreviewItem
-            {
-                Category = "Thép chủ dọc",
-                Location = "Dưới suốt dầm",
-                Notation = spec.BottomContinuous.RawNotation,
-                Count = spec.BottomContinuous.Count,
-                DiameterMm = spec.BottomContinuous.Diameter,
-                Details = "Chạy suốt từ đầu dầm đến cuối dầm kèm neo gối biên 90°"
-            });
-        }
-
-        for (int i = 0; i < spec.Supports.Count; i++)
-        {
-            var supp = spec.Supports[i];
-            int layerIdx = 1;
-            foreach (var layerList in supp.AllTopExtraLayers)
-            {
-                foreach (var barItem in layerList)
-                {
-                    if (!barItem.IsEmpty)
-                    {
-                        list.Add(new KataBarLayerPreviewItem
-                        {
-                            Category = "Tăng cường gối (âm)",
-                            Location = $"Gối {i + 1} (L{layerIdx})",
-                            Notation = barItem.RawNotation,
-                            Count = barItem.Count,
-                            DiameterMm = barItem.Diameter,
-                            Details = $"Cắt L/{spec.TopCutoffRatioLayer1:0.##} hai bên gối"
-                        });
-                    }
-                }
-                layerIdx++;
-            }
-        }
-
-        for (int i = 0; i < spec.Spans.Count; i++)
-        {
-            var span = spec.Spans[i];
-            int layerIdx = 1;
-            foreach (var layerList in span.AllBottomExtraLayers)
-            {
-                foreach (var barItem in layerList)
-                {
-                    if (!barItem.IsEmpty)
-                    {
-                        list.Add(new KataBarLayerPreviewItem
-                        {
-                            Category = "Tăng cường nhịp (dương)",
-                            Location = $"Nhịp {i + 1} (L{layerIdx})",
-                            Notation = barItem.RawNotation,
-                            Count = barItem.Count,
-                            DiameterMm = barItem.Diameter,
-                            Details = "Cắt cách mép cột L/7"
-                        });
-                    }
-                }
-                layerIdx++;
-            }
-
-            foreach (var sideBar in span.SideBars)
-            {
-                if (!sideBar.IsEmpty)
-                {
-                    list.Add(new KataBarLayerPreviewItem
-                    {
-                        Category = "Thép giá / cấu tạo",
-                        Location = $"Nhịp {i + 1}",
-                        Notation = sideBar.RawNotation,
-                        Count = sideBar.Count,
-                        DiameterMm = sideBar.Diameter,
-                        Details = "Thép chống phình / co ngót theo nhịp"
-                    });
-                }
-            }
-        }
-
-        foreach (var sideBar in spec.GlobalSideBars)
-        {
-            if (!sideBar.IsEmpty)
-            {
-                list.Add(new KataBarLayerPreviewItem
-                {
-                    Category = "Thép giá chung",
-                    Location = "Toàn bộ dầm",
-                    Notation = sideBar.RawNotation,
-                    Count = sideBar.Count,
-                    DiameterMm = sideBar.Diameter,
-                    Details = "Thép mang hai bên thân dầm (h >= 700mm)"
-                });
-            }
-        }
-
-        return list;
-    }
-
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(IsIdle))]
     private async Task RepickBeams()
     {
-        if (IsBusy) return;
-        if (_spec is null)
+        await Busy("Chọn dầm trong Revit rồi bấm Finish...", async () =>
         {
-            StatusMessage = "Hãy nạp dữ liệu từ sheet Dam của Kata trước khi chọn dầm.";
-            return;
-        }
-
-        IsBusy = true;
-        StatusMessage = "Vui lòng chọn dải dầm trong Revit và nhấn Finish...";
-        try
-        {
-            var result = await _runner.RepickBeamsAsync(_spec);
-            if (result is not null && result.IsSuccess)
-            {
-                _matchResult = result;
-                _selectedBeamIds = result.OrderedBeams.Select(b => b.Id).ToList();
-                IsBeamMatched = true;
-                MatchStatusText = $"Đã khớp {result.OrderedBeams.Count} đoạn dầm (Cao độ đỉnh: {RevitUnits.FtToMm(result.BeamTopElevationFt):0} mm)";
-                Warnings = result.Warnings;
-                StatusMessage = "Đã khớp dầm thành công. Sẵn sàng tạo thép.";
-                HasError = false;
-            }
-            else if (result is not null)
-            {
-                IsBeamMatched = false;
-                MatchStatusText = "Không khớp dầm";
-                StatusMessage = result.Message;
-                HasError = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            HasError = true;
-            StatusMessage = $"Lỗi khi chọn dầm: {ex.Message}";
-            Log.Error(ex, "Lỗi RepickBeams");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+            var result = await _runner.PickBeamsAsync();
+            if (result is null)
+                Report("Đã huỷ chọn dầm.", false);
+            else
+                ApplyMatch(result);
+        });
     }
 
-    private async Task TriggerMatchAsync(IReadOnlyList<ElementId> beamIds)
-    {
-        if (_spec is null || beamIds.Count == 0) return;
-
-        try
-        {
-            var result = await _runner.MatchBeamsAsync(beamIds, _spec);
-            if (result is not null && result.IsSuccess)
-            {
-                _matchResult = result;
-                IsBeamMatched = true;
-                MatchStatusText = $"Đã khớp {result.OrderedBeams.Count} đoạn dầm ({result.TotalRunLengthMm:0} mm)";
-                Warnings = result.Warnings;
-            }
-            else if (result is not null)
-            {
-                IsBeamMatched = false;
-                MatchStatusText = result.Message;
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex, "Lỗi khi tự động khớp dầm");
-        }
-    }
-
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanRunGenerate))]
     private async Task GenerateRebar()
     {
-        if (IsBusy) return;
+        if (_spec is null) return;
 
-        if (_spec is null || _layout is null)
+        var unmatched = BarTypeMappings.Where(m => m.SelectedType is null).Select(m => $"{m.Role} Ø{m.DiameterMm:0.#}").ToList();
+        if (unmatched.Count > 0)
         {
-            StatusMessage = "Chưa có thông số thép từ bảng tính Kata.";
-            HasError = true;
+            Report($"Chưa có RebarBarType cho: {string.Join(", ", unmatched)}. Chọn kiểu khác trong bảng, hoặc tải kiểu thép vào dự án rồi đóng và mở lại cửa sổ Kata Rebar.", true);
             return;
         }
 
-        if (_matchResult is null || !_matchResult.IsSuccess || _matchResult.OrderedBeams.Count == 0)
+        var barTypeIds = BarTypeMappings.ToDictionary(m => m.DiameterMm, m => m.SelectedType!.Id);
+        await Busy("Đang vẽ thép trong Revit...", async () =>
         {
-            StatusMessage = "Chưa khớp dầm trong mô hình Revit. Vui lòng bấm 'Chọn dầm' trước.";
-            HasError = true;
+            var result = await _runner.GenerateAsync(_beamIds, _spec, barTypeIds);
+            string warnings = result.RevitWarnings.Count > 0 ? $" Revit cảnh báo {result.RevitWarnings.Count} lần (xem log)." : "";
+            Report(result.Message + warnings, !result.IsSuccess);
+        });
+    }
+
+    [RelayCommand]
+    private void Close() => CloseRequested?.Invoke();
+
+    private void LoadSheet()
+    {
+        var read = KataDamComReader.Read();
+        if (!read.IsSuccess)
+        {
+            ForgetSheet();
+            Report(read.Error, true);
             return;
         }
-
-        // Build resolved bar type dictionary from user overrides
-        var resolvedDict = new Dictionary<double, RebarBarType>();
-        foreach (var mapping in BarTypeMappings)
-        {
-            if (mapping.SelectedType?.BarType is not null)
-            {
-                resolvedDict[mapping.DiameterMm] = mapping.SelectedType.BarType;
-            }
-        }
-
-        IsBusy = true;
-        StatusMessage = "Đang tạo thép 3D trong Revit...";
-        HasError = false;
 
         try
         {
-            var genResult = await _runner.GenerateRebarAsync(_matchResult, _spec, _layout, resolvedDict);
+            _spec = KataDamSheetParser.Parse(read.Cells!);
+            WorkbookName = read.WorkbookName;
+            var plan = Replan();
+            BarTypeMappings = KeepChoices(_typeResolver.BuildMappingItems(plan.Spec), BarTypeMappings);
+            Report($"Đã đọc sheet Dam của '{read.WorkbookName}'.", false);
+        }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException)
+        {
+            Log.Error(ex, "Kata Rebar: sheet Dam could not be parsed");
+            ForgetSheet();
+            Report($"Không phân tích được sheet Dam: {ex.Message}", true);
+        }
+    }
 
-            if (genResult.IsSuccess)
-            {
-                StatusMessage = genResult.Message;
-                HasError = false;
-            }
-            else
-            {
-                StatusMessage = genResult.Message;
-                HasError = true;
-            }
+    /// <summary>A sheet that could not be read must not stay ready to draw.</summary>
+    private void ForgetSheet()
+    {
+        _spec = null;
+        WorkbookName = "(chưa đọc)";
+        BarTypeMappings = Array.Empty<KataBarTypeMappingItem>();
+        Replan();
+    }
+
+    /// <summary>Keeps the type the user picked for a diameter when the sheet is read again.</summary>
+    private static IReadOnlyList<KataBarTypeMappingItem> KeepChoices(IReadOnlyList<KataBarTypeMappingItem> fresh, IReadOnlyList<KataBarTypeMappingItem> previous)
+    {
+        foreach (var item in fresh)
+        {
+            var chosen = previous.FirstOrDefault(p => p.DiameterMm == item.DiameterMm)?.SelectedType;
+            if (chosen is not null) item.SelectedType = chosen;
+        }
+
+        return fresh;
+    }
+
+    private async Task MeasureAsync(IReadOnlyList<ElementId> beamIds)
+    {
+        await Busy("Đang đo dầm trong Revit...", async () => ApplyMatch(await _runner.MeasureBeamsAsync(beamIds)));
+    }
+
+    private void ApplyMatch(KataBeamMatchResult result)
+    {
+        _match = result;
+        if (result.IsSuccess) _beamIds = result.BeamIds;
+        MatchStatusText = result.IsSuccess ? result.Message : $"Không đo được dầm: {result.Message}";
+        Replan();
+        Report(CanGenerate ? "Sẵn sàng vẽ thép." : "Chưa vẽ được — xem tab Cảnh báo.", !CanGenerate);
+    }
+
+    /// <summary>Plans the sheet on the measured beam (or on the sheet alone before a pick) and refreshes the preview.</summary>
+    private KataRebarPlan Replan()
+    {
+        var measured = _match is { IsSuccess: true } ? _match.Measured : null;
+        var plan = KataRebarPlanner.Plan(_spec ?? new KataBeamRebarSpec(), measured);
+        var spec = plan.Spec;
+
+        BeamName = spec.BeamName;
+        DimensionsText = $"{spec.Width:0} × {spec.Height:0} mm";
+        LevelText = string.IsNullOrWhiteSpace(spec.LevelElevation) ? "-" : spec.LevelElevation;
+        SpansCountText = $"{spec.Spans.Count} nhịp ({spec.Supports.Count} gối)";
+        TotalLengthText = $"{spec.CalculateTotalLengthMm():0} mm";
+        SteelWeightText = $"{plan.Layout.TotalSteelWeightKg:0.#} kg";
+        SpansPreview = KataRebarPreviewBuilder.Spans(plan);
+        BarLayersPreview = KataRebarPreviewBuilder.Bars(plan);
+        StirrupZonesPreview = plan.Layout.StirrupZones;
+        Messages = _spec is null ? Array.Empty<string>() : KataRebarPreviewBuilder.Messages(plan, _match);
+        CanGenerate = _spec is not null && measured is not null && plan.CanGenerate;
+        return plan;
+    }
+
+    private async Task Busy(string status, Func<Task> work)
+    {
+        IsBusy = true;
+        Report(status, false);
+        try
+        {
+            await work();
         }
         catch (Exception ex)
         {
-            HasError = true;
-            StatusMessage = $"Lỗi khi tạo cốt thép: {ex.Message}";
-            Log.Error(ex, "Lỗi GenerateRebar");
+            Log.Error(ex, "Kata Rebar: window action failed");
+            Report($"Lỗi: {ex.Message}", true);
         }
         finally
         {
@@ -520,9 +207,9 @@ public sealed partial class KataRebarViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
-    private void Close()
+    private void Report(string message, bool isError)
     {
-        CloseRequested?.Invoke();
+        StatusMessage = message;
+        HasError = isError;
     }
 }

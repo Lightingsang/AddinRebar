@@ -11,6 +11,9 @@ public sealed record KataSpanRebarSpec
     /// <summary>0-based index of this span along the beam run.</summary>
     public int SpanIndex { get; init; }
 
+    /// <summary>1-based sheet column this entry was read from (3 = C); 0 when the spec was not read from a sheet.</summary>
+    public int SheetColumn { get; init; }
+
     /// <summary>Clear span length Ln in mm (sheet Dam row 11).</summary>
     public double Length { get; init; }
 

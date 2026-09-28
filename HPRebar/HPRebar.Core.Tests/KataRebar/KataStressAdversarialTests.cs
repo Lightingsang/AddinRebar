@@ -150,21 +150,21 @@ public class KataStressAdversarialTests
     [Theory]
     [InlineData("50/25", 50.0, 25.0)]
     [InlineData("30/20", 30.0, 20.0)]
-    [InlineData("30", 30.0, 25.0)]
+    [InlineData("30", 30.0, 0.0)]
     [InlineData("10/10", 10.0, 10.0)]
     [InlineData("100/50", 100.0, 50.0)]
-    [InlineData("0", 30.0, 25.0)]
-    [InlineData("-10", 30.0, 25.0)]
-    [InlineData("-10/-20", 30.0, 25.0)]
-    [InlineData("0/0", 30.0, 25.0)]
-    [InlineData("abc/def", 30.0, 25.0)]
-    [InlineData("///", 30.0, 25.0)]
-    [InlineData("", 30.0, 25.0)]
-    [InlineData(null, 30.0, 25.0)]
-    public void ParseCover_AdversarialInputs_ReturnsExpectedOrDefaults(
+    [InlineData("0", 0.0, 0.0)]
+    [InlineData("-10", 0.0, 0.0)]
+    [InlineData("-10/-20", 0.0, 0.0)]
+    [InlineData("0/0", 0.0, 0.0)]
+    [InlineData("abc/def", 0.0, 0.0)]
+    [InlineData("///", 0.0, 0.0)]
+    [InlineData("", 0.0, 0.0)]
+    [InlineData(null, 0.0, 0.0)]
+    public void ParseCover_AdversarialInputs_ReturnsGivenNumbersOrZero(
         string? text, double expMain, double expStirrup)
     {
-        var (cMain, cStirrup) = KataBarNotationParser.ParseCover(text, defaultMain: 30.0, defaultStirrup: 25.0);
+        var (cMain, cStirrup) = KataBarNotationParser.ParseCover(text);
         Assert.Equal(expMain, cMain);
         Assert.Equal(expStirrup, cStirrup);
     }
@@ -378,17 +378,18 @@ public class KataStressAdversarialTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        // Bar centres 25 + 8 + 8 = 41 mm from both faces leave 200 - 82 = 118 mm for a leg: every leg is
+        // clamped there and each end reports its anchorage shortfall.
+        Assert.Equal(4, result.Warnings.Count);
+        AssertOnlyAnchorageWarnings(result);
 
-        // Available hook height = 200 - 2*25 - 2*8 = 134 mm
-        // 90° hooks must be clamped to 134 mm
         var topBar = result.MainTopBars[0];
-        Assert.Equal(134.0, topBar.StartHookLength);
-        Assert.Equal(134.0, topBar.EndHookLength);
+        Assert.Equal(118.0, topBar.StartHookLength, 6);
+        Assert.Equal(118.0, topBar.EndHookLength, 6);
 
         var botBar = result.MainBottomBars[0];
-        Assert.Equal(134.0, botBar.StartHookLength);
-        Assert.Equal(134.0, botBar.EndHookLength);
+        Assert.Equal(118.0, botBar.StartHookLength, 6);
+        Assert.Equal(118.0, botBar.EndHookLength, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }
@@ -470,16 +471,17 @@ public class KataStressAdversarialTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // Stirrup out-to-out dimensions must match Width - 2*cover, Height - 2*cover
         var stZone = result.StirrupZones[0];
         Assert.Equal(400.0 - (2.0 * cover), stZone.OutToOutWidth);
         Assert.Equal(600.0 - (2.0 * cover), stZone.OutToOutHeight);
 
-        // Longitudinal start must be at 0.0 + cover
-        Assert.Equal(cover, result.MainTopBars[0].Polyline.Points[1].X);
-        Assert.Equal(5800.0 - cover, result.MainTopBars[0].Polyline.Points[2].X);
+        // The bars stop at the far column faces with their centre cover + Ø10 + Ø20/2 inside.
+        double centre = cover + 10.0 + 10.0;
+        Assert.Equal(centre, result.MainTopBars[0].Polyline.Points[1].X, 6);
+        Assert.Equal(5800.0 - centre, result.MainTopBars[0].Polyline.Points[2].X, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }
@@ -578,7 +580,7 @@ public class KataStressAdversarialTests
             BottomContinuous = new KataBarItem(2, 20.0)
         };
         var resLeft = KataRebarCalculator.Calculate(specLeft);
-        Assert.True(resLeft.IsValid);
+        AssertOnlyAnchorageWarnings(resLeft);
         AssertAllCurvesSimplifiedAndValid(resLeft);
 
         // 2. Right cantilever only
@@ -602,7 +604,7 @@ public class KataStressAdversarialTests
             BottomContinuous = new KataBarItem(2, 20.0)
         };
         var resRight = KataRebarCalculator.Calculate(specRight);
-        Assert.True(resRight.IsValid);
+        AssertOnlyAnchorageWarnings(resRight);
         AssertAllCurvesSimplifiedAndValid(resRight);
 
         // 3. Double cantilever (Both ends)
@@ -628,7 +630,7 @@ public class KataStressAdversarialTests
             BottomContinuous = new KataBarItem(2, 20.0)
         };
         var resBoth = KataRebarCalculator.Calculate(specBoth);
-        Assert.True(resBoth.IsValid);
+        AssertOnlyAnchorageWarnings(resBoth);
         AssertAllCurvesSimplifiedAndValid(resBoth);
     }
 
@@ -710,7 +712,7 @@ public class KataStressAdversarialTests
         };
 
         var result = KataRebarCalculator.Calculate(spec);
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
         AssertAllCurvesSimplifiedAndValid(result);
     }
 
@@ -736,7 +738,7 @@ public class KataStressAdversarialTests
         };
 
         var result = KataRebarCalculator.Calculate(spec);
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
         AssertAllCurvesSimplifiedAndValid(result);
     }
 
@@ -771,7 +773,7 @@ public class KataStressAdversarialTests
         };
 
         var result = KataRebarCalculator.Calculate(spec);
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
         AssertAllCurvesSimplifiedAndValid(result);
     }
 
@@ -804,13 +806,17 @@ public class KataStressAdversarialTests
         };
 
         var result = KataRebarCalculator.Calculate(spec);
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
         AssertAllCurvesSimplifiedAndValid(result);
     }
 
     #endregion
 
     #region Helper Assertion
+
+    /// <summary>The only warnings allowed are the anchorage shortfalls of shallow beams.</summary>
+    private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
+        Assert.All(result.Warnings, w => Assert.StartsWith("Neo thép chủ", w));
 
     private static void AssertAllCurvesSimplifiedAndValid(KataRebarLayoutResult result)
     {

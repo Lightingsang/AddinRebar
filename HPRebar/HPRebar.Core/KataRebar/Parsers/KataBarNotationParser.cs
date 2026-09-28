@@ -160,34 +160,23 @@ public static class KataBarNotationParser
     }
 
     /// <summary>
-    /// Parses concrete cover notation from cell J9 (e.g. '50/25', '30/20', '30').
-    /// Returns (CoverMain, CoverStirrup).
+    /// Parses cell J9 ("50/25", "30/20", "30"): the distance from the concrete face to the centre of the main
+    /// bars, then the clear cover of the stirrups. A number that is missing or not positive comes back as 0,
+    /// so the detailing rules can tell "not given" from a value.
     /// </summary>
-    public static (double CoverMain, double CoverStirrup) ParseCover(
-        string? text,
-        double defaultMain = 30.0,
-        double defaultStirrup = 25.0)
+    public static (double MainBarCentre, double StirrupCover) ParseCover(string? text)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return (defaultMain, defaultStirrup);
+            return (0.0, 0.0);
 
-        string clean = text!.Trim().Replace(" ", "");
-        string[] parts = clean.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-        if (parts.Length == 1)
-        {
-            if (double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double c) && c > 0)
-                return (c, defaultStirrup);
-        }
-        else if (parts.Length >= 2)
-        {
-            double cMain = double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double cm) && cm > 0 ? cm : defaultMain;
-            double cStirrup = double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double cs) && cs > 0 ? cs : defaultStirrup;
-            return (cMain, cStirrup);
-        }
-
-        return (defaultMain, defaultStirrup);
+        string[] parts = text!.Trim().Replace(" ", "").Split(new[] { '/' }, StringSplitOptions.None);
+        double main = parts.Length > 0 ? PositiveOrZero(parts[0]) : 0.0;
+        double stirrup = parts.Length > 1 ? PositiveOrZero(parts[1]) : 0.0;
+        return (main, stirrup);
     }
+
+    private static double PositiveOrZero(string token) =>
+        double.TryParse(token, NumberStyles.Float, CultureInfo.InvariantCulture, out double value) && value > 0 ? value : 0.0;
 
     /// <summary>
     /// Parses support dimension or section string from row 11 (e.g. '400', '300x500', '300*500').

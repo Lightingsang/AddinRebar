@@ -1,20 +1,27 @@
 using System;
+using System.Collections.Generic;
 
 namespace HPRebar.KataRebar.Model;
 
-/// <summary>
-/// Status and execution statistics resulting from generating 3D rebar elements in Revit.
-/// </summary>
+/// <summary>What one Kata Rebar run did to the model.</summary>
 public sealed class KataRebarGenerationResult
 {
     public bool IsSuccess { get; init; }
-    public string Message { get; init; } = "";
-    public int DeletedOldBarsCount { get; init; }
-    public int CreatedMainBarsCount { get; init; }
-    public int CreatedExtraBarsCount { get; init; }
-    public int CreatedSideBarsCount { get; init; }
-    public int CreatedStirrupsCount { get; init; }
 
-    public int TotalCreatedBarsCount =>
-        CreatedMainBarsCount + CreatedExtraBarsCount + CreatedSideBarsCount + CreatedStirrupsCount;
+    public string Message { get; init; } = "";
+
+    /// <summary>Bars of the previous run on the same beams, deleted first.</summary>
+    public int DeletedCount { get; init; }
+
+    public int MainBarCount { get; init; }
+
+    public int StirrupSetCount { get; init; }
+
+    /// <summary>Single stirrups drawn where a set could not be made.</summary>
+    public int StirrupSingleBarCount { get; init; }
+
+    /// <summary>Revit warnings cleared during the run (e.g. a bar reaching outside its host).</summary>
+    public IReadOnlyList<string> RevitWarnings { get; init; } = Array.Empty<string>();
+
+    public static KataRebarGenerationResult Failed(string message) => new() { IsSuccess = false, Message = message };
 }

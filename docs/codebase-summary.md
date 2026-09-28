@@ -203,6 +203,25 @@ Ribbon HPRebar ▸ Rebar ▸ Kata Export → KataExportCommand (selection | Pick
 - **Test:** `HPRebar.Core.Tests/KataExport` gồm segmenter, row builder, ca biên, ô Excel, mặt đứng và viewport. Ảnh ngoài Revit: `HPRebar/tools/theme-gallery` (`KataElevationGallery`, 5 cảnh dark/light).
 - **Live:** đã chạy 1 lần trên model BTCT thật, khớp phép đo độc lập (`reports/phase-06-live-verify.md`).
 
+## Feature: Kata Rebar (MVP)
+
+Chiều ngược của Kata Export: đọc sheet `Dam` của workbook Kata đang mở (COM, A1:BZ44) và vẽ thép cho **1 dầm 1 nhịp giữa 2 gối**: thép chủ B11/B12 (neo G2·d / G3·d, thẳng hoặc bẻ 90° ở mép xa gối), đai kín 3 vùng G7/G8 (G6), cover J9 (`a` tới tâm thép chủ / lớp bảo vệ đai). Plan `plans/260928-1259-kata-rebar-mvp/`, bảng ô + rule `reports/rule-table.md`.
+
+```text
+Ribbon HPRebar ▸ Rebar ▸ Kata Rebar → KataRebarCommand (selection) → cửa sổ modeless
+  → Service/KataDamComReader → HPRebar.Core/KataRebar: KataDamSheetParser (+ KataStirrupSectionParser)
+  → Service/KataBeamMatcher (KataRunReader + KataSupportCollector + KataSegmenter của Kata Export) → KataMeasuredBeam
+  → Core KataRebarPlanner: KataSheetGeometryCheck (2/50 mm, xuôi/ngược) → số đo Revit thay số sheet
+       → KataScopeFilter (Bỏ qua / Chặn theo địa chỉ ô) → KataDetailingRuleBuilder → KataRebarCalculator
+  → Generate (đo lại + plan lại) → KataRebarOrchestrator: TransactionGroup "Kata Rebar - {tên}" =
+       xoá thép cũ theo tag → KataStirrupSetCreator (bộ đai M_T1 + KataStirrupCoverFit) → thép chủ (CreateFromCurves)
+```
+
+- **Tag:** `Comments = HPRebar_Kata:{UniqueId dầm}`; chạy lại chỉ xoá thanh mang đúng tag, thanh vẽ tay không bị đụng.
+- **Bộ đai:** Revit ép bộ đai shape-driven về cover của host khi regenerate → `KataStirrupCoverFit` đặt lại khoảng cách tới cover từng cạnh = cover host − lớp đai sheet; kiểm đai đầu (hộp out-to-out ±3 mm) → lệch thì đai lẻ từ curves.
+- **Chưa vẽ (báo "Bỏ qua"):** gia cường hàng 13–18, giật cấp 19/21, cốt giá G4/G5 + hàng 20, đai trong hàng 25–44, bước đai riêng 22/23, hàng 24. **Chặn:** ≠ 1 nhịp, console, > 1 dầm, gối là dầm.
+- **Test:** `HPRebar.Core.Tests/KataRebar` (planner golden = live check). **Live:** Revit 2026.4 trên model nháp, 4 lần chạy + 3 case âm khớp golden (`reports/phase-live-verify.md`). R25/R24 chỉ compile.
+
 ## Multi-version
 
 2 block `#if` trong toàn bộ codebase, cả hai có comment `// Multi-version:`:

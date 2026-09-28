@@ -51,17 +51,35 @@ public sealed record KataBeamRebarSpec
     /// <summary>Origin for measuring Layer 2 cutoff distance (sheet Dam cell I3, default FromColumnCenter).</summary>
     public KataCutoffOrigin CutoffOriginLayer2 { get; init; } = KataCutoffOrigin.FromColumnCenter;
 
-    /// <summary>Clear concrete cover for main longitudinal bars in mm (sheet Dam cell J9, default 30mm).</summary>
-    public double CoverMain { get; init; } = 30.0;
+    /// <summary>
+    /// First number of cell J9: distance from the concrete face to the CENTRE of the main bars in mm.
+    /// 0 when J9 does not give it; the detailing rules then derive it from the stirrup cover.
+    /// </summary>
+    public double CoverMain { get; init; }
 
-    /// <summary>Clear concrete cover for stirrups in mm (sheet Dam cell J9, default 25mm).</summary>
-    public double CoverStirrup { get; init; } = 25.0;
+    /// <summary>
+    /// Second number of cell J9: clear cover to the outer face of the stirrups in mm.
+    /// 0 when J9 does not give it; the detailing rules then derive it from <see cref="CoverMain"/> or use 25 mm.
+    /// </summary>
+    public double CoverStirrup { get; init; }
 
     /// <summary>Top continuous longitudinal bars across all spans (sheet Dam cell B11, e.g. 6f25).</summary>
     public KataBarItem TopContinuous { get; init; } = KataBarItem.Empty;
 
     /// <summary>Bottom continuous longitudinal bars across all spans (sheet Dam cell B12, e.g. 6f25).</summary>
     public KataBarItem BottomContinuous { get; init; } = KataBarItem.Empty;
+
+    /// <summary>Every bar group written in B11 (a cell such as "2f20;2f16" holds more than one).</summary>
+    public IReadOnlyList<KataBarItem> TopMainItems { get; init; } = Array.Empty<KataBarItem>();
+
+    /// <summary>Every bar group written in B12.</summary>
+    public IReadOnlyList<KataBarItem> BottomMainItems { get; init; } = Array.Empty<KataBarItem>();
+
+    /// <summary>
+    /// Detailing cells that have no field of their own (reinforcement stirrup spacing, row 24 markers,
+    /// inner stirrups of rows 25-44), kept with their address so unsupported input can be reported.
+    /// </summary>
+    public IReadOnlyList<KataCellNote> DetailingNotes { get; init; } = Array.Empty<KataCellNote>();
 
     /// <summary>Global stirrup specification for the beam run (sheet Dam cells G6:G9, I8, rows 25-28).</summary>
     public KataStirrupSpec GlobalStirrup { get; init; } = new();

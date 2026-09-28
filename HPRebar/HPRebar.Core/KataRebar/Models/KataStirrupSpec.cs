@@ -31,9 +31,21 @@ public sealed record KataStirrupSpec
 }
 
 /// <summary>
-/// Specification for a single branch type in the composite stirrup assembly (rows 25-27).
+/// One stirrup of the composite stirrup assembly. The outer closed hoop is always present; rows 25-44 of
+/// each column pair add inner stirrups: the type in the left column ("Đai □", "Đai U", "Đai C") and the
+/// main bars it wraps in the right one ("3-4", "2").
 /// </summary>
+/// <param name="Position">Bars wrapped by an inner stirrup ("3-4"); "Outer" for the outer hoop.</param>
+/// <param name="Address">Cell holding the stirrup type, empty for the implied outer hoop.</param>
 public sealed record KataStirrupBranchSpec(
     KataStirrupShapeType ShapeType = KataStirrupShapeType.ClosedHoop,
-    string Position = ""
-);
+    string Position = "",
+    string Address = "")
+{
+    public const string OuterPosition = "Outer";
+
+    /// <summary>The outer closed hoop that every section has.</summary>
+    public static readonly KataStirrupBranchSpec Outer = new(KataStirrupShapeType.ClosedHoop, OuterPosition);
+
+    public bool IsOuterHoop => ShapeType == KataStirrupShapeType.ClosedHoop && Position == OuterPosition;
+}

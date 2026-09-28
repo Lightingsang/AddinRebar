@@ -97,11 +97,12 @@ public class KataRebarCalculatorTests
             Assert.Equal(4, bar.Polyline.Points.Count);
             var pts = bar.Polyline.Points;
 
-            // X station runs from cover to total - cover
-            Assert.Equal(25.0, pts[0].X); // Support 0 left face + cover
-            Assert.Equal(25.0, pts[1].X);
-            Assert.Equal(6775.0, pts[2].X); // 6800 - 25
-            Assert.Equal(6775.0, pts[3].X);
+            // The 400 mm column cannot hold 40d = 800 straight: the bar runs to the far face (centre 43 mm
+            // from it) and bends down with a leg supplying the rest: 800 − (400 − 43) = 443.
+            Assert.Equal(43.0, pts[0].X);
+            Assert.Equal(43.0, pts[1].X);
+            Assert.Equal(6757.0, pts[2].X);
+            Assert.Equal(6757.0, pts[3].X);
 
             // Z: top elevation is 0. Z bar = 0 - 25 - 8 - 10 = -43 mm
             Assert.Equal(-43.0, pts[1].Z);
@@ -110,9 +111,8 @@ public class KataRebarCalculatorTests
             Assert.True(pts[0].Z < pts[1].Z);
             Assert.True(pts[3].Z < pts[2].Z);
 
-            // Hook length = min(600 - 2*25 - 2*8, max(30*20, 200)) = min(534, 600) = 534
-            Assert.Equal(534.0, bar.StartHookLength);
-            Assert.Equal(534.0, bar.EndHookLength);
+            Assert.Equal(443.0, bar.StartHookLength, 6);
+            Assert.Equal(443.0, bar.EndHookLength, 6);
         }
 
         // 2. Transverse Y centering of 3 top bars
@@ -137,6 +137,13 @@ public class KataRebarCalculatorTests
             // Hook bends upwards
             Assert.True(pts[0].Z > pts[1].Z);
             Assert.True(pts[3].Z > pts[2].Z);
+
+            // 30d = 600 would give a 243 mm leg overlapping the 443 mm top leg (room 514), so the bottom leg
+            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 43 − 45) = 288.
+            Assert.Equal(88.0, pts[0].X, 6);
+            Assert.Equal(6712.0, pts[3].X, 6);
+            Assert.Equal(288.0, bar.StartHookLength, 6);
+            Assert.Equal(288.0, bar.EndHookLength, 6);
         }
 
         // 4. 3-Zone Stirrups
@@ -259,9 +266,10 @@ public class KataRebarCalculatorTests
         Assert.Equal(6, result.MainTopBars.Count);
         Assert.Equal(6, result.MainBottomBars.Count);
 
-        // Total beam length: 400 + 10400 + 400 + 6500 + 400 = 18,100 mm
-        double expectedStart = 25.0;
-        double expectedEnd = 18100.0 - 25.0;
+        // Total beam length: 400 + 10400 + 400 + 6500 + 400 = 18,100 mm. The 400 mm end columns cannot hold
+        // 40d straight, so the bars stop at the far faces with their centre 25 + 10 + 25/2 = 47.5 mm inside.
+        double expectedStart = 47.5;
+        double expectedEnd = 18100.0 - 47.5;
         Assert.Equal(expectedStart, result.MainTopBars[0].Polyline.Points[1].X);
         Assert.Equal(expectedEnd, result.MainTopBars[0].Polyline.Points[2].X);
 
@@ -368,7 +376,7 @@ public class KataRebarCalculatorTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // Top Continuous: extends into cantilever tip (X = 25 mm) with 90° hook down
         Assert.Equal(2, result.MainTopBars.Count);
@@ -644,21 +652,23 @@ public class KataRebarCalculatorTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        AssertOnlyAnchorageWarnings(result);
 
         // Top Continuous: reaches right cantilever end with 90° hook down
         // Total length = 400 + 5000 + 400 + 1800 + 0 = 7600 mm
         Assert.Equal(3, result.MainTopBars.Count);
+        // Left end in a 400 mm column: bar centre 25 + 10 + 10 = 45 mm from the far face.
         var topBar = result.MainTopBars[0];
-        Assert.Equal(25.0, topBar.Polyline.Points[1].X);
+        Assert.Equal(45.0, topBar.Polyline.Points[1].X);
         Assert.Equal(7600.0 - 25.0, topBar.Polyline.Points[2].X);
         Assert.Equal(HookAngle.Hook90, topBar.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, topBar.EndHookAngle);
 
         // Bottom Continuous: starts at Support 0 (exterior hook 90°), stops at Support 1 right face (X = 5800 mm, no hook)
         Assert.Equal(3, result.MainBottomBars.Count);
+        // Its leg would overlap the top-bar leg, so it moves inboard by (20 + 20)/2 + 25 = 45 mm.
         var botBar = result.MainBottomBars[0];
-        Assert.Equal(25.0, botBar.Polyline.Points[1].X);
+        Assert.Equal(90.0, botBar.Polyline.Points[1].X);
         Assert.Equal(5800.0, botBar.Polyline.Points[2].X);
         Assert.Equal(HookAngle.Hook90, botBar.StartHookAngle);
         Assert.Equal(HookAngle.None, botBar.EndHookAngle);
@@ -830,4 +840,11 @@ public class KataRebarCalculatorTests
             Assert.True(spacing > 0.0, $"Stirrup stations overlapped at {allStations[i]}");
         }
     }
+
+    /// <summary>
+    /// A 500-600 mm beam cannot fit a 40d leg for Ø20 bars: the only warnings allowed are the anchorage
+    /// shortfalls the layout reports.
+    /// </summary>
+    private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
+        Assert.All(result.Warnings, w => Assert.StartsWith("Neo thép chủ", w));
 }

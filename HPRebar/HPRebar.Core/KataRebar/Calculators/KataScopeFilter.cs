@@ -1,0 +1,123 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using HPRebar.Core.KataRebar.Models;
+using HPRebar.Core.KataRebar.Parsers;
+
+namespace HPRebar.Core.KataRebar.Calculators;
+
+/// <summary>What this version draws out of a spec, and the sheet input it leaves out.</summary>
+public sealed record KataScopeResult(
+    KataBeamRebarSpec Filtered,
+    IReadOnlyList<string> Skipped,
+    IReadOnlyList<string> Blocking);
+
+/// <summary>
+/// Limits a spec to what Kata Rebar draws today: one span between two supports, the first bar group of B11
+/// and B12, and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
+/// so the user knows what the model does not contain yet; a run shape this version cannot draw blocks.
+/// </summary>
+public static class KataScopeFilter
+{
+    private const string NotSupported = "chưa hỗ trợ, không vẽ";
+
+    public static KataScopeResult Apply(KataBeamRebarSpec spec)
+    {
+        if (spec is null) throw new ArgumentNullException(nameof(spec));
+
+        var skipped = new List<string>();
+        var blocking = new List<string>();
+
+        if (spec.Spans.Count != 1)
+            blocking.Add($"Sheet có {spec.Spans.Count} nhịp; bản này mới vẽ dầm 1 nhịp giữa 2 gối.");
+
+        if (spec.Supports.Count != 2 || spec.Supports.Any(s => s.ColumnWidth <= 0.0))
+            blocking.Add("Hai đầu nhịp phải là gối có bề rộng > 0; console và điểm nối chưa hỗ trợ.");
+
+        if (spec.TopContinuous.IsEmpty && spec.BottomContinuous.IsEmpty && spec.GlobalStirrup.Diameter <= 0.0)
+            blocking.Add("B11, B12 trống và G6 không có đường kính đai: không có gì để vẽ.");
+
+        ReportExtraItems(skipped, "B11", spec.TopMainItems, "nhóm thép chủ trên thứ 2 trở đi");
+        ReportExtraItems(skipped, "B12", spec.BottomMainItems, "nhóm thép chủ dưới thứ 2 trở đi");
+
+        foreach (var support in spec.Supports)
+        {
+            for (int layer = 0; layer < 4; layer++)
+                Report(skipped, Cell(13 + layer, support.SheetColumn), support.AllTopExtraLayers[layer], $"thép gia cường trên lớp {layer + 1}");
+        }
+
+        foreach (var span in spec.Spans)
+        {
+            Report(skipped, Cell(18, span.SheetColumn), span.BottomExtraLayer1, "thép gia cường dưới lớp 1");
+            Report(skipped, Cell(17, span.SheetColumn), span.BottomExtraLayer2, "thép gia cường dưới lớp 2");
+            if (span.TopDrop != 0.0 || span.TopDropBars.Count > 0)
+                skipped.Add($"{Cell(19, span.SheetColumn)} '{Step(span.TopDrop, span.TopDropBars)}': giật mép trên / đổi thép chịu lực trên — {NotSupported}.");
+            if (span.SoffitDrop != 0.0 || span.SoffitDropBars.Count > 0)
+                skipped.Add($"{Cell(21, span.SheetColumn)} '{Step(span.SoffitDrop, span.SoffitDropBars)}': giật mép dưới / đổi thép chịu lực dưới — {NotSupported}.");
+            Report(skipped, Cell(20, span.SheetColumn), span.SideBars, "cốt giá của nhịp");
+            if (span.StirrupOverride is not null)
+                skipped.Add($"{Cell(22, span.SheetColumn)}: bước đai riêng của nhịp — {NotSupported}; dùng G7/G8.");
+        }
+
+        if (spec.GlobalSideBars.Count > 0)
+            skipped.Add($"G4/G5 '{spec.GlobalSideBars.Count} lớp Ø{spec.GlobalSideBars[0].Diameter:0}': cốt giá — {NotSupported}.");
+
+        foreach (var note in spec.DetailingNotes)
+            skipped.Add($"{note.Address} '{note.Text}': {note.Meaning} — {NotSupported}.");
+
+        return new KataScopeResult(Filter(spec), skipped, blocking);
+    }
+
+    private static KataBeamRebarSpec Filter(KataBeamRebarSpec spec) => spec with
+    {
+        TopMainItems = Single(spec.TopContinuous),
+        BottomMainItems = Single(spec.BottomContinuous),
+        GlobalSideBars = Array.Empty<KataBarItem>(),
+        GlobalStirrup = spec.GlobalStirrup with
+        {
+            EndSupportSpacing = null,
+            Branches = new[] { KataStirrupBranchSpec.Outer }
+        },
+        Supports = spec.Supports.Select(s => s with
+        {
+            TopExtraLayer1 = Array.Empty<KataBarItem>(),
+            TopExtraLayer2 = Array.Empty<KataBarItem>(),
+            TopExtraLayer3 = Array.Empty<KataBarItem>(),
+            TopExtraLayer4 = Array.Empty<KataBarItem>()
+        }).ToList(),
+        Spans = spec.Spans.Select(s => s with
+        {
+            BottomExtraLayer1 = Array.Empty<KataBarItem>(),
+            BottomExtraLayer2 = Array.Empty<KataBarItem>(),
+            SideBars = Array.Empty<KataBarItem>(),
+            StirrupOverride = null,
+            TopDrop = 0.0,
+            SoffitDrop = 0.0,
+            TopDropBars = Array.Empty<KataBarItem>(),
+            SoffitDropBars = Array.Empty<KataBarItem>()
+        }).ToList()
+    };
+
+    private static IReadOnlyList<KataBarItem> Single(KataBarItem item) =>
+        item.IsEmpty ? Array.Empty<KataBarItem>() : new[] { item };
+
+    private static void ReportExtraItems(List<string> skipped, string address, IReadOnlyList<KataBarItem> items, string meaning)
+    {
+        if (items.Count > 1)
+            skipped.Add($"{address} '{Notation(items.Skip(1))}': {meaning} — {NotSupported}.");
+    }
+
+    private static void Report(List<string> skipped, string address, IReadOnlyList<KataBarItem> items, string meaning)
+    {
+        if (items.Count > 0)
+            skipped.Add($"{address} '{Notation(items)}': {meaning} — {NotSupported}.");
+    }
+
+    private static string Notation(IEnumerable<KataBarItem> items) => string.Join(";", items.Select(i => i.ToString()));
+
+    private static string Step(double offset, IReadOnlyList<KataBarItem> bars) =>
+        bars.Count == 0 ? $"{offset:0}" : $"{offset:0};{Notation(bars)}";
+
+    private static string Cell(int row, int sheetColumn) =>
+        sheetColumn > 0 ? KataDamCellAccessorExtensions.ToAddress(row, sheetColumn) : $"hàng {row}";
+}

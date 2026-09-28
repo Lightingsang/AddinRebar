@@ -132,11 +132,12 @@ public class KataBarNotationParserTests
     [Theory]
     [InlineData("50/25", 50.0, 25.0)]
     [InlineData("30/20", 30.0, 20.0)]
-    [InlineData("30", 30.0, 25.0)]
-    [InlineData(null, 30.0, 25.0)]
-    public void ParseCover_VariousStrings_ReturnsExpectedCovers(string? text, double expMain, double expStirrup)
+    [InlineData("30", 30.0, 0.0)]
+    [InlineData("/25", 0.0, 25.0)]
+    [InlineData(null, 0.0, 0.0)]
+    public void ParseCover_VariousStrings_ReturnsGivenNumbersAndZeroForMissing(string? text, double expMain, double expStirrup)
     {
-        var (cMain, cStirrup) = KataBarNotationParser.ParseCover(text, defaultMain: 30.0, defaultStirrup: 25.0);
+        var (cMain, cStirrup) = KataBarNotationParser.ParseCover(text);
 
         Assert.Equal(expMain, cMain);
         Assert.Equal(expStirrup, cStirrup);

@@ -46,6 +46,19 @@ public static class KataDamCellAccessorExtensions
         return null;
     }
 
+    /// <summary>A1-style address of a 1-based (row, col), e.g. (11, 3) → "C11".</summary>
+    public static string ToAddress(int row, int col)
+    {
+        if (row < 1) throw new System.ArgumentOutOfRangeException(nameof(row), row, "Rows start at 1.");
+        if (col < 1) throw new System.ArgumentOutOfRangeException(nameof(col), col, "Columns start at 1.");
+
+        string letters = string.Empty;
+        for (int number = col; number > 0; number = (number - 1) / 26)
+            letters = (char)('A' + (number - 1) % 26) + letters;
+
+        return letters + row.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    }
+
     /// <summary>Parses an A1-style cell reference (e.g. "C11", "BZ23") into 1-based (row, col).</summary>
     public static bool TryParseAddress(string cellAddress, out int row, out int col)
     {

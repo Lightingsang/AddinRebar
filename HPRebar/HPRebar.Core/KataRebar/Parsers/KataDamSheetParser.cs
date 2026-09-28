@@ -51,8 +51,7 @@ public static class KataDamSheetParser
             ? KataCutoffOrigin.FromColumnFace
             : KataCutoffOrigin.FromColumnCenter;
 
-        string? coverText = accessor.GetText("J9");
-        var (coverMain, coverStirrup) = KataBarNotationParser.ParseCover(coverText, defaultMain: 30.0, defaultStirrup: 25.0);
+        var (coverMain, coverStirrup) = KataBarNotationParser.ParseCover(accessor.GetText("J9"));
 
         // 3. Global Stirrup (G6:G9, I8, Rows 25-27)
         double stirrupDia = accessor.GetDouble("G6") ?? 10.0;
@@ -60,10 +59,11 @@ public static class KataDamSheetParser
         string? g8Text = accessor.GetText("G8");
         var (sDense, _, _) = KataBarNotationParser.ParseStirrupSpacing(g7Text, 150.0, 150.0);
         var (_, sMid, _) = KataBarNotationParser.ParseStirrupSpacing(g8Text, 200.0, 200.0);
-        double sCantilever = accessor.GetDouble("G9") ?? 150.0;
+        var (sCantilever, _, _) = KataBarNotationParser.ParseStirrupSpacing(accessor.GetText("G9"), 150.0, 150.0);
         int defaultLegCount = accessor.GetInt("I8") ?? 2;
 
-        var branches = ParseStirrupBranches(accessor);
+        var notes = new List<KataCellNote>();
+        var branches = KataStirrupSectionParser.Parse(accessor, FirstDataColumn, MaxDataColumn, notes);
         var globalStirrup = new KataStirrupSpec
         {
             Diameter = stirrupDia,
@@ -97,24 +97,16 @@ public static class KataDamSheetParser
         var supports = new List<KataSupportRebarSpec>();
         var spans = new List<KataSpanRebarSpec>();
 
-        int consecutiveEmptyCols = 0;
         int supportIdx = 0;
         int spanIdx = 0;
 
+        // Kata's own save/load macros walk row 11 from C and stop at its first empty cell; the "Cột"/"Nhịp"
+        // captions of row 10 run across the whole template, so they cannot end the list.
         for (int col = FirstDataColumn; col <= MaxDataColumn; col++)
         {
             string? headerTag = accessor.GetText(10, col)?.Trim();
-            string? row11Text = accessor.GetText(11, col)?.Trim();
-
-            bool isColEmpty = string.IsNullOrEmpty(headerTag) && string.IsNullOrEmpty(row11Text);
-            if (isColEmpty)
-            {
-                consecutiveEmptyCols++;
-                if (consecutiveEmptyCols >= 2)
-                    break;
-                continue;
-            }
-            consecutiveEmptyCols = 0;
+            if (string.IsNullOrEmpty(accessor.GetText(11, col)?.Trim()))
+                break;
 
             // Determine if column is Support or Span:
             // In Kata, odd column index (C=3, E=5, G=7...) is Support; even (D=4, F=6...) is Span.
@@ -136,12 +128,12 @@ public static class KataDamSheetParser
 
             if (isSupport)
             {
-                var supp = ParseSupport(accessor, col, supportIdx++);
+                var supp = ParseSupport(accessor, col, supportIdx++, notes);
                 supports.Add(supp);
             }
             else
             {
-                var span = ParseSpan(accessor, col, spanIdx++, globalStirrup);
+                var span = ParseSpan(accessor, col, spanIdx++, globalStirrup, notes);
                 spans.Add(span);
             }
         }
@@ -166,6 +158,9 @@ public static class KataDamSheetParser
             CoverStirrup = coverStirrup,
             TopContinuous = topContinuous,
             BottomContinuous = botContinuous,
+            TopMainItems = topBars,
+            BottomMainItems = botBars,
+            DetailingNotes = notes,
             GlobalStirrup = globalStirrup,
             GlobalSideBars = globalSideBars,
             Supports = supports,
@@ -173,7 +168,7 @@ public static class KataDamSheetParser
         };
     }
 
-    private static KataSupportRebarSpec ParseSupport(IKataDamCellAccessor accessor, int col, int supportIndex)
+    private static KataSupportRebarSpec ParseSupport(IKataDamCellAccessor accessor, int col, int supportIndex, List<KataCellNote> notes)
     {
         string? row11 = accessor.GetText(11, col);
         var (width, _) = KataBarNotationParser.ParseSupportDimension(row11);
@@ -191,10 +186,12 @@ public static class KataDamSheetParser
         double crossingOffset = accessor.GetDouble(21, col) ?? 0.0;
         string gridName = accessor.GetText(22, col) ?? "";
         double gridOffset = accessor.GetDouble(23, col) ?? 0.0;
+        Note(accessor, notes, 24, col, "đai chống xoắn / đai gia cường tại gối");
 
         return new KataSupportRebarSpec
         {
             SupportIndex = supportIndex,
+            SheetColumn = col,
             ColumnWidth = width,
             SupportSection = supportSection,
             GridName = gridName,
@@ -214,7 +211,8 @@ public static class KataDamSheetParser
         IKataDamCellAccessor accessor,
         int col,
         int spanIndex,
-        KataStirrupSpec globalStirrup)
+        KataStirrupSpec globalStirrup,
+        List<KataCellNote> notes)
     {
         double length = accessor.GetDouble(11, col) ?? 0.0;
 
@@ -243,9 +241,12 @@ public static class KataDamSheetParser
             };
         }
 
+        Note(accessor, notes, 23, col, "đai gia cường của nhịp");
+
         return new KataSpanRebarSpec
         {
             SpanIndex = spanIndex,
+            SheetColumn = col,
             Length = length,
             BottomExtraLayer1 = botL1,
             BottomExtraLayer2 = botL2,
@@ -258,33 +259,10 @@ public static class KataDamSheetParser
         };
     }
 
-    private static IReadOnlyList<KataStirrupBranchSpec> ParseStirrupBranches(IKataDamCellAccessor accessor)
+    internal static void Note(IKataDamCellAccessor accessor, List<KataCellNote> notes, int row, int col, string meaning)
     {
-        var list = new List<KataStirrupBranchSpec>();
-
-        // Row 25: Outer closed hoop (Đai □)
-        string? row25 = accessor.GetText(25, 1);
-        if (!string.IsNullOrEmpty(row25))
-        {
-            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.ClosedHoop, "Outer"));
-        }
-
-        // Row 26: Cap stirrup U (Đai U)
-        string? row26Tag = accessor.GetText(26, 3); // Col C
-        string? row26Pos = accessor.GetText(26, 4); // Col D
-        if (!string.IsNullOrEmpty(row26Tag) || !string.IsNullOrEmpty(row26Pos))
-        {
-            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.CapStirrup, row26Pos ?? ""));
-        }
-
-        // Row 27: Cross tie C (Đai C)
-        string? row27Tag = accessor.GetText(27, 3); // Col C
-        string? row27Pos = accessor.GetText(27, 4); // Col D
-        if (!string.IsNullOrEmpty(row27Tag) || !string.IsNullOrEmpty(row27Pos))
-        {
-            list.Add(new KataStirrupBranchSpec(KataStirrupShapeType.CrossTie, row27Pos ?? ""));
-        }
-
-        return list;
+        string? text = accessor.GetText(row, col)?.Trim();
+        if (!string.IsNullOrEmpty(text))
+            notes.Add(new KataCellNote(KataDamCellAccessorExtensions.ToAddress(row, col), text!, meaning));
     }
 }

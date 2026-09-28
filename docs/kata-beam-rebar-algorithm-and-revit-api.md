@@ -5,6 +5,9 @@
 > **Đối tượng phân tích:** Thư mục `D:\OneDrive\PROGRAM\KATA\Update2025`, `Kata.xlsm` (Sheet `Dam`), Autodesk Revit 2026 API  
 > **Phiên bản:** 1.0 — Ngày lập: 28/09/2026
 
+> [!WARNING]
+> **Đính chính 28/09/2026 (Kata Rebar MVP).** Bản 1.0 có các chỗ sai so với `Kata.xlsm` thật: B5 là **h**, B6 là **b**; H3 = 0.2 ("L từ tâm cột", I3) và H5 = 0.25 ("L từ mép cột", I5) là **tỉ lệ**, không phải số chia L0/4, L0/5; **không có ô H4** và **không có quy tắc L0/7** trong sheet; hàng 20 của nhịp là **cốt giá override** (`2f12`, `0`), không phải thép sườn h ≥ 700; hàng 25–44 là **bộ đai theo cặp cột** (C/D, E/F…: loại đai + thanh ôm), A25:A27 chỉ là danh sách chọn; J9 `a/b` = mép → **tâm** thép chủ / lớp bảo vệ đai. VBA `Ve_dam` chỉ có parser (`chuyen_thep`, `chuyen_ht`) và biểu đồ mặt cắt đai — **quy tắc vẽ thép của Kata nằm trong DLL obfuscate, chưa được giải mã**; HPRebar dùng rule set riêng do người dùng duyệt. Mapping ô và rule đang dùng: [rule-table.md](../plans/260928-1259-kata-rebar-mvp/reports/rule-table.md). Excel chỉ đọc qua COM (đã bỏ ClosedXML); tag xoá thép cũ là `Comments = HPRebar_Kata:{UniqueId của dầm}`.
+
 ---
 
 ## MỤC LỤC
@@ -188,11 +191,13 @@ Thư mục `D:\OneDrive\PROGRAM\KATA\Update2025\dangthep\` lưu trữ các vecto
      * Thân thép đi ngang trong cột một đoạn $L_{horiz} = b_{col} - cover_{col} - d_{stirrup}$.
      * Đoạn bẻ đứng $L_{vert} = L_{neo} - L_{horiz}$ (tối thiểu $\ge 12d$).
 2. **Quy tắc bảo toàn dữ liệu Kata (Exact Length Preservation):**
-   * Chiều dài và vị trí thanh thép được bám sát **100% nguyên bản từ ma trận tính toán của `Kata.xlsm`**. Không tự ý chia nhỏ cây thép theo chiều dài thương phẩm 11.7m giả định, giữ tính toàn vẹn của mô hình kỹ thuật.
+   * (Đính chính) MVP neo theo G2·d (trên) / G3·d (dưới) đo từ mép trong gối: đủ chỗ → thẳng; thiếu → tới mép xa − a rồi bẻ 90°, chân ≥ 10d. Sheet không chứa chiều dài thanh; chiều dài do HPRebar tính. Không tự ý chia nhỏ cây thép theo chiều dài thương phẩm 11.7m giả định, giữ tính toàn vẹn của mô hình kỹ thuật.
 
 ---
 
 ### 3.3 Quy tắc cắt thép gối ($L/3, L/4$) và thép nhịp ($L/7$)
+
+> **Đính chính:** mục này **không** đúng với sheet: không có `H4`, H3/H5 là tỉ lệ (0.2 / 0.25) kèm gốc đo I3/I5, không có L0/7. Thép gia cường **chưa được vẽ** trong Kata Rebar MVP (báo "Bỏ qua" theo ô); quy tắc cắt sẽ chốt ở phase gia cường.
 
 Dựa trên biểu đồ bao mômen uốn của dầm chịu tải trọng trọng trường và gió, vị trí điểm uốn mômen (inflection point) quyết định chiều dài các thanh thép gia cường:
 
@@ -221,6 +226,8 @@ Lớp 1 Bot:              ├── L0/7 ──┤ ═════════�
 
 ### 3.4 Quy tắc phân bố 3 vùng đai và đai kép
 
+> **Đính chính:** vùng đầu L0/4 và đai đầu cách mép 50 mm là **rule của HPRebar** (người dùng duyệt), không đọc được từ Kata. Vùng giữa rải đúng bước G8, phần dư chia hai khe chuyển tiếp. Đai phối hợp U/C lấy từ hàng 25–44 theo cặp cột, **chưa vẽ** trong MVP.
+
 Khả năng chịu lực cắt $Q$ của dầm đòi hỏi cốt đai bố trí dày ở hai đầu gối tựa và thưa ở giữa nhịp:
 
 1. **Phân vùng chiều dài rải đai (3 Zones):**
@@ -233,6 +240,8 @@ Khả năng chịu lực cắt $Q$ của dầm đòi hỏi cốt đai bố trí 
 ---
 
 ### 3.5 Bố trí thép sườn chống phình (Skin / Torsion Bars)
+
+> **Đính chính:** hàng 20 của nhịp là cốt giá override (`2f12` / `0`), G4/G5 là Ø và số lớp cốt giá; Kata không "tự kích hoạt" hàng 20. Cốt giá và thép sườn **chưa vẽ** trong MVP.
 
 Theo tiêu chuẩn TCVN 5574:2018 và quy chuẩn Kata:
 * Khi chiều cao dầm $h \ge 700\text{ mm}$, bê tông vùng bụng dầm có nguy cơ nứt do co ngót và lực xoắn.
@@ -454,7 +463,7 @@ public static class HybridRebarEngine
 ## 6. KẾT LUẬN & LỘ TRÌNH TRIỂN KHAI
 
 ### Tóm tắt giá trị kỹ thuật đạt được:
-1. **Giải mã trọn vẹn 100% thuật toán Kata:** Không còn là hộp đen. Toàn bộ logic tính toán từ sheet `Dam` của `Kata.xlsm` đã được mô hình hóa toán học tường minh và kiểm thử tự động.
+1. **Đọc được sheet `Dam`, chưa giải mã thuật toán Kata:** mapping ô đã đối chiếu với `Kata.xlsm` thật; quy tắc vẽ thép là rule set riêng của HPRebar (người dùng duyệt, xem [rule-table.md](../plans/260928-1259-kata-rebar-mvp/reports/rule-table.md)), có thể khác bản vẽ Kata CAD.
 2. **Kiến trúc Hybrid đột phá:** Kết hợp hoàn hảo giữa độ nhẹ của Rebar Set (Revit Shapes) và sự an toàn bất khả xâm phạm của 3D Vector Curves.
 3. **Sẵn sàng triển khai:** Mã nguồn đã được tổ chức phân tầng sạch trong `HPRebar.Core` và `HPRebar`, đạt tiêu chuẩn kiểm thử xUnit và sẵn sàng phục vụ các dự án thực tế trên Autodesk Revit 2026.
 

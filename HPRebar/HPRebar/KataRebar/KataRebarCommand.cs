@@ -50,7 +50,7 @@ public sealed class KataRebarCommand : ExternalCommand
 
         try
         {
-            var handler = new KataRebarExternalEventHandler();
+            var handler = new KataRebarExternalEventHandler(document);
             var viewModel = new KataRebarViewModel(document, initialBeamIds, handler);
             var view = new KataRebarView(viewModel);
 

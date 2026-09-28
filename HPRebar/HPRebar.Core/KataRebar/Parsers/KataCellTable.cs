@@ -18,7 +18,8 @@ public sealed class KataCellTable : IKataDamCellAccessor
 
     /// <summary>
     /// Initializes table from a 2D object array (such as returned by Excel COM Range.Value2).
-    /// Handles both 1-based bounds (typical of COM) and 0-based bounds.
+    /// The array's first element lands on (<paramref name="startRow"/>, <paramref name="startCol"/>) whatever
+    /// its lower bounds (COM arrays are 1-based, arrays built in code usually 0-based).
     /// </summary>
     public KataCellTable(object[,] raw2D, int startRow = 1, int startCol = 1)
     {
@@ -31,10 +32,10 @@ public sealed class KataCellTable : IKataDamCellAccessor
 
         for (int r = rowLower; r <= rowUpper; r++)
         {
-            int targetRow = (rowLower == 1) ? r : (r - rowLower + startRow);
+            int targetRow = r - rowLower + startRow;
             for (int c = colLower; c <= colUpper; c++)
             {
-                int targetCol = (colLower == 1) ? c : (c - colLower + startCol);
+                int targetCol = c - colLower + startCol;
                 var val = raw2D[r, c];
                 if (val is not null)
                 {
