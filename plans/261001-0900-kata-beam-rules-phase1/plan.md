@@ -19,7 +19,8 @@ Hợp đồng: /grill-me 2026-10-01 (user xác nhận "có"). Nguồn: `Q:\My Dr
 - Đai dày = max(2h, 0.25·Ln) (≤ Ln/2). Cắt bụng 0.15·Ln (làm tròn xuống 50). Chân móc ≥ 15d, làm tròn lên 25 khi vừa. Khe lớp ≥ max(d, 30).
 - Cốt giá: h ≥ 700 mà không có G5/hàng 20 → cảnh báo, không tự sinh.
 - G1: số dương → dùng; trống → thiết lập; chuỗi khác (`-300;11700`) → thiết lập + cảnh báo.
-- Export không ghi G1–J9. Giai đoạn sau (plan riêng, theo thứ tự): nối 11.7 m → giật cấp WC → đai treo/vai bò.
+- Export không ghi G1–J9. Giai đoạn sau (plan riêng, theo thứ tự): giật cấp WC → đai treo/vai bò.
+- 2026-10-01 (user): bỏ chia nối 11.7 m — mô hình thiết kế vẽ thép chủ liền, phần nối tính trong Rebar Schedule, chia cây để shopdrawing; bỏ cảnh báo và thiết lập `MaxBarLength`.
 
 ## Phases
 | # | Việc | Status |

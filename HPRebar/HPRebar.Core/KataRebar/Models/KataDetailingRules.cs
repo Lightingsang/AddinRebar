@@ -29,9 +29,6 @@ public sealed record KataDetailingRules
     /// <summary>Anchorage factor for beam side bars into supports in diameters (default 10d in Kata settings).</summary>
     public double SideBarAnchorageFactor { get; init; } = 10.0;
 
-    /// <summary>Longest stock bar; a continuous bar beyond it is reported (laps are not drawn yet).</summary>
-    public double MaxBarLength { get; init; } = 11700.0;
-
     /// <summary>Additional bars are cut on multiples of this length (mm).</summary>
     public double RoundCutExtraMm { get; init; } = 50.0;
 

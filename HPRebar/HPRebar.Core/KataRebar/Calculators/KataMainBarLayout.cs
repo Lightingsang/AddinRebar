@@ -8,7 +8,8 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
 /// Continuous top (B11) and bottom (B12) bars from the first to the last support, anchored in both end
-/// supports by <see cref="KataAnchorage"/>. Top bars bend down, bottom bars bend up; where both legs of an
+/// supports by <see cref="KataAnchorage"/>. Each is one bar however long: splitting into stock lengths is
+/// shop-drawing work. Top bars bend down, bottom bars bend up; where both legs of an
 /// end would overlap in the same plane the bottom leg moves inboard.
 /// </summary>
 public static class KataMainBarLayout
@@ -41,7 +42,6 @@ public static class KataMainBarLayout
             foreach (double y in Positions(spec, rules, spec.TopContinuous))
                 top.Add(Bar(barId++, KataBarRole.MainTop, spec.TopContinuous.Diameter, y, z, -1.0, topStart, topEnd, "1", "Thép chủ trên", 1));
 
-            ReportLength(warnings, "trên", top, rules.MaxBarLength);
         }
 
         if (!spec.BottomContinuous.IsEmpty)
@@ -52,7 +52,6 @@ public static class KataMainBarLayout
             foreach (double y in Positions(spec, rules, spec.BottomContinuous))
                 bottom.Add(Bar(barId++, KataBarRole.MainBottom, spec.BottomContinuous.Diameter, y, z, +1.0, botStart, botEnd, "2", "Thép chủ dưới", 2));
 
-            ReportLength(warnings, "dưới", bottom, rules.MaxBarLength);
         }
 
         return (top, bottom);
@@ -137,13 +136,6 @@ public static class KataMainBarLayout
 
     private static IReadOnlyList<double> Positions(KataBeamRebarSpec spec, KataDetailingRules rules, KataBarItem item) =>
         KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, item.Diameter, item.Count);
-
-    /// <summary>Laps are not drawn yet: a main bar longer than the stock length is drawn whole and reported.</summary>
-    private static void ReportLength(List<string> warnings, string layer, List<KataRebarCurve> bars, double maxLength)
-    {
-        if (bars.Count > 0 && bars[0].TotalLength > maxLength + 0.5)
-            warnings.Add($"Thép chủ {layer} dài {bars[0].TotalLength:0} mm, vượt chiều dài cây thép {maxLength:0} mm — vẽ liền một thanh, chưa chia nối chồng.");
-    }
 
     private static void Report(List<string> warnings, string layer, string side, KataBarEnd end, double legRoom)
     {

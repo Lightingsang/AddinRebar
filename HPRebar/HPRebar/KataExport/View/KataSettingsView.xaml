@@ -63,23 +63,19 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Chiều dài thép tối đa" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="0" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsMaxBarLength" Text="{Binding MaxBarLength, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="0" Text="Làm tròn cắt thép gia cường" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RoundCutExtraMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="1" Text="Làm tròn cắt thép gia cường" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RoundCutExtraMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="1" Text="Cắt lệch gia cường gối (khi G1 trống)" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsCurtailedExtension" Text="{Binding CurtailedExtensionMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="1" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="2" Text="Cắt lệch gia cường gối (khi G1 trống)" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsCurtailedExtension" Text="{Binding CurtailedExtensionMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
-            <TextBlock Grid.Row="2" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="3" Text="Cắt thép gia cường bụng" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="3" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsBottomCutFraction" Text="{Binding BottomExtraCutFraction, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
-            <TextBlock Grid.Row="3" Grid.Column="2" Text="x Ln" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="4" Text="Khoảng hở giữa các lớp thép" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="4" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsLayerClearGap" Text="{Binding LayerClearGap, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
-            <TextBlock Grid.Row="4" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="2" Text="Cắt thép gia cường bụng" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsBottomCutFraction" Text="{Binding BottomExtraCutFraction, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="x Ln" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="3" Text="Khoảng hở giữa các lớp thép" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsLayerClearGap" Text="{Binding LayerClearGap, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
         <TextBlock Text="Đai &amp; Vùng đai dày" Style="{StaticResource GroupHeader}"/>
@@ -143,7 +139,7 @@
             <TextBlock Grid.Row="4" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
-        <TextBlock Text="Nối chồng, bẻ cổ chai và coupler chưa áp dụng: thép chủ vẽ liền, dài quá chiều dài tối đa thì cảnh báo."
+        <TextBlock Text="Thép chủ vẽ liền một thanh (mô hình thiết kế): nối chồng, bẻ cổ chai, coupler làm ở shopdrawing; phần nối tính trong bảng thống kê thép (Rebar Schedule)."
                    Foreground="{DynamicResource Brush.Foreground.Secondary}" TextWrapping="Wrap" Margin="0,12,0,0"/>
         <TextBlock Text="{Binding Message}" Foreground="{DynamicResource Brush.Danger}" TextWrapping="Wrap" Margin="0,6,0,0"/>
 

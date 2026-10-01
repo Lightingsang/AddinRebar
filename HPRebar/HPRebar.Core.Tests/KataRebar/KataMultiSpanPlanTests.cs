@@ -23,12 +23,13 @@ public sealed class KataMultiSpanPlanTests
     }
 
     [Fact]
-    public void A_main_bar_longer_than_the_stock_bar_is_reported()
+    public void A_main_bar_longer_than_a_stock_bar_is_drawn_whole_and_not_reported()
     {
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans());
 
-        // 11614 straight + 2 × 450 legs = 12514 > 11700.
-        Assert.Contains(plan.Warnings, w => w.StartsWith("Thép chủ trên dài") && w.Contains("11700"));
+        // 11614 straight + 2 × 450 legs = 12514, one bar: splitting into stock lengths is shop-drawing work.
+        Assert.All(plan.Layout.MainTopBars, b => Assert.Equal(12514.0, b.TotalLength, 6));
+        Assert.DoesNotContain(plan.Warnings, w => w.Contains("cây thép"));
     }
 
     [Fact]

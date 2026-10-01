@@ -71,7 +71,6 @@ public static class KataDetailingRuleBuilder
             BottomAnchorageFactor = spec.CompressionLapMultiplier > 0.0 ? spec.CompressionLapMultiplier : DefaultBottomAnchorageFactor,
             // The settings are sanitised above: every value is in range.
             SideBarAnchorageFactor = settings.SideBarAnchorageFactor,
-            MaxBarLength = settings.MaxBarLength,
             RoundCutExtraMm = settings.RoundCutExtraMm,
             SideBarTieSpacing = settings.SideBarTieSpacing,
             CurtailedExtension = stagger,

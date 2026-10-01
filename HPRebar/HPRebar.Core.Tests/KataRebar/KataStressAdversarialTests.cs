@@ -282,7 +282,7 @@ public class KataStressAdversarialTests
         var result = KataRebarCalculator.Calculate(spec);
 
         Assert.Empty(result.Blocking);
-        Assert.Contains(result.Warnings, w => w.Contains("vượt chiều dài cây thép 11700"));
+        Assert.DoesNotContain(result.Warnings, w => w.Contains("cây thép"));
         Assert.Equal(4, result.MainTopBars.Count);
         Assert.Equal(4, result.MainBottomBars.Count);
 
@@ -771,7 +771,7 @@ public class KataStressAdversarialTests
 
     #region Helper Assertion
 
-    /// <summary>The only warnings allowed are anchorage shortfalls, extra bar cutoffs, main bar length > 11.7 m, or a deep beam without side bars.</summary>
+    /// <summary>The only warnings allowed are anchorage shortfalls, extra bar cutoffs, or a deep beam without side bars.</summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
         Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ") || w.Contains("thiếu cốt giá"), w));
 

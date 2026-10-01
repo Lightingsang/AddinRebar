@@ -785,7 +785,7 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_MainBarsExceeding11700_ProducesWarningAndContinuousBars()
+    public void Calculate_MainBarsLongerThanAStockBar_StayWholeWithoutAWarning()
     {
         var spec = new KataBeamRebarSpec
         {
@@ -816,8 +816,9 @@ public class KataRebarCalculatorTests
         Assert.NotEmpty(result.MainBottomBars);
         Assert.True(result.MainTopBars[0].TotalLength > 11700.0);
         Assert.True(result.MainBottomBars[0].TotalLength > 11700.0);
-        Assert.Contains(result.Warnings, w => w.StartsWith("Thép chủ trên") && w.Contains("vượt chiều dài cây thép 11700"));
-        Assert.Contains(result.Warnings, w => w.StartsWith("Thép chủ dưới") && w.Contains("vượt chiều dài cây thép 11700"));
+        // A design model: one bar from end to end, the laps belong to the shop drawings.
+        Assert.All(result.MainTopBars.Concat(result.MainBottomBars), b => Assert.Equal(4, b.Polyline.Points.Count));
+        Assert.DoesNotContain(result.Warnings, w => w.Contains("cây thép") || w.Contains("nối chồng"));
     }
 
     [Fact]
@@ -857,8 +858,8 @@ public class KataRebarCalculatorTests
     }
 
     /// <summary>
-    /// The allowed warnings are anchorage shortfalls of shallow beams, extra bar cutoffs, main bar length > 11.7 m,
-    /// or a deep beam drawn without side bars.
+    /// The allowed warnings are anchorage shortfalls of shallow beams, extra bar cutoffs, or a deep beam drawn
+    /// without side bars.
     /// </summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
         Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ") || w.Contains("thiếu cốt giá"), w));

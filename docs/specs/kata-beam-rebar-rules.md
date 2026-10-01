@@ -33,7 +33,7 @@ Luật có sẵn từ trước, không đổi ở giai đoạn này (vẫn "chư
 | Neo thép chủ/gia cường gối biên: thẳng nếu đủ G2·d (trên) / G3·d (dưới) tính từ mép trong; thiếu → tới mép ngoài − a, bẻ 90° | G2 40, G3 30 | ô G2/G3; spec §5 | `KataAnchorage.Solve`, `KataMainBarLayout` |
 | Chân móc dưới chồng chân móc trên cùng mặt phẳng → lùi vào (d₁+d₂)/2 + max(25, d) | 25 | — (quy ước HPRebar) | `KataAnchorage.BottomLegInset` |
 | Gia cường gối: hàng 13 vươn H5·L, hàng 14–16 H3·L, đo từ mép hoặc tâm cột theo I5/I3; L = nhịp lớn hơn hai bên; làm tròn lên bước 50 | H5 0.25, H3 0.2 | ô H3/H5/I3/I5; spec §4.2 | `KataSupportTopBarLayout.Cuts` (:173) |
-| Thép chủ liền suốt, dài > 11 700 → cảnh báo (chưa chia nối) | 11 700 | spec §10.2 | `KataMainBarLayout.ReportLength` |
+| Thép chủ liền suốt từ gối đầu tới gối cuối, **một thanh dù dài bao nhiêu** — mô hình thiết kế; chia cây 11.7 m / nối chồng / cổ chai / coupler thuộc shopdrawing, phần nối tính trong Rebar Schedule của template (user, 2026-10-01). Không cảnh báo | — | quyết định user | `KataMainBarLayout` |
 | Cốt giá neo 10d vào gối; móc C a400, 180°/7.5d; đai □ 135°/7.5d | 10d, 400, 135°, 180° | hộp "Detail thép" Kata; spec §6.2, §7.2 | `KataSideBarLayout`, `KataSettings` |
 
 ## 2. Ví dụ số (dầm thử 300×600, cột 400, nhịp 6000 | 4500, J9 43/25, G2 40, G3 30, 3Ø20 / 4Ø20)
@@ -49,11 +49,10 @@ Luật có sẵn từ trước, không đổi ở giai đoạn này (vẫn "chư
 
 ## 3. Chưa làm (mỗi mục một plan riêng, theo thứ tự user chọn)
 
-1. Chia nối thép chủ theo cây 11.7 m (vùng nối, so le, nối chồng) — spec §10.2.
-2. Giật cấp sàn vệ sinh hàng 19/21 (Z-bar ≤ 100, tách 40d > 100) — spec §9.
-3. Đai treo + vai bò tại dầm phụ / cột cấy (hàng 20 cột gối) — spec §8.
+1. Giật cấp sàn vệ sinh hàng 19/21 (Z-bar ≤ 100, tách 40d > 100) — spec §9.
+2. Đai treo + vai bò tại dầm phụ / cột cấy (hàng 20 cột gối) — spec §8.
 
-Không làm: Kata Export ghi G1–J9; tự sinh cốt giá.
+Không làm: Kata Export ghi G1–J9; tự sinh cốt giá; chia nối thép chủ theo cây 11.7 m (spec §10.2 — việc của shopdrawing, Rebar Schedule tính phần nối).
 
 Đã biết, giữ nguyên: điểm cắt của một hàng gia cường gối giữa (khi nhịp bên kia ngắn) có thể dừng trong lòng cột bên kia — chỉ cột biên được chặn; R1 khi đó cảnh báo hàng ngoài "ngắn hơn".
 

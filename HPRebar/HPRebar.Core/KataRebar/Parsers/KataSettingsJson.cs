@@ -64,7 +64,6 @@ public static class KataSettingsJson
         static bool Angle(int a) => a is 90 or 135 or 180;
         return s with
         {
-            MaxBarLength = Positive(s.MaxBarLength) ? s.MaxBarLength : d.MaxBarLength,
             ClosedStirrupHookAngle = Angle(s.ClosedStirrupHookAngle) ? s.ClosedStirrupHookAngle : d.ClosedStirrupHookAngle,
             ClosedStirrupHookFactor = Positive(s.ClosedStirrupHookFactor) ? s.ClosedStirrupHookFactor : d.ClosedStirrupHookFactor,
             CrossTieHookAngle = Angle(s.CrossTieHookAngle) ? s.CrossTieHookAngle : d.CrossTieHookAngle,

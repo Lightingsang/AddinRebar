@@ -2,15 +2,13 @@ namespace HPRebar.Core.KataRebar.Models;
 
 /// <summary>
 /// The office's detailing settings Kata keeps in its own "Detail thép" dialog, which the add-in cannot read:
-/// the user keeps them in step here. Defaults are Kata's. Only settings that change the drawn bars are kept;
-/// laps, cranks and couplers are not drawn yet.
+/// the user keeps them in step here. Defaults are Kata's. Only settings that change the drawn bars are kept.
+/// Main bars are drawn whole (a design model): laps, cranks and couplers belong to the shop drawings and the
+/// template's rebar schedule accounts for the laps.
 /// </summary>
 public sealed record KataSettings
 {
     public static readonly KataSettings Default = new();
-
-    /// <summary>Longest stock bar (mm); a longer continuous bar is reported.</summary>
-    public double MaxBarLength { get; init; } = 11700.0;
 
     /// <summary>Hook of the closed stirrup (°) and its straight end in stirrup diameters.</summary>
     public int ClosedStirrupHookAngle { get; init; } = 135;

@@ -15,7 +15,6 @@ public sealed partial class KataSettingsViewModel : ObservableObject
 {
     private readonly Action<bool> _close;
 
-    [ObservableProperty] private double _maxBarLength;
     [ObservableProperty] private int _closedStirrupHookAngle;
     [ObservableProperty] private double _closedStirrupHookFactor;
     [ObservableProperty] private int _crossTieHookAngle;
@@ -50,7 +49,7 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     {
         double[] all =
         {
-            MaxBarLength, ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, SideBarTieSpacing,
+            ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, SideBarTieSpacing,
             CurtailedExtensionMm, DenseZoneHeightFactor, EndZoneFraction, BottomExtraCutFraction, MinimumLegFactor, LayerClearGap,
             RoundLegMm, SideBarRequiredHeight
         };
@@ -60,7 +59,7 @@ public sealed partial class KataSettingsViewModel : ObservableObject
             return;
         }
 
-        if (MaxBarLength <= 0.0 || ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
+        if (ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
             || SideBarAnchorageFactor <= 0.0 || SideBarTieSpacing <= 0.0 || CurtailedExtensionMm < 0.0
             || DenseZoneHeightFactor < 0.0 || EndZoneFraction < 0.0 || EndZoneFraction > 0.5
             || BottomExtraCutFraction < 0.0 || BottomExtraCutFraction >= 0.5
@@ -72,7 +71,6 @@ public sealed partial class KataSettingsViewModel : ObservableObject
 
         var settings = new KataSettings
         {
-            MaxBarLength = MaxBarLength,
             ClosedStirrupHookAngle = ClosedStirrupHookAngle,
             ClosedStirrupHookFactor = ClosedStirrupHookFactor,
             CrossTieHookAngle = CrossTieHookAngle,
@@ -102,7 +100,6 @@ public sealed partial class KataSettingsViewModel : ObservableObject
 
     private void Import(KataSettings s)
     {
-        MaxBarLength = s.MaxBarLength;
         ClosedStirrupHookAngle = s.ClosedStirrupHookAngle;
         ClosedStirrupHookFactor = s.ClosedStirrupHookFactor;
         CrossTieHookAngle = s.CrossTieHookAngle;

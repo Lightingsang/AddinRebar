@@ -12,7 +12,6 @@ public sealed class KataSettingsTests
     {
         var s = KataSettings.Default;
 
-        Assert.Equal(11700.0, s.MaxBarLength);
         Assert.Equal((135, 7.5), (s.ClosedStirrupHookAngle, s.ClosedStirrupHookFactor));
         Assert.Equal((180, 7.5), (s.CrossTieHookAngle, s.CrossTieHookFactor));
         Assert.Equal(50.0, s.RoundCutExtraMm);
@@ -24,12 +23,11 @@ public sealed class KataSettingsTests
     public void The_rules_take_the_settings()
     {
         var spec = KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan());
-        var custom = KataSettings.Default with { SideBarAnchorageFactor = 15.0, MaxBarLength = 9000.0, RoundCutExtraMm = 100.0, SideBarTieSpacing = 300.0, CrossTieHookAngle = 135 };
+        var custom = KataSettings.Default with { SideBarAnchorageFactor = 15.0, RoundCutExtraMm = 100.0, SideBarTieSpacing = 300.0, CrossTieHookAngle = 135 };
 
         var rules = KataDetailingRuleBuilder.Build(spec, custom);
 
         Assert.Equal(15.0, rules.SideBarAnchorageFactor);
-        Assert.Equal(9000.0, rules.MaxBarLength);
         Assert.Equal(300.0, rules.SideBarTieSpacing);
         Assert.Equal(135, rules.CrossTieHookAngle);
         Assert.Equal(900.0, rules.RoundUp(857.1));
