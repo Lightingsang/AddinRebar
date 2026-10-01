@@ -27,8 +27,19 @@ B11 3f20, B12 2f20, G2 40, G3 30, G4 12, G5 2, G6 8, G7 a100, G8 a200, J9 43/25,
 - Kiểm hướng rải bộ thanh đọc `GetCenterlineCurves(index)` (trả hình thanh đầu) → đổi sang `GetBarPositionTransform`.
 
 ## Chưa làm / còn mở
-- Móc C cốt giá: tâm móc cách tâm cốt giá 18 mm vào trong (móc không ôm trọn cốt giá; ôm trọn cần móc qua đai ngoài).
+- Móc C cốt giá: đã ôm (vòng 2); tâm móc lệch 4 mm vào trong vì Revit giữ móc trong lớp bảo vệ.
 - Đai C tại thanh trên số a: móc dưới không có thanh dưới tương ứng khi thép dưới ít thanh hơn (theo công thức Kata dùng vị trí thanh trên).
 - Hộp mặt cắt che phần phải mặt đứng khi cửa sổ hẹp.
-- R25/R24 (overload `RebarHookOrientation`) chỉ build, hướng móc chưa kiểm.
-- Undo một bước, case âm hình học lệch, IsReverse bật: chỉ unit test lần này.
+- R25/R24 (overload `RebarHookOrientation`) chỉ build, hướng móc chưa kiểm (user không cần).
+- Case âm hình học lệch (> 50 mm) trong luồng Kata Export: chỉ unit test.
+
+## Vòng 2 (2026-09-29 01:34–01:45)
+| Kịch bản | Kết quả |
+|---|---|
+| Móc ôm thanh (`KataTieWrap`, bán kính = đường kính uốn/2 + d/2 của kiểu thép) | ✅ đai C đứng: tâm móc (0, −43) và (0, −557) = tâm thanh; móc C cốt giá: tâm (±107, …) — Revit giữ móc trong lớp bảo vệ 25 nên lệch 4 mm vào trong so với cốt giá ±111; cốt giá (r 6) vẫn nằm trong vòng móc (bán kính trong 10) |
+| Mặt đứng vẽ đai trong (nét đứt) + móc C (vòng nhỏ); mặt cắt vẽ vòng móc quanh thanh | ✅ ảnh `p8-read.png` |
+| Undo | ✅ 1 lần Ctrl+Z trả đúng 45 thanh trước (id min 9641729, tổng id trùng) |
+| Đảo chiều | ✅ sheet 400·4500·400·6000·400, `reversed=true`; gia cường nhịp sheet-1 Ø20 ở Revit 7400→10700, sheet-2 Ø16 1250→5550; gối giữa vế Ø20 móc ở 6488 (đối xứng 6712), Ø16 thẳng 7440→5400; gối biên đổi đầu; đai U/C đổi nhịp; bộ đai n=11/15 đúng nhịp |
+| R25/R24 hướng móc | ❌ không kiểm (user: không cần build R25); bridge R25 đã gỡ khỏi `Addins\2025` |
+
+Công cụ: `revit-kata-ui.ps1` thêm TogglePattern (checkbox Đảo chiều); `scratchpad/revit-undo.ps1` gửi Ctrl+Z vào đúng cửa sổ Revit nháp.

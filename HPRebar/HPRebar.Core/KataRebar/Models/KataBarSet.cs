@@ -43,6 +43,16 @@ public sealed record KataBarSet
     /// </summary>
     public Point3 HookToward { get; init; } = new(0.0, 0.0, 0.0);
 
+    /// <summary>
+    /// The two points of <see cref="Shape"/> are the centres of the bars the hooks wrap, not the tie's ends: the
+    /// tie runs <see cref="WrapOffset"/> × the hook's bend radius beside them and each hook turns round its bar.
+    /// The bend radius belongs to the bar type, so the model side lays the tie out.
+    /// </summary>
+    public bool WrapEnds { get; init; }
+
+    /// <summary>Unit direction (local Y, Z) from the wrapped bars to the straight part of a wrapping tie.</summary>
+    public Point3 WrapOffset { get; init; } = new(0.0, 0.0, -1.0);
+
     public int Count => Stations.Count;
 
     /// <summary>Length of one bar (mm), hooks included (a 180° hook as a half circle of radius 2d plus its tail).</summary>

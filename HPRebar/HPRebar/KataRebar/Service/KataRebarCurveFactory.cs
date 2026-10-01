@@ -32,12 +32,16 @@ public static class KataRebarCurveFactory
     /// A bar whose two ends carry a Revit hook of <paramref name="hook"/>, each turned towards
     /// <paramref name="hookTowardPoint"/> (a model point in the bar's plane) as seen from that end.
     /// </summary>
-    public static Rebar CreateHooked(Document doc, RebarStyle style, RebarBarType barType, RebarHookType hook, Element host, XYZ normal, IList<Curve> curves, XYZ hookTowardPoint)
+    public static Rebar CreateHooked(Document doc, RebarStyle style, RebarBarType barType, RebarHookType hook, Element host, XYZ normal, IList<Curve> curves, XYZ hookTowardPoint) =>
+        CreateHooked(doc, style, barType, hook, host, normal, curves, hookTowardPoint, hookTowardPoint);
+
+    /// <summary>As above, the start hook turning towards <paramref name="startToward"/>, the end one towards <paramref name="endToward"/>.</summary>
+    public static Rebar CreateHooked(Document doc, RebarStyle style, RebarBarType barType, RebarHookType hook, Element host, XYZ normal, IList<Curve> curves, XYZ startToward, XYZ endToward)
     {
         var first = curves[0];
         var last = curves[curves.Count - 1];
-        bool startRight = IsRight(Direction(first), normal, hookTowardPoint - first.GetEndPoint(0));
-        bool endRight = IsRight(Direction(last), normal, hookTowardPoint - last.GetEndPoint(1));
+        bool startRight = IsRight(Direction(first), normal, startToward - first.GetEndPoint(0));
+        bool endRight = IsRight(Direction(last), normal, endToward - last.GetEndPoint(1));
 
         // Multi-version: rebar terminations — see Create.
 #if REVIT2026_OR_GREATER

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HPRebar.Core.KataExport.Models;
+using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.KataExport.View.Controls;
@@ -68,6 +69,18 @@ internal sealed class KataElevationSectionPainter
         foreach (var set in _plan.Layout.BarSets.Where(s => Covers(s, localX)))
         {
             var p = set.Shape.Points;
+            if (set.WrapEnds && p.Count == 2)
+            {
+                // A tie round two bars: its straight part a bend radius off them (≈ 1.75 d), a ring round each bar.
+                double radius = 1.75 * set.Diameter;
+                var (tie, barA, barB) = KataTieWrap.Lay(set, radius);
+                var t = tie.Points;
+                _draw.Line(_palette.RebarStirrup, X(t[0].Y), Y(t[0].Z), X(t[1].Y), Y(t[1].Z));
+                foreach (var bar in new[] { barA, barB })
+                    _draw.Circle(null, _palette.RebarStirrup, X(bar.Y), Y(bar.Z), Math.Max(2.0, radius * scale));
+                continue;
+            }
+
             for (int i = 0; i + 1 < p.Count; i++)
                 _draw.Line(_palette.RebarStirrup, X(p[i].Y), Y(p[i].Z), X(p[i + 1].Y), Y(p[i + 1].Z));
         }

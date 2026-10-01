@@ -49,10 +49,11 @@ public sealed class KataInnerStirrupTests
     {
         var set = Plan(("C25", "Đai C"), ("D25", "3")).Layout.BarSets[0];
 
-        // Bar 3 at y 107: the tie on the centre side at 93, top to bottom.
-        Assert.Equal(new[] { (93.0, -29.0), (93.0, -571.0) }, set.Shape.Points.Select(p => (p.Y, p.Z)).ToArray());
+        // Wraps top bar 3 (107, −43) and the bottom bar position below it (107, −557), the tie on the centre side.
+        Assert.Equal(new[] { (107.0, -43.0), (107.0, -557.0) }, set.Shape.Points.Select(p => (p.Y, p.Z)).ToArray());
+        Assert.True(set.WrapEnds);
+        Assert.Equal((-1.0, 0.0), (set.WrapOffset.Y, set.WrapOffset.Z));
         Assert.Equal(180, set.HookAngle);
-        Assert.Equal(107.0, set.HookToward.Y);
     }
 
     [Fact]

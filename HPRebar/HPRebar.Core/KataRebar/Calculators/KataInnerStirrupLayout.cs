@@ -60,6 +60,8 @@ public static class KataInnerStirrupLayout
                     warnings.Add($"{label}: đai C ôm một thanh — dùng thanh {a}.");
 
                 var (shape, toward, hookAngle, hookFactor) = Geometry(entry.ShapeType, barY[a - 1], barY[b - 1], off, zTop, zBottom, rules);
+                bool wraps = entry.ShapeType == KataStirrupShapeType.CrossTie;
+                var wrapOffset = new Point3(0.0, barY[a - 1] <= 0.0 ? 1.0 : -1.0, 0.0);
                 foreach (var zone in zones)
                 {
                     var stations = zone.Stations.Select(x => x + ds).ToList();
@@ -81,7 +83,9 @@ public static class KataInnerStirrupLayout
                         Spacing = zone.Spacing,
                         HookAngle = hookAngle,
                         HookFactor = hookFactor,
-                        HookToward = toward
+                        HookToward = toward,
+                        WrapEnds = wraps,
+                        WrapOffset = wrapOffset
                     });
                 }
             }
@@ -94,6 +98,7 @@ public static class KataInnerStirrupLayout
     private static (List<Point3> Shape, Point3 Toward, int HookAngle, double HookFactor) Geometry(
         KataStirrupShapeType type, double ya, double yb, double off, double zTop, double zBottom, KataDetailingRules rules)
     {
+        double zBottomBar = zBottom - rules.StirrupCover - rules.StirrupDiameter / 2.0 + rules.BottomBarCentreDepth;
         double left = ya - off, right = yb + off;
         var centre = new Point3(0.0, (left + right) / 2.0, (zTop + zBottom) / 2.0);
         switch (type)
@@ -103,12 +108,10 @@ public static class KataInnerStirrupLayout
                     centre, rules.ClosedStirrupHookAngle, rules.ClosedStirrupHookFactor);
 
             case KataStirrupShapeType.CrossTie:
-            {
-                // Beside the bar on the side of the beam's centre, the hooks turning round the bar.
-                double y = ya <= 0.0 ? ya + off : ya - off;
-                return (new List<Point3> { new(0, y, zTop), new(0, y, zBottom) },
+                // The top bar it wraps and the bottom bar position below it; the tie runs beside them on the side
+                // of the beam's centre and each hook turns round its bar.
+                return (new List<Point3> { new(0, ya, -rules.TopBarCentreDepth), new(0, ya, zBottomBar) },
                     new Point3(0.0, ya, (zTop + zBottom) / 2.0), rules.CrossTieHookAngle, rules.CrossTieHookFactor);
-            }
 
             default:
                 return (new List<Point3> { new(0, left, zTop), new(0, right, zTop), new(0, right, zBottom), new(0, left, zBottom), new(0, left, zTop) },

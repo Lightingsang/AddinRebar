@@ -84,7 +84,7 @@ public static class KataSideBarLayout
 
     /// <summary>
     /// C ties across the beam at one side-bar layer, from the first to the last stirrup station of the span:
-    /// the straight part passes just under the two side bars and the 180° hooks turn up around them.
+    /// the straight part passes under the two side bars and each 180° hook wraps one of them.
     /// </summary>
     private static void AddTies(List<KataBarSet> ties, KataDetailingRules rules, KataBeamStations st, int span, double length,
         double y, double z, double sideDiameter, string mark)
@@ -97,8 +97,6 @@ public static class KataSideBarLayout
 
         int count = (int)Math.Floor((length - 2.0 * first) / spacing + 1e-9) + 1;
         var stations = Enumerable.Range(0, count).Select(i => st.SpanStart[span] + first + i * spacing).ToList();
-        double dt = rules.StirrupDiameter;
-        double zt = z - (sideDiameter + dt) / 2.0;
         double x0 = stations[0];
 
         ties.Add(new KataBarSet
@@ -106,15 +104,17 @@ public static class KataSideBarLayout
             BarMark = mark,
             Description = $"Móc C giữ cốt giá nhịp {span + 1}",
             Role = KataBarRole.CrossTie,
-            Diameter = dt,
+            Diameter = rules.StirrupDiameter,
             SpanIndex = span,
             ZoneName = "Cốt giá",
-            Shape = new Polyline3(new List<Point3> { new(x0, -y, zt), new(x0, y, zt) }),
+            // The side bars' centres: the tie is laid out round them where the bar type's bend radius is known.
+            Shape = new Polyline3(new List<Point3> { new(x0, -y, z), new(x0, y, z) }),
+            WrapEnds = true,
+            WrapOffset = new Point3(0.0, 0.0, -1.0),
             Stations = stations,
             Spacing = spacing,
             HookAngle = rules.CrossTieHookAngle,
             HookFactor = rules.CrossTieHookFactor,
-            // The hooks turn up round the side bars, whose centre line is above the tie.
             HookToward = new Point3(x0, 0.0, z)
         });
     }

@@ -73,6 +73,7 @@ function Press([System.Windows.Automation.AutomationElement] $scope, [string] $k
                 $pat.Invoke(); return "$key -> invoke"
             }
             if ($cur.TryGetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern, [ref]$pat)) { $pat.Select(); return "$key -> select" }
+            if ($cur.TryGetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern, [ref]$pat)) { $pat.Toggle(); return "$key -> toggle ($($pat.Current.ToggleState))" }
             $cur = $walker.GetParent($cur)
         }
     }

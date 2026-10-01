@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using Serilog;
 
@@ -41,14 +42,22 @@ public static class KataBarSetCreator
             {
                 var barType = barTypes[set.Diameter];
                 var host = placement.HostAt((set.Stations[0] + set.Stations[set.Count - 1]) / 2.0);
-                var curves = KataRebarCurveFactory.Curves(set.Shape, mapper);
 
                 if (!hooks.TryGetValue((set.HookAngle, set.HookFactor), out var hook))
                     hooks[(set.HookAngle, set.HookFactor)] = hook = KataRebarHookResolver.Find(doc, set.HookAngle, set.HookFactor);
 
                 Rebar rebar;
-                if (set.HookAngle > 0 && hook is not null)
+                if (set.HookAngle > 0 && hook is not null && set.WrapEnds && set.Shape.Points.Count == 2)
                 {
+                    // Each hook turns round its bar: the tie runs one bend radius beside the bars and reaches past
+                    // them by the radius plus half the bar, which is where Revit puts the outer face of the hook.
+                    var (shape, start, end) = KataTieWrap.Lay(set, BendRadiusMm(barType, hook.Style));
+                    var curves = KataRebarCurveFactory.Curves(shape, mapper);
+                    rebar = KataRebarCurveFactory.CreateHooked(doc, hook.Style, barType, hook.Hook, host, mapper.AxisX, curves, mapper.ToXyz(start), mapper.ToXyz(end));
+                }
+                else if (set.HookAngle > 0 && hook is not null)
+                {
+                    var curves = KataRebarCurveFactory.Curves(set.Shape, mapper);
                     var toward = mapper.ToXyz(new HPRebar.Core.BeamRebar.Models.Point3(set.Stations[0], set.HookToward.Y, set.HookToward.Z));
                     rebar = KataRebarCurveFactory.CreateHooked(doc, hook.Style, barType, hook.Hook, host, mapper.AxisX, curves, toward);
                 }
@@ -56,7 +65,8 @@ public static class KataBarSetCreator
                 {
                     if (set.HookAngle > 0)
                         warnings.Add($"Dự án chưa có kiểu móc {set.HookAngle}° (RebarHookType): {set.Description} vẽ không móc.");
-                    rebar = KataRebarCurveFactory.Create(doc, RebarStyle.StirrupTie, barType, host, mapper.AxisX, curves);
+                    var shape = set.WrapEnds && set.Shape.Points.Count == 2 ? KataTieWrap.Lay(set, 0.0).Shape : set.Shape;
+                    rebar = KataRebarCurveFactory.Create(doc, RebarStyle.StirrupTie, barType, host, mapper.AxisX, KataRebarCurveFactory.Curves(shape, mapper));
                 }
 
                 if (set.Count > 1)
@@ -79,6 +89,13 @@ public static class KataBarSetCreator
         }
 
         return new KataBarSetOutcome(sets, bars, warnings.Distinct().ToList());
+    }
+
+    /// <summary>Centre-line radius of a hook bend: half the bar type's bend diameter for the style, plus half the bar.</summary>
+    private static double BendRadiusMm(RebarBarType barType, RebarStyle style)
+    {
+        double bend = style == RebarStyle.StirrupTie ? barType.StirrupTieBendDiameter : barType.StandardHookBendDiameter;
+        return (bend + barType.BarModelDiameter) / 2.0 * MmPerFoot;
     }
 
     /// <summary>The copies must run along +X from the first station; a set laid the other way is reported.</summary>

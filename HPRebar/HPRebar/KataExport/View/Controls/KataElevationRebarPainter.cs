@@ -37,6 +37,7 @@ internal sealed class KataElevationRebarPainter
     public void Paint()
     {
         PaintStirrupZones();
+        PaintBarSets();
         PaintSideBars();
         PaintMainBars();
         PaintExtraBottomBars();
@@ -76,6 +77,31 @@ internal sealed class KataElevationRebarPainter
                 string text = $"{zone.Count}Ø{stirrupDiameter:0}a{zone.Spacing:0}";
                 var formatted = _draw.Text(text, _palette.MutedText, KataDrawPrimitives.SmallTextSize, bold: false);
                 _draw.Centered(formatted, midX, (topY + bottomY) / 2.0 - formatted.Height / 2.0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Inner stirrups and C ties along the beam: an upright one as a dashed stroke over its height, a tie across
+    /// the beam as a small ring at its level, at every station.
+    /// </summary>
+    private void PaintBarSets()
+    {
+        foreach (var set in _layout.BarSets)
+        {
+            var p = set.Shape.Points;
+            if (p.Count < 2 || set.Count == 0) continue;
+            double zTop = p.Max(q => q.Z), zBottom = p.Min(q => q.Z);
+            double yTop = _scene.Y(_scene.Elevation.TopMm + zTop), yBottom = _scene.Y(_scene.Elevation.TopMm + zBottom);
+
+            foreach (double station in set.Stations)
+            {
+                double sx = X(station);
+                if (!_scene.IsVisible(sx - 3, sx + 3)) continue;
+                if (yBottom - yTop > 3.0)
+                    _draw.Line(_palette.RebarSide, sx, yTop, sx, yBottom);
+                else
+                    _draw.Circle(null, _palette.RebarSide, sx, (yTop + yBottom) / 2.0, 1.8);
             }
         }
     }
