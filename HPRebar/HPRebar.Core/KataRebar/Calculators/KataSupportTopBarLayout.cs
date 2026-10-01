@@ -46,6 +46,7 @@ public static class KataSupportTopBarLayout
 
             double span = Math.Max(k > 0 ? spec.Spans[k - 1].Length : 0.0, k < last ? spec.Spans[k].Length : 0.0);
 
+            var rows = new List<TopRow>();
             for (int layer = 0; layer < 4; layer++)
             {
                 var sides = KataTopLayerStack.Sides(spec, k, layer);
@@ -73,6 +74,18 @@ public static class KataSupportTopBarLayout
                 // A cut beyond an end support would leave the beam: the bar then stops at that support's far face.
                 leftCut = Math.Max(leftCut, st.SupportStart[0] + rules.TopBarCentreDepth);
                 rightCut = Math.Min(rightCut, st.SupportEnd[last] - rules.TopBarCentreDepth);
+                var (leftThrough, rightThrough) = spanSide == 0 && !sides.IsSymmetric ? RunThrough(rules, st, k, sides) : (null, null);
+                rows.Add(new TopRow(layer, sides, level, cell, leftCut, rightCut,
+                    ReachesLeft: spanSide < 0 || (spanSide == 0 && sides.Left.Count > 0),
+                    ReachesRight: spanSide > 0 || (spanSide == 0 && sides.Right.Count > 0),
+                    leftThrough, rightThrough));
+            }
+
+            KataTopBarStagger.Apply(rows, st, rules, k, warnings);
+
+            foreach (var row in rows)
+            {
+                var (layer, sides, level, _, leftCut, rightCut, _, _, leftThrough, rightThrough) = row;
                 string mark = $"3.{k + 1}.{layer + 1}";
 
                 if (spanSide > 0)
@@ -98,13 +111,11 @@ public static class KataSupportTopBarLayout
                     KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(allYs) : allYs, spacingD, rules);
                     var (ysLeft, ysRight) = KataLayerPositions.PartitionInterleaved(allYs, countLeft, countRight, leftStrong);
 
-                    double firstLimit = st.SupportStart[0] + rules.TopBarCentreDepth;
-                    double lastLimit = st.SupportEnd[last] - rules.TopBarCentreDepth;
                     var leftEnd = leftStrong
                         ? Anchor(spec, rules, st, k, level, sides.Left, outward: +1)
-                        : new KataBarEnd(Math.Min(lastLimit, st.SupportEnd[k] + rules.TopAnchorageFactor * MaxDiameter(sides.Left)), 0.0, 0.0);
+                        : new KataBarEnd(rightThrough ?? st.SupportEnd[k], 0.0, 0.0);
                     var rightStart = leftStrong
-                        ? new KataBarEnd(Math.Max(firstLimit, st.SupportStart[k] - rules.TopAnchorageFactor * MaxDiameter(sides.Right)), 0.0, 0.0)
+                        ? new KataBarEnd(leftThrough ?? st.SupportStart[k], 0.0, 0.0)
                         : Anchor(spec, rules, st, k, level, sides.Right, outward: -1);
 
                     Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark + "T",
@@ -139,10 +150,28 @@ public static class KataSupportTopBarLayout
             legRoom -= (d + dBottom) / 2.0 + rules.LayerGap(d, dBottom);
         }
         return KataAnchorage.Solve(innerFace, st.SupportWidth[support], outward, rules.TopBarCentreDepth,
-            rules.TopAnchorageFactor * d, rules.MinimumLegFactor * d, legRoom, level.Inset);
+            rules.TopAnchorageFactor * d, rules.MinimumLegFactor * d, legRoom, level.Inset, rules.RoundLegMm);
     }
 
     private static double Area(IEnumerable<KataBarItem> items) => items.Sum(i => i.Count * i.Diameter * i.Diameter);
+
+    /// <summary>
+    /// Where the weaker side of a left/right cell over interior support <paramref name="k"/> stops: it runs straight
+    /// through the support and on G2·d into the neighbouring span (never past the beam ends). The stronger side
+    /// anchors over the support instead.
+    /// </summary>
+    private static (double? Left, double? Right) RunThrough(KataDetailingRules rules, KataBeamStations st, int k, KataSideBars sides)
+    {
+        bool leftStrong = Area(sides.Left) >= Area(sides.Right);
+        if (leftStrong)
+            return sides.Right.Count == 0
+                ? (null, null)
+                : (Math.Max(st.SupportStart[0] + rules.TopBarCentreDepth, st.SupportStart[k] - rules.TopAnchorageFactor * MaxDiameter(sides.Right)), null);
+
+        return sides.Left.Count == 0
+            ? (null, null)
+            : (null, Math.Min(st.SupportEnd[st.SpanCount] - rules.TopBarCentreDepth, st.SupportEnd[k] + rules.TopAnchorageFactor * MaxDiameter(sides.Left)));
+    }
 
     private static double MaxDiameter(IReadOnlyList<KataBarItem> items) => items.Count == 0 ? 0.0 : items.Max(i => i.Diameter);
 

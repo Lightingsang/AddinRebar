@@ -47,14 +47,20 @@ public static class KataSettingsJson
             if (value is not null) p.SetValue(settings, value);
         }
 
-        return Valid(settings);
+        return Sanitize(settings);
     }
 
-    /// <summary>A hand-edited value out of range falls back to the Kata default, as the dialog would refuse it.</summary>
-    private static KataSettings Valid(KataSettings s)
+    /// <summary>
+    /// Every value out of range (negative, NaN, infinite, a fraction past half the span) replaced by the default,
+    /// as the dialog would refuse it. Applied to a hand-edited file, to what the dialog saves and to what the rules use.
+    /// </summary>
+    public static KataSettings Sanitize(KataSettings s)
     {
+        if (s is null) throw new ArgumentNullException(nameof(s));
         var d = KataSettings.Default;
         static bool Positive(double v) => v > 0.0 && !double.IsInfinity(v);
+        static bool NonNegative(double v) => v >= 0.0 && !double.IsInfinity(v);
+        static bool HalfSpan(double v) => v >= 0.0 && v <= 0.5;
         static bool Angle(int a) => a is 90 or 135 or 180;
         return s with
         {
@@ -65,7 +71,15 @@ public static class KataSettingsJson
             CrossTieHookFactor = Positive(s.CrossTieHookFactor) ? s.CrossTieHookFactor : d.CrossTieHookFactor,
             RoundCutExtraMm = s.RoundCutExtraMm >= 0.0 && !double.IsInfinity(s.RoundCutExtraMm) ? s.RoundCutExtraMm : d.RoundCutExtraMm,
             SideBarAnchorageFactor = Positive(s.SideBarAnchorageFactor) ? s.SideBarAnchorageFactor : d.SideBarAnchorageFactor,
-            SideBarTieSpacing = Positive(s.SideBarTieSpacing) ? s.SideBarTieSpacing : d.SideBarTieSpacing
+            SideBarTieSpacing = Positive(s.SideBarTieSpacing) ? s.SideBarTieSpacing : d.SideBarTieSpacing,
+            CurtailedExtensionMm = NonNegative(s.CurtailedExtensionMm) ? s.CurtailedExtensionMm : d.CurtailedExtensionMm,
+            DenseZoneHeightFactor = NonNegative(s.DenseZoneHeightFactor) ? s.DenseZoneHeightFactor : d.DenseZoneHeightFactor,
+            EndZoneFraction = HalfSpan(s.EndZoneFraction) ? s.EndZoneFraction : d.EndZoneFraction,
+            BottomExtraCutFraction = HalfSpan(s.BottomExtraCutFraction) && s.BottomExtraCutFraction < 0.5 ? s.BottomExtraCutFraction : d.BottomExtraCutFraction,
+            MinimumLegFactor = Positive(s.MinimumLegFactor) ? s.MinimumLegFactor : d.MinimumLegFactor,
+            LayerClearGap = NonNegative(s.LayerClearGap) ? s.LayerClearGap : d.LayerClearGap,
+            RoundLegMm = NonNegative(s.RoundLegMm) ? s.RoundLegMm : d.RoundLegMm,
+            SideBarRequiredHeight = NonNegative(s.SideBarRequiredHeight) ? s.SideBarRequiredHeight : d.SideBarRequiredHeight
         };
     }
 

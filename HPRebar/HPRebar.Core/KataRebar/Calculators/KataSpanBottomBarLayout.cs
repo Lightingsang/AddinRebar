@@ -11,7 +11,7 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// Additional bottom bars of the spans (rows 17-18). Row 18 (layer 1) shares the bottom main bars' level and
 /// fills the gaps between them, each bar resting on the stirrup by its own diameter when that sits lower than
 /// the main bars' centre; row 17 (layer 2) sits above the highest bar of that level at a clear gap of
-/// max(25, d), spread over the width with the larger bars at the edges, or on the stirrup when the level is
+/// max(30, d) (the rules' layer gap), spread over the width with the larger bars at the edges, or on the stirrup when the level is
 /// empty. Both are straight and stop <see cref="KataDetailingRules.BottomExtraCutFraction"/> x the clear span
 /// from each support face.
 /// </summary>

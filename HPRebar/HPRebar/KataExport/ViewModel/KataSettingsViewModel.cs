@@ -23,6 +23,14 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     [ObservableProperty] private double _roundCutExtraMm;
     [ObservableProperty] private double _sideBarAnchorageFactor;
     [ObservableProperty] private double _sideBarTieSpacing;
+    [ObservableProperty] private double _curtailedExtensionMm;
+    [ObservableProperty] private double _denseZoneHeightFactor;
+    [ObservableProperty] private double _endZoneFraction;
+    [ObservableProperty] private double _bottomExtraCutFraction;
+    [ObservableProperty] private double _minimumLegFactor;
+    [ObservableProperty] private double _layerClearGap;
+    [ObservableProperty] private double _roundLegMm;
+    [ObservableProperty] private double _sideBarRequiredHeight;
     [ObservableProperty] private string _message = string.Empty;
 
     /// <summary>The settings were accepted but the file could not be written (they still apply to this session).</summary>
@@ -40,10 +48,25 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     [RelayCommand]
     private void Accept()
     {
-        if (MaxBarLength <= 0.0 || ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
-            || SideBarAnchorageFactor <= 0.0 || SideBarTieSpacing <= 0.0)
+        double[] all =
         {
-            Message = "Các giá trị phải dương (làm tròn có thể là 0 = không làm tròn).";
+            MaxBarLength, ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, SideBarTieSpacing,
+            CurtailedExtensionMm, DenseZoneHeightFactor, EndZoneFraction, BottomExtraCutFraction, MinimumLegFactor, LayerClearGap,
+            RoundLegMm, SideBarRequiredHeight
+        };
+        if (Array.Exists(all, v => double.IsNaN(v) || double.IsInfinity(v)))
+        {
+            Message = "Có ô không phải số hữu hạn.";
+            return;
+        }
+
+        if (MaxBarLength <= 0.0 || ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
+            || SideBarAnchorageFactor <= 0.0 || SideBarTieSpacing <= 0.0 || CurtailedExtensionMm < 0.0
+            || DenseZoneHeightFactor < 0.0 || EndZoneFraction < 0.0 || EndZoneFraction > 0.5
+            || BottomExtraCutFraction < 0.0 || BottomExtraCutFraction >= 0.5
+            || MinimumLegFactor <= 0.0 || LayerClearGap < 0.0 || RoundLegMm < 0.0 || SideBarRequiredHeight < 0.0)
+        {
+            Message = "Các giá trị phải hợp lệ: tỉ lệ vùng đai dày 0 … 0.5, tỉ lệ cắt gia cường bụng 0 … < 0.5 (× Ln); cắt lệch, làm tròn, khe lớp và h cốt giá không âm (0 = tắt).";
             return;
         }
 
@@ -56,7 +79,15 @@ public sealed partial class KataSettingsViewModel : ObservableObject
             CrossTieHookFactor = CrossTieHookFactor,
             RoundCutExtraMm = RoundCutExtraMm,
             SideBarAnchorageFactor = SideBarAnchorageFactor,
-            SideBarTieSpacing = SideBarTieSpacing
+            SideBarTieSpacing = SideBarTieSpacing,
+            CurtailedExtensionMm = CurtailedExtensionMm,
+            DenseZoneHeightFactor = DenseZoneHeightFactor,
+            EndZoneFraction = EndZoneFraction,
+            BottomExtraCutFraction = BottomExtraCutFraction,
+            MinimumLegFactor = MinimumLegFactor,
+            LayerClearGap = LayerClearGap,
+            RoundLegMm = RoundLegMm,
+            SideBarRequiredHeight = SideBarRequiredHeight
         };
 
         SaveFailed = !KataSettingsStore.Save(settings);
@@ -79,6 +110,14 @@ public sealed partial class KataSettingsViewModel : ObservableObject
         RoundCutExtraMm = s.RoundCutExtraMm;
         SideBarAnchorageFactor = s.SideBarAnchorageFactor;
         SideBarTieSpacing = s.SideBarTieSpacing;
+        CurtailedExtensionMm = s.CurtailedExtensionMm;
+        DenseZoneHeightFactor = s.DenseZoneHeightFactor;
+        EndZoneFraction = s.EndZoneFraction;
+        BottomExtraCutFraction = s.BottomExtraCutFraction;
+        MinimumLegFactor = s.MinimumLegFactor;
+        LayerClearGap = s.LayerClearGap;
+        RoundLegMm = s.RoundLegMm;
+        SideBarRequiredHeight = s.SideBarRequiredHeight;
         Message = string.Empty;
     }
 }

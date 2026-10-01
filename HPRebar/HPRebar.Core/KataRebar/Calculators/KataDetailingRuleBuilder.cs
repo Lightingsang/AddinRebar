@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.KataRebar.Models;
+using HPRebar.Core.KataRebar.Parsers;
 
 namespace HPRebar.Core.KataRebar.Calculators;
 
@@ -22,7 +23,7 @@ public static class KataDetailingRuleBuilder
     public static KataDetailingRules Build(KataBeamRebarSpec spec, KataSettings? settings = null)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
-        settings ??= KataSettings.Default;
+        settings = KataSettingsJson.Sanitize(settings ?? KataSettings.Default);
 
         var warnings = new List<string>();
         var errors = new List<string>();
@@ -56,6 +57,10 @@ public static class KataDetailingRuleBuilder
         if (depth > 0.0 && topDepth + botDepth >= depth)
             errors.Add($"Dầm cao {depth:0} mm không đủ chỗ cho hai lớp thép chủ cách mép {topDepth:0} và {botDepth:0} mm.");
 
+        double stagger = spec.CurtailedExtension > 0.0 ? spec.CurtailedExtension : settings.CurtailedExtensionMm;
+        if (spec.CurtailedExtension <= 0.0 && !string.IsNullOrWhiteSpace(spec.CurtailedExtensionText))
+            warnings.Add($"G1 '{spec.CurtailedExtensionText.Trim()}' không phải một số dương: cắt lệch thép gia cường gối dùng thiết lập {stagger:0} mm.");
+
         return new KataDetailingRules
         {
             TopBarCentreDepth = topDepth,
@@ -64,10 +69,19 @@ public static class KataDetailingRuleBuilder
             StirrupDiameter = ds,
             TopAnchorageFactor = spec.TensionLapMultiplier > 0.0 ? spec.TensionLapMultiplier : DefaultTopAnchorageFactor,
             BottomAnchorageFactor = spec.CompressionLapMultiplier > 0.0 ? spec.CompressionLapMultiplier : DefaultBottomAnchorageFactor,
-            SideBarAnchorageFactor = settings.SideBarAnchorageFactor > 0.0 ? settings.SideBarAnchorageFactor : 10.0,
-            MaxBarLength = settings.MaxBarLength > 0.0 ? settings.MaxBarLength : 11700.0,
-            RoundCutExtraMm = Math.Max(0.0, settings.RoundCutExtraMm),
-            SideBarTieSpacing = settings.SideBarTieSpacing > 0.0 ? settings.SideBarTieSpacing : 400.0,
+            // The settings are sanitised above: every value is in range.
+            SideBarAnchorageFactor = settings.SideBarAnchorageFactor,
+            MaxBarLength = settings.MaxBarLength,
+            RoundCutExtraMm = settings.RoundCutExtraMm,
+            SideBarTieSpacing = settings.SideBarTieSpacing,
+            CurtailedExtension = stagger,
+            DenseZoneHeightFactor = settings.DenseZoneHeightFactor,
+            EndZoneFraction = settings.EndZoneFraction,
+            BottomExtraCutFraction = settings.BottomExtraCutFraction,
+            MinimumLegFactor = settings.MinimumLegFactor,
+            LayerClearGap = settings.LayerClearGap,
+            RoundLegMm = settings.RoundLegMm,
+            SideBarRequiredHeight = settings.SideBarRequiredHeight,
             ClosedStirrupHookAngle = settings.ClosedStirrupHookAngle,
             ClosedStirrupHookFactor = settings.ClosedStirrupHookFactor,
             CrossTieHookAngle = settings.CrossTieHookAngle,

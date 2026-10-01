@@ -98,7 +98,7 @@ public class KataRebarCalculatorTests
             var pts = bar.Polyline.Points;
 
             // The 400 mm column cannot hold 40d = 800 straight: the bar runs to the far face (centre 43 mm
-            // from it) and bends down with a leg supplying the rest: 800 − (400 − 43) = 443.
+            // from it) and bends down with a leg supplying the rest: 800 − (400 − 43) = 443, rounded up to 450.
             Assert.Equal(43.0, pts[0].X);
             Assert.Equal(43.0, pts[1].X);
             Assert.Equal(6757.0, pts[2].X);
@@ -111,8 +111,8 @@ public class KataRebarCalculatorTests
             Assert.True(pts[0].Z < pts[1].Z);
             Assert.True(pts[3].Z < pts[2].Z);
 
-            Assert.Equal(443.0, bar.StartHookLength, 6);
-            Assert.Equal(443.0, bar.EndHookLength, 6);
+            Assert.Equal(450.0, bar.StartHookLength, 6);
+            Assert.Equal(450.0, bar.EndHookLength, 6);
         }
 
         // 2. Transverse Y centering of 3 top bars
@@ -138,12 +138,12 @@ public class KataRebarCalculatorTests
             Assert.True(pts[0].Z > pts[1].Z);
             Assert.True(pts[3].Z > pts[2].Z);
 
-            // 30d = 600 would give a 243 mm leg overlapping the 443 mm top leg (room 514), so the bottom leg
-            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 43 − 45) = 288.
+            // 30d = 600 needs a 300 mm leg (15d) that overlaps the 450 mm top leg (room 514), so the bottom leg
+            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 43 − 45) = 288, raised to the 15d = 300 minimum.
             Assert.Equal(88.0, pts[0].X, 6);
             Assert.Equal(6712.0, pts[3].X, 6);
-            Assert.Equal(288.0, bar.StartHookLength, 6);
-            Assert.Equal(288.0, bar.EndHookLength, 6);
+            Assert.Equal(300.0, bar.StartHookLength, 6);
+            Assert.Equal(300.0, bar.EndHookLength, 6);
         }
 
         // 4. 3-Zone Stirrups
@@ -301,13 +301,17 @@ public class KataRebarCalculatorTests
         }
 
         // Support 1 extension into spans: max(L_left, L_right) = max(10400, 6500) = 10400 mm
-        // Layer 1: ratio = 0.25, Lcutoff = 2600 mm from column face
-        // Support 1 left face = 400 + 10400 = 10800 mm. Right face = 11200 mm.
-        // Xstart = 10800 - 2600 = 8200 mm. Xend = 11200 + 2600 = 13800 mm. Total length = 5600 mm.
+        // Layer 1: ratio = 0.25, Lcutoff = 2600 mm from column face → 8200 / 13800.
+        // Layers 2-3: ratio 0.20 = 2080 → 2100 from the centre 11000 → 8900 / 13100.
+        // Staggered by 500 (G1 default) from the inside out: layer 2 → 8400 / 13600, layer 1 → 7900 / 14100.
         var supp1Layer1 = supp1Bars.First(b => b.Layer == 1);
-        Assert.Equal(8200.0, supp1Layer1.Polyline.Points[0].X);
-        Assert.Equal(13800.0, supp1Layer1.Polyline.Points[1].X);
-        Assert.Equal(5600.0, supp1Layer1.Polyline.TotalLength);
+        Assert.Equal(7900.0, supp1Layer1.Polyline.Points[0].X);
+        Assert.Equal(14100.0, supp1Layer1.Polyline.Points[1].X);
+        Assert.Equal(6200.0, supp1Layer1.Polyline.TotalLength);
+        var supp1Layer2 = supp1Bars.First(b => b.Layer == 2);
+        Assert.Equal((8400.0, 13600.0), (supp1Layer2.Polyline.Points[0].X, supp1Layer2.Polyline.Points[1].X));
+        var supp1Layer3 = supp1Bars.First(b => b.Layer == 3);
+        Assert.Equal((8900.0, 13100.0), (supp1Layer3.Polyline.Points[0].X, supp1Layer3.Polyline.Points[1].X));
 
         // 3. Extra Bottom Bars in Spans
         // Span 0: 6f25 (L1) + 2f20 (L2) = 8 bars
@@ -317,10 +321,10 @@ public class KataRebarCalculatorTests
         var span0Bot = result.ExtraBottomBars.Where(b => b.HostSpanIndex == 0).ToList();
         Assert.Equal(8, span0Bot.Count);
 
-        // Span 0 clear length = 10400. Cutoff L/7 = 1485.71 mm from faces, rounded down to the 50 mm cut step.
+        // Span 0 clear length = 10400. Cutoff 0.15 L = 1560 mm from faces, rounded down to the 50 mm cut step.
         // Start face = 400. End face = 10800.
-        double expectedBotStart = 400.0 + 1450.0;
-        double expectedBotEnd = 10800.0 - 1450.0;
+        double expectedBotStart = 400.0 + 1550.0;
+        double expectedBotEnd = 10800.0 - 1550.0;
         Assert.Equal(expectedBotStart, span0Bot[0].Polyline.Points[0].X, precision: 1);
         Assert.Equal(expectedBotEnd, span0Bot[0].Polyline.Points[1].X, precision: 1);
 
@@ -460,11 +464,11 @@ public class KataRebarCalculatorTests
         double z3 = layer3[0].Polyline.Points[0].Z;
         double z4 = layer4[0].Polyline.Points[0].Z;
 
-        // Row 13 shares the main bars' level; rows 14-16 stack below at a clear gap of max(25, d).
+        // Row 13 shares the main bars' level; rows 14-16 stack below at a clear gap of max(30, d).
         Assert.Equal(result.MainTopBars[0].Polyline.Points[1].Z, z1, 6);
-        Assert.Equal(25.0 / 2 + 25.0 + 25.0 / 2, z1 - z2, 6);
-        Assert.Equal(25.0 / 2 + 25.0 + 20.0 / 2, z2 - z3, 6);
-        Assert.Equal(20.0 / 2 + 25.0 + 20.0 / 2, z3 - z4, 6);
+        Assert.Equal(25.0 / 2 + 30.0 + 25.0 / 2, z1 - z2, 6);
+        Assert.Equal(25.0 / 2 + 30.0 + 20.0 / 2, z2 - z3, 6);
+        Assert.Equal(20.0 / 2 + 30.0 + 20.0 / 2, z3 - z4, 6);
 
         // Cutoff extension lengths: Layer 1 (ratio = 0.333) should be longer than Layer 2 (ratio = 0.25)
         Assert.True(layer1[0].Polyline.TotalLength > layer2[0].Polyline.TotalLength);
@@ -853,8 +857,9 @@ public class KataRebarCalculatorTests
     }
 
     /// <summary>
-    /// The allowed warnings are anchorage shortfalls of shallow beams, extra bar cutoffs, or main bar length > 11.7 m.
+    /// The allowed warnings are anchorage shortfalls of shallow beams, extra bar cutoffs, main bar length > 11.7 m,
+    /// or a deep beam drawn without side bars.
     /// </summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
-        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ"), w));
+        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ") || w.Contains("thiếu cốt giá"), w));
 }

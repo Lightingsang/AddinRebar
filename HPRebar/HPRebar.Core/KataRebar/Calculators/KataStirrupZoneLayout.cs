@@ -5,10 +5,12 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// Three stirrup zones per span: a dense zone at each support (length = clear span × end-zone fraction,
-/// first stirrup at the first-stirrup offset from the face) and a middle zone at exactly the mid-span
-/// spacing, centred in the gap so each transition gap lies between half and one mid-span spacing.
-/// A cantilever span gets one uniform zone.
+/// Three stirrup zones per span: a dense zone at each support (length = max(2h, 0.25 × clear span) by default,
+/// never more than half the span; first stirrup at the first-stirrup offset from the face) and a middle zone at
+/// exactly the mid-span spacing, centred in the gap so each transition gap lies between half and one mid-span
+/// spacing. When the dense zones fill the span there is no sparse middle zone: a right-zone stirrup that would sit on
+/// the last left-zone one is dropped, and a leftover gap wider than the dense spacing is closed with evenly spaced
+/// dense stirrups. A cantilever span gets one uniform zone.
 /// </summary>
 public static class KataStirrupZoneLayout
 {
@@ -52,7 +54,7 @@ public static class KataStirrupZoneLayout
             bool isCantilever = (s == 0 && st.IsLeftCantilever) || (s == st.SpanCount - 1 && st.IsRightCantilever);
             var runs = isCantilever
                 ? new List<(string Name, double Spacing, List<double> Stations)> { ("Console", sCant, CantileverStations(st, s, ln, sCant, rules)) }
-                : ThreeZones(st, s, ln, sDense, sSparse, sEnd, rules);
+                : ThreeZones(st, s, ln, spec.Height, sDense, sSparse, sEnd, rules);
 
             // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {
@@ -92,19 +94,21 @@ public static class KataStirrupZoneLayout
     {
         LeftZone => 0,
         MiddleZone => 1,
+        FillerZone => 1,
         RightZone => 2,
         _ => 0
     };
 
     private const string LeftZone = "Gối trái";
     private const string MiddleZone = "Giữa nhịp";
+    private const string FillerZone = "Giữa nhịp (đai dày)";
     private const string RightZone = "Gối phải";
 
     private static List<(string, double, List<double>)> ThreeZones(
-        KataBeamStations st, int s, double ln, double sDense, double sSparse, double sEnd, KataDetailingRules rules)
+        KataBeamStations st, int s, double ln, double height, double sDense, double sSparse, double sEnd, KataDetailingRules rules)
     {
         double offset = rules.FirstStirrupOffset;
-        double endZone = ln * rules.EndZoneFraction;
+        double endZone = rules.DenseZoneLength(ln, height);
 
         int intervals1 = (int)Math.Floor(Math.Max(0.0, endZone - offset) / sDense + 1e-9);
         var left = new List<double>(intervals1 + 1);
@@ -116,10 +120,34 @@ public static class KataStirrupZoneLayout
         for (int i = 0; i <= intervals3; i++) right.Add(firstRight + i * sEnd);
 
         double lastLeft = left[left.Count - 1];
+        // Zones that meet in the middle: a right stirrup closer than half a spacing to the last left one is the
+        // same stirrup twice.
+        double tooClose = 0.5 * Math.Min(sDense, sEnd);
+        while (right.Count > 0 && right[0] - lastLeft < tooClose) right.RemoveAt(0);
+        if (right.Count > 0) firstRight = right[0];
+
         double gap = firstRight - lastLeft;
         var middle = new List<double>();
-        if (gap > 2.0 * Math.Min(sDense, sSparse))
+        double middleSpacing = sSparse;
+        string middleName = MiddleZone;
+        bool zonesMeet = 2.0 * endZone >= ln - 1e-6;
+        if (zonesMeet && right.Count > 0)
         {
+            // Dense from face to face: the two zones each start at their own face, so the leftovers can meet
+            // in a gap up to two spacings wide. Evenly spaced dense stirrups close it, never wider than the
+            // smaller dense spacing.
+            double dense = Math.Min(sDense, sEnd);
+            int fill = (int)Math.Ceiling(gap / dense - 1e-9) - 1;
+            if (fill > 0)
+            {
+                middleSpacing = gap / (fill + 1);
+                middleName = FillerZone;
+                for (int i = 1; i <= fill; i++) middle.Add(lastLeft + i * middleSpacing);
+            }
+        }
+        else if (right.Count > 0 && gap > sSparse + 1e-6)
+        {
+            // Any gap wider than the mid-span spacing gets stirrups; a narrow one a single stirrup in its middle.
             int intervals2 = Math.Max(0, (int)Math.Ceiling(gap / sSparse - 2.0 - 1e-9));
             double delta = (gap - intervals2 * sSparse) / 2.0;
             for (int i = 0; i <= intervals2; i++) middle.Add(lastLeft + delta + i * sSparse);
@@ -128,7 +156,7 @@ public static class KataStirrupZoneLayout
         return new List<(string, double, List<double>)>
         {
             (LeftZone, sDense, left),
-            (MiddleZone, sSparse, middle),
+            (middleName, middleSpacing, middle),
             (RightZone, sEnd, right)
         };
     }

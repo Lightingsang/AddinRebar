@@ -30,10 +30,16 @@ public static class KataSideBarLayout
             ? -spec.Height + rules.StirrupCover + rules.StirrupDiameter
             : -spec.Height + rules.BottomBarCentreDepth;
 
+        var missing = new List<string>();
         for (int s = 0; s < st.SpanCount && s < spec.Spans.Count; s++)
         {
             var (layers, diameter) = Layers(spec, spec.Spans[s], warnings);
-            if (layers == 0 || diameter <= 0.0) continue;
+            if (layers == 0 || diameter <= 0.0)
+            {
+                // Row 20 "0" is the user's own choice; an empty row 20 with no G4/G5 is an omission.
+                if (spec.Spans[s].SideBars.Count == 0) missing.Add(Cell(spec.Spans[s]));
+                continue;
+            }
 
             double length = st.SpanEnd[s] - st.SpanStart[s];
             double xStart = st.SpanStart[s] - Anchorage(rules, st.SupportWidth[s], diameter, interior: s > 0);
@@ -52,6 +58,10 @@ public static class KataSideBarLayout
                     AddTies(ties, rules, st, s, length, y, z, diameter, mark + "C");
             }
         }
+
+        if (missing.Count > 0 && rules.SideBarRequiredHeight > 0.0 && spec.Height >= rules.SideBarRequiredHeight - 1e-6)
+            warnings.Add($"Dầm cao {spec.Height:0} mm ≥ {rules.SideBarRequiredHeight:0} mm nhưng G4/G5 và hàng 20 ({string.Join(", ", missing)}) trống: " +
+                "thiếu cốt giá (TCVN 5574 mục 10.3.1.2) — không tự sinh, nhập G4/G5 hoặc hàng 20.");
 
         return (bars, ties);
     }

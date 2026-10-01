@@ -36,6 +36,11 @@ public static class KataBarNotationParser
         return bad;
     }
 
+    /// <summary>A cell holding one positive number gives it; anything else (empty, "-300;11700", text, 0) gives 0.</summary>
+    public static double ParsePositive(string? text) =>
+        double.TryParse(text?.Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double v)
+        && v > 0.0 && !double.IsInfinity(v) ? v : 0.0;
+
     /// <summary>
     /// Parses a bar notation string into a list of <see cref="KataBarItem"/>s.
     /// Supports compound notations separated by ';' or '+' or ',' (e.g. '2f20;2f16', '6f20;0', '2f20+1f18').

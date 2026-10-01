@@ -13,8 +13,8 @@ namespace HPRebar.Core.Tests.KataRebar;
 /// </summary>
 public sealed class KataSpanBottomBarTests
 {
-    // 6000 / 7 = 857 kept free of the bars, rounded down to the 50 mm cut step.
-    private const double Cut = 850.0;
+    // 0.15 × 6000 = 900 kept free of the bars, rounded down to the 50 mm cut step.
+    private const double Cut = 900.0;
 
     private static KataRebarPlan Plan(KataCellTable table, KataMeasuredBeam? measured = null) =>
         KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), measured ?? KataRebarTestSheets.MeasuredSingleSpan());
@@ -55,9 +55,9 @@ public sealed class KataSpanBottomBarTests
     {
         var row17 = Plan(Sheet()).Layout.ExtraBottomBars.Where(b => b.Layer == 2).OrderBy(b => b.TransverseY).ToList();
 
-        // −557 + 20/2 + max(25, 20) + 18/2; edge bars touch the stirrup: 150 − 25 − 8 − 9.
+        // −557 + 20/2 + max(30, 20) + 18/2; edge bars touch the stirrup: 150 − 25 − 8 − 9.
         Assert.Equal(new[] { -108.0, 108.0 }, row17.Select(b => b.TransverseY).ToArray());
-        Assert.All(row17, b => Assert.Equal(-513.0, b.Polyline.Points[0].Z, 6));
+        Assert.All(row17, b => Assert.Equal(-508.0, b.Polyline.Points[0].Z, 6));
         Assert.All(row17, b => Assert.Equal("4.1.2", b.BarMark));
     }
 
@@ -70,7 +70,7 @@ public sealed class KataSpanBottomBarTests
         var bars = Plan(table).Layout.ExtraBottomBars;
 
         Assert.Equal(2, bars.Count);
-        Assert.All(bars, b => Assert.Equal(-513.0, b.Polyline.Points[0].Z, 6));
+        Assert.All(bars, b => Assert.Equal(-508.0, b.Polyline.Points[0].Z, 6));
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public sealed class KataSpanBottomBarTests
 
         double z18 = -600.0 + System.Math.Max(plan.Rules.BottomBarCentreDepth, 25.0 + 8.0 + 8.0);
         Assert.All(row18, b => Assert.Equal(z18, b.Polyline.Points[0].Z, 6));
-        Assert.All(row17, b => Assert.Equal(z18 + 8.0 + 25.0 + 9.0, b.Polyline.Points[0].Z, 6));
+        Assert.All(row17, b => Assert.Equal(z18 + 8.0 + 30.0 + 9.0, b.Polyline.Points[0].Z, 6));
     }
 
     [Fact]

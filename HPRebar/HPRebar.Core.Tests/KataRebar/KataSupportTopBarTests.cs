@@ -37,7 +37,7 @@ public sealed class KataSupportTopBarTests
         Assert.Equal(new[] { -53.5, 53.5 }, row13.Select(b => b.TransverseY).ToArray());
         foreach (var bar in row13)
         {
-            Assert.Equal(new Point3(43.0, bar.TransverseY, -486.0), bar.Polyline.Points[0]);
+            Assert.Equal(new Point3(43.0, bar.TransverseY, -493.0), bar.Polyline.Points[0]);
             Assert.Equal(new Point3(43.0, bar.TransverseY, -43.0), bar.Polyline.Points[1]);
             Assert.Equal(new Point3(1900.0, bar.TransverseY, -43.0), bar.Polyline.Points[2]);
             Assert.Equal("3.1.1", bar.BarMark);
@@ -52,14 +52,15 @@ public sealed class KataSupportTopBarTests
         Assert.Equal(4, bars.Count);
         var first = bars[0].Polyline.Points;
         Assert.Equal(-108.0, bars[0].TransverseY, 6);
-        Assert.Equal(new Point3(87.0, -108.0, -494.0), first[0]);
-        Assert.Equal(new Point3(87.0, -108.0, -87.0), first[1]);
-        Assert.Equal(new Point3(1400.0, -108.0, -87.0), first[2]);
+        // One layer down: 10 + max(30, 20) + 9 = 49 below the main bars; leg 720 − (400 − 92) = 412 → 425.
+        Assert.Equal(new Point3(92.0, -108.0, -517.0), first[0]);
+        Assert.Equal(new Point3(92.0, -108.0, -92.0), first[1]);
+        Assert.Equal(new Point3(1400.0, -108.0, -92.0), first[2]);
 
         var last = bars[2].Polyline.Points;
-        Assert.Equal(new Point3(5400.0, -108.0, -87.0), last[0]);
-        Assert.Equal(new Point3(6713.0, -108.0, -87.0), last[1]);
-        Assert.Equal(new Point3(6713.0, -108.0, -494.0), last[2]);
+        Assert.Equal(new Point3(5400.0, -108.0, -92.0), last[0]);
+        Assert.Equal(new Point3(6708.0, -108.0, -92.0), last[1]);
+        Assert.Equal(new Point3(6708.0, -108.0, -517.0), last[2]);
     }
 
     [Fact]
@@ -67,9 +68,9 @@ public sealed class KataSupportTopBarTests
     {
         var bottom = Plan().Layout.MainBottomBars[0].Polyline.Points;
 
-        // inset 44 (row 14 level) + (18 + 20)/2 + 25 = 88 → centre 43 + 88 = 131, leg 600 − (400 − 131) = 331.
-        Assert.Equal(new Point3(131.0, -107.0, -226.0), bottom[0]);
-        Assert.Equal(new Point3(6669.0, -107.0, -226.0), bottom[3]);
+        // inset 49 (row 14 level) + (18 + 20)/2 + 25 = 93 → centre 43 + 93 = 136, leg 600 − (400 − 136) = 336 → 350.
+        Assert.Equal(new Point3(136.0, -107.0, -207.0), bottom[0]);
+        Assert.Equal(new Point3(6664.0, -107.0, -207.0), bottom[3]);
     }
 
     [Fact]

@@ -39,6 +39,15 @@ public sealed record KataBeamRebarSpec
     /// <summary>Compression anchorage length multiplier in bar diameters (sheet Dam cell G3, default 30d).</summary>
     public double CompressionLapMultiplier { get; init; } = 30.0;
 
+    /// <summary>
+    /// Stagger of the additional top bars in mm (sheet Dam cell G1, "Kéo thép gia cường"): 0 when G1 is empty or
+    /// not a positive number, the settings then decide. <see cref="CurtailedExtensionText"/> keeps what G1 said.
+    /// </summary>
+    public double CurtailedExtension { get; init; }
+
+    /// <summary>Raw text of cell G1, so a value that could not be used can be reported.</summary>
+    public string CurtailedExtensionText { get; init; } = "";
+
     /// <summary>Cutoff extension ratio for top extra bars - Layer 1 (sheet Dam cell H5, default 0.25 = L/4).</summary>
     public double TopCutoffRatioLayer1 { get; init; } = 0.25;
 

@@ -14,7 +14,7 @@ public sealed record KataTopLevel(int Row, double Z, double Diameter, double Ins
 
 /// <summary>
 /// Stacks the additional-bar levels over a support: the main bars' level first, then each filled row below the
-/// previous one at a clear gap of max(25, d); empty rows take no room. A lower level's bends sit inboard of the
+/// previous one at the rules' layer gap, max(30, d); empty rows take no room. A lower level's bends sit inboard of the
 /// level above by the distance between their centres, so the legs never cross.
 /// </summary>
 public static class KataTopLayerStack

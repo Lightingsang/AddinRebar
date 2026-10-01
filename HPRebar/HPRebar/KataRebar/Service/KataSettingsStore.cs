@@ -38,11 +38,12 @@ public static class KataSettingsStore
     /// <returns>False when the file could not be written (the settings still apply to this session).</returns>
     public static bool Save(KataSettings settings)
     {
-        _cached = settings ?? throw new ArgumentNullException(nameof(settings));
+        // What is cached and written is what the rules will use: out-of-range values already replaced.
+        _cached = KataSettingsJson.Sanitize(settings ?? throw new ArgumentNullException(nameof(settings)));
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(SettingsFilePath)!);
-            File.WriteAllText(SettingsFilePath, KataSettingsJson.Write(settings), new UTF8Encoding(false));
+            File.WriteAllText(SettingsFilePath, KataSettingsJson.Write(_cached), new UTF8Encoding(false));
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

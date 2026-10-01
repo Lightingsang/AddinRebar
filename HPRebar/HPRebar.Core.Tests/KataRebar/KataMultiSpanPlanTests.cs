@@ -27,7 +27,7 @@ public sealed class KataMultiSpanPlanTests
     {
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans());
 
-        // 11614 straight + 2 × 443 legs = 12500 > 11700.
+        // 11614 straight + 2 × 450 legs = 12514 > 11700.
         Assert.Contains(plan.Warnings, w => w.StartsWith("Thép chủ trên dài") && w.Contains("11700"));
     }
 

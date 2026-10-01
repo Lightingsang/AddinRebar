@@ -292,8 +292,20 @@ public class KataStressAdversarialTests
         // 12 spans x 2 extra bars = 24 extra bottom bars
         Assert.Equal(24, result.ExtraBottomBars.Count);
 
-        // Stirrup zones: 12 spans x 3 zones = 36 zones
+        // Stirrup zones: 3 per span. In the three 3000 mm spans the dense zones (2h = 1500 each) fill the span:
+        // 10 a150 from each face leave 200 in the middle, closed by one dense stirrup (a100) instead of the
+        // sparse zone. No station twice, no gap wider than the zone spacings allow.
         Assert.Equal(36, result.StirrupZones.Count);
+        foreach (var span in result.StirrupZones.GroupBy(z => z.SpanIndex))
+        {
+            var stations = span.SelectMany(z => z.Stations).OrderBy(x => x).ToList();
+            double widest = spans[span.Key].Length <= 3000.0 ? 150.0 : 200.0;
+            for (int i = 1; i < stations.Count; i++)
+            {
+                double gap = stations[i] - stations[i - 1];
+                Assert.True(gap > 50.0 && gap <= widest + 1e-6, $"span {span.Key}: {stations[i - 1]} / {stations[i]}");
+            }
+        }
 
         // Verify total steel weight is positive, non-NaN, and finite
         Assert.True(result.TotalSteelWeightKg > 0.0);
@@ -492,11 +504,11 @@ public class KataStressAdversarialTests
         double z3 = layer3[0].Polyline.Points[0].Z;
         double z4 = layer4[0].Polyline.Points[0].Z;
 
-        // Row 13 shares the main bars' level; each lower row keeps a clear gap of max(25, d) to the one above.
+        // Row 13 shares the main bars' level; each lower row keeps a clear gap of max(30, d) to the one above.
         Assert.Equal(zCont, z1, 6);
-        Assert.Equal(25.0 / 2 + 25.0 + 25.0 / 2, z1 - z2, 6);
-        Assert.Equal(25.0 / 2 + 25.0 + 20.0 / 2, z2 - z3, 6);
-        Assert.Equal(20.0 / 2 + 25.0 + 20.0 / 2, z3 - z4, 6);
+        Assert.Equal(25.0 / 2 + 30.0 + 25.0 / 2, z1 - z2, 6);
+        Assert.Equal(25.0 / 2 + 30.0 + 20.0 / 2, z2 - z3, 6);
+        Assert.Equal(20.0 / 2 + 30.0 + 20.0 / 2, z3 - z4, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }
@@ -759,9 +771,9 @@ public class KataStressAdversarialTests
 
     #region Helper Assertion
 
-    /// <summary>The only warnings allowed are anchorage shortfalls, extra bar cutoffs, or main bar length > 11.7 m.</summary>
+    /// <summary>The only warnings allowed are anchorage shortfalls, extra bar cutoffs, main bar length > 11.7 m, or a deep beam without side bars.</summary>
     private static void AssertOnlyAnchorageWarnings(KataRebarLayoutResult result) =>
-        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ"), w));
+        Assert.All(result.Warnings, w => Assert.True(w.StartsWith("Neo thép") || w.StartsWith("Thép gia cường") || w.StartsWith("Thép chủ") || w.Contains("thiếu cốt giá"), w));
 
     private static void AssertAllCurvesSimplifiedAndValid(KataRebarLayoutResult result)
     {

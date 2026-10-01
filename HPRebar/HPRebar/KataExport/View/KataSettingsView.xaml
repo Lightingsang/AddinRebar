@@ -48,10 +48,10 @@
             <md:PackIcon Kind="CogOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
             <TextBlock Text="Thiết lập thép Kata" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Subheading}" VerticalAlignment="Center"/>
         </StackPanel>
-        <TextBlock Text="Giữ khớp với hộp 'Detail thép' của Kata; mặc định là giá trị của Kata."
+        <TextBlock Text="Giữ khớp với hộp 'Detail thép' của Kata; mặc định là giá trị của Kata và quy định thép dầm (TCVN 5574:2018)."
                    Foreground="{DynamicResource Brush.Foreground.Secondary}" TextWrapping="Wrap" Margin="0,4,0,0"/>
 
-        <TextBlock Text="Thanh thép" Style="{StaticResource GroupHeader}"/>
+        <TextBlock Text="Thanh thép &amp; Cắt bậc" Style="{StaticResource GroupHeader}"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -59,6 +59,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -68,9 +71,18 @@
             <TextBlock Grid.Row="1" Text="Làm tròn cắt thép gia cường" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RoundCutExtraMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="1" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="2" Text="Cắt lệch gia cường gối (khi G1 trống)" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsCurtailedExtension" Text="{Binding CurtailedExtensionMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="3" Text="Cắt thép gia cường bụng" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsBottomCutFraction" Text="{Binding BottomExtraCutFraction, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="x Ln" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="4" Text="Khoảng hở giữa các lớp thép" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsLayerClearGap" Text="{Binding LayerClearGap, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
-        <TextBlock Text="Móc đai" Style="{StaticResource GroupHeader}"/>
+        <TextBlock Text="Đai &amp; Vùng đai dày" Style="{StaticResource GroupHeader}"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -79,6 +91,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -90,9 +104,15 @@
             <ComboBox Grid.Row="1" Grid.Column="1" Width="70" Margin="0,2,8,2" ItemsSource="{Binding HookAngleOptions}" SelectedItem="{Binding CrossTieHookAngle, Mode=TwoWay}"/>
             <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CrossTieHookFactor, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="1" Grid.Column="3" Text="d" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="2" Text="Vùng đai dày theo chiều cao" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="2" Grid.Column="2" AutomationProperties.AutomationId="KataSettingsDenseHeightFactor" Text="{Binding DenseZoneHeightFactor, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="2" Grid.Column="3" Text="x h" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="3" Text="Vùng đai dày theo nhịp" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="3" Grid.Column="2" AutomationProperties.AutomationId="KataSettingsEndZoneFraction" Text="{Binding EndZoneFraction, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="3" Grid.Column="3" Text="x Ln" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
-        <TextBlock Text="Cốt giá" Style="{StaticResource GroupHeader}"/>
+        <TextBlock Text="Cốt giá &amp; Neo" Style="{StaticResource GroupHeader}"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -102,6 +122,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Neo cốt giá vào gối" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="0" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsSideBarAnchorage" Text="{Binding SideBarAnchorageFactor, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
@@ -109,6 +132,15 @@
             <TextBlock Grid.Row="1" Text="Bước móc C giữ cốt giá" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SideBarTieSpacing, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="1" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="2" Text="Dầm bắt buộc cốt giá (h ≥)" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsSideBarReqHeight" Text="{Binding SideBarRequiredHeight, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="3" Text="Chân móc neo tối thiểu" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsMinLegFactor" Text="{Binding MinimumLegFactor, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="d" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="4" Text="Làm tròn chân móc neo" Style="{StaticResource SettingLabel}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsRoundLeg" Text="{Binding RoundLegMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
         <TextBlock Text="Nối chồng, bẻ cổ chai và coupler chưa áp dụng: thép chủ vẽ liền, dài quá chiều dài tối đa thì cảnh báo."

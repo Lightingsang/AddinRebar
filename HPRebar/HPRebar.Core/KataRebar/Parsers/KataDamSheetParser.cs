@@ -36,6 +36,8 @@ public static class KataDamSheetParser
         string levelElevation = accessor.GetText(10, 2) ?? "";
 
         // 2. Detailing Rules (G1:G9, H3, H5, I3, I5, J9)
+        string g1Text = accessor.GetText("G1")?.Trim() ?? "";
+        double curtailedExtension = KataBarNotationParser.ParsePositive(g1Text);
         double tensionLap = accessor.GetDouble("G2") ?? 40.0;
         double compLap = accessor.GetDouble("G3") ?? 30.0;
         double topCutoffL2 = accessor.GetDouble("H3") ?? 0.20;
@@ -154,6 +156,8 @@ public static class KataDamSheetParser
             LevelElevation = levelElevation,
             TensionLapMultiplier = tensionLap,
             CompressionLapMultiplier = compLap,
+            CurtailedExtension = curtailedExtension,
+            CurtailedExtensionText = g1Text,
             TopCutoffRatioLayer1 = topCutoffL1,
             TopCutoffRatioLayer2 = topCutoffL2,
             CutoffOriginLayer1 = originL1,

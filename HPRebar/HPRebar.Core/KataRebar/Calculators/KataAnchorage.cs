@@ -15,7 +15,8 @@ public readonly record struct KataBarEnd(double X, double Leg, double Shortfall)
 /// End anchorage of a main bar in an end support, measured from the support's inner face. A support wide
 /// enough holds the bar straight; otherwise the bar runs to the far face (keeping its cover to the bar
 /// centre) and bends 90° with a leg that supplies the rest, never shorter than the minimum leg and never
-/// longer than the room between the two main bar layers.
+/// longer than the room between the two main bar layers. A leg is rounded up to the leg step when the rounded
+/// leg still fits.
 /// </summary>
 public static class KataAnchorage
 {
@@ -27,6 +28,7 @@ public static class KataAnchorage
     /// <param name="minimumLeg">Shortest bent leg.</param>
     /// <param name="legRoom">Longest leg that fits between the two main bar layers.</param>
     /// <param name="inset">Extra distance kept from the far face, for a leg moved inboard.</param>
+    /// <param name="legStep">Bent legs are rounded up to a multiple of it when that still fits; 0 = no rounding.</param>
     public static KataBarEnd Solve(
         double innerFace,
         double supportWidth,
@@ -35,7 +37,8 @@ public static class KataAnchorage
         double required,
         double minimumLeg,
         double legRoom,
-        double inset = 0.0)
+        double inset = 0.0,
+        double legStep = 0.0)
     {
         if (outward is not (1 or -1)) throw new ArgumentOutOfRangeException(nameof(outward), outward, "Use +1 or -1.");
 
@@ -52,6 +55,11 @@ public static class KataAnchorage
         {
             shortfall = leg - room;
             leg = room;
+        }
+        else if (legStep > 0.0)
+        {
+            double rounded = Math.Ceiling(leg / legStep - 1e-9) * legStep;
+            if (rounded <= room + 1e-6) leg = rounded;
         }
 
         double outerFace = innerFace + outward * supportWidth;

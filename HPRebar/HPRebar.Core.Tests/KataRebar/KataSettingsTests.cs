@@ -45,8 +45,8 @@ public sealed class KataSettingsTests
         table.Set("D18", "2f20");
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan());
 
-        // Row 14 reach 0.21 × 6000 = 1260 → 1300 from the face; row 18 kept 6000/7 = 857 → 850 from each face.
+        // Row 14 reach 0.21 × 6000 = 1260 → 1300 from the face; row 18 kept 0.15 × 6000 = 900 from each face.
         Assert.All(plan.Layout.ExtraTopBars, b => Assert.Equal(400.0 + 1300.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));
-        Assert.All(plan.Layout.ExtraBottomBars, b => Assert.Equal((1250.0, 5550.0), (b.Polyline.Points[0].X, b.Polyline.Points[1].X)));
+        Assert.All(plan.Layout.ExtraBottomBars, b => Assert.Equal((1300.0, 5500.0), (b.Polyline.Points[0].X, b.Polyline.Points[1].X)));
     }
 }
