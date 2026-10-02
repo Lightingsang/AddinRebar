@@ -19,4 +19,20 @@ internal sealed class KataLabelLane
         _placed.Add((left, right));
         return true;
     }
+
+    /// <summary>
+    /// Places a label of <paramref name="width"/> as near <paramref name="left"/> as it fits, sliding it right or left
+    /// in steps up to <paramref name="maxShift"/>; returns where it went, or null when the row is full there.
+    /// </summary>
+    public double? PlaceNear(double left, double width, double maxShift, double step = 6.0)
+    {
+        if (step <= 0.0) throw new System.ArgumentOutOfRangeException(nameof(step));
+        for (double shift = 0.0; shift <= maxShift; shift += step)
+        {
+            if (TryPlace(left + shift, left + shift + width)) return left + shift;
+            if (shift > 0.0 && TryPlace(left - shift, left - shift + width)) return left - shift;
+        }
+
+        return null;
+    }
 }

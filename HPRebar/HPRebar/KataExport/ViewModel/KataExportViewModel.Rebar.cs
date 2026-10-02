@@ -35,6 +35,7 @@ public sealed partial class KataExportViewModel
     [ObservableProperty] private KataStationMap _rebarStationMap = KataStationMap.Identity;
     [ObservableProperty] private bool _showRebar = true;
     [ObservableProperty] private bool _showSection = true;
+    [ObservableProperty] private bool _showBarTags = true;
     [ObservableProperty] private IReadOnlyList<KataBarTypeMappingItem> _barTypeMappings = Array.Empty<KataBarTypeMappingItem>();
 
     [ObservableProperty]

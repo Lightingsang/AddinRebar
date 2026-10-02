@@ -55,6 +55,10 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         nameof(ShowRebar), typeof(bool), typeof(KataElevationCanvas),
         new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
 
+    public static readonly DependencyProperty ShowBarTagsProperty = DependencyProperty.Register(
+        nameof(ShowBarTags), typeof(bool), typeof(KataElevationCanvas),
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+
     public static readonly DependencyProperty ShowSectionProperty = DependencyProperty.Register(
         nameof(ShowSection), typeof(bool), typeof(KataElevationCanvas),
         new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -114,6 +118,13 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         set => SetValue(ShowRebarProperty, value);
     }
 
+    /// <summary>Kata's bar numbers and tags over the drawn bars (and on the stirrup zones).</summary>
+    public bool ShowBarTags
+    {
+        get => (bool)GetValue(ShowBarTagsProperty);
+        set => SetValue(ShowBarTagsProperty, value);
+    }
+
     public bool ShowSection
     {
         get => (bool)GetValue(ShowSectionProperty);
@@ -138,7 +149,8 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         var map = RebarStationMap ?? KataStationMap.Identity;
         if (ShowRebar && RebarPlan is not null)
         {
-            new KataElevationRebarPainter(scene, palette, draw, RebarPlan.Layout, map).Paint();
+            new KataElevationRebarPainter(scene, palette, draw, RebarPlan.Layout, map, ShowBarTags).Paint();
+            if (ShowBarTags) new KataElevationBarTagPainter(scene, palette, draw, RebarPlan, map).Paint();
         }
 
         if (ShowSection && RebarPlan is not null)

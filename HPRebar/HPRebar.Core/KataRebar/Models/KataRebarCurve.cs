@@ -49,6 +49,12 @@ public sealed record KataRebarCurve
     /// <summary>Bar schedule mark / item designation (e.g. "1", "2", "3", "d1").</summary>
     public string BarMark { get; init; } = "";
 
+    /// <summary>
+    /// Kata's bar number ("số hiệu", the drawing's circled 1, 2, 3...): identical bars share it
+    /// (<see cref="Calculators.KataBarNumbering"/>); 0 until numbered. The schedule mark in Revit.
+    /// </summary>
+    public int BarNumber { get; init; }
+
     /// <summary>Human-readable engineering description (e.g. "Thép chủ trên", "Gia cường gối T1").</summary>
     public string BarDescription { get; init; } = "";
 

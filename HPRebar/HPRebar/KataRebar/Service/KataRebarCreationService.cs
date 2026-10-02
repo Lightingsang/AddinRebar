@@ -75,7 +75,7 @@ public static class KataRebarCreationService
             placement.Mapper.AxisY,
             KataRebarCurveFactory.Curves(bar.Polyline, placement.Mapper));
 
-        KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, bar.BarMark);
+        KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(bar.BarNumber, bar.BarMark));
         AlignAcross(doc, rebar, bar.TransverseY, placement);
         var (a, b) = KataRebarSectionFit.LongestLevelSegment(bar.Polyline);
         KataRebarSectionFit.Fit(doc, rebar, placement.Mapper, a, b, acrossToo: false);

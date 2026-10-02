@@ -90,7 +90,7 @@ public static class KataRebarCalculator
         if (rules.TieSpacingNote is not null && sideTies.Count + layerTies.Count > 0)
             warnings.Add(rules.TieSpacingNote);
 
-        return new KataRebarLayoutResult
+        var layout = new KataRebarLayoutResult
         {
             BeamName = spec.BeamName,
             MainTopBars = mainTop,
@@ -107,6 +107,7 @@ public static class KataRebarCalculator
                 WeightKg(mainTop) + WeightKg(mainBottom) + WeightKg(extraTop)
                 + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(stirrups) + WeightKg(barSets), 2)
         };
+        return KataBarNumbering.Apply(layout, rules.StirrupDiameter);
     }
 
     /// <summary>Steel weight of a list of bars (kg) from their centreline lengths.</summary>

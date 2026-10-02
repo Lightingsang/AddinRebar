@@ -15,11 +15,11 @@ internal sealed class KataElevationScene
     public const double LowerStubPx = 28.0;
     public const double FootingPx = 26.0;
 
-    /// <summary>Margin above the beam band: upper column stubs, top dim chain, column letters, grid line top.</summary>
-    public const double AbovePx = 96.0;
+    /// <summary>Margin above the beam band: upper column stubs, top dim chain, column letters, grid line top, bar tags.</summary>
+    public const double AbovePx = 142.0;
 
-    /// <summary>Margin below the band bottom: lower column stubs, 2 dim chains, grid bubbles at bottom.</summary>
-    public const double BelowPx = 145.0;
+    /// <summary>Margin below the band bottom: lower column stubs, 2 dim chains, grid bubbles, one row of bar tags.</summary>
+    public const double BelowPx = 150.0;
 
     /// <summary>The deepest beam is never drawn shallower than this, however long the run.</summary>
     private const double MinBeamPx = 60.0;

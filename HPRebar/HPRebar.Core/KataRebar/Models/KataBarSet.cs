@@ -15,6 +15,12 @@ public sealed record KataBarSet
 
     public string Description { get; init; } = "";
 
+    /// <summary>
+    /// Kata's bar number ("số hiệu", the drawing's circled 1, 2, 3...): identical bars share it
+    /// (<see cref="Calculators.KataBarNumbering"/>); 0 until numbered. The schedule mark in Revit.
+    /// </summary>
+    public int BarNumber { get; init; }
+
     public KataBarRole Role { get; init; } = KataBarRole.CrossTie;
 
     public double Diameter { get; init; }

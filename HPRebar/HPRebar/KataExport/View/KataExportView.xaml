@@ -421,6 +421,19 @@
                                 </StackPanel>
                             </CheckBox>
 
+                            <!-- Checkbox Hiện số hiệu -->
+                            <CheckBox IsChecked="{Binding ShowBarTags, Mode=TwoWay}"
+                                      AutomationProperties.AutomationId="KataExportShowBarTags"
+                                      VerticalAlignment="Center"
+                                      Cursor="Hand"
+                                      Margin="10,0,0,0"
+                                      ToolTip="Số hiệu thép theo Kata (thanh giống nhau chung số) và tag thép trên mặt đứng">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="TagOutline" Width="15" Height="15" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Hiện số hiệu" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}"/>
+                                </StackPanel>
+                            </CheckBox>
+
                             <!-- Checkbox Hiện mặt cắt -->
                             <CheckBox IsChecked="{Binding ShowSection, Mode=TwoWay}"
                                       VerticalAlignment="Center"
@@ -468,6 +481,7 @@
                                                       RebarStationMap="{Binding RebarStationMap}"
                                                       ShowRebar="{Binding ShowRebar}"
                                                       ShowSection="{Binding ShowSection}"
+                                                      ShowBarTags="{Binding ShowBarTags}"
                                                       SurfaceBrush="{DynamicResource Brush.Canvas.Fill}"/>
                     </Border>
                 </DockPanel>

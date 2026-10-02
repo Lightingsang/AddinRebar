@@ -18,6 +18,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// </summary>
 public static class KataSideBarLayout
 {
+    /// <summary>Zone name of the C ties holding the side bars.</summary>
+    public const string TieZoneName = "Cốt giá";
+
     public static (List<KataRebarCurve> Bars, List<KataBarSet> Ties) Build(
         KataBeamRebarSpec spec,
         KataDetailingRules rules,
@@ -129,7 +132,7 @@ public static class KataSideBarLayout
             Role = KataBarRole.CrossTie,
             Diameter = rules.StirrupDiameter,
             SpanIndex = span,
-            ZoneName = "Cốt giá",
+            ZoneName = TieZoneName,
             // The side bars' centres: the tie is laid out round them where the bar type's bend radius is known.
             Shape = new Polyline3(new List<Point3> { new(x0, -y, z), new(x0, y, z) }),
             WrapEnds = true,

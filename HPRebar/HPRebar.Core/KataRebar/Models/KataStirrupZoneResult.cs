@@ -59,6 +59,12 @@ public sealed record KataStirrupZoneResult
     /// <summary>Bar schedule mark / item designation (e.g. "d1", "d2").</summary>
     public string BarMark { get; init; } = "";
 
+    /// <summary>
+    /// Kata's bar number ("số hiệu", the drawing's circled 1, 2, 3...): identical bars share it
+    /// (<see cref="Calculators.KataBarNumbering"/>); 0 until numbered. The schedule mark in Revit.
+    /// </summary>
+    public int BarNumber { get; init; }
+
     /// <summary>Fabrication segment dimension A in mm (Width out-to-out).</summary>
     public double DimA => OutToOutWidth;
 

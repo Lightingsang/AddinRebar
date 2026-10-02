@@ -18,15 +18,19 @@ internal sealed class KataElevationRebarPainter
     private readonly KataDrawPrimitives _draw;
     private readonly KataRebarLayoutResult _layout;
     private readonly KataStationMap _map;
+    private readonly bool _numbers;
 
     /// <param name="map">Places the layout's local X on the drawing's stations.</param>
+    /// <param name="numbers">Prefix each stirrup zone's label with its Kata bar number.</param>
     public KataElevationRebarPainter(
         KataElevationScene scene,
         KataCanvasPalette palette,
         KataDrawPrimitives draw,
         KataRebarLayoutResult layout,
-        KataStationMap map)
+        KataStationMap map,
+        bool numbers = false)
     {
+        _numbers = numbers;
         _map = map ?? throw new ArgumentNullException(nameof(map));
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _palette = palette ?? throw new ArgumentNullException(nameof(palette));
@@ -75,6 +79,7 @@ internal sealed class KataElevationRebarPainter
                 double midX = (startX + endX) / 2.0;
                 double stirrupDiameter = _layout.IndividualStirrups.FirstOrDefault(b => b.HostSpanIndex == zone.SpanIndex)?.Diameter ?? 0.0;
                 string text = $"{zone.Count}Ø{stirrupDiameter:0}a{zone.Spacing:0}";
+                if (_numbers && zone.BarNumber > 0) text = $"({zone.BarNumber}) {text}";
                 var formatted = _draw.Text(text, _palette.MutedText, KataDrawPrimitives.SmallTextSize, bold: false);
                 _draw.Centered(formatted, midX, (topY + bottomY) / 2.0 - formatted.Height / 2.0);
             }

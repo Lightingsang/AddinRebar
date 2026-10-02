@@ -86,7 +86,7 @@ public static class KataStirrupSetCreator
             // ScaleToBox compromises instead of failing when a shape cannot fit; a wrong size falls back to single bars.
             CheckFirstStirrup(rebar, zone, mapper, RevitUnits.FtToMm(barType.BarNominalDiameter));
 
-            KataRebarStamp.Apply(rebar, host, beamName, zone.BarMark);
+            KataRebarStamp.Apply(rebar, host, beamName, KataRebarStamp.Mark(zone.BarNumber, zone.BarMark));
             sub.Commit();
             return true;
         }
@@ -168,7 +168,7 @@ public static class KataStirrupSetCreator
             var rebar = KataRebarCurveFactory.Create(
                 doc, RebarStyle.StirrupTie, barType, host, placement.Mapper.AxisX,
                 KataRebarCurveFactory.Curves(stirrup.Polyline, placement.Mapper));
-            KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, stirrup.BarMark);
+            KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(stirrup.BarNumber, stirrup.BarMark));
         }
 
         return curves.Count;
