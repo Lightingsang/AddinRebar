@@ -13,8 +13,9 @@ public sealed record KataScopeResult(
     IReadOnlyList<string> Blocking);
 
 /// <summary>
-/// Limits a spec to what Kata Rebar draws today: one span between two supports, the first bar group of B11
-/// and B12, the additional top bars of rows 13-16, the additional bottom bars of rows 17-18 and the outer closed stirrup at G7/G8. Every other filled detailing cell is reported by address
+/// Limits a spec to what Kata Rebar draws today: spans between supports (columns, walls, footings or beams), each
+/// span at its own depth (row 21), the first bar group of B11 and B12, the additional top bars of rows 13-16, the
+/// additional bottom bars of rows 17-18 and the stirrups. Every other filled detailing cell is reported by address
 /// so the user knows what the model does not contain yet; a run shape this version cannot draw blocks.
 /// </summary>
 public static class KataScopeFilter
@@ -44,8 +45,9 @@ public static class KataScopeFilter
         {
             if (span.TopDrop != 0.0 || span.TopDropBars.Count > 0)
                 skipped.Add($"{Cell(19, span.SheetColumn)} '{Step(span.TopDrop, span.TopDropBars)}': giật mép trên / đổi thép chịu lực trên — {NotSupported}.");
-            if (span.SoffitDrop != 0.0 || span.SoffitDropBars.Count > 0)
-                skipped.Add($"{Cell(21, span.SheetColumn)} '{Step(span.SoffitDrop, span.SoffitDropBars)}': giật mép dưới / đổi thép chịu lực dưới — {NotSupported}.");
+            // The soffit step itself is drawn (the span's depth); bars changed with it are not yet.
+            if (span.SoffitDropBars.Count > 0)
+                skipped.Add($"{Cell(21, span.SheetColumn)} '{Step(span.SoffitDrop, span.SoffitDropBars)}': đổi thép chịu lực dưới theo bậc đáy — {NotSupported}.");
         }
 
         foreach (var note in spec.DetailingNotes.Where(n => n.Meaning != "đai trong"))
@@ -69,7 +71,6 @@ public static class KataScopeFilter
             SideBars = s.SideBars,
             StirrupOverride = s.StirrupOverride,
             TopDrop = 0.0,
-            SoffitDrop = 0.0,
             TopDropBars = Array.Empty<KataBarItem>(),
             SoffitDropBars = Array.Empty<KataBarItem>()
         }).ToList()

@@ -59,7 +59,7 @@ public static class KataRebarPreviewBuilder
                 Notation = string.Join("+", group.GroupBy(b => b.Diameter).Select(g => $"{g.Count()}f{g.Key:0}")),
                 Count = group.Count(),
                 DiameterMm = group.Max(b => b.Diameter),
-                Details = $"tâm cách đáy {plan.Spec.Height + points[0].Z:0}; x {points[0].X:0} → {points[points.Count - 1].X:0}; thẳng"
+                Details = $"tâm cách đáy {plan.Spec.DepthOf(first.HostSpanIndex) + points[0].Z:0}; x {points[0].X:0} → {points[points.Count - 1].X:0}; thẳng"
             });
         }
 

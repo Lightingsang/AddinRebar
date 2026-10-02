@@ -36,7 +36,7 @@ public static class KataBeamMatcher
             var measured = new KataMeasuredBeam(
                 run.Pieces[0].WidthMm,
                 run.Pieces[0].HeightMm,
-                segmentation.Segments.Select(ToMeasured).ToList(),
+                segmentation.Segments.Select(s => ToMeasured(s, pieces)).ToList(),
                 run.Pieces.Count);
 
             var warnings = supportWarnings.Concat(segmentation.Warnings).ToList();
@@ -60,7 +60,7 @@ public static class KataBeamMatcher
         }
     }
 
-    private static KataMeasuredSegment ToMeasured(KataSegment segment) => new(
+    private static KataMeasuredSegment ToMeasured(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces) => new(
         segment.Kind switch
         {
             KataSegmentKind.Span => KataMeasuredSupportKind.None,
@@ -72,7 +72,16 @@ public static class KataBeamMatcher
                 _ => KataMeasuredSupportKind.Column
             }
         },
-        segment.Extent.Length);
+        segment.Extent.Length,
+        segment.Kind == KataSegmentKind.Span ? SpanDepth(segment, pieces) : 0.0);
+
+    /// <summary>Depth of the framing piece under the middle of a span.</summary>
+    private static double SpanDepth(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces)
+    {
+        if (segment.Piece is { } own) return own.HeightMm;
+        double mid = segment.Extent.Mid;
+        return pieces.FirstOrDefault(p => p.Extent.Contains(mid, 1.0))?.HeightMm ?? 0.0;
+    }
 
     private static string Describe(KataMeasuredBeam measured) =>
         string.Join(" · ", measured.Segments.Select(s => s.IsSupport ? $"gối {s.LengthMm:0}" : $"nhịp {s.LengthMm:0}"));

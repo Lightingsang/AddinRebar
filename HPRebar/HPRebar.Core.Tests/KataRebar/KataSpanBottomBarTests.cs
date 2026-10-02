@@ -13,8 +13,8 @@ namespace HPRebar.Core.Tests.KataRebar;
 /// </summary>
 public sealed class KataSpanBottomBarTests
 {
-    // 0.15 × 6000 = 900 kept free of the bars, rounded down to the 50 mm cut step.
-    private const double Cut = 900.0;
+    // Row 17 keeps min(H3 0.2 × 6000 = 1200, 6000 / 6 = 1000) = 1000 free of each face; row 18 under it G1 nearer.
+    private const double Cut = 500.0;
 
     private static KataRebarPlan Plan(KataCellTable table, KataMeasuredBeam? measured = null) =>
         KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), measured ?? KataRebarTestSheets.MeasuredSingleSpan());
@@ -206,7 +206,7 @@ public sealed class KataSpanBottomBarTests
     [Fact]
     public void Row_17_passes_under_support_bars_that_stop_before_it_starts()
     {
-        // Row 14 reaches 0.05 × 6000 = 300 past the face (x 700), row 17 starts at 400 + 6000/7.
+        // Row 14 reaches 0.05 × 6000 = 300 past the face (x 700), row 17 starts at 400 + 1000.
         var plan = Plan(Shallow(0.05), ShallowBeam());
 
         Assert.DoesNotContain(plan.Blocking, b => b.StartsWith("D17"));
@@ -226,12 +226,12 @@ public sealed class KataSpanBottomBarTests
         Assert.Equal("abc", span.BottomExtraLayer1Text);
     }
 
-    /// <summary>A 200 mm deep beam: row 14 over the supports at z −87, row 17 (Ø25) at z −109.5.</summary>
-    private static KataCellTable Shallow(double h3)
+    /// <summary>A 200 mm deep beam: row 14 over the supports (reaching H5 × L), row 17 (Ø25) from 1400.</summary>
+    private static KataCellTable Shallow(double h5)
     {
         var table = KataRebarTestSheets.SingleSpan();
         table.Set("B5", 200.0);
-        table.Set("H3", h3);
+        table.Set("H5", h5);
         table.Set("C14", "2f18");
         table.Set("E14", "2f18");
         table.Set("D17", "2f25");

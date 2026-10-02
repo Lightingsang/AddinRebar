@@ -39,7 +39,8 @@ public sealed class KataSupportTopBarTests
         {
             Assert.Equal(new Point3(43.0, bar.TransverseY, -493.0), bar.Polyline.Points[0]);
             Assert.Equal(new Point3(43.0, bar.TransverseY, -43.0), bar.Polyline.Points[1]);
-            Assert.Equal(new Point3(1900.0, bar.TransverseY, -43.0), bar.Polyline.Points[2]);
+            // Row 14 reaches H5 0.25 × 6000 = 1500 (1900), row 13 G1 further (2400).
+            Assert.Equal(new Point3(2400.0, bar.TransverseY, -43.0), bar.Polyline.Points[2]);
             Assert.Equal("3.1.1", bar.BarMark);
         }
     }
@@ -55,10 +56,10 @@ public sealed class KataSupportTopBarTests
         // One layer down: 10 + max(30, 20) + 9 = 49 below the main bars; leg 720 − (400 − 92) = 412 → 425.
         Assert.Equal(new Point3(92.0, -108.0, -517.0), first[0]);
         Assert.Equal(new Point3(92.0, -108.0, -92.0), first[1]);
-        Assert.Equal(new Point3(1400.0, -108.0, -92.0), first[2]);
+        Assert.Equal(new Point3(1900.0, -108.0, -92.0), first[2]);
 
         var last = bars[2].Polyline.Points;
-        Assert.Equal(new Point3(5400.0, -108.0, -92.0), last[0]);
+        Assert.Equal(new Point3(4900.0, -108.0, -92.0), last[0]);
         Assert.Equal(new Point3(6708.0, -108.0, -92.0), last[1]);
         Assert.Equal(new Point3(6708.0, -108.0, -517.0), last[2]);
     }
@@ -270,10 +271,10 @@ public sealed class KataSupportTopBarTests
     }
 
     [Fact]
-    public void A_blank_I3_measures_from_the_support_face()
+    public void A_blank_I5_measures_from_the_support_face()
     {
         var table = KataRebarTestSheets.SingleSpan();
-        table.Set("H3", 0.2);
+        table.Set("H5", 0.2);
         table.Set("C14", "2f18");
 
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan());

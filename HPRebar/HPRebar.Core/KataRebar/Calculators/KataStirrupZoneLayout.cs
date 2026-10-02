@@ -29,21 +29,23 @@ public static class KataStirrupZoneLayout
 
         double b = rules.StirrupCover;
         double ds = rules.StirrupDiameter;
-        var box = new Box(
-            Width: Math.Max(0.0, spec.Width - 2.0 * b),
-            Height: Math.Max(0.0, spec.Height - 2.0 * b),
-            MinY: -spec.Width / 2.0 + b,
-            MinZ: -spec.Height + b);
-
-        double yMin = box.MinY + ds / 2.0;
+        double yMin = -spec.Width / 2.0 + b + ds / 2.0;
         double yMax = spec.Width / 2.0 - b - ds / 2.0;
         double zTop = -b - ds / 2.0;
-        double zBot = box.MinZ + ds / 2.0;
 
         for (int s = 0; s < st.SpanCount; s++)
         {
             double ln = spec.Spans[s].Length;
             if (ln <= 0.0) continue;
+
+            // Each span's hoop is as deep as that span (row 21).
+            double depth = spec.DepthOf(s);
+            var box = new Box(
+                Width: Math.Max(0.0, spec.Width - 2.0 * b),
+                Height: Math.Max(0.0, depth - 2.0 * b),
+                MinY: -spec.Width / 2.0 + b,
+                MinZ: -depth + b);
+            double zBot = box.MinZ + ds / 2.0;
 
             var stSpec = spec.Spans[s].StirrupOverride ?? spec.GlobalStirrup;
             double sDense = stSpec.SupportSpacing > 0.0 ? stSpec.SupportSpacing : 150.0;
@@ -54,7 +56,7 @@ public static class KataStirrupZoneLayout
             bool isCantilever = (s == 0 && st.IsLeftCantilever) || (s == st.SpanCount - 1 && st.IsRightCantilever);
             var runs = isCantilever
                 ? new List<(string Name, double Spacing, List<double> Stations)> { ("Console", sCant, CantileverStations(st, s, ln, sCant, rules)) }
-                : ThreeZones(st, s, ln, spec.Height, sDense, sSparse, sEnd, rules);
+                : ThreeZones(st, s, ln, depth, sDense, sSparse, sEnd, rules);
 
             // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {

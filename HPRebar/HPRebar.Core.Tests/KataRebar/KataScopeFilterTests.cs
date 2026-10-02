@@ -57,12 +57,15 @@ public sealed class KataScopeFilterTests
     }
 
     [Fact]
-    public void Steps_are_skipped_and_span_stirrup_overrides_are_kept()
+    public void Top_steps_are_skipped_soffit_steps_kept_and_span_stirrup_overrides_kept()
     {
         var result = Apply(("D19", "100;5f25"), ("D21", "-100"), ("D22", "a100/200"));
 
         Assert.Contains(result.Skipped, s => s.StartsWith("D19 '100;5f25'"));
-        Assert.Contains(result.Skipped, s => s.StartsWith("D21 '-100'"));
+        // A soffit step is the span's depth (drawn); bars changed with it would be skipped.
+        Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D21"));
+        Assert.Equal(-100.0, result.Filtered.Spans[0].SoffitDrop);
+        Assert.Contains(Apply(("D21", "-100;5f20")).Skipped, s => s.StartsWith("D21 '-100;5f20'"));
         Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D22"));
         Assert.NotNull(result.Filtered.Spans[0].StirrupOverride);
         Assert.Equal(100.0, result.Filtered.Spans[0].StirrupOverride!.SupportSpacing);

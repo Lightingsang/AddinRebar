@@ -77,10 +77,18 @@ public static class KataRebarCalculator
         var blocking = new List<string>();
         var extraTop = KataSupportTopBarLayout.Build(spec, rules, stations, warnings, blocking, ref barId);
         var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId);
-        var (sideBars, sideTies) = KataSideBarLayout.Build(spec, rules, stations, warnings, ref barId);
+        // Bar ids follow the order bars were numbered before the ties needed the hoop zones.
+        int stirrupId = barId;
+        var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref stirrupId);
+        var (sideBars, sideTies) = KataSideBarLayout.Build(spec, rules, stations, zones, warnings, ref barId);
+        RenumberFrom(stirrups, barId);
+        barId += stirrups.Count;
 
-        var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref barId);
-        var barSets = sideTies.Concat(KataInnerStirrupLayout.Build(spec, rules, zones, warnings)).ToList();
+        var layerTies = KataLayerSpacerTieLayout.Build(spec, rules, stations, zones, extraTop, extraBottom,
+            mainTop.Concat(mainBottom).Concat(sideBars).ToList(), warnings);
+        var barSets = sideTies.Concat(layerTies).Concat(KataInnerStirrupLayout.Build(spec, rules, zones, warnings)).ToList();
+        if (rules.TieSpacingNote is not null && sideTies.Count + layerTies.Count > 0)
+            warnings.Add(rules.TieSpacingNote);
 
         return new KataRebarLayoutResult
         {
@@ -126,6 +134,11 @@ public static class KataRebarCalculator
         }
 
         return total;
+    }
+
+    private static void RenumberFrom(List<KataRebarCurve> bars, int first)
+    {
+        for (int i = 0; i < bars.Count; i++) bars[i] = bars[i] with { BarId = first + i };
     }
 
     private static KataRebarLayoutResult Empty(KataBeamRebarSpec spec, string warning) => new()

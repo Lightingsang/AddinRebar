@@ -9,9 +9,11 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
 /// Additional top bars over the supports (rows 13-16). Row 13 fills the gaps between the main bars on their
-/// level, rows 14-16 stack below (<see cref="KataTopLayerStack"/>). A bar reaches into a span by H5 × L (row 13)
-/// or H3 × L (rows 14-16) from the support face or centre as I5 / I3 say, L being the larger clear span next to
-/// the support. In an end support it anchors like the main bars, its bend inboard of the level above.
+/// level, rows 14-16 stack below (<see cref="KataTopLayerStack"/>). Every row reaches into a span by H5 × L from the
+/// support face or centre as I5 says, L being that span's clear length (each side its own span, as Kata draws it);
+/// <see cref="KataTopBarStagger"/> then pushes each outer row G1 past the row inside it. A "-" over the
+/// neighbouring support continues the row there (<see cref="KataTopBarContinuation"/>). In an end support a bar
+/// anchors like the main bars, its bend inboard of the level above.
 /// </summary>
 public static class KataSupportTopBarLayout
 {
@@ -25,7 +27,6 @@ public static class KataSupportTopBarLayout
     {
         var bars = new List<KataRebarCurve>();
         int last = st.SpanCount;
-        double zBottom = -spec.Height + rules.BottomBarCentreDepth;
         double dBottom = spec.BottomContinuous.IsEmpty ? 0.0 : spec.BottomContinuous.Diameter;
         var mainY = spec.TopContinuous.IsEmpty
             ? Array.Empty<double>()
@@ -36,6 +37,7 @@ public static class KataSupportTopBarLayout
             if (st.SupportWidth[k] <= 0.0) continue;
 
             int spanSide = k == 0 ? 1 : k == last ? -1 : 0;
+            double zBottom = -spec.SupportDepth(k) + rules.BottomBarCentreDepth;
             var levels = KataTopLayerStack.At(spec, rules, k, spanSide);
             foreach (var low in levels.Skip(1))
             {
@@ -43,8 +45,6 @@ public static class KataSupportTopBarLayout
                 if (low.Z - zBottom + 1e-6 < needed)
                     blocking.Add($"{Cell(spec, k, low.Row)}: lớp gia cường cách thép chủ dưới {low.Z - zBottom:0} mm tâm-tâm, cần {needed:0} mm — dầm không đủ cao cho số lớp này.");
             }
-
-            double span = Math.Max(k > 0 ? spec.Spans[k - 1].Length : 0.0, k < last ? spec.Spans[k].Length : 0.0);
 
             var rows = new List<TopRow>();
             for (int layer = 0; layer < 4; layer++)
@@ -54,7 +54,10 @@ public static class KataSupportTopBarLayout
                 string cell = Cell(spec, k, KataTopLayerStack.FirstRow + layer);
                 if (sides.IsEmpty)
                 {
-                    if (!string.IsNullOrWhiteSpace(sides.Text) && sides.Text.Trim() != "0")
+                    // "0" is nothing, "-" in row 13 continues the neighbouring support's row (handled from there).
+                    if (KataTopBarContinuation.IsMark(spec, k, layer) && layer > 0)
+                        warnings.Add($"{cell} '-': nối tiếp thanh gối bên cạnh mới hỗ trợ ở hàng 13 — hàng này không vẽ.");
+                    else if (!string.IsNullOrWhiteSpace(sides.Text) && sides.Text.Trim() is not ("0" or KataTopBarContinuation.Mark))
                         warnings.Add($"{cell} '{sides.Text}': không đọc được ký hiệu thép — không vẽ.");
                     continue;
                 }
@@ -70,7 +73,7 @@ public static class KataSupportTopBarLayout
 
                 if (level is null) continue;
 
-                var (leftCut, rightCut) = Cuts(spec, rules, st, k, layer, span);
+                var (leftCut, rightCut) = Cuts(spec, rules, st, k);
                 // A cut beyond an end support would leave the beam: the bar then stops at that support's far face.
                 leftCut = Math.Max(leftCut, st.SupportStart[0] + rules.TopBarCentreDepth);
                 rightCut = Math.Min(rightCut, st.SupportEnd[last] - rules.TopBarCentreDepth);
@@ -87,13 +90,17 @@ public static class KataSupportTopBarLayout
             {
                 var (layer, sides, level, _, leftCut, rightCut, _, _, leftThrough, rightThrough) = row;
                 string mark = $"3.{k + 1}.{layer + 1}";
+                var leftOut = KataTopBarContinuation.Left(spec, rules, st, k, layer, level, sides.Left, leftCut);
+                var rightOut = KataTopBarContinuation.Right(spec, rules, st, k, layer, level, sides.Right, rightCut);
+                if (layer == 0 && KataTopBarContinuation.SharedChainEnd(spec, st, k) is int other)
+                    warnings.Add($"{Cell(spec, k, KataTopLayerStack.FirstRow)} và {Cell(spec, other, KataTopLayerStack.FirstRow)}: cả hai cùng kéo qua các gối '-' giữa chúng — hai thanh hàng 13 chồng nhau, kiểm tra ô '-'.");
 
                 if (spanSide > 0)
-                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark, Anchor(spec, rules, st, k, level, sides.Right), new KataBarEnd(rightCut, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark, Anchor(spec, rules, st, k, level, sides.Right), rightOut);
                 else if (spanSide < 0)
-                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), Anchor(spec, rules, st, k, level, sides.Left));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, leftOut, Anchor(spec, rules, st, k, level, sides.Left));
                 else if (sides.IsSymmetric)
-                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, new KataBarEnd(leftCut, 0.0, 0.0), new KataBarEnd(rightCut, 0.0, 0.0));
+                    Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark, leftOut, rightOut);
                 else
                 {
                     // Both sides are kept. Across the beam they share the level's slots, the side with more steel
@@ -119,9 +126,9 @@ public static class KataSupportTopBarLayout
                         : Anchor(spec, rules, st, k, level, sides.Right, outward: -1);
 
                     Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Left, layer, level, mainY, k, mark + "T",
-                        new KataBarEnd(leftCut, 0.0, 0.0), leftEnd, ysLeft);
+                        leftOut, leftEnd, ysLeft);
                     Add(bars, spec, rules, st, warnings, blocking, ref barId, sides.Right, layer, level, mainY, k, mark + "P",
-                        rightStart, new KataBarEnd(rightCut, 0.0, 0.0), ysRight);
+                        rightStart, rightOut, ysRight);
                 }
             }
         }
@@ -141,7 +148,7 @@ public static class KataSupportTopBarLayout
     {
         double d = items.Count == 0 ? level.Diameter : items.Max(i => i.Diameter);
         double innerFace = outward < 0 ? st.SupportEnd[support] : st.SupportStart[support];
-        double legRoom = level.Z - (-spec.Height + rules.BottomBarCentreDepth);
+        double legRoom = level.Z - (-spec.SupportDepth(support) + rules.BottomBarCentreDepth);
         bool interior = support > 0 && support < st.SpanCount;
         if (interior)
         {
@@ -180,17 +187,18 @@ public static class KataSupportTopBarLayout
             ? KataDamCellAccessorExtensions.ToAddress(row, spec.Supports[support].SheetColumn)
             : $"Gối {support + 1} hàng {row}";
 
-    /// <summary>Stations where a row's bars stop in the spans left and right of support <paramref name="k"/>.</summary>
-    private static (double Left, double Right) Cuts(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int k, int layer, double span)
+    /// <summary>
+    /// Stations where a row's bars stop in the spans left and right of support <paramref name="k"/>: H5 × that
+    /// span's clear length (rounded up to the cut step) from the support face or centre as I5 says.
+    /// </summary>
+    private static (double Left, double Right) Cuts(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int k)
     {
-        bool firstRow = layer == 0;
-        double ratio = firstRow ? spec.TopCutoffRatioLayer1 : spec.TopCutoffRatioLayer2;
-        if (ratio <= 0.0) ratio = firstRow ? 0.25 : 0.20;
-        bool fromCentre = (firstRow ? spec.CutoffOriginLayer1 : spec.CutoffOriginLayer2) == KataCutoffOrigin.FromColumnCenter;
-
-        double reach = rules.RoundUp(ratio * span);
-        double left = (fromCentre ? st.SupportCentre(k) : st.SupportStart[k]) - reach;
-        double right = (fromCentre ? st.SupportCentre(k) : st.SupportEnd[k]) + reach;
+        double ratio = spec.TopCutoffRatioLayer1 > 0.0 ? spec.TopCutoffRatioLayer1 : 0.25;
+        bool fromCentre = spec.CutoffOriginLayer1 == KataCutoffOrigin.FromColumnCenter;
+        double leftReach = k > 0 ? rules.RoundUp(ratio * spec.Spans[k - 1].Length) : 0.0;
+        double rightReach = k < st.SpanCount ? rules.RoundUp(ratio * spec.Spans[k].Length) : 0.0;
+        double left = (fromCentre ? st.SupportCentre(k) : st.SupportStart[k]) - leftReach;
+        double right = (fromCentre ? st.SupportCentre(k) : st.SupportEnd[k]) + rightReach;
         return (left, right);
     }
 

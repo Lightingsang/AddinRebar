@@ -12,10 +12,14 @@ namespace HPRebar.Core.Tests.KataRebar;
 /// </summary>
 public sealed class KataSpecRuleTests
 {
+    /// <summary>The seismic dense zone of spec § 6.1 / TCVN 9386: max(2h, 0.25 L).</summary>
+    private static readonly KataSettings Seismic = KataSettings.Default with { DenseZoneHeightFactor = 2.0 };
+
     [Fact]
-    public void The_dense_zone_is_2h_when_that_is_longer_than_a_quarter_of_the_span()
+    public void With_a_height_factor_of_2_the_dense_zone_is_2h_when_that_is_longer_than_a_quarter_of_the_span()
     {
-        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans());
+        // Kata draws 0.25 × L (the default); the seismic 2h rule stays available through the settings.
+        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans(), Seismic);
         var span2 = plan.Layout.StirrupZones.Where(z => z.SpanIndex == 1).OrderBy(z => z.ZoneIndex).ToList();
 
         // 4500 span, h 600: max(1200, 1125) = 1200 → 50 + 11 × 100 from each face (6800 and 11300).
@@ -36,7 +40,7 @@ public sealed class KataSpecRuleTests
         var table = KataRebarTestSheets.SingleSpan();
         table.Set("D11", span);
 
-        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan(span: span));
+        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan(span: span), Seismic);
         var stations = plan.Layout.StirrupZones.SelectMany(z => z.Stations).OrderBy(x => x).ToList();
 
         Assert.True(plan.CanGenerate, string.Join(" | ", plan.Blocking));
@@ -67,11 +71,12 @@ public sealed class KataSpecRuleTests
     }
 
     [Fact]
-    public void The_shortest_leg_is_15_diameters()
+    public void A_leg_bends_exactly_the_missing_length_by_default()
     {
         var rules = KataDetailingRuleBuilder.Build(KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan()));
 
-        Assert.Equal(15.0, rules.MinimumLegFactor);
+        // Kata's drawing: no minimum (spec § 5.1 asked 15d; the user follows the drawing).
+        Assert.Equal(0.0, rules.MinimumLegFactor);
         Assert.Equal(30.0, rules.LayerGap(16.0, 16.0));
         Assert.Equal(32.0, rules.LayerGap(32.0, 16.0));
         Assert.Equal(25.0, rules.BarGap(20.0));
@@ -174,12 +179,12 @@ public sealed class KataSpecRuleTests
             "\"LayerClearGap\": -1, \"CurtailedExtensionMm\": 0, \"RoundLegMm\": -25, \"DenseZoneHeightFactor\": -2 }");
 
         Assert.Equal(0.25, back.EndZoneFraction);
-        Assert.Equal(0.15, back.BottomExtraCutFraction);
-        Assert.Equal(15.0, back.MinimumLegFactor);
+        Assert.Equal(1.0 / 6.0, back.BottomExtraCutFraction);
+        Assert.Equal(0.0, back.MinimumLegFactor);
         Assert.Equal(30.0, back.LayerClearGap);
         Assert.Equal(0.0, back.CurtailedExtensionMm);
         Assert.Equal(25.0, back.RoundLegMm);
-        Assert.Equal(2.0, back.DenseZoneHeightFactor);
+        Assert.Equal(0.0, back.DenseZoneHeightFactor);
     }
     /// <summary>a150 / a200: where the dense zones meet (Ln ≤ 4h) no gap is wider than 150; elsewhere none wider than 200.</summary>
     [Theory]
@@ -198,7 +203,7 @@ public sealed class KataSpecRuleTests
         table.Set("G7", "a150");
         table.Set("G8", "a200");
 
-        var result = KataRebarCalculator.Calculate(KataDamSheetParser.Parse(table));
+        var result = KataRebarCalculator.Calculate(KataDamSheetParser.Parse(table), Seismic);
         var stations = result.StirrupZones.SelectMany(z => z.Stations).OrderBy(x => x).ToList();
 
         Assert.Equal(450.0, stations[0], 6);
@@ -225,7 +230,7 @@ public sealed class KataSpecRuleTests
         var rules = KataDetailingRuleBuilder.Build(KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan()), settings);
         var result = KataRebarCalculator.Calculate(KataDamSheetParser.Parse(KataRebarTestSheets.SingleSpan()), settings);
 
-        Assert.Equal((2.0, 30.0, 0.48, 0.25), (rules.DenseZoneHeightFactor, rules.LayerClearGap, rules.BottomExtraCutFraction, rules.EndZoneFraction));
+        Assert.Equal((0.0, 30.0, 0.48, 0.25), (rules.DenseZoneHeightFactor, rules.LayerClearGap, rules.BottomExtraCutFraction, rules.EndZoneFraction));
         Assert.Equal(3, result.StirrupZones.Count);
         var sanitised = KataSettingsJson.Sanitize(settings);
         Assert.Equal(sanitised, KataSettingsJson.Read(KataSettingsJson.Write(sanitised)));

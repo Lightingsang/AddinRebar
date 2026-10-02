@@ -9,7 +9,7 @@ internal static class KataRebarTestSheets
 {
     /// <summary>
     /// One 300×600 beam, 6000 mm clear between two 400 mm columns, as KataExport writes it and a user fills
-    /// in B11/B12/G2/G3/G6/G7/G8/J9: the Revit live check uses the same numbers.
+    /// in B11/B12/G2/G3/G6/G7/G8/J9 (J7/I8 as the Kata template has them): the Revit live check uses the same numbers.
     /// </summary>
     public static KataCellTable SingleSpan(string cover = "43/25")
     {
@@ -26,6 +26,8 @@ internal static class KataRebarTestSheets
         table.Set("G6", 8.0);
         table.Set("G7", "a100");
         table.Set("G8", "a200");
+        table.Set("J7", "a500");
+        table.Set("I8", 2);
         table.Set("J9", cover);
         table.Set("C10", "Cột");
         table.Set("D10", "Nhịp");

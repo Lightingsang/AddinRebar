@@ -145,7 +145,9 @@ public class KataShapeCodeAndBarMarkTests
         {
             Assert.Equal("00", bar.ShapeCode);
             Assert.Equal($"5.{bar.HostSpanIndex + 1}.1", bar.BarMark);
-            Assert.Contains($"Cốt giá nhịp {bar.HostSpanIndex + 1} lớp 1", bar.BarDescription);
+            // Spans with the same side bars share them: "nhịp 1–2" when they run on through a support.
+            Assert.StartsWith($"Cốt giá nhịp {bar.HostSpanIndex + 1}", bar.BarDescription);
+            Assert.EndsWith("lớp 1", bar.BarDescription);
             Assert.Equal(5, bar.SttCad);
             Assert.True(bar.DimA > 0);
         }

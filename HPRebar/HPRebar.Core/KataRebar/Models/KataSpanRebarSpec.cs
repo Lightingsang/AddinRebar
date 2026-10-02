@@ -51,6 +51,12 @@ public sealed record KataSpanRebarSpec
     /// <summary>Bottom soffit drop/step offset across this span in mm (sheet Dam row 21, e.g. -100).</summary>
     public double SoffitDrop { get; init; }
 
+    /// <summary>
+    /// Depth of this span in mm: B5 − row 21 as read from the sheet (the top stays level), Revit's depth once
+    /// measured; 0 means the beam's own <see cref="KataBeamRebarSpec.Height"/>.
+    /// </summary>
+    public double Depth { get; init; }
+
     /// <summary>Bars associated with top drop change (e.g. from "100;5f25").</summary>
     public IReadOnlyList<KataBarItem> TopDropBars { get; init; } = Array.Empty<KataBarItem>();
 

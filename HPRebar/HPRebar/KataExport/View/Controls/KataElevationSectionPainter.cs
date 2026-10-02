@@ -47,7 +47,7 @@ internal sealed class KataElevationSectionPainter
         _draw.Box(_palette.SectionCardFill, _palette.GridLine, left, top, right, bottom);
         _draw.Centered(_draw.Text(title, _palette.Accent, KataDrawPrimitives.SmallTextSize, bold: true), (left + right) / 2.0, top + 6.0);
 
-        double b = _plan.Spec.Width, h = _plan.Spec.Height;
+        double b = _plan.Spec.Width, h = DepthAt(localX);
         _draw.Centered(_draw.Text($"{b:0} × {h:0} mm · x = {localX:0}", _palette.MutedText, KataDrawPrimitives.SmallTextSize - 1.0), (left + right) / 2.0, top + 21.0);
 
         // Section scaled into the card, beam top at z = 0, centre line at y = 0.
@@ -124,6 +124,17 @@ internal sealed class KataElevationSectionPainter
     }
 
     private double Local(double station) => (station - _map.Origin) * _map.Direction;
+
+    /// <summary>Depth of the beam at a local station: the span's own (row 21), a support's governing one.</summary>
+    private double DepthAt(double localX)
+    {
+        var st = KataBeamStations.From(_plan.Spec);
+        for (int s = 0; s < st.SpanCount; s++)
+            if (localX >= st.SpanStart[s] && localX <= st.SpanEnd[s]) return _plan.Spec.DepthOf(s);
+        for (int k = 0; k <= st.SpanCount; k++)
+            if (localX >= st.SupportStart[k] && localX <= st.SupportEnd[k]) return _plan.Spec.SupportDepth(k);
+        return _plan.Spec.Height;
+    }
 
     private void PaintMarker(double localX)
     {

@@ -292,14 +292,13 @@ public class KataStressAdversarialTests
         // 12 spans x 2 extra bars = 24 extra bottom bars
         Assert.Equal(24, result.ExtraBottomBars.Count);
 
-        // Stirrup zones: 3 per span. In the three 3000 mm spans the dense zones (2h = 1500 each) fill the span:
-        // 10 a150 from each face leave 200 in the middle, closed by one dense stirrup (a100) instead of the
-        // sparse zone. No station twice, no gap wider than the zone spacings allow.
+        // Stirrup zones: 3 per span, dense over 0.25 × L at each end. No station twice, no gap wider than the
+        // mid-span spacing.
         Assert.Equal(36, result.StirrupZones.Count);
         foreach (var span in result.StirrupZones.GroupBy(z => z.SpanIndex))
         {
             var stations = span.SelectMany(z => z.Stations).OrderBy(x => x).ToList();
-            double widest = spans[span.Key].Length <= 3000.0 ? 150.0 : 200.0;
+            double widest = 200.0;
             for (int i = 1; i < stations.Count; i++)
             {
                 double gap = stations[i] - stations[i - 1];
@@ -317,7 +316,7 @@ public class KataStressAdversarialTests
     }
 
     [Fact]
-    public void Calculate_ExtremeUnequalSpans_2mVs12m_CalculatesCutoffUsingMaxSpan()
+    public void Calculate_ExtremeUnequalSpans_2mVs12m_CutsEachSideByItsOwnSpan()
     {
         // L1 = 2000 mm, L2 = 12000 mm (ratio 1:6)
         var spec = new KataBeamRebarSpec
@@ -351,16 +350,13 @@ public class KataStressAdversarialTests
 
         AssertOnlyAnchorageWarnings(result);
 
-        // Interior Support 1 extra top bars:
-        // Lcutoff = max(2000, 12000) * 0.25 = 3000 mm from column faces!
-        // Support 1 left face = 400 + 2000 = 2400 mm. Right face = 2900 mm.
-        // Xstart = 2400 - 3000 = -600 mm would leave the beam: the bar stops at Support 0's far face, its
-        // centre 25 + 10 + 22/2 = 46 mm inside. Xend = 2900 + 3000 = 5900 mm.
+        // Interior Support 1 (2400-2900) extra top bars reach 0.25 × each side's span from the faces:
+        // 500 into the 2000 span (1900), 3000 into the 12000 span (5900).
         var supp1Bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
         Assert.Equal(3, supp1Bars.Count);
-        Assert.Equal(46.0, supp1Bars[0].Polyline.Points[0].X, 6);
+        Assert.Equal(1900.0, supp1Bars[0].Polyline.Points[0].X, 6);
         Assert.Equal(5900.0, supp1Bars[0].Polyline.Points[1].X, 6);
-        Assert.Equal(5854.0, supp1Bars[0].Polyline.TotalLength, 6);
+        Assert.Equal(4000.0, supp1Bars[0].Polyline.TotalLength, 6);
 
         AssertAllCurvesSimplifiedAndValid(result);
     }

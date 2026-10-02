@@ -31,10 +31,9 @@ public static class KataInnerStirrupLayout
             : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, ds, top.Diameter, top.Count).OrderBy(y => y).ToArray();
         double off = (top.Diameter + ds) / 2.0;
         double zTop = -(rules.StirrupCover + ds / 2.0);
-        double zBottom = -spec.Height + rules.StirrupCover + ds / 2.0;
-
         for (int s = 0; s < spec.Spans.Count; s++)
         {
+            double zBottom = -spec.DepthOf(s) + rules.StirrupCover + ds / 2.0;
             var entries = spec.Spans[s].InnerStirrups;
             var zones = outerZones.Where(z => z.SpanIndex == s && z.Count > 0).ToList();
             for (int i = 0; i < entries.Count; i++)

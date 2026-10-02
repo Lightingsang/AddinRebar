@@ -242,14 +242,22 @@ public class KataDamSheetParserTests
     }
 
     [Fact]
-    public void Parse_CellJ7_IsKeptAsANoteOnly()
+    public void Parse_J7_and_the_option_group_in_I8_give_the_tie_spacing()
     {
         var table = KataRebarTestSheets.SingleSpan();
-        table.Set("J7", "a500");
+        table.Set("J7", "a450");
+        table.Set("I8", 2);
+        var even = KataDamSheetParser.Parse(table).GlobalStirrup;
+        table.Set("I8", 1);
+        table.Set("J7", "a100/200");
+        var hoops = KataDamSheetParser.Parse(table).GlobalStirrup;
+        table.Set("J7", "");
+        var empty = KataDamSheetParser.Parse(table).GlobalStirrup;
 
-        var spec = KataDamSheetParser.Parse(table);
-
-        Assert.Contains(spec.DetailingNotes, n => n.Address == "J7" && n.Text == "a500");
+        Assert.Equal(((double?)450.0, KataTieSpacingMode.Uniform), (even.TieSpacing, even.TieSpacingMode));
+        Assert.Equal(((double?)null, KataTieSpacingMode.LikeHoops, "a100/200"), (hoops.TieSpacing, hoops.TieSpacingMode, hoops.TieSpacingText));
+        Assert.Null(empty.TieSpacing);
+        Assert.DoesNotContain(KataDamSheetParser.Parse(table).DetailingNotes, n => n.Address == "J7");
     }
 
     [Fact]

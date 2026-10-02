@@ -12,8 +12,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// fills the gaps between them, each bar resting on the stirrup by its own diameter when that sits lower than
 /// the main bars' centre; row 17 (layer 2) sits above the highest bar of that level at a clear gap of
 /// max(30, d) (the rules' layer gap), spread over the width with the larger bars at the edges, or on the stirrup when the level is
-/// empty. Both are straight and stop <see cref="KataDetailingRules.BottomExtraCutFraction"/> x the clear span
-/// from each support face.
+/// empty. Both are straight. The inner row (17, or 18 alone) stops min(H3 × L from the support face or centre as
+/// I3 says, rounded up to the cut step; <see cref="KataDetailingRules.BottomExtraCutFraction"/> × L rounded to the nearest step)
+/// from each support face; row 18 under a filled row 17 reaches G1 closer to the supports, as Kata draws them.
 /// </summary>
 public static class KataSpanBottomBarLayout
 {
@@ -32,18 +33,19 @@ public static class KataSpanBottomBarLayout
         var bars = new List<KataRebarCurve>();
         bool hasMain = !spec.BottomContinuous.IsEmpty;
         double mainD = hasMain ? spec.BottomContinuous.Diameter : 0.0;
-        double mainZ = -spec.Height + rules.BottomBarCentreDepth;
         var mainY = hasMain
             ? KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, mainD, spec.BottomContinuous.Count)
             : Array.Empty<double>();
 
-        // Centre of a bar of diameter d on the bottom level: the main bars' centre, or lower on the stirrup's
-        // inner face when a bigger bar would otherwise cut into it.
-        double Seat(double d) => -spec.Height + Math.Max(rules.BottomBarCentreDepth, rules.StirrupCover + rules.StirrupDiameter + d / 2.0);
-
         for (int s = 0; s < st.SpanCount && s < spec.Spans.Count; s++)
         {
             var span = spec.Spans[s];
+            double depth = spec.DepthOf(s);
+            double mainZ = -depth + rules.BottomBarCentreDepth;
+
+            // Centre of a bar of diameter d on the bottom level: the main bars' centre, or lower on the stirrup's
+            // inner face when a bigger bar would otherwise cut into it.
+            double Seat(double d) => -depth + Math.Max(rules.BottomBarCentreDepth, rules.StirrupCover + rules.StirrupDiameter + d / 2.0);
             var layer1 = Readable(warnings, span, Layer1Row, span.BottomExtraLayer1, span.BottomExtraLayer1Text);
             var layer2 = Readable(warnings, span, Layer2Row, span.BottomExtraLayer2, span.BottomExtraLayer2Text);
             if (layer1.Count == 0 && layer2.Count == 0) continue;
@@ -53,9 +55,13 @@ public static class KataSpanBottomBarLayout
                 continue;
             }
 
-            double cut = rules.RoundDown(rules.BottomExtraCutFraction * span.Length);
-            double xStart = st.SpanStart[s] + cut;
-            double xEnd = st.SpanEnd[s] - cut;
+            var (cutLeft, cutRight) = Cuts(spec, rules, st, s);
+            // Row 18 under a filled row 17 reaches G1 nearer the supports, never past their faces.
+            double outer = layer2.Count > 0 ? rules.CurtailedExtension : 0.0;
+            double xStart = st.SpanStart[s] + Math.Max(0.0, cutLeft - outer);
+            double xEnd = st.SpanEnd[s] - Math.Max(0.0, cutRight - outer);
+            double xStart2 = st.SpanStart[s] + cutLeft;
+            double xEnd2 = st.SpanEnd[s] - cutRight;
 
             // Top face and largest bar of the bottom level (main bars + row 18); none while both are empty.
             double? levelTop = hasMain ? mainZ + mainD / 2.0 : null;
@@ -86,7 +92,7 @@ public static class KataSpanBottomBarLayout
                 double z = levelTop is { } top ? top + rules.LayerGap(levelD, d) + d / 2.0 : Seat(d);
                 var ys = KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, d, Count(layer2));
                 KataLayerPositions.CheckSpacing(warnings, blocking, mark, ys, d, rules);
-                Add(bars, warnings, ref barId, OuterBarsLargest(layer2, ys), _ => z, xStart, xEnd, s, 2, mark);
+                Add(bars, warnings, ref barId, OuterBarsLargest(layer2, ys), _ => z, xStart2, xEnd2, s, 2, mark);
                 highest = (z + d / 2.0, d, Layer2Row);
             }
 
@@ -95,6 +101,19 @@ public static class KataSpanBottomBarLayout
         }
 
         return bars;
+    }
+
+    /// <summary>Distance kept free of the inner row of span <paramref name="s"/> at each support face (mm).</summary>
+    private static (double Left, double Right) Cuts(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int s)
+    {
+        double length = spec.Spans[s].Length;
+        double ratio = spec.TopCutoffRatioLayer2 > 0.0 ? spec.TopCutoffRatioLayer2 : 0.20;
+        bool fromCentre = spec.CutoffOriginLayer2 == KataCutoffOrigin.FromColumnCenter;
+        double reach = rules.RoundUp(ratio * length);
+        double cap = rules.RoundNearest(rules.BottomExtraCutFraction * length);
+
+        double Side(double supportWidth) => Math.Max(0.0, Math.Min(fromCentre ? reach - supportWidth / 2.0 : reach, cap));
+        return (Side(st.SupportWidth[s]), Side(st.SupportWidth[s + 1]));
     }
 
     /// <summary>

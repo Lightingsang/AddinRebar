@@ -17,7 +17,8 @@ public enum KataMeasuredSupportKind
 
 /// <summary>One support or span of the beam run as measured in Revit, in axis order.</summary>
 /// <param name="LengthMm">Width of the support or length of the span along the beam axis.</param>
-public sealed record KataMeasuredSegment(KataMeasuredSupportKind SupportKind, double LengthMm)
+/// <param name="HeightMm">Depth of the beam over a span (0 when unknown, and for supports).</param>
+public sealed record KataMeasuredSegment(KataMeasuredSupportKind SupportKind, double LengthMm, double HeightMm = 0.0)
 {
     public bool IsSupport => SupportKind != KataMeasuredSupportKind.None;
 }

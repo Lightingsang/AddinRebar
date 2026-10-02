@@ -20,6 +20,9 @@ public sealed record KataSupportRebarSpec
     /// <summary>Optional section description if bearing on another beam (e.g. "300x500").</summary>
     public string SupportSection { get; init; } = "";
 
+    /// <summary>Depth of a crossing beam carrying the run ("200x350" in row 11 gives 350); 0 for a column.</summary>
+    public double BeamDepth { get; init; }
+
     /// <summary>True if this support represents a cantilever tip or zero-width end joint.</summary>
     public bool IsCantilever => ColumnWidth <= 0.0;
 

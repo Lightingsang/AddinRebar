@@ -32,8 +32,27 @@ public sealed record KataDetailingRules
     /// <summary>Additional bars are cut on multiples of this length (mm).</summary>
     public double RoundCutExtraMm { get; init; } = 50.0;
 
-    /// <summary>Spacing of the C ties holding the side bars (mm).</summary>
-    public double SideBarTieSpacing { get; init; } = 400.0;
+    public const double DefaultTieSpacing = 500.0;
+
+    /// <summary>A J7 outside [<see cref="MinTieSpacing"/>, <see cref="MaxTieSpacing"/>] is taken for a typo.</summary>
+    public const double MinTieSpacing = 100.0;
+
+    public const double MaxTieSpacing = 1000.0;
+
+    /// <summary>Spacing of the C ties (side-bar ties, layer spacer ties) when they are spaced evenly (J7, mm).</summary>
+    public double TieSpacing { get; init; } = DefaultTieSpacing;
+
+    /// <summary>Evenly at <see cref="TieSpacing"/>, or at every outer hoop (cell I8).</summary>
+    public KataTieSpacingMode TieSpacingMode { get; init; } = KataTieSpacingMode.Uniform;
+
+    /// <summary>Why <see cref="TieSpacing"/> is the default and not J7; reported once some tie is drawn.</summary>
+    public string? TieSpacingNote { get; init; }
+
+    /// <summary>
+    /// An additional bar layer under the outer one (top rows 14-16, bottom row 17) with at least this many bars
+    /// gets C ties under it, their hooks round its two outer bars.
+    /// </summary>
+    public int LayerTieMinBarCount { get; init; } = 3;
 
     public int ClosedStirrupHookAngle { get; init; } = 135;
     public double ClosedStirrupHookFactor { get; init; } = 7.5;
@@ -44,12 +63,16 @@ public sealed record KataDetailingRules
     public double RoundUp(double length) =>
         RoundCutExtraMm > 0.0 ? Math.Ceiling(length / RoundCutExtraMm - 1e-9) * RoundCutExtraMm : length;
 
+    /// <summary>A length rounded to the nearest cut increment (Kata's L/6 cap of the span bottom bars).</summary>
+    public double RoundNearest(double length) =>
+        RoundCutExtraMm > 0.0 ? Math.Round(length / RoundCutExtraMm, MidpointRounding.AwayFromZero) * RoundCutExtraMm : length;
+
     /// <summary>A distance kept free of a bar, rounded down to the cut increment.</summary>
     public double RoundDown(double length) =>
         RoundCutExtraMm > 0.0 ? Math.Floor(length / RoundCutExtraMm + 1e-9) * RoundCutExtraMm : length;
 
     /// <summary>Shortest bent leg of an anchorage, in diameters.</summary>
-    public double MinimumLegFactor { get; init; } = 15.0;
+    public double MinimumLegFactor { get; init; } = 0.0;
 
     /// <summary>Bent legs are rounded up to a multiple of this length when the rounded leg still fits (0 = no rounding).</summary>
     public double RoundLegMm { get; init; } = 25.0;
@@ -80,7 +103,23 @@ public sealed record KataDetailingRules
     /// Where the additional bottom bars of a span (rows 17-18) stop, as a fraction of the clear span measured
     /// from each support face. The sheet has no cell for it.
     /// </summary>
-    public double BottomExtraCutFraction { get; init; } = 0.15;
+    public double BottomExtraCutFraction { get; init; } = 1.0 / 6.0;
+
+    /// <summary>
+    /// Kata's beam-node detail: the bottom main bars crank across a soffit step only when they are at least this
+    /// thick ("Bẻ cổ chai cho thép có phi từ") and e / H ≤ 1 / <see cref="CrankSlope"/>, e being the clear offset of
+    /// the two bars (step − Ø) and H the support width; otherwise they are cut there and anchored (case 2).
+    /// </summary>
+    public double CrankMinDiameter { get; init; } = 16.0;
+
+    /// <summary>Run of the crank per unit of rise (1:6, "Tỷ lệ đoạn nhấn cổ chai").</summary>
+    public double CrankSlope { get; init; } = 6.0;
+
+    /// <summary>Whether a step <paramref name="step"/> over a support <paramref name="supportWidth"/> wide is cranked (not cut).</summary>
+    public bool Cranks(double step, double supportWidth, double diameter) =>
+        diameter + 1e-6 >= CrankMinDiameter
+        && supportWidth > 0.0
+        && (Math.Abs(step) - diameter) / supportWidth <= 1.0 / CrankSlope + 1e-9;
 
     /// <summary>First and last stirrup of a span, measured from the support faces.</summary>
     public double FirstStirrupOffset { get; init; } = 50.0;
@@ -91,7 +130,7 @@ public sealed record KataDetailingRules
     /// </summary>
     public double EndZoneFraction { get; init; } = 0.25;
 
-    public double DenseZoneHeightFactor { get; init; } = 2.0;
+    public double DenseZoneHeightFactor { get; init; } = 0.0;
 
     /// <summary>Length of the dense stirrup zone at each support of a span.</summary>
     public double DenseZoneLength(double clearSpan, double beamHeight) =>

@@ -41,10 +41,10 @@ public static class KataSheetGeometryCheck
         var forward = measured.Segments.ToList();
 
         CompareSection(warnings, blocking, "B6", "b", spec.Width, measured.WidthMm);
-        CompareSection(warnings, blocking, "B5", "h", spec.Height, measured.HeightMm);
 
         if (sheet.Count != forward.Count)
         {
+            CompareSection(warnings, blocking, "B5", "h", spec.Height, measured.HeightMm);
             blocking.Add($"Hàng 11 có {sheet.Count} cột gối/nhịp nhưng Revit đo được {forward.Count} ({Describe(forward)}).");
             return new KataGeometryCheckResult(false, forward, blocking, warnings);
         }
@@ -64,8 +64,14 @@ public static class KataSheetGeometryCheck
             ? preferReversed ?? false
             : backwardScore < forwardScore;
         var order = reversed ? backward : forward;
+        // B5 is the depth of the sheet's first span, read in the sheet's direction.
+        CompareSection(warnings, blocking, "B5", "h", spec.Height, FirstSpanDepth(order) ?? measured.HeightMm);
         for (int i = 0; i < sheet.Count; i++)
+        {
             CompareLength(warnings, blocking, sheet[i], order[i]);
+            if (!sheet[i].IsSupport && order[i].HeightMm > 0.0 && spec.Height > 0.0)
+                CompareSection(warnings, blocking, SpanStepAddress(spec, sheet[i].Index), $"h nhịp {sheet[i].Index + 1} (B5 − hàng 21)", spec.DepthOf(sheet[i].Index), order[i].HeightMm);
+        }
 
         if (reversed)
             warnings.Add("Sheet mô tả dải dầm theo chiều ngược với Revit; thép được đặt theo chiều của sheet.");
@@ -126,6 +132,13 @@ public static class KataSheetGeometryCheck
         string message = $"{address}: {name} trong sheet {sheetValue:0} mm, Revit {revitValue:0} mm (lệch {diff:0} mm); thép theo kích thước Revit.";
         (diff > RefuseToleranceMm ? blocking : warnings).Add(message);
     }
+
+    /// <summary>Depth Revit measured over the first span of <paramref name="order"/>, when it was measured.</summary>
+    public static double? FirstSpanDepth(IEnumerable<KataMeasuredSegment> order) =>
+        order.FirstOrDefault(s => !s.IsSupport && s.HeightMm > 0.0)?.HeightMm;
+
+    private static string SpanStepAddress(KataBeamRebarSpec spec, int span) =>
+        spec.Spans[span].SheetColumn > 0 ? KataDamCellAccessorExtensions.ToAddress(21, spec.Spans[span].SheetColumn) : $"Nhịp {span + 1} hàng 21";
 
     private static string Describe(IEnumerable<KataMeasuredSegment> segments) =>
         string.Join(" · ", segments.Select(s => s.IsSupport ? $"gối {s.LengthMm:0}" : $"nhịp {s.LengthMm:0}"));

@@ -105,6 +105,24 @@ public sealed record KataBeamRebarSpec
     /// <summary>Ordered list of clear spans along the continuous beam (even columns D, F, H...).</summary>
     public IReadOnlyList<KataSpanRebarSpec> Spans { get; init; } = Array.Empty<KataSpanRebarSpec>();
 
+    /// <summary>Depth of span <paramref name="span"/> (mm): its own depth, else the beam's.</summary>
+    public double DepthOf(int span) =>
+        span >= 0 && span < Spans.Count && Spans[span].Depth > 0.0 ? Spans[span].Depth : Height;
+
+    /// <summary>
+    /// Depth governing support <paramref name="support"/>: its span's at an end support, the shallower of the two
+    /// spans at an interior one (bars passing over it must fit both), never deeper than a crossing beam carrying it.
+    /// </summary>
+    public double SupportDepth(int support)
+    {
+        double depth = Spans.Count == 0 ? Height
+            : support <= 0 ? DepthOf(0)
+            : support >= Spans.Count ? DepthOf(Spans.Count - 1)
+            : Math.Min(DepthOf(support - 1), DepthOf(support));
+        double beam = support >= 0 && support < Supports.Count ? Supports[support].BeamDepth : 0.0;
+        return beam > 0.0 ? Math.Min(depth, beam) : depth;
+    }
+
     /// <summary>Calculates total continuous beam length in mm (sum of clear spans + column widths).</summary>
     public double CalculateTotalLengthMm()
     {

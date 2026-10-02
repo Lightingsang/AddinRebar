@@ -68,9 +68,10 @@ public static class KataRebarPlanner
 
         foreach (var segment in measured.Segments.Where(s => s.IsSupport))
         {
-            if (segment.SupportKind is KataMeasuredSupportKind.Beam or KataMeasuredSupportKind.Joint)
+            // A crossing beam is a support like a column of its width; a joint has nothing to anchor in.
+            if (segment.SupportKind is KataMeasuredSupportKind.Joint)
             {
-                yield return "Dầm gối lên dầm khác hoặc có điểm nối không gối; bản này chỉ vẽ dầm gối lên cột / vách / móng.";
+                yield return "Dải dầm có điểm nối không gối lên cột / vách / móng / dầm; bản này chưa vẽ được.";
                 yield break;
             }
         }
@@ -92,13 +93,17 @@ public static class KataRebarPlanner
             if (cell.IsSupport)
                 supports[cell.Index] = supports[cell.Index] with { ColumnWidth = sheetOrder[i].LengthMm };
             else
-                spans[cell.Index] = spans[cell.Index] with { Length = sheetOrder[i].LengthMm };
+                spans[cell.Index] = spans[cell.Index] with
+                {
+                    Length = sheetOrder[i].LengthMm,
+                    Depth = sheetOrder[i].HeightMm > 0.0 ? sheetOrder[i].HeightMm : spans[cell.Index].Depth
+                };
         }
 
         return spec with
         {
             Width = measured.WidthMm,
-            Height = measured.HeightMm,
+            Height = KataSheetGeometryCheck.FirstSpanDepth(sheetOrder) ?? measured.HeightMm,
             Supports = supports,
             Spans = spans
         };

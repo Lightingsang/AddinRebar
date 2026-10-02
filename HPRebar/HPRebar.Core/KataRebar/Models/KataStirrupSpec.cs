@@ -23,8 +23,14 @@ public sealed record KataStirrupSpec
     /// <summary>Spacing along cantilever spans in mm (sheet Dam cell G9, e.g. 150).</summary>
     public double CantileverSpacing { get; init; } = 150.0;
 
-    /// <summary>Default number of vertical legs (sheet Dam cell I8, e.g. 2 or 4).</summary>
-    public int DefaultLegCount { get; init; } = 2;
+    /// <summary>Spacing of the C ties from cell J7 ("a500" = 500 mm, Kata's template value); null when the sheet's J7 is empty or unreadable.</summary>
+    public double? TieSpacing { get; init; } = 500.0;
+
+    /// <summary>Cell J7 as written, for the warning when it cannot be read.</summary>
+    public string TieSpacingText { get; init; } = "";
+
+    /// <summary>Option group "Khoảng cách đai gia cường" (cell I8): evenly at J7, or at every outer hoop.</summary>
+    public KataTieSpacingMode TieSpacingMode { get; init; } = KataTieSpacingMode.Uniform;
 
     /// <summary>Stirrup branch shape details from rows 25-27 (Closed hoop, Cap U, Cross tie C).</summary>
     public IReadOnlyList<KataStirrupBranchSpec> Branches { get; init; } = Array.Empty<KataStirrupBranchSpec>();

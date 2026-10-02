@@ -300,18 +300,17 @@ public class KataRebarCalculatorTests
             Assert.Equal(2, b.Polyline.Points.Count); // straight segment
         }
 
-        // Support 1 extension into spans: max(L_left, L_right) = max(10400, 6500) = 10400 mm
-        // Layer 1: ratio = 0.25, Lcutoff = 2600 mm from column face → 8200 / 13800.
-        // Layers 2-3: ratio 0.20 = 2080 → 2100 from the centre 11000 → 8900 / 13100.
-        // Staggered by 500 (G1 default) from the inside out: layer 2 → 8400 / 13600, layer 1 → 7900 / 14100.
+        // Support 1 (10800-11200): every layer reaches H5 0.25 × its side's span from the face — 2600 into the
+        // 10400 span (8200), 1625 → 1650 into the 6500 span (12850) — then the stagger adds 500 per outer layer:
+        // layer 3 8200 / 12850, layer 2 7700 / 13350, layer 1 7200 / 13850.
         var supp1Layer1 = supp1Bars.First(b => b.Layer == 1);
-        Assert.Equal(7900.0, supp1Layer1.Polyline.Points[0].X);
-        Assert.Equal(14100.0, supp1Layer1.Polyline.Points[1].X);
-        Assert.Equal(6200.0, supp1Layer1.Polyline.TotalLength);
+        Assert.Equal(7200.0, supp1Layer1.Polyline.Points[0].X);
+        Assert.Equal(13850.0, supp1Layer1.Polyline.Points[1].X);
+        Assert.Equal(6650.0, supp1Layer1.Polyline.TotalLength);
         var supp1Layer2 = supp1Bars.First(b => b.Layer == 2);
-        Assert.Equal((8400.0, 13600.0), (supp1Layer2.Polyline.Points[0].X, supp1Layer2.Polyline.Points[1].X));
+        Assert.Equal((7700.0, 13350.0), (supp1Layer2.Polyline.Points[0].X, supp1Layer2.Polyline.Points[1].X));
         var supp1Layer3 = supp1Bars.First(b => b.Layer == 3);
-        Assert.Equal((8900.0, 13100.0), (supp1Layer3.Polyline.Points[0].X, supp1Layer3.Polyline.Points[1].X));
+        Assert.Equal((8200.0, 12850.0), (supp1Layer3.Polyline.Points[0].X, supp1Layer3.Polyline.Points[1].X));
 
         // 3. Extra Bottom Bars in Spans
         // Span 0: 6f25 (L1) + 2f20 (L2) = 8 bars
@@ -321,10 +320,11 @@ public class KataRebarCalculatorTests
         var span0Bot = result.ExtraBottomBars.Where(b => b.HostSpanIndex == 0).ToList();
         Assert.Equal(8, span0Bot.Count);
 
-        // Span 0 clear length = 10400. Cutoff 0.15 L = 1560 mm from faces, rounded down to the 50 mm cut step.
+        // Span 0 clear length = 10400. Row 17 keeps min(H3 0.2 × 10400 = 2080 → 2100 from the centre = 1900 from
+        // the face, 10400 / 6 = 1733 → nearest 50: 1750) = 1750 free; row 18 (span0Bot[0]) G1 nearer: 1250.
         // Start face = 400. End face = 10800.
-        double expectedBotStart = 400.0 + 1550.0;
-        double expectedBotEnd = 10800.0 - 1550.0;
+        double expectedBotStart = 400.0 + 1250.0;
+        double expectedBotEnd = 10800.0 - 1250.0;
         Assert.Equal(expectedBotStart, span0Bot[0].Polyline.Points[0].X, precision: 1);
         Assert.Equal(expectedBotEnd, span0Bot[0].Polyline.Points[1].X, precision: 1);
 
@@ -666,10 +666,10 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_UnequalAdjacentSpans_InteriorSupportTopCutoffUsesMaxSpan()
+    public void Calculate_UnequalAdjacentSpans_InteriorSupportTopCutoffUsesEachSidesSpan()
     {
         // Support 1 between Span 0 (8000 mm) and Span 1 (4000 mm)
-        // Cutoff extension should use max(8000, 4000) * 0.25 = 2000 mm into both spans
+        // Each side reaches 0.25 × its own span (Kata drawing of T2-DY7): 2000 left, 1000 right
         var spec = new KataBeamRebarSpec
         {
             BeamName = "B_UNEQUAL",
@@ -702,13 +702,11 @@ public class KataRebarCalculatorTests
         Assert.Equal(2, supp1Bars.Count);
 
         // Support 1 left face = 400 + 8000 = 8400. Right face = 8800.
-        // Lcutoff = max(8000, 4000) * 0.25 = 2000 mm.
-        // Xstart = 8400 - 2000 = 6400 mm.
-        // Xend = 8800 + 2000 = 10800 mm.
+        // Xstart = 8400 - 2000 = 6400 mm. Xend = 8800 + 1000 = 9800 mm.
         var bar = supp1Bars[0];
         Assert.Equal(6400.0, bar.Polyline.Points[0].X);
-        Assert.Equal(10800.0, bar.Polyline.Points[1].X);
-        Assert.Equal(4400.0, bar.Polyline.TotalLength); // 2000 + 400 + 2000
+        Assert.Equal(9800.0, bar.Polyline.Points[1].X);
+        Assert.Equal(3400.0, bar.Polyline.TotalLength); // 2000 + 400 + 2000
     }
 
     [Fact]
@@ -822,7 +820,7 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_SpanSideBarOverride_2f12_ReducesToSingleLayer()
+    public void Calculate_SpanSideBarOverride_2f12_GivesTwoLayers()
     {
         var spec = new KataBeamRebarSpec
         {
@@ -843,7 +841,7 @@ public class KataRebarCalculatorTests
                 {
                     SpanIndex = 0,
                     Length = 6000.0,
-                    SideBars = new[] { new KataBarItem(2, 12.0) } // row 20 "2f12": two bars, one layer
+                    SideBars = new[] { new KataBarItem(2, 12.0) } // row 20 "2f12": two layers, as Kata draws "2x2Ø12"
                 }
             }
         };
@@ -851,10 +849,9 @@ public class KataRebarCalculatorTests
         var result = KataRebarCalculator.Calculate(spec);
 
         Assert.True(result.IsValid);
-        // 1 layer override means 2 side bars total (1 left, 1 right)
-        Assert.Equal(2, result.SideBars.Count);
-        Assert.Equal(1, result.SideBars[0].Layer);
-        Assert.Equal(1, result.SideBars[1].Layer);
+        // 2 layers, a bar on each face
+        Assert.Equal(4, result.SideBars.Count);
+        Assert.Equal(new[] { 1, 1, 2, 2 }, result.SideBars.Select(b => b.Layer).OrderBy(l => l).ToArray());
     }
 
     /// <summary>

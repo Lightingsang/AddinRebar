@@ -10,6 +10,33 @@
 > Người dùng chỉnh trong **Kata Export ▸ Thiết lập** (lưu `%AppData%\HPRebar\KataSettings.json`).
 > Ô sheet có giá trị thì thắng thiết lập (G1, G2/G3, H3/H5, I3/I5, G6–G8, J9).
 
+## 0. Cập nhật 2026-10-02 — chuẩn là bản vẽ Kata T2-DY7
+
+User chốt: **bản vẽ Kata thắng spec** (`Documents\T2-DY7.dwg`, đọc qua MCP AutoCAD; x đo từ mép ngoài cột đầu). Các luật dưới đây **thay** dòng tương ứng ở mục 1 (R3, R4, R5 và luật cắt gia cường gối), suy từ 2 bản vẽ DY7 — **CHƯA XÁC MINH** với dầm Kata khác.
+
+| ID | Luật | Mặc định | Code | Test |
+|---|---|---|---|---|
+| K1 | Chiều cao nhịp h_i = B5 − hàng 21 (mặt trên phẳng); Revit đo từng nhịp, lệch > 2 cảnh báo, > 50 chặn (ô hàng 21). B5 so với nhịp đầu theo chiều sheet | — | `KataSpanRebarSpec.Depth`, `KataBeamRebarSpec.DepthOf/SupportDepth`, `KataSheetGeometryCheck` | `KataDy7DrawingTests`, `KataSteppedBeamEdgeTests` |
+| K2 | (Ngưỡng uốn/cắt thay bởi K13.) Thép chủ dưới: bậc đáy ≤ 100 → một thanh uốn Z 1:6 từ mặt gối phía nhịp nông vào nhịp sâu; > 100 (hoặc không đủ chỗ uốn: cạnh console / chồng đoạn uốn khác) → cắt: nhịp sâu tới mặt xa − a bẻ lên G3·d (chân không chạm thanh nhịp nông và thép trên), nhịp nông thẳng G3·d qua mặt gối phía nó | 100, 1:6 (`SoffitCrankMaxStep`, `CrankSlope`) | `KataBottomMainBarRuns` | `KataDy7DrawingTests.Bottom_main_bars_*`, `KataSteppedBeamEdgeTests` |
+| K3 | Gối là dầm giao (`bxh` hàng 11): rộng b, chân móc không sâu quá h dầm giao | — | parser `BeamDepth`, planner | `A_crossing_beam_support_*` |
+| K4 | Gia cường trên hàng 13–16: mọi hàng vươn H5·L (L = nhịp **từng bên**, gốc I5, tròn lên 50); hàng ngoài + G1 (R1). H3/I3 không dùng cho thép trên | H5 0.25 mép | `KataSupportTopBarLayout.Cuts` | `KataDy7DrawingTests.Additional_top_*`, `KataTopBarStaggerTests` |
+| K5 | `-` ở hàng 13 = thanh hàng 13 gối kề kéo tới gối này: gối biên → neo (console → dừng cách mút một lớp bảo vệ); gối giữa → qua gối, cắt H5·L (+G1 nếu gối đó có hàng dưới). Hàng 14–16 chưa nhận `-` (cảnh báo) | — | `KataTopBarContinuation` | `Additional_top_*` (G13 → I), `A_dash_*` |
+| K6 | Gia cường bụng: hàng 17 (hoặc 18 khi một mình) cách mặt gối min(H3·L theo I3 tròn lên 50, L/6 tròn xuống 50); hàng 18 dưới hàng 17 gần gối hơn G1 (≥ 0) | L/6 (`BottomExtraCutFraction` = trần) | `KataSpanBottomBarLayout.Cuts` | `Additional_bottom_*` |
+| K7 | Vùng đai dày = 0.25·L (hệ số × h mặc định 0; đặt 2 để dùng max(2h, 0.25L) kháng chấn); hộp đai cao theo từng nhịp | 0 / 0.25 | `KataStirrupZoneLayout` | `Dense_stirrup_zones_*`, `With_a_height_factor_of_2_*` |
+| K8 | Chân móc = phần thiếu (tối thiểu mặc định 0), tròn lên 25 khi vừa; chân dưới vẫn lùi khi chồng chân trên (Revit) | 0 (`MinimumLegFactor`) | `KataAnchorage` | `A_leg_bends_exactly_*` |
+| K9 | Cốt giá: các nhịp liền nhau cùng cốt giá dùng một thanh chạy qua gối giữa, cao độ theo nhịp nông nhất nhóm, neo 10d hai đầu nhóm | — | `KataSideBarLayout` | `Side_bars_run_on_through_E_*` |
+| K10 | File thiết lập cũ (không có `SettingsVersion`) đang giữ đúng mặc định cũ 15d / 2h / 0.15 → tự chuyển sang mặc định mới; giá trị user đã đổi giữ nguyên | `SettingsVersion` 2 | `KataSettingsJson.Migrate` | `A_settings_file_saved_with_the_old_defaults_*` |
+| K11 | Thanh C kê: tiết diện nào cắt ≥ N thanh của lớp gia cường trong (gối hàng 14–16, nhịp hàng 17) có thanh C Ø đai, móc 180° ôm 2 thanh ngoài cùng của tiết diện, đoạn thẳng dưới lớp; đếm theo tiết diện nên ô "trái;phải" và lớp của 2 gối gặp nhau được xét đúng; lùi 50 + 2·Ø đai khỏi mặt gối và đầu thanh, không trong gối | N = 3 (`LayerTieMinBarCount`) | `KataLayerSpacerTieLayout` | `KataLayerSpacerTieTests` |
+| K12 | Bước mọi móc C (cốt giá + thanh C kê) theo nhóm "Khoảng cách đai gia cường" của sheet: I8 = 2 đều a(J7), I8 = 1 tại mọi trạm đai ngoài (lệch 2·Ø đai); J7 trống/sai/ngoài 100–1000 → a500 + cảnh báo. Thay setting "Bước móc C giữ cốt giá" 400 | J7 a500 | `KataTieStations`, `KataDamSheetParser.ParseTieSpacing` | `Parse_J7_and_the_option_group_*`, `Like_hoops_*`, `An_unreadable_J7_*` |
+| K13 | Thép chủ dưới qua bậc đáy (thay K2 "≤ 100"): uốn 1:6 khi Ø ≥ 16 và (bậc − Ø) / bề rộng gối ≤ 1/6 — hình "Chi tiết neo thép tại nút dầm" TH3; ngược lại cắt (TH2: nhịp nông thẳng 30φ qua mặt gối, nhịp sâu bẻ lên ở mặt xa) | 16 (`CrankMinDiameter`), 1/6 | `KataDetailingRules.Cranks`, `KataBottomMainBarRuns` | `KataDy14DrawingTests.At_E_*`, `Bottom_main_bars_thinner_than_16_*` |
+| K14 | Trần gia cường bụng L/6 làm tròn **gần nhất** 50 (thay "tròn xuống" ở K6) | — | `KataSpanBottomBarLayout.Cuts` (`RoundNearest`) | `The_variant_with_E_500_*` |
+| K15 | Hàng 20 `nfd` = n lớp × 2 thanh, như G5/G4 (thay "n thanh") | — | `KataSideBarLayout.Layers` | `Row_20_2f12_draws_two_layers_*`, `Row_20_counts_layers_like_G5` |
+| K16 | "-" liên tiếp ở hàng 13 nối chuỗi tới "-" cuối rồi neo (gối biên) hoặc cắt H5·L (gối giữa) | — | `KataTopBarContinuation` | `At_E_350_*` (G13 → K) |
+
+Lệch chấp nhận DY14: khi thép dưới bị cắt ở gối E, Kata vẽ đầu trái các thanh ở/trái gối đó ngắn hơn 75 mm (E13/E14, D17/D18, cốt giá); bản vẽ biến thể E = 500 (uốn) không có — chưa có luật, HPRebar giữ K4/K6/K9.
+
+Sai khác còn lại với bản vẽ (chấp nhận): Revit nâng a từ J9 30 lên 42 (đai Ø8 + Ø18/2) → thanh lệch ~12 mm; chân thép dưới ở cột đầu lùi khi chồng chân thép trên (Kata 2D không lùi) → x 133 thay 35, chân 225 thay 125; chân trong dầm giao / nhịp nông bị giới hạn chiều cao (Kata vẽ 300/400 lố mặt dầm).
+
 ## 1. Bảng luật
 
 Đường dẫn code tính từ gốc repo; "Thiết lập" = trường của `KataSettings`.
@@ -56,6 +83,11 @@ Không làm: Kata Export ghi G1–J9; tự sinh cốt giá; chia nối thép ch�
 
 Đã biết, giữ nguyên: điểm cắt của một hàng gia cường gối giữa (khi nhịp bên kia ngắn) có thể dừng trong lòng cột bên kia — chỉ cột biên được chặn; R1 khi đó cảnh báo hàng ngoài "ngắn hơn".
 
-## 4. Thiết lập
+## 4. Tạo thép trong Revit
+
+- Thép dọc (chủ B11/B12, gia cường 13–18, cốt giá): mỗi nhóm ≥ 2 thanh cùng ô, cùng vai trò/Ø/hình, cách đều → **1 Rebar layout Fixed Number**; 1 thanh → Single. Ô trộn Ø (`2f16+1f14`) tách theo Ø; ô `trái;phải` mỗi vế một bộ; không đều → các đoạn cách đều ≥ 2 thanh, còn lại Single (user, 2026-10-02). Code `KataLongitudinalSetGrouping` (Core) + `KataRebarCreationService` (Revit).
+- Revit tự snap mặt phẳng thanh mới vào lớp bảo vệ (Ø16 ở y −29 bị kéo về −33): thanh Single được dời lại; bộ Fixed Number sửa khoảng cách constraint hai đầu dải rồi kiểm ±0,5 mm, sai thì lùi về Single và báo trong thông báo.
+
+## 5. Thiết lập
 
 Mọi giá trị đi qua `KataSettingsJson.Sanitize` (file sửa tay, hộp thiết lập, rule builder): âm, NaN, ∞, tỉ lệ vượt nửa nhịp → mặc định. Hộp thiết lập từ chối ô không phải số hữu hạn.

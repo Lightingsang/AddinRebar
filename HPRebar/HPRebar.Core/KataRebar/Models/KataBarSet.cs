@@ -53,6 +53,9 @@ public sealed record KataBarSet
     /// <summary>Unit direction (local Y, Z) from the wrapped bars to the straight part of a wrapping tie.</summary>
     public Point3 WrapOffset { get; init; } = new(0.0, 0.0, -1.0);
 
+    /// <summary>Largest diameter of the bars a wrapping tie's hooks turn round (mm), 0 when unknown.</summary>
+    public double WrappedBarDiameter { get; init; }
+
     public int Count => Stations.Count;
 
     /// <summary>Length of one bar (mm), hooks included (a 180° hook as a half circle of radius 2d plus its tail).</summary>

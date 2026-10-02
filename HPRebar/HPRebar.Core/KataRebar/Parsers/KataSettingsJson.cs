@@ -47,7 +47,26 @@ public static class KataSettingsJson
             if (value is not null) p.SetValue(settings, value);
         }
 
-        return Sanitize(settings);
+        return Sanitize(Migrate(settings, values.ContainsKey(nameof(KataSettings.SettingsVersion))));
+    }
+
+    /// <summary>
+    /// A file saved before the Kata-drawing defaults still holds the old ones (15 d legs, 2 h dense zone, a 0.15 L
+    /// cut, which now caps the cut instead of setting it): those values move to the new defaults, anything the user
+    /// changed stays.
+    /// </summary>
+    private static KataSettings Migrate(KataSettings s, bool versioned)
+    {
+        if (versioned && s.SettingsVersion >= KataSettings.Default.SettingsVersion) return s;
+        var d = KataSettings.Default;
+        static bool Is(double v, double old) => Math.Abs(v - old) < 1e-9;
+        return s with
+        {
+            SettingsVersion = d.SettingsVersion,
+            MinimumLegFactor = Is(s.MinimumLegFactor, 15.0) ? d.MinimumLegFactor : s.MinimumLegFactor,
+            DenseZoneHeightFactor = Is(s.DenseZoneHeightFactor, 2.0) ? d.DenseZoneHeightFactor : s.DenseZoneHeightFactor,
+            BottomExtraCutFraction = Is(s.BottomExtraCutFraction, 0.15) ? d.BottomExtraCutFraction : s.BottomExtraCutFraction
+        };
     }
 
     /// <summary>
@@ -70,12 +89,13 @@ public static class KataSettingsJson
             CrossTieHookFactor = Positive(s.CrossTieHookFactor) ? s.CrossTieHookFactor : d.CrossTieHookFactor,
             RoundCutExtraMm = s.RoundCutExtraMm >= 0.0 && !double.IsInfinity(s.RoundCutExtraMm) ? s.RoundCutExtraMm : d.RoundCutExtraMm,
             SideBarAnchorageFactor = Positive(s.SideBarAnchorageFactor) ? s.SideBarAnchorageFactor : d.SideBarAnchorageFactor,
-            SideBarTieSpacing = Positive(s.SideBarTieSpacing) ? s.SideBarTieSpacing : d.SideBarTieSpacing,
+            LayerTieMinBarCount = s.LayerTieMinBarCount >= 2 ? s.LayerTieMinBarCount : d.LayerTieMinBarCount,
+            CrankMinDiameter = NonNegative(s.CrankMinDiameter) ? s.CrankMinDiameter : d.CrankMinDiameter,
             CurtailedExtensionMm = NonNegative(s.CurtailedExtensionMm) ? s.CurtailedExtensionMm : d.CurtailedExtensionMm,
             DenseZoneHeightFactor = NonNegative(s.DenseZoneHeightFactor) ? s.DenseZoneHeightFactor : d.DenseZoneHeightFactor,
             EndZoneFraction = HalfSpan(s.EndZoneFraction) ? s.EndZoneFraction : d.EndZoneFraction,
             BottomExtraCutFraction = HalfSpan(s.BottomExtraCutFraction) && s.BottomExtraCutFraction < 0.5 ? s.BottomExtraCutFraction : d.BottomExtraCutFraction,
-            MinimumLegFactor = Positive(s.MinimumLegFactor) ? s.MinimumLegFactor : d.MinimumLegFactor,
+            MinimumLegFactor = NonNegative(s.MinimumLegFactor) ? s.MinimumLegFactor : d.MinimumLegFactor,
             LayerClearGap = NonNegative(s.LayerClearGap) ? s.LayerClearGap : d.LayerClearGap,
             RoundLegMm = NonNegative(s.RoundLegMm) ? s.RoundLegMm : d.RoundLegMm,
             SideBarRequiredHeight = NonNegative(s.SideBarRequiredHeight) ? s.SideBarRequiredHeight : d.SideBarRequiredHeight

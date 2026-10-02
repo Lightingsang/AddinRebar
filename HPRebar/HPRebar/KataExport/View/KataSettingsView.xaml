@@ -63,6 +63,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Làm tròn cắt thép gia cường" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RoundCutExtraMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
@@ -70,12 +71,16 @@
             <TextBlock Grid.Row="1" Text="Cắt lệch gia cường gối (khi G1 trống)" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="1" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsCurtailedExtension" Text="{Binding CurtailedExtensionMm, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="1" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="2" Text="Cắt thép gia cường bụng" Style="{StaticResource SettingLabel}"/>
+            <TextBlock Grid.Row="2" Text="Cắt gia cường bụng tối đa (min với H3)" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsBottomCutFraction" Text="{Binding BottomExtraCutFraction, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="2" Grid.Column="2" Text="x Ln" Style="{StaticResource SettingUnit}"/>
             <TextBlock Grid.Row="3" Text="Khoảng hở giữa các lớp thép" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="3" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsLayerClearGap" Text="{Binding LayerClearGap, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="3" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="4" Text="Bẻ cổ chai cho thép có phi từ" Style="{StaticResource SettingLabel}"
+                       ToolTip="Thép chủ dưới chỉ uốn qua bậc đáy (dốc 1/6) khi Ø ≥ giá trị này và (bậc − Ø) / bề rộng gối ≤ 1/6; ngược lại cắt và neo tại gối."/>
+            <TextBox Grid.Row="4" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsCrankMinDiameter" Text="{Binding CrankMinDiameter, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
         </Grid>
 
         <TextBlock Text="Đai &amp; Vùng đai dày" Style="{StaticResource GroupHeader}"/>
@@ -125,9 +130,10 @@
             <TextBlock Grid.Row="0" Text="Neo cốt giá vào gối" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="0" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsSideBarAnchorage" Text="{Binding SideBarAnchorageFactor, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Text="d" Style="{StaticResource SettingUnit}"/>
-            <TextBlock Grid.Row="1" Text="Bước móc C giữ cốt giá" Style="{StaticResource SettingLabel}"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SideBarTieSpacing, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
-            <TextBlock Grid.Row="1" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>
+            <TextBlock Grid.Row="1" Text="Thanh C kê lớp thép 2 khi lớp có ≥" Style="{StaticResource SettingLabel}"
+                       ToolTip="Bước móc C (giữ cốt giá và kê lớp 2) lấy theo ô J7 và lựa chọn 'Khoảng cách đai gia cường' (I8) của sheet Dam."/>
+            <TextBox Grid.Row="1" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsLayerTieMinBars" Text="{Binding LayerTieMinBarCount, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="thanh" Style="{StaticResource SettingUnit}"/>
             <TextBlock Grid.Row="2" Text="Dầm bắt buộc cốt giá (h ≥)" Style="{StaticResource SettingLabel}"/>
             <TextBox Grid.Row="2" Grid.Column="1" AutomationProperties.AutomationId="KataSettingsSideBarReqHeight" Text="{Binding SideBarRequiredHeight, Mode=TwoWay}" Style="{StaticResource SettingBox}"/>
             <TextBlock Grid.Row="2" Grid.Column="2" Text="mm" Style="{StaticResource SettingUnit}"/>

@@ -21,7 +21,8 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     [ObservableProperty] private double _crossTieHookFactor;
     [ObservableProperty] private double _roundCutExtraMm;
     [ObservableProperty] private double _sideBarAnchorageFactor;
-    [ObservableProperty] private double _sideBarTieSpacing;
+    [ObservableProperty] private int _layerTieMinBarCount;
+    [ObservableProperty] private double _crankMinDiameter;
     [ObservableProperty] private double _curtailedExtensionMm;
     [ObservableProperty] private double _denseZoneHeightFactor;
     [ObservableProperty] private double _endZoneFraction;
@@ -49,7 +50,7 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     {
         double[] all =
         {
-            ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, SideBarTieSpacing,
+            ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, CrankMinDiameter,
             CurtailedExtensionMm, DenseZoneHeightFactor, EndZoneFraction, BottomExtraCutFraction, MinimumLegFactor, LayerClearGap,
             RoundLegMm, SideBarRequiredHeight
         };
@@ -60,12 +61,12 @@ public sealed partial class KataSettingsViewModel : ObservableObject
         }
 
         if (ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
-            || SideBarAnchorageFactor <= 0.0 || SideBarTieSpacing <= 0.0 || CurtailedExtensionMm < 0.0
+            || SideBarAnchorageFactor <= 0.0 || LayerTieMinBarCount < 2 || CrankMinDiameter < 0.0 || CurtailedExtensionMm < 0.0
             || DenseZoneHeightFactor < 0.0 || EndZoneFraction < 0.0 || EndZoneFraction > 0.5
             || BottomExtraCutFraction < 0.0 || BottomExtraCutFraction >= 0.5
-            || MinimumLegFactor <= 0.0 || LayerClearGap < 0.0 || RoundLegMm < 0.0 || SideBarRequiredHeight < 0.0)
+            || MinimumLegFactor < 0.0 || LayerClearGap < 0.0 || RoundLegMm < 0.0 || SideBarRequiredHeight < 0.0)
         {
-            Message = "Các giá trị phải hợp lệ: tỉ lệ vùng đai dày 0 … 0.5, tỉ lệ cắt gia cường bụng 0 … < 0.5 (× Ln); cắt lệch, làm tròn, khe lớp và h cốt giá không âm (0 = tắt).";
+            Message = "Các giá trị phải hợp lệ: tỉ lệ vùng đai dày 0 … 0.5, tỉ lệ cắt gia cường bụng 0 … < 0.5 (× Ln); cắt lệch, làm tròn, khe lớp và h cốt giá không âm (0 = tắt); thanh C kê từ 2 thanh trở lên; Ø bẻ cổ chai không âm.";
             return;
         }
 
@@ -77,7 +78,8 @@ public sealed partial class KataSettingsViewModel : ObservableObject
             CrossTieHookFactor = CrossTieHookFactor,
             RoundCutExtraMm = RoundCutExtraMm,
             SideBarAnchorageFactor = SideBarAnchorageFactor,
-            SideBarTieSpacing = SideBarTieSpacing,
+            LayerTieMinBarCount = LayerTieMinBarCount,
+            CrankMinDiameter = CrankMinDiameter,
             CurtailedExtensionMm = CurtailedExtensionMm,
             DenseZoneHeightFactor = DenseZoneHeightFactor,
             EndZoneFraction = EndZoneFraction,
@@ -106,7 +108,8 @@ public sealed partial class KataSettingsViewModel : ObservableObject
         CrossTieHookFactor = s.CrossTieHookFactor;
         RoundCutExtraMm = s.RoundCutExtraMm;
         SideBarAnchorageFactor = s.SideBarAnchorageFactor;
-        SideBarTieSpacing = s.SideBarTieSpacing;
+        LayerTieMinBarCount = s.LayerTieMinBarCount;
+        CrankMinDiameter = s.CrankMinDiameter;
         CurtailedExtensionMm = s.CurtailedExtensionMm;
         DenseZoneHeightFactor = s.DenseZoneHeightFactor;
         EndZoneFraction = s.EndZoneFraction;

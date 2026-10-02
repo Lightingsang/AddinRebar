@@ -47,11 +47,16 @@ public static class KataBarSetCreator
                     hooks[(set.HookAngle, set.HookFactor)] = hook = KataRebarHookResolver.Find(doc, set.HookAngle, set.HookFactor);
 
                 Rebar rebar;
+                HPRebar.Core.BeamRebar.Models.Polyline3? planned = null;
                 if (set.HookAngle > 0 && hook is not null && set.WrapEnds && set.Shape.Points.Count == 2)
                 {
                     // Each hook turns round its bar: the tie runs one bend radius beside the bars and reaches past
                     // them by the radius plus half the bar, which is where Revit puts the outer face of the hook.
-                    var (shape, start, end) = KataTieWrap.Lay(set, BendRadiusMm(barType, hook.Style));
+                    double radius = BendRadiusMm(barType, hook.Style);
+                    if (set.WrappedBarDiameter > 0.0 && radius + 0.5 < (set.WrappedBarDiameter + set.Diameter) / 2.0)
+                        warnings.Add($"{set.Description}: móc Ø{set.Diameter:0} uốn bán kính {radius:0} mm, nhỏ hơn Ø{set.WrappedBarDiameter:0}/2 + Ø{set.Diameter:0}/2 — móc không ôm được thanh; chọn đường kính uốn lớn hơn cho kiểu thép Ø{set.Diameter:0}.");
+                    var (shape, start, end) = KataTieWrap.Lay(set, radius);
+                    planned = shape;
                     var curves = KataRebarCurveFactory.Curves(shape, mapper);
                     rebar = KataRebarCurveFactory.CreateHooked(doc, hook.Style, barType, hook.Hook, host, mapper.AxisX, curves, mapper.ToXyz(start), mapper.ToXyz(end));
                 }
@@ -66,6 +71,7 @@ public static class KataBarSetCreator
                     if (set.HookAngle > 0)
                         warnings.Add($"Dự án chưa có kiểu móc {set.HookAngle}° (RebarHookType): {set.Description} vẽ không móc.");
                     var shape = set.WrapEnds && set.Shape.Points.Count == 2 ? KataTieWrap.Lay(set, 0.0).Shape : set.Shape;
+                    if (set.WrapEnds && set.Shape.Points.Count == 2) planned = shape;
                     rebar = KataRebarCurveFactory.Create(doc, RebarStyle.StirrupTie, barType, host, mapper.AxisX, KataRebarCurveFactory.Curves(shape, mapper));
                 }
 
@@ -73,6 +79,14 @@ public static class KataBarSetCreator
                     rebar.GetShapeDrivenAccessor().SetLayoutAsNumberWithSpacing(set.Count, set.Spacing / MmPerFoot, true, true, true);
 
                 KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, set.BarMark);
+                if (planned is not null)
+                {
+                    // Revit may pull the tie towards the cover; it must stay round the bars it wraps.
+                    double left = KataRebarSectionFit.Fit(doc, rebar, mapper, planned.Points[0], planned.Points[planned.Points.Count - 1], acrossToo: true);
+                    if (left > 1.0)
+                        warnings.Add($"{set.Description}: Revit giữ thanh C lệch {left:0} mm khỏi các thanh nó ôm — kiểm tra trong Revit.");
+                }
+
                 CheckLayout(rebar, set, mapper, warnings);
                 step.Commit();
             }

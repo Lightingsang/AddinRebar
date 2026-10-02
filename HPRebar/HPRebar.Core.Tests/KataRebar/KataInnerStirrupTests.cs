@@ -83,8 +83,8 @@ public sealed class KataInnerStirrupTests
     }
 
     [Fact]
-    public void J7_is_reported_as_not_drawn()
+    public void J7_is_read_not_reported_as_skipped()
     {
-        Assert.Contains(Plan(("J7", "a500")).Skipped, s => s.StartsWith("J7 'a500'"));
+        Assert.DoesNotContain(Plan(("J7", "a500")).Skipped, s => s.StartsWith("J7"));
     }
 }

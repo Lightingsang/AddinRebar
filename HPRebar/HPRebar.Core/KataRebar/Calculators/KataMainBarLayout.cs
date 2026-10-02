@@ -7,10 +7,12 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// Continuous top (B11) and bottom (B12) bars from the first to the last support, anchored in both end
-/// supports by <see cref="KataAnchorage"/>. Each is one bar however long: splitting into stock lengths is
-/// shop-drawing work. Top bars bend down, bottom bars bend up; where both legs of an
-/// end would overlap in the same plane the bottom leg moves inboard.
+/// Main bars. The top bars (B11) run from the first to the last support — the top of the beam is level — and
+/// anchor in both end supports by <see cref="KataAnchorage"/>, bending down. The bottom bars (B12) follow each
+/// span's soffit: neighbouring spans share one bar cranked across the support when Kata's beam-node rule allows it,
+/// otherwise the step cuts them there (<see cref="KataBottomMainBarRuns"/>).
+/// Each bar is one piece however long: splitting into stock lengths is shop-drawing work. Where a bottom leg would
+/// overlap a top leg in an end support it moves inboard.
 /// </summary>
 public static class KataMainBarLayout
 {
@@ -26,52 +28,74 @@ public static class KataMainBarLayout
 
         double dTop = spec.TopContinuous.IsEmpty ? 0.0 : spec.TopContinuous.Diameter;
         double dBot = spec.BottomContinuous.IsEmpty ? 0.0 : spec.BottomContinuous.Diameter;
-        double legRoom = spec.Height - rules.TopBarCentreDepth - rules.BottomBarCentreDepth;
         int last = stations.SpanCount;
 
-        var topStart = TopEnd(rules, stations, 0, dTop, legRoom, spec.Height);
-        var topEnd = TopEnd(rules, stations, last, dTop, legRoom, spec.Height);
-        var botStart = BottomEnd(spec, rules, stations, 0, dTop, dBot, legRoom, topStart);
-        var botEnd = BottomEnd(spec, rules, stations, last, dTop, dBot, legRoom, topEnd);
+        var topStart = TopEnd(spec, rules, stations, 0, dTop);
+        var topEnd = TopEnd(spec, rules, stations, last, dTop);
 
         if (!spec.TopContinuous.IsEmpty)
         {
-            Report(warnings, "trên", "trái", topStart, legRoom);
-            Report(warnings, "trên", "phải", topEnd, legRoom);
+            Report(warnings, "trên", "trái", topStart, LegRoom(spec, rules, 0));
+            Report(warnings, "trên", "phải", topEnd, LegRoom(spec, rules, last));
             double z = -rules.TopBarCentreDepth;
             foreach (double y in Positions(spec, rules, spec.TopContinuous))
-                top.Add(Bar(barId++, KataBarRole.MainTop, spec.TopContinuous.Diameter, y, z, -1.0, topStart, topEnd, "1", "Thép chủ trên", 1));
-
+                top.Add(TopBar(barId++, spec.TopContinuous.Diameter, y, z, topStart, topEnd));
         }
 
         if (!spec.BottomContinuous.IsEmpty)
         {
-            Report(warnings, "dưới", "trái", botStart, legRoom);
-            Report(warnings, "dưới", "phải", botEnd, legRoom);
-            double z = -spec.Height + rules.BottomBarCentreDepth;
-            foreach (double y in Positions(spec, rules, spec.BottomContinuous))
-                bottom.Add(Bar(barId++, KataBarRole.MainBottom, spec.BottomContinuous.Diameter, y, z, +1.0, botStart, botEnd, "2", "Thép chủ dưới", 2));
+            var ends = new KataBottomMainBarRuns.EndSolver(
+                support => BottomEnd(spec, rules, stations, support, dTop, dBot, support == 0 ? topStart : topEnd),
+                (support, outward, room) => Solve(stations, rules, support, outward, rules.BottomBarCentreDepth,
+                    rules.BottomAnchorageFactor * dBot, rules.MinimumLegFactor * dBot, room, 0.0),
+                support => LowestTopCentre(spec, rules, support) - BottomLegClearance(spec, rules, support, dBot));
 
+            foreach (var run in KataBottomMainBarRuns.Plan(spec, rules, stations, dBot, ends, warnings))
+            {
+                foreach (var (end, support, side) in new[] { (run.Start, run.FirstSupport, "trái"), (run.End, run.LastSupport, "phải") })
+                    Report(warnings, "dưới", $"{side} (gối {support + 1})", end, LegRoom(spec, rules, support));
+
+                foreach (double y in Positions(spec, rules, spec.BottomContinuous))
+                    bottom.Add(KataBottomMainBarRuns.Bar(barId++, spec.BottomContinuous.Diameter, y, run));
+            }
         }
 
         return (top, bottom);
     }
 
-    private static KataBarEnd TopEnd(KataDetailingRules rules, KataBeamStations st, int support, double d, double legRoom, double height)
+    /// <summary>Centre of the lowest top level over a support: the main bars' or an additional row's (z, mm).</summary>
+    private static double LowestTopCentre(KataBeamRebarSpec spec, KataDetailingRules rules, int support) =>
+        KataTopLayerStack.At(spec, rules, support, 0).Min(l => l.Z);
+
+    /// <summary>Centre-to-centre gap a bottom leg keeps under that lowest top level.</summary>
+    private static double BottomLegClearance(KataBeamRebarSpec spec, KataDetailingRules rules, int support, double dBot)
+    {
+        var lowest = KataTopLayerStack.At(spec, rules, support, 0).OrderBy(l => l.Z).First();
+        double dTop = Math.Max(lowest.Diameter, spec.TopContinuous.IsEmpty ? 0.0 : spec.TopContinuous.Diameter);
+        return (dTop + dBot) / 2.0 + rules.LayerGap(dTop, dBot);
+    }
+
+    /// <summary>Longest leg between the main bar layers over support <paramref name="support"/> (mm).</summary>
+    internal static double LegRoom(KataBeamRebarSpec spec, KataDetailingRules rules, int support) =>
+        spec.SupportDepth(support) - rules.TopBarCentreDepth - rules.BottomBarCentreDepth;
+
+    private static KataBarEnd TopEnd(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, double d)
     {
         if (st.SupportWidth[support] > 0.0)
-            return Solve(st, rules, support, rules.TopBarCentreDepth, rules.TopAnchorageFactor * d, rules.MinimumLegFactor * d, legRoom, 0.0);
+            return Solve(st, rules, support, support == 0 ? -1 : 1, rules.TopBarCentreDepth, rules.TopAnchorageFactor * d,
+                rules.MinimumLegFactor * d, LegRoom(spec, rules, support), 0.0);
 
         // Cantilever tip: the layout of the earlier version is kept until the console rules are settled —
         // the bar stops at the stirrup cover and hooks down by the compression anchorage, as deep as fits.
         double tip = st.SupportStart[support];
         double x = support == 0 ? tip + rules.StirrupCover : tip - rules.StirrupCover;
-        double room = Math.Max(0.0, height - 2.0 * rules.StirrupCover - 2.0 * rules.StirrupDiameter);
+        double room = Math.Max(0.0, spec.SupportDepth(support) - 2.0 * rules.StirrupCover - 2.0 * rules.StirrupDiameter);
         return new KataBarEnd(x, Math.Min(room, Math.Max(rules.BottomAnchorageFactor * d, CantileverHookMinimum)), 0.0);
     }
 
     private const double CantileverHookMinimum = 200.0;
 
+    /// <summary>Bottom bar end in an end support, its leg moved inboard of the top legs it would overlap.</summary>
     private static KataBarEnd BottomEnd(
         KataBeamRebarSpec spec,
         KataDetailingRules rules,
@@ -79,20 +103,21 @@ public static class KataMainBarLayout
         int support,
         double dTop,
         double dBot,
-        double legRoom,
         KataBarEnd topEnd)
     {
         // Cantilever: the bottom bars stop at the column face on the cantilever side, as before.
         if (st.SupportWidth[support] <= 0.0)
             return new KataBarEnd(support == 0 ? st.SupportStart[1] : st.SupportEnd[support - 1], 0.0, 0.0);
 
+        int outward = support == 0 ? -1 : 1;
         double required = rules.BottomAnchorageFactor * dBot;
         double minimumLeg = rules.MinimumLegFactor * dBot;
-        var end = Solve(st, rules, support, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, 0.0);
+        double legRoom = LegRoom(spec, rules, support);
+        var end = Solve(st, rules, support, outward, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, 0.0);
 
         // The bottom leg moves inboard of the innermost top leg it would overlap: the main bars' or an
         // additional level's, whose bends already sit inboard by the level's inset.
-        double zBottom = -spec.Height + rules.BottomBarCentreDepth;
+        double zBottom = -spec.SupportDepth(support) + rules.BottomBarCentreDepth;
         var tops = TopEndsAt(spec, rules, st, support, dTop, topEnd).ToList();
         double inset = 0.0;
         // A leg moved inboard gets longer and may then reach a deeper top level: check once more with it.
@@ -104,7 +129,7 @@ public static class KataMainBarLayout
                     inset = Math.Max(inset, level.Inset + KataAnchorage.BottomLegInset(level.Diameter, dBot, rules.MinimumLegGap));
             }
 
-            if (inset > 0.0) end = Solve(st, rules, support, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, inset);
+            if (inset > 0.0) end = Solve(st, rules, support, outward, rules.BottomBarCentreDepth, required, minimumLeg, legRoom, inset);
         }
 
         return end;
@@ -127,11 +152,11 @@ public static class KataMainBarLayout
         }
     }
 
-    private static KataBarEnd Solve(KataBeamStations st, KataDetailingRules rules, int support, double cover, double required, double minimumLeg, double legRoom, double inset)
+    /// <param name="outward">−1 when the support lies before the bar (smaller stations), +1 after it.</param>
+    internal static KataBarEnd Solve(KataBeamStations st, KataDetailingRules rules, int support, int outward, double cover, double required, double minimumLeg, double legRoom, double inset)
     {
-        bool left = support == 0;
-        double innerFace = left ? st.SupportEnd[support] : st.SupportStart[support];
-        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], left ? -1 : 1, cover, required, minimumLeg, legRoom, inset, rules.RoundLegMm);
+        double innerFace = outward < 0 ? st.SupportEnd[support] : st.SupportStart[support];
+        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], outward, cover, required, minimumLeg, legRoom, inset, rules.RoundLegMm);
     }
 
     private static IReadOnlyList<double> Positions(KataBeamRebarSpec spec, KataDetailingRules rules, KataBarItem item) =>
@@ -143,33 +168,19 @@ public static class KataMainBarLayout
             warnings.Add($"Neo thép chủ {layer} ở gối {side} thiếu {end.Shortfall:0} mm: chân bẻ bị giới hạn {legRoom:0} mm bởi chiều cao dầm.");
     }
 
-    /// <param name="legDirection">−1 for legs bent down (top bars), +1 for legs bent up (bottom bars).</param>
-    private static KataRebarCurve Bar(
-        int id,
-        KataBarRole role,
-        double dia,
-        double y,
-        double z,
-        double legDirection,
-        KataBarEnd start,
-        KataBarEnd end,
-        string mark,
-        string description,
-        int sttCad)
+    private static KataRebarCurve TopBar(int id, double dia, double y, double z, KataBarEnd start, KataBarEnd end)
     {
         var points = new List<Point3>();
-        if (start.IsBent) points.Add(new Point3(start.X, y, z + legDirection * start.Leg));
+        if (start.IsBent) points.Add(new Point3(start.X, y, z - start.Leg));
         points.Add(new Point3(start.X, y, z));
         points.Add(new Point3(end.X, y, z));
-        if (end.IsBent) points.Add(new Point3(end.X, y, z + legDirection * end.Leg));
+        if (end.IsBent) points.Add(new Point3(end.X, y, z - end.Leg));
 
-        string shapeCode = start.IsBent && end.IsBent ? "15a" : start.IsBent || end.IsBent ? "05a" : "00";
         bool bent = start.IsBent || end.IsBent;
-
         return new KataRebarCurve
         {
             BarId = id,
-            Role = role,
+            Role = KataBarRole.MainTop,
             Diameter = dia,
             Layer = 1,
             Polyline = new Polyline3(points).Simplify(1.0),
@@ -180,14 +191,14 @@ public static class KataMainBarLayout
             TransverseY = y,
             HostSpanIndex = -1,
             HostSupportIndex = -1,
-            ShapeCode = shapeCode,
-            BarMark = mark,
-            BarDescription = description,
+            ShapeCode = start.IsBent && end.IsBent ? "15a" : bent ? "05a" : "00",
+            BarMark = "1",
+            BarDescription = "Thép chủ trên",
             DimA = end.X - start.X,
             DimB = start.Leg,
             DimC = end.Leg,
             DimR = bent ? 2.0 * dia : 0.0,
-            SttCad = sttCad
+            SttCad = 1
         };
     }
 }

@@ -41,14 +41,14 @@ public static class KataRebarOrchestrator
             var stirrups = plan.Rules.StirrupDiameter > 0.0 && barTypes.TryGetValue(plan.Rules.StirrupDiameter, out var stirrupType)
                 ? runner.Run("Kata Rebar: đai", () => KataStirrupSetCreator.Create(doc, plan, placement, stirrupShape, stirrupType))
                 : new KataStirrupOutcome(0, 0);
-            int longitudinal = runner.Run("Kata Rebar: thép dọc", () => KataRebarCreationService.CreateLongitudinalBars(doc, plan, placement, barTypes));
+            var longitudinal = runner.Run("Kata Rebar: thép dọc", () => KataRebarCreationService.CreateLongitudinalBars(doc, plan, placement, barTypes));
             var barSets = plan.Layout.BarSets.Count > 0
                 ? runner.Run("Kata Rebar: móc C, đai trong", () => KataBarSetCreator.Create(doc, plan, placement, barTypes))
                 : new KataBarSetOutcome(0, 0, Array.Empty<string>());
             int extraTop = plan.Layout.ExtraTopBars.Count;
             int extraBottom = plan.Layout.ExtraBottomBars.Count;
             int sideBars = plan.Layout.SideBars.Count;
-            int mainBars = longitudinal - extraTop - extraBottom - sideBars;
+            int mainBars = longitudinal.Bars - extraTop - extraBottom - sideBars;
 
             var status = group.Assimilate();
             if (status != TransactionStatus.Committed)
@@ -61,10 +61,11 @@ public static class KataRebarOrchestrator
                           + (extraTop > 0 ? $", {extraTop} thanh gia cường gối" : "")
                           + (extraBottom > 0 ? $", {extraBottom} thanh gia cường nhịp" : "")
                           + (sideBars > 0 ? $", {sideBars} thanh cốt giá" : "")
+                          + $" (thép dọc: {longitudinal.Sets} bộ Fixed Number, {longitudinal.Elements - longitudinal.Sets} thanh Single{(longitudinal.FallbackSets > 0 ? $", {longitudinal.FallbackSets} bộ Revit không rải được nên vẽ từng thanh" : "")})"
                           + (barSets.Sets > 0 ? $", {barSets.Sets} bộ móc C / đai trong ({barSets.Bars} thanh)" : "")
                           + $", {stirrups.Sets} bộ đai"
                           + (stirrups.SingleBars > 0 ? $" + {stirrups.SingleBars} đai lẻ" : "")
-                          + (deleted > 0 ? $"; xoá {deleted} thanh của lần chạy trước." : ".")
+                          + (deleted > 0 ? $"; xoá {deleted} phần tử thép của lần chạy trước." : ".")
                           + (barSets.Warnings.Count > 0 ? " " + string.Join(" ", barSets.Warnings) : ""),
                 DeletedCount = deleted,
                 MainBarCount = mainBars,

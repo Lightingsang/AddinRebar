@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.KataRebar.Models;
 using HPRebar.Core.KataRebar.Parsers;
 
@@ -53,13 +54,30 @@ public static class KataDetailingRuleBuilder
         double topDepth = BarCentreDepth(a, b, ds, dTop, "trên", warnings);
         double botDepth = BarCentreDepth(a, b, ds, dBot, "dưới", warnings);
 
-        double depth = spec.Height;
+        foreach (var span in spec.Spans.Where(s => spec.Height > 0.0 && s.Depth <= 0.0 && s.SoffitDrop != 0.0))
+            errors.Add($"Hàng 21 nhịp {span.SpanIndex + 1} '{span.SoffitDrop:0}': B5 − bậc đáy ≤ 0 — không còn chiều cao dầm.");
+
+        // The shallowest span decides whether both main layers fit.
+        double depth = spec.Spans.Count > 0 ? Enumerable.Range(0, spec.Spans.Count).Min(spec.DepthOf) : spec.Height;
         if (depth > 0.0 && topDepth + botDepth >= depth)
             errors.Add($"Dầm cao {depth:0} mm không đủ chỗ cho hai lớp thép chủ cách mép {topDepth:0} và {botDepth:0} mm.");
 
         double stagger = spec.CurtailedExtension > 0.0 ? spec.CurtailedExtension : settings.CurtailedExtensionMm;
         if (spec.CurtailedExtension <= 0.0 && !string.IsNullOrWhiteSpace(spec.CurtailedExtensionText))
             warnings.Add($"G1 '{spec.CurtailedExtensionText.Trim()}' không phải một số dương: cắt lệch thép gia cường gối dùng thiết lập {stagger:0} mm.");
+
+        // A J7 outside the range a C tie is ever spaced at is a typo ("a5" would put thousands of ties in a beam).
+        double? j7 = spec.GlobalStirrup.TieSpacing;
+        bool sensible = j7 is >= KataDetailingRules.MinTieSpacing and <= KataDetailingRules.MaxTieSpacing;
+        double tieSpacing = sensible ? j7!.Value : KataDetailingRules.DefaultTieSpacing;
+        string text = spec.GlobalStirrup.TieSpacingText.Trim();
+        string? tieNote = sensible || spec.GlobalStirrup.TieSpacingMode == KataTieSpacingMode.LikeHoops
+            ? null
+            : j7 is not null
+                ? $"J7 '{(text.Length > 0 ? text : $"a{j7:0}")}' ngoài {KataDetailingRules.MinTieSpacing:0}–{KataDetailingRules.MaxTieSpacing:0} mm: móc C rải a{tieSpacing:0}."
+                : text.Length == 0
+                    ? $"J7 trống: móc C rải a{tieSpacing:0}."
+                    : $"J7 '{text}' không phải một bước (ví dụ a500): móc C rải a{tieSpacing:0}.";
 
         return new KataDetailingRules
         {
@@ -72,7 +90,11 @@ public static class KataDetailingRuleBuilder
             // The settings are sanitised above: every value is in range.
             SideBarAnchorageFactor = settings.SideBarAnchorageFactor,
             RoundCutExtraMm = settings.RoundCutExtraMm,
-            SideBarTieSpacing = settings.SideBarTieSpacing,
+            TieSpacing = tieSpacing,
+            TieSpacingMode = spec.GlobalStirrup.TieSpacingMode,
+            TieSpacingNote = tieNote,
+            LayerTieMinBarCount = settings.LayerTieMinBarCount,
+            CrankMinDiameter = settings.CrankMinDiameter,
             CurtailedExtension = stagger,
             DenseZoneHeightFactor = settings.DenseZoneHeightFactor,
             EndZoneFraction = settings.EndZoneFraction,

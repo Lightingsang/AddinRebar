@@ -62,11 +62,12 @@ public static class KataDamSheetParser
         var (sDense, _, _) = KataBarNotationParser.ParseStirrupSpacing(g7Text, 150.0, 150.0);
         var (_, sMid, _) = KataBarNotationParser.ParseStirrupSpacing(g8Text, 200.0, 200.0);
         var (sCantilever, _, _) = KataBarNotationParser.ParseStirrupSpacing(accessor.GetText("G9"), 150.0, 150.0);
-        int defaultLegCount = accessor.GetInt("I8") ?? 2;
+        // Option group "Khoảng cách đai gia cường": its linked cell I8 is 1 for "Giống đai ngoài" and 2 for
+        // "Bố trí đều với" J7; the C ties follow it.
+        string j7Text = accessor.GetText("J7")?.Trim() ?? "";
+        var tieMode = accessor.GetInt("I8") == 1 ? KataTieSpacingMode.LikeHoops : KataTieSpacingMode.Uniform;
 
         var notes = new List<KataCellNote>();
-        // J7 is saved with every beam next to the stirrup spacings; what Kata does with it is not known.
-        Note(accessor, notes, 7, 10, "ô J7 (chưa rõ nghĩa)");
         var branches = new[] { KataStirrupBranchSpec.Outer };
         var globalStirrup = new KataStirrupSpec
         {
@@ -74,7 +75,9 @@ public static class KataDamSheetParser
             SupportSpacing = sDense,
             MidspanSpacing = sMid,
             CantileverSpacing = sCantilever,
-            DefaultLegCount = defaultLegCount,
+            TieSpacing = ParseTieSpacing(j7Text),
+            TieSpacingText = j7Text,
+            TieSpacingMode = tieMode,
             Branches = branches
         };
 
@@ -140,6 +143,8 @@ public static class KataDamSheetParser
             else
             {
                 var span = ParseSpan(accessor, col, spanIdx++, globalStirrup, notes);
+                // Row 21 of a span is its soffit step from B5's soffit, the top staying level: depth = B5 − step.
+                if (height > 0.0) span = span with { Depth = height - span.SoffitDrop };
                 spans.Add(span);
             }
         }
@@ -180,7 +185,7 @@ public static class KataDamSheetParser
     private static KataSupportRebarSpec ParseSupport(IKataDamCellAccessor accessor, int col, int supportIndex, List<KataCellNote> notes)
     {
         string? row11 = accessor.GetText(11, col);
-        var (width, _) = KataBarNotationParser.ParseSupportDimension(row11);
+        var (width, beamDepth) = KataBarNotationParser.ParseSupportDimension(row11);
         string supportSection = (row11 != null && (row11.Contains("x") || row11.Contains("*") || row11.Contains("/")))
             ? row11
             : "";
@@ -210,6 +215,7 @@ public static class KataDamSheetParser
             SheetColumn = col,
             ColumnWidth = width,
             SupportSection = supportSection,
+            BeamDepth = supportSection.Length > 0 ? beamDepth : 0.0,
             GridName = gridName,
             GridOffset = gridOffset,
             UpperColumnWidth = upperW,
@@ -280,6 +286,16 @@ public static class KataDamSheetParser
             TopDropBars = topDropBars,
             SoffitDropBars = soffitDropBars
         };
+    }
+
+    /// <summary>Cell J7: one spacing, "a500" or "500"; anything else (empty, "a100/200") is null.</summary>
+    internal static double? ParseTieSpacing(string text)
+    {
+        string clean = text.Trim().TrimStart('a', 'A', '@').Trim();
+        return double.TryParse(clean, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double v)
+            && v > 0.0 && !double.IsInfinity(v)
+            ? v
+            : null;
     }
 
     internal static void Note(IKataDamCellAccessor accessor, List<KataCellNote> notes, int row, int col, string meaning)
