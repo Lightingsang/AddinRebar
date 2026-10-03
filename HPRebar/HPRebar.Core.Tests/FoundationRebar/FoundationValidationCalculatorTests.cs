@@ -145,22 +145,38 @@ public sealed class FoundationValidationCalculatorTests
         Assert.Contains(result.ErrorMessages, e => e.Contains("cover cannot be negative", StringComparison.OrdinalIgnoreCase));
     }
 
-    [Fact]
-    public void Validate_BoundaryLessThanOrEqualToTwiceSideCover_FailsValidation()
+    [Theory]
+    [InlineData(100.0)] // exactly 2 × side cover
+    [InlineData(90.0)]  // below 2 × side cover
+    public void Validate_LengthNotAboveTwiceSideCover_FailsValidation(double length)
     {
-        // Arrange: CoverSide = 50, Length = 100 (<= 2*50), Width = 90 (<= 2*50)
+        // Arrange
         var spec = FoundationTestData.StandardSpec(coverSide: 50.0);
-        var snapshotLengthSmall = FoundationTestData.StandardSnapshot(length: 100.0, width: 2000.0);
-        var snapshotWidthSmall = FoundationTestData.StandardSnapshot(length: 2000.0, width: 90.0);
+        var snapshot = FoundationTestData.StandardSnapshot(length: length, width: 2000.0);
 
-        // Act & Assert
-        var resultL = FoundationValidationCalculator.Validate(snapshotLengthSmall, spec);
-        Assert.False(resultL.IsValid);
-        Assert.Contains(resultL.ErrorMessages, e => e.Contains("Length", StringComparison.OrdinalIgnoreCase));
+        // Act
+        var result = FoundationValidationCalculator.Validate(snapshot, spec);
 
-        var resultW = FoundationValidationCalculator.Validate(snapshotWidthSmall, spec);
-        Assert.False(resultW.IsValid);
-        Assert.Contains(resultW.ErrorMessages, e => e.Contains("Width", StringComparison.OrdinalIgnoreCase));
+        // Assert
+        Assert.False(result.IsValid);
+        Assert.Contains(result.ErrorMessages, e => e.Contains("Length", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Theory]
+    [InlineData(100.0)] // exactly 2 × side cover
+    [InlineData(90.0)]  // below 2 × side cover
+    public void Validate_WidthNotAboveTwiceSideCover_FailsValidation(double width)
+    {
+        // Arrange
+        var spec = FoundationTestData.StandardSpec(coverSide: 50.0);
+        var snapshot = FoundationTestData.StandardSnapshot(length: 2000.0, width: width);
+
+        // Act
+        var result = FoundationValidationCalculator.Validate(snapshot, spec);
+
+        // Assert
+        Assert.False(result.IsValid);
+        Assert.Contains(result.ErrorMessages, e => e.Contains("Width", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
