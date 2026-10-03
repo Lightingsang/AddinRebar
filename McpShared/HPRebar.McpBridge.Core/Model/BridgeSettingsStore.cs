@@ -40,6 +40,7 @@ public sealed class BridgeSettingsStore
                 var settings = JsonSerializer.Deserialize<BridgeSettings>(File.ReadAllText(SettingsPath), Options);
                 if (settings is not null)
                 {
+                    settings.ExecutionEnabled = false;
                     return settings;
                 }
             }
@@ -51,7 +52,6 @@ public sealed class BridgeSettingsStore
 
         return new BridgeSettings
         {
-            ExecutionEnabled = true,
             AutoStartListener = true,
         };
     }
@@ -64,7 +64,7 @@ public sealed class BridgeSettingsStore
 
             var persisted = new BridgeSettings
             {
-                ExecutionEnabled = settings.ExecutionEnabled,
+                ExecutionEnabled = false,
                 AutoStartListener = settings.AutoStartListener,
                 RequireLocalApproval = settings.RequireLocalApproval,
                 DefaultTimeoutSeconds = settings.DefaultTimeoutSeconds,

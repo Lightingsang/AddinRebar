@@ -6,7 +6,7 @@ namespace HPRebar.McpBridge.Core.Model;
 /// </summary>
 public sealed class BridgeSettings
 {
-    /// <summary>Master switch for execute_revit_code. On by default via BridgeSettingsStore.Load and persisted.</summary>
+    /// <summary>Master switch for execute_revit_code. Off on every host start; never persisted.</summary>
     public bool ExecutionEnabled { get; set; }
 
     /// <summary>Start the pipe listener as soon as Revit loads the add-in. On by default via BridgeSettingsStore.Load and persisted.</summary>

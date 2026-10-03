@@ -225,34 +225,32 @@ public sealed class HostNeutralityTests
     }
 
     [Fact]
-    public void Settings_store_defaults_and_persists_execution_enabled_and_autostart()
+    public void Settings_store_never_persists_execution_enabled_but_persists_autostart()
     {
         var tempFolder = "HPTest-" + Guid.NewGuid().ToString("N");
         var store = new BridgeSettingsStore("HPTestVendor", tempFolder);
         try
         {
-            // Default when file does not exist
+            // No file: execution off, listener on.
             var defaults = store.Load();
-            Assert.True(defaults.ExecutionEnabled);
+            Assert.False(defaults.ExecutionEnabled);
             Assert.True(defaults.AutoStartListener);
 
-            // Persist toggled off
-            defaults.ExecutionEnabled = false;
+            // Execution switched on in a session is still off after a restart; the listener choice survives.
+            defaults.ExecutionEnabled = true;
             defaults.AutoStartListener = false;
             store.Save(defaults);
 
             var reloaded = store.Load();
             Assert.False(reloaded.ExecutionEnabled);
             Assert.False(reloaded.AutoStartListener);
+            Assert.DoesNotContain("\"ExecutionEnabled\": true", File.ReadAllText(store.SettingsPath));
 
-            // Persist toggled back on
-            reloaded.ExecutionEnabled = true;
-            reloaded.AutoStartListener = true;
-            store.Save(reloaded);
-
-            var reloadedOn = store.Load();
-            Assert.True(reloadedOn.ExecutionEnabled);
-            Assert.True(reloadedOn.AutoStartListener);
+            // A hand-edited file cannot pre-authorise AI code either.
+            File.WriteAllText(store.SettingsPath, "{ \"ExecutionEnabled\": true, \"AutoStartListener\": true }");
+            var edited = store.Load();
+            Assert.False(edited.ExecutionEnabled);
+            Assert.True(edited.AutoStartListener);
         }
         finally
         {
