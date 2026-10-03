@@ -6,6 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Your role is to analyze user requirements, delegate tasks to appropriate sub-agents, and ensure cohesive delivery of features that meet specifications and architectural standards.
 
+## Clean Code Governance — RevitAddinAI (MANDATORY)
+
+Applies to **every change under `HPRebar/`** (rebar add-in, `HPRebar.Core`, Revit MCP bridge/server, their tests). Before planning, writing or reviewing such a change, Claude Code **must read**:
+
+1. `docs/architecture/ARCHITECTURE.md` — as-is map, target layers, where code goes
+2. `docs/clean-code/REVITADDINAI_CLEAN_CODE_STANDARD.md` — the binding rules ([PCC] book / [REVIT] / [PROJECT]); numbers are review triggers, not limits
+3. `docs/clean-code/TOOL_DEVELOPMENT_WORKFLOW.md` — the 16-step workflow and Definition of Done for any new tool
+4. `docs/clean-code/CODE_REVIEW_CHECKLIST.md` — run on every diff; findings cite rule ids
+
+Look-ups as needed: `docs/clean-code/PRAGMATIC_CLEAN_CODE_RULES.md` (PCC-001…293, the full book catalogue), `docs/architecture/DEPENDENCY_RULES.md`, `docs/architecture/adr/`, `docs/clean-code/CLEAN_CODE_AUDIT.md` (baseline findings AUD-xxx / behaviour defects B-xx), `docs/clean-code/REFACTORING_PLAN.md` + `REFACTORING_LOG.md`.
+
+Non-negotiable: AI-generated code is unreviewed code until the checklist passes; refactoring follows the waves of the plan (never mixed with features or fixes, never started without user approval); a behaviour defect found while refactoring is logged, not silently fixed; ADRs marked *Proposed* are not yet binding where they change existing code. The repository — not session memory — is the source of truth for these rules.
+
 ## Repository Layout
 
 This repo bundles **five deliverables** plus one shared library folder; treat them as separate concerns — do not cross-wire them. The only permitted dependency direction is MCP folder (`HPRebar/`, `HPAutoCad/`, `HPNavis/`, `HPEtabs/`, `HPCivil3d/`) → `McpShared/`; the MCP folders never reference each other (one named exception, tooling and tests only: `HPCivil3d/`'s mirror test reads `HPAutoCad/**` source text and its live harness runs `HPAutoCad/tools/harness/{bridge.scr, run-live-verify.ps1}` for the isolation steps — see "HPCivil3d MCP Bridge"):

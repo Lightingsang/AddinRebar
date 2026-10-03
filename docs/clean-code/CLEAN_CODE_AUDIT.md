@@ -1,0 +1,159 @@
+# RevitAddinAI — Clean Code Audit (baseline 2026-10-03)
+
+> **Scope:** `HPRebar/HPRebar` (5 features + shell), `HPRebar/HPRebar.Core`, `HPRebar/HPRebar.McpBridge`, `HPRebar/HPRebar.Mcp.Server`, their test projects; `McpShared/` only at its boundary.
+> **Method:** five read-only maps (evidence: [plans/261003-2133-pragmatic-clean-code-governance/reports/map-01 … map-05](../../plans/261003-2133-pragmatic-clean-code-governance/reports/)) checked against the PCC catalogue and the standard. Key facts re-verified by hand (marked ✔ with the source). **No build or test was run** (a concurrent session was working in the repo) — counts come from grep/`wc`; method lengths from a brace-matching script (±3 lines).
+> **Tags:** [PCC] book rule · [REVIT] Revit constraint · [PROJECT] repository decision. **Severity:** High = causes wrong behaviour, blocks a supported Revit version, or blocks testing of core paths; Medium = raises change cost/risk across features; Low = local readability.
+> Nothing in this audit has been fixed. Behaviour defects (§2) are **not** refactoring and need a product decision before anyone touches them.
+
+## 1. Scorecard
+
+| Area | Naming | Methods | Classes/SRP | Deps/static | Coupling/DRY | Revit boundary | Tests |
+|---|---|---|---|---|---|---|---|
+| Core (all features) | good | **weak** (very long calculators) | good | good (pure static) | **weak** (Point3 ×3, repeated blocks) | clean (0 Autodesk) ✔ | **strong** (~630 methods) |
+| ColumnRebar add-in | good | fair | fair | weak | weak | fair (Revit types in VM) | none run (21 TUnit skip) |
+| BeamRebar add-in | fair | weak | weak (536-line session) | weak | weak | fair | none |
+| FoundationRebar add-in | fair | fair | good | weak | weak | fair (Floor in VM) | none |
+| KataExport add-in | good | weak (canvas) | weak (536-line VM) | **weak** (static COM from VM) | **weak** (cycle) | fair | none |
+| KataRebar add-in | good | fair | fair | **weak** (Document in VM ctor) | **weak** (cycle, uses Beam) | fair | none |
+| Shell (Application, Resources) | fair | good | good | fair | fair | good | theme text test only |
+| Revit MCP bridge/server | good | fair (131-line `Run`) | weak (handler does 7 jobs) | fair | fair (5 import lists) | good | bridge: none |
+
+## 2. Behaviour defects found during the audit (not refactoring — need a decision)
+
+| Id | Tag | Location | Fact | Verified | Suggested owner decision |
+|---|---|---|---|---|---|
+| B-01 | [PCC] PCC-013, K1 | `HPRebar/HPRebar/BeamRebar/Service/BeamStackReader.cs:96` | `BeamSpan.Cover` hard-coded `25.0`; Core additional/side/special-bar calculators use `span.Cover`, while stirrups/main bars use the cover typed in the window → two covers in one beam when the user changes it | ✔ read source + `grep .Cover` in Core | fix: span cover from spec |
+| B-02 | [PCC] PCC-039 | `BeamRebar/ViewModel/BeamRebarSession.cs:174-183`, `BeamRebarCommand.cs:85` | Views tab (elevation, sections per span, names, scale, dims, tags) is bound in XAML but `ToSpec` never reads it; the orchestrator always uses `BeamAnnotationSettings.Load` defaults (3 sections) | ✔ `ToSpec` + `Load` call site | wire it or hide the tab |
+| B-03 | [PCC] PCC-039 | `ColumnRebar/ViewModel/ColumnRebarSession.cs:18-21` vs `Model/AnnotationSettings.cs:40` | Detail/section view name + level/section prefix fields are editable but never reach `AnnotationSettings` | ✔ grep: only XAML reads them | wire it or remove the fields |
+| B-04 | [PCC] naming | `HPRebar.Core/BeamRebar/Models/Enums.cs:7-8` | `SupportType.Column` and `InteriorColumn` are both `1` → `BeamSupportFinder.cs:158` branch is a no-op | ✔ read source | give distinct values (check stored data first) |
+| B-05 | [PCC] naming | `HPRebar.Core/FoundationRebar/Models/FoundationHookType.cs:15-21`, `FoundationMeshCalculator.cs:110` | `Hook90Down = 2` is never treated as a hook (`== Hook90Degrees` only) → choosing it yields no hooks | ✔ read source | decide: implement or remove the option |
+| B-06 | [PCC] PCC-128 | `HPRebar.Core/FoundationRebar/Models/Point3.cs:74,76` | `Equals` uses 1e-6 tolerance, `GetHashCode` is exact → equal points can hash differently (dictionary/set bugs) | map-02 | fix with shared Point3 (Wave 6) |
+| B-07 | [REVIT] R7 | `BeamRebar/Model/BeamAnnotationSettings.cs:42,60`, `ColumnRebar/Model/AnnotationSettings.cs:63,75`, `ColumnRebar/Service/ColumnStackValidator.cs:61` | Logic compares localized display strings (`"Structural"`, `"Linear Dimension Style"`, `"Vertical"`) → fails on non-English Revit | ✔ grep | replace with BuiltInParameter integer values / type ids |
+| B-08 | [REVIT] R9 | `KataRebar/KataRebarExternalEventHandler.cs:82` | `Raise()` result ignored (KataExport checks it, `KataExportExternalEventHandler.cs:66`) → a refused raise leaves the request awaiting forever | ✔ grep | fix in shared handler (Wave 5) |
+| B-09 | [REVIT] R6 | `BeamRebar/Service/BeamMainBarCreator.cs:72`, `BeamSideBarCreator.cs:63`, `BeamSpecialBarCreator.cs:55`, `BeamSupportFinder.cs:268`, `FoundationRebar/Service/FoundationRebarCreationService.cs:54` | APIs removed in Revit 2027 used under `#pragma CS0618` → Beam + Foundation do not compile for R27 (CLAUDE.md) | ✔ grep pragma; R27 failure per CLAUDE.md | gate via shared factory (Wave 5) |
+| B-10 | [REVIT] R11 | `ColumnRebar/ColumnRebarCommand.cs:62` | Sorting picked columns calls `RequireSingleSolid` before the validator → a multi-solid column throws a generic error instead of validator code 3 | map-02 | validate before sort |
+| B-11 | [PCC] PCC-039 | `HPRebar.McpBridge/Service/ScriptRunner.cs:50,117` | Timeout clamped to 5–120 s but the message prints the requested value | ✔ read source | print the clamped value |
+| B-12 | [PCC] PCC-015 | `Resources/Icons/RibbonIcons.cs:91-99` vs `Resources/Themes/RevitHostTheme.cs:15-27` | Pre-2024 theme queries disagree (light vs dark) | map-01 | one source of truth |
+| B-13 | [REVIT] R9 | `HPRebar.McpBridge/McpBridgeExternalEventHandler.cs:167-178` | Cancellation token of a queued request never completes its TCS; `_busy` may stay set until Revit idles | map-05, **GIẢ ĐỊNH CHƯA XÁC MINH** live | verify live, then fix |
+| B-14 | [PCC] PCC-013 | `BeamRebar/Service/RebarTypeCatalog.cs:60` vs `ViewModel/BeamRebarSession.cs:356` | Bar-type matching implemented twice with 0.5 mm and 1.0 mm tolerance | map-03 | one rule in Core |
+| B-15 | [PCC] PCC-013 | `BeamRebar/View/Controls/BeamElevationPainter.cs:148-205,278-328` | Preview recomputes stirrup zones/add-bar extents (no 600 mm span collapse) → preview can differ from what is built | map-03 | preview calls Core |
+
+## 3. Findings
+
+### 3.1 Coupling, duplication, shared kernel
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-001 | [PCC] PCC-230, 232 · K1/K2 | High | `*/Service/RevitUnits.cs` ×4, `RevitDialogs.cs` ×4, `RebarFailureHandling.cs` ×3 (+`KataTransactionRunner` collector), `PointMapper.cs` ×2, `LocalizationService.cs` ×2 ✔ | Infrastructure copied per feature; copies already diverge (accessibility, messages) | move to `Shared/Revit`, `Shared/Wpf` · W6 |
+| AUD-002 | [PCC] PCC-230 · K1 | High | `HPRebar.Core/{ColumnRebar,BeamRebar,FoundationRebar}/Models/Point3.cs`; `Polyline3`/`Vector3` Beam ≡ Foundation; `Tolerance` ×2 | Same geometry knowledge 3× | `HPRebar.Core/Shared/Geometry` · W6 |
+| AUD-003 | [PROJECT] F1 · PCC-225 | High | KataExport → KataRebar (6 files), KataRebar → KataExport (5 files) ✔ | Feature cycle | ADR-0006 · W6 |
+| AUD-004 | [PROJECT] F1 | Medium | `KataRebar/KataRebarCommand.cs:6`, `Service/KataBeamPlacement.cs:4`, `KataRebarCurveFactory.cs:5`, `KataRebarSectionFit.cs:5` ✔; 13 Core Kata files import `Core.BeamRebar.Models` | KataRebar depends on BeamRebar; BeamRebar is an undeclared shared kernel | via AUD-001/002 · W6 |
+| AUD-005 | [PCC] PCC-232 · K2 | Medium | 5 ExternalEvent handlers (`BeamRebarExternalEventHandler.cs:18-95` vs Column: 25 lines differ) | Queue + Raise + TCS skeleton copied 5× (one copy forgot `Raise()` check, B-08) | `Shared/Revit/RevitRequestQueue` · W5 |
+| AUD-006 | [PCC] PCC-232 | Medium | `DrawPrimitives` ×3, `CanvasPalette` ×2 + `KataCanvasPalette` | Drawing helpers copied | `Shared/Wpf` · W6 |
+| AUD-007 | [PCC] PCC-013 | Medium | Column bar-polyline pipeline in `RebarCreationService.cs:139-165`, `BarsDivisionTabViewModel.cs:37-56`, `ElevationBars.cs:15-53` | Same Core pipeline assembled 3× | one Core facade · W3 |
+| AUD-008 | [PCC] PCC-013 | Medium | `Partition` written by `LookupParameter("Partition")` (Column, Beam) vs `NUMBER_PARTITION_PARAM` (Foundation, Kata) | Two ways to stamp bars | shared stamp · W6 |
+| AUD-009 | [PCC] PCC-013 | Medium | `KataDamComReader.cs:24-52` vs `KataExcelWriter.cs:27-30,154-197`; cell contract consts in 4 files | Excel attach + busy codes + Kata cell ranges duplicated | `Shared/Excel` + Core constants · W6 |
+| AUD-010 | [PCC] PCC-013 | Low | `MaxBarPositions 1002` in `ColumnSpecEditor.cs:60` and `FoundationValidationCalculator.cs:13`; hook default `Math.Max(30d, 200)` ×10 in Core Beam | Business constants repeated | named constants once · W1 |
+
+### 3.2 Revit boundary and layering
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-011 | [PROJECT] L2 · PCC-154 | High | `KataRebar/ViewModel/KataRebarViewModel.cs:55-62` | VM ctor takes `Document`, runs a collector, does COM I/O, fires an un-awaited task | move to handler/workflow; ctor trivial · W5 |
+| AUD-012 | [PROJECT] L2 | Medium | `ColumnRebar/Model/RebarTypeInfo.cs:12` (`RebarBarType`), `ColumnRebarSession.Stack` (`Element`/`PlanarFace`), `FoundationRebar/ViewModel/IFoundationRebarRunner.cs:16` (`FoundationSession` with `Document`, `Floor`) | Revit types reach VMs and runner contracts (doc comment claims otherwise) | DTOs with ids · W4 |
+| AUD-013 | [PROJECT] L3 · R8 | Medium | `BeamRebar/ViewModel/BeamRebarViewModel.cs:73,102` | VM shows TaskDialogs directly | result via runner · W4 |
+| AUD-014 | [PROJECT] L3 · PCC-245 | High | `KataExport/ViewModel/KataExportViewModel.cs:179,202`, `.Rebar.cs:50`, `KataRebar/ViewModel/KataRebarViewModel.cs:111` | VMs call static Excel COM directly | inject `IKataWorkbook` · W5 |
+| AUD-015 | [PROJECT] L4 | Medium | `KataExport/ViewModel/KataExportViewModel.Rebar.cs:198-222` | VM constructs a `Window` and finds its owner via `PresentationSource` | dialog service owned by View/Command · W4 |
+| AUD-016 | [PROJECT] L5 | Medium | `BeamRebar/Model/BeamAnnotationSettings.cs:29-69`, `ColumnRebar/Model/AnnotationSettings.cs:49-87` | Model types run `FilteredElementCollector`s | readers to `Service/` · W3 |
+| AUD-017 | [PROJECT] L5 | Low | `BeamRebar/Model/BeamStack.cs:7,48` → `PointMapper`; `FoundationRebar/Model/FoundationSession.cs:6` → `RevitUnits`; `KataExport/Model/KataBeamGeometry.cs:4,35` → `KataAxisFrame` | Model → Service dependencies | invert · W6 |
+| AUD-018 | [PROJECT] L8 · PCC-077 | High | Beam: `BeamSupportFinder.FindSupports` classification (`:76-174`), `SectionViewCreator.ComputeCutStations`, span assembly `BeamStackReader.cs:66-100`, 3× `PlannedCount`, `Session.Validate/ToSpec`; Column: `ColumnSpecEditor.Validate` (`:84-177`), `RebarCreationService.PlannedCount/CrossTieCount`, `CutHeight`, table rows; Foundation: oriented-bounds maths `FoundationSolidFaceReader.Read:89-205`; Kata: `KataRebarPreviewBuilder`, `KataBeamMatcher.ToMeasured`, settings validation | Pure logic in the Revit-bound assembly → untestable | move to Core + tests · W3/W7 |
+| AUD-019 | [REVIT] R4 | Medium | `ColumnRebar/ColumnRebarExternalEventHandler.cs:47`, `Model/ColumnStack.cs`; Beam same | `PlanarFace`/`Element` captured at pick are reused in a later modeless run without revalidation; `Execute` ignores `UIApplication` | keep ids, re-read in run · W5 |
+| AUD-020 | [REVIT] R10 | Low | `ColumnSolidFaceReader.cs:223-227`, `BeamSolidFaceReader.cs:18-28`, `ColumnNeighbourFinder.cs:85` | Geometry re-extracted in every getter (~7× per beam); level collector per call | read once per run · W3 |
+| AUD-021 | [REVIT] R2/R3 · [PROJECT] | Low | Beam: 10 inner transactions split between orchestrator and `RebarCreationService` | Transaction plan in two classes | one transaction plan in orchestrator · W3 |
+
+### 3.3 Methods
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-022 | [PCC] PCC-067, 068, 232 | High | `HPRebar.Core/BeamRebar/Calculators/BeamAdditionalBarCalculator.cs:22-344` | `ComputeSupportTopBars` 323 lines, 6 near-identical layer × position blocks | extract per-layer step (tests exist) · W2 |
+| AUD-023 | [PCC] PCC-067, 232 | High | `BeamMainBarCalculator.cs:50,189` (135 + 206), `BeamStirrupDistributionCalculator.cs:20-224` (205, run block ×5) | Mirrored top/bottom methods, repeated blocks | W2 |
+| AUD-024 | [PCC] PCC-067, 232 | High | `HPRebar.Core/FoundationRebar/Calculators/FoundationMeshCalculator.cs:68-313` | `Calculate` 246 lines, 4 copied layer loops, magic `0.006165` | W2 |
+| AUD-025 | [PCC] PCC-067 | Medium | `KataDamSheetParser.Parse` 162, `KataSupportTopBarLayout.Build` 118, `KataLayerPositions.PartitionInterleaved` 98 + 16 more Core Kata methods > 50 | Long Core methods (well tested → safe to split) | W2 (after Kata work settles) |
+| AUD-026 | [PCC] PCC-060, 062 | Medium | `KataSupportTopBarLayout.cs:205` `Add` 16 params incl. `ref int barId` + shared `warnings`/`blocking` lists (`KataRebarCalculator.cs:73-89`) | Accumulators threaded through every layout | result object / context record · W2 |
+| AUD-027 | [PCC] PCC-060, 062 | Medium | `AdditionalTieCreator.Create` 11 params (+4 helpers 9–10), `BeamStirrupCreator.PlaceNodeStirrupRun` 10, `RebarTableTagCreator.WriteRow` 9, `FoundationMeshCalculator.BuildBarPolyline` 9 (3 bools) | Same parameter set forwarded → missing concept | parameter objects · W2 |
+| AUD-028 | [PCC] PCC-063 | Low | `ColumnStackValidator.SitsOn(useTopFace)` (always `true`), `SetLayoutAsNumberWithSpacing(…, true, true, true)`, `RebarShapeResolver.Require(_, needsSpecialStirrups)` unused | Flag arguments | W2 |
+| AUD-029 | [PCC] PCC-067 | Medium | Add-in: `KataElevationPainter.PaintMonolithicFrame` 165, `BeamSupportFinder.FindSupports` 158, `KataElevationAnnotations.PaintTopChain` 133, `BeamSectionPainter.Paint` 132, `FoundationSolidFaceReader.Read` 117 (5 levels deep), `BeamStackReader.Read` 115, command `Execute` 78–93 ×5 | 40 add-in methods > 50 lines | W2 |
+| AUD-030 | [PCC] PCC-068 · R2 | Medium | `HPRebar.McpBridge/Service/ScriptRunner.cs:31-161` | `Run` 131 lines: preconditions, globals, timeout, transaction policy, rollback, serialization | split by step · W2 |
+
+### 3.4 Classes and SOLID
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-031 | [PCC] PCC-105, 183 | Medium | `BeamRebar/ViewModel/BeamRebarSession.cs` (536, 3 classes) | Editor state + validation + spec mapping + bar-type matching | split editors, move rules to Core · W3 |
+| AUD-032 | [PCC] PCC-105 | Medium | `KataExport/ViewModel/KataExportViewModel*.cs` (536 in 3 partials) | Sheet build, Excel probe/write, navigation, rebar round trip, settings dialog | split by role; partials hide, not solve · W3 |
+| AUD-033 | [PCC] PCC-105 | Medium | `ColumnRebar/ViewModel/ColumnSpecEditor.cs` (320) | Editable state + domain validation + English-only messages | rules to Core · W3 |
+| AUD-034 | [PCC] PCC-105 | Medium | `HPRebar.McpBridge/McpBridgeExternalEventHandler.cs` (221) | Event handler + executor + guard/compile + busy gate + cancel + audit + doc title | split pipe-side executor / Revit-thread queue · W3 |
+| AUD-035 | [PCC] PCC-142, 148 | Low | `KataExport/ViewModel/IKataExportRunner.cs:13-28` | One runner mixes export and rebar roles | split per role after ADR-0006 · W4 |
+| AUD-036 | [PCC] PCC-118, 119 | Low | `KataExportExternalEventHandler.cs:96-141` 73-line switch over request kinds | Adding a kind edits enum + switch + interface | request objects carry their action · W4 |
+| AUD-037 | [PCC] PCC-079 · R7 | Medium | `ColumnRebar/Model/ValidationMessages.cs:11-33`, `RebarShapeResolver.cs:64-69`, raw-int `TypeDis/TypeH/TypeV/*DowelsType`, `CrossTie(spec.TypeV + 1)` | Int codes spread across files | enums with meaning · W4 |
+| AUD-038 | [PCC] PCC-154, 157 | Medium | `ColumnRebarOrchestrator.cs:103-174` and Beam/Foundation orchestrators | Orchestrators hard-wire static creators → testable only in Revit, and the in-Revit suite never runs | seams only where tests need them (ADR-0005) · W7 |
+
+### 3.5 Static and hidden dependencies
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-039 | [PCC] PCC-178 · D4 | Medium | `ColumnRebar/View/Controls/DrawPrimitives.cs:110`, `BeamRebar/View/Controls/BeamDrawPrimitives.cs:26` ✔ | Mutable static `PixelsPerDip` written from every canvas `OnRender` → last window wins | instance field (as Kata already does) · W5 |
+| AUD-040 | [PCC] PCC-178, 173 · D4/D5 | Medium | `KataRebar/Service/KataSettingsStore.cs:19` ✔ | Process-wide settings cache, real file I/O, read by handler + 3 VMs, no reset | injected store · W5 |
+| AUD-041 | [PCC] PCC-175 | Low | `Application.cs:114-118` | Domain-wide `UnhandledException` handler never removed; logs any Revit crash as HPRebar fatal | scope or remove on shutdown · W5 |
+| AUD-042 | [PCC] PCC-176, 289 | Medium | `KataExportViewModel.cs:76` COM probe in ctor; `KataRebarViewModel` ctor (AUD-011) | Constructors do I/O | explicit `LoadAsync` · W5 |
+| AUD-043 | [PROJECT] M1 | Low | Revit import list typed in 5 places (`HPRebar.McpBridge/Application.cs:28-34`, `ExecuteRevitCodeTool.cs:34`, `RevitScriptPrompts.cs:18`, `SeedLibraryTests.cs:146-151`); prompt persona omits `args` | Drift between AI-facing lists | read `HostScriptContracts` · W5 |
+| AUD-044 | [PCC] PCC-178 | Low | `HPRebar.McpBridge`: `_activeDocumentTitle`, shared `BridgeSettings` read/written across threads without sync | Cross-thread mutable state | volatile/immutable snapshot · W5 |
+
+### 3.6 Naming, comments, dead code, organisation
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-045 | [PCC] PCC-236 · K4 | Low | `Commands/StartupCommand.cs` (empty, unreferenced), `RibbonIcons.Execute` glyph, `ClosedXML` package (unused, ILRepacked) | Dead code / dead dependency | delete · W1 |
+| AUD-046 | [PCC] PCC-236 | Low | Beam: `TagRebarOnElevation`, `BarTypesList`, `FindHook`, `Confirm`, `ProjectToPlane`, `StirrupZone`, `BeamContinuousStack.Validate` (never called, empty if-body); Column: `ColumnStack.Summary`, write-only `ColumnFaces` members, `RevitUnits.Display`, `DowelStyles`; Foundation: unused `onBarCreated`, dropped `barId`, test-only boundary methods | Dead members | delete · W1 |
+| AUD-047 | [PCC] PCC-236 | Low | Alias props "for cross-plan compatibility": `BeamFaces.cs:45-54`, `BeamStack.cs:45-69`, `FoundationGeometrySnapshot.cs:65-73`; `CreatedBeamRebar.MainBottomBars` returns empty | Speculative/compat aliases | delete after usage check · W1 |
+| AUD-048 | [PCC] PCC-039, 041 | Low | `DetailViewCreator.ResolveViewType` duplicates a `ViewFamilyType` | Mutation behind "Resolve" | rename `GetOrCreate…` · W1 |
+| AUD-049 | [PCC] PCC-040 | Low | `FoundationRebarCreationService.cs:30-31` `normX = LocalY`, `normY = LocalX` | Names contradict values | rename · W1 |
+| AUD-050 | [PCC] PCC-043, 046 · N7 | Low | Vietnamese exception/log text in KataRebar vs English elsewhere; English warnings mixed into Vietnamese lists in Kata windows | Language mixed in one surface | user text → UiStrings; logs English · W1 |
+| AUD-051 | [PCC] PCC-207, 210 | Low | `IColumnRebarRunner` inside `ColumnRebarViewModel.cs:19`; multi-type files (`StirrupGeometry.cs`, `FoundationRebarValidator.cs`, …); Core layout `CC/*.cs` vs `CF/Calculators/`; `LocalizationService` (ObservableObject) in `Service/` | Inconsistent organisation | W8 |
+| AUD-052 | [PCC] PCC-251, 258 | Low | `AdditionalTieSpec.cs:8-9` doc contradicts use; multi-version comment in Beam says "deprecated" where CLAUDE.md says removed in R27; seed `color_elements/tool.json:20` contains self-dialogue | Misleading comments | fix text · W1 |
+| AUD-053 | [PCC] PCC-079 · R5 | Low | literal `304.8` / `/ 304.8` in `BeamStack.cs:96`, `KataRebarCreationService.cs:96,124,156`, `KataRebarSectionFit.cs:36`, `KataBarSetCreator.cs:22` | Bypasses `RevitUnits` | W1 |
+| AUD-054 | [PCC] PCC-079 | Low | `KataCanvasPalette.cs:75-173` 37 hard-coded colours; CAD block coordinates inline in `KataElevationCadPainter.cs:154-167` | Magic values in views | named tokens · W1 |
+
+### 3.7 Tests and verification
+
+| Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
+|---|---|---|---|---|---|
+| AUD-055 | [PCC] PCC-271 · T6 | High | `HPRebar.Tests/Fixtures/` holds only README → 21/21 TUnit skip | No Revit-bound behaviour is ever tested; CLAUDE.md: add-in never verified at runtime | commit `.rvt` fixtures · W0 |
+| AUD-056 | [PCC] PCC-274 | High | 0 tests for ~22 k add-in lines (VMs, adapters, orchestrators, Kata COM) | Safety net for refactoring exists only in Core | characterization tests before each batch · W0/W7 |
+| AUD-057 | [PCC] PCC-277 · N10 | Low | 3 test naming styles (PascalCase sentence 277, Method_Scenario 68, snake sentence 231) | Inconsistent | new tests follow N10; no mass rename |
+| AUD-058 | [PROJECT] P8 | Medium | CLAUDE.md counts stale (Core.Tests 448 vs ~630 methods/~910 cases; TUnit 16 vs 21; "four features") | Governance docs drift from code | re-count by test run · W0 |
+| AUD-059 | [PCC] PCC-088 | Low | No `.editorconfig` anywhere in the repo (✔ `git ls-files`, `find -maxdepth 3`) | Formatting not automated | add `.editorconfig` (Planning Mode: config change) · W1 |
+| AUD-060 | [PCC] PCC-274 | Medium | `HPRebar.McpBridge` has no tests (ScriptRunner matrix, serializer, change counter) | Live-verified only | lift pure parts · W7 |
+
+## 4. Technical debt register (top 10, by cost of delay)
+
+| # | Debt | Why it matters now | Findings |
+|---|---|---|---|
+| 1 | No runnable Revit-level tests | Every refactor of adapters/orchestrators is unverified; "add-in never verified at runtime" | AUD-055, 056 |
+| 2 | Revit 2027 compile break (Beam, Foundation) | One supported version cannot be built | B-09 |
+| 3 | UI settings that never reach the model | Users get output that ignores what they typed | B-01, 02, 03, 05 |
+| 4 | Infrastructure copied per feature | Each fix must be repeated 3–5×; copies already diverged | AUD-001, 002, 005 |
+| 5 | Kata cycle + dependence on Beam | Kata is the active product line; coupling slows every change | AUD-003, 004, 009 |
+| 6 | Pure logic stranded in the add-in | Untestable rules; previews diverge from Core | AUD-018, B-14, B-15 |
+| 7 | Very long Core calculators with copied blocks | High-risk edits in the most important maths | AUD-022–026 |
+| 8 | ViewModels with Revit/COM/static I/O | VMs untestable; constructor side effects | AUD-011–015, 040, 042 |
+| 9 | Localized string comparisons | Wrong behaviour on non-English Revit | B-07 |
+| 10 | Stale governance docs | AI sessions act on wrong facts | AUD-058, standard §13 |
+
+## 5. Not found (positives worth protecting)
+
+No `Manager/Helper/Utils` classes; HPRebar.Core free of Autodesk; transactions only inside `Execute`; one TransactionGroup per run with rollback; modeless window contract uniform; no file > 540 lines; no mocking-library sprawl; MCP process split clean and contract-only.
+
+## 6. Limits of this audit
+
+No build/test run; R27 failure taken from CLAUDE.md; method lengths approximate; `HPRebar/build/` not read (hook-blocked) — build automation not audited; XAML audited only for theme tokens via existing tests; McpShared internals out of scope.
