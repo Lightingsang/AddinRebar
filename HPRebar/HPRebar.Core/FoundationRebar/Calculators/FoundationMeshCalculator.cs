@@ -61,6 +61,9 @@ public static class FoundationMeshCalculator
         return positions;
     }
 
+    /// <summary>Nominal mass of steel bar: 0.006165 kg per metre of length per mm² of diameter (π/4 × 7850 kg/m³).</summary>
+    private const double BarKgPerMetrePerSquareMm = 0.006165;
+
     /// <summary>
     /// Computes full 3D mesh reinforcement result for the given geometry snapshot and specification.
     /// Throws <see cref="InvalidOperationException"/> if pre-flight validation fails.
@@ -73,243 +76,171 @@ public static class FoundationMeshCalculator
         if (snapshot == null) throw new ArgumentNullException(nameof(snapshot));
         if (spec == null) throw new ArgumentNullException(nameof(spec));
 
-        // 1. Run Pre-flight Engineering Validation
         var validation = FoundationValidationCalculator.Validate(snapshot, spec);
         if (!validation.IsValid)
         {
             throw new InvalidOperationException($"Foundation rebar validation failed: {validation.ErrorMessage}");
         }
 
-        // 2. Compute Effective Placement Boundaries
         var bounds = FoundationBoundaryCalculator.Calculate(snapshot, spec.CoverSide);
-        double xMin = bounds.XMin;
-        double xMax = bounds.XMax;
-        double yMin = bounds.YMin;
-        double yMax = bounds.YMax;
-
-        // 3. Exact 4-Layer Vertical Elevations in Local Z Frame
-        // Layer 1 (Bottom X, outermost bottom)
-        double z1 = spec.CoverBottom + (spec.DiameterBottomX / 2.0);
-
-        // Layer 2 (Bottom Y, resting directly on Layer 1)
-        double z2 = spec.CoverBottom + spec.DiameterBottomX + (spec.DiameterBottomY / 2.0);
-
-        // Top Mat Elevations (under top cover)
-        double z3 = 0.0;
-        double z4 = 0.0;
-        if (spec.IsTopMatEnabled)
+        var bars = new List<FoundationBar>();
+        foreach (var layer in PlanLayers(snapshot, spec))
         {
-            // Layer 3 (Top Y, beneath Layer 4)
-            z3 = snapshot.Thickness - spec.CoverTop - spec.DiameterTopX - (spec.DiameterTopY / 2.0);
-
-            // Layer 4 (Top X, outermost top)
-            z4 = snapshot.Thickness - spec.CoverTop - (spec.DiameterTopX / 2.0);
+            bars.AddRange(PlaceLayer(snapshot, bounds, layer, equalSpacing, firstBarIndex: bars.Count + 1));
         }
 
-        // 4. Hook Lengths with Safety Clamping to Prevent Breaching Opposite Cover
+        return Summarise(bars);
+    }
+
+    /// <summary>One layer of the mesh: which way its bars run, how they are spaced, their height and hook.</summary>
+    /// <param name="HookRise">Signed hook leg: positive bends up (bottom mat), negative bends down (top mat), 0 = no hook.</param>
+    private sealed record MeshLayer(
+        FoundationBarLayer Layer,
+        bool RunsAlongX,
+        double Spacing,
+        double Diameter,
+        double Z,
+        double HookRise,
+        FoundationHookType HookType);
+
+    /// <summary>
+    /// The active layers in placing order: bottom X (outermost), bottom Y resting on it, then top Y hung under
+    /// top X (outermost top). Hook legs are clamped so they never cross into the opposite cover.
+    /// </summary>
+    private static IEnumerable<MeshLayer> PlanLayers(FoundationGeometrySnapshot snapshot, FoundationRebarSpec spec)
+    {
         bool hasHooks = spec.HookType == FoundationHookType.Hook90Degrees;
 
-        // Bottom hooks bend UP (+Z)
-        double hookLenB1 = 0.0;
-        double hookLenB2 = 0.0;
-        if (hasHooks)
-        {
-            double reqB1 = spec.GetHookLength(spec.DiameterBottomX);
-            double maxRiseB1 = Math.Max(0.0, snapshot.Thickness - z1 - spec.CoverTop);
-            hookLenB1 = Math.Min(reqB1, maxRiseB1);
+        double zBottomX = spec.CoverBottom + (spec.DiameterBottomX / 2.0);
+        double zBottomY = spec.CoverBottom + spec.DiameterBottomX + (spec.DiameterBottomY / 2.0);
 
-            double reqB2 = spec.GetHookLength(spec.DiameterBottomY);
-            double maxRiseB2 = Math.Max(0.0, snapshot.Thickness - z2 - spec.CoverTop);
-            hookLenB2 = Math.Min(reqB2, maxRiseB2);
+        yield return new MeshLayer(FoundationBarLayer.BottomX, RunsAlongX: true, spec.SpacingBottomX, spec.DiameterBottomX,
+            zBottomX, hasHooks ? RisingHook(snapshot, spec, spec.DiameterBottomX, zBottomX) : 0.0, spec.HookType);
+        yield return new MeshLayer(FoundationBarLayer.BottomY, RunsAlongX: false, spec.SpacingBottomY, spec.DiameterBottomY,
+            zBottomY, hasHooks ? RisingHook(snapshot, spec, spec.DiameterBottomY, zBottomY) : 0.0, spec.HookType);
+
+        if (!spec.IsTopMatEnabled)
+        {
+            yield break;
         }
 
-        // Top hooks bend DOWN (-Z)
-        double hookLenT3 = 0.0;
-        double hookLenT4 = 0.0;
-        if (hasHooks && spec.IsTopMatEnabled)
+        double zTopY = snapshot.Thickness - spec.CoverTop - spec.DiameterTopX - (spec.DiameterTopY / 2.0);
+        double zTopX = snapshot.Thickness - spec.CoverTop - (spec.DiameterTopX / 2.0);
+
+        yield return new MeshLayer(FoundationBarLayer.TopY, RunsAlongX: false, spec.SpacingTopY, spec.DiameterTopY,
+            zTopY, hasHooks ? -FallingHook(spec, spec.DiameterTopY, zTopY) : 0.0, spec.HookType);
+        yield return new MeshLayer(FoundationBarLayer.TopX, RunsAlongX: true, spec.SpacingTopX, spec.DiameterTopX,
+            zTopX, hasHooks ? -FallingHook(spec, spec.DiameterTopX, zTopX) : 0.0, spec.HookType);
+    }
+
+    /// <summary>Bottom-mat hook: the requested leg, cut so it stops under the top cover.</summary>
+    private static double RisingHook(FoundationGeometrySnapshot snapshot, FoundationRebarSpec spec, double diameter, double z) =>
+        Math.Min(spec.GetHookLength(diameter), Math.Max(0.0, snapshot.Thickness - z - spec.CoverTop));
+
+    /// <summary>Top-mat hook: the requested leg, cut so it stops above the bottom cover.</summary>
+    private static double FallingHook(FoundationRebarSpec spec, double diameter, double z) =>
+        Math.Min(spec.GetHookLength(diameter), Math.Max(0.0, z - spec.CoverBottom));
+
+    /// <summary>
+    /// The bars of one layer: a bar running along X is repeated across Y within the effective boundary, and the
+    /// other way round. Bars are numbered from <paramref name="firstBarIndex"/>.
+    /// </summary>
+    private static IEnumerable<FoundationBar> PlaceLayer(
+        FoundationGeometrySnapshot snapshot,
+        FoundationEffectiveBoundary bounds,
+        MeshLayer layer,
+        bool equalSpacing,
+        int firstBarIndex)
+    {
+        var across = layer.RunsAlongX
+            ? CalculateBarPositions(bounds.YMin, bounds.YMax, layer.Spacing, equalSpacing)
+            : CalculateBarPositions(bounds.XMin, bounds.XMax, layer.Spacing, equalSpacing);
+        double alongStart = layer.RunsAlongX ? bounds.XMin : bounds.YMin;
+        double alongEnd = layer.RunsAlongX ? bounds.XMax : bounds.YMax;
+
+        for (int i = 0; i < across.Count; i++)
         {
-            double reqT3 = spec.GetHookLength(spec.DiameterTopY);
-            double maxDropT3 = Math.Max(0.0, z3 - spec.CoverBottom);
-            hookLenT3 = Math.Min(reqT3, maxDropT3);
+            var (localPoly, worldPoly) = BuildBarPolyline(snapshot, layer, alongStart, alongEnd, across[i]);
 
-            double reqT4 = spec.GetHookLength(spec.DiameterTopX);
-            double maxDropT4 = Math.Max(0.0, z4 - spec.CoverBottom);
-            hookLenT4 = Math.Min(reqT4, maxDropT4);
-        }
-
-        // 5. Generate Rebar Curves for Each Active Layer
-        var bottomXPolylines = new List<Polyline3>();
-        var bottomYPolylines = new List<Polyline3>();
-        var topXPolylines = new List<Polyline3>();
-        var topYPolylines = new List<Polyline3>();
-        var allBars = new List<FoundationBar>();
-
-        int barCounter = 1;
-
-        // --- Layer 1: Bottom Direction X (runs along X, distributed along Y) ---
-        var yPositionsB1 = CalculateBarPositions(yMin, yMax, spec.SpacingBottomX, equalSpacing);
-        for (int i = 0; i < yPositionsB1.Count; i++)
-        {
-            double y = yPositionsB1[i];
-            var (localPoly, worldPoly) = BuildBarPolyline(
-                snapshot,
-                isDirX: true,
-                coordAlongStart: xMin,
-                coordAlongEnd: xMax,
-                transverseCoord: y,
-                localZ: z1,
-                hasHooks: hasHooks,
-                hookLength: hookLenB1,
-                isHookUp: true);
-
-            bottomXPolylines.Add(worldPoly);
-            allBars.Add(new FoundationBar
+            yield return new FoundationBar
             {
-                BarIndex = barCounter++,
-                Layer = FoundationBarLayer.BottomX,
-                LayerName = "BottomX",
-                Diameter = spec.DiameterBottomX,
+                BarIndex = firstBarIndex + i,
+                Layer = layer.Layer,
+                LayerName = layer.Layer.ToString(),
+                Diameter = layer.Diameter,
                 Polyline = worldPoly,
                 LocalPolyline = localPoly,
-                HookType = spec.HookType,
-                HookLength = hookLenB1
-            });
+                HookType = layer.HookType,
+                HookLength = Math.Abs(layer.HookRise)
+            };
         }
+    }
 
-        // --- Layer 2: Bottom Direction Y (runs along Y, distributed along X) ---
-        var xPositionsB2 = CalculateBarPositions(xMin, xMax, spec.SpacingBottomY, equalSpacing);
-        for (int i = 0; i < xPositionsB2.Count; i++)
-        {
-            double x = xPositionsB2[i];
-            var (localPoly, worldPoly) = BuildBarPolyline(
-                snapshot,
-                isDirX: false,
-                coordAlongStart: yMin,
-                coordAlongEnd: yMax,
-                transverseCoord: x,
-                localZ: z2,
-                hasHooks: hasHooks,
-                hookLength: hookLenB2,
-                isHookUp: true);
+    private static FoundationMeshResult Summarise(IReadOnlyList<FoundationBar> bars)
+    {
+        var bottomX = PolylinesOf(bars, FoundationBarLayer.BottomX);
+        var bottomY = PolylinesOf(bars, FoundationBarLayer.BottomY);
+        var topX = PolylinesOf(bars, FoundationBarLayer.TopX);
+        var topY = PolylinesOf(bars, FoundationBarLayer.TopY);
 
-            bottomYPolylines.Add(worldPoly);
-            allBars.Add(new FoundationBar
-            {
-                BarIndex = barCounter++,
-                Layer = FoundationBarLayer.BottomY,
-                LayerName = "BottomY",
-                Diameter = spec.DiameterBottomY,
-                Polyline = worldPoly,
-                LocalPolyline = localPoly,
-                HookType = spec.HookType,
-                HookLength = hookLenB2
-            });
-        }
-
-        // --- Top Mat (Layers 3 & 4) ---
-        if (spec.IsTopMatEnabled)
-        {
-            // --- Layer 3: Top Direction Y (runs along Y, distributed along X) ---
-            var xPositionsT3 = CalculateBarPositions(xMin, xMax, spec.SpacingTopY, equalSpacing);
-            for (int i = 0; i < xPositionsT3.Count; i++)
-            {
-                double x = xPositionsT3[i];
-                var (localPoly, worldPoly) = BuildBarPolyline(
-                    snapshot,
-                    isDirX: false,
-                    coordAlongStart: yMin,
-                    coordAlongEnd: yMax,
-                    transverseCoord: x,
-                    localZ: z3,
-                    hasHooks: hasHooks,
-                    hookLength: hookLenT3,
-                    isHookUp: false);
-
-                topYPolylines.Add(worldPoly);
-                allBars.Add(new FoundationBar
-                {
-                    BarIndex = barCounter++,
-                    Layer = FoundationBarLayer.TopY,
-                    LayerName = "TopY",
-                    Diameter = spec.DiameterTopY,
-                    Polyline = worldPoly,
-                    LocalPolyline = localPoly,
-                    HookType = spec.HookType,
-                    HookLength = hookLenT3
-                });
-            }
-
-            // --- Layer 4: Top Direction X (runs along X, distributed along Y) ---
-            var yPositionsT4 = CalculateBarPositions(yMin, yMax, spec.SpacingTopX, equalSpacing);
-            for (int i = 0; i < yPositionsT4.Count; i++)
-            {
-                double y = yPositionsT4[i];
-                var (localPoly, worldPoly) = BuildBarPolyline(
-                    snapshot,
-                    isDirX: true,
-                    coordAlongStart: xMin,
-                    coordAlongEnd: xMax,
-                    transverseCoord: y,
-                    localZ: z4,
-                    hasHooks: hasHooks,
-                    hookLength: hookLenT4,
-                    isHookUp: false);
-
-                topXPolylines.Add(worldPoly);
-                allBars.Add(new FoundationBar
-                {
-                    BarIndex = barCounter++,
-                    Layer = FoundationBarLayer.TopX,
-                    LayerName = "TopX",
-                    Diameter = spec.DiameterTopX,
-                    Polyline = worldPoly,
-                    LocalPolyline = localPoly,
-                    HookType = spec.HookType,
-                    HookLength = hookLenT4
-                });
-            }
-        }
-
-        // 6. Calculate Summary Metrics & Statistics
-        double lenBx = 0.0, lenBy = 0.0, lenTx = 0.0, lenTy = 0.0;
-        foreach (var p in bottomXPolylines) lenBx += p.TotalLength;
-        foreach (var p in bottomYPolylines) lenBy += p.TotalLength;
-        foreach (var p in topXPolylines) lenTx += p.TotalLength;
-        foreach (var p in topYPolylines) lenTy += p.TotalLength;
-
-        double totalLenMm = lenBx + lenBy + lenTx + lenTy;
+        double lenBx = TotalLength(bottomX);
+        double lenBy = TotalLength(bottomY);
+        double lenTx = TotalLength(topX);
+        double lenTy = TotalLength(topY);
 
         double weightKg = 0.0;
-        foreach (var bar in allBars)
+        foreach (var bar in bars)
         {
-            // Unit nominal weight formula: 0.006165 * d^2 * L(m)
-            weightKg += 0.006165 * bar.Diameter * bar.Diameter * (bar.LengthMm / 1000.0);
+            weightKg += BarKgPerMetrePerSquareMm * bar.Diameter * bar.Diameter * (bar.LengthMm / 1000.0);
         }
-
-        var stats = new FoundationMeshStatistics
-        {
-            TotalBarCount = allBars.Count,
-            BottomBarCountX = bottomXPolylines.Count,
-            BottomBarCountY = bottomYPolylines.Count,
-            TopBarCountX = topXPolylines.Count,
-            TopBarCountY = topYPolylines.Count,
-            BottomLengthMmX = lenBx,
-            BottomLengthMmY = lenBy,
-            TopLengthMmX = lenTx,
-            TopLengthMmY = lenTy,
-            TotalLengthMm = totalLenMm,
-            EstimatedWeightKg = weightKg
-        };
 
         return new FoundationMeshResult
         {
-            BottomBarsX = bottomXPolylines,
-            BottomBarsY = bottomYPolylines,
-            TopBarsX = topXPolylines,
-            TopBarsY = topYPolylines,
-            Bars = allBars,
-            Statistics = stats
+            BottomBarsX = bottomX,
+            BottomBarsY = bottomY,
+            TopBarsX = topX,
+            TopBarsY = topY,
+            Bars = bars,
+            Statistics = new FoundationMeshStatistics
+            {
+                TotalBarCount = bars.Count,
+                BottomBarCountX = bottomX.Count,
+                BottomBarCountY = bottomY.Count,
+                TopBarCountX = topX.Count,
+                TopBarCountY = topY.Count,
+                BottomLengthMmX = lenBx,
+                BottomLengthMmY = lenBy,
+                TopLengthMmX = lenTx,
+                TopLengthMmY = lenTy,
+                TotalLengthMm = lenBx + lenBy + lenTx + lenTy,
+                EstimatedWeightKg = weightKg
+            }
         };
+    }
+
+    private static List<Polyline3> PolylinesOf(IEnumerable<FoundationBar> bars, FoundationBarLayer layer)
+    {
+        var polylines = new List<Polyline3>();
+        foreach (var bar in bars)
+        {
+            if (bar.Layer == layer)
+            {
+                polylines.Add(bar.Polyline);
+            }
+        }
+
+        return polylines;
+    }
+
+    private static double TotalLength(IEnumerable<Polyline3> polylines)
+    {
+        double total = 0.0;
+        foreach (var polyline in polylines)
+        {
+            total += polyline.TotalLength;
+        }
+
+        return total;
     }
 
     /// <summary>
@@ -319,52 +250,28 @@ public static class FoundationMeshCalculator
     /// </summary>
     private static (Polyline3 Local, Polyline3 World) BuildBarPolyline(
         FoundationGeometrySnapshot snapshot,
-        bool isDirX,
-        double coordAlongStart,
-        double coordAlongEnd,
-        double transverseCoord,
-        double localZ,
-        bool hasHooks,
-        double hookLength,
-        bool isHookUp)
+        MeshLayer layer,
+        double alongStart,
+        double alongEnd,
+        double across)
     {
-        var localPoints = new List<Point3>();
-        double hookZOffset = isHookUp ? hookLength : -hookLength;
+        Point3 At(double along, double z) =>
+            layer.RunsAlongX ? new Point3(along, across, z) : new Point3(across, along, z);
 
-        if (isDirX)
+        var localPoints = new List<Point3>();
+        if (layer.HookRise != 0.0)
         {
-            // Bar runs along X at constant transverse coordinate Y = transverseCoord
-            if (hasHooks && hookLength > 0.0)
-            {
-                localPoints.Add(new Point3(coordAlongStart, transverseCoord, localZ + hookZOffset)); // Hook start tip
-                localPoints.Add(new Point3(coordAlongStart, transverseCoord, localZ));               // Corner 1
-                localPoints.Add(new Point3(coordAlongEnd, transverseCoord, localZ));                 // Corner 2
-                localPoints.Add(new Point3(coordAlongEnd, transverseCoord, localZ + hookZOffset));   // Hook end tip
-            }
-            else
-            {
-                localPoints.Add(new Point3(coordAlongStart, transverseCoord, localZ));
-                localPoints.Add(new Point3(coordAlongEnd, transverseCoord, localZ));
-            }
+            localPoints.Add(At(alongStart, layer.Z + layer.HookRise)); // hook start tip
+            localPoints.Add(At(alongStart, layer.Z));
+            localPoints.Add(At(alongEnd, layer.Z));
+            localPoints.Add(At(alongEnd, layer.Z + layer.HookRise));   // hook end tip
         }
         else
         {
-            // Bar runs along Y at constant transverse coordinate X = transverseCoord
-            if (hasHooks && hookLength > 0.0)
-            {
-                localPoints.Add(new Point3(transverseCoord, coordAlongStart, localZ + hookZOffset)); // Hook start tip
-                localPoints.Add(new Point3(transverseCoord, coordAlongStart, localZ));               // Corner 1
-                localPoints.Add(new Point3(transverseCoord, coordAlongEnd, localZ));                 // Corner 2
-                localPoints.Add(new Point3(transverseCoord, coordAlongEnd, localZ + hookZOffset));   // Hook end tip
-            }
-            else
-            {
-                localPoints.Add(new Point3(transverseCoord, coordAlongStart, localZ));
-                localPoints.Add(new Point3(transverseCoord, coordAlongEnd, localZ));
-            }
+            localPoints.Add(At(alongStart, layer.Z));
+            localPoints.Add(At(alongEnd, layer.Z));
         }
 
-        // Map every local point to World coordinates via orthonormal frame transformation
         var worldPoints = new Point3[localPoints.Count];
         for (int i = 0; i < localPoints.Count; i++)
         {

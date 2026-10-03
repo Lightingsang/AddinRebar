@@ -174,3 +174,9 @@
 - **Logged, not fixed:** B-21 (depth-step bottom bars ignore the start/end hook lengths and the stirrup allowance)
 - **Process note accepted:** ca98561 was larger than the ~10-file batch size (mechanical edits); later batches keep one rule family per feature; its golden run is still owed
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 966/966
+
+### 2026-10-03 — Wave 2 · Foundation · `FoundationMeshCalculator.Calculate` (AUD-024, AUD-027 Foundation part)
+- **Safety net first:** `FoundationMeshCalculatorCharacterizationTests` (ac4604b) hashes every bar (order, layer, diameter, hook, world + local points) and the statistics for 4 scenarios (axis/rotated, hooks on/off, top mat on/off, equal spacing) — captured before the change, unchanged after
+- **Change:** the 246-line method with four copied layer loops → `Calculate` (validate, bounds, place each planned layer, summarise) + `PlanLayers` (layer heights and clamped hooks, in placing order) + `PlaceLayer` + `Summarise`; `BuildBarPolyline` 9 parameters / 3 bools → 5 (a `MeshLayer` record carries direction, height and a signed hook leg); magic `0.006165` → `BarKgPerMetrePerSquareMm`
+- **File:** 380 → 287 lines; no public signature changed
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 (4 characterization hashes identical) · **Golden run:** not needed for Core-only output proven identical; Revit side untouched
