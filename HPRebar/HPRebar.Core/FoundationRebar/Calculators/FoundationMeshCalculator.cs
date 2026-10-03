@@ -11,6 +11,11 @@ namespace HPRebar.Core.FoundationRebar.Calculators;
 public static class FoundationMeshCalculator
 {
     /// <summary>
+    /// Nominal mass of steel bar: 0.006165 kg per metre of length per mm² of diameter (π/4 × 7850 kg/m³).
+    /// </summary>
+    private const double BarKgPerMetrePerSquareMm = 0.006165;
+
+    /// <summary>
     /// Calculates discrete distribution positions along a span according to nominal spacing.
     /// Default mode centers remaining slack equally on both sides:
     /// delta = (Span_eff - N * s) / 2, count = N + 1 where N = floor(Span_eff / s).
@@ -61,9 +66,6 @@ public static class FoundationMeshCalculator
         return positions;
     }
 
-    /// <summary>Nominal mass of steel bar: 0.006165 kg per metre of length per mm² of diameter (π/4 × 7850 kg/m³).</summary>
-    private const double BarKgPerMetrePerSquareMm = 0.006165;
-
     /// <summary>
     /// Computes full 3D mesh reinforcement result for the given geometry snapshot and specification.
     /// Throws <see cref="InvalidOperationException"/> if pre-flight validation fails.
@@ -93,7 +95,9 @@ public static class FoundationMeshCalculator
     }
 
     /// <summary>One layer of the mesh: which way its bars run, how they are spaced, their height and hook.</summary>
-    /// <param name="HookRise">Signed hook leg: positive bends up (bottom mat), negative bends down (top mat), 0 = no hook.</param>
+    /// <param name="HookRise">
+    /// Signed hook leg: positive bends up (bottom mat), negative bends down (top mat), 0 = no hook.
+    /// </param>
     private sealed record MeshLayer(
         FoundationBarLayer Layer,
         bool RunsAlongX,
@@ -114,9 +118,11 @@ public static class FoundationMeshCalculator
         double zBottomX = spec.CoverBottom + (spec.DiameterBottomX / 2.0);
         double zBottomY = spec.CoverBottom + spec.DiameterBottomX + (spec.DiameterBottomY / 2.0);
 
-        yield return new MeshLayer(FoundationBarLayer.BottomX, RunsAlongX: true, spec.SpacingBottomX, spec.DiameterBottomX,
+        yield return new MeshLayer(
+            FoundationBarLayer.BottomX, RunsAlongX: true, spec.SpacingBottomX, spec.DiameterBottomX,
             zBottomX, hasHooks ? RisingHook(snapshot, spec, spec.DiameterBottomX, zBottomX) : 0.0, spec.HookType);
-        yield return new MeshLayer(FoundationBarLayer.BottomY, RunsAlongX: false, spec.SpacingBottomY, spec.DiameterBottomY,
+        yield return new MeshLayer(
+            FoundationBarLayer.BottomY, RunsAlongX: false, spec.SpacingBottomY, spec.DiameterBottomY,
             zBottomY, hasHooks ? RisingHook(snapshot, spec, spec.DiameterBottomY, zBottomY) : 0.0, spec.HookType);
 
         if (!spec.IsTopMatEnabled)
@@ -134,7 +140,8 @@ public static class FoundationMeshCalculator
     }
 
     /// <summary>Bottom-mat hook: the requested leg, cut so it stops under the top cover.</summary>
-    private static double RisingHook(FoundationGeometrySnapshot snapshot, FoundationRebarSpec spec, double diameter, double z) =>
+    private static double RisingHook(
+        FoundationGeometrySnapshot snapshot, FoundationRebarSpec spec, double diameter, double z) =>
         Math.Min(spec.GetHookLength(diameter), Math.Max(0.0, snapshot.Thickness - z - spec.CoverTop));
 
     /// <summary>Top-mat hook: the requested leg, cut so it stops above the bottom cover.</summary>
@@ -259,7 +266,7 @@ public static class FoundationMeshCalculator
             layer.RunsAlongX ? new Point3(along, across, z) : new Point3(across, along, z);
 
         var localPoints = new List<Point3>();
-        if (layer.HookRise != 0.0)
+        if (Math.Abs(layer.HookRise) > 0.0)
         {
             localPoints.Add(At(alongStart, layer.Z + layer.HookRise)); // hook start tip
             localPoints.Add(At(alongStart, layer.Z));

@@ -186,3 +186,10 @@
 - **Change:** 323 lines with six near-identical layer × position blocks → `ComputeSupportTopBars` (~25 lines) + `SupportTopNode.At` (the section a support's bars are set out in: start / end / interior) + `PlaceSupportTopLayer` (one layer, bar shape by `SupportEnd`) + `ExteriorHook`
 - **File:** 463 → 349 lines; public surface unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 975/975 (5 hashes identical)
+
+### 2026-10-03 — Wave 2 · review follow-up (Foundation + Beam)
+- **Review of ac4604b..2617a5d:** APPROVE 8.5/10; equivalence confirmed by reading for single support, empty spans, layer 2 only, top hooks sign, `-0`, statistics order
+- **Applied:** `CharacterizationText` now throws on a type outside HPRebar.Core, a public field or an object with nothing to write (it used to hash those as `{}`); `BeamAdditionalBarCalculator` private types/helpers moved below the public methods (FM5), `SupportEnd` → `SupportPosition`, `SupportTopNode` → `SupportTopSection`, layer set-out extracted (`SetOutTopLayer`, `PlaceSupportTopLayer` 87 → ~70 lines), `HostSpanIndex` set once, `ZHookFloor` documented; `FoundationMeshCalculator` constant to the top, hook guard `Math.Abs(HookRise) > 0.0` (same as the old guard even for NaN), long lines wrapped; foundation characterization moved onto the shared hasher
+- **Coverage added, hashes captured from the pre-refactor code** (`git archive ac4604b` of Core + Core.Tests, scenarios copied in): single support, layer 2 only, thin footing with clamped explicit hooks; all 12 scenarios equal on old and new code
+- **Logged, not fixed:** B-22 (layer 2 set out under an absent layer 1)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 978/978

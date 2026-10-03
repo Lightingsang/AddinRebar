@@ -43,6 +43,7 @@
 | B-19 | [PCC] PCC-039 | `BeamRebar/Service/RebarTableTagCreator.cs` `BuildRows` | Only cut 0 gets an "Add Top" row and only cut 1 an "Add Bot" row: with 3 sections per span the right-support cut has no Add Top row, a cantilever's single cut is treated as a support | review of 62d5111 | rows from the cut's station (support / midspan), not its index |
 | B-20 ✅ closed 2026-10-03 | [PCC] PCC-039 | `BeamRebar/ViewModel/BeamRebarSession.cs` `Validate` | Stirrup-count message said "Revit's 1000 limit" while the check was `> 1002` | review of cc6d408 | message prints `RevitRebarLimits.MaxBarPositions` (fixed in cc6d408) |
 | B-21 | [PCC] PCC-039 | `HPRebar.Core/BeamRebar/Calculators/BeamMainBarCalculator.cs:228` | Bottom bars split at a depth step take `min(h − 2·cover, BeamHookLength.Default)`: they ignore `BottomStartHookLength`/`BottomEndHookLength` and do not subtract the 2 × stirrup diameter the other eight hook lengths subtract | review of ca98561, **GIẢ ĐỊNH CHƯA XÁC MINH** in Revit | decide with the engineer; apply the same rule as the other hooks |
+| B-22 | [PCC] PCC-039 | `HPRebar.Core/BeamRebar/Calculators/BeamAdditionalBarCalculator.cs` `SetOutTopLayer` | With `Layer1Count == 0` and `Layer2Count > 0`, layer 2 is still placed one gap below a layer-1 bar that is not drawn (height and default gap from `Layer1Diameter`) | review of 2617a5d; pinned by the `layer-2-only` characterization case | decide: drop to layer-1 height, or refuse the config in the window |
 
 ## 3. Findings
 

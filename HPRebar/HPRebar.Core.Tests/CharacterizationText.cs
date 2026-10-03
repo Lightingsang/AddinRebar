@@ -9,11 +9,16 @@ using System.Text;
 namespace HPRebar.Core.Tests;
 
 /// <summary>
-///     Canonical text of a calculator's output — every public readable property, recursively, numbers rounded to
-///     1e-6 — and a short hash of it. Characterization tests pin that hash before a calculator is restructured.
+///     Canonical text of a calculator's output and a short hash of it. Characterization tests pin that hash
+///     before a calculator is restructured. Doubles are rounded to 1e-6; other primitives, enums and strings are
+///     written invariantly; collections item by item; HPRebar.Core types through every public property. Anything
+///     else — a type outside HPRebar.Core, a public field, an object with nothing to write — throws, so a value
+///     can never drop out of the hash unnoticed.
 /// </summary>
 internal static class CharacterizationText
 {
+    private static readonly Assembly CoreAssembly = typeof(HPRebar.Core.Shared.RevitRebarLimits).Assembly;
+
     public static string Hash(object? value)
     {
         var text = new StringBuilder();
@@ -41,8 +46,11 @@ internal static class CharacterizationText
             case float number:
                 text.Append(Math.Round(number, 6).ToString("0.######", CultureInfo.InvariantCulture));
                 return;
-            case string or bool or int or long or Enum:
+            case string or bool or char or Enum:
                 text.Append(Convert.ToString(value, CultureInfo.InvariantCulture));
+                return;
+            case IFormattable formattable when value.GetType().IsPrimitive || value is decimal:
+                text.Append(formattable.ToString(null, CultureInfo.InvariantCulture));
                 return;
             case IEnumerable items:
                 text.Append('[');
@@ -56,10 +64,27 @@ internal static class CharacterizationText
                 return;
         }
 
-        var properties = value.GetType()
+        var type = value.GetType();
+        if (type.Assembly != CoreAssembly)
+        {
+            throw new InvalidOperationException($"{type} is outside HPRebar.Core; teach CharacterizationText to write it.");
+        }
+
+        if (type.GetFields(BindingFlags.Public | BindingFlags.Instance).Length > 0)
+        {
+            throw new InvalidOperationException($"{type} has public fields, which this writer does not read.");
+        }
+
+        var properties = type
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(property => property.CanRead && property.GetIndexParameters().Length == 0)
-            .OrderBy(property => property.Name, StringComparer.Ordinal);
+            .OrderBy(property => property.Name, StringComparer.Ordinal)
+            .ToList();
+
+        if (properties.Count == 0)
+        {
+            throw new InvalidOperationException($"{type} has no public properties to write.");
+        }
 
         text.Append('{');
         foreach (var property in properties)
