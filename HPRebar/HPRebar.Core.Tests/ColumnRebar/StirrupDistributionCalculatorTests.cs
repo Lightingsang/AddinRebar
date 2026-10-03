@@ -2,6 +2,7 @@ using System;
 using HPRebar.Core.ColumnRebar;
 using HPRebar.Core.ColumnRebar.Models;
 using Xunit;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.Tests.ColumnRebar;
 
@@ -101,7 +102,7 @@ public sealed class StirrupDistributionCalculatorTests
     {
         // Revit refuses a set of more than 1002 bar positions, so the limit is caught here rather than
         // surfacing as a failure part-way through building the model.
-        var tooTight = 3000d / StirrupDistributionCalculator.MaxBarPositions;
+        var tooTight = 3000d / RevitRebarLimits.MaxBarPositions;
 
         Assert.Throws<ArgumentOutOfRangeException>(
             () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = tooTight }));
@@ -113,11 +114,11 @@ public sealed class StirrupDistributionCalculatorTests
         // Sized to land just under the cap. The exact count depends on floating point, so the invariant
         // worth asserting is that it is accepted and stays within what a rebar set can hold.
         var run = StirrupDistributionCalculator.Compute(
-            3000, new StirrupSpec { TypeDis = 0, S = 3000d / (StirrupDistributionCalculator.MaxBarPositions - 2) });
+            3000, new StirrupSpec { TypeDis = 0, S = 3000d / (RevitRebarLimits.MaxBarPositions - 2) });
 
         var group = Assert.Single(run);
 
-        Assert.InRange(group.Count, 2, StirrupDistributionCalculator.MaxBarPositions);
+        Assert.InRange(group.Count, 2, RevitRebarLimits.MaxBarPositions);
     }
 
     [Fact]

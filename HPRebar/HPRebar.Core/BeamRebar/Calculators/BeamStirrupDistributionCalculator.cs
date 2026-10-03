@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.BeamRebar.Calculators;
 
@@ -10,7 +11,6 @@ namespace HPRebar.Core.BeamRebar.Calculators;
 /// </summary>
 public static class BeamStirrupDistributionCalculator
 {
-    public const int MaxBarPositions = 1002;
     public const double DefaultStartOffsetMm = 50.0;
     public const double MinimumThreeZoneSpanMm = 600.0;
 
@@ -32,8 +32,8 @@ public static class BeamStirrupDistributionCalculator
             throw new ArgumentOutOfRangeException(nameof(spec), "Sparse spacing must be strictly positive.");
 
         // Check if spacing is so small that bar count exceeds Revit max positions
-        if ((clearSpanMm / spec.SpacingDense) > MaxBarPositions || (clearSpanMm / spec.SpacingSparse) > MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spec), $"Requested spacing produces bar count exceeding maximum {MaxBarPositions}.");
+        if ((clearSpanMm / spec.SpacingDense) > RevitRebarLimits.MaxBarPositions || (clearSpanMm / spec.SpacingSparse) > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(nameof(spec), $"Requested spacing produces bar count exceeding maximum {RevitRebarLimits.MaxBarPositions}.");
 
         // Cantilever spans: uniform dense spacing across entire length
         if (isCantilever)
@@ -44,8 +44,8 @@ public static class BeamStirrupDistributionCalculator
 
             int intervals = (int)Math.Floor(lDist / spec.SpacingDense);
             int count = intervals + 1;
-            if (count > MaxBarPositions)
-                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {MaxBarPositions}.");
+            if (count > RevitRebarLimits.MaxBarPositions)
+                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
 
             double delta = (lDist - (intervals * spec.SpacingDense)) / 2.0;
             double startX = spec.StartOffset + delta;
@@ -77,8 +77,8 @@ public static class BeamStirrupDistributionCalculator
 
             int intervals = (int)Math.Floor(lDist / spec.SpacingDense);
             int count = intervals + 1;
-            if (count > MaxBarPositions)
-                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {MaxBarPositions}.");
+            if (count > RevitRebarLimits.MaxBarPositions)
+                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
 
             double delta = (lDist - (intervals * spec.SpacingDense)) / 2.0;
             double startX = spec.StartOffset + delta;
@@ -116,8 +116,8 @@ public static class BeamStirrupDistributionCalculator
         double lDist1 = l1 - spec.StartOffset;
         int intervals1 = (int)Math.Floor(lDist1 / spec.SpacingDense);
         int count1 = intervals1 + 1;
-        if (count1 > MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 1 stirrup count {count1} exceeds maximum {MaxBarPositions}.");
+        if (count1 > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 1 stirrup count {count1} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
 
         double delta1 = (lDist1 - (intervals1 * spec.SpacingDense)) / 2.0;
         double startX1 = spec.StartOffset + delta1;
@@ -199,8 +199,8 @@ public static class BeamStirrupDistributionCalculator
             else
             {
                 count2 = intervals2 + 1;
-                if (count2 > MaxBarPositions)
-                    throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 2 stirrup count {count2} exceeds maximum {MaxBarPositions}.");
+                if (count2 > RevitRebarLimits.MaxBarPositions)
+                    throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 2 stirrup count {count2} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
 
                 double delta2 = (gap - (intervals2 * spec.SpacingSparse)) / 2.0;
                 startX2 = lastX1 + delta2;
@@ -240,8 +240,8 @@ public static class BeamStirrupDistributionCalculator
 
         int intervals = (int)Math.Floor(lNode / spacingMm);
         int count = intervals + 1;
-        if (count > MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spacingMm), $"Node stirrup count {count} exceeds maximum {MaxBarPositions}.");
+        if (count > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(nameof(spacingMm), $"Node stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
 
         double delta = (lNode - (intervals * spacingMm)) / 2.0;
         double startOffset = coverMm + delta;

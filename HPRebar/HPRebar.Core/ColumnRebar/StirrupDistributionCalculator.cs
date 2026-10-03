@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.ColumnRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.ColumnRebar;
 
@@ -9,11 +10,6 @@ namespace HPRebar.Core.ColumnRebar;
 /// </summary>
 public static class StirrupDistributionCalculator
 {
-    /// <summary>
-    ///     Most bar positions one tie group may hold. Revit's own layout call refuses anything larger, so
-    ///     the limit is enforced here where it can be caught before a transaction is open.
-    /// </summary>
-    public const int MaxBarPositions = 1002;
 
     /// <summary>
     ///     Length of the tie run. Ties normally stop under the beam; <see cref="StirrupSpec.IsTiesUp"/>
@@ -88,11 +84,11 @@ public static class StirrupDistributionCalculator
 
     private static int RequireUsableCount(int count, double spacing)
     {
-        if (count > MaxBarPositions)
+        if (count > RevitRebarLimits.MaxBarPositions)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(spacing), spacing,
-                $"A spacing of {spacing} needs {count} ties, more than the {MaxBarPositions} a rebar set can hold.");
+                $"A spacing of {spacing} needs {count} ties, more than the {RevitRebarLimits.MaxBarPositions} a rebar set can hold.");
         }
 
         return count;

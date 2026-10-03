@@ -5,6 +5,7 @@ using Autodesk.Revit.DB.Structure;
 using HPRebar.BeamRebar.Model;
 using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.BeamRebar.Service;
 
@@ -109,7 +110,7 @@ public static class BeamStirrupCreator
         else
         {
             accessor.SetLayoutAsNumberWithSpacing(
-                Math.Clamp(run.Count, 2, 1002), RevitUnits.MmToFt(run.Spacing), true, true, true);
+                Math.Clamp(run.Count, 2, RevitRebarLimits.MaxBarPositions), RevitUnits.MmToFt(run.Spacing), true, true, true);
         }
 
         SetPartition(rebar, partitionName);
@@ -152,7 +153,7 @@ public static class BeamStirrupCreator
         else
         {
             accessor.SetLayoutAsNumberWithSpacing(
-                Math.Clamp(run.Count, 2, 1002), RevitUnits.MmToFt(run.Spacing), true, true, true);
+                Math.Clamp(run.Count, 2, RevitRebarLimits.MaxBarPositions), RevitUnits.MmToFt(run.Spacing), true, true, true);
         }
 
         SetPartition(rebar, partitionName);

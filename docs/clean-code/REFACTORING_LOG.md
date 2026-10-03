@@ -129,3 +129,9 @@
 - **Deleted:** `ColumnFaces.Cylindricals/TopLevel/BottomLevel` (written by `ColumnStackReader`, read nowhere) + `LevelOf`; `ColumnStack.Summary` (pre-UI smoke-test dump); `DowelStyles` on both dowel tab VMs (bound nowhere); Column `RevitUnits.Display`
 - **Behaviour:** none — the reader no longer queries two level parameters and the cylindrical faces it threw away (`RequireSingleSolid` still runs through `GetTop/GetBottom`)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · TUnit still blocked (AUD-061) · **Golden run:** CHƯA TEST (no fixtures)
+
+### 2026-10-03 — Wave 1 · shared type · Revit's bar-position limit (AUD-010, first half)
+- **Change:** new `HPRebar.Core/Shared/RevitRebarLimits.MaxBarPositions` (1002) replaces the three Core constants (`StirrupDistributionCalculator`, `BeamStirrupDistributionCalculator`, `FoundationValidationCalculator.MaxRebarCountPerLayer`), `ColumnSpecEditor.MaxBarPositions` and the `1002` literals in `BeamRebarSession` / `BeamStirrupCreator`
+- **Behaviour:** value unchanged; the Beam validation message said "Revit's 1000 limit" while checking 1002 — it now prints the constant
+- **Open:** the repeated hook default `Math.Max(30d, 200)` in Core Beam (rest of AUD-010) — next Beam batch
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970

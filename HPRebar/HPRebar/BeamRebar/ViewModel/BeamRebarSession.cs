@@ -446,16 +446,16 @@ public sealed partial class BeamRebarSession : ObservableObject
             }
 
             int estimatedDense = (int)Math.Ceiling(span.LengthClear / StirrupSpacingDense) + 1;
-            if (estimatedDense > 1002)
+            if (estimatedDense > RevitRebarLimits.MaxBarPositions)
             {
-                errorMessage = $"Span {span.Name}: Dense stirrup spacing produces {estimatedDense} ties, exceeding Revit's 1000 limit.";
+                errorMessage = $"Span {span.Name}: Dense stirrup spacing produces {estimatedDense} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
                 return false;
             }
 
             int estimatedSparse = (int)Math.Ceiling(span.LengthClear / StirrupSpacingSparse) + 1;
-            if (estimatedSparse > 1002)
+            if (estimatedSparse > RevitRebarLimits.MaxBarPositions)
             {
-                errorMessage = $"Span {span.Name}: Sparse stirrup spacing produces {estimatedSparse} ties, exceeding Revit's 1000 limit.";
+                errorMessage = $"Span {span.Name}: Sparse stirrup spacing produces {estimatedSparse} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
                 return false;
             }
         }

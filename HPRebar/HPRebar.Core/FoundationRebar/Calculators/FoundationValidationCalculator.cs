@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.FoundationRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.FoundationRebar.Calculators;
 
@@ -9,8 +10,6 @@ namespace HPRebar.Core.FoundationRebar.Calculators;
 /// </summary>
 public static class FoundationValidationCalculator
 {
-    /// <summary>Maximum allowable rebar instances per layer or Revit array layout.</summary>
-    public const int MaxRebarCountPerLayer = 1002;
 
     /// <summary>
     /// Performs complete engineering and geometric validation on the foundation snapshot and rebar specification.
@@ -86,16 +85,16 @@ public static class FoundationValidationCalculator
             if (spec.SpacingBottomX > 0)
             {
                 int countBx = (int)Math.Floor(effWidth / spec.SpacingBottomX) + 1;
-                if (countBx > MaxRebarCountPerLayer)
-                    errors.Add($"Excessive bar count for Bottom X layer ({countBx} bars). Maximum allowed is {MaxRebarCountPerLayer}.");
+                if (countBx > RevitRebarLimits.MaxBarPositions)
+                    errors.Add($"Excessive bar count for Bottom X layer ({countBx} bars). Maximum allowed is {RevitRebarLimits.MaxBarPositions}.");
             }
 
             // Bottom Y bars distributed along Length (effLength)
             if (spec.SpacingBottomY > 0)
             {
                 int countBy = (int)Math.Floor(effLength / spec.SpacingBottomY) + 1;
-                if (countBy > MaxRebarCountPerLayer)
-                    errors.Add($"Excessive bar count for Bottom Y layer ({countBy} bars). Maximum allowed is {MaxRebarCountPerLayer}.");
+                if (countBy > RevitRebarLimits.MaxBarPositions)
+                    errors.Add($"Excessive bar count for Bottom Y layer ({countBy} bars). Maximum allowed is {RevitRebarLimits.MaxBarPositions}.");
             }
 
             if (spec.IsTopMatEnabled)
@@ -104,16 +103,16 @@ public static class FoundationValidationCalculator
                 if (spec.SpacingTopX > 0)
                 {
                     int countTx = (int)Math.Floor(effWidth / spec.SpacingTopX) + 1;
-                    if (countTx > MaxRebarCountPerLayer)
-                        errors.Add($"Excessive bar count for Top X layer ({countTx} bars). Maximum allowed is {MaxRebarCountPerLayer}.");
+                    if (countTx > RevitRebarLimits.MaxBarPositions)
+                        errors.Add($"Excessive bar count for Top X layer ({countTx} bars). Maximum allowed is {RevitRebarLimits.MaxBarPositions}.");
                 }
 
                 // Top Y bars distributed along Length (effLength)
                 if (spec.SpacingTopY > 0)
                 {
                     int countTy = (int)Math.Floor(effLength / spec.SpacingTopY) + 1;
-                    if (countTy > MaxRebarCountPerLayer)
-                        errors.Add($"Excessive bar count for Top Y layer ({countTy} bars). Maximum allowed is {MaxRebarCountPerLayer}.");
+                    if (countTy > RevitRebarLimits.MaxBarPositions)
+                        errors.Add($"Excessive bar count for Top Y layer ({countTy} bars). Maximum allowed is {RevitRebarLimits.MaxBarPositions}.");
                 }
             }
         }

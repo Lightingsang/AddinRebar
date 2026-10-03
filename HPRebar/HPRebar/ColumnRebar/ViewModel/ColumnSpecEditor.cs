@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.ColumnRebar.Model;
 using HPRebar.Core.ColumnRebar;
 using HPRebar.Core.ColumnRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.ColumnRebar.ViewModel;
 
@@ -52,12 +53,6 @@ public sealed partial class ColumnSpecEditor : ObservableObject
 
     /// <summary>One entry per main bar, in bar-number order.</summary>
     public ObservableCollection<BarSpliceEditor> Splices { get; }
-
-    /// <summary>
-    ///     Most bar positions Revit accepts in one rebar set. Beyond this
-    ///     <c>SetLayoutAsNumberWithSpacing</c> throws, so the tie spacing has to be caught before then.
-    /// </summary>
-    public const int MaxBarPositions = 1002;
 
     /// <summary>One-based label used in the column picker.</summary>
     public string DisplayName => $"C{Section.Index + 1}";
@@ -142,9 +137,9 @@ public sealed partial class ColumnSpecEditor : ObservableObject
                 return false;
             }
 
-            if ((int)(run / spacing) + 1 > MaxBarPositions)
+            if ((int)(run / spacing) + 1 > RevitRebarLimits.MaxBarPositions)
             {
-                reason = $"a spacing of {spacing:0} mm needs more than {MaxBarPositions} ties, which Revit will not accept.";
+                reason = $"a spacing of {spacing:0} mm needs more than {RevitRebarLimits.MaxBarPositions} ties, which Revit will not accept.";
                 return false;
             }
         }
