@@ -56,8 +56,8 @@ public static class DetailViewCreator
         XYZ sideDir = stack.TransverseDirection;
 
         // Centerpoint of continuous beam assembly
-        XYZ centerPoint = stack.OriginPoint 
-            + (totalLengthFt * 0.5) * axisDir 
+        XYZ centerPoint = stack.OriginPoint
+            + (totalLengthFt * 0.5) * axisDir
             + (stack.TopElevationFt - maxHeightFt * 0.5) * XYZ.BasisZ;
 
         var transform = Transform.Identity;

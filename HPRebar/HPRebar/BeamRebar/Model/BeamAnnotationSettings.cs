@@ -104,7 +104,7 @@ public sealed class BeamAnnotationSettings
         };
     }
 
-    public string SectionViewName(int spanIndex, int cutIndex) => 
+    public string SectionViewName(int spanIndex, int cutIndex) =>
         $"{DetailViewName} - Span {spanIndex} - {SectionPrefix} {cutIndex}";
 
     // The discipline is compared by value: its display string is localized.

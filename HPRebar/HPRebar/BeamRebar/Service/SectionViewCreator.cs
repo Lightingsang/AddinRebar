@@ -103,8 +103,8 @@ public static class SectionViewCreator
         XYZ axisDir = stack.BeamDirection;
         XYZ sideDir = stack.TransverseDirection;
 
-        XYZ cutCenter = stack.OriginPoint 
-            + stationFt * axisDir 
+        XYZ cutCenter = stack.OriginPoint
+            + stationFt * axisDir
             + (RevitUnits.MmToFt(span.TopElevation) - heightFt * 0.5) * XYZ.BasisZ;
 
         var transform = Transform.Identity;

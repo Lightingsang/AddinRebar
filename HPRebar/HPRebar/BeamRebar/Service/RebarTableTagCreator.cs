@@ -58,8 +58,8 @@ public static class RebarTableTagCreator
     }
 
     private static IReadOnlyList<(string Label, string Value)> BuildRows(
-        BeamSpan span, 
-        int cutIndex, 
+        BeamSpan span,
+        int cutIndex,
         BeamRebarSpec spec)
     {
         var list = new List<(string, string)>();
@@ -144,8 +144,8 @@ public static class RebarTableTagCreator
         double offsetFt = RevitUnits.MmToFt(settings.TableOffset);
 
         // Position clear of right face of section, at top elevation of section
-        return view.Origin 
-            + (widthFt * 0.5 + offsetFt) * view.RightDirection 
+        return view.Origin
+            + (widthFt * 0.5 + offsetFt) * view.RightDirection
             + (heightFt * 0.5) * view.UpDirection;
     }
 }
