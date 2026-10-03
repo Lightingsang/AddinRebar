@@ -180,3 +180,9 @@
 - **Change:** the 246-line method with four copied layer loops → `Calculate` (validate, bounds, place each planned layer, summarise) + `PlanLayers` (layer heights and clamped hooks, in placing order) + `PlaceLayer` + `Summarise`; `BuildBarPolyline` 9 parameters / 3 bools → 5 (a `MeshLayer` record carries direction, height and a signed hook leg); magic `0.006165` → `BarKgPerMetrePerSquareMm`
 - **File:** 380 → 287 lines; no public signature changed
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 (4 characterization hashes identical) · **Golden run:** not needed for Core-only output proven identical; Revit side untouched
+
+### 2026-10-03 — Wave 2 · Beam · `BeamAdditionalBarCalculator.ComputeSupportTopBars` (AUD-022)
+- **Safety net first:** shared `HPRebar.Core.Tests/CharacterizationText` (reflection over every public property, numbers to 1e-6, SHA-256) + `BeamAdditionalBarCalculatorCharacterizationTests` (16d2d35): 5 stacks (single, two unequal, three, cantilever, variable depth), every branch (both layers, defaulted/explicit ratio, gap and exterior hook, an out-of-range support) — unchanged after
+- **Change:** 323 lines with six near-identical layer × position blocks → `ComputeSupportTopBars` (~25 lines) + `SupportTopNode.At` (the section a support's bars are set out in: start / end / interior) + `PlaceSupportTopLayer` (one layer, bar shape by `SupportEnd`) + `ExteriorHook`
+- **File:** 463 → 349 lines; public surface unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 975/975 (5 hashes identical)

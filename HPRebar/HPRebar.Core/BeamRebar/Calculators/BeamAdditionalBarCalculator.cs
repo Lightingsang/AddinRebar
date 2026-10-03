@@ -25,322 +25,208 @@ public static class BeamAdditionalBarCalculator
         double stirrupDiameterMm)
     {
         var result = new List<BarPolyline>();
-        int barId = 0;
 
         foreach (var config in spec.SupportTopBars)
         {
-            int sIdx = config.SupportIndex;
-            if (sIdx < 0 || sIdx >= stack.Supports.Count)
-                continue;
-
-            var support = stack.Supports[sIdx];
-            bool isExteriorStart = (sIdx == 0);
-            bool isExteriorEnd = (sIdx == stack.Supports.Count - 1);
-
-            // Exterior Support 0 (Left End)
-            if (isExteriorStart)
+            var node = SupportTopNode.At(stack, config.SupportIndex, stirrupDiameterMm);
+            if (node is null)
             {
-                if (stack.Spans.Count == 0) continue;
-                var span = stack.Spans[0];
-                double ln = span.LengthClear;
-                double zTop = span.TopElevation;
-                double cover = span.Cover;
-                double zBotFloor = span.BottomElevation + cover + stirrupDiameterMm;
-
-                // Layer 1
-                if (config.Layer1Count > 0)
-                {
-                    double r1 = config.Layer1ExtensionRatio > 0 ? config.Layer1ExtensionRatio : DefaultTopCutoffRatioLayer1;
-                    double xStart = support.LeftFaceX + cover;
-                    double xEnd = support.RightFaceX + (r1 * ln);
-                    double z1 = zTop - cover - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-                    double availDrop1 = Math.Max(0.0, z1 - zBotFloor);
-                    double hookLen1 = config.ExteriorHookLength > 0.0
-                        ? Math.Min(availDrop1, config.ExteriorHookLength)
-                        : Math.Min(availDrop1, BeamHookLength.Default(config.Layer1Diameter));
-
-                    var yPositions1 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                        span.Width, cover, stirrupDiameterMm, config.Layer1Diameter, config.Layer1Count);
-
-                    for (int i = 0; i < yPositions1.Count; i++)
-                    {
-                        double y = yPositions1[i];
-                        var pts = new List<Point3>
-                        {
-                            new(xStart, y, z1 - hookLen1),
-                            new(xStart, y, z1),
-                            new(xEnd, y, z1)
-                        };
-
-                        result.Add(new BarPolyline
-                        {
-                            BarIndex = barId++,
-                            Type = BarType.AdditionalTop,
-                            Diameter = config.Layer1Diameter,
-                            Layer = 1,
-                            HostSupportIndex = sIdx,
-                            HostSpanIndex = 0,
-                            Polyline = new Polyline3(pts),
-                            StartHookAngle = HookAngle.Hook90,
-                            EndHookAngle = HookAngle.None,
-                            StartHookLength = hookLen1,
-                            TransverseY = y,
-                            LeftExtension = support.Width,
-                            RightExtension = r1 * ln,
-                            BarTypeName = config.BarTypeName
-                        });
-                    }
-                }
-
-                // Layer 2
-                if (config.Layer2Count > 0)
-                {
-                    double r2 = config.Layer2ExtensionRatio > 0 ? config.Layer2ExtensionRatio : DefaultTopCutoffRatioLayer2;
-                    double xStart2 = support.LeftFaceX + cover;
-                    double xEnd2 = support.RightFaceX + (r2 * ln);
-
-                    double gap = config.LayerGap > 0 ? config.LayerGap : (config.Layer1Diameter + MinimumClearVerticalGapMm);
-                    double z1 = zTop - cover - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-                    double z2 = z1 - gap;
-
-                    double availDrop2 = Math.Max(0.0, z2 - zBotFloor);
-                    double hookLen2 = config.ExteriorHookLength > 0.0
-                        ? Math.Min(availDrop2, config.ExteriorHookLength)
-                        : Math.Min(availDrop2, BeamHookLength.Default(config.Layer2Diameter));
-
-                    var yPositions2 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                        span.Width, cover, stirrupDiameterMm, config.Layer2Diameter, config.Layer2Count);
-
-                    for (int i = 0; i < yPositions2.Count; i++)
-                    {
-                        double y = yPositions2[i];
-                        var pts = new List<Point3>
-                        {
-                            new(xStart2, y, z2 - hookLen2),
-                            new(xStart2, y, z2),
-                            new(xEnd2, y, z2)
-                        };
-
-                        result.Add(new BarPolyline
-                        {
-                            BarIndex = barId++,
-                            Type = BarType.AdditionalTop,
-                            Diameter = config.Layer2Diameter,
-                            Layer = 2,
-                            HostSupportIndex = sIdx,
-                            HostSpanIndex = 0,
-                            Polyline = new Polyline3(pts),
-                            StartHookAngle = HookAngle.Hook90,
-                            EndHookAngle = HookAngle.None,
-                            StartHookLength = hookLen2,
-                            TransverseY = y,
-                            LeftExtension = support.Width,
-                            RightExtension = r2 * ln,
-                            BarTypeName = config.BarTypeName
-                        });
-                    }
-                }
-
                 continue;
             }
 
-            // Exterior Support N (Right End)
-            if (isExteriorEnd)
-            {
-                if (stack.Spans.Count == 0) continue;
-                var span = stack.Spans[stack.Spans.Count - 1];
-                double ln = span.LengthClear;
-                double zTop = span.TopElevation;
-                double cover = span.Cover;
-                double zBotFloor = span.BottomElevation + cover + stirrupDiameterMm;
-
-                // Layer 1
-                if (config.Layer1Count > 0)
-                {
-                    double r1 = config.Layer1ExtensionRatio > 0 ? config.Layer1ExtensionRatio : DefaultTopCutoffRatioLayer1;
-                    double xStart = support.LeftFaceX - (r1 * ln);
-                    double xEnd = support.RightFaceX - cover;
-                    double z1 = zTop - cover - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-                    double availDrop1 = Math.Max(0.0, z1 - zBotFloor);
-                    double hookLen1 = config.ExteriorHookLength > 0.0
-                        ? Math.Min(availDrop1, config.ExteriorHookLength)
-                        : Math.Min(availDrop1, BeamHookLength.Default(config.Layer1Diameter));
-
-                    var yPositions1 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                        span.Width, cover, stirrupDiameterMm, config.Layer1Diameter, config.Layer1Count);
-
-                    for (int i = 0; i < yPositions1.Count; i++)
-                    {
-                        double y = yPositions1[i];
-                        var pts = new List<Point3>
-                        {
-                            new(xStart, y, z1),
-                            new(xEnd, y, z1),
-                            new(xEnd, y, z1 - hookLen1)
-                        };
-
-                        result.Add(new BarPolyline
-                        {
-                            BarIndex = barId++,
-                            Type = BarType.AdditionalTop,
-                            Diameter = config.Layer1Diameter,
-                            Layer = 1,
-                            HostSupportIndex = sIdx,
-                            HostSpanIndex = stack.Spans.Count - 1,
-                            Polyline = new Polyline3(pts),
-                            StartHookAngle = HookAngle.None,
-                            EndHookAngle = HookAngle.Hook90,
-                            EndHookLength = hookLen1,
-                            TransverseY = y,
-                            LeftExtension = r1 * ln,
-                            RightExtension = support.Width,
-                            BarTypeName = config.BarTypeName
-                        });
-                    }
-                }
-
-                // Layer 2
-                if (config.Layer2Count > 0)
-                {
-                    double r2 = config.Layer2ExtensionRatio > 0 ? config.Layer2ExtensionRatio : DefaultTopCutoffRatioLayer2;
-                    double xStart2 = support.LeftFaceX - (r2 * ln);
-                    double xEnd2 = support.RightFaceX - cover;
-
-                    double gap = config.LayerGap > 0 ? config.LayerGap : (config.Layer1Diameter + MinimumClearVerticalGapMm);
-                    double z1 = zTop - cover - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-                    double z2 = z1 - gap;
-
-                    double availDrop2 = Math.Max(0.0, z2 - zBotFloor);
-                    double hookLen2 = config.ExteriorHookLength > 0.0
-                        ? Math.Min(availDrop2, config.ExteriorHookLength)
-                        : Math.Min(availDrop2, BeamHookLength.Default(config.Layer2Diameter));
-
-                    var yPositions2 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                        span.Width, cover, stirrupDiameterMm, config.Layer2Diameter, config.Layer2Count);
-
-                    for (int i = 0; i < yPositions2.Count; i++)
-                    {
-                        double y = yPositions2[i];
-                        var pts = new List<Point3>
-                        {
-                            new(xStart2, y, z2),
-                            new(xEnd2, y, z2),
-                            new(xEnd2, y, z2 - hookLen2)
-                        };
-
-                        result.Add(new BarPolyline
-                        {
-                            BarIndex = barId++,
-                            Type = BarType.AdditionalTop,
-                            Diameter = config.Layer2Diameter,
-                            Layer = 2,
-                            HostSupportIndex = sIdx,
-                            HostSpanIndex = stack.Spans.Count - 1,
-                            Polyline = new Polyline3(pts),
-                            StartHookAngle = HookAngle.None,
-                            EndHookAngle = HookAngle.Hook90,
-                            EndHookLength = hookLen2,
-                            TransverseY = y,
-                            LeftExtension = r2 * ln,
-                            RightExtension = support.Width,
-                            BarTypeName = config.BarTypeName
-                        });
-                    }
-                }
-
-                continue;
-            }
-
-            // Intermediate Support Node (Centered between Span sIdx-1 and Span sIdx)
-            var leftSpan = stack.Spans[sIdx - 1];
-            var rightSpan = stack.Spans[sIdx];
-            double lnLeft = leftSpan.LengthClear;
-            double lnRight = rightSpan.LengthClear;
-            double zTopInter = Math.Min(leftSpan.TopElevation, rightSpan.TopElevation);
-            double coverInter = Math.Max(leftSpan.Cover, rightSpan.Cover);
-            double widthInter = Math.Min(leftSpan.Width, rightSpan.Width);
-
-            // Layer 1
             if (config.Layer1Count > 0)
             {
-                double r1 = config.Layer1ExtensionRatio > 0 ? config.Layer1ExtensionRatio : DefaultTopCutoffRatioLayer1;
-                double lExtLeft1 = r1 * lnLeft;
-                double lExtRight1 = r1 * lnRight;
-                double xStart1 = support.LeftFaceX - lExtLeft1;
-                double xEnd1 = support.RightFaceX + lExtRight1;
-                double z1 = zTopInter - coverInter - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-
-                var yPositions1 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                    widthInter, coverInter, stirrupDiameterMm, config.Layer1Diameter, config.Layer1Count);
-
-                for (int i = 0; i < yPositions1.Count; i++)
-                {
-                    double y = yPositions1[i];
-                    var pts = new List<Point3>
-                    {
-                        new(xStart1, y, z1),
-                        new(xEnd1, y, z1)
-                    };
-
-                    result.Add(new BarPolyline
-                    {
-                        BarIndex = barId++,
-                        Type = BarType.AdditionalTop,
-                        Diameter = config.Layer1Diameter,
-                        Layer = 1,
-                        HostSupportIndex = sIdx,
-                        Polyline = new Polyline3(pts),
-                        TransverseY = y,
-                        LeftExtension = lExtLeft1,
-                        RightExtension = lExtRight1,
-                        BarTypeName = config.BarTypeName
-                    });
-                }
+                result.AddRange(PlaceSupportTopLayer(node, config, layer: 1, stirrupDiameterMm, firstBarIndex: result.Count));
             }
 
-            // Layer 2
             if (config.Layer2Count > 0)
             {
-                double r2 = config.Layer2ExtensionRatio > 0 ? config.Layer2ExtensionRatio : DefaultTopCutoffRatioLayer2;
-                double lExtLeft2 = r2 * lnLeft;
-                double lExtRight2 = r2 * lnRight;
-                double xStart2 = support.LeftFaceX - lExtLeft2;
-                double xEnd2 = support.RightFaceX + lExtRight2;
-
-                double gap = config.LayerGap > 0 ? config.LayerGap : (config.Layer1Diameter + MinimumClearVerticalGapMm);
-                double z1 = zTopInter - coverInter - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
-                double z2 = z1 - gap;
-
-                var yPositions2 = BeamMainBarCalculator.ComputeTransverseYPositions(
-                    widthInter, coverInter, stirrupDiameterMm, config.Layer2Diameter, config.Layer2Count);
-
-                for (int i = 0; i < yPositions2.Count; i++)
-                {
-                    double y = yPositions2[i];
-                    var pts = new List<Point3>
-                    {
-                        new(xStart2, y, z2),
-                        new(xEnd2, y, z2)
-                    };
-
-                    result.Add(new BarPolyline
-                    {
-                        BarIndex = barId++,
-                        Type = BarType.AdditionalTop,
-                        Diameter = config.Layer2Diameter,
-                        Layer = 2,
-                        HostSupportIndex = sIdx,
-                        Polyline = new Polyline3(pts),
-                        TransverseY = y,
-                        LeftExtension = lExtLeft2,
-                        RightExtension = lExtRight2,
-                        BarTypeName = config.BarTypeName
-                    });
-                }
+                result.AddRange(PlaceSupportTopLayer(node, config, layer: 2, stirrupDiameterMm, firstBarIndex: result.Count));
             }
         }
 
         return result;
+    }
+
+    private enum SupportEnd
+    {
+        /// <summary>Support 0: the bar hooks down at the beam's start and runs into the first span.</summary>
+        Start,
+
+        /// <summary>Last support: the bar runs in from the last span and hooks down at the beam's end.</summary>
+        End,
+
+        /// <summary>Between two spans: a straight bar reaching into both.</summary>
+        Interior
+    }
+
+    /// <summary>
+    /// The section the top bars over one support are set out in: the adjacent span for an end support, the
+    /// shallower top, larger cover and narrower width of the two spans for an interior one.
+    /// </summary>
+    private sealed record SupportTopNode(
+        int SupportIndex,
+        BeamSupportNode Support,
+        SupportEnd End,
+        int HostSpanIndex,
+        double ZTop,
+        double Cover,
+        double Width,
+        double ClearLengthLeft,
+        double ClearLengthRight,
+        double ZHookFloor)
+    {
+        /// <summary>Null when the support index is out of range, or an end support has no span.</summary>
+        public static SupportTopNode? At(BeamContinuousStack stack, int supportIndex, double stirrupDiameterMm)
+        {
+            if (supportIndex < 0 || supportIndex >= stack.Supports.Count)
+            {
+                return null;
+            }
+
+            var support = stack.Supports[supportIndex];
+            bool isStart = supportIndex == 0;
+            bool isEnd = supportIndex == stack.Supports.Count - 1;
+
+            if (isStart || isEnd)
+            {
+                if (stack.Spans.Count == 0)
+                {
+                    return null;
+                }
+
+                int spanIndex = isStart ? 0 : stack.Spans.Count - 1;
+                var span = stack.Spans[spanIndex];
+                double ln = span.LengthClear;
+
+                return new SupportTopNode(
+                    supportIndex,
+                    support,
+                    isStart ? SupportEnd.Start : SupportEnd.End,
+                    spanIndex,
+                    span.TopElevation,
+                    span.Cover,
+                    span.Width,
+                    ClearLengthLeft: isStart ? 0.0 : ln,
+                    ClearLengthRight: isStart ? ln : 0.0,
+                    ZHookFloor: span.BottomElevation + span.Cover + stirrupDiameterMm);
+            }
+
+            var leftSpan = stack.Spans[supportIndex - 1];
+            var rightSpan = stack.Spans[supportIndex];
+
+            return new SupportTopNode(
+                supportIndex,
+                support,
+                SupportEnd.Interior,
+                HostSpanIndex: -1,
+                Math.Min(leftSpan.TopElevation, rightSpan.TopElevation),
+                Math.Max(leftSpan.Cover, rightSpan.Cover),
+                Math.Min(leftSpan.Width, rightSpan.Width),
+                leftSpan.LengthClear,
+                rightSpan.LengthClear,
+                ZHookFloor: 0.0);
+        }
+    }
+
+    /// <summary>
+    /// One layer of top bars over a support. Layer 2 sits one layer gap below layer 1; an end support's bars
+    /// hook down, the hook cut so it stops above the bottom cover and stirrup.
+    /// </summary>
+    private static IEnumerable<BarPolyline> PlaceSupportTopLayer(
+        SupportTopNode node,
+        SupportAdditionalTopBarConfig config,
+        int layer,
+        double stirrupDiameterMm,
+        int firstBarIndex)
+    {
+        int count = layer == 1 ? config.Layer1Count : config.Layer2Count;
+        double diameter = layer == 1 ? config.Layer1Diameter : config.Layer2Diameter;
+        double ratio = layer == 1
+            ? (config.Layer1ExtensionRatio > 0 ? config.Layer1ExtensionRatio : DefaultTopCutoffRatioLayer1)
+            : (config.Layer2ExtensionRatio > 0 ? config.Layer2ExtensionRatio : DefaultTopCutoffRatioLayer2);
+
+        double z = node.ZTop - node.Cover - stirrupDiameterMm - (config.Layer1Diameter / 2.0);
+        if (layer == 2)
+        {
+            z -= config.LayerGap > 0 ? config.LayerGap : (config.Layer1Diameter + MinimumClearVerticalGapMm);
+        }
+
+        var support = node.Support;
+        double extensionLeft = ratio * node.ClearLengthLeft;
+        double extensionRight = ratio * node.ClearLengthRight;
+        double hook = node.End == SupportEnd.Interior ? 0.0 : ExteriorHook(node, config, diameter, z);
+
+        var yPositions = BeamMainBarCalculator.ComputeTransverseYPositions(
+            node.Width, node.Cover, stirrupDiameterMm, diameter, count);
+
+        for (int i = 0; i < yPositions.Count; i++)
+        {
+            double y = yPositions[i];
+            var bar = new BarPolyline
+            {
+                BarIndex = firstBarIndex + i,
+                Type = BarType.AdditionalTop,
+                Diameter = diameter,
+                Layer = layer,
+                HostSupportIndex = node.SupportIndex,
+                TransverseY = y,
+                BarTypeName = config.BarTypeName
+            };
+
+            yield return node.End switch
+            {
+                SupportEnd.Start => bar with
+                {
+                    HostSpanIndex = node.HostSpanIndex,
+                    Polyline = new Polyline3(new List<Point3>
+                    {
+                        new(support.LeftFaceX + node.Cover, y, z - hook),
+                        new(support.LeftFaceX + node.Cover, y, z),
+                        new(support.RightFaceX + extensionRight, y, z)
+                    }),
+                    StartHookAngle = HookAngle.Hook90,
+                    EndHookAngle = HookAngle.None,
+                    StartHookLength = hook,
+                    LeftExtension = support.Width,
+                    RightExtension = extensionRight
+                },
+                SupportEnd.End => bar with
+                {
+                    HostSpanIndex = node.HostSpanIndex,
+                    Polyline = new Polyline3(new List<Point3>
+                    {
+                        new(support.LeftFaceX - extensionLeft, y, z),
+                        new(support.RightFaceX - node.Cover, y, z),
+                        new(support.RightFaceX - node.Cover, y, z - hook)
+                    }),
+                    StartHookAngle = HookAngle.None,
+                    EndHookAngle = HookAngle.Hook90,
+                    EndHookLength = hook,
+                    LeftExtension = extensionLeft,
+                    RightExtension = support.Width
+                },
+                _ => bar with
+                {
+                    Polyline = new Polyline3(new List<Point3>
+                    {
+                        new(support.LeftFaceX - extensionLeft, y, z),
+                        new(support.RightFaceX + extensionRight, y, z)
+                    }),
+                    LeftExtension = extensionLeft,
+                    RightExtension = extensionRight
+                }
+            };
+        }
+    }
+
+    /// <summary>The exterior hook: the configured length, or the default leg, cut to the room above the bottom cover.</summary>
+    private static double ExteriorHook(SupportTopNode node, SupportAdditionalTopBarConfig config, double diameter, double z)
+    {
+        double availableDrop = Math.Max(0.0, z - node.ZHookFloor);
+        return config.ExteriorHookLength > 0.0
+            ? Math.Min(availableDrop, config.ExteriorHookLength)
+            : Math.Min(availableDrop, BeamHookLength.Default(diameter));
     }
 
     /// <summary>
