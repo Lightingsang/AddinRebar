@@ -39,19 +39,11 @@ public sealed partial class BarsDivisionTabViewModel : ColumnRebarTabViewModel
             if (!column.IsLayoutValid || column.Splices.Count < layout.BarCount) continue;
 
             var above = i + 1 < Session.Columns.Count ? Session.Columns[i + 1] : null;
-            var bars = BarLayoutCalculator.Compute(column.Section, layout);
             var splices = column.Splices.Take(layout.BarCount).Select(splice => splice.ToSpec()).ToList();
 
-            var upper = SpliceCalculator.ComputeUpperPositions(
-                above?.Section, layout,
-                column.StirrupBarType.DiameterMm,
-                (above ?? column).StirrupBarType.DiameterMm,
-                bars, splices);
-
-            var polylines = bars
-                .Select((bar, b) => BarPolylineBuilder.Build(
-                    column.Section, layout, bar, splices[b], upper[b], column.MainBarType.Name))
-                .ToList();
+            var polylines = ColumnBarPolylines.Compute(
+                column.Section, layout, splices, above?.Section,
+                column.StirrupBarType.DiameterMm, (above ?? column).StirrupBarType.DiameterMm, column.MainBarType.Name);
 
             rows.AddRange(BarScheduleCalculator.Group(polylines, Session.IdenticalColumns));
         }

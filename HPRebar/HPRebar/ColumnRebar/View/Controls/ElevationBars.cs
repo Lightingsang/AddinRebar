@@ -18,37 +18,16 @@ internal static class ElevationBars
 
         if (layout.BarDiameter <= 0 || column.Splices.Count < layout.BarCount) return new List<BarPolyline>();
 
-        IReadOnlyList<BarPosition> bars;
+        // Bar counts mid-edit (a cleared text box) are not a layout; nothing to draw until they are valid again.
+        if (!column.IsLayoutValid) return new List<BarPolyline>();
 
-        try
-        {
-            bars = BarLayoutCalculator.Compute(column.Section, layout);
-        }
-        catch (System.ArgumentOutOfRangeException)
-        {
-            // Bar counts mid-edit, e.g. a cleared text box. Nothing to draw until they are valid again.
-            return new List<BarPolyline>();
-        }
+        var splices = new List<SpliceSpec>(layout.BarCount);
 
-        var splices = new List<SpliceSpec>(bars.Count);
+        for (var i = 0; i < layout.BarCount; i++) splices.Add(column.Splices[i].ToSpec());
 
-        for (var i = 0; i < bars.Count; i++) splices.Add(column.Splices[i].ToSpec());
-
-        var upper = SpliceCalculator.ComputeUpperPositions(
-            above?.Section,
-            layout,
+        return ColumnBarPolylines.Compute(
+            column.Section, layout, splices, above?.Section,
             column.StirrupBarType?.DiameterMm ?? 0,
-            (above ?? column).StirrupBarType?.DiameterMm ?? 0,
-            bars,
-            splices);
-
-        var polylines = new List<BarPolyline>(bars.Count);
-
-        for (var i = 0; i < bars.Count; i++)
-        {
-            polylines.Add(BarPolylineBuilder.Build(column.Section, layout, bars[i], splices[i], upper[i]));
-        }
-
-        return polylines;
+            (above ?? column).StirrupBarType?.DiameterMm ?? 0);
     }
 }

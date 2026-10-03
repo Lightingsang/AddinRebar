@@ -48,13 +48,8 @@ public static class RebarCreationService
 
         for (var i = 0; i < stack.Sections.Count; i++)
         {
-            var section = stack.Sections[i];
             var spec = specs[i];
-            var runs = RunsFor(section, spec);
-
-            total += runs.Count;
-            total += CrossTieCount(section, spec, runs.Count);
-            total += spec.Layout.BarCount;
+            total += ColumnElementCount.Planned(stack.Sections[i], spec.Stirrups, spec.Ties, spec.Layout.BarCount);
         }
 
         return total;
@@ -83,7 +78,7 @@ public static class RebarCreationService
                 var section = stack.Sections[i];
                 var spec = specs[i];
                 var faces = stack.Faces[i];
-                var runs = RunsFor(section, spec);
+                var runs = StirrupDistributionCalculator.ComputeRuns(section, spec.Stirrups);
 
                 stirrups.AddRange(StirrupCreator.Create(
                     document, faces, section,
@@ -145,51 +140,15 @@ public static class RebarCreationService
             var above = i + 1 < stack.Sections.Count ? stack.Sections[i + 1] : null;
             var stirrupAbove = above is null ? spec.StirrupBarType : specs[i + 1].StirrupBarType;
 
-            var bars = BarLayoutCalculator.Compute(section, spec.Layout);
+            var polylines = ColumnBarPolylines.Compute(
+                section, spec.Layout, spec.Splices, above,
+                spec.StirrupBarType.DiameterMm, stirrupAbove.DiameterMm, spec.MainBarType.Name);
 
-            var upperPositions = SpliceCalculator.ComputeUpperPositions(
-                above, spec.Layout,
-                spec.StirrupBarType.DiameterMm,
-                stirrupAbove.DiameterMm,
-                bars, spec.Splices);
-
-            for (var b = 0; b < bars.Count; b++)
+            foreach (var polyline in polylines)
             {
-                yield return new HostedBar(
-                    stack.Faces[i].Element,
-                    spec.MainBarType.BarType,
-                    BarPolylineBuilder.Build(section, spec.Layout, bars[b], spec.Splices[b], upperPositions[b], spec.MainBarType.Name),
-                    spec.PartitionName);
+                yield return new HostedBar(stack.Faces[i].Element, spec.MainBarType.BarType, polyline, spec.PartitionName);
             }
         }
-    }
-
-    private static IReadOnlyList<StirrupRun> RunsFor(ColumnSection section, ColumnRebarSpec spec)
-    {
-        var length = StirrupDistributionCalculator.ComputeRunLength(section, spec.Stirrups.IsTiesUp);
-
-        return StirrupDistributionCalculator.Compute(length, spec.Stirrups);
-    }
-
-    private static int CrossTieCount(ColumnSection section, ColumnRebarSpec spec, int runCount)
-    {
-        var tie = spec.Ties;
-        var count = 0;
-
-        if (section.Shape == SectionShape.Rectangle)
-        {
-            if (tie.AddH) count += tie.TypeH == 0 ? tie.AH == 0 ? 0 : runCount : tie.NH * runCount;
-            if (tie.AddV) count += tie.TypeV == 0 ? tie.AV == 0 ? 0 : runCount : tie.NV * runCount;
-        }
-        else
-        {
-            if (tie.AddH) count += runCount;
-
-            // The circular cross-tie places a pair, one on each axis.
-            if (tie.AddV) count += 2 * runCount;
-        }
-
-        return count;
     }
 
     private readonly struct HostedBar

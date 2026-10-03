@@ -220,3 +220,10 @@
 - **Tests:** 18 new `ColumnSpecRulesTests` (every rule and message, both shapes, both distribution types); the rules had no test before (add-in assembly)
 - **File:** `ColumnSpecEditor` 315 → 233 lines
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1020/1020 · **Golden run:** not needed (validation only; messages identical)
+
+### 2026-10-04 — Wave 3 · Column · one bar pipeline, element count in Core (AUD-007, AUD-018 Column part)
+- **AUD-007:** new `HPRebar.Core/ColumnRebar/ColumnBarPolylines.Compute` (layout → upper splice positions → bar polylines) replaces the three hand-assembled copies in `RebarCreationService.BuildPolylines`, `BarsDivisionTabViewModel.Refresh` (schedule) and `ElevationBars.For` (preview); each caller keeps its own inputs (tie diameters as before, the preview's empty type name); the preview's `catch (ArgumentOutOfRangeException)` around the layout became an `IsLayoutValid` check — the calculator throws on exactly those conditions
+- **Counts:** `ColumnElementCount.Planned/CrossTies` and `StirrupDistributionCalculator.ComputeRuns` in Core replace the service's private `RunsFor`/`CrossTieCount`
+- **Behaviour:** none intended; the service now builds one segment's polylines before yielding them (was bar by bar) — only the moment an unexpected exception surfaces changes, and the transaction group rolls back either way
+- **Tests:** `ColumnElementCountTests` (8), `ColumnBarPolylinesTests` (pipeline equals the three steps by hash)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1029/1029 · **Golden run:** CHƯA TEST (touches the creation service)
