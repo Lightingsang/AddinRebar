@@ -41,12 +41,17 @@ public sealed class BeamRebarOrchestrator
     {
     }
 
-    public int PlannedCount(BeamRebarSpec spec) =>
-        1                                                       // Elevation detail view
-        + _stack.Spans.Count * _settings.SectionsPerSpan        // Cross section views
-        + DimensionCreator.PlannedCount(_stack.ContinuousStack) // Dimensions
-        + _stack.Spans.Count * _settings.SectionsPerSpan        // Bar tables
-        + RebarCreationService.PlannedCount(_stack, spec);      // Rebar elements
+    public int PlannedCount(BeamRebarSpec spec)
+    {
+        var views = spec.Views;
+        int sections = views.CreateSectionViews ? _stack.Spans.Count * views.SectionsPerSpan : 0;
+
+        return (views.CreateElevationView ? 1 : 0)
+               + sections
+               + (views.CreateDimensions ? DimensionCreator.PlannedCount(_stack.ContinuousStack) : 0)
+               + (views.CreateTables ? sections : 0)
+               + RebarCreationService.PlannedCount(_stack, spec);
+    }
 
     public BeamOrchestratorResult Run(BeamRebarSpec spec, IProgress<int>? progress = null)
     {
@@ -62,12 +67,17 @@ public sealed class BeamRebarOrchestrator
         try
         {
             int done = 0;
+            var options = spec.Views;
+            var settings = _settings.ForRun(options);
 
             // 1. Create Views
-            var views = CreateViews(progress, ref done);
+            var views = CreateViews(options, settings, progress, ref done);
 
             // 2. Create Dimensions
-            CreateDimensions(views, progress, ref done);
+            if (options.CreateDimensions)
+            {
+                CreateDimensions(views, settings, progress, ref done);
+            }
 
             // 3. Create Reinforcement Elements
             var rebar = RebarCreationService.Create(
@@ -77,7 +87,10 @@ public sealed class BeamRebarOrchestrator
             done += rebar.Total;
 
             // 4. Create Schedule Tables
-            CreateTables(views, spec, progress, ref done);
+            if (options.CreateTables)
+            {
+                CreateTables(views, spec, settings, progress, ref done);
+            }
 
             group.Assimilate();
 
@@ -94,24 +107,30 @@ public sealed class BeamRebarOrchestrator
         }
     }
 
-    private CreatedBeamViews CreateViews(IProgress<int>? progress, ref int done)
+    private CreatedBeamViews CreateViews(
+        BeamViewOptions options,
+        BeamAnnotationSettings settings,
+        IProgress<int>? progress,
+        ref int done)
     {
         ViewSection? detailView = null;
-        using (var t = new Transaction(_document, "Create Detail View"))
+        if (options.CreateElevationView)
         {
+            using var t = new Transaction(_document, "Create Detail View");
             t.Start();
             RebarFailureHandling.Apply(t);
-            detailView = DetailViewCreator.Create(_document, _stack, _settings);
+            detailView = DetailViewCreator.Create(_document, _stack, settings);
             t.Commit();
+            progress?.Report(++done);
         }
-        progress?.Report(++done);
 
-        IReadOnlyList<ViewSection> sectionViews;
-        using (var t = new Transaction(_document, "Create Section Views"))
+        IReadOnlyList<ViewSection> sectionViews = Array.Empty<ViewSection>();
+        if (options.CreateSectionViews)
         {
+            using var t = new Transaction(_document, "Create Section Views");
             t.Start();
             RebarFailureHandling.Apply(t);
-            sectionViews = SectionViewCreator.Create(_document, _stack, _settings);
+            sectionViews = SectionViewCreator.Create(_document, _stack, settings);
             t.Commit();
         }
         done += sectionViews.Count;
@@ -120,14 +139,14 @@ public sealed class BeamRebarOrchestrator
         return new CreatedBeamViews { DetailView = detailView, SectionViews = sectionViews };
     }
 
-    private void CreateDimensions(CreatedBeamViews views, IProgress<int>? progress, ref int done)
+    private void CreateDimensions(CreatedBeamViews views, BeamAnnotationSettings settings, IProgress<int>? progress, ref int done)
     {
         if (views.DetailView is not null)
         {
             using var t = new Transaction(_document, "Create Elevation Dimensions");
             t.Start();
             RebarFailureHandling.Apply(t);
-            done += DimensionCreator.CreateOnElevation(_document, views.DetailView, _stack, _settings);
+            done += DimensionCreator.CreateOnElevation(_document, views.DetailView, _stack, settings);
             t.Commit();
             progress?.Report(done);
         }
@@ -140,11 +159,11 @@ public sealed class BeamRebarOrchestrator
             for (int spanIdx = 0; spanIdx < _stack.Spans.Count && spanIdx < _stack.Faces.Count; spanIdx++)
             {
                 var span = _stack.Spans[spanIdx];
-                int cutCount = SectionViewCreator.ComputeCutStations(span, _settings.SectionsPerSpan).Count;
+                int cutCount = SectionViewCreator.ComputeCutStations(span, settings.SectionsPerSpan).Count;
                 for (int cut = 0; cut < cutCount && viewIdx < views.SectionViews.Count; cut++)
                 {
                     done += DimensionCreator.CreateOnSection(
-                        _document, views.SectionViews[viewIdx], _stack.Faces[spanIdx], span, _settings);
+                        _document, views.SectionViews[viewIdx], _stack.Faces[spanIdx], span, settings);
                     viewIdx++;
                 }
             }
@@ -153,7 +172,12 @@ public sealed class BeamRebarOrchestrator
         progress?.Report(done);
     }
 
-    private void CreateTables(CreatedBeamViews views, BeamRebarSpec spec, IProgress<int>? progress, ref int done)
+    private void CreateTables(
+        CreatedBeamViews views,
+        BeamRebarSpec spec,
+        BeamAnnotationSettings settings,
+        IProgress<int>? progress,
+        ref int done)
     {
         using var t = new Transaction(_document, "Create Beam Tables");
         t.Start();
@@ -163,11 +187,11 @@ public sealed class BeamRebarOrchestrator
         for (int spanIndex = 0; spanIndex < _stack.Spans.Count; spanIndex++)
         {
             var span = _stack.Spans[spanIndex];
-            int cutCount = SectionViewCreator.ComputeCutStations(span, _settings.SectionsPerSpan).Count;
+            int cutCount = SectionViewCreator.ComputeCutStations(span, settings.SectionsPerSpan).Count;
             for (int cutIndex = 0; cutIndex < cutCount && viewIndex < views.SectionViews.Count; cutIndex++)
             {
                 RebarTableTagCreator.Create(
-                    _document, views.SectionViews[viewIndex], span, spanIndex, cutIndex, spec, _settings);
+                    _document, views.SectionViews[viewIndex], span, spanIndex, cutIndex, spec, settings);
                 viewIndex++;
                 done++;
             }

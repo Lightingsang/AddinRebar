@@ -24,7 +24,25 @@ public sealed class BeamAnnotationSettings
 
     public string DetailViewName { get; set; } = "Beam Detail";
     public string SectionPrefix { get; set; } = "Sec";
-    public int SectionsPerSpan { get; set; } = 3; // 2 or 3 sections per span
+    public int SectionsPerSpan { get; set; } = BeamViewOptions.Default.SectionsPerSpan;
+    public int ElevationScale { get; set; } = BeamViewOptions.Default.ElevationScale;
+
+    /// <summary>A copy for one run: the document types found when the tool opened, the names and counts of the Views tab.</summary>
+    public BeamAnnotationSettings ForRun(BeamViewOptions views) => new()
+    {
+        DetailTemplate = DetailTemplate,
+        SectionTemplate = SectionTemplate,
+        DimensionType = DimensionType,
+        TextNoteType = TextNoteType,
+        DimensionOffsetH = DimensionOffsetH,
+        DimensionOffsetV = DimensionOffsetV,
+        TableOffset = TableOffset,
+        ViewMargin = ViewMargin,
+        DetailViewName = views.DetailViewName,
+        SectionPrefix = views.SectionPrefix,
+        SectionsPerSpan = views.SectionsPerSpan,
+        ElevationScale = views.ElevationScale
+    };
 
     public static BeamAnnotationSettings Load(Document document, BeamContinuousStack stack)
     {
@@ -63,8 +81,7 @@ public sealed class BeamAnnotationSettings
             DimensionOffsetH = maxSizeMm * 0.5,
             DimensionOffsetV = maxSizeMm * 0.5,
             TableOffset = maxSizeMm * 0.5,
-            ViewMargin = maxSizeMm * 0.8,
-            SectionsPerSpan = 3
+            ViewMargin = maxSizeMm * 0.8
         };
     }
 

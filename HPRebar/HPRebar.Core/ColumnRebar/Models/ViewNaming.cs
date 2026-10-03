@@ -1,3 +1,5 @@
+using HPRebar.Core.Shared;
+
 namespace HPRebar.Core.ColumnRebar.Models;
 
 /// <summary>
@@ -6,9 +8,6 @@ namespace HPRebar.Core.ColumnRebar.Models;
 /// </summary>
 public sealed record ViewNaming(string DetailViewName, string SectionSuffix)
 {
-    /// <summary>Characters Revit refuses in a view name.</summary>
-    public const string ForbiddenCharacters = "\\:{}[]|;<>?`~";
-
     public static ViewNaming Default { get; } = new("Detail", "MC");
 
     /// <summary>The names the user typed, trimmed; a blank entry keeps its default.</summary>
@@ -21,17 +20,6 @@ public sealed record ViewNaming(string DetailViewName, string SectionSuffix)
     public string SectionName(int columnNumber) => $"{DetailViewName} {columnNumber} {SectionSuffix}";
 
     /// <summary>The first character of either name that Revit would refuse, when there is one.</summary>
-    public bool TryFindForbiddenCharacter(out char character)
-    {
-        foreach (var candidate in DetailViewName + SectionSuffix)
-        {
-            if (ForbiddenCharacters.IndexOf(candidate) < 0) continue;
-
-            character = candidate;
-            return true;
-        }
-
-        character = default;
-        return false;
-    }
+    public bool TryFindForbiddenCharacter(out char character) =>
+        RevitViewNames.TryFindForbiddenCharacter(DetailViewName + SectionSuffix, out character);
 }

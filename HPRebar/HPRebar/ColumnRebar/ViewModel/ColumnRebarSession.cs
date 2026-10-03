@@ -4,6 +4,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.ColumnRebar.Model;
 using HPRebar.Core.ColumnRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.ColumnRebar.ViewModel;
 
@@ -72,7 +73,7 @@ public sealed partial class ColumnRebarSession : ObservableObject
     {
         if (ToViewNaming().TryFindForbiddenCharacter(out var character))
         {
-            reason = $"View names cannot contain '{character}' (Revit refuses {ViewNaming.ForbiddenCharacters}).";
+            reason = $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";
 
             return false;
         }

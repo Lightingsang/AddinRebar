@@ -6,6 +6,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.BeamRebar.Model;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.BeamRebar.ViewModel;
 
@@ -175,7 +176,7 @@ public sealed partial class BeamRebarSession : ObservableObject
     [ObservableProperty] private string _detailViewName = "Beam Detail";
     [ObservableProperty] private int _elevationScale = 50;
     [ObservableProperty] private bool _createSectionViews = true;
-    [ObservableProperty] private int _sectionsPerSpan = 2;
+    [ObservableProperty] private int _sectionsPerSpan = BeamViewOptions.Default.SectionsPerSpan;
     [ObservableProperty] private string _sectionPrefix = "Sec";
     [ObservableProperty] private bool _createDimensions = true;
     [ObservableProperty] private bool _createTags = true;
@@ -419,6 +420,12 @@ public sealed partial class BeamRebarSession : ObservableObject
             return false;
         }
 
+        if (RevitViewNames.TryFindForbiddenCharacter(DetailViewName + SectionPrefix, out var character))
+        {
+            errorMessage = $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";
+            return false;
+        }
+
         foreach (var span in Stack.Spans)
         {
             if (span.Width <= minRequired)
@@ -530,7 +537,24 @@ public sealed partial class BeamRebarSession : ObservableObject
             AddBottomBarType = SpanBottomBars.FirstOrDefault()?.BarType ?? BottomBarType,
             SideBarType = SideBarType,
             TieBarType = CrossTieBarType,
-            PartitionName = PartitionName
+            PartitionName = PartitionName,
+            Views = ToViewOptions()
+        };
+    }
+
+    private BeamViewOptions ToViewOptions()
+    {
+        var defaults = BeamViewOptions.Default;
+        return new BeamViewOptions
+        {
+            CreateElevationView = CreateElevationView,
+            DetailViewName = string.IsNullOrWhiteSpace(DetailViewName) ? defaults.DetailViewName : DetailViewName.Trim(),
+            ElevationScale = ElevationScale,
+            CreateSectionViews = CreateSectionViews,
+            SectionsPerSpan = SectionsPerSpan,
+            SectionPrefix = string.IsNullOrWhiteSpace(SectionPrefix) ? defaults.SectionPrefix : SectionPrefix.Trim(),
+            CreateDimensions = CreateDimensions,
+            CreateTables = CreateTags
         };
     }
 }

@@ -93,6 +93,8 @@ public static class DetailViewCreator
             view.ViewTemplateId = settings.DetailTemplate.Id;
         }
 
+        ApplyScale(document, view, settings.ElevationScale);
+
         return view;
     }
 
@@ -115,5 +117,23 @@ public static class DetailViewCreator
                 Log.Warning(ex, "Could not name view {Fallback}; retaining default Revit name {Default}", fallback, view.Name);
             }
         }
+    }
+
+    /// <summary>
+    /// Sets the scale typed on the Views tab, unless the view template controls the scale: the template
+    /// is the office standard, so it wins and the run only logs that the tab's value was not used.
+    /// </summary>
+    private static void ApplyScale(Document document, ViewSection view, int scale)
+    {
+        if (scale <= 0) return;
+
+        if (document.GetElement(view.ViewTemplateId) is RevitView template
+            && !template.GetNonControlledTemplateParameterIds().Contains(new ElementId(BuiltInParameter.VIEW_SCALE)))
+        {
+            Log.Information("View template {Template} controls the scale; elevation scale 1:{Scale} not applied", template.Name, scale);
+            return;
+        }
+
+        view.Scale = scale;
     }
 }

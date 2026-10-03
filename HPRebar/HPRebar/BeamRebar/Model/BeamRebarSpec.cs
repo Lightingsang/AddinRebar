@@ -45,6 +45,9 @@ public sealed record BeamRebarSpec
     /// <summary>Value written to the Revit rebar 'Partition' parameter for schedule grouping.</summary>
     public string PartitionName { get; init; } = "Beam";
 
+    /// <summary>Views, dimensions and tables drawn besides the reinforcement.</summary>
+    public BeamViewOptions Views { get; init; } = BeamViewOptions.Default;
+
     /// <summary>Convenience access to additional top bar configs.</summary>
     public IReadOnlyList<SupportAdditionalTopBarConfig> AdditionalTopBars => AdditionalBars.SupportTopBars;
 
