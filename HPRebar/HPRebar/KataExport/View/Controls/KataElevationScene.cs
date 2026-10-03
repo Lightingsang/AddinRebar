@@ -4,9 +4,9 @@ using HPRebar.Core.KataExport.Models;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Where everything goes on the canvas for one paint. The beam band is placed by the viewport (zoom and pan in both
-/// directions); the rows of labels above it (grid bubbles) and below it (letters, dimension chains, captions) keep
-/// fixed pixel distances from the band, so they move with the drawing like annotations in CAD and never scale.
+/// Where everything goes on the canvas for one paint. The beam band is placed by the viewport (one scale both ways,
+/// as in AutoCAD); the bar tags next to it are drawn in millimetres and scale with it; the rows of labels above
+/// (letters, dimension chain) and below (dimension chains, grid bubbles) keep fixed pixel sizes, outside the tags.
 /// </summary>
 internal sealed class KataElevationScene
 {
@@ -15,35 +15,37 @@ internal sealed class KataElevationScene
     public const double LowerStubPx = 28.0;
     public const double FootingPx = 26.0;
 
-    /// <summary>Margin above the beam band: upper column stubs, top dim chain, column letters, grid line top, bar tags.</summary>
+    /// <summary>Margin above the beam band (bar tags excluded): upper column stubs, top dim chain, column letters, grid line top.</summary>
     public const double AbovePx = 142.0;
 
-    /// <summary>Margin below the band bottom: lower column stubs, 2 dim chains, grid bubbles, one row of bar tags.</summary>
+    /// <summary>Margin below the band bottom (bar tags excluded): lower column stubs, 2 dim chains, grid bubbles.</summary>
     public const double BelowPx = 150.0;
 
-    /// <summary>The deepest beam is never drawn shallower than this, however long the run.</summary>
-    private const double MinBeamPx = 60.0;
-
-    public KataElevationScene(KataElevation elevation, KataElevationViewport viewport, double widthPx, double heightPx, int selectedColumn)
+    /// <param name="tagsAbovePx">Room the bar tags take over the beam at this zoom (0 when they are hidden).</param>
+    /// <param name="tagsBelowPx">Room they take under it.</param>
+    public KataElevationScene(KataElevation elevation, KataElevationViewport viewport, double widthPx, double heightPx, int selectedColumn,
+        double tagsAbovePx = 0.0, double tagsBelowPx = 0.0)
     {
         Elevation = elevation;
         Viewport = viewport;
         Width = widthPx;
+        TagsBelowPx = tagsBelowPx;
         Height = heightPx;
         SelectedColumn = selectedColumn;
 
         BandBottomY = Y(elevation.BottomMm);
 
         // Above the beam band:
-        TopChainY = BandTopY - UpperStubPx - 20.0;
+        TopChainY = BandTopY - System.Math.Max(UpperStubPx, tagsAbovePx) - 20.0;
         LetterY = TopChainY - 35.0;
         CaptionY = BandTopY - 10.0;
         GridLineTopY = TopChainY;
         SelectionTopY = LetterY - 2.0;
 
         // Below the beam band:
+        double below = System.Math.Max(LowerStubPx, tagsBelowPx);
         MarkerTextY = BandBottomY + LowerStubPx + 4.0;
-        ChainY = BandBottomY + LowerStubPx + 22.0;
+        ChainY = BandBottomY + below + 22.0;
         GridChainY = ChainY + 22.0;
         BubbleY = GridChainY + 28.0;
         GridLineBottomY = BubbleY + BubbleRadius + 8.0;
@@ -52,6 +54,9 @@ internal sealed class KataElevationScene
     public KataElevation Elevation { get; }
     public KataElevationViewport Viewport { get; }
     public double Width { get; }
+
+    /// <summary>Room the bar tags take under the beam band at this zoom.</summary>
+    public double TagsBelowPx { get; }
     public double Height { get; }
     public int SelectedColumn { get; }
 
@@ -70,9 +75,6 @@ internal sealed class KataElevationScene
     public double CaptionY { get; }
     public double GridLineTopY { get; }
     public double GridLineBottomY { get; }
-
-    /// <summary>Vertical scale that makes the deepest beam <see cref="MinBeamPx"/> tall when the run is zoomed out.</summary>
-    public static double MinVerticalScale(KataElevation elevation) => MinBeamPx / System.Math.Max(1.0, elevation.MaxBeamHeightMm);
 
     public double X(double station) => Viewport.ToScreen(station);
 

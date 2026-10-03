@@ -7,14 +7,15 @@ using Point = System.Windows.Point;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Mouse handling, as in Revit and AutoCAD: the wheel zooms around the cursor, the middle button drags the view
-/// (Shift + left button on a touchpad), a left click selects a column, a double click frames the whole run.
+/// Mouse handling as in AutoCAD: the wheel zooms around the cursor, holding the middle button pans (hand cursor),
+/// a middle double click is Zoom Extents; a left click selects a column.
 /// </summary>
 public sealed partial class KataElevationCanvas
 {
     private const double ZeroWidthReachPx = 7.0;
     private const double DragThresholdPx = 4.0;
-    private const double WheelStep = 1.2;
+    /// <summary>Zoom per wheel notch (AutoCAD's ZOOMFACTOR 60).</summary>
+    private const double WheelStep = 1.25;
 
     private MouseButton? _pressButton;
     private Point _pressAt;
@@ -42,7 +43,7 @@ public sealed partial class KataElevationCanvas
         if (e.ChangedButton is not (MouseButton.Left or MouseButton.Middle)) return;
 
         Focus();
-        if (e.ClickCount == 2)
+        if (e.ChangedButton == MouseButton.Middle && e.ClickCount == 2)
         {
             EndPress();
             FrameAll();
@@ -53,8 +54,9 @@ public sealed partial class KataElevationCanvas
         _pressButton = e.ChangedButton;
         _pressAt = _lastDrag = e.GetPosition(this);
         _moved = false;
-        // The middle button always pans; the left button pans only with Shift, otherwise it selects on release.
-        _panning = e.ChangedButton == MouseButton.Middle || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+        // The middle button pans; the left button selects on release.
+        _panning = e.ChangedButton == MouseButton.Middle;
+        if (_panning) Cursor = Cursors.Hand;
         CaptureMouse();
         e.Handled = true;
     }
@@ -75,7 +77,6 @@ public sealed partial class KataElevationCanvas
         _moved = true;
         if (!_panning) return;
 
-        Cursor = Cursors.SizeAll;
         _viewport = viewport.PanBy(at.X - _lastDrag.X, at.Y - _lastDrag.Y);
         _lastDrag = at;
         _userFramed = true;

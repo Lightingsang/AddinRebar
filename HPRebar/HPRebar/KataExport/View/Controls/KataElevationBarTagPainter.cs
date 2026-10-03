@@ -1,6 +1,6 @@
 using System;
+using System.Globalization;
 using System.Linq;
-using System.Windows.Media;
 using HPRebar.Core.KataExport.Models;
 using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
@@ -8,100 +8,123 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Kata's bar tags on the elevation (<see cref="KataBarTagBuilder"/>): a thin leader from the bar to a row of tags at
-/// the top edge of the drawing (top bars) or at its bottom edge (bottom and side bars), each tag the bar numbers in
-/// circles joined by "+" and the bar text. Above the beam the inner rows (14-16) have a row of their own; below it
-/// every tag shares one row (the drawing has no room for a second under the grid bubbles) and slides sideways to the
-/// nearest free place, its leader turning along the row. A tag with no room left is not drawn.
+/// Kata's tags (<see cref="KataBarTagBuilder"/>) drawn the way its kata_block_KHT sits on its LEADER, in model
+/// millimetres scaled with the view like CAD: an arrow on each bar, the leader up (or down) to its row and along it,
+/// the text on that horizontal part, the numbers in touching circles beyond its end. A tag running left has its text
+/// left-aligned after the circles; a stirrup tag has no leader, its text centred on the row before the circle.
 /// </summary>
 internal sealed class KataElevationBarTagPainter
 {
-    private const double Radius = 7.0;
-    private const double Gap = 3.0;
+    /// <summary>Segoe UI capitals are this fraction of the font size; Kata's text height is a capital height.</summary>
+    private const double CapHeight = 0.70;
+
+    /// <summary>Below this font size (px) the text is not drawn; leaders and circles still are.</summary>
+    private const double MinFontPx = 1.5;
 
     private readonly KataElevationScene _scene;
     private readonly KataCanvasPalette _palette;
     private readonly KataDrawPrimitives _draw;
-    private readonly KataRebarPlan _plan;
+    private readonly KataRebarDrawing _drawing;
     private readonly KataStationMap _map;
 
-    public KataElevationBarTagPainter(KataElevationScene scene, KataCanvasPalette palette, KataDrawPrimitives draw, KataRebarPlan plan, KataStationMap map)
+    public KataElevationBarTagPainter(KataElevationScene scene, KataCanvasPalette palette, KataDrawPrimitives draw, KataRebarDrawing drawing, KataStationMap map)
     {
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _palette = palette ?? throw new ArgumentNullException(nameof(palette));
         _draw = draw ?? throw new ArgumentNullException(nameof(draw));
-        _plan = plan ?? throw new ArgumentNullException(nameof(plan));
+        _drawing = drawing ?? throw new ArgumentNullException(nameof(drawing));
         _map = map ?? throw new ArgumentNullException(nameof(map));
     }
 
-    /// <summary>Spacing of the outer and inner rows of tags above the beam.</summary>
-    public const double RowPitch = 18.0;
-
-    /// <summary>Farthest a tag slides along its row to find room (px).</summary>
-    private const double MaxSlide = 160.0;
-
-    /// <summary>
-    /// Row of a tag: above the column letters, the inner rows one pitch higher; below the beam, one row under the
-    /// grid lines.
-    /// </summary>
-    public static double RowY(KataElevationScene scene, bool above, bool inner) => above
-        ? scene.LetterY - 22.0 - (inner ? RowPitch : 0.0)
-        : scene.GridLineBottomY + 13.0;
+    private double Scale => _scene.Viewport.Scale;
 
     public void Paint()
     {
-        var tags = KataBarTagBuilder.Build(_plan.Layout, KataBeamStations.From(_plan.Spec));
-        var leader = new Pen(_palette.MutedText, 0.6) { DashStyle = new DashStyle(new[] { 3.0, 2.0 }, 0) };
-        leader.Freeze();
-        var ring = new Pen(_palette.Accent, 1.0);
-        ring.Freeze();
-
-        var lanes = new[] { new KataLabelLane(), new KataLabelLane(), new KataLabelLane() };
-        foreach (var tag in tags)
+        foreach (var tag in _drawing.Tags)
         {
-            double foot = _scene.X(_map.ToStation(tag.X));
-            double rowY = RowY(_scene, tag.Above, tag.Inner);
-            var lane = lanes[tag.Above ? (tag.Inner ? 1 : 0) : 2];
-            var text = _draw.Text(tag.Text, _palette.RebarText, KataDrawPrimitives.SmallTextSize);
-            var plus = _draw.Text("+", _palette.MutedText, KataDrawPrimitives.SmallTextSize);
-            double width = tag.Numbers.Count * 2.0 * Radius + (tag.Numbers.Count - 1) * (plus.Width + 2.0) + Gap + text.Width;
-            if (!_scene.IsVisible(foot - Radius, foot - Radius + width)) continue;
-            if (lane.PlaceNear(foot - Radius, width, MaxSlide) is not { } left) continue;
+            double x = X(tag.X), insertX = X(tag.InsertX), rowY = Y(tag.RowZ);
+            // Kata's stirrup tag sits 125 mm right of its zone's middle as drawn, whichever way the run is listed.
+            if (tag.Kind == KataTagKind.Stirrups)
+                insertX = X(tag.X - KataTagStyle.StirrupShift) + KataTagStyle.StirrupShift * Scale;
+            double reach = (KataTagStyle.LeaderPerChar * tag.Text.Length + 4.0 * KataTagStyle.CircleRadius) * Scale;
+            if (!_scene.IsVisible(Math.Min(x, insertX) - reach, Math.Max(x, insertX) + reach)) continue;
 
-            // The leader runs straight from the bar to its tag; one that had to slide turns just short of the row, on
-            // the beam's side, so it never crosses the tags already placed there.
-            double x = left + Radius;
-            double footY = _scene.Y(_scene.Elevation.TopMm + tag.Z);
-            double edgeY = tag.Above ? rowY + Radius : rowY - Radius;
-            if (Math.Abs(x - foot) < 0.5)
-            {
-                _draw.Line(leader, foot, footY, foot, edgeY);
-            }
-            else
-            {
-                double turnY = tag.Above ? edgeY + 4.0 : edgeY - 4.0;
-                _draw.Line(leader, foot, footY, foot, turnY);
-                _draw.Line(leader, foot, turnY, x, turnY);
-                _draw.Line(leader, x, turnY, x, edgeY);
-            }
-
-            _draw.Circle(null, ring, foot, footY, 1.6);
-
-            double cx = x;
-            for (int i = 0; i < tag.Numbers.Count; i++)
-            {
-                if (i > 0)
-                {
-                    _draw.At(plus, cx + Radius + 1.0, rowY - plus.Height / 2.0);
-                    cx += 2.0 * Radius + plus.Width + 2.0;
-                }
-
-                _draw.Circle(_palette.Fill, ring, cx, rowY, Radius);
-                var number = _draw.Text(tag.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture), _palette.Accent, KataDrawPrimitives.SmallTextSize - 1.0, bold: true);
-                _draw.Centered(number, cx, rowY - number.Height / 2.0);
-            }
-
-            _draw.At(text, cx + Radius + Gap, rowY - text.Height / 2.0);
+            if (tag.Kind == KataTagKind.Stirrups) PaintStirrupTag(tag, insertX, rowY);
+            else PaintLeaderTag(tag, x, insertX, rowY);
         }
     }
+
+    private void PaintLeaderTag(KataBarTag tag, double x, double insertX, double rowY)
+    {
+        foreach (double z in tag.FootZ)
+        {
+            double footY = Y(z);
+            _draw.Line(_palette.KataLeader, x, footY, x, rowY);
+            _draw.Arrow(_palette.KataLeaderBrush, x, footY, x, rowY, KataTagStyle.ArrowSize * Scale);
+        }
+
+        _draw.Line(_palette.KataLeader, x, rowY, insertX, rowY);
+
+        // On screen the tag may run the other way than in the layout (the drawing lists the run backwards).
+        bool right = insertX >= x;
+        double lift = rowY - KataTagStyle.TextLift * Scale;
+        if (right) Text(tag.Text, _palette.KataTagText, insertX - KataTagStyle.TextGapRight * Scale, lift, alignRight: true);
+        else Text(tag.Text, _palette.KataTagText, insertX + KataTagStyle.TextGapLeft * Scale, lift, alignRight: false);
+        Circles(tag, insertX, rowY, right);
+    }
+
+    private void PaintStirrupTag(KataBarTag tag, double insertX, double rowY)
+    {
+        // Kata's T13: text right-aligned before the insertion point, centred on the row; one circle after it.
+        var text = Formatted(tag.Text, _palette.KataTagText);
+        if (text is not null)
+        {
+            double width = Width(tag.Text, text);
+            _draw.AtWidth(text, insertX - KataTagStyle.TextGapRight * Scale - width, rowY - CapCentre(text), width);
+        }
+        Circles(tag, insertX, rowY, right: true);
+    }
+
+    /// <summary>Touching circles beyond the insertion point, the numbers in reading order left to right (Kata's SH3 SH4 / SH1 SH2).</summary>
+    private void Circles(KataBarTag tag, double insertX, double rowY, bool right)
+    {
+        double r = KataTagStyle.CircleRadius * Scale;
+        int n = tag.Numbers.Count;
+        for (int k = 0; k < n; k++)
+        {
+            double cx = right ? insertX + r * (2 * k + 1) : insertX - r * (2 * (n - k) - 1);
+            _draw.Circle(null, _palette.KataCircle, cx, rowY, r);
+            string value = tag.Numbers[k].ToString(CultureInfo.InvariantCulture);
+            var number = Formatted(value, _palette.KataNumber);
+            if (number is null) continue;
+            double width = Width(value, number);
+            _draw.AtWidth(number, cx - width / 2.0, rowY - CapCentre(number), width);
+        }
+    }
+
+    /// <summary>Text with its baseline at <paramref name="baselineY"/>, ending (or starting) at <paramref name="x"/>.</summary>
+    private void Text(string value, System.Windows.Media.Brush brush, double x, double baselineY, bool alignRight)
+    {
+        var text = Formatted(value, brush);
+        if (text is null) return;
+        double width = Width(value, text);
+        _draw.AtWidth(text, alignRight ? x - width : x, baselineY - text.Baseline, width);
+    }
+
+    /// <summary>Width of the text as Kata's font sets it (Segoe UI runs wider).</summary>
+    private double Width(string value, System.Windows.Media.FormattedText text) =>
+        Math.Min(text.Width, KataTagStyle.CharWidth * value.Length * Scale);
+
+    private System.Windows.Media.FormattedText? Formatted(string value, System.Windows.Media.Brush brush)
+    {
+        double size = KataTagStyle.TextHeight * Scale / CapHeight;
+        return size < MinFontPx ? null : _draw.Text(value, brush, size);
+    }
+
+    /// <summary>Distance from the text's top to the middle of its capitals (Kata's text height).</summary>
+    private double CapCentre(System.Windows.Media.FormattedText text) => text.Baseline - KataTagStyle.TextHeight * Scale / 2.0;
+
+    private double X(double localX) => _scene.X(_map.ToStation(localX));
+
+    private double Y(double z) => _scene.Y(_scene.Elevation.TopMm + z);
 }

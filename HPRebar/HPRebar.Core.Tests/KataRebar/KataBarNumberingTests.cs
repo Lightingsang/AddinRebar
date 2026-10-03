@@ -62,7 +62,7 @@ public sealed class KataBarNumberingTests
     {
         var spec = KataDamSheetParser.Parse(KataDy7DrawingTests.Sheet());
         var l = KataRebarCalculator.Calculate(spec);
-        var tags = KataBarTagBuilder.Build(l, KataBeamStations.From(spec))
+        var tags = KataBarTagBuilder.Build(spec, l, 8.0).Where(t => t.Kind != KataTagKind.Stirrups)
             .Select(t => $"{string.Join("+", t.Numbers)} {t.Text}{(t.Above ? "" : " (below)")}").ToList();
 
         // Kata's kata_block_KHT tags of T2-DY7 (SH1+SH2 DKKC1).
@@ -79,7 +79,7 @@ public sealed class KataBarNumberingTests
     public void T2_DY14_side_bars_read_2x2_and_the_span_tags_follow_the_cut_bottom_bars()
     {
         var spec = KataDamSheetParser.Parse(KataDy14DrawingTests.Sheet());
-        var tags = KataBarTagBuilder.Build(KataRebarCalculator.Calculate(spec), KataBeamStations.From(spec))
+        var tags = KataBarTagBuilder.Build(spec, KataRebarCalculator.Calculate(spec), 8.0)
             .Select(t => $"{string.Join("+", t.Numbers)} {t.Text}").ToList();
 
         Assert.Contains("15 2x2Ø12", tags);

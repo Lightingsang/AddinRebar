@@ -2,8 +2,10 @@ using System.Windows;
 using System.Windows.Media;
 using HPRebar.Core.KataExport.Calculators;
 using HPRebar.Core.KataExport.Models;
+using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using HPRebar.KataExport.ViewModel;
+using Serilog;
 
 // WPF types, not the Revit ones the SDK imports globally.
 using Brush = System.Windows.Media.Brush;
@@ -11,20 +13,28 @@ using Brush = System.Windows.Media.Brush;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// The beam run as an elevation, zoomed and panned in both directions like a CAD view (mouse handling in
+/// The beam run as an elevation, one scale both ways and zoomed and panned like AutoCAD (mouse handling in
 /// <c>KataElevationCanvas.Input.cs</c>). A click selects the Kata column under the cursor, two-way bound to the
 /// preview table; the view model frames a span or the whole run through <see cref="FocusRequest"/>.
 /// </summary>
 public sealed partial class KataElevationCanvas : FrameworkElement
 {
+    private readonly HashSet<string> _overlayFailures = new();
+
     private const double MarginPx = 36.0;
     private const double FocusMarginPx = 60.0;
 
-    /// <summary>Wheel limit — 3 px per mm: a 50 mm offset is 150 px wide, enough to read any Kata dimension.</summary>
-    private const double MaxScale = 3.0;
+    /// <summary>Wheel limit — 20 px per mm, deep enough to read a 2.5 mm Kata tag text at any print scale.</summary>
+    private const double MaxScale = 20.0;
+
+    /// <summary>Zooming out stops at this fraction of "zoom extents".</summary>
+    private const double MinScaleOfExtents = 1.0 / 20.0;
 
     /// <summary>Framing a span never zooms in further than this, so its neighbours and labels stay in view.</summary>
     private const double FocusMaxScale = 1.2;
+
+    /// <summary>Room kept over and under Kata's elevation when it is framed.</summary>
+    private const double KataMarginPx = 12.0;
 
     public static readonly DependencyProperty ElevationProperty = DependencyProperty.Register(
         nameof(Elevation), typeof(KataElevation), typeof(KataElevationCanvas),
@@ -45,7 +55,7 @@ public sealed partial class KataElevationCanvas : FrameworkElement
 
     public static readonly DependencyProperty RebarPlanProperty = DependencyProperty.Register(
         nameof(RebarPlan), typeof(KataRebarPlan), typeof(KataElevationCanvas),
-        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnCardChanged));
 
     public static readonly DependencyProperty RebarStationMapProperty = DependencyProperty.Register(
         nameof(RebarStationMap), typeof(KataStationMap), typeof(KataElevationCanvas),
@@ -53,19 +63,24 @@ public sealed partial class KataElevationCanvas : FrameworkElement
 
     public static readonly DependencyProperty ShowRebarProperty = DependencyProperty.Register(
         nameof(ShowRebar), typeof(bool), typeof(KataElevationCanvas),
-        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender, OnCardChanged));
 
     public static readonly DependencyProperty ShowBarTagsProperty = DependencyProperty.Register(
         nameof(ShowBarTags), typeof(bool), typeof(KataElevationCanvas),
-        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender, OnCardChanged));
 
     public static readonly DependencyProperty ShowSectionProperty = DependencyProperty.Register(
         nameof(ShowSection), typeof(bool), typeof(KataElevationCanvas),
-        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+        new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender, OnCardChanged));
 
     private KataCanvasPalette? _palette;
     private KataElevationViewport? _viewport;
     private bool _userFramed;
+    private KataRebarDrawing? _drawing;
+
+    // Plans whose drawing could not be built, or not painted: not tried again on every repaint until the plan changes.
+    private KataRebarPlan? _failedPlan;
+    private KataRebarPlan? _failedPaint;
 
     public KataElevationCanvas()
     {
@@ -141,62 +156,90 @@ public sealed partial class KataElevationCanvas : FrameworkElement
             return;
         }
 
-        var viewport = _viewport ??= Frame(elevation, elevation.Bounds, MarginPx);
-        var scene = new KataElevationScene(elevation, viewport, ActualWidth, ActualHeight, SelectedColumnIndex);
-        new KataElevationPainter(scene, palette, draw).Paint();
-        new KataElevationAnnotations(scene, palette, draw).Paint();
-
+        var viewport = _viewport ??= Frame(elevation, FrameRange(elevation, elevation.Bounds), MarginPx);
+        var (above, below) = Band();
+        var scene = new KataElevationScene(elevation, viewport, ActualWidth, ActualHeight, SelectedColumnIndex,
+            above * viewport.Scale, below * viewport.Scale);
         var map = RebarStationMap ?? KataStationMap.Identity;
-        if (ShowRebar && RebarPlan is not null)
+        var drawing = Drawing();
+
+        // With the bars shown the run is drawn as Kata's elevation; without them (or if that fails) as read from Revit.
+        bool kata = KataMode && drawing is not null
+            && Overlay("kata drawing", () => new KataElevationCadPainter(scene, palette, draw, drawing.Elevation, map).Paint());
+        if (KataMode && !kata)
         {
-            new KataElevationRebarPainter(scene, palette, draw, RebarPlan.Layout, map, ShowBarTags).Paint();
-            if (ShowBarTags) new KataElevationBarTagPainter(scene, palette, draw, RebarPlan, map).Paint();
+            // Frame again for the labels of the plain elevation and paint that instead.
+            _failedPaint = RebarPlan;
+            if (!_userFramed) _viewport = null;
+            Dispatcher.BeginInvoke(new Action(InvalidateVisual));
         }
 
-        if (ShowSection && RebarPlan is not null)
+        if (kata)
         {
-            new KataElevationSectionPainter(scene, RebarPlan, map, palette, draw).Paint();
+            if (ShowBarTags) Overlay("bar tags", () => new KataElevationBarTagPainter(scene, palette, draw, drawing!, map).Paint());
         }
+        else
+        {
+            Overlay("elevation", () => new KataElevationPainter(scene, palette, draw).Paint());
+            Overlay("annotations", () => new KataElevationAnnotations(scene, palette, draw).Paint());
+        }
+
+        if (ShowSection && drawing is not null)
+            Overlay("sections", () => new KataElevationSectionPainter(scene, drawing, map, palette, draw, markers: !kata).Paint());
     }
 
     /// <summary>
-    /// "Zoom extents" on <paramref name="range"/>: across the width (capped at <see cref="FocusMaxScale"/>), zoomed out
-    /// further if the beam band and its labels — the row-11 chain included — would not fit the height, then centred.
+    /// Draws one layer of the drawing. An exception escaping OnRender takes the whole modeless window down inside Revit,
+    /// so a failing overlay is logged (once per message, the canvas re-renders on every mouse move) and skipped.
     /// </summary>
-    private KataElevationViewport Frame(KataElevation elevation, Interval1D range, double marginPx)
+    private bool Overlay(string name, Action paint)
     {
-        double width = Math.Max(1.0, ActualWidth), height = Math.Max(1.0, ActualHeight);
-        double depth = elevation.TopMm - elevation.BottomMm;
-        var viewport = KataElevationViewport.Fit(range, width, marginPx, KataElevationScene.MinVerticalScale(elevation));
-        if (viewport.Scale > FocusMaxScale) viewport = viewport.ZoomAt(FocusMaxScale / viewport.Scale, width / 2.0, 0.0, 0.0, FocusMaxScale);
-        viewport = viewport.ShrinkToHeight(depth, height, KataElevationScene.AbovePx, KataElevationScene.BelowPx, width / 2.0);
-        return viewport.CentreBand(depth, height, KataElevationScene.AbovePx, KataElevationScene.BelowPx);
+        try
+        {
+            paint();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            if (_overlayFailures.Add($"{name}|{ex.GetType().Name}|{ex.TargetSite}"))
+                Log.Error(ex, "Kata Export: drawing the {Overlay} overlay failed", name);
+            return false;
+        }
     }
 
-    /// <summary>Zooming out stops at half the whole run.</summary>
-    private double MinScale(KataElevation elevation) =>
-        KataElevationViewport.Fit(elevation.Bounds, Math.Max(1.0, ActualWidth), MarginPx).Scale * 0.5;
-
-    private void FrameAll()
+    /// <summary>The plan's tags, cuts and drafted bars, rebuilt only when the plan changes.</summary>
+    private KataRebarDrawing? Drawing()
     {
-        if (Elevation is not { } elevation) return;
-        _viewport = Frame(elevation, elevation.Bounds, MarginPx);
-        _userFramed = false;
-        InvalidateVisual();
-    }
+        if (RebarPlan is not { } plan || ReferenceEquals(plan, _failedPlan))
+        {
+            _drawing = null;
+            return null;
+        }
 
-    private void FrameColumn(int index)
-    {
-        if (Elevation is not { } elevation || index < 0 || index >= elevation.Columns.Count || ActualWidth < 1) return;
-        _viewport = Frame(elevation, elevation.FocusRange(index), FocusMarginPx);
-        _userFramed = true;
-        InvalidateVisual();
+        try
+        {
+            return _drawing = KataRebarDrawing.For(plan, _drawing);
+        }
+        catch (Exception ex)
+        {
+            _failedPlan = plan;
+            if (_overlayFailures.Add($"drawing|{ex.GetType().Name}|{ex.TargetSite}"))
+                Log.Error(ex, "Kata Export: laying out the bars of the elevation failed");
+            return null;
+        }
     }
 
     private void OnResized()
     {
         if (!_userFramed) _viewport = null;
         InvalidateVisual();
+    }
+
+    /// <summary>The section card or the tags appearing or going change the room left for the run: frame it again unless the user zoomed.</summary>
+    private static void OnCardChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    {
+        var canvas = (KataElevationCanvas)sender;
+        if (!canvas._userFramed) canvas._viewport = null;
     }
 
     private static void OnElevationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -220,7 +263,7 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         if (canvas.Elevation is not { } elevation || canvas._viewport is not { } viewport || index < 0 || index >= elevation.Columns.Count) return;
 
         // A column picked in the table is brought into view sideways, without changing the zoom or the height.
-        canvas._viewport = viewport.EnsureVisible(elevation.Columns[index].Extent, canvas.ActualWidth, MarginPx);
+        canvas._viewport = viewport.EnsureVisible(elevation.Columns[index].Extent, canvas.UsableWidth(), MarginPx);
     }
 
     private static void OnFocusRequested(DependencyObject sender, DependencyPropertyChangedEventArgs args)

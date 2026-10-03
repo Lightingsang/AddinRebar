@@ -44,7 +44,6 @@ internal sealed class KataCanvasPalette
     public Pen RebarSide { get; private init; } = null!;
     public Pen RebarStirrup { get; private init; } = null!;
     public Brush RebarText { get; private init; } = null!;
-    public Brush RebarStirrupZoneFill { get; private init; } = null!;
     public Brush RebarMainTopBrush { get; private init; } = null!;
     public Brush RebarMainBottomBrush { get; private init; } = null!;
     public Brush RebarExtraTop1Brush { get; private init; } = null!;
@@ -52,8 +51,26 @@ internal sealed class KataCanvasPalette
     public Brush RebarExtraBottom1Brush { get; private init; } = null!;
     public Brush RebarExtraBottom2Brush { get; private init; } = null!;
     public Brush RebarSideBrush { get; private init; } = null!;
-    public Brush RebarStirrupBrush { get; private init; } = null!;
     public Brush SectionCardFill { get; private init; } = null!;
+
+    // Kata's drawing colours (T2-DY7.dwg layers): bars "kata_thep chu" red, stirrups "kata_thep dai" 255,0,191,
+    // tag text green, numbers and their circles white, leaders "kata_net manh" grey; dark ink on the light theme.
+    public Brush KataBar { get; private init; } = null!;
+    public Brush KataStirrup { get; private init; } = null!;
+    public Pen KataLeader { get; private init; } = null!;
+    public Brush KataLeaderBrush { get; private init; } = null!;
+    public Pen KataCircle { get; private init; } = null!;
+    public Brush KataTagText { get; private init; } = null!;
+    public Brush KataNumber { get; private init; } = null!;
+
+    // The rest of Kata's elevation: kata_net thay cyan, kata_net khuat colour 9, kata_dim / kata_grid colour 8,
+    // section flags yellow, stirrup runs (kata_rai_thep) magenta. Pens are made per paint: lineweight and linetype
+    // depend on the zoom.
+    public Brush KataOutline { get; private init; } = null!;
+    public Brush KataHidden { get; private init; } = null!;
+    public Brush KataGrey { get; private init; } = null!;
+    public Brush KataFlag { get; private init; } = null!;
+    public Brush KataRun { get; private init; } = null!;
 
     public static KataCanvasPalette From(FrameworkElement element)
     {
@@ -131,7 +148,6 @@ internal sealed class KataCanvasPalette
             RebarSide = Freeze(new Pen(rebarSideBrush, 1.2) { DashStyle = Dashes(4, 2) }),
             RebarStirrup = Freeze(new Pen(rebarStirrupBrush, 0.8)),
             RebarText = rebarTextBrush,
-            RebarStirrupZoneFill = Tint(rebarStirrupBrush, 16),
             RebarMainTopBrush = rebarMainBrush,
             RebarMainBottomBrush = rebarMainBrush,
             RebarExtraTop1Brush = rebarTop1Brush,
@@ -139,8 +155,20 @@ internal sealed class KataCanvasPalette
             RebarExtraBottom1Brush = rebarBot1Brush,
             RebarExtraBottom2Brush = rebarBot2Brush,
             RebarSideBrush = rebarSideBrush,
-            RebarStirrupBrush = rebarStirrupBrush,
-            SectionCardFill = Tint(fill, 235)
+            // Opaque: the bright CAD colours of the elevation under the card read through any translucency.
+            SectionCardFill = Tint(fill, 255),
+            KataBar = Solid(isDark ? Color.FromRgb(0xFF, 0x00, 0x00) : Color.FromRgb(0xD0, 0x00, 0x00)),
+            KataStirrup = Solid(isDark ? Color.FromRgb(0xFF, 0x00, 0xBF) : Color.FromRgb(0xB0, 0x00, 0x88)),
+            KataLeader = Freeze(new Pen(Solid(isDark ? Color.FromRgb(0x80, 0x80, 0x80) : Color.FromRgb(0x73, 0x73, 0x73)), 1.0)),
+            KataLeaderBrush = Solid(isDark ? Color.FromRgb(0x80, 0x80, 0x80) : Color.FromRgb(0x73, 0x73, 0x73)),
+            KataCircle = Freeze(new Pen(Solid(isDark ? Color.FromRgb(0xFF, 0xFF, 0xFF) : Color.FromRgb(0x21, 0x21, 0x21)), 1.0)),
+            KataTagText = Solid(isDark ? Color.FromRgb(0x00, 0xFF, 0x00) : Color.FromRgb(0x1B, 0x7A, 0x1B)),
+            KataNumber = Solid(isDark ? Color.FromRgb(0xFF, 0xFF, 0xFF) : Color.FromRgb(0x21, 0x21, 0x21)),
+            KataOutline = Solid(isDark ? Color.FromRgb(0x00, 0xFF, 0xFF) : Color.FromRgb(0x00, 0x83, 0x8F)),
+            KataHidden = Solid(isDark ? Color.FromRgb(0xC0, 0xC0, 0xC0) : Color.FromRgb(0x60, 0x60, 0x60)),
+            KataGrey = Solid(isDark ? Color.FromRgb(0x80, 0x80, 0x80) : Color.FromRgb(0x73, 0x73, 0x73)),
+            KataFlag = Solid(isDark ? Color.FromRgb(0xFF, 0xFF, 0x00) : Color.FromRgb(0xA0, 0x80, 0x00)),
+            KataRun = Solid(isDark ? Color.FromRgb(0xFF, 0x00, 0xFF) : Color.FromRgb(0xB0, 0x00, 0xB0))
         };
     }
 
@@ -149,6 +177,13 @@ internal sealed class KataCanvasPalette
         var style = new DashStyle(pattern, 0);
         style.Freeze();
         return style;
+    }
+
+    private static Brush Solid(Color color)
+    {
+        var brush = new SolidColorBrush(color);
+        brush.Freeze();
+        return brush;
     }
 
     private static Pen Freeze(Pen pen)

@@ -6,123 +6,171 @@ using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
 
-/// <summary>One elevation tag: the circled numbers, the bar text, and the point of the bar its leader starts from.</summary>
-/// <param name="Numbers">Bar numbers, drawn as circles joined by "+".</param>
-/// <param name="Text">"2Ø18+1Ø18", "3Ø18", "2x2Ø12".</param>
-/// <param name="X">Local station of the leader's foot (mm).</param>
-/// <param name="Z">Level of the bar the leader starts from (mm, beam top = 0).</param>
-/// <param name="Above">Drawn above the beam (top bars) or below it (bottom and side bars).</param>
-/// <param name="Inner">An inner row (14-16, 17) or the side bars: drawn in the second row of tags, clear of the outer one.</param>
-public sealed record KataBarTag(IReadOnlyList<int> Numbers, string Text, double X, double Z, bool Above, bool Inner = false);
+public enum KataTagKind
+{
+    Bars,
+    SideBars,
+    Stirrups
+}
 
 /// <summary>
-/// The elevation tags Kata draws (T2-DY7 / T2-DY14): over each support the top main bars and the row-13 bars share one
-/// tag ("1+4 2Ø18+1Ø18"), and under each span the bottom main bars and row 18 share one ("2+10 2Ø18+1Ø18"); an inner
-/// row (14-16, 17) has its own; the main bars get their own tag at a span's middle where no outer row covers it; the
-/// side bars one tag per bar ("13 2Ø12", two layers "15 2x2Ø12"). Stirrups are labelled on their zones and C ties only
-/// in sections.
+/// One elevation tag as Kata draws it (kata_block_KHT on a LEADER), in model millimetres: the leader starts with an
+/// arrow on each bar of <see cref="FootZ"/> at station <see cref="X"/>, rises (or drops) to the row at
+/// <see cref="RowZ"/> and runs <see cref="LeaderLength"/> sideways to the insertion point; the text sits on that
+/// horizontal part, the numbers in circles beyond it. A stirrup tag has no leader: <see cref="X"/> is its insertion.
+/// </summary>
+/// <param name="Numbers">Bar numbers, one circle each.</param>
+/// <param name="Text">"2Ø18+1Ø18", "3Ø18", "2x2Ø12", "Ø8a100".</param>
+/// <param name="X">Local station of the leader (of the insertion for a stirrup tag), mm.</param>
+/// <param name="RowZ">Level of the leader's horizontal part (beam top = 0, up positive), mm.</param>
+/// <param name="Above">Over the beam (top bars, stirrups) or under it.</param>
+/// <param name="PointsLeft">The horizontal part runs to the left (Kata's "P" tags at the end cut of a span).</param>
+/// <param name="FootZ">Levels of the bars the leader starts from (two for two layers of side bars).</param>
+/// <param name="LeaderLength">Length of the horizontal part, mm (0 for a stirrup tag).</param>
+public sealed record KataBarTag(
+    IReadOnlyList<int> Numbers,
+    string Text,
+    double X,
+    double RowZ,
+    bool Above,
+    bool PointsLeft,
+    IReadOnlyList<double> FootZ,
+    double LeaderLength,
+    KataTagKind Kind = KataTagKind.Bars)
+{
+    /// <summary>Where the leader ends and the circles begin.</summary>
+    public double InsertX => PointsLeft ? X - LeaderLength : X + LeaderLength;
+}
+
+/// <summary>
+/// The elevation tags of Kata's drawings (T2-DY7, T2-DY14 and its E = 500 variant):
+/// <list type="bullet">
+/// <item>at each section cut (<see cref="KataSectionCuts"/>) one tag per level of bars crossing it, top bars over the
+/// beam, bottom bars under it; the level farthest from the face takes the first row, the next one the row beyond;
+/// a level's tag lists the main bars first ("1+4 2Ø18+1Ø18"); the tags of a span's end cut point left;</item>
+/// <item>in a span shorter than 3 m the start cut is tagged in full, the middle cut on its top bars only and the end
+/// cut not at all (both drawings agree; Kata's own rule is unknown);</item>
+/// <item>the side bars once per span, a third of the way from the start cut to the middle cut, under the beam, one
+/// leader per layer ("13 2Ø12", "15 2x2Ø12");</item>
+/// <item>each stirrup zone over the beam, 125 mm past its middle, no leader ("15 Ø8a100").</item>
+/// </list>
 /// </summary>
 public static class KataBarTagBuilder
 {
-    public static IReadOnlyList<KataBarTag> Build(KataRebarLayoutResult layout, KataBeamStations st)
+    private const double ShortSpan = 3000.0;
+
+    public static IReadOnlyList<KataBarTag> Build(KataBeamRebarSpec spec, KataRebarLayoutResult layout, double stirrupDiameter)
     {
+        if (spec is null) throw new ArgumentNullException(nameof(spec));
         if (layout is null) throw new ArgumentNullException(nameof(layout));
-        if (st is null) throw new ArgumentNullException(nameof(st));
 
+        var st = KataBeamStations.From(spec);
         var tags = new List<KataBarTag>();
-        var top = layout.MainTopBars;
-
-        foreach (var group in layout.ExtraTopBars.GroupBy(b => (b.HostSupportIndex, b.Layer)).OrderBy(g => g.Key.HostSupportIndex).ThenBy(g => g.Key.Layer))
-        {
-            var (x0, x1, z) = Level(group);
-            double x = (x0 + x1) / 2.0;
-            var main = group.Key.Layer == 1 ? Covering(top, x) : new List<KataRebarCurve>();
-            tags.Add(Tag(main, group.ToList(), x, z, above: true) with { Inner = group.Key.Layer > 1 });
-        }
-
-        foreach (var group in layout.ExtraBottomBars.GroupBy(b => (b.HostSpanIndex, b.Layer)).OrderBy(g => g.Key.HostSpanIndex).ThenBy(g => g.Key.Layer))
-        {
-            var (x0, x1, z) = Level(group);
-            double x = (x0 + x1) / 2.0;
-            var main = group.Key.Layer == 1 ? Covering(layout.MainBottomBars, x) : new List<KataRebarCurve>();
-            tags.Add(Tag(main, group.ToList(), x, z, above: false) with { Inner = group.Key.Layer > 1 });
-        }
-
-        // The main bars on their own at the middle of a span no outer row covers there.
-        var row13 = layout.ExtraTopBars.Where(b => b.Layer == 1).ToList();
-        var row18 = layout.ExtraBottomBars.Where(b => b.Layer == 1).ToList();
+        int topRows = 0;
         for (int s = 0; s < st.SpanCount; s++)
         {
-            double x = (st.SpanStart[s] + st.SpanEnd[s]) / 2.0;
-            var mainTop = Covering(top, x);
-            if (mainTop.Count > 0 && Covering(row13, x).Count == 0)
-                tags.Add(Tag(mainTop, new List<KataRebarCurve>(), x, LevelAt(mainTop[0], x), above: true));
-            var mainBottom = Covering(layout.MainBottomBars, x);
-            if (mainBottom.Count > 0 && Covering(row18, x).Count == 0)
-                tags.Add(Tag(mainBottom, new List<KataRebarCurve>(), x, LevelAt(mainBottom[0], x), above: false));
+            double depth = spec.DepthOf(s);
+            var cuts = Classify(st, s);
+            foreach (var (x, place) in cuts)
+            {
+                bool shortSpan = st.SpanEnd[s] - st.SpanStart[s] < ShortSpan && cuts.Count == 3;
+                if (shortSpan && place == Place.End) continue;
+                bool left = place == Place.End;
+                var top = AtCut(layout, x, depth, above: true, left, stirrupDiameter).ToList();
+                topRows = Math.Max(topRows, top.Count);
+                tags.AddRange(top);
+                if (!(shortSpan && place == Place.Middle)) tags.AddRange(AtCut(layout, x, depth, above: false, left, stirrupDiameter));
+            }
+
+            if (SideTag(layout, cuts, depth) is { } side) tags.Add(side);
         }
 
-        // One tag per run of side bars (a number may come back on another run of the same length).
-        foreach (var group in layout.SideBars.GroupBy(b => (b.BarNumber, Start: Math.Round(b.Polyline.Points.Min(p => p.X)))))
+        // Two rows of bar tags leave the stirrup row where Kata has it; a third or fourth level pushes it out.
+        double stirrupRow = Math.Max(KataTagStyle.StirrupRow,
+            KataTagStyle.FirstRowAbove + (topRows - 1) * KataTagStyle.RowPitch + KataTagStyle.StirrupOverLastRow);
+        foreach (var run in KataStirrupRuns.Of(layout))
         {
-            var (x0, x1, _) = Level(group);
-            int layers = group.Select(b => b.Layer).Distinct().Count();
-            double d = group.First().Diameter;
-            string text = layers > 1 ? $"{layers}x2Ø{Dia(d)}" : $"2Ø{Dia(d)}";
-            tags.Add(new KataBarTag(new[] { group.Key.BarNumber }, text, (x0 + x1) / 2.0, group.Min(b => b.Polyline.Points[0].Z), Above: false, Inner: true));
+            tags.Add(new KataBarTag(new[] { run.Number }, $"Ø{Dia(stirrupDiameter)}a{run.Spacing:0}",
+                (run.First + run.Last) / 2.0 + KataTagStyle.StirrupShift, stirrupRow, Above: true, PointsLeft: false,
+                Array.Empty<double>(), 0.0, KataTagKind.Stirrups));
         }
 
         return tags;
     }
 
-    /// <summary>Main bars (counted once per position across the beam) first, then the row's bars.</summary>
-    private static KataBarTag Tag(IReadOnlyList<KataRebarCurve> main, IReadOnlyList<KataRebarCurve> row, double x, double z, bool above)
+    /// <summary>
+    /// Room the tags take over the highest beam top and under the band bottom <paramref name="bandDepth"/> below it
+    /// (outermost row and its circles), mm.
+    /// </summary>
+    public static (double Above, double Below) Band(IReadOnlyList<KataBarTag> tags, double bandDepth)
     {
-        var parts = main.Concat(row)
-            .GroupBy(b => b.BarNumber)
-            .Select(g => (Number: g.Key, Count: g.Select(b => Math.Round(b.TransverseY)).Distinct().Count(), g.First().Diameter))
+        if (tags is null) throw new ArgumentNullException(nameof(tags));
+        double above = tags.Where(t => t.Above).Select(t => t.RowZ + KataTagStyle.CircleRadius).DefaultIfEmpty(0.0).Max();
+        double below = tags.Where(t => !t.Above).Select(t => -t.RowZ - bandDepth + KataTagStyle.CircleRadius).DefaultIfEmpty(0.0).Max();
+        return (Math.Max(0.0, above), Math.Max(0.0, below));
+    }
+
+    private enum Place
+    {
+        Start,
+        Middle,
+        End
+    }
+
+    /// <summary>The cuts of span <paramref name="s"/> and which one each is (a cantilever lacks the one at its tip).</summary>
+    private static List<(double X, Place Place)> Classify(KataBeamStations st, int s)
+    {
+        double mid = (st.SpanStart[s] + st.SpanEnd[s]) / 2.0;
+        return KataSectionCuts.Stations(st, s)
+            .Select(x => (x, x < mid - 200.0 ? Place.Start : x > mid + 200.0 ? Place.End : Place.Middle))
             .ToList();
-        return new KataBarTag(
-            parts.Select(p => p.Number).ToList(),
-            string.Join("+", parts.Select(p => $"{p.Count}Ø{Dia(p.Diameter)}")),
-            x, z, above);
     }
 
-    /// <summary>Bars that run past station <paramref name="x"/> (a cranked bar counts over its whole length).</summary>
-    private static List<KataRebarCurve> Covering(IEnumerable<KataRebarCurve> bars, double x) =>
-        bars.Where(b => x >= b.Polyline.Points.Min(p => p.X) - 1e-6 && x <= b.Polyline.Points.Max(p => p.X) + 1e-6).ToList();
-
-    /// <summary>The longest level run of a group's first bar: x0, x1 and its height.</summary>
-    private static (double X0, double X1, double Z) Level(IEnumerable<KataRebarCurve> bars)
+    /// <summary>One tag per level of top (or bottom) bars crossing the cut at <paramref name="x"/>.</summary>
+    private static IEnumerable<KataBarTag> AtCut(KataRebarLayoutResult layout, double x, double depth, bool above, bool left, double stirrupDiameter)
     {
-        var points = bars.First().Polyline.Points;
-        (double, double, double) best = (points[0].X, points[0].X, points[0].Z);
-        double longest = -1.0;
-        for (int i = 1; i < points.Count; i++)
-        {
-            if (Math.Abs(points[i].Z - points[i - 1].Z) > 1.0) continue;
-            double length = Math.Abs(points[i].X - points[i - 1].X);
-            if (length <= longest) continue;
-            longest = length;
-            best = (Math.Min(points[i].X, points[i - 1].X), Math.Max(points[i].X, points[i - 1].X), points[i].Z);
-        }
+        var levels = KataSectionCuts.Crossing(layout, x)
+            .Where(c => above ? c.Bar.Role is KataBarRole.MainTop or KataBarRole.ExtraTop : c.Bar.Role is KataBarRole.MainBottom or KataBarRole.ExtraBottom)
+            .GroupBy(c => Math.Round(c.Z))
+            // The level farthest from the face (inside the beam) takes the row next to it.
+            .OrderBy(g => above ? g.Key : -g.Key)
+            .ToList();
 
-        return best;
+        for (int row = 0; row < levels.Count; row++)
+        {
+            var bars = levels[row].Select(c => c.Bar).ToList();
+            var parts = bars
+                .GroupBy(b => b.BarNumber)
+                .OrderBy(g => g.Any(b => b.Role is KataBarRole.MainTop or KataBarRole.MainBottom) ? 0 : 1)
+                .ThenBy(g => g.Key)
+                .Select(g => (Number: g.Key, Count: g.Select(b => Math.Round(b.TransverseY)).Distinct().Count(), g.First().Diameter))
+                .ToList();
+            string text = string.Join("+", parts.Select(p => $"{p.Count}Ø{Dia(p.Diameter)}"));
+            double rowZ = above
+                ? KataTagStyle.FirstRowAbove + row * KataTagStyle.RowPitch
+                : -depth - KataTagStyle.FirstRowBelow - row * KataTagStyle.RowPitch;
+            yield return new KataBarTag(parts.Select(p => p.Number).ToList(), text, x, rowZ, above, left,
+                new[] { KataDrawingLevels.Drawn(levels[row].First().Bar, levels[row].First().Z, stirrupDiameter) }, KataTagStyle.LeaderLength(text));
+        }
     }
 
-    /// <summary>Height of a bar at station <paramref name="x"/> (a cranked bottom bar changes level).</summary>
-    private static double LevelAt(KataRebarCurve bar, double x)
+    /// <summary>The span's side bars, a third of the way from its start cut to its middle cut.</summary>
+    private static KataBarTag? SideTag(KataRebarLayoutResult layout, List<(double X, Place Place)> cuts, double depth)
     {
-        var p = bar.Polyline.Points;
-        for (int i = 1; i < p.Count; i++)
-        {
-            double a = Math.Min(p[i - 1].X, p[i].X), b = Math.Max(p[i - 1].X, p[i].X);
-            if (x < a - 1e-6 || x > b + 1e-6 || b - a < 1e-6) continue;
-            double t = (x - p[i - 1].X) / (p[i].X - p[i - 1].X);
-            return p[i - 1].Z + t * (p[i].Z - p[i - 1].Z);
-        }
+        var start = cuts.Where(c => c.Place == Place.Start).Select(c => (double?)c.X).FirstOrDefault();
+        var middle = cuts.Where(c => c.Place == Place.Middle).Select(c => (double?)c.X).FirstOrDefault();
+        if (start is null || middle is null) return null;
 
-        return p[0].Z;
+        double x = start.Value + (middle.Value - start.Value) / 3.0;
+        var side = KataSectionCuts.Crossing(layout, x).Where(c => c.Bar.Role == KataBarRole.SideBar).ToList();
+        if (side.Count == 0) return null;
+
+        var feet = side.Select(c => Math.Round(c.Z, 1)).Distinct().OrderByDescending(z => z).ToList();
+        double d = side[0].Bar.Diameter;
+        string text = feet.Count > 1 ? $"{feet.Count}x2Ø{Dia(d)}" : $"2Ø{Dia(d)}";
+        var numbers = side.Select(c => c.Bar.BarNumber).Distinct().OrderBy(n => n).ToList();
+        return new KataBarTag(numbers, text, x, -depth - KataTagStyle.FirstRowBelow, Above: false, PointsLeft: false,
+            feet, KataTagStyle.LeaderLength(text), KataTagKind.SideBars);
     }
 
     private static string Dia(double d) => d.ToString("0.#", CultureInfo.InvariantCulture);

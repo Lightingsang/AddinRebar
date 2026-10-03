@@ -32,5 +32,11 @@ Plan cũ sai: Schedule Mark/Partition đã có (`KataRebarStamp`, `NUMBER_PARTIT
 
 Giả định CHƯA XÁC MINH: mọi móc C cùng Ø chung số; đai U/C trong (hàng 25–44) đánh số sau móc C, trước đai ngoài.
 
-## Đợt 2 (sau)
-Mặt cắt `MẶT CẮT n-n`: 3/nhịp (nhịp < 1000 mm: 1 ở giữa), sát gối lùi L/10 tròn 25 từ mặt gối, giữa L/2 − 150 (L < 3000: −50) — gần đúng vị trí Kata (lệch 0–75 mm, cắt cùng tập thanh); ký hiệu vết cắt trên mặt đứng; số hiệu trên chấm thép.
+## Đợt 2
+| # | Việc | Status |
+|---|---|---|
+| 1 | `KataSectionCuts`: 3 cắt/nhịp (L/10 tròn 25 từ mặt gối; giữa L/2 − 150, L < 3 m − 50), nhịp < 1 m 1 cắt giữa; console bỏ cắt sát mút (GIẢ ĐỊNH CHƯA XÁC MINH); mặt cắt cùng nội dung (thanh + vị trí, đai + bước, bộ thanh) chung số | done |
+| 2 | Painter: vết cắt + số trên mặt đứng, card `MẶT CẮT n-n` (nhịp → cắt giữa, gối → cắt gần nhất), số hiệu trên chấm thép (hàng trên/dưới, cốt giá bên phải), chân card đai/móc C/đai trong | done |
+| 3 | Test 881/881 (golden DWG: DY7 1..9, DY14 + biến thể 1..9,9, vị trí ±75 mm; biên 999/1000/2999/3000, console, ±1 mm), build R26/R25/R24, review ([report](reports/code-review-sections.md): M1–M4 sửa) | done |
+| 4 | Live trong Revit (2026-10-03, Revit thứ hai, chọn dầm bằng Select by ID qua UIA — không cần MCP; [report](reports/live-verify.md)): DY14 card 2-2/5-5/8-8/9-9 + vết 1..9,9, DY7 2-2/5-5/8-8 + vết 1..9, đúng vị trí Kata | done |
+| 5 | Sửa sau live: nền card đặc (alpha 235 → 255), khung toàn dải/zoom chừa chỗ card, cốt giá 1 nhãn, overlay lỗi → log + bỏ qua thay vì đóng cửa sổ | done |
