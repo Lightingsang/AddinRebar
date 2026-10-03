@@ -154,3 +154,9 @@
 - **Kept on purpose:** `BeamContinuousStack.Validate` — real checks with tests, but not called in production; wiring it in front of the run is a Wave 3 decision (not a refactor)
 - **Behaviour:** none
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 962/962 (+3) · **Golden run:** CHƯA TEST
+
+### 2026-10-03 — Wave 1 · review follow-up (Column / Foundation / shared)
+- **Review of fd23893..bd15b2e:** APPROVE, no High/Medium; every deleted member confirmed unused incl. TUnit + XAML; `ReadFaces` and `GetHookLength` equivalences confirmed
+- **Applied:** blank lines left by deletions; `using` order in `StirrupDistributionCalculatorTests`; the `> 1002` comment now names the constant; `.editorconfig` `max_line_length` 140 → 120 to match the FM2 review trigger; the message fix of cc6d408 recorded as B-20; Column `DetailViewCreator.ResolveViewType` → `GetOrCreateViewType` (it duplicates a section type when the named one is missing — AUD-048; the Beam method only looks up and keeps its name)
+- **Next:** Width/Length boundary at equality in `FoundationValidationCalculatorTests` (test-only commit); Beam format-only commit; `Application.cs`/`StartupCommand.cs` excluded from formatting (CLAUDE.md)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 962/962

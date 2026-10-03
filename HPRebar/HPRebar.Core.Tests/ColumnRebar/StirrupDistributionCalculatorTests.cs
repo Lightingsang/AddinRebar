@@ -1,8 +1,8 @@
 using System;
 using HPRebar.Core.ColumnRebar;
 using HPRebar.Core.ColumnRebar.Models;
-using Xunit;
 using HPRebar.Core.Shared;
+using Xunit;
 
 namespace HPRebar.Core.Tests.ColumnRebar;
 

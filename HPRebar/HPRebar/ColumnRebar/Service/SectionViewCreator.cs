@@ -25,7 +25,7 @@ public static class SectionViewCreator
         ViewNaming naming)
     {
         var views = new List<ViewSection>();
-        var viewType = DetailViewCreator.ResolveViewType(document, ViewTypeName);
+        var viewType = DetailViewCreator.GetOrCreateViewType(document, ViewTypeName);
 
         if (viewType is null)
         {

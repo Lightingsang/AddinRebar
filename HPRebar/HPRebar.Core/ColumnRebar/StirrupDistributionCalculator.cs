@@ -10,7 +10,6 @@ namespace HPRebar.Core.ColumnRebar;
 /// </summary>
 public static class StirrupDistributionCalculator
 {
-
     /// <summary>
     ///     Length of the tie run. Ties normally stop under the beam; <see cref="StirrupSpec.IsTiesUp"/>
     ///     carries them back up through the beam depth.

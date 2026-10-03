@@ -15,7 +15,6 @@ public sealed partial class TopDowelsTabViewModel : ColumnRebarTabViewModel
 
     public override string IconKey => "TabIcon.TopDowels";
 
-
     /// <summary>Copies the first bar's top settings onto every other bar of this column.</summary>
     [CommunityToolkit.Mvvm.Input.RelayCommand]
     private void ApplyToAllBars()

@@ -10,7 +10,6 @@ namespace HPRebar.Core.FoundationRebar.Calculators;
 /// </summary>
 public static class FoundationValidationCalculator
 {
-
     /// <summary>
     /// Performs complete engineering and geometric validation on the foundation snapshot and rebar specification.
     /// </summary>
@@ -75,7 +74,7 @@ public static class FoundationValidationCalculator
                 $"(Covers: {spec.CoverBottom + spec.CoverTop:F1} mm, Rebar diameters: {minRequiredThickness - spec.CoverBottom - spec.CoverTop:F1} mm).");
         }
 
-        // 5. Excessive bar count check (> 1002 per layer)
+        // 5. A layer may not hold more bars than RevitRebarLimits.MaxBarPositions
         if (spec.CoverSide >= 0 && snapshot.Length > 2 * spec.CoverSide && snapshot.Width > 2 * spec.CoverSide)
         {
             double effLength = snapshot.Length - 2 * spec.CoverSide;

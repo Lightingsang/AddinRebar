@@ -11,7 +11,7 @@ insert_final_newline = true
 
 [*.{cs,xaml}]
 indent_size = 4
-max_line_length = 140
+max_line_length = 120
 
 [*.{csproj,props,targets,slnx,xml,json,addin}]
 indent_size = 2

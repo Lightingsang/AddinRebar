@@ -25,7 +25,7 @@ public static class DetailViewCreator
         AnnotationSettings settings,
         ViewNaming naming)
     {
-        var viewType = ResolveViewType(document, ViewTypeName);
+        var viewType = GetOrCreateViewType(document, ViewTypeName);
 
         if (viewType is null)
         {
@@ -51,7 +51,7 @@ public static class DetailViewCreator
     ///     Finds the named view family type, creating it from any section type the first time the tool runs
     ///     in a document.
     /// </summary>
-    public static ViewFamilyType? ResolveViewType(Document document, string name)
+    public static ViewFamilyType? GetOrCreateViewType(Document document, string name)
     {
         var sectionTypes = new FilteredElementCollector(document)
             .OfClass(typeof(ViewFamilyType))
