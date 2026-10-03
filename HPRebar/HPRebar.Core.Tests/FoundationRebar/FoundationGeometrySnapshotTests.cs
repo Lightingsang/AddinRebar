@@ -34,17 +34,6 @@ public sealed class FoundationGeometrySnapshotTests
         Assert.Equal(Vector3.UnitX, snapshot.LocalX);
         Assert.Equal(Vector3.UnitY, snapshot.LocalY);
         Assert.Equal(Vector3.UnitZ, snapshot.LocalZ);
-
-        // Aliases
-        Assert.Equal(snapshot.Length, snapshot.LengthMm, Tolerance);
-        Assert.Equal(snapshot.Width, snapshot.WidthMm, Tolerance);
-        Assert.Equal(snapshot.Thickness, snapshot.ThicknessMm, Tolerance);
-        Assert.Equal(snapshot.TopZ, snapshot.TopElevation, Tolerance);
-        Assert.Equal(snapshot.BottomZ, snapshot.BottomElevation, Tolerance);
-        Assert.Equal(snapshot.LocalZ, snapshot.NormalZ);
-        Assert.Equal(snapshot.LocalX, snapshot.DirectionX);
-        Assert.Equal(snapshot.LocalY, snapshot.DirectionY);
-        Assert.Equal(snapshot.LocalZ, snapshot.DirectionZ);
     }
 
     #endregion

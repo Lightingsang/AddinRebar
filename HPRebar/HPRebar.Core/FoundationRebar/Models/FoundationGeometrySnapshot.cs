@@ -61,17 +61,6 @@ public sealed record FoundationGeometrySnapshot
     /// <summary>Unit direction vector along local Z axis (upward vertical normal).</summary>
     public Vector3 LocalZ { get; init; } = Vector3.UnitZ;
 
-    // Architectural & naming convenience aliases
-    public double LengthMm => Length;
-    public double WidthMm => Width;
-    public double ThicknessMm => Thickness;
-    public double TopElevation => TopZ;
-    public double BottomElevation => BottomZ;
-    public Vector3 NormalZ => LocalZ;
-    public Vector3 DirectionX => LocalX;
-    public Vector3 DirectionY => LocalY;
-    public Vector3 DirectionZ => LocalZ;
-
     /// <summary>
     /// Transforms local foundation coordinates (u, v, z relative to bottom face) to world 3D coordinates:
     /// P_world = Origin + u * LocalX + v * LocalY + z * LocalZ.

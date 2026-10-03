@@ -50,23 +50,6 @@ public sealed class FoundationBoundaryCalculatorTests
         Assert.Equal(3080.0, boundary.EffectiveWidth, Tolerance);
     }
 
-    [Fact]
-    public void ComputeEffectiveBoundary_ReturnsCorrectTupleCoordinates()
-    {
-        // Arrange
-        var snapshot = FoundationTestData.StandardSnapshot(length: 2500.0, width: 1800.0);
-        double coverSide = 40.0;
-
-        // Act
-        var (xMin, xMax, yMin, yMax) = FoundationBoundaryCalculator.ComputeEffectiveBoundary(snapshot, coverSide);
-
-        // Assert
-        Assert.Equal(40.0, xMin, Tolerance);
-        Assert.Equal(2460.0, xMax, Tolerance);
-        Assert.Equal(40.0, yMin, Tolerance);
-        Assert.Equal(1760.0, yMax, Tolerance);
-    }
-
     [Theory]
     [InlineData(100.0, 50.0, 0.0)]   // L == 2 * c_side -> eff = 0
     [InlineData(80.0, 50.0, 0.0)]    // L < 2 * c_side -> clamped to 0
@@ -96,87 +79,8 @@ public sealed class FoundationBoundaryCalculatorTests
     }
 
     [Fact]
-    public void ValidateBoundary_WithValidParameters_ReturnsTrueAndNullError()
-    {
-        // Act
-        var (isValid, errorMessage) = FoundationBoundaryCalculator.ValidateBoundary(3000.0, 2000.0, 50.0);
-
-        // Assert
-        Assert.True(isValid);
-        Assert.Null(errorMessage);
-    }
-
-    [Fact]
-    public void ValidateBoundary_WithSnapshot_ReturnsTrueForValidSnapshot()
-    {
-        // Arrange
-        var snapshot = FoundationTestData.StandardSnapshot();
-
-        // Act
-        var (isValid, errorMessage) = FoundationBoundaryCalculator.ValidateBoundary(snapshot, 50.0);
-
-        // Assert
-        Assert.True(isValid);
-        Assert.Null(errorMessage);
-    }
-
-    [Theory]
-    [InlineData(-1.0)]
-    [InlineData(-50.0)]
-    public void ValidateBoundary_WhenSideCoverIsNegative_ReturnsFalseWithAppropriateError(double negativeCover)
-    {
-        // Act
-        var (isValid, errorMessage) = FoundationBoundaryCalculator.ValidateBoundary(3000.0, 2000.0, negativeCover);
-
-        // Assert
-        Assert.False(isValid);
-        Assert.NotNull(errorMessage);
-        Assert.Contains("negative", errorMessage, StringComparison.OrdinalIgnoreCase);
-    }
-
-    [Theory]
-    [InlineData(100.0, 50.0)]  // L == 2 * cover
-    [InlineData(90.0, 50.0)]   // L < 2 * cover
-    public void ValidateBoundary_WhenLengthLessThanOrEqualToTwiceSideCover_ReturnsFalse(double length, double coverSide)
-    {
-        // Act
-        var (isValid, errorMessage) = FoundationBoundaryCalculator.ValidateBoundary(length, 2000.0, coverSide);
-
-        // Assert
-        Assert.False(isValid);
-        Assert.NotNull(errorMessage);
-        Assert.Contains("Length", errorMessage, StringComparison.OrdinalIgnoreCase);
-    }
-
-    [Theory]
-    [InlineData(100.0, 50.0)]  // W == 2 * cover
-    [InlineData(70.0, 50.0)]   // W < 2 * cover
-    public void ValidateBoundary_WhenWidthLessThanOrEqualToTwiceSideCover_ReturnsFalse(double width, double coverSide)
-    {
-        // Act
-        var (isValid, errorMessage) = FoundationBoundaryCalculator.ValidateBoundary(3000.0, width, coverSide);
-
-        // Assert
-        Assert.False(isValid);
-        Assert.NotNull(errorMessage);
-        Assert.Contains("Width", errorMessage, StringComparison.OrdinalIgnoreCase);
-    }
-
-    [Fact]
     public void Calculate_NullSnapshot_ThrowsArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(() => FoundationBoundaryCalculator.Calculate(null!, 50.0));
-    }
-
-    [Fact]
-    public void ComputeEffectiveBoundary_NullSnapshot_ThrowsArgumentNullException()
-    {
-        Assert.Throws<ArgumentNullException>(() => FoundationBoundaryCalculator.ComputeEffectiveBoundary(null!, 50.0));
-    }
-
-    [Fact]
-    public void ValidateBoundary_NullSnapshot_ThrowsArgumentNullException()
-    {
-        Assert.Throws<ArgumentNullException>(() => FoundationBoundaryCalculator.ValidateBoundary(null!, 50.0));
     }
 }

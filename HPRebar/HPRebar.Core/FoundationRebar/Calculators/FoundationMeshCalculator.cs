@@ -114,11 +114,11 @@ public static class FoundationMeshCalculator
         double hookLenB2 = 0.0;
         if (hasHooks)
         {
-            double reqB1 = spec.GetHookLength(FoundationBarLayer.BottomX, spec.DiameterBottomX);
+            double reqB1 = spec.GetHookLength(spec.DiameterBottomX);
             double maxRiseB1 = Math.Max(0.0, snapshot.Thickness - z1 - spec.CoverTop);
             hookLenB1 = Math.Min(reqB1, maxRiseB1);
 
-            double reqB2 = spec.GetHookLength(FoundationBarLayer.BottomY, spec.DiameterBottomY);
+            double reqB2 = spec.GetHookLength(spec.DiameterBottomY);
             double maxRiseB2 = Math.Max(0.0, snapshot.Thickness - z2 - spec.CoverTop);
             hookLenB2 = Math.Min(reqB2, maxRiseB2);
         }
@@ -128,11 +128,11 @@ public static class FoundationMeshCalculator
         double hookLenT4 = 0.0;
         if (hasHooks && spec.IsTopMatEnabled)
         {
-            double reqT3 = spec.GetHookLength(FoundationBarLayer.TopY, spec.DiameterTopY);
+            double reqT3 = spec.GetHookLength(spec.DiameterTopY);
             double maxDropT3 = Math.Max(0.0, z3 - spec.CoverBottom);
             hookLenT3 = Math.Min(reqT3, maxDropT3);
 
-            double reqT4 = spec.GetHookLength(FoundationBarLayer.TopX, spec.DiameterTopX);
+            double reqT4 = spec.GetHookLength(spec.DiameterTopX);
             double maxDropT4 = Math.Max(0.0, z4 - spec.CoverBottom);
             hookLenT4 = Math.Min(reqT4, maxDropT4);
         }

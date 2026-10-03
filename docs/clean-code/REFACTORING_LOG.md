@@ -139,3 +139,9 @@
 ### 2026-10-03 — Wave 1 · Column · format only
 - `dotnet format whitespace --folder` over `HPRebar/ColumnRebar`, `HPRebar.Core/ColumnRebar`, `HPRebar.Core.Tests/ColumnRebar`: one file changed (`TestSections` initializer indentation); `.editorconfig` gains `csharp_indent_case_contents_when_block = false` so braced `case` blocks keep today's layout (the first run re-indented `SpliceCalculator`, reverted)
 - **Tests:** Core 970/970
+
+### 2026-10-03 — Wave 1 · Foundation · dead code and names (AUD-046/047/049, Foundation part)
+- **Deleted:** `FoundationGeometrySnapshot` aliases (`LengthMm`, `WidthMm`, `ThicknessMm`, `TopElevation`, `BottomElevation`, `NormalZ`, `DirectionX/Y/Z` — read only by their own test asserts); `FoundationRebarSpec.EnableTopMat` alias and the four per-layer hook overrides nothing sets (`GetHookLength(diameter)` keeps HookLength-or-15d); `FoundationBoundaryCalculator.ComputeEffectiveBoundary` + both `ValidateBoundary` overloads (called only by tests; the rules live and are tested in `FoundationValidationCalculator`) with their 8 test methods / 11 cases; the never-supplied `onBarCreated` callback and the computed-and-dropped `barId` in `FoundationRebarCreationService`
+- **Renamed:** `normX`/`normY` (named after the other axis than the value they held) → `normalOfXBars`/`normalOfYBars`; loop → `foreach`
+- **Behaviour:** none
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 959/959 (970 − 11 deleted cases of deleted methods)

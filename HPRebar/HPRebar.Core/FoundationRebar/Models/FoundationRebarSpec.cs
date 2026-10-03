@@ -78,48 +78,12 @@ public sealed record FoundationRebarSpec
     /// <summary>Indicates whether the top reinforcement mat is enabled.</summary>
     public bool IsTopMatEnabled { get; init; } = true;
 
-    /// <summary>Alias for IsTopMatEnabled.</summary>
-    public bool EnableTopMat => IsTopMatEnabled;
-
     /// <summary>Anchorage hook type for rebar ends.</summary>
     public FoundationHookType HookType { get; init; } = FoundationHookType.None;
 
     /// <summary>Default hook length in millimetres. 0.0 defaults to 15 * bar diameter.</summary>
     public double HookLength { get; init; } = 0.0;
 
-    /// <summary>Optional override for Bottom Mat Direction X hook length (mm).</summary>
-    public double? HookLengthBottomX { get; init; }
-
-    /// <summary>Optional override for Bottom Mat Direction Y hook length (mm).</summary>
-    public double? HookLengthBottomY { get; init; }
-
-    /// <summary>Optional override for Top Mat Direction X hook length (mm).</summary>
-    public double? HookLengthTopX { get; init; }
-
-    /// <summary>Optional override for Top Mat Direction Y hook length (mm).</summary>
-    public double? HookLengthTopY { get; init; }
-
-    /// <summary>
-    /// Resolves the effective requested hook length for a given layer.
-    /// Falls back to <see cref="HookLength"/> or standard 15 * diameter.
-    /// </summary>
-    public double GetHookLength(FoundationBarLayer layer, double diameter)
-    {
-        double? specific = layer switch
-        {
-            FoundationBarLayer.BottomX => HookLengthBottomX,
-            FoundationBarLayer.BottomY => HookLengthBottomY,
-            FoundationBarLayer.TopX => HookLengthTopX,
-            FoundationBarLayer.TopY => HookLengthTopY,
-            _ => null
-        };
-
-        if (specific.HasValue && specific.Value > 0)
-            return specific.Value;
-
-        if (HookLength > 0)
-            return HookLength;
-
-        return 15.0 * diameter;
-    }
+    /// <summary>Hook length to request for a bar of <paramref name="diameter"/> mm: <see cref="HookLength"/>, or 15 × diameter when it is 0.</summary>
+    public double GetHookLength(double diameter) => HookLength > 0 ? HookLength : 15.0 * diameter;
 }

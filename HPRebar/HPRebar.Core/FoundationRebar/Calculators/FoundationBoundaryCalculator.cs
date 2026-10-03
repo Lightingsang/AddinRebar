@@ -43,38 +43,4 @@ public static class FoundationBoundaryCalculator
         if (snapshot == null) throw new ArgumentNullException(nameof(snapshot));
         return Calculate(snapshot.Length, snapshot.Width, coverSide);
     }
-
-    /// <summary>
-    /// Tuple helper returning (xMin, xMax, yMin, yMax) bounds.
-    /// </summary>
-    public static (double XMin, double XMax, double YMin, double YMax) ComputeEffectiveBoundary(
-        FoundationGeometrySnapshot snapshot, double coverSide)
-    {
-        if (snapshot == null) throw new ArgumentNullException(nameof(snapshot));
-        return (coverSide, snapshot.Length - coverSide, coverSide, snapshot.Width - coverSide);
-    }
-
-    /// <summary>
-    /// Validates whether the lateral cover allows positive layout spans.
-    /// </summary>
-    public static (bool IsValid, string? ErrorMessage) ValidateBoundary(double length, double width, double coverSide)
-    {
-        if (coverSide < 0)
-            return (false, "Side cover cannot be negative.");
-        if (length <= 2 * coverSide)
-            return (false, $"Foundation Length ({length:F1} mm) must be greater than 2 * Side Cover ({2 * coverSide:F1} mm).");
-        if (width <= 2 * coverSide)
-            return (false, $"Foundation Width ({width:F1} mm) must be greater than 2 * Side Cover ({2 * coverSide:F1} mm).");
-
-        return (true, null);
-    }
-
-    /// <summary>
-    /// Validates whether the lateral cover allows positive layout spans for the given snapshot.
-    /// </summary>
-    public static (bool IsValid, string? ErrorMessage) ValidateBoundary(FoundationGeometrySnapshot snapshot, double coverSide)
-    {
-        if (snapshot == null) throw new ArgumentNullException(nameof(snapshot));
-        return ValidateBoundary(snapshot.Length, snapshot.Width, coverSide);
-    }
 }

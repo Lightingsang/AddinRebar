@@ -19,8 +19,7 @@ public static class FoundationRebarCreationService
         Document document,
         Floor hostFloor,
         FoundationMeshResult mesh,
-        FoundationSession session,
-        Action<int>? onBarCreated = null)
+        FoundationSession session)
     {
         if (document is null) throw new ArgumentNullException(nameof(document));
         if (hostFloor is null) throw new ArgumentNullException(nameof(hostFloor));
@@ -28,14 +27,15 @@ public static class FoundationRebarCreationService
         if (session is null) throw new ArgumentNullException(nameof(session));
 
         var snapshot = session.Snapshot;
-        var normX = new XYZ(snapshot.LocalY.X, snapshot.LocalY.Y, snapshot.LocalY.Z).Normalize();
-        var normY = new XYZ(snapshot.LocalX.X, snapshot.LocalX.Y, snapshot.LocalX.Z).Normalize();
+        // A bar lies in the vertical plane through its own direction, so the plane of a bar running
+        // along local X has local Y as its normal, and the other way round.
+        var normalOfXBars = new XYZ(snapshot.LocalY.X, snapshot.LocalY.Y, snapshot.LocalY.Z).Normalize();
+        var normalOfYBars = new XYZ(snapshot.LocalX.X, snapshot.LocalX.Y, snapshot.LocalX.Z).Normalize();
 
         var createdRebars = new List<Rebar>(mesh.Bars.Count);
 
-        for (int i = 0; i < mesh.Bars.Count; i++)
+        foreach (var bar in mesh.Bars)
         {
-            var bar = mesh.Bars[i];
             var barType = session.FindBarTypeByDiameter(bar.Diameter);
 
             if (barType is null)
@@ -44,11 +44,8 @@ public static class FoundationRebarCreationService
                     $"No RebarBarType found for diameter {bar.Diameter:F1} mm in active document.");
             }
 
-            // Normal vector to the plane of the bar
-            // BottomX and TopX run along X -> plane normal is Local Y
-            // BottomY and TopY run along Y -> plane normal is Local X
-            bool isDirX = bar.Layer is FoundationBarLayer.BottomX or FoundationBarLayer.TopX;
-            XYZ planeNormal = isDirX ? normX : normY;
+            bool runsAlongX = bar.Layer is FoundationBarLayer.BottomX or FoundationBarLayer.TopX;
+            XYZ planeNormal = runsAlongX ? normalOfXBars : normalOfYBars;
 
             var curves = BuildRevitCurves(bar.Polyline);
 
@@ -60,15 +57,7 @@ public static class FoundationRebarCreationService
                 partitionParam.Set("Foundation");
             }
 
-            // Multi-version: ElementId
-#if REVIT2024_OR_GREATER
-            long barId = rebar.Id.Value;
-#else
-            int barId = rebar.Id.IntegerValue;
-#endif
-
             createdRebars.Add(rebar);
-            onBarCreated?.Invoke(i + 1);
         }
 
         Log.Information("Foundation Rebar created {Count} rebar elements.", createdRebars.Count);
