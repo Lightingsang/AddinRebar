@@ -15,13 +15,14 @@ namespace HPRebar.KataExport.View.Controls;
 /// Kata's elevation (<see cref="KataElevationDrawing"/>) on the canvas while the bars are shown, in model millimetres
 /// scaled with the view like CAD. Lines keep Kata's lineweights in whole pixels at any zoom (0.35 → 3 px, 0.20 →
 /// 2 px, thinner → 1 px, as AutoCAD shows them with LWDISPLAY on) and its HIDDEN / CENTER linetypes scaled as drawn.
-/// The dimensions are <see cref="KataCadDimPainter"/>'s, the bar tags <see cref="KataElevationBarTagPainter"/>'s.
+/// The dimensions are <see cref="KataCadDimPainter"/>'s, the bar tags <see cref="KataElevationBarTagPainter"/>'s; the
+/// flags of the section shown are drawn in the accent colour.
 /// </summary>
 internal sealed class KataElevationCadPainter
 {
-    private const double BarPx = 3.0;
-    private const double OutlinePx = 2.0;
-    private const double ThinPx = 1.0;
+    private const double BarPx = KataCadPens.BarPx;
+    private const double OutlinePx = KataCadPens.OutlinePx;
+    private const double ThinPx = KataCadPens.ThinPx;
 
     // kata_block_SECBAL at scale 25: stem −25..108.9, flag (0, 69.45)–(147.3, 108.9), number right-aligned 12.5 left
     // of the stem, its middle 43.75 up.
@@ -38,9 +39,13 @@ internal sealed class KataElevationCadPainter
     private readonly KataElevationDrawing _drawing;
     private readonly KataStationMap _map;
     private readonly KataCadText _text;
+    private readonly int? _selectedFlag;
 
-    public KataElevationCadPainter(KataElevationScene scene, KataCanvasPalette palette, KataDrawPrimitives draw, KataElevationDrawing drawing, KataStationMap map)
+    /// <param name="selectedFlag">Number of the section shown beside the elevation; its flags are highlighted.</param>
+    public KataElevationCadPainter(KataElevationScene scene, KataCanvasPalette palette, KataDrawPrimitives draw, KataElevationDrawing drawing, KataStationMap map,
+        int? selectedFlag = null)
     {
+        _selectedFlag = selectedFlag;
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _palette = palette ?? throw new ArgumentNullException(nameof(palette));
         _draw = draw ?? throw new ArgumentNullException(nameof(draw));
@@ -82,15 +87,22 @@ internal sealed class KataElevationCadPainter
     /// <summary>Screen point of a drawing point (mm along the run, mm up from the beam top).</summary>
     private Point P(double x, double z) => new(_scene.X(_map.ToStation(x)), _scene.Y(_scene.Elevation.TopMm + z));
 
-    /// <summary>A pen a whole number of device pixels wide, dashed as the linetype is drawn (solid once its dashes shrink under 2 px).</summary>
-    private Pen Lineweight(Brush brush, double px, double[]? dashesMm = null)
+    private Pen Lineweight(Brush brush, double px, double[]? dashesMm = null) => KataCadPens.Lineweight(brush, px, _draw.PixelsPerDip, Scale, dashesMm);
+
+    /// <summary>
+    /// Whether <paramref name="at"/> (screen) falls on <paramref name="flag"/>: its stem, its flag and the number
+    /// before it, with a few pixels to spare. <paramref name="point"/> maps drawing millimetres to the screen.
+    /// </summary>
+    public static bool FlagHit(KataDrawingFlag flag, Point at, Func<double, double, Point> point, double scale)
     {
-        double thickness = px / _draw.PixelsPerDip;
-        var pen = new Pen(brush, thickness) { LineJoin = PenLineJoin.Round, StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Flat };
-        if (dashesMm is not null && dashesMm.Min() * Scale >= 2.0)
-            pen.DashStyle = new DashStyle(dashesMm.Select(d => d * Scale / thickness), 0.0);
-        pen.Freeze();
-        return pen;
+        const double spare = 4.0;
+        double numberReach = FlagTextGap + KataDrawingStyle.CharWidthRatio * KataTagStyle.TextHeight
+            * flag.Number.ToString(System.Globalization.CultureInfo.InvariantCulture).Length;
+        var o = point(flag.X, flag.Z);
+        double up = flag.Below ? 1.0 : -1.0;
+        double y1 = o.Y + up * FlagStemBottom * scale, y2 = o.Y + up * FlagTop * scale;
+        return at.X >= o.X - numberReach * scale - spare && at.X <= o.X + FlagWidth * scale + spare
+            && at.Y >= Math.Min(y1, y2) - spare && at.Y <= Math.Max(y1, y2) + spare;
     }
 
     private void PaintSelection()
@@ -108,15 +120,16 @@ internal sealed class KataElevationCadPainter
         var o = P(flag.X, flag.Z);
         if (!_scene.IsVisible(o.X - FlagWidth * Scale, o.X + FlagWidth * Scale)) return;
         double s = Scale, up = flag.Below ? 1.0 : -1.0;
-        var stem = Lineweight(_palette.KataFlag, ThinPx);
+        var brush = flag.Number == _selectedFlag ? _palette.Accent : _palette.KataFlag;
+        var stem = Lineweight(brush, flag.Number == _selectedFlag ? OutlinePx : ThinPx);
         _draw.Line(stem, o.X, o.Y + up * FlagStemBottom * s, o.X, o.Y + up * FlagTop * s);
-        _draw.Polyline(_palette.KataFlag, null, new[]
+        _draw.Polyline(brush, null, new[]
         {
             new Point(o.X, o.Y + up * FlagSlopeStart * s), new Point(o.X + FlagWidth * s, o.Y + up * FlagTop * s), new Point(o.X, o.Y + up * FlagTop * s)
         });
 
         double middle = o.Y + up * FlagTextMiddle * s;
-        _text.Draw(flag.Number.ToString(System.Globalization.CultureInfo.InvariantCulture), _palette.KataFlag, KataTagStyle.TextHeight,
+        _text.Draw(flag.Number.ToString(System.Globalization.CultureInfo.InvariantCulture), brush, KataTagStyle.TextHeight,
             o.X - FlagTextGap * s, middle + KataTagStyle.TextHeight * s / 2.0, KataCadText.Align.Right);
     }
 
@@ -154,19 +167,19 @@ internal sealed class KataElevationCadPainter
         _text.Draw(level.Text, _palette.KataTagText, KataTagStyle.TextHeight, At(35.25, 101.7).X, At(35.25, 101.7).Y, KataCadText.Align.Left);
     }
 
-    /// <summary>kata_block_TD: the beam's name, count and length underlined, the scale under it.</summary>
-    private void PaintTitle(KataDrawingTitle title)
+    private void PaintTitle(KataDrawingTitle title) => PaintTitle(_draw, _text, _palette, Scale, title, P(title.X, title.Z));
+
+    /// <summary>kata_block_TD inserted at <paramref name="o"/>: the name underlined, the scale under it.</summary>
+    public static void PaintTitle(KataDrawPrimitives draw, KataCadText text, KataCanvasPalette palette, double scale, KataDrawingTitle title, Point o)
     {
-        var o = P(title.X, title.Z);
-        double s = Scale;
-        double baseline = o.Y - KataDrawingStyle.TitleNameLift * s;
-        double width = _text.Draw(title.Name, _palette.KataNumber, KataDrawingStyle.TitleTextHeight, o.X, baseline, KataCadText.Align.Centre);
+        double baseline = o.Y - KataDrawingStyle.TitleNameLift * scale;
+        double width = text.Draw(title.Name, palette.KataNumber, KataDrawingStyle.TitleTextHeight, o.X, baseline, KataCadText.Align.Centre);
         if (width > 0.0)
         {
-            double underline = baseline + KataDrawingStyle.TitleTextHeight * 0.2 * s;
-            _draw.Line(Lineweight(_palette.KataNumber, ThinPx), o.X - width / 2.0, underline, o.X + width / 2.0, underline);
+            double underline = baseline + KataDrawingStyle.TitleTextHeight * 0.2 * scale;
+            draw.Line(KataCadPens.Lineweight(palette.KataNumber, ThinPx, draw.PixelsPerDip, scale), o.X - width / 2.0, underline, o.X + width / 2.0, underline);
         }
 
-        _text.Draw(title.Scale, _palette.KataTagText, KataTagStyle.TextHeight, o.X, o.Y + KataDrawingStyle.TitleScaleDrop * s, KataCadText.Align.Centre);
+        text.Draw(title.Scale, palette.KataTagText, KataTagStyle.TextHeight, o.X, o.Y + KataDrawingStyle.TitleScaleDrop * scale, KataCadText.Align.Centre);
     }
 }

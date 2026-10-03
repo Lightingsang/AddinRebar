@@ -8,7 +8,8 @@ namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
 /// Mouse handling as in AutoCAD: the wheel zooms around the cursor, holding the middle button pans (hand cursor),
-/// a middle double click is Zoom Extents; a left click selects a column. Shift + left drag pans too, for a touchpad.
+/// a middle double click is Zoom Extents; a left click selects a column, or the section of a flag it falls on (Kata's
+/// drawing). Shift + left drag pans too, for a touchpad.
 /// </summary>
 public sealed partial class KataElevationCanvas
 {
@@ -91,10 +92,26 @@ public sealed partial class KataElevationCanvas
         bool click = e.ChangedButton == MouseButton.Left && !_panning && !_moved && (e.GetPosition(this) - _pressAt).Length < DragThresholdPx;
         if (click && Elevation is { } elevation && _viewport is { } viewport)
         {
-            double station = viewport.ToStation(e.GetPosition(this).X);
-            // SetCurrentValue keeps the binding to the view model alive whatever its mode.
-            if (elevation.ColumnAt(station, ZeroWidthReachPx / viewport.Scale) is { } column)
-                SetCurrentValue(SelectedColumnIndexProperty, column);
+            var at = e.GetPosition(this);
+            if (SectionPanel() is { } panel && panel.Contains(at))
+            {
+                // The section panel is not part of the run.
+            }
+            else if (FlagAt(elevation, viewport, at) is { } number)
+            {
+                _flagSection = number;
+                _flagPlan = RebarPlan;
+                InvalidateVisual();
+            }
+            else
+            {
+                _flagSection = null;
+                InvalidateVisual();
+                double station = viewport.ToStation(at.X);
+                // SetCurrentValue keeps the binding to the view model alive whatever its mode.
+                if (elevation.ColumnAt(station, ZeroWidthReachPx / viewport.Scale) is { } column)
+                    SetCurrentValue(SelectedColumnIndexProperty, column);
+            }
         }
 
         EndPress();

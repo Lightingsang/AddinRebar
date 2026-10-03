@@ -28,13 +28,9 @@ internal sealed class KataElevationSectionPainter
     private readonly KataDrawPrimitives _draw;
 
     private readonly IReadOnlyList<KataSectionCut> _cuts;
-    private readonly bool _markers;
 
-    /// <param name="markers">Mark the cuts on the elevation (Kata's elevation draws its own flags).</param>
-    public KataElevationSectionPainter(KataElevationScene scene, KataRebarDrawing drawing, KataStationMap map, KataCanvasPalette palette, KataDrawPrimitives draw,
-        bool markers = true)
+    public KataElevationSectionPainter(KataElevationScene scene, KataRebarDrawing drawing, KataStationMap map, KataCanvasPalette palette, KataDrawPrimitives draw)
     {
-        _markers = markers;
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         if (drawing is null) throw new ArgumentNullException(nameof(drawing));
         _plan = drawing.Plan;
@@ -54,9 +50,8 @@ internal sealed class KataElevationSectionPainter
         var cuts = _cuts;
         if (cuts.Count == 0) return;
 
-        var selected = Selected(cuts);
-        if (_markers)
-            foreach (var cut in cuts) PaintMarker(cut, ReferenceEquals(cut, selected));
+        var selected = SelectedCut(_scene, cuts, _map);
+        foreach (var cut in cuts) PaintMarker(cut, ReferenceEquals(cut, selected));
         if (selected is null || !HasRoom(_scene.Width, _scene.Height)) return;
 
         PaintCard(selected);
@@ -187,10 +182,12 @@ internal sealed class KataElevationSectionPainter
     }
 
     /// <summary>The cut of the selected column: a span's middle one, else the one nearest the column.</summary>
-    private KataSectionCut? Selected(IReadOnlyList<KataSectionCut> cuts)
+    public static KataSectionCut? SelectedCut(KataElevationScene scene, IReadOnlyList<KataSectionCut> cuts, KataStationMap map)
     {
-        var columns = _scene.Elevation.Columns;
-        int index = _scene.SelectedColumn;
+        if (cuts.Count == 0) return null;
+        double Local(double station) => (station - map.Origin) * map.Direction;
+        var columns = scene.Elevation.Columns;
+        int index = scene.SelectedColumn;
         if (index < 0 || index >= columns.Count) index = columns.ToList().FindIndex(c => c.Kind == KataColumnKind.Span);
         if (index < 0) return null;
 
@@ -205,8 +202,6 @@ internal sealed class KataElevationSectionPainter
 
         return cuts.OrderBy(c => Math.Abs(c.X - centre)).First();
     }
-
-    private double Local(double station) => (station - _map.Origin) * _map.Direction;
 
     /// <summary>A cut on the elevation: a short stroke above and below the beam and its number under the beam, past the bar tags.</summary>
     private void PaintMarker(KataSectionCut cut, bool selected)

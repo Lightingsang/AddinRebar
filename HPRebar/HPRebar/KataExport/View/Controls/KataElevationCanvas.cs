@@ -15,7 +15,9 @@ namespace HPRebar.KataExport.View.Controls;
 /// <summary>
 /// The beam run as an elevation, one scale both ways and zoomed and panned like AutoCAD (mouse handling in
 /// <c>KataElevationCanvas.Input.cs</c>). A click selects the Kata column under the cursor, two-way bound to the
-/// preview table; the view model frames a span or the whole run through <see cref="FocusRequest"/>.
+/// preview table; the view model frames a span or the whole run through <see cref="FocusRequest"/>. With Kata's
+/// elevation drawn, a click on a section flag shows that section in a panel on the right
+/// (<c>KataElevationCanvas.Section.cs</c>).
 /// </summary>
 public sealed partial class KataElevationCanvas : FrameworkElement
 {
@@ -157,15 +159,15 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         }
 
         var viewport = _viewport ??= Frame(elevation, FrameRange(elevation, elevation.Bounds), MarginPx);
-        var (above, below) = Band();
-        var scene = new KataElevationScene(elevation, viewport, ActualWidth, ActualHeight, SelectedColumnIndex,
-            above * viewport.Scale, below * viewport.Scale);
+        var scene = Scene(elevation, viewport);
         var map = RebarStationMap ?? KataStationMap.Identity;
         var drawing = Drawing();
+        var panel = SectionPanel();
+        var cut = drawing is not null && panel is not null ? ShownCut(drawing, scene, map) : null;
 
         // With the bars shown the run is drawn as Kata's elevation; without them (or if that fails) as read from Revit.
         bool kata = KataMode && drawing is not null
-            && Overlay("kata drawing", () => new KataElevationCadPainter(scene, palette, draw, drawing.Elevation, map).Paint());
+            && Overlay("kata drawing", () => new KataElevationCadPainter(scene, palette, draw, drawing.Elevation, map, cut?.Number).Paint());
         if (KataMode && !kata)
         {
             // Frame again for the labels of the plain elevation and paint that instead.
@@ -177,15 +179,22 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         if (kata)
         {
             if (ShowBarTags) Overlay("bar tags", () => new KataElevationBarTagPainter(scene, palette, draw, drawing!, map).Paint());
+            if (cut is not null && panel is { } area && drawing!.Section(cut, map.Direction < 0) is { } section)
+                Overlay("section", () => new KataSectionCadPainter(palette, draw, section, area).Paint());
         }
         else
         {
             Overlay("elevation", () => new KataElevationPainter(scene, palette, draw).Paint());
             Overlay("annotations", () => new KataElevationAnnotations(scene, palette, draw).Paint());
+            if (ShowSection && drawing is not null)
+                Overlay("sections", () => new KataElevationSectionPainter(scene, drawing, map, palette, draw).Paint());
         }
+    }
 
-        if (ShowSection && drawing is not null)
-            Overlay("sections", () => new KataElevationSectionPainter(scene, drawing, map, palette, draw, markers: !kata).Paint());
+    private KataElevationScene Scene(KataElevation elevation, KataElevationViewport viewport)
+    {
+        var (above, below) = Band();
+        return new KataElevationScene(elevation, viewport, ActualWidth, ActualHeight, SelectedColumnIndex, above * viewport.Scale, below * viewport.Scale);
     }
 
     /// <summary>
@@ -259,6 +268,8 @@ public sealed partial class KataElevationCanvas : FrameworkElement
     private static void OnSelectedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var canvas = (KataElevationCanvas)sender;
+        // A column picked in the table or on the canvas shows its own section again.
+        canvas._flagSection = null;
         int index = (int)args.NewValue;
         if (canvas.Elevation is not { } elevation || canvas._viewport is not { } viewport || index < 0 || index >= elevation.Columns.Count) return;
 

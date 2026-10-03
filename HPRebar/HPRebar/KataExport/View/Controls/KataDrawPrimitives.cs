@@ -59,6 +59,9 @@ internal sealed class KataDrawPrimitives
 
     public void Push(System.Windows.Media.Transform transform) => _dc.PushTransform(transform);
 
+    /// <summary>Clips what follows to <paramref name="area"/> until the matching <see cref="Pop"/>.</summary>
+    public void PushClip(Rect area) => _dc.PushClip(new RectangleGeometry(area));
+
     public void Pop() => _dc.Pop();
 
     /// <summary>A closed filled arrowhead (AutoCAD's default, 3:1) with its tip at (<paramref name="x"/>, <paramref name="y"/>).</summary>

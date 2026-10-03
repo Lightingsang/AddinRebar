@@ -45,9 +45,14 @@ public sealed partial class KataElevationCanvas
         return new Interval1D(Math.Min(range.Start, Math.Min(a, b)) - LevelMarkReach, Math.Max(range.End, Math.Max(a, b)) + LevelMarkReach);
     }
 
-    /// <summary>Canvas width left of the section card.</summary>
-    private double UsableWidth() =>
-        Math.Max(1.0, ActualWidth - (ShowSection && RebarPlan is not null ? KataElevationSectionPainter.ReservedWidth(ActualWidth, ActualHeight) : 0.0));
+    /// <summary>Canvas width left of the section panel (Kata's drawing) or card (the plain elevation).</summary>
+    private double UsableWidth()
+    {
+        double reserved = KataMode
+            ? SectionPanel()?.Width ?? 0.0
+            : ShowSection && RebarPlan is not null ? KataElevationSectionPainter.ReservedWidth(ActualWidth, ActualHeight) : 0.0;
+        return Math.Max(1.0, ActualWidth - reserved);
+    }
 
     /// <summary>
     /// "Zoom extents" on <paramref name="range"/>: across the width (capped at <see cref="FocusMaxScale"/>), zoomed out
