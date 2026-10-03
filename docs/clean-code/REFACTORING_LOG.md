@@ -119,3 +119,7 @@
 - **Behaviour:** a template / dimension type / text type deleted while the window was open is left out with a log line instead of rolling back the run (dimensions or tables are then skipped); a project whose first "Structural" template is not a section-family template no longer throws — the first structural section/detail/elevation template is used, else the first of those of any discipline, else none; non-English Revit now finds the structural template
 - **Review:** code-reviewer APPROVE WITH CHANGES; applied M1 (ids + re-fetch instead of `IsValidObject` on held wrappers — undo invalidates a wrapper of an element that still exists), M2 (Elevation templates), L3 (helper named `Resolve`); M3/L1 recorded in B-07/B-17; L2 (summary dialog does not list skipped types) not done
 - **Build:** Debug.R23 ✅ R24 ✅ R25 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · **Golden run:** CHƯA TEST
+
+### 2026-10-03 — Wave 0.4 — `.editorconfig`
+- **File:** new `HPRebar/.editorconfig` (`root = true`): 4-space indent, Allman braces, file-scoped namespaces, `csharp_prefer_braces` (FM2), `max_line_length = 140`, `_camelCase` private fields, PascalCase constants and `static readonly` — all `suggestion`/`silent`; line endings and BOMs deliberately not set (mixed tree, normalising = churn)
+- **Effect:** no build change (Debug.R26 ✅, 0 new warnings); `dotnet format whitespace --verify-no-changes` on Core reports 49 drifts → applied per feature in Wave 1 format-only commits

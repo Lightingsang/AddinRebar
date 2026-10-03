@@ -84,7 +84,7 @@ Unit tests do not prove the add-in still produces the same model (PCC-271). For 
 | 0.1 | Build matrix `Debug.R23…R27` (`-p:DeployAddin=false`), record errors/warnings per config | R27 expected to fail (B-09) |
 | 0.2 | Run every test project; record real counts; correct CLAUDE.md "Current State" numbers + "five features" | doc change only |
 | 0.3 | Fixture models + fixed specs + golden snapshot script (§3) | **needs Revit 2026 open**; Claude can drive it through the Revit MCP if the bridge is on |
-| 0.4 | `.editorconfig` mirroring the current style (no reformat yet) | config file → Planning Mode approval |
+| 0.4 ✅ | `.editorconfig` mirroring the current style (no reformat yet) | `HPRebar/.editorconfig`, suggestions only, 2026-10-03 |
 | 0.5 | Fill Core test gaps that later waves rely on: `BeamContinuousStack`, `Polyline3.Simplify`, `Point3`/`Tolerance` | tests only |
 
 ### Wave 1–8 batch order (per wave: Column → Foundation → Beam → MCP → Kata)
