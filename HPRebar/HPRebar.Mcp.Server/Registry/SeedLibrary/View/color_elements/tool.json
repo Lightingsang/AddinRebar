@@ -17,7 +17,7 @@
     "analysis"
   ],
   "title": "Colour elements by parameter value",
-  "description": "In the active view, colour every element of a category (BuiltInCategory or display name) by the value of a parameter: each distinct value gets its own colour (random palette, a gradient, or your customColors in order). Returns the legend (value → colour → count). Undo with operate_element ResetIsolate? No — clear overrides via the view's Visibility/Graphics or run again with another parameter.",
+  "description": "In the active view, colour every element of a category (BuiltInCategory or display name) by the value of a parameter: each distinct value gets its own colour (random palette, a gradient, or your customColors in order). Returns the legend (value → colour → count). To remove the colours, clear the element overrides in the view's Visibility/Graphics, or run again with another parameter.",
   "inputSchema": {
     "type": "object",
     "properties": {
