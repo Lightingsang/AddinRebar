@@ -36,4 +36,20 @@ public sealed class BeamStirrupDistributionCalculatorCharacterizationTests
         // Assert
         Assert.Equal(expectedHash, $"{scenario}:{CharacterizationText.Hash(runs)}");
     }
+
+    [Theory]
+    [InlineData(400.0, 25.0, 150.0, "node-standard:68CFB8FC9B4F5327066B13B7")]
+    [InlineData(630.0, 40.0, 95.0, "node-wide:529DCB886F87479A81288DF1")]
+    [InlineData(450.0, 30.0, 1000.0, "node-one-stirrup:1B448281123639AC60025A45")]
+    [InlineData(40.0, 25.0, 100.0, "node-no-room:83CDA8F5750120A2183034E8")]
+    public void ComputeNodeRun_FixedInput_ProducesTheRecordedRun(
+        double supportWidthMm, double coverMm, double spacingMm, string expected)
+    {
+        // Act
+        var run = BeamStirrupDistributionCalculator.ComputeNodeRun(supportWidthMm, coverMm, spacingMm);
+
+        // Assert
+        string scenario = expected.Split(':')[0];
+        Assert.Equal(expected, $"{scenario}:{CharacterizationText.Hash(run)}");
+    }
 }

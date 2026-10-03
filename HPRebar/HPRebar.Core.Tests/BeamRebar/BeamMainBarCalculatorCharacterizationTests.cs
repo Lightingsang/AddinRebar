@@ -1,3 +1,4 @@
+using System.Linq;
 using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
 using Xunit;
@@ -35,6 +36,16 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
             "explicit-bottom-start-hook", TestBeamData.SingleSpan(),
             TestBeamData.MainBarSpec() with { BottomStartHookLength = 300.0, TopEndHookLength = 0.0 },
             "explicit-bottom-start-hook:B63898A0F4F8E2DD3D76387F"
+        },
+        { "right-cantilever", RightCantilever(TestBeamData.TwoSpan(l2: 2000)), TestBeamData.MainBarSpec(), "right-cantilever:59B744546D222C83376B73BD" },
+        {
+            "right-cantilever-spliced", RightCantilever(TestBeamData.TwoSpan(l2: 2000)),
+            TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "right-cantilever-spliced:F1F8DA9CE4660162715BC316"
+        },
+        { "single-long-span", TestBeamData.SingleSpan(length: 12500), TestBeamData.MainBarSpec(), "single-long-span:2669C602964E56A1A98A3EA0" },
+        {
+            "stepped-right-cantilever", RightCantilever(TestBeamData.VariableDepth()), TestBeamData.MainBarSpec(),
+            "stepped-right-cantilever:34C7AE04403B14451A4674EB"
         }
     };
 
@@ -51,5 +62,13 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
         Assert.NotEmpty(top);
         Assert.NotEmpty(bottom);
         Assert.Equal(expectedHash, $"{scenario}:{CharacterizationText.Hash(new object[] { top, bottom })}");
+    }
+
+    /// <summary>The same stack with its last span flagged as a right cantilever.</summary>
+    private static BeamContinuousStack RightCantilever(BeamContinuousStack stack)
+    {
+        var spans = stack.Spans.ToList();
+        spans[spans.Count - 1] = spans[spans.Count - 1] with { Cantilever = CantileverPosition.Right };
+        return stack with { Spans = spans };
     }
 }
