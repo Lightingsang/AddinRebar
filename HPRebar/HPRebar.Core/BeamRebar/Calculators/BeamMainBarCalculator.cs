@@ -138,45 +138,6 @@ public static class BeamMainBarCalculator
     }
 
     /// <summary>
-    /// The straight part of a main bar from <see cref="XStart"/> to <see cref="XEnd"/> at height <see cref="Z"/>,
-    /// with the hook legs at each end (0 = no hook).
-    /// </summary>
-    private readonly record struct BarRun(double XStart, double XEnd, double Z, double HookStart, double HookEnd)
-    {
-        /// <summary>Straight length plus both hook legs — compared with the stock length to decide on a splice.</summary>
-        public double Length => (XEnd - XStart) + HookStart + HookEnd;
-    }
-
-    /// <summary>Whether the first and the last span are cantilevers (by span flag or by a cantilever-end support).</summary>
-    private static (bool Left, bool Right) CantileverEnds(BeamContinuousStack stack)
-    {
-        bool left = stack.Spans[0].IsCantilever
-                    || (stack.Supports.Count > 0 && stack.Supports[0].Type == SupportType.CantileverEnd);
-        bool right = stack.Spans[stack.Spans.Count - 1].IsCantilever
-                     || (stack.Supports.Count > 0 && stack.Supports[stack.Supports.Count - 1].Type == SupportType.CantileverEnd);
-        return (left, right);
-    }
-
-    private static double StockLimit(BeamMainBarSpec spec) =>
-        spec.MaxStockLength > 0.0 ? spec.MaxStockLength : CommercialStockLengthMm;
-
-    /// <summary>
-    /// The entered hook length, or the default leg cut to the depth between the two covers and stirrups.
-    /// </summary>
-    private static double EndHookLength(
-        double enteredLength, double spanHeight, double cover, double stirrupDiameterMm, double barDiameter) =>
-        enteredLength > 0.0
-            ? enteredLength
-            : Math.Min(spanHeight - (2.0 * cover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(barDiameter));
-
-    /// <summary>Staggered splices: even bars lap on the near side of <paramref name="centre"/>, odd bars on the far side.</summary>
-    private static double SpliceCentre(double centre, double staggerOffset, int barIndex) =>
-        barIndex % 2 == 0 ? centre - (staggerOffset / 2.0) : centre + (staggerOffset / 2.0);
-
-    private static double StaggerOffset(BeamMainBarSpec spec, double lapLength) =>
-        spec.EnableStagger ? (spec.StaggerOffsetRatio * lapLength) : 0.0;
-
-    /// <summary>
     /// Top bars run from cover to cover over the end supports (or the cantilever tips) under the top cover and
     /// stirrup of the first span, hooked down at both ends.
     /// </summary>
@@ -195,9 +156,9 @@ public static class BeamMainBarCalculator
                 : stack.OverallEndX - spec.TopCover);
 
         double z = stack.Spans[0].TopElevation - spec.TopCover - stirrupDiameterMm - (spec.TopDiameter / 2.0);
-        double hookStart = EndHookLength(
+        double hookStart = AnchorageHookLength(
             spec.TopStartHookLength, stack.Spans[0].Height, spec.TopCover, stirrupDiameterMm, spec.TopDiameter);
-        double hookEnd = EndHookLength(
+        double hookEnd = AnchorageHookLength(
             spec.TopEndHookLength, stack.Spans[stack.Spans.Count - 1].Height, spec.TopCover, stirrupDiameterMm, spec.TopDiameter);
 
         return new BarRun(xStart, xEnd, z, hookStart, hookEnd);
@@ -206,11 +167,12 @@ public static class BeamMainBarCalculator
     /// <summary>One top bar per position, hooked down at both ends (the hook point is kept even when its leg is 0).</summary>
     private static IReadOnlyList<BarPolyline> UnsplicedTopBars(BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
     {
+        var side = BarSide.Top(spec);
         var result = new List<BarPolyline>();
         for (int i = 0; i < yPositions.Count; i++)
         {
             double y = yPositions[i];
-            var rawPoints = new List<Point3>
+            var points = new List<Point3>
             {
                 new(run.XStart, y, run.Z - run.HookStart),
                 new(run.XStart, y, run.Z),
@@ -218,30 +180,21 @@ public static class BeamMainBarCalculator
                 new(run.XEnd, y, run.Z - run.HookEnd)
             };
 
-            result.Add(new BarPolyline
-            {
-                BarIndex = i,
-                Type = BarType.MainTop,
-                Diameter = spec.TopDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(rawPoints)),
-                StartHookAngle = HookAngle.Hook90,
-                EndHookAngle = HookAngle.Hook90,
-                TransverseY = y,
-                BarTypeName = spec.TopBarTypeName
-            });
+            result.Add(MainBar(side, i, y, points, HookAngle.Hook90, HookAngle.Hook90));
         }
 
         return result;
     }
 
     /// <summary>
-    /// Top bars longer than the stock length are lapped at the middle of the middle span, alternate bars
-    /// staggered; each position gives a left piece hooked at the start and a right piece hooked at the end.
+    /// Top bars longer than the stock length are lapped at the middle of span <c>Spans.Count / 2</c> (the middle
+    /// span of an odd count, the right-hand of the two middle spans of an even count), alternate bars staggered;
+    /// each position gives a left piece hooked at the start and a right piece hooked at the end.
     /// </summary>
     private static IReadOnlyList<BarPolyline> SplicedTopBars(
         BeamContinuousStack stack, BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
     {
+        var side = BarSide.Top(spec);
         double lapLength = spec.LapFactor * spec.TopDiameter;
         double staggerOffset = StaggerOffset(spec, lapLength);
         var targetSpan = stack.Spans[stack.Spans.Count / 2];
@@ -251,7 +204,7 @@ public static class BeamMainBarCalculator
         for (int i = 0; i < yPositions.Count; i++)
         {
             double y = yPositions[i];
-            double spliceCenter = SpliceCentre(midspanCenter, staggerOffset, i);
+            double spliceCenter = SpliceCenter(midspanCenter, staggerOffset, i);
             double seg1EndX = spliceCenter + (lapLength / 2.0);
             double seg2StartX = spliceCenter - (lapLength / 2.0);
 
@@ -269,31 +222,8 @@ public static class BeamMainBarCalculator
                 new(run.XEnd, y, run.Z - run.HookEnd)
             };
 
-            result.Add(new BarPolyline
-            {
-                BarIndex = (i * 2),
-                Type = BarType.MainTop,
-                Diameter = spec.TopDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(pts1)),
-                StartHookAngle = HookAngle.Hook90,
-                EndHookAngle = HookAngle.None,
-                TransverseY = y,
-                BarTypeName = spec.TopBarTypeName
-            });
-
-            result.Add(new BarPolyline
-            {
-                BarIndex = (i * 2) + 1,
-                Type = BarType.MainTop,
-                Diameter = spec.TopDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(pts2)),
-                StartHookAngle = HookAngle.None,
-                EndHookAngle = HookAngle.Hook90,
-                TransverseY = y,
-                BarTypeName = spec.TopBarTypeName
-            });
+            result.Add(MainBar(side, i * 2, y, pts1, HookAngle.Hook90, HookAngle.None));
+            result.Add(MainBar(side, (i * 2) + 1, y, pts2, HookAngle.None, HookAngle.Hook90));
         }
 
         return result;
@@ -320,6 +250,7 @@ public static class BeamMainBarCalculator
     private static IReadOnlyList<BarPolyline> SteppedBottomBars(
         BeamContinuousStack stack, BeamMainBarSpec spec, double stirrupDiameterMm, (bool Left, bool Right) cantilevers)
     {
+        var side = BarSide.Bottom(spec);
         var result = new List<BarPolyline>();
         for (int s = 0; s < stack.Spans.Count; s++)
         {
@@ -340,7 +271,7 @@ public static class BeamMainBarCalculator
             for (int i = 0; i < spanYPositions.Count; i++)
             {
                 double y = spanYPositions[i];
-                var pts = new List<Point3>
+                var points = new List<Point3>
                 {
                     new(xStart, y, zBotBar + hookLen),
                     new(xStart, y, zBotBar),
@@ -348,19 +279,7 @@ public static class BeamMainBarCalculator
                     new(xEnd, y, zBotBar + hookLen)
                 };
 
-                result.Add(new BarPolyline
-                {
-                    BarIndex = result.Count,
-                    Type = BarType.MainBottom,
-                    Diameter = spec.BottomDiameter,
-                    Layer = 1,
-                    HostSpanIndex = s,
-                    Polyline = new Polyline3(SimplifyPolyline(pts)),
-                    StartHookAngle = HookAngle.Hook90,
-                    EndHookAngle = HookAngle.Hook90,
-                    TransverseY = y,
-                    BarTypeName = spec.BottomBarTypeName
-                });
+                result.Add(MainBar(side, result.Count, y, points, HookAngle.Hook90, HookAngle.Hook90) with { HostSpanIndex = s });
             }
         }
 
@@ -386,7 +305,7 @@ public static class BeamMainBarCalculator
             xStart = stack.Supports.Count > 0
                 ? stack.Supports[0].LeftFaceX + spec.BottomCover
                 : stack.OverallStartX + spec.BottomCover;
-            hookStart = EndHookLength(
+            hookStart = AnchorageHookLength(
                 spec.BottomStartHookLength, stack.Spans[0].Height, spec.BottomCover, stirrupDiameterMm, spec.BottomDiameter);
         }
 
@@ -402,7 +321,7 @@ public static class BeamMainBarCalculator
             xEnd = stack.Supports.Count > 0
                 ? stack.Supports[stack.Supports.Count - 1].RightFaceX - spec.BottomCover
                 : stack.OverallEndX - spec.BottomCover;
-            hookEnd = EndHookLength(
+            hookEnd = AnchorageHookLength(
                 spec.BottomEndHookLength, stack.Spans[stack.Spans.Count - 1].Height, spec.BottomCover, stirrupDiameterMm,
                 spec.BottomDiameter);
         }
@@ -415,41 +334,33 @@ public static class BeamMainBarCalculator
     private static IReadOnlyList<BarPolyline> UnsplicedBottomBars(
         BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
     {
+        var side = BarSide.Bottom(spec);
         var result = new List<BarPolyline>();
         for (int i = 0; i < yPositions.Count; i++)
         {
             double y = yPositions[i];
-            var pts = new List<Point3>();
+            var points = new List<Point3>();
             if (run.HookStart > 0.0)
-                pts.Add(new(run.XStart, y, run.Z + run.HookStart));
-            pts.Add(new(run.XStart, y, run.Z));
-            pts.Add(new(run.XEnd, y, run.Z));
+                points.Add(new(run.XStart, y, run.Z + run.HookStart));
+            points.Add(new(run.XStart, y, run.Z));
+            points.Add(new(run.XEnd, y, run.Z));
             if (run.HookEnd > 0.0)
-                pts.Add(new(run.XEnd, y, run.Z + run.HookEnd));
+                points.Add(new(run.XEnd, y, run.Z + run.HookEnd));
 
-            result.Add(new BarPolyline
-            {
-                BarIndex = i,
-                Type = BarType.MainBottom,
-                Diameter = spec.BottomDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(pts)),
-                StartHookAngle = run.HookStart > 0.0 ? HookAngle.Hook90 : HookAngle.None,
-                EndHookAngle = run.HookEnd > 0.0 ? HookAngle.Hook90 : HookAngle.None,
-                TransverseY = y,
-                BarTypeName = spec.BottomBarTypeName
-            });
+            result.Add(MainBar(side, i, y, points, HookAt(run.HookStart), HookAt(run.HookEnd)));
         }
 
         return result;
     }
 
     /// <summary>
-    /// Bottom bars longer than the stock length are lapped over the middle support, alternate bars staggered.
+    /// Bottom bars longer than the stock length are lapped over support <c>Supports.Count / 2</c> (at least
+    /// support 1), alternate bars staggered.
     /// </summary>
     private static IReadOnlyList<BarPolyline> SplicedBottomBars(
         BeamContinuousStack stack, BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
     {
+        var side = BarSide.Bottom(spec);
         double lapLength = spec.LapFactor * spec.BottomDiameter;
         double staggerOffset = StaggerOffset(spec, lapLength);
         int targetSupportIndex = stack.Supports.Count / 2;
@@ -460,7 +371,7 @@ public static class BeamMainBarCalculator
         for (int i = 0; i < yPositions.Count; i++)
         {
             double y = yPositions[i];
-            double spliceCenter = SpliceCentre(supportCenter, staggerOffset, i);
+            double spliceCenter = SpliceCenter(supportCenter, staggerOffset, i);
 
             double seg1EndX = spliceCenter + (lapLength / 2.0);
             var pts1 = new List<Point3>();
@@ -478,33 +389,77 @@ public static class BeamMainBarCalculator
             if (run.HookEnd > 0.0)
                 pts2.Add(new(run.XEnd, y, run.Z + run.HookEnd));
 
-            result.Add(new BarPolyline
-            {
-                BarIndex = (i * 2),
-                Type = BarType.MainBottom,
-                Diameter = spec.BottomDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(pts1)),
-                StartHookAngle = run.HookStart > 0.0 ? HookAngle.Hook90 : HookAngle.None,
-                EndHookAngle = HookAngle.None,
-                TransverseY = y,
-                BarTypeName = spec.BottomBarTypeName
-            });
-
-            result.Add(new BarPolyline
-            {
-                BarIndex = (i * 2) + 1,
-                Type = BarType.MainBottom,
-                Diameter = spec.BottomDiameter,
-                Layer = 1,
-                Polyline = new Polyline3(SimplifyPolyline(pts2)),
-                StartHookAngle = HookAngle.None,
-                EndHookAngle = run.HookEnd > 0.0 ? HookAngle.Hook90 : HookAngle.None,
-                TransverseY = y,
-                BarTypeName = spec.BottomBarTypeName
-            });
+            result.Add(MainBar(side, i * 2, y, pts1, HookAt(run.HookStart), HookAngle.None));
+            result.Add(MainBar(side, (i * 2) + 1, y, pts2, HookAngle.None, HookAt(run.HookEnd)));
         }
 
         return result;
+    }
+
+    /// <summary>A main bar of one side, its points simplified.</summary>
+    private static BarPolyline MainBar(
+        BarSide side, int index, double y, IReadOnlyList<Point3> points, HookAngle startHook, HookAngle endHook) =>
+        new()
+        {
+            BarIndex = index,
+            Type = side.Type,
+            Diameter = side.Diameter,
+            Layer = 1,
+            Polyline = new Polyline3(SimplifyPolyline(points)),
+            StartHookAngle = startHook,
+            EndHookAngle = endHook,
+            TransverseY = y,
+            BarTypeName = side.TypeName
+        };
+
+    /// <summary>Bottom bars are labelled hooked only where the leg is positive.</summary>
+    private static HookAngle HookAt(double hookLeg) => hookLeg > 0.0 ? HookAngle.Hook90 : HookAngle.None;
+
+    /// <summary>Whether the first and the last span are cantilevers (by span flag or by a cantilever-end support).</summary>
+    private static (bool Left, bool Right) CantileverEnds(BeamContinuousStack stack)
+    {
+        bool left = stack.Spans[0].IsCantilever
+                    || (stack.Supports.Count > 0 && stack.Supports[0].Type == SupportType.CantileverEnd);
+        bool right = stack.Spans[stack.Spans.Count - 1].IsCantilever
+                     || (stack.Supports.Count > 0 && stack.Supports[stack.Supports.Count - 1].Type == SupportType.CantileverEnd);
+        return (left, right);
+    }
+
+    private static double StockLimit(BeamMainBarSpec spec) =>
+        spec.MaxStockLength > 0.0 ? spec.MaxStockLength : CommercialStockLengthMm;
+
+    /// <summary>
+    /// The hook leg at one end of a bar: the length entered for that end, or the default leg cut to the depth
+    /// between the two covers and stirrups.
+    /// </summary>
+    private static double AnchorageHookLength(
+        double enteredLength, double spanHeight, double cover, double stirrupDiameterMm, double barDiameter) =>
+        enteredLength > 0.0
+            ? enteredLength
+            : Math.Min(spanHeight - (2.0 * cover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(barDiameter));
+
+    private static double StaggerOffset(BeamMainBarSpec spec, double lapLength) =>
+        spec.EnableStagger ? (spec.StaggerOffsetRatio * lapLength) : 0.0;
+
+    /// <summary>Staggered splices: even bars lap on the near side of <paramref name="center"/>, odd bars on the far side.</summary>
+    private static double SpliceCenter(double center, double staggerOffset, int barIndex) =>
+        barIndex % 2 == 0 ? center - (staggerOffset / 2.0) : center + (staggerOffset / 2.0);
+
+    /// <summary>
+    /// The straight part of a main bar from <see cref="XStart"/> to <see cref="XEnd"/> at height <see cref="Z"/>,
+    /// with the hook legs at each end (0 = no hook).
+    /// </summary>
+    private readonly record struct BarRun(double XStart, double XEnd, double Z, double HookStart, double HookEnd)
+    {
+        /// <summary>Straight length plus both hook legs — compared with the stock length to decide on a splice.</summary>
+        public double Length => (XEnd - XStart) + HookStart + HookEnd;
+    }
+
+    /// <summary>What every bar of one side (top or bottom) shares: bar type, diameter and Revit type name.</summary>
+    private readonly record struct BarSide(BarType Type, double Diameter, string TypeName)
+    {
+        public static BarSide Top(BeamMainBarSpec spec) => new(BarType.MainTop, spec.TopDiameter, spec.TopBarTypeName);
+
+        public static BarSide Bottom(BeamMainBarSpec spec) => new(BarType.MainBottom, spec.BottomDiameter, spec.BottomBarTypeName);
     }
 }

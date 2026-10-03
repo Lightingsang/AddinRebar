@@ -74,27 +74,11 @@ public static class BeamStirrupDistributionCalculator
         if (lNode <= 0.0)
             return new StirrupRun { Count = 0, Spacing = spacingMm };
 
-        int intervals = (int)Math.Floor(lNode / spacingMm);
+        var (intervals, delta) = FitSpacings(lNode, spacingMm);
         int count = intervals + 1;
-        if (count > RevitRebarLimits.MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spacingMm), $"Node stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
+        EnsureWithinLimit(count, "Node stirrup", nameof(spacingMm));
 
-        double delta = (lNode - (intervals * spacingMm)) / 2.0;
-        double startOffset = coverMm + delta;
-        var positions = new List<double>(count);
-        for (int i = 0; i < count; i++)
-            positions.Add(startOffset + (i * spacingMm));
-
-        return new StirrupRun
-        {
-            Count = count,
-            Spacing = spacingMm,
-            StartOffset = startOffset,
-            Length = intervals * spacingMm,
-            StartX = startOffset,
-            EndX = startOffset + (intervals * spacingMm),
-            Positions = positions
-        };
+        return Run(coverMm + delta, intervals, count, spacingMm);
     }
 
     /// <summary>
@@ -146,51 +130,15 @@ public static class BeamStirrupDistributionCalculator
         return allRuns;
     }
 
-    /// <summary>
-    /// Fits whole spacings into <paramref name="length"/> and splits what is left over equally at both ends.
-    /// </summary>
-    private static (int Intervals, double Delta) Centre(double length, double spacing)
-    {
-        int intervals = (int)Math.Floor(length / spacing);
-        double delta = (length - (intervals * spacing)) / 2.0;
-        return (intervals, delta);
-    }
-
-    private static void EnsureWithinLimit(int count, string what)
-    {
-        if (count > RevitRebarLimits.MaxBarPositions)
-            throw new ArgumentOutOfRangeException(
-                "spec", $"{what} count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
-    }
-
-    /// <summary><paramref name="count"/> stirrups from <paramref name="startX"/>, <paramref name="intervals"/> spacings long.</summary>
-    private static StirrupRun Run(double startX, int intervals, int count, double spacing)
-    {
-        var positions = new List<double>(count);
-        for (int i = 0; i < count; i++)
-            positions.Add(startX + (i * spacing));
-
-        return new StirrupRun
-        {
-            Count = count,
-            Spacing = spacing,
-            StartOffset = startX,
-            Length = intervals * spacing,
-            StartX = startX,
-            EndX = startX + (intervals * spacing),
-            Positions = positions
-        };
-    }
-
-    /// <summary>One run at <paramref name="spacing"/>, centred in the distribution length after the start offset; none when that length is negative.</summary>
+    /// <summary>One run at <paramref name="spacing"/>, centered in the distribution length after the start offset; none when that length is negative.</summary>
     private static IReadOnlyList<StirrupRun> SingleDenseRun(double startOffset, double distributionLength, double spacing)
     {
         if (distributionLength < 0.0)
             return Array.Empty<StirrupRun>();
 
-        var (intervals, delta) = Centre(distributionLength, spacing);
+        var (intervals, delta) = FitSpacings(distributionLength, spacing);
         int count = intervals + 1;
-        EnsureWithinLimit(count, "Stirrup");
+        EnsureWithinLimit(count, "Stirrup", "spec");
 
         return new[] { Run(startOffset + delta, intervals, count, spacing) };
     }
@@ -201,9 +149,9 @@ public static class BeamStirrupDistributionCalculator
     /// </summary>
     private static IReadOnlyList<StirrupRun> ThreeZoneRuns(double clearSpanMm, double zoneLength, BeamStirrupSpec spec)
     {
-        var (intervals1, delta1) = Centre(zoneLength - spec.StartOffset, spec.SpacingDense);
+        var (intervals1, delta1) = FitSpacings(zoneLength - spec.StartOffset, spec.SpacingDense);
         int count1 = intervals1 + 1;
-        EnsureWithinLimit(count1, "Zone 1 stirrup");
+        EnsureWithinLimit(count1, "Zone 1 stirrup", nameof(spec));
 
         double startX1 = spec.StartOffset + delta1;
         double startX3 = (clearSpanMm - zoneLength) + delta1;
@@ -217,7 +165,7 @@ public static class BeamStirrupDistributionCalculator
     }
 
     /// <summary>
-    /// The sparse zone between the last stirrup of zone 1 and the first of zone 3, centred in that gap so the
+    /// The sparse zone between the last stirrup of zone 1 and the first of zone 3, centered in that gap so the
     /// spacing at each zone boundary d satisfies s2/2 &lt; d &lt;= s2 (no doubled stirrups at a transition).
     /// A gap narrower than two spacings takes one stirrup in its middle, or none when it is under 100 mm.
     /// </summary>
@@ -240,9 +188,46 @@ public static class BeamStirrupDistributionCalculator
             intervals2 = 0;
 
         int count2 = intervals2 + 1;
-        EnsureWithinLimit(count2, "Zone 2 stirrup");
+        EnsureWithinLimit(count2, "Zone 2 stirrup", nameof(spec));
 
         double delta2 = (gap - (intervals2 * spec.SpacingSparse)) / 2.0;
         return Run(lastX1 + delta2, intervals2, count2, spec.SpacingSparse);
+    }
+
+    /// <summary>
+    /// Fits whole spacings into <paramref name="length"/>; <c>Delta</c> is half the length left over, the margin
+    /// at each end that centers the stirrups.
+    /// </summary>
+    private static (int Intervals, double Delta) FitSpacings(double length, double spacing)
+    {
+        int intervals = (int)Math.Floor(length / spacing);
+        double delta = (length - (intervals * spacing)) / 2.0;
+        return (intervals, delta);
+    }
+
+    private static void EnsureWithinLimit(int count, string what, string paramName)
+    {
+        if (count > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(
+                paramName, $"{what} count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
+    }
+
+    /// <summary><paramref name="count"/> stirrups from <paramref name="startX"/>, <paramref name="intervals"/> spacings long.</summary>
+    private static StirrupRun Run(double startX, int intervals, int count, double spacing)
+    {
+        var positions = new List<double>(count);
+        for (int i = 0; i < count; i++)
+            positions.Add(startX + (i * spacing));
+
+        return new StirrupRun
+        {
+            Count = count,
+            Spacing = spacing,
+            StartOffset = startX,
+            Length = intervals * spacing,
+            StartX = startX,
+            EndX = startX + (intervals * spacing),
+            Positions = positions
+        };
     }
 }
