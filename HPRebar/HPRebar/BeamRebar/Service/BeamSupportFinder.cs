@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
 using Serilog;
 
@@ -22,7 +23,7 @@ public static class BeamSupportFinder
         XYZ transverseAxis,
         XYZ originPoint)
     {
-        var rawSupports = new List<(double CenterXMm, double WidthMm, double DepthMm, SupportType Type, string UniqueId)>();
+        var measured = new List<MeasuredSupport>();
         var beamIds = new HashSet<ElementId>(sortedBeams.Select(b => b.Id));
 
         foreach (var beam in sortedBeams)
@@ -58,165 +59,38 @@ public static class BeamSupportFinder
                 if (cat == BuiltInCategory.OST_StructuralColumns)
                 {
                     var support = MeasureColumnSupport(candidate, beamAxis, transverseAxis, originPoint);
-                    if (support.HasValue) rawSupports.Add(support.Value);
+                    if (support is not null)
+                    {
+                        measured.Add(support);
+                    }
                 }
                 else if (cat == BuiltInCategory.OST_Walls)
                 {
                     var support = MeasureWallSupport(candidate, beamAxis, transverseAxis, originPoint);
-                    if (support.HasValue) rawSupports.Add(support.Value);
+                    if (support is not null)
+                    {
+                        measured.Add(support);
+                    }
                 }
                 else if (cat == BuiltInCategory.OST_StructuralFraming)
                 {
                     var support = MeasureGirderSupport(candidate, beamAxis, transverseAxis, originPoint, beamSoffitZ);
-                    if (support.HasValue) rawSupports.Add(support.Value);
+                    if (support is not null)
+                    {
+                        measured.Add(support);
+                    }
                 }
             }
         }
 
-        // Deduplicate supports by center station (merging candidates within 100 mm)
-        var ordered = rawSupports
-            .OrderBy(s => s.CenterXMm)
-            .GroupBy(s => Math.Round(s.CenterXMm / 100.0) * 100.0)
-            .Select(g => g.First())
-            .ToList();
-
-        // If no physical supports detected, fallback to default synthesis
-        if (ordered.Count == 0)
+        if (measured.Count == 0)
         {
             Log.Warning("BeamSupportFinder detected 0 physical supports; synthesizing boundary nodes.");
-            return SynthesizeDefaultSupports(sortedBeams, beamAxis, originPoint);
+            return BeamSupportLayout.Synthesize(sortedBeams.Select(LengthMm).ToList());
         }
 
-        // Determine continuous beam run longitudinal extent
-        var beamEndpoints = sortedBeams.Select(b =>
-        {
-            var l = (b.Location as LocationCurve)!.Curve as Line;
-            double s0 = RevitUnits.FtToMm((l!.GetEndPoint(0) - originPoint).DotProduct(beamAxis));
-            double s1 = RevitUnits.FtToMm((l.GetEndPoint(1) - originPoint).DotProduct(beamAxis));
-            return (Start: Math.Min(s0, s1), End: Math.Max(s0, s1));
-        }).OrderBy(b => b.Start).ToList();
-
-        double runMinX = beamEndpoints.First().Start;
-        double runMaxX = beamEndpoints.Last().End;
-
-        // Check whether exterior ends are cantilevers (support missing at start or end)
-        double firstSupportLeft = ordered[0].CenterXMm - (ordered[0].WidthMm / 2.0);
-        double lastSupportRight = ordered[ordered.Count - 1].CenterXMm + (ordered[ordered.Count - 1].WidthMm / 2.0);
-
-        var rawNodes = new List<(double CenterXMm, double WidthMm, double DepthMm, SupportType Type, string UniqueId)>();
-
-        bool isCantileverStart = (firstSupportLeft - runMinX) > 200.0;
-        if (isCantileverStart)
-        {
-            rawNodes.Add((runMinX, 0.0, 0.0, SupportType.CantileverEnd, string.Empty));
-        }
-
-        foreach (var s in ordered)
-        {
-            rawNodes.Add(s);
-        }
-
-        bool isCantileverEnd = (runMaxX - lastSupportRight) > 200.0;
-        if (isCantileverEnd)
-        {
-            rawNodes.Add((runMaxX, 0.0, 0.0, SupportType.CantileverEnd, string.Empty));
-        }
-
-        // If physical supports are fewer than N_spans + 1 after cantilever detection,
-        // synthesize missing intermediate joint nodes between spans without discarding real supports
-        if (rawNodes.Count < sortedBeams.Count + 1)
-        {
-            for (int i = 0; i < beamEndpoints.Count - 1 && rawNodes.Count < sortedBeams.Count + 1; i++)
-            {
-                double jointX = beamEndpoints[i].End;
-                if (!rawNodes.Any(n => Math.Abs(n.CenterXMm - jointX) < 300.0))
-                {
-                    rawNodes.Add((jointX, 300.0, 300.0, SupportType.Column, string.Empty));
-                }
-            }
-        }
-
-        var sortedNodes = rawNodes.OrderBy(n => n.CenterXMm).ToList();
-        var result = new List<BeamSupportNode>();
-        int total = sortedNodes.Count;
-
-        for (int i = 0; i < total; i++)
-        {
-            var s = sortedNodes[i];
-            bool isExterior = (i == 0 || i == total - 1);
-            SupportType type;
-            if (s.Type == SupportType.CantileverEnd)
-            {
-                type = SupportType.CantileverEnd;
-            }
-            else if (isExterior)
-            {
-                type = s.Type == SupportType.Column ? SupportType.ExteriorColumn : s.Type;
-            }
-            else
-            {
-                type = s.Type == SupportType.ExteriorColumn ? SupportType.InteriorColumn : (s.Type == SupportType.Column ? SupportType.InteriorColumn : s.Type);
-            }
-
-            string name = type == SupportType.CantileverEnd ? $"Tip {i + 1}" : $"Support {i + 1}";
-
-            result.Add(new BeamSupportNode(
-                index: i,
-                name: name,
-                centerX: s.CenterXMm,
-                width: s.WidthMm,
-                type: type,
-                depth: s.DepthMm,
-                elementUniqueId: s.UniqueId,
-                isExterior: isExterior));
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Fallback generator when physical column/wall supports are missing in the model.
-    /// </summary>
-    private static IReadOnlyList<BeamSupportNode> SynthesizeDefaultSupports(
-        IReadOnlyList<Element> sortedBeams,
-        XYZ beamAxis,
-        XYZ originPoint)
-    {
-        var list = new List<BeamSupportNode>();
-        double currentX = 0.0;
-        const double defaultSupportWidth = 300.0;
-
-        for (int i = 0; i < sortedBeams.Count; i++)
-        {
-            var beam = sortedBeams[i];
-            var line = (beam.Location as LocationCurve)?.Curve as Line;
-            double lenMm = line != null ? RevitUnits.FtToMm(line.Length) : 4000.0;
-
-            if (i == 0)
-            {
-                list.Add(new BeamSupportNode(
-                    index: 0,
-                    name: "Support 1",
-                    centerX: currentX,
-                    width: defaultSupportWidth,
-                    type: SupportType.ExteriorColumn,
-                    depth: defaultSupportWidth,
-                    isExterior: true));
-            }
-
-            currentX += lenMm;
-            bool isLast = (i == sortedBeams.Count - 1);
-            list.Add(new BeamSupportNode(
-                index: i + 1,
-                name: $"Support {i + 2}",
-                centerX: currentX,
-                width: defaultSupportWidth,
-                type: isLast ? SupportType.ExteriorColumn : SupportType.Column,
-                depth: defaultSupportWidth,
-                isExterior: isLast));
-        }
-
-        return list;
+        var pieces = sortedBeams.Select(beam => Extent(beam, beamAxis, originPoint)).ToList();
+        return BeamSupportLayout.Arrange(measured, pieces);
     }
 
     /// <summary>
@@ -294,8 +168,7 @@ public static class BeamSupportFinder
         return intersections;
     }
 
-    private static (double CenterXMm, double WidthMm, double DepthMm, SupportType Type, string UniqueId)?
-        MeasureColumnSupport(Element column, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint)
+    private static MeasuredSupport? MeasureColumnSupport(Element column, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint)
     {
         var solid = BeamSolidFaceReader.GetSingleSolid(column);
         if (solid is null) return null;
@@ -363,7 +236,7 @@ public static class BeamSupportFinder
         }
         if (depthY <= 0.001) depthY = widthS;
 
-        return (
+        return new MeasuredSupport(
             RevitUnits.FtToMm(centerS),
             RevitUnits.FtToMm(widthS),
             RevitUnits.FtToMm(depthY),
@@ -371,8 +244,7 @@ public static class BeamSupportFinder
             column.UniqueId);
     }
 
-    private static (double CenterXMm, double WidthMm, double DepthMm, SupportType Type, string UniqueId)?
-        MeasureWallSupport(Element wall, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint)
+    private static MeasuredSupport? MeasureWallSupport(Element wall, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint)
     {
         var solid = BeamSolidFaceReader.GetSingleSolid(wall);
         if (solid is null) return null;
@@ -387,7 +259,7 @@ public static class BeamSupportFinder
         double widthS = Math.Abs((box.Max - box.Min).DotProduct(beamAxis));
         double depthY = Math.Abs((box.Max - box.Min).DotProduct(transverseAxis));
 
-        return (
+        return new MeasuredSupport(
             RevitUnits.FtToMm(centerS),
             RevitUnits.FtToMm(widthS > 0.3 ? widthS : 0.8), // ~250 mm fallback
             RevitUnits.FtToMm(depthY),
@@ -395,8 +267,8 @@ public static class BeamSupportFinder
             wall.UniqueId);
     }
 
-    private static (double CenterXMm, double WidthMm, double DepthMm, SupportType Type, string UniqueId)?
-        MeasureGirderSupport(Element girder, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint, double beamSoffitZ)
+    private static MeasuredSupport? MeasureGirderSupport(
+        Element girder, XYZ beamAxis, XYZ transverseAxis, XYZ originPoint, double beamSoffitZ)
     {
         var curve = (girder.Location as LocationCurve)?.Curve as Line;
         if (curve is null) return null;
@@ -420,13 +292,27 @@ public static class BeamSupportFinder
         double width = BeamSolidFaceReader.GetWidthMm(girder, candDir.CrossProduct(XYZ.BasisZ).Normalize());
         double height = BeamSolidFaceReader.GetHeightMm(girder);
 
-        return (
+        return new MeasuredSupport(
             RevitUnits.FtToMm(centerS),
             width > 0 ? width : 300.0,
             height > 0 ? height : 600.0,
             SupportType.Girder,
             girder.UniqueId);
     }
+
+    /// <summary>Where a straight framing element starts and ends along the run axis (mm).</summary>
+    private static BeamPieceExtent Extent(Element beam, XYZ beamAxis, XYZ originPoint)
+    {
+        var line = (beam.Location as LocationCurve)!.Curve as Line;
+        double s0 = RevitUnits.FtToMm((line!.GetEndPoint(0) - originPoint).DotProduct(beamAxis));
+        double s1 = RevitUnits.FtToMm((line.GetEndPoint(1) - originPoint).DotProduct(beamAxis));
+        return new BeamPieceExtent(Math.Min(s0, s1), Math.Max(s0, s1));
+    }
+
+    private static double LengthMm(Element beam) =>
+        (beam.Location as LocationCurve)?.Curve is Line line
+            ? RevitUnits.FtToMm(line.Length)
+            : BeamSupportLayout.UnknownBeamLengthMm;
 
     /// <summary>The first point where two curves meet, or null when they do not.</summary>
     private static XYZ? FirstIntersection(Curve first, Curve second)
