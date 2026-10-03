@@ -95,3 +95,10 @@
 - **Behaviour:** an untouched window keeps today's output (session default sections per span 2 → 3, the value the run always used); the scale 1:50 shown on the tab is now applied when no template controls the scale — this changes the elevation scale of untouched runs in documents whose template leaves scale free
 - **Not changed:** `UseRealRebar` session property is bound nowhere (dead; Wave 1)
 - **Build:** Debug.R23 ✅ R25 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · **Golden run:** CHƯA TEST
+
+### 2026-10-03 — Review follow-up for B-02
+- **Review:** code-reviewer APPROVE WITH FOLLOW-UPS 7.5/10 (no Critical/High); flags, `ForRun` completeness, `ApplyScale` (VIEW_SCALE is a template parameter) and R1–R3 confirmed
+- **Applied:** progress plan counts the sections the run really cuts (`SectionViewCreator.PlannedCount` — one per cantilever) and the dimensions of the views it really draws (`DimensionCreator.PlannedCount(onElevation, sections)`); view-name validation checks only the names of enabled views; session and settings defaults read `BeamViewOptions.Default` (no repeated literals); checkbox relabelled "Create Section Bar Tables" / "Tạo Bảng Thống Kê Thép Mặt Cắt" — no rebar tags were ever drawn
+- **Logged, not fixed (pre-existing):** B-16 (R4 stale elements), B-17 (table row height scale), B-18 (template picking), B-19 (table rows by cut index)
+- **Deferred:** dead `UseRealRebar`, unused `faces` constructor, uncalled `TagRebarOnElevation` (Wave 1); `BeamAnnotationSettings` → record with `with` (Wave 3); `RevitViewNames` sub-namespace (cosmetic)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · **Golden run:** CHƯA TEST

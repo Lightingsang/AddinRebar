@@ -172,14 +172,14 @@ public sealed partial class BeamRebarSession : ObservableObject
     [ObservableProperty] private double _diagonalTieDiameter = 14.0;
 
     // --- Views and Annotations Properties ---
-    [ObservableProperty] private bool _createElevationView = true;
-    [ObservableProperty] private string _detailViewName = "Beam Detail";
-    [ObservableProperty] private int _elevationScale = 50;
-    [ObservableProperty] private bool _createSectionViews = true;
+    [ObservableProperty] private bool _createElevationView = BeamViewOptions.Default.CreateElevationView;
+    [ObservableProperty] private string _detailViewName = BeamViewOptions.Default.DetailViewName;
+    [ObservableProperty] private int _elevationScale = BeamViewOptions.Default.ElevationScale;
+    [ObservableProperty] private bool _createSectionViews = BeamViewOptions.Default.CreateSectionViews;
     [ObservableProperty] private int _sectionsPerSpan = BeamViewOptions.Default.SectionsPerSpan;
-    [ObservableProperty] private string _sectionPrefix = "Sec";
-    [ObservableProperty] private bool _createDimensions = true;
-    [ObservableProperty] private bool _createTags = true;
+    [ObservableProperty] private string _sectionPrefix = BeamViewOptions.Default.SectionPrefix;
+    [ObservableProperty] private bool _createDimensions = BeamViewOptions.Default.CreateDimensions;
+    [ObservableProperty] private bool _createTags = BeamViewOptions.Default.CreateTables;
     [ObservableProperty] private string _partitionName = "Beam Rebar";
     [ObservableProperty] private bool _useRealRebar = true;
 
@@ -420,7 +420,9 @@ public sealed partial class BeamRebarSession : ObservableObject
             return false;
         }
 
-        if (RevitViewNames.TryFindForbiddenCharacter(DetailViewName + SectionPrefix, out var character))
+        string usedNames = CreateElevationView || CreateSectionViews ? DetailViewName : string.Empty;
+        if (CreateSectionViews) usedNames += SectionPrefix;
+        if (RevitViewNames.TryFindForbiddenCharacter(usedNames, out var character))
         {
             errorMessage = $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";
             return false;

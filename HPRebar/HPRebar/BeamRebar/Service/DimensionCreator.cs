@@ -167,5 +167,6 @@ public static class DimensionCreator
         return Line.CreateBound(bottom, top);
     }
 
-    public static int PlannedCount(BeamContinuousStack stack) => 2 + stack.Spans.Count * 2 * 2;
+    /// <summary>Upper bound of the dimensions a run draws: span chain + height on the elevation, width + height per section.</summary>
+    public static int PlannedCount(bool onElevation, int sectionCount) => (onElevation ? 2 : 0) + sectionCount * 2;
 }

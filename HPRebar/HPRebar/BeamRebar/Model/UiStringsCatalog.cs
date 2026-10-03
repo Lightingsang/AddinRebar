@@ -48,7 +48,7 @@ public static class UiStringsCatalog
         CreateElevationView = "Tạo Chi Tiết Dọc Dầm",
         CreateSectionViews = "Tạo Mặt Cắt Ngang Dầm",
         CreateDimensions = "Ghi Kích Thước Dầm & Nhịp",
-        CreateTags = "Gắn Tag Thép & Bảng Thống Kê",
+        CreateTags = "Tạo Bảng Thống Kê Thép Mặt Cắt",
         ElevationViewName = "Tên Chi Tiết Dọc",
         SectionViewPrefix = "Tiền Tố Mặt Cắt",
 

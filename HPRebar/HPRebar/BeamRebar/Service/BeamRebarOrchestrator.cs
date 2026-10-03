@@ -44,11 +44,13 @@ public sealed class BeamRebarOrchestrator
     public int PlannedCount(BeamRebarSpec spec)
     {
         var views = spec.Views;
-        int sections = views.CreateSectionViews ? _stack.Spans.Count * views.SectionsPerSpan : 0;
+        int sections = views.CreateSectionViews
+            ? SectionViewCreator.PlannedCount(_stack.Spans, views.SectionsPerSpan)
+            : 0;
 
         return (views.CreateElevationView ? 1 : 0)
                + sections
-               + (views.CreateDimensions ? DimensionCreator.PlannedCount(_stack.ContinuousStack) : 0)
+               + (views.CreateDimensions ? DimensionCreator.PlannedCount(views.CreateElevationView, sections) : 0)
                + (views.CreateTables ? sections : 0)
                + RebarCreationService.PlannedCount(_stack, spec);
     }

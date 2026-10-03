@@ -48,7 +48,7 @@ public sealed record UiStrings
     public string CreateElevationView { get; init; } = "Create Longitudinal Elevation Detail";
     public string CreateSectionViews { get; init; } = "Create Cross-Section Views";
     public string CreateDimensions { get; init; } = "Create Section & Span Dimensions";
-    public string CreateTags { get; init; } = "Create Rebar Tags & Schedule Tables";
+    public string CreateTags { get; init; } = "Create Section Bar Tables";
     public string ElevationViewName { get; init; } = "Detail View Name";
     public string SectionViewPrefix { get; init; } = "Section View Prefix";
 

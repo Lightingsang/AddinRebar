@@ -49,6 +49,18 @@ public static class SectionViewCreator
         return views;
     }
 
+    /// <summary>The sections a run cuts: one per cantilever, <paramref name="sectionsPerSpan"/> per supported span.</summary>
+    public static int PlannedCount(IReadOnlyList<BeamSpan> spans, int sectionsPerSpan)
+    {
+        int count = 0;
+        foreach (var span in spans)
+        {
+            count += ComputeCutStations(span, sectionsPerSpan).Count;
+        }
+
+        return count;
+    }
+
     public static IReadOnlyList<double> ComputeCutStations(BeamSpan span, int sectionsPerSpan)
     {
         var stations = new List<double>();

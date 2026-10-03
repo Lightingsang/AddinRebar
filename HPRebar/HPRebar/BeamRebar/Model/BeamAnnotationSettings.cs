@@ -22,8 +22,8 @@ public sealed class BeamAnnotationSettings
     public double TableOffset { get; set; }
     public double ViewMargin { get; set; }
 
-    public string DetailViewName { get; set; } = "Beam Detail";
-    public string SectionPrefix { get; set; } = "Sec";
+    public string DetailViewName { get; set; } = BeamViewOptions.Default.DetailViewName;
+    public string SectionPrefix { get; set; } = BeamViewOptions.Default.SectionPrefix;
     public int SectionsPerSpan { get; set; } = BeamViewOptions.Default.SectionsPerSpan;
     public int ElevationScale { get; set; } = BeamViewOptions.Default.ElevationScale;
 
