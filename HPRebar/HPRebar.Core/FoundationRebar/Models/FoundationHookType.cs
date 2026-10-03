@@ -9,16 +9,7 @@ public enum FoundationHookType
     None = 0,
 
     /// <summary>Standard 90-degree bend hook.</summary>
-    Hook90Degrees = 1,
-
-    /// <summary>Alias for Hook90Degrees.</summary>
-    Hook90 = 1,
-
-    /// <summary>Alias for upward 90-degree bend hook.</summary>
-    Hook90Up = 1,
-
-    /// <summary>Alias for downward 90-degree bend hook.</summary>
-    Hook90Down = 2
+    Hook90Degrees = 1
 }
 
 /// <summary>

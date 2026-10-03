@@ -63,3 +63,15 @@
 - **Tests:** Core 949/949, Mcp.Server 109/109
 - **Golden run:** CHƯA TEST — R23–R25 identical calls; R26 switches to `BarTerminationsData` (same call KataRebar runs live on R26); to verify with Wave 0.3 fixtures
 - **Review:** code-reviewer APPROVE 8.5/10. Applied: docs, Foundation summary, using order. Deferred: `KataRebarCurveFactory.Create` duplicates the shared factory → point Kata at it in Wave 6 (concurrent Kata work); `FirstIntersection` accepts only `Overlap` on R26+ like the old branch did — candidates are near-perpendicular (dot ≤ 0.25) so collinear/end-contact cases are not expected; pre-existing fallback to the candidate start point when lines are disjoint in 3D logged for Wave 3
+
+### 2026-10-03 — Fix track B-01 — Beam bars use the cover entered in the window
+- **Findings closed:** B-01
+- **Files:** `HPRebar.Core/BeamRebar/Models/BeamContinuousStack.cs` (`WithCover`), `HPRebar/BeamRebar/Service/RebarCreationService.cs` (applies `spec.Stirrups.Cover` to every span before any creator runs), `HPRebar.Core.Tests/BeamRebar/BeamContinuousStackTests.cs` (+6)
+- **Change:** span stirrups, additional, side and special bars now use the UI cover (the preview already did); before, they used the 25 mm placeholder read with the stack
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 955/955
+- **Golden run:** CHƯA TEST (intended behaviour change: output differs whenever cover ≠ 25 mm)
+
+### 2026-10-03 — Fix track B-05 — Foundation hook aliases removed
+- **Findings closed:** B-05
+- **Change:** `FoundationHookType.Hook90`, `Hook90Up`, `Hook90Down` deleted — no code or UI used them (the window offers None / Hook90Degrees only), so "Hook90Down makes no hooks" could not be reached; no behaviour change
+- **Build/Tests:** as above
