@@ -16,21 +16,21 @@ internal static class TestSections
         double top = 3000,
         double west = 0,
         double south = 0) => new()
-    {
-        Index = 0,
-        Shape = SectionShape.Rectangle,
-        B = b,
-        H = h,
-        Hc = top - bottom,
-        Hb = 0,
-        Zb = 0,
-        BottomPosition = bottom,
-        TopPosition = top,
-        WestPosition = west,
-        EastPosition = west + b,
-        SouthPosition = south,
-        NorthPosition = south + h
-    };
+        {
+            Index = 0,
+            Shape = SectionShape.Rectangle,
+            B = b,
+            H = h,
+            Hc = top - bottom,
+            Hb = 0,
+            Zb = 0,
+            BottomPosition = bottom,
+            TopPosition = top,
+            WestPosition = west,
+            EastPosition = west + b,
+            SouthPosition = south,
+            NorthPosition = south + h
+        };
 
     public static ColumnSection Circular(double d = 500, double bottom = 0, double top = 3000) => new()
     {

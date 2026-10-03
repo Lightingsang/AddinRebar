@@ -31,6 +31,9 @@ csharp_new_line_before_else = true
 csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true
 
+# A braced case block keeps its braces in line with the case label, as the code is written
+csharp_indent_case_contents_when_block = false
+
 # var where the type is evident, as the code is written
 csharp_style_var_for_built_in_types = true:silent
 csharp_style_var_when_type_is_apparent = true:silent

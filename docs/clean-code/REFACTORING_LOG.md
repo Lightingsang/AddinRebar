@@ -135,3 +135,7 @@
 - **Behaviour:** value unchanged; the Beam validation message said "Revit's 1000 limit" while checking 1002 — it now prints the constant
 - **Open:** the repeated hook default `Math.Max(30d, 200)` in Core Beam (rest of AUD-010) — next Beam batch
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970
+
+### 2026-10-03 — Wave 1 · Column · format only
+- `dotnet format whitespace --folder` over `HPRebar/ColumnRebar`, `HPRebar.Core/ColumnRebar`, `HPRebar.Core.Tests/ColumnRebar`: one file changed (`TestSections` initializer indentation); `.editorconfig` gains `csharp_indent_case_contents_when_block = false` so braced `case` blocks keep today's layout (the first run re-indented `SpliceCalculator`, reverted)
+- **Tests:** Core 970/970
