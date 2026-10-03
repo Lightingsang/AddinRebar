@@ -3141,10 +3141,11 @@ Rules: **293** across 15 chapters.
 - **Detection Signals:**
   - Interface-typed field assigned with `new SomeConcrete()` in the same class's constructor.
   - Abstractions in signatures but concrete construction inside the class.
+  - The reverse case — injection without inversion: a constructor parameter or field typed as a concrete low-level class (`public Store(FastCourier courier)`), so the class still names the detail it depends on. *(added 2026-10-03 after a NotebookLM cross-check of chapter 9)*
 - **Recommended Action:** Keep the abstraction (DIP) *and* move construction outside (DI) so implementations can be chosen at run time and replaced in tests.
 - **Exceptions/Trade-offs:** Inversion of Control and DI containers: (not stated in book) — the chapter does not discuss IoC as a concept or any container.
-- **Related Rules:** PCC-157, PCC-160.
-- **Review Question:** Beyond typing the field by an interface, does this class also avoid constructing the implementation itself?
+- **Related Rules:** PCC-154, PCC-157, PCC-160, PCC-180.
+- **Review Question:** Is what this class receives typed as an abstraction, and does the class also avoid constructing the implementation itself?
 
 #### PCC-159
 **Inject a factory abstraction when a dependency needs runtime data**
