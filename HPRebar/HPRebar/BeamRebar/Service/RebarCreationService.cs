@@ -55,6 +55,10 @@ public static class RebarCreationService
         RebarTypeCatalog catalog,
         IProgress<int>? progress = null)
     {
+        // The stack was read from the model with a placeholder cover; every bar group must use the cover
+        // entered in the window, the same one the preview draws with.
+        stack = stack with { ContinuousStack = stack.ContinuousStack.WithCover(spec.Stirrups.Cover) };
+
         int done = 0;
         var stirrups = new List<Rebar>();
         var mainBars = new List<Rebar>();

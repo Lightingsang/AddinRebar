@@ -150,6 +150,24 @@ public sealed record BeamContinuousStack
         return ValidationResult.Ok();
     }
 
+    /// <summary>
+    /// A copy of this stack whose spans all use <paramref name="coverMm"/> as the clear cover to the stirrup,
+    /// so every bar group is placed with the cover the engineer entered rather than the one read from the model.
+    /// </summary>
+    public BeamContinuousStack WithCover(double coverMm)
+    {
+        if (!(coverMm > 0.0))
+            throw new ArgumentOutOfRangeException(nameof(coverMm), coverMm, "Cover must be a positive length in millimetres.");
+
+        var spans = new BeamSpan[Spans.Count];
+        for (int i = 0; i < Spans.Count; i++)
+        {
+            spans[i] = Spans[i] with { Cover = coverMm };
+        }
+
+        return this with { Spans = spans };
+    }
+
     /// <summary>Finds the span enclosing the given station coordinate X.</summary>
     public BeamSpan? FindSpanAt(double x)
     {
