@@ -54,3 +54,12 @@
 ### Wave 0 — open batches
 - **0.3 fixtures + golden run:** deferred — needs a Revit session not used by the Kata work (Revit was open on the user's `THCPHCS2…_detached` model). Next step when the user frees Revit or approves a second Revit instance on a scratch template.
 - **0.4 `.editorconfig`:** deferred to the start of Wave 1 so the concurrent Kata session's editor does not start reformatting files mid-work.
+
+### 2026-10-03 — Fix track B-09 — Revit 2027 build (removed APIs gated)
+- **Findings closed:** B-09; first type in `Shared/` (ADR-0004)
+- **Files:** new `HPRebar/HPRebar/Shared/Revit/RebarCurveFactory.cs`; `BeamMainBarCreator`, `BeamSideBarCreator`, `BeamSpecialBarCreator`, `BeamSupportFinder` (private gated `FirstIntersection`), `FoundationRebarCreationService`; CLAUDE.md/AGENTS.md R27 paragraph + `Shared/` paragraph
+- **Change:** 4 `CreateFromCurves` + 1 `Curve.Intersect(out)` under `#pragma CS0618` replaced by `#if REVIT2026_OR_GREATER` paths; a null rebar now throws a clear exception (before: NRE, or a null silently added to the created list)
+- **Build:** Debug.R23 ✅ R24 ✅ R25 ✅ R26 ✅ R27 ✅ (was 10 errors), 0 C# warnings
+- **Tests:** Core 949/949, Mcp.Server 109/109
+- **Golden run:** CHƯA TEST — R23–R25 identical calls; R26 switches to `BarTerminationsData` (same call KataRebar runs live on R26); to verify with Wave 0.3 fixtures
+- **Review:** code-reviewer APPROVE 8.5/10. Applied: docs, Foundation summary, using order. Deferred: `KataRebarCurveFactory.Create` duplicates the shared factory → point Kata at it in Wave 6 (concurrent Kata work); `FirstIntersection` accepts only `Overlap` on R26+ like the old branch did — candidates are near-perpendicular (dot ≤ 0.25) so collinear/end-contact cases are not expected; pre-existing fallback to the candidate start point when lines are disjoint in 3D logged for Wave 3

@@ -4,13 +4,14 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using HPRebar.Core.FoundationRebar.Models;
 using HPRebar.FoundationRebar.Model;
+using HPRebar.Shared.Revit;
 using Serilog;
 
 namespace HPRebar.FoundationRebar.Service;
 
 /// <summary>
 /// Service creating native Revit <see cref="Rebar"/> elements from pure domain <see cref="FoundationMeshResult"/>.
-/// Uses modern <see cref="Rebar.CreateFromCurves"/> with unit conversions and multi-version compatibility.
+/// Bars are created hook-less through <see cref="HPRebar.Shared.Revit.RebarCurveFactory.CreateWithoutHooks"/>.
 /// </summary>
 public static class FoundationRebarCreationService
 {
@@ -51,21 +52,7 @@ public static class FoundationRebarCreationService
 
             var curves = BuildRevitCurves(bar.Polyline);
 
-#pragma warning disable CS0618 // Multi-version: Rebar.CreateFromCurves / RebarHookOrientation deprecated in Revit 2026, required for Revit 2023-2025 compatibility
-            var rebar = Rebar.CreateFromCurves(
-                document,
-                RebarStyle.Standard,
-                barType,
-                startHook: null,
-                endHook: null,
-                host: hostFloor,
-                norm: planeNormal,
-                curves: curves,
-                startHookOrient: RebarHookOrientation.Right,
-                endHookOrient: RebarHookOrientation.Right,
-                useExistingShapeIfPossible: true,
-                createNewShape: true);
-#pragma warning restore CS0618
+            var rebar = RebarCurveFactory.CreateWithoutHooks(document, RebarStyle.Standard, barType, hostFloor, planeNormal, curves);
 
             var partitionParam = rebar.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM);
             if (partitionParam != null && !partitionParam.IsReadOnly)

@@ -265,20 +265,7 @@ public static class BeamSupportFinder
                 var primaryLine = (beam.Location as LocationCurve)?.Curve as Line;
                 if (primaryLine is null) continue;
 
-#pragma warning disable CS0618 // Multi-version: Curve.Intersect overload deprecated in Revit 2026, required for Revit 2023-2025 compatibility
-                var compResult = primaryLine.Intersect(curve, out IntersectionResultArray? intersectionArray);
-#pragma warning restore CS0618
-                XYZ ptIntersect;
-
-                if (compResult == SetComparisonResult.Overlap && intersectionArray != null && intersectionArray.Size > 0)
-                {
-                    ptIntersect = intersectionArray.get_Item(0).XYZPoint;
-                }
-                else
-                {
-                    // Fallback to midpoint of closest approach
-                    ptIntersect = curve.GetEndPoint(0);
-                }
+                XYZ ptIntersect = FirstIntersection(primaryLine, curve) ?? curve.GetEndPoint(0);
 
                 double centerXMm = RevitUnits.FtToMm((ptIntersect - originPoint).DotProduct(beamAxis));
                 double widthMm = BeamSolidFaceReader.GetWidthMm(candidate, candDir.CrossProduct(XYZ.BasisZ).Normalize());
@@ -439,5 +426,23 @@ public static class BeamSupportFinder
             height > 0 ? height : 600.0,
             SupportType.Girder,
             girder.UniqueId);
+    }
+
+    /// <summary>The first point where two curves meet, or null when they do not.</summary>
+    private static XYZ? FirstIntersection(Curve first, Curve second)
+    {
+        // Multi-version: curve intersection — Revit 2026 adds Intersect(Curve, CurveIntersectResultOption),
+        // the only overload left in 2027; earlier versions return the points through an out array.
+#if REVIT2026_OR_GREATER
+        var result = first.Intersect(second, CurveIntersectResultOption.Detailed);
+        if (result.Result != SetComparisonResult.Overlap) return null;
+        var overlaps = result.GetOverlaps();
+        return overlaps.Count > 0 ? overlaps[0].Point : null;
+#else
+        var comparison = first.Intersect(second, out IntersectionResultArray? points);
+        return comparison == SetComparisonResult.Overlap && points != null && points.Size > 0
+            ? points.get_Item(0).XYZPoint
+            : null;
+#endif
     }
 }

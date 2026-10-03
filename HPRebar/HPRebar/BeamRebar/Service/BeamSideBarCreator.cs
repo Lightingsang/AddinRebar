@@ -5,6 +5,7 @@ using Autodesk.Revit.DB.Structure;
 using HPRebar.BeamRebar.Model;
 using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Shared.Revit;
 
 namespace HPRebar.BeamRebar.Service;
 
@@ -60,21 +61,7 @@ public static class BeamSideBarCreator
                     var curves = BeamMainBarCreator.BuildCurves(tie.Polyline, stack.PointMapper);
 
                     // Cross ties lie in transverse Y-Z plane -> normal is BeamDirection (X_beam)
-#pragma warning disable CS0618 // Multi-version: Rebar.CreateFromCurves / RebarHookOrientation deprecated in Revit 2026, required for Revit 2023-2025 compatibility
-                    var rebar = Rebar.CreateFromCurves(
-                        document,
-                        RebarStyle.StirrupTie,
-                        tieBarType.BarType,
-                        startHook: null,
-                        endHook: null,
-                        host: hostElement,
-                        norm: stack.BeamDirection,
-                        curves: curves,
-                        startHookOrient: RebarHookOrientation.Right,
-                        endHookOrient: RebarHookOrientation.Right,
-                        useExistingShapeIfPossible: true,
-                        createNewShape: true);
-#pragma warning restore CS0618
+                    var rebar = RebarCurveFactory.CreateWithoutHooks(document, RebarStyle.StirrupTie, tieBarType.BarType, hostElement, stack.BeamDirection, curves);
 
                     BeamStirrupCreator.SetPartition(rebar, partitionName);
                     created.Add(rebar);

@@ -5,6 +5,7 @@ using Autodesk.Revit.DB.Structure;
 using HPRebar.BeamRebar.Model;
 using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Shared.Revit;
 
 namespace HPRebar.BeamRebar.Service;
 
@@ -69,21 +70,7 @@ public static class BeamMainBarCreator
         var hostElement = stack.Faces[hostIdx].Element;
         var curves = BuildCurves(bar.Polyline, stack.PointMapper);
 
-#pragma warning disable CS0618 // Multi-version: Rebar.CreateFromCurves / RebarHookOrientation deprecated in Revit 2026, required for Revit 2023-2025 compatibility
-        var rebar = Rebar.CreateFromCurves(
-            document,
-            RebarStyle.Standard,
-            defaultBarType,
-            startHook: null,
-            endHook: null,
-            host: hostElement,
-            norm: stack.NormalDirection,
-            curves: curves,
-            startHookOrient: RebarHookOrientation.Right,
-            endHookOrient: RebarHookOrientation.Right,
-            useExistingShapeIfPossible: true,
-            createNewShape: true);
-#pragma warning restore CS0618
+        var rebar = RebarCurveFactory.CreateWithoutHooks(document, RebarStyle.Standard, defaultBarType, hostElement, stack.NormalDirection, curves);
 
         BeamStirrupCreator.SetPartition(rebar, partitionName);
         return rebar;
