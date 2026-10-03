@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using Autodesk.Revit.DB;
 using HPRebar.Core.ColumnRebar.Models;
 
@@ -36,37 +34,4 @@ public sealed record ColumnStack
 
     /// <summary>Faces the dimension pass will hang witness lines off, bottom to top.</summary>
     public IReadOnlyList<PlanarFace> DimensionFaces { get; init; } = new List<PlanarFace>();
-
-    /// <summary>Human-readable dump of the numbers, for the pre-UI smoke test.</summary>
-    public string Summary()
-    {
-        var culture = CultureInfo.InvariantCulture;
-        var text = new StringBuilder();
-
-        text.AppendLine($"{Style} stack, {Sections.Count} segment(s). All values in mm.");
-
-        foreach (var section in Sections)
-        {
-            var plan = section.Shape == SectionShape.Rectangle
-                ? $"b={section.B.ToString("0.#", culture)} h={section.H.ToString("0.#", culture)}"
-                : $"D={section.D.ToString("0.#", culture)}";
-
-            text.AppendLine();
-            text.AppendLine($"[{section.Index + 1}] {plan}");
-            text.AppendLine($"    hc={section.Hc.ToString("0.#", culture)}  hb={section.Hb.ToString("0.#", culture)}  zb={section.Zb.ToString("0.#", culture)}");
-            text.AppendLine($"    bottom={section.BottomPosition.ToString("0.#", culture)}  top={section.TopPosition.ToString("0.#", culture)}");
-
-            if (section.Shape == SectionShape.Rectangle)
-            {
-                text.AppendLine($"    west={section.WestPosition.ToString("0.#", culture)}  east={section.EastPosition.ToString("0.#", culture)}");
-                text.AppendLine($"    south={section.SouthPosition.ToString("0.#", culture)}  north={section.NorthPosition.ToString("0.#", culture)}");
-            }
-            else
-            {
-                text.AppendLine($"    centre=({section.CenterX.ToString("0.#", culture)}, {section.CenterY.ToString("0.#", culture)})");
-            }
-        }
-
-        return text.ToString();
-    }
 }

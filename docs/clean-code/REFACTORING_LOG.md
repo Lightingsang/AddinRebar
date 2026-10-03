@@ -123,3 +123,9 @@
 ### 2026-10-03 — Wave 0.4 — `.editorconfig`
 - **File:** new `HPRebar/.editorconfig` (`root = true`): 4-space indent, Allman braces, file-scoped namespaces, `csharp_prefer_braces` (FM2), `max_line_length = 140`, `_camelCase` private fields, PascalCase constants and `static readonly` — all `suggestion`/`silent`; line endings and BOMs deliberately not set (mixed tree, normalising = churn)
 - **Effect:** no build change (Debug.R26 ✅, 0 new warnings); `dotnet format whitespace --verify-no-changes` on Core reports 49 drifts → applied per feature in Wave 1 format-only commits
+
+### 2026-10-03 — Wave 1 · Column · dead members (AUD-046, Column part)
+- **Entry:** Wave 0 not fully closed (0.3 fixtures wait for the user's Revit choice); started under plan §1.7 (independent batch, user approved "tiếp tục" on Wave 1) — compile-verified deletions only
+- **Deleted:** `ColumnFaces.Cylindricals/TopLevel/BottomLevel` (written by `ColumnStackReader`, read nowhere) + `LevelOf`; `ColumnStack.Summary` (pre-UI smoke-test dump); `DowelStyles` on both dowel tab VMs (bound nowhere); Column `RevitUnits.Display`
+- **Behaviour:** none — the reader no longer queries two level parameters and the cylindrical faces it threw away (`RequireSingleSolid` still runs through `GetTop/GetBottom`)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · TUnit still blocked (AUD-061) · **Golden run:** CHƯA TEST (no fixtures)

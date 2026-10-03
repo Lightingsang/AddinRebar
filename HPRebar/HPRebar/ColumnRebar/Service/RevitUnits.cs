@@ -13,11 +13,4 @@ internal static class RevitUnits
 
     /// <summary>Revit internal units (decimal feet) to millimetres.</summary>
     public static double FtToMm(double ft) => UnitUtils.ConvertFromInternalUnits(ft, UnitTypeId.Millimeters);
-
-    /// <summary>
-    ///     Formats a length for display using the document's own unit settings.
-    ///     Display only — never parse the result back, that is culture dependent.
-    /// </summary>
-    public static string Display(Document doc, double ft) =>
-        UnitFormatUtils.Format(doc.GetUnits(), SpecTypeId.Length, ft, false);
 }

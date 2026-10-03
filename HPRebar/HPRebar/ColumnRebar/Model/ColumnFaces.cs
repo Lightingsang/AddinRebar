@@ -25,14 +25,8 @@ public sealed record ColumnFaces
 
     public PlanarFace? East { get; init; }
 
-    public IReadOnlyList<CylindricalFace> Cylindricals { get; init; } = new List<CylindricalFace>();
-
     /// <summary>Insertion point, used to place circular sections. Null on a rectangular column.</summary>
     public XYZ? LocationPoint { get; init; }
-
-    public Level? TopLevel { get; init; }
-
-    public Level? BottomLevel { get; init; }
 
     /// <summary>Beams framing into this segment's head, in document order.</summary>
     public IReadOnlyList<Element> BeamsAtTop { get; init; } = new List<Element>();

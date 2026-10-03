@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using HPRebar.ColumnRebar.ViewModel;
 using HPRebar.ColumnRebar.Service;
 
@@ -16,15 +15,6 @@ public sealed partial class TopDowelsTabViewModel : ColumnRebarTabViewModel
 
     public override string IconKey => "TabIcon.TopDowels";
 
-    /// <summary>
-    ///     Type 0 carries the bar across into the column above; the others stop it under the beam, with or
-    ///     without a horizontal hook.
-    /// </summary>
-    public IReadOnlyList<string> DowelStyles { get; } = new[]
-    {
-        "Continue into the column above",
-        "Stop under the beam"
-    };
 
     /// <summary>Copies the first bar's top settings onto every other bar of this column.</summary>
     [CommunityToolkit.Mvvm.Input.RelayCommand]

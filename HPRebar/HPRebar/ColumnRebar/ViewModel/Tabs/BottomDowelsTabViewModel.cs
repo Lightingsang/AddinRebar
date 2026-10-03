@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using HPRebar.ColumnRebar.ViewModel;
 using HPRebar.ColumnRebar.Service;
 
@@ -16,15 +15,6 @@ public sealed partial class BottomDowelsTabViewModel : ColumnRebarTabViewModel
 
     public override string IconKey => "TabIcon.BottomDowels";
 
-    /// <summary>
-    ///     Type 0 starts the bar clear of the base; the others run it down past the base, with or without
-    ///     a horizontal hook.
-    /// </summary>
-    public IReadOnlyList<string> DowelStyles { get; } = new[]
-    {
-        "Start above the base",
-        "Run down past the base"
-    };
 
     /// <summary>Copies the first bar's bottom settings onto every other bar of this column.</summary>
     [CommunityToolkit.Mvvm.Input.RelayCommand]

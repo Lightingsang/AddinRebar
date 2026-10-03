@@ -63,12 +63,7 @@ public static class ColumnStackReader
             North = rectangular ? ColumnSolidFaceReader.GetNorth(column) : null,
             West = rectangular ? ColumnSolidFaceReader.GetWest(column) : null,
             East = rectangular ? ColumnSolidFaceReader.GetEast(column) : null,
-            Cylindricals = rectangular
-                ? new List<CylindricalFace>()
-                : ColumnSolidFaceReader.GetCylindricalFaces(column),
             LocationPoint = rectangular ? null : LocationOf(column),
-            TopLevel = LevelOf(document, column, BuiltInParameter.FAMILY_TOP_LEVEL_PARAM),
-            BottomLevel = LevelOf(document, column, BuiltInParameter.FAMILY_BASE_LEVEL_PARAM),
             BeamsAtTop = ColumnNeighbourFinder.GetBeamsAtTop(column, document)
         };
     }
@@ -204,11 +199,4 @@ public static class ColumnStackReader
     }
 
     private static XYZ? LocationOf(Element element) => (element.Location as LocationPoint)?.Point;
-
-    private static Level? LevelOf(Document document, Element element, BuiltInParameter parameter)
-    {
-        var id = element.get_Parameter(parameter)?.AsElementId();
-
-        return id is null ? null : document.GetElement(id) as Level;
-    }
 }
