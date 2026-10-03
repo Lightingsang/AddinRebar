@@ -2,7 +2,7 @@ using System;
 
 namespace HPRebar.Core.BeamRebar.Calculators;
 
-/// <summary>Leg length of a bar bent down or up at a support when the engineer leaves the hook length at 0.</summary>
+/// <summary>Default leg length of a main or additional bar bent down or up at a support.</summary>
 public static class BeamHookLength
 {
     /// <summary>30 bar diameters, never less than 200 mm.</summary>

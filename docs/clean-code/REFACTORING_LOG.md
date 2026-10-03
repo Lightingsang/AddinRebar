@@ -167,3 +167,10 @@
 - **Not done (needs the user):** `Commands/StartupCommand.cs` — empty and unreferenced, but CLAUDE.md says it "stays put"; `ClosedXML` package — no `using ClosedXML` anywhere, removal is a `.csproj` change and the Kata session owns that file for now
 - **Open in Wave 1:** Kata (AUD-050/053/054) waits for the Kata freeze; AUD-052's `AdditionalTieSpec` doc comment
 - **Build:** Debug.R23 ✅ R26 ✅, McpBridge R26 ✅ · **Tests:** Mcp.Server 109/109, Core 965/965
+
+### 2026-10-03 — Wave 1 · Beam review follow-up
+- **Review of ca98561..3ae66a1:** APPROVE, no High/Medium; deletions unused repo-wide, `EndPoint` inline and the 9 hook replacements exact, removed loop had no effect
+- **Applied:** `RebarTypeCatalog` hook-type collector + `HookTypes`/`CoverTypes` (no reader after `FindHook` went); `BeamContinuousStack.SupportNodes`/`SpanCount`/`SupportCount` (unused; the session has its own); `Validate` and `BeamHookLength` summaries now say what the code does; crossover case `d = 200/30` added to `BeamHookLengthTests`
+- **Logged, not fixed:** B-21 (depth-step bottom bars ignore the start/end hook lengths and the stirrup allowance)
+- **Process note accepted:** ca98561 was larger than the ~10-file batch size (mechanical edits); later batches keep one rule family per feature; its golden run is still owed
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 966/966

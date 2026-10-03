@@ -8,13 +8,12 @@ using HPRebar.BeamRebar.Model;
 namespace HPRebar.BeamRebar.Service;
 
 /// <summary>
-/// Catalog of available RebarBarType, RebarCoverType, and RebarHookType elements in the Revit document.
+/// Catalog of the RebarBarType and RebarCoverType elements in the Revit document.
 /// </summary>
 public sealed class RebarTypeCatalog
 {
     private readonly IReadOnlyList<RebarTypeInfo> _barTypes;
     private readonly IReadOnlyList<RebarCoverType> _coverTypes;
-    private readonly IReadOnlyList<RebarHookType> _hookTypes;
 
     public RebarTypeCatalog(Document doc)
     {
@@ -26,16 +25,9 @@ public sealed class RebarTypeCatalog
             .Cast<RebarCoverType>()
             .OrderBy(c => c.CoverDistance)
             .ToList();
-
-        _hookTypes = new FilteredElementCollector(doc)
-            .OfClass(typeof(RebarHookType))
-            .Cast<RebarHookType>()
-            .ToList();
     }
 
     public IReadOnlyList<RebarTypeInfo> BarTypes => _barTypes;
-    public IReadOnlyList<RebarCoverType> CoverTypes => _coverTypes;
-    public IReadOnlyList<RebarHookType> HookTypes => _hookTypes;
 
     public static IReadOnlyList<RebarTypeInfo> LoadBarTypes(Document doc)
     {

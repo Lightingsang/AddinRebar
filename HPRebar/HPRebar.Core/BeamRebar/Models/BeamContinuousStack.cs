@@ -27,12 +27,7 @@ public sealed record BeamContinuousStack
 
     public IReadOnlyList<BeamSupportNode> Supports { get; init; } = Array.Empty<BeamSupportNode>();
 
-    public IReadOnlyList<BeamSupportNode> SupportNodes => Supports;
-
     public IReadOnlyList<SecondaryBeamIntersection> SecondaryIntersections { get; init; } = Array.Empty<SecondaryBeamIntersection>();
-
-    public int SpanCount => Spans.Count;
-    public int SupportCount => Supports.Count;
 
     /// <summary>Overall continuous length from the start face of Support 0 to end face of Support N (mm).</summary>
     public double TotalLength => OverallEndX - OverallStartX;
@@ -112,8 +107,8 @@ public sealed record BeamContinuousStack
     }
 
     /// <summary>
-    /// Performs geometric validation of the continuous beam stack.
-    /// Checks span count, support alignment, contiguity, and positive dimensions.
+    /// Checks the stack has at least one span, one more support than spans, and positive span width, height,
+    /// clear length and cover. Not called by the Beam Rebar run.
     /// </summary>
     public ValidationResult Validate()
     {
