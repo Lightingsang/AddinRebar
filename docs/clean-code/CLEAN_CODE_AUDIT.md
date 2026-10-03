@@ -47,7 +47,7 @@
 | B-23 | [PCC] PCC-039 | `BeamMainBarCalculator.cs` `SplicedBottomBars` | A single span over ~11.3 m (2 supports) is spliced over `Supports[1]`, the end column: piece 1 stays longer than the stock length it was split for (13 055 mm for 12.5 m), piece 2 is a ~1.1 m stub | review probe of 8e8b5aa; pinned by `single-long-span` | splice in the span (or refuse) when no interior support exists |
 | B-24 | [PCC] PCC-039 | `BeamMainBarCalculator.cs` `SplicedBottomBars` | With a left cantilever the bottom splice lands on the cantilever root where bottom bars start: an 80 mm stub plus a piece starting 720 mm into the cantilever | review probe; pinned by `cantilever-left-spliced` | choose the splice support among interior supports only |
 | B-25 | [REVIT] R11 | `BeamMainBarCalculator.cs` `SplicedBottomBars` | A spliced bottom run with fewer than 2 supports throws `ArgumentOutOfRangeException` (index) instead of a clear message | review probe | validate before splicing |
-| B-26 | [PCC] PCC-078 | `BeamStirrupDistributionCalculator.ComputeSpanRuns` guards; `BeamRebarSession.cs` `Validate` | `<= 0` guards let NaN and +∞ spacings/offsets through: NaN reaches `new List(count)` (\"capacity\" exception), +∞ sparse spacing gives a NaN stirrup position | review probe | guard with `!(s > 0) \|\| double.IsInfinity(s)` in Core and the window |
+| B-26 | [PCC] PCC-078 | `BeamStirrupDistributionCalculator.ComputeSpanRuns` guards; `BeamRebarSession.cs` `Validate` | `<= 0` guards let NaN and +∞ spacings/offsets through: NaN reaches `new List(count)` ("capacity" exception), +∞ sparse spacing gives a NaN stirrup position | review probe | guard with `!(s > 0) \|\| double.IsInfinity(s)` in Core and the window |
 
 ## 3. Findings
 
