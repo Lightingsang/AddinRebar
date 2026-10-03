@@ -15,10 +15,8 @@ public sealed partial class ColumnRebarSession : ObservableObject
 {
     [ObservableProperty] private int _selectedColumnIndex;
     [ObservableProperty] private string _partitionName = "Column Rebar";
-    [ObservableProperty] private string _detailViewName = "Detail";
-    [ObservableProperty] private string _sectionViewName = "Section";
-    [ObservableProperty] private string _levelPrefix = "L";
-    [ObservableProperty] private string _sectionPrefix = "S";
+    [ObservableProperty] private string _detailViewName = ViewNaming.Default.DetailViewName;
+    [ObservableProperty] private string _sectionPrefix = ViewNaming.Default.SectionSuffix;
     [ObservableProperty] private int _identicalColumns = 1;
 
     /// <summary>
@@ -62,6 +60,9 @@ public sealed partial class ColumnRebarSession : ObservableObject
     /// <summary>Settings for every column, converted back to the immutable form the services take.</summary>
     public IReadOnlyList<ColumnRebarSpec> ToSpecs() =>
         Columns.Select(column => column.ToSpec(PartitionName)).ToList();
+
+    /// <summary>The view names typed on the settings tab.</summary>
+    public ViewNaming ToViewNaming() => ViewNaming.From(DetailViewName, SectionPrefix);
 
     /// <summary>
     ///     Whether the settings can actually build something. Mirrors the checks the original tool ran

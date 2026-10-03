@@ -75,3 +75,10 @@
 - **Findings closed:** B-05
 - **Change:** `FoundationHookType.Hook90`, `Hook90Up`, `Hook90Down` deleted — no code or UI used them (the window offers None / Hook90Degrees only), so "Hook90Down makes no hooks" could not be reached; no behaviour change
 - **Build/Tests:** as above
+
+### 2026-10-03 — Fix track B-03 — Column view names reach the views
+- **Findings closed:** B-03
+- **Files:** new `ColumnRebar/Model/ViewNaming.cs`; `IColumnRebarRunner.RunAsync` + `ColumnRebarRequest` + handler carry it; `ColumnRebarOrchestrator.Run(specs, progress, naming)` applies it to `AnnotationSettings`; `ColumnRebarSession.ToViewNaming()`; settings tab + UiStrings
+- **Change:** "Detail view name" and "Section prefix" now name the views (`{name}X/Y`, `{name} {n} {prefix}`), blanks fall back to Detail / MC; the session default prefix changed S → MC so untouched runs keep today's names. "Section view name" and "Level prefix" were removed from the tab: the original R01 tool never used them either (`SectionColumnView.cs:112` names sections from DetailViewName + PrefixSection only)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 955/955 · TUnit project: does not restore (pre-existing NU1605 → AUD-061)
+- **Golden run:** CHƯA TEST

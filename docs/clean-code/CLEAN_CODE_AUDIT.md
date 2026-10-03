@@ -24,7 +24,7 @@
 |---|---|---|---|---|---|
 | B-01 ✅ closed 2026-10-03 | [PCC] PCC-013, K1 | `HPRebar/HPRebar/BeamRebar/Service/BeamStackReader.cs:96` | `BeamSpan.Cover` hard-coded `25.0`; Core additional/side/special-bar calculators use `span.Cover`, while stirrups/main bars use the cover typed in the window → two covers in one beam when the user changes it | ✔ read source + `grep .Cover` in Core | fix: span cover from spec |
 | B-02 | [PCC] PCC-039 | `BeamRebar/ViewModel/BeamRebarSession.cs:174-183`, `BeamRebarCommand.cs:85` | Views tab (elevation, sections per span, names, scale, dims, tags) is bound in XAML but `ToSpec` never reads it; the orchestrator always uses `BeamAnnotationSettings.Load` defaults (3 sections) | ✔ `ToSpec` + `Load` call site | wire it or hide the tab |
-| B-03 | [PCC] PCC-039 | `ColumnRebar/ViewModel/ColumnRebarSession.cs:18-21` vs `Model/AnnotationSettings.cs:40` | Detail/section view name + level/section prefix fields are editable but never reach `AnnotationSettings` | ✔ grep: only XAML reads them | wire it or remove the fields |
+| B-03 ✅ closed 2026-10-03 | [PCC] PCC-039 | `ColumnRebar/ViewModel/ColumnRebarSession.cs:18-21` vs `Model/AnnotationSettings.cs:40` | Detail/section view name + level/section prefix fields are editable but never reach `AnnotationSettings` | ✔ grep: only XAML reads them | wire it or remove the fields |
 | B-04 | [PCC] naming | `HPRebar.Core/BeamRebar/Models/Enums.cs:7-8` | `SupportType.Column` and `InteriorColumn` are both `1` → `BeamSupportFinder.cs:158` branch is a no-op | ✔ read source | give distinct values (check stored data first) |
 | B-05 ✅ closed 2026-10-03 (aliases removed; the UI never offered them) | [PCC] naming | `HPRebar.Core/FoundationRebar/Models/FoundationHookType.cs:15-21`, `FoundationMeshCalculator.cs:110` | `Hook90Down = 2` is never treated as a hook (`== Hook90Degrees` only) → choosing it yields no hooks | ✔ read source | decide: implement or remove the option |
 | B-06 | [PCC] PCC-128 | `HPRebar.Core/FoundationRebar/Models/Point3.cs:74,76`; same pattern in `HPRebar.Core/BeamRebar/Models/Point3.cs` (`Equals` → `IsAlmostEqualTo` 1e-9, hash exact) | `Equals` uses 1e-6 tolerance, `GetHashCode` is exact → equal points can hash differently (dictionary/set bugs) | map-02 | fix with shared Point3 (Wave 6) |
@@ -134,6 +134,7 @@
 | AUD-058 | [PROJECT] P8 | Medium | **Closed 2026-10-03 (Wave 0.2)** — CLAUDE.md counts stale (Core.Tests 448 vs ~630 methods/~910 cases; TUnit 16 vs 21; "four features") | Governance docs drift from code | re-count by test run · W0 |
 | AUD-059 | [PCC] PCC-088 | Low | No `.editorconfig` anywhere in the repo (✔ `git ls-files`, `find -maxdepth 3`) | Formatting not automated | add `.editorconfig` (Planning Mode: config change) · W1 |
 | AUD-060 | [PCC] PCC-274 | Medium | `HPRebar.McpBridge` has no tests (ScriptRunner matrix, serializer, change counter) | Live-verified only | lift pure parts · W7 |
+| AUD-061 | [PCC] PCC-265 | High | `HPRebar/HPRebar.Tests/HPRebar.Tests.csproj` | Restore fails `NU1605`: `Nice3point.TUnit.Revit 2026.1.7` (floating) needs TUnit ≥ 1.72.0, project pins 1.61.38 → the in-Revit suite does not even build (found 2026-10-03) | bump TUnit pin (csproj change → approval) · W0 |
 
 ## 4. Technical debt register (top 10, by cost of delay)
 

@@ -17,8 +17,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Localization.Strings.ColumnsName}"
@@ -33,21 +31,9 @@
                              Margin="{DynamicResource Spacing.SmallVertical}"
                              Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Localization.Strings.SectionViewName}"
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Localization.Strings.PrefixSection}"
                                Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
-                             Margin="{DynamicResource Spacing.SmallVertical}"
-                             Text="{Binding Session.SectionViewName, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Localization.Strings.PrefixLevel}"
-                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
-                             Margin="{DynamicResource Spacing.SmallVertical}"
-                             Text="{Binding Session.LevelPrefix, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding Localization.Strings.PrefixSection}"
-                               Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
                              Margin="{DynamicResource Spacing.SmallVertical}"
                              Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>

@@ -49,8 +49,6 @@ public sealed record UiStrings
     public string ParameterColumns { get; init; } = "Parameter Columns";
     public string ColumnsName { get; init; } = "Columns Name";
     public string DetailViewName { get; init; } = "Detail View Name";
-    public string SectionViewName { get; init; } = "Section View Name";
-    public string PrefixLevel { get; init; } = "Prefix Level";
     public string PrefixSection { get; init; } = "Prefix Section";
     public string ReinforcementStructural { get; init; } = "Reinforcement Structural";
     public string UseRealRebar { get; init; } = "Model real rebar";

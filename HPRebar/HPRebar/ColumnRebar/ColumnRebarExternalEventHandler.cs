@@ -33,9 +33,9 @@ public sealed class ColumnRebarExternalEventHandler : IExternalEventHandler, ICo
 
     public int PlannedCount(IReadOnlyList<ColumnRebarSpec> specs) => _orchestrator.PlannedCount(specs);
 
-    public Task<int> RunAsync(IReadOnlyList<ColumnRebarSpec> specs, IProgress<int> progress)
+    public Task<int> RunAsync(IReadOnlyList<ColumnRebarSpec> specs, ViewNaming naming, IProgress<int> progress)
     {
-        var request = new ColumnRebarRequest(specs, progress);
+        var request = new ColumnRebarRequest(specs, naming, progress);
 
         _pending.Enqueue(request);
         _externalEvent.Raise();
@@ -50,7 +50,7 @@ public sealed class ColumnRebarExternalEventHandler : IExternalEventHandler, ICo
         {
             try
             {
-                var result = _orchestrator.Run(request.Specs, request.Progress);
+                var result = _orchestrator.Run(request.Specs, request.Progress, request.Naming);
 
                 if (!result.IsOk)
                 {

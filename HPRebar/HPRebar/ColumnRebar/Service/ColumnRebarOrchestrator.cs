@@ -49,8 +49,17 @@ public sealed class ColumnRebarOrchestrator
     ///     Builds the reinforcement and its drawings. Anything that would stop the run is checked before the
     ///     first transaction opens, so a missing family never leaves a partly built model.
     /// </summary>
-    public OrchestratorResult Run(IReadOnlyList<ColumnRebarSpec> specs, IProgress<int>? progress = null)
+    public OrchestratorResult Run(
+        IReadOnlyList<ColumnRebarSpec> specs,
+        IProgress<int>? progress = null,
+        ViewNaming? naming = null)
     {
+        if (naming is not null)
+        {
+            _settings.DetailViewName = naming.DetailViewName;
+            _settings.SectionSuffix = naming.SectionSuffix;
+        }
+
         var ready = RebarCreationService.CanCreate(_shapes, _stack, specs);
 
         if (!ready.IsOk) return OrchestratorResult.Invalid(ready);

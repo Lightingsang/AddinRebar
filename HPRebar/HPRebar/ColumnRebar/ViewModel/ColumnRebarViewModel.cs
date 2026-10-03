@@ -25,7 +25,7 @@ public interface IColumnRebarRunner
     ///     Builds everything. Returns how many elements were created, or throws, in which case nothing is
     ///     left behind. Completes once Revit has run it, which is not the call that started it.
     /// </summary>
-    Task<int> RunAsync(IReadOnlyList<ColumnRebarSpec> specs, IProgress<int> progress);
+    Task<int> RunAsync(IReadOnlyList<ColumnRebarSpec> specs, ViewNaming naming, IProgress<int> progress);
 }
 
 /// <summary>The window itself: navigation, the footer buttons and the language toggle.</summary>
@@ -94,7 +94,7 @@ public sealed partial class ColumnRebarViewModel : ObservableObject
             ProgressMaximum = Math.Max(1, _runner.PlannedCount(specs));
             Progress = 0;
 
-            var created = await _runner.RunAsync(specs, new Progress<int>(value => Progress = value));
+            var created = await _runner.RunAsync(specs, Session.ToViewNaming(), new Progress<int>(value => Progress = value));
 
             if (created == 0)
             {

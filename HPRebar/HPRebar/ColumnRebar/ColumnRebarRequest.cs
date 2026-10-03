@@ -12,14 +12,18 @@ namespace HPRebar.ColumnRebar;
 /// </summary>
 public sealed class ColumnRebarRequest
 {
-    public ColumnRebarRequest(IReadOnlyList<ColumnRebarSpec> specs, IProgress<int>? progress)
+    public ColumnRebarRequest(IReadOnlyList<ColumnRebarSpec> specs, ViewNaming naming, IProgress<int>? progress)
     {
         Specs = specs;
+        Naming = naming;
         Progress = progress;
     }
 
     /// <summary>What the user asked to build, one entry per column segment.</summary>
     public IReadOnlyList<ColumnRebarSpec> Specs { get; }
+
+    /// <summary>The names the created views get.</summary>
+    public ViewNaming Naming { get; }
 
     /// <summary>Where to report element counts as they are created. Null when nobody is listening.</summary>
     public IProgress<int>? Progress { get; }
