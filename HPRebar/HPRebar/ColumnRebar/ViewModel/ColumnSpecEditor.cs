@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.ColumnRebar.Model;
 using HPRebar.Core.ColumnRebar;
 using HPRebar.Core.ColumnRebar.Models;
-using HPRebar.Core.Shared;
 
 namespace HPRebar.ColumnRebar.ViewModel;
 
@@ -67,10 +66,7 @@ public sealed partial class ColumnSpecEditor : ObservableObject
     ///     anything else, and a half-typed number in a text box is enough to get there, so everything that
     ///     draws or schedules asks this first.
     /// </summary>
-    public bool IsLayoutValid =>
-        IsRectangular
-            ? BarsAlongWidth >= 2 && BarsAlongDepth >= 2
-            : BarsAround > 0 && BarsAround % 4 == 0;
+    public bool IsLayoutValid => ColumnSpecRules.IsLayoutValid(Section.Shape, ToLayout());
 
     /// <summary>
     ///     Everything that has to hold before this column can be built. Returns the first problem found so
@@ -78,97 +74,14 @@ public sealed partial class ColumnSpecEditor : ObservableObject
     /// </summary>
     public bool Validate(out string reason)
     {
-        reason = string.Empty;
-
         if (MainBarType is null || StirrupBarType is null || TieBarType is null)
         {
             reason = "pick a bar type for the bars and the ties.";
             return false;
         }
 
-        if (!IsLayoutValid)
-        {
-            reason = IsRectangular
-                ? "at least two bars are needed along each side."
-                : "the bar count around a circular column must be a positive multiple of four.";
-
-            return false;
-        }
-
-        // The bars have to physically fit inside the cover and the ties.
-        var clearance = 2 * Cover + 2 * StirrupBarType.DiameterMm + MainBarType.DiameterMm;
-
-        var narrowest = IsRectangular ? System.Math.Min(Section.B, Section.H) : Section.D;
-
-        if (clearance >= narrowest)
-        {
-            reason = $"cover and bar sizes leave no room inside a {narrowest:0} mm section.";
-            return false;
-        }
-
-        return ValidateTies(out reason);
-    }
-
-    /// <summary>
-    ///     Tie spacing has to produce a bar count Revit will accept. A spacing of a few millimetres over a
-    ///     storey height quietly asks for thousands of ties, which the API refuses.
-    /// </summary>
-    private bool ValidateTies(out string reason)
-    {
-        reason = string.Empty;
-
-        var run = StirrupRunLength;
-
-        if (run <= 0)
-        {
-            reason = "the beam is as deep as the column, leaving nowhere to put ties.";
-            return false;
-        }
-
-        var spacings = DistributionType == 0
-            ? new[] { Spacing }
-            : new[] { SpacingDense, SpacingSparse };
-
-        foreach (var spacing in spacings)
-        {
-            if (spacing <= 0)
-            {
-                reason = "tie spacing must be greater than zero.";
-                return false;
-            }
-
-            if ((int)(run / spacing) + 1 > RevitRebarLimits.MaxBarPositions)
-            {
-                reason = $"a spacing of {spacing:0} mm needs more than {RevitRebarLimits.MaxBarPositions} ties, which Revit will not accept.";
-                return false;
-            }
-        }
-
-        if (AddHorizontalTies && HorizontalTieType == 0 && HorizontalTieLeg <= 0)
-        {
-            reason = "give the horizontal cross-tie a leg length.";
-            return false;
-        }
-
-        if (AddVerticalTies && VerticalTieType == 0 && VerticalTieLeg <= 0)
-        {
-            reason = "give the vertical cross-tie a leg length.";
-            return false;
-        }
-
-        if (AddHorizontalTies && HorizontalTieType != 0 && HorizontalTieCount < 1)
-        {
-            reason = "at least one horizontal cross-tie is required.";
-            return false;
-        }
-
-        if (AddVerticalTies && VerticalTieType != 0 && VerticalTieCount < 1)
-        {
-            reason = "at least one vertical cross-tie is required.";
-            return false;
-        }
-
-        return true;
+        reason = ColumnSpecRules.FirstProblem(Section, ToLayout(), ToStirrupSpec(), ToTieSpec()) ?? string.Empty;
+        return reason.Length == 0;
     }
 
     /// <summary>Length of the tie run for the current tie settings.</summary>
@@ -248,29 +161,33 @@ public sealed partial class ColumnSpecEditor : ObservableObject
     {
         Layout = ToLayout(),
         Splices = Splices.Select(splice => splice.ToSpec()).ToList(),
-        Stirrups = new StirrupSpec
-        {
-            TypeDis = DistributionType,
-            S = Spacing,
-            S1 = SpacingDense,
-            S2 = SpacingSparse,
-            IsTiesUp = TiesUpToBeams
-        },
-        Ties = new AdditionalTieSpec
-        {
-            AddH = AddHorizontalTies,
-            TypeH = HorizontalTieType,
-            NH = HorizontalTieCount,
-            AH = HorizontalTieLeg,
-            AddV = AddVerticalTies,
-            TypeV = VerticalTieType,
-            NV = VerticalTieCount,
-            AV = VerticalTieLeg
-        },
+        Stirrups = ToStirrupSpec(),
+        Ties = ToTieSpec(),
         MainBarType = MainBarType,
         StirrupBarType = StirrupBarType,
         TieBarType = TieBarType,
         PartitionName = partitionName
+    };
+
+    private StirrupSpec ToStirrupSpec() => new()
+    {
+        TypeDis = DistributionType,
+        S = Spacing,
+        S1 = SpacingDense,
+        S2 = SpacingSparse,
+        IsTiesUp = TiesUpToBeams
+    };
+
+    private AdditionalTieSpec ToTieSpec() => new()
+    {
+        AddH = AddHorizontalTies,
+        TypeH = HorizontalTieType,
+        NH = HorizontalTieCount,
+        AH = HorizontalTieLeg,
+        AddV = AddVerticalTies,
+        TypeV = VerticalTieType,
+        NV = VerticalTieCount,
+        AV = VerticalTieLeg
     };
 
     private void LoadSplices(System.Collections.Generic.IReadOnlyList<SpliceSpec> splices)

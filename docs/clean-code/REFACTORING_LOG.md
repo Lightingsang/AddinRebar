@@ -213,3 +213,10 @@
 - **Applied:** `ComputeNodeRun` built from the shared `FitSpacings` + `Run` (+ `EnsureWithinLimit` now takes the parameter name — "Node stirrup"/`spacingMm` kept); `Centre` → `FitSpacings`, `SpliceCentre` → `SpliceCenter` (the file says Center everywhere), `EndHookLength` → `AnchorageHookLength` (it clashed with `BarPolyline.EndHookLength`); the seven repeated `BarPolyline` initializers → `MainBar(side, …)` + `BarSide` record (510 → 465 lines); helpers below their callers, nested types last (FM5 step-down); splice doc comments now state the index rule; B-21 reference updated
 - **Logged, not fixed:** B-23 (single long span spliced over the end column), B-24 (cantilever-root splice), B-25 (spliced bottom with < 2 supports throws), B-26 (non-finite spacing / offset passes the guards)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1002/1002 (every characterization hash identical)
+
+### 2026-10-04 — Wave 3 · Column · tie and layout rules to Core (AUD-018 / AUD-033, Column part)
+- **Entry:** Wave 2 closed for Column (no Core long methods; the add-in methods wait for fixtures); started on the user's "có" to Wave 3 Core work
+- **Change:** new `HPRebar.Core/ColumnRebar/ColumnSpecRules` — `IsLayoutValid(shape, layout)` and `FirstProblem(section, layout, stirrups, ties)` — holding the layout, clearance, tie-run, Revit-limit and cross-tie rules that lived in `ColumnSpecEditor.Validate/ValidateTies`; messages word for word; the editor keeps only the "pick a bar type" check (its `RebarTypeInfo` is an add-in type) and builds the stirrup/tie specs through `ToStirrupSpec`/`ToTieSpec`, which `ToSpec` now shares
+- **Tests:** 18 new `ColumnSpecRulesTests` (every rule and message, both shapes, both distribution types); the rules had no test before (add-in assembly)
+- **File:** `ColumnSpecEditor` 315 → 233 lines
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1020/1020 · **Golden run:** not needed (validation only; messages identical)
