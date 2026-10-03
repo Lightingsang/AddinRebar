@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using HPRebar.BeamRebar.Model;
+using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
 
 namespace HPRebar.BeamRebar.Service;
@@ -63,43 +64,8 @@ public static class BeamStackReader
             double heightMm = BeamSolidFaceReader.GetHeightMm(beam);
             double topElevMm = RevitUnits.FtToMm(faces.Top.Origin.Z - originPoint.Z);
 
-            // Locate adjacent supports for this span
-            var leftSupport = i < supports.Count ? supports[i] : null;
-            var rightSupport = (i + 1) < supports.Count ? supports[i + 1] : null;
-
-            double leftCenterXMm = leftSupport?.CenterX ?? 0.0;
-            double rightCenterXMm = rightSupport?.CenterX ?? leftCenterXMm + 4000.0;
-            double leftWidthMm = leftSupport?.Width ?? 0.0;
-            double rightWidthMm = rightSupport?.Width ?? 0.0;
-
-            double lengthCenterMm = rightCenterXMm - leftCenterXMm;
-            double lengthClearMm = lengthCenterMm - (leftWidthMm / 2.0) - (rightWidthMm / 2.0);
-            if (lengthClearMm <= 0) lengthClearMm = lengthCenterMm;
-
-            double startXMm = leftCenterXMm + (leftWidthMm / 2.0);
-
-            var cantPos = CantileverPosition.None;
-            if (leftSupport?.Type == SupportType.CantileverEnd && rightSupport?.Type == SupportType.CantileverEnd)
-                cantPos = CantileverPosition.Both;
-            else if (leftSupport?.Type == SupportType.CantileverEnd)
-                cantPos = CantileverPosition.Left;
-            else if (rightSupport?.Type == SupportType.CantileverEnd)
-                cantPos = CantileverPosition.Right;
-
-            var span = new BeamSpan(
-                index: i,
-                name: $"Span {i + 1}",
-                lengthCenter: lengthCenterMm,
-                width: widthMm,
-                height: heightMm,
-                topElevation: topElevMm,
-                cover: 25.0, // Default cover
-                clearLength: lengthClearMm,
-                startX: startXMm,
-                cantilever: cantPos,
-                elementUniqueId: beam.UniqueId);
-
-            spansList.Add(span);
+            spansList.Add(BeamSpanAssembly.Between(
+                i, supports, new BeamPieceSection(widthMm, heightMm, topElevMm, beam.UniqueId)));
         }
 
         // 5. Build pure BeamContinuousStack

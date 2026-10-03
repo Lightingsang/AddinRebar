@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using HPRebar.BeamRebar.Model;
+using HPRebar.Core.BeamRebar.Calculators;
 using Serilog;
 
 namespace HPRebar.BeamRebar.Service;
@@ -35,7 +36,7 @@ public sealed class BeamRebarOrchestrator
     {
         var views = spec.Views;
         int sections = views.CreateSectionViews
-            ? SectionViewCreator.PlannedCount(_stack.Spans, views.SectionsPerSpan)
+            ? BeamSectionStations.Count(_stack.Spans, views.SectionsPerSpan)
             : 0;
 
         return (views.CreateElevationView ? 1 : 0)
@@ -151,7 +152,7 @@ public sealed class BeamRebarOrchestrator
             for (int spanIdx = 0; spanIdx < _stack.Spans.Count && spanIdx < _stack.Faces.Count; spanIdx++)
             {
                 var span = _stack.Spans[spanIdx];
-                int cutCount = SectionViewCreator.ComputeCutStations(span, settings.SectionsPerSpan).Count;
+                int cutCount = BeamSectionStations.ForSpan(span, settings.SectionsPerSpan).Count;
                 for (int cut = 0; cut < cutCount && viewIdx < views.SectionViews.Count; cut++)
                 {
                     done += DimensionCreator.CreateOnSection(
@@ -179,7 +180,7 @@ public sealed class BeamRebarOrchestrator
         for (int spanIndex = 0; spanIndex < _stack.Spans.Count; spanIndex++)
         {
             var span = _stack.Spans[spanIndex];
-            int cutCount = SectionViewCreator.ComputeCutStations(span, settings.SectionsPerSpan).Count;
+            int cutCount = BeamSectionStations.ForSpan(span, settings.SectionsPerSpan).Count;
             for (int cutIndex = 0; cutIndex < cutCount && viewIndex < views.SectionViews.Count; cutIndex++)
             {
                 RebarTableTagCreator.Create(

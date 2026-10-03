@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using HPRebar.BeamRebar.Model;
-using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.BeamRebar.Calculators;
 using Serilog;
 
 namespace HPRebar.BeamRebar.Service;
@@ -31,7 +31,7 @@ public static class SectionViewCreator
         for (int spanIndex = 0; spanIndex < stack.Spans.Count; spanIndex++)
         {
             var span = stack.Spans[spanIndex];
-            var cutStations = ComputeCutStations(span, settings.SectionsPerSpan);
+            var cutStations = BeamSectionStations.ForSpan(span, settings.SectionsPerSpan);
 
             for (int cutIndex = 0; cutIndex < cutStations.Count; cutIndex++)
             {
@@ -47,42 +47,6 @@ public static class SectionViewCreator
         }
 
         return views;
-    }
-
-    /// <summary>The sections a run cuts: one per cantilever, <paramref name="sectionsPerSpan"/> per supported span.</summary>
-    public static int PlannedCount(IReadOnlyList<BeamSpan> spans, int sectionsPerSpan)
-    {
-        int count = 0;
-        foreach (var span in spans)
-        {
-            count += ComputeCutStations(span, sectionsPerSpan).Count;
-        }
-
-        return count;
-    }
-
-    public static IReadOnlyList<double> ComputeCutStations(BeamSpan span, int sectionsPerSpan)
-    {
-        var stations = new List<double>();
-        if (span.IsCantilever || sectionsPerSpan <= 1)
-        {
-            stations.Add(span.StartX + span.LengthClear * 0.5);
-            return stations;
-        }
-
-        if (sectionsPerSpan == 2)
-        {
-            stations.Add(span.StartX + span.LengthClear / 6.0); // Support zone
-            stations.Add(span.StartX + span.LengthClear * 0.5); // Midspan
-        }
-        else // 3 sections per span (Standard detailing)
-        {
-            stations.Add(span.StartX + span.LengthClear / 6.0);       // Left Support
-            stations.Add(span.StartX + span.LengthClear * 0.5);       // Midspan
-            stations.Add(span.StartX + span.LengthClear * 5.0 / 6.0); // Right Support
-        }
-
-        return stations;
     }
 
     private static ViewSection CreateSectionAtStation(
