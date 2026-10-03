@@ -30,7 +30,12 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
             "cantilever-left-spliced", TestBeamData.CantileverLeft(),
             TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "cantilever-left-spliced:2B51961AB86570C6F1222E37"
         },
-        { "variable-depth", TestBeamData.VariableDepth(), TestBeamData.MainBarSpec(), "variable-depth:EF63D51C32C2AF335B0ED2CE" }
+        { "variable-depth", TestBeamData.VariableDepth(), TestBeamData.MainBarSpec(), "variable-depth:EF63D51C32C2AF335B0ED2CE" },
+        {
+            "explicit-bottom-start-hook", TestBeamData.SingleSpan(),
+            TestBeamData.MainBarSpec() with { BottomStartHookLength = 300.0, TopEndHookLength = 0.0 },
+            "explicit-bottom-start-hook:"
+        }
     };
 
     [Theory]
