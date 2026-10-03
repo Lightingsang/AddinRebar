@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using HPRebar.Core.FoundationRebar.Calculators;
 using HPRebar.Core.FoundationRebar.Models;
 
 namespace HPRebar.FoundationRebar.Service;
 
 /// <summary>
-/// Extracts clean 3D solid geometry, horizontal planar faces, and oriented bounding frame
-/// from a Revit Floor element into a pure <see cref="FoundationGeometrySnapshot"/>.
+/// Reads a Revit Floor's solid, its horizontal top and bottom faces and its bottom outline into a pure
+/// <see cref="FoundationGeometrySnapshot"/>; the plan frame itself is fitted by
+/// <see cref="FoundationPlanFrameCalculator"/>.
 /// </summary>
 public static class FoundationSolidFaceReader
 {
@@ -98,109 +100,59 @@ public static class FoundationSolidFaceReader
         if (thicknessFt <= Tolerance)
             throw new InvalidOperationException("Floor thickness must be greater than zero.");
 
-        double topZMm = RevitUnits.FtToMm(topZFt);
         double bottomZMm = RevitUnits.FtToMm(bottomZFt);
-        double thicknessMm = RevitUnits.FtToMm(thicknessFt);
+        var referenceOrigin = ToMm(bottomFace.Origin);
+        var edges = ReadBottomOutline(bottomFace);
+        var frame = edges.Count > 0
+            ? FoundationPlanFrameCalculator.Compute(edges, referenceOrigin, bottomZMm)
+            : FoundationPlanFrameCalculator.Fit(
+                Vector3.UnitX, ReadBoundingCorners(solid, bottomZFt), referenceOrigin, bottomZMm);
 
-        // Determine primary orientation vector from dominant boundary edge of bottom face
-        XYZ dominantDir = XYZ.BasisX;
-        double maxEdgeLen = 0.0;
+        return new FoundationGeometrySnapshot(
+            frame.Length,
+            frame.Width,
+            RevitUnits.FtToMm(thicknessFt),
+            RevitUnits.FtToMm(topZFt),
+            bottomZMm,
+            frame.Origin,
+            frame.LocalX,
+            frame.LocalY,
+            Vector3.UnitZ);
+    }
 
+    /// <summary>Every edge of the bottom face in millimetres; lines are straight, arcs and splines are not.</summary>
+    private static List<FoundationOutlineEdge> ReadBottomOutline(PlanarFace bottomFace)
+    {
+        var edges = new List<FoundationOutlineEdge>();
         foreach (EdgeArray loop in bottomFace.EdgeLoops)
         {
             foreach (Edge edge in loop)
             {
                 var curve = edge.AsCurve();
-                if (curve is Line line)
-                {
-                    double len = line.Length;
-                    if (len > maxEdgeLen)
-                    {
-                        XYZ dir = (line.GetEndPoint(1) - line.GetEndPoint(0)).Normalize();
-                        XYZ horizDir = new XYZ(dir.X, dir.Y, 0.0);
-                        if (horizDir.GetLength() > 0.01)
-                        {
-                            maxEdgeLen = len;
-                            dominantDir = horizDir.Normalize();
-                        }
-                    }
-                }
+                edges.Add(new FoundationOutlineEdge(
+                    ToMm(curve.GetEndPoint(0)),
+                    ToMm(curve.GetEndPoint(1)),
+                    IsStraight: curve is Line,
+                    RevitUnits.FtToMm(curve.Length)));
             }
         }
 
-        // Canonical orientation: ensure dominantDir points into positive half-plane
-        if (dominantDir.X < -1e-6 || (Math.Abs(dominantDir.X) <= 1e-6 && dominantDir.Y < 0))
-        {
-            dominantDir = -dominantDir;
-        }
-
-        XYZ ux = dominantDir;
-        XYZ uz = XYZ.BasisZ;
-        XYZ uy = uz.CrossProduct(ux).Normalize();
-
-        // Project boundary points to find local 2D oriented bounds [minU, maxU] x [minV, maxV]
-        var samplePoints = new List<XYZ>();
-        foreach (EdgeArray loop in bottomFace.EdgeLoops)
-        {
-            foreach (Edge edge in loop)
-            {
-                samplePoints.Add(edge.AsCurve().GetEndPoint(0));
-                samplePoints.Add(edge.AsCurve().GetEndPoint(1));
-            }
-        }
-
-        if (samplePoints.Count == 0)
-        {
-            var bbox = solid.GetBoundingBox();
-            samplePoints.Add(new XYZ(bbox.Min.X, bbox.Min.Y, bottomZFt));
-            samplePoints.Add(new XYZ(bbox.Max.X, bbox.Max.Y, bottomZFt));
-            samplePoints.Add(new XYZ(bbox.Min.X, bbox.Max.Y, bottomZFt));
-            samplePoints.Add(new XYZ(bbox.Max.X, bbox.Min.Y, bottomZFt));
-        }
-
-        XYZ refOrigin = bottomFace.Origin;
-        double minU = double.MaxValue, maxU = double.MinValue;
-        double minV = double.MaxValue, maxV = double.MinValue;
-
-        foreach (var pt in samplePoints)
-        {
-            XYZ d = pt - refOrigin;
-            double u = d.DotProduct(ux);
-            double v = d.DotProduct(uy);
-            if (u < minU) minU = u;
-            if (u > maxU) maxU = u;
-            if (v < minV) minV = v;
-            if (v > maxV) maxV = v;
-        }
-
-        double lengthFt = maxU - minU;
-        double widthFt = maxV - minV;
-
-        double lengthMm = RevitUnits.FtToMm(lengthFt);
-        double widthMm = RevitUnits.FtToMm(widthFt);
-
-        // Origin in world coordinates (bottom face corner where u = minU, v = minV, z = bottomZFt)
-        XYZ originFt = refOrigin + (ux * minU) + (uy * minV);
-        originFt = new XYZ(originFt.X, originFt.Y, bottomZFt);
-
-        var originCore = new Point3(
-            RevitUnits.FtToMm(originFt.X),
-            RevitUnits.FtToMm(originFt.Y),
-            RevitUnits.FtToMm(originFt.Z));
-
-        var uxCore = new Vector3(ux.X, ux.Y, ux.Z).Normalize();
-        var uyCore = new Vector3(uy.X, uy.Y, uy.Z).Normalize();
-        var uzCore = new Vector3(uz.X, uz.Y, uz.Z).Normalize();
-
-        return new FoundationGeometrySnapshot(
-            lengthMm,
-            widthMm,
-            thicknessMm,
-            topZMm,
-            bottomZMm,
-            originCore,
-            uxCore,
-            uyCore,
-            uzCore);
+        return edges;
     }
+
+    /// <summary>The solid's bounding-box corners on the bottom plane, for a face Revit returns without edges.</summary>
+    private static List<Point3> ReadBoundingCorners(Solid solid, double bottomZFt)
+    {
+        var box = solid.GetBoundingBox();
+        return new List<Point3>
+        {
+            ToMm(new XYZ(box.Min.X, box.Min.Y, bottomZFt)),
+            ToMm(new XYZ(box.Max.X, box.Max.Y, bottomZFt)),
+            ToMm(new XYZ(box.Min.X, box.Max.Y, bottomZFt)),
+            ToMm(new XYZ(box.Max.X, box.Min.Y, bottomZFt))
+        };
+    }
+
+    private static Point3 ToMm(XYZ point) =>
+        new(RevitUnits.FtToMm(point.X), RevitUnits.FtToMm(point.Y), RevitUnits.FtToMm(point.Z));
 }
