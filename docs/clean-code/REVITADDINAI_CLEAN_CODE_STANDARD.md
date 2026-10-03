@@ -57,9 +57,10 @@ When rules pull in different directions, decide in this order:
 | Id | Rule | PCC |
 |---|---|---|
 | FM1 | Formatting is automated (`.editorconfig` + `dotnet format`) and consistent; routine formatting is not a review topic | 086, 088, 089 |
-| FM2 | Always brace blocks; one blank line max; break parameter lists all-or-nothing; long chains one call per line | 092, 096, 097, 100 |
+| FM2 | Always brace blocks — `if (x) return;` on one line included; one blank line max; break parameter lists all-or-nothing; long chains one call per line; a line past ~120 characters is a review trigger | 067, 092, 096, 097, 100 |
 | FM3 | A block that does not fit one screen after formatting is extracted | 093, 103 |
 | FM4 | File-scoped namespaces matching the folder (CLAUDE.md); one public type per file, tiny related records may share | 207, 208 |
+| FM5 | Members in a predictable order: fields and dependencies → constructors → public members → private helpers; a caller sits above the methods it calls (step-down) | 202, 203, 204 |
 
 ## 5. Classes, SRP, cohesion [PCC]
 
@@ -77,7 +78,7 @@ When rules pull in different directions, decide in this order:
 
 | Id | Rule | PCC |
 |---|---|---|
-| S1 | OCP: introduce polymorphism only for families that do grow (bar shapes, request kinds that multiply); a closed `switch` over a stable enum is fine | 118, 119, 123 |
+| S1 | OCP: introduce polymorphism only for families that do grow (bar shapes, request kinds that multiply); a closed `switch` over a stable enum is fine; a defect is fixed in the code that has it, never wrapped in a "corrected" subtype | 118, 119, 123, 126 |
 | S2 | Concrete-type selection is contained in one factory, not repeated `switch`es | 121 |
 | S3 | LSP: no subtype checks (`is`/`as`) in clients to decide behaviour; no overrides that throw or do nothing | 128, 133, 136 |
 | S4 | ISP: interfaces shaped by the client's role; no stub implementations; split a runner that mixes unrelated roles | 142, 145, 148 |

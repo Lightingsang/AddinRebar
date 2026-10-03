@@ -49,6 +49,19 @@ Steps 1–8 produce the plan in `plans/<YYMMDD-HHmm>-<slug>/plan.md` (+ phase fi
 
 Forbidden by default: new `*Manager/*Helper/*Utils/*Service` names chosen for convenience, interfaces with one implementation and no reason, base classes for code reuse, static mutable state, cross-feature references.
 
+## Warning signs that a step was skipped
+
+| Step | Sign in the diff or the report |
+|---|---|
+| 2 | A new helper/class duplicates logic that a Core calculator or another feature already has |
+| 6 | Interfaces, factories or base classes for a variation that does not exist yet |
+| 9 | Comments explaining tangled code instead of a clearer name or an extracted method |
+| 10 | New warnings accepted; one Revit configuration built and the others assumed |
+| 11 | Pure logic tested through Revit or real files; a test with several Arrange/Act/Assert rounds; no edge case (empty, zero, NaN) |
+| 12 | "It runs" accepted as review; findings without rule ids |
+| 14 | Whole-file reformatting, commented-out code or debug logging mixed into a logic commit |
+| 16 | "Done" written before tests or the live check ran |
+
 ## Definition of Done
 
 - [ ] Build succeeds for every targeted Revit configuration (no new warnings)

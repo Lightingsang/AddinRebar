@@ -28,6 +28,20 @@ LOG     → REFACTORING_LOG.md entry (findings closed, commands + results, devia
 COMMIT  → conventional commit `refactor(<feature>): …`, no AI reference; push only when the user asks
 ```
 
+## 2a. Safe refactoring recipes
+
+Each step is one edit followed by BUILD + TEST (PCC-273); a red step is undone, not patched forward. Tests must be green before the first step. Ids: standard / PCC.
+
+| Smell | Steps |
+|---|---|
+| **Long method, mixed levels** (M1–M3) | 1. Mark the low-level blocks (loops over geometry, string building, unit conversion). 2. Extract each into a private method named by its intent (verb). 3. Turn nested preconditions into guard clauses at the top (PCC-078). 4. Order the extracted methods below their caller (FM5). Stop when the method reads at one level — a cohesive ~25-line method stays whole (PCC-067). |
+| **Long parameter list** (M4–M5) | 1. A `bool` that switches between two jobs → two methods (PCC-063). 2. Parameters that always travel together → one record with a domain name (PCC-060). 3. Update call sites. Never bundle unrelated parameters only to lower the count. |
+| **God class** (C1–C3) | 1. List fields and the methods that use each. 2. A cluster of methods sharing a separate set of fields → new class with a domain name (PCC-186). 3. The old class receives it through its constructor; only the feature Command creates it (D1). 4. Revert the split if the halves keep reaching into each other (PCC-114). |
+| **Type `switch` in several places** (S1–S2) | Only for a family that does grow (bar shapes, request kinds): 1. Interface for the varying behaviour. 2. One class per branch. 3. Selection in one place (the Command or one factory). A closed `switch` over a stable enum stays. |
+| **Revit/static infrastructure inside logic** (P2, D3–D5, T5) | 1. Move the computation into `HPRebar.Core` as a pure function over mm records and test it there — preferred over wrapping the Revit API (`Document` is sealed, R5). 2. Only when a seam is still needed (Excel, files, clock): a role-shaped interface with a stated reason, a thin adapter, a hand-written fake in tests. |
+
+Boy Scout rule (PCC-028) inside a fix or feature batch is limited to the lines the diff already touches — a rename, a brace, a dead local. Anything larger is logged for its wave, never folded into the commit.
+
 ## 3. Revit behaviour verification (golden run)
 
 Unit tests do not prove the add-in still produces the same model (PCC-271). For each feature, Wave 0 creates:

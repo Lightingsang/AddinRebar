@@ -102,3 +102,13 @@
 - **Logged, not fixed (pre-existing):** B-16 (R4 stale elements), B-17 (table row height scale), B-18 (template picking), B-19 (table rows by cut index)
 - **Deferred:** dead `UseRealRebar`, unused `faces` constructor, uncalled `TagRebarOnElevation` (Wave 1); `BeamAnnotationSettings` → record with `with` (Wave 3); `RevitViewNames` sub-namespace (cosmetic)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · **Golden run:** CHƯA TEST
+
+### 2026-10-03 — Braces on single-line blocks written during the fix track
+- **Rule:** FM2 / PCC-092 — four `if (…) return/continue/+=` one-liners added by this session's own fix commits (`RevitViewNames`, `BeamSupportFinder.FirstIntersection`, `DetailViewCreator.ApplyScale`, `BeamRebarSession.Validate`); not caught by two reviews, found by comparing against an external checklist
+- **Scope:** only lines this session wrote; older one-liners elsewhere are left for `.editorconfig` + `dotnet format` (Wave 0.4 / Wave 1)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 970/970 · no behaviour change
+
+### 2026-10-03 — Governance docs: ideas merged from an external clean-code skill
+- **Source:** a user-supplied skill `.claude/skills/revitaddinai-clean-code` (22 condensed rules, 10-step workflow); the repo set stays the single source of truth and the skill was removed after the merge
+- **Merged:** FM2 (brace one-liners explicitly, ~120-char line trigger, PCC-067), new FM5 member order / step-down (PCC-202–204), S1 + checklist: fix defects in place (PCC-126), REFACTORING_PLAN §2a safe refactoring recipes (5 smells, build + test per step, PCC-273) and the Boy Scout limit (PCC-028), TOOL_DEVELOPMENT_WORKFLOW "warning signs that a step was skipped"
+- **Not merged (conflicts with the repo):** its own PCC-001…022 numbering (would collide with PCC-001…293), `RevitAddinAI.sln` build, NUnit `[TestCase]` and mocks for Revit (T5: hand-written fakes, `Document` is sealed), mandatory interface wrappers around the Revit API (replaced by "move the logic to Core first")

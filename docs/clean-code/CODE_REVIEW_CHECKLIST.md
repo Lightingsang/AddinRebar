@@ -25,6 +25,8 @@
 - [ ] No behaviour-switching `bool` parameters; no bare `true, false` at call sites (PCC-063)
 - [ ] Core code is pure: no argument mutation, no `ref` accumulators, no shared mutable lists (PCC-075, PCC-076)
 - [ ] Preconditions checked first (PCC-078)
+- [ ] Every block braced, single-line `if` included; lines past ~120 characters looked at (FM2)
+- [ ] Callers above the methods they call; members in the FM5 order (PCC-202–204)
 
 ## C. Classes and contracts (C1–C7, S1–S5)
 - [ ] Each changed class still has one responsibility stated in one sentence (PCC-105, PCC-112)
@@ -33,6 +35,7 @@
 - [ ] Data private; narrow return types (`IReadOnlyList<T>`) (PCC-182, PCC-219)
 - [ ] Presentation separated from computation (PCC-246)
 - [ ] No subtype checks in clients; no overrides that throw/do nothing (PCC-133, PCC-136)
+- [ ] A defect is fixed where it lives, not wrapped in a "corrected" type (PCC-126)
 - [ ] Interfaces are role-shaped, each has a stated reason; no stub implementations (PCC-142, PCC-145)
 - [ ] New abstraction justified by real variation, a seam, or a boundary — otherwise remove (PCC-123, PCC-236)
 
