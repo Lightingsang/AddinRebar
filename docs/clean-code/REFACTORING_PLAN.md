@@ -1,6 +1,6 @@
 # RevitAddinAI — Refactoring Plan
 
-> **Status: APPROVED 2026-10-03 — Wave 0 in progress.** ADR-0001…0006 accepted (Kata: option A). Each wave still ends with a report; production code changes only inside a wave batch.
+> **Status: APPROVED 2026-10-03 — Wave 0 open (0.3 fixtures wait for the user's Revit choice); Wave 1 done for Column, Foundation, Beam, shell, MCP; Kata waits for its freeze.** ADR-0001…0006 accepted (Kata: option A). Each wave still ends with a report; production code changes only inside a wave batch.
 > Inputs: [CLEAN_CODE_AUDIT.md](CLEAN_CODE_AUDIT.md) (AUD-xxx, B-xx) · [REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md) · [ARCHITECTURE.md](../architecture/ARCHITECTURE.md) · progress in [REFACTORING_LOG.md](REFACTORING_LOG.md).
 
 ## 1. Ground rules

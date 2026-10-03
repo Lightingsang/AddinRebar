@@ -58,7 +58,7 @@
 | AUD-007 | [PCC] PCC-013 | Medium | Column bar-polyline pipeline in `RebarCreationService.cs:139-165`, `BarsDivisionTabViewModel.cs:37-56`, `ElevationBars.cs:15-53` | Same Core pipeline assembled 3× | one Core facade · W3 |
 | AUD-008 | [PCC] PCC-013 | Medium | `Partition` written by `LookupParameter("Partition")` (Column, Beam) vs `NUMBER_PARTITION_PARAM` (Foundation, Kata) | Two ways to stamp bars | shared stamp · W6 |
 | AUD-009 | [PCC] PCC-013 | Medium | `KataDamComReader.cs:24-52` vs `KataExcelWriter.cs:27-30,154-197`; cell contract consts in 4 files | Excel attach + busy codes + Kata cell ranges duplicated | `Shared/Excel` + Core constants · W6 |
-| AUD-010 | [PCC] PCC-013 | Low | `MaxBarPositions 1002` in `ColumnSpecEditor.cs:60` and `FoundationValidationCalculator.cs:13`; hook default `Math.Max(30d, 200)` ×10 in Core Beam | Business constants repeated | named constants once · W1 |
+| AUD-010 ✅ W1 | [PCC] PCC-013 | Low | `MaxBarPositions 1002` in `ColumnSpecEditor.cs:60` and `FoundationValidationCalculator.cs:13`; hook default `Math.Max(30d, 200)` ×10 in Core Beam | Business constants repeated | named constants once · W1 |
 
 ### 3.2 Revit boundary and layering
 
@@ -118,15 +118,15 @@
 
 | Id | Tag · Rules | Sev | Location | Fact | Action · Wave |
 |---|---|---|---|---|---|
-| AUD-045 | [PCC] PCC-236 · K4 | Low | `Commands/StartupCommand.cs` (empty, unreferenced), `RibbonIcons.Execute` glyph, `ClosedXML` package (unused, ILRepacked) | Dead code / dead dependency | delete · W1 |
-| AUD-046 | [PCC] PCC-236 | Low | Beam: `TagRebarOnElevation`, `BarTypesList`, `FindHook`, `Confirm`, `ProjectToPlane`, `StirrupZone`, `BeamContinuousStack.Validate` (never called, empty if-body); Column: `ColumnStack.Summary`, write-only `ColumnFaces` members, `RevitUnits.Display`, `DowelStyles`; Foundation: unused `onBarCreated`, dropped `barId`, test-only boundary methods | Dead members | delete · W1 |
-| AUD-047 | [PCC] PCC-236 | Low | Alias props "for cross-plan compatibility": `BeamFaces.cs:45-54`, `BeamStack.cs:45-69`, `FoundationGeometrySnapshot.cs:65-73`; `CreatedBeamRebar.MainBottomBars` returns empty | Speculative/compat aliases | delete after usage check · W1 |
-| AUD-048 | [PCC] PCC-039, 041 | Low | `DetailViewCreator.ResolveViewType` duplicates a `ViewFamilyType` | Mutation behind "Resolve" | rename `GetOrCreate…` · W1 |
-| AUD-049 | [PCC] PCC-040 | Low | `FoundationRebarCreationService.cs:30-31` `normX = LocalY`, `normY = LocalX` | Names contradict values | rename · W1 |
+| AUD-045 🟡 W1 (glyph deleted; StartupCommand + ClosedXML need the user) | [PCC] PCC-236 · K4 | Low | `Commands/StartupCommand.cs` (empty, unreferenced), `RibbonIcons.Execute` glyph, `ClosedXML` package (unused, ILRepacked) | Dead code / dead dependency | delete · W1 |
+| AUD-046 ✅ W1 | [PCC] PCC-236 | Low | Beam: `TagRebarOnElevation`, `BarTypesList`, `FindHook`, `Confirm`, `ProjectToPlane`, `StirrupZone`, `BeamContinuousStack.Validate` (never called, empty if-body); Column: `ColumnStack.Summary`, write-only `ColumnFaces` members, `RevitUnits.Display`, `DowelStyles`; Foundation: unused `onBarCreated`, dropped `barId`, test-only boundary methods | Dead members | delete · W1 |
+| AUD-047 ✅ W1 | [PCC] PCC-236 | Low | Alias props "for cross-plan compatibility": `BeamFaces.cs:45-54`, `BeamStack.cs:45-69`, `FoundationGeometrySnapshot.cs:65-73`; `CreatedBeamRebar.MainBottomBars` returns empty | Speculative/compat aliases | delete after usage check · W1 |
+| AUD-048 ✅ W1 (Column renamed `GetOrCreateViewType`) | [PCC] PCC-039, 041 | Low | `DetailViewCreator.ResolveViewType` duplicates a `ViewFamilyType` | Mutation behind "Resolve" | rename `GetOrCreate…` · W1 |
+| AUD-049 ✅ W1 | [PCC] PCC-040 | Low | `FoundationRebarCreationService.cs:30-31` `normX = LocalY`, `normY = LocalX` | Names contradict values | rename · W1 |
 | AUD-050 | [PCC] PCC-043, 046 · N7 | Low | Vietnamese exception/log text in KataRebar vs English elsewhere; English warnings mixed into Vietnamese lists in Kata windows | Language mixed in one surface | user text → UiStrings; logs English · W1 |
 | AUD-051 | [PCC] PCC-207, 210 | Low | `IColumnRebarRunner` inside `ColumnRebarViewModel.cs:19`; multi-type files (`StirrupGeometry.cs`, `FoundationRebarValidator.cs`, …); Core layout `CC/*.cs` vs `CF/Calculators/`; `LocalizationService` (ObservableObject) in `Service/` | Inconsistent organisation | W8 |
-| AUD-052 | [PCC] PCC-251, 258 | Low | `AdditionalTieSpec.cs:8-9` doc contradicts use; multi-version comment in Beam says "deprecated" where CLAUDE.md says removed in R27; seed `color_elements/tool.json:20` contains self-dialogue | Misleading comments | fix text · W1 |
-| AUD-053 | [PCC] PCC-079 · R5 | Low | literal `304.8` / `/ 304.8` in `BeamStack.cs:96`, `KataRebarCreationService.cs:96,124,156`, `KataRebarSectionFit.cs:36`, `KataBarSetCreator.cs:22` | Bypasses `RevitUnits` | W1 |
+| AUD-052 ✅ W1 | [PCC] PCC-251, 258 | Low | `AdditionalTieSpec.cs:8-9` doc contradicts use; multi-version comment in Beam says "deprecated" where CLAUDE.md says removed in R27; seed `color_elements/tool.json:20` contains self-dialogue | Misleading comments | fix text · W1 |
+| AUD-053 🟡 W1 (Beam done; Kata waits) | [PCC] PCC-079 · R5 | Low | literal `304.8` / `/ 304.8` in `BeamStack.cs:96`, `KataRebarCreationService.cs:96,124,156`, `KataRebarSectionFit.cs:36`, `KataBarSetCreator.cs:22` | Bypasses `RevitUnits` | W1 |
 | AUD-054 | [PCC] PCC-079 | Low | `KataCanvasPalette.cs:75-173` 37 hard-coded colours; CAD block coordinates inline in `KataElevationCadPainter.cs:154-167` | Magic values in views | named tokens · W1 |
 
 ### 3.7 Tests and verification
