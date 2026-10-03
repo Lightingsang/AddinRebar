@@ -125,7 +125,10 @@ public static class DetailViewCreator
     /// </summary>
     private static void ApplyScale(Document document, ViewSection view, int scale)
     {
-        if (scale <= 0) return;
+        if (scale <= 0)
+        {
+            return;
+        }
 
         if (document.GetElement(view.ViewTemplateId) is RevitView template
             && !template.GetNonControlledTemplateParameterIds().Contains(new ElementId(BuiltInParameter.VIEW_SCALE)))

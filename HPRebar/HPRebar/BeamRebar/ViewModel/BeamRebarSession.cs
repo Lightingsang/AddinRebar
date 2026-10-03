@@ -421,7 +421,10 @@ public sealed partial class BeamRebarSession : ObservableObject
         }
 
         string usedNames = CreateElevationView || CreateSectionViews ? DetailViewName : string.Empty;
-        if (CreateSectionViews) usedNames += SectionPrefix;
+        if (CreateSectionViews)
+        {
+            usedNames += SectionPrefix;
+        }
         if (RevitViewNames.TryFindForbiddenCharacter(usedNames, out var character))
         {
             errorMessage = $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";

@@ -11,7 +11,10 @@ public static class RevitViewNames
     {
         foreach (var candidate in name)
         {
-            if (ForbiddenCharacters.IndexOf(candidate) < 0) continue;
+            if (ForbiddenCharacters.IndexOf(candidate) < 0)
+            {
+                continue;
+            }
 
             character = candidate;
             return true;

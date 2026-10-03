@@ -435,7 +435,10 @@ public static class BeamSupportFinder
         // the only overload left in 2027; earlier versions return the points through an out array.
 #if REVIT2026_OR_GREATER
         var result = first.Intersect(second, CurveIntersectResultOption.Detailed);
-        if (result.Result != SetComparisonResult.Overlap) return null;
+        if (result.Result != SetComparisonResult.Overlap)
+        {
+            return null;
+        }
         var overlaps = result.GetOverlaps();
         return overlaps.Count > 0 ? overlaps[0].Point : null;
 #else
