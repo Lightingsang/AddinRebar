@@ -70,7 +70,7 @@ public sealed class BeamRebarOrchestrator
         {
             int done = 0;
             var options = spec.Views;
-            var settings = _settings.ForRun(options);
+            var settings = _settings.ForRun(_document, options);
 
             // 1. Create Views
             var views = CreateViews(options, settings, progress, ref done);

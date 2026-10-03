@@ -88,10 +88,7 @@ public static class DetailViewCreator
         // Hide crop boundary box
         view.get_Parameter(BuiltInParameter.VIEWER_CROP_REGION_VISIBLE)?.Set(0);
 
-        if (settings.DetailTemplate is not null)
-        {
-            view.ViewTemplateId = settings.DetailTemplate.Id;
-        }
+        ApplyTemplate(view, settings.DetailTemplate);
 
         ApplyScale(document, view, settings.ElevationScale);
 
@@ -117,6 +114,23 @@ public static class DetailViewCreator
                 Log.Warning(ex, "Could not name view {Fallback}; retaining default Revit name {Default}", fallback, view.Name);
             }
         }
+    }
+
+    /// <summary>Assigns the template when Revit accepts it for this view; otherwise the view keeps its own settings.</summary>
+    internal static void ApplyTemplate(ViewSection view, RevitView? template)
+    {
+        if (template is null)
+        {
+            return;
+        }
+
+        if (!view.IsValidViewTemplate(template.Id))
+        {
+            Log.Warning("View template {Template} does not apply to view {View}; template not assigned", template.Name, view.Name);
+            return;
+        }
+
+        view.ViewTemplateId = template.Id;
     }
 
     /// <summary>

@@ -133,10 +133,7 @@ public static class SectionViewCreator
 
         view.get_Parameter(BuiltInParameter.VIEWER_CROP_REGION_VISIBLE)?.Set(0);
 
-        if (settings.SectionTemplate is not null)
-        {
-            view.ViewTemplateId = settings.SectionTemplate.Id;
-        }
+        DetailViewCreator.ApplyTemplate(view, settings.SectionTemplate);
 
         string sectionName = settings.SectionViewName(spanIndex + 1, cutIndex + 1);
         DetailViewCreator.Rename(view, sectionName);
