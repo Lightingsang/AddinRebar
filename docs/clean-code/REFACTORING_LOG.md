@@ -193,3 +193,10 @@
 - **Coverage added, hashes captured from the pre-refactor code** (`git archive ac4604b` of Core + Core.Tests, scenarios copied in): single support, layer 2 only, thin footing with clamped explicit hooks; all 12 scenarios equal on old and new code
 - **Logged, not fixed:** B-22 (layer 2 set out under an absent layer 1)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 978/978
+
+### 2026-10-04 — Wave 2 · Beam · `BeamMainBarCalculator` top/bottom (AUD-023, first half)
+- **Safety net first:** `BeamMainBarCalculatorCharacterizationTests` (618d4ac, 0ddfdcb): 9 scenarios hashing top and bottom bars — unspliced, spliced with/without stagger and default stock length, two-span splice over a support, cantilever unspliced/spliced, depth step, defaulted hooks on a 60 mm deep beam (negative top hook kept as before), explicit bottom start hook — unchanged after (7fee8b2 committed an empty hash by a scripting slip and failed one test; 0ddfdcb recorded it — commits are now gated on `failed: 0`)
+- **Change:** `ComputeTopMainBars` 135 → 14 lines (`TopRun`, `UnsplicedTopBars`, `SplicedTopBars`); `ComputeBottomMainBars` 206 → 20 lines (`HasDepthStep`, `SteppedBottomBars`, `BottomRun`, `UnsplicedBottomBars`, `SplicedBottomBars`); shared `BarRun`, `CantileverEnds`, `StockLimit`, `EndHookLength`, `SpliceCentre`, `StaggerOffset`; private helpers below the public methods (FM5)
+- **Kept apart on purpose:** top bars always carry their hook points and Hook90 angles, bottom bars only for a positive leg — merging the two would need a behaviour flag (PCC-063) or change output for negative hook legs
+- **File:** 442 → 510 lines (longest method 206 → ~70); over the C2 300-line trigger, one cohesive purpose — left whole
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 987/987 (9 hashes identical)
