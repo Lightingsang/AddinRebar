@@ -160,3 +160,10 @@
 - **Applied:** blank lines left by deletions; `using` order in `StirrupDistributionCalculatorTests`; the `> 1002` comment now names the constant; `.editorconfig` `max_line_length` 140 → 120 to match the FM2 review trigger; the message fix of cc6d408 recorded as B-20; Column `DetailViewCreator.ResolveViewType` → `GetOrCreateViewType` (it duplicates a section type when the named one is missing — AUD-048; the Beam method only looks up and keeps its name)
 - **Next:** Width/Length boundary at equality in `FoundationValidationCalculatorTests` (test-only commit); Beam format-only commit; `Application.cs`/`StartupCommand.cs` excluded from formatting (CLAUDE.md)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 962/962
+
+### 2026-10-03 — Wave 1 · shell + MCP (AUD-045, AUD-052 partly)
+- **Deleted:** `RibbonIcons.Execute` (play glyph for the template command; no button uses it; the file is linked into the MCP bridge — bridge build ✅)
+- **Seed text:** `color_elements/tool.json` description lost its self-dialogue ("Undo with operate_element ResetIsolate? No — …"); takes effect for users on the next server publish (seed checksum upgrade path)
+- **Not done (needs the user):** `Commands/StartupCommand.cs` — empty and unreferenced, but CLAUDE.md says it "stays put"; `ClosedXML` package — no `using ClosedXML` anywhere, removal is a `.csproj` change and the Kata session owns that file for now
+- **Open in Wave 1:** Kata (AUD-050/053/054) waits for the Kata freeze; AUD-052's `AdditionalTieSpec` doc comment
+- **Build:** Debug.R23 ✅ R26 ✅, McpBridge R26 ✅ · **Tests:** Mcp.Server 109/109, Core 965/965
