@@ -34,7 +34,7 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
         {
             "explicit-bottom-start-hook", TestBeamData.SingleSpan(),
             TestBeamData.MainBarSpec() with { BottomStartHookLength = 300.0, TopEndHookLength = 0.0 },
-            "explicit-bottom-start-hook:"
+            "explicit-bottom-start-hook:B63898A0F4F8E2DD3D76387F"
         }
     };
 
