@@ -97,10 +97,10 @@
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
                           IsChecked="{Binding IsExecutionEnabled}"
                           Content="Allow AI code execution in this Civil 3D session"
-                          ToolTip="Scripts written by the AI run inside Civil 3D with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox."/>
+                          ToolTip="Scripts written by the AI run inside Civil 3D with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox. Turned off again every time Civil 3D starts."/>
 
                 <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
-                           Text="On by default. Every script runs inside a transaction the bridge owns; U in Civil 3D reverts the AI's runs since your last command. Dry runs never commit."/>
+                           Text="Off by default. Every script runs inside a transaction the bridge owns; U in Civil 3D reverts the AI's runs since your last command. Dry runs never commit."/>
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
                           IsChecked="{Binding AutoStartListener}"

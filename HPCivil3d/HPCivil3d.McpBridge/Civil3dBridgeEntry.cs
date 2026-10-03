@@ -66,7 +66,6 @@ public static class Civil3dBridgeEntry
 
         var store = new BridgeSettingsStore(VendorFolder, ProductFolder);
         var settings = store.Load();
-        settings.ExecutionEnabled = true;
         var autocadApi = AutocadApiAssemblies();
         var civilApi = CivilApiAssemblies();
 
