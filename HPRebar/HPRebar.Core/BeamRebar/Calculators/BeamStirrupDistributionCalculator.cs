@@ -32,195 +32,31 @@ public static class BeamStirrupDistributionCalculator
             throw new ArgumentOutOfRangeException(nameof(spec), "Sparse spacing must be strictly positive.");
 
         // Check if spacing is so small that bar count exceeds Revit max positions
-        if ((clearSpanMm / spec.SpacingDense) > RevitRebarLimits.MaxBarPositions || (clearSpanMm / spec.SpacingSparse) > RevitRebarLimits.MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spec), $"Requested spacing produces bar count exceeding maximum {RevitRebarLimits.MaxBarPositions}.");
+        if ((clearSpanMm / spec.SpacingDense) > RevitRebarLimits.MaxBarPositions
+            || (clearSpanMm / spec.SpacingSparse) > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(
+                nameof(spec), $"Requested spacing produces bar count exceeding maximum {RevitRebarLimits.MaxBarPositions}.");
 
-        // Cantilever spans: uniform dense spacing across entire length
+        // A cantilever is dense over its whole length, from the support to the cover at its tip.
         if (isCantilever)
         {
-            double lDist = clearSpanMm - spec.StartOffset - spec.Cover;
-            if (lDist < 0.0)
-                return Array.Empty<StirrupRun>();
-
-            int intervals = (int)Math.Floor(lDist / spec.SpacingDense);
-            int count = intervals + 1;
-            if (count > RevitRebarLimits.MaxBarPositions)
-                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
-
-            double delta = (lDist - (intervals * spec.SpacingDense)) / 2.0;
-            double startX = spec.StartOffset + delta;
-            var positions = new List<double>(count);
-            for (int i = 0; i < count; i++)
-                positions.Add(startX + (i * spec.SpacingDense));
-
-            return new[]
-            {
-                new StirrupRun
-                {
-                    Count = count,
-                    Spacing = spec.SpacingDense,
-                    StartOffset = startX,
-                    Length = intervals * spec.SpacingDense,
-                    StartX = startX,
-                    EndX = startX + (intervals * spec.SpacingDense),
-                    Positions = positions
-                }
-            };
+            return SingleDenseRun(spec.StartOffset, clearSpanMm - spec.StartOffset - spec.Cover, spec.SpacingDense);
         }
 
-        // Uniform layout
         if (spec.Layout == StirrupLayout.Uniform)
         {
-            double lDist = clearSpanMm - (2.0 * spec.StartOffset);
-            if (lDist < 0.0)
-                return Array.Empty<StirrupRun>();
-
-            int intervals = (int)Math.Floor(lDist / spec.SpacingDense);
-            int count = intervals + 1;
-            if (count > RevitRebarLimits.MaxBarPositions)
-                throw new ArgumentOutOfRangeException(nameof(spec), $"Stirrup count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
-
-            double delta = (lDist - (intervals * spec.SpacingDense)) / 2.0;
-            double startX = spec.StartOffset + delta;
-            var positions = new List<double>(count);
-            for (int i = 0; i < count; i++)
-                positions.Add(startX + (i * spec.SpacingDense));
-
-            return new[]
-            {
-                new StirrupRun
-                {
-                    Count = count,
-                    Spacing = spec.SpacingDense,
-                    StartOffset = startX,
-                    Length = intervals * spec.SpacingDense,
-                    StartX = startX,
-                    EndX = startX + (intervals * spec.SpacingDense),
-                    Positions = positions
-                }
-            };
+            return SingleDenseRun(spec.StartOffset, clearSpanMm - (2.0 * spec.StartOffset), spec.SpacingDense);
         }
 
         // 3-Zone layouts: short spans collapse to uniform dense layout
         double zoneLength = spec.Layout == StirrupLayout.ThreeZoneL4 ? (clearSpanMm / 4.0) : (clearSpanMm / 3.0);
         if (clearSpanMm < MinimumThreeZoneSpanMm || zoneLength <= spec.StartOffset)
         {
-            return ComputeSpanRuns(clearSpanMm, spec with { Layout = StirrupLayout.Uniform, SpacingSparse = spec.SpacingDense }, isCantilever: false);
+            return ComputeSpanRuns(
+                clearSpanMm, spec with { Layout = StirrupLayout.Uniform, SpacingSparse = spec.SpacingDense }, isCantilever: false);
         }
 
-        double l1 = zoneLength;
-        double l3 = zoneLength;
-        double l2 = clearSpanMm - l1 - l3;
-
-        // Zone 1 (Left Support Zone)
-        double lDist1 = l1 - spec.StartOffset;
-        int intervals1 = (int)Math.Floor(lDist1 / spec.SpacingDense);
-        int count1 = intervals1 + 1;
-        if (count1 > RevitRebarLimits.MaxBarPositions)
-            throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 1 stirrup count {count1} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
-
-        double delta1 = (lDist1 - (intervals1 * spec.SpacingDense)) / 2.0;
-        double startX1 = spec.StartOffset + delta1;
-        var positions1 = new List<double>(count1);
-        for (int i = 0; i < count1; i++)
-            positions1.Add(startX1 + (i * spec.SpacingDense));
-
-        var run1 = new StirrupRun
-        {
-            Count = count1,
-            Spacing = spec.SpacingDense,
-            StartOffset = startX1,
-            Length = intervals1 * spec.SpacingDense,
-            StartX = startX1,
-            EndX = startX1 + (intervals1 * spec.SpacingDense),
-            Positions = positions1
-        };
-
-        // Zone 3 (Right Support Zone) computed first to establish exact right boundary
-        int count3 = count1;
-        double startX3 = (clearSpanMm - l3) + delta1;
-        var positions3 = new List<double>(count3);
-        for (int i = 0; i < count3; i++)
-            positions3.Add(startX3 + (i * spec.SpacingDense));
-
-        var run3 = new StirrupRun
-        {
-            Count = count3,
-            Spacing = spec.SpacingDense,
-            StartOffset = startX3,
-            Length = intervals1 * spec.SpacingDense,
-            StartX = startX3,
-            EndX = startX3 + (intervals1 * spec.SpacingDense),
-            Positions = positions3
-        };
-
-        // Zone 2 (Midspan Sparse Zone)
-        // Positioned symmetrically within the physical gap between Zone 1 and Zone 3:
-        // gap = startX3 - lastX1.
-        // Guarantees boundary transition spacing dBoundary satisfies: s2/2 < dBoundary <= s2,
-        // eliminating duplicate/clashing stirrups at zone transitions.
-        double lastX1 = startX1 + (intervals1 * spec.SpacingDense);
-        double gap = startX3 - lastX1;
-
-        int count2;
-        int intervals2;
-        double startX2;
-        var positions2 = new List<double>();
-
-        if (gap <= 0.0)
-        {
-            count2 = 0;
-            intervals2 = 0;
-            startX2 = lastX1;
-        }
-        else
-        {
-            double y2 = (gap / spec.SpacingSparse) - 2.0;
-            intervals2 = (int)Math.Ceiling(y2 - 1e-9);
-            if (intervals2 < 0)
-                intervals2 = 0;
-
-            if (gap < 2.0 * Math.Min(spec.SpacingDense, spec.SpacingSparse))
-            {
-                if (gap >= 2.0 * DefaultStartOffsetMm)
-                {
-                    count2 = 1;
-                    intervals2 = 0;
-                    startX2 = (lastX1 + startX3) / 2.0;
-                    positions2.Add(startX2);
-                }
-                else
-                {
-                    count2 = 0;
-                    intervals2 = 0;
-                    startX2 = lastX1;
-                }
-            }
-            else
-            {
-                count2 = intervals2 + 1;
-                if (count2 > RevitRebarLimits.MaxBarPositions)
-                    throw new ArgumentOutOfRangeException(nameof(spec), $"Zone 2 stirrup count {count2} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
-
-                double delta2 = (gap - (intervals2 * spec.SpacingSparse)) / 2.0;
-                startX2 = lastX1 + delta2;
-                for (int i = 0; i < count2; i++)
-                    positions2.Add(startX2 + (i * spec.SpacingSparse));
-            }
-        }
-
-        var run2 = new StirrupRun
-        {
-            Count = count2,
-            Spacing = spec.SpacingSparse,
-            StartOffset = startX2,
-            Length = count2 > 0 ? intervals2 * spec.SpacingSparse : 0.0,
-            StartX = startX2,
-            EndX = count2 > 0 ? startX2 + (intervals2 * spec.SpacingSparse) : startX2,
-            Positions = positions2
-        };
-
-        return new[] { run1, run2, run3 };
+        return ThreeZoneRuns(clearSpanMm, zoneLength, spec);
     }
 
     /// <summary>
@@ -308,5 +144,105 @@ public static class BeamStirrupDistributionCalculator
         }
 
         return allRuns;
+    }
+
+    /// <summary>
+    /// Fits whole spacings into <paramref name="length"/> and splits what is left over equally at both ends.
+    /// </summary>
+    private static (int Intervals, double Delta) Centre(double length, double spacing)
+    {
+        int intervals = (int)Math.Floor(length / spacing);
+        double delta = (length - (intervals * spacing)) / 2.0;
+        return (intervals, delta);
+    }
+
+    private static void EnsureWithinLimit(int count, string what)
+    {
+        if (count > RevitRebarLimits.MaxBarPositions)
+            throw new ArgumentOutOfRangeException(
+                "spec", $"{what} count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
+    }
+
+    /// <summary><paramref name="count"/> stirrups from <paramref name="startX"/>, <paramref name="intervals"/> spacings long.</summary>
+    private static StirrupRun Run(double startX, int intervals, int count, double spacing)
+    {
+        var positions = new List<double>(count);
+        for (int i = 0; i < count; i++)
+            positions.Add(startX + (i * spacing));
+
+        return new StirrupRun
+        {
+            Count = count,
+            Spacing = spacing,
+            StartOffset = startX,
+            Length = intervals * spacing,
+            StartX = startX,
+            EndX = startX + (intervals * spacing),
+            Positions = positions
+        };
+    }
+
+    /// <summary>One run at <paramref name="spacing"/>, centred in the distribution length after the start offset; none when that length is negative.</summary>
+    private static IReadOnlyList<StirrupRun> SingleDenseRun(double startOffset, double distributionLength, double spacing)
+    {
+        if (distributionLength < 0.0)
+            return Array.Empty<StirrupRun>();
+
+        var (intervals, delta) = Centre(distributionLength, spacing);
+        int count = intervals + 1;
+        EnsureWithinLimit(count, "Stirrup");
+
+        return new[] { Run(startOffset + delta, intervals, count, spacing) };
+    }
+
+    /// <summary>
+    /// Dense support zones of <paramref name="zoneLength"/> at both ends — the right one mirrors the left so the
+    /// pattern is symmetric — and a sparse midspan zone fitted into the gap left between them.
+    /// </summary>
+    private static IReadOnlyList<StirrupRun> ThreeZoneRuns(double clearSpanMm, double zoneLength, BeamStirrupSpec spec)
+    {
+        var (intervals1, delta1) = Centre(zoneLength - spec.StartOffset, spec.SpacingDense);
+        int count1 = intervals1 + 1;
+        EnsureWithinLimit(count1, "Zone 1 stirrup");
+
+        double startX1 = spec.StartOffset + delta1;
+        double startX3 = (clearSpanMm - zoneLength) + delta1;
+        var run1 = Run(startX1, intervals1, count1, spec.SpacingDense);
+        var run3 = Run(startX3, intervals1, count1, spec.SpacingDense);
+
+        double lastX1 = startX1 + (intervals1 * spec.SpacingDense);
+        var run2 = MidspanRun(lastX1, startX3, spec);
+
+        return new[] { run1, run2, run3 };
+    }
+
+    /// <summary>
+    /// The sparse zone between the last stirrup of zone 1 and the first of zone 3, centred in that gap so the
+    /// spacing at each zone boundary d satisfies s2/2 &lt; d &lt;= s2 (no doubled stirrups at a transition).
+    /// A gap narrower than two spacings takes one stirrup in its middle, or none when it is under 100 mm.
+    /// </summary>
+    private static StirrupRun MidspanRun(double lastX1, double startX3, BeamStirrupSpec spec)
+    {
+        double gap = startX3 - lastX1;
+        if (gap <= 0.0)
+            return Run(lastX1, intervals: 0, count: 0, spec.SpacingSparse);
+
+        if (gap < 2.0 * Math.Min(spec.SpacingDense, spec.SpacingSparse))
+        {
+            return gap >= 2.0 * DefaultStartOffsetMm
+                ? Run((lastX1 + startX3) / 2.0, intervals: 0, count: 1, spec.SpacingSparse)
+                : Run(lastX1, intervals: 0, count: 0, spec.SpacingSparse);
+        }
+
+        double y2 = (gap / spec.SpacingSparse) - 2.0;
+        int intervals2 = (int)Math.Ceiling(y2 - 1e-9);
+        if (intervals2 < 0)
+            intervals2 = 0;
+
+        int count2 = intervals2 + 1;
+        EnsureWithinLimit(count2, "Zone 2 stirrup");
+
+        double delta2 = (gap - (intervals2 * spec.SpacingSparse)) / 2.0;
+        return Run(lastX1 + delta2, intervals2, count2, spec.SpacingSparse);
     }
 }

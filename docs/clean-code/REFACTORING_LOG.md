@@ -200,3 +200,9 @@
 - **Kept apart on purpose:** top bars always carry their hook points and Hook90 angles, bottom bars only for a positive leg — merging the two would need a behaviour flag (PCC-063) or change output for negative hook legs
 - **File:** 442 → 510 lines (longest method 206 → ~70); over the C2 300-line trigger, one cohesive purpose — left whole
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 987/987 (9 hashes identical)
+
+### 2026-10-04 — Wave 2 · Beam · `BeamStirrupDistributionCalculator.ComputeSpanRuns` (AUD-023, second half)
+- **Safety net first:** `BeamStirrupDistributionCalculatorCharacterizationTests` (ce40154): cantilever (and one too short for any stirrup), uniform, three-zone L/4 and L/3, the short-span collapse to uniform, a 600 mm span whose midspan takes one stirrup — unchanged after; the existing exception-message tests unchanged too
+- **Change:** 205 lines with the run block written five times → `ComputeSpanRuns` (~40 lines: guards, then cantilever / uniform / three-zone) + `Centre`, `EnsureWithinLimit` (same messages), `Run`, `SingleDenseRun`, `ThreeZoneRuns`, `MidspanRun`; the unused `l2` local dropped
+- **File:** 312 → 248 lines
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 994/994 (7 hashes identical)
