@@ -41,14 +41,4 @@ public sealed record BeamFaces
 
     /// <summary>Secondary framing beams framing into the web of this span.</summary>
     public IReadOnlyList<Element> IntersectingSecondaryBeams { get; init; } = new List<Element>();
-
-    // --- Property Aliases for Ergonomics & Cross-Plan Compatibility ---
-    public PlanarFace TopFace => Top;
-    public PlanarFace BottomFace => Bottom;
-    public PlanarFace? LeftFace => Left;
-    public PlanarFace? RightFace => Right;
-    public PlanarFace? LeftVertical => Left;
-    public PlanarFace? RightVertical => Right;
-    public PlanarFace TopHorizontal => Top;
-    public PlanarFace BottomHorizontal => Bottom;
 }

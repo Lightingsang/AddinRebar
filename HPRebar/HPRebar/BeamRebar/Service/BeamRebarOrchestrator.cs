@@ -31,16 +31,6 @@ public sealed class BeamRebarOrchestrator
         _catalog = new RebarTypeCatalog(document);
     }
 
-    public BeamRebarOrchestrator(
-        Document document,
-        BeamStack stack,
-        IReadOnlyList<BeamFaces> faces,
-        RebarShapeResolver shapes,
-        BeamAnnotationSettings settings)
-        : this(document, stack, shapes, settings)
-    {
-    }
-
     public int PlannedCount(BeamRebarSpec spec)
     {
         var views = spec.Views;

@@ -57,7 +57,7 @@ public static class BeamAdditionalBarCalculator
                     double availDrop1 = Math.Max(0.0, z1 - zBotFloor);
                     double hookLen1 = config.ExteriorHookLength > 0.0
                         ? Math.Min(availDrop1, config.ExteriorHookLength)
-                        : Math.Min(availDrop1, Math.Max(30.0 * config.Layer1Diameter, 200.0));
+                        : Math.Min(availDrop1, BeamHookLength.Default(config.Layer1Diameter));
 
                     var yPositions1 = BeamMainBarCalculator.ComputeTransverseYPositions(
                         span.Width, cover, stirrupDiameterMm, config.Layer1Diameter, config.Layer1Count);
@@ -106,7 +106,7 @@ public static class BeamAdditionalBarCalculator
                     double availDrop2 = Math.Max(0.0, z2 - zBotFloor);
                     double hookLen2 = config.ExteriorHookLength > 0.0
                         ? Math.Min(availDrop2, config.ExteriorHookLength)
-                        : Math.Min(availDrop2, Math.Max(30.0 * config.Layer2Diameter, 200.0));
+                        : Math.Min(availDrop2, BeamHookLength.Default(config.Layer2Diameter));
 
                     var yPositions2 = BeamMainBarCalculator.ComputeTransverseYPositions(
                         span.Width, cover, stirrupDiameterMm, config.Layer2Diameter, config.Layer2Count);
@@ -164,7 +164,7 @@ public static class BeamAdditionalBarCalculator
                     double availDrop1 = Math.Max(0.0, z1 - zBotFloor);
                     double hookLen1 = config.ExteriorHookLength > 0.0
                         ? Math.Min(availDrop1, config.ExteriorHookLength)
-                        : Math.Min(availDrop1, Math.Max(30.0 * config.Layer1Diameter, 200.0));
+                        : Math.Min(availDrop1, BeamHookLength.Default(config.Layer1Diameter));
 
                     var yPositions1 = BeamMainBarCalculator.ComputeTransverseYPositions(
                         span.Width, cover, stirrupDiameterMm, config.Layer1Diameter, config.Layer1Count);
@@ -213,7 +213,7 @@ public static class BeamAdditionalBarCalculator
                     double availDrop2 = Math.Max(0.0, z2 - zBotFloor);
                     double hookLen2 = config.ExteriorHookLength > 0.0
                         ? Math.Min(availDrop2, config.ExteriorHookLength)
-                        : Math.Min(availDrop2, Math.Max(30.0 * config.Layer2Diameter, 200.0));
+                        : Math.Min(availDrop2, BeamHookLength.Default(config.Layer2Diameter));
 
                     var yPositions2 = BeamMainBarCalculator.ComputeTransverseYPositions(
                         span.Width, cover, stirrupDiameterMm, config.Layer2Diameter, config.Layer2Count);

@@ -52,11 +52,6 @@ public sealed class RebarTypeCatalog
             .ToList();
     }
 
-    /// <summary>
-    /// Static helper used by command entry points to load bar types directly for session initialization.
-    /// </summary>
-    public static IReadOnlyList<RebarTypeInfo> BarTypesList(Document doc) => LoadBarTypes(doc);
-
     public RebarTypeInfo? FindBarType(string name, double targetDiameterMm)
     {
         if (!string.IsNullOrWhiteSpace(name))
@@ -71,14 +66,6 @@ public sealed class RebarTypeCatalog
 
         // Fallback to closest overall
         return _barTypes.OrderBy(b => Math.Abs(b.DiameterMm - targetDiameterMm)).FirstOrDefault();
-    }
-
-    public RebarHookType? FindHook(int angleDegrees)
-    {
-        double angleRad = angleDegrees * Math.PI / 180.0;
-        return _hookTypes.FirstOrDefault(h =>
-            Math.Abs(h.HookAngle - angleRad) < 1e-2 ||
-            h.Name.Contains(angleDegrees.ToString()));
     }
 
     public double DefaultCoverMm() => _coverTypes.Count > 0 ? RevitUnits.FtToMm(_coverTypes[0].CoverDistance) : 25.0;

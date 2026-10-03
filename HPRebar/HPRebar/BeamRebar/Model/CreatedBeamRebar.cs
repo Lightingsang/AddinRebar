@@ -19,13 +19,5 @@ public sealed record CreatedBeamRebar
 
     public IReadOnlyList<Rebar> SpecialBars { get; init; } = Array.Empty<Rebar>();
 
-    // Aliases for sub-grouping
-    public IReadOnlyList<Rebar> MainTopBars => MainBars;
-    public IReadOnlyList<Rebar> MainBottomBars => Array.Empty<Rebar>();
-    public IReadOnlyList<Rebar> AdditionalTopBars => AdditionalBars;
-    public IReadOnlyList<Rebar> AdditionalBottomBars => Array.Empty<Rebar>();
-
     public int Total => Stirrups.Count + MainBars.Count + AdditionalBars.Count + SideBars.Count + SpecialBars.Count;
-
-    public int TotalCount => Total;
 }

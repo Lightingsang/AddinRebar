@@ -96,7 +96,7 @@ public static class BeamStirrupCreator
             span.BottomElevation + span.Cover);
 
         XYZ originXyz = stack.PointMapper.ToXyz(localOrigin);
-        XYZ xVec = stack.NormalDirection; // Y_beam
+        XYZ xVec = stack.TransverseDirection; // Y_beam
         XYZ yVec = XYZ.BasisZ;            // Z
 
         var rebar = Rebar.CreateFromRebarShape(doc, shape, barType, host, originXyz, xVec, yVec);
@@ -139,7 +139,7 @@ public static class BeamStirrupCreator
             refSpan.BottomElevation + coverMm);
 
         XYZ originXyz = stack.PointMapper.ToXyz(localOrigin);
-        XYZ xVec = stack.NormalDirection;
+        XYZ xVec = stack.TransverseDirection;
         XYZ yVec = XYZ.BasisZ;
 
         var rebar = Rebar.CreateFromRebarShape(doc, shape, barType, host, originXyz, xVec, yVec);

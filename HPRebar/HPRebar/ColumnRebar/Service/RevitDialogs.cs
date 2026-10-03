@@ -43,19 +43,4 @@ internal static class RevitDialogs
 
         dialog.Show();
     }
-
-    /// <summary>Yes/No prompt. Returns true only when the user picks Yes.</summary>
-    public static bool Confirm(string title, string message)
-    {
-        var dialog = new TaskDialog(title)
-        {
-            MainIcon = TaskDialogIcon.TaskDialogIconWarning,
-            MainInstruction = title,
-            MainContent = message,
-            CommonButtons = TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No,
-            DefaultButton = TaskDialogResult.No
-        };
-
-        return dialog.Show() == TaskDialogResult.Yes;
-    }
 }

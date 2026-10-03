@@ -77,12 +77,12 @@ public static class BeamMainBarCalculator
         double hStart = stack.Spans[0].Height;
         double hookStart = spec.TopStartHookLength > 0.0
             ? spec.TopStartHookLength
-            : Math.Min(hStart - (2.0 * spec.TopCover) - (2.0 * stirrupDiameterMm), Math.Max(30.0 * spec.TopDiameter, 200.0));
+            : Math.Min(hStart - (2.0 * spec.TopCover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(spec.TopDiameter));
 
         double hEnd = stack.Spans[stack.Spans.Count - 1].Height;
         double hookEnd = spec.TopEndHookLength > 0.0
             ? spec.TopEndHookLength
-            : Math.Min(hEnd - (2.0 * spec.TopCover) - (2.0 * stirrupDiameterMm), Math.Max(30.0 * spec.TopDiameter, 200.0));
+            : Math.Min(hEnd - (2.0 * spec.TopCover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(spec.TopDiameter));
 
         double totalBarLength = (xEnd - xStart) + hookStart + hookEnd;
         double stockLimit = spec.MaxStockLength > 0.0 ? spec.MaxStockLength : CommercialStockLengthMm;
@@ -225,7 +225,7 @@ public static class BeamMainBarCalculator
                 double zBot = span.BottomElevation;
                 double zBotBar = zBot + spec.BottomCover + stirrupDiameterMm + (spec.BottomDiameter / 2.0);
 
-                double hookLen = Math.Min(span.Height - (2.0 * spec.BottomCover), Math.Max(30.0 * spec.BottomDiameter, 200.0));
+                double hookLen = Math.Min(span.Height - (2.0 * spec.BottomCover), BeamHookLength.Default(spec.BottomDiameter));
 
                 double xStart = (s == 0 && !isLeftCantilever && stack.Supports.Count > 0)
                     ? stack.Supports[0].LeftFaceX + spec.BottomCover
@@ -279,7 +279,7 @@ public static class BeamMainBarCalculator
             double hStart = stack.Spans[0].Height;
             hookStart = spec.BottomStartHookLength > 0.0
                 ? spec.BottomStartHookLength
-                : Math.Min(hStart - (2.0 * spec.BottomCover) - (2.0 * stirrupDiameterMm), Math.Max(30.0 * spec.BottomDiameter, 200.0));
+                : Math.Min(hStart - (2.0 * spec.BottomCover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(spec.BottomDiameter));
         }
 
         double xEndGlobal;
@@ -295,7 +295,7 @@ public static class BeamMainBarCalculator
             double hEnd = stack.Spans[stack.Spans.Count - 1].Height;
             hookEnd = spec.BottomEndHookLength > 0.0
                 ? spec.BottomEndHookLength
-                : Math.Min(hEnd - (2.0 * spec.BottomCover) - (2.0 * stirrupDiameterMm), Math.Max(30.0 * spec.BottomDiameter, 200.0));
+                : Math.Min(hEnd - (2.0 * spec.BottomCover) - (2.0 * stirrupDiameterMm), BeamHookLength.Default(spec.BottomDiameter));
         }
 
         double zBotGlobal = stack.Spans[0].BottomElevation;

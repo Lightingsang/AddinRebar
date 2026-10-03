@@ -132,21 +132,6 @@ public sealed record BeamContinuousStack
             if (span.Cover <= 0.0) return ValidationResult.Fail($"Span {i} has non-positive cover: {span.Cover} mm.");
         }
 
-        // Validate joint contiguity between spans and supports
-        const double tolerance = 1.0; // 1.0 mm tolerance for physical join
-        for (int i = 0; i < Spans.Count; i++)
-        {
-            var leftSupport = Supports[i];
-            var span = Spans[i];
-            var rightSupport = Supports[i + 1];
-
-            // If span starts at left support face
-            if (span.StartX > 0 && System.Math.Abs(leftSupport.RightFaceX - span.StartX) > tolerance)
-            {
-                // Acceptable if startX is relative to beam stack or support
-            }
-        }
-
         return ValidationResult.Ok();
     }
 

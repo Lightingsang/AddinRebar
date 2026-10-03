@@ -158,14 +158,6 @@ public static class BeamSolidFaceReader
     public static double DistanceMm(PlanarFace plane, XYZ point) =>
         RevitUnits.FtToMm(Math.Abs((point - plane.Origin).DotProduct(plane.FaceNormal)));
 
-    /// <summary>Projects a 3D point onto a planar face along its normal.</summary>
-    public static XYZ ProjectToPlane(XYZ point, PlanarFace plane)
-    {
-        var diff = plane.Origin - point;
-        var dist = diff.DotProduct(plane.FaceNormal);
-        return Math.Abs(dist) < Tolerance ? point : point + plane.FaceNormal * dist;
-    }
-
     /// <summary>Measures beam cross-section width b in millimetres between lateral faces.</summary>
     public static double GetWidthMm(Element element, XYZ transverseAxis)
     {

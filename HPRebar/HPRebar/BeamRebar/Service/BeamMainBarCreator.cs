@@ -70,7 +70,7 @@ public static class BeamMainBarCreator
         var hostElement = stack.Faces[hostIdx].Element;
         var curves = BuildCurves(bar.Polyline, stack.PointMapper);
 
-        var rebar = RebarCurveFactory.CreateWithoutHooks(document, RebarStyle.Standard, defaultBarType, hostElement, stack.NormalDirection, curves);
+        var rebar = RebarCurveFactory.CreateWithoutHooks(document, RebarStyle.Standard, defaultBarType, hostElement, stack.TransverseDirection, curves);
 
         BeamStirrupCreator.SetPartition(rebar, partitionName);
         return rebar;

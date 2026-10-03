@@ -145,3 +145,12 @@
 - **Renamed:** `normX`/`normY` (named after the other axis than the value they held) → `normalOfXBars`/`normalOfYBars`; loop → `foreach`
 - **Behaviour:** none
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 959/959 (970 − 11 deleted cases of deleted methods)
+
+### 2026-10-03 — Wave 1 · Beam · dead code, aliases, repeated rule (AUD-010/046/047/053, Beam part)
+- **Deleted:** `RebarTableTagCreator.TagRebarOnElevation`, `RebarTypeCatalog.BarTypesList` + `FindHook`, `RevitDialogs.Confirm` (Beam **and** the Column copy, missed by the Column batch), `BeamSolidFaceReader.ProjectToPlane`, `BeamStack.Summary`, `StirrupZone` (Core, unused record), the `UseRealRebar` session property (bound nowhere), the orchestrator constructor taking an unused `faces`, the empty contiguity loop in `BeamContinuousStack.Validate`
+- **Aliases removed:** `CreatedBeamRebar` (`MainTopBars`, `MainBottomBars`/`AdditionalBottomBars` that returned empty lists, `AdditionalTopBars`, `TotalCount`), `BeamFaces` (8), `BeamStack` (`SpanFaces`, `NormalDirection`, `StartPoint`, `BeamAxis`, `SideNormal`); 5 call sites now use `TransverseDirection` / `OriginPoint`
+- **`BeamStack.EndPoint`** (the only `/ 304.8` in Beam) inlined into its one caller `DimensionCreator.ElevationSpanLine` through `RevitUnits.MmToFt`
+- **Repeated rule:** `Math.Max(30 × d, 200)` (9 copies in `BeamMainBarCalculator` / `BeamAdditionalBarCalculator`) → `BeamHookLength.Default(d)` + 3 tests; `BeamSpecialBarCalculator`'s `30 × d` anchorage is a different rule and stays
+- **Kept on purpose:** `BeamContinuousStack.Validate` — real checks with tests, but not called in production; wiring it in front of the run is a Wave 3 decision (not a refactor)
+- **Behaviour:** none
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 962/962 (+3) · **Golden run:** CHƯA TEST

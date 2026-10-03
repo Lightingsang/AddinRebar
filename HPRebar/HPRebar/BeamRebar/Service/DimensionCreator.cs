@@ -136,15 +136,17 @@ public static class DimensionCreator
     private static Line ElevationSpanLine(ViewSection view, BeamStack stack, BeamAnnotationSettings settings)
     {
         double offsetFt = RevitUnits.MmToFt(settings.DimensionOffsetV);
-        XYZ start = stack.StartPoint - offsetFt * XYZ.BasisZ;
-        XYZ end = stack.EndPoint - offsetFt * XYZ.BasisZ;
+        XYZ start = stack.OriginPoint - offsetFt * XYZ.BasisZ;
+        XYZ end = stack.OriginPoint
+                  + RevitUnits.MmToFt(stack.ContinuousStack.TotalLength) * stack.BeamDirection
+                  - offsetFt * XYZ.BasisZ;
         return Line.CreateBound(start, end);
     }
 
     private static Line ElevationHeightLine(ViewSection view, BeamStack stack, BeamAnnotationSettings settings)
     {
         double offsetFt = RevitUnits.MmToFt(settings.DimensionOffsetH);
-        XYZ start = stack.StartPoint - offsetFt * stack.BeamDirection;
+        XYZ start = stack.OriginPoint - offsetFt * stack.BeamDirection;
         XYZ end = start + RevitUnits.MmToFt(stack.MaxHeightMm) * XYZ.BasisZ;
         return Line.CreateBound(start, end);
     }

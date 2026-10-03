@@ -57,29 +57,6 @@ public static class RebarTableTagCreator
         }
     }
 
-    public static void TagRebarOnElevation(
-        Document document,
-        ViewSection elevationView,
-        Rebar rebar,
-        XYZ headPosition)
-    {
-        try
-        {
-            IndependentTag.Create(
-                document,
-                elevationView.Id,
-                new Reference(rebar),
-                addLeader: true,
-                TagMode.TM_ADDBY_CATEGORY,
-                TagOrientation.Horizontal,
-                headPosition);
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex, "Could not place rebar tag on rebar {RebarId}; skipping.", rebar.Id);
-        }
-    }
-
     private static IReadOnlyList<(string Label, string Value)> BuildRows(
         BeamSpan span, 
         int cutIndex, 

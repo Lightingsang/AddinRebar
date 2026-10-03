@@ -181,7 +181,6 @@ public sealed partial class BeamRebarSession : ObservableObject
     [ObservableProperty] private bool _createDimensions = BeamViewOptions.Default.CreateDimensions;
     [ObservableProperty] private bool _createTags = BeamViewOptions.Default.CreateTables;
     [ObservableProperty] private string _partitionName = "Beam Rebar";
-    [ObservableProperty] private bool _useRealRebar = true;
 
     public BeamRebarSession(
         BeamStack stack,
