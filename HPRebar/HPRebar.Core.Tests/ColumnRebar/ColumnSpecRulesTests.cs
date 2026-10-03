@@ -50,7 +50,7 @@ public sealed class ColumnSpecRulesTests
     }
 
     [Fact]
-    public void FirstProblem_CoverAndBarsWiderThanSection_ReportsNarrowestSide()
+    public void FirstProblem_CoverAndBarsFillTheSection_ReportsNarrowestSide()
     {
         // 2 × 25 cover + 2 × 8 stirrup + 20 bar = 86 mm, not less than an 86 mm wide section
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(b: 86), TestSections.Grid(), Uniform150, NoTies);
@@ -112,5 +112,69 @@ public sealed class ColumnSpecRulesTests
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), Uniform150, ties);
 
         Assert.Equal(expected, problem);
+    }
+
+    [Fact]
+    public void FirstProblem_InvalidLayoutInATooNarrowSection_ReportsTheLayoutFirst()
+    {
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(b: 50), TestSections.Grid(nx: 1), Uniform150, NoTies);
+
+        Assert.Equal("at least two bars are needed along each side.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_BadSpacingAndIncompleteCrossTie_ReportsTheSpacingFirst()
+    {
+        var stirrups = new StirrupSpec { TypeDis = 0, S = 0 };
+        var ties = new AdditionalTieSpec { AddH = true, TypeH = 0, AH = 0 };
+
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, ties);
+
+        Assert.Equal("tie spacing must be greater than zero.", problem);
+    }
+
+    [Theory]
+    [InlineData(1001, true)]   // 1001 intervals → 1002 ties: accepted
+    [InlineData(1002, false)]  // 1002 intervals → 1003 ties: refused
+    public void FirstProblem_TieCountAtRevitLimit_AcceptsExactlyTheLimit(int intervals, bool accepted)
+    {
+        var section = TestSections.Rectangle();
+        double run = StirrupDistributionCalculator.ComputeRunLength(section, tiesUp: false);
+        var stirrups = new StirrupSpec { TypeDis = 0, S = run / (intervals + 0.5) };
+
+        var problem = ColumnSpecRules.FirstProblem(section, TestSections.Grid(), stirrups, NoTies);
+
+        Assert.Equal(accepted, problem is null);
+    }
+
+    /// <summary>The layout rule and the calculator must agree: the previews check the rule instead of catching the calculator's exception.</summary>
+    [Fact]
+    public void IsLayoutValid_EveryBarCountFromMinusOneToNine_AgreesWithTheCalculator()
+    {
+        for (int a = -1; a <= 9; a++)
+        {
+            for (int b = -1; b <= 9; b++)
+            {
+                AssertAgrees(TestSections.Rectangle(), TestSections.Grid(a, b));
+            }
+
+            AssertAgrees(TestSections.Circular(), TestSections.Ring(a));
+        }
+    }
+
+    private static void AssertAgrees(ColumnSection section, BarLayoutSpec layout)
+    {
+        bool computes;
+        try
+        {
+            BarLayoutCalculator.Compute(section, layout);
+            computes = true;
+        }
+        catch (System.ArgumentOutOfRangeException)
+        {
+            computes = false;
+        }
+
+        Assert.Equal(computes, ColumnSpecRules.IsLayoutValid(section.Shape, layout));
     }
 }

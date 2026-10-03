@@ -39,8 +39,12 @@ public static class StirrupDistributionCalculator
     }
 
     /// <summary>Tie groups of a column segment: the run length for its tie settings, then <see cref="Compute"/>.</summary>
-    public static IReadOnlyList<StirrupRun> ComputeRuns(ColumnSection section, StirrupSpec spec) =>
-        Compute(ComputeRunLength(section, spec.IsTiesUp), spec);
+    public static IReadOnlyList<StirrupRun> ComputeRuns(ColumnSection section, StirrupSpec spec)
+    {
+        if (spec is null) throw new ArgumentNullException(nameof(spec));
+
+        return Compute(ComputeRunLength(section, spec.IsTiesUp), spec);
+    }
 
     /// <summary>
     ///     Tie groups for the run, ordered from the base up. The even layout returns one group centred in

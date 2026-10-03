@@ -1,3 +1,4 @@
+using System;
 using HPRebar.Core.ColumnRebar.Models;
 
 namespace HPRebar.Core.ColumnRebar;
@@ -8,30 +9,48 @@ public static class ColumnElementCount
     /// <summary>Tie groups + cross-tie elements + main bars.</summary>
     public static int Planned(ColumnSection section, StirrupSpec stirrups, AdditionalTieSpec ties, int barCount)
     {
+        if (section is null) throw new ArgumentNullException(nameof(section));
+        if (ties is null) throw new ArgumentNullException(nameof(ties));
+
         int runCount = StirrupDistributionCalculator.ComputeRuns(section, stirrups).Count;
         return runCount + CrossTies(section.Shape, ties, runCount) + barCount;
     }
 
     /// <summary>
     ///     Cross-tie elements for <paramref name="runCount"/> tie groups. On a rectangle a closed inner tie (type 0)
-    ///     is one element per group when it has a leg, otherwise each of the NH / NV cross-ties is; a circular
+    ///     is one element per group unless its leg is 0, otherwise each of the NH / NV cross-ties is; a circular
     ///     column's horizontal tie is one element per group and its vertical one a pair, one on each axis.
     /// </summary>
     public static int CrossTies(SectionShape shape, AdditionalTieSpec ties, int runCount)
     {
-        var count = 0;
+        if (ties is null) throw new ArgumentNullException(nameof(ties));
 
-        if (shape == SectionShape.Rectangle)
+        if (shape != SectionShape.Rectangle)
         {
-            if (ties.AddH) count += ties.TypeH == 0 ? ties.AH == 0 ? 0 : runCount : ties.NH * runCount;
-            if (ties.AddV) count += ties.TypeV == 0 ? ties.AV == 0 ? 0 : runCount : ties.NV * runCount;
+            return (ties.AddH ? runCount : 0) + (ties.AddV ? 2 * runCount : 0);
         }
-        else
+
+        var count = 0;
+        if (ties.AddH)
         {
-            if (ties.AddH) count += runCount;
-            if (ties.AddV) count += 2 * runCount;
+            count += RectangleTies(ties.TypeH, ties.AH, ties.NH, runCount);
+        }
+
+        if (ties.AddV)
+        {
+            count += RectangleTies(ties.TypeV, ties.AV, ties.NV, runCount);
         }
 
         return count;
+    }
+
+    private static int RectangleTies(int type, double leg, int crossTieCount, int runCount)
+    {
+        if (type != 0)
+        {
+            return crossTieCount * runCount;
+        }
+
+        return leg == 0 ? 0 : runCount;
     }
 }

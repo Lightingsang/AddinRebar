@@ -112,21 +112,11 @@ internal sealed class ElevationPainter
     private void PaintStirrups(DrawingContext context, ColumnSpecEditor column, double left, double right)
     {
         var section = column.Section;
-        var spec = new StirrupSpec
-        {
-            TypeDis = column.DistributionType,
-            S = column.Spacing,
-            S1 = column.SpacingDense,
-            S2 = column.SpacingSparse,
-            IsTiesUp = column.TiesUpToBeams
-        };
-
         IReadOnlyList<StirrupRun> runs;
 
         try
         {
-            var length = StirrupDistributionCalculator.ComputeRunLength(section, spec.IsTiesUp);
-            runs = StirrupDistributionCalculator.Compute(length, spec);
+            runs = StirrupDistributionCalculator.ComputeRuns(section, column.ToStirrupSpec());
         }
         catch (System.ArgumentOutOfRangeException)
         {

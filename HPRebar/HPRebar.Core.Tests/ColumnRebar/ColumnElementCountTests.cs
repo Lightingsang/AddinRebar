@@ -36,10 +36,10 @@ public sealed class ColumnElementCountTests
         var section = TestSections.Rectangle();
         var stirrups = new StirrupSpec { TypeDis = 1, S1 = 100, S2 = 200 };
         var ties = new AdditionalTieSpec { AddH = true, TypeH = 1, NH = 2 };
-        int groups = StirrupDistributionCalculator.ComputeRuns(section, stirrups).Count;
 
         var planned = ColumnElementCount.Planned(section, stirrups, ties, barCount: 10);
 
-        Assert.Equal(groups + (2 * groups) + 10, planned);
+        // zoned ties: 3 groups (dense, sparse, dense) + 2 cross-ties per group + 10 bars
+        Assert.Equal(3 + 6 + 10, planned);
     }
 }

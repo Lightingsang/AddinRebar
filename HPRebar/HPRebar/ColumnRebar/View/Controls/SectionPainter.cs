@@ -101,19 +101,10 @@ internal sealed class SectionPainter
     {
         var layout = column.ToLayout();
 
-        if (layout.BarDiameter <= 0) return;
+        // Bar counts mid-edit are not a layout; nothing to draw until they make sense again.
+        if (layout.BarDiameter <= 0 || !ColumnSpecRules.IsLayoutValid(_section.Shape, layout)) return;
 
-        System.Collections.Generic.IReadOnlyList<BarPosition> bars;
-
-        try
-        {
-            bars = BarLayoutCalculator.Compute(_section, layout);
-        }
-        catch (System.ArgumentOutOfRangeException)
-        {
-            // Bar counts are mid-edit; nothing to draw until they make sense again.
-            return;
-        }
+        var bars = BarLayoutCalculator.Compute(_section, layout);
 
         var radius = System.Math.Max(MinimumBarRadius, layout.BarDiameter / 2 / _scale);
 

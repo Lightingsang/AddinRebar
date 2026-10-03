@@ -234,3 +234,10 @@
 - **Behaviour change (intended):** a single span over the stock length (B-23) now laps at L/4 — every piece fits the stock length (12.5 m span: longest piece 10.7 m, was 13.1 m); a spliced run next to a left or right cantilever (B-24) laps in the supported span instead of at the root; a run with fewer than 2 supports (B-25) no longer throws
 - **Tests:** `BeamBottomSpliceRuleTests` (5: quarter-span lap, pieces fit the stock, cantilever, tie, no supports); the three characterization hashes of exactly those cases re-recorded, every other hash unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1034/1034 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Wave 3 · Column review follow-up
+- **Review of 7ed4d65 + 144152d:** APPROVE 8.5/10; equivalence confirmed by reading (messages and check order, layout values, the preview guard, splice sizing, planned count)
+- **Applied:** `ColumnBarPolylines` documents "exactly one splice per bar" and its exceptions; argument guards on `ComputeRuns`/`Planned`/`CrossTies`; `CrossTies` without the nested ternary (doc now says "unless its leg is 0", as the code does); the elevation preview's tie runs through `ToStirrupSpec()` + `ComputeRuns` (was a hand-built spec — fourth copy); the section preview and `ElevationBars` check `ColumnSpecRules.IsLayoutValid` before the calculator instead of catching its exception
+- **Tests:** one theory tying `IsLayoutValid` to the calculator for every bar count −1…9 (the previews now rely on the two agreeing); golden hashes for the pipeline under a narrower segment and at the top of the stack (replacing a test that re-ran the pipeline), a splice-count mismatch; check-order cases (layout before clearance, spacing before cross-ties) and the Revit limit at exactly 1002 vs 1003 ties; the planned-count test hard-codes 3 groups
+- **Deferred:** `ColumnBarPolylines.Compute` 7 parameters (the tie diameter equals `layout.StirrupDiameter` at every caller) — its own commit
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1041/1041

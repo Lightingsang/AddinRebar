@@ -16,14 +16,23 @@ internal static class ElevationBars
     {
         var layout = column.ToLayout();
 
-        if (layout.BarDiameter <= 0 || column.Splices.Count < layout.BarCount) return new List<BarPolyline>();
-
         // Bar counts mid-edit (a cleared text box) are not a layout; nothing to draw until they are valid again.
-        if (!column.IsLayoutValid) return new List<BarPolyline>();
+        if (layout.BarDiameter <= 0 || !ColumnSpecRules.IsLayoutValid(column.Section.Shape, layout))
+        {
+            return new List<BarPolyline>();
+        }
+
+        if (column.Splices.Count < layout.BarCount)
+        {
+            return new List<BarPolyline>();
+        }
 
         var splices = new List<SpliceSpec>(layout.BarCount);
 
-        for (var i = 0; i < layout.BarCount; i++) splices.Add(column.Splices[i].ToSpec());
+        for (var i = 0; i < layout.BarCount; i++)
+        {
+            splices.Add(column.Splices[i].ToSpec());
+        }
 
         return ColumnBarPolylines.Compute(
             column.Section, layout, splices, above?.Section,

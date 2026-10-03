@@ -169,7 +169,7 @@ public sealed partial class ColumnSpecEditor : ObservableObject
         PartitionName = partitionName
     };
 
-    private StirrupSpec ToStirrupSpec() => new()
+    public StirrupSpec ToStirrupSpec() => new()
     {
         TypeDis = DistributionType,
         S = Spacing,
