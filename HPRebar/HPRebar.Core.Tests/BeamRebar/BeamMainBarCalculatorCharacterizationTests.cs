@@ -8,7 +8,9 @@ namespace HPRebar.Core.Tests.BeamRebar;
 /// <summary>
 ///     Pins every top and bottom main bar <see cref="BeamMainBarCalculator"/> returns — unspliced, spliced with and
 ///     without stagger, cantilevers, a depth step, explicit, defaulted and negative hooks — so restructuring it
-///     cannot change its output unnoticed. The expected hashes were captured before it was restructured.
+///     cannot change its output unnoticed. The expected hashes were captured before it was restructured; the three
+///     spliced-bottom cases with no interior support (single long span, left and right cantilever) were re-recorded
+///     when the bottom splice rule changed (see BeamBottomSpliceRuleTests).
 /// </summary>
 public sealed class BeamMainBarCalculatorCharacterizationTests
 {
@@ -29,7 +31,7 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
         { "cantilever-left", TestBeamData.CantileverLeft(), TestBeamData.MainBarSpec(), "cantilever-left:D9EFF9BA009964FD0547843C" },
         {
             "cantilever-left-spliced", TestBeamData.CantileverLeft(),
-            TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "cantilever-left-spliced:2B51961AB86570C6F1222E37"
+            TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "cantilever-left-spliced:C58A6E3938F3CA9A1BCD3EE4"
         },
         { "variable-depth", TestBeamData.VariableDepth(), TestBeamData.MainBarSpec(), "variable-depth:EF63D51C32C2AF335B0ED2CE" },
         {
@@ -40,9 +42,9 @@ public sealed class BeamMainBarCalculatorCharacterizationTests
         { "right-cantilever", RightCantilever(TestBeamData.TwoSpan(l2: 2000)), TestBeamData.MainBarSpec(), "right-cantilever:59B744546D222C83376B73BD" },
         {
             "right-cantilever-spliced", RightCantilever(TestBeamData.TwoSpan(l2: 2000)),
-            TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "right-cantilever-spliced:F1F8DA9CE4660162715BC316"
+            TestBeamData.MainBarSpec(hookLength: 0.0) with { MaxStockLength = 5000.0 }, "right-cantilever-spliced:D08395D2BF9C7FB6F1384F6E"
         },
-        { "single-long-span", TestBeamData.SingleSpan(length: 12500), TestBeamData.MainBarSpec(), "single-long-span:2669C602964E56A1A98A3EA0" },
+        { "single-long-span", TestBeamData.SingleSpan(length: 12500), TestBeamData.MainBarSpec(), "single-long-span:503635EB9B02005A8592E862" },
         {
             "stepped-right-cantilever", RightCantilever(TestBeamData.VariableDepth()), TestBeamData.MainBarSpec(),
             "stepped-right-cantilever:34C7AE04403B14451A4674EB"

@@ -227,3 +227,10 @@
 - **Behaviour:** none intended; the service now builds one segment's polylines before yielding them (was bar by bar) — only the moment an unexpected exception surfaces changes, and the transaction group rolls back either way
 - **Tests:** `ColumnElementCountTests` (8), `ColumnBarPolylinesTests` (pipeline equals the three steps by hash)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1029/1029 · **Golden run:** CHƯA TEST (touches the creation service)
+
+### 2026-10-04 — Fix track B-23 / B-24 (+ B-25) — where long bottom bars are lapped
+- **Decision (user, 2026-10-04):** lap bottom bars over the interior support nearest the middle of the bar run, never over an end support or a cantilever root; with no interior support, at a quarter of the first supported span's clear length from its start
+- **Change:** `BeamMainBarCalculator.BottomSpliceCenter` replaces `Supports[Count / 2]` (at least support 1); on a tie the later support wins, which is what `Count / 2` picked for symmetric stacks, so 2-, 3- and 4-span results are unchanged
+- **Behaviour change (intended):** a single span over the stock length (B-23) now laps at L/4 — every piece fits the stock length (12.5 m span: longest piece 10.7 m, was 13.1 m); a spliced run next to a left or right cantilever (B-24) laps in the supported span instead of at the root; a run with fewer than 2 supports (B-25) no longer throws
+- **Tests:** `BeamBottomSpliceRuleTests` (5: quarter-span lap, pieces fit the stock, cantilever, tie, no supports); the three characterization hashes of exactly those cases re-recorded, every other hash unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1034/1034 · **Golden run:** CHƯA TEST

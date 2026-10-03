@@ -87,7 +87,7 @@ public static class BeamMainBarCalculator
 
         return run.Length <= StockLimit(spec)
             ? UnsplicedBottomBars(run, yPositions, spec)
-            : SplicedBottomBars(stack, run, yPositions, spec);
+            : SplicedBottomBars(stack, run, yPositions, spec, cantilevers);
     }
 
     /// <summary>
@@ -354,18 +354,20 @@ public static class BeamMainBarCalculator
     }
 
     /// <summary>
-    /// Bottom bars longer than the stock length are lapped over support <c>Supports.Count / 2</c> (at least
-    /// support 1), alternate bars staggered.
+    /// Bottom bars longer than the stock length are lapped at <see cref="BottomSpliceCenter"/>, alternate bars
+    /// staggered.
     /// </summary>
     private static IReadOnlyList<BarPolyline> SplicedBottomBars(
-        BeamContinuousStack stack, BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
+        BeamContinuousStack stack,
+        BarRun run,
+        IReadOnlyList<double> yPositions,
+        BeamMainBarSpec spec,
+        (bool Left, bool Right) cantilevers)
     {
         var side = BarSide.Bottom(spec);
         double lapLength = spec.LapFactor * spec.BottomDiameter;
         double staggerOffset = StaggerOffset(spec, lapLength);
-        int targetSupportIndex = stack.Supports.Count / 2;
-        if (targetSupportIndex == 0) targetSupportIndex = 1;
-        double supportCenter = stack.Supports[targetSupportIndex].CenterX;
+        double supportCenter = BottomSpliceCenter(stack, run, cantilevers);
 
         var result = new List<BarPolyline>();
         for (int i = 0; i < yPositions.Count; i++)
@@ -394,6 +396,36 @@ public static class BeamMainBarCalculator
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Where bottom bars are lapped: over the interior support nearest the middle of the bar run — the later one
+    /// when two are equally near — never over an end support or the root of a cantilever, where the bars start
+    /// or stop. With no interior support, a quarter of the first supported span's clear length from its start.
+    /// </summary>
+    private static double BottomSpliceCenter(BeamContinuousStack stack, BarRun run, (bool Left, bool Right) cantilevers)
+    {
+        int first = cantilevers.Left ? 1 : 0;
+        int last = cantilevers.Right ? stack.Supports.Count - 2 : stack.Supports.Count - 1;
+        double middle = (run.XStart + run.XEnd) / 2.0;
+
+        int nearest = -1;
+        for (int i = first + 1; i < last; i++)
+        {
+            if (nearest < 0
+                || Math.Abs(stack.Supports[i].CenterX - middle) <= Math.Abs(stack.Supports[nearest].CenterX - middle))
+            {
+                nearest = i;
+            }
+        }
+
+        if (nearest >= 0)
+        {
+            return stack.Supports[nearest].CenterX;
+        }
+
+        var span = stack.Spans[Math.Min(first, stack.Spans.Count - 1)];
+        return span.StartX + (span.LengthClear / 4.0);
     }
 
     /// <summary>A main bar of one side, its points simplified.</summary>
