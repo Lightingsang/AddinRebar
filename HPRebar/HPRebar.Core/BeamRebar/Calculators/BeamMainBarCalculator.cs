@@ -15,6 +15,12 @@ public static class BeamMainBarCalculator
     public const double DefaultLapMultiplier = 40.0;
 
     /// <summary>
+    /// Two supports whose distances from the middle of a bar run differ by less than this are equally near:
+    /// coordinates converted from Revit feet carry rounding noise, and a symmetric beam must lap at the same support.
+    /// </summary>
+    private const double SpliceTieToleranceMm = 1.0;
+
+    /// <summary>
     /// Computes transverse coordinates Y across the beam width for N bars.
     /// Centered at Y = 0.
     /// </summary>
@@ -400,7 +406,7 @@ public static class BeamMainBarCalculator
 
     /// <summary>
     /// Where bottom bars are lapped: over the interior support nearest the middle of the bar run — the later one
-    /// when two are equally near — never over an end support or the root of a cantilever, where the bars start
+    /// when two are equally near (within <see cref="SpliceTieToleranceMm"/>) — never over an end support or the root of a cantilever, where the bars start
     /// or stop. With no interior support, a quarter of the first supported span's clear length from its start.
     /// </summary>
     private static double BottomSpliceCenter(BeamContinuousStack stack, BarRun run, (bool Left, bool Right) cantilevers)
@@ -413,7 +419,8 @@ public static class BeamMainBarCalculator
         for (int i = first + 1; i < last; i++)
         {
             if (nearest < 0
-                || Math.Abs(stack.Supports[i].CenterX - middle) <= Math.Abs(stack.Supports[nearest].CenterX - middle))
+                || Math.Abs(stack.Supports[i].CenterX - middle)
+                    < Math.Abs(stack.Supports[nearest].CenterX - middle) + SpliceTieToleranceMm)
             {
                 nearest = i;
             }

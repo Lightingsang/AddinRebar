@@ -230,8 +230,8 @@
 
 ### 2026-10-04 — Fix track B-23 / B-24 (+ B-25) — where long bottom bars are lapped
 - **Decision (user, 2026-10-04):** lap bottom bars over the interior support nearest the middle of the bar run, never over an end support or a cantilever root; with no interior support, at a quarter of the first supported span's clear length from its start
-- **Change:** `BeamMainBarCalculator.BottomSpliceCenter` replaces `Supports[Count / 2]` (at least support 1); on a tie the later support wins, which is what `Count / 2` picked for symmetric stacks, so 2-, 3- and 4-span results are unchanged
-- **Behaviour change (intended):** a single span over the stock length (B-23) now laps at L/4 — every piece fits the stock length (12.5 m span: longest piece 10.7 m, was 13.1 m); a spliced run next to a left or right cantilever (B-24) laps in the supported span instead of at the root; a run with fewer than 2 supports (B-25) no longer throws
+- **Change:** `BeamMainBarCalculator.BottomSpliceCenter` replaces `Supports[Count / 2]` (at least support 1); on a tie the later support wins, which is what `Count / 2` picked for symmetric stacks, so symmetric stacks are unchanged; an asymmetric stack of 3+ spans may lap at a different interior support, the one nearer the middle (3 spans 8/4/4 m: support 1, was support 2 — longest piece 9 445 mm, was 13 445 mm)
+- **Behaviour change (intended):** a single span over the stock length (B-23) now laps at L/4 — every piece fits the stock length up to ~13.8 m between column centres (12.5 m span: longest piece 10.7 m, was 13.1 m); a spliced run next to a left or right cantilever (B-24) laps in the supported span instead of at the root; a run with fewer than 2 supports (B-25) no longer throws
 - **Tests:** `BeamBottomSpliceRuleTests` (5: quarter-span lap, pieces fit the stock, cantilever, tie, no supports); the three characterization hashes of exactly those cases re-recorded, every other hash unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1034/1034 · **Golden run:** CHƯA TEST
 
@@ -241,3 +241,10 @@
 - **Tests:** one theory tying `IsLayoutValid` to the calculator for every bar count −1…9 (the previews now rely on the two agreeing); golden hashes for the pipeline under a narrower segment and at the top of the stack (replacing a test that re-ran the pipeline), a splice-count mismatch; check-order cases (layout before clearance, spacing before cross-ties) and the Revit limit at exactly 1002 vs 1003 ties; the planned-count test hard-codes 3 groups
 - **Deferred:** `ColumnBarPolylines.Compute` 7 parameters (the tie diameter equals `layout.StirrupDiameter` at every caller) — its own commit
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1041/1041
+
+### 2026-10-04 — Fix track B-23 / B-24 review follow-up
+- **Review of 47a1465:** APPROVE 8/10; 24 stack shapes probed (1–5 spans, cantilevers on either or both ends, 0–2 supports, unequal spans): never an end support or a cantilever root, no index out of range
+- **Applied:** supports within 1 mm of equally near count as a tie (`SpliceTieToleranceMm`) — feet-to-mm noise must not flip a symmetric beam to the earlier support; log sentence corrected (asymmetric stacks may move, see entry above); test comment corrected (supports 0/6000/11000/17000)
+- **Logged, not fixed:** B-27 (one splice per run whatever its length — pieces over the stock length on 3+ spans and single spans over ~13.8 m, unreported), B-28 (a single-element cantilever stack flagged at both ends), B-29 (invented joint supports count as interior)
+- **Tests:** `BeamBottomSpliceRuleTests` 5 → 7 (asymmetric 3 spans laps at support 1; 0.5 mm off a tie laps at the later support — fails without the tolerance); every characterization hash unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1043/1043 · **Golden run:** CHƯA TEST

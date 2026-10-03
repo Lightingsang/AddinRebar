@@ -60,10 +60,36 @@ public sealed class BeamBottomSpliceRuleTests
     }
 
     [Fact]
-    public void ComputeBottomMainBars_ThreeEqualSpans_LapsOverTheLaterOfTheTwoMiddleSupports()
+    public void ComputeBottomMainBars_SymmetricThreeSpans_LapsOverTheLaterOfTheTwoMiddleSupports()
     {
-        // Arrange: supports at 0, 6000, 12000, 18000; both interior ones are 3000 mm from the middle
+        // Arrange: supports at 0, 6000, 11000, 17000; both interior ones are 2500 mm from the middle at 8500
         var stack = TestBeamData.ThreeSpan();
+
+        // Act
+        var bars = BeamMainBarCalculator.ComputeBottomMainBars(stack, TestBeamData.MainBarSpec(), stirrupDiameterMm: 10.0);
+
+        // Assert
+        Assert.Equal(stack.Supports[2].CenterX, LapCenterOfFirstBar(bars), 6);
+    }
+
+    [Fact]
+    public void ComputeBottomMainBars_ThreeSpansLongFirst_LapsOverTheSupportNearestTheMiddle()
+    {
+        // Arrange: supports at 0, 8000, 12000, 16000; support 1 sits at the middle, support 2 is 4000 mm away
+        var stack = TestBeamData.ThreeSpan(l1: 8000, l2: 4000, l3: 4000);
+
+        // Act
+        var bars = BeamMainBarCalculator.ComputeBottomMainBars(stack, TestBeamData.MainBarSpec(), stirrupDiameterMm: 10.0);
+
+        // Assert
+        Assert.Equal(stack.Supports[1].CenterX, LapCenterOfFirstBar(bars), 6);
+    }
+
+    [Fact]
+    public void ComputeBottomMainBars_SupportsWithinAMillimetreOfATie_LapsOverTheLaterSupport()
+    {
+        // Arrange: support 1 is 0.5 mm nearer the middle than support 2 — rounding noise, not a real difference
+        var stack = TestBeamData.ThreeSpan(l1: 6000.5);
 
         // Act
         var bars = BeamMainBarCalculator.ComputeBottomMainBars(stack, TestBeamData.MainBarSpec(), stirrupDiameterMm: 10.0);
