@@ -22,14 +22,14 @@ public sealed class KataSpecRuleTests
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans(), Seismic);
         var span2 = plan.Layout.StirrupZones.Where(z => z.SpanIndex == 1).OrderBy(z => z.ZoneIndex).ToList();
 
-        // 4500 span, h 600: max(1200, 1125) = 1200 → 50 + 11 × 100 from each face (6800 and 11300).
-        Assert.Equal((12, 6850.0, 7950.0), (span2[0].Count, span2[0].StartStationX, span2[0].EndStationX));
-        Assert.Equal((12, 10150.0, 11250.0), (span2[2].Count, span2[2].StartStationX, span2[2].EndStationX));
-        Assert.Equal((10, 200.0), (span2[1].Count, span2[1].Spacing));
+        // 4500 span, h 600: max(1200, 1125) = 1200 from each face (6800 and 11300), first stirrup 50 in.
+        Assert.Equal((13, 6850.0, 8000.0), (span2[0].Count, span2[0].StartStationX, span2[0].EndStationX));
+        Assert.Equal((13, 10100.0, 11250.0), (span2[2].Count, span2[2].StartStationX, span2[2].EndStationX));
+        Assert.Equal((10, 200.0, 8200.0, 9900.0), (span2[1].Count, span2[1].LabelSpacing, span2[1].StartStationX, span2[1].EndStationX));
 
         // The 6000 span keeps a quarter: 1500 > 1200.
         var span1 = plan.Layout.StirrupZones.Where(z => z.SpanIndex == 0).OrderBy(z => z.ZoneIndex).ToList();
-        Assert.Equal((15, 1850.0), (span1[0].Count, span1[0].EndStationX));
+        Assert.Equal((16, 1900.0), (span1[0].Count, span1[0].EndStationX));
     }
 
     [Theory]
@@ -234,5 +234,22 @@ public sealed class KataSpecRuleTests
         Assert.Equal(3, result.StirrupZones.Count);
         var sanitised = KataSettingsJson.Sanitize(settings);
         Assert.Equal(sanitised, KataSettingsJson.Read(KataSettingsJson.Write(sanitised)));
+    }
+
+    [Theory]
+    [InlineData(910.0)]
+    [InlineData(1020.0)]
+    [InlineData(1450.0)]
+    public void Stirrups_of_a_short_span_never_stand_closer_than_half_their_spacing(double span)
+    {
+        var table = KataRebarTestSheets.SingleSpan();
+        table.Set("D11", span);
+
+        var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(table), KataRebarTestSheets.MeasuredSingleSpan(span: span), KataSettings.Default);
+        var stations = plan.Layout.StirrupZones.SelectMany(z => z.Stations).OrderBy(x => x).ToList();
+
+        for (int i = 1; i < stations.Count; i++)
+            Assert.True(stations[i] - stations[i - 1] >= 50.0 - 1e-6 && stations[i] - stations[i - 1] <= 200.0 + 1e-6,
+                $"{span}: {string.Join(" ", stations.Select(x => x.ToString("0.#")))}");
     }
 }

@@ -73,9 +73,18 @@ internal static class McpRibbonTab
                 tab = new RibbonTab { Id = TabId, Title = TabTitle, IsVisible = true };
                 ribbon.Tabs.Add(tab);
             }
-            if (FindOwnPanel(tab) is not null) return;
+            var existingPanel = FindOwnPanel(tab);
+            if (existingPanel is not null)
+            {
+                if (tab.Panels.IndexOf(existingPanel) > 0)
+                {
+                    tab.Panels.Remove(existingPanel);
+                    tab.Panels.Insert(0, existingPanel);
+                }
+                return;
+            }
 
-            tab.Panels.Add(BuildPanel());
+            tab.Panels.Insert(0, BuildPanel());
             var bridge = BridgeActions.BridgeAvailable ? "available" : "unavailable";
             if (createdTab) LoaderLog.Write($"ribbon tab {TabId} created (bridge {bridge})");
             LoaderLog.Write($"ribbon panel {PanelId} added to tab {TabId} ({(createdTab ? "tab created" : "tab existing")}, bridge {bridge})");

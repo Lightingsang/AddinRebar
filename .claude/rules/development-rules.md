@@ -38,13 +38,17 @@
 - File-scoped namespace (`namespace MyAddIn.ViewModels;` không có `{}`).
 
 ### WPF / MVVM rules
+- **MANDATORY UI**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2).
 - **MUST** dùng `CommunityToolkit.Mvvm` — KHÔNG tự viết `INotifyPropertyChanged`/`RelayCommand`.
 - `sealed partial class XxxViewModel : ObservableObject` — partial bắt buộc cho source generator.
 - `[ObservableProperty]` trên private field, `[RelayCommand]` trên method.
 - Code-behind chỉ chứa `InitializeComponent()` + `DataContext = viewModel` (DI).
 - KHÔNG set `DataContext` trong XAML.
-- Mọi style XAML dùng `{DynamicResource ...}` — không `StaticResource` cho color/brush.
-- Modal: set `Owner = UiApplication.MainWindowHandle` qua `WindowInteropHelper`.
+- Mọi style XAML dùng `{DynamicResource ...}` — không `StaticResource` cho color/brush (hỗ trợ đổi Dark/Light qua `MaterialThemeBridge`).
+- **Font**: Bắt buộc override `<FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>` (cấm dùng font Roboto mặc định của toolkit để tránh lỗi resolve Pack URI sau ILRepack).
+- **Control Layout**: Dùng `md:Card` / `Card.Panel` phân tầng (elevation); Input controls dùng Outlined với `md:HintAssist.Hint`; Icon dùng `md:PackIcon`; Phân cấp Button (Raised Primary, Outlined Secondary, IconButton).
+- **Packaging**: Bắt buộc cấu hình `<IsRepackable>true</IsRepackable>` (Nice3point SDK) hoặc MSBuild target merge `MaterialDesignThemes.Wpf.dll` & `MaterialDesignColors.dll` (AutoCAD/Standalone) để không thiếu DLL lúc runtime.
+- Modal: set `Owner = UiApplication.MainWindowHandle` qua `WindowInteropHelper` (Revit) hoặc `ShowModalWindow(MainWindow.Handle, window, false)` (AutoCAD).
 - Modeless: dùng `ExternalEvent` để gọi Revit API từ ViewModel.
 
 ### Revit API rules

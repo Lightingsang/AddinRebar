@@ -14,6 +14,7 @@ public partial class GeoImportWindow : Window
         {
             Resources.MergedDictionaries.Add(ThemeResources.Styles());
             InitializeComponent();
+            Icon = GeoIconHelper.WindowIcon;
             MaterialThemeBridge.Attach(this, AutocadHostTheme.Instance);
         }
         DataContext = viewModel;

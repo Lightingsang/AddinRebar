@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HPAutoCad.Core.HPGeoLink.Catalog;
@@ -10,6 +11,7 @@ using HPAutoCad.Core.HPGeoLink.Model;
 using HPAutoCad.Core.HPGeoLink.Settings;
 using HPAutoCad.Core.HPGeoLink.Units;
 using HPAutoCad.HPGeoLink.Model;
+using MaterialDesignThemes.Wpf;
 
 namespace HPAutoCad.HPGeoLink.ViewModel;
 
@@ -21,11 +23,11 @@ namespace HPAutoCad.HPGeoLink.ViewModel;
 /// </summary>
 public sealed partial class GeoExportViewModel : ObservableObject
 {
-    private const int PreviewRowLimit = 200;
+    private const int PreviewRowLimit = 1000;
     private const int MapPointLimit = 5000;
 
-    private readonly IReadOnlyList<SurveyPoint> _points;
-    private readonly IReadOnlyList<BoundaryPolyline> _boundaries;
+    private IReadOnlyList<SurveyPoint> _points;
+    private IReadOnlyList<BoundaryPolyline> _boundaries;
     private readonly Vn2000Converter _converter = new();
     private readonly IGeoExportShell _shell;
 
@@ -39,6 +41,8 @@ public sealed partial class GeoExportViewModel : ObservableObject
         DocumentDirectory = documentDirectory;
         fileName = KmzWriter.SafeFileName(documentBaseName);
         sourceSummary = $"{points.Count} POINT · {boundaries.Count} LWPOLYLINE ({boundaries.Count(b => b.Closed)} closed)";
+        selectedMarkerStyleItem = MarkerStyles[0];
+        selectedPopupTemplateItem = PopupTemplates[0];
         Crs = new CrsSelectionViewModel(drawingUnit, catalog);
         if (stored is not null) ApplySettings(stored);
         Crs.Changed += Recompute;
@@ -54,6 +58,9 @@ public sealed partial class GeoExportViewModel : ObservableObject
         OutputBoundaries = s.Output == KmlOutput.Boundaries;
         if (KmlColor.IsValid(s.PointColor)) PointColor = s.PointColor;
         if (KmlColor.IsValid(s.LineColor)) LineColor = s.LineColor;
+        ExportBoundaryVertices = s.ExportBoundaryVertices;
+        SelectedMarkerStyleItem = MarkerStyles.FirstOrDefault(m => m.Style == s.BoundaryMarkerStyle) ?? MarkerStyles[0];
+        SelectedPopupTemplateItem = PopupTemplates.FirstOrDefault(t => t.Template == s.BoundaryPopupTemplate) ?? PopupTemplates[0];
         if (s.ImageryResolutionMPerPx is { } res && res > 0) ImageResolutionText = res.ToString("0.###", CultureInfo.InvariantCulture);
         if (s.ImageryAreaRatio is { } ratio && ratio >= 1) ImageAreaRatioText = ratio.ToString("0.#", CultureInfo.InvariantCulture);
         _carryImagery = s.ImageryProvider is not null || s.ImageryResolutionMPerPx is not null || s.ImageryAreaRatio is not null;
@@ -73,8 +80,11 @@ public sealed partial class GeoExportViewModel : ObservableObject
         FalseNorthing = Crs.CurrentTm.FalseNorthing,
         Unit = Crs.UnitFromDrawing ? null : Crs.SelectedUnit?.Unit,
         Output = Output,
-        PointColor = PointColor,
-        LineColor = LineColor,
+        PointColor = KmlColor.TryNormalize(PointColor, out var pc) ? pc : PointColor,
+        LineColor = KmlColor.TryNormalize(LineColor, out var lc) ? lc : LineColor,
+        ExportBoundaryVertices = ExportBoundaryVertices,
+        BoundaryMarkerStyle = SelectedMarkerStyleItem?.Style ?? BoundaryMarkerStyle.Triangle,
+        BoundaryPopupTemplate = SelectedPopupTemplateItem?.Template ?? BoundaryPopupTemplate.Cadastral,
         ExportDirectory = LastExportPath is null ? null : System.IO.Path.GetDirectoryName(LastExportPath),
         ImageryProvider = _carryImagery || ImageChoice is not null ? ImageryProviders.Default.Id : null,
         ImageryResolutionMPerPx = _carryImagery || ImageChoice is not null ? ParseNumber(ImageResolutionText) : null,
@@ -96,6 +106,21 @@ public sealed partial class GeoExportViewModel : ObservableObject
     public string? DocumentDirectory { get; }
     public ObservableCollection<PreviewRow> Preview { get; } = new();
 
+    public IReadOnlyList<MarkerStyleItem> MarkerStyles { get; } = new[]
+    {
+        new MarkerStyleItem(BoundaryMarkerStyle.Triangle, "Tam giác trắc địa (Vector)", PackIconKind.TriangleOutline),
+        new MarkerStyleItem(BoundaryMarkerStyle.Pushpin, "Ghim định vị (Pushpin)", PackIconKind.MapMarker),
+        new MarkerStyleItem(BoundaryMarkerStyle.Circle, "Chấm tròn (Circle)", PackIconKind.CircleMedium),
+        new MarkerStyleItem(BoundaryMarkerStyle.LabelOnly, "Chỉ nhãn chữ (Label only)", PackIconKind.FormatLetterCase),
+    };
+
+    public IReadOnlyList<PopupTemplateItem> PopupTemplates { get; } = new[]
+    {
+        new PopupTemplateItem(BoundaryPopupTemplate.Cadastral, "Bảng địa chính chuẩn", PackIconKind.TableLarge),
+        new PopupTemplateItem(BoundaryPopupTemplate.Technical, "Tọa độ kỹ thuật DMS", PackIconKind.CompassOutline),
+        new PopupTemplateItem(BoundaryPopupTemplate.Simple, "Gọn nhẹ (Simple text)", PackIconKind.CardTextOutline),
+    };
+
     public ConversionResult? LastConversion { get; private set; }
     public string? LastExportPath { get; private set; }
 
@@ -104,6 +129,9 @@ public sealed partial class GeoExportViewModel : ObservableObject
     [ObservableProperty] private bool outputBoundaries;
     [ObservableProperty] private string pointColor = KmlColor.DefaultPoint;
     [ObservableProperty] private string lineColor = KmlColor.DefaultLine;
+    [ObservableProperty] private bool exportBoundaryVertices = true;
+    [ObservableProperty] private MarkerStyleItem selectedMarkerStyleItem;
+    [ObservableProperty] private PopupTemplateItem selectedPopupTemplateItem;
     [ObservableProperty] private string fileName;
     [ObservableProperty] private string sourceSummary;
     [ObservableProperty] private string status = "";
@@ -114,18 +142,77 @@ public sealed partial class GeoExportViewModel : ObservableObject
     /// <summary>Satellite imagery under the selection: target ground resolution (m/px) and the image area as a multiple of the selection's box, beside the insert button.</summary>
     [ObservableProperty] private string imageResolutionText = TileCoverage.DefaultResolutionMPerPx.ToString("0.###", CultureInfo.InvariantCulture);
     [ObservableProperty] private string imageAreaRatioText = TileCoverage.DefaultAreaRatio.ToString("0.#", CultureInfo.InvariantCulture);
-    /// <summary>What the map panel draws: {points:[{label,lat,lon}], boundaries:[{closed,vertices:[{lat,lon}]}]}.</summary>
+    /// <summary>What the map panel draws: {points:[{label,lat,lon}], boundaries:[{closed,vertices:[{lat,lon}]}], pointColor, lineColor}.</summary>
     [ObservableProperty] private string mapDataJson = "";
+    [ObservableProperty] private string mapSummaryBadge = "Ranh đất · 0 điểm";
+    [ObservableProperty] private string mapCenterBadge = "WGS84";
+    [ObservableProperty] private bool isMapFullscreen;
 
-    partial void OnOutputBothChanged(bool value) => Recompute();
-    partial void OnOutputPointsChanged(bool value) => Recompute();
-    partial void OnOutputBoundariesChanged(bool value) => Recompute();
+    public string MapFullscreenButtonText => IsMapFullscreen ? "Thu gọn" : "Toàn màn hình";
+    public string MapFullscreenButtonIcon => IsMapFullscreen ? "FullscreenExit" : "Fullscreen";
+    public string MapFullscreenButtonTooltip => IsMapFullscreen ? "Thu gọn bản đồ về bố cục 2 cột" : "Mở rộng bản đồ toàn màn hình";
+
+    partial void OnIsMapFullscreenChanged(bool value)
+    {
+        OnPropertyChanged(nameof(MapFullscreenButtonText));
+        OnPropertyChanged(nameof(MapFullscreenButtonIcon));
+        OnPropertyChanged(nameof(MapFullscreenButtonTooltip));
+    }
+
+    partial void OnOutputBothChanged(bool value)
+    {
+        if (value)
+        {
+            outputPoints = false;
+            outputBoundaries = false;
+            OnPropertyChanged(nameof(OutputPoints));
+            OnPropertyChanged(nameof(OutputBoundaries));
+        }
+        Recompute();
+    }
+
+    partial void OnOutputPointsChanged(bool value)
+    {
+        if (value)
+        {
+            outputBoth = false;
+            outputBoundaries = false;
+            OnPropertyChanged(nameof(OutputBoth));
+            OnPropertyChanged(nameof(OutputBoundaries));
+        }
+        Recompute();
+    }
+
+    partial void OnOutputBoundariesChanged(bool value)
+    {
+        if (value)
+        {
+            outputBoth = false;
+            outputPoints = false;
+            OnPropertyChanged(nameof(OutputBoth));
+            OnPropertyChanged(nameof(OutputPoints));
+        }
+        Recompute();
+    }
     partial void OnPointColorChanged(string value) => Recompute();
     partial void OnLineColorChanged(string value) => Recompute();
+    partial void OnExportBoundaryVerticesChanged(bool value) => Recompute();
+    partial void OnSelectedMarkerStyleItemChanged(MarkerStyleItem value) => Recompute();
+    partial void OnSelectedPopupTemplateItemChanged(PopupTemplateItem value) => Recompute();
 
     public KmlOutput Output => OutputPoints ? KmlOutput.Points : OutputBoundaries ? KmlOutput.Boundaries : KmlOutput.Both;
 
     private ConversionOptions Options => new(Crs.CurrentTm, Crs.MetersPerUnit) { ProvinceName = Crs.SelectedProvince?.Name };
+
+    public void UpdateObjects(IReadOnlyList<SurveyPoint> points, IReadOnlyList<BoundaryPolyline> boundaries, string? baseName = null, string? directoryPath = null)
+    {
+        _points = points;
+        _boundaries = boundaries;
+        if (!string.IsNullOrWhiteSpace(baseName))
+            FileName = KmzWriter.SafeFileName(baseName);
+        SourceSummary = $"{points.Count} POINT · {boundaries.Count} LWPOLYLINE ({boundaries.Count(b => b.Closed)} closed)";
+        Recompute();
+    }
 
     private void Recompute()
     {
@@ -134,22 +221,48 @@ public sealed partial class GeoExportViewModel : ObservableObject
 
         Preview.Clear();
         var ci = CultureInfo.InvariantCulture;
+        var stt = 1;
         foreach (var p in result.Points.Take(PreviewRowLimit))
         {
-            Preview.Add(new PreviewRow(p.Source.Label, p.GridM.Easting.ToString("F3", ci), p.GridM.Northing.ToString("F3", ci),
-                p.Wgs84.LatDeg.ToString("F7", ci), p.Wgs84.LonDeg.ToString("F7", ci), p.Hint ?? ""));
+            Preview.Add(new PreviewRow(
+                stt++,
+                p.Source.Label,
+                "Điểm",
+                p.GridM.Easting.ToString("F3", ci),
+                p.GridM.Northing.ToString("F3", ci),
+                p.Wgs84.LatDeg.ToString("F7", ci),
+                p.Wgs84.LonDeg.ToString("F7", ci),
+                p.Hint ?? ""));
         }
-        foreach (var b in result.Boundaries.Take(PreviewRowLimit - Preview.Count))
+        foreach (var b in result.Boundaries)
         {
-            var first = b.Wgs84[0];
-            Preview.Add(new PreviewRow(b.Source.Name, b.GridM[0].Easting.ToString("F3", ci), b.GridM[0].Northing.ToString("F3", ci),
-                first.LatDeg.ToString("F7", ci), first.LonDeg.ToString("F7", ci), $"{b.GridM.Count} đỉnh{(b.Source.Closed ? ", đóng" : "")}"));
+            if (Preview.Count >= PreviewRowLimit) break;
+            var gridPts = b.CadGridM;
+            var wgsPts = b.CadWgs84;
+            var vertexCount = gridPts.Count;
+            for (var i = 0; i < vertexCount; i++)
+            {
+                if (Preview.Count >= PreviewRowLimit) break;
+                var pt = gridPts[i];
+                var geo = wgsPts[i];
+                var vertexLabel = result.Boundaries.Count == 1 ? $"P{i + 1}" : $"{b.Source.Name}-P{i + 1}";
+                var note = $"{b.Source.Name} (đỉnh {i + 1}/{vertexCount}{(b.Source.Closed ? ", đóng" : "")})";
+                Preview.Add(new PreviewRow(
+                    stt++,
+                    vertexLabel,
+                    "Đỉnh ranh",
+                    pt.Easting.ToString("F3", ci),
+                    pt.Northing.ToString("F3", ci),
+                    geo.LatDeg.ToString("F7", ci),
+                    geo.LonDeg.ToString("F7", ci),
+                    note));
+            }
         }
-        MapDataJson = result.Success ? BuildMapData(result) : "";
+        MapDataJson = result.Success ? BuildMapData(result, PointColor, LineColor) : "";
 
         var colorsValid = KmlColor.IsValid(PointColor) && KmlColor.IsValid(LineColor);
         var issues = result.Issues.Select(i => $"[{i.Severity}] {i.Message}").ToList();
-        if (!colorsValid) issues.Add("[Error] Màu phải là 8 ký tự hex aabbggrr (vd ff00ffff).");
+        if (!colorsValid) issues.Add("[Error] Màu phải là 8 ký tự hex aabbggrr (vd ff00ffff) hoặc mã HEX #RRGGBB (vd #FF0000).");
         IssuesText = string.Join(Environment.NewLine, issues);
         CanExport = result.Success && colorsValid;
         var tm = Crs.CurrentTm;
@@ -157,20 +270,114 @@ public sealed partial class GeoExportViewModel : ObservableObject
             ? $"{result.Points.Count} điểm, {result.Boundaries.Count} ranh · KTT {CentralMeridian.Format(tm.CentralMeridianDeg)}" +
               (result.Center is { } c ? $" · tâm {c.LatDeg.ToString("F5", ci)}, {c.LonDeg.ToString("F5", ci)}" : "")
             : $"{result.Errors.Count()} lỗi — chưa xuất được";
+
+        var totalPts = result.Points.Count > 0 ? result.Points.Count : result.Boundaries.Sum(b => b.CadGridM.Count);
+        MapSummaryBadge = Output switch
+        {
+            KmlOutput.Points => $"Điểm · {totalPts} điểm",
+            KmlOutput.Boundaries => $"Ranh đất · {result.Boundaries.Count} ranh",
+            _ => $"Ranh đất · {totalPts} điểm",
+        };
+        MapCenterBadge = result.Center is { } center
+            ? $"WGS84 · tâm {center.LatDeg.ToString("F5", ci)}, {center.LonDeg.ToString("F5", ci)}"
+            : "WGS84";
+
         if (ShowKmlPreview) RefreshKmlPreview();
     }
 
-    private static string BuildMapData(ConversionResult result)
+    private string BuildMapData(ConversionResult result, string pointColor, string lineColor)
     {
+        var totalBoundaries = result.Boundaries.Count;
+        var bndVertices = new List<object>();
+
+        var showPoints = Output != KmlOutput.Boundaries;
+        var showBoundaries = Output != KmlOutput.Points;
+        var exportVertices = (ExportBoundaryVertices || Output == KmlOutput.Points) && showPoints;
+
+        if (exportVertices)
+        {
+            foreach (var b in result.Boundaries)
+            {
+                var gridPts = b.CadGridM;
+                var wgsPts = b.CadWgs84;
+                var vertexCount = gridPts.Count;
+                for (var i = 0; i < vertexCount; i++)
+                {
+                    var vertexLabel = totalBoundaries == 1 ? $"P{i + 1}" : $"{b.Source.Name}-P{i + 1}";
+                    double? segmentDist = null;
+                    string? nextLabel = null;
+                    if (b.Source.Closed)
+                    {
+                        var nextIdx = (i + 1) % vertexCount;
+                        var currentPt = gridPts[i];
+                        var nextPt = gridPts[nextIdx];
+                        var dx = nextPt.Easting - currentPt.Easting;
+                        var dy = nextPt.Northing - currentPt.Northing;
+                        segmentDist = Math.Sqrt(dx * dx + dy * dy);
+                        nextLabel = totalBoundaries == 1 ? $"P{nextIdx + 1}" : $"{b.Source.Name}-P{nextIdx + 1}";
+                    }
+                    else if (i < vertexCount - 1)
+                    {
+                        var nextIdx = i + 1;
+                        var currentPt = gridPts[i];
+                        var nextPt = gridPts[nextIdx];
+                        var dx = nextPt.Easting - currentPt.Easting;
+                        var dy = nextPt.Northing - currentPt.Northing;
+                        segmentDist = Math.Sqrt(dx * dx + dy * dy);
+                        nextLabel = totalBoundaries == 1 ? $"P{nextIdx + 1}" : $"{b.Source.Name}-P{nextIdx + 1}";
+                    }
+
+                    var popupHtml = KmlDocumentBuilder.BuildBalloon(
+                        SelectedPopupTemplateItem?.Template ?? BoundaryPopupTemplate.Cadastral,
+                        vertexLabel,
+                        b.Source.Name,
+                        gridPts[i],
+                        wgsPts[i],
+                        nextLabel,
+                        segmentDist);
+
+                    bndVertices.Add(new
+                    {
+                        label = vertexLabel,
+                        lat = wgsPts[i].LatDeg,
+                        lon = wgsPts[i].LonDeg,
+                        easting = gridPts[i].Easting,
+                        northing = gridPts[i].Northing,
+                        segmentLength = segmentDist,
+                        nextLabel,
+                        popupHtml,
+                    });
+                }
+            }
+        }
+
+        var markerStyleStr = (SelectedMarkerStyleItem?.Style ?? BoundaryMarkerStyle.Triangle) switch
+        {
+            BoundaryMarkerStyle.Pushpin => "pushpin",
+            BoundaryMarkerStyle.Circle => "circle",
+            BoundaryMarkerStyle.LabelOnly => "labelOnly",
+            _ => "triangle",
+        };
+
         var data = new
         {
-            points = result.Points.Take(MapPointLimit).Select(p => new { label = p.Source.Label, lat = p.Wgs84.LatDeg, lon = p.Wgs84.LonDeg }),
-            boundaries = result.Boundaries.Select(b => new
+            points = showPoints ? result.Points.Take(MapPointLimit).Select(p => new { label = p.Source.Label, lat = p.Wgs84.LatDeg, lon = p.Wgs84.LonDeg }) : Enumerable.Empty<object>(),
+            boundaries = showBoundaries ? result.Boundaries.Select(b => new
             {
                 closed = b.Source.Closed,
                 vertices = b.Wgs84.Select(v => new { lat = v.LatDeg, lon = v.LonDeg }),
-            }),
+            }) : Enumerable.Empty<object>(),
+            boundaryVertices = bndVertices,
+            exportBoundaryVertices = exportVertices,
+            markerStyle = markerStyleStr,
+            pointColor = KmlColor.KmlToRgbHex(pointColor),
+            lineColor = KmlColor.KmlToRgbHex(lineColor),
         };
-        return JsonSerializer.Serialize(data);
+        return JsonSerializer.Serialize(data, MapJsonOptions);
     }
+
+    private static readonly JsonSerializerOptions MapJsonOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
 }

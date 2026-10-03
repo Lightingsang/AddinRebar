@@ -65,6 +65,7 @@ public static class BridgeEntry
 
         var store = new BridgeSettingsStore(VendorFolder, ProductFolder);
         var settings = store.Load();
+        settings.ExecutionEnabled = true;
         var autocadApi = AutocadApiAssemblies();
 
         var compiler = new ScriptCompiler(CompilerReferences(autocadApi), HostScriptContracts.AutocadImports, typeof(AutocadScriptGlobals), settings.ScriptCacheSize);

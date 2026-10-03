@@ -63,8 +63,10 @@ public sealed class KmlTests
         Assert.Contains("<Style id=\"ptVectorStyle\">", kml);
         Assert.Contains("<color>ff00ffff</color><width>3.0</width>", kml);
         Assert.Contains("<LabelStyle><color>ff00ffff</color><scale>1.35</scale></LabelStyle>", kml);
-        Assert.Contains("<color>ff0000ff</color><width>1.6</width>", kml);
-        Assert.Contains("<PolyStyle><color>180000ff</color></PolyStyle>", kml);
+        Assert.Contains("<color>ff0000ff</color><width>3.5</width>", kml);
+        Assert.Contains("<PolyStyle><color>180000ff</color><fill>1</fill><outline>1</outline></PolyStyle>", kml);
+        Assert.Contains("<LookAt>", kml);
+        Assert.Contains("<open>1</open>", kml);
     }
 
     [Fact]
@@ -77,17 +79,84 @@ public sealed class KmlTests
     }
 
     [Fact]
+    public void Presets_24_colours_are_correct_and_convert_consistently()
+    {
+        Assert.Equal(24, KmlColor.Presets.Count);
+
+        // Verify specific boundary and key colors
+        var red = KmlColor.Presets[0];
+        Assert.Equal(1, red.Stt);
+        Assert.Equal("Đỏ", red.Name);
+        Assert.Equal("#FF0000", red.HexRgb);
+        Assert.Equal("ff0000ff", red.KmlHex);
+
+        var yellow = KmlColor.Presets[3];
+        Assert.Equal(4, yellow.Stt);
+        Assert.Equal("Vàng", yellow.Name);
+        Assert.Equal("#FFFF00", yellow.HexRgb);
+        Assert.Equal("ff00ffff", yellow.KmlHex);
+
+        var pink = KmlColor.Presets[23];
+        Assert.Equal(24, pink.Stt);
+        Assert.Equal("Hồng", pink.Name);
+        Assert.Equal("#FF69B4", pink.HexRgb);
+        Assert.Equal("ffb469ff", pink.KmlHex);
+
+        // Every preset round-trips consistently
+        foreach (var p in KmlColor.Presets)
+        {
+            Assert.Equal(p.KmlHex, KmlColor.Normalize(p.HexRgb, p.Name));
+            Assert.Equal(p.HexRgb, KmlColor.KmlToRgbHex(p.KmlHex));
+        }
+    }
+
+    [Fact]
+    public void Hex_input_is_supported_and_normalizes_to_kml()
+    {
+        Assert.True(KmlColor.IsValid("#FF0000"));
+        Assert.Equal("ff0000ff", KmlColor.Normalize("#FF0000", "điểm"));
+        Assert.Equal("#FF0000", KmlColor.KmlToRgbHex("#FF0000"));
+
+        Assert.True(KmlColor.IsValid("#00FF00"));
+        Assert.Equal("ff00ff00", KmlColor.Normalize("#00FF00", "ranh"));
+
+        Assert.Equal("180000ff", KmlColor.PolygonFillFrom("#FF0000"));
+    }
+
+
+    [Fact]
     public void Output_points_only_has_no_polygon_and_boundaries_only_has_no_marker()
     {
         var points = KmlDocumentBuilder.Build(ThirteenPoints(true), new KmlExportOptions("T") { Output = KmlOutput.Points });
         Assert.Equal(0, points.BoundaryCount);
         Assert.DoesNotContain("<Polygon>", points.Kml);
+        Assert.Equal(13, points.VertexCount);
+        Assert.Contains("<name>Mốc đỉnh ranh</name>", points.Kml);
 
         var bounds = KmlDocumentBuilder.Build(ThirteenPoints(true), new KmlExportOptions("T") { Output = KmlOutput.Boundaries });
         Assert.Equal(0, bounds.MarkerCount);
+        Assert.Equal(0, bounds.VertexCount);
+        Assert.DoesNotContain("<name>Mốc đỉnh ranh</name>", bounds.Kml);
         Assert.Equal(1, bounds.BoundaryCount);
         Assert.False(bounds.BoundaryFromPoints);
         Assert.Contains("<name>Ranh</name>", bounds.Kml);
+    }
+
+    [Fact]
+    public void Boundary_only_selection_with_output_points_exports_boundary_vertices()
+    {
+        var raw = new (double E, double N)[] { (600100, 1231000), (600200, 1231000), (600150, 1231100) };
+        var rings = new[] { new BoundaryPolyline("Ranh", raw.Select(p => new PlanePoint(p.E, p.N)).ToList(), Closed: true) };
+        var r = Converter.Convert(Array.Empty<SurveyPoint>(), rings, new ConversionOptions(Hcm, 1.0));
+        var built = KmlDocumentBuilder.Build(r, new KmlExportOptions("T") { Output = KmlOutput.Points });
+        Assert.Equal(0, built.MarkerCount);
+        Assert.Equal(0, built.BoundaryCount);
+        Assert.Equal(3, built.VertexCount);
+        Assert.Contains("<name>Mốc đỉnh ranh</name>", built.Kml);
+        Assert.Contains("P1", built.Kml);
+        Assert.Contains("P2", built.Kml);
+        Assert.Contains("P3", built.Kml);
+        Assert.DoesNotContain("<Polygon>", built.Kml);
     }
 
     [Fact]
@@ -177,5 +246,94 @@ public sealed class KmlTests
 
         var ring = BulgeTessellator.Tessellate(new[] { new BulgeTessellator.Vertex(0, 0, 0), new BulgeTessellator.Vertex(1, 0, 0), new BulgeTessellator.Vertex(1, 1, 0) }, closed: true);
         Assert.Equal(3, ring.Count);
+    }
+
+    [Fact]
+    public void Boundary_vertices_are_exported_into_separate_folder_when_enabled()
+    {
+        var options = new KmlExportOptions("TestBoundaryVertices")
+        {
+            ExportBoundaryVertices = true,
+            MarkerStyle = BoundaryMarkerStyle.Triangle,
+            PopupTemplate = BoundaryPopupTemplate.Cadastral,
+        };
+        var built = KmlDocumentBuilder.Build(ThirteenPoints(withRing: true), options);
+        Assert.Equal(13, built.VertexCount);
+
+        var doc = XDocument.Parse(built.Kml);
+        var folders = doc.Descendants(Kml + "Folder").ToList();
+        Assert.Contains(folders, f => (string?)f.Element(Kml + "name") == "Đường ranh đất");
+        Assert.Contains(folders, f => (string?)f.Element(Kml + "name") == "Mốc đỉnh ranh");
+
+        var vertexFolder = folders.Single(f => (string?)f.Element(Kml + "name") == "Mốc đỉnh ranh");
+        var vertexPlacemarks = vertexFolder.Elements(Kml + "Placemark").ToList();
+        // Triangle has vector placemark + label placemark per vertex (13 * 2 = 26)
+        Assert.Equal(26, vertexPlacemarks.Count);
+        Assert.Equal("P1", (string?)vertexPlacemarks[0].Element(Kml + "name"));
+        Assert.Contains("THÔNG TIN ĐỈNH RANH: P1", (string?)vertexPlacemarks[0].Element(Kml + "description"));
+        Assert.Contains("P1 → P2:", (string?)vertexPlacemarks[0].Element(Kml + "description"));
+    }
+
+    [Theory]
+    [InlineData(BoundaryMarkerStyle.Pushpin, "#bndPushpinStyle")]
+    [InlineData(BoundaryMarkerStyle.Circle, "#bndCircleStyle")]
+    [InlineData(BoundaryMarkerStyle.LabelOnly, "#bndLabelOnlyStyle")]
+    public void Boundary_point_marker_styles_produce_single_placemark_per_vertex(BoundaryMarkerStyle style, string expectedStyleUrl)
+    {
+        var options = new KmlExportOptions("TestStyles")
+        {
+            ExportBoundaryVertices = true,
+            MarkerStyle = style,
+        };
+        var built = KmlDocumentBuilder.Build(ThirteenPoints(withRing: true), options);
+        var doc = XDocument.Parse(built.Kml);
+        var vertexFolder = doc.Descendants(Kml + "Folder").Single(f => (string?)f.Element(Kml + "name") == "Mốc đỉnh ranh");
+        var placemarks = vertexFolder.Elements(Kml + "Placemark").ToList();
+
+        // Pushpin, Circle, LabelOnly have 1 placemark per vertex (13 total)
+        Assert.Equal(13, placemarks.Count);
+        Assert.All(placemarks, p => Assert.Equal(expectedStyleUrl, (string?)p.Element(Kml + "styleUrl")));
+    }
+
+    [Fact]
+    public void Boundary_popup_templates_generate_expected_html()
+    {
+        // Technical DMS template
+        var techOptions = new KmlExportOptions("Tech")
+        {
+            ExportBoundaryVertices = true,
+            PopupTemplate = BoundaryPopupTemplate.Technical,
+            MarkerStyle = BoundaryMarkerStyle.Pushpin,
+        };
+        var techKml = KmlDocumentBuilder.Build(ThirteenPoints(withRing: true), techOptions).Kml;
+        Assert.Contains("MỐC RANH: P1", techKml);
+        Assert.Contains("WGS84 Lat (DMS)", techKml);
+        Assert.Contains("WGS84 Lon (DMS)", techKml);
+        Assert.Contains("°", techKml);
+        Assert.Contains("N", techKml);
+        Assert.Contains("E", techKml);
+
+        // Simple text template
+        var simpleOptions = new KmlExportOptions("Simple")
+        {
+            ExportBoundaryVertices = true,
+            PopupTemplate = BoundaryPopupTemplate.Simple,
+            MarkerStyle = BoundaryMarkerStyle.Pushpin,
+        };
+        var simpleKml = KmlDocumentBuilder.Build(ThirteenPoints(withRing: true), simpleOptions).Kml;
+        Assert.Contains("<b>Đỉnh ranh: P1</b>", simpleKml);
+        Assert.Contains("<b>VN-2000:</b>", simpleKml);
+        Assert.Contains("<b>WGS-84:</b>", simpleKml);
+        Assert.Contains("<b>Cạnh:</b>", simpleKml);
+    }
+
+    [Theory]
+    [InlineData(10.7922639, true, "10°47'32.15\" N")]
+    [InlineData(-10.5, true, "10°30'00.00\" S")]
+    [InlineData(106.6709556, false, "106°40'15.44\" E")]
+    [InlineData(-120.0, false, "120°00'00.00\" W")]
+    public void FormatDms_converts_decimal_degrees_correctly(double deg, bool isLat, string expected)
+    {
+        Assert.Equal(expected, KmlDocumentBuilder.FormatDms(deg, isLat));
     }
 }

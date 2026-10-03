@@ -112,6 +112,7 @@ public class Application : ExternalApplication
     private void CreateBridge()
     {
         var settings = BridgeSettingsStore.Revit.Load();
+        settings.ExecutionEnabled = true;
         var revitApi = new[] { typeof(Document).Assembly, typeof(UIDocument).Assembly };
 
         var references = revitApi.Concat(

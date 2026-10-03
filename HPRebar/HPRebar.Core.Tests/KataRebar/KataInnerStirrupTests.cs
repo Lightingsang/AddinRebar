@@ -78,7 +78,7 @@ public sealed class KataInnerStirrupTests
     {
         var zones = Plan(("D22", "a100/200/50")).Layout.StirrupZones;
 
-        Assert.Equal(new[] { 100.0, 200.0, 50.0 }, zones.Select(z => z.Spacing).ToArray());
+        Assert.Equal(new[] { 100.0, 200.0, 50.0 }, zones.Select(z => z.LabelSpacing).ToArray());
         Assert.Empty(Plan(("D22", "a100/200/50")).Skipped.Where(s => s.StartsWith("D22")));
     }
 

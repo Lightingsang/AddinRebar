@@ -28,12 +28,23 @@ namespace HPAutoCad.HPGeoLink.Commands;
 internal static class HPGeoDialogCommand
 {
     private const string Name = "HPGEO";
+    private static GeoExportWindow? _activeWindow;
 
     public static void Run()
     {
         var doc = AcadApp.DocumentManager.MdiActiveDocument;
         if (doc is null) return;
         var ed = doc.Editor;
+
+        if (_activeWindow is not null && _activeWindow.IsLoaded)
+        {
+            if (_activeWindow.WindowState == System.Windows.WindowState.Minimized)
+                _activeWindow.WindowState = System.Windows.WindowState.Normal;
+            _activeWindow.Activate();
+            _activeWindow.Focus();
+            return;
+        }
+
         try
         {
             var ctx = DrawingContext.Read(doc);
@@ -57,17 +68,101 @@ internal static class HPGeoDialogCommand
             var userSettings = UserSettingsStore.Load();
             var viewModel = new GeoExportViewModel(read.Points, read.Boundaries, ctx.BaseName, ctx.DirectoryPath, ctx.Unit, new Shell(), drawingSettings ?? userSettings);
             var window = new GeoExportWindow(viewModel) { MapEnabled = userSettings?.MapEnabled ?? true };
-            // persistSizeAndPosition false: the XAML size fits the table + map; AutoCAD would otherwise replay the first run's size.
-            AcadApp.ShowModalWindow(AcadApp.MainWindow.Handle, window, false);
-            if (viewModel.LastExportPath is not null)
+
+            // Reselect objects from CAD while window is modeless
+            viewModel.ReselectRequested += () =>
             {
-                ed.WriteMessage($"\nHPGeo: đã ghi {viewModel.LastExportPath}\n");
-                var settings = viewModel.ToSettings();
-                DocumentSettingsStore.Write(doc.Database, settings);
-                UserSettingsStore.Save(settings with { MapEnabled = window.MapEnabled });
-            }
-            if (viewModel.ImageChoice is { } choice)
-                InsertImagery(doc, ed, ctx, viewModel, choice, drawingSettings, userSettings);
+                var currentDoc = AcadApp.DocumentManager.MdiActiveDocument;
+                if (currentDoc is null) return;
+                try
+                {
+                    window.Hide();
+                    DrawingReadResult newRead;
+                    using (currentDoc.LockDocument())
+                    using (var tr = currentDoc.Database.TransactionManager.StartTransaction())
+                    {
+                        var ids = Pick(currentDoc.Editor, tr, currentDoc.Database);
+                        if (ids is null) return;
+                        var idList = ids as IReadOnlyList<ObjectId> ?? ids.ToList();
+                        if (idList.Count == 0) return;
+                        var currentCtx = DrawingContext.Read(currentDoc);
+                        newRead = DrawingReader.Read(tr, idList, currentCtx.ChordToleranceDrawingUnits);
+                        tr.Commit();
+                    }
+                    if (newRead.Points.Count == 0 && newRead.Boundaries.Count == 0)
+                    {
+                        currentDoc.Editor.WriteMessage("\nHPGeo: không có POINT hay LWPOLYLINE nào trong lựa chọn.\n");
+                        return;
+                    }
+                    var docContext = DrawingContext.Read(currentDoc);
+                    viewModel.UpdateObjects(newRead.Points, newRead.Boundaries, docContext.BaseName, docContext.DirectoryPath);
+                }
+                catch (System.Exception ex)
+                {
+                    HPGeoLog.Error("Reselect from CAD failed", ex);
+                }
+                finally
+                {
+                    window.Show();
+                    window.Activate();
+                }
+            };
+
+            // Insert imagery into CAD from modeless dialog
+            viewModel.InsertImageryRequested += choice =>
+            {
+                var currentDoc = AcadApp.DocumentManager.MdiActiveDocument;
+                if (currentDoc is null) return;
+                try
+                {
+                    window.Hide();
+                    using (currentDoc.LockDocument())
+                    {
+                        var currentCtx = DrawingContext.Read(currentDoc);
+                        var currentDrawingSettings = DocumentSettingsStore.Read(currentDoc.Database);
+                        var currentUserSettings = UserSettingsStore.Load();
+                        InsertImagery(currentDoc, currentDoc.Editor, currentCtx, viewModel, choice, currentDrawingSettings, currentUserSettings);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    viewModel.Status = "Lỗi chèn ảnh: " + ex.Message;
+                    HPGeoLog.Error("InsertImagery failed", ex);
+                }
+                finally
+                {
+                    window.Show();
+                    window.Activate();
+                }
+            };
+
+            window.Closed += (_, _) =>
+            {
+                _activeWindow = null;
+                if (viewModel.LastExportPath is not null)
+                {
+                    var currentDoc = AcadApp.DocumentManager.MdiActiveDocument;
+                    if (currentDoc is not null)
+                    {
+                        try
+                        {
+                            using (currentDoc.LockDocument())
+                            {
+                                var settings = viewModel.ToSettings();
+                                DocumentSettingsStore.Write(currentDoc.Database, settings);
+                                UserSettingsStore.Save(settings with { MapEnabled = window.MapEnabled });
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            HPGeoLog.Error("Save settings on close failed", ex);
+                        }
+                    }
+                }
+            };
+
+            _activeWindow = window;
+            AcadApp.ShowModelessWindow(AcadApp.MainWindow.Handle, window, false);
         }
         catch (System.Exception exception)
         {

@@ -148,6 +148,7 @@ public partial class WallReportView : Window
 - KHÔNG set `DataContext` trong XAML (sẽ phá DI).
 - KHÔNG dùng `x:Name` để truy cập control từ code-behind (vi phạm MVVM).
 - Mọi style dùng `DynamicResource` (cho phép swap theme runtime — xem `revit-xaml-styles`).
+- **Giao diện bắt buộc:** 100% Window/UserControl mới phải dùng `MaterialDesignInXamlToolkit` (Font Segoe UI, md:Card, Outlined inputs, md:PackIcon, phân cấp Button — xem chi tiết tại `revit-xaml-styles`).
 
 ## DI registration
 

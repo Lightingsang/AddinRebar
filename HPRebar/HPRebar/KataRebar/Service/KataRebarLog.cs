@@ -43,7 +43,7 @@ public static class KataRebarLog
         }
 
         foreach (var zone in plan.Layout.StirrupZones)
-            Log.Information("Kata Rebar: stirrups {Zone} {Count}@{Spacing} from x={Start:0}", zone.ZoneName, zone.Count, zone.Spacing, zone.StartStationX);
+            Log.Information("Kata Rebar: stirrups {Zone} {Count}@{Spacing:0.#} (a{Nominal:0}) from x={Start:0}", zone.ZoneName, zone.Count, zone.Spacing, zone.LabelSpacing, zone.StartStationX);
 
         foreach (var line in plan.Skipped) Log.Information("Kata Rebar: skipped {Item}", line);
         foreach (var line in plan.Warnings) Log.Warning("Kata Rebar: {Warning}", line);

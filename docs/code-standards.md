@@ -59,22 +59,29 @@
 
 Reference: skill `revit-wpf-mvvm` (SKILL.md + references/mvvm-toolkit-patterns.md + wpf-do-dont.md).
 
-## 5. XAML Styles
+## 5. XAML Styles & Material Design (MANDATORY)
+
+> **QUY TẮC BẮT BUỘC:** Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2).
 
 **MUST:**
-- Merge `Theme.xaml` ở root `Window` / `UserControl`
-- Mọi color/brush dùng `{DynamicResource Brush.X}`
-- Mọi spacing dùng `{DynamicResource Spacing.X}` (multiples of 4)
-- Mọi font size dùng `{DynamicResource Font.Size.X}`
-- Style có `x:Key` explicit
+- Merge `MaterialBridge.xaml` (chứa `md:CustomColorTheme` + `MaterialDesign2.Defaults.xaml`) đầu tiên trong `Theme.xaml`.
+- **Font**: Bắt buộc ghi đè `<FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>` (tránh Pack URI của Roboto gây crash sau khi ILRepack merge).
+- **Theme switch**: Mọi color/brush dùng `{DynamicResource Brush.X}` hoặc `{DynamicResource ...}` để tự động đồng bộ Dark/Light theo Host thông qua `MaterialThemeBridge`.
+- **Containers**: Dùng `md:Card` hoặc `Card.Panel` phân tầng độ cao (elevation) thay vì Border trần.
+- **Input Controls**: Dạng Outlined (`MaterialDesignOutlinedTextBox`, `MaterialDesignOutlinedComboBox`) kèm `md:HintAssist.Hint` nổi (floating hint).
+- **Icons**: Dùng `md:PackIcon` nhất quán (16x16 / 20x20 / 24x24).
+- **Buttons**: Phân cấp rõ ràng — Raised Primary Button cho hành động chính, Outlined Secondary Button cho hành động phụ, IconButton cho thao tác nhanh.
+- **Packaging (ILRepack)**: Cấu hình `<IsRepackable>true</IsRepackable>` (Nice3point SDK) hoặc MSBuild target merge `MaterialDesignThemes.Wpf.dll` & `MaterialDesignColors.dll` (AutoCAD/Standalone) để không bị thiếu DLL runtime.
+- Mọi spacing dùng `{DynamicResource Spacing.X}` (bội số của 4: 4/8/16/24/32).
 
 **DON'T:**
-- ❌ Hardcode `Background="#1E1E1E"` → dùng `{DynamicResource Brush.Background}`
-- ❌ Hardcode `Margin="7,3,5,2"` → dùng `{DynamicResource Spacing.Medium}`
-- ❌ Implicit style `<Style TargetType="Button">` global (đụng Revit UI)
-- ❌ `{StaticResource ...}` cho color/brush (mất theme switch)
+- ❌ Dùng font Roboto mặc định của MaterialDesign (`{md:MaterialDesignFont}`) trong XAML.
+- ❌ Hardcode màu tĩnh `Background="#1E1E1E"` → dùng `{DynamicResource Brush.Background}`.
+- ❌ Dùng `{StaticResource ...}` cho color/brush (gây mất khả năng đổi theme runtime).
+- ❌ Implicit style `<Style TargetType="Button">` global mà không base trên MaterialDesign (gây xung đột với theme host).
+- ❌ Để sót DLL MaterialDesign ngoài thư mục output khi host chạy in-process.
 
-Reference: skill `revit-xaml-styles` (SKILL.md + references/styles/*).
+Reference: skill `revit-xaml-styles` (SKILL.md + references/boilerplate/*).
 
 ## 6. Revit API
 

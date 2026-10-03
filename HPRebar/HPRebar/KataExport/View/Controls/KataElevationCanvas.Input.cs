@@ -8,7 +8,7 @@ namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
 /// Mouse handling as in AutoCAD: the wheel zooms around the cursor, holding the middle button pans (hand cursor),
-/// a middle double click is Zoom Extents; a left click selects a column.
+/// a middle double click is Zoom Extents; a left click selects a column. Shift + left drag pans too, for a touchpad.
 /// </summary>
 public sealed partial class KataElevationCanvas
 {
@@ -54,8 +54,8 @@ public sealed partial class KataElevationCanvas
         _pressButton = e.ChangedButton;
         _pressAt = _lastDrag = e.GetPosition(this);
         _moved = false;
-        // The middle button pans; the left button selects on release.
-        _panning = e.ChangedButton == MouseButton.Middle;
+        // The middle button (or Shift + left, for a touchpad) pans; the left button selects on release.
+        _panning = e.ChangedButton == MouseButton.Middle || (Keyboard.Modifiers & ModifierKeys.Shift) != 0;
         if (_panning) Cursor = Cursors.Hand;
         CaptureMouse();
         e.Handled = true;

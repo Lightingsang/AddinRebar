@@ -5,12 +5,14 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// Three stirrup zones per span: a dense zone at each support (length = max(2h, 0.25 × clear span) by default,
-/// never more than half the span; first stirrup at the first-stirrup offset from the face) and a middle zone at
-/// exactly the mid-span spacing, centred in the gap so each transition gap lies between half and one mid-span
-/// spacing. When the dense zones fill the span there is no sparse middle zone: a right-zone stirrup that would sit on
-/// the last left-zone one is dropped, and a leftover gap wider than the dense spacing is closed with evenly spaced
-/// dense stirrups. A cantilever span gets one uniform zone.
+/// Three stirrup zones per span, as Kata draws them (T2-DY7, T2-DY14): a dense zone at each support from the
+/// first-stirrup offset to the zone length (0.25 × clear span by default, rounded up to 50 mm, never more than half the
+/// span) from the face, and a middle zone from one mid-span spacing past the last dense stirrup to one before the
+/// first of the other dense zone. Each zone is spaced evenly at its spacing or a little less, so it ends exactly where
+/// Kata ends it (DY7 span 1: 500…1850 | 2050…4350 | 4550…5900 from the outer face of C). When the dense zones fill
+/// the span there is no sparse middle zone: a right-zone stirrup that would sit on the last left-zone one is dropped,
+/// and a leftover gap wider than the dense spacing is closed with evenly spaced dense stirrups. A cantilever span
+/// gets one uniform zone.
 /// </summary>
 public static class KataStirrupZoneLayout
 {
@@ -72,7 +74,8 @@ public static class KataStirrupZoneLayout
                         ZoneName = name,
                         StartStationX = stations[0],
                         EndStationX = stations[stations.Count - 1],
-                        Spacing = spacing,
+                        Spacing = stations.Count > 1 ? (stations[stations.Count - 1] - stations[0]) / (stations.Count - 1) : spacing,
+                        NominalSpacing = spacing,
                         Count = stations.Count,
                         Stations = stations,
                         OutToOutWidth = box.Width,
@@ -110,16 +113,25 @@ public static class KataStirrupZoneLayout
         KataBeamStations st, int s, double ln, double height, double sDense, double sSparse, double sEnd, KataDetailingRules rules)
     {
         double offset = rules.FirstStirrupOffset;
-        double endZone = rules.DenseZoneLength(ln, height);
+        double endZone = Math.Min(ln / 2.0, Math.Ceiling(rules.DenseZoneLength(ln, height) / ZoneRound - 1e-9) * ZoneRound);
 
-        int intervals1 = (int)Math.Floor(Math.Max(0.0, endZone - offset) / sDense + 1e-9);
-        var left = new List<double>(intervals1 + 1);
-        for (int i = 0; i <= intervals1; i++) left.Add(st.SpanStart[s] + offset + i * sDense);
+        // Zones that would leave less than a dense spacing between them meet: a 250 mm span is one dense run.
+        bool zonesMeet = ln - 2.0 * endZone < Math.Min(sDense, sEnd) - 1e-6;
+        List<double> left, right;
+        if (zonesMeet)
+        {
+            // Dense from face to face: each zone at its own spacing from its face, the leftover closed below.
+            left = Grid(st.SpanStart[s] + offset, endZone - offset, sDense, 1.0);
+            right = Grid(st.SpanEnd[s] - offset, endZone - offset, sEnd, -1.0);
+            right.Reverse();
+        }
+        else
+        {
+            left = Even(st.SpanStart[s] + offset, st.SpanStart[s] + Math.Max(endZone, offset), sDense);
+            right = Even(st.SpanEnd[s] - Math.Max(endZone, offset), st.SpanEnd[s] - offset, sEnd);
+        }
 
-        int intervals3 = (int)Math.Floor(Math.Max(0.0, endZone - offset) / sEnd + 1e-9);
-        double firstRight = st.SpanEnd[s] - offset - intervals3 * sEnd;
-        var right = new List<double>(intervals3 + 1);
-        for (int i = 0; i <= intervals3; i++) right.Add(firstRight + i * sEnd);
+        double firstRight = right[0];
 
         double lastLeft = left[left.Count - 1];
         // Zones that meet in the middle: a right stirrup closer than half a spacing to the last left one is the
@@ -132,7 +144,6 @@ public static class KataStirrupZoneLayout
         var middle = new List<double>();
         double middleSpacing = sSparse;
         string middleName = MiddleZone;
-        bool zonesMeet = 2.0 * endZone >= ln - 1e-6;
         if (zonesMeet && right.Count > 0)
         {
             // Dense from face to face: the two zones each start at their own face, so the leftovers can meet
@@ -142,17 +153,28 @@ public static class KataStirrupZoneLayout
             int fill = (int)Math.Ceiling(gap / dense - 1e-9) - 1;
             if (fill > 0)
             {
-                middleSpacing = gap / (fill + 1);
+                // Dense stirrups, labelled with the dense spacing they keep to.
+                middleSpacing = dense;
                 middleName = FillerZone;
-                for (int i = 1; i <= fill; i++) middle.Add(lastLeft + i * middleSpacing);
+                for (int i = 1; i <= fill; i++) middle.Add(lastLeft + i * gap / (fill + 1));
             }
+        }
+        else if (right.Count > 0 && gap >= 2.5 * sSparse - 1e-6)
+        {
+            // One mid-span spacing on from each dense zone, evenly spaced between.
+            middle = Even(lastLeft + sSparse, firstRight - sSparse, sSparse);
+        }
+        else if (right.Count > 0 && gap >= 2.0 * sSparse - 1e-6)
+        {
+            // Room for one stirrup a spacing in from each zone but not for two apart: as few as keep the whole gap at
+            // the mid-span spacing, evenly spread (never two hoops a few millimetres apart).
+            int count = (int)Math.Ceiling(gap / sSparse - 1e-9) - 1;
+            for (int i = 1; i <= count; i++) middle.Add(lastLeft + i * gap / (count + 1));
         }
         else if (right.Count > 0 && gap > sSparse + 1e-6)
         {
-            // Any gap wider than the mid-span spacing gets stirrups; a narrow one a single stirrup in its middle.
-            int intervals2 = Math.Max(0, (int)Math.Ceiling(gap / sSparse - 2.0 - 1e-9));
-            double delta = (gap - intervals2 * sSparse) / 2.0;
-            for (int i = 0; i <= intervals2; i++) middle.Add(lastLeft + delta + i * sSparse);
+            // Too narrow for two transitions: a single stirrup in its middle.
+            middle.Add((lastLeft + firstRight) / 2.0);
         }
 
         return new List<(string, double, List<double>)>
@@ -161,6 +183,29 @@ public static class KataStirrupZoneLayout
             (middleName, middleSpacing, middle),
             (RightZone, sEnd, right)
         };
+    }
+
+    /// <summary>Kata rounds a dense zone's length up to this step (DY7: L0/4 = 1375 → 1400).</summary>
+    private const double ZoneRound = 50.0;
+
+    /// <summary>Stirrups at exactly <paramref name="spacing"/> from <paramref name="from"/> (stepping by <paramref name="direction"/>), as many as fit in <paramref name="length"/>.</summary>
+    private static List<double> Grid(double from, double length, double spacing, double direction)
+    {
+        int intervals = (int)Math.Floor(Math.Max(0.0, length) / spacing + 1e-9);
+        var stations = new List<double>(intervals + 1);
+        for (int i = 0; i <= intervals; i++) stations.Add(from + direction * i * spacing);
+        return stations;
+    }
+
+    /// <summary>Stirrups from <paramref name="from"/> to <paramref name="to"/>, as few as keep them at most <paramref name="spacing"/> apart.</summary>
+    private static List<double> Even(double from, double to, double spacing)
+    {
+        double length = to - from;
+        if (length < 1.0) return new List<double> { from };
+        int intervals = Math.Max(1, (int)Math.Ceiling(length / spacing - 1e-9));
+        var stations = new List<double>(intervals + 1);
+        for (int i = 0; i <= intervals; i++) stations.Add(from + length * i / intervals);
+        return stations;
     }
 
     private static List<double> CantileverStations(KataBeamStations st, int s, double ln, double spacing, KataDetailingRules rules)

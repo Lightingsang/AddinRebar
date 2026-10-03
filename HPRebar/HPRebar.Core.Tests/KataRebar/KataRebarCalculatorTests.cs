@@ -155,18 +155,18 @@ public class KataRebarCalculatorTests
 
         Assert.Equal(0, z1.ZoneIndex);
         Assert.Equal("Gối trái", z1.ZoneName);
-        Assert.Equal(100.0, z1.Spacing);
+        Assert.Equal(100.0, z1.LabelSpacing);
         // Start station = 400 + 50 = 450 mm
         Assert.Equal(450.0, z1.StartStationX);
         Assert.True(z1.Count > 0);
 
         Assert.Equal(1, z2.ZoneIndex);
         Assert.Equal("Giữa nhịp", z2.ZoneName);
-        Assert.Equal(200.0, z2.Spacing);
+        Assert.Equal(200.0, z2.LabelSpacing);
 
         Assert.Equal(2, z3.ZoneIndex);
         Assert.Equal("Gối phải", z3.ZoneName);
-        Assert.Equal(100.0, z3.Spacing);
+        Assert.Equal(100.0, z3.LabelSpacing);
         // End station = 6400 - 50 = 6350 mm
         Assert.Equal(6350.0, z3.EndStationX);
 
@@ -344,9 +344,9 @@ public class KataRebarCalculatorTests
         // 2 spans, 3 zones each = 6 zones
         Assert.Equal(6, result.StirrupZones.Count);
         // Span 0 has spacing override a100/200
-        Assert.Equal(100.0, result.StirrupZones[0].Spacing);
-        Assert.Equal(200.0, result.StirrupZones[1].Spacing);
-        Assert.Equal(100.0, result.StirrupZones[2].Spacing);
+        Assert.Equal(100.0, result.StirrupZones[0].LabelSpacing);
+        Assert.Equal(200.0, result.StirrupZones[1].LabelSpacing);
+        Assert.Equal(100.0, result.StirrupZones[2].LabelSpacing);
 
         // Total bar count check
         Assert.True(result.TotalBarCount > 50);

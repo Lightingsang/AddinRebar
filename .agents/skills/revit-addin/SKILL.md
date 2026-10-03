@@ -115,8 +115,10 @@ MyAddIn/
 │   ├── Icons/
 │   │   ├── RibbonIcon16.png
 │   │   └── RibbonIcon32.png
-│   └── Themes/                        ← (nếu dùng skill revit-xaml-styles)
-│       └── Theme.xaml
+│   └── Themes/                        ← BẮT BUỘC MaterialDesignInXamlToolkit (xem revit-xaml-styles)
+│       ├── Theme.xaml
+│       ├── MaterialBridge.xaml
+│       └── MaterialThemeBridge.cs
 └── Properties/
     └── launchSettings.json            ← F5 → launch Revit.exe
 ```
@@ -126,6 +128,8 @@ MyAddIn/
 - File XAML asset (`Theme.xaml`, `ThemeDark.xaml`) — **PascalCase** (theo WPF convention).
 - File config phụ (`launchSettings.json`, `appsettings.json`) — **camelCase** (theo .NET convention).
 - Không dùng kebab-case cho `.cs`/`.xaml` (vi phạm convention ngôn ngữ).
+- **UI WPF:** Bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit` (Font Segoe UI, md:Card, Outlined inputs, md:PackIcon, phân cấp Button — xem skill `revit-xaml-styles`).
+- **Packaging:** Bắt buộc `<IsRepackable>true</IsRepackable>` trong `.csproj` để tự động merge các DLL MaterialDesign khi deploy.
 
 ## Nice3point.Revit.Toolkit highlights
 

@@ -14,12 +14,31 @@ namespace HPAutoCad.HPGeoLink.ViewModel;
 public sealed partial class GeoExportViewModel
 {
     public event Action? CloseRequested;
+    public event Action? ReselectRequested;
+    public event Action<GeoImageChoice>? InsertImageryRequested;
+    public event Action? FitBoundsRequested;
+    public event Action? RefreshMapRequested;
+
+    [RelayCommand]
+    private void ReselectCad() => ReselectRequested?.Invoke();
+
+    [RelayCommand]
+    private void ToggleMapFullscreen() => IsMapFullscreen = !IsMapFullscreen;
+
+    [RelayCommand]
+    private void FitMapBounds() => FitBoundsRequested?.Invoke();
+
+    [RelayCommand]
+    private void RefreshMap() => RefreshMapRequested?.Invoke();
 
     private KmlExportOptions KmlOptions => new(KmzWriter.SafeFileName(FileName))
     {
         Output = Output,
         PointColor = PointColor,
         LineColor = LineColor,
+        ExportBoundaryVertices = ExportBoundaryVertices,
+        MarkerStyle = SelectedMarkerStyleItem?.Style ?? BoundaryMarkerStyle.Triangle,
+        PopupTemplate = SelectedPopupTemplateItem?.Template ?? BoundaryPopupTemplate.Cadastral,
     };
 
     [RelayCommand]
@@ -123,7 +142,14 @@ public sealed partial class GeoExportViewModel
         var marginM = TileCoverage.MarginForAreaRatio(extentM, ratio.Value);
         ImageChoice = new GeoImageChoice(Crs.CurrentTm, Crs.SelectedUnit?.Unit ?? DrawingUnit.Unknown, f, res.Value, ratio.Value, marginM,
             extent, _points.Count, _boundaries.Count);
-        CloseRequested?.Invoke();
+        if (InsertImageryRequested is not null)
+        {
+            InsertImageryRequested.Invoke(ImageChoice);
+        }
+        else
+        {
+            CloseRequested?.Invoke();
+        }
     }
 
     [RelayCommand]

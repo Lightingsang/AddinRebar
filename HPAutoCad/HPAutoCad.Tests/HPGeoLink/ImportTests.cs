@@ -67,6 +67,35 @@ public sealed class ImportTests
         }
     }
 
+    [Theory]
+    [InlineData(BoundaryMarkerStyle.Triangle)]
+    [InlineData(BoundaryMarkerStyle.Pushpin)]
+    [InlineData(BoundaryMarkerStyle.Circle)]
+    [InlineData(BoundaryMarkerStyle.LabelOnly)]
+    public void Kmz_with_boundary_vertices_imports_back_without_duplicate_points(BoundaryMarkerStyle style)
+    {
+        var options = new KmlExportOptions("RT_With_Vertices")
+        {
+            ExportBoundaryVertices = true,
+            MarkerStyle = style,
+            PopupTemplate = BoundaryPopupTemplate.Cadastral,
+        };
+        var kml = KmlDocumentBuilder.Build(Exported(), options).Kml;
+        var path = Path.Combine(Path.GetTempPath(), $"hpgeo-rt-vert-{Guid.NewGuid():N}.kmz");
+        try
+        {
+            KmzWriter.WriteFile(kml, path);
+            var features = KmlReader.ReadFile(path);
+            // Must have only the 13 survey points, NOT polluted by boundary vertices
+            Assert.Equal(13, features.Count(f => f.Kind == KmlFeatureKind.Point));
+            Assert.Equal(1, features.Count(f => f.Kind == KmlFeatureKind.Polygon));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
     [Fact]
     public void Google_earth_style_kml_reads_point_line_and_polygon()
     {

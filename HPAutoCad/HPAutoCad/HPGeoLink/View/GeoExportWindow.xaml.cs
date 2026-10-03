@@ -16,12 +16,15 @@ public partial class GeoExportWindow : Window
         {
             Resources.MergedDictionaries.Add(ThemeResources.Styles());
             InitializeComponent();
+            Icon = GeoIconHelper.WindowIcon;
             // Palette + MaterialDesign brushes for the current COLORTHEME, re-applied while the dialog is open.
             MaterialThemeBridge.Attach(this, AutocadHostTheme.Instance);
             MapView.DarkTheme = AutocadHostTheme.Instance.IsDark;
         }
         DataContext = viewModel;
         viewModel.CloseRequested += Close;
+        viewModel.FitBoundsRequested += () => MapView.FitBounds();
+        viewModel.RefreshMapRequested += () => MapView.RefreshMap();
     }
 
     /// <summary>False (settings.json "MapEnabled": false) keeps the satellite panel off: nothing leaves the machine before an export.</summary>

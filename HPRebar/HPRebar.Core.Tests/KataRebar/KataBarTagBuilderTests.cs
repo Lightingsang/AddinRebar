@@ -93,7 +93,7 @@ public sealed class KataBarTagBuilderTests
         Assert.Equal(2, side.FootZ.Count);
         Assert.Equal(288.0, side.LeaderLength);
 
-        // The dense zones of this layout end 50 mm off Kata's, so their tags do too.
+        // Kata's stirrup tags, 125 past the middle of each zone (the 250 span's two dense zones are one).
         Match(new[] { 1325.0, 3400, 5475, 7475, 10050, 12625, 14275, 15075, 15875, 16550 }
                 .Select((x, i) => (x, Key(S, false, new[] { i < 3 ? 17 : i < 6 ? 18 : 19 }, i is 1 or 4 or 7 ? "Ø8a200" : "Ø8a100"))).ToArray(),
             tags.Where(t => t.Kind == KataTagKind.Stirrups).ToList());

@@ -102,7 +102,7 @@ internal sealed class KataElevationSectionPainter
         PaintBarNumbers(crossing, h, X, Y, X(b / 2.0 * _map.Direction), Y(0.0) - 12.0, Y(-h) + 12.0);
 
         var footer = new List<string>();
-        if (hoops is not null) footer.Add($"({hoops.BarNumber}) Ø{rules.StirrupDiameter:0}a{hoops.Spacing:0}");
+        if (hoops is not null) footer.Add($"({hoops.BarNumber}) Ø{rules.StirrupDiameter:0}a{hoops.LabelSpacing:0}");
         foreach (var set in sets.Where(KataBarNumbering.IsTie).GroupBy(s => s.BarNumber).Select(g => g.First()))
             footer.Add($"({set.BarNumber}) C Ø{set.Diameter:0}");
         foreach (var set in sets.Where(s => !KataBarNumbering.IsTie(s)).GroupBy(s => s.BarNumber).Select(g => g.First()))

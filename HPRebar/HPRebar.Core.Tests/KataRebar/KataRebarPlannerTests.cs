@@ -66,14 +66,16 @@ public sealed class KataRebarPlannerTests
     }
 
     [Fact]
-    public void Stirrups_run_15_at_100_then_15_at_200_then_15_at_100()
+    public void Stirrups_run_16_at_a100_then_14_at_200_then_16_at_a100()
     {
         var zones = PlanFor().Layout.StirrupZones;
 
+        // Dense zones end 1500 (L0/4) from the faces 400 and 6400; the middle starts and ends 200 past them.
         Assert.Equal(3, zones.Count);
-        Assert.Equal((15, 100.0, 450.0, 1850.0), (zones[0].Count, zones[0].Spacing, zones[0].StartStationX, zones[0].EndStationX));
-        Assert.Equal((15, 200.0, 2000.0, 4800.0), (zones[1].Count, zones[1].Spacing, zones[1].StartStationX, zones[1].EndStationX));
-        Assert.Equal((15, 100.0, 4950.0, 6350.0), (zones[2].Count, zones[2].Spacing, zones[2].StartStationX, zones[2].EndStationX));
+        Assert.Equal((16, 100.0, 450.0, 1900.0), (zones[0].Count, zones[0].LabelSpacing, zones[0].StartStationX, zones[0].EndStationX));
+        Assert.Equal(1450.0 / 15.0, zones[0].Spacing, 6);
+        Assert.Equal((14, 200.0, 2100.0, 4700.0), (zones[1].Count, zones[1].Spacing, zones[1].StartStationX, zones[1].EndStationX));
+        Assert.Equal((16, 100.0, 4900.0, 6350.0), (zones[2].Count, zones[2].LabelSpacing, zones[2].StartStationX, zones[2].EndStationX));
         Assert.All(zones, z =>
         {
             Assert.Equal(250.0, z.OutToOutWidth);

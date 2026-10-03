@@ -55,6 +55,11 @@
         <Copy SourceFiles="@(_HelperFiles)" DestinationFiles="@(_HelperFiles->'$(OutDir)TileFetch\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     </Target>
 
+    <!-- Copy 64-bit WebView2Loader.dll to $(OutDir) root so CadAddinManager or standalone loading can find the native loader directly. -->
+    <Target Name="CopyWebView2LoaderToRoot" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true'">
+        <Copy SourceFiles="$(OutDir)runtimes\win-x64\native\WebView2Loader.dll" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(OutDir)runtimes\win-x64\native\WebView2Loader.dll')" />
+    </Target>
+
     <!-- The toolkit is merged into this assembly: WPF binds BAML types by simple name and takes the last-loaded copy across
          AssemblyLoadContexts, so a loose MaterialDesignThemes.Wpf.dll would be mixed with the HPAutoCad MCP bridge's in the same
          acad.exe (spike S0-B). Primary input = the obj DLL, so an incremental build never merges twice; the loose files are deleted

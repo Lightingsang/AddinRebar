@@ -258,7 +258,7 @@
                                 <DataGridTextColumn Header="Vùng rải" Binding="{Binding ZoneName}" Width="120"/>
                                 <DataGridTextColumn Header="Bắt đầu X" Binding="{Binding StartStationX, StringFormat='{}{0:0} mm'}" Width="95"/>
                                 <DataGridTextColumn Header="Kết thúc X" Binding="{Binding EndStationX, StringFormat='{}{0:0} mm'}" Width="95"/>
-                                <DataGridTextColumn Header="Bước đai" Binding="{Binding Spacing, StringFormat='a{0:0}'}" Width="80"/>
+                                <DataGridTextColumn Header="Bước đai" Binding="{Binding LabelSpacing, Mode=OneWay, StringFormat='a{0:0}'}" Width="80"/>
                                 <DataGridTextColumn Header="Số đai" Binding="{Binding Count}" Width="70"/>
                                 <DataGridTextColumn Header="Kích thước đai (B x H)" Width="150">
                                     <DataGridTextColumn.Binding>

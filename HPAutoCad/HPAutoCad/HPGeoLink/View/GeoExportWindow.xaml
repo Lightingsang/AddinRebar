@@ -1,122 +1,382 @@
 <Window x:Class="HPAutoCad.HPGeoLink.View.GeoExportWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:view="clr-namespace:HPAutoCad.HPGeoLink.View"
         xmlns:vm="clr-namespace:HPAutoCad.HPGeoLink.ViewModel"
-        Title="HPAutoCad · VN-2000 → KMZ"
-        Width="1040" Height="760" MinWidth="820" MinHeight="620"
+        Title="VN-2000 → WGS84 → KMZ"
+        Width="1280" Height="820" MinWidth="1024" MinHeight="680"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="{DynamicResource Brush.Background}" Foreground="{DynamicResource Brush.Text}"
         FontFamily="Segoe UI" FontSize="12" UseLayoutRounding="True">
-    <Grid Margin="16">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Margin="16,12,16,12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Source -->
-        <DockPanel Grid.Row="0" Margin="{DynamicResource Margin.Section}">
-            <TextBlock Style="{StaticResource Text.Title}" Text="VN-2000 → WGS84 → KMZ" DockPanel.Dock="Left"/>
-            <TextBlock Style="{StaticResource Text.Muted}" Margin="16,0,0,0" Text="{Binding SourceSummary}" DockPanel.Dock="Left"/>
-        </DockPanel>
-
-        <!-- Coordinate system (shared block) -->
-        <view:CrsSelectionView Grid.Row="1" Margin="{DynamicResource Margin.Section}" DataContext="{Binding Crs}"/>
-
-        <!-- Output -->
-        <Grid Grid.Row="2" Margin="{DynamicResource Margin.Section}">
+        <!-- 1. Two-Column Dashboard Content -->
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Text.Section}" Text="Xuất KMZ"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Nội dung"/>
-            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="{DynamicResource Margin.Row}">
-                <RadioButton Content="Điểm + Ranh" IsChecked="{Binding OutputBoth}"/>
-                <RadioButton Content="Chỉ điểm" IsChecked="{Binding OutputPoints}"/>
-                <RadioButton Content="Chỉ ranh" IsChecked="{Binding OutputBoundaries}"/>
-            </StackPanel>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Tên file / màu"/>
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                <TextBox Width="220" Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" ToolTip="Tên file KMZ và tên tài liệu trong Google Earth"/>
-                <TextBlock Text="Màu điểm" Margin="16,0,4,0"/>
-                <TextBox Width="80" Text="{Binding PointColor, UpdateSourceTrigger=PropertyChanged}" ToolTip="aabbggrr — vd ff00ffff = vàng"/>
-                <TextBlock Text="Màu ranh" Margin="12,0,4,0"/>
-                <TextBox Width="80" Text="{Binding LineColor, UpdateSourceTrigger=PropertyChanged}" ToolTip="aabbggrr — vd ff0000ff = đỏ"/>
-            </StackPanel>
-        </Grid>
 
-        <!-- Preview: table + map -->
-        <Grid Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="320"/>
-                    <ColumnDefinition Width="6"/>
-                    <ColumnDefinition Width="340" MinWidth="200"/>
-                </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" ItemsSource="{Binding Preview}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" Binding="{Binding Label}" Width="52"/>
-                        <DataGridTextColumn Header="E (m)" Binding="{Binding Easting}" Width="92"/>
-                        <DataGridTextColumn Header="N (m)" Binding="{Binding Northing}" Width="96"/>
-                        <DataGridTextColumn Header="Lat" Binding="{Binding Lat}" Width="88"/>
-                        <DataGridTextColumn Header="Lon" Binding="{Binding Lon}" Width="94"/>
-                        <DataGridTextColumn Header="Ghi chú" Binding="{Binding Note}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="Transparent"/>
-                <view:MapPanel Grid.Column="2" x:Name="MapView" Data="{Binding MapDataJson}"/>
+            <!-- Left Column: 4 Cards (CRS, Export Config, DataGrid, Satellite Imagery) -->
+            <ScrollViewer Grid.Column="0" Width="490" Margin="0,0,12,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Visibility="{Binding IsMapFullscreen, Converter={x:Static view:InverseBoolToVisibilityConverter.Instance}}">
+                <StackPanel Margin="0,0,4,0">
+                    <!-- Card 1: CRS Selection -->
+                    <view:CrsSelectionView DataContext="{Binding Crs}" Margin="0,0,0,10"/>
+
+                    <!-- Card 2: Export Configuration -->
+                    <Border Style="{StaticResource Card.Panel}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <!-- Card Header -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="CogOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="Cấu hình xuất KMZ" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource Brush.Text}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Row 1: Content Radios -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <RadioButton Content="Điểm + Ranh" IsChecked="{Binding OutputBoth}" Margin="0,0,20,0"/>
+                                <RadioButton Content="Chỉ điểm" IsChecked="{Binding OutputPoints}" Margin="0,0,20,0"/>
+                                <RadioButton Content="Chỉ ranh" IsChecked="{Binding OutputBoundaries}" Margin="0"/>
+                            </StackPanel>
+
+                            <!-- Row 2: File Name -->
+                            <StackPanel Margin="0,0,0,8">
+                                <TextBlock Text="TÊN FILE" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                <TextBox MinHeight="36" VerticalContentAlignment="Center"
+                                         Style="{StaticResource StandardTextBox}"
+                                         Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Tên file KMZ và tên tài liệu hiển thị trong Google Earth"/>
+                            </StackPanel>
+
+                            <!-- Row 3: Color Pickers (Point STT & Line Color) -->
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Point Color -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="SỐ THỨ TỰ ĐIỂM" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <view:KmlColorPickerView Color="{Binding PointColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- Line Color -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="MÀU ĐƯỜNG RANH" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <view:KmlColorPickerView Color="{Binding LineColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Row 4: Marker Style & Popup Template -->
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Marker Style -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="KÝ HIỆU ĐIỂM" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <ComboBox MinHeight="36" VerticalContentAlignment="Center"
+                                              Style="{StaticResource StandardComboBox}"
+                                              ItemsSource="{Binding MarkerStyles}"
+                                              SelectedItem="{Binding SelectedMarkerStyleItem}"
+                                              ToolTip="Chọn kiểu biểu tượng hiển thị mốc đỉnh ranh trong Google Earth và bản đồ">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <md:PackIcon Kind="{Binding IconKind}" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Accent}"/>
+                                                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- Popup Template -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="NHÃN ĐIỂM" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <ComboBox MinHeight="36" VerticalContentAlignment="Center"
+                                              Style="{StaticResource StandardComboBox}"
+                                              ItemsSource="{Binding PopupTemplates}"
+                                              SelectedItem="{Binding SelectedPopupTemplateItem}"
+                                              ToolTip="Chọn biểu mẫu hiển thị bảng thông tin khi click vào mốc đỉnh ranh trong Google Earth và bản đồ">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <md:PackIcon Kind="{Binding IconKind}" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Accent}"/>
+                                                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Card 3: Coordinates DataGrid -->
+                    <Border Style="{StaticResource Card.Panel}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <!-- Card Header -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="TableLarge" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="Danh sách toạ độ" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource Brush.Text}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <DataGrid ItemsSource="{Binding Preview}" Height="150"
+                                      AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                                      GridLinesVisibility="All"
+                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Resources>
+                                    <Style x:Key="CellCenter" TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                    <Style x:Key="CellRight" TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="Margin" Value="0,0,6,0"/>
+                                    </Style>
+                                </DataGrid.Resources>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Label}" Width="Auto" MinWidth="65" ElementStyle="{StaticResource CellCenter}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="Tên&#x0a;Điểm" TextAlignment="Center" LineHeight="14" LineStackingStrategy="BlockLineHeight" HorizontalAlignment="Center"/>
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Loại" Binding="{Binding ItemType}" Width="Auto" MinWidth="70" ElementStyle="{StaticResource CellCenter}"/>
+                                    <DataGridTextColumn Binding="{Binding Easting}" Width="Auto" MinWidth="85" ElementStyle="{StaticResource CellRight}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="E&#x0a;(m)" TextAlignment="Center" LineHeight="14" LineStackingStrategy="BlockLineHeight" HorizontalAlignment="Center"/>
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Northing}" Width="Auto" MinWidth="85" ElementStyle="{StaticResource CellRight}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="N&#x0a;(m)" TextAlignment="Center" LineHeight="14" LineStackingStrategy="BlockLineHeight" HorizontalAlignment="Center"/>
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Lat" Binding="{Binding Lat}" Width="Auto" MinWidth="80" ElementStyle="{StaticResource CellRight}"/>
+                                    <DataGridTextColumn Header="Lon" Binding="{Binding Lon}" Width="Auto" MinWidth="80" ElementStyle="{StaticResource CellRight}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Card 4: Satellite Imagery Options -->
+                    <Border Style="{StaticResource Card.Panel}" Margin="0,0,0,0">
+                        <StackPanel>
+                            <!-- Card Header -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="SatelliteVariant" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="Ảnh vệ tinh" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource Brush.Text}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Resolution -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="ĐỘ PHÂN GIẢI" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <TextBox MinHeight="36" VerticalContentAlignment="Center"
+                                             Style="{StaticResource StandardTextBox}"
+                                             Text="{Binding ImageResolutionText, UpdateSourceTrigger=PropertyChanged}"
+                                             ToolTip="Độ phân giải mục tiêu (m/px) — nguồn Esri chỉ tới ~0.3 m/px"/>
+                                </StackPanel>
+
+                                <!-- Area Ratio -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="VÙNG XUNG QUANH" Foreground="{DynamicResource Brush.TextMuted}" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,4"/>
+                                    <TextBox MinHeight="36" VerticalContentAlignment="Center"
+                                             Style="{StaticResource StandardTextBox}"
+                                             Text="{Binding ImageAreaRatioText, UpdateSourceTrigger=PropertyChanged}"
+                                             ToolTip="Vùng ảnh = bấy nhiêu lần diện tích khung ranh (10 = lô đất và xung quanh; 1 = vừa khít)"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Insert Button -->
+                            <Button Command="{Binding InsertImageCommand}" IsEnabled="{Binding CanExport}" Height="36"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}" HorizontalAlignment="Stretch" Margin="0"
+                                    ToolTip="HPGEOIMAGE: tải ảnh Esri World Imagery phủ toàn bộ điểm/ranh đã chọn và vùng xung quanh, nắn lên lưới VN-2000 theo KTT ở trên và chèn làm RasterImage đúng toạ độ vào bản vẽ (layer HPGEO-IMAGE).">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <md:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Chèn ảnh vệ tinh vào CAD" FontWeight="Medium" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right Column: Map & Map Toolbar -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Map Header & Toolbar -->
+                <DockPanel Grid.Row="0" Margin="0,0,0,10">
+                    <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                        <TextBlock Text="Google Earth / Bản đồ vệ tinh" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource Brush.Text}"/>
+                        <TextBlock Text="Xem trực tiếp ranh đất và các điểm sau chuyển đổi" Foreground="{DynamicResource Brush.TextMuted}" FontSize="11" Margin="0,2,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <!-- Refresh Button -->
+                        <Button Command="{Binding RefreshMapCommand}" Height="32" MinWidth="85" Margin="0,0,6,0" Padding="8,0"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" ToolTip="Tải lại dữ liệu bản đồ">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Refresh" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Làm mới" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Fit Bounds Button -->
+                        <Button Command="{Binding FitMapBoundsCommand}" Height="32" MinWidth="85" Margin="0,0,6,0" Padding="8,0"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" ToolTip="Thu phóng vừa khít toàn bộ ranh đất">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="CrosshairsGps" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Tâm ranh" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Toggle Fullscreen Button -->
+                        <Button Command="{Binding ToggleMapFullscreenCommand}" Height="32" MinWidth="105" Margin="0" Padding="8,0"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" ToolTip="{Binding MapFullscreenButtonTooltip}">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="{Binding MapFullscreenButtonIcon}" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding MapFullscreenButtonText}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Map Viewport with Overlays -->
+                <Border Grid.Row="1" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="6" ClipToBounds="True">
+                    <Grid>
+                        <!-- Leaflet WebView2 Map -->
+                        <view:MapPanel x:Name="MapView" Data="{Binding MapDataJson}"/>
+
+                        <!-- Top-Left Badge: Summary & Center -->
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14" CornerRadius="6"
+                                Background="#D91E2128" BorderBrush="#33FFFFFF" BorderThickness="1" Padding="12,8">
+                            <StackPanel>
+                                <TextBlock Text="{Binding MapSummaryBadge}" FontWeight="SemiBold" Foreground="White" FontSize="12"/>
+                                <TextBlock Text="{Binding MapCenterBadge}" Foreground="#A0A5B0" FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Bottom-Left Legend: Boundary, Markers, Point Numbers -->
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="14" CornerRadius="16"
+                                Background="#D91E2128" BorderBrush="#33FFFFFF" BorderThickness="1" Padding="12,6">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Fill="#FFD400" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Ranh đất" Foreground="#DDDDDD" FontSize="11" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <Ellipse Width="8" Height="8" Fill="#B388FF" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Mốc ranh" Foreground="#DDDDDD" FontSize="11" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <Ellipse Width="8" Height="8" Fill="#FF5252" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Số điểm" Foreground="#DDDDDD" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Bottom-Right Zoom Badge -->
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="14" CornerRadius="4"
+                                Background="#D91E2128" Padding="8,4">
+                            <TextBlock Text="{Binding ZoomText, ElementName=MapView}" Foreground="#A0A5B0" FontSize="10"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Optional KML Preview drawer (expandable) -->
+                <TextBox Grid.Row="2" Height="120" Margin="0,8,0,0" IsReadOnly="True" FontFamily="Consolas" FontSize="11"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="NoWrap"
+                         Text="{Binding KmlPreview, Mode=OneWay}"
+                         Visibility="{Binding ShowKmlPreview, Converter={x:Static view:BoolToVisibilityConverter.Instance}}"/>
             </Grid>
-            <TextBox Grid.Row="1" Height="160" Margin="0,8,0,0" IsReadOnly="True" FontFamily="Consolas" FontSize="11"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="NoWrap"
-                     Text="{Binding KmlPreview, Mode=OneWay}"
-                     Visibility="{Binding ShowKmlPreview, Converter={x:Static view:BoolToVisibilityConverter.Instance}}"/>
         </Grid>
 
-        <!-- Issues + status -->
-        <StackPanel Grid.Row="4" Margin="0,8,0,8">
-            <TextBlock Text="{Binding IssuesText}" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Warning}"
-                       Visibility="{Binding IssuesText, Converter={x:Static view:NonEmptyToVisibilityConverter.Instance}}"/>
-            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Margin="0,4,0,0"/>
-        </StackPanel>
+        <!-- 2. Actions Footer Bar -->
+        <DockPanel Grid.Row="1" Margin="0,12,0,0">
+            <!-- Left: Status / Issues message -->
+            <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,16,0">
+                <Border Background="#33E0B341" BorderBrush="{DynamicResource Brush.Warning}" BorderThickness="1" CornerRadius="4"
+                        Padding="10,5" Margin="0,0,0,4"
+                        Visibility="{Binding IssuesText, Converter={x:Static view:NonEmptyToVisibilityConverter.Instance}}">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="AlertCircleOutline" Width="15" Height="15" Foreground="{DynamicResource Brush.Warning}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding IssuesText}" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Warning}" FontSize="11" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <md:PackIcon Kind="InformationOutline" Width="14" Height="14" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBlock Text="{Binding Status}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Foreground="{DynamicResource Brush.TextMuted}" FontSize="11"/>
+                </StackPanel>
+            </StackPanel>
 
-        <!-- Buttons -->
-        <!-- Bottom: the satellite-imagery controls on the left, the export buttons on the right — two rows, so nothing clips at 1040 px. -->
-        <Grid Grid.Row="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,8">
-                <TextBlock Text="Ảnh vệ tinh:" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                <TextBox Width="48" Text="{Binding ImageResolutionText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" ToolTip="Độ phân giải mục tiêu (m/px) — nguồn Esri chỉ tới ~0.3 m/px"/>
-                <TextBlock Text="m/px · vùng ×" VerticalAlignment="Center" Margin="4,0,4,0"/>
-                <TextBox Width="36" Text="{Binding ImageAreaRatioText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" ToolTip="Vùng ảnh = bấy nhiêu lần diện tích khung ranh (10 = lô đất và xung quanh; 1 = vừa khít). Vùng quá rộng thì tự hạ độ phân giải để nằm trong giới hạn 4096 px"/>
-                <TextBlock Text="diện tích ranh" VerticalAlignment="Center" Margin="4,0,12,0"/>
-                <Button Content="Chèn ảnh vệ tinh vào CAD" Command="{Binding InsertImageCommand}" IsEnabled="{Binding CanExport}" Margin="0"
-                        ToolTip="HPGEOIMAGE: tải ảnh Esri World Imagery phủ toàn bộ điểm/ranh đã chọn và vùng xung quanh (mặc định ×10 diện tích), nắn lên lưới VN-2000 theo KTT ở trên và chèn làm RasterImage đúng toạ độ vào bản vẽ (layer HPGEO-IMAGE, một lần U gỡ hết). Hộp thoại đóng, tiến độ hiện ở dòng lệnh, Esc để huỷ."/>
+            <!-- Right: Action Buttons -->
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <!-- Google Earth Button -->
+                <Button Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding OpenGoogleEarthCommand}" IsEnabled="{Binding CanExport}"
+                        Height="36" MinWidth="125" Margin="0,0,8,0" Padding="12,0"
+                        Background="#0696D7" Foreground="White" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Earth" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Google Earth" FontSize="11" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Google Maps Button -->
+                <Button Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding OpenGoogleMapsCommand}" IsEnabled="{Binding CanExport}"
+                        Height="36" MinWidth="125" Margin="0,0,8,0" Padding="12,0"
+                        Background="#0696D7" Foreground="White" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="MapMarkerOutline" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Google Maps" FontSize="11" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Export KMZ Button -->
+                <Button Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"
+                        Height="36" MinWidth="110" Margin="0,0,8,0" Padding="12,0"
+                        Background="#00B4D8" Foreground="White" BorderThickness="0"
+                        ToolTip="Ghi file KMZ rồi mở ngay trong Google Earth Pro cài trên máy">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="FileExportOutline" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Xuất KMZ" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Reselect CAD Button -->
+                <Button Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding ReselectCadCommand}"
+                        Height="36" MinWidth="135" Margin="0" Padding="12,0"
+                        Background="#0696D7" Foreground="White" BorderThickness="0"
+                        ToolTip="Quét chọn lại các POINT hoặc LWPOLYLINE trên bản vẽ AutoCAD">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="VectorPolyline" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Chọn lại từ CAD" FontSize="11" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Xem KML" Command="{Binding ToggleKmlPreviewCommand}"/>
-                <Button Content="Xuất KMZ" Style="{StaticResource Button.Primary}" Command="{Binding ExportKmzCommand}" IsEnabled="{Binding CanExport}"
-                        ToolTip="Ghi file KMZ rồi mở ngay trong Google Earth Pro cài trên máy (không có thì theo liên kết .kmz của Windows)"/>
-                <Button Content="Mở Google Earth" Command="{Binding OpenGoogleEarthCommand}" IsEnabled="{Binding CanExport}"/>
-                <Button Content="Google Maps" Command="{Binding OpenGoogleMapsCommand}" IsEnabled="{Binding CanExport}"/>
-                <Button Content="Đóng" Command="{Binding CloseCommand}" Margin="0"/>
-            </StackPanel>
-        </Grid>
+        </DockPanel>
     </Grid>
 </Window>

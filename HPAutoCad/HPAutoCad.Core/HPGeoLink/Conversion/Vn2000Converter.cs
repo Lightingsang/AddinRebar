@@ -74,7 +74,16 @@ public sealed class Vn2000Converter
                 issues.Add(OutsideVietnam($"{b.Name} đỉnh {i + 1}", null, grid[i], wgs[i], meridianLabel));
                 break; // one message per boundary is enough to tell the user the setup is wrong
             }
-            convertedBoundaries.Add(new ConvertedBoundary(b, grid, wgs));
+
+            List<PlanePoint>? controlGrid = null;
+            List<GeoPoint>? controlWgs = null;
+            if (b.ControlVertices is { Count: > 0 })
+            {
+                controlGrid = b.ControlVertices.Select(v => new PlanePoint(v.Easting * scale, v.Northing * scale)).ToList();
+                controlWgs = controlGrid.Select(g => _transform.ToWgs84(g, options.Tm)).ToList();
+            }
+
+            convertedBoundaries.Add(new ConvertedBoundary(b, grid, wgs, controlGrid, controlWgs));
         }
 
         return new ConversionResult(convertedPoints, convertedBoundaries, issues, options);

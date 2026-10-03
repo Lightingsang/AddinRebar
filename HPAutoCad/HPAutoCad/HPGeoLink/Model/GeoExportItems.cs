@@ -1,9 +1,23 @@
 using HPAutoCad.Core.HPGeoLink.Catalog;
 using HPAutoCad.Core.HPGeoLink.Imagery;
+using HPAutoCad.Core.HPGeoLink.Kml;
 using HPAutoCad.Core.HPGeoLink.Projection;
 using HPAutoCad.Core.HPGeoLink.Units;
+using MaterialDesignThemes.Wpf;
 
 namespace HPAutoCad.HPGeoLink.Model;
+
+/// <summary>Presentation style of boundary vertex markers in Google Earth and preview map.</summary>
+public sealed record MarkerStyleItem(BoundaryMarkerStyle Style, string Label, PackIconKind IconKind = PackIconKind.TriangleOutline)
+{
+    public override string ToString() => Label;
+}
+
+/// <summary>Popup balloon template for boundary vertex in Google Earth and preview map.</summary>
+public sealed record PopupTemplateItem(BoundaryPopupTemplate Template, string Label, PackIconKind IconKind = PackIconKind.TableLarge)
+{
+    public override string ToString() => Label;
+}
 
 /// <summary>A province in the combo box.</summary>
 public sealed record ProvinceItem(Province Province)
@@ -36,7 +50,15 @@ public sealed record UnitItem(DrawingUnit Unit, bool FromDrawing)
 }
 
 /// <summary>One row of the preview table.</summary>
-public sealed record PreviewRow(string Label, string Easting, string Northing, string Lat, string Lon, string Note);
+public sealed record PreviewRow(
+    int Index,
+    string Label,
+    string ItemType,
+    string Easting,
+    string Northing,
+    string Lat,
+    string Lon,
+    string Note);
 
 /// <summary>
 /// What "Chèn ảnh vệ tinh vào CAD" hands back: the zone and unit the dialog shows, the resolution and the area

@@ -23,8 +23,17 @@ public sealed record KataStirrupZoneResult
     /// <summary>End station X along the beam axis in mm.</summary>
     public double EndStationX { get; init; }
 
-    /// <summary>Center-to-center spacing between stirrups in mm.</summary>
+    /// <summary>Center-to-center spacing between stirrups in mm, as placed (never more than <see cref="NominalSpacing"/>).</summary>
     public double Spacing { get; init; }
+
+    /// <summary>
+    /// The spacing the sheet asks for (G7 / G8 "a100"), written on the tags; the placed <see cref="Spacing"/> is that or a
+    /// little less, so the zone ends where Kata ends it. 0 = same as <see cref="Spacing"/>.
+    /// </summary>
+    public double NominalSpacing { get; init; }
+
+    /// <summary>The spacing written on the drawing: <see cref="NominalSpacing"/>, else <see cref="Spacing"/>.</summary>
+    public double LabelSpacing => NominalSpacing > 0.0 ? NominalSpacing : Spacing;
 
     /// <summary>Calculated number of stirrups placed in this zone.</summary>
     public int Count { get; init; }

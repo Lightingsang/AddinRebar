@@ -23,6 +23,11 @@
   <Project Path="HPAutoCad.McpBridge/HPAutoCad.McpBridge.csproj" />
   <Project Path="HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj" />
   <Project Path="HPAutoCad.Mcp.Server.Tests/HPAutoCad.Mcp.Server.Tests.csproj" />
+  <Folder Name="/Install/">
+    <Project Path="install/Installer.csproj">
+      <Build Project="false" />
+    </Project>
+  </Folder>
   <Folder Name="/Shared/">
     <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
     <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />

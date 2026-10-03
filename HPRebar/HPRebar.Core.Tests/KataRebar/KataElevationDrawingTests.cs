@@ -112,9 +112,8 @@ public sealed class KataElevationDrawingTests
     {
         var (d, layout) = DrawWithLayout(Dy7());
 
-        // Support faces as Kata's; each span split where its first zone ends and its last begins. Kata's zones end at
-        // 1850 4550 / 8200 11650 / 14400 15500, this layout's dense zones (face + 50 at a100 within L0/4) at its own.
-        Stations(new[] { 0.0, 450, 1800, 4600, 5950, 6450, 8100, 11750, 13400, 13850, 14400, 15500, 16050, 16250 }, Chain(d, 462.0), 0.5, "top chain");
+        // Support faces and each span split where its first zone ends and its last begins, all as Kata's.
+        Stations(new[] { 0.0, 450, 1850, 4550, 5950, 6450, 8200, 11650, 13400, 13850, 14400, 15500, 16050, 16250 }, Chain(d, 462.0), 0.5, "top chain");
         Assert.NotNull(layout);
         Stations(new[] { 0.0, 350, 450, 1350, 5050, 5950, 6350, 6450, 7600, 12250, 13400, 13750, 13850, 16050, 16150, 16250 }, Chain(d, -1050.0), 1.0, "bar-cut chain");
         Stations(new[] { 350.0, 6350, 13750, 16150 }, Chain(d, -1225.0), 0.5, "grid chain");
@@ -158,11 +157,10 @@ public sealed class KataElevationDrawingTests
     {
         var (d, layout) = DrawWithLayout(Dy7());
 
-        // Kata: 500 1850 2050 4350 4550 5900 | 6500 8200 8400 11450 11650 13350 | 13900 14400 14600 15300 15500 16000;
-        // drawn here are the first and last stirrups this layout places (its own zones).
+        var kata = new[] { 500.0, 1850, 2050, 4350, 4550, 5900, 6500, 8200, 8400, 11450, 11650, 13350, 13900, 14400, 14600, 15300, 15500, 16000 };
         var stirrups = d.Lines.Where(l => l.Pen == KataDrawingPen.Stirrup).ToList();
-        Assert.Equal(18, stirrups.Count);
-        Stations(FirstAndLastStirrups(layout), stirrups.Select(l => l.Points[0].X).OrderBy(x => x).ToList(), 0.5, "stirrups");
+        Stations(kata, stirrups.Select(l => l.Points[0].X).OrderBy(x => x).ToList(), 0.5, "stirrups");
+        Stations(FirstAndLastStirrups(layout), kata, 0.5, "layout");
         Assert.Equal(new[] { 500.0, 5900, 6500, 13350, 13900, 16000 }, new[] { 0, 5, 6, 11, 12, 17 }.Select(i => System.Math.Round(stirrups.OrderBy(l => l.Points[0].X).ElementAt(i).Points[0].X)));
         Assert.All(stirrups, l => Assert.Equal(-25.0, l.Points[0].Z));
         Assert.Equal(new[] { -475.0, -575.0, -325.0 }, stirrups.OrderBy(l => l.Points[0].X).Select(l => l.Points[1].Z).Distinct());
@@ -222,9 +220,12 @@ public sealed class KataElevationDrawingTests
             Chain(d, -1050.0), 1.0, "bar-cut chain");
         Stations(new[] { 350.0, 6350, 13750, 16150, 16600 }, Chain(d, -1225.0), 0.5, "grid chain");
         // Kata splits at 1900 4650 / 8200 11650 / 14400 15500 and leaves the 250 span whole (its two one-stirrup zones are one).
-        Stations(new[] { 0.0, 450, 1800, 4750, 6100, 6450, 8100, 11750, 13400, 13850, 14400, 15500, 16050, 16300, 16550, 16650 },
+        Stations(new[] { 0.0, 450, 1900, 4650, 6100, 6450, 8200, 11650, 13400, 13850, 14400, 15500, 16050, 16300, 16550, 16650 },
             Chain(d, 462.0), 0.5, "top chain");
         Assert.Contains(d.Lines, l => l.Pen == KataDrawingPen.Stirrup && System.Math.Abs(l.Points[0].X - 16350) < 1);
+        Assert.Contains(d.Lines, l => l.Pen == KataDrawingPen.Stirrup && System.Math.Abs(l.Points[0].X - 16500) < 1);
+        // That 250 span is dense from face to face: 16350, 16425, 16500 (a100 at most).
+        Assert.Equal(new[] { 16350.0, 16425.0, 16500.0 }, layout.StirrupZones.Where(z => z.SpanIndex == 3).SelectMany(z => z.Stations).OrderBy(x => x));
         Assert.Contains(d.Dims, x => x.Style == KataDimStyle.Run && System.Math.Abs(x.Value - 150) < 1);
         Assert.NotNull(layout);
         Assert.Equal("T2-DY14 (SL=1; L=16650)", d.Title!.Name);

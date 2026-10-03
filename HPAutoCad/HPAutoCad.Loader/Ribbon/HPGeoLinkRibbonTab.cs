@@ -60,6 +60,8 @@ internal static class HPGeoLinkRibbonTab
             if (ribbon is null) return;
             _building = true;
 
+            CadAddinManagerIntegrator.EnsureRibbonTab(ribbon);
+
             var tab = ribbon.FindTab(TabId);
             var createdTab = tab is null;
             if (tab is null)

@@ -55,29 +55,37 @@
             <_LoaderPdb Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
         </ItemGroup>
 
-        <!-- 1. Lock Probe: fail loudly if AutoCAD is currently running and holding DLL locks -->
-        <Delete Files="$(BundleDir)Contents\HPAutoCad.Loader.dll;$(BundleDir)Contents\HPAutoCad.McpBridge.Loader.dll;$(BundleDir)Contents\App\HPAutoCad.dll;$(BundleDir)Contents\Bridge\HPAutoCad.McpBridge.dll" ContinueOnError="false"/>
+        <!-- 1. Lock Probe: attempt to delete bundle files; continue if locked by running AutoCAD -->
+        <Delete Files="$(BundleDir)Contents\HPAutoCad.Loader.dll;$(BundleDir)Contents\HPAutoCad.McpBridge.Loader.dll;$(BundleDir)Contents\App\HPAutoCad.dll;$(BundleDir)Contents\Bridge\HPAutoCad.McpBridge.dll" ContinueOnError="true"/>
+
+        <!-- If AutoCAD is running, locked files will still exist -->
+        <PropertyGroup>
+            <_BundleFilesLocked Condition="Exists('$(BundleDir)Contents\App\HPAutoCad.dll') Or Exists('$(BundleDir)Contents\HPAutoCad.Loader.dll') Or Exists('$(BundleDir)Contents\Bridge\HPAutoCad.McpBridge.dll') Or Exists('$(BundleDir)Contents\HPAutoCad.McpBridge.Loader.dll')">true</_BundleFilesLocked>
+        </PropertyGroup>
+
+        <Warning Condition="'$(_BundleFilesLocked)' == 'true'"
+                 Text="AutoCAD is currently running and locking bundle files. Skipped deploying bundle to $(BundleDir). HPAutoCad.dll in bin\ is ready for CadAddinManager. Close AutoCAD to deploy bundle."/>
 
         <!-- 2. Clean up legacy separate bundles to prevent duplicate loading & pipe race conditions -->
-        <RemoveDir Directories="$(LegacyBridgeBundleDir)" Condition="Exists('$(LegacyBridgeBundleDir)')"/>
-        <RemoveDir Directories="$(LegacyGeoBundleDir)" Condition="Exists('$(LegacyGeoBundleDir)')"/>
+        <RemoveDir Directories="$(LegacyBridgeBundleDir)" Condition="'$(_BundleFilesLocked)' != 'true' And Exists('$(LegacyBridgeBundleDir)')"/>
+        <RemoveDir Directories="$(LegacyGeoBundleDir)" Condition="'$(_BundleFilesLocked)' != 'true' And Exists('$(LegacyGeoBundleDir)')"/>
 
         <!-- 3. Clean target subdirectories to eliminate stale assemblies -->
-        <RemoveDir Directories="$(BundleDir)Contents\App"/>
-        <RemoveDir Directories="$(BundleDir)Contents\Bridge"/>
+        <RemoveDir Directories="$(BundleDir)Contents\App" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <RemoveDir Directories="$(BundleDir)Contents\Bridge" Condition="'$(_BundleFilesLocked)' != 'true'"/>
 
         <!-- 4. Deploy Manifest & Loaders into Contents/ -->
-        <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)"/>
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\"/>
-        <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
-        <Copy SourceFiles="@(_BridgeLoaderDll)" DestinationFolder="$(BundleDir)Contents\"/>
-        <Copy SourceFiles="@(_BridgeLoaderPdb)" DestinationFolder="$(BundleDir)Contents\"/>
+        <Copy SourceFiles="@(_BundleManifest)" DestinationFolder="$(BundleDir)" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BundleDir)Contents\" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <Copy SourceFiles="@(_LoaderPdb)" DestinationFolder="$(BundleDir)Contents\" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <Copy SourceFiles="@(_BridgeLoaderDll)" DestinationFolder="$(BundleDir)Contents\" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <Copy SourceFiles="@(_BridgeLoaderPdb)" DestinationFolder="$(BundleDir)Contents\" Condition="'$(_BundleFilesLocked)' != 'true'"/>
 
         <!-- 5. Deploy Isolated Bridge & App payloads -->
-        <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')"/>
-        <Copy SourceFiles="@(_AppFiles)" DestinationFiles="@(_AppFiles->'$(BundleDir)Contents\App\%(RecursiveDir)%(Filename)%(Extension)')"/>
+        <Copy SourceFiles="@(_BridgeFiles)" DestinationFiles="@(_BridgeFiles->'$(BundleDir)Contents\Bridge\%(RecursiveDir)%(Filename)%(Extension)')" Condition="'$(_BundleFilesLocked)' != 'true'"/>
+        <Copy SourceFiles="@(_AppFiles)" DestinationFiles="@(_AppFiles->'$(BundleDir)Contents\App\%(RecursiveDir)%(Filename)%(Extension)')" Condition="'$(_BundleFilesLocked)' != 'true'"/>
 
-        <Message Importance="high" Text="HPAutoCad unified bundle successfully deployed to $(BundleDir)"/>
+        <Message Importance="high" Text="HPAutoCad unified bundle successfully deployed to $(BundleDir)" Condition="'$(_BundleFilesLocked)' != 'true'"/>
     </Target>
 
 </Project>

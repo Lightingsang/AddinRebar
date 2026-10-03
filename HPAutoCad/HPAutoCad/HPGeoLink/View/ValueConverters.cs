@@ -23,6 +23,15 @@ public sealed class BoolToVisibilityConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is Visibility.Visible;
 }
 
+public sealed class InverseBoolToVisibilityConverter : IValueConverter
+{
+    public static readonly InverseBoolToVisibilityConverter Instance = new();
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is true ? Visibility.Collapsed : Visibility.Visible;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is not Visibility.Visible;
+}
+
 public sealed class NonEmptyToVisibilityConverter : IValueConverter
 {
     public static readonly NonEmptyToVisibilityConverter Instance = new();
@@ -32,3 +41,32 @@ public sealed class NonEmptyToVisibilityConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
 }
+
+public sealed class KmlColorToBrushConverter : IValueConverter
+{
+    public static readonly KmlColorToBrushConverter Instance = new();
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string s && !string.IsNullOrWhiteSpace(s))
+        {
+            var hex = HPAutoCad.Core.HPGeoLink.Kml.KmlColor.KmlToRgbHex(s);
+            try
+            {
+                var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(hex);
+                var brush = new System.Windows.Media.SolidColorBrush(color);
+                brush.Freeze();
+                return brush;
+            }
+            catch
+            {
+                // Fallback
+            }
+        }
+        return System.Windows.Media.Brushes.Transparent;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        throw new NotSupportedException();
+}
+

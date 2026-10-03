@@ -81,6 +81,13 @@ internal static class DrawingReader
             closed = true;
         }
         var count = last + 1;
+        var controlVertices = new List<PlanePoint>(count);
+        for (var i = 0; i < count; i++)
+        {
+            var pt = polyline.GetPoint3dAt(i);
+            controlVertices.Add(new PlanePoint(pt.X, pt.Y));
+        }
+
         var segmentCount = closed ? count : count - 1;
         var flattened = new List<PlanePoint>();
         for (var i = 0; i < segmentCount; i++)
@@ -98,7 +105,7 @@ internal static class DrawingReader
             flattened.Add(new PlanePoint(end.X, end.Y));
         }
         var name = closed ? $"Boundary {ordinal}" : $"Line {ordinal}";
-        return new BoundaryPolyline(name, flattened, closed, Handle(polyline));
+        return new BoundaryPolyline(name, flattened, closed, Handle(polyline), controlVertices);
     }
 
     /// <summary>Interior chord points of segment <paramref name="i"/> in WCS, sampled to the tolerance.</summary>

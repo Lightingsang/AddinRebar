@@ -54,7 +54,7 @@ public static class KmlReader
         foreach (var placemark in root.Descendants().Where(e => e.Name.LocalName == "Placemark"))
         {
             var style = placemark.Elements().FirstOrDefault(e => e.Name.LocalName == "styleUrl")?.Value.Trim();
-            if (style == LabelStyleUrl) continue;
+            if (style == LabelStyleUrl || (style is not null && style.StartsWith("#bnd", StringComparison.Ordinal))) continue;
             var name = placemark.Elements().FirstOrDefault(e => e.Name.LocalName == "name")?.Value.Trim() ?? "";
             features.AddRange(ReadGeometry(placemark, name));
         }

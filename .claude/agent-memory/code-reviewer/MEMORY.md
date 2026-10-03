@@ -23,3 +23,6 @@
 - [Roslyn refuses pre-cancelled token](project-roslyn-script-refuses-precancelled-token.md) — RunAsync throws before running; bridges rely on it
 - [STJ Utf8JsonWriter never flushes mid-walk](project-stj-utf8jsonwriter-never-flushes-midwalk.md) — only Stream overloads flush; matters for result serializers
 - [Options binder pins computed defaults](project-options-binder-pins-computed-defaults.md) — `_x ?? Derive()` getters written back when a section has ≥1 key
+
+## Kata rebar (HPRebar.Core)
+- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows share group keys, tie wrap ignores bar Ø, J7 unbounded, DY7 probe recipe

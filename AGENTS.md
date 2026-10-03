@@ -446,7 +446,15 @@ Read `docs/system-architecture.md` for the full diagram, but note it describes t
 2. **Command pattern**: every button is a class deriving `ExternalCommand` (Nice3point.Revit.Toolkit) with `[Transaction(TransactionMode.Manual)]`. `Execute()` constructs ViewModel → View → `ShowDialog()`.
 3. **MVVM**: `sealed partial class XxxViewModel : ObservableObject`; `[ObservableProperty]` on private fields, `[RelayCommand]` on methods. Code-behind is `InitializeComponent()` + `DataContext = vm` only — never set DataContext in XAML, never put logic in `*.xaml.cs`.
 4. **Revit API access**: wrap every document mutation in `using var t = doc.NewTransaction("..."); t.Start(); ... t.Commit();`. Modeless windows must marshal API calls through `ExternalEvent` — the Revit API cannot be called from arbitrary threads.
-5. **Theme/styles**: every color, spacing and font-size goes through `{DynamicResource Brush.X}` / `{DynamicResource Spacing.X}` so the dark/light swap works. Hardcoded values break the runtime theme switch — see `/bs:revit-xaml-styles`.
+5. **Theme/styles (MANDATORY MaterialDesign)**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2):
+   - **Font**: Bắt buộc override `<FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>` (cấm dùng font Roboto mặc định của toolkit để tránh lỗi resolve Pack URI sau ILRepack).
+   - **Colors/Brushes**: Toàn bộ màu sắc và brush dùng `{DynamicResource Brush.X}` / `{DynamicResource ...}` để tự động đồng bộ theme Dark/Light theo host qua `MaterialThemeBridge`. Cấm tuyệt đối hardcode màu.
+   - **Containers**: Dùng `md:Card` hoặc `Card.Panel` phân tầng độ cao (elevation) thay cho Border phẳng trần.
+   - **Input controls**: Dạng Outlined với `md:HintAssist.Hint` nổi (floating hint).
+   - **Icons**: Dùng `md:PackIcon` nhất quán (16x16 / 20x20 / 24x24).
+   - **Tiered buttons**: Raised Primary Button cho hành động chính, Outlined Secondary Button cho hành động phụ, IconButton cho thao tác nhanh.
+   - **Đóng gói (ILRepack)**: Bắt buộc cấu hình `<IsRepackable>true</IsRepackable>` (Nice3point SDK) hoặc MSBuild target merge `MaterialDesignThemes.Wpf.dll` & `MaterialDesignColors.dll` (AutoCAD/Standalone) để không bị thiếu DLL lúc runtime.
+   - Chi tiết checklist và boilerplate code mẫu xem tại skill `/bs:revit-xaml-styles`.
 6. **Testing**: `Document` is sealed and cannot be mocked, so pure logic MUST live in a layer that never touches the Revit API to stay xUnit-testable. Framework decision tree is in `.agents/skills/revit-test/` — TUnit for in-process, xUnit for pure logic, ricaun-io `RevitTest` when the VS Test Adapter UI is required.
 
 ## Stale Documentation Warning

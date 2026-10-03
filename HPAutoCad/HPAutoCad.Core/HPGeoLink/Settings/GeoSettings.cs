@@ -23,6 +23,9 @@ public sealed record GeoSettings
     public KmlOutput Output { get; init; } = KmlOutput.Both;
     public string PointColor { get; init; } = KmlColor.DefaultPoint;
     public string LineColor { get; init; } = KmlColor.DefaultLine;
+    public bool ExportBoundaryVertices { get; init; } = true;
+    public BoundaryMarkerStyle BoundaryMarkerStyle { get; init; } = BoundaryMarkerStyle.Triangle;
+    public BoundaryPopupTemplate BoundaryPopupTemplate { get; init; } = BoundaryPopupTemplate.Cadastral;
     /// <summary>Last export folder (per user only).</summary>
     public string? ExportDirectory { get; init; }
     public string? SavedBy { get; init; }

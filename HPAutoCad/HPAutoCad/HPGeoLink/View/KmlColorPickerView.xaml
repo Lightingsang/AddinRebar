@@ -1,0 +1,80 @@
+<UserControl x:Class="HPAutoCad.HPGeoLink.View.KmlColorPickerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:view="clr-namespace:HPAutoCad.HPGeoLink.View"
+             x:Name="Root">
+    <Grid VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="38"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Swatch Button -->
+        <Button x:Name="SwatchButton" Grid.Column="0" Style="{x:Null}" Width="32" Height="36" MinWidth="0" MinHeight="0"
+                Margin="0,0,6,0" Padding="0" Cursor="Hand" Click="OnSwatchButtonClick"
+                ToolTip="Bấm để mở bảng 24 màu lựa chọn">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="4" Background="{DynamicResource Brush.Input}" Padding="3">
+                        <Border CornerRadius="3"
+                                Background="{Binding Color, ElementName=Root, Converter={x:Static view:KmlColorToBrushConverter.Instance}}"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <!-- Color Code TextBox (MaterialDesign Outlined) -->
+        <TextBox Grid.Column="1" Height="36" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                 Padding="8,6" FontSize="11" FontFamily="Consolas"
+                 Text="{Binding Color, ElementName=Root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 LostFocus="OnTextBoxLostFocus"
+                 VerticalAlignment="Center" ToolTip="Mã màu: KML (vd ff00ffff) hoặc HEX (vd #FF0000)"/>
+
+        <!-- Popup 24-Color Grid -->
+        <Popup x:Name="PalettePopup" StaysOpen="False" AllowsTransparency="True"
+               PlacementTarget="{Binding ElementName=SwatchButton}" Placement="Bottom">
+            <Border Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,4,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="3" Direction="270" Opacity="0.45"/>
+                </Border.Effect>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <md:PackIcon Kind="PaletteOutline" Width="16" Height="16" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="Bảng 24 màu lựa chọn" FontWeight="SemiBold" FontSize="11"
+                                   Foreground="{DynamicResource Brush.Text}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding Presets, ElementName=Root}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="6" Rows="4"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{x:Null}" Width="28" Height="24" MinWidth="0" MinHeight="0" Margin="2" Padding="0" Cursor="Hand"
+                                        Tag="{Binding}" Click="OnPresetClick"
+                                        ToolTip="{Binding ToolTipText}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="Bd" Background="{Binding HexRgb}" CornerRadius="3"
+                                                    BorderThickness="1" BorderBrush="#55888888">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="BorderBrush" Value="#FFFFFF"/>
+                                                    <Setter TargetName="Bd" Property="BorderThickness" Value="2"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

@@ -102,6 +102,6 @@ public static class KataSectionCuts
             .OrderBy(t => t, StringComparer.Ordinal);
         var hoop = Hoops(layout, span, x);
         var sets = Sets(layout, x).Select(s => s.BarNumber.ToString(CultureInfo.InvariantCulture)).Distinct().OrderBy(t => t, StringComparer.Ordinal);
-        return $"{R(spec.DepthOf(span))}|{R(spec.Width)}|{string.Join(";", bars)}|{hoop?.BarNumber}a{R(hoop?.Spacing ?? 0)}|{string.Join(",", sets)}";
+        return $"{R(spec.DepthOf(span))}|{R(spec.Width)}|{string.Join(";", bars)}|{hoop?.BarNumber}a{R(hoop?.LabelSpacing ?? 0)}|{string.Join(",", sets)}";
     }
 }

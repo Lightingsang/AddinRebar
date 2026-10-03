@@ -7,7 +7,16 @@ namespace HPAutoCad.Core.HPGeoLink.Conversion;
 public sealed record SurveyPoint(int Index, string Label, PlanePoint DrawingXY, string? SourceHandle = null);
 
 /// <summary>A boundary (polyline) read from the drawing, vertices in drawing units, arcs already flattened.</summary>
-public sealed record BoundaryPolyline(string Name, IReadOnlyList<PlanePoint> DrawingVertices, bool Closed, string? SourceHandle = null);
+public sealed record BoundaryPolyline(
+    string Name,
+    IReadOnlyList<PlanePoint> DrawingVertices,
+    bool Closed,
+    string? SourceHandle = null,
+    IReadOnlyList<PlanePoint>? ControlVertices = null)
+{
+    /// <summary>Original CAD control vertices; falls back to DrawingVertices if not provided.</summary>
+    public IReadOnlyList<PlanePoint> CadVertices => ControlVertices is { Count: > 0 } ? ControlVertices : DrawingVertices;
+}
 
 public enum IssueSeverity
 {
@@ -31,7 +40,16 @@ public sealed record ConversionOptions(TmParameters Tm, double MetersPerDrawingU
 
 public sealed record ConvertedPoint(SurveyPoint Source, PlanePoint GridM, GeoPoint Wgs84, string? Hint);
 
-public sealed record ConvertedBoundary(BoundaryPolyline Source, IReadOnlyList<PlanePoint> GridM, IReadOnlyList<GeoPoint> Wgs84);
+public sealed record ConvertedBoundary(
+    BoundaryPolyline Source,
+    IReadOnlyList<PlanePoint> GridM,
+    IReadOnlyList<GeoPoint> Wgs84,
+    IReadOnlyList<PlanePoint>? ControlGridM = null,
+    IReadOnlyList<GeoPoint>? ControlWgs84 = null)
+{
+    public IReadOnlyList<PlanePoint> CadGridM => ControlGridM is { Count: > 0 } ? ControlGridM : GridM;
+    public IReadOnlyList<GeoPoint> CadWgs84 => ControlWgs84 is { Count: > 0 } ? ControlWgs84 : Wgs84;
+}
 
 public sealed class ConversionResult
 {

@@ -67,6 +67,9 @@ internal static class DocumentSettingsStore
             Output = ParseOutputLenient(Str(values, "output")),
             PointColor = Str(values, "pcolor") ?? KmlColor.DefaultPoint,
             LineColor = Str(values, "lcolor") ?? KmlColor.DefaultLine,
+            ExportBoundaryVertices = Str(values, "bndExportVert") != "0",
+            BoundaryMarkerStyle = Enum.TryParse<BoundaryMarkerStyle>(Str(values, "bndMarkerStyle"), out var bms) ? bms : BoundaryMarkerStyle.Triangle,
+            BoundaryPopupTemplate = Enum.TryParse<BoundaryPopupTemplate>(Str(values, "bndPopupTpl"), out var bpt) ? bpt : BoundaryPopupTemplate.Cadastral,
             SavedBy = Str(values, "savedBy"),
             ImageryProvider = Str(values, "imgProvider"),
             ImageryResolutionMPerPx = Real(values, "imgRes"),
@@ -89,6 +92,9 @@ internal static class DocumentSettingsStore
             Key("output"), Text(settings.Output.ToString().ToLowerInvariant()),
             Key("pcolor"), Text(settings.PointColor),
             Key("lcolor"), Text(settings.LineColor),
+            Key("bndExportVert"), Text(settings.ExportBoundaryVertices ? "1" : "0"),
+            Key("bndMarkerStyle"), Text(settings.BoundaryMarkerStyle.ToString()),
+            Key("bndPopupTpl"), Text(settings.BoundaryPopupTemplate.ToString()),
             Key("savedBy"), Text("HPAutoCad " + Entry.Version + " " + DateTime.Now.ToString("yyyy-MM-dd HH:mm", ci)),
         };
         AddReal(items, "cm", settings.CentralMeridianDeg);

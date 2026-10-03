@@ -174,10 +174,6 @@
       "civil3d": "/// <summary>mm ↔ the Civil drawing unit (Meters or Feet from the drawing settings); INSUNITS only when Civil has no unit.</summary>"
     },
     {
-      "autocad": "Turned off again every time AutoCAD starts.",
-      "civil3d": "Turned off again every time Civil 3D starts."
-    },
-    {
       "autocad": "HPAutoCad.Mcp.Server",
       "civil3d": "HPCivil3d.Mcp.Server"
     },
@@ -346,7 +342,7 @@
     {
       "autocad": "HPAutoCad.McpBridge/BridgeEntry.cs",
       "civil3d": "HPCivil3d.McpBridge/Civil3dBridgeEntry.cs",
-      "autocadSha256": "d6ae4b3398e837433cecc4b5273ea00d470bb8af35d4e41dd3f12589e75c986f"
+      "autocadSha256": "e976f37e6d72e7a22f314de9afa169483aec73602b11869c5f4033ef6f2a3e49"
     },
     {
       "autocad": "HPAutoCad.McpBridge/Service/ScriptingSelfCheck.cs",

@@ -22,7 +22,6 @@
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="Text.Muted" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="Foreground" Value="{DynamicResource Brush.TextMuted}"/>
@@ -37,10 +36,49 @@
         <Setter Property="Margin" Value="0,0,0,4"/>
     </Style>
 
-    <!-- TextBox and ComboBox keep the toolkit's implicit styles: underlined fields whose popup and editor follow the theme. -->
+    <!-- Outlined Inputs: Standardized for compact, crisp display without vertical clipping -->
+    <Style x:Key="StandardTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10,6"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="md:HintAssist.IsFloating" Value="False"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+        <Setter Property="md:TextFieldAssist.UnderlineBrush" Value="{DynamicResource Brush.Accent}"/>
+    </Style>
+    <Style TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}"/>
+
+    <Style x:Key="StandardComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10,6"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="md:HintAssist.IsFloating" Value="False"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+        <Setter Property="md:TextFieldAssist.UnderlineBrush" Value="{DynamicResource Brush.Accent}"/>
+    </Style>
+    <Style TargetType="ComboBox" BasedOn="{StaticResource StandardComboBox}"/>
 
     <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
         <Setter Property="Margin" Value="0,0,16,0"/>
+    </Style>
+
+    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+        <Setter Property="Margin" Value="0,0,16,0"/>
+    </Style>
+
+    <Style x:Key="Card.Panel" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="Margin" Value="0,0,0,12"/>
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
@@ -71,8 +109,11 @@
         <Setter Property="Foreground" Value="{DynamicResource Brush.TextMuted}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
         <Setter Property="BorderThickness" Value="0,0,1,1"/>
-        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="MinHeight" Value="38"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
     <Style x:Key="DataGrid.Cell" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
         <Setter Property="BorderThickness" Value="0"/>
@@ -91,6 +132,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
         <Setter Property="RowBackground" Value="{DynamicResource Brush.Input}"/>
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource Brush.Surface}"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource Brush.Border}"/>
         <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource Brush.Border}"/>
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGrid.ColumnHeader}"/>

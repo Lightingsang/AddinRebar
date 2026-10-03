@@ -1,0 +1,22 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Theme.xaml — Master ResourceDictionary của Add-in.
+        Merge MaterialBridge.xaml đầu tiên, sau đó là ThemeDark.xaml (hoặc ThemeLight.xaml làm mặc định),
+        và các từ điển Spacing, Typography, v.v.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <!-- 1. Cầu nối MaterialDesign (BẮT BUỘC ĐẦU TIÊN) -->
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/MaterialBridge.xaml"/>
+
+        <!-- 2. Bảng mã màu mặc định (được MaterialThemeBridge tráo đổi runtime) -->
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/ThemeDark.xaml"/>
+
+        <!-- 3. Spacing & Typography mở rộng nếu cần -->
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/Spacing.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/Typography.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

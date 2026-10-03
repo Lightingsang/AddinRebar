@@ -146,10 +146,11 @@ public sealed class KataDy7DrawingTests
     {
         var zones = Layout().StirrupZones.Where(z => z.ZoneIndex == 0).ToDictionary(z => z.SpanIndex);
 
-        // a100 from 50: the last dense stirrup within 0.25 L of the face.
-        Assert.Equal(450 + 50 + 13 * 100, zones[0].EndStationX, 0);
-        Assert.Equal(6450 + 50 + 16 * 100, zones[1].EndStationX, 0);
-        Assert.Equal(13850 + 50 + 5 * 100, zones[2].EndStationX, 0);
+        // Kata: the last dense stirrup 0.25 L0 from the face, rounded up to 50 (1375 → 1400, 1737.5 → 1750, 550).
+        Assert.Equal(450 + 1400, zones[0].EndStationX, 0);
+        Assert.Equal(6450 + 1750, zones[1].EndStationX, 0);
+        Assert.Equal(13850 + 550, zones[2].EndStationX, 0);
+        Assert.Equal(new[] { 2050.0, 8400.0, 14600.0 }, Layout().StirrupZones.Where(z => z.ZoneIndex == 1).OrderBy(z => z.SpanIndex).Select(z => z.StartStationX).ToArray());
         // Each span's hoop is as deep as the span.
         Assert.Equal(new[] { 450.0, 550.0, 300.0 }, Layout().StirrupZones.Where(z => z.ZoneIndex == 0).OrderBy(z => z.SpanIndex).Select(z => z.OutToOutHeight).ToArray());
     }

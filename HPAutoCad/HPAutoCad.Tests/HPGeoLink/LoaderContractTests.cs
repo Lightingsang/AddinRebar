@@ -82,4 +82,60 @@ public sealed class LoaderContractTests
         Assert.True(dict.ContainsKey("import"));
         Assert.True(dict.ContainsKey("stop"));
     }
+
+    [Fact]
+    public void HPAutoCadCommands_declares_commands_for_CadAddinManager()
+    {
+        EnsureHostAssemblyResolver();
+        var cmdType = typeof(HPAutoCad.Commands.HPAutoCadCommands);
+        Assert.NotNull(cmdType);
+        Assert.True(cmdType.IsPublic && cmdType.IsSealed);
+
+        // Verify [CommandMethod] on methods using reflection data (discovered by CadAddinManager via Mono.Cecil)
+        var commandMethods = cmdType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .SelectMany(m => m.GetCustomAttributesData())
+            .Where(a => a.AttributeType.Name == "CommandMethodAttribute")
+            .Select(a => a.ConstructorArguments.FirstOrDefault().Value?.ToString())
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        // Core HPGeoLink commands
+        Assert.Contains("HPGEO", commandMethods);
+        Assert.Contains("HPGEODIALOG", commandMethods);
+        Assert.Contains("HPGEOIMPORT", commandMethods);
+        Assert.Contains("-HPGEOKMZ", commandMethods);
+        Assert.Contains("HPGEOKMZ", commandMethods);
+        Assert.Contains("-HPGEOIMPORT", commandMethods);
+        Assert.Contains("-HPGEOIMAGE", commandMethods);
+        Assert.Contains("HPGEOINFO", commandMethods);
+
+        // Core SmartPlot commands
+        Assert.Contains("HPSMARTPLOT", commandMethods);
+        Assert.Contains("HPLOT", commandMethods);
+    }
+
+    private static bool _resolverRegistered;
+    private static void EnsureHostAssemblyResolver()
+    {
+        if (_resolverRegistered) return;
+        _resolverRegistered = true;
+        AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
+        {
+            var name = new AssemblyName(args.Name).Name;
+            if (name is "accoremgd" or "acdbmgd" or "acmgd")
+            {
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var candidateCore = Path.Combine(userProfile, ".nuget", "packages", "autocad.net.core", "25.1.0", "lib", "net8.0", name + ".dll");
+                if (File.Exists(candidateCore)) return Assembly.LoadFrom(candidateCore);
+
+                var candidateModel = Path.Combine(userProfile, ".nuget", "packages", "autocad.net.model", "25.1.0", "lib", "net8.0", name + ".dll");
+                if (File.Exists(candidateModel)) return Assembly.LoadFrom(candidateModel);
+
+                var candidateNet = Path.Combine(userProfile, ".nuget", "packages", "autocad.net", "25.1.0", "lib", "net8.0", name + ".dll");
+                if (File.Exists(candidateNet)) return Assembly.LoadFrom(candidateNet);
+            }
+            return null;
+        };
+    }
 }
+

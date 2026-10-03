@@ -147,6 +147,22 @@ public sealed class GeoExportViewModelTests
     }
 
     [Fact]
+    public void Hex_colour_is_accepted_and_synced_to_map_data_and_settings()
+    {
+        var vm = Create();
+        vm.PointColor = "#FF69B4"; // Hong
+        vm.LineColor = "#00FF00";  // Xanh la
+        Assert.True(vm.CanExport);
+        Assert.Contains("\"pointColor\":\"#FF69B4\"", vm.MapDataJson);
+        Assert.Contains("\"lineColor\":\"#00FF00\"", vm.MapDataJson);
+
+        var settings = vm.ToSettings();
+        Assert.Equal("ffb469ff", settings.PointColor);
+        Assert.Equal("ff00ff00", settings.LineColor);
+    }
+
+
+    [Fact]
     public void Export_writes_the_kmz_and_google_earth_opens_it()
     {
         var path = Path.Combine(Path.GetTempPath(), $"hpgeo-vm-{Guid.NewGuid():N}.kmz");
@@ -194,7 +210,7 @@ public sealed class GeoExportViewModelTests
         Assert.True(vm.ShowKmlPreview);
         Assert.Contains("<Style id=\"ptVectorStyle\">", vm.KmlPreview);
         vm.LineColor = "ff00ff00";
-        Assert.Contains("<color>ff00ff00</color><width>1.6</width>", vm.KmlPreview);
+        Assert.Contains("<color>ff00ff00</color><width>3.5</width>", vm.KmlPreview);
         vm.CloseCommand.Execute(null); // no subscriber: must not throw
     }
 
@@ -255,5 +271,333 @@ public sealed class GeoExportViewModelTests
         Assert.Null(vm.ImageChoice);
         Assert.Contains("hệ toạ độ", vm.Status);
         Assert.Equal(0, closed);
+    }
+
+    [Fact]
+    public void Preview_rows_include_boundary_vertices_with_index_and_item_type()
+    {
+        var ring = new BoundaryPolyline("Ranh thửa", new[]
+        {
+            new PlanePoint(600102.308, 1231385.196),
+            new PlanePoint(600185.982, 1231422.961),
+            new PlanePoint(600138.509, 1231379.42),
+        }, true, "101");
+
+        var vm = new GeoExportViewModel(Samples, new[] { ring }, "Site plan", null, DrawingUnit.Meters, new FakeShell());
+
+        // 3 survey points + 3 boundary vertices = 6 preview rows
+        Assert.Equal(6, vm.Preview.Count);
+
+        // Point checks
+        Assert.Equal(1, vm.Preview[0].Index);
+        Assert.Equal("1", vm.Preview[0].Label);
+        Assert.Equal("Điểm", vm.Preview[0].ItemType);
+
+        Assert.Equal(3, vm.Preview[2].Index);
+        Assert.Equal("3", vm.Preview[2].Label);
+        Assert.Equal("Điểm", vm.Preview[2].ItemType);
+
+        // Boundary vertex checks (single boundary -> P1, P2, P3)
+        Assert.Equal(4, vm.Preview[3].Index);
+        Assert.Equal("P1", vm.Preview[3].Label);
+        Assert.Equal("Đỉnh ranh", vm.Preview[3].ItemType);
+        Assert.Equal("600102.308", vm.Preview[3].Easting);
+        Assert.Contains("Ranh thửa", vm.Preview[3].Note);
+
+        Assert.Equal(5, vm.Preview[4].Index);
+        Assert.Equal("P2", vm.Preview[4].Label);
+        Assert.Equal("Đỉnh ranh", vm.Preview[4].ItemType);
+
+        Assert.Equal(6, vm.Preview[5].Index);
+        Assert.Equal("P3", vm.Preview[5].Label);
+        Assert.Equal("Đỉnh ranh", vm.Preview[5].ItemType);
+    }
+
+    [Fact]
+    public void UpdateObjects_refreshes_summary_and_recomputes_preview()
+    {
+        var vm = Create();
+        Assert.Equal(3, vm.Preview.Count);
+        Assert.Contains("3 POINT", vm.SourceSummary);
+
+        var newPoints = new[] { new SurveyPoint(1, "P1", new PlanePoint(600000, 1200000)) };
+        var newRing = new BoundaryPolyline("Ranh A", new[]
+        {
+            new PlanePoint(600000, 1200000),
+            new PlanePoint(600100, 1200000)
+        }, false);
+
+        vm.UpdateObjects(newPoints, new[] { newRing }, "NewPlan");
+        Assert.Equal("NewPlan", vm.FileName);
+        Assert.Contains("1 POINT", vm.SourceSummary);
+        Assert.Contains("1 LWPOLYLINE", vm.SourceSummary);
+        // 1 point + 2 vertices = 3 preview rows
+        Assert.Equal(3, vm.Preview.Count);
+        Assert.Equal("P1", vm.Preview[0].Label);
+        Assert.Equal("P1", vm.Preview[1].Label);
+        Assert.Equal("P2", vm.Preview[2].Label);
+    }
+
+    [Fact]
+    public void Boundary_vertex_export_options_defaults_and_selection_work()
+    {
+        var vm = Create();
+        Assert.True(vm.ExportBoundaryVertices);
+        Assert.Equal(4, vm.MarkerStyles.Count);
+        Assert.Equal(3, vm.PopupTemplates.Count);
+        Assert.Equal(BoundaryMarkerStyle.Triangle, vm.SelectedMarkerStyleItem.Style);
+        Assert.Equal(BoundaryPopupTemplate.Cadastral, vm.SelectedPopupTemplateItem.Template);
+
+        vm.SelectedMarkerStyleItem = vm.MarkerStyles.Single(m => m.Style == BoundaryMarkerStyle.Pushpin);
+        vm.SelectedPopupTemplateItem = vm.PopupTemplates.Single(t => t.Template == BoundaryPopupTemplate.Technical);
+        vm.ExportBoundaryVertices = false;
+
+        var settings = vm.ToSettings();
+        Assert.False(settings.ExportBoundaryVertices);
+        Assert.Equal(BoundaryMarkerStyle.Pushpin, settings.BoundaryMarkerStyle);
+        Assert.Equal(BoundaryPopupTemplate.Technical, settings.BoundaryPopupTemplate);
+    }
+
+    [Fact]
+    public void Boundary_vertex_export_options_roundtrip_through_settings()
+    {
+        var vm = Create();
+        var customSettings = new GeoSettings
+        {
+            ExportBoundaryVertices = true,
+            BoundaryMarkerStyle = BoundaryMarkerStyle.Circle,
+            BoundaryPopupTemplate = BoundaryPopupTemplate.Simple,
+        };
+
+        vm.ApplySettings(customSettings);
+        Assert.True(vm.ExportBoundaryVertices);
+        Assert.Equal(BoundaryMarkerStyle.Circle, vm.SelectedMarkerStyleItem.Style);
+        Assert.Equal(BoundaryPopupTemplate.Simple, vm.SelectedPopupTemplateItem.Template);
+
+        var exportedSettings = vm.ToSettings();
+        Assert.True(exportedSettings.ExportBoundaryVertices);
+        Assert.Equal(BoundaryMarkerStyle.Circle, exportedSettings.BoundaryMarkerStyle);
+        Assert.Equal(BoundaryPopupTemplate.Simple, exportedSettings.BoundaryPopupTemplate);
+    }
+
+    [Fact]
+    public void Export_with_real_autocad_RanhDat_boundary_succeeds()
+    {
+        var vertices = new[]
+        {
+            new PlanePoint(598355.642, 1232218.801),
+            new PlanePoint(598230.823, 1232219.709),
+            new PlanePoint(598222.492, 1232216.017),
+            new PlanePoint(598139.273, 1232122.880),
+            new PlanePoint(598128.517, 1232095.101),
+            new PlanePoint(598128.462, 1232089.451),
+            new PlanePoint(598133.414, 1232084.415),
+            new PlanePoint(598354.652, 1232082.805),
+        };
+        var ranhDat = new BoundaryPolyline("RanhDat", vertices, true, "2B61C8");
+        var shell = new FakeShell();
+        var vm = new GeoExportViewModel(
+            Array.Empty<SurveyPoint>(),
+            new[] { ranhDat },
+            "THCPHCS2-HPC-TDVN2000-XX-XX-DR-0001",
+            @"F:\1-CONG VIEC\03-HPCDE\12-TRUONG TIEU HOC CHANH PHU HOA CO SO 2\01_WIP\01_ARC\02_Consumed-Data",
+            DrawingUnit.Meters,
+            shell);
+
+        Assert.True(vm.CanExport);
+        Assert.Equal(8, vm.Preview.Count);
+        Assert.Equal("P1", vm.Preview[0].Label);
+        Assert.Equal("P8", vm.Preview[7].Label);
+        Assert.Equal("598355.642", vm.Preview[0].Easting);
+        Assert.Equal("1232218.801", vm.Preview[0].Northing);
+        Assert.Equal(1, vm.Preview[0].Index);
+        Assert.Equal(8, vm.Preview[7].Index);
+
+        var tempKmz = Path.Combine(Path.GetTempPath(), $"ranhdat_test_{Guid.NewGuid():N}.kmz");
+        shell.SavePath = tempKmz;
+        vm.ExportKmzCommand.Execute(null);
+
+        Assert.True(File.Exists(tempKmz));
+        Assert.Contains(tempKmz, shell.Opened);
+        File.Delete(tempKmz);
+    }
+
+    [Fact]
+    public void MapDataJson_includes_boundary_vertices_marker_style_and_popup_html()
+    {
+        var vertices = new[]
+        {
+            new PlanePoint(598355.642, 1232218.801),
+            new PlanePoint(598230.823, 1232219.709),
+            new PlanePoint(598222.492, 1232216.017),
+        };
+        var ranhDat = new BoundaryPolyline("RanhDat", vertices, true, "2B61C8");
+        var vm = new GeoExportViewModel(
+            Array.Empty<SurveyPoint>(),
+            new[] { ranhDat },
+            "BoundaryTest",
+            null,
+            DrawingUnit.Meters,
+            new FakeShell());
+
+        Assert.True(vm.ExportBoundaryVertices);
+        Assert.Contains("\"exportBoundaryVertices\":true", vm.MapDataJson);
+        Assert.Contains("\"markerStyle\":\"triangle\"", vm.MapDataJson);
+        Assert.Contains("\"label\":\"P1\"", vm.MapDataJson);
+        Assert.Contains("\"easting\":598355.642", vm.MapDataJson);
+        Assert.Contains("\"northing\":1232218.801", vm.MapDataJson);
+        Assert.Contains("\"segmentLength\":", vm.MapDataJson);
+        Assert.Contains("\"nextLabel\":\"P2\"", vm.MapDataJson);
+        Assert.Contains("\"popupHtml\":", vm.MapDataJson);
+        // Default cadastral template includes table and headers
+        Assert.Contains("THÔNG TIN ĐỈNH RANH: P1", vm.MapDataJson);
+
+        // Toggle marker styles
+        vm.SelectedMarkerStyleItem = vm.MarkerStyles.Single(m => m.Style == BoundaryMarkerStyle.Pushpin);
+        Assert.Contains("\"markerStyle\":\"pushpin\"", vm.MapDataJson);
+
+        vm.SelectedMarkerStyleItem = vm.MarkerStyles.Single(m => m.Style == BoundaryMarkerStyle.Circle);
+        Assert.Contains("\"markerStyle\":\"circle\"", vm.MapDataJson);
+
+        vm.SelectedMarkerStyleItem = vm.MarkerStyles.Single(m => m.Style == BoundaryMarkerStyle.LabelOnly);
+        Assert.Contains("\"markerStyle\":\"labelOnly\"", vm.MapDataJson);
+
+        // Toggle popup templates
+        vm.SelectedPopupTemplateItem = vm.PopupTemplates.Single(t => t.Template == BoundaryPopupTemplate.Technical);
+        Assert.Contains("MỐC RANH: P1", vm.MapDataJson);
+
+        vm.SelectedPopupTemplateItem = vm.PopupTemplates.Single(t => t.Template == BoundaryPopupTemplate.Simple);
+        Assert.Contains("Đỉnh ranh: P1", vm.MapDataJson);
+
+        // Toggle export boundary vertices off
+        vm.ExportBoundaryVertices = false;
+        Assert.Contains("\"exportBoundaryVertices\":false", vm.MapDataJson);
+    }
+
+    [Fact]
+    public void MarkerStyleItem_and_PopupTemplateItem_have_icon_kinds_configured()
+    {
+        var vm = Create();
+        Assert.NotEmpty(vm.MarkerStyles);
+        foreach (var m in vm.MarkerStyles)
+        {
+            Assert.False(string.IsNullOrEmpty(m.Label));
+            Assert.True(Enum.IsDefined(typeof(BoundaryMarkerStyle), m.Style));
+        }
+
+        Assert.NotEmpty(vm.PopupTemplates);
+        foreach (var p in vm.PopupTemplates)
+        {
+            Assert.False(string.IsNullOrEmpty(p.Label));
+            Assert.True(Enum.IsDefined(typeof(BoundaryPopupTemplate), p.Template));
+        }
+    }
+
+    [Fact]
+    public void Boundary_with_arc_tessellation_exports_only_cad_control_vertices_as_markers_while_preserving_smooth_boundary_polygon()
+    {
+        // 4 CAD control vertices
+        var controlVertices = new[]
+        {
+            new PlanePoint(598000, 1232000),
+            new PlanePoint(598100, 1232000),
+            new PlanePoint(598100, 1232100),
+            new PlanePoint(598000, 1232100),
+        };
+        // 20 tessellated drawing vertices (e.g. arc between vertex 1 and 2)
+        var drawingVertices = new List<PlanePoint>
+        {
+            controlVertices[0],
+            controlVertices[1],
+        };
+        for (int i = 1; i <= 16; i++)
+        {
+            drawingVertices.Add(new PlanePoint(598100 + i, 1232000 + i * 5));
+        }
+        drawingVertices.Add(controlVertices[2]);
+        drawingVertices.Add(controlVertices[3]);
+
+        var poly = new BoundaryPolyline("RanhCong", drawingVertices, Closed: true, SourceHandle: "TEST", ControlVertices: controlVertices);
+        var vm = new GeoExportViewModel(
+            Array.Empty<SurveyPoint>(),
+            new[] { poly },
+            "ArcBoundaryTest",
+            null,
+            DrawingUnit.Meters,
+            new FakeShell());
+
+        // Preview table must only contain the 4 CAD control vertices P1..P4
+        Assert.Equal(4, vm.Preview.Count);
+        Assert.Equal("P1", vm.Preview[0].Label);
+        Assert.Equal("P2", vm.Preview[1].Label);
+        Assert.Equal("P3", vm.Preview[2].Label);
+        Assert.Equal("P4", vm.Preview[3].Label);
+
+        // MapDataJson must contain 4 boundaryVertices (for markers) but drawingVertices count for boundary line
+        Assert.Contains("\"label\":\"P1\"", vm.MapDataJson);
+        Assert.Contains("\"label\":\"P4\"", vm.MapDataJson);
+        Assert.DoesNotContain("\"label\":\"P5\"", vm.MapDataJson);
+
+        // KMZ export via KmlDocumentBuilder: exactly 4 markers (P1..P4)
+        var kmlBuilt = KmlDocumentBuilder.Build(vm.LastConversion!, new KmlExportOptions("ArcKml")
+        {
+            ExportBoundaryVertices = true,
+            MarkerStyle = BoundaryMarkerStyle.Triangle,
+        });
+        Assert.Equal(4, kmlBuilt.VertexCount);
+    }
+
+    [Fact]
+    public void ToggleMapFullscreen_switches_state_and_button_properties()
+    {
+        var vm = Create();
+        Assert.False(vm.IsMapFullscreen);
+        Assert.Equal("Toàn màn hình", vm.MapFullscreenButtonText);
+        Assert.Equal("Fullscreen", vm.MapFullscreenButtonIcon);
+        Assert.Equal("Mở rộng bản đồ toàn màn hình", vm.MapFullscreenButtonTooltip);
+
+        vm.ToggleMapFullscreenCommand.Execute(null);
+        Assert.True(vm.IsMapFullscreen);
+        Assert.Equal("Thu gọn", vm.MapFullscreenButtonText);
+        Assert.Equal("FullscreenExit", vm.MapFullscreenButtonIcon);
+        Assert.Equal("Thu gọn bản đồ về bố cục 2 cột", vm.MapFullscreenButtonTooltip);
+
+        vm.ToggleMapFullscreenCommand.Execute(null);
+        Assert.False(vm.IsMapFullscreen);
+        Assert.Equal("Toàn màn hình", vm.MapFullscreenButtonText);
+        Assert.Equal("Fullscreen", vm.MapFullscreenButtonIcon);
+    }
+
+    [Fact]
+    public void Output_mode_filters_map_data_and_summary_badge()
+    {
+        var poly = new BoundaryPolyline("Ranh", new[] { new PlanePoint(600100, 1231000), new PlanePoint(600200, 1231000), new PlanePoint(600150, 1231100) }, Closed: true);
+        var vm = new GeoExportViewModel(Samples, new[] { poly }, "Site plan", null, DrawingUnit.Meters, new FakeShell());
+
+        // Default: Both
+        Assert.True(vm.OutputBoth);
+        Assert.Contains("\"points\":[", vm.MapDataJson);
+        Assert.Contains("\"boundaries\":[", vm.MapDataJson);
+        Assert.Contains("\"boundaryVertices\":[", vm.MapDataJson);
+
+        // Switch to Points only
+        vm.OutputPoints = true;
+        Assert.Contains("\"points\":[", vm.MapDataJson);
+        Assert.Contains("\"boundaryVertices\":[", vm.MapDataJson);
+        Assert.Contains("\"boundaries\":[]", vm.MapDataJson);
+        Assert.StartsWith("Điểm ·", vm.MapSummaryBadge);
+
+        // Switch to Boundaries only
+        vm.OutputBoundaries = true;
+        Assert.Contains("\"points\":[]", vm.MapDataJson);
+        Assert.Contains("\"boundaryVertices\":[]", vm.MapDataJson);
+        Assert.Contains("\"boundaries\":[{", vm.MapDataJson);
+        Assert.StartsWith("Ranh đất ·", vm.MapSummaryBadge);
+
+        // Switch back to Both
+        vm.OutputBoth = true;
+        Assert.Contains("\"points\":[", vm.MapDataJson);
+        Assert.Contains("\"boundaries\":[{", vm.MapDataJson);
+        Assert.Contains("\"boundaryVertices\":[", vm.MapDataJson);
     }
 }

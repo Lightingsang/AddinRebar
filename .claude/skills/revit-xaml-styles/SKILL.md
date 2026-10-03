@@ -1,183 +1,133 @@
 ---
 name: revit-xaml-styles
-description: "Chuẩn hóa XAML styles cho Revit Add-In WPF — Theme.xaml + ThemeDark/ThemeLight với DynamicResource (switch runtime). Bao gồm bảng màu match Revit UI, typography Segoe UI, Buttons (Primary/Secondary/Icon/Danger), TextBoxes (Standard/Number/Search), Cards, Spacing tokens (4/8/16/24/32). TRIGGER when: viết/sửa file .xaml, task chứa 'style', 'theme', 'color', 'button style', 'dark mode', 'wpf style', hoặc cần copy ResourceDictionary templates. Khi bắt đầu project mới cần Theme.xaml, hoặc khi viết/sửa style XAML trong add-in. Keywords: xaml, wpf, style, theme, resourcedictionary, dark, light, dynamicresource."
+description: "Chuẩn hóa XAML styles và Material Design cho mọi Add-In WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) — BẮT BUỘC sử dụng MaterialDesignInXamlToolkit (v5.2.1 hoặc v5.3.2). Bao gồm MaterialBridge.xaml, Theme.xaml, MaterialThemeBridge.cs (switch Dark/Light runtime theo host), font Segoe UI (cấm Roboto), md:Card, Outlined inputs, md:PackIcon, phân cấp Button và cấu hình ILRepack. TRIGGER when: tạo/sửa file .xaml, task chứa 'style', 'theme', 'material design', 'wpf', 'button style', 'dark mode', hoặc khi xây dựng một addin/window WPF mới."
 user-invocable: true
-when_to_use: "Khi bắt đầu project mới cần Theme.xaml, hoặc khi viết/sửa style XAML trong add-in."
+when_to_use: "Khi bắt đầu một add-in mới có UI WPF, hoặc khi tạo/sửa đổi cửa sổ Window, UserControl, style XAML trong toàn bộ repo."
 category: revit
-keywords: [xaml, wpf, style, theme, resourcedictionary, dark, light, dynamicresource]
+keywords: [xaml, wpf, style, theme, material-design, materialdesigninxamltoolkit, resourcedictionary, dark, light, dynamicresource, packicon, ilrepack]
 metadata:
   author: hoang
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
+# WPF XAML Styles & Material Design Standard
 
-# Revit XAML Styles — Theme.xaml Standard
+> **QUY TẮC BẮT BUỘC CỦA TOÀN REPO:**
+> Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, SAP2000, Robot, Tekla, các standalone bridge...) **BẮT BUỘC 100% SỬ DỤNG `MaterialDesignInXamlToolkit`** (phiên bản `5.2.1` hoặc `5.3.2`).
 
-Bộ chuẩn ResourceDictionary cho mọi add-in WPF — đảm bảo UI nhất quán + switch dark/light runtime.
+---
 
-## Cấu trúc Resources/Themes/
+## 1. Cấu trúc thư mục chuẩn `Resources/Themes/`
+
+Mọi project WPF add-in phải tổ chức tài nguyên giao diện tập trung tại thư mục `Resources/Themes/` ở project root:
 
 ```
 Resources/Themes/
-├── Theme.xaml              ← Master, merge tất cả
-├── ThemeDark.xaml          ← Color tokens dark
-├── ThemeLight.xaml         ← Color tokens light
-├── Typography.xaml         ← Font + TextBlock styles
-├── Spacing.xaml            ← Thickness tokens (4/8/16/24/32)
-├── Buttons.xaml            ← Primary/Secondary/Icon/Danger buttons
-├── TextBoxes.xaml          ← Standard/Number/Search textboxes
-└── Controls.xaml           ← Card/Separator/Badge/Tag
+├── Theme.xaml              ← Master Theme, merge MaterialBridge.xaml đầu tiên
+├── MaterialBridge.xaml     ← Cầu nối MaterialDesign + CustomColorTheme + override Segoe UI
+├── MaterialThemeBridge.cs  ← C# static helper đồng bộ theme Dark/Light theo Host CAD/BIM
+├── ThemeDark.xaml          ← Color tokens chế độ Tối (Dark)
+├── ThemeLight.xaml         ← Color tokens chế độ Sáng (Light)
+├── Typography.xaml         ← Font sizes & TextBlock styles
+└── Spacing.xaml            ← Spacing tokens (4/8/16/24/32)
 ```
 
-## Master Theme.xaml
+---
 
+## 2. Bảy nguyên tắc vàng bắt buộc (Core Rules)
+
+### 1. Font chữ: BẮT BUỘC override `Segoe UI` (CẤM Roboto)
+Thư viện `MaterialDesignThemes` mặc định dùng font `Roboto` qua Pack URI. Khi add-in được đóng gói bằng **ILRepack** (bắt buộc cho CAD/BIM), Pack URI của Roboto không thể giải quyết và gây crash hoặc lỗi layout.
+Trong `MaterialBridge.xaml`, bắt buộc ghi đè:
 ```xml
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+```
+Toàn bộ cửa sổ và điều khiển phải sử dụng font hệ thống chuẩn `Segoe UI`.
+
+### 2. Thứ tự merge trong Master `Theme.xaml`
+`MaterialBridge.xaml` phải được merge ở **vị trí đầu tiên** để các control nhận style Material Design mặc định. Sau đó mới đến `ThemeDark.xaml` / `ThemeLight.xaml` và các từ điển phụ trợ:
+```xml
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <!-- Default theme = Dark (match Revit 2024+) -->
-        <ResourceDictionary Source="ThemeDark.xaml" x:Key="ColorTheme"/>
-        <ResourceDictionary Source="Typography.xaml"/>
-        <ResourceDictionary Source="Spacing.xaml"/>
-        <ResourceDictionary Source="Buttons.xaml"/>
-        <ResourceDictionary Source="TextBoxes.xaml"/>
-        <ResourceDictionary Source="Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/MaterialBridge.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/ThemeDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/Spacing.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MyAddIn;component/Resources/Themes/Typography.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
 ```
 
-## Switch theme runtime
+### 3. Đồng bộ Theme Dark / Light qua `{DynamicResource}`
+- **Tuyệt đối KHÔNG hardcode màu** (`Background="#1E1E1E"`).
+- **Tuyệt đối KHÔNG dùng `{StaticResource ...}` cho Color hoặc Brush** (sẽ làm mất khả năng đổi theme runtime).
+- Mọi thuộc tính màu sắc phải bind qua `{DynamicResource Brush.Background}`, `{DynamicResource Brush.Surface}`, `{DynamicResource Brush.Foreground.Primary}`, `{DynamicResource Brush.Accent}`.
+- Trong code-behind của Window, kết nối với phần mềm chủ qua `MaterialThemeBridge.Attach(this, hostTheme)` hoặc `MaterialThemeBridge.Apply(this, isDark)`.
 
-`Services/ThemeService.cs`:
-
-```csharp
-public sealed class ThemeService : IThemeService
-{
-    private const string ThemeKey = "ColorTheme";
-
-    public void Apply(AppTheme theme)
-    {
-        var uri = theme switch
-        {
-            AppTheme.Dark  => new Uri("pabs://application:,,,/MyAddIn;component/Resources/Themes/ThemeDark.xaml"),
-            AppTheme.Light => new Uri("pabs://application:,,,/MyAddIn;component/Resources/Themes/ThemeLight.xaml"),
-            _              => throw new ArgumentOutOfRangeException(nameof(theme))
-        };
-
-        var dict = new ResourceDictionary { Source = uri };
-        var merged = Application.Current.Resources.MergedDictionaries;
-
-        // Tìm + replace ColorTheme dictionary
-        for (var i = 0; i < merged.Count; i++)
-        {
-            if (merged[i].Source?.OriginalString.Contains("Theme") == true &&
-                (merged[i].Source.OriginalString.Contains("Dark") || merged[i].Source.OriginalString.Contains("Light")))
-            {
-                merged[i] = dict;
-                return;
-            }
-        }
-        merged.Add(dict);
-    }
-}
-
-public enum AppTheme { Dark, Light }
+### 4. Bố cục Card phân tầng (`md:Card` / `Card.Panel`)
+- Không để các trường nhập liệu trôi nổi trên nền phẳng không phân cách.
+- Gom nhóm các nhóm tính năng hoặc section vào các khối Card với độ sâu (elevation):
+```xml
+<Border Style="{StaticResource Card.Panel}" Margin="{DynamicResource Margin.Section}">
+    <StackPanel>
+        <!-- Tiêu đề Section có Icon -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <md:PackIcon Kind="MapMarkerRadiusOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+            <TextBlock Text="Hệ tọa độ VN-2000" Style="{StaticResource Text.Section}" Margin="8,0,0,0"/>
+        </StackPanel>
+        <!-- Nội dung control -->
+    </StackPanel>
+</Border>
 ```
 
-Mọi style dùng `{DynamicResource ...}` → tự refresh khi swap.
+### 5. Input Controls: Dạng Outlined có Floating Hint
+Mọi `TextBox` và `ComboBox` nên kế thừa style Outlined để có giao diện hiện đại, rõ ràng:
+- `Style="{StaticResource MaterialDesignOutlinedTextBox}"` hoặc `Style="{StaticResource StandardTextBox}"`
+- `Style="{StaticResource MaterialDesignOutlinedComboBox}"` hoặc `Style="{StaticResource StandardComboBox}"`
+- Sử dụng thuộc tính `md:HintAssist.Hint="Tên trường..."` để nhãn tự động nổi lên trên viền khi người dùng focus hoặc có dữ liệu.
 
-## Naming convention
+### 6. Biểu tượng chuẩn: `md:PackIcon`
+- Sử dụng trực tiếp `xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"` và `<md:PackIcon Kind="..." Width="16" Height="16"/>`.
+- Kích thước icon chuẩn:
+  - 16×16: Icon trong Button nhỏ, DataGrid row action, hoặc inline hint.
+  - 18×18 hoặc 20×20: Icon tiêu đề Section / Card header.
+  - 24×24 hoặc 32×32: Header bar icon chính hoặc nút lớn.
 
-| Loại | Pattern | Ví dụ |
-|---|---|---|
-| Color key | `Color.<Semantic>` | `Color.Background`, `Color.Foreground.Primary`, `Color.Accent` |
-| Brush key | `Brush.<Semantic>` | `Brush.Background`, `Brush.Border` |
-| Spacing | `Spacing.<Size>` hoặc `Spacing.<Size><Direction>` | `Spacing.Small` (4), `Spacing.Medium` (8), `Spacing.MediumVertical` |
-| Font size | `Font.Size.<Role>` | `Font.Size.Body` (14), `Font.Size.Heading` (20) |
-| Style key | `<Element><Variant>` PascalCase | `PrimaryButton`, `SecondaryButton`, `SearchTextBox`, `Card` |
-| Implicit style | KHÔNG dùng (tránh đụng Revit UI gốc) | ❌ `<Style TargetType="Button">` không có `x:Key` |
+### 7. Phân cấp Button (Tiered Action Buttons)
+Không đặt các nút bấm ngang hàng bằng một kiểu giống nhau. Phân cấp rõ rệt:
+- **Primary Action (CTA chính)**: Dùng `Style="{StaticResource PrimaryButton}"` (dựa trên `MaterialDesignRaisedButton`) với màu Accent nổi bật. Ví dụ: *Chạy phân tích, Xuất KMZ, Vẽ dầm*.
+- **Secondary Action (Hành động phụ)**: Dùng `Style="{StaticResource SecondaryButton}"` (dựa trên `MaterialDesignOutlinedButton`). Ví dụ: *Đóng, Hủy, Xem trước, Copy*.
+- **Danger Action**: Dùng `Style="{StaticResource DangerButton}"` (màu đỏ) cho thao tác xóa dữ liệu, rollback không thể hoàn tác.
+- **Quick / Inline Action**: Dùng `Style="{StaticResource IconButton}"` (nút icon vuông 32×32 bo tròn không viền).
 
-## Spacing tokens (multiples of 4)
+---
 
-| Token | Value | Khi dùng |
-|---|---|---|
-| `Spacing.XSmall` | 4 | Gap giữa icon + text trong button |
-| `Spacing.Small` | 8 | Padding TextBox, button |
-| `Spacing.Medium` | 16 | Margin giữa control trong panel |
-| `Spacing.Large` | 24 | Padding Window content |
-| `Spacing.XLarge` | 32 | Section separator |
+## 3. Đóng gói ILRepack (Bắt buộc cho môi trường In-Process CAD/BIM)
 
-Mỗi token có 4 variant: `Spacing.Medium`, `Spacing.MediumHorizontal` (= `16,0`), `Spacing.MediumVertical` (= `0,16`), `Spacing.MediumTop` (= `0,16,0,0`).
+Do add-in chạy chung tiến trình với CAD/BIM host (Revit, AutoCAD, Civil 3D), **bắt buộc phải gộp các thư viện MaterialDesign vào DLL chính**:
+- **Revit (`Nice3point.Revit.Sdk`)**: Khai báo `<IsRepackable>true</IsRepackable>` trong `.csproj`.
+- **AutoCAD / Civil 3D / Khác**: Dùng `ILRepack` target `RepackMaterialDesign` gộp `MaterialDesignThemes.Wpf.dll`, `MaterialDesignColors.dll`, `Microsoft.Xaml.Behaviors.dll`.
+- Chi tiết xem file: `references/boilerplate/packaging-csproj.md`.
 
-## Typography tokens
+---
 
-| Token | Size | Weight | Khi dùng |
-|---|---|---|---|
-| `Font.Size.Caption` | 11 | Normal | Helper text, footnote |
-| `Font.Size.Body` | 14 | Normal | Default body text |
-| `Font.Size.BodyStrong` | 14 | SemiBold | Label, emphasis |
-| `Font.Size.Subheading` | 16 | SemiBold | Sub-section header |
-| `Font.Size.Heading` | 20 | SemiBold | Section header |
-| `Font.Size.Title` | 28 | Bold | Window title (nếu cần) |
+## 4. Danh mục File mẫu sẵn sàng sử dụng (Boilerplates)
 
-Font family: `Segoe UI` (Windows native, match Revit UI).
+Khi tạo một add-in mới, copy trực tiếp từ thư mục `references/boilerplate/`:
+1. [MaterialBridge.xaml](references/boilerplate/MaterialBridge.xaml): File cầu nối XAML định nghĩa font Segoe UI và các style nút, textbox, combobox, card.
+2. [Theme.xaml](references/boilerplate/Theme.xaml): File Master ResourceDictionary gộp các theme.
+3. [MaterialThemeBridge.cs](references/boilerplate/MaterialThemeBridge.cs): Code C# quản lý gắn theme và tráo đổi DynamicResource an toàn đa ALC.
+4. [packaging-csproj.md](references/boilerplate/packaging-csproj.md): Mẫu cấu hình file `.csproj` để build và ILRepack không lỗi.
 
-## Style catalog
+---
 
-### Buttons
+## 5. Bảng kiểm tra trước khi hoàn thành UI (Pre-flight Checklist)
 
-| x:Key | Use case |
-|---|---|
-| `PrimaryButton` | Main CTA (Save, Run, Generate) — accent color |
-| `SecondaryButton` | Cancel, Close, secondary action |
-| `IconButton` | Icon-only (16×16 / 24×24), no border |
-| `DangerButton` | Delete, Reset — red accent |
-| `LinkButton` | Text-only, hyperlink style |
-
-### TextBoxes
-
-| x:Key | Use case |
-|---|---|
-| `StandardTextBox` | Default input |
-| `NumberTextBox` | Numeric only (validate trong ViewModel) |
-| `SearchTextBox` | Search icon prefix + placeholder |
-| `PasswordBox` | Inherits PasswordBox style |
-
-### Other controls
-
-| x:Key | Use case |
-|---|---|
-| `Card` | Border + padding + background — group content |
-| `Separator` | Horizontal/vertical divider |
-| `Badge` | Pill nhỏ hiển thị count/status |
-| `Tag` | Inline label color-coded |
-
-## Reference files
-
-Sample XAML đầy đủ trong `references/styles/`:
-- `references/styles/theme-dark-sample.md` — Dark theme palette
-- `references/styles/theme-light-sample.md` — Light theme palette
-- `references/styles/controls-sample.md` — Button styles full
-- `references/styles/controls-sample.md` — TextBox styles full
-- `references/styles/spacing-typography-sample.md` — Spacing + Typography
-
-## Quy tắc tuyệt đối
-
-| ✅ DO | ❌ DON'T |
-|---|---|
-| `{DynamicResource Brush.Background}` | `{StaticResource ...}` cho color/brush |
-| `Background="{DynamicResource Brush.Surface}"` | `Background="#1E1E1E"` hardcode |
-| `Padding="{DynamicResource Spacing.Medium}"` | `Padding="14,9,11,8"` random |
-| `FontSize="{DynamicResource Font.Size.Body}"` | `FontSize="13"` random |
-| Style có `x:Key` explicit | Implicit `<Style TargetType="Button">` toàn cục |
-| Theme switch via `ThemeService` | Recreate Window để đổi theme |
-| Test cả 2 theme trước commit | Chỉ test dark, ignore light |
-
-## Workflow integration
-
-Khi `cook` implement UI mới:
-1. Đọc `Resources/Themes/` xem Theme.xaml đã có chưa.
-2. Nếu chưa → tạo theo template ở `references/styles/`.
-3. Mọi `<Window>`, `<UserControl>` mới phải merge `Theme.xaml` ở root.
-4. Code review chebs: grep `StaticResource`, `#[0-9A-F]{6}`, hardcoded `FontSize`, `Margin="\d+,\d+`.
+- [ ] Window đã merge `Theme.xaml` ở thẻ gốc.
+- [ ] Font chữ toàn bộ là `Segoe UI`, không xuất hiện tham chiếu `Roboto` hay `{md:MaterialDesignFont}`.
+- [ ] 100% mã màu/brush dùng `{DynamicResource ...}`, không có mã màu HEX hardcode trong XAML (trừ icon vector trắng cố định hoặc trường hợp đặc biệt).
+- [ ] Các input controls có floating hint rõ ràng (`md:HintAssist.Hint`).
+- [ ] Bố cục giao diện sử dụng Card (`md:Card` hoặc `Card.Panel`) phân vùng trực quan.
+- [ ] Nút bấm có phân cấp rõ rệt (Raised Primary cho hành động chính, Outlined Secondary cho hành động phụ).
+- [ ] Cửa sổ đã test hiển thị tốt trên cả 2 giao diện: Dark Mode và Light Mode.
+- [ ] Build thành công và ILRepack gộp sạch `MaterialDesignThemes.Wpf.dll`.

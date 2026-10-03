@@ -97,10 +97,10 @@
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AllowExecution"
                           IsChecked="{Binding IsExecutionEnabled}"
                           Content="Allow AI code execution in this AutoCAD session"
-                          ToolTip="Scripts written by the AI run inside AutoCAD with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox. Turned off again every time AutoCAD starts."/>
+                          ToolTip="Scripts written by the AI run inside AutoCAD with your full user rights. The bridge blocks obvious escapes (files, network, processes, prompts, commands) but is not a sandbox."/>
 
                 <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}"
-                           Text="Off by default. Every script runs inside a transaction the bridge owns; U in AutoCAD reverts the AI's runs since your last command. Dry runs never commit."/>
+                           Text="On by default. Every script runs inside a transaction the bridge owns; U in AutoCAD reverts the AI's runs since your last command. Dry runs never commit."/>
 
                 <CheckBox Margin="{DynamicResource Spacing.SmallTop}" AutomationProperties.AutomationId="AutoStartListener"
                           IsChecked="{Binding AutoStartListener}"

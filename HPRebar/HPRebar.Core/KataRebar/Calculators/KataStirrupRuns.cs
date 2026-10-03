@@ -5,13 +5,13 @@ using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
 
-/// <summary>One stirrup zone as Kata draws, dimensions and labels it.</summary>
+/// <summary>One stirrup zone as Kata draws, dimensions and labels it (<see cref="Spacing"/> as written on the tag).</summary>
 /// <param name="First">Station of its first and last stirrup.</param>
 public readonly record struct KataStirrupRun(int Span, int Number, double Spacing, double First, double Last);
 
 /// <summary>
 /// The stirrup zones as Kata draws them: neighbouring zones of one span with the same hoop and spacing are one
-/// (T2-DY14's 250 mm span: two one-stirrup zones, one tag, one run, one pair of stirrup lines).
+/// (T2-DY14's 250 mm span: dense from face to face, one tag, one run, one pair of stirrup lines).
 /// </summary>
 public static class KataStirrupRuns
 {
@@ -23,10 +23,10 @@ public static class KataStirrupRuns
         {
             double first = zone.Stations[0], last = zone.Stations[zone.Stations.Count - 1];
             if (runs.Count > 0 && runs[runs.Count - 1] is var prev && prev.Span == zone.SpanIndex
-                && prev.Number == zone.BarNumber && Math.Abs(prev.Spacing - zone.Spacing) < 0.5)
+                && prev.Number == zone.BarNumber && Math.Abs(prev.Spacing - zone.LabelSpacing) < 0.5)
                 runs[runs.Count - 1] = prev with { Last = last };
             else
-                runs.Add(new KataStirrupRun(zone.SpanIndex, zone.BarNumber, zone.Spacing, first, last));
+                runs.Add(new KataStirrupRun(zone.SpanIndex, zone.BarNumber, zone.LabelSpacing, first, last));
         }
 
         return runs;
