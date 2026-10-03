@@ -1,6 +1,6 @@
 # RevitAddinAI — Clean Code Standard
 
-> **Binding** for every change under `HPRebar/` (add-in, Core, Revit MCP bridge/server, their tests). Status: Proposed 2026-10-03 (ADR-0001), applies to new code immediately; old code is brought in line only through [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
+> **Binding** for every change under `HPRebar/` (add-in, Core, Revit MCP bridge/server, their tests). Status: Accepted 2026-10-03 (ADR-0001), applies to new code immediately; old code is brought in line only through [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 > Rule sources are tagged: **[PCC]** = *Pragmatic Clean Code* (ids → [PRAGMATIC_CLEAN_CODE_RULES.md](PRAGMATIC_CLEAN_CODE_RULES.md)), **[REVIT]** = Autodesk Revit constraint, **[PROJECT]** = decision of this repository (ADRs in [../architecture/adr/](../architecture/adr/)).
 > Where this file and an older document disagree, this file wins; superseded statements are listed in §13.
 
@@ -166,4 +166,4 @@ When rules pull in different directions, decide in this order:
 | docs/code-standards.md §4 | "Constructor inject `ILogger<T>` + services" | ADR-0003: constructor injection of services, static Serilog `Log`, no `ILogger<T>` |
 | .claude/rules/development-rules.md & code-standards.md §3/§6 | `using var transaction = doc.NewTransaction(...)` | R2: `new Transaction(doc, "…")` — the code base uses it 19×, `NewTransaction` 0× |
 | docs/system-architecture.md §3 | "DI Container (mode container)" | target design never built; see ARCHITECTURE.md §4.4 |
-| CLAUDE.md "Current State" | "Four features exist", Core.Tests 448, TUnit 16 | five features; ~630 Core test methods, 21 TUnit (grep, 2026-10-03; to be re-counted by a test run in Wave 0) |
+| CLAUDE.md "Current State" | "Four features exist", Core.Tests 448, TUnit 16 | corrected 2026-10-03 from a test run: five features; Core.Tests 949, Mcp.Server.Tests 109, engine 743, net48 113; 21 TUnit (all skip) |

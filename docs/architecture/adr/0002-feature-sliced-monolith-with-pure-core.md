@@ -1,6 +1,6 @@
 # 0002 — Feature-sliced add-in + pure domain library (keep)
 
-- **Status:** Proposed (2026-10-03) — records the existing design as a decision
+- **Status:** Accepted (2026-10-03, by user)
 - **Tags:** [PROJECT] [REVIT]
 
 ## Context

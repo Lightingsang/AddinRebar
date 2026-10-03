@@ -1,6 +1,6 @@
 # RevitAddinAI — Refactoring Plan
 
-> **Status: PLANNED — not started. No production code may change until the user approves this plan and the ADRs it depends on.**
+> **Status: APPROVED 2026-10-03 — Wave 0 in progress.** ADR-0001…0006 accepted (Kata: option A). Each wave still ends with a report; production code changes only inside a wave batch.
 > Inputs: [CLEAN_CODE_AUDIT.md](CLEAN_CODE_AUDIT.md) (AUD-xxx, B-xx) · [REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md) · [ARCHITECTURE.md](../architecture/ARCHITECTURE.md) · progress in [REFACTORING_LOG.md](REFACTORING_LOG.md).
 
 ## 1. Ground rules
@@ -42,10 +42,10 @@ Unit tests do not prove the add-in still produces the same model (PCC-271). For 
 | Id | Defect | Proposed fix | Decision needed |
 |---|---|---|---|
 | B-09 | R27 compile break (Beam, Foundation) | Use the version-gated `CreateFromCurves`/hook path KataRebar already has; gate `Curve.Intersect` | none — restores a supported version (recommended first) |
-| B-01 | Beam span cover fixed 25 mm | Span cover from spec | confirm UI cover applies to all bar groups |
-| B-02 | Beam Views tab ignored | Map Views tab into `BeamAnnotationSettings` | wire or hide the tab |
-| B-03 | Column view-name/prefix fields ignored | Map into `AnnotationSettings` | wire or remove fields |
-| B-05 | Foundation `Hook90Down` makes no hooks | Implement or drop the option | which |
+| B-01 | Beam span cover fixed 25 mm | Span cover from spec | **decided: fix** |
+| B-02 | Beam Views tab ignored | Map Views tab into `BeamAnnotationSettings` | **decided: wire** |
+| B-03 | Column view-name/prefix fields ignored | Map into `AnnotationSettings` | **decided: wire** |
+| B-05 | Foundation `Hook90Down` makes no hooks | Drop the option | **decided: remove** |
 | B-07 | Localized string comparisons | BuiltInParameter integer values / type ids | none (correctness) |
 | B-04, B-06, B-08, B-10, B-11, B-12, B-14, B-15 | see audit §2 | small local fixes, mostly absorbed by Waves 5–6 | none |
 | B-13 | MCP queued-request cancellation | verify live first | none |

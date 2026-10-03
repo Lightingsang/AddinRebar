@@ -1,6 +1,6 @@
 # 0003 — Command as composition root, constructor injection, no DI container
 
-- **Status:** Proposed (2026-10-03)
+- **Status:** Accepted (2026-10-03, by user)
 - **Tags:** [PCC] [PROJECT]
 
 ## Context

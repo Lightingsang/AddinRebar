@@ -1,6 +1,6 @@
 # 0005 — Static policy and mutable-state allowlist
 
-- **Status:** Proposed (2026-10-03)
+- **Status:** Accepted (2026-10-03, by user)
 - **Tags:** [PCC] [REVIT] [PROJECT]
 
 ## Context

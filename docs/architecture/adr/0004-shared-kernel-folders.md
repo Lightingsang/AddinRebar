@@ -1,6 +1,6 @@
 # 0004 — Shared kernel folders `Shared/` and `HPRebar.Core/Shared/`
 
-- **Status:** Proposed (2026-10-03)
+- **Status:** Accepted (2026-10-03, by user)
 - **Tags:** [PCC] [PROJECT]
 
 ## Context

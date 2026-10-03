@@ -4,12 +4,12 @@ One file per decision, `NNNN-kebab-title.md`, never renumbered. Status: **Propos
 
 | ADR | Title | Status |
 |---|---|---|
-| [0001](0001-adopt-pragmatic-clean-code-governance.md) | Adopt Pragmatic Clean Code governance | Proposed |
-| [0002](0002-feature-sliced-monolith-with-pure-core.md) | Feature-sliced add-in + pure domain library (keep) | Proposed |
-| [0003](0003-composition-root-without-container.md) | Command as composition root, constructor injection, no DI container | Proposed |
-| [0004](0004-shared-kernel-folders.md) | Shared kernel folders `Shared/` and `HPRebar.Core/Shared/` | Proposed |
-| [0005](0005-static-policy.md) | Static policy and mutable-state allowlist | Proposed |
-| [0006](0006-kata-feature-boundary.md) | Kata Export / Kata Rebar boundary | Proposed — product decision |
+| [0001](0001-adopt-pragmatic-clean-code-governance.md) | Adopt Pragmatic Clean Code governance | Accepted |
+| [0002](0002-feature-sliced-monolith-with-pure-core.md) | Feature-sliced add-in + pure domain library (keep) | Accepted |
+| [0003](0003-composition-root-without-container.md) | Command as composition root, constructor injection, no DI container | Accepted |
+| [0004](0004-shared-kernel-folders.md) | Shared kernel folders `Shared/` and `HPRebar.Core/Shared/` | Accepted |
+| [0005](0005-static-policy.md) | Static policy and mutable-state allowlist | Accepted |
+| [0006](0006-kata-feature-boundary.md) | Kata Export / Kata Rebar boundary | Accepted — option A |
 
 Template:
 

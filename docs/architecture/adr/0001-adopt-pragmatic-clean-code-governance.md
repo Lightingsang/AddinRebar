@@ -1,6 +1,6 @@
 # 0001 — Adopt Pragmatic Clean Code governance
 
-- **Status:** Proposed (2026-10-03)
+- **Status:** Accepted (2026-10-03, by user)
 - **Tags:** [PROJECT]
 
 ## Context
