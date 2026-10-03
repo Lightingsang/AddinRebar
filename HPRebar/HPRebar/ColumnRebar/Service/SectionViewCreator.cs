@@ -21,7 +21,8 @@ public static class SectionViewCreator
         Document document,
         ColumnStack stack,
         IReadOnlyList<ColumnRebarSpec> specs,
-        AnnotationSettings settings)
+        AnnotationSettings settings,
+        ViewNaming naming)
     {
         var views = new List<ViewSection>();
         var viewType = DetailViewCreator.ResolveViewType(document, ViewTypeName);
@@ -38,7 +39,7 @@ public static class SectionViewCreator
             var section = stack.Sections[i];
             var height = CutHeight(section, specs[i].Stirrups);
 
-            views.Add(Create(document, viewType, settings, stack, i, height));
+            views.Add(Create(document, viewType, settings, stack, i, height, naming.SectionName(i + 1)));
         }
 
         return views;
@@ -65,7 +66,8 @@ public static class SectionViewCreator
         AnnotationSettings settings,
         ColumnStack stack,
         int index,
-        double heightMm)
+        double heightMm,
+        string name)
     {
         var section = stack.Sections[index];
         var faces = stack.Faces[index];
@@ -102,7 +104,7 @@ public static class SectionViewCreator
 
         if (settings.SectionTemplate is not null) view.ViewTemplateId = settings.SectionTemplate.Id;
 
-        DetailViewCreator.Rename(view, settings.SectionViewName(index + 1));
+        DetailViewCreator.Rename(view, name);
 
         return view;
     }

@@ -45,7 +45,7 @@ public static class UiStringsCatalog
         ParameterColumns = "Parameter Cột",
         ColumnsName = "Tên Cột",
         DetailViewName = "Tên Chi tiết",
-        PrefixSection = "Tiền tố Section",
+        SectionSuffix = "Hậu tố mặt cắt",
         ReinforcementStructural = "Ghi chú Thép",
         UseRealRebar = "Dựng thép thật",
         UseRealRebarLocked = "Chế độ Detail Item chưa hỗ trợ.",

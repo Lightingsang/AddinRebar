@@ -397,7 +397,7 @@ public sealed partial class BeamRebarSession : ObservableObject
             return false;
         }
 
-        if (StirrupSpacingDense <= 0 || StirrupSpacingSparse <= 0 || Cover <= 0)
+        if (StirrupSpacingDense <= 0 || StirrupSpacingSparse <= 0 || !(Cover > 0) || double.IsInfinity(Cover))
         {
             errorMessage = "Stirrup spacing and concrete cover must be positive values greater than zero.";
             return false;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
+using HPRebar.Core.ColumnRebar.Models;
 using HPRebar.ColumnRebar.Model;
 using Serilog;
 
@@ -51,15 +52,9 @@ public sealed class ColumnRebarOrchestrator
     /// </summary>
     public OrchestratorResult Run(
         IReadOnlyList<ColumnRebarSpec> specs,
-        IProgress<int>? progress = null,
-        ViewNaming? naming = null)
+        ViewNaming naming,
+        IProgress<int>? progress = null)
     {
-        if (naming is not null)
-        {
-            _settings.DetailViewName = naming.DetailViewName;
-            _settings.SectionSuffix = naming.SectionSuffix;
-        }
-
         var ready = RebarCreationService.CanCreate(_shapes, _stack, specs);
 
         if (!ready.IsOk) return OrchestratorResult.Invalid(ready);
@@ -71,7 +66,7 @@ public sealed class ColumnRebarOrchestrator
         {
             var done = 0;
 
-            var views = CreateViews(specs, progress, ref done);
+            var views = CreateViews(specs, naming, progress, ref done);
 
             CreateDimensions(views, progress, ref done);
 
@@ -100,7 +95,7 @@ public sealed class ColumnRebarOrchestrator
         }
     }
 
-    private CreatedViews CreateViews(IReadOnlyList<ColumnRebarSpec> specs, IProgress<int>? progress, ref int done)
+    private CreatedViews CreateViews(IReadOnlyList<ColumnRebarSpec> specs, ViewNaming naming, IProgress<int>? progress, ref int done)
     {
         ViewSection? detailX;
         ViewSection? detailY;
@@ -109,7 +104,7 @@ public sealed class ColumnRebarOrchestrator
         {
             transaction.Start();
             RebarFailureHandling.Apply(transaction);
-            (detailX, detailY) = DetailViewCreator.Create(_document, _stack, _settings);
+            (detailX, detailY) = DetailViewCreator.Create(_document, _stack, _settings, naming);
             transaction.Commit();
         }
 
@@ -121,7 +116,7 @@ public sealed class ColumnRebarOrchestrator
         {
             transaction.Start();
             RebarFailureHandling.Apply(transaction);
-            sections = SectionViewCreator.Create(_document, _stack, specs, _settings);
+            sections = SectionViewCreator.Create(_document, _stack, specs, _settings, naming);
             transaction.Commit();
         }
 

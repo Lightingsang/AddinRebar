@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autodesk.Revit.UI;
+using HPRebar.Core.ColumnRebar.Models;
 using HPRebar.ColumnRebar.Model;
 using HPRebar.ColumnRebar.Service;
 using HPRebar.ColumnRebar.ViewModel;
@@ -50,7 +51,7 @@ public sealed class ColumnRebarExternalEventHandler : IExternalEventHandler, ICo
         {
             try
             {
-                var result = _orchestrator.Run(request.Specs, request.Progress, request.Naming);
+                var result = _orchestrator.Run(request.Specs, request.Naming, request.Progress);
 
                 if (!result.IsOk)
                 {

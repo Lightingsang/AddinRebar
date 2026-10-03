@@ -37,11 +37,6 @@ public sealed class AnnotationSettings
     /// <summary>Padding around the crop box of the elevation views. Millimetres.</summary>
     public double ViewMargin { get; set; }
 
-    public string DetailViewName { get; set; } = ViewNaming.Default.DetailViewName;
-
-    /// <summary>Appended to each cross-section view name.</summary>
-    public string SectionSuffix { get; set; } = ViewNaming.Default.SectionSuffix;
-
     /// <summary>
     ///     Reads what the document offers and derives the offsets from the column size, matching the
     ///     defaults the original tool started from.
@@ -85,10 +80,4 @@ public sealed class AnnotationSettings
             ViewMargin = size
         };
     }
-
-    /// <summary>Names for the two elevation views.</summary>
-    public (string X, string Y) DetailViewNames() => (DetailViewName + "X", DetailViewName + "Y");
-
-    /// <summary>Name for the cross-section view of one column segment.</summary>
-    public string SectionViewName(int columnNumber) => $"{DetailViewName} {columnNumber} {SectionSuffix}";
 }

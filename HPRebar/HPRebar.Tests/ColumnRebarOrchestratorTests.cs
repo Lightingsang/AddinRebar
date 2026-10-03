@@ -1,3 +1,4 @@
+using HPRebar.Core.ColumnRebar.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
@@ -45,7 +46,7 @@ public sealed class ColumnRebarOrchestratorTests : RevitApiTest
         using var undo = new TransactionGroup(_document!, "Test run");
         undo.Start();
 
-        var result = orchestrator.Run(specs);
+        var result = orchestrator.Run(specs, ViewNaming.Default);
 
         await Assert.That(result.IsOk).IsTrue();
         await Assert.That(result.Views.DetailX).IsNotNull();
@@ -65,7 +66,7 @@ public sealed class ColumnRebarOrchestratorTests : RevitApiTest
         using var undo = new TransactionGroup(_document!, "Test run");
         undo.Start();
 
-        var result = orchestrator.Run(specs);
+        var result = orchestrator.Run(specs, ViewNaming.Default);
 
         // The tool falls back to a suffixed name if one is taken, so both spellings are acceptable.
         await Assert.That(result.Views.DetailX!.Name.StartsWith("DetailX")).IsTrue();
@@ -84,7 +85,7 @@ public sealed class ColumnRebarOrchestratorTests : RevitApiTest
         using var undo = new TransactionGroup(_document!, "Test run");
         undo.Start();
 
-        var result = orchestrator.Run(specs);
+        var result = orchestrator.Run(specs, ViewNaming.Default);
 
         await Assert.That(result.Rebar.MainBars.Count).IsEqualTo(4 * stack.Sections.Count);
         await Assert.That(result.Rebar.Stirrups.Count).IsEqualTo(stack.Sections.Count);
@@ -103,7 +104,7 @@ public sealed class ColumnRebarOrchestratorTests : RevitApiTest
         using (var undo = new TransactionGroup(_document!, "Test run"))
         {
             undo.Start();
-            orchestrator.Run(specs);
+            orchestrator.Run(specs, ViewNaming.Default);
             undo.RollBack();
         }
 

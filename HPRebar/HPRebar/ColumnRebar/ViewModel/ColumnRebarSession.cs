@@ -16,7 +16,7 @@ public sealed partial class ColumnRebarSession : ObservableObject
     [ObservableProperty] private int _selectedColumnIndex;
     [ObservableProperty] private string _partitionName = "Column Rebar";
     [ObservableProperty] private string _detailViewName = ViewNaming.Default.DetailViewName;
-    [ObservableProperty] private string _sectionPrefix = ViewNaming.Default.SectionSuffix;
+    [ObservableProperty] private string _sectionSuffix = ViewNaming.Default.SectionSuffix;
     [ObservableProperty] private int _identicalColumns = 1;
 
     /// <summary>
@@ -62,7 +62,7 @@ public sealed partial class ColumnRebarSession : ObservableObject
         Columns.Select(column => column.ToSpec(PartitionName)).ToList();
 
     /// <summary>The view names typed on the settings tab.</summary>
-    public ViewNaming ToViewNaming() => ViewNaming.From(DetailViewName, SectionPrefix);
+    public ViewNaming ToViewNaming() => ViewNaming.From(DetailViewName, SectionSuffix);
 
     /// <summary>
     ///     Whether the settings can actually build something. Mirrors the checks the original tool ran
@@ -70,6 +70,13 @@ public sealed partial class ColumnRebarSession : ObservableObject
     /// </summary>
     public bool IsValid(out string reason)
     {
+        if (ToViewNaming().TryFindForbiddenCharacter(out var character))
+        {
+            reason = $"View names cannot contain '{character}' (Revit refuses {ViewNaming.ForbiddenCharacters}).";
+
+            return false;
+        }
+
         foreach (var column in Columns)
         {
             if (column.Validate(out var problem)) continue;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HPRebar.Core.ColumnRebar.Models;
 using HPRebar.ColumnRebar.Model;
 
 namespace HPRebar.ColumnRebar;

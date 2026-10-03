@@ -82,3 +82,9 @@
 - **Change:** "Detail view name" and "Section prefix" now name the views (`{name}X/Y`, `{name} {n} {prefix}`), blanks fall back to Detail / MC; the session default prefix changed S → MC so untouched runs keep today's names. "Section view name" and "Level prefix" were removed from the tab: the original R01 tool never used them either (`SectionColumnView.cs:112` names sections from DetailViewName + PrefixSection only)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 955/955 · TUnit project: does not restore (pre-existing NU1605 → AUD-061)
 - **Golden run:** CHƯA TEST
+
+### 2026-10-03 — Review follow-up for B-01 / B-03 / B-05
+- **Review:** B-01 APPROVE 9/10, B-05 APPROVE 10/10, B-03 APPROVE WITH COMMENTS 8/10 (no High)
+- **Applied:** B-03 Medium — view names containing a character Revit refuses (\ : { } [ ] | ; < > ? ` ~) are now refused in `ColumnRebarSession.IsValid` with a message instead of being dropped silently; `ViewNaming` moved to `HPRebar.Core/ColumnRebar/Models` with 9 tests and now owns the naming formulas; naming passed per run to `DetailViewCreator`/`SectionViewCreator` (no more writes into the shared `AnnotationSettings`, `naming` required on `Run`); label "Prefix Section" → "Section Suffix" / "Hậu tố mặt cắt", property `SectionPrefix` → `SectionSuffix`. B-01 Low — Beam `Validate` rejects NaN/Infinity cover before the transaction group opens
+- **Not applied:** collapsing the four equal covers of the Beam spec into one (Wave 3, `BeamRebarSession` split); 25 mm placeholder in `BeamStackReader` (only logged now)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 964/964 · TUnit calls updated (project still blocked by AUD-061)

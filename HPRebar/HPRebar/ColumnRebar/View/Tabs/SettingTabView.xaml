@@ -31,11 +31,11 @@
                              Margin="{DynamicResource Spacing.SmallVertical}"
                              Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Localization.Strings.PrefixSection}"
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Localization.Strings.SectionSuffix}"
                                Margin="{DynamicResource Spacing.SmallVertical}" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Style="{DynamicResource StandardTextBox}"
                              Margin="{DynamicResource Spacing.SmallVertical}"
-                             Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding Session.SectionSuffix, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </Border>
 

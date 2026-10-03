@@ -22,7 +22,8 @@ public static class DetailViewCreator
     public static (ViewSection? X, ViewSection? Y) Create(
         Document document,
         ColumnStack stack,
-        AnnotationSettings settings)
+        AnnotationSettings settings,
+        ViewNaming naming)
     {
         var viewType = ResolveViewType(document, ViewTypeName);
 
@@ -33,7 +34,7 @@ public static class DetailViewCreator
             return (null, null);
         }
 
-        var (nameX, nameY) = settings.DetailViewNames();
+        var (nameX, nameY) = naming.ElevationNames();
         var top = stack.Sections[stack.Sections.Count - 1].TopPosition;
         var centre = StackCentre(stack, top);
 
