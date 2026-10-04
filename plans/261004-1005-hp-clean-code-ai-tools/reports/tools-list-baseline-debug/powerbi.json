@@ -1,0 +1,815 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "powerbi_manage_relationship",
+        "title": "Manage Table Relationship",
+        "description": "Creates, updates, or deletes a relationship between two tables in the Power BI model. Action can be 'create', 'delete', or 'set_active'. Requires 'Allow Model Modifications / DAX Execution' checked on the Bridge UI.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "fromTable": {
+              "description": "From table name (e.g. 'FactSales').",
+              "type": "string"
+            },
+            "fromColumn": {
+              "description": "From column name (e.g. 'CustomerKey').",
+              "type": "string"
+            },
+            "toTable": {
+              "description": "To table name (e.g. 'DimCustomer').",
+              "type": "string"
+            },
+            "toColumn": {
+              "description": "To column name (e.g. 'CustomerKey').",
+              "type": "string"
+            },
+            "isActive": {
+              "description": "Whether the relationship is active (default true).",
+              "type": "boolean",
+              "default": true
+            },
+            "crossFilteringBehavior": {
+              "description": "Cross filtering behavior: 'OneDirection' or 'BothDirections' (default 'OneDirection').",
+              "type": "string",
+              "default": "OneDirection"
+            },
+            "action": {
+              "description": "Action: 'create', 'delete', or 'set_active' (default 'create').",
+              "type": "string",
+              "default": "create"
+            }
+          },
+          "required": [
+            "fromTable",
+            "fromColumn",
+            "toTable",
+            "toColumn"
+          ]
+        },
+        "annotations": {
+          "title": "Manage Table Relationship",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "execute_powerbi_code",
+        "title": "Execute C# in Power BI",
+        "description": "Runs a C# script against the Power BI Desktop tabular model via AMO-TOM (Microsoft.AnalysisServices.Tabular). Globals: model (active TOM Model), server (TOM Server connected to local Analysis Services), adomd (active AdomdConnection for DAX execution), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool(key, fallback)). Return value: End with `return <value>;`. Mutation safety: Writing operations that call model.SaveChanges() require 'Allow Model Mutation' ticked on the Bridge window, else error -32001. A snapshot backup of model metadata is created before applying mutations. dryRun=true validates script compilation and static structure without committing changes. Timeout: 5–120 seconds (up to 600 seconds when enabled). Forbidden: System.IO, reflection, processes, threads, network, modal dialogs, disposing/disconnecting server or adomd.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. Has access to model, server, adomd.",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): writing script. none: read-only script. manual: accepted for compatibility.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Static preview/check without committing changes.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120 (up to 600s).",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short label for audit log and snapshot name.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object passed to the script as args.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in Power BI",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "powerbi_format_dax",
+        "title": "Format DAX Expression",
+        "description": "Formats a DAX expression with proper indentation, keyword capitalization, line breaks, and whitespace.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "dax": {
+              "description": "The raw DAX expression to format.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "dax"
+          ]
+        },
+        "annotations": {
+          "title": "Format DAX Expression",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through the host application",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_evaluate_dax",
+        "title": "Evaluate DAX Query",
+        "description": "Executes a DAX query (typically starting with EVALUATE) against the active Power BI Desktop model via ADOMD.NET. Returns tabular results formatted as Markdown table or JSON rows with execution duration and row count. Safely capped by maxRows (default 100, max 10000) to protect context.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "The DAX query to execute (e.g. 'EVALUATE TOPN(10, DimCustomer)' or 'EVALUATE ROW(\"Revenue\", [Total Revenue])').",
+              "type": "string"
+            },
+            "maxRows": {
+              "description": "Maximum number of rows to return (default 100, max 10000).",
+              "type": "integer",
+              "default": 100
+            },
+            "format": {
+              "description": "Output format: 'markdown' (default table) or 'json' (array of objects).",
+              "type": "string",
+              "default": "markdown"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "annotations": {
+          "title": "Evaluate DAX Query",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_cloud_trigger_refresh",
+        "title": "Trigger Cloud Dataset Refresh",
+        "description": "Triggers a data refresh for a dataset / semantic model in Power BI Service.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "datasetId": {
+              "description": "The dataset ID (GUID) to refresh.",
+              "type": "string"
+            },
+            "workspaceId": {
+              "description": "Optional workspace ID (GUID). If omitted, assumes 'My workspace'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "notifyOption": {
+              "description": "Optional notification option: 'NoNotification' (default) or 'MailOnFailure'.",
+              "type": "string",
+              "default": "NoNotification"
+            }
+          },
+          "required": [
+            "datasetId"
+          ]
+        },
+        "annotations": {
+          "title": "Trigger Cloud Dataset Refresh",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_powerbi_context",
+        "title": "Get Power BI context",
+        "description": "Returns the Power BI Desktop session the bridge is connected to: hostVersion (2026), docTitle and docPath of the .pbix/.pbip file, isModifiable (connected and model is writable), executionEnabled, and powerBi info {isConnected, attachedPid, localPort, databaseName, compatibilityLevel, mutationEnabled, tableCount, measureCount, relationshipCount}. Fails with 'not connected' if Power BI Desktop is not running or bridge is not connected. Call this before scripting or modifying the model to verify connection and model metadata.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include current selection (reserved for future view selection).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Power BI context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_create_or_update_measure",
+        "title": "Create or Update DAX Measure",
+        "description": "Creates a new DAX measure or updates an existing measure in a specified table. Validates DAX syntax, creates a metadata backup snapshot, and calls model.SaveChanges() to persist to Power BI Desktop. Requires 'Allow Model Modifications / DAX Execution' checked on the Bridge UI.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "tableName": {
+              "description": "The target table name to place the measure in.",
+              "type": "string"
+            },
+            "measureName": {
+              "description": "The name of the measure.",
+              "type": "string"
+            },
+            "expression": {
+              "description": "The DAX expression formula (e.g. 'SUM(Sales[Amount])').",
+              "type": "string"
+            },
+            "description": {
+              "description": "Optional description / docstring for the measure.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "formatString": {
+              "description": "Optional format string (e.g. '#,##0.00', '0.0%', '$#,##0').",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "displayFolder": {
+              "description": "Optional display folder path within the table.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "tableName",
+            "measureName",
+            "expression"
+          ]
+        },
+        "annotations": {
+          "title": "Create or Update DAX Measure",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as the execute tool plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a host API type",
+        "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a host API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_cloud_execute_dax",
+        "title": "Execute DAX on Cloud Dataset",
+        "description": "Executes a DAX query against a Power BI Service cloud dataset via the Power BI REST API executeQueries endpoint.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "datasetId": {
+              "description": "The dataset ID (GUID) to query.",
+              "type": "string"
+            },
+            "query": {
+              "description": "The DAX query to execute (e.g. 'EVALUATE TOPN(5, Sales)').",
+              "type": "string"
+            },
+            "workspaceId": {
+              "description": "Optional workspace ID (GUID). If omitted, assumes 'My workspace'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "datasetId",
+            "query"
+          ]
+        },
+        "annotations": {
+          "title": "Execute DAX on Cloud Dataset",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_cloud_list_datasets",
+        "title": "List Cloud Datasets",
+        "description": "Lists datasets / semantic models within a specific workspace or 'My workspace'.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "workspaceId": {
+              "description": "Optional workspace ID (GUID). If omitted, queries 'My workspace'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          }
+        },
+        "annotations": {
+          "title": "List Cloud Datasets",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_get_schema",
+        "title": "Get Power BI Model Schema",
+        "description": "Inspects the Power BI tabular model schema. Returns list of tables, columns (name, dataType, isHidden), measures (name, expression, formatString, displayFolder, description), partitions, and relationships (fromTable/Column -> toTable/Column, cardinality, crossFiltering). Optionally filtered to a specific table.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "tableName": {
+              "description": "Optional table name to filter schema for a single table.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "includeColumns": {
+              "description": "Whether to include detailed column metadata (default true).",
+              "type": "boolean",
+              "default": true
+            },
+            "includeMeasures": {
+              "description": "Whether to include measures (default true).",
+              "type": "boolean",
+              "default": true
+            },
+            "includeRelationships": {
+              "description": "Whether to include table relationships (default true).",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Power BI Model Schema",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "powerbi_cloud_list_workspaces",
+        "title": "List Cloud Workspaces",
+        "description": "Lists Power BI Service / Fabric workspaces accessible by the configured user or Service Principal.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "List Cloud Workspaces",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "powerbi_delete_measure",
+        "title": "Delete DAX Measure",
+        "description": "Deletes an existing DAX measure from a specified table. Creates a backup snapshot before removing. Requires 'Allow Model Modifications / DAX Execution' checked on the Bridge UI.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "tableName": {
+              "description": "The table name containing the measure.",
+              "type": "string"
+            },
+            "measureName": {
+              "description": "The name of the measure to delete.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tableName",
+            "measureName"
+          ]
+        },
+        "annotations": {
+          "title": "Delete DAX Measure",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

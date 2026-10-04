@@ -1,0 +1,1007 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through the host application",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_model_info",
+        "title": "Get model info",
+        "description": "Overview of the open Navisworks document: title, file, document units, modified flag, the appended models (file, source file, units) and the number of root items; optionally the root item names. Call it first so later scripts use the right units. Read-only. [Registry tool v1, Model, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeRootItems": {
+              "type": "boolean",
+              "default": false,
+              "description": "Also list the display name and class of each root item (one per appended model, usually)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get model info",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "summarize_by_category",
+        "title": "Summarize items by category or property",
+        "description": "Counts model items grouped by class (default) or by the value of one property given as 'Category.Property' (e.g. Item.Type, Element.Level). Walks at most maxItems items (default 200000) and returns up to maxGroups groups sorted by count. Read-only. [Registry tool v1, Report, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "groupBy": {
+              "type": "string",
+              "default": "",
+              "description": "'Category.Property' display names to group by, e.g. Item.Type; empty groups by item class"
+            },
+            "maxGroups": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "Groups returned (largest first)"
+            },
+            "maxItems": {
+              "type": "integer",
+              "default": 200000,
+              "minimum": 1,
+              "description": "Items visited before the walk stops (the answer says whether it was complete)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Summarize items by category or property",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "list_selection_sets",
+        "title": "List selection and search sets",
+        "description": "Flat list of every saved selection set and search set (folders included as path segments): name, kind (search / explicit / folder), guid and folder path; optionally how many items each set currently resolves to. Read-only. [Registry tool v1, Selection, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeCounts": {
+              "type": "boolean",
+              "default": false,
+              "description": "Resolve each set against the model and report its item count (slower on big models)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "List selection and search sets",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "execute_navis_code",
+        "title": "Execute C# in Navisworks",
+        "description": "Runs a C# script inside the open Navisworks Manage model with the user's full privileges. Runtime is .NET Framework 4.8: no Span, Random.Shared, async or positional records. Globals: doc (Document), app (Year, HasClashModule, IsModified), units (document units: units.ToMm(du), units.ToDrawing(mm), units.Label), ct (check it in long loops), log(string), progress(cur, total, msg), args (args.Str/Int/Double/Bool(key, fallback), args.List/Obj(key)). End with `return <value>;`. Navisworks objects are summarised (boxes in mm); collections stop at 200 items. Find items with a Search (var s = new Search(); s.Selection.SelectAll(); s.SearchConditions.Add(SearchCondition.HasPropertyByDisplayName(\"Item\", \"Name\").DisplayStringContains(text)); s.FindAll(doc, false)) rather than walking Descendants. Navisworks is a review tool: geometry is read-only. Undoable edits (one Undo entry `MCP: <label>`): selection sets, saved viewpoints, comments, permanent appearance overrides, hidden/required, current selection, clash tests and result status, TimeLiner tasks; the current viewpoint and temporary overrides may not be undoable. Heavy (doc.AppendFile/MergeFile/RemoveFile/OpenFile/Clear/UpdateFiles, SaveFile/Export*/PublishFile/GenerateImage, TestsRun*/TestsCompact*) needs the user to tick 'Allow heavy operations' (a HEAVY diagnostic says when it is off); never undone, not interruptible, up to 600 s, no UNC paths — ask the user to save first. transaction=auto commits on return; none is read-only and fails when the model changed (fingerprint check); manual runs like auto. dryRun undoes only the bridge's own Undo entry — `rolledBack:false` means the change may have persisted. isError=true with diagnostics on compile error, exception, guard/HEAVY refusal or timeout. Never open a Transaction, call Undo/Redo, show a dialog or use Document.Database — the guard rejects them. Requires the user to tick 'Allow AI code execution' in the HPNavis MCP Bridge window (Add-ins ▸ HPNavis MCP).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / System.Data / reflection / expression trees, no Transaction or Undo calls, no dialogs (blocked by the guard).",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): the bridge commits its transaction when the script returns. none: read-only; any change fails (and is undone when it left an undo entry). manual: accepted for compatibility, behaves like auto.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Run the script, then undo the bridge's own Undo entry. Refused for heavy calls (nothing to undo). `changed` still reports what happened.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120 (up to 600 while heavy operations are allowed). The script sees it through `ct`; a script that ignores `ct` blocks Navisworks until it returns.",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name for the audit log and the Undo entry `MCP: <label>`. Max 64 characters.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"text\": \"Wall\", \"name\": \"MCP walls\"}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in Navisworks",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "find_items_by_property",
+        "title": "Find items by property",
+        "description": "Runs a Navisworks Search over the whole model for items whose property matches (equals / contains / wildcard / gt / lt) and returns up to maxResults of them with name, class, path, guid and bounding box in millimetres, plus the total hit count. Read-only — use create_selection_set_from_search to keep the result. [Registry tool v1, Search, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+            },
+            "property": {
+              "type": "string",
+              "description": "Property display name inside that category, e.g. Name, Type, Level"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "equals",
+                "contains",
+                "wildcard",
+                "gt",
+                "lt"
+              ],
+              "default": "equals",
+              "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+            },
+            "value": {
+              "type": "string",
+              "description": "Value to compare with (numbers as text for gt / lt)"
+            },
+            "maxResults": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 1000,
+              "description": "How many matching items to return (the total is always reported)"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "property",
+            "value"
+          ]
+        },
+        "annotations": {
+          "title": "Find items by property",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as the execute tool plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "list_viewpoints",
+        "title": "List saved viewpoints",
+        "description": "Flat list of the saved viewpoints (folders as path segments): name, guid, camera position in millimetres, number of comments and optionally the comment texts. Read-only. [Registry tool v1, Viewpoint, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeComments": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include each comment's author, status and text"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "List saved viewpoints",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_clash_results",
+        "title": "Get clash test results",
+        "description": "Clash Detective tests — status, last run, result counts by status for every test (tests[]) — followed by up to maxResults results per test (results[]: test, name, status, distance and center in millimetres, the two clashing items). Optionally one test by name. Needs Navisworks Manage (hasClashModule). Read-only — run tests with create_and_run_clash_test. [Registry tool v1, Clash, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "testName": {
+              "type": "string",
+              "description": "Only the test with this display name; empty = every test"
+            },
+            "maxResults": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "Results listed per test (counts are always complete)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get clash test results",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_selected_item_properties",
+        "title": "Get properties of the selected items",
+        "description": "Property categories and values of the items currently selected in Navisworks (max maxItems, default 5), optionally one category only. Length values are converted to millimetres; everything else is the display string. Read-only; select items in Navisworks first. [Registry tool v1, Selection, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "maxItems": {
+              "type": "integer",
+              "default": 5,
+              "minimum": 1,
+              "maximum": 50,
+              "description": "How many selected items to describe (every category of an item is ~5 KB of output)"
+            },
+            "category": {
+              "type": "string",
+              "description": "Only this property category (display name, e.g. Item, Element); empty = every category"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get properties of the selected items",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a host API type",
+        "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a host API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_and_run_clash_test",
+        "title": "Create and run a clash test",
+        "description": "HEAVY: creates a Clash Detective test between two searches (a and b, each category/property/op/value), with a tolerance in millimetres, and runs it. Needs 'Allow heavy operations' ticked in the bridge window; the run cannot be interrupted or undone (the test definition itself is undoable), may take minutes on big models — save the file first. Returns result counts by status and the elapsed time; read results with get_clash_results. [Registry tool v1, Clash, transaction=auto. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Display name of the new clash test"
+            },
+            "toleranceMm": {
+              "type": "number",
+              "default": 0,
+              "minimum": 0,
+              "description": "Clash tolerance in millimetres (0 = any intersection)"
+            },
+            "testType": {
+              "type": "string",
+              "enum": [
+                "Hard",
+                "HardConservative",
+                "Clearance",
+                "Duplicate"
+              ],
+              "default": "Hard",
+              "description": "Clash test type"
+            },
+            "a": {
+              "type": "object",
+              "description": "Selection A as a search: {category, property, op, value}",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+                },
+                "property": {
+                  "type": "string",
+                  "description": "Property display name inside that category, e.g. Name, Type, Level"
+                },
+                "op": {
+                  "type": "string",
+                  "enum": [
+                    "equals",
+                    "contains",
+                    "wildcard",
+                    "gt",
+                    "lt"
+                  ],
+                  "default": "equals",
+                  "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Value to compare with (numbers as text for gt / lt)"
+                }
+              },
+              "required": [
+                "category",
+                "property",
+                "value"
+              ]
+            },
+            "b": {
+              "type": "object",
+              "description": "Selection B as a search: {category, property, op, value}",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+                },
+                "property": {
+                  "type": "string",
+                  "description": "Property display name inside that category, e.g. Name, Type, Level"
+                },
+                "op": {
+                  "type": "string",
+                  "enum": [
+                    "equals",
+                    "contains",
+                    "wildcard",
+                    "gt",
+                    "lt"
+                  ],
+                  "default": "equals",
+                  "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Value to compare with (numbers as text for gt / lt)"
+                }
+              },
+              "required": [
+                "category",
+                "property",
+                "value"
+              ]
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "a",
+            "b"
+          ]
+        },
+        "annotations": {
+          "title": "Create and run a clash test",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_timeliner_tasks",
+        "title": "Get TimeLiner tasks",
+        "description": "Flat list of the TimeLiner tasks with their nesting level, planned and actual dates, status, task type and optionally the attached selection. An empty list is a valid answer (no schedule). Read-only. [Registry tool v1, Timeliner, transaction=none. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "maxTasks": {
+              "type": "integer",
+              "default": 500,
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "Stop after this many tasks"
+            },
+            "includeSelection": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include the display string of each task's attached selection"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get TimeLiner tasks",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_navis_context",
+        "title": "Get Navisworks context",
+        "description": "Returns the current Navisworks session: hostVersion, model title and docPath (absent when no model is open or it was never saved), isReadOnly, isModifiable (true when a model is open and Navisworks is idle — no load, clash run or dialog in progress), units.length (the document's units), executionEnabled, and navis {documentUnits, modelCount, models [{fileName, units, sourceFileName}], selectionSetCount, savedViewpointCount, clashTestCount, hasClashModule (Manage only), heavyOperationsEnabled (the second opt-in for append/save/export/clash runs), isClear (no model open), isBusy, isModified}. With includeSelection the current selection comes back (max 50) as {id = instance-guid hash, category = class display name, name = display name}. Fails fast with a busy error while a script is running. Call this before execute_navis_code so the script matches the real model and its units.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include the model items currently selected in Navisworks (max 50: id = instance-guid hash, category = class display name, name = display name).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get Navisworks context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "create_selection_set_from_search",
+        "title": "Create a search set",
+        "description": "Saves a search set (a live Navisworks Search: category, property, operator, value) under the given name in Sets; returns its guid and how many items it resolves to right now (counted up to 1000). One Undo entry; dryRun undoes it again. [Registry tool v1, Selection, transaction=auto. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Display name of the new set"
+            },
+            "category": {
+              "type": "string",
+              "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+            },
+            "property": {
+              "type": "string",
+              "description": "Property display name inside that category, e.g. Name, Type, Level"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "equals",
+                "contains",
+                "wildcard",
+                "gt",
+                "lt"
+              ],
+              "default": "equals",
+              "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+            },
+            "value": {
+              "type": "string",
+              "description": "Value to compare with (numbers as text for gt / lt)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "category",
+            "property",
+            "value"
+          ]
+        },
+        "annotations": {
+          "title": "Create a search set",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "override_color_by_search",
+        "title": "Colour items found by a search",
+        "description": "Finds items by property (like find_items_by_property) and applies a permanent colour override (r, g, b 0–255) and optionally a transparency (0–1) to them; reset=true removes the overrides instead. Permanent overrides are saved with the file and undoable — one Undo entry; dryRun undoes it again. [Registry tool v1, Selection, transaction=auto. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "Property category display name as shown in the Properties window, e.g. Item, Element, Revit Type"
+            },
+            "property": {
+              "type": "string",
+              "description": "Property display name inside that category, e.g. Name, Type, Level"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "equals",
+                "contains",
+                "wildcard",
+                "gt",
+                "lt"
+              ],
+              "default": "equals",
+              "description": "equals compares the display string; contains / wildcard (* and ?) match text; gt / lt compare numbers"
+            },
+            "value": {
+              "type": "string",
+              "description": "Value to compare with (numbers as text for gt / lt)"
+            },
+            "r": {
+              "type": "integer",
+              "default": 255,
+              "minimum": 0,
+              "maximum": 255,
+              "description": "Red 0–255"
+            },
+            "g": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "maximum": 255,
+              "description": "Green 0–255"
+            },
+            "b": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "maximum": 255,
+              "description": "Blue 0–255"
+            },
+            "transparency": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Optional transparency 0 (opaque) – 1 (invisible)"
+            },
+            "reset": {
+              "type": "boolean",
+              "default": false,
+              "description": "Remove the permanent colour/transparency overrides of the matching items instead of colouring them"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "property",
+            "value"
+          ]
+        },
+        "annotations": {
+          "title": "Colour items found by a search",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_viewpoint",
+        "title": "Save the current view as a viewpoint",
+        "description": "Saves the current camera as a named viewpoint (optionally with a first comment and its author) and returns its guid and position in millimetres. One Undo entry; dryRun undoes it again. [Registry tool v1, Viewpoint, transaction=auto. Registry tools run stored, reviewed C# inside Navisworks — prefer them over execute_navis_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Display name of the viewpoint"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Optional comment text attached to the viewpoint"
+            },
+            "author": {
+              "type": "string",
+              "default": "MCP",
+              "description": "Author recorded on the comment"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Save the current view as a viewpoint",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

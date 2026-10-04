@@ -1,0 +1,977 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "get_stories_and_grids",
+        "title": "Get stories and grid systems",
+        "description": "Lists the stories (name, elevation and height in mm, master/similar flags, splice) from the base up and the names of the grid systems. Read-only. [Registry tool v1, Geometry, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get stories and grid systems",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "manage_tool",
+        "title": "Deprecate, quarantine or restore a tool",
+        "description": "deprecate: retire a tool (never runs again until restored). quarantine: pull it from tools/list. restore: back to draft so it can be tested and published again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "action": {
+              "description": "deprecate | quarantine | restore",
+              "type": "string"
+            },
+            "reason": {
+              "description": "Why",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "name",
+            "action"
+          ]
+        },
+        "annotations": {
+          "title": "Deprecate, quarantine or restore a tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "assign_frame_load",
+        "title": "Assign a frame load",
+        "description": "Assigns a uniformly distributed load (kN/m over the whole length) or a point load (kN at a relative position 0–1) to frame objects under a load pattern. direction 10 = gravity by default (a positive value acts downward); 1–3 are the frame's local axes, 4–6 global X/Y/Z, 7–9 projected. Writes the model: the bridge saves it and copies a .EDB snapshot first; ETABS has no undo. [Registry tool v1, Load, transaction=auto. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "frameNames",
+            "pattern"
+          ],
+          "properties": {
+            "frameNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Unique names of the frames"
+            },
+            "pattern": {
+              "type": "string",
+              "description": "Load pattern name (must exist)"
+            },
+            "loadType": {
+              "type": "string",
+              "enum": [
+                "distributed",
+                "point"
+              ],
+              "default": "distributed",
+              "description": "Uniform distributed load or a single point load"
+            },
+            "valueKNperM": {
+              "type": "number",
+              "description": "Distributed load in kN/m (positive = along the direction; downward for gravity directions 10/11)"
+            },
+            "valueKN": {
+              "type": "number",
+              "description": "Point load in kN"
+            },
+            "relativePosition": {
+              "type": "number",
+              "default": 0.5,
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Point load position as a fraction of the length from the I end"
+            },
+            "direction": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 11,
+              "description": "1–3 frame local axes, 4–6 global X/Y/Z, 7–9 projected global, 10 gravity, 11 projected gravity"
+            },
+            "replace": {
+              "type": "boolean",
+              "default": true,
+              "description": "Replace existing loads of this pattern on the frame (false = add)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Assign a frame load",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "execute_etabs_code",
+        "title": "Execute C# in ETABS",
+        "description": "Runs a C# script against the ETABS 22 model the HPEtabs MCP Bridge app is attached to (ETABSv1 API). Globals: sapModel (cSapModel), etabs (cOAPI), units (forced to kN_mm_C for the run: mm, kN, kN·mm, kN/mm²; restored after), ct, log(string), progress(cur,total,msg), args (args.Str/Int/Double/Bool(key, fallback)). OAPI calls return int: check ret, throw InvalidOperationException($\"ETABS returned {ret} from X\"); bad inputs → ArgumentException. End with `return <value>;`. No transaction or undo. Tiers, decided statically from `sapModel.X.Member(...)` chains (an alias, cast, ?., lambda or argument of a global = D): R read-only (Get*/Is*/Has*/Count/RefreshView/all of sapModel.Results/GetTableForDisplayArray; transaction=none). W write (other members; transaction=auto): the bridge saves your model and copies a .EDB snapshot first (`snapshot` names it); unsaved or UNC models are refused; rolledBack:false after an exception means the changes persisted. D destructive (SetModelIsLocked, RunAnalysis, DeleteResults, OpenFile/New*/Save, ApplyEditedTables, Start*/Modify*/Merge*/Reset*/Clear*/Rename*/Show*/Export*/Import*/Delete*, any path-taking member): needs 'Allow destructive operations' in the bridge window, else error -32001; up to 600 s. dryRun or transaction=none on a writing script = static preview (nothing runs; PREVIEW lists the members); manual = auto; changed counts additions/deletions only. cancel/timeout cannot interrupt a running ETABS call; the save counts against the timeout. Paths: a literal or args.Str(\"key\") under the model folder or %LocalAppData%\\HPEtabs, never UNC; every path-shaped args string is screened. No Helper/ApplicationExit/dialogs/#r/#load. Needs 'Allow AI code execution' in the HPEtabs MCP Bridge window (a separate app, not inside ETABS).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "C# script body, max 32 KB. No `await`, no System.IO / System.Net / reflection / expression trees / interop, no Helper or application lifecycle calls, no dialogs (blocked by the guard).",
+              "type": "string"
+            },
+            "transaction": {
+              "description": "auto (default): writing script — the bridge saves the model and takes a .EDB snapshot before running. none: read-only; a script that writes is refused with a PREVIEW diagnostic. manual: accepted for compatibility, behaves like auto.",
+              "type": "string",
+              "default": "auto"
+            },
+            "dryRun": {
+              "description": "Static preview for a writing script (nothing runs; the PREVIEW diagnostic lists what it would call); a read-only script runs normally. Refused for destructive members.",
+              "type": "boolean",
+              "default": false
+            },
+            "timeoutSeconds": {
+              "description": "Cooperative timeout in seconds, 5–120 (up to 600 while destructive operations are allowed). Checked between OAPI calls only — a running RunAnalysis/Save/OpenFile cannot be interrupted.",
+              "type": "integer",
+              "default": 30
+            },
+            "label": {
+              "description": "Short name for the audit log and the snapshot file name. Max 64 characters; letters, digits, _ and - survive, the rest becomes _.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "args": {
+              "description": "Optional JSON object handed to the script as `args` (e.g. {\"frame\": \"12\", \"section\": \"C40x40\"}). Keys are matched case-insensitively.",
+              "default": null
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "annotations": {
+          "title": "Execute C# in ETABS",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "draw_frame_by_coords",
+        "title": "Draw a frame by coordinates",
+        "description": "Adds one frame object between two points given in mm (global coordinates), optionally with a frame section and a user name. Writes the model: the bridge saves it and copies a .EDB snapshot first (see the result's snapshot); ETABS has no undo. Returns the new frame's unique name. [Registry tool v1, Geometry, transaction=auto. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "x1",
+            "y1",
+            "z1",
+            "x2",
+            "y2",
+            "z2"
+          ],
+          "properties": {
+            "x1": {
+              "type": "number",
+              "description": "Start X in mm"
+            },
+            "y1": {
+              "type": "number",
+              "description": "Start Y in mm"
+            },
+            "z1": {
+              "type": "number",
+              "description": "Start Z in mm"
+            },
+            "x2": {
+              "type": "number",
+              "description": "End X in mm"
+            },
+            "y2": {
+              "type": "number",
+              "description": "End Y in mm"
+            },
+            "z2": {
+              "type": "number",
+              "description": "End Z in mm"
+            },
+            "section": {
+              "type": "string",
+              "description": "Frame section property name; default the model's default section"
+            },
+            "name": {
+              "type": "string",
+              "description": "User name for the new frame; default ETABS numbers it"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Draw a frame by coordinates",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_run",
+        "title": "Get a past run",
+        "description": "Details of one run from the history (runId comes back from the execute tool, run_tool and test_tool): outcome, args, the code when it was a successful ad-hoc script, and — when the host application is reachable — an analysis listing hard-coded literals (line, value, variable) and the args keys already read. Use it before propose_tool to decide which literals become parameters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "description": "Run id",
+              "type": "integer"
+            },
+            "analyze": {
+              "description": "Analyse the code (guard, compile, literals) through the host application",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "runId"
+          ]
+        },
+        "annotations": {
+          "title": "Get a past run",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "inspect_type",
+        "title": "Inspect a host API type",
+        "description": "Reflects over an API type loaded in the running host application (Revit or AutoCAD) and returns its public members as C#-like signatures (kind: property | method | field | event). Use it to confirm exact method names and parameters before writing a script.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "typeName": {
+              "description": "Type name, e.g. 'Wall' or 'FilteredElementCollector' in Revit, 'Polyline' or 'LayerTableRecord' in AutoCAD, or a fully qualified name such as 'Autodesk.Revit.DB.Structure.Rebar'.",
+              "type": "string"
+            },
+            "memberFilter": {
+              "description": "Optional case-insensitive substring to keep only matching member names, e.g. 'Create'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "maxMembers": {
+              "description": "Maximum number of members to return (default 100, max 500).",
+              "type": "integer",
+              "default": 100
+            }
+          },
+          "required": [
+            "typeName"
+          ]
+        },
+        "annotations": {
+          "title": "Inspect a host API type",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_analysis",
+        "title": "Run the analysis",
+        "description": "DESTRUCTIVE: runs the ETABS analysis (all load cases, or only the ones named) after optionally deleting existing results, and reports each case's status. Needs the user's 'Allow destructive operations' checkbox in the bridge window on every call. Choose timeoutSeconds from the last analysis time in the ETABS GUI (up to 600): a timeout does not abort the analysis — ETABS keeps running it and later calls answer busy until it finishes. The model is saved and a .EDB snapshot copied first; results of a run cannot be undone. [Registry tool v1, Analysis, transaction=auto. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "cases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Only run these load cases — the run flags of the others are switched off and stay off in the model until changed; default every case"
+            },
+            "deleteResultsFirst": {
+              "type": "boolean",
+              "default": false,
+              "description": "Delete all existing results before running"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Run the analysis",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_structural_objects",
+        "title": "Get structural objects",
+        "description": "Pages through the frame, area or point objects: unique name, label and story, the frame section (areas: none — the API's section member is blocked), end points or vertices in mm and the frame length in mm. Filter by story or by a substring of the name. Read-only. [Registry tool v1, Geometry, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "frame",
+                "area",
+                "point"
+              ],
+              "default": "frame",
+              "description": "Which objects to list"
+            },
+            "story": {
+              "type": "string",
+              "description": "Only objects on this story (exact story name)"
+            },
+            "nameLike": {
+              "type": "string",
+              "description": "Only objects whose unique name or label contains this text (case-insensitive)"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "description": "Skip this many items first (paging)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get structural objects",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_etabs_context",
+        "title": "Get ETABS context",
+        "description": "Returns the ETABS session the bridge app is attached to: hostVersion (22), docTitle and docPath of the model file (absent while no model is open or it was never saved), isModifiable (attached, a model is open, ETABS is idle — no dialog open), units.length (mm: every run forces kN_mm_C), executionEnabled, and etabs {isAttached, attachedPid, oapiVersion, isLocked (definitions cannot change until unlocked — unlocking discards results), presentUnits (the user's own API units), databaseUnits, destructiveOperationsEnabled (the second opt-in: unlock, RunAnalysis, file operations), pointCount, frameCount, areaCount}. With includeSelection the selected objects come back (max 50) as {id, category = object type, name}. Fails fast with a busy error while a script is running, with 'not attached' until the user clicks Attach in the HPEtabs MCP Bridge window, and with 'no model' on the ETABS start screen. Call this before execute_etabs_code so the script matches the real model and its lock state.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeSelection": {
+              "description": "Include the objects currently selected in ETABS (max 50: id = running index, category = object type (Point/Frame/Area/…), name = object unique name).",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Get ETABS context",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "publish_tool",
+        "title": "Publish a registry tool",
+        "description": "Request publication of a tested tool. Policy manual (default): the tool becomes pending_approval, a review file is written and a human must run the server's `registry approve <name>` command (`<server>.exe registry --help`; or set status=published in tool.json). Policy auto: tested tools publish immediately. Published tools appear in tools/list of every running server.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Publish a registry tool",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "search_tools",
+        "title": "Search the tool registry",
+        "description": "Search the registry of stored tools for this host (Revit or AutoCAD) BEFORE writing code with the execute tool (execute_revit_code / execute_autocad_code). Full-text over name, description, tags and examples, ranked by relevance × stability × status. Returns each tool's inputSchema so it can be called directly by name (published tools are real MCP tools) or through run_tool. Empty query lists tools (optionally by category).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "What you want to do, in any language, e.g. 'tạo lưới trục', 'color beams by type', 'room schedule'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "limit": {
+              "description": "Maximum results, 1–50 (default 5)",
+              "type": "integer",
+              "default": 5
+            },
+            "includeUnpublished": {
+              "description": "Also return draft / tested / pending tools (they need allowUnpublished=true in run_tool)",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search the tool registry",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "cancel_execution",
+        "title": "Cancel running script",
+        "description": "Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "title": "Cancel running script",
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_model_info",
+        "title": "Get model info",
+        "description": "Overview of the ETABS model the bridge is attached to: file name and folder, lock state, present and database units, ETABS version, object counts (points, frames, areas) and optionally the stories. Call it first: every script works in kN and mm whatever the model's units. Read-only. [Registry tool v1, Model, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeStories": {
+              "type": "boolean",
+              "default": false,
+              "description": "Also list the stories with elevation and height in mm"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get model info",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "assign_frame_section",
+        "title": "Assign a frame section",
+        "description": "Assigns one frame section property to the given frame objects (unique names). Writes the model: the bridge saves it and copies a .EDB snapshot first; ETABS has no undo. Frames ETABS refuses are listed in errors. [Registry tool v1, Property, transaction=auto. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "frameNames",
+            "section"
+          ],
+          "properties": {
+            "frameNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Unique names of the frames"
+            },
+            "section": {
+              "type": "string",
+              "description": "Frame section property name (must exist)"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false,
+              "description": "Run the tool, then roll everything back. Use first on a model you care about."
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Assign a frame section",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_tool",
+        "title": "Get a registry tool",
+        "description": "Full record of one stored tool: metadata, input schema, examples, C# code (optional), run statistics and recent runs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name from search_tools",
+              "type": "string"
+            },
+            "includeCode": {
+              "description": "Include the C# source",
+              "type": "boolean",
+              "default": true
+            },
+            "recentRuns": {
+              "description": "How many recent runs to include (0–50)",
+              "type": "integer",
+              "default": 10
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Get a registry tool",
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_frame_forces",
+        "title": "Get frame forces",
+        "description": "Internal forces along frame objects for one load case or combination: axial P, shears V2/V3 in kN, torsion T and moments M2/M3 in kN·m at each output station (mm from the I end). Needs analysis results (run_analysis first). Filter by frame names. Read-only. [Registry tool v1, Results, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "caseOrCombo"
+          ],
+          "properties": {
+            "caseOrCombo": {
+              "type": "string",
+              "description": "Load case or combination name whose results to read"
+            },
+            "frameNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Only these frames — unique names from get_structural_objects.name, not labels; default every frame"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get frame forces",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_joint_reactions",
+        "title": "Get joint reactions",
+        "description": "Reactions at the restrained joints for one load case or combination: forces in kN and moments in kN·m, per joint and step. Needs analysis results (run_analysis first, or run it in ETABS). Filter by point names or by story. Read-only — selecting the output case is a results setting, not a model change. [Registry tool v1, Results, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "caseOrCombo"
+          ],
+          "properties": {
+            "caseOrCombo": {
+              "type": "string",
+              "description": "Load case or combination name whose results to read"
+            },
+            "pointNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Only these joints — unique names from get_structural_objects.name, not labels; default every joint with a reaction"
+            },
+            "story": {
+              "type": "string",
+              "description": "Only joints on this story"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get joint reactions",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "connect_etabs",
+        "title": "Connect or Start ETABS",
+        "description": "Checks connection to ETABS 22, connects to an already-running ETABS instance, or automatically launches a new ETABS instance if none is running. Returns connection state ('already_connected', 'attached_existing', 'started_new', or 'failed'), ETABS version, active model title, and process PID. Note: Calling get_etabs_context, execute_etabs_code or any seed tool will automatically connect/start ETABS on-demand, so calling this tool explicitly is optional.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "autoStart": {
+              "description": "Automatically launch ETABS if no instance is running (default: true).",
+              "type": "boolean",
+              "default": true
+            },
+            "preferExistingInstance": {
+              "description": "Prefer attaching to an already-running ETABS instance before attempting to start a new one (default: true).",
+              "type": "boolean",
+              "default": true
+            },
+            "etabsExePath": {
+              "description": "Optional explicit path to ETABS.exe. If omitted, uses auto-detected installation.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "timeoutSeconds": {
+              "description": "Timeout in seconds to wait for ETABS to start and be ready (5–120, default: 60).",
+              "type": "integer",
+              "default": 60
+            }
+          }
+        },
+        "annotations": {
+          "title": "Connect or Start ETABS",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "get_modal_results",
+        "title": "Get modal results",
+        "description": "Periods, frequencies and participating mass ratios (UX, UY, UZ, RX, RY, RZ with their sums) of the modal load case. Needs analysis results with a modal case (run_analysis first). Read-only. [Registry tool v1, Results, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "caseName": {
+              "type": "string",
+              "default": "Modal",
+              "description": "The modal load case"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get modal results",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_load_definitions",
+        "title": "Get load definitions",
+        "description": "Lists the load patterns (type, self-weight multiplier), the load cases (type, sub-type) and the load combinations (type and, on request, the cases with their scale factors). Read-only. [Registry tool v1, Load, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "includeComboCases": {
+              "type": "boolean",
+              "default": false,
+              "description": "Also list each combination's cases and scale factors"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get load definitions",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "get_materials_and_sections",
+        "title": "Get materials and frame sections",
+        "description": "Lists the material properties (type, E in MPa, Poisson ratio, thermal coefficient, G in MPa) and the frame section properties (shape type, area in mm², I22/I33 in mm⁴, S/Z in mm³, radii of gyration in mm) defined in the model. Read-only. [Registry tool v1, Property, transaction=none. Registry tools run stored, reviewed C# inside ETABS — prefer them over execute_etabs_code for the same task.]",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500,
+              "description": "Maximum number of items to return (1–500)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get materials and frame sections",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "run_tool",
+        "title": "Run a registry tool",
+        "description": "Run a stored tool from the registry with the given args (must match its inputSchema from search_tools / get_tool). Same result shape as the execute tool. Draft / tested / pending tools need allowUnpublished=true. Use dryRun=true first for tools that modify the document.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "args": {
+              "description": "Arguments object for the tool",
+              "default": null
+            },
+            "dryRun": {
+              "description": "Run then roll back",
+              "type": "boolean",
+              "default": false
+            },
+            "allowUnpublished": {
+              "description": "Allow running a tool that is not published yet",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Run a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "propose_tool",
+        "title": "Propose a new registry tool",
+        "description": "Package a working C# script as a reusable tool (status draft). Replace every literal that may change between calls with args.<Kind>(\"key\") and declare each key in inputSchema (JSON Schema object: string/number/integer/boolean/array/object, required, default, description). The code is guard-checked and compiled inside the host application but not run. Give ≥ 2 examples with different args; test_tool runs them. Returns a validation report; fix errors and call again. Use newVersion=true to replace the code of an existing tool.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "snake_case name, e.g. color_beams_by_type",
+              "type": "string"
+            },
+            "description": {
+              "description": "What the tool does, for search and for the reviewer (≥ 20 chars)",
+              "type": "string"
+            },
+            "category": {
+              "description": "One of the host's categories (search_tools lists them): Architecture | Structure | MEP | Annotation | View | Data | Generic for Revit, Drawing | Layer | Block | Annotation | Layout | Data | Generic for AutoCAD",
+              "type": "string"
+            },
+            "inputSchema": {
+              "description": "JSON Schema of the args object"
+            },
+            "code": {
+              "description": "Script body: same globals as the execute tool plus args; must end with return",
+              "type": "string"
+            },
+            "examples": {
+              "description": "Usage examples: [{\"title\": \"...\", \"args\": {...}}]"
+            },
+            "title": {
+              "description": "Human title, e.g. 'Colour beams by type'",
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "tags": {
+              "description": "Search tags",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "default": null
+            },
+            "transaction": {
+              "description": "auto (the bridge wraps the run in a transaction) | manual (Revit: the code opens its own Transaction; AutoCAD: same as auto) | none (read-only)",
+              "type": "string",
+              "default": "auto"
+            },
+            "timeoutSeconds": {
+              "description": "5–120 seconds",
+              "type": "integer",
+              "default": 60
+            },
+            "sourceRunId": {
+              "description": "runId of the execute run this comes from (see get_run)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "newVersion": {
+              "description": "Propose a new version of an existing tool name",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "category",
+            "inputSchema",
+            "code",
+            "examples"
+          ]
+        },
+        "annotations": {
+          "title": "Propose a new registry tool",
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "test_tool",
+        "title": "Test a registry tool",
+        "description": "Run a tool's examples (or the given cases) inside the host application with dryRun — every change is rolled back — and record the outcomes. All cases passing moves a draft to tested. realRun=true commits the changes (only on a scratch model).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Tool name",
+              "type": "string"
+            },
+            "cases": {
+              "description": "Optional cases [{\"title\": \"...\", \"args\": {...}}]; default = the tool's examples",
+              "default": null
+            },
+            "realRun": {
+              "description": "Commit instead of rolling back",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "annotations": {
+          "title": "Test a registry tool",
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false,
+          "readOnlyHint": false
+        }
+      }
+    ]
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}
