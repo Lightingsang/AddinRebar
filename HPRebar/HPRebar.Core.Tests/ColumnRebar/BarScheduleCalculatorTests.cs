@@ -89,6 +89,19 @@ public sealed class BarScheduleCalculatorTests
         Assert.Equal(2, BarScheduleCalculator.Group(bars).Count);
     }
 
+    [Theory]
+    [InlineData(1, 5, 0, 0)]   // two non-zero top styles
+    [InlineData(0, 0, 1, 3)]   // two non-zero bottom styles
+    public void DifferentNonZeroDowelNumbersShareARow(int topA, int topB, int bottomA, int bottomB)
+    {
+        var bar = BuildStack(splitOverlap: 100)[0];
+        var splice = bar.Splice with { IsBottomDowels = true };
+        var first = bar with { Splice = splice with { TopDowelsType = topA, BottomDowelsType = bottomA } };
+        var second = bar with { Splice = splice with { TopDowelsType = topB, BottomDowelsType = bottomB } };
+
+        Assert.True(BarScheduleCalculator.AreSameBar(first, second));
+    }
+
     [Fact]
     public void ALongerTopAnchorageSplitsTheRowThroughTheCutLength()
     {

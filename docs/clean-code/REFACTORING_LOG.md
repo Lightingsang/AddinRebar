@@ -374,3 +374,10 @@
 - **Behaviour change (intended):** on a circular column "90°", "135°" and "180°" now give those hooks (they gave 135°, 180° and the default); "closed tie" gives the default cross-tie shape (it gave the 90° one)
 - **Tests:** none automated — add-in service; CHƯA TEST in Revit (the golden-run fixture has no circular column)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1241/1241 (unchanged)
+
+### 2026-10-04 — Fix track B-43 — dowel styles 1 and 5 share a schedule row
+- **Decision (user, 2026-10-04):** a dowel style is zero or non-zero (two styles); the enum follows in Wave 4
+- **Change:** `BarScheduleCalculator.AreSameBar` compares top and bottom dowel styles as zero / non-zero
+- **Behaviour change (intended):** bars identical except for two different non-zero style numbers now share a schedule row (geometry never differed)
+- **Tests:** `BarScheduleCalculatorTests` (+2 cases, both failing on the old code)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1243/1243 · **Golden run:** CHƯA TEST
