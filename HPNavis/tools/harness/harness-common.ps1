@@ -73,6 +73,8 @@ function Start-NavisworksWithModel([string]$modelPath, [int]$timeoutSec = 180, [
         $proc.Refresh()
         if ($proc.HasExited) { throw "Roamer exited during startup with code $($proc.ExitCode)" }
         if ($proc.MainWindowTitle -like "*$expect*") { Write-Host "main window '$($proc.MainWindowTitle)' after $([int]$sw.Elapsed.TotalSeconds) s"; return $proc }
+        # After a killed Roamer, "Reload last file?" comes back after every WM_CLOSE and the model never loads: answer No.
+        Answer-ReloadPromptNo
         if ($sw.Elapsed.TotalSeconds -gt 30 -and ($sw.Elapsed.TotalSeconds % 10) -lt 2) {
             # a startup prompt (autosave recovery after a killed Roamer, licensing) blocks the load: report and dismiss it
             foreach ($d in Get-RoamerDialogs) { Write-Host "startup dialog: '$($d.Title)' ($($d.Class))" }
@@ -204,6 +206,23 @@ function Close-RoamerDialogs {
     }
     if ($closed.Count -gt 0) { Write-Host "closed dialog(s): $($closed -join ' | ')"; Start-Sleep -Milliseconds 700 }
     return $closed
+}
+
+# Navisworks offers "Reload last file?" after a Roamer was killed; only that prompt is answered No (by its title).
+function Answer-ReloadPromptNo {
+    try {
+        $root = [System.Windows.Automation.AutomationElement]::RootElement
+        $cond = New-Object System.Windows.Automation.AndCondition(
+            (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $script:navisPid)),
+            (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'Reload last file?')))
+        $dialog = $root.FindFirst([System.Windows.Automation.TreeScope]::Children, $cond)
+        if (-not $dialog) { return }
+        $btnCond = New-Object System.Windows.Automation.AndCondition(
+            (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)),
+            (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'No')))
+        $no = $dialog.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $btnCond)
+        if ($no) { $no.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); Write-Host "answered 'No' to 'Reload last file?'" }
+    } catch { }
 }
 
 # Navisworks asks "Do you want to save changes?" when the harness edited the model; answer No.
