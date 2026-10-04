@@ -149,7 +149,8 @@
 
                     <StackPanel Margin="{DynamicResource Spacing.SmallTop}">
                         <!-- Tier R -->
-                        <CheckBox IsChecked="{Binding IsExecutionEnabled}" Margin="0,4">
+                        <CheckBox IsChecked="{Binding IsExecutionEnabled}" Margin="0,4"
+                                  AutomationProperties.AutomationId="AllowExecution" AutomationProperties.Name="Allow AI execution">
                             <StackPanel>
                                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Allow AI execution (Tier R: Read)"/>
                                 <TextBlock Style="{DynamicResource Caption}" Text="Permits read-only queries (read_range, find_cells, read_table, worksheet info)."/>
@@ -157,7 +158,8 @@
                         </CheckBox>
 
                         <!-- Tier W -->
-                        <CheckBox IsChecked="{Binding IsWriteEnabled}" IsEnabled="{Binding CanEnableWrite}" Margin="0,6">
+                        <CheckBox IsChecked="{Binding IsWriteEnabled}" IsEnabled="{Binding CanEnableWrite}" Margin="0,6"
+                                  AutomationProperties.AutomationId="AllowWrite" AutomationProperties.Name="Allow write operations">
                             <StackPanel>
                                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Allow write operations (Tier W: Write) — Auto-Snapshot"/>
                                 <TextBlock Style="{DynamicResource Caption}" Text="Permits writing cell ranges, formatting, creating tables/charts. Automatic .xlsx backup created."/>
@@ -165,7 +167,8 @@
                         </CheckBox>
 
                         <!-- Tier D -->
-                        <CheckBox IsChecked="{Binding IsDestructiveEnabled}" IsEnabled="{Binding CanEnableDestructive}" Margin="0,4">
+                        <CheckBox IsChecked="{Binding IsDestructiveEnabled}" IsEnabled="{Binding CanEnableDestructive}" Margin="0,4"
+                                  AutomationProperties.AutomationId="AllowDestructive" AutomationProperties.Name="Allow destructive operations">
                             <StackPanel>
                                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Allow destructive operations (Tier D: Destructive) — Auto-Snapshot"
                                            Foreground="{DynamicResource Brush.Danger}"/>

@@ -147,7 +147,8 @@
 
                     <StackPanel Margin="{DynamicResource Spacing.SmallTop}">
                         <!-- Tier R & W -->
-                        <CheckBox IsChecked="{Binding IsExecutionEnabled}" Margin="0,4">
+                        <CheckBox IsChecked="{Binding IsExecutionEnabled}" Margin="0,4"
+                                  AutomationProperties.AutomationId="AllowExecution" AutomationProperties.Name="Allow AI execution">
                             <StackPanel>
                                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Allow AI execution (Tier R: Read, Tier W: Write) — Auto-Snapshot"/>
                                 <TextBlock Style="{DynamicResource Caption}" Text="Permits queries and geometry/load mutations. Automatic timestamped .rtd snapshot is captured before writing."/>
@@ -155,7 +156,8 @@
                         </CheckBox>
 
                         <!-- Tier D / Heavy -->
-                        <CheckBox IsChecked="{Binding IsHeavyOperationsEnabled}" IsEnabled="{Binding CanEnableHeavyOperations}" Margin="0,6">
+                        <CheckBox IsChecked="{Binding IsHeavyOperationsEnabled}" IsEnabled="{Binding CanEnableHeavyOperations}" Margin="0,6"
+                                  AutomationProperties.AutomationId="AllowHeavy" AutomationProperties.Name="Allow heavy operations">
                             <StackPanel>
                                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Allow heavy operations &amp; FEA solver (Tier D: Heavy / Deletions) — Auto-Snapshot"
                                            Foreground="{DynamicResource Brush.Danger}"/>
