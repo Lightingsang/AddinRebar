@@ -31,7 +31,7 @@ Two channels: (1) repository code AI agents write → one host-neutral core stan
 | 2 | [Bridge quality walker + validator + review](phase-02-bridge-analyzer-validator.md) | ~10 (4 prod, 1 new prod, ~5 tests) | approved (D3a, D4a) | done — review 7.5/10, findings fixed; live 5/5 |
 | 3 | [Seed quality tests + baseline allowlist](phase-03-seed-quality-tests.md) | 10 (tests only) | 2, D1a | done |
 | 4 | [.editorconfig + docs sync](phase-04-editorconfig-docs-sync.md) | ~14 (10 `.editorconfig` + docs) | 1–3, D2a | done |
-| 5 | [Redeploy bridges + live-verify the other hosts](phase-05-live-verify-other-hosts.md) | harness + 7 reports + docs | 1–4, user OK on open apps | done for 7 hosts (5/5 each); Excel waits for the user's workbook to close; SAP2000/Tekla CHƯA TEST (not installed) |
+| 5 | [Redeploy bridges + live-verify the other hosts](phase-05-live-verify-other-hosts.md) | harness + 7 reports + docs | 1–4, user OK on open apps | done — 8 hosts 5/5 each; SAP2000/Tekla CHƯA TEST (not installed) |
 
 Order 2 → 3 can run before 1 (code first, docs cite the final rule ids); proposed order 1 → 2 → 3 → 4 keeps the ADR ahead of the code it governs.
 
@@ -80,8 +80,8 @@ Harness `McpShared/tools/live-verify-quality.py --host <id>` (host table from th
 | Power BI Desktop | 5/5 (bridge not connected to the model; dryRun = static preview) | [powerbi](reports/live-verify-quality-powerbi.md) |
 | AutoCAD 2026 | 5/5 | [autocad](reports/live-verify-quality-autocad.md) |
 | Civil 3D 2026 | 5/5 | [civil3d](reports/live-verify-quality-civil3d.md) |
-| Excel | CHƯA TEST — the user's workbook was still open | — |
+| Excel 16 | 5/5 (dryRun = static preview) | [excel](reports/live-verify-quality-excel.md) |
 | SAP2000 27, Tekla 2025 | CHƯA TEST — not installed | — |
 
-Defects logged (tooling/UI, not fixed): H-09 AutoCAD harness Always Load, H-10 `/b` start cannot open the bridge window, H-11 Robot checkboxes without accessible names, H-12 Navis reload prompt loop.
+Defects logged (tooling/UI, not fixed): H-09 AutoCAD harness Always Load, H-10 `/b` start cannot open the bridge window, H-11 Robot and Excel checkboxes without accessible names, H-12 Navis reload prompt loop.
 
