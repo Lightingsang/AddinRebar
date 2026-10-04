@@ -42,13 +42,13 @@ public sealed class RebarShapeResolver
     ///     Shape for an intermediate cross-tie. The leg style follows the tie type the user picked;
     ///     an unknown type falls back to the plain double-hook shape, as the original tool did.
     /// </summary>
-    public RebarShape? CrossTie(int tieType)
+    public RebarShape? CrossTie(CrossTieKind kind)
     {
-        var name = tieType switch
+        var name = kind switch
         {
-            1 => "M_T10B",
-            2 => "M_T10",
-            3 => "M_T10C",
+            CrossTieKind.Hooks90 => "M_T10B",
+            CrossTieKind.Hooks135 => "M_T10",
+            CrossTieKind.Hooks180 => "M_T10C",
             _ => "M_T10"
         };
 
@@ -66,7 +66,7 @@ public sealed class RebarShapeResolver
             return ValidationResult.Fail(section == SectionShape.Rectangle ? 20 : 21);
         }
 
-        return needsCrossTies && CrossTie(1) is null ? ValidationResult.Fail(22) : ValidationResult.Ok;
+        return needsCrossTies && CrossTie(CrossTieKind.Hooks90) is null ? ValidationResult.Fail(22) : ValidationResult.Ok;
     }
 
     private RebarShape? Find(string name) => _shapes.TryGetValue(name, out var shape) ? shape : null;

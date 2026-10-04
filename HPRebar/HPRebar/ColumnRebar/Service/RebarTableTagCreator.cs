@@ -79,14 +79,14 @@ public static class RebarTableTagCreator
 
         if (spec.Ties.AddH)
         {
-            var count = spec.Ties.TypeH == 0 ? string.Empty : spec.Ties.NH + " ";
+            var count = spec.Ties.KindH == CrossTieKind.ClosedTie ? string.Empty : spec.Ties.NH + " ";
 
             rows.Add(("Add-Horizontal", $"{count}{spec.TieBarType.Name} @ {Spacing(spec.Stirrups).ToString("0", culture)}"));
         }
 
         if (spec.Ties.AddV)
         {
-            var count = spec.Ties.TypeV == 0 ? string.Empty : spec.Ties.NV + " ";
+            var count = spec.Ties.KindV == CrossTieKind.ClosedTie ? string.Empty : spec.Ties.NV + " ";
 
             rows.Add(("Add-Vertical", $"{count}{spec.TieBarType.Name} @ {Spacing(spec.Stirrups).ToString("0", culture)}"));
         }

@@ -361,3 +361,9 @@
 - **Batch split:** the cross-tie kind (`TypeH`/`TypeV`, which also picks the cross-tie shape and is offset by one for circular columns) and the dowel style (typed as a free number in a grid, and the schedule groups distinct non-zero numbers apart) follow in their own batches — the dowel one needs a decision on what non-zero numbers mean
 - **Review:** pass, no findings · **Tests:** Core 1241/1241, every characterization hash unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Wave 4 · Column · cross-tie kind enum (AUD-037, second batch)
+- **Change:** new `HPRebar.Core/ColumnRebar/Models/CrossTieKind` (`ClosedTie`, `Hooks90`, `Hooks135`, `Hooks180` — the window's list order and numbers); `AdditionalTieSpec.TypeH/TypeV` (int) → `KindH/KindV`; `RebarShapeResolver.CrossTie` takes the enum (same shape names); the window keeps its list indices and casts at the spec boundary
+- **Behaviour:** none — every value takes the same branch and shape; the circular path keeps its `kind + 1` shift (logged as B-42 for a decision)
+- **Review:** pass; whether `M_T10B` is the 90° shape is not documented in the repo (the mapping itself is unchanged) · **Tests:** Core 1241/1241, hashes unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST

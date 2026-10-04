@@ -34,7 +34,8 @@ public static class RebarCreationService
         }
 
         var needsCrossTies = specs.Any(spec =>
-            (spec.Ties.AddH && spec.Ties.TypeH != 0) || (spec.Ties.AddV && spec.Ties.TypeV != 0));
+            (spec.Ties.AddH && spec.Ties.KindH != CrossTieKind.ClosedTie)
+            || (spec.Ties.AddV && spec.Ties.KindV != CrossTieKind.ClosedTie));
 
         var shape = stack.Sections[0].Shape;
 

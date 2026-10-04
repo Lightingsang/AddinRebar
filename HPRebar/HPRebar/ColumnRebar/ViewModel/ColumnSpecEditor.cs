@@ -107,12 +107,12 @@ public sealed partial class ColumnSpecEditor : ObservableObject
         TiesUpToBeams = spec.Stirrups.IsTiesUp;
 
         AddHorizontalTies = spec.Ties.AddH;
-        HorizontalTieType = spec.Ties.TypeH;
+        HorizontalTieType = (int)spec.Ties.KindH;
         HorizontalTieCount = spec.Ties.NH;
         HorizontalTieLeg = spec.Ties.AH;
 
         AddVerticalTies = spec.Ties.AddV;
-        VerticalTieType = spec.Ties.TypeV;
+        VerticalTieType = (int)spec.Ties.KindV;
         VerticalTieCount = spec.Ties.NV;
         VerticalTieLeg = spec.Ties.AV;
 
@@ -181,11 +181,11 @@ public sealed partial class ColumnSpecEditor : ObservableObject
     private AdditionalTieSpec ToTieSpec() => new()
     {
         AddH = AddHorizontalTies,
-        TypeH = HorizontalTieType,
+        KindH = (CrossTieKind)HorizontalTieType,
         NH = HorizontalTieCount,
         AH = HorizontalTieLeg,
         AddV = AddVerticalTies,
-        TypeV = VerticalTieType,
+        KindV = (CrossTieKind)VerticalTieType,
         NV = VerticalTieCount,
         AV = VerticalTieLeg
     };

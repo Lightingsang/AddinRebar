@@ -71,7 +71,7 @@ public static class AdditionalTieCreator
     {
         var created = new List<Rebar>();
 
-        if (spec.TypeH == 0)
+        if (spec.KindH == CrossTieKind.ClosedTie)
         {
             // A closed tie of leg length AH, centred in the section. Zero leg means nothing to place.
             if (spec.AH == 0) return created;
@@ -90,7 +90,7 @@ public static class AdditionalTieCreator
             return created;
         }
 
-        var crossShape = shapes.CrossTie(spec.TypeH)!;
+        var crossShape = shapes.CrossTie(spec.KindH)!;
         var spacing = (section.B - 2 * coverMm) / (spec.NH + 1);
 
         for (var i = 0; i < spec.NH; i++)
@@ -121,7 +121,7 @@ public static class AdditionalTieCreator
     {
         var created = new List<Rebar>();
 
-        if (spec.TypeV == 0)
+        if (spec.KindV == CrossTieKind.ClosedTie)
         {
             if (spec.AV == 0) return created;
 
@@ -139,7 +139,7 @@ public static class AdditionalTieCreator
             return created;
         }
 
-        var crossShape = shapes.CrossTie(spec.TypeV)!;
+        var crossShape = shapes.CrossTie(spec.KindV)!;
         var spacing = (section.H - 2 * coverMm) / (spec.NV + 1);
 
         for (var i = 0; i < spec.NV; i++)
@@ -196,7 +196,7 @@ public static class AdditionalTieCreator
         string partitionName)
     {
         // The circular path numbers its leg styles one lower than the rectangular one does.
-        var shape = shapes.CrossTie(spec.TypeV + 1)!;
+        var shape = shapes.CrossTie((CrossTieKind)((int)spec.KindV + 1))!;
         var created = new List<Rebar>();
 
         foreach (var run in runs)

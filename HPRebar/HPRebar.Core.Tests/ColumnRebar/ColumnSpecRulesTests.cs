@@ -95,7 +95,7 @@ public sealed class ColumnSpecRulesTests
     [InlineData(false, true, "give the vertical cross-tie a leg length.")]
     public void FirstProblem_ClosedCrossTieWithoutLeg_AsksForLeg(bool horizontal, bool vertical, string expected)
     {
-        var ties = new AdditionalTieSpec { AddH = horizontal, TypeH = 0, AH = 0, AddV = vertical, TypeV = 0, AV = 0 };
+        var ties = new AdditionalTieSpec { AddH = horizontal, KindH = CrossTieKind.ClosedTie, AH = 0, AddV = vertical, KindV = CrossTieKind.ClosedTie, AV = 0 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), Uniform150, ties);
 
@@ -107,7 +107,7 @@ public sealed class ColumnSpecRulesTests
     [InlineData(false, true, "at least one vertical cross-tie is required.")]
     public void FirstProblem_CrossTiesWithZeroCount_AsksForOne(bool horizontal, bool vertical, string expected)
     {
-        var ties = new AdditionalTieSpec { AddH = horizontal, TypeH = 1, NH = 0, AddV = vertical, TypeV = 1, NV = 0 };
+        var ties = new AdditionalTieSpec { AddH = horizontal, KindH = CrossTieKind.Hooks90, NH = 0, AddV = vertical, KindV = CrossTieKind.Hooks90, NV = 0 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), Uniform150, ties);
 
@@ -126,7 +126,7 @@ public sealed class ColumnSpecRulesTests
     public void FirstProblem_BadSpacingAndIncompleteCrossTie_ReportsTheSpacingFirst()
     {
         var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = 0 };
-        var ties = new AdditionalTieSpec { AddH = true, TypeH = 0, AH = 0 };
+        var ties = new AdditionalTieSpec { AddH = true, KindH = CrossTieKind.ClosedTie, AH = 0 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, ties);
 
@@ -217,7 +217,7 @@ public sealed class ColumnSpecRulesTests
     [InlineData(double.PositiveInfinity)]
     public void FirstProblem_ClosedCrossTieLegNotAFiniteNumber_AsksForALeg(double leg)
     {
-        var ties = new AdditionalTieSpec { AddH = true, TypeH = 0, AH = leg };
+        var ties = new AdditionalTieSpec { AddH = true, KindH = CrossTieKind.ClosedTie, AH = leg };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), Uniform150, ties);
 

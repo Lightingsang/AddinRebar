@@ -96,22 +96,22 @@ public static class ColumnSpecRules
 
     private static string? CrossTieProblem(AdditionalTieSpec ties)
     {
-        if (ties.AddH && ties.TypeH == 0 && !FiniteNumber.IsPositive(ties.AH))
+        if (ties.AddH && ties.KindH == CrossTieKind.ClosedTie && !FiniteNumber.IsPositive(ties.AH))
         {
             return "give the horizontal cross-tie a leg length.";
         }
 
-        if (ties.AddV && ties.TypeV == 0 && !FiniteNumber.IsPositive(ties.AV))
+        if (ties.AddV && ties.KindV == CrossTieKind.ClosedTie && !FiniteNumber.IsPositive(ties.AV))
         {
             return "give the vertical cross-tie a leg length.";
         }
 
-        if (ties.AddH && ties.TypeH != 0 && ties.NH < 1)
+        if (ties.AddH && ties.KindH != CrossTieKind.ClosedTie && ties.NH < 1)
         {
             return "at least one horizontal cross-tie is required.";
         }
 
-        if (ties.AddV && ties.TypeV != 0 && ties.NV < 1)
+        if (ties.AddV && ties.KindV != CrossTieKind.ClosedTie && ties.NV < 1)
         {
             return "at least one vertical cross-tie is required.";
         }

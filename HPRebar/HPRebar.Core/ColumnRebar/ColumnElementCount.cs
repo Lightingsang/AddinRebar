@@ -33,20 +33,20 @@ public static class ColumnElementCount
         var count = 0;
         if (ties.AddH)
         {
-            count += RectangleTies(ties.TypeH, ties.AH, ties.NH, runCount);
+            count += RectangleTies(ties.KindH, ties.AH, ties.NH, runCount);
         }
 
         if (ties.AddV)
         {
-            count += RectangleTies(ties.TypeV, ties.AV, ties.NV, runCount);
+            count += RectangleTies(ties.KindV, ties.AV, ties.NV, runCount);
         }
 
         return count;
     }
 
-    private static int RectangleTies(int type, double leg, int crossTieCount, int runCount)
+    private static int RectangleTies(CrossTieKind kind, double leg, int crossTieCount, int runCount)
     {
-        if (type != 0)
+        if (kind != CrossTieKind.ClosedTie)
         {
             return crossTieCount * runCount;
         }

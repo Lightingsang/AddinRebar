@@ -14,7 +14,7 @@ public sealed class ColumnElementCountTests
     public void CrossTies_Rectangle_CountsPerTieGroup(
         bool addH, int typeH, int nh, double ah, bool addV, int typeV, int nv, double av, int expected)
     {
-        var ties = new AdditionalTieSpec { AddH = addH, TypeH = typeH, NH = nh, AH = ah, AddV = addV, TypeV = typeV, NV = nv, AV = av };
+        var ties = new AdditionalTieSpec { AddH = addH, KindH = (CrossTieKind)typeH, NH = nh, AH = ah, AddV = addV, KindV = (CrossTieKind)typeV, NV = nv, AV = av };
 
         Assert.Equal(expected, ColumnElementCount.CrossTies(SectionShape.Rectangle, ties, runCount: 3));
     }
@@ -25,7 +25,7 @@ public sealed class ColumnElementCountTests
     [InlineData(true, true, 9)]
     public void CrossTies_Circle_HorizontalOnePerGroupVerticalAPair(bool addH, bool addV, int expected)
     {
-        var ties = new AdditionalTieSpec { AddH = addH, AddV = addV, TypeH = 1, NH = 5, TypeV = 1, NV = 5 };
+        var ties = new AdditionalTieSpec { AddH = addH, AddV = addV, KindH = CrossTieKind.Hooks90, NH = 5, KindV = CrossTieKind.Hooks90, NV = 5 };
 
         Assert.Equal(expected, ColumnElementCount.CrossTies(SectionShape.Circular, ties, runCount: 3));
     }
@@ -35,7 +35,7 @@ public sealed class ColumnElementCountTests
     {
         var section = TestSections.Rectangle();
         var stirrups = new StirrupSpec { Layout = TieLayout.SparseMiddleHalf, S1 = 100, S2 = 200 };
-        var ties = new AdditionalTieSpec { AddH = true, TypeH = 1, NH = 2 };
+        var ties = new AdditionalTieSpec { AddH = true, KindH = CrossTieKind.Hooks90, NH = 2 };
 
         var planned = ColumnElementCount.Planned(section, stirrups, ties, barCount: 10);
 
