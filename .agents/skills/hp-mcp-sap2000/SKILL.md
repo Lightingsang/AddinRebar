@@ -102,3 +102,11 @@ Không có seed phù hợp → `search_tools` (query tiếng Việt/Anh) → v�
 | R | `Get*/Is*/Has*/Count`, `Results.*`, `Results.Setup.*`, `SelectObj.*`, `View.*`, `DatabaseTables.GetTableForDisplayArray` | `none` | chạy bình thường | execution | 5–120 s |
 | W | `Set*/Add*` object/định nghĩa, `EditGeneral.Move`, `Analyze.SetRunCaseFlag`, `PointObj.SetRestraint` | `auto` (`manual` ≡ auto) | preview tĩnh | execution | 5–120 s |
 | D | `RunAnalysis`, `DeleteResults`, `SetModelIsLocked`, `FrameObj.Delete`, `File.Save/OpenFile`, member path | `auto` | preview tĩnh, **không cần** opt-in D | execution **+ destructive** (chỉ khi chạy thật) | ≤ 600 s |
+
+## Đề xuất tool — kiểm tra chất lượng code (ADR-0007)
+
+`propose_tool` chạy bộ kiểm tra chất lượng của bridge trên `code` (quy tắc: `docs/clean-code/HP_CLEAN_CODE_CORE.md` §13, phụ lục host: `docs/clean-code/host-appendix/com-standalone.md`):
+
+- **Bị từ chối (lỗi):** code bị comment lại (Q-B1), `catch` rỗng không có comment nói lý do (Q-B2), script > 300 dòng (Q-B3). Sửa code rồi `propose_tool` lại.
+- **Chỉ cảnh báo:** khối / local function > 50 dòng (Q-W1), lồng > 3 cấp (Q-W2), tên mơ hồ `data`/`tmp`/`obj`/`res`/`val`… (Q-W3), tham số `bool` trên local function (Q-W4), `catch (Exception)` nuốt lỗi — không throw, không return, không dùng `ex` (Q-W5). Nên sửa trước khi publish.
+- **`quality not analysed`:** bridge đang chạy là bản cũ, chưa có bộ kiểm tra — draft vẫn được lưu và publish vẫn được phép; ghi nhận trong báo cáo, redeploy bridge khi có thể.

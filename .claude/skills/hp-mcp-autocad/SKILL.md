@@ -122,6 +122,14 @@ Chi tiết: `references/troubleshooting.md`.
 - Không lặp write tool để "thử"; không nâng `timeoutSeconds`/`maxCandidates` quá cần thiết.
 - Không sửa entry MCP của host khác trong `.mcp.json`, không commit `.mcp.json`. Không lộ đường dẫn máy/secret vào tool code hay report.
 
+## Đề xuất tool — kiểm tra chất lượng code (ADR-0007)
+
+`propose_tool` chạy bộ kiểm tra chất lượng của bridge trên `code` (quy tắc: `docs/clean-code/HP_CLEAN_CODE_CORE.md` §13, phụ lục host: `docs/clean-code/host-appendix/autocad-civil.md`):
+
+- **Bị từ chối (lỗi):** code bị comment lại (Q-B1), `catch` rỗng không có comment nói lý do (Q-B2), script > 300 dòng (Q-B3). Sửa code rồi `propose_tool` lại.
+- **Chỉ cảnh báo:** khối / local function > 50 dòng (Q-W1), lồng > 3 cấp (Q-W2), tên mơ hồ `data`/`tmp`/`obj`/`res`/`val`… (Q-W3), tham số `bool` trên local function (Q-W4), `catch (Exception)` nuốt lỗi — không throw, không return, không dùng `ex` (Q-W5). Nên sửa trước khi publish.
+- **`quality not analysed`:** bridge đang chạy là bản cũ, chưa có bộ kiểm tra — draft vẫn được lưu và publish vẫn được phép; ghi nhận trong báo cáo, redeploy bridge khi có thể.
+
 ## Resources
 
 - `references/tool-catalog-core-registry.md`, `-drawing-data.md`, `-blocks-annotations-audit.md`, `-aec-structural.md`, `-arch-mep-coordination-changesets.md` — 62 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).

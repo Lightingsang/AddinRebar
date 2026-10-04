@@ -6,18 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Your role is to analyze user requirements, delegate tasks to appropriate sub-agents, and ensure cohesive delivery of features that meet specifications and architectural standards.
 
-## Clean Code Governance — RevitAddinAI (MANDATORY)
+## Clean Code Governance — HP MCP repository (MANDATORY)
 
-Applies to **every change under `HPRebar/`** (rebar add-in, `HPRebar.Core`, Revit MCP bridge/server, their tests). Before planning, writing or reviewing such a change, Claude Code **must read**:
+Applies to **every new or changed C# line** in `HPRebar/` (rebar add-in, `HPRebar.Core`, Revit MCP), `McpShared/` and the MCP folders `HPAutoCad/`, `HPCivil3d/`, `HPNavis/`, `HPEtabs/`, `HPSap2000/`, `HPPowerBi/`, `HPExcel/`, `HPRobot/`, `HPTekla/`, to tools an AI proposes at run time and to embedded seeds (ADR-0007; existing code is not refactored — Boy Scout on touched lines only; `HPGeo/` is retired). This section was formerly "Clean Code Governance — RevitAddinAI". Before planning, writing or reviewing such a change, Claude Code **must read**:
 
-1. `docs/architecture/ARCHITECTURE.md` — as-is map, target layers, where code goes
-2. `docs/clean-code/REVITADDINAI_CLEAN_CODE_STANDARD.md` — the binding rules ([PCC] book / [REVIT] / [PROJECT]); numbers are review triggers, not limits
-3. `docs/clean-code/TOOL_DEVELOPMENT_WORKFLOW.md` — the 16-step workflow and Definition of Done for any new tool
-4. `docs/clean-code/CODE_REVIEW_CHECKLIST.md` — run on every diff; findings cite rule ids
+1. `docs/architecture/ARCHITECTURE.md` — as-is map, target layers, where code goes (HPRebar; the MCP folders follow "Repository Layout" below)
+2. `docs/clean-code/HP_CLEAN_CODE_CORE.md` — the host-neutral binding rules ([PCC] book / [PROJECT]; ids N, M, FM, C, S, D, K, CM, T, P, Q); numbers are review triggers, not limits, except the three blocking runtime rules Q-B1…Q-B3
+3. **the host appendix** of the folder in `docs/clean-code/host-appendix/` — `revit.md` (+ `docs/clean-code/REVITADDINAI_CLEAN_CODE_STANDARD.md`: D1, D4, K6, T2, T5, T6, R1–R13, P1–P4), `autocad-civil.md`, `com-standalone.md` (ETABS, SAP2000, Robot, Excel), `net48-inprocess.md` (Navisworks, Tekla), `powerbi.md`
+4. `docs/clean-code/TOOL_DEVELOPMENT_WORKFLOW.md` — the 16-step workflow and Definition of Done for any new tool
+5. `docs/clean-code/CODE_REVIEW_CHECKLIST.md` — run on every diff; findings cite rule ids
 
-Look-ups as needed: `docs/clean-code/PRAGMATIC_CLEAN_CODE_RULES.md` (PCC-001…293, the full book catalogue), `docs/architecture/DEPENDENCY_RULES.md`, `docs/architecture/adr/`, `docs/clean-code/CLEAN_CODE_AUDIT.md` (baseline findings AUD-xxx / behaviour defects B-xx), `docs/clean-code/REFACTORING_PLAN.md` + `REFACTORING_LOG.md`.
+Look-ups as needed: `docs/clean-code/PRAGMATIC_CLEAN_CODE_RULES.md` (PCC-001…293, the full book catalogue), `docs/architecture/DEPENDENCY_RULES.md`, `docs/architecture/adr/` (0001–0007), `docs/clean-code/CLEAN_CODE_AUDIT.md` (baseline findings AUD-xxx / behaviour defects B-xx for HPRebar, H-xx for the other hosts), `docs/clean-code/REFACTORING_PLAN.md` + `REFACTORING_LOG.md` (refactoring waves are HPRebar-only).
 
-Non-negotiable: AI-generated code is unreviewed code until the checklist passes; refactoring follows the waves of the plan (never mixed with features or fixes, never started without user approval); a behaviour defect found while refactoring is logged, not silently fixed; ADRs marked *Proposed* are not yet binding where they change existing code. The repository — not session memory — is the source of truth for these rules.
+Runtime check (ADR-0007): `propose_tool` rejects a script with commented-out code, an empty `catch` without a reason comment, or more than 300 lines, and warns on long blocks, deep nesting, vague names, `bool` parameters on local functions and swallowing `catch (Exception)`; a bridge built before the check reports "quality not analysed" and publishing stays allowed. Every `*.Mcp.Server.Tests` project checks its embedded seeds the same way against a hash-pinned allowlist.
+
+Non-negotiable: AI-generated code is unreviewed code until the checklist passes; refactoring follows the waves of the plan (never mixed with features or fixes, never started without user approval); a behaviour defect found while refactoring or planning is logged, not silently fixed; ADRs marked *Proposed* are not yet binding where they change existing code; AGENTS.md is updated by inserting the same text by hand, never regenerated while it carries content CLAUDE.md lacks. The repository — not session memory — is the source of truth for these rules.
 
 ## Repository Layout
 
@@ -52,10 +55,10 @@ dotnet build HPRebar/HPRebar.csproj -c Debug.R26   # add-in project only
 dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false   # when Revit is open and locking the DLL
 
 dotnet test HPRebar.Core.Tests                     # 949 xUnit tests (run 2026-10-03), no Revit needed
-dotnet test HPRebar.Mcp.Server.Tests               # 109 xUnit tests (Revit-specific): registry over the real seeds, seed tools compiled against the Revit API reference assemblies — no Revit needed
+dotnet test HPRebar.Mcp.Server.Tests               # 118 xUnit tests (run 2026-10-04; Revit-specific): registry over the real seeds, seed tools compiled against the Revit API reference assemblies — no Revit needed
 # Engine tests live beside the engine (run from McpShared/ — each folder has its own global.json pinning the MTP runner):
-(cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 743 xUnit tests (run 2026-10-03): pipe round trips with a fake executor, guard/compiler/args/analyzer, host-neutrality, registry per profile, ContextService.Shape all hosts, stability window, Navis profile + per-profile timeout ceiling, ETABS profile/hints/HostVersion seeding/`global::` guard (34 added 2026-09-16), `#r`/`#load` refused (2 added 2026-09-17)
-(cd ../McpShared && dotnet test HPRebar.McpBridge.Core.Net48Tests)  # 113 xUnit tests (run 2026-10-03) of the engine's net48 asset (the .NET Framework host is Navisworks 2026 — see HPNavis/): guard/queue linked, Roslyn on 4.8, PipeSecurity pipe ACL. Do NOT pass --nologo to dotnet test — it is forwarded to the MTP runner and rejected
+(cd ../McpShared && dotnet test HPRebar.Mcp.Server.Core.Tests)   # 793 xUnit tests (run 2026-10-04; 50 script-quality walker cases added): pipe round trips with a fake executor, guard/compiler/args/analyzer, host-neutrality, registry per profile, ContextService.Shape all hosts, stability window, Navis profile + per-profile timeout ceiling, ETABS profile/hints/HostVersion seeding/`global::` guard (34 added 2026-09-16), `#r`/`#load` refused (2 added 2026-09-17)
+(cd ../McpShared && dotnet test HPRebar.McpBridge.Core.Net48Tests)  # 115 xUnit tests (run 2026-10-04) of the engine's net48 asset (the .NET Framework host is Navisworks 2026 — see HPNavis/): guard/queue linked, Roslyn on 4.8, PipeSecurity pipe ACL. Do NOT pass --nologo to dotnet test — it is forwarded to the MTP runner and rejected
 dotnet build HPRebar.Tests/HPRebar.Tests.csproj -c Debug.R26  # TUnit, excluded from solution builds
 
 # ModularPipelines automation — from HPRebar/build/
