@@ -345,3 +345,11 @@
 - **Change:** `BeamSpecRules` checks the lap factor with `IsPositive` ("Lap length factor must be greater than zero."); the calculator is unchanged
 - **Tests:** `BeamSpecRulesTests` — 0 and −40 join the refused cases; the stock-length 0 / −1 cases still pass
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1232/1232 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-41 — the preview's lap mark follows the calculator's lap and stock rules
+- **Decision (user, 2026-10-04):** share the rules with the calculator
+- **Change:** new public `BeamMainBarCalculator.EffectiveStockLength` / `EffectiveLapFactor` (the rules the private `StockLimit` / `LapMultiplier` applied — both now call them); `BeamElevationPainter` decides whether to draw the lap mark and how wide from them instead of the raw window values
+- **Behaviour change (intended):** a stock length of 0 no longer draws a lap mark on every multi-span run (the calculator splices at 11.7 m); a NaN or infinite lap factor draws a 40 Ø mark instead of NaN or endless lines; calculator results unchanged
+- **Review:** no findings
+- **Tests:** `BeamMainBarCalculatorTests` (+9 cases for the two rules); the painter itself is WPF in the add-in — CHƯA TEST in Revit
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1241/1241

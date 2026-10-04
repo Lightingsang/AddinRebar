@@ -145,6 +145,17 @@ public static class BeamMainBarCalculator
     }
 
     /// <summary>
+    /// The stock length bars are spliced at: the one entered, or the commercial 11.7 m when it is not a positive
+    /// finite number. The preview draws its lap mark from the same rule.
+    /// </summary>
+    public static double EffectiveStockLength(double maxStockLengthMm) =>
+        FiniteNumber.IsPositive(maxStockLengthMm) ? maxStockLengthMm : CommercialStockLengthMm;
+
+    /// <summary>The lap factor used: the one entered, or the default 40 when it is not a finite number.</summary>
+    public static double EffectiveLapFactor(double lapFactor) =>
+        FiniteNumber.IsFinite(lapFactor) ? lapFactor : DefaultLapMultiplier;
+
+    /// <summary>
     /// Top bars run from cover to cover over the end supports (or the cantilever tips) under the top cover and
     /// stirrup of the first span, hooked down at both ends.
     /// </summary>
@@ -465,13 +476,9 @@ public static class BeamMainBarCalculator
         return (left, right);
     }
 
-    /// <summary>The stock length entered, or the commercial length when it is not a positive finite number.</summary>
-    private static double StockLimit(BeamMainBarSpec spec) =>
-        FiniteNumber.IsPositive(spec.MaxStockLength) ? spec.MaxStockLength : CommercialStockLengthMm;
+    private static double StockLimit(BeamMainBarSpec spec) => EffectiveStockLength(spec.MaxStockLength);
 
-    /// <summary>The lap factor entered, or the default 40 when it is not a finite number.</summary>
-    private static double LapMultiplier(BeamMainBarSpec spec) =>
-        FiniteNumber.IsFinite(spec.LapFactor) ? spec.LapFactor : DefaultLapMultiplier;
+    private static double LapMultiplier(BeamMainBarSpec spec) => EffectiveLapFactor(spec.LapFactor);
 
     /// <summary>
     /// The hook leg at one end of a bar: the length entered for that end, or the default leg cut to the depth

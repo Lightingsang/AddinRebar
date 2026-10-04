@@ -275,13 +275,15 @@ internal sealed class BeamElevationPainter
             BeamDrawPrimitives.Line(dc, _palette.MainBar, xEnd, yBotBar, xEnd, yBotBar - hookLenPx);
         }
 
-        // Lap splice indication if total length > 11.7m
-        if (stack.ContinuousStack.TotalLength > _session.MaxStockLength && stack.Spans.Count > 1)
+        // Lap splice indication when the run is longer than the stock length the calculator splices at
+        double stockLength = BeamMainBarCalculator.EffectiveStockLength(_session.MaxStockLength);
+        if (stack.ContinuousStack.TotalLength > stockLength && stack.Spans.Count > 1)
         {
             var midSpan = stack.Spans[stack.Spans.Count / 2];
             double midX = (midSpan.StartX + midSpan.EndX) / 2.0;
             double lapScreenX = _transform.ToScreenX(midX);
-            double lapWidthPx = Math.Max(12.0, (_session.LapFactor * topDMm) * _transform.Scale);
+            double lapFactor = BeamMainBarCalculator.EffectiveLapFactor(_session.LapFactor);
+            double lapWidthPx = Math.Max(12.0, (lapFactor * topDMm) * _transform.Scale);
             double beamHeightPx = Math.Max(2.0, midSpan.Height * _transform.Scale);
             double lapOffset = Math.Min(3.0, beamHeightPx * 0.15);
 

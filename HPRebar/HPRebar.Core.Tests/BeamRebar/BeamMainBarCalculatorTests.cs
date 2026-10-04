@@ -364,4 +364,25 @@ public sealed class BeamMainBarCalculatorTests
         Assert.Equal(2 * standard.BottomCount, expected.Count);   // the reference run is spliced
         Assert.Equal(expected.Count, bars.Count);
     }
+
+    [Theory]
+    [InlineData(9000.0, 9000.0)]
+    [InlineData(0.0, 11700.0)]
+    [InlineData(-1.0, 11700.0)]
+    [InlineData(double.NaN, 11700.0)]
+    [InlineData(double.PositiveInfinity, 11700.0)]
+    public void EffectiveStockLength_FallsBackToTheCommercialLengthUnlessPositiveAndFinite(double entered, double expected)
+    {
+        Assert.Equal(expected, BeamMainBarCalculator.EffectiveStockLength(entered));
+    }
+
+    [Theory]
+    [InlineData(35.0, 35.0)]
+    [InlineData(0.0, 0.0)]
+    [InlineData(double.NaN, 40.0)]
+    [InlineData(double.NegativeInfinity, 40.0)]
+    public void EffectiveLapFactor_FallsBackToFortyOnlyWhenNotAFiniteNumber(double entered, double expected)
+    {
+        Assert.Equal(expected, BeamMainBarCalculator.EffectiveLapFactor(entered));
+    }
 }
