@@ -162,4 +162,13 @@ public sealed class StirrupDistributionCalculatorTests
         Assert.Equal(0d, l1, Precision);
         Assert.Equal(0d, l2, Precision);
     }
+
+    [Fact]
+    public void ASpacingSoSmallTheCountOverflowsAnIntIsStillRejected()
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = 1e-6 }));
+
+        Assert.Equal("spacing", error.ParamName);
+    }
 }

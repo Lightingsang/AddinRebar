@@ -58,7 +58,7 @@ public static class StirrupDistributionCalculator
         {
             RequirePositiveSpacing(spec.S, nameof(spec.S));
 
-            var count = RequireUsableCount((int)(runLength / spec.S) + 1, spec.S);
+            var count = RequireUsableCount(Math.Truncate(runLength / spec.S), spec.S);
 
             return new[]
             {
@@ -76,8 +76,8 @@ public static class StirrupDistributionCalculator
 
         var (l1, l2) = ComputeZones(runLength, spec.TypeDis);
 
-        var denseCount = RequireUsableCount((int)(l1 / spec.S1) + 1, spec.S1);
-        var sparseCount = RequireUsableCount((int)(l2 / spec.S2) + 1, spec.S2);
+        var denseCount = RequireUsableCount(Math.Truncate(l1 / spec.S1), spec.S1);
+        var sparseCount = RequireUsableCount(Math.Truncate(l2 / spec.S2), spec.S2);
         var denseSlack = (l1 - (denseCount - 1) * spec.S1) / 2;
         var sparseSlack = (l2 - (sparseCount - 1) * spec.S2) / 2;
 
@@ -89,16 +89,20 @@ public static class StirrupDistributionCalculator
         };
     }
 
-    private static int RequireUsableCount(int count, double spacing)
+    /// <summary>
+    /// The tie count for <paramref name="intervals"/> whole spacings, refused above Revit's limit before the cast so
+    /// it cannot overflow. Callers truncate the intervals (not floor) to keep the counts the old int cast gave.
+    /// </summary>
+    private static int RequireUsableCount(double intervals, double spacing)
     {
-        if (count > RevitRebarLimits.MaxBarPositions)
+        if (intervals + 1 > RevitRebarLimits.MaxBarPositions)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(spacing), spacing,
-                $"A spacing of {spacing} needs {count} ties, more than the {RevitRebarLimits.MaxBarPositions} a rebar set can hold.");
+                $"A spacing of {spacing} needs {intervals + 1:0} ties, more than the {RevitRebarLimits.MaxBarPositions} a rebar set can hold.");
         }
 
-        return count;
+        return (int)intervals + 1;
     }
 
     private static void RequirePositiveSpacing(double spacing, string name)

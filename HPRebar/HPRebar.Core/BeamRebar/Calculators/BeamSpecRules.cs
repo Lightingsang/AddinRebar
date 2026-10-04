@@ -103,21 +103,24 @@ public static class BeamSpecRules
             return $"Span {span.Name}: Beam height ({span.Height:0.#} mm) is too shallow for cover ({stirrups.Cover:0.#} mm) and bar sizes.";
         }
 
-        int dense = StirrupCount(span, stirrups.SpacingDense);
+        double dense = StirrupCount(span, stirrups.SpacingDense);
         if (dense > RevitRebarLimits.MaxBarPositions)
         {
-            return $"Span {span.Name}: Dense stirrup spacing produces {dense} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
+            return $"Span {span.Name}: Dense stirrup spacing produces {dense:0} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
         }
 
-        int sparse = StirrupCount(span, stirrups.SpacingSparse);
+        double sparse = StirrupCount(span, stirrups.SpacingSparse);
         if (sparse > RevitRebarLimits.MaxBarPositions)
         {
-            return $"Span {span.Name}: Sparse stirrup spacing produces {sparse} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
+            return $"Span {span.Name}: Sparse stirrup spacing produces {sparse:0} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
         }
 
         return null;
     }
 
-    /// <summary>Stirrups needed over the whole clear span at one spacing: a generous bound on any zone.</summary>
-    private static int StirrupCount(BeamSpan span, double spacing) => (int)Math.Ceiling(span.LengthClear / spacing) + 1;
+    /// <summary>
+    /// Stirrups needed over the whole clear span at one spacing: a generous bound on any zone. Kept in double so a
+    /// tiny spacing cannot overflow an int and slip under the limit.
+    /// </summary>
+    private static double StirrupCount(BeamSpan span, double spacing) => Math.Ceiling(span.LengthClear / spacing) + 1;
 }

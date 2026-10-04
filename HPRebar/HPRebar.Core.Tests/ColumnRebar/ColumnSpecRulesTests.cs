@@ -177,4 +177,14 @@ public sealed class ColumnSpecRulesTests
 
         Assert.Equal(computes, ColumnSpecRules.IsLayoutValid(section.Shape, layout));
     }
+
+    [Fact]
+    public void FirstProblem_TinySpacing_IsRefusedAtRevitsLimit()
+    {
+        var stirrups = new StirrupSpec { TypeDis = 0, S = 1e-6 };
+
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
+
+        Assert.EndsWith("needs more than 1002 ties, which Revit will not accept.", problem);
+    }
 }

@@ -310,4 +310,17 @@ public sealed class FoundationValidationCalculatorTests
         Assert.Throws<ArgumentNullException>(() => FoundationValidationCalculator.Validate(null!, spec));
         Assert.Throws<ArgumentNullException>(() => FoundationValidationCalculator.Validate(snapshot, null!));
     }
+
+    [Fact]
+    public void Validate_SpacingSoSmallTheCountOverflowsAnInt_StillFailsValidation()
+    {
+        var snapshot = FoundationTestData.StandardSnapshot(length: 2000.0, width: 2000.0);
+        // 1900 mm / 1e-7 mm = 1.9e10 bars, past int.MaxValue
+        var spec = FoundationTestData.StandardSpec(spacingBottomX: 1e-7);
+
+        var result = FoundationValidationCalculator.Validate(snapshot, spec);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.ErrorMessages, e => e.StartsWith("Excessive bar count for Bottom X layer", StringComparison.Ordinal));
+    }
 }

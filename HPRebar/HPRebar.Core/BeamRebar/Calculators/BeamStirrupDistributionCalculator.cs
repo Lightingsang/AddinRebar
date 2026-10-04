@@ -74,9 +74,8 @@ public static class BeamStirrupDistributionCalculator
         if (lNode <= 0.0)
             return new StirrupRun { Count = 0, Spacing = spacingMm };
 
-        var (intervals, delta) = FitSpacings(lNode, spacingMm);
+        var (intervals, delta) = FitSpacings(lNode, spacingMm, "Node stirrup", nameof(spacingMm));
         int count = intervals + 1;
-        EnsureWithinLimit(count, "Node stirrup", nameof(spacingMm));
 
         return Run(coverMm + delta, intervals, count, spacingMm);
     }
@@ -136,9 +135,8 @@ public static class BeamStirrupDistributionCalculator
         if (distributionLength < 0.0)
             return Array.Empty<StirrupRun>();
 
-        var (intervals, delta) = FitSpacings(distributionLength, spacing);
+        var (intervals, delta) = FitSpacings(distributionLength, spacing, "Stirrup", "spec");
         int count = intervals + 1;
-        EnsureWithinLimit(count, "Stirrup", "spec");
 
         return new[] { Run(startOffset + delta, intervals, count, spacing) };
     }
@@ -149,9 +147,9 @@ public static class BeamStirrupDistributionCalculator
     /// </summary>
     private static IReadOnlyList<StirrupRun> ThreeZoneRuns(double clearSpanMm, double zoneLength, BeamStirrupSpec spec)
     {
-        var (intervals1, delta1) = FitSpacings(zoneLength - spec.StartOffset, spec.SpacingDense);
+        var (intervals1, delta1) = FitSpacings(
+            zoneLength - spec.StartOffset, spec.SpacingDense, "Zone 1 stirrup", nameof(spec));
         int count1 = intervals1 + 1;
-        EnsureWithinLimit(count1, "Zone 1 stirrup", nameof(spec));
 
         double startX1 = spec.StartOffset + delta1;
         double startX3 = (clearSpanMm - zoneLength) + delta1;
@@ -183,12 +181,16 @@ public static class BeamStirrupDistributionCalculator
         }
 
         double y2 = (gap / spec.SpacingSparse) - 2.0;
-        int intervals2 = (int)Math.Ceiling(y2 - 1e-9);
-        if (intervals2 < 0)
-            intervals2 = 0;
+        double fitted2 = Math.Ceiling(y2 - 1e-9);
+        if (!(fitted2 > 0.0))
+        {
+            // Also catches NaN, which the old int clamp turned into 0.
+            fitted2 = 0.0;
+        }
 
+        EnsureWithinLimit(fitted2 + 1, "Zone 2 stirrup", nameof(spec));
+        int intervals2 = (int)fitted2;
         int count2 = intervals2 + 1;
-        EnsureWithinLimit(count2, "Zone 2 stirrup", nameof(spec));
 
         double delta2 = (gap - (intervals2 * spec.SpacingSparse)) / 2.0;
         return Run(lastX1 + delta2, intervals2, count2, spec.SpacingSparse);
@@ -196,20 +198,26 @@ public static class BeamStirrupDistributionCalculator
 
     /// <summary>
     /// Fits whole spacings into <paramref name="length"/>; <c>Delta</c> is half the length left over, the margin
-    /// at each end that centers the stirrups.
+    /// at each end that centers the stirrups. The count is checked against Revit's limit before it becomes an int,
+    /// so a tiny spacing is refused instead of overflowing.
     /// </summary>
-    private static (int Intervals, double Delta) FitSpacings(double length, double spacing)
+    private static (int Intervals, double Delta) FitSpacings(
+        double length, double spacing, string what, string paramName)
     {
-        int intervals = (int)Math.Floor(length / spacing);
+        double fitted = Math.Floor(length / spacing);
+        EnsureWithinLimit(fitted + 1, what, paramName);
+        int intervals = (int)fitted;
         double delta = (length - (intervals * spacing)) / 2.0;
         return (intervals, delta);
     }
 
-    private static void EnsureWithinLimit(int count, string what, string paramName)
+    private static void EnsureWithinLimit(double count, string what, string paramName)
     {
         if (count > RevitRebarLimits.MaxBarPositions)
+        {
             throw new ArgumentOutOfRangeException(
-                paramName, $"{what} count {count} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
+                paramName, $"{what} count {count:0} exceeds maximum {RevitRebarLimits.MaxBarPositions}.");
+        }
     }
 
     /// <summary><paramref name="count"/> stirrups from <paramref name="startX"/>, <paramref name="intervals"/> spacings long.</summary>

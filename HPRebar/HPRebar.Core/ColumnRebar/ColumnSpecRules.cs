@@ -79,7 +79,8 @@ public static class ColumnSpecRules
                 return "tie spacing must be greater than zero.";
             }
 
-            if ((int)(run / spacing) + 1 > RevitRebarLimits.MaxBarPositions)
+            // In double so a tiny spacing cannot overflow; Truncate keeps the old int cast's rounding.
+            if (Math.Truncate(run / spacing) + 1 > RevitRebarLimits.MaxBarPositions)
             {
                 return $"a spacing of {spacing:0} mm needs more than {RevitRebarLimits.MaxBarPositions} ties, which Revit will not accept.";
             }

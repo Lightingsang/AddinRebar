@@ -201,4 +201,14 @@ public sealed class BeamSpecRulesTests
         BeamSpan? span = null) =>
         BeamSpecRules.FirstProblem(
             mainBars ?? MainBars, stirrups ?? Stirrups, barTypesChosen, viewNames, new[] { span ?? Span });
+
+    /// <summary>A spacing so small the stirrup count no longer fits an int is still refused.</summary>
+    [Fact]
+    public void FirstProblem_TinyDenseSpacing_IsRefusedAtRevitsLimit()
+    {
+        var problem = Check(stirrups: Stirrups with { SpacingDense = 1e-6 });
+
+        Assert.StartsWith("Span D1: Dense stirrup spacing produces 56", problem);
+        Assert.EndsWith("ties, exceeding Revit's 1002 limit.", problem);
+    }
 }

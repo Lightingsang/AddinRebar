@@ -246,4 +246,15 @@ public sealed class BeamStirrupDistributionCalculatorTests
         Assert.True(gap >= 50.0);
         Assert.True(gap <= 310.0);
     }
+
+    [Fact]
+    public void NodeSpacingSoSmallTheCountOverflowsAnIntIsRefusedAtTheLimit()
+    {
+        // 350 mm / 1e-7 mm = 3.5e9 intervals, past int.MaxValue
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeNodeRun(supportWidthMm: 400, coverMm: 25, spacingMm: 1e-7));
+
+        Assert.Contains("exceeds maximum 1002", error.Message);
+        Assert.Equal("spacingMm", error.ParamName);
+    }
 }

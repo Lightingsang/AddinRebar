@@ -283,3 +283,11 @@
 - **Review:** 9/10, every term identical, no other caller of the removed methods (the TUnit `RebarCreationServiceTests` are Column's); applied: tests with skin bars switched off on a deep run, hanging stirrups switched off with secondary beams present, one deep span among shallow ones; one calling style in the tests; logged B-35 (the estimate drifts from what the creators make)
 - **Tests:** `BeamElementCountTests` (12 cases)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1141/1141 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-34 — bar counts checked against Revit's limit before they become an int
+- **Decision (user, 2026-10-04):** fix
+- **Change:** counts are computed and compared in double and cast only after the check: `BeamSpecRules.StirrupCount`, `BeamStirrupDistributionCalculator.FitSpacings` (checks the limit itself) and `MidspanRun`, `ColumnSpecRules.TieRunProblem` and `StirrupDistributionCalculator.RequireUsableCount` (`Math.Truncate` keeps the old `(int)` truncation), `FoundationValidationCalculator` (four layers); messages print counts with `{x:0}`
+- **Behaviour change (intended):** a spacing so small the count passes `int.MaxValue` is refused with the limit message (window) or `ArgumentOutOfRangeException` naming the limit (calculator) instead of being accepted and failing later with a `List` capacity error; every in-range result and message is unchanged; NaN is untouched (B-26)
+- **Review:** APPROVE 8/10; differential probe old vs new (900k cases, net48 / net8 / net10): bit-identical for finite inputs; applied: NaN kept exactly as before in `MidspanRun` (`!(x > 0)` clamp) and the Column count (`RequireUsableCount` takes the intervals and adds 1 after the cast), `ParamName` asserted, the Column rule test no longer pins the `{spacing:0}` text, braces on the four Foundation checks, a comment on `Truncate`; logged B-36 (side-bar rows and cross-ties have no limit at all)
+- **Tests:** 5 regression tests, each failing on the old code: Beam rules, Beam node run, Column rules, Column calculator, Foundation validation; every characterization hash unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1146/1146 · **Golden run:** CHƯA TEST
