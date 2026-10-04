@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.BeamRebar.Model;
+using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
-using HPRebar.Core.Shared;
 
 namespace HPRebar.BeamRebar.ViewModel;
 
@@ -391,76 +391,12 @@ public sealed partial class BeamRebarSession : ObservableObject
 
     public bool Validate(out string errorMessage)
     {
-        if (TopBarCount < 2 || BottomBarCount < 2)
-        {
-            errorMessage = "Top and bottom main longitudinal reinforcement must each have at least 2 bars.";
-            return false;
-        }
+        bool barTypesChosen = TopBarType is not null && BottomBarType is not null && StirrupBarType is not null;
+        string? problem = BeamSpecRules.FirstProblem(
+            ToMainBarSpec(), ToStirrupSpec(), barTypesChosen, ViewNamesToCreate(), Stack.Spans);
 
-        if (StirrupSpacingDense <= 0 || StirrupSpacingSparse <= 0 || !(Cover > 0) || double.IsInfinity(Cover))
-        {
-            errorMessage = "Stirrup spacing and concrete cover must be positive values greater than zero.";
-            return false;
-        }
-
-        if (TopBarType is null || BottomBarType is null || StirrupBarType is null)
-        {
-            errorMessage = "Please ensure main top, bottom, and stirrup rebar types are selected.";
-            return false;
-        }
-
-        double stirrupD = StirrupBarType.DiameterMm;
-        double maxMainD = Math.Max(TopBarType.DiameterMm, BottomBarType.DiameterMm);
-        double minRequired = (2.0 * Cover) + (2.0 * stirrupD) + maxMainD;
-
-        if (IncludeStirrupsInNodes && NodeSpacing <= 0)
-        {
-            errorMessage = "Column node stirrup spacing must be greater than zero.";
-            return false;
-        }
-
-        string usedNames = CreateElevationView || CreateSectionViews ? DetailViewName : string.Empty;
-        if (CreateSectionViews)
-        {
-            usedNames += SectionPrefix;
-        }
-        if (RevitViewNames.TryFindForbiddenCharacter(usedNames, out var character))
-        {
-            errorMessage = $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";
-            return false;
-        }
-
-        foreach (var span in Stack.Spans)
-        {
-            if (span.Width <= minRequired)
-            {
-                errorMessage = $"Span {span.Name}: Beam width ({span.Width:0.#} mm) is too narrow for cover ({Cover:0.#} mm) and bar sizes.";
-                return false;
-            }
-
-            if (span.Height <= minRequired)
-            {
-                errorMessage = $"Span {span.Name}: Beam height ({span.Height:0.#} mm) is too shallow for cover ({Cover:0.#} mm) and bar sizes.";
-                return false;
-            }
-
-            int estimatedDense = (int)Math.Ceiling(span.LengthClear / StirrupSpacingDense) + 1;
-            if (estimatedDense > RevitRebarLimits.MaxBarPositions)
-            {
-                errorMessage = $"Span {span.Name}: Dense stirrup spacing produces {estimatedDense} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
-                return false;
-            }
-
-            int estimatedSparse = (int)Math.Ceiling(span.LengthClear / StirrupSpacingSparse) + 1;
-            if (estimatedSparse > RevitRebarLimits.MaxBarPositions)
-            {
-                errorMessage = $"Span {span.Name}: Sparse stirrup spacing produces {estimatedSparse} ties, exceeding Revit's {RevitRebarLimits.MaxBarPositions} limit.";
-                return false;
-            }
-        }
-
-        errorMessage = string.Empty;
-        return true;
+        errorMessage = problem ?? string.Empty;
+        return problem is null;
     }
 
     public BeamRebarSpec ToSpec()
@@ -470,42 +406,8 @@ public sealed partial class BeamRebarSession : ObservableObject
 
         return new BeamRebarSpec
         {
-            Stirrups = new BeamStirrupSpec
-            {
-                Layout = StirrupLayout,
-                Diameter = StirrupBarType?.DiameterMm ?? 8.0,
-                Cover = Cover,
-                SpacingDense = StirrupSpacingDense,
-                SpacingSparse = StirrupSpacingSparse,
-                StartOffset = StirrupStartOffset,
-                IncludeStirrupsInNodes = IncludeStirrupsInNodes,
-                NodeSpacing = NodeSpacing,
-                BarTypeName = StirrupBarType?.Name ?? string.Empty
-            },
-            MainBars = new BeamMainBarSpec
-            {
-                TopCount = TopBarCount,
-                TopDiameter = TopBarType?.DiameterMm ?? 20.0,
-                TopCover = Cover,
-                TopStartAnchorage = TopStartAnchorage,
-                TopEndAnchorage = TopEndAnchorage,
-                TopStartHookLength = TopStartHookLength,
-                TopEndHookLength = TopEndHookLength,
-                TopBarTypeName = TopBarType?.Name ?? string.Empty,
-
-                BottomCount = BottomBarCount,
-                BottomDiameter = BottomBarType?.DiameterMm ?? 20.0,
-                BottomCover = Cover,
-                BottomStartAnchorage = BottomStartAnchorage,
-                BottomEndAnchorage = BottomEndAnchorage,
-                BottomStartHookLength = BottomStartHookLength,
-                BottomEndHookLength = BottomEndHookLength,
-                BottomBarTypeName = BottomBarType?.Name ?? string.Empty,
-
-                MaxStockLength = MaxStockLength,
-                LapFactor = LapFactor,
-                EnableStagger = EnableStagger
-            },
+            Stirrups = ToStirrupSpec(),
+            MainBars = ToMainBarSpec(),
             AdditionalBars = new BeamAdditionalBarSpec
             {
                 SupportTopBars = supportConfigs,
@@ -544,6 +446,51 @@ public sealed partial class BeamRebarSession : ObservableObject
             PartitionName = PartitionName,
             Views = ToViewOptions()
         };
+    }
+
+    private BeamStirrupSpec ToStirrupSpec() => new()
+    {
+        Layout = StirrupLayout,
+        Diameter = StirrupBarType?.DiameterMm ?? 8.0,
+        Cover = Cover,
+        SpacingDense = StirrupSpacingDense,
+        SpacingSparse = StirrupSpacingSparse,
+        StartOffset = StirrupStartOffset,
+        IncludeStirrupsInNodes = IncludeStirrupsInNodes,
+        NodeSpacing = NodeSpacing,
+        BarTypeName = StirrupBarType?.Name ?? string.Empty
+    };
+
+    private BeamMainBarSpec ToMainBarSpec() => new()
+    {
+        TopCount = TopBarCount,
+        TopDiameter = TopBarType?.DiameterMm ?? 20.0,
+        TopCover = Cover,
+        TopStartAnchorage = TopStartAnchorage,
+        TopEndAnchorage = TopEndAnchorage,
+        TopStartHookLength = TopStartHookLength,
+        TopEndHookLength = TopEndHookLength,
+        TopBarTypeName = TopBarType?.Name ?? string.Empty,
+
+        BottomCount = BottomBarCount,
+        BottomDiameter = BottomBarType?.DiameterMm ?? 20.0,
+        BottomCover = Cover,
+        BottomStartAnchorage = BottomStartAnchorage,
+        BottomEndAnchorage = BottomEndAnchorage,
+        BottomStartHookLength = BottomStartHookLength,
+        BottomEndHookLength = BottomEndHookLength,
+        BottomBarTypeName = BottomBarType?.Name ?? string.Empty,
+
+        MaxStockLength = MaxStockLength,
+        LapFactor = LapFactor,
+        EnableStagger = EnableStagger
+    };
+
+    /// <summary>The detail view name when any view is made, followed by the section prefix when sections are.</summary>
+    private string ViewNamesToCreate()
+    {
+        string names = CreateElevationView || CreateSectionViews ? DetailViewName : string.Empty;
+        return CreateSectionViews ? names + SectionPrefix : names;
     }
 
     private BeamViewOptions ToViewOptions()

@@ -1,0 +1,204 @@
+using System;
+using HPRebar.Core.BeamRebar.Calculators;
+using HPRebar.Core.BeamRebar.Models;
+using Xunit;
+
+namespace HPRebar.Core.Tests.BeamRebar;
+
+public sealed class BeamSpecRulesTests
+{
+    private static readonly BeamMainBarSpec MainBars =
+        new() { TopCount = 2, BottomCount = 2, TopDiameter = 20, BottomDiameter = 20 };
+
+    private static readonly BeamStirrupSpec Stirrups =
+        new() { Diameter = 8, Cover = 25, SpacingDense = 100, SpacingSparse = 200 };
+
+    private static readonly BeamSpan Span =
+        new(index: 0, name: "D1", lengthCenter: 6000, width: 300, height: 600, clearLength: 5600);
+
+    [Fact]
+    public void FirstProblem_BuildableRun_ReturnsNull()
+    {
+        Assert.Null(Check());
+    }
+
+    [Theory]
+    [InlineData(1, 2)]
+    [InlineData(2, 1)]
+    public void FirstProblem_FewerThanTwoBarsTopOrBottom_AsksForTwo(int top, int bottom)
+    {
+        var problem = Check(mainBars: MainBars with { TopCount = top, BottomCount = bottom });
+
+        Assert.Equal("Top and bottom main longitudinal reinforcement must each have at least 2 bars.", problem);
+    }
+
+    [Theory]
+    [InlineData(0.0, 200.0, 25.0)]
+    [InlineData(100.0, -1.0, 25.0)]
+    [InlineData(100.0, 200.0, 0.0)]
+    [InlineData(100.0, 200.0, double.NaN)]
+    [InlineData(100.0, 200.0, double.PositiveInfinity)]
+    public void FirstProblem_SpacingOrCoverNotPositive_AsksForPositiveValues(double dense, double sparse, double cover)
+    {
+        var problem = Check(stirrups: Stirrups with { SpacingDense = dense, SpacingSparse = sparse, Cover = cover });
+
+        Assert.Equal("Stirrup spacing and concrete cover must be positive values greater than zero.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_BarTypeMissing_AsksToChooseThem()
+    {
+        var problem = Check(barTypesChosen: false);
+
+        Assert.Equal("Please ensure main top, bottom, and stirrup rebar types are selected.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_NodeStirrupsWithoutSpacing_AsksForNodeSpacing()
+    {
+        var problem = Check(stirrups: Stirrups with { IncludeStirrupsInNodes = true, NodeSpacing = 0 });
+
+        Assert.Equal("Column node stirrup spacing must be greater than zero.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_NodeSpacingZeroButNodeStirrupsOff_IsFine()
+    {
+        Assert.Null(Check(stirrups: Stirrups with { IncludeStirrupsInNodes = false, NodeSpacing = 0 }));
+    }
+
+    [Fact]
+    public void FirstProblem_ViewNameWithAForbiddenCharacter_NamesTheCharacter()
+    {
+        var problem = Check(viewNames: "Beam B1|S-");
+
+        Assert.Equal("View names cannot contain '|' (Revit refuses \\:{}[]|;<>?`~).", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_SpanNoWiderThanCoverStirrupsAndBar_ReportsTheWidth()
+    {
+        // 2 × 25 cover + 2 × 8 stirrup + 20 bar = 86 mm
+        var problem = Check(span: Span with { Width = 86 });
+
+        Assert.Equal("Span D1: Beam width (86 mm) is too narrow for cover (25 mm) and bar sizes.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_SpanNoDeeperThanCoverStirrupsAndBar_ReportsTheHeight()
+    {
+        var problem = Check(span: Span with { Height = 86 });
+
+        Assert.Equal("Span D1: Beam height (86 mm) is too shallow for cover (25 mm) and bar sizes.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_SpanJustWiderAndDeeperThanTheMinimum_IsFine()
+    {
+        Assert.Null(Check(span: Span with { Width = 86.1, Height = 86.1 }));
+    }
+
+    [Fact]
+    public void FirstProblem_HeightCheck_UsesTheLargerOfTopAndBottomBars()
+    {
+        var problem = Check(mainBars: MainBars with { BottomDiameter = 32 }, span: Span with { Height = 98 });
+
+        Assert.StartsWith("Span D1: Beam height (98 mm)", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_NodeSpacingViewNamesAndSpanAllWrong_ReportsTheNodeSpacing()
+    {
+        var problem = Check(
+            stirrups: Stirrups with { IncludeStirrupsInNodes = true, NodeSpacing = 0 },
+            viewNames: "a|b",
+            span: Span with { Width = 50 });
+
+        Assert.Equal("Column node stirrup spacing must be greater than zero.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_ViewNamesAndSpanBothWrong_ReportsTheViewNames()
+    {
+        var problem = Check(viewNames: "a|b", span: Span with { Width = 50 });
+
+        Assert.StartsWith("View names cannot contain '|'", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_WidthCheck_UsesTheLargerOfTopAndBottomBars()
+    {
+        var problem = Check(mainBars: MainBars with { BottomDiameter = 32 }, span: Span with { Width = 98 });
+
+        Assert.StartsWith("Span D1: Beam width (98 mm)", problem);
+    }
+
+    [Theory]
+    [InlineData(4004.0, true)]    // 1001 intervals → 1002 stirrups: accepted
+    [InlineData(4005.0, false)]   // 1002 intervals → 1003 stirrups: refused
+    public void FirstProblem_DenseStirrupsAtRevitsLimit_AcceptsExactlyTheLimit(double clearLength, bool accepted)
+    {
+        var problem = Check(
+            stirrups: Stirrups with { SpacingDense = 4 }, span: Span with { LengthClear = clearLength });
+
+        Assert.Equal(accepted, problem is null);
+        if (!accepted)
+        {
+            Assert.Equal("Span D1: Dense stirrup spacing produces 1003 ties, exceeding Revit's 1002 limit.", problem);
+        }
+    }
+
+    [Fact]
+    public void FirstProblem_SparseStirrupsOverRevitsLimit_ReportsTheSparseCount()
+    {
+        var problem = Check(
+            stirrups: Stirrups with { SpacingDense = 100, SpacingSparse = 4 }, span: Span with { LengthClear = 4005 });
+
+        Assert.Equal("Span D1: Sparse stirrup spacing produces 1003 ties, exceeding Revit's 1002 limit.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_SeveralProblems_ReportsTheFirstInCheckOrder()
+    {
+        var problem = Check(mainBars: MainBars with { TopCount = 1 }, barTypesChosen: false, viewNames: "a|b");
+
+        Assert.Equal("Top and bottom main longitudinal reinforcement must each have at least 2 bars.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_SecondSpanTooNarrow_NamesThatSpan()
+    {
+        var spans = new[] { Span, Span with { Name = "D2", Width = 80 } };
+
+        var problem = BeamSpecRules.FirstProblem(MainBars, Stirrups, true, string.Empty, spans);
+
+        Assert.StartsWith("Span D2:", problem);
+    }
+
+    /// <summary>A NaN spacing slips past the "not positive" test; pinned until it is guarded.</summary>
+    [Fact]
+    public void FirstProblem_NaNSpacing_IsNotRefused()
+    {
+        Assert.Null(Check(stirrups: Stirrups with { SpacingDense = double.NaN }));
+    }
+
+    [Fact]
+    public void FirstProblem_NullArguments_Throw()
+    {
+        var spans = new[] { Span };
+
+        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(null!, Stirrups, true, "", spans));
+        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, null!, true, "", spans));
+        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, Stirrups, true, null!, spans));
+        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, Stirrups, true, "", null!));
+    }
+
+    private static string? Check(
+        BeamMainBarSpec? mainBars = null,
+        BeamStirrupSpec? stirrups = null,
+        bool barTypesChosen = true,
+        string viewNames = "Beam B1S-",
+        BeamSpan? span = null) =>
+        BeamSpecRules.FirstProblem(
+            mainBars ?? MainBars, stirrups ?? Stirrups, barTypesChosen, viewNames, new[] { span ?? Span });
+}

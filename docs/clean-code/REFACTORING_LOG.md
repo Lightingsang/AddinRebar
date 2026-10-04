@@ -269,3 +269,10 @@
 - **Review:** APPROVE 9/10; differential probe old vs new over 400 000 random cases (NaN, ±∞, −0, every support type, index −1…6): 0 differences; applied: station doc says absolute run coordinates and the ≤ 1 / ≥ 3 cases, a test with a clear span not divisible by six, ≥ 4 sections pinned to the same three stations, the overlapping-support fallback pinned (logged B-33), unused using dropped; noted (not a defect today): section views, dimensions and tables walk the views by a parallel index — safe while view creation throws instead of skipping
 - **Tests:** `BeamSectionStationsTests` (10 cases), `BeamSpanAssemblyTests` (9)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1103/1103 · **Golden run:** CHƯA TEST (stack reading, section views)
+
+### 2026-10-04 — Wave 3 · Beam · input rules to Core (AUD-018 Beam part)
+- **Change:** new `HPRebar.Core/BeamRebar/Calculators/BeamSpecRules.FirstProblem(mainBars, stirrups, barTypesChosen, viewNames, spans)` holds the checks of `BeamRebarSession.Validate` with the same messages in the same order; the session builds `ToMainBarSpec()` / `ToStirrupSpec()` (extracted from `ToSpec`, which reuses them) and `ViewNamesToCreate()`, then asks Core
+- **Behaviour:** none intended; `ToSpec` produces the same spec
+- **Review:** 9/10, messages / order / conditions / values / spec confirmed identical; applied: `viewNames` guarded like the other arguments, `barTypesChosen` documented, tests for just-above-minimum sizes, the height rule with the larger bar and the node-spacing → view-name → span order; logged B-34 (tie estimate overflows `int` for a tiny spacing, Beam and Column); AUD-018 Beam keeps two progress-bar `PlannedCount`s open
+- **Tests:** `BeamSpecRulesTests` (27 cases: every message word for word, check order, NaN/∞ cover, node spacing on/off, larger of the two bar sizes for width and height, minimum boundary, 1002/1003 stirrup limit dense and sparse, second span named, NaN spacing pinned (B-26), guards)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1129/1129 · **Golden run:** CHƯA TEST (Beam window validation)
