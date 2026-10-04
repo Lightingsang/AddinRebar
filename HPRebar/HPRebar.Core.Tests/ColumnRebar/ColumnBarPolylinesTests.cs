@@ -29,6 +29,22 @@ public sealed class ColumnBarPolylinesTests
         Assert.Equal("B65D5F1475A814BE424CBAFA", CharacterizationText.Hash(polylines));
     }
 
+    /// <summary>
+    /// The bar geometry alone (points of every bar), pinned apart from the full hash so a change of how the splice
+    /// settings are represented can be shown not to move a single bar.
+    /// </summary>
+    [Theory]
+    [InlineData(true, "6E603DCAD246B5A319E09260")]
+    [InlineData(false, "DDF1820910A1202D3148D607")]
+    public void Compute_RecordedCases_KeepTheirBarGeometry(bool withColumnAbove, string expectedHash)
+    {
+        var polylines = withColumnAbove
+            ? ColumnBarPolylines.Compute(Lower, TestSections.Grid(), DefaultSplices(), Upper, 8, 10, "D20")
+            : ColumnBarPolylines.Compute(Lower, TestSections.Grid(), DefaultSplices(), above: null, 8, 8);
+
+        Assert.Equal(expectedHash, CharacterizationText.Hash(polylines.Select(p => p.Points).ToList()));
+    }
+
     [Fact]
     public void Compute_OneSpliceShort_Throws()
     {
