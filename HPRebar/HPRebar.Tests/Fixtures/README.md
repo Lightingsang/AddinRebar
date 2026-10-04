@@ -1,12 +1,17 @@
 # Test fixture model
 
-The TUnit tests in this project run against one Revit model, `column-stack-2-storey.rvt`, which is **not
-generated** — it has to be built by hand once and committed. Until it is present every test in
-`ColumnStackReaderTests` and `ColumnStackValidatorTests` skips with a message naming this file.
+The TUnit tests in this project and the golden runs use one Revit model, `column-stack-2-storey.rvt`. It is
+**generated**, not hand-built: `HPRebar/tools/golden-run/scripts/build-fixture.csx`, run once through the Revit MCP
+(`execute_revit_code`, `transaction: manual`) in Revit 2026, builds it from the out-of-the-box template
+`Structural Analysis-DefaultMetric.rte` and the English\US family library, checks every Mark, shape and bar type,
+and saves it. `golden/fixture-meta.json` records the Revit build and the file's sha256. To change the model, edit
+the script and regenerate — never edit the `.rvt` by hand.
 
-Build it in **Revit 2026**, metric project template, and save it here as `column-stack-2-storey.rvt`.
+`.gitattributes` at the repo root routes `*.rvt` through git-lfs.
 
-`.gitattributes` at the repo root already routes `*.rvt` through git-lfs, so commit it normally.
+The model has three areas: **A** at the origin (the column stack below, used by the TUnit tests and the Column
+golden run), **B** at x + 20 m (a beam run, Beam golden run) and **C** at y + 20 m (a foundation slab, Foundation
+golden run).
 
 ## Levels
 
@@ -16,10 +21,10 @@ Build it in **Revit 2026**, metric project template, and save it here as `column
 | Level 1 | 3000 |
 | Level 2 | 6000 |
 
-## Elements
+## Area A — column stack
 
-All columns are the same rectangular concrete family type, varied by instance dimensions, and every column
-carries a **Mark** — the tests find them by Mark, nothing else.
+All columns are the same rectangular concrete family, and every column carries a **Mark** — the tests find them by
+Mark, nothing else.
 
 | Mark | Base → Top | Size (b × h) | Notes |
 |---|---|---|---|
@@ -32,20 +37,35 @@ carries a **Mark** — the tests find them by Mark, nothing else.
 
 Plus:
 
-- **Foundation** — a structural foundation under `C1-LOWER`, `C-SLANTED` and `C3-LOWER`, on the Foundation
-  level, joined to each of them, with its top face flush with the column bases.
-- **Beam** — one 300 × 500 structural framing element whose reference level is **Level 1**, framing into the
-  head of `C1-LOWER`, joined to it and not cutting it. Its top face must be flush with the column head, which
-  puts the soffit 500 mm below — that is what makes `Hb` and `Zb` both read 500.
+- **Foundation** `FTG-1` — one 8000 × 1600 × 600 structural footing under `C1-LOWER`, `C-SLANTED` and `C3-LOWER`,
+  on the Foundation level, joined to each of them (the footing cuts the column), with its top face flush with the
+  column bases.
+- **Beam** `B-C1` — one 300 × 500 structural framing element whose reference level is **Level 1**, framing into the
+  head of `C1-LOWER`, joined to it and not cutting it. Its top face is flush with the column head, which puts the
+  soffit 500 mm below — that is what makes `Hb` and `Zb` both read 500.
 - Nothing frames into the head of `C1-UPPER`.
 
-## Rebar shapes
+## Area B — beam run (x + 20 m)
 
-Load the rebar shape families `M_T1` (rectangular tie) and `M_T3` (circular tie) into the model. Phase 4
-looks them up by name; the readers tested here do not need them, but keeping them in one fixture avoids a
-second model later.
+| Mark | What |
+|---|---|
+| `BR-C1`, `BR-C2`, `BR-C3` | 400 × 400 columns, Foundation → Level 1, at x = 20000 / 26000 / 31000 |
+| `BR-B1`, `BR-B2` | 300 × 600 beams on Level 1, `BR-C1` → `BR-C2` → `BR-C3`, each column cutting them |
+| `BR-CANT` | 300 × 600 cantilever from `BR-C3` to a free end 1800 further |
+| `BR-SEC` | 250 × 450 secondary beam into mid-span of `BR-B1` (cut by it), 3000 long, ending on column `BR-C4` |
+
+## Area C — foundation slab (y + 20 m)
+
+`FND-SLAB`: a structural Floor (the Foundation feature takes the Floors category), 6000 × 4000 × 600, top face on
+the Foundation level.
+
+## Rebar shapes and bar types
+
+The shape families `M_T1` (rectangular tie), `M_T3` (circular tie) and `M_10` (the beam feature falls back to it —
+the library has no `M_T10`) are loaded. The template's bar types are replaced by `D16, D10, D25, D12, D20, D8`,
+created **in that order**, so element-id order differs from diameter order and an id/index mix-up shows in the
+golden runs.
 
 ## Sanity check
 
-Once saved, `dotnet run --project HPRebar.Tests -c Debug.R26` should report every test as passed rather than
-skipped.
+`dotnet run --project HPRebar.Tests -c Debug.R26` should report every test as passed rather than skipped.

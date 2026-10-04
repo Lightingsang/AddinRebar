@@ -1,0 +1,9 @@
+{
+  "file": "column-stack-2-storey.rvt",
+  "sha256": "80f81d50ce7b43761d66c929e700adcf3651132171578b0ac81f2c92c0de2818",
+  "bytes": 7540736,
+  "revitBuild": "26.4.0.32",
+  "template": "Structural Analysis-DefaultMetric.rte (Revit 2026 English)",
+  "generator": "HPRebar/tools/golden-run/scripts/build-fixture.csx",
+  "generated": "2026-10-04"
+}

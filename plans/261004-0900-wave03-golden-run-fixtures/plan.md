@@ -40,8 +40,8 @@ Binding user decisions: golden runs before Wave 4 ph 1-3; Claude may start a SEC
 ## Phases
 | # | Phase | Files | Depends | Status |
 |---|---|---|---|---|
-| 1 | [Pre-selection seam](phase-01-preselection-seam.md) | 4 prod | user approval | planned |
-| 2 | [Fixture model generator](phase-02-fixture-model.md) | csx + rvt + README | — | planned |
+| 1 | [Pre-selection seam](phase-01-preselection-seam.md) | 4 prod | user approval | done 9e63f48 (built R23-R27, live-checked 3 commands 2026-10-04) |
+| 2 | [Fixture model generator](phase-02-fixture-model.md) | csx + rvt + README | — | done (generated in Revit 26.4, 0 warnings, 3 features open on selection) |
 | 3 | [Snapshot script + harness](phase-03-snapshot-and-harness.md) | tools/golden-run/* | 1, 2 | planned |
 | 4 | [Baseline + per-batch protocol](phase-04-baseline-and-batch-protocol.md) | Fixtures/golden/*, docs | 3 | planned |
 
