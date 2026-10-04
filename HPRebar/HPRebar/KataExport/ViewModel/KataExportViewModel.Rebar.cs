@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HPRebar.Core.KataExport.Models;
+using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using HPRebar.Core.KataRebar.Parsers;
 using HPRebar.KataExport.Model;
@@ -102,6 +103,7 @@ public sealed partial class KataExportViewModel
         }
 
         var plan = preview.Plan;
+        int restored = ResetRemovals(plan);
         RebarPlan = plan;
         RebarLayout = plan.Layout;
         BarTypeMappings = _typeResolver?.BuildMappingItems(plan) ?? Array.Empty<KataBarTypeMappingItem>();
@@ -116,8 +118,9 @@ public sealed partial class KataExportViewModel
         PublishWarnings();
 
         CanGenerateRebar = plan.CanGenerate;
+        string restoredNote = restored > 0 ? $" ({restored} lần xóa trên canvas đã được khôi phục.)" : "";
         ShowState(plan.CanGenerate
-                ? $"Đã đọc thép dầm '{plan.Spec.BeamName}': {plan.Layout.TotalBarCount} thanh, {plan.Layout.TotalSteelWeightKg:0.0} kg — kiểm tra rồi bấm Tạo thép."
+                ? $"Đã đọc thép dầm '{plan.Spec.BeamName}': {plan.Layout.TotalBarCount} thanh, {plan.Layout.TotalSteelWeightKg:0.0} kg — kiểm tra rồi bấm Tạo thép.{restoredNote}"
                 : $"Thép dầm '{plan.Spec.BeamName}' chưa vẽ được: {plan.Blocking.Count} mục [Chặn] trong danh sách cảnh báo.",
             error: !plan.CanGenerate);
     }
@@ -151,6 +154,7 @@ public sealed partial class KataExportViewModel
 
     private void ClearRebar()
     {
+        ResetRemovals(null);
         RebarPlan = null;
         RebarLayout = null;
         BarTypeMappings = Array.Empty<KataBarTypeMappingItem>();
@@ -159,7 +163,7 @@ public sealed partial class KataExportViewModel
         PublishWarnings();
     }
 
-    private void PublishWarnings() => Warnings = _exportWarnings.Concat(_rebarMessages).Distinct().ToList();
+    private void PublishWarnings() => Warnings = _exportWarnings.Concat(_rebarMessages).Concat(_removalMessages).Distinct().ToList();
 
     private bool CanRunGenerateRebar() => CanGenerateRebar && !IsBusy;
 
@@ -168,19 +172,23 @@ public sealed partial class KataExportViewModel
     {
         if (RebarSpec is null) return;
 
-        var unmatched = BarTypeMappings.Where(m => m.SelectedType is null).Select(m => $"{m.Role} Ø{m.DiameterMm:0.#}").ToList();
+        // Only the diameters still drawn: a diameter whose bars were all removed on the canvas needs no bar type.
+        var needed = RebarPlan is { } edited ? KataRebarWorkflow.Diameters(edited).ToList() : new List<double>();
+        bool Needed(KataBarTypeMappingItem m) => RebarPlan is null || needed.Any(d => Math.Abs(d - m.DiameterMm) < 0.01);
+        var unmatched = BarTypeMappings.Where(m => m.SelectedType is null && Needed(m)).Select(m => $"{m.Role} Ø{m.DiameterMm:0.#}").ToList();
         if (unmatched.Count > 0)
         {
             ShowState($"Chưa có kiểu thép (RebarBarType) cho: {string.Join(", ", unmatched)} — tải kiểu thép vào dự án.", error: true);
             return;
         }
 
-        var barTypeIds = BarTypeMappings.ToDictionary(m => m.DiameterMm, m => m.SelectedType!.Id);
+        var barTypeIds = BarTypeMappings.Where(m => m.SelectedType is not null).ToDictionary(m => m.DiameterMm, m => m.SelectedType!.Id);
         IsBusy = true;
         ShowState("Đang tạo cốt thép vào Revit...");
         try
         {
-            var result = await _runner.GenerateRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse, barTypeIds);
+            var result = await _runner.GenerateRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse, barTypeIds, RemovedKeys,
+                _plannedPlan is { } planned && RemovedKeys.Count > 0 ? KataLayoutRemoval.Fingerprint(planned.Layout) : null);
             ShowState(result.Message, error: !result.IsSuccess);
         }
         catch (Exception ex)
@@ -226,5 +234,7 @@ public sealed partial class KataExportViewModel
         LoadRebarCommand.NotifyCanExecuteChanged();
         GenerateRebarCommand.NotifyCanExecuteChanged();
         OpenSettingsCommand.NotifyCanExecuteChanged();
+        RemoveBarsCommand.NotifyCanExecuteChanged();
+        UndoRemoveBarsCommand.NotifyCanExecuteChanged();
     }
 }

@@ -144,7 +144,7 @@ internal sealed class KataElevationCadPainter
         _draw.Line(pen, c.X - r, c.Y, c.X - t, c.Y);
         _draw.Line(pen, c.X, c.Y + r, c.X, c.Y + t);
         _draw.Line(pen, c.X, c.Y - r, c.X, c.Y - t);
-        _text.Draw(bubble.Name, _palette.KataNumber, KataDrawingStyle.BubbleTextHeight, c.X, c.Y + KataDrawingStyle.BubbleTextHeight * Scale / 2.0, KataCadText.Align.Centre);
+        _text.DrawCentredOn(bubble.Name, _palette.KataNumber, KataDrawingStyle.BubbleTextHeight, c.X, c.Y, KataCadText.Align.Centre);
     }
 
     /// <summary>

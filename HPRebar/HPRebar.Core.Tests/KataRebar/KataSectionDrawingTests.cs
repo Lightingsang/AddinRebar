@@ -128,7 +128,7 @@ public sealed class KataSectionDrawingTests
         foreach (var bar in d.Bars) keys.Add($"B {P(bar.X, bar.Z)} d{R(bar.Diameter)}");
         foreach (var leader in d.Leaders) keys.Add($"A {leader.Arrow} {R(leader.ArrowSize)} {string.Join(" ", leader.Points.Select(p => P(p.X, p.Z)))}");
         foreach (var mark in d.Marks) keys.Add($"M {P(mark.X, mark.Z)} r{R(mark.Radius)}");
-        foreach (var tag in d.Tags) keys.Add($"K {P(tag.X, tag.Z)} {(tag.PointsRight ? "R" : "L")} {tag.Text} #{string.Join(",", tag.Numbers)}");
+        foreach (var tag in d.Tags) keys.Add($"K {P(tag.X, tag.Z)} {tag.BlockState} {tag.Text}{tag.Spacing} #{string.Join(",", tag.Numbers)}");
         foreach (var dim in d.Dims) keys.Add($"D {(dim.Vertical ? "V" : "H")} {R(dim.Value)} at {R(dim.LineAt)}");
         keys.Add($"T {R(d.Title.Z)}");
         keys.Sort(StringComparer.Ordinal);

@@ -92,7 +92,7 @@ public static class KataSectionDrawingBuilder
         double top = KataSectionStyle.BreakSize;
         foreach (var tag in tags.Tags)
         {
-            double text = KataTagStyle.CharWidth * tag.Text.Length + KataTagStyle.TextGapLeft;
+            double text = KataTagStyle.CharWidth * Math.Max(tag.Text.Length, tag.Spacing.Length) + KataTagStyle.TextGapLeft;
             double circles = circle * tag.Numbers.Count;
             minX = Math.Min(minX, tag.PointsRight ? tag.X - text : tag.X - circles);
             maxX = Math.Max(maxX, tag.PointsRight ? tag.X + circles : tag.X + text);

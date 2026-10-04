@@ -35,9 +35,17 @@ public sealed record KataSectionMark(double X, double Z, double Radius);
 
 /// <summary>
 /// A tag (kata_block_KHT) inserted at (<paramref name="X"/>, <paramref name="Z"/>): its text on the leader before the
-/// insertion, its number circles beyond it, on the side <paramref name="PointsRight"/> says.
+/// insertion, its number circles beyond it, on the side <paramref name="PointsRight"/> says. A stirrup or tie tag
+/// writes its <paramref name="Spacing"/> ("a500") under the leader, the bars ("Ø8") on it.
 /// </summary>
-public sealed record KataSectionTag(double X, double Z, bool PointsRight, string Text, IReadOnlyList<int> Numbers);
+public sealed record KataSectionTag(double X, double Z, bool PointsRight, string Text, IReadOnlyList<int> Numbers, string Spacing = "")
+{
+    /// <summary>One line on the leader, or the bars on it and the spacing under it.</summary>
+    public KataTagLayout Layout => Spacing.Length == 0 ? KataTagLayout.OneLine : KataTagLayout.SpacingBelow;
+
+    /// <summary>Kata's visibility state of the block, e.g. P12.</summary>
+    public string BlockState => KataTagState.Of(PointsRight, Numbers.Count, Layout);
+}
 
 /// <summary>
 /// Kata's section n-n of a beam (T2-DY7.dwg, TL 1/25) in model millimetres: X across the beam from its centre line,

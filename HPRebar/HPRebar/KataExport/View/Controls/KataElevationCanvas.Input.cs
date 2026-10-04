@@ -8,8 +8,9 @@ namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
 /// Mouse handling as in AutoCAD: the wheel zooms around the cursor, holding the middle button pans (hand cursor),
-/// a middle double click is Zoom Extents; a left click selects a column, or the section of a flag it falls on (Kata's
-/// drawing). Shift + left drag pans too, for a touchpad.
+/// a middle double click is Zoom Extents; a left click opens the section of a flag it falls on (Kata's drawing),
+/// else selects the bar group of the line under it (<c>KataElevationCanvas.Edit.cs</c>), else a column. Shift + left
+/// drag pans too, for a touchpad. Over the floating section panel the same gestures zoom and pan the section alone.
 /// </summary>
 public sealed partial class KataElevationCanvas
 {
@@ -26,13 +27,25 @@ public sealed partial class KataElevationCanvas
     /// <summary>Latched once the press has travelled past the threshold: a drag, never a click.</summary>
     private bool _moved;
 
+    /// <summary>The press started over the section panel: it pans the section, not the run.</summary>
+    private bool _inPanel;
+
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
         if (Elevation is not { } elevation || _viewport is not { } viewport) return;
 
         var at = e.GetPosition(this);
-        _viewport = viewport.ZoomAt(Math.Pow(WheelStep, e.Delta / 120.0), at.X, at.Y, MinScale(elevation), MaxScale);
+        double factor = Math.Pow(WheelStep, e.Delta / 120.0);
+        if (SectionPanel() is { } panel && panel.Contains(at))
+        {
+            _sectionView = _sectionView.ZoomAt(factor, at, panel);
+            InvalidateVisual();
+            e.Handled = true;
+            return;
+        }
+
+        _viewport = viewport.ZoomAt(factor, at.X, at.Y, MinScale(elevation), MaxScale);
         _userFramed = true;
         InvalidateVisual();
         e.Handled = true;
@@ -44,17 +57,25 @@ public sealed partial class KataElevationCanvas
         if (e.ChangedButton is not (MouseButton.Left or MouseButton.Middle)) return;
 
         Focus();
+        var at = e.GetPosition(this);
+        bool inPanel = SectionPanel() is { } panel && panel.Contains(at);
         if (e.ChangedButton == MouseButton.Middle && e.ClickCount == 2)
         {
             EndPress();
-            FrameAll();
+            if (inPanel)
+            {
+                _sectionView = KataSectionView.Fitted;
+                InvalidateVisual();
+            }
+            else FrameAll();
             e.Handled = true;
             return;
         }
 
         _pressButton = e.ChangedButton;
-        _pressAt = _lastDrag = e.GetPosition(this);
+        _pressAt = _lastDrag = at;
         _moved = false;
+        _inPanel = inPanel;
         // The middle button (or Shift + left, for a touchpad) pans; the left button selects on release.
         _panning = e.ChangedButton == MouseButton.Middle || (Keyboard.Modifiers & ModifierKeys.Shift) != 0;
         if (_panning) Cursor = Cursors.Hand;
@@ -78,9 +99,14 @@ public sealed partial class KataElevationCanvas
         _moved = true;
         if (!_panning) return;
 
-        _viewport = viewport.PanBy(at.X - _lastDrag.X, at.Y - _lastDrag.Y);
+        if (_inPanel) _sectionView = _sectionView.PanBy(at - _lastDrag);
+        else
+        {
+            _viewport = viewport.PanBy(at.X - _lastDrag.X, at.Y - _lastDrag.Y);
+            _userFramed = true;
+        }
+
         _lastDrag = at;
-        _userFramed = true;
         InvalidateVisual();
     }
 
@@ -95,18 +121,20 @@ public sealed partial class KataElevationCanvas
             var at = e.GetPosition(this);
             if (SectionPanel() is { } panel && panel.Contains(at))
             {
-                // The section panel is not part of the run.
+                // The section panel is not part of the run: only its close button answers a click.
+                if (CloseButton(panel).Contains(at)) CloseSection();
             }
-            else if (FlagAt(elevation, viewport, at) is { } number)
+            else if (FlagAt(elevation, viewport, at) is { } flag)
             {
-                _flagSection = number;
-                _flagPlan = RebarPlan;
-                InvalidateVisual();
+                OpenSection(flag);
+            }
+            else if (SelectBarAt(elevation, viewport, at))
+            {
+                // A bar group is selected; the column stays as it is.
             }
             else
             {
-                _flagSection = null;
-                InvalidateVisual();
+                ClearBarSelection();
                 double station = viewport.ToStation(at.X);
                 // SetCurrentValue keeps the binding to the view model alive whatever its mode.
                 if (elevation.ColumnAt(station, ZeroWidthReachPx / viewport.Scale) is { } column)
@@ -131,6 +159,7 @@ public sealed partial class KataElevationCanvas
     {
         _pressButton = null;
         _panning = false;
+        _inPanel = false;
         Cursor = null;
         if (IsMouseCaptured) ReleaseMouseCapture();
     }

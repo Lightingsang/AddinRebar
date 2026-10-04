@@ -26,8 +26,11 @@ public enum KataDrawingPen
     Stirrup
 }
 
-/// <summary>A polyline of the drawing; X along the beam from the outer face of its first support, Z up from its top.</summary>
-public sealed record KataDrawingLine(KataDrawingPen Pen, IReadOnlyList<(double X, double Z)> Points);
+/// <summary>
+/// A polyline of the drawing; X along the beam from the outer face of its first support, Z up from its top.
+/// <paramref name="Keys"/> name the bars or stirrup zones a bar or stirrup line stands for (<see cref="Calculators.KataLayoutRemoval"/>).
+/// </summary>
+public sealed record KataDrawingLine(KataDrawingPen Pen, IReadOnlyList<(double X, double Z)> Points, IReadOnlyList<string>? Keys = null);
 
 /// <summary>Dimension style: kata_dim_25 (ticks, text) or kata_rai_thep (a stirrup run, no text, run arrows).</summary>
 public enum KataDimStyle

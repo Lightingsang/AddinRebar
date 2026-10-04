@@ -49,13 +49,17 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
         KataBeamRebarSpec spec,
         KataSettings settings,
         bool preferReversed,
-        IReadOnlyDictionary<double, ElementId> barTypeIds) =>
+        IReadOnlyDictionary<double, ElementId> barTypeIds,
+        IReadOnlyCollection<string> removedKeys,
+        string? plannedFingerprint) =>
         await Enqueue(new KataExportRequest(KataExportRequestKind.GenerateRebar, beamIds)
         {
             Spec = spec,
             Settings = settings,
             PreferReversed = preferReversed,
-            BarTypeIds = barTypeIds
+            BarTypeIds = barTypeIds,
+            RemovedKeys = removedKeys,
+            PlannedFingerprint = plannedFingerprint
         }) as KataRebarGenerationResult
         ?? KataRebarGenerationResult.Failed("Revit không trả kết quả tạo thép.");
 
@@ -136,7 +140,8 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
                         req.Completion.TrySetResult(req.Spec is null
                             ? KataRebarGenerationResult.Failed("Chưa có dữ liệu sheet Dam.")
                             : KataRebarWorkflow.Generate(doc, View(uidoc), req.BeamIds ?? Array.Empty<ElementId>(), req.Spec,
-                                req.Settings ?? KataSettings.Default, req.BarTypeIds ?? new Dictionary<double, ElementId>(), req.PreferReversed));
+                                req.Settings ?? KataSettings.Default, req.BarTypeIds ?? new Dictionary<double, ElementId>(), req.PreferReversed,
+                                req.RemovedKeys, req.PlannedFingerprint));
                         break;
                 }
             }

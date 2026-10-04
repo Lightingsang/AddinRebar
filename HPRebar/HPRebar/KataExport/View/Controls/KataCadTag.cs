@@ -1,29 +1,20 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Media;
 using HPRebar.Core.KataRebar.Calculators;
-
-// WPF types, not the Revit ones the SDK imports globally.
-using Brush = System.Windows.Media.Brush;
-using FormattedText = System.Windows.Media.FormattedText;
 
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Kata's tag block kata_block_KHT (scale 25) at an insertion point on screen, in model millimetres scaled like CAD:
-/// the text on the leader before the insertion point, the numbers in touching circles beyond it. A tag running left
-/// has its text left-aligned after the circles; a stirrup tag (no leader) has its text centred on the row.
+/// Kata's tag block kata_block_KHT (scale 25) at an insertion point on screen, in model millimetres scaled like CAD,
+/// laid out as its visibility states set the attributes (T2-DY7.dwg): the number circles touch the insertion point on
+/// the far side of the leader, the text sits on the leader before it — the bars on the line (DK), a stirrup's spacing
+/// under it (KC) — and the elevation's stirrup tag is one line centred on its row (DKKC). Texts are kata_text
+/// (<see cref="KataCadText"/>).
 /// </summary>
 internal sealed class KataCadTag
 {
-    /// <summary>Segoe UI capitals are this fraction of the font size; Kata's text height is a capital height.</summary>
-    private const double CapHeight = 0.70;
-
-    /// <summary>Below this font size (px) the text is not drawn; circles still are.</summary>
-    private const double MinFontPx = 1.5;
-
     private readonly KataCanvasPalette _palette;
+    private readonly KataCadText _text;
     private readonly KataDrawPrimitives _draw;
     private readonly double _scale;
 
@@ -32,27 +23,28 @@ internal sealed class KataCadTag
         _palette = palette;
         _draw = draw;
         _scale = scale;
+        _text = new KataCadText(draw, scale);
     }
 
-    /// <summary>A tag at the end of a leader: <paramref name="right"/> when the leader runs right to it.</summary>
-    public void OnLeader(string text, IReadOnlyList<int> numbers, double insertX, double rowY, bool right)
+    /// <summary>
+    /// A tag at the end of a leader (states P11, P21, T11, T21; P12 with a <paramref name="spacing"/>):
+    /// <paramref name="right"/> when the leader runs right to it, i.e. the text before the insertion point and the
+    /// circles after it.
+    /// </summary>
+    public void OnLeader(string text, IReadOnlyList<int> numbers, double insertX, double rowY, bool right, string spacing = "")
     {
-        double lift = rowY - KataTagStyle.TextLift * _scale;
-        if (right) Text(text, insertX - KataTagStyle.TextGapRight * _scale, lift, alignRight: true);
-        else Text(text, insertX + KataTagStyle.TextGapLeft * _scale, lift, alignRight: false);
+        double x = right ? insertX - KataTagStyle.TextGapRight * _scale : insertX + KataTagStyle.TextGapLeft * _scale;
+        var align = right ? KataCadText.Align.Right : KataCadText.Align.Left;
+        _text.Draw(text, _palette.KataTagText, KataTagStyle.TextHeight, x, rowY - KataTagStyle.TextLift * _scale, align);
+        _text.Draw(spacing, _palette.KataTagText, KataTagStyle.TextHeight, x, rowY + KataTagStyle.SpacingDrop * _scale, align);
         Circles(numbers, insertX, rowY, right);
     }
 
-    /// <summary>Kata's stirrup tag: text right-aligned before the insertion point, centred on the row; one circle after it.</summary>
+    /// <summary>Kata's elevation stirrup tag (T13): one line right-aligned before the insertion point, centred on the row; the circle after it.</summary>
     public void Standalone(string value, IReadOnlyList<int> numbers, double insertX, double rowY)
     {
-        var text = Formatted(value, _palette.KataTagText);
-        if (text is not null)
-        {
-            double width = Width(value, text);
-            _draw.AtWidth(text, insertX - KataTagStyle.TextGapRight * _scale - width, rowY - CapCentre(text), width);
-        }
-
+        _text.DrawCentredOn(value, _palette.KataTagText, KataTagStyle.TextHeight, insertX - KataTagStyle.TextGapRight * _scale,
+            rowY, KataCadText.Align.Right);
         Circles(numbers, insertX, rowY, right: true);
     }
 
@@ -60,37 +52,13 @@ internal sealed class KataCadTag
     private void Circles(IReadOnlyList<int> numbers, double insertX, double rowY, bool right)
     {
         double r = KataTagStyle.CircleRadius * _scale;
-        int n = numbers.Count;
-        for (int k = 0; k < n; k++)
+        int count = numbers.Count;
+        for (int k = 0; k < count; k++)
         {
-            double cx = right ? insertX + r * (2 * k + 1) : insertX - r * (2 * (n - k) - 1);
+            double cx = right ? insertX + r * (2 * k + 1) : insertX - r * (2 * (count - k) - 1);
             _draw.Circle(null, _palette.KataCircle, cx, rowY, r);
-            string value = numbers[k].ToString(CultureInfo.InvariantCulture);
-            var number = Formatted(value, _palette.KataNumber);
-            if (number is null) continue;
-            double width = Width(value, number);
-            _draw.AtWidth(number, cx - width / 2.0, rowY - CapCentre(number), width);
+            string number = numbers[k].ToString(CultureInfo.InvariantCulture);
+            _text.DrawCentredOn(number, _palette.KataNumber, KataTagStyle.TextHeight, cx, rowY, KataCadText.Align.Centre);
         }
     }
-
-    /// <summary>Text with its baseline at <paramref name="baselineY"/>, ending (or starting) at <paramref name="x"/>.</summary>
-    private void Text(string value, double x, double baselineY, bool alignRight)
-    {
-        var text = Formatted(value, _palette.KataTagText);
-        if (text is null) return;
-        double width = Width(value, text);
-        _draw.AtWidth(text, alignRight ? x - width : x, baselineY - text.Baseline, width);
-    }
-
-    /// <summary>Width of the text as Kata's font sets it (Segoe UI runs wider).</summary>
-    private double Width(string value, FormattedText text) => Math.Min(text.Width, KataTagStyle.CharWidth * value.Length * _scale);
-
-    private FormattedText? Formatted(string value, Brush brush)
-    {
-        double size = KataTagStyle.TextHeight * _scale / CapHeight;
-        return size < MinFontPx ? null : _draw.Text(value, brush, size);
-    }
-
-    /// <summary>Distance from the text's top to the middle of its capitals (Kata's text height).</summary>
-    private double CapCentre(FormattedText text) => text.Baseline - KataTagStyle.TextHeight * _scale / 2.0;
 }

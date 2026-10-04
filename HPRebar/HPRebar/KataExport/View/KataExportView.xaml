@@ -482,6 +482,9 @@
                                                       ShowRebar="{Binding ShowRebar}"
                                                       ShowSection="{Binding ShowSection}"
                                                       ShowBarTags="{Binding ShowBarTags}"
+                                                      RemoveBarsCommand="{Binding RemoveBarsCommand}"
+                                                      UndoRemoveBarsCommand="{Binding UndoRemoveBarsCommand}"
+                                                      AutomationProperties.AutomationId="KataElevationCanvas"
                                                       SurfaceBrush="{DynamicResource Brush.Canvas.Fill}"/>
                     </Border>
                 </DockPanel>

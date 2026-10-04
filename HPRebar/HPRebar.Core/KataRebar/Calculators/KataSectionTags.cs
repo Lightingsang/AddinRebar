@@ -130,7 +130,7 @@ internal sealed class KataSectionTags
         }
 
         Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (foot, straight), (foot, row), (insert, row)));
-        Tags.Add(new KataSectionTag(insert, row, false, Spacing(1, tie), new[] { tie.BarNumber }));
+        Tags.Add(StirrupTag(insert, row, StirrupTexts(1, tie.Diameter, tie.Spacing), tie.BarNumber));
     }
 
     /// <summary>The side bars and their ties: <paramref name="ties"/> one per layer, at the layers' drawn heights.</summary>
@@ -184,7 +184,7 @@ internal sealed class KataSectionTags
             double foot = -KataSectionStyle.SideTieFoot, row = levels[0] - lift + KataSectionStyle.SideTieRise;
             double insert = -HalfWidth - KataSectionStyle.SideTieTagBeyond;
             Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (foot, levels[0]), (foot, row), (insert, row)));
-            Tags.Add(new KataSectionTag(insert, row, false, Spacing(1, tie), new[] { tie.BarNumber }));
+            Tags.Add(StirrupTag(insert, row, StirrupTexts(1, tie.Diameter, tie.Spacing), tie.BarNumber));
             return;
         }
 
@@ -192,7 +192,7 @@ internal sealed class KataSectionTags
         double at = -HalfWidth - KataSectionStyle.SideTiesTagBeyond;
         Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, levels[0]), (x, joint), (at, joint)));
         foreach (double z in levels.Skip(1)) Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, z), (x, joint)));
-        Tags.Add(new KataSectionTag(at, joint, false, Spacing(levels.Count, tie), new[] { tie.BarNumber }));
+        Tags.Add(StirrupTag(at, joint, StirrupTexts(levels.Count, tie.Diameter, tie.Spacing), tie.BarNumber));
     }
 
     /// <summary>The hoop's tag on its left side.</summary>
@@ -204,14 +204,19 @@ internal sealed class KataSectionTags
             : -KataSectionStyle.HoopTagDepthRatio * Depth + KataSectionStyle.HoopTagLift - KataSectionStyle.HoopTagPerLayer * (layers - 1);
         double x = -_bars.HoopX, insert = x - KataSectionStyle.HoopTagLeader;
         Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, z), (insert, z)));
-        string text = string.Format(CultureInfo.InvariantCulture, "Ø{0:0}a{1:0}", _bars.Stirrup, hoops.LabelSpacing);
-        Tags.Add(new KataSectionTag(insert, z, false, text, new[] { hoops.BarNumber }));
+        Tags.Add(StirrupTag(insert, z, StirrupTexts(1, _bars.Stirrup, hoops.LabelSpacing), hoops.BarNumber));
     }
 
-    private string Spacing(int layers, KataBarSet tie)
+    /// <summary>Kata's stirrup tag (P12): the bars on the leader, the spacing under it, the circle before the insertion.</summary>
+    private static KataSectionTag StirrupTag(double insert, double row, (string Bars, string Spacing) texts, int number) =>
+        new(insert, row, false, texts.Bars, new[] { number }, texts.Spacing);
+
+    /// <summary>"Ø8" and "a500" of a stirrup or tie, "2xØ8" when <paramref name="layers"/> layers share the tag.</summary>
+    private static (string Bars, string Spacing) StirrupTexts(int layers, double diameter, double spacing)
     {
-        string text = string.Format(CultureInfo.InvariantCulture, "Ø{0:0}a{1:0}", tie.Diameter, tie.Spacing);
-        return layers > 1 ? $"{layers}x{text}" : text;
+        string bars = string.Format(CultureInfo.InvariantCulture, "Ø{0:0}", diameter);
+        string spaced = string.Format(CultureInfo.InvariantCulture, "a{0:0}", spacing);
+        return (layers > 1 ? $"{layers}x{bars}" : bars, spaced);
     }
 
     private static string Count(int count, double diameter) => string.Format(CultureInfo.InvariantCulture, "{0}Ø{1:0}", count, diameter);

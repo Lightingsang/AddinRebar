@@ -22,7 +22,7 @@ public static class KataElevationDrawingBuilder
 
         var f = new KataDrawingFrame(spec);
         var lines = KataElevationOutline.Lines(f).ToList();
-        lines.AddRange(Stirrups(f, KataStirrupRuns.Of(layout)));
+        lines.AddRange(Stirrups(f, layout, KataStirrupRuns.Of(layout)));
         lines.AddRange(Bars(layout, stirrupDiameter));
         var dims = KataElevationDims.Build(f, layout, stirrupDiameter).ToList();
 
@@ -51,21 +51,29 @@ public static class KataElevationDrawingBuilder
     }
 
     /// <summary>The first and last stirrup of each zone, <see cref="KataTagStyle.StirrupInset"/> inside the span's faces.</summary>
-    private static IEnumerable<KataDrawingLine> Stirrups(KataDrawingFrame f, IReadOnlyList<KataStirrupRun> runs)
+    private static IEnumerable<KataDrawingLine> Stirrups(KataDrawingFrame f, KataRebarLayoutResult layout, IReadOnlyList<KataStirrupRun> runs)
     {
         foreach (var run in runs)
         {
             double soffit = run.Span >= 0 && run.Span < f.SpanCount ? f.Soffit(run.Span) : f.SoffitNear(run.First);
             var ends = run.Last - run.First < 1.0 ? new[] { run.First } : new[] { run.First, run.Last };
+            // The zones merged into this run: same span and number, stirrups inside it.
+            var keys = layout.StirrupZones
+                .Where(z => z.Count > 0 && z.Stations.Count > 0 && z.SpanIndex == run.Span && z.BarNumber == run.Number
+                    && z.Stations[0] >= run.First - 0.5 && z.Stations[z.Stations.Count - 1] <= run.Last + 0.5)
+                .Select(KataLayoutRemoval.Key)
+                .ToList();
             foreach (double x in ends)
-                yield return new KataDrawingLine(KataDrawingPen.Stirrup, new[] { (x, -KataTagStyle.StirrupInset), (x, soffit + KataTagStyle.StirrupInset) });
+                yield return new KataDrawingLine(KataDrawingPen.Stirrup, new[] { (x, -KataTagStyle.StirrupInset), (x, soffit + KataTagStyle.StirrupInset) }, keys);
         }
     }
 
     /// <summary>Each bar line once (bars lying on one another across the beam are one line), drafted at Kata's level.</summary>
+    /// <remarks>A line carries the keys of every bar drafted on it: deleting the line deletes them all.</remarks>
     private static IEnumerable<KataDrawingLine> Bars(KataRebarLayoutResult layout, double stirrupDiameter)
     {
-        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var lines = new List<(string Seen, KataRebarCurve First, List<(double X, double Z)> Points, List<string> Keys)>();
+        var index = new Dictionary<string, int>(StringComparer.Ordinal);
         foreach (var bar in layout.SideBars.Concat(layout.MainBottomBars).Concat(layout.ExtraBottomBars).Concat(layout.MainTopBars).Concat(layout.ExtraTopBars))
         {
             double shift = KataDrawingLevels.Shift(bar, stirrupDiameter);
@@ -73,10 +81,21 @@ public static class KataElevationDrawingBuilder
             if (points.Count < 2) continue;
             ShiftLeg(points, 0, 1, Math.Abs(shift));
             ShiftLeg(points, points.Count - 1, points.Count - 2, Math.Abs(shift));
-            if (!seen.Add(string.Join(";", points.Select(p => FormattableString.Invariant($"{p.X:0.0},{p.Z:0.0}"))))) continue;
+            string seen = string.Join(";", points.Select(p => FormattableString.Invariant($"{p.X:0.0},{p.Z:0.0}")));
+            if (index.TryGetValue(seen, out int at))
+            {
+                lines[at].Keys.Add(KataLayoutRemoval.Key(bar));
+                continue;
+            }
 
-            bool top = bar.Role is KataBarRole.MainTop or KataBarRole.ExtraTop;
-            yield return new KataDrawingLine(KataDrawingPen.Bar, KataBarDrafting.Outline(points, top));
+            index[seen] = lines.Count;
+            lines.Add((seen, bar, points, new List<string> { KataLayoutRemoval.Key(bar) }));
+        }
+
+        foreach (var line in lines)
+        {
+            bool top = line.First.Role is KataBarRole.MainTop or KataBarRole.ExtraTop;
+            yield return new KataDrawingLine(KataDrawingPen.Bar, KataBarDrafting.Outline(line.Points, top), line.Keys);
         }
     }
 

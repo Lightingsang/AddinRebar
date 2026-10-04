@@ -13,7 +13,8 @@ using Point = System.Windows.Point;
 namespace HPRebar.KataExport.View.Controls;
 
 /// <summary>
-/// Kata's section n-n (<see cref="KataSectionDrawing"/>) in a panel right of the elevation, fitted to it, in model
+/// Kata's section n-n (<see cref="KataSectionDrawing"/>) in a floating panel over the elevation, fitted to it then
+/// zoomed and panned on its own (<see cref="KataSectionView"/>), in model
 /// millimetres scaled like CAD with the elevation's lineweights (<see cref="KataCadPens"/>): concrete and slab breaks,
 /// hoop and ties, bars as kata_block_THEP (a circle of the bar's diameter, its polyline width d / 12, with a cross),
 /// leaders with their arrowheads, marking circles, dimensions (<see cref="KataCadDimPainter"/>), tags
@@ -35,27 +36,30 @@ internal sealed class KataSectionCadPainter
     private readonly KataDrawPrimitives _draw;
     private readonly KataSectionDrawing _drawing;
     private readonly Rect _panel;
+    private readonly KataSectionView _view;
 
-    public KataSectionCadPainter(KataCanvasPalette palette, KataDrawPrimitives draw, KataSectionDrawing drawing, Rect panel)
+    public KataSectionCadPainter(KataCanvasPalette palette, KataDrawPrimitives draw, KataSectionDrawing drawing, Rect panel, KataSectionView view)
     {
         _palette = palette ?? throw new ArgumentNullException(nameof(palette));
         _draw = draw ?? throw new ArgumentNullException(nameof(draw));
         _drawing = drawing ?? throw new ArgumentNullException(nameof(drawing));
         _panel = panel;
+        _view = view;
     }
 
     public void Paint()
     {
         var border = KataCadPens.Lineweight(_palette.KataGrey, KataCadPens.ThinPx, _draw.PixelsPerDip, 1.0);
-        _draw.Box(_palette.Fill, null, _panel.Left, _panel.Top, _panel.Right, _panel.Bottom);
-        _draw.Line(border, _panel.Left, _panel.Top, _panel.Left, _panel.Bottom);
+        _draw.Box(_palette.Fill, border, _panel.Left, _panel.Top, _panel.Right, _panel.Bottom);
 
         double width = _drawing.MaxX - _drawing.MinX, height = _drawing.Top - _drawing.Bottom;
-        double scale = Math.Min((_panel.Width - 2.0 * PaddingPx) / width, (_panel.Height - 2.0 * PaddingPx) / height);
-        if (width <= 0.0 || height <= 0.0 || scale <= 0.0) return;
+        double fit = Math.Min((_panel.Width - 2.0 * PaddingPx) / width, (_panel.Height - 2.0 * PaddingPx) / height);
+        if (width <= 0.0 || height <= 0.0 || fit <= 0.0) return;
 
-        double ox = _panel.Left + _panel.Width / 2.0 - (_drawing.MinX + _drawing.MaxX) / 2.0 * scale;
-        double oy = _panel.Top + _panel.Height / 2.0 + (_drawing.Top + _drawing.Bottom) / 2.0 * scale;
+        // Fitted to the panel, then the panel's own zoom about its centre and its own pan.
+        double scale = fit * _view.Zoom;
+        double ox = _panel.Left + _panel.Width / 2.0 + _view.Pan.X - (_drawing.MinX + _drawing.MaxX) / 2.0 * scale;
+        double oy = _panel.Top + _panel.Height / 2.0 + _view.Pan.Y + (_drawing.Top + _drawing.Bottom) / 2.0 * scale;
         Point P(double x, double z) => new(ox + x * scale, oy - z * scale);
 
         _draw.PushClip(_panel);
@@ -105,7 +109,7 @@ internal sealed class KataSectionCadPainter
         foreach (var t in _drawing.Tags)
         {
             var at = p(t.X, t.Z);
-            tag.OnLeader(t.Text, t.Numbers, at.X, at.Y, t.PointsRight);
+            tag.OnLeader(t.Text, t.Numbers, at.X, at.Y, t.PointsRight, t.Spacing);
         }
 
         KataElevationCadPainter.PaintTitle(_draw, text, _palette, scale, _drawing.Title, p(_drawing.Title.X, _drawing.Title.Z));

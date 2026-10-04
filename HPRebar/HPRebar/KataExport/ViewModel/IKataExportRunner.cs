@@ -24,5 +24,7 @@ public interface IKataExportRunner
         KataBeamRebarSpec spec,
         KataSettings settings,
         bool preferReversed,
-        IReadOnlyDictionary<double, ElementId> barTypeIds);
+        IReadOnlyDictionary<double, ElementId> barTypeIds,
+        IReadOnlyCollection<string> removedKeys,
+        string? plannedFingerprint);
 }

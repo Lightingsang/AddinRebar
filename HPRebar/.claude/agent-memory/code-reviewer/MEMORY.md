@@ -1,1 +1,2 @@
 - [Revit API XML docs + isolated builds](reference-revit-api-xml-docs-and-isolated-builds.md) — RevitAPI.xml exception contracts; `--artifacts-path` scratch builds; theme tests need a junction layout
+- [Rebar input-order dependencies](project-rebar-input-order-dependencies.md) — Beam axis from beams[0] draw direction; preselection/pick order matters

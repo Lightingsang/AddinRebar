@@ -4,6 +4,8 @@
 - [Verify static gates with a scratch probe](feedback_verify_static_gates_with_scratch_probe.md) — scratch console against the bridge csproj; print guard/tier verdicts before ranking
 
 ## Recurring review checks (HP MCP hosts)
+- [Clean-code scope = all MCP hosts](project-hp-clean-code-scope-all-mcp-hosts.md) — ADR-0007: core + host appendix ids, Q-rules for tools/seeds, H-xx defects logged not fixed
+- [Rule ids unique across core + appendices](project-rule-id-uniqueness-across-appendices.md) — run the id gate over core, Revit standard and all 5 appendices; com-standalone uses CO1–CO14
 - [Harness review checks](project-hp-mcp-harness-review-checks.md) — pid guards, silent skips, pipe-name presence, "beside" servers on the live registry, vacuous audit/status checks
 - [Live harness gotchas](project-mcp-live-harness-review-gotchas.md) — publishedAt tautology, Start-* throwing leaves host running, log tails need time filter, PS 5.1 OEM decode
 - [Seed review pitfalls](project-hp-mcp-seed-review-pitfalls.md) — 64 KB cap arithmetic, nested args keys, units.Label == drawingUnit, mirror fence blind spots, Debug is deployed
@@ -24,5 +26,9 @@
 - [STJ Utf8JsonWriter never flushes mid-walk](project-stj-utf8jsonwriter-never-flushes-midwalk.md) — only Stream overloads flush; matters for result serializers
 - [Options binder pins computed defaults](project-options-binder-pins-computed-defaults.md) — `_x ?? Derive()` getters written back when a section has ≥1 key
 
+## Clean-code waves (HPRebar)
+- [Wave refactor review checks](project-clean-code-wave-refactor-review-checks.md) — NaN/∞ guard gaps, hasher skips fields, FM5 step-down, old-vs-new differential probe recipe, beam splice B-xx, Wave 3 Core-move traps
+
 ## Kata rebar (HPRebar.Core)
-- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows share group keys, tie wrap ignores bar Ø, J7 unbounded, DY7 probe recipe
+- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows, tie wrap vs Ø, J7 unbounded, section tag rows, canvas removal (run merge, orphan BarSets, ordinal keys), DY7 probe
+- [Revit view scale/template facts](project-revit-view-scale-and-template-facts.md) — VIEW_SCALE is a template param, IsValidViewTemplate, TEXT_SIZE is paper size, Beam PlannedCount gaps

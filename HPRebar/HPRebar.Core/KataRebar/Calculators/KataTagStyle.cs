@@ -12,7 +12,7 @@ public static class KataTagStyle
     public const double CircleRadius = 62.5;
 
     /// <summary>Kata's text runs 0.68 of its height per character ("2Ø18+1Ø18": 383 mm at 62.5).</summary>
-    public const double CharWidth = 0.68 * TextHeight;
+    public const double CharWidth = KataDrawingStyle.CharWidthRatio * TextHeight;
 
     /// <summary>Text right-aligned this far before the insertion point (tags pointing right).</summary>
     public const double TextGapRight = 21.25;
@@ -20,8 +20,11 @@ public static class KataTagStyle
     /// <summary>Text left-aligned this far after the insertion point (tags pointing left).</summary>
     public const double TextGapLeft = 12.5;
 
-    /// <summary>Text baseline above the leader's horizontal line.</summary>
-    public const double TextLift = 21.25;
+    /// <summary>Baseline of the text on the leader (attribute DK), above the leader's horizontal line.</summary>
+    public const double TextLift = 21.14;
+
+    /// <summary>Baseline of the spacing under the leader (attribute KC): its capitals stop 11.8 under the line.</summary>
+    public const double SpacingDrop = 74.31;
 
     /// <summary>First row of tags over the beam top face; each next row one pitch further out.</summary>
     public const double FirstRowAbove = 100.0;

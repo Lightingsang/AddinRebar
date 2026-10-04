@@ -40,13 +40,27 @@ public static class KataRebarWorkflow
         KataBeamRebarSpec spec,
         KataSettings settings,
         IReadOnlyDictionary<double, ElementId> barTypeIds,
-        bool? preferReversed = null)
+        bool? preferReversed = null,
+        IReadOnlyCollection<string>? removedKeys = null,
+        string? plannedFingerprint = null)
     {
         var prepared = Prepare(doc, view, beamIds, spec, settings, preferReversed);
         if (prepared.Plan is null)
             return KataRebarGenerationResult.Failed($"Không đo được dầm: {prepared.Match.Message}");
 
         var plan = prepared.Plan;
+        if (removedKeys is { Count: > 0 })
+        {
+            // The groups struck off the canvas: the beams must still plan exactly the bars they were picked from, or a
+            // key could name another bar now.
+            if (plannedFingerprint is not null && plannedFingerprint != KataLayoutRemoval.Fingerprint(plan.Layout))
+                return KataRebarGenerationResult.Failed("Dầm đã đổi từ lúc xem trước nên thép đã xóa trên canvas không còn khớp — bấm Đọc thép Excel lại rồi xóa lại.");
+
+            plan = KataLayoutRemoval.Remove(plan, removedKeys, out var unknown);
+            if (unknown.Count > 0)
+                return KataRebarGenerationResult.Failed($"Dầm đã đổi từ lúc xem trước: {unknown.Count} nhóm thép đã xóa không còn khớp — bấm Đọc thép Excel lại.");
+            Log.Information("Kata Rebar: {Count} bar group(s) removed on the canvas are not drawn", removedKeys.Count);
+        }
         if (!plan.CanGenerate)
             return KataRebarGenerationResult.Failed("Không vẽ: " + string.Join(" ", plan.Blocking));
 

@@ -31,6 +31,12 @@ public sealed class KataExportRequest
     /// <summary>Bar type chosen for each diameter (generation).</summary>
     public IReadOnlyDictionary<double, ElementId>? BarTypeIds { get; init; }
 
+    /// <summary>Keys of the bar groups removed on the canvas (generation), see <c>KataLayoutRemoval</c>.</summary>
+    public IReadOnlyCollection<string>? RemovedKeys { get; init; }
+
+    /// <summary><c>KataLayoutRemoval.Fingerprint</c> of the plan the keys were picked on (generation).</summary>
+    public string? PlannedFingerprint { get; init; }
+
     public TaskCompletionSource<object?> Completion { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     public KataExportRequest(KataExportRequestKind kind, IReadOnlyList<ElementId>? beamIds = null)
