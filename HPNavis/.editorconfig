@@ -1,0 +1,67 @@
+# HPRebar code style (docs/clean-code/REVITADDINAI_CLEAN_CODE_STANDARD.md, FM1-FM5).
+# Mirrors the style the code already uses. Severities are "suggestion" and EnforceCodeStyleInBuild is off,
+# so nothing here changes a build; `dotnet format` applies it in format-only commits.
+# Line endings and BOMs are left alone on purpose: the tree mixes both and normalising them is churn.
+root = true
+
+[*]
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cs,xaml}]
+indent_size = 4
+max_line_length = 120
+
+[*.{csproj,props,targets,slnx,xml,json,addin}]
+indent_size = 2
+
+[*.cs]
+# Namespaces and usings
+csharp_style_namespace_declarations = file_scoped:suggestion
+dotnet_sort_system_directives_first = true
+csharp_using_directive_placement = outside_namespace:suggestion
+
+# FM2: always brace blocks
+csharp_prefer_braces = true:suggestion
+
+# Braces on their own line (Allman), as the code is written
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# A braced case block keeps its braces in line with the case label, as the code is written
+csharp_indent_case_contents_when_block = false
+
+# var where the type is evident, as the code is written
+csharp_style_var_for_built_in_types = true:silent
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = true:silent
+
+# Expression bodies: allowed for one-liners, not required
+csharp_style_expression_bodied_methods = when_on_single_line:silent
+csharp_style_expression_bodied_properties = true:silent
+
+# Naming: private fields _camelCase (static mutable ones too: _window), constants and static readonly PascalCase
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_rule.private_fields_underscore.severity = suggestion
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers =
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+dotnet_naming_style.underscore_camel.required_prefix = _
+
+dotnet_naming_rule.constants_pascal.symbols = constants
+dotnet_naming_rule.constants_pascal.style = pascal
+dotnet_naming_rule.constants_pascal.severity = suggestion
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+dotnet_naming_rule.static_readonly_pascal.symbols = static_readonly_fields
+dotnet_naming_rule.static_readonly_pascal.style = pascal
+dotnet_naming_rule.static_readonly_pascal.severity = suggestion
+dotnet_naming_symbols.static_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_fields.required_modifiers = static, readonly
