@@ -252,4 +252,15 @@ public sealed class BeamSpecialBarCalculatorTests
         Assert.True(pts[0].X >= 225.0);
         Assert.True(pts[pts.Count - 1].X <= 5775.0);
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void ComputeHangingStirrupStations_SpacingNotAFiniteNumber_PlacesNone(double spacing)
+    {
+        var stations = BeamSpecialBarCalculator.ComputeHangingStirrupStations(
+            3500, 250, countPerSide: 3, spacingMm: spacing);
+
+        Assert.Empty(stations);
+    }
 }

@@ -43,6 +43,11 @@ public static class BeamStirrupDistributionCalculator
             throw new ArgumentOutOfRangeException(nameof(spec), "Start offset must be a finite number.");
         }
 
+        if (!FiniteNumber.IsFinite(spec.Cover))
+        {
+            throw new ArgumentOutOfRangeException(nameof(spec), "Cover must be a finite number.");
+        }
+
         // Check if spacing is so small that bar count exceeds Revit max positions
         if ((clearSpanMm / spec.SpacingDense) > RevitRebarLimits.MaxBarPositions
             || (clearSpanMm / spec.SpacingSparse) > RevitRebarLimits.MaxBarPositions)
@@ -82,6 +87,16 @@ public static class BeamStirrupDistributionCalculator
         if (!FiniteNumber.IsPositive(spacingMm))
         {
             throw new ArgumentOutOfRangeException(nameof(spacingMm), "Spacing must be strictly positive.");
+        }
+
+        if (!FiniteNumber.IsFinite(supportWidthMm))
+        {
+            throw new ArgumentOutOfRangeException(nameof(supportWidthMm), "Support width must be a finite number.");
+        }
+
+        if (!FiniteNumber.IsFinite(coverMm))
+        {
+            throw new ArgumentOutOfRangeException(nameof(coverMm), "Cover must be a finite number.");
         }
 
         double lNode = supportWidthMm - (2.0 * coverMm);

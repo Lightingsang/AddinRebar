@@ -23,6 +23,9 @@ public sealed class BeamSpecRulesTests
 
     private static readonly BeamSpan DeepSpan = Span with { Height = 900 };
 
+    private static readonly BeamSpecialBarSpec SpecialBars =
+        new() { EnableHangingStirrups = true, HangingStirrupSpacing = 50 };
+
     [Fact]
     public void FirstProblem_BuildableRun_ReturnsNull()
     {
@@ -177,7 +180,7 @@ public sealed class BeamSpecRulesTests
     {
         var spans = new[] { Span, Span with { Name = "D2", Width = 80 } };
 
-        var problem = BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, string.Empty, spans);
+        var problem = BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, SpecialBars, true, string.Empty, spans);
 
         Assert.StartsWith("Span D2:", problem);
     }
@@ -221,15 +224,17 @@ public sealed class BeamSpecRulesTests
         var spans = new[] { Span };
 
         Assert.Throws<ArgumentNullException>(
-            () => BeamSpecRules.FirstProblem(null!, Stirrups, SideBars, true, "", spans));
+            () => BeamSpecRules.FirstProblem(null!, Stirrups, SideBars, SpecialBars, true, "", spans));
         Assert.Throws<ArgumentNullException>(
-            () => BeamSpecRules.FirstProblem(MainBars, null!, SideBars, true, "", spans));
+            () => BeamSpecRules.FirstProblem(MainBars, null!, SideBars, SpecialBars, true, "", spans));
         Assert.Throws<ArgumentNullException>(
-            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, null!, true, "", spans));
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, null!, SpecialBars, true, "", spans));
         Assert.Throws<ArgumentNullException>(
-            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, null!, spans));
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, null!, true, "", spans));
         Assert.Throws<ArgumentNullException>(
-            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, "", null!));
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, SpecialBars, true, null!, spans));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, SpecialBars, true, "", null!));
     }
 
     [Theory]
@@ -333,17 +338,74 @@ public sealed class BeamSpecRulesTests
         Assert.Equal("Side bar vertical spacing must be greater than zero.", Check(span: DeepSpan, sideBars: sideBars));
     }
 
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_LapFactorNotANumber_AsksForANumber(double lapFactor)
+    {
+        var problem = Check(mainBars: MainBars with { LapFactor = lapFactor });
+
+        Assert.Equal("Lap length factor must be a number.", problem);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_StockLengthNotANumber_AsksForANumber(double stockLength)
+    {
+        var problem = Check(mainBars: MainBars with { MaxStockLength = stockLength });
+
+        Assert.Equal("Bar stock length must be a number.", problem);
+    }
+
+    /// <summary>Zero and negative keep their old meaning (no lap / the 11.7 m stock); only NaN and ∞ are refused.</summary>
+    [Theory]
+    [InlineData(0.0, 11700.0)]
+    [InlineData(40.0, 0.0)]
+    [InlineData(40.0, -1.0)]
+    public void FirstProblem_ZeroOrNegativeLapFactorOrStockLength_IsStillAccepted(double lapFactor, double stockLength)
+    {
+        Assert.Null(Check(mainBars: MainBars with { LapFactor = lapFactor, MaxStockLength = stockLength }));
+    }
+
+    [Fact]
+    public void FirstProblem_BadLapFactorAndNoBarTypes_ReportsTheLapFactorFirst()
+    {
+        var problem = Check(mainBars: MainBars with { LapFactor = double.NaN }, barTypesChosen: false);
+
+        Assert.Equal("Lap length factor must be a number.", problem);
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_HangingStirrupSpacingNotAPositiveNumber_AsksForOne(double spacing)
+    {
+        var problem = Check(specialBars: SpecialBars with { HangingStirrupSpacing = spacing });
+
+        Assert.Equal("Hanging stirrup spacing must be greater than zero.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_HangingStirrupsSwitchedOff_DoNotNeedASpacing()
+    {
+        Assert.Null(Check(specialBars: SpecialBars with { EnableHangingStirrups = false, HangingStirrupSpacing = 0 }));
+    }
+
     private static string? Check(
         BeamMainBarSpec? mainBars = null,
         BeamStirrupSpec? stirrups = null,
         bool barTypesChosen = true,
         string viewNames = "Beam B1S-",
         BeamSpan? span = null,
-        BeamSideBarSpec? sideBars = null) =>
+        BeamSideBarSpec? sideBars = null,
+        BeamSpecialBarSpec? specialBars = null) =>
         BeamSpecRules.FirstProblem(
             mainBars ?? MainBars,
             stirrups ?? Stirrups,
             sideBars ?? SideBars,
+            specialBars ?? SpecialBars,
             barTypesChosen,
             viewNames,
             new[] { span ?? Span });

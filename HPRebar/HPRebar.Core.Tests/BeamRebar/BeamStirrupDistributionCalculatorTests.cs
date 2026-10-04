@@ -307,4 +307,30 @@ public sealed class BeamStirrupDistributionCalculatorTests
 
         Assert.Equal("spacingMm", error.ParamName);
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void CoverNotAFiniteNumberThrowsArgumentOutOfRangeException(double cover)
+    {
+        var spec = TestBeamData.UniformStirrupSpec() with { Cover = cover };
+
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeSpanRuns(2000, spec, isCantilever: true));
+        Assert.Contains("Cover must be a finite number", error.Message);
+    }
+
+    [Theory]
+    [InlineData(double.NaN, 25.0, "supportWidthMm")]
+    [InlineData(400.0, double.NaN, "coverMm")]
+    [InlineData(double.PositiveInfinity, 25.0, "supportWidthMm")]
+    public void NodeWidthOrCoverNotAFiniteNumberThrowsArgumentOutOfRangeException(
+        double width, double cover, string badParameter)
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeNodeRun(
+                supportWidthMm: width, coverMm: cover, spacingMm: 100));
+
+        Assert.Equal(badParameter, error.ParamName);
+    }
 }

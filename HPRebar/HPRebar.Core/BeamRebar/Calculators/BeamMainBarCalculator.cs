@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.BeamRebar.Calculators;
 
@@ -201,7 +202,7 @@ public static class BeamMainBarCalculator
         BeamContinuousStack stack, BarRun run, IReadOnlyList<double> yPositions, BeamMainBarSpec spec)
     {
         var side = BarSide.Top(spec);
-        double lapLength = spec.LapFactor * spec.TopDiameter;
+        double lapLength = LapMultiplier(spec) * spec.TopDiameter;
         double staggerOffset = StaggerOffset(spec, lapLength);
         var targetSpan = stack.Spans[stack.Spans.Count / 2];
         double midspanCenter = targetSpan.StartX + (targetSpan.LengthClear / 2.0);
@@ -371,7 +372,7 @@ public static class BeamMainBarCalculator
         (bool Left, bool Right) cantilevers)
     {
         var side = BarSide.Bottom(spec);
-        double lapLength = spec.LapFactor * spec.BottomDiameter;
+        double lapLength = LapMultiplier(spec) * spec.BottomDiameter;
         double staggerOffset = StaggerOffset(spec, lapLength);
         double supportCenter = BottomSpliceCenter(stack, run, cantilevers);
 
@@ -464,8 +465,13 @@ public static class BeamMainBarCalculator
         return (left, right);
     }
 
+    /// <summary>The stock length entered, or the commercial length when it is not a positive finite number.</summary>
     private static double StockLimit(BeamMainBarSpec spec) =>
-        spec.MaxStockLength > 0.0 ? spec.MaxStockLength : CommercialStockLengthMm;
+        FiniteNumber.IsPositive(spec.MaxStockLength) ? spec.MaxStockLength : CommercialStockLengthMm;
+
+    /// <summary>The lap factor entered, or the default 40 when it is not a finite number.</summary>
+    private static double LapMultiplier(BeamMainBarSpec spec) =>
+        FiniteNumber.IsFinite(spec.LapFactor) ? spec.LapFactor : DefaultLapMultiplier;
 
     /// <summary>
     /// The hook leg at one end of a bar: the length entered for that end, or the default leg cut to the depth

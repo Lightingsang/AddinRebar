@@ -334,4 +334,34 @@ public sealed class BeamMainBarCalculatorTests
         Assert.NotNull(bars);
         Assert.True(bars.Count >= 3);
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void ComputeBottomMainBars_LapFactorNotAFiniteNumber_LapsWithTheDefaultForty(double lapFactor)
+    {
+        var stack = TestBeamData.SingleSpan(length: 12500);
+        var standard = TestBeamData.MainBarSpec();
+
+        var bars = BeamMainBarCalculator.ComputeBottomMainBars(
+            stack, standard with { LapFactor = lapFactor }, stirrupDiameterMm: 10.0);
+        var expected = BeamMainBarCalculator.ComputeBottomMainBars(stack, standard, stirrupDiameterMm: 10.0);
+
+        Assert.Equal(2 * standard.BottomCount, expected.Count);   // the reference run is spliced
+        Assert.Equal(expected.Select(b => b.Polyline.TotalLength), bars.Select(b => b.Polyline.TotalLength));
+    }
+
+    [Fact]
+    public void ComputeBottomMainBars_InfiniteStockLength_SplicesAtTheCommercialLength()
+    {
+        var stack = TestBeamData.SingleSpan(length: 12500);
+        var standard = TestBeamData.MainBarSpec();
+
+        var bars = BeamMainBarCalculator.ComputeBottomMainBars(
+            stack, standard with { MaxStockLength = double.PositiveInfinity }, stirrupDiameterMm: 10.0);
+        var expected = BeamMainBarCalculator.ComputeBottomMainBars(stack, standard, stirrupDiameterMm: 10.0);
+
+        Assert.Equal(2 * standard.BottomCount, expected.Count);   // the reference run is spliced
+        Assert.Equal(expected.Count, bars.Count);
+    }
 }

@@ -393,7 +393,13 @@ public sealed partial class BeamRebarSession : ObservableObject
     {
         bool barTypesChosen = TopBarType is not null && BottomBarType is not null && StirrupBarType is not null;
         string? problem = BeamSpecRules.FirstProblem(
-            ToMainBarSpec(), ToStirrupSpec(), ToSideBarSpec(), barTypesChosen, ViewNamesToCreate(), Stack.Spans);
+            ToMainBarSpec(),
+            ToStirrupSpec(),
+            ToSideBarSpec(),
+            ToSpecialBarSpec(),
+            barTypesChosen,
+            ViewNamesToCreate(),
+            Stack.Spans);
 
         errorMessage = problem ?? string.Empty;
         return problem is null;
@@ -414,17 +420,7 @@ public sealed partial class BeamRebarSession : ObservableObject
                 SpanBottomBars = spanConfigs
             },
             SideBars = ToSideBarSpec(),
-            SpecialBars = new BeamSpecialBarSpec
-            {
-                EnableHangingStirrups = EnableHangingStirrups,
-                HangingStirrupsPerSide = HangingStirrupsPerSide,
-                HangingStirrupDiameter = StirrupBarType?.DiameterMm ?? 8.0,
-                HangingStirrupSpacing = HangingStirrupSpacing,
-                EnableDiagonalTies = EnableDiagonalTies,
-                DiagonalTieCount = DiagonalTieCount,
-                DiagonalTieDiameter = DiagonalTieDiameter,
-                HangingStirrupTypeName = StirrupBarType?.Name ?? string.Empty
-            },
+            SpecialBars = ToSpecialBarSpec(),
             MainBarType = TopBarType,
             StirrupBarType = StirrupBarType,
             AddTopBarType = SupportTopBars.FirstOrDefault()?.BarType ?? TopBarType,
@@ -486,6 +482,18 @@ public sealed partial class BeamRebarSession : ObservableObject
         CrossTieSpacing = CrossTieSpacing,
         SideBarTypeName = SideBarType?.Name ?? string.Empty,
         CrossTieBarTypeName = CrossTieBarType?.Name ?? string.Empty
+    };
+
+    private BeamSpecialBarSpec ToSpecialBarSpec() => new()
+    {
+        EnableHangingStirrups = EnableHangingStirrups,
+        HangingStirrupsPerSide = HangingStirrupsPerSide,
+        HangingStirrupDiameter = StirrupBarType?.DiameterMm ?? 8.0,
+        HangingStirrupSpacing = HangingStirrupSpacing,
+        EnableDiagonalTies = EnableDiagonalTies,
+        DiagonalTieCount = DiagonalTieCount,
+        DiagonalTieDiameter = DiagonalTieDiameter,
+        HangingStirrupTypeName = StirrupBarType?.Name ?? string.Empty
     };
 
     /// <summary>The detail view name when any view is made, followed by the section prefix when sections are.</summary>

@@ -8,8 +8,9 @@ namespace HPRebar.Core.BeamRebar.Calculators;
 
 /// <summary>
 /// What has to hold before a beam run can be reinforced: two bars or more top and bottom, positive spacings and
-/// cover, chosen bar types, view names Revit accepts, spans wide and deep enough for the bars, and stirrup,
-/// side-bar and cross-tie counts Revit will take.
+/// cover, numbers (not NaN or infinity) for the start offset, lap factor and stock length, chosen bar types, view
+/// names Revit accepts, spans wide and deep enough for the bars, and stirrup, side-bar and cross-tie counts
+/// Revit will take.
 /// </summary>
 public static class BeamSpecRules
 {
@@ -22,6 +23,7 @@ public static class BeamSpecRules
     /// <param name="sideBars">
     /// Skin-bar and cross-tie settings, checked only when a span is deep enough for them.
     /// </param>
+    /// <param name="specialBars">Hanging-stirrup settings, checked only when hanging stirrups are on.</param>
     /// <param name="barTypesChosen">
     /// Whether the top, bottom and stirrup bar types are all chosen; the bar diameters in the specs only mean
     /// something when they are, and nothing after this check is run when they are not.
@@ -32,6 +34,7 @@ public static class BeamSpecRules
         BeamMainBarSpec mainBars,
         BeamStirrupSpec stirrups,
         BeamSideBarSpec sideBars,
+        BeamSpecialBarSpec specialBars,
         bool barTypesChosen,
         string viewNames,
         IReadOnlyList<BeamSpan> spans)
@@ -49,6 +52,11 @@ public static class BeamSpecRules
         if (sideBars is null)
         {
             throw new ArgumentNullException(nameof(sideBars));
+        }
+
+        if (specialBars is null)
+        {
+            throw new ArgumentNullException(nameof(specialBars));
         }
 
         if (viewNames is null)
@@ -77,6 +85,21 @@ public static class BeamSpecRules
         if (!FiniteNumber.IsFinite(stirrups.StartOffset))
         {
             return "Stirrup start offset must be a number.";
+        }
+
+        if (!FiniteNumber.IsFinite(mainBars.LapFactor))
+        {
+            return "Lap length factor must be a number.";
+        }
+
+        if (!FiniteNumber.IsFinite(mainBars.MaxStockLength))
+        {
+            return "Bar stock length must be a number.";
+        }
+
+        if (specialBars.EnableHangingStirrups && !FiniteNumber.IsPositive(specialBars.HangingStirrupSpacing))
+        {
+            return "Hanging stirrup spacing must be greater than zero.";
         }
 
         if (!barTypesChosen)

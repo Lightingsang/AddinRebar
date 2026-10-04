@@ -323,3 +323,11 @@
 - **Review:** no findings (loop ends for NaN / ±∞ spacings and offsets, normal previews unchanged, no other runaway loop in the painter)
 - **Tests:** none automated — WPF painter in the add-in, outside `HPRebar.Core.Tests`; CHƯA TEST in Revit
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1197/1197 (unchanged)
+
+### 2026-10-04 — Fix track B-39 (Beam part) — the remaining Beam inputs refuse NaN and infinity
+- **Decision (user, 2026-10-04):** extend the `FiniteNumber` checks (NaN / ∞); refusing 0 or negative lap factor and stock length was left to the user — those keep their old meaning
+- **Change:** the window (`BeamSpecRules`, now also given the special-bar spec) refuses a lap factor or stock length that is not a number and — with hanging stirrups on — a hanging-stirrup spacing that is not a positive finite number; the calculators no longer produce NaN geometry: a non-finite lap factor laps at 40 Ø, a non-finite stock length splices at 11.7 m (as 0 or negative already did), a non-finite hanging-stirrup spacing places none, and the stirrup calculator refuses a non-finite cover or support width (each naming its own parameter); finite values behave as before
+- **Behaviour change (intended):** NaN / ∞ in those boxes is refused in the window instead of producing NaN splices, never-spliced bars or NaN hanging stirrups
+- **Review:** APPROVE 8.5/10, finite results unchanged, new throws go through the existing rollback-and-show path; applied: window checks narrowed to NaN / ∞ for lap factor and stock length (0 / negative is a product decision), separate `ParamName`s for width and cover, the lap tests assert the reference run is spliced, check-order test, doc order; logged B-41 (the preview's lap mark reads the raw values) and AUD-062 (seven-parameter `FirstProblem`)
+- **Tests:** `BeamSpecRulesTests` (+15 cases), calculator tests (+9)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1219/1219 · **Golden run:** CHƯA TEST

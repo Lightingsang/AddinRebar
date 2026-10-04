@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.BeamRebar.Calculators;
 
@@ -25,8 +26,10 @@ public static class BeamSpecialBarCalculator
         double minXMm = double.NegativeInfinity,
         double maxXMm = double.PositiveInfinity)
     {
-        if (countPerSide <= 0)
+        if (countPerSide <= 0 || !FiniteNumber.IsFinite(spacingMm))
+        {
             return Array.Empty<double>();
+        }
 
         double xSecL = secondaryCenterXMm - (secondaryWidthMm / 2.0);
         double xSecR = secondaryCenterXMm + (secondaryWidthMm / 2.0);
