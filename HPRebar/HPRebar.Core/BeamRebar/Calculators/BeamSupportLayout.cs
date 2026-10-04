@@ -24,8 +24,8 @@ public static class BeamSupportLayout
     /// <summary>Length assumed for a framing element whose location is not a straight line.</summary>
     public const double UnknownBeamLengthMm = 4000.0;
 
-    /// <summary>Supports whose centres round to the same multiple of this are one support found twice.</summary>
-    private const double MergeGridMm = 100.0;
+    /// <summary>Two finds whose centres are closer than this are one support found twice.</summary>
+    private const double MergeDistanceMm = 100.0;
 
     /// <summary>A run reaching further than this past its outermost support face ends in a cantilever.</summary>
     private const double CantileverMinOverhangMm = 200.0;
@@ -121,15 +121,24 @@ public static class BeamSupportLayout
     }
 
     /// <summary>
-    /// The supports in order along the run; where several round to one station, the one nearest the start is kept
-    /// (the first found on equal centres).
+    /// The supports in order along the run. A find whose centre is less than <see cref="MergeDistanceMm"/> from
+    /// the last support kept is the same support found again and is dropped, so the one nearest the start is kept
+    /// (the first found on equal centres); measuring from the kept support stops a row of close finds chaining
+    /// into one.
     /// </summary>
-    private static List<MeasuredSupport> Merge(IEnumerable<MeasuredSupport> measured) =>
-        measured
-            .OrderBy(support => support.CenterX)
-            .GroupBy(support => Math.Round(support.CenterX / MergeGridMm) * MergeGridMm)
-            .Select(group => group.First())
-            .ToList();
+    private static List<MeasuredSupport> Merge(IEnumerable<MeasuredSupport> measured)
+    {
+        var kept = new List<MeasuredSupport>();
+        foreach (var support in measured.OrderBy(support => support.CenterX))
+        {
+            if (kept.Count == 0 || support.CenterX - kept[kept.Count - 1].CenterX >= MergeDistanceMm)
+            {
+                kept.Add(support);
+            }
+        }
+
+        return kept;
+    }
 
     /// <summary>The supports with a tip node added at each run end overhanging its outermost support face.</summary>
     private static List<MeasuredSupport> WithCantileverTips(

@@ -49,15 +49,52 @@ public sealed class BeamSupportLayoutTests
         Assert.Equal(new[] { "c0", "early", "c2" }, nodes.Select(n => n.ElementUniqueId));
     }
 
-    /// <summary>Merging rounds centres to a 100 mm grid: two finds either side of a half-step stay apart.</summary>
     [Fact]
-    public void Arrange_TwoFindsTwentyMillimetresApartAcrossAGridHalfStep_StayTwoSupports()
+    public void Arrange_TwoFindsTwentyMillimetresApartAcrossAHundredMillimetreMark_AreOneSupport()
     {
         var measured = new[] { Column(0, "c0"), Column(6040, "a"), Column(6060, "b"), Column(12000, "c2") };
 
         var nodes = BeamSupportLayout.Arrange(measured, TwoSpans);
 
-        Assert.Equal(4, nodes.Count);
+        Assert.Equal(new[] { "c0", "a", "c2" }, nodes.Select(n => n.ElementUniqueId));
+    }
+
+    [Theory]
+    [InlineData(6099.9, "c0,a,c2")]     // 99.9 mm apart: one support, the start-most kept
+    [InlineData(6100.0, "c0,a,b,c2")]   // 100 mm apart: two supports
+    public void Arrange_FindsAtTheMergeDistance_MergeOnlyBelowIt(double secondCenter, string expectedIds)
+    {
+        var measured = new[] { Column(0, "c0"), Column(6000, "a"), Column(secondCenter, "b"), Column(12000, "c2") };
+
+        var nodes = BeamSupportLayout.Arrange(measured, TwoSpans);
+
+        Assert.Equal(expectedIds.Split(','), nodes.Select(n => n.ElementUniqueId));
+    }
+
+    [Fact]
+    public void Arrange_FindsEitherSideOfTheRunOrigin_MergeTheSameWayAsElsewhere()
+    {
+        var measured = new[] { Column(-30, "left"), Column(30, "right"), Column(6000, "c1"), Column(12000, "c2") };
+
+        var nodes = BeamSupportLayout.Arrange(measured, TwoSpans);
+
+        Assert.Equal(new[] { "left", "c1", "c2" }, nodes.Select(n => n.ElementUniqueId));
+    }
+
+    [Fact]
+    public void Arrange_RowOfCloseFinds_MeasuresFromTheKeptSupportSoTheRowDoesNotChain()
+    {
+        // Arrange: 60 mm steps; 6060 is within 100 mm of 6000, 6120 is not
+        var measured = new[]
+        {
+            Column(0, "c0"), Column(6000, "a"), Column(6060, "b"), Column(6120, "c"), Column(12000, "c2")
+        };
+
+        // Act
+        var nodes = BeamSupportLayout.Arrange(measured, TwoSpans);
+
+        // Assert
+        Assert.Equal(new[] { "c0", "a", "c", "c2" }, nodes.Select(n => n.ElementUniqueId));
     }
 
     [Fact]

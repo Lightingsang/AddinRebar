@@ -291,3 +291,11 @@
 - **Review:** APPROVE 8/10; differential probe old vs new (900k cases, net48 / net8 / net10): bit-identical for finite inputs; applied: NaN kept exactly as before in `MidspanRun` (`!(x > 0)` clamp) and the Column count (`RequireUsableCount` takes the intervals and adds 1 after the cast), `ParamName` asserted, the Column rule test no longer pins the `{spacing:0}` text, braces on the four Foundation checks, a comment on `Truncate`; logged B-36 (side-bar rows and cross-ties have no limit at all)
 - **Tests:** 5 regression tests, each failing on the old code: Beam rules, Beam node run, Column rules, Column calculator, Foundation validation; every characterization hash unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1146/1146 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-31 — duplicate supports merged by distance
+- **Decision (user, 2026-10-04):** merge by distance instead of the 100 mm grid
+- **Change:** `BeamSupportLayout.Merge` walks the finds in order along the run and drops a find whose centre is less than `MergeDistanceMm` (100) from the last support kept; the kept one is still the nearest the start (first found on equal centres); measuring from the kept support stops a row of close finds chaining into one
+- **Behaviour change (intended):** finds 20 mm apart across a 100 mm mark (6040 / 6060) are one support, no longer an extra node and an extra span; finds 100 mm apart or more stay separate whatever grid cell they fall in
+- **Review:** 8.5/10; probe old vs new over 300 000 random inputs: the new rule only ever merges more (one exact-100 mm edge of the old round-half-to-even buckets aside); applied: the boundary test asserts which support survives, a test either side of the run origin; logged B-37 (the lower centre survives whatever the element type); overlapping supports 100 mm or more apart stay with B-33; a non-finite centre is to be refused with B-26
+- **Tests:** `BeamSupportLayoutTests` — the grid-split pin replaced by: 20 mm across a 100 mm mark → one support, 99.9 / 100.0 boundary, a 60 mm-step row keeps 6000 and 6120 (all three fail on the old code), finds either side of the origin
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1150/1150 · **Golden run:** CHƯA TEST
