@@ -23,7 +23,9 @@ may prompt SECURELOAD (answered *Load Once* for the harness's own pid only). The
 | `run-spike.ps1 [-SkipBuild] [-SkipIsolation] [-SkipCoexist] [-Only …]` | Windows PowerShell 5.1 | The design spike (`spike.py`): bundle loads only in Civil 3D, `civil` global, units, rollback of Civil objects, guard | kept as re-runnable evidence |
 
 Shared pieces: `harness-common.ps1` (`Start-AcadWithBridge -Product C3D|ACAD|ADVS`, `Answer-SecureLoad` — *Load Once* for our own
-pid only, `Set-OptIn` with retry, `Stop-Acad`, ribbon helpers), `bridge.scr` (`HPC3DMCPBRIDGE` + `HPC3DMCPSTART`), and
+pid only, `Set-OptIn` with retry, `Stop-Acad`, ribbon helpers, `Open-BridgeWindow` — HPCivil3d ▸ MCP ▸ MCP Bridge once the
+loader logs its panel), `bridge.scr` (`HPC3DMCPBRIDGE` + `HPC3DMCPSTART`; kept for callers but no longer passed with `/b`:
+with a `/b` script and CadAddinManager installed the MCP panel never appears and COM answers `MK_E_UNAVAILABLE`), and
 `../../../McpShared/tools/{mcp-session.py, mcp-call.py, harness_common.py}` (canonical, imported by relative path).
 
 Gotchas learned here: Civil 3D 2026 prompts SECURELOAD once **per unsigned DLL hash** (4 prompts after every rebuild) and

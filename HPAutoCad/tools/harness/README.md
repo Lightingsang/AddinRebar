@@ -78,8 +78,10 @@ Four scripts share `harness-common.ps1` (SECURELOAD auto-answer, UI Automation o
 
 `run-bridge-unattended.ps1` drives the bridge run without a human:
 
-1. starts `acad.exe /b bridge.scr` (`HPMCPBRIDGE` opens the status window, `HPMCPSTART` the listener) and
-   answers the SECURELOAD prompt with *Always Load* if it appears;
+1. starts `acad.exe` like the desktop shortcut (no `/b` script: with one, and CadAddinManager installed, the
+   MCP ribbon panel never appears and COM answers `MK_E_UNAVAILABLE`), answers SECURELOAD with *Load Once*
+   for its own pid only (never the permanent *Always Load*), waits for the listener (AutoStartListener) and opens
+   the status window from HPAutoCad ▸ MCP ▸ MCP Bridge;
 2. waits for the pipe, then ticks "Allow AI code execution" through UI Automation (the opt-in is never
    persisted, by design) — with the box off it first checks that execute is refused with `-32001`;
 3. runs the scenarios: ping, context, read, dryRun, commit, exception, `none` + modify, guard, compile

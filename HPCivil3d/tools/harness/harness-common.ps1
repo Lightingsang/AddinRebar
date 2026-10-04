@@ -109,16 +109,19 @@ function Stop-Acad([System.Diagnostics.Process]$p, [int]$graceSec = 45) {
 
 # Starts acad.exe with the given script, answers SECURELOAD, waits for the bridge pipe. Returns the process.
 function Start-AcadWithBridge([string]$scriptPath, [int]$timeoutSec = 420, [string]$Product = 'C3D', [string]$ProfileName = '<<C3D_Metric>>', [string]$PipeName = 'hpcivil3d-mcp-2026', [switch]$NoAecBase) {
-    # The Autodesk shortcut for "Civil 3D 2026 Metric" is exactly this command line (plus /nologo and the script):
+    # The Autodesk shortcut for "Civil 3D 2026 Metric" is exactly this command line:
     #   acad.exe /ld "...\AecBase.dbx" /p "<<C3D_Metric>>" /product C3D /language en-US
     # Plain AutoCAD is /product ACAD, Advance Steel /product "ADVS" /p "<<ADVS>>". The isolation checks start those
     # products with the same helper and expect the Civil bundle to stay out.
+    # No /nologo and no /b script: with a /b script (and CadAddinManager installed) the loader never adds its ribbon
+    # panel, the script's HPC3DMCPBRIDGE opens nothing and COM answers MK_E_UNAVAILABLE. The listener starts on its own
+    # (AutoStartListener) and the bridge window is opened from the ribbon below; $scriptPath stays for the callers.
     $acadDir = 'C:\Program Files\Autodesk\AutoCAD 2026'
-    $argList = @('/nologo')
+    $argList = @()
     if ($Product -eq 'C3D' -and -not $NoAecBase) { $argList += @('/ld', "`"$acadDir\AecBase.dbx`"") }
     if ($ProfileName) { $argList += @('/p', "`"$ProfileName`"") }
     $argList += @('/product', $Product, '/language', '"en-US"')
-    if ($scriptPath) { $argList += @('/b', "`"$scriptPath`"") }
+    $script:acadStartedAt = Get-Date
     $p = Start-Process -FilePath "$acadDir\acad.exe" -ArgumentList $argList -PassThru
     $script:acadPid = $p.Id
     $env:HP_HARNESS_ACAD_PID = $p.Id   # every COM call checks it talks to this process and no other
@@ -132,7 +135,31 @@ function Start-AcadWithBridge([string]$scriptPath, [int]$timeoutSec = 420, [stri
         if ($p.HasExited) { Write-Host "acad exited early (code $($p.ExitCode))"; break }
         Start-Sleep -Seconds 2
     }
+    if ($script:pipeUp -and $Product -eq 'C3D') { Open-BridgeWindow | Out-Null }
     return $p
+}
+
+# Presses HPCivil3d > MCP > MCP Bridge once the loader has logged that it added its panel in this Civil 3D session.
+function Open-BridgeWindow([int]$timeoutSec = 120) {
+    $log = Join-Path $env:LOCALAPPDATA 'HPCivil3d\McpBridge\logs\loader.log'
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    $panel = $false
+    while (-not $panel -and $sw.Elapsed.TotalSeconds -lt $timeoutSec) {
+        Answer-SecureLoad | Out-Null
+        if (Test-Path $log) {
+            $panel = [bool](Get-Content $log -Tail 60 | Where-Object {
+                $_ -match 'ribbon panel HPCIVIL3D_MCP_PANEL added' -and $_.Length -gt 19 -and
+                [datetime]::ParseExact($_.Substring(0, 19), 'yyyy-MM-dd HH:mm:ss', $null) -ge $script:acadStartedAt.AddSeconds(-2) })
+        }
+        if (-not $panel) { Start-Sleep -Seconds 2 }
+    }
+    if (-not $panel) { Write-Host "bridge window: the MCP ribbon panel was not added within $timeoutSec s"; return $false }
+    Start-Sleep -Seconds 3
+    Select-RibbonTab $script:acadPid 'HPCIVIL3D_MCP_TAB' | Out-Null
+    Start-Sleep -Seconds 2
+    $opened = Invoke-RibbonButton $script:acadPid 'MCP Bridge'
+    Write-Host "bridge window: MCP Bridge pressed after $([int]$sw.Elapsed.TotalSeconds) s"
+    return $opened
 }
 
 # ---- Ribbon (UI Automation) -------------------------------------------------------------------------------------
