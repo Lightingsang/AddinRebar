@@ -8,8 +8,8 @@ namespace HPRebar.Core.BeamRebar.Calculators;
 
 /// <summary>
 /// What has to hold before a beam run can be reinforced: two bars or more top and bottom, positive spacings and
-/// cover, numbers (not NaN or infinity) for the start offset, lap factor and stock length, chosen bar types, view
-/// names Revit accepts, spans wide and deep enough for the bars, and stirrup, side-bar and cross-tie counts
+/// cover, a positive lap factor, numbers (not NaN or infinity) for the start offset and stock length, chosen bar
+/// types, view names Revit accepts, spans wide and deep enough for the bars, and stirrup, side-bar and cross-tie counts
 /// Revit will take.
 /// </summary>
 public static class BeamSpecRules
@@ -87,9 +87,9 @@ public static class BeamSpecRules
             return "Stirrup start offset must be a number.";
         }
 
-        if (!FiniteNumber.IsFinite(mainBars.LapFactor))
+        if (!FiniteNumber.IsPositive(mainBars.LapFactor))
         {
-            return "Lap length factor must be a number.";
+            return "Lap length factor must be greater than zero.";
         }
 
         if (!FiniteNumber.IsFinite(mainBars.MaxStockLength))

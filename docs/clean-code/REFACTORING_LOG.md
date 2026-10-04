@@ -339,3 +339,9 @@
 - **Review:** no findings (finite behaviour and order preserved; column section sizes and the foundation snapshot come from Revit and stay unguarded — noted)
 - **Tests:** 12 new cases (Column rules, Column calculator, Foundation validation), each failing on the old code
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1231/1231 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-39 follow-up — a lap factor of zero or less is refused
+- **Decision (user, 2026-10-04):** refuse a lap factor ≤ 0 (no overlap makes no sense); keep a stock length ≤ 0 as "splice at 11.7 m"
+- **Change:** `BeamSpecRules` checks the lap factor with `IsPositive` ("Lap length factor must be greater than zero."); the calculator is unchanged
+- **Tests:** `BeamSpecRulesTests` — 0 and −40 join the refused cases; the stock-length 0 / −1 cases still pass
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1232/1232 · **Golden run:** CHƯA TEST

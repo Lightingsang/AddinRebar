@@ -339,13 +339,15 @@ public sealed class BeamSpecRulesTests
     }
 
     [Theory]
+    [InlineData(0.0)]
+    [InlineData(-40.0)]
     [InlineData(double.NaN)]
     [InlineData(double.PositiveInfinity)]
-    public void FirstProblem_LapFactorNotANumber_AsksForANumber(double lapFactor)
+    public void FirstProblem_LapFactorNotAPositiveNumber_AsksForOne(double lapFactor)
     {
         var problem = Check(mainBars: MainBars with { LapFactor = lapFactor });
 
-        Assert.Equal("Lap length factor must be a number.", problem);
+        Assert.Equal("Lap length factor must be greater than zero.", problem);
     }
 
     [Theory]
@@ -358,14 +360,13 @@ public sealed class BeamSpecRulesTests
         Assert.Equal("Bar stock length must be a number.", problem);
     }
 
-    /// <summary>Zero and negative keep their old meaning (no lap / the 11.7 m stock); only NaN and ∞ are refused.</summary>
+    /// <summary>A stock length of 0 or less keeps its meaning: splice at the commercial 11.7 m.</summary>
     [Theory]
-    [InlineData(0.0, 11700.0)]
-    [InlineData(40.0, 0.0)]
-    [InlineData(40.0, -1.0)]
-    public void FirstProblem_ZeroOrNegativeLapFactorOrStockLength_IsStillAccepted(double lapFactor, double stockLength)
+    [InlineData(0.0)]
+    [InlineData(-1.0)]
+    public void FirstProblem_ZeroOrNegativeStockLength_IsStillAccepted(double stockLength)
     {
-        Assert.Null(Check(mainBars: MainBars with { LapFactor = lapFactor, MaxStockLength = stockLength }));
+        Assert.Null(Check(mainBars: MainBars with { MaxStockLength = stockLength }));
     }
 
     [Fact]
@@ -373,7 +374,7 @@ public sealed class BeamSpecRulesTests
     {
         var problem = Check(mainBars: MainBars with { LapFactor = double.NaN }, barTypesChosen: false);
 
-        Assert.Equal("Lap length factor must be a number.", problem);
+        Assert.Equal("Lap length factor must be greater than zero.", problem);
     }
 
     [Theory]
