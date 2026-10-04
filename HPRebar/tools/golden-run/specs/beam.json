@@ -1,0 +1,8 @@
+{
+  "feature": "beam",
+  "marks": ["BR-B1", "BR-B2", "BR-CANT"],
+  "ribbon": "Beam Rebar",
+  "window": "Continuous Beam Rebar",
+  "run": "OK",
+  "scope": "beam"
+}

@@ -42,7 +42,7 @@ Binding user decisions: golden runs before Wave 4 ph 1-3; Claude may start a SEC
 |---|---|---|---|---|
 | 1 | [Pre-selection seam](phase-01-preselection-seam.md) | 4 prod | user approval | done 9e63f48 (built R23-R27, live-checked 3 commands 2026-10-04) |
 | 2 | [Fixture model generator](phase-02-fixture-model.md) | csx + rvt + README | — | done (generated in Revit 26.4, 0 warnings, 3 features open on selection) |
-| 3 | [Snapshot script + harness](phase-03-snapshot-and-harness.md) | tools/golden-run/* | 1, 2 | planned |
+| 3 | [Snapshot script + harness](phase-03-snapshot-and-harness.md) | tools/golden-run/* | 1, 2 | done (end to end in Revit 26.4; 2 runs identical: Foundation 117 bars, Beam 35 bars + 8 views, Column refused by B-45; spec overrides deferred) |
 | 4 | [Baseline + per-batch protocol](phase-04-baseline-and-batch-protocol.md) | Fixtures/golden/*, docs | 3 | planned |
 
 File ownership: ph1 = 3 commands + `Shared/Revit/`; ph2 = `Fixtures/*.rvt`, `Fixtures/README.md`, `tools/golden-run/scripts/build-fixture.csx`; ph3 = rest of `HPRebar/tools/golden-run/`; ph4 = `Fixtures/golden/**`, `docs/clean-code/REFACTORING_LOG.md`, `REFACTORING_PLAN.md` row 0.3. No overlap.

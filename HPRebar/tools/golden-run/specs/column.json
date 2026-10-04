@@ -1,0 +1,8 @@
+{
+  "feature": "column",
+  "marks": ["C1-LOWER", "C1-UPPER"],
+  "ribbon": "Column Rebar",
+  "window": "Column Rebar",
+  "run": "OK",
+  "scope": "column"
+}

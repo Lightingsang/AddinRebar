@@ -1,0 +1,8 @@
+{
+  "feature": "foundation",
+  "marks": ["FND-SLAB"],
+  "ribbon": "Foundation Rebar",
+  "window": "Foundation Rebar",
+  "run": "Generate Rebar",
+  "scope": "foundation"
+}
