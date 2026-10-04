@@ -2,10 +2,10 @@ using System;
 using System.Windows.Interop;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
 using HPRebar.FoundationRebar.Service;
 using HPRebar.FoundationRebar.View;
 using HPRebar.FoundationRebar.ViewModel;
+using HPRebar.Shared.Revit;
 using JetBrains.Annotations;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
@@ -35,24 +35,10 @@ public sealed class FoundationRebarCommand : ExternalCommand
             return;
         }
 
-        Reference reference;
-
-        try
-        {
-            reference = uiDocument.Selection.PickObject(
-                ObjectType.Element,
-                new FoundationRebarSelectionFilter(),
-                "Select a foundation slab (Floor) to reinforce");
-        }
-        catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-        {
-            // User pressed Escape.
-            return;
-        }
-
-        if (reference is null) return;
-
-        var element = document.GetElement(reference);
+        var element = PreselectionPicker.PickElement(
+            uiDocument,
+            new FoundationRebarSelectionFilter(),
+            "Select a foundation slab (Floor) to reinforce");
 
         if (element is null) return;
 

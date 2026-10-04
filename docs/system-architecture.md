@@ -360,7 +360,7 @@ Chỉ **2 điểm** đổi đơn vị: `RevitUnits.MmToFt` / `FtToMm`. Đọc mo
 ```
 ColumnRebarCommand.Execute                    (không mở transaction nào)
  │
- ├─ PickObjects + StructuralColumnSelectionFilter
+ ├─ selection | PickObjects + ColumnRebarSelectionFilter (Shared/Revit/PreselectionPicker)
  ├─ sort theo cao độ mặt đáy
  ├─ ColumnStackValidator.Validate ──► 14 rule, trả lỗi ĐẦU TIÊN gặp phải
  ├─ ColumnStackReader.Read        ──► ColumnStack { ColumnSection[] mm, ColumnFaces[] Revit }

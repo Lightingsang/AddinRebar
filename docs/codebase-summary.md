@@ -129,7 +129,7 @@ Port từ `R01_ColumnsRebar` (~19.5k dòng, .NET 4.8, Revit 2021, MVVM tự vi�
 
 ```
 ColumnRebarCommand.Execute
-  PickObjects (StructuralColumnSelectionFilter)
+  selection | PickObjects (ColumnRebarSelectionFilter, via Shared/Revit/PreselectionPicker)
   → sort theo cao độ mặt đáy
   → ColumnStackValidator.Validate        14 rule, trả lỗi ĐẦU TIÊN
   → ColumnStackReader.Read               → ColumnStack (mm)

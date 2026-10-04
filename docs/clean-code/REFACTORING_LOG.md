@@ -388,3 +388,10 @@
 - **Behaviour:** none; the two `ColumnBarPolylinesTests` full hashes were re-pinned because the hash text now carries the enum name instead of a number — the geometry-only pins committed beforehand (b8b5c2d) are unchanged
 - **Review:** pass, no findings · **Tests:** Core 1252/1252 (`DowelStyleNumbersTests` +7)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Feature · pre-selection for Column / Beam / Foundation (Wave 0.3 phase 1 seam)
+- **Decision (user, 2026-10-04):** a command uses the current selection when it already holds elements its filter accepts; otherwise the old pick prompt
+- **Change:** new `Shared/Revit/PreselectionPicker` (`PickElements`, `PickElement` — one preselected slab exactly, two are never guessed between); the three commands call it; unused usings removed
+- **Behaviour:** unchanged when nothing valid is selected (same prompts, Esc, validators); mixed selections keep the accepted elements, as Kata Export does; B-44 logged (beam axis follows the first element, now also selection order)
+- **Review:** 8.5/10, no High; Lows applied (verb names, `filter` null check, orphan usings, stale doc lines) · **Tests:** Core 1252/1252 (no Core change)
+- **Build:** Debug.R23 ✅ R24 ✅ R25 ✅ R26 ✅ R27 ✅ · **Live:** CHƯA TEST (golden-run phase 3)

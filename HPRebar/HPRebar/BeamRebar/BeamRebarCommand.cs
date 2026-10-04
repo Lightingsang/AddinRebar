@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Interop;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
 using HPRebar.BeamRebar.Model;
 using HPRebar.BeamRebar.Service;
 using HPRebar.BeamRebar.ViewModel;
 using HPRebar.BeamRebar.View;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Shared.Revit;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
 
@@ -38,28 +36,15 @@ public sealed class BeamRebarCommand : ExternalCommand
             return;
         }
 
-        IList<Reference> references;
-        try
-        {
-            references = uiDocument.Selection.PickObjects(
-                ObjectType.Element,
-                new BeamRebarSelectionFilter(),
-                "Select continuous structural beam spans in order from left to right");
-        }
-        catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-        {
-            return; // User cancelled
-        }
+        var selectedBeams = PreselectionPicker.PickElements(
+            uiDocument,
+            new BeamRebarSelectionFilter(),
+            "Select continuous structural beam spans in order from left to right");
 
-        if (references.Count == 0) return;
+        if (selectedBeams.Count == 0) return;
 
         try
         {
-            var selectedBeams = references
-                .Select(r => document.GetElement(r))
-                .Where(e => e is not null)
-                .ToList();
-
             var validation = BeamStackValidator.Validate(document, selectedBeams);
             if (!validation.IsOk)
             {

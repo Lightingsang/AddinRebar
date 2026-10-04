@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using System.Windows.Interop;
-using Autodesk.Revit.UI.Selection;
 using HPRebar.ColumnRebar.Model;
 using HPRebar.ColumnRebar.Service;
 using HPRebar.ColumnRebar.ViewModel;
 using HPRebar.ColumnRebar.View;
+using HPRebar.Shared.Revit;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
 
@@ -38,27 +37,16 @@ public sealed class ColumnRebarCommand : ExternalCommand
             return;
         }
 
-        IList<Reference> references;
+        var picked = PreselectionPicker.PickElements(
+            uiDocument,
+            new ColumnRebarSelectionFilter(),
+            "Select the stacked structural columns to reinforce, bottom to top");
+
+        if (picked.Count == 0) return;
 
         try
         {
-            references = uiDocument.Selection.PickObjects(
-                ObjectType.Element,
-                new ColumnRebarSelectionFilter(),
-                "Select the stacked structural columns to reinforce, bottom to top");
-        }
-        catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-        {
-            // User pressed Escape.
-            return;
-        }
-
-        if (references.Count == 0) return;
-
-        try
-        {
-            var columns = references
-                .Select(reference => document.GetElement(reference))
+            var columns = picked
                 .OrderBy(column => ColumnStackReader.BottomFace(column).Origin.Z)
                 .ToList();
 
