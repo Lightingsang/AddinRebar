@@ -195,8 +195,8 @@ public static class AdditionalTieCreator
         IReadOnlyList<StirrupRun> runs,
         string partitionName)
     {
-        // The circular path numbers its leg styles one lower than the rectangular one does.
-        var shape = shapes.CrossTie((CrossTieKind)((int)spec.KindV + 1))!;
+        // The window offers one list for both section shapes, so the choice means the same hooks here.
+        var shape = shapes.CrossTie(spec.KindV)!;
         var created = new List<Rebar>();
 
         foreach (var run in runs)

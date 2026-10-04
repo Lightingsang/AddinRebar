@@ -367,3 +367,10 @@
 - **Behaviour:** none — every value takes the same branch and shape; the circular path keeps its `kind + 1` shift (logged as B-42 for a decision)
 - **Review:** pass; whether `M_T10B` is the 90° shape is not documented in the repo (the mapping itself is unchanged) · **Tests:** Core 1241/1241, hashes unchanged
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-42 — circular columns get the cross-tie hooks the list shows
+- **Decision (user, 2026-10-04):** drop the one-step shift
+- **Change:** `AdditionalTieCreator.CircleCross` asks `RebarShapeResolver.CrossTie(spec.KindV)` instead of `kind + 1`
+- **Behaviour change (intended):** on a circular column "90°", "135°" and "180°" now give those hooks (they gave 135°, 180° and the default); "closed tie" gives the default cross-tie shape (it gave the 90° one)
+- **Tests:** none automated — add-in service; CHƯA TEST in Revit (the golden-run fixture has no circular column)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1241/1241 (unchanged)
