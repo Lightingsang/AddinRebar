@@ -2,7 +2,7 @@
 
 > Source: *Pragmatic Clean Code – A practical guide to writing code that lasts*, Krystyna Ślusarczyk (Packt, 2026), read in full from the project's NotebookLM notebook (15 chapters) on 2026-10-03.
 > Content is **paraphrased** for internal code review; no code listings are reproduced. Where the book is silent a field reads *(not stated in book)*. Lines tagged *[add-in illustration]*, *(applied)* or *[Revit review hint — not from book]* are the extractor's application of a rule to C#/Revit, not claims of the book.
-> **How to use:** this file is the reference (look a rule up by id). The binding, condensed standard for this repository is [REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md). Rule ids are stable — append new rules at the end, never renumber.
+> **How to use:** this file is the reference (look a rule up by id). The binding, condensed standards are [HP_CLEAN_CODE_CORE.md](HP_CLEAN_CODE_CORE.md) (every MCP folder, ADR-0007) plus the host appendix, and [REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md) for the Revit/HPRebar rules. Rule ids are stable — append new rules at the end, never renumber.
 
 Rules: **293** across 15 chapters.
 

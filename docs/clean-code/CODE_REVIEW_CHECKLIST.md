@@ -1,7 +1,7 @@
-# RevitAddinAI — Code Review Checklist
+# HP — Code Review Checklist
 
-> Use for every diff under `HPRebar/` (human, `code-reviewer` agent, or self-review of AI output). Each finding is reported as `path:line — <rule id> — fact — fix`, severity High/Medium/Low.
-> Rule ids: standard ([REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md)) and PCC ([PRAGMATIC_CLEAN_CODE_RULES.md](PRAGMATIC_CLEAN_CODE_RULES.md)). Thresholds are triggers to look closer, not automatic failures.
+> Use for every diff under `HPRebar/`, `McpShared/` and the MCP folders of [ADR-0007](../architecture/adr/0007-hp-clean-code-scope.md) — new or changed lines only (human, `code-reviewer` agent, or self-review of AI output). Each finding is reported as `path:line — <rule id> — fact — fix`, severity High/Medium/Low.
+> Rule ids: core ([HP_CLEAN_CODE_CORE.md](HP_CLEAN_CODE_CORE.md)), the host appendix of the folder ([host-appendix/](host-appendix/)), the Revit standard ([REVITADDINAI_CLEAN_CODE_STANDARD.md](REVITADDINAI_CLEAN_CODE_STANDARD.md)) for `HPRebar/`, and PCC ([PRAGMATIC_CLEAN_CODE_RULES.md](PRAGMATIC_CLEAN_CODE_RULES.md)). Thresholds are triggers to look closer, not automatic failures.
 > **AI policy:** code written by an AI is unreviewed until this checklist passes — compiling, tidy formatting or patterns prove nothing (PCC-017, PCC-271).
 
 ## 0. Scope of the diff
@@ -40,11 +40,11 @@
 - [ ] New abstraction justified by real variation, a seam, or a boundary — otherwise remove (PCC-123, PCC-236)
 
 ## D. Dependencies (D1–D6, DEPENDENCY_RULES)
-- [ ] Objects created only in the feature's Command (composition root) or passed in (PCC-157, PCC-160)
+- [ ] HPRebar: objects created only in the feature's Command (composition root) or passed in (D1, PCC-157, PCC-160); other hosts: created in the bridge/server composition entry point or passed in
 - [ ] Constructors trivial: no I/O, no Revit queries, no fire-and-forget (PCC-289)
-- [ ] No new mutable static outside the allowlist; no static infrastructure access from VMs/orchestrators (PCC-178, PCC-245)
-- [ ] No cross-feature `using HPRebar.<OtherFeature>` (F1); shared code is in `Shared/` (F2)
-- [ ] `Model/` does not use `Service/` and does not query the document (L5)
+- [ ] No new mutable static outside the allowlist (HPRebar D4; other hosts: justified in review); no static infrastructure access from VMs/orchestrators (PCC-178, PCC-245)
+- [ ] HPRebar: no cross-feature `using HPRebar.<OtherFeature>` (F1); shared code is in `Shared/` (F2). MCP folders reference only `McpShared/`, never each other
+- [ ] HPRebar: `Model/` does not use `Service/` and does not query the document (L5)
 - [ ] No Law-of-Demeter chains through other objects' internals (PCC-225)
 
 ## E. Duplication and simplicity (K1–K6)
@@ -59,7 +59,12 @@
 - [ ] Tests assert promised behaviour, not internals (PCC-284)
 - [ ] Hard-to-test code changed in production, not worked around in tests (PCC-274)
 
-## G. Revit safety (R1–R13)
+## G. Host safety (appendix of the folder)
+- [ ] The rules of the folder's appendix hold: [revit](host-appendix/revit.md) (+ Revit standard R1–R13 below), [autocad-civil](host-appendix/autocad-civil.md) A1–A16, [com-standalone](host-appendix/com-standalone.md) CO1–CO14, [net48-inprocess](host-appendix/net48-inprocess.md) NI1–NI12, [powerbi](host-appendix/powerbi.md) PB1–PB8
+- [ ] Wire contracts changed only additively; `tools/list` of every server exe byte-identical unless the change is a tool change (P9)
+- [ ] Runtime tools and seeds: no Q-B1–Q-B3 finding; Q-W findings looked at (core §13)
+
+### G-Revit (HPRebar)
 - [ ] Revit API called only on the API thread (command/handler/event) (R1)
 - [ ] Transactions only inside the orchestrator within `Execute`; one named `TransactionGroup`; `Assimilate`/`RollBack` + rethrow (R2)
 - [ ] Failure policy installed per transaction; suppressed warnings logged (R3)

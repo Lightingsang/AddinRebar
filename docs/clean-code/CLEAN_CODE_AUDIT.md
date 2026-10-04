@@ -67,6 +67,21 @@
 | B-43 ✅ closed 2026-10-04 | [PCC] PCC-039 | `HPRebar.Core/ColumnRebar/BarScheduleCalculator.cs` `AreSameBar` | The dowel style is typed as a free number but only zero / non-zero changes the bar; the schedule still put bars with style 1 and style 5 in different rows | found while planning the dowel enum (Wave 4) | compare zero against non-zero only (fixed, user decision 2026-10-04: two dowel styles) |
 | B-44 | [PCC] PCC-039 | `HPRebar/HPRebar/BeamRebar/Service/BeamStackReader.cs:23-25`; `BeamStackValidator.cs` (axis checks) | The run's axis origin and direction come from `beams[0]`'s drawn direction: in the pick path that is the first beam clicked, with a selection made first it is whatever `Selection.GetElementIds()` returns first (order unspecified). For a run whose beams are drawn in mixed directions, span 1 and the start/end side can flip silently; runs drawn one way are unaffected | review of the pre-selection feature (behaviour predates it in the pick path) | decide: one canonical axis direction regardless of input order (e.g. left to right in the view, or along the longest beam's direction) |
 
+## 2a. Behaviour defects in the other MCP hosts (found 2026-10-04 while planning ADR-0007 — logged, not fixed)
+
+Ids `H-xx` (B-xx stay HPRebar). Evidence: `plans/261004-1005-hp-clean-code-ai-tools/reports/` (map-03, map-04, map-05, baseline).
+
+| Id | Host | Location | Fact | Verified | Suggested owner decision |
+|---|---|---|---|---|---|
+| H-01 | Power BI | `HPPowerBi/HPPowerBi.McpBridge/Host/PowerBiDispatcher.cs:338-401` | The cloud handlers check neither opt-in checkbox: `powerbi_cloud_trigger_refresh` writes to the Power BI Service while both are off | ✔ read source | gate cloud writes on the opt-in like local writes |
+| H-02 | Power BI | `HPPowerBi/HPPowerBi.McpBridge/BridgeEntry.cs:68` | The cloud client is created without credentials; the `POWERBI_*` variables only feed the status label, so the cloud tools probably always fail | read source; not run live | wire the credentials or hide the cloud tools |
+| H-03 | Robot | `HPRobot/HPRobot.McpBridge/Safety/RobotSnapshotManager.cs:102` | A failed `robot.Project.Save()` is swallowed and the file on disk is copied as the pre-run snapshot, which may be stale (ETABS fails the run instead) | ✔ read source | fail the run when the save fails |
+| H-04 | SAP2000 | `HPSap2000/HPSap2000.McpBridge/SapExecutor.cs:57-58` | The worker thread is never set to STA although the log line prints `STA=` (`SapExecutor.Worker.cs:49`) | ✔ read source | set STA or fix the log text (ETABS spike: STA is a choice, not a need) |
+| H-05 | Tekla | `HPTekla/HPTekla.McpBridge/TeklaBridgeExecutor.cs:200-204` | The executor commits by tier and never reads `request.Transaction`, so a `none` script that writes still commits | grep | honour `none` (refuse or roll back a write) |
+| H-06 | Excel | `HPExcel/HPExcel.Mcp.Server.Tests/ExcelCatalogCompletenessTests.cs:61` | The tests build the real server host with default options; the live `%AppData%\HPExcel\McpServer\registry.db` changed during a test run | inference (timestamp) | isolate the registry root in tests (core T1) |
+| H-07 | Tekla | `HPTekla/HPTekla.McpBridge/TeklaBridgeExecutor.cs:151-161` | A failed `.db1`/`.db2` snapshot is only logged as a warning and the write still runs (same class as H-03) | ✔ read source (review of ADR-0007 docs) | fail the run when the snapshot fails |
+| H-08 | Power BI | `HPPowerBi/HPPowerBi.McpBridge/Cloud/PowerBiCloudClient.cs:142, 285` | The Power BI Service error body is echoed verbatim into exceptions/results (may carry tenant or request ids) | ✔ read source | sanitise before returning |
+
 ## 3. Findings
 
 ### 3.1 Coupling, duplication, shared kernel

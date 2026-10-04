@@ -103,4 +103,4 @@ Column first (best existing tests incl. TUnit), Foundation second (smallest), Be
 
 ## 7. Out of scope
 
-Feature changes; McpShared engine internals; other hosts (AutoCAD, Civil 3D, Navisworks, ETABS…); installer/build pipeline (`HPRebar/build/` not audited).
+Feature changes; installer/build pipeline (`HPRebar/build/` not audited). `McpShared/` and the other MCP hosts (AutoCAD, Civil 3D, Navisworks, ETABS, SAP2000, Power BI, Excel, Robot, Tekla) have **no refactoring waves**: since [ADR-0007](../architecture/adr/0007-hp-clean-code-scope.md) their new or changed code follows [HP_CLEAN_CODE_CORE.md](HP_CLEAN_CODE_CORE.md) + the host appendix, and their defects are logged as H-xx in [CLEAN_CODE_AUDIT.md](CLEAN_CODE_AUDIT.md) §2a.

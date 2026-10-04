@@ -1,133 +1,51 @@
-# RevitAddinAI — Clean Code Standard
+# RevitAddinAI — Clean Code Standard (Revit / HPRebar rules)
 
-> **Binding** for every change under `HPRebar/` (add-in, Core, Revit MCP bridge/server, their tests). Status: Accepted 2026-10-03 (ADR-0001), applies to new code immediately; old code is brought in line only through [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
+> **Binding** for every change under `HPRebar/` (add-in, Core, Revit MCP bridge/server, their tests). Status: Accepted 2026-10-03 (ADR-0001), scope widened 2026-10-04 ([ADR-0007](../architecture/adr/0007-hp-clean-code-scope.md)); applies to new code immediately; old code is brought in line only through [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
+> Since ADR-0007 the host-neutral rules (§1 priorities, N1–N10, M1–M10, FM1–FM5, C1–C7, S1–S5, D2/D3/D5/D6, K1–K5, CM1–CM6, T1/T3/T4/T7, P5–P9, runtime Q-rules) live in **[HP_CLEAN_CODE_CORE.md](HP_CLEAN_CODE_CORE.md)** with the same ids. This file keeps the Revit and HPRebar rules; read both. The Revit MCP specifics are in [host-appendix/revit.md](host-appendix/revit.md).
 > Rule sources are tagged: **[PCC]** = *Pragmatic Clean Code* (ids → [PRAGMATIC_CLEAN_CODE_RULES.md](PRAGMATIC_CLEAN_CODE_RULES.md)), **[REVIT]** = Autodesk Revit constraint, **[PROJECT]** = decision of this repository (ADRs in [../architecture/adr/](../architecture/adr/)).
 > Where this file and an older document disagree, this file wins; superseded statements are listed in §13.
 
 ## 0. How to use this standard
 
-1. Before designing: read §1, §11 (Revit) and §12 (project) — they decide *where* code goes.
-2. While coding: §2–§10 decide *how* it is written.
-3. Before review: run [CODE_REVIEW_CHECKLIST.md](CODE_REVIEW_CHECKLIST.md); every finding cites a rule id from this file or a PCC id.
-4. **Numbers are review triggers, not limits** (PCC-067, PCC-115, PCC-184). Crossing one means "look again and justify", never "split mechanically". Splitting cohesive code to satisfy a number is itself a violation (PCC-186, PCC-229).
-5. Do not apply a rule where its *Exceptions* say it does not fit; look the rule up when in doubt.
+1. Before designing: read core §1, §11 (Revit) and §12 (project) — they decide *where* code goes.
+2. While coding: core §2–§10 plus the HPRebar additions below decide *how* it is written.
+3. Before review: run [CODE_REVIEW_CHECKLIST.md](CODE_REVIEW_CHECKLIST.md); every finding cites a rule id from core, this file or a PCC id.
+4. **Numbers are review triggers, not limits** (core §0).
 
-## 1. Priorities [PROJECT]
+## 1.–6. Priorities, naming, methods, formatting, classes, SOLID
 
-When rules pull in different directions, decide in this order:
-
-**simplicity > readability > cohesion > explicit dependencies > testability > formal pattern compliance**
-
-- An abstraction (interface, base class, factory, strategy) needs at least one real reason: an existing variation, a needed substitution, a test seam for infrastructure, isolation of infrastructure, or protecting Core from a framework (PCC-123, PCC-151, PCC-236, PCC-238). "It looks more SOLID" is not a reason (PCC-104).
-- No class named `*Manager`, `*Helper`, `*Utils`, `*Util`, `*Processor`, `*Data`, `*Info` unless the name is the most precise available after trying (PCC-031, PCC-032, PCC-190).
-- AI-generated code is **unreviewed code** until this standard's checklist passes; compiling, looking tidy or using patterns proves nothing (PCC-017, PCC-271).
-
-## 2. Naming [PCC]
-
-| Id | Rule | PCC |
-|---|---|---|
-| N1 | Types/fields/variables = nouns; methods = verbs; Booleans = positive yes/no questions (`IsValid`, `HasHooks`, `CanCreate`) | 021–024, 057 |
-| N2 | Names say what the value is in the domain (`clearCoverMm`, `SupportTopBarLayout`), never `data`, `info`, `obj`, `tmp`, `res` | 032, 033, 040 |
-| N3 | A name that needs "And/Or/If" means two things — split (`ReadAndValidate` ✗) | 030, 188 |
-| N4 | `Get`/`Find`/`Resolve` do not create or mutate; a method that may create says so (`GetOrCreateViewType`) | 039, 041 |
-| N5 | One word per concept across the product: pick and keep (*Reader* reads Revit, *Calculator* computes in Core, *Creator* writes Revit, *Builder* assembles a model, *Validator* returns a result) | 043, 216, 249 |
-| N6 | Units in names at the boundary when ambiguous: `…Mm`, `…Ft`, `…Deg` | 040, 034 |
-| N7 | Identifiers in English; user-facing text in the feature's UiStrings catalog (EN/VI); log text English | 046 |
-| N8 | No abbreviations beyond universal ones (`Id`, `Mm`, `Ui`, `Xml`); no Hungarian/type suffixes | 048, 050 |
-| N9 | Repeated meaningful literals become named constants defined once (`MaxBarPositions = 1002`, `DefaultCoverMm`) | 055, 079 |
-| N10 | Test names: `Method_Scenario_ExpectedResult` for new tests (one convention — existing names are not churned) | 038, 277 |
-
-## 3. Methods [PCC]
-
-| Id | Rule | PCC |
-|---|---|---|
-| M1 | One coherent task per method; an orchestrating method that only sequences named steps counts as one task | 068, 110 |
-| M2 | One level of abstraction per method; a top-level method reads as a list of decisions | 010, 070 |
-| M3 | Review trigger: body > ~20 lines → look again; > 50 lines → must be justified in review; > 100 lines → split unless it is a flat, cohesive table/switch | 067, 093, 103 |
-| M4 | > 4 parameters → design question: is a concept missing (introduce a parameter object), or does the method do two things? Never hide inputs in fields to shorten a signature | 060–062, 064, 065 |
-| M5 | No Boolean parameter that switches behaviour — use two named methods or an enum with meaning; bare `true, false, true` at call sites is a defect | 063 |
-| M6 | Prefer pure functions in Core: output depends only on inputs; no mutation of arguments; no hidden state (`ref barId` accumulators and shared `List<string> warnings` threaded through many calls are a smell — return a result object) | 075, 076 |
-| M7 | Impurity at the edges: Revit/Excel/file calls in adapters; decisions in pure code | 077 |
-| M8 | Validate preconditions first and fail with an `ArgumentException`/result, not deep inside | 078 |
-| M9 | Behaviour lives on the type whose data it uses (move it there) | 072, 165, 199 |
-| M10 | Members ordered top-down: public/high-level first, helpers below their callers | 073, 202–204 |
-
-## 4. Formatting [PCC]
-
-| Id | Rule | PCC |
-|---|---|---|
-| FM1 | Formatting is automated (`.editorconfig` + `dotnet format`) and consistent; routine formatting is not a review topic | 086, 088, 089 |
-| FM2 | Always brace blocks — `if (x) return;` on one line included; one blank line max; break parameter lists all-or-nothing; long chains one call per line; a line past ~120 characters is a review trigger | 067, 092, 096, 097, 100 |
-| FM3 | A block that does not fit one screen after formatting is extracted | 093, 103 |
-| FM4 | File-scoped namespaces matching the folder (CLAUDE.md); one public type per file, tiny related records may share | 207, 208 |
-| FM5 | Members in a predictable order: fields and dependencies → constructors → public members → private helpers; a caller sits above the methods it calls (step-down) | 202, 203, 204 |
-
-## 5. Classes, SRP, cohesion [PCC]
-
-| Id | Rule | PCC |
-|---|---|---|
-| C1 | One responsibility = one reason to change, describable in one sentence without "and" | 105, 108, 112 |
-| C2 | Review trigger: file > 300 lines, ViewModel > 250 lines → check cohesion; a large class with one cohesive purpose stays whole | 115, 184, 185 |
-| C3 | Split along clusters of members that share data/dependencies, not to hide size; revert splits that leave tightly coupled fragments | 114, 186, 193 |
-| C4 | Keep data private; expose the narrowest surface (`IReadOnlyList<T>`, not the backing `List<T>`) | 182, 219, 220 |
-| C5 | Presenting results (messages, dialogs, tables) is separate from computing them | 246 |
-| C6 | Independent axes of variation live in separate collaborators (composition), not subclass matrices | 116, 239, 241 |
-| C7 | Inheritance only for framework contracts (`ObservableObject`, `IExternalEventHandler`, WPF controls) and small closed families | 243 |
-
-## 6. SOLID contracts [PCC]
-
-| Id | Rule | PCC |
-|---|---|---|
-| S1 | OCP: introduce polymorphism only for families that do grow (bar shapes, request kinds that multiply); a closed `switch` over a stable enum is fine; a defect is fixed in the code that has it, never wrapped in a "corrected" subtype | 118, 119, 123, 126 |
-| S2 | Concrete-type selection is contained in one factory, not repeated `switch`es | 121 |
-| S3 | LSP: no subtype checks (`is`/`as`) in clients to decide behaviour; no overrides that throw or do nothing | 128, 133, 136 |
-| S4 | ISP: interfaces shaped by the client's role; no stub implementations; split a runner that mixes unrelated roles | 142, 145, 148 |
-| S5 | DIP: high-level code (orchestrators, ViewModels) depends on abstractions **where the collaborator varies or is infrastructure**; abstractions are shaped by the client and contain no implementation detail | 154–156 |
+→ [HP_CLEAN_CODE_CORE.md](HP_CLEAN_CODE_CORE.md) §1–§6 (N1–N10, M1–M10, FM1–FM5, C1–C7, S1–S5). In HPRebar, M6 "host-free code" means `HPRebar.Core`, and N7's catalog is the feature's `UiStrings` (EN/VI).
 
 ## 7. Dependencies and static [PCC] [PROJECT]
+
+D2, D3, D5, D6 → core §7.
 
 | Id | Rule | Source |
 |---|---|---|
 | D1 | Composition root = `<Feature>Command.Execute`; collaborators enter through constructors; no DI container, no service locator | ADR-0003, PCC-157, 160, 175 |
-| D2 | Constructors are trivial: assign, guard, no I/O, no Revit queries, no fire-and-forget tasks | PCC-176, 289 |
-| D3 | Static allowed for pure stable operations, private helpers and stateless adapters; static access to infrastructure from ViewModels/orchestrators is not | ADR-0005, PCC-167–172 |
 | D4 | Mutable static only from the allowlist (`_window`, `Log.Logger`, `RevitHostTheme.Instance`, `McpBridgeHost.Current`) | ADR-0005, PCC-178 |
-| D5 | Infrastructure that must be controlled (Excel COM, settings file, clock, dialogs) is wrapped in a thin, logic-free interface **when a caller needs the seam** | PCC-161, 173, 245 |
-| D6 | Law of Demeter: ask for the value you need; do not navigate `a.B.C.D` through other objects' internals or pass a whole session to read one field | PCC-225, 226 |
 
 ## 8. Coupling, duplication, YAGNI/KISS [PCC]
 
-| Id | Rule | PCC |
+K1–K5 → core §8. In HPRebar, K1's single authorities include cover, anchorage, stock length 11 700, the bar-position limit 1002 and the bar-type matching tolerance — previews and validators call them, never re-derive them.
+
+| Id | Rule | Source |
 |---|---|---|
-| K1 | Every business rule has one authoritative implementation (cover, anchorage, stock length 11 700, bar-position limit 1002, bar-type matching tolerance) — previews and validators call it, never re-derive it | 013, 230, 231 |
-| K2 | Mechanical duplication is extracted when ≥ 2 copies carry the same knowledge; coincidental similarity stays separate | 232, 233 |
-| K3 | Tolerate a second copy briefly; on the third, extract (rule of three, in line with "let the abstraction reveal itself") | 234 |
-| K4 | YAGNI: no extension points, options, alias properties "for compatibility", or unused parameters without a present requirement; delete dead members | 236, 123 |
-| K5 | KISS: the simplest design that keeps clarity and the required capability | 014, 237 |
 | K6 | Features do not reference each other; shared code goes to `Shared/` | ADR-0004 |
 
-## 9. Comments [PCC]
+## 9. Comments
 
-| Id | Rule | PCC |
-|---|---|---|
-| CM1 | Fix the name/structure instead of explaining it; delete comments that restate code | 251, 253 |
-| CM2 | Comment only context the code cannot carry: *why*, Revit API quirks, units, references to standards/clauses (TCVN …), workarounds with how to remove them | 258, 259, 261 |
-| CM3 | No commented-out code; no change-history headers (git has it) | 256, 257 |
-| CM4 | TODOs: `// TODO(<owner>): <task>` only for short-lived work; otherwise a tracked item | 262 |
-| CM5 | XML doc comments on public Core APIs and shared kernel types describe the contract (units, ranges, nullability) | 263 |
-| CM6 | No plan/phase/finding codes in code or comments (`per F13`, `phase 3`) — explain the reason itself | project rule (review-audit-self-decision.md §5) |
+CM1–CM6 → core §9.
 
 ## 10. Tests [PCC]
 
+T1, T3, T4, T7 → core §10.
+
 | Id | Rule | PCC |
 |---|---|---|
-| T1 | Unit tests are automated, fast, isolated, repeatable; whole suite from one command | 265–268 |
 | T2 | Every pure rule moved to or written in Core gets tests in `HPRebar.Core.Tests/<Feature>/` mirroring the folder | 214, 274 |
-| T3 | Arrange/Act/Assert visibly separated; one behaviour per test; no loops/conditions/try-catch in tests; parameterize repeated cases (`[Theory]`) | 279–282 |
-| T4 | Assert promised behaviour, not implementation details; cover guard clauses and regression-prone contracts | 284, 290 |
 | T5 | Fakes are hand-written against interfaces (no mocking library unless approved); never mock `Document` (sealed) | 287, [REVIT] |
 | T6 | A green unit suite does not prove the add-in works in Revit: Revit-bound behaviour needs TUnit with committed `.rvt` fixtures or a documented manual/live check | 271, 272 |
-| T7 | Hard-to-test code is a design signal — change the production code, do not add test-only hooks | 020, 274 |
 
 ## 11. Revit rules [REVIT]
 
@@ -149,16 +67,14 @@ When rules pull in different directions, decide in this order:
 
 ## 12. Project rules [PROJECT]
 
+P5–P9 → core §12.
+
 | Id | Rule | Source |
 |---|---|---|
 | P1 | Feature folder convention of CLAUDE.md (4 root files; `Model/Service/View/ViewModel` singular; namespace = folder) | CLAUDE.md, ADR-0002 |
 | P2 | Pure logic → `HPRebar.Core/<Feature>/`; Revit adapters → `Service/`; one orchestrator per feature owns transactions | ADR-0002 |
 | P3 | Cross-feature code only in `Shared/` (add-in) / `HPRebar.Core/Shared/` (Core); `Resources/` for themes/icons | ADR-0004 |
 | P4 | ViewModels hold no Autodesk types (opaque `ElementId` allowed), call no Revit/Excel/file API directly, construct no windows | DEPENDENCY_RULES L2–L4 |
-| P5 | WPF: MaterialDesign + `{DynamicResource}` tokens + Segoe UI; code-behind = Init + DataContext + theme (CLAUDE.md Theme section) | CLAUDE.md |
-| P6 | Refactoring and features never share a commit; file moves get their own commit; conventional commits, no AI references | PCC-213, development-rules |
-| P7 | No new NuGet package, project, or `.csproj`/`.slnx`/manifest edit without a plan approved by the user | antigravity-workflow.md |
-| P8 | Report status with the Planned/Implemented/Built/Tested/Verified vocabulary; never "verified" without running the check | CLAUDE.md Response Format |
 
 ## 13. Superseded statements in older documents
 
@@ -168,3 +84,4 @@ When rules pull in different directions, decide in this order:
 | .claude/rules/development-rules.md & code-standards.md §3/§6 | `using var transaction = doc.NewTransaction(...)` | R2: `new Transaction(doc, "…")` — the code base uses it 19×, `NewTransaction` 0× |
 | docs/system-architecture.md §3 | "DI Container (mode container)" | target design never built; see ARCHITECTURE.md §4.4 |
 | CLAUDE.md "Current State" | "Four features exist", Core.Tests 448, TUnit 16 | corrected 2026-10-03 from a test run: five features; Core.Tests 949, Mcp.Server.Tests 109, engine 743, net48 113; 21 TUnit (all skip) |
+| this file before 2026-10-04 | host-neutral rules defined here | moved to HP_CLEAN_CODE_CORE.md with the same ids (ADR-0007) |
