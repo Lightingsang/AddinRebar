@@ -7,7 +7,8 @@ namespace HPRebar.McpBridge.Core.Scripting;
 
 /// <summary>
 ///     Syntax-only facts about a script: which literals could become parameters, which `args` keys it
-///     already reads, whether it loops or opens its own transaction. Pure Roslyn, no compilation, no
+///     already reads, whether it loops or opens its own transaction, and its readability findings
+///     (<see cref="ScriptQuality"/>). Pure Roslyn, no compilation, no
 ///     Revit — cheap enough to run on every proposal. <see cref="Run"/> adds the guard and the compiler
 ///     so the bridge answers `revit.analyze` in one call.
 /// </summary>
@@ -42,6 +43,7 @@ public static class ScriptAnalyzer
         var tree = CSharpSyntaxTree.ParseText(code, new CSharpParseOptions(kind: SourceCodeKind.Script));
         var walker = new FactsWalker(tree, profile);
         walker.Visit(tree.GetRoot());
+        var quality = FindQuality(tree, code);
 
         return new AnalyzeResult
         {
@@ -50,7 +52,25 @@ public static class ScriptAnalyzer
             LineCount = tree.GetText().Lines.Count,
             HasLoops = walker.HasLoops,
             UsesTransaction = walker.UsesTransaction,
+            QualityAnalysed = quality is not null,
+            QualityFindings = quality ?? [],
         };
+    }
+
+    /// <summary>
+    ///     The readability check must never cost the guard and compile verdicts: if it fails on an odd script the
+    ///     result says "quality not analysed" (a warning) instead of the whole analysis failing like an offline bridge.
+    /// </summary>
+    private static IReadOnlyList<QualityFinding>? FindQuality(SyntaxTree tree, string code)
+    {
+        try
+        {
+            return ScriptQuality.Find(tree, code);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            return null;
+        }
     }
 
     private sealed class FactsWalker(SyntaxTree tree, AnalyzerProfile profile) : CSharpSyntaxWalker

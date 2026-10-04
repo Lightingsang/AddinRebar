@@ -39,6 +39,15 @@ public sealed class AnalyzeResult
 
     /// <summary>The compiled script was already in the bridge cache.</summary>
     public bool CacheHit { get; set; }
+
+    /// <summary>
+    ///     True when the bridge ran the script-quality check. Bridges built before the check never send the field,
+    ///     so it reads false there: "quality not analysed", which never blocks a proposal.
+    /// </summary>
+    public bool QualityAnalysed { get; set; }
+
+    /// <summary>Readability findings; <see cref="QualityFinding.Severity"/> `error` blocks a proposal, `warning` does not.</summary>
+    public IReadOnlyList<QualityFinding> QualityFindings { get; set; } = System.Array.Empty<QualityFinding>();
 }
 
 /// <summary>
@@ -50,3 +59,13 @@ public sealed record CodeLiteral(int Line, int Column, string Kind, string Value
 
 /// <summary>An `args` read: key, accessor used (`Double`, `Str`, …) and the line it appears on.</summary>
 public sealed record ArgUsage(string Key, string Accessor, int Line);
+
+/// <summary>
+///     One script-quality finding. <see cref="RuleId"/> is a stable id (`Q-B1`… blocking, `Q-W1`… warning);
+///     <see cref="Severity"/> is the string `error` or `warning` — a string, because the pipe has no enum converter.
+/// </summary>
+public sealed record QualityFinding(string RuleId, string Severity, int Line, int Column, string Message)
+{
+    public const string Error = "error";
+    public const string Warning = "warning";
+}

@@ -203,4 +203,28 @@ public sealed class ScriptCompilerNet48Tests
         Assert.True(analyzedCommit.UsesTransaction);
         Assert.NotEmpty(analyzedCommit.GuardViolations);
     }
+
+    [Fact]
+    public void Quality_check_runs_on_the_desktop_framework()
+    {
+        var result = ScriptAnalyzer.Run(NewCompiler(), "try { return 1; }\ncatch { }\nvar data = 2;\nreturn data;", GuardProfile.Navis, AnalyzerProfile.Navis);
+
+        Assert.True(result.QualityAnalysed);
+        Assert.Equal(new[] { "Q-B2", "Q-W3" }, result.QualityFindings.Select(f => f.RuleId).ToArray());
+    }
+
+    [Fact]
+    public void Quality_fields_cross_the_pipe_and_are_absent_from_an_old_bridge()
+    {
+        var sent = ScriptAnalyzer.Analyze("// var x = 1;\nreturn 0;");
+
+        var received = HPRebar.Mcp.Contracts.JsonRpc.BridgeJson.Deserialize<HPRebar.Mcp.Contracts.Messages.AnalyzeResult>(HPRebar.Mcp.Contracts.JsonRpc.BridgeJson.Serialize(sent))!;
+        var fromOldBridge = HPRebar.Mcp.Contracts.JsonRpc.BridgeJson.Deserialize<HPRebar.Mcp.Contracts.Messages.AnalyzeResult>("{\"compiles\":true,\"lineCount\":2}")!;
+
+        Assert.True(received.QualityAnalysed);
+        var finding = Assert.Single(received.QualityFindings);
+        Assert.Equal(("Q-B1", "error", 1, 1), (finding.RuleId, finding.Severity, finding.Line, finding.Column));
+        Assert.False(fromOldBridge.QualityAnalysed);
+        Assert.Empty(fromOldBridge.QualityFindings);
+    }
 }
