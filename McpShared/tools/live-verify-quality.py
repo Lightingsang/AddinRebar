@@ -60,6 +60,9 @@ def is_scratch(doc_path):
     path = (doc_path or "").strip()
     if path.lower() in UNTITLED or path.lower().endswith(TEMPLATE_EXTENSIONS):
         return True
+    if "\\" not in path and "/" not in path:
+        return True  # a bare name (Excel's "Book1") is a workbook that was never saved
+
     full = os.path.abspath(path).lower()
     return full.startswith(ROOT.lower()) and os.sep + "output" + os.sep in full
 
