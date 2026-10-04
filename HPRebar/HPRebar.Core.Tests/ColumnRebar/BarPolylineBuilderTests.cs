@@ -20,7 +20,7 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bar = FirstBar(section, spec);
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 0, LbTop = 700 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.BendIntoColumnAbove, LbTop = 700 };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(50, 60));
 
@@ -37,7 +37,7 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bar = FirstBar(section, spec);
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 0, LbTop = 700 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.BendIntoColumnAbove, LbTop = 700 };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(50, 60));
 
@@ -92,7 +92,7 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle() with { Zb = 100 };
         var spec = TestSections.Grid();
         var bars = BarLayoutCalculator.Compute(section, spec);
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 1, LaTop = 300 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.StopUnderBeam, LaTop = 300 };
 
         var south = BarPolylineBuilder.Build(section, spec, bars[0], splice, new PlanPoint(0, 0));
         var east = BarPolylineBuilder.Build(section, spec, bars[3], splice, new PlanPoint(0, 0));
@@ -111,7 +111,7 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bar = FirstBar(section, spec);
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 1, LaTop = 0 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.StopUnderBeam, LaTop = 0 };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(0, 0));
 
@@ -125,7 +125,13 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bar = FirstBar(section, spec);
-        var splice = new SpliceSpec { IsBottomDowels = true, BottomDowelsType = 0, LcBottom = 400, IsTopDowels = false };
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomStyle = BottomDowelStyle.StartAboveBase,
+            LcBottom = 400,
+            IsTopDowels = false
+        };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(0, 0));
 
@@ -138,7 +144,14 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bar = FirstBar(section, spec);
-        var splice = new SpliceSpec { IsBottomDowels = true, BottomDowelsType = 1, LaBottom = 0, LbBottom = 400, IsTopDowels = false };
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomStyle = BottomDowelStyle.RunPastBase,
+            LaBottom = 0,
+            LbBottom = 400,
+            IsTopDowels = false
+        };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bar, splice, new PlanPoint(0, 0));
 
@@ -151,7 +164,14 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Rectangle();
         var spec = TestSections.Grid();
         var bars = BarLayoutCalculator.Compute(section, spec);
-        var splice = new SpliceSpec { IsBottomDowels = true, BottomDowelsType = 1, LaBottom = 250, LbBottom = 400, IsTopDowels = false };
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomStyle = BottomDowelStyle.RunPastBase,
+            LaBottom = 250,
+            LbBottom = 400,
+            IsTopDowels = false
+        };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bars[0], splice, new PlanPoint(0, 0));
 
@@ -168,7 +188,14 @@ public sealed class BarPolylineBuilderTests
         var section = TestSections.Circular();
         var spec = TestSections.Ring();
         var bars = BarLayoutCalculator.Compute(section, spec);
-        var splice = new SpliceSpec { IsBottomDowels = true, BottomDowelsType = 1, LaBottom = 100, LbBottom = 400, IsTopDowels = false };
+        var splice = new SpliceSpec
+        {
+            IsBottomDowels = true,
+            BottomStyle = BottomDowelStyle.RunPastBase,
+            LaBottom = 100,
+            LbBottom = 400,
+            IsTopDowels = false
+        };
 
         var polyline = BarPolylineBuilder.Build(section, spec, bars[0], splice, new PlanPoint(0, 0));
 
@@ -330,11 +357,11 @@ public sealed class BarPolylineBuilderTests
         var splice = new SpliceSpec
         {
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LbBottom = 100,
             LaBottom = 40,
             IsTopDowels = true,
-            TopDowelsType = 0,
+            TopStyle = TopDowelStyle.BendIntoColumnAbove,
             LbTop = 0
         };
 
@@ -369,11 +396,11 @@ public sealed class BarPolylineBuilderTests
         var splice = new SpliceSpec
         {
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LbBottom = 100,
             LaBottom = 40,
             IsTopDowels = true,
-            TopDowelsType = 0,
+            TopStyle = TopDowelStyle.BendIntoColumnAbove,
             LbTop = lbTop
         };
 

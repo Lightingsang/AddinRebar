@@ -84,7 +84,8 @@ public sealed class BarScheduleCalculatorTests
     public void ADifferentBottomArrangementNeverSharesARow()
     {
         var bars = BuildStack(splitOverlap: 100).ToList();
-        bars[0] = bars[0] with { Splice = bars[0].Splice with { IsBottomDowels = true, BottomDowelsType = 1 } };
+        var runPast = bars[0].Splice with { IsBottomDowels = true, BottomStyle = BottomDowelStyle.RunPastBase };
+        bars[0] = bars[0] with { Splice = runPast };
 
         Assert.Equal(2, BarScheduleCalculator.Group(bars).Count);
     }
@@ -96,8 +97,10 @@ public sealed class BarScheduleCalculatorTests
     {
         var bar = BuildStack(splitOverlap: 100)[0];
         var splice = bar.Splice with { IsBottomDowels = true };
-        var first = bar with { Splice = splice with { TopDowelsType = topA, BottomDowelsType = bottomA } };
-        var second = bar with { Splice = splice with { TopDowelsType = topB, BottomDowelsType = bottomB } };
+        var spliceA = splice with { TopStyle = DowelStyleNumbers.ToTop(topA), BottomStyle = DowelStyleNumbers.ToBottom(bottomA) };
+        var spliceB = splice with { TopStyle = DowelStyleNumbers.ToTop(topB), BottomStyle = DowelStyleNumbers.ToBottom(bottomB) };
+        var first = bar with { Splice = spliceA };
+        var second = bar with { Splice = spliceB };
 
         Assert.True(BarScheduleCalculator.AreSameBar(first, second));
     }

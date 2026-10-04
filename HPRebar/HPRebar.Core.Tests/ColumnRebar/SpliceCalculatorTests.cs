@@ -12,9 +12,11 @@ public sealed class SpliceCalculatorTests
     private const int Precision = 6;
     private const double Inset = TestSections.Cover + TestSections.StirrupDiameter + TestSections.BarDiameter / 2;
 
-    private static SpliceSpec Transition() => new() { IsTopDowels = true, TopDowelsType = 0 };
+    private static SpliceSpec Transition() =>
+        new() { IsTopDowels = true, TopStyle = TopDowelStyle.BendIntoColumnAbove };
 
-    private static SpliceSpec StoppedUnderBeam() => new() { IsTopDowels = true, TopDowelsType = 1 };
+    private static SpliceSpec StoppedUnderBeam() =>
+        new() { IsTopDowels = true, TopStyle = TopDowelStyle.StopUnderBeam };
 
     [Fact]
     public void WithNoSectionAboveEveryBarStaysWhereItIs()

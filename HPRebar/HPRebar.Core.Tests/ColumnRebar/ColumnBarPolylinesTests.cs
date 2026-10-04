@@ -17,7 +17,7 @@ public sealed class ColumnBarPolylinesTests
         var polylines = ColumnBarPolylines.Compute(Lower, TestSections.Grid(), DefaultSplices(), Upper, 8, 10, "D20");
 
         Assert.Equal(TestSections.Grid().BarCount, polylines.Count);
-        Assert.Equal("927063C378CECE431FF8FFF4", CharacterizationText.Hash(polylines));
+        Assert.Equal("05A9291F9F4F203D2EA7CDB9", CharacterizationText.Hash(polylines));
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public sealed class ColumnBarPolylinesTests
         var polylines = ColumnBarPolylines.Compute(Lower, TestSections.Grid(), DefaultSplices(), above: null, 8, 8);
 
         Assert.Equal(TestSections.Grid().BarCount, polylines.Count);
-        Assert.Equal("B65D5F1475A814BE424CBAFA", CharacterizationText.Hash(polylines));
+        Assert.Equal("213E606D6F4C9F0A6D856C92", CharacterizationText.Hash(polylines));
     }
 
     /// <summary>

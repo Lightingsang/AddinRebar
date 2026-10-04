@@ -28,7 +28,7 @@ public sealed partial class BottomDowelsTabViewModel : ColumnRebarTabViewModel
         foreach (var splice in column.Splices)
         {
             splice.IsBottomDowels = source.IsBottomDowels;
-            splice.BottomDowelsType = source.BottomDowelsType;
+            splice.BottomDowelsType = column.Splices[0].BottomDowelsType;
             splice.LaBottom = source.LaBottom;
             splice.LbBottom = source.LbBottom;
             splice.LcBottom = source.LcBottom;

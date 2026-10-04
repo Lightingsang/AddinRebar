@@ -2,16 +2,16 @@ namespace HPRebar.Core.ColumnRebar.Models;
 
 /// <summary>
 ///     Per-bar splice settings. Millimetres.
-///     Top: <see cref="TopDowelsType"/> 0 means the bar bends across into the column above; any other value
-///     means the bar stops under the beam, optionally with a horizontal hook of <see cref="LaTop"/>.
-///     Bottom: <see cref="BottomDowelsType"/> 0 means the bar simply starts <see cref="LcBottom"/> above the
-///     segment base; any other value means it runs down past the base by <see cref="LbBottom"/>.
+///     Top: <see cref="TopStyle"/> — the bar bends across into the column above, or stops under the beam,
+///     optionally with a horizontal hook of <see cref="LaTop"/>.
+///     Bottom: <see cref="BottomStyle"/> — the bar simply starts <see cref="LcBottom"/> above the segment
+///     base, or runs down past the base by <see cref="LbBottom"/>.
 /// </summary>
 public sealed record SpliceSpec
 {
     public bool IsTopDowels { get; init; } = true;
 
-    public int TopDowelsType { get; init; }
+    public TopDowelStyle TopStyle { get; init; }
 
     /// <summary>Horizontal hook at the top. Sign picks the bend direction; zero means no hook.</summary>
     public double LaTop { get; init; }
@@ -21,7 +21,7 @@ public sealed record SpliceSpec
 
     public bool IsBottomDowels { get; init; }
 
-    public int BottomDowelsType { get; init; }
+    public BottomDowelStyle BottomStyle { get; init; }
 
     /// <summary>Horizontal hook at the bottom. Sign picks the bend direction; zero means no hook.</summary>
     public double LaBottom { get; init; }
@@ -40,11 +40,11 @@ public sealed record SpliceSpec
         return new SpliceSpec
         {
             IsTopDowels = true,
-            TopDowelsType = 0,
+            TopStyle = TopDowelStyle.BendIntoColumnAbove,
             LaTop = lap,
             LbTop = DefaultOverlap.LapLength(barNumber, barDiameter, splitOverlap, overlapFactor),
             IsBottomDowels = false,
-            BottomDowelsType = 0,
+            BottomStyle = BottomDowelStyle.StartAboveBase,
             LaBottom = lap,
             LbBottom = lap,
             LcBottom = lap

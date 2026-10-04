@@ -68,7 +68,8 @@ public static class SpliceCalculator
     }
 
     /// <summary>A bar bends across into the column above only when top dowels are on and set to type 0.</summary>
-    public static bool IsTransition(SpliceSpec splice) => splice.IsTopDowels && splice.TopDowelsType == 0;
+    public static bool IsTransition(SpliceSpec splice) =>
+        splice.IsTopDowels && splice.TopStyle == TopDowelStyle.BendIntoColumnAbove;
 
     private static PlanPoint RectangleTransition(
         ColumnSection upper,

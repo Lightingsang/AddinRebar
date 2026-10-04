@@ -37,7 +37,7 @@ public sealed class BarShapeClassifierTests
     [Fact]
     public void ABarThatCrossesOverGetsTheTransitionShapeWithItsSlopeRecorded()
     {
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 0, LbTop = 700 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.BendIntoColumnAbove, LbTop = 700 };
 
         var bar = Bar(splice,
             new Point3(0, 0, 0),
@@ -58,7 +58,7 @@ public sealed class BarShapeClassifierTests
     [Fact]
     public void ATopDowelThatNeverActuallyMovesInPlanStaysStraight()
     {
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 0, LbTop = 700 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.BendIntoColumnAbove, LbTop = 700 };
 
         var bar = Bar(splice,
             new Point3(0, 0, 0),
@@ -75,10 +75,10 @@ public sealed class BarShapeClassifierTests
         var splice = new SpliceSpec
         {
             IsTopDowels = true,
-            TopDowelsType = 0,
+            TopStyle = TopDowelStyle.BendIntoColumnAbove,
             LbTop = 700,
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LaBottom = 250,
             LbBottom = 400
         };
@@ -102,10 +102,10 @@ public sealed class BarShapeClassifierTests
         var splice = new SpliceSpec
         {
             IsTopDowels = true,
-            TopDowelsType = 0,
+            TopStyle = TopDowelStyle.BendIntoColumnAbove,
             LbTop = 700,
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LaBottom = -250,
             LbBottom = 400
         };
@@ -123,7 +123,7 @@ public sealed class BarShapeClassifierTests
     [Fact]
     public void ATopHookOnAnUnhookedBottomSplitsOffItsLegFromTheMainLength()
     {
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 1, LaTop = 300 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.StopUnderBeam, LaTop = 300 };
 
         var bar = Bar(splice,
             new Point3(0, 0, 0),
@@ -141,7 +141,7 @@ public sealed class BarShapeClassifierTests
     [Fact]
     public void ANegativeTopHookPicksTheMirroredShape()
     {
-        var splice = new SpliceSpec { IsTopDowels = true, TopDowelsType = 1, LaTop = -300 };
+        var splice = new SpliceSpec { IsTopDowels = true, TopStyle = TopDowelStyle.StopUnderBeam, LaTop = -300 };
 
         var bar = Bar(splice,
             new Point3(0, 0, 0),
@@ -157,10 +157,10 @@ public sealed class BarShapeClassifierTests
         var splice = new SpliceSpec
         {
             IsTopDowels = true,
-            TopDowelsType = 1,
+            TopStyle = TopDowelStyle.StopUnderBeam,
             LaTop = 300,
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LaBottom = 250,
             LbBottom = 400
         };
@@ -186,7 +186,7 @@ public sealed class BarShapeClassifierTests
         {
             IsTopDowels = false,
             IsBottomDowels = true,
-            BottomDowelsType = 1,
+            BottomStyle = BottomDowelStyle.RunPastBase,
             LaBottom = 250,
             LbBottom = 400
         };

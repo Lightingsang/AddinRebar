@@ -69,14 +69,13 @@ public static class BarScheduleCalculator
         var b = second.Splice;
 
         if (a.IsTopDowels != b.IsTopDowels) return false;
-        // Only zero against non-zero is a different arrangement; the non-zero numbers all mean the same.
-        if ((a.TopDowelsType == 0) != (b.TopDowelsType == 0)) return false;
-        if (a.TopDowelsType != 0 && !Tolerance.AreEqual(a.LaTop, b.LaTop)) return false;
+        if (a.TopStyle != b.TopStyle) return false;
+        if (a.TopStyle == TopDowelStyle.StopUnderBeam && !Tolerance.AreEqual(a.LaTop, b.LaTop)) return false;
 
         if (a.IsBottomDowels != b.IsBottomDowels) return false;
-        if ((a.BottomDowelsType == 0) != (b.BottomDowelsType == 0)) return false;
+        if (a.BottomStyle != b.BottomStyle) return false;
 
-        if (a.BottomDowelsType == 0)
+        if (a.BottomStyle == BottomDowelStyle.StartAboveBase)
         {
             if (!Tolerance.AreEqual(a.LcBottom, b.LcBottom)) return false;
         }

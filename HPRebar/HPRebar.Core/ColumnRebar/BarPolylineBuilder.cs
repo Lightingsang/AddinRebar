@@ -55,7 +55,7 @@ public static class BarPolylineBuilder
             return;
         }
 
-        if (splice.BottomDowelsType == 0)
+        if (splice.BottomStyle == BottomDowelStyle.StartAboveBase)
         {
             // Bar starts clear of the base — no dowel running down into the segment below.
             points.Add(new Point3(bar.X0, bar.Y0, section.BottomPosition + splice.LcBottom));
@@ -88,7 +88,7 @@ public static class BarPolylineBuilder
             return;
         }
 
-        if (splice.TopDowelsType == 0)
+        if (splice.TopStyle == TopDowelStyle.BendIntoColumnAbove)
         {
             // Start the sideways bend below the beam soffit, cross over at the segment top, then anchor up
             // into the column above.

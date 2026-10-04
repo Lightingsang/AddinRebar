@@ -28,7 +28,7 @@ public sealed partial class TopDowelsTabViewModel : ColumnRebarTabViewModel
         foreach (var splice in column.Splices)
         {
             splice.IsTopDowels = source.IsTopDowels;
-            splice.TopDowelsType = source.TopDowelsType;
+            splice.TopDowelsType = column.Splices[0].TopDowelsType;
             splice.LaTop = source.LaTop;
             splice.LbTop = source.LbTop;
         }

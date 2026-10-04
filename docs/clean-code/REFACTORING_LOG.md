@@ -381,3 +381,10 @@
 - **Behaviour change (intended):** bars identical except for two different non-zero style numbers now share a schedule row (geometry never differed)
 - **Tests:** `BarScheduleCalculatorTests` (+2 cases, both failing on the old code)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1243/1243 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Wave 4 · Column · dowel style enums (AUD-037, last batch)
+- **Decision (user, 2026-10-04):** two dowel styles — zero and non-zero (B-43 made the schedule agree first)
+- **Change:** new `TopDowelStyle` (`BendIntoColumnAbove`, `StopUnderBeam`), `BottomDowelStyle` (`StartAboveBase`, `RunPastBase`) and `DowelStyleNumbers.ToTop/ToBottom` (the grid's typed number → style); `SpliceSpec.TopDowelsType/BottomDowelsType` (int) → `TopStyle/BottomStyle`; the splice grid keeps the typed number and converts at `ToSpec`; "apply to all" copies the typed number from the first bar, as before
+- **Behaviour:** none; the two `ColumnBarPolylinesTests` full hashes were re-pinned because the hash text now carries the enum name instead of a number — the geometry-only pins committed beforehand (b8b5c2d) are unchanged
+- **Review:** pass, no findings · **Tests:** Core 1252/1252 (`DowelStyleNumbersTests` +7)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST

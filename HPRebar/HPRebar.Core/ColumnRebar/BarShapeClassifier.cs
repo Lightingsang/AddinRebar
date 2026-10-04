@@ -34,11 +34,13 @@ public static class BarShapeClassifier
         }
 
         var bottomHooked = splice.IsBottomDowels
-                           && splice.BottomDowelsType != 0
+                           && splice.BottomStyle == BottomDowelStyle.RunPastBase
                            && !Tolerance.AreEqual(splice.LaBottom, 0d);
 
-        var topBends = splice.IsTopDowels && splice.TopDowelsType == 0;
-        var topHooked = splice.IsTopDowels && splice.TopDowelsType != 0 && !Tolerance.AreEqual(splice.LaTop, 0d);
+        var topBends = splice.IsTopDowels && splice.TopStyle == TopDowelStyle.BendIntoColumnAbove;
+        var topHooked = splice.IsTopDowels
+                        && splice.TopStyle == TopDowelStyle.StopUnderBeam
+                        && !Tolerance.AreEqual(splice.LaTop, 0d);
 
         if (topBends && HasTransitionBend(points))
         {
@@ -80,7 +82,7 @@ public static class BarShapeClassifier
 
         // A bar hooked only at the bottom. The source tool flips the two shape names for the one case where
         // the top is a stopped dowel with no hook; that mapping is kept so ported drawings match the original.
-        var topIsStoppedDowel = splice.IsTopDowels && splice.TopDowelsType != 0;
+        var topIsStoppedDowel = splice.IsTopDowels && splice.TopStyle == TopDowelStyle.StopUnderBeam;
         var hookLength = Math.Abs(splice.LaBottom);
 
         var shape = topIsStoppedDowel

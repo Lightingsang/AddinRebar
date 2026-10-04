@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using HPRebar.Core.ColumnRebar.Models;
+using HPRebar.Core.ColumnRebar;
 
 namespace HPRebar.ColumnRebar.ViewModel;
 
@@ -31,11 +32,11 @@ public sealed partial class BarSpliceEditor : ObservableObject
     public void Load(SpliceSpec spec)
     {
         IsTopDowels = spec.IsTopDowels;
-        TopDowelsType = spec.TopDowelsType;
+        TopDowelsType = (int)spec.TopStyle;
         LaTop = spec.LaTop;
         LbTop = spec.LbTop;
         IsBottomDowels = spec.IsBottomDowels;
-        BottomDowelsType = spec.BottomDowelsType;
+        BottomDowelsType = (int)spec.BottomStyle;
         LaBottom = spec.LaBottom;
         LbBottom = spec.LbBottom;
         LcBottom = spec.LcBottom;
@@ -44,11 +45,11 @@ public sealed partial class BarSpliceEditor : ObservableObject
     public SpliceSpec ToSpec() => new()
     {
         IsTopDowels = IsTopDowels,
-        TopDowelsType = TopDowelsType,
+        TopStyle = DowelStyleNumbers.ToTop(TopDowelsType),
         LaTop = LaTop,
         LbTop = LbTop,
         IsBottomDowels = IsBottomDowels,
-        BottomDowelsType = BottomDowelsType,
+        BottomStyle = DowelStyleNumbers.ToBottom(BottomDowelsType),
         LaBottom = LaBottom,
         LbBottom = LbBottom,
         LcBottom = LcBottom
