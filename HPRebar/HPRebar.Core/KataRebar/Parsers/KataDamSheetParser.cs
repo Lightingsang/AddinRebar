@@ -212,7 +212,22 @@ public static class KataDamSheetParser
         double crossingOffset = accessor.GetDouble(21, col) ?? 0.0;
         string gridName = accessor.GetText(22, col) ?? "";
         double gridOffset = accessor.GetDouble(23, col) ?? 0.0;
-        Note(accessor, notes, 24, col, "đai chống xoắn / đai gia cường tại gối");
+        // Row 24 "*" turns off the joint stirrups Kata adds at a support; HPRebar draws none at any support.
+        if (accessor.GetText(24, col)?.Trim() == "*")
+            notes.Add(new KataCellNote(KataDamCellAccessorExtensions.ToAddress(24, col), "*", "không bố trí đai gia cường nút",
+                "đúng như bản vẽ — HPRebar không vẽ đai gia cường nút ở gối nào"));
+        else
+            Note(accessor, notes, 24, col, "đai chống xoắn / đai gia cường tại gối");
+        // Rows 17 / 18 at a support: bottom bars through it; a support of no width (row 11 "0") is left to the span merge.
+        if (!(width <= 0.0 && row11?.Trim() == "0"))
+        {
+            foreach (int row in new[] { 17, 18 })
+            {
+                string text = accessor.GetText(row, col)?.Trim() ?? "";
+                if (!IsBlank(text))
+                    notes.Add(new KataCellNote(KataDamCellAccessorExtensions.ToAddress(row, col), text, "thép gia cường dưới tại gối"));
+            }
+        }
 
         return new KataSupportRebarSpec
         {
@@ -368,6 +383,9 @@ public static class KataDamSheetParser
             ? v
             : null;
     }
+
+    /// <summary>A bar cell that names no bars: empty, "0" or "-".</summary>
+    internal static bool IsBlank(string text) => text.Length == 0 || text == "0" || text == "-";
 
     internal static void Note(IKataDamCellAccessor accessor, List<KataCellNote> notes, int row, int col, string meaning)
     {

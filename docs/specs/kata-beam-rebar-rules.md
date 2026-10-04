@@ -119,6 +119,7 @@ Bảng kiểm kê đầy đủ, có số dòng: [hprebar-rule-inventory.md](../.
 | R-51 | **Điểm cắt hàng 17** (hoặc hàng 18 khi đứng một mình), tính từ mỗi mặt gối: min(RoundUp50(H3·L) theo I3, RoundNearest50(L/6)). H3 trống thì dùng 0.20 | H3, I3, `BottomExtraCutFraction` 1/6 | DWG | ✅ | `KataDy7DrawingTests.Additional_bottom_bars_stop_at_the_smaller_of_H3_L_and_L_over_6_*` |
 | R-52 | Hàng 18 khi có hàng 17: dừng gần gối hơn hàng 17 một khoảng G1 (≥ 0, không vượt mặt gối) | G1 | DWG (D18 850 / D17 1350) | ✅ | cùng test R-51 |
 | R-53 | Thanh thẳng, không móc. Hai điểm cắt gặp nhau thì không vẽ và cảnh báo. Chạm thép trên thì chặn | — | DWG / HP | ✅ | `Row_17_blocks_where_it_meets_support_bars_*` |
+| R-54 | Hàng 17 / 18 tại gối bề rộng 0 (nút giao, nhịp gộp): thép dưới qua nút → thành thép gia cường dưới của nhịp gộp, cắt theo R-51 — chỉ khi nhịp gộp chưa có hàng 17/18 riêng và nút nằm trong L/6…5L/6; ngược lại báo. Tại gối có bề rộng (hoặc không đọc được bề rộng): báo chưa hỗ trợ; ô `0` / `-` = trống | h17, h18 gối | DWG B01 (I17 2Ø20 lớp 2: Kata 18950…23300 = 850 / 1300 từ mặt gối, HPRebar 19200…23500 — quy tắc cắt Kata tại nút chưa rõ) | 🟡 | `KataZeroWidthSupports.BarsThroughTheJoint` · `KataJointCellsTests` |
 
 ## 7. Đai
 
@@ -193,7 +194,7 @@ Bảng kiểm kê đầy đủ, có số dòng: [hprebar-rule-inventory.md](../.
 |---|---|---|---|---|
 | R-120 | Đai gia cường hai bên + đai vai bò (đai treo) tại **dầm giao** gác lên dầm (đáy dầm giao cao hơn đáy dầm này) | tab "Thép mặc định": 5f10a50 mỗi bên, vai bò 2f16, bẻ ngang 150, góc 45°, spec None/H1/H/W | Kata (tên tham số `DaiVaiBo*`, `DaiGiaCuong*`, `SpecCb`); TCVN | ❌ |
 | R-121 | Gia cường dưới **cột cấy** (cột đặt trên dầm) | tab "Thép mặc định" cột "Cột cấy" | Kata (`*CotCay*`) | ❌ |
-| R-122 | Đai gia cường nhịp (hàng 23 nhịp) và đai chống xoắn / gia cường nút (hàng 24 gối) | h23, h24 | sheet | ❌ |
+| R-122 | Đai gia cường nhịp (hàng 23 nhịp) và đai chống xoắn (C24 số = lap_xoan) chưa vẽ, báo chưa hỗ trợ. Hàng 24 gối `*` = không bố trí đai gia cường nút: HPRebar không vẽ đai nút ở gối nào → ghi nhận "đúng như bản vẽ" | h23, h24 | sheet + tài liệu nguồn (K24 `*`) | 🟡 | `KataDamSheetParser.ParseSupport` · `KataJointCellsTests.K24_star_*` |
 | R-123 | Lỗ xuyên dầm (vùng được khoét, thép gia cường quanh lỗ) | — | TCVN; không tìm thấy trong code Kata | ❌ |
 | R-124 | Nhiều nhóm thép chủ (`;` ở B11/B12) | B11, B12 | sheet | ❌ |
 | R-125 | Kiểm tối thiểu theo TCVN: bước đai lớn nhất, hàm lượng thép tối thiểu, thép chạy suốt ≥ 2 thanh. Chỉ cảnh báo, không đổi thép | — | TCVN (cần dẫn điều khoản đúng trước khi làm) | ❌ |

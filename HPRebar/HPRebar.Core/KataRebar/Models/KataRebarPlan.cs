@@ -18,7 +18,10 @@ public sealed record KataRebarPlan
     /// <summary>The sheet describes the run from Revit's far end: local X runs against the Revit axis.</summary>
     public bool Reversed { get; init; }
 
-    /// <summary>Sheet input that this version does not draw yet, one line per cell.</summary>
+    /// <summary>
+    /// Sheet input this version does not draw yet, one line per cell; a line with an outcome after the meaning says what
+    /// was drawn or kept instead (a joint's bottom bars drawn by the span rule, row 24 "*" honoured).
+    /// </summary>
     public IReadOnlyList<string> Skipped { get; init; } = Array.Empty<string>();
 
     /// <summary>Reasons nothing can be drawn.</summary>

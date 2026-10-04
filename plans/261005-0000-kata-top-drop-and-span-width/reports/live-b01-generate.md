@@ -29,3 +29,8 @@ against the stirrup) → that set falls back to single bars (positioned exactly)
 - Đọc thép: 542 bars 2387.6 kg, no [Chặn]; warnings stub column, console provisional, anchorage short 55 at support 2.
 - Tạo thép Revit: ✅ "beam B01 done — main bars 30, support top bars 28, span bottom bars 10, side bars 6, flat-bar sets 20, stirrup sets 14, Revit warnings 1"; one 3Ø20 set → single bars (y 104.3 vs 105, unchanged).
 - Test Revit stopped.
+
+## Row 24 `*` + row 17 at the joint I (2026-10-05 06:17)
+- K24 `*` → note "đúng như bản vẽ" (no joint stirrups; HPRebar draws none). I17 2f20 → bottom extras of joined span H+J, R-51 cut 19200…23500 (Kata DWG 18950…23300, rule at a joint unknown; read from T2-DY7.dwg read-only: polyline 25682…30032 at y −790, dims 2700 from I / 1300 from K face).
+- Live test Revit pid 70208 on copy, KataB1 read only: ✅ "beam B01 done — main bars 30, support top bars 28, span bottom bars 12 (+2 I17), side bars 6, flat-bar sets 20, stirrup sets 14, Revit warnings 1". Stopped.
+- Review 7/10 (code-review-joint-cells.md): M1 unreadable-width support rows 17/18 now noted; M2 joint bars only to a span with no own bottom extras; M3 joint outside L/6…5L/6 reported; M4 shared blank check (empty/0/-); L1 Skipped doc; L2 B01 numbers moved to comment. L5 braces/L4 literals left (file style). Tests 1343/1343, R26 build ✅. Fixes after the live run do not change B01 (H17/H18 empty, joint at 0.38 L).
