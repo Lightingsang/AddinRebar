@@ -36,6 +36,13 @@ public sealed record KataSheet(
     IReadOnlyList<object?> Row23,
     IReadOnlyList<string> Warnings)
 {
+    /// <summary>
+    /// Row 20: support cells are written as they are (null leaves the cell as the user typed it), span cells are
+    /// <see cref="Calculators.KataSpanWidthCell"/> merged with the side bars already in the sheet. Not part of
+    /// <see cref="Rows"/> for that reason.
+    /// </summary>
+    public IReadOnlyList<object?> Row20 { get; init; } = System.Array.Empty<object?>();
+
     /// <summary>Columns C..BZ of the Kata sheet.</summary>
     public const int MaxColumns = 76;
 

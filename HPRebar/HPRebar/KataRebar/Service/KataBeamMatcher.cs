@@ -73,7 +73,19 @@ public static class KataBeamMatcher
             }
         },
         segment.Extent.Length,
-        segment.Kind == KataSegmentKind.Span ? SpanDepth(segment, pieces) : 0.0);
+        segment.Kind == KataSegmentKind.Span ? SpanDepth(segment, pieces) : 0.0,
+        segment.Kind == KataSegmentKind.Span ? PiecesOver(segment, pieces) : null);
+
+    /// <summary>The framing elements over a span, clipped to it: their section and top (row 19) from the span's start.</summary>
+    private static IReadOnlyList<KataMeasuredPiece> PiecesOver(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces) => pieces
+        .Select(p => (Piece: p, Start: Math.Max(p.Extent.Start, segment.Extent.Start), End: Math.Min(p.Extent.End, segment.Extent.End)))
+        .Where(c => c.End - c.Start > MinPieceOverlapMm)
+        .OrderBy(c => c.Start)
+        .Select(c => new KataMeasuredPiece(c.Start - segment.Extent.Start, c.End - c.Start, c.Piece.WidthMm, c.Piece.HeightMm, c.Piece.ZOffsetMm))
+        .ToList();
+
+    /// <summary>A framing element reaching less than this into a span (a beam end cut back into a column) is not over it.</summary>
+    private const double MinPieceOverlapMm = 50.0;
 
     /// <summary>Depth of the framing piece under the middle of a span.</summary>
     private static double SpanDepth(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces)

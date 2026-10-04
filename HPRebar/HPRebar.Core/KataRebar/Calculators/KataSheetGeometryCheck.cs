@@ -40,16 +40,15 @@ public static class KataSheetGeometryCheck
         var sheet = SheetSequence(spec);
         var forward = measured.Segments.ToList();
 
-        CompareSection(warnings, blocking, "B6", "b", spec.Width, measured.WidthMm);
-
         if (sheet.Count != forward.Count)
         {
+            CompareSection(warnings, blocking, "B6", "b", spec.Width, measured.WidthMm);
             CompareSection(warnings, blocking, "B5", "h", spec.Height, measured.HeightMm);
             blocking.Add($"Hàng 11 có {sheet.Count} cột gối/nhịp nhưng Revit đo được {forward.Count} ({Describe(forward)}).");
             return new KataGeometryCheckResult(false, forward, blocking, warnings);
         }
 
-        var backward = Enumerable.Reverse(forward).ToList();
+        var backward = Enumerable.Reverse(forward).Select(s => s.Mirrored()).ToList();
         double forwardScore = Score(sheet, forward);
         double backwardScore = Score(sheet, backward);
         if (double.IsInfinity(forwardScore) && double.IsInfinity(backwardScore))
@@ -64,13 +63,17 @@ public static class KataSheetGeometryCheck
             ? preferReversed ?? false
             : backwardScore < forwardScore;
         var order = reversed ? backward : forward;
-        // B5 is the depth of the sheet's first span, read in the sheet's direction.
+        // B5 and B6 describe the sheet's first span, read in the sheet's direction.
         CompareSection(warnings, blocking, "B5", "h", spec.Height, FirstSpanDepth(order) ?? measured.HeightMm);
+        CompareSection(warnings, blocking, "B6", "b", spec.Width, FirstSpanWidth(order) ?? measured.WidthMm);
+        // Tops are compared relative to the first span: a beam offset from its level as a whole is the same beam.
+        double sheetFirstTop = spec.Spans.Count > 0 ? spec.TopAt(0) : 0.0;
+        double revitFirstTop = order.FirstOrDefault(s => !s.IsSupport && s.PieceList.Count > 0)?.PieceList[0].TopMm ?? 0.0;
         for (int i = 0; i < sheet.Count; i++)
         {
             CompareLength(warnings, blocking, sheet[i], order[i]);
-            if (!sheet[i].IsSupport && order[i].HeightMm > 0.0 && spec.Height > 0.0)
-                CompareSection(warnings, blocking, SpanStepAddress(spec, sheet[i].Index), $"h nhịp {sheet[i].Index + 1} (B5 − hàng 21)", spec.DepthOf(sheet[i].Index), order[i].HeightMm);
+            if (!sheet[i].IsSupport && spec.Height > 0.0)
+                CompareSpan(warnings, blocking, spec, sheet[i].Index, order[i], revitFirstTop - sheetFirstTop);
         }
 
         if (reversed)
@@ -79,7 +82,10 @@ public static class KataSheetGeometryCheck
         return new KataGeometryCheckResult(reversed, order, blocking, warnings);
     }
 
-    /// <summary>Row 11 in sheet order: supports and spans by sheet column, alternating when no column is known.</summary>
+    /// <summary>
+    /// Row 11 in sheet order: supports and spans by sheet column, alternating when no column is known. A console end
+    /// (0 at the first or last support) has nothing Revit could measure, so it is not a cell of the sequence.
+    /// </summary>
     public static IReadOnlyList<SheetCell> SheetSequence(KataBeamRebarSpec spec)
     {
         var cells = new List<SheetCell>();
@@ -87,7 +93,8 @@ public static class KataSheetGeometryCheck
 
         for (int i = 0; i < Math.Max(spec.Supports.Count, spec.Spans.Count); i++)
         {
-            if (i < spec.Supports.Count)
+            bool consoleEnd = (i == 0 || i == spec.Supports.Count - 1) && spec.Supports.Count > 1 && spec.Supports[i].ColumnWidth <= 0.0;
+            if (i < spec.Supports.Count && !consoleEnd)
                 cells.Add(new SheetCell(true, i, spec.Supports[i].ColumnWidth, hasColumns ? spec.Supports[i].SheetColumn : 0));
             if (i < spec.Spans.Count)
                 cells.Add(new SheetCell(false, i, spec.Spans[i].Length, hasColumns ? spec.Spans[i].SheetColumn : 0));
@@ -118,6 +125,36 @@ public static class KataSheetGeometryCheck
         (diff > RefuseToleranceMm ? blocking : warnings).Add(message);
     }
 
+    /// <summary>
+    /// Each framing element over a span against the sheet at its middle: concrete depth (B5 − row 21 + row 19), top
+    /// (row 19) and width (row 20 / B6).
+    /// </summary>
+    private static void CompareSpan(List<string> warnings, List<string> blocking, KataBeamRebarSpec spec, int span, KataMeasuredSegment segment, double topShift)
+    {
+        string n = $"nhịp {span + 1}";
+        var pieces = segment.PieceList.Count > 0
+            ? segment.PieceList
+            : segment.HeightMm > 0.0 ? new[] { new KataMeasuredPiece(0.0, segment.LengthMm, 0.0, segment.HeightMm, double.NaN) } : new KataMeasuredPiece[0];
+        foreach (var piece in pieces)
+        {
+            CompareSection(warnings, blocking, SpanAddress(spec, span, 21), $"h {n} (B5 − hàng 21 + hàng 19)", spec.HeightOf(span, piece.MidMm), piece.HeightMm);
+            if (!double.IsNaN(piece.TopMm))
+                CompareLevel(warnings, blocking, SpanAddress(spec, span, 19), $"cao độ đỉnh {n} (so với nhịp đầu)", spec.TopAt(span, piece.MidMm) + topShift, piece.TopMm);
+            if (piece.WidthMm > 0.0 && spec.Width > 0.0)
+                CompareSection(warnings, blocking, SpanAddress(spec, span, 20), $"b {n}", spec.WidthOf(span), piece.WidthMm);
+        }
+    }
+
+    /// <summary>A level may be 0: compared like a size, never read as "empty".</summary>
+    private static void CompareLevel(List<string> warnings, List<string> blocking, string address, string name, double sheetValue, double revitValue)
+    {
+        double diff = Math.Abs(sheetValue - revitValue);
+        if (diff <= SilentToleranceMm) return;
+
+        string message = $"{address}: {name} trong sheet {sheetValue:0} mm, Revit {revitValue:0} mm (lệch {diff:0} mm); thép theo Revit.";
+        (diff > RefuseToleranceMm ? blocking : warnings).Add(message);
+    }
+
     private static void CompareSection(List<string> warnings, List<string> blocking, string address, string name, double sheetValue, double revitValue)
     {
         if (sheetValue <= 0.0)
@@ -133,12 +170,22 @@ public static class KataSheetGeometryCheck
         (diff > RefuseToleranceMm ? blocking : warnings).Add(message);
     }
 
-    /// <summary>Depth Revit measured over the first span of <paramref name="order"/>, when it was measured.</summary>
+    /// <summary>Concrete depth Revit measured at the start of the first span of <paramref name="order"/> (B5), when measured.</summary>
     public static double? FirstSpanDepth(IEnumerable<KataMeasuredSegment> order) =>
-        order.FirstOrDefault(s => !s.IsSupport && s.HeightMm > 0.0)?.HeightMm;
+        order.FirstOrDefault(s => !s.IsSupport && s.HeightMm > 0.0) is { } span
+            ? span.PieceList.Count > 0 ? span.PieceList[0].HeightMm : span.HeightMm
+            : null;
 
-    private static string SpanStepAddress(KataBeamRebarSpec spec, int span) =>
-        spec.Spans[span].SheetColumn > 0 ? KataDamCellAccessorExtensions.ToAddress(21, spec.Spans[span].SheetColumn) : $"Nhịp {span + 1} hàng 21";
+    /// <summary>Width Revit measured at the start of the first span of <paramref name="order"/> (B6), when measured.</summary>
+    public static double? FirstSpanWidth(IEnumerable<KataMeasuredSegment> order) =>
+        order.FirstOrDefault(s => !s.IsSupport && s.PieceList.Count > 0 && s.PieceList[0].WidthMm > 0.0)?.PieceList[0].WidthMm;
+
+    /// <summary>Soffit depth of a measured span: its first piece's depth less its top; the segment's depth when unknown.</summary>
+    public static double SoffitDepth(KataMeasuredSegment span) =>
+        span.PieceList.Count > 0 ? span.PieceList[0].HeightMm - span.PieceList[0].TopMm : span.HeightMm;
+
+    private static string SpanAddress(KataBeamRebarSpec spec, int span, int row) =>
+        spec.Spans[span].SheetColumn > 0 ? KataDamCellAccessorExtensions.ToAddress(row, spec.Spans[span].SheetColumn) : $"Nhịp {span + 1} hàng {row}";
 
     private static string Describe(IEnumerable<KataMeasuredSegment> segments) =>
         string.Join(" · ", segments.Select(s => s.IsSupport ? $"gối {s.LengthMm:0}" : $"nhịp {s.LengthMm:0}"));

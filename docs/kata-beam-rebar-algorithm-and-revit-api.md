@@ -1,5 +1,7 @@
 # BÁO CÁO PHÂN TÍCH CHUYÊN SÂU: THUẬT TOÁN CỐT THÉP DẦM KATA & KỸ THUẬT VẼ TRONG REVIT API
 
+> **Đã thay bởi [docs/specs/kata-beam-rebar-rules.md](specs/kata-beam-rebar-rules.md) (2026-10-04)** cho mọi quy tắc bố trí thép; một số quy tắc dưới đây (L0/4, L0/5, L0/7, vùng đai 2h…) sai so với bản vẽ Kata. Phần Revit API còn dùng để tham khảo.
+
 > **Tài liệu Kỹ thuật Kiến trúc & Thuật toán (Technical Architecture & Algorithm Report)**  
 > **Dự án:** HPRebar Ecosystem — Module Kata Rebar  
 > **Đối tượng phân tích:** Thư mục `D:\OneDrive\PROGRAM\KATA\Update2025`, `Kata.xlsm` (Sheet `Dam`), Autodesk Revit 2026 API  

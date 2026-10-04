@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using HPRebar.Core.BeamRebar.Models;
 using HPRebar.Core.KataRebar.Calculators;
 using HPRebar.Core.KataRebar.Models;
 using Serilog;
@@ -67,13 +68,22 @@ public static class KataRebarCreationService
     private static Rebar CreateSingle(Document doc, KataRebarPlan plan, KataBeamPlacement placement, IReadOnlyDictionary<double, RebarBarType> barTypes, KataRebarCurve bar)
     {
         var host = HostOf(placement, bar);
-        var rebar = KataRebarCurveFactory.Create(
-            doc,
-            RebarStyle.Standard,
-            barTypes[bar.Diameter],
-            host,
-            placement.Mapper.AxisY,
-            KataRebarCurveFactory.Curves(bar.Polyline, placement.Mapper));
+        Rebar rebar;
+        try
+        {
+            rebar = KataRebarCurveFactory.Create(
+                doc,
+                RebarStyle.Standard,
+                barTypes[bar.Diameter],
+                host,
+                placement.Mapper.AxisY,
+                KataRebarCurveFactory.Curves(bar.Polyline, placement.Mapper));
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
+        {
+            // Name the bar: the layout has hundreds and Revit only says it refused one.
+            throw new InvalidOperationException($"{ex.Message} Thanh {bar.BarDescription} số {bar.BarNumber}: {Describe(bar.Polyline)}", ex);
+        }
 
         KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(bar.BarNumber, bar.BarMark));
         AlignAcross(doc, rebar, bar.TransverseY, placement);
@@ -81,6 +91,9 @@ public static class KataRebarCreationService
         KataRebarSectionFit.Fit(doc, rebar, placement.Mapper, a, b, acrossToo: false);
         return rebar;
     }
+
+    private static string Describe(Polyline3 polyline) =>
+        string.Join(" ", polyline.Points.Select(p => FormattableString.Invariant($"({p.X:0},{p.Y:0},{p.Z:0})")));
 
     /// <summary>
     /// Moves the bar (bar 0 of a set) back to its planned transverse offset when Revit snapped its plane to the

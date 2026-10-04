@@ -45,6 +45,24 @@ internal sealed class KataDrawingFrame
     /// <summary>Depth under a crossing-beam support: the shallower of its span(s) and the beam.</summary>
     public double SupportDepth(int k) => _spec.SupportDepth(k);
 
+    /// <summary>The beam top over span <paramref name="span"/> as (station, level) points, steps drawn as vertical faces.</summary>
+    public IReadOnlyList<(double X, double Z)> TopLine(int span)
+    {
+        double a = St.SpanStart[span], b = St.SpanEnd[span];
+        var points = new List<(double X, double Z)> { (a, _spec.TopAt(span, 0.0)) };
+        foreach (var step in _spec.Spans[span].TopSteps)
+        {
+            points.Add((a + step.AtMm, points[points.Count - 1].Z));
+            points.Add((a + step.AtMm, step.TopDrop));
+        }
+
+        points.Add((b, points[points.Count - 1].Z));
+        return points;
+    }
+
+    /// <summary>Beam top at the start (<paramref name="end"/> false) or end of span <paramref name="span"/>.</summary>
+    public double Top(int span, bool end) => _spec.TopAt(span, end ? _spec.Spans[span].Length : 0.0);
+
     /// <summary>Every support with a width has its grid line, at its centre plus row 23; only named ones get a bubble.</summary>
     public bool HasGrid(int k) => St.SupportWidth[k] > 0.0;
 

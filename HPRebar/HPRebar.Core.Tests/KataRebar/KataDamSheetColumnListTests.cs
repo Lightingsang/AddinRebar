@@ -1,3 +1,4 @@
+using System.Linq;
 using HPRebar.Core.KataRebar.Parsers;
 using Xunit;
 
@@ -21,7 +22,7 @@ public sealed class KataDamSheetColumnListTests
     }
 
     [Fact]
-    public void A_zero_width_support_is_part_of_the_list()
+    public void A_zero_width_interior_support_merges_its_spans_and_a_zero_width_end_stays_a_console()
     {
         var table = KataRebarTestSheets.SingleSpan();
         table.Set("E11", 0.0);
@@ -32,7 +33,8 @@ public sealed class KataDamSheetColumnListTests
 
         var spec = KataDamSheetParser.Parse(table);
 
-        Assert.Equal(3, spec.Supports.Count);
-        Assert.Equal(2, spec.Spans.Count);
+        Assert.Equal(new[] { 400.0, 0.0 }, spec.Supports.Select(s => s.ColumnWidth));
+        Assert.Equal(7500.0, Assert.Single(spec.Spans).Length);
+        Assert.Equal(new[] { 0, 1 }, spec.Supports.Select(s => s.SupportIndex));
     }
 }

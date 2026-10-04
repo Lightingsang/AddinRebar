@@ -14,15 +14,16 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// cantilever — cuts the bars at
 /// that support: the deeper span's bar runs to the far face and bends up like an end anchorage (its leg kept clear of
 /// the shallower bar and of the top bars), the shallower span's bar runs straight G3·d past the support face on its
-/// own side, into the deeper span. A cantilever cut off this way keeps no bottom bar of its own.
+/// own side, into the deeper span. A console cut off this way gets bottom bars of its own (B01): from a cover inside
+/// the far face of its support, bent up 10d, to a cover short of the tip, at its own soffit.
 /// </summary>
 public static class KataBottomMainBarRuns
 {
     /// <summary>Anchorages a run asks for: in an end support (with the top legs it must clear), or at a step.</summary>
     /// <param name="EndSupport">The bar end in end support 0 or the last one.</param>
-    /// <param name="Step">The bar end bent up in an interior support: (support, outward, leg room).</param>
+    /// <param name="Step">The bar end bent up in an interior support: (support, outward, leg room, bar diameter).</param>
     /// <param name="TopRoom">Lowest centre a bottom leg may reach under the top bars over a support (z, mm).</param>
-    public sealed record EndSolver(Func<int, KataBarEnd> EndSupport, Func<int, int, double, KataBarEnd> Step, Func<int, double> TopRoom);
+    public sealed record EndSolver(Func<int, KataBarEnd> EndSupport, Func<int, int, double, double, KataBarEnd> Step, Func<int, double> TopRoom);
 
     /// <summary>One bottom bar: spans <see cref="FirstSpan"/> to <see cref="LastSpan"/> (<see cref="Whole"/> = all of them), its path (X, Z) between the ends.</summary>
     public sealed record Run(
@@ -37,7 +38,10 @@ public static class KataBottomMainBarRuns
         public int LastSupport => LastSpan + 1;
     }
 
-    public static IReadOnlyList<Run> Plan(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, double diameter, EndSolver ends, List<string> warnings)
+    /// <param name="diameter">B12's bar diameter.</param>
+    /// <param name="diameterOf">The bar diameter each span carries (its own of row 21, else B12): laps and legs are sized for it.</param>
+    public static IReadOnlyList<Run> Plan(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, double diameter, EndSolver ends, List<string> warnings,
+        Func<int, double>? diameterOf = null)
     {
         int n = st.SpanCount;
         var runs = new List<Run>();
@@ -45,7 +49,8 @@ public static class KataBottomMainBarRuns
 
         double Depth(int s) => spec.DepthOf(s);
         double Z(int s) => -Depth(s) + rules.BottomBarCentreDepth;
-        double straight = rules.BottomAnchorageFactor * diameter;
+        double D(int s) => diameterOf?.Invoke(s) ?? diameter;
+        double Straight(int s) => rules.BottomAnchorageFactor * D(s);
         bool Cantilever(int s) => (s == 0 && st.SupportWidth[0] <= 0.0) || (s == n - 1 && st.SupportWidth[n] <= 0.0);
 
         // A crank must lie between the previous crank (or the span's start) and the end of the deeper span.
@@ -54,15 +59,28 @@ public static class KataBottomMainBarRuns
         for (int k = 1; k < n; k++)
         {
             double step = Depth(k) - Depth(k - 1);
+            // A console always has bottom bars of its own: the span beside it laps into it (B01 at M).
+            double d = Math.Max(D(k - 1), D(k));
+            if (n > 1 && (Cantilever(k - 1) || Cantilever(k)))
+            {
+                cut[k] = true;
+                reached = st.SpanStart[k];
+                // Evidence (B01) is a console 400 deeper; at about the same depth the lapped bars lie on each other.
+                double lapGap = Math.Abs(step) - d;
+                if (lapGap < rules.LayerGap(d, d))
+                    warnings.Add($"Thép chủ dưới qua gối {k + 1}: nhịp và console gần cùng đáy — thanh nối chồng của console chỉ cách {Math.Max(0.0, lapGap):0} mm, kiểm tra trong Revit.");
+                continue;
+            }
+
             if (Math.Abs(step) < 1e-6) continue;
-            if (!rules.Cranks(step, st.SupportWidth[k], diameter))
+            if (!rules.Cranks(step, st.SupportWidth[k], d))
             {
                 cut[k] = true;
                 reached = st.SpanStart[k];
                 // Cut, the shallow bar runs on past the support beside the deep one, only the step apart.
-                double gap = Math.Abs(step) - diameter;
-                if (gap < rules.LayerGap(diameter, diameter))
-                    warnings.Add($"Thép chủ dưới qua gối {k + 1}: bậc đáy {Math.Abs(step):0} mm bị cắt (Ø{diameter:0} < {rules.CrankMinDiameter:0} hoặc gối hẹp) — hai thanh chồng nhau chỉ cách {gap:0} mm, kiểm tra trong Revit.");
+                double gap = Math.Abs(step) - d;
+                if (gap < rules.LayerGap(d, d))
+                    warnings.Add($"Thép chủ dưới qua gối {k + 1}: bậc đáy {Math.Abs(step):0} mm bị cắt (Ø{d:0} < {rules.CrankMinDiameter:0} hoặc gối hẹp) — hai thanh chồng nhau chỉ cách {gap:0} mm, kiểm tra trong Revit.");
                 continue;
             }
 
@@ -85,19 +103,23 @@ public static class KataBottomMainBarRuns
             if (!cut[s]) continue;
 
             int last = s - 1;
-            // A cantilever cut off from its neighbours keeps no bottom bar of its own.
-            if (first == last && Cantilever(first) && n > 1) { first = s; continue; }
+            if (first == last && Cantilever(first))
+            {
+                runs.Add(ConsoleRun(st, rules, ends, first, Z(first), D(first), diameter, warnings));
+                first = s;
+                continue;
+            }
 
             KataBarEnd start = first == 0
                 ? ends.EndSupport(0)
                 : Depth(first) > Depth(first - 1)
-                    ? ends.Step(first, -1, DeepLegRoom(ends, rules, first, Depth(first) - Depth(first - 1), Z(first), diameter))
-                    : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomBarCentreDepth, st.SupportEnd[first] - straight), 0.0, 0.0);
+                    ? ends.Step(first, -1, DeepLegRoom(ends, rules, first, Depth(first) - Depth(first - 1), Z(first), D(first)), D(first))
+                    : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomBarCentreDepth, st.SupportEnd[first] - Straight(first)), 0.0, 0.0);
             KataBarEnd end = last == n - 1
                 ? ends.EndSupport(n)
                 : Depth(last) > Depth(last + 1)
-                    ? ends.Step(last + 1, +1, DeepLegRoom(ends, rules, last + 1, Depth(last) - Depth(last + 1), Z(last), diameter))
-                    : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomBarCentreDepth, st.SupportStart[last + 1] + straight), 0.0, 0.0);
+                    ? ends.Step(last + 1, +1, DeepLegRoom(ends, rules, last + 1, Depth(last) - Depth(last + 1), Z(last), D(last)), D(last))
+                    : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomBarCentreDepth, st.SupportStart[last + 1] + Straight(last)), 0.0, 0.0);
 
             var path = new List<(double X, double Z)> { (start.X, Z(first)) };
             for (int k = first + 1; k <= last; k++)
@@ -116,6 +138,31 @@ public static class KataBottomMainBarRuns
         }
 
         return runs;
+    }
+
+    /// <summary>Leg of a console's bottom bar in its support, in diameters of the larger of its own bar and B12 (B01 at M: 250 = 10 × 25 for its 3Ø20).</summary>
+    private const double ConsoleLegFactor = 10.0;
+
+    /// <summary>
+    /// The bottom bar of a console span: anchored through its support with a 10d leg up, kept under the top bars
+    /// there, stopping at the tip.
+    /// </summary>
+    private static Run ConsoleRun(KataBeamStations st, KataDetailingRules rules, EndSolver ends, int span, double z, double diameter, double beamDiameter,
+        List<string> warnings)
+    {
+        double cover = rules.BottomBarCentreDepth;
+        bool right = st.SupportWidth[span + 1] <= 0.0;
+        int support = right ? span : span + 1;
+        double wanted = Math.Max(rules.MinimumLegFactor, ConsoleLegFactor) * Math.Max(diameter, beamDiameter);
+        double leg = Math.Max(0.0, Math.Min(wanted, ends.TopRoom(support) - z));
+        if (leg < wanted - 1.0)
+            warnings.Add($"Thép dưới console (gối {support + 1}): chân neo chỉ còn {leg:0} mm (cần {wanted:0}) — kiểm tra neo.");
+
+        var anchored = new KataBarEnd(0.0, leg, 0.0);
+        var free = new KataBarEnd(0.0, 0.0, 0.0);
+        var start = right ? anchored with { X = st.SupportStart[span] + cover } : free with { X = st.SupportEnd[span] + cover };
+        var end = right ? free with { X = st.SupportStart[span + 1] - cover } : anchored with { X = st.SupportEnd[span + 1] - cover };
+        return new Run(span, span, false, start, end, new List<(double X, double Z)> { (start.X, z), (end.X, z) });
     }
 
     /// <summary>The crank over support <paramref name="k"/>: from the shallower span's face into the deeper span.</summary>

@@ -21,6 +21,7 @@ public static class KataExcelWriter
     private const string TargetSheetName = "Dam";
     private const int FirstDataRow = 11;
     private const int LastDataRow = 23;
+    private const int Row20 = 20;
     private const int FirstColumn = 3; // C
     private const int LastColumn = 78; // BZ
 
@@ -72,6 +73,7 @@ public static class KataExcelWriter
 
             foreach (var (row, values) in sheet.Rows())
                 WriteRow(ws, row, values);
+            WriteRow20(ws, sheet.Row20);
 
             return new KataExcelWriteResult(true, columns, target.WorkbookName, string.Empty);
         }
@@ -105,6 +107,41 @@ public static class KataExcelWriter
 
         WithBlock(ws, row, FirstColumn, row, FirstColumn + values.Count - 1, range => ComLateBinding.Set(range, "Value2", array));
     }
+
+    /// <summary>
+    /// Row 20: support cells as built, or as the user typed them where Revit shows no crossing beam (null); span
+    /// cells keep the side bars the user typed there, with Revit's span width in front (<see cref="KataRow20.ComposeSpanCell"/>).
+    /// </summary>
+    private static void WriteRow20(object ws, IReadOnlyList<object?> values)
+    {
+        if (values.Count == 0) return;
+
+        var existing = new string?[values.Count];
+        WithBlock(ws, Row20, FirstColumn, Row20, FirstColumn + values.Count - 1, range =>
+        {
+            object? read = ComLateBinding.Get(range, "Value2");
+            if (read is object[,] cells)
+                for (int c = 0; c < values.Count; c++) existing[c] = Text(cells[cells.GetLowerBound(0), cells.GetLowerBound(1) + c]);
+            else
+                existing[0] = Text(read);
+        });
+
+        var merged = new object?[values.Count];
+        for (int c = 0; c < values.Count; c++)
+        {
+            merged[c] = values[c] switch
+            {
+                KataSpanWidthCell span => KataRow20.ComposeSpanCell(existing[c], span.WidthMm),
+                null => existing[c] ?? string.Empty,
+                var cell => cell
+            };
+        }
+
+        WriteRow(ws, Row20, merged);
+    }
+
+    /// <summary>A cell value as invariant text: a number read back from Excel must not pick up the decimal comma.</summary>
+    private static string? Text(object? value) => value is null ? null : KataColumnLetters.CellText(value);
 
     private static void ClearBlock(object ws, int firstRow, int firstColumn, int lastRow, int lastColumn) =>
         WithBlock(ws, firstRow, firstColumn, lastRow, lastColumn, range => ComLateBinding.Call(range, "ClearContents"));

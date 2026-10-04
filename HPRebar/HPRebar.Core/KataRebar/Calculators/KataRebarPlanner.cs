@@ -37,11 +37,15 @@ public static class KataRebarPlanner
 
         var scope = KataScopeFilter.Apply(effective);
         blocking.AddRange(scope.Blocking);
+        warnings.AddRange(scope.Warnings);
 
         var rules = KataDetailingRuleBuilder.Build(scope.Filtered, settings);
         blocking.AddRange(rules.Errors);
 
-        var layout = KataRebarCalculator.Calculate(scope.Filtered, rules);
+        // A refused sheet is not laid out: its cells may hold what the calculator cannot take.
+        var layout = blocking.Count == 0
+            ? KataRebarCalculator.Calculate(scope.Filtered, rules)
+            : new KataRebarLayoutResult { BeamName = scope.Filtered.BeamName };
         var skipped = scope.Skipped.ToList();
         warnings.AddRange(layout.Warnings);
         blocking.AddRange(layout.Blocking);
@@ -77,6 +81,57 @@ public static class KataRebarPlanner
         }
     }
 
+    /// <summary>
+    /// A span as Revit has it: its length, and from the framing elements over it the soffit depth, the width and the top
+    /// (its first element's, and a step wherever a later element's top differs).
+    /// </summary>
+    private static KataSpanRebarSpec Measured(KataSpanRebarSpec span, KataMeasuredSegment segment)
+    {
+        var measured = span with { Length = segment.LengthMm };
+        var pieces = segment.PieceList;
+        if (pieces.Count == 0)
+            return segment.HeightMm > 0.0 ? measured with { Depth = segment.HeightMm - span.TopDrop } : measured;
+
+        var first = pieces[0];
+        var steps = new List<KataTopStep>();
+        double top = Snap(first.TopMm);
+        foreach (var piece in pieces.Skip(1).Where(p => Math.Abs(p.TopMm - top) > KataSheetGeometryCheck.SilentToleranceMm))
+        {
+            top = Snap(piece.TopMm);
+            steps.Add(new KataTopStep(piece.StartMm, top));
+        }
+
+        return measured with
+        {
+            Depth = Snap(KataSheetGeometryCheck.SoffitDepth(segment)),
+            TopDrop = Snap(first.TopMm),
+            TopSteps = steps,
+            Width = first.WidthMm > 0.0 ? Snap(first.WidthMm) : span.Width
+        };
+    }
+
+    /// <summary>Measured sizes and levels to whole millimetres: modelling noise must not read as a step.</summary>
+    private static double Snap(double mm) => Math.Round(mm, MidpointRounding.AwayFromZero) + 0.0;
+
+    /// <summary>
+    /// Neighbouring spans whose tops or widths differ by no more than the silent tolerance are the same: the bars
+    /// would otherwise be cut or cranked over a modelling difference of a millimetre.
+    /// </summary>
+    private static List<KataSpanRebarSpec> Smoothed(List<KataSpanRebarSpec> spans)
+    {
+        for (int i = 1; i < spans.Count; i++)
+        {
+            var prev = spans[i - 1];
+            double prevTop = prev.TopSteps.Count > 0 ? prev.TopSteps[prev.TopSteps.Count - 1].TopDrop : prev.TopDrop;
+            var span = spans[i];
+            if (Math.Abs(span.TopDrop - prevTop) <= KataSheetGeometryCheck.SilentToleranceMm) span = span with { TopDrop = prevTop };
+            if (Math.Abs(span.Width - prev.Width) <= KataSheetGeometryCheck.SilentToleranceMm) span = span with { Width = prev.Width };
+            spans[i] = span;
+        }
+
+        return spans;
+    }
+
     /// <summary>The spec with Revit's section and row 11 lengths (in sheet order) in place of the sheet's.</summary>
     private static KataBeamRebarSpec WithMeasuredGeometry(
         KataBeamRebarSpec spec,
@@ -93,19 +148,17 @@ public static class KataRebarPlanner
             if (cell.IsSupport)
                 supports[cell.Index] = supports[cell.Index] with { ColumnWidth = sheetOrder[i].LengthMm };
             else
-                spans[cell.Index] = spans[cell.Index] with
-                {
-                    Length = sheetOrder[i].LengthMm,
-                    Depth = sheetOrder[i].HeightMm > 0.0 ? sheetOrder[i].HeightMm : spans[cell.Index].Depth
-                };
+                spans[cell.Index] = Measured(spans[cell.Index], sheetOrder[i]);
         }
 
+        spans = Smoothed(spans);
+        double width = spans.Count > 0 && spans[0].Width > 0.0 ? spans[0].Width : Snap(measured.WidthMm);
         return spec with
         {
-            Width = measured.WidthMm,
-            Height = KataSheetGeometryCheck.FirstSpanDepth(sheetOrder) ?? measured.HeightMm,
+            Width = width,
+            Height = Snap(KataSheetGeometryCheck.FirstSpanDepth(sheetOrder) ?? measured.HeightMm),
             Supports = supports,
-            Spans = spans
+            Spans = spans.Select(s => Math.Abs(s.Width - width) <= KataSheetGeometryCheck.SilentToleranceMm ? s with { Width = 0.0 } : s).ToList()
         };
     }
 }

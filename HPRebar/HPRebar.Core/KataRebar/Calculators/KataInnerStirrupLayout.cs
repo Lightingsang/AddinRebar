@@ -11,7 +11,8 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// Inner stirrups of each span's section, as Kata's stirrup chart draws them from the top bars they name:
 /// "Đai □ a-b" a closed hoop round top bars a..b, "Đai U a-b" a U open at the top with its legs at bars a and
 /// b, "Đai C a" an upright tie beside bar a from the top bars to the bottom ones. They follow the outer
-/// hoop's zones, one stirrup diameter along the beam from each outer hoop so the two never share a plane.
+/// hoop's zones, one stirrup diameter along the beam from each outer hoop so the two never share a plane, at the
+/// span's width (row 20) and up to the top over each zone (row 19).
 /// </summary>
 public static class KataInnerStirrupLayout
 {
@@ -26,13 +27,12 @@ public static class KataInnerStirrupLayout
         if (ds <= 0.0 || outerZones.Count == 0) return sets;
 
         var top = spec.TopContinuous;
-        var barY = top.IsEmpty
-            ? Array.Empty<double>()
-            : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, ds, top.Diameter, top.Count).OrderBy(y => y).ToArray();
         double off = (top.Diameter + ds) / 2.0;
-        double zTop = -(rules.StirrupCover + ds / 2.0);
         for (int s = 0; s < spec.Spans.Count; s++)
         {
+            var barY = top.IsEmpty
+                ? Array.Empty<double>()
+                : KataRebarCalculator.ComputeTransverseYPositions(spec.WidthOf(s), rules.StirrupCover, ds, top.Diameter, top.Count).OrderBy(y => y).ToArray();
             double zBottom = -spec.DepthOf(s) + rules.StirrupCover + ds / 2.0;
             var entries = spec.Spans[s].InnerStirrups;
             var zones = outerZones.Where(z => z.SpanIndex == s && z.Count > 0).ToList();
@@ -58,11 +58,14 @@ public static class KataInnerStirrupLayout
                 if (entry.ShapeType == KataStirrupShapeType.CrossTie && a != b)
                     warnings.Add($"{label}: đai C ôm một thanh — dùng thanh {a}.");
 
-                var (shape, toward, hookAngle, hookFactor) = Geometry(entry.ShapeType, barY[a - 1], barY[b - 1], off, zTop, zBottom, rules);
                 bool wraps = entry.ShapeType == KataStirrupShapeType.CrossTie;
                 var wrapOffset = new Point3(0.0, barY[a - 1] <= 0.0 ? 1.0 : -1.0, 0.0);
                 foreach (var zone in zones)
                 {
+                    // The outer hoop of the zone reaches the top over it less the cover.
+                    double topLevel = zone.BoxMinZ + zone.OutToOutHeight + rules.StirrupCover;
+                    double zTop = topLevel - rules.StirrupCover - ds / 2.0;
+                    var (shape, toward, hookAngle, hookFactor) = Geometry(entry.ShapeType, barY[a - 1], barY[b - 1], off, zTop, zBottom, topLevel, rules);
                     var stations = zone.Stations.Select(x => x + ds).ToList();
                     sets.Add(new KataBarSet
                     {
@@ -95,7 +98,7 @@ public static class KataInnerStirrupLayout
 
     /// <summary>Centreline in the section (Y, Z) and the point its hooks turn towards.</summary>
     private static (List<Point3> Shape, Point3 Toward, int HookAngle, double HookFactor) Geometry(
-        KataStirrupShapeType type, double ya, double yb, double off, double zTop, double zBottom, KataDetailingRules rules)
+        KataStirrupShapeType type, double ya, double yb, double off, double zTop, double zBottom, double topLevel, KataDetailingRules rules)
     {
         double zBottomBar = zBottom - rules.StirrupCover - rules.StirrupDiameter / 2.0 + rules.BottomBarCentreDepth;
         double left = ya - off, right = yb + off;
@@ -109,7 +112,7 @@ public static class KataInnerStirrupLayout
             case KataStirrupShapeType.CrossTie:
                 // The top bar it wraps and the bottom bar position below it; the tie runs beside them on the side
                 // of the beam's centre and each hook turns round its bar.
-                return (new List<Point3> { new(0, ya, -rules.TopBarCentreDepth), new(0, ya, zBottomBar) },
+                return (new List<Point3> { new(0, ya, topLevel - rules.TopBarCentreDepth), new(0, ya, zBottomBar) },
                     new Point3(0.0, ya, (zTop + zBottom) / 2.0), rules.CrossTieHookAngle, rules.CrossTieHookFactor);
 
             default:

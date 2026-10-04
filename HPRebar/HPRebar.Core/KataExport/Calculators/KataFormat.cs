@@ -31,5 +31,6 @@ public static class KataFormat
         return sign + Math.Abs(metres).ToString("0.000", CultureInfo.InvariantCulture);
     }
 
-    private static string Whole(double valueMm) => ((long)Round(valueMm)).ToString(CultureInfo.InvariantCulture);
+    /// <summary>Whole millimetres as invariant text, e.g. "300".</summary>
+    public static string Whole(double valueMm) => ((long)Round(valueMm)).ToString(CultureInfo.InvariantCulture);
 }

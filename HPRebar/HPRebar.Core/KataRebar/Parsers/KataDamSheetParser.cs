@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Parsers;
@@ -143,11 +144,15 @@ public static class KataDamSheetParser
             else
             {
                 var span = ParseSpan(accessor, col, spanIdx++, globalStirrup, notes);
+                span = InheritSteps(accessor, col, span, spans.Count > 0 ? spans[spans.Count - 1] : null, notes);
                 // Row 21 of a span is its soffit step from B5's soffit, the top staying level: depth = B5 − step.
                 if (height > 0.0) span = span with { Depth = height - span.SoffitDrop };
                 spans.Add(span);
             }
         }
+
+        var run = KataZeroWidthSupports.Merge(accessor, supports, spans, topContinuous, botContinuous);
+        notes.AddRange(run.Notes);
 
         return new KataBeamRebarSpec
         {
@@ -177,8 +182,8 @@ public static class KataDamSheetParser
             GlobalStirrup = globalStirrup,
             GlobalSideBars = globalSideBars,
             SideBarTies = g5 >= 0,
-            Supports = supports,
-            Spans = spans
+            Supports = run.Supports,
+            Spans = run.Spans
         };
     }
 
@@ -214,6 +219,7 @@ public static class KataDamSheetParser
             SupportIndex = supportIndex,
             SheetColumn = col,
             ColumnWidth = width,
+            WidthUnreadable = width <= 0.0 && row11?.Trim() != "0",
             SupportSection = supportSection,
             BeamDepth = supportSection.Length > 0 ? beamDepth : 0.0,
             GridName = gridName,
@@ -287,6 +293,71 @@ public static class KataDamSheetParser
             SoffitDropBars = soffitDropBars
         };
     }
+
+    /// <summary>
+    /// Kata carries a span's top and top bars (row 19), soffit step and bottom bars (row 21), width and side bars
+    /// (row 20) on to the next span when its cell does not say otherwise (B01: J19 = 0 written to undo H's −50, the console keeps L's width 300). A
+    /// cell with bars and no number ("3f20") changes the bars only; "0" or "-" resets the step or the side bars; a
+    /// positive number first in row 20 is the span's width ("300", "300;2f12"). The first span has nothing to carry.
+    /// </summary>
+    private static KataSpanRebarSpec InheritSteps(
+        IKataDamCellAccessor accessor, int col, KataSpanRebarSpec span, KataSpanRebarSpec? previous, List<KataCellNote> notes)
+    {
+        string sideText = accessor.GetText(20, col)?.Trim() ?? "";
+        double width = LeadingWidth(sideText);
+        if (width > 0.0) span = span with { Width = width };
+        // Bars in row 19 / 21 replace B11 / B12 from this span on (B01 L "3f20": sections 11-14 show 3Ø20).
+        span = span with
+        {
+            TopMain = span.TopDropBars.Count > 0 ? span.TopDropBars[0] : KataBarItem.Empty,
+            BottomMain = span.SoffitDropBars.Count > 0 ? span.SoffitDropBars[0] : KataBarItem.Empty
+        };
+        if (previous is null) return span;
+
+        if (span.TopMain.IsEmpty) span = span with { TopMain = previous.TopMain };
+        if (span.BottomMain.IsEmpty) span = span with { BottomMain = previous.BottomMain };
+
+        // Kata reads the columns left to right, so after a support of no width the next span carries on from the
+        // sheet column before it (the right half of the merged span), not from the merged span.
+        if (Carries(accessor.GetText(19, col)))
+            span = span with { TopDrop = previous.TopDrop };
+        if (Carries(accessor.GetText(21, col)))
+            span = span with { SoffitDrop = previous.SoffitDrop };
+        if (width <= 0.0)
+            span = span with { Width = previous.Width };
+
+        if (sideText == Dash)
+            return span with { SideBars = new[] { new KataBarItem(0, 0.0, 1, 0.0, Dash) } };
+        if (span.SideBars.Count == 0)
+        {
+            if (sideText.Length > 0 && width <= 0.0)
+                notes.Add(new KataCellNote(KataDamCellAccessorExtensions.ToAddress(20, col), sideText,
+                    "không đọc được là cốt giá", "lấy cốt giá của nhịp trước"));
+            span = span with { SideBars = previous.SideBars };
+        }
+
+        return span;
+    }
+
+    private const string Dash = "-";
+
+    /// <summary>A step cell that leaves the step as it was: empty, or bars with no number ("3f20").</summary>
+    private static bool Carries(string? cell)
+    {
+        string text = cell?.Trim() ?? "";
+        return text.Length == 0 || (text != Dash && !HasNumber(text));
+    }
+
+    /// <summary>The width a row 20 span cell starts with ("300" or "300;2f12"); 0 when it names none.</summary>
+    private static double LeadingWidth(string cell)
+    {
+        string first = cell.Split(';')[0].Trim();
+        return double.TryParse(first, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double v)
+            && v > 0.0 ? v : 0.0;
+    }
+
+    private static bool HasNumber(string cell) =>
+        cell.Split(';').Any(t => double.TryParse(t.Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out _));
 
     /// <summary>Cell J7: one spacing, "a500" or "500"; anything else (empty, "a100/200") is null.</summary>
     internal static double? ParseTieSpacing(string text)

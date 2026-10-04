@@ -25,6 +25,7 @@ public enum KataColumnKind
 /// <param name="Extent">Drawing stations (mm from the left end of the elevation); zero length for joints and free ends.</param>
 /// <param name="SpanNumber">1-based span number from the left, for spans.</param>
 /// <param name="SpanSection">"b x h" of the framing element under a span.</param>
+/// <param name="Row20">Row 20 as built: the crossing beam at a support, the span width when it differs from B6.</param>
 public sealed record KataElevationColumn(
     int Index,
     string Letter,
@@ -36,7 +37,8 @@ public sealed record KataElevationColumn(
     string Row22,
     string Row23,
     int? SpanNumber = null,
-    string? SpanSection = null)
+    string? SpanSection = null,
+    string Row20 = "")
 {
     public bool IsZeroWidth => Kind is KataColumnKind.Joint or KataColumnKind.FreeEnd;
 }

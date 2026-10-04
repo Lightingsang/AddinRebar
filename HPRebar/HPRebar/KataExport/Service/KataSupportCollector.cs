@@ -26,6 +26,15 @@ public static class KataSupportCollector
     /// <summary>A crossing beam whose soffit is not higher than this above the run's soffit carries the run.</summary>
     private const double CarryingSoffitToleranceMm = 25.0;
 
+    /// <summary>
+    /// How far short of the run's centre line a crossing beam may stop and still frame into a column of the run: a
+    /// beam coming in from one side ends at the column, which may be half its depth from the line (perimeter columns).
+    /// </summary>
+    private const double OneSidedReachMm = 600.0;
+
+    /// <summary>Width given to a one-sided crossing beam whose type has no width parameter.</summary>
+    private const double DefaultCrossingWidthMm = 200.0;
+
     /// <summary>A column or wall whose bottom is not lower than the soffit minus this stands on the beam.</summary>
     private const double StandingToleranceMm = 20.0;
 
@@ -88,6 +97,7 @@ public static class KataSupportCollector
         private readonly List<KataSupport> _supports = new();
         private readonly List<Interval1D> _uppers = new();
         private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section)> _beams = new();
+        private readonly List<(Interval1D Extent, string Key, string Section)> _oneSided = new();
         private readonly List<Interval1D> _standing = new();
         private int _broken, _parallelWalls, _stripFoundations, _carriedBeams;
 
@@ -155,11 +165,34 @@ public static class KataSupportCollector
             double height = KataRunReader.TypeLength(crossing, KataRunReader.HeightParameter)
                             ?? (range is { } r ? RevitUnits.FtToMm(r.TopFt - r.BottomFt) : 0.0);
 
-            foreach (var extent in Intervals(solids, _probes).Where(e => e.Overlaps(_run.Extent)))
+            var crossed = Intervals(solids, _probes).Where(e => e.Overlaps(_run.Extent)).ToList();
+            foreach (var extent in crossed)
             {
                 // Across the run, a crossing beam's width is what the probe measured along the axis.
                 _beams.Add((extent, range?.BottomFt ?? double.MaxValue, crossing.UniqueId, KataFormat.Section(width ?? extent.Length, height)));
             }
+
+            if (crossed.Count == 0 && OneSidedStation(line) is { } station)
+            {
+                double half = (width ?? DefaultCrossingWidthMm) / 2.0;
+                _oneSided.Add((new Interval1D(station - half, station + half), crossing.UniqueId, KataFormat.Section(width ?? DefaultCrossingWidthMm, height)));
+            }
+        }
+
+        /// <summary>
+        /// Where a crossing beam that stops short of the run's centre line would meet it, when its near end is within
+        /// <see cref="OneSidedReachMm"/> of the line (a beam framing into a column of the run from one side).
+        /// </summary>
+        private double? OneSidedStation(Line line)
+        {
+            double o0 = _run.Frame.Offset(line.GetEndPoint(0)) - _run.CenterOffsetMm;
+            double o1 = _run.Frame.Offset(line.GetEndPoint(1)) - _run.CenterOffsetMm;
+            if (Math.Min(Math.Abs(o0), Math.Abs(o1)) > OneSidedReachMm || Math.Abs(o1 - o0) < 1.0) return null;
+
+            double t = -o0 / (o1 - o0);
+            var meet = line.GetEndPoint(0) + (line.GetEndPoint(1) - line.GetEndPoint(0)) * t;
+            double station = _run.Frame.Station(meet);
+            return _run.Extent.Contains(station, 1.0) ? station : null;
         }
 
         public (IReadOnlyList<KataSupport>, IReadOnlyList<string>) Finish()
@@ -172,6 +205,10 @@ public static class KataSupportCollector
                 if (atSupport || carries) _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
                 else _carriedBeams++;
             }
+
+            // A beam framing in from one side does not reach the run: it only counts where it meets a column.
+            foreach (var beam in _oneSided.Where(b => hard.Any(s => s.Extent.Contains(b.Extent.Mid, 1.0))))
+                _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
 
             var warnings = new List<string>();
             if (_broken > 0) warnings.Add($"{_broken} solid(s) near the run could not be evaluated by Revit and were ignored.");

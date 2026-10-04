@@ -72,7 +72,8 @@ public static class KataElevationBuilder
                 Cell(sheet.Row22, i),
                 Cell(sheet.Row23, i),
                 kind == KataColumnKind.Span ? ++spanNumber : null,
-                piece is null ? null : KataFormat.Section(piece.WidthMm, piece.HeightMm)));
+                piece is null ? null : KataFormat.Section(piece.WidthMm, piece.HeightMm),
+                i < sheet.Row20.Count ? Cell(sheet.Row20, i) : ""));
 
             if (segment?.Support is { } support)
                 supports.Add(Support(i, support, segment.Extent, Cell(sheet.Row19, i), map));

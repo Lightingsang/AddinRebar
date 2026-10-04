@@ -4,4 +4,5 @@ namespace HPRebar.Core.KataRebar.Models;
 /// <param name="Address">A1 address of the cell, e.g. "D23".</param>
 /// <param name="Text">Cell content as shown in Excel.</param>
 /// <param name="Meaning">What the cell means in Kata, in the words shown to the user.</param>
-public sealed record KataCellNote(string Address, string Text, string Meaning);
+/// <param name="Outcome">What HPRebar does with it; null = not drawn yet.</param>
+public sealed record KataCellNote(string Address, string Text, string Meaning, string? Outcome = null);

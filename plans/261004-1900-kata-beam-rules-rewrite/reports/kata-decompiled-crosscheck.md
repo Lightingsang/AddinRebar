@@ -1,0 +1,48 @@
+# Kata decompiled cross-check — beam rules
+
+Source (read-only): `Q:\My Drive\03_ChuongTrinh\Kata\scratch\`. Paraphrase only, no code copied. Date 2026-10-04.
+
+## Headline finding — rule VALUES are not in the decompiled code
+
+- Every method body of the beam engine is **encrypted/stubbed** (obfuscator method-body protection): each method is a `[NoInlining]` shell returning `null`/`0`/empty. Measured: 0 arithmetic lines in `Kata_Class_Lib/Pub_Function.cs` (43 stubs), `Pub_Sub.cs` (26), `Bien_chung.cs` (47), `Kata_pro64_ZwCad/kata7.cs` (114), `Noi_thep_module.cs`, `Round_thep_chay.cs`, `Input_anchor.cs`, obfuscated `HHbkp3nIrAExwmLkOONM/nxGmxnnI90TPlkV0EWaO.cs` (3D beam rebar, 86 stubs).
+- The `ve_dam` entry itself is an empty stub: `CSsRIGn7enVu25HqhXuP/uWx0iLn7WD0S7bioCsqu.cs` member `ve_dam`.
+- Repo-wide arithmetic only appears in obfuscator runtime (string/resource decryptor, MD5) and `Link_thep.cs` (tag text linking, not rules).
+- WinForms `InitializeComponent` bodies are stubbed too → no default texts; `My.Settings` has no `DefaultSettingValue`; resource blobs at the zwcad root are encrypted. Vietnamese UI strings ("cổ chai", "gia cường", "Đoạn neo", "cột cấy", "vai bò") return 0 hits → strings encrypted.
+- Literal searches `11700`, `8800`, `0.25`, `/ 6.0`, `nhanCoChai`, `vai_bo` → 0 hits.
+- `decompiled_kata_pro64` and `decompiled_kata_pro_dll` are **empty**.
+- `scratch/test_a_bv.cs` shows someone previously called `Pub_Sub`/`Pub_Function` by **executing** the compiled DLL (runtime decrypts bodies). That is the only path to values from this source; not done here (out of read-only scope).
+
+What survives: type/field/member/control **names and signatures**. They confirm which knobs exist and the unit model, not numbers.
+
+## Per topic (names-only evidence)
+
+| Topic | What Kata's structure says | Where | Conf. | vs HPRebar |
+|---|---|---|---|---|
+| Top extras at support | Per support × side a struct with type, two counts, two diameters and a **bool `keo`**; type enum = none / continuous strip (`bangthep`) / cut (`catthep`) / cut-all (`catthep_all`). Length formula not visible. | `Kata_Class_Lib/info_thep_gc_goi.cs` (`loai, sl1, sl2, phi1, phi2, keo`), `Loai_thep_gc_goi.cs`, `info_vedam.thep_goi[,]` | High (shape), none (values) | `keo` is a **per-bar-group boolean** ("pull/extend"), stored beside the bar — supports reading G1 "Kéo thép gia cường" as an *extend-to-next-cut* flag, not purely a layer-stagger. **Re-check HPRebar's "G1 = layer stagger"** against the workbook. |
+| Bottom extras in span | Per span a struct count + diameter + same `keo` bool. No L/6 visible. | `info_thep_gc_nhip.cs`, `info_vedam.thep_nhip[,]` | High (shape) | min(H3·L, L/6) unverifiable. |
+| Rounding | Helpers for nearest-50, nearest-10, nearest-5 and separate **round-UP-to-50 / up-to-10** (mm and feet variants). Settings for round of anchor/lap (`round_neo_noi`, `round_neo_noi_Li`), bend leg (`round_be_ke`), cut of beam bars (`round_cat_thep_dam`), `dungsai` tolerance. | `Pub_Function` members `Round50`, `Round10`, `Round5`, `lam_tron_len_50_don_vi_mm`, `lam_tron_len_10_don_vi_mm`; `kata7` fields; `Setting.cs` controls | High (exists) | Matches "Đoạn neo nối 5 / bẻ ke 25 / cắt 50" being **three independent settings**; HPRebar's ceil50 for dense zone consistent with an "up" helper existing. Values unverified. |
+| Anchorage / lap | Per-diameter **lookup table** (`tap_lap_anchor`: lap comp/tens, anchor comp/tens) plus global ints `neo_keo` (tension), `neo_nen` (compression), `neo_gia` (side bars). Length from "multiplier × Ø" helpers (`Tinh_L_theo_d(d, phi, L)`, `Tinh_L1_theo_d`). Optional lap table toggle `Check_lap_len`/`Grid_lap_len`. | `kata7` fields + `tra_lap_comp/tens`, `tra_anchor_comp/tens`; `info_lap_anchor.cs`; `Setting.cs` | High (shape) | Kata can override d-multiplier with a **per-Ø table** — HPRebar has d-multipliers only. Straight-vs-bend: `Input_anchor` has `neo_top`, `neo_bot`, `Up_anchor`, `Check_cook`, `Cook_min`, `Cover`; settings `dung_neo_cot_duoi`, `ko_be_ke_duoi`, `be_ke`/`Check_be_ke`, `bo_90`, `Check_L_ke_Rad`. → bottom bars may be forced straight; min bend leg is a setting. |
+| Bend leg ("bẻ ke") | Leg rounding `round_be_ke`; bend radius ratio `tl_uon_be` / `ty_le_uon`; leg measured incl. radius optional (`Check_L_ke_Rad`). | `kata7`, `Setting.cs` | Medium | HPRebar "missing length rounded up 25" plausible; not provable. |
+| Hooks 135/180 | **Per-diameter table** `tap_cog_hook` → `info_cog_hook` = bend radii (main, stirrup, sharp), cog, hook135, hook180; grid `Grid_hook_cog` (Dia, R, Cog, Hook135, Hook); auto-fix toggle. | `info_cog_hook.cs`, `kata7.tap_cog_hook`, `Setting.cs` | High (shape) | Kata hooks are **table-driven per Ø**, not a fixed 7.5d formula. |
+| Stirrups / zones | Per span: `cd`, `a_dai[,]` (`info_dai_gccl`) and a user list `dai_gc_input` (from x1 to x2, shape string). Shear area helper `dt_thepShear`. Zone factor/first-stirrup offset not visible. | `info_vedam`, `info_dai_gc_input.cs`, `Pub_Function.dt_thepShear` | Medium | Dense 0.25 L0 / first 50 unverifiable. |
+| Closed-stirrup lap ("lap_xoan") | int on the beam record and a parameter of the stirrup-drawing routine (`daivong(..., lap_xoan)`); also `daivong_35`, `daivong_U`, `U_ngoai` (outer U). | `info_vedam.lap_xoan`, `kata7.daivong`, `info_BlockBeam_ThepBoTri` | Medium | — |
+| C ties | Tie type ints `loai_dai_C`, `loai_dai_CN`; hook lengths `L_moc_daiC`, `L_moc_daiC2`, `L_moc_daiCN`; drawing `daiC`, `daiC04`. | `kata7`, `Setting.cs` (`Dai_C`, `Dai_CN`, `L_moc_daiC(N)`) | Medium | Two tie families (C / CN) with own hook length — check HPRebar J7/I8 covers both. |
+| Side bars | `cot_gia[]` = STT, count, layer, Ø, `thep_ngang` flag; anchorage `neo_gia` ("Neo cốt giá"). `FormBeamRebar` has thresholds named `H600`, `HL1000`, `H1000` and `Thep_ke`. | `info_thep_gia.cs`, `info_vedam`, `FormBeamRebar.cs` | Medium | Suggests side-bar rule keyed on h ≥ 600 / ≥ 1000 (auto-design form; values unknown). |
+| Layer gap / spacer (KE) | `phi_ke` (spacer Ø), `phi_do_gia`; `kc_2mep` (gap between two faces/layers). | `info_vedam`, `kata7.kc_2mep` | Medium | — |
+| Soffit step / crank | Step record `info_giat_WC` (from, to, dz); drawing shapes take a step map `giat_thep`. Settings `phi_crank` (crank min Ø), `ThayDoiDKTheoNhipCb`, `BoQuaNhanCoChaiKhiTinhDai` ("skip crank when computing stirrups"). Ratio 1/6 not visible. | `info_giat_WC.cs`, `kata7.thep_dam_dang01/03/04`, `Setting.cs` | Medium | Min-Ø-for-crank is a **setting** (`phi_crank`), consistent with HPRebar Ø ≥ 16 default. Step ≤ 100 threshold not visible. |
+| Splices / lengths | Globals `L_max`, `L_min`, `L_min_cat`; splice method `noi_thep`, restricted splicing `noi_thep_han_che`/`Lnt_han_che`, spacing `kc_noi`; locations `noi_duoi_goi`, `noi_tren_giua`, `noi_duoi_giua`, `noi_tren_goi`; zone lengths `vung_noi_L_duoi/tren` measured from bottom/top (`vung_noi_tu_duoi/tren`); `toi_uu_moi_noi`; `Cat_thep_chay_suot_dam`. Zone UI `Form_Phan_Vung_Noi` (support zone `LGoiTb`, span zone `LNhipTb`, from centre vs face `TamGoiRb`/`MepGoiRb`, add/split zones). Cut form `Cat_thep_thay_doi` (`LminLmax`, `Lsole` stagger, `Lcon`). | `kata7`, `Setting.cs`, `Form_Phan_Vung_Noi.cs`, `Cat_thep_thay_doi.cs` | Medium | 11700 / 8800 / 0.25L / 0.2L are **settings, not literals** (no hit). Bottom splice default at support, top at mid-span (by naming). |
+| Couplers | Per-entry Ø range (dmax, dmin), reversible flag, count, name; setting `phi_coupler` (min Ø). | `info_coupler.cs`, `Setting.cs` | Medium | "coupler ≥ 30" = setting `phi_coupler`; value unknown. |
+| Secondary-beam hangers | Second beam = point, angle, `type` string. Hanger settings: extra stirrups `DaiGiaCuongTb`, hanger bars on/off `CoDaiVaiBoCb`, size `DaiVaiBoTb`, hook `MocDaiVaiBoTb`, bend angle `GocBeDaiVaiBoCb`, spec `SpecCb`, through `ThroughCb`, extra stirrups at support `daiGCDamGiaoTaiGoiCb`; type picker `Input_Second_Beam_Type` (DoubleSecond / DoubleMain / SecondMainCyan). | `info_SecondBeam.cs`, `Setting.cs`, `Input_Second_Beam_Type.cs` | Medium | Spec None/H1/H/W + "5f10a50 each side", "2f16 45°" are setting values — unverifiable here. |
+| Stub columns ("cột cấy") | Record b, h, origin, dy, h_dc; own hanger settings `*CotCay*` (`DaiVaiBoCotCayTb`, `DaiGiaCuongCotCayTb`, `MocDaiVaiBoCotCayTb`, `GocBeDaiVaiBoCotCayCb`, `SpecCotCayCb`, `ThroughCotCayCb`). | `info_dam_giao_cotcay.cs`, `info_vedam.List_dam_giao_cotcay_nhip`, `Setting.cs` | Medium | Same hanger family as secondary beams, separately configured. |
+| Openings | Nothing beam-opening specific found. | — | — | Not found. |
+| `so_le` | **Means "odd number"** (bool on an int), not stagger. | `Pub_Function.so_le` (paired with `so_chan` = even) | High | Do not map it to bar stagger. Stagger in Kata = `Lsole` (cut form) / `kc_noi`. |
+
+## Implications
+
+- HPRebar's numeric facts (H5·span, min(H3·L, L/6) round 50, ceil50(0.25 L0), first 50, legs ceil 25, crank 1:6 ≤ 100 Ø ≥ 16) can be **neither confirmed nor refuted** from this source.
+- Two structural flags worth checking in the workbook: (1) `keo` is a per-bar boolean → G1 may mean "extend extras" rather than stagger; (2) hooks/anchor/lap can be per-Ø tables, not only d-multipliers.
+- Better evidence sources: the Kata Pro workbook settings sheet + drawings already used (DY7/DY14), not this decompile.
+
+**Status:** DONE_WITH_CONCERNS
+**Summary:** Kata method bodies are encrypted in all decompiled assemblies (pro64/pro_dll folders empty), so no rule numbers exist in the code; only field/setting names were recoverable.
+**Concerns:** Every numeric HPRebar rule stays unverified by this source; `info_thep_gc_goi.keo` hints G1 may be an extend flag, not a layer stagger.

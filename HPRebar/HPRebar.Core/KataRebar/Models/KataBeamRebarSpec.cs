@@ -105,9 +105,35 @@ public sealed record KataBeamRebarSpec
     /// <summary>Ordered list of clear spans along the continuous beam (even columns D, F, H...).</summary>
     public IReadOnlyList<KataSpanRebarSpec> Spans { get; init; } = Array.Empty<KataSpanRebarSpec>();
 
-    /// <summary>Depth of span <paramref name="span"/> (mm): its own depth, else the beam's.</summary>
+    /// <summary>Depth of the soffit of span <paramref name="span"/> below the beam's top (mm): its own, else the beam's.</summary>
     public double DepthOf(int span) =>
         span >= 0 && span < Spans.Count && Spans[span].Depth > 0.0 ? Spans[span].Depth : Height;
+
+    /// <summary>Top of span <paramref name="span"/> at <paramref name="atMm"/> mm from its start (row 19, ≤ 0 = lower).</summary>
+    public double TopAt(int span, double atMm = 0.0)
+    {
+        if (span < 0 || span >= Spans.Count) return 0.0;
+        double top = Spans[span].TopDrop;
+        foreach (var step in Spans[span].TopSteps)
+            if (step.AtMm <= atMm + 1e-6) top = step.TopDrop;
+        return top;
+    }
+
+    /// <summary>Concrete depth of span <paramref name="span"/> at <paramref name="atMm"/>: soffit depth + its top (row 19).</summary>
+    public double HeightOf(int span, double atMm = 0.0) => DepthOf(span) + TopAt(span, atMm);
+
+    /// <summary>Main top bars of span <paramref name="span"/>: its own (row 19), else B11.</summary>
+    public KataBarItem TopMainOf(int span) =>
+        span >= 0 && span < Spans.Count && !Spans[span].TopMain.IsEmpty ? Spans[span].TopMain : TopContinuous;
+
+    /// <summary>Main bottom bars of span <paramref name="span"/>: its own (row 21), else B12.</summary>
+    public KataBarItem BottomMainOf(int span) =>
+        span >= 0 && span < Spans.Count && !Spans[span].BottomMain.IsEmpty ? Spans[span].BottomMain : BottomContinuous;
+
+    /// <summary>Width of span <paramref name="span"/> (mm): its own (row 20), else B6.</summary>
+    public double WidthOf(int span) =>
+        span >= 0 && span < Spans.Count && Spans[span].Width > 0.0 ? Spans[span].Width : Width;
+
 
     /// <summary>
     /// Depth governing support <paramref name="support"/>: its span's at an end support, the shallower of the two

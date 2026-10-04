@@ -6,7 +6,7 @@ using HPRebar.Core.KataExport.Models;
 namespace HPRebar.Core.KataExport.Calculators;
 
 /// <summary>
-/// Turns a beam run into the cell values of sheet "Dam": B3..B10 and rows 11, 19, 21, 22, 23 from column C,
+/// Turns a beam run into the cell values of sheet "Dam": B3..B10 and rows 11, 19, 20, 21, 22, 23 from column C,
 /// one column per segment. Every span takes its values from the framing element under its midpoint and
 /// every support from itself, so the columns never drift when elements and spans do not pair one to one.
 /// </summary>
@@ -24,6 +24,8 @@ public static class KataRowBuilder
         // Soffit steps are measured from the first element of the run, the same element the header describes.
         double firstHeight = input.Header.HeightMm;
         var rows = new Rows(segmentation.Segments.Count + 2);
+        bool runChangesWidth = segmentation.Segments
+            .Any(s => s.Kind == KataSegmentKind.Span && KataRow20.DiffersFrom(s.Piece!, input.Header.WidthMm));
 
         if (!segmentation.StartsWithSupport) rows.AddCantileverEnd();
 
@@ -33,9 +35,11 @@ public static class KataRowBuilder
             {
                 case KataSegmentKind.Support:
                     AddSupport(rows, segment, input.Grids, sign, warnings);
+                    rows.R20.Add(KataRow20.SupportCell(segment.Support!, input.Header.HeightMm));
                     break;
                 case KataSegmentKind.Joint:
                     rows.Add(0.0, 0.0, Empty, Empty, Empty);
+                    rows.R20.Add(null);
                     break;
                 default:
                     var piece = segment.Piece!;
@@ -45,6 +49,7 @@ public static class KataRowBuilder
                         KataFormat.Round(-(piece.HeightMm - firstHeight) + piece.ZOffsetMm),
                         Empty,
                         Empty);
+                    rows.R20.Add(KataRow20.SpanCell(piece, input.Header.WidthMm, runChangesWidth));
                     break;
             }
         }
@@ -58,7 +63,7 @@ public static class KataRowBuilder
         if (options.Reverse) rows.Reverse();
 
         var header = Header(input.Header, sign, warnings);
-        return new KataSheet(header, rows.R11, rows.R19, rows.R21, rows.R22, rows.R23, warnings);
+        return new KataSheet(header, rows.R11, rows.R19, rows.R21, rows.R22, rows.R23, warnings) { Row20 = rows.R20 };
     }
 
     private static void AddSupport(Rows rows, KataSegment segment, IReadOnlyList<KataGridCrossing> grids, double sign, List<string> warnings)
@@ -129,6 +134,7 @@ public static class KataRowBuilder
             R21 = new List<object?>(capacity);
             R22 = new List<object?>(capacity);
             R23 = new List<object?>(capacity);
+            R20 = new List<object?>(capacity);
         }
 
         public List<object?> R11 { get; }
@@ -136,6 +142,9 @@ public static class KataRowBuilder
         public List<object?> R21 { get; }
         public List<object?> R22 { get; }
         public List<object?> R23 { get; }
+
+        /// <summary>Row 20, filled beside the others by the caller (support and span cells differ in kind).</summary>
+        public List<object?> R20 { get; }
 
         public void Add(object r11, object r19, object r21, object r22, object r23)
         {
@@ -147,7 +156,11 @@ public static class KataRowBuilder
         }
 
         /// <summary>A beam end that does not sit on a support gets a zero-width support column.</summary>
-        public void AddCantileverEnd() => Add(0.0, 0.0, Empty, Empty, Empty);
+        public void AddCantileverEnd()
+        {
+            Add(0.0, 0.0, Empty, Empty, Empty);
+            R20.Add(null);
+        }
 
         public void Reverse()
         {
@@ -156,6 +169,7 @@ public static class KataRowBuilder
             R21.Reverse();
             R22.Reverse();
             R23.Reverse();
+            R20.Reverse();
         }
     }
 }

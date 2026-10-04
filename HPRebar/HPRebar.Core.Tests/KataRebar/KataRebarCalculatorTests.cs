@@ -354,7 +354,7 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_CantileverOverhangBeam_AnchorsTopAndStopsBottomAtInteriorColumn()
+    public void Calculate_CantileverOverhangBeam_AnchorsTopAndLapsBottomIntoTheConsole()
     {
         // Left cantilever: Support 0 ColumnWidth = 0.
         // Cantilever Span 0 = 2000 mm.
@@ -386,17 +386,21 @@ public class KataRebarCalculatorTests
 
         AssertOnlyAnchorageWarnings(result);
 
-        // Top Continuous: extends into cantilever tip (X = 25 mm) with 90° hook down
+        // Top Continuous: stops a (25 + 10 + 10 = 45) short of the cantilever tip and hooks down (Kata B01 console)
         Assert.Equal(2, result.MainTopBars.Count);
         var topBar = result.MainTopBars[0];
-        Assert.Equal(25.0, topBar.Polyline.Points[0].X);
+        Assert.Equal(45.0, topBar.Polyline.Points[0].X);
         Assert.Equal(HookAngle.Hook90, topBar.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, topBar.EndHookAngle);
 
-        // Bottom Continuous: STOPS at interior face of Support 1 (X = 2000 mm), no hook at start
-        Assert.Equal(2, result.MainBottomBars.Count);
-        var botBar = result.MainBottomBars[0];
-        Assert.Equal(2000.0, botBar.Polyline.Points[0].X);
+        // Bottom Continuous: laps G3·d = 600 into the console from the far face of Support 1 (X = 1800 mm), no hook at
+        // start; the console has its own bars from a inside the tip to a inside Support 1's far face, bent up 10d there.
+        Assert.Equal(4, result.MainBottomBars.Count);
+        var console = result.MainBottomBars.Where(b => b.Polyline.Points.Min(p => p.X) < 100).ToList();
+        Assert.Equal(2, console.Count);
+        Assert.All(console, b => { Assert.Equal(45.0, b.Polyline.Points.Min(p => p.X), 1); Assert.Equal(2400.0 - 45.0, b.Polyline.Points.Max(p => p.X), 1); Assert.Equal(HookAngle.Hook90, b.EndHookAngle); });
+        var botBar = result.MainBottomBars.First(b => b.Polyline.Points.Min(p => p.X) > 1000);
+        Assert.Equal(1800.0, botBar.Polyline.Points[0].X);
         Assert.Equal(HookAngle.None, botBar.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, botBar.EndHookAngle); // Right end column has hook
 
@@ -566,7 +570,7 @@ public class KataRebarCalculatorTests
     }
 
     [Fact]
-    public void Calculate_RightCantileverOverhangBeam_AnchorsTopAndStopsBottomAtInteriorColumn()
+    public void Calculate_RightCantileverOverhangBeam_AnchorsTopAndLapsBottomIntoTheConsole()
     {
         // Span 0 normal (5000 mm), Span 1 cantilever (1800 mm)
         // Support 0: Column 400 mm
@@ -603,16 +607,20 @@ public class KataRebarCalculatorTests
         // Left end in a 400 mm column: bar centre 25 + 10 + 10 = 45 mm from the far face.
         var topBar = result.MainTopBars[0];
         Assert.Equal(45.0, topBar.Polyline.Points[1].X);
-        Assert.Equal(7600.0 - 25.0, topBar.Polyline.Points[2].X);
+        Assert.Equal(7600.0 - 45.0, topBar.Polyline.Points[2].X);
         Assert.Equal(HookAngle.Hook90, topBar.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, topBar.EndHookAngle);
 
-        // Bottom Continuous: starts at Support 0 (exterior hook 90°), stops at Support 1 right face (X = 5800 mm, no hook)
-        Assert.Equal(3, result.MainBottomBars.Count);
+        // Bottom Continuous: starts at Support 0 (exterior hook 90°), stops at Support 1 right face (X = 5800 mm, no hook);
+        // the console has bottom bars of its own, from inside Support 1 (leg up 10d) to a short of the tip.
+        Assert.Equal(6, result.MainBottomBars.Count);
+        var console = result.MainBottomBars.Where(b => b.Polyline.Points.Min(p => p.X) > 5000).ToList();
+        Assert.Equal(3, console.Count);
+        Assert.All(console, b => { Assert.Equal(5400.0 + 45.0, b.Polyline.Points.Min(p => p.X), 1); Assert.Equal(7600.0 - 45.0, b.Polyline.Points.Max(p => p.X), 1); });
         // Its leg would overlap the top-bar leg, so it moves inboard by (20 + 20)/2 + 25 = 45 mm.
         var botBar = result.MainBottomBars[0];
         Assert.Equal(90.0, botBar.Polyline.Points[1].X);
-        Assert.Equal(5800.0, botBar.Polyline.Points[2].X);
+        Assert.Equal(6000.0, botBar.Polyline.Points[2].X); // 5400 + G3·d 600 into the console
         Assert.Equal(HookAngle.Hook90, botBar.StartHookAngle);
         Assert.Equal(HookAngle.None, botBar.EndHookAngle);
     }
@@ -646,21 +654,23 @@ public class KataRebarCalculatorTests
 
         var result = KataRebarCalculator.Calculate(spec);
 
-        Assert.True(result.IsValid);
+        // Consoles as deep as the span: the lapped bottom bars lie on each other, which is said.
+        Assert.Empty(result.Blocking);
+        Assert.Equal(2, result.Warnings.Count(w => w.Contains("gần cùng đáy")));
 
-        // Top Continuous: runs from left cantilever tip (X = 25mm) to right cantilever tip (X = 9775mm)
+        // Top Continuous: runs from a (25 + 10 + 11 = 46) inside the left tip to a inside the right one
         // Total = 0 + 1500 + 400 + 6000 + 400 + 1500 + 0 = 9800 mm
         var top = result.MainTopBars[0];
-        Assert.Equal(25.0, top.Polyline.Points[1].X);
-        Assert.Equal(9775.0, top.Polyline.Points[2].X);
+        Assert.Equal(46.0, top.Polyline.Points[1].X);
+        Assert.Equal(9754.0, top.Polyline.Points[2].X);
         Assert.Equal(HookAngle.Hook90, top.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, top.EndHookAngle);
 
         // Bottom Continuous: only spans between interior Support 1 left face (X = 1500) and Support 2 right face (X = 7900)
         // With NO hooks at either end
-        var bot = result.MainBottomBars[0];
-        Assert.Equal(1500.0, bot.Polyline.Points[0].X);
-        Assert.Equal(8300.0, bot.Polyline.Points[1].X); // 1500 + 400 + 6000 + 400 = 8300
+        var bot = result.MainBottomBars.First(b => b.Polyline.Points[0].X > 1000 && b.Polyline.Points[0].X < 2000);
+        Assert.Equal(1240.0, bot.Polyline.Points[0].X); // 1900 − G3·d 660 into the left console
+        Assert.Equal(8560.0, bot.Polyline.Points[1].X); // 7900 + 660 into the right one
         Assert.Equal(HookAngle.None, bot.StartHookAngle);
         Assert.Equal(HookAngle.None, bot.EndHookAngle);
     }

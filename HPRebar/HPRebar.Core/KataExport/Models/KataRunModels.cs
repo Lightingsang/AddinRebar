@@ -29,13 +29,15 @@ public sealed record KataBeamPiece(Interval1D Extent, double WidthMm, double Hei
 /// Centre line of a beam framing into this column across the run; set when a crossing beam merges into a
 /// column or foundation support.
 /// </param>
+/// <param name="CrossingBeamSection">"b x h" of that crossing beam (row 20 of the support column).</param>
 public sealed record KataSupport(
     KataSupportKind Kind,
     Interval1D Extent,
     string ElementKey,
     string? SectionText = null,
     Interval1D? Upper = null,
-    double? CrossingBeamStationMm = null);
+    double? CrossingBeamStationMm = null,
+    string? CrossingBeamSection = null);
 
 /// <summary>A grid line crossing the beam axis at <paramref name="StationMm"/>.</summary>
 public sealed record KataGridCrossing(string Name, double StationMm);

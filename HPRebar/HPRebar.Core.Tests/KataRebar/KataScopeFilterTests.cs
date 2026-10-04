@@ -57,15 +57,15 @@ public sealed class KataScopeFilterTests
     }
 
     [Fact]
-    public void Top_steps_are_skipped_soffit_steps_kept_and_span_stirrup_overrides_kept()
+    public void Steps_and_the_first_bar_group_of_rows_19_and_21_are_kept_and_a_second_group_is_skipped()
     {
         var result = Apply(("D19", "100;5f25"), ("D21", "-100"), ("D22", "a100/200"));
 
-        Assert.Contains(result.Skipped, s => s.StartsWith("D19 '100;5f25'"));
-        // A soffit step is the span's depth (drawn); bars changed with it would be skipped.
+        Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D19"));
+        Assert.Equal(5, result.Filtered.Spans[0].TopMain.Count);
         Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D21"));
         Assert.Equal(-100.0, result.Filtered.Spans[0].SoffitDrop);
-        Assert.Contains(Apply(("D21", "-100;5f20")).Skipped, s => s.StartsWith("D21 '-100;5f20'"));
+        Assert.Contains(Apply(("D21", "-100;5f20;2f16")).Skipped, s => s.StartsWith("D21 '2f16'"));
         Assert.DoesNotContain(result.Skipped, s => s.StartsWith("D22"));
         Assert.NotNull(result.Filtered.Spans[0].StirrupOverride);
         Assert.Equal(100.0, result.Filtered.Spans[0].StirrupOverride!.SupportSpacing);
@@ -92,10 +92,19 @@ public sealed class KataScopeFilterTests
     }
 
     [Fact]
-    public void A_cantilever_end_blocks()
+    public void A_console_end_is_drawn_with_a_warning()
     {
         var result = Apply(("E11", 0.0));
 
-        Assert.NotEmpty(result.Blocking);
+        Assert.Empty(result.Blocking);
+        Assert.Contains(result.Warnings, w => w.StartsWith("E11 = 0: đầu console"));
+    }
+
+    [Fact]
+    public void A_beam_with_a_console_at_both_ends_has_no_support_and_blocks()
+    {
+        var result = Apply(("C11", 0.0), ("E11", 0.0));
+
+        Assert.Contains(result.Blocking, b => b.Contains("hai đầu đều là console"));
     }
 }

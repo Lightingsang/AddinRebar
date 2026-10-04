@@ -6,7 +6,7 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// The concrete of Kata's elevation (T2-DY7.dwg, DY7 and DY14): each span's top and soffit, a column support's stubs
+/// The concrete of Kata's elevation (T2-DY7.dwg, DY7 and DY14): each span's top (row 19, steps as faces) and soffit, a column support's stubs
 /// <see cref="KataDrawingStyle.StubAbove"/> over the top and down to the stub bottom with a break line at both
 /// ends, a crossing beam carrying the run drawn as the run going on (no stubs), the end faces; hidden lines over the
 /// column tops and along the slab soffit, split at the grids; the grid lines.
@@ -19,14 +19,13 @@ internal static class KataElevationOutline
         int last = f.SpanCount;
         if (last == 0) yield break;
 
-        foreach (var line in End(f, 0, st.SupportStart[0], st.SupportEnd[0], f.Soffit(0))) yield return line;
+        foreach (var line in End(f, 0, st.SupportStart[0], st.SupportEnd[0], f.Soffit(0), f.Top(0, end: false))) yield return line;
         for (int i = 0; i < f.SpanCount; i++)
         {
             double a = st.SpanStart[i], b = st.SpanEnd[i], soffit = f.Soffit(i);
             var top = new List<(double, double)>();
             if (f.IsColumn(i)) top.Add((a, KataDrawingStyle.StubAbove));
-            top.Add((a, 0.0));
-            top.Add((b, 0.0));
+            top.AddRange(f.TopLine(i));
             if (f.IsColumn(i + 1)) top.Add((b, KataDrawingStyle.StubAbove));
             yield return Line(KataDrawingPen.Outline, top);
 
@@ -38,7 +37,7 @@ internal static class KataElevationOutline
             yield return Line(KataDrawingPen.Outline, bottom);
         }
 
-        foreach (var line in End(f, last, st.SupportEnd[last], st.SupportStart[last], f.Soffit(last - 1))) yield return line;
+        foreach (var line in End(f, last, st.SupportEnd[last], st.SupportStart[last], f.Soffit(last - 1), f.Top(last - 1, end: true))) yield return line;
 
         for (int k = 0; k < f.SupportCount; k++)
         {
@@ -70,7 +69,7 @@ internal static class KataElevationOutline
     /// End support <paramref name="k"/> from its outer face <paramref name="outer"/> to its inner face: a column's outer
     /// face from its upper stub to its lower one; a crossing beam's top, end face and soffit; a free end's face.
     /// </summary>
-    private static IEnumerable<KataDrawingLine> End(KataDrawingFrame f, int k, double outer, double inner, double soffit)
+    private static IEnumerable<KataDrawingLine> End(KataDrawingFrame f, int k, double outer, double inner, double soffit, double top)
     {
         if (f.IsColumn(k))
         {
@@ -85,7 +84,7 @@ internal static class KataElevationOutline
         }
         else
         {
-            yield return Line(KataDrawingPen.Outline, new[] { (outer, 0.0), (outer, soffit) });
+            yield return Line(KataDrawingPen.Outline, new[] { (outer, top), (outer, soffit) });
         }
     }
 

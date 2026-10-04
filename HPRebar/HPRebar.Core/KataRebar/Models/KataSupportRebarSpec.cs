@@ -23,6 +23,12 @@ public sealed record KataSupportRebarSpec
     /// <summary>Depth of a crossing beam carrying the run ("200x350" in row 11 gives 350); 0 for a column.</summary>
     public double BeamDepth { get; init; }
 
+    /// <summary>
+    /// Row 11 says something other than a width: text, a negative number. A support of no width is written "0"; this
+    /// one is neither, so the run cannot be drawn until the cell is fixed.
+    /// </summary>
+    public bool WidthUnreadable { get; init; }
+
     /// <summary>True if this support represents a cantilever tip or zero-width end joint.</summary>
     public bool IsCantilever => ColumnWidth <= 0.0;
 

@@ -144,7 +144,8 @@ public static class KataSpanBottomBarLayout
         double xEnd)
     {
         var levels = new List<(double Z, double D)>();
-        if (!spec.TopContinuous.IsEmpty) levels.Add((-rules.TopBarCentreDepth, spec.TopContinuous.Diameter));
+        double lowestTop = span.TopSteps.Select(s => s.TopDrop).Append(span.TopDrop).Min();
+        if (!spec.TopContinuous.IsEmpty) levels.Add((lowestTop - rules.TopBarCentreDepth, spec.TopContinuous.Diameter));
         foreach (var bar in topBars)
         {
             var points = bar.Polyline.Points;

@@ -80,16 +80,18 @@ public static class KataSegmenter
 
         // A beam that overlaps a column is the beam framing into it across the run, not a support of its own.
         var crossing = dominant.CrossingBeamStationMm;
+        var section = dominant.CrossingBeamSection;
         if (crossing is null && dominant.Kind != KataSupportKind.Beam)
         {
-            crossing = group
+            var beam = group
                 .Where(s => s.Kind == KataSupportKind.Beam)
                 .OrderBy(s => Math.Abs(s.Extent.Mid - extent.Mid))
-                .Select(s => (double?)s.Extent.Mid)
                 .FirstOrDefault();
+            crossing = beam?.Extent.Mid;
+            section = beam?.SectionText;
         }
 
-        return dominant with { Extent = extent, Upper = upper, CrossingBeamStationMm = crossing };
+        return dominant with { Extent = extent, Upper = upper, CrossingBeamStationMm = crossing, CrossingBeamSection = section };
     }
 
     private static void CheckContinuity(IReadOnlyList<KataBeamPiece> pieces, List<string> warnings)

@@ -33,7 +33,7 @@ public static class KataSideBarLayout
         var ties = new List<KataBarSet>();
         int n = Math.Min(st.SpanCount, spec.Spans.Count);
 
-        double zTop = spec.TopContinuous.IsEmpty ? -(rules.StirrupCover + rules.StirrupDiameter) : -rules.TopBarCentreDepth;
+        double topBar = spec.TopContinuous.IsEmpty ? -(rules.StirrupCover + rules.StirrupDiameter) : -rules.TopBarCentreDepth;
         double ZBottom(double depth) => spec.BottomContinuous.IsEmpty
             ? -depth + rules.StirrupCover + rules.StirrupDiameter
             : -depth + rules.BottomBarCentreDepth;
@@ -45,8 +45,8 @@ public static class KataSideBarLayout
             perSpan[s] = Layers(spec, spec.Spans[s], warnings);
             // Row 20 "0" is the user's own choice; an empty row 20 with no G4/G5 is an omission.
             if ((perSpan[s].Layers == 0 || perSpan[s].Diameter <= 0.0) && spec.Spans[s].SideBars.Count == 0
-                && rules.SideBarRequiredHeight > 0.0 && spec.DepthOf(s) >= rules.SideBarRequiredHeight - 1e-6)
-                missing.Add($"{Cell(spec.Spans[s])} (h {spec.DepthOf(s):0})");
+                && rules.SideBarRequiredHeight > 0.0 && spec.DepthOf(s) + LowestTopOf(spec, s) >= rules.SideBarRequiredHeight - 1e-6)
+                missing.Add($"{Cell(spec.Spans[s])} (h {spec.DepthOf(s) + LowestTopOf(spec, s):0})");
         }
 
         // Consecutive spans with the same side bars share them: one bar runs on through the interior supports
@@ -57,13 +57,16 @@ public static class KataSideBarLayout
             if (layers == 0 || diameter <= 0.0) continue;
 
             int b = a;
-            while (b + 1 < n && perSpan[b + 1] == perSpan[a]) b++;
+            // A change of width ends the run too: the bars would not stay against the stirrups.
+            while (b + 1 < n && perSpan[b + 1] == perSpan[a] && Math.Abs(spec.WidthOf(b + 1) - spec.WidthOf(a)) <= 0.5) b++;
 
             double depth = Enumerable.Range(a, b - a + 1).Min(spec.DepthOf);
             double zBottom = ZBottom(depth);
+            // Under the lowest top of the run (row 19), so they stay inside each span.
+            double zTop = topBar + Enumerable.Range(a, b - a + 1).Min(span => LowestTopOf(spec, span));
             double xStart = st.SpanStart[a] - Anchorage(rules, st.SupportWidth[a], diameter, interior: a > 0);
             double xEnd = st.SpanEnd[b] + Anchorage(rules, st.SupportWidth[b + 1], diameter, interior: b + 1 < st.SpanCount);
-            double y = rules.EdgeBarOffset(spec.Width, diameter);
+            double y = rules.EdgeBarOffset(spec.WidthOf(a), diameter);
             double step = (zTop - zBottom) / (layers + 1);
 
             for (int r = 1; r <= layers; r++)
@@ -103,10 +106,15 @@ public static class KataSideBarLayout
         return spec.GlobalSideBars.Count == 0 ? (0, 0.0) : (spec.GlobalSideBars.Count, spec.GlobalSideBars.Max(i => i.Diameter));
     }
 
+    /// <summary>The lowest top over span <paramref name="span"/> (row 19, with any step inside it).</summary>
+    private static double LowestTopOf(KataBeamRebarSpec spec, int span) =>
+        spec.Spans[span].TopSteps.Select(s => s.TopDrop).Append(spec.Spans[span].TopDrop).Min();
+
     /// <param name="interior">The next span's side bars come in from the other face: each stays in its half, a bar apart.</param>
     private static double Anchorage(KataDetailingRules rules, double supportWidth, double diameter, bool interior)
     {
-        if (supportWidth <= 0.0) return 0.0;
+        // A console tip: they stop a (J9) short of it.
+        if (supportWidth <= 0.0) return -rules.TopBarCentreDepth;
         double room = interior ? supportWidth / 2.0 - diameter / 2.0 : supportWidth - rules.TopBarCentreDepth;
         return Math.Min(rules.SideBarAnchorageFactor * diameter, Math.Max(0.0, room));
     }

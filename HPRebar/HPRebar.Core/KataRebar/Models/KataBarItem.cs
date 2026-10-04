@@ -22,6 +22,10 @@ public sealed record KataBarItem(
     /// <summary>True if this item represents no bars.</summary>
     public bool IsEmpty => Count <= 0 || Diameter <= 0.0;
 
+    /// <summary>The same bars: count and diameter, whatever the notation, layer or offset.</summary>
+    public bool SameBars(KataBarItem other) =>
+        other is not null && (IsEmpty ? other.IsEmpty : !other.IsEmpty && Count == other.Count && Math.Abs(Diameter - other.Diameter) < 0.5);
+
     public override string ToString()
     {
         if (!string.IsNullOrEmpty(RawNotation))

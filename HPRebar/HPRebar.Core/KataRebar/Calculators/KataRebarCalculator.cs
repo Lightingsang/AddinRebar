@@ -76,7 +76,18 @@ public static class KataRebarCalculator
         var (mainTop, mainBottom) = KataMainBarLayout.Build(spec, rules, stations, warnings, ref barId);
         var blocking = new List<string>();
         var extraTop = KataSupportTopBarLayout.Build(spec, rules, stations, warnings, blocking, ref barId);
-        var extraBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId);
+        // Laid out across B6 on a level top, then cut and moved to each span's width (row 20) and top (row 19).
+        // Main bars are cut where a span names its own (rows 19 / 21) and each piece takes that span's bars.
+        var narrowTop = KataMainBarSwap.Apply(spec, rules, stations,
+            KataWidthProfile.Apply(spec, rules, stations, mainTop, -1, ref barId, spec.TopMainOf), spec.TopMainOf, +1, ref barId);
+        mainTop = KataTopProfile.Drape(spec, rules, stations, narrowTop, warnings, ref barId);
+        mainBottom = KataMainBarSwap.Apply(spec, rules, stations,
+            KataWidthProfile.Apply(spec, rules, stations, mainBottom, +1, ref barId, spec.BottomMainOf), spec.BottomMainOf, -1, ref barId);
+        var narrowExtraTop = KataWidthProfile.Apply(spec, rules, stations, extraTop, -1, ref barId);
+        extraTop = KataTopProfile.Drape(spec, rules, stations, narrowExtraTop, warnings, ref barId);
+        warnings.AddRange(KataWidthProfile.SpacingWarnings(spec, rules));
+        var extraBottom = KataWidthProfile.Apply(spec, rules, stations,
+            KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId), +1, ref barId);
         // Bar ids follow the order bars were numbered before the ties needed the hoop zones.
         int stirrupId = barId;
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref stirrupId);

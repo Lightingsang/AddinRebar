@@ -58,9 +58,8 @@ public static class KataBarNumbering
             .OrderBy(z => z.zone.SpanIndex).ThenBy(z => z.zone.ZoneIndex).ThenBy(z => z.index)
             .Select(z => (z.index, zone: z.zone with { BarNumber = Number(Signature(z.zone, stirrupDiameter)) }))
             .OrderBy(z => z.index).Select(z => z.zone).ToList();
-        var hoopNumber = zones.GroupBy(z => z.SpanIndex).ToDictionary(g => g.Key, g => g.First().BarNumber);
         var stirrups = layout.IndividualStirrups
-            .Select(s => hoopNumber.TryGetValue(s.HostSpanIndex, out int n) ? s with { BarNumber = n } : s)
+            .Select(s => ZoneOf(zones, s) is { } zone ? s with { BarNumber = zone.BarNumber } : s)
             .ToList();
 
         return layout with
@@ -74,6 +73,16 @@ public static class KataBarNumbering
             StirrupZones = zones,
             IndividualStirrups = stirrups
         };
+    }
+
+    /// <summary>The zone a single stirrup belongs to: of its span, the one whose stations reach nearest its own.</summary>
+    private static KataStirrupZoneResult? ZoneOf(IReadOnlyList<KataStirrupZoneResult> zones, KataRebarCurve stirrup)
+    {
+        double x = stirrup.Polyline.Points.Count > 0 ? stirrup.Polyline.Points[0].X : 0.0;
+        return zones
+            .Where(z => z.SpanIndex == stirrup.HostSpanIndex && z.Stations.Count > 0)
+            .OrderBy(z => x < z.Stations[0] ? z.Stations[0] - x : x > z.Stations[z.Stations.Count - 1] ? x - z.Stations[z.Stations.Count - 1] : 0.0)
+            .FirstOrDefault();
     }
 
     /// <summary>The C ties under bar layers and round side bars (not the inner stirrups of rows 25-44).</summary>

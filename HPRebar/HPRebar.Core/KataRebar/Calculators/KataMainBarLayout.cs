@@ -46,11 +46,12 @@ public static class KataMainBarLayout
         {
             var ends = new KataBottomMainBarRuns.EndSolver(
                 support => BottomEnd(spec, rules, stations, support, dTop, dBot, support == 0 ? topStart : topEnd),
-                (support, outward, room) => Solve(stations, rules, support, outward, rules.BottomBarCentreDepth,
-                    rules.BottomAnchorageFactor * dBot, rules.MinimumLegFactor * dBot, room, 0.0),
+                (support, outward, room, d) => Solve(stations, rules, support, outward, rules.BottomBarCentreDepth,
+                    rules.BottomAnchorageFactor * d, rules.MinimumLegFactor * d, room, 0.0),
                 support => LowestTopCentre(spec, rules, support) - BottomLegClearance(spec, rules, support, dBot));
 
-            foreach (var run in KataBottomMainBarRuns.Plan(spec, rules, stations, dBot, ends, warnings))
+            double BarsOf(int span) => spec.BottomMainOf(span).IsEmpty ? dBot : spec.BottomMainOf(span).Diameter;
+            foreach (var run in KataBottomMainBarRuns.Plan(spec, rules, stations, dBot, ends, warnings, BarsOf))
             {
                 foreach (var (end, support, side) in new[] { (run.Start, run.FirstSupport, "trái"), (run.End, run.LastSupport, "phải") })
                     Report(warnings, "dưới", $"{side} (gối {support + 1})", end, LegRoom(spec, rules, support));
@@ -85,15 +86,20 @@ public static class KataMainBarLayout
             return Solve(st, rules, support, support == 0 ? -1 : 1, rules.TopBarCentreDepth, rules.TopAnchorageFactor * d,
                 rules.MinimumLegFactor * d, LegRoom(spec, rules, support), 0.0);
 
-        // Cantilever tip: the layout of the earlier version is kept until the console rules are settled —
-        // the bar stops at the stirrup cover and hooks down by the compression anchorage, as deep as fits.
+        // Console tip, as Kata draws B01: the bar stops a (J9) short of the tip and bends down all the way to the
+        // bottom bars' level of the console's own depth (under its own top, row 19).
         double tip = st.SupportStart[support];
-        double x = support == 0 ? tip + rules.StirrupCover : tip - rules.StirrupCover;
-        double room = Math.Max(0.0, spec.SupportDepth(support) - 2.0 * rules.StirrupCover - 2.0 * rules.StirrupDiameter);
-        return new KataBarEnd(x, Math.Min(room, Math.Max(rules.BottomAnchorageFactor * d, CantileverHookMinimum)), 0.0);
+        double x = support == 0 ? tip + rules.TopBarCentreDepth : tip - rules.TopBarCentreDepth;
+        int span = support == 0 ? 0 : support - 1;
+        double atTip = support == 0 ? 0.0 : spec.Spans[span].Length;
+        double dT = spec.TopMainOf(span).IsEmpty ? d : spec.TopMainOf(span).Diameter;
+        double dB = spec.BottomMainOf(span).IsEmpty ? 0.0 : spec.BottomMainOf(span).Diameter;
+        // Centre to centre once the span's own bars took their place, each outer face kept on the stirrup.
+        double shifts = ((d - dT) + (spec.BottomContinuous.Diameter - dB)) / 2.0;
+        double clear = dB > 0.0 ? (dT + dB) / 2.0 + Math.Max(dT, dB) - shifts : 0.0;
+        double room = Math.Max(0.0, spec.HeightOf(span, atTip) - rules.TopBarCentreDepth - rules.BottomBarCentreDepth - clear);
+        return new KataBarEnd(x, room, 0.0);
     }
-
-    private const double CantileverHookMinimum = 200.0;
 
     /// <summary>Bottom bar end in an end support, its leg moved inboard of the top legs it would overlap.</summary>
     private static KataBarEnd BottomEnd(

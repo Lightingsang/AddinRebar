@@ -64,7 +64,10 @@ internal sealed class KataSectionBars
 
     public static KataSectionBars Lay(KataBeamRebarSpec spec, KataRebarLayoutResult layout, KataDetailingRules rules, KataSectionCut cut, bool mirror)
     {
-        double b = spec.Width, h = spec.DepthOf(cut.SpanIndex), c = rules.StirrupCover, ds = rules.StirrupDiameter;
+        // The section of the span it cuts: its width (row 20) and concrete depth under its top (rows 19, 21).
+        double at = cut.X - KataBeamStations.From(spec).SpanStart[cut.SpanIndex];
+        double top = spec.TopAt(cut.SpanIndex, at);
+        double b = spec.WidthOf(cut.SpanIndex), h = spec.HeightOf(cut.SpanIndex, at), c = rules.StirrupCover, ds = rules.StirrupDiameter;
         var crossing = KataSectionCuts.Crossing(layout, cut.X).ToList();
         var main = crossing.Where(x => x.Bar.Role != KataBarRole.SideBar).ToList();
         var sides = crossing.Where(x => x.Bar.Role == KataBarRole.SideBar).ToList();
@@ -89,12 +92,12 @@ internal sealed class KataSectionBars
             }
         }
 
-        drawn.AddRange(Sides(sides, main, rules, b, c, ds, sign));
+        drawn.AddRange(Sides(sides, main, rules, b, c, ds, sign, top));
         return new KataSectionBars(b, h, c, ds, drawn);
     }
 
     private static IEnumerable<KataDrawnBar> Sides(List<(KataRebarCurve Bar, double Z)> sides, List<(KataRebarCurve Bar, double Z)> main,
-        KataDetailingRules rules, double b, double c, double ds, double sign)
+        KataDetailingRules rules, double b, double c, double ds, double sign, double top)
     {
         if (sides.Count == 0) yield break;
 
@@ -103,14 +106,15 @@ internal sealed class KataSectionBars
         double dTop = main.Where(x => IsTop(x.Bar) && x.Bar.Layer == 1).Select(x => x.Bar.Diameter).DefaultIfEmpty(0.0).Max();
         double dBottom = main.Where(x => !IsTop(x.Bar) && x.Bar.Layer == 1).Select(x => x.Bar.Diameter).DefaultIfEmpty(0.0).Max();
         double topReal = rules.TopBarCentreDepth > 0.0 ? -rules.TopBarCentreDepth : -(c + ds + dTop / 2.0);
-        double highest = sides.Max(x => x.Z), lowest = sides.Min(x => x.Z);
+        // Heights below this section's own top (row 19), the section being drawn from its top.
+        double highest = sides.Max(x => x.Z) - top, lowest = sides.Min(x => x.Z) - top;
         double step = topReal - highest;
         double bottomReal = lowest - step;
         double topDrawn = topReal - dTop / 2.0, bottomDrawn = bottomReal + dBottom / 2.0;
 
         foreach (var (bar, z) in sides)
         {
-            double t = Math.Abs(bottomReal - topReal) < 1e-6 ? 0.5 : (z - topReal) / (bottomReal - topReal);
+            double t = Math.Abs(bottomReal - topReal) < 1e-6 ? 0.5 : (z - top - topReal) / (bottomReal - topReal);
             double x = b / 2.0 - c - (bar.Diameter + ds) / 2.0;
             yield return new KataDrawnBar(bar, sign * Math.Sign(bar.TransverseY) * x, topDrawn + t * (bottomDrawn - topDrawn), KataSectionFace.Side, bar.Layer, z);
         }

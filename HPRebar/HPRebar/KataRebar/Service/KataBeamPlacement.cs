@@ -28,7 +28,10 @@ public sealed class KataBeamPlacement
         _direction = reversed ? -1 : 1;
         _originStation = reversed ? match.SegmentExtents[match.SegmentExtents.Count - 1].End : match.SegmentExtents[0].Start;
 
-        var origin = run.Frame.Point(_originStation, first.CenterOffsetMm, first.TopFt);
+        // Local z = 0 is the level the tops are measured from (row 19 and the measured tops are offsets from it), not
+        // the top of whichever element Revit lists first.
+        double datumFt = first.TopFt - RevitUnits.MmToFt(first.ZOffsetMm);
+        var origin = run.Frame.Point(_originStation, first.CenterOffsetMm, datumFt);
         var axis = reversed ? run.Frame.Axis.Negate() : run.Frame.Axis;
         var across = reversed ? run.Frame.Transverse.Negate() : run.Frame.Transverse;
         Mapper = new PointMapper(origin, axis, across, XYZ.BasisZ);

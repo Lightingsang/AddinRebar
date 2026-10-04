@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HPRebar.Core.KataRebar.Models;
 
@@ -18,9 +19,31 @@ public enum KataMeasuredSupportKind
 /// <summary>One support or span of the beam run as measured in Revit, in axis order.</summary>
 /// <param name="LengthMm">Width of the support or length of the span along the beam axis.</param>
 /// <param name="HeightMm">Depth of the beam over a span (0 when unknown, and for supports).</param>
-public sealed record KataMeasuredSegment(KataMeasuredSupportKind SupportKind, double LengthMm, double HeightMm = 0.0)
+/// <param name="Pieces">The framing elements along a span, in axis order; empty when unknown.</param>
+public sealed record KataMeasuredSegment(
+    KataMeasuredSupportKind SupportKind,
+    double LengthMm,
+    double HeightMm = 0.0,
+    IReadOnlyList<KataMeasuredPiece>? Pieces = null)
 {
     public bool IsSupport => SupportKind != KataMeasuredSupportKind.None;
+
+    public IReadOnlyList<KataMeasuredPiece> PieceList => Pieces ?? System.Array.Empty<KataMeasuredPiece>();
+
+    /// <summary>The segment read from the run's other end: its pieces in reverse, measured from the other side.</summary>
+    public KataMeasuredSegment Mirrored() => this with
+    {
+        Pieces = PieceList.Reverse().Select(p => p with { StartMm = LengthMm - p.StartMm - p.LengthMm }).ToList()
+    };
+}
+
+/// <summary>
+/// One framing element over (part of) a span: where it starts (mm from the span's start, in the run's own axis
+/// order), its section and its top relative to its level (row 19).
+/// </summary>
+public sealed record KataMeasuredPiece(double StartMm, double LengthMm, double WidthMm, double HeightMm, double TopMm)
+{
+    public double MidMm => StartMm + LengthMm / 2.0;
 }
 
 /// <summary>

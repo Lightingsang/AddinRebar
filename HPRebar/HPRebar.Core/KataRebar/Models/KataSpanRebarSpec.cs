@@ -45,15 +45,31 @@ public sealed record KataSpanRebarSpec
     /// <summary>Optional stirrup specification overriding global stirrups for this span (sheet Dam row 22).</summary>
     public KataStirrupSpec? StirrupOverride { get; init; }
 
-    /// <summary>Top surface drop/step offset across this span in mm (sheet Dam row 19, e.g. -50).</summary>
+    /// <summary>
+    /// Top of the span in mm from the beam's top (sheet Dam row 19, e.g. -50 = 50 lower), at the span's start; an empty
+    /// row 19 carries the span before on.
+    /// </summary>
     public double TopDrop { get; init; }
+
+    /// <summary>Changes of the top further along the span (a joined support of no width), in station order.</summary>
+    public IReadOnlyList<KataTopStep> TopSteps { get; init; } = Array.Empty<KataTopStep>();
+
+    /// <summary>Width of the span in mm (a number in row 20, carried on); 0 = the beam's B6.</summary>
+    public double Width { get; init; }
+
+    /// <summary>Main top bars of the span (the bars of row 19, carried on); empty = B11.</summary>
+    public KataBarItem TopMain { get; init; } = KataBarItem.Empty;
+
+    /// <summary>Main bottom bars of the span (the bars of row 21, carried on); empty = B12.</summary>
+    public KataBarItem BottomMain { get; init; } = KataBarItem.Empty;
 
     /// <summary>Bottom soffit drop/step offset across this span in mm (sheet Dam row 21, e.g. -100).</summary>
     public double SoffitDrop { get; init; }
 
     /// <summary>
-    /// Depth of this span in mm: B5 − row 21 as read from the sheet (the top stays level), Revit's depth once
-    /// measured; 0 means the beam's own <see cref="KataBeamRebarSpec.Height"/>.
+    /// Depth of this span's soffit below the beam's top in mm: B5 − row 21 as read from the sheet, Revit's once
+    /// measured; 0 means the beam's own <see cref="KataBeamRebarSpec.Height"/>. A span whose top drops (row 19) is
+    /// that much shallower (<see cref="KataBeamRebarSpec.HeightOf"/>).
     /// </summary>
     public double Depth { get; init; }
 

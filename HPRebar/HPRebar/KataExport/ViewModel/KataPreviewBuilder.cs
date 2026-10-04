@@ -13,7 +13,7 @@ public static class KataPreviewBuilder
         string.Join("   ", HeaderLabels.Select((label, i) => $"{label}: {Shown(KataColumnLetters.CellText(sheet.HeaderColumn[i]))}"));
 
     public static IReadOnlyList<KataPreviewColumn> Columns(KataElevation elevation) => elevation.Columns
-        .Select(c => new KataPreviewColumn(c.Letter, KindName(c, elevation), c.Row11, c.Row19, "-", c.Row21, c.Row22, c.Row23))
+        .Select(c => new KataPreviewColumn(c.Letter, KindName(c, elevation), c.Row11, c.Row19, Shown(c.Row20), c.Row21, c.Row22, c.Row23))
         .ToList();
 
     /// <summary>What a column stands for, in the words of the office: support kind, span number, joint or free end.</summary>

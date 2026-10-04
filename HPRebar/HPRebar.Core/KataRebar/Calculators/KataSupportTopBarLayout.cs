@@ -77,6 +77,9 @@ public static class KataSupportTopBarLayout
                 // A cut beyond an end support would leave the beam: the bar then stops at that support's far face.
                 leftCut = Math.Max(leftCut, st.SupportStart[0] + rules.TopBarCentreDepth);
                 rightCut = Math.Min(rightCut, st.SupportEnd[last] - rules.TopBarCentreDepth);
+                // Into a console they run on to its tip, as the main bars do.
+                if (k == last - 1 && st.IsRightCantilever) rightCut = st.SupportEnd[last] - rules.TopBarCentreDepth;
+                if (k == 1 && st.IsLeftCantilever) leftCut = st.SupportStart[0] + rules.TopBarCentreDepth;
                 var (leftThrough, rightThrough) = spanSide == 0 && !sides.IsSymmetric ? RunThrough(rules, st, k, sides) : (null, null);
                 rows.Add(new TopRow(layer, sides, level, cell, leftCut, rightCut,
                     ReachesLeft: spanSide < 0 || (spanSide == 0 && sides.Left.Count > 0),

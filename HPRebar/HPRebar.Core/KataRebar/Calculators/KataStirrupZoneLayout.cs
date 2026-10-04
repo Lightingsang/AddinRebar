@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
@@ -12,7 +13,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// Kata ends it (DY7 span 1: 500…1850 | 2050…4350 | 4550…5900 from the outer face of C). When the dense zones fill
 /// the span there is no sparse middle zone: a right-zone stirrup that would sit on the last left-zone one is dropped,
 /// and a leftover gap wider than the dense spacing is closed with evenly spaced dense stirrups. A cantilever span
-/// gets one uniform zone.
+/// gets one uniform zone. Each hoop is as wide as its span (row 20) and reaches from the soffit to the top over it
+/// (row 19); a zone running over a change of top inside a span (a joined support of no width) is cut there, each
+/// part ending the first-stirrup offset from it and spaced evenly again (B01 at I: 19950…20550 | 20650…22750).
 /// </summary>
 public static class KataStirrupZoneLayout
 {
@@ -31,23 +34,18 @@ public static class KataStirrupZoneLayout
 
         double b = rules.StirrupCover;
         double ds = rules.StirrupDiameter;
-        double yMin = -spec.Width / 2.0 + b + ds / 2.0;
-        double yMax = spec.Width / 2.0 - b - ds / 2.0;
-        double zTop = -b - ds / 2.0;
 
         for (int s = 0; s < st.SpanCount; s++)
         {
             double ln = spec.Spans[s].Length;
             if (ln <= 0.0) continue;
 
-            // Each span's hoop is as deep as that span (row 21).
+            // Each span's hoop is as deep as that span (row 21) and as wide (row 20).
             double depth = spec.DepthOf(s);
-            var box = new Box(
-                Width: Math.Max(0.0, spec.Width - 2.0 * b),
-                Height: Math.Max(0.0, depth - 2.0 * b),
-                MinY: -spec.Width / 2.0 + b,
-                MinZ: -depth + b);
-            double zBot = box.MinZ + ds / 2.0;
+            double width = spec.WidthOf(s);
+            double yMin = -width / 2.0 + b + ds / 2.0;
+            double yMax = width / 2.0 - b - ds / 2.0;
+            double zBot = -depth + b + ds / 2.0;
 
             var stSpec = spec.Spans[s].StirrupOverride ?? spec.GlobalStirrup;
             double sDense = stSpec.SupportSpacing > 0.0 ? stSpec.SupportSpacing : 150.0;
@@ -62,10 +60,16 @@ public static class KataStirrupZoneLayout
 
             // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {
-                for (int z = 0; z < runs.Count; z++)
+                foreach (var (name, spacing, stations) in AtTopSteps(spec, st, s, runs, rules.FirstStirrupOffset))
                 {
-                    var (name, spacing, stations) = runs[z];
                     if (stations.Count == 0) continue;
+                    double top = spec.TopAt(s, (stations[0] + stations[stations.Count - 1]) / 2.0 - st.SpanStart[s]);
+                    var box = new Box(
+                        Width: Math.Max(0.0, width - 2.0 * b),
+                        Height: Math.Max(0.0, depth + top - 2.0 * b),
+                        MinY: -width / 2.0 + b,
+                        MinZ: -depth + b);
+                    double zTop = top - b - ds / 2.0;
 
                     zones.Add(new KataStirrupZoneResult
                     {
@@ -94,6 +98,30 @@ public static class KataStirrupZoneLayout
 
         return (zones, stirrups);
     }
+
+    /// <summary>The zones cut where the top changes inside the span, each part spaced evenly up to the cut.</summary>
+    private static IEnumerable<(string Name, double Spacing, List<double> Stations)> AtTopSteps(
+        KataBeamRebarSpec spec, KataBeamStations st, int s, List<(string Name, double Spacing, List<double> Stations)> runs, double offset)
+    {
+        var cuts = spec.Spans[s].TopSteps.Select(step => st.SpanStart[s] + step.AtMm).ToList();
+        foreach (var run in runs)
+        {
+            var stations = run.Stations;
+            int part = 0;
+            foreach (double x in cuts.Where(x => stations.Count > 0 && x > stations[0] - 1e-6 && x < stations[stations.Count - 1] + 1e-6))
+            {
+                // Each part keeps the first-stirrup offset from the step; a part with no room left has no stirrup.
+                double first = stations[0], last = stations[stations.Count - 1];
+                if (x - offset >= first) yield return (PartName(run.Name, part++), run.Spacing, Even(first, x - offset, run.Spacing));
+                stations = x + offset <= last ? Even(x + offset, last, run.Spacing) : new List<double>();
+            }
+
+            yield return (PartName(run.Name, part), run.Spacing, stations);
+        }
+    }
+
+    /// <summary>The parts of a zone cut at a step are told apart by name (removal and numbering key on it).</summary>
+    private static string PartName(string name, int part) => part == 0 ? name : $"{name} ({part + 1})";
 
     private static int ZoneIndexOf(string name) => name switch
     {
