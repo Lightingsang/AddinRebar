@@ -43,6 +43,11 @@ public static class ColumnSpecRules
                 : "the bar count around a circular column must be a positive multiple of four.";
         }
 
+        if (!FiniteNumber.IsFinite(layout.Cover))
+        {
+            return "the cover must be a number.";
+        }
+
         // The bars have to physically fit inside the cover and the ties.
         var clearance = 2 * layout.Cover + 2 * layout.StirrupDiameter + layout.BarDiameter;
         var narrowest = rectangular ? Math.Min(section.B, section.H) : section.D;
@@ -74,7 +79,7 @@ public static class ColumnSpecRules
 
         foreach (var spacing in spacings)
         {
-            if (spacing <= 0)
+            if (!FiniteNumber.IsPositive(spacing))
             {
                 return "tie spacing must be greater than zero.";
             }
@@ -91,12 +96,12 @@ public static class ColumnSpecRules
 
     private static string? CrossTieProblem(AdditionalTieSpec ties)
     {
-        if (ties.AddH && ties.TypeH == 0 && ties.AH <= 0)
+        if (ties.AddH && ties.TypeH == 0 && !FiniteNumber.IsPositive(ties.AH))
         {
             return "give the horizontal cross-tie a leg length.";
         }
 
-        if (ties.AddV && ties.TypeV == 0 && ties.AV <= 0)
+        if (ties.AddV && ties.TypeV == 0 && !FiniteNumber.IsPositive(ties.AV))
         {
             return "give the vertical cross-tie a leg length.";
         }

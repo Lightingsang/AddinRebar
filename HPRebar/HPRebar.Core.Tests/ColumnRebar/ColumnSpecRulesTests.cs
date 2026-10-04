@@ -187,4 +187,40 @@ public sealed class ColumnSpecRulesTests
 
         Assert.EndsWith("needs more than 1002 ties, which Revit will not accept.", problem);
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_TieSpacingNotAFiniteNumber_AsksForPositiveSpacing(double spacing)
+    {
+        var stirrups = new StirrupSpec { TypeDis = 0, S = spacing };
+
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
+
+        Assert.Equal("tie spacing must be greater than zero.", problem);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_CoverNotAFiniteNumber_AsksForANumber(double cover)
+    {
+        var layout = TestSections.Grid() with { Cover = cover };
+
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), layout, Uniform150, NoTies);
+
+        Assert.Equal("the cover must be a number.", problem);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_ClosedCrossTieLegNotAFiniteNumber_AsksForALeg(double leg)
+    {
+        var ties = new AdditionalTieSpec { AddH = true, TypeH = 0, AH = leg };
+
+        var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), Uniform150, ties);
+
+        Assert.Equal("give the horizontal cross-tie a leg length.", problem);
+    }
 }

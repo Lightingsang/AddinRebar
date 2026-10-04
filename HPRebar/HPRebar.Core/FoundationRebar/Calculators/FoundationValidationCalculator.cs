@@ -20,35 +20,77 @@ public static class FoundationValidationCalculator
 
         var errors = new List<string>();
 
-        // 1. Spacing and Diameters checks (non-positive s <= 0 -> error)
-        if (spec.SpacingBottomX <= 0)
+        // 1. Spacing and Diameters checks (not a positive finite number -> error)
+        if (!FiniteNumber.IsPositive(spec.SpacingBottomX))
+        {
             errors.Add($"Bottom X spacing must be positive. Received: {spec.SpacingBottomX:F1} mm.");
-        if (spec.SpacingBottomY <= 0)
+        }
+
+        if (!FiniteNumber.IsPositive(spec.SpacingBottomY))
+        {
             errors.Add($"Bottom Y spacing must be positive. Received: {spec.SpacingBottomY:F1} mm.");
-        if (spec.DiameterBottomX <= 0)
+        }
+
+        if (!FiniteNumber.IsPositive(spec.DiameterBottomX))
+        {
             errors.Add($"Bottom X diameter must be positive. Received: {spec.DiameterBottomX:F1} mm.");
-        if (spec.DiameterBottomY <= 0)
+        }
+
+        if (!FiniteNumber.IsPositive(spec.DiameterBottomY))
+        {
             errors.Add($"Bottom Y diameter must be positive. Received: {spec.DiameterBottomY:F1} mm.");
+        }
 
         if (spec.IsTopMatEnabled)
         {
-            if (spec.SpacingTopX <= 0)
+            if (!FiniteNumber.IsPositive(spec.SpacingTopX))
+            {
                 errors.Add($"Top X spacing must be positive. Received: {spec.SpacingTopX:F1} mm.");
-            if (spec.SpacingTopY <= 0)
+            }
+
+            if (!FiniteNumber.IsPositive(spec.SpacingTopY))
+            {
                 errors.Add($"Top Y spacing must be positive. Received: {spec.SpacingTopY:F1} mm.");
-            if (spec.DiameterTopX <= 0)
+            }
+
+            if (!FiniteNumber.IsPositive(spec.DiameterTopX))
+            {
                 errors.Add($"Top X diameter must be positive. Received: {spec.DiameterTopX:F1} mm.");
-            if (spec.DiameterTopY <= 0)
+            }
+
+            if (!FiniteNumber.IsPositive(spec.DiameterTopY))
+            {
                 errors.Add($"Top Y diameter must be positive. Received: {spec.DiameterTopY:F1} mm.");
+            }
         }
 
         // 2. Concrete covers non-negative checks
-        if (spec.CoverTop < 0)
+        if (!FiniteNumber.IsFinite(spec.CoverTop))
+        {
+            errors.Add($"Top cover must be a number. Received: {spec.CoverTop:F1} mm.");
+        }
+        else if (spec.CoverTop < 0)
+        {
             errors.Add($"Top cover cannot be negative. Received: {spec.CoverTop:F1} mm.");
-        if (spec.CoverBottom < 0)
+        }
+
+        if (!FiniteNumber.IsFinite(spec.CoverBottom))
+        {
+            errors.Add($"Bottom cover must be a number. Received: {spec.CoverBottom:F1} mm.");
+        }
+        else if (spec.CoverBottom < 0)
+        {
             errors.Add($"Bottom cover cannot be negative. Received: {spec.CoverBottom:F1} mm.");
-        if (spec.CoverSide < 0)
+        }
+
+        if (!FiniteNumber.IsFinite(spec.CoverSide))
+        {
+            errors.Add($"Side cover must be a number. Received: {spec.CoverSide:F1} mm.");
+        }
+        else if (spec.CoverSide < 0)
+        {
             errors.Add($"Side cover cannot be negative. Received: {spec.CoverSide:F1} mm.");
+        }
 
         // 3. Boundary checks (L <= 2 * c_side or W <= 2 * c_side)
         if (spec.CoverSide >= 0)

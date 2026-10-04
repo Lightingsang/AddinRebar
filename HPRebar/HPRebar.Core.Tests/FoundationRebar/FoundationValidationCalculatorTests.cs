@@ -323,4 +323,34 @@ public sealed class FoundationValidationCalculatorTests
         Assert.False(result.IsValid);
         Assert.Contains(result.ErrorMessages, e => e.StartsWith("Excessive bar count for Bottom X layer", StringComparison.Ordinal));
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void Validate_SpacingOrDiameterNotAFiniteNumber_FailsValidation(double value)
+    {
+        var snapshot = FoundationTestData.StandardSnapshot();
+        var spec = FoundationTestData.StandardSpec(spacingBottomX: value, diameterTopY: value);
+
+        var result = FoundationValidationCalculator.Validate(snapshot, spec);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.ErrorMessages, e => e.StartsWith("Bottom X spacing must be positive.", StringComparison.Ordinal));
+        Assert.Contains(result.ErrorMessages, e => e.StartsWith("Top Y diameter must be positive.", StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.NegativeInfinity)]
+    public void Validate_CoverNotAFiniteNumber_AsksForANumber(double cover)
+    {
+        var snapshot = FoundationTestData.StandardSnapshot();
+        var spec = FoundationTestData.StandardSpec(coverTop: cover);
+
+        var result = FoundationValidationCalculator.Validate(snapshot, spec);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.ErrorMessages, e => e.StartsWith("Top cover must be a number.", StringComparison.Ordinal));
+        Assert.DoesNotContain(result.ErrorMessages, e => e.StartsWith("Top cover cannot be negative.", StringComparison.Ordinal));
+    }
 }

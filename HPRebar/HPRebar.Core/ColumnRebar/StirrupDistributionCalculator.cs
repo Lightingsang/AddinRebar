@@ -107,7 +107,7 @@ public static class StirrupDistributionCalculator
 
     private static void RequirePositiveSpacing(double spacing, string name)
     {
-        if (spacing <= 0)
+        if (!FiniteNumber.IsPositive(spacing))
         {
             throw new ArgumentOutOfRangeException(name, spacing, "Tie spacing must be greater than zero.");
         }

@@ -171,4 +171,15 @@ public sealed class StirrupDistributionCalculatorTests
 
         Assert.Equal("spacing", error.ParamName);
     }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void ASpacingThatIsNotAFiniteNumberIsRejected(double spacing)
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = spacing }));
+
+        Assert.Equal("S", error.ParamName);
+    }
 }

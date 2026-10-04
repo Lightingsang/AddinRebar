@@ -331,3 +331,11 @@
 - **Review:** APPROVE 8.5/10, finite results unchanged, new throws go through the existing rollback-and-show path; applied: window checks narrowed to NaN / ∞ for lap factor and stock length (0 / negative is a product decision), separate `ParamName`s for width and cover, the lap tests assert the reference run is spliced, check-order test, doc order; logged B-41 (the preview's lap mark reads the raw values) and AUD-062 (seven-parameter `FirstProblem`)
 - **Tests:** `BeamSpecRulesTests` (+15 cases), calculator tests (+9)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1219/1219 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-39 (Column and Foundation part) — NaN and infinity refused
+- **Decision (user, 2026-10-04):** extend the `FiniteNumber` checks (NaN / ∞ only)
+- **Change:** `ColumnSpecRules` refuses a cover that is not a number ("the cover must be a number.", before the clearance check) and checks tie spacing and closed cross-tie legs with `IsPositive`; `StirrupDistributionCalculator.RequirePositiveSpacing` uses `IsPositive`; `FoundationValidationCalculator` checks spacings and diameters with `IsPositive` and reports a non-finite cover as "… cover must be a number." instead of passing it (negative covers keep their message); the touched Foundation checks are braced
+- **Behaviour change (intended):** NaN / ∞ in these inputs is refused with a message instead of slipping past `<= 0` / `< 0` checks; finite inputs give the same results, messages and order
+- **Review:** no findings (finite behaviour and order preserved; column section sizes and the foundation snapshot come from Revit and stay unguarded — noted)
+- **Tests:** 12 new cases (Column rules, Column calculator, Foundation validation), each failing on the old code
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1231/1231 · **Golden run:** CHƯA TEST
