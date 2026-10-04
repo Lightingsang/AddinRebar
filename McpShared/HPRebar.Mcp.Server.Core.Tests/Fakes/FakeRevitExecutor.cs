@@ -79,6 +79,9 @@ public sealed class FakeRevitExecutor : IBridgeExecutor
 
     public AnalyzeRequest? LastAnalyzeRequest { get; private set; }
 
+    /// <summary>Answers like a bridge built before the script-quality check: the quality fields stay at their defaults.</summary>
+    public bool PredatesQualityCheck { get; set; }
+
     /// <summary>Real syntax analysis and guard; "compiles" unless the code carries the COMPILE_ERROR marker (no Roslyn compile in the fake).</summary>
     public AnalyzeResult Analyze(AnalyzeRequest request)
     {
@@ -88,6 +91,12 @@ public sealed class FakeRevitExecutor : IBridgeExecutor
         var broken = request.Code.Contains("COMPILE_ERROR", StringComparison.Ordinal);
         result.Compiles = result.GuardViolations.Count == 0 && !broken;
         result.Diagnostics = broken ? [new ScriptDiagnostic(1, 1, "CS0103", "The name 'COMPILE_ERROR' does not exist")] : [];
+        if (PredatesQualityCheck)
+        {
+            result.QualityAnalysed = false;
+            result.QualityFindings = [];
+        }
+
         return result;
     }
 

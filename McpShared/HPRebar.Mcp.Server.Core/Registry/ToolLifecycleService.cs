@@ -26,7 +26,7 @@ public sealed record PublishOutcome(string Name, string Status, string Message, 
 ///     <c>pending_approval</c>; only a person — through the CLI or by editing tool.json — can publish
 ///     under the default policy.
 /// </summary>
-public sealed class ToolLifecycleService
+public sealed partial class ToolLifecycleService
 {
     public const string ReviewFolder = "_review";
     private static readonly TimeSpan AnalyzeTimeout = TimeSpan.FromSeconds(30);
@@ -95,6 +95,7 @@ public sealed class ToolLifecycleService
 
         _manager.Save(record, input.NewVersion ? "proposed_version" : "proposed", "ai", input.SourceRunId is null ? null : $"from run {input.SourceRunId}");
         _manager.Db.SaveVersion(record);
+        _manager.Db.InsertEvent(record.Name, QualityEvent, "ai", QualityRecord(record, analysis));
 
         return new ProposeOutcome(true, report, record,
             $"Draft v{record.Version} saved. Next: test_tool {{name: \"{record.Name}\"}} runs its examples with dryRun; then publish_tool.");
@@ -167,7 +168,7 @@ public sealed class ToolLifecycleService
             record.ApprovedBy = "policy:auto";
             record.PublishedAt = DateTimeOffset.UtcNow;
             _manager.Save(record, "published", "policy:auto");
-            return new PublishOutcome(name, "published", "Published under the auto policy; it is now an MCP tool.", null);
+            return new PublishOutcome(name, "published", "Published under the auto policy; it is now an MCP tool." + QualityNoteForPublish(record), null);
         }
 
         var reviewFile = WriteReview(record);
@@ -233,51 +234,5 @@ public sealed class ToolLifecycleService
 
         _manager.Save(record, normalized, actor, reason);
         return record;
-    }
-
-    /// <summary>Everything a reviewer needs on one page: metadata, schema, examples, code, test runs, approve command.</summary>
-    public string WriteReview(ToolRecord record)
-    {
-        var tests = _manager.Db.RecentRuns(record.Name, 20).Where(r => r.Kind == RunRecord.KindTest).ToList();
-        var stats = _manager.Db.Stats(record.Name, _manager.Options.RunWindow);
-        var sb = new StringBuilder();
-        sb.AppendLine($"# Review: {record.Name} v{record.Version}");
-        sb.AppendLine();
-        sb.AppendLine($"- **Title:** {record.Title}");
-        sb.AppendLine($"- **Host:** {record.Host ?? _bridge.Profile.HostId} {string.Join("/", record.HostVersions)} · **Category:** {record.Category} · **Tags:** {string.Join(", ", record.Tags)}");
-        sb.AppendLine($"- **Status:** {ToolRegistryDb.StatusText(record.Status)} · **Author:** {record.Author} · **From run:** {record.CreatedFromRunId?.ToString() ?? "-"}");
-        sb.AppendLine($"- **Transaction:** {record.Transaction} · **Timeout:** {record.TimeoutSeconds}s · **Destructive:** {record.Destructive}");
-        sb.AppendLine($"- **Runs (window):** {stats.Runs}, success {stats.SuccessRate:P0}, stability {StabilityScorer.Score(stats)}");
-        sb.AppendLine();
-        sb.AppendLine("## Description");
-        sb.AppendLine(record.Description);
-        sb.AppendLine();
-        sb.AppendLine("## Input schema");
-        sb.AppendLine("```json");
-        sb.AppendLine(RegistryJson.Serialize(record.InputSchema));
-        sb.AppendLine("```");
-        sb.AppendLine();
-        sb.AppendLine("## Examples");
-        foreach (var example in record.Examples)
-            sb.AppendLine($"- **{example.Title}** `{RegistryJson.Canonical(example.Args)}`{(example.VerifiedRunId is null ? "" : $" — verified run {example.VerifiedRunId}")}");
-        sb.AppendLine();
-        sb.AppendLine("## Test runs");
-        if (tests.Count == 0) sb.AppendLine("_none_");
-        foreach (var run in tests)
-            sb.AppendLine($"- #{run.Id} {run.Timestamp:u} {(run.Success ? "PASS" : "FAIL")} {(run.DryRun ? "dryRun" : "real")} {run.DurationMs} ms {run.DocTitle}{(run.Error is null ? "" : " — " + run.Error)}");
-        sb.AppendLine();
-        sb.AppendLine("## Code");
-        sb.AppendLine("```csharp");
-        sb.AppendLine(record.Code);
-        sb.AppendLine("```");
-        sb.AppendLine();
-        sb.AppendLine("## Decide");
-        sb.AppendLine("```");
-        sb.AppendLine($"{_bridge.Profile.CliExecutable} registry approve {record.Name} --by <your name>");
-        sb.AppendLine($"{_bridge.Profile.CliExecutable} registry reject {record.Name} --by <your name> --reason \"why\"");
-        sb.AppendLine("```");
-        sb.AppendLine($"Or edit `{record.Folder}\\tool.json` and set `\"status\": \"published\"` — running servers pick it up within a second.");
-
-        return _manager.Store.WriteAux(Path.Combine(ReviewFolder, record.Name + ".md"), sb.ToString());
     }
 }

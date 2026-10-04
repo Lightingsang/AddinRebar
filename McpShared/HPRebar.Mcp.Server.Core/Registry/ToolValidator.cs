@@ -23,6 +23,9 @@ public static partial class ToolValidator
     /// <summary>The engine's own tools, reserved in every host; the host's core tools come from its profile.</summary>
     public static readonly string[] RegistryToolNames = ["search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "test_tool", "publish_tool", "manage_tool"];
 
+    /// <summary>The line a report shows when the bridge that analysed the code predates the quality check.</summary>
+    public const string QualityNotAnalysedWarning = "code quality not analysed: the bridge predates the quality check — redeploy it; publishing stays allowed.";
+
     private static readonly HashSet<string> SchemaTypes = new(StringComparer.Ordinal) { "string", "number", "integer", "boolean", "array", "object" };
 
     [GeneratedRegex("^[a-z][a-z0-9_]{2,63}$")]
@@ -75,6 +78,7 @@ public static partial class ToolValidator
 
             foreach (var literal in analysis.Literals.Where(IsSuspiciousLiteral))
                 warnings.Add($"hard-coded {literal.Kind} {Quote(literal)} at line {literal.Line}{(literal.BoundTo is null ? "" : $" ({literal.BoundTo})")} — consider an args parameter with a default.");
+            AddQualityFindings(analysis, errors, warnings);
         }
         else
         {
@@ -107,6 +111,23 @@ public static partial class ToolValidator
 
     public static bool IsReserved(string name, IHostProfile profile) =>
         RegistryToolNames.Contains(name, StringComparer.OrdinalIgnoreCase) || profile.CoreToolNames.Contains(name, StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Quality findings: `error` blocks the draft, anything else is a warning; an old bridge gives one warning.</summary>
+    private static void AddQualityFindings(AnalyzeResult analysis, List<string> errors, List<string> warnings)
+    {
+        if (!analysis.QualityAnalysed)
+        {
+            warnings.Add(QualityNotAnalysedWarning);
+            return;
+        }
+
+        foreach (var finding in analysis.QualityFindings)
+        {
+            var line = $"quality {finding.RuleId} {finding.Line}:{finding.Column} {finding.Message}";
+            if (finding.Severity == QualityFinding.Error) errors.Add(line);
+            else warnings.Add(line);
+        }
+    }
 
     /// <summary>Accepts the JSON Schema subset the dynamic tool layer can express; returns the top-level property names.</summary>
     private static HashSet<string> ValidateSchema(JsonElement schema, List<string> errors)

@@ -75,6 +75,7 @@ public sealed class ExcelSeedLibraryAdversarialChallengeTests
             // Analyze code for ArgKeys
             var analysis = ScriptAnalyzer.Analyze(seed.Code, AnalyzerProfile.Excel);
             analysis.Compiles = true; // Mark as compiled for validator's analysis check
+            analysis.QualityFindings = []; // seed code quality is checked against the hash-pinned baseline in SeedQualityTests
 
             // Full ToolValidator run with analysis
             var report = ToolValidator.Validate(record, analysis, [], false, Profile);

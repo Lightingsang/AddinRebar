@@ -119,6 +119,35 @@ public sealed class ToolValidatorTests
     }
 
     [Fact]
+    public void Quality_error_blocks_the_proposal()
+    {
+        var c = Candidate(code: "// var doubled = 2;\nreturn args.Int(\"count\") * 2;");
+        var report = ToolValidator.Validate(c, Analyse(c.Code), [], false);
+        Assert.False(report.IsValid);
+        Assert.Contains(report.Errors, e => e.StartsWith("quality Q-B1 1:1"));
+    }
+
+    [Fact]
+    public void Quality_warning_does_not_block()
+    {
+        var c = Candidate(code: "var data = args.Int(\"count\");\nreturn data * 2;");
+        var report = ToolValidator.Validate(c, Analyse(c.Code), [], false);
+        Assert.True(report.IsValid, string.Join("; ", report.Errors));
+        Assert.Contains(report.Warnings, w => w.StartsWith("quality Q-W3"));
+    }
+
+    [Fact]
+    public void Bridge_without_quality_check_warns_and_accepts()
+    {
+        var c = Candidate();
+        var analysis = Analyse(c.Code);
+        analysis.QualityAnalysed = false;
+        var report = ToolValidator.Validate(c, analysis, [], false);
+        Assert.True(report.IsValid);
+        Assert.Equal([ToolValidator.QualityNotAnalysedWarning], report.Warnings);
+    }
+
+    [Fact]
     public void Without_analysis_only_warns()
     {
         var c = Candidate();
@@ -210,6 +239,56 @@ public sealed class ToolLifecycleTests
         Assert.Equal("published", outcome.Status);
         Assert.Equal("policy:auto", f.Manager.Get("count_with_spacing")!.Record.ApprovedBy);
         Assert.Equal("published", lifecycle.Publish("count_with_spacing").Status);
+    }
+
+    [Fact]
+    public async Task Review_file_carries_the_code_quality_record()
+    {
+        await using var f = new RegistryFixture();
+        var lifecycle = Lifecycle(f);
+        Assert.True((await lifecycle.ProposeAsync(Input(code: "var tmp = 1;\n" + Code), TestContext.Current.CancellationToken)).Accepted);
+        await lifecycle.TestAsync("count_with_spacing", null, false, TestContext.Current.CancellationToken);
+
+        var review = File.ReadAllText(lifecycle.Publish("count_with_spacing").ReviewFile!);
+
+        Assert.Contains("## Code quality\nanalysed: 0 error(s), 1 warning(s)\n- Q-W3", review.Replace("\r\n", "\n"));
+    }
+
+    [Fact]
+    public async Task Rejected_proposal_records_no_quality_and_changed_code_reads_as_stale()
+    {
+        await using var f = new RegistryFixture();
+        var lifecycle = Lifecycle(f);
+        Assert.False((await lifecycle.ProposeAsync(Input(code: "// var old = 1;\n" + Code), TestContext.Current.CancellationToken)).Accepted);
+        Assert.Null(f.Db.LatestEventDetail("count_with_spacing", ToolLifecycleService.QualityEvent));
+
+        var accepted = await lifecycle.ProposeAsync(Input(), TestContext.Current.CancellationToken);
+        accepted.Record!.Code += "\nvar edited = 1;";
+        var review = File.ReadAllText(lifecycle.WriteReview(accepted.Record));
+
+        Assert.Contains("not analysed (stale: the code changed after the last check", review);
+    }
+
+    [Fact]
+    public async Task Old_bridge_is_reported_as_not_analysed_and_still_publishes_under_both_policies()
+    {
+        await using var manual = new RegistryFixture();
+        manual.Executor.PredatesQualityCheck = true;
+        var manualLifecycle = Lifecycle(manual);
+        Assert.True((await manualLifecycle.ProposeAsync(Input(), TestContext.Current.CancellationToken)).Accepted);
+        await manualLifecycle.TestAsync("count_with_spacing", null, false, TestContext.Current.CancellationToken);
+        var pending = manualLifecycle.Publish("count_with_spacing");
+        Assert.Equal("pending_approval", pending.Status);
+        Assert.Contains("not analysed (the bridge predates the quality check", File.ReadAllText(pending.ReviewFile!));
+
+        await using var auto = new RegistryFixture(o => o.PublishPolicy = RegistryOptions.PolicyAuto);
+        auto.Executor.PredatesQualityCheck = true;
+        var autoLifecycle = Lifecycle(auto);
+        Assert.True((await autoLifecycle.ProposeAsync(Input(), TestContext.Current.CancellationToken)).Accepted);
+        await autoLifecycle.TestAsync("count_with_spacing", null, false, TestContext.Current.CancellationToken);
+        var published = autoLifecycle.Publish("count_with_spacing");
+        Assert.Equal("published", published.Status);
+        Assert.Contains("Code quality not analysed (the bridge predates the quality check", published.Message);
     }
 
     [Fact]

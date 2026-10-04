@@ -190,6 +190,14 @@ public sealed partial class ToolRegistryDb
             ("@ts", Now()), ("@tool", toolName), ("@event", @event), ("@actor", actor), ("@detail", detail));
     }
 
+    /// <summary>The detail of the newest <paramref name="event"/> recorded for a tool, or null when there is none.</summary>
+    public string? LatestEventDetail(string toolName, string @event)
+    {
+        using var connection = Open();
+        return Query(connection, "SELECT detail FROM registry_events WHERE tool_name = @tool AND event = @event ORDER BY rowid DESC LIMIT 1;",
+            reader => reader.IsDBNull(0) ? null : reader.GetString(0), ("@tool", toolName), ("@event", @event)).FirstOrDefault();
+    }
+
     // ---- internals -------------------------------------------------------------------------------
 
     private SqliteConnection Open()
