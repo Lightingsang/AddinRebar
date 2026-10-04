@@ -276,3 +276,10 @@
 - **Review:** 9/10, messages / order / conditions / values / spec confirmed identical; applied: `viewNames` guarded like the other arguments, `barTypesChosen` documented, tests for just-above-minimum sizes, the height rule with the larger bar and the node-spacing → view-name → span order; logged B-34 (tie estimate overflows `int` for a tiny spacing, Beam and Column); AUD-018 Beam keeps two progress-bar `PlannedCount`s open
 - **Tests:** `BeamSpecRulesTests` (27 cases: every message word for word, check order, NaN/∞ cover, node spacing on/off, larger of the two bar sizes for width and height, minimum boundary, 1002/1003 stirrup limit dense and sparse, second span named, NaN spacing pinned (B-26), guards)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1129/1129 · **Golden run:** CHƯA TEST (Beam window validation)
+
+### 2026-10-04 — Wave 3 · Beam · planned element count to Core (AUD-018 Beam part closed)
+- **Change:** new `HPRebar.Core/BeamRebar/Calculators/BeamElementCount` — `Bars` (three stirrup groups per span, every main bar, two per additional bar, four skin-bar elements on a deep enough run, hanging stirrups at each secondary beam) and `Dimensions` replace `RebarCreationService.PlannedCount` and `DimensionCreator.PlannedCount`; `BeamRebarOrchestrator.PlannedCount` still adds views, sections, dimensions and tables
+- **Behaviour:** none intended (progress-bar sizing only)
+- **Review:** 9/10, every term identical, no other caller of the removed methods (the TUnit `RebarCreationServiceTests` are Column's); applied: tests with skin bars switched off on a deep run, hanging stirrups switched off with secondary beams present, one deep span among shallow ones; one calling style in the tests; logged B-35 (the estimate drifts from what the creators make)
+- **Tests:** `BeamElementCountTests` (12 cases)
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1141/1141 · **Golden run:** CHƯA TEST

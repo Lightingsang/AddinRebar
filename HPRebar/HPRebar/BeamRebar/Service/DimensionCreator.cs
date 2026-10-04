@@ -168,7 +168,4 @@ public static class DimensionCreator
         XYZ top = bottom + RevitUnits.MmToFt(span.Height) * view.UpDirection;
         return Line.CreateBound(bottom, top);
     }
-
-    /// <summary>Upper bound of the dimensions a run draws: span chain + height on the elevation, width + height per section.</summary>
-    public static int PlannedCount(bool onElevation, int sectionCount) => (onElevation ? 2 : 0) + sectionCount * 2;
 }

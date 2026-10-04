@@ -41,9 +41,10 @@ public sealed class BeamRebarOrchestrator
 
         return (views.CreateElevationView ? 1 : 0)
                + sections
-               + (views.CreateDimensions ? DimensionCreator.PlannedCount(views.CreateElevationView, sections) : 0)
+               + (views.CreateDimensions ? BeamElementCount.Dimensions(views.CreateElevationView, sections) : 0)
                + (views.CreateTables ? sections : 0)
-               + RebarCreationService.PlannedCount(_stack, spec);
+               + BeamElementCount.Bars(
+                   _stack.ContinuousStack, spec.MainBars, spec.AdditionalBars, spec.SideBars, spec.SpecialBars);
     }
 
     public BeamOrchestratorResult Run(BeamRebarSpec spec, IProgress<int>? progress = null)

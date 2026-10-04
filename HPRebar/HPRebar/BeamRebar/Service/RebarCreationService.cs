@@ -27,26 +27,6 @@ public static class RebarCreationService
         return ValidationResult.Ok;
     }
 
-    public static int PlannedCount(
-        BeamStack stack,
-        BeamRebarSpec spec)
-    {
-        int count = 0;
-        count += stack.Spans.Count * 3; // Est. stirrup runs
-        count += spec.MainBars.TopCount + spec.MainBars.BottomCount;
-        count += spec.AdditionalBars.SupportTopBars.Count * 2;
-        count += spec.AdditionalBars.SpanBottomBars.Count * 2;
-        if (spec.SideBars.AutoSkinBars && stack.ContinuousStack.MaxHeight >= spec.SideBars.DepthThreshold)
-        {
-            count += 4;
-        }
-        if (spec.SpecialBars.EnableHangingStirrups)
-        {
-            count += stack.SecondaryIntersections.Count * spec.SpecialBars.HangingStirrupsPerSide * 2;
-        }
-        return count;
-    }
-
     public static CreatedBeamRebar Create(
         Document document,
         BeamStack stack,
