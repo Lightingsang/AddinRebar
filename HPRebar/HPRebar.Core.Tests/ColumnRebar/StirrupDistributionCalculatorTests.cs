@@ -29,7 +29,7 @@ public sealed class StirrupDistributionCalculatorTests
     [Fact]
     public void TheEvenLayoutIsOneCentredGroup()
     {
-        var runs = StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = 150 });
+        var runs = StirrupDistributionCalculator.Compute(3000, new StirrupSpec { Layout = TieLayout.Even, S = 150 });
 
         var run = Assert.Single(runs);
         Assert.Equal(21, run.Count);
@@ -40,7 +40,7 @@ public sealed class StirrupDistributionCalculatorTests
     [Fact]
     public void TheEvenLayoutCentresTheLeftoverSlack()
     {
-        var runs = StirrupDistributionCalculator.Compute(3050, new StirrupSpec { TypeDis = 0, S = 150 });
+        var runs = StirrupDistributionCalculator.Compute(3050, new StirrupSpec { Layout = TieLayout.Even, S = 150 });
 
         var run = Assert.Single(runs);
         Assert.Equal(21, run.Count);
@@ -53,7 +53,7 @@ public sealed class StirrupDistributionCalculatorTests
     [InlineData(3, 375d, 2250d)]
     public void EachZonedTypeSplitsTheRunIntoItsOwnDenseAndSparseLengths(int typeDis, double expectedL1, double expectedL2)
     {
-        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, typeDis);
+        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, (TieLayout)typeDis);
 
         Assert.Equal(expectedL1, l1, Precision);
         Assert.Equal(expectedL2, l2, Precision);
@@ -62,7 +62,7 @@ public sealed class StirrupDistributionCalculatorTests
     [Fact]
     public void TheEvenTypeHasNoZones()
     {
-        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, 0);
+        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, TieLayout.Even);
 
         Assert.Equal(0d, l1, Precision);
         Assert.Equal(0d, l2, Precision);
@@ -71,7 +71,8 @@ public sealed class StirrupDistributionCalculatorTests
     [Fact]
     public void AZonedLayoutIsDenseThenSparseThenDense()
     {
-        var runs = StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 1, S1 = 100, S2 = 200 });
+        var runs = StirrupDistributionCalculator.Compute(
+            3000, new StirrupSpec { Layout = TieLayout.SparseMiddleHalf, S1 = 100, S2 = 200 });
 
         Assert.Equal(3, runs.Count);
 
@@ -91,7 +92,8 @@ public sealed class StirrupDistributionCalculatorTests
     [Fact]
     public void TheTopDenseZoneRepeatsTheBottomOne()
     {
-        var runs = StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 3, S1 = 100, S2 = 250 });
+        var runs = StirrupDistributionCalculator.Compute(
+            3000, new StirrupSpec { Layout = TieLayout.SparseMiddleThreeQuarters, S1 = 100, S2 = 250 });
 
         Assert.Equal(runs[0].Count, runs[2].Count);
         Assert.Equal(runs[0].Spacing, runs[2].Spacing, Precision);
@@ -105,7 +107,8 @@ public sealed class StirrupDistributionCalculatorTests
         var tooTight = 3000d / RevitRebarLimits.MaxBarPositions;
 
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = tooTight }));
+            () => StirrupDistributionCalculator.Compute(
+                3000, new StirrupSpec { Layout = TieLayout.Even, S = tooTight }));
     }
 
     [Fact]
@@ -114,7 +117,7 @@ public sealed class StirrupDistributionCalculatorTests
         // Sized to land just under the cap. The exact count depends on floating point, so the invariant
         // worth asserting is that it is accepted and stays within what a rebar set can hold.
         var run = StirrupDistributionCalculator.Compute(
-            3000, new StirrupSpec { TypeDis = 0, S = 3000d / (RevitRebarLimits.MaxBarPositions - 2) });
+            3000, new StirrupSpec { Layout = TieLayout.Even, S = 3000d / (RevitRebarLimits.MaxBarPositions - 2) });
 
         var group = Assert.Single(run);
 
@@ -126,24 +129,25 @@ public sealed class StirrupDistributionCalculatorTests
     {
         Assert.Throws<ArgumentOutOfRangeException>(
             () => StirrupDistributionCalculator.Compute(
-                3000, new StirrupSpec { TypeDis = 1, S1 = 0.5, S2 = 200 }));
+                3000, new StirrupSpec { Layout = TieLayout.SparseMiddleHalf, S1 = 0.5, S2 = 200 }));
     }
 
     [Fact]
     public void ZeroOrNegativeSpacingIsRejectedRatherThanLoopingForever()
     {
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = 0 }));
+            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { Layout = TieLayout.Even, S = 0 }));
 
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 1, S1 = 100, S2 = -5 }));
+            () => StirrupDistributionCalculator.Compute(
+                3000, new StirrupSpec { Layout = TieLayout.SparseMiddleHalf, S1 = 100, S2 = -5 }));
     }
 
     [Fact]
     public void WhenRunLengthIsShorterThanSpacingSingleCentredTieIsProduced()
     {
         // 100 mm run with 150 mm spacing: count is (int)(100/150) + 1 = 1 tie, offset is (100 - 0)/2 = 50 mm
-        var runs = StirrupDistributionCalculator.Compute(100, new StirrupSpec { TypeDis = 0, S = 150 });
+        var runs = StirrupDistributionCalculator.Compute(100, new StirrupSpec { Layout = TieLayout.Even, S = 150 });
 
         var run = Assert.Single(runs);
         Assert.Equal(1, run.Count);
@@ -157,7 +161,7 @@ public sealed class StirrupDistributionCalculatorTests
     [InlineData(99)]
     public void UnrecognisedZoneTypeFallsBackToZeroZones(int invalidType)
     {
-        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, invalidType);
+        var (l1, l2) = StirrupDistributionCalculator.ComputeZones(3000, (TieLayout)invalidType);
 
         Assert.Equal(0d, l1, Precision);
         Assert.Equal(0d, l2, Precision);
@@ -167,7 +171,7 @@ public sealed class StirrupDistributionCalculatorTests
     public void ASpacingSoSmallTheCountOverflowsAnIntIsStillRejected()
     {
         var error = Assert.Throws<ArgumentOutOfRangeException>(
-            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = 1e-6 }));
+            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { Layout = TieLayout.Even, S = 1e-6 }));
 
         Assert.Equal("spacing", error.ParamName);
     }
@@ -178,7 +182,8 @@ public sealed class StirrupDistributionCalculatorTests
     public void ASpacingThatIsNotAFiniteNumberIsRejected(double spacing)
     {
         var error = Assert.Throws<ArgumentOutOfRangeException>(
-            () => StirrupDistributionCalculator.Compute(3000, new StirrupSpec { TypeDis = 0, S = spacing }));
+            () => StirrupDistributionCalculator.Compute(
+                3000, new StirrupSpec { Layout = TieLayout.Even, S = spacing }));
 
         Assert.Equal("S", error.ParamName);
     }

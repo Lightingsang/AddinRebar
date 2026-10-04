@@ -49,7 +49,10 @@ public static class DefaultRebarSpecBuilder
             {
                 Layout = layout,
                 Splices = splices,
-                Stirrups = new StirrupSpec { TypeDis = 0, S = spacing, S1 = spacing / 2, S2 = spacing, IsTiesUp = false },
+                Stirrups = new StirrupSpec
+                {
+                    Layout = TieLayout.Even, S = spacing, S1 = spacing / 2, S2 = spacing, IsTiesUp = false
+                },
                 Ties = new AdditionalTieSpec(),
                 MainBarType = chosen,
                 StirrupBarType = tieType,

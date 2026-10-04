@@ -73,7 +73,7 @@ public static class ColumnSpecRules
             return "the beam is as deep as the column, leaving nowhere to put ties.";
         }
 
-        var spacings = stirrups.TypeDis == 0
+        var spacings = stirrups.Layout == TieLayout.Even
             ? new[] { stirrups.S }
             : new[] { stirrups.S1, stirrups.S2 };
 

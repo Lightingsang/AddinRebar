@@ -72,7 +72,7 @@ public sealed class DistributionDiagram : FrameworkElement
 
         var spec = new HPRebar.Core.ColumnRebar.Models.StirrupSpec
         {
-            TypeDis = DistributionType,
+            Layout = (HPRebar.Core.ColumnRebar.Models.TieLayout)DistributionType,
             S = SampleSparseSpacing,
             S1 = SampleDenseSpacing,
             S2 = SampleSparseSpacing,

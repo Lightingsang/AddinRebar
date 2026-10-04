@@ -53,9 +53,9 @@ public static class SectionViewCreator
     {
         var run = StirrupDistributionCalculator.ComputeRunLength(section, spec.IsTiesUp);
 
-        if (spec.TypeDis == 0) return run * 0.5;
+        if (spec.Layout == TieLayout.Even) return run * 0.5;
 
-        var (dense, sparse) = StirrupDistributionCalculator.ComputeZones(run, spec.TypeDis);
+        var (dense, sparse) = StirrupDistributionCalculator.ComputeZones(run, spec.Layout);
 
         return dense + sparse * 0.5;
     }

@@ -34,7 +34,7 @@ public sealed class ColumnElementCountTests
     public void Planned_ZonedTiesWithCrossTies_AddsGroupsCrossTiesAndBars()
     {
         var section = TestSections.Rectangle();
-        var stirrups = new StirrupSpec { TypeDis = 1, S1 = 100, S2 = 200 };
+        var stirrups = new StirrupSpec { Layout = TieLayout.SparseMiddleHalf, S1 = 100, S2 = 200 };
         var ties = new AdditionalTieSpec { AddH = true, TypeH = 1, NH = 2 };
 
         var planned = ColumnElementCount.Planned(section, stirrups, ties, barCount: 10);

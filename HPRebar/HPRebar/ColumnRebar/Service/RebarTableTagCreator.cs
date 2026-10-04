@@ -95,7 +95,7 @@ public static class RebarTableTagCreator
     }
 
     /// <summary>The spacing worth quoting: the even one, or the dense end spacing for a zoned layout.</summary>
-    private static double Spacing(StirrupSpec spec) => spec.TypeDis == 0 ? spec.S : spec.S1;
+    private static double Spacing(StirrupSpec spec) => spec.Layout == TieLayout.Even ? spec.S : spec.S1;
 
     /// <summary>One row: a bordered two-cell box with its label and value.</summary>
     private static void WriteRow(

@@ -353,3 +353,11 @@
 - **Review:** no findings
 - **Tests:** `BeamMainBarCalculatorTests` (+9 cases for the two rules); the painter itself is WPF in the add-in — CHƯA TEST in Revit
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1241/1241
+
+### 2026-10-04 — Wave 4 · Column · tie layout enum (AUD-037, first batch)
+- **Plan:** `plans/261004-0852-wave4-revit-free-viewmodel-contracts/` phase 4; user decision 2026-10-04: Wave 0.3 golden runs before phases 1–3, this phase meanwhile
+- **Change:** new `HPRebar.Core/ColumnRebar/Models/TieLayout` (`Even`, `SparseMiddleHalf`, `SparseMiddleTwoThirds`, `SparseMiddleThreeQuarters` — the window's list order and numbers); `StirrupSpec.TypeDis` (int) → `StirrupSpec.Layout`; `StirrupDistributionCalculator.ComputeZones` takes the enum; the window keeps its `int` list index (`DistributionType`, bound to `SelectedIndex`) and casts at the spec boundary (`ColumnSpecEditor`, `DistributionDiagram`); services compare with `TieLayout.Even`
+- **Behaviour:** none — every value, out-of-range ones included, takes the same branch; the spec is not serialized
+- **Batch split:** the cross-tie kind (`TypeH`/`TypeV`, which also picks the cross-tie shape and is offset by one for circular columns) and the dowel style (typed as a free number in a grid, and the schedule groups distinct non-zero numbers apart) follow in their own batches — the dowel one needs a decision on what non-zero numbers mean
+- **Review:** pass, no findings · **Tests:** Core 1241/1241, every characterization hash unchanged
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Golden run:** CHƯA TEST

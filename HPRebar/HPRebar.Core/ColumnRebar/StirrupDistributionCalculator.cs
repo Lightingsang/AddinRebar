@@ -24,16 +24,16 @@ public static class StirrupDistributionCalculator
     }
 
     /// <summary>
-    ///     Zone lengths for a dense/sparse/dense layout. Both are zero for the even layout (TypeDis 0),
+    ///     Zone lengths for a dense/sparse/dense layout. Both are zero for the even layout,
     ///     and the second dense zone always repeats the first.
     /// </summary>
-    public static (double L1, double L2) ComputeZones(double runLength, int typeDis)
+    public static (double L1, double L2) ComputeZones(double runLength, TieLayout layout)
     {
-        switch (typeDis)
+        switch (layout)
         {
-            case 1: return (runLength / 4, runLength / 2);
-            case 2: return (runLength / 6, runLength * 4.0 / 6);
-            case 3: return (runLength / 8, runLength * 6.0 / 8);
+            case TieLayout.SparseMiddleHalf: return (runLength / 4, runLength / 2);
+            case TieLayout.SparseMiddleTwoThirds: return (runLength / 6, runLength * 4.0 / 6);
+            case TieLayout.SparseMiddleThreeQuarters: return (runLength / 8, runLength * 6.0 / 8);
             default: return (0d, 0d);
         }
     }
@@ -54,7 +54,7 @@ public static class StirrupDistributionCalculator
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
 
-        if (spec.TypeDis == 0)
+        if (spec.Layout == TieLayout.Even)
         {
             RequirePositiveSpacing(spec.S, nameof(spec.S));
 
@@ -74,7 +74,7 @@ public static class StirrupDistributionCalculator
         RequirePositiveSpacing(spec.S1, nameof(spec.S1));
         RequirePositiveSpacing(spec.S2, nameof(spec.S2));
 
-        var (l1, l2) = ComputeZones(runLength, spec.TypeDis);
+        var (l1, l2) = ComputeZones(runLength, spec.Layout);
 
         var denseCount = RequireUsableCount(Math.Truncate(l1 / spec.S1), spec.S1);
         var sparseCount = RequireUsableCount(Math.Truncate(l2 / spec.S2), spec.S2);

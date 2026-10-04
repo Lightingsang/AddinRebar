@@ -6,7 +6,7 @@ namespace HPRebar.Core.Tests.ColumnRebar;
 
 public sealed class ColumnSpecRulesTests
 {
-    private static readonly StirrupSpec Uniform150 = new() { TypeDis = 0, S = 150 };
+    private static readonly StirrupSpec Uniform150 = new() { Layout = TieLayout.Even, S = 150 };
     private static readonly AdditionalTieSpec NoTies = new();
 
     [Theory]
@@ -73,7 +73,7 @@ public sealed class ColumnSpecRulesTests
     [InlineData(1, 150.0, 100.0, 0.0)]
     public void FirstProblem_ZeroSpacing_AsksForPositiveSpacing(int typeDis, double s, double s1, double s2)
     {
-        var stirrups = new StirrupSpec { TypeDis = typeDis, S = s, S1 = s1, S2 = s2 };
+        var stirrups = new StirrupSpec { Layout = (TieLayout)typeDis, S = s, S1 = s1, S2 = s2 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
 
@@ -83,7 +83,7 @@ public sealed class ColumnSpecRulesTests
     [Fact]
     public void FirstProblem_SpacingNeedingTooManyTies_ReportsRevitLimit()
     {
-        var stirrups = new StirrupSpec { TypeDis = 0, S = 1 };
+        var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = 1 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
 
@@ -125,7 +125,7 @@ public sealed class ColumnSpecRulesTests
     [Fact]
     public void FirstProblem_BadSpacingAndIncompleteCrossTie_ReportsTheSpacingFirst()
     {
-        var stirrups = new StirrupSpec { TypeDis = 0, S = 0 };
+        var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = 0 };
         var ties = new AdditionalTieSpec { AddH = true, TypeH = 0, AH = 0 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, ties);
@@ -140,7 +140,7 @@ public sealed class ColumnSpecRulesTests
     {
         var section = TestSections.Rectangle();
         double run = StirrupDistributionCalculator.ComputeRunLength(section, tiesUp: false);
-        var stirrups = new StirrupSpec { TypeDis = 0, S = run / (intervals + 0.5) };
+        var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = run / (intervals + 0.5) };
 
         var problem = ColumnSpecRules.FirstProblem(section, TestSections.Grid(), stirrups, NoTies);
 
@@ -181,7 +181,7 @@ public sealed class ColumnSpecRulesTests
     [Fact]
     public void FirstProblem_TinySpacing_IsRefusedAtRevitsLimit()
     {
-        var stirrups = new StirrupSpec { TypeDis = 0, S = 1e-6 };
+        var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = 1e-6 };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
 
@@ -193,7 +193,7 @@ public sealed class ColumnSpecRulesTests
     [InlineData(double.PositiveInfinity)]
     public void FirstProblem_TieSpacingNotAFiniteNumber_AsksForPositiveSpacing(double spacing)
     {
-        var stirrups = new StirrupSpec { TypeDis = 0, S = spacing };
+        var stirrups = new StirrupSpec { Layout = TieLayout.Even, S = spacing };
 
         var problem = ColumnSpecRules.FirstProblem(TestSections.Rectangle(), TestSections.Grid(), stirrups, NoTies);
 

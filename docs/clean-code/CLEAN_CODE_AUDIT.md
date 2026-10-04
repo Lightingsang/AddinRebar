@@ -121,7 +121,7 @@
 | AUD-034 | [PCC] PCC-105 | Medium | `HPRebar.McpBridge/McpBridgeExternalEventHandler.cs` (221) | Event handler + executor + guard/compile + busy gate + cancel + audit + doc title | split pipe-side executor / Revit-thread queue · W3 |
 | AUD-035 | [PCC] PCC-142, 148 | Low | `KataExport/ViewModel/IKataExportRunner.cs:13-28` | One runner mixes export and rebar roles | split per role after ADR-0006 · W4 |
 | AUD-036 | [PCC] PCC-118, 119 | Low | `KataExportExternalEventHandler.cs:96-141` 73-line switch over request kinds | Adding a kind edits enum + switch + interface | request objects carry their action · W4 |
-| AUD-037 | [PCC] PCC-079 · R7 | Medium | `ColumnRebar/Model/ValidationMessages.cs:11-33`, `RebarShapeResolver.cs:64-69`, raw-int `TypeDis/TypeH/TypeV/*DowelsType`, `CrossTie(spec.TypeV + 1)` | Int codes spread across files | enums with meaning · W4 |
+| AUD-037 🟡 W4 (tie layout done; cross-tie kind and dowel style open) | [PCC] PCC-079 · R7 | Medium | `ColumnRebar/Model/ValidationMessages.cs:11-33`, `RebarShapeResolver.cs:64-69`, raw-int `TypeDis/TypeH/TypeV/*DowelsType`, `CrossTie(spec.TypeV + 1)` | Int codes spread across files | enums with meaning · W4 |
 | AUD-038 | [PCC] PCC-154, 157 | Medium | `ColumnRebarOrchestrator.cs:103-174` and Beam/Foundation orchestrators | Orchestrators hard-wire static creators → testable only in Revit, and the in-Revit suite never runs | seams only where tests need them (ADR-0005) · W7 |
 
 ### 3.5 Static and hidden dependencies

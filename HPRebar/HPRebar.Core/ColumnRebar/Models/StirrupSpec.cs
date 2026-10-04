@@ -4,10 +4,10 @@ namespace HPRebar.Core.ColumnRebar.Models;
 public sealed record StirrupSpec
 {
     /// <summary>
-    ///     0 spaces ties evenly at <see cref="S"/> over the whole run. 1, 2 and 3 split the run into a
-    ///     dense/sparse/dense pattern of growing middle length.
+    /// Even spacing at <see cref="S"/>, or dense ends at <see cref="S1"/> around a sparse middle at
+    /// <see cref="S2"/>.
     /// </summary>
-    public int TypeDis { get; init; }
+    public TieLayout Layout { get; init; }
 
     /// <summary>Spacing for the even layout.</summary>
     public double S { get; init; }

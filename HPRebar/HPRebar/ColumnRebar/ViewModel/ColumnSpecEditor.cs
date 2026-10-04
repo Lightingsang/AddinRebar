@@ -100,7 +100,7 @@ public sealed partial class ColumnSpecEditor : ObservableObject
         StirrupBarType = spec.StirrupBarType;
         TieBarType = spec.TieBarType;
 
-        DistributionType = spec.Stirrups.TypeDis;
+        DistributionType = (int)spec.Stirrups.Layout;
         Spacing = spec.Stirrups.S;
         SpacingDense = spec.Stirrups.S1;
         SpacingSparse = spec.Stirrups.S2;
@@ -171,7 +171,7 @@ public sealed partial class ColumnSpecEditor : ObservableObject
 
     public StirrupSpec ToStirrupSpec() => new()
     {
-        TypeDis = DistributionType,
+        Layout = (TieLayout)DistributionType,
         S = Spacing,
         S1 = SpacingDense,
         S2 = SpacingSparse,
