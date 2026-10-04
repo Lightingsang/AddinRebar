@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HPRebar.Core.BeamRebar.Models;
 using HPRebar.Core.Shared;
 
@@ -7,8 +8,8 @@ namespace HPRebar.Core.BeamRebar.Calculators;
 
 /// <summary>
 /// What has to hold before a beam run can be reinforced: two bars or more top and bottom, positive spacings and
-/// cover, chosen bar types, view names Revit accepts, and spans wide and deep enough for the bars and a stirrup
-/// count Revit will take.
+/// cover, chosen bar types, view names Revit accepts, spans wide and deep enough for the bars, and stirrup,
+/// side-bar and cross-tie counts Revit will take.
 /// </summary>
 public static class BeamSpecRules
 {
@@ -18,6 +19,9 @@ public static class BeamSpecRules
     /// </summary>
     /// <param name="mainBars">Top and bottom bar counts and diameters.</param>
     /// <param name="stirrups">Spacings, node spacing, cover and stirrup diameter.</param>
+    /// <param name="sideBars">
+    /// Skin-bar and cross-tie settings, checked only when a span is deep enough for them.
+    /// </param>
     /// <param name="barTypesChosen">
     /// Whether the top, bottom and stirrup bar types are all chosen; the bar diameters in the specs only mean
     /// something when they are, and nothing after this check is run when they are not.
@@ -27,6 +31,7 @@ public static class BeamSpecRules
     public static string? FirstProblem(
         BeamMainBarSpec mainBars,
         BeamStirrupSpec stirrups,
+        BeamSideBarSpec sideBars,
         bool barTypesChosen,
         string viewNames,
         IReadOnlyList<BeamSpan> spans)
@@ -39,6 +44,11 @@ public static class BeamSpecRules
         if (stirrups is null)
         {
             throw new ArgumentNullException(nameof(stirrups));
+        }
+
+        if (sideBars is null)
+        {
+            throw new ArgumentNullException(nameof(sideBars));
         }
 
         if (viewNames is null)
@@ -79,6 +89,17 @@ public static class BeamSpecRules
             return "Column node stirrup spacing must be greater than zero.";
         }
 
+        bool sideBarsNeeded = sideBars.AutoSkinBars && spans.Any(span => NeedsSideBars(span, sideBars));
+        if (sideBarsNeeded && !FiniteNumber.IsPositive(sideBars.MaxVerticalSpacing))
+        {
+            return "Side bar vertical spacing must be greater than zero.";
+        }
+
+        if (sideBarsNeeded && sideBars.IncludeCrossTies && !FiniteNumber.IsPositive(sideBars.CrossTieSpacing))
+        {
+            return "Cross-tie spacing must be greater than zero.";
+        }
+
         if (RevitViewNames.TryFindForbiddenCharacter(viewNames, out var character))
         {
             return $"View names cannot contain '{character}' (Revit refuses {RevitViewNames.ForbiddenCharacters}).";
@@ -88,7 +109,8 @@ public static class BeamSpecRules
             + Math.Max(mainBars.TopDiameter, mainBars.BottomDiameter);
         foreach (var span in spans)
         {
-            string? problem = SpanProblem(span, stirrups, minimumSize);
+            string? problem = SpanProblem(span, stirrups, minimumSize)
+                ?? SideBarProblem(span, mainBars, stirrups, sideBars);
             if (problem is not null)
             {
                 return problem;
@@ -124,6 +146,41 @@ public static class BeamSpecRules
 
         return null;
     }
+
+    /// <summary>
+    /// Side-bar rows and cross-ties per row of a deep span, counted the way the calculator lays them out (with the
+    /// window's cover, the stirrup and the bottom bar), against Revit's bar limit.
+    /// </summary>
+    private static string? SideBarProblem(
+        BeamSpan span, BeamMainBarSpec mainBars, BeamStirrupSpec stirrups, BeamSideBarSpec sideBars)
+    {
+        if (!sideBars.AutoSkinBars || !NeedsSideBars(span, sideBars))
+        {
+            return null;
+        }
+
+        double rows = BeamSideBarCalculator.CountRows(
+            span.Height, stirrups.Cover, stirrups.Diameter, mainBars.BottomDiameter, sideBars.MaxVerticalSpacing);
+        if (rows > RevitRebarLimits.MaxBarPositions)
+        {
+            return $"Span {span.Name}: Side bar spacing produces {rows:0} rows, exceeding the {RevitRebarLimits.MaxBarPositions}-bar limit.";
+        }
+
+        double ties = BeamSideBarCalculator.CrossTiesPerRow(span.LengthClear, sideBars.CrossTieSpacing);
+        if (sideBars.IncludeCrossTies && ties > RevitRebarLimits.MaxBarPositions)
+        {
+            return $"Span {span.Name}: Cross-tie spacing produces {ties:0} ties per row, exceeding the {RevitRebarLimits.MaxBarPositions}-bar limit.";
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Whether the calculator gives this span side bars: not shallower than the user's threshold (a NaN threshold
+    /// skips nothing there either) and at least the 700 mm the row count starts from.
+    /// </summary>
+    private static bool NeedsSideBars(BeamSpan span, BeamSideBarSpec sideBars) =>
+        !(span.Height < sideBars.DepthThreshold) && span.Height >= BeamSideBarCalculator.HeightThresholdMm;
 
     /// <summary>
     /// Stirrups needed over the whole clear span at one spacing: a generous bound on any zone. Kept in double so a

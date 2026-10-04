@@ -393,7 +393,7 @@ public sealed partial class BeamRebarSession : ObservableObject
     {
         bool barTypesChosen = TopBarType is not null && BottomBarType is not null && StirrupBarType is not null;
         string? problem = BeamSpecRules.FirstProblem(
-            ToMainBarSpec(), ToStirrupSpec(), barTypesChosen, ViewNamesToCreate(), Stack.Spans);
+            ToMainBarSpec(), ToStirrupSpec(), ToSideBarSpec(), barTypesChosen, ViewNamesToCreate(), Stack.Spans);
 
         errorMessage = problem ?? string.Empty;
         return problem is null;
@@ -413,19 +413,7 @@ public sealed partial class BeamRebarSession : ObservableObject
                 SupportTopBars = supportConfigs,
                 SpanBottomBars = spanConfigs
             },
-            SideBars = new BeamSideBarSpec
-            {
-                AutoSkinBars = AutoSkinBars,
-                DepthThreshold = DepthThreshold,
-                Diameter = SideBarType?.DiameterMm ?? 12.0,
-                MaxVerticalSpacing = MaxVerticalSpacing,
-                Cover = Cover,
-                IncludeCrossTies = IncludeCrossTies,
-                CrossTieDiameter = CrossTieBarType?.DiameterMm ?? 8.0,
-                CrossTieSpacing = CrossTieSpacing,
-                SideBarTypeName = SideBarType?.Name ?? string.Empty,
-                CrossTieBarTypeName = CrossTieBarType?.Name ?? string.Empty
-            },
+            SideBars = ToSideBarSpec(),
             SpecialBars = new BeamSpecialBarSpec
             {
                 EnableHangingStirrups = EnableHangingStirrups,
@@ -484,6 +472,20 @@ public sealed partial class BeamRebarSession : ObservableObject
         MaxStockLength = MaxStockLength,
         LapFactor = LapFactor,
         EnableStagger = EnableStagger
+    };
+
+    private BeamSideBarSpec ToSideBarSpec() => new()
+    {
+        AutoSkinBars = AutoSkinBars,
+        DepthThreshold = DepthThreshold,
+        Diameter = SideBarType?.DiameterMm ?? 12.0,
+        MaxVerticalSpacing = MaxVerticalSpacing,
+        Cover = Cover,
+        IncludeCrossTies = IncludeCrossTies,
+        CrossTieDiameter = CrossTieBarType?.DiameterMm ?? 8.0,
+        CrossTieSpacing = CrossTieSpacing,
+        SideBarTypeName = SideBarType?.Name ?? string.Empty,
+        CrossTieBarTypeName = CrossTieBarType?.Name ?? string.Empty
     };
 
     /// <summary>The detail view name when any view is made, followed by the section prefix when sections are.</summary>

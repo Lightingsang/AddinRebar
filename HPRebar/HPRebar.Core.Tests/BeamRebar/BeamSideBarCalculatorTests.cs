@@ -185,4 +185,51 @@ public sealed class BeamSideBarCalculatorTests
         // 3 rows * 2 sides = 6 bars
         Assert.Equal(6, bars.Count);
     }
+
+    [Theory]
+    [InlineData(0.01)]
+    [InlineData(1e-9)]   // the row count passes int.MaxValue
+    public void ComputeRowCount_SpacingNeedingMoreRowsThanRevitTakes_Throws(double spacing)
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamSideBarCalculator.ComputeRowCount(900, maxVerticalSpacingMm: spacing));
+
+        Assert.Equal("maxVerticalSpacingMm", error.ParamName);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    [InlineData(0.0)]
+    public void ComputeRowCount_SpacingNotAPositiveNumber_UsesThe300MillimetreDefault(double spacing)
+    {
+        Assert.Equal(
+            BeamSideBarCalculator.ComputeRowCount(900),
+            BeamSideBarCalculator.ComputeRowCount(900, maxVerticalSpacingMm: spacing));
+    }
+
+    [Theory]
+    [InlineData(0.01)]
+    [InlineData(1e-9)]   // the tie count passes int.MaxValue
+    public void ComputeCrossTies_SpacingNeedingMoreTiesThanRevitTakes_Throws(double spacing)
+    {
+        var stack = TestBeamData.DeepBeam(height: 900);
+        var spec = new BeamSideBarSpec { IncludeCrossTies = true, CrossTieSpacing = spacing };
+
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamSideBarCalculator.ComputeCrossTies(stack, spec, 8.0, 20.0));
+    }
+
+    [Fact]
+    public void ComputeCrossTies_InfiniteSpacing_UsesThe400MillimetreDefault()
+    {
+        var stack = TestBeamData.DeepBeam(height: 900);
+        var infinite = new BeamSideBarSpec { IncludeCrossTies = true, CrossTieSpacing = double.PositiveInfinity };
+        var standard = new BeamSideBarSpec { IncludeCrossTies = true, CrossTieSpacing = 400.0 };
+
+        var ties = BeamSideBarCalculator.ComputeCrossTies(stack, infinite, 8.0, 20.0);
+
+        Assert.Equal(BeamSideBarCalculator.ComputeCrossTies(stack, standard, 8.0, 20.0).Count, ties.Count);
+        Assert.All(ties, tie => Assert.False(double.IsNaN(tie.Polyline.Points[0].X)));
+    }
 }

@@ -16,6 +16,13 @@ public sealed class BeamSpecRulesTests
     private static readonly BeamSpan Span =
         new(index: 0, name: "D1", lengthCenter: 6000, width: 300, height: 600, clearLength: 5600);
 
+    private static readonly BeamSideBarSpec SideBars = new()
+    {
+        AutoSkinBars = true, DepthThreshold = 700, MaxVerticalSpacing = 300, IncludeCrossTies = true, CrossTieSpacing = 400
+    };
+
+    private static readonly BeamSpan DeepSpan = Span with { Height = 900 };
+
     [Fact]
     public void FirstProblem_BuildableRun_ReturnsNull()
     {
@@ -170,7 +177,7 @@ public sealed class BeamSpecRulesTests
     {
         var spans = new[] { Span, Span with { Name = "D2", Width = 80 } };
 
-        var problem = BeamSpecRules.FirstProblem(MainBars, Stirrups, true, string.Empty, spans);
+        var problem = BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, string.Empty, spans);
 
         Assert.StartsWith("Span D2:", problem);
     }
@@ -213,10 +220,117 @@ public sealed class BeamSpecRulesTests
     {
         var spans = new[] { Span };
 
-        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(null!, Stirrups, true, "", spans));
-        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, null!, true, "", spans));
-        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, Stirrups, true, null!, spans));
-        Assert.Throws<ArgumentNullException>(() => BeamSpecRules.FirstProblem(MainBars, Stirrups, true, "", null!));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(null!, Stirrups, SideBars, true, "", spans));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(MainBars, null!, SideBars, true, "", spans));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, null!, true, "", spans));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, null!, spans));
+        Assert.Throws<ArgumentNullException>(
+            () => BeamSpecRules.FirstProblem(MainBars, Stirrups, SideBars, true, "", null!));
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_DeepSpanWithoutAVerticalSideBarSpacing_AsksForOne(double spacing)
+    {
+        var problem = Check(span: DeepSpan, sideBars: SideBars with { MaxVerticalSpacing = spacing });
+
+        Assert.Equal("Side bar vertical spacing must be greater than zero.", problem);
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-400.0)]
+    [InlineData(double.NaN)]
+    public void FirstProblem_DeepSpanWithCrossTiesButNoSpacing_AsksForOne(double spacing)
+    {
+        var problem = Check(span: DeepSpan, sideBars: SideBars with { CrossTieSpacing = spacing });
+
+        Assert.Equal("Cross-tie spacing must be greater than zero.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_CrossTiesSwitchedOff_DoNotNeedASpacing()
+    {
+        Assert.Null(Check(span: DeepSpan, sideBars: SideBars with { IncludeCrossTies = false, CrossTieSpacing = 0 }));
+    }
+
+    [Fact]
+    public void FirstProblem_NoSpanDeepEnough_DoesNotCheckTheSideBarSettings()
+    {
+        Assert.Null(Check(sideBars: SideBars with { MaxVerticalSpacing = 0, CrossTieSpacing = 0 }));
+    }
+
+    [Fact]
+    public void FirstProblem_SideBarsSwitchedOff_DoNotCheckTheirSettings()
+    {
+        Assert.Null(Check(span: DeepSpan, sideBars: SideBars with { AutoSkinBars = false, MaxVerticalSpacing = 0 }));
+    }
+
+    [Theory]
+    [InlineData(0.01)]
+    [InlineData(1e-9)]   // the row count passes int.MaxValue
+    public void FirstProblem_SideBarSpacingNeedingTooManyRows_ReportsTheRowCount(double spacing)
+    {
+        var problem = Check(span: DeepSpan, sideBars: SideBars with { MaxVerticalSpacing = spacing });
+
+        Assert.StartsWith("Span D1: Side bar spacing produces ", problem);
+        Assert.EndsWith(" rows, exceeding the 1002-bar limit.", problem);
+    }
+
+    [Theory]
+    [InlineData(0.01)]
+    [InlineData(1e-9)]   // the tie count passes int.MaxValue
+    public void FirstProblem_CrossTieSpacingNeedingTooManyTies_ReportsTheTieCount(double spacing)
+    {
+        var problem = Check(span: DeepSpan, sideBars: SideBars with { CrossTieSpacing = spacing });
+
+        Assert.StartsWith("Span D1: Cross-tie spacing produces ", problem);
+        Assert.EndsWith(" ties per row, exceeding the 1002-bar limit.", problem);
+    }
+
+    [Fact]
+    public void FirstProblem_DeepSpanWithSensibleSideBarSettings_IsFine()
+    {
+        Assert.Null(Check(span: DeepSpan));
+    }
+
+    [Theory]
+    [InlineData(1002.5, true)]    // 1002 rows: accepted
+    [InlineData(1003.5, false)]   // 1003 rows: refused
+    public void FirstProblem_SideBarRowsAtTheLimit_RefusesExactlyWhatTheCalculatorRefuses(
+        double spacesPerClearDepth, bool accepted)
+    {
+        // Clear depth between the main bars: 900 − 2 × (25 cover + 8 stirrup + 10 half bar) = 814 mm
+        double spacing = 814.0 / spacesPerClearDepth;
+
+        var problem = Check(span: DeepSpan, sideBars: SideBars with { MaxVerticalSpacing = spacing });
+        var calculatorAccepts = Record.Exception(
+            () => BeamSideBarCalculator.ComputeRowCount(900, 25, 8, 20, spacing)) is null;
+
+        Assert.Equal(accepted, problem is null);
+        Assert.Equal(accepted, calculatorAccepts);
+    }
+
+    [Fact]
+    public void FirstProblem_SpanShallowerThan700ButOverTheUserThreshold_DoesNotCheckTheSideBarSettings()
+    {
+        var sideBars = SideBars with { DepthThreshold = 500, MaxVerticalSpacing = 0 };
+
+        Assert.Null(Check(span: Span with { Height = 600 }, sideBars: sideBars));
+    }
+
+    [Fact]
+    public void FirstProblem_NaNDepthThreshold_StillChecksTheDeepSpansLikeTheCalculator()
+    {
+        var sideBars = SideBars with { DepthThreshold = double.NaN, MaxVerticalSpacing = 0 };
+
+        Assert.Equal("Side bar vertical spacing must be greater than zero.", Check(span: DeepSpan, sideBars: sideBars));
     }
 
     private static string? Check(
@@ -224,9 +338,15 @@ public sealed class BeamSpecRulesTests
         BeamStirrupSpec? stirrups = null,
         bool barTypesChosen = true,
         string viewNames = "Beam B1S-",
-        BeamSpan? span = null) =>
+        BeamSpan? span = null,
+        BeamSideBarSpec? sideBars = null) =>
         BeamSpecRules.FirstProblem(
-            mainBars ?? MainBars, stirrups ?? Stirrups, barTypesChosen, viewNames, new[] { span ?? Span });
+            mainBars ?? MainBars,
+            stirrups ?? Stirrups,
+            sideBars ?? SideBars,
+            barTypesChosen,
+            viewNames,
+            new[] { span ?? Span });
 
     /// <summary>A spacing so small the stirrup count no longer fits an int is still refused.</summary>
     [Fact]
