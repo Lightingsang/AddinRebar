@@ -315,3 +315,11 @@
 - **Review:** APPROVE 8/10; old vs new over ~1M inputs: 0 differences in range, the window refuses exactly what the calculator throws on; applied: one `NeedsSideBars` (user threshold, NaN-safe like the calculator, and the 700 mm row-count start) for both the spacing and the count checks, messages say "the 1002-bar limit" (separate Rebars, not one set), braces in the side-bar loops, tests at 1002 / 1003 rows against the calculator, below 700 mm and a NaN threshold; logged B-40 (rows × cross-ties per span not capped — user decision)
 - **Tests:** `BeamSpecRulesTests` (+20 cases), `BeamSideBarCalculatorTests` (+8)
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1197/1197 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-38 — the elevation preview can no longer freeze Revit on a runaway start offset
+- **Decision (user, 2026-10-04):** fix
+- **Change:** `BeamElevationPainter` skips a span's stirrup ticks while the start offset is not a finite number (`FiniteNumber.IsFinite`) and draws at most `MaxStirrupTicksPerSpan` (5000) ticks per span — far more than a span shows at the 12 px minimum step
+- **Behaviour change (intended):** typing −∞ or a huge negative offset no longer hangs the UI thread; every preview with a sensible offset is drawn as before
+- **Review:** no findings (loop ends for NaN / ±∞ spacings and offsets, normal previews unchanged, no other runaway loop in the painter)
+- **Tests:** none automated — WPF painter in the add-in, outside `HPRebar.Core.Tests`; CHƯA TEST in Revit
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1197/1197 (unchanged)

@@ -5,6 +5,7 @@ using System.Windows.Media;
 using HPRebar.BeamRebar.ViewModel;
 using HPRebar.Core.BeamRebar.Calculators;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 // Alias WPF types against Revit SDK implicit usings
 using Point = System.Windows.Point;
@@ -21,6 +22,12 @@ namespace HPRebar.BeamRebar.View.Controls;
 /// </summary>
 internal sealed class BeamElevationPainter
 {
+    /// <summary>
+    /// Most stirrup ticks drawn in one span; far more than a span can show at the 12 px minimum step, so it only
+    /// stops a runaway start offset.
+    /// </summary>
+    private const int MaxStirrupTicksPerSpan = 5000;
+
     private readonly CanvasPalette _palette;
     private readonly BeamCanvasTransform _transform;
     private readonly BeamRebarSession _session;
@@ -187,11 +194,19 @@ internal sealed class BeamElevationPainter
                 s2 = s1;
             }
 
+            // The box updates on every keystroke and this redraws before the window validates it: a start offset
+            // of -∞ would never reach the right face, and a huge negative one would take billions of steps.
+            double startOffset = _session.StirrupStartOffset;
+            if (!FiniteNumber.IsFinite(startOffset))
+            {
+                continue;
+            }
+
             // Render sample stirrup vertical tick lines (capped for high performance)
             double stepPx = Math.Max(4.0, s1 * _transform.Scale);
-            double xCur = leftFaceX + _session.StirrupStartOffset;
+            double xCur = leftFaceX + startOffset;
 
-            while (xCur < rightFaceX)
+            for (int tick = 0; tick < MaxStirrupTicksPerSpan && xCur < rightFaceX; tick++)
             {
                 double spacing = (xCur < z1End || xCur > z2End) ? s1 : s2;
                 double screenX = _transform.ToScreenX(xCur);
