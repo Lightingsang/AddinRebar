@@ -299,3 +299,11 @@
 - **Review:** 8.5/10; probe old vs new over 300 000 random inputs: the new rule only ever merges more (one exact-100 mm edge of the old round-half-to-even buckets aside); applied: the boundary test asserts which support survives, a test either side of the run origin; logged B-37 (the lower centre survives whatever the element type); overlapping supports 100 mm or more apart stay with B-33; a non-finite centre is to be refused with B-26
 - **Tests:** `BeamSupportLayoutTests` — the grid-split pin replaced by: 20 mm across a 100 mm mark → one support, 99.9 / 100.0 boundary, a 60 mm-step row keeps 6000 and 6120 (all three fail on the old code), finds either side of the origin
 - **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1150/1150 · **Golden run:** CHƯA TEST
+
+### 2026-10-04 — Fix track B-26 — NaN and infinity refused for Beam spacings, offsets and support centres
+- **Decision (user, 2026-10-04):** refuse NaN and ∞
+- **Change:** new `HPRebar.Core/Shared/FiniteNumber` (`IsFinite`, `IsPositive`; netstandard2.0 has no `double.IsFinite`); `BeamStirrupDistributionCalculator.ComputeSpanRuns` refuses a non-finite clear span, spacing or start offset and `ComputeNodeRun` a non-finite spacing; `BeamSpecRules` checks spacings and cover with `IsPositive` (same message), adds "Stirrup start offset must be a number." and checks node spacing with `IsPositive`; `BeamSupportLayout.Arrange` refuses a non-finite support centre
+- **Behaviour change (intended):** NaN / ∞ typed into the Beam window is refused with a message instead of producing NaN stirrup positions or a `List` capacity error; every finite input gives the same result and message as before
+- **Review:** APPROVE 8.5/10, finite inputs unchanged; applied: ±∞ start-offset cases, the NaN-centre comment corrected, test order; `FiniteNumber` in Core/Shared confirmed (KataExport and KataRebar write the same check by hand); logged B-38 (the elevation preview freezes Revit on a −∞ or huge negative start offset) and B-39 (other editable inputs still unchecked for NaN / ∞)
+- **Tests:** 22 new cases (window rules, calculator span and node runs, support layout), each failing on the old code; the NaN pin replaced
+- **Build:** Debug.R23 ✅ R26 ✅ R27 ✅ · **Tests:** Core 1171/1171 · **Golden run:** CHƯA TEST

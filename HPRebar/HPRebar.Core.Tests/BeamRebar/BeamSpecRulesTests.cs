@@ -175,11 +175,37 @@ public sealed class BeamSpecRulesTests
         Assert.StartsWith("Span D2:", problem);
     }
 
-    /// <summary>A NaN spacing slips past the "not positive" test; pinned until it is guarded.</summary>
-    [Fact]
-    public void FirstProblem_NaNSpacing_IsNotRefused()
+    [Theory]
+    [InlineData(double.NaN, 200.0)]
+    [InlineData(double.PositiveInfinity, 200.0)]
+    [InlineData(100.0, double.NaN)]
+    [InlineData(100.0, double.PositiveInfinity)]
+    public void FirstProblem_SpacingNotAFiniteNumber_AsksForPositiveValues(double dense, double sparse)
     {
-        Assert.Null(Check(stirrups: Stirrups with { SpacingDense = double.NaN }));
+        var problem = Check(stirrups: Stirrups with { SpacingDense = dense, SpacingSparse = sparse });
+
+        Assert.Equal("Stirrup spacing and concrete cover must be positive values greater than zero.", problem);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    [InlineData(double.NegativeInfinity)]
+    public void FirstProblem_StartOffsetNotAFiniteNumber_AsksForANumber(double startOffset)
+    {
+        var problem = Check(stirrups: Stirrups with { StartOffset = startOffset });
+
+        Assert.Equal("Stirrup start offset must be a number.", problem);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void FirstProblem_NodeSpacingNotAFiniteNumber_AsksForNodeSpacing(double nodeSpacing)
+    {
+        var problem = Check(stirrups: Stirrups with { IncludeStirrupsInNodes = true, NodeSpacing = nodeSpacing });
+
+        Assert.Equal("Column node stirrup spacing must be greater than zero.", problem);
     }
 
     [Fact]

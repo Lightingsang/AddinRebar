@@ -331,6 +331,18 @@ public sealed class BeamSupportLayoutTests
         Assert.All(nodes, n => Assert.Equal(string.Empty, n.ElementUniqueId));
     }
 
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void Arrange_SupportCentreNotAFiniteNumber_Throws(double centerX)
+    {
+        var measured = new[] { Column(0, "c0"), Column(centerX, "bad"), Column(12000, "c2") };
+
+        var error = Assert.Throws<ArgumentException>(() => BeamSupportLayout.Arrange(measured, TwoSpans));
+
+        Assert.Equal("measured", error.ParamName);
+    }
+
     private static MeasuredSupport Column(double centerX, string id) => new(centerX, 400, 400, SupportType.Column, id);
 
     private static MeasuredSupport Measured(double centerX, SupportType type) =>

@@ -57,9 +57,16 @@ public static class BeamSpecRules
         }
 
         double cover = stirrups.Cover;
-        if (stirrups.SpacingDense <= 0 || stirrups.SpacingSparse <= 0 || !(cover > 0) || double.IsInfinity(cover))
+        if (!FiniteNumber.IsPositive(stirrups.SpacingDense)
+            || !FiniteNumber.IsPositive(stirrups.SpacingSparse)
+            || !FiniteNumber.IsPositive(cover))
         {
             return "Stirrup spacing and concrete cover must be positive values greater than zero.";
+        }
+
+        if (!FiniteNumber.IsFinite(stirrups.StartOffset))
+        {
+            return "Stirrup start offset must be a number.";
         }
 
         if (!barTypesChosen)
@@ -67,7 +74,7 @@ public static class BeamSpecRules
             return "Please ensure main top, bottom, and stirrup rebar types are selected.";
         }
 
-        if (stirrups.IncludeStirrupsInNodes && stirrups.NodeSpacing <= 0)
+        if (stirrups.IncludeStirrupsInNodes && !FiniteNumber.IsPositive(stirrups.NodeSpacing))
         {
             return "Column node stirrup spacing must be greater than zero.";
         }

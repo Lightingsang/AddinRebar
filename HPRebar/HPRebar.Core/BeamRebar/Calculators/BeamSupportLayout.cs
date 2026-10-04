@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HPRebar.Core.BeamRebar.Models;
+using HPRebar.Core.Shared;
 
 namespace HPRebar.Core.BeamRebar.Calculators;
 
@@ -45,7 +46,9 @@ public static class BeamSupportLayout
     /// the End of the piece that starts last.
     /// </param>
     /// <exception cref="ArgumentNullException">An argument is null.</exception>
-    /// <exception cref="ArgumentException">No support was measured, or the run has no piece.</exception>
+    /// <exception cref="ArgumentException">
+    /// No support was measured, a support centre is not a finite number, or the run has no piece.
+    /// </exception>
     public static IReadOnlyList<BeamSupportNode> Arrange(
         IEnumerable<MeasuredSupport> measured, IReadOnlyList<BeamPieceExtent> pieces)
     {
@@ -59,7 +62,15 @@ public static class BeamSupportLayout
             throw new ArgumentNullException(nameof(pieces));
         }
 
-        var supports = Merge(measured);
+        var found = measured.ToList();
+        if (found.Any(support => !FiniteNumber.IsFinite(support.CenterX)))
+        {
+            // A NaN centre sorts first and every distance from it compares false, so each real support would be
+            // dropped as its duplicate.
+            throw new ArgumentException("Every support centre must be a finite number.", nameof(measured));
+        }
+
+        var supports = Merge(found);
         if (supports.Count == 0)
         {
             throw new ArgumentException("At least one support must be measured.", nameof(measured));

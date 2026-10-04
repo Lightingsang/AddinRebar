@@ -22,14 +22,26 @@ public static class BeamStirrupDistributionCalculator
         BeamStirrupSpec spec,
         bool isCantilever = false)
     {
-        if (clearSpanMm <= 0.0)
+        // NaN and infinity pass a plain <= 0 test and then poison every stirrup position.
+        if (!FiniteNumber.IsPositive(clearSpanMm))
+        {
             throw new ArgumentOutOfRangeException(nameof(clearSpanMm), "Clear span must be strictly positive.");
+        }
 
-        if (spec.SpacingDense <= 0.0)
+        if (!FiniteNumber.IsPositive(spec.SpacingDense))
+        {
             throw new ArgumentOutOfRangeException(nameof(spec), "Dense spacing must be strictly positive.");
+        }
 
-        if (spec.SpacingSparse <= 0.0)
+        if (!FiniteNumber.IsPositive(spec.SpacingSparse))
+        {
             throw new ArgumentOutOfRangeException(nameof(spec), "Sparse spacing must be strictly positive.");
+        }
+
+        if (!FiniteNumber.IsFinite(spec.StartOffset))
+        {
+            throw new ArgumentOutOfRangeException(nameof(spec), "Start offset must be a finite number.");
+        }
 
         // Check if spacing is so small that bar count exceeds Revit max positions
         if ((clearSpanMm / spec.SpacingDense) > RevitRebarLimits.MaxBarPositions
@@ -67,8 +79,10 @@ public static class BeamStirrupDistributionCalculator
         double coverMm,
         double spacingMm)
     {
-        if (spacingMm <= 0.0)
+        if (!FiniteNumber.IsPositive(spacingMm))
+        {
             throw new ArgumentOutOfRangeException(nameof(spacingMm), "Spacing must be strictly positive.");
+        }
 
         double lNode = supportWidthMm - (2.0 * coverMm);
         if (lNode <= 0.0)

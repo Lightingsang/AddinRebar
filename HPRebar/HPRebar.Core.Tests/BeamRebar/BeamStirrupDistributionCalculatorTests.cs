@@ -257,4 +257,54 @@ public sealed class BeamStirrupDistributionCalculatorTests
         Assert.Contains("exceeds maximum 1002", error.Message);
         Assert.Equal("spacingMm", error.ParamName);
     }
+
+    [Theory]
+    [InlineData(double.NaN, 200.0)]
+    [InlineData(double.PositiveInfinity, 200.0)]
+    [InlineData(100.0, double.NaN)]
+    [InlineData(100.0, double.PositiveInfinity)]
+    public void SpacingNotAFiniteNumberThrowsArgumentOutOfRangeException(double dense, double sparse)
+    {
+        var spec = TestBeamData.ThreeZoneL4StirrupSpec(s1: dense, s2: sparse);
+
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeSpanRuns(5000, spec));
+        Assert.Contains("spacing must be strictly positive", error.Message);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void ClearSpanNotAFiniteNumberThrowsArgumentOutOfRangeException(double clearSpan)
+    {
+        var spec = TestBeamData.UniformStirrupSpec();
+
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeSpanRuns(clearSpan, spec));
+        Assert.Equal("clearSpanMm", error.ParamName);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    [InlineData(double.NegativeInfinity)]
+    public void StartOffsetNotAFiniteNumberThrowsArgumentOutOfRangeException(double startOffset)
+    {
+        var spec = TestBeamData.UniformStirrupSpec() with { StartOffset = startOffset };
+
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeSpanRuns(5000, spec));
+        Assert.Contains("Start offset must be a finite number", error.Message);
+    }
+
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void NodeSpacingNotAFiniteNumberThrowsArgumentOutOfRangeException(double spacing)
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => BeamStirrupDistributionCalculator.ComputeNodeRun(supportWidthMm: 400, coverMm: 25, spacingMm: spacing));
+
+        Assert.Equal("spacingMm", error.ParamName);
+    }
 }
