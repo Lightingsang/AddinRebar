@@ -1,0 +1,47 @@
+{
+  "summary": {
+    "host": "powerbi",
+    "exe": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPPowerBi\\HPPowerBi.Mcp.Server\\bin\\Debug\\net10.0\\HPPowerBi.Mcp.Server.exe",
+    "started": "2026-10-04 12:49:53",
+    "passed": 5,
+    "skipped": 1,
+    "total": 6,
+    "failed": [],
+    "skippedNames": [
+      "no snapshot written by the read-only scripts"
+    ]
+  },
+  "results": [
+    {
+      "name": "1 context: execution enabled, new or scratch document",
+      "pass": true,
+      "detail": "get_powerbi_context: doc='' {\"host\": \"Power BI\", \"hostVersion\": \"2026\", \"powerBi\": {\"isConnected\": false, \"mutationEnabled\": false, \"tableCount\": 0, \"measureCount\": 0, \"relationshipCount\": 0}, \"isReadOnly\": false, \"isModifiable\"…"
+    },
+    {
+      "name": "2 commented-out code + empty catch refused (Q-B1, Q-B2)",
+      "pass": true,
+      "detail": "quality Q-B1 1:1 commented-out code — delete it (git keeps history) or turn it into a comment that explains why. | quality Q-B2 3:18 empty catch without a comment giving the reason — handle the failure, or catch the narrowest type and say why it is safe to ignore."
+    },
+    {
+      "name": "3 vague name accepted with a Q-W3 warning",
+      "pass": true,
+      "detail": "quality Q-W3 1:5 vague name 'data' — say what the value is in the domain."
+    },
+    {
+      "name": "4 test_tool 2/2 (dryRun)",
+      "pass": true,
+      "detail": "{\"name\": \"mcp_verify_quality_good\", \"status\": \"tested\", \"passed\": 2, \"failed\": 0, \"cases\": [{\"title\": \"default\", \"success\": true, \"dryRun\": true, \"durationMs\": 1, \"error\": \"Static preview: script compiled and passed all guard rules cleanly without execution.\", \"runId\": 1, \"changed\": {\"added\": 0, \"mo…"
+    },
+    {
+      "name": "5 manual publish: pending_approval + review quality record",
+      "pass": true,
+      "detail": "## Code quality\nanalysed: 0 error(s), 1 warning(s)\n- Q-W3 1:5 vague name 'data' — say what the value is in the domain.\n\n## Code\n```csharp\nvar data = args.Int(\"c"
+    },
+    {
+      "name": "no snapshot written by the read-only scripts",
+      "pass": true,
+      "skipped": true,
+      "detail": "%LOCALAPPDATA%/HPPowerBi/Snapshots does not exist yet"
+    }
+  ]
+}
