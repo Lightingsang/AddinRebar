@@ -242,7 +242,7 @@ public static class KataStirrupZoneLayout
     /// </summary>
     private static List<double> CantileverStations(KataBeamStations st, int s, double ln, double spacing, KataDetailingRules rules)
     {
-        double tipOffset = rules.TopBarCentreDepth + rules.FirstStirrupOffset;
+        double tipOffset = rules.TopEndCover + rules.FirstStirrupOffset;
         bool left = s == 0 && st.IsLeftCantilever;
         double from = st.SpanStart[s] + (left ? tipOffset : rules.FirstStirrupOffset);
         double to = st.SpanStart[s] + ln - (left ? rules.FirstStirrupOffset : tipOffset);

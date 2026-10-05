@@ -15,6 +15,15 @@ public sealed record KataDetailingRules
     /// <summary>Distance from the beam soffit to the centre of the bottom main bars.</summary>
     public double BottomBarCentreDepth { get; init; }
 
+    /// <summary>
+    /// How far the top main bars stop short of a concrete end they run to (a console tip, a column's outer face): J9's
+    /// a, which never moves the bars across the section.
+    /// </summary>
+    public double TopEndCover { get; init; }
+
+    /// <summary>The same for the bottom main bars.</summary>
+    public double BottomEndCover { get; init; }
+
     /// <summary>Clear cover to the outer face of the stirrups, on all four faces.</summary>
     public double StirrupCover { get; init; }
 

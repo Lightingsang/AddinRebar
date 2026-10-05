@@ -18,5 +18,7 @@ code copied into repo.
 | 4 | Bố cục dim/tag mặt đứng + mặt cắt so fixture | 🟡 tag thanh ✅; U/C, đai ngoài, 2 lớp gộp chưa — `reports/phase-04-05-tags-and-numbers.md` |
 | 5 | Đánh số thanh theo Kata (1…35 B01) | ✅ 1…35 khớp (1428 test) |
 | 6 | Revit: Rebar Number, Extensible Storage, bỏ Comments/Schedule Mark; live Revit test | ✅ live Revit test (2 lần) — `reports/phase-06-revit-numbering.md`; review 6.5/10 → High + 4 Medium sửa, live lại 2 lần (`reports/code-review-b01-parity.md` ▸ Fix round) |
+| 7 | Tag đai mặt cắt (U/C, C console, cốt giá, đai kín) + J9 a chỉ cho đầu thanh + Rebar Cover dầm | 🟡 13/14 MC ±1 mm (1-1…3-3 U/C chưa có quy tắc); live Revit copy: đầu thanh 30, cover 25 có sẵn |
+| 8 | B02 (KataB02.xlsm + T2-DY7 B02): fixture `b02-dwg.json`, test DWG chạy cho B01+B02; luật tag đai trong đầu tiên −250/−300; Kata Export ẩn cửa sổ khi chọn lại dầm | ✅ 1530 test; live: ẩn khi pick, hiện lại sau ESC (Finish CHƯA TEST live); dump ô `reports/kataB02-dam-cells.txt` |
 
 Reports: `reports/`.

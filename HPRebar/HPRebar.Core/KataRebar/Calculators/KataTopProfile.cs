@@ -166,7 +166,7 @@ public static class KataTopProfile
     private static double Lap(KataDetailingRules rules, double diameter) => rules.RoundUp(rules.BottomAnchorageFactor * diameter);
 
     private static KataBarEnd Anchor(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, int outward, double d) =>
-        KataMainBarLayout.Solve(st, rules, support, outward, rules.TopBarCentreDepth, rules.TopAnchorageFactor * d,
+        KataMainBarLayout.Solve(st, rules, support, outward, rules.TopEndCover, rules.TopAnchorageFactor * d,
             rules.MinimumLegFactor * d, KataMainBarLayout.LegRoom(spec, rules, support), 0.0);
 
     /// <summary>The bar moved onto the top: every point by the level under it, cranks inserted, end legs kept above the soffit.</summary>

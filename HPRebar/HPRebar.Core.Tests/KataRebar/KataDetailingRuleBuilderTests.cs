@@ -18,12 +18,15 @@ public sealed class KataDetailingRuleBuilderTests
     };
 
     [Fact]
-    public void Both_numbers_are_the_bar_centre_and_the_stirrup_cover()
+    public void The_bars_rest_on_the_stirrup_and_a_is_only_where_they_stop()
     {
+        // As Kata draws B01 with "50/25": centre 25 + 8 + 20/2 across the section, ends 50 short of the concrete.
         var rules = KataDetailingRuleBuilder.Build(Spec(50.0, 25.0));
 
-        Assert.Equal(50.0, rules.TopBarCentreDepth);
-        Assert.Equal(50.0, rules.BottomBarCentreDepth);
+        Assert.Equal(43.0, rules.TopBarCentreDepth);
+        Assert.Equal(43.0, rules.BottomBarCentreDepth);
+        Assert.Equal(50.0, rules.TopEndCover);
+        Assert.Equal(50.0, rules.BottomEndCover);
         Assert.Equal(25.0, rules.StirrupCover);
         Assert.Empty(rules.Warnings);
         Assert.Empty(rules.Errors);
@@ -32,11 +35,12 @@ public sealed class KataDetailingRuleBuilderTests
     [Fact]
     public void A_single_number_puts_the_stirrup_against_the_main_bars()
     {
-        // b = a − d/2 − d_stirrup = 40 − 10 − 8 = 22
+        // b = a − d/2 − d_stirrup = 40 − 10 − 8 = 22: the bars' centre stays at 40, and they stop 40 short of the ends.
         var rules = KataDetailingRuleBuilder.Build(Spec(40.0, 0.0));
 
         Assert.Equal(22.0, rules.StirrupCover);
         Assert.Equal(40.0, rules.TopBarCentreDepth);
+        Assert.Equal(40.0, rules.TopEndCover);
         Assert.Equal(110.0, rules.EdgeBarOffset(300.0, 20.0));
         Assert.Empty(rules.Warnings);
     }
@@ -69,12 +73,22 @@ public sealed class KataDetailingRuleBuilderTests
     }
 
     [Fact]
-    public void A_bar_centre_inside_the_stirrup_is_raised_and_reported()
+    public void A_bar_cover_smaller_than_the_stirrup_moves_only_the_ends()
     {
-        var rules = KataDetailingRuleBuilder.Build(Spec(30.0, 25.0));
+        // B01 "30/25", stirrup Ø10, bars Ø25: centre 47.5 on the stirrup, ends 30 short of the concrete, nothing to warn.
+        var spec = Spec(30.0, 25.0) with
+        {
+            TopContinuous = new KataBarItem(6, 25.0),
+            BottomContinuous = new KataBarItem(6, 25.0),
+            GlobalStirrup = new KataStirrupSpec { Diameter = 10.0 }
+        };
 
-        Assert.Equal(43.0, rules.TopBarCentreDepth);
-        Assert.Equal(2, rules.Warnings.Count);
+        var rules = KataDetailingRuleBuilder.Build(spec);
+
+        Assert.Equal(47.5, rules.TopBarCentreDepth);
+        Assert.Equal(47.5, rules.BottomBarCentreDepth);
+        Assert.Equal(30.0, rules.TopEndCover);
+        Assert.Empty(rules.Warnings);
     }
 
     [Fact]

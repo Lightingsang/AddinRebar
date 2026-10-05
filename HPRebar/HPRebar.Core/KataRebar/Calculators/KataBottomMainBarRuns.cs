@@ -114,12 +114,12 @@ public static class KataBottomMainBarRuns
                 ? ends.EndSupport(0)
                 : Depth(first) > Depth(first - 1)
                     ? ends.Step(first, -1, DeepLegRoom(ends, rules, first, Depth(first) - Depth(first - 1), Z(first), D(first)), D(first))
-                    : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomBarCentreDepth, st.SupportEnd[first] - Straight(first)), 0.0, 0.0);
+                    : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomEndCover, st.SupportEnd[first] - Straight(first)), 0.0, 0.0);
             KataBarEnd end = last == n - 1
                 ? ends.EndSupport(n)
                 : Depth(last) > Depth(last + 1)
                     ? ends.Step(last + 1, +1, DeepLegRoom(ends, rules, last + 1, Depth(last) - Depth(last + 1), Z(last), D(last)), D(last))
-                    : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomBarCentreDepth, st.SupportStart[last + 1] + Straight(last)), 0.0, 0.0);
+                    : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomEndCover, st.SupportStart[last + 1] + Straight(last)), 0.0, 0.0);
 
             var path = new List<(double X, double Z)> { (start.X, Z(first)) };
             for (int k = first + 1; k <= last; k++)
@@ -150,7 +150,7 @@ public static class KataBottomMainBarRuns
     private static Run ConsoleRun(KataBeamStations st, KataDetailingRules rules, EndSolver ends, int span, double z, double diameter, double beamDiameter,
         List<string> warnings)
     {
-        double cover = rules.BottomBarCentreDepth;
+        double cover = rules.BottomEndCover;
         bool right = st.SupportWidth[span + 1] <= 0.0;
         int support = right ? span : span + 1;
         double wanted = Math.Max(rules.MinimumLegFactor, ConsoleLegFactor) * Math.Max(diameter, beamDiameter);

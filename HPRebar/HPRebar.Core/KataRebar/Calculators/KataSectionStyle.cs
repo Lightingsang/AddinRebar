@@ -18,8 +18,33 @@ public static class KataSectionStyle
     /// <summary>Hook of the hoop: each leg runs this far along both axes whatever the stirrup (40 for Ø8 in DY7, Ø10 in B01).</summary>
     public const double HoopHook = 40.0;
 
-    /// <summary>Height of an inner U's tag on its right leg, as a share of the depth (B01 section 2-2).</summary>
-    public const double InnerUTagDepthRatio = 0.73;
+    /// <summary>
+    /// The inner stirrups' tags (rows 25-44), right of the beam, each on a level leader from its leg: the first this far
+    /// under the top, further down by the second constant when a right-hand tag already sits above it (an inner top
+    /// layer's), and a pitch under any right-hand tag of the upper half it would reach (a side-bar tag); each next one a
+    /// pitch lower (B01 4-4…10-10, 14-14; B02 11-11…13-13). Kata's rule for a section with two layers of side bars
+    /// (B01 1-1…3-3: U at −820.8) is unknown.
+    /// </summary>
+    public const double InnerTagBelowTop = 250.0;
+
+    public const double InnerTagUnderTopLayer = 50.0;
+
+    public const double InnerTagPitch = 125.0;
+
+    /// <summary>Insertion of the inner stirrups' tags past the centre line: 275 + b/4 + b/2 (650 at 500, 500 at 300).</summary>
+    public const double InnerTagBeyond = 275.0;
+
+    public const double InnerTagBeyondPerWidth = 0.25;
+
+    /// <summary>
+    /// A C tag closer than this to a right-hand tag under it goes over the beam instead (B01 2-2), its tag on the top
+    /// line, its leaders jogging up this far past the face.
+    /// </summary>
+    public const double InnerTagClearance = 125.0;
+
+    public const double InnerTagOverTop = 62.5;
+
+    public const double InnerTagJog = 37.5;
 
     /// <summary>Bulges of the hoop: a 90° corner and the 135° bend into a hook (negative: clockwise).</summary>
     public const double CornerBulge = -0.414214;
@@ -78,10 +103,25 @@ public static class KataSectionStyle
 
     public const double SideTieTagBeyond = 206.375;
 
+    /// <summary>
+    /// Per mm of stirrup past Ø8 (DY7): the foot moves in, the row rises, the tag comes in (B01 14-14, Ø10: −32.67,
+    /// 95 over the bars, −355.38; a fit, Kata's rule is unknown).
+    /// </summary>
+    public const double SideTieFootPerStirrup = -0.833333;
+
+    public const double SideTieRisePerStirrup = 2.0;
+
+    public const double SideTieTagBeyondPerStirrup = -0.5;
+
     /// <summary>Two or more layers: the tie leaders' and the bar leaders' feet, and their insertions past the faces.</summary>
     public const double SideTiesFoot = 65.333;
 
     public const double SideTiesTagBeyond = 212.375;
+
+    /// <summary>Both move out with the width past 300 (B01 1-1: foot −100.67, tag at −487.75 for 500).</summary>
+    public const double SideTiesFootPerWidth = 0.176667;
+
+    public const double SideTiesTagBeyondPerWidth = 0.126875;
 
     public const double SideBarsFoot = 59.333;
 
@@ -98,8 +138,15 @@ public static class KataSectionStyle
 
     public const double SideBarTagMinBeyond = 275.0;
 
-    /// <summary>The hoop's tag: its leader runs this far left from the hoop's side.</summary>
+    /// <summary>
+    /// The hoop's tag: its leader runs this far left from the hoop's side for a Ø8 hoop in a 300 beam, 1 further per mm
+    /// of stirrup and 0.0125 per mm of width (238 DY7, 240 B01 11-11, 242.5 B01 1-1; a fit, Kata's rule is unknown).
+    /// </summary>
     public const double HoopTagLeader = 238.0;
+
+    public const double HoopTagLeaderPerStirrup = 1.0;
+
+    public const double HoopTagLeaderPerWidth = 0.0125;
 
     /// <summary>
     /// Height of the hoop's tag when side bars are drawn: −0.75 h + 25, 37.5 lower per layer past the first (a fit of

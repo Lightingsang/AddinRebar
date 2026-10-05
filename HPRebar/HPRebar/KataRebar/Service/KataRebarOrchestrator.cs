@@ -10,8 +10,8 @@ using Serilog;
 namespace HPRebar.KataRebar.Service;
 
 /// <summary>
-/// Draws a plan in one undo step "Kata Rebar - {beam}": deletes the bars of the previous run, creates the
-/// stirrup sets, then the main bars, then gives every bar its Kata number as Rebar Number. Each step is its own transaction; a step that fails rolls the whole
+/// Draws a plan in one undo step "Kata Rebar - {beam}": deletes the bars of the previous run, gives the beams the
+/// stirrup cover of J9, creates the stirrup sets, then the main bars, then gives every bar its Kata number as Rebar Number. Each step is its own transaction; a step that fails rolls the whole
 /// group back, so the model is either fully updated or untouched.
 /// </summary>
 public static class KataRebarOrchestrator
@@ -38,6 +38,7 @@ public static class KataRebarOrchestrator
         try
         {
             int deleted = runner.Run("Kata Rebar: xoá thép cũ", () => KataRebarCleanupService.DeletePrevious(doc, hosts));
+            var coverWarnings = runner.Run("Kata Rebar: lớp bảo vệ dầm", () => KataHostCoverService.Apply(doc, hosts, plan.Rules.StirrupCover));
             var stirrups = plan.Rules.StirrupDiameter > 0.0 && barTypes.TryGetValue(plan.Rules.StirrupDiameter, out var stirrupType)
                 ? runner.Run("Kata Rebar: đai", () => KataStirrupSetCreator.Create(doc, plan, placement, stirrupShape, stirrupType))
                 : new KataStirrupOutcome(0, 0);
@@ -67,6 +68,7 @@ public static class KataRebarOrchestrator
                           + $", {stirrups.Sets} bộ đai"
                           + (stirrups.SingleBars > 0 ? $" + {stirrups.SingleBars} đai lẻ" : "")
                           + (deleted > 0 ? $"; xoá {deleted} phần tử thép của lần chạy trước." : ".")
+                          + (coverWarnings.Count > 0 ? " " + string.Join(" ", coverWarnings) : "")
                           + (barSets.Warnings.Count > 0 ? " " + string.Join(" ", barSets.Warnings) : "")
                           + (numberWarnings.Count > 0 ? " " + string.Join(" ", numberWarnings) : ""),
                 DeletedCount = deleted,

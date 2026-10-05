@@ -46,14 +46,14 @@ internal static class KataTopBarStagger
         if (support > 0)
         {
             // The span on the left ends at the face of support k − 1 (or at the beam end, a cover inside).
-            double limit = Math.Max(st.SpanStart[support - 1], st.SupportStart[0] + rules.TopBarCentreDepth);
+            double limit = Math.Max(st.SpanStart[support - 1], st.SupportStart[0] + rules.TopEndCover);
             Side(rows, rules, step, -1, st.SupportStart[support], limit, warnings, "trái",
                 r => r.ReachesLeft, r => r.LeftCut, (r, x) => r.LeftCut = x, r => r.LeftThrough);
         }
 
         if (support < last)
         {
-            double limit = Math.Min(st.SpanEnd[support], st.SupportEnd[last] - rules.TopBarCentreDepth);
+            double limit = Math.Min(st.SpanEnd[support], st.SupportEnd[last] - rules.TopEndCover);
             Side(rows, rules, step, +1, st.SupportEnd[support], limit, warnings, "phải",
                 r => r.ReachesRight, r => r.RightCut, (r, x) => r.RightCut = x, r => r.RightThrough);
         }

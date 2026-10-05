@@ -35,7 +35,7 @@ internal static class KataTopBarContinuation
 
         double reach = Reach(spec, rules, next, spec.Spans[next - 1].Length);
         double origin = FromCentre(spec) ? st.SupportCentre(next) : st.SupportStart[next];
-        return new KataBarEnd(System.Math.Max(st.SupportStart[0] + rules.TopBarCentreDepth, origin - reach), 0.0, 0.0);
+        return new KataBarEnd(System.Math.Max(st.SupportStart[0] + rules.TopEndCover, origin - reach), 0.0, 0.0);
     }
 
     /// <summary>The end of a bar of support <paramref name="support"/> reaching into the span on the right.</summary>
@@ -53,7 +53,7 @@ internal static class KataTopBarContinuation
 
         double reach = Reach(spec, rules, next, spec.Spans[next].Length);
         double origin = FromCentre(spec) ? st.SupportCentre(next) : st.SupportEnd[next];
-        return new KataBarEnd(System.Math.Min(st.SupportEnd[last] - rules.TopBarCentreDepth, origin + reach), 0.0, 0.0);
+        return new KataBarEnd(System.Math.Min(st.SupportEnd[last] - rules.TopEndCover, origin + reach), 0.0, 0.0);
     }
 
     /// <summary>

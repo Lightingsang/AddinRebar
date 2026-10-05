@@ -19,5 +19,14 @@ public partial class KataExportView : Window
 
         // Modeless: when CloseRequested is fired, close the window cleanly.
         viewModel.CloseRequested += Close;
+
+        // Out of the way while beams are picked in Revit, back in front afterwards.
+        viewModel.PickStarted += Hide;
+        viewModel.PickEnded += () =>
+        {
+            if (IsVisible) return;
+            Show();
+            Activate();
+        };
     }
 }

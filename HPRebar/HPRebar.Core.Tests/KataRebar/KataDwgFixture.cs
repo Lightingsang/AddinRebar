@@ -7,24 +7,32 @@ using System.Text.Json;
 namespace HPRebar.Core.Tests.KataRebar;
 
 /// <summary>
-/// B01 as Kata drew it at TL 1/25 (T2-DY7.dwg, 2026-10-05), read once from <c>Fixtures/b01-dwg.json</c>: the elevation
+/// A beam as Kata drew it at TL 1/25 (T2-DY7.dwg, 2026-10-05), read once from <c>Fixtures/{beam}-dwg.json</c>
+/// (exported over COM, read-only): the elevation
 /// (origin = outer face of column C at the beam top) and the 14 sections (origin = the title's insertion point, the
 /// section's centre line). Every kata_* entity with its points relative to that origin, mm.
 /// </summary>
-internal static class KataB01DwgFixture
+internal static class KataDwgFixture
 {
     internal sealed record Entity(string Type, string Layer, IReadOnlyList<double[]> Points, string Block, IReadOnlyList<string> Attributes,
         double[] At, double[] Min, double[] Max, double Measurement, double Rotation);
 
-    private static Dictionary<string, List<Entity>>? _views;
+    private static readonly Dictionary<string, Dictionary<string, List<Entity>>> Beams = new();
 
-    public static IReadOnlyList<Entity> View(string name) => (_views ??= Load())[name];
+    public static IReadOnlyList<Entity> View(KataDwgBeam beam, string name) => Views(beam)[name];
 
-    public static IEnumerable<string> Views() => (_views ??= Load()).Keys;
-
-    private static Dictionary<string, List<Entity>> Load([CallerFilePath] string source = "")
+    private static Dictionary<string, List<Entity>> Views(KataDwgBeam beam)
     {
-        string path = Path.Combine(Path.GetDirectoryName(source)!, "Fixtures", "b01-dwg.json");
+        lock (Beams)
+        {
+            if (!Beams.TryGetValue(beam.Name, out var views)) Beams[beam.Name] = views = Load(beam.Name.ToLowerInvariant());
+            return views;
+        }
+    }
+
+    private static Dictionary<string, List<Entity>> Load(string beam, [CallerFilePath] string source = "")
+    {
+        string path = Path.Combine(Path.GetDirectoryName(source)!, "Fixtures", beam + "-dwg.json");
         using var json = JsonDocument.Parse(File.ReadAllText(path));
         var views = new Dictionary<string, List<Entity>>();
         foreach (var view in json.RootElement.GetProperty("views").EnumerateArray())

@@ -1,0 +1,28 @@
+R1 | A1=Tỷ lệ bản vẽ dầm | B1=1:25 | E1=Kéo thép gia cường | G1=500 | I1=TRUE | M1=1:70 | N1=1:50 | O1=1:40 | P1=1:30 | Q1=1:25
+R2 | A2=Tỷ lệ vẽ mặt cắt | B2=1:25 | E2=Neo thép vùng kéo (d) | G2=40 | K2=Info Author:  | N2=1:40 | O2=1:30 | P2=1:25 | Q2=1:20
+R3 | A3=Tên dầm | B3=B02 | E3=Neo thép vùng nén (d) | G3=30 | H3=0.2 | I3=L từ mép cột | K3=Tam, Nguyen Kha | N3=L từ mép cột
+R4 | A4=Số cấu kiện | B4=1 | E4=Đường kính cốt giá | G4=12 | K4=Civil Engineer | N4=L từ tâm cột
+R5 | A5=h dầm (mm) | B5=1100 | E5=Số lớp cốt giá | G5=2 | H5=0.25 | I5=L từ mép cột | K5=Phone: 0985373800 | N5=L từ tâm cột, tính từ tâm
+R6 | A6=b dầm (mm) | B6=500 | E6=Đường kính đai (mm) | G6=10 | K6=Email: khatamxd@gmail.com | N6=L từ mép dầm bẹt
+R7 | A7=h sàn (mm) | B7=150 | E7=Khoảng cách đai  | F7=Gần gối | G7=a150 | H7=FALSE | J7=a500 | K7=Work: Designing structure buildings and 
+R8 | A8=Tên trục dầm | F8=giữa nhịp | G8=a200 | I8=2 | K8=design spreadsheets link Excel with Autocad
+R9 | A9=Độ lệch của trục | B9=-100 | F9=Công xôn | G9=150 | H9=a bảo vệ thép chủ/đai | J9=30/25
+R10 | A10=Cao trình dầm | B10=+3.300 | C10=Cột | D10=Nhịp | E10=Cột  | F10=Nhịp | G10=Cột  | H10=Nhịp | I10=Cột  | J10=Nhịp | K10=Cột  | L10=Nhịp | M10=Cột  | N10=Nhịp | O10=Cột  | P10=Nhịp | Q10=Cột  | R10=Nhịp | S10=Cột  | T10=Nhịp | U10=Cột  | V10=Nhịp | W10=Cột  | X10=Nhịp | Y10=Cột  | Z10=Nhịp | AA10=Cột  | AB10=Nhịp | AC10=Cột  | AD10=Nhịp | AE10=Cột  | AF10=Nhịp | AG10=Cột  | AH10=Nhịp | AI10=Cột 
+R11 | A11=Thép chịu lực trên | B11=6f25 | C11=400 | D11=10400 | E11=400 | F11=6500 | G11=400 | H11=2500 | I11=0 | J11=4000 | K11=400 | L11=6200 | M11=400 | N11=2000 | O11=0
+R12 | A12=Thép chịu lực dưới | B12=6f25
+R13 | A13=Thép gia cường trên | B13=lớp 1
+R14 | B14=lớp 2 | C14=6f25 | E14=6f20 | G14=2f20 | K14=2f20;2f16 | M14=2f16
+R15 | B15=lớp 3 | E15=6f20;0
+R16 | B16=lớp 3
+R17 | A17=Thép gia cường dưới | B17=lớp 2 | D17=6f25 | F17=2f20 | I17=2f20 | J17=- | L17=2f20
+R18 | B18=lớp 1
+R19 | A19=Giật mép trên dầm;thép chịu lực | H19=-50 | J19=0 | L19=3f20 | N19=-200
+R20 | A20=Bề rộng dầm giao tại cột (mm) | C20=400x500 | E20=400 | F20=0f12 | G20=400 | K20=400x800 | L20=300 | M20=400 | N20=1f12
+R21 | A21=Độ lệch dầm giao so với tâm cột | F21=400 | L21=3f20 | N21=0
+R22 | A22=Tên các trục cột | C22=1 | E22=2 | G22=3 | I22=4 | K22=5 | M22=6
+R23 | A23=Độ lệch của trục so với tâm cột | C23=-150
+R24 | F24=* | K24=*
+R25 | A25=Đai □ | C25=Đai U | D25=3-4 | K25=Đai C | L25=2 | M25=Đai C | N25=2
+R26 | A26=Đai U | C26=Đai C | D26=2
+R27 | A27=Đai C | C27=Đai C | D27=5
+R28 | A28=1

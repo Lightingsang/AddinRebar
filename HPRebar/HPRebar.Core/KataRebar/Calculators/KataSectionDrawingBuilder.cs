@@ -31,7 +31,7 @@ public static class KataSectionDrawingBuilder
         if (hoops is not null) lines.Add(KataSectionLines.Hoop(bars));
 
         var sideTies = new List<(KataBarSet Tie, double Z)>();
-        var inner = new List<(KataBarSet Set, double X, double Z)>();
+        var inner = new List<(KataBarSet Set, double X)>();
         foreach (var set in KataSectionCuts.Sets(layout, cut.X).Where(s => s.Shape.Points.Count > 0))
         {
             double realZ = set.Shape.Points[0].Z;
@@ -55,24 +55,25 @@ public static class KataSectionDrawingBuilder
                 if (set.Role == KataBarRole.StirrupCap)
                 {
                     lines.Add(KataSectionLines.InnerU(bars, ys.Min(), ys.Max()));
-                    // Tagged low on its right leg, under the side bars' tag (B01 2-2: about 0.73 of the depth down).
-                    inner.Add((set, ys.Max(), -KataSectionStyle.InnerUTagDepthRatio * h));
+                    inner.Add((set, ys.Max())); // tagged from its right leg
+
                 }
                 else
                 {
                     lines.Add(KataSectionLines.InnerC(bars, ys[0]));
-                    inner.Add((set, ys[0] + 2.0 * bars.Stirrup, -bars.Cover - 2.0 * bars.Stirrup));
+                    // Tagged from its long leg, beside the bar it holds: (d + Ø stirrup)/2 left of the bar's centre.
+                    double d = bars.Bars.Where(b => b.Face == KataSectionFace.Top).OrderBy(b => Math.Abs(b.X - ys[0])).Select(b => b.Bar.Diameter).FirstOrDefault();
+                    inner.Add((set, ys[0] - (d + bars.Stirrup) / 2.0));
                 }
             }
         }
-
-        tags.InnerStirrups(inner);
 
         tags.Sides(sideTies);
         tags.Outer(KataSectionFace.Top);
         tags.Inner(KataSectionFace.Top);
         tags.Outer(KataSectionFace.Bottom);
         tags.Inner(KataSectionFace.Bottom);
+        tags.InnerStirrups(inner); // under the right-hand tags already placed
         if (hoops is not null) tags.Hoop(hoops);
         lines.AddRange(tags.Stubs);
 

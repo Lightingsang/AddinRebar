@@ -102,7 +102,7 @@ public static class KataWidthProfile
     {
         bool top = legDirection < 0;
         return KataMainBarLayout.Solve(st, rules, support, outward,
-            top ? rules.TopBarCentreDepth : rules.BottomBarCentreDepth,
+            top ? rules.TopEndCover : rules.BottomEndCover,
             (top ? rules.TopAnchorageFactor : rules.BottomAnchorageFactor) * d,
             rules.MinimumLegFactor * d, KataMainBarLayout.LegRoom(spec, rules, support), 0.0);
     }

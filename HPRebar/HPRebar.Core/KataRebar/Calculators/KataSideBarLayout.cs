@@ -114,8 +114,8 @@ public static class KataSideBarLayout
     private static double Anchorage(KataDetailingRules rules, double supportWidth, double diameter, bool interior)
     {
         // A console tip: they stop a (J9) short of it.
-        if (supportWidth <= 0.0) return -rules.TopBarCentreDepth;
-        double room = interior ? supportWidth / 2.0 - diameter / 2.0 : supportWidth - rules.TopBarCentreDepth;
+        if (supportWidth <= 0.0) return -rules.TopEndCover;
+        double room = interior ? supportWidth / 2.0 - diameter / 2.0 : supportWidth - rules.TopEndCover;
         return Math.Min(rules.SideBarAnchorageFactor * diameter, Math.Max(0.0, room));
     }
 

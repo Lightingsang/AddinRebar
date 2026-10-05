@@ -29,6 +29,12 @@ public sealed partial class KataExportViewModel : ObservableObject
 
     public event Action? CloseRequested;
 
+    /// <summary>The user picks beams in Revit: the window gets out of the way until <see cref="PickEnded"/>.</summary>
+    public event Action? PickStarted;
+
+    /// <summary>The pick is over — finished, cancelled or failed.</summary>
+    public event Action? PickEnded;
+
     [ObservableProperty] private string _selectedNameParameter = string.Empty;
     [ObservableProperty] private string _selectedCountParameter = string.Empty;
     [ObservableProperty] private bool _isReverse;
@@ -235,9 +241,11 @@ public sealed partial class KataExportViewModel : ObservableObject
     {
         IsBusy = true;
         ShowState("Chọn dải dầm trên Revit (Finish để xong, Esc để huỷ)...");
+        PickStarted?.Invoke();
         try
         {
             var session = await _runner.RepickAsync();
+            PickEnded?.Invoke();
             if (session is null)
             {
                 ShowState("Đã huỷ chọn lại dầm.");
@@ -254,6 +262,7 @@ public sealed partial class KataExportViewModel : ObservableObject
         {
             // A reader error must reach the status line, never the dispatcher (an unhandled error there can take Revit down).
             Log.Error(ex, "Kata Export: re-pick failed");
+            PickEnded?.Invoke();
             ShowState($"Không đọc được dải dầm: {ex.Message}", error: true);
         }
         finally

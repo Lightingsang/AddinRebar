@@ -30,5 +30,5 @@
 - [Wave refactor review checks](project-clean-code-wave-refactor-review-checks.md) — NaN/∞ guard gaps, hasher skips fields, FM5 step-down, old-vs-new differential probe recipe, beam splice B-xx, Wave 3 Core-move traps
 
 ## Kata rebar (HPRebar.Core)
-- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows, tie wrap vs Ø, J7 unbounded, section tag rows, canvas removal (run merge, orphan BarSets, ordinal keys), DY7 probe
+- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows, tie wrap, J7, canvas removal keys, row 20 "0", top-drop datum/width-cut/noise traps, console/swap double-cut stubs (2026-10-05), Revit ChangeNumber foreign bars + rollback, width-change spread clash, DY7 probe
 - [Revit view scale/template facts](project-revit-view-scale-and-template-facts.md) — VIEW_SCALE is a template param, IsValidViewTemplate, TEXT_SIZE is paper size, Beam PlannedCount gaps

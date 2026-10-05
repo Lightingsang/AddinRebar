@@ -49,8 +49,8 @@ public static class KataHangerBarLayout
 
                 double centre = st.SpanStart[s] + load.AtMm;
                 double half = load.WidthMm / 2.0 + rules.FirstStirrupOffset;
-                double leftLimit = st.SpanStart[s] + (st.SupportWidth[s] <= 0.0 ? rules.TopBarCentreDepth : 0.0);
-                double rightLimit = st.SpanEnd[s] - (st.SupportWidth[s + 1] <= 0.0 ? rules.TopBarCentreDepth : 0.0);
+                double leftLimit = st.SpanStart[s] + (st.SupportWidth[s] <= 0.0 ? rules.TopEndCover : 0.0);
+                double rightLimit = st.SpanEnd[s] - (st.SupportWidth[s + 1] <= 0.0 ? rules.TopEndCover : 0.0);
                 var left = Side(rules, centre - half, leftLimit, zTop, zBottom, -1, where, warnings);
                 var right = Side(rules, centre + half, rightLimit, zTop, zBottom, +1, where, warnings);
                 var path = left.AsEnumerable().Reverse().Concat(right).ToList();

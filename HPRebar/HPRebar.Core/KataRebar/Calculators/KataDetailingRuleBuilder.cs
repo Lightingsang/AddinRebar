@@ -39,6 +39,7 @@ public static class KataDetailingRuleBuilder
 
         if (b <= 0.0 && a > 0.0)
         {
+            // A single number is the main bars' centre: the stirrup wraps them, its outer face that much further out.
             double wrapped = a - Math.Max(dTop, dBot) / 2.0 - ds;
             b = wrapped;
             if (wrapped <= 0.0)
@@ -51,8 +52,9 @@ public static class KataDetailingRuleBuilder
             b = DefaultStirrupCover;
         }
 
-        double topDepth = BarCentreDepth(a, b, ds, dTop, "trên", warnings);
-        double botDepth = BarCentreDepth(a, b, ds, dBot, "dưới", warnings);
+        // Across the section the main bars always rest on the stirrup, as Kata draws them; a is where they stop.
+        double topDepth = b + ds + dTop / 2.0;
+        double botDepth = b + ds + dBot / 2.0;
 
         foreach (var span in spec.Spans.Where(s => spec.Height > 0.0 && s.Depth <= 0.0 && s.SoffitDrop != 0.0))
             errors.Add($"Hàng 21 nhịp {span.SpanIndex + 1} '{span.SoffitDrop:0}': B5 − bậc đáy ≤ 0 — không còn chiều cao dầm.");
@@ -83,6 +85,8 @@ public static class KataDetailingRuleBuilder
         {
             TopBarCentreDepth = topDepth,
             BottomBarCentreDepth = botDepth,
+            TopEndCover = a > 0.0 ? a : topDepth,
+            BottomEndCover = a > 0.0 ? a : botDepth,
             StirrupCover = b,
             StirrupDiameter = ds,
             TopAnchorageFactor = spec.TensionLapMultiplier > 0.0 ? spec.TensionLapMultiplier : DefaultTopAnchorageFactor,
@@ -116,17 +120,4 @@ public static class KataDetailingRuleBuilder
     /// Centre depth of a main bar layer: "a" when J9 gives one and the stirrup leaves room for it, otherwise
     /// the bar rests on the stirrup's inner face.
     /// </summary>
-    private static double BarCentreDepth(double a, double b, double ds, double d, string layer, List<string> warnings)
-    {
-        double resting = b + ds + d / 2.0;
-        if (a <= 0.0) return resting;
-
-        if (a + 1e-6 < resting)
-        {
-            warnings.Add($"J9: tâm thép chủ {layer} cách mép {a:0} mm sẽ cắt vào đai; dùng {resting:0.#} mm (đai {b:0.#} + Ø{ds:0} + Ø{d:0}/2).");
-            return resting;
-        }
-
-        return a;
-    }
 }
