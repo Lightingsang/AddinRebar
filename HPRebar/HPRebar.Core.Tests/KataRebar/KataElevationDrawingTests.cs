@@ -244,6 +244,19 @@ public sealed class KataElevationDrawingTests
     }
 
     [Fact]
+    public void A_crossing_beam_between_spans_of_different_tops_steps_its_top_at_its_centre()
+    {
+        var sheet = Dy7();
+        sheet.Set("E11", "400x700");
+        sheet.Set("F19", -100.0);
+        var d = Draw(sheet);
+
+        Assert.Contains(d.Lines, l => l.Pen == KataDrawingPen.Outline && l.Points.Count == 4
+            && l.Points.Select(p => System.Math.Round(p.Z)).SequenceEqual(new[] { 0.0, 0.0, -100.0, -100.0 })
+            && System.Math.Abs(l.Points[1].X - (l.Points[0].X + l.Points[3].X) / 2.0) < 1.0);
+    }
+
+    [Fact]
     public void Stagger_dimensions_take_the_outermost_bar_of_each_layer_on_each_side()
     {
         var sheet = Dy7();

@@ -166,7 +166,8 @@ public sealed class KataB01DrawingTests
 
         Assert.Contains(zones, z => Same(z.Stations[0], 19950) && Same(z.Stations[z.Count - 1], 20550) && Same(z.OutToOutHeight, 600));
         Assert.Contains(zones, z => Same(z.Stations[0], 20650) && Same(z.Stations[z.Count - 1], 22750) && Same(z.OutToOutHeight, 650));
-        Assert.Contains(zones, z => z.ZoneName == "Console" && Same(z.OutToOutHeight, 850) && Same(z.OutToOutWidth, 250));
+        Assert.Contains(zones, z => z.ZoneName == "Console" && Same(z.OutToOutHeight, 850) && Same(z.OutToOutWidth, 250)
+            && Same(z.Stations[0], 31650) && Same(z.Stations[z.Count - 1], 33500));
         Assert.All(zones.Where(z => z.Stations[0] > 25000), z => Same(z.OutToOutWidth, 250));
     }
 

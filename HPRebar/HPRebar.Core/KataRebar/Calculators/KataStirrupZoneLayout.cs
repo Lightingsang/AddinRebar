@@ -236,19 +236,17 @@ public static class KataStirrupZoneLayout
         return stations;
     }
 
+    /// <summary>
+    /// A console's stirrups: from the first-stirrup offset past the support face to the same offset short of where the
+    /// top bars stop (a from the tip), spaced evenly at G9 or a little less (B01 N: 31650…33500 a150).
+    /// </summary>
     private static List<double> CantileverStations(KataBeamStations st, int s, double ln, double spacing, KataDetailingRules rules)
     {
-        var stations = new List<double>();
-        double length = ln - rules.FirstStirrupOffset - rules.StirrupCover;
-        if (length <= 0.0) return stations;
-
-        int count = (int)Math.Floor(length / spacing + 1e-9) + 1;
-        double startX = s == 0 && st.IsLeftCantilever
-            ? st.SpanStart[s] + rules.StirrupCover
-            : st.SpanStart[s] + rules.FirstStirrupOffset;
-
-        for (int i = 0; i < count; i++) stations.Add(startX + i * spacing);
-        return stations;
+        double tipOffset = rules.TopBarCentreDepth + rules.FirstStirrupOffset;
+        bool left = s == 0 && st.IsLeftCantilever;
+        double from = st.SpanStart[s] + (left ? tipOffset : rules.FirstStirrupOffset);
+        double to = st.SpanStart[s] + ln - (left ? rules.FirstStirrupOffset : tipOffset);
+        return to < from ? new List<double>() : Even(from, to, spacing);
     }
 
     private readonly record struct Box(double Width, double Height, double MinY, double MinZ);

@@ -50,9 +50,13 @@ internal static class KataElevationOutline
             }
             else if (f.IsBeam(k) && k > 0 && k < last)
             {
-                // A crossing beam inside the run: its top and soffit go on through it (no Kata drawing of one yet).
+                // A crossing beam inside the run: its top and soffit go on through it (no Kata drawing of one yet);
+                // where the spans' tops differ (row 19) the top steps at the beam's centre.
                 double depth = -f.SupportDepth(k);
-                yield return Line(KataDrawingPen.Outline, new[] { (s, 0.0), (e, 0.0) });
+                double left = f.Top(k - 1, end: true), right = f.Top(k, end: false), c = (s + e) / 2.0;
+                yield return Line(KataDrawingPen.Outline, Math.Abs(left - right) > 1.0
+                    ? new[] { (s, left), (c, left), (c, right), (e, right) }
+                    : new[] { (s, left), (e, right) });
                 yield return Line(KataDrawingPen.Outline, new[] { (s, depth), (e, depth) });
                 foreach (var step in Step(s, depth, f.Soffit(k - 1))) yield return step;
                 foreach (var step in Step(e, depth, f.Soffit(k))) yield return step;
@@ -78,7 +82,7 @@ internal static class KataElevationOutline
         else if (f.IsBeam(k))
         {
             double depth = -f.SupportDepth(k);
-            yield return Line(KataDrawingPen.Outline, new[] { (inner, 0.0), (outer, 0.0), (outer, depth) });
+            yield return Line(KataDrawingPen.Outline, new[] { (inner, top), (outer, top), (outer, depth) });
             yield return Line(KataDrawingPen.Outline, new[] { (inner, depth), (outer, depth) });
             foreach (var step in Step(inner, depth, soffit)) yield return step;
         }
