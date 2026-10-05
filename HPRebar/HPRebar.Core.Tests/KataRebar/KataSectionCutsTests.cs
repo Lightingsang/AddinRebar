@@ -53,7 +53,7 @@ public sealed class KataSectionCutsTests
     }
 
     [Fact]
-    public void A_cantilever_has_no_cut_near_its_free_tip()
+    public void A_cantilever_has_one_cut_a_third_of_its_length_out_from_the_support()
     {
         var table = KataRebarTestSheets.SingleSpan();
         table.Set("C11", 0.0);
@@ -61,8 +61,8 @@ public sealed class KataSectionCutsTests
 
         var (_, x) = Cuts(table);
 
-        // 1500 mm cantilever from x = 0 to the column at 1500: the middle cut and the one beside the column only.
-        Assert.Equal(new[] { 700.0, 1350.0 }, x);
+        // 1500 mm cantilever from x = 0 to the column at 1500; Kata's B01 console (2000) is cut once, 666.7 out (14-14).
+        Assert.Equal(new[] { 1000.0 }, x);
     }
 
     [Theory]

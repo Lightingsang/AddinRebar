@@ -90,7 +90,10 @@ public static class KataRebarPlanner
         var measured = span with { Length = segment.LengthMm };
         var pieces = segment.PieceList;
         if (pieces.Count == 0)
+        {
+            measured = measured with { Loads = Loads(segment) };
             return segment.HeightMm > 0.0 ? measured with { Depth = segment.HeightMm - span.TopDrop } : measured;
+        }
 
         var first = pieces[0];
         var steps = new List<KataTopStep>();
@@ -103,12 +106,18 @@ public static class KataRebarPlanner
 
         return measured with
         {
+            Loads = Loads(segment),
             Depth = Snap(KataSheetGeometryCheck.SoffitDepth(segment)),
             TopDrop = Snap(first.TopMm),
             TopSteps = steps,
             Width = first.WidthMm > 0.0 ? Snap(first.WidthMm) : span.Width
         };
     }
+
+    /// <summary>What rests on the span in Revit: beams framing into it, stub columns on it.</summary>
+    private static IReadOnlyList<KataSpanLoad> Loads(KataMeasuredSegment segment) => segment.LoadList
+        .Select(l => new KataSpanLoad(Snap(l.StartMm + l.WidthMm / 2.0), Snap(l.WidthMm), Snap(l.SoffitBelowTopMm), l.IsColumn))
+        .ToList();
 
     /// <summary>Measured sizes and levels to whole millimetres: modelling noise must not read as a step.</summary>
     private static double Snap(double mm) => Math.Round(mm, MidpointRounding.AwayFromZero) + 0.0;

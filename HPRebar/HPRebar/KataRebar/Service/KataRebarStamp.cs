@@ -1,33 +1,23 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
-using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.KataRebar.Service;
 
 /// <summary>
-/// Marks a created bar: its comment carries the host tag the next run deletes by, its partition the
-/// beam name (when the sheet gives one) and its schedule mark Kata's bar number (the plan's internal mark when the
-/// bar has none).
+/// Marks a created bar: its host, Kata number and beam in extensible storage (<see cref="KataRebarStorage"/>), its
+/// partition the beam name (when the sheet gives one) so the beam is numbered on its own. Comments and Schedule Mark
+/// are left to the user; the Kata number goes to Rebar Number once every bar exists (<see cref="KataRebarNumberAssigner"/>).
 /// </summary>
 public static class KataRebarStamp
 {
-    /// <summary>The schedule mark of a bar: its Kata number, else its internal mark.</summary>
-    public static string Mark(int barNumber, string barMark) => barNumber > 0 ? barNumber.ToString(System.Globalization.CultureInfo.InvariantCulture) : barMark;
-
-    public static void Apply(Rebar rebar, Element host, string beamName, string barMark)
+    public static void Apply(Rebar rebar, Element host, string beamName, int kataNumber)
     {
-        Set(rebar, BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS, KataRebarTag.ForHost(host.UniqueId));
+        KataRebarStorage.Write(rebar, host.UniqueId, kataNumber, beamName?.Trim() ?? "");
 
         if (!string.IsNullOrWhiteSpace(beamName))
-            Set(rebar, BuiltInParameter.NUMBER_PARTITION_PARAM, beamName.Trim());
-
-        if (!string.IsNullOrWhiteSpace(barMark))
-            Set(rebar, BuiltInParameter.REBAR_ELEM_SCHEDULE_MARK, barMark);
-    }
-
-    private static void Set(Element element, BuiltInParameter id, string value)
-    {
-        var parameter = element.get_Parameter(id);
-        if (parameter is { IsReadOnly: false }) parameter.Set(value);
+        {
+            var partition = rebar.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM);
+            if (partition is { IsReadOnly: false }) partition.Set(beamName.Trim());
+        }
     }
 }

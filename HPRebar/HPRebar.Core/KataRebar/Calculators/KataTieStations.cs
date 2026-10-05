@@ -16,6 +16,9 @@ public static class KataTieStations
     /// <summary>One set of evenly spaced stations.</summary>
     public readonly record struct Run(IReadOnlyList<double> Stations, double Spacing, string ZoneName);
 
+    /// <summary>Name of a run spread evenly at J7 (I8 = 2), which follows no hoop zone: "Đều a500".</summary>
+    public const string EvenRunPrefix = "Đều a";
+
     /// <summary>Distance kept from a support face, or from the end of a bar a tie holds.</summary>
     public static double Clearance(KataDetailingRules rules) => rules.FirstStirrupOffset + 2.0 * rules.StirrupDiameter;
 
@@ -36,7 +39,7 @@ public static class KataTieStations
             double last = span == st.SpanCount - 1 && st.IsRightCantilever
                 ? st.SpanEnd[span] - rules.StirrupCover - rules.StirrupDiameter / 2.0
                 : st.SpanEnd[span];
-            foreach (var zone in hoopZones.Where(z => z.SpanIndex == span && z.Count > 0))
+            foreach (var zone in hoopZones.Where(z => z.SpanIndex == span && z.Count > 0 && !KataJointStirrups.IsJointZone(z.ZoneName)))
             {
                 // A zone's stations are evenly spaced, so the ones inside [lo, hi] still are.
                 var stations = zone.Stations.Select(x => x + shift)
@@ -55,7 +58,7 @@ public static class KataTieStations
         if (spacing <= 0.0 || to < from - 1e-6) return runs;
 
         int count = (int)Math.Floor(Math.Max(0.0, to - from) / spacing + 1e-9) + 1;
-        runs.Add(new Run(Enumerable.Range(0, count).Select(i => from + i * spacing).ToList(), spacing, $"Đều a{spacing:0}"));
+        runs.Add(new Run(Enumerable.Range(0, count).Select(i => from + i * spacing).ToList(), spacing, $"{EvenRunPrefix}{spacing:0}"));
         return runs;
     }
 }

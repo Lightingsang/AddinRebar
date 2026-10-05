@@ -9,16 +9,18 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
 /// Inner stirrups of each span's section, as Kata's stirrup chart draws them from the top bars they name:
-/// "Đai □ a-b" a closed hoop round top bars a..b, "Đai U a-b" a U open at the top with its legs at bars a and
-/// b, "Đai C a" an upright tie beside bar a from the top bars to the bottom ones. They follow the outer
-/// hoop's zones, one stirrup diameter along the beam from each outer hoop so the two never share a plane, at the
-/// span's width (row 20) and up to the top over each zone (row 19).
+/// "Đai □ a-b" a closed hoop round top bars a..b, "Đai U a-b" a U open at the top with its legs outside bars a and
+/// b, each leg turned in over its bar and down (B01 section 2-2: legs ±59 round bars 3-4, in 40, down 55 for Ø10),
+/// "Đai C a" an upright tie beside bar a from the top bars to the bottom ones. They are spaced as the C ties are
+/// (I8, <see cref="KataTieStations"/>): beside every outer hoop, one stirrup diameter along the beam from it, or
+/// evenly at J7 (B01: "Ø10a500", "2xØ10a500"); at the span's width (row 20) and up to the top over each run (row 19).
 /// </summary>
 public static class KataInnerStirrupLayout
 {
     public static List<KataBarSet> Build(
         KataBeamRebarSpec spec,
         KataDetailingRules rules,
+        KataBeamStations st,
         IReadOnlyList<KataStirrupZoneResult> outerZones,
         List<string> warnings)
     {
@@ -26,29 +28,40 @@ public static class KataInnerStirrupLayout
         double ds = rules.StirrupDiameter;
         if (ds <= 0.0 || outerZones.Count == 0) return sets;
 
-        var top = spec.TopContinuous;
-        double off = (top.Diameter + ds) / 2.0;
+        // A row carried on to the next spans names the same cell there: say what is wrong with it once.
+        var said = new HashSet<string>();
+        void Warn(string warning)
+        {
+            if (said.Add(warning)) warnings.Add(warning);
+        }
+
+        IReadOnlyList<KataStirrupBranchSpec> carried = Array.Empty<KataStirrupBranchSpec>();
+        KataBarItem? carriedTop = null;
         for (int s = 0; s < spec.Spans.Count; s++)
         {
+            // The bars a stirrup names are the span's own top main bars (B01 console "Đai C 2": the middle one of its 3Ø20).
+            var top = spec.TopMainOf(s);
+            double off = (top.Diameter + ds) / 2.0;
             var barY = top.IsEmpty
                 ? Array.Empty<double>()
-                : KataRebarCalculator.ComputeTransverseYPositions(spec.WidthOf(s), rules.StirrupCover, ds, top.Diameter, top.Count).OrderBy(y => y).ToArray();
+                // Kata counts the bars from the left of its section, which looks along the beam (+X): bar 1 is on +Y.
+                : KataRebarCalculator.ComputeTransverseYPositions(spec.WidthOf(s), rules.StirrupCover, ds, top.Diameter, top.Count).OrderByDescending(y => y).ToArray();
             double zBottom = -spec.DepthOf(s) + rules.StirrupCover + ds / 2.0;
-            var entries = spec.Spans[s].InnerStirrups;
-            var zones = outerZones.Where(z => z.SpanIndex == s && z.Count > 0).ToList();
+            var entries = Entries(spec.Spans[s].InnerStirrups, top, ref carried, ref carriedTop);
+            var runs = SplitAtSteps(spec, st, s, Runs(rules, st, outerZones, s));
             for (int i = 0; i < entries.Count; i++)
             {
                 var entry = entries[i];
                 string label = $"{entry.Address} '{Name(entry.ShapeType)} {entry.Position}'";
                 if (!TryBars(entry.Position, out int a, out int b))
                 {
-                    warnings.Add($"{label}: không đọc được thanh được ôm (ví dụ '2-3' hoặc '2') — không vẽ.");
+                    Warn($"{label}: không đọc được thanh được ôm (ví dụ '2-3' hoặc '2') — không vẽ.");
                     continue;
                 }
 
                 if (barY.Length == 0 || a < 1 || b > barY.Length)
                 {
-                    warnings.Add($"{label}: thép chủ trên có {barY.Length} thanh, không có thanh {a}..{b} — không vẽ.");
+                    Warn($"{label}: thép chủ trên có {barY.Length} thanh, không có thanh {a}..{b} — không vẽ.");
                     continue;
                 }
 
@@ -56,17 +69,17 @@ public static class KataInnerStirrupLayout
                     continue; // the outer hoop itself
 
                 if (entry.ShapeType == KataStirrupShapeType.CrossTie && a != b)
-                    warnings.Add($"{label}: đai C ôm một thanh — dùng thanh {a}.");
+                    Warn($"{label}: đai C ôm một thanh — dùng thanh {a}.");
 
                 bool wraps = entry.ShapeType == KataStirrupShapeType.CrossTie;
-                var wrapOffset = new Point3(0.0, barY[a - 1] <= 0.0 ? 1.0 : -1.0, 0.0);
-                foreach (var zone in zones)
+                // As B01 section 2-2 draws every C: its long leg on the left of the bar (+Y), the hooks round to the right.
+                var wrapOffset = new Point3(0.0, 1.0, 0.0);
+                foreach (var run in runs)
                 {
-                    // The outer hoop of the zone reaches the top over it less the cover.
-                    double topLevel = zone.BoxMinZ + zone.OutToOutHeight + rules.StirrupCover;
+                    var stations = run.Stations;
+                    double topLevel = spec.TopAt(s, (stations[0] + stations[stations.Count - 1]) / 2.0 - st.SpanStart[s]);
                     double zTop = topLevel - rules.StirrupCover - ds / 2.0;
                     var (shape, toward, hookAngle, hookFactor) = Geometry(entry.ShapeType, barY[a - 1], barY[b - 1], off, zTop, zBottom, topLevel, rules);
-                    var stations = zone.Stations.Select(x => x + ds).ToList();
                     sets.Add(new KataBarSet
                     {
                         BarMark = $"{KataStirrupCurveFactory.MarkOf(entry.ShapeType)}.{s + 1}.{i + 1}",
@@ -79,10 +92,10 @@ public static class KataInnerStirrupLayout
                         },
                         Diameter = ds,
                         SpanIndex = s,
-                        ZoneName = zone.ZoneName,
+                        ZoneName = run.ZoneName,
                         Shape = new Polyline3(shape.Select(p => new Point3(stations[0], p.Y, p.Z)).ToList()),
                         Stations = stations,
-                        Spacing = zone.Spacing,
+                        Spacing = run.Spacing,
                         HookAngle = hookAngle,
                         HookFactor = hookFactor,
                         HookToward = toward,
@@ -96,18 +109,85 @@ public static class KataInnerStirrupLayout
         return sets;
     }
 
+    /// <summary>
+    /// Each run cut where the span's top steps (row 19): the stirrups on either side are of different heights, Kata
+    /// numbers them apart (B01 span H, top 50 down, its U and C 30 and 31 beside J's 27 and 28).
+    /// </summary>
+    private static List<KataTieStations.Run> SplitAtSteps(KataBeamRebarSpec spec, KataBeamStations st, int s, List<KataTieStations.Run> runs)
+    {
+        var steps = spec.Spans[s].TopSteps.Select(t => st.SpanStart[s] + t.AtMm).OrderBy(x => x).ToList();
+        if (steps.Count == 0) return runs;
+
+        var parts = new List<KataTieStations.Run>();
+        foreach (var run in runs)
+        {
+            int k = 0;
+            foreach (var group in run.Stations.GroupBy(x => steps.Count(step => x >= step)).OrderBy(g => g.Key))
+                parts.Add(run with { Stations = group.ToList(), ZoneName = k++ == 0 ? run.ZoneName : $"{run.ZoneName} [{k}]" });
+        }
+
+        return parts;
+    }
+
+    /// <summary>
+    /// A span's inner stirrups: its own pairs of rows 25-27, else those of the span before while the top main bars stay
+    /// the same (B01: span 1's U 3-4, C 2, C 5 run on through F, H and J, sections 4-10; the 3Ø20 of span L have none,
+    /// the console its own "Đai C 2").
+    /// </summary>
+    private static IReadOnlyList<KataStirrupBranchSpec> Entries(IReadOnlyList<KataStirrupBranchSpec> own, KataBarItem top,
+        ref IReadOnlyList<KataStirrupBranchSpec> carried, ref KataBarItem? carriedTop)
+    {
+        if (own.Count > 0 || carriedTop is null || carriedTop.Count != top.Count || Math.Abs(carriedTop.Diameter - top.Diameter) > 0.5)
+            carried = own;
+        carriedTop = top;
+        return carried;
+    }
+
+    /// <summary>
+    /// Where the inner stirrups of span <paramref name="s"/> go: beside each outer hoop of the span's own zones (joint
+    /// stirrups round a load are outer hoops only), one stirrup diameter along so the two never share a plane; or
+    /// evenly at J7 as the C ties, one stirrup diameter short of them.
+    /// </summary>
+    private static List<KataTieStations.Run> Runs(KataDetailingRules rules, KataBeamStations st, IReadOnlyList<KataStirrupZoneResult> zones, int s)
+    {
+        double ds = rules.StirrupDiameter;
+        if (rules.TieSpacingMode == KataTieSpacingMode.LikeHoops)
+            return zones.Where(z => z.SpanIndex == s && z.Count > 0 && !KataJointStirrups.IsJointZone(z.ZoneName))
+                .Select(z => new KataTieStations.Run(z.Stations.Select(x => x + ds).ToList(), z.Spacing, z.ZoneName))
+                .ToList();
+
+        // Kata runs them on through a load (B01 section 2-2, cut at the beam framing into span 1, shows them).
+        return KataTieStations.InSpan(rules, st, zones, s, st.SpanStart[s], st.SpanEnd[s])
+            .Where(r => r.Stations.Count > 0)
+            .Select(r => r with { Stations = r.Stations.Select(x => x - ds).ToList() })
+            .ToList();
+    }
+
+    /// <summary>Turn of a U's leg over its bar, and its drop inside it, in stirrup diameters (B01 section 2-2: 40 and 55 for Ø10).</summary>
+    private const double UReturnDiameters = 4.0;
+    private const double UDropDiameters = 5.5;
+
     /// <summary>Centreline in the section (Y, Z) and the point its hooks turn towards.</summary>
     private static (List<Point3> Shape, Point3 Toward, int HookAngle, double HookFactor) Geometry(
         KataStirrupShapeType type, double ya, double yb, double off, double zTop, double zBottom, double topLevel, KataDetailingRules rules)
     {
         double zBottomBar = zBottom - rules.StirrupCover - rules.StirrupDiameter / 2.0 + rules.BottomBarCentreDepth;
-        double left = ya - off, right = yb + off;
+        // Bars a..b run from +Y to −Y: the U's legs stand outside them.
+        double left = Math.Max(ya, yb) + off, right = Math.Min(ya, yb) - off;
         var centre = new Point3(0.0, (left + right) / 2.0, (zTop + zBottom) / 2.0);
         switch (type)
         {
             case KataStirrupShapeType.CapStirrup:
-                return (new List<Point3> { new(0, left, zTop), new(0, left, zBottom), new(0, right, zBottom), new(0, right, zTop) },
-                    centre, rules.ClosedStirrupHookAngle, rules.ClosedStirrupHookFactor);
+            {
+                // Open at the top: each leg turns in over its bar and down inside it — bends, not hooks.
+                double turn = UReturnDiameters * rules.StirrupDiameter, drop = UDropDiameters * rules.StirrupDiameter;
+                return (new List<Point3>
+                    {
+                        new(0, left - turn, zTop - drop), new(0, left - turn, zTop), new(0, left, zTop), new(0, left, zBottom),
+                        new(0, right, zBottom), new(0, right, zTop), new(0, right + turn, zTop), new(0, right + turn, zTop - drop)
+                    },
+                    centre, 0, 0.0);
+            }
 
             case KataStirrupShapeType.CrossTie:
                 // The top bar it wraps and the bottom bar position below it; the tie runs beside them on the side

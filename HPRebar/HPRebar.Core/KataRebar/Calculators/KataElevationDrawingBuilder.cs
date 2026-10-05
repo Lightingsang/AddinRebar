@@ -14,13 +14,15 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// </summary>
 public static class KataElevationDrawingBuilder
 {
-    public static KataElevationDrawing Build(KataBeamRebarSpec spec, KataRebarLayoutResult layout, IReadOnlyList<KataSectionCut> cuts, double stirrupDiameter)
+    /// <param name="stirrupRow">Row of the stirrup tags (<see cref="KataBarTagBuilder.StirrupRowOf"/>): what is over it moves with it.</param>
+    public static KataElevationDrawing Build(KataBeamRebarSpec spec, KataRebarLayoutResult layout, IReadOnlyList<KataSectionCut> cuts, double stirrupDiameter,
+        double stirrupRow = KataTagStyle.StirrupRow)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
         if (layout is null) throw new ArgumentNullException(nameof(layout));
         if (cuts is null) throw new ArgumentNullException(nameof(cuts));
 
-        var f = new KataDrawingFrame(spec);
+        var f = new KataDrawingFrame(spec, stirrupRow);
         var lines = KataElevationOutline.Lines(f).ToList();
         lines.AddRange(Stirrups(f, layout, KataStirrupRuns.Of(layout)));
         lines.AddRange(Bars(layout, stirrupDiameter));
@@ -29,7 +31,7 @@ public static class KataElevationDrawingBuilder
         double bubbleZ = f.StubBottom - KataDrawingStyle.BubbleBelow;
         var flags = cuts.SelectMany(c => new[]
         {
-            new KataDrawingFlag(c.X, KataDrawingStyle.FlagAboveZ, c.Number, false),
+            new KataDrawingFlag(c.X, KataDrawingStyle.FlagAboveZ + f.Lift, c.Number, false),
             new KataDrawingFlag(c.X, bubbleZ, c.Number, true)
         }).ToList();
         var bubbles = Enumerable.Range(0, f.SupportCount)
@@ -45,12 +47,15 @@ public static class KataElevationDrawingBuilder
 
         double minX = Math.Min(KataDrawingStyle.LevelX - KataDrawingStyle.BubbleTickEnd, KataDrawingStyle.DepthDimX - KataDrawingStyle.DimTextHeight * 2.0);
         double maxX = f.Length + KataDrawingStyle.BubbleTickEnd;
-        double topZ = KataDrawingStyle.FlagAboveZ + KataDrawingStyle.FlagHeight;
+        double topZ = KataDrawingStyle.FlagAboveZ + f.Lift + KataDrawingStyle.FlagHeight;
         double bottomZ = title.Z - KataDrawingStyle.TitleScaleDrop - KataDrawingStyle.DimTextHeight;
         return new KataElevationDrawing(lines, dims, flags, bubbles, level, title, minX, maxX, topZ, bottomZ);
     }
 
-    /// <summary>The first and last stirrup of each zone, <see cref="KataTagStyle.StirrupInset"/> inside the span's faces.</summary>
+    /// <summary>
+    /// The first and last stirrup of each zone, <see cref="KataTagStyle.StirrupInset"/> inside the beam's top and soffit
+    /// where it stands (B01's console, its top 200 down: −225…−1075).
+    /// </summary>
     private static IEnumerable<KataDrawingLine> Stirrups(KataDrawingFrame f, KataRebarLayoutResult layout, IReadOnlyList<KataStirrupRun> runs)
     {
         foreach (var run in runs)
@@ -64,7 +69,7 @@ public static class KataElevationDrawingBuilder
                 .Select(KataLayoutRemoval.Key)
                 .ToList();
             foreach (double x in ends)
-                yield return new KataDrawingLine(KataDrawingPen.Stirrup, new[] { (x, -KataTagStyle.StirrupInset), (x, soffit + KataTagStyle.StirrupInset) }, keys);
+                yield return new KataDrawingLine(KataDrawingPen.Stirrup, new[] { (x, f.TopAt(x) - KataTagStyle.StirrupInset), (x, soffit + KataTagStyle.StirrupInset) }, keys);
         }
     }
 
@@ -74,7 +79,8 @@ public static class KataElevationDrawingBuilder
     {
         var lines = new List<(string Seen, KataRebarCurve First, List<(double X, double Z)> Points, List<string> Keys)>();
         var index = new Dictionary<string, int>(StringComparer.Ordinal);
-        foreach (var bar in layout.SideBars.Concat(layout.MainBottomBars).Concat(layout.ExtraBottomBars).Concat(layout.MainTopBars).Concat(layout.ExtraTopBars))
+        foreach (var bar in layout.SideBars.Concat(layout.MainBottomBars).Concat(layout.ExtraBottomBars).Concat(layout.MainTopBars).Concat(layout.ExtraTopBars)
+                     .Concat(layout.HangerBars))
         {
             double shift = KataDrawingLevels.Shift(bar, stirrupDiameter);
             var points = bar.Polyline.Points.Select(p => (p.X, Z: p.Z + shift)).ToList();

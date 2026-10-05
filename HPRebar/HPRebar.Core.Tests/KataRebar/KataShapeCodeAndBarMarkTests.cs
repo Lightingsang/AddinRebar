@@ -166,10 +166,12 @@ public class KataShapeCodeAndBarMarkTests
 
         var capSets = layout.BarSets.Where(b => b.Role == KataBarRole.StirrupCap).ToList();
         Assert.NotEmpty(capSets);
-        Assert.All(capSets, b => Assert.StartsWith("d2.1.", b.BarMark));
+        // Span 2 has no rows 25-27 of its own and the same top bars: it carries span 1's on (Kata, B01 sections 4-10).
+        Assert.All(capSets, b => Assert.Matches(@"^d2\.[12]\.", b.BarMark));
+        Assert.Contains(capSets, b => b.BarMark.StartsWith("d2.2.", System.StringComparison.Ordinal));
         var tieSets = layout.BarSets.Where(b => b.Role == KataBarRole.CrossTie && b.ZoneName != "Cốt giá").ToList();
         Assert.NotEmpty(tieSets);
-        Assert.All(tieSets, b => Assert.StartsWith("d3.1.", b.BarMark));
+        Assert.All(tieSets, b => Assert.Matches(@"^d3\.[12]\.", b.BarMark));
 
         // 7. Individual Stirrups
         var closedStirrups = layout.IndividualStirrups.Where(s => s.Role == KataBarRole.StirrupClosed).ToList();

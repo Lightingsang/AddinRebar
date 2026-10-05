@@ -8,18 +8,27 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// Kata's bar numbers ("số hiệu"), in the order its drawings use (T2-DY7 / T2-DY14): the top main bars, the bottom
-/// main bar runs from left to right, the additional top bars support by support (row 13 to 16), the additional bottom
-/// bars span by span (row 18 then 17), the side bars, every C tie, the inner stirrups, then the hoops span by span.
+/// Kata's bar numbers ("số hiệu"), in the order its drawings use (T2-DY7, T2-DY14, B01): the top main bars, the bottom
+/// main bar runs from left to right, the additional top bars support by support (row 13 to 16) — a support of no width
+/// numbers its rows 17 / 18 there too (B01 I17: 12, between G's 11 and K's 13) —, the additional bottom bars span by
+/// span (row 18 then 17), the side bars, then span by span its C ties, its hoops and its inner stirrups (B01: 22 tie,
+/// 23 hoop, 24 U, 25 C in span D … 33 tie, 34 hoop, 35 C in the console), the hanger bars last.
 /// A bar identical to one already numbered — same diameter, same shape and dimensions within ±1 mm, wherever it
 /// sits (Kata's E13 1Ø18 and F17 3Ø18 of 4650 are both 6) — takes that number, as Kata does while
 /// "Cho phép các thanh thép giống nhau đánh số hiệu khác nhau" is off.
 /// </summary>
 public static class KataBarNumbering
 {
-    public static KataRebarLayoutResult Apply(KataRebarLayoutResult layout, double stirrupDiameter)
+    /// <param name="spec">The beam: where its supports and joints are, how wide each span is (a tie's length).</param>
+    public static KataRebarLayoutResult Apply(KataRebarLayoutResult layout, double stirrupDiameter, KataBeamRebarSpec? spec = null)
     {
         if (layout is null) throw new ArgumentNullException(nameof(layout));
+        var st = spec is null ? null : KataBeamStations.From(spec);
+        double? JointOf(KataRebarCurve bar) =>
+            st is not null && bar.HostSpanIndex >= 0 && bar.HostSpanIndex < spec!.Spans.Count && spec.Spans[bar.HostSpanIndex].BottomExtraJointAtMm is { } at
+                ? st.SpanStart[bar.HostSpanIndex] + at
+                : null;
+        double SupportAt(int k) => st is not null && k >= 0 && k < st.SupportStart.Length ? (st.SupportStart[k] + st.SupportEnd[k]) / 2.0 : k;
 
         var known = new List<(Shape Shape, int Number)>();
         int Number(IReadOnlyList<Shape> forms)
@@ -31,10 +40,11 @@ public static class KataBarNumbering
         }
 
         // Numbers go in Kata's order; each list keeps its own order.
-        List<KataRebarCurve> InOrder(IReadOnlyList<KataRebarCurve> bars, Func<KataRebarCurve, int> group, Func<KataRebarCurve, int> layer)
+        List<KataRebarCurve> InOrder(IReadOnlyList<KataRebarCurve> bars, Func<KataRebarCurve, double> group, Func<KataRebarCurve, int> layer,
+            Func<KataRebarCurve, bool>? take = null)
         {
             var result = bars.ToArray();
-            foreach (int i in Enumerable.Range(0, bars.Count)
+            foreach (int i in Enumerable.Range(0, bars.Count).Where(i => take?.Invoke(bars[i]) ?? true)
                          .OrderBy(i => group(bars[i])).ThenBy(i => layer(bars[i])).ThenBy(i => bars[i].Polyline.Points.Min(p => p.X)).ThenBy(i => i))
                 result[i] = bars[i] with { BarNumber = Number(Signature(bars[i])) };
             return result.ToList();
@@ -42,22 +52,37 @@ public static class KataBarNumbering
 
         var top = InOrder(layout.MainTopBars, _ => 0, _ => 0);
         var bottom = InOrder(layout.MainBottomBars, _ => 0, _ => 0);
-        var extraTop = InOrder(layout.ExtraTopBars, b => b.HostSupportIndex, b => b.Layer);
-        var extraBottom = InOrder(layout.ExtraBottomBars, b => b.HostSpanIndex, b => b.Layer);
+
+        // The supports' bars in station order: rows 13-16 of each support and rows 17 / 18 of a support of no width.
+        var supportBars = layout.ExtraTopBars.Select(b => (Bar: b, At: SupportAt(b.HostSupportIndex)))
+            .Concat(layout.ExtraBottomBars.Where(b => JointOf(b) is not null).Select(b => (Bar: b, At: JointOf(b)!.Value)))
+            .ToList();
+        var numbered = new Dictionary<int, int>();
+        foreach (var (bar, _) in supportBars.OrderBy(x => x.At).ThenBy(x => x.Bar.Role == KataBarRole.ExtraBottom ? 1 : 0)
+                     .ThenBy(x => x.Bar.Layer).ThenBy(x => x.Bar.Polyline.Points.Min(p => p.X)))
+            numbered[bar.BarId] = Number(Signature(bar, JointOf(bar) is null ? "" : "joint"));
+        var extraTop = layout.ExtraTopBars.Select(b => b with { BarNumber = numbered[b.BarId] }).ToList();
+        var extraBottom = InOrder(layout.ExtraBottomBars, b => b.HostSpanIndex, b => b.Layer, b => JointOf(b) is null)
+            .Select(b => numbered.TryGetValue(b.BarId, out int n) && JointOf(b) is not null ? b with { BarNumber = n } : b).ToList();
         var side = InOrder(layout.SideBars, _ => 0, b => b.Layer);
 
-        // Every C tie of one diameter shares a number (DY7 14: side-bar ties and layer ties alike); the inner
-        // stirrups follow, identical ones sharing theirs.
-        var sets = layout.BarSets.Select(set => IsTie(set)
-            ? set with { BarNumber = Number(new[] { new Shape($"tie|{Mm(set.Diameter)}", Array.Empty<double>()) }) }
-            : set).ToList();
-        sets = sets.Select(set => set.BarNumber > 0 ? set : set with { BarNumber = Number(Signature(set)) }).ToList();
+        // Span by span: its C ties (one number per diameter and span width: DY7 14 holds side-bar and layer ties
+        // alike, B01's 500 and 300 spans have 22 and 33), its hoops, its inner stirrups.
+        var sets = layout.BarSets.ToArray();
+        var zones = layout.StirrupZones.ToArray();
+        foreach (int s in sets.Select(x => x.SpanIndex).Concat(zones.Select(z => z.SpanIndex)).Distinct().OrderBy(x => x).ToList())
+        {
+            for (int i = 0; i < sets.Length; i++)
+                if (sets[i].SpanIndex == s && IsTie(sets[i]))
+                    sets[i] = sets[i] with { BarNumber = Number(new[] { new Shape($"tie|{Mm(sets[i].Diameter)}|{Mm(spec?.WidthOf(s) ?? 0.0)}", Array.Empty<double>()) }) };
+            foreach (int i in Enumerable.Range(0, zones.Length).Where(i => zones[i].SpanIndex == s).OrderBy(i => zones[i].ZoneIndex).ThenBy(i => i))
+                zones[i] = zones[i] with { BarNumber = Number(Signature(zones[i], stirrupDiameter)) };
+            for (int i = 0; i < sets.Length; i++)
+                if (sets[i].SpanIndex == s && !IsTie(sets[i]))
+                    sets[i] = sets[i] with { BarNumber = Number(Signature(sets[i])) };
+        }
 
-        var zones = layout.StirrupZones
-            .Select((zone, index) => (zone, index))
-            .OrderBy(z => z.zone.SpanIndex).ThenBy(z => z.zone.ZoneIndex).ThenBy(z => z.index)
-            .Select(z => (z.index, zone: z.zone with { BarNumber = Number(Signature(z.zone, stirrupDiameter)) }))
-            .OrderBy(z => z.index).Select(z => z.zone).ToList();
+        var hangers = InOrder(layout.HangerBars, b => b.HostSpanIndex, _ => 0);
         var stirrups = layout.IndividualStirrups
             .Select(s => ZoneOf(zones, s) is { } zone ? s with { BarNumber = zone.BarNumber } : s)
             .ToList();
@@ -69,8 +94,9 @@ public static class KataBarNumbering
             ExtraTopBars = extraTop,
             ExtraBottomBars = extraBottom,
             SideBars = side,
-            BarSets = sets,
-            StirrupZones = zones,
+            HangerBars = hangers,
+            BarSets = sets.ToList(),
+            StirrupZones = zones.ToList(),
             IndividualStirrups = stirrups
         };
     }
@@ -105,7 +131,8 @@ public static class KataBarNumbering
     /// A bar's shape seen four ways (as drawn, end for end, upside down, both), each with its hooks in the order of that
     /// view, so a bar and its mirror image match.
     /// </summary>
-    private static IReadOnlyList<Shape> Signature(KataRebarCurve bar)
+    /// <param name="kind">Bars of another kind never share a number (a joint's bars with a span's).</param>
+    private static IReadOnlyList<Shape> Signature(KataRebarCurve bar, string kind = "")
     {
         var points = bar.Polyline.Points;
         var reversed = points.Reverse().ToList();
@@ -113,7 +140,7 @@ public static class KataBarNumbering
         {
             var o = pts[0];
             var values = pts.SelectMany(p => new[] { sx * (p.X - o.X), sz * (p.Z - o.Z) }).Concat(new[] { first.Length, last.Length }).ToList();
-            return new Shape($"bar|{Mm(bar.Diameter)}|{pts.Count}|{(int)first.Angle}|{(int)last.Angle}", values);
+            return new Shape($"bar{kind}|{Mm(bar.Diameter)}|{pts.Count}|{(int)first.Angle}|{(int)last.Angle}", values);
         }
 
         var start = (bar.StartHookAngle, bar.StartHookLength);

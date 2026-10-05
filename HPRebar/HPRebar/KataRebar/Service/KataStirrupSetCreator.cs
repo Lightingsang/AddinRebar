@@ -62,8 +62,10 @@ public static class KataStirrupSetCreator
         sub.Start();
         try
         {
-            var origin = mapper.ToXyz(zone.StartStationX, zone.BoxMinY, zone.BoxMinZ);
-            var across = mapper.AxisY;
+            // Laid from the +Y face towards −Y: the shape's hooks land at the top on −Y, the top right of Kata's
+            // section, which looks along the beam (B01 section 2-2).
+            var origin = mapper.ToXyz(zone.StartStationX, zone.BoxMinY + zone.OutToOutWidth, zone.BoxMinZ);
+            var across = -mapper.AxisY;
             var up = mapper.AxisZ;
 
             var rebar = Rebar.CreateFromRebarShape(doc, shape, barType, host, origin, across, up)
@@ -86,7 +88,7 @@ public static class KataStirrupSetCreator
             // ScaleToBox compromises instead of failing when a shape cannot fit; a wrong size falls back to single bars.
             CheckFirstStirrup(rebar, zone, mapper, RevitUnits.FtToMm(barType.BarNominalDiameter));
 
-            KataRebarStamp.Apply(rebar, host, beamName, KataRebarStamp.Mark(zone.BarNumber, zone.BarMark));
+            KataRebarStamp.Apply(rebar, host, beamName, zone.BarNumber);
             sub.Commit();
             return true;
         }
@@ -168,7 +170,7 @@ public static class KataStirrupSetCreator
             var rebar = KataRebarCurveFactory.Create(
                 doc, RebarStyle.StirrupTie, barType, host, placement.Mapper.AxisX,
                 KataRebarCurveFactory.Curves(stirrup.Polyline, placement.Mapper));
-            KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(stirrup.BarNumber, stirrup.BarMark));
+            KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, stirrup.BarNumber);
         }
 
         return curves.Count;

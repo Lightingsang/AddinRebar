@@ -29,6 +29,12 @@ public sealed record KataSpanRebarSpec
     /// <summary>Row 17 as written in the sheet.</summary>
     public string BottomExtraLayer2Text { get; init; } = "";
 
+    /// <summary>
+    /// The additional bottom bars are a support's of no width (its rows 17 / 18, B01 I17), the joint this far from the
+    /// span's start: Kata numbers them with the supports' bars.
+    /// </summary>
+    public double? BottomExtraJointAtMm { get; init; }
+
     /// <summary>Convenience accessor for both bottom extra bar layers.</summary>
     public IReadOnlyList<IReadOnlyList<KataBarItem>> AllBottomExtraLayers =>
         new[] { BottomExtraLayer1, BottomExtraLayer2 };
@@ -53,6 +59,9 @@ public sealed record KataSpanRebarSpec
 
     /// <summary>Changes of the top further along the span (a joined support of no width), in station order.</summary>
     public IReadOnlyList<KataTopStep> TopSteps { get; init; } = Array.Empty<KataTopStep>();
+
+    /// <summary>Beams framing into the span and stub columns standing on it, from the Revit model.</summary>
+    public IReadOnlyList<KataSpanLoad> Loads { get; init; } = Array.Empty<KataSpanLoad>();
 
     /// <summary>Width of the span in mm (a number in row 20, carried on); 0 = the beam's B6.</summary>
     public double Width { get; init; }

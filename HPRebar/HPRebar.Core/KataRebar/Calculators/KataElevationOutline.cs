@@ -66,7 +66,7 @@ internal static class KataElevationOutline
         foreach (var line in Slab(f)) yield return line;
 
         foreach (double x in f.Grids())
-            yield return Line(KataDrawingPen.Grid, new[] { (x, KataDrawingStyle.GridTopZ), (x, f.StubBottom - KataDrawingStyle.GridEndBelow) });
+            yield return Line(KataDrawingPen.Grid, new[] { (x, KataDrawingStyle.GridTopZ + f.Lift), (x, f.StubBottom - KataDrawingStyle.GridEndBelow) });
     }
 
     /// <summary>

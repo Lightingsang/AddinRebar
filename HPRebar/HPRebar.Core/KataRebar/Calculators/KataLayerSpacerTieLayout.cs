@@ -17,6 +17,13 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// </summary>
 public static class KataLayerSpacerTieLayout
 {
+    /// <summary>
+    /// A wider layer gets no tie: Kata ties the 3-bar layers of T2-DY7/DY14 (300 wide) but neither the 6-bar ones of
+    /// B01 (500 wide, sections 1-6) nor the 4 bars where B01's 2Ø16 from both sides of M overlap (no number between
+    /// span L's hoop 32 and the console's tie 33).
+    /// </summary>
+    private const int MaxBarsHeld = 3;
+
     public const string ZoneName = "Thanh C kê";
 
     public static List<KataBarSet> Build(
@@ -93,7 +100,7 @@ public static class KataLayerSpacerTieLayout
 
             double mid = (from + to) / 2.0;
             var present = reach.Where(r => r.From <= mid && r.To >= mid).OrderBy(r => r.Bar.TransverseY).ToList();
-            bool holds = present.Count >= minBars && present[present.Count - 1].Bar.TransverseY - present[0].Bar.TransverseY >= 1.0;
+            bool holds = present.Count >= minBars && present.Count <= MaxBarsHeld && present[present.Count - 1].Bar.TransverseY - present[0].Bar.TransverseY >= 1.0;
             if (holds && open is { } o && ReferenceEquals(o.A, present[0]) && ReferenceEquals(o.B, present[present.Count - 1]))
             {
                 open = (o.Start, to, o.A, o.B);

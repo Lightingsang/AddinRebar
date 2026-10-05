@@ -37,7 +37,7 @@ internal static class KataSectionLines
     {
         double xc = bars.HoopX, c = bars.Cover, top = -c, bottom = -bars.Depth + c;
         double r = bars.CornerRadius(KataSectionFace.Top), rb = bars.CornerRadius(KataSectionFace.Bottom);
-        double hook = KataSectionStyle.HoopHookDiameters * bars.Stirrup;
+        double hook = KataSectionStyle.HoopHook;
         double bend = KataSectionStyle.CornerBulge;
         return new KataSectionPolyline(KataDrawingPen.Stirrup, new[]
         {
@@ -69,6 +69,42 @@ internal static class KataSectionLines
         if (straightAbove)
             return Arcs((tail, z - s), (x, z - s), (x, z + s), (-x, z + s), (-x, z - s), (-tail, z - s));
         return Arcs((-tail, z - s), (-x, z - s), (-x, z + s), (x, z + s), (x, z - s), (tail, z - s));
+    }
+
+    /// <summary>
+    /// An inner U as B01 section 2-2 draws it (Ø10 round bars 3-4: legs ±59, bottom on the hoop's, top two diameters
+    /// under the hoop's, each leg ending in a 180° hook over its bar — a half circle four diameters across, bulge 1 —
+    /// and a tail five and a half diameters down inside).
+    /// </summary>
+    public static KataSectionPolyline InnerU(KataSectionBars bars, double left, double right)
+    {
+        double ds = bars.Stirrup, top = -bars.Cover - 2.0 * ds, bottom = -bars.Depth + bars.Cover;
+        double turn = 4.0 * ds, drop = 5.5 * ds, r = 2.0 * ds;
+        return new KataSectionPolyline(KataDrawingPen.Stirrup, new[]
+        {
+            new KataBulgeVertex(left + turn, top - drop), new KataBulgeVertex(left + turn, top, KataSectionStyle.HalfCircleBulge),
+            new KataBulgeVertex(left, top),
+            new KataBulgeVertex(left, bottom + r, -KataSectionStyle.CornerBulge), new KataBulgeVertex(left + r, bottom),
+            new KataBulgeVertex(right - r, bottom, -KataSectionStyle.CornerBulge), new KataBulgeVertex(right, bottom + r),
+            new KataBulgeVertex(right, top, KataSectionStyle.HalfCircleBulge), new KataBulgeVertex(right - turn, top),
+            new KataBulgeVertex(right - turn, top - drop)
+        });
+    }
+
+    /// <summary>
+    /// An inner C as B01 section 2-2 draws it (bar 2 at −124.5: long leg at −144.5, 180° hooks over the top bar and
+    /// under the bottom bar — half circles four diameters across, top and bottom two diameters inside the hoop's — and
+    /// tails five and a half diameters toward each other at −104.5) — always open to the right.
+    /// </summary>
+    public static KataSectionPolyline InnerC(KataSectionBars bars, double x)
+    {
+        double ds = bars.Stirrup, top = -bars.Cover - 2.0 * ds, bottom = -bars.Depth + bars.Cover + 2.0 * ds;
+        double leg = x - 2.0 * ds, open = x + 2.0 * ds, tail = 5.5 * ds, half = KataSectionStyle.HalfCircleBulge;
+        return new KataSectionPolyline(KataDrawingPen.Stirrup, new[]
+        {
+            new KataBulgeVertex(open, top - tail), new KataBulgeVertex(open, top, half), new KataBulgeVertex(leg, top),
+            new KataBulgeVertex(leg, bottom, half), new KataBulgeVertex(open, bottom), new KataBulgeVertex(open, bottom + tail)
+        });
     }
 
     /// <summary>Six points, a half circle (bulge 1) from the second to the third and from the fourth to the fifth.</summary>

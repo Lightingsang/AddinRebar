@@ -60,7 +60,7 @@ public static class KataStirrupZoneLayout
 
             // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {
-                foreach (var (name, spacing, stations) in AtTopSteps(spec, st, s, runs, rules.FirstStirrupOffset))
+                foreach (var (name, spacing, stations) in KataJointStirrups.Apply(spec, rules, st, s, AtTopSteps(spec, st, s, runs, rules.FirstStirrupOffset).ToList()))
                 {
                     if (stations.Count == 0) continue;
                     double top = spec.TopAt(s, (stations[0] + stations[stations.Count - 1]) / 2.0 - st.SpanStart[s]);
@@ -226,7 +226,7 @@ public static class KataStirrupZoneLayout
     }
 
     /// <summary>Stirrups from <paramref name="from"/> to <paramref name="to"/>, as few as keep them at most <paramref name="spacing"/> apart.</summary>
-    private static List<double> Even(double from, double to, double spacing)
+    internal static List<double> Even(double from, double to, double spacing)
     {
         double length = to - from;
         if (length < 1.0) return new List<double> { from };

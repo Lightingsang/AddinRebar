@@ -57,6 +57,14 @@ public static class KataSupportCollector
 
     public static (IReadOnlyList<KataSupport> Supports, IReadOnlyList<string> Warnings) Collect(Document doc, RevitView view, KataRunGeometry run)
     {
+        var (supports, _, warnings) = CollectWithLoads(doc, view, run);
+        return (supports, warnings);
+    }
+
+    /// <summary>The supports, and what rests on the run between them: beams framing into it and columns standing on it.</summary>
+    public static (IReadOnlyList<KataSupport> Supports, IReadOnlyList<KataRunLoad> Loads, IReadOnlyList<string> Warnings) CollectWithLoads(
+        Document doc, RevitView view, KataRunGeometry run)
+    {
         var scan = new Scan(run);
         var selected = new HashSet<ElementId>(run.Pieces.Select(p => p.Element.Id));
 
@@ -97,9 +105,10 @@ public static class KataSupportCollector
         private readonly List<KataSupport> _supports = new();
         private readonly List<Interval1D> _uppers = new();
         private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section)> _beams = new();
-        private readonly List<(Interval1D Extent, string Key, string Section)> _oneSided = new();
+        private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section)> _oneSided = new();
+        private readonly List<KataRunLoad> _loads = new();
         private readonly List<Interval1D> _standing = new();
-        private int _broken, _parallelWalls, _stripFoundations, _carriedBeams;
+        private int _broken, _parallelWalls, _stripFoundations, _carriedBeams, _loadsWithoutSoffit;
 
         public Scan(KataRunGeometry run)
         {
@@ -175,7 +184,8 @@ public static class KataSupportCollector
             if (crossed.Count == 0 && OneSidedStation(line) is { } station)
             {
                 double half = (width ?? DefaultCrossingWidthMm) / 2.0;
-                _oneSided.Add((new Interval1D(station - half, station + half), crossing.UniqueId, KataFormat.Section(width ?? DefaultCrossingWidthMm, height)));
+                _oneSided.Add((new Interval1D(station - half, station + half), range?.BottomFt ?? double.MaxValue, crossing.UniqueId,
+                    KataFormat.Section(width ?? DefaultCrossingWidthMm, height)));
             }
         }
 
@@ -195,7 +205,7 @@ public static class KataSupportCollector
             return _run.Extent.Contains(station, 1.0) ? station : null;
         }
 
-        public (IReadOnlyList<KataSupport>, IReadOnlyList<string>) Finish()
+        public (IReadOnlyList<KataSupport>, IReadOnlyList<KataRunLoad>, IReadOnlyList<string>) Finish()
         {
             var hard = _supports.ToList();
             foreach (var beam in _beams)
@@ -203,12 +213,22 @@ public static class KataSupportCollector
                 bool atSupport = hard.Any(s => s.Extent.Overlaps(beam.Extent));
                 bool carries = beam.SoffitFt <= NearestPiece(beam.Extent.Mid).BottomFt + RevitUnits.MmToFt(CarryingSoffitToleranceMm);
                 if (atSupport || carries) _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
-                else _carriedBeams++;
+                else
+                {
+                    _carriedBeams++;
+                    AddBeamLoad(beam.Extent, beam.SoffitFt);
+                }
             }
 
-            // A beam framing in from one side does not reach the run: it only counts where it meets a column.
-            foreach (var beam in _oneSided.Where(b => hard.Any(s => s.Extent.Contains(b.Extent.Mid, 1.0))))
-                _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
+            // A beam framing in from one side does not reach the run: it only counts where it meets a column, and
+            // elsewhere it rests on the run.
+            foreach (var beam in _oneSided)
+            {
+                if (hard.Any(s => s.Extent.Contains(beam.Extent.Mid, 1.0)))
+                    _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
+                else if (beam.SoffitFt > NearestPiece(beam.Extent.Mid).BottomFt + RevitUnits.MmToFt(CarryingSoffitToleranceMm))
+                    AddBeamLoad(beam.Extent, beam.SoffitFt);
+            }
 
             var warnings = new List<string>();
             if (_broken > 0) warnings.Add($"{_broken} solid(s) near the run could not be evaluated by Revit and were ignored.");
@@ -220,11 +240,27 @@ public static class KataSupportCollector
             if (shared > 0) warnings.Add($"{shared} support(s) carry more than one column above; row 19 shows the widest overlap only.");
             if (_stripFoundations > 0) warnings.Add($"{_stripFoundations} strip/raft foundation(s) under the beam were not taken as supports.");
             if (_carriedBeams > 0) warnings.Add($"{_carriedBeams} crossing beam(s) shallower than the run bear on it and were not taken as supports.");
+            if (_loadsWithoutSoffit > 0) warnings.Add($"{_loadsWithoutSoffit} crossing beam(s) resting on the run have no readable solid: no hanger bars under them.");
 
             var supports = _supports
                 .Select(s => s.Kind == KataSupportKind.Beam ? s : s with { Upper = UpperOver(s.Extent) })
                 .ToList();
-            return (supports, warnings);
+            var loads = KataSupportRules.LoadsBetweenSupports(
+                _loads.Concat(_standing.Select(e => new KataRunLoad(e, 0.0, true))),
+                supports.Select(s => s.Extent).ToList());
+            return (supports, loads, warnings);
+        }
+
+        /// <summary>A beam resting on the run: its extent along the run and its soffit below the run's top there.</summary>
+        private void AddBeamLoad(Interval1D extent, double soffitFt)
+        {
+            if (soffitFt == double.MaxValue)
+            {
+                _loadsWithoutSoffit++;
+                return;
+            }
+
+            _loads.Add(new KataRunLoad(extent, RevitUnits.FtToMm(NearestPiece(extent.Mid).TopFt - soffitFt), false));
         }
 
         /// <summary>

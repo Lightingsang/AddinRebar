@@ -85,7 +85,7 @@ public static class KataRebarCreationService
             throw new InvalidOperationException($"{ex.Message} Thanh {bar.BarDescription} số {bar.BarNumber}: {Describe(bar.Polyline)}", ex);
         }
 
-        KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(bar.BarNumber, bar.BarMark));
+        KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, bar.BarNumber);
         AlignAcross(doc, rebar, bar.TransverseY, placement);
         var (a, b) = KataRebarSectionFit.LongestLevelSegment(bar.Polyline);
         KataRebarSectionFit.Fit(doc, rebar, placement.Mapper, a, b, acrossToo: false);

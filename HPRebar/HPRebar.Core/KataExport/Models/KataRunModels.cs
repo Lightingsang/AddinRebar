@@ -39,6 +39,14 @@ public sealed record KataSupport(
     double? CrossingBeamStationMm = null,
     string? CrossingBeamSection = null);
 
+/// <summary>
+/// Something resting on the run between its supports: a beam framing into it whose soffit is higher than the run's,
+/// or a column standing on it (a stub column, "cột cấy"). Kata reinforces it with joint stirrups and hanger bars.
+/// </summary>
+/// <param name="Extent">Stations it covers along the run.</param>
+/// <param name="SoffitBelowTopMm">A beam's soffit below the run's top; 0 for a column.</param>
+public sealed record KataRunLoad(Interval1D Extent, double SoffitBelowTopMm, bool IsColumn);
+
 /// <summary>A grid line crossing the beam axis at <paramref name="StationMm"/>.</summary>
 public sealed record KataGridCrossing(string Name, double StationMm);
 

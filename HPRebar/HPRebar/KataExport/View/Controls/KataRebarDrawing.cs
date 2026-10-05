@@ -19,7 +19,7 @@ internal sealed class KataRebarDrawing
         Plan = plan;
         Tags = KataBarTagBuilder.Build(plan.Spec, plan.Layout, plan.Rules.StirrupDiameter);
         Cuts = KataSectionCuts.Build(plan.Spec, plan.Layout);
-        Elevation = KataElevationDrawingBuilder.Build(plan.Spec, plan.Layout, Cuts, plan.Rules.StirrupDiameter);
+        Elevation = KataElevationDrawingBuilder.Build(plan.Spec, plan.Layout, Cuts, plan.Rules.StirrupDiameter, KataBarTagBuilder.StirrupRowOf(Tags));
     }
 
     public KataRebarPlan Plan { get; }

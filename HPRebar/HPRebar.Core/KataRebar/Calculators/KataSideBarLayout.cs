@@ -144,7 +144,8 @@ public static class KataSideBarLayout
             // The side bars' centres: the tie is laid out round them where the bar type's bend radius is known.
             Shape = new Polyline3(new List<Point3> { new(x0, -y, z), new(x0, y, z) }),
             WrapEnds = true,
-            WrapOffset = new Point3(0.0, 0.0, -1.0),
+            // B01 section 2-2: the straight part over the side bars, the hooks round them and down.
+            WrapOffset = new Point3(0.0, 0.0, 1.0),
             WrappedBarDiameter = sideDiameter,
             Stations = stations,
             Spacing = spacing,

@@ -489,7 +489,8 @@ public class KataRebarCalculatorTests
             CoverStirrup = 25.0,
             TopContinuous = new KataBarItem(4, 20.0),
             BottomContinuous = new KataBarItem(4, 20.0),
-            GlobalStirrup = new KataStirrupSpec { Diameter = 10.0, SupportSpacing = 150.0, MidspanSpacing = 200.0 },
+            // I8 = 1: the inner stirrups go beside every outer hoop.
+            GlobalStirrup = new KataStirrupSpec { Diameter = 10.0, SupportSpacing = 150.0, MidspanSpacing = 200.0, TieSpacingMode = KataTieSpacingMode.LikeHoops },
             Supports = new[]
             {
                 new KataSupportRebarSpec { SupportIndex = 0, ColumnWidth = 400.0 },
@@ -522,9 +523,10 @@ public class KataRebarCalculatorTests
         Assert.Equal(3, caps.Count);
         Assert.Equal(3, ties.Count);
         Assert.Equal(result.StirrupZones.Sum(z => z.Count), caps.Sum(c => c.Count));
-        Assert.Equal(4, caps[0].Shape.Points.Count);
+        // The U is open at the top, its legs turned in and down (bends, no hooks); the C hooks round its bars.
+        Assert.Equal(8, caps[0].Shape.Points.Count);
         Assert.Equal(2, ties[0].Shape.Points.Count);
-        Assert.Equal((135, 180), (caps[0].HookAngle, ties[0].HookAngle));
+        Assert.Equal((0, 180), (caps[0].HookAngle, ties[0].HookAngle));
     }
 
     [Fact]

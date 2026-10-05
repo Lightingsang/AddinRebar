@@ -10,9 +10,11 @@ internal sealed class KataDrawingFrame
 {
     private readonly KataBeamRebarSpec _spec;
 
-    public KataDrawingFrame(KataBeamRebarSpec spec)
+    /// <param name="stirrupRow">Row of the stirrup tags over the beam (<see cref="KataBarTagBuilder.StirrupRowOf"/>).</param>
+    public KataDrawingFrame(KataBeamRebarSpec spec, double stirrupRow = KataTagStyle.StirrupRow)
     {
         _spec = spec ?? throw new ArgumentNullException(nameof(spec));
+        Lift = Math.Max(0.0, stirrupRow - KataTagStyle.StirrupRow);
         St = KataBeamStations.From(spec);
         double lowest = St.SpanCount == 0 ? -spec.Height : Enumerable.Range(0, St.SpanCount).Min(Soffit);
         StubBottom = lowest - KataDrawingStyle.StubBelow;
@@ -20,6 +22,12 @@ internal sealed class KataDrawingFrame
     }
 
     public KataBeamStations St { get; }
+
+    /// <summary>
+    /// How far the stirrup tags are pushed out by a third or fourth row of bar tags; the zone chain, the flags and the
+    /// grid tops over the beam keep their distance to that row (B01: tags at 1050, chain 1200, flags 1450 at 1:50).
+    /// </summary>
+    public double Lift { get; }
 
     public int SpanCount => St.SpanCount;
 
@@ -59,6 +67,9 @@ internal sealed class KataDrawingFrame
         points.Add((b, points[points.Count - 1].Z));
         return points;
     }
+
+    /// <summary>Beam top at station <paramref name="x"/> (over a support between two levels, the right one).</summary>
+    public double TopAt(double x) => KataTopProfile.LevelAt(_spec, St, x, right: true);
 
     /// <summary>Beam top at the start (<paramref name="end"/> false) or end of span <paramref name="span"/>.</summary>
     public double Top(int span, bool end) => _spec.TopAt(span, end ? _spec.Spans[span].Length : 0.0);

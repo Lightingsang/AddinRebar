@@ -25,7 +25,7 @@ public static class KataBeamMatcher
         try
         {
             var run = KataRunReader.Read(doc, beams);
-            var (supports, supportWarnings) = KataSupportCollector.Collect(doc, view, run);
+            var (supports, loads, supportWarnings) = KataSupportCollector.CollectWithLoads(doc, view, run);
 
             var pieces = run.Pieces
                 .Select(p => new KataBeamPiece(p.Stations, p.WidthMm, p.HeightMm, p.ZOffsetMm, p.Element.UniqueId))
@@ -36,7 +36,7 @@ public static class KataBeamMatcher
             var measured = new KataMeasuredBeam(
                 run.Pieces[0].WidthMm,
                 run.Pieces[0].HeightMm,
-                segmentation.Segments.Select(s => ToMeasured(s, pieces)).ToList(),
+                segmentation.Segments.Select(s => ToMeasured(s, pieces, loads)).ToList(),
                 run.Pieces.Count);
 
             var warnings = supportWarnings.Concat(segmentation.Warnings).ToList();
@@ -60,7 +60,7 @@ public static class KataBeamMatcher
         }
     }
 
-    private static KataMeasuredSegment ToMeasured(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces) => new(
+    private static KataMeasuredSegment ToMeasured(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces, IReadOnlyList<KataRunLoad> loads) => new(
         segment.Kind switch
         {
             KataSegmentKind.Span => KataMeasuredSupportKind.None,
@@ -74,7 +74,15 @@ public static class KataBeamMatcher
         },
         segment.Extent.Length,
         segment.Kind == KataSegmentKind.Span ? SpanDepth(segment, pieces) : 0.0,
-        segment.Kind == KataSegmentKind.Span ? PiecesOver(segment, pieces) : null);
+        segment.Kind == KataSegmentKind.Span ? PiecesOver(segment, pieces) : null,
+        segment.Kind == KataSegmentKind.Span ? LoadsOn(segment, loads) : null);
+
+    /// <summary>The loads whose middle lies on a span, from the span's start.</summary>
+    private static IReadOnlyList<KataMeasuredLoad> LoadsOn(KataSegment segment, IReadOnlyList<KataRunLoad> loads) => loads
+        .Where(l => l.Extent.Mid >= segment.Extent.Start && l.Extent.Mid < segment.Extent.End)
+        .OrderBy(l => l.Extent.Start)
+        .Select(l => new KataMeasuredLoad(l.Extent.Start - segment.Extent.Start, l.Extent.Length, l.SoffitBelowTopMm, l.IsColumn))
+        .ToList();
 
     /// <summary>The framing elements over a span, clipped to it: their section and top (row 19) from the span's start.</summary>
     private static IReadOnlyList<KataMeasuredPiece> PiecesOver(KataSegment segment, IReadOnlyList<KataBeamPiece> pieces) => pieces

@@ -133,6 +133,28 @@ internal sealed class KataSectionTags
         Tags.Add(StirrupTag(insert, row, StirrupTexts(1, tie.Diameter, tie.Spacing), tie.BarNumber));
     }
 
+    /// <summary>
+    /// The inner stirrups as B01 section 2-2 tags them: each U from its right leg to the right ("Ø10" / "a500"), the
+    /// C ties of one number together from the top of the rightmost over the beam to the right ("2xØ10" / "a500").
+    /// </summary>
+    public void InnerStirrups(IReadOnlyList<(KataBarSet Set, double X, double Z)> inner)
+    {
+        double insert = HalfWidth + KataSectionStyle.SideTieTagBeyond;
+        foreach (var (set, x, z) in inner.Where(i => i.Set.Role == KataBarRole.StirrupCap))
+        {
+            Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, z), (insert, z)));
+            Tags.Add(StirrupTag(insert, z, StirrupTexts(1, set.Diameter, set.Spacing), set.BarNumber));
+        }
+
+        foreach (var group in inner.Where(i => i.Set.Role == KataBarRole.CrossTie).GroupBy(i => i.Set.BarNumber))
+        {
+            var right = group.OrderBy(i => i.X).Last();
+            double row = KataSectionStyle.TopTieRow;
+            Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (right.X, right.Z), (right.X, row), (insert, row)));
+            Tags.Add(StirrupTag(insert, row, StirrupTexts(group.Count(), right.Set.Diameter, right.Set.Spacing), group.Key));
+        }
+    }
+
     /// <summary>The side bars and their ties: <paramref name="ties"/> one per layer, at the layers' drawn heights.</summary>
     public void Sides(IReadOnlyList<(KataBarSet Tie, double Z)> ties)
     {
@@ -157,7 +179,8 @@ internal sealed class KataSectionTags
         if (layers.Count == 1)
         {
             double right = sides.Max(s => s.X);
-            double insert = HalfWidth + KataSectionStyle.SideBarTagBeyond - KataSectionStyle.SideBarTagPerDepth * (Depth - 500.0);
+            double insert = HalfWidth + Math.Max(KataSectionStyle.SideBarTagMinBeyond,
+                KataSectionStyle.SideBarTagBeyond - KataSectionStyle.SideBarTagPerDepth * (Depth - 500.0));
             Leaders.Add(Leader(KataLeaderArrow.DotSmall, KataSectionStyle.ArrowSize, (right, highest), (insert, highest)));
             Tags.Add(new KataSectionTag(insert, highest, true, text, new[] { first.Bar.BarNumber }));
         }

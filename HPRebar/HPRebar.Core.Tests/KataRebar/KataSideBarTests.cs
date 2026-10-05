@@ -45,10 +45,10 @@ public sealed class KataSideBarTests
             Assert.Equal(466.0, set.Stations[0], 6);
             Assert.Equal(5966.0, set.Stations[11], 6);
             Assert.Equal((180, 7.5, 8.0), (set.HookAngle, set.HookFactor, set.Diameter));
-            // The two side bars the hooks wrap; the tie runs under them.
+            // The two side bars the hooks wrap; the tie runs over them, the hooks round and down (B01 section 2-2).
             Assert.Equal((-111.0, 111.0), (set.Shape.Points[0].Y, set.Shape.Points[1].Y));
             Assert.True(set.WrapEnds);
-            Assert.Equal((0.0, -1.0), (set.WrapOffset.Y, set.WrapOffset.Z));
+            Assert.Equal((0.0, 1.0), (set.WrapOffset.Y, set.WrapOffset.Z));
         }
     }
 

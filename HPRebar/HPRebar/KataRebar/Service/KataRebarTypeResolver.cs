@@ -84,6 +84,11 @@ public sealed class KataRebarTypeResolver
             Add("Gia cường nhịp", $"Ø{bar.Diameter:0.#}", bar.Diameter, true);
         foreach (var bar in plan.Layout.SideBars)
             Add("Cốt giá", $"Ø{bar.Diameter:0.#}", bar.Diameter, true);
+        foreach (var bar in plan.Layout.HangerBars)
+            Add("Vai bò", $"Ø{bar.Diameter:0.#}", bar.Diameter, true);
+        // Spans with main bars of their own (rows 19 / 21).
+        foreach (var bar in plan.Layout.MainTopBars.Concat(plan.Layout.MainBottomBars))
+            Add(bar.Role == KataBarRole.MainTop ? "Thép chủ trên" : "Thép chủ dưới", $"Ø{bar.Diameter:0.#}", bar.Diameter, true);
         if (spec.GlobalStirrup.Diameter > 0.0) Add("Cốt đai", $"Ø{spec.GlobalStirrup.Diameter:0.#}", spec.GlobalStirrup.Diameter, false);
         // Ties and inner stirrups take the stirrup's diameter: that row already covers them.
         foreach (var set in plan.Layout.BarSets)

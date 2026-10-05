@@ -11,7 +11,7 @@ namespace HPRebar.KataRebar.Service;
 
 /// <summary>
 /// Draws a plan in one undo step "Kata Rebar - {beam}": deletes the bars of the previous run, creates the
-/// stirrup sets, then the main bars. Each step is its own transaction; a step that fails rolls the whole
+/// stirrup sets, then the main bars, then gives every bar its Kata number as Rebar Number. Each step is its own transaction; a step that fails rolls the whole
 /// group back, so the model is either fully updated or untouched.
 /// </summary>
 public static class KataRebarOrchestrator
@@ -45,6 +45,7 @@ public static class KataRebarOrchestrator
             var barSets = plan.Layout.BarSets.Count > 0
                 ? runner.Run("Kata Rebar: móc C, đai trong", () => KataBarSetCreator.Create(doc, plan, placement, barTypes))
                 : new KataBarSetOutcome(0, 0, Array.Empty<string>());
+            var numberWarnings = runner.Run("Kata Rebar: số hiệu", () => KataRebarNumberAssigner.Apply(doc, hosts));
             int extraTop = plan.Layout.ExtraTopBars.Count;
             int extraBottom = plan.Layout.ExtraBottomBars.Count;
             int sideBars = plan.Layout.SideBars.Count;
@@ -66,7 +67,8 @@ public static class KataRebarOrchestrator
                           + $", {stirrups.Sets} bộ đai"
                           + (stirrups.SingleBars > 0 ? $" + {stirrups.SingleBars} đai lẻ" : "")
                           + (deleted > 0 ? $"; xoá {deleted} phần tử thép của lần chạy trước." : ".")
-                          + (barSets.Warnings.Count > 0 ? " " + string.Join(" ", barSets.Warnings) : ""),
+                          + (barSets.Warnings.Count > 0 ? " " + string.Join(" ", barSets.Warnings) : "")
+                          + (numberWarnings.Count > 0 ? " " + string.Join(" ", numberWarnings) : ""),
                 DeletedCount = deleted,
                 MainBarCount = mainBars,
                 ExtraTopBarCount = extraTop,

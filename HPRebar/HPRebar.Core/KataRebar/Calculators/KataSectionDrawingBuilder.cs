@@ -31,6 +31,7 @@ public static class KataSectionDrawingBuilder
         if (hoops is not null) lines.Add(KataSectionLines.Hoop(bars));
 
         var sideTies = new List<(KataBarSet Tie, double Z)>();
+        var inner = new List<(KataBarSet Set, double X, double Z)>();
         foreach (var set in KataSectionCuts.Sets(layout, cut.X).Where(s => s.Shape.Points.Count > 0))
         {
             double realZ = set.Shape.Points[0].Z;
@@ -47,7 +48,25 @@ public static class KataSectionDrawingBuilder
                 lines.Add(KataSectionLines.Tie(bars, z, straightAbove: false));
                 tags.InnerTie(set, z, top: z > -h / 2.0);
             }
+            else if (set.Role is KataBarRole.StirrupCap or KataBarRole.CrossTie && inner.All(i => i.Set.Description != set.Description))
+            {
+                // The inner stirrups of rows 25-44, once each however many zones the cut touches.
+                var ys = set.Shape.Points.Select(p => bars.DrawnX(p.Y)).ToList();
+                if (set.Role == KataBarRole.StirrupCap)
+                {
+                    lines.Add(KataSectionLines.InnerU(bars, ys.Min(), ys.Max()));
+                    // Tagged low on its right leg, under the side bars' tag (B01 2-2: about 0.73 of the depth down).
+                    inner.Add((set, ys.Max(), -KataSectionStyle.InnerUTagDepthRatio * h));
+                }
+                else
+                {
+                    lines.Add(KataSectionLines.InnerC(bars, ys[0]));
+                    inner.Add((set, ys[0] + 2.0 * bars.Stirrup, -bars.Cover - 2.0 * bars.Stirrup));
+                }
+            }
         }
+
+        tags.InnerStirrups(inner);
 
         tags.Sides(sideTies);
         tags.Outer(KataSectionFace.Top);

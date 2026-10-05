@@ -78,7 +78,7 @@ public static class KataBarSetCreator
                 if (set.Count > 1)
                     rebar.GetShapeDrivenAccessor().SetLayoutAsNumberWithSpacing(set.Count, set.Spacing / MmPerFoot, true, true, true);
 
-                KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, KataRebarStamp.Mark(set.BarNumber, set.BarMark));
+                KataRebarStamp.Apply(rebar, host, plan.Spec.BeamName, set.BarNumber);
                 if (planned is not null)
                 {
                     // Revit may pull the tie towards the cover; it must stay round the bars it wraps.

@@ -15,13 +15,19 @@ public static class KataSectionStyle
     /// <summary>Clear gap Kata draws between two layers of bars.</summary>
     public const double LayerClear = 25.0;
 
-    /// <summary>Hook of the hoop: each leg runs this many stirrup diameters along both axes (40 for Ø8).</summary>
-    public const double HoopHookDiameters = 5.0;
+    /// <summary>Hook of the hoop: each leg runs this far along both axes whatever the stirrup (40 for Ø8 in DY7, Ø10 in B01).</summary>
+    public const double HoopHook = 40.0;
+
+    /// <summary>Height of an inner U's tag on its right leg, as a share of the depth (B01 section 2-2).</summary>
+    public const double InnerUTagDepthRatio = 0.73;
 
     /// <summary>Bulges of the hoop: a 90° corner and the 135° bend into a hook (negative: clockwise).</summary>
     public const double CornerBulge = -0.414214;
 
     public const double HookBulge = -0.668179;
+
+    /// <summary>A 180° hook of an inner U or C: a counter-clockwise half circle round its bar.</summary>
+    public const double HalfCircleBulge = 1.0;
 
     /// <summary>A tie's bends: radius two stirrup diameters, centre that radius inside the hoop's line; tails 5.5 diameters.</summary>
     public const double TieBendDiameters = 2.0;
@@ -83,11 +89,14 @@ public static class KataSectionStyle
 
     /// <summary>
     /// One layer of side bars: the tag's insertion past the face for a 500-deep section, moving in as the section
-    /// deepens (520 at 500, 425 at 600 — a fit of Kata's two cases; its own rule is unknown).
+    /// deepens (520 at 500, 425 at 600) and no further (425 at 900, B01 14-14) — a fit of Kata's three cases; its own
+    /// rule is unknown.
     /// </summary>
     public const double SideBarTagBeyond = 370.0;
 
     public const double SideBarTagPerDepth = 0.95;
+
+    public const double SideBarTagMinBeyond = 275.0;
 
     /// <summary>The hoop's tag: its leader runs this far left from the hoop's side.</summary>
     public const double HoopTagLeader = 238.0;

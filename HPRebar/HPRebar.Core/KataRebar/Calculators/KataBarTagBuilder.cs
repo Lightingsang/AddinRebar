@@ -59,6 +59,10 @@ public static class KataBarTagBuilder
 {
     private const double ShortSpan = 3000.0;
 
+    /// <summary>Row of the stirrup tags among <paramref name="tags"/>; Kata's usual row when there are none.</summary>
+    public static double StirrupRowOf(IReadOnlyList<KataBarTag> tags) =>
+        tags.Where(t => t.Kind == KataTagKind.Stirrups).Select(t => t.RowZ).DefaultIfEmpty(KataTagStyle.StirrupRow).Max();
+
     public static IReadOnlyList<KataBarTag> Build(KataBeamRebarSpec spec, KataRebarLayoutResult layout, double stirrupDiameter)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));

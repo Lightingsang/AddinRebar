@@ -117,8 +117,8 @@ public static class KataZeroWidthSupports
             }
 
             span = row == 17
-                ? span with { BottomExtraLayer2 = bars, BottomExtraLayer2Text = text }
-                : span with { BottomExtraLayer1 = bars, BottomExtraLayer1Text = text };
+                ? span with { BottomExtraLayer2 = bars, BottomExtraLayer2Text = text, BottomExtraJointAtMm = span.Length }
+                : span with { BottomExtraLayer1 = bars, BottomExtraLayer1Text = text, BottomExtraJointAtMm = span.Length };
             notes.Add(new KataCellNote(address, text, meaning,
                 "vẽ như thép gia cường dưới của nhịp gộp, cắt theo quy tắc nhịp (R-51); điểm cắt Kata tại nút chưa rõ"));
         }

@@ -36,7 +36,7 @@ internal static class KataElevationDims
         }
 
         for (int i = 0; i < f.SpanCount; i++) top.AddRange(ZoneSplits(runs, i));
-        foreach (var d in Chain(top, KataDrawingStyle.TopChainZ, _ => 0.0)) yield return d;
+        foreach (var d in Chain(top, KataDrawingStyle.TopChainZ + f.Lift, _ => 0.0)) yield return d;
 
         // Under the beam: bar cuts, then grids.
         var bottom = new List<double> { 0.0, f.Length };
@@ -87,7 +87,12 @@ internal static class KataElevationDims
     {
         var zones = runs.Where(r => r.Span == span).OrderBy(r => r.First).ToList();
         for (int j = 0; j + 1 < zones.Count; j++)
-            yield return j == 0 ? zones[0].Last : zones[j + 1].First;
+        {
+            // Two zones of different stirrups (B01 at the zero-width joint I: H's 27 a200 ends 20550, J's 26 a200
+            // starts 20650) meet half way between them: Kata splits the chain at 20600.
+            if (j > 0 && zones[j].Number != zones[j + 1].Number) yield return (zones[j].Last + zones[j + 1].First) / 2.0;
+            else yield return j == 0 ? zones[0].Last : zones[j + 1].First;
+        }
     }
 
     /// <summary>Touching dimensions between the distinct <paramref name="stations"/>, their line at <paramref name="lineZ"/>.</summary>

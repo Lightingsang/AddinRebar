@@ -18,6 +18,12 @@ internal static class KataRebarSectionFit
     /// <summary>A bar further than this from its planned place in the section is moved back (mm).</summary>
     private const double ToleranceMm = 0.05;
 
+    /// <summary>A segment whose ends differ less than this in height is level (mm), as in the plan.</summary>
+    private const double LevelToleranceMm = 1.0;
+
+    /// <summary>An actual line this close to the planned segment's direction (cosine) is its counterpart.</summary>
+    private const double ParallelCosine = 0.999;
+
     /// <summary>
     /// Moves <paramref name="rebar"/> so the midpoint of its longest straight segment sits on the planned one, in local
     /// Z only (<paramref name="acrossToo"/> false) or in local Y and Z. Returns the distance left over (mm).
@@ -26,7 +32,7 @@ internal static class KataRebarSectionFit
     {
         doc.Regenerate();
         var planned = Mid(plannedA, plannedB);
-        var actual = ActualMid(rebar, mapper);
+        var actual = ActualMid(rebar, mapper, plannedA, plannedB);
         if (actual is null) return 0.0;
 
         double dy = acrossToo ? planned.Y - actual.Value.Y : 0.0;
@@ -37,7 +43,7 @@ internal static class KataRebarSectionFit
         ElementTransformUtils.MoveElement(doc, rebar.Id, move);
         doc.Regenerate();
 
-        var after = ActualMid(rebar, mapper);
+        var after = ActualMid(rebar, mapper, plannedA, plannedB);
         if (after is null) return 0.0;
         double ry = acrossToo ? planned.Y - after.Value.Y : 0.0;
         return Math.Sqrt(ry * ry + (planned.Z - after.Value.Z) * (planned.Z - after.Value.Z));
@@ -51,7 +57,7 @@ internal static class KataRebarSectionFit
         double longest = -1.0;
         for (int i = 1; i < points.Count; i++)
         {
-            if (Math.Abs(points[i].Z - points[i - 1].Z) > 1.0) continue;
+            if (Math.Abs(points[i].Z - points[i - 1].Z) > LevelToleranceMm) continue;
             double length = points[i].DistanceTo(points[i - 1]);
             if (length <= longest) continue;
             longest = length;
@@ -61,14 +67,30 @@ internal static class KataRebarSectionFit
         return best;
     }
 
-    private static Point3? ActualMid(Rebar rebar, PointMapper mapper)
+    /// <summary>
+    /// The midpoint of the bar's longest line running the way the planned segment runs (a hanger bar's slopes are
+    /// longer than its level bottom: comparing a slope with the bottom moved the bar half its rise down, out of the
+    /// beam); the longest line when none does.
+    /// </summary>
+    private static Point3? ActualMid(Rebar rebar, PointMapper mapper, Point3 plannedA, Point3 plannedB)
     {
-        var line = rebar.GetCenterlineCurves(false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, 0)
+        var lines = rebar.GetCenterlineCurves(false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, 0)
             .OfType<Line>()
-            .OrderByDescending(l => l.Length)
-            .FirstOrDefault();
-        if (line is null) return null;
-        return Mid(mapper.ToLocal(line.GetEndPoint(0)), mapper.ToLocal(line.GetEndPoint(1)));
+            .Select(l => (A: mapper.ToLocal(l.GetEndPoint(0)), B: mapper.ToLocal(l.GetEndPoint(1))))
+            .OrderByDescending(l => l.A.DistanceTo(l.B))
+            .ToList();
+        if (lines.Count == 0) return null;
+        var line = lines.FirstOrDefault(l => Parallel(l.A, l.B, plannedA, plannedB));
+        if (line == default) line = lines[0];
+        return Mid(line.A, line.B);
+    }
+
+    private static bool Parallel(Point3 a, Point3 b, Point3 c, Point3 d)
+    {
+        double ab = a.DistanceTo(b), cd = c.DistanceTo(d);
+        if (ab < 1e-9 || cd < 1e-9) return false;
+        double dot = (b.X - a.X) * (d.X - c.X) + (b.Y - a.Y) * (d.Y - c.Y) + (b.Z - a.Z) * (d.Z - c.Z);
+        return Math.Abs(dot) / (ab * cd) >= ParallelCosine;
     }
 
     private static Point3 Mid(Point3 a, Point3 b) => new((a.X + b.X) / 2.0, (a.Y + b.Y) / 2.0, (a.Z + b.Z) / 2.0);

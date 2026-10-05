@@ -17,8 +17,8 @@ public sealed record KataSectionCut(int Number, double X, int SpanIndex);
 /// the clear span from its face rounded to 25 mm, and at mid-span, 150 mm short of the middle (50 mm in a span under
 /// 3 m) — and one at the middle of a span under 1 m. The positions are a fit of Kata's (within 75 mm); what Kata puts
 /// in each section is reproduced: two sections that cut the same bars at the same places, in the same hoops at the same
-/// spacing, share a number (DY14: 9-9 at the end of span 3 and in span 4). A cantilever has no cut near its free tip,
-/// where only the top bars run (no Kata drawing of a cantilever yet: an assumption).
+/// spacing, share a number (DY14: 9-9 at the end of span 3 and in span 4). A cantilever has one cut, a third of its
+/// length out from the support face (B01's 2000 console: 666.7, section 14-14).
 /// </summary>
 public static class KataSectionCuts
 {
@@ -53,22 +53,22 @@ public static class KataSectionCuts
         double start = st.SpanStart[s], end = st.SpanEnd[s], length = end - start;
         if (length <= 0.0) return Array.Empty<double>();
 
+        if (s == 0 && st.IsLeftCantilever) return new[] { end - length / 3.0 };
+        if (s == st.SpanCount - 1 && st.IsRightCantilever) return new[] { start + length / 3.0 };
+
         double mid = start + length / 2.0;
         if (length < ShortSpan) return new[] { mid };
 
         double offset = Math.Round(length / 10.0 / Step, MidpointRounding.AwayFromZero) * Step;
         double shift = length < MidShiftSpan ? 50.0 : 150.0;
-        var cuts = new List<double>(3);
-        if (!(s == 0 && st.IsLeftCantilever)) cuts.Add(start + offset);
-        cuts.Add(mid - shift);
-        if (!(s == st.SpanCount - 1 && st.IsRightCantilever)) cuts.Add(end - offset);
-        return cuts;
+        return new[] { start + offset, mid - shift, end - offset };
     }
 
     /// <summary>Bars a cut at <paramref name="x"/> meets, each with the height it is cut at (mm, beam top = 0).</summary>
     public static IEnumerable<(KataRebarCurve Bar, double Z)> Crossing(KataRebarLayoutResult layout, double x)
     {
-        foreach (var bar in layout.LongitudinalBars)
+        // Kata's sections do not show the hanger bars of a load (B01 sections 1-3 hold only the main, extra and side bars).
+        foreach (var bar in layout.LongitudinalBars.Where(b => b.Role != KataBarRole.HangerBar))
         {
             var p = bar.Polyline.Points;
             for (int i = 0; i + 1 < p.Count; i++)
@@ -82,8 +82,9 @@ public static class KataSectionCuts
     }
 
     /// <summary>The hoop zone a cut at <paramref name="x"/> falls in (the nearest of its span between two zones).</summary>
+    /// <remarks>Joint stirrups round a load are not the span's hoops: Kata tags the span's (B01 2-2 at the beam framing in: a200).</remarks>
     public static KataStirrupZoneResult? Hoops(KataRebarLayoutResult layout, int span, double x) =>
-        layout.StirrupZones.Where(z => z.SpanIndex == span && z.Count > 0)
+        layout.StirrupZones.Where(z => z.SpanIndex == span && z.Count > 0 && !KataJointStirrups.IsJointZone(z.ZoneName))
             .OrderBy(z => x >= z.StartStationX - z.Spacing / 2.0 && x <= z.EndStationX + z.Spacing / 2.0 ? 0 : 1)
             .ThenBy(z => Math.Min(Math.Abs(x - z.StartStationX), Math.Abs(x - z.EndStationX)))
             .FirstOrDefault();

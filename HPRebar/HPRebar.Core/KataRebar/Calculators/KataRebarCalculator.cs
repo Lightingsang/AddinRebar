@@ -92,12 +92,13 @@ public static class KataRebarCalculator
         int stirrupId = barId;
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref stirrupId);
         var (sideBars, sideTies) = KataSideBarLayout.Build(spec, rules, stations, zones, warnings, ref barId);
+        var hangers = KataHangerBarLayout.Build(spec, rules, stations, warnings, ref barId);
         RenumberFrom(stirrups, barId);
         barId += stirrups.Count;
 
         var layerTies = KataLayerSpacerTieLayout.Build(spec, rules, stations, zones, extraTop, extraBottom,
             mainTop.Concat(mainBottom).Concat(sideBars).ToList(), warnings);
-        var barSets = sideTies.Concat(layerTies).Concat(KataInnerStirrupLayout.Build(spec, rules, zones, warnings)).ToList();
+        var barSets = sideTies.Concat(layerTies).Concat(KataInnerStirrupLayout.Build(spec, rules, stations, zones, warnings)).ToList();
         if (rules.TieSpacingNote is not null && sideTies.Count + layerTies.Count > 0)
             warnings.Add(rules.TieSpacingNote);
 
@@ -109,6 +110,7 @@ public static class KataRebarCalculator
             ExtraTopBars = extraTop,
             ExtraBottomBars = extraBottom,
             SideBars = sideBars,
+            HangerBars = hangers,
             BarSets = barSets,
             StirrupZones = zones,
             IndividualStirrups = stirrups,
@@ -116,9 +118,9 @@ public static class KataRebarCalculator
             Blocking = blocking,
             TotalSteelWeightKg = Math.Round(
                 WeightKg(mainTop) + WeightKg(mainBottom) + WeightKg(extraTop)
-                + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(stirrups) + WeightKg(barSets), 2)
+                + WeightKg(extraBottom) + WeightKg(sideBars) + WeightKg(hangers) + WeightKg(stirrups) + WeightKg(barSets), 2)
         };
-        return KataBarNumbering.Apply(layout, rules.StirrupDiameter);
+        return KataBarNumbering.Apply(layout, rules.StirrupDiameter, spec);
     }
 
     /// <summary>Steel weight of a list of bars (kg) from their centreline lengths.</summary>

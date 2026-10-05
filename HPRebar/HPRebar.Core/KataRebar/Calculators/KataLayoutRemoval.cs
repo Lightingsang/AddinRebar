@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using HPRebar.Core.KataRebar.Models;
 
 namespace HPRebar.Core.KataRebar.Calculators;
@@ -80,12 +81,13 @@ public static class KataLayoutRemoval
             ExtraTopBars = Keep(layout.ExtraTopBars),
             ExtraBottomBars = Keep(layout.ExtraBottomBars),
             SideBars = Keep(layout.SideBars),
+            HangerBars = Keep(layout.HangerBars),
             StirrupZones = layout.StirrupZones.Where(z => !removedZones.Contains(z)).ToList(),
             IndividualStirrups = layout.IndividualStirrups.Where(s => !removedZones.Any(z => Belongs(s, z))).ToList(),
             // The inner stirrups of a removed zone go with it. Numbering keeps a set's number once it has one: every
             // number is given again.
             BarSets = layout.BarSets
-                .Where(s => KataBarNumbering.IsTie(s) || !removedZones.Any(z => z.SpanIndex == s.SpanIndex && z.ZoneName == s.ZoneName))
+                .Where(s => KataBarNumbering.IsTie(s) || !GoesWith(s, removedZones, layout.StirrupZones))
                 .Select(s => s with { BarNumber = 0 })
                 .ToList()
         };
@@ -98,10 +100,23 @@ public static class KataLayoutRemoval
             TotalSteelWeightKg = Math.Round(
                 KataRebarCalculator.WeightKg(trimmed.MainTopBars) + KataRebarCalculator.WeightKg(trimmed.MainBottomBars)
                 + KataRebarCalculator.WeightKg(trimmed.ExtraTopBars) + KataRebarCalculator.WeightKg(trimmed.ExtraBottomBars)
-                + KataRebarCalculator.WeightKg(trimmed.SideBars) + KataRebarCalculator.WeightKg(trimmed.IndividualStirrups)
+                + KataRebarCalculator.WeightKg(trimmed.SideBars) + KataRebarCalculator.WeightKg(trimmed.HangerBars) + KataRebarCalculator.WeightKg(trimmed.IndividualStirrups)
                 + KataRebarCalculator.WeightKg(trimmed.BarSets), 2)
         };
-        return plan with { Layout = KataBarNumbering.Apply(trimmed, plan.Rules.StirrupDiameter) };
+        return plan with { Layout = KataBarNumbering.Apply(trimmed, plan.Rules.StirrupDiameter, plan.Spec) };
+    }
+
+    /// <summary>
+    /// An inner stirrup set goes with its hoop zone: the zone of its name, or of the name before " [k]" when the run
+    /// was cut at a top step. A set spread evenly at J7 follows no zone; it goes once its span keeps no hoops.
+    /// </summary>
+    private static bool GoesWith(KataBarSet set, IReadOnlyList<KataStirrupZoneResult> removed, IReadOnlyList<KataStirrupZoneResult> all)
+    {
+        string zoneName = Regex.Replace(set.ZoneName, @" \[\d+\]$", "");
+        if (removed.Any(z => z.SpanIndex == set.SpanIndex && z.ZoneName == zoneName)) return true;
+
+        var hoops = all.Where(z => z.SpanIndex == set.SpanIndex && z.Count > 0 && !KataJointStirrups.IsJointZone(z.ZoneName)).ToList();
+        return set.ZoneName.StartsWith(KataTieStations.EvenRunPrefix, StringComparison.Ordinal) && hoops.Count > 0 && hoops.All(removed.Contains);
     }
 
     /// <summary>A single stirrup of <paramref name="zone"/>: same span, at one of its stations.</summary>

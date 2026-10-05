@@ -33,6 +33,33 @@ public static class KataSupportRules
     public static int CountStandingOffSupports(IEnumerable<Interval1D> standing, IReadOnlyCollection<Interval1D> supports) =>
         standing.Count(element => !supports.Any(support => support.Overlaps(element)));
 
+    /// <summary>
+    /// The loads resting on the run between its supports, one per place: loads that overlap (two beams framing in from
+    /// both sides, a column over a beam) are one, a column outweighing a beam and the deeper beam's soffit kept; a
+    /// load over a support is the support's, not the span's.
+    /// </summary>
+    public static IReadOnlyList<KataRunLoad> LoadsBetweenSupports(IEnumerable<KataRunLoad> loads, IReadOnlyCollection<Interval1D> supports)
+    {
+        var merged = new List<KataRunLoad>();
+        foreach (var load in loads.Where(l => !supports.Any(s => s.Overlaps(l.Extent))).OrderBy(l => l.Extent.Start))
+        {
+            int i = merged.FindIndex(m => m.Extent.Overlaps(load.Extent));
+            if (i < 0)
+            {
+                merged.Add(load);
+                continue;
+            }
+
+            var m = merged[i];
+            merged[i] = new KataRunLoad(
+                new Interval1D(System.Math.Min(m.Extent.Start, load.Extent.Start), System.Math.Max(m.Extent.End, load.Extent.End)),
+                m.IsColumn || load.IsColumn ? 0.0 : System.Math.Max(m.SoffitBelowTopMm, load.SoffitBelowTopMm),
+                m.IsColumn || load.IsColumn);
+        }
+
+        return merged;
+    }
+
     /// <summary>Supports carrying more than one column above (two-column footings); Kata's row 19 holds only one.</summary>
     public static int CountSupportsWithSeveralColumnsAbove(IEnumerable<Interval1D> supports, IReadOnlyCollection<Interval1D> columnsAbove) =>
         supports.Count(support => columnsAbove.Count(column => column.Overlaps(support, 0.0)) > 1);

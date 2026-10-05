@@ -119,7 +119,12 @@ public static class KataSupportTopBarLayout
                         ? KataLayerPositions.BetweenMainBars(mainY, countLeft + countRight, spec.Width, rules, maxD)
                         : KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, maxD, countLeft + countRight);
                     KataLayerPositions.CheckSpacing(warnings, blocking, mark, layer == 0 ? mainY.Concat(allYs) : allYs, spacingD, rules);
-                    var (ysLeft, ysRight) = KataLayerPositions.PartitionInterleaved(allYs, countLeft, countRight, leftStrong);
+                    var (ysLeft, ysRight) = layer > 0 && SpansDifferInWidth(spec, st, k) && !(countLeft % 2 == 1 && countRight % 2 == 1)
+                        // Spans of different widths: each side spread across its own span, under its corner bars (B01 at
+                        // K, "2f20;2f16": 2Ø16 at the corners of the 300 span L, section 11-11). Two odd counts would
+                        // both put a bar on the axis, so those share the level's slots like equal widths do.
+                        ? (Spread(spec, rules, maxD, countLeft), Spread(spec, rules, maxD, countRight))
+                        : KataLayerPositions.PartitionInterleaved(allYs, countLeft, countRight, leftStrong);
 
                     var leftEnd = leftStrong
                         ? Anchor(spec, rules, st, k, level, sides.Left, outward: +1)
@@ -189,6 +194,14 @@ public static class KataSupportTopBarLayout
         spec.Supports[support].SheetColumn > 0
             ? KataDamCellAccessorExtensions.ToAddress(row, spec.Supports[support].SheetColumn)
             : $"Gối {support + 1} hàng {row}";
+
+    /// <summary>The spans either side of support <paramref name="k"/> differ in width (row 20).</summary>
+    private static bool SpansDifferInWidth(KataBeamRebarSpec spec, KataBeamStations st, int k) =>
+        k > 0 && k < st.SpanCount && Math.Abs(spec.WidthOf(k - 1) - spec.WidthOf(k)) > 0.5;
+
+    /// <summary><paramref name="count"/> bars of a layer across B6 (each is moved to its own span's width afterwards).</summary>
+    private static IReadOnlyList<double> Spread(KataBeamRebarSpec spec, KataDetailingRules rules, double diameter, int count) =>
+        KataRebarCalculator.ComputeTransverseYPositions(spec.Width, rules.StirrupCover, rules.StirrupDiameter, diameter, count);
 
     /// <summary>
     /// Stations where a row's bars stop in the spans left and right of support <paramref name="k"/>: H5 × that

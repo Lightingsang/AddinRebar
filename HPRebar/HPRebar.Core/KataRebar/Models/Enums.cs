@@ -39,7 +39,10 @@ public enum KataBarRole
     SideBar = 5,
     CrossTie = 6,
     StirrupClosed = 7,
-    StirrupCap = 8
+    StirrupCap = 8,
+
+    /// <summary>Hanger bar ("vai bò") under a beam framing into the span or a stub column standing on it.</summary>
+    HangerBar = 9
 }
 
 /// <summary>

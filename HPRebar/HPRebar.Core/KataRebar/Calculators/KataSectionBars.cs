@@ -18,14 +18,18 @@ internal sealed record KataDrawnBar(KataRebarCurve Bar, double X, double Z, Kata
 /// <summary>
 /// Where Kata draws the bars of a section (T2-DY7.dwg): the hoop's centre line at the cover from each face, the
 /// outer bars touching it (cover + (d + ds) / 2 in from the faces: 38 for Ø18 in Ø8 at 25, where they really lie at
-/// 42), each inner layer a bar and 25 clear further in, the bars across a layer spread to the corners as they lie;
+/// 42), each inner layer one outer-bar diameter and 25 further in (B01: Ø20 under Ø25 at 50, Ø16 under Ø20 at 45),
+/// the bars of every layer spread to the same corners as they lie (B01 3-3: 6Ø20 under 6Ø25 at ±207.5, ±124.5, ±41.5);
 /// side bars touching the hoop, their layers spread evenly between the inner faces of the top and bottom bars of the
 /// depth they were laid out for (DY14: −217 / −383 at 600 deep, lying at −214 / −386).
 /// </summary>
 internal sealed class KataSectionBars
 {
-    private KataSectionBars(double width, double depth, double cover, double stirrup, IReadOnlyList<KataDrawnBar> bars)
+    private readonly double _xPerY;
+
+    private KataSectionBars(double width, double depth, double cover, double stirrup, IReadOnlyList<KataDrawnBar> bars, double xPerY)
     {
+        _xPerY = xPerY;
         Width = width;
         Depth = depth;
         Cover = cover;
@@ -47,6 +51,9 @@ internal sealed class KataSectionBars
     public double HoopX => Width / 2.0 - Cover;
 
     public IReadOnlyList<KataDrawnBar> Bars { get; }
+
+    /// <summary>Where a point <paramref name="y"/> across the beam is drawn, the way the top and bottom bars are.</summary>
+    public double DrawnX(double y) => y * _xPerY + 0.0;
 
     public IEnumerable<KataDrawnBar> On(KataSectionFace face, int layer) => Bars.Where(b => b.Face == face && b.Layer == layer);
 
@@ -71,29 +78,34 @@ internal sealed class KataSectionBars
         var crossing = KataSectionCuts.Crossing(layout, cut.X).ToList();
         var main = crossing.Where(x => x.Bar.Role != KataBarRole.SideBar).ToList();
         var sides = crossing.Where(x => x.Bar.Role == KataBarRole.SideBar).ToList();
-        double sign = mirror ? -1.0 : 1.0;
+        // Kata's section looks along the beam (+X, its section flags point that way): +Y, the left of the run, is drawn left.
+        double sign = mirror ? 1.0 : -1.0;
 
         var drawn = new List<KataDrawnBar>();
-        double reach = main.Count == 0 ? 0.0 : main.Max(x => Math.Abs(x.Bar.TransverseY));
+        // Ties and inner stirrups follow the outer top bars across.
+        var outerTop = main.Where(x => IsTop(x.Bar) && x.Bar.Layer == main.Where(m => IsTop(m.Bar)).Min(m => m.Bar.Layer)).ToList();
+        double reach = (outerTop.Count > 0 ? outerTop : main).Select(x => Math.Abs(x.Bar.TransverseY)).DefaultIfEmpty(0.0).Max();
         double dMax = main.Count == 0 ? 0.0 : main.Max(x => x.Bar.Diameter);
         double corner = b / 2.0 - c - (dMax + ds) / 2.0;
         foreach (var face in new[] { KataSectionFace.Top, KataSectionFace.Bottom })
         {
             var onFace = main.Where(x => IsTop(x.Bar) == (face == KataSectionFace.Top)).ToList();
-            double inward = c;
-            foreach (var layer in onFace.GroupBy(x => x.Bar.Layer).OrderBy(g => g.Key))
+            var layers = onFace.GroupBy(x => x.Bar.Layer).OrderBy(g => g.Key).ToList();
+            if (layers.Count == 0) continue;
+            double dOuter = layers[0].Max(x => x.Bar.Diameter);
+            double first = c + (dOuter + ds) / 2.0, pitch = dOuter + KataSectionStyle.LayerClear;
+            for (int i = 0; i < layers.Count; i++)
             {
-                double d = layer.Max(x => x.Bar.Diameter);
-                double fromFace = inward + (layer.Key == onFace.Min(x => x.Bar.Layer) ? (d + ds) / 2.0 : d / 2.0);
+                double fromFace = first + i * pitch;
                 double z = face == KataSectionFace.Top ? -fromFace : -h + fromFace;
-                foreach (var (bar, realZ) in layer)
-                    drawn.Add(new KataDrawnBar(bar, sign * (reach > 1e-6 ? bar.TransverseY / reach * corner : 0.0), z, face, layer.Key, realZ));
-                inward = fromFace + d / 2.0 + KataSectionStyle.LayerClear;
+                double layerReach = layers[i].Max(x => Math.Abs(x.Bar.TransverseY));
+                foreach (var (bar, realZ) in layers[i])
+                    drawn.Add(new KataDrawnBar(bar, sign * (layerReach > 1e-6 ? bar.TransverseY / layerReach * corner : 0.0) + 0.0, z, face, layers[i].Key, realZ));
             }
         }
 
         drawn.AddRange(Sides(sides, main, rules, b, c, ds, sign, top));
-        return new KataSectionBars(b, h, c, ds, drawn);
+        return new KataSectionBars(b, h, c, ds, drawn, reach > 1e-6 ? sign * corner / reach : sign);
     }
 
     private static IEnumerable<KataDrawnBar> Sides(List<(KataRebarCurve Bar, double Z)> sides, List<(KataRebarCurve Bar, double Z)> main,
@@ -116,7 +128,7 @@ internal sealed class KataSectionBars
         {
             double t = Math.Abs(bottomReal - topReal) < 1e-6 ? 0.5 : (z - top - topReal) / (bottomReal - topReal);
             double x = b / 2.0 - c - (bar.Diameter + ds) / 2.0;
-            yield return new KataDrawnBar(bar, sign * Math.Sign(bar.TransverseY) * x, topDrawn + t * (bottomDrawn - topDrawn), KataSectionFace.Side, bar.Layer, z);
+            yield return new KataDrawnBar(bar, sign * Math.Sign(bar.TransverseY) * x + 0.0, topDrawn + t * (bottomDrawn - topDrawn), KataSectionFace.Side, bar.Layer, z);
         }
     }
 

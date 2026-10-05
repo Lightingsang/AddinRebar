@@ -49,4 +49,24 @@ public sealed class KataSupportRulesTests
 
         Assert.Equal(1, KataSupportRules.CountSupportsWithSeveralColumnsAbove(supports, columnsAbove));
     }
+
+    [Fact]
+    public void LoadsFramingInFromBothSidesAreOneAndAColumnOverABeamIsAColumn()
+    {
+        var supports = new[] { new Interval1D(0, 400), new Interval1D(10800, 11200) };
+        var loads = new[]
+        {
+            new KataRunLoad(new Interval1D(5100, 5500), 800.0, false),
+            new KataRunLoad(new Interval1D(5100, 5500), 900.0, false),
+            new KataRunLoad(new Interval1D(7000, 7400), 600.0, false),
+            new KataRunLoad(new Interval1D(7100, 7300), 0.0, true),
+            new KataRunLoad(new Interval1D(10900, 11100), 0.0, true)
+        };
+
+        var merged = KataSupportRules.LoadsBetweenSupports(loads, supports);
+
+        Assert.Equal(2, merged.Count);
+        Assert.Equal(new KataRunLoad(new Interval1D(5100, 5500), 900.0, false), merged[0]);
+        Assert.Equal(new KataRunLoad(new Interval1D(7000, 7400), 0.0, true), merged[1]);
+    }
 }
