@@ -41,12 +41,14 @@ public static class KataElevationDrawingBuilder
 
         string levelText = spec.LevelElevation?.Trim() ?? "";
         var level = levelText.Length > 0 ? new KataDrawingLevel(KataDrawingStyle.LevelX, 0.0, levelText) : null;
-        var title = new KataDrawingTitle(f.Length / 2.0, f.StubBottom - KataDrawingStyle.TitleBelow,
-            string.Format(CultureInfo.InvariantCulture, "{0} (SL={1}; L={2:0})", spec.BeamName, Math.Max(1, spec.BeamCount), f.Length),
+        // Over the whole beam, past its end columns to a crossing beam too (B03: L=33750 centred on 16725).
+        double beamStart = -f.St.StartOverhang, beamEnd = f.Length + f.St.EndOverhang;
+        var title = new KataDrawingTitle((beamStart + beamEnd) / 2.0, f.StubBottom - KataDrawingStyle.TitleBelow,
+            string.Format(CultureInfo.InvariantCulture, "{0} (SL={1}; L={2:0})", spec.BeamName, Math.Max(1, spec.BeamCount), beamEnd - beamStart),
             KataDrawingStyle.TitleScale);
 
         double minX = Math.Min(KataDrawingStyle.LevelX - KataDrawingStyle.BubbleTickEnd, KataDrawingStyle.DepthDimX - KataDrawingStyle.DimTextHeight * 2.0);
-        double maxX = f.Length + KataDrawingStyle.BubbleTickEnd;
+        double maxX = beamEnd + KataDrawingStyle.BubbleTickEnd;
         double topZ = KataDrawingStyle.FlagAboveZ + f.Lift + KataDrawingStyle.FlagHeight;
         double bottomZ = title.Z - KataDrawingStyle.TitleScaleDrop - KataDrawingStyle.DimTextHeight;
         return new KataElevationDrawing(lines, dims, flags, bubbles, level, title, minX, maxX, topZ, bottomZ);

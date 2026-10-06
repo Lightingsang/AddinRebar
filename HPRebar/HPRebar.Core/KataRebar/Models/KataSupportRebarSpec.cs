@@ -47,6 +47,9 @@ public sealed record KataSupportRebarSpec
     /// <summary>Width of secondary intersecting beam bearing at this support in mm (sheet Dam row 20).</summary>
     public double CrossingBeamWidth { get; init; }
 
+    /// <summary>Depth of the crossing beam ("400x500" in row 20 gives 500); 0 when row 20 gives its width only.</summary>
+    public double CrossingBeamDepth { get; init; }
+
     /// <summary>Offset of secondary intersecting beam in mm (sheet Dam row 21).</summary>
     public double CrossingBeamOffset { get; init; }
 
@@ -67,6 +70,18 @@ public sealed record KataSupportRebarSpec
     /// span on each side, a cell without ';' the same bars on both sides. Index 0 = row 13.
     /// </summary>
     public IReadOnlyList<KataSideBars> TopExtraSides { get; init; } = Array.Empty<KataSideBars>();
+
+    /// <summary>
+    /// Row 24 "*": no joint stirrups at this support, and the span after it takes no inner stirrups from the span
+    /// before (B01 K: span L has none; B03 G has no "*": span 3 keeps span 2's "Đai C 2").
+    /// </summary>
+    public bool Row24Star { get; init; }
+
+    /// <summary>
+    /// Row 17 over a support with a width, as written: "-" (the bars of row 17 run on through it), "-;0" (they end in
+    /// it), or bars ("2f20", "left;right") laid over it; see <c>KataSupportBottomBarLayout</c>.
+    /// </summary>
+    public string BottomLayer2Text { get; init; } = "";
 
     /// <summary>Convenience accessor for all 4 top extra bar layers.</summary>
     public IReadOnlyList<IReadOnlyList<KataBarItem>> AllTopExtraLayers =>

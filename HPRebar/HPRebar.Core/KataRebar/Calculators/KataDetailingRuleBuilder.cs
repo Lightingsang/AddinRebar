@@ -21,6 +21,9 @@ public static class KataDetailingRuleBuilder
     public const double DefaultTopAnchorageFactor = 40.0;
     public const double DefaultBottomAnchorageFactor = 30.0;
 
+    /// <summary>Least distance of an end-column bar from the column's outer face (Kata B01-B03: 50 with a = 30 or 50).</summary>
+    public const double MinColumnEndCover = 50.0;
+
     public static KataDetailingRules Build(KataBeamRebarSpec spec, KataSettings? settings = null)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
@@ -87,6 +90,7 @@ public static class KataDetailingRuleBuilder
             BottomBarCentreDepth = botDepth,
             TopEndCover = a > 0.0 ? a : topDepth,
             BottomEndCover = a > 0.0 ? a : botDepth,
+            ColumnEndCover = Math.Max(MinColumnEndCover, a > 0.0 ? a : topDepth),
             StirrupCover = b,
             StirrupDiameter = ds,
             TopAnchorageFactor = spec.TensionLapMultiplier > 0.0 ? spec.TensionLapMultiplier : DefaultTopAnchorageFactor,

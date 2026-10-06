@@ -83,7 +83,7 @@ public static class KataMainBarLayout
     private static KataBarEnd TopEnd(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, double d)
     {
         if (st.SupportWidth[support] > 0.0)
-            return Solve(st, rules, support, support == 0 ? -1 : 1, rules.TopEndCover, rules.TopAnchorageFactor * d,
+            return Solve(st, rules, support, support == 0 ? -1 : 1, rules.ColumnEndCover, rules.TopAnchorageFactor * d,
                 rules.MinimumLegFactor * d, LegRoom(spec, rules, support), 0.0);
 
         // Console tip, as Kata draws B01: the bar stops a (J9) short of the tip and bends down all the way to the
@@ -119,7 +119,7 @@ public static class KataMainBarLayout
         double required = rules.BottomAnchorageFactor * dBot;
         double minimumLeg = rules.MinimumLegFactor * dBot;
         double legRoom = LegRoom(spec, rules, support);
-        var end = Solve(st, rules, support, outward, rules.BottomEndCover, required, minimumLeg, legRoom, 0.0);
+        var end = Solve(st, rules, support, outward, rules.ColumnEndCover, required, minimumLeg, legRoom, 0.0);
 
         // The bottom leg moves inboard of the innermost top leg it would overlap: the main bars' or an
         // additional level's, whose bends already sit inboard by the level's inset.
@@ -135,7 +135,7 @@ public static class KataMainBarLayout
                     inset = Math.Max(inset, level.Inset + KataAnchorage.BottomLegInset(level.Diameter, dBot, rules.MinimumLegGap));
             }
 
-            if (inset > 0.0) end = Solve(st, rules, support, outward, rules.BottomEndCover, required, minimumLeg, legRoom, inset);
+            if (inset > 0.0) end = Solve(st, rules, support, outward, rules.ColumnEndCover, required, minimumLeg, legRoom, inset);
         }
 
         return end;
@@ -162,7 +162,7 @@ public static class KataMainBarLayout
     internal static KataBarEnd Solve(KataBeamStations st, KataDetailingRules rules, int support, int outward, double cover, double required, double minimumLeg, double legRoom, double inset)
     {
         double innerFace = outward < 0 ? st.SupportEnd[support] : st.SupportStart[support];
-        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], outward, cover, required, minimumLeg, legRoom, inset, rules.RoundLegMm);
+        return KataAnchorage.Solve(innerFace, st.AnchorWidth(support), outward, cover, required, minimumLeg, legRoom, inset, rules.RoundLegMm);
     }
 
     private static IReadOnlyList<double> Positions(KataBeamRebarSpec spec, KataDetailingRules rules, KataBarItem item) =>

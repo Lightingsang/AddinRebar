@@ -43,6 +43,15 @@ internal sealed class KataDrawingFrame
 
     public double Soffit(int span) => -_spec.DepthOf(span);
 
+    /// <summary>The beam past an end column's outer face to a crossing beam's (rows 20 / 21), and that beam's width and depth.</summary>
+    public (double Overhang, double Width, double Depth) EndCrossing(int k)
+    {
+        double overhang = k == 0 ? St.StartOverhang : k == SpanCount ? St.EndOverhang : 0.0;
+        var support = Support(k);
+        if (overhang <= 0.0 || support is null) return (0.0, 0.0, 0.0);
+        return (overhang, support.CrossingBeamWidth, support.CrossingBeamDepth > 0.0 ? support.CrossingBeamDepth : _spec.Height);
+    }
+
     private KataSupportRebarSpec? Support(int k) => k >= 0 && k < _spec.Supports.Count ? _spec.Supports[k] : null;
 
     /// <summary>A crossing beam carrying the run (row 11 "b x h"): drawn as the run going on, no column stubs.</summary>

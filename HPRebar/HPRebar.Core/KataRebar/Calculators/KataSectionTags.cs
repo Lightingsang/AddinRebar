@@ -17,7 +17,7 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// <item>the inner-layer ties over the top (under the soffit), the hoop on its left side.</item>
 /// </list>
 /// </summary>
-internal sealed class KataSectionTags
+internal sealed partial class KataSectionTags
 {
     private readonly KataSectionBars _bars;
     private readonly double _slab;
@@ -86,7 +86,10 @@ internal sealed class KataSectionTags
     {
         bool top = face == KataSectionFace.Top;
         double toward = top ? -1.0 : 1.0;
-        double insert = HalfWidth + (top ? KataSectionStyle.TopInnerTagBeyond : KataSectionStyle.BottomInnerTagBeyond);
+        double insert = HalfWidth + (top
+            ? KataSectionStyle.TopInnerTagBeyond + KataSectionStyle.TopInnerTagBeyondPerStirrup * (_bars.Stirrup - 8.0)
+            : KataSectionStyle.BottomInnerTagBeyond);
+        if (Combined(face, toward, insert)) return;
         double? previous = null;
         foreach (var layer in _bars.Bars.Where(b => b.Face == face && b.Layer > 1).GroupBy(b => b.Layer).OrderBy(g => g.Key))
         {
@@ -116,13 +119,37 @@ internal sealed class KataSectionTags
         }
     }
 
+    /// <summary>
+    /// Two numbers or more past a face's first layer share one tag ("6Ø20+6Ø20" for B03 3-3's two top layers,
+    /// "6Ø25+2Ø20" for 5-5's bars run on beside a span's own), its number in each, past the single tag by
+    /// <see cref="KataSectionStyle.CombinedTagShift"/> at the innermost layer's row, a leader from each of its bars left
+    /// of the centre line.
+    /// </summary>
+    private bool Combined(KataSectionFace face, double toward, double insert)
+    {
+        var inner = _bars.Bars.Where(b => b.Face == face && b.Layer > 1).ToList();
+        var groups = inner.GroupBy(b => b.Bar.BarNumber).OrderBy(g => g.Key).ToList();
+        if (groups.Count < 2) return false;
+
+        var innermost = inner.Where(b => b.Layer == inner.Max(x => x.Layer)).ToList();
+        double row = innermost[0].Z + toward * KataSectionStyle.InnerLayerDrop;
+        double at = insert + KataSectionStyle.CombinedTagShift;
+        foreach (double x in innermost.Where(b => b.X <= 1e-6).Select(b => b.X).Distinct().OrderBy(x => x))
+            Leaders.Add(Leader(KataLeaderArrow.None, KataSectionStyle.ArrowSize, (x, innermost[0].Z), (x, row), (at, row)));
+        string text = string.Join("+", groups.Select(g => Count(g.Count(), g.First().Bar.Diameter)));
+        Tags.Add(new KataSectionTag(at, row, true, text, groups.Select(g => g.Key).ToList()));
+        return true;
+    }
+
     /// <summary>The tie of an inner layer at <paramref name="z"/> (its straight part under the bars).</summary>
     public void InnerTie(KataBarSet tie, double z, bool top)
     {
         double corner = _bars.Bars.Where(b => b.Face != KataSectionFace.Side).Select(b => Math.Abs(b.X)).DefaultIfEmpty(_bars.HoopX).Max();
-        double foot = -corner / 2.0, straight = z - KataSectionStyle.TieBendDiameters * _bars.Stirrup;
-        double row = top ? KataSectionStyle.TopTieRow : -Depth - KataSectionStyle.BottomTieRow;
-        double insert = -HalfWidth - KataSectionStyle.InnerTieTagBeyond;
+        var left = _bars.Bars.Where(b => b.Face != KataSectionFace.Side && Math.Abs(b.Z - z) < 1.0).Select(b => b.X).Distinct().OrderBy(x => x).Take(2).ToList();
+        double foot = left.Count == 2 ? (left[0] + left[1]) / 2.0 : -corner / 2.0, straight = z - KataSectionStyle.TieBendDiameters * _bars.Stirrup;
+        double more = _bars.Stirrup - 8.0;
+        double row = top ? KataSectionStyle.TopTieRow : -Depth - KataSectionStyle.BottomTieRow - KataSectionStyle.BottomTieRowPerStirrup * more;
+        double insert = -HalfWidth - KataSectionStyle.InnerTieTagBeyond - KataSectionStyle.InnerTieTagBeyondPerStirrup * more;
         if (!top)
         {
             SecondBottomRow = true;
@@ -131,53 +158,6 @@ internal sealed class KataSectionTags
 
         Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (foot, straight), (foot, row), (insert, row)));
         Tags.Add(StirrupTag(insert, row, StirrupTexts(1, tie.Diameter, tie.Spacing), tie.BarNumber));
-    }
-
-    /// <summary>
-    /// The inner stirrups (rows 25-44) as Kata tags them on B01, after every other right-hand tag: each U on a level
-    /// leader from its right leg ("Ø10" / "a500"), the C ties of one number each on a level leader from its long leg
-    /// into one tag ("2xØ10" / "a500"), all in one column right of the beam (<see cref="KataSectionStyle.InnerTagBelowTop"/>).
-    /// A C row that would crowd a right-hand tag under it goes over the beam.
-    /// </summary>
-    /// <param name="inner">Each set with the x its leader starts at.</param>
-    public void InnerStirrups(IReadOnlyList<(KataBarSet Set, double X)> inner)
-    {
-        if (inner.Count == 0) return;
-        double insert = HalfWidth + KataSectionStyle.InnerTagBeyond + KataSectionStyle.InnerTagBeyondPerWidth * _bars.Width;
-        var right = Tags.Where(t => t.X > 0.0 && t.Z < 0.0).Select(t => t.Z).ToList();
-        double row = -KataSectionStyle.InnerTagBelowTop;
-        if (right.Any(z => z > row)) row -= KataSectionStyle.InnerTagUnderTopLayer;
-        double? reached = right.Where(z => z <= row && z >= -Depth / 2.0 - 1.0).Select(z => (double?)z).Min();
-        if (reached is { } side) row = side - KataSectionStyle.InnerTagPitch;
-
-        var us = inner.Where(i => i.Set.Role == KataBarRole.StirrupCap).ToList();
-
-        foreach (var (set, x) in us)
-        {
-            Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, row), (insert, row)));
-            Tags.Add(StirrupTag(insert, row, StirrupTexts(1, set.Diameter, set.Spacing), set.BarNumber));
-            row -= KataSectionStyle.InnerTagPitch;
-        }
-
-        foreach (var group in inner.Where(i => i.Set.Role == KataBarRole.CrossTie).GroupBy(i => i.Set.BarNumber))
-        {
-            var ties = group.OrderBy(i => i.X).ToList();
-            var texts = StirrupTexts(ties.Count, ties[0].Set.Diameter, ties[0].Set.Spacing);
-            double at = row;
-            if (right.Any(z => z < at && at - z < KataSectionStyle.InnerTagClearance))
-            {
-                double over = KataSectionStyle.InnerTagOverTop, jog = HalfWidth + KataSectionStyle.InnerTagJog;
-                foreach (var (_, x) in ties)
-                    Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, at), (jog, at), (jog, over), (insert, over)));
-                Tags.Add(StirrupTag(insert, over, texts, group.Key));
-                continue;
-            }
-
-            foreach (var (_, x) in ties)
-                Leaders.Add(Leader(KataLeaderArrow.Closed, KataSectionStyle.ArrowSize, (x, at), (insert, at)));
-            Tags.Add(StirrupTag(insert, at, texts, group.Key));
-            row -= KataSectionStyle.InnerTagPitch;
-        }
     }
 
     /// <summary>The side bars and their ties: <paramref name="ties"/> one per layer, at the layers' drawn heights.</summary>
@@ -211,7 +191,9 @@ internal sealed class KataSectionTags
         }
         else
         {
-            double joint = (highest + lowest) / 2.0, foot = KataSectionStyle.SideBarsFoot, insert = HalfWidth + KataSectionStyle.SideBarsTagBeyond;
+            double wider = _bars.Width - 300.0;
+            double joint = (highest + lowest) / 2.0, foot = KataSectionStyle.SideBarsFoot + KataSectionStyle.SideBarsFootPerWidth * wider;
+            double insert = HalfWidth + KataSectionStyle.SideBarsTagBeyond + KataSectionStyle.SideBarsTagBeyondPerWidth * wider;
             Leaders.Add(Leader(KataLeaderArrow.DotSmall, KataSectionStyle.ArrowSize, (foot, highest), (foot, joint), (insert, joint)));
             foreach (var layer in layers.Skip(1))
                 Leaders.Add(Leader(KataLeaderArrow.DotSmall, KataSectionStyle.ArrowSize, (foot, layer.Key), (foot, joint)));

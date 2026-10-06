@@ -22,10 +22,24 @@ public static class KataSectionStyle
     /// The inner stirrups' tags (rows 25-44), right of the beam, each on a level leader from its leg: the first this far
     /// under the top, further down by the second constant when a right-hand tag already sits above it (an inner top
     /// layer's), and a pitch under any right-hand tag of the upper half it would reach (a side-bar tag); each next one a
-    /// pitch lower (B01 4-4…10-10, 14-14; B02 11-11…13-13). Kata's rule for a section with two layers of side bars
-    /// (B01 1-1…3-3: U at −820.8) is unknown.
+    /// pitch lower (B01 4-4…10-10, 14-14; B02 11-11…13-13).
     /// </summary>
     public const double InnerTagBelowTop = 250.0;
+
+    /// <summary>
+    /// With two layers of side bars or more the first leader runs this far under the lowest of them (B01 1-1: −713.3 → −820.8; B03 1-1:
+    /// −780 → −887.5), or, where that would come within <see cref="InnerTagOverBottomBars"/> of the bottom bars' upper
+    /// face, <see cref="SideBarInnerTagAbove"/> over it (B03 4-4, 900 deep with side bars laid out at 1200: −687.5).
+    /// </summary>
+    public const double SideBarInnerTagBelow = 107.5;
+
+    public const double SideBarInnerTagAbove = 92.5;
+
+    /// <summary>
+    /// Least height of an inner stirrup's leader over the bottom bars' upper face: a C row lower than this goes over
+    /// the beam (B03 4-4: C at −812.5 over bars reaching −795.5; B01 1-1 keeps its C 99.7 over them).
+    /// </summary>
+    public const double InnerTagOverBottomBars = 62.5;
 
     public const double InnerTagUnderTopLayer = 50.0;
 
@@ -43,6 +57,12 @@ public static class KataSectionStyle
     public const double InnerTagClearance = 125.0;
 
     public const double InnerTagOverTop = 62.5;
+
+    /// <summary>
+    /// A C row too low for the bottom bars goes over the beam from this far under the top, under its hooks (B03 4-4:
+    /// leaders from −175).
+    /// </summary>
+    public const double InnerTagHighLeader = 175.0;
 
     public const double InnerTagJog = 37.5;
 
@@ -83,18 +103,33 @@ public static class KataSectionStyle
 
     public const double BottomRowPitch = 147.0;
 
-    /// <summary>Tags of the inner-layer ties: over the top, under the soffit; their leader foot halfway to the corner bar.</summary>
+    /// <summary>
+    /// Tags of the inner-layer ties: over the top, under the soffit (for Ø8 ties; a Ø10 tie's bottom row is 7.5 higher,
+    /// B03 5-5), their leader foot halfway between the two bars on the left of the layer.
+    /// </summary>
     public const double TopTieRow = 295.5;
 
     public const double BottomTieRow = 301.25;
 
-    /// <summary>Insertion of the inner-layer tags right of the centre line, over and under (b/2 + 370 / 250).</summary>
+    public const double BottomTieRowPerStirrup = -3.75;
+
+    /// <summary>
+    /// Insertion of the inner-layer tags right of the centre line, over and under: b/2 + 370 / 250 with Ø8 stirrups
+    /// (T2-DY7, DY14), the upper ones 30 further with Ø10 (B01, B02, B03).
+    /// </summary>
     public const double TopInnerTagBeyond = 370.0;
+
+    public const double TopInnerTagBeyondPerStirrup = 15.0;
 
     public const double BottomInnerTagBeyond = 250.0;
 
-    /// <summary>Insertion of the inner-layer tie tags left of the beam face.</summary>
+    /// <summary>A combined inner-layer tag ("6Ø20+6Ø20") sits this much further right than a single one (B01 / B03 3-3, B03 5-5).</summary>
+    public const double CombinedTagShift = 231.875;
+
+    /// <summary>Insertion of the inner-layer tie tags left of the beam face (Ø8 ties; 10 further for Ø10, B03 5-5).</summary>
     public const double InnerTieTagBeyond = 127.875;
+
+    public const double InnerTieTagBeyondPerStirrup = 5.0;
 
     /// <summary>One layer of side bars: tie leader foot left of the centre line, its row over the bars, its insertion past the face.</summary>
     public const double SideTieFoot = 34.333;
@@ -126,6 +161,11 @@ public static class KataSectionStyle
     public const double SideBarsFoot = 59.333;
 
     public const double SideBarsTagBeyond = 331.5;
+
+    /// <summary>The bar leaders' foot moves out and their tag in with the width past 300 (B01 / B03 1-1 at 500: 87.67, 574.5).</summary>
+    public const double SideBarsFootPerWidth = 0.141667;
+
+    public const double SideBarsTagBeyondPerWidth = -0.035;
 
     /// <summary>
     /// One layer of side bars: the tag's insertion past the face for a 500-deep section, moving in as the section

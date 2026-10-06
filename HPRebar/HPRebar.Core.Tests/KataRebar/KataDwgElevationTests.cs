@@ -108,9 +108,13 @@ public sealed class KataDwgElevationTests
         var kata = Dwg(beam).Where(e => e.Block == "kata_block_SECBAL" && e.At[1] > 0.0).Select(e => e.At[0]).ToList();
         var canvas = Canvas(beam).Drawing.Flags.Where(f => !f.Below).Select(f => f.X).ToList();
 
-        // Kata's own rule is not known (user decision 2026-10-05: keep 0.1 L): these seven agree, 1250, 9950, 17025,
-        // 20250, 22650, 25600 and 30600 do not (phase-01 report). The console is cut once, 2000 / 3 out (14-14).
-        foreach (double x in new[] { 5450.0, 11850.0, 14300.0, 18750.0, 23950.0, 27950.0, 32266.7 })
+        // Kata's own rule is not known and HPRebar keeps 0.1 L (user decision 2026-10-05): on B01 / B02 these seven
+        // agree, 1250, 9950, 17025, 20250, 22650, 25600 and 30600 do not; on B03 four agree. The console is cut once,
+        // 2000 / 3 out (B01 14-14, B03 10-10).
+        var agreed = name == "B03"
+            ? new[] { 5450.0, 17750.0, 27950.0, 32266.7 }
+            : new[] { 5450.0, 11850.0, 14300.0, 18750.0, 23950.0, 27950.0, 32266.7 };
+        foreach (double x in agreed)
         {
             Assert.Contains(kata, k => Math.Abs(k - x) <= Tol);
             Assert.Contains(canvas, c => Math.Abs(c - x) <= Tol);

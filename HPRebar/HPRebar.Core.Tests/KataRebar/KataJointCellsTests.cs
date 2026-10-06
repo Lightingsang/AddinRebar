@@ -66,16 +66,29 @@ public sealed class KataJointCellsTests
         Assert.Contains(plan.Skipped, s => s.StartsWith("I17") && s.Contains("nút gần mặt gối"));
     }
 
-    [Theory]
-    [InlineData("400")]
-    [InlineData("abc")]
-    public void Bottom_bars_at_a_support_with_a_width_or_an_unreadable_one_are_reported(string width)
+    [Fact]
+    public void Bottom_bars_at_a_support_of_unreadable_width_are_reported()
     {
         var table = KataRebarTestSheets.TwoSpans();
-        table.Set("E11", width);
+        table.Set("E11", "abc");
         table.Set("E17", "2f16");
 
         Assert.Contains(Plan(table).Skipped, s => s.StartsWith("E17"));
+    }
+
+    [Fact]
+    public void Row_17_over_a_support_with_a_width_is_drawn_and_row_18_there_is_reported()
+    {
+        var table = KataRebarTestSheets.TwoSpans();
+        table.Set("E11", 400.0);
+        table.Set("E17", "2f16");
+        table.Set("E18", "2f16");
+
+        var plan = Plan(table);
+
+        Assert.DoesNotContain(plan.Skipped, s => s.StartsWith("E17"));
+        Assert.Contains(plan.Skipped, s => s.StartsWith("E18"));
+        Assert.Equal(4, plan.Layout.ExtraBottomBars.Count(b => b.HostSupportIndex == 1 && b.Diameter == 16.0));
     }
 
     [Fact]

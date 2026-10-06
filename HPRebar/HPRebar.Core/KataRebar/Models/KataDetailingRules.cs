@@ -24,6 +24,12 @@ public sealed record KataDetailingRules
     /// <summary>The same for the bottom main bars.</summary>
     public double BottomEndCover { get; init; }
 
+    /// <summary>
+    /// How far a bar anchored in an end column stops short of its outer face (or of the crossing beam past it): never
+    /// less than 50, as Kata draws B01, B02 and B03 whatever J9's a (50 or 30); a console tip keeps a (user decision 2026-10-06).
+    /// </summary>
+    public double ColumnEndCover { get; init; }
+
     /// <summary>Clear cover to the outer face of the stirrups, on all four faces.</summary>
     public double StirrupCover { get; init; }
 

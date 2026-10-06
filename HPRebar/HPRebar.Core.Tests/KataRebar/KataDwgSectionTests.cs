@@ -64,9 +64,7 @@ public sealed class KataDwgSectionTests
     }
 
     /// <summary>
-    /// The bar tags ("6Ø25", "2x2Ø12") where Kata inserts them, ±2 — but the tags of an upper inner layer (Kata 30
-    /// further right in B01 than in T2-DY7 at the same width: its rule is unknown) and the tag joining two layers of
-    /// side bars (7 to the left).
+    /// The bar tags ("6Ø25", "6Ø20+6Ø20", "2x2Ø12") where Kata inserts them, ±2.
     /// </summary>
     [Theory]
     [MemberData(nameof(Sections))]
@@ -74,9 +72,8 @@ public sealed class KataDwgSectionTests
     {
         var (canvas, kata, top) = Section(name, n);
         var expected = kata.Where(e => e.Type == "AcDbBlockReference" && e.Layer == "kata_net manh"
-                && e.Attributes.Count > 2 && System.Text.RegularExpressions.Regex.IsMatch(e.Attributes[2], @"^\d+Ø\d+$"))
+                && e.Attributes.Count > 2 && System.Text.RegularExpressions.Regex.IsMatch(e.Attributes[2], @"^(\d+x)?\d+Ø\d+(\+\d+Ø\d+)*$"))
             .Select(e => (X: e.At[0], Z: e.At[1] - top, Text: e.Attributes[2]))
-            .Where(t => !(t.X > 0.0 && t.Z > -300.0) && !t.Text.Contains('x'))
             .ToList();
 
         Assert.NotEmpty(expected);

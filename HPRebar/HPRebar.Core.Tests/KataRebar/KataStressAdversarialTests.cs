@@ -437,8 +437,8 @@ public class KataStressAdversarialTests
         Assert.Equal(400.0 - (2.0 * cover), stZone.OutToOutWidth);
         Assert.Equal(600.0 - (2.0 * cover), stZone.OutToOutHeight);
 
-        // The bars stop at the far column faces with their centre cover + Ø10 + Ø20/2 inside.
-        double centre = cover + 10.0 + 10.0;
+        // The bars stop at the far column faces with their centre cover + Ø10 + Ø20/2 inside, never less than 50.
+        double centre = System.Math.Max(50.0, cover + 10.0 + 10.0);
         Assert.Equal(centre, result.MainTopBars[0].Polyline.Points[1].X, 6);
         Assert.Equal(5800.0 - centre, result.MainTopBars[0].Polyline.Points[2].X, 6);
 

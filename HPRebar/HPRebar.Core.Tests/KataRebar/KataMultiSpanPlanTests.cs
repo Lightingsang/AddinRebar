@@ -17,8 +17,8 @@ public sealed class KataMultiSpanPlanTests
 
         Assert.True(plan.CanGenerate, string.Join(" | ", plan.Blocking));
         Assert.Equal(2, plan.Spec.Spans.Count);
-        // Main bars run on from the first support to the last: 11700 − 43 at the far face.
-        Assert.All(plan.Layout.MainTopBars, b => Assert.Equal((43.0, 11657.0), (b.Polyline.Points[1].X, b.Polyline.Points[b.Polyline.Points.Count - 2].X)));
+        // Main bars run on from the first support to the last: 11700 − 50 at the far face.
+        Assert.All(plan.Layout.MainTopBars, b => Assert.Equal((50.0, 11650.0), (b.Polyline.Points[1].X, b.Polyline.Points[b.Polyline.Points.Count - 2].X)));
         Assert.Equal(6, plan.Layout.StirrupZones.Count);
     }
 
@@ -27,8 +27,8 @@ public sealed class KataMultiSpanPlanTests
     {
         var plan = KataRebarPlanner.Plan(KataDamSheetParser.Parse(KataRebarTestSheets.TwoSpans()), KataRebarTestSheets.MeasuredTwoSpans());
 
-        // 11614 straight + 2 × 450 legs = 12514, one bar: splitting into stock lengths is shop-drawing work.
-        Assert.All(plan.Layout.MainTopBars, b => Assert.Equal(12514.0, b.TotalLength, 6));
+        // 11600 straight + 2 × 450 legs = 12500, one bar: splitting into stock lengths is shop-drawing work.
+        Assert.All(plan.Layout.MainTopBars, b => Assert.Equal(12500.0, b.TotalLength, 6));
         Assert.DoesNotContain(plan.Warnings, w => w.Contains("cây thép"));
     }
 

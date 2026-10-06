@@ -208,20 +208,24 @@ public static class KataDamSheetParser
         };
 
         var (upperW, upperOffset) = KataBarNotationParser.ParsePair(accessor.GetText(19, col));
-        double crossingW = accessor.GetDouble(20, col) ?? 0.0;
+        // Row 20 at a support: the crossing beam "b" or "bxh" (h = B5 when left out).
+        var (crossingW, crossingH) = KataBarNotationParser.ParseSupportDimension(accessor.GetText(20, col));
         double crossingOffset = accessor.GetDouble(21, col) ?? 0.0;
         string gridName = accessor.GetText(22, col) ?? "";
         double gridOffset = accessor.GetDouble(23, col) ?? 0.0;
         // Row 24 "*" turns off the joint stirrups Kata adds at a support; HPRebar draws none at any support.
-        if (accessor.GetText(24, col)?.Trim() == "*")
+        bool row24Star = accessor.GetText(24, col)?.Trim() == "*";
+        if (row24Star)
             notes.Add(new KataCellNote(KataDamCellAccessorExtensions.ToAddress(24, col), "*", "không bố trí đai gia cường nút",
                 "đúng như bản vẽ — HPRebar không vẽ đai gia cường nút ở gối nào"));
         else
             Note(accessor, notes, 24, col, "đai chống xoắn / đai gia cường tại gối");
-        // Rows 17 / 18 at a support: bottom bars through it; a support of no width (row 11 "0") is left to the span merge.
+        // Row 17 at a support with a width is drawn (KataSupportBottomBarLayout); row 18 there is not yet, and a support
+        // of no width (row 11 "0") is left to the span merge.
+        string bottomLayer2 = width > 0.0 ? accessor.GetText(17, col)?.Trim() ?? "" : "";
         if (!(width <= 0.0 && row11?.Trim() == "0"))
         {
-            foreach (int row in new[] { 17, 18 })
+            foreach (int row in width > 0.0 ? new[] { 18 } : new[] { 17, 18 })
             {
                 string text = accessor.GetText(row, col)?.Trim() ?? "";
                 if (!IsBlank(text))
@@ -243,11 +247,14 @@ public static class KataDamSheetParser
             UpperColumnOffset = upperOffset,
             CrossingBeamWidth = crossingW,
             CrossingBeamOffset = crossingOffset,
+            CrossingBeamDepth = crossingH,
             TopExtraLayer1 = topL1,
             TopExtraLayer2 = topL2,
             TopExtraLayer3 = topL3,
             TopExtraLayer4 = topL4,
-            TopExtraSides = sides
+            TopExtraSides = sides,
+            BottomLayer2Text = bottomLayer2,
+            Row24Star = row24Star
         };
     }
 

@@ -32,17 +32,17 @@ public sealed class KataRebarPlannerTests
     [Fact]
     public void Top_bars_sit_43_below_the_top_and_hook_down_450_at_both_columns()
     {
-        // 40d = 800 needs a 443 leg in a 400 column (cover 43); rounded up to 25 mm it is 450 and still fits 514.
+        // 40d = 800 needs a 450 leg in a 400 column (bar end 50 from its face) and still fits 514.
         var top = PlanFor().Layout.MainTopBars;
 
         Assert.Equal(new[] { -107.0, 0.0, 107.0 }, top.Select(b => b.TransverseY).ToArray());
         foreach (var bar in top)
         {
             var pts = bar.Polyline.Points;
-            Assert.Equal(new Point3(43.0, bar.TransverseY, -493.0), pts[0]);
-            Assert.Equal(new Point3(43.0, bar.TransverseY, -43.0), pts[1]);
-            Assert.Equal(new Point3(6757.0, bar.TransverseY, -43.0), pts[2]);
-            Assert.Equal(new Point3(6757.0, bar.TransverseY, -493.0), pts[3]);
+            Assert.Equal(new Point3(50.0, bar.TransverseY, -493.0), pts[0]);
+            Assert.Equal(new Point3(50.0, bar.TransverseY, -43.0), pts[1]);
+            Assert.Equal(new Point3(6750.0, bar.TransverseY, -43.0), pts[2]);
+            Assert.Equal(new Point3(6750.0, bar.TransverseY, -493.0), pts[3]);
         }
     }
 
@@ -58,10 +58,10 @@ public sealed class KataRebarPlannerTests
         {
             var pts = bottom[i].Polyline.Points;
             Assert.Equal(expectedY[i], bottom[i].TransverseY, 6);
-            Assert.Equal(88.0, pts[0].X, 6);
+            Assert.Equal(95.0, pts[0].X, 6);
             Assert.Equal(-557.0 + 300.0, pts[0].Z, 6);
             Assert.Equal(-557.0, pts[1].Z, 6);
-            Assert.Equal(6712.0, pts[3].X, 6);
+            Assert.Equal(6705.0, pts[3].X, 6);
         }
     }
 

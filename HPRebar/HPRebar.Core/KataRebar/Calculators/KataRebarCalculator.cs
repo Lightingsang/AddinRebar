@@ -86,8 +86,9 @@ public static class KataRebarCalculator
         var narrowExtraTop = KataWidthProfile.Apply(spec, rules, stations, extraTop, -1, ref barId);
         extraTop = KataTopProfile.Drape(spec, rules, stations, narrowExtraTop, warnings, ref barId);
         warnings.AddRange(KataWidthProfile.SpacingWarnings(spec, rules));
+        var spanBottom = KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId);
         var extraBottom = KataWidthProfile.Apply(spec, rules, stations,
-            KataSpanBottomBarLayout.Build(spec, rules, stations, extraTop, warnings, blocking, ref barId), +1, ref barId);
+            KataSupportBottomBarLayout.Apply(spec, rules, stations, mainBottom, spanBottom, warnings, ref barId), +1, ref barId);
         // Bar ids follow the order bars were numbered before the ties needed the hoop zones.
         int stirrupId = barId;
         var (zones, stirrups) = KataStirrupZoneLayout.Build(spec, rules, stations, ref stirrupId);

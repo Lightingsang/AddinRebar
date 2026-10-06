@@ -14,6 +14,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// "Đai C a" an upright tie beside bar a from the top bars to the bottom ones. They are spaced as the C ties are
 /// (I8, <see cref="KataTieStations"/>): beside every outer hoop, one stirrup diameter along the beam from it, or
 /// evenly at J7 (B01: "Ø10a500", "2xØ10a500"); at the span's width (row 20) and up to the top over each run (row 19).
+/// A span without rows 25-27 of its own takes those of the span before, unless the support between them has "*" in
+/// row 24 (B01: span 1's U 3-4, C 2, C 5 run on through F, H and J, none past K "*"; B03: on past G into span 3,
+/// whose 3Ø20 keep only "Đai C 2"); entries naming bars the span lacks are then dropped.
 /// </summary>
 public static class KataInnerStirrupLayout
 {
@@ -36,7 +39,6 @@ public static class KataInnerStirrupLayout
         }
 
         IReadOnlyList<KataStirrupBranchSpec> carried = Array.Empty<KataStirrupBranchSpec>();
-        KataBarItem? carriedTop = null;
         for (int s = 0; s < spec.Spans.Count; s++)
         {
             // The bars a stirrup names are the span's own top main bars (B01 console "Đai C 2": the middle one of its 3Ø20).
@@ -47,7 +49,9 @@ public static class KataInnerStirrupLayout
                 // Kata counts the bars from the left of its section, which looks along the beam (+X): bar 1 is on +Y.
                 : KataRebarCalculator.ComputeTransverseYPositions(spec.WidthOf(s), rules.StirrupCover, ds, top.Diameter, top.Count).OrderByDescending(y => y).ToArray();
             double zBottom = -spec.DepthOf(s) + rules.StirrupCover + ds / 2.0;
-            var entries = Entries(spec.Spans[s].InnerStirrups, top, ref carried, ref carriedTop);
+            var own = spec.Spans[s].InnerStirrups;
+            if (own.Count > 0 || s == 0 || s >= spec.Supports.Count || spec.Supports[s].Row24Star) carried = own;
+            var entries = carried;
             var runs = SplitAtSteps(spec, st, s, Runs(rules, st, outerZones, s));
             for (int i = 0; i < entries.Count; i++)
             {
@@ -61,6 +65,8 @@ public static class KataInnerStirrupLayout
 
                 if (barY.Length == 0 || a < 1 || b > barY.Length)
                 {
+                    // Carried on to fewer top bars, Kata keeps those that fit (B03 span 3, 3Ø20: "Đai C 2" of U 3-4, C 2, C 5).
+                    if (own.Count == 0) continue;
                     Warn($"{label}: thép chủ trên có {barY.Length} thanh, không có thanh {a}..{b} — không vẽ.");
                     continue;
                 }
@@ -127,20 +133,6 @@ public static class KataInnerStirrupLayout
         }
 
         return parts;
-    }
-
-    /// <summary>
-    /// A span's inner stirrups: its own pairs of rows 25-27, else those of the span before while the top main bars stay
-    /// the same (B01: span 1's U 3-4, C 2, C 5 run on through F, H and J, sections 4-10; the 3Ø20 of span L have none,
-    /// the console its own "Đai C 2").
-    /// </summary>
-    private static IReadOnlyList<KataStirrupBranchSpec> Entries(IReadOnlyList<KataStirrupBranchSpec> own, KataBarItem top,
-        ref IReadOnlyList<KataStirrupBranchSpec> carried, ref KataBarItem? carriedTop)
-    {
-        if (own.Count > 0 || carriedTop is null || carriedTop.Count != top.Count || Math.Abs(carriedTop.Diameter - top.Diameter) > 0.5)
-            carried = own;
-        carriedTop = top;
-        return carried;
     }
 
     /// <summary>

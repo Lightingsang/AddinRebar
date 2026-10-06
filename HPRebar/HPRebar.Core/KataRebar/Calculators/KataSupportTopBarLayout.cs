@@ -164,7 +164,7 @@ public static class KataSupportTopBarLayout
             double dBottom = spec.BottomContinuous.IsEmpty ? 0.0 : spec.BottomContinuous.Diameter;
             legRoom -= (d + dBottom) / 2.0 + rules.LayerGap(d, dBottom);
         }
-        return KataAnchorage.Solve(innerFace, st.SupportWidth[support], outward, rules.TopEndCover,
+        return KataAnchorage.Solve(innerFace, st.AnchorWidth(support), outward, rules.ColumnEndCover,
             rules.TopAnchorageFactor * d, rules.MinimumLegFactor * d, legRoom, level.Inset, rules.RoundLegMm);
     }
 

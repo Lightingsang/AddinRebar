@@ -44,7 +44,8 @@ public sealed class KataDwgStirrupTagTests
             double tx = tag.At[0], tz = tag.At[1] - top;
             string text = tag.Attributes[2] + tag.Attributes[3];
 
-            var mine = canvas.Tags.Where(t => t.Numbers.Contains(number)).ToList();
+            // One number may tag two kinds of tie (B03 5-5: 23 for the side-bar ties and the C under the bottom layer).
+            var mine = canvas.Tags.Where(t => t.Numbers.Contains(number) && t.Text + t.Spacing == text).ToList();
             Assert.True(mine.Count == 1, $"{name} {n}-{n} #{number}: {mine.Count} canvas tags");
             var c = mine[0];
             Assert.True(Math.Abs(c.X - tx) <= Tol && Math.Abs(c.Z - tz) <= Tol,

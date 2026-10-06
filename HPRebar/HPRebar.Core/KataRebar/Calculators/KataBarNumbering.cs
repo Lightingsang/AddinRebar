@@ -9,8 +9,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
 /// Kata's bar numbers ("số hiệu"), in the order its drawings use (T2-DY7, T2-DY14, B01): the top main bars, the bottom
-/// main bar runs from left to right, the additional top bars support by support (row 13 to 16) — a support of no width
-/// numbers its rows 17 / 18 there too (B01 I17: 12, between G's 11 and K's 13) —, the additional bottom bars span by
+/// main bar runs from left to right, the additional top bars support by support (row 13 to 16) — a support numbers its
+/// row 17 there too, after its top bars: of no width (B01 I17: 12, between G's 11 and K's 13) or with one (B03: E's
+/// 6Ø25 run on into span 2 is 11, I's 2Ø20 16 and 17) —, the additional bottom bars span by
 /// span (row 18 then 17), the side bars, then span by span its C ties, its hoops and its inner stirrups (B01: 22 tie,
 /// 23 hoop, 24 U, 25 C in span D … 33 tie, 34 hoop, 35 C in the console), the hanger bars last.
 /// A bar identical to one already numbered — same diameter, same shape and dimensions within ±1 mm, wherever it
@@ -29,6 +30,12 @@ public static class KataBarNumbering
                 ? st.SpanStart[bar.HostSpanIndex] + at
                 : null;
         double SupportAt(int k) => st is not null && k >= 0 && k < st.SupportStart.Length ? (st.SupportStart[k] + st.SupportEnd[k]) / 2.0 : k;
+        // Row 17 over a support with a width (KataSupportBottomBarLayout): laid over it, or run on through it into the span.
+        double? OverSupport(KataRebarCurve bar) =>
+            JointOf(bar) is { } joint ? joint
+            : bar.HostSupportIndex >= 0 ? SupportAt(bar.HostSupportIndex)
+            : bar.BarMark.EndsWith(KataSupportBottomBarLayout.ThroughSuffix, StringComparison.Ordinal) ? SupportAt(bar.HostSpanIndex)
+            : null;
 
         var known = new List<(Shape Shape, int Number)>();
         int Number(IReadOnlyList<Shape> forms)
@@ -55,15 +62,15 @@ public static class KataBarNumbering
 
         // The supports' bars in station order: rows 13-16 of each support and rows 17 / 18 of a support of no width.
         var supportBars = layout.ExtraTopBars.Select(b => (Bar: b, At: SupportAt(b.HostSupportIndex)))
-            .Concat(layout.ExtraBottomBars.Where(b => JointOf(b) is not null).Select(b => (Bar: b, At: JointOf(b)!.Value)))
+            .Concat(layout.ExtraBottomBars.Where(b => OverSupport(b) is not null).Select(b => (Bar: b, At: OverSupport(b)!.Value)))
             .ToList();
         var numbered = new Dictionary<int, int>();
         foreach (var (bar, _) in supportBars.OrderBy(x => x.At).ThenBy(x => x.Bar.Role == KataBarRole.ExtraBottom ? 1 : 0)
                      .ThenBy(x => x.Bar.Layer).ThenBy(x => x.Bar.Polyline.Points.Min(p => p.X)))
             numbered[bar.BarId] = Number(Signature(bar, JointOf(bar) is null ? "" : "joint"));
         var extraTop = layout.ExtraTopBars.Select(b => b with { BarNumber = numbered[b.BarId] }).ToList();
-        var extraBottom = InOrder(layout.ExtraBottomBars, b => b.HostSpanIndex, b => b.Layer, b => JointOf(b) is null)
-            .Select(b => numbered.TryGetValue(b.BarId, out int n) && JointOf(b) is not null ? b with { BarNumber = n } : b).ToList();
+        var extraBottom = InOrder(layout.ExtraBottomBars, b => b.HostSpanIndex, b => b.Layer, b => OverSupport(b) is null)
+            .Select(b => numbered.TryGetValue(b.BarId, out int n) && OverSupport(b) is not null ? b with { BarNumber = n } : b).ToList();
         var side = InOrder(layout.SideBars, _ => 0, b => b.Layer);
 
         // Span by span: its C ties (one number per diameter and span width: DY7 14 holds side-bar and layer ties

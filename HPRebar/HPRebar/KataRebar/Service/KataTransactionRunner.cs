@@ -69,7 +69,11 @@ public sealed class KataTransactionRunner
                 string text = failure.GetDescriptionText();
                 if (failure.GetSeverity() == FailureSeverity.Warning)
                 {
-                    Log.Warning("Kata Rebar: Revit warning cleared: {Warning}", text);
+                    // Which bars: their ids and the Kata number each was drawn with, so the log names them.
+                    var doc = accessor.GetDocument();
+                    var bars = failure.GetFailingElementIds()
+                        .Select(id => $"{id}#{(doc.GetElement(id) is { } e && KataRebarStorage.Read(e) is { } s ? s.KataNumber : 0)}");
+                    Log.Warning("Kata Rebar: Revit warning cleared: {Warning} [{Bars}]", text, string.Join(", ", bars));
                     _warnings.Add(text);
                     accessor.DeleteWarning(failure);
                 }

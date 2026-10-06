@@ -80,6 +80,16 @@ public static class KataLayerSpacerTieLayout
     private sealed record Reach(KataRebarCurve Bar, double From, double To, double Z);
 
     /// <summary>
+    /// A layer holding both bars run on through a support (row 17 "-") and the span's own row 17 is tied whatever its
+    /// count, round its outer bars: B03 5-5 / 6-6 (6Ø25 run on + 2Ø20); the 6Ø25 alone (4-4) are not, nor are B01's.
+    /// </summary>
+    private static bool Mixed(IReadOnlyList<Reach> present)
+    {
+        int through = present.Count(r => r.Bar.BarMark.EndsWith(KataSupportBottomBarLayout.ThroughSuffix, StringComparison.Ordinal));
+        return through > 0 && through < present.Count;
+    }
+
+    /// <summary>
     /// The stretches of [spanStart, spanEnd] where every section holds at least <paramref name="minBars"/> bars of
     /// the layer, with the same two outer bars throughout.
     /// </summary>
@@ -100,7 +110,8 @@ public static class KataLayerSpacerTieLayout
 
             double mid = (from + to) / 2.0;
             var present = reach.Where(r => r.From <= mid && r.To >= mid).OrderBy(r => r.Bar.TransverseY).ToList();
-            bool holds = present.Count >= minBars && present.Count <= MaxBarsHeld && present[present.Count - 1].Bar.TransverseY - present[0].Bar.TransverseY >= 1.0;
+            bool holds = (present.Count >= minBars && present.Count <= MaxBarsHeld || Mixed(present))
+                         && present[present.Count - 1].Bar.TransverseY - present[0].Bar.TransverseY >= 1.0;
             if (holds && open is { } o && ReferenceEquals(o.A, present[0]) && ReferenceEquals(o.B, present[present.Count - 1]))
             {
                 open = (o.Start, to, o.A, o.B);

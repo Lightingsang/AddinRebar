@@ -97,12 +97,12 @@ public class KataRebarCalculatorTests
             Assert.Equal(4, bar.Polyline.Points.Count);
             var pts = bar.Polyline.Points;
 
-            // The 400 mm column cannot hold 40d = 800 straight: the bar runs to the far face (centre 43 mm
-            // from it) and bends down with a leg supplying the rest: 800 − (400 − 43) = 443, rounded up to 450.
-            Assert.Equal(43.0, pts[0].X);
-            Assert.Equal(43.0, pts[1].X);
-            Assert.Equal(6757.0, pts[2].X);
-            Assert.Equal(6757.0, pts[3].X);
+            // The 400 mm column cannot hold 40d = 800 straight: the bar runs to the far face (centre 50 mm
+            // from it, never less in an end column) and bends down with a leg supplying the rest: 800 − 350 → 450.
+            Assert.Equal(50.0, pts[0].X);
+            Assert.Equal(50.0, pts[1].X);
+            Assert.Equal(6750.0, pts[2].X);
+            Assert.Equal(6750.0, pts[3].X);
 
             // Z: top elevation is 0. Z bar = 0 - 25 - 8 - 10 = -43 mm
             Assert.Equal(-43.0, pts[1].Z);
@@ -139,9 +139,9 @@ public class KataRebarCalculatorTests
             Assert.True(pts[3].Z > pts[2].Z);
 
             // 30d = 600 needs a 300 mm leg (15d) that overlaps the 450 mm top leg (room 514), so the bottom leg
-            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 43 − 45) = 288, raised to the 15d = 300 minimum.
-            Assert.Equal(88.0, pts[0].X, 6);
-            Assert.Equal(6712.0, pts[3].X, 6);
+            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 50 − 45) = 295, raised to the 15d = 300 minimum.
+            Assert.Equal(95.0, pts[0].X, 6);
+            Assert.Equal(6705.0, pts[3].X, 6);
             Assert.Equal(300.0, bar.StartHookLength, 6);
             Assert.Equal(300.0, bar.EndHookLength, 6);
         }
@@ -267,9 +267,9 @@ public class KataRebarCalculatorTests
         Assert.Equal(6, result.MainBottomBars.Count);
 
         // Total beam length: 400 + 10400 + 400 + 6500 + 400 = 18,100 mm. The 400 mm end columns cannot hold
-        // 40d straight, so the bars stop at the far faces with their centre 25 + 10 + 25/2 = 47.5 mm inside.
-        double expectedStart = 47.5;
-        double expectedEnd = 18100.0 - 47.5;
+        // 40d straight, so the bars stop at the far faces with their centre 50 inside (25 + 10 + 25/2 = 47.5 is less).
+        double expectedStart = 50.0;
+        double expectedEnd = 18100.0 - 50.0;
         Assert.Equal(expectedStart, result.MainTopBars[0].Polyline.Points[1].X);
         Assert.Equal(expectedEnd, result.MainTopBars[0].Polyline.Points[2].X);
 
@@ -606,9 +606,9 @@ public class KataRebarCalculatorTests
         // Top Continuous: reaches right cantilever end with 90° hook down
         // Total length = 400 + 5000 + 400 + 1800 + 0 = 7600 mm
         Assert.Equal(3, result.MainTopBars.Count);
-        // Left end in a 400 mm column: bar centre 25 + 10 + 10 = 45 mm from the far face.
+        // Left end in a 400 mm column: bar centre 50 from the far face (25 + 10 + 10 = 45 is less); the console tip keeps 45.
         var topBar = result.MainTopBars[0];
-        Assert.Equal(45.0, topBar.Polyline.Points[1].X);
+        Assert.Equal(50.0, topBar.Polyline.Points[1].X);
         Assert.Equal(7600.0 - 45.0, topBar.Polyline.Points[2].X);
         Assert.Equal(HookAngle.Hook90, topBar.StartHookAngle);
         Assert.Equal(HookAngle.Hook90, topBar.EndHookAngle);
@@ -621,7 +621,7 @@ public class KataRebarCalculatorTests
         Assert.All(console, b => { Assert.Equal(5400.0 + 45.0, b.Polyline.Points.Min(p => p.X), 1); Assert.Equal(7600.0 - 45.0, b.Polyline.Points.Max(p => p.X), 1); });
         // Its leg would overlap the top-bar leg, so it moves inboard by (20 + 20)/2 + 25 = 45 mm.
         var botBar = result.MainBottomBars[0];
-        Assert.Equal(90.0, botBar.Polyline.Points[1].X);
+        Assert.Equal(95.0, botBar.Polyline.Points[1].X);
         Assert.Equal(6000.0, botBar.Polyline.Points[2].X); // 5400 + G3·d 600 into the console
         Assert.Equal(HookAngle.Hook90, botBar.StartHookAngle);
         Assert.Equal(HookAngle.None, botBar.EndHookAngle);

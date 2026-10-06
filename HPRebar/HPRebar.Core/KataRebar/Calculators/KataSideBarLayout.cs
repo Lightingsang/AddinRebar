@@ -12,7 +12,7 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// Kata drawing "2x2Ø12" shows; "0" = none).
 /// Each layer is a bar on each face against the stirrup, the layers spread evenly between the top and bottom
 /// main bars; consecutive spans with the same side bars share one bar through the interior supports, at the
-/// shallowest span's levels; a bar runs into each end of its group by the settings' anchorage (never past the
+/// levels of the span it starts in (B03: 2x2Ø12 at 420 / 780 below the top through spans 1200 and 900 deep); a bar runs into each end of its group by the settings' anchorage (never past the
 /// far face − a, at an interior support only to its middle). Unless G5 is negative, C ties with 180° hooks hold
 /// each layer span by span, spaced by J7/I8 (<see cref="KataTieStations"/>).
 /// </summary>
@@ -50,22 +50,35 @@ public static class KataSideBarLayout
         }
 
         // Consecutive spans with the same side bars share them: one bar runs on through the interior supports
-        // (Kata drawing), at the levels of the shallowest span of the group so it stays inside each of them.
+        // (Kata drawing), at the levels of the span the run starts in, as Kata draws it.
         for (int a = 0; a < n; a++)
         {
             var (layers, diameter) = perSpan[a];
             if (layers == 0 || diameter <= 0.0) continue;
 
-            int b = a;
-            // A change of width ends the run too: the bars would not stay against the stirrups.
-            while (b + 1 < n && perSpan[b + 1] == perSpan[a] && Math.Abs(spec.WidthOf(b + 1) - spec.WidthOf(a)) <= 0.5) b++;
+            double zBottom = ZBottom(spec.DepthOf(a));
+            double zTop = topBar + LowestTopOf(spec, a);
+            double lowest = zBottom + (zTop - zBottom) / (layers + 1);
 
-            double depth = Enumerable.Range(a, b - a + 1).Min(spec.DepthOf);
-            double zBottom = ZBottom(depth);
-            // Under the lowest top of the run (row 19), so they stay inside each span.
-            double zTop = topBar + Enumerable.Range(a, b - a + 1).Min(span => LowestTopOf(spec, span));
-            double xStart = st.SpanStart[a] - Anchorage(rules, st.SupportWidth[a], diameter, interior: a > 0);
-            double xEnd = st.SpanEnd[b] + Anchorage(rules, st.SupportWidth[b + 1], diameter, interior: b + 1 < st.SpanCount);
+            int b = a;
+            // A change of width ends the run too: the bars would not stay against the stirrups; so does a change of
+            // the top (row 19, B03's console 200 down: its own 1Ø12 at mid-depth), and a span too shallow for the
+            // lowest layer to clear its bottom bars by a layer gap.
+            while (b + 1 < n && perSpan[b + 1] == perSpan[a] && Math.Abs(spec.WidthOf(b + 1) - spec.WidthOf(a)) <= 0.5
+                   && Math.Abs(LowestTopOf(spec, b + 1) - LowestTopOf(spec, a)) <= 0.5 && ClearsBottom(b + 1)) b++;
+
+            bool ClearsBottom(int s)
+            {
+                double dBottom = spec.BottomMainOf(s).IsEmpty ? 0.0 : spec.BottomMainOf(s).Diameter;
+                return lowest - ZBottom(spec.DepthOf(s)) >= (dBottom + diameter) / 2.0 + rules.LayerGap(dBottom, diameter) - 1e-6;
+            }
+            // A beam running on past its end column to a crossing beam takes them to its end, a short (B03: −120).
+            double xStart = a == 0 && st.StartOverhang > 0.0
+                ? -st.StartOverhang + rules.TopEndCover
+                : st.SpanStart[a] - Anchorage(rules, st.SupportWidth[a], diameter, interior: a > 0);
+            double xEnd = b + 1 == st.SpanCount && st.EndOverhang > 0.0
+                ? st.TotalLength + st.EndOverhang - rules.TopEndCover
+                : st.SpanEnd[b] + Anchorage(rules, st.SupportWidth[b + 1], diameter, interior: b + 1 < st.SpanCount);
             double y = rules.EdgeBarOffset(spec.WidthOf(a), diameter);
             double step = (zTop - zBottom) / (layers + 1);
 

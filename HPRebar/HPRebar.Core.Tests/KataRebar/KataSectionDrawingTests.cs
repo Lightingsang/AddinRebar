@@ -51,19 +51,19 @@ public sealed class KataSectionDrawingTests
     }
 
     [Fact]
-    public void Tags_of_a_third_top_layer_stand_clear_of_the_second_layer_s()
+    public void A_third_top_layer_shares_the_second_layer_s_tag()
     {
-        // Past Kata's drawings: a third layer over the supports (row 15).
+        // A third layer over the supports (row 15): Kata tags the two inner layers once, "6Ø20+6Ø20" (B01 / B03 3-3).
         var table = KataDy7DrawingTests.Sheet();
         foreach (var c in new[] { "C", "E", "G" }) table.Set(c + "15", "2f18");
         var d = Draw(table, 1);
 
-        // The tags right of the beam: Kata itself sets the side bars' 119 under the second layer's; the third keeps clear of both.
-        var right = d.Tags.Where(t => t.PointsRight && System.Math.Abs(t.X - 520.0) < 1.0).ToList();
-        Assert.Equal(3, right.Count);
-        var third = right.Single(t => t.Text == "2Ø18");
-        foreach (var b in right.Where(t => !ReferenceEquals(t, third)))
-            Assert.True(System.Math.Abs(third.Z - b.Z) >= 2.0 * KataTagStyle.CircleRadius, $"{third.Text} at {third.Z:0} and {b.Text} at {b.Z:0}");
+        var joined = Assert.Single(d.Tags, t => t.Text.EndsWith("+2Ø18"));
+        Assert.Equal(2, joined.Numbers.Count);
+        Assert.DoesNotContain(d.Tags, t => t.PointsRight && t.Text == "2Ø18");
+        foreach (var other in d.Tags.Where(t => t.PointsRight && !ReferenceEquals(t, joined)))
+            Assert.True(System.Math.Abs(joined.Z - other.Z) >= 2.0 * KataTagStyle.CircleRadius || System.Math.Abs(joined.X - other.X) > 200.0,
+                $"{joined.Text} at {joined.Z:0} and {other.Text} at {other.Z:0}");
     }
 
     [Fact]

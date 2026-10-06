@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HPRebar.Core.KataRebar.Models;
+using HPRebar.Core.KataRebar.Parsers;
 
 namespace HPRebar.Core.KataRebar.Calculators;
 
@@ -32,7 +33,10 @@ public static class KataRebarPlanner
             blocking.AddRange(check.Blocking);
             warnings.AddRange(check.Warnings);
             if (check.Blocking.Count == 0)
+            {
                 effective = WithMeasuredGeometry(spec, measured, check.SheetOrder);
+                warnings.AddRange(EndsAtColumns(spec, effective, out effective));
+            }
         }
 
         var scope = KataScopeFilter.Apply(effective);
@@ -140,6 +144,32 @@ public static class KataRebarPlanner
 
         return spans;
     }
+
+    /// <summary>
+    /// The beam Revit models ends at its end columns' faces: a crossing beam the sheet sets off past a column (rows
+    /// 20 / 21, B03 C21 −150: Kata draws the beam 150 longer) is not in it, so the bars anchor in the column as
+    /// usual, the preview still drawing Kata's beam (user decision 2026-10-06: Revit decides the 3D bars).
+    /// </summary>
+    private static IEnumerable<string> EndsAtColumns(KataBeamRebarSpec sheet, KataBeamRebarSpec measured, out KataBeamRebarSpec result)
+    {
+        result = measured;
+        var stations = KataBeamStations.From(measured);
+        var notes = new List<string>();
+        var supports = measured.Supports.ToList();
+        foreach (var (k, overhang) in new[] { (0, stations.StartOverhang), (supports.Count - 1, stations.EndOverhang) })
+        {
+            if (overhang <= 0.0 || k < 0) continue;
+            // No crossing beam past the column: neither its offset nor a width wider than the column may lengthen the beam.
+            supports[k] = supports[k] with { CrossingBeamOffset = 0.0, CrossingBeamWidth = 0.0 };
+            notes.Add($"{Cell(sheet, k)}: Kata vẽ dầm vượt mặt ngoài gối {k + 1} thêm {overhang:0} mm tới mép dầm giao; dầm trong Revit dừng ở mặt cột — thép neo trong cột.");
+        }
+
+        if (notes.Count > 0) result = measured with { Supports = supports };
+        return notes;
+    }
+
+    private static string Cell(KataBeamRebarSpec spec, int k) =>
+        k < spec.Supports.Count && spec.Supports[k].SheetColumn > 0 ? KataDamCellAccessorExtensions.ToAddress(21, spec.Supports[k].SheetColumn) : $"Gối {k + 1} hàng 21";
 
     /// <summary>The spec with Revit's section and row 11 lengths (in sheet order) in place of the sheet's.</summary>
     private static KataBeamRebarSpec WithMeasuredGeometry(

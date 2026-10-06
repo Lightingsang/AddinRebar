@@ -37,8 +37,8 @@ public sealed class KataSupportTopBarTests
         Assert.Equal(new[] { -53.5, 53.5 }, row13.Select(b => b.TransverseY).ToArray());
         foreach (var bar in row13)
         {
-            Assert.Equal(new Point3(43.0, bar.TransverseY, -493.0), bar.Polyline.Points[0]);
-            Assert.Equal(new Point3(43.0, bar.TransverseY, -43.0), bar.Polyline.Points[1]);
+            Assert.Equal(new Point3(50.0, bar.TransverseY, -493.0), bar.Polyline.Points[0]);
+            Assert.Equal(new Point3(50.0, bar.TransverseY, -43.0), bar.Polyline.Points[1]);
             // Row 14 reaches H5 0.25 × 6000 = 1500 (1900), row 13 G1 further (2400).
             Assert.Equal(new Point3(2400.0, bar.TransverseY, -43.0), bar.Polyline.Points[2]);
             Assert.Equal("3.1.1", bar.BarMark);
@@ -53,15 +53,15 @@ public sealed class KataSupportTopBarTests
         Assert.Equal(4, bars.Count);
         var first = bars[0].Polyline.Points;
         Assert.Equal(-108.0, bars[0].TransverseY, 6);
-        // One layer down: 10 + max(30, 20) + 9 = 49 below the main bars; leg 720 − (400 − 92) = 412 → 425.
-        Assert.Equal(new Point3(92.0, -108.0, -517.0), first[0]);
-        Assert.Equal(new Point3(92.0, -108.0, -92.0), first[1]);
+        // One layer down: 10 + max(30, 20) + 9 = 49 below the main bars; leg 720 − (400 − 99) = 419 → 425.
+        Assert.Equal(new Point3(99.0, -108.0, -517.0), first[0]);
+        Assert.Equal(new Point3(99.0, -108.0, -92.0), first[1]);
         Assert.Equal(new Point3(1900.0, -108.0, -92.0), first[2]);
 
         var last = bars[2].Polyline.Points;
         Assert.Equal(new Point3(4900.0, -108.0, -92.0), last[0]);
-        Assert.Equal(new Point3(6708.0, -108.0, -92.0), last[1]);
-        Assert.Equal(new Point3(6708.0, -108.0, -517.0), last[2]);
+        Assert.Equal(new Point3(6701.0, -108.0, -92.0), last[1]);
+        Assert.Equal(new Point3(6701.0, -108.0, -517.0), last[2]);
     }
 
     [Fact]
@@ -69,9 +69,9 @@ public sealed class KataSupportTopBarTests
     {
         var bottom = Plan().Layout.MainBottomBars[0].Polyline.Points;
 
-        // inset 49 (row 14 level) + (18 + 20)/2 + 25 = 93 → centre 43 + 93 = 136, leg 600 − (400 − 136) = 336 → 350.
-        Assert.Equal(new Point3(136.0, -107.0, -207.0), bottom[0]);
-        Assert.Equal(new Point3(6664.0, -107.0, -207.0), bottom[3]);
+        // inset 49 (row 14 level) + (18 + 20)/2 + 25 = 93 → centre 50 + 93 = 143, leg 600 − (400 − 143) = 343 → 350.
+        Assert.Equal(new Point3(143.0, -107.0, -207.0), bottom[0]);
+        Assert.Equal(new Point3(6657.0, -107.0, -207.0), bottom[3]);
     }
 
     [Fact]
@@ -96,11 +96,11 @@ public sealed class KataSupportTopBarTests
         var bars = result.ExtraTopBars.Where(b => b.HostSupportIndex == 1).ToList();
 
         // Support 1 spans 6400..6800; reach 0.25 × 6000 from the faces. 2Ø20 carries more steel: it crosses to
-        // the far face − a and bends down (400 − 43 < 40·20). 2Ø16 runs straight on 40·16 into the left span.
+        // the far face − 50 and bends down (400 − 50 < 40·20). 2Ø16 runs straight on 40·16 into the left span.
         var strong = bars.Where(b => b.Diameter == 20.0).ToList();
         var weak = bars.Where(b => b.Diameter == 16.0).ToList();
         Assert.All(strong, b => Assert.Equal(4900.0, b.Polyline.Points[0].X, 6));
-        Assert.All(strong, b => Assert.Equal(6800.0 - 43.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));
+        Assert.All(strong, b => Assert.Equal(6800.0 - 50.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));
         Assert.All(strong, b => Assert.True(b.EndHookLength > 0.0));
         Assert.All(weak, b => Assert.Equal((6400.0 - 640.0, 8300.0), (b.Polyline.Points[0].X, b.Polyline.Points[1].X)));
         Assert.All(weak, b => Assert.Equal(0.0, b.StartHookLength));
@@ -152,7 +152,7 @@ public sealed class KataSupportTopBarTests
 
         Assert.All(bars.Where(b => b.Diameter == 20.0), b =>
         {
-            Assert.Equal(6400.0 + 43.0, b.Polyline.Points[0].X, 6);
+            Assert.Equal(6400.0 + 50.0, b.Polyline.Points[0].X, 6);
             Assert.True(b.StartHookLength > 0.0);
         });
         Assert.All(bars.Where(b => b.Diameter == 16.0), b => Assert.Equal(6800.0 + 640.0, b.Polyline.Points[b.Polyline.Points.Count - 1].X, 6));

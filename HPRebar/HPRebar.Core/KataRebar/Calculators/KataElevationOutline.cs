@@ -75,7 +75,17 @@ internal static class KataElevationOutline
     /// </summary>
     private static IEnumerable<KataDrawingLine> End(KataDrawingFrame f, int k, double outer, double inner, double soffit, double top)
     {
-        if (f.IsColumn(k))
+        var (overhang, _, _) = f.EndCrossing(k);
+        if (f.IsColumn(k) && overhang > 0.0)
+        {
+            // The beam runs on past the column to the crossing beam's outer face (B03: to −150).
+            double end = outer + (k == 0 ? -overhang : overhang);
+            yield return Line(KataDrawingPen.Outline, new[]
+            {
+                (outer, KataDrawingStyle.StubAbove), (outer, 0.0), (end, 0.0), (end, soffit), (outer, soffit), (outer, f.StubBottom)
+            });
+        }
+        else if (f.IsColumn(k))
         {
             yield return Line(KataDrawingPen.Outline, new[] { (outer, KataDrawingStyle.StubAbove), (outer, 0.0), (outer, soffit), (outer, f.StubBottom) });
         }
@@ -110,6 +120,14 @@ internal static class KataElevationOutline
             yield return Line(KataDrawingPen.Hidden, new[] { (st.SupportStart[0], z), (st.SupportStart[0], -f.SupportDepth(0)) });
             path.Add((st.SupportEnd[0], -f.SupportDepth(0)));
             path.Add((st.SupportEnd[0], z));
+        }
+        else if (f.EndCrossing(0) is { Overhang: > 0.0 } crossing)
+        {
+            // The crossing beam past the column, hidden: its soffit and its inner face up to the slab.
+            double inner = -crossing.Overhang + crossing.Width;
+            yield return Line(KataDrawingPen.Hidden, new[] { (-crossing.Overhang, -crossing.Depth), (inner, -crossing.Depth) });
+            path.Add((inner, -crossing.Depth));
+            path.Add((inner, z));
         }
         else
         {
