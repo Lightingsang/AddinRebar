@@ -9,9 +9,10 @@ using Serilog;
 namespace HPRebar.KataRebar.Service;
 
 /// <summary>
-/// Gives the picked beams the stirrup cover of J9 (b) as their Rebar Cover on every face (top, bottom, other), so
-/// Revit's cover matches where Kata Rebar puts the stirrups. Only a cover type the model already has is used: none of
-/// that distance → the beams keep theirs and the user is told which type to add.
+/// Gives the picked beams the stirrup cover of J9 (b, "30/25" → 25) as their Rebar Cover the way Revit's Cover tool does
+/// with "Pick Elements": one cover type on the element (top, bottom, other) and on every exposed face, faces set one by
+/// one with "Pick Faces" included, so Revit's cover matches where Kata Rebar puts the stirrups. A model without a cover
+/// type of that distance gets one, "Rebar Cover &lt;b&gt;mm" (user decision 2026-10-06).
 /// </summary>
 public static class KataHostCoverService
 {
@@ -30,28 +31,10 @@ public static class KataHostCoverService
         var warnings = new List<string>();
         if (stirrupCoverMm <= 0.0 || hosts.Count == 0) return warnings;
 
-        var type = new FilteredElementCollector(doc).OfClass(typeof(RebarCoverType)).Cast<RebarCoverType>()
-            .Where(t => Math.Abs(RevitUnits.FtToMm(t.CoverDistance) - stirrupCoverMm) <= MatchToleranceMm)
-            .OrderBy(t => t.Name, StringComparer.Ordinal)
-            .FirstOrDefault();
-        if (type is null)
-        {
-            warnings.Add($"Model chưa có loại lớp bảo vệ {stirrupCoverMm:0.#} mm (Structural Settings ▸ Rebar Cover Settings): dầm giữ lớp bảo vệ cũ.");
-            Log.Warning("Kata Rebar: no rebar cover type of {Cover} mm, host cover left unchanged", stirrupCoverMm);
-            return warnings;
-        }
-
+        var type = CoverType(doc, stirrupCoverMm, warnings);
         int changed = 0;
         foreach (var host in hosts)
-        {
-            foreach (var face in Faces)
-            {
-                var parameter = host.get_Parameter(face);
-                if (parameter is null || parameter.IsReadOnly || parameter.AsElementId() == type.Id) continue;
-                parameter.Set(type.Id);
-                changed++;
-            }
-        }
+            changed += SetOn(host, type);
 
         if (changed > 0)
         {
@@ -64,5 +47,50 @@ public static class KataHostCoverService
         Log.Information("Kata Rebar: host cover {Type} ({Cover} mm) on {Hosts} beams, {Changed} faces changed",
             type.Name, stirrupCoverMm, hosts.Count, changed);
         return warnings;
+    }
+
+    /// <summary>The model's cover type of that distance, or a new one named after it.</summary>
+    private static RebarCoverType CoverType(Document doc, double coverMm, List<string> warnings)
+    {
+        var types = new FilteredElementCollector(doc).OfClass(typeof(RebarCoverType)).Cast<RebarCoverType>().ToList();
+        var match = types.Where(t => Math.Abs(RevitUnits.FtToMm(t.CoverDistance) - coverMm) <= MatchToleranceMm)
+            .OrderBy(t => t.Name, StringComparer.Ordinal)
+            .FirstOrDefault();
+        if (match is not null) return match;
+
+        string name = $"Rebar Cover {coverMm:0.#}mm";
+        var names = new HashSet<string>(types.Select(t => t.Name), StringComparer.OrdinalIgnoreCase);
+        for (int i = 2; names.Contains(name); i++) name = $"Rebar Cover {coverMm:0.#}mm ({i})";
+
+        var created = RebarCoverType.Create(doc, name, RevitUnits.MmToFt(coverMm));
+        warnings.Add($"Model chưa có loại lớp bảo vệ {coverMm:0.#} mm (J9): đã tạo '{name}'.");
+        Log.Information("Kata Rebar: created rebar cover type {Name} ({Cover} mm)", name, coverMm);
+        return created;
+    }
+
+    /// <summary>
+    /// The cover type on the element's three cover parameters and on every exposed face; returns how many of them
+    /// held another type. Faces are counted first: setting a parameter already carries the faces that follow it.
+    /// </summary>
+    private static int SetOn(Element host, RebarCoverType type)
+    {
+        var data = RebarHostData.GetRebarHostData(host);
+        bool hasFaces = data is not null && data.IsValidHost();
+        int changed = hasFaces ? data!.GetExposedFaces().Count(f => data.GetCoverType(f)?.Id != type.Id) : 0;
+        foreach (var face in Faces)
+        {
+            var parameter = host.get_Parameter(face);
+            if (parameter is null || parameter.IsReadOnly || parameter.AsElementId() == type.Id) continue;
+            parameter.Set(type.Id);
+            changed++;
+        }
+
+        if (!hasFaces) return changed;
+
+        data!.SetCommonCoverType(type);
+        // A face "Pick Faces" set on its own that the common type did not reach is set directly.
+        foreach (var face in data.GetExposedFaces().Where(f => data.GetCoverType(f)?.Id != type.Id))
+            data.SetCoverType(face, type);
+        return changed;
     }
 }
