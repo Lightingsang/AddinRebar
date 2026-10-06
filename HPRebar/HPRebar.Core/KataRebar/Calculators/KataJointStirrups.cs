@@ -7,12 +7,13 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
 /// Stirrups round a load resting on a span (a beam framing into it, a stub column standing on it), as Kata draws B01:
-/// <see cref="KataDetailingRules.JointStirrupCount"/> joint stirrups at <see cref="KataDetailingRules.JointStirrupSpacing"/>
-/// on each face, the first <see cref="KataDetailingRules.FirstStirrupOffset"/> from it (mid-D: 4850…5050 | 5550…5750
+/// the joint stirrups of the load's kind (<see cref="KataDetailingRules.JointFor"/>: count, diameter, spacing) on
+/// each face, the first <see cref="KataDetailingRules.FirstStirrupOffset"/> from it (mid-D: 4850…5050 | 5550…5750
 /// round 5100…5500), and the span's own stirrups kept off the load and stopped one of their spacings short of the joint
 /// stirrups, spaced evenly again up to there (3200…4650 | 5950…8000 at a200). A load whose face is within
 /// <see cref="KataDetailingRules.JointNearSupportMm"/> of one support face has all its joint stirrups on the span side.
-/// Loads whose joint stirrups would meet are one group: their stirrups are laid once.
+/// Loads whose joint stirrups would meet are one group: their stirrups are laid once, at the smaller spacing and the
+/// larger diameter when a beam and a column meet.
 /// </summary>
 public static class KataJointStirrups
 {
@@ -21,40 +22,48 @@ public static class KataJointStirrups
 
     public static bool IsJointZone(string zoneName) => zoneName.StartsWith(ZoneName, StringComparison.Ordinal);
 
-    private sealed record Group(double Lo, double Hi, List<double> Stations);
+    /// <param name="Spacing">The smallest joint spacing of the group's loads; <paramref name="MaxSpacing"/> the largest.</param>
+    private sealed record Group(double Lo, double Hi, List<double> Stations, double Spacing, double MaxSpacing, double Diameter);
 
-    /// <summary>The span's zones cut round its loads, followed by the joint stirrups of each group of loads.</summary>
-    public static IEnumerable<(string Name, double Spacing, List<double> Stations)> Apply(
+    /// <summary>
+    /// The span's zones cut round its loads, followed by the joint stirrups of each group of loads. A diameter of 0 is
+    /// the beam's stirrup diameter (the span's own zones, and joint stirrups that take G6).
+    /// </summary>
+    public static IEnumerable<(string Name, double Spacing, List<double> Stations, double Diameter)> Apply(
         KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int s,
         IReadOnlyList<(string Name, double Spacing, List<double> Stations)> runs)
     {
         var groups = Groups(rules, st, s, spec.Spans[s].Loads);
-        if (groups.Count == 0) return runs;
+        if (groups.Count == 0) return runs.Select(r => (r.Name, r.Spacing, r.Stations, 0.0));
 
         var parts = new List<(string Name, double Spacing, List<double> Stations)>();
         foreach (var run in runs)
         {
             var pieces = new List<List<double>> { run.Stations };
             foreach (var g in groups)
-                pieces = pieces.SelectMany(p => Cut(p, g.Lo - run.Spacing, g.Hi + run.Spacing, run.Spacing, rules.JointStirrupSpacing)).ToList();
+                pieces = pieces.SelectMany(p => Cut(p, g.Lo - run.Spacing, g.Hi + run.Spacing, run.Spacing, g.Spacing)).ToList();
             for (int k = 0; k < pieces.Count; k++)
                 if (pieces[k].Count > 0) parts.Add((k == 0 ? run.Name : $"{run.Name} [{k + 1}]", run.Spacing, pieces[k]));
         }
 
-        CloseGaps(parts, groups, rules.JointStirrupSpacing);
+        CloseGaps(parts, groups);
 
+        var result = parts.Select(p => (p.Name, p.Spacing, p.Stations, 0.0)).ToList();
         for (int i = 0; i < groups.Count; i++)
         {
             string number = groups.Count > 1 ? $" {i + 1}" : "";
-            var stretches = Stretches(groups[i].Stations, rules.JointStirrupSpacing);
+            var stretches = Stretches(groups[i].Stations, groups[i].MaxSpacing);
             for (int k = 0; k < stretches.Count; k++)
             {
                 string side = stretches.Count == 2 ? (k == 0 ? " trái" : " phải") : stretches.Count > 2 ? $" ({k + 1})" : "";
-                parts.Add(($"{ZoneName}{number}{side}", rules.JointStirrupSpacing, stretches[k]));
+                // Each stretch is labelled with its own step: a merged group may hold a50 on one side and a100 on the other.
+                var stretch = stretches[k];
+                double step = stretch.Count > 1 ? Math.Round(stretch[1] - stretch[0], 1) : groups[i].Spacing;
+                result.Add(($"{ZoneName}{number}{side}", step, stretch, groups[i].Diameter));
             }
         }
 
-        return parts;
+        return result;
     }
 
     /// <summary>
@@ -66,34 +75,37 @@ public static class KataJointStirrups
         var groups = new List<Group>();
         foreach (var load in loads.OrderBy(l => l.AtMm))
         {
+            var rule = rules.JointFor(load);
             double centre = st.SpanStart[s] + load.AtMm;
             double leftFace = centre - load.WidthMm / 2.0, rightFace = centre + load.WidthMm / 2.0;
-            var stations = Stations(rules, st, s, leftFace, rightFace);
+            var stations = Stations(rules, rule, st, s, leftFace, rightFace);
             double lo = Math.Min(leftFace, stations.DefaultIfEmpty(leftFace).Min());
             double hi = Math.Max(rightFace, stations.DefaultIfEmpty(rightFace).Max());
 
             var last = groups.Count > 0 ? groups[groups.Count - 1] : null;
-            if (last is not null && lo <= last.Hi + rules.JointStirrupSpacing + 1e-6)
-                groups[groups.Count - 1] = new Group(last.Lo, Math.Max(last.Hi, hi), Dedupe(last.Stations.Concat(stations), rules.JointStirrupSpacing));
+            double spacing = last is null ? rule.StirrupSpacing : Math.Min(last.Spacing, rule.StirrupSpacing);
+            if (last is not null && lo <= last.Hi + spacing + 1e-6)
+                groups[groups.Count - 1] = new Group(last.Lo, Math.Max(last.Hi, hi), Dedupe(last.Stations.Concat(stations), spacing),
+                    spacing, Math.Max(last.MaxSpacing, rule.StirrupSpacing), Math.Max(last.Diameter, rule.StirrupDiameter));
             else
-                groups.Add(new Group(lo, hi, Dedupe(stations, rules.JointStirrupSpacing)));
+                groups.Add(new Group(lo, hi, Dedupe(stations, rule.StirrupSpacing), rule.StirrupSpacing, rule.StirrupSpacing, rule.StirrupDiameter));
         }
 
         return groups;
     }
 
-    private static List<double> Stations(KataDetailingRules rules, KataBeamStations st, int s, double leftFace, double rightFace)
+    private static List<double> Stations(KataDetailingRules rules, KataJointRule rule, KataBeamStations st, int s, double leftFace, double rightFace)
     {
         double lo = st.SpanStart[s] + rules.FirstStirrupOffset, hi = st.SpanEnd[s] - rules.FirstStirrupOffset;
-        int n = Math.Max(0, rules.JointStirrupCount);
+        int n = Math.Max(0, rule.StirrupCount);
         bool nearLeft = leftFace - st.SpanStart[s] <= rules.JointNearSupportMm;
         bool nearRight = st.SpanEnd[s] - rightFace <= rules.JointNearSupportMm;
         // Near one support all go to the span side; near both there is no span side, so each keeps its own.
         int leftCount = nearLeft && !nearRight ? 0 : nearRight && !nearLeft ? 2 * n : n;
         int rightCount = nearRight && !nearLeft ? 0 : nearLeft && !nearRight ? 2 * n : n;
 
-        return Enumerable.Range(0, leftCount).Select(i => leftFace - rules.FirstStirrupOffset - i * rules.JointStirrupSpacing)
-            .Concat(Enumerable.Range(0, rightCount).Select(i => rightFace + rules.FirstStirrupOffset + i * rules.JointStirrupSpacing))
+        return Enumerable.Range(0, leftCount).Select(i => leftFace - rules.FirstStirrupOffset - i * rule.StirrupSpacing)
+            .Concat(Enumerable.Range(0, rightCount).Select(i => rightFace + rules.FirstStirrupOffset + i * rule.StirrupSpacing))
             .Where(x => x >= lo - 1e-6 && x <= hi + 1e-6)
             .ToList();
     }
@@ -107,7 +119,10 @@ public static class KataJointStirrups
         return kept;
     }
 
-    /// <summary>The stations split where the step between them changes: each stretch is one evenly spaced set.</summary>
+    /// <summary>
+    /// The stations split where the step between them changes: each stretch is one evenly spaced set. A step longer than
+    /// <paramref name="spacing"/> (the largest joint spacing of the group) is a gap between two sets.
+    /// </summary>
     private static List<List<double>> Stretches(List<double> stations, double spacing)
     {
         var stretches = new List<List<double>>();
@@ -149,10 +164,11 @@ public static class KataJointStirrups
     /// A part ending more than its spacing before a group's joint stirrups (the window opened between two zones) is
     /// stretched up to one spacing from them, and one starting more than its spacing after them is stretched back.
     /// </summary>
-    private static void CloseGaps(List<(string Name, double Spacing, List<double> Stations)> parts, List<Group> groups, double closest)
+    private static void CloseGaps(List<(string Name, double Spacing, List<double> Stations)> parts, List<Group> groups)
     {
         foreach (var g in groups)
         {
+            double closest = g.Spacing;
             int before = -1, after = -1;
             for (int i = 0; i < parts.Count; i++)
             {

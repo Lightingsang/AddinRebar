@@ -39,8 +39,8 @@ public static class KataRebarOrchestrator
         {
             int deleted = runner.Run("Kata Rebar: xoá thép cũ", () => KataRebarCleanupService.DeletePrevious(doc, hosts));
             var coverWarnings = runner.Run("Kata Rebar: lớp bảo vệ dầm", () => KataHostCoverService.Apply(doc, hosts, plan.Rules.StirrupCover));
-            var stirrups = plan.Rules.StirrupDiameter > 0.0 && barTypes.TryGetValue(plan.Rules.StirrupDiameter, out var stirrupType)
-                ? runner.Run("Kata Rebar: đai", () => KataStirrupSetCreator.Create(doc, plan, placement, stirrupShape, stirrupType))
+            var stirrups = plan.Layout.StirrupZones.Count > 0
+                ? runner.Run("Kata Rebar: đai", () => KataStirrupSetCreator.Create(doc, plan, placement, stirrupShape, barTypes))
                 : new KataStirrupOutcome(0, 0);
             var longitudinal = runner.Run("Kata Rebar: thép dọc", () => KataRebarCreationService.CreateLongitudinalBars(doc, plan, placement, barTypes));
             var barSets = plan.Layout.BarSets.Count > 0

@@ -7,12 +7,12 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// Hanger bars ("vai bò") under a load resting on a span, as Kata draws B01 (2Ø16): level at the top for
-/// <see cref="KataDetailingRules.HangerTopLength"/>, down at <see cref="KataDetailingRules.HangerAngleDegrees"/> to the
-/// load's underside, level under it from <see cref="KataDetailingRules.FirstStirrupOffset"/> outside one face to as far
+/// Hanger bars ("vai bò") under a load resting on a span, as Kata draws B01 (2Ø16), count and diameter by the load's
+/// kind (<see cref="KataDetailingRules.JointFor"/>): level at the top for <see cref="KataJointRule.HangerTopLength"/>,
+/// down at <see cref="KataJointRule.HangerAngleDegrees"/> to the load's underside, level under it from <see cref="KataDetailingRules.FirstStirrupOffset"/> outside one face to as far
 /// outside the other, and up again (mid-D: 4000 · 4150 · 5050 ‖ 5550 · 6450 · 6600 round a 900-deep beam 5100…5500; on F
 /// under the stub column the bottom is the beam's main bottom bars' level). The bars sit at the level of the main top
-/// bars, in the gaps next to the outer ones.
+/// bars, in the gaps next to the outer ones: two places, so a count above 2 is drawn as 2 and reported.
 /// A side that does not fit inside the span (HPRebar's rule, no Kata drawing of one): the level end is shortened to
 /// the support face (a short of a console tip), then the slope steepens to 60°, then the bar stops on the slope at the
 /// face and a warning says so.
@@ -27,13 +27,16 @@ public static class KataHangerBarLayout
     public static List<KataRebarCurve> Build(KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, List<string> warnings, ref int barId)
     {
         var bars = new List<KataRebarCurve>();
-        double d = rules.HangerBarDiameter;
-        if (d <= 0.0 || rules.HangerBarCount <= 0) return bars;
-
         for (int s = 0; s < spec.Spans.Count && s < st.SpanCount; s++)
         {
             foreach (var load in spec.Spans[s].Loads)
             {
+                var rule = rules.JointFor(load);
+                double d = rule.HangerDiameter;
+                if (d <= 0.0 || rule.HangerCount <= 0) continue;
+                if (rule.HangerCount > 2)
+                    warnings.Add($"Nhịp {s + 1}: {load.Kind} tại {load.AtMm:0}: vai bò {rule.HangerCount} thanh — chỉ có 2 chỗ bên thép chủ trên, vẽ 2.");
+
                 double top = spec.TopAt(s, load.AtMm);
                 double zTop = top - rules.TopBarCentreDepth;
                 double zFloor = -spec.DepthOf(s) + rules.BottomBarCentreDepth;
@@ -51,11 +54,11 @@ public static class KataHangerBarLayout
                 double half = load.WidthMm / 2.0 + rules.FirstStirrupOffset;
                 double leftLimit = st.SpanStart[s] + (st.SupportWidth[s] <= 0.0 ? rules.TopEndCover : 0.0);
                 double rightLimit = st.SpanEnd[s] - (st.SupportWidth[s + 1] <= 0.0 ? rules.TopEndCover : 0.0);
-                var left = Side(rules, centre - half, leftLimit, zTop, zBottom, -1, where, warnings);
-                var right = Side(rules, centre + half, rightLimit, zTop, zBottom, +1, where, warnings);
+                var left = Side(rule, centre - half, leftLimit, zTop, zBottom, -1, where, warnings);
+                var right = Side(rule, centre + half, rightLimit, zTop, zBottom, +1, where, warnings);
                 var path = left.AsEnumerable().Reverse().Concat(right).ToList();
 
-                foreach (double y in Positions(spec, rules, s, d).Take(rules.HangerBarCount))
+                foreach (double y in Positions(spec, rules, s, d).Take(rule.HangerCount))
                 {
                     bars.Add(new KataRebarCurve
                     {
@@ -70,7 +73,7 @@ public static class KataHangerBarLayout
                         BarDescription = $"Vai bò {load.Kind} nhịp {s + 1}",
                         DimA = 2.0 * half,
                         DimB = zTop - zBottom,
-                        DimC = rules.HangerTopLength,
+                        DimC = rule.HangerTopLength,
                         DimR = 2.0 * d,
                         SttCad = 9
                     });
@@ -85,7 +88,7 @@ public static class KataHangerBarLayout
     /// One side of the bar from the end of its level bottom outwards: the bottom point, the top of the slope and the end
     /// of the level top, kept inside <paramref name="limit"/>.
     /// </summary>
-    private static List<(double X, double Z)> Side(KataDetailingRules rules, double bottomEnd, double limit, double zTop, double zBottom, int outward,
+    private static List<(double X, double Z)> Side(KataJointRule rule, double bottomEnd, double limit, double zTop, double zBottom, int outward,
         string where, List<string> warnings)
     {
         double rise = zTop - zBottom;
@@ -97,7 +100,7 @@ public static class KataHangerBarLayout
         }
 
         double room = (limit - bottomEnd) * outward;
-        double run = rise / Math.Tan(rules.HangerAngleDegrees * Math.PI / 180.0);
+        double run = rise / Math.Tan(rule.HangerAngleDegrees * Math.PI / 180.0);
         if (run > room + 1e-6) run = rise / Math.Tan(SteepAngleDegrees * Math.PI / 180.0);
 
         var side = new List<(double X, double Z)> { (bottomEnd, zBottom) };
@@ -109,7 +112,7 @@ public static class KataHangerBarLayout
             return side;
         }
 
-        double level = Math.Min(rules.HangerTopLength, room - run);
+        double level = Math.Min(rule.HangerTopLength, room - run);
         side.Add((bottomEnd + outward * run, zTop));
         if (level > 1.0) side.Add((bottomEnd + outward * (run + level), zTop));
         return side;

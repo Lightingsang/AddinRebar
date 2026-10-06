@@ -1,0 +1,198 @@
+<UserControl x:Class="HPRebar.KataExport.View.Tabs.KataDetailSettingsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="Row" TargetType="DockPanel">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        </Style>
+        <Style x:Key="Unit" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
+        </Style>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+        </Style>
+        <Style x:Key="Note" TargetType="TextBlock">
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style x:Key="Check" TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="24"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Drawn with -->
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Thép dọc &amp; móc" Style="{StaticResource Header}" Margin="0,0,0,4"/>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsCrankMinDiameter" Text="{Binding CrankMinDiameter, Mode=TwoWay}"/>
+                <TextBlock Text="Bẻ cổ chai cho thép có phi từ" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsCrankSlope" Text="{Binding CrankSlope, Mode=TwoWay}"/>
+                <TextBlock DockPanel.Dock="Right" Text="1 /" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBlock Text="Tỷ lệ đoạn nhấn cổ chai" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding ClosedStirrupHookFactor, Mode=TwoWay}"/>
+                <ComboBox DockPanel.Dock="Right" Width="70" Margin="0,0,8,0" ItemsSource="{Binding HookAngleOptions}" SelectedItem="{Binding ClosedStirrupHookAngle, Mode=TwoWay}"/>
+                <TextBlock Text="Đai □ bẻ móc" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding CrossTieHookFactor, Mode=TwoWay}"/>
+                <ComboBox DockPanel.Dock="Right" Width="70" Margin="0,0,8,0" ItemsSource="{Binding HookAngleOptions}" SelectedItem="{Binding CrossTieHookAngle, Mode=TwoWay}"/>
+                <TextBlock Text="Đai C bẻ móc" Style="{StaticResource Label}"/>
+            </DockPanel>
+
+            <TextBlock Text="Làm tròn" Style="{StaticResource Header}"/>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsRoundLeg" Text="{Binding RoundLegMm, Mode=TwoWay}"/>
+                <TextBlock Text="Đoạn bẻ ke dầm" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding RoundCutExtraMm, Mode=TwoWay}"/>
+                <TextBlock Text="Cắt thép gia cường dầm" Style="{StaticResource Label}"/>
+            </DockPanel>
+
+            <TextBlock Text="Vùng đai &amp; cắt gia cường" Style="{StaticResource Header}"/>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsCurtailedExtension" Text="{Binding CurtailedExtensionMm, Mode=TwoWay}"/>
+                <TextBlock Text="Cắt lệch gia cường gối (khi G1 trống)" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="x Ln" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsBottomCutFraction" Text="{Binding BottomExtraCutFraction, Mode=TwoWay}"/>
+                <TextBlock Text="Cắt gia cường bụng tối đa (min với H3)" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="x h" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsDenseHeightFactor" Text="{Binding DenseZoneHeightFactor, Mode=TwoWay}"/>
+                <TextBlock Text="Vùng đai dày theo chiều cao" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="x Ln" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsEndZoneFraction" Text="{Binding EndZoneFraction, Mode=TwoWay}"/>
+                <TextBlock Text="Vùng đai dày theo nhịp" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsLayerClearGap" Text="{Binding LayerClearGap, Mode=TwoWay}"/>
+                <TextBlock Text="Khoảng hở giữa các lớp thép" Style="{StaticResource Label}"/>
+            </DockPanel>
+
+            <TextBlock Text="Cốt giá &amp; neo" Style="{StaticResource Header}"/>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsSideBarAnchorage" Text="{Binding SideBarAnchorageFactor, Mode=TwoWay}"/>
+                <TextBlock Text="Neo cốt giá" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="thanh" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsLayerTieMinBars" Text="{Binding LayerTieMinBarCount, Mode=TwoWay}"/>
+                <TextBlock Text="Thanh C kê lớp thép 2 khi lớp có ≥" Style="{StaticResource Label}"
+                           ToolTip="Bước móc C lấy theo ô J7 và lựa chọn 'Khoảng cách đai gia cường' (I8) của sheet Dam."/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsSideBarReqHeight" Text="{Binding SideBarRequiredHeight, Mode=TwoWay}"/>
+                <TextBlock Text="Dầm bắt buộc cốt giá (h ≥)" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsMinLegFactor" Text="{Binding MinimumLegFactor, Mode=TwoWay}"/>
+                <TextBlock Text="Chân móc neo tối thiểu" Style="{StaticResource Label}"/>
+            </DockPanel>
+        </StackPanel>
+
+        <!-- Kept for later -->
+        <StackPanel Grid.Column="2">
+            <TextBlock Text="Quy cách thể hiện dầm" Style="{StaticResource Header}" Margin="0,0,0,4"/>
+            <TextBlock Text="Chưa áp dụng: lưu lại, HPRebar chưa có quy tắc cho các mục này." Style="{StaticResource Note}"/>
+            <CheckBox IsChecked="{Binding BottomLayerNoBend, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép lớp dưới không bẻ ke" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding TopNotAnchoredIntoColumnBelow, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép trên không neo xuống cột dưới" TextWrapping="Wrap"/></CheckBox>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" IsEnabled="{Binding AlwaysBend}" Text="{Binding AlwaysBendFactor, Mode=TwoWay}"/>
+                <CheckBox IsChecked="{Binding AlwaysBend, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Luôn luôn bẻ ke" TextWrapping="Wrap"/></CheckBox>
+            </DockPanel>
+            <CheckBox IsChecked="{Binding CutContinuousBarsAtSpanEnds, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Cắt thép chạy suốt dầm ở đầu nhịp" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding DifferentNumbersForIdenticalBars, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Cho phép các thanh giống nhau đánh số hiệu khác nhau" TextWrapping="Wrap"/></CheckBox>
+
+            <TextBlock Text="Shop thép" Style="{StaticResource Header}"/>
+            <TextBlock Text="Chưa áp dụng: mô hình vẽ thép chủ liền một thanh; các mục này dành cho công cụ shop thép." Style="{StaticResource Note}"/>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding CouplerMinDiameter, Mode=TwoWay}"/>
+                <TextBlock Text="Coupler cho thép có phi từ" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding MaxBarLengthMm, Mode=TwoWay}"/>
+                <TextBlock Text="Chiều dài thép tối đa" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding MinLengthForCuttingMm, Mode=TwoWay}"/>
+                <TextBlock Text="Chiều dài min xét cắt thép" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="d" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding MinBarLengthFactor, Mode=TwoWay}"/>
+                <TextBlock Text="Chiều dài thép tối thiểu" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding RoundLapMm, Mode=TwoWay}"/>
+                <TextBlock Text="Làm tròn đoạn neo nối" Style="{StaticResource Label}"/>
+            </DockPanel>
+
+            <TextBlock Text="Quy cách nối thép dầm" FontWeight="SemiBold" Margin="0,8,0,2"/>
+            <CheckBox IsChecked="{Binding TopLapAtMidspan, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép trên được nối ở giữa nhịp" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding TopLapAtSupport, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép trên được nối ở vùng gối" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding BottomLapAtSupport, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép dưới được nối ở vùng gối" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding BottomLapAtMidspan, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép dưới được nối ở giữa nhịp" TextWrapping="Wrap"/></CheckBox>
+            <DockPanel Style="{StaticResource Row}">
+                <ComboBox DockPanel.Dock="Right" Width="64" Margin="6,0,0,0" ItemsSource="{Binding LapOriginOptions}" SelectedIndex="{Binding TopLapZoneOrigin, Mode=TwoWay}"/>
+                <TextBlock DockPanel.Dock="Right" Text="L từ" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding TopLapZoneFraction, Mode=TwoWay}"/>
+                <TextBlock Text="Vùng nối thép trên" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <DockPanel Style="{StaticResource Row}">
+                <ComboBox DockPanel.Dock="Right" Width="64" Margin="6,0,0,0" ItemsSource="{Binding LapOriginOptions}" SelectedIndex="{Binding BottomLapZoneOrigin, Mode=TwoWay}"/>
+                <TextBlock DockPanel.Dock="Right" Text="L từ" Style="{StaticResource Unit}"/>
+                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding BottomLapZoneFraction, Mode=TwoWay}"/>
+                <TextBlock Text="Vùng nối thép dưới" Style="{StaticResource Label}"/>
+            </DockPanel>
+            <CheckBox IsChecked="{Binding PreferFewerLaps, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Ưu tiên phương án ít mối nối hơn khả năng phối hợp thép khi cắt" TextWrapping="Wrap"/></CheckBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

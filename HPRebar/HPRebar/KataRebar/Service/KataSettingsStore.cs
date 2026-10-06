@@ -8,42 +8,46 @@ using Serilog;
 namespace HPRebar.KataRebar.Service;
 
 /// <summary>
-/// The office's Kata detailing settings, kept per user in %AppData%\HPRebar\KataSettings.json. A missing or
-/// unreadable file means the Kata defaults, never a failed run.
+/// The office's Kata settings, kept per user in %AppData%\HPRebar\KataSettings.json: the settings bars are drawn
+/// with, the beam options and shop settings kept for later. A missing or unreadable file means the defaults, never a
+/// failed run.
 /// </summary>
 public static class KataSettingsStore
 {
     private static readonly string SettingsFilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HPRebar", "KataSettings.json");
 
-    private static KataSettings? _cached;
+    private static KataSettingsFile? _cached;
 
-    public static KataSettings Load()
+    /// <summary>The settings the bars are drawn with.</summary>
+    public static KataSettings Load() => LoadFile().Drawing;
+
+    public static KataSettingsFile LoadFile()
     {
         if (_cached is not null) return _cached;
 
         try
         {
             if (File.Exists(SettingsFilePath))
-                return _cached = KataSettingsJson.Read(File.ReadAllText(SettingsFilePath, Encoding.UTF8));
+                return _cached = KataSettingsJson.ReadFile(File.ReadAllText(SettingsFilePath, Encoding.UTF8));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or FormatException)
         {
             Log.Warning(ex, "Kata Rebar: settings file {Path} could not be read; using the Kata defaults", SettingsFilePath);
         }
 
-        return _cached = KataSettings.Default;
+        return _cached = KataSettingsFile.Default;
     }
 
     /// <returns>False when the file could not be written (the settings still apply to this session).</returns>
-    public static bool Save(KataSettings settings)
+    public static bool SaveFile(KataSettingsFile file)
     {
         // What is cached and written is what the rules will use: out-of-range values already replaced.
-        _cached = KataSettingsJson.Sanitize(settings ?? throw new ArgumentNullException(nameof(settings)));
+        _cached = KataSettingsSanitizer.File(file ?? throw new ArgumentNullException(nameof(file)));
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(SettingsFilePath)!);
-            File.WriteAllText(SettingsFilePath, KataSettingsJson.Write(_cached), new UTF8Encoding(false));
+            File.WriteAllText(SettingsFilePath, KataSettingsJson.WriteFile(_cached), new UTF8Encoding(false));
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

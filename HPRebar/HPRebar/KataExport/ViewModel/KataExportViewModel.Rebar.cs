@@ -207,7 +207,7 @@ public sealed partial class KataExportViewModel
     {
         View.KataSettingsView? window = null;
         bool accepted = false;
-        var viewModel = new KataSettingsViewModel(KataSettingsStore.Load(), ok =>
+        var viewModel = new KataSettingsViewModel(KataSettingsStore.LoadFile(), ok =>
         {
             accepted = ok;
             window?.Close();

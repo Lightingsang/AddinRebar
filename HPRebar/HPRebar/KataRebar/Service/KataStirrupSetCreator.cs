@@ -26,12 +26,19 @@ public static class KataStirrupSetCreator
         KataRebarPlan plan,
         KataBeamPlacement placement,
         RebarShape? shape,
-        RebarBarType barType)
+        IReadOnlyDictionary<double, RebarBarType> barTypes)
     {
         int sets = 0, singles = 0;
         foreach (var zone in plan.Layout.StirrupZones)
         {
             if (zone.Count <= 0 || zone.OutToOutWidth <= 0.0 || zone.OutToOutHeight <= 0.0) continue;
+            // Joint stirrups may have a diameter of their own; the run checked every diameter has a bar type first.
+            double diameter = zone.DiameterOr(plan.Rules.StirrupDiameter);
+            if (!barTypes.TryGetValue(diameter, out var barType))
+            {
+                Log.Warning("Kata Rebar: no bar type Ø{Diameter} for stirrup zone {Zone} of span {Span}; skipped", diameter, zone.ZoneName, zone.SpanIndex + 1);
+                continue;
+            }
 
             var host = placement.HostAt((zone.StartStationX + zone.EndStationX) / 2.0);
             if (shape is not null && zone.StirrupType == KataStirrupShapeType.ClosedHoop && TryCreateSet(doc, zone, placement, shape, barType, host, plan.Spec.BeamName, plan.Rules.StirrupCover))
@@ -72,18 +79,16 @@ public static class KataStirrupSetCreator
                         ?? throw new InvalidOperationException($"Revit không tạo được đai từ hình '{shape.Name}'.");
             var accessor = rebar.GetShapeDrivenAccessor();
             accessor.ScaleToBox(origin, across * RevitUnits.MmToFt(zone.OutToOutWidth), up * RevitUnits.MmToFt(zone.OutToOutHeight));
-            Layout(doc, rebar, zone, barsOnNormalSide: true, coverFt);
-
-            // The set must grow along +X; a shape whose normal points the other way is laid out again.
+            // The set must grow along +X, so the side is chosen from the shape's normal and laid out once: a set
+            // laid out again on the other side keeps the bounding box of the first layout, and Revit then leaves
+            // it out of every section the stale box misses.
+            Layout(doc, rebar, zone, barsOnNormalSide: accessor.Normal.DotProduct(mapper.AxisX) > 0.0, coverFt);
             if (zone.Count > 1 && !GrowsAlong(rebar, mapper.AxisX))
-            {
-                Layout(doc, rebar, zone, barsOnNormalSide: false, coverFt);
-                if (!GrowsAlong(rebar, mapper.AxisX))
-                    throw new InvalidOperationException("Bộ đai không rải theo trục dầm ở cả hai hướng.");
-            }
+                throw new InvalidOperationException("Bộ đai không rải theo chiều trục dầm.");
 
             if (rebar.NumberOfBarPositions != zone.Count)
                 throw new InvalidOperationException($"Bộ đai có {rebar.NumberOfBarPositions} vị trí thay vì {zone.Count}.");
+            CheckBoundingBox(rebar);
 
             // ScaleToBox compromises instead of failing when a shape cannot fit; a wrong size falls back to single bars.
             CheckFirstStirrup(rebar, zone, mapper, RevitUnits.FtToMm(barType.BarNominalDiameter));
@@ -142,6 +147,27 @@ public static class KataStirrupSetCreator
     }
 
     private const double BoxToleranceMm = 3.0;
+
+    private const double BoundingBoxToleranceMm = 30.0;
+
+    /// <summary>
+    /// Revit draws a set in a view only where its bounding box reaches; a box that misses the first or last bar
+    /// would hide the set from the sections cut there, so such a set is drawn as single bars instead.
+    /// </summary>
+    private static void CheckBoundingBox(Rebar rebar)
+    {
+        var box = rebar.get_BoundingBox(null) ?? throw new InvalidOperationException("Bộ đai không có khung bao.");
+        double tolerance = RevitUnits.MmToFt(BoundingBoxToleranceMm);
+        foreach (int index in new[] { 0, rebar.NumberOfBarPositions - 1 })
+        {
+            var point = rebar.GetTransformedCenterlineCurves(false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, index)[0].GetEndPoint(0);
+            bool inside = point.X >= box.Min.X - tolerance && point.X <= box.Max.X + tolerance
+                && point.Y >= box.Min.Y - tolerance && point.Y <= box.Max.Y + tolerance
+                && point.Z >= box.Min.Z - tolerance && point.Z <= box.Max.Z + tolerance;
+            if (!inside)
+                throw new InvalidOperationException($"Khung bao của bộ đai không phủ thanh thứ {index + 1}: Revit sẽ không vẽ bộ đai ở mặt cắt qua đó.");
+        }
+    }
 
     private static bool GrowsAlong(Rebar rebar, XYZ along)
     {

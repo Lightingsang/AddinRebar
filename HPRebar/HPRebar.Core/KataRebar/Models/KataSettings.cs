@@ -10,8 +10,11 @@ public sealed record KataSettings
 {
     public static readonly KataSettings Default = new();
 
-    /// <summary>Format of the saved file: 2 = defaults of the Kata drawing (leg 0, dense 0.25 L, bottom cap L/6).</summary>
-    public int SettingsVersion { get; init; } = 2;
+    /// <summary>
+    /// Format of the saved file: 2 = defaults of the Kata drawing (leg 0, dense 0.25 L, bottom cap L/6); 3 = joint
+    /// defaults, pending beam options and shop settings beside these.
+    /// </summary>
+    public int SettingsVersion { get; init; } = 3;
 
     /// <summary>Hook of the closed stirrup (°) and its straight end in stirrup diameters.</summary>
     public int ClosedStirrupHookAngle { get; init; } = 135;
@@ -28,6 +31,15 @@ public sealed record KataSettings
 
     /// <summary>Bottom main bars crank across a soffit step only from this diameter (Kata "Bẻ cổ chai cho thép có phi từ").</summary>
     public double CrankMinDiameter { get; init; } = 16.0;
+
+    /// <summary>Run of a crank per unit of rise (Kata "Tỷ lệ đoạn nhấn cổ chai" 1/6 → 6).</summary>
+    public double CrankSlope { get; init; } = 6.0;
+
+    /// <summary>Joint stirrups and hanger bars round a beam framing into a span (Kata tab "Thép mặc định", "Dầm giao").</summary>
+    public KataJointRebarSettings JointBeam { get; init; } = KataJointRebarSettings.Default;
+
+    /// <summary>The same round a stub column standing on a span ("Cột cấy").</summary>
+    public KataJointRebarSettings JointColumn { get; init; } = KataJointRebarSettings.Default;
 
     /// <summary>Side bars ("cốt giá") run this many diameters into each support.</summary>
     public double SideBarAnchorageFactor { get; init; } = 10.0;

@@ -7,7 +7,8 @@ namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>One stirrup zone as Kata draws, dimensions and labels it (<see cref="Spacing"/> as written on the tag).</summary>
 /// <param name="First">Station of its first and last stirrup.</param>
-public readonly record struct KataStirrupRun(int Span, int Number, double Spacing, double First, double Last);
+/// <param name="Diameter">The zone's own stirrup diameter; 0 = the beam's.</param>
+public readonly record struct KataStirrupRun(int Span, int Number, double Spacing, double First, double Last, double Diameter = 0.0);
 
 /// <summary>
 /// The stirrup zones as Kata draws them: neighbouring zones of one span with the same hoop and spacing are one
@@ -28,7 +29,7 @@ public static class KataStirrupRuns
                 && first - prev.Last <= 1.5 * zone.LabelSpacing + 0.5)
                 runs[runs.Count - 1] = prev with { Last = last };
             else
-                runs.Add(new KataStirrupRun(zone.SpanIndex, zone.BarNumber, zone.LabelSpacing, first, last));
+                runs.Add(new KataStirrupRun(zone.SpanIndex, zone.BarNumber, zone.LabelSpacing, first, last, zone.Diameter));
         }
 
         return runs;

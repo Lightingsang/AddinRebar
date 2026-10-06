@@ -94,7 +94,7 @@ public static class KataBarTagBuilder
             KataTagStyle.FirstRowAbove + (topRows - 1) * KataTagStyle.RowPitch + KataTagStyle.StirrupOverLastRow);
         foreach (var run in KataStirrupRuns.Of(layout))
         {
-            tags.Add(new KataBarTag(new[] { run.Number }, $"Ø{Dia(stirrupDiameter)}a{run.Spacing:0}",
+            tags.Add(new KataBarTag(new[] { run.Number }, $"Ø{Dia(run.Diameter > 0.0 ? run.Diameter : stirrupDiameter)}a{run.Spacing:0}",
                 (run.First + run.Last) / 2.0 + KataTagStyle.StirrupShift, stirrupRow, Above: true, PointsLeft: false,
                 Array.Empty<double>(), 0.0, KataTagKind.Stirrups));
         }

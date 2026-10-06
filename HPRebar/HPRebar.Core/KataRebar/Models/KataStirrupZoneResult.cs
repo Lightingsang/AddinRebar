@@ -35,6 +35,12 @@ public sealed record KataStirrupZoneResult
     /// <summary>The spacing written on the drawing: <see cref="NominalSpacing"/>, else <see cref="Spacing"/>.</summary>
     public double LabelSpacing => NominalSpacing > 0.0 ? NominalSpacing : Spacing;
 
+    /// <summary>Bar diameter of this zone's stirrups (mm); 0 = the beam's stirrup diameter (G6). Joint stirrups have their own.</summary>
+    public double Diameter { get; init; }
+
+    /// <summary>The zone's stirrup diameter, <paramref name="beamStirrupDiameter"/> when it has none of its own.</summary>
+    public double DiameterOr(double beamStirrupDiameter) => Diameter > 0.0 ? Diameter : beamStirrupDiameter;
+
     /// <summary>Calculated number of stirrups placed in this zone.</summary>
     public int Count { get; init; }
 

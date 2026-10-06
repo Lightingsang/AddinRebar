@@ -1,96 +1,58 @@
 using System;
-using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HPRebar.Core.KataRebar.Models;
+using HPRebar.KataExport.ViewModel.Tabs;
 using HPRebar.KataRebar.Service;
 
 namespace HPRebar.KataExport.ViewModel;
 
 /// <summary>
-/// The Kata detailing settings the add-in applies, edited in step with Kata's own "Detail thép" dialog.
-/// Accept saves them for every later run; the caller re-plans the loaded sheet.
+/// The Kata settings dialog, three tabs as Kata's "Cài đặt thông số Kata": Detail thép, Thông số đặc thù, Thép mặc định.
+/// Accept saves the file for every later run; the caller re-plans the loaded sheet.
 /// </summary>
 public sealed partial class KataSettingsViewModel : ObservableObject
 {
     private readonly Action<bool> _close;
 
-    [ObservableProperty] private int _closedStirrupHookAngle;
-    [ObservableProperty] private double _closedStirrupHookFactor;
-    [ObservableProperty] private int _crossTieHookAngle;
-    [ObservableProperty] private double _crossTieHookFactor;
-    [ObservableProperty] private double _roundCutExtraMm;
-    [ObservableProperty] private double _sideBarAnchorageFactor;
-    [ObservableProperty] private int _layerTieMinBarCount;
-    [ObservableProperty] private double _crankMinDiameter;
-    [ObservableProperty] private double _curtailedExtensionMm;
-    [ObservableProperty] private double _denseZoneHeightFactor;
-    [ObservableProperty] private double _endZoneFraction;
-    [ObservableProperty] private double _bottomExtraCutFraction;
-    [ObservableProperty] private double _minimumLegFactor;
-    [ObservableProperty] private double _layerClearGap;
-    [ObservableProperty] private double _roundLegMm;
-    [ObservableProperty] private double _sideBarRequiredHeight;
     [ObservableProperty] private string _message = string.Empty;
 
     /// <summary>The settings were accepted but the file could not be written (they still apply to this session).</summary>
     public bool SaveFailed { get; private set; }
 
-    public IReadOnlyList<int> HookAngleOptions { get; } = new[] { 90, 135, 180 };
+    public KataDetailSettingsTabViewModel Detail { get; } = new();
+
+    public KataSpecialSettingsTabViewModel Special { get; } = new();
+
+    public KataJointDefaultsTabViewModel Joints { get; } = new();
 
     /// <param name="close">Called with true after the settings were saved, false on cancel.</param>
-    public KataSettingsViewModel(KataSettings initial, Action<bool> close)
+    public KataSettingsViewModel(KataSettingsFile initial, Action<bool> close)
     {
         _close = close ?? throw new ArgumentNullException(nameof(close));
-        Import(initial ?? KataSettings.Default);
+        Import(initial ?? KataSettingsFile.Default);
+    }
+
+    /// <summary>The settings as the tabs show them; null with <see cref="Message"/> set when a tab holds a wrong value.</summary>
+    public KataSettingsFile? Collect()
+    {
+        string? error = Detail.Validate() ?? Special.Validate() ?? Joints.Validate();
+        if (error is not null)
+        {
+            Message = error;
+            return null;
+        }
+
+        var drawing = Joints.ExportDrawing(Detail.ExportDrawing(KataSettings.Default));
+        var shop = Special.ExportShop(Detail.ExportShop(KataShopSettings.Default));
+        return new KataSettingsFile(drawing, Detail.ExportPending(), shop);
     }
 
     [RelayCommand]
     private void Accept()
     {
-        double[] all =
-        {
-            ClosedStirrupHookFactor, CrossTieHookFactor, RoundCutExtraMm, SideBarAnchorageFactor, CrankMinDiameter,
-            CurtailedExtensionMm, DenseZoneHeightFactor, EndZoneFraction, BottomExtraCutFraction, MinimumLegFactor, LayerClearGap,
-            RoundLegMm, SideBarRequiredHeight
-        };
-        if (Array.Exists(all, v => double.IsNaN(v) || double.IsInfinity(v)))
-        {
-            Message = "Có ô không phải số hữu hạn.";
-            return;
-        }
-
-        if (ClosedStirrupHookFactor <= 0.0 || CrossTieHookFactor <= 0.0 || RoundCutExtraMm < 0.0
-            || SideBarAnchorageFactor <= 0.0 || LayerTieMinBarCount < 2 || CrankMinDiameter < 0.0 || CurtailedExtensionMm < 0.0
-            || DenseZoneHeightFactor < 0.0 || EndZoneFraction < 0.0 || EndZoneFraction > 0.5
-            || BottomExtraCutFraction < 0.0 || BottomExtraCutFraction >= 0.5
-            || MinimumLegFactor < 0.0 || LayerClearGap < 0.0 || RoundLegMm < 0.0 || SideBarRequiredHeight < 0.0)
-        {
-            Message = "Các giá trị phải hợp lệ: tỉ lệ vùng đai dày 0 … 0.5, tỉ lệ cắt gia cường bụng 0 … < 0.5 (× Ln); cắt lệch, làm tròn, khe lớp và h cốt giá không âm (0 = tắt); thanh C kê từ 2 thanh trở lên; Ø bẻ cổ chai không âm.";
-            return;
-        }
-
-        var settings = new KataSettings
-        {
-            ClosedStirrupHookAngle = ClosedStirrupHookAngle,
-            ClosedStirrupHookFactor = ClosedStirrupHookFactor,
-            CrossTieHookAngle = CrossTieHookAngle,
-            CrossTieHookFactor = CrossTieHookFactor,
-            RoundCutExtraMm = RoundCutExtraMm,
-            SideBarAnchorageFactor = SideBarAnchorageFactor,
-            LayerTieMinBarCount = LayerTieMinBarCount,
-            CrankMinDiameter = CrankMinDiameter,
-            CurtailedExtensionMm = CurtailedExtensionMm,
-            DenseZoneHeightFactor = DenseZoneHeightFactor,
-            EndZoneFraction = EndZoneFraction,
-            BottomExtraCutFraction = BottomExtraCutFraction,
-            MinimumLegFactor = MinimumLegFactor,
-            LayerClearGap = LayerClearGap,
-            RoundLegMm = RoundLegMm,
-            SideBarRequiredHeight = SideBarRequiredHeight
-        };
-
-        SaveFailed = !KataSettingsStore.Save(settings);
+        if (Collect() is not { } file) return;
+        SaveFailed = !KataSettingsStore.SaveFile(file);
         _close(true);
     }
 
@@ -98,26 +60,13 @@ public sealed partial class KataSettingsViewModel : ObservableObject
     private void Cancel() => _close(false);
 
     [RelayCommand]
-    private void ResetDefault() => Import(KataSettings.Default);
+    private void ResetDefault() => Import(KataSettingsFile.Default);
 
-    private void Import(KataSettings s)
+    private void Import(KataSettingsFile file)
     {
-        ClosedStirrupHookAngle = s.ClosedStirrupHookAngle;
-        ClosedStirrupHookFactor = s.ClosedStirrupHookFactor;
-        CrossTieHookAngle = s.CrossTieHookAngle;
-        CrossTieHookFactor = s.CrossTieHookFactor;
-        RoundCutExtraMm = s.RoundCutExtraMm;
-        SideBarAnchorageFactor = s.SideBarAnchorageFactor;
-        LayerTieMinBarCount = s.LayerTieMinBarCount;
-        CrankMinDiameter = s.CrankMinDiameter;
-        CurtailedExtensionMm = s.CurtailedExtensionMm;
-        DenseZoneHeightFactor = s.DenseZoneHeightFactor;
-        EndZoneFraction = s.EndZoneFraction;
-        BottomExtraCutFraction = s.BottomExtraCutFraction;
-        MinimumLegFactor = s.MinimumLegFactor;
-        LayerClearGap = s.LayerClearGap;
-        RoundLegMm = s.RoundLegMm;
-        SideBarRequiredHeight = s.SideBarRequiredHeight;
+        Detail.Import(file);
+        Special.Import(file.Shop);
+        Joints.Import(file.Drawing);
         Message = string.Empty;
     }
 }

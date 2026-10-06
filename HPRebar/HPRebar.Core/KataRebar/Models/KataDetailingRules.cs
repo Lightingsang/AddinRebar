@@ -140,28 +140,20 @@ public sealed record KataDetailingRules
     public double FirstStirrupOffset { get; init; } = 50.0;
 
     /// <summary>
-    /// Joint stirrups on each face of a load resting on a span (tab "Thép mặc định": 5f10a50 each side; B01 at mid-D
-    /// 4850…5050 and 5550…5750 round a beam 5100…5500): the first <see cref="FirstStirrupOffset"/> from the face.
+    /// Joint stirrups and hanger bars round a beam framing into a span (tab "Thép mặc định", "Dầm giao"; B01 at mid-D:
+    /// joint stirrups 4850…5050 and 5550…5750 round a beam 5100…5500, the first <see cref="FirstStirrupOffset"/> from
+    /// each face).
     /// </summary>
-    public int JointStirrupCount { get; init; } = 5;
+    public KataJointRule JointBeam { get; init; } = KataJointRule.Kata;
 
-    /// <summary>Spacing of the joint stirrups (mm).</summary>
-    public double JointStirrupSpacing { get; init; } = 50.0;
+    /// <summary>The same round a stub column standing on a span ("Cột cấy").</summary>
+    public KataJointRule JointColumn { get; init; } = KataJointRule.Kata;
+
+    /// <summary>The joint rule of a load.</summary>
+    public KataJointRule JointFor(KataSpanLoad load) => load.IsColumn ? JointColumn : JointBeam;
 
     /// <summary>A load whose face is this close to a support face gets all its joint stirrups on the span side.</summary>
     public double JointNearSupportMm { get; init; } = 200.0;
-
-    /// <summary>Hanger bars ("vai bò") under a load: count and diameter (B01: 2Ø16 at both loads).</summary>
-    public int HangerBarCount { get; init; } = 2;
-
-    /// <summary>Diameter of the hanger bars (mm).</summary>
-    public double HangerBarDiameter { get; init; } = 16.0;
-
-    /// <summary>Level run of a hanger bar at the top past each slope (B01: 150).</summary>
-    public double HangerTopLength { get; init; } = 150.0;
-
-    /// <summary>Slope of a hanger bar from the horizontal, degrees (B01: 45, rise 900 over 900).</summary>
-    public double HangerAngleDegrees { get; init; } = 45.0;
 
     /// <summary>
     /// Dense stirrup zone at each support: max(<see cref="DenseZoneHeightFactor"/> × h, <see cref="EndZoneFraction"/>

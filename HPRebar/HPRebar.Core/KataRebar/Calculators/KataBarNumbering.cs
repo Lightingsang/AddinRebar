@@ -83,7 +83,7 @@ public static class KataBarNumbering
                 if (sets[i].SpanIndex == s && IsTie(sets[i]))
                     sets[i] = sets[i] with { BarNumber = Number(new[] { new Shape($"tie|{Mm(sets[i].Diameter)}|{Mm(spec?.WidthOf(s) ?? 0.0)}", Array.Empty<double>()) }) };
             foreach (int i in Enumerable.Range(0, zones.Length).Where(i => zones[i].SpanIndex == s).OrderBy(i => zones[i].ZoneIndex).ThenBy(i => i))
-                zones[i] = zones[i] with { BarNumber = Number(Signature(zones[i], stirrupDiameter)) };
+                zones[i] = zones[i] with { BarNumber = Number(Signature(zones[i], zones[i].DiameterOr(stirrupDiameter))) };
             for (int i = 0; i < sets.Length; i++)
                 if (sets[i].SpanIndex == s && !IsTie(sets[i]))
                     sets[i] = sets[i] with { BarNumber = Number(Signature(sets[i])) };

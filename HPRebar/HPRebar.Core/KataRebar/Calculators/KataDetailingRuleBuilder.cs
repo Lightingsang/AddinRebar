@@ -103,6 +103,9 @@ public static class KataDetailingRuleBuilder
             TieSpacingNote = tieNote,
             LayerTieMinBarCount = settings.LayerTieMinBarCount,
             CrankMinDiameter = settings.CrankMinDiameter,
+            CrankSlope = settings.CrankSlope,
+            JointBeam = Joint(settings.JointBeam),
+            JointColumn = Joint(settings.JointColumn),
             CurtailedExtension = stagger,
             DenseZoneHeightFactor = settings.DenseZoneHeightFactor,
             EndZoneFraction = settings.EndZoneFraction,
@@ -120,8 +123,12 @@ public static class KataDetailingRuleBuilder
         };
     }
 
-    /// <summary>
-    /// Centre depth of a main bar layer: "a" when J9 gives one and the stirrup leaves room for it, otherwise
-    /// the bar rests on the stirrup's inner face.
-    /// </summary>
+    /// <summary>The joint rule of one load kind; the settings are sanitised, so both notations read.</summary>
+    private static KataJointRule Joint(KataJointRebarSettings joint)
+    {
+        KataJointNotation.TryParseStirrups(joint.Stirrups, out int count, out double diameter, out double spacing);
+        KataJointNotation.TryParseBars(joint.Hanger, out int hangers, out double hangerDiameter);
+        return new KataJointRule(count, diameter, spacing, joint.HangerEnabled ? hangers : 0, hangerDiameter,
+            joint.HangerTopLengthMm, joint.HangerAngleDegrees);
+    }
 }

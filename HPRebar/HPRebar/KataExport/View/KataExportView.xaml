@@ -447,6 +447,7 @@
 
                             <!-- Button Cài đặt thông số Kata -->
                             <Button Command="{Binding OpenSettingsCommand}"
+                                    AutomationProperties.AutomationId="KataOpenSettings"
                                     Style="{DynamicResource SecondaryButton}"
                                     Padding="8,2" Height="26" Margin="10,0,0,0"
                                     ToolTip="Cài đặt thông số Kata (bẻ cổ chai, neo cốt giá, làm tròn, quy cách nối thép...)">

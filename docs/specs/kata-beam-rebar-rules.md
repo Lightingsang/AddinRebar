@@ -163,7 +163,7 @@ Bảng kiểm kê đầy đủ, có số dòng: [hprebar-rule-inventory.md](../.
 | ID | Quy tắc | Ô / thiết lập | Nguồn | TT | Code · Test |
 |---|---|---|---|---|---|
 | R-80 | Gối giữa có chiều cao = nhịp nông hơn trong hai nhịp kề; gối biên = nhịp của nó; không quá h của dầm giao | — | DWG | ✅ | `KataBeamRebarSpec` |
-| R-81 | Thép chủ dưới **uốn 1:6** qua bậc khi Ø ≥ `CrankMinDiameter` **và** (\|bậc\| − Ø) / bề rộng gối ≤ 1/6. Đoạn uốn dài 6·\|bậc\|, tính từ mặt gối phía nhịp nông vào nhịp sâu | `CrankMinDiameter` 16, 1:6 (hằng) | DWG (DY7 82/500 uốn, DY14 82/350 cắt) | ✅ | `KataDetailingRules`, `KataBottomMainBarRuns` · `KataDy14DrawingTests.At_E_*`, `Only_bars_of_16_and_up_are_cranked` |
+| R-81 | Thép chủ dưới **uốn 1:6** qua bậc khi Ø ≥ `CrankMinDiameter` **và** (\|bậc\| − Ø) / bề rộng gối ≤ 1/6. Đoạn uốn dài 6·\|bậc\|, tính từ mặt gối phía nhịp nông vào nhịp sâu | `CrankMinDiameter` 16, `CrankSlope` 6 (thiết lập "Tỷ lệ đoạn nhấn cổ chai") | DWG (DY7 82/500 uốn, DY14 82/350 cắt) | ✅ | `KataDetailingRules`, `KataBottomMainBarRuns` · `KataDy14DrawingTests.At_E_*`, `Only_bars_of_16_and_up_are_cranked` |
 | R-82 | Không uốn được thì **cắt**: thanh nhịp sâu chạy tới mặt xa − a rồi bẻ lên (chân ≤ bậc − Ø − khe lớp, không chạm thép trên); thanh nhịp nông chạy thẳng G3·d qua mặt gối phía nó. Đoạn uốn chồng nhau hoặc vướng console cũng chuyển sang cắt | G3 | DWG | ✅ | `The_deep_bar_at_a_cut_step_*`, `Two_cranks_that_would_overlap_*` |
 | R-83 | Cắt khi \|bậc\| − Ø < khe lớp thì 2 thanh chạm nhau: chỉ cảnh báo, chưa sửa hình | — | CHƯA | 🟡 | `A_small_step_that_must_be_cut_is_reported_*` |
 | R-84 | Đai, cốt giá và gia cường bụng theo chiều cao từng nhịp | h21 | DWG | ✅ | `KataDy7DrawingTests` |
@@ -200,7 +200,7 @@ Bảng kiểm kê đầy đủ, có số dòng: [hprebar-rule-inventory.md](../.
 
 | ID | Quy tắc | Ô / thiết lập | Nguồn | TT | Code · Test |
 |---|---|---|---|---|---|
-| R-120 | **Dầm giao gác lên nhịp** (đáy dầm giao cao hơn đáy dầm, lấy từ model Revit — sheet không có ô): mỗi bên mặt dầm giao 5 đai ngoài Ø đai a50, đai đầu cách mặt 50; đai của nhịp dừng/nối lại cách đai gia cường một bước của vùng, chia đều lại; vai bò 2Ø16: nằm ngang 150 ở cao độ thép chủ trên, xiên 45° xuống dưới đáy dầm giao (đáy − b − d/2, không thấp hơn thép chủ dưới), nằm ngang từ mặt−50 tới mặt+50. Nút cách mặt cột ≤ 200 → dồn cả 10 đai về phía giữa nhịp. Nút gần nhau → chung một bộ đai. Vai bò không ra khỏi nhịp (quy tắc HPRebar): thiếu chỗ thì bỏ đoạn ngang, dốc 60°, cuối cùng dừng tại mặt gối + cảnh báo. Gối có cột (kể cả có dầm giao ở hàng 20 — B01 gối 1 `C20 400x500`) không có đai nút, có `*` ở hàng 24 hay không. Số hiệu vai bò sau cốt giá | `KataDetailingRules.Joint*`, `Hanger*` (mặc định theo DWG) | DWG B01 (giữa D: đai 4850…5050 ‖ 5550…5750, đai nhịp 3200…4650 ‖ 5950…8000, vai bò 2Ø16 4000·4150·5050‖5550·6450·6600) | ✅ | `C/Calculators/KataJointStirrups.cs`, `KataHangerBarLayout.cs`, `KataSupportCollector.CollectWithLoads` · `KataJointLoadTests`, `KataSupportRulesTests.LoadsFramingIn*` |
+| R-120 | **Dầm giao gác lên nhịp** (đáy dầm giao cao hơn đáy dầm, lấy từ model Revit — sheet không có ô): mỗi bên mặt dầm giao các đai theo tab Thép mặc định (mặc định `5f8a50`: 5 đai Ø8 a50, Ø riêng — bản vẽ B01 dùng Kata `5f10a50`), đai đầu cách mặt 50; đai của nhịp dừng/nối lại cách đai gia cường một bước của vùng, chia đều lại; vai bò theo tab Thép mặc định (mặc định bật, `2f16`): nằm ngang 150 ở cao độ thép chủ trên, xiên 45° (hoặc 60°) xuống dưới đáy dầm giao (đáy − b − d/2, không thấp hơn thép chủ dưới), nằm ngang từ mặt−50 tới mặt+50. Nút cách mặt cột ≤ 200 → dồn cả 10 đai về phía giữa nhịp. Nút gần nhau → chung một bộ đai. Vai bò không ra khỏi nhịp (quy tắc HPRebar): thiếu chỗ thì bỏ đoạn ngang, dốc 60°, cuối cùng dừng tại mặt gối + cảnh báo. Gối có cột (kể cả có dầm giao ở hàng 20 — B01 gối 1 `C20 400x500`) không có đai nút, có `*` ở hàng 24 hay không. Số hiệu vai bò sau cốt giá | `KataDetailingRules.JointBeam` / `JointColumn` từ thiết lập `JointBeam.*` / `JointColumn.*` (§16) | DWG B01 (giữa D: đai 4850…5050 ‖ 5550…5750, đai nhịp 3200…4650 ‖ 5950…8000, vai bò 2Ø16 4000·4150·5050‖5550·6450·6600) | ✅ | `C/Calculators/KataJointStirrups.cs`, `KataHangerBarLayout.cs`, `KataSupportCollector.CollectWithLoads` · `KataJointLoadTests`, `KataSupportRulesTests.LoadsFramingIn*` |
 | R-121 | **Cột cấy** (cột đứng trên nhịp, từ model Revit): như R-120, vai bò xuống tới cao độ thép chủ dưới của dầm | như R-120 | DWG B01 (F: đai 14350…14550 ‖ 15050…15250, đai nhịp …14150 ‖ 15450…, vai bò 13750·13900·14550‖15050·15700·15850) | ✅ | như R-120 |
 
 ## 12b. Bổ sung từ dầm B03 (DWG 2026-10-06 09:39, KataB03.xlsm 09:40)
@@ -275,6 +275,7 @@ Nguồn: `04_quy_dinh_thep_dam.md` §3.2 (dòng ghi ở cột Nguồn). Chưa c�
 - **Revit tự kéo thanh mới về lớp bảo vệ** (vd Ø16 ở y −29 bị kéo về −33):
   - Thanh Single được dời lại đúng chỗ.
   - Bộ Fixed Number được sửa khoảng cách constraint ở hai đầu dải rồi kiểm ±0.5 mm; sai thì lùi về Single và báo trong thông báo.
+- **Bộ đai rải một lần theo pháp tuyến hình đai (2026-10-06):** chiều rải (`barsOnNormalSide`) chọn từ `Normal` của hình đai so với trục dầm, rải đúng một lần. Rải lại sang phía kia thì Revit giữ khung bao của lần rải đầu (B03: thanh 400…2950, khung −2155…415) và bỏ bộ đai khỏi mọi mặt cắt khung không chạm (Detail 3 không hiện đai ngoài). Sau khi tạo, khung bao phải phủ thanh đầu và cuối (±30 mm), không thì bộ đai bị huỷ và vẽ bằng đai rời. Live bản sao B03: 108/108 bộ khung đúng, mặt cắt x = 1634 hiện đai ngoài.
 - **Gắn dấu và xoá lần chạy cũ (2026-10-05, quyết định user):**
   - Mỗi thanh mang **Extensible Storage** ẩn (`KataRebarStorage`: UniqueId dầm host, số Kata, tên dầm). Không ghi Comments, không ghi Schedule Mark (Revit tự sinh).
   - Chạy lại thì chỉ xoá thanh có storage trỏ đúng dầm đã chọn; thanh vẽ tay không bị xoá. Thanh của bản cũ (dấu `HPRebar_Kata:{host}` trong Comments) vẫn được nhận ra và xoá một lần.
@@ -285,10 +286,29 @@ Nguồn: `04_quy_dinh_thep_dam.md` §3.2 (dòng ghi ở cột Nguồn). Chưa c�
 
 ## 16. Thiết lập
 
-Thiết lập lưu ở `%AppData%\HPRebar\KataSettings.json`, sửa trong **Kata Export ▸ Thiết lập**. Mọi giá trị đi qua
-`KataSettingsJson.Sanitize`: âm, NaN, ∞ hay tỉ lệ vượt nửa nhịp đều quay về mặc định. File cũ (không có
-`SettingsVersion`, đang giữ đúng mặc định cũ 15d / 2h / 0.15) được tự chuyển sang mặc định mới; giá trị user đã đổi thì giữ
-nguyên.
+Thiết lập lưu ở `%AppData%\HPRebar\KataSettings.json`, sửa trong **Kata Export ▸ Thiết lập** — hộp 3 tab như "Cài đặt
+thông số Kata" (2026-10-06, user chọn cách B). Một file, ba nhóm:
+
+| Nhóm | Khoá JSON | Tới quy tắc vẽ thép |
+|---|---|---|
+| Vẽ thép (`KataSettings`) | tên thuộc tính; `JointBeam.X` / `JointColumn.X` | có |
+| Bố trí dầm chưa có quy tắc (`KataBeamOptions`) | `Pending.X` | không — lưu, hộp thoại ghi "chưa áp dụng" |
+| Shop thép (`KataShopSettings`) | `Shop.X`; bảng khối lượng `Ø:kg/m;…`, bảng neo nối `Ø:nối nén,nối kéo,neo nén,neo kéo;…` | không — để công cụ shop thép sau này |
+
+| Tab | Có tác dụng | Chưa áp dụng |
+|---|---|---|
+| Detail thép | móc đai □ / C, bẻ cổ chai từ Ø, **tỷ lệ nhấn cổ chai 1/6** (`CrankSlope`, R-81), làm tròn, vùng đai dày, cắt gia cường, khe lớp, cốt giá, chân neo | thép lớp dưới không bẻ ke, thép trên không neo xuống cột dưới, luôn bẻ ke, cắt thép chạy suốt ở đầu nhịp, đánh số khác cho thanh giống nhau; coupler, dài tối đa 11700, min xét cắt 8800, tối thiểu 100d, làm tròn neo nối, quy cách + vùng nối, ưu tiên ít mối nối |
+| Thông số đặc thù | — | bảng khối lượng, nối vùng nén 30d / kéo, mép nhấn cách mép nối, khoảng cách 2 mối nối, dung sai phối thép, bảng neo nối |
+| Thép mặc định | dầm giao / cột cấy riêng: đai gia cường mỗi bên `5f8a50` (Ø riêng, số hiệu riêng, loại thép Revit theo Ø đó), vai bò bật/tắt `2f16`, bẻ ngang 150, góc 45 / 60 | spec số lượng đai, đai băng qua |
+
+Mặc định đai gia cường nút là `5f8a50` (user 2026-10-06), không phải `5f10a50` của hộp Kata: B01 (G6 Ø10) có đai nút
+Ø8 riêng. Vai bò mặc định `2f16` như bản vẽ B01 (hộp Kata ghi 2f14). Vai bò quá 2 thanh: chỉ có 2 chỗ cạnh thép chủ
+trên → vẽ 2, cảnh báo. Dầm giao và cột cấy chung một nhóm đai nút: bước nhỏ hơn, Ø lớn hơn.
+
+Mọi giá trị đi qua `KataSettingsSanitizer`: âm, NaN, ∞, tỉ lệ vượt nửa nhịp, ký hiệu đọc không được đều quay về mặc định;
+dòng bảng sai bị bỏ. File cũ (không có `SettingsVersion`, đang giữ đúng mặc định cũ 15d / 2h / 0.15) được tự chuyển sang
+mặc định mới; file v2 giữ nguyên giá trị, nhận mặc định cho khoá mới; giá trị user đã đổi thì giữ nguyên.
+Test: `KataSettingsFileTests`, `KataSettingsJsonTests`.
 
 **Hằng trong code (chưa phải thiết lập):**
 
@@ -298,4 +318,3 @@ nguyên.
 | FirstStirrupOffset | 50 | R-63 |
 | MinimumLegGap | 25 | R-35 |
 | BarClearSpacing | 25 | R-16 |
-| CrankSlope | 6 | R-81 |

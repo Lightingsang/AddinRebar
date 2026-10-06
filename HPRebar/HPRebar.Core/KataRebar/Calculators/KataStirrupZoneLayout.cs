@@ -60,16 +60,18 @@ public static class KataStirrupZoneLayout
 
             // The outer closed hoop; the inner stirrups follow its zones (KataInnerStirrupLayout).
             {
-                foreach (var (name, spacing, stations) in KataJointStirrups.Apply(spec, rules, st, s, AtTopSteps(spec, st, s, runs, rules.FirstStirrupOffset).ToList()))
+                foreach (var (name, spacing, stations, ownDiameter) in KataJointStirrups.Apply(spec, rules, st, s, AtTopSteps(spec, st, s, runs, rules.FirstStirrupOffset).ToList()))
                 {
                     if (stations.Count == 0) continue;
+                    // Joint stirrups of their own diameter keep the out-to-out box; their centreline follows the bar.
+                    double d = ownDiameter > 0.0 ? ownDiameter : ds;
                     double top = spec.TopAt(s, (stations[0] + stations[stations.Count - 1]) / 2.0 - st.SpanStart[s]);
                     var box = new Box(
                         Width: Math.Max(0.0, width - 2.0 * b),
                         Height: Math.Max(0.0, depth + top - 2.0 * b),
                         MinY: -width / 2.0 + b,
                         MinZ: -depth + b);
-                    double zTop = top - b - ds / 2.0;
+                    double zTop = top - b - d / 2.0;
 
                     zones.Add(new KataStirrupZoneResult
                     {
@@ -80,6 +82,7 @@ public static class KataStirrupZoneLayout
                         EndStationX = stations[stations.Count - 1],
                         Spacing = stations.Count > 1 ? (stations[stations.Count - 1] - stations[0]) / (stations.Count - 1) : spacing,
                         NominalSpacing = spacing,
+                        Diameter = ownDiameter,
                         Count = stations.Count,
                         Stations = stations,
                         OutToOutWidth = box.Width,
@@ -90,8 +93,9 @@ public static class KataStirrupZoneLayout
                         BarMark = KataStirrupCurveFactory.MarkOf(KataStirrupShapeType.ClosedHoop)
                     });
 
+                    double inset = (d - ds) / 2.0;
                     foreach (double x in stations)
-                        stirrups.Add(KataStirrupCurveFactory.Create(KataStirrupShapeType.ClosedHoop, x, yMin, yMax, zTop, zBot, ds, barId++, s));
+                        stirrups.Add(KataStirrupCurveFactory.Create(KataStirrupShapeType.ClosedHoop, x, yMin + inset, yMax - inset, zTop, zBot + inset, d, barId++, s));
                 }
             }
         }

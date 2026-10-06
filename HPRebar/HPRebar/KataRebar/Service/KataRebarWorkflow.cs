@@ -88,7 +88,7 @@ public static class KataRebarWorkflow
     public static IEnumerable<double> Diameters(KataRebarPlan plan)
     {
         var diameters = plan.Layout.LongitudinalBars.Select(b => b.Diameter).Concat(plan.Layout.BarSets.Select(s => s.Diameter)).ToList();
-        if (plan.Layout.StirrupZones.Count > 0) diameters.Add(plan.Rules.StirrupDiameter);
+        diameters.AddRange(plan.Layout.StirrupZones.Select(z => z.DiameterOr(plan.Rules.StirrupDiameter)));
         return diameters.Distinct();
     }
 }

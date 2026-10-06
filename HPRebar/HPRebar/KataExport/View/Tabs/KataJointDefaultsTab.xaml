@@ -1,0 +1,68 @@
+<UserControl x:Class="HPRebar.KataExport.View.Tabs.KataJointDefaultsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="Row" TargetType="DockPanel">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        </Style>
+        <Style x:Key="Pending" TargetType="TextBlock" BasedOn="{StaticResource Label}">
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Secondary}"/>
+        </Style>
+
+        <!-- One column: the settings of one kind of load (crossing beam or stub column). -->
+        <DataTemplate x:Key="JointColumn">
+            <StackPanel>
+                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,0,6"/>
+                <DockPanel Style="{StaticResource Row}">
+                    <TextBox DockPanel.Dock="Right" Width="110" Style="{DynamicResource StandardTextBox}" AutomationProperties.AutomationId="{Binding Title, StringFormat='KataJointStirrups {0}'}" Text="{Binding Stirrups, Mode=TwoWay}"/>
+                    <TextBlock Text="Đai gia cường thêm mỗi bên" Style="{StaticResource Label}"/>
+                </DockPanel>
+                <DockPanel Style="{StaticResource Row}">
+                    <ComboBox DockPanel.Dock="Right" Width="110" IsEditable="True" IsTextSearchEnabled="False" ItemsSource="{Binding CountSpecOptions}" Text="{Binding StirrupCountSpec, Mode=TwoWay}"/>
+                    <TextBlock Text="Spec số lượng đai (chưa áp dụng)" Style="{StaticResource Pending}"/>
+                </DockPanel>
+                <DockPanel Style="{StaticResource Row}">
+                    <CheckBox DockPanel.Dock="Right" Width="110" IsChecked="{Binding StirrupsThroughJoint, Mode=TwoWay}"/>
+                    <TextBlock Text="Đai băng qua (chưa áp dụng)" Style="{StaticResource Pending}"/>
+                </DockPanel>
+                <DockPanel Style="{StaticResource Row}">
+                    <TextBox DockPanel.Dock="Right" Width="80" Style="{DynamicResource StandardTextBox}" IsEnabled="{Binding HangerEnabled}" AutomationProperties.AutomationId="{Binding Title, StringFormat='KataJointHanger {0}'}" Text="{Binding Hanger, Mode=TwoWay}"/>
+                    <CheckBox DockPanel.Dock="Right" Margin="0,0,8,0" VerticalAlignment="Center" IsChecked="{Binding HangerEnabled, Mode=TwoWay}"/>
+                    <TextBlock Text="Cốt đai vai bò" Style="{StaticResource Label}"/>
+                </DockPanel>
+                <DockPanel Style="{StaticResource Row}">
+                    <TextBox DockPanel.Dock="Right" Width="110" Style="{DynamicResource NumberTextBox}" IsEnabled="{Binding HangerEnabled}" Text="{Binding HangerTopLengthMm, Mode=TwoWay}"/>
+                    <TextBlock Text="Bẻ ngang đai vai bò (mm)" Style="{StaticResource Label}"/>
+                </DockPanel>
+                <DockPanel Style="{StaticResource Row}">
+                    <ComboBox DockPanel.Dock="Right" Width="110" IsEnabled="{Binding HangerEnabled}" ItemsSource="{Binding AngleOptions}" SelectedItem="{Binding HangerAngleDegrees, Mode=TwoWay}"/>
+                    <TextBlock Text="Góc bẻ đai vai bò (°)" Style="{StaticResource Label}"/>
+                </DockPanel>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Text="Dữ liệu thép gia cường dầm giao" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Grid.Column="0" Content="{Binding Beam}" ContentTemplate="{StaticResource JointColumn}"/>
+            <ContentControl Grid.Column="2" Content="{Binding Column}" ContentTemplate="{StaticResource JointColumn}"/>
+        </Grid>
+
+        <TextBlock Margin="0,14,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                   Text="Đai gia cường ghi dạng số lượng f Ø a bước (5f8a50): mỗi bên dầm giao / cột cấy, đai đầu cách mặt 50. Vai bò ghi số lượng f Ø (2f16), bỏ chọn để không vẽ. Spec: None là mặc định; H1 khoảng cách đáy dầm đến đáy dầm giao; H chiều cao dầm giao; W bề rộng dầm giao; 1, 2, 3… số lượng cộng thêm; tuỳ biến W+H-1…"/>
+    </StackPanel>
+</UserControl>
