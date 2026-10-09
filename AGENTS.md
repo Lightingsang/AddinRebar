@@ -380,7 +380,7 @@ python scripts/sync-agent-skills.py {scan|status|check|apply|validate} [--root D
 Tests are stdlib `unittest`, black-box — they shell out to the CLI against fixtures copied into a temp dir. They need **both** the repo root and the test dir on `sys.path`: `support.py` imports are dir-relative while `test_bootstrap.py` imports `scripts.skill_sync.*` absolutely.
 
 ```bash
-# From repo root — 41 tests
+# From repo root — 44 tests (1 skips where the account cannot create symlinks)
 PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync
 
 # Single module / single test
@@ -388,14 +388,14 @@ PYTHONPATH=. python -m unittest discover -s tests/skill-sync -t tests/skill-sync
 cd tests/skill-sync && python -m unittest test_validation.ValidationTests.test_apply_adapts_an_established_portable_edit_and_refreshes_manifest_bases
 ```
 
-**Known environment failure: 6 tests, and it is NOT the CRLF problem this file used to describe.** A
-`.gitattributes` forcing LF under `tests/skill-sync/fixtures/` now exists and fixed 4 of the original 10
-failures. The remaining 6 have a different root cause: Windows 8.3 short paths. `tempfile.gettempdir()`
-returns the short form (`C:\Users\STR-HP~1.HOA\...`) while `Path.resolve()` returns the long form
-(`C:\Users\STR-HP03.HOANGPHUC\...`), so `relative_to` throws
-`ValueError: ... is not in the subpath of ...`. That is a real bug in `skill_sync` — it should normalise
-both sides before comparing — not an environment quirk to work around. If a fixture byte comparison ever
-fails again, run `git check-attr text -- <file>` before assuming CRLF.
+**Green on 2026-10-10: 43 pass, 1 skip.** Two earlier failure causes are fixed — check them first if a test breaks
+again: a fixture byte comparison failing on CRLF (`.gitattributes` forces LF under
+`tests/skill-sync/fixtures/`; run `git check-attr text -- <file>` before assuming CRLF), and Windows 8.3
+short paths (`tempfile` returns `C:\Users\ABC~1\...` while `Path.resolve()` returns the long form;
+`discovery.discover` now compares resolved paths on both sides). The portable render must stay
+idempotent — render twice == render once, pinned by `test_portable_adapter` — or a correctly rendered
+mirror shows as a conflict and `apply` refuses the whole repo; a machine-specific absolute path in any
+`SKILL.md` (`C:\Program Files\...`) blocks `apply` the same way.
 
 Each fixture in `tests/skill-sync/fixtures/<Letter>-<name>/` pins one contract — see `fixtures/README.md` for the table. Fixtures deliberately never reference the live `.claude/` or `.agents/` trees.
 
