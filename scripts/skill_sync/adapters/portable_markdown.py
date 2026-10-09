@@ -94,6 +94,25 @@ def _neutralize_machine_paths(text: str) -> str:
     return _MACHINE_PATH.sub("<host-path>", text)
 
 
+def _unquote_scalar(raw: str) -> str:
+    """Return the value of a one-line YAML scalar, undoing its quoting.
+
+    The portable render writes the description back with ``json.dumps``, so a
+    quoted value must be unescaped first; stripping only the outer quotes would
+    escape every inner ``\\"`` again on each render and the mirror would never
+    compare equal to its source.
+    """
+    if len(raw) > 1 and raw[0] == raw[-1] == '"':
+        try:
+            value = json.loads(raw)
+        except json.JSONDecodeError:
+            return raw[1:-1]
+        return value if isinstance(value, str) else raw[1:-1]
+    if len(raw) > 1 and raw[0] == raw[-1] == "'":
+        return raw[1:-1].replace("''", "'")
+    return raw
+
+
 def _fold_routing_metadata(text: str) -> str:
     lines = text.splitlines()
     if not lines or lines[0] != "---":
@@ -107,17 +126,18 @@ def _fold_routing_metadata(text: str) -> str:
         return text
     when = next((line.split(":", 1)[1].strip().strip("\"'") for line in lines[1:end] if line.startswith("when_to_use:")), "")
     keywords = next((line.split(":", 1)[1].strip().strip("[]") for line in lines[1:end] if line.startswith("keywords:")), "")
-    raw = lines[description_index].split(":", 1)[1].strip()
-    quote = raw[0] if len(raw) > 1 and raw[0] in "\"'" and raw[-1] == raw[0] else ""
-    description = raw[1:-1] if quote else raw
-    description = re.sub(r"\bClaude(?: Code)?\b", "coding agents", description)
+    description = _unquote_scalar(lines[description_index].split(":", 1)[1].strip())
+    # Neutralise the host name after the additions and compare in neutral form,
+    # so a when_to_use already present in the description is never appended again.
+    neutral = lambda value: re.sub(r"\bClaude(?: Code)?\b", "coding agents", value)
     additions = []
-    if when and when.casefold() not in description.casefold():
+    if when and neutral(when).casefold() not in neutral(description).casefold():
         additions.append(when.rstrip("."))
     if keywords and "keywords:" not in description.casefold():
         additions.append("Keywords: " + keywords)
     if additions:
         description = description.rstrip(".") + ". " + ". ".join(additions) + "."
+    description = neutral(description)
     description = description.replace("<", "").replace(">", "")
     if len(description) > 1024:
         description = description[:1021].rstrip() + "..."

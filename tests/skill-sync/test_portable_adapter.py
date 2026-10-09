@@ -91,6 +91,43 @@ class PortableAdapterTests(unittest.TestCase):
 
         self.assertEqual(twice, thrice)
 
+    def test_portable_render_is_idempotent_for_quoted_descriptions(self) -> None:
+        descriptions = {
+            "unquoted with inner quotes": b'description: Use when the user says "grill me" or "challenge me".',
+            "double-quoted with escapes": b'description: "Use when the user says \\"grill me\\" or a \\\\ path."',
+            "single-quoted yaml": b"description: 'Use when the user''s prompt says \"grill me\".'",
+        }
+        for label, line in descriptions.items():
+            with self.subTest(label):
+                source = SOURCE.replace(b"description: Create or update Claude skills.", line)
+                adapter = adapter_for("portable")
+                once = adapter.render("claude", "portable", _bundle("claude", source), "SKILL.md", source)
+                twice = adapter.render("portable", "portable", _bundle("portable", once), "SKILL.md", once)
+
+                self.assertEqual(once, twice)
+                self.assertIn('\\"grill me\\"', once.decode("utf-8").splitlines()[2])
+                self.assertNotIn('\\\\\\"', once.decode("utf-8").splitlines()[2])
+
+    def test_when_to_use_naming_claude_is_not_appended_twice(self) -> None:
+        source = SOURCE.replace(
+            b"description: Create or update Claude skills.",
+            b"description: Create skills. Invoke when refining Claude skills.",
+        ).replace(b"when_to_use: Use when a reusable workflow is needed.", b'when_to_use: "Invoke when refining Claude skills."')
+        adapter = adapter_for("portable")
+        once = adapter.render("claude", "portable", _bundle("claude", source), "SKILL.md", source)
+        twice = adapter.render("portable", "portable", _bundle("portable", once), "SKILL.md", once)
+
+        description = once.decode("utf-8").splitlines()[2]
+        self.assertEqual(once, twice)
+        self.assertEqual(1, description.count("Invoke when refining"))
+        self.assertNotIn("Claude", description)
+
+    def test_rendered_mirror_is_semantically_equal_to_its_claude_source(self) -> None:
+        source = SOURCE.replace(b"description: Create or update Claude skills.", b'description: Use when the user says "grill me".')
+        mirror = adapter_for("portable").render("claude", "portable", _bundle("claude", source), "SKILL.md", source)
+
+        self.assertEqual(adapter_for("claude").normalize("SKILL.md", source), adapter_for("portable").normalize("SKILL.md", mirror))
+
     def test_adapter_v3_identity_forces_revalidation_of_legacy_manifest_records(self) -> None:
         self.assertEqual("claude-to-codex:skill-markdown-v3", conversion_id("claude", "portable"))
         self.assertEqual("codex-to-claude:skill-markdown-v3", conversion_id("portable", "claude"))
