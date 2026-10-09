@@ -34,7 +34,13 @@
     {
       "id": 6,
       "prompt": "Grill me về một refactor lớn: gộp phần chung của HPAutoCad và HPCivil3d thành AcadShared. Chỉ đưa 1–3 câu hỏi có lựa chọn, không đưa codebase context hay bản tổng hợp trước câu hỏi.",
-      "expected_output": "Phản hồi bắt đầu trực tiếp bằng câu hỏi và dừng sau câu hỏi cuối.",
+      "expected_output": "Phản hồi bắt đầu trực tiếp bằng câu hỏi và dừng sau câu hỏi cuối. Câu có lựa chọn giữ nguyên hiện trạng / hoãn refactor (ADR-01 phương án A đang chạy) được hỏi riêng trong vòng đầu; phạm vi gộp và cổng nghiệm thu để vòng sau.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Grill me: tôi muốn đổi chỗ lưu setting KataExport và viết luôn phần migrate dữ liệu cũ sang chỗ mới.",
+      "expected_output": "Vòng đầu hỏi chỗ lưu mới (quyết định cha); không hỏi chi tiết migration phụ thuộc vào chỗ lưu (copy hay move, file nào thắng khi xung đột, quyền ghi) trước khi chỗ lưu được chốt; mọi câu khác trong vòng đầu độc lập với câu chỗ lưu.",
       "files": []
     }
   ]
