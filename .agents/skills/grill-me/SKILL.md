@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: "Interview and pressure-test a user's request before planning or implementation. Use this skill whenever the user says \"grill me\", \"phỏng vấn tôi\", \"hỏi ngược\", \"phản biện yêu cầu\", \"challenge my assumptions\", or asks to clarify a prompt before work begins. Inspect the relevant codebase first, then continue questioning until the expected output, acceptance criteria, scope boundary, non-negotiable constraints, and affected touchpoints are concrete. Do not use for simple factual questions or when the user explicitly requests immediate execution without an interview."
+description: "Interview and pressure-test a user's request before planning or implementation. Use this skill whenever the user says \"grill me\", \"phỏng vấn tôi\", \"hỏi ngược\", \"phản biện yêu cầu\", \"challenge my assumptions\", or asks to clarify a prompt before work begins, or asks to stress-test an existing plan or design (e.g. plans/**/plan.md). Inspect the relevant codebase first, then continue questioning until the expected output, acceptance criteria, scope boundary, non-negotiable constraints, and affected touchpoints are concrete. Do not use for simple factual questions or when the user explicitly requests immediate execution without an interview."
 ---
 
 <!-- portable-host-contract:start -->
@@ -44,6 +44,8 @@ Inspect the codebase before asking any clarification:
 4. Inspect an existing implementation that most closely matches the requested behavior.
 5. Check repository status so unrelated user changes are not mistaken for task scope.
 
+If the user points to a plan or design document, read it first and treat its decisions as the initial decision tree.
+
 Use fast, targeted searches. Do not scan large generated, dependency, cache, or VCS directories unless they are directly relevant.
 
 If no codebase is available, inspect the material supplied by the user. Turn any missing fact that materially affects the solution into a direct question.
@@ -68,8 +70,8 @@ Do not propose solutions while a field contains vague language such as “make i
 
 For each round:
 
-1. Identify the largest unresolved risk or decision.
-2. Ask 1–3 questions grounded in codebase evidence.
+1. Map open decisions as a tree: a decision is a child when its options depend on another decision's answer. Ask parents before children; never ask a child while its parent is open. Among ready decisions, take the riskiest first. When an answer prunes a branch, drop its child questions. A decision with an option that would cancel or redirect the whole request (do nothing, keep the status quo, split into another task, move to another product) is a parent of every other open decision: ask it alone in its round.
+2. Ask 1–3 questions grounded in codebase evidence. Questions in one round must be independent of each other.
 3. Explain briefly why each answer matters.
 4. Challenge assumptions that conflict with the codebase, constraints, cost, schedule, safety, maintainability, or user workflow.
 5. Update the five-field contract from the answers.

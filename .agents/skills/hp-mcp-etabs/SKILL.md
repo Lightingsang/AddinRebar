@@ -30,7 +30,7 @@ Dạy Claude dùng đúng 25 tool của MCP server `hprebar-etabs` (`mcp__hpreba
 1. **Bridge app** `HPEtabs/output/HPEtabs.McpBridge/HPEtabs.McpBridge.exe` (icon khung kết cấu + phích xanh): Mở ứng dụng, **Start listener**. Checkbox **AutoStart** bật mặc định (cho phép Bridge tự động attach hoặc tự động bật ETABS mới khi có lệnh). Tick **Allow AI code execution** khi cần chạy script/tool ghi. Tick **Allow destructive operations** chỉ khi cần và user đồng ý.
 2. **Tự động kết nối & Khởi động ETABS**:
    - Nếu ETABS chưa bật, AI hoặc user có thể gọi tool `connect_etabs` hoặc gọi trực tiếp bất kỳ tool nào (`get_etabs_context`, `execute_etabs_code`, seed tools).
-   - Bridge sẽ tự động kiểm tra ETABS đang chạy (qua `cHelper.GetObject`), nếu chưa có sẽ tự động khởi động ETABS từ đường dẫn cài đặt (`C:\Program Files\Computers and Structures\ETABS...`), khởi tạo New Blank Model với đơn vị chuẩn `kN_m_C`.
+   - Bridge sẽ tự động kiểm tra ETABS đang chạy (qua `cHelper.GetObject`), nếu chưa có sẽ tự động khởi động ETABS từ đường dẫn cài đặt (thư mục cài đặt ETABS trong Program Files), khởi tạo New Blank Model với đơn vị chuẩn `kN_m_C`.
    - Nếu muốn mở model cụ thể có sẵn: Khởi động ETABS từ shortcut và File › Open model đã lưu `.EDB` cục bộ trước khi chạy các lệnh ghi.
 3. `.mcp.json` có entry `hprebar-etabs` (exe `HPEtabs/output/HPEtabs.Mcp.Server/HPEtabs.Mcp.Server.exe`, env `HPETABS_MCP_Bridge__HostVersion=22`).
 4. Kiểm tra nhanh không side-effect: `pwsh .agents/skills/hp-mcp-etabs/scripts/check-etabs-mcp.ps1` (ETABS/bridge process, pipe, exe, `.mcp.json`).

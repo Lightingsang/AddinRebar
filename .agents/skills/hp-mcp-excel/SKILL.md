@@ -86,7 +86,7 @@ Excel.Application / ActiveWorkbook                 Direct .xlsx File I/O
    - `docTitle`, `docPath`: Tên và đường dẫn workbook đang mở.
    - `activeSheetName`: Tên sheet đang kích hoạt.
    - `selectedRange`: Vùng ô người dùng đang bôi đen.
-   - `executionEnabled`, `writeEnabled`, `destructiveEnabled`: Trạng thái 3 chốt an toàn.
+   - `executionEnabled`, `writeEnabled`, `destructiveEnabled`: Trạng thái 3 chốt kiểm soát an toàn.
 
 ---
 

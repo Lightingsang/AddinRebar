@@ -1,13 +1,9 @@
 ---
 name: hp-mcp-etabs
-description: "Kết nối và điều khiển ETABS 22 qua HPEtabs MCP (server hprebar-etabs, tool mcp__hprebar-etabs__*): đọc model (tầng, lưới, frame/area/point, vật liệu, tiết diện, tải, kết quả phản lực/nội lực/dao động), sửa model (vẽ frame, gán tiết diện, gán tải), chạy phân tích, viết C# ETABSv1 qua execute_etabs_code với tier R/W/D + snapshot .EDB, registry tool (propose/test/publish). TRIGGER when: user nhắc 'ETABS', 'etab', 'sapModel', 'ETABSv1', 'OAPI', 'hprebar-etabs', 'bridge ETABS', 'phản lực', 'nội lực', 'run analysis', 'load case/combo', 'story/tầng', 'frame section', 'kết nối ETABS', 'attach ETABS', hoặc lỗi -32001/-32003/PREVIEW/PATH từ tool ETABS. Keywords: etabs, csi, oapi, etabsv1, sapmodel, mcp, bridge, snapshot, reactions, frame forces, modal, run analysis, structural model."
-user-invocable: true
-when_to_use: "Khi cần đọc/sửa/phân tích model ETABS đang mở qua MCP, viết script ETABSv1, hoặc gỡ lỗi kết nối bridge ETABS."
-category: etabs
-keywords: [etabs, csi, oapi, etabsv1, sapmodel, mcp, bridge, snapshot, reactions, analysis, structural]
+description: "Kết nối và điều khiển ETABS 22 qua HPEtabs MCP (server hprebar-etabs, tool mcp__hprebar-etabs__*): tự động kết nối hoặc khởi động ETABS nếu chưa chạy (connect_etabs), đọc model (tầng, lưới, frame/area/point, vật liệu, tiết diện, tải, kết quả phản lực/nội lực/dao động), sửa model (vẽ frame, gán tiết diện, gán tải), chạy phân tích, viết C# ETABSv1 qua execute_etabs_code với tier R/W/D + snapshot .EDB, registry tool (propose/test/publish). TRIGGER when: user nhắc 'ETABS', 'etab', 'sapModel', 'ETABSv1', 'OAPI', 'hprebar-etabs', 'bridge ETABS', 'phản lực', 'nội lực', 'run analysis', 'load case/combo', 'story/tầng', 'frame section', 'kết nối ETABS', 'attach ETABS', hoặc lỗi -32001/-32003/PREVIEW/PATH từ tool ETABS. Keywords: etabs, csi, oapi, etabsv1, sapmodel, mcp, bridge, snapshot, reactions, frame forces, modal, run analysis, structural model. Khi cần đọc/sửa/phân tích model ETABS đang mở qua MCP, viết script ETABSv1, hoặc gỡ lỗi kết nối bridge ETABS."
 metadata:
   author: hoang
-  version: "1.0.0"
+  version: "1.1.0"
   mcp-server: hprebar-etabs
 ---
 
@@ -15,17 +11,20 @@ metadata:
 
 ## Overview
 
-Dạy Claude dùng đúng 24 tool của MCP server `hprebar-etabs` (`mcp__hprebar-etabs__*`) để làm việc với model ETABS 22 đang mở: chuỗi **Claude → HPEtabs.Mcp.Server (stdio) → pipe `hpetabs-mcp-22` → HPEtabs.McpBridge.exe (app WPF riêng, giữ COM attach) → ETABSv1 OAPI → ETABS.exe**. ETABS **không có transaction/undo** — an toàn đến từ tier R/W/D quyết định trước khi chạy + save + snapshot `.EDB` trước mọi ghi + 2 checkbox opt-in trong bridge.
+Dạy Claude dùng đúng 25 tool của MCP server `hprebar-etabs` (`mcp__hprebar-etabs__*`) để làm việc với model ETABS 22 đang mở (hoặc tự động khởi động ETABS instance mới nếu chưa chạy): chuỗi **Claude → HPEtabs.Mcp.Server (stdio) → pipe `hpetabs-mcp-22` → HPEtabs.McpBridge.exe (app WPF riêng, giữ COM attach) → ETABSv1 OAPI → ETABS.exe**. ETABS **không có transaction/undo** — an toàn đến từ tier R/W/D quyết định trước khi chạy + save + snapshot `.EDB` trước mọi ghi + 2 checkbox opt-in trong bridge (`Allow AI code execution` và `Allow destructive operations`).
 
 **Scope:** skill này xử lý *sử dụng* MCP ETABS (kết nối, chọn tool, viết script, đọc kết quả, gỡ lỗi). **Không** xử lý: sửa source `HPEtabs/` (xem `CLAUDE.md` mục "HPEtabs MCP Bridge" + `HPEtabs/README.md`), Revit/AutoCAD/Navisworks MCP (server khác), thiết kế kết cấu (kết quả trả về là số liệu, kết luận kỹ thuật thuộc kỹ sư).
 
 ## Bước 0 — Kết nối (checklist, làm theo thứ tự)
 
-1. **ETABS 22** mở từ shortcut, **rồi** File › Open model đã lưu `.EDB` cục bộ (mở bằng double-click `.EDB` hoặc ETABS chạy elevated → không đăng ký API object → bridge báo "not registered for the API in this session").
-2. **Bridge app** `HPEtabs/output/HPEtabs.McpBridge/HPEtabs.McpBridge.exe` (icon khung kết cấu + phích xanh): **Start listener** → **Attach** → tick **Allow AI code execution**. Tick **Allow destructive operations** chỉ khi cần và user đồng ý; cả 2 tắt lại mỗi lần mở app.
-3. `.mcp.json` có entry `hprebar-etabs` (exe `HPEtabs/output/HPEtabs.Mcp.Server/HPEtabs.Mcp.Server.exe`, env `HPETABS_MCP_Bridge__HostVersion=22`) — user thêm, không commit.
+1. **Bridge app** `HPEtabs/output/HPEtabs.McpBridge/HPEtabs.McpBridge.exe` (icon khung kết cấu + phích xanh): Mở ứng dụng, **Start listener**. Checkbox **AutoStart** bật mặc định (cho phép Bridge tự động attach hoặc tự động bật ETABS mới khi có lệnh). Tick **Allow AI code execution** khi cần chạy script/tool ghi. Tick **Allow destructive operations** chỉ khi cần và user đồng ý.
+2. **Tự động kết nối & Khởi động ETABS**:
+   - Nếu ETABS chưa bật, AI hoặc user có thể gọi tool `connect_etabs` hoặc gọi trực tiếp bất kỳ tool nào (`get_etabs_context`, `execute_etabs_code`, seed tools).
+   - Bridge sẽ tự động kiểm tra ETABS đang chạy (qua `cHelper.GetObject`), nếu chưa có sẽ tự động khởi động ETABS từ đường dẫn cài đặt (thư mục cài đặt ETABS trong Program Files), khởi tạo New Blank Model với đơn vị chuẩn `kN_m_C`.
+   - Nếu muốn mở model cụ thể có sẵn: Khởi động ETABS từ shortcut và File › Open model đã lưu `.EDB` cục bộ trước khi chạy các lệnh ghi.
+3. `.mcp.json` có entry `hprebar-etabs` (exe `HPEtabs/output/HPEtabs.Mcp.Server/HPEtabs.Mcp.Server.exe`, env `HPETABS_MCP_Bridge__HostVersion=22`).
 4. Kiểm tra nhanh không side-effect: `pwsh .claude/skills/hp-mcp-etabs/scripts/check-etabs-mcp.ps1` (ETABS/bridge process, pipe, exe, `.mcp.json`).
-5. Gọi `get_etabs_context` — **luôn là call đầu tiên** của phiên: `etabs.isAttached`, `docPath`, `isLocked`, `executionEnabled`, `destructiveOperationsEnabled`, counts. Không attached → hướng dẫn user bấm Attach; không có `docPath` → model chưa lưu, mọi ghi bị từ chối.
+5. Gọi `get_etabs_context` — xem thông tin phiên: `etabs.isAttached`, `docPath`, `isLocked`, `executionEnabled`, `destructiveOperationsEnabled`, counts. Nếu model chưa lưu (`docPath` trống), các tool ghi sẽ yêu cầu lưu model trước khi thực hiện snapshot.
 
 ## Workflow decision tree
 
@@ -118,6 +117,14 @@ Chi tiết: `references/troubleshooting.md`.
 - Không chạy script với `timeoutSeconds` > cần thiết; không lặp `run_analysis` để "thử".
 - Không sửa entry MCP của host khác trong `.mcp.json`, không commit `.mcp.json`. Không lộ đường dẫn máy cá nhân/secret vào tool code hay report.
 - Model thật của user: mọi ghi có snapshot nhưng **không có undo** — nếu nghi ngờ, dừng ở preview và hỏi.
+
+## Đề xuất tool — kiểm tra chất lượng code (ADR-0007)
+
+`propose_tool` chạy bộ kiểm tra chất lượng của bridge trên `code` (quy tắc: `docs/clean-code/HP_CLEAN_CODE_CORE.md` §13, phụ lục host: `docs/clean-code/host-appendix/com-standalone.md`):
+
+- **Bị từ chối (lỗi):** code bị comment lại (Q-B1), `catch` rỗng không có comment nói lý do (Q-B2), script > 300 dòng (Q-B3). Sửa code rồi `propose_tool` lại.
+- **Chỉ cảnh báo:** khối / local function > 50 dòng (Q-W1), lồng > 3 cấp (Q-W2), tên mơ hồ `data`/`tmp`/`obj`/`res`/`val`… (Q-W3), tham số `bool` trên local function (Q-W4), `catch (Exception)` nuốt lỗi — không throw, không return, không dùng `ex` (Q-W5). Nên sửa trước khi publish.
+- **`quality not analysed`:** bridge đang chạy là bản cũ, chưa có bộ kiểm tra — draft vẫn được lưu và publish vẫn được phép; ghi nhận trong báo cáo, redeploy bridge khi có thể.
 
 ## Resources
 

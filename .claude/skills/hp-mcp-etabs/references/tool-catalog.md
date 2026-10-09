@@ -1,6 +1,6 @@
-# HPEtabs MCP — tool catalog (24 tools)
+# HPEtabs MCP — tool catalog (25 tools)
 
-Generated from `tools/list` of `HPEtabs.Mcp.Server.exe` (2026-09-17) with an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-etabs__<name>` in Claude Code. `REQ` = required. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPEtabs.Mcp.Server.exe` with an isolated registry — the surface a fresh install shows. Names are `mcp__hprebar-etabs__<name>` in Claude Code. `REQ` = required. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 The engine's registry tools (`inspect_type`, `search_tools`, `propose_tool`, `test_tool`) carry host-neutral descriptions that quote Revit/AutoCAD examples. For ETABS read them as: `inspect_type.typeName` = an `ETABSv1` interface (`cSapModel`, `cFrameObj`, `cAnalysisResults`, `cAnalysisResultsSetup`, `cPropFrame`…); `category` ∈ Model | Geometry | Property | Load | Analysis | Results | Table | Data | Generic; `transaction` `manual` ≡ `auto`; `test_tool` dryRun on a W/D tool is a static preview (0 passed) — `realRun=true` on a throw-away model only; the CLI is `HPEtabs.Mcp.Server.exe registry …`. One stale phrase in `execute_etabs_code.dryRun` ("Refused for destructive members"): the bridge (`EtabsExecutor.cs`, preview check **before** the opt-in check) answers a static `PREVIEW` for a D script under `dryRun`/`none` with no opt-in needed — only the real run needs "Allow destructive operations".
 
@@ -42,6 +42,12 @@ Result shape of every run (`execute_etabs_code`, `run_tool`, seeds): `{isError, 
 ### `cancel_execution` — Cancel running script
 
 *idempotent.* Signals cancellation to the script currently running in the host application. Cancellation is cooperative: the script stops at its next `ct` check, and its transaction group is rolled back. Returns whether anything was running.
+
+_No arguments._
+
+### `connect_etabs` — Connect or launch ETABS
+
+*idempotent.* Verifies active connection to ETABS. If not connected, attempts to attach to a running ETABS instance. If no instance is running and auto-start is enabled, launches a new ETABS instance automatically, initializes a blank model with kN_m_C units, and returns connection status details (State: `already_connected`, `attached_existing`, `started_new`, or `failed`).
 
 _No arguments._
 
