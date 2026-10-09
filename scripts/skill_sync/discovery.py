@@ -102,7 +102,9 @@ def discover(root: Path, provider: str) -> ScanResult:
                 continue
             if any(other != bundle_root and _resolved_contained(resolved_path, other) for other in skill_roots):
                 continue
-            relative = path.relative_to(bundle_root).as_posix()
+            # Both sides resolved: on Windows the provider root can arrive as an
+            # 8.3 short path (C:\Users\ABC~1) while bundle_root is the long form.
+            relative = resolved_path.relative_to(bundle_root).as_posix()
             content = path.read_bytes()
             contents.append(FileState(relative, content, _hash(content)))
         bundles[logical_id] = SkillBundle(logical_id, provider, bundle_root, bundle_root.relative_to(root.resolve()).as_posix(), tuple(contents))
