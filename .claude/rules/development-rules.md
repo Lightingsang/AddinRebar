@@ -46,7 +46,7 @@
 - KHÔNG set `DataContext` trong XAML.
 - Mọi style XAML dùng `{DynamicResource ...}` — không `StaticResource` cho color/brush (hỗ trợ đổi Dark/Light qua `MaterialThemeBridge`).
 - **Font**: Bắt buộc override `<FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>` (cấm dùng font Roboto mặc định của toolkit để tránh lỗi resolve Pack URI sau ILRepack).
-- **Control Layout**: Dùng `md:Card` / `Card.Panel` phân tầng (elevation); Input controls dùng Outlined với `md:HintAssist.Hint`; Icon dùng `md:PackIcon`; Phân cấp Button (Raised Primary, Outlined Secondary, IconButton).
+- **Control Layout**: XAML mới gọi thẳng style của toolkit, màu riêng lấy từ token HP `{DynamicResource Brush.*}`: `md:Card` phân tầng (elevation); Input `MaterialDesignOutlinedTextBox` / `MaterialDesignOutlinedComboBox` với `md:HintAssist.Hint`; Icon `md:PackIcon`; Button `MaterialDesignRaisedButton` (chính) / `MaterialDesignOutlinedButton` (phụ) / `MaterialDesignIconButton`. Key HP cũ (`PrimaryButton`, `StandardTextBox`, `Card`, `Card.Panel`…) chỉ giữ trong file đang dùng chúng — xem `/bs:revit-xaml-styles` mục 2b.
 - **Packaging**: Bắt buộc cấu hình `<IsRepackable>true</IsRepackable>` (Nice3point SDK) hoặc MSBuild target merge `MaterialDesignThemes.Wpf.dll` & `MaterialDesignColors.dll` (AutoCAD/Standalone) để không thiếu DLL lúc runtime.
 - Modal: set `Owner = UiApplication.MainWindowHandle` qua `WindowInteropHelper` (Revit) hoặc `ShowModalWindow(MainWindow.Handle, window, false)` (AutoCAD).
 - Modeless: dùng `ExternalEvent` để gọi Revit API từ ViewModel.

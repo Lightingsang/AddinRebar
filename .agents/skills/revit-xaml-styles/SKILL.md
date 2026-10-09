@@ -1,13 +1,9 @@
 ---
 name: revit-xaml-styles
-description: "Chuẩn hóa XAML styles và Material Design cho mọi Add-In WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) — BẮT BUỘC sử dụng MaterialDesignInXamlToolkit (v5.2.1 hoặc v5.3.2). Bao gồm MaterialBridge.xaml, Theme.xaml, MaterialThemeBridge.cs (switch Dark/Light runtime theo host), font Segoe UI (cấm Roboto), md:Card, Outlined inputs, md:PackIcon, phân cấp Button và cấu hình ILRepack. TRIGGER when: tạo/sửa file .xaml, task chứa 'style', 'theme', 'material design', 'wpf', 'button style', 'dark mode', hoặc khi xây dựng một addin/window WPF mới."
-user-invocable: true
-when_to_use: "Khi bắt đầu một add-in mới có UI WPF, hoặc khi tạo/sửa đổi cửa sổ Window, UserControl, style XAML trong toàn bộ repo."
-category: revit
-keywords: [xaml, wpf, style, theme, material-design, materialdesigninxamltoolkit, resourcedictionary, dark, light, dynamicresource, packicon, ilrepack]
+description: "Chuẩn hóa XAML styles và Material Design cho mọi Add-In WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) — BẮT BUỘC sử dụng MaterialDesignInXamlToolkit (v5.2.1 hoặc v5.3.2). Bao gồm MaterialBridge.xaml, Theme.xaml, MaterialThemeBridge.cs (switch Dark/Light runtime theo host), font Segoe UI (cấm Roboto), md:Card, Outlined inputs, md:PackIcon, phân cấp Button và cấu hình ILRepack. TRIGGER when: tạo/sửa file .xaml, task chứa 'style', 'theme', 'material design', 'wpf', 'button style', 'dark mode', hoặc khi xây dựng một addin/window WPF mới. Khi bắt đầu một add-in mới có UI WPF, hoặc khi tạo/sửa đổi cửa sổ Window, UserControl, style XAML trong toàn bộ repo. Keywords: xaml, wpf, style, theme, material-design, materialdesigninxamltoolkit, resourcedictionary, dark, light, dynamicresource, packicon, ilrepack."
 metadata:
   author: hoang
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 <!-- portable-host-contract:start -->
@@ -74,27 +70,34 @@ Toàn bộ cửa sổ và điều khiển phải sử dụng font hệ thống c
 - Mọi thuộc tính màu sắc phải bind qua `{DynamicResource Brush.Background}`, `{DynamicResource Brush.Surface}`, `{DynamicResource Brush.Foreground.Primary}`, `{DynamicResource Brush.Accent}`.
 - Trong code-behind của Window, kết nối với phần mềm chủ qua `MaterialThemeBridge.Attach(this, hostTheme)` hoặc `MaterialThemeBridge.Apply(this, isDark)`.
 
-### 4. Bố cục Card phân tầng (`md:Card` / `Card.Panel`)
+> **Hai lớp, không trộn:** *style* của control lấy thẳng từ toolkit (`MaterialDesign*`, `md:*`); *màu* riêng (khi cần set `Background`/`Foreground`/`BorderBrush`) lấy từ token HP `{DynamicResource Brush.*}`. Toolkit đã được `MaterialThemeBridge` tô theo palette HP, nên không cần — và không được — định nghĩa style bọc lại (`PrimaryButton`, `Card.Panel`…) cho code mới. Mọi key `MaterialDesign*` dưới đây đã được đối chiếu với `MaterialDesignThemes.Wpf.dll` 5.3.2; key không có trong danh sách này phải được kiểm tra trong DLL trước khi dùng (tên MD3 ≠ MD2).
+
+### 4. Bố cục Card phân tầng (`md:Card`)
 - Không để các trường nhập liệu trôi nổi trên nền phẳng không phân cách.
-- Gom nhóm các nhóm tính năng hoặc section vào các khối Card với độ sâu (elevation):
+- Gom nhóm các nhóm tính năng hoặc section vào `md:Card` (độ sâu qua `md:ElevationAssist.Elevation`):
 ```xml
-<Border Style="{StaticResource Card.Panel}" Margin="{DynamicResource Margin.Section}">
+<md:Card Padding="12" Margin="0,0,0,16" UniformCornerRadius="4" md:ElevationAssist.Elevation="Dp2">
     <StackPanel>
         <!-- Tiêu đề Section có Icon -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
             <md:PackIcon Kind="MapMarkerRadiusOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
-            <TextBlock Text="Hệ tọa độ VN-2000" Style="{StaticResource Text.Section}" Margin="8,0,0,0"/>
+            <TextBlock Text="Hệ tọa độ VN-2000" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="8,0,0,0"/>
         </StackPanel>
         <!-- Nội dung control -->
     </StackPanel>
-</Border>
+</md:Card>
 ```
+- Chữ: `MaterialDesignHeadline6TextBlock` (tiêu đề cửa sổ), `MaterialDesignSubtitle1TextBlock` / `MaterialDesignSubtitle2TextBlock` (tiêu đề section), `MaterialDesignBody1TextBlock` / `MaterialDesignBody2TextBlock` (nội dung), `MaterialDesignCaptionTextBlock` (ghi chú). Font vẫn là Segoe UI nhờ override `MaterialDesignFont`.
+- Đường phân cách: `<Separator Style="{StaticResource MaterialDesignLightSeparator}"/>`.
 
 ### 5. Input Controls: Dạng Outlined có Floating Hint
-Mọi `TextBox` và `ComboBox` nên kế thừa style Outlined để có giao diện hiện đại, rõ ràng:
-- `Style="{StaticResource MaterialDesignOutlinedTextBox}"` hoặc `Style="{StaticResource StandardTextBox}"`
-- `Style="{StaticResource MaterialDesignOutlinedComboBox}"` hoặc `Style="{StaticResource StandardComboBox}"`
-- Sử dụng thuộc tính `md:HintAssist.Hint="Tên trường..."` để nhãn tự động nổi lên trên viền khi người dùng focus hoặc có dữ liệu.
+Mọi `TextBox` / `ComboBox` / `PasswordBox` / `DatePicker` dùng style Outlined của toolkit:
+- `Style="{StaticResource MaterialDesignOutlinedTextBox}"`
+- `Style="{StaticResource MaterialDesignOutlinedComboBox}"`
+- `Style="{StaticResource MaterialDesignOutlinedPasswordBox}"`, `Style="{StaticResource MaterialDesignOutlinedDatePicker}"`
+- Ô nhập số: `MaterialDesignOutlinedTextBox` + `HorizontalContentAlignment="Right"` (validation trong ViewModel).
+- Sử dụng thuộc tính `md:HintAssist.Hint="Tên trường..."` để nhãn tự động nổi lên trên viền khi người dùng focus hoặc có dữ liệu; đơn vị đặt bằng `md:TextFieldAssist.SuffixText="mm"`.
+- CheckBox / công tắc / bảng: `MaterialDesignCheckBox`, `MaterialDesignSwitchToggleButton`, `MaterialDesignDataGrid`.
 
 ### 6. Biểu tượng chuẩn: `md:PackIcon`
 - Sử dụng trực tiếp `xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"` và `<md:PackIcon Kind="..." Width="16" Height="16"/>`.
@@ -105,10 +108,28 @@ Mọi `TextBox` và `ComboBox` nên kế thừa style Outlined để có giao di
 
 ### 7. Phân cấp Button (Tiered Action Buttons)
 Không đặt các nút bấm ngang hàng bằng một kiểu giống nhau. Phân cấp rõ rệt:
-- **Primary Action (CTA chính)**: Dùng `Style="{StaticResource PrimaryButton}"` (dựa trên `MaterialDesignRaisedButton`) với màu Accent nổi bật. Ví dụ: *Chạy phân tích, Xuất KMZ, Vẽ dầm*.
-- **Secondary Action (Hành động phụ)**: Dùng `Style="{StaticResource SecondaryButton}"` (dựa trên `MaterialDesignOutlinedButton`). Ví dụ: *Đóng, Hủy, Xem trước, Copy*.
-- **Danger Action**: Dùng `Style="{StaticResource DangerButton}"` (màu đỏ) cho thao tác xóa dữ liệu, rollback không thể hoàn tác.
-- **Quick / Inline Action**: Dùng `Style="{StaticResource IconButton}"` (nút icon vuông 32×32 bo tròn không viền).
+- **Primary Action (CTA chính)**: `Style="{StaticResource MaterialDesignRaisedButton}"` (màu Primary = accent HP). Ví dụ: *Chạy phân tích, Xuất KMZ, Vẽ dầm*.
+- **Secondary Action (Hành động phụ)**: `Style="{StaticResource MaterialDesignOutlinedButton}"`. Ví dụ: *Đóng, Hủy, Xem trước, Copy*.
+- **Danger Action**: `Style="{StaticResource MaterialDesignRaisedButton}"` + `Background="{DynamicResource Brush.Danger}"` + `BorderBrush="{DynamicResource Brush.Danger}"` cho thao tác xóa dữ liệu, rollback không thể hoàn tác.
+- **Text / Link Action**: `Style="{StaticResource MaterialDesignFlatButton}"`.
+- **Quick / Inline Action**: `Style="{StaticResource MaterialDesignIconButton}"` (nút tròn chỉ có `md:PackIcon`); trong thanh công cụ dày đặc dùng `MaterialDesignToolButton`.
+
+---
+
+## 2b. Project đã có key HP riêng (legacy)
+
+Các key `PrimaryButton`, `SecondaryButton`, `DangerButton`, `IconButton`, `LinkButton`, `StandardTextBox`, `NumberTextBox`, `SearchTextBox`, `StandardComboBox`, `Card`, `Card.Panel`, `Heading`, `Text.Section` là style HP cũ (phần lớn bọc lại style toolkit). Chúng **không dùng cho XAML mới** và **không được thêm vào boilerplate**.
+
+| Nơi | Key HP đang có |
+|---|---|
+| `HPRebar/HPRebar/Resources/Themes/` | `Card` (Controls.xaml), `Heading`… (Typography.xaml), `PrimaryButton`/`SecondaryButton`/`StandardTextBox`/`NumberTextBox`… (MaterialBridge.xaml) |
+| `HPAutoCad/HPAutoCad/Resources/Themes/Theme.xaml` (HPGeoLink) | `Card.Panel`, `Text.Section`, `Margin.Section`, `StandardTextBox`, `StandardComboBox` |
+| `<Host>.McpBridge/Resources/Themes/` (AutoCAD, Civil 3D, ETABS, Excel, Power BI, Robot, SAP2000, Tekla, Navisworks) | `Card`, `PrimaryButton`, `StandardTextBox`… |
+
+Quy tắc khi sửa XAML có sẵn:
+- Một file XAML đang dùng key HP → sửa nhỏ thì giữ kiểu của file đó; **không trộn** key HP và key toolkit cho cùng loại control trong một file.
+- Viết file XAML mới (window, tab, UserControl) → dùng key toolkit theo mục 4–7, kể cả khi project đó đã có key HP.
+- Chuyển một project cũ sang key toolkit là refactor UI riêng (plan + duyệt riêng, chạy lại theme gallery / harness của host), không làm kèm feature.
 
 ---
 
@@ -124,7 +145,8 @@ Do add-in chạy chung tiến trình với CAD/BIM host (Revit, AutoCAD, Civil 3
 ## 4. Danh mục File mẫu sẵn sàng sử dụng (Boilerplates)
 
 Khi tạo một add-in mới, copy trực tiếp từ thư mục `references/boilerplate/`:
-1. [MaterialBridge.xaml](references/boilerplate/MaterialBridge.xaml): File cầu nối XAML định nghĩa font Segoe UI và các style nút, textbox, combobox, card.
+1. [MaterialBridge.xaml](references/boilerplate/MaterialBridge.xaml): File cầu nối XAML chỉ gồm `CustomColorTheme`, `MaterialDesign2.Defaults.xaml` và override font Segoe UI — không định nghĩa style bọc lại.
+5. [controls-sample.md](references/styles/controls-sample.md): Mẫu một cửa sổ dùng key toolkit + token `Brush.*`.
 2. [Theme.xaml](references/boilerplate/Theme.xaml): File Master ResourceDictionary gộp các theme.
 3. [MaterialThemeBridge.cs](references/boilerplate/MaterialThemeBridge.cs): Code C# quản lý gắn theme và tráo đổi DynamicResource an toàn đa ALC.
 4. [packaging-csproj.md](references/boilerplate/packaging-csproj.md): Mẫu cấu hình file `.csproj` để build và ILRepack không lỗi.
@@ -136,8 +158,9 @@ Khi tạo một add-in mới, copy trực tiếp từ thư mục `references/boi
 - [ ] Window đã merge `Theme.xaml` ở thẻ gốc.
 - [ ] Font chữ toàn bộ là `Segoe UI`, không xuất hiện tham chiếu `Roboto` hay `{md:MaterialDesignFont}`.
 - [ ] 100% mã màu/brush dùng `{DynamicResource ...}`, không có mã màu HEX hardcode trong XAML (trừ icon vector trắng cố định hoặc trường hợp đặc biệt).
-- [ ] Các input controls có floating hint rõ ràng (`md:HintAssist.Hint`).
-- [ ] Bố cục giao diện sử dụng Card (`md:Card` hoặc `Card.Panel`) phân vùng trực quan.
-- [ ] Nút bấm có phân cấp rõ rệt (Raised Primary cho hành động chính, Outlined Secondary cho hành động phụ).
+- [ ] Các input controls dùng style Outlined của toolkit và có floating hint rõ ràng (`md:HintAssist.Hint`).
+- [ ] Bố cục giao diện sử dụng `md:Card` phân vùng trực quan.
+- [ ] Nút bấm có phân cấp rõ rệt (`MaterialDesignRaisedButton` cho hành động chính, `MaterialDesignOutlinedButton` cho hành động phụ).
+- [ ] XAML mới không dùng key HP legacy (mục 2b); mọi key `MaterialDesign*` có trong `MaterialDesignThemes.Wpf.dll` 5.3.2.
 - [ ] Cửa sổ đã test hiển thị tốt trên cả 2 giao diện: Dark Mode và Light Mode.
 - [ ] Build thành công và ILRepack gộp sạch `MaterialDesignThemes.Wpf.dll`.
