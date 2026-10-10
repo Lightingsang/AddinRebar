@@ -13,6 +13,10 @@
          ../McpShared/HPRebar.Mcp.Contracts
          ../McpShared/HPRebar.McpBridge.Core   (net48 asset)
          ../McpShared/HPRebar.Mcp.Server.Core  (server) -->
+  <!-- BIM coordination engine (clash matrix → search sets → clash tests), loaded by the bridge and called by the
+       Coordination seeds; pure layers tested by HPNavis.BIMCoordinator.Tests. -->
+  <Project Path="HPNavis.BIMCoordinator/HPNavis.BIMCoordinator.csproj" />
+  <Project Path="HPNavis.BIMCoordinator.Tests/HPNavis.BIMCoordinator.Tests.csproj" />
   <Project Path="HPNavis.McpBridge/HPNavis.McpBridge.csproj" />
   <Project Path="HPNavis.McpBridge.Tests/HPNavis.McpBridge.Tests.csproj" />
   <Project Path="HPNavis.Mcp.Server/HPNavis.Mcp.Server.csproj" />

@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Three canaries at LOD350",
+    "args": {
+      "lod": "350"
+    }
+  },
+  {
+    "title": "One chosen rule",
+    "args": {
+      "lod": "350",
+      "ruleIds": [
+        "HP_M2_S5"
+      ]
+    }
+  }
+]

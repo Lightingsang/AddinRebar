@@ -19,14 +19,15 @@ public sealed class SeedLibraryCompileTests
     public static IEnumerable<object[]> Seeds() => SeedSources.All().Select(s => new object[] { s.Key });
 
     [Fact]
-    public void All_twelve_seeds_are_present_in_the_source_tree()
+    public void All_eighteen_seeds_are_present_in_the_source_tree()
     {
         var keys = SeedSources.All().Select(s => s.Key).ToArray();
 
-        Assert.Equal(12, keys.Length);
+        Assert.Equal(18, keys.Length);
         Assert.Contains("Clash/create_and_run_clash_test", keys);
         Assert.Contains("Search/find_items_by_property", keys);
         Assert.Contains("Report/summarize_by_category", keys);
+        Assert.Contains("Coordination/bim_sync_clash_tests", keys);
     }
 
     [Theory]
@@ -68,11 +69,11 @@ public sealed class SeedLibraryCompileTests
     }
 
     [Fact]
-    public void Exactly_one_seed_is_heavy_and_it_is_the_clash_run()
+    public void Only_the_two_clash_runs_are_heavy()
     {
         var heavy = SeedSources.All().Where(s => s.Tags.Contains("heavy")).Select(s => s.Key).ToArray();
 
-        Assert.Equal(["Clash/create_and_run_clash_test"], heavy);
+        Assert.Equal(["Clash/create_and_run_clash_test", "Coordination/bim_run_canary_tests"], heavy.OrderBy(k => k, StringComparer.Ordinal).ToArray());
     }
 
     [Theory]

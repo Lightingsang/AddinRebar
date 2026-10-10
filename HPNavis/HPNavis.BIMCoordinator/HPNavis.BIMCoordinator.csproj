@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Loaded by the bridge inside Roamer.exe (.NET Framework 4.8) and referenced by the script compiler, so the
+             BIM-coordination seeds can call it. Pure layers (Rules/, SearchSets/*Plan, ClashTests/*Planner) never touch
+             a Navisworks type and are unit-tested without Navisworks; the Navis* classes are the adapters. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPNavis.BIMCoordinator</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Autodesk.Navisworks.Api"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Api.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Autodesk.Navisworks.Clash"><HintPath>$(NavisworksInstallDir)Autodesk.Navisworks.Clash.dll</HintPath><Private>false</Private></Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Same version the shared contracts already ship to the plugin folder; nothing new reaches Roamer. -->
+        <PackageReference Include="System.Text.Json" Version="10.0.12"/>
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The company matrix (generated from the workbook by tools/bim-coordinator/generate-clash-matrix.py) and the
+             base search-set definitions travel inside the assembly: no file read at run time. -->
+        <EmbeddedResource Include="Rules\hp-clash-matrix.json" LogicalName="HPNavis.BIMCoordinator.hp-clash-matrix.json"/>
+        <EmbeddedResource Include="SearchSets\hp-base-sets.json" LogicalName="HPNavis.BIMCoordinator.hp-base-sets.json"/>
+    </ItemGroup>
+
+    <Target Name="RequireNavisworksApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NavisworksApiAvailable)' != 'true'">
+        <Error Text="Navisworks Manage $(NavisworksYear) API not found at '$(NavisworksInstallDir)'. Pass -p:NavisworksInstallDir=&lt;dir&gt; or set HPNAVIS_NAVISWORKS_DIR."/>
+    </Target>
+
+</Project>

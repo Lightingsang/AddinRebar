@@ -22,6 +22,7 @@ public static class PluginAssemblyResolver
         "System.Text.Encoding.CodePages", "System.Text.Json", "System.Text.Encodings.Web", "Microsoft.Bcl.AsyncInterfaces",
         "System.IO.Pipelines", "System.Threading.Channels", "System.Diagnostics.DiagnosticSource", "System.ComponentModel.Annotations",
         "HPRebar.Mcp.Contracts", "HPRebar.McpBridge.Core", "CommunityToolkit.Mvvm", "Serilog", "Serilog.Sinks.File",
+        "HPNavis.BIMCoordinator",
     };
 
     private static readonly List<string> Resolved = new();

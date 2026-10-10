@@ -1,0 +1,36 @@
+{
+  "name": "bim_probe_disciplines",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "none",
+  "timeoutSeconds": 120,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "search-sets",
+    "review"
+  ],
+  "title": "Probe disciplines for the HP clash matrix",
+  "description": "Read-only survey the HP clash matrix depends on, run before bim_sync_search_sets: every appended file with its ISO 19650 role code (AA = ARC, ES = STR, EC/EE/EF/EP = MEP) and discipline, whether the Item > Source File and Element > Category properties exist under the internal names the base sets use, and the Revit categories each discipline really contains with counts. Warnings list files with no known role and base sets (A1..A9, S1..S5, M1..M7) whose categories occur nowhere in their discipline.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "maxItemsPerDiscipline": {
+        "type": "integer",
+        "default": 200000,
+        "minimum": 1,
+        "maximum": 500000,
+        "description": "Stop counting categories of a discipline after this many elements (truncated is reported)"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.ProbeModel (engine shipped beside the bridge). Role codes and categories come from the engine's embedded hp-base-sets.json."
+}

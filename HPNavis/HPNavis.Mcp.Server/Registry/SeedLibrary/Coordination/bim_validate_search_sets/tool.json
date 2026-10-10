@@ -1,0 +1,38 @@
+{
+  "name": "bim_validate_search_sets",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "none",
+  "timeoutSeconds": 120,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "search-sets",
+    "validation",
+    "review"
+  ],
+  "title": "Validate the HP search sets",
+  "description": "Read-only acceptance check of the HP search-set registry against the open model. scope=base (default): the 21 base sets as Navisworks resolves the saved sets (count per set), sets missing from the document or whose saved search differs from the registry, empty sets, elements whose Revit category or source-file discipline is not the set's, elements in two base sets, and every Revit element no base set takes (gaps by discipline|category). scope=extras: detail and auxiliary sets, detail sets leaving their parent or overlapping inside one folder, and parent elements no detail covers. Issues are error / warning / info. About a minute per scope on a 95 MB model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "scope": {
+        "type": "string",
+        "enum": [
+          "base",
+          "extras"
+        ],
+        "default": "base",
+        "description": "base = the 21 matrix sets + gaps; extras = detail and auxiliary sets"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.ValidateSearchSets. Membership uses ModelItem value equality; each set is evaluated once through the saved set (the registry search only when they differ)."
+}

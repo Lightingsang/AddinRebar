@@ -1,0 +1,53 @@
+{
+  "name": "bim_run_canary_tests",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "auto",
+  "timeoutSeconds": 600,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "clash",
+    "heavy"
+  ],
+  "title": "Run canary tests of the HP clash matrix",
+  "description": "HEAVY: runs a few of the HP clash-matrix tests written by bim_sync_clash_tests to prove they catch real clashes before the BIM coordinator runs them all (Clash Detective > Run All). Default picks up to 3 up-to-date tests with non-empty sets, HIGH priority first, one per discipline pair (ARC-STR, MEP-STR, ARC-MEP...); ruleIds picks them explicitly. Needs 'Allow heavy operations' ticked in the bridge window; a run cannot be interrupted or undone and may take minutes — save the file first. Returns each test's result counts by status and its run time; compare with a manual Run of the same test.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "lod": {
+        "type": "string",
+        "enum": [
+          "200",
+          "300",
+          "350"
+        ],
+        "default": "350",
+        "description": "LOD whose tests to run"
+      },
+      "count": {
+        "type": "integer",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 5,
+        "description": "How many canaries when ruleIds is empty"
+      },
+      "ruleIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Run exactly these rules' tests, e.g. [\"HP_M2_S5\"]; each must be up to date with non-empty sets"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Picks tests via HPNavis.BIMCoordinator.CoordinatorTools.CanaryTestNames; runs them here with DocumentClashTests.TestsRunTest (so the bridge's heavy gate sees the call), resolving each test by name right before its run because a run disposes the wrapper handed to it."
+}

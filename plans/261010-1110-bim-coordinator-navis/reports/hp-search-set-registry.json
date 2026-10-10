@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "rolesNote": "Role codes seen in THCSLT and THBB2 file names. Add a project's other codes here; single-letter codes (A, S, M, E, P) are avoided because the source-file wildcard *-X-????* would also match a one-letter volume code.",
+  "folder": "HP BIMCoordinator",
+  "disciplineFolders": { "ARC": "Architecture", "STR": "Structure", "MEP": "MEP" },
+  "properties": {
+    "sourceFile": { "category": "LcOaNode", "property": "LcOaNodeSourceFile", "categoryDisplay": "Item", "propertyDisplay": "Source File" },
+    "category": { "category": "LcRevitData_Element", "property": "LcRevitPropertyElementCategory", "categoryDisplay": "Element", "propertyDisplay": "Category" },
+    "structural": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1001954", "categoryDisplay": "Element", "propertyDisplay": "Structural" },
+    "systemClassification": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1140325", "categoryDisplay": "Element", "propertyDisplay": "System Classification" },
+    "diameter": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1140225", "categoryDisplay": "Element", "propertyDisplay": "Diameter" }
+  },
+  "disciplineRoles": {
+    "ARC": [ "AA" ],
+    "STR": [ "ES" ],
+    "MEP": [ "EC", "EE", "EF", "EP" ]
+  },
+  "sets": [
+    { "code": "A1", "name": "Furniture", "categories": [ "Furniture", "Furniture Systems", "Casework" ], "evidence": "legacy ARC-Furnitures (Furniture); Furniture Systems and Casework are the other Revit furniture categories (none in THCSLT)" },
+    { "code": "A2", "name": "Ceilings", "categories": [ "Ceilings" ], "evidence": "legacy ARC-Ceilings" },
+    { "code": "A3", "name": "Architectural Columns", "categories": [ "Columns" ], "evidence": "legacy ARC-Columns" },
+    { "code": "A4", "name": "Curtain Walls", "categories": [ "Curtain Panels", "Curtain Wall Mullions", "Curtain Systems" ], "evidence": "legacy ARC-CurtainWalls (Category like Curtain*)" },
+    { "code": "A5", "name": "Doors", "categories": [ "Doors" ], "evidence": "legacy ARC-Doors" },
+    { "code": "A6", "name": "Architectural Floors", "categories": [ "Floors" ], "conditions": [ { "property": "structural", "op": "notEquals", "type": "bool", "value": "true" } ], "evidence": "legacy ARC-Floors (Structural = false); live: 20 ARC floors lack the parameter, so the condition is Structural <> true" },
+    { "code": "A7", "name": "Stairs and Railings", "categories": [ "Stairs", "Railings", "Top Rails", "Handrails", "Supports", "Ramps" ], "evidence": "legacy ARC-Stair&Railings (Stairs OR Railings); live railing sub-categories Top Rails 244, Handrails 25, Supports 338, Ramps 2" },
+    { "code": "A8", "name": "Architectural Walls", "categories": [ "Walls" ], "evidence": "legacy ARC-Walls; Structural absent on every wall (live), so ARC/STR walls are split by source file only" },
+    { "code": "A9", "name": "Windows", "categories": [ "Windows" ], "evidence": "legacy ARC-Windows" },
+    { "code": "S1", "name": "Foundations", "categories": [ "Structural Foundations" ], "evidence": "legacy STR-Foundations" },
+    { "code": "S2", "name": "Structural Walls", "categories": [ "Walls" ], "evidence": "legacy STR-Walls (Structural = true) — parameter absent on all walls (live), so source file ES only" },
+    { "code": "S3", "name": "Structural Columns", "categories": [ "Structural Columns" ], "evidence": "legacy STR-Columns" },
+    { "code": "S4", "name": "Structural Floors", "categories": [ "Floors" ], "evidence": "legacy STR-Floors; live ES floors: 114 Structural = true, 54 without the parameter — all kept" },
+    { "code": "S5", "name": "Structural Framing", "categories": [ "Structural Framing" ], "evidence": "legacy STR-Framings" },
+    { "code": "M1", "name": "Air Terminals", "categories": [ "Air Terminals" ], "evidence": "missing in legacy (audit F01); Revit category Air Terminals" },
+    { "code": "M2", "name": "Cable Ladders and Trays", "categories": [ "Cable Trays", "Cable Tray Fittings" ], "evidence": "legacy ELEC-CableTrays" },
+    { "code": "M3", "name": "Ducts and Duct Accessories", "categories": [ "Ducts", "Duct Fittings", "Duct Accessories" ], "evidence": "missing in legacy (audit F01); flex ducts excluded (RuleClash methodology note 3)" },
+    { "code": "M4", "name": "Pipes and Pipe Accessories", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories", "Fire Protection", "Sprinklers" ], "evidence": "legacy FIRE-Pipe/PipeFittings/PipeAccessories/ProtectionDevices + PLB pipes/fittings (legacy fire and plumbing tests); flex pipes excluded (methodology note 3); Sprinklers added as fire-pipe accessories — BIM lead to confirm" },
+    { "code": "M5", "name": "Electrical Distribution and Accessories", "categories": [ "Electrical Equipment", "Electrical Fixtures", "Communication Devices", "Audio Visual Devices", "Data Devices", "Security Devices", "Lighting Devices", "Fire Alarm Devices", "Conduits", "Conduit Fittings" ], "evidence": "legacy EDE tests (ELEC Communication+AV, Conduit*, Data, ElectricalEquipments without Mechanical Equipment, ElectricalFixtures, LightingDevices, SecurityDevices); Fire Alarm Devices moved from the fire group — BIM lead to confirm" },
+    { "code": "M6", "name": "HVAC Equipment", "categories": [ "Mechanical Equipment" ], "evidence": "split out of legacy ELEC-ElectricalEquipments (audit F07); live: 48 wall AC units / heaters in the EE file" },
+    { "code": "M7", "name": "Lighting Fixtures and Accessories", "categories": [ "Lighting Fixtures" ], "evidence": "legacy ELEC-LightingFixtures (the only set of the legacy Lighting Fixtures & Accessories tests)" }
+  ],
+  "details": [
+    { "code": "M2.1", "parent": "M2", "folder": "MEP/Details/M2 Cable trays by model", "name": "Cable trays - EC model", "discipline": "MEP", "roles": [ "EC" ], "categories": [ "Cable Trays", "Cable Tray Fittings" ], "evidence": "live: 41 trays/fittings in the EC (ELV) file" },
+    { "code": "M2.2", "parent": "M2", "folder": "MEP/Details/M2 Cable trays by model", "name": "Cable trays - EE model", "discipline": "MEP", "roles": [ "EE" ], "categories": [ "Cable Trays", "Cable Tray Fittings" ], "evidence": "live: 92 trays/fittings in the EE (power) file" },
+    { "code": "M2.3", "parent": "M2", "folder": "MEP/Details/M2 Cable trays by model", "name": "Cable trays - EF model", "discipline": "MEP", "roles": [ "EF" ], "categories": [ "Cable Trays", "Cable Tray Fittings" ], "evidence": "live: 1 tray in the EF file" },
+    { "code": "M4.1", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Fire Protection Wet", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Fire Protection Wet" } ], "evidence": "legacy FIRE-Pipe/PipeFittings; live systems CC TRONG NHÀ, CC NGOÀI NHÀ" },
+    { "code": "M4.2", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Domestic Cold Water", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Domestic Cold Water" } ], "evidence": "legacy PLB-SupplyColdWater; live systems CNL, CN-L" },
+    { "code": "M4.3", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Domestic Hot Water", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Domestic Hot Water" } ], "evidence": "legacy PLB-SupplyHotWater (none in THCSLT)" },
+    { "code": "M4.4", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Sanitary", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Sanitary" } ], "evidence": "legacy PLB-DrainageSanitary; live systems SH, TP, TN(BM), TNT" },
+    { "code": "M4.5", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Vent", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Vent" } ], "evidence": "legacy PLB-DrainageSanitaryVent; live system TH" },
+    { "code": "M4.6", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Other (rain water)", "discipline": "MEP", "categories": [ "Pipes", "Pipe Fittings", "Pipe Accessories" ], "conditions": [ { "property": "systemClassification", "op": "equals", "value": "Other" } ], "evidence": "legacy PLB-DrainageRainWater (Other); live: every Other pipe has System Type TNM" },
+    { "code": "M4.7", "parent": "M4", "folder": "MEP/Details/M4 Pipes by system", "name": "Fire devices and sprinklers", "discipline": "MEP", "categories": [ "Fire Protection", "Sprinklers" ], "evidence": "legacy FIRE-ProtectionDevices; Sprinklers per SearchSets(HP) Fire list" },
+    { "code": "M4.9", "parent": "M4", "folder": "MEP/Details/M4 Clash scope", "name": "Clash scope - pipes D >= 32 mm", "discipline": "MEP", "categories": [ "Pipes" ], "conditions": [ { "property": "diameter", "op": "atLeast", "type": "lengthMm", "value": "32" } ], "alsoCategories": [ "Pipe Fittings", "Pipe Accessories", "Fire Protection", "Sprinklers" ], "evidence": "RuleClash(HP) methodology note 3: no clash for pipes D < 32 mm (live: 1 479 of 5 972 pipes); fittings and accessories are not filtered by size" }
+  ],
+  "auxiliary": [
+    { "code": "X.1", "folder": "Not in matrix", "name": "MEP plumbing fixtures and equipment", "discipline": "MEP", "categories": [ "Plumbing Fixtures", "Plumbing Equipment" ], "evidence": "legacy PLB-PlungbingFixtures; no RuleClash(HP) group" },
+    { "code": "X.2", "folder": "Not in matrix", "name": "ARC plumbing fixtures and sprinklers", "discipline": "ARC", "categories": [ "Plumbing Fixtures", "Plumbing Equipment", "Sprinklers" ], "evidence": "live: modelled in the ARC file (927 + 5 + 198)" },
+    { "code": "X.3", "folder": "Not in matrix", "name": "ARC structural elements", "discipline": "ARC", "categories": [ "Structural Columns", "Structural Framing", "Structural Connections", "Structural Foundations" ], "evidence": "live: structural categories in the ARC file (132 + 29 + 118) — outside S1..S5, which take the ES file only" },
+    { "code": "X.4", "folder": "Not in matrix", "name": "ARC floors flagged structural", "discipline": "ARC", "categories": [ "Floors" ], "conditions": [ { "property": "structural", "op": "equals", "type": "bool", "value": "true" } ], "evidence": "excluded from A6 by the legacy rule (live: 49)" },
+    { "code": "X.5", "folder": "Not in matrix", "name": "STR curtain wall mullions", "discipline": "STR", "categories": [ "Curtain Wall Mullions", "Curtain Panels" ], "evidence": "live: 93 mullions in the ES file — outside A4, which takes the ARC file only" }
+  ]
+}

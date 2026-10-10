@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Same runtime as Roamer.exe. Only the engine's pure layers are exercised (matrix, catalog, plans, canary
+             choice): no test touches a Navisworks type, so nothing here needs Navisworks running. -->
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPNavis.BIMCoordinator.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <!-- global.json pins test.runner = Microsoft.Testing.Platform; xunit.v3 ships a net472 runner for it -->
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPNavis.BIMCoordinator\HPNavis.BIMCoordinator.csproj"/>
+    </ItemGroup>
+
+</Project>

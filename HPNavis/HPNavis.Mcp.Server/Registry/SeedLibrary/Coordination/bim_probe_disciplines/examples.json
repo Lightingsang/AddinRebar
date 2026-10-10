@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Whole federation",
+    "args": {}
+  },
+  {
+    "title": "Quick look on a big model",
+    "args": {
+      "maxItemsPerDiscipline": 20000
+    }
+  }
+]

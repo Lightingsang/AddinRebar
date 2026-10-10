@@ -1,0 +1,3219 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "workbook": "HPBIM_MaTranKiemSoatVaCham.xlsx",
+    "sheet": "RuleClash(HP)",
+    "sha256": "1274e330763de72d8ed4b581c4898e06958316b30bd5dc419beb02b3a8f2dc43"
+  },
+  "priorityLabels": {
+    "1": "HIGH",
+    "2": "MEDIUM",
+    "3": "LOW"
+  },
+  "toleranceMm": {
+    "200": 50,
+    "300": 30,
+    "350": 10,
+    "400": null
+  },
+  "groups": [
+    {
+      "code": "A1",
+      "name": "Furnitures",
+      "nameVi": "Nội thất",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A2",
+      "name": "Ceilings",
+      "nameVi": "Trần giả",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A3",
+      "name": "Architectural Columns",
+      "nameVi": "Cột kiến trúc",
+      "discipline": "ARC",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A4",
+      "name": "Curtain Walls",
+      "nameVi": "Vách kính",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A5",
+      "name": "Doors",
+      "nameVi": "Cửa đi",
+      "discipline": "ARC",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A6",
+      "name": "Architectural Floors",
+      "nameVi": "Sàn kiến trúc",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A7",
+      "name": "Stairs and Railings",
+      "nameVi": "Thang bộ & Lan kan",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A8",
+      "name": "Architectural Walls",
+      "nameVi": "Tường kiến trúc",
+      "discipline": "ARC",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "A9",
+      "name": "Windows",
+      "nameVi": "Cửa sổ",
+      "discipline": "ARC",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M1",
+      "name": "Air terminals",
+      "nameVi": "Miệng gió",
+      "discipline": "MEP",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M2",
+      "name": "Cable Ladders/Trays",
+      "nameVi": "Thang/Máng cáp",
+      "discipline": "MEP",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M3",
+      "name": "Ducts and Duct Accessories",
+      "nameVi": "Ống gió & Phụ kiện ống gió",
+      "discipline": "MEP",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M4",
+      "name": "Pipes/Pipe Accessories",
+      "nameVi": "Ống & Phụ kiện đường ống",
+      "discipline": "MEP",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M5",
+      "name": "EDE & Accessories",
+      "nameVi": "Thiết bị phân phối điện & Phụ kiện",
+      "discipline": "MEP",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M6",
+      "name": "HVAC Equipments",
+      "nameVi": "Thiết bị Thông gió Điều hòa",
+      "discipline": "MEP",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "M7",
+      "name": "Lighting Fixtures & Accessories",
+      "nameVi": "Thiết bị chiếu sáng & Phụ kiện",
+      "discipline": "MEP",
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "S1",
+      "name": "Foundations",
+      "nameVi": "Móng",
+      "discipline": "STR",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "S2",
+      "name": "Structural Walls",
+      "nameVi": "Tường/vách chịu lực",
+      "discipline": "STR",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "S3",
+      "name": "Structural Columns",
+      "nameVi": "Cột chịu lực",
+      "discipline": "STR",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "S4",
+      "name": "Structural Floors",
+      "nameVi": "Sàn chịu lực",
+      "discipline": "STR",
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "code": "S5",
+      "name": "Structural Framings",
+      "nameVi": "Hệ dầm chịu lực",
+      "discipline": "STR",
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "HP_A1_A1",
+      "left": "A1",
+      "right": "A1",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "W5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A2",
+      "left": "A1",
+      "right": "A2",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "X5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A3",
+      "left": "A1",
+      "right": "A3",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "Y5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A4",
+      "left": "A1",
+      "right": "A4",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "Z5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A5",
+      "left": "A1",
+      "right": "A5",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AA5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A6",
+      "left": "A1",
+      "right": "A6",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AB5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A8",
+      "left": "A1",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 1,
+      "cells": [
+        "AD5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_A9",
+      "left": "A1",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE5"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_M1",
+      "left": "A1",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "W21"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_M5",
+      "left": "A1",
+      "right": "M5",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "W25"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_M6",
+      "left": "A1",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "W26"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_M7",
+      "left": "A1",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "W27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_S2",
+      "left": "A1",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "W16"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_S3",
+      "left": "A1",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "W17"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_S4",
+      "left": "A1",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "W18"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A1_S5",
+      "left": "A1",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "W19"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_A3",
+      "left": "A2",
+      "right": "A3",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "Y6"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_A4",
+      "left": "A2",
+      "right": "A4",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "Z6"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_A5",
+      "left": "A2",
+      "right": "A5",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AA6"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_A8",
+      "left": "A2",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AD6"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_A9",
+      "left": "A2",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE6"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M1",
+      "left": "A2",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "X21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M2",
+      "left": "A2",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "X22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M3",
+      "left": "A2",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "X23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M4",
+      "left": "A2",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "X24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M6",
+      "left": "A2",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "X26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_M7",
+      "left": "A2",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "X27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_S2",
+      "left": "A2",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "X16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_S3",
+      "left": "A2",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "X17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A2_S5",
+      "left": "A2",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 1,
+      "cells": [
+        "X19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A4",
+      "left": "A3",
+      "right": "A4",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "Z7"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A5",
+      "left": "A3",
+      "right": "A5",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AA7"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A6",
+      "left": "A3",
+      "right": "A6",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AB7"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A7",
+      "left": "A3",
+      "right": "A7",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AC7"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A8",
+      "left": "A3",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AD7"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_A9",
+      "left": "A3",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE7"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M1",
+      "left": "A3",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Y21"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M2",
+      "left": "A3",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "Y22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M3",
+      "left": "A3",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "Y23"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M4",
+      "left": "A3",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "Y24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M6",
+      "left": "A3",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "Y26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_M7",
+      "left": "A3",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "Y27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_S1",
+      "left": "A3",
+      "right": "S1",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "Y15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_S2",
+      "left": "A3",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "Y16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_S3",
+      "left": "A3",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "Y17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_S4",
+      "left": "A3",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "Y18"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A3_S5",
+      "left": "A3",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "Y19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A4",
+      "left": "A4",
+      "right": "A4",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "Z8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A5",
+      "left": "A4",
+      "right": "A5",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AA8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A6",
+      "left": "A4",
+      "right": "A6",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AB8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A7",
+      "left": "A4",
+      "right": "A7",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AC8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A8",
+      "left": "A4",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AD8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_A9",
+      "left": "A4",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE8"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M1",
+      "left": "A4",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M2",
+      "left": "A4",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M3",
+      "left": "A4",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M4",
+      "left": "A4",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M5",
+      "left": "A4",
+      "right": "M5",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z25"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M6",
+      "left": "A4",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_M7",
+      "left": "A4",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "Z27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_S2",
+      "left": "A4",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "Z16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_S3",
+      "left": "A4",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "Z17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_S4",
+      "left": "A4",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "Z18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A4_S5",
+      "left": "A4",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 1,
+      "cells": [
+        "Z19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_A6",
+      "left": "A5",
+      "right": "A6",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AB9"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_A7",
+      "left": "A5",
+      "right": "A7",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AC9"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_A8",
+      "left": "A5",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AD9"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_A9",
+      "left": "A5",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE9"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M1",
+      "left": "A5",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA21"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M2",
+      "left": "A5",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M3",
+      "left": "A5",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA23"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M4",
+      "left": "A5",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M5",
+      "left": "A5",
+      "right": "M5",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA25"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M6",
+      "left": "A5",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_M7",
+      "left": "A5",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AA27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_S2",
+      "left": "A5",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 1,
+      "cells": [
+        "AA16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_S3",
+      "left": "A5",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 1,
+      "cells": [
+        "AA17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_S4",
+      "left": "A5",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AA18"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A5_S5",
+      "left": "A5",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AA19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_A7",
+      "left": "A6",
+      "right": "A7",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AC10"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_A8",
+      "left": "A6",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AD10"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_A9",
+      "left": "A6",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AE10"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_M1",
+      "left": "A6",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AB21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_M2",
+      "left": "A6",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AB22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_M3",
+      "left": "A6",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AB23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_M4",
+      "left": "A6",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AB24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_M6",
+      "left": "A6",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AB26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_S1",
+      "left": "A6",
+      "right": "S1",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AB15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_S2",
+      "left": "A6",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AB16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_S3",
+      "left": "A6",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AB17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_S4",
+      "left": "A6",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AB18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A6_S5",
+      "left": "A6",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AB19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_A8",
+      "left": "A7",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 3,
+      "cells": [
+        "AD11"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_A9",
+      "left": "A7",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE11"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_M1",
+      "left": "A7",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AC21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_M2",
+      "left": "A7",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AC22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_M3",
+      "left": "A7",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AC23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_M4",
+      "left": "A7",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AC24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_M6",
+      "left": "A7",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AC26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_S1",
+      "left": "A7",
+      "right": "S1",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AC15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_S2",
+      "left": "A7",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AC16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_S3",
+      "left": "A7",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AC17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_S4",
+      "left": "A7",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AC18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A7_S5",
+      "left": "A7",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AC19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_A8",
+      "left": "A8",
+      "right": "A8",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AD12"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_A9",
+      "left": "A8",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE12"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M1",
+      "left": "A8",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AD21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M2",
+      "left": "A8",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AD22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M3",
+      "left": "A8",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AD23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M4",
+      "left": "A8",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AD24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M5",
+      "left": "A8",
+      "right": "M5",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AD25"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M6",
+      "left": "A8",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 1,
+      "cells": [
+        "AD26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_M7",
+      "left": "A8",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 3,
+      "cells": [
+        "AD27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_S1",
+      "left": "A8",
+      "right": "S1",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AD15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_S2",
+      "left": "A8",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AD16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_S3",
+      "left": "A8",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AD17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_S4",
+      "left": "A8",
+      "right": "S4",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AD18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A8_S5",
+      "left": "A8",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 3,
+      "cells": [
+        "AD19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_A9",
+      "left": "A9",
+      "right": "A9",
+      "disciplinePair": "ARC-ARC",
+      "priority": 2,
+      "cells": [
+        "AE13"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M1",
+      "left": "A9",
+      "right": "M1",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE21"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M2",
+      "left": "A9",
+      "right": "M2",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M3",
+      "left": "A9",
+      "right": "M3",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE23"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M4",
+      "left": "A9",
+      "right": "M4",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M5",
+      "left": "A9",
+      "right": "M5",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE25"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M6",
+      "left": "A9",
+      "right": "M6",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE26"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_M7",
+      "left": "A9",
+      "right": "M7",
+      "disciplinePair": "ARC-MEP",
+      "priority": 2,
+      "cells": [
+        "AE27"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_S2",
+      "left": "A9",
+      "right": "S2",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AE16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_S3",
+      "left": "A9",
+      "right": "S3",
+      "disciplinePair": "ARC-STR",
+      "priority": 2,
+      "cells": [
+        "AE17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_A9_S5",
+      "left": "A9",
+      "right": "S5",
+      "disciplinePair": "ARC-STR",
+      "priority": 1,
+      "cells": [
+        "AE19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_M2",
+      "left": "M1",
+      "right": "M2",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "P21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_M6",
+      "left": "M1",
+      "right": "M6",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "T21"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_M7",
+      "left": "M1",
+      "right": "M7",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "U21"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_S2",
+      "left": "M1",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "O16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_S3",
+      "left": "M1",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "O17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M1_S5",
+      "left": "M1",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 3,
+      "cells": [
+        "O19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_M2",
+      "left": "M2",
+      "right": "M2",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "P22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_M3",
+      "left": "M2",
+      "right": "M3",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "Q22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_M4",
+      "left": "M2",
+      "right": "M4",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "R22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_M6",
+      "left": "M2",
+      "right": "M6",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "T22"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_M7",
+      "left": "M2",
+      "right": "M7",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "U22"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_S2",
+      "left": "M2",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "P16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_S3",
+      "left": "M2",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "P17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_S4",
+      "left": "M2",
+      "right": "S4",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "P18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M2_S5",
+      "left": "M2",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "P19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_M3",
+      "left": "M3",
+      "right": "M3",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "Q23"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_M4",
+      "left": "M3",
+      "right": "M4",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "R23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_M6",
+      "left": "M3",
+      "right": "M6",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "T23"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_M7",
+      "left": "M3",
+      "right": "M7",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "U23"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_S2",
+      "left": "M3",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "Q16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_S3",
+      "left": "M3",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "Q17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_S4",
+      "left": "M3",
+      "right": "S4",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "Q18"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M3_S5",
+      "left": "M3",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "Q19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_M4",
+      "left": "M4",
+      "right": "M4",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "R24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_M6",
+      "left": "M4",
+      "right": "M6",
+      "disciplinePair": "MEP-MEP",
+      "priority": 1,
+      "cells": [
+        "T24"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_M7",
+      "left": "M4",
+      "right": "M7",
+      "disciplinePair": "MEP-MEP",
+      "priority": 3,
+      "cells": [
+        "U24"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_S1",
+      "left": "M4",
+      "right": "S1",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "R15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_S2",
+      "left": "M4",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "R16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_S3",
+      "left": "M4",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "R17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_S4",
+      "left": "M4",
+      "right": "S4",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "R18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M4_S5",
+      "left": "M4",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "R19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M5_S2",
+      "left": "M5",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "S16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M5_S3",
+      "left": "M5",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "S17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M5_S5",
+      "left": "M5",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "S19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_M7",
+      "left": "M6",
+      "right": "M7",
+      "disciplinePair": "MEP-MEP",
+      "priority": 2,
+      "cells": [
+        "U26"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_S1",
+      "left": "M6",
+      "right": "S1",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "T15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_S2",
+      "left": "M6",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "T16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_S3",
+      "left": "M6",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "T17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_S4",
+      "left": "M6",
+      "right": "S4",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "T18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M6_S5",
+      "left": "M6",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 1,
+      "cells": [
+        "T19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M7_S2",
+      "left": "M7",
+      "right": "S2",
+      "disciplinePair": "MEP-STR",
+      "priority": 3,
+      "cells": [
+        "U16"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M7_S3",
+      "left": "M7",
+      "right": "S3",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "U17"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_M7_S5",
+      "left": "M7",
+      "right": "S5",
+      "disciplinePair": "MEP-STR",
+      "priority": 2,
+      "cells": [
+        "U19"
+      ],
+      "lod": {
+        "200": false,
+        "300": false,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S1_S1",
+      "left": "S1",
+      "right": "S1",
+      "disciplinePair": "STR-STR",
+      "priority": 3,
+      "cells": [
+        "I15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S1_S2",
+      "left": "S1",
+      "right": "S2",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "J15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S1_S3",
+      "left": "S1",
+      "right": "S3",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "K15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S1_S4",
+      "left": "S1",
+      "right": "S4",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "L15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S1_S5",
+      "left": "S1",
+      "right": "S5",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "M15"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S2_S3",
+      "left": "S2",
+      "right": "S3",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "K16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S2_S4",
+      "left": "S2",
+      "right": "S4",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "L16"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S2_S5",
+      "left": "S2",
+      "right": "S5",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "M16"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S3_S4",
+      "left": "S3",
+      "right": "S4",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "L17"
+      ],
+      "lod": {
+        "200": true,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S3_S5",
+      "left": "S3",
+      "right": "S5",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "M17"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S4_S5",
+      "left": "S4",
+      "right": "S5",
+      "disciplinePair": "STR-STR",
+      "priority": 2,
+      "cells": [
+        "M18"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    },
+    {
+      "id": "HP_S5_S5",
+      "left": "S5",
+      "right": "S5",
+      "disciplinePair": "STR-STR",
+      "priority": 3,
+      "cells": [
+        "M19"
+      ],
+      "lod": {
+        "200": false,
+        "300": true,
+        "350": true,
+        "400": true
+      }
+    }
+  ]
+}

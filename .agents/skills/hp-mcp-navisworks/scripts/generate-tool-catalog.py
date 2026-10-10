@@ -16,6 +16,7 @@ REGISTRY = ["search_tools", "get_tool", "run_tool", "get_run", "propose_tool", "
 GROUPS = {
     "tool-catalog-core-registry.md": (["Core", "Registry"], "core + registry (execute / context / inspect / cancel, search / get / run / get_run / propose / test / publish / manage)"),
     "tool-catalog-seeds.md": (["Model", "Search", "Selection", "Viewpoint", "Clash", "Timeliner", "Report", "Data", "Generic"], "the 12 seeds (model info, property search, selection sets, selected item properties, colour override, viewpoints, clash results and clash runs, TimeLiner tasks, category summary)"),
+    "tool-catalog-coordination.md": (["Coordination"], "the 6 BIM-coordination seeds of the HP clash matrix (probe disciplines, list / sync / validate search sets, sync clash tests per LOD, run canary tests)"),
 }
 
 

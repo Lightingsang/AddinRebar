@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Preview LOD350",
+    "args": {
+      "lod": "350"
+    }
+  },
+  {
+    "title": "Write the HIGH-priority LOD300 tests",
+    "args": {
+      "lod": "300",
+      "apply": true,
+      "priorities": [
+        1
+      ]
+    }
+  }
+]

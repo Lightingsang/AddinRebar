@@ -39,6 +39,8 @@
     <ItemGroup>
         <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
         <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <!-- Ships beside the plugin and is a script-compiler reference, so the Coordination seeds can call it. -->
+        <ProjectReference Include="..\HPNavis.BIMCoordinator\HPNavis.BIMCoordinator.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Preview the 21 base sets",
+    "args": {}
+  },
+  {
+    "title": "Create the whole registry, never overwrite",
+    "args": {
+      "apply": true,
+      "includeExtras": true
+    }
+  }
+]

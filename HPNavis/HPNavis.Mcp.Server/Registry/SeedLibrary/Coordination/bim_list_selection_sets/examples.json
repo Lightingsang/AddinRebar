@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Everything, without conditions",
+    "args": {}
+  },
+  {
+    "title": "One folder with its conditions",
+    "args": {
+      "folder": "HP BIMCoordinator/Structure",
+      "withConditions": true
+    }
+  }
+]

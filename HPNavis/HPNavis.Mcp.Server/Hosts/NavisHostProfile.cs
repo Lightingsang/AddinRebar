@@ -32,7 +32,7 @@ public static class NavisHostProfile
         ExecuteToolName = ExecuteToolName,
         ContextToolName = ContextToolName,
         ResourceScheme = PipeNaming.NavisHost,
-        Categories = new[] { "Model", "Search", "Selection", "Viewpoint", "Clash", "Timeliner", "Report", "Data", "Generic" },
+        Categories = new[] { "Model", "Search", "Selection", "Viewpoint", "Clash", "Timeliner", "Report", "Coordination", "Data", "Generic" },
         CoreToolNames = new[] { ExecuteToolName, ContextToolName, "inspect_type", "cancel_execution" },
         ScriptImports = HostScriptContracts.NavisImports,
         ScriptContractSummary =

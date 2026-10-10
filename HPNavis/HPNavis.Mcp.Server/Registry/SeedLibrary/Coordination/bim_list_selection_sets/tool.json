@@ -1,0 +1,39 @@
+{
+  "name": "bim_list_selection_sets",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "search-sets",
+    "backup",
+    "review"
+  ],
+  "title": "List saved selection and search sets",
+  "description": "Read-only inventory of the saved selection/search sets and folders: path, kind (search, explicit = static selection, folder), guid, prune-below-match and condition count; withConditions adds every search condition as text within a 40 000-character budget (sets past it are listed without conditions — ask for one folder). Use it as the record of what existed before bim_sync_search_sets applies anything (the full restore point is the NWD file) and to find old static sets or hand-made search sets. folder narrows to one folder path (e.g. HP BIMCoordinator/MEP); nothing is evaluated, so it is fast.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "folder": {
+        "type": "string",
+        "default": "",
+        "description": "Folder path to list, '/'-separated; empty = the whole Sets tree"
+      },
+      "withConditions": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include the search conditions as text (bounded)"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.ListSelectionSets (DocumentSelectionSets.RootItem walk, SearchCondition.ToString per condition when asked); at most 400 entries and 40 000 condition characters."
+}

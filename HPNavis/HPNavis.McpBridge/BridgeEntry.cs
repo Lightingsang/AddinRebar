@@ -69,6 +69,7 @@ public static class BridgeEntry
 
         var compiler = CreateScriptCompiler(settings.ScriptCacheSize);
         _selfCheckOk = ScriptingSelfCheck.Run(compiler, app, pluginFolder);
+        if (CoordinationEngine(navisApi).Any()) LogCoordinationEngine();
 
         var heavy = new NavisHeavyGate();
         var quiescence = new NavisQuiescence(ProgressStaleAfter);
@@ -166,7 +167,32 @@ public static class BridgeEntry
     [
         typeof(object).Assembly, typeof(Enumerable).Assembly, typeof(List<>).Assembly, typeof(Uri).Assembly,
         typeof(ScriptArgs).Assembly, typeof(System.Text.Json.JsonElement).Assembly,
-    ]).Distinct().ToArray();
+    ]).Concat(CoordinationEngine(navisApi)).Distinct().ToArray();
+
+    /// <summary>
+    ///     The BIM-coordination engine the Coordination seeds call (fully qualified, so no import is added). It is built
+    ///     on the Clash API, so a Navisworks without Clash Detective (Simulate) does not get it.
+    /// </summary>
+    /// <summary>Loads the embedded matrix once at start so a broken engine shows in the log, not in the first Coordination call.</summary>
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+    private static void LogCoordinationEngine()
+    {
+        try
+        {
+            var matrix = HPNavis.BIMCoordinator.Rules.ClashMatrix.Default;
+            Log.Information("BIM coordinator engine OK: {Rules} matrix rules from {Workbook}, {Sets} base sets",
+                matrix.Rules.Count, matrix.Document.Source.Workbook, HPNavis.BIMCoordinator.SearchSets.BaseSetCatalog.Default.Sets.Count);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, "BIM coordinator engine failed to load; the Coordination tools will fail");
+        }
+    }
+
+    private static IEnumerable<Assembly> CoordinationEngine(Assembly[] navisApi) =>
+        navisApi.Any(a => a.GetName().Name == "Autodesk.Navisworks.Clash")
+            ? [typeof(HPNavis.BIMCoordinator.CoordinatorTools).Assembly]
+            : [];
 
     public static void ShowWindow()
     {

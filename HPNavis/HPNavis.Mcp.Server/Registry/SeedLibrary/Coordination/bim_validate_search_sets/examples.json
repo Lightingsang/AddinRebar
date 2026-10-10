@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Base sets and gaps",
+    "args": {}
+  },
+  {
+    "title": "Detail and auxiliary sets",
+    "args": {
+      "scope": "extras"
+    }
+  }
+]

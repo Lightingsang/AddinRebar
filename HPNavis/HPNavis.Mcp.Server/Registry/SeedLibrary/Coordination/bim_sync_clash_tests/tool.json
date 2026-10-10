@@ -1,0 +1,66 @@
+{
+  "name": "bim_sync_clash_tests",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "clash",
+    "review"
+  ],
+  "title": "Sync the HP clash tests for a LOD",
+  "description": "One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm; LOD400 is refused (no approved tolerance). Name HP|P<n>|LOD<lod>|<ARC-STR>|<A8-S2>, selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "lod": {
+        "type": "string",
+        "enum": [
+          "200",
+          "300",
+          "350",
+          "400"
+        ],
+        "default": "350",
+        "description": "Design stage: 200 basic, 300 technical, 350 construction drawings (400 is refused until a tolerance is approved)"
+      },
+      "apply": {
+        "type": "boolean",
+        "default": false,
+        "description": "false = preview only; true = write the tests"
+      },
+      "priorities": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "description": "Only these priorities (1 = HIGH, 2 = MEDIUM, 3 = LOW); empty = all"
+      },
+      "ruleIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only these rules, e.g. [\"HP_A8_S2\"]; empty = all eligible"
+      },
+      "listUnchanged": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also list the rules whose test is already up to date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.SyncClashTests with units.ToMm(1) so tolerances convert from mm to the document units (read back within 0.01 mm). Writes via DocumentClashTests.TestsAddCopy / TestsEditTestFromCopy; selections are SelectionSources of the saved search sets."
+}

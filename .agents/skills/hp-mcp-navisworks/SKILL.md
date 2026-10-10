@@ -21,7 +21,7 @@ This skill is shared by Codex and Google Antigravity.
 
 ## Overview
 
-Dạy Claude dùng đúng 24 tool của MCP server `hprebar-navis` (`mcp__hprebar-navis__*`) trên model Navisworks Manage 2026 đang mở: chuỗi **Claude → HPNavis.Mcp.Server (stdio, net10) → pipe `hpnavis-mcp-2026` → HPNavis.McpBridge (plugin .NET Framework 4.8 trong Roamer.exe) → guard + heavy gate → Roslyn → Application.Idle → Navisworks API**. Navisworks là công cụ **review**: hình học chỉ đọc; thứ sửa được là set, viewpoint, comment, màu vĩnh viễn, ẩn/required, clash test, TimeLiner. Bridge sở hữu transaction duy nhất: mỗi run ghi = **một Undo entry `MCP: <label>`**; `dryRun` = commit rồi `Rollback()` **chỉ khi** entry trên cùng là của bridge. Việc **nặng** (append/merge/save/export/chạy clash) cần opt-in thứ hai, không undo, không ngắt được.
+Dạy Claude dùng đúng 30 tool của MCP server `hprebar-navis` (`mcp__hprebar-navis__*`) trên model Navisworks Manage 2026 đang mở: chuỗi **Claude → HPNavis.Mcp.Server (stdio, net10) → pipe `hpnavis-mcp-2026` → HPNavis.McpBridge (plugin .NET Framework 4.8 trong Roamer.exe) → guard + heavy gate → Roslyn → Application.Idle → Navisworks API**. Navisworks là công cụ **review**: hình học chỉ đọc; thứ sửa được là set, viewpoint, comment, màu vĩnh viễn, ẩn/required, clash test, TimeLiner. Bridge sở hữu transaction duy nhất: mỗi run ghi = **một Undo entry `MCP: <label>`**; `dryRun` = commit rồi `Rollback()` **chỉ khi** entry trên cùng là của bridge. Việc **nặng** (append/merge/save/export/chạy clash) cần opt-in thứ hai, không undo, không ngắt được.
 
 **Scope:** skill này xử lý *sử dụng* MCP Navisworks (kết nối, chọn tool, gọi đúng args, đọc envelope, viết script, gỡ lỗi). **Không** xử lý: sửa source `HPNavis/` (xem `AGENTS.md` mục "HPNavis MCP Bridge" + `HPNavis/tools/harness/README.md`), Revit/AutoCAD/ETABS MCP (`hp-mcp-revit`, `hp-mcp-autocad`, `hp-mcp-etabs`), plugin `NavisworksMCPPlugin` của bên thứ ba nằm cạnh, kết luận phối hợp (tool trả số liệu; quyết định thuộc BIM coordinator).
 
@@ -41,6 +41,7 @@ Yêu cầu của user
  ├─ Thuộc tính item           → get_selected_item_properties (user chọn trước) hoặc find_items_by_property + script đọc PropertyCategories
  ├─ Set / viewpoint / màu     → create_selection_set_from_search · create_viewpoint · override_color_by_search (dryRun=true trước; reset=true xoá màu)
  ├─ Clash                     → get_clash_results (đọc) ; create_and_run_clash_test = HEAVY → hỏi user tick "Allow heavy operations", lưu file trước
+ ├─ Ma trận va chạm HP (BIM coordinator) → mục 1b: bim_probe_disciplines → bim_sync_search_sets → bim_sync_clash_tests → bim_run_canary_tests (HEAVY)
  ├─ Tiến độ                   → get_timeliner_tasks
  ├─ Không có tool phù hợp     → search_tools (từ khoá tiếng Anh) → execute_navis_code (none/auto) → toolify khi lặp lại
  └─ Lỗi -3200x / HEAVY / GUARD → references/troubleshooting.md
@@ -61,6 +62,19 @@ Yêu cầu của user
 | Member API chưa rõ | `inspect_type` (`typeName` `Search`, `ModelItem`, `DocumentClash`, `Autodesk.Navisworks.Api.Clash.ClashTest`) | chữ ký thật từ API đang chạy |
 
 Mọi item id là `InstanceGuid`; đường dẫn `path` là chuỗi ancestors. Không có seed → `search_tools` với từ khoá **tiếng Anh** (FTS prefix-match token tiếng Anh) → viết script `none` (mục 3).
+
+### 1b. Ma trận va chạm HP — category `Coordination` (engine `HPNavis.BIMCoordinator`)
+
+Chuẩn: sheet `RuleClash(HP)` của `HPBIM_MaTranKiemSoatVaCham.xlsx` (bản trong repo: `HPNavis/tools/bim-coordinator/`, sinh lại JSON bằng `generate-clash-matrix.py`) — 21 nhóm A1–A9 / S1–S5 / M1–M7, 184 cặp, P1/P2/P3 = 40/99/45; LOD200 = 27 test @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm; **LOD400 bị từ chối** (chưa có dung sai duyệt). Bộ môn lấy từ role code ISO 19650 trong tên file con (AA → ARC, ES → STR, EC/EE/EF/EP → MEP), rồi category Revit.
+
+1. `bim_probe_disciplines` (đọc): file + role, có `Item > Source File` / `Element > Category` theo tên nội bộ không, category thật của từng bộ môn. Cảnh báo = phải xử lý trước khi ghi.
+2. Search set (registry `SearchSets/hp-base-sets.json`: 21 base + detail MEP + `Not in matrix`, mỗi set có `evidence`): `bim_list_selection_sets` (kiểm kê = bản ghi backup) → `bim_sync_search_sets` `apply:false` (`includeExtras:true` cho cả detail/aux) → dryRun → `apply:true` → `bim_validate_search_sets` `scope:base` rồi `scope:extras` (lỗi phải = 0). Set nằm trong `Sets > HP BIMCoordinator > Architecture|Structure|MEP`; set đã có mà khác registry = `conflict`, **không ghi đè** trừ khi user duyệt → `allowUpdate:true` + `codes` của đúng các set được duyệt; không bao giờ xoá; set lạ trong thư mục HP = orphan (chỉ báo). EMPTY = test của nhóm đó sẽ bị bỏ qua. Verified THCSLT copy: 37 set, 0 lỗi, chạy lại = 37 unchanged.
+3. `bim_sync_clash_tests {lod}` `apply:false` → trình Create/Update/Unchanged/Skip → `apply:true`. Tên `HP|P1|LOD350|MEP-STR|M2-S5`; test cũ giữ kết quả/trạng thái; `orphans` = test HP của LOD đó mà ma trận không còn (chỉ báo). `mismatched` ≠ rỗng = đọc lại sai → báo user.
+Verified live 2026-10-10 trên bản copy THCSLT (19 file, 87 k element): 21 set ~30 s, 121 test LOD350 (63 bỏ qua vì A1/A3/M1/M3 rỗng) ~40 s, apply lại = Unchanged, update giữ kết quả + ghi chú, test theo set bằng đường dẫn. Mỗi lệnh ~40–60 s trên model 95 MB — đừng gọi lặp.
+
+4. `bim_run_canary_tests` = **HEAVY** (hỏi user, lưu file trước): chạy ≤ 3 test P1 thuộc các cặp bộ môn khác nhau; user so với Run tay cùng test. Run All do user bấm trong Clash Detective.
+
+Không có: báo cáo HTML/xlsx, gom nhóm issue, BCF, lọc ống D < 32 mm (lát sau).
 
 ### 2. Sửa review — luôn `dryRun: true` trước
 
@@ -89,7 +103,7 @@ Thành viên `AppendFile/MergeFile/RemoveFile/OpenFile/OpenAggregate/UpdateFiles
 
 ### 5. Toolify — biến script hay dùng thành tool
 
-`get_run(runId)` → `propose_tool` (`name` snake_case, `category` ∈ Model/Search/Selection/Viewpoint/Clash/Timeliner/Report/Data/Generic, `inputSchema`, `code` đọc mọi key bằng `args.X("literal")`, ≥ 2 `examples`, `transaction`) → `test_tool` (dryRun thật trong Navisworks) → `publish_tool` → user chạy `HPNavis.Mcp.Server.exe registry approve <name> --by <who>` → có trong `tools/list` ≤ 0.5 s. ≥ 5 run với > 40 % fail → quarantine tự động (`ArgumentException` không tính) → `manage_tool restore` + `propose_tool newVersion: true`. Member heavy trong code đề xuất → từ chối.
+`get_run(runId)` → `propose_tool` (`name` snake_case, `category` ∈ Model/Search/Selection/Viewpoint/Clash/Timeliner/Report/Coordination/Data/Generic, `inputSchema`, `code` đọc mọi key bằng `args.X("literal")`, ≥ 2 `examples`, `transaction`) → `test_tool` (dryRun thật trong Navisworks) → `publish_tool` → user chạy `HPNavis.Mcp.Server.exe registry approve <name> --by <who>` → có trong `tools/list` ≤ 0.5 s. ≥ 5 run với > 40 % fail → quarantine tự động (`ArgumentException` không tính) → `manage_tool restore` + `propose_tool newVersion: true`. Member heavy trong code đề xuất → từ chối.
 
 ## Bảng transaction & tham số
 
@@ -138,7 +152,7 @@ Chi tiết: `references/troubleshooting.md`.
 
 ## Resources
 
-- `references/tool-catalog-core-registry.md`, `references/tool-catalog-seeds.md` — 24 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
+- `references/tool-catalog-core-registry.md`, `references/tool-catalog-seeds.md`, `references/tool-catalog-coordination.md` — 30 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
 - `references/script-contract.md` — globals, transaction/dryRun/undo decision, heavy gate, net48, guard, envelope, 5 script mẫu.
 - `references/navisworks-api-cheatsheet.md` — Search/SearchCondition, VariantData, ModelItem, sets, viewpoints, overrides, clash, TimeLiner, units.
 - `references/workflows.md` — 5 workflow mẫu (khảo sát → set → viewpoint, clash end-to-end với heavy, review màu, TimeLiner, toolify) đánh dấu live/chưa.

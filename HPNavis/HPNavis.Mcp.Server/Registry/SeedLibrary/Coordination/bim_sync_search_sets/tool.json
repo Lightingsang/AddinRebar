@@ -1,0 +1,51 @@
+{
+  "name": "bim_sync_search_sets",
+  "version": 2,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "search-sets",
+    "review"
+  ],
+  "title": "Sync the HP search-set registry",
+  "description": "Builds the HP search-set registry as live searches: the 21 base sets of the clash matrix (A1..A9 Architecture, S1..S5 Structure, M1..M7 MEP) and, with includeExtras, MEP detail sets (cable trays by model, pipes by System Classification, clash scope pipes D >= 32 mm) and auxiliary sets for elements no matrix group covers. Each set = source file has the discipline's ISO role code AND Element > Category is one of the set's Revit categories AND its extra conditions (e.g. A6: Structural <> true), so ARC/STR walls and floors and Electrical/HVAC equipment never mix. apply=false (default) previews item counts and create/unchanged/conflict. apply=true writes under Sets > HP BIMCoordinator: missing sets are created, identical ones left alone, a set whose saved search differs is a conflict left untouched unless allowUpdate=true with the approved codes. Sets under the top folder that no registry entry owns are reported as orphans; nothing is removed. One Undo entry; dryRun undoes it. Takes about a minute on a 95 MB model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "apply": {
+        "type": "boolean",
+        "default": false,
+        "description": "false = preview only; true = write the sets"
+      },
+      "allowUpdate": {
+        "type": "boolean",
+        "default": false,
+        "description": "Replace the named saved sets whose search differs from the registry (BIM lead approval; requires codes); false = report them as conflicts"
+      },
+      "includeExtras": {
+        "type": "boolean",
+        "default": false,
+        "description": "Also the detail and auxiliary sets (ignored when codes are given)"
+      },
+      "codes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only these sets, e.g. [\"A8\", \"S2\", \"M4.1\"]; empty = the 21 base sets (plus extras with includeExtras)"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.SyncSearchSets with units.ToMm(1). Registry = the engine's embedded SearchSets/hp-base-sets.json (schema 2: sets, details, auxiliary, each with its evidence). Conditions by internal property names; OR between (role x category) groups."
+}
