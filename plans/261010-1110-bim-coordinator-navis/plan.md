@@ -33,6 +33,16 @@ Requirement contract confirmed 2026-10-10 (grill-me). Source standard: `HPBIM_Ma
 | Approval → apply on the production THCSLT model | pending user |
 | Clash tests re-pointed to the new sets | not started (Clash Detective out of scope) |
 
+## Slice 1c — colour by search set (2026-10-10, user request)
+| Step | Status |
+|---|---|
+| Contract (grill-me): 44 sets of ColorSearchSet(DSC), permanent colours + reset, mapping decisions | done |
+| Generator + mapping + registry, 2 seeds (bim_sync_color_sets, bim_paint_colors) | done — tests 117/76/177 |
+| Live on THCSLT copy: 33 sets, 13 982 painted, read-back 450/450, reset keeps user colour | done — reports/colors-live-verify.md |
+| Review 7.5/10 → M1 M2 M3 M5 M7 L1 L2 L8 L10 fixed | done (build + tests); live re-run of the fixed engine pending a Roamer restart |
+| M4 reset scope, M6 project abbreviations in company registry | pending user |
+| Apply sets + colours on production THCSLT, user saves | pending user |
+
 ## Layout
 ```
 HPNavis/HPNavis.BIMCoordinator/        net48, refs Navisworks Api + Clash (Private=false), System.Text.Json (already in Core graph)

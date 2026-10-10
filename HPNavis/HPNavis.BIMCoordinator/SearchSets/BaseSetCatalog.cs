@@ -55,6 +55,47 @@ public sealed class BaseSetCatalog
         return catalog;
     }
 
+    /// <summary>
+    ///     Checks one definition against this catalog's property table (shared with the colour registry): categories,
+    ///     known properties / operators / value types, and values that parse — a bad value must fail the load, not an
+    ///     apply halfway through the registry.
+    /// </summary>
+    public void ValidateDefinition(SetDefinition definition, string registry = "search-set registry")
+    {
+        void Fail(string message) => throw new InvalidOperationException($"{registry}: {definition.Code}: {message}");
+
+        if (definition.Categories.Count == 0) Fail("needs at least one category");
+        if (definition.AllCategories.Contains(SearchSetPlan.AnyCategory) && definition.AllCategories.Count() > 1)
+            Fail($"category '{SearchSetPlan.AnyCategory}' already takes every element and must stand alone");
+        if (definition.AllCategories.Distinct(StringComparer.Ordinal).Count() != definition.AllCategories.Count()) Fail("a category is listed twice");
+        foreach (var condition in definition.Conditions)
+        {
+            if (!Properties.ContainsKey(condition.Property)) Fail($"unknown property '{condition.Property}'");
+            if (!ConditionDefinition.Operators.Contains(condition.Op)) Fail($"unknown operator '{condition.Op}'");
+            if (!ConditionDefinition.Types.Contains(condition.Type)) Fail($"unknown value type '{condition.Type}'");
+            if (condition.Op == "atLeast" && condition.Type != "lengthMm") Fail("atLeast needs type lengthMm");
+            if (condition.Op == "like" && condition.Type != "string") Fail("like needs type string");
+            if (condition.Values.Count > 0 && condition.Value.Length > 0) Fail("give either value or values, not both");
+            // alternatives are ORed groups: (≠a) OR (≠b), or true OR false, would take every element
+            if (condition.Values.Count > 1 && (condition.Op is "notEquals" or "atLeast" || condition.Type == "bool"))
+                Fail($"values (alternatives) only work with equals/like on text, not {condition.Op} {condition.Type}");
+            if (condition.Values.Distinct(StringComparer.Ordinal).Count() != condition.Values.Count) Fail("a value is listed twice");
+            foreach (var value in condition.Alternatives)
+            {
+                if (string.IsNullOrWhiteSpace(value)) Fail("a condition value is empty");
+                if (condition.Type == "bool" && !bool.TryParse(value, out _)) Fail($"'{value}' is not true/false");
+                if (condition.Type == "lengthMm" && !(double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var mm) && mm > 0))
+                    Fail($"'{value}' is not a positive length in mm");
+            }
+        }
+
+        var groupsPerRole = definition.Categories.Count * definition.Conditions.Aggregate(1, (product, c) => product * c.Alternatives.Count) + definition.AlsoCategories.Count;
+        if (groupsPerRole > MaxGroupsPerRole) Fail($"{groupsPerRole} condition groups per role code (categories × alternatives) exceed {MaxGroupsPerRole}; split the set");
+    }
+
+    /// <summary>One search is one OR of groups; past this the cartesian product of alternatives makes a search Navisworks crawls through.</summary>
+    public const int MaxGroupsPerRole = 50;
+
     private void Validate(ClashMatrix matrix)
     {
         void Fail(string message) => throw new InvalidOperationException("search-set registry: " + message);
@@ -73,20 +114,7 @@ public sealed class BaseSetCatalog
         var codes = AllDefinitions.Select(d => d.Code).ToList();
         if (codes.Count != codes.Distinct().Count()) Fail("two sets share a code");
         foreach (var definition in AllDefinitions)
-        {
-            if (definition.Categories.Count == 0) Fail($"{definition.Code} needs at least one category");
-            foreach (var condition in definition.Conditions)
-            {
-                if (!Properties.ContainsKey(condition.Property)) Fail($"{definition.Code}: unknown property '{condition.Property}'");
-                if (!ConditionDefinition.Operators.Contains(condition.Op)) Fail($"{definition.Code}: unknown operator '{condition.Op}'");
-                if (!ConditionDefinition.Types.Contains(condition.Type)) Fail($"{definition.Code}: unknown value type '{condition.Type}'");
-                if (condition.Op == "atLeast" && condition.Type != "lengthMm") Fail($"{definition.Code}: atLeast needs type lengthMm");
-                // a bad value must fail the load, not an apply halfway through the registry
-                if (condition.Type == "bool" && !bool.TryParse(condition.Value, out _)) Fail($"{definition.Code}: '{condition.Value}' is not true/false");
-                if (condition.Type == "lengthMm" && !(double.TryParse(condition.Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var mm) && mm > 0))
-                    Fail($"{definition.Code}: '{condition.Value}' is not a positive length in mm");
-            }
-        }
+            ValidateDefinition(definition);
 
         // base sets take discipline, folder and roles from the matrix group, so the registry may not override them
         foreach (var set in Sets.Where(s => s.Roles.Count > 0 || s.Parent is not null || s.Folder is not null || s.Discipline is not null))

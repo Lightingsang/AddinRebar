@@ -67,6 +67,6 @@ public sealed partial class KataSettingsViewModel : ObservableObject
         Detail.Import(file);
         Special.Import(file.Shop);
         Joints.Import(file.Drawing);
-        Message = string.Empty;
+        Message = Detail.ImportNotice ?? string.Empty;
     }
 }

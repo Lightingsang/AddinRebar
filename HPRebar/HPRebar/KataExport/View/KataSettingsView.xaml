@@ -33,7 +33,7 @@
                 <md:PackIcon Kind="CogOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
                 <TextBlock Text="Thiết lập thép Kata" FontWeight="Bold" FontSize="{DynamicResource Font.Size.Subheading}" VerticalAlignment="Center"/>
             </StackPanel>
-            <TextBlock Text="Giữ khớp với hộp 'Cài đặt thông số Kata'. Mục ghi 'chưa áp dụng' được lưu để dùng sau (shop thép), chưa đổi thép vẽ ra."
+            <TextBlock Text="Giữ khớp với hộp 'Cài đặt thông số Kata'. Mục ghi 'chưa áp dụng' được lưu để dùng sau (shop thép), chưa đổi thép vẽ ra. Cửa sổ Kata Export đang mở: bấm Đọc thép Excel lại để dùng thiết lập mới."
                        Foreground="{DynamicResource Brush.Foreground.Secondary}" TextWrapping="Wrap" Margin="0,4,0,8"/>
         </StackPanel>
 

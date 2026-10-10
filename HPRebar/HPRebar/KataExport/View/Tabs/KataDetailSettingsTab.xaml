@@ -48,13 +48,14 @@
             <TextBlock Text="Thép dọc &amp; móc" Style="{StaticResource Header}" Margin="0,0,0,4"/>
             <DockPanel Style="{StaticResource Row}">
                 <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
-                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsCrankMinDiameter" Text="{Binding CrankMinDiameter, Mode=TwoWay}"/>
+                <ComboBox DockPanel.Dock="Right" Width="70" AutomationProperties.AutomationId="KataSettingsCrankMinDiameter"
+                          ItemsSource="{Binding CrankMinDiameterOptions}" SelectedItem="{Binding CrankMinDiameter, Mode=TwoWay}"/>
                 <TextBlock Text="Bẻ cổ chai cho thép có phi từ" Style="{StaticResource Label}"/>
             </DockPanel>
             <DockPanel Style="{StaticResource Row}">
                 <TextBlock DockPanel.Dock="Right" Style="{StaticResource Unit}"/>
-                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" AutomationProperties.AutomationId="KataSettingsCrankSlope" Text="{Binding CrankSlope, Mode=TwoWay}"/>
-                <TextBlock DockPanel.Dock="Right" Text="1 /" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <ComboBox DockPanel.Dock="Right" Width="70" AutomationProperties.AutomationId="KataSettingsCrankSlope" ItemStringFormat="1/{0}"
+                          ItemsSource="{Binding CrankSlopeOptions}" SelectedItem="{Binding CrankSlope, Mode=TwoWay}"/>
                 <TextBlock Text="Tỷ lệ đoạn nhấn cổ chai" Style="{StaticResource Label}"/>
             </DockPanel>
             <DockPanel Style="{StaticResource Row}">
@@ -136,7 +137,11 @@
         <!-- Kept for later -->
         <StackPanel Grid.Column="2">
             <TextBlock Text="Quy cách thể hiện dầm" Style="{StaticResource Header}" Margin="0,0,0,4"/>
-            <TextBlock Text="Chưa áp dụng: lưu lại, HPRebar chưa có quy tắc cho các mục này." Style="{StaticResource Note}"/>
+            <CheckBox IsChecked="{Binding ShowBarEndMarks, Mode=TwoWay}" Style="{StaticResource Check}" AutomationProperties.AutomationId="KataSettingsShowBarEndMarks"
+                      ToolTip="Áp dụng: khi Tạo thép, vẽ móc cắt ở đầu thanh trên mặt cắt dọc dầm (view tên theo ô B3)."><TextBlock Text="Thể hiện móc cắt kết thúc thép" TextWrapping="Wrap"/></CheckBox>
+            <CheckBox IsChecked="{Binding CreateKataDrawings, Mode=TwoWay}" Style="{StaticResource Check}" AutomationProperties.AutomationId="KataSettingsCreateDrawings"
+                      ToolTip="Áp dụng: khi Tạo thép, tạo mặt cắt ngang tại mỗi cờ Kata, dim mặt cắt dọc và ngang, sheet K-tên dầm."><TextBlock Text="Tạo bản vẽ Kata (mặt cắt, dim, tag, sheet)" TextWrapping="Wrap"/></CheckBox>
+            <TextBlock Text="Các mục dưới chưa áp dụng: lưu lại, HPRebar chưa có quy tắc cho chúng." Style="{StaticResource Note}"/>
             <CheckBox IsChecked="{Binding BottomLayerNoBend, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép lớp dưới không bẻ ke" TextWrapping="Wrap"/></CheckBox>
             <CheckBox IsChecked="{Binding TopNotAnchoredIntoColumnBelow, Mode=TwoWay}" Style="{StaticResource Check}"><TextBlock Text="Thép trên không neo xuống cột dưới" TextWrapping="Wrap"/></CheckBox>
             <DockPanel Style="{StaticResource Row}">
@@ -151,7 +156,8 @@
             <TextBlock Text="Chưa áp dụng: mô hình vẽ thép chủ liền một thanh; các mục này dành cho công cụ shop thép." Style="{StaticResource Note}"/>
             <DockPanel Style="{StaticResource Row}">
                 <TextBlock DockPanel.Dock="Right" Text="mm" Style="{StaticResource Unit}"/>
-                <TextBox DockPanel.Dock="Right" Width="70" Style="{DynamicResource NumberTextBox}" Text="{Binding CouplerMinDiameter, Mode=TwoWay}"/>
+                <ComboBox DockPanel.Dock="Right" Width="70" AutomationProperties.AutomationId="KataSettingsCouplerMinDiameter"
+                          ItemsSource="{Binding CouplerMinDiameterOptions}" SelectedItem="{Binding CouplerMinDiameter, Mode=TwoWay}"/>
                 <TextBlock Text="Coupler cho thép có phi từ" Style="{StaticResource Label}"/>
             </DockPanel>
             <DockPanel Style="{StaticResource Row}">

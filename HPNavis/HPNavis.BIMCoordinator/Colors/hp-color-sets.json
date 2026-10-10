@@ -1,0 +1,1160 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "workbook": "HPBIM_MaTranKiemSoatVaCham.xlsx",
+    "sheet": "ColorSearchSet(DSC)",
+    "sha256": "1274e330763de72d8ed4b581c4898e06958316b30bd5dc419beb02b3a8f2dc43",
+    "mapping": "color-set-mapping.json"
+  },
+  "folder": "Color",
+  "sets": [
+    {
+      "code": "C01",
+      "displayName": "HP_A_All",
+      "name": "HP_A_All",
+      "order": 1,
+      "system": "ARC",
+      "purpose": "Đổi màu tất cả các đối tượng kiến trúc",
+      "rgb": null,
+      "discipline": "ARC",
+      "roles": [],
+      "categories": [
+        "*"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "every Revit element of the ARC files; sheet colour <Default> = no override",
+      "sourceCell": "C3"
+    },
+    {
+      "code": "C02",
+      "displayName": "HP_S_All",
+      "name": "HP_S_All",
+      "order": 2,
+      "system": "STR",
+      "purpose": "Đổi màu tất cả các đối tượng kết cấu",
+      "rgb": null,
+      "discipline": "STR",
+      "roles": [],
+      "categories": [
+        "*"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "every Revit element of the STR files; sheet colour <Default> = no override",
+      "sourceCell": "C4"
+    },
+    {
+      "code": "C03",
+      "displayName": "HP_E_CableTray(ELV)",
+      "name": "HP_E_CableTray(ELV)",
+      "order": 3,
+      "system": "ELC",
+      "purpose": "Đổ màu thang/ máng điện nhẹ",
+      "rgb": [
+        65,
+        100,
+        210
+      ],
+      "discipline": "MEP",
+      "roles": [
+        "EC",
+        "EF"
+      ],
+      "categories": [
+        "Cable Trays",
+        "Cable Tray Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "trays carry no service/system parameter; ELV = EC (communications) and EF (fire alarm) files — user decision",
+      "sourceCell": "C5"
+    },
+    {
+      "code": "C04",
+      "displayName": "HP_E_CableTray(LV)",
+      "name": "HP_E_CableTray(LV)",
+      "order": 4,
+      "system": "ELC",
+      "purpose": "Đổ màu thang/ máng điện nặng",
+      "rgb": [
+        255,
+        128,
+        64
+      ],
+      "discipline": "MEP",
+      "roles": [
+        "EE"
+      ],
+      "categories": [
+        "Cable Trays",
+        "Cable Tray Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "LV = EE (power) file — user decision",
+      "sourceCell": "C6"
+    },
+    {
+      "code": "C05",
+      "displayName": "HP_E_CommunicationDevices",
+      "name": "HP_E_CommunicationDevices",
+      "order": 5,
+      "system": "ELC",
+      "purpose": "Đổ màu các đối tượng thiết bị thông tin liên lạc",
+      "rgb": null,
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Communication Devices",
+        "Audio Visual Devices"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy ELEC-CommunicationDevices (Communication OR Audio Visual Devices)",
+      "sourceCell": "C7"
+    },
+    {
+      "code": "C06",
+      "displayName": "HP_E_Conduit",
+      "name": "HP_E_Conduit",
+      "order": 6,
+      "system": "ELC",
+      "purpose": "Đổ màu các đối tượng ống luồn dây điện",
+      "rgb": null,
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Conduits",
+        "Conduit Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy ELEC-Conduits (Category like Conduit*)",
+      "sourceCell": "C8"
+    },
+    {
+      "code": "C07",
+      "displayName": "HP_E_DataDevices",
+      "name": "HP_E_DataDevices",
+      "order": 7,
+      "system": "ELC",
+      "purpose": "Đổ màu các đối tượng thiết bị lưu trữ thông tin",
+      "rgb": null,
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Data Devices"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy ELEC-DataDevices",
+      "sourceCell": "C9"
+    },
+    {
+      "code": "C08",
+      "displayName": "HP_E_ElectricalEquipment",
+      "name": "HP_E_ElectricalEquipment",
+      "order": 8,
+      "system": "ELC",
+      "purpose": "Đổ màu các thiết bị điện",
+      "rgb": [
+        128,
+        128,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Electrical Equipment"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy ELEC-ElectricalEquipments without Mechanical Equipment (that is HP_M_Equipment)",
+      "sourceCell": "C10"
+    },
+    {
+      "code": "C09",
+      "displayName": "HP_E_ElectricalFixtures",
+      "name": "HP_E_ElectricalFixtures",
+      "order": 9,
+      "system": "ELC",
+      "purpose": "Đổ màu các thiết bị công tắc ổ cắm",
+      "rgb": [
+        0,
+        128,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Electrical Fixtures"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "sheet purpose: switches and sockets; legacy ELEC-ElectricalFixtures",
+      "sourceCell": "C11"
+    },
+    {
+      "code": "C10",
+      "displayName": "HP_E_LightingDevices",
+      "name": "HP_E_LightingDevices",
+      "order": 10,
+      "system": "ELC",
+      "purpose": "Đổ màu các đối tượng dạng đèn",
+      "rgb": [
+        255,
+        255,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Lighting Fixtures",
+        "Lighting Devices"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "sheet purpose says 'luminaires' while the name says Lighting Devices; the sheet has no Lighting Fixtures colour, so both categories take it",
+      "sourceCell": "C12"
+    },
+    {
+      "code": "C11",
+      "displayName": "HP_E_SecurityDevices",
+      "name": "HP_E_SecurityDevices",
+      "order": 11,
+      "system": "ELC",
+      "purpose": "Đổ màu các đối tượng thiết bị an ninh",
+      "rgb": [
+        0,
+        128,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Security Devices"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy ELEC-SecurityDevices",
+      "sourceCell": "C13"
+    },
+    {
+      "code": "C12",
+      "displayName": "HP_F_FireDrencher",
+      "name": "HP_F_FireDrencher",
+      "order": 12,
+      "system": "FF",
+      "purpose": "Đổ màu hệ thống chữa cháy màng ngăn",
+      "rgb": [
+        128,
+        100,
+        162
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Fire Protection Other"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Fire Protection Other (none in THCSLT)",
+      "sourceCell": "C14"
+    },
+    {
+      "code": "C13",
+      "displayName": "HP_F_FireDry",
+      "name": "HP_F_FireDry",
+      "order": 13,
+      "system": "FF",
+      "purpose": "Đổ màu hệ thống chữa cháy khô",
+      "rgb": [
+        128,
+        128,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Fire Protection Dry"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Fire Protection Dry (none in THCSLT)",
+      "sourceCell": "C15"
+    },
+    {
+      "code": "C14",
+      "displayName": "HP_F_FireSprinkler",
+      "name": "HP_F_FireSprinkler",
+      "order": 14,
+      "system": "FF",
+      "purpose": "Đổ màu hệ thống chữa cháy tự động",
+      "rgb": [
+        255,
+        0,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Fire Protection Wet"
+        }
+      ],
+      "alsoCategories": [
+        "Sprinklers",
+        "Fire Protection"
+      ],
+      "verified": true,
+      "evidence": "every Fire Protection Wet pipe (CC TRONG NHÀ and CC NGOÀI NHÀ) — user decision; sprinkler heads and fire devices with it",
+      "sourceCell": "C16"
+    },
+    {
+      "code": "C15",
+      "displayName": "HP_F_FireAlarmDevices",
+      "name": "HP_F_FireAlarmDevices",
+      "order": 15,
+      "system": "FF",
+      "purpose": "Đổ màu các đối tượng thiết bị báo cháy",
+      "rgb": [
+        192,
+        192,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Fire Alarm Devices"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy FIRE-AlarmDevices",
+      "sourceCell": "C17"
+    },
+    {
+      "code": "C16",
+      "displayName": "HP_F_PipeFitting+Accessory",
+      "name": "HP_F_PipeFitting+Accessory",
+      "order": 16,
+      "system": "FF",
+      "purpose": "Đổ màu các đối tượng phụ kiện, van...",
+      "rgb": [
+        223,
+        191,
+        138
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipe Fittings",
+        "Pipe Accessories"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "like",
+          "value": "Fire Protection*"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "fittings and valves of the fire systems (classification Fire Protection *)",
+      "sourceCell": "C18"
+    },
+    {
+      "code": "C17",
+      "displayName": "HP_P_Drainage_RainWater",
+      "name": "HP_P_Drainage_RainWater",
+      "order": 17,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống thoát nước mưa",
+      "rgb": [
+        0,
+        128,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "value": "TNM"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Type TNM (thoát nước mưa)",
+      "sourceCell": "C19"
+    },
+    {
+      "code": "C18",
+      "displayName": "HP_P_Drainage_SoilPipe",
+      "name": "HP_P_Drainage_SoilPipe",
+      "order": 18,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống thoát xí",
+      "rgb": [
+        128,
+        128,
+        64
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "value": "SH"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Type SH — user decision",
+      "sourceCell": "C20"
+    },
+    {
+      "code": "C19",
+      "displayName": "HP_P_Drainage_VentPipe",
+      "name": "HP_P_Drainage_VentPipe",
+      "order": 19,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống thông hơi",
+      "rgb": [
+        128,
+        128,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "value": "TH"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Type TH (thông hơi)",
+      "sourceCell": "C21"
+    },
+    {
+      "code": "C20",
+      "displayName": "HP_P_Drainage_WastePipe",
+      "name": "HP_P_Drainage_WastePipe",
+      "order": 20,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống thoát rửa",
+      "rgb": [
+        0,
+        128,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "values": [
+            "TP",
+            "TNT"
+          ]
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Types TP and TNT — user decision",
+      "sourceCell": "C22"
+    },
+    {
+      "code": "C21",
+      "displayName": "HP_P_Drainage_KitchenPipe",
+      "name": "HP_P_Drainage_KitchenPipe",
+      "order": 21,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống thoát bếp",
+      "rgb": [
+        255,
+        128,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "value": "TN(BM)"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Type TN(BM) (bể mỡ) — user decision",
+      "sourceCell": "C23"
+    },
+    {
+      "code": "C22",
+      "displayName": "HP_P_Supply_ColdWater",
+      "name": "HP_P_Supply_ColdWater",
+      "order": 22,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống cấp nước sinh hoạt",
+      "rgb": [
+        101,
+        182,
+        101
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemType",
+          "op": "equals",
+          "values": [
+            "CNL",
+            "CN-L"
+          ]
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "System Types CNL and CN-L (cấp nước lạnh)",
+      "sourceCell": "C24"
+    },
+    {
+      "code": "C23",
+      "displayName": "HP_P_Supply_HotWater",
+      "name": "HP_P_Supply_HotWater",
+      "order": 23,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống cấp nước nóng",
+      "rgb": [
+        255,
+        0,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Domestic Hot Water"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Domestic Hot Water (none in THCSLT)",
+      "sourceCell": "C25"
+    },
+    {
+      "code": "C24",
+      "displayName": "HP_P_Supply_RawWater",
+      "name": "HP_P_Supply_RawWater",
+      "order": 24,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống cấp nước thô",
+      "rgb": [
+        0,
+        64,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C26",
+      "pending": "no Revit classification and no THCSLT system type for raw water — add the project's System Type abbreviation"
+    },
+    {
+      "code": "C25",
+      "displayName": "HP_P_Return_HotWater",
+      "name": "HP_P_Return_HotWater",
+      "order": 25,
+      "system": "PLB",
+      "purpose": "Đổ màu hệ thống hồi nước nóng",
+      "rgb": [
+        255,
+        255,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C27",
+      "pending": "Revit has no hot-water-return classification and THCSLT has no such system — add the project's System Type abbreviation"
+    },
+    {
+      "code": "C26",
+      "displayName": "HP_P_PipeFitting+Accessory",
+      "name": "HP_P_PipeFitting+Accessory",
+      "order": 26,
+      "system": "PLB",
+      "purpose": "Đổ màu các đối tượng phụ kiện, van...",
+      "rgb": [
+        192,
+        192,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipe Fittings",
+        "Pipe Accessories"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "values": [
+            "Domestic Cold Water",
+            "Domestic Hot Water",
+            "Sanitary",
+            "Vent",
+            "Other",
+            "Sanitary,Vent"
+          ]
+        }
+      ],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "fittings and valves of the plumbing systems (classifications seen on THCSLT EP fittings, incl. the shared Sanitary,Vent)",
+      "sourceCell": "C28"
+    },
+    {
+      "code": "C27",
+      "displayName": "HP_P_Fixtures",
+      "name": "HP_P_Fixtures",
+      "order": 27,
+      "system": "PLB",
+      "purpose": "Đổ màu thiết bị vệ sinh",
+      "rgb": [
+        192,
+        192,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Plumbing Fixtures",
+        "Plumbing Equipment"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "legacy PLB-PlungbingFixtures; MEP files only (927 fixtures in the ARC file are left alone — assumption accepted)",
+      "sourceCell": "C29"
+    },
+    {
+      "code": "C28",
+      "displayName": "HP_M_Duct_Accessory",
+      "name": "HP_M_Duct_Accessory",
+      "order": 28,
+      "system": "HVAC",
+      "purpose": "Đổ màu các đối tượng nối mềm, tiêu âm...",
+      "rgb": [
+        183,
+        193,
+        162
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Duct Accessories"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet purpose: flexible connectors, silencers (none in THCSLT)",
+      "sourceCell": "C30"
+    },
+    {
+      "code": "C29",
+      "displayName": "HP_M_Duct_KitchenAir",
+      "name": "HP_M_Duct_KitchenAir",
+      "order": 29,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống gió thải bếp",
+      "rgb": [
+        255,
+        128,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C31",
+      "pending": "kitchen exhaust is a project system type, not a Revit classification"
+    },
+    {
+      "code": "C30",
+      "displayName": "HP_M_Duct_ExhaustAir",
+      "name": "HP_M_Duct_ExhaustAir",
+      "order": 30,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống gió thải VS/ phòng rác/ kho...",
+      "rgb": [
+        255,
+        128,
+        128
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Exhaust Air"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Exhaust Air (none in THCSLT)",
+      "sourceCell": "C32"
+    },
+    {
+      "code": "C31",
+      "displayName": "HP_M_Duct_ExhaustSmoke",
+      "name": "HP_M_Duct_ExhaustSmoke",
+      "order": 31,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống hút khói",
+      "rgb": [
+        160,
+        80,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C33",
+      "pending": "smoke exhaust is a project system type, not a Revit classification"
+    },
+    {
+      "code": "C32",
+      "displayName": "HP_M_Duct_OutsideAir",
+      "name": "HP_M_Duct_OutsideAir",
+      "order": 32,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống gió tươi",
+      "rgb": [
+        0,
+        255,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C34",
+      "pending": "outside air is a project system type (Revit has only Other Air)"
+    },
+    {
+      "code": "C33",
+      "displayName": "HP_M_Duct_PressureAir",
+      "name": "HP_M_Duct_PressureAir",
+      "order": 33,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống gió tăng áp",
+      "rgb": [
+        70,
+        70,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C35",
+      "pending": "stair pressurisation is a project system type, not a Revit classification"
+    },
+    {
+      "code": "C34",
+      "displayName": "HP_M_Duct_ReturnAir",
+      "name": "HP_M_Duct_ReturnAir",
+      "order": 34,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống hồi gió lạnh",
+      "rgb": [
+        255,
+        128,
+        64
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Return Air"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Return Air (none in THCSLT)",
+      "sourceCell": "C36"
+    },
+    {
+      "code": "C35",
+      "displayName": "HP_M_Duct_SupplyAir",
+      "name": "HP_M_Duct_SupplyAir",
+      "order": 35,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống cấp gió lạnh",
+      "rgb": [
+        0,
+        128,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Ducts",
+        "Duct Fittings"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Supply Air"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Supply Air (none in THCSLT)",
+      "sourceCell": "C37"
+    },
+    {
+      "code": "C36",
+      "displayName": "HP_M_Equipment",
+      "name": "HP_M_Equipment",
+      "order": 36,
+      "system": "HVAC",
+      "purpose": "Đổ màu thiết bị HVAC",
+      "rgb": [
+        128,
+        128,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Mechanical Equipment"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": true,
+      "evidence": "M6 HVAC equipment (48 wall AC units / heaters in the EE file)",
+      "sourceCell": "C38"
+    },
+    {
+      "code": "C37",
+      "displayName": "HP_M_Pipe_ChillerWaterReturn",
+      "name": "HP_M_Pipe_ChillerWaterReturn",
+      "order": 37,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống hồi nước lạnh Chiller",
+      "rgb": [
+        255,
+        0,
+        255
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Hydronic Return"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Hydronic Return (none in THCSLT)",
+      "sourceCell": "C39"
+    },
+    {
+      "code": "C38",
+      "displayName": "HP_M_Pipe_ChillerWaterSupply",
+      "name": "HP_M_Pipe_ChillerWaterSupply",
+      "order": 38,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống cấp nước lạnh Chiller",
+      "rgb": [
+        0,
+        128,
+        64
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "equals",
+          "value": "Hydronic Supply"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "Revit classification Hydronic Supply (none in THCSLT)",
+      "sourceCell": "C40"
+    },
+    {
+      "code": "C39",
+      "displayName": "HP_M_Pipe_CondenserWaterReturn",
+      "name": "HP_M_Pipe_CondenserWaterReturn",
+      "order": 39,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống hồi nước giải nhiệt",
+      "rgb": [
+        255,
+        128,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C41",
+      "pending": "condenser water uses the same Hydronic classifications as chilled water — needs the project's System Type"
+    },
+    {
+      "code": "C40",
+      "displayName": "HP_M_Pipe_CondenserWaterSupply",
+      "name": "HP_M_Pipe_CondenserWaterSupply",
+      "order": 40,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống cấp nước giải nhiệt",
+      "rgb": [
+        128,
+        128,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C42",
+      "pending": "condenser water uses the same Hydronic classifications as chilled water — needs the project's System Type"
+    },
+    {
+      "code": "C41",
+      "displayName": "HP_M_Pipe_DrainPipe",
+      "name": "HP_M_Pipe_DrainPipe",
+      "order": 41,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống thoát nước ngưng",
+      "rgb": [
+        0,
+        128,
+        192
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C43",
+      "pending": "condensate drain shares classification Other with rain water — needs the project's System Type"
+    },
+    {
+      "code": "C42",
+      "displayName": "HP_M_PipeFitting+Accessory",
+      "name": "HP_M_PipeFitting+Accessory",
+      "order": 42,
+      "system": "HVAC",
+      "purpose": "Đổ màu các đối tượng phụ kiện, van...",
+      "rgb": [
+        223,
+        191,
+        138
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipe Fittings",
+        "Pipe Accessories"
+      ],
+      "conditions": [
+        {
+          "property": "systemClassification",
+          "op": "like",
+          "value": "Hydronic*"
+        }
+      ],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "fittings and valves of the hydronic systems (none in THCSLT)",
+      "sourceCell": "C44"
+    },
+    {
+      "code": "C43",
+      "displayName": "HP_M_Pipe_Gas",
+      "name": "HP_M_Pipe_Gas",
+      "order": 43,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống gas hồi(hot)",
+      "rgb": [
+        255,
+        128,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C45",
+      "pending": "refrigerant gas lines have no Revit classification — needs the project's System Type"
+    },
+    {
+      "code": "C44",
+      "displayName": "HP_M_Pipe_Liquid",
+      "name": "HP_M_Pipe_Liquid",
+      "order": 44,
+      "system": "HVAC",
+      "purpose": "Đổ màu hệ thống ống gas cấp(lỏng)",
+      "rgb": [
+        255,
+        128,
+        0
+      ],
+      "discipline": "MEP",
+      "roles": [],
+      "categories": [
+        "Pipes"
+      ],
+      "conditions": [],
+      "alsoCategories": [],
+      "verified": false,
+      "evidence": "sheet only",
+      "sourceCell": "C46",
+      "pending": "refrigerant liquid lines have no Revit classification — needs the project's System Type"
+    }
+  ]
+}

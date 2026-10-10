@@ -118,6 +118,8 @@ public static class KataDetailingRuleBuilder
             ClosedStirrupHookFactor = settings.ClosedStirrupHookFactor,
             CrossTieHookAngle = settings.CrossTieHookAngle,
             CrossTieHookFactor = settings.CrossTieHookFactor,
+            ShowBarEndMarks = settings.ShowBarEndMarks,
+            CreateKataDrawings = settings.CreateKataDrawings,
             Warnings = warnings,
             Errors = errors
         };

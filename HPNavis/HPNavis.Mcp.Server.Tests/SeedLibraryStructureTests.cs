@@ -59,15 +59,15 @@ public sealed class SeedLibraryStructureTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_eighteen_seeds_are_embedded_eleven_read_only_seven_writing_two_heavy()
+    public void All_twenty_seeds_are_embedded_eleven_read_only_nine_writing_two_heavy()
     {
         var seeds = LoadSeeds();
 
-        Assert.Equal(18, seeds.Count);
+        Assert.Equal(20, seeds.Count);
         Assert.Equal(11, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
-        Assert.Equal(7, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "auto"));
+        Assert.Equal(9, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "auto"));
         Assert.Equal(["bim_run_canary_tests", "create_and_run_clash_test"], seeds.Where(s => Tags(s).Contains("heavy")).Select(s => s.Name).Order().ToArray());
-        Assert.Equal(6, seeds.Count(s => s.Category == "Coordination"));
+        Assert.Equal(8, seeds.Count(s => s.Category == "Coordination"));
     }
 
     [Theory]

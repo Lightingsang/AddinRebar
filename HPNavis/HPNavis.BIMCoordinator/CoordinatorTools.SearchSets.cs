@@ -30,8 +30,7 @@ public static partial class CoordinatorTools
         var warnings = new List<string>();
         warnings.AddRange(empty.Select(code => $"{code} finds no element in this model"));
         warnings.AddRange(conflicts.Select(code => $"{code}: the saved set differs from the registry and was left as it is; re-run with allowUpdate=true and codes=[\"{code}\"] once approved"));
-        var registryPaths = SearchSetPlan.All(catalog, ClashMatrix.Default, includeExtras: true).Select(p => $"{p.Folder}/{p.DisplayName}");
-        var orphans = SetUpsert.Orphans(NavisSearchSetCompiler.SetPathsUnder(doc, new[] { catalog.Folder }), registryPaths);
+        var orphans = SetUpsert.Orphans(NavisSearchSetCompiler.SetPathsUnder(doc, new[] { catalog.Folder }), RegistryPaths(catalog));
         warnings.AddRange(orphans.Take(MaxOrphansListed).Select(path => $"{path}: under {catalog.Folder} but owned by no registry entry (renamed/moved entry or hand-made set) — left as it is"));
         return new
         {
@@ -44,6 +43,12 @@ public static partial class CoordinatorTools
             warnings,
         };
     }
+
+    /// <summary>Every set path the registries own: search sets (base, detail, auxiliary) and the active colour sets.</summary>
+    private static IEnumerable<string> RegistryPaths(BaseSetCatalog catalog) =>
+        SearchSetPlan.All(catalog, ClashMatrix.Default, includeExtras: true)
+            .Concat(Colors.ColorSetCatalog.Default.Plans(catalog))
+            .Select(p => $"{p.Folder}/{p.DisplayName}");
 
     /// <summary>Read-only acceptance check (<paramref name="scope" /> <c>base</c> or <c>extras</c>), see <see cref="NavisSearchSetValidator" />.</summary>
     public static object ValidateSearchSets(Document doc, string scope, double mmPerUnit, CancellationToken ct)

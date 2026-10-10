@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Preview the colours",
+    "args": {}
+  },
+  {
+    "title": "Paint rain-water pipes only",
+    "args": {
+      "mode": "apply",
+      "codes": [
+        "HP_P_Drainage_RainWater"
+      ]
+    }
+  }
+]

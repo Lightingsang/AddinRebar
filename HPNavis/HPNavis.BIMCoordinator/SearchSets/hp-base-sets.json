@@ -8,7 +8,8 @@
     "category": { "category": "LcRevitData_Element", "property": "LcRevitPropertyElementCategory", "categoryDisplay": "Element", "propertyDisplay": "Category" },
     "structural": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1001954", "categoryDisplay": "Element", "propertyDisplay": "Structural" },
     "systemClassification": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1140325", "categoryDisplay": "Element", "propertyDisplay": "System Classification" },
-    "diameter": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1140225", "categoryDisplay": "Element", "propertyDisplay": "Diameter" }
+    "diameter": { "category": "LcRevitData_Element", "property": "lcldrevit_parameter_-1140225", "categoryDisplay": "Element", "propertyDisplay": "Diameter" },
+    "systemType": { "category": "LcRevitData_Parameter", "property": "LcRevitPropertyElementName", "categoryDisplay": "System Type", "propertyDisplay": "Name", "byDisplayName": true }
   },
   "disciplineRoles": {
     "ARC": [ "AA" ],

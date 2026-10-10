@@ -27,6 +27,7 @@ public enum SetKind
     Base,
     Detail,
     Auxiliary,
+    Color,
 }
 
 /// <summary>
@@ -70,15 +71,20 @@ public sealed record SearchSetPlan(
         return wanted.Select(code => For(catalog, matrix, code)).ToList();
     }
 
+    /// <summary>A plan for a definition that lives outside the base registry (the colour sets), in the given folder.</summary>
+    public static SearchSetPlan ForDefinition(BaseSetCatalog catalog, SetDefinition definition, SetKind kind, string discipline, IReadOnlyList<string> path) =>
+        Build(catalog, definition, kind, discipline, path);
+
     private static SearchSetPlan Build(BaseSetCatalog catalog, SetDefinition definition, SetKind kind, string discipline, IReadOnlyList<string> path)
     {
         var roles = definition.Roles.Count > 0 ? definition.Roles : catalog.RolesOf(discipline).ToList();
-        var extra = definition.Conditions.Select(c => ToSpec(catalog, c)).ToList();
+        var extras = Alternatives(catalog, definition.Conditions);
         var groups = new List<IReadOnlyList<ConditionSpec>>();
         foreach (var role in roles)
         {
             var source = new ConditionSpec(catalog.SourceFile, ConditionKind.Wildcard, RoleWildcard(role));
-            groups.AddRange(definition.Categories.Select(category => Group(source, catalog, category, extra)));
+            foreach (var category in definition.Categories)
+                groups.AddRange(extras.Select(extra => Group(source, catalog, category, extra)));
             groups.AddRange(definition.AlsoCategories.Select(category => Group(source, catalog, category, Array.Empty<ConditionSpec>())));
         }
 
@@ -86,13 +92,35 @@ public sealed record SearchSetPlan(
             roles, definition.AllCategories.ToList(), groups, definition.Evidence);
     }
 
+    /// <summary>Every combination of the conditions' alternatives (one extra-condition list per group); a single empty list without conditions.</summary>
+    private static IReadOnlyList<IReadOnlyList<ConditionSpec>> Alternatives(BaseSetCatalog catalog, IReadOnlyList<ConditionDefinition> conditions)
+    {
+        IEnumerable<IReadOnlyList<ConditionSpec>> combinations = new[] { (IReadOnlyList<ConditionSpec>)Array.Empty<ConditionSpec>() };
+        foreach (var condition in conditions)
+        {
+            var specs = condition.Alternatives.Select(value => ToSpec(catalog, condition, value)).ToList();
+            combinations = combinations.SelectMany(prefix => specs.Select(spec => (IReadOnlyList<ConditionSpec>)prefix.Concat(new[] { spec }).ToList())).ToList();
+        }
+
+        return combinations.ToList();
+    }
+
+    /// <summary>Category <c>*</c> = any element with a Revit category (a discipline-wide set such as <c>HP_A_All</c>).</summary>
+    public const string AnyCategory = "*";
+
     private static IReadOnlyList<ConditionSpec> Group(ConditionSpec source, BaseSetCatalog catalog, string category, IReadOnlyList<ConditionSpec> extra) =>
         // category first: Navisworks stops a group at its first failing condition, and the category test is far more
         // selective than the source-file wildcard (live: M5 4.7 s instead of 20.9 s, same 1 089 elements)
-        new[] { new ConditionSpec(catalog.ElementCategory, ConditionKind.Equals, category), source }.Concat(extra).ToList();
+        new[]
+        {
+            category == AnyCategory
+                ? new ConditionSpec(catalog.ElementCategory, ConditionKind.Wildcard, AnyCategory)
+                : new ConditionSpec(catalog.ElementCategory, ConditionKind.Equals, category),
+            source,
+        }.Concat(extra).ToList();
 
-    private static ConditionSpec ToSpec(BaseSetCatalog catalog, ConditionDefinition condition) =>
+    private static ConditionSpec ToSpec(BaseSetCatalog catalog, ConditionDefinition condition, string value) =>
         new(catalog.Property(condition.Property),
-            condition.Op switch { "notEquals" => ConditionKind.NotEquals, "atLeast" => ConditionKind.AtLeast, _ => ConditionKind.Equals },
-            condition.Value, condition.Type);
+            condition.Op switch { "notEquals" => ConditionKind.NotEquals, "atLeast" => ConditionKind.AtLeast, "like" => ConditionKind.Wildcard, _ => ConditionKind.Equals },
+            value, condition.Type);
 }

@@ -29,6 +29,7 @@
              base search-set definitions travel inside the assembly: no file read at run time. -->
         <EmbeddedResource Include="Rules\hp-clash-matrix.json" LogicalName="HPNavis.BIMCoordinator.hp-clash-matrix.json"/>
         <EmbeddedResource Include="SearchSets\hp-base-sets.json" LogicalName="HPNavis.BIMCoordinator.hp-base-sets.json"/>
+        <EmbeddedResource Include="Colors\hp-color-sets.json" LogicalName="HPNavis.BIMCoordinator.hp-color-sets.json"/>
     </ItemGroup>
 
     <Target Name="RequireNavisworksApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NavisworksApiAvailable)' != 'true'">

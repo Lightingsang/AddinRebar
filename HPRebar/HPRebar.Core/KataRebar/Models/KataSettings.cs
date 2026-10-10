@@ -78,4 +78,15 @@ public sealed record KataSettings
 
     /// <summary>A beam at least this deep with no side bars is reported (TCVN 5574:2018 § 10.3.1.2).</summary>
     public double SideBarRequiredHeight { get; init; } = 700.0;
+
+    /// <summary>
+    /// Kata "Thể hiện móc cắt kết thúc thép": each bar end gets the short slanted cut mark on the beam's long section.
+    /// </summary>
+    public bool ShowBarEndMarks { get; init; } = true;
+
+    /// <summary>
+    /// Generation also drafts the run as Kata's drawing does: the long section's dimensions, one cross section per
+    /// section flag with its dimensions, and a sheet holding them.
+    /// </summary>
+    public bool CreateKataDrawings { get; init; } = true;
 }

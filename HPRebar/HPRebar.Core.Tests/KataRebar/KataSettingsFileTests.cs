@@ -159,6 +159,31 @@ public sealed class KataSettingsFileTests
     }
 
     [Fact]
+    public void The_combo_lists_are_Kata_lists_and_a_value_outside_falls_back()
+    {
+        Assert.Equal(new[] { 10.0, 12, 14, 16, 18, 20, 22, 25, 28, 30, 32, 36, 40 }, KataSettingsChoices.CrankMinDiameters);
+        Assert.Equal(new[] { 4.0, 6, 10, 12 }, KataSettingsChoices.CrankSlopes);
+        Assert.Equal(new[] { 16.0, 18, 20, 22, 25, 28, 30, 32, 36, 40, 50 }, KataSettingsChoices.CouplerMinDiameters);
+        Assert.Contains(KataSettings.Default.CrankMinDiameter, KataSettingsChoices.CrankMinDiameters);
+        Assert.Contains(KataSettings.Default.CrankSlope, KataSettingsChoices.CrankSlopes);
+        Assert.Contains(KataShopSettings.Default.CouplerMinDiameter, KataSettingsChoices.CouplerMinDiameters);
+
+        Assert.Equal(10.0, KataSettingsChoices.Pick(KataSettingsChoices.CrankSlopes, 10.0000001, 6.0, out bool exact));
+        Assert.True(exact);
+        Assert.Equal(6.0, KataSettingsChoices.Pick(KataSettingsChoices.CrankSlopes, 8.0, 6.0, out bool outside));
+        Assert.False(outside);
+    }
+
+    [Fact]
+    public void The_bar_end_mark_switch_is_on_by_default_and_survives_a_round_trip()
+    {
+        Assert.True(KataSettingsJson.ReadFile("{ \"SettingsVersion\": 3 }").Drawing.ShowBarEndMarks);
+
+        var off = KataSettingsFile.Default with { Drawing = KataSettings.Default with { ShowBarEndMarks = false } };
+        Assert.False(KataSettingsJson.ReadFile(KataSettingsJson.WriteFile(off)).Drawing.ShowBarEndMarks);
+    }
+
+    [Fact]
     public void The_crank_slope_comes_from_the_settings()
     {
         // (100 − 18) / 500 = 0.164: cranked at 1:6 over 600, cut at 1:8, cranked at 1:5 over 500.

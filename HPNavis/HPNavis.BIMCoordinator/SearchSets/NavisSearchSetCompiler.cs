@@ -25,7 +25,9 @@ public static class NavisSearchSetCompiler
 
     public static SearchCondition ToCondition(ConditionSpec spec, double mmPerUnit)
     {
-        var condition = SearchCondition.HasPropertyByName(spec.Property.Category, spec.Property.Property);
+        var condition = spec.Property.ByDisplayName
+            ? SearchCondition.HasPropertyByDisplayName(spec.Property.CategoryDisplay, spec.Property.PropertyDisplay)
+            : SearchCondition.HasPropertyByName(spec.Property.Category, spec.Property.Property);
         return spec.Kind switch
         {
             ConditionKind.Wildcard => condition.DisplayStringWildcard(spec.Value).IgnoreStringValueCase(),

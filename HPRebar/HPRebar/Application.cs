@@ -61,6 +61,7 @@ namespace HPRebar
             Track(kataPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
 #else
             var rebarPanel = Application.CreatePanel("Rebar", "HPRebar");
+            Track(rebarPanel.AddPushButton<KataSettingsCommand>("Kata Settings").SetAvailabilityController<KataSettingsCommand.Availability>(), icons => icons.KataSettings);
             Track(rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar"), icons => icons.ColumnRebar);
             Track(rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar"), icons => icons.BeamRebar);
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);

@@ -21,7 +21,7 @@ This skill is shared by Codex and Google Antigravity.
 
 ## Overview
 
-Dạy Claude dùng đúng 30 tool của MCP server `hprebar-navis` (`mcp__hprebar-navis__*`) trên model Navisworks Manage 2026 đang mở: chuỗi **Claude → HPNavis.Mcp.Server (stdio, net10) → pipe `hpnavis-mcp-2026` → HPNavis.McpBridge (plugin .NET Framework 4.8 trong Roamer.exe) → guard + heavy gate → Roslyn → Application.Idle → Navisworks API**. Navisworks là công cụ **review**: hình học chỉ đọc; thứ sửa được là set, viewpoint, comment, màu vĩnh viễn, ẩn/required, clash test, TimeLiner. Bridge sở hữu transaction duy nhất: mỗi run ghi = **một Undo entry `MCP: <label>`**; `dryRun` = commit rồi `Rollback()` **chỉ khi** entry trên cùng là của bridge. Việc **nặng** (append/merge/save/export/chạy clash) cần opt-in thứ hai, không undo, không ngắt được.
+Dạy Claude dùng đúng 32 tool của MCP server `hprebar-navis` (`mcp__hprebar-navis__*`) trên model Navisworks Manage 2026 đang mở: chuỗi **Claude → HPNavis.Mcp.Server (stdio, net10) → pipe `hpnavis-mcp-2026` → HPNavis.McpBridge (plugin .NET Framework 4.8 trong Roamer.exe) → guard + heavy gate → Roslyn → Application.Idle → Navisworks API**. Navisworks là công cụ **review**: hình học chỉ đọc; thứ sửa được là set, viewpoint, comment, màu vĩnh viễn, ẩn/required, clash test, TimeLiner. Bridge sở hữu transaction duy nhất: mỗi run ghi = **một Undo entry `MCP: <label>`**; `dryRun` = commit rồi `Rollback()` **chỉ khi** entry trên cùng là của bridge. Việc **nặng** (append/merge/save/export/chạy clash) cần opt-in thứ hai, không undo, không ngắt được.
 
 **Scope:** skill này xử lý *sử dụng* MCP Navisworks (kết nối, chọn tool, gọi đúng args, đọc envelope, viết script, gỡ lỗi). **Không** xử lý: sửa source `HPNavis/` (xem `AGENTS.md` mục "HPNavis MCP Bridge" + `HPNavis/tools/harness/README.md`), Revit/AutoCAD/ETABS MCP (`hp-mcp-revit`, `hp-mcp-autocad`, `hp-mcp-etabs`), plugin `NavisworksMCPPlugin` của bên thứ ba nằm cạnh, kết luận phối hợp (tool trả số liệu; quyết định thuộc BIM coordinator).
 
@@ -71,6 +71,8 @@ Chuẩn: sheet `RuleClash(HP)` của `HPBIM_MaTranKiemSoatVaCham.xlsx` (bản tr
 2. Search set (registry `SearchSets/hp-base-sets.json`: 21 base + detail MEP + `Not in matrix`, mỗi set có `evidence`): `bim_list_selection_sets` (kiểm kê = bản ghi backup) → `bim_sync_search_sets` `apply:false` (`includeExtras:true` cho cả detail/aux) → dryRun → `apply:true` → `bim_validate_search_sets` `scope:base` rồi `scope:extras` (lỗi phải = 0). Set nằm trong `Sets > HP BIMCoordinator > Architecture|Structure|MEP`; set đã có mà khác registry = `conflict`, **không ghi đè** trừ khi user duyệt → `allowUpdate:true` + `codes` của đúng các set được duyệt; không bao giờ xoá; set lạ trong thư mục HP = orphan (chỉ báo). EMPTY = test của nhóm đó sẽ bị bỏ qua. Verified THCSLT copy: 37 set, 0 lỗi, chạy lại = 37 unchanged.
 3. `bim_sync_clash_tests {lod}` `apply:false` → trình Create/Update/Unchanged/Skip → `apply:true`. Tên `HP|P1|LOD350|MEP-STR|M2-S5`; test cũ giữ kết quả/trạng thái; `orphans` = test HP của LOD đó mà ma trận không còn (chỉ báo). `mismatched` ≠ rỗng = đọc lại sai → báo user.
 Verified live 2026-10-10 trên bản copy THCSLT (19 file, 87 k element): 21 set ~30 s, 121 test LOD350 (63 bỏ qua vì A1/A3/M1/M3 rỗng) ~40 s, apply lại = Unchanged, update giữ kết quả + ghi chú, test theo set bằng đường dẫn. Mỗi lệnh ~40–60 s trên model 95 MB — đừng gọi lặp.
+
+Tô màu theo sheet `ColorSearchSet(DSC)`: `bim_sync_color_sets` (tạo 44 set `HP_*` trong `HP BIMCoordinator › Color`; set `pending` không tạo, chỉ báo) → `bim_paint_colors mode:preview` → `apply` (dryRun trước; permanent color, lưu theo NWD, Undo được) → `verify`; `reset` chỉ xoá màu phần tử của các set HP. Hệ ống lọc theo tab **System Type › Name** (thuộc tính System Type của element là tham chiếu, không lọc chuỗi được). `AppearanceOverrides` của viewpoint chỉ đọc được.
 
 4. `bim_run_canary_tests` = **HEAVY** (hỏi user, lưu file trước): chạy ≤ 3 test P1 thuộc các cặp bộ môn khác nhau; user so với Run tay cùng test. Run All do user bấm trong Clash Detective.
 
@@ -152,7 +154,7 @@ Chi tiết: `references/troubleshooting.md`.
 
 ## Resources
 
-- `references/tool-catalog-core-registry.md`, `references/tool-catalog-seeds.md`, `references/tool-catalog-coordination.md` — 30 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
+- `references/tool-catalog-core-registry.md`, `references/tool-catalog-seeds.md`, `references/tool-catalog-coordination.md` — 32 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
 - `references/script-contract.md` — globals, transaction/dryRun/undo decision, heavy gate, net48, guard, envelope, 5 script mẫu.
 - `references/navisworks-api-cheatsheet.md` — Search/SearchCondition, VariantData, ModelItem, sets, viewpoints, overrides, clash, TimeLiner, units.
 - `references/workflows.md` — 5 workflow mẫu (khảo sát → set → viewpoint, clash end-to-end với heavy, review màu, TimeLiner, toolify) đánh dấu live/chưa.

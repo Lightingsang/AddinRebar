@@ -29,6 +29,8 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
     [ObservableProperty] private double _layerClearGap;
     [ObservableProperty] private double _roundLegMm;
     [ObservableProperty] private double _sideBarRequiredHeight;
+    [ObservableProperty] private bool _showBarEndMarks;
+    [ObservableProperty] private bool _createKataDrawings;
 
     // Beam options kept for later.
     [ObservableProperty] private bool _bottomLayerNoBend;
@@ -56,12 +58,23 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
 
     public IReadOnlyList<int> HookAngleOptions { get; } = new[] { 90, 135, 180 };
 
+    public IReadOnlyList<double> CrankMinDiameterOptions => KataSettingsChoices.CrankMinDiameters;
+
+    public IReadOnlyList<double> CrankSlopeOptions => KataSettingsChoices.CrankSlopes;
+
+    public IReadOnlyList<double> CouplerMinDiameterOptions => KataSettingsChoices.CouplerMinDiameters;
+
+    /// <summary>Set by <see cref="Import"/> when a saved combo value was outside its list and the default is shown instead.</summary>
+    public string? ImportNotice { get; private set; }
+
     /// <summary>Where a lap zone is measured from: index 0 = support face ("mép"), 1 = support centre ("tâm").</summary>
     public IReadOnlyList<string> LapOriginOptions { get; } = new[] { "mép", "tâm" };
 
     public void Import(KataSettingsFile file)
     {
         var s = file.Drawing;
+        var d = KataSettings.Default;
+        var replaced = new List<string>();
         ClosedStirrupHookAngle = s.ClosedStirrupHookAngle;
         ClosedStirrupHookFactor = s.ClosedStirrupHookFactor;
         CrossTieHookAngle = s.CrossTieHookAngle;
@@ -69,8 +82,10 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
         RoundCutExtraMm = s.RoundCutExtraMm;
         SideBarAnchorageFactor = s.SideBarAnchorageFactor;
         LayerTieMinBarCount = s.LayerTieMinBarCount;
-        CrankMinDiameter = s.CrankMinDiameter;
-        CrankSlope = s.CrankSlope;
+        CrankMinDiameter = KataSettingsChoices.Pick(KataSettingsChoices.CrankMinDiameters, s.CrankMinDiameter, d.CrankMinDiameter, out bool crankOk);
+        if (!crankOk) replaced.Add($"Ø bẻ cổ chai {s.CrankMinDiameter:0.##}");
+        CrankSlope = KataSettingsChoices.Pick(KataSettingsChoices.CrankSlopes, s.CrankSlope, d.CrankSlope, out bool slopeOk);
+        if (!slopeOk) replaced.Add($"tỷ lệ cổ chai 1/{s.CrankSlope:0.##}");
         CurtailedExtensionMm = s.CurtailedExtensionMm;
         DenseZoneHeightFactor = s.DenseZoneHeightFactor;
         EndZoneFraction = s.EndZoneFraction;
@@ -79,6 +94,8 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
         LayerClearGap = s.LayerClearGap;
         RoundLegMm = s.RoundLegMm;
         SideBarRequiredHeight = s.SideBarRequiredHeight;
+        ShowBarEndMarks = s.ShowBarEndMarks;
+        CreateKataDrawings = s.CreateKataDrawings;
 
         var p = file.Pending;
         BottomLayerNoBend = p.BottomLayerNoBend;
@@ -89,7 +106,9 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
         DifferentNumbersForIdenticalBars = p.DifferentNumbersForIdenticalBars;
 
         var shop = file.Shop;
-        CouplerMinDiameter = shop.CouplerMinDiameter;
+        CouplerMinDiameter = KataSettingsChoices.Pick(KataSettingsChoices.CouplerMinDiameters, shop.CouplerMinDiameter,
+            KataShopSettings.Default.CouplerMinDiameter, out bool couplerOk);
+        if (!couplerOk) replaced.Add($"Ø coupler {shop.CouplerMinDiameter:0.##}");
         MaxBarLengthMm = shop.MaxBarLengthMm;
         MinLengthForCuttingMm = shop.MinLengthForCuttingMm;
         MinBarLengthFactor = shop.MinBarLengthFactor;
@@ -103,6 +122,10 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
         BottomLapZoneFraction = shop.BottomLapZoneFraction;
         BottomLapZoneOrigin = shop.BottomLapZoneFromCentre ? 1 : 0;
         PreferFewerLaps = shop.PreferFewerLaps;
+
+        ImportNotice = replaced.Count == 0
+            ? null
+            : $"File thiết lập có {string.Join(", ", replaced)} ngoài danh sách: hộp thoại hiện mặc định; thép vẫn vẽ theo giá trị cũ tới khi bấm Chấp nhận.";
     }
 
     /// <summary>What is wrong with the tab, or null.</summary>
@@ -152,7 +175,9 @@ public sealed partial class KataDetailSettingsTabViewModel : ObservableObject
         MinimumLegFactor = MinimumLegFactor,
         LayerClearGap = LayerClearGap,
         RoundLegMm = RoundLegMm,
-        SideBarRequiredHeight = SideBarRequiredHeight
+        SideBarRequiredHeight = SideBarRequiredHeight,
+        ShowBarEndMarks = ShowBarEndMarks,
+        CreateKataDrawings = CreateKataDrawings
     };
 
     public KataBeamOptions ExportPending() => new()

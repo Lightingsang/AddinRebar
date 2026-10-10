@@ -56,6 +56,11 @@ public sealed class RibbonIcons
             (Steel, "M8,10 H10 V22 H8 Z M14,10 H16 V22 H14 Z M20,10 H22 V22 H20 Z M26,10 H28 V22 H26 Z"),
             (Steel, "M12,14 L18,14 L18,12 L22,16 L18,20 L18,18 L12,18 Z"));
 
+        // Kata Settings: three slider rails (2 px) with their knobs (4×8) at different positions.
+        KataSettings = Glyph(
+            (ink, "M4,6 H28 V8 H4 Z M4,14 H28 V16 H4 Z M4,22 H28 V24 H4 Z"),
+            (Steel, "M18,2 H22 V12 H18 Z M8,10 H12 V20 H8 Z M14,18 H18 V28 H14 Z"));
+
         // A window with a title bar (the status window) holding a plug (the connection the bridge offers):
         // frame 2 px, title bar 4 px; plug = two prongs, body, cable. Identical to the AutoCAD and Navisworks bridges.
         McpBridge = Glyph(
@@ -68,6 +73,9 @@ public sealed class RibbonIcons
 
     /// <summary>Generate 3D beam reinforcement from Kata Excel.</summary>
     public ImageSource KataRebar { get; }
+
+    /// <summary>Slider rails — the Kata settings dialog.</summary>
+    public ImageSource KataSettings { get; }
 
     /// <summary>Column section with a tie and four corner bars.</summary>
     public ImageSource ColumnRebar { get; }

@@ -284,9 +284,22 @@ Nguồn: `04_quy_dinh_thep_dam.md` §3.2 (dòng ghi ở cột Nguồn). Chưa c�
   - Revit không cho số đã có thanh khác hình giữ, hoặc coi hai thanh khác số Kata là một: giữ số Revit / số Kata nhỏ hơn và ghi trong thông báo.
   - Live B01: 36 nhóm, số 1…37 trừ 18 (F17 dài bằng I17 trong HP nên Revit gộp vào 12; Kata cắt I17 khác, R-135 chưa rõ). Vai bò 36, 37 (Kata dùng lại số 25 / 28 trên mặt đứng — chưa làm theo).
 
+## 15a. Móc cắt kết thúc thép trên mặt cắt dọc (2026-10-08)
+
+| ID | Quy tắc |
+|---|---|
+| R-160 | `ShowBarEndMarks` bật (mặc định): mỗi lần Tạo thép, dải dầm có một section dọc do HPRebar tạo — tên ô B3 (ký tự Revit cấm `` \:{}[]|;<>?`~ `` → "-"; trống → "Kata <id>"; tên đã có ở view khác, không phân biệt hoa thường → "B03 (Kata)"), TL 1/25, bỏ view template, trục 1 bên trái như Kata, mặt cắt trước mặt trước dầm 300 (hình chiếu cả dầm như Kata), far clip qua mặt sau 300, crop = thép ± 400; thép unobscured. Tắt, hoặc không có thép dọc: không tạo section, móc cũ bị xoá. Bước này lỗi → chỉ bước này hoàn tác, thép vẫn tạo, thông báo ghi lỗi. |
+| R-161 | Móc ở **mọi đầu** thép chủ, gia cường, cốt giá, vai bò (đầu bẻ → mút chân bẻ); không cho đai, móc C; không ở mối nối chồng (chưa có mối nối). Detail line từ đầu thanh lùi dọc thanh, lệch **30°**, dài **3.2 mm trên giấy** (80 mm ở 1/25) — số của user; DWG Kata là 75×25 (18.4°). Hướng như canvas (`KataBarDrafting.Inward`): đầu thẳng thép trên quay xuống, thép khác quay lên, mút chân bẻ quay về thân thanh. Thanh cạnh nhau theo bề rộng dầm chung một móc. Style `kata_thep chu` (thiếu → tạo đỏ, nét 3). |
+| R-162 | Tạo lại: tìm section của dải theo storage (khoá = unique id các dầm), crop lại, xoá móc cũ có storage, vẽ móc mới; nét/ghi chú user thêm trong view giữ nguyên. Dầm bị xoay/dời (hướng hoặc mặt cắt đổi) → section cũ **giữ lại** (bỏ đánh dấu, không cập nhật nữa), tạo section mới, thông báo nêu tên. Một Ctrl+Z huỷ cả lần chạy. |
+
+Đo được khi kiểm trực tiếp: section tạo từ box nhìn theo +BasisZ, Min.Z là mặt cắt, chiều phải màn hình = −BasisX (box
+BasisX = trục dầm cho ra hình lật gương, console sang trái); `CropBox.Transform` của view đã tạo khác box lúc tạo — so
+sánh qua `View.RightDirection` + `View.Origin`. Test: `KataBarEndMarkTests` (B01/B02/B03 so DWG: hướng móc đúng ở mọi
+cặp, ≥ 75 % nét Kata có móc — phần còn lại là khác biệt layout, không phải móc).
+
 ## 16. Thiết lập
 
-Thiết lập lưu ở `%AppData%\HPRebar\KataSettings.json`, sửa trong **Kata Export ▸ Thiết lập** — hộp 3 tab như "Cài đặt
+Thiết lập lưu ở `%AppData%\HPRebar\KataSettings.json`, sửa bằng nút ribbon **HPRebar ▸ Rebar ▸ Kata Settings** (nút đầu panel, mở được không cần chọn dầm; 2026-10-07 thay nút "Cài đặt" trong Kata Export — cửa sổ Kata Export đang mở phải Đọc thép Excel lại) — hộp 3 tab như "Cài đặt
 thông số Kata" (2026-10-06, user chọn cách B). Một file, ba nhóm:
 
 | Nhóm | Khoá JSON | Tới quy tắc vẽ thép |
@@ -297,13 +310,18 @@ thông số Kata" (2026-10-06, user chọn cách B). Một file, ba nhóm:
 
 | Tab | Có tác dụng | Chưa áp dụng |
 |---|---|---|
-| Detail thép | móc đai □ / C, bẻ cổ chai từ Ø, **tỷ lệ nhấn cổ chai 1/6** (`CrankSlope`, R-81), làm tròn, vùng đai dày, cắt gia cường, khe lớp, cốt giá, chân neo | thép lớp dưới không bẻ ke, thép trên không neo xuống cột dưới, luôn bẻ ke, cắt thép chạy suốt ở đầu nhịp, đánh số khác cho thanh giống nhau; coupler, dài tối đa 11700, min xét cắt 8800, tối thiểu 100d, làm tròn neo nối, quy cách + vùng nối, ưu tiên ít mối nối |
+| Detail thép | móc đai □ / C, bẻ cổ chai từ Ø, **tỷ lệ nhấn cổ chai 1/6** (`CrankSlope`, R-81), làm tròn, vùng đai dày, cắt gia cường, khe lớp, cốt giá, chân neo, **thể hiện móc cắt kết thúc thép** (`ShowBarEndMarks`, R-160) | thép lớp dưới không bẻ ke, thép trên không neo xuống cột dưới, luôn bẻ ke, cắt thép chạy suốt ở đầu nhịp, đánh số khác cho thanh giống nhau; coupler, dài tối đa 11700, min xét cắt 8800, tối thiểu 100d, làm tròn neo nối, quy cách + vùng nối, ưu tiên ít mối nối |
 | Thông số đặc thù | — | bảng khối lượng, nối vùng nén 30d / kéo, mép nhấn cách mép nối, khoảng cách 2 mối nối, dung sai phối thép, bảng neo nối |
 | Thép mặc định | dầm giao / cột cấy riêng: đai gia cường mỗi bên `5f8a50` (Ø riêng, số hiệu riêng, loại thép Revit theo Ø đó), vai bò bật/tắt `2f16`, bẻ ngang 150, góc 45 / 60 | spec số lượng đai, đai băng qua |
 
 Mặc định đai gia cường nút là `5f8a50` (user 2026-10-06), không phải `5f10a50` của hộp Kata: B01 (G6 Ø10) có đai nút
 Ø8 riêng. Vai bò mặc định `2f16` như bản vẽ B01 (hộp Kata ghi 2f14). Vai bò quá 2 thanh: chỉ có 2 chỗ cạnh thép chủ
 trên → vẽ 2, cảnh báo. Dầm giao và cột cấy chung một nhóm đai nút: bước nhỏ hơn, Ø lớn hơn.
+
+Ba ô là combobox chỉ chọn trong danh sách như hộp Kata (`KataSettingsChoices`, 2026-10-08): bẻ cổ chai từ Ø
+10/12/14/16/18/20/22/25/28/30/32/36/40 (16), tỷ lệ nhấn cổ chai 1/4·1/6·1/10·1/12 (1/6, file lưu n), coupler từ Ø
+16/18/20/22/25/28/30/32/36/40/50 (30). File có giá trị ngoài danh sách: hộp thoại hiện mặc định + một dòng báo; thép vẫn
+vẽ theo số trong file tới khi bấm Chấp nhận.
 
 Mọi giá trị đi qua `KataSettingsSanitizer`: âm, NaN, ∞, tỉ lệ vượt nửa nhịp, ký hiệu đọc không được đều quay về mặc định;
 dòng bảng sai bị bỏ. File cũ (không có `SettingsVersion`, đang giữ đúng mặc định cũ 15d / 2h / 0.15) được tự chuyển sang

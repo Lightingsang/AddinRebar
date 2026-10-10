@@ -202,38 +202,10 @@ public sealed partial class KataExportViewModel
         }
     }
 
-    [RelayCommand(CanExecute = nameof(CanLoadRebar))]
-    private async Task OpenSettingsAsync()
-    {
-        View.KataSettingsView? window = null;
-        bool accepted = false;
-        var viewModel = new KataSettingsViewModel(KataSettingsStore.LoadFile(), ok =>
-        {
-            accepted = ok;
-            window?.Close();
-        });
-
-        // Revit hosts no WPF Application, so the owner is this view model's own window.
-        window = new View.KataSettingsView(viewModel) { Owner = OwnWindow() };
-        window.ShowDialog();
-
-        if (viewModel.SaveFailed)
-            ShowState("Không ghi được file thiết lập; thông số chỉ dùng trong phiên Revit này.", error: true);
-        if (accepted && RebarSpec is not null) await PreviewRebarAsync();
-    }
-
-    private System.Windows.Window? OwnWindow() =>
-        System.Windows.PresentationSource.CurrentSources
-            .OfType<System.Windows.Interop.HwndSource>()
-            .Select(source => source.RootVisual)
-            .OfType<System.Windows.Window>()
-            .FirstOrDefault(w => ReferenceEquals(w.DataContext, this));
-
     partial void OnIsBusyChanged(bool value)
     {
         LoadRebarCommand.NotifyCanExecuteChanged();
         GenerateRebarCommand.NotifyCanExecuteChanged();
-        OpenSettingsCommand.NotifyCanExecuteChanged();
         RemoveBarsCommand.NotifyCanExecuteChanged();
         UndoRemoveBarsCommand.NotifyCanExecuteChanged();
     }

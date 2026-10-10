@@ -130,6 +130,12 @@ public sealed record KataDetailingRules
     /// <summary>Run of the crank per unit of rise (1:6, "Tỷ lệ đoạn nhấn cổ chai").</summary>
     public double CrankSlope { get; init; } = 6.0;
 
+    /// <summary>The beam's long section gets a cut mark at every bar end (<see cref="Calculators.KataBarEndMarkLayout"/>).</summary>
+    public bool ShowBarEndMarks { get; init; } = true;
+
+    /// <summary>Generation drafts the cross sections, dimensions and sheet of Kata's drawing (<see cref="KataSettings.CreateKataDrawings"/>).</summary>
+    public bool CreateKataDrawings { get; init; } = true;
+
     /// <summary>Whether a step <paramref name="step"/> over a support <paramref name="supportWidth"/> wide is cranked (not cut).</summary>
     public bool Cranks(double step, double supportWidth, double diameter) =>
         diameter + 1e-6 >= CrankMinDiameter

@@ -1,0 +1,47 @@
+{
+  "name": "bim_paint_colors",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "colors",
+    "appearance",
+    "review"
+  ],
+  "title": "Paint the HP colour sets",
+  "description": "Permanent colours (the Appearance Profiler look, saved in the NWD) from the company sheet ColorSearchSet(DSC), read from the saved sets under Sets > HP BIMCoordinator > Color (create them first with bim_sync_color_sets). mode=preview (default): which set paints how many elements, nothing written. mode=apply: paints in sheet order, every element once with the colour of its last set (a nested element in a later set keeps that set's colour), then reads a sample back from the element geometry. mode=verify: read-back only. mode=reset: removes the permanent colours (and transparency) of the current painting sets' elements only — colours the user set on other elements stay, and so does an old colour on an element that has left every set. success=false when a painting set is missing from the document (run bim_sync_color_sets apply first). <Default> sets (HP_A_All, HP_S_All, communication, conduit, data devices) never paint. Use dryRun with apply/reset to preview the undo; one Undo entry; codes narrows to some sets.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "preview",
+          "apply",
+          "verify",
+          "reset"
+        ],
+        "default": "preview",
+        "description": "preview = counts only; apply = paint + read-back; verify = read-back; reset = remove the colours of the painting sets' elements"
+      },
+      "codes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only these colour sets, by code (C17) or sheet name (HP_P_Drainage_RainWater); empty = all"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.PaintColors: DocumentModels.OverridePermanentColor per set on the elements it owns, ModelGeometry.PermanentColor read-back (25 per set), DocumentModels.ResetPermanentMaterials on the painting sets' elements for reset (never ResetAllPermanentMaterials)."
+}

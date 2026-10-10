@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Preview the colour sets",
+    "args": {}
+  },
+  {
+    "title": "Create the colour sets",
+    "args": {
+      "apply": true
+    }
+  }
+]

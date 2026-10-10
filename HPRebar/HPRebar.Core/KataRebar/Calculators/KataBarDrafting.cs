@@ -38,22 +38,20 @@ public static class KataBarDrafting
         var (ax, az) = Unit(next.X - end.X, next.Z - end.Z);
         // On an end segment shorter than the slash, the slash stops at its far end.
         double along = Math.Min(KataTagStyle.TickAlong, Math.Sqrt(Sq(next.X - end.X) + Sq(next.Z - end.Z)));
-        double ix, iz;
-        if (Math.Abs(az) < 0.5)
-        {
-            // A straight end: toward the inside of the beam.
-            ix = 0.0;
-            iz = topBar ? -1.0 : 1.0;
-        }
-        else
-        {
-            // The tip of a hook leg: toward the bar's body.
-            ix = meanX >= end.X ? 1.0 : -1.0;
-            iz = 0.0;
-        }
-
+        var (ix, iz) = Inward(end, next, topBar, meanX);
         return (end.X + along * ax + KataTagStyle.TickAcross * ix,
                 end.Z + along * az + KataTagStyle.TickAcross * iz);
+    }
+
+    /// <summary>
+    /// The side the slash at <paramref name="end"/> turns to, as a unit vector across the bar: a straight end toward the
+    /// inside of the beam (down for a top bar, up for the others), the tip of a hook leg toward the bar's body (the side
+    /// of <paramref name="meanX"/>, the mean X of the bar's vertices).
+    /// </summary>
+    public static (double X, double Z) Inward((double X, double Z) end, (double X, double Z) next, bool topBar, double meanX)
+    {
+        var (_, az) = Unit(next.X - end.X, next.Z - end.Z);
+        return Math.Abs(az) < 0.5 ? (0.0, topBar ? -1.0 : 1.0) : (meanX >= end.X ? 1.0 : -1.0, 0.0);
     }
 
     /// <summary>A square bend rounded; any other corner (a crank) as it is.</summary>

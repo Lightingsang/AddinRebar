@@ -1,6 +1,6 @@
-# HPNavis MCP — tool catalog: the 6 BIM-coordination seeds of the HP clash matrix (probe disciplines, list / sync / validate search sets, sync clash tests per LOD, run canary tests)
+# HPNavis MCP — tool catalog: the 8 BIM-coordination seeds (probe disciplines, list / sync / validate search sets, sync colour sets, paint colours, sync clash tests per LOD, run canary tests)
 
-Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (30 tools in all) on an isolated registry — the surface a fresh install shows; the user's own registry may add approved tools. Names are `mcp__hprebar-navis__<name>` in Claude Code. `REQ` = required. Every seed takes and reports **millimetres** (the API itself works in the document's units — `units` converts); item ids are instance-guid hashes from earlier results. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (32 tools in all) on an isolated registry — the surface a fresh install shows; the user's own registry may add approved tools. Names are `mcp__hprebar-navis__<name>` in Claude Code. `REQ` = required. Every seed takes and reports **millimetres** (the API itself works in the document's units — `units` converts); item ids are instance-guid hashes from earlier results. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Coordination
 
@@ -12,6 +12,16 @@ Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (30 tools in all) on an 
 |---|---|---|---|
 | `folder` | string |  | Folder path to list, '/'-separated; empty = the whole Sets tree |
 | `withConditions` | boolean | false | Include the search conditions as text (bounded) |
+
+### `bim_paint_colors` — Paint the HP colour sets
+
+*destructiveHint.* Permanent colours (the Appearance Profiler look, saved in the NWD) from the company sheet ColorSearchSet(DSC), read from the saved sets under Sets > HP BIMCoordinator > Color (create them first with bim_sync_color_sets). mode=preview (default): which set paints how many elements, nothing written. mode=apply: paints in sheet order, every element once with the colour of its last set (a nested element in a later set keeps that set's colour), then reads a sample back from the element geometry. mode=verify: read-back only. mode=reset: removes the permanent colours (and transparency) of the current painting sets' elements only — colours the user set on other elements stay, and so does an old colour on an element that has left every set. success=false when a painting set is missing from the document (run bim_sync_color_sets apply first). <Default> sets (HP_A_All, HP_S_All, communication, conduit, data devices) never paint. Use dryRun with apply/reset to preview the undo; one Undo entry; codes narrows to some sets.
+
+| arg | type | default | description |
+|---|---|---|---|
+| `mode` | string preview \| apply \| verify \| reset | "preview" | preview = counts only; apply = paint + read-back; verify = read-back; reset = remove the colours of the painting sets' elements |
+| `codes` | array<string> |  | Only these colour sets, by code (C17) or sheet name (HP_P_Drainage_RainWater); empty = all |
+| `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
 
 ### `bim_probe_disciplines` — Probe disciplines for the HP clash matrix
 
@@ -43,6 +53,17 @@ Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (30 tools in all) on an 
 | `priorities` | array<integer> |  | Only these priorities (1 = HIGH, 2 = MEDIUM, 3 = LOW); empty = all |
 | `ruleIds` | array<string> |  | Only these rules, e.g. ["HP_A8_S2"]; empty = all eligible |
 | `listUnchanged` | boolean | false | Also list the rules whose test is already up to date |
+| `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
+
+### `bim_sync_color_sets` — Sync the HP colour search sets
+
+*destructiveHint.* Builds the colour search sets of the company sheet ColorSearchSet(DSC) under Sets > HP BIMCoordinator > Color, named exactly as the sheet (HP_A_All, HP_E_CableTray(ELV), HP_P_Drainage_RainWater ...). Each set = source file of its discipline AND Revit category AND its system rule (System Type such as "TNM" for rain water, System Classification such as Fire Protection Wet, or the model file for ELV/LV cable trays). Sets without a reliable rule yet are listed as pending and never built. apply=false (default) previews item counts; apply=true creates missing sets, leaves identical ones, reports a set whose saved search differs as a conflict unless allowUpdate=true with the approved codes. Nothing is removed and nothing is coloured here — colour with bim_paint_colors. One Undo entry; dryRun undoes it.
+
+| arg | type | default | description |
+|---|---|---|---|
+| `apply` | boolean | false | false = preview only; true = write the sets |
+| `allowUpdate` | boolean | false | Replace the named saved sets whose search differs from the registry (approval required; needs codes) |
+| `codes` | array<string> |  | Only these sets, by code (C03) or sheet name (HP_E_CableTray(ELV)); empty = every set that is not pending |
 | `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
 
 ### `bim_sync_search_sets` — Sync the HP search-set registry

@@ -11,7 +11,8 @@ namespace HPRebar.KataRebar.Service;
 
 /// <summary>
 /// Draws a plan in one undo step "Kata Rebar - {beam}": deletes the bars of the previous run, gives the beams the
-/// stirrup cover of J9, creates the stirrup sets, then the main bars, then gives every bar its Kata number as Rebar Number. Each step is its own transaction; a step that fails rolls the whole
+/// stirrup cover of J9, creates the stirrup sets, then the main bars, then gives every bar its Kata number as Rebar Number,
+/// then draws the cut marks on the run's long section. Each step is its own transaction; a step that fails rolls the whole
 /// group back, so the model is either fully updated or untouched.
 /// </summary>
 public static class KataRebarOrchestrator
@@ -47,6 +48,7 @@ public static class KataRebarOrchestrator
                 ? runner.Run("Kata Rebar: móc C, đai trong", () => KataBarSetCreator.Create(doc, plan, placement, barTypes))
                 : new KataBarSetOutcome(0, 0, Array.Empty<string>());
             var numberWarnings = runner.Run("Kata Rebar: số hiệu", () => KataRebarNumberAssigner.Apply(doc, hosts));
+            var section = DraftLongSection(runner, doc, plan, placement, hosts, name);
             int extraTop = plan.Layout.ExtraTopBars.Count;
             int extraBottom = plan.Layout.ExtraBottomBars.Count;
             int sideBars = plan.Layout.SideBars.Count;
@@ -68,6 +70,10 @@ public static class KataRebarOrchestrator
                           + $", {stirrups.Sets} bộ đai"
                           + (stirrups.SingleBars > 0 ? $" + {stirrups.SingleBars} đai lẻ" : "")
                           + (deleted > 0 ? $"; xoá {deleted} phần tử thép của lần chạy trước." : ".")
+                          + (section.ViewName is not null ? $" Mặt cắt dọc '{section.ViewName}': {section.Marks} móc cắt kết thúc thép{(section.DeletedMarks > 0 ? $" (thay {section.DeletedMarks} móc cũ)" : "")}." : "")
+                          + (section.SheetNumber is not null ? $" Bản vẽ: {section.CrossSections} mặt cắt ngang, {section.Dims} dim{(section.RefusedDims > 0 ? $" ({section.RefusedDims} chuỗi dim Revit từ chối)" : "")}, sheet {section.SheetNumber}." : "")
+                          + (section.Superseded is not null ? $" Mặt cắt cũ '{section.Superseded}' không còn khớp dầm nên giữ lại, không cập nhật nữa." : "")
+                          + (section.Error is not null ? $" Không vẽ được mặt cắt dọc / móc cắt: {section.Error} (thép vẫn được tạo)." : "")
                           + (coverWarnings.Count > 0 ? " " + string.Join(" ", coverWarnings) : "")
                           + (barSets.Warnings.Count > 0 ? " " + string.Join(" ", barSets.Warnings) : "")
                           + (numberWarnings.Count > 0 ? " " + string.Join(" ", numberWarnings) : ""),
@@ -90,6 +96,25 @@ public static class KataRebarOrchestrator
             if (group.GetStatus() == TransactionStatus.Started) group.RollBack();
             Log.Error(ex, "Kata Rebar: drawing beam {Beam} failed and was rolled back ({Reason})", name, ex.Message);
             return KataRebarGenerationResult.Failed($"Không vẽ được dầm {name} (đã hoàn tác): {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// The long section and its cut marks are drafting: a failure there rolls back that step only (the runner rolls its
+    /// transaction back before rethrowing) and is reported, while the bars just drawn stay.
+    /// </summary>
+    private static KataLongSectionDrafter.Outcome DraftLongSection(
+        KataTransactionRunner runner, Document doc, KataRebarPlan plan, KataBeamPlacement placement, IReadOnlyList<Element> hosts, string name)
+    {
+        try
+        {
+            return runner.Run("Kata Rebar: mặt cắt dọc, móc cắt", () => KataLongSectionDrafter.Apply(doc, plan, placement, hosts));
+        }
+        catch (Exception ex)
+        {
+            // Any failure here, a defect included, costs the drafting only: the bars just drawn are worth keeping.
+            Log.Error(ex, "Kata Rebar: long section of beam {Beam} not drawn ({Reason}); the bars are kept", name, ex.Message);
+            return new KataLongSectionDrafter.Outcome(null, 0, 0) { Error = ex.Message };
         }
     }
 }
