@@ -1,11 +1,6 @@
 ---
 name: bs:plan
 description: "Plan implementations, design architectures, create technical roadmaps with detailed phases. Use for feature planning, system design, solution architecture, implementation strategy, phase documentation. Invoke when work needs phases, architecture, or a roadmap. Keywords: planning, architecture, phases, roadmap."
-user-invocable: true
-when_to_use: "Invoke when work needs phases, architecture, or a roadmap."
-category: utilities
-keywords: [planning, architecture, phases, roadmap]
-argument-hint: "[task] [--fast|--hard|--deep|--parallel|--two] [--tdd|--no-tasks] OR [archive|red-team|validate]"
 license: MIT
 metadata:
   author: claudekit
@@ -78,7 +73,8 @@ title: "<Phase Name>"
 status: pending       # pending | in-progress | completed
 priority: P2          # P1 | P2 | P3
 effort: ""            # e.g. "4h", "2d"
-dependencies: []      # phase IDs this blocks on
+dependencies: []      # phase IDs this blocks on (Blocked by)
+type: AFK             # AFK (agent verifies alone) | HITL (needs a human — see below)
 ---
 
 # Phase <id>: <Name>
@@ -108,6 +104,8 @@ dependencies: []      # phase IDs this blocks on
 ## Risk Assessment
 <Risks + mitigations>
 ````
+
+**Phases are vertical slices, typed AFK or HITL.** Each phase cuts through every layer it needs (Core → host service → UI/MCP tool → test) and ends in something observable, never "all models first, all UI later". `type: HITL` when the phase cannot be closed by the agent alone: live verification inside Revit/AutoCAD/Civil 3D/Navisworks/ETABS…, approval of a refactor wave, a product/UX decision, or anything irreversible; otherwise `type: AFK` (build + tests prove it). Prefer AFK phases; put each HITL step in its own small phase so AFK work never waits on it. `dependencies` lists the phases that block this one, so independent AFK phases can run in parallel. Details and examples: `references/vertical-slices.md`.
 
 **IMPORTANT:** Before you start, scan unfinished plans in the active scope first:
 - Project scope: `./plans/`

@@ -5,7 +5,7 @@ user-invocable: true
 when_to_use: "Invoke to review diffs, PRs, commits, or full codebases."
 category: utilities
 keywords: [review, quality, red-team, security]
-argument-hint: "[#PR | COMMIT | --pending | codebase [parallel]]"
+argument-hint: "[#PR | COMMIT | --pending | codebase [parallel|deepen [path]]]"
 metadata:
   author: claudekit
   version: "2.0.0"
@@ -28,6 +28,7 @@ Auto-detect from arguments. If ambiguous or no arguments, prompt via `host user-
 | *(no args, recent changes)* | **Default** | Recent changes in context |
 | `codebase` | **Codebase** | Full codebase scan |
 | `codebase parallel` | **Codebase+** | Parallel multi-reviewer audit |
+| `codebase deepen [path]` | **Deepening** | Read-only architecture lens: shallow modules → numbered deepening candidates in `plans/reports/` (never edits code) |
 
 **Resolution details:** `references/input-mode-resolution.md`
 
@@ -74,6 +75,7 @@ SITUATION?
 │   ├─ --pending → git diff (staged + unstaged)
 │   ├─ codebase → full scan (references/codebase-scan-workflow.md)
 │   ├─ codebase parallel → parallel audit (references/parallel-review-workflow.md)
+│   ├─ codebase deepen → shallow-module candidates, read-only (references/architecture-deepening.md)
 │   └─ default → recent changes in context
 │
 ├─ Received feedback → STOP if unclear, verify if external, implement if human partner
@@ -192,6 +194,7 @@ host task-create capability: "Verify fixes pass"        → pending, blockedBy: 
 |------------|-----------|---------|
 | `/bs:code-review codebase` | `references/codebase-scan-workflow.md` | Scan & analyze the codebase |
 | `/bs:code-review codebase parallel` | `references/parallel-review-workflow.md` | Ultrathink edge cases, then parallel verify |
+| `/bs:code-review codebase deepen [path]` | `references/architecture-deepening.md` | Find shallow modules, list deepening candidates; on the user's pick, 3 parallel interface designs → RFC in `plans/`. Never edits code or CLEAN_CODE_AUDIT; refactors still go through approved waves |
 
 ## Bottom Line
 

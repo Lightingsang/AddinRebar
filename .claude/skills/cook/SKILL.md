@@ -35,7 +35,13 @@ End-to-end implementation with automatic workflow detection.
 
 **Composable flags** (combine with any mode):
 - `--tdd`: Tests-first per phase — write tests for current behavior before
-  refactoring, then verify they still pass after the implementation step
+  refactoring, then verify they still pass after the implementation step.
+  For **new** behavior run the tracer-bullet loop: confirm the interface and
+  the behaviors to test with the user, then one test → see it RED → minimal
+  code → GREEN → next behavior; refactor only once all are green. Pure code
+  only (`HPRebar.Core`, McpShared engine, `*.Aec`, MCP server side) — code that
+  calls a host API (Revit `Document`, AutoCAD, ETABS COM…) is verified by
+  golden run / TUnit / live harness instead. See `references/tdd-tracer-bullet.md`.
 
 **Example:**
 ```

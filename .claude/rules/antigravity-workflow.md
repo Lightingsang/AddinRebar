@@ -14,7 +14,8 @@ Tie-break: một trigger Planning là đủ; sửa ≤ 2 file mà cần build/te
 
 ## 2. Planning Mode
 
-1. Trước khi chạm code: `/bs:plan` (Stack-Aware 6 phase khi project Nice3point) → artifact [plans/](plans/) ▸ `<YYMMDD-HHmm>-<slug>/plan.md` < 80 dòng, thêm `phase-NN-<slug>.md` khi > 1 phase — cấu trúc theo [documentation-management.md](.claude/rules/documentation-management.md).
+0. Yêu cầu chưa cụ thể đủ 5 trường (output, tiêu chí nghiệm thu, phạm vi trong/ngoài, ràng buộc bắt buộc, điểm chạm) → chạy `/grill-me` trước, chỉ sang bước 1 khi user xác nhận requirement contract. Đủ 5 trường hoặc user đưa sẵn plan → bỏ qua bước này.
+1. Trước khi chạm code: `/bs:plan` (Stack-Aware 6 phase khi project Nice3point; mỗi phase là lát dọc ghi `type: AFK|HITL` + `dependencies`) → artifact [plans/](plans/) ▸ `<YYMMDD-HHmm>-<slug>/plan.md` < 80 dòng, thêm `phase-NN-<slug>.md` khi > 1 phase — cấu trúc theo [documentation-management.md](.claude/rules/documentation-management.md).
 2. Trả `Kế hoạch Triển khai` đúng template CLAUDE.md, tóm ≤ 10 dòng + link tới plan (mục 4).
 3. **DỪNG chờ xác nhận** khi có ≥ 1 mục *User Review Required* **hoặc** bất kỳ trigger irreversible / dependency mới / wire contract — kể cả khi không có câu hỏi mở.
 4. Không có mục nào ở bước 3 → ghi câu chốt "Không có quyết định cần người dùng" rồi tiếp tục `/bs:cook` theo [primary-workflow.md](.claude/rules/primary-workflow.md) (build gate → test → review) — đúng "Quy tắc tự chủ kỹ thuật".

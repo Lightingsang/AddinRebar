@@ -99,6 +99,11 @@ Step 3.V: Verify all tests from 3.T still pass + compile gates
 Tests from Step 3.T document the current behavior. If any fail after Step 3.I,
 the refactor broke something and must be fixed before the workflow proceeds.
 
+For **new** behavior, Step 3.T/3.I become the tracer-bullet loop of
+`tdd-tracer-bullet.md` (interface agreed → one RED test → minimal GREEN →
+repeat → refactor). Code that calls a host API is out of TDD scope: verify it
+with the golden run / TUnit / live harness named in the phase.
+
 **All modes:**
 - Use `TaskUpdate` to mark tasks as `in_progress` immediately.
 - Execute phase tasks sequentially (Step 3.1, 3.2, etc.)

@@ -110,6 +110,7 @@ For PR/commit options, follow up with second `AskUserQuestion` to get the number
 Codebase modes bypass diff resolution — they scan the full codebase instead.
 - `codebase` → hand off to `references/codebase-scan-workflow.md`
 - `codebase parallel` → hand off to `references/parallel-review-workflow.md`
+- `codebase deepen [path]` → hand off to `references/architecture-deepening.md` (read-only)
 
 Both workflows include adversarial review (always-on).
 

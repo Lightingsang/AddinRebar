@@ -5,11 +5,14 @@ Workflow sequences cho Revit Add-In stack. Skills listed in typical execution or
 ## Core Development Workflow (Revit Add-In)
 
 ```
-/bs:plan (Stack-Aware 6 phase) → /bs:cook (build verify gate) → /bs:revit-debug (F5 smoke test) → /bs:code-review → /bs:ship → /bs:journal
+[/grill-me khi yêu cầu còn mơ hồ] → /bs:plan (Stack-Aware 6 phase, phase = lát dọc AFK/HITL) → /bs:cook (build verify gate) → /bs:revit-debug (F5 smoke test) → /bs:code-review → /bs:ship → /bs:journal
 ```
 
 | User Intent | Suggested Start |
 |-------------|----------------|
+| yêu cầu mơ hồ / "grill me" / "phản biện yêu cầu" / stress-test một plan có sẵn | `/grill-me` → `/bs:plan` |
+| logic thuần mới (HPRebar.Core, McpShared engine, `*.Aec`, server MCP) | `/bs:plan` → `/bs:cook --tdd` (tracer-bullet: 1 test đỏ → code tối thiểu → xanh → lặp → refactor) |
+| "module nào nên làm sâu" / rà kiến trúc định kỳ / sau một đợt nhiều feature | `/bs:code-review codebase deepen [path]` (chỉ đọc; ứng viên → `plans/reports/`; refactor vẫn theo wave đã duyệt) |
 | "tạo add-in revit mới" | `/bs:plan` → `/bs:revit-addin` → `/bs:cook` |
 | "thêm command/button vào ribbon" | `/bs:plan --fast` → `/bs:cook` |
 | "thêm view/dialog WPF" | `/bs:plan` → `/bs:revit-wpf-mvvm` → `/bs:cook` |

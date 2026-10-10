@@ -1,11 +1,6 @@
 ---
 name: bs:cook
 description: "Implement features, plans, and fixes with structured workflow. Use for feature development, plan execution, code implementation pipelines. Invoke to implement known scope after requirements are clear. Keywords: implementation, workflow, feature, pipeline."
-user-invocable: true
-when_to_use: "Invoke to implement known scope after requirements are clear."
-category: utilities
-keywords: [implementation, workflow, feature, pipeline]
-argument-hint: "[task|plan-path] [--interactive|--fast|--parallel|--auto|--no-test] [--tdd]"
 metadata:
   author: claudekit
   version: "2.2.0"
@@ -44,7 +39,13 @@ End-to-end implementation with automatic workflow detection.
 
 **Composable flags** (combine with any mode):
 - `--tdd`: Tests-first per phase — write tests for current behavior before
-  refactoring, then verify they still pass after the implementation step
+  refactoring, then verify they still pass after the implementation step.
+  For **new** behavior run the tracer-bullet loop: confirm the interface and
+  the behaviors to test with the user, then one test → see it RED → minimal
+  code → GREEN → next behavior; refactor only once all are green. Pure code
+  only (`HPRebar.Core`, McpShared engine, `*.Aec`, MCP server side) — code that
+  calls a host API (Revit `Document`, AutoCAD, ETABS COM…) is verified by
+  golden run / TUnit / live harness instead. See `references/tdd-tracer-bullet.md`.
 
 **Example:**
 ```
