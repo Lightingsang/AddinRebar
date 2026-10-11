@@ -138,5 +138,19 @@ public sealed class BaseSetCatalog
 
         foreach (var auxiliary in Auxiliary.Where(a => a.Parent is not null))
             Fail($"{auxiliary.Code}: auxiliary sets have no parent");
+
+        var current = new HashSet<string>(AllDefinitions.Select(d => $"{FolderOf(d, matrix)}/{d.DisplayName}"), StringComparer.Ordinal);
+        var previous = AllDefinitions.SelectMany(d => d.Previously.Select(path => (d.Code, path))).ToList();
+        foreach (var (code, path) in previous)
+        {
+            if (path.Split('/').Length < 2 || path.Split('/').Any(string.IsNullOrWhiteSpace)) Fail($"{code}: earlier path '{path}' needs a folder and a set name");
+            if (current.Contains(path)) Fail($"{code}: earlier path '{path}' is where a registry set lives now");
+        }
+
+        if (previous.Select(p => p.path).Distinct(StringComparer.Ordinal).Count() != previous.Count) Fail("two sets claim the same earlier path");
     }
+
+    /// <summary>Folder of a definition below the top folder: the discipline folder for a base set, its own folder otherwise.</summary>
+    private string FolderOf(SetDefinition definition, ClashMatrix matrix) =>
+        Sets.Contains(definition) ? DisciplineFolders[matrix.Group(definition.Code).Discipline] : definition.Folder!;
 }

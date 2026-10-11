@@ -26,11 +26,14 @@ public static partial class CoordinatorTools
         var plans = SearchSetPlan.All(catalog, ClashMatrix.Default, codes, includeExtras);
         var outcomes = apply ? NavisSearchSetCompiler.Apply(doc, plans, mmPerUnit, allowUpdate, ct) : NavisSearchSetCompiler.Preview(doc, plans, mmPerUnit, ct);
         var empty = outcomes.Where(o => o.Items == 0).Select(o => o.Code).ToList();
-        var conflicts = outcomes.Where(o => o.Action == "conflict").Select(o => o.Code).ToList();
+        var conflicts = outcomes.Where(o => SetUpsert.IsConflict(o.Action)).Select(o => o.Code).ToList();
         var warnings = new List<string>();
         warnings.AddRange(empty.Select(code => $"{code} finds no element in this model"));
         warnings.AddRange(conflicts.Select(code => $"{code}: the saved set differs from the registry and was left as it is; re-run with allowUpdate=true and codes=[\"{code}\"] once approved"));
-        var orphans = SetUpsert.Orphans(NavisSearchSetCompiler.SetPathsUnder(doc, new[] { catalog.Folder }), RegistryPaths(catalog));
+        // a preview still sees the sets it would move at their earlier paths: they are owned, not orphans
+        var moving = plans.Where(p => outcomes.Any(o => o.Code == p.Code && o.Action.StartsWith("move", StringComparison.Ordinal)))
+            .SelectMany(p => p.Previous.Select(path => string.Join("/", path)));
+        var orphans = SetUpsert.Orphans(NavisSearchSetCompiler.SetPathsUnder(doc, new[] { catalog.Folder }), RegistryPaths(catalog).Concat(moving));
         warnings.AddRange(orphans.Take(MaxOrphansListed).Select(path => $"{path}: under {catalog.Folder} but owned by no registry entry (renamed/moved entry or hand-made set) — left as it is"));
         return new
         {

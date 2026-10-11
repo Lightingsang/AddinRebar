@@ -68,6 +68,13 @@ public sealed class SetDefinition
     /// <summary>Only these role codes of the discipline (e.g. one model of three); empty = every role of it.</summary>
     [JsonPropertyName("roles")] public List<string> Roles { get; set; } = new();
 
+    /// <summary>
+    ///     Where earlier registry versions saved this set, '/'-separated below the top folder and ending with the old display
+    ///     name (<c>Not in matrix/X.1 MEP plumbing fixtures and equipment</c>). A sync that finds the set there and not at
+    ///     its current place moves (and renames) it instead of creating a duplicate; nothing is deleted.
+    /// </summary>
+    [JsonPropertyName("previously")] public List<string> Previously { get; set; } = new();
+
     /// <summary>Exact name of the saved set when the source dictates it (the colour sheet's <c>HP_P_Drainage_RainWater</c>).</summary>
     [JsonPropertyName("displayName")] public string? DisplayNameOverride { get; set; }
 

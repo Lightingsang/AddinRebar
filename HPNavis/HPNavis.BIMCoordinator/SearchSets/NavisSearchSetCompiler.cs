@@ -8,7 +8,8 @@ public sealed record SearchSetOutcome(string Code, string Kind, string Disciplin
 /// <summary>
 ///     Turns <see cref="SearchSetPlan" />s into dynamic Navisworks search sets under the plan's folder path. Upsert by
 ///     display name inside that folder: identical search → <c>unchanged</c>, absent → <c>created</c>, different →
-///     <c>conflict</c> (left as it is) unless the caller allows updates, then <c>updated</c> (replaced in place). Sets
+///     <c>conflict</c> (left as it is) unless the caller allows updates, then <c>updated</c> (replaced in place). A set
+///     saved only at one of the plan's earlier paths is first <c>moved</c> (and renamed) there, then upserted. Sets
 ///     outside the plan folders are never written and nothing is ever removed. Navisworks main thread only.
 /// </summary>
 public static class NavisSearchSetCompiler
@@ -58,15 +59,29 @@ public static class NavisSearchSetCompiler
             var search = BuildSearch(plan, mmPerUnit);
             var count = search.FindAll(doc, false).Count;
             var existing = FindSet(doc, plan);
+            var previousPath = plan.Previous.FirstOrDefault(path => FindSet(doc, path) is not null);
+            string? move = null;
+            if (SetUpsert.Relocate(existing is not null, previousPath is not null) == Relocation.Move)
+            {
+                existing = FindSet(doc, previousPath!);
+                if (write)
+                {
+                    MoveTo(doc, previousPath!, plan);
+                    existing = FindSet(doc, plan);
+                }
+
+                move = write ? "moved" : "move";
+            }
+
             var decision = SetUpsert.Decide(existing is not null, existing is { HasSearch: true } && existing.Search.ValueEquals(search), allowUpdate);
-            var action = decision switch
+            var upsert = decision switch
             {
                 UpsertAction.Create => write ? Create(doc, plan, search) : "create",
                 UpsertAction.Update => write ? Replace(doc, plan, search) : "update",
                 UpsertAction.Unchanged => "unchanged",
                 _ => "conflict",
             };
-            outcomes.Add(new SearchSetOutcome(plan.Code, plan.Kind.ToString(), plan.Discipline, plan.Folder, plan.DisplayName, count, action, plan.Groups.Count));
+            outcomes.Add(new SearchSetOutcome(plan.Code, plan.Kind.ToString(), plan.Discipline, plan.Folder, plan.DisplayName, count, SetUpsert.Describe(move, upsert), plan.Groups.Count));
         }
 
         return outcomes;
@@ -88,6 +103,31 @@ public static class NavisSearchSetCompiler
     /// <summary>The saved set a plan owns, or null; looked up fresh because every edit replaces the document's copies.</summary>
     public static SelectionSet? FindSet(Document doc, SearchSetPlan plan) =>
         FindFolder(doc, plan.FolderPath)?.Children.OfType<SelectionSet>().FirstOrDefault(s => s.DisplayName == plan.DisplayName);
+
+    /// <summary>The saved set at a full path (folders … display name), or null.</summary>
+    public static SelectionSet? FindSet(Document doc, IReadOnlyList<string> path) =>
+        FindFolder(doc, path.Take(path.Count - 1).ToList())?.Children.OfType<SelectionSet>().FirstOrDefault(s => s.DisplayName == path[path.Count - 1]);
+
+    /// <summary>
+    ///     Moves the set saved at <paramref name="previousPath" /> to the end of the plan's folder (created when missing) and
+    ///     gives it the plan's display name; its search is kept as it was.
+    /// </summary>
+    private static void MoveTo(Document doc, IReadOnlyList<string> previousPath, SearchSetPlan plan)
+    {
+        var oldName = previousPath[previousPath.Count - 1];
+        var oldFolder = previousPath.Take(previousPath.Count - 1).ToList();
+        var target = EnsureFolder(doc, plan.FolderPath);
+        if (!plan.FolderPath.SequenceEqual(oldFolder))
+        {
+            var oldParent = FindFolder(doc, oldFolder)!;
+            doc.SelectionSets.Move(oldParent, IndexOfSet(oldParent, oldName), target, target.Children.Count);
+        }
+
+        if (oldName == plan.DisplayName) return;
+        var moved = FindSet(doc, plan.FolderPath.Concat(new[] { oldName }).ToList())
+                    ?? throw new InvalidOperationException($"{plan.Code}: '{oldName}' was not found after the move");
+        doc.SelectionSets.EditDisplayName(moved, plan.DisplayName);
+    }
 
     /// <summary>Folder path + name of a saved item, e.g. <c>HP BIMCoordinator/MEP/M4 Pipes and Pipe Accessories</c>.</summary>
     public static string PathOf(Document doc, SavedItem item)

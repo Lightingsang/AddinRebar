@@ -19,7 +19,7 @@ public static partial class CoordinatorTools
         var colors = ColorSetCatalog.Default;
         var plans = colors.Plans(BaseSetCatalog.Default, codes);
         var outcomes = apply ? NavisSearchSetCompiler.Apply(doc, plans, mmPerUnit, allowUpdate, ct) : NavisSearchSetCompiler.Preview(doc, plans, mmPerUnit, ct);
-        var conflicts = outcomes.Where(o => o.Action == "conflict").Select(o => o.Name).ToList();
+        var conflicts = outcomes.Where(o => SetUpsert.IsConflict(o.Action)).Select(o => o.Name).ToList();
         var pending = codes is { Count: > 0 } ? new List<ColorSetEntry>() : colors.Sets.Where(s => s.Pending is not null).ToList();
         var warnings = new List<string>();
         warnings.AddRange(outcomes.Where(o => o.Items == 0).Select(o => $"{o.Name} finds no element in this model"));

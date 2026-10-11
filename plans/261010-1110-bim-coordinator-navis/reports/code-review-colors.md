@@ -178,4 +178,4 @@ stale/project-specific colouring needs user decisions.
 | M4, M6 | user decision | — |
 | L3 L4 L5 L6 L7 L11 | not changed (low, documented) | — |
 
-Gates: BIMCoordinator.Tests 117/117, Mcp.Server.Tests 76/76, McpBridge.Tests 177/177 (`-p:DeployPlugin=false`); server exe republished (tools/list 32), catalog regenerated + skill mirror synced (check exit 0). Live re-run of the fixed engine: CHƯA TEST — Roamer (pid 30044) still runs the previous engine DLL; redeploy needs it closed.
+Gates: BIMCoordinator.Tests 117/117, Mcp.Server.Tests 76/76, McpBridge.Tests 177/177 (`-p:DeployPlugin=false`); server exe republished (tools/list 32), catalog regenerated + skill mirror synced (check exit 0). Live re-run of the fixed engine (2026-10-11, plugin redeployed, fresh THCSLT copy SHA B27F…): verify before sync → success:false, 28 blocking skips (M1 ✓); sync apply 33 created (same counts), re-run 33 unchanged; paint apply 13 982 elements 12.2 s, 28 sets read (5 Default not searched), read-back 450/450 (M2 ✓); verify 48 ms (was a full Default-set search, M5 ✓); reset dryRun 13 982 rolled back, verify after = 75/75 still painted.

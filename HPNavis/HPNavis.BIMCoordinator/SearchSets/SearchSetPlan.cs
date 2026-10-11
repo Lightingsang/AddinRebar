@@ -37,9 +37,13 @@ public enum SetKind
 /// </summary>
 public sealed record SearchSetPlan(
     string Code, SetKind Kind, string Discipline, string? Parent, IReadOnlyList<string> FolderPath, string DisplayName,
-    IReadOnlyList<string> Roles, IReadOnlyList<string> Categories, IReadOnlyList<IReadOnlyList<ConditionSpec>> Groups, string Evidence)
+    IReadOnlyList<string> Roles, IReadOnlyList<string> Categories, IReadOnlyList<IReadOnlyList<ConditionSpec>> Groups, string Evidence,
+    IReadOnlyList<IReadOnlyList<string>>? PreviousPaths = null)
 {
     public string Folder => string.Join("/", FolderPath);
+
+    /// <summary>Full paths (top folder … old display name) where earlier registry versions saved this set.</summary>
+    public IReadOnlyList<IReadOnlyList<string>> Previous => PreviousPaths ?? Array.Empty<IReadOnlyList<string>>();
 
     /// <summary>
     ///     Wildcard on an element's source file: the role, then the four-character number, then anything — Revit
@@ -88,8 +92,9 @@ public sealed record SearchSetPlan(
             groups.AddRange(definition.AlsoCategories.Select(category => Group(source, catalog, category, Array.Empty<ConditionSpec>())));
         }
 
+        var previous = definition.Previously.Select(p => (IReadOnlyList<string>)new[] { catalog.Folder }.Concat(p.Split('/')).ToList()).ToList();
         return new SearchSetPlan(definition.Code, kind, discipline, definition.Parent, path, definition.DisplayName,
-            roles, definition.AllCategories.ToList(), groups, definition.Evidence);
+            roles, definition.AllCategories.ToList(), groups, definition.Evidence, previous);
     }
 
     /// <summary>Every combination of the conditions' alternatives (one extra-condition list per group); a single empty list without conditions.</summary>
