@@ -24,13 +24,17 @@ public sealed class NavisHeavyGate
     /// <summary>Ceiling when heavy operations are on; the Navisworks server profile advertises the same constant.</summary>
     public const int HeavyMaxTimeoutSeconds = HPRebar.Mcp.Contracts.HostScriptContracts.NavisHeavyMaxTimeoutSeconds;
 
-    /// <summary>Document members that load, merge, save, export, or run a clash test.</summary>
+    /// <summary>
+    ///     Document members that load, merge, save, export, or run a clash test — and the BIM-coordinator engine's clash
+    ///     export, which writes a snapshot file beside the model.
+    /// </summary>
     public static readonly HashSet<string> HeavyMembers = new(StringComparer.Ordinal)
     {
         "AppendFile", "AppendFiles", "TryAppendFile", "TryAppendFiles", "MergeFile", "MergeFiles", "TryMergeFile", "TryMergeFiles",
         "RemoveFile", "TryRemoveFile", "OpenFile", "TryOpenFile", "OpenAggregate", "TryOpenAggregate", "UpdateFiles",
         "SaveFile", "TrySaveFile", "ExportToNwd", "TryExportToNwd", "PublishFile", "TryPublishFile", "ExportAsDwf", "GenerateImage",
         "TestsRunTest", "TestsRunAllTests", "TestsCompactAllTests", "TestsCompactTest",
+        "ExportClashSnapshot",
     };
 
     /// <summary>Path fragments a heavy call may never name, even when heavy operations are allowed.</summary>

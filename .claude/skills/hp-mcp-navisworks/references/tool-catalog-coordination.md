@@ -1,8 +1,18 @@
-# HPNavis MCP — tool catalog: the 8 BIM-coordination seeds (probe disciplines, list / sync / validate search sets, sync colour sets, paint colours, sync clash tests per LOD, run canary tests)
+# HPNavis MCP — tool catalog: the 10 BIM-coordination seeds (probe disciplines, list / sync / validate search sets, sync colour sets, paint colours, sync clash tests per phase, run canary tests, run a phase in batches, export the clash snapshot with pictures)
 
-Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (32 tools in all) on an isolated registry — the surface a fresh install shows; the user's own registry may add approved tools. Names are `mcp__hprebar-navis__<name>` in Claude Code. `REQ` = required. Every seed takes and reports **millimetres** (the API itself works in the document's units — `units` converts); item ids are instance-guid hashes from earlier results. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
+Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (34 tools in all) on an isolated registry — the surface a fresh install shows; the user's own registry may add approved tools. Names are `mcp__hprebar-navis__<name>` in Claude Code. `REQ` = required. Every seed takes and reports **millimetres** (the API itself works in the document's units — `units` converts); item ids are instance-guid hashes from earlier results. Seed descriptions end with `[Registry tool v1, <Category>, transaction=…]`; that suffix is stripped here.
 
 ## Coordination
+
+### `bim_export_clash_snapshot` — Export the HP clash results of one design phase
+
+*readOnlyHint.* HEAVY (writes files): reads the HP clash tests of one design phase (names HP|LOD<phase>|…) and every result — test, rule, priority group, discipline pair, result GUID, status, distance and centre in mm, the two Revit elements (name, category, Element Id, source file) and the level — and writes the snapshot JSON to the ClashReports folder beside the open model (the folder comes from the model, never from the caller; an unsaved model or a UNC path is refused). With images (default) it first writes the Navisworks clash report (Report tab, HTML (Tabular), all tests combined, every field) of the New/Active/Reviewed/Resolved results into a folder named after the snapshot — one picture per clash, rendered by Navisworks; the Report tab's own settings are restored afterwards. Read-only for the model: nothing in it changes. Run the tests first (bim_run_phase_tests or Clash Detective > Run All); tests that never ran are counted and warned. Needs 'Allow heavy operations' ticked in the bridge window. Returns the file name, the HTML report path and the totals by status and level; turn the files into the workbook (summary, CLASH DESCRIPTION with pictures, by level, every clash, changes since the previous export) with tools/bim-coordinator/build-clash-report.py — the skill /hp-bim-clash-report does both.
+
+| arg | type | default | description |
+|---|---|---|---|
+| `lod` | string auto \| 200 \| 300 \| 350-400 | "auto" | Design phase to export; auto = the one phase the model's HP tests belong to |
+| `images` | boolean | true | Also write the Navisworks HTML report with one picture per reported clash (takes longer: Navisworks renders each picture) |
+| `maxPictures` | integer | 500 | Most pictures in the HTML report, taken in test-name order (priority group 1 first); the other reported clashes stay in the snapshot without a picture |
 
 ### `bim_list_selection_sets` — List saved selection and search sets
 
@@ -40,6 +50,18 @@ Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (32 tools in all) on an 
 | `lod` | string 200 \| 300 \| 350-400 | "350-400" | Design phase whose tests to run: 200, 300 or 350-400 |
 | `count` | integer | 3 | How many canaries when ruleIds is empty |
 | `ruleIds` | array<string> |  | Run exactly these rules' tests, e.g. ["HP_M2_S5"]; each must be up to date with non-empty sets |
+| `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
+
+### `bim_run_phase_tests` — Run the HP clash tests of one design phase in batches
+
+*destructiveHint.* HEAVY: runs the HP clash-matrix tests of one design phase (names HP|LOD<phase>|…, in name order: priority group, then pair) one after the other, starting a test only while the slowest one so far still fits in the time budget, and returns nextAfter — call again with after = nextAfter until it is null. A test that fails is listed in failed[] and the batch goes on. onlyNotRun runs only the tests that never ran (resume after Navisworks was closed). Needs 'Allow heavy operations' ticked in the bridge window and the file saved first: runs cannot be interrupted, and a call that fails or times out is rolled back by the bridge, which undoes that call's runs. Returns each test's result counts by status and its run time. Other tests (not HP|…) are never run.
+
+| arg | type | default | description |
+|---|---|---|---|
+| `lod` | string auto \| 200 \| 300 \| 350-400 | "auto" | Design phase whose tests to run; auto = the one phase the model's HP tests belong to |
+| `after` | string |  | Start after this test name: empty for the first batch, then the nextAfter of the previous call |
+| `onlyNotRun` | boolean | false | Only the tests that never ran (the offset counts within that shorter list) |
+| `budgetSeconds` | integer | 300 | Start no new test once elapsed time plus the slowest test so far would pass this many seconds; the call itself may last up to 600 s |
 | `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
 
 ### `bim_sync_clash_tests` — Sync the HP clash tests for a LOD

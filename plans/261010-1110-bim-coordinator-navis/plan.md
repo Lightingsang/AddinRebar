@@ -79,6 +79,28 @@ Requirement contract confirmed 2026-10-10 (grill-me). Source standard: `HPBIM_Ma
 | Live on copy 2026-10-11: original-like state (LOD200 10 / LOD350 121 / LOD400 121 old names + Test 1) → thi-cong preview 121 Update (rename) + 121 duplicates + 10 other; dryRun with removal rolled back (131 removed); all 3 phases applied (350-400 121 renamed, 300 110 created, 200 10 renamed), read back OK; canaries 300 0/17/0, 350-400 0/17/2, 200 0/0/0; co-so + removal → 352 removed, 10 LOD200 + Test 1 left, re-run Unchanged | done |
 | Original model 2026-10-11 → co-so: search sets 22 unchanged; preview 10 Update + 242 to remove (LOD350 121, LOD400 121); dryRun rolled back; apply removed 242, renamed 10, read back OK, re-run Unchanged; 10 HP LOD200 + Test 1 | done — user Save pending |
 
+## Slice 2 — clash report and tracking (2026-10-11, grill-me contract)
+| Step | Status |
+|---|---|
+| Decisions: user runs Run All; seed exports, Python writes xlsx; tracking = compare runs; detail list + level; files beside the NWD; transport = snapshot JSON written by the engine (pipe single-client) — user 2026-10-11 | done |
+| Engine `Reports/` (ClashSnapshot rules, NavisClashSnapshotReader), `CoordinatorTools.ExportClashSnapshot` on the heavy gate list; seed `bim_export_clash_snapshot` (HEAVY, none) | done — tests 159/79/183 |
+| `tools/bim-coordinator/build-clash-report.py` (4 sheets, diff by GUID then rule + Element Ids) + `tests/` | done — 6/6 |
+| Skill `.claude/skills/hp-bim-clash-report`, routing, docs | done |
+| Live on THCSLT after the user's Run All: export, xlsx totals = Clash Detective, second export 0 new / 0 resolved, GUID stability | pending: plugin deploy + Run All |
+
+## Slice 3 — batch runs + report with pictures (2026-10-11, grill-me contract)
+| Step | Status |
+|---|---|
+| Decisions: Claude runs tests in batches; pictures from the Navisworks Report tab (HTML), put into the xlsx; sheet laid out like the company agenda (CLASH DESCRIPTION + Summary); open + resolved clashes, both disciplines counted; layout rebuilt in code — user 2026-10-11 | done |
+| Spike: `LcClClashReport.WriteReport` is static; `LcClClashGUIProxy` subclass answers the save prompt; scripts cannot reach `Interop` (guard) → engine-internal writer | done |
+| Engine `Reports/ClashReportRules` + `NavisClashReportWriter`, `ExportClashSnapshot(…, writeHtml, maxPictures, …)`, `PhaseTestNames`; seed `bim_run_phase_tests` (HEAVY), export seed `images`/`maxPictures` | done — tests 174/82/188 |
+| `clash-report-html.py`, `clash-description-sheet.py`, builder wiring + thumbnails; Python tests 9/9 | done |
+| Live on a THCSLT copy: 121 tests ~80 s, 20 261 clashes, 300 pictures 8.4 s, xlsx 5.4 MB, re-export 0 new / 0 resolved | done |
+| Review round (7/10, `plans/reports/code-review-2026-10-11-clash-pictures.md`): name cursor `after`, budget by slowest test, no throw after a run, handles disposed, no report when nothing to picture, open clashes pictured first, English fields required, `pictured`/`foundAt` per row, parser per-table test reset; bridge rollback after heavy runs logged as audit H-13 | done — tests 180/82/188, Python 11 |
+| Re-verified live on the copy: batch 30 s → 35 tests + `nextAfter`, resume → 86 tests 55 s, 500 pictures 14.3 s, all 500 pictured rows matched, xlsx 6.0 MB, 0 new / 0 resolved vs previous export | done |
+| Found Date: `ClashResult.CreatedTime` is UTC and the HTML report prints it as UTC; the sheet shows the snapshot's local `foundAt` | done |
+| Original model (run + export beside the NWD on the Drive) | pending: user approval |
+
 ## Layout
 ```
 HPNavis/HPNavis.BIMCoordinator/        net48, refs Navisworks Api + Clash (Private=false), System.Text.Json (already in Core graph)

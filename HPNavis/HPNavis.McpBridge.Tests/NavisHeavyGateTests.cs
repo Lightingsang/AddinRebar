@@ -26,6 +26,19 @@ public sealed class NavisHeavyGateTests
     }
 
     [Fact]
+    public void The_clash_export_writes_a_file_so_it_waits_for_the_heavy_opt_in()
+    {
+        const string script = "return HPNavis.BIMCoordinator.CoordinatorTools.ExportClashSnapshot(doc, \"auto\", units.ToMm(1), true, 500, ct);";
+
+        var off = Gate(false).Check(script, out var heavyOff);
+        Assert.True(heavyOff);
+        Assert.Contains("ExportClashSnapshot is a heavy operation", Assert.Single(off).Message);
+
+        Assert.Empty(Gate(true).Check(script, out var heavyOn));
+        Assert.True(heavyOn);
+    }
+
+    [Fact]
     public void Heavy_on_lets_AppendFile_through_but_still_flags_the_call()
     {
         var diagnostics = Gate(true).Check("doc.AppendFile(@\"C:\\models\\x.nwd\"); return 1;", out var hasHeavyCalls);

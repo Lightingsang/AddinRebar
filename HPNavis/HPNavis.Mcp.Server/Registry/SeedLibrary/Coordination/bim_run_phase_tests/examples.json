@@ -1,0 +1,19 @@
+[
+  {
+    "title": "First batch of the model's phase",
+    "args": {}
+  },
+  {
+    "title": "Next batch",
+    "args": {
+      "after": "HP|LOD350-400|P2|ARC-MEP|A6 Architectural Floors-M4 Pipes and Pipe Accessories"
+    }
+  },
+  {
+    "title": "Only the tests that never ran",
+    "args": {
+      "lod": "350-400",
+      "onlyNotRun": true
+    }
+  }
+]

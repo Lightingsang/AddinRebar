@@ -1,0 +1,53 @@
+{
+  "name": "bim_export_clash_snapshot",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "none",
+  "timeoutSeconds": 600,
+  "destructive": false,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "clash",
+    "report",
+    "heavy"
+  ],
+  "title": "Export the HP clash results of one design phase",
+  "description": "HEAVY (writes files): reads the HP clash tests of one design phase (names HP|LOD<phase>|…) and every result — test, rule, priority group, discipline pair, result GUID, status, distance and centre in mm, the two Revit elements (name, category, Element Id, source file) and the level — and writes the snapshot JSON to the ClashReports folder beside the open model (the folder comes from the model, never from the caller; an unsaved model or a UNC path is refused). With images (default) it first writes the Navisworks clash report (Report tab, HTML (Tabular), all tests combined, every field) of the New/Active/Reviewed/Resolved results into a folder named after the snapshot — one picture per clash, rendered by Navisworks; the Report tab's own settings are restored afterwards. Read-only for the model: nothing in it changes. Run the tests first (bim_run_phase_tests or Clash Detective > Run All); tests that never ran are counted and warned. Needs 'Allow heavy operations' ticked in the bridge window. Returns the file name, the HTML report path and the totals by status and level; turn the files into the workbook (summary, CLASH DESCRIPTION with pictures, by level, every clash, changes since the previous export) with tools/bim-coordinator/build-clash-report.py — the skill /hp-bim-clash-report does both.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "lod": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "200",
+          "300",
+          "350-400"
+        ],
+        "default": "auto",
+        "description": "Design phase to export; auto = the one phase the model's HP tests belong to"
+      },
+      "images": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also write the Navisworks HTML report with one picture per reported clash (takes longer: Navisworks renders each picture)"
+      },
+      "maxPictures": {
+        "type": "integer",
+        "default": 500,
+        "minimum": 1,
+        "maximum": 2000,
+        "description": "Most pictures in the HTML report, taken in test-name order (priority group 1 first); the other reported clashes stay in the snapshot without a picture"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Calls HPNavis.BIMCoordinator.CoordinatorTools.ExportClashSnapshot (NavisClashSnapshotReader: ClashResult.Item1/Item2 → the Revit element above the solid, Item > Layer for the level; File.Move after a temporary file; NavisClashReportWriter: the static LcClClashReport.WriteReport the Report tab calls, results chosen by GUID with LcClashReportResultSelector, the save prompt answered by an LcClClashGUIProxy subclass, tab settings captured and restored). The heavy gate lists ExportClashSnapshot, so the call is refused while heavy operations are off and never dry-run."
+}

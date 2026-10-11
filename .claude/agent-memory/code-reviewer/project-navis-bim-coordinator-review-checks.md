@@ -28,5 +28,12 @@ Colour by search set (report code-review-colors.md, 7.5/10):
 - Reset scope = current members only → stale colours after model/sheet change; Default sets resolved (full search) in every mode vs 120 s cap; `*` category should not be "category first".
 - Alternatives (values) OR-expand: notEquals/bool alternatives = tautology; no group cap. Verify generator regen == committed JSON (python --out scratch + diff).
 
+Batch runs + report with pictures (report plans/reports/code-review-2026-10-11-clash-pictures.md, 7/10):
+- Live fact: bridge rollback after a failed/timed-out call UNDOES clash runs, yet NavisScriptRunner reports rolledBack=false "not undoable". Batch seeds must not throw after a run AND must not overrun the timeout (predictive stop).
+- Resume by index (`offset + failed.Count`) assumes failed ⇔ LastRun null; prefer a name cursor over the Ordinal-sorted list.
+- Interop `Lc*` types (selector, GUI proxy, report field) are NativeHandle/IDisposable — check `using`.
+- Empty `LcClashReportResultSelector` behaviour unverified → skip WriteReport when nothing selected.
+- Python HTML index: silent {} on missing/unparsed report; test name carried across tables → wrong picture; fallback dates presented as data.
+
 **Why:** engine code referenced by the script compiler is outside the guard and the heavy gate; only tests fence it.
 **How to apply:** rerun these checks on slice 2 (issue state, reports beside the NWD) and any other Navis engine. Related: [[project-aec-mcp-review-recurring-checks]].

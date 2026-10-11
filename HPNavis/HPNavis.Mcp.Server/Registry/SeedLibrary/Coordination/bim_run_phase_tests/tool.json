@@ -1,0 +1,57 @@
+{
+  "name": "bim_run_phase_tests",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Coordination",
+  "transaction": "auto",
+  "timeoutSeconds": 600,
+  "destructive": true,
+  "host": "navis",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "bim-coordinator",
+    "clash-matrix",
+    "clash",
+    "heavy"
+  ],
+  "title": "Run the HP clash tests of one design phase in batches",
+  "description": "HEAVY: runs the HP clash-matrix tests of one design phase (names HP|LOD<phase>|…, in name order: priority group, then pair) one after the other, starting a test only while the slowest one so far still fits in the time budget, and returns nextAfter — call again with after = nextAfter until it is null. A test that fails is listed in failed[] and the batch goes on. onlyNotRun runs only the tests that never ran (resume after Navisworks was closed). Needs 'Allow heavy operations' ticked in the bridge window and the file saved first: runs cannot be interrupted, and a call that fails or times out is rolled back by the bridge, which undoes that call's runs. Returns each test's result counts by status and its run time. Other tests (not HP|…) are never run.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "lod": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "200",
+          "300",
+          "350-400"
+        ],
+        "default": "auto",
+        "description": "Design phase whose tests to run; auto = the one phase the model's HP tests belong to"
+      },
+      "after": {
+        "type": "string",
+        "default": "",
+        "description": "Start after this test name: empty for the first batch, then the nextAfter of the previous call"
+      },
+      "onlyNotRun": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only the tests that never ran (the offset counts within that shorter list)"
+      },
+      "budgetSeconds": {
+        "type": "integer",
+        "default": 300,
+        "minimum": 30,
+        "maximum": 420,
+        "description": "Start no new test once elapsed time plus the slowest test so far would pass this many seconds; the call itself may last up to 600 s"
+      }
+    },
+    "additionalProperties": false
+  },
+  "notes": "Lists the tests via HPNavis.BIMCoordinator.CoordinatorTools.PhaseTestNames and resumes with ClashReportRules.RemainingAfter (a name cursor, so tests added or finished between calls cannot shift it); runs them here with DocumentClashTests.TestsRunTest so the bridge's heavy gate sees the call, resolving each test by name right before its run because a run disposes the wrapper handed to it. Nothing throws once a test ran: a failed call makes the bridge roll back, and that rollback undoes clash runs."
+}

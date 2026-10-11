@@ -19,7 +19,7 @@ public sealed class SeedLibraryStructureTests
 {
     private const int MaxCodeBytes = 32 * 1024;
     private static readonly string[] Modes = ["auto", "manual", "none"];
-    private static readonly Regex HeavyMember = new(@"\.(AppendFile|AppendFiles|TryAppendFile|MergeFile|MergeFiles|RemoveFile|OpenFile|UpdateFiles|SaveFile|ExportToNwd|PublishFile|ExportAsDwf|GenerateImage|TestsRunTest|TestsRunAllTests|TestsCompactAllTests|TestsCompactTest)\s*\(", RegexOptions.Compiled);
+    private static readonly Regex HeavyMember = new(@"\.(ExportClashSnapshot|AppendFile|AppendFiles|TryAppendFile|MergeFile|MergeFiles|RemoveFile|OpenFile|UpdateFiles|SaveFile|ExportToNwd|PublishFile|ExportAsDwf|GenerateImage|TestsRunTest|TestsRunAllTests|TestsCompactAllTests|TestsCompactTest)\s*\(", RegexOptions.Compiled);
 
     public sealed record Seed(string Category, string Name, JsonElement Tool, string Code, JsonElement Examples);
 
@@ -59,15 +59,15 @@ public sealed class SeedLibraryStructureTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_twenty_seeds_are_embedded_eleven_read_only_nine_writing_two_heavy()
+    public void All_twenty_two_seeds_are_embedded_twelve_read_only_ten_writing_four_heavy()
     {
         var seeds = LoadSeeds();
 
-        Assert.Equal(20, seeds.Count);
-        Assert.Equal(11, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
-        Assert.Equal(9, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "auto"));
-        Assert.Equal(["bim_run_canary_tests", "create_and_run_clash_test"], seeds.Where(s => Tags(s).Contains("heavy")).Select(s => s.Name).Order().ToArray());
-        Assert.Equal(8, seeds.Count(s => s.Category == "Coordination"));
+        Assert.Equal(22, seeds.Count);
+        Assert.Equal(12, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(10, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "auto"));
+        Assert.Equal(["bim_export_clash_snapshot", "bim_run_canary_tests", "bim_run_phase_tests", "create_and_run_clash_test"], seeds.Where(s => Tags(s).Contains("heavy")).Select(s => s.Name).Order().ToArray());
+        Assert.Equal(10, seeds.Count(s => s.Category == "Coordination"));
     }
 
     [Theory]

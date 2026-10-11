@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Export the phase the model is in",
+    "args": {}
+  },
+  {
+    "title": "Export the construction-drawings tests",
+    "args": {
+      "lod": "350-400"
+    }
+  },
+  {
+    "title": "Snapshot only, no pictures",
+    "args": {
+      "images": false
+    }
+  }
+]
