@@ -39,9 +39,28 @@ Requirement contract confirmed 2026-10-10 (grill-me). Source standard: `HPBIM_Ma
 | Contract (grill-me): 44 sets of ColorSearchSet(DSC), permanent colours + reset, mapping decisions | done |
 | Generator + mapping + registry, 2 seeds (bim_sync_color_sets, bim_paint_colors) | done — tests 117/76/177 |
 | Live on THCSLT copy: 33 sets, 13 982 painted, read-back 450/450, reset keeps user colour | done — reports/colors-live-verify.md |
-| Review 7.5/10 → M1 M2 M3 M5 M7 L1 L2 L8 L10 fixed | done (build + tests); live re-run of the fixed engine pending a Roamer restart |
-| M4 reset scope, M6 project abbreviations in company registry | pending user |
+| Review 7.5/10 → M1 M2 M3 M5 M7 L1 L2 L8 L10 fixed | done — live re-run 2026-10-11: M1/M2/M5 confirmed |
+| M4 reset scope kept as is (documented); M6 per-project mapping deferred to a later slice | decided 2026-10-11 |
 | Apply sets + colours on production THCSLT, user saves | pending user |
+
+## Slice 1d — plumbing fixtures under MEP (2026-10-11, grill-me contract)
+| Step | Status |
+|---|---|
+| Registry: X.1 + X.2 (ARC fixtures only) → `MEP/Plumbing fixtures`; new X.6 ARC sprinklers + plumbing equipment in `Not in matrix`; X.3–X.5 unchanged | done |
+| Engine: `previously` paths → sync moves + renames a saved set (`Move`, `EditDisplayName`), `SetUpsert.Relocate/Describe/IsConflict` | done — tests 130/76/177, exe republished |
+| Live on THCSLT copy (2026-10-11): 38 created → old layout rebuilt by script → preview move/move+conflict/create → apply moved, moved+conflict (success:false) → allowUpdate [X.2] updated → re-run 38 unchanged, 0 orphans; validate extras 0 errors (X.1 388, X.2 927, X.6 203) | done |
+| Preview no longer lists to-be-moved sets as orphans | done, tests; live CHƯA TEST |
+| Apply on the original model 2026-10-11: dryRun → 38 sets created, 33 colour sets created, paint 13 982 (dryRun first, read-back 450/450), validate extras 0 errors | done — Save by user pending |
+
+## Slice 1e — clash tests LOD 200 / 350 / 400 by Nhóm (2026-10-11, grill-me contract)
+| Step | Status |
+|---|---|
+| Analysis of Nhóm 1/2/3 → reports/clash-groups-analysis.md (generator tools/bim-coordinator/generate-clash-groups-report.py) | done |
+| LOD400 = LOD350 pairs @ 10 mm (user decision; `LOD400_TOLERANCE_MM`) | done |
+| Folders LOD > Nhóm: spike — the 2026 API refuses every Clash Detective folder (ClashTestFolder/FolderItem at TestsRoot, nested, TestsCopyFrom) → user chose flat list, names `HP|LOD<lod>|P<n>|…` (old `HP|P<n>|LOD…` parsed + renamed) | done |
+| Tests 133/76/177; exe republished; catalog + skill sync | done |
+| Live on THCSLT copy: LOD200 10 / LOD350 121 / LOD400 121 created (dryRun first), 252 in name order, tolerance 50/10/10, re-run all Unchanged, legacy name → Update rename, canaries 200: 0/0/0, 350: 0/17/2, 400: 0/17/2 | done |
+| Apply on the original model 2026-10-11: dryRun (LOD350 P1 26 create, rolled back) → 252 tests created (10/121/121), read back OK, 0 orphans | done — user Save pending |
 
 ## Layout
 ```

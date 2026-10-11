@@ -27,7 +27,8 @@
         "enum": [
           "200",
           "300",
-          "350"
+          "350",
+          "400"
         ],
         "default": "350",
         "description": "LOD whose tests to run"

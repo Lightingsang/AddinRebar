@@ -18,7 +18,7 @@
     "review"
   ],
   "title": "Sync the HP clash tests for a LOD",
-  "description": "One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm; LOD400 is refused (no approved tolerance). Name HP|P<n>|LOD<lod>|<ARC-STR>|<A8-S2>, selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.",
+  "description": "One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm, LOD400 = the LOD350 pairs @ 10 mm (the sheet's column covers 350/400; 10 mm is the BIM lead's choice). Name HP|LOD<lod>|P<n>|<ARC-STR>|<A8-S2> (P = the sheet's priority group Nhóm 1/2/3; sort Clash Detective by name to read it LOD by LOD, group by group — the API cannot create test folders; a test named the earlier HP|P<n>|LOD<lod>|… way is renamed, results kept), selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -31,7 +31,7 @@
           "400"
         ],
         "default": "350",
-        "description": "Design stage: 200 basic, 300 technical, 350 construction drawings (400 is refused until a tolerance is approved)"
+        "description": "Design stage: 200 basic, 300 technical, 350 construction drawings, 400 fabrication (350 pairs at 10 mm)"
       },
       "apply": {
         "type": "boolean",

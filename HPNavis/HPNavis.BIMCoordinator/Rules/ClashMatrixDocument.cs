@@ -12,7 +12,7 @@ public sealed class ClashMatrixDocument
     [JsonPropertyName("source")] public MatrixSource Source { get; set; } = new();
     [JsonPropertyName("priorityLabels")] public Dictionary<string, string> PriorityLabels { get; set; } = new();
 
-    /// <summary>Allowed tolerance per LOD in millimetres; null = not approved (LOD 400).</summary>
+    /// <summary>Allowed tolerance per LOD in millimetres (LOD 400 = 10, the BIM lead's choice; the sheet stops at 350); null = not approved.</summary>
     [JsonPropertyName("toleranceMm")] public Dictionary<string, double?> ToleranceMm { get; set; } = new();
 
     [JsonPropertyName("groups")] public List<ElementGroup> Groups { get; set; } = new();

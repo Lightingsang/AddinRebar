@@ -8,8 +8,8 @@ lower-left part of the A rows carries the legend (priority swatches, notes), whi
 data region per row group is read. A cell holds 1/2/3 (HIGH/MEDIUM/LOW) or nothing.
 
 A pair is eligible at a LOD when both of its groups say Y for that LOD; column G covers 350 and 400.
-Tolerances come from the note "LOD 200: 50mm / LOD 300: 30mm / LOD 350: 10mm"; LOD 400 has none and
-stays null (the engine refuses it until a tolerance is approved).
+Tolerances come from the note "LOD 200: 50mm / LOD 300: 30mm / LOD 350: 10mm". The note gives none for LOD 400;
+its tolerance is LOD400_TOLERANCE_MM below (same as 350), so LOD 400 tests are the LOD 350 tests again.
 
 Usage:
     python generate-clash-matrix.py [--xlsx PATH] [--out PATH] [--compare chatgpt-ruleclash.json]
@@ -37,6 +37,9 @@ DISCIPLINE_BY_PREFIX = {"A": "ARC", "S": "STR", "M": "MEP"}
 DATA_COLUMNS_BY_ROW_PREFIX = {"S": {"S", "M", "A"}, "M": {"M", "A"}, "A": {"A"}}
 LOD_COLUMNS = {"200": "E", "300": "F", "350": "G", "400": "G"}
 CODE_PATTERN = re.compile(r"^[ASM][1-9]$")
+# the sheet's tolerance note stops at LOD 350; the BIM lead chose 10 mm for LOD 400 (2026-10-11) — set it to
+# None to refuse LOD 400 again
+LOD400_TOLERANCE_MM = 10
 TOLERANCE_PATTERN = re.compile(r"LOD\s*(\d{3})\s*:\s*(\d+)\s*mm", re.IGNORECASE)
 
 
@@ -99,7 +102,7 @@ def read_tolerances(sheet):
     for level in ("200", "300", "350"):
         if level not in found:
             fail(f"no tolerance note for LOD {level}")
-    return {"200": found["200"], "300": found["300"], "350": found["350"], "400": None}
+    return {"200": found["200"], "300": found["300"], "350": found["350"], "400": found.get("400", LOD400_TOLERANCE_MM)}
 
 
 def read_cells(sheet, groups, column_codes):

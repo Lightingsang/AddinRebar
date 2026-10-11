@@ -72,7 +72,7 @@ public sealed class ClashTestPlannerTests
     public void Our_tests_the_matrix_no_longer_lists_are_reported_not_removed()
     {
         var foreign = new ExistingTest("ARC vs STR: Walls", "Hard", 10, null, null, 0);
-        var stale = new ExistingTest("HP|P1|LOD350|ARC-MEP|A1-M2", "Hard", 10, null, null, 1); // A1-M2 is not a matrix pair
+        var stale = new ExistingTest("HP|LOD350|P1|ARC-MEP|A1-M2", "Hard", 10, null, null, 1); // A1-M2 is not a matrix pair
         var plan = ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { foreign, stale });
         Assert.Equal(new[] { stale.Name }, plan.Orphans);
     }
@@ -86,7 +86,7 @@ public sealed class ClashTestPlannerTests
             Assert.Equal((rule.Id, "300"), parsed);
         }
 
-        Assert.Equal("HP|P2|LOD350|ARC-ARC|A1-A1", ClashTestNaming.NameFor(Matrix.Rules.Single(r => r.Id == "HP_A1_A1"), "350"));
+        Assert.Equal("HP|LOD350|P2|ARC-ARC|A1-A1", ClashTestNaming.NameFor(Matrix.Rules.Single(r => r.Id == "HP_A1_A1"), "350"));
         Assert.Null(ClashTestNaming.Parse("ARC vs ARC: Furnitures-ARC"));
     }
 
@@ -113,14 +113,47 @@ public sealed class ClashTestPlannerTests
     public void A_priority_change_renames_the_stored_test_instead_of_orphaning_it()
     {
         var rule = Matrix.Rules.Single(r => r.Id == "HP_A1_A8");
-        var stored = Stored(rule, "350", 10) with { Name = "HP|P3|LOD350|ARC-ARC|A1-A8", Priority = 3 };
+        var stored = Stored(rule, "350", 10) with { Name = "HP|LOD350|P3|ARC-ARC|A1-A8", Priority = 3 };
         var plan = ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stored }, ruleIds: new[] { rule.Id });
         var test = Assert.Single(plan.Tests);
         Assert.Equal(PlanAction.Update, test.Action);
         Assert.Equal(stored.Name, test.CurrentName);
-        Assert.Equal("HP|P1|LOD350|ARC-ARC|A1-A8", test.Name);
+        Assert.Equal("HP|LOD350|P1|ARC-ARC|A1-A8", test.Name);
         Assert.Contains("name", test.Reason);
         Assert.Empty(plan.Orphans);
+    }
+
+    [Fact]
+    public void A_test_named_the_earlier_priority_first_way_is_renamed_lod_first()
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == "HP_A1_A8");
+        Assert.Equal(("HP_A1_A8", "350"), ClashTestNaming.Parse("HP|P1|LOD350|ARC-ARC|A1-A8"));
+        var stored = Stored(rule, "350", 10) with { Name = "HP|P1|LOD350|ARC-ARC|A1-A8" };
+        var test = Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stored }, ruleIds: new[] { rule.Id }).Tests);
+        Assert.Equal(PlanAction.Update, test.Action);
+        Assert.Equal("HP|LOD350|P1|ARC-ARC|A1-A8", test.Name);
+    }
+
+    [Fact]
+    public void Sorting_by_name_groups_tests_by_lod_then_priority_group()
+    {
+        var names = new[] { "200", "350", "400" }
+            .SelectMany(lod => ClashTestPlanner.Plan(Matrix, lod, SetName, AllSets(), Array.Empty<ExistingTest>()).Tests)
+            .Select(t => t.Name).OrderBy(n => n, StringComparer.Ordinal).ToList();
+        var keys = names.Select(n => n.Split('|')[1] + "|" + n.Split('|')[2]).ToList();
+        Assert.Equal(keys.Distinct().Count(), keys.Select((k, i) => i == 0 || k != keys[i - 1]).Count(start => start));
+        Assert.Equal(27 + 184 + 184, names.Count);
+        Assert.StartsWith("HP|LOD200|P1|", names[0]);
+        Assert.StartsWith("HP|LOD400|P3|", names[names.Count - 1]);
+    }
+
+    [Fact]
+    public void Lod_400_plans_the_lod_350_pairs_at_10_mm()
+    {
+        var plan = ClashTestPlanner.Plan(Matrix, "400", SetName, AllSets(), Array.Empty<ExistingTest>());
+        Assert.Equal(184, plan.Count(PlanAction.Create));
+        Assert.Equal(10, plan.ToleranceMm);
+        Assert.All(plan.Tests, t => Assert.StartsWith("HP|LOD400|", t.Name));
     }
 
     [Fact]

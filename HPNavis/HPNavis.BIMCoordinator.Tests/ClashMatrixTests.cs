@@ -44,10 +44,11 @@ public sealed class ClashMatrixTests
     }
 
     [Fact]
-    public void Lod_400_is_refused_until_a_tolerance_is_approved()
+    public void Lod_400_checks_the_lod_350_pairs_at_10_mm()
     {
-        var error = Assert.Throws<ArgumentException>(() => Matrix.RulesFor("400"));
-        Assert.Contains("no approved tolerance", error.Message);
+        // column G of the sheet is headed "350 / 400" and the BIM lead set 10 mm for 400
+        Assert.Equal(10, Matrix.ToleranceMmFor("400"));
+        Assert.Equal(Matrix.RulesFor("350").Select(r => r.Id), Matrix.RulesFor("400").Select(r => r.Id));
     }
 
     [Theory]

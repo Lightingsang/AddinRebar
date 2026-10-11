@@ -51,7 +51,8 @@ public static class NavisClashTestCompiler
     {
         var clash = doc.GetClash().TestsData;
         var written = new List<string>();
-        foreach (var planned in plan.ToWrite)
+        // created in name order, so a new list already reads LOD by LOD, priority group by priority group
+        foreach (var planned in plan.ToWrite.OrderBy(t => t.Name, StringComparer.Ordinal))
         {
             ct.ThrowIfCancellationRequested();
             var rule = matrix.Rules.First(r => r.Id == planned.RuleId);

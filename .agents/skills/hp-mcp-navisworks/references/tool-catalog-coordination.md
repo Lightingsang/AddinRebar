@@ -37,18 +37,18 @@ Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (32 tools in all) on an 
 
 | arg | type | default | description |
 |---|---|---|---|
-| `lod` | string 200 \| 300 \| 350 | "350" | LOD whose tests to run |
+| `lod` | string 200 \| 300 \| 350 \| 400 | "350" | LOD whose tests to run |
 | `count` | integer | 3 | How many canaries when ruleIds is empty |
 | `ruleIds` | array<string> |  | Run exactly these rules' tests, e.g. ["HP_M2_S5"]; each must be up to date with non-empty sets |
 | `dryRun` | boolean | false | Run the tool, then roll everything back. Use first on a model you care about. |
 
 ### `bim_sync_clash_tests` — Sync the HP clash tests for a LOD
 
-*destructiveHint.* One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm; LOD400 is refused (no approved tolerance). Name HP|P<n>|LOD<lod>|<ARC-STR>|<A8-S2>, selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.
+*destructiveHint.* One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm, LOD400 = the LOD350 pairs @ 10 mm (the sheet's column covers 350/400; 10 mm is the BIM lead's choice). Name HP|LOD<lod>|P<n>|<ARC-STR>|<A8-S2> (P = the sheet's priority group Nhóm 1/2/3; sort Clash Detective by name to read it LOD by LOD, group by group — the API cannot create test folders; a test named the earlier HP|P<n>|LOD<lod>|… way is renamed, results kept), selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.
 
 | arg | type | default | description |
 |---|---|---|---|
-| `lod` | string 200 \| 300 \| 350 \| 400 | "350" | Design stage: 200 basic, 300 technical, 350 construction drawings (400 is refused until a tolerance is approved) |
+| `lod` | string 200 \| 300 \| 350 \| 400 | "350" | Design stage: 200 basic, 300 technical, 350 construction drawings, 400 fabrication (350 pairs at 10 mm) |
 | `apply` | boolean | false | false = preview only; true = write the tests |
 | `priorities` | array<integer> |  | Only these priorities (1 = HIGH, 2 = MEDIUM, 3 = LOW); empty = all |
 | `ruleIds` | array<string> |  | Only these rules, e.g. ["HP_A8_S2"]; empty = all eligible |
@@ -68,7 +68,7 @@ Generated from `tools/list` of `HPNavis.Mcp.Server.exe` (32 tools in all) on an 
 
 ### `bim_sync_search_sets` — Sync the HP search-set registry
 
-*destructiveHint.* Builds the HP search-set registry as live searches: the 21 base sets of the clash matrix (A1..A9 Architecture, S1..S5 Structure, M1..M7 MEP) and, with includeExtras, MEP detail sets (cable trays by model, pipes by System Classification, clash scope pipes D >= 32 mm) and auxiliary sets for elements no matrix group covers. Each set = source file has the discipline's ISO role code AND Element > Category is one of the set's Revit categories AND its extra conditions (e.g. A6: Structural <> true), so ARC/STR walls and floors and Electrical/HVAC equipment never mix. apply=false (default) previews item counts and create/unchanged/conflict. apply=true writes under Sets > HP BIMCoordinator: missing sets are created, identical ones left alone, a set whose saved search differs is a conflict left untouched unless allowUpdate=true with the approved codes. Sets under the top folder that no registry entry owns are reported as orphans; nothing is removed. One Undo entry; dryRun undoes it. Takes about a minute on a 95 MB model.
+*destructiveHint.* Builds the HP search-set registry as live searches: the 21 base sets of the clash matrix (A1..A9 Architecture, S1..S5 Structure, M1..M7 MEP) and, with includeExtras, MEP detail sets (cable trays by model, pipes by System Classification, clash scope pipes D >= 32 mm) and auxiliary sets for elements no matrix group covers. Each set = source file has the discipline's ISO role code AND Element > Category is one of the set's Revit categories AND its extra conditions (e.g. A6: Structural <> true), so ARC/STR walls and floors and Electrical/HVAC equipment never mix. apply=false (default) previews item counts and create/unchanged/conflict. apply=true writes under Sets > HP BIMCoordinator: missing sets are created, identical ones left alone, a set whose saved search differs is a conflict left untouched unless allowUpdate=true with the approved codes. A set saved at an earlier registry place (e.g. X.1/X.2 under Not in matrix, now under MEP/Plumbing fixtures) is moved and renamed there instead of duplicated (action moved; moved+conflict when its search also changed). Sets under the top folder that no registry entry owns are reported as orphans; nothing is removed. One Undo entry; dryRun undoes it. Takes about a minute on a 95 MB model.
 
 | arg | type | default | description |
 |---|---|---|---|
