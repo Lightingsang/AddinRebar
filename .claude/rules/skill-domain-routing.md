@@ -74,6 +74,7 @@ Giữ cho trường hợp tương lai cần build MCP server cho Revit (vd. expo
 ```
 User wants to...
 ├── Đọc/sửa/phân tích model Revit qua MCP    → /hp-mcp-revit (server hprebar-revit; bridge + opt-in, 33 tool, transaction auto/manual/none, dryRun rollback, script Revit API)
+├── Clash test HP theo giai đoạn hồ sơ       → /hp-bim-clash-phase co-so|ky-thuat|thi-cong (LOD200/300/350-400, xoá giai đoạn khác có duyệt)
 ├── Đọc/review model Navisworks qua MCP      → /hp-mcp-navisworks (server hprebar-navis; bridge + 2 opt-in, 24 tool, search/set/viewpoint/clash, heavy gate, script Navisworks API net48)
 ├── Đọc/sửa/phân tích model ETABS qua MCP    → /hp-mcp-etabs (server hprebar-etabs; kết nối bridge, tier R/W/D, snapshot, script ETABSv1)
 ├── Đọc/sửa bản vẽ Civil 3D 2026 qua MCP     → /hp-mcp-civil3d (server hprebar-civil3d; bridge + opt-in, 24 tool: alignment/profile/surface/corridor/pipe/parcel/COGO, mm ↔ drawing unit, dryRun, script Civil 3D .NET với global civil)

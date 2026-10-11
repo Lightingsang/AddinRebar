@@ -24,6 +24,9 @@ public static partial class CoordinatorTools
         SetUpsert.RequireCodesForUpdate(allowUpdate, codes);
         var catalog = BaseSetCatalog.Default;
         var plans = SearchSetPlan.All(catalog, ClashMatrix.Default, codes, includeExtras);
+        // the clash tests select M4.9 instead of M4: a plain sync writes it too, so the tests never miss their set
+        if (codes is not { Count: > 0 } && !includeExtras)
+            plans = plans.Concat(catalog.ClashSelectionCodes.Select(code => SearchSetPlan.For(catalog, ClashMatrix.Default, code))).ToList();
         var outcomes = apply ? NavisSearchSetCompiler.Apply(doc, plans, mmPerUnit, allowUpdate, ct) : NavisSearchSetCompiler.Preview(doc, plans, mmPerUnit, ct);
         var empty = outcomes.Where(o => o.Items == 0).Select(o => o.Code).ToList();
         var conflicts = outcomes.Where(o => SetUpsert.IsConflict(o.Action)).Select(o => o.Code).ToList();

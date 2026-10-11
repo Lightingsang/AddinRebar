@@ -27,11 +27,10 @@
         "enum": [
           "200",
           "300",
-          "350",
-          "400"
+          "350-400"
         ],
-        "default": "350",
-        "description": "LOD whose tests to run"
+        "default": "350-400",
+        "description": "Design phase whose tests to run: 200, 300 or 350-400"
       },
       "count": {
         "type": "integer",

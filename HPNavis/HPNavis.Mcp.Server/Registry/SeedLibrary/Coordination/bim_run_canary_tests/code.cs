@@ -1,5 +1,5 @@
 // heavy: run the canary tests chosen by the engine; the run stays here so the bridge's heavy gate sees it
-string lod = args.Str("lod", "350");
+string lod = args.Str("lod", "350-400");
 int count = args.Int("count", 3);
 var ruleIds = args.Strings("ruleIds");
 if (!app.HasClashModule) throw new InvalidOperationException("Clash Detective is not available in this Navisworks (Simulate); tests need Navisworks Manage.");

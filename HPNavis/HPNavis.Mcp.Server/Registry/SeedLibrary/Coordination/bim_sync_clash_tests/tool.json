@@ -18,7 +18,7 @@
     "review"
   ],
   "title": "Sync the HP clash tests for a LOD",
-  "description": "One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible at the LOD: LOD200 = 27 tests @ 50 mm, LOD300 = 154 @ 30 mm, LOD350 = 184 @ 10 mm, LOD400 = the LOD350 pairs @ 10 mm (the sheet's column covers 350/400; 10 mm is the BIM lead's choice). Name HP|LOD<lod>|P<n>|<ARC-STR>|<A8-S2> (P = the sheet's priority group Nhóm 1/2/3; sort Clash Detective by name to read it LOD by LOD, group by group — the API cannot create test folders; a test named the earlier HP|P<n>|LOD<lod>|… way is renamed, results kept), selections = the two base search sets (run bim_sync_search_sets with apply=true first). apply=false (default) previews create/update/unchanged/skip per rule; apply=true writes them, upserting by name (an existing test keeps its results, statuses and comments; nothing is removed; tests the matrix no longer lists are reported as orphans) and reads every written test back. A rule whose set is missing or finds nothing is skipped, never widened to the whole model. Does not run tests. One Undo entry; dryRun undoes it.",
+  "description": "One Hard clash test per rule of the HP clash matrix (184 pairs, priority P1/P2/P3) eligible in ONE design phase: 200 basic design = 27 tests @ 50 mm, 300 technical design = 154 @ 30 mm, 350-400 construction drawings = 184 @ 10 mm (the sheet's column G covers both). Name HP|LOD<phase>|P<n>|<ARC-STR>|<A5 Doors>-<S2 Structural Walls> (sort Clash Detective by name; the API cannot create test folders); tests named the earlier ways (no group names, LOD350/LOD400) are renamed with their results kept. Selections = the two base search sets, except M4 pipes which select M4.9 (pipes D >= 32 mm, methodology note 3; run bim_sync_search_sets with apply=true first, it writes M4.9 too). Rules tab: ignore items in same group/block/cell always, coincident snap points only inside one discipline, never same layer or same file; Composite Object Clashing on. apply=false (default) previews create/update/unchanged/skip per rule and lists the HP tests of other phases and duplicates; apply=true writes, upserting by name, and reads every written test back. removeOtherPhases=true (approval needed, whole model only) also deletes those other-phase/duplicate HP tests — their results are lost; tests not named HP|… are never touched. A rule whose set is missing or empty is skipped, never widened. Does not run tests. One Undo entry; dryRun undoes it.",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -27,11 +27,10 @@
         "enum": [
           "200",
           "300",
-          "350",
-          "400"
+          "350-400"
         ],
-        "default": "350",
-        "description": "Design stage: 200 basic, 300 technical, 350 construction drawings, 400 fabrication (350 pairs at 10 mm)"
+        "default": "350-400",
+        "description": "Design phase: 200 = basic design (thiết kế cơ sở), 300 = technical design (thiết kế kỹ thuật), 350-400 = construction drawings (bản vẽ thi công); \"350\" and \"400\" are read as 350-400"
       },
       "apply": {
         "type": "boolean",
@@ -58,6 +57,11 @@
         "type": "boolean",
         "default": false,
         "description": "Also list the rules whose test is already up to date"
+      },
+      "removeOtherPhases": {
+        "type": "boolean",
+        "default": false,
+        "description": "Delete the HP tests of the other design phases and duplicates (approval required; results are lost)"
       }
     },
     "additionalProperties": false

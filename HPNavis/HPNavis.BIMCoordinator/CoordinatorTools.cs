@@ -17,6 +17,7 @@ public static partial class CoordinatorTools
 {
     public const int MaxProbeItems = 500_000;
     public const int MaxCanaries = 5;
+    private const int MaxOtherPhasesListed = 60;
     private const int MaxWarnings = 50;
 
     public static object ProbeModel(Document doc, int maxItemsPerDiscipline, CancellationToken ct)
@@ -44,12 +45,17 @@ public static partial class CoordinatorTools
     }
 
     public static object SyncClashTests(Document doc, string lod, bool apply, double mmPerUnit, IReadOnlyCollection<int>? priorities,
-        IReadOnlyCollection<string>? ruleIds, bool listUnchanged, CancellationToken ct)
+        IReadOnlyCollection<string>? ruleIds, bool listUnchanged, CancellationToken ct, bool removeOtherPhases = false)
     {
         RequirePositive(mmPerUnit);
+        lod = ClashMatrix.PhaseOf(lod);
+        if (removeOtherPhases && (priorities is { Count: > 0 } || ruleIds is { Count: > 0 }))
+            throw new ArgumentException("removeOtherPhases cleans the whole model: run it without priorities or ruleIds");
         var matrix = ClashMatrix.Default;
         var catalog = BaseSetCatalog.Default;
         var plan = NavisClashTestCompiler.Plan(doc, matrix, catalog, lod, mmPerUnit, priorities, ruleIds, ct);
+        // removal first: a duplicate never shares its name with the test the plan keeps, so names stay unique
+        var removed = apply && removeOtherPhases ? NavisClashTestCompiler.RemoveOtherPhases(doc, plan, ct) : Array.Empty<string>();
         var written = apply ? NavisClashTestCompiler.Apply(doc, catalog, matrix, plan, mmPerUnit, ct) : Array.Empty<string>();
         var mismatched = apply ? NavisClashTestCompiler.ReadBack(doc, plan, mmPerUnit) : Array.Empty<string>();
         return new
@@ -60,11 +66,18 @@ public static partial class CoordinatorTools
             plan.ToleranceMm,
             summary = $"LOD{lod} @ {plan.ToleranceMm} mm: {plan.Tests.Count} rule(s) — " +
                       string.Join(", ", Enum.GetValues(typeof(PlanAction)).Cast<PlanAction>().Where(a => plan.Count(a) > 0).Select(a => $"{plan.Count(a)} {a}")) +
-                      (apply ? $"; written {written.Count}, read back {(mismatched.Count == 0 ? "OK" : $"MISMATCH {mismatched.Count}")}" : ""),
+                      (apply ? $"; written {written.Count}, read back {(mismatched.Count == 0 ? "OK" : $"MISMATCH {mismatched.Count}")}" : "") +
+                      (plan.ToRemove.Count == 0 ? ""
+                          : removeOtherPhases ? (apply ? $"; removed {removed.Count} test(s) of other phases/duplicates" : $"; would remove {plan.ToRemove.Count} test(s) of other phases/duplicates")
+                          : $"; {plan.ToRemove.Count} test(s) of other phases/duplicates kept (removeOtherPhases=true to remove)"),
             tests = plan.Tests.Where(t => listUnchanged || t.Action != PlanAction.Unchanged)
                 .Select(t => new { t.RuleId, t.Name, t.Priority, action = t.Action.ToString(), t.Reason }),
             orphans = plan.Orphans,
             duplicates = plan.Duplicates,
+            otherPhases = plan.OtherPhaseTests.Take(MaxOtherPhasesListed).ToList(),
+            otherPhaseCount = plan.OtherPhaseTests.Count,
+            removed = removed.Take(MaxOtherPhasesListed).ToList(),
+            removedCount = removed.Count,
             mismatched,
         };
     }

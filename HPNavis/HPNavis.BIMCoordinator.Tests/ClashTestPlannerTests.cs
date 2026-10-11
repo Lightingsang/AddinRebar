@@ -13,15 +13,17 @@ public sealed class ClashTestPlannerTests
     // same identity the compiler uses: folder path + display name
     private static string NavisSetPath(string code)
     {
-        var plan = SearchSetPlan.For(BaseSetCatalog.Default, Matrix, code);
+        var plan = SearchSetPlan.For(BaseSetCatalog.Default, Matrix, BaseSetCatalog.Default.ClashSetCode(code));
         return $"{plan.Folder}/{plan.DisplayName}";
     }
 
     private static Dictionary<string, SetState> AllSets() =>
         Matrix.Groups.ToDictionary(g => g.Code, _ => new SetState(true, true));
 
+    private static string Label(string code) => BaseSetCatalog.Default.Set(code).DisplayName;
+
     private static ExistingTest Stored(ClashRule rule, string lod, double toleranceMm) =>
-        new(ClashTestNaming.NameFor(rule, lod), "Hard", toleranceMm, SetName(rule.Left), SetName(rule.Right), rule.Priority);
+        new(ClashTestNaming.NameFor(rule, ClashMatrix.PhaseOf(lod), Label), "Hard", toleranceMm, SetName(rule.Left), SetName(rule.Right), rule.Priority);
 
     [Fact]
     public void Empty_document_creates_one_test_per_rule()
@@ -82,11 +84,13 @@ public sealed class ClashTestPlannerTests
     {
         foreach (var rule in Matrix.Rules)
         {
-            var parsed = ClashTestNaming.Parse(ClashTestNaming.NameFor(rule, "300"));
+            var parsed = ClashTestNaming.Parse(ClashTestNaming.NameFor(rule, "300", Label));
             Assert.Equal((rule.Id, "300"), parsed);
         }
 
-        Assert.Equal("HP|LOD350|P2|ARC-ARC|A1-A1", ClashTestNaming.NameFor(Matrix.Rules.Single(r => r.Id == "HP_A1_A1"), "350"));
+        Assert.Equal("HP|LOD350-400|P2|ARC-ARC|A1 Furniture-A1 Furniture", ClashTestNaming.NameFor(Matrix.Rules.Single(r => r.Id == "HP_A1_A1"), "350-400", Label));
+        Assert.Equal(("HP_A5_S2", "200"), ClashTestNaming.Parse("HP|LOD200|P1|ARC-STR|A5 Doors-S2 Structural Walls"));
+        Assert.Equal(("HP_M4_S3", "350-400"), ClashTestNaming.Parse("HP|LOD350-400|P1|MEP-STR|M4 Pipes and Pipe Accessories-S3 Structural Columns"));
         Assert.Null(ClashTestNaming.Parse("ARC vs ARC: Furnitures-ARC"));
     }
 
@@ -118,7 +122,7 @@ public sealed class ClashTestPlannerTests
         var test = Assert.Single(plan.Tests);
         Assert.Equal(PlanAction.Update, test.Action);
         Assert.Equal(stored.Name, test.CurrentName);
-        Assert.Equal("HP|LOD350|P1|ARC-ARC|A1-A8", test.Name);
+        Assert.Equal("HP|LOD350-400|P1|ARC-ARC|A1 Furniture-A8 Architectural Walls", test.Name);
         Assert.Contains("name", test.Reason);
         Assert.Empty(plan.Orphans);
     }
@@ -131,29 +135,30 @@ public sealed class ClashTestPlannerTests
         var stored = Stored(rule, "350", 10) with { Name = "HP|P1|LOD350|ARC-ARC|A1-A8" };
         var test = Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stored }, ruleIds: new[] { rule.Id }).Tests);
         Assert.Equal(PlanAction.Update, test.Action);
-        Assert.Equal("HP|LOD350|P1|ARC-ARC|A1-A8", test.Name);
+        Assert.Equal("HP|LOD350-400|P1|ARC-ARC|A1 Furniture-A8 Architectural Walls", test.Name);
     }
 
     [Fact]
     public void Sorting_by_name_groups_tests_by_lod_then_priority_group()
     {
-        var names = new[] { "200", "350", "400" }
+        var names = ClashMatrix.Phases
             .SelectMany(lod => ClashTestPlanner.Plan(Matrix, lod, SetName, AllSets(), Array.Empty<ExistingTest>()).Tests)
             .Select(t => t.Name).OrderBy(n => n, StringComparer.Ordinal).ToList();
         var keys = names.Select(n => n.Split('|')[1] + "|" + n.Split('|')[2]).ToList();
         Assert.Equal(keys.Distinct().Count(), keys.Select((k, i) => i == 0 || k != keys[i - 1]).Count(start => start));
-        Assert.Equal(27 + 184 + 184, names.Count);
+        Assert.Equal(27 + 154 + 184, names.Count);
         Assert.StartsWith("HP|LOD200|P1|", names[0]);
-        Assert.StartsWith("HP|LOD400|P3|", names[names.Count - 1]);
+        Assert.StartsWith("HP|LOD350-400|P3|", names[names.Count - 1]);
     }
 
     [Fact]
-    public void Lod_400_plans_the_lod_350_pairs_at_10_mm()
+    public void Lod_350_and_400_are_one_construction_phase_at_10_mm()
     {
         var plan = ClashTestPlanner.Plan(Matrix, "400", SetName, AllSets(), Array.Empty<ExistingTest>());
+        Assert.Equal("350-400", plan.Lod);
         Assert.Equal(184, plan.Count(PlanAction.Create));
         Assert.Equal(10, plan.ToleranceMm);
-        Assert.All(plan.Tests, t => Assert.StartsWith("HP|LOD400|", t.Name));
+        Assert.All(plan.Tests, t => Assert.StartsWith("HP|LOD350-400|", t.Name));
     }
 
     [Fact]
@@ -167,12 +172,52 @@ public sealed class ClashTestPlannerTests
     }
 
     [Fact]
-    public void Tests_of_another_lod_are_not_touched()
+    public void Tests_of_another_phase_are_listed_for_removal_not_updated()
     {
         var rule = Matrix.RulesFor("300")[0];
-        var plan = ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { Stored(rule, "300", 30) }, ruleIds: new[] { rule.Id });
+        var other = Stored(rule, "300", 30);
+        var plan = ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { other }, ruleIds: new[] { rule.Id });
         Assert.Equal(PlanAction.Create, Assert.Single(plan.Tests).Action);
         Assert.Empty(plan.Orphans);
+        Assert.Equal(new[] { other.Name }, plan.OtherPhaseTests);
+        Assert.Equal(new[] { other.Name }, plan.ToRemove);
+    }
+
+    [Fact]
+    public void The_earlier_lod350_test_is_renamed_and_its_lod400_twin_is_a_duplicate()
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == "HP_A5_S2");
+        var lod350 = Stored(rule, "350", 10) with { Name = "HP|LOD350|P1|ARC-STR|A5-S2" };
+        var lod400 = Stored(rule, "350", 10) with { Name = "HP|LOD400|P1|ARC-STR|A5-S2" };
+        var handMade = new ExistingTest("Test 1", "Hard", 0, null, null, 0);
+        var plan = ClashTestPlanner.Plan(Matrix, "350-400", SetName, AllSets(), new[] { lod350, lod400, handMade }, ruleIds: new[] { rule.Id });
+        var test = Assert.Single(plan.Tests);
+        Assert.Equal(PlanAction.Update, test.Action);
+        Assert.Equal(lod350.Name, test.CurrentName);
+        Assert.Equal("HP|LOD350-400|P1|ARC-STR|A5 Doors-S2 Structural Walls", test.Name);
+        Assert.Equal(new[] { lod400.Name }, plan.ToRemove);
+    }
+
+    [Fact]
+    public void A_test_already_carrying_the_planned_name_is_kept_over_an_older_twin()
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == "HP_A5_S2");
+        var old = Stored(rule, "350", 10) with { Name = "HP|LOD350|P1|ARC-STR|A5-S2" };
+        var current = Stored(rule, "350-400", 10);
+        var plan = ClashTestPlanner.Plan(Matrix, "350-400", SetName, AllSets(), new[] { old, current }, ruleIds: new[] { rule.Id });
+        Assert.Equal(PlanAction.Unchanged, Assert.Single(plan.Tests).Action);
+        Assert.Equal(new[] { old.Name }, plan.Duplicates);
+    }
+
+    [Theory]
+    [InlineData("350", "350-400")]
+    [InlineData("400", "350-400")]
+    [InlineData("350-400", "350-400")]
+    [InlineData("200", "200")]
+    public void Lods_map_to_their_design_phase(string lod, string phase)
+    {
+        Assert.Equal(phase, ClashMatrix.PhaseOf(lod));
+        Assert.Throws<ArgumentException>(() => ClashMatrix.PhaseOf("250"));
     }
 
     [Theory]
@@ -209,5 +254,71 @@ public sealed class ClashTestPlannerTests
         var test = Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stale }, ruleIds: new[] { rule.Id }).Tests);
         Assert.Equal(PlanAction.Update, test.Action);
         Assert.Contains("HP BIMCoordinator/Architecture/A2 Ceilings", test.Reason);
+    }
+
+    [Fact]
+    public void Pipe_rules_select_the_clash_scope_set_without_small_pipes()
+    {
+        var catalog = BaseSetCatalog.Default;
+        Assert.Equal("M4.9", catalog.ClashSetCode("M4"));
+        Assert.Equal("S3", catalog.ClashSetCode("S3"));
+        Assert.Equal("HP BIMCoordinator/MEP/Details/M4 Clash scope/M4.9 Clash scope - pipes D >= 32 mm", NavisClashTestCompiler.SetPath(catalog, Matrix, "M4"));
+        var test = Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), Array.Empty<ExistingTest>(), ruleIds: new[] { "HP_M4_S3" }).Tests);
+        Assert.Contains("M4.9", test.SetA);
+    }
+
+    [Fact]
+    public void A_test_still_selecting_the_whole_pipe_set_is_updated_to_the_clash_scope()
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == "HP_M4_S3");
+        var whole = SearchSetPlan.For(BaseSetCatalog.Default, Matrix, "M4");
+        var stored = Stored(rule, "350", 10) with { SetA = $"{whole.Folder}/{whole.DisplayName}" };
+        var test = Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stored }, ruleIds: new[] { rule.Id }).Tests);
+        Assert.Equal(PlanAction.Update, test.Action);
+        Assert.Contains("selections", test.Reason);
+    }
+
+    [Theory]
+    [InlineData("HP_A8_A8", true)]
+    [InlineData("HP_M4_M6", true)]
+    [InlineData("HP_S2_S3", true)]
+    [InlineData("HP_M4_S3", false)]
+    [InlineData("HP_A5_S2", false)]
+    public void Snap_points_are_ignored_only_inside_one_discipline_and_groups_always(string ruleId, bool sameDiscipline)
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == ruleId);
+        var enabled = IgnoreRulePolicy.For(rule);
+        Assert.Contains(IgnoreRulePolicy.SameGroup, enabled);
+        Assert.DoesNotContain(IgnoreRulePolicy.SameLayer, enabled);
+        Assert.DoesNotContain(IgnoreRulePolicy.SameFile, enabled);
+        Assert.Equal(sameDiscipline, enabled.Contains(IgnoreRulePolicy.SnapPoints));
+        Assert.True(IgnoreRulePolicy.MergeComposites);
+    }
+
+    [Fact]
+    public void Planned_tests_carry_their_ignore_rules()
+    {
+        var plan = ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), Array.Empty<ExistingTest>());
+        Assert.All(plan.Tests, t => Assert.Equal(IgnoreRulePolicy.For(Matrix.Rules.Single(r => r.Id == t.RuleId)), t.EnabledIgnoreRules));
+    }
+
+    [Fact]
+    public void A_test_with_other_ignore_rules_or_composites_off_is_updated_and_one_matching_is_left_alone()
+    {
+        var rule = Matrix.Rules.Single(r => r.Id == "HP_M4_M6");
+        var policy = IgnoreRulePolicy.For(rule).ToList();
+        PlannedTest PlanFor(ExistingTest stored) =>
+            Assert.Single(ClashTestPlanner.Plan(Matrix, "350", SetName, AllSets(), new[] { stored }, ruleIds: new[] { rule.Id }).Tests);
+
+        var matching = Stored(rule, "350", 10) with { IgnoreRules = policy.AsEnumerable().Reverse().ToList(), MergeComposites = true };
+        Assert.Equal(PlanAction.Unchanged, PlanFor(matching).Action);
+
+        var noRules = PlanFor(Stored(rule, "350", 10) with { IgnoreRules = Array.Empty<string>(), MergeComposites = true });
+        Assert.Equal(PlanAction.Update, noRules.Action);
+        Assert.Contains("ignore rules", noRules.Reason);
+
+        var compositeOff = PlanFor(Stored(rule, "350", 10) with { IgnoreRules = policy, MergeComposites = false });
+        Assert.Equal(PlanAction.Update, compositeOff.Action);
+        Assert.Contains("composite objects off", compositeOff.Reason);
     }
 }

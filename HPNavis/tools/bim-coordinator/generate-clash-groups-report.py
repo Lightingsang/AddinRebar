@@ -17,9 +17,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_MATRIX = HERE.parent.parent / "HPNavis.BIMCoordinator" / "Rules" / "hp-clash-matrix.json"
-LODS = ("200", "350", "400")
+LODS = ("200", "300", "350-400")
 PHASE = {"200": "Thiết kế cơ sở / Basic Design", "300": "Thiết kế kỹ thuật / Technical Design",
-         "350": "Bản vẽ thi công / Construction Drawings", "400": "Bản vẽ thi công / Construction Drawings (cột G dùng chung 350/400)"}
+         "350-400": "Bản vẽ thi công / Construction Drawings (cột G của sheet ghi \"350/400\")"}
+SHEET_KEY = {"200": "200", "300": "300", "350-400": "350"}
 MEANING = {
     1: ("HIGH", "Va chạm lớn ảnh hưởng phương án thiết kế và/hoặc tiến độ dự án.",
         "Phải giải quyết **trước buổi họp phối hợp** (coordination meeting)."),
@@ -65,16 +66,17 @@ def main():
     out.append(table(["Nhóm", "Mức", "Ý nghĩa", "Thời hạn xử lý"],
                      [(f"Nhóm {p}", m[0], m[1], m[2]) for p, m in MEANING.items()]))
     out += ["", "Một cặp được kiểm ở một LOD khi **cả hai** nhóm cấu kiện ghi `Y` ở cột LOD đó. "
-            "Tên test `HP|LOD<lod>|P<nhóm>|<bộ môn>|<trái>-<phải>`: sắp Clash Detective theo tên là đọc theo LOD rồi theo Nhóm "
+            "Tên test `HP|LOD<lod>|P<nhóm>|<bộ môn>|<A5 Doors>-<S2 Structural Walls>`: sắp Clash Detective theo tên là đọc theo LOD rồi theo Nhóm "
             "(API Navisworks 2026 không tạo được folder test — mọi loại folder bị từ chối \"unsupported type of SavedItem\").", ""]
 
     out += ["## 2. LOD và dung sai", ""]
     out.append(table(["LOD", "Giai đoạn", "Dung sai", "Số cặp", "Nhóm 1", "Nhóm 2", "Nhóm 3"],
-                     [(lod, PHASE[lod], f"{tolerance[lod]} mm", len(rs := [r for r in rules if r["lod"][lod]]),
-                       *(sum(r["priority"] == p for r in rs) for p in (1, 2, 3))) for lod in ("200", "300", "350", "400")]))
-    out += ["", "- Dung sai 200/300/350 lấy từ ghi chú của sheet (50/30/10 mm). Sheet **không** ghi LOD400; "
-            "BIM lead chọn 10 mm (2026-10-11) → test LOD400 trùng cặp và dung sai với LOD350, kết quả sẽ lặp lại.",
-            "- LOD300 không thuộc phạm vi tạo test lần này (engine vẫn hỗ trợ).", ""]
+                     [(lod, PHASE[lod], f"{tolerance[SHEET_KEY[lod]]} mm", len(rs := [r for r in rules if r["lod"][SHEET_KEY[lod]]]),
+                       *(sum(r["priority"] == p for r in rs) for p in (1, 2, 3))) for lod in LODS]))
+    out += ["", "- Dung sai lấy từ ghi chú của sheet (50/30/10 mm). LOD350 và LOD400 là **một giai đoạn** (cột G ghi \"350/400\"), "
+            "một bộ test `LOD350-400` @ 10 mm.",
+            "- Mỗi model chỉ giữ bộ test của giai đoạn hồ sơ hiện tại (skill `/hp-bim-clash-phase co-so|ky-thuat|thi-cong`); "
+            "test HP của giai đoạn khác bị xoá sau khi duyệt.", ""]
 
     out += ["## 3. Nhóm cấu kiện và LOD được kiểm", ""]
     out.append(table(["Mã", "Cấu kiện", "Bộ môn", "200", "300", "350/400", "Số cặp tham gia"],
@@ -83,16 +85,13 @@ def main():
     out.append("")
 
     for lod in LODS:
-        rs = [r for r in rules if r["lod"][lod]]
-        out += [f"## 4.{LODS.index(lod) + 1} LOD{lod} @ {tolerance[lod]} mm — {len(rs)} cặp", ""]
+        rs = [r for r in rules if r["lod"][SHEET_KEY[lod]]]
+        out += [f"## 4.{LODS.index(lod) + 1} LOD{lod} @ {tolerance[SHEET_KEY[lod]]} mm — {PHASE[lod].split(' / ')[0]} — {len(rs)} cặp", ""]
         pairs = sorted({r["disciplinePair"] for r in rs})
         out.append(table(["Cặp bộ môn"] + [f"Nhóm {p}" for p in (1, 2, 3)] + ["Tổng"],
                          [(dp, *(sum(r["disciplinePair"] == dp and r["priority"] == p for r in rs) for p in (1, 2, 3)),
                            sum(r["disciplinePair"] == dp for r in rs)) for dp in pairs]))
         out.append("")
-        if lod == "400":
-            out += ["Danh sách cặp giống hệt LOD350 (mục 4.2).", ""]
-            continue
         for p in (1, 2, 3):
             chosen = [r for r in rs if r["priority"] == p]
             out += [f"**Nhóm {p} – {MEANING[p][0]} ({len(chosen)} cặp)**", ""]
@@ -104,7 +103,7 @@ def main():
             f"Set rỗng trên model: {', '.join(sorted(missing))} → cặp có một trong các nhóm này bị **skip** (không tạo test, "
             "không mở rộng sang cả model).", ""]
     out.append(table(["LOD", "Cặp", "Tạo", "Skip"],
-                     [(lod, len(rs := [r for r in rules if r["lod"][lod]]),
+                     [(lod, len(rs := [r for r in rules if r["lod"][SHEET_KEY[lod]]]),
                        sum(not ({r['left'], r['right']} & missing) for r in rs),
                        sum(bool({r['left'], r['right']} & missing) for r in rs)) for lod in LODS]))
     out.append("")
@@ -121,11 +120,10 @@ def main():
         f"- {len(self_pairs)} cặp tự va chạm cùng nhóm ({', '.join(r['left'] + '-' + r['right'] for r in self_pairs)}).",
         f"- Nhóm tham gia nhiều cặp nhất: {', '.join(f'{c} ({n})' for c, n in by_group.most_common(4))}; ít nhất: "
         f"{', '.join(f'{c} ({n})' for c, n in sorted(by_group.items(), key=lambda kv: kv[1])[:3])}.",
-        "- Ghi chú phương pháp 3 của sheet: không kiểm ống gió mềm, ống mềm và ống D < 32 mm. Test dùng set nền M4 (đã loại ống mềm "
-        "theo category) nhưng **vẫn gồm ống D < 32 mm**; set `M4.9 Clash scope - pipes D >= 32 mm` đã có — đổi selection các cặp M4 "
-        "sang M4.9 là quyết định riêng, chưa làm.",
+        "- Ghi chú phương pháp 3 của sheet: không kiểm ống gió mềm, ống mềm và ống D < 32 mm. Ống mềm bị loại theo category; "
+        "các cặp có M4 chọn set `M4.9 Clash scope - pipes D >= 32 mm` (ống D ≥ 32 mm + toàn bộ phụ kiện, thiết bị PCCC, sprinkler) "
+        "thay cho M4 — 1 479 ống nhỏ của THCSLT không vào test.",
         "- Ghi chú 1 (lỗ mở sàn KT/KC qua góc nhìn đỉnh/đáy) và 2 (kiểm mọi phần tử trong phòng máy) không phải cặp ma trận → không sinh test.",
-        "- LOD400 không có dung sai trong sheet; 10 mm là lựa chọn của BIM lead, nên ghi bổ sung vào sheet để nguồn và engine khớp.",
         ""]
 
     Path(options.out).write_text("\n".join(out), encoding="utf-8", newline="\n")

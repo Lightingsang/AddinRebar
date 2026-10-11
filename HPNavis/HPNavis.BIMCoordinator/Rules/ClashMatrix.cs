@@ -10,7 +10,14 @@ namespace HPNavis.BIMCoordinator.Rules;
 public sealed class ClashMatrix
 {
     public const string ResourceName = "HPNavis.BIMCoordinator.hp-clash-matrix.json";
-    public static readonly string[] KnownLods = { "200", "300", "350", "400" };
+    /// <summary>
+    ///     The design phases a model's clash tests follow, one at a time: basic design (200), technical design (300),
+    ///     construction drawings (350-400 — the sheet's column G covers both, at one tolerance). "350" and "400" are read
+    ///     as "350-400", so tests named the earlier way still belong to their phase.
+    /// </summary>
+    public static readonly string[] Phases = { "200", "300", "350-400" };
+
+    public const string ConstructionPhase = "350-400";
 
     private static readonly Lazy<ClashMatrix> Embedded = new(() => Parse(ReadResource(ResourceName)));
     private readonly Dictionary<string, ElementGroup> _groups;
@@ -32,11 +39,20 @@ public sealed class ClashMatrix
     public ElementGroup Group(string code) =>
         _groups.TryGetValue(code, out var group) ? group : throw new ArgumentException($"'{code}' is not a group of the clash matrix (A1..A9, S1..S5, M1..M7)");
 
-    /// <summary>Tolerance of a LOD in millimetres; unknown or not yet approved (LOD 400) is the caller's error.</summary>
+    /// <summary>The phase a LOD belongs to ("350" and "400" → "350-400"); anything else is the caller's error.</summary>
+    public static string PhaseOf(string lod) =>
+        lod is "350" or "400" or ConstructionPhase ? ConstructionPhase
+        : Phases.Contains(lod) ? lod
+        : throw new ArgumentException($"lod '{lod}' is not one of {string.Join(", ", Phases)} (200 basic design, 300 technical design, 350-400 construction drawings)");
+
+    /// <summary>The sheet column (JSON key) a phase reads its Y/N and tolerance from: 350-400 → "350".</summary>
+    private static string SheetKey(string lod) => PhaseOf(lod) == ConstructionPhase ? "350" : PhaseOf(lod);
+
+    /// <summary>Tolerance of a phase in millimetres; an unknown phase or one without an approved tolerance is the caller's error.</summary>
     public double ToleranceMmFor(string lod)
     {
-        RequireKnownLod(lod);
-        if (!Document.ToleranceMm.TryGetValue(lod, out var tolerance) || tolerance is null)
+        var key = SheetKey(lod);
+        if (!Document.ToleranceMm.TryGetValue(key, out var tolerance) || tolerance is null)
             throw new ArgumentException($"LOD {lod} has no approved tolerance in the HP clash matrix; it cannot be run until the BIM lead sets one");
         return tolerance.Value;
     }
@@ -50,16 +66,13 @@ public sealed class ClashMatrix
         var unknown = ruleIds?.Where(id => Rules.All(r => r.Id != id)).ToList();
         if (unknown is { Count: > 0 }) throw new ArgumentException($"unknown rule id(s): {string.Join(", ", unknown)}");
         return Rules
-            .Where(r => r.IsEligibleAt(lod))
+            .Where(r => r.IsEligibleAt(SheetKey(lod)))
             .Where(r => priorities is not { Count: > 0 } || priorities.Contains(r.Priority))
             .Where(r => ruleIds is not { Count: > 0 } || ruleIds.Contains(r.Id))
             .ToList();
     }
 
-    public static void RequireKnownLod(string lod)
-    {
-        if (!KnownLods.Contains(lod)) throw new ArgumentException($"lod '{lod}' is not one of {string.Join(", ", KnownLods)}");
-    }
+    public static void RequireKnownLod(string lod) => PhaseOf(lod);
 
     public static ClashMatrix Parse(string json)
     {

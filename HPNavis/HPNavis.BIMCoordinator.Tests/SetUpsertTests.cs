@@ -42,6 +42,8 @@ public sealed class SetUpsertTests
     [InlineData("\"parent\": \"M4\", \"folder\": \"MEP/Details/M4 Pipes by system\", \"name\": \"Fire Protection Wet\"", "\"folder\": \"MEP/Details/M4 Pipes by system\", \"name\": \"Fire Protection Wet\"")]
     [InlineData("\"parent\": \"M2\", \"folder\": \"MEP/Details/M2 Cable trays by model\", \"name\": \"Cable trays - EC model\"", "\"parent\": \"M4\", \"folder\": \"MEP/Details/M2 Cable trays by model\", \"name\": \"Cable trays - EC model\"")]
     [InlineData("{ \"code\": \"A2\", \"name\": \"Ceilings\",", "{ \"code\": \"A2\", \"roles\": [ \"AA\" ], \"name\": \"Ceilings\",")]
+    [InlineData("\"clashSelection\": \"M4.9\"", "\"clashSelection\": \"M2.1\"")]
+    [InlineData("\"clashSelection\": \"M4.9\"", "\"clashSelection\": \"M4.99\"")]
     public void Registry_mistakes_fail_the_load_not_the_apply(string from, string to)
     {
         var json = ClashMatrix.ReadResource(BaseSetCatalog.ResourceName);

@@ -62,6 +62,23 @@ Requirement contract confirmed 2026-10-10 (grill-me). Source standard: `HPBIM_Ma
 | Live on THCSLT copy: LOD200 10 / LOD350 121 / LOD400 121 created (dryRun first), 252 in name order, tolerance 50/10/10, re-run all Unchanged, legacy name → Update rename, canaries 200: 0/0/0, 350: 0/17/2, 400: 0/17/2 | done |
 | Apply on the original model 2026-10-11: dryRun (LOD350 P1 26 create, rolled back) → 252 tests created (10/121/121), read back OK, 0 orphans | done — user Save pending |
 
+## Slice 1f — M4 → M4.9 and the Rules tab (2026-10-11, user decisions)
+| Step | Status |
+|---|---|
+| M4 pairs select M4.9 (pipes D >= 32 mm, note 3) via base-set `clashSelection`; plain search-set sync writes M4.9 | done — tests |
+| `IgnoreRulePolicy`: same group always, snap points only same discipline, never layer/file; MergeComposites on; drift → Update; rules from `LcClClashRules.LoadBaseRuleSet`, fallback test 'HP Rules Template' | done — tests 144/76/177, exe republished |
+| Live on copy 2026-10-11: rule set loaded from Navisworks (no template needed); 252 created with rules; old-style tests (composite off, no rules, M4) → 252 Update, read back OK, re-run Unchanged; 163 × 1 rule, 89 × 2, composite 252/252, 32 tests on M4.9, 0 on M4; canaries 200 0/0/0, 350 0/17/2 + M4-M4 233 + M4-S3 71, 400 0/17/2. Found: an edit that flips MergeComposites drops the copy's rules and selections → flipped in a separate edit | done |
+| Original model 2026-10-11: search sets 22 unchanged; dryRun 252 Update rolled back; apply 252 Update, read back OK; 163 × 1 rule, 89 × 2, composite 252/252; user's 'Test 1' untouched | done — user Save pending |
+
+## Slice 1g — design phases, group names in test names, skill (2026-10-11, grill-me contract)
+| Step | Status |
+|---|---|
+| Phases 200 / 300 / 350-400 (`ClashMatrix.PhaseOf`, 350 + 400 = one set @ 10 mm); names `HP|LOD<phase>|P<n>|<pair>|A5 Doors-S2 Structural Walls` (old forms parsed + renamed, planned-name twin kept) | done — tests 150/76/177 |
+| `removeOtherPhases` (approval, whole model): deletes HP tests of other phases + duplicates via `TestsRemove`, never non-HP tests | done — tests |
+| Skill `.claude/skills/hp-bim-clash-phase` (co-so / ky-thuat / thi-cong), routing rule, docs, report (THCSLT: 10 / 110 / 121) | done |
+| Live on copy 2026-10-11: original-like state (LOD200 10 / LOD350 121 / LOD400 121 old names + Test 1) → thi-cong preview 121 Update (rename) + 121 duplicates + 10 other; dryRun with removal rolled back (131 removed); all 3 phases applied (350-400 121 renamed, 300 110 created, 200 10 renamed), read back OK; canaries 300 0/17/0, 350-400 0/17/2, 200 0/0/0; co-so + removal → 352 removed, 10 LOD200 + Test 1 left, re-run Unchanged | done |
+| Original model 2026-10-11 → co-so: search sets 22 unchanged; preview 10 Update + 242 to remove (LOD350 121, LOD400 121); dryRun rolled back; apply removed 242, renamed 10, read back OK, re-run Unchanged; 10 HP LOD200 + Test 1 | done — user Save pending |
+
 ## Layout
 ```
 HPNavis/HPNavis.BIMCoordinator/        net48, refs Navisworks Api + Clash (Private=false), System.Text.Json (already in Core graph)

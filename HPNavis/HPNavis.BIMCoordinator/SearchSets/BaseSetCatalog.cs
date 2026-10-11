@@ -41,6 +41,12 @@ public sealed class BaseSetCatalog
 
     public IEnumerable<SetDefinition> AllDefinitions => Sets.Concat(Details).Concat(Auxiliary);
 
+    /// <summary>Code of the set a group's clash tests select: its <see cref="SetDefinition.ClashSelection" /> or the base set.</summary>
+    public string ClashSetCode(string groupCode) => Set(groupCode).ClashSelection ?? groupCode;
+
+    /// <summary>Detail sets the clash tests select in place of their base set; a plain sync writes them with the base sets.</summary>
+    public IReadOnlyList<string> ClashSelectionCodes => Sets.Where(s => s.ClashSelection is not null).Select(s => s.ClashSelection!).ToList();
+
     public IReadOnlyList<string> RolesOf(string discipline) =>
         DisciplineRoles.TryGetValue(discipline, out var roles) ? roles : throw new InvalidOperationException($"no role codes for discipline {discipline}");
 
@@ -138,6 +144,12 @@ public sealed class BaseSetCatalog
 
         foreach (var auxiliary in Auxiliary.Where(a => a.Parent is not null))
             Fail($"{auxiliary.Code}: auxiliary sets have no parent");
+
+        foreach (var extra in Details.Concat(Auxiliary).Where(d => d.ClashSelection is not null))
+            Fail($"{extra.Code}: only a base set names a clash selection");
+        foreach (var set in Sets.Where(s => s.ClashSelection is not null))
+            if (Details.FirstOrDefault(d => d.Code == set.ClashSelection) is not { } chosen || chosen.Parent != set.Code)
+                Fail($"{set.Code}: clash selection {set.ClashSelection} must be one of its own detail sets");
 
         var current = new HashSet<string>(AllDefinitions.Select(d => $"{FolderOf(d, matrix)}/{d.DisplayName}"), StringComparer.Ordinal);
         var previous = AllDefinitions.SelectMany(d => d.Previously.Select(path => (d.Code, path))).ToList();

@@ -75,6 +75,12 @@ public sealed class SetDefinition
     /// </summary>
     [JsonPropertyName("previously")] public List<string> Previously { get; set; } = new();
 
+    /// <summary>
+    ///     Base sets only: the detail set (a child of this one) that clash tests select instead, e.g. M4 → M4.9, pipes
+    ///     D ≥ 32 mm, because the sheet's methodology note 3 excludes smaller pipes. Null = the base set itself.
+    /// </summary>
+    [JsonPropertyName("clashSelection")] public string? ClashSelection { get; set; }
+
     /// <summary>Exact name of the saved set when the source dictates it (the colour sheet's <c>HP_P_Drainage_RainWater</c>).</summary>
     [JsonPropertyName("displayName")] public string? DisplayNameOverride { get; set; }
 
