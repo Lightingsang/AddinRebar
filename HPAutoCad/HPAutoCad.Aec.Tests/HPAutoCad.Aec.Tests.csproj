@@ -23,6 +23,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\HPAutoCad.Aec\HPAutoCad.Aec.csproj"/>
+        <ProjectReference Include="..\ThirdParty\VNConvert\VNConvert.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Golden Vietnamese charset table generated from UniKey's original data.cpp (tools/vnconvert). -->
+        <None Include="TestData\vn-charset-golden.json" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
 </Project>

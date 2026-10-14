@@ -63,16 +63,16 @@ public sealed class SeedLibraryTests
     private static Seed Get(string key) => LoadSeeds().Single(s => s.Category + "/" + s.Name == key);
 
     [Fact]
-    public void All_fifty_seeds_are_embedded()
+    public void All_fifty_two_seeds_are_embedded()
     {
         // 12 drawing/data seeds + 24 read-only AEC engine seeds (context, entity query, spatial query, measure, geometry issues, classification,
         // relationships, standards, audit, grids, members, connectivity, alignment, openings, rooms, room boundary, area schedule, MEP network,
-        // MEP connectivity, MEP endpoints, clash check, change-set begin / preview / summary) + 14 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches, xrefs, issue markup,
-        // member tagging, member schedule, room tags, auto dimensions, opening requests, change-set commit / rollback)
+        // MEP connectivity, MEP endpoints, clash check, change-set begin / preview / summary, legacy Vietnamese text) + 15 AEC write seeds (batch create/update, blocks + attributes, annotations, hatches,
+        // xrefs, issue markup, member tagging, member schedule, room tags, auto dimensions, opening requests, Vietnamese text conversion, change-set commit / rollback)
         var seeds = LoadSeeds();
-        Assert.Equal(50, seeds.Count);
+        Assert.Equal(52, seeds.Count);
         Assert.Equal(seeds.Count, seeds.Select(s => s.Name).Distinct().Count());
-        Assert.Equal(30, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
+        Assert.Equal(31, seeds.Count(s => s.Tool.GetProperty("transaction").GetString() == "none"));
     }
 
     [Theory]
@@ -100,6 +100,7 @@ public sealed class SeedLibraryTests
     [InlineData("begin_change_set")]
     [InlineData("preview_change_set")]
     [InlineData("get_change_summary")]
+    [InlineData("detect_vn_legacy_text")]
     public void Aec_seed_is_a_thin_shim_over_the_engine(string name)
     {
         // The tool is data + a shim: every AEC seed is read-only, calls the AecTools facade exactly once and returns its envelope.
@@ -122,6 +123,7 @@ public sealed class SeedLibraryTests
     [InlineData("arch_create_room_tags")]
     [InlineData("arch_auto_dimension_plan")]
     [InlineData("aec_create_opening_requests")]
+    [InlineData("convert_vn_text_encoding")]
     [InlineData("commit_change_set")]
     [InlineData("rollback_change_set")]
     public void Aec_write_seed_is_a_thin_shim_that_documents_its_side_effects(string name)
@@ -165,6 +167,7 @@ public sealed class SeedLibraryTests
     [InlineData("mep_endpoint_check", HPAutoCad.Aec.AecTools.MaxEndpointLimit)]
     [InlineData("aec_clash_check", HPAutoCad.Aec.AecTools.MaxClashLimit)]
     [InlineData("preview_change_set", HPAutoCad.Aec.AecTools.MaxChangeOpLimit)]
+    [InlineData("detect_vn_legacy_text", HPAutoCad.Aec.AecTools.MaxVnTextLimit)]
     public void Aec_seed_page_limits_match_the_engine_caps_that_keep_a_page_under_64_KB(string name, int engineCap)
     {
         // The schema's `maximum` is what the AI sees; the engine clamps to the same number, so a request never silently returns less than promised.

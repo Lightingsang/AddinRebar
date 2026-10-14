@@ -11,7 +11,7 @@
 - [Seed review pitfalls](project-hp-mcp-seed-review-pitfalls.md) — 64 KB cap arithmetic, nested args keys, units.Label == drawingUnit, mirror fence blind spots, Debug is deployed
 - [Seed review gotchas](project-mcp-seed-review-gotchas.md) — stability excludes only ArgumentException, run_tool never validates schema, analyzer sees `args.` receiver only
 - [AEC MCP recurring checks](project-aec-mcp-review-recurring-checks.md) — 32 defect classes from AEC phases A–I (caps, predicates, write ordering, change sets) + offline probe recipe
-- [Navis BIM coordinator checks](project-navis-bim-coordinator-review-checks.md) — identity w/ mutable attr, cap bypass via ids, ToDictionary dupes, RootItem.Children=levels, IL heavy fence; search sets: path vs name identity, 1 219-condition inventory > 64 KB; colours: success w/ nothing painted, positional codes, nesting
+- [Navis BIM coordinator checks](project-navis-bim-coordinator-review-checks.md) — identity w/ mutable attr, cap bypass via ids, ToDictionary dupes, RootItem.Children=levels, IL heavy fence; search sets: path vs name identity, 1 219-condition inventory > 64 KB; colours: success w/ nothing painted, positional codes, nesting; AI descriptions: rule gate scope by discipline, approval truthiness
 - [.mcp.json carries dev paths](project-tracked-mcp-json-carries-dev-path.md) — tracked file with machine paths; check it is not swept into a phase commit
 - [dotnet test from repo root runs 0 tests](project-dotnet-test-zero-tests-from-repo-root.md) — cd into the folder with global.json first
 

@@ -1,0 +1,85 @@
+{
+  "name": "convert_vn_text_encoding",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "vietnamese",
+    "tcvn3",
+    "vni",
+    "unicode",
+    "font",
+    "encoding",
+    "text"
+  ],
+  "title": "Convert TCVN3 / VNI text to Unicode",
+  "description": "Converts the pre-Unicode Vietnamese text detect_vn_legacy_text lists (same arguments, same plan) to Unicode and switches the legacy text styles it used to Unicode TrueType faces (remapStyles, default true): VNI-Times / .VnTime → Times New Roman, VNI-Helve-Condense / .VnArial Narrow → Arial Narrow, VNI-Helve / VNI-Avo / VNI-Arial / .VnArial → Arial; bold/italic kept; .VnTimeH-style capitals-only fonts become real capitals. MText format codes stay byte for byte (\\P, \\H…;, \\U+00B0, {}), an inline \\f legacy font is rewritten to its Unicode face with its flags, Symbol and Unicode-font runs are left alone. Looks at DBText, MText, attributes, attribute definitions (value + prompt), dimension text overrides, multileaders and table cells, in model space, every layout and (includeBlocks) every block definition — never xrefs, nor the *D / *T blocks AutoCAD regenerates; text with a field, multiline attributes and entities already converted (XData HP_VNCONVERT) are skipped. The rule that keeps the screen readable: with remapStyles (default) a legacy style is switched to its Unicode face only when every legacy text under it is converted in the same run — when some stay (outside the selection, in an excluded block or table, on a locked layer, carrying a field) the style is kept and its selected texts are held too. Every converted entity gets the XData flag HP_VNCONVERT, so a later run (for example the style switch after a change set) never converts it twice. Text inside block definitions is edited once in the definition (every reference shows it); attributes per reference; dimension overrides are recomputed. A legacy font with no Unicode face (any SHX font, an unlisted VNI-* face) refuses the whole call with NO_FONT_MAPPING until fontMap names one. sourceCharset tcvn3 | vni (text in fonts the rules do not know) needs a handles / layers filter. atomic (default): an entity on a locked/frozen layer (LAYER_LOCKED / LAYER_FROZEN) or a table with a content-locked cell (CELL_LOCKED) refuses the call, nothing written; atomic false: those are listed and the rest converted (their styles kept). Returns the edit envelope {success, modifiedCount (entities + styles), affectedHandles (500 at most), items[{index, ok, handle, type, changed [contents|text|prompt|dimensionText|mtext|cell]}] (errors first, 100 listed), summary {examined, converted, failed, held, byType, blockDefinitions, stylesRemapped[{style, from, to, file}], stylesKept[{style, font, legacyLeft}], remapStyles, skipped, listed, truncated}, warnings, errors}. Side effects: rewrites text values and text-style fonts inside one undo entry 'MCP: <label>'; dryRun on the request rolls it back — preview with detect_vn_legacy_text or dryRun first. With changeSetId the call is recorded into that change set instead of applied; a change set holds only remapStyles: false (styles are table records a rollback cannot restore) — switch the styles afterwards with a direct call.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only these entities (an INSERT selects its attributes); empty = all"
+      },
+      "layers": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only entities on these layers (AutoCAD wildcards); empty = all. With a filter only the styles those entities use are remapped"
+      },
+      "includeBlocks": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also convert text inside block definitions (title blocks, symbols); xrefs and *D/*T blocks never"
+      },
+      "includeTables": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also convert table cells"
+      },
+      "sourceCharset": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "tcvn3",
+          "vni"
+        ],
+        "default": "auto",
+        "description": "auto: only text in fonts the rules know as legacy; tcvn3 / vni: also text in unknown fonts"
+      },
+      "fontMap": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "description": "Legacy face or SHX file (wildcards) → Unicode TrueType face, e.g. {\"VNI-Univer\": \"Arial\", \"vn_vni.shx\": \"Arial\"}"
+      },
+      "remapStyles": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also switch the legacy text styles to their Unicode faces (after every text succeeded)"
+      },
+      "atomic": {
+        "type": "boolean",
+        "default": true,
+        "description": "true: one entity that cannot be edited refuses the call; false: it is listed and the rest converted"
+      },
+      "changeSetId": {
+        "type": "string",
+        "description": "Record this call into the change set (begin_change_set) instead of applying it; requires remapStyles false"
+      }
+    }
+  }
+}

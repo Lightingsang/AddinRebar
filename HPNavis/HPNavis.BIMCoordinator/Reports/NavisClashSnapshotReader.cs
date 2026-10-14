@@ -23,6 +23,7 @@ public static class NavisClashSnapshotReader
         var testRows = new List<ClashSnapshotTest>();
         var rows = new List<ClashSnapshotRow>();
         var truncated = false;
+        var grids = doc.Grids.Systems.ToList();
         foreach (var test in tests.OrderBy(t => t.DisplayName, StringComparer.Ordinal))
         {
             ct.ThrowIfCancellationRequested();
@@ -40,7 +41,8 @@ public static class NavisClashSnapshotReader
                 rows.Add(new ClashSnapshotRow(test.DisplayName, rule.Id, rule.Priority, rule.DisciplinePair, result.Guid.ToString(), result.DisplayName, group,
                     result.Status.ToString(), Math.Round(result.Distance * mmPerUnit, 1),
                     new[] { Math.Round(center.X * mmPerUnit), Math.Round(center.Y * mmPerUnit), Math.Round(center.Z * mmPerUnit) },
-                    ClashSnapshotRules.LevelOf(item1, item2), item1, item2, ClashSnapshotRules.FoundAtText(result.CreatedTime)));
+                    ClashSnapshotRules.LevelOf(item1, item2), item1, item2, ClashSnapshotRules.FoundAtText(result.CreatedTime),
+                    GridLocation: GridLocation(grids, center, mmPerUnit, item1, item2)));
             }
         }
 
@@ -69,9 +71,34 @@ public static class NavisClashSnapshotReader
         return new ClashItemInfo(
             named.DisplayName,
             element is null ? item.ClassDisplayName : Text(element.PropertyCategories.FindPropertyByName(ElementTab, "LcRevitPropertyElementCategory")),
-            element is null ? "" : Text(element.PropertyCategories.FindPropertyByDisplayName("Element", "Id")),
+            element is null ? "" : ElementText(element, "Id"),
             Text(item.PropertyCategories.FindPropertyByName("LcOaNode", "LcOaNodeSourceFile")),
-            level);
+            level,
+            element is null ? "" : ElementText(element, "Family"),
+            element is null ? "" : ElementText(element, "Type"),
+            element is null ? "" : FirstNonEmpty(ElementText(element, "Size"), ElementText(element, "Overall Size")),
+            element is null ? "" : ClashElementFacts.SystemText(ElementText(element, "System Classification"), ElementText(element, "System Name"),
+                Text(element.PropertyCategories.FindPropertyByDisplayName("Distribution System", "Name"))),
+            element is null ? "" : FirstNonEmpty(ElementText(element, "Mark"), Text(element.PropertyCategories.FindPropertyByDisplayName("Custom", "STR_ElementName"))));
+    }
+
+    private static string ElementText(ModelItem element, string property) =>
+        Text(element.PropertyCategories.FindPropertyByDisplayName("Element", property));
+
+    private static string FirstNonEmpty(params string[] values) => values.FirstOrDefault(v => !string.IsNullOrWhiteSpace(v)) ?? "";
+
+    /// <summary>
+    ///     "Y.1a(120)-15.1a(-35)" read on the grid system of the first element's own file (else the second's), offsets in
+    ///     mm; null when neither file brought a grid system.
+    /// </summary>
+    private static string? GridLocation(IReadOnlyList<GridSystem> grids, Point3D center, double mmPerUnit, ClashItemInfo item1, ClashItemInfo item2)
+    {
+        var names = grids.Select(g => g.DisplayName).ToList();
+        var name = ClashElementFacts.GridSystemFor(item1.SourceFile, names) ?? ClashElementFacts.GridSystemFor(item2.SourceFile, names);
+        if (name is null) return null;
+        var intersection = grids.First(g => g.DisplayName == name).ClosestIntersection(center);
+        var text = intersection?.FormatIntersectionDisplayString(center, mmPerUnit);
+        return string.IsNullOrWhiteSpace(text) ? null : text;
     }
 
     /// <summary>A property value as text; <c>ToDisplayString</c> throws on anything but a display string, so each kind is read by type.</summary>

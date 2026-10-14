@@ -35,5 +35,11 @@ Batch runs + report with pictures (report plans/reports/code-review-2026-10-11-c
 - Empty `LcClashReportResultSelector` behaviour unverified → skip WriteReport when nothing selected.
 - Python HTML index: silent {} on missing/unparsed report; test name carried across tables → wrong picture; fallback dates presented as data.
 
+AI clash descriptions (report plans/reports/code-review-2026-10-12-clash-ai-descriptions.md, 7/10):
+- Acceptance-rule gate checks category pair + depth only; KB reuses one rule across ARC-STR and STR-STR kinds → one human approval widens to another discipline. Check rules carry discipline pairs; script-check KB ruleId scope vs key.
+- `approved` read by truthiness, no approvedBy provenance; demoted VALID rows keep "Cao" + "no fix needed" wording.
+- Grid systems keyed by DisplayName via ToDictionary (dupes again); lazy `^(.*?-\d{4})` ISO base regex collapses numeric volume fields → wrong building grid quoted as fact.
+- Per-snapshot `-ai.json`: KB refresh by `source: knowledge:` tag leaves removed kinds stale, overwrites hand edits that keep the tag; pilot judgements never carry to the next snapshot.
+
 **Why:** engine code referenced by the script compiler is outside the guard and the heavy gate; only tests fence it.
 **How to apply:** rerun these checks on slice 2 (issue state, reports beside the NWD) and any other Navis engine. Related: [[project-aec-mcp-review-recurring-checks]].

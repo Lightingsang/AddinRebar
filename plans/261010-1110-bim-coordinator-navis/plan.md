@@ -101,6 +101,16 @@ Requirement contract confirmed 2026-10-10 (grill-me). Source standard: `HPBIM_Ma
 | Found Date: `ClashResult.CreatedTime` is UTC and the HTML report prints it as UTC; the sheet shows the snapshot's local `foundAt` | done |
 | Original model (run + export beside the NWD on the Drive) | pending: user approval |
 
+## Slice 4 — AI clash descriptions (2026-10-12, grill-me contract)
+| Step | Status |
+|---|---|
+| Decisions: AI writes per group (test × category/family pair × distance band, ~650 groups) + per-clash details filled by script; `<snapshot>-ai.json` keyed by GUID, xlsx rebuilt with hidden GUID + AI_Description / AI_Suggested_Action / AI_Classification / AI_Confidence (Cao/Trung bình/Thấp); "Hợp lệ theo thiết kế" only through user-approved rules; pilot 10 GUIDs before batch — user 2026-10-12 | done |
+| Spike: Element tab Family/Type/Size, System Classification/Name, Custom STR_ElementName; report Grid Location uses the active grid system (wrong building) → `GridSystem.ClosestIntersection` with the system of the element's own file | done |
+| Engine: snapshot items + family/type/size/system/mark, row grid location; tests | done — 187 |
+| Python: `clash-ai-groups.py` (groups + pilot + `--write-judgements`), `clash-ai-text.py`, `clash-ai-knowledge.json` (114 kinds), rules HV-01..18 (unapproved), builder AI columns + gate; tests | done — Python 23 |
+| Pilot 10 GUIDs → user review → batch 20 261 rows (0 original-cell differences; 1 953 Cần xử lý / 18 308 Cần xác minh while no rule is approved) | done |
+| Rule approval (HV-01..18), re-export with Hide Other pictures (workbook 155 MB with wireframe pictures) | pending (HITL) |
+
 ## Layout
 ```
 HPNavis/HPNavis.BIMCoordinator/        net48, refs Navisworks Api + Clash (Private=false), System.Text.Json (already in Core graph)

@@ -1,0 +1,87 @@
+{
+  "name": "detect_vn_legacy_text",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Annotation",
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "host": "autocad",
+  "hostVersions": [
+    "2026"
+  ],
+  "tags": [
+    "vietnamese",
+    "tcvn3",
+    "vni",
+    "unicode",
+    "font",
+    "encoding",
+    "text"
+  ],
+  "title": "Find pre-Unicode Vietnamese text (TCVN3 / VNI)",
+  "description": "Read-only. Shows what convert_vn_text_encoding would do with the same arguments: the text an old Vietnamese drawing holds in a legacy encoding — TCVN3/ABC (.VnTime, .VnArial, .VnTimeH capitals-only fonts, uv-abc.shx) or VNI-Win (VNI-Times, VNI-Avo, VNI-Helve…, vn_vni.shx) — with a Unicode preview of each, the legacy styles that would switch to a Unicode face, the ones that would be kept, and the entities that would fail (LAYER_LOCKED / LAYER_FROZEN / CELL_LOCKED) or refuse the call (NO_FONT_MAPPING). The charset comes from the font in force: the style's, or an inline \\f font inside MText (Symbol runs, e.g. f = φ, and runs in Unicode fonts such as Arial are never touched). Looks at DBText, MText, attributes, attribute definitions (value + prompt), dimension text overrides, multileaders and table cells, in model space, every layout and (includeBlocks) every block definition — never xrefs, nor the *D / *T blocks AutoCAD regenerates; text with a field, multiline attributes and entities already converted (XData HP_VNCONVERT) are skipped. The rule that keeps the screen readable: with remapStyles (default) a legacy style is switched to its Unicode face only when every legacy text under it is converted in the same run — when some stay (outside the selection, in an excluded block or table, on a locked layer, carrying a field) the style is kept and its selected texts are held too. Filter with handles (an INSERT's handle selects its attributes) and/or layers (wildcards); no filter = the whole drawing. sourceCharset tcvn3 | vni forces a charset on text whose font the rules do not know (VNI bytes left under an Arial style) and needs a handles / layers filter; auto (default) never guesses. fontMap {\"<legacy face or SHX file, wildcards ok>\": \"<Unicode TrueType face>\"} chooses the face a legacy font becomes (every SHX font and VNI-* faces other than Times/Helve/Avo/Arial need one). Returns the analysis envelope {success (false when NO_FONT_MAPPING would refuse), summary {examined, convert, held, failed, byType, inBlockDefinitions, stylesRemapped[{name, font, charset, upperCaseOnly, targetFace}], stylesKept, unicodeStyles, skipped, sourceCharset}, items[{handle, type, owner (layout or block name), inBlockDefinition, layer, style, fields, field, text, preview}] (the texts to convert, first changed value, 80 characters each), count, offset, truncated, warnings, errors}; page with limit (max 40) and offset.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "handles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only these entities (an INSERT selects its attributes); empty = all"
+      },
+      "layers": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Only entities on these layers (AutoCAD wildcards); empty = all"
+      },
+      "includeBlocks": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also look inside block definitions (title blocks, symbols); xrefs and *D/*T blocks never"
+      },
+      "includeTables": {
+        "type": "boolean",
+        "default": true,
+        "description": "Also look at table cells"
+      },
+      "sourceCharset": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "tcvn3",
+          "vni"
+        ],
+        "default": "auto",
+        "description": "auto: only text in fonts the rules know as legacy; tcvn3 / vni: also text in unknown fonts"
+      },
+      "fontMap": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "description": "Legacy face or SHX file (wildcards) → Unicode TrueType face, e.g. {\"VNI-Univer\": \"Arial\", \"vn_vni.shx\": \"Arial\"}"
+      },
+      "remapStyles": {
+        "type": "boolean",
+        "default": true,
+        "description": "Plan as convert_vn_text_encoding would with the same value"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 40,
+        "minimum": 1,
+        "maximum": 40
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0
+      }
+    }
+  }
+}

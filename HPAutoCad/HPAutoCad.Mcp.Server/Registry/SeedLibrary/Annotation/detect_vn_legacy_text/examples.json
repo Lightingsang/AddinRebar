@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Survey a whole old drawing: which styles use VNI / TCVN3 fonts and what the text becomes",
+    "args": {}
+  },
+  {
+    "title": "Only the notes layers, model and layouts, with a face for an unlisted VNI font",
+    "args": {
+      "layers": [
+        "GHI CHU*",
+        "TEXT"
+      ],
+      "includeBlocks": false,
+      "fontMap": {
+        "VNI-Univer": "Arial"
+      },
+      "limit": 40
+    }
+  },
+  {
+    "title": "VNI bytes typed under an Arial style (garbled in AutoCAD)",
+    "args": {
+      "handles": [
+        "8B"
+      ],
+      "sourceCharset": "vni"
+    }
+  }
+]

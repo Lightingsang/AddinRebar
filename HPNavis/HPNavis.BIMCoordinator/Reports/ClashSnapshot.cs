@@ -4,13 +4,22 @@ using HPNavis.BIMCoordinator.Rules;
 
 namespace HPNavis.BIMCoordinator.Reports;
 
-/// <summary>One clashing element as a coordinator reads it: the Revit element (not the solid inside it), its file and level.</summary>
+/// <summary>
+///     One clashing element as a coordinator reads it: the Revit element (not the solid inside it), its file and level,
+///     and what a description quotes — family, type, size, system and the element's own mark. Empty when the element
+///     does not carry the value (never guessed).
+/// </summary>
 public sealed record ClashItemInfo(
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("category")] string Category,
     [property: JsonPropertyName("elementId")] string ElementId,
     [property: JsonPropertyName("sourceFile")] string SourceFile,
-    [property: JsonPropertyName("level")] string Level);
+    [property: JsonPropertyName("level")] string Level,
+    [property: JsonPropertyName("family")] string Family = "",
+    [property: JsonPropertyName("type")] string Type = "",
+    [property: JsonPropertyName("size")] string Size = "",
+    [property: JsonPropertyName("system")] string System = "",
+    [property: JsonPropertyName("mark")] string Mark = "");
 
 /// <summary>
 ///     One clash result. <see cref="Guid" /> is the result's identity across runs of the same test. <see cref="FoundAt" />
@@ -32,7 +41,8 @@ public sealed record ClashSnapshotRow(
     [property: JsonPropertyName("item1")] ClashItemInfo Item1,
     [property: JsonPropertyName("item2")] ClashItemInfo Item2,
     [property: JsonPropertyName("foundAt")] string? FoundAt = null,
-    [property: JsonPropertyName("pictured")] bool Pictured = false);
+    [property: JsonPropertyName("pictured")] bool Pictured = false,
+    [property: JsonPropertyName("gridLocation")] string? GridLocation = null);
 
 /// <summary>One HP clash test: when it last ran and its results by status (complete, whatever the row cap).</summary>
 public sealed record ClashSnapshotTest(

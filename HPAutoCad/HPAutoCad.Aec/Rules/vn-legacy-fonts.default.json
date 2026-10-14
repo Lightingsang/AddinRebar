@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "description": "Which text-style fonts hold pre-Unicode Vietnamese text, and the Unicode face each one is remapped to. First match wins; patterns are AutoCAD wildcards matched against the TrueType face, then the font file name. targetFace null = the charset is known but there is no safe default face: pass fontMap.",
+  "fonts": [
+    {
+      "pattern": "Symbol",
+      "charset": "none"
+    },
+    {
+      "pattern": "Wingdings*",
+      "charset": "none"
+    },
+    {
+      "pattern": "Webdings",
+      "charset": "none"
+    },
+    {
+      "pattern": "VNI-Times*",
+      "charset": "vni",
+      "targetFace": "Times New Roman"
+    },
+    {
+      "pattern": "VNI-Helve-Condense*",
+      "charset": "vni",
+      "targetFace": "Arial Narrow"
+    },
+    {
+      "pattern": "VNI-Helve*",
+      "charset": "vni",
+      "targetFace": "Arial"
+    },
+    {
+      "pattern": "VNI-Avo*",
+      "charset": "vni",
+      "targetFace": "Arial"
+    },
+    {
+      "pattern": "VNI-Arial*",
+      "charset": "vni",
+      "targetFace": "Arial"
+    },
+    {
+      "pattern": "VNI-*",
+      "charset": "vni"
+    },
+    {
+      "pattern": "vn_vni*.shx",
+      "charset": "vni"
+    },
+    {
+      "pattern": "vni*.shx",
+      "charset": "vni"
+    },
+    {
+      "pattern": ".VnTimeH",
+      "charset": "tcvn3",
+      "upperCaseOnly": true,
+      "targetFace": "Times New Roman"
+    },
+    {
+      "pattern": ".VnTime",
+      "charset": "tcvn3",
+      "targetFace": "Times New Roman"
+    },
+    {
+      "pattern": ".VnArial NarrowH",
+      "charset": "tcvn3",
+      "upperCaseOnly": true,
+      "targetFace": "Arial Narrow"
+    },
+    {
+      "pattern": ".VnArial Narrow",
+      "charset": "tcvn3",
+      "targetFace": "Arial Narrow"
+    },
+    {
+      "pattern": ".VnArialH",
+      "charset": "tcvn3",
+      "upperCaseOnly": true,
+      "targetFace": "Arial"
+    },
+    {
+      "pattern": ".VnArial",
+      "charset": "tcvn3",
+      "targetFace": "Arial"
+    },
+    {
+      "pattern": ".Vn*H",
+      "charset": "tcvn3",
+      "upperCaseOnly": true
+    },
+    {
+      "pattern": ".Vn*",
+      "charset": "tcvn3"
+    },
+    {
+      "pattern": "uv-abc*.shx",
+      "charset": "tcvn3"
+    },
+    {
+      "pattern": "vn_abc*.shx",
+      "charset": "tcvn3"
+    }
+  ]
+}

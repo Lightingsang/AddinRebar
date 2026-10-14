@@ -20,6 +20,7 @@ Usage:
 """
 
 import argparse
+import re
 import importlib.util
 import json
 import sys
@@ -50,6 +51,7 @@ def _sibling(file_name):
 
 description = _sibling("clash-description-sheet.py")
 report_html = _sibling("clash-report-html.py")
+ai_text = _sibling("clash-ai-text.py")
 
 
 def fail(message):
@@ -64,9 +66,13 @@ def load(path):
     return data
 
 
+SNAPSHOT_NAME = re.compile(r"^clash-LOD(?P<phase>.+)-\d{8}-\d{6}\.json$")
+
+
 def snapshots_in(folder, phase=None):
-    files = sorted(Path(folder).glob("clash-LOD*.json"))
-    return [f for f in files if phase is None or f.name.startswith(f"clash-LOD{phase}-")]
+    """Snapshots only: the -ai.json / -ai-groups.json files beside them share the prefix and sort before them."""
+    files = sorted(f for f in Path(folder).glob("clash-LOD*.json") if SNAPSHOT_NAME.match(f.name))
+    return [f for f in files if phase is None or SNAPSHOT_NAME.match(f.name).group("phase") == phase]
 
 
 def find_previous(snapshot_path, phase):
@@ -244,13 +250,15 @@ def build(snapshot_path, previous_path=None, out=None, html=None):
     clash_sheet(book, current)
     changes_sheet(book, changes)
     out = Path(out) if out else snapshot_path.with_suffix(".xlsx")
-    last, listed, missing, lost = description.description_sheet(book, current, pictures, out.parent)
+    judgements, rules = ai_text.load_judgements(snapshot_path), ai_text.load_rules()
+    ai_columns = (lambda row, grid: ai_text.columns_for(row, judgements.get(ai_text.group_id(row)), rules, grid)) if judgements else None
+    last, listed, missing, lost, described = description.description_sheet(book, current, pictures, out.parent, ai_columns)
     book.move_sheet("CLASH DESCRIPTION", offset=-(len(book.sheetnames) - 1))
     description.summary_sheet(book, last, current.get("truncated", False))
     book.active = 0
     book.calculation.fullCalcOnLoad = True  # Summary and the counters are formulas; Excel computes them on open
     save(book, out)
-    return {"out": out, "previous": previous_path, "rows": len(current["rows"]), "listed": listed, "withoutPicture": missing,
+    return {"out": out, "previous": previous_path, "rows": len(current["rows"]), "listed": listed, "withoutPicture": missing, "aiDescribed": described,
             "html": html_path, "pictureWarnings": picture_warnings + ([f"{lost} clash(es) pictured by Navisworks were not found in the HTML report"] if lost else []),
             "new": len(changes["new"]) if changes else None, "resolved": len(changes["resolved"]) if changes else None}
 
@@ -275,6 +283,11 @@ def main():
     print(f"{result['rows']} clash -> {result['out']} ({compared})")
     print(f"CLASH DESCRIPTION: {result['listed']} dòng, {result['listed'] - result['withoutPicture']} có ảnh"
           + (f" (ảnh từ {result['html']})" if result["html"] else " (không có report HTML)"))
+    if result["aiDescribed"]:
+        print(f"AI: {result['aiDescribed']} dòng có mô tả AI (từ {Path(options.snapshot).stem}-ai.json)")
+        if result["aiDescribed"] < result["listed"]:
+            print(f"WARNING: {result['listed'] - result['aiDescribed']} dòng chưa có mô tả AI (nhóm chưa có nhận định: chạy clash-ai-groups.py --write-judgements)",
+                  file=sys.stderr)
     for warning in result["pictureWarnings"]:
         print(f"WARNING: {warning}", file=sys.stderr)
 

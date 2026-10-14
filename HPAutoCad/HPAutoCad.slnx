@@ -23,6 +23,10 @@
   <Project Path="HPAutoCad.McpBridge/HPAutoCad.McpBridge.csproj" />
   <Project Path="HPAutoCad.Mcp.Server/HPAutoCad.Mcp.Server.csproj" />
   <Project Path="HPAutoCad.Mcp.Server.Tests/HPAutoCad.Mcp.Server.Tests.csproj" />
+  <!-- Vendored third-party code (internal use only, see ThirdParty/VNConvert/NOTICE.md). -->
+  <Folder Name="/ThirdParty/">
+    <Project Path="ThirdParty/VNConvert/VNConvert.csproj" />
+  </Folder>
   <Folder Name="/Install/">
     <Project Path="install/Installer.csproj">
       <Build Project="false" />

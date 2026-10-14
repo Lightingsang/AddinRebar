@@ -6,10 +6,8 @@ Loaded by build-clash-report.py (importlib, the file name has hyphens). Pictures
 of the same export (clash_pictures in clash-report-html.py); a clash without one says so in its photo cell.
 """
 
-import io
 import os
 
-from PIL import Image as PilImage
 from openpyxl.chart import BarChart, Reference, Series
 from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -24,9 +22,15 @@ CENTER = Alignment(horizontal="center", vertical="center", wrap_text=True)
 LEFT = Alignment(horizontal="left", vertical="center", wrap_text=True)
 
 FIRST_ROW = 5
-PICTURE_MAX_PX = (320, 180)
-PICTURE_ROW_PT = 140
+PICTURE_PX = 340        # displayed size (~9 cm); the embedded file stays Navisworks' own 1024 px picture
+PICTURE_ROW_PT = 262    # 340 px = 255 pt, plus a little room under the picture
 TEXT_ROW_PT = 66  # the description runs to four lines at Arial 10
+AI_TEXT_ROW_PT = 110  # the AI description and action run to seven or eight lines
+
+# hidden Clash GUID (the key of <snapshot>-ai.json) and the AI columns, after the agenda's own columns
+GUID_COLUMN = "X"
+AI_COLUMNS = (("Y", "AI_Classification", "classification", 16), ("Z", "AI_Description", "description", 72),
+              ("AA", "AI_Suggested_Action", "action", 46), ("AB", "AI_Confidence", "confidence", 12))
 DISCIPLINE_COLUMN = {"ARC": "M", "STR": "N", "MEP": "O"}
 DISCIPLINE_NAME = {"ARC": "ARCHITECTURE", "STR": "STRUCTURE", "MEP": "MEPF"}
 STATUS_COLUMN = {"New": "T", "Active": "T", "Reviewed": "V", "Resolved": "U"}
@@ -44,7 +48,7 @@ HEADERS = [
     ("R3", "Nhóm"), ("S3", "Mức"), ("T2:V2", "Tình trạng\nStatus"), ("T3", "Mới\nNew"), ("U3", "Xong\nDone"), ("V3", "Chờ\nPending"),
     ("W2:W3", "Thi công\nAs-Built"), ("M4", "Architecture"), ("N4", "Structure"), ("O4", "MEPF"),
 ]
-WIDTHS = {"A": 7.7, "B": 8.3, "C": 48, "D": 17.3, "E": 13.3, "F": 6.1, "G": 6.7, "H": 49.4, "I": 22, "J": 20.7, "K": 16,
+WIDTHS = {"A": 7.7, "B": 8.3, "C": 50, "D": 17.3, "E": 13.3, "F": 6.1, "G": 6.7, "H": 49.4, "I": 22, "J": 20.7, "K": 16,
           "L": 36.4, "M": 13, "N": 13, "O": 13, "P": 16, "Q": 24.4, "R": 8, "S": 10, "T": 9.4, "U": 9.4, "V": 10, "W": 14}
 
 
@@ -89,9 +93,11 @@ def picture_link(image_path, link_base):
         return image_path.resolve().as_uri()
 
 
-def description_sheet(book, snapshot, pictures, link_base):
+def description_sheet(book, snapshot, pictures, link_base, ai_columns=None):
     """CLASH DESCRIPTION: returns (last data row, rows listed, rows without picture, pictured rows whose picture is
-    missing). Found Date = the snapshot's foundAt (local), else the report's (UTC; older snapshots), else blank."""
+    missing, rows with AI columns). Found Date = the snapshot's foundAt (local), else the report's (UTC; older
+    snapshots), else blank. Grid = the snapshot's gridLocation (read on the element's own building grid), else the
+    report's. ai_columns(row, grid) gives the AI columns of a row or None; the agenda's own columns never change."""
     sheet = book.create_sheet("CLASH DESCRIPTION")
     rows = reported_rows(snapshot)
     last = max(FIRST_ROW, FIRST_ROW + len(rows) - 1)
@@ -116,13 +122,21 @@ def description_sheet(book, snapshot, pictures, link_base):
     for column, width in WIDTHS.items():
         sheet.column_dimensions[column].width = width
     sheet.freeze_panes = f"A{FIRST_ROW}"
+    header_cell(sheet, f"{GUID_COLUMN}2:{GUID_COLUMN}3", "Clash GUID")
+    sheet.column_dimensions[GUID_COLUMN].width = 38
+    sheet.column_dimensions[GUID_COLUMN].hidden = True
+    if ai_columns:
+        for column, title, _, width in AI_COLUMNS:
+            header_cell(sheet, f"{column}2:{column}3", title)
+            sheet.column_dimensions[column].width = width
 
-    missing = lost = 0
+    missing = lost = described = 0
     for index, row in enumerate(rows):
         r = FIRST_ROW + index
         picture = pictures.get((row["test"], row["name"]), {})
+        grid = row.get("gridLocation") or picture.get("grid", "")
         values = {
-            "A": index + 1, "D": row["level"], "E": picture.get("grid", ""), "H": describe(row),
+            "A": index + 1, "D": row["level"], "E": grid, "H": describe(row), GUID_COLUMN: row["guid"],
             # the snapshot's local time first: the HTML report prints Date Found in UTC (live, THCSLT +7 h)
             "K": row.get("foundAt") or picture.get("found") or "", "R": row["priority"], "S": PRIORITY_LABEL.get(row["priority"], ""),
             STATUS_COLUMN[row["status"]]: 1,
@@ -137,6 +151,13 @@ def description_sheet(book, snapshot, pictures, link_base):
             cell.alignment = LEFT if column in "CDEHL" else CENTER
         for column in "TUV":
             sheet[f"{column}{r}"].fill = STATUS_FILL
+        ai = ai_columns(row, grid) if ai_columns else None
+        if ai:
+            described += 1
+            for column, _, key, _ in AI_COLUMNS:
+                cell = sheet[f"{column}{r}"]
+                cell.value, cell.border, cell.font = ai[key], BOX, BODY
+                cell.alignment = LEFT if key in ("description", "action") else CENTER
         image_path = picture.get("image")
         if image_path and image_path.exists():
             place_picture(sheet, image_path, f"C{r}")
@@ -148,22 +169,19 @@ def description_sheet(book, snapshot, pictures, link_base):
             sheet.row_dimensions[r].height = PICTURE_ROW_PT
         else:
             sheet[f"C{r}"] = NO_PICTURE
-            sheet.row_dimensions[r].height = TEXT_ROW_PT
+            sheet.row_dimensions[r].height = AI_TEXT_ROW_PT if ai else TEXT_ROW_PT
             missing += 1
             lost += 1 if row.get("pictured") else 0
     sheet.column_dimensions["I"].hidden = True
-    return last, len(rows), missing, lost
+    return last, len(rows), missing, lost, described
 
 
 def place_picture(sheet, path, anchor):
-    """A thumbnail goes into the workbook (Navisworks renders 1024 px pictures, ~50 KB each); the cell links the original."""
-    with PilImage.open(path) as original:
-        thumbnail = original.convert("RGB")
-        thumbnail.thumbnail(PICTURE_MAX_PX)
-        data = io.BytesIO()
-        thumbnail.save(data, format="JPEG", quality=85)
-    data.seek(0)
-    image = Image(data)
+    """Navisworks' picture goes in byte for byte (no resampling, no re-encoding: a 1024 px JPEG stays sharp at any zoom);
+    only the displayed size is set, PICTURE_PX on the longer side."""
+    image = Image(str(path))
+    scale = PICTURE_PX / max(image.width, image.height)
+    image.width, image.height = round(image.width * scale), round(image.height * scale)
     sheet.add_image(image, anchor)
 
 

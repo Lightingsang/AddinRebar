@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Convert a whole old drawing (run with dryRun first)",
+    "args": {}
+  },
+  {
+    "title": "A drawing with an SHX VNI font: name its Unicode face, skip locked layers",
+    "args": {
+      "fontMap": {
+        "vn_vni.shx": "Arial",
+        "uv-abc.shx": "Arial"
+      },
+      "atomic": false
+    }
+  },
+  {
+    "title": "Record the text conversion of two notes into a change set (styles stay for a direct call)",
+    "args": {
+      "handles": [
+        "8B",
+        "A4"
+      ],
+      "remapStyles": false,
+      "changeSetId": "cs-1"
+    }
+  }
+]

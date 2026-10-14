@@ -1,0 +1,770 @@
+{
+ "schemaVersion": 1,
+ "author": "Claude (AI), 2026-10-12 — nhận định theo kiểu va chạm (cặp bộ môn | category 1 | category 2), viết từ dữ liệu THCSLT LOD350-400 và ảnh Navisworks của các clash có ảnh; chưa có bản vẽ thiết kế.",
+ "note": "Khoá = '<cặp bộ môn>|<category 1>|<category 2>' như trong test HP. 'bands' ghi đè theo dải độ xuyên (≤10, ≤50, ≤200, >200). classification 'Hợp lệ theo thiết kế' cần ruleId; chỉ có hiệu lực khi quy tắc đó được duyệt trong clash-acceptance-rules.json.",
+ "judgements": {
+  "ARC-ARC|Floors|Walls": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-03",
+   "confidence": "Trung bình",
+   "assessment": "Lớp sàn hoàn thiện kiến trúc chạy dưới/xuyên chân tường xây; đây là quan hệ dựng hình giữa sàn hoàn thiện và tường, không phải xung đột thi công.",
+   "action": "Không sửa thiết kế; ARC nên cắt sàn hoàn thiện theo mặt tường (hoặc join) để bóc khối lượng lát nền đúng.",
+   "bands": {
+    ">200": {
+     "classification": "Cần xác minh",
+     "assessment": "Sàn hoàn thiện và tường chồng sâu hơn 200 mm, vượt chiều dày lớp hoàn thiện thông thường; có thể sai cao độ sàn hoặc chân tường.",
+     "action": "ARC kiểm tra cao độ sàn hoàn thiện và Base Offset của tường tại vị trí; sửa model nếu sai."
+    }
+   }
+  },
+  "ARC-ARC|Walls|Walls": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-04",
+   "confidence": "Trung bình",
+   "assessment": "Hai tường kiến trúc giao nhau tại góc/chỗ nối hoặc lớp trát, ốp chồng lên tường xây; chồng lấn nhỏ không ảnh hưởng thi công.",
+   "action": "Không sửa thiết kế; ARC nối (join) tường tại góc để khối lượng không bị tính trùng.",
+   "bands": {
+    "≤200": {
+     "classification": "Cần xác minh",
+     "assessment": "Hai tường kiến trúc chồng lên nhau 50–200 mm, nhiều khả năng là lớp hoàn thiện vẽ bằng tường riêng chồng vào tường xây hoặc tường bị vẽ trùng.",
+     "action": "ARC kiểm tra: xoá tường trùng hoặc dời lớp hoàn thiện về đúng mặt tường."
+    },
+    ">200": {
+     "classification": "Cần xác minh",
+     "assessment": "Hai tường kiến trúc chồng sâu hơn 200 mm, nhiều khả năng là tường vẽ trùng vị trí, làm sai khối lượng xây trát.",
+     "action": "ARC kiểm tra và xoá tường trùng hoặc chỉnh lại vị trí tường; chạy lại test."
+    }
+   }
+  },
+  "ARC-ARC|Curtain Wall Mullions|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đố vách kính nằm trong khối tường xây; vách kính và tường có thể bị dựng trùng tại cùng ô cửa, hoặc đố được neo vào mép tường theo chi tiết.",
+   "action": "ARC kiểm tra ô vách kính: nếu vách kính thay tường thì cắt tường tại ô, nếu đố neo vào mép tường thì điều chỉnh để chỉ chạm mặt tường."
+  },
+  "ARC-ARC|Ceilings|Walls": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-17",
+   "confidence": "Trung bình",
+   "assessment": "Mép trần chạm/ăn vào mặt tường bao phòng; trần được giới hạn bởi tường nên đây là quan hệ dựng hình.",
+   "action": "Không sửa thiết kế; ARC có thể vẽ biên trần theo mặt tường hoàn thiện.",
+   "bands": {
+    ">200": {
+     "classification": "Cần xác minh",
+     "assessment": "Trần xuyên vào tường hơn 200 mm, có thể trần kéo qua tường sang phòng bên.",
+     "action": "ARC kiểm tra biên trần tại vị trí và cắt theo mặt tường."
+    }
+   }
+  },
+  "ARC-ARC|Railings|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Lan can (trụ, thanh) đâm vào tường; có thể là chân lan can neo vào tường theo chi tiết hoặc lan can vẽ đi xuyên tường.",
+   "action": "ARC kiểm tra đường dẫn lan can: dừng lan can tại mặt tường hoặc thể hiện chi tiết neo; cắt đoạn xuyên tường."
+  },
+  "ARC-ARC|Top Rails|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tay vịn trên cùng của lan can đâm vào tường tại điểm đầu/cuối hoặc chạy xuyên tường.",
+   "action": "ARC dừng tay vịn tại mặt tường hoặc thể hiện chi tiết bịt đầu/neo vào tường."
+  },
+  "ARC-ARC|Curtain Panels|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tấm vách (gạch bông gió/tấm hệ vách) nằm chồng vào tường xây; có thể là mảng bông gió xây chèn trong tường theo thiết kế hoặc vẽ trùng.",
+   "action": "ARC kiểm tra mảng bông gió: cắt tường tại ô bông gió hoặc dời mảng về đúng mặt tường."
+  },
+  "ARC-ARC|Curtain Panels|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tấm vách (gạch bông gió) đặt xuyên vào sàn hoàn thiện; thường do chân vách dựng từ cao độ sàn kết cấu.",
+   "action": "ARC chỉnh chân vách bông gió bằng mặt sàn hoàn thiện."
+  },
+  "ARC-ARC|Runs|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Vế thang chạm/ăn vào tường bao thang; vế thang tì vào tường là bình thường nhưng độ chồng lớn cho thấy bề rộng thang hoặc vị trí tường sai.",
+   "action": "ARC kiểm tra bề rộng vế thang và mặt tường thang; chỉnh model nếu thang xuyên vào tường quá chiều dày lớp trát."
+  },
+  "ARC-ARC|Floors|Railings": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Chân lan can cắm vào sàn hoàn thiện; nếu là chân trụ neo vào sàn theo chi tiết thì hợp lệ, nếu lan can đặt sai cao độ thì cần sửa.",
+   "action": "ARC kiểm tra cao độ đặt lan can so với mặt sàn hoàn thiện và chi tiết chân trụ."
+  },
+  "ARC-ARC|Curtain Wall Mullions|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đố vách kính cắm vào sàn hoàn thiện; thường do chân vách kính dựng từ cao độ sàn kết cấu.",
+   "action": "ARC chỉnh cao độ chân vách kính theo chi tiết liên kết với sàn."
+  },
+  "ARC-ARC|Supports|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Bản mã/giá đỡ tay vịn đâm vào tường; nếu là giá gắn tường theo chi tiết thì hợp lệ.",
+   "action": "ARC kiểm tra chi tiết giá đỡ tay vịn gắn tường."
+  },
+  "ARC-ARC|Curtain Wall Mullions|Curtain Wall Mullions": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Hai đố vách kính chồng nhau tại giao điểm hoặc hai vách kính vẽ trùng.",
+   "action": "ARC kiểm tra giao điểm vách kính, xoá vách trùng nếu có."
+  },
+  "ARC-ARC|Doors|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Khung/cánh cửa lún vào sàn hoàn thiện; có thể sai cao độ đặt cửa hoặc chênh cốt sàn tại cửa.",
+   "action": "ARC kiểm tra cao độ đáy cửa so với sàn hoàn thiện, chỉnh Sill Height/Level."
+  },
+  "ARC-ARC|Curtain Panels|Curtain Panels": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Hai tấm vách chồng nhau, nhiều khả năng do hai hệ vách vẽ trùng.",
+   "action": "ARC xoá tấm vách trùng."
+  },
+  "ARC-ARC|Walls|Windows": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Cửa sổ nằm trong tường nhưng không khoét đúng host, hoặc khung cửa chồng ra ngoài ô chờ.",
+   "action": "ARC kiểm tra host của cửa sổ và kích thước ô chờ."
+  },
+  "ARC-ARC|Curtain Panels|Curtain Wall Mullions": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tấm vách và đố vách chồng nhau, thường là sai lệch giữa hai hệ vách.",
+   "action": "ARC kiểm tra lưới vách kính tại vị trí."
+  },
+  "ARC-ARC|Handrails|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tay vịn đâm vào tường tại đầu tay vịn.",
+   "action": "ARC dừng tay vịn tại mặt tường hoặc thể hiện chi tiết neo."
+  },
+  "ARC-ARC|Curtain Wall Mullions|Curtain Panels": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đố vách và tấm vách chồng nhau.",
+   "action": "ARC kiểm tra lưới vách kính tại vị trí."
+  },
+  "ARC-ARC|Doors|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Cửa đi chồng vào tường không phải host của nó, thường do tường giao hoặc cửa đặt sát góc tường.",
+   "action": "ARC kiểm tra vị trí cửa so với tường giao; dời cửa hoặc cắt tường."
+  },
+  "ARC-ARC|Floors|Supports": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Dầm cốn/giá đỡ thang cắm vào sàn hoàn thiện.",
+   "action": "ARC kiểm tra cao độ liên kết cốn thang với sàn."
+  },
+  "ARC-MEP|Walls|Pipes": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Ống cấp/thoát nước xuyên tường xây; vị trí ống đi qua tường cần lỗ chờ hoặc ống lồng, còn ống đi dọc trong lòng tường là sai vị trí.",
+   "action": "MEP kiểm tra từng vị trí: nếu ống xuyên vuông góc thì ARC/MEP thể hiện lỗ chờ, ống lồng trên bản vẽ; nếu ống chạy trong lòng tường thì MEP dời ống ra ngoài mặt tường hoặc vào hộp kỹ thuật."
+  },
+  "ARC-MEP|Walls|Electrical Fixtures": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-05",
+   "confidence": "Cao",
+   "assessment": "Thiết bị điện gắn/âm tường (ổ cắm, công tắc, hộp kỹ thuật) nằm trong khối tường xây đúng kiểu lắp âm; đây là quan hệ lắp đặt theo thiết kế.",
+   "action": "Không sửa; MEP đảm bảo đế âm nằm đúng mặt tường hoàn thiện."
+  },
+  "ARC-MEP|Floors|Pipes": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi xuyên hoặc nằm trong lớp sàn hoàn thiện kiến trúc; ống đứng xuyên sàn cần lỗ chờ, ống ngang nằm trong lớp hoàn thiện cần kiểm tra chiều dày lớp lát.",
+   "action": "MEP xác định ống đứng xuyên sàn (thể hiện lỗ chờ, ống lồng) hay ống ngang đi trong lớp hoàn thiện (kiểm tra cao độ, chiều dày lớp lát với ARC)."
+  },
+  "ARC-MEP|Walls|Lighting Devices": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-06",
+   "confidence": "Cao",
+   "assessment": "Công tắc điều khiển chiếu sáng lắp âm tường nằm trong khối tường; đây là lắp đặt theo thiết kế.",
+   "action": "Không sửa; MEP đảm bảo đế âm nằm đúng mặt tường hoàn thiện."
+  },
+  "ARC-MEP|Walls|Electrical Equipment": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-09",
+   "confidence": "Trung bình",
+   "assessment": "Tủ điện/hộp thiết bị lắp âm tường chồng vào khối xây; với tủ âm tường đây là chi tiết lắp đặt, với tủ treo nổi thì thân tủ đang lún vào tường.",
+   "action": "MEP xác nhận kiểu lắp (âm/nổi); tủ âm thì ARC chừa hốc tường, tủ nổi thì MEP dời tủ ra mặt tường hoàn thiện.",
+   "bands": {
+    "≤200": {
+     "classification": "Cần xác minh"
+    }
+   }
+  },
+  "ARC-MEP|Walls|Pipe Fittings": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống (co, tê) nằm trong khối tường; nếu là đoạn đổi hướng sát tường thì phụ kiện đang lún vào tường.",
+   "action": "MEP dời tuyến ống/phụ kiện ra khỏi mặt tường hoặc thể hiện hốc kỹ thuật; ARC xác nhận."
+  },
+  "ARC-MEP|Walls|Fire Protection": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-10",
+   "confidence": "Trung bình",
+   "assessment": "Tủ chữa cháy/tủ bình chữa cháy đặt sát hoặc âm vào tường; với tủ âm tường đây là chi tiết lắp đặt.",
+   "action": "MEP (PCCC) xác nhận kiểu lắp; tủ âm thì ARC chừa hốc tường, tủ nổi thì dời ra mặt tường hoàn thiện.",
+   "bands": {
+    "≤200": {
+     "classification": "Cần xác minh"
+    }
+   }
+  },
+  "ARC-MEP|Walls|Lighting Fixtures": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-12",
+   "confidence": "Trung bình",
+   "assessment": "Đèn gắn tường (đèn sự cố, đèn hắt) chạm/ăn nhẹ vào mặt tường tại vị trí gắn; đây là quan hệ lắp đặt.",
+   "action": "Không sửa; MEP kiểm tra cao độ và mặt gắn đèn."
+  },
+  "ARC-MEP|Railings|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi xuyên qua lan can/thanh lan can; không thi công được lan can liên tục và ống bị lộ tại vị trí đi lại.",
+   "action": "MEP dời tuyến ống tránh lan can (đi sát sàn hoặc trong hộp kỹ thuật); ARC xác nhận vị trí lan can."
+  },
+  "ARC-MEP|Ceilings|Lighting Fixtures": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-11",
+   "confidence": "Cao",
+   "assessment": "Đèn âm trần nằm trong mặt trần đúng như lắp âm; đây là quan hệ lắp đặt theo thiết kế.",
+   "action": "Không sửa; ARC/MEP phối hợp ô khoét trần theo vị trí đèn."
+  },
+  "ARC-MEP|Walls|Data Devices": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-07",
+   "confidence": "Cao",
+   "assessment": "Ổ mạng/thiết bị điện nhẹ lắp âm tường nằm trong khối tường; đây là lắp đặt theo thiết kế.",
+   "action": "Không sửa; MEP đảm bảo đế âm đúng mặt tường hoàn thiện."
+  },
+  "ARC-MEP|Walls|Mechanical Equipment": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Thiết bị điều hoà (dàn lạnh/dàn nóng treo tường) lún vào mặt tường; không lắp đặt được và thiếu khoảng hở bảo trì.",
+   "action": "MEP (ĐHKK) dời thiết bị ra mặt tường hoàn thiện trên giá đỡ, giữ khoảng hở theo nhà sản xuất."
+  },
+  "ARC-MEP|Floors|Pipe Fittings": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống nằm trong lớp sàn hoàn thiện; cần xác nhận ống đi trong lớp lát hay xuyên sàn.",
+   "action": "MEP kiểm tra cao độ phụ kiện; xuyên sàn thì thể hiện lỗ chờ, đi trong lớp lát thì kiểm tra chiều dày lớp lát với ARC."
+  },
+  "ARC-MEP|Walls|Cable Trays": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Máng cáp xuyên hoặc chạy trong tường xây; máng không đi xuyên tường được nếu không có lỗ chờ, chạy trong lòng tường là sai vị trí.",
+   "action": "MEP (điện) dời máng ra khỏi tường hoặc ARC/MEP thể hiện lỗ xuyên tường có kích thước máng + khe hở."
+  },
+  "ARC-MEP|Walls|Pipe Accessories": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Van/phụ kiện đường ống nằm trong tường; van cần tiếp cận vận hành nên không được chôn kín trong tường.",
+   "action": "MEP dời van ra ngoài mặt tường hoặc bố trí cửa thăm/hốc kỹ thuật."
+  },
+  "ARC-MEP|Ceilings|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Ống xuyên qua mặt trần; cần lỗ xuyên và chi tiết hoàn thiện, nếu ống ngang đi dưới trần thì ống bị lộ.",
+   "action": "MEP kiểm tra cao độ ống so với trần; ống đứng thì ARC chừa lỗ trần, ống ngang thì MEP nâng ống lên trên trần."
+  },
+  "ARC-MEP|Walls|Fire Alarm Devices": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-08",
+   "confidence": "Cao",
+   "assessment": "Nút ấn/chuông báo cháy gắn tường chạm mặt tường tại vị trí lắp; đây là quan hệ lắp đặt.",
+   "action": "Không sửa; MEP (báo cháy) kiểm tra cao độ lắp."
+  },
+  "ARC-MEP|Railings|Pipe Fittings": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống nằm trong lan can.",
+   "action": "MEP dời tuyến ống tránh lan can."
+  },
+  "ARC-MEP|Windows|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi qua ô cửa sổ; ống chắn cửa và không thi công được khung cửa.",
+   "action": "MEP dời tuyến ống ra khỏi ô cửa sổ; ARC xác nhận vị trí cửa."
+  },
+  "ARC-MEP|Windows|Pipe Fittings": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống nằm trong ô cửa sổ.",
+   "action": "MEP dời tuyến ống ra khỏi ô cửa sổ."
+  },
+  "ARC-MEP|Walls|Cable Tray Fittings": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện máng cáp (co xuống) nằm trong tường.",
+   "action": "MEP (điện) dời phụ kiện máng ra khỏi tường hoặc thể hiện lỗ xuyên tường."
+  },
+  "ARC-MEP|Ceilings|Pipe Fittings": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện ống xuyên qua mặt trần.",
+   "action": "MEP nâng tuyến ống lên trên trần hoặc ARC chừa lỗ trần."
+  },
+  "ARC-MEP|Runs|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi xuyên vế thang; ống cản lối đi và không thi công được bản thang.",
+   "action": "MEP dời tuyến ống ra khỏi khối thang."
+  },
+  "ARC-MEP|Windows|Fire Protection": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Tủ/thiết bị chữa cháy đặt chắn ô cửa sổ.",
+   "action": "MEP (PCCC) dời thiết bị ra khỏi ô cửa sổ."
+  },
+  "ARC-MEP|Walls|Conduits": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-18",
+   "confidence": "Trung bình",
+   "assessment": "Ống luồn dây đi âm tường; đây là lắp đặt theo thiết kế.",
+   "action": "Không sửa."
+  },
+  "ARC-STR|Walls|Structural Framing": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-01",
+   "confidence": "Cao",
+   "assessment": "Tường xây kiến trúc được dựng tới cao độ sàn tầng trên nên xuyên qua dầm BTCT; ngoài hiện trường tường dừng ở đáy dầm nên đây là chồng lấn do dựng model, không thay đổi giải pháp kết cấu.",
+   "action": "Không phải sửa thiết kế. ARC nên gắn đỉnh tường vào đáy dầm (Top Constraint/Attach Top) để bóc khối lượng tường đúng."
+  },
+  "ARC-STR|Walls|Structural Columns": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-02",
+   "confidence": "Cao",
+   "assessment": "Tường xây kiến trúc vẽ xuyên qua cột BTCT tại vị trí tường liên kết cột; ngoài hiện trường tường xây áp vào mặt cột.",
+   "action": "Không sửa thiết kế; ARC nên cắt tường tại mặt cột (join) để khối lượng xây không tính cả phần cột."
+  },
+  "ARC-STR|Walls|Floors": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-03",
+   "confidence": "Cao",
+   "assessment": "Tường xây kiến trúc đứng trên hoặc xuyên qua sàn BTCT do dựng từ/tới cao độ sàn; đây là quan hệ dựng hình giữa tường và sàn kết cấu.",
+   "action": "Không sửa thiết kế; ARC gắn chân/đỉnh tường vào mặt sàn kết cấu để khối lượng đúng.",
+   "bands": {
+    ">200": {
+     "classification": "Cần xác minh",
+     "assessment": "Tường xuyên sàn BTCT sâu hơn 300 mm, vượt chiều dày sàn thông thường; có thể tường dựng sai cao độ chân/đỉnh.",
+     "action": "ARC kiểm tra Base/Top Offset của tường so với sàn kết cấu."
+    }
+   }
+  },
+  "ARC-STR|Floors|Structural Columns": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-13",
+   "confidence": "Trung bình",
+   "assessment": "Lớp sàn hoàn thiện kiến trúc được vẽ chạy qua tiết diện cột BTCT; ngoài hiện trường lớp lát dừng ở mặt cột.",
+   "action": "Không sửa thiết kế; ARC cắt sàn hoàn thiện theo mặt cột để khối lượng lát nền đúng."
+  },
+  "ARC-STR|Floors|Structural Framing": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-14",
+   "confidence": "Trung bình",
+   "assessment": "Sàn kiến trúc chồng lên mặt dầm BTCT ở vùng tiếp giáp sàn – dầm; là quan hệ dựng hình giữa lớp sàn và kết cấu đỡ.",
+   "action": "Không sửa thiết kế; ARC kiểm tra cao độ sàn hoàn thiện so với mặt dầm."
+  },
+  "ARC-STR|Curtain Wall Mullions|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đố vách kính đi vào tiết diện cột BTCT; vách kính phải dừng hoặc neo ở mặt cột.",
+   "action": "ARC dừng vách kính tại mặt cột hoặc thể hiện chi tiết neo; STR xác nhận vị trí cột."
+  },
+  "ARC-STR|Walls|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tường kiến trúc chồng lên tường kết cấu (vách BTCT); có thể là lớp hoàn thiện ốp vách hoặc tường xây vẽ trùng vách.",
+   "action": "ARC kiểm tra: lớp hoàn thiện thì dời về mặt vách, tường xây trùng vách thì xoá."
+  },
+  "ARC-STR|Curtain Wall Mullions|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đố vách kính cắm vào sàn BTCT; thường do chân vách kính dựng từ cao độ sai.",
+   "action": "ARC chỉnh chân vách kính theo chi tiết liên kết với sàn; STR xác nhận."
+  },
+  "ARC-STR|Floors|Walls": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-22",
+   "confidence": "Trung bình",
+   "assessment": "Sàn hoàn thiện kiến trúc chồng vào chân vách BTCT; là quan hệ dựng hình.",
+   "action": "Không sửa thiết kế; ARC cắt sàn hoàn thiện theo mặt vách."
+  },
+  "ARC-STR|Floors|Floors": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-15",
+   "confidence": "Trung bình",
+   "assessment": "Lớp sàn hoàn thiện kiến trúc chồng lên sàn BTCT; thường do cao độ sàn hoàn thiện đặt thấp hơn mặt sàn kết cấu cộng lớp lát.",
+   "action": "ARC kiểm tra cao độ sàn hoàn thiện = mặt sàn kết cấu + chiều dày lớp lát.",
+   "bands": {
+    ">200": {
+     "classification": "Cần xác minh",
+     "assessment": "Sàn hoàn thiện và sàn BTCT chồng sâu hơn 200 mm, vượt chiều dày lớp lát; có thể sai cao độ.",
+     "action": "ARC/STR kiểm tra cao độ hai sàn tại vị trí."
+    }
+   }
+  },
+  "ARC-STR|Curtain Panels|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Mảng gạch bông gió đi vào tiết diện cột BTCT.",
+   "action": "ARC dừng mảng bông gió tại mặt cột."
+  },
+  "ARC-STR|Railings|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Lan can cắm vào dầm BTCT; nếu là trụ lan can neo vào dầm theo chi tiết thì hợp lệ.",
+   "action": "ARC kiểm tra chi tiết chân lan can và cao độ đặt."
+  },
+  "ARC-STR|Curtain Panels|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Mảng gạch bông gió chạy xuyên dầm BTCT; mảng vách phải dừng ở đáy/mặt dầm.",
+   "action": "ARC chỉnh chiều cao mảng bông gió tới đáy dầm."
+  },
+  "ARC-STR|Curtain Wall Mullions|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Đố vách kính chạy trong tiết diện dầm/giằng BTCT; khung vách kính không thể lắp xuyên dầm.",
+   "action": "ARC chỉnh cao độ/vị trí đố vách kính để tì lên hoặc dừng tại mặt dầm; STR xác nhận chi tiết liên kết."
+  },
+  "ARC-STR|Ceilings|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Mặt trần cao hơn đáy dầm BTCT nên dầm xuyên qua trần; không lắp được trần phẳng tại vị trí dầm.",
+   "action": "ARC hạ cao độ trần xuống dưới đáy dầm hoặc làm hộp trần ốp quanh dầm."
+  },
+  "ARC-STR|Runs|Structural Columns": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Vế thang đi vào tiết diện cột BTCT; bề rộng thang hoặc vị trí cột không khớp.",
+   "action": "ARC chỉnh bề rộng/vị trí vế thang; STR xác nhận vị trí cột."
+  },
+  "ARC-STR|Railings|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Lan can đâm vào cột BTCT tại đầu/cuối đoạn.",
+   "action": "ARC dừng lan can tại mặt cột hoặc thể hiện chi tiết neo."
+  },
+  "ARC-STR|Ceilings|Structural Columns": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-17",
+   "confidence": "Trung bình",
+   "assessment": "Mép trần chạm/ăn vào cột BTCT; trần được giới hạn bởi cột nên đây là quan hệ dựng hình.",
+   "action": "Không sửa thiết kế; ARC có thể cắt biên trần theo mặt cột.",
+   "bands": {
+    ">200": {
+     "classification": "Cần xác minh"
+    }
+   }
+  },
+  "ARC-STR|Railings|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Lan can cắm vào sàn BTCT; kiểm tra chân trụ neo hay lan can đặt sai cao độ.",
+   "action": "ARC kiểm tra cao độ đặt lan can và chi tiết chân trụ."
+  },
+  "ARC-STR|Runs|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Vế thang kiến trúc chồng lên sàn/bản thang BTCT; có thể thang kiến trúc vẽ trùng bản thang kết cấu.",
+   "action": "ARC/STR thống nhất bên nào dựng bản thang; xoá phần trùng."
+  },
+  "ARC-STR|Floors|Structural Foundations": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Sàn kiến trúc (nền) chồng lên móng; cao độ nền có thể nằm trong chiều cao móng.",
+   "action": "ARC/STR kiểm tra cao độ nền so với đỉnh móng."
+  },
+  "ARC-STR|Supports|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Cốn/giá đỡ thang kiến trúc cắm vào dầm BTCT tại điểm liên kết.",
+   "action": "ARC/STR kiểm tra chi tiết liên kết cốn thang với dầm."
+  },
+  "ARC-STR|Windows|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Khung cửa sổ/lam gió lún vào dầm (bệ cửa, lanh tô); sai cao độ đặt cửa so với dầm.",
+   "action": "ARC chỉnh cao độ bệ/đỉnh cửa theo mặt dầm; STR giữ nguyên dầm."
+  },
+  "ARC-STR|Top Rails|Floors": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tay vịn lan can cắm vào sàn BTCT, thường tại đầu đoạn tay vịn dốc.",
+   "action": "ARC kiểm tra đường dẫn tay vịn tại điểm đầu/cuối."
+  },
+  "ARC-STR|Runs|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Vế thang đi vào dầm BTCT; không đủ chiều cao thông thuỷ hoặc thang đặt sai cao độ.",
+   "action": "ARC/STR kiểm tra cao độ chiếu nghỉ và dầm đỡ thang."
+  },
+  "ARC-STR|Walls|Structural Foundations": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tường xây kiến trúc cắm vào móng; chân tường thường đặt trên giằng móng.",
+   "action": "ARC chỉnh chân tường theo đỉnh giằng/móng."
+  },
+  "ARC-STR|Doors|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Khung cửa đi lún vào dầm/lanh tô; chiều cao cửa vượt đáy dầm.",
+   "action": "ARC chỉnh chiều cao cửa hoặc STR kiểm tra cao độ lanh tô."
+  },
+  "ARC-STR|Top Rails|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tay vịn đâm vào cột BTCT tại đầu đoạn.",
+   "action": "ARC dừng tay vịn tại mặt cột."
+  },
+  "MEP-MEP|Pipes|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Hai đoạn ống giao/chồng nhau mà không có phụ kiện nối; hai tuyến ống đi xuyên nhau không thi công được, hoặc đầu ống chồng tại điểm đổi hướng.",
+   "action": "MEP điều chỉnh cao độ một tuyến để vượt qua tuyến kia (ưu tiên giữ ống thoát nước tự chảy), hoặc nối bằng phụ kiện/hố ga nếu là điểm giao cùng hệ."
+  },
+  "MEP-MEP|Pipe Fittings|Pipes": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống chồng với đoạn ống khác; nếu cùng tuyến thì là điểm nối dựng chưa chuẩn, nếu khác tuyến thì là xung đột.",
+   "action": "MEP kiểm tra phụ kiện có nối với ống đó không; khác tuyến thì dời cao độ, cùng tuyến thì sửa liên kết."
+  },
+  "MEP-MEP|Pipes|Pipe Fittings": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Đoạn ống chồng với phụ kiện của tuyến khác hoặc tại điểm nối cùng tuyến.",
+   "action": "MEP kiểm tra liên kết; khác tuyến thì dời cao độ một tuyến."
+  },
+  "MEP-MEP|Pipes|Fire Protection": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi vào tủ chữa cháy; nếu là ống cấp cho tủ thì hợp lệ, nếu là tuyến ống khác đi xuyên tủ thì cần dời.",
+   "action": "MEP (PCCC) xác nhận ống cấp tủ; tuyến khác thì dời tránh tủ."
+  },
+  "MEP-MEP|Fire Protection|Pipes": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Tủ chữa cháy chồng với ống; kiểm tra ống cấp của tủ hay tuyến ống khác đi qua.",
+   "action": "MEP (PCCC) xác nhận; tuyến khác thì dời tránh tủ."
+  },
+  "MEP-MEP|Cable Trays|Pipes": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Ống nước xuyên qua máng cáp điện; không thi công được và có nguy cơ rò nước vào cáp.",
+   "action": "MEP phối hợp: giữ cao độ ống thoát nước tự chảy, dời hoặc đổi cao độ máng cáp; không đặt máng ngay dưới ống nước."
+  },
+  "MEP-MEP|Cable Trays|Pipe Fittings": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện ống nước nằm trong máng cáp điện; không thi công được và có nguy cơ rò nước vào cáp.",
+   "action": "MEP dời máng cáp hoặc tuyến ống tại vị trí phụ kiện."
+  },
+  "MEP-MEP|Cable Tray Fittings|Cable Trays": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện máng cáp của một hệ xuyên qua máng cáp hệ khác; hai tuyến cáp không đi xuyên nhau được.",
+   "action": "MEP (điện) chỉnh cao độ/vị trí phụ kiện để vượt máng còn lại, giữ khoảng cách tách tuyến."
+  },
+  "MEP-MEP|Pipes|Lighting Fixtures": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống đi xuyên qua đèn chiếu sáng; đèn không lắp được tại vị trí.",
+   "action": "MEP dời đèn hoặc nâng/hạ tuyến ống."
+  },
+  "MEP-MEP|Pipe Fittings|Fire Protection": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống nằm trong tủ chữa cháy; kiểm tra là ống cấp tủ hay tuyến khác.",
+   "action": "MEP (PCCC) xác nhận; tuyến khác thì dời."
+  },
+  "MEP-MEP|Pipe Accessories|Pipes": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện/van chồng với ống tuyến khác hoặc tại điểm nối.",
+   "action": "MEP kiểm tra liên kết; khác tuyến thì dời."
+  },
+  "MEP-MEP|Mechanical Equipment|Lighting Fixtures": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Thiết bị điều hoà chồng lên đèn chiếu sáng.",
+   "action": "MEP dời đèn hoặc thiết bị."
+  },
+  "MEP-STR|Pipes|Floors": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống xuyên sàn BTCT; mỗi vị trí ống xuyên sàn cần lỗ chờ hoặc ống lồng chôn sẵn trước khi đổ bê tông, nếu không phải khoan cắt sàn.",
+   "action": "STR/MEP lập danh sách lỗ chờ xuyên sàn theo vị trí ống và thể hiện ống lồng trên bản vẽ kết cấu; ống ngang nằm trong sàn thì MEP dời ra dưới sàn."
+  },
+  "MEP-STR|Pipes|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Ống xuyên dầm BTCT; xuyên dầm làm giảm khả năng chịu lực và chỉ được phép tại vị trí, kích thước do kết cấu chấp thuận.",
+   "action": "MEP đổi tuyến ống đi dưới dầm hoặc qua vùng cho phép; nếu bắt buộc xuyên dầm thì STR duyệt vị trí, bố trí ống lồng và gia cường."
+  },
+  "MEP-STR|Pipes|Walls": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Ống xuyên vách/tường BTCT; cần lỗ chờ ống lồng chôn trước khi đổ bê tông.",
+   "action": "STR/MEP thể hiện lỗ chờ, ống lồng xuyên vách tại vị trí; hoặc MEP đổi tuyến tránh vách."
+  },
+  "MEP-STR|Pipe Fittings|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện ống nằm trong dầm BTCT; không thi công được nếu không đổi tuyến.",
+   "action": "MEP đổi tuyến/cao độ để phụ kiện nằm ngoài dầm; STR duyệt nếu bắt buộc xuyên."
+  },
+  "MEP-STR|Pipes|Structural Columns": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Ống xuyên cột BTCT; không được phép xuyên cột.",
+   "action": "MEP đổi tuyến ống đi vòng quanh cột."
+  },
+  "MEP-STR|Pipe Fittings|Floors": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống nằm trong sàn BTCT; vị trí xuyên sàn cần lỗ chờ, phụ kiện không được chôn trong sàn.",
+   "action": "MEP dời phụ kiện ra dưới/trên sàn; STR/MEP thể hiện lỗ chờ cho đoạn ống xuyên sàn."
+  },
+  "MEP-STR|Lighting Fixtures|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Đèn chiếu sáng lắp đè lên dầm/xà gồ; đèn không lắp được tại vị trí.",
+   "action": "MEP (điện) dời đèn khỏi dầm/xà gồ hoặc dùng đèn gắn dầm."
+  },
+  "MEP-STR|Pipe Fittings|Structural Columns": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện ống nằm trong cột BTCT; không được phép.",
+   "action": "MEP đổi tuyến tránh cột."
+  },
+  "MEP-STR|Conduits|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Ống luồn dây đi trong dầm; ống luồn chôn trong bê tông được phép nếu kết cấu chấp thuận.",
+   "action": "MEP (điện) xác nhận ống luồn chôn bê tông; STR kiểm tra vị trí."
+  },
+  "MEP-STR|Electrical Equipment|Structural Columns": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Thiết bị/tủ điện lún vào cột BTCT.",
+   "action": "MEP (điện) dời thiết bị ra mặt cột."
+  },
+  "MEP-STR|Cable Trays|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Máng cáp xuyên dầm BTCT; không được phép.",
+   "action": "MEP (điện) hạ máng xuống dưới đáy dầm hoặc đổi tuyến."
+  },
+  "MEP-STR|Pipe Accessories|Structural Columns": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Van/phụ kiện ống nằm trong cột BTCT.",
+   "action": "MEP dời van ra khỏi cột."
+  },
+  "MEP-STR|Conduits|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Ống luồn dây đi trong cột; chôn ống trong cột cần kết cấu chấp thuận.",
+   "action": "MEP (điện) xác nhận; STR kiểm tra."
+  },
+  "MEP-STR|Pipe Fittings|Walls": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện ống nằm trong vách BTCT.",
+   "action": "MEP dời phụ kiện ra khỏi vách; đoạn xuyên vách cần lỗ chờ."
+  },
+  "MEP-STR|Fire Protection|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Tủ chữa cháy lún vào dầm BTCT.",
+   "action": "MEP (PCCC) hạ/dời tủ khỏi dầm."
+  },
+  "MEP-STR|Cable Tray Fittings|Structural Framing": {
+   "classification": "Cần xử lý",
+   "confidence": "Cao",
+   "assessment": "Phụ kiện máng cáp xuyên dầm BTCT.",
+   "action": "MEP (điện) chỉnh tuyến máng dưới đáy dầm."
+  },
+  "MEP-STR|Pipe Accessories|Floors": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Van/phụ kiện nằm trong sàn BTCT; van cần tiếp cận vận hành.",
+   "action": "MEP dời van ra ngoài sàn."
+  },
+  "MEP-STR|Conduit Fittings|Structural Columns": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống luồn dây trong cột.",
+   "action": "MEP (điện) xác nhận; STR kiểm tra."
+  },
+  "MEP-STR|Pipes|Structural Foundations": {
+   "classification": "Cần xử lý",
+   "confidence": "Trung bình",
+   "assessment": "Ống xuyên móng BTCT; cần lỗ chờ hoặc đổi tuyến.",
+   "action": "MEP đổi tuyến dưới/qua vùng cho phép; STR bố trí ống lồng nếu bắt buộc."
+  },
+  "MEP-STR|Conduit Fittings|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Phụ kiện ống luồn dây trong dầm.",
+   "action": "MEP (điện) xác nhận; STR kiểm tra."
+  },
+  "STR-STR|Structural Framing|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Hai cấu kiện dầm/thanh kết cấu chồng nhau tại nút liên kết (giàn thép, xà gồ, dầm giao nhau); có thể là nút liên kết chưa join hoặc hai thanh vẽ trùng.",
+   "action": "STR kiểm tra nút: join dầm BTCT, chỉnh điểm dừng thanh thép theo chi tiết nút; xoá thanh trùng nếu có."
+  },
+  "STR-STR|Floors|Structural Framing": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-21",
+   "confidence": "Trung bình",
+   "assessment": "Sàn BTCT chồng lên dầm tại vùng sàn – dầm đổ liền khối; đây là quan hệ dựng hình chưa join.",
+   "action": "Không sửa thiết kế; STR join sàn với dầm để khối lượng bê tông không tính trùng."
+  },
+  "STR-STR|Structural Columns|Floors": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-20",
+   "confidence": "Trung bình",
+   "assessment": "Cột BTCT xuyên sàn tại nút cột – sàn đổ liền khối; quan hệ dựng hình chưa join.",
+   "action": "Không sửa thiết kế; STR join cột với sàn để khối lượng bê tông đúng."
+  },
+  "STR-STR|Structural Columns|Structural Framing": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-16",
+   "confidence": "Trung bình",
+   "assessment": "Dầm/thanh kết cấu đi vào tiết diện cột tại nút liên kết; quan hệ dựng hình chưa join hoặc liên kết thép.",
+   "action": "Không sửa thiết kế; STR join dầm với cột hoặc chỉnh điểm dừng thanh thép theo chi tiết nút."
+  },
+  "STR-STR|Structural Foundations|Walls": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Móng chồng với vách/thành bể BTCT; có thể vách bể đổ liền đáy móng hoặc vẽ trùng.",
+   "action": "STR kiểm tra liên kết vách bể – móng, join hoặc chỉnh cao độ."
+  },
+  "STR-STR|Walls|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Vách BTCT chồng với dầm; nút vách – dầm chưa join hoặc dầm vẽ trong vách.",
+   "action": "STR join hoặc xoá dầm trùng vách."
+  },
+  "STR-STR|Structural Foundations|Structural Framing": {
+   "classification": "Cần xác minh",
+   "confidence": "Trung bình",
+   "assessment": "Móng chồng với dầm/giằng móng tại nút liên kết.",
+   "action": "STR kiểm tra cao độ giằng móng so với móng; join nếu đổ liền khối."
+  },
+  "STR-STR|Walls|Floors": {
+   "classification": "Hợp lệ theo thiết kế",
+   "ruleId": "HV-19",
+   "confidence": "Trung bình",
+   "assessment": "Vách BTCT xuyên sàn tại nút vách – sàn đổ liền khối.",
+   "action": "Không sửa thiết kế; STR join vách với sàn."
+  }
+ }
+}

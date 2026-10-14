@@ -1,1 +1,2 @@
 - [HP MCP host review pitfalls](hp-mcp-host-review-pitfalls.md) — Debug is the deployed bundle config; SECURELOAD auto-answer global; civil-only marker coverage; harness env cleanup
+- [AutoCAD AEC review traps](autocad-aec-review-traps.md) — Table : BlockReference; probe pure Aec + AcDbMgd metadata off-AutoCAD; MText walker trailing-\ hang

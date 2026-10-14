@@ -1,0 +1,1284 @@
+{
+ "source": "https://github.com/AutoLISP-Just-Simple/VNConvert/blob/205e569/vnconv/data.cpp",
+ "sha256": "73dd473bd09dbdb4a0940d03a142e261810860fea4592be3cb9a7a3a15f74453",
+ "entries": [
+  {
+   "index": 0,
+   "unicode": 65,
+   "tcvn3": 65,
+   "vniWin": 65
+  },
+  {
+   "index": 1,
+   "unicode": 97,
+   "tcvn3": 97,
+   "vniWin": 97
+  },
+  {
+   "index": 2,
+   "unicode": 193,
+   "tcvn3": 184,
+   "vniWin": 55617
+  },
+  {
+   "index": 3,
+   "unicode": 225,
+   "tcvn3": 184,
+   "vniWin": 63841
+  },
+  {
+   "index": 4,
+   "unicode": 192,
+   "tcvn3": 181,
+   "vniWin": 55361
+  },
+  {
+   "index": 5,
+   "unicode": 224,
+   "tcvn3": 181,
+   "vniWin": 63585
+  },
+  {
+   "index": 6,
+   "unicode": 7842,
+   "tcvn3": 182,
+   "vniWin": 56129
+  },
+  {
+   "index": 7,
+   "unicode": 7843,
+   "tcvn3": 182,
+   "vniWin": 64353
+  },
+  {
+   "index": 8,
+   "unicode": 195,
+   "tcvn3": 183,
+   "vniWin": 54593
+  },
+  {
+   "index": 9,
+   "unicode": 227,
+   "tcvn3": 183,
+   "vniWin": 62817
+  },
+  {
+   "index": 10,
+   "unicode": 7840,
+   "tcvn3": 185,
+   "vniWin": 53057
+  },
+  {
+   "index": 11,
+   "unicode": 7841,
+   "tcvn3": 185,
+   "vniWin": 61281
+  },
+  {
+   "index": 12,
+   "unicode": 194,
+   "tcvn3": 162,
+   "vniWin": 49729
+  },
+  {
+   "index": 13,
+   "unicode": 226,
+   "tcvn3": 169,
+   "vniWin": 57953
+  },
+  {
+   "index": 14,
+   "unicode": 7844,
+   "tcvn3": 202,
+   "vniWin": 49473
+  },
+  {
+   "index": 15,
+   "unicode": 7845,
+   "tcvn3": 202,
+   "vniWin": 57697
+  },
+  {
+   "index": 16,
+   "unicode": 7846,
+   "tcvn3": 199,
+   "vniWin": 49217
+  },
+  {
+   "index": 17,
+   "unicode": 7847,
+   "tcvn3": 199,
+   "vniWin": 57441
+  },
+  {
+   "index": 18,
+   "unicode": 7848,
+   "tcvn3": 200,
+   "vniWin": 50497
+  },
+  {
+   "index": 19,
+   "unicode": 7849,
+   "tcvn3": 200,
+   "vniWin": 58721
+  },
+  {
+   "index": 20,
+   "unicode": 7850,
+   "tcvn3": 201,
+   "vniWin": 49985
+  },
+  {
+   "index": 21,
+   "unicode": 7851,
+   "tcvn3": 201,
+   "vniWin": 58209
+  },
+  {
+   "index": 22,
+   "unicode": 7852,
+   "tcvn3": 203,
+   "vniWin": 50241
+  },
+  {
+   "index": 23,
+   "unicode": 7853,
+   "tcvn3": 203,
+   "vniWin": 58465
+  },
+  {
+   "index": 24,
+   "unicode": 258,
+   "tcvn3": 161,
+   "vniWin": 51777
+  },
+  {
+   "index": 25,
+   "unicode": 259,
+   "tcvn3": 168,
+   "vniWin": 60001
+  },
+  {
+   "index": 26,
+   "unicode": 7854,
+   "tcvn3": 190,
+   "vniWin": 51521
+  },
+  {
+   "index": 27,
+   "unicode": 7855,
+   "tcvn3": 190,
+   "vniWin": 59745
+  },
+  {
+   "index": 28,
+   "unicode": 7856,
+   "tcvn3": 187,
+   "vniWin": 51265
+  },
+  {
+   "index": 29,
+   "unicode": 7857,
+   "tcvn3": 187,
+   "vniWin": 59489
+  },
+  {
+   "index": 30,
+   "unicode": 7858,
+   "tcvn3": 188,
+   "vniWin": 55873
+  },
+  {
+   "index": 31,
+   "unicode": 7859,
+   "tcvn3": 188,
+   "vniWin": 64097
+  },
+  {
+   "index": 32,
+   "unicode": 7860,
+   "tcvn3": 189,
+   "vniWin": 56385
+  },
+  {
+   "index": 33,
+   "unicode": 7861,
+   "tcvn3": 189,
+   "vniWin": 64609
+  },
+  {
+   "index": 34,
+   "unicode": 7862,
+   "tcvn3": 198,
+   "vniWin": 52033
+  },
+  {
+   "index": 35,
+   "unicode": 7863,
+   "tcvn3": 198,
+   "vniWin": 60257
+  },
+  {
+   "index": 36,
+   "unicode": 66,
+   "tcvn3": 66,
+   "vniWin": 66
+  },
+  {
+   "index": 37,
+   "unicode": 98,
+   "tcvn3": 98,
+   "vniWin": 98
+  },
+  {
+   "index": 38,
+   "unicode": 67,
+   "tcvn3": 67,
+   "vniWin": 67
+  },
+  {
+   "index": 39,
+   "unicode": 99,
+   "tcvn3": 99,
+   "vniWin": 99
+  },
+  {
+   "index": 40,
+   "unicode": 68,
+   "tcvn3": 68,
+   "vniWin": 68
+  },
+  {
+   "index": 41,
+   "unicode": 100,
+   "tcvn3": 100,
+   "vniWin": 100
+  },
+  {
+   "index": 42,
+   "unicode": 272,
+   "tcvn3": 167,
+   "vniWin": 209
+  },
+  {
+   "index": 43,
+   "unicode": 273,
+   "tcvn3": 174,
+   "vniWin": 241
+  },
+  {
+   "index": 44,
+   "unicode": 69,
+   "tcvn3": 69,
+   "vniWin": 69
+  },
+  {
+   "index": 45,
+   "unicode": 101,
+   "tcvn3": 101,
+   "vniWin": 101
+  },
+  {
+   "index": 46,
+   "unicode": 201,
+   "tcvn3": 208,
+   "vniWin": 55621
+  },
+  {
+   "index": 47,
+   "unicode": 233,
+   "tcvn3": 208,
+   "vniWin": 63845
+  },
+  {
+   "index": 48,
+   "unicode": 200,
+   "tcvn3": 204,
+   "vniWin": 55365
+  },
+  {
+   "index": 49,
+   "unicode": 232,
+   "tcvn3": 204,
+   "vniWin": 63589
+  },
+  {
+   "index": 50,
+   "unicode": 7866,
+   "tcvn3": 206,
+   "vniWin": 56133
+  },
+  {
+   "index": 51,
+   "unicode": 7867,
+   "tcvn3": 206,
+   "vniWin": 64357
+  },
+  {
+   "index": 52,
+   "unicode": 7868,
+   "tcvn3": 207,
+   "vniWin": 54597
+  },
+  {
+   "index": 53,
+   "unicode": 7869,
+   "tcvn3": 207,
+   "vniWin": 62821
+  },
+  {
+   "index": 54,
+   "unicode": 7864,
+   "tcvn3": 209,
+   "vniWin": 53061
+  },
+  {
+   "index": 55,
+   "unicode": 7865,
+   "tcvn3": 209,
+   "vniWin": 61285
+  },
+  {
+   "index": 56,
+   "unicode": 202,
+   "tcvn3": 163,
+   "vniWin": 49733
+  },
+  {
+   "index": 57,
+   "unicode": 234,
+   "tcvn3": 170,
+   "vniWin": 57957
+  },
+  {
+   "index": 58,
+   "unicode": 7870,
+   "tcvn3": 213,
+   "vniWin": 49477
+  },
+  {
+   "index": 59,
+   "unicode": 7871,
+   "tcvn3": 213,
+   "vniWin": 57701
+  },
+  {
+   "index": 60,
+   "unicode": 7872,
+   "tcvn3": 210,
+   "vniWin": 49221
+  },
+  {
+   "index": 61,
+   "unicode": 7873,
+   "tcvn3": 210,
+   "vniWin": 57445
+  },
+  {
+   "index": 62,
+   "unicode": 7874,
+   "tcvn3": 211,
+   "vniWin": 50501
+  },
+  {
+   "index": 63,
+   "unicode": 7875,
+   "tcvn3": 211,
+   "vniWin": 58725
+  },
+  {
+   "index": 64,
+   "unicode": 7876,
+   "tcvn3": 212,
+   "vniWin": 49989
+  },
+  {
+   "index": 65,
+   "unicode": 7877,
+   "tcvn3": 212,
+   "vniWin": 58213
+  },
+  {
+   "index": 66,
+   "unicode": 7878,
+   "tcvn3": 214,
+   "vniWin": 50245
+  },
+  {
+   "index": 67,
+   "unicode": 7879,
+   "tcvn3": 214,
+   "vniWin": 58469
+  },
+  {
+   "index": 68,
+   "unicode": 70,
+   "tcvn3": 70,
+   "vniWin": 70
+  },
+  {
+   "index": 69,
+   "unicode": 102,
+   "tcvn3": 102,
+   "vniWin": 102
+  },
+  {
+   "index": 70,
+   "unicode": 71,
+   "tcvn3": 71,
+   "vniWin": 71
+  },
+  {
+   "index": 71,
+   "unicode": 103,
+   "tcvn3": 103,
+   "vniWin": 103
+  },
+  {
+   "index": 72,
+   "unicode": 72,
+   "tcvn3": 72,
+   "vniWin": 72
+  },
+  {
+   "index": 73,
+   "unicode": 104,
+   "tcvn3": 104,
+   "vniWin": 104
+  },
+  {
+   "index": 74,
+   "unicode": 73,
+   "tcvn3": 73,
+   "vniWin": 73
+  },
+  {
+   "index": 75,
+   "unicode": 105,
+   "tcvn3": 105,
+   "vniWin": 105
+  },
+  {
+   "index": 76,
+   "unicode": 205,
+   "tcvn3": 221,
+   "vniWin": 205
+  },
+  {
+   "index": 77,
+   "unicode": 237,
+   "tcvn3": 221,
+   "vniWin": 237
+  },
+  {
+   "index": 78,
+   "unicode": 204,
+   "tcvn3": 215,
+   "vniWin": 204
+  },
+  {
+   "index": 79,
+   "unicode": 236,
+   "tcvn3": 215,
+   "vniWin": 236
+  },
+  {
+   "index": 80,
+   "unicode": 7880,
+   "tcvn3": 216,
+   "vniWin": 198
+  },
+  {
+   "index": 81,
+   "unicode": 7881,
+   "tcvn3": 216,
+   "vniWin": 230
+  },
+  {
+   "index": 82,
+   "unicode": 296,
+   "tcvn3": 220,
+   "vniWin": 211
+  },
+  {
+   "index": 83,
+   "unicode": 297,
+   "tcvn3": 220,
+   "vniWin": 243
+  },
+  {
+   "index": 84,
+   "unicode": 7882,
+   "tcvn3": 222,
+   "vniWin": 210
+  },
+  {
+   "index": 85,
+   "unicode": 7883,
+   "tcvn3": 222,
+   "vniWin": 242
+  },
+  {
+   "index": 86,
+   "unicode": 74,
+   "tcvn3": 74,
+   "vniWin": 74
+  },
+  {
+   "index": 87,
+   "unicode": 106,
+   "tcvn3": 106,
+   "vniWin": 106
+  },
+  {
+   "index": 88,
+   "unicode": 75,
+   "tcvn3": 75,
+   "vniWin": 75
+  },
+  {
+   "index": 89,
+   "unicode": 107,
+   "tcvn3": 107,
+   "vniWin": 107
+  },
+  {
+   "index": 90,
+   "unicode": 76,
+   "tcvn3": 76,
+   "vniWin": 76
+  },
+  {
+   "index": 91,
+   "unicode": 108,
+   "tcvn3": 108,
+   "vniWin": 108
+  },
+  {
+   "index": 92,
+   "unicode": 77,
+   "tcvn3": 77,
+   "vniWin": 77
+  },
+  {
+   "index": 93,
+   "unicode": 109,
+   "tcvn3": 109,
+   "vniWin": 109
+  },
+  {
+   "index": 94,
+   "unicode": 78,
+   "tcvn3": 78,
+   "vniWin": 78
+  },
+  {
+   "index": 95,
+   "unicode": 110,
+   "tcvn3": 110,
+   "vniWin": 110
+  },
+  {
+   "index": 96,
+   "unicode": 79,
+   "tcvn3": 79,
+   "vniWin": 79
+  },
+  {
+   "index": 97,
+   "unicode": 111,
+   "tcvn3": 111,
+   "vniWin": 111
+  },
+  {
+   "index": 98,
+   "unicode": 211,
+   "tcvn3": 227,
+   "vniWin": 55631
+  },
+  {
+   "index": 99,
+   "unicode": 243,
+   "tcvn3": 227,
+   "vniWin": 63855
+  },
+  {
+   "index": 100,
+   "unicode": 210,
+   "tcvn3": 223,
+   "vniWin": 55375
+  },
+  {
+   "index": 101,
+   "unicode": 242,
+   "tcvn3": 223,
+   "vniWin": 63599
+  },
+  {
+   "index": 102,
+   "unicode": 7886,
+   "tcvn3": 225,
+   "vniWin": 56143
+  },
+  {
+   "index": 103,
+   "unicode": 7887,
+   "tcvn3": 225,
+   "vniWin": 64367
+  },
+  {
+   "index": 104,
+   "unicode": 213,
+   "tcvn3": 226,
+   "vniWin": 54607
+  },
+  {
+   "index": 105,
+   "unicode": 245,
+   "tcvn3": 226,
+   "vniWin": 62831
+  },
+  {
+   "index": 106,
+   "unicode": 7884,
+   "tcvn3": 228,
+   "vniWin": 53071
+  },
+  {
+   "index": 107,
+   "unicode": 7885,
+   "tcvn3": 228,
+   "vniWin": 61295
+  },
+  {
+   "index": 108,
+   "unicode": 212,
+   "tcvn3": 164,
+   "vniWin": 49743
+  },
+  {
+   "index": 109,
+   "unicode": 244,
+   "tcvn3": 171,
+   "vniWin": 57967
+  },
+  {
+   "index": 110,
+   "unicode": 7888,
+   "tcvn3": 232,
+   "vniWin": 49487
+  },
+  {
+   "index": 111,
+   "unicode": 7889,
+   "tcvn3": 232,
+   "vniWin": 57711
+  },
+  {
+   "index": 112,
+   "unicode": 7890,
+   "tcvn3": 229,
+   "vniWin": 49231
+  },
+  {
+   "index": 113,
+   "unicode": 7891,
+   "tcvn3": 229,
+   "vniWin": 57455
+  },
+  {
+   "index": 114,
+   "unicode": 7892,
+   "tcvn3": 230,
+   "vniWin": 50511
+  },
+  {
+   "index": 115,
+   "unicode": 7893,
+   "tcvn3": 230,
+   "vniWin": 58735
+  },
+  {
+   "index": 116,
+   "unicode": 7894,
+   "tcvn3": 231,
+   "vniWin": 49999
+  },
+  {
+   "index": 117,
+   "unicode": 7895,
+   "tcvn3": 231,
+   "vniWin": 58223
+  },
+  {
+   "index": 118,
+   "unicode": 7896,
+   "tcvn3": 233,
+   "vniWin": 50255
+  },
+  {
+   "index": 119,
+   "unicode": 7897,
+   "tcvn3": 233,
+   "vniWin": 58479
+  },
+  {
+   "index": 120,
+   "unicode": 416,
+   "tcvn3": 165,
+   "vniWin": 212
+  },
+  {
+   "index": 121,
+   "unicode": 417,
+   "tcvn3": 172,
+   "vniWin": 244
+  },
+  {
+   "index": 122,
+   "unicode": 7898,
+   "tcvn3": 237,
+   "vniWin": 55764
+  },
+  {
+   "index": 123,
+   "unicode": 7899,
+   "tcvn3": 237,
+   "vniWin": 63988
+  },
+  {
+   "index": 124,
+   "unicode": 7900,
+   "tcvn3": 234,
+   "vniWin": 55508
+  },
+  {
+   "index": 125,
+   "unicode": 7901,
+   "tcvn3": 234,
+   "vniWin": 63732
+  },
+  {
+   "index": 126,
+   "unicode": 7902,
+   "tcvn3": 235,
+   "vniWin": 56276
+  },
+  {
+   "index": 127,
+   "unicode": 7903,
+   "tcvn3": 235,
+   "vniWin": 64500
+  },
+  {
+   "index": 128,
+   "unicode": 7904,
+   "tcvn3": 236,
+   "vniWin": 54740
+  },
+  {
+   "index": 129,
+   "unicode": 7905,
+   "tcvn3": 236,
+   "vniWin": 62964
+  },
+  {
+   "index": 130,
+   "unicode": 7906,
+   "tcvn3": 238,
+   "vniWin": 53204
+  },
+  {
+   "index": 131,
+   "unicode": 7907,
+   "tcvn3": 238,
+   "vniWin": 61428
+  },
+  {
+   "index": 132,
+   "unicode": 80,
+   "tcvn3": 80,
+   "vniWin": 80
+  },
+  {
+   "index": 133,
+   "unicode": 112,
+   "tcvn3": 112,
+   "vniWin": 112
+  },
+  {
+   "index": 134,
+   "unicode": 81,
+   "tcvn3": 81,
+   "vniWin": 81
+  },
+  {
+   "index": 135,
+   "unicode": 113,
+   "tcvn3": 113,
+   "vniWin": 113
+  },
+  {
+   "index": 136,
+   "unicode": 82,
+   "tcvn3": 82,
+   "vniWin": 82
+  },
+  {
+   "index": 137,
+   "unicode": 114,
+   "tcvn3": 114,
+   "vniWin": 114
+  },
+  {
+   "index": 138,
+   "unicode": 83,
+   "tcvn3": 83,
+   "vniWin": 83
+  },
+  {
+   "index": 139,
+   "unicode": 115,
+   "tcvn3": 115,
+   "vniWin": 115
+  },
+  {
+   "index": 140,
+   "unicode": 84,
+   "tcvn3": 84,
+   "vniWin": 84
+  },
+  {
+   "index": 141,
+   "unicode": 116,
+   "tcvn3": 116,
+   "vniWin": 116
+  },
+  {
+   "index": 142,
+   "unicode": 85,
+   "tcvn3": 85,
+   "vniWin": 85
+  },
+  {
+   "index": 143,
+   "unicode": 117,
+   "tcvn3": 117,
+   "vniWin": 117
+  },
+  {
+   "index": 144,
+   "unicode": 218,
+   "tcvn3": 243,
+   "vniWin": 55637
+  },
+  {
+   "index": 145,
+   "unicode": 250,
+   "tcvn3": 243,
+   "vniWin": 63861
+  },
+  {
+   "index": 146,
+   "unicode": 217,
+   "tcvn3": 239,
+   "vniWin": 55381
+  },
+  {
+   "index": 147,
+   "unicode": 249,
+   "tcvn3": 239,
+   "vniWin": 63605
+  },
+  {
+   "index": 148,
+   "unicode": 7910,
+   "tcvn3": 241,
+   "vniWin": 56149
+  },
+  {
+   "index": 149,
+   "unicode": 7911,
+   "tcvn3": 241,
+   "vniWin": 64373
+  },
+  {
+   "index": 150,
+   "unicode": 360,
+   "tcvn3": 242,
+   "vniWin": 54613
+  },
+  {
+   "index": 151,
+   "unicode": 361,
+   "tcvn3": 242,
+   "vniWin": 62837
+  },
+  {
+   "index": 152,
+   "unicode": 7908,
+   "tcvn3": 244,
+   "vniWin": 53077
+  },
+  {
+   "index": 153,
+   "unicode": 7909,
+   "tcvn3": 244,
+   "vniWin": 61301
+  },
+  {
+   "index": 154,
+   "unicode": 431,
+   "tcvn3": 166,
+   "vniWin": 214
+  },
+  {
+   "index": 155,
+   "unicode": 432,
+   "tcvn3": 173,
+   "vniWin": 246
+  },
+  {
+   "index": 156,
+   "unicode": 7912,
+   "tcvn3": 248,
+   "vniWin": 55766
+  },
+  {
+   "index": 157,
+   "unicode": 7913,
+   "tcvn3": 248,
+   "vniWin": 63990
+  },
+  {
+   "index": 158,
+   "unicode": 7914,
+   "tcvn3": 245,
+   "vniWin": 55510
+  },
+  {
+   "index": 159,
+   "unicode": 7915,
+   "tcvn3": 245,
+   "vniWin": 63734
+  },
+  {
+   "index": 160,
+   "unicode": 7916,
+   "tcvn3": 246,
+   "vniWin": 56278
+  },
+  {
+   "index": 161,
+   "unicode": 7917,
+   "tcvn3": 246,
+   "vniWin": 64502
+  },
+  {
+   "index": 162,
+   "unicode": 7918,
+   "tcvn3": 247,
+   "vniWin": 54742
+  },
+  {
+   "index": 163,
+   "unicode": 7919,
+   "tcvn3": 247,
+   "vniWin": 62966
+  },
+  {
+   "index": 164,
+   "unicode": 7920,
+   "tcvn3": 249,
+   "vniWin": 53206
+  },
+  {
+   "index": 165,
+   "unicode": 7921,
+   "tcvn3": 249,
+   "vniWin": 61430
+  },
+  {
+   "index": 166,
+   "unicode": 86,
+   "tcvn3": 86,
+   "vniWin": 86
+  },
+  {
+   "index": 167,
+   "unicode": 118,
+   "tcvn3": 118,
+   "vniWin": 118
+  },
+  {
+   "index": 168,
+   "unicode": 87,
+   "tcvn3": 87,
+   "vniWin": 87
+  },
+  {
+   "index": 169,
+   "unicode": 119,
+   "tcvn3": 119,
+   "vniWin": 119
+  },
+  {
+   "index": 170,
+   "unicode": 88,
+   "tcvn3": 88,
+   "vniWin": 88
+  },
+  {
+   "index": 171,
+   "unicode": 120,
+   "tcvn3": 120,
+   "vniWin": 120
+  },
+  {
+   "index": 172,
+   "unicode": 89,
+   "tcvn3": 89,
+   "vniWin": 89
+  },
+  {
+   "index": 173,
+   "unicode": 121,
+   "tcvn3": 121,
+   "vniWin": 121
+  },
+  {
+   "index": 174,
+   "unicode": 221,
+   "tcvn3": 253,
+   "vniWin": 55641
+  },
+  {
+   "index": 175,
+   "unicode": 253,
+   "tcvn3": 253,
+   "vniWin": 63865
+  },
+  {
+   "index": 176,
+   "unicode": 7922,
+   "tcvn3": 250,
+   "vniWin": 55385
+  },
+  {
+   "index": 177,
+   "unicode": 7923,
+   "tcvn3": 250,
+   "vniWin": 63609
+  },
+  {
+   "index": 178,
+   "unicode": 7926,
+   "tcvn3": 251,
+   "vniWin": 56153
+  },
+  {
+   "index": 179,
+   "unicode": 7927,
+   "tcvn3": 251,
+   "vniWin": 64377
+  },
+  {
+   "index": 180,
+   "unicode": 7928,
+   "tcvn3": 252,
+   "vniWin": 54617
+  },
+  {
+   "index": 181,
+   "unicode": 7929,
+   "tcvn3": 252,
+   "vniWin": 62841
+  },
+  {
+   "index": 182,
+   "unicode": 7924,
+   "tcvn3": 254,
+   "vniWin": 206
+  },
+  {
+   "index": 183,
+   "unicode": 7925,
+   "tcvn3": 254,
+   "vniWin": 238
+  },
+  {
+   "index": 184,
+   "unicode": 90,
+   "tcvn3": 90,
+   "vniWin": 90
+  },
+  {
+   "index": 185,
+   "unicode": 122,
+   "tcvn3": 122,
+   "vniWin": 122
+  },
+  {
+   "index": 186,
+   "unicode": 8364,
+   "tcvn3": 128,
+   "vniWin": 128
+  },
+  {
+   "index": 187,
+   "unicode": 8353,
+   "tcvn3": 130,
+   "vniWin": 130
+  },
+  {
+   "index": 188,
+   "unicode": 402,
+   "tcvn3": 131,
+   "vniWin": 131
+  },
+  {
+   "index": 189,
+   "unicode": 8222,
+   "tcvn3": 132,
+   "vniWin": 132
+  },
+  {
+   "index": 190,
+   "unicode": 8230,
+   "tcvn3": 133,
+   "vniWin": 133
+  },
+  {
+   "index": 191,
+   "unicode": 8224,
+   "tcvn3": 134,
+   "vniWin": 134
+  },
+  {
+   "index": 192,
+   "unicode": 8225,
+   "tcvn3": 135,
+   "vniWin": 135
+  },
+  {
+   "index": 193,
+   "unicode": 710,
+   "tcvn3": 136,
+   "vniWin": 136
+  },
+  {
+   "index": 194,
+   "unicode": 8240,
+   "tcvn3": 137,
+   "vniWin": 137
+  },
+  {
+   "index": 195,
+   "unicode": 352,
+   "tcvn3": 138,
+   "vniWin": 138
+  },
+  {
+   "index": 196,
+   "unicode": 8249,
+   "tcvn3": 139,
+   "vniWin": 139
+  },
+  {
+   "index": 197,
+   "unicode": 338,
+   "tcvn3": 140,
+   "vniWin": 140
+  },
+  {
+   "index": 198,
+   "unicode": 381,
+   "tcvn3": 142,
+   "vniWin": 142
+  },
+  {
+   "index": 199,
+   "unicode": 8216,
+   "tcvn3": 145,
+   "vniWin": 145
+  },
+  {
+   "index": 200,
+   "unicode": 8217,
+   "tcvn3": 146,
+   "vniWin": 146
+  },
+  {
+   "index": 201,
+   "unicode": 8220,
+   "tcvn3": 147,
+   "vniWin": 147
+  },
+  {
+   "index": 202,
+   "unicode": 8221,
+   "tcvn3": 148,
+   "vniWin": 148
+  },
+  {
+   "index": 203,
+   "unicode": 8226,
+   "tcvn3": 149,
+   "vniWin": 149
+  },
+  {
+   "index": 204,
+   "unicode": 8211,
+   "tcvn3": 150,
+   "vniWin": 150
+  },
+  {
+   "index": 205,
+   "unicode": 8212,
+   "tcvn3": 151,
+   "vniWin": 151
+  },
+  {
+   "index": 206,
+   "unicode": 732,
+   "tcvn3": 152,
+   "vniWin": 152
+  },
+  {
+   "index": 207,
+   "unicode": 8482,
+   "tcvn3": 153,
+   "vniWin": 153
+  },
+  {
+   "index": 208,
+   "unicode": 353,
+   "tcvn3": 154,
+   "vniWin": 154
+  },
+  {
+   "index": 209,
+   "unicode": 8250,
+   "tcvn3": 155,
+   "vniWin": 155
+  },
+  {
+   "index": 210,
+   "unicode": 339,
+   "tcvn3": 156,
+   "vniWin": 156
+  },
+  {
+   "index": 211,
+   "unicode": 382,
+   "tcvn3": 158,
+   "vniWin": 158
+  },
+  {
+   "index": 212,
+   "unicode": 376,
+   "tcvn3": 159,
+   "vniWin": 159
+  }
+ ]
+}

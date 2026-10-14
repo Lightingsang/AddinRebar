@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Third-party code, vendored unchanged — see NOTICE.md (source, commit, licence status, local edits).
+         Never edit a .cs file here without logging the edit in NOTICE.md and updating the pinned hash that
+         HPAutoCad.Aec.Tests/VnConvert/VendoredVnConvertTests.cs checks. -->
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <AssemblyName>VNConvert</AssemblyName>
+        <RootNamespace>VNConvert</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>2.0.0</Version>
+        <!-- Upstream code is not ours to restyle: its warnings are reported, never fixed in place. -->
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPAutoCad.Aec.Tests"/>
+    </ItemGroup>
+
+</Project>

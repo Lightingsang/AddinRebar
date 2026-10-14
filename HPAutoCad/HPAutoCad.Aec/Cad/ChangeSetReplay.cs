@@ -33,6 +33,8 @@ public static class WriteToolTable
             a.Double("textHeightMm", 250), a.Str("blockName"), a.Obj("attributes"), a.Str("space"), a.Bool("apply", true), a.Int("maxCandidates", 5000), null, a),
         ["arch_auto_dimension_plan"] = (c, a) => AecTools.ArchAutoDimensionPlan(c.Db, c.Ed, c.Tr, c.Units, c.Ct, c.Log, a.Obj("filter"), a.Str("ruleSet"), a.Obj("tolerance"), a.Obj("detection"), a.Str("subject"), a.Strings("roomIds"), a.List("rules"), a.Str("layer"), a.Str("dimStyle"), a.Str("space"),
             a.Bool("apply", true), a.Int("maxCandidates", 5000), null, a),
+        ["convert_vn_text_encoding"] = (c, a) => AecTools.ConvertVnTextEncoding(c.Db, c.Ed, c.Tr, c.Units, c.Ct, c.Log, a.Strings("handles"), a.Strings("layers"), a.Bool("includeBlocks", true), a.Bool("includeTables", true),
+            a.Str("sourceCharset"), a.Obj("fontMap"), a.Bool("remapStyles", true), a.Bool("atomic", true), null, a),
         ["aec_create_opening_requests"] = (c, a) => AecTools.AecCreateOpeningRequests(c.Db, c.Ed, c.Tr, c.Units, c.Ct, c.Log, a.Obj("routes"), a.Obj("hosts"), a.Str("ruleSet"), a.Obj("tolerance"), a.Obj("sizes"), a.Double("maxChordMm", 1000), a.Str("layer"), a.Double("textHeightMm", 150), a.Str("space"),
             a.Bool("apply", true), a.Int("maxCandidates", 5000), null, a),
     };
@@ -57,6 +59,8 @@ public static class WriteToolTable
     public static string? Validate(string tool, ScriptArgs args)
     {
         if (!Readers.ContainsKey(tool)) return $"'{tool}' is not a write tool a change set can hold (known: {string.Join(", ", Names)}).";
+        if (tool == "convert_vn_text_encoding" && args.Bool("remapStyles", true))
+            return "convert_vn_text_encoding: a change set can hold only remapStyles: false — text styles are table records a rollback cannot restore; record the text conversion and switch the styles afterwards with a direct call (converted texts carry the HP_VNCONVERT flag and are not converted twice).";
         if (!Ops.TryGetValue(tool, out var ops)) return null;
         var op = (args.Str("op") ?? "").Trim();
         if (!ops.Any(o => o.Equals(op, StringComparison.OrdinalIgnoreCase))) return $"{tool}: op must be one of {string.Join(", ", ops)}.";

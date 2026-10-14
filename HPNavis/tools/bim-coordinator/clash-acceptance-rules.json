@@ -1,0 +1,488 @@
+{
+  "schemaVersion": 2,
+  "note": "Kiểu giao được phép xếp 'Hợp lệ theo thiết kế'. Mỗi quy tắc gắn với bộ môn + category của hai phía (sides, không phân biệt thứ tự); chỉ có hiệu lực khi approved = true (kiểu boolean) và approvedBy có tên người duyệt, clash đúng một cặp sides và độ xuyên |distance| không vượt maxPenetrationMm. Người duyệt đổi approved và ghi approvedBy/approvedAt.",
+  "rules": [
+    {
+      "id": "HV-01",
+      "title": "Tường xây kiến trúc tì/xuyên dầm BTCT (đỉnh tường dựng tới cao độ tầng)",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "STR",
+            "Structural Framing"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 600,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Ngoài hiện trường tường xây dừng ở đáy dầm; chồng lấn là cách dựng model."
+    },
+    {
+      "id": "HV-02",
+      "title": "Tường xây kiến trúc vẽ qua cột BTCT tại chỗ tường liên kết cột",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "STR",
+            "Structural Columns"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 400,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Tường xây áp vào mặt cột; chồng lấn do vẽ tường qua cột."
+    },
+    {
+      "id": "HV-03",
+      "title": "Tường xây kiến trúc đứng trên/xuyên sàn (hoàn thiện hoặc BTCT)",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "ARC",
+            "Floors"
+          ]
+        ],
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "STR",
+            "Floors"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 300,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Tường đứng trên sàn; độ xuyên bằng chiều dày lớp sàn là quan hệ dựng hình."
+    },
+    {
+      "id": "HV-04",
+      "title": "Hai tường kiến trúc giao nhau ở góc/chỗ nối",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "ARC",
+            "Walls"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Chồng lấn nhỏ ở mối nối hoặc lớp trát."
+    },
+    {
+      "id": "HV-05",
+      "title": "Thiết bị điện (ổ cắm, công tắc, hộp kỹ thuật) lắp âm tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Electrical Fixtures"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 60,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Thiết bị lắp âm theo thiết kế."
+    },
+    {
+      "id": "HV-06",
+      "title": "Công tắc chiếu sáng lắp âm tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Lighting Devices"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 60,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Thiết bị lắp âm theo thiết kế."
+    },
+    {
+      "id": "HV-07",
+      "title": "Ổ mạng, thiết bị điện nhẹ lắp âm tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Data Devices"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 60,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Thiết bị lắp âm theo thiết kế."
+    },
+    {
+      "id": "HV-08",
+      "title": "Nút ấn, chuông báo cháy gắn tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Fire Alarm Devices"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 60,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Thiết bị gắn/âm tường theo thiết kế."
+    },
+    {
+      "id": "HV-09",
+      "title": "Tủ điện, hộp thiết bị lắp âm tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Electrical Equipment"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Tủ âm tường chừa hốc; tủ nổi lún sâu hơn không thuộc quy tắc."
+    },
+    {
+      "id": "HV-10",
+      "title": "Tủ chữa cháy, tủ bình chữa cháy âm/sát tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Fire Protection"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Tủ âm tường chừa hốc theo thiết kế."
+    },
+    {
+      "id": "HV-11",
+      "title": "Đèn âm trần",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Ceilings"
+          ],
+          [
+            "MEP",
+            "Lighting Fixtures"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Đèn lắp âm trong mặt trần theo thiết kế."
+    },
+    {
+      "id": "HV-12",
+      "title": "Đèn gắn tường chạm mặt tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Lighting Fixtures"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Mặt gắn đèn chạm tường theo thiết kế."
+    },
+    {
+      "id": "HV-13",
+      "title": "Sàn hoàn thiện kiến trúc vẽ qua cột BTCT",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Floors"
+          ],
+          [
+            "STR",
+            "Structural Columns"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 400,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Lớp lát dừng ở mặt cột; chồng lấn là dựng hình."
+    },
+    {
+      "id": "HV-14",
+      "title": "Sàn hoàn thiện kiến trúc chồng mặt dầm BTCT",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Floors"
+          ],
+          [
+            "STR",
+            "Structural Framing"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Sàn hoàn thiện nằm trên kết cấu đỡ."
+    },
+    {
+      "id": "HV-15",
+      "title": "Sàn hoàn thiện kiến trúc chồng sàn BTCT",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Floors"
+          ],
+          [
+            "STR",
+            "Floors"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Lớp lát nằm trên sàn kết cấu."
+    },
+    {
+      "id": "HV-16",
+      "title": "Dầm/thanh kết cấu giao cột tại nút chưa join",
+      "sides": [
+        [
+          [
+            "STR",
+            "Structural Columns"
+          ],
+          [
+            "STR",
+            "Structural Framing"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Nút cột – dầm đổ liền khối hoặc liên kết thép."
+    },
+    {
+      "id": "HV-17",
+      "title": "Mép trần chạm tường/cột bao phòng",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Ceilings"
+          ],
+          [
+            "ARC",
+            "Walls"
+          ]
+        ],
+        [
+          [
+            "ARC",
+            "Ceilings"
+          ],
+          [
+            "STR",
+            "Structural Columns"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Trần giới hạn bởi tường, cột; chồng lấn là biên trần vẽ quá mặt tường."
+    },
+    {
+      "id": "HV-18",
+      "title": "Ống luồn dây đi âm tường",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Walls"
+          ],
+          [
+            "MEP",
+            "Conduits"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 50,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Ống luồn dây chôn tường theo thiết kế."
+    },
+    {
+      "id": "HV-19",
+      "title": "Vách BTCT xuyên sàn BTCT tại nút đổ liền khối",
+      "sides": [
+        [
+          [
+            "STR",
+            "Walls"
+          ],
+          [
+            "STR",
+            "Floors"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 400,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Vách – sàn đổ liền khối; chồng lấn là chưa join."
+    },
+    {
+      "id": "HV-20",
+      "title": "Cột BTCT xuyên sàn BTCT tại nút đổ liền khối",
+      "sides": [
+        [
+          [
+            "STR",
+            "Structural Columns"
+          ],
+          [
+            "STR",
+            "Floors"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 400,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Cột – sàn đổ liền khối; chồng lấn là chưa join."
+    },
+    {
+      "id": "HV-21",
+      "title": "Sàn BTCT chồng dầm BTCT tại vùng đổ liền khối",
+      "sides": [
+        [
+          [
+            "STR",
+            "Floors"
+          ],
+          [
+            "STR",
+            "Structural Framing"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Sàn – dầm đổ liền khối; chồng lấn là chưa join."
+    },
+    {
+      "id": "HV-22",
+      "title": "Sàn hoàn thiện kiến trúc chồng chân vách BTCT",
+      "sides": [
+        [
+          [
+            "ARC",
+            "Floors"
+          ],
+          [
+            "STR",
+            "Walls"
+          ]
+        ]
+      ],
+      "maxPenetrationMm": 200,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "rationale": "Lớp lát dừng ở mặt vách; chồng lấn là dựng hình."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+var handles = args.Strings("handles");
+var layers = args.Strings("layers");
+bool includeBlocks = args.Bool("includeBlocks", true);
+bool includeTables = args.Bool("includeTables", true);
+string sourceCharset = args.Str("sourceCharset");
+var fontMap = args.Obj("fontMap");
+bool remapStyles = args.Bool("remapStyles", true);
+int limit = args.Int("limit", 40);
+int offset = args.Int("offset", 0);
+return AecTools.DetectVnLegacyText(db, ed, tr, units, ct, log, handles, layers, includeBlocks, includeTables, sourceCharset, fontMap, remapStyles, limit, offset);

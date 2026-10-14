@@ -1,0 +1,10 @@
+var handles = args.Strings("handles");
+var layers = args.Strings("layers");
+bool includeBlocks = args.Bool("includeBlocks", true);
+bool includeTables = args.Bool("includeTables", true);
+string sourceCharset = args.Str("sourceCharset");
+var fontMap = args.Obj("fontMap");
+bool remapStyles = args.Bool("remapStyles", true);
+bool atomic = args.Bool("atomic", true);
+string changeSetId = args.Str("changeSetId");
+return AecTools.ConvertVnTextEncoding(db, ed, tr, units, ct, log, handles, layers, includeBlocks, includeTables, sourceCharset, fontMap, remapStyles, atomic, changeSetId, args);

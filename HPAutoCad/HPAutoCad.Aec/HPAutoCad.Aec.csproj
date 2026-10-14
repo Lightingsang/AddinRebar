@@ -23,6 +23,8 @@
     <ItemGroup>
         <!-- ScriptArgs (nested tool inputs) and ScriptUnits (mm <-> drawing units) are the bridge's script globals. -->
         <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+        <!-- TCVN3 / VNI-Win tables + converter (vendored, internal use only). Only Text/ calls it. -->
+        <ProjectReference Include="..\ThirdParty\VNConvert\VNConvert.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -31,6 +33,8 @@
         <EmbeddedResource Include="Rules\aec-classification.default.json" LogicalName="HPAutoCad.Aec.Rules.aec-classification.default.json"/>
         <!-- The default CAD standards: layer/block naming, entity-layer expectations, overrides, styles; overridable per project the same way. -->
         <EmbeddedResource Include="Rules\cad-standards.default.json" LogicalName="HPAutoCad.Aec.Rules.cad-standards.default.json"/>
+        <!-- Which fonts hold pre-Unicode Vietnamese (TCVN3 / VNI-Win) text and the Unicode face each becomes; fontMap overrides per call. -->
+        <EmbeddedResource Include="Rules\vn-legacy-fonts.default.json" LogicalName="HPAutoCad.Aec.Rules.vn-legacy-fonts.default.json"/>
     </ItemGroup>
 
     <ItemGroup>

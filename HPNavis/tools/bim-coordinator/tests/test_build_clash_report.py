@@ -4,10 +4,12 @@ Run from the repository root:
     python -m unittest discover -s HPNavis/tools/bim-coordinator/tests
 """
 
+import hashlib
 import importlib.util
 import json
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 from openpyxl import load_workbook
@@ -105,6 +107,13 @@ class BuildClashReportTests(unittest.TestCase):
         result = report.build(later)
         self.assertEqual((0, 0), (result["new"], result["resolved"]))
 
+    def test_the_ai_files_beside_a_snapshot_are_never_taken_for_the_previous_snapshot(self):
+        self.write("clash-LOD350-400-20261011-090000.json", snapshot([row(TEST_A, "HP_M4_S3", 1, "MEP-STR", "g1", "New")], "2026-10-11T02:00:00Z"))
+        later = self.write("clash-LOD350-400-20261018-090000.json", snapshot([], "2026-10-18T02:00:00Z"))
+        self.write("clash-LOD350-400-20261018-090000-ai.json", {"schemaVersion": 1, "groups": {}})
+        self.write("clash-LOD350-400-20261018-090000-ai-groups.json", {"groups": []})
+        self.assertEqual("clash-LOD350-400-20261011-090000.json", Path(report.build(later)["previous"]).name)
+
     def test_a_snapshot_of_another_phase_is_never_the_previous_one(self):
         other = snapshot([], "2026-10-10T02:00:00Z")
         other["phase"] = "200"
@@ -166,6 +175,18 @@ class PictureTests(unittest.TestCase):
         self.assertEqual("A-4 : TẦNG 2", sheet["E5"].value)
         self.assertEqual("2026/10/11 09:55", sheet["K5"].value)
         self.assertEqual("clash-LOD350-400-20261011-090000/clash-report_files/cd010001.jpg", sheet["I5"].hyperlink.target)
+
+    def test_the_picture_goes_in_byte_for_byte_and_shows_at_340_px(self):
+        path = self.export([row(TEST_A, "HP_M4_S3", 1, "MEP-STR", "g1", "New")])
+        original = (path.with_suffix("") / "clash-report_files" / "cd010001.jpg").read_bytes()
+        out = report.build(path)["out"]
+        with zipfile.ZipFile(out) as book:
+            media = [n for n in book.namelist() if n.startswith("xl/media/")]
+            self.assertEqual(1, len(media))
+            self.assertEqual(hashlib.sha256(original).hexdigest(), hashlib.sha256(book.read(media[0])).hexdigest())
+            drawing = "".join(book.read(n).decode("utf-8") for n in book.namelist() if n.startswith("xl/drawings/drawing"))
+        self.assertIn(f'cx="{340 * 9525}" cy="{340 * 9525}"', drawing)  # EMU: 9525 per pixel
+        self.assertGreaterEqual(load_workbook(out)["CLASH DESCRIPTION"].row_dimensions[5].height, 255)
 
     def test_a_clash_without_picture_says_so_and_both_disciplines_count_it(self):
         path = self.export([row(TEST_A, "HP_M4_S3", 1, "MEP-STR", "g1", "New"), row(TEST_A, "HP_M4_S3", 1, "MEP-STR", "g2", "Active")])
