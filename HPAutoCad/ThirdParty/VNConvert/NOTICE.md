@@ -10,6 +10,10 @@
 | Licence | **None published upstream** (no LICENSE file = all rights reserved). The algorithm and tables come from UniKey's `vnconv`, which UniKey distributes under the GPL. Accepted by the project owner on 2026-10-14 for internal use only. |
 | Purpose | TCVN3 / VNI-Win → Unicode conversion behind the HPAutoCad MCP seeds `detect_vn_legacy_text` and `convert_vn_text_encoding` |
 
+## Packaging (decision 2026-10-16)
+
+The HPAutoCad MSI (`install/`, built by `dotnet run -- pack`) copies the whole bundle, so `VNConvert.dll` ships inside it. Accepted by the project owner: **an MSI that contains it is an internal-only installer** — never hand it to anyone outside the company. An external release must first drop this project and the two Vietnamese-text seeds.
+
 ## Audit before copying (2026-10-14)
 
 Read in full, never executed from the clone. No network, process, registry, reflection, Base64 or P/Invoke in the

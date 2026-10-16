@@ -54,7 +54,7 @@ Phases 1 and 2 run in parallel. Phase 1 needs the user's real DWG path.
 - Already-Unicode text (contains ă đ ơ ư ĩ ũ / U+1EA0–1EF9) is never re-converted; all-Latin-1 Unicode words under a legacy style still would be.
 
 ## Open
-- M5: `VNConvert.dll` ends up in the MSI (`install/` copies the whole bundle) — user decision: internal-only MSI, or exclude it.
+- M5 decided 2026-10-16: `VNConvert.dll` stays in the MSI; such an MSI is internal-only (NOTICE.md ▸ Packaging).
 - Crash after `U` on 2026-10-14 not reproduced (3 bisect runs).
 
 ## Out of scope
