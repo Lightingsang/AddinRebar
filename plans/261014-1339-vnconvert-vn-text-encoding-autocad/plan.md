@@ -1,7 +1,7 @@
 ---
 title: "VNConvert vendored into HPAutoCad — TCVN3/VNI → Unicode text conversion as two MCP seeds"
 description: "Copy the managed VNConvert library (AJS/lisp.vn, commit 205e569) into HPAutoCad/ThirdParty, wrap it in HPAutoCad.Aec, expose detect_vn_legacy_text (none) and convert_vn_text_encoding (auto, dryRun, change set). Internal use only."
-status: in-progress
+status: completed
 priority: P2
 effort: 25h
 branch: RebarVersion1
@@ -30,9 +30,9 @@ convert text **and** remap style fonts, include non-xref block definitions + tab
 |---|---|---|---|---|---|
 | 1 | [Spike: how legacy Vietnamese text is stored in a DWG](phase-01-spike-dwg-legacy-text-storage.md) | HITL | — | 2h | completed ([report](reports/phase-01-spike.md)) |
 | 2 | [Vendor VNConvert + golden tables](phase-02-vendor-vnconvert-golden-tables.md) | AFK | — | 3h | completed (golden 7/7, port = UniKey tables) |
-| 3 | [detect_vn_legacy_text (read-only seed)](phase-03-detect-vn-legacy-text-seed.md) | AFK | 1, 2 | 6h | built + tested offline, live pending |
-| 4 | [convert_vn_text_encoding (write seed + change set)](phase-04-convert-vn-text-encoding-seed.md) | AFK | 3 | 10h | built + tested offline, live pending |
-| 5 | [Live verify AutoCAD 2026 + publish + docs](phase-05-live-verify-publish-docs.md) | HITL | 4 | 4h | pending |
+| 3 | [detect_vn_legacy_text (read-only seed)](phase-03-detect-vn-legacy-text-seed.md) | AFK | 1, 2 | 6h | completed, verified live |
+| 4 | [convert_vn_text_encoding (write seed + change set)](phase-04-convert-vn-text-encoding-seed.md) | AFK | 3 | 10h | completed, verified live |
+| 5 | [Live verify AutoCAD 2026 + publish + docs](phase-05-live-verify-publish-docs.md) | HITL | 4 | 4h | completed ([report](reports/phase-05-live-verify.md)) |
 
 Phases 1 and 2 run in parallel. Phase 1 needs the user's real DWG path.
 
@@ -52,6 +52,10 @@ Phases 1 and 2 run in parallel. Phase 1 needs the user's real DWG path.
 - Detect page cap 40 (not 200): worst-case page in 3-byte UTF-8 must stay < 60 KB (`VnTextEnvelopeTests`).
 - SHX legacy fonts are classified (vn_vni.shx = VNI, uv-abc.shx = TCVN3) but have no default face: `fontMap` required.
 - Already-Unicode text (contains ă đ ơ ư ĩ ũ / U+1EA0–1EF9) is never re-converted; all-Latin-1 Unicode words under a legacy style still would be.
+
+## Open
+- M5: `VNConvert.dll` ends up in the MSI (`install/` copies the whole bundle) — user decision: internal-only MSI, or exclude it.
+- Crash after `U` on 2026-10-14 not reproduced (3 bisect runs).
 
 ## Out of scope
 CLI, NativeExports, ribbon/command, Civil 3D, Revit/Kata, distribution outside the company.

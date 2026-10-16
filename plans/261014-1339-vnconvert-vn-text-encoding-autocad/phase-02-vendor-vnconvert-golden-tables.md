@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Vendor VNConvert + golden tables"
-status: pending
+status: completed
 priority: P1
 effort: "3h"
 dependencies: []

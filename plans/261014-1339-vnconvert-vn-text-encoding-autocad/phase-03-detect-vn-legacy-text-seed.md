@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "detect_vn_legacy_text (read-only seed)"
-status: pending
+status: completed
 priority: P1
 effort: "6h"
 dependencies: [1, 2]

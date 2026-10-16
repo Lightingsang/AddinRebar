@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "convert_vn_text_encoding (write seed + change set)"
-status: pending
+status: completed
 priority: P1
 effort: "10h"
 dependencies: [3]

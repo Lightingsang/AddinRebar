@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "Live verify AutoCAD 2026 + publish + docs"
-status: pending
+status: completed
 priority: P1
 effort: "4h"
 dependencies: [4]
