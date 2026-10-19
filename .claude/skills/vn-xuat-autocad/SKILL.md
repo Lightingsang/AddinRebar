@@ -46,7 +46,8 @@ Dọn rác và sửa lỗi trước khi giao: `acad.lisp_purge_and_audit()`.
 
 Server `hprebar-autocad` chạy C# chứ không chạy AutoLISP. Script dưới đây đọc DXF vào một
 `Database` phụ, đếm tờ, rồi lưu thành DWG. Nó không mở bản vẽ mới và không đụng bản vẽ đang mở.
-Trạng thái: **CHƯA TEST trong AutoCAD**.
+Đã chạy trong AutoCAD 2026 ngày 2026-10-20 với DXF bộ mẫu: ra 26 tờ, 0,25 s. Đọc lại DWG thấy
+định dạng AC1032, đủ 26 Layout từ KC-01 đến ME-06, model space có 3 548 đối tượng.
 
 1. `get_autocad_context`: bridge phải kết nối và `executionEnabled` phải là true. Nếu chưa,
    người dùng mở `HPMCPBRIDGE` và tick *Allow AI code execution*.
