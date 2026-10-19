@@ -1,0 +1,63 @@
+{
+  "name": "set_node_properties",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Node",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "node",
+    "properties",
+    "rename",
+    "freeze",
+    "visibility",
+    "value",
+    "canvas"
+  ],
+  "title": "Set node properties",
+  "description": "Update properties of a Dynamo node on canvas: rename/nickname, freeze state, 3D geometry preview visibility, input value (slider, string, boolean), or canvas coordinates. Modifies active graph workspace with undo recording.",
+  "notes": "Requires an active Dynamo workspace. Modifies properties using DynamoModel.RecordModelForModification or UpdateValueParams to preserve canvas undo history.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "nodeId"
+    ],
+    "properties": {
+      "nodeId": {
+        "type": "string",
+        "description": "GUID string or current name/nickname of the target node"
+      },
+      "name": {
+        "type": "string",
+        "description": "New custom nickname or title for the node"
+      },
+      "value": {
+        "type": "string",
+        "description": "New value string for input nodes (e.g. number slider value, string text, boolean 'true'/'false', or CodeBlock script)"
+      },
+      "isFrozen": {
+        "type": "boolean",
+        "description": "Set execution freeze state (true to freeze execution, false to unfreeze)"
+      },
+      "isVisible": {
+        "type": "boolean",
+        "description": "Set 3D geometry preview visibility (true to show preview in background, false to hide)"
+      },
+      "x": {
+        "type": "number",
+        "description": "New X coordinate on canvas"
+      },
+      "y": {
+        "type": "number",
+        "description": "New Y coordinate on canvas"
+      }
+    },
+    "additionalProperties": false
+  }
+}

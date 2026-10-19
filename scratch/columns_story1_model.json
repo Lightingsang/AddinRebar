@@ -1,0 +1,1784 @@
+{
+  "totalColumns": 72,
+  "totalSegments": 144,
+  "typesNeeded": [
+    {
+      "name": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "count": 27
+    },
+    {
+      "name": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "count": 13
+    },
+    {
+      "name": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "count": 12
+    },
+    {
+      "name": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "count": 8
+    },
+    {
+      "name": "C_400x500",
+      "widthMm": 400,
+      "heightMm": 500,
+      "count": 2
+    },
+    {
+      "name": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "count": 6
+    },
+    {
+      "name": "C_600x600",
+      "widthMm": 600,
+      "heightMm": 600,
+      "count": 2
+    },
+    {
+      "name": "C_600x700",
+      "widthMm": 600,
+      "heightMm": 700,
+      "count": 2
+    }
+  ],
+  "columns": [
+    {
+      "index": 1,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 29100,
+      "yMm": 25150,
+      "coCot": {
+        "mark": "CC_01",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_01",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 2,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 13950,
+      "yMm": 2450,
+      "coCot": {
+        "mark": "CC_02",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_02",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 3,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 13950,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_03",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_03",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 4,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 13950,
+      "yMm": 25450,
+      "coCot": {
+        "mark": "CC_04",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_04",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 5,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 13950,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_05",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_05",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 6,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 40800,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_06",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_06",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 7,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 40800,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_07",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_07",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 8,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 35800,
+      "yMm": 15200,
+      "coCot": {
+        "mark": "CC_08",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_08",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 9,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 40800,
+      "yMm": 4700,
+      "coCot": {
+        "mark": "CC_09",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_09",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 10,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 48950,
+      "yMm": 13950,
+      "coCot": {
+        "mark": "CC_10",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_10",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 11,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 40800,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_11",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_11",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 12,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 40800,
+      "yMm": 23200,
+      "coCot": {
+        "mark": "CC_12",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_12",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 13,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 40800,
+      "yMm": 20000,
+      "coCot": {
+        "mark": "CC_13",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_13",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 14,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 40800,
+      "yMm": 15200,
+      "coCot": {
+        "mark": "CC_14",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_14",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 15,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 45050,
+      "yMm": 13950,
+      "coCot": {
+        "mark": "CC_15",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_15",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 16,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 1250,
+      "yMm": -100,
+      "coCot": {
+        "mark": "CC_16",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_16",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 17,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 6850,
+      "yMm": -100,
+      "coCot": {
+        "mark": "CC_17",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_17",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 18,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 9850,
+      "yMm": -100,
+      "coCot": {
+        "mark": "CC_18",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_18",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 19,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 1150,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_19",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_19",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 20,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 6850,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_20",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_20",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 21,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 9850,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_21",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_21",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 22,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 9750,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_22",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_22",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 23,
+      "typeName": "C_400x500",
+      "widthMm": 400,
+      "heightMm": 500,
+      "xMm": 6800,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_23",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_23",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 24,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 150,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_24",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_24",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 25,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 150,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_25",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_25",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 26,
+      "typeName": "C_400x500",
+      "widthMm": 400,
+      "heightMm": 500,
+      "xMm": 6800,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_26",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_26",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 27,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 9750,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_27",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_27",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 28,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 23650,
+      "yMm": 25150,
+      "coCot": {
+        "mark": "CC_28",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_28",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 29,
+      "typeName": "C_600x600",
+      "widthMm": 600,
+      "heightMm": 600,
+      "xMm": 16700,
+      "yMm": 25300,
+      "coCot": {
+        "mark": "CC_29",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_29",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 30,
+      "typeName": "C_500x500",
+      "widthMm": 500,
+      "heightMm": 500,
+      "xMm": 1150,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_30",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_30",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 31,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 1250,
+      "yMm": 28000,
+      "coCot": {
+        "mark": "CC_31",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_31",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 32,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 6850,
+      "yMm": 28000,
+      "coCot": {
+        "mark": "CC_32",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_32",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 33,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 6850,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_33",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_33",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 34,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 9850,
+      "yMm": 28000,
+      "coCot": {
+        "mark": "CC_34",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_34",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 35,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 23650,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_35",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_35",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 36,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 29100,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_36",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_36",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 37,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 16550,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_37",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_37",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 38,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 23650,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_38",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_38",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 39,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 29100,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_39",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_39",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 40,
+      "typeName": "C_600x700",
+      "widthMm": 600,
+      "heightMm": 700,
+      "xMm": 16700,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_40",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_40",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 41,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 9850,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_41",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_41",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 42,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 23700,
+      "yMm": 15200,
+      "coCot": {
+        "mark": "CC_42",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_42",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 43,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 29150,
+      "yMm": 15200,
+      "coCot": {
+        "mark": "CC_43",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_43",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 44,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 16600,
+      "yMm": 15200,
+      "coCot": {
+        "mark": "CC_44",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_44",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 45,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 16600,
+      "yMm": 12700,
+      "coCot": {
+        "mark": "CC_45",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_45",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 46,
+      "typeName": "C_600x700",
+      "widthMm": 600,
+      "heightMm": 700,
+      "xMm": 16700,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_46",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_46",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 47,
+      "typeName": "C_600x600",
+      "widthMm": 600,
+      "heightMm": 600,
+      "xMm": 16700,
+      "yMm": 2600,
+      "coCot": {
+        "mark": "CC_47",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_47",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 48,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 16550,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_48",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_48",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 49,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 23650,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_49",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_49",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 50,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 23650,
+      "yMm": 2750,
+      "coCot": {
+        "mark": "CC_50",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_50",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 51,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 23650,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_51",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_51",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 52,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 23700,
+      "yMm": 12700,
+      "coCot": {
+        "mark": "CC_52",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_52",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 53,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 29100,
+      "yMm": 2750,
+      "coCot": {
+        "mark": "CC_53",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_53",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 54,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 29150,
+      "yMm": 12700,
+      "coCot": {
+        "mark": "CC_54",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_54",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 55,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 29100,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_55",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_55",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 56,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 29100,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_56",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_56",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 57,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 48950,
+      "yMm": 23150,
+      "coCot": {
+        "mark": "CC_57",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_57",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 58,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 48950,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_58",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_58",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 59,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 45100,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_59",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_59",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 60,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 35800,
+      "yMm": 27950,
+      "coCot": {
+        "mark": "CC_60",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_60",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 61,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 45050,
+      "yMm": 23150,
+      "coCot": {
+        "mark": "CC_61",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_61",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 62,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 35800,
+      "yMm": 23100,
+      "coCot": {
+        "mark": "CC_62",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_62",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 63,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 45050,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_63",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_63",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 64,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 35800,
+      "yMm": 17950,
+      "coCot": {
+        "mark": "CC_64",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_64",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 65,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 45050,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_65",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_65",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 66,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 35800,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_66",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_66",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 67,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 48950,
+      "yMm": 9950,
+      "coCot": {
+        "mark": "CC_67",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_67",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 68,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 48950,
+      "yMm": 4750,
+      "coCot": {
+        "mark": "CC_68",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_68",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 69,
+      "typeName": "C_300x400",
+      "widthMm": 300,
+      "heightMm": 400,
+      "xMm": 45050,
+      "yMm": 4750,
+      "coCot": {
+        "mark": "CC_69",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_69",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 70,
+      "typeName": "C_300x500",
+      "widthMm": 300,
+      "heightMm": 500,
+      "xMm": 35800,
+      "yMm": 4800,
+      "coCot": {
+        "mark": "CC_70",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_70",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 71,
+      "typeName": "C_300x300",
+      "widthMm": 300,
+      "heightMm": 300,
+      "xMm": 35800,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_71",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_71",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    },
+    {
+      "index": 72,
+      "typeName": "C_400x300",
+      "widthMm": 400,
+      "heightMm": 300,
+      "xMm": 45100,
+      "yMm": -50,
+      "coCot": {
+        "mark": "CC_72",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 C\u1ED9t M\u00F3ng"
+      },
+      "cotTang1": {
+        "mark": "C1_72",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED9t T\u1EA7ng 1"
+      }
+    }
+  ]
+}

@@ -1,225 +1,141 @@
-# Project: HPRebar — Continuous Beam Rebar (R02_BeamsRebar Migration)
+# Project: HPKata MahApps.Metro Migration & Revit Element Geometry Upgrade
 
 ## Architecture
-
-The Continuous Beam Rebar feature is decomposed into three strictly decoupled layers, following the production architecture of `HPRebar`:
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        WPF MVVM Presentation                           │
-│  HPRebar/HPRebar/Beam Rebar/View/ & View Models/                       │
-│  - BeamRebarViewModel (CommunityToolkit.Mvvm, ObservableObject)        │
-│  - BeamRebarView (Modal Dialog, DynamicResource Light/Dark Themes)     │
-│  - BeamElevationCanvas & BeamSectionCanvas (WPF DrawingContext Preview)│
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ triggers
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                     Revit Add-In Integration Layer                     │
-│  HPRebar/HPRebar/Beam Rebar/ (Revit API 2025/2026, .NET 8)             │
-│  - BeamRebarCommand : ExternalCommand                                  │
-│  - BeamRebarOrchestrator (Sole Owner of TransactionGroup("Beam Rebar"))│
-│  - BeamStackReader, BeamSolidFaceReader, BeamSupportFinder             │
-│  - BeamStackValidator (Collinear axis, cross-section, solids)          │
-│  - BeamStirrupCreator, BeamMainBarCreator, BeamAdditionalBarCreator... │
-│  - BeamDetailViewCreator, BeamSectionViewCreator, DimensionCreator     │
-│  - RevitUnits (mm <-> ft), LocalizationService, ThemeSwitcher          │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ converts to/from domain models
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                      Pure Domain Logic & Geometry                      │
-│  HPRebar.Core/BeamRebar/ (netstandard2.0, Zero Revit References)       │
-│  - Immutable Models: BeamSpan, BeamSupportNode, StirrupSpec, BarSpec   │
-│  - Math/Calculators: BeamStirrupDistributionCalculator,               │
-│    BeamMainBarCalculator, BeamAdditionalBarCalculator,                │
-│    BeamSideBarCalculator, BeamSpecialBarCalculator, CanvasTransform    │
-│  - Unit Tests: HPRebar.Core.Tests/BeamRebar/ (xUnit v3, 100% Pass)     │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
+- **Ecosystem**: `HPKata/HPKata.slnx` (.NET 8.0 SDK 10.0.300, `net8.0-windows` for UI and host add-ins).
+- **HPKata.UI**: Shared WPF UI library used by both Revit 2026 (`HPKata.Revit`) and AutoCAD 2026 (`HPKata.AutoCad`). Migrating from `MaterialDesignThemes` to `MahApps.Metro` `2.4.11` using `MetroWindow` chrome, semantic tokens (`ThemeDark.xaml` / `ThemeLight.xaml`), and preloading via `ThemeManager.EnsureAssembliesLoaded()`.
+- **HPKata.Revit**: Revit 2026 add-in (.NET 8.0). Bridges Revit structural elements (`OST_StructuralFraming`, `OST_StructuralColumns`, `OST_Walls`) to HPKata detailing dialogs, with automatic geometry extraction ($b \times h \times L/H$ in mm) via `RevitElementGeometryReader` and safe fallback to manual input on ESC (`OperationCanceledException`).
+- **HPKata.AutoCad**: AutoCAD 2026 add-in (.NET 8.0). References `HPKata.UI` and `MahApps.Metro` 2.4.11.
+- **HPKata.UI.Tests**: Test suite in `HPKata.UI.Tests` providing STA thread instantiation verification for all 13 `MetroWindow` dialogs under Dark and Light themes, plus 100% `{StaticResource}` resolution parity scanning.
 
 ## Feature Inventory
-
-Every feature identified in Phase 0 survey is mapped directly to a milestone:
-
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | Continuous Beam Geometry Representation | Immutable `BeamSpan` and `BeamSupportNode` in mm with cross-sections, levels, offsets | M1 | survey |
-| 2 | Pure Geometry Primitives & Tolerance | `Point3`, `Vector3`, `Polyline3`, and numerical comparison `Tolerance` in Core | M1 | survey |
-| 3 | Uniform Stirrup Distribution | Mathematical spacing, bar count rounding, and centering offset for uniform layouts | M1 | survey |
-| 4 | 3-Zone Stirrup Distribution | Dense support zones (L/4 or L/3) and sparse midspan distribution with boundary rounding | M1 | survey |
-| 5 | Stirrup Max Count Guardrail | Enforcement of maximum 1002 bar positions to prevent Revit API exceptions | M1 | survey |
-| 6 | Continuous Main Top & Bottom Bars | Polyline calculation with 90° downward/upward anchorage hooks into end supports | M1 | survey |
-| 7 | Staggered Lap Splicing | 50% staggered lap splice calculation for spans > 11.7m (top in midspan, bottom at support) | M1 | survey |
-| 8 | Additional Top Bars Over Supports | Negative moment bars extending L/3 or L/4 into adjacent clear spans, 2 vertical layers | M1 | survey |
-| 9 | Additional Bottom Bars in Midspan | Positive moment bars starting at L/7 or L/8 from support faces, 2 vertical layers | M1 | survey |
-| 10 | Deep Beam Side (Skin) Bars | Longitudinal skin bars spaced <= 300mm vertically when beam height h >= 700mm | M1 | survey |
-| 11 | Transverse Anti-Buckling Cross-Ties | C-shaped hook ties connecting opposite side bars in deep beams | M1 | survey |
-| 12 | Secondary Framing Hanging Stirrups | Concentrated stirrups cage at intersections with secondary framing beams | M1 | survey |
-| 13 | Secondary Intersection Diagonal Ties | 45° diagonal inclination tie bars at secondary beam load concentration nodes | M1 | survey |
-| 14 | Preview Canvas Coordinate Scaling | Math transformation converting continuous beam spans to WPF Canvas screen coordinates | M1 | survey |
-| 15 | Domain Unit Test Suite | Comprehensive xUnit v3 tests covering all calculators and edge cases | M2 | survey |
-| 16 | External Command & Selection Filter | `BeamRebarCommand` with category-safe `StructuralFramingSelectionFilter` | M3 | survey |
-| 17 | Beam Stack Geometry & Face Reader | Extraction of Solids, top/bottom/side PlanarFaces, and centerline alignment | M3 | survey |
-| 18 | Beam Support Finder | Querying intersecting columns, walls, and perpendicular girders to derive clear spans | M3 | survey |
-| 19 | Beam Stack Validator | Validation of collinearity, same level, valid cross-sections, and solid integrity | M3 | survey |
-| 20 | Atomic Transaction Group | `TransactionGroup("Beam Rebar")` in `BeamRebarOrchestrator` with auto-rollback | M3 | survey |
-| 21 | Warning Suppression | `SwallowWarnings` implementing `IFailuresPreprocessor` for non-fatal overlap warnings | M3 | survey |
-| 22 | Stirrup & Tie Rebar Creator | Native `Rebar.CreateFromRebarShape` with `ScaleToBox` and `SetLayoutAsNumberWithSpacing` | M3 | survey |
-| 23 | Shape-Driven Longitudinal Bar Creator | `Rebar.CreateFromCurves` for main, additional, and side bars with standard shape codes | M3 | survey |
-| 24 | Detail & Section Views Generation | Automated elevation `ViewSection.CreateDetail` and transverse cross-sections | M3 | survey |
-| 25 | Dimensions & Annotations Creation | Automated section dimensioning (`SURFACE` -> `LINEAR` reference) and rebar tags | M3 | survey |
-| 26 | Unit Conversion Boundary | Decimal feet <-> millimeters via `RevitUnits` using `UnitTypeId.Millimeters` | M3 | survey |
-| 27 | Localization Service | English and Vietnamese UI strings via `LocalizationService` and `UiStrings` | M3 | survey |
-| 28 | WPF MVVM View Models | `BeamRebarViewModel` with CommunityToolkit.Mvvm `ObservableObject`, tabs, commands | M4 | survey |
-| 29 | WPF UI View & Dynamic Theming | Modal `BeamRebarView` using `{DynamicResource Brush.X}` for Revit light/dark switch | M4 | survey |
-| 30 | Interactive Preview Canvas | Direct `DrawingContext` elevation and cross-section preview with debounce | M4 | survey |
-| 31 | Ribbon Integration | Push button "Beam Rebar" on "Rebar" panel in `Application.cs` with icons | M5 | survey |
-| 32 | Multi-Version Build Verification | Zero errors across `Debug.R25`, `Debug.R26`, and 100% test pass in `HPRebar.Core.Tests` | M5 | survey |
-
----
+| 1 | Package Migration to MahApps.Metro 2.4.11 | Replace `MaterialDesignThemes` & `MaterialDesignColors` with `MahApps.Metro` 2.4.11 in `HPKata.UI.csproj`, `HPKata.Revit.csproj`, `HPKata.AutoCad.csproj` | M1 | Survey 1, R1 |
+| 2 | Theme Bootstrap Migration | Migrate `MaterialBridge.xaml` to merge `MahApps.Metro` standard resource dictionaries (`Controls.xaml`, `Fonts.xaml`, `Dark.Blue.xaml`) | M1 | Survey 1, R2 |
+| 3 | Style Keys in Theme.xaml | Define all required style keys in `Theme.xaml`: `StandardDataGrid`, `StandardTextBox`, `StandardComboBox`, `PrimaryButton`, `Button.Primary`, `SecondaryButton`, `Button.Secondary`, `Card.Panel`, `GroupBox.Header`, `Text.Title`, `Text.Section`, `Text.Muted`, `Text.Bold`, `Text.Label`, and implicit styles; define `Brush.Card` | M1 | Survey 1, 2, R2 |
+| 4 | ThemeManager Assembly Preloading & Switching | Add `ThemeManager.EnsureAssembliesLoaded()` preloading `MetroWindow` & `ControlzEx` assemblies; update `Apply` and `ApplyTheme` for dynamic dark/light switching | M1 | Survey 1, R2 |
+| 5 | Zero MaterialDesign Residue | Eliminate all remaining references to `MaterialDesignThemes` and `http://materialdesigninxaml.net/winfx/xaml/themes` in `HPKata/` | M1 | Survey 1, R1 |
+| 6 | 13 MetroWindow XAML Migration | Convert all 13 dialogs in `HPKata/HPKata.UI/Views/` to inherit from `mah:MetroWindow` with `xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"` | M2 | Survey 2, R2 |
+| 7 | Metro Chrome Attributes | Configure Metro chrome on all 13 views (`GlowBrush="{DynamicResource Brush.Accent}"`, `BorderThickness="1"`, `TitleCharacterCasing="Normal"`, Segoe UI font) | M2 | Survey 2, R2 |
+| 8 | Parameterless Constructor Support | Add parameterless constructors to `FoundationDetailingWindow`, `SlabDetailingWindow`, `StairLintelDetailingWindow` chaining to default ViewModels | M2 | Survey 2, R2 |
+| 9 | Window Constructor Lifecycle Standardization | Standardize constructors across all 13 views: call `ThemeManager.EnsureAssembliesLoaded()` before `InitializeComponent()`, `ThemeManager.Apply(this, dark: true)` after | M2 | Survey 2, R2 |
+| 10 | Safe Modal DialogResult Handling | Implement safe `DialogResult = true` handling in `OnRequestClose()` using `ComponentDispatcher.IsThreadModal` or try/catch before `Close()` | M2 | Survey 2, R2 |
+| 11 | Revit Element Geometry Reader | Create `HPKata/HPKata.Revit/Services/RevitElementGeometryReader.cs` to read $b \times h \times L/H$ in mm from Framing, Column, and Wall elements using pure testable methods and `RevitUnitConverter` (Rule R5) | M3 | Survey 3, R3 |
+| 12 | Pre-Selection Element Detection | Update `FramingRebarCommands.cs`, `ColumnRebarCommands.cs`, `WallRebarCommands.cs` to detect pre-selected elements via `uidoc.Selection.GetElementIds()` | M3 | Survey 3, R3 |
+| 13 | Interactive Pick with ESC Fallback | Wrap interactive picking with try/catch catching `Autodesk.Revit.Exceptions.OperationCanceledException` so ESC falls back to manual mode without aborting | M3 | Survey 3, R3 |
+| 14 | Modal OK Transaction Execution | Execute Revit rebar transaction on `ShowDialog() == true` when target element is present, returning `Result.Succeeded` | M3 | Survey 3, R3 |
+| 15 | STA MetroWindow Instantiation Unit Tests | Implement `HPKata.UI.Tests/Views/AllWindowsXamlInstantiationTests.cs` testing STA instantiation of all 13 `MetroWindow`s under both Dark and Light themes | M4 | Survey 3, R4 |
+| 16 | Automated StaticResource Parity Scanner | Implement automated scanner in `AllWindowsXamlInstantiationTests.cs` verifying 100% of `{StaticResource}` keys in views resolve against `Theme.xaml` | M4 | Survey 2, 3, R4 |
+| 17 | Solution Compilation (0 warnings, 0 errors) | `dotnet build HPKata/HPKata.slnx -c Debug --disable-build-servers -m:1` compiles cleanly with zero warnings and zero errors | M5 | AC1 |
+| 18 | 100% Test Pass Rate | `dotnet test HPKata/HPKata.slnx -c Debug --disable-build-servers -m:1` passes 100% of tests across all test projects | M5 | AC6 |
+| 19 | Clean Code Governance Compliance | Every C# file $\le 300$ lines (Rule C2), methods $\le 50$ lines (Rule M3), 0 dead code, 0 unannotated catch blocks, Rule R5 (`304.8` only in `RevitUnitConverter.cs`) | M5 | Governance |
 
 ## Milestones
-
 | # | Name | Scope | Dependencies | Status |
-|---|------|-------|--------------|--------|
-| M1 | Domain Logic & Geometry Engine | `HPRebar.Core/BeamRebar/` pure models, records, and calculators (netstandard2.0) | none | DONE |
-| M2 | Domain Unit Test Suite | `HPRebar.Core.Tests/BeamRebar/` xUnit v3 comprehensive tests | M1 | DONE |
-| M3 | Revit Add-In Feature Implementation | `HPRebar/HPRebar/Beam Rebar/` readers, validators, creators, views, annotations, orchestrator | M1 | DONE |
-| M4 | WPF MVVM UI & Preview Canvas | `HPRebar/HPRebar/Beam Rebar/View/` and `View Models/` MVVM, theming, interactive canvas | M1, M3 | DONE |
-| M5 | Ribbon Integration & Verification | `Application.cs` button, build verification on Debug.R25 & Debug.R26, test verification | M2, M3, M4 | DONE |
-
----
+|---|------|-------|-------------|--------|
+| M1 | Package Migration & Theme Infrastructure | Features 1, 2, 3, 4, 5 (Csproj, MaterialBridge.xaml, Theme.xaml, ThemeManager.cs) | Survey done | DONE (947/947 tests pass, 0 warnings) |
+| M2 | 13 MetroWindow Views Migration & DialogResult Safety | Features 6, 7, 8, 9, 10 (All 13 Views in HPKata.UI/Views/) | M1 | DONE (982/982 tests pass, 0 warnings) |
+| M3 | Revit Element Geometry Reader & Safe Picker Fallback | Features 11, 12, 13, 14 (RevitElementGeometryReader, Framing/Column/Wall commands) | M1 | DONE (994/994 tests pass, 0 warnings) |
+| M4 | Comprehensive STA Unit Tests & StaticResource Parity | Features 15, 16 (AllWindowsXamlInstantiationTests in HPKata.UI.Tests) | M1, M2 | DONE (1,054/1,054 tests pass, 0 warnings) |
+| M5 | Final Verification, Solution Build, 100% Test Pass & Audit | Features 17, 18, 19 (Solution build, full test run, forensic audit) | M1, M2, M3, M4 | DONE (1,054/1,054 tests pass, 0 warnings, CLEAN audit) |
 
 ## Interface Contracts
 
-### 1. HPRebar.Core.BeamRebar ↔ HPRebar.BeamRebar
-- **Location**: `HPRebar.Core/BeamRebar/Models/`
-- **Contract Types**:
-  - `BeamSpan`: `(int Index, string Name, double LengthMm, double WidthMm, double HeightMm, double TopOffsetMm)`
-  - `BeamSupportNode`: `(int Index, double CenterX, double WidthMm, SupportType Type)`
-  - `BeamStirrupSpec`: `(StirrupLayout Layout, double DiameterMm, double CoverMm, IReadOnlyList<StirrupZone> Zones)`
-  - `StirrupZone`: `(double StartX, double Length, double Spacing, int Count)`
-  - `BeamBarCurve`: `(IReadOnlyList<Point3> Points, double DiameterMm, BarType Type, int Layer)`
-- **Rules**:
-  - All measurements in `HPRebar.Core` MUST be `double` representing millimetres.
-  - Zero Revit imports (`Autodesk.Revit.*`) in `HPRebar.Core`.
-  - Immutable C# 9 records and readonly structs.
+### Theme Subsystem ↔ WPF Views (`HPKata.UI.Themes` ↔ `HPKata.UI.Views`)
+- **Assembly Preloading Contract**:
+  ```csharp
+  namespace HPKata.UI.Common;
+  public static class ThemeManager
+  {
+      public static void EnsureAssembliesLoaded();
+      public static void Apply(Window window, bool dark, Func<bool, ImageSource>? icon = null);
+      public static void ApplyTheme(Window window, bool dark = true);
+  }
+  ```
+- **XAML Style Keys Contract** in `Theme.xaml`:
+  - DataGrid: `StandardDataGrid` (TargetType="DataGrid", BasedOn="{StaticResource MahApps.Styles.DataGrid}")
+  - TextBox: `StandardTextBox` (TargetType="TextBox", BasedOn="{StaticResource MahApps.Styles.TextBox}")
+  - ComboBox: `StandardComboBox` (TargetType="ComboBox", BasedOn="{StaticResource MahApps.Styles.ComboBox}")
+  - Buttons: `PrimaryButton` and `Button.Primary` (TargetType="Button", BasedOn="{StaticResource MahApps.Styles.Button}")
+  - Buttons: `SecondaryButton` and `Button.Secondary` (TargetType="Button", BasedOn="{StaticResource MahApps.Styles.Button}")
+  - Borders: `Card.Panel` (TargetType="Border")
+  - GroupBox: `GroupBox.Header` (TargetType="GroupBox", BasedOn="{StaticResource MahApps.Styles.GroupBox}")
+  - TextBlocks: `Text.Title`, `Text.Section`, `Text.Muted`, `Text.Bold`, `Text.Label` (TargetType="TextBlock")
+  - Brushes: `Brush.Card` (aliased to `Brush.Surface` / `Color.SurfaceElevated`)
 
-### 2. BeamStackReader ↔ BeamRebarOrchestrator
-- `BeamStackReader.Read(IReadOnlyList<FamilyInstance> selectedBeams)` returns validated `BeamContinuousStack` containing ordered `BeamSpan`s, `BeamSupportNode`s, coordinate transformation frames, and reference faces.
+### Geometry Reader ↔ Revit Commands (`HPKata.Revit.Services` ↔ `HPKata.Revit.Commands`)
+- **RevitElementGeometryReader Contract**:
+  ```csharp
+  namespace HPKata.Revit.Services;
+  public static class RevitElementGeometryReader
+  {
+      public static FramingDimensions ReadFramingDimensions(FamilyInstance beam);
+      public static ColumnDimensions ReadColumnDimensions(FamilyInstance column);
+      public static WallDimensions ReadWallDimensions(Wall wall);
+      public static ElementDimensionData ResolveDimensions(
+          double? primaryWidthFt, double? primaryHeightFt, double? lengthFt,
+          double? bboxWidthFt, double? bboxHeightFt, double? bboxLengthFt,
+          double defaultWidthMm, double defaultHeightMm, double defaultLengthMm);
+  }
+  public readonly record struct FramingDimensions(string Mark, double WidthMm, double HeightMm, double LengthMm);
+  public readonly record struct ColumnDimensions(string Mark, double WidthMm, double DepthMm, double HeightMm);
+  public readonly record struct WallDimensions(string Mark, double ThicknessMm, double LengthMm, double HeightMm);
+  public readonly record struct ElementDimensionData(double WidthMm, double HeightMm, double LengthMm);
+  ```
+- **All unit conversions**: MUST route through `HPKata.Revit.Units.RevitUnitConverter.FeetToMm(...)` (Rule R5).
 
-### 3. BeamRebarOrchestrator ↔ Revit Document
-- `BeamRebarOrchestrator.Execute(BeamRebarInput input)` wraps all creation operations inside a single `using var group = new TransactionGroup(doc, "Beam Rebar")`.
-- On success: `group.Assimilate()`.
-- On exception or cancel: `group.RollBack()`.
-- Sub-transactions use `SwallowWarnings` to prevent UI freezing on non-fatal warnings.
-
-### 4. BeamRebarViewModel ↔ View
-- Uses `CommunityToolkit.Mvvm.ComponentModel.ObservableObject`.
-- Properties decorated with `[ObservableProperty]`.
-- Commands decorated with `[RelayCommand]`.
-- Implements `IBeamRebarRunner` to decouple ViewModel from Revit API execution context.
-
----
+### Command Modal & Fallback Contract (`HPKata.Revit.Commands`)
+- **Interactive Pick & Pre-Selection Pattern**:
+  ```csharp
+  Element? targetElement = null;
+  // 1. Try pre-selection
+  var preSelected = uidoc.Selection.GetElementIds()
+      .Select(id => doc.GetElement(id))
+      .FirstOrDefault(e => e is FamilyInstance fi && e.Category?.Id.Value == (long)BuiltInCategory.OST_StructuralFraming);
+  if (preSelected != null) { targetElement = preSelected; }
+  else {
+      try {
+          var pickedRef = uidoc.Selection.PickObject(ObjectType.Element, new FramingSelectionFilter(), "Select beam (ESC for manual):");
+          if (pickedRef != null) targetElement = doc.GetElement(pickedRef);
+      } catch (Autodesk.Revit.Exceptions.OperationCanceledException) {
+          // ESC pressed: enter manual input mode
+          targetElement = null;
+      }
+  }
+  // 2. Open dialog modally
+  bool? dialogResult = RevitWindowHelper.ShowModal(view, uiapp);
+  if (dialogResult == true) {
+      if (targetElement != null) {
+          // Execute Revit transaction
+          using var tr = new Transaction(doc, "Generate Rebar");
+          tr.Start();
+          FramingRebarGenerator.GenerateFramingRebar(doc, (FamilyInstance)targetElement, vm.ResultLayout);
+          tr.Commit();
+      }
+      return Result.Succeeded;
+  }
+  return Result.Cancelled;
+  ```
 
 ## Code Layout
+- `HPKata/HPKata.UI/HPKata.UI.csproj`: MahApps.Metro 2.4.11 reference.
+- `HPKata/HPKata.Revit/HPKata.Revit.csproj`: MahApps.Metro 2.4.11 reference.
+- `HPKata/HPKata.AutoCad/HPKata.AutoCad.csproj`: MahApps.Metro 2.4.11 reference.
+- `HPKata/HPKata.UI/Themes/MaterialBridge.xaml`: MahApps resource dictionaries bootstrap.
+- `HPKata/HPKata.UI/Themes/Theme.xaml`: Required style keys and MahApps base styles.
+- `HPKata/HPKata.UI/Common/ThemeManager.cs`: `EnsureAssembliesLoaded()`, `ApplyTheme()`, `Apply()`.
+- `HPKata/HPKata.UI/Views/*.xaml` and `*.xaml.cs`: All 13 MetroWindow views.
+- `HPKata/HPKata.Revit/Services/RevitElementGeometryReader.cs`: Dimension extraction and unit conversion.
+- `HPKata/HPKata.Revit/Commands/FramingRebarCommands.cs`: Pre-selection, ESC fallback, modal transaction.
+- `HPKata/HPKata.Revit/Commands/ColumnRebarCommands.cs`: Pre-selection, ESC fallback, modal transaction.
+- `HPKata/HPKata.Revit/Commands/WallRebarCommands.cs`: Pre-selection, ESC fallback, modal transaction.
+- `HPKata/HPKata.UI.Tests/Views/AllWindowsXamlInstantiationTests.cs`: STA tests and static resource scanner.
+- `HPKata/HPKata.Revit.Tests/Services/RevitElementGeometryReaderTests.cs`: Pure unit tests for dimension calculation.
 
-Adhering strictly to `AGENTS.md` and feature-folder rules:
-
-```
-HPRebar/
-├── HPRebar.Core/
-│   └── BeamRebar/
-│       ├── Models/
-│       │   ├── BeamSpan.cs
-│       │   ├── BeamSupportNode.cs
-│       │   ├── BeamContinuousStack.cs
-│       │   ├── BeamStirrupSpec.cs
-│       │   ├── BeamMainBarSpec.cs
-│       │   ├── BeamAdditionalBarSpec.cs
-│       │   ├── BeamSideBarSpec.cs
-│       │   ├── BeamSpecialBarSpec.cs
-│       │   ├── Point3.cs
-│       │   ├── Vector3.cs
-│       │   ├── Polyline3.cs
-│       │   └── Enums.cs
-│       ├── Calculators/
-│       │   ├── BeamStirrupDistributionCalculator.cs
-│       │   ├── BeamMainBarCalculator.cs
-│       │   ├── BeamAdditionalBarCalculator.cs
-│       │   ├── BeamSideBarCalculator.cs
-│       │   ├── BeamSpecialBarCalculator.cs
-│       │   └── BeamCanvasTransformCalculator.cs
-│       └── Tolerance.cs
-│
-├── HPRebar.Core.Tests/
-│   └── BeamRebar/
-│       ├── TestBeamData.cs
-│       ├── BeamStirrupDistributionCalculatorTests.cs
-│       ├── BeamMainBarCalculatorTests.cs
-│       ├── BeamAdditionalBarCalculatorTests.cs
-│       ├── BeamSideBarCalculatorTests.cs
-│       ├── BeamSpecialBarCalculatorTests.cs
-│       └── BeamCanvasTransformCalculatorTests.cs
-│
-└── HPRebar/
-    ├── Beam Rebar/
-    │   ├── BeamRebarCommand.cs
-    │   ├── BeamRebarOrchestrator.cs
-    │   ├── BeamStackReader.cs
-    │   ├── BeamSolidFaceReader.cs
-    │   ├── BeamSupportFinder.cs
-    │   ├── BeamStackValidator.cs
-    │   ├── BeamRebarCreationService.cs
-    │   ├── BeamStirrupCreator.cs
-    │   ├── BeamMainBarCreator.cs
-    │   ├── BeamAdditionalBarCreator.cs
-    │   ├── BeamSideBarCreator.cs
-    │   ├── BeamSpecialBarCreator.cs
-    │   ├── BeamDetailViewCreator.cs
-    │   ├── BeamSectionViewCreator.cs
-    │   ├── BeamDimensionCreator.cs
-    │   ├── BeamTagCreator.cs
-    │   ├── StructuralFramingSelectionFilter.cs
-    │   ├── RevitUnits.cs
-    │   ├── LocalizationService.cs
-    │   ├── ThemeSwitcher.cs
-    │   ├── RebarFailureHandling.cs
-    │   ├── RebarShapeResolver.cs
-    │   ├── RebarTypeCatalog.cs
-    │   ├── Models/
-    │   │   ├── BeamRebarInput.cs
-    │   │   ├── UiStrings.cs
-    │   │   └── RebarTypeOption.cs
-    │   ├── View/
-    │   │   ├── BeamRebarView.xaml
-    │   │   ├── BeamRebarView.xaml.cs
-    │   │   ├── Controls/
-    │   │   │   ├── BeamElevationCanvas.cs
-    │   │   │   └── BeamSectionCanvas.cs
-    │   │   └── Tabs/
-    │   │       ├── GeometryTab.xaml
-    │   │       ├── StirrupsTab.xaml
-    │   │       ├── MainBarsTab.xaml
-    │   │       ├── AddTopBarsTab.xaml
-    │   │       ├── AddBottomBarsTab.xaml
-    │   │       ├── SideBarsTab.xaml
-    │   │       ├── SpecialBarsTab.xaml
-    │   │       └── SettingsTab.xaml
-    │   └── View Models/
-    │       ├── BeamRebarViewModel.cs
-    │       ├── IBeamRebarRunner.cs
-    │       └── Tabs/
-    │           ├── GeometryTabViewModel.cs
-    │           ├── StirrupsTabViewModel.cs
-    │           ├── MainBarsTabViewModel.cs
-    │           ├── AddTopBarsTabViewModel.cs
-    │           ├── AddBottomBarsTabViewModel.cs
-    │           ├── SideBarsTabViewModel.cs
-    │           ├── SpecialBarsTabViewModel.cs
-    │           └── SettingsTabViewModel.cs
-    └── Application.cs (Ribbon registration)
-```
+## Clean Code Governance
+- **Rule C2**: Max 300 lines per `.cs` file.
+- **Rule M3**: Max 50 lines per method.
+- **Rule Q-B1**: 0 dead or commented-out code.
+- **Rule Q-B2**: 0 empty catch blocks without explanatory comments.
+- **Rule R5**: In `HPKata.Revit`, `304.8` must appear only inside `Units/RevitUnitConverter.cs`.
+- **TreatWarningsAsErrors**: Build must succeed with 0 warnings and 0 errors.

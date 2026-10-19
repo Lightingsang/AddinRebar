@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "metadata": {
+    "benchmarkDate": "2026-10-09T19:36:20.738660+00:00",
+    "harnessVersion": "2.0.0-persistent",
+    "environment": {
+      "host": "Autodesk Revit 2026",
+      "dynamoVersion": "3.7.0.11777",
+      "runtimeFramework": ".NET 10.0.11",
+      "operatingSystem": "Windows",
+      "isolationMode": "Sandbox Isolation (PID 26264 protected)"
+    },
+    "methodology": {
+      "transport": "stdio persistent session",
+      "warmSamplesTarget": 5,
+      "percentileAlgorithm": "Linear interpolation (Type 7)"
+    }
+  },
+  "summary": {
+    "totalWorkloads": 5,
+    "passedWorkloads": 0,
+    "failedWorkloads": 0,
+    "skippedWorkloads": 5,
+    "toolSurfaceRegistered": 25,
+    "startupLatencyMs": 663.49,
+    "statusNote": "5 skipped (CHƯA TEST), 0 passed, 0 failed.",
+    "speedupComparison": "Empirically measured; no speculative speedup claims without identical hardware baseline."
+  },
+  "workloads": [
+    {
+      "id": "WL-01",
+      "name": "System Context Retrieval",
+      "tool": "get_dynamo_context",
+      "arguments": {
+        "includeSelection": false
+      },
+      "baseline": {
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 138,
+          "response": 384
+        },
+        "latencyMs": {
+          "p50": 26.4,
+          "p95": 38.1
+        },
+        "status": "Historical Estimate"
+      },
+      "upgraded": {
+        "status": "CHƯA TEST (Bridge Offline)",
+        "executionMode": "Persistent Session",
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 136,
+          "response": 224
+        },
+        "startupMs": 663.49,
+        "coldLatencyMs": 3034.88,
+        "warmLatencyMs": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "rawSamples": [],
+        "samplesCount": 0,
+        "successCount": 0,
+        "failureCount": 0,
+        "errorDetails": "Dynamo bridge not connected (offline mode)"
+      }
+    },
+    {
+      "id": "WL-02",
+      "name": "Active Graph Inspection",
+      "tool": "get_active_graph_info",
+      "arguments": {
+        "includeNodeList": true,
+        "includeErrors": true
+      },
+      "baseline": {
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 152,
+          "response": 4120
+        },
+        "latencyMs": {
+          "p50": 14.2,
+          "p95": 22.5
+        },
+        "status": "Verified Offline"
+      },
+      "upgraded": {
+        "status": "CHƯA TEST (Bridge Offline)",
+        "executionMode": "Persistent Session",
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 160,
+          "response": 224
+        },
+        "startupMs": 663.49,
+        "coldLatencyMs": 3002.13,
+        "warmLatencyMs": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "rawSamples": [],
+        "samplesCount": 0,
+        "successCount": 0,
+        "failureCount": 0,
+        "errorDetails": "Dynamo bridge not connected (offline mode)"
+      }
+    },
+    {
+      "id": "WL-03",
+      "name": "Library Search Query",
+      "tool": "search_nodes_library",
+      "arguments": {
+        "query": "Point",
+        "maxResults": 20
+      },
+      "baseline": {
+        "roundTrips": 1,
+        "stringAllocationsEstimated": "~2.5 MB",
+        "latencyMs": {
+          "p50": 85.0,
+          "p95": 112.0
+        },
+        "status": "Estimated Uncached"
+      },
+      "upgraded": {
+        "status": "CHƯA TEST (Bridge Offline)",
+        "executionMode": "Persistent Session",
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 147,
+          "response": 224
+        },
+        "startupMs": 663.49,
+        "coldLatencyMs": 3004.13,
+        "warmLatencyMs": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "rawSamples": [],
+        "samplesCount": 0,
+        "successCount": 0,
+        "failureCount": 0,
+        "errorDetails": "Dynamo bridge not connected (offline mode)"
+      }
+    },
+    {
+      "id": "WL-04",
+      "name": "Graph Authoring Pipeline (5 nodes, 4 wires)",
+      "tool": "batch_edit_graph",
+      "arguments": {
+        "dryRun": true,
+        "nodes": [
+          {
+            "tempId": "$n1",
+            "nodeType": "CodeBlock",
+            "x": 100.0,
+            "y": 100.0,
+            "initialValue": "x = 1000; y = 2000;"
+          },
+          {
+            "tempId": "$n2",
+            "nodeType": "Point.ByCoordinates",
+            "x": 300.0,
+            "y": 100.0
+          },
+          {
+            "tempId": "$n3",
+            "nodeType": "Vector.ZAxis",
+            "x": 300.0,
+            "y": 250.0
+          },
+          {
+            "tempId": "$n4",
+            "nodeType": "Line.ByStartPointDirectionLength",
+            "x": 550.0,
+            "y": 150.0
+          },
+          {
+            "tempId": "$n5",
+            "nodeType": "CoreNodeModels.Watch",
+            "x": 800.0,
+            "y": 150.0
+          }
+        ],
+        "wires": [
+          {
+            "fromNode": "$n1",
+            "fromPort": 0,
+            "toNode": "$n2",
+            "toPort": 0
+          },
+          {
+            "fromNode": "$n1",
+            "fromPort": 1,
+            "toNode": "$n2",
+            "toPort": 1
+          },
+          {
+            "fromNode": "$n2",
+            "fromPort": 0,
+            "toNode": "$n4",
+            "toPort": 0
+          },
+          {
+            "fromNode": "$n3",
+            "fromPort": 0,
+            "toNode": "$n4",
+            "toPort": 1
+          }
+        ],
+        "properties": [
+          {
+            "nodeId": "$n1",
+            "name": "Coordinate Inputs"
+          },
+          {
+            "nodeId": "$n5",
+            "name": "Result Watcher"
+          }
+        ],
+        "runEvaluation": false
+      },
+      "baseline": {
+        "roundTrips": 10,
+        "evaluationsTriggered": 10,
+        "latencyMs": {
+          "p50": 620.0,
+          "p95": 850.0
+        },
+        "status": "Estimated Sequential"
+      },
+      "upgraded": {
+        "status": "CHƯA TEST (Bridge Offline)",
+        "executionMode": "Persistent Session",
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 968,
+          "response": 224
+        },
+        "startupMs": 663.49,
+        "coldLatencyMs": 2999.92,
+        "warmLatencyMs": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "rawSamples": [],
+        "samplesCount": 0,
+        "successCount": 0,
+        "failureCount": 0,
+        "errorDetails": "Dynamo bridge not connected (offline mode)"
+      }
+    },
+    {
+      "id": "WL-05",
+      "name": "Output Extraction (List & Dictionary)",
+      "tool": "get_node_output_values",
+      "arguments": {
+        "includeGeometry": true,
+        "limit": 50
+      },
+      "baseline": {
+        "collectionIntegrity": "Failed",
+        "dictionaryIntegrity": "Failed",
+        "status": "Observed Defect"
+      },
+      "upgraded": {
+        "status": "CHƯA TEST (Bridge Offline)",
+        "executionMode": "Persistent Session",
+        "roundTrips": 1,
+        "payloadBytes": {
+          "request": 151,
+          "response": 224
+        },
+        "startupMs": 663.49,
+        "coldLatencyMs": 2998.89,
+        "warmLatencyMs": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "rawSamples": [],
+        "samplesCount": 0,
+        "successCount": 0,
+        "failureCount": 0,
+        "errorDetails": "Dynamo bridge not connected (offline mode)"
+      }
+    }
+  ]
+}

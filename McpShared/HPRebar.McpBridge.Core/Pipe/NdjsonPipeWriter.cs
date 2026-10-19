@@ -20,8 +20,11 @@ public sealed class NdjsonPipeWriter : IDisposable
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
     private bool _faulted;
 
-    public NdjsonPipeWriter(NamedPipeServerStream stream)
+    public string SessionId { get; }
+
+    public NdjsonPipeWriter(NamedPipeServerStream stream, string? sessionId = null)
     {
+        SessionId = sessionId ?? System.Guid.NewGuid().ToString("N");
         _writer = new StreamWriter(stream, Utf8NoBom, 8192, leaveOpen: true) { AutoFlush = true, NewLine = "\n" };
     }
 

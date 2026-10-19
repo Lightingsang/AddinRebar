@@ -1,0 +1,45 @@
+{
+  "name": "validate_dyn_file",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Graph",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "graph",
+    "validation",
+    "dyn",
+    "schema",
+    "packages",
+    "offline",
+    "qc"
+  ],
+  "title": "Validate DYN file",
+  "description": "Inspect and validate a Dynamo graph (.dyn) JSON structure and node schema without executing it. Checks JSON syntax, node types, unresolved packages, and cyclic connections. Read-only.",
+  "notes": "Validates graph JSON schema and dependencies. Can inspect active workspace or parse raw fileContent JSON passed in arguments.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "fileContent": {
+        "type": "string",
+        "description": "Raw JSON text content of the .dyn graph file to validate"
+      },
+      "filePath": {
+        "type": "string",
+        "description": "Optional file path of the .dyn graph. If fileContent is omitted and the graph is loaded in workspace, validates active workspace matching this path."
+      },
+      "checkPackages": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to check package dependency declarations against loaded packages in Dynamo"
+      }
+    },
+    "additionalProperties": false
+  }
+}

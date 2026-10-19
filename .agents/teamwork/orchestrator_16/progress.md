@@ -1,0 +1,153 @@
+# HPKata Progress
+
+Last visited: 2026-10-17T04:46:00Z
+- [x] Heartbeat check (tick 8): worker_m2 actively running (initializing workspace & writing BRIEFING.md).
+- [x] Heartbeat check (tick 9): worker_m2 actively running (implementing HPKata.Core modules & verifying Clean Code line limits).
+- [x] Heartbeat check (tick 1, task-318): all 5 Gate M2 verification subagents actively running (reviewers, challengers, forensic auditor).
+- [x] Heartbeat check (tick 2, task-318): worker_m2_iter2 actively remediating DEFECT-M2-01 in CuttingStockStrategies.
+- [x] Heartbeat check (tick 3, task-318): Gate M2 Iteration 2 re-verification team actively executing (reviewer, challenger, auditor).
+- [x] Heartbeat check (tick 4, task-318): worker_m3 actively running HPKata.Core.Tests suite execution.
+- [x] Heartbeat check (tick 5, task-318): worker_m3 actively writing, refining, and modularizing HPKata.Core.Tests suites.
+- [x] Heartbeat check (tick 6, task-318): all 5 Gate M3 verification subagents actively running (reviewers, challengers, forensic auditor).
+- [x] Heartbeat check (tick 7, task-318): 4/5 Gate M3 verification subagents delivered APPROVE/CLEAN verdicts; challenger_m3_2 actively testing.
+- [x] Heartbeat check (tick 8, task-318): worker_m4 actively implementing HPKata.UI views and viewmodels (Setup, Detailing, Scheduling).
+- [x] Heartbeat check (tick 9, task-318): worker_m4 actively authoring HPKata.UI components with liveness confirmed at 2026-10-17T02:50:00Z.
+- [x] Heartbeat check (tick 10, task-318): all 5 Gate M4 verification subagents actively running under resource bounds (--no-build --disable-build-servers -m:1).
+- [x] Heartbeat check (tick 11, task-318): worker_m4_iter2 actively implementing DEFECT-M4-01, DEFECT-M4-02, DEFECT-M4-03 remediations and adding regression tests.
+- [x] Heartbeat check (tick 12, task-318): reviewer_m4_1_iter2 (APPROVE) and auditor_m4_1_iter2 (CLEAN) completed; challenger_m4_1_iter2 actively executing empirical re-challenge.
+- [x] Heartbeat check (tick 13, task-318): all 3 M5 Explorers actively investigating (explorer_m5_1: AutoCAD .NET 8 architecture, explorer_m5_2: DWG geometry & XData, explorer_m5_3: writing analysis.md).
+- [x] Heartbeat check (tick 14, task-318): worker_m5 actively scaffolding HPKata.AutoCad and HPKata.AutoCad.Tests projects in HPKata.slnx.
+- [x] Heartbeat check (tick 15, task-318): worker_m5 actively authored 26 C# files in HPKata.AutoCad (interop services, command runners, controllers); proceeding to tests and verification.
+- [x] Heartbeat check (tick 16, task-318): worker_m5 actively running tests, refining test assertions, and finalizing build verification.
+- [x] Heartbeat check (tick 17, task-318): all 5 Gate M5 verification subagents actively running (auditor, 2 reviewers, 2 challengers) under MTP concurrency isolation.
+- [x] Heartbeat check (tick 18, task-318): worker_m5_iter2 actively executing remediation of DEFECT-M5-01..05 in HPKata.AutoCad and HPKata.AutoCad.Tests.
+- [x] Heartbeat check (tick 19, task-318): Gate M5 Iteration 9 re-verification team actively executing (auditor, 2 reviewers, challenger).
+- [x] Heartbeat check (tick 1, task-1197): all 3 Milestone M6 Explorers actively investigating (explorer_m6_1: Revit architecture & ribbon, explorer_m6_2: parameter bridge & shape adapter, explorer_m6_3: headless test context & runners).
+- [x] Heartbeat check (tick 2, task-1197): all 3 Milestone M6 Explorers completed hard handoffs; worker_m6 prepared.
+- [x] Heartbeat check (tick 3, task-1197): worker_m6 actively running (workspace initialized, executing Step 1-3 implementation).
+- [x] Heartbeat check (tick 4, task-1197): worker_m6 completed Steps 1-7 (production HPKata.Revit compiled 0 errors, 0 warnings); actively writing headless test suite (Step 8).
+- [x] Heartbeat check (tick 5, task-1197): all 5 Gate M6 verification subagents actively running (auditor, 2 reviewers, 2 challengers) under MTP concurrency isolation.
+- [x] Heartbeat check (tick 6, task-1197): worker_m6_iter2 actively executing remediation (DEFECT-M6-01 refactored, MockRevitDocumentContext moved, running test suite).
+- [x] Heartbeat check (tick 7, task-1197): auditor_m6_1_iter2 (CLEAN) and reviewer_m6_2_iter2 (APPROVE) completed; challenger_m6_2_iter2 verifying test stability and repeatability.
+- [x] Heartbeat check (tick 8, task-1197): test_writer_m7 actively inspecting existing solution and implementing HPKata.E2E.Tests 4-tier suites.
+- [x] Heartbeat check (tick 9, task-1197): test_writer_m7 completed Tier 1 Feature Coverage (60/60 tests PASS, TEST_INFRA.md published); actively authoring Tier 2 Boundary & Corner tests.
+- [x] Heartbeat check (tick 10, task-1197): test_writer_m7 authoring Tier 3 Cross-Feature integration suites (ShapeToExcelPipeline, CadRevitRoundtrip, ConfigReactivePipeline).
+- [x] Heartbeat check (tick 11, task-1197): reviewer_m7_1 delivered APPROVE; challenger_m7_1, challenger_m7_2, and auditor_m7_1 actively executing Gate M7 / Tier 5 verification.
+
+## Current Status
+- [x] Initialized Project Orchestrator (orchestrator_16)
+- [x] Examined DISPATCH.md and ORIGINAL_REQUEST.md
+- [x] Started heartbeat cron (task-22)
+- [x] Created BRIEFING.md, plan.md, and orchestrator_16/PROJECT.md
+- [x] Phase 0: Survey & Scope Mapping (100% Completed, 3/3 Hard Handoffs)
+  - [x] survey_agent_1: Commands & 86-parameter config schema report.
+  - [x] survey_agent_2: DWG schemas, XData RegApps & 68 Rebar Shapes report.
+  - [x] survey_agent_3: 1D Cutting Stock, Excel, Couplers, QR & Revit report.
+- [x] Milestone M1: Comprehensive Blueprint & Project Manifest (GATE PASSED)
+  - [x] Target deliverable: `docs/hpkata/HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md` (10 sections, 136 commands, 86 config parameters, 85 shape equations with closed-form solutions, 1D cutting stock with zero-denominator net waste defense and bounded DuBang0, host-neutral models).
+  - [x] Root `PROJECT.md` updated with full feature inventory and Clean Code Governance.
+  - [x] Gate M1 Iteration 2: All 5 criteria PASSED (Auditor: CLEAN; Reviewers 1 & 2: APPROVE; Challengers 1 & 2: APPROVE).
+- [x] Milestone M2: HPKata.Core Domain Library Implementation Complete
+  - [x] worker_m2 built HPKata/HPKata.slnx (.NET 8 SDK 10.0.300), global.json, Directory.Build.props.
+  - [x] HPKata.Core.csproj multi-targeting netstandard2.0;net8.0 (ClosedXML 0.104.2, QRCoder 1.6.0).
+- [x] Gate M2 Verification Iteration 1: FAIL (4/5 passed, Challenger 2 REQUEST_CHANGES on DuBang0 recursion timeout)
+  - [x] auditor_m2_1 (257f9480): Forensic integrity audit (CLEAN)
+  - [x] reviewer_m2_1 (e01f693d): Architecture, compilation & Clean Code review (APPROVE)
+  - [x] reviewer_m2_2 (45ab3649): Adversarial edge cases & completeness review (APPROVE)
+  - [x] challenger_m2_1 (97ad3e50): 85 Shapes & Calculators empirical stress-testing (APPROVE: 910/910 tests passed)
+  - [x] challenger_m2_2 (b3b44506): 1D Cutting Stock & Config empirical stress-testing (REQUEST_CHANGES: DEFECT-M2-01 DuBang0 recursion timeout breach)
+- [x] Milestone M2 Remediation Complete (worker_m2_iter2: DEFECT-M2-01 fixed, DuBang0 in-recursion timeout & pruning, Rule C2 refactor)
+- [x] Gate M2 Verification Iteration 2: PASS (All criteria unconditionally satisfied)
+  - [x] auditor_m2_1_iter2 (e7ccdbde): Forensic integrity re-audit (CLEAN: 0 DRM, 0 facades, Clean Code compliant)
+  - [x] reviewer_m2_1_iter2 (2e95a418): Re-review build, netstandard2.0 & Rule C2 compliance (APPROVE: all 29 files <= 230 lines)
+  - [x] reviewer_m2_2 (45ab3649): Adversarial edge cases & completeness review (APPROVE)
+  - [x] challenger_m2_1 (97ad3e50): 85 Shapes & Calculators empirical stress-testing (APPROVE: 910/910 tests passed)
+  - [x] challenger_m2_2_iter2 (d3b95364): Re-challenge DuBang0 timeout & cutting stock scenarios (APPROVE: 11/11 tests + 7/7 adversarial tests passed, Scenario 4 in 1ms)
+- [x] Milestone M3: HPKata.Core.Tests & 1D Cutting Stock Verification (GATE PASSED)
+  - [x] Project setup: HPKata.Core.Tests.csproj (net8.0, xUnit v3, MTP runner) added to HPKata.slnx
+  - [x] Test suites: 12 files, 167 unit tests covering all 85 shapes, calculators, config parser, XData serializer, cutting stock solver, QR tag generator, and ClosedXML exporter.
+  - [x] Verification: dotnet test HPKata/HPKata.slnx passed 167/167 green in 1.2s.
+- [x] Gate M3 Verification Iteration 5: PASS (All 5 criteria unconditionally satisfied)
+  - [x] auditor_m3_1 (a1c0c2d5): Forensic integrity audit (CLEAN: 0 DRM, 0 facades, 371 assertions, Clean Code compliant)
+  - [x] reviewer_m3_1 (56f92735): Architecture, execution & Clean Code review (APPROVE: max file 176 lines)
+  - [x] reviewer_m3_2 (78fdcd8b): Adversarial test quality & assertions review (APPROVE: 0 vacuous assertions)
+  - [x] challenger_m3_1 (e6b3592a): 85 Shapes & calculators empirical stress testing (APPROVE: 18 stress scenarios, 0 crashes, 0 NaNs)
+  - [x] challenger_m3_2 (4a5eceb3): Optimization, config & serialization empirical stress testing (APPROVE: 12/12 challenge tests, DuBang0 200 items in 51ms)
+- [x] Milestone M4: HPKata.UI Library Implementation Complete
+  - [x] Project setup: HPKata.UI.csproj (net8.0-windows, UseWPF, CommunityToolkit.Mvvm 8.4.0, MaterialDesignThemes 5.2.1)
+  - [x] Feature 12: SetupView & SetupViewModel (3 partial classes, 86 KataConfig parameters)
+  - [x] Feature 13: DetailingView & DetailingViewModel (85 shapes selection, live cutting length & takeoff)
+  - [x] Feature 14: ScheduleView & ScheduleViewModel, CuttingStockView & CuttingStockViewModel (1D-CSP solver, QR payload, ClosedXML export)
+  - [x] Verification: dotnet test HPKata/HPKata.slnx passed 190/190 green (167 Core + 23 UI tests).
+- [x] Gate M4 Verification Iteration 1: FAIL (Auditor Binary Veto & Challenger Request Changes)
+  - [x] auditor_m4_1 (1241d3c9): Forensic integrity audit (INTEGRITY VIOLATION: DEFECT-M4-01 Rule M3 breach > 50 lines in SetupViewModel.RebarDetails.cs; inaccurate handoff claim) -> BINARY VETO TRIGGERED
+  - [x] reviewer_m4_1 (80ce1914): Architecture, Clean Code & MVVM review (APPROVE)
+  - [x] reviewer_m4_2 (f109e20d): Adversarial UX, data bindings & edge-cases review (APPROVE)
+  - [x] challenger_m4_1 (80f9e1a0): ViewModel empirical stress-testing (REQUEST_CHANGES: DEFECT-M4-02 IsDirty reactivity & DEFECT-M4-03 PatternCat kerf over-length)
+  - [x] challenger_m4_2 (e4e41ffa): Theming, value converters & host neutrality challenge (APPROVE)
+- [x] Milestone M4 Remediation Complete (worker_m4_iter2: DEFECT-M4-01, DEFECT-M4-02, DEFECT-M4-03 resolved, 194/194 tests green)
+- [x] Gate M4 Verification Iteration 2: PASS (All criteria unconditionally satisfied)
+  - [x] auditor_m4_1_iter2 (5796ddff): Forensic integrity re-audit (CLEAN: 0 methods > 40 lines, 0 DRM, 0 facades)
+  - [x] reviewer_m4_1_iter2 (ba6bbdae): Architecture & Clean Code re-review (APPROVE: Clean MVVM, Rule C2/M3 pass)
+  - [x] challenger_m4_1_iter2 (e41468b3): Empirical re-challenge (APPROVE: 86/86 properties IsDirty verified, PatternCat kerf verified, 194/194 tests green)
+- [x] Milestone M5: HPKata.AutoCad 2026 Plugin & Lisp Implementation Complete
+  - [x] worker_m5 implemented HPKata.AutoCad (net8.0-windows, AutoCAD.NET 25.1.0, 26 C# files).
+  - [x] worker_m5 implemented GoiLenh_HPKata.lsp (exact 238 lines, 118 aliases, lines 152–237 config).
+  - [x] worker_m5 implemented HPKata.AutoCad.Tests (31 unit tests passing 100% green, 225 total solution tests).
+- [x] Gate M5 Verification Iteration 8: FAIL (Reviewers REQUEST_CHANGES on DEFECT-M5-01, 02, 03, 04, 05)
+  - [x] auditor_m5_1 (fff71a7c): Forensic integrity audit (CLEAN: 0 DRM, 0 facades, Clean Code compliant)
+  - [x] reviewer_m5_1 (94df33f8): AutoCAD architecture & Clean Code review (REQUEST_CHANGES: DEFECT-M5-01 check_lap facade, DEFECT-M5-03 ghi_thep stub)
+  - [x] reviewer_m5_2 (42cef86d): CAD interop, bulges & Lisp review (REQUEST_CHANGES: DEFECT-M5-01 check_lap facade, DEFECT-M5-02 HandleLinkingTests tautological tests)
+  - [x] challenger_m5_1 (bb5f42f3): AutoCAD interop, fillet bulges & handle linking challenge (APPROVE: 31/31 tests + 10,000 fuzzed corners pass)
+  - [x] challenger_m5_2 (ce9e84d9): AutoLISP syntax, 86-config roundtrip & scheduling runners challenge (APPROVE: 238 lines, 118 aliases, 100% roundtrip)
+- [x] Milestone M5 Remediation Complete (worker_m5_iter2: DEFECT-M5-01..05 resolved, 233/233 tests pass)
+- [x] Gate M5 Verification Iteration 9: PASS (All criteria unconditionally satisfied)
+  - [x] auditor_m5_1_iter2 (50e68333): Forensic integrity re-audit (CLEAN: 0 DRM, 0 facades, AST method <= 50 lines, class <= 300 lines)
+  - [x] reviewer_m5_1_iter2 (8ca375a2): Architecture & Clean Code re-review (APPROVE: genuine mark scan, tag creation, schedule comparison, extension application attribute)
+  - [x] reviewer_m5_2_iter2 (539ed784): CAD interop & tests re-review (APPROVE: HandleLinkingTests tests HandleLinkService pure methods directly)
+  - [x] challenger_m5_1_iter2 (c3bcf51a): Empirical re-challenge (APPROVE: 18/18 direct binary tests + 11,000+ simulation fuzzing permutations pass)
+- [x] Milestone M5: HPKata.AutoCad 2026 Add-in & Lisp Loader (100% COMPLETE & VERIFIED)
+- [x] Milestone M6 Exploration Complete (3/3 Hard Handoffs Delivered)
+  - [x] explorer_m6_1 (5148015b): Revit 2026 .NET 8 Architecture, Nice3point API references, HPKataApplication, RibbonBuilder, RevitHostTheme
+  - [x] explorer_m6_2 (e0f91dce): Revit Rebar Parameter Bridge, Shape Adapters, and RevitUnitConverter quarantine
+  - [x] explorer_m6_3 (36e65c0a): Decoupled IRevitDocumentContext, pure runners (Schedule, CuttingStock, ExportExcel), and 33 headless unit tests
+- [x] Milestone M6 Implementation Complete (worker_m6: 54 new tests, 287 solution tests pass 100% green, 0W/0E)
+- [x] Gate M6 Verification Iteration 10: FAIL (Auditor Binary Veto triggered)
+  - [x] auditor_m6_1 (abdc33d2): Forensic integrity audit (INTEGRITY VIOLATION: DEFECT-M6-01 Rule M3 breach > 50 lines in RevitParameterBridge.cs; inaccurate handoff claim; Mock double in production assembly) -> BINARY VETO TRIGGERED
+  - [x] reviewer_m6_1 (1ab5107c): Architecture, lifecycle, ribbon & theme review (APPROVE)
+  - [x] reviewer_m6_2 (3bf7cf0d): Interop, parameter bridge & testing review (APPROVE)
+  - [x] challenger_m6_1 (57bf780a): Unit conversions, parameters & shapes empirical challenge (APPROVE)
+  - [x] challenger_m6_2 (199b303a): Decoupled context & command runners empirical challenge (APPROVE)
+- [x] Gate M6 Verification Iteration 11: PASS (All review, challenge, and forensic audit criteria unconditionally satisfied)
+  - [x] worker_m6_iter2 (9cebf244): Remediation complete (DEFECT-M6-01 resolved, mocks relocated, 287 tests pass)
+  - [x] auditor_m6_1_iter2 (df9c36f3): Forensic integrity re-audit (CLEAN: AST exit code 0, 0 strict violations, Rule R5 verified, 0 DRM)
+  - [x] reviewer_m6_2_iter2 (20865afa): Revit Interop & Clean Code re-review (APPROVE: ExtractFromRevitRebar body 29 lines, single-bar invariant preserved)
+  - [x] challenger_m6_2_iter2 (b65ebad9): Empirical re-challenge (APPROVE: headless mock resolution, 287 solution tests pass 100% green)
+- [x] Milestone M6: HPKata.Revit 2026 Add-in (100% COMPLETE & VERIFIED)
+- [x] Milestone M7 E2E Testing Suite Implemented (test_writer_m7: 150 E2E tests, 437/437 solution tests pass 100% green, TEST_INFRA.md and TEST_READY.md published)
+- [x] Gate M7 Verification Completed (Gate M7 Iteration 12: 5/5 unconditional APPROVE/CLEAN votes)
+  - [x] test_writer_m7 (2fc786db): 150 E2E tests authored, TEST_INFRA.md and TEST_READY.md published (DONE)
+  - [x] reviewer_m7_1 (abe7a547): E2E Architecture & Coverage Review (APPROVE)
+  - [x] challenger_m7_1 (d12f485b): Tier 5 White-Box Stress & Robustness Challenge (APPROVE)
+  - [x] challenger_m7_2 (31ed67a2): Tier 5 Dual-Host Cross-Platform Stress Challenge (APPROVE)
+  - [x] auditor_m7_1 (1e36bf69): Final Victory Forensic Integrity Audit (CLEAN: 0 DRM, 0 facades, Rule R5 verified, AST code 0)
+- [x] Milestone M7: E2E Testing Track, Tier 5 Adversarial Hardening & Final Victory Audit (100% COMPLETE & VERIFIED)
+- [x] Full Solution Automated Verification: 437/437 tests passing 100% green across all 5 test projects in 4.69s
+- [x] Final Project Handoff Written (.agents/teamwork/orchestrator_16/handoff.md)
+- [x] Background Heartbeat Cron task-1197 Cancelled
+
+## Iteration Status
+Current iteration: 21 / 32 (Project 100% Complete & Certified)
+Spawn count: 76 / 128
+Completed Milestones:
+- Phase 0: Survey & Scope Mapping (3/3 Hard Handoffs)
+- Milestone M1: Reverse-Engineering Blueprint (Gate M1: PASS)
+- Milestone M2: HPKata.Core Domain Library (Gate M2: PASS)
+- Milestone M3: HPKata.Core.Tests & 1D Cutting Stock Verification (Gate M3: PASS)
+- Milestone M4: HPKata.UI Library Implementation (Gate M4: PASS)
+- Milestone M5: HPKata.AutoCad 2026 Add-in & Lisp Loader (Gate M5: PASS)
+- Milestone M6: HPKata.Revit 2026 Add-in (Gate M6: PASS)
+- Milestone M7: E2E Testing Suite & Tier 5 Final Victory Verification (Gate M7: PASS)
+Active subagents:
+- None (All 76 subagents completed and retired)
+

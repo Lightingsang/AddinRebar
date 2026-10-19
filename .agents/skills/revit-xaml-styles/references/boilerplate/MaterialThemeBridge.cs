@@ -16,6 +16,8 @@ namespace MyAddIn.Resources.Themes;
 public static class MaterialThemeBridge
 {
     private const string PaletteFolder = "Resources/Themes";
+    private const string MahAppsDarkUri = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml";
+    private const string MahAppsLightUri = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml";
     private static readonly string AssemblyName = typeof(MaterialThemeBridge).Assembly.GetName().Name!;
     private static readonly string DarkUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeDark.xaml";
     private static readonly string LightUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeLight.xaml";
@@ -44,8 +46,10 @@ public static class MaterialThemeBridge
 #endif
         if (icon is not null) window.Icon = icon(dark);
 
+        var mahAppsPalette = new ResourceDictionary { Source = new Uri(dark ? MahAppsDarkUri : MahAppsLightUri) };
         var palette = new ResourceDictionary { Source = new Uri(dark ? DarkUri : LightUri) };
         var overlay = new ResourceDictionary { [OverlayMarker] = true };
+        overlay.MergedDictionaries.Add(mahAppsPalette);
         overlay.MergedDictionaries.Add(palette);
 
         if (FindThemeDictionary(window.Resources) is { } seed)

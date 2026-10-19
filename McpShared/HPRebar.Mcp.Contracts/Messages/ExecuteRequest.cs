@@ -13,7 +13,8 @@ public sealed record ExecuteRequest(
     bool DryRun = false,
     int TimeoutSeconds = 30,
     string? Label = null,
-    JsonElement? Args = null);
+    JsonElement? Args = null,
+    string? SessionId = null);
 
 /// <summary>
 ///     How the bridge wraps a script in Revit transactions. Strings rather than an enum so the JSON

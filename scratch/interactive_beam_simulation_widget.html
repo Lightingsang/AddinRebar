@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HPBIM 3D Digital Twin - Mô Phỏng & Quản Lý Dầm Tầng 1</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; }
+    #viewCanvas { width: 100%; height: 560px; display: block; cursor: default; }
+    .cursor-orbit { cursor: crosshair !important; }
+    .cursor-pan { cursor: move !important; }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 select-none">
+
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-xl shadow-2xl p-4 space-y-3">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+        <div>
+          <h2 class="text-sm font-bold tracking-wide text-white flex items-center gap-2">
+            <span>HPBIM 3D DIGITAL TWIN &bull; QUẢN LÝ &amp; LỌC DẦM TẦNG 1</span>
+            <span id="txtBeamStats" class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">295 Dầm Hiệu Lực</span>
+          </h2>
+          <p class="text-xs text-slate-400">Chuẩn Revit (Shift+MMB: Xoay, MMB: Pan) &bull; Chọn (Click / Ctrl+Click) &bull; Xóa (Delete) &bull; Hoàn tác (Ctrl+Z)</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center space-x-1.5 text-xs">
+        <button id="btnIso" class="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition shadow flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+          <span>3D Iso</span>
+        </button>
+        <button id="btnTop" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-medium transition flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <span>Mặt Bằng 2D</span>
+        </button>
+        <button id="btnFitAll" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-medium transition flex items-center gap-1" title="Nhấp đúp chuột giữa (Double MMB)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+          <span>Fit All (ZE)</span>
+        </button>
+        <button id="btnExportJson" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition shadow flex items-center gap-1.5 ml-2">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          <span>Lưu JSON Đã Lọc</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D Canvas Viewport with ViewCube Overlay -->
+    <div class="relative rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+      <canvas id="viewCanvas" width="1000" height="560"></canvas>
+
+      <!-- Revit 3D ViewCube Widget (Top-Right) -->
+      <div id="viewCubeContainer" class="absolute top-3 right-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-xl p-2 shadow-2xl flex flex-col items-center pointer-events-auto">
+        <canvas id="cubeCanvas" width="90" height="90" class="cursor-pointer"></canvas>
+        <div class="flex items-center space-x-1 mt-1 text-[11px] text-slate-400">
+          <button id="cubeTop" class="px-1.5 py-0.5 bg-slate-800 hover:bg-blue-600 hover:text-white rounded text-xs transition">TOP</button>
+          <button id="cubeFront" class="px-1.5 py-0.5 bg-slate-800 hover:bg-blue-600 hover:text-white rounded text-xs transition">FRONT</button>
+          <button id="cubeRight" class="px-1.5 py-0.5 bg-slate-800 hover:bg-blue-600 hover:text-white rounded text-xs transition">RIGHT</button>
+          <button id="cubeIso" class="px-1.5 py-0.5 bg-slate-800 hover:bg-blue-600 hover:text-white rounded text-xs transition">ISO</button>
+        </div>
+      </div>
+
+      <!-- Navigation & Action Guidance Bar -->
+      <div class="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-300 flex items-center space-x-3 shadow-lg">
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-amber-400 font-mono text-xs">Shift</kbd> + <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-amber-400 font-mono text-xs">MMB</kbd>: <b>Xoay</b>
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-blue-400 font-mono text-xs">MMB</kbd>: <b>Pan</b>
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-emerald-400 font-mono text-xs">Cuộn</kbd>: <b>Zoom</b>
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-cyan-400 font-mono text-xs">Ctrl + Click</kbd>: <b>Chọn Nhiều</b>
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-red-400 font-mono text-xs">Delete</kbd>: <b>Xóa</b>
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-purple-400 font-mono text-xs">Ctrl + Z</kbd>: <b>Hoàn Tác</b>
+        </span>
+      </div>
+
+      <!-- Current Pivot Indicator -->
+      <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs flex items-center space-x-2">
+        <span class="text-slate-400">Tâm Xoay (Pivot):</span>
+        <span id="txtPivot" class="text-emerald-400 font-bold">Trung Tâm Công Trình (Giao 7 - H)</span>
+      </div>
+    </div>
+
+    <!-- Inspector & Toolbars -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+      <!-- Layer Filter Panel -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-3 space-y-2">
+        <div class="font-bold text-white uppercase tracking-wider text-xs pb-1 border-b border-slate-800">Hiển Thị Lớp Cấu Kiện</div>
+        <div class="space-y-1.5">
+          <label class="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white">
+            <span class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded bg-blue-500"></span>
+              <span>Khối Dầm 3D</span>
+            </span>
+            <input type="checkbox" id="chkBeams" checked class="rounded bg-slate-800 text-blue-600">
+          </label>
+          <label class="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white">
+            <span class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded bg-amber-400"></span>
+              <span>Nét Biên CAD 2D</span>
+            </span>
+            <input type="checkbox" id="chkCad" checked class="rounded bg-slate-800 text-amber-500">
+          </label>
+          <label class="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white">
+            <span class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded bg-slate-400"></span>
+              <span>Cột (72) &amp; Vách (8)</span>
+            </span>
+            <input type="checkbox" id="chkCols" checked class="rounded bg-slate-800 text-slate-400">
+          </label>
+          <label class="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white">
+            <span class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded bg-emerald-500"></span>
+              <span>Hệ 27 Lưới Trục</span>
+            </span>
+            <input type="checkbox" id="chkGrids" checked class="rounded bg-slate-800 text-emerald-500">
+          </label>
+          <label class="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white pt-1 border-t border-slate-800">
+            <span class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded bg-red-500"></span>
+              <span>Hiện Dầm Đã Xóa (Khung đỏ)</span>
+            </span>
+            <input type="checkbox" id="chkShowDeleted" class="rounded bg-slate-800 text-red-500">
+          </label>
+        </div>
+
+        <div class="pt-2 border-t border-slate-800">
+          <div class="text-slate-400 mb-1">Lọc Tiết Diện Dầm:</div>
+          <select id="selFilter" class="w-full bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 text-xs">
+            <option value="ALL">Tất cả tiết diện (295 dầm)</option>
+            <option value="B_200x400">B_200x400 (164 dầm)</option>
+            <option value="B_200x300">B_200x300 (41 dầm)</option>
+            <option value="B_300x400">B_300x400 (39 dầm)</option>
+            <option value="B_200x500">B_200x500 (35 dầm)</option>
+            <option value="B_100x300">B_100x300 (6 dầm)</option>
+            <option value="B_500x400">B_500x400 (4 dầm)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Inspector & Management Panel -->
+      <div class="col-span-2 bg-slate-900/60 border border-slate-800 rounded-lg p-3 space-y-2">
+        <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-white uppercase tracking-wider text-xs">Thông Số Dầm Đang Chọn</span>
+            <span id="badgeCounter" class="font-mono text-slate-400 text-xs">Dầm 1 / 295</span>
+            <span id="badgeSelection" class="text-xs font-bold text-amber-400 px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/30">1 Dầm Được Chọn</span>
+          </div>
+
+          <!-- Selection & Deletion Actions -->
+          <div class="flex items-center space-x-1.5">
+            <button id="btnDelete" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white rounded font-bold shadow flex items-center gap-1 transition" title="Xóa các dầm đã chọn (Delete)">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              <span id="txtDeleteBtn">Xóa (Delete)</span>
+            </button>
+            <button id="btnUndo" disabled class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-200 rounded font-medium shadow flex items-center gap-1 transition" title="Hoàn tác lệnh xóa (Ctrl+Z)">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+              <span>Hoàn Tác</span>
+            </button>
+            <button id="btnRestore" class="hidden px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-medium shadow flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              <span>Khôi Phục Dầm Này</span>
+            </button>
+            <div class="h-4 w-px bg-slate-700 mx-1"></div>
+            <button id="btnPrev" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-bold" title="Dầm trước">&larr;</button>
+            <button id="btnNext" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-bold" title="Dầm sau">&rarr;</button>
+            <button id="btnFocus" class="px-2.5 py-0.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium shadow flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+              <span>Zoom &amp; Khóa Tâm</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Ký hiệu (Mark):</span>
+            <span id="txtMark" class="font-bold text-white font-mono">DK6-Y</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Tiết diện (b x h):</span>
+            <span id="txtType" class="font-bold text-amber-400">B_300x400 (300 x 400 mm)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Chiều dài (L):</span>
+            <span id="txtLen" class="font-medium text-white font-mono">8100 mm</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Phương dầm:</span>
+            <span id="txtAxis" class="font-bold text-blue-400">DẦM PHƯƠNG Y</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Tọa độ Đầu:</span>
+            <span id="txtStart" class="font-mono text-slate-300">(16550, 15150)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Tọa độ Cuối:</span>
+            <span id="txtEnd" class="font-mono text-slate-300">(16550, 23250)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Trạng thái:</span>
+            <span id="txtStatus" class="text-emerald-400 font-bold">HIỆU LỰC (ACTIVE)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Độ lệch mép CAD:</span>
+            <span class="text-emerald-400 font-bold">&le; 0.5 mm (Khớp 100%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {"beams":[[16550,15150,16550,23250,300,400,"Y","DK6-Y_H-L","B_300x400"],[23700,15150,23700,23250,200,400,"Y","DK9-Y_H-L","B_200x400"],[29050,4650,29050,12750,200,400,"Y","DK11-Y_C-F","B_200x400"],[6850,9950,6850,17950,300,400,"Y","DK3-Y_E-I","B_300x400"],[16500,2800,23700,2800,200,500,"X","(200x500)_6-7","B_200x500"],[16500,4650,23700,4650,200,500,"X","(200x500)_6-7","B_200x500"],[16500,12750,23700,12750,200,400,"X","DK11-X_6-7","B_200x400"],[16500,15150,23700,15150,200,400,"X","DK13-X_6-7","B_200x400"],[16500,23250,23700,23250,200,400,"X","DK5a-X_6-7","B_200x400"],[16500,25100,23700,25100,200,400,"X","DK3-X_6-7","B_200x400"],[29050,0,35750,0,200,500,"X","(200x500)_8-9","B_200x500"],[29050,2800,35750,2800,200,500,"X","(200x500)_8-9","B_200x500"],[29050,4650,35750,4650,200,500,"X","(200x500)_8-9","B_200x500"],[29050,12750,35750,12750,200,500,"X","(200x500)_8-9","B_200x500"],[29050,15150,35750,15150,200,500,"X","(200x500)_8-9","B_200x500"],[29050,20750,35750,20750,200,500,"X","(200x500)_8-9","B_200x500"],[29050,23250,35750,23250,200,500,"X","(200x500)_8-9","B_200x500"],[29050,25100,35750,25100,200,500,"X","(200x500)_8-9","B_200x500"],[29050,27900,35750,27900,200,500,"X","(200x500)_8-9","B_200x500"],[9900,9800,16500,9800,200,400,"X","(200x400)_4-6","B_200x400"],[9900,12550,16500,12550,200,500,"X","(200x500)_4-6","B_200x500"],[9900,15150,16500,15150,200,500,"X","(200x500)_4-6","B_200x500"],[1300,0,6900,0,200,400,"X","DK1-X_2-3","B_200x400"],[1300,4650,6900,4650,200,400,"X","(200x400)_2-3","B_200x400"],[1300,9950,6900,9950,300,400,"X","(300x400)_2-3","B_300x400"],[1300,17950,6900,17950,300,400,"X","(300x400)_2-3","B_300x400"],[1300,23250,6900,23250,200,400,"X","(200x400)_2-3","B_200x400"],[1300,27900,6900,27900,200,400,"X","(200x400)_2-3","B_200x400"],[29050,15150,29050,20750,200,400,"Y","DK11-Y_H-K","B_200x400"],[23700,0,29050,0,200,400,"X","(200x400)_7-8","B_200x400"],[23700,2800,29050,2800,200,400,"X","(200x400)_7-8","B_200x400"],[23700,4650,29050,4650,200,400,"X","(200x400)_7-8","B_200x400"],[23700,12750,29050,12750,200,400,"X","(200x400)_7-8","B_200x400"],[23700,15150,29050,15150,200,400,"X","(200x400)_7-8","B_200x400"],[23700,23250,29050,23250,200,400,"X","(200x400)_7-8","B_200x400"],[23700,25100,29050,25100,200,400,"X","(200x400)_7-8","B_200x400"],[23700,27900,29050,27900,200,400,"X","(200x400)_7-8","B_200x400"],[40850,4650,40850,9950,200,400,"Y","DK17-Y_C-E","B_200x400"],[45000,4650,45000,9950,200,400,"Y","(200x400)_C-E","B_200x400"],[48900,4650,48900,9950,200,400,"Y","(200x400)_C-E","B_200x400"],[48900,17950,48900,23250,200,400,"Y","DK21-Y_I-L","B_200x400"],[1250,4650,1250,9950,300,400,"Y","(300x400)_C-E","B_300x400"],[1250,17950,1250,23250,300,400,"Y","(300x400)_I-L","B_300x400"],[6850,4650,6850,9950,300,400,"Y","(300x400)_C-E","B_300x400"],[6850,17950,6850,23250,300,400,"Y","(300x400)_I-L","B_300x400"],[9900,4650,9900,9950,200,400,"Y","(200x400)_C-E","B_200x400"],[9700,17950,9700,23250,200,400,"Y","(200x400)_I-L","B_200x400"],[16550,4650,16550,9950,300,400,"Y","(300x400)_C-E","B_300x400"],[35750,4650,35750,9950,200,500,"Y","(200x500)_C-E","B_200x500"],[35750,4750,40800,4750,200,400,"X","(200x400)_9-11","B_200x400"],[35750,10000,40800,10000,200,400,"X","(200x400)_9-11","B_200x400"],[35750,15150,40800,15150,200,400,"X","(200x400)_9-11","B_200x400"],[35750,20050,40800,20050,200,400,"X","(200x400)_9-11","B_200x400"],[35750,23250,40800,23250,200,400,"X","(200x400)_9-11","B_200x400"],[40800,15150,40800,20000,200,400,"Y","(200x400)_H-J","B_200x400"],[40850,0,40850,4650,200,400,"Y","(200x400)_A-C","B_200x400"],[45000,0,45000,4650,200,400,"Y","(200x400)_A-C","B_200x400"],[45000,23250,45000,27900,200,400,"Y","(200x400)_L-N","B_200x400"],[1250,0,1250,4650,300,400,"Y","(300x400)_A-C","B_300x400"],[1250,23250,1250,27900,300,400,"Y","(300x400)_L-N","B_300x400"],[6850,0,6850,4650,300,400,"Y","(300x400)_A-C","B_300x400"],[6850,23250,6850,27900,300,400,"Y","(300x400)_L-N","B_300x400"],[9900,0,9900,4650,200,400,"Y","(200x400)_A-C","B_200x400"],[9900,23250,9900,27900,200,400,"Y","(200x400)_L-N","B_200x400"],[40800,0,45000,0,200,400,"X","DK2-X_11-12","B_200x400"],[40800,4750,45000,4750,200,400,"X","(200x400)_11-12","B_200x400"],[40800,10000,45000,10000,200,400,"X","(200x400)_11-12","B_200x400"],[40800,15150,45000,15150,200,400,"X","(200x400)_11-12","B_200x400"],[40800,20050,45000,20050,200,400,"X","(200x400)_11-12","B_200x400"],[40800,23250,45000,23250,200,400,"X","(200x400)_11-12","B_200x400"],[40800,27900,45000,27900,200,500,"X","(200x500)_11-12","B_200x500"],[9900,0,13900,0,200,400,"X","(200x400)_4-5","B_200x400"],[9900,4650,13900,4650,200,400,"X","DK5-X_4-5","B_200x400"],[9900,23250,13900,23250,200,500,"X","(200x500)_4-5","B_200x500"],[9900,27900,13900,27900,200,400,"X","(200x400)_4-5","B_200x400"],[50,9950,50,13950,300,400,"Y","(300x400)_E-G","B_300x400"],[50,13950,50,17950,300,400,"Y","(300x400)_G-I","B_300x400"],[45000,9950,45000,13950,200,400,"Y","(200x400)_E-G","B_200x400"],[48900,9950,48900,13950,200,400,"Y","(200x400)_E-G","B_200x400"],[48900,13950,48900,17950,200,400,"Y","(200x400)_G-I","B_200x400"],[45000,4750,48900,4750,200,300,"X","(200x300)_12-13","B_200x300"],[45000,10000,48900,10000,200,300,"X","(200x300)_12-13","B_200x300"],[45000,13950,48900,13950,200,300,"X","(200x300)_12-13","B_200x300"],[45000,17950,48900,17950,200,300,"X","(200x300)_12-13","B_200x300"],[45000,23250,48900,23250,200,300,"X","(200x300)_12-13","B_200x300"],[40800,20000,40800,23250,200,400,"Y","(200x400)_J-L","B_200x400"],[45000,20000,45000,23250,200,400,"Y","(200x400)_J-L","B_200x400"],[6900,0,9900,0,200,400,"X","(200x400)_3-4","B_200x400"],[6900,4650,9900,4650,200,400,"X","DK5-X_3-4","B_200x400"],[6900,9950,9900,9950,300,300,"X","DK6-X_3-4","B_300x300"],[6900,17950,9900,17950,300,400,"X","(300x400)_3-4","B_300x400"],[6900,23250,9900,23250,200,400,"X","(200x400)_3-4","B_200x400"],[6900,28100,9900,28100,200,400,"X","(200x400)_3-4","B_200x400"],[45000,15150,45000,17950,200,400,"Y","(200x400)_H-I","B_200x400"],[9900,9950,9900,12750,200,400,"Y","(200x400)_E-F","B_200x400"],[9700,15150,9700,17950,200,400,"Y","(200x400)_H-I","B_200x400"],[13900,0,13900,2800,200,400,"Y","DK4-X_A-B","B_200x400"],[13900,25100,13900,27900,200,400,"Y","(200x400)_M-N","B_200x400"],[16550,0,16550,2800,300,400,"Y","(300x400)_A-B","B_300x400"],[16550,9950,16550,12750,300,400,"Y","(300x400)_E-F","B_300x400"],[16550,25100,16550,27900,300,400,"Y","(300x400)_M-N","B_300x400"],[23700,0,23700,2800,200,400,"Y","(200x400)_A-B","B_200x400"],[23700,25100,23700,27900,200,400,"Y","(200x400)_M-N","B_200x400"],[29050,0,29050,2800,200,400,"Y","(200x400)_A-B","B_200x400"],[29050,25100,29050,27900,200,400,"Y","DK11-Y_M-N","B_200x400"],[35750,0,35750,2800,200,500,"Y","(200x500)_A-B","B_200x500"],[35750,9950,35750,12750,200,500,"Y","(200x500)_E-F","B_200x500"],[35750,15150,35750,17950,200,500,"Y","(200x500)_H-I","B_200x500"],[35750,25100,35750,27900,200,500,"Y","(200x500)_M-N","B_200x500"],[13900,0,16500,0,200,400,"X","(200x400)_5-6","B_200x400"],[13900,2750,16500,2750,300,400,"X","(300x400)_5-6","B_300x400"],[13900,4650,16500,4650,200,400,"X","DK5-Y_5-6","B_200x400"],[13900,23250,16500,23250,200,400,"X","DK5'-Y_5-6","B_200x400"],[13900,25150,16500,25150,300,400,"X","(300x400)_5-6","B_300x400"],[13900,27900,16500,27900,200,400,"X","(200x400)_5-6","B_200x400"],[35750,0,38300,0,200,500,"X","(200x500)_9-10","B_200x500"],[35750,25150,38300,25150,200,300,"X","(200x300)_9-10","B_200x300"],[35750,27900,38300,27900,200,400,"X","DK.a_9-10","B_200x400"],[38300,0,40800,0,200,400,"X","DK.a_10-11","B_200x400"],[38300,27900,40800,27900,200,500,"X","(200x500)_10-11","B_200x500"],[29050,20750,29050,23250,200,400,"Y","(200x400)_K-L","B_200x400"],[35750,20750,35750,23250,200,400,"Y","DK5a-X_K-L","B_200x400"],[9900,12750,9900,15150,200,400,"Y","(200x400)_F-H","B_200x400"],[16550,12750,16550,15150,300,400,"Y","(300x400)_F-H","B_300x400"],[23700,12750,23700,15150,200,400,"Y","(200x400)_F-H","B_200x400"],[29050,12750,29050,15150,200,400,"Y","DK11-Y_F-H","B_200x400"],[35750,12750,35750,15150,200,300,"Y","DK13-Y_F-H","B_200x300"],[45000,17950,45000,20000,200,400,"Y","DK.a_I-J","B_200x400"],[35750,17950,35750,20000,200,500,"Y","(200x500)_I-J","B_200x500"],[13900,2800,13900,4650,200,400,"Y","DK5-Y_B-C","B_200x400"],[13900,23250,13900,25100,200,400,"Y","(200x400)_L-M","B_200x400"],[16550,2800,16550,4650,300,400,"Y","(300x400)_B-C","B_300x400"],[16550,23250,16550,25100,300,400,"Y","(300x400)_L-M","B_300x400"],[23700,2800,23700,4650,200,400,"Y","DK8-Y_B-C","B_200x400"],[23700,23250,23700,25100,200,400,"Y","(200x400)_L-M","B_200x400"],[29050,2800,29050,4650,200,400,"Y","DK11-Y_B-C","B_200x400"],[29050,23250,29050,25100,200,400,"Y","DK11-Y_L-M","B_200x400"],[35750,2800,35750,4650,200,400,"Y","DK.a_B-C","B_200x400"],[35750,23250,35750,25100,200,300,"Y","(200x300)_L-M","B_200x300"],[0,9950,1300,9950,300,400,"X","DK1-Y_1-2","B_300x400"],[0,17950,1300,17950,300,400,"X","DK2-Y_1-2","B_300x400"],[45000,13950,45000,15150,200,400,"Y","DK20-Y_G-H","B_200x400"],[35750,20000,35750,20750,200,500,"Y","(200x500)_J-K","B_200x500"],[25000,4650,25000,12750,300,600,"Y","DK10-Y_SEC_Y_263","B_300x600"],[18700,15150,18700,23250,300,600,"Y","DK7-Y_SEC_Y_315","B_300x600"],[9900,12750,16500,12750,200,400,"X","DK11-X_SEC_X_145","B_200x400"],[9900,9550,16500,9550,200,400,"X","DK7-X_SEC_X_221","B_200x400"],[33350,15150,33350,20750,200,400,"Y","DK12-Y_SEC_Y_277","B_200x400"],[9900,17950,9900,23250,200,400,"Y","DK4-Y_SEC_Y_307","B_200x400"],[38950,0,38950,4650,200,400,"Y","DK_PHU_SEC_Y_309","B_200x400"],[42100,0,42100,4650,200,400,"Y","DK_PHU_SEC_Y_310","B_200x400"],[33350,4650,33350,9200,200,400,"Y","DK12-Y_SEC_Y_275","B_200x400"],[40800,6500,45000,6500,200,400,"X","DK8-X_SEC_X_187","B_200x400"],[29050,9300,33250,9300,200,500,"X","DK9-X_SEC_X_210","B_200x500"],[29050,21150,33250,21150,200,500,"X","DK9-X_SEC_X_250","B_200x500"],[9900,-250,13900,-250,300,400,"X","DK.a_SEC_X_176","B_300x400"],[9900,28400,13900,28400,200,400,"X","DK1-X_SEC_X_235","B_200x400"],[48900,9950,48900,13950,200,400,"Y","DK.a'_SEC_Y_370","B_200x400"],[48900,13950,48900,17950,200,400,"Y","DK.a'_SEC_Y_371","B_200x400"],[550,900,550,4650,200,400,"Y","DK22-Y_SEC_Y_339","B_200x400"],[550,23250,550,27000,200,400,"Y","DK2-Y_SEC_Y_340","B_200x400"],[35750,6500,39400,6500,200,400,"X","DK8-X_SEC_X_186","B_200x400"],[3500,-250,6900,-250,300,300,"X","DK.b_SEC_X_174","B_300x300"],[33350,9400,33350,12750,200,400,"Y","DK_PHU_SEC_Y_276","B_200x400"],[35750,-550,38850,-550,100,400,"X","DK.a_SEC_X_223","B_100x400"],[39050,-200,42000,-200,200,400,"X","DK.a_SEC_X_183","B_200x400"],[37600,25100,37600,27900,200,400,"Y","DK.a_SEC_Y_313","B_200x400"],[23150,25100,23150,27900,200,400,"Y","DK9-Y_SEC_Y_352","B_200x400"],[17550,0,17550,2800,300,400,"Y","DK.a_SEC_Y_360","B_300x400"],[17550,25100,17550,27900,300,400,"Y","DK6-Y_SEC_Y_361","B_300x400"],[-1400,7150,-1400,9950,200,300,"Y","DK23-Y_SEC_Y_382","B_200x300"],[6900,27900,9500,27900,200,300,"X","DK.b_SEC_X_159","B_200x300"],[6900,-200,9500,-200,200,400,"X","DK1-X_SEC_X_215","B_200x400"],[13900,-500,16500,-500,200,400,"X","DK5-Y_SEC_X_216","B_200x400"],[6900,28100,9500,28100,200,400,"X","DK1-X_SEC_X_236","B_200x400"],[13900,25450,16500,25450,300,400,"X","DK4-X_SEC_X_247","B_300x400"],[33450,9300,35750,9300,200,300,"X","DK13-Y_SEC_X_211","B_200x300"],[33450,21150,35750,21150,200,400,"X","DK_PHU_SEC_X_251","B_200x400"],[39500,6600,39500,8750,200,300,"Y","DK17-X_SEC_Y_311","B_200x300"],[-1400,21150,-1400,23250,200,300,"Y","DK20-X_SEC_Y_383","B_200x300"],[-1725,4650,-1725,6750,200,300,"Y","DK20-X_SEC_Y_384","B_200x300"],[-2000,21150,-2000,23250,100,300,"Y","DK20-X_SEC_Y_385","B_100x300"],[33350,21250,33350,23250,200,400,"Y","DK_PHU_SEC_Y_278","B_200x400"],[-1500,5750,450,5750,200,300,"X","DK20-X_SEC_X_213","B_200x300"],[-1500,22150,450,22150,200,300,"X","DK20-X_SEC_X_248","B_200x300"],[35750,24550,37500,24550,200,300,"X","DK13-Y_SEC_X_208","B_200x300"],[35750,28450,37500,28450,100,400,"X","DK.a_SEC_X_232","B_100x400"],[35750,25350,37500,25350,200,300,"X","DK14-Y_SEC_X_245","B_200x300"],[-1500,13950,0,13950,200,300,"X","DK1-Y_SEC_X_254","B_200x300"],[-1300,9950,0,9950,200,300,"X","DK6-X_SEC_X_188","B_200x300"],[25900,-500,27150,-500,200,400,"X","DK_PHU_SEC_X_217","B_200x400"],[25900,28400,27150,28400,200,400,"X","DK.a_SEC_X_231","B_200x400"],[41500,28400,42750,28400,200,500,"X","DK2-X_SEC_X_234","B_200x500"],[40800,-200,42000,-200,200,400,"X","DK2-X_SEC_X_185","B_200x400"],[39600,8850,40800,8850,200,300,"X","DK17-X_SEC_X_191","B_200x300"],[41400,23250,41400,24450,200,400,"Y","DK19-Y_SEC_Y_312","B_200x400"],[17050,600,17050,1800,300,400,"Y","DK6-Y_SEC_Y_362","B_300x400"],[17050,26100,17050,27300,300,400,"Y","DK6-Y_SEC_Y_363","B_300x400"],[15971,-12150,17045,-12150,500,400,"X","DK_PHU_SEC_X_259","B_500x400"],[15971,-12973,17045,-12973,500,400,"X","DK_PHU_SEC_X_260","B_500x400"],[15971,-13800,17045,-13800,500,400,"X","DK_PHU_SEC_X_261","B_500x400"],[15971,-14636,17045,-14636,500,400,"X","DK_PHU_SEC_X_262","B_500x400"],[16500,27900,17500,27900,300,400,"X","DK.a_SEC_X_162","B_300x400"],[2300,28150,3300,28150,200,300,"X","DK.b_SEC_X_170","B_200x300"],[2300,-250,3300,-250,200,300,"X","DK.b_SEC_X_173","B_200x300"],[16500,0,17500,0,300,400,"X","DK6-Y_SEC_X_178","B_300x400"],[16500,1850,17500,1850,300,400,"X","DK.a_SEC_X_229","B_300x400"],[38300,28400,39300,28400,200,400,"X","DK.a_SEC_X_233","B_200x400"],[16500,26050,17500,26050,300,400,"X","DK6-Y_SEC_X_241","B_300x400"],[16500,27350,17500,27350,300,400,"X","DK_PHU_SEC_X_246","B_300x400"],[16500,550,17500,550,200,400,"X","DK.a_SEC_X_249","B_200x400"],[875,4650,875,5650,200,300,"Y","DK_PHU_SEC_Y_329","B_200x300"],[875,22250,875,23250,200,300,"Y","DK_PHU_SEC_Y_330","B_200x300"],[301,16950,301,17950,200,400,"Y","DK.a_SEC_Y_338","B_200x400"],[35950,25100,35950,26100,200,500,"Y","DK.a_SEC_Y_359","B_200x500"],[9700,4650,9700,5650,200,400,"Y","DK.a_SEC_Y_366","B_200x400"],[9700,22250,9700,23250,200,400,"Y","DK.a_SEC_Y_367","B_200x400"],[301,9950,301,10925,200,400,"Y","DK.a_SEC_Y_337","B_200x400"],[45200,17500,45200,18400,200,400,"Y","DK.a_SEC_Y_346","B_200x400"],[1300,28400,2100,28400,200,400,"X","DK1-X_SEC_X_169","B_200x400"],[-399,18300,401,18300,200,300,"X","DK6-X_SEC_X_212","B_200x300"],[45200,13550,45200,14350,200,400,"Y","DK20-Y_SEC_Y_345","B_200x400"],[875,0,875,700,200,300,"Y","DK22-Y_SEC_Y_328","B_200x300"],[875,27200,875,27900,200,300,"Y","DK.b_SEC_Y_331","B_200x300"],[650,4650,1300,4650,200,400,"X","DK_PHU_SEC_X_150","B_200x400"],[650,27900,1300,27900,200,300,"X","DK.b_SEC_X_157","B_200x300"],[650,0,1300,0,200,300,"X","DK.b_SEC_X_171","B_200x300"],[650,23250,1300,23250,200,300,"X","DK22-Y_SEC_X_198","B_200x300"],[650,-500,1300,-500,200,400,"X","DK_PHU_SEC_X_214","B_200x400"],[650,800,1300,800,300,400,"X","DK2-Y_SEC_X_219","B_300x400"],[650,27100,1300,27100,200,400,"X","DK_PHU_SEC_X_239","B_200x400"],[35950,4000,35950,4650,200,400,"Y","DK5'-X_SEC_Y_274","B_200x400"],[48900,4650,48900,5300,200,400,"Y","DK.a_SEC_Y_372","B_200x400"],[-299,9450,301,9450,200,300,"X","DK6-X_SEC_X_209","B_200x300"],[15900,12500,16500,12500,300,400,"X","DK11-X_SEC_X_256","B_300x400"],[42200,-500,42750,-500,200,400,"X","DK.a_SEC_X_218","B_200x400"],[45000,9400,45000,9950,200,400,"Y","DK.a_SEC_Y_289","B_200x400"],[45200,4650,45200,5200,200,400,"Y","DK.a_SEC_Y_344","B_200x400"],[45200,22700,45200,23250,200,300,"Y","DK12-X_SEC_Y_347","B_200x300"],[49100,22700,49100,23250,200,400,"Y","DK.a'_SEC_Y_369","B_200x400"],[48900,17950,48900,18500,200,300,"Y","DK.a'_SEC_Y_373","B_200x300"],[23200,27900,23700,27900,200,400,"X","DK_PHU_SEC_X_163","B_200x400"],[23200,0,23700,0,200,400,"X","DK2-X_SEC_X_179","B_200x400"],[23200,850,23700,850,200,400,"X","DK2-X_SEC_X_220","B_200x400"],[23200,-550,23700,-550,200,400,"X","DK2-X_SEC_X_222","B_200x400"],[23200,1950,23700,1950,200,400,"X","DK8-Y_SEC_X_228","B_200x400"],[23200,28450,23700,28450,200,400,"X","DK.a_SEC_X_230","B_200x400"],[40800,28400,41300,28400,200,400,"X","DK.a_SEC_X_237","B_200x400"],[23200,27050,23700,27050,200,400,"X","DK_PHU_SEC_X_238","B_200x400"],[23200,25950,23700,25950,200,400,"X","DK9-Y_SEC_X_240","B_200x400"],[35750,-500,35750,0,200,400,"Y","DK2-X_SEC_Y_264","B_200x400"],[35750,27900,35750,28400,200,400,"Y","DK_PHU_SEC_Y_273","B_200x400"],[45000,-500,45000,0,200,400,"Y","DK.a_SEC_Y_286","B_200x400"],[45000,27900,45000,28400,200,400,"Y","DK_PHU_SEC_Y_294","B_200x400"],[29050,-500,29050,0,200,400,"Y","DK11-Y_SEC_Y_295","B_200x400"],[29050,27900,29050,28400,200,400,"Y","DK.a_SEC_Y_303","B_200x400"],[37400,27900,37400,28400,200,400,"Y","DK2-X_SEC_Y_314","B_200x400"],[23700,-500,23700,0,100,300,"Y","DK2-X_SEC_Y_316","B_100x300"],[23700,27900,23700,28400,200,400,"Y","DK_PHU_SEC_Y_323","B_200x400"],[37250,-500,37250,0,200,400,"Y","DK.a_SEC_Y_341","B_200x400"],[45200,-500,45200,0,200,400,"Y","DK20-Y_SEC_Y_343","B_200x400"],[45200,27900,45200,28400,200,400,"Y","DK.a_SEC_Y_348","B_200x400"],[44150,-500,44150,0,200,400,"Y","DK20-Y_SEC_Y_349","B_200x400"],[44150,27900,44150,28400,200,500,"Y","DK_PHU_SEC_Y_350","B_200x500"],[23150,-500,23150,0,200,400,"Y","DK2-X_SEC_Y_351","B_200x400"],[29700,-500,29700,0,200,400,"Y","DK2-X_SEC_Y_353","B_200x400"],[29700,27900,29700,28400,200,400,"Y","DK2-X_SEC_Y_354","B_200x400"],[28300,-500,28300,0,200,400,"Y","DK11-Y_SEC_Y_355","B_200x400"],[28300,27900,28300,28400,100,300,"Y","DK_PHU_SEC_Y_356","B_100x300"],[24750,-500,24750,0,200,400,"Y","DK8-Y_SEC_Y_357","B_200x400"],[24750,27900,24750,28400,200,400,"Y","DK.a_SEC_Y_358","B_200x400"],[27200,-500,27200,0,100,300,"Y","DK_PHU_SEC_Y_376","B_100x300"],[27200,27900,27200,28400,200,400,"Y","DK_PHU_SEC_Y_377","B_200x400"],[25850,-500,25850,0,200,400,"Y","DK2-X_SEC_Y_378","B_200x400"],[25850,27900,25850,28400,200,400,"Y","DK.a_SEC_Y_379","B_200x400"],[-1950,4650,-1500,4650,200,300,"X","DK20-X_SEC_X_149","B_200x300"],[-1950,23250,-1500,23250,200,300,"X","DK_PHU_SEC_X_197","B_200x300"],[-1950,6850,-1500,6850,200,300,"X","DK20-X_SEC_X_257","B_200x300"],[-1950,21050,-1500,21050,200,300,"X","DK20-X_SEC_X_258","B_200x300"],[18400,25000,18400,25450,100,300,"Y","DK_PHU_SEC_Y_386","B_100x300"],[19200,25000,19200,25450,200,400,"Y","DK3-X_SEC_Y_387","B_200x400"],[20000,2450,20000,2900,200,400,"Y","DK3-X_SEC_Y_388","B_200x400"],[20000,25000,20000,25450,200,500,"Y","DK3-X_SEC_Y_389","B_200x500"],[20800,25000,20800,25450,200,400,"Y","DK3-X_SEC_Y_390","B_200x400"],[21600,25000,21600,25450,200,500,"Y","DK_PHU_SEC_Y_391","B_200x500"],[22400,25000,22400,25450,100,300,"Y","DK_PHU_SEC_Y_392","B_100x300"],[21825,2450,21825,2900,200,400,"Y","DK.a_SEC_Y_393","B_200x400"],[21275,2450,21275,2900,200,500,"Y","DK_PHU_SEC_Y_394","B_200x500"],[20700,2450,20700,2900,200,500,"Y","DK_PHU_SEC_Y_395","B_200x500"],[19300,2450,19300,2900,200,500,"Y","DK3-X_SEC_Y_396","B_200x500"],[18600,2450,18600,2900,200,500,"Y","DK.a_SEC_Y_397","B_200x500"],[18050,2450,18050,2900,200,400,"Y","DK3-X_SEC_Y_398","B_200x400"],[-399,13950,-100,13950,200,300,"Diag","DX-1_399","B_200x300"],[-1300,17950,-1500,18150,200,300,"Diag","DX-1_400","B_200x300"],[-1500,13850,-1300,14050,200,300,"Diag","DX-1_401","B_200x300"]],"cols":[[29100,25150,300,300],[13950,2450,300,300],[13950,-50,300,300],[13950,25450,300,300],[13950,27950,300,300],[40800,-50,300,300],[40800,27950,300,300],[35800,15200,300,300],[40800,4700,300,500],[48950,13950,300,300],[40800,9950,300,300],[40800,23200,300,500],[40800,20000,300,300],[40800,15200,300,300],[45050,13950,300,400],[1250,-100,300,400],[6850,-100,300,400],[9850,-100,300,400],[1150,4800,500,500],[6850,4800,300,500],[9850,4800,300,500],[9750,9950,500,500],[6800,9950,400,500],[150,9950,500,500],[150,17950,500,500],[6800,17950,400,500],[9750,17950,500,500],[23650,25150,300,300],[16700,25300,600,600],[1150,23100,500,500],[1250,28000,300,400],[6850,28000,300,400],[6850,23100,300,500],[9850,28000,300,400],[23650,27950,300,300],[29100,27950,300,300],[16550,27950,300,300],[23650,23100,300,500],[29100,23100,300,500],[16700,23100,600,700],[9850,23100,300,500],[23700,15200,400,300],[29150,15200,400,300],[16600,15200,400,300],[16600,12700,400,300],[16700,4800,600,700],[16700,2600,600,600],[16550,-50,300,300],[23650,-50,300,300],[23650,2750,300,300],[23650,4800,300,500],[23700,12700,400,300],[29100,2750,300,300],[29150,12700,400,300],[29100,4800,300,500],[29100,-50,300,300],[48950,23150,300,400],[48950,17950,300,300],[45100,27950,400,300],[35800,27950,300,300],[45050,23150,300,400],[35800,23100,300,500],[45050,17950,300,400],[35800,17950,300,300],[45050,9950,300,400],[35800,9950,300,300],[48950,9950,300,300],[48950,4750,300,400],[45050,4750,300,400],[35800,4800,300,500],[35800,-50,300,300],[45100,-50,400,300]],"walls":[[13900,0,13900,2400,200],[13900,2400,16500,2400,200],[16500,2400,16500,0,200],[16500,0,13900,0,200],[13900,25500,13900,27900,200],[13900,27900,16500,27900,200],[16500,27900,16500,25500,200],[16500,25500,13900,25500,200]],"grids":[["1",0,-6202,0,31503],["10",38300,-6202,38300,31503],["11",40800,-6202,40800,31503],["12",45000,-6202,45000,31503],["13",48900,-6202,48900,31503],["2",1300,-6202,1300,31503],["3",6900,-6202,6900,31503],["4",9900,-6202,9900,31503],["5",13900,-6202,13900,31503],["6",16500,-6202,16500,31503],["7",23700,-6202,23700,31503],["8",29050,-6202,29050,31503],["9",35750,-6202,35750,31503],["A",-5465,0,54429,0],["B",-5465,2800,54429,2800],["C",-5465,4650,54429,4650],["D",-5465,7150,54429,7150],["E",-5465,9950,54429,9950],["F",-5465,12750,54429,12750],["G",-5465,13950,54429,13950],["H",-5465,15150,54429,15150],["I",-5465,17950,54429,17950],["J",-5465,20000,54429,20000],["K",-5465,20750,54429,20750],["L",-5465,23250,54429,23250],["M",-5465,25100,54429,25100],["N",-5465,27900,54429,27900]]};
+    const TYPE_COLORS = {
+      'B_200x400': '#3b82f6',
+      'B_200x300': '#14b8a6',
+      'B_300x400': '#f59e0b',
+      'B_200x500': '#8b5cf6',
+      'B_100x300': '#ec4899',
+      'B_500x400': '#10b981',
+      'B_300x600': '#ef4444',
+      'B_300x300': '#a855f7'
+    };
+
+    const canvas = document.getElementById('viewCanvas');
+    const ctx = canvas.getContext('2d');
+    const cubeCanvas = document.getElementById('cubeCanvas');
+    const cubeCtx = cubeCanvas.getContext('2d');
+
+    // Camera State
+    let panX = 24450, panY = 13950;
+    let yaw = 0.55, pitch = 0.75;
+    let zoom = 0.016;
+
+    // Selection & Deletion State
+    let primaryIdx = 0;
+    const selectedIndices = new Set([0]);
+    const deletedIndices = new Set();
+    const undoHistory = [];
+
+    // Mouse Interaction State
+    let isInteracting = false;
+    let actionMode = null; // 'orbit' | 'pan'
+    let lastMouseX = 0, lastMouseY = 0;
+    let lastMmbClickTime = 0;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      draw();
+    }
+    window.addEventListener('resize', resize);
+
+    // 3D Projection & Unprojection
+    function project(x, y, z) {
+      const dx = x - panX;
+      const dy = y - panY;
+      const x1 = dx * Math.cos(yaw) - dy * Math.sin(yaw);
+      const y1 = dx * Math.sin(yaw) + dy * Math.cos(yaw);
+      const y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
+      const cx = canvas.width / 2.0;
+      const cy = canvas.height / 2.0;
+      return [cx + x1 * zoom * window.devicePixelRatio, cy - y2 * zoom * window.devicePixelRatio];
+    }
+
+    function unproject(u, v, z = 0) {
+      const dpr = window.devicePixelRatio || 1;
+      const cx = canvas.width / 2.0;
+      const cy = canvas.height / 2.0;
+      const x1 = (u - cx) / (zoom * dpr);
+      const y2 = (cy - v) / (zoom * dpr);
+      const cp = Math.max(0.001, Math.cos(pitch));
+      const y1 = (y2 + z * Math.sin(pitch)) / cp;
+      const dx = x1 * Math.cos(yaw) + y1 * Math.sin(yaw);
+      const dy = -x1 * Math.sin(yaw) + y1 * Math.cos(yaw);
+      return [panX + dx, panY + dy];
+    }
+
+    function animateCamera(targetYaw, targetPitch, targetZoom, targetPanX, targetPanY, duration = 260) {
+      const start = { yaw, pitch, zoom, panX, panY, t0: performance.now() };
+      const target = { yaw: targetYaw, pitch: targetPitch, zoom: targetZoom, panX: targetPanX, panY: targetPanY };
+
+      function step(now) {
+        const elapsed = now - start.t0;
+        const p = Math.min(1.0, elapsed / duration);
+        const ease = 1.0 - Math.pow(1.0 - p, 3);
+
+        yaw = start.yaw + (target.yaw - start.yaw) * ease;
+        pitch = start.pitch + (target.pitch - start.pitch) * ease;
+        zoom = start.zoom + (target.zoom - start.zoom) * ease;
+        panX = start.panX + (target.panX - start.panX) * ease;
+        panY = start.panY + (target.panY - start.panY) * ease;
+
+        draw();
+        if (p < 1.0) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Main Draw Function (60 FPS)
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const dpr = window.devicePixelRatio || 1;
+
+      const showBeams = document.getElementById('chkBeams').checked;
+      const showCad = document.getElementById('chkCad').checked;
+      const showCols = document.getElementById('chkCols').checked;
+      const showGrids = document.getElementById('chkGrids').checked;
+      const showDeleted = document.getElementById('chkShowDeleted').checked;
+      const filterType = document.getElementById('selFilter').value;
+
+      // 1. Draw 27 Grids
+      if (showGrids) {
+        ctx.lineWidth = 1 * dpr;
+        ctx.strokeStyle = '#047857';
+        ctx.setLineDash([4 * dpr, 4 * dpr]);
+        for (const g of DATA.grids) {
+          const [name, x0, y0, x1, y1] = g;
+          const p0 = project(x0, y0, 0);
+          const p1 = project(x1, y1, 0);
+          ctx.beginPath();
+          ctx.moveTo(p0[0], p0[1]);
+          ctx.lineTo(p1[0], p1[1]);
+          ctx.stroke();
+
+          // Axis Bubble
+          ctx.fillStyle = '#065f46';
+          ctx.beginPath();
+          ctx.arc(p0[0], p0[1], 8 * dpr, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#a7f3d0';
+          ctx.font = `bold ${9 * dpr}px monospace`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(name, p0[0], p0[1]);
+        }
+        ctx.setLineDash([]);
+      }
+
+      // 2. Draw Columns & Walls
+      if (showCols) {
+        ctx.fillStyle = '#475569';
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1 * dpr;
+
+        for (const c of DATA.cols) {
+          const [cx, cy, cw, ch] = c;
+          const hw = cw / 2.0, hh = ch / 2.0;
+          const p1 = project(cx - hw, cy - hh, 0);
+          const p2 = project(cx + hw, cy - hh, 0);
+          const p3 = project(cx + hw, cy + hh, 0);
+          const p4 = project(cx - hw, cy + hh, 0);
+
+          ctx.beginPath();
+          ctx.moveTo(p1[0], p1[1]);
+          ctx.lineTo(p2[0], p2[1]);
+          ctx.lineTo(p3[0], p3[1]);
+          ctx.lineTo(p4[0], p4[1]);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+
+        // Walls
+        ctx.fillStyle = '#334155';
+        for (const w of DATA.walls) {
+          const [x0, y0, x1, y1, th] = w;
+          const hw = th / 2.0;
+          const p1 = project(x0 - hw, y0 - hw, 0);
+          const p2 = project(x1 + hw, y0 - hw, 0);
+          const p3 = project(x1 + hw, y1 + hw, 0);
+          const p4 = project(x0 - hw, y1 + hw, 0);
+          ctx.beginPath();
+          ctx.moveTo(p1[0], p1[1]);
+          ctx.lineTo(p2[0], p2[1]);
+          ctx.lineTo(p3[0], p3[1]);
+          ctx.lineTo(p4[0], p4[1]);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
+
+      // 3. Draw Beams
+      if (showBeams) {
+        for (let i = 0; i < DATA.beams.length; i++) {
+          const isDeleted = deletedIndices.has(i);
+          if (isDeleted && !showDeleted) continue;
+
+          const b = DATA.beams[i];
+          const [x1, y1, x2, y2, w, h, axis, mark, typeName] = b;
+
+          if (filterType !== 'ALL' && typeName !== filterType) continue;
+
+          const isSelected = selectedIndices.has(i);
+          const isPrimary = i === primaryIdx;
+          const hw = w / 2.0;
+
+          let c1, c2, c3, c4;
+          if (axis === 'X') {
+            c1 = project(Math.min(x1, x2), y1 - hw, -100);
+            c2 = project(Math.max(x1, x2), y1 - hw, -100);
+            c3 = project(Math.max(x1, x2), y1 + hw, -100);
+            c4 = project(Math.min(x1, x2), y1 + hw, -100);
+          } else if (axis === 'Y') {
+            c1 = project(x1 - hw, Math.min(y1, y2), -100);
+            c2 = project(x1 + hw, Math.min(y1, y2), -100);
+            c3 = project(x1 + hw, Math.max(y1, y2), -100);
+            c4 = project(x1 - hw, Math.max(y1, y2), -100);
+          } else {
+            c1 = project(x1 - hw, y1 - hw, -100);
+            c2 = project(x2 - hw, y2 - hw, -100);
+            c3 = project(x2 + hw, y2 + hw, -100);
+            c4 = project(x1 + hw, y1 + hw, -100);
+          }
+
+          if (isDeleted) {
+            // Draw Ghost Deleted Beam (Red Translucent Wireframe)
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.18)';
+            ctx.beginPath();
+            ctx.moveTo(c1[0], c1[1]); ctx.lineTo(c2[0], c2[1]);
+            ctx.lineTo(c3[0], c3[1]); ctx.lineTo(c4[0], c4[1]);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = (isSelected ? 2.0 : 1.0) * dpr;
+            ctx.setLineDash([3 * dpr, 3 * dpr]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Red X
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+            ctx.beginPath();
+            ctx.moveTo(c1[0], c1[1]); ctx.lineTo(c3[0], c3[1]);
+            ctx.moveTo(c2[0], c2[1]); ctx.lineTo(c4[0], c4[1]);
+            ctx.stroke();
+          } else {
+            // Normal Active Beam
+            ctx.fillStyle = isSelected ? '#22c55e' : (TYPE_COLORS[typeName] || '#3b82f6');
+            ctx.beginPath();
+            ctx.moveTo(c1[0], c1[1]); ctx.lineTo(c2[0], c2[1]);
+            ctx.lineTo(c3[0], c3[1]); ctx.lineTo(c4[0], c4[1]);
+            ctx.closePath();
+            ctx.fill();
+
+            // Highlight border
+            ctx.strokeStyle = isSelected ? (isPrimary ? '#ffffff' : '#a7f3d0') : 'rgba(15, 23, 42, 0.7)';
+            ctx.lineWidth = (isSelected ? (isPrimary ? 2.5 : 2.0) : 1) * dpr;
+            ctx.stroke();
+
+            // CAD boundary overlay
+            if (showCad) {
+              ctx.strokeStyle = '#facc15';
+              ctx.lineWidth = 1 * dpr;
+              ctx.beginPath();
+              ctx.moveTo(c1[0], c1[1]); ctx.lineTo(c2[0], c2[1]);
+              ctx.moveTo(c4[0], c4[1]); ctx.lineTo(c3[0], c3[1]);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      // Draw Pivot Crosshair
+      const pivotProj = project(panX, panY, 0);
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.5 * dpr;
+      const s = 5 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(pivotProj[0] - s, pivotProj[1]); ctx.lineTo(pivotProj[0] + s, pivotProj[1]);
+      ctx.moveTo(pivotProj[0], pivotProj[1] - s); ctx.lineTo(pivotProj[0], pivotProj[1] + s);
+      ctx.stroke();
+
+      drawViewCube();
+    }
+
+    // 3D ViewCube Renderer
+    function drawViewCube() {
+      const cw = cubeCanvas.width, ch = cubeCanvas.height;
+      cubeCtx.clearRect(0, 0, cw, ch);
+      const cx = cw / 2.0, cy = ch / 2.0;
+      const size = 26;
+
+      function projCube(x, y, z) {
+        const x1 = x * Math.cos(yaw) - y * Math.sin(yaw);
+        const y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
+        const y2 = y1 * Math.cos(pitch) - z * Math.sin(pitch);
+        return [cx + x1, cy - y2];
+      }
+
+      // Compass Ring
+      cubeCtx.strokeStyle = '#334155';
+      cubeCtx.lineWidth = 1.5;
+      cubeCtx.beginPath();
+      cubeCtx.arc(cx, cy + 5, 34, 0, Math.PI * 2);
+      cubeCtx.stroke();
+
+      // North Indicator
+      const nProj = projCube(0, 36, 0);
+      cubeCtx.fillStyle = '#ef4444';
+      cubeCtx.font = 'bold 9px sans-serif';
+      cubeCtx.textAlign = 'center';
+      cubeCtx.textBaseline = 'middle';
+      cubeCtx.fillText('N', nProj[0], nProj[1]);
+
+      // Cube Faces
+      const faces = [
+        { pts: [[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]], label: 'TOP', col: '#1e293b' },
+        { pts: [[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]], label: 'FRONT', col: '#0f172a' },
+        { pts: [[1,-1,-1],[1,1,-1],[1,1,1],[1,-1,1]], label: 'RIGHT', col: '#1e293b' },
+        { pts: [[1,1,-1],[-1,1,-1],[-1,1,1],[1,1,1]], label: 'BACK', col: '#0f172a' },
+        { pts: [[-1,1,-1],[-1,-1,-1],[-1,-1,1],[-1,1,1]], label: 'LEFT', col: '#1e293b' }
+      ];
+
+      for (const f of faces) {
+        const p0 = projCube(f.pts[0][0]*size, f.pts[0][1]*size, f.pts[0][2]*size);
+        const p1 = projCube(f.pts[1][0]*size, f.pts[1][1]*size, f.pts[1][2]*size);
+        const p2 = projCube(f.pts[2][0]*size, f.pts[2][1]*size, f.pts[2][2]*size);
+        const p3 = projCube(f.pts[3][0]*size, f.pts[3][1]*size, f.pts[3][2]*size);
+
+        const normalZ = (p1[0] - p0[0]) * (p2[1] - p0[1]) - (p1[1] - p0[1]) * (p2[0] - p0[0]);
+        if (normalZ > 0) {
+          cubeCtx.fillStyle = f.col;
+          cubeCtx.strokeStyle = '#475569';
+          cubeCtx.lineWidth = 1;
+          cubeCtx.beginPath();
+          cubeCtx.moveTo(p0[0], p0[1]);
+          cubeCtx.lineTo(p1[0], p1[1]);
+          cubeCtx.lineTo(p2[0], p2[1]);
+          cubeCtx.lineTo(p3[0], p3[1]);
+          cubeCtx.closePath();
+          cubeCtx.fill();
+          cubeCtx.stroke();
+
+          const fcx = (p0[0] + p1[0] + p2[0] + p3[0]) / 4.0;
+          const fcy = (p0[1] + p1[1] + p2[1] + p3[1]) / 4.0;
+          cubeCtx.fillStyle = '#94a3b8';
+          cubeCtx.font = 'bold 8px monospace';
+          cubeCtx.textAlign = 'center';
+          cubeCtx.textBaseline = 'middle';
+          cubeCtx.fillText(f.label, fcx, fcy);
+        }
+      }
+    }
+
+    // Selection & Inspector Manager
+    function updateInspector(b) {
+      if (!b) return;
+      const [x1, y1, x2, y2, w, h, axis, mark, typeName] = b;
+      const isDeleted = deletedIndices.has(primaryIdx);
+
+      document.getElementById('badgeCounter').textContent = `Dầm ${primaryIdx + 1} / ${DATA.beams.length}`;
+      document.getElementById('badgeSelection').textContent = `${selectedIndices.size} Dầm Được Chọn`;
+      document.getElementById('txtDeleteBtn').textContent = selectedIndices.size > 1 ? `Xóa (${selectedIndices.size})` : 'Xóa (Delete)';
+
+      document.getElementById('txtMark').textContent = mark;
+      document.getElementById('txtType').textContent = `${typeName} (${w} x ${h} mm)`;
+      const len = Math.round(Math.hypot(x2 - x1, y2 - y1));
+      document.getElementById('txtLen').textContent = `${len} mm`;
+      document.getElementById('txtAxis').textContent = axis === 'X' ? 'DẦM PHƯƠNG X' : axis === 'Y' ? 'DẦM PHƯƠNG Y' : 'DẦM XIÊN';
+      document.getElementById('txtStart').textContent = `(${x1}, ${y1})`;
+      document.getElementById('txtEnd').textContent = `(${x2}, ${y2})`;
+
+      const statusEl = document.getElementById('txtStatus');
+      const restoreBtn = document.getElementById('btnRestore');
+
+      if (isDeleted) {
+        statusEl.textContent = 'ĐÃ XÓA (TRONG THÙNG RÁC)';
+        statusEl.className = 'text-red-400 font-bold';
+        restoreBtn.classList.remove('hidden');
+      } else {
+        statusEl.textContent = 'HIỆU LỰC (ACTIVE)';
+        statusEl.className = 'text-emerald-400 font-bold';
+        restoreBtn.classList.add('hidden');
+      }
+
+      document.getElementById('txtPivot').textContent = `${mark} [${(x1+x2)/2}, ${(y1+y2)/2}]`;
+      document.getElementById('txtBeamStats').textContent = `${DATA.beams.length - deletedIndices.size} Dầm Hiệu Lực (${deletedIndices.size} Đã Xóa)`;
+      document.getElementById('btnUndo').disabled = undoHistory.length === 0;
+    }
+
+    function selectBeam(idx, isMulti = false, focusPivot = false) {
+      if (!isMulti) {
+        selectedIndices.clear();
+        selectedIndices.add(idx);
+      } else {
+        if (selectedIndices.has(idx)) {
+          if (selectedIndices.size > 1) selectedIndices.delete(idx);
+        } else {
+          selectedIndices.add(idx);
+        }
+      }
+
+      primaryIdx = idx;
+      const b = DATA.beams[primaryIdx];
+      updateInspector(b);
+
+      if (focusPivot && b) {
+        panX = (b[0] + b[2]) / 2.0;
+        panY = (b[1] + b[3]) / 2.0;
+      }
+      draw();
+    }
+
+    // Deletion, Undo & Restore
+    function deleteSelected() {
+      if (selectedIndices.size === 0) return;
+      const deletedNow = [];
+
+      for (const idx of selectedIndices) {
+        deletedIndices.add(idx);
+        deletedNow.push(idx);
+      }
+
+      undoHistory.push(deletedNow);
+      selectedIndices.clear();
+
+      // Find next undeleted beam
+      let nextIdx = -1;
+      for (let i = 0; i < DATA.beams.length; i++) {
+        const candidate = (primaryIdx + i) % DATA.beams.length;
+        if (!deletedIndices.has(candidate)) {
+          nextIdx = candidate;
+          break;
+        }
+      }
+
+      if (nextIdx !== -1) {
+        primaryIdx = nextIdx;
+        selectedIndices.add(primaryIdx);
+      }
+
+      updateInspector(DATA.beams[primaryIdx]);
+      draw();
+    }
+
+    function undo() {
+      if (undoHistory.length === 0) return;
+      const lastDeleted = undoHistory.pop();
+      selectedIndices.clear();
+
+      for (const idx of lastDeleted) {
+        deletedIndices.delete(idx);
+        selectedIndices.add(idx);
+      }
+
+      primaryIdx = lastDeleted[0];
+      updateInspector(DATA.beams[primaryIdx]);
+      draw();
+    }
+
+    function restoreCurrent() {
+      if (!deletedIndices.has(primaryIdx)) return;
+      deletedIndices.delete(primaryIdx);
+      selectedIndices.clear();
+      selectedIndices.add(primaryIdx);
+      updateInspector(DATA.beams[primaryIdx]);
+      draw();
+    }
+
+    function exportFilteredJson() {
+      const activeBeams = [];
+      for (let i = 0; i < DATA.beams.length; i++) {
+        if (!deletedIndices.has(i)) {
+          activeBeams.push(DATA.beams[i]);
+        }
+      }
+
+      const exportData = {
+        totalBeams: activeBeams.length,
+        originalCount: DATA.beams.length,
+        deletedCount: deletedIndices.size,
+        targetLevel: "Tầng 1",
+        topElevationMm: -100,
+        beams: activeBeams
+      };
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `story1_grade_beams_filtered_${activeBeams.length}beams.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      alert(`Đã xuất thành công mô hình gồm ${activeBeams.length} dầm hiệu lực (đã loại bỏ ${deletedIndices.size} dầm)!`);
+    }
+
+    // Revit Mouse Events
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+    canvas.addEventListener('mousedown', e => {
+      isInteracting = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+
+      if (e.button === 1) {
+        const now = Date.now();
+        if (now - lastMmbClickTime < 300) {
+          fitAll();
+          isInteracting = false;
+          return;
+        }
+        lastMmbClickTime = now;
+      }
+
+      if ((e.button === 1 && e.shiftKey) || e.button === 0) {
+        actionMode = 'orbit';
+        canvas.classList.add('cursor-orbit');
+      } else if (e.button === 1 || e.button === 2) {
+        actionMode = 'pan';
+        canvas.classList.add('cursor-pan');
+      }
+
+      e.preventDefault();
+    });
+
+    window.addEventListener('mouseup', () => {
+      isInteracting = false;
+      actionMode = null;
+      canvas.classList.remove('cursor-orbit', 'cursor-pan');
+    });
+
+    window.addEventListener('mousemove', e => {
+      if (!isInteracting || !actionMode) return;
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+
+      if (actionMode === 'orbit') {
+        yaw += dx * 0.005;
+        pitch = Math.max(0.0, Math.min(1.45, pitch + dy * 0.005));
+      } else if (actionMode === 'pan') {
+        const factor = (1.0 / zoom);
+        panX -= (dx * Math.cos(yaw) - dy * Math.sin(yaw)) * factor;
+        panY += (dx * Math.sin(yaw) + dy * Math.cos(yaw)) * factor;
+      }
+
+      draw();
+    });
+
+    // Zoom to Cursor
+    canvas.addEventListener('wheel', e => {
+      const rect = canvas.getBoundingClientRect();
+      const cursorX = (e.clientX - rect.left) * window.devicePixelRatio;
+      const cursorY = (e.clientY - rect.top) * window.devicePixelRatio;
+
+      const worldUnderCursor = unproject(cursorX, cursorY, 0);
+      const factor = e.deltaY < 0 ? 1.15 : 0.87;
+      const newZoom = Math.max(0.003, Math.min(0.15, zoom * factor));
+      const k = newZoom / zoom;
+      zoom = newZoom;
+
+      panX = worldUnderCursor[0] - (worldUnderCursor[0] - panX) / k;
+      panY = worldUnderCursor[1] - (worldUnderCursor[1] - panY) / k;
+
+      e.preventDefault();
+      draw();
+    });
+
+    // Click Selection (Single / Multi)
+    canvas.addEventListener('click', e => {
+      if (e.button !== 0) return;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = (e.clientX - rect.left) * window.devicePixelRatio;
+      const clickY = (e.clientY - rect.top) * window.devicePixelRatio;
+
+      let minDist = Infinity;
+      let nearestIdx = primaryIdx;
+      const showDeleted = document.getElementById('chkShowDeleted').checked;
+
+      for (let i = 0; i < DATA.beams.length; i++) {
+        if (deletedIndices.has(i) && !showDeleted) continue;
+
+        const [x1, y1, x2, y2] = DATA.beams[i];
+        const mid = project((x1 + x2) / 2.0, (y1 + y2) / 2.0, -100);
+        const dist = Math.hypot(clickX - mid[0], clickY - mid[1]);
+        if (dist < minDist) {
+          minDist = dist;
+          nearestIdx = i;
+        }
+      }
+
+      if (minDist < 35 * window.devicePixelRatio) {
+        selectBeam(nearestIdx, e.ctrlKey || e.shiftKey, true);
+      }
+    });
+
+    // Keyboard Shortcuts (Delete, Ctrl+Z)
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        deleteSelected();
+        e.preventDefault();
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+        undo();
+        e.preventDefault();
+      }
+    });
+
+    // Button Events
+    function fitAll() {
+      animateCamera(0.55, 0.75, 0.016, 24450, 13950);
+      document.getElementById('txtPivot').textContent = 'Trung Tâm Công Trình (Giao 7 - H)';
+    }
+
+    document.getElementById('btnFitAll').addEventListener('click', fitAll);
+    document.getElementById('btnIso').addEventListener('click', () => animateCamera(0.55, 0.75, 0.016, 24450, 13950));
+    document.getElementById('btnTop').addEventListener('click', () => animateCamera(0.0, 0.0, 0.016, 24450, 13950));
+
+    document.getElementById('cubeTop').addEventListener('click', () => animateCamera(0.0, 0.0, zoom, panX, panY));
+    document.getElementById('cubeFront').addEventListener('click', () => animateCamera(0.0, 1.45, zoom, panX, panY));
+    document.getElementById('cubeRight').addEventListener('click', () => animateCamera(1.57, 1.45, zoom, panX, panY));
+    document.getElementById('cubeIso').addEventListener('click', () => animateCamera(0.55, 0.75, zoom, panX, panY));
+
+    document.getElementById('btnDelete').addEventListener('click', deleteSelected);
+    document.getElementById('btnUndo').addEventListener('click', undo);
+    document.getElementById('btnRestore').addEventListener('click', restoreCurrent);
+    document.getElementById('btnExportJson').addEventListener('click', exportFilteredJson);
+
+    document.getElementById('btnPrev').addEventListener('click', () => {
+      let p = primaryIdx - 1;
+      while (p >= 0 && deletedIndices.has(p) && !document.getElementById('chkShowDeleted').checked) p--;
+      if (p >= 0) selectBeam(p, false, true);
+    });
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+      let p = primaryIdx + 1;
+      while (p < DATA.beams.length && deletedIndices.has(p) && !document.getElementById('chkShowDeleted').checked) p++;
+      if (p < DATA.beams.length) selectBeam(p, false, true);
+    });
+
+    document.getElementById('btnFocus').addEventListener('click', () => {
+      const b = DATA.beams[primaryIdx];
+      if (!b) return;
+      animateCamera(0.55, 0.65, 0.045, (b[0] + b[2]) / 2.0, (b[1] + b[3]) / 2.0);
+    });
+
+    document.getElementById('chkBeams').addEventListener('change', draw);
+    document.getElementById('chkCad').addEventListener('change', draw);
+    document.getElementById('chkCols').addEventListener('change', draw);
+    document.getElementById('chkGrids').addEventListener('change', draw);
+    document.getElementById('chkShowDeleted').addEventListener('change', draw);
+    document.getElementById('selFilter').addEventListener('change', draw);
+
+    // Initial Load
+    resize();
+    selectBeam(0, false, false);
+  </script>
+</body>
+</html>

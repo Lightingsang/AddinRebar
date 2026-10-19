@@ -1,0 +1,179 @@
+{
+  "total": 29,
+  "types": [
+    {
+      "id": 366,
+      "name": "Curtain Wall 1",
+      "kind": "Curtain",
+      "widthMm": 25
+    },
+    {
+      "id": 1043,
+      "name": "Exterior - Brick on Mtl. Stud",
+      "kind": "Basic",
+      "widthMm": 350
+    },
+    {
+      "id": 1044,
+      "name": "Generic - 200mm",
+      "kind": "Basic",
+      "widthMm": 200
+    },
+    {
+      "id": 1045,
+      "name": "Generic - 225mm Masonry",
+      "kind": "Basic",
+      "widthMm": 225
+    },
+    {
+      "id": 1049,
+      "name": "Interior - Blockwork 100",
+      "kind": "Basic",
+      "widthMm": 124
+    },
+    {
+      "id": 1051,
+      "name": "CW 102-50-100p",
+      "kind": "Basic",
+      "widthMm": 264
+    },
+    {
+      "id": 1052,
+      "name": "CW 102-85-140p",
+      "kind": "Basic",
+      "widthMm": 339
+    },
+    {
+      "id": 1053,
+      "name": "CW 102-50-140p",
+      "kind": "Basic",
+      "widthMm": 304
+    },
+    {
+      "id": 1054,
+      "name": "CW 102-50-215p",
+      "kind": "Basic",
+      "widthMm": 379
+    },
+    {
+      "id": 1055,
+      "name": "CW 102-85-215p",
+      "kind": "Basic",
+      "widthMm": 414
+    },
+    {
+      "id": 1056,
+      "name": "CW 102-85-100p",
+      "kind": "Basic",
+      "widthMm": 299
+    },
+    {
+      "id": 1057,
+      "name": "Interior - Blockwork 140",
+      "kind": "Basic",
+      "widthMm": 164
+    },
+    {
+      "id": 1058,
+      "name": "Interior - Blockwork 190",
+      "kind": "Basic",
+      "widthMm": 214
+    },
+    {
+      "id": 1059,
+      "name": "Generic - 300mm",
+      "kind": "Basic",
+      "widthMm": 300
+    },
+    {
+      "id": 1060,
+      "name": "Foundation - 300mm Concrete",
+      "kind": "Basic",
+      "widthMm": 300
+    },
+    {
+      "id": 1061,
+      "name": "Retaining - 300mm Concrete",
+      "kind": "Basic",
+      "widthMm": 300
+    },
+    {
+      "id": 10267,
+      "name": "Exterior - Render on Brick on Block",
+      "kind": "Basic",
+      "widthMm": 429
+    },
+    {
+      "id": 31721,
+      "name": "225mm Over 300mm Concrete",
+      "kind": "Stacked",
+      "widthMm": 300
+    },
+    {
+      "id": 36772,
+      "name": "Exterior - 300mm Concrete",
+      "kind": "Basic",
+      "widthMm": 300
+    },
+    {
+      "id": 36793,
+      "name": "Exterior - 225mm Concrete",
+      "kind": "Basic",
+      "widthMm": 225
+    },
+    {
+      "id": 400580,
+      "name": "10_Wall_Gach_D200",
+      "kind": "Basic",
+      "widthMm": 200
+    },
+    {
+      "id": 400582,
+      "name": "9_Wall_Gach_D100",
+      "kind": "Basic",
+      "widthMm": 100
+    },
+    {
+      "id": 400584,
+      "name": "1_Wall_BTCT_D100",
+      "kind": "Basic",
+      "widthMm": 100
+    },
+    {
+      "id": 400586,
+      "name": "4_Wall_BTCT_D300",
+      "kind": "Basic",
+      "widthMm": 300
+    },
+    {
+      "id": 400703,
+      "name": "2_Wall_BTCT_D200",
+      "kind": "Basic",
+      "widthMm": 200
+    },
+    {
+      "id": 8557812,
+      "name": "5_Wall_BTCT_D400",
+      "kind": "Basic",
+      "widthMm": 400
+    },
+    {
+      "id": 8557834,
+      "name": "6_Wall_BTCT_D500",
+      "kind": "Basic",
+      "widthMm": 500
+    },
+    {
+      "id": 8560239,
+      "name": "7_Wall_BTCT_D600",
+      "kind": "Basic",
+      "widthMm": 600
+    },
+    {
+      "id": 8564585,
+      "name": "3_Wall_BTCT_D250",
+      "kind": "Basic",
+      "widthMm": 250
+    }
+  ]
+}

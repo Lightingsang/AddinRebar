@@ -1,0 +1,11 @@
+﻿// Decompiled Kata_pro64_Cad2025.Setting::LoadFromGoiLenhText
+
+// Method: LoadFromGoiLenhText
+using System.IO;
+using System.Runtime.CompilerServices;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+public void LoadFromGoiLenhText(string x, StreamReader sr)
+{
+}
+

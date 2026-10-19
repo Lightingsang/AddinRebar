@@ -1,0 +1,52 @@
+{
+  "name": "curtain_grid_layout",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "geometry",
+    "curtain",
+    "grid",
+    "mullion",
+    "wall"
+  ],
+  "title": "Calculate Curtain Wall U/V Grid Division Offsets",
+  "description": "Calculate horizontal U-grid line offsets and division counts along host Revit Curtain Walls without modifying the document.",
+  "notes": "Calculates parametric grid line offset positions along curtain wall baseline curve.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "curtainWallElementId"
+    ],
+    "properties": {
+      "curtainWallElementId": {
+        "type": "integer",
+        "description": "Element ID of host Revit Curtain Wall."
+      },
+      "uSpacingMeters": {
+        "type": "number",
+        "default": 1.5,
+        "description": "Horizontal U-axis spacing between vertical mullions in meters."
+      },
+      "vSpacingMeters": {
+        "type": "number",
+        "default": 3.0,
+        "description": "Vertical V-axis spacing between horizontal mullions in meters."
+      },
+      "layoutRule": {
+        "type": "string",
+        "default": "FixedDistance",
+        "description": "Layout spacing rule: FixedDistance or Number."
+      }
+    },
+    "additionalProperties": false
+  }
+}

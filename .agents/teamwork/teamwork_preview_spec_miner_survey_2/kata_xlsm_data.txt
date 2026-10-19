@@ -1,0 +1,265 @@
+==================================================
+SHEET: Vach (dims: A1:AV216)
+==================================================
+Row   1: ['Bề rộng dầm (mm)', None, 800, 'Bề rộng vùng biên', None, 675, '1:25', '1:30', '1:50', '1:100', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['Chiều dày sàn (mm)', None, 200, 'Tỷ lệ bản vẽ cột', None, '1:30', '1:20', '1:25', '1:30', '1:40', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   3: ['Tên vách', None, 'V1', 'Tỷ lệ vẽ mặt cắt', None, '1:20', None, False, False, 2, True, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: ['Số cấu kiện', None, 1, 'a bảo vệ (mm)', None, '30/100', 'Đai bao', 'd10a100/200', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   5: ['Cao trình đáy đài móng (m)', None, -5.5, 'Đoạn bẻ ke (d)', None, 15, 'Đai gc', 'd8a400', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   7: ['TẦNG', 'Chiều cao', 'Kích thước vách', None, 'Số cây thép chịu lực', None, None, None, 'Đường kính thép', 'Vị trí nối thép', 'Chiều cao dầm', 'Đai tự bố trí', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   8: [None, 'm', 'Cạnh dài', 'Cạnh ngắn', 'Cạnh dài', None, 'Cạnh ngắn', None, None, None, None, 'Đai bao', 'Đai biên', 'Đai C Ver', None, 'Đai C Hor', None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   9: ['PILECAPS', 1.5, 'mm', 'mm', 'Biên', 'Giữa', 'Lớp 1', 'Lớp 2', 'mm', 'mm', 'mm', 'đk+kc', 'đk+kc', 'đk+kc', 'Số lượng', 'đk+kc', 'Số lượng', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  10: ['BASEMENT', 3, 3000, 600, 7, 11, 7, 7, 25, None, 600, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  11: ['FLOOR 1', 3.5, 3000, 600, 7, 11, 7, 7, 25, None, 600, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  12: ['FLOOR 2', 3.9, 3000, 600, 7, 11, 7, 7, '25/20', None, 400, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  13: ['FLOOR 3', 4.6, 3000, 600, 7, 11, 7, 7, 20, None, 400, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  14: ['FLOOR 4', 3.3, 3000, 600, 7, 11, 7, 7, 20, None, 600, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  15: ['FLOOR 5', 3.3, 3000, 600, 7, 11, 7, 7, 20, None, 400, 'd10a100/200', 'd10a100/200', 'd10a400', '2/3', 'd10a400', '2', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  22: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Mặt cắt bố trí thép chịu lực tầng', None, None, 'FLOOR 1', None, None, None, None, None, None, None]
+
+
+==================================================
+SHEET: Cot (dims: A1:BA216)
+==================================================
+Row   1: ['Bề rộng dầm (mm)', None, 800, None, None, None, '1:25', '1:30', '1:50', '1:100', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['Chiều dày sàn (mm)', None, 200, 'Tỷ lệ bản vẽ cột', None, '1:30', '1:20', '1:25', '1:30', '1:40', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   3: ['Tên cột', None, 'C1', 'Tỷ lệ vẽ mặt cắt', None, '1:20', False, False, True, 2, True, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: ['Số cấu kiện', None, 1, 'a bảo vệ (mm)', None, '30/100', 'Đai bao', 'd10a100/200', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   5: ['Cao trình đáy đài móng (m)', None, -5.5, 'Đoạn bẻ ke (d)', None, 15, 'Đai gc', 'd8a400', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   7: ['TẦNG', 'Chiều cao', 'Kích thước cột', None, 'Số cây thép chịu lực', None, None, None, 'Đường kính thép', 'Vị trí nối thép', 'Chiều cao dầm', 'Đai bao', 'Đai gia cường tự bố trí', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   8: [None, 'm', 'b', 'h', 'Cạnh b', None, 'Cạnh h', None, None, None, None, None, 'Đai □ Ver', None, None, 'Đai □ Hor', None, None, 'Đai C Ver', None, 'Đai C Hor', None, None, None, None, None, None, None, None]
+Row   9: ['PILECAPS', 1.5, 'mm', 'mm', 'Lớp 1', 'Lớp 2', 'Lớp 1', 'Lớp 2', 'mm', 'mm', 'mm', 'đk+kc', 'tỷ lệ', 'đk+kc', 'Số lượng', 'tỷ lệ', 'đk+kc', 'Số lượng', 'đk+kc', 'Số lượng', 'đk+kc', 'Số lượng', None, None, None, None, None, None, None]
+Row  10: ['BASEMENT', 3, 1000, 800, 7, 7, 7, 7, 25, None, 600, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  11: ['FLOOR 1', 3.5, 1000, 800, 7, 7, 7, 7, 25, None, 600, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  12: ['FLOOR 2', 3.9, 1000, 800, 7, 7, 7, 7, '25/20', None, 400, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  13: ['FLOOR 3', 4.6, 1000, 800, 7, 7, 7, 7, 20, None, 400, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  14: ['FLOOR 4', 3.3, 1000, 800, 7, 7, 7, 7, 20, None, 600, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  15: ['FLOOR 5', 3.3, 1000, 800, 7, 7, 7, 7, 20, None, 400, 'd10a100/200', 0.5, 'd10a400', None, 0.5, 'd10a400', None, 'd10a400', '2', 'd10a400', '2', None, None, None, None, None, None, None]
+Row  22: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Mặt cắt bố trí thép chịu lực tầng', None, None, 'FLOOR 1', None, None]
+
+
+==================================================
+SHEET: Dam (dims: A1:AK80)
+==================================================
+Row   1: ['Tỷ lệ bản vẽ dầm', '1:50', None, None, 'Kéo thép gia cường', None, 500, None, True, None, None, None, '1:70', '1:50', '1:40', '1:30', '1:25', None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['Tỷ lệ vẽ mặt cắt', '1:25', None, None, 'Neo thép vùng kéo (d)', None, 40, None, None, None, 'Info Author: ', None, None, '1:40', '1:30', '1:25', '1:20', None, None, None, None, None, None, None, None, None, None, None, None]
+Row   3: ['Tên dầm', 'B01', None, None, 'Neo thép vùng nén (d)', None, 30, 0.2, 'L từ mép cột', None, 'Tam, Nguyen Kha', None, None, 'L từ mép cột', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: ['Số cấu kiện', 1, None, None, 'Đường kính cốt giá', None, 12, None, None, None, 'Civil Engineer', None, None, 'L từ tâm cột', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   5: ['h dầm (mm)', 1100, None, None, 'Số lớp cốt giá', None, 2, 0.25, 'L từ mép cột', None, 'Phone: 0985373800', None, None, 'L từ tâm cột, tính từ tâm', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   6: ['b dầm (mm)', 500, None, None, 'Đường kính đai (mm)', None, 10, None, None, None, 'Email: khatamxd@gmail.com', None, None, 'L từ mép dầm bẹt', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   7: ['h sàn (mm)', 150, None, None, 'Khoảng cách đai ', 'Gần gối', 'a150', False, None, 'a500', 'Work: Designing structure buildings and ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   8: ['Tên trục dầm', None, None, None, None, 'giữa nhịp', 'a200', None, 2, None, 'design spreadsheets link Excel with Autocad', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   9: ['Độ lệch của trục', -100, None, None, None, 'Công xôn', 150, 'a bảo vệ thép chủ/đai', None, '50/25', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  10: ['Cao trình dầm', '+3.300', 'Cột', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ', 'Nhịp', 'Cột ']
+Row  11: ['Thép chịu lực trên', '6f25', 400, 10400, 400, 6500, 400, 2500, 0, 4000, 400, 6200, 400, 2000, 0, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  12: ['Thép chịu lực dưới', '6f25', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  13: ['Thép gia cường trên', 'lớp 1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  14: [None, 'lớp 2', '6f25', None, '6f20', None, '2f20', None, None, None, '2f20;2f16', None, '2f16', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  15: [None, 'lớp 3', None, None, '6f20;0', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  16: [None, 'lớp 3', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  17: ['Thép gia cường dưới', 'lớp 2', None, '6f25', None, '2f20', None, None, '2f20', '-', None, '2f20', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  18: [None, 'lớp 1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  19: ['Giật mép trên dầm;thép chịu lực', None, None, None, None, None, None, -50, None, 0, None, '3f20', None, -200, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  20: ['Bề rộng dầm giao tại cột (mm)', None, '400x500', None, 400, '0f12', 400, None, None, None, '400x800', 300, 400, '1f12', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  21: ['Độ lệch dầm giao so với tâm cột', None, None, None, None, 400, None, None, None, None, None, '3f20', None, 0, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  22: ['Tên các trục cột', None, 1, None, 2, None, 3, None, 4, None, 5, None, 6, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  23: ['Độ lệch của trục so với tâm cột', None, -150, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  24: [None, None, None, None, None, None, None, None, None, None, '*', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  25: ['Đai □', None, 'Đai U', '3-4', None, None, None, None, None, None, None, None, 'Đai C', '2', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  26: ['Đai U', None, 'Đai C', '2', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  27: ['Đai C', None, 'Đai C', '5', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  28: [1, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  55: [30, 1, 2, 3, 4, 5, 6, 7, 8, 9, None, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+Row  56: ['Bao', -250, 250, 250, 550, 550, -550, -550, -250, -250, 'Thép trên', -190, -114, -38, 38, 114, 190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190]
+Row  57: [60, -550, -550, 400, 400, 550, 550, 400, 400, -550, None, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490, 490]
+Row  58: [76, -220, 220, 220, -220, -220, 550, -550, 550, 6, 'Thép dưới', -190, -114, -38, 38, 114, 190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190, -190]
+Row  59: [76, -520, -520, 520, 520, -520, 500, -550, 550, 6, None, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490, -490]
+Row  61: ['h dầm (mm)', 1100, None, None, 'Đai U', '3-4', 3, 4, -58, -58, 58, 58, 58, 510, -510, -510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  62: ['b dầm (mm)', 500, None, None, 'Đai C', '2', 2, '#VALUE!', -134, -134, -134, -134, -134, 510, -510, -510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  63: ['Thép chịu lực trên', '6f25', None, None, 'Đai C', '5', 5, '#VALUE!', 94, 94, 94, 94, 94, 510, -510, -510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  64: ['Thép chịu lực dưới', '6f25', None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  65: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  66: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  67: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  68: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  69: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  70: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  71: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  72: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  73: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  74: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  75: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  76: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  77: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  78: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  79: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+Row  80: [None, None, None, None, None, None, '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', '#VALUE!', 510, 510, 510, 510, 510, None, None, None, None, None, None, None, None, None, None, None]
+
+
+==================================================
+SHEET: ThepDamAllMBKC (dims: A1:AR103)
+==================================================
+Row   1: ['BẢNG NHẬP LIỆU THÉP DẦM ALL MBKC', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['Handle Autocad', 'Mã dạng', None, None, None, 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk', 'sldk']
+Row   3: [None, 'Name', 'Span', 'Width', 'Height', 'T1.0', 'T1.1', 'T1.2', 'T1.3', 'T2.0', 'T2.1', 'T2.2', 'T2.3', 'T3.0', 'T3.1', 'T3.2', 'T3.3', 'B1.0', 'B1.1', 'B1.2', 'B1.3', 'B2.0', 'B2.1', 'B2.2', 'B2.3', 'B3.0', 'B3.1', 'B3.2', 'B3.3']
+
+
+==================================================
+SHEET: save_info (dims: A1:A1)
+==================================================
+
+
+==================================================
+SHEET: Thong_ke (dims: A1:AK12)
+==================================================
+Row   1: ['BẢNG THỐNG KÊ CỐT THÉP', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'TỔNG HỢP CỐT THÉP', None, None, None, None, None, None, None, None]
+Row   2: ['TÊN CẤU KIỆN', 'SỐ HIỆU', 'HÌNH DÁNG VÀ KÍCH THƯỚC (mm)', None, None, None, None, None, None, None, 'Ø (mm)', 'Chiều dài 1 thanh ko kể nối thép', 'CHIỀU DÀI', 'SỐ C.KIỆN', 'SỐ THANH', None, 'TỔNG', 'TỔNG', 'TỔNG/CẤU KIỆN', None, 'ĐƯỜNG KÍNH', 0, 0, 0, 0, 0, 0, 0, 0]
+Row   3: [None, None, None, None, None, None, None, None, None, None, None, None, ' 1 THANH', None, 'MỘT CK', 'TOÀN BỘ', 'CHIỀU DÀI', 'TRỌNG LƯỢNG', 'TRỌNG LƯỢNG', None, 'CHIỀU DÀI ', 0, 0, 0, 0, 0, 0, 0, 0]
+Row   4: [None, None, 'DẠNG', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'Ghi chú', None, None, '(mm)', None, None, None, '(m)', '(kg)', '(kg)', None, 'TRỌNG LƯỢNG', 0, 0, 0, 0, 0, 0, 0, 0]
+Row   5: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM Ø<=10', 0, None, None, None, None, None, None, None]
+Row   6: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM 10<Ø<=18', 0, None, None, None, None, None, None, None]
+Row   7: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM 18<Ø', 0, None, None, None, None, None, None, None]
+Row   9: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'BẢNG THỐNG KÊ COUPLER', None, None, None, None, None, None, None, None]
+Row  10: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'TÊN CẤU KIỆN', 'KÍCH THƯỚC (mm)', 'Ø (mm)', 'SỐ C.KIỆN', 'SỐ THANH', None, 'GHI CHÚ', None, None]
+Row  11: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'MỘT CK', 'TOÀN BỘ', None, None, None]
+
+
+==================================================
+SHEET: Thong_ke_QS (dims: A1:AN10)
+==================================================
+Row   1: [None, 'Thông tin dự án', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: [None, 'Có thể chèn hoặc xóa dòng khu vực này', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: ['BẢNG THỐNG KÊ CỐT THÉP', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'TỔNG HỢP CỐT THÉP', None, None, None, None, None]
+Row   5: ['Tên cấu kiện', 'Số hiệu', 'Hình dáng và kích thước', None, None, None, None, None, None, None, 'Ø', 'Chiều dài 1 thanh ko kể nối thép', 'Chiều dài thanh', 'Số cấu kiện', 'Số thanh', None, 'Tổng chiều dài', 'Khối lượng (tấn)', None, None, None, 'Ghi chú', None, 'ĐƯỜNG KÍNH', None, None, None, None, None]
+Row   6: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, '1 CK', 'Toàn bộ', None, 'Tổng', 'D≤10mm', 'D≤18mm', 'D>18mm', None, None, 'CHIỀU DÀI ', 0, 0, 0, 0, 0]
+Row   7: [None, None, '(mm)', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'Ghi chú', '(mm)', None, '(mm)', None, None, None, '(m)', '(kg)', '(kg)', '(kg)', '(kg)', None, None, 'TRỌNG LƯỢNG', 0, 0, 0, 0, 0]
+Row   8: [None, None, None, None, None, None, None, None, None, None, None, 0, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM Ø<=10', 0, None, None, None, None]
+Row   9: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM 10<Ø<=18', 0, None, None, None, None]
+Row  10: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'NHÓM 18<Ø', 0, None, None, None, None]
+
+
+==================================================
+SHEET: To_hop_thep (dims: A1:Y38)
+==================================================
+Row   1: ['Đoạn thừa', 'BẢNG HƯỚNG DẪN CẮT THÉP ĐÃ KẾT HỢP', None, None, None, None, None, None, 'BẢNG THỐNG KÊ CỐT THÉP CHỜ KẾT HỢP', None, None, None, None, None, None, None, 'BẢNG CẮT THÉP TÓM TẮT', None, None, None, None, None, 'THÉP THÀNH PHẨM', None, None]
+Row   2: [None, 'Ø', 'Chiều dài', 'Số lượng', 'Mô tả cách cắt thép', None, None, None, 'Tên cấu kiện', 'Số hiệu', 'Ø', 'Chiều dài', 'Số lượng', None, None, None, 'Ø', 'Chiều dài', 'Số lượng', 'Mô tả cách cắt thép', 'Đoạn thừa', None, 'Ø', 'Chiều dài', 'Số lượng']
+
+
+==================================================
+SHEET: Kho_thep (dims: A1:J14)
+==================================================
+Row   1: ['KHO THÉP TRƯỚC TỔ HỢP', None, None, None, 'KHO THÉP SAU TỔ HỢP', None, None, None, None, None]
+Row   2: ['Ø', 'CHIỀU DÀI', 'SỐ LƯỢNG', None, 'Ø', 'CHIỀU DÀI', 'SỐ LƯỢNG', None, 'TỔNG Ø6', 0]
+Row   3: [None, None, None, None, 12, 11700, -57, None, 'TỔNG Ø8', 0]
+Row   4: [None, None, None, None, 12, 60, 4, None, None, None]
+Row   5: [None, None, None, None, 12, 80, 8, None, None, None]
+Row   6: [None, None, None, None, 12, 330, 28, None, None, None]
+Row   7: [None, None, None, None, 12, 670, 1, None, None, None]
+Row   8: [None, None, None, None, 12, 1110, 3, None, None, None]
+Row   9: [None, None, None, None, 12, 2140, 1, None, None, None]
+Row  10: [None, None, None, None, 14, 11700, -8, None, None, None]
+Row  11: [None, None, None, None, 14, 100, 8, None, None, None]
+Row  12: [None, None, None, None, 16, 11700, -13, None, None, None]
+Row  13: [None, None, None, None, 16, 750, 12, None, None, None]
+Row  14: [None, None, None, None, 16, 2940, 1, None, None, None]
+
+
+==================================================
+SHEET: Kata_QS (dims: A1:J2)
+==================================================
+Row   1: ['Tên bản vẽ', 'Hạng mục', 'Số lượng', 'Diện tích (m2)\n-A-', 'Chiều dài (m)\n-L-', 'Chiều cao (m)\n-H-', 'Tổng diện tích (m2)', 'Tổng chiều dài (m)', 'Tổng thể tích (m3)', 'Diện tích xung quanh (m2)']
+Row   2: ['(0)', '(1)', '(2)', '(3)', '(4)', '(5)', '(6) = (3)x(2)', '(7)=(4)x(2)', '(8)=(3)x(5)', '(9)=(4)x(5)']
+
+
+==================================================
+SHEET: BEAM DESIGN (dims: B1:CP16)
+==================================================
+Row   1: [None, None, None, 'VIẾT CHƯƠNG TRÌNH\nNGUYỄN KHẢ TAM\nTel: 0985373800\n Mail: khatamxd@gmail.com; ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: [None, None, 'Project:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Item:', None, None, None, 'CALCULATE BEAM', None, None, None, None, None, None, None]
+Row   5: [None, None, 'Client:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Caculated:', None, None, None, 'NGUYỄN KHẢ TAM', None, None, None, None, None, None, None]
+Row   6: [None, None, 'Location:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Date:', None, None, None, datetime.datetime(2026, 10, 4, 6, 45, 58, 510000), None, None, None, None, None, None, None]
+Row   7: [None, None, 'Article:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Check:', None, None, None, 'NGUYỄN KHẢ TAM', None, None, None, None, None, None, None]
+Row   9: [None, None, ' Vật liệu ', None, None, 'Cường độ tính toán', None, None, None, None, None, None, None, None, None, None, None, 'Hệ số giới hạn', None, None, None, None, '     Modul dan hoi', None, None, None, None, None, None]
+Row  10: [None, None, 'Cấp bền bêtông', None, None, 'B20', None, 'Rb = ', 11.5, None, None, None, 'Rbt=', 0.9, None, None, None, 'aR =', 0.4396244312397687, None, None, None, 'Eb =', 27000, None, None, None, None, None]
+Row  11: [None, None, 'Thép  dọc', None, None, 'CB300-V', None, 'Rs = ', 260, None, None, None, 'Rsc=', 260, None, None, None, 'xR =', 0.652507356163526, None, None, None, 'jb1 =    ', 0.885, None, None, None, None, None]
+Row  12: [None, None, 'Thép đai', None, None, 'CB240-T', None, 'Rsw= ', 170, None, None, None, 'abv=', 30, None, None, None, 'α =', 7.407407407407407, None, None, None, 'Es =', 200000, None, None, None, None, None]
+Row  13: [None, 'THÔNG SỐ TÍNH TOÁN CỐT THÉP', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  14: [None, 'Cấu kiện', 'Tên Etabs', 'b', 'h', 'Vị trí', 'Tính toán thớ trên', None, None, None, None, None, None, None, None, None, None, 'Tính toán thớ dưới', None, None, None, None, None, None, None, None, None, None, 'Tính toán chịu cắt']
+Row  15: [None, None, None, None, None, None, 'M', "a'", 'Hệ số', None, 'As', 'Thép chạy suốt', 'Thép gia cường', None, None, 'As tk', 'mtk%', 'M', 'a', 'Hệ số', None, 'As', 'Thép chạy suốt', 'Thép gia cường', None, None, 'As tk', 'mtk%', 'Q']
+Row  16: [None, None, None, '(cm)', '(cm)', None, 'KNm', '(cm)', ' a', 'ξ', '(cm2)', None, 'Lớp 1', 'Lớp 2', 'Lớp 3', '(cm2)', None, 'KNm', '(cm)', ' a', 'ξ', '(cm2)', None, 'Lớp 1', 'Lớp 2', 'Lớp 3', '(mm2)', None, 'kN']
+
+
+==================================================
+SHEET: SLAB DESIGN (dims: B1:T29)
+==================================================
+Row   3: [None, None, 'Dự án:', None, None, None, 'Phần:', 'TÍNH TOÁN THÉP MÓNG', None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: [None, None, 'Chủ đầu tư:', None, None, None, 'Thực hiện:', 'Nguyễn Khả Tam', None, None, None, None, None, None, None, None, None, None, None, None]
+Row   5: [None, None, 'Địa diểm', None, None, None, 'Ngày:', datetime.datetime(2026, 10, 4, 6, 45, 58, 510000), None, None, None, None, None, None, None, None, None, None, None, None]
+Row   6: [None, None, 'Hạng mục:', None, None, None, 'Kiểm tra:', 'Nguyễn Khả Tam', None, None, None, None, None, None, None, None, None, None, None, None]
+Row   8: [None, None, '1. Vật liệu:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   9: [None, None, 'Chọn cấp độ bền bê tông', None, 'B40', '    Có: Rb = ', 22, '(MPa)', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  10: [None, None, None, None, None, 'Eb = ', 36000, '(MPa)', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  11: [None, None, 'Chọn cốt thép', None, 'CB300-V', 'Rs=Rsc =', 260, '(MPa)', None, None, 7, None, None, None, None, None, None, None, None, None]
+Row  12: [None, None, None, None, None, 'Es =', 200000, '(MPa)', None, None, None, None, None, None, None, None, None, None, None, None]
+Row  13: [None, None, '2. Kiểm tra đài:', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  15: [None, None, 'Công thức kiểm tra', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  20: [None, None, 'MÓNG M1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  21: [None, None, 'TÍNH TOÁN THÉP LỚP DƯỚI', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  22: [None, None, 'Vị trí (strip)', 'Momen sàn', 'Chiều dày h(mm)', 'a(mm)', 'ho', 'As', 'Thép bố trí', None, 'As đã Chọn', 'Kiểm tra', None, None, None, None, None, None, None, None]
+Row  23: [None, None, None, '(kNm/m)', None, None, '(mm)', '(mm2)', 'Lớp 1', 'Lớp 2', '(mm2)', None, None, 'Phi', 'a', 'Phi', 'a', ' a', 'ξ', None]
+Row  24: [None, None, 'X1-max', 250, 1000, 100, 900, 1075.9773073442318, 'F16a200', 'F14a200', 1774.9998492782331, 'OK', None, 16, 200, 14, 200, 0.014029180695847363, 0.014128994944924256, 'ok']
+Row  25: [None, None, 'Y1-max', 200, 1000, 115, 885, 874.2910608504232, 'F16a200', None, 1005.3096491487338, 'OK', None, 16, 200, None, None, 0.011607021087055561, 0.011675175953832051, 'ok']
+Row  26: [None, None, 'TÍNH TOÁN THÉP LỚP TRÊN', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row  27: [None, None, 'X1-min', -150, 1000, 60, 940, 616.1343565375932, 'F14a200', None, 769.6902001294993, 'OK', None, 14, 200, None, None, 0.007716366928680192, 0.0077463700531805735, None]
+Row  28: [None, None, 'Y1-min', -140, 1000, 75, 925, 584.3015689536371, 'F14a200', None, 769.6902001294993, 'OK', None, 14, 200, None, None, 0.007437412842818248, 0.007465278030857281, None]
+
+
+==================================================
+SHEET: In_tem_thep (dims: A1:P780)
+==================================================
+Row   1: ['DỰ ÁN: ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['KHÁCH HÀNG: ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   3: ['ĐƠN HÀNG: ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   4: ['CẤU KIỆN: ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   5: ['SỐ HIỆU: ', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   9: [None, None, None, None, None, 'Cây', None, None, None, None, None, None, None, None, None, None]
+Row  11: [None, None, None, None, None, 'mm', None, None, None, None, None, None, None, None, None, None]
+Row  12: [None, None, None, None, None, 'KG', None, None, None, None, None, None, None, None, None, None]
+
+
+==================================================
+SHEET: Data (dims: A1:S24)
+==================================================
+Row   1: ['THÔNG SỐ THIẾT KẾ CỦA BÊ TÔNG TCVN 5574-2018', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+Row   2: ['Kí hiệu', 'Định nghĩa', 'Trích dẫn', 'B10', 'B15', 'B20', 'B22.5', 'B25', 'B30', 'B35', 'B40', 'B45', 'B50', 'B55', 'B60', 'B70', 'B80', 'B90', 'B100']
+Row   3: ['Rm', 'Cường độ chịu nén trung bình (MPa)', 'Phụ lục A.2', 12.843565373747753, 19.26534806062163, 25.687130747495505, 28.9, 32.108913434369384, 38.53069612124326, 44.952478808117135, 51.37426149499101, 57.796044181864886, 64.21782686873877, 70.63960955561264, 77.06139224248652, 89.90495761623427, 102.74852298998202, 115.59208836372977, 128.43565373747754]
+Row   4: ['B', 'Cấp độ chịu nén đặc trưng (MPa)', 'Phụ lục A.1', 10, 15, 20, 22.5, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100]
+Row   5: ['Rb,n = Rb,ser', 'Cường độ nén tiêu chuẩn (MPa)', 'Bảng 6', 7.5, 11, 15, 16.7, 18.5, 22, 25.5, 29, 32, 36, 39.5, 43, 50, 57, 64, 71]
+Row   6: ['Rbt,n = Rbt,ser', 'Cường độ kéo tiêu chuẩn (MPa)', 'Bảng 6', 0.85, 1.1, 1.35, 1.5, 1.55, 1.75, 1.95, 2.1, 2.25, 2.45, 2.6, 2.75, 3, 3.3, 3.6, 3.8]
+Row   7: ['Rb', 'Cường độ chịu nén tính toán (MPa)', 'Bảng 7', 6, 8.5, 11.5, 13, 14.5, 17, 19.5, 22, 25, 27.5, 30, 33, 37, 41, 44, 47.5]
+Row   8: ['Rbt', 'Cường độ chịu kéo tính toán (MPa)', 'Bảng 7', 0.56, 0.75, 0.9, 1, 1.05, 1.15, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.1, 2.15, 2.2]
+Row   9: ['Eb', 'Mô đun đàn hồi ban đầu (MPa)', 'Bảng 10', 19000, 24000, 27000, 28750, 30000, 32500, 34500, 36000, 37000, 38000, 39000, 39500, 41000, 42000, 42500, 43000]
+Row  10: ['jb,cr', 'Hế số từ biến của bê tông, độ ẩm tương đối >75%', 'Bảng 11', 2.8, 2.4, 2, 1.9, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2, 1.1, 1, 1, 1, 1, 1]
+Row  11: [None, 'Từ 45% đến 75 %', None, 3.9, 3.4, 2.8, 2.65, 2.5, 2.3, 2.1, 1.9, 1.8, 1.6, 1.5, 1.4, 1.4, 1.4, 1.4, 1.4]
+Row  12: [None, 'Dưới 40%', None, 5.6, 4.8, 4, 3.8, 3.6, 3.2, 3, 2.8, 2.6, 2.4, 2.2, 2, 2, 2, 2, 2]
+Row  13: [' nb,P', 'Hệ số Poát xông ', 'mục 6.1.3.5', 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+Row  14: [' abt', 'Hệ số biến dạng nhiệt (biến thiên -400C đến +500C)', 'mục 6.1.3.6', 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05, 1e-05]
+Row  16: ['THÔNG SỐ THIẾT KẾ CỦA THÉP', None, None, 'TCVN 1651-2018', None, None, None, None, None, 'JIS G3112-2010', None, None, None, None, None, None, None, None, None]
+Row  17: ['Kí hiệu', 'Định nghĩa', 'Trích dẫn', 'CB240-T', 'CB300-T', 'CB300-V', 'CB400-V', 'CB500-V', 'CB600-V', 'SD295', 'SD345', 'SD390', 'SD490', None, None, None, None, None, None]
+Row  18: ['fu', 'Giới hạn bền', 'Bảng C1', 380, 440, 450, 570, 650, 710, 440, 490, 560, 620, None, None, None, None, None, None]
+Row  19: ['fy', 'Giới hạn chảy', 'Bảng C1', 240, 300, 300, 400, 500, 600, 295, 345, 390, 490, None, None, None, None, None, None]
+Row  20: ['Rs,n = Rs,ser', 'Cường độ kéo, nén tiêu chuẩn (MPa)', 'Bảng 12', 240, 300, 300, 400, 500, 600, 295, 345, 390, 490, None, None, None, None, None, None]
+Row  21: ['Rs', 'Cường độ kéo tính toán (MPa)', 'Bảng 13', 210, 260, 260, 350, 435, 520, 256.5217391304348, 300, 339.13043478260875, 426.0869565217392, None, None, None, None, None, None]
+Row  22: ['Rsc ', 'Cường độ  nén tính toán (MPa)', 'Bảng 13', 210, 260, 260, 350, 400, 400, 257, 300, 339, 400, None, None, None, None, None, None]
+Row  23: ['Rsw', 'Cường độ cắt tính toán', 'Bảng 14', 170, 210, 210, 280, 300, 300, 179.89999999999998, 210, 237.29999999999998, 280, None, None, None, None, None, None]
+Row  24: ['Es', 'Mô đun đàn hồi của thép', 'Mục 6.2.3.3', 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, None, None, None, None, None, None]
+
+
+==================================================
+SHEET: Gan_tag_block (dims: A1:D3)
+==================================================
+Row   1: ['Tên block', 'kata_block_Ten', None, 'Lệnh "ganblock"']
+Row   2: ['KEY', 'COLOR', 'TAG PHỤ', None]
+Row   3: ['TEN', 'MÀU', 'CHU_THICH', None]
+
+

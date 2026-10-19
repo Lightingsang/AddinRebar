@@ -1,0 +1,68 @@
+<UserControl x:Class="HPRebar.BeamRebar.View.Controls.Beam3DViewport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:helix="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <helix:HelixViewport3D x:Name="HelixView"
+                               ModelUpDirection="0,0,1"
+                               ShowViewCube="True"
+                               ShowCoordinateSystem="True"
+                               CoordinateSystemHorizontalPosition="Left"
+                               CoordinateSystemVerticalPosition="Bottom"
+                               ViewCubeHorizontalPosition="Right"
+                               ViewCubeVerticalPosition="Top"
+                               ZoomAroundMouseDownPoint="True"
+                               RotateAroundMouseDownPoint="True"
+                               CameraRotationMode="Turntable"
+                               CameraInertiaFactor="0.92"
+                               IsChangeFieldOfViewEnabled="False"
+                               InfiniteSpin="False"
+                               ZoomExtentsWhenLoaded="True"
+                               PreviewMouseDown="OnHelixViewPreviewMouseDown">
+            <helix:DefaultLights />
+            <helix:GridLinesVisual3D x:Name="GridLines"
+                                     Normal="0,0,1"
+                                     Length="20000"
+                                     Width="4000"
+                                     MajorDistance="1000"
+                                     MinorDistance="200"
+                                     Thickness="2" />
+            <ModelVisual3D x:Name="BeamVisual" />
+        </helix:HelixViewport3D>
+
+        <!-- Floating Camera & View Controls -->
+        <Border HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="12"
+                CornerRadius="6"
+                Background="{DynamicResource MaterialDesignCardBackground}"
+                Opacity="0.92"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                Padding="6,4">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                        Padding="8,4"
+                        Height="30"
+                        ToolTip="Reset Camera to Fit Entire Continuous Beam (Double-click Middle Mouse Button)"
+                        Click="OnResetCameraClick">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="CameraOutline" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Fit View" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+                <Border Width="1" Height="16" Background="{DynamicResource MaterialDesignDivider}" Margin="6,0" VerticalAlignment="Center"/>
+                <TextBlock Text="Shift + M-Click: Orbit | M-Click: Pan | Wheel: Zoom | Double M-Click: Fit"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           Foreground="{DynamicResource MaterialDesignBodyLight}"
+                           Margin="6,0,4,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

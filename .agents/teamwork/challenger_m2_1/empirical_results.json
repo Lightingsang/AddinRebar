@@ -1,0 +1,919 @@
+﻿{
+    "Timestamp":  "2026-10-17T17:04:00.1616524+07:00",
+    "DllPath":  "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPKata\\HPKata.Core\\bin\\Debug\\netstandard2.0\\HPKata.Core.dll",
+    "AssemblyFullName":  "HPKata.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "ColumnCrankBendCalculator":  {
+                                      "StrategyBoundaries":  [
+                                                                 {
+                                                                     "Delta":  0,
+                                                                     "Expected":  "ContinuousStraight",
+                                                                     "Actual":  "ContinuousStraight",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Zero step-down (flush/continuous)"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  0.0005,
+                                                                     "Expected":  "ContinuousStraight",
+                                                                     "Actual":  "ContinuousStraight",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Epsilon step-down \u003c= 0.001"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  0.001,
+                                                                     "Expected":  "ContinuousStraight",
+                                                                     "Actual":  "ContinuousStraight",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Exact boundary 0.001"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  0.0011,
+                                                                     "Expected":  "CrankBend",
+                                                                     "Actual":  "CrankBend",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Just above boundary 0.001"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  10,
+                                                                     "Expected":  "CrankBend",
+                                                                     "Actual":  "CrankBend",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Nominal small crank"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  25,
+                                                                     "Expected":  "CrankBend",
+                                                                     "Actual":  "CrankBend",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Nominal 25mm crank"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  49.99,
+                                                                     "Expected":  "CrankBend",
+                                                                     "Actual":  "CrankBend",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Just below 50mm boundary"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  50,
+                                                                     "Expected":  "CrankBend",
+                                                                     "Actual":  "CrankBend",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Exact 50mm boundary"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  50.001,
+                                                                     "Expected":  "CutoffAndStarterDowel",
+                                                                     "Actual":  "CutoffAndStarterDowel",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Just above 50mm boundary"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  50.1,
+                                                                     "Expected":  "CutoffAndStarterDowel",
+                                                                     "Actual":  "CutoffAndStarterDowel",
+                                                                     "Passed":  true,
+                                                                     "Note":  "50.1mm cutoff boundary"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  75,
+                                                                     "Expected":  "CutoffAndStarterDowel",
+                                                                     "Actual":  "CutoffAndStarterDowel",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Large step-down 75mm"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  100,
+                                                                     "Expected":  "CutoffAndStarterDowel",
+                                                                     "Actual":  "CutoffAndStarterDowel",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Large step-down 100mm"
+                                                                 },
+                                                                 {
+                                                                     "Delta":  300,
+                                                                     "Expected":  "CutoffAndStarterDowel",
+                                                                     "Actual":  "CutoffAndStarterDowel",
+                                                                     "Passed":  true,
+                                                                     "Note":  "Extreme step-down 300mm"
+                                                                 }
+                                                             ],
+                                      "NegativeStepDown":  [
+                                                               {
+                                                                   "Delta":  -0.001,
+                                                                   "ThrewArgumentOutOfRangeException":  true,
+                                                                   "Passed":  true
+                                                               },
+                                                               {
+                                                                   "Delta":  -1,
+                                                                   "ThrewArgumentOutOfRangeException":  true,
+                                                                   "Passed":  true
+                                                               },
+                                                               {
+                                                                   "Delta":  -25,
+                                                                   "ThrewArgumentOutOfRangeException":  true,
+                                                                   "Passed":  true
+                                                               },
+                                                               {
+                                                                   "Delta":  -100,
+                                                                   "ThrewArgumentOutOfRangeException":  true,
+                                                                   "Passed":  true
+                                                               }
+                                                           ],
+                                      "CrankLength1to6":  [
+                                                              {
+                                                                  "Delta":  0,
+                                                                  "Expected":  0,
+                                                                  "Actual":  0,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  -10,
+                                                                  "Expected":  0,
+                                                                  "Actual":  0,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  10,
+                                                                  "Expected":  60,
+                                                                  "Actual":  60,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  25,
+                                                                  "Expected":  150,
+                                                                  "Actual":  150,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  33.333,
+                                                                  "Expected":  200,
+                                                                  "Actual":  200,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  50,
+                                                                  "Expected":  300,
+                                                                  "Actual":  300,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Delta":  75,
+                                                                  "Expected":  450,
+                                                                  "Actual":  450,
+                                                                  "Passed":  true
+                                                              }
+                                                          ],
+                                      "StepDownCalculations":  [
+                                                                   {
+                                                                       "Lower":  500,
+                                                                       "Upper":  400,
+                                                                       "Concentric":  true,
+                                                                       "Expected":  50,
+                                                                       "Actual":  50,
+                                                                       "Passed":  true
+                                                                   },
+                                                                   {
+                                                                       "Lower":  500,
+                                                                       "Upper":  400,
+                                                                       "Concentric":  false,
+                                                                       "Expected":  100,
+                                                                       "Actual":  100,
+                                                                       "Passed":  true
+                                                                   },
+                                                                   {
+                                                                       "Lower":  600,
+                                                                       "Upper":  400,
+                                                                       "Concentric":  true,
+                                                                       "Expected":  100,
+                                                                       "Actual":  100,
+                                                                       "Passed":  true
+                                                                   },
+                                                                   {
+                                                                       "Lower":  500,
+                                                                       "Upper":  450,
+                                                                       "Concentric":  false,
+                                                                       "Expected":  50,
+                                                                       "Actual":  50,
+                                                                       "Passed":  true
+                                                                   },
+                                                                   {
+                                                                       "Lower":  400,
+                                                                       "Upper":  400,
+                                                                       "Concentric":  true,
+                                                                       "Expected":  0,
+                                                                       "Actual":  0,
+                                                                       "Passed":  true
+                                                                   },
+                                                                   {
+                                                                       "Lower":  400,
+                                                                       "Upper":  500,
+                                                                       "Concentric":  true,
+                                                                       "Expected":  0,
+                                                                       "Actual":  0,
+                                                                       "Passed":  true
+                                                                   }
+                                                               ],
+                                      "ElevationCalculations":  [
+                                                                    {
+                                                                        "FloorZ":  3600,
+                                                                        "BeamDepth":  600,
+                                                                        "StepDown":  25,
+                                                                        "Actual":  {
+                                                                                       "LowerZ":  3600,
+                                                                                       "CrankTopZ":  3750,
+                                                                                       "UpperStartZ":  4200
+                                                                                   },
+                                                                        "Passed":  true
+                                                                    },
+                                                                    {
+                                                                        "FloorZ":  3600,
+                                                                        "BeamDepth":  600,
+                                                                        "StepDown":  50,
+                                                                        "Actual":  {
+                                                                                       "LowerZ":  3600,
+                                                                                       "CrankTopZ":  3900,
+                                                                                       "UpperStartZ":  4200
+                                                                                   },
+                                                                        "Passed":  true
+                                                                    },
+                                                                    {
+                                                                        "FloorZ":  3600,
+                                                                        "BeamDepth":  600,
+                                                                        "StepDown":  0,
+                                                                        "Actual":  {
+                                                                                       "LowerZ":  3600,
+                                                                                       "CrankTopZ":  3600,
+                                                                                       "UpperStartZ":  4200
+                                                                                   },
+                                                                        "Passed":  true
+                                                                    }
+                                                                ]
+                                  },
+    "ColumnSpliceCalculator":  {
+                                   "LapLengths":  [
+                                                      {
+                                                          "DiameterMm":  0,
+                                                          "CompLapMm":  0,
+                                                          "ExpectedCompMm":  0,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  0,
+                                                          "ExpectedTensMm":  0,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  -5,
+                                                          "CompLapMm":  0,
+                                                          "ExpectedCompMm":  0,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  0,
+                                                          "ExpectedTensMm":  0,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  10,
+                                                          "CompLapMm":  400,
+                                                          "ExpectedCompMm":  400,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  450,
+                                                          "ExpectedTensMm":  450,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  12,
+                                                          "CompLapMm":  420,
+                                                          "ExpectedCompMm":  420,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  540,
+                                                          "ExpectedTensMm":  540,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  14,
+                                                          "CompLapMm":  490,
+                                                          "ExpectedCompMm":  490,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  630,
+                                                          "ExpectedTensMm":  630,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  16,
+                                                          "CompLapMm":  560,
+                                                          "ExpectedCompMm":  560,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  720,
+                                                          "ExpectedTensMm":  720,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  18,
+                                                          "CompLapMm":  630,
+                                                          "ExpectedCompMm":  630,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  810,
+                                                          "ExpectedTensMm":  810,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  20,
+                                                          "CompLapMm":  700,
+                                                          "ExpectedCompMm":  700,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  900,
+                                                          "ExpectedTensMm":  900,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  22,
+                                                          "CompLapMm":  770,
+                                                          "ExpectedCompMm":  770,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  990,
+                                                          "ExpectedTensMm":  990,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  25,
+                                                          "CompLapMm":  875,
+                                                          "ExpectedCompMm":  875,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  1125,
+                                                          "ExpectedTensMm":  1125,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  28,
+                                                          "CompLapMm":  980,
+                                                          "ExpectedCompMm":  980,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  1260,
+                                                          "ExpectedTensMm":  1260,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  32,
+                                                          "CompLapMm":  1120,
+                                                          "ExpectedCompMm":  1120,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  1440,
+                                                          "ExpectedTensMm":  1440,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  36,
+                                                          "CompLapMm":  1260,
+                                                          "ExpectedCompMm":  1260,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  1620,
+                                                          "ExpectedTensMm":  1620,
+                                                          "TensPassed":  true
+                                                      },
+                                                      {
+                                                          "DiameterMm":  40,
+                                                          "CompLapMm":  1400,
+                                                          "ExpectedCompMm":  1400,
+                                                          "CompPassed":  true,
+                                                          "TensLapMm":  1800,
+                                                          "ExpectedTensMm":  1800,
+                                                          "TensPassed":  true
+                                                      }
+                                                  ],
+                                   "StaggerOffsets":  [
+                                                          {
+                                                              "LapMm":  0,
+                                                              "ExpectedOffsetMm":  600,
+                                                              "ActualOffsetMm":  600,
+                                                              "Passed":  true,
+                                                              "Note":  null
+                                                          },
+                                                          {
+                                                              "LapMm":  -10,
+                                                              "ExpectedOffsetMm":  600,
+                                                              "ActualOffsetMm":  600,
+                                                              "Passed":  true,
+                                                              "Note":  null
+                                                          },
+                                                          {
+                                                              "LapMm":  400,
+                                                              "ExpectedOffsetMm":  600,
+                                                              "ActualOffsetMm":  600,
+                                                              "Passed":  true,
+                                                              "Note":  "1.3*400=520 \u003c 600 =\u003e clamp 600mm"
+                                                          },
+                                                          {
+                                                              "LapMm":  500,
+                                                              "ExpectedOffsetMm":  650,
+                                                              "ActualOffsetMm":  650,
+                                                              "Passed":  true,
+                                                              "Note":  "1.3*500=650 \u003e= 600 =\u003e 650mm"
+                                                          },
+                                                          {
+                                                              "LapMm":  700,
+                                                              "ExpectedOffsetMm":  910,
+                                                              "ActualOffsetMm":  910,
+                                                              "Passed":  true,
+                                                              "Note":  "1.3*700=910 =\u003e 910mm"
+                                                          },
+                                                          {
+                                                              "LapMm":  875,
+                                                              "ExpectedOffsetMm":  1137.5,
+                                                              "ActualOffsetMm":  1137.5,
+                                                              "Passed":  true,
+                                                              "Note":  "1.3*875=1137.5mm"
+                                                          },
+                                                          {
+                                                              "LapMm":  1120,
+                                                              "ExpectedOffsetMm":  1456,
+                                                              "ActualOffsetMm":  1456,
+                                                              "Passed":  true,
+                                                              "Note":  "1.3*1120=1456mm"
+                                                          }
+                                                      ],
+                                   "SpliceElevations":  [
+                                                            {
+                                                                "FloorZ":  0,
+                                                                "BeamDepth":  600,
+                                                                "L0":  500,
+                                                                "Expected":  1100,
+                                                                "Actual":  1100,
+                                                                "Passed":  true
+                                                            },
+                                                            {
+                                                                "FloorZ":  3600,
+                                                                "BeamDepth":  700,
+                                                                "L0":  800,
+                                                                "Expected":  5100,
+                                                                "Actual":  5100,
+                                                                "Passed":  true
+                                                            },
+                                                            {
+                                                                "FloorZ":  0,
+                                                                "BeamDepth":  400,
+                                                                "L0":  300,
+                                                                "Expected":  900,
+                                                                "Actual":  900,
+                                                                "Passed":  true
+                                                            }
+                                                        ],
+                                   "StackSegmentations":  [
+                                                              {
+                                                                  "Stories":  1,
+                                                                  "Height":  3600,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  1,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  2,
+                                                                  "Height":  7200,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  1,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  3,
+                                                                  "Height":  10800,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  1,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  4,
+                                                                  "Height":  14400,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  3,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  5,
+                                                                  "Height":  18000,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  3,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  5,
+                                                                  "Height":  18000,
+                                                                  "Diameter":  20,
+                                                                  "Staggered":  true,
+                                                                  "SegmentCount":  4,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  10,
+                                                                  "Height":  36000,
+                                                                  "Diameter":  25,
+                                                                  "Staggered":  false,
+                                                                  "SegmentCount":  6,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              },
+                                                              {
+                                                                  "Stories":  10,
+                                                                  "Height":  36000,
+                                                                  "Diameter":  25,
+                                                                  "Staggered":  true,
+                                                                  "SegmentCount":  6,
+                                                                  "AllWithinStock":  true,
+                                                                  "ProperOverlap":  true,
+                                                                  "Passed":  true
+                                                              }
+                                                          ],
+                                   "StaggerDifferentialCheck":  {
+                                                                    "NonStaggeredTier0EndZ":  7200,
+                                                                    "StaggeredTier0EndZ":  4510,
+                                                                    "DeltaZ":  2690,
+                                                                    "MinRequiredStagger":  910,
+                                                                    "Passed":  true
+                                                                }
+                               },
+    "ColumnConfinementCalculator":  {
+                                        "ConfinementHeightL0":  [
+                                                                    {
+                                                                        "Width":  400,
+                                                                        "Depth":  400,
+                                                                        "ClearH":  3000,
+                                                                        "Expected":  500,
+                                                                        "Actual":  500,
+                                                                        "Passed":  true,
+                                                                        "Note":  "Hn/6=500, max(400, 500, 500) = 500"
+                                                                    },
+                                                                    {
+                                                                        "Width":  600,
+                                                                        "Depth":  400,
+                                                                        "ClearH":  3000,
+                                                                        "Expected":  600,
+                                                                        "Actual":  600,
+                                                                        "Passed":  true,
+                                                                        "Note":  "max(600, 500, 500) = 600"
+                                                                    },
+                                                                    {
+                                                                        "Width":  400,
+                                                                        "Depth":  600,
+                                                                        "ClearH":  3000,
+                                                                        "Expected":  600,
+                                                                        "Actual":  600,
+                                                                        "Passed":  true,
+                                                                        "Note":  "max(600, 500, 500) = 600"
+                                                                    },
+                                                                    {
+                                                                        "Width":  400,
+                                                                        "Depth":  400,
+                                                                        "ClearH":  4200,
+                                                                        "Expected":  700,
+                                                                        "Actual":  700,
+                                                                        "Passed":  true,
+                                                                        "Note":  "Hn/6=700, max(400, 700, 500) = 700"
+                                                                    },
+                                                                    {
+                                                                        "Width":  800,
+                                                                        "Depth":  800,
+                                                                        "ClearH":  3600,
+                                                                        "Expected":  800,
+                                                                        "Actual":  800,
+                                                                        "Passed":  true,
+                                                                        "Note":  "max(800, 600, 500) = 800"
+                                                                    },
+                                                                    {
+                                                                        "Width":  200,
+                                                                        "Depth":  200,
+                                                                        "ClearH":  2400,
+                                                                        "Expected":  500,
+                                                                        "Actual":  500,
+                                                                        "Passed":  true,
+                                                                        "Note":  "Narrow 200x200, clamp \u003e= 500"
+                                                                    },
+                                                                    {
+                                                                        "Width":  1000,
+                                                                        "Depth":  500,
+                                                                        "ClearH":  6000,
+                                                                        "Expected":  1000,
+                                                                        "Actual":  1000,
+                                                                        "Passed":  true,
+                                                                        "Note":  "Large column 1000mm"
+                                                                    }
+                                                                ],
+                                        "DenseSpacingA1":  [
+                                                               {
+                                                                   "MinDim":  400,
+                                                                   "Dia":  20,
+                                                                   "Expected":  100,
+                                                                   "Actual":  100,
+                                                                   "Passed":  true,
+                                                                   "Note":  "min(100, 120, 100) = 100"
+                                                               },
+                                                               {
+                                                                   "MinDim":  300,
+                                                                   "Dia":  14,
+                                                                   "Expected":  75,
+                                                                   "Actual":  75,
+                                                                   "Passed":  true,
+                                                                   "Note":  "min(75, 84, 100) = 75"
+                                                               },
+                                                               {
+                                                                   "MinDim":  200,
+                                                                   "Dia":  18,
+                                                                   "Expected":  50,
+                                                                   "Actual":  50,
+                                                                   "Passed":  true,
+                                                                   "Note":  "min(50, 108, 100) = 50"
+                                                               },
+                                                               {
+                                                                   "MinDim":  150,
+                                                                   "Dia":  12,
+                                                                   "Expected":  50,
+                                                                   "Actual":  50,
+                                                                   "Passed":  true,
+                                                                   "Note":  "min(37.5, 72, 100) = 37.5 -\u003e clamp 50"
+                                                               },
+                                                               {
+                                                                   "MinDim":  500,
+                                                                   "Dia":  16,
+                                                                   "Expected":  96,
+                                                                   "Actual":  96,
+                                                                   "Passed":  true,
+                                                                   "Note":  "min(125, 96, 100) = 96"
+                                                               }
+                                                           ],
+                                        "SparseSpacingA2":  [
+                                                                {
+                                                                    "MinDim":  400,
+                                                                    "Dia":  20,
+                                                                    "Expected":  200,
+                                                                    "Actual":  200,
+                                                                    "Passed":  true,
+                                                                    "Note":  "min(300, 400, 200) = 200"
+                                                                },
+                                                                {
+                                                                    "MinDim":  400,
+                                                                    "Dia":  12,
+                                                                    "Expected":  180,
+                                                                    "Actual":  180,
+                                                                    "Passed":  true,
+                                                                    "Note":  "min(180, 400, 200) = 180"
+                                                                },
+                                                                {
+                                                                    "MinDim":  300,
+                                                                    "Dia":  10,
+                                                                    "Expected":  150,
+                                                                    "Actual":  150,
+                                                                    "Passed":  true,
+                                                                    "Note":  "min(150, 300, 200) = 150"
+                                                                },
+                                                                {
+                                                                    "MinDim":  150,
+                                                                    "Dia":  18,
+                                                                    "Expected":  150,
+                                                                    "Actual":  150,
+                                                                    "Passed":  true,
+                                                                    "Note":  "min(270, 150, 200) = 150"
+                                                                },
+                                                                {
+                                                                    "MinDim":  200,
+                                                                    "Dia":  20,
+                                                                    "Expected":  200,
+                                                                    "Actual":  200,
+                                                                    "Passed":  true,
+                                                                    "Note":  "min(300, 200, 200) = 200"
+                                                                }
+                                                            ],
+                                        "FullConfinementCalculations":  [
+                                                                            {
+                                                                                "Width":  500,
+                                                                                "Depth":  500,
+                                                                                "ClearH":  3000,
+                                                                                "BeamDepth":  600,
+                                                                                "Dia":  20,
+                                                                                "Result":  {
+                                                                                               "L0":  500,
+                                                                                               "A1":  100,
+                                                                                               "A2":  200,
+                                                                                               "AJoint":  150,
+                                                                                               "BottomSets":  5,
+                                                                                               "TopSets":  5,
+                                                                                               "MidSets":  10,
+                                                                                               "JointSets":  4,
+                                                                                               "TotalSets":  24
+                                                                                           },
+                                                                                "Passed":  true
+                                                                            },
+                                                                            {
+                                                                                "Width":  400,
+                                                                                "Depth":  400,
+                                                                                "ClearH":  800,
+                                                                                "BeamDepth":  400,
+                                                                                "Dia":  18,
+                                                                                "Result":  {
+                                                                                               "L0":  400,
+                                                                                               "A1":  100,
+                                                                                               "A2":  200,
+                                                                                               "AJoint":  150,
+                                                                                               "BottomSets":  4,
+                                                                                               "TopSets":  4,
+                                                                                               "MidSets":  0,
+                                                                                               "JointSets":  3,
+                                                                                               "TotalSets":  11
+                                                                                           },
+                                                                                "Passed":  true
+                                                                            }
+                                                                        ]
+                                    },
+    "TcvnColumnRebarOptimizer":  {
+                                     "NominalSections":  [
+                                                             {
+                                                                 "Width":  400,
+                                                                 "Depth":  400,
+                                                                 "ReqAst":  1000,
+                                                                 "ProvidedAst":  1017.9,
+                                                                 "ReinforcementRatioPct":  0.64,
+                                                                 "MinClearSpacingMm":  288,
+                                                                 "CornerDia":  18,
+                                                                 "SideB":  0,
+                                                                 "SideH":  0,
+                                                                 "Passed":  true,
+                                                                 "Note":  "400x400 nominal Ast=1000"
+                                                             },
+                                                             {
+                                                                 "Width":  400,
+                                                                 "Depth":  400,
+                                                                 "ReqAst":  2500,
+                                                                 "ProvidedAst":  2513.3,
+                                                                 "ReinforcementRatioPct":  1.57,
+                                                                 "MinClearSpacingMm":  81.3,
+                                                                 "CornerDia":  20,
+                                                                 "SideB":  0,
+                                                                 "SideH":  2,
+                                                                 "Passed":  true,
+                                                                 "Note":  "400x400 Ast=2500"
+                                                             },
+                                                             {
+                                                                 "Width":  400,
+                                                                 "Depth":  400,
+                                                                 "ReqAst":  4500,
+                                                                 "ProvidedAst":  4561.6,
+                                                                 "ReinforcementRatioPct":  2.85,
+                                                                 "MinClearSpacingMm":  53.5,
+                                                                 "CornerDia":  22,
+                                                                 "SideB":  1,
+                                                                 "SideH":  3,
+                                                                 "Passed":  true,
+                                                                 "Note":  "400x400 high Ast=4500"
+                                                             },
+                                                             {
+                                                                 "Width":  500,
+                                                                 "Depth":  500,
+                                                                 "ReqAst":  2500,
+                                                                 "ProvidedAst":  2513.3,
+                                                                 "ReinforcementRatioPct":  1.01,
+                                                                 "MinClearSpacingMm":  114.7,
+                                                                 "CornerDia":  20,
+                                                                 "SideB":  0,
+                                                                 "SideH":  2,
+                                                                 "Passed":  true,
+                                                                 "Note":  "500x500 nominal Ast=2500"
+                                                             },
+                                                             {
+                                                                 "Width":  500,
+                                                                 "Depth":  500,
+                                                                 "ReqAst":  6000,
+                                                                 "ProvidedAst":  6082.1,
+                                                                 "ReinforcementRatioPct":  2.43,
+                                                                 "MinClearSpacingMm":  78.5,
+                                                                 "CornerDia":  22,
+                                                                 "SideB":  3,
+                                                                 "SideH":  3,
+                                                                 "Passed":  true,
+                                                                 "Note":  "500x500 high Ast=6000"
+                                                             },
+                                                             {
+                                                                 "Width":  600,
+                                                                 "Depth":  800,
+                                                                 "ReqAst":  5000,
+                                                                 "ProvidedAst":  5026.5,
+                                                                 "ReinforcementRatioPct":  1.05,
+                                                                 "MinClearSpacingMm":  106,
+                                                                 "CornerDia":  20,
+                                                                 "SideB":  3,
+                                                                 "SideH":  3,
+                                                                 "Passed":  true,
+                                                                 "Note":  "600x800 large column Ast=5000"
+                                                             },
+                                                             {
+                                                                 "Width":  600,
+                                                                 "Depth":  800,
+                                                                 "ReqAst":  12000,
+                                                                 "ProvidedAst":  12868,
+                                                                 "ReinforcementRatioPct":  2.68,
+                                                                 "MinClearSpacingMm":  91,
+                                                                 "CornerDia":  32,
+                                                                 "SideB":  3,
+                                                                 "SideH":  3,
+                                                                 "Passed":  true,
+                                                                 "Note":  "600x800 large column Ast=12000"
+                                                             },
+                                                             {
+                                                                 "Width":  400,
+                                                                 "Depth":  400,
+                                                                 "ReqAst":  0,
+                                                                 "ProvidedAst":  1017.9,
+                                                                 "ReinforcementRatioPct":  0.64,
+                                                                 "MinClearSpacingMm":  288,
+                                                                 "CornerDia":  18,
+                                                                 "SideB":  0,
+                                                                 "SideH":  0,
+                                                                 "Passed":  true,
+                                                                 "Note":  "400x400 zero Ast (enforce min rho 0.6%)"
+                                                             }
+                                                         ],
+                                     "Narrow200x200":  [
+                                                           {
+                                                               "Width":  200,
+                                                               "Depth":  200,
+                                                               "ReqAst":  300,
+                                                               "ProvidedAst":  1017.9,
+                                                               "ReinforcementRatioPct":  2.54,
+                                                               "MinClearSpacingMm":  88,
+                                                               "CornerDia":  18,
+                                                               "SideB":  0,
+                                                               "SideH":  0,
+                                                               "Passed":  true,
+                                                               "Note":  "200x200 min steel (rho 0.6% = 240mm2)"
+                                                           },
+                                                           {
+                                                               "Width":  200,
+                                                               "Depth":  200,
+                                                               "ReqAst":  700,
+                                                               "ProvidedAst":  1017.9,
+                                                               "ReinforcementRatioPct":  2.54,
+                                                               "MinClearSpacingMm":  88,
+                                                               "CornerDia":  18,
+                                                               "SideB":  0,
+                                                               "SideH":  0,
+                                                               "Passed":  true,
+                                                               "Note":  "200x200 Ast=700mm2"
+                                                           },
+                                                           {
+                                                               "Width":  200,
+                                                               "Depth":  200,
+                                                               "ReqAst":  1000,
+                                                               "ProvidedAst":  1017.9,
+                                                               "ReinforcementRatioPct":  2.54,
+                                                               "MinClearSpacingMm":  88,
+                                                               "CornerDia":  18,
+                                                               "SideB":  0,
+                                                               "SideH":  0,
+                                                               "Passed":  true,
+                                                               "Note":  "200x200 Ast=1000mm2 (4d18 = 1018mm2)"
+                                                           },
+                                                           {
+                                                               "Width":  200,
+                                                               "Depth":  200,
+                                                               "ReqAst":  1200,
+                                                               "ProvidedAst":  1256.6,
+                                                               "ReinforcementRatioPct":  3.14,
+                                                               "MinClearSpacingMm":  84,
+                                                               "CornerDia":  20,
+                                                               "SideB":  0,
+                                                               "SideH":  0,
+                                                               "Passed":  true,
+                                                               "Note":  "200x200 Ast=1200mm2 (4d20 = 1256mm2)"
+                                                           }
+                                                       ]
+                                 },
+    "AdversarialStressFindings":  [
+                                      {
+                                          "FindingId":  "CHALLENGE-03",
+                                          "Severity":  "LOW",
+                                          "Component":  "ColumnCrankBendCalculator.CalculateCrankElevation",
+                                          "Scenario":  "beamDepthMm = 200, stepDownMm = 50 (crankLen = 300 \u003e beamDepth)",
+                                          "Observed":  "effectiveCrankLen = Math.Min(crankLen, Math.Max(crankLen, beamDepthMm)) evaluates to 300mm instead of being capped to beamDepth (200mm). The expression min(a, max(a, b)) is an algebraic identity equal to a.",
+                                          "Impact":  "Crank bend elevation is not capped within shallow beam depths; dead clamping logic.",
+                                          "Remediation":  "Replace Math.Min(crankLen, Math.Max(crankLen, beamDepthMm)) with Math.Min(crankLen, beamDepthMm)."
+                                      }
+                                  ],
+    "Summary":  {
+                    "TotalTestsExecuted":  113,
+                    "Passed":  113,
+                    "Failed":  0,
+                    "DefectsFoundCount":  1,
+                    "SuccessRatePct":  100,
+                    "Verdict":  "DEFECT_FOUND"
+                }
+}

@@ -1,0 +1,43 @@
+(defun c:extract_info ()
+  (setq f (open "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\.agents\\teamwork\\teamwork_preview_spec_miner_survey_2\\dwg_tables.txt" "w"))
+  
+  (write-line "=== APPID TABLE ===" f)
+  (setq item (tblnext "APPID" T))
+  (while item
+    (write-line (vl-prin1-to-string item) f)
+    (setq item (tblnext "APPID"))
+  )
+  
+  (write-line "=== LAYER TABLE ===" f)
+  (setq item (tblnext "LAYER" T))
+  (while item
+    (write-line (vl-prin1-to-string item) f)
+    (setq item (tblnext "LAYER"))
+  )
+  
+  (write-line "=== STYLE TABLE ===" f)
+  (setq item (tblnext "STYLE" T))
+  (while item
+    (write-line (vl-prin1-to-string item) f)
+    (setq item (tblnext "STYLE"))
+  )
+  
+  (write-line "=== DIMSTYLE TABLE ===" f)
+  (setq item (tblnext "DIMSTYLE" T))
+  (while item
+    (write-line (vl-prin1-to-string item) f)
+    (setq item (tblnext "DIMSTYLE"))
+  )
+  
+  (write-line "=== BLOCK TABLE ===" f)
+  (setq item (tblnext "BLOCK" T))
+  (while item
+    (write-line (vl-prin1-to-string item) f)
+    (setq item (tblnext "BLOCK"))
+  )
+  
+  (close f)
+  (princ "\nExtraction finished.\n")
+  (command "QUIT" "_Y")
+)
+(c:extract_info)

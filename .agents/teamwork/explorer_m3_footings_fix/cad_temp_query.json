@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":{\"count\":24,\"ents\":[{\"type\":\"Line\",\"p1\":{\"x\":16368.5,\"y\":1960},\"p2\":{\"x\":16156.1,\"y\":2300},\"len\":400.9},{\"type\":\"Line\",\"p1\":{\"x\":15968.6,\"y\":2600},\"p2\":{\"x\":15968.6,\"y\":3300},\"len\":700},{\"type\":\"Line\",\"p1\":{\"x\":15968.6,\"y\":3300},\"p2\":{\"x\":16368.6,\"y\":3300},\"len\":400},{\"type\":\"Line\",\"p1\":{\"x\":16668.5,\"y\":3300},\"p2\":{\"x\":17568.5,\"y\":3300},\"len\":900},{\"type\":\"Line\",\"p1\":{\"x\":17568.5,\"y\":3300},\"p2\":{\"x\":17568.5,\"y\":2900},\"len\":400},{\"type\":\"Line\",\"p1\":{\"x\":15418.5,\"y\":5600},\"p2\":{\"x\":16368.6,\"y\":5600},\"len\":950},{\"type\":\"Line\",\"p1\":{\"x\":16668.6,\"y\":5600},\"p2\":{\"x\":17918.5,\"y\":5600},\"len\":1250},{\"type\":\"Line\",\"p1\":{\"x\":17918.5,\"y\":5600},\"p2\":{\"x\":17918.5,\"y\":4850},\"len\":750},{\"type\":\"Line\",\"p1\":{\"x\":17918.5,\"y\":4550},\"p2\":{\"x\":17918.5,\"y\":4000},\"len\":550},{\"type\":\"Line\",\"p1\":{\"x\":17918.5,\"y\":4000},\"p2\":{\"x\":16668.6,\"y\":4000},\"len\":1250},{\"type\":\"Line\",\"p1\":{\"x\":16368.6,\"y\":4000},\"p2\":{\"x\":15418.5,\"y\":4000},\"len\":950},{\"type\":\"Line\",\"p1\":{\"x\":15418.5,\"y\":4000},\"p2\":{\"x\":15418.5,\"y\":4550},\"len\":550},{\"type\":\"Line\",\"p1\":{\"x\":15418.5,\"y\":4850},\"p2\":{\"x\":15418.5,\"y\":5600},\"len\":750},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":0,\"verts\":2},{\"type\":\"Polyline\",\"closed\":false,\"area\":3906.2499999772626,\"verts\":3},{\"type\":\"Polyline\",\"closed\":false,\"area\":3906.2499999905413,\"verts\":3},{\"type\":\"Line\",\"p1\":{\"x\":16156.1,\"y\":2300},\"p2\":{\"x\":15968.6,\"y\":2600},\"len\":353.8}]},\"valueType\":\"object\",\"logs\":[],\"diagnostics\":[],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":13,\"truncated\":false,\"runId\":84,\"hint\":\"This run succeeded and looks reusable. To keep it as a tool: get_run 84 (shows literals to turn into args), then propose_tool. Skip if it was a one-off.\"}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

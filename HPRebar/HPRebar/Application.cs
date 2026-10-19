@@ -6,6 +6,8 @@ using HPRebar.ColumnRebar;
 using HPRebar.FoundationRebar;
 using HPRebar.KataExport;
 using HPRebar.KataRebar;
+using HPRebar.RebarPartition;
+using HPRebar.JoinElements;
 using HPRebar.Resources.Icons;
 using Nice3point.Revit.Toolkit.External;
 using Serilog;
@@ -66,6 +68,10 @@ namespace HPRebar
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
             Track(rebarPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
             Track(rebarPanel.AddPushButton<KataRebarCommand>("Kata Rebar"), icons => icons.KataRebar);
+            Track(rebarPanel.AddPushButton<RebarPartitionCommand>("Rebar Partition"), icons => icons.RebarPartition);
+
+            var geomPanel = Application.CreatePanel("Geometry", "HPRebar");
+            Track(geomPanel.AddPushButton<JoinElementCommand>("Join Elements"), icons => icons.JoinElements);
 #endif
 
             // Vector glyphs drawn in code (RibbonIcons): crisp at any DPI, ink follows Revit's UI theme.

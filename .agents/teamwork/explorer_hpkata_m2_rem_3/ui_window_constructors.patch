@@ -1,0 +1,60 @@
+diff --git a/HPKata/HPKata.UI/Views/FoundationDetailingWindow.xaml.cs b/HPKata/HPKata.UI/Views/FoundationDetailingWindow.xaml.cs
+--- a/HPKata/HPKata.UI/Views/FoundationDetailingWindow.xaml.cs
++++ b/HPKata/HPKata.UI/Views/FoundationDetailingWindow.xaml.cs
+@@ -5,6 +5,10 @@ namespace HPKata.UI.Views
+ {
+     public partial class FoundationDetailingWindow : Window
+     {
++        public FoundationDetailingWindow() : this(new FoundationDetailingViewModel())
++        {
++        }
++
+         public FoundationDetailingWindow(FoundationDetailingViewModel vm)
+         {
+             InitializeComponent();
+diff --git a/HPKata/HPKata.UI/Views/SlabDetailingWindow.xaml.cs b/HPKata/HPKata.UI/Views/SlabDetailingWindow.xaml.cs
+--- a/HPKata/HPKata.UI/Views/SlabDetailingWindow.xaml.cs
++++ b/HPKata/HPKata.UI/Views/SlabDetailingWindow.xaml.cs
+@@ -5,6 +5,10 @@ namespace HPKata.UI.Views
+ {
+     public partial class SlabDetailingWindow : Window
+     {
++        public SlabDetailingWindow() : this(new SlabDetailingViewModel())
++        {
++        }
++
+         public SlabDetailingWindow(SlabDetailingViewModel vm)
+         {
+             InitializeComponent();
+diff --git a/HPKata/HPKata.UI/Views/StairLintelDetailingWindow.xaml.cs b/HPKata/HPKata.UI/Views/StairLintelDetailingWindow.xaml.cs
+--- a/HPKata/HPKata.UI/Views/StairLintelDetailingWindow.xaml.cs
++++ b/HPKata/HPKata.UI/Views/StairLintelDetailingWindow.xaml.cs
+@@ -5,6 +5,10 @@ namespace HPKata.UI.Views
+ {
+     public partial class StairLintelDetailingWindow : Window
+     {
++        public StairLintelDetailingWindow() : this(new StairLintelDetailingViewModel())
++        {
++        }
++
+         public StairLintelDetailingWindow(StairLintelDetailingViewModel vm)
+         {
+             InitializeComponent();
+diff --git a/HPKata/HPKata.E2E.Tests/Tier1_FeatureCoverage/Tier1_M2_ChallengerUiStressTests.cs b/HPKata/HPKata.E2E.Tests/Tier1_FeatureCoverage/Tier1_M2_ChallengerUiStressTests.cs
+--- a/HPKata/HPKata.E2E.Tests/Tier1_FeatureCoverage/Tier1_M2_ChallengerUiStressTests.cs
++++ b/HPKata/HPKata.E2E.Tests/Tier1_FeatureCoverage/Tier1_M2_ChallengerUiStressTests.cs
+@@ -26,12 +26,12 @@ public sealed class Tier1_M2_ChallengerUiStressTests
+         () => new DetailingView(),
+         () => new DrawingUtilityWindow(),
+         () => new EtabsImportWindow(),
+-        () => new FoundationDetailingWindow(new FoundationDetailingViewModel()),
++        () => new FoundationDetailingWindow(),
+         () => new QsTakeoffWindow(),
+         () => new ScheduleView(),
+         () => new SetupView(),
+-        () => new SlabDetailingWindow(new SlabDetailingViewModel()),
+-        () => new StairLintelDetailingWindow(new StairLintelDetailingViewModel()),
++        () => new SlabDetailingWindow(),
++        () => new StairLintelDetailingWindow(),
+         () => new WallDetailingWindow()
+     ];

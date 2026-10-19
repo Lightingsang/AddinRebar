@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<!--<AddIn Type="Command">
+		<Name>DBimRevit</Name>
+		<FullClassName>DBimRevit.AdskCommand</FullClassName> 
+		<Text>DBIM TEST</Text>
+		<Description>Mô tả</Description>
+		<VisibilityMode>AlwaysVisible</VisibilityMode>
+		<Assembly>DBimRevit.dll</Assembly>
+		<ClientId>C8B84063-3AAA-4FB6-A302-2DFD3B7074C6</ClientId>
+		<LanguageType>Unknown</LanguageType>
+		<VendorId>DBIM</VendorId>
+		<VendorDescription>DBIM, www.dcejsc.com</VendorDescription>
+	</AddIn>-->
+	
+	<AddIn Type="Application">
+		<Name>DBimRevit</Name>
+		<Assembly>AddinDbimDcepro\DBimRevit.dll</Assembly>
+		<ClientId>CE8C9CDC-D6E0-4E50-90A6-07D41C53483C</ClientId>
+		<FullClassName>DBimRevit.AdskApplication</FullClassName>
+		<VendorId>DBIM</VendorId>
+		<VendorDescription>DBIM, www.dcejsc.com</VendorDescription>		
+	</AddIn>
+</RevitAddIns>
+
+<!-- Enable themes for Windows common controls and dialogs (Windows XP and later) -->

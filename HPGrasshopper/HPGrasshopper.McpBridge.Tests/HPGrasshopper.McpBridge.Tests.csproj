@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
+        <RootNamespace>HPGrasshopper.McpBridge.Tests</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <IsPackable>false</IsPackable>
+        <OutputType>Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <NoWarn>$(NoWarn);MSB3277</NoWarn>
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3" Version="3.1.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.12" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPGrasshopper.McpBridge\HPGrasshopper.McpBridge.csproj" />
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj" />
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj" />
+    </ItemGroup>
+
+    <!-- Revit 2026 Core Reference Assemblies (Never copied to bin) -->
+    <ItemGroup Condition="'$(RevitApiAvailable)' == 'true'">
+        <Reference Include="RevitAPI">
+            <HintPath>$(RevitInstallDir)RevitAPI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+            <HintPath>$(RevitInstallDir)RevitAPIUI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Rhino 8 & Grasshopper Core Reference Assemblies (Never copied to bin) -->
+    <ItemGroup Condition="'$(RhinoApiAvailable)' == 'true'">
+        <Reference Include="RhinoCommon">
+            <HintPath>$(Rhino8SystemDir)RhinoCommon.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Grasshopper">
+            <HintPath>$(GrasshopperDir)Grasshopper.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="GH_IO">
+            <HintPath>$(GrasshopperDir)GH_IO.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Fixtures\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

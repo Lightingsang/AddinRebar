@@ -1,0 +1,33 @@
+{
+  "linesCount": 0,
+  "dimsCount": 3,
+  "circlesCount": 1,
+  "lines": [],
+  "dims": [
+    {
+      "layer": "Dim shx",
+      "text": "",
+      "meas": 250
+    },
+    {
+      "layer": "Dim shx",
+      "text": "",
+      "meas": 350
+    },
+    {
+      "layer": "Dim shx",
+      "text": "",
+      "meas": 600
+    }
+  ],
+  "circles": [
+    {
+      "layer": "08-HIDDEN(0.18)",
+      "radius": 213.4,
+      "center": {
+        "x": 570582.2,
+        "y": -64547.4
+      }
+    }
+  ]
+}

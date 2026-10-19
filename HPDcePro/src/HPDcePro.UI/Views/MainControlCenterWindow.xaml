@@ -1,0 +1,229 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.MainControlCenterWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Trung Tâm Điều Khiển &amp; Bản Vẽ Kết Cấu (GETFORM)"
+                  Height="740" Width="1040"
+                  MinHeight="620" MinWidth="880"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Branding Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="HPDCEPRO - TRUNG TÂM ĐIỀU KHIỂN &amp; BẢN VẼ KẾT CẤU (GETFORM)" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Điều phối tính toán kết cấu, tối ưu hóa vật liệu và tự động hóa bản vẽ CAD/Revit" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Border Background="{DynamicResource Brush.SurfaceElevated}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="4" Padding="8,4">
+                        <TextBlock Text="TCVN 5574:2018 | TCVN 5575:2024 | TCVN 10304:2025" Style="{StaticResource Text.Muted}" FontSize="11"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- KPI Summary Ribbon -->
+        <Border Grid.Row="1" Style="{StaticResource Card.Panel}">
+            <UniformGrid Rows="1" Columns="6">
+                <!-- Metric 1: Stories -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="SỐ TẦNG" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalStories}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+                <!-- Metric 2: Columns & Walls -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="CỘT &amp; VÁCH" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalColumns}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+                <!-- Metric 3: Beams -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="DẦM BTCT" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalBeams}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+                <!-- Metric 4: Footings & Piles -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="MÓNG &amp; CỌC" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalFootings}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+                <!-- Metric 5: Steel Frames -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="KHUNG THÉP" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalSteelFrames}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+                <!-- Metric 6: Rebar Efficiency -->
+                <Border Margin="4,0" Background="{DynamicResource Brush.SurfaceElevated}" CornerRadius="4" Padding="8,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="HIỆU SUẤT THÉP" Style="{StaticResource Text.Label}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding RebarEfficiency, StringFormat={}{0:F1}%}" Style="{StaticResource Text.Section}" HorizontalAlignment="Center" FontSize="18"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </Border>
+
+        <!-- 6 Interactive Module Cards -->
+        <Grid Grid.Row="2" Margin="0,0,0,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Card 1: Beam Detailing -->
+            <Border Grid.Row="0" Grid.Column="0" Margin="0,0,6,6" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="01. DẦM BÊ TÔNG CỐT THÉP" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Mặt cắt dọc, tiết diện 1-1/2-2, tính toán uốn nứt theo TCVN 5574:2018 và gán XData bản vẽ CAD." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding BeamModuleStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Module Dầm" Command="{Binding OpenBeamDetailingCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+
+            <!-- Card 2: Column & Wall Detailing -->
+            <Border Grid.Row="0" Grid.Column="1" Margin="6,0,6,6" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="02. CỘT &amp; VÁCH BIAXIAL" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Biểu đồ tương tác P-Mx-My, neo nối uốn 1:6, đai REC1/REC2/Ci và cấu kiện biên vách cứng." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding ColumnModuleStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Module Cột/Vách" Command="{Binding OpenColumnWallCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+
+            <!-- Card 3: Foundation & Slab -->
+            <Border Grid.Row="0" Grid.Column="2" Margin="6,0,0,6" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="03. MÓNG CỌC, ĐƠN &amp; SÀN" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Đài cọc, sức chịu tải cọc SPT TCVN 10304, móng đơn đâm thủng và tính bản sàn 2 phương Marcus." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding FoundationModuleStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Module Móng/Sàn" Command="{Binding OpenFoundationSlabCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+
+            <!-- Card 4: Cutting Optimization -->
+            <Border Grid.Row="1" Grid.Column="0" Margin="0,6,6,0" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="04. TỐI ƯU CẮT THÉP 11.7M" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Thuật toán cutting stock 1D cho thanh thương phẩm 11.7m, giảm hao hụt &lt; 3% và thống kê TCVN 1651." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding CuttingOptStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Tối Ưu Cắt Thép" Command="{Binding OpenCuttingOptimizationCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+
+            <!-- Card 5: Steel Connection & PEB -->
+            <Border Grid.Row="1" Grid.Column="1" Margin="6,6,6,0" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="05. KẾT CẤU THÉP &amp; PEB" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Khung MiddleFrame, xà gồ Z/C, liên kết moment bu lông cường độ cao, bản đế móng TCVN 5575:2024." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding SteelModuleStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Module Thép" Command="{Binding OpenSteelConnectionCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+
+            <!-- Card 6: AutoStr 24 Steps -->
+            <Border Grid.Row="1" Grid.Column="2" Margin="6,6,0,0" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="06. AUTOSTR 24 BƯỚC" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Grid.Row="1" Text="Cấu hình quy trình tự động 24 bước từ bản vẽ kiến trúc đến mô hình ETABS và xuất tiên lượng Excel." Style="{StaticResource Text.Muted}" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="{Binding AutoStrModuleStatus}" Style="{StaticResource Text.Label}" Margin="0,6,0,8"/>
+                    <Button Grid.Row="3" Content="Mở Cấu Hình AutoStr" Command="{Binding OpenAutoStrConfigCommand}" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Bottom Action Bar & Status -->
+        <Border Grid.Row="3" Style="{StaticResource Card.Panel}" Margin="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Status Text -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+
+                <!-- Actions -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Tải Dự Án..." Click="LoadProjectButton_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                    <Button Content="Lưu Dự Án..." Click="SaveProjectButton_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                    <Button Content="Làm Mới" Command="{Binding RefreshCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                    <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

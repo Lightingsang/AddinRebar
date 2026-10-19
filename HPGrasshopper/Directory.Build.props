@@ -1,0 +1,66 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPGrasshopper (Revit 2026, Rhino 8, Grasshopper & Rhino.Inside.Revit MCP Subsystem).
+    Enforces shared properties, paths to McpShared, and assembly resolution
+    for Autodesk Revit 2026, Rhinoceros 8, Grasshopper, and Rhino.Inside.Revit.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);xUnit1051;NU1701;MSB3277</NoWarn>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+
+    <!-- Version Pins -->
+    <RevitYear Condition="'$(RevitYear)' == ''">2026</RevitYear>
+    <RhinoVersion Condition="'$(RhinoVersion)' == ''">8</RhinoVersion>
+
+    <!-- McpShared Projects Relative Resolution -->
+    <McpSharedDir Condition="'$(McpSharedDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\McpShared\'))</McpSharedDir>
+    <McpContractsProjectPath>$(McpSharedDir)HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj</McpContractsProjectPath>
+    <McpBridgeCoreProjectPath>$(McpSharedDir)HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj</McpBridgeCoreProjectPath>
+    <McpServerCoreProjectPath>$(McpSharedDir)HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj</McpServerCoreProjectPath>
+
+    <!-- Revit 2026 Base Directory Resolution -->
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == '' And '$(HPREBAR_REVIT_DIR)' != ''">$(HPREBAR_REVIT_DIR)</RevitInstallDir>
+    <_RevitRegLocation Condition="'$(RevitInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\Revit\$(RevitYear)\REVIT-05:0409', 'InstallationLocation', null, RegistryView.Registry64))</_RevitRegLocation>
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == '' And '$(_RevitRegLocation)' != ''">$(_RevitRegLocation)</RevitInstallDir>
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == ''">$(ProgramW6432)\Autodesk\Revit $(RevitYear)\</RevitInstallDir>
+    <RevitInstallDir Condition="!HasTrailingSlash('$(RevitInstallDir)')">$(RevitInstallDir)\</RevitInstallDir>
+
+    <!-- Rhino 8 Directory Resolution -->
+    <Rhino8InstallDir Condition="'$(Rhino8InstallDir)' == '' And '$(HPGRASSHOPPER_RHINO_DIR)' != ''">$(HPGRASSHOPPER_RHINO_DIR)</Rhino8InstallDir>
+    <Rhino8InstallDir Condition="'$(Rhino8InstallDir)' == ''">$(ProgramW6432)\Rhino $(RhinoVersion)\</Rhino8InstallDir>
+    <Rhino8InstallDir Condition="!HasTrailingSlash('$(Rhino8InstallDir)')">$(Rhino8InstallDir)\</Rhino8InstallDir>
+    <Rhino8SystemDir>$(Rhino8InstallDir)System\netcore\</Rhino8SystemDir>
+    <GrasshopperDir>$(Rhino8InstallDir)Plug-ins\Grasshopper\</GrasshopperDir>
+
+    <!-- Rhino.Inside.Revit Directory Resolution -->
+    <RhinoInsideDir Condition="'$(RhinoInsideDir)' == '' And '$(HPGRASSHOPPER_RHINOINSIDE_DIR)' != ''">$(HPGRASSHOPPER_RHINOINSIDE_DIR)</RhinoInsideDir>
+    <RhinoInsideDir Condition="'$(RhinoInsideDir)' == ''">$(ProgramData)\Autodesk\Revit\Addins\$(RevitYear)\RhinoInside.Revit\R8\</RhinoInsideDir>
+    <RhinoInsideDir Condition="!HasTrailingSlash('$(RhinoInsideDir)')">$(RhinoInsideDir)\</RhinoInsideDir>
+
+    <!-- Deployment Folders (per-user AppData) -->
+    <RevitAddinsDeployDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\Revit\Addins\$(RevitYear)\</RevitAddinsDeployDir>
+
+    <!-- API Availability Diagnostics -->
+    <RevitApiAvailable>false</RevitApiAvailable>
+    <RevitApiAvailable Condition="Exists('$(RevitInstallDir)RevitAPI.dll')">true</RevitApiAvailable>
+
+    <RhinoApiAvailable>false</RhinoApiAvailable>
+    <RhinoApiAvailable Condition="Exists('$(Rhino8SystemDir)RhinoCommon.dll') And Exists('$(GrasshopperDir)Grasshopper.dll')">true</RhinoApiAvailable>
+
+    <RhinoInsideAvailable>false</RhinoInsideAvailable>
+    <RhinoInsideAvailable Condition="Exists('$(RhinoInsideDir)RhinoInside.Revit.dll')">true</RhinoInsideAvailable>
+  </PropertyGroup>
+
+  <!-- Global ItemDefinitionGroup: Guaranteed defense against bin pollution with host assemblies -->
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>false</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+
+</Project>

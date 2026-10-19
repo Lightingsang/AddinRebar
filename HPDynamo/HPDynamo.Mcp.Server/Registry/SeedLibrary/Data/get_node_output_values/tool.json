@@ -1,0 +1,51 @@
+{
+  "name": "get_node_output_values",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Data",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "data",
+    "output",
+    "values",
+    "evaluation",
+    "results",
+    "ports",
+    "query"
+  ],
+  "title": "Get node output values",
+  "description": "Retrieve computed evaluation values and cached mirror data from output ports of specified nodes or all active nodes after graph execution. Read-only.",
+  "notes": "Reads cached evaluation data via EngineController. If a node is in an Error or Warning state, tooltips and diagnostic messages are returned alongside port data.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "nodeIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional list of node GUIDs or names to query. If omitted or empty, queries all nodes in the workspace."
+      },
+      "includeGeometry": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, extracts detailed geometric coordinates and measurements rather than short string summaries"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 50,
+        "minimum": 1,
+        "maximum": 200,
+        "description": "Maximum number of nodes to inspect (1-200, default 50)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

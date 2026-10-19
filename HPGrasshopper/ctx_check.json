@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"host\":\"grasshopper\",\"hostVersion\":\"2026\",\"grasshopper\":{\"isEditorLoaded\":true,\"grasshopperVersion\":\"8.26.25349.19001\",\"rhinoVersion\":\"8.26.25349.19001\",\"activeDefinitionName\":\"ContinuousBeamRenumbering*\",\"activeDefinitionPath\":\"G:\\\\09-PROJECT AI\\\\01_Revit\\\\02_CshapRevit\\\\01_AddinRebar\\\\HPGrasshopper\\\\definitions\\\\ContinuousBeamRenumbering.gh\",\"componentCount\":6,\"wireCount\":0,\"selectedComponentCount\":1,\"hasUnsavedChanges\":true,\"isRhinoInsideRevitActive\":true},\"docTitle\":\"STR-TRUONG KHANH BINH\",\"isReadOnly\":false,\"isModifiable\":false,\"units\":{\"length\":\"m\"},\"selection\":[],\"openDocs\":[\"STR-TRUONG KHANH BINH\"],\"executionEnabled\":false}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

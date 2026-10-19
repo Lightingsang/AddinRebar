@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Autodesk.Revit.DB;
 
 namespace HPRebar.McpBridge.Service;
@@ -9,12 +10,21 @@ namespace HPRebar.McpBridge.Service;
 /// </summary>
 public sealed class AutoDismissFailurePreprocessor : IFailuresPreprocessor
 {
+    private readonly List<string> _warnings = new();
+
+    public IReadOnlyList<string> Warnings => _warnings;
+
     public FailureProcessingResult PreprocessFailures(FailuresAccessor failuresAccessor)
     {
         foreach (var failure in failuresAccessor.GetFailureMessages())
         {
             if (failure.GetSeverity() == FailureSeverity.Warning)
             {
+                var desc = failure.GetDescriptionText();
+                if (!string.IsNullOrWhiteSpace(desc))
+                {
+                    _warnings.Add(desc);
+                }
                 failuresAccessor.DeleteWarning(failure);
                 continue;
             }
@@ -26,12 +36,14 @@ public sealed class AutoDismissFailurePreprocessor : IFailuresPreprocessor
     }
 
     /// <summary>Applies this preprocessor plus a clean rollback to a transaction the bridge owns.</summary>
-    public static void ApplyTo(Transaction transaction)
+    public static AutoDismissFailurePreprocessor ApplyTo(Transaction transaction)
     {
+        var preprocessor = new AutoDismissFailurePreprocessor();
         var options = transaction.GetFailureHandlingOptions()
-            .SetFailuresPreprocessor(new AutoDismissFailurePreprocessor())
+            .SetFailuresPreprocessor(preprocessor)
             .SetClearAfterRollback(true);
 
         transaction.SetFailureHandlingOptions(options);
+        return preprocessor;
     }
 }

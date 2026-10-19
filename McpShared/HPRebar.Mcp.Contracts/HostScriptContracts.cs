@@ -231,4 +231,56 @@ public static class HostScriptContracts
     ///     IFC export, drawing generation).
     /// </summary>
     public const int TeklaHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of a Dynamo script. Covers core Dynamo nodes, workspaces, models,
+    ///     DesignScript geometry, Revit nodes/elements, and bridge scripting.
+    /// </summary>
+    public static readonly string[] DynamoImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Autodesk.DesignScript.Geometry",
+        "Dynamo.Graph.Nodes", "Dynamo.Graph.Workspaces", "Dynamo.Models",
+        "Dynamo.ViewModels", "Dynamo.Applications",
+        "Revit.Elements",
+        "Autodesk.Revit.DB", "Autodesk.Revit.UI",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Dynamo script may use: `dynamo` is the DynamoModel/DynamoViewModel facade,
+    ///     `workspace` is the active WorkspaceModel, `doc` is the active Revit Document,
+    ///     `ct` is cooperative cancellation, `log` writes output, `progress` reports steps, and `args` carries parameters.
+    /// </summary>
+    public static readonly string[] DynamoGlobals = { "dynamo", "workspace", "doc", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest Dynamo run allowed when executing heavy operations (e.g. full graph re-evaluation, batch geometry generation).
+    /// </summary>
+    public const int DynamoHeavyMaxTimeoutSeconds = 600;
+
+    /// <summary>
+    ///     Default `using`s of a Grasshopper script. Covers RhinoCommon, Grasshopper core,
+    ///     Grasshopper parameters/data, Rhino.Inside.Revit, Revit API, and bridge scripting.
+    /// </summary>
+    public static readonly string[] GrasshopperImports =
+    {
+        "System", "System.Linq", "System.Collections.Generic",
+        "Rhino", "Rhino.Geometry",
+        "Grasshopper", "Grasshopper.Kernel", "Grasshopper.Kernel.Data", "Grasshopper.Kernel.Types",
+        "RhinoInside.Revit",
+        "Autodesk.Revit.DB", "Autodesk.Revit.UI",
+        "HPRebar.McpBridge.Core.Scripting",
+    };
+
+    /// <summary>
+    ///     Global names a Grasshopper script may use: `doc` (active GH_Document), `canvas` (GH_Canvas),
+    ///     `rhinoDoc` (RhinoDoc), `revitDoc` (Revit Document), `ct`, `log`, `progress`, and `args`.
+    /// </summary>
+    public static readonly string[] GrasshopperGlobals = { "doc", "canvas", "rhinoDoc", "revitDoc", "ct", "log", "progress", "args" };
+
+    /// <summary>
+    ///     Longest Grasshopper run allowed when executing heavy operations (e.g. full canvas re-solve, GH Player batch execution).
+    /// </summary>
+    public const int GrasshopperHeavyMaxTimeoutSeconds = 600;
 }

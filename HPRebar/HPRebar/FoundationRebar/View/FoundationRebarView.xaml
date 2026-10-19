@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:HPRebar.FoundationRebar.View"
         mc:Ignorable="d"
         Title="Foundation Rebar"
@@ -41,30 +42,27 @@
                 <Border Style="{DynamicResource Badge}" DockPanel.Dock="Right">
                     <TextBlock Text="HPRebar Foundation" Style="{DynamicResource BadgeText}"/>
                 </Border>
-                <StackPanel>
-                    <TextBlock Text="Foundation Reinforcement Generator"
-                               FontSize="{DynamicResource Font.Size.Title}"
-                               FontWeight="Bold"
-                               Foreground="{DynamicResource Brush.Foreground.Primary}"/>
-                    <TextBlock Text="Automated 2-way mat reinforcement generation for foundation slabs."
-                               FontSize="{DynamicResource Font.Size.Caption}"
-                               Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <md:PackIcon Kind="LayersTripleOutline" Width="26" Height="26" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Text="Foundation Reinforcement Generator"
+                                   FontSize="{DynamicResource Font.Size.Title}"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+                        <TextBlock Text="Automated 2-way mat reinforcement generation for foundation slabs."
+                                   FontSize="{DynamicResource Font.Size.Caption}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                    </StackPanel>
                 </StackPanel>
             </DockPanel>
         </Border>
 
         <!-- Tab Content -->
-        <TabControl Grid.Row="1"
-                    Background="{DynamicResource Brush.Surface}"
-                    BorderBrush="{DynamicResource Brush.Border}">
-            <TabItem Header="Geometry"
-                     Foreground="{DynamicResource Brush.Foreground.Primary}"
-                     FontSize="{DynamicResource Font.Size.BodyStrong}">
+        <TabControl Grid.Row="1">
+            <TabItem Header="Geometry" FontWeight="SemiBold">
                 <views:FoundationGeometryView DataContext="{Binding Geometry}"/>
             </TabItem>
-            <TabItem Header="Rebar Settings"
-                     Foreground="{DynamicResource Brush.Foreground.Primary}"
-                     FontSize="{DynamicResource Font.Size.BodyStrong}">
+            <TabItem Header="Rebar Settings" FontWeight="SemiBold">
                 <views:FoundationSettingView DataContext="{Binding Setting}"/>
             </TabItem>
         </TabControl>

@@ -1,0 +1,1357 @@
+{
+  "totalTypes": 169,
+  "beamTypes": [
+    {
+      "id": 608309,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I100",
+      "width": 55,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608311,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I120",
+      "width": 64,
+      "height": 120,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608313,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I150",
+      "width": 75,
+      "height": 150,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608315,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I175",
+      "width": 90,
+      "height": 175,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608317,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I194",
+      "width": 150,
+      "height": 194,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608319,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I (200x100x8x10)",
+      "width": 100,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608321,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I250",
+      "width": 150,
+      "height": 250,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608323,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I284",
+      "width": 124,
+      "height": 284,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608325,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I298",
+      "width": 149,
+      "height": 298,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608327,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I300",
+      "width": 250,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608329,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I346",
+      "width": 174,
+      "height": 346,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608331,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I350",
+      "width": 250,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608333,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I396",
+      "width": 199,
+      "height": 396,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608335,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I400",
+      "width": 200,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608337,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I500",
+      "width": 200,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608339,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I588",
+      "width": 300,
+      "height": 588,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608341,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I596",
+      "width": 199,
+      "height": 596,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608343,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I600",
+      "width": 200,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 608345,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I700",
+      "width": 300,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 766366,
+      "familyName": "12_STR_Framing_TietDien-I_2_Doan",
+      "name": "I-(250-150)x100x8x10",
+      "width": 100,
+      "height": 250,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 768188,
+      "familyName": "M_Keo Thay Doi Tiep Dien",
+      "name": "I-(250-150)x100x8x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 781649,
+      "familyName": "9_STR_Framing_TietDien_V_Don",
+      "name": "2V50x50x5",
+      "width": 50,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 781650,
+      "familyName": "9_STR_Framing_TietDien_V_Don",
+      "name": "2V60x60x5",
+      "width": 60,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 781651,
+      "familyName": "9_STR_Framing_TietDien_V_Don",
+      "name": "2V90x90x8",
+      "width": 90,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 781739,
+      "familyName": "10_STR_Framing_TietDien_V_Doi",
+      "name": "V30x30x3",
+      "width": 30,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 1093908,
+      "familyName": "10_STR_Framing_TietDien_V_Doi",
+      "name": "V40x40x4",
+      "width": 40,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 1371458,
+      "familyName": "11_STR_Framing_TietDien_V_Doi_CanhGiua",
+      "name": "2V50x50x5",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 1372664,
+      "familyName": "11_STR_Framing_TietDien_V_Doi_CanhGiua",
+      "name": "2V60x60x5",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 1372666,
+      "familyName": "11_STR_Framing_TietDien_V_Doi_CanhGiua",
+      "name": "2V60x60x6",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5240329,
+      "familyName": "M_Keo Thep Zamil",
+      "name": "300x200x10x12",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5240331,
+      "familyName": "M_Keo Thep Zamil",
+      "name": "450-300x200x6x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398078,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x350",
+      "width": 200,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398080,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x400",
+      "width": 200,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398082,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x450",
+      "width": 200,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398086,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x550",
+      "width": 200,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398088,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x600",
+      "width": 200,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398092,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x700",
+      "width": 200,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398124,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x300",
+      "width": 300,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398126,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x350",
+      "width": 300,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398128,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x400",
+      "width": 300,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398134,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x550",
+      "width": 300,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5398138,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x650",
+      "width": 300,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5405967,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x350",
+      "width": 100,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5457484,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x400",
+      "width": 100,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5758968,
+      "familyName": "12_STR_Framing_TietDien-I_2_Doan",
+      "name": "I-(500-150)x200x8x10",
+      "width": 200,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5800384,
+      "familyName": "3_STR_Framing_ConcreteRectangular_2_Doan",
+      "name": "B_200x(600-350)",
+      "width": 200,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5881231,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x250",
+      "width": 200,
+      "height": 250,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5925834,
+      "familyName": "M_Keo Thep Zamil",
+      "name": "I(500-300x200x6x8)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5927086,
+      "familyName": "M_Keo Thep Phang Zamil",
+      "name": "300x200x10x12",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5927088,
+      "familyName": "M_Keo Thep Phang Zamil",
+      "name": "450-300x200x6x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5928398,
+      "familyName": "M_Keo Thep Phang Zamil",
+      "name": "I(700-300x250x8x10)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5970574,
+      "familyName": "5_STR_Framing_TietDien_Ong",
+      "name": "D60x2",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5970576,
+      "familyName": "5_STR_Framing_TietDien_Ong",
+      "name": "D90x3",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5970578,
+      "familyName": "5_STR_Framing_TietDien_Ong",
+      "name": "D114x3",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 5971233,
+      "familyName": "5_STR_Framing_TietDien_Ong",
+      "name": "D100x3",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6802402,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "FR(600-250)x200x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6803772,
+      "familyName": "15_STR_Framing_KeoDau_TietDien_I_KhongDoDoc",
+      "name": "(600-250)x200x8x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6818297,
+      "familyName": "16_STR_Framing_KeoGiua_TietDien_I_1_Doan",
+      "name": "250x200x8x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6838310,
+      "familyName": "17_STR_Framing_KeoGiua_TietDien_I_2_Doan",
+      "name": "FR(250-500)x200x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6839541,
+      "familyName": "18_STR_Framing_KeoSanhDon_TietDien_I_2_Doan",
+      "name": "(400-150)x150x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 6860784,
+      "familyName": "Str_Dam_TietDien-I",
+      "name": "100x50x5x6",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7155661,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x500",
+      "width": 200,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7205161,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x950",
+      "width": 200,
+      "height": 950,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7234565,
+      "familyName": "15_STR_Framing_KeoDau_TietDien_I_KhongDoDoc",
+      "name": "I (450-200)x200x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7236492,
+      "familyName": "Str_Dam_TietDien-I",
+      "name": "I (200x100x6x8)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7265078,
+      "familyName": "Str_Dam_TietDien-I",
+      "name": "I (350x200x6x8)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7269553,
+      "familyName": "18_STR_Framing_KeoSanhDon_TietDien_I_2_Doan",
+      "name": "(350-150)x200x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7408566,
+      "familyName": "Str_Dam_TietDien-I",
+      "name": "I (300x200x6x8)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7638847,
+      "familyName": "10_STR_Framing_TietDien_V_Doi",
+      "name": "V50x50x5",
+      "width": 50,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7674710,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "I (400-200)x200x8x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7677443,
+      "familyName": "16_STR_Framing_KeoGiua_TietDien_I_1_Doan",
+      "name": "I (200x200x8x10)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7679031,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "I (700-350x200x8x10)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7679098,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "I (500-250x200x8x10)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7679466,
+      "familyName": "Str_Dam_TietDien-I",
+      "name": "I (150x100x6x8)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7687150,
+      "familyName": "4_STR_Framing_TietDien_I",
+      "name": "I (150x100x6x8)",
+      "width": 100,
+      "height": 150,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7736232,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "I (1000-350x300x10x14)",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 7999762,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x100",
+      "width": 600,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8205159,
+      "familyName": "2_STR_Framing_DamGan",
+      "name": "B_100x200",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8253702,
+      "familyName": "7_STR_Framing_XaGo_Z",
+      "name": "Z-180x52x58x20x2",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8257922,
+      "familyName": "8_STR_Framing_Rod",
+      "name": "Rod D16",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8257924,
+      "familyName": "8_STR_Framing_Rod",
+      "name": "D12",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8257926,
+      "familyName": "8_STR_Framing_Rod",
+      "name": "RoD",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8257928,
+      "familyName": "8_STR_Framing_Rod",
+      "name": "Rod D12",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8259128,
+      "familyName": "6_STR_Framing_XaGo_C",
+      "name": "C-180x60x20x1.5",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8395352,
+      "familyName": "17_STR_Framing_KeoGiua_TietDien_I_2_Doan",
+      "name": "FR(250-600)x200x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8440966,
+      "familyName": "6_STR_Framing_XaGo_C",
+      "name": "C-150x50x20x2",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8494347,
+      "familyName": "12_STR_Framing_TietDien-I_2_Doan",
+      "name": "I-(250-150)x100x6x8",
+      "width": 100,
+      "height": 250,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8531370,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x600",
+      "width": 300,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8575484,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x900",
+      "width": 300,
+      "height": 900,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8575532,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x900",
+      "width": 400,
+      "height": 900,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576095,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x650",
+      "width": 200,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576097,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x750",
+      "width": 200,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576099,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x800",
+      "width": 200,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576101,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x200",
+      "width": 250,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576103,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x300",
+      "width": 250,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576105,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x350",
+      "width": 250,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576107,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x400",
+      "width": 250,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576109,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x450",
+      "width": 250,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576111,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x500",
+      "width": 250,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576113,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x550",
+      "width": 250,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576115,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x600",
+      "width": 250,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576117,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x650",
+      "width": 250,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576119,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x700",
+      "width": 250,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576121,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x750",
+      "width": 250,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576123,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_250x800",
+      "width": 250,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576125,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x200",
+      "width": 300,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576127,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x450",
+      "width": 300,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576129,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x500",
+      "width": 300,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576131,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x700",
+      "width": 300,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576133,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x750",
+      "width": 300,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576135,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x800",
+      "width": 300,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576137,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_300x850",
+      "width": 300,
+      "height": 850,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576139,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x200",
+      "width": 400,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576141,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x300",
+      "width": 400,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576143,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x350",
+      "width": 400,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576145,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x400",
+      "width": 400,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576147,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x450",
+      "width": 400,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576149,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x500",
+      "width": 400,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576151,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x550",
+      "width": 400,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576153,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x600",
+      "width": 400,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576155,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x650",
+      "width": 400,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576157,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x700",
+      "width": 400,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576159,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x750",
+      "width": 400,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576161,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x800",
+      "width": 400,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576163,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_400x850",
+      "width": 400,
+      "height": 850,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576165,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x200",
+      "width": 500,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576167,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x300",
+      "width": 500,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576169,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x350",
+      "width": 500,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576171,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x400",
+      "width": 500,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576173,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x450",
+      "width": 500,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576175,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x500",
+      "width": 500,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576177,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x550",
+      "width": 500,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576179,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x600",
+      "width": 500,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576181,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x650",
+      "width": 500,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576183,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x700",
+      "width": 500,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576185,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x750",
+      "width": 500,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576187,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x800",
+      "width": 500,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576189,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x850",
+      "width": 500,
+      "height": 850,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576191,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_500x900",
+      "width": 500,
+      "height": 900,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576193,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x200",
+      "width": 600,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576195,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x300",
+      "width": 600,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576197,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x350",
+      "width": 600,
+      "height": 350,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576199,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x400",
+      "width": 600,
+      "height": 400,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576201,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x450",
+      "width": 600,
+      "height": 450,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576203,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x500",
+      "width": 600,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576205,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x550",
+      "width": 600,
+      "height": 550,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576207,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x600",
+      "width": 600,
+      "height": 600,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576209,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x650",
+      "width": 600,
+      "height": 650,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576211,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x700",
+      "width": 600,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576213,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x750",
+      "width": 600,
+      "height": 750,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576215,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x800",
+      "width": 600,
+      "height": 800,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576217,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x850",
+      "width": 600,
+      "height": 850,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8576219,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_600x900",
+      "width": 600,
+      "height": 900,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8674599,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x300",
+      "width": 200,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8679369,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x100",
+      "width": 200,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8679801,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x100",
+      "width": 100,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8682424,
+      "familyName": "STR_Framing_ThepHop",
+      "name": "50x100x3",
+      "width": 50,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8682605,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_200x200",
+      "width": 200,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8686160,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x200",
+      "width": 100,
+      "height": 200,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8688844,
+      "familyName": "STR_Framing_ThepHop",
+      "name": "40x80x1.4",
+      "width": 40,
+      "height": 80,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8698390,
+      "familyName": "STR_Framing_ThepHop",
+      "name": "50x100x1.8",
+      "width": 50,
+      "height": 100,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8699019,
+      "familyName": "STR_Framing_ThepHop",
+      "name": "20x40x1.2",
+      "width": 20,
+      "height": 40,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8702103,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x300",
+      "width": 100,
+      "height": 300,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8750963,
+      "familyName": "13_STR_Framing_KeoDau_TietDien_I",
+      "name": "I-(400-200)x150x6x8",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8788377,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_700x500",
+      "width": 700,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 8836461,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x700",
+      "width": 100,
+      "height": 700,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 9076866,
+      "familyName": "1_STR_Framing_ConcreteRectangular",
+      "name": "B_100x500",
+      "width": 100,
+      "height": 500,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 9257461,
+      "familyName": "14_STR_Framing_KeoDau_TietDien_I_1Doan_Loai2",
+      "name": "I-(600-350)x200x6x10",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    },
+    {
+      "id": 9353692,
+      "familyName": "STR_Framing_DamGan",
+      "name": "STR_Framing_DamGan",
+      "width": 0,
+      "height": 0,
+      "category": "Structural Framing"
+    }
+  ]
+}

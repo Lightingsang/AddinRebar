@@ -1,0 +1,251 @@
+<Window x:Class="HPKata.UI.Views.BeamDetailingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        xmlns:ctrl="clr-namespace:HPKata.UI.Controls"
+        mc:Ignorable="d"
+        Title="HPKata — Triển khai Chi tiết Cốt thép Dầm liên tục"
+        Height="700" Width="920"
+        MinHeight="560" MinWidth="780"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Margin="0,0,0,10" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="THIẾT KẾ &amp; CHI TIẾT CỐT THÉP DẦM (VE_DAM / VE_DAM_SHOP)" Style="{StaticResource Text.Title}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <CheckBox Content="Chế độ Shop 11.7m" IsChecked="{Binding IsShopMode}" Margin="0,0,16,0" Foreground="{DynamicResource Brush.Text}"/>
+                    <TextBlock Text="Dầm: " VerticalAlignment="Center" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBox Text="{Binding BeamMark}" Width="80" Margin="4,0,12,0"/>
+                    <TextBlock Text="Tầng: " VerticalAlignment="Center" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBox Text="{Binding StoryName}" Width="80"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Excel Integration Toolbar -->
+        <Border Grid.Row="1" Style="{StaticResource Card.Panel}" Padding="8,4" Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Excel Action Buttons -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Mở Kata.xlsm" Command="{Binding OpenExcelCommand}"
+                            Style="{StaticResource Button.Secondary}"
+                            ToolTip="Mở bảng tính C:\HPKata\Kata.xlsm trên ứng dụng Excel"
+                            Height="28" Padding="10,2" Margin="0,0,8,0"/>
+                    <Button Content="Đọc từ Excel" Command="{Binding ReadExcelCommand}"
+                            Style="{StaticResource Button.Secondary}"
+                            ToolTip="Nhập dữ liệu cốt thép từ Kata.xlsm"
+                            Height="28" Padding="10,2" Margin="0,0,8,0"/>
+                    <Button Content="Ghi vào Excel" Command="{Binding WriteExcelCommand}"
+                            Style="{StaticResource Button.Secondary}"
+                            ToolTip="Lưu các thông số cốt thép hiện tại vào Kata.xlsm"
+                            Height="28" Padding="10,2" Margin="0,0,12,0"/>
+                    <CheckBox Content="Tự động đồng bộ khi Áp dụng" IsChecked="{Binding AutoSyncOnApply}"
+                              Foreground="{DynamicResource Brush.Text}" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Status Indicator / Feedback -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="8" Height="8" Margin="0,0,6,0"
+                             Fill="{DynamicResource Brush.Success}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding ExcelStatus}" Style="{StaticResource Text.Muted}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Live 2D CAD Preview -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}" Padding="6" Margin="0,0,0,10">
+            <ctrl:KataBeamPreviewCanvas Height="112"/>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1.0*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: Spans Table & Dimensions -->
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,8">
+                        <TextBlock Text="Danh sách Nhịp dầm liên tục" Style="{StaticResource Text.Section}"/>
+                        <TextBlock Text="Khai báo chiều dài thông thủy, tiết diện b x h và bề rộng gối:" Style="{StaticResource Text.Muted}"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Spans}" AutoGenerateColumns="False"
+                              CanUserAddRows="False" Style="{StaticResource StandardDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nhịp" Binding="{Binding SpanName}" Width="80"/>
+                            <DataGridTextColumn Header="Ln (mm)" Binding="{Binding ClearLengthMm}" Width="90"/>
+                            <DataGridTextColumn Header="b (mm)" Binding="{Binding WidthMm}" Width="75"/>
+                            <DataGridTextColumn Header="h (mm)" Binding="{Binding HeightMm}" Width="75"/>
+                            <DataGridTextColumn Header="Gối T (mm)" Binding="{Binding LeftSupportWidthMm}" Width="80"/>
+                            <DataGridTextColumn Header="Gối P (mm)" Binding="{Binding RightSupportWidthMm}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="+ Thêm nhịp" Command="{Binding AddSpanCommand}" Style="{StaticResource Button.Secondary}" Margin="0,0,8,0"/>
+                        <Button Content="- Bớt nhịp" Command="{Binding RemoveSpanCommand}" Style="{StaticResource Button.Secondary}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Right: Reinforcement Parameters -->
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Main Rebar Card -->
+                    <Border Style="{StaticResource Card.Panel}" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="Thép chủ dọc liên tục" Style="{StaticResource Text.Section}"/>
+                            
+                            <Grid Margin="0,4,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Thép lớp trên (SL):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding TopContinuousCount}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Đường kính (Ø):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding TopContinuousDiameter}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Margin="0,4,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Thép lớp dưới (SL):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding BotContinuousCount}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Đường kính (Ø):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding BotContinuousDiameter}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Stirrups Card -->
+                    <Border Style="{StaticResource Card.Panel}" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="Cốt đai &amp; Đai gia cường" Style="{StaticResource Text.Section}"/>
+                            <Grid Margin="0,4,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Đường kính đai (Ø):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding StirrupDiameter}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Số nhánh đai:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding LegCount}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Margin="0,4,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Bước gối a_dày:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding DenseSpacing}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Bước nhịp a_thưa:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding SparseSpacing}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Skin Rebar Card -->
+                    <Border Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <CheckBox Content="Thép giá bên hông (h >= 700mm)" IsChecked="{Binding HasSideBars}"
+                                      Foreground="{DynamicResource Brush.Text}" FontWeight="SemiBold"/>
+                            <Grid Margin="0,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Số lượng thanh:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding SideBarCount}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Đường kính (Ø):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding SideBarDiameter}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Footer Actions -->
+        <Border Grid.Row="4" Margin="0,12,0,0" Padding="0,8,0,0" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,1,0,0">
+            <DockPanel LastChildFill="False">
+                <Button Content="Đóng" Command="{Binding CancelCommand}" Style="{StaticResource Button.Secondary}" DockPanel.Dock="Left"/>
+                <Button Content="Áp dụng &amp; Tạo bản vẽ" Command="{Binding ApplyCommand}" Style="{StaticResource Button.Primary}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

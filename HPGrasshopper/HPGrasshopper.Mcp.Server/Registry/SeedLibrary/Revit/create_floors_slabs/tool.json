@@ -1,0 +1,58 @@
+{
+  "name": "create_floors_slabs",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "revit",
+    "floor",
+    "slab",
+    "boundary",
+    "surface"
+  ],
+  "title": "Convert Boundary Surfaces into Native Revit Floors",
+  "description": "Converts planar boundary curve loops from Grasshopper into native Revit Floor slab elements on specified target Levels.",
+  "notes": "Builds CurveLoop polygons in feet and invokes Floor.Create.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "boundaryLoops"
+    ],
+    "properties": {
+      "boundaryLoops": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" }
+            },
+            "required": ["x", "y"]
+          }
+        },
+        "description": "Array of closed boundary polygon loops in meters."
+      },
+      "elevation": {
+        "type": "number",
+        "default": 0.0,
+        "description": "Floor level elevation in meters."
+      },
+      "structural": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to mark the created floor as a structural element."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -8,6 +8,21 @@
         "notebooklm-mcp"
       ]
     },
+    "rea": {
+      "command": "cmd.exe",
+      "args": [
+        "/d",
+        "/c",
+        "C:\\Users\\STR-HP03\\AppData\\Roaming\\npm\\rea.cmd",
+        "mcp"
+      ],
+      "env": {
+        "REA_MCP_INPUT_SCHEMA_PROFILE": "compact",
+        "JAVA_HOME": "C:\\Tools\\rea-engines\\jdk-21",
+        "GHIDRA_INSTALL_DIR": "C:\\Tools\\rea-engines\\ghidra",
+        "REA_JADX_MCP_JAR": "C:\\Tools\\rea-engines\\jadx\\jadx-headless-mcp-0.7.1-all.jar"
+      }
+    },
     "hprebar-revit": {
       "command": "F:\\1-CONG VIEC\\05-AI\\01_Revit\\02_Csharp\\AddinRebar\\HPRebar\\output\\HPRebar.Mcp.Server\\HPRebar.Mcp.Server.exe",
       "args": [],
@@ -63,6 +78,25 @@
       "env": {
         "HPROBOT_MCP_Bridge__HostVersion": "2026"
       }
+    },
+    "hprebar-dynamo": {
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPDynamo\\HPDynamo.Mcp.Server\\bin\\Debug\\net10.0\\HPDynamo.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPDYNAMO_MCP_Bridge__HostVersion": "2026"
+      }
+    },
+    "hprebar-grasshopper": {
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPGrasshopper\\output\\HPGrasshopper.Mcp.Server\\HPGrasshopper.Mcp.Server.exe",
+      "args": [],
+      "env": {
+        "HPGRASSHOPPER_MCP_Bridge__HostVersion": "2026"
+      }
+    },
+    "hpdcepro-mcp": {
+      "command": "G:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\HPDcePro\\deploy\\McpServer\\HPDcePro.Mcp.exe",
+      "args": [],
+      "env": {}
     }
   }
 }

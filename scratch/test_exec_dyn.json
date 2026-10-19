@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":true,\"message\":\"The script uses APIs the bridge blocks. Fix the listed lines and retry.\",\"warnings\":[],\"logs\":[],\"diagnostics\":[{\"line\":1,\"column\":18,\"id\":\"GUARD\",\"message\":\"HPDynamo.McpBridge.Execution.HeadlessGraphRunner is not allowed in Dynamo scripts.\"}],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":9,\"truncated\":false,\"runId\":63}"
+      }
+    ],
+    "isError": true
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

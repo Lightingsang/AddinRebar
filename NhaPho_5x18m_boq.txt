@@ -1,0 +1,7 @@
+BẢNG TỔNG HỢP KHỐI LƯỢNG BOQ (TCVN)
+Bê tông: 157.284 m3
+Ván khuôn: 1672.40 m2
+Cốt thép: 7966.5 kg (<=10mm: 4228.4 kg, >10mm: 3738.1 kg)
+Đường ống: WaterSupply 25mm (PPR) - 13.8m
+Đường ống: SoilDrain 114mm (uPVC) - 7.0m
+Đường ống: WasteDrain 60mm (uPVC) - 8.9m

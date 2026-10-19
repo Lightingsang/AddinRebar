@@ -16,4 +16,14 @@
         <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/ThemeIcons.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- ===== Implicit Styles for Standard Controls ===== -->
+    <Style TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}"/>
+    <Style TargetType="ComboBox" BasedOn="{StaticResource StandardComboBox}"/>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}"/>
+    <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}"/>
+    <Style TargetType="Button" BasedOn="{StaticResource SecondaryButton}"/>
+    <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}"/>
+    <Style TargetType="TabControl" BasedOn="{StaticResource MaterialDesignTabControl}"/>
+    <Style TargetType="Expander" BasedOn="{StaticResource MaterialDesignExpander}"/>
+
 </ResourceDictionary>

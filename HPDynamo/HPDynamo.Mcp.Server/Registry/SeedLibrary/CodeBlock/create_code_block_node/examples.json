@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Create Point with coordinate assignments",
+    "args": {
+      "code": "x = 100;\ny = 200;\npt = Point.ByCoordinates(x, y, 0);",
+      "x": 150.0,
+      "y": 200.0,
+      "title": "Point Creator"
+    }
+  },
+  {
+    "title": "Parametric quarter-span formula",
+    "args": {
+      "code": "quarter = span / 4.0;",
+      "x": 300.0,
+      "y": 150.0,
+      "title": "Quarter Span"
+    }
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "name": "disconnect_node_ports",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Wire",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "wire",
+    "connector",
+    "disconnect",
+    "port",
+    "graph",
+    "canvas"
+  ],
+  "title": "Disconnect node ports",
+  "description": "Disconnect wire(s) connected to a specific input or output port of a Dynamo node on canvas, or sever a specific connection between two nodes. Modifies active graph workspace with undo recording.",
+  "notes": "Requires an active Dynamo workspace. If targetNodeId is omitted, all wires connected to the specified port are severed. Uses DynamoModel.DeleteModelCommand or ConnectorModel.Delete.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "nodeId"
+    ],
+    "properties": {
+      "nodeId": {
+        "type": "string",
+        "description": "GUID string or title/name of the primary node whose port to disconnect"
+      },
+      "portIndex": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "0-based port index on the specified node (default 0)"
+      },
+      "portType": {
+        "type": "string",
+        "enum": [
+          "input",
+          "output"
+        ],
+        "default": "input",
+        "description": "Type of port to disconnect: 'input' (in-port) or 'output' (out-port)"
+      },
+      "targetNodeId": {
+        "type": "string",
+        "description": "Optional GUID string or name of the connected target/source node to disconnect from. If omitted, all wires on the specified port are disconnected."
+      },
+      "targetPortIndex": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Optional 0-based port index on the target node"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,140 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.CuttingOptimizationAdvancedWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Tối Ưu Cắt Thép Chuyên Sâu 1D 11.7m (Bea_ToiUuCatThepV2)"
+                  Height="720" Width="1020"
+                  MinHeight="600" MinWidth="850"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="TỐI ƯU HÓA CẮT THÉP CÂY 1D THEO TIÊU CHUẨN THƯƠNG MẠI 11.7M" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Áp dụng giải thuật Best-Fit Decreasing, phân loại thép đề-xê tái sử dụng và giảm tỉ lệ hao hụt &lt; 3%" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding WastePercentage, StringFormat='{}HAO HỤT: {0:F2}%'}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- KPI Cards -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Số cây thép 11.7m" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalStockBarsUsed, StringFormat='{}{0} cây'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Tổng đầu mẩu thừa" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalScrapLengthMm, StringFormat='{}{0:F0} mm'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Tỉ lệ phế liệu" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding WastePercentage, StringFormat='{}{0:F2}%'}" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource Brush.Accent}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="6" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Khối lượng phôi ước tính" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalTonnageKg, StringFormat='{}{0:F1} kg'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Main Body: Demands + Cutting Patterns -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1.4*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Demands Table -->
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8" LastChildFill="False">
+                        <TextBlock Text="NHU CẦU CẮT THÉP" Style="{StaticResource Text.Subtitle}" VerticalAlignment="Center"/>
+                        <Button Content="Thêm thanh" Command="{Binding AddDemandCommand}" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+
+                    <DataGrid ItemsSource="{Binding Demands}" Style="{StaticResource StandardDataGrid}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã thanh" Binding="{Binding DemandId}" Width="1.2*"/>
+                            <DataGridTextColumn Header="ĐK" Binding="{Binding DiameterMm, StringFormat='{}Φ{0}'}" Width="0.8*"/>
+                            <DataGridTextColumn Header="Dài (mm)" Binding="{Binding LengthMm, StringFormat='{}{0:F0}'}" Width="*"/>
+                            <DataGridTextColumn Header="SL" Binding="{Binding Quantity}" Width="0.7*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+
+            <!-- Patterns Table -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <DockPanel>
+                    <TextBlock Text="SƠ ĐỒ CẮT THÉP CÂY 11.7M" Style="{StaticResource Text.Subtitle}" DockPanel.Dock="Top" Margin="0,0,0,8"/>
+                    <DataGrid ItemsSource="{Binding Patterns}" Style="{StaticResource StandardDataGrid}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Cây #" Binding="{Binding PatternId}" Width="60"/>
+                            <DataGridTextColumn Header="ĐK" Binding="{Binding DiameterDisplay}" Width="60"/>
+                            <DataGridTextColumn Header="Sơ đồ cắt (mm)" Binding="{Binding PiecesCutSummary}" Width="2*"/>
+                            <DataGridTextColumn Header="Thừa (mm)" Binding="{Binding RemnantMm, StringFormat='{}{0:F0}'}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="Đề-xê" Binding="{Binding IsReusable}" Width="60"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="3" Margin="0,12,0,0" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <Button Content="Tối ưu hóa ngay" Command="{Binding OptimizeCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Left"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

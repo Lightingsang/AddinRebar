@@ -1,0 +1,112 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.MongCocLopThepThemWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Cấu Hình Lớp Thép Phụ Đài Móng (MongCoc_FrmLopThepThem)"
+                  Height="560" Width="750"
+                  MinHeight="450" MinWidth="600"
+                  WindowStartupLocation="CenterOwner"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <StackPanel>
+                <TextBlock Text="BỐ TRÍ LỚP THÉP TRÊN, THÉP SƯỜN &amp; THÉP CHỜ CỌC" Style="{StaticResource Text.Title}"/>
+                <TextBlock Text="Cấu hình lưới thép mũ chịu nhổ, đai chống phình và thép liên kết đầu cọc ngàm vào đài" Style="{StaticResource Text.Muted}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Body -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Inputs -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <GroupBox Header="1. Thép mũ &amp; Thép sườn" Style="{StaticResource GroupBox.Header}">
+                        <StackPanel Margin="4">
+                            <CheckBox Content="Bố trí lưới thép mũ lớp trên" IsChecked="{Binding HasTopRebarMesh}" Margin="0,4"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Đường kính (mm):" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Text="{Binding TopRebarDiameterMm}" Style="{StaticResource StandardTextBox}"/>
+                            </Grid>
+
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Khoảng cách a (mm):" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Text="{Binding TopRebarSpacingMm}" Style="{StaticResource StandardTextBox}"/>
+                            </Grid>
+
+                            <Separator Margin="0,8"/>
+                            <CheckBox Content="Bố trí thép cấu tạo sườn đài" IsChecked="{Binding HasSideSkinRebar}" Margin="0,4"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Đường kính sườn (mm):" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Text="{Binding SideSkinDiameterMm}" Style="{StaticResource StandardTextBox}"/>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Table -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8" LastChildFill="False">
+                        <TextBlock Text="DANH SÁCH LỚP THÉP" Style="{StaticResource Text.Subtitle}" VerticalAlignment="Center"/>
+                        <Button Content="Thêm lớp" Command="{Binding AddLayerCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+
+                    <DataGrid ItemsSource="{Binding Layers}" Style="{StaticResource StandardDataGrid}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tên lớp" Binding="{Binding LayerName}" Width="1.2*"/>
+                            <DataGridTextColumn Header="Phương" Binding="{Binding Direction}" Width="0.8*"/>
+                            <DataGridTextColumn Header="ĐK (mm)" Binding="{Binding DiameterMm}" Width="0.8*"/>
+                            <DataGridTextColumn Header="a (mm)" Binding="{Binding SpacingMm}" Width="0.8*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <Button Content="Xác nhận" Click="CloseButton_Click" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Right"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right" Margin="0,0,8,0"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

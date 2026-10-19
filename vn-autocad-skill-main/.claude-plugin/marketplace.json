@@ -1,0 +1,15 @@
+{
+  "name": "vn-autocad",
+  "description": "Bo skill va agent Claude Code dung ho so ban ve thiet ke thi cong nha o chuan Viet Nam (TCVN).",
+  "owner": {
+    "name": "andyluu98"
+  },
+  "plugins": [
+    {
+      "name": "vn-autocad-skill",
+      "source": "./",
+      "description": "Dung ho so ban ve thi cong nha o chuan TCVN tu dau den cuoi bang Claude Code.",
+      "version": "1.0.0"
+    }
+  ]
+}

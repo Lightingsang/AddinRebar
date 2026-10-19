@@ -4,6 +4,7 @@
         xmlns:vm="clr-namespace:HPRebar.McpBridge.Core.ViewModel;assembly=HPRebar.McpBridge.Core"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:McpBridgeStatusViewModel}"
         Title="HPRebar MCP Bridge"
@@ -91,19 +92,25 @@
             <StackPanel>
                 <TextBlock Style="{DynamicResource BodyStrong}" Text="Safety"/>
 
-                <CheckBox Margin="{DynamicResource Spacing.SmallTop}"
+                <CheckBox Style="{StaticResource MaterialDesignCheckBox}"
+                          Margin="{DynamicResource Spacing.SmallTop}"
                           IsChecked="{Binding IsExecutionEnabled}"
                           Foreground="{DynamicResource Brush.Foreground.Primary}"
+                          Cursor="Hand"
                           Content="Allow AI code execution in this Revit session"
                           ToolTip="Scripts written by the AI run inside Revit with your full user rights. The bridge blocks obvious escapes (files, network, processes, reflection) but is not a sandbox. Turned off again every time Revit starts."/>
 
-                <TextBlock Style="{DynamicResource Caption}" Margin="{DynamicResource Spacing.XSmall}" TextWrapping="Wrap"
+                <TextBlock Style="{DynamicResource Caption}"
+                           Margin="28,4,0,0"
+                           TextWrapping="Wrap"
                            Foreground="{DynamicResource Brush.Foreground.Secondary}"
                            Text="Off by default. Every script runs in one undo group named 'MCP: &lt;label&gt;' — Ctrl+Z in Revit reverts it. Dry runs never commit."/>
 
-                <CheckBox Margin="{DynamicResource Spacing.SmallTop}"
+                <CheckBox Style="{StaticResource MaterialDesignCheckBox}"
+                          Margin="0,12,0,0"
                           IsChecked="{Binding AutoStartListener}"
                           Foreground="{DynamicResource Brush.Foreground.Primary}"
+                          Cursor="Hand"
                           Content="Start the listener automatically when Revit opens"
                           ToolTip="Only the listener. Code execution still needs the box above, every session."/>
             </StackPanel>
@@ -131,6 +138,7 @@
                          Text="{Binding LastScriptPreview, Mode=OneWay}" IsReadOnly="True"
                          FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}"
                          AcceptsReturn="True" TextWrapping="NoWrap"
+                         VerticalContentAlignment="Top"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
             </Grid>
         </Border>

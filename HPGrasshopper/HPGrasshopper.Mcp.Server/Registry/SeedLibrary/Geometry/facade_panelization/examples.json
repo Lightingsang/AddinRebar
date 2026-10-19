@@ -1,0 +1,22 @@
+[
+  {
+    "title": "ten_by_five_subdivision",
+    "args": {
+      "surfaceWidthMeters": 30.0,
+      "surfaceHeightMeters": 15.0,
+      "uDivisions": 10,
+      "vDivisions": 5,
+      "panelFamilyName": "Adaptive-Quad-Panel"
+    }
+  },
+  {
+    "title": "dense_curtain_wall_division",
+    "args": {
+      "surfaceWidthMeters": 50.0,
+      "surfaceHeightMeters": 24.0,
+      "uDivisions": 25,
+      "vDivisions": 8,
+      "panelFamilyName": "Glazed-Panel"
+    }
+  }
+]

@@ -20,10 +20,10 @@ This skill is shared by Codex and Google Antigravity.
 - Resolve bundled resources from the project-local `.agents/skills/` tree. Do not create or write a user-global skill directory.
 <!-- portable-host-contract:end -->
 
-# WPF XAML Styles & Material Design Standard
+# WPF XAML Styles, Material Design & MahApps.Metro Standard
 
 > **QUY TẮC BẮT BUỘC CỦA TOÀN REPO:**
-> Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, SAP2000, Robot, Tekla, các standalone bridge...) **BẮT BUỘC 100% SỬ DỤNG `MaterialDesignInXamlToolkit`** (phiên bản `5.2.1` hoặc `5.3.2`).
+> Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, SAP2000, Robot, Tekla, các standalone bridge...) **BẮT BUỘC 100% SỬ DỤNG `MaterialDesignInXamlToolkit`** (phiên bản `5.2.1` hoặc `5.3.2`), kết hợp tùy chọn với **`MahApps.Metro`** (phiên bản `2.4.11`) qua `MaterialBridge.xaml` và `MaterialThemeBridge.cs`.
 
 ---
 
@@ -34,7 +34,7 @@ Mọi project WPF add-in phải tổ chức tài nguyên giao diện tập trung
 ```
 Resources/Themes/
 ├── Theme.xaml              ← Master Theme, merge MaterialBridge.xaml đầu tiên
-├── MaterialBridge.xaml     ← Cầu nối MaterialDesign + CustomColorTheme + override Segoe UI
+├── MaterialBridge.xaml     ← Cầu nối MaterialDesign + MahApps.Metro + CustomColorTheme + override Segoe UI
 ├── MaterialThemeBridge.cs  ← C# static helper đồng bộ theme Dark/Light theo Host CAD/BIM
 ├── ThemeDark.xaml          ← Color tokens chế độ Tối (Dark)
 ├── ThemeLight.xaml         ← Color tokens chế độ Sáng (Light)
@@ -47,10 +47,14 @@ Resources/Themes/
 ## 2. Bảy nguyên tắc vàng bắt buộc (Core Rules)
 
 ### 1. Font chữ: BẮT BUỘC override `Segoe UI` (CẤM Roboto)
-Thư viện `MaterialDesignThemes` mặc định dùng font `Roboto` qua Pack URI. Khi add-in được đóng gói bằng **ILRepack** (bắt buộc cho CAD/BIM), Pack URI của Roboto không thể giải quyết và gây crash hoặc lỗi layout.
+Thư viện `MaterialDesignThemes` mặc định dùng font `Roboto` qua Pack URI. Khi add-in được đóng gói bằng **ILRepack** (bắt buộc cho CAD/BIM), Pack URI của Roboto không thể giải quyết và gây crash hoặc lỗi layout. Tương tự, các font key của `MahApps.Metro` cũng phải được chuẩn hóa về `Segoe UI`.
 Trong `MaterialBridge.xaml`, bắt buộc ghi đè:
 ```xml
 <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+<FontFamily x:Key="MahApps.Fonts.Family.SymbolTheme">Segoe MDL2 Assets</FontFamily>
+<FontFamily x:Key="MahApps.Fonts.Family.Window.Title">Segoe UI</FontFamily>
+<FontFamily x:Key="MahApps.Fonts.Family.Header">Segoe UI</FontFamily>
+<FontFamily x:Key="MahApps.Fonts.Family.Control">Segoe UI</FontFamily>
 ```
 Toàn bộ cửa sổ và điều khiển phải sử dụng font hệ thống chuẩn `Segoe UI`.
 
@@ -114,9 +118,9 @@ Không đặt các nút bấm ngang hàng bằng một kiểu giống nhau. Phâ
 
 ## 3. Đóng gói ILRepack (Bắt buộc cho môi trường In-Process CAD/BIM)
 
-Do add-in chạy chung tiến trình với CAD/BIM host (Revit, AutoCAD, Civil 3D), **bắt buộc phải gộp các thư viện MaterialDesign vào DLL chính**:
+Do add-in chạy chung tiến trình với CAD/BIM host (Revit, AutoCAD, Civil 3D), **bắt buộc phải gộp các thư viện MaterialDesign và MahApps.Metro vào DLL chính**:
 - **Revit (`Nice3point.Revit.Sdk`)**: Khai báo `<IsRepackable>true</IsRepackable>` trong `.csproj`.
-- **AutoCAD / Civil 3D / Khác**: Dùng `ILRepack` target `RepackMaterialDesign` gộp `MaterialDesignThemes.Wpf.dll`, `MaterialDesignColors.dll`, `Microsoft.Xaml.Behaviors.dll`.
+- **AutoCAD / Civil 3D / Khác**: Dùng `ILRepack` target `RepackMaterialDesign` gộp `MaterialDesignThemes.Wpf.dll`, `MaterialDesignColors.dll`, `MahApps.Metro.dll`, `ControlzEx.dll`, `Microsoft.Xaml.Behaviors.dll`.
 - Chi tiết xem file: `references/boilerplate/packaging-csproj.md`.
 
 ---

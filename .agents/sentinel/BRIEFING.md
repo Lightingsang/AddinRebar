@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-28T00:15:00+07:00
+# BRIEFING — 2026-10-07T03:32:00Z
 
 ## Mission
-Implement the **Kata Rebar** feature in the `HPRebar` ecosystem, enabling automated generation of 3D concrete beam reinforcement in Revit 2026 based on structural calculation and detailing data read from sheet `Dam` of `Kata.xlsm` (via active COM or file fallback).
+Tái cấu trúc và thiết lập lại toàn diện Đội ngũ Multi-Agent Kết Cấu & BIM (Kỹ sư Chủ trì Điều phối, Kỹ sư Kết cấu CAD, Kỹ sư BIM Revit, Kỹ sư QA/QC Độc lập) cùng hạ tầng Sổ cái Ledger và bộ công cụ CLI C# Fail-Fast, hiện thực hóa triệt để Nguyên Tắc Vàng cho phân đoạn Phần Móng.
 
 ## 🔒 My Identity
 - Archetype: sentinel
@@ -44,6 +44,16 @@ Implement the **Kata Rebar** feature in the `HPRebar` ecosystem, enabling automa
 - Cron 1 (Kata Rebar Progress): 68d40caa-242b-4b75-9541-008aeac8f556/task-44 (*/8 * * * *)
 - Cron 2 (Kata Rebar Liveness): 68d40caa-242b-4b75-9541-008aeac8f556/task-46 (*/10 * * * *)
 - Active Victory Auditor (Kata Rebar): 362ec385-332d-422f-ba0a-ae2448a72635 (victory_auditor_6)
+- Active Orchestrator (HPBim Deliverable Gen 1): f21aade0-effc-4aa5-a071-ae17d49dabe3 (orchestrator_10)
+- Active Orchestrator (HPBim Deliverable Gen 2): 18c3ad8c-1fc9-42cc-83e7-40ab9000587e (orchestrator_10_gen2)
+- Cron 1 (HPBim Progress): cac5848e-6ab0-47c5-bede-48190f3afbc1/task-243 (*/8 * * * *)
+- Cron 2 (HPBim Liveness): cac5848e-6ab0-47c5-bede-48190f3afbc1/task-245 (*/10 * * * *)
+- Active Victory Auditor (HPBim): [to be spawned on victory claim]
+- Active Orchestrator (BIM Coordination Gen 1): 11067cc4-24c4-4007-9827-ff3e7c0e82f5 (orchestrator_11)
+- Cron 1 (BIM Coordination Progress): 1ead477c-6d5f-45d7-932b-f7eb7056375f/task-32 (*/8 * * * *)
+- Cron 2 (BIM Coordination Liveness): 1ead477c-6d5f-45d7-932b-f7eb7056375f/task-34 (*/10 * * * *)
+- Active Orchestrator (BIM Coordination Gen 2): 22ab785c-b656-477d-a044-b5c03eddba16 (orchestrator_12)
+- Active Victory Auditor (BIM Coordination): [to be spawned on victory claim]
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
@@ -56,33 +66,33 @@ Implement the **Kata Rebar** feature in the `HPRebar` ecosystem, enabling automa
 - Independent post-victory audit is blocking for all completion claims
 - Route via Routing Decision Table: SWE Light -> teamwork_preview_swe
 - Route via Routing Decision Table: General -> teamwork_preview_orchestrator
+- Strictly adhere to DIE-HARD Golden Rule (ĐIỀU 0)
 
 ## User Context
-- **Last user request**: Implement the Kata Rebar feature in the HPRebar ecosystem (Revit 2026 / HPRebar.Core / WPF MVVM / Excel sheet Dam parser / Rebar generation).
+- **Last user request**: Tái cấu trúc và thiết lập lại toàn diện Đội ngũ Multi-Agent Kết Cấu & BIM (coordinator, CAD, Revit, QA/QC) cùng hạ tầng Ledger và CLI C# Fail-Fast, thực thi dứt điểm phân đoạn Phần Móng.
 - **Pending clarifications**: none
 - **Delivered results**:
-  * Prior deliverables complete: Beam Rebar, Foundation Rebar, HPGeoLink, Smart Plot Pro, HPPowerBi, HPExcel, HPRobot, HPTekla, Archify.
-  * Kata Rebar feature: 100% complete, independently audited, VICTORY CONFIRMED.
+  - Phase 0: Khảo sát mã nguồn, live Revit 2026 (211 dầm ma), live AutoCAD DWG (72 đài móng, 22 giằng móng, 196 cọc D400) hoàn thành 100%.
+  - Milestone M1: 6 tài liệu hồ sơ 4 Agent khắc cốt ĐIỀU 0 tại `HPBim/agents/` nghiệm thu ĐẠT 100% (Gate PASS).
+  - Milestone M2 Iteration 1: Domain C# và Ledger hoàn tất; sau VETO của Forensic Auditor (lỗi IEEE 754), `explorer_m2_fix` đã chuẩn bị xong trọn bộ giải pháp vá lỗi.
+  - Kế vị thành công: Orchestrator 11 bàn giao soft handoff sang Orchestrator 12 (Gen 2).
 
 ## Routing Decision
 - **Route**: General (`teamwork_preview_orchestrator`)
-- **Rationale**: Multi-part software engineering project (Core parser, Core geometry calculator, Revit 3D rebar generation, WPF MVVM UI, xUnit tests) without explicit lightness signal.
+- **Rationale**: Multi-stage structural engineering and BIM multi-agent coordination project.
 
 ## Project Status
-- **Phase**: complete
-- **Active Orchestrator**: orchestrator_9 (aa8876fc-b61d-4725-aacd-616632eb9cc0)
-- **Active Victory Auditor**: victory_auditor_6 (362ec385-332d-422f-ba0a-ae2448a72635)
+- **Phase**: in progress (Milestone M2 Iteration 2 & Milestone M3)
+- **Active Orchestrator**: 22ab785c-b656-477d-a044-b5c03eddba16 (orchestrator_12)
+- **Predecessor Orchestrator**: 11067cc4-24c4-4007-9827-ff3e7c0e82f5 (orchestrator_11 - soft handoff complete)
+- **Active Victory Auditor**: [to be spawned on victory claim]
 
 ## Victory Audit Status
-- **Triggered**: yes
-- **Verdict**: VICTORY CONFIRMED
+- **Triggered**: no
+- **Verdict**: pending
 - **Retry count**: 0
 
 ## Artifact Index
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md — Authoritative user requirements record
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\context.md — Context passed to orchestrator_9
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\DISPATCH.md — Dispatch log for orchestrator_9
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_9\progress.md — Live progress of orchestrator_9
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\DISPATCH.md — Dispatch log for victory_auditor_6
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\report.md — Independent Victory Audit Report (VICTORY CONFIRMED)
-- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\victory_auditor_6\handoff.md — Victory Auditor handoff report
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\ORIGINAL_REQUEST.md — Authoritative user requirements record
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_11\handoff.md — Generation 1 soft handoff
+- g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\orchestrator_12\context.md — Context passed to Generation 2

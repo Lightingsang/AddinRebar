@@ -1,0 +1,56 @@
+{
+  "DCE Pro.dll": {
+    "success": true,
+    "evidence_id": "ev_ed758bff25f1af5a627893edbd32e1e1b91f7080e1aba614c04a4fe099b760d2",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  },
+  "DceSteel.dll": {
+    "success": true,
+    "evidence_id": "ev_1ec88a1f5e664359cb52a4a6e95be1571cef1a5a3cd6a1cbfff3779ed863a9dd",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  },
+  "DbimSteelAutocad.dll": {
+    "success": true,
+    "evidence_id": "ev_ac56541df7f364900dbf1fcbead5f7a710b2d5eace79b1de3a93bb65921212d5",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  },
+  "DCE Excel.dll": {
+    "success": true,
+    "evidence_id": "ev_0617111468c61b91997b49b65a2680d4b09c8b90afe2da0e783db10001c33d07",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  },
+  "DBimRevit.dll": {
+    "success": true,
+    "evidence_id": "ev_d7d432ae2543ebdbd7b8fb4d110ab27befad1ce0e5e36d9f4532b1f58703b6e7",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  },
+  "DceAnalyssiss64.dll": {
+    "success": true,
+    "evidence_id": "ev_23b4e9c6dac47d63efce3fdc9d498e253bee505c75a8885a1e1f3e6dcc0e6ccf",
+    "status": null,
+    "architecture": null,
+    "runtime_version": null,
+    "coverage_state": null,
+    "issues": []
+  }
+}

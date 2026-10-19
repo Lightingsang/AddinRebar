@@ -1,0 +1,121 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.MasterRebarScheduleDashboardWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Bảng Thống Kê Thép Toàn Dự Án (TKT_frmMain)"
+                  Height="720" Width="1020"
+                  MinHeight="600" MinWidth="850"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="QUẢN LÝ BẢNG THỐNG KÊ CỐT THÉP &amp; TỔNG HỢP KHỐI LƯỢNG" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Đồng bộ tham số DceRebarXDataTKT, chỉnh sửa hàng loạt số lượng/đường kính và bóc tách khối lượng" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding GrandTotalTonnageTon, StringFormat='{}TỔNG: {0:F2} TẤN'}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Summary KPI Cards -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Thép nhỏ (Φ ≤ 10)" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalWeightSmallDiaKg, StringFormat='{}{0:F1} kg'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Thép vừa (10 &lt; Φ ≤ 18)" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalWeightMediumDiaKg, StringFormat='{}{0:F1} kg'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Thép lớn (Φ &gt; 18)" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding TotalWeightLargeDiaKg, StringFormat='{}{0:F1} kg'}" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="6" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="Tổng khối lượng" Foreground="{DynamicResource Brush.TextMuted}"/>
+                    <TextBlock Text="{Binding GrandTotalTonnageTon, StringFormat='{}{0:F2} tấn'}" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource Brush.Accent}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Main DataGrid -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <DataGrid ItemsSource="{Binding ScheduleItems}" Style="{StaticResource StandardDataGrid}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Cấu kiện" Binding="{Binding ElementMark}" Width="*"/>
+                    <DataGridTextColumn Header="Số hiệu" Binding="{Binding BarNumber}" Width="*"/>
+                    <DataGridTextColumn Header="ĐK (mm)" Binding="{Binding DiameterMm}" Width="*"/>
+                    <DataGridTextColumn Header="SL / CK" Binding="{Binding CountPerElement}" Width="*"/>
+                    <DataGridTextColumn Header="Số CK" Binding="{Binding ElementCount}" Width="*"/>
+                    <DataGridTextColumn Header="Tổng SL" Binding="{Binding TotalCount}" Width="*"/>
+                    <DataGridTextColumn Header="Chiều dài (mm)" Binding="{Binding TotalLengthMm, StringFormat='{}{0:F0}'}" Width="1.2*"/>
+                    <DataGridTextColumn Header="Khối lượng (kg)" Binding="{Binding TotalWeightKg, StringFormat='{}{0:F1}'}" Width="1.2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Actions -->
+        <Border Grid.Row="3" Margin="0,12,0,0" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <TextBlock Text="Sửa SLCK:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox Text="{Binding BatchQuantity}" Width="50" Style="{StaticResource StandardTextBox}" Margin="0,0,6,0"/>
+                    <Button Content="Cập nhật SLCK" Command="{Binding BatchUpdateQuantityCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,16,0"/>
+
+                    <TextBlock Text="Sửa ĐKT (≥16):" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox Text="{Binding BatchDiameter}" Width="50" Style="{StaticResource StandardTextBox}" Margin="0,0,6,0"/>
+                    <Button Content="Cập nhật ĐKT" Command="{Binding BatchUpdateDiameterCommand}" Style="{StaticResource SecondaryButton}"/>
+                </StackPanel>
+
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

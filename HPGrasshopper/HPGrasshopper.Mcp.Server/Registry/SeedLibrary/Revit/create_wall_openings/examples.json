@@ -1,0 +1,21 @@
+[
+  {
+    "title": "single_door_opening",
+    "args": {
+      "wallElementId": 123456,
+      "openings": [
+        { "startX": 1.2, "bottomZ": 0.0, "width": 0.9, "height": 2.1 }
+      ]
+    }
+  },
+  {
+    "title": "two_window_openings",
+    "args": {
+      "wallElementId": 654321,
+      "openings": [
+        { "startX": 1.5, "bottomZ": 0.9, "width": 1.5, "height": 1.2 },
+        { "startX": 4.5, "bottomZ": 0.9, "width": 1.5, "height": 1.2 }
+      ]
+    }
+  }
+]

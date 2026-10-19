@@ -1,0 +1,57 @@
+{
+  "name": "facade_panelization",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "geometry",
+    "facade",
+    "panel",
+    "adaptive",
+    "curtain"
+  ],
+  "title": "Calculate Facade Surface Panelization UV Grid",
+  "description": "Calculate parametric UV grid subdivisions and corner coordinates for facade panelization without modifying the Revit document.",
+  "notes": "Calculates parametric UV grid coordinates and four corner points for quad panels.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "uDivisions",
+      "vDivisions"
+    ],
+    "properties": {
+      "surfaceWidthMeters": {
+        "type": "number",
+        "default": 30.0,
+        "description": "Total width of facade envelope in meters."
+      },
+      "surfaceHeightMeters": {
+        "type": "number",
+        "default": 15.0,
+        "description": "Total height of facade envelope in meters."
+      },
+      "uDivisions": {
+        "type": "integer",
+        "description": "Number of horizontal panel divisions."
+      },
+      "vDivisions": {
+        "type": "integer",
+        "description": "Number of vertical panel divisions."
+      },
+      "panelFamilyName": {
+        "type": "string",
+        "default": "Adaptive-Quad-Panel",
+        "description": "Name of adaptive component or curtain panel family."
+      }
+    },
+    "additionalProperties": false
+  }
+}

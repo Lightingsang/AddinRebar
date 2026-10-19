@@ -1,0 +1,41 @@
+{
+  "name": "get_active_graph_info",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Workspace",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "workspace",
+    "graph",
+    "inspect",
+    "nodes",
+    "connectors",
+    "status"
+  ],
+  "title": "Get active Dynamo graph info",
+  "description": "Inspects the currently open Dynamo graph in the active workspace, reporting file path, name, total node and connector counts, run settings (Manual vs Automatic), custom node definitions, error status, and unsaved changes.",
+  "notes": "Reads active WorkspaceModel from DynamoViewModel or RevitDynamoModel without modifying the canvas or model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "includeNodeList": {
+        "type": "boolean",
+        "default": false,
+        "description": "Include summarized list of all nodes in workspace (id, name, type, state, port counts)"
+      },
+      "includeErrors": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include detailed error messages and warnings from nodes currently in error or warning state"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,1139 @@
+{
+  "elevations": [
+    {
+      "value": "-0.080",
+      "count": 1,
+      "sampleX": 798609.5,
+      "sampleY": -523215.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-0.100",
+      "count": 50,
+      "sampleX": 371316.5,
+      "sampleY": -111327.3,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "-0.330",
+      "count": 2,
+      "sampleX": 798609.5,
+      "sampleY": -530599.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-0.585",
+      "count": 2,
+      "sampleX": 803002.6,
+      "sampleY": -537284.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-0.600",
+      "count": 1,
+      "sampleX": 256620,
+      "sampleY": -113658.5,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-0.800",
+      "count": 8,
+      "sampleX": 664361.7,
+      "sampleY": -544668.8,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-0.955",
+      "count": 1,
+      "sampleX": 803002.6,
+      "sampleY": -538770,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-1.000",
+      "count": 1,
+      "sampleX": 596139.2,
+      "sampleY": -123261.4,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "-1.20",
+      "count": 1,
+      "sampleX": 376269.8,
+      "sampleY": -13396.5,
+      "source": "Text"
+    },
+    {
+      "value": "-1.200",
+      "count": 4,
+      "sampleX": 762448.2,
+      "sampleY": -524734.3,
+      "source": "CODE-02"
+    },
+    {
+      "value": "-1.370",
+      "count": 8,
+      "sampleX": 573105.9,
+      "sampleY": -9817.4,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-1.600",
+      "count": 58,
+      "sampleX": 458780,
+      "sampleY": -47126.3,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-10.70",
+      "count": 1,
+      "sampleX": 376227.4,
+      "sampleY": -22896.5,
+      "source": "Text"
+    },
+    {
+      "value": "-2.000",
+      "count": 2,
+      "sampleX": 526357.4,
+      "sampleY": -23422.9,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-2.600",
+      "count": 6,
+      "sampleX": 555631.4,
+      "sampleY": -44652.1,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-2.800",
+      "count": 2,
+      "sampleX": 594718.8,
+      "sampleY": -44756.1,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-2.900",
+      "count": 1,
+      "sampleX": 627607.9,
+      "sampleY": -37616.8,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "-20.45",
+      "count": 1,
+      "sampleX": 376227.4,
+      "sampleY": -32648.3,
+      "source": "Text"
+    },
+    {
+      "value": "-3.00",
+      "count": 1,
+      "sampleX": 376269.8,
+      "sampleY": -15196.5,
+      "source": "Text"
+    },
+    {
+      "value": "\u002B0.000",
+      "count": 2,
+      "sampleX": 313310.3,
+      "sampleY": -638206.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B0.450",
+      "count": 4,
+      "sampleX": 291629,
+      "sampleY": -638206.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B1.000",
+      "count": 8,
+      "sampleX": 212251.2,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B1.100",
+      "count": 1,
+      "sampleX": 254096.7,
+      "sampleY": -635090.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B1.300",
+      "count": 1,
+      "sampleX": 246906.1,
+      "sampleY": -635090.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B1.600",
+      "count": 3,
+      "sampleX": 328098.3,
+      "sampleY": -638606.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B1.950",
+      "count": 4,
+      "sampleX": 206861.9,
+      "sampleY": -564607.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B10.300",
+      "count": 1,
+      "sampleX": 653378.7,
+      "sampleY": -630431,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B10.650",
+      "count": 4,
+      "sampleX": 247471.7,
+      "sampleY": -544657.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B10.910",
+      "count": 4,
+      "sampleX": 238262.3,
+      "sampleY": -561111.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B10.970",
+      "count": 5,
+      "sampleX": 236941.7,
+      "sampleY": -321675.1,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B11.000",
+      "count": 1,
+      "sampleX": 667477.3,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B11.115",
+      "count": 4,
+      "sampleX": 249722.3,
+      "sampleY": -535817.1,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B11.300",
+      "count": 3,
+      "sampleX": 639273.6,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B11.375",
+      "count": 4,
+      "sampleX": 238262.3,
+      "sampleY": -559247.1,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B11.700",
+      "count": 4,
+      "sampleX": 234680.1,
+      "sampleY": -348033.6,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B11.963",
+      "count": 3,
+      "sampleX": 824905.2,
+      "sampleY": -458221.3,
+      "source": "CODE-03"
+    },
+    {
+      "value": "\u002B12.000",
+      "count": 1,
+      "sampleX": 448092.8,
+      "sampleY": -353045.6,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B12.900",
+      "count": 3,
+      "sampleX": 233028.6,
+      "sampleY": -310434.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B13.000",
+      "count": 54,
+      "sampleX": 222788.3,
+      "sampleY": -318713.6,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B13.500",
+      "count": 1,
+      "sampleX": 758756.7,
+      "sampleY": -630121.3,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B14.050",
+      "count": 2,
+      "sampleX": 730353,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B14.150",
+      "count": 8,
+      "sampleX": 330259,
+      "sampleY": -496368.9,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "\u002B14.900",
+      "count": 8,
+      "sampleX": 501650.5,
+      "sampleY": -451826.6,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "\u002B15.035",
+      "count": 4,
+      "sampleX": 373526.4,
+      "sampleY": -546797.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B15.050",
+      "count": 2,
+      "sampleX": 737404,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B15.150",
+      "count": 1,
+      "sampleX": 821375.5,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B15.295",
+      "count": 4,
+      "sampleX": 392063.2,
+      "sampleY": -567682,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B15.350",
+      "count": 1,
+      "sampleX": 856630.1,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B15.510",
+      "count": 4,
+      "sampleX": 373403.6,
+      "sampleY": -528623.9,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B15.650",
+      "count": 6,
+      "sampleX": 807273.6,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B15.770",
+      "count": 4,
+      "sampleX": 392063.2,
+      "sampleY": -565782.9,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B15.850",
+      "count": 8,
+      "sampleX": 396782.3,
+      "sampleY": -490596.6,
+      "source": "Cote Ubc-01"
+    },
+    {
+      "value": "\u002B16.600",
+      "count": 35,
+      "sampleX": 538963.4,
+      "sampleY": -413283.3,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B16.870",
+      "count": 16,
+      "sampleX": 411119.6,
+      "sampleY": -446131.8,
+      "source": "CODE-03"
+    },
+    {
+      "value": "\u002B17.350",
+      "count": 16,
+      "sampleX": 420323.2,
+      "sampleY": -444211.8,
+      "source": "CODE-03"
+    },
+    {
+      "value": "\u002B17.550",
+      "count": 6,
+      "sampleX": 960820.7,
+      "sampleY": -501910.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B17.650",
+      "count": 1,
+      "sampleX": 999980.3,
+      "sampleY": -635105.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B17.770",
+      "count": 16,
+      "sampleX": 424872.5,
+      "sampleY": -442532.7,
+      "source": "CODE-03"
+    },
+    {
+      "value": "\u002B17.850",
+      "count": 1,
+      "sampleX": 912411.4,
+      "sampleY": -631817.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B18.150",
+      "count": 3,
+      "sampleX": 903769.4,
+      "sampleY": -631817.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B18.450",
+      "count": 1,
+      "sampleX": 895127.4,
+      "sampleY": -631817.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B18.850",
+      "count": 1,
+      "sampleX": 886485.4,
+      "sampleY": -631817.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B19.400",
+      "count": 27,
+      "sampleX": 398881.1,
+      "sampleY": -374667.8,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B19.650",
+      "count": 5,
+      "sampleX": 985878.5,
+      "sampleY": -635105.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.000",
+      "count": 3,
+      "sampleX": 233404,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.080",
+      "count": 2,
+      "sampleX": 342282.2,
+      "sampleY": -629451.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.100",
+      "count": 1,
+      "sampleX": 292925.7,
+      "sampleY": -634028.7,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.210",
+      "count": 4,
+      "sampleX": 238262.3,
+      "sampleY": -571606,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B2.300",
+      "count": 1,
+      "sampleX": 320900.9,
+      "sampleY": -634009.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.330",
+      "count": 4,
+      "sampleX": 491153,
+      "sampleY": -571396.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B2.415",
+      "count": 4,
+      "sampleX": 207023,
+      "sampleY": -547246.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B2.600",
+      "count": 13,
+      "sampleX": 292697.2,
+      "sampleY": -629432.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B2.675",
+      "count": 4,
+      "sampleX": 238262.3,
+      "sampleY": -569741.7,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B2.690",
+      "count": 2,
+      "sampleX": 527061.9,
+      "sampleY": -559262.5,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B20.300",
+      "count": 1,
+      "sampleX": 994168.2,
+      "sampleY": -630528.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B20.400",
+      "count": 3,
+      "sampleX": 986260.3,
+      "sampleY": -630528.2,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B3.150",
+      "count": 4,
+      "sampleX": 207106.2,
+      "sampleY": -189888.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B3.500",
+      "count": 2,
+      "sampleX": 551125.5,
+      "sampleY": -238816.2,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B3.650",
+      "count": 5,
+      "sampleX": 539407.2,
+      "sampleY": -241030,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B3.800",
+      "count": 1,
+      "sampleX": 261558.7,
+      "sampleY": -634777.1,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B3.900",
+      "count": 3,
+      "sampleX": 555973.7,
+      "sampleY": -238679.8,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B4.200",
+      "count": 15,
+      "sampleX": 379003,
+      "sampleY": -241941.3,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B4.300",
+      "count": 61,
+      "sampleX": 251642.8,
+      "sampleY": -291328.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B4.350",
+      "count": 2,
+      "sampleX": 216343.9,
+      "sampleY": -291278.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B4.800",
+      "count": 2,
+      "sampleX": 418249.1,
+      "sampleY": -635090.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B4.810",
+      "count": 3,
+      "sampleX": 246771,
+      "sampleY": -260590.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B5.200",
+      "count": 26,
+      "sampleX": 264726.2,
+      "sampleY": -290428.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B5.250",
+      "count": 1,
+      "sampleX": 262216.3,
+      "sampleY": -290378.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B5.350",
+      "count": 8,
+      "sampleX": 390827.6,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B5.950",
+      "count": 1,
+      "sampleX": 503135.2,
+      "sampleY": -635490.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B5.990",
+      "count": 3,
+      "sampleX": 241321,
+      "sampleY": -260590.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B6.230",
+      "count": 18,
+      "sampleX": 243516.5,
+      "sampleY": -252797.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B6.250",
+      "count": 2,
+      "sampleX": 404929.4,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.260",
+      "count": 1,
+      "sampleX": 373201.5,
+      "sampleY": -274986.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B6.300",
+      "count": 4,
+      "sampleX": 247471.7,
+      "sampleY": -545157.4,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B6.350",
+      "count": 2,
+      "sampleX": 419031.3,
+      "sampleY": -630513.4,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.400",
+      "count": 1,
+      "sampleX": 398078.5,
+      "sampleY": -635490.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.430",
+      "count": 2,
+      "sampleX": 503002.8,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.450",
+      "count": 1,
+      "sampleX": 495951.8,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.560",
+      "count": 6,
+      "sampleX": 237721,
+      "sampleY": -260590.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B6.580",
+      "count": 2,
+      "sampleX": 540913.2,
+      "sampleY": -295803.8,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B6.650",
+      "count": 1,
+      "sampleX": 496055.8,
+      "sampleY": -635472.1,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.765",
+      "count": 4,
+      "sampleX": 249722.3,
+      "sampleY": -536317.1,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B6.930",
+      "count": 1,
+      "sampleX": 474799.1,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B6.950",
+      "count": 6,
+      "sampleX": 467748.1,
+      "sampleY": -630894.6,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B7.025",
+      "count": 4,
+      "sampleX": 238262.3,
+      "sampleY": -559747.1,
+      "source": "cao trinh"
+    },
+    {
+      "value": "\u002B7.360",
+      "count": 3,
+      "sampleX": 234221,
+      "sampleY": -260590.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B7.630",
+      "count": 18,
+      "sampleX": 233716.5,
+      "sampleY": -252797.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B7.660",
+      "count": 1,
+      "sampleX": 373201.5,
+      "sampleY": -269386.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B7.760",
+      "count": 4,
+      "sampleX": 231423.3,
+      "sampleY": -260590.9,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B7.850",
+      "count": 2,
+      "sampleX": 474903,
+      "sampleY": -635472.1,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B8.650",
+      "count": 62,
+      "sampleX": 229784.7,
+      "sampleY": -252574.6,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B8.700",
+      "count": 3,
+      "sampleX": 216343.9,
+      "sampleY": -286928.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B8.900",
+      "count": 2,
+      "sampleX": 507182.2,
+      "sampleY": -286181.9,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B9.280",
+      "count": 1,
+      "sampleX": 929799.9,
+      "sampleY": -497426.2,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B9.400",
+      "count": 2,
+      "sampleX": 507383.7,
+      "sampleY": -285681.9,
+      "source": "kata_block_CT"
+    },
+    {
+      "value": "\u002B9.500",
+      "count": 1,
+      "sampleX": 688251.4,
+      "sampleY": -631083.9,
+      "source": "CODE-02"
+    },
+    {
+      "value": "\u002B9.600",
+      "count": 1,
+      "sampleX": 931196,
+      "sampleY": -488904.5,
+      "source": "CODE-01"
+    },
+    {
+      "value": "\u002B9.700",
+      "count": 6,
+      "sampleX": 583505.8,
+      "sampleY": -635090.9,
+      "source": "CODE-02"
+    }
+  ],
+  "titles": [
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N TA\u00C0NG 3\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 233739.5,
+      "y": -282989.8,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N TA\u00C0NG 4\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 233739.5,
+      "y": -342029,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U MA\u00D9I\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 407465.8,
+      "y": -408381.9,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- TO\u00C0N B\u1ED8 S\u00C0N M\u00C1I \u0110\u1ED4 B\u00CA T\u00D4NG  D\u00C0Y 100mm\\P- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\H0.9999x;\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 415072.3,
+      "y": -413160.6,
+      "layer": "TEXT-S"
+    },
+    {
+      "text": "TA\u00C0NG 2",
+      "x": 215331.8,
+      "y": -291605.8,
+      "layer": "Code"
+    },
+    {
+      "text": "TA\u00C0NG 3",
+      "x": 215331.8,
+      "y": -287254.5,
+      "layer": "Code"
+    },
+    {
+      "text": "TA\u00C0NG 2",
+      "x": 497235.2,
+      "y": -291302.4,
+      "layer": "Code"
+    },
+    {
+      "text": "TA\u00C0NG 3",
+      "x": 497191.9,
+      "y": -286947.1,
+      "layer": "Code"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N KY\u00D5 THUA\u00C4T \u002B KE\u00D8O THE\u00D9P \u002B XA\u00D8 GO\u00C0 MA\u00D9I\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 229364,
+      "y": -406188.6,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-4, SL: 2\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002BMA\u00D9I)}",
+      "x": 257419.5,
+      "y": -417410.3,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-5, SL: 1\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002BMA\u00D9I)}",
+      "x": 264253,
+      "y": -417359.8,
+      "layer": "Text"
+    },
+    {
+      "text": "SA\u00D8N \u00D1A\u00CBT BO\u00C0N N\u00D6\u00D4\u00D9C MA\u00D9I DA\u00D8Y 140mm",
+      "x": 243028.8,
+      "y": -414916.8,
+      "layer": "TEXT-S"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG BO\u00C1 TR\u00CD CO\u00C4T TA\u00C0NG 1}\\P {\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;TY\u00DB LE\u00C4 1/100}",
+      "x": 739659.7,
+      "y": -47064.2,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- C\u00C1C M\u1EB6T C\u1EAET CHI TI\u1EBET NGANG C\u1ED8T L\u00C0 \u0110I\u1EC2N H\u00CCNH C\u1EE6A T\u1EA6NG 1\\P\\H0.9999x;- B\u00CA T\u00D4NG C\u1ED8T \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 C\u1ED8T D\u00C0Y 25mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=30%%C\\H0.9991x;\\W0.65;      }",
+      "x": 769396.9,
+      "y": -58721.8,
+      "layer": "TEXT-S"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG BO\u00C1 TR\u00CD \u00D1A\u00D8I CO\u00CFC \u002B GIA\u00C8NG MO\u00D9NG \u002B BO\u00D9 NE\u00C0N\\P} {\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;TY\u00DB LE\u00C4 1/100}",
+      "x": 481277.5,
+      "y": -43002,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N MA\u00D9I\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 491465.8,
+      "y": -407458.1,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- TO\u00C0N B\u1ED8 S\u00C0N M\u00C1I \u0110\u1ED4 B\u00CA T\u00D4NG  D\u00C0Y 100mm\\P- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\H0.9999x;\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 518727.1,
+      "y": -418231.9,
+      "layer": "TEXT-S"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LMA\u00CBT CA\u00C9T B-B SA\u00D8N MA\u00D9I  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 499088,
+      "y": -416671.2,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LMA\u00CBT CA\u00C9T A-A SA\u00D8N MA\u00D9I  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 471023,
+      "y": -415781.2,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LMA\u00CBT CA\u00C9T D-D SA\u00D8N MA\u00D9I  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 501159.9,
+      "y": -424081.7,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LMA\u00CBT CA\u00C9T C-C SA\u00D8N MA\u00D9I  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 469240.5,
+      "y": -424081.7,
+      "layer": "Text"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N MA\u00D9I",
+      "x": 532562.3,
+      "y": -418602.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG BO\u00C1 TR\u00CD \u00D1A\u00D8I CO\u00CFC \u002B GIA\u00C8NG MO\u00D9NG \u002B BO\u00D9 NE\u00C0N",
+      "x": 532562.3,
+      "y": -57038.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG BO\u00C1 TR\u00CD CO\u00C4T TA\u00C0NG 1",
+      "x": 784562.3,
+      "y": -57038.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N A\u00D9P MA\u00D9I \u002B KE\u00D8O THE\u00D9P \u002B XA\u00D8 GO\u00C0 MA\u00D9I",
+      "x": 280304.3,
+      "y": -418438.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N TA\u00C0NG 4",
+      "x": 280562.3,
+      "y": -354038.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U MA\u00D9I",
+      "x": 448562.3,
+      "y": -418556.2,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N TA\u00C0NG 3",
+      "x": 280415.3,
+      "y": -294926.7,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;1. \u00D1\u00D4N V\u00D2 THI CO\u00C2NG PHA\u00DBI TUA\u00C2N THU\u00DB NGHIE\u00C2M NGA\u00CBT CA\u00D9C BA\u00DBN VE\u00D5 GHI CHU\u00D9 CHUNG, CA\u00D9C BA\u00DBN VE\u00D5 CHI TIE\u00C1T VA\u00D8 BA\u00DBN \\P   VE\u00D5 CH\u00C6 DA\u00C3N KY\u00D5 THUA\u00C4T.\\P\\P2. KHI \u00D1O\u00CFC BA\u00DBN VE\u00D5, CA\u00D9C K\u00CDCH TH\u00D6\u00D4\u00D9C \u00D1\u00D6\u00D4\u00CFC \u00D6U TIE\u00C2N H\u00D4N CA\u00D9C TY\u00DB LE\u00C4 GHI TRE\u00C2N BA\u00DBN VE\u00D5, TUYE\u00C4T \u00D1O\u00C1I KHO\u00C2NG \u00D1\u00D6\u00D4\u00CFC\\P    LA\u00C1Y K\u00CDCH TH\u00D6\u00D4\u00D9C THEO TY\u00DB LE\u00C4 \u00D1O TRE\u00C2N BA\u00DBN VE\u00D5.\\P\\P3. TA\u00C1T CA\u00DB CA\u00D9C K\u00CDCH TH\u00D6\u00D4\u00D9C TRE\u00C2N BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 \u00D1\u00D6\u00D4\u00CFC GHI BA\u00C8NG MILIME\u00D9T (MM), CAO TR\u00CCNH GHI BA\u00C8NG ME\u00D9T (M)\\P    NGOA\u00CFI TR\u00D6\u00D8 KHI CO\u00D9 CH\u00C6 \u00D1\u00D2NH KHA\u00D9C TRE\u00C2N BA\u00DBN VE\u00D5.\\P\\P4. CA\u00D9C HA\u00CFNG MU\u00CFC CO\u00C2NG TR\u00CCNH \u00D1\u00D6\u00D4\u00CFC THIE\u00C1T KE\u00C1 THEO TIE\u00C2U CHUA\u00C5N XA\u00C2Y D\u00D6\u00CFNG VIE\u00C4T NAM A\u00C1N BA\u00DBN M\u00D4\u00D9I NHA\u00C1T VA\u00D8\\P    CA\u00D9C QUY \u00D1\u00D2NH PHA\u00D9P QUY LIE\u00C2N QUAN \u00D1E\u00C1N CO\u00C2NG TA\u00D9C THI CO\u00C2NG TRONG XA\u00C2Y D\u00D6\u00CFNG.\\P\\P5. NHA\u00D8 THA\u00C0U PHA\u00DBI CO\u00D9 TRA\u00D9CH NHIE\u00C4M KIE\u00C5M TRA, \u00D1O\u00C1I CHIE\u00C1U CA\u00D9C BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 CU\u00DBA TA\u00C1T CA\u00DB CA\u00D9C PHA\u00C0N NH\u00D6: \\P    KIE\u00C1N TRU\u00D9C, KE\u00C1T CA\u00C1U, \u00D1IE\u00C4N, N\u00D6\u00D4\u00D9C v.v... VA\u00D8 THO\u00C2NG BA\u00D9O CHO NH\u00D6\u00D5NG NG\u00D6\u00D4\u00D8I CO\u00D9 THA\u00C5M QUYE\u00C0N \u00D4\u00DB CO\u00C2NG TR\u00CCNH\\P    VE\u00C0 NH\u00D6\u00D5NG \u00D1IE\u00C0U KHO\u00C2NG THO\u00C1NG NHA\u00C1T. \\P\\P6. MO\u00CFI VA\u00C1N \u00D1E\u00C0 XA\u00DBY RA (NE\u00C1U CO\u00D9) TRONG QUA\u00D9 TR\u00CCNH THI CO\u00C2NG GI\u00D6\u00D5A CA\u00D9C BE\u00C2N KY\u00D5 THUA\u00C4T V\u00D4\u00D9I NHAU, TH\u00CC PHA\u00DBI \\P    \u00D1\u00D6\u00D4\u00CFC GIA\u00DBI QUYE\u00C1T TRE\u00C2N TINH THA\u00C0N H\u00D4\u00CFP TA\u00D9C VA\u00D8 GIA\u00DBI QUYE\u00C1T VA\u00C1N \u00D1E\u00C0.\\P\\P7. NHA\u00D8 THA\u00C0U PHA\u00DBI KIE\u00C5M TRA THA\u00C4T CH\u00CDNH XA\u00D9C T\u00D6\u00D8NG HA\u00CFNG MU\u00CFC TR\u00D6\u00D4\u00D9C KHI GIA CO\u00C2NG LA\u00C9P D\u00D6\u00CFNG.\\P\\P8. NE\u00C1U CO\u00D9 S\u00D6\u00CF KHO\u00C2NG KH\u00D4\u00D9P VE\u00C0 BA\u00DBN VE\u00D5 GI\u00D6\u00D5A CA\u00D9C BO\u00C4 MO\u00C2N V\u00D4\u00D9I NHAU TH\u00CC TH\u00D6\u00D9 T\u00D6\u00CF GIA\u00DBI QUYE\u00C1T VA\u00C1N \u00D1E\u00C0 NH\u00D6 SAU:\\P8.1. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KIE\u00C1N TRU\u00D9C.\\P8.2. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KE\u00C1T CA\u00C1U.\\P8.3. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 HE\u00C4 THO\u00C1NG KY\u00D5 THUA\u00C4T.\\P\\P9. NH\u00D6\u00D5NG GHI CHU\u00D9 RIE\u00C2NG TRE\u00C2N T\u00D6\u00D8NG BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KY\u00D5 THUA\u00C4T SE\u00D5 CO\u00D9 \u00D1O\u00C4 \u00D6U TIE\u00C2N H\u00D4N SO V\u00D4\u00D9I GHI CHU\u00D9 CHUNG.\\P\\P10. TH\u00D6\u00D9 T\u00D6\u00CF \u00D6U TIE\u00C2N KHI CO\u00D9 S\u00D6\u00CF MA\u00C2U THUA\u00C3N GI\u00D6\u00D5A CA\u00D9C TA\u00D8I LIE\u00C4U, BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 NH\u00D6 SAU:\\P10.1. TIE\u00C2U CHUA\u00C5N VIE\u00C4T NAM (TCVN).\\P10.2. TIE\u00C2U CHUA\u00C5N NGA\u00D8NH (TCN), TIE\u00C2U CHUA\u00C5N XA\u00C2Y D\u00D6\u00CFNG (TCXD).\\P10.3. CA\u00D9C CH\u00C6 DA\u00C3N KY\u00D5 THUA\u00C4T CO\u00D9 LIE\u00C2N QUAN.\\P\\P11. XEM CA\u00D9C BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C \u00D1E\u00C5 BIE\u00C1T THE\u00C2M:\\P11.1. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C LO\u00C3 C\u00D6\u00DBA \u00D1I, C\u00D6\u00DBA SO\u00C5.\\P11.2. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C THA\u00D8NH, G\u00D4\u00D8 BE\u00C2 TO\u00C2NG, RA\u00D5NH TIE\u00C2U N\u00D6\u00D4\u00D9C SA\u00D8N, \u00D1A\u00D9NH DO\u00C1C CA\u00D9C KHU V\u00D6\u00CFC TU\u00CFT\\P        CO\u00C1T, CA\u00D9C N\u00D4I VA\u00D9T CA\u00CFNH, SOI RA\u00D5NH, CA\u00D9C PHA\u00C0N \u00D1A\u00C9P THE\u00C2M v.v...\\P11.3. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C LO\u00C3 TRE\u00C2N SA\u00D8N, VA\u00D9CH BE\u00C2 TO\u00C2NG, CA\u00D9C LO\u00C3 XUYE\u00C2N \u00D1A\u00D8.\\P\\P11.4. CA\u00D9C L\u00D4\u00D9P HOA\u00D8N THIE\u00C4N SA\u00D8N, SA\u00D8N MA\u00D9I.\\P\\P11.5. CA\u00D9C CHI TIE\u00C1T KHUNG C\u00D6\u00DBA SO\u00C5, C\u00D6\u00DBA \u00D1I, BE\u00C4 C\u00D6\u00DBA, KHUNG VA\u00D9CH K\u00CDNH , GIA\u00C8NG T\u00D6\u00D4\u00D8NG v.v...\\P\\P12. TA\u00C1T CA\u00DB CA\u00D9C COTE CAO \u00D1O\u00C4 CU\u00DBA SA\u00D8N GHI TRE\u00C2N BA\u00DBN VE\u00D5 LA\u00D8 CO\u00C1T MA\u00CBT TRE\u00C2N CU\u00DBA BA\u00DBN CH\u00D2U L\u00D6\u00CFC. CO\u00C1T MA\u00CBT SA\u00D8N\\P     HOA\u00D8N THIE\u00C4N XEM \u00D4\u00DB BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C.\\P\\P13. XEM THE\u00C2M BA\u00DBN VE\u00D5 C\u00D4 KH\u00CD, \u00D1IE\u00C4N, N\u00D6\u00D4\u00D9C \u00D1E\u00C5 BIE\u00C1T THE\u00C2M:\\P13.1. CA\u00D9C \u00D1\u00D6\u00D4\u00D8NG O\u00C1NG DA\u00C3N, O\u00C1NG NO\u00C1I, KHUNG, MO\u00D9C TREO, CA\u00D9C RA\u00D5NH, CA\u00D9C LO\u00C3 THO\u00C2NG O\u00C2 T\u00D6\u00D4\u00D8NG v.v...\\P13.2. CA\u00D9C \u00D1\u00D6\u00D4\u00D8NG O\u00C1NG CHA\u00CFY DA\u00C2Y \u00D1IE\u00C4N, HO\u00C4P \u00D1IE\u00C4N, \u00D1A\u00C0U RA TRE\u00C2N T\u00D6\u00D4\u00D8NG VA\u00D8 SA\u00D8N\\P\\P14. NHA\u00D8 THA\u00C0U PHA\u00DBI LA\u00C4P BA\u00DBN VE\u00D5 CHE\u00C1 TA\u00CFO, KE\u00C1 HOA\u00CFCH CA\u00C0N THIE\u00C1T \u00D1E\u00C5 HOA\u00D8N THA\u00D8NH CO\u00C2NG VIE\u00C4C VA\u00D8 GI\u00D6\u00D5 LA\u00CFI CA\u00D9C \\P     BA\u00DBN VE\u00D5 LIE\u00C2N QUAN \u00D1E\u00C5 PHU\u00CFC VU\u00CF CHO VIE\u00C4C LA\u00D8M BA\u00DBN VE\u00D5 HOA\u00D8N CO\u00C2NG SAU NA\u00D8Y.\\P\\P15. NHA\u00D8 THA\u00C0U PHA\u00DBI \u00D1E\u00C4 TR\u00CCNH BIE\u00C4N PHA\u00D9P THI CO\u00C2NG CHO MO\u00C3I HA\u00CFNG MU\u00CFC CO\u00C2NG VIE\u00C4C, VA\u00D8 \u00D1\u00D6\u00D4\u00CFC CHU\u00DB \u00D1A\u00C0U T\u00D6\\P     CHA\u00C1P THUA\u00C4N.\\P\\P16. BA\u00DBNG THO\u00C1NG KE\u00C2 CO\u00C1T THE\u00D9P \u00D4\u00DB PHA\u00C0N KE\u00C1T CA\u00C1U CH\u00C6 MANG T\u00CDNH CHA\u00C1T THAM KHA\u00DBO PHU\u00CFC VU\u00CF CHO CO\u00C2NG VIE\u00C4C \\P     D\u00D6\u00CF TOA\u00D9N, KHO\u00C2NG \u00D1\u00D6\u00D4\u00CFC DU\u00D8NG VA\u00D8O VIE\u00C4C CA\u00C9T HAY UO\u00C1N \u00D1E\u00C5 THI CO\u00C2NG.\\P\\P17. NHA\u00D8 THA\u00C0U, CA\u00D9C NHA\u00D8 CUNG CA\u00C1P THIE\u00C1T B\u00D2 PHA\u00DBI PHO\u00C1I H\u00D4\u00CFP CHA\u00CBT CHE\u00D5 VA\u00D8 CH\u00D2U TRA\u00D9CH NHIE\u00C4M TRONG VIE\u00C4C LA\u00C9P\\P     \u00D1A\u00CBT HE\u00C4 THO\u00C1NG THIE\u00C1T B\u00D2 \u00D1E\u00C5 \u00D1A\u00DBM BA\u00DBO AN TOA\u00D8N KE\u00C1T CA\u00C1U CO\u00C2NG TR\u00CCNH.\\P\\P18. NHA\u00D8 THA\u00C0U PHA\u00DBI CHUA\u00C5N B\u00D2 TR\u00D6\u00D4\u00D9C V\u00D2 TR\u00CD TA\u00C1T CU\u00DBA CA\u00DB CA\u00D9C O\u00C1NG NO\u00C1I, BU LO\u00C2NG NEO, NH\u00D6\u00D5NG KE\u00C1T CA\u00C1U CHO\u00C2N \\P     TR\u00D6\u00D4\u00D9C TRONG BE\u00C2 TO\u00C2NG NH\u00D6 \u00D1A\u00D5 THE\u00C5 HIE\u00C4N T\u00D6\u00D8 BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C, KE\u00C1T CA\u00C1U VA\u00D8 C\u00D4 KH\u00CD.\\P\\P19. BA\u00DBN VE\u00D5 THI CO\u00C2NG CO\u00C2NG TR\u00CCNH PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC T\u00D6 VA\u00C1N CU\u00DBA PH\u00CDA CHU\u00DB \u00D1A\u00C0U T\u00D6 KIE\u00C5M DUYE\u00C4T, VA\u00D8 PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC S\u00D6\u00CF\\P     \u00D1O\u00C0NG Y\u00D9 PHE\u00C2 DUYE\u00C4T CU\u00DBA CHU\u00DB \u00D1A\u00C0U T\u00D6 TR\u00D6\u00D4\u00D9C KHI THI CO\u00C2NG.\\P\\P20. \\A1;N\u00D6\u00D4\u00D9C S\u00D6\u00DB DU\u00CFNG TRONG BTCT LA\u00D8 N\u00D6\u00D4\u00D9C SA\u00CFCH, NE\u00C1U S\u00D6\u00DB DU\u00CFNG N\u00D6\u00D4\u00D9C NGA\u00C0M YE\u00C2U CA\u00C0U \u00D1O\u00C4 Ph=6.8-\u003E7.2}",
+      "x": 206860.8,
+      "y": -11860.7,
+      "layer": "Text1-S"
+    },
+    {
+      "text": "1. \u00D1O\u00C1I V\u00D4\u00D9I CO\u00C1T THE\u00D9P TR\u00D4N CO\u00D9 \u00D1\u00D6\u00D4\u00D8NG K\u00CDNH D \u003C 10mm, CHIE\u00C0U DA\u00D8I \u00D1OA\u00CFN NO\u00C1I LA\u00D8: 40D\\P2. \u00D1O\u00C1I V\u00D4\u00D9I THE\u00D9P CO\u00D9 G\u00D4\u00D8 ( THE\u00D9P GA\u00C2N ) CO\u00D9 \u00D1\u00D6\u00D4\u00D8NG K\u00CDNH D  \u003E= 10mm, \u00D1OA\u00CFN NO\u00C1I THE\u00D9P NH\u00D6 \\P2.1.1 \u00D1O\u00C1I V\u00D4\u00D9I CA\u00C1U KIE\u00C4N CH\u00D2U KE\u00D9O, \u00D1OA\u00CFN NO\u00C1I THE\u00D9P LA\u00D8: 40D ( D: \u00D1\u00D6\u00D4\u00D8NG K\u00CDNH CO\u00C1T THE\u00D9P )\\P2.1.2 \u00D1O\u00C1I V\u00D4\u00D9I CA\u00C1U KIE\u00C4N CH\u00D2U NE\u00D9N, \u00D1OA\u00CFN NO\u00C1I THE\u00D9P LA\u00D8: 30D ( D: \u00D1\u00D6\u00D4\u00D8NG K\u00CDNH CO\u00C1T THE\u00D9P )\\P3. CO\u00C1T THE\u00D9P NO\u00C1I TRONG DA\u00C0M, \u00D1A\u00D8 SA\u00D8N PHA\u00DBI NO\u00C1I TRONG VI VU\u00D8NG CH\u00D2U NE\u00D9N CU\u00DBA CA\u00C1U KIE\u00C4N.\\P4. TA\u00CFI MO\u00C4T MA\u00CBT CA\u00C9T NO\u00C1I THE\u00D9P, MA\u00C4T \u00D1O\u00C4 NO\u00C1I THE\u00D9P KHO\u00C2NG V\u00D6\u00D4\u00CFT QUA\u00D9 50% MA\u00D8 PHA\u00DBI NO\u00C1I THE\u00D9P XEN KE\u00D5.",
+      "x": 224884.4,
+      "y": -11433.1,
+      "layer": "Text1-S"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\u00D1O\u00C1I V\u00D4\u00D9I CA\u00D9C CA\u00C1U KIE\u00C4N DA\u00C0M, \u00D1A\u00D8 SA\u00D8N, \u00D1A\u00D8 KIE\u00C0NG, \u00D1A\u00D8 GIA\u00C8NG v.v...NE\u00C1U CH\u00C6 THE\u00C5 HIE\u00C4N MA\u00CBT CA\u00C9T NGANG MA\u00D8 KHO\u00C2NG\\PTHE\u00C5 HIE\u00C4N MA\u00CBT CA\u00C9T DO\u00CFC TH\u00CC VIE\u00C4C BO\u00C1 TR\u00CD CO\u00C1T THE\u00D9P DO\u00CFC, THE\u00D9P DO\u00CFC TA\u00CANG C\u00D6\u00D4\u00D8NG VA\u00D8 CO\u00C1T \u00D1AI \u00D1\u00D6\u00D4\u00CFC BO\u00C1 TR\u00CD THEO\\PCHI TIE\u00C1T DA\u00C0M \u00D1IE\u00C5N H\u00CCNH NH\u00D6 SAU:\\P1. L1, L2 LA\u00D8 NH\u00D2P T\u00CDNH TOA\u00D9N CU\u00DBA DA\u00C0M, T\u00CDNH T\u00D6\u00D8 HAI ME\u00D9P CO\u00C4T\\P2. H LA\u00D8 CHIE\u00C0U CAO DA\u00C0M}",
+      "x": 242835.6,
+      "y": -28823.3,
+      "layer": "Text1-S"
+    },
+    {
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;1. CAO TR\u00CCNH MO\u00D9NG \u00D1\u00D6\u00D4\u00CFC THIE\u00C1T KE\u00C1 CA\u00CAN C\u00D6\u00D9 THEO BA\u00D9O CA\u00D9O KHA\u00DBO SA\u00D9T \u00D1\u00D2A CHA\u00C1T VA\u00D8 \u00D1\u00D6\u00D4\u00CFC \u00D1A\u00CBT VA\u00D8O L\u00D4\u00D9P \u00D1A\u00C1T CO\u00D9\\P    KHA\u00DB  NA\u00CANG TIE\u00C1P NHA\u00C4N  TA\u00DBI TRO\u00CFNG CU\u00DBA CO\u00C2NG TR\u00CCNH.\\P2. TRONG QUA\u00D9 TR\u00CCNH THI CO\u00C2NG, NE\u00C1U GA\u00CBP CO\u00C2NG TR\u00CCNH NGA\u00C0M HOA\u00CBC CA\u00D9C TA\u00C0NG \u00D1\u00D2A TA\u00C0NG KHO\u00C2NG TO\u00C1T \\P    NHA\u00D8 THA\u00C0U THI CO\u00C2NG PHA\u00DBI BA\u00D9O CHO \u00D1\u00D4N V\u00D2 THIE\u00C1T KE\u00C1 KIE\u00C5M TRA \u00D1E\u00C5 CO\u00D9 BIE\u00C4N PHA\u00D9P \u00D1IE\u00C0U CH\u00C6NH VA\u00D8 X\u00D6\u00DB LY\u00D9.\\P3. CA\u00D9C MO\u00D9NG TIE\u00C1P GIA\u00D9P V\u00D4\u00D9I CO\u00C2NG TR\u00CCNH LA\u00C2N CA\u00C4N, CA\u00C0N PHA\u00DBI CO\u00D9 BIE\u00C4N PHA\u00D9P KE\u00D8 CHA\u00C9N \u00D1A\u00C1T \u00D1E\u00C5 TRA\u00D9NH SA\u00CFT L\u00D4\u00DB.\\P4. TR\u00D6\u00D4\u00D9C KHI LA\u00CAM LE BE\u00C2 TO\u00C2NG \u00D1A\u00D9 LO\u00D9T MO\u00D9NG CA\u00C0N PHA\u00DBI LA\u00D8M SA\u00CFCH VA\u00D8 TA\u00CFO PHA\u00DANG HO\u00C1 MO\u00D9NG.\\P5. THI CO\u00C2NG MO\u00D9NG TRONG \u00D1IE\u00C0U KIE\u00C4N KHO\u00C2NG TO\u00C1T (M\u00D6A), CA\u00C0N PHA\u00DBI CO\u00D9 BIE\u00C4N PHA\u00D9P TIE\u00C2U N\u00D6\u00D4\u00D9C HO\u00C1 MO\u00D9NG.\\P6. BE\u00C2 TO\u00C2NG MO\u00D9NG CH\u00C6 \u00D1\u00D6\u00D4\u00CFC \u00D1O\u00C5 KHI HO\u00C1 MO\u00D9NG KHO\u00C2 RA\u00D9O N\u00D6\u00D4\u00D9C.}",
+      "x": 260876.4,
+      "y": -53490.5,
+      "layer": "Text1-S"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N SA\u00C2N KHA\u00C1U\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 238869.9,
+      "y": -168987,
+      "layer": "Text"
+    },
+    {
+      "text": "_ MA\u00CBT BA\u00C8NG KE\u00C1T CA\u00C1U SA\u00D8N TA\u00C0NG SK",
+      "x": 280144.8,
+      "y": -176060.7,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG XA\u00D8 GO\u00C0, T\u00D6\u00D4\u00D8NG HO\u00C0I MA\u00D9I (TA\u00C0NG 3)\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 923040.7,
+      "y": -484895.1,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;CHI TIE\u00C1T XA\u00D8 GO\u00C0 MA\u00D9I\\P\\H0.5714x;TL:1/10}",
+      "x": 941981.3,
+      "y": -506224.5,
+      "layer": "TEXT-S"
+    },
+    {
+      "text": "_MB XA\u00D8 GO\u00C0 , T\u00D6\u00D4\u00D8NG HO\u00C0I MA\u00D9I (TA\u00C0NG 3)\\P_CHI TIE\u00C1T SA\u00D8N KY\u00D5 THUA\u00C4T",
+      "x": 990734.1,
+      "y": -499797.8,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "{\\H0.71429x;\\LMA\u00CBT BA\u00C8NG \u00D1\u00D2NH V\u00D2 KY\u00D5 THUA\u00C4T SA\u00D8N THANG MA\u00D9Y T1A \\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.69999x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 960913.8,
+      "y": -468944.3,
+      "layer": "TEXT MAT BANG"
+    },
+    {
+      "text": "{\\H0.71429x;\\LMA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N KY\u00D5 THUA\u00C4T THANG MA\u00D9Y T1A\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.69999x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 960985.6,
+      "y": -488581.4,
+      "layer": "TEXT MAT BANG"
+    },
+    {
+      "text": "{\\H0.71429x;\\LMA\u00CBT BA\u00C8NG \u00D1\u00D2NH V\u00D2 KY\u00D5 THUA\u00C4T SA\u00D8N THANG MA\u00D9Y T1B \\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.69999x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 979934.1,
+      "y": -468943.6,
+      "layer": "TEXT MAT BANG"
+    },
+    {
+      "text": "{\\H0.71429x;\\LMA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N KY\u00D5 THUA\u00C4T THANG MA\u00D9Y T1B\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.69999x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 979934.1,
+      "y": -489090.9,
+      "layer": "TEXT MAT BANG"
+    },
+    {
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.5333x;\\LMA\u00CBT CA\u00C9T A-A SA\u00D8N COTE \u002B16.600  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 208894,
+      "y": -411738.9,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG BE\u00C4 C\u00D6\u00DBA TA\u00C0NG 2 \\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 403431.8,
+      "y": -625291.3,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG LANH TO\u00C2 TA\u00C0NG 2 \\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 487431.8,
+      "y": -625291.3,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG BE\u00C4 C\u00D6\u00DBA TA\u00C0NG 3\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 569739.5,
+      "y": -623565.1,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG BE\u00C4 C\u00D6\u00DBA TA\u00C0NG 4\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 737739.5,
+      "y": -624984.8,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG LANH TO\u00C2, BE\u00C4 C\u00D6\u00DBA TA\u00C0NG A\u00D9P MA\u00D9I\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 905739.5,
+      "y": -624984.8,
+      "layer": "Text"
+    },
+    {
+      "text": "{\\LMA\u00CBT BA\u00C8NG \u00D1AN \u0026 GIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 989739.5,
+      "y": -624852.9,
+      "layer": "Text"
+    },
+    {
+      "text": "_MA\u00CBT BA\u00C8NG LANH TO\u00C2 TA\u00C0NG 2",
+      "x": 532206,
+      "y": -635171.9,
+      "layer": "Text tieu de"
+    },
+    {
+      "text": "_MA\u00CBT BA\u00C8NG BE\u00C4 C\u00D6\u00DBA TA\u00C0NG 2\\P_CHI TIE\u00C1T BE\u00C4 C\u00D6\u00DBA TA\u00C0NG 2",
+      "x": 448315,
+      "y": -634764.3,
+      "layer": "Text tieu de"
+    }
+  ]
+}

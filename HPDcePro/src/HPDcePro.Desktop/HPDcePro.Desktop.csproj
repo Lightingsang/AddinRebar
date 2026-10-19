@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>HPDcePro.Desktop</RootNamespace>
+    <AssemblyName>HPDcePro.Desktop</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HPDcePro.Core\HPDcePro.Core.csproj" />
+    <ProjectReference Include="..\HPDcePro.UI\HPDcePro.UI.csproj" />
+    <ProjectReference Include="..\HPDcePro.Excel\HPDcePro.Excel.csproj" />
+  </ItemGroup>
+
+</Project>

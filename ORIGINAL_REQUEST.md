@@ -549,3 +549,254 @@ Integrity mode: development
 - [ ] Zero C# source files (`*.cs`) or XAML files (`*.xaml`) are modified.
 - [ ] `HPRebar.Core` references no Autodesk Revit assemblies.
 
+
+
+## 2026-10-07T22:29:51Z
+
+Xây dựng và tích hợp Trình mô phỏng 3D Cốt thép Dầm trực quan bằng Helix Toolkit (WPF) cùng Mô-đun tính toán & bố trí cốt thép dầm theo TCVN 5574:2018 vào Add-in Revit 2026 (HPRebar), cho phép tương tác 3D thời gian thực, đọc nội lực từ ETABS 22 / Excel và tự động sinh Rebar 3D trong Revit.
+
+Working directory: G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRebar
+Integrity mode: development
+
+Tài liệu quy chuẩn & Nền tảng tham chiếu:
+- Quy chuẩn Clean Code bắt buộc: docs/clean-code/HP_CLEAN_CODE_CORE.md, docs/clean-code/host-appendix/revit.md
+- Nền tảng hiện hữu: HPRebar/HPRebar/BeamRebar/ (View, ViewModel, Services, Canvases 2D hiện có)
+- Hạ tầng Revit MCP & ETABS MCP trong repo: McpShared/ và HPEtabs/
+
+## Requirements
+
+### R1. Tích hợp Thư viện Đồ họa 3D Helix Toolkit vào HPRebar
+- Bổ sung package HelixToolkit.Wpf vào HPRebar/HPRebar/HPRebar.csproj tương thích với cấu hình đa phiên bản (đặc biệt là .NET 8 / net8.0-windows7.0 cho Revit 2026).
+- Cấu hình ILRepack để merge an toàn HelixToolkit.Wpf vào HPRebar.dll, đảm bảo không xung đột dynamic loading trong tiến trình Revit.exe.
+
+### R2. Xây dựng Khung nhìn Viewport 3D Helix (Beam3DViewport)
+- Xây dựng UserControl Beam3DViewport.xaml và code-behind đóng gói HelixViewport3D với:
+  - Hệ thống ánh sáng mặc định DefaultLights, lưới mặt bằng trục tọa độ GridLinesVisual3D, ViewCube điều hướng góc nhìn.
+  - Khối bê tông dầm bán trong suốt (Semi-transparent Material, Alpha ~ 0.35) thể hiện rõ bao hình học dầm (b x h x L).
+  - Hệ cốt thép dọc 3D dựng bằng TubeVisual3D hoặc MeshBuilder (chuẩn đường kính thực tế): Thép chủ lớp trên (màu Đỏ), thép chủ lớp dưới (màu Xanh lam), thép cấu tạo bên hông (màu Xanh lá).
+  - Hệ cốt đai 3D khép kín theo đúng bước đai gia cường vùng gối (a100) và bước đai khoảng giữa nhịp (a200).
+  - Bộ điều khiển Camera 3D mượt mà: Xoay Orbit (Chuột trái/phải), Pan, Zoom to cursor.
+
+### R3. Nâng cấp Giao diện Điều khiển Tương tác (BeamRebarView & ViewModel)
+- Tích hợp Beam3DViewport vào BeamRebarView.xaml song song với 2 Canvas mặt cắt 2D (Elevation & Section) hiện tại (hỗ trợ chuyển đổi Tab 3D / 2D hoặc bố cục chia màn hình).
+- Ràng buộc dữ liệu MVVM phản ứng thời gian thực (Reactive): Khi kỹ sư thay đổi kích thước tiết diện dầm, số lượng thanh thép hoặc bước đai trên giao diện, mô hình 3D trong Helix Viewport tự động tái tạo và cập nhật ngay lập tức.
+
+### R4. Mô-đun Tính toán Cốt thép Dầm theo TCVN 5574:2018 (HPRebar.Core)
+- Triển khai thuật toán tính toán diện tích cốt thép yêu cầu As (uốn) và Asw (cắt) theo TCVN 5574:2018 cho tiết diện chữ rectangular thuần C# trong HPRebar.Core.
+- Tự động gợi ý phương án đường kính và số thanh thép tối ưu thỏa mãn điều kiện bền và khoảng hở thông thủy cấu tạo (t >= 25 - 30 mm).
+- Đọc bảng nội lực dầm từ 2 nguồn: Import bảng Excel (.xlsx qua ClosedXML) hoặc đọc trực tiếp từ ETABS 22.
+
+### R5. Tự động Sinh Rebar 3D trong Revit 2026 & Xuất Báo cáo Excel
+- Kích hoạt lệnh sinh Rebar bản địa (Structural Rebar) trong Revit 2026 vào dầm được chọn thông qua RebarCreationService, gán đúng RebarBarType, hook và spacing.
+- Xuất file thuyết minh tính toán kiểm tra kết cấu chi tiết ra file Excel (.xlsx).
+
+## Acceptance Criteria
+
+### Tính toàn vẹn Mã nguồn & Clean Code
+- [ ] 100% C# .NET Native (ĐIỀU 0: Tuyệt đối không dùng Python).
+- [ ] Tuân thủ HP Clean Code Governance: Lớp <= 300 dòng, phương thức <= 50 dòng, 0 catch vô cớ, 0 warnings, 0 errors.
+- [ ] Lệnh dotnet build HPRebar/HPRebar.slnx -c Debug.R26 biên dịch thành công 100%.
+
+### Hiệu năng & Trải nghiệm 3D
+- [ ] Khung nhìn 3D HelixViewport3D hiển thị mượt mà 60 FPS, xoay/zoom không giật lag.
+- [ ] Cốt thép 3D hiển thị dạng thanh ống tròn đúng tỷ lệ đường kính và màu sắc quy ước.
+- [ ] Cập nhật 3D tức thì (< 50ms) khi thay đổi dữ liệu cấu hình thép.
+
+### Độ chính xác Tính toán TCVN & Revit
+- [ ] 100% Unit tests trong HPRebar.Core.Tests kiểm tra công thức TCVN 5574:2018 đạt PASS.
+- [ ] Sinh Rebar 3D vào Revit Document chính xác vị trí, lớp bảo vệ và không gây lỗi InvalidOperationException.
+
+
+## 2026-10-08T08:01:51Z
+
+Build HPDynamo MCP (Model Context Protocol) subsystem for Dynamo in Revit 2026, enabling AI coding agents to inspect, author, and execute Dynamo graphs (.dyn) and DesignScript/C# code both headlessly and live on the active Revit canvas.
+
+Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar
+Integrity mode: development
+
+## Requirements
+
+### R1. McpShared Dynamo Profile & Pipe Contracts
+Extend `McpShared` to define Dynamo host contracts without breaking existing hosts:
+- Add `PipeNaming.DynamoHost = "hpdynamo-mcp-2026"`.
+- Add `HostProfile.Dynamo` and Dynamo-specific `GuardProfile` / `AnalyzerProfile` with standard namespaces and safety rules.
+- Maintain strict host-neutrality and wire contract compatibility in `McpShared/`.
+
+### R2. HPDynamo Solution & MCP Server Executable (`HPDynamo.Mcp.Server`)
+Create `HPDynamo/HPDynamo.slnx` and `HPDynamo.Mcp.Server` (.NET 10.0 console application, stdio transport):
+- Implement `Program.cs` bootstrapping `McpServerHost.CreateBuilder(args, HostProfile.Dynamo)`.
+- Implement Core Tools: `execute_dynamo_code`, `execute_designscript`, `get_dynamo_context`, `cancel_execution`.
+- Wire 8 Registry Meta Tools (`search_tools`, `get_tool`, `run_tool`, `get_run`, `propose_tool`, `test_tool`, `publish_tool`, `manage_tool`).
+- Embed and auto-install the 12 embedded seed tools library.
+
+### R3. Dual-Host In-Process Bridge (`HPDynamo.McpBridge`)
+Create `HPDynamo.McpBridge` (.NET 8.0-windows7.0) running inside `Revit.exe`:
+- **Dual-Host Lifecycle:**
+  1. Revit Add-in (`IExternalApplication` + `.addin` manifest) that starts the Named Pipe listener `hpdynamo-mcp-2026` immediately upon Revit startup (allowing headless execution via `RevitDynamoModel` without Dynamo UI open).
+  2. Dynamo ViewExtension (`IViewExtension` + XML manifest) that binds to the active `DynamoViewModel` / `WorkspaceModel` when Dynamo UI is opened, enabling live canvas node/wire authoring and inspection.
+- **Dual-Level Safety & Rollback:**
+  - Wrap graph executions modifying Revit documents in a Revit `TransactionGroup` ("MCP Dynamo: <label>"); rollback completely when `dryRun=true`.
+  - Use Dynamo workspace snapshot / `UndoRecorder` for canvas-level changes.
+- **ScriptGuard & Compiler:**
+  - Roslyn compiler with `ScriptArgs`, denying forbidden namespaces (`System.IO`, `System.Net`, `Process`, unauthorized `Reflection`).
+  - Direct DesignScript execution engine interacting with Dynamo geometry and Revit nodes.
+- **Bridge UI:**
+  - Modeless status window with MaterialDesignThemes 5.3.2, dark/light theme tracking, and mandatory "Allow AI Dynamo execution" opt-in toggle (default OFF).
+
+### R4. Embedded Seed Library (12 Seeds)
+Implement 12 verified seed tools under `HPDynamo.Mcp.Server/Registry/SeedLibrary/`:
+1. `run_dyn_file`: Execute a `.dyn` file with input parameter dictionary overrides.
+2. `get_active_graph_info`: Inspect active canvas workspace (nodes count, wires, run status, errors).
+3. `search_nodes_library`: Search available node definitions in loaded Dynamo packages & core.
+4. `inspect_node_type`: Get input/output ports, descriptions, and type signatures of a node.
+5. `add_node_to_workspace`: Place a new node on canvas at coordinates (X, Y).
+6. `connect_node_ports`: Wire an output port of Node A to an input port of Node B.
+7. `disconnect_node_ports`: Disconnect wire between specified ports.
+8. `set_node_properties`: Configure node attributes (title, slider range, boolean, text).
+9. `get_node_output_values`: Retrieve evaluated output data from nodes after execution.
+10. `export_graph_to_image`: Render canvas or graph to PNG image artifact.
+11. `validate_dyn_file`: Inspect a `.dyn` JSON file for missing packages, cyclic wires, or errors.
+12. `create_code_block_node`: Generate a DesignScript CodeBlock node with script content.
+
+### R5. Test Suites & Quality Assurance
+- `HPDynamo.Mcp.Server.Tests` (.NET 10.0, xUnit v3):
+  - Registry lifecycle tests (draft -> tested -> pending_approval -> published).
+  - Seed tool compilation tests against Dynamo and Revit reference assemblies.
+  - ScriptGuard deny-list and AST analyzer tests.
+- `HPDynamo.McpBridge.Tests` (.NET 8.0-windows7.0):
+  - Dispatcher and named pipe protocol tests.
+  - Headless graph parser and DesignScript runner tests.
+- Compliance with `HP_CLEAN_CODE_CORE.md` (no forbidden namespaces, no commented-out code, structured exception logging).
+
+## Acceptance Criteria
+
+### Build & Packaging
+- [ ] `dotnet build HPDynamo/HPDynamo.slnx` succeeds with 0 errors and 0 warnings.
+- [ ] `HPDynamo.Mcp.Server` publishes cleanly as a self-contained / win-x64 console exe.
+- [ ] Deployment manifests (`HPDynamo.McpBridge.addin` and `HPDynamo_ViewExtensionDefinition.xml`) are correctly generated and positioned.
+
+### Server & Tool Surface
+- [ ] Starting `HPDynamo.Mcp.Server.exe` and sending `tools/list` returns exactly 24 tools (4 Core + 8 Registry + 12 Seeds) with valid JSON Schema.
+- [ ] Script proposals via `propose_tool` undergo AST validation and reject scripts exceeding 300 lines or containing forbidden namespaces.
+
+### Execution & Safety
+- [ ] Named Pipe listener `hpdynamo-mcp-2026` handles requests with JSON-RPC 2.0 NDJSON.
+- [ ] `dryRun=true` in `execute_dynamo_code` or `run_dyn_file` rolls back all created Revit elements via Revit `TransactionGroup`.
+- [ ] Script execution is rejected when the bridge UI opt-in checkbox is OFF.
+
+### Test Verification
+- [ ] All unit and integration tests in `HPDynamo.Mcp.Server.Tests` and `HPDynamo.McpBridge.Tests` pass.
+- [ ] `McpShared` regression tests continue to pass without breaks (`HPRebar.Mcp.Server.Core.Tests`).
+
+## 2026-10-08T11:29:50Z
+
+Triển khai hoàn thiện quy trình BIM Pipeline và Coordination Ledger cho HPBim (P0 và P1) giải quyết triệt để 10 lỗi chặn từ review ngày 08/10/2026, bảo đảm kết quả trung thực tuyệt đối, preview/apply tương đương, phục hồi an toàn sau sự cố và loại bỏ mọi hình thức shadow testing.
+
+Working directory: G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPBim
+Integrity mode: development
+
+## Requirements
+
+### R1. Phase 1 — P0 Core Wire, Cardinality & Strict Batch Transaction
+- **Canonical String SourceKey**: Chuẩn hóa `SourceKey` thành chuỗi canonical `[DocIdentifier]#[Category]:[PrimaryHandle]` trên toàn bộ `ElementPlanItem`, wire DTO, `ScriptArgs`, Roslyn runner và `HPBimCoordinationReceipt`. Bảo đảm 100% roundtrip equality qua JSON serialization/deserialization.
+- **Cardinality 1:1 & Không Synthesize Created**: Bắt buộc đối soát chính xác 1:1 giữa danh sách items trong plan và execution records trả về từ Revit. Cấm tuyệt đối việc tự tạo kết quả `Created` khi response thiếu records hoặc khi response bị cắt cụt do vượt ngưỡng 64KB (`execRes.Truncated == true`). Bất kỳ sự thiếu hụt nào phải đánh dấu ngay `OutcomeUnknown`.
+- **Strict All-or-Nothing Batch Transaction**: Khi bất kỳ cấu kiện nào trong batch gặp lỗi (`Failed`), rollback toàn bộ transaction của batch đó trên Revit, không ghi receipt vào Extensible Storage, và báo lỗi toàn diện, bảo đảm không để lại mô hình dở dang trong RVT.
+- **Loại bỏ Heuristic Fallbacks trong Script Runner**: Áp dụng đầy đủ `rotationDeg` và `topLevel` constraint cho Cột. Loại bỏ hoàn toàn các lệnh `FirstOrDefault()` khi chọn Pipe/PipingSystem type; nếu thiếu symbol/type phải báo lỗi tường minh `ERR_SYMBOL_NOT_FOUND`.
+
+### R2. Phase 2 — P1 Document Identity, Complete Hash & Journal Hydration
+- **Ràng buộc Định danh Tài liệu Đích**: CLI `generate` tự động truy vấn thông tin tài liệu Revit đang hoạt động (Title, Path, VersionGUID) trên Revit API thread trước khi biên dịch plan; gắn chặt vào `ExecutionPlan` và `IntentJournal`. Pre-flight trên Revit runner sẽ từ chối thực thi nếu phát hiện sai tài liệu hoặc snapshot đã lỗi thời.
+- **Canonical Plan Hash Toàn diện**: `BimExecutionPlan.ComputePlanHash` phải bao phủ toàn bộ các thuộc tính ảnh hưởng đến hình học và mô hình: tọa độ tất cả đỉnh polygon của profile, độ dày, cao độ, thông số tiết diện, family, host, top level và document identity.
+- **Hydration Index Sổ cái & Bảo toàn Metadata Journal**:
+  - `BimCoordinationLedgerService.LoadFromFile` phải tự động khôi phục và hydrate toàn bộ chỉ mục `_mappings` (SourceKey → Revit UniqueId) từ dữ liệu lưu trên đĩa.
+  - `IntentJournal.UpdateStatusAsync` khi cache miss phải nạp lại record gốc từ đĩa trước khi cập nhật trạng thái, bảo toàn 100% metadata (`PlanHash`, `ItemCount`, `SourceDoc`, `TargetDoc`) qua các phiên process restart.
+  - `BimCoordinationLedgerSerializer` thực hiện Atomic File Replace (.tmp -> atomic replace) kèm file-lock để chống hư hỏng dữ liệu khi tiến trình bị tắt đột ngột.
+- **Đối soát Reconcile 3 Yếu tố Chặt chẽ**: `ReconcileService` chỉ công nhận `Committed` khi receipt trong Extensible Storage khớp đồng thời cả 3 yếu tố: `OperationId`, `PlanHash`, và `TargetDocId`. Nếu không tìm thấy receipt hoặc thiếu bằng chứng, giữ nguyên trạng thái `OutcomeUnknown` để ngăn chặn retry ghi đè mù quáng.
+
+### R3. Phase 3 — Đo đạc Hình học QA/QC Thực tế & Chuyển đổi E2E Tests
+- **Kiểm toán Hình học Thực tế (Measured Geometric Verification)**: Nối `MeasuredGeometricVerifier` vào lệnh `VerifyCommand` và quy trình nghiệm thu CLI. Thực hiện truy vấn trực tiếp hình học (Solid, Curve, Elevation) từ Revit API qua named pipe để so sánh với dung sai `CoordinationTolerances`. Loại bỏ toàn bộ các số liệu gán sẵn (`AvgCadEdgeDevMm=0.5`...) và cấm nghiệm thu nếu thiếu dữ liệu đối chiếu (phải trả về `Inconclusive`).
+- **Xóa bỏ Shadow Mocks trong E2E Tests**: Refactor toàn bộ `HPBim.E2E.Tests`, loại bỏ hoàn toàn các lớp shadow contracts tự tạo (`E2ESchemaValidator`, `E2EExecutionPlan`, `E2EIntentJournal`...), chuyển 100% sang kiểm thử trực tiếp các production classes của `HPBim.Core` và `HPBim.Client`. Chỉ sử dụng fake test ở biên truyền tải I/O Named Pipe.
+
+## Acceptance Criteria
+
+### Verification & Testing
+- [ ] **Test Production Coverage**: 100% tests trong `HPBim.Core.Tests`, `HPBim.Client.Tests`, và `HPBim.E2E.Tests` sử dụng trực tiếp production classes và PASS 100% (zero regressions trên toàn bộ 3,489 tests của repo).
+- [ ] **SourceKey Wire Roundtrip**: Test chứng minh `CompositeSourceKey` string canonical giữ nguyên equality sau chu trình `ExecutionPlan` -> `BridgeJson` -> `ScriptArgs` -> `BimPlanRunner` -> `ExecuteResult` -> `Ledger/Receipt`.
+- [ ] **Strict Batch Rollback**: Test chứng minh khi 1 cấu kiện trong batch 10 phần tử bị lỗi, toàn bộ batch bị rollback, không có receipt nào được tạo và CLI trả về exit code 1.
+- [ ] **No Synthesized Created**: Test chứng minh khi response bị rỗng hoặc truncated >64KB, pipeline trả về `OutcomeUnknown` và kích hoạt Reconcile, không tự tạo kết quả `Created`.
+- [ ] **Ledger & Journal Persistence Across Restarts**: Test khởi tạo instance `IntentJournal` và `BimCoordinationLedgerService` mới từ file trên đĩa chứng minh `_mappings` được hydrate đầy đủ và metadata của intent không bị mất khi cập nhật trạng thái.
+- [ ] **Measured Geometric Verification**: Cấu kiện sai lệch hình học hoặc thiếu bằng chứng đo đạc từ Revit API bị đánh dấu `Inconclusive` hoặc `Defect`, cấm tự động chuyển sang `ConfirmedPass`.
+- [ ] **Revit API Binding Probe**: Biên dịch thành công mã runner C# Roslyn đối chiếu với các reference assemblies của Revit 2026.
+
+### Repository & Governance Rules
+- [ ] Không tạo dependency hai chiều giữa `HPAutoCad` và `HPRebar`.
+- [ ] Tuân thủ triệt để Rule 0 (Zero guesswork) và Clean Code: file <= 300 dòng (Rule C2), method <= 50 dòng (Rule M3), không code comment (Q-B1), không empty catch (Q-B2).
+- [ ] Không tự ý commit/push git hoặc deploy add-in ra môi trường thực.
+
+
+## 2026-10-09T05:36:26Z
+
+Thực hiện kế hoạch hiệu chỉnh toàn diện phân hệ HPDynamo MCP nhằm khắc phục triệt để 8 phát hiện kỹ thuật (RV-01 đến RV-08) từ báo cáo đánh giá độc lập Codex Review 2026-10-09, bảo đảm tính đúng đắn giao dịch Revit/Dynamo, cơ chế rollback canvas toàn diện cho dryRun, an toàn hàng đợi và cách ly hủy bỏ theo request ID, đồng bộ hóa evaluation xuyên suốt core tools và seeds, trích xuất chuẩn xác dữ liệu ProtoCore MirrorData và DesignScript Dictionary, cùng harness benchmark thực nghiệm lưu raw data.
+
+Working directory: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar
+Integrity mode: development
+
+## Requirements
+
+### R1. Tính Đúng Đắn Giao Dịch & Canvas Rollback Toàn Vẹn (RV-01, RV-06)
+- **Chuẩn hóa nguồn `dryRun` duy nhất tại execution boundary**: Đảm bảo các script và seed (bao gồm `batch_edit_graph`) nhận biết chính xác cờ `dryRun` từ `ExecuteRequest` (đặc biệt khi `DynamicToolRegistrar` đã bóc tách cờ này khỏi `args`).
+- **Rollback canvas toàn diện cho `batch_edit_graph`**: Kết hợp Dynamo `UndoRecorder` khi ở Canvas UI với danh sách programmatic rollback snapshot (ghi nhận trạng thái dây cũ bị thay thế, giá trị/thuộc tính cũ của nodes có sẵn). Khi `dryRun = true` hoặc phát sinh ngoại lệ/cancel ở bất kỳ thao tác nào, phải hoàn tác 100% thay đổi trên canvas Dynamo và rollback Revit `TransactionGroup`.
+- **Phân định quyền quản lý Transaction thông minh trong `DynamoExecutionEngine`**:
+  - Nếu script C# Roslyn thao tác trực tiếp Revit DB (gọi `doc.Create`, set parameter...) với `transaction = "auto"`, kích hoạt `startAutoTransaction: true`.
+  - Nếu phát hiện script gọi wrapper `Revit.Elements.` hoặc tự quản lý qua Dynamo `TransactionManager`, đặt `startAutoTransaction: false` để nhường quyền mở child transaction cho Dynamo và chỉ bọc `TransactionGroup` ngoài cùng.
+
+### R2. Đồng Bộ Hóa Evaluation & Queue Ownership Khi Cancel (RV-02, RV-03, RV-05)
+- **Xác thực kết quả `RunAndWait`**: Trong `CanvasGraphRunner`, kiểm tra chặt chẽ giá trị trả về của `DynamoEvaluationSync.RunAndWait`. Nếu evaluation thất bại, timeout hoặc cancel thì không được trả `Success = true`, phải ghi log lỗi và kích hoạt rollback transaction.
+- **Thống nhất đường Evaluation Sync**: Đảm bảo cả `run_dyn_file` và `batch_edit_graph` đều đi qua cơ chế chờ `EvaluationCompleted` trước khi trích xuất kết quả và trạng thái lỗi.
+- **Bảo toàn Linked Timeout Token**: Truyền đúng `linkedToken` từ `RevitTransactionScope` vào runner execution callback thay vì dùng raw work item token.
+- **Quản lý trạng thái Work Item và Thread Ownership**: Quản lý rõ ràng trạng thái (`Queued`, `Running`, `Completed`). Khi cancellation xảy ra trong lúc work đang chạy trên Revit thread, không được set `_busy = 0` sớm; giữ thread ownership cho tới khi toàn bộ thao tác thực thi và rollback trên Revit hoàn tất.
+
+### R3. Request-Scoped Cancel & Trích Xuất Dữ Liệu ProtoCore MirrorData (RV-04, RV-07, RV-08)
+- **Cách ly lệnh Cancel theo Request ID**: Bổ sung interface `ICorrelatedCancelExecutor` trong `McpShared/HPRebar.McpBridge.Core` kế thừa hoặc bổ trợ `IBridgeExecutor` (đảm bảo 100% tương thích nhị phân và mã nguồn cho 10 host khác, kể cả net48). `RequestDispatcher` kiểm tra và truyền `requestId` nếu executor hỗ trợ. `DynamoBridgeCoordinator` chỉ hủy request khớp với ID được yêu cầu.
+- **Sửa Serializer trích xuất MirrorData & Dictionary**: Trong `get_node_output_values/code.cs`:
+  - Kiểm tra `MirrorData.IsCollection` trước; nếu là collection, duyệt qua `MirrorData.GetElements()` thay vì bỏ qua khi `MirrorData.Data == null`.
+  - Nhận diện và trích xuất cấu trúc `DesignScript.Builtin.Dictionary` thông qua các thuộc tính `.Keys` và phương thức `.ValueAtKey()`.
+- **Kiểm soát ngân sách Payload**: Bổ sung giới hạn số lượng phần tử tối đa (breadth budget) và độ sâu đệ quy (depth budget), đồng thời kiểm tra cooperative `cancellationToken` trong quá trình duyệt dữ liệu lớn.
+
+### R4. Benchmark Thực Nghiệm, Raw Data & Đồng Bộ Tài Liệu
+- **Harness Benchmark Thực Nghiệm**: Tạo kịch bản PowerShell `run-benchmark.ps1` thực hiện đo đạc các workload chuẩn trên file model test copy cô lập; lưu file kết quả thô `reports/baseline-vs-upgraded.json` ghi nhận p50/p95, round-trips và UTF-8 payload bytes.
+- **Hiệu Chỉnh Tài Liệu & Phân Định Bằng Chứng**: Cập nhật `audit.md`, `plan.md`, `benchmark-plan.md` làm rõ ranh giới giữa giả thuyết ước tính và số liệu đo đạc thực tế; ghi nhận thực nghiệm TFM .NET 10 của Revit 2026.
+- **Cập Nhật Skill `hp-mcp-dynamo`**: Cập nhật số lượng công cụ lên 25 tools (4 core + 8 registry + 13 seeds) và bổ sung tài liệu hướng dẫn sử dụng `batch_edit_graph`.
+
+## Controlled Infrastructure & Safety Constraints
+- **Tuyệt đối không can thiệp phiên làm việc Revit hiện hành**: Không inject code, không mở hay đóng model người dùng đang mở trong PID 26264; mọi kiểm chứng live phải thực hiện trên file bản sao riêng biệt trong thư mục test.
+- **Bảo toàn McpShared**: Mọi thay đổi trong `McpShared/` phải giữ nguyên tính host-neutral, tương thích tuyệt đối cả .NET 10 và .NET Framework 4.8, không gây breaking changes cho các bridge host khác.
+- **Tuân thủ Clean Code Governance**: Mỗi file C# không vượt quá 300 dòng, không chứa khối catch rỗng thiếu lý do, không để lại code bị comment, và đạt chuẩn Q-W1 đến Q-W5.
+
+## Acceptance Criteria
+
+### Tính Đúng Đắn Giao Dịch & Rollback (RV-01, RV-06)
+- [ ] Gọi `batch_edit_graph` với `dryRun = true` qua MCP: Toàn bộ node mới được dọn dẹp, các dây và thuộc tính của node cũ được phục hồi nguyên vẹn trên canvas Dynamo, và Revit `TransactionGroup` được rollback sạch sẽ.
+- [ ] Gọi `batch_edit_graph` bị lỗi ở bước giữa: Toàn bộ các thao tác đã áp dụng trước đó được rollback tự động về trạng thái ban đầu.
+- [ ] Script C# Roslyn thuần túy tạo element Revit (`doc.Create...`) dưới `execute_dynamo_code` với `transaction = "auto"` thực thi thành công, không gặp lỗi thiếu transaction.
+- [ ] Script Dynamo tạo element thông qua wrapper Dynamo được bọc an toàn trong `TransactionGroup`, không phát sinh lỗi lồng transaction.
+
+### Đồng Bộ Evaluation & Queue Safety (RV-02, RV-03, RV-05)
+- [ ] Khi evaluation bị lỗi cú pháp, runtime error hoặc timeout, `CanvasGraphRunner` báo `Success = false` và rollback transaction tương ứng.
+- [ ] `run_dyn_file` và `batch_edit_graph` chờ đợi sự kiện `EvaluationCompleted` hoàn tất trước khi đọc dữ liệu đầu ra.
+- [ ] Khi một request đang chạy trên Revit thread bị cancel, cờ `_busy` vẫn giữ nguyên giá trị `true` cho tới khi Revit thread kết thúc và hoàn tất rollback, ngăn ngừa hoàn toàn tình trạng request mới chạy chồng lấn.
+
+### Serialization & Cancellation (RV-04, RV-07, RV-08)
+- [ ] Lệnh cancel gửi kèm `requestId` của một request cũ đã kết thúc không làm hủy nhầm request mới đang thực thi.
+- [ ] Node CodeBlock xuất mảng (ví dụ `[1, 2, 3]` hoặc nested array) trích xuất thành công JSON Array tương ứng, không bị trả về `null`.
+- [ ] Node xuất `DesignScript.Builtin.Dictionary` trích xuất thành công JSON Object chứa các cặp key-value tương ứng.
+- [ ] Quá trình trích xuất mảng dữ liệu cực lớn tôn trọng giới hạn budget và hủy bỏ tức thì khi token cancellation được kích hoạt.
+
+### Kiểm Chứng Test Suites & Tài Liệu
+- [ ] 100% các bộ test suites tiếp tục pass:
+  - `HPDynamo.Mcp.Server.Tests` (net10.0)
+  - `HPDynamo.McpBridge.Tests` (net10.0-windows7.0)
+  - `HPDynamo.E2E.Tests` (net10.0)
+  - `HPRebar.Mcp.Server.Core.Tests` (net10.0)
+  - `HPRebar.McpBridge.Core.Net48Tests` (net48)
+- [ ] File benchmark raw data `reports/baseline-vs-upgraded.json` được tạo thành công với số liệu đo thực tế.
+- [ ] `audit.md`, `plan.md` và skill `hp-mcp-dynamo` được cập nhật đồng bộ, không còn thông tin mâu thuẫn.

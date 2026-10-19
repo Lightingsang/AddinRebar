@@ -27,31 +27,7 @@
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-            <!-- Card title style -->
-            <Style x:Key="KataCardTitle" TargetType="TextBlock">
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
-            </Style>
-
-            <!-- Table property row label -->
-            <Style x:Key="PropertyLabel" TargetType="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
-                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
-            </Style>
-
-            <!-- Table property cell border -->
-            <Style x:Key="PropertyCellBorder" TargetType="Border">
-                <Setter Property="BorderBrush" Value="{DynamicResource Brush.GridLine}"/>
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="Padding" Value="8,4"/>
-                <Setter Property="MinHeight" Value="28"/>
-            </Style>
-
-            <!-- Style for parameter picker combobox icon button -->
+            <!-- Style for parameter picker combobox icon button (Preserved domain invariant) -->
             <Style x:Key="ParamPickerComboBoxStyle" TargetType="ComboBox">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -245,12 +221,20 @@
                     <!-- Header -->
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
                         <TextBlock Text="Ô B3:B10" DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
-                        <TextBlock Text="THÔNG SỐ KATA" Style="{StaticResource KataCardTitle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="THÔNG SỐ KATA" Style="{DynamicResource Subheading}" VerticalAlignment="Center"/>
                     </DockPanel>
 
                     <!-- Table B3:B10 (Grid with Excel-style Borders and Lines) -->
                     <Border BorderBrush="{DynamicResource Brush.GridLine}" BorderThickness="1" CornerRadius="0" SnapsToDevicePixels="True">
                         <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Brush.GridLine}"/>
+                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                    <Setter Property="Padding" Value="8,4"/>
+                                    <Setter Property="MinHeight" Value="28"/>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -267,10 +251,10 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Row 1: Tên dầm (B3) -->
-                            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="Tên dầm" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="0" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Tên dầm" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <Grid Margin="2,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -287,10 +271,10 @@
                             </Border>
 
                             <!-- Row 2: Số cấu kiện (B4) -->
-                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="Số cấu kiện" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Số cấu kiện" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="1" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <Grid Margin="2,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -307,50 +291,50 @@
                             </Border>
 
                             <!-- Row 3: h dầm (mm) (B5) -->
-                            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="h dầm (mm)" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="2" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="h dầm (mm)" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="2" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding HeightValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
 
                             <!-- Row 4: b dầm (mm) (B6) -->
-                            <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="b dầm (mm)" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="3" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="b dầm (mm)" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="3" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding WidthValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
 
                             <!-- Row 5: h sàn (mm) (B7) -->
-                            <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="h sàn (mm)" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="4" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="h sàn (mm)" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="4" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding SlabThicknessValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
 
                             <!-- Row 6: Tên trục dầm (B8) -->
-                            <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="Tên trục dầm" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="5" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Tên trục dầm" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="5" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding AxisGridNameValue}" ToolTip="Trục dầm tham chiếu trong Revit (không ghi vào ô B8 Excel)" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
 
                             <!-- Row 7: Độ lệch của trục (B9) -->
-                            <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="Độ lệch của trục" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="6" Grid.Column="0" BorderThickness="0,0,1,1" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Độ lệch của trục" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="6" Grid.Column="1" BorderThickness="0,0,0,1" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding AxisOffsetValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Warning}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
 
                             <!-- Row 8: Cao trình dầm (B10) -->
-                            <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,1,0" Background="{DynamicResource Brush.SurfaceElevated}">
-                                <TextBlock Text="Cao trình dầm" Style="{StaticResource PropertyLabel}"/>
+                            <Border Grid.Row="7" Grid.Column="0" BorderThickness="0,0,1,0" Background="{DynamicResource Brush.SurfaceElevated}">
+                                <TextBlock Text="Cao trình dầm" FontWeight="SemiBold" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground.Primary}"/>
                             </Border>
-                            <Border Grid.Row="7" Grid.Column="1" Style="{StaticResource PropertyCellBorder}" BorderThickness="0,0,0,0" Background="{DynamicResource Brush.Surface}">
+                            <Border Grid.Row="7" Grid.Column="1" BorderThickness="0,0,0,0" Background="{DynamicResource Brush.Surface}">
                                 <TextBlock Text="{Binding ElevationValue}" FontWeight="Bold" FontFamily="{DynamicResource Font.Family.Mono}" FontSize="{DynamicResource Font.Size.Caption}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
                         </Grid>
@@ -365,7 +349,7 @@
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6" LastChildFill="True">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="0,0,12,0" VerticalAlignment="Center">
                             <md:PackIcon Kind="AxisArrow" Width="16" Height="16" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="MẶT ĐỨNG DẢI DẦM" Style="{StaticResource KataCardTitle}"/>
+                            <TextBlock Text="MẶT ĐỨNG DẢI DẦM" Style="{DynamicResource Subheading}" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <!-- Controls: Trước, Tiếp, Đảo chiều, Toàn dải -->
@@ -498,7 +482,7 @@
                 <DockPanel Margin="0,0,0,6">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="0,0,12,0" VerticalAlignment="Center">
                         <md:PackIcon Kind="TableLarge" Width="16" Height="16" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Các ô ghi sang Kata Excel" Style="{StaticResource KataCardTitle}"/>
+                        <TextBlock Text="Các ô ghi sang Kata Excel" Style="{DynamicResource Subheading}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <Border Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="3" Padding="8,2" VerticalAlignment="Center">
                         <TextBlock Text="{Binding HeaderLine}"

@@ -1,0 +1,66 @@
+m_ActiveDoc : System.Boolean
+m_disposed : System.Boolean
+m_eventServer : Grasshopper.Kernel.GH_DocumentEventServer
+m_stateServer : Grasshopper.Kernel.GH_StateServer
+_rcpLayout : Grasshopper.GUI.RemotePanel.RcpLayout
+m_constantServer : System.Collections.Generic.SortedDictionary`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Grasshopper.Kernel.Expressions.GH_Variant, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_thumbnail : System.Drawing.Bitmap
+m_undoServer : Grasshopper.Kernel.Undo.GH_UndoServer
+m_autoSave : System.String
+m_autoSaveBackup : System.String
+m_autoSaveLastId : System.Guid
+m_profiler : Grasshopper.Kernel.GH_ProfilerMode
+m_owner : Grasshopper.Kernel.IGH_DocumentOwner
+m_nested : System.Boolean
+m_enabled : System.Boolean
+m_in_command : Rhino.Commands.Command
+m_context : Grasshopper.Kernel.GH_DocumentContext
+m_runtimeId : System.UInt64
+m_documentId : System.Guid
+m_previewMode : Grasshopper.Kernel.GH_PreviewMode
+m_previewFilter : Grasshopper.Kernel.GH_PreviewFilter
+m_properties : Grasshopper.Kernel.GH_DocumentProperties
+m_archive_location : System.String
+m_archive_version : GH_IO.Types.GH_Version
+m_author : Grasshopper.Kernel.IGH_Author
+_valueTable : Grasshopper.Kernel.GH_SettingsServer
+m_objects : System.Collections.Generic.List`1[[Grasshopper.Kernel.IGH_DocumentObject, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_previewObjects : System.Collections.Generic.List`1[[Grasshopper.Kernel.Components.GH_CustomPreviewComponent, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_objCache : System.Collections.Generic.SortedDictionary`2[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Grasshopper.Kernel.IGH_DocumentObject, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_attributeTable : System.Collections.Generic.List`1[[Grasshopper.Kernel.IGH_Attributes, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_filepath : System.String
+m_modified : System.Boolean
+m_raiseEvents : System.Boolean
+SettingsChangedEvent : Grasshopper.Kernel.GH_Document+SettingsChangedEventHandler
+EnabledChangedEvent : Grasshopper.Kernel.GH_Document+EnabledChangedEventHandler
+ContextChangedEvent : Grasshopper.Kernel.GH_Document+ContextChangedEventHandler
+ModifiedChangedEvent : Grasshopper.Kernel.GH_Document+ModifiedChangedEventHandler
+ObjectsAddedEvent : Grasshopper.Kernel.GH_Document+ObjectsAddedEventHandler
+ObjectsDeletedEvent : Grasshopper.Kernel.GH_Document+ObjectsDeletedEventHandler
+UndoStateChangedEvent : Grasshopper.Kernel.GH_Document+UndoStateChangedEventHandler
+FilePathChangedEvent : Grasshopper.Kernel.GH_Document+FilePathChangedEventHandler
+m_renderQueue : Grasshopper.Kernel.GH_DocumentRenderMeshProvider
+m_previewColour : System.Drawing.Color
+m_previewColourSelected : System.Drawing.Color
+m_previewMeshType : Grasshopper.Kernel.GH_PreviewMesh
+m_previewMeshParams : Rhino.Geometry.MeshingParameters
+m_clippingBox : Rhino.Geometry.BoundingBox
+m_drawList : System.Collections.Generic.List`1[[Grasshopper.Kernel.IGH_PreviewObject, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_attsList : System.Collections.Generic.List`1[[Grasshopper.Kernel.IGH_Attributes, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+InGet : System.Boolean
+_forcedPreview : System.Boolean
+_boundary : Grasshopper.Kernel.GH_PreviewBoundary
+PreviewTextDots : System.Collections.Generic.List`1[[Grasshopper.Kernel.GH_Document+TextDotPreview, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+SolutionStartEvent : Grasshopper.Kernel.GH_Document+SolutionStartEventHandler
+SolutionEndEvent : Grasshopper.Kernel.GH_Document+SolutionEndEventHandler
+m_solutionIndex : System.Int32
+_state : Grasshopper.Kernel.GH_ProcessStep
+m_abortRequested : System.Boolean
+m_solutionSpan : System.TimeSpan
+_solutions : System.Collections.Generic.Queue`1[[Grasshopper.Kernel.GH_SolutionSpan, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_solutionDepth : System.Int32
+HasPrivateUndoRecord : System.Boolean
+m_ignoreList : System.Collections.Generic.SortedList`2[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+m_scheduleDelegates : System.Collections.Generic.List`1[[Grasshopper.Kernel.GH_Document+GH_ScheduleDelegate, Grasshopper, Version=8.26.25349.19001, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803]]
+m_scheduleDelay : System.Int32
+m_scheduleTimer : System.Threading.Timer

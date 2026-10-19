@@ -1,0 +1,305 @@
+<Window x:Class="HPRebar.JoinElements.View.JoinElementView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPRebar.JoinElements.ViewModel"
+        xmlns:model="clr-namespace:HPRebar.JoinElements.Model"
+        mc:Ignorable="d"
+        Title="HPRebar — Tự động Join Hình học (Auto Join Elements)"
+        Width="1050" Height="680"
+        MinWidth="880" MinHeight="540"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Main Content -->
+            <RowDefinition Height="Auto"/> <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. Header Information Bar -->
+        <Border Grid.Row="0" Style="{DynamicResource Card}" Padding="12,10" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <md:PackIcon Kind="VectorIntersection" Width="24" Height="24" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="AUTO JOIN HÌNH HỌC KẾT CẤU THEO THỨ TỰ ƯU TIÊN" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Accent}"/>
+                </StackPanel>
+
+                <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Cặp va chạm: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalCandidatePairs}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Đã Join: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalJoined}" FontWeight="Bold" Foreground="#FF388E3C"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Đảo cắt: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalSwitched}" FontWeight="Bold" Foreground="#FF1976D2"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Đã chuẩn: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalSkipped}" FontWeight="Bold" Foreground="#FFFB8C00"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Thời gian: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding ExecutionTimeText}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
+            </Grid>
+        </Border>
+
+        <!-- 2. Main Content Split View -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320"/> <!-- Left Settings -->
+                <ColumnDefinition Width="*"/>   <!-- Right Matrix -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel: Scope & Options -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,12,0">
+                <StackPanel>
+                    <!-- Scope Selection -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="FilterOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="1. Phạm vi cấu kiện (Scope)" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <ComboBox SelectedValue="{Binding SelectedScope}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Margin="0,0,0,4">
+                                <model:JoinScope>ActiveView</model:JoinScope>
+                                <model:JoinScope>ActiveSelection</model:JoinScope>
+                                <model:JoinScope>EntireModel</model:JoinScope>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Execution Options -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="CogOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="2. Tùy chọn xử lý hình học" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <CheckBox IsChecked="{Binding SmartSkip}"
+                                      Content="Smart Skip — Bỏ qua cặp đã chuẩn (Tăng tốc)"
+                                      ToolTip="Nếu hai cấu kiện đã Join và thứ tự cắt đã chuẩn, bỏ qua ngay (0ms) thay vì Join lại"
+                                      FontWeight="SemiBold"
+                                      Margin="0,4"/>
+
+                            <CheckBox IsChecked="{Binding CleanJoinedNonIntersecting}"
+                                      Content="Tự động Unjoin cặp không chạm nhau"
+                                      ToolTip="Tự động gỡ các liên kết Join ảo giữa các cấu kiện không giao nhau trong 3D để triệt tiêu cảnh báo 'Elements joined but do not intersect'"
+                                      Margin="0,4"/>
+
+                            <CheckBox IsChecked="{Binding SwitchOrderToPriority}"
+                                      Content="Tự động đảo thứ tự cắt theo Matrix"
+                                      ToolTip="Đảm bảo cấu kiện ưu tiên sẽ cắt cấu kiện phụ thuộc đúng theo cấu hình"
+                                      Margin="0,4"/>
+
+                            <CheckBox IsChecked="{Binding UnjoinFirst}"
+                                      Content="Unjoin sạch tất cả trước khi Join"
+                                      ToolTip="Chỉ bật khi cần reset toàn bộ liên kết (chậm hơn)"
+                                      Margin="0,4"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Feature Tip -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10" Background="#0A2196F3" BorderBrush="#332196F3">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <md:PackIcon Kind="InformationOutline" Width="16" Height="16" Foreground="#FF1976D2"/>
+                                <TextBlock Text="Chuẩn BIM Kết cấu" FontWeight="Bold" FontSize="12" Foreground="#FF1976D2" Margin="6,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock Text="Cột là cấu kiện chịu lực chính luôn giữ nguyên tiết diện (Cột cắt Sàn &amp; Dầm). Vách bê tông cắt Dầm &amp; Sàn. Dầm cắt Sàn (hoặc tùy biến theo dự án)."
+                                       TextWrapping="Wrap"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                                       LineHeight="16"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right Panel: Priority Matrix DataGrid -->
+            <Border Grid.Column="1" Style="{DynamicResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Table Toolbar -->
+                    <Border Grid.Row="0" Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1" Padding="12,8">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="BẢNG CẤU HÌNH THỨ TỰ ƯU TIÊN CẮT GỌT (PRIORITY MATRIX)" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource Brush.Foreground.Primary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Command="{Binding SelectAllPairsCommand}"
+                                        Style="{DynamicResource LinkButton}"
+                                        Content="Chọn tất cả" Height="28" Padding="8,0" Margin="0,0,4,0"/>
+                                <Button Command="{Binding DeselectAllPairsCommand}"
+                                        Style="{DynamicResource LinkButton}"
+                                        Content="Bỏ chọn" Height="28" Padding="8,0" Margin="0,0,4,0"/>
+                                <Button Command="{Binding ResetDefaultPriorityCommand}"
+                                        Style="{DynamicResource LinkButton}"
+                                        Content="Chuẩn BIM" Height="28" Padding="8,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- DataGrid -->
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding CategoryPairs}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              GridLinesVisibility="Horizontal"
+                              HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
+                              Background="Transparent"
+                              RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Áp dụng"
+                                                    Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="70"/>
+
+                            <DataGridTextColumn Header="Cặp cấu kiện"
+                                                Binding="{Binding DisplayPair}"
+                                                IsReadOnly="True"
+                                                FontWeight="SemiBold"
+                                                Width="220"/>
+
+                            <DataGridTemplateColumn Header="Đảo bên cắt" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                     <DataTemplate>
+                                         <ToggleButton IsChecked="{Binding PrimaryCutsSecondary, UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                       ToolTip="Bật: Cấu kiện 1 cắt Cấu kiện 2 | Tắt: Cấu kiện 2 cắt Cấu kiện 1"
+                                                       HorizontalAlignment="Center"/>
+                                     </DataTemplate>
+                                 </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Thứ tự cắt thực tế"
+                                                Binding="{Binding CuttingOrderText}"
+                                                IsReadOnly="True"
+                                                FontWeight="Bold"
+                                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 3. Footer Bar -->
+        <Border Grid.Row="2" Style="{DynamicResource Card}" Padding="12,10" Margin="0,8,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Status & Progress -->
+                <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Progress Bar Row -->
+                    <Grid Grid.Row="0" Margin="0,0,0,6" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+                        <ProgressBar Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding ProgressPercentage}"
+                                     Height="8"
+                                     Foreground="{DynamicResource Brush.Accent}"
+                                     Background="{DynamicResource Brush.GridLine}"/>
+                    </Grid>
+
+                    <!-- Status Message and Percentage Row -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding StatusMessage}"
+                                   Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                                   FontSize="12"
+                                   TextTrimming="CharacterEllipsis"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding ProgressText}"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource Brush.Accent}"
+                                   FontSize="12"
+                                   Margin="8,0,0,0"
+                                   Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Actions -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding CloseCommand}"
+                            Style="{DynamicResource SecondaryButton}"
+                            Content="ĐÓNG"
+                            Width="90" Height="36" Margin="0,0,8,0"/>
+
+                    <Button Command="{Binding RunAutoJoinCommand}"
+                            Style="{DynamicResource PrimaryButton}"
+                            Width="170" Height="36"
+                            IsEnabled="{Binding IsNotBusy}">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="PlayCircleOutline" Width="18" Height="18" Margin="0,0,6,0"/>
+                            <TextBlock Text="CHẠY AUTO JOIN" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

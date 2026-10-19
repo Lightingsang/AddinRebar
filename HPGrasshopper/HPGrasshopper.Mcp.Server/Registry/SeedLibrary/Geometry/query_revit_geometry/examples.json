@@ -1,0 +1,18 @@
+[
+  {
+    "title": "inspect_column_and_beam",
+    "args": {
+      "elementIds": [123456, 654321],
+      "detailLevel": "Fine",
+      "includeFaces": true
+    }
+  },
+  {
+    "title": "inspect_floor_slab_envelope",
+    "args": {
+      "elementIds": [789012],
+      "detailLevel": "Medium",
+      "includeFaces": false
+    }
+  }
+]

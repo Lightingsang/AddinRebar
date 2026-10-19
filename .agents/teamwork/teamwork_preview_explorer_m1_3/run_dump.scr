@@ -1,0 +1,2 @@
+(load "g:/09-PROJECT AI/01_Revit/02_CshapRevit/01_AddinRebar/.agents/teamwork/teamwork_preview_explorer_m1_3/dump_dwg_tables.lsp")
+(c:dump_tables)

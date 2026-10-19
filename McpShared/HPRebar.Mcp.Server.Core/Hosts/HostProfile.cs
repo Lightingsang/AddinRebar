@@ -35,6 +35,69 @@ public sealed class HostProfile : IHostProfile
         CliExecutable = "HPRebar.Mcp.Server.exe",
     };
 
+    public static readonly HostProfile Dynamo = new HostProfile
+    {
+        HostId = PipeNaming.DynamoHost,
+        DisplayName = "Dynamo",
+        ServerName = "HPDynamo MCP",
+        ProductFolder = "HPDynamo",
+        EnvPrefix = "HPDYNAMO_MCP_",
+        DefaultVersion = 2026,
+        ValidVersions = new[] { 2026 },
+        MethodPrefix = JsonRpcMethods.DynamoPrefix,
+        ExecuteToolName = "execute_dynamo_code",
+        ContextToolName = "get_dynamo_context",
+        ResourceScheme = "dynamo",
+        Categories = new[] { "Nodes", "Wire", "Workspace", "Geometry", "Revit", "Python", "Package", "Generic" },
+        CoreToolNames = new[] { "execute_dynamo_code", "execute_designscript", "get_dynamo_context", "cancel_execution" },
+        ScriptImports = HostScriptContracts.DynamoImports,
+        ScriptContractSummary =
+            "Globals: dynamo (DynamoModel/DynamoViewModel), workspace (WorkspaceModel), doc (Document), ct, log(string), progress(cur,total,msg), args. " +
+            "Dual-host execution: headless via RevitDynamoModel or live canvas inspection/authoring. " +
+            "transaction: auto when the code modifies Revit elements or Dynamo workspace; none when reading; manual if managing its own Transaction.",
+        HostAssembly = typeof(HostProfile).Assembly,
+        CliExecutable = "HPDynamo.Mcp.Server.exe",
+        MaxTimeoutSeconds = HostScriptContracts.DynamoHeavyMaxTimeoutSeconds,
+        BridgeNotConnectedHint = "Open Revit 2026 with Dynamo and ensure HPDynamo MCP Bridge is running (pipe hpdynamo-mcp-2026).",
+        TimeoutSemanticsHint = "The script or graph execution may still be running in Dynamo/Revit; check Dynamo status before retrying.",
+    };
+
+    public static readonly HostProfile Grasshopper = new HostProfile
+    {
+        HostId = PipeNaming.GrasshopperHost,
+        DisplayName = "Grasshopper",
+        ServerName = "HPGrasshopper MCP",
+        ProductFolder = "HPGrasshopper",
+        EnvPrefix = "HPGRASSHOPPER_MCP_",
+        DefaultVersion = 2026,
+        ValidVersions = new[] { 2026 },
+        MethodPrefix = JsonRpcMethods.GrasshopperPrefix,
+        ExecuteToolName = "execute_grasshopper_code",
+        ContextToolName = "get_grasshopper_context",
+        ResourceScheme = "grasshopper",
+        Categories = new[] { "Canvas", "Component", "Parameter", "Geometry", "Revit", "Python", "Player", "Generic" },
+        CoreToolNames = new[]
+        {
+            "execute_grasshopper_code",
+            "get_grasshopper_context",
+            "read_grasshopper_canvas",
+            "run_grasshopper_player",
+            "batch_edit_grasshopper_canvas",
+            "export_grasshopper_canvas_image",
+            "cancel_execution",
+        },
+        ScriptImports = HostScriptContracts.GrasshopperImports,
+        ScriptContractSummary =
+            "Globals: doc (GH_Document), canvas (GH_Canvas), rhinoDoc (RhinoDoc), revitDoc (Document), ct, log(string), progress(cur,total,msg), args. " +
+            "Dual-host execution: Grasshopper canvas in Rhino.Inside.Revit 2026. " +
+            "transaction: auto when modifying Revit elements or Grasshopper canvas; none when reading; manual if managing its own Transaction.",
+        HostAssembly = typeof(HostProfile).Assembly,
+        CliExecutable = "HPGrasshopper.Mcp.Server.exe",
+        MaxTimeoutSeconds = HostScriptContracts.GrasshopperHeavyMaxTimeoutSeconds,
+        BridgeNotConnectedHint = "Open Revit 2026 with Rhino.Inside.Revit and Grasshopper, ensure HPGrasshopper MCP Bridge is running (pipe hpgrasshopper-mcp-2026).",
+        TimeoutSemanticsHint = "The script or definition solver may still be running in Grasshopper/Revit; check Grasshopper status before retrying.",
+    };
+
     private readonly string? _cliExecutable;
 
     public required string HostId { get; init; }

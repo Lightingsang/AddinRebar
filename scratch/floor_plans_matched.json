@@ -1,0 +1,163 @@
+[
+  {
+    "plan": "M\u1EB6T B\u1EB0NG M\u00D3NG \u0026 \u0110\u00C0 KI\u1EC0NG",
+    "x": 235766,
+    "y": -116832,
+    "nearbyElevations": [
+      {
+        "val": "-0.600",
+        "count": 1
+      },
+      {
+        "val": "\u002B5.200",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG S\u00C0N S\u00C2N KH\u1EA4U (T\u1EA6NG SK)",
+    "x": 238870,
+    "y": -168987,
+    "nearbyElevations": [
+      {
+        "val": "\u002B4.300",
+        "count": 7
+      },
+      {
+        "val": "\u002B4.200",
+        "count": 4
+      },
+      {
+        "val": "\u002B5.200",
+        "count": 2
+      },
+      {
+        "val": "\u002B3.650",
+        "count": 2
+      },
+      {
+        "val": "\u002B3.150",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG S\u00C0N T\u1EA6NG 2 (KH\u00C1N \u0110\u00C0I)",
+    "x": 215331,
+    "y": -291605,
+    "nearbyElevations": [
+      {
+        "val": "\u002B8.650",
+        "count": 11
+      },
+      {
+        "val": "\u002B13.000",
+        "count": 9
+      },
+      {
+        "val": "\u002B6.230",
+        "count": 4
+      },
+      {
+        "val": "\u002B7.630",
+        "count": 4
+      },
+      {
+        "val": "\u002B4.300",
+        "count": 3
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG S\u00C0N T\u1EA6NG 3",
+    "x": 233739,
+    "y": -282989,
+    "nearbyElevations": [
+      {
+        "val": "\u002B8.650",
+        "count": 15
+      },
+      {
+        "val": "\u002B13.000",
+        "count": 7
+      },
+      {
+        "val": "\u002B6.230",
+        "count": 4
+      },
+      {
+        "val": "\u002B7.630",
+        "count": 4
+      },
+      {
+        "val": "\u002B4.300",
+        "count": 3
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG S\u00C0N T\u1EA6NG 4",
+    "x": 233739,
+    "y": -342029,
+    "nearbyElevations": [
+      {
+        "val": "\u002B13.000",
+        "count": 12
+      },
+      {
+        "val": "\u002B16.600",
+        "count": 5
+      },
+      {
+        "val": "\u002B10.970",
+        "count": 3
+      },
+      {
+        "val": "\u002B12.900",
+        "count": 2
+      },
+      {
+        "val": "\u002B11.700",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG S\u00C0N \u00C1P M\u00C1I",
+    "x": 229364,
+    "y": -406188,
+    "nearbyElevations": [
+      {
+        "val": "\u002B16.600",
+        "count": 8
+      }
+    ]
+  },
+  {
+    "plan": "M\u1EB6T B\u1EB0NG M\u00C1I",
+    "x": 407465,
+    "y": -408381,
+    "nearbyElevations": [
+      {
+        "val": "\u002B19.400",
+        "count": 14
+      },
+      {
+        "val": "\u002B16.870",
+        "count": 2
+      },
+      {
+        "val": "\u002B17.350",
+        "count": 2
+      },
+      {
+        "val": "\u002B17.770",
+        "count": 2
+      },
+      {
+        "val": "\u002B15.850",
+        "count": 1
+      }
+    ]
+  }
+]

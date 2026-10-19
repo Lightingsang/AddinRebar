@@ -21,7 +21,7 @@ namespace HPRebar.Mcp.Server.Tests;
 /// </summary>
 public sealed class HostNeutralityTests
 {
-    private static readonly string[] HostApiAssemblies = ["RevitAPI", "RevitAPIUI", "AcDbMgd", "AcMgd", "AcCoreMgd", "Nice3point", "Tekla.Structures"];
+    private static readonly string[] HostApiAssemblies = ["RevitAPI", "RevitAPIUI", "AcDbMgd", "AcMgd", "AcCoreMgd", "Nice3point", "Tekla.Structures", "DynamoCore", "DynamoServices", "DynamoRevit", "RhinoCommon", "Grasshopper", "RhinoInside.Revit"];
 
     public static IEnumerable<object[]> SharedAssemblies() =>
     [
@@ -49,6 +49,10 @@ public sealed class HostNeutralityTests
         Assert.Equal("hpcivil3d-mcp-2026", PipeNaming.For("civil3d", 2026));
         Assert.Equal("hptekla-mcp-2025", PipeNaming.For("tekla", 2025));
         Assert.Equal("hptekla-mcp-2025", PipeNaming.For(PipeNaming.TeklaHost, 2025));
+        Assert.Equal("hpdynamo-mcp-2026", PipeNaming.For("dynamo", 2026));
+        Assert.Equal("hpdynamo-mcp-2026", PipeNaming.For(PipeNaming.DynamoHost, 2026));
+        Assert.Equal("hpgrasshopper-mcp-2026", PipeNaming.For("grasshopper", 2026));
+        Assert.Equal("hpgrasshopper-mcp-2026", PipeNaming.For(PipeNaming.GrasshopperHost, 2026));
     }
 
     [Fact]

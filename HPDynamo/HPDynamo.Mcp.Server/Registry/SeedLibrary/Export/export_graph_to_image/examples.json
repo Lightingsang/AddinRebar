@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Export active graph to PNG in temp directory",
+    "args": {
+      "outputPath": "",
+      "format": "PNG"
+    }
+  },
+  {
+    "title": "Export active graph to specific PNG path",
+    "args": {
+      "outputPath": "C:\\Temp\\DynamoRebarFraming.png",
+      "format": "PNG"
+    }
+  }
+]

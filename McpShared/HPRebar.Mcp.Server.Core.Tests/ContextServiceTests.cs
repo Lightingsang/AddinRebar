@@ -88,6 +88,7 @@ public sealed class ContextServiceTests
         Assert.False(root.TryGetProperty("powerbi", out _));
         Assert.False(root.TryGetProperty("excel", out _));
         Assert.False(root.TryGetProperty("robot", out _));
+        Assert.False(root.TryGetProperty("dynamo", out _));
 
         await listener.StopAsync();
     }

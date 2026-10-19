@@ -1,0 +1,17 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPDcePro.
+    Clean-room C# rewrite of DCE Pro structural engineering ecosystem.
+    Pure domain models, zero Autodesk / legacy licensing references in Core.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);NU1701;CS1591;xUnit1051</NoWarn>
+    <UseSharedCompilation>false</UseSharedCompilation>
+    <BuildInParallel>false</BuildInParallel>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPKata.
+    Dual-Host Structural Rebar Suite for AutoCAD 2026 and Revit 2026.
+    Zero Autodesk API references in HPKata.Core.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);xUnit1051;NU1701</NoWarn>
+    <UseSharedCompilation>false</UseSharedCompilation>
+    <BuildInParallel>false</BuildInParallel>
+    <TestingPlatformCommandLineArguments>--results-directory "$([System.IO.Path]::Combine($([System.IO.Path]::GetTempPath()), 'hpkata-mtp', $([System.Guid]::NewGuid().ToString('N'))))"</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+
+</Project>

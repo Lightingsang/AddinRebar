@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":{\"status\":\"SUCCESS\",\"createdCount\":10,\"totalInput\":10,\"deletedOld\":0,\"level\":\"Tầng 1\",\"topElevationMm\":-100,\"typeCounts\":{\"B_300x400\":2,\"B_200x400\":6,\"B_200x500\":2},\"firstIds\":[9928150,9928151,9928152,9928153,9928154,9928155,9928156,9928157,9928158,9928159]},\"valueType\":\"<>f__AnonymousType0#1`8\",\"warnings\":[\"Elements have duplicate \\\"Mark\\\" values.\"],\"logs\":[\"Dung thanh cong 10/10 dam da kieng tai Tầng 1. Da xoa 0 dam cu.\",\"dryRun=true: All Revit document modifications rolled back cleanly.\"],\"diagnostics\":[],\"changed\":{\"added\":11,\"modified\":33,\"deleted\":77},\"rolledBack\":true,\"timedOut\":false,\"durationMs\":6531,\"truncated\":false,\"runId\":13,\"hint\":\"This run succeeded and looks reusable. To keep it as a tool: get_run 13 (shows literals to turn into args), then propose_tool. Skip if it was a one-off.\"}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

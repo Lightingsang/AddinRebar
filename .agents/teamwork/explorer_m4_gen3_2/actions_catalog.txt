@@ -1,0 +1,438 @@
+[01] APIAUTOCAD
+     Group: dce_excel/ket_noi_api | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “AUTOCAD API” của DCE Excel, nhóm Kết nối API. Kết nối với AUTOCAD API. Gọi `GhiFileText`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "APIAUTOCAD"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[02] APICAD
+     Group: dce_excel/ket_noi_api | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “CAD API” của DCE Excel, nhóm Kết nối API. Kết nối CAD API (AutoCAD / ZWCAD / GstarCAD / EnjiCAD / BricsCAD). Mở form `Chung_CADAPI`. Nút trên hộp thoại «Kết nối CAD API»: progeCAD; KẾT NỐI API.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "APICAD"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[03] APICSI
+     Group: dce_excel/ket_noi_api | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “CSI API” của DCE Excel, nhóm Kết nối API. Kết nối với CSI API. Mở form `Chung_CSIAPI`. Nút trên hộp thoại «Chung_CSIAPI»: Etabs; Safe; Sap2000; KẾT NỐI API.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "APICSI"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[04] Bas_Show
+     Group: dce_excel/mong | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Basic Design” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng thiết kế giai đoạn Basic Design. Mở form `BaS_BasicDesign`. Nút trên hộp thoại «BASIC DESIGN»: Column; Pier; Tỷ số nén; Assign Pier Shell; Assign Pier Frame; Gán Etabs; L API; Tính gió; LAccess; Seismic; Check hệ số Kw; Check hệ kết cấu; Drifts (Pdelta) model 2; CUI; Drifts,M,V Pdelta Model 1; Check Overturning; Max; Avg; Displ - Drifts Wind; Dự toán KL.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bas_Show"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[05] Bea_CalculateTheVolume
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Calculate The Volume” của DCE Excel, nhóm Dầm. Dự toán khối lượng thép và bê tông. Mở form `Bea_CalculateTheVolume`. Nút trên hộp thoại «Dự toán khối lượng»: Xuất dữ liệu dự toán; Bóc tách khối lượng; Xuất tiên lượng Bê tông + ván khuân.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_CalculateTheVolume"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[06] Bea_ChooseColor
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “ChooseColor” của DCE Excel, nhóm Dầm. Làm mới mầu sắc bảng tính. Mở form `DCE_Beam_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_ChooseColor"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[07] Bea_Design
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Auto Rebars” của DCE Excel, nhóm Dầm. Chọn thép tự động. Mở form `Bea_AutoDesign`. Nút trên hộp thoại «Chọn thép tự động»: RUN; CHỌN THÉP ĐAI TỰ ĐỘNG; CHỌN THÉP CHỦ 1; Điền lại ô Q và AH trong bảng tính!; Điền lại ô P và AG trong bảng tính!; Lấy diện tích thép từ Model; Thêm Group (lấy từ các dầm select bên etabs); Combined Group được chọn; Combined Toàn bộ Group; Xóa; Sửa; Thêm; Combined; CHỌN THÉP CHỦ 2.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_Design"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[08] Bea_ExportDrawingData
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Export Drawing Data” của DCE Excel, nhóm Dầm. Xuất dữ liệu tính toán qua sheets vẽ. Mở form `Bea_ExportDrawingData`. Nút trên hộp thoại «Xuất dữ liệu bản vẽ»: Next; Back; Find; Chuyển DL tính => vẽ; + Cao độ; Xóa DL; Xóa; GetLength; Lấy diện tích thép Model; Lưu dữ liệu.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_ExportDrawingData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[09] Bea_ExportSize
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Show data to Excel” của DCE Excel, nhóm Dầm. Hiển thị dữ liệu lấy từ Etabs qua Excel. Mở form `Bea_ExportSize`. Nút trên hộp thoại «Kết nối Cad - Excel»: Kết nối lable Etabs (Safe) và tên dầm trên CAD; Bố trí thép dầm trên bản vẽ (không sử dụng Etabs); Dữ liệu từ Revit; Dữ liệu từ Etabs; Đổi tên; Tìm dầm giao tại gối, nhịp; Tìm hình dáng gối tựa; Tìm kích thước gối đầu và cuối dầm; Tìm kích thước gối toàn bộ dầm; Tìm kích thước gối theo thứ tự dòng số:; Xóa dầm; Import Tên dầm từ Excel vừa xuất ra; Export Tên dầm ra Excel; Đặt tên.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_ExportSize"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[10] Bea_LoadData
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Load data Etabs” của DCE Excel, nhóm Dầm. Tải dữ liệu nội lực từ Etabs. Mở form `Bea_LoadAPI_Access`. Nút trên hộp thoại «Load nội lực tính toán»: Tính toán cường độ (load sau cùng); Tính nứt (tổng tải) (ưu tiên load trước); Tính nứt (dài hạn) (ưu tiên load trước); Safe (Strip); Safe (Frame); Etabs (Strip); Etabs (Frame).
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_LoadData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[11] Bea_Print
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Calcsheets” của DCE Excel, nhóm Dầm. In ấn và xem thuyết minh tính toán dầm. Mở form `Bea_Calcsheets`. Nút trên hộp thoại «Thuyết minh»: Xem thuyết minh chi tiết dòng thứ:; In thuyết minh tính toán; Xuất dữ liệu thiết kế ra cad (color):; Beam Schedule; Xuất tên bản vẽ từ Excel -> Cad; Xuất DL tính qua file vẽ dầm mặt cắt; Update Unique Name in Model; Schedule 3; Update Unique Name in Excel; Schedule 2.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_Print"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[12] Bea_Setup
+     Group: dce_excel/dam | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Setup” của DCE Excel, nhóm Dầm. Cài đặt các thông số thiết kế dầm. Mở form `Bea_Setup`. Nút trên hộp thoại «Cài đặt chung»: Fs = As chọn / As tính toán; Fs = Mu / M; SỐ LƯỢNG THÉP CÓ THỂ CÓ Ở LỚP CHẠY SUỐT VÀ LỚP TĂNG CƯỜNG; Get DATA.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Bea_Setup"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[13] Col_CalculateTheVolume
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Calculate The Volume” của DCE Excel, nhóm Cột vách. Dự toán khối lượng thép và bê tông. Mở form `Col_CalculateTheVolume`. Nút trên hộp thoại «Dự toán khối lượng»: Lấy DL Ván Khuân (Etabs API); Run.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_CalculateTheVolume"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[14] Col_ChooseColor
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “ChooseColor” của DCE Excel, nhóm Cột vách. Làm mới mầu sắc bảng tính. Mở form `DCE_Col_Wall_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_ChooseColor"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[15] Col_Design
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Design” của DCE Excel, nhóm Cột vách. Thiết kế cột vách. Mở form `DCE_Col_Wall_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_Design"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[16] Col_Design2
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Design nhanh” của DCE Excel, nhóm Cột vách. Design Nhanh. Mở form `DCE_Col_Wall_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_Design2"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[17] Col_ExportDrawingData
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Export Drawing Data” của DCE Excel, nhóm Cột vách. Xuất dữ liệu tính toán qua sheets vẽ. Mở form `Col_ExportDrawing`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_ExportDrawingData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[18] Col_ExportSize
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Show data to Excel” của DCE Excel, nhóm Cột vách. Hiển thị dữ liệu lấy từ Etabs qua Excel. Mở form `Col_ShowDataToExcel`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_ExportSize"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[19] Col_LoadData
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Load data Etabs” của DCE Excel, nhóm Cột vách. Tải dữ liệu nội lực từ Etabs. Mở form `Col_LoadAPI_Access`. Nút trên hộp thoại «Load nội lực»: Access (*.mdb, *.accdb); API Etabs; Brace forces; Pier forces; Column forces.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_LoadData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[20] Col_LoadDataGenCol
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Load text file GenCol” của DCE Excel, nhóm Cột vách. Tải dữ liệu từ file text với hình dạng cột vách bất kỳ. Mở form `DCE_Col_Wall_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_LoadDataGenCol"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[21] Col_Print
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Calcsheets” của DCE Excel, nhóm Cột vách. In ấn và xem thuyết minh tính toán cột vách. Mở form `Col_Calcsheets`. Nút trên hộp thoại «Thuyết minh tính toán»: In thuyết minh biểu đồ tương tác; In thuyết minh dạng bảng; Xem Thuyết minh tính toán.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_Print"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[22] Col_Setup
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Setup” của DCE Excel, nhóm Cột vách. Cài đặt các thông số chung cho cột vách. Mở form `Col_ThongSoTTCV`. Nút trên hộp thoại «Thông số chung Cột, Vách.»: Setup quan điểm tính.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_Setup"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[23] Col_SortData
+     Group: dce_excel/cot_vach | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Sort Data” của DCE Excel, nhóm Cột vách. Sắp xếp và gộp các cấu kiện giống nhau. Mở form `DCE_Col_Wall_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Col_SortData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[24] DbimPuFile
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Pu File Etabs, Safe, Cad” của DCE Excel, nhóm ETABS / SAFE. Xóa các file mở rộng của Etabs / Safe / Autocad. Mở form `DcePuFile`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DbimPuFile"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[25] DceAI
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “AI Support” của DCE Excel, nhóm Tài khoản & hệ thống. Trợ lý AI. Mở form `Dbim_Gemini`. Nút trên hộp thoại «Dbim_AI»: Load Txt; Đính kèm ảnh; Xóa lưu toàn bộ cấu hình.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceAI"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[26] DceAdmin
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Dev Info” của DCE Excel, nhóm Tài khoản & hệ thống. Thông tin liên hệ nhà phát triển. Mở form `Admin_Dce`. Nút trên hộp thoại «Admin»: Chat AI để hỗ trợ; Lọc.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceAdmin"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[27] DceLanguage
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Language” của DCE Excel, nhóm Tài khoản & hệ thống. Chọn ngôn ngữ hiển thị của phần mềm. Mở form `Chung_Language`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceLanguage"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[28] DceLogin
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Login” của DCE Excel, nhóm Tài khoản & hệ thống. Đăng nhập tài khoản DCE. Mở form `Chung_License`. Nút trên hộp thoại «ĐĂNG NHẬP»: ĐĂNG NHẬP; Reset All Default; Mua license; Check Internet; Đăng xuất.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceLogin"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[29] DceLogout
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Logout” của DCE Excel, nhóm Tài khoản & hệ thống. Đăng xuất tài khoản DCE. Mở form `Chung_License`. Nút trên hộp thoại «Đăng Xuất»: Đăng Xuất; Đăng xuất thiết bị hiện tại; Đăng xuất thiết bị khác; Lấy mã máy; Remove Device License Vip; Remove Device.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceLogout"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[30] DceUpdate
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Update” của DCE Excel, nhóm Tài khoản & hệ thống. Update Phần mềm. Gọi `updatePhanMemDBIM`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DceUpdate"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[31] DrawLine
+     Group: dce_excel/cau_noi_cad | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “DrawLine” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Line bên Autocad. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DrawLine"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[32] DrawPolyLine
+     Group: dce_excel/cau_noi_cad | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “DrawPolyLine” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Polyline bên Autocad. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DrawPolyLine"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[33] DrawREC
+     Group: dce_excel/cau_noi_cad | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “DrawREC” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Rectang bên Autocad. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "DrawREC"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[34] ESStiffnessModifiers
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Etabs Stiffness Modifiers to Safe” của DCE Excel, nhóm ETABS / SAFE. Etabs Stiffness Modifiers to Safe. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "ESStiffnessModifiers"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[35] ESUniformLoadSetsToSafe
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Etabs Uniform Load Sets to Safe” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "ESUniformLoadSetsToSafe"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[36] EtaSTableToEta
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Etabs Table to Etabs” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "EtaSTableToEta"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[37] Eta_Show
+     Group: dce_excel/mong | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Etabs Link” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng liên kết mô hình Etabs. Mở form `Eta_Etabs`. Nút trên hộp thoại «Etabs»: Set Load Cases; Get Load Cases; Set Load Combo; Get Load Combo; Get Area Assignments Summary; Define; Update; Create; In PDF; Get Etabs; Combo Võng.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Eta_Show"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[38] Fou_Show
+     Group: dce_excel/mong | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Tính Móng” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng thiết kế móng. Mở form `Fou_Foundation`. Nút trên hộp thoại «Foundation»: Column; Pier; Chọn sơ bộ cọc; 10304-2014; API; Access; Load; Ex Cad; Điền HS cọc biên; Cọc Biên; Edit Unique; Ex to Cad; ULS; SLS; ChooseColor; TMTT; Chọn thép; Kết nối MBCK - Strip; Export Strip to Cad; Load Nội lực; Setup; Tính toán k tăng; In TM; Chọn Thép; Xem TM; Tính toán tự tăng; Show data to Excel; Load API SLS; Load API ULS.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Fou_Show"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[39] GopThepDaiToHop
+     Group: dce_excel/to_hop_thep | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Gộp thép” của DCE Excel, nhóm Tổ hợp thép. Gộp các thép giống nhau để tổ hợp thép nhanh hơn. Mở form `Bea_ToHopThep`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "GopThepDaiToHop"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[40] PointSafeToPointSafe
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Sync Model Points Safe” của DCE Excel, nhóm ETABS / SAFE. Đồng bộ point mô hình safe. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "PointSafeToPointSafe"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[41] SafeTableToSafe
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Safe Table to Safe” của DCE Excel, nhóm ETABS / SAFE. Joint Loads Assignments - Force. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "SafeTableToSafe"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[42] SelectHandle
+     Group: dce_excel/cau_noi_cad | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “SelectHandle” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách select các đối tượng bên Autocad. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "SelectHandle"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[43] Sla_ChooseColor
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “ChooseColor” của DCE Excel, nhóm Sàn. Làm mới mầu sắc bảng tính. Mở form `DCE_Slab_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_ChooseColor"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[44] Sla_Design
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Auto Rebars” của DCE Excel, nhóm Sàn. Chọn thép tự động. Mở form `Sla_ChonThepTuDong`. Nút trên hộp thoại «Chọn thép tự động»: Lấy momen design từ mô hình (cần design strip bên model trước); Lấy momen design, nội lực giới hạn về mặc định; Lấy Diện tích thép design từ mô hình (cần design strip bên model); Chỉ update Hàm.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_Design"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[45] Sla_ExportSize
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Show data to Excel” của DCE Excel, nhóm Sàn. Hiển thị dữ liệu lấy từ Safe qua Excel. Mở form `DCE_Slab_Design`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_ExportSize"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[46] Sla_LoadData
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Load data Etabs” của DCE Excel, nhóm Sàn. Tải dữ liệu nội lực từ Safe. Mở form `Sla_LoadAPI_Access`. Nút trên hộp thoại «Load nội lực tính toán»: Load tổ hợp tính nứt (tổng tải); Load tổ hợp tính toán ULS; Load tổ hợp tính nứt (dài hạn); Lọc NL (Paste DL thủ công); Điền thủ công; Tự động dò tìm.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_LoadData"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[47] Sla_Print
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Calcsheets” của DCE Excel, nhóm Sàn. In ấn và xem thuyết minh tính toán sàn. Mở form `Sla_Calcsheets`. Nút trên hộp thoại «Thuyết minh»: Xuất dữ liệu text ra file cad; In thuyết minh tính toán; Xem Thuyết minh dòng số thứ tự:.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_Print"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[48] Sla_Setup
+     Group: dce_excel/san | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Setup” của DCE Excel, nhóm Sàn. Cài đặt các thông số thiết kế Sàn. Mở form `Sla_Setup`. Nút trên hộp thoại «Cài đặt chung»: Điền KR Bot giống Top.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "Sla_Setup"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[49] ToHop
+     Group: dce_excel/to_hop_thep | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Tổ hợp thép loại 1” của DCE Excel, nhóm Tổ hợp thép. Tổ hợp thép. Mở form `Bea_ToHopThep`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "ToHop"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[50] ToHop2
+     Group: dce_excel/to_hop_thep | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Tổ hợp thép loại 2” của DCE Excel, nhóm Tổ hợp thép. Test Tổ hợp thép. Mở form `Bea_ToHopThepV4`. Nút trên hộp thoại «Bea_ToHopThepV4»: Sử dụng kho thép cũ; Không sử dụng kho thép cũ; Sử dụng thép tận dụng; Không Sử dụng thép tận dụng; Cắt thép; Closed.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "ToHop2"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[51] UniformLoadSets
+     Group: dce_excel/etabs_safe | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Get Uniform Load Sets” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở form `DceQs`.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "UniformLoadSets"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[52] licenseissuance
+     Group: dce_excel/tai_khoan | Handler: HostRibbon.Dispatch | Cap: ghi | Bac: 1
+     Description: Nút ribbon “Mua mới/Gia hạn” của DCE Excel, nhóm Tài khoản & hệ thống. Mua mới hoặc gia hạn bản quyền DCE. Mở form `DcePlan`. Nút trên hộp thoại «DcePlan»: Next; Back; Mua license mới; Gia hạn license cũ; Cập nhập số dư.
+     Params: [{'ten': 'id', 'kieu': 'String', 'y_nghia': 'Mã nút ribbon: "licenseissuance"'}]
+     Return: {'kieu': '', 'y_nghia': ''}
+
+[53] MatTienDceExcel.PhienBan
+     Group: dce_excel/mat_tien_doc | Handler: MatTienDceExcel.PhienBan | Cap: doc | Bac: 1
+     Description: Bản mặt tiền đọc của DCE Excel: tên bảng tính đang mở và danh sách mọi sheet trong đó — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_PhienBan" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_PhienBan.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_PhienBan"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_PhienBan.json'}
+
+[54] MatTienDceExcel.LietKeChucNang
+     Group: dce_excel/mat_tien_doc | Handler: MatTienDceExcel.LietKeChucNang | Cap: doc | Bac: 1
+     Description: Liệt kê những bảng mà trợ lý đọc được trong file DCE Excel đang mở, kèm tên sheet, dòng dữ liệu bắt đầu, và sheet nào ĐANG CÓ trong file — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_LietKeChucNang" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_LietKeChucNang.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_LietKeChucNang"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_LietKeChucNang.json'}
+
+[55] MatTienDceExcel.DocBangDam
+     Group: dce_excel/dam | Handler: MatTienDceExcel.DocBangDam | Cap: doc | Bac: 1
+     Description: Đọc bảng tính dầm (sheet TinhDam): tên dầm, nhãn, b, h, mặt cắt, số thanh và đường kính lớp trên / lớp dưới, bề rộng nứt, số nhánh - đường kính - bước đai. Mỗi dầm ĐÚNG 3 dòng (Start / Mid / End) — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_DocBangDam" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocBangDam.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocBangDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocBangDam.json'}
+
+[56] MatTienDceExcel.DocBangCot
+     Group: dce_excel/cot | Handler: MatTienDceExcel.DocBangCot | Cap: doc | Bac: 1
+     Description: Đọc bảng chi tiết cột (sheet Column Detail): tên pier, tầng, tiết diện, chiều cao, thép dọc, đai bao, đai C, chiều dài neo móng, khối lượng thép — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_DocBangCot" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocBangCot.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocBangCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocBangCot.json'}
+
+[57] MatTienDceExcel.DocBangSan
+     Group: dce_excel/san | Handler: MatTienDceExcel.DocBangSan | Cap: doc | Bac: 1
+     Description: Đọc dải tính sàn (sheet STRIP DESIGN) ở dạng Ô THÔ A..AZ kèm đúng dòng tiêu đề của file — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_DocBangSan" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocBangSan.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocBangSan"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocBangSan.json'}
+
+[58] MatTienDceExcel.KiemTraDauVaoDam
+     Group: dce_excel/dam | Handler: MatTienDceExcel.KiemTraDauVaoDam | Cap: doc | Bac: 1
+     Description: Soi trước file tính dầm: đủ bốn sheet bắt buộc (THDL, TinhDam, TM_CT_TCVN, DCE_Pro_Beam) chưa, bao nhiêu dầm, dòng nào thiếu tên dầm hoặc thiếu b/h — CHỈ ĐỌC, không sửa gì trong bảng tính. CÁCH GỌI: dùng công cụ `xl_macro` với ten="DceAi_Excel_KiemTraDauVaoDam" (không tham số), rồi đọc kết quả JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_KiemTraDauVaoDam.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_KiemTraDauVaoDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_KiemTraDauVaoDam.json'}
+
+[59] MatTienDceExcel.DocKetQuaDam
+     Group: dce_excel/dam | Handler: MatTienDceExcel.DocKetQuaDam | Cap: doc | Bac: 1
+     Description: Đọc KẾT QUẢ thiết kế dầm (sheet TinhDam) theo đúng nghĩa cột của mã in thuyết minh: M3, Mu, As yêu cầu, As bố trí (Aspro), FS lớp trên/dưới, đai n-Đk-Sw, bề rộng nứt acr1/acr2 + giới hạn nứt ở THDL. KHÔNG kết luận đạt/không đạt thay kỹ sư. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_DocKetQuaDam" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocKetQuaDam.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocKetQuaDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocKetQuaDam.json'}
+
+[60] MatTienDceExcel.DocKetQuaCot
+     Group: dce_excel/cot | Handler: MatTienDceExcel.DocKetQuaCot | Cap: doc | Bac: 1
+     Description: Đọc KẾT QUẢ thiết kế CỘT (sheet ColumnDesign) — ô thô kèm tiêu đề dòng 1–2 của chính file (có cột Check OK/FAIL và FS) + quy ước FS của sản phẩm (DATA_CONCRETE&REBAR!AP3). CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_DocKetQuaCot" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocKetQuaCot.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocKetQuaCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocKetQuaCot.json'}
+
+[61] MatTienDceExcel.DocKetQuaVach
+     Group: dce_excel/vach | Handler: MatTienDceExcel.DocKetQuaVach | Cap: doc | Bac: 1
+     Description: Đọc KẾT QUẢ thiết kế VÁCH (sheet WallDesign) — ô thô kèm tiêu đề thật + quy ước FS của sản phẩm. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_DocKetQuaVach" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocKetQuaVach.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocKetQuaVach"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocKetQuaVach.json'}
+
+[62] MatTienDceExcel.KiemTraDauVaoCot
+     Group: dce_excel/cot | Handler: MatTienDceExcel.KiemTraDauVaoCot | Cap: doc | Bac: 1
+     Description: Soi file tính cột vách: đủ 4 sheet bắt buộc (như GanDLApplicationExcelColumn đòi) chưa, số dòng ColumnDesign/WallDesign, dòng thiếu tầng/kích thước. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_KiemTraDauVaoCot" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_KiemTraDauVaoCot.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_KiemTraDauVaoCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_KiemTraDauVaoCot.json'}
+
+[63] MatTienDceExcel.KiemTraDauVaoSan
+     Group: dce_excel/san | Handler: MatTienDceExcel.KiemTraDauVaoSan | Cap: doc | Bac: 1
+     Description: Soi file tính sàn: đủ 4 sheet STRIP FORCES/FILTER/DESIGN/REPORT (như GanDLApplicationExcelSlabDesign đòi) chưa, dòng cuối từng sheet. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_KiemTraDauVaoSan" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_KiemTraDauVaoSan.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_KiemTraDauVaoSan"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_KiemTraDauVaoSan.json'}
+
+[64] MatTienDceExcel.TrangThaiWorkbook
+     Group: dce_excel/meta | Handler: MatTienDceExcel.TrangThaiWorkbook | Cap: doc | Bac: 1
+     Description: Nhận ra bảng tính đang mở là file DCE Excel loại nào (dầm / cột vách / sàn / đài cọc / SCT cọc) theo BỘ SHEET mà hàm gán sheet của sản phẩm đòi, và đã nạp nội lực chưa. Gọi hàm này TRƯỚC mọi việc với Excel. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_TrangThaiWorkbook" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_TrangThaiWorkbook.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_TrangThaiWorkbook"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_TrangThaiWorkbook.json'}
+
+[65] AutoStr.AutoStr_InThuyetMinhDam
+     Group: dce_excel/dam | Handler: AutoStr_ExcelCommand.AutoStr_InThuyetMinhDam | Cap: ghi | Bac: 1
+     Description: In thuyết minh tính toán DẦM = nút «In thuyết minh tính toán» của form Calcsheets dầm, tham số mặc định form. GHI vào bảng tính (sheet thuyết minh). CÁCH GỌI: công cụ `xl_macro` với ten="AutoStr_InThuyetMinhDam" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_InThuyetMinh.txt: "OK|tên sheet" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_InThuyetMinhDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_InThuyetMinh.txt'}
+
+[66] AutoStr.AutoStr_InThuyetMinhCot
+     Group: dce_excel/cot | Handler: AutoStr_ExcelCommand.AutoStr_InThuyetMinhCot | Cap: ghi | Bac: 1
+     Description: In thuyết minh CỘT / VÁCH dạng bảng = nhánh in dạng bảng của form Calcsheets cột vách. GHI vào bảng tính (sheet thuyết minh). CÁCH GỌI: công cụ `xl_macro` với ten="AutoStr_InThuyetMinhCot" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_InThuyetMinh.txt: "OK|tên sheet" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_InThuyetMinhCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_InThuyetMinh.txt'}
+
+[67] AutoStr.AutoStr_ChonThepSan
+     Group: dce_excel/san | Handler: AutoStr_ExcelCommand.AutoStr_ChonThepSan | Cap: ghi | Bac: 1
+     Description: Chọn thép SÀN tự động = nút «Chọn thép tự động» của form Auto Rebars nhóm Sàn (ô rải đều mặc định = có, câu AUTO-REBAR trả lời Có). GHI ĐÈ thép đã chọn ở sheet STRIP DESIGN. CÁCH GỌI: công cụ `xl_macro` với ten="AutoStr_ChonThepSan" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_ChonThepSan.txt: "OK" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_ChonThepSan"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_ChonThepSan.txt'}
+
+[68] AutoStr.AutoStr_AiTinhToanDam
+     Group: dce_excel/dam | Handler: AutoStr_ExcelCommand.AutoStr_AiTinhToanDam | Cap: ghi | Bac: 1
+     Description: TÍNH DẦM từ ETABS = đúng chuỗi AutoStr_TinhToanDam (tải nội lực theo tổ hợp THDL cột DA/DB/DC → tính + tự chọn thép sheet TinhDam → XOÁ dữ liệu vẽ cũ BEAM DCE/DL_DCE → chuyển dữ liệu mới sang sheet vẽ). Trước khi chạy: kiểm bản quyền, đúng file dầm, đúng 1 ETABS đang mở, có tổ hợp; SAO LƯU workbook ra %LOCALAPPDATA%\DBIM_AI\SaoLuuExcel. CÁCH GỌI: công cụ `xl_macro` ten="AutoStr_AiTinhToanDam" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_AiTinhToanDam.txt: "OK|so_dam_truoc=…|so_dam_sau=…|model=…|sao_luu=…" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_AiTinhToanDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_AiTinhToanDam.txt'}
+
+[69] AutoStr.AutoStr_AiChuyenDuLieuVeDam
+     Group: dce_excel/dam | Handler: AutoStr_ExcelCommand.AutoStr_AiChuyenDuLieuVeDam | Cap: ghi | Bac: 1
+     Description: CHUYỂN kết quả tính DẦM sang sheet vẽ, không tính lại = nút «Xóa DL» + «Chuyển DL tính => vẽ» của form Export drawing data: XOÁ VĨNH VIỄN dữ liệu thép cũ (BEAM DCE, DL_DCE) rồi dựng lại sheet vẽ từ sheet TinhDam. Macro sao lưu workbook trước. CÁCH GỌI: `xl_macro` ten="AutoStr_AiChuyenDuLieuVeDam" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_AiChuyenDuLieuVeDam.txt: "OK|so_dam_tinh=…|so_dam_sheet_ve=…|sao_luu=…" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_AiChuyenDuLieuVeDam"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_AiChuyenDuLieuVeDam.txt'}
+
+[70] AutoStr.AutoStr_AiTinhToanCot
+     Group: dce_excel/cot | Handler: AutoStr_ExcelCommand.AutoStr_AiTinhToanCot | Cap: ghi | Bac: 1
+     Description: TÍNH CỘT VÁCH từ ETABS = đúng chuỗi AutoStr_TinhToanCot (lấy danh sách cột + tầng từ ETABS → tải nội lực theo tổ hợp DATA_CONCRETE&REBAR cột AI → đồng bộ thép tầng dưới → xuất sang sheet vẽ → gộp pier giống nhau + đặt tên group). Trước khi chạy: kiểm bản quyền, đúng file cột vách, đúng 1 ETABS đang mở, có tổ hợp; SAO LƯU workbook. CÁCH GỌI: `xl_macro` ten="AutoStr_AiTinhToanCot", rồi `tep_doc` C:\Dce Pro\Log\AutoStr_AiTinhToanCot.txt: "OK|so_dong_truoc=…|so_dong_sau=…|model=…|sao_luu=…" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_AiTinhToanCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_AiTinhToanCot.txt'}
+
+[71] AutoStr.AutoStr_AiXuatDuLieuVeCot
+     Group: dce_excel/cot | Handler: AutoStr_ExcelCommand.AutoStr_AiXuatDuLieuVeCot | Cap: ghi | Bac: 1
+     Description: CHUYỂN kết quả tính CỘT VÁCH sang sheet vẽ, không tải lại nội lực = bước 3 → 5 của AutoStr_TinhToanCot: xuất sang sheet vẽ, gộp pier giống nhau (theo ô AH2 sheet DATA_CONCRETE&REBAR), đặt tên group (tiền tố ô AK2). Không cần ETABS. Sao lưu workbook trước. CÁCH GỌI: `xl_macro` ten="AutoStr_AiXuatDuLieuVeCot", rồi `tep_doc` C:\Dce Pro\Log\AutoStr_AiXuatDuLieuVeCot.txt: "OK|so_dong_truoc=…|so_dong_sau=…|sao_luu=…" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_AiXuatDuLieuVeCot"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_AiXuatDuLieuVeCot.txt'}
+
+[72] AutoStr.AutoStr_InThuyetMinhSan
+     Group: dce_excel/san | Handler: AutoStr_ExcelCommand.AutoStr_InThuyetMinhSan | Cap: ghi | Bac: 1
+     Description: In thuyết minh SÀN = nhánh «In thuyết minh tính toán» của nút OK form Calcsheets nhóm Sàn với giá trị form mặc định (không làm đẹp, không giới hạn FS, ẩn thép chủ). GHI sheet STRIP REPORT. CÁCH GỌI: công cụ `xl_macro` với ten="AutoStr_InThuyetMinhSan" (không tham số), rồi `tep_doc` C:\Dce Pro\Log\AutoStr_InThuyetMinh.txt: "OK|STRIP REPORT" hoặc "LOI|lý do".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "AutoStr_InThuyetMinhSan"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'Dòng chữ trong C:\\Dce Pro\\Log\\AutoStr_InThuyetMinh.txt'}
+
+[73] MatTienDceExcel.DocDamDaLuuDuLieuVe
+     Group: dce_excel/dam | Handler: MatTienDceExcel.DocDamDaLuuDuLieuVe | Cap: doc | Bac: 1
+     Description: KIỂM TRA (không xuất gì): dầm nào đã có dữ liệu trong sheet DL_DCE (nơi nút «Lưu» của form Bea_ExportDrawingData ghi) và BEAM DCE!AP, dầm nào có trong TinhDam mà CHƯA có trong DL_DCE. So theo TÊN bằng hàm SS của sản phẩm; tên nhóm "A;B" đã tách. KHÔNG biết dầm đã vẽ trong CAD hay chưa, KHÔNG biết thép có đổi sau lần lưu trước. CHỈ ĐỌC. CÁCH GỌI: công cụ `xl_macro` với ten="DceAi_Excel_DocDamDaLuuDuLieuVe" (không tham số), rồi đọc JSON bằng `tep_doc` ở "C:\Dce Pro\Log\DceAi_Excel_DocDamDaLuuDuLieuVe.json".
+     Params: [{'ten': 'ten', 'kieu': 'String', 'y_nghia': 'Tên macro truyền cho xl_macro: "DceAi_Excel_DocDamDaLuuDuLieuVe"'}]
+     Return: {'kieu': 'String', 'y_nghia': 'JSON ghi ra file C:\\Dce Pro\\Log\\DceAi_Excel_DocDamDaLuuDuLieuVe.json'}
+

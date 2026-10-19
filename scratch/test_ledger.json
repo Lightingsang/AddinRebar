@@ -1,0 +1,31 @@
+{
+  "project": "HPBim Coordination Project",
+  "updatedAt": "2026-10-08T05:15:27.7371481Z",
+  "primeDirective": "Khi ch\u01B0a \u0111\u1EE7 c\u01A1 s\u1EDF \u0111\u1EC3 k\u1EBFt lu\u1EADn, h\u00E3y d\u1EEBng l\u1EA1i v\u00E0 b\u00E1o ch\u01B0a \u0111\u1EE7 th\u00F4ng tin. Kh\u00F4ng \u0111\u01B0\u1EE3c suy \u0111o\u00E1n \u0111\u1EC3 ho\u00E0n th\u00E0nh c\u00F4ng vi\u1EC7c. Th\u00E0 \u0111\u1EC3 m\u1ED9t c\u1EA5u ki\u1EC7n ch\u01B0a d\u1EF1ng c\u00F2n h\u01A1n d\u1EF1ng sai nh\u01B0ng b\u00E1o \u0111\u00FAng.",
+  "activePhase": "PHAN_MONG",
+  "phaseStatus": "inProgress",
+  "qualityGate": "GATE_1_MODEL_CLEANUP",
+  "tolerances": {
+    "sectionDimensionMm": 0,
+    "elevationMm": 1,
+    "planPositionMm": 1,
+    "pileCenterMm": 2
+  },
+  "summary": {
+    "totalElements": 0,
+    "step1_ReadCad": 0,
+    "step2_CheckAndClassify": 0,
+    "step3_ModelRevit": 0,
+    "step4_QaqcAudit": 0,
+    "step5_RouteFix": 0,
+    "step6_ReAudit": 0,
+    "step7_ConfirmedPass": 0,
+    "group1_ReadyToModel": 0,
+    "group2_ConflictingInfo": 0,
+    "group3_MissingInfo": 0,
+    "unresolvedHalt": 0
+  },
+  "elements": [],
+  "rfis": [],
+  "mappings": {}
+}

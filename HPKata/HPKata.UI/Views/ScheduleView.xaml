@@ -1,0 +1,168 @@
+<Window x:Class="HPKata.UI.Views.ScheduleView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        xmlns:conv="clr-namespace:HPKata.UI.Converters"
+        mc:Ignorable="d"
+        Title="HPKata — Bảng Thống kê Cốt thép (Rebar Schedule)"
+        Height="650" Width="980"
+        MinHeight="500" MinWidth="750"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:NumberFormatConverter x:Key="NumFmt"/>
+            <conv:NullToVisibilityConverter x:Key="NullToVis"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="BẢNG THỐNG KÊ CỐT THÉP" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text=" — Detailing Schedule &amp; QR Tagging" Style="{StaticResource Text.Muted}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Tổ hợp cắt thép 1D" Command="{Binding OpenCuttingStockCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="1" Style="{StaticResource Card.Panel}" Padding="8" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Nạp dữ liệu mẫu" Command="{Binding LoadSampleDataCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,6,0"/>
+                <Button Content="Xóa dòng chọn" Command="{Binding RemoveItemCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,6,0"/>
+                <Button Content="Xóa toàn bộ" Command="{Binding ClearAllCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,6,0"/>
+                <Button Content="Tính lại tổng" Command="{Binding RecalculateTotalsCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,12,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Schedule DataGrid -->
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  Margin="0,0,0,8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="CK" Binding="{Binding ComponentMark}" Width="65"/>
+                <DataGridTextColumn Header="STT" Binding="{Binding BarMark}" Width="50"/>
+                <DataGridTextColumn Header="Dạng" Binding="{Binding ShapeCode}" Width="55"/>
+                <DataGridTextColumn Header="Φ (mm)" Binding="{Binding DiameterMm}" Width="65"/>
+                <DataGridTextColumn Header="Số CK" Binding="{Binding MemberCount}" Width="60"/>
+                <DataGridTextColumn Header="SL / CK" Binding="{Binding CountPerMember}" Width="65"/>
+                <DataGridTextColumn Header="Tổng SL" Binding="{Binding TotalCount}" Width="70"/>
+                <DataGridTextColumn Header="L cắt (mm)" Binding="{Binding CuttingLengthMm, StringFormat='N0'}" Width="85"/>
+                <DataGridTextColumn Header="Tổng L (m)" Binding="{Binding TotalLengthM, StringFormat='N2'}" Width="85"/>
+                <DataGridTextColumn Header="TL Đơn vị (kg/m)" Binding="{Binding UnitMassKgPerM, StringFormat='F3'}" Width="105"/>
+                <DataGridTextColumn Header="Tổng TL (kg)" Binding="{Binding TotalWeightKg, StringFormat='N2'}" Width="95"/>
+                <DataGridTextColumn Header="Rải / Bước đai" Binding="{Binding Spacing}" Width="95"/>
+                <DataGridTextColumn Header="Ghi chú" Binding="{Binding Notes}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- QR Code Tag Preview & Summary Card -->
+        <Grid Grid.Row="3" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- QR Tag Payload Card -->
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}" Margin="0">
+                <StackPanel>
+                    <TextBlock Text="MÃ QR TEM BÓ THÉP (ECC LEVEL Q)" Style="{StaticResource Text.Section}"/>
+                    <TextBlock Text="Chuỗi định dạng QR theo chuẩn phân xưởng KATA:" Style="{StaticResource Text.Muted}" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding SelectedQrPayload, Mode=OneWay}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas"
+                             FontSize="11"
+                             MinHeight="48"
+                             VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Total Weight & TCVN Bins Card -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}" Margin="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="TỔNG HỢP KHỐI LƯỢNG (TCVN 1651:2018)" Style="{StaticResource Text.Section}"/>
+
+                    <Grid Grid.Row="1" Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Thép nhỏ (Φ ≤ 10):" Style="{StaticResource Text.Muted}"/>
+                            <TextBlock Text="{Binding SmallBarWeightKg, Converter={StaticResource NumFmt}, ConverterParameter='N1'}" Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text=" kg" Style="{StaticResource Text.Muted}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Thép vừa (10 &lt; Φ ≤ 18):" Style="{StaticResource Text.Muted}"/>
+                            <TextBlock Text="{Binding MediumBarWeightKg, Converter={StaticResource NumFmt}, ConverterParameter='N1'}" Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text=" kg" Style="{StaticResource Text.Muted}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Thép lớn (Φ &gt; 18):" Style="{StaticResource Text.Muted}"/>
+                            <TextBlock Text="{Binding LargeBarWeightKg, Converter={StaticResource NumFmt}, ConverterParameter='N1'}" Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text=" kg" Style="{StaticResource Text.Muted}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Row="2" Height="1" Background="{DynamicResource Brush.Border}" Margin="0,4,0,4"/>
+
+                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Tổng số thanh: " Style="{StaticResource Text.Muted}"/>
+                            <TextBlock Text="{Binding TotalBarCount}" Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text=" | Chiều dài: " Style="{StaticResource Text.Muted}" Margin="8,0,0,0"/>
+                            <TextBlock Text="{Binding TotalLengthM, Converter={StaticResource NumFmt}, ConverterParameter='N1'}" Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text=" m" Style="{StaticResource Text.Muted}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="TỔNG TRỌNG LƯỢNG: " Style="{StaticResource Text.Bold}"/>
+                            <TextBlock Text="{Binding TotalWeightKg, Converter={StaticResource NumFmt}, ConverterParameter='N2'}" FontSize="15" Style="{StaticResource Text.Bold}" Foreground="{DynamicResource Brush.Warning}"/>
+                            <TextBlock Text=" kg" Style="{StaticResource Text.Bold}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status & Close -->
+        <Border Grid.Row="4" Margin="0,4,0,0" Padding="8,4" Background="{DynamicResource Brush.Surface}" CornerRadius="4">
+            <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource Text.Muted}"/>
+        </Border>
+    </Grid>
+</Window>

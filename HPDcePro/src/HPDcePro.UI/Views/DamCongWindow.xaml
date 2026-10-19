@@ -1,0 +1,187 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.DamCongWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Thiết Kế &amp; Chi Tiết Dầm Cong (DamCong_Frm)"
+                  Height="680" Width="900"
+                  MinHeight="550" MinWidth="750"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="THIẾT KẾ &amp; TÍNH TOÁN DẦM CONG BTCT" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Kiểm tra uốn, cắt, xoắn kết hợp theo TCVN 5574:2018 và tạo nhãn NHAN_XDATA_DAM_CONG" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusSummary}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Body -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Inputs -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <GroupBox Header="1. Hình học &amp; Cung cong" Style="{StaticResource GroupBox.Header}">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Mã hiệu dầm:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BeamMark}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Bán kính R (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RadiusMm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Góc bắt đầu (°):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding StartAngleDeg}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Góc kết thúc (°):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EndAngleDeg}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Bề rộng b (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding WidthMm}" Style="{StaticResource StandardTextBox}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="2. Tiết diện &amp; Nội lực thiết kế" Style="{StaticResource GroupBox.Header}" Margin="0,8,0,0">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Chiều cao h (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding HeightMm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Mô men M (kNm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding DesignMomentKnM}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Lực cắt Q (kN):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DesignShearKn}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Mô men xoắn T (kNm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DesignTorsionKnM}" Style="{StaticResource StandardTextBox}"/>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Outputs -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="KẾT QUẢ KIỂM TRA THIẾT KẾ" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,12"/>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Chiều dài cung L (mm):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ArcLengthMm, StringFormat='{}{0:F1}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Góc quét (độ):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding SweepAngleDeg, StringFormat='{}{0:F1}°'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Khả năng chịu xoắn T_max (kNm):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding TorsionCapacityMaxKnm, StringFormat='{}{0:F1}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Thép uốn yêu cầu As (mm²):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding FlexuralAsRequiredMm2, StringFormat='{}{0:F1}'}" FontWeight="Bold" Foreground="{DynamicResource Brush.Accent}"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Thép dọc chịu xoắn Asl (mm²):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding RequiredLongitudinalAslMm2, StringFormat='{}{0:F1}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Đai kết hợp Asw/s (mm²/mm):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding RequiredStirrupAswPerS, StringFormat='{}{0:F3}'}" FontWeight="Bold"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <Button Content="Tính toán" Command="{Binding CalculateCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Left"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

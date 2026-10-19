@@ -1,0 +1,54 @@
+{
+  "name": "directshape_from_geometry",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "geometry",
+    "directshape",
+    "brep",
+    "mesh",
+    "bake"
+  ],
+  "title": "Create DirectShape Bounding Volume in Revit",
+  "description": "Creates native Revit DirectShape elements (Solid extrusion or Tessellated Mesh box) from bounding box dimensions with assigned BuiltInCategory and name.",
+  "notes": "Generates DirectShape cuboids (Solid or Mesh) with category assignment and bounding dimensions in meters.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "shapeType": {
+        "type": "string",
+        "default": "Solid",
+        "description": "Geometry type: Solid or Mesh."
+      },
+      "category": {
+        "type": "string",
+        "default": "GenericModel",
+        "description": "Revit BuiltInCategory name (GenericModel, StructuralFraming, Mass)."
+      },
+      "boundingDimensions": {
+        "type": "object",
+        "properties": {
+          "width": { "type": "number" },
+          "length": { "type": "number" },
+          "height": { "type": "number" }
+        },
+        "description": "Bounding box dimensions in meters."
+      },
+      "name": {
+        "type": "string",
+        "default": "Grasshopper_DirectShape",
+        "description": "Element name or label."
+      }
+    },
+    "additionalProperties": false
+  }
+}

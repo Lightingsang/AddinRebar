@@ -1,0 +1,23 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/HPDcePro.Core/HPDcePro.Core.csproj" />
+    <Project Path="src/HPDcePro.UI/HPDcePro.UI.csproj" />
+    <Project Path="src/HPDcePro.AutoCad/HPDcePro.AutoCad.csproj" />
+    <Project Path="src/HPDcePro.Excel/HPDcePro.Excel.csproj" />
+    <Project Path="src/HPDcePro.Mcp/HPDcePro.Mcp.csproj" />
+    <Project Path="src/HPDcePro.Revit/HPDcePro.Revit.csproj" />
+    <Project Path="src/HPDcePro.Desktop/HPDcePro.Desktop.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HPDcePro.Core.Tests/HPDcePro.Core.Tests.csproj" />
+    <Project Path="tests/HPDcePro.Adapters.Tests/HPDcePro.Adapters.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>HPBim.Core</RootNamespace>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="10.0.12" />
+    <!-- Polyfill unlocks modern C# features (record, init, required, nullable annotations) on netstandard2.0 -->
+    <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

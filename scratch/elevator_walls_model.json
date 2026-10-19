@@ -1,0 +1,226 @@
+{
+  "totalCores": 2,
+  "wallType": "2_Wall_BTCT_D200",
+  "structuralUsage": "Shear",
+  "thicknessMm": 200,
+  "totalWalls": 8,
+  "totalSegments": 16,
+  "walls": [
+    {
+      "core": "T1A",
+      "panel": "T1A_W1",
+      "side": "T\u00E2y (Tr\u1EE5c 5)",
+      "x0Mm": 13900,
+      "y0Mm": 0,
+      "x1Mm": 13900,
+      "y1Mm": 2400,
+      "lengthMm": 2400,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1A_W1",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1A (Nam) - T\u00E2y (Tr\u1EE5c 5)"
+      },
+      "vachTang1": {
+        "mark": "V1_T1A_W1",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1A (Nam) - T\u00E2y (Tr\u1EE5c 5)"
+      }
+    },
+    {
+      "core": "T1A",
+      "panel": "T1A_W2",
+      "side": "B\u1EAFc",
+      "x0Mm": 13900,
+      "y0Mm": 2400,
+      "x1Mm": 16500,
+      "y1Mm": 2400,
+      "lengthMm": 2600,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1A_W2",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1A (Nam) - B\u1EAFc"
+      },
+      "vachTang1": {
+        "mark": "V1_T1A_W2",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1A (Nam) - B\u1EAFc"
+      }
+    },
+    {
+      "core": "T1A",
+      "panel": "T1A_W3",
+      "side": "\u0110\u00F4ng (Tr\u1EE5c 6)",
+      "x0Mm": 16500,
+      "y0Mm": 2400,
+      "x1Mm": 16500,
+      "y1Mm": 0,
+      "lengthMm": 2400,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1A_W3",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1A (Nam) - \u0110\u00F4ng (Tr\u1EE5c 6)"
+      },
+      "vachTang1": {
+        "mark": "V1_T1A_W3",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1A (Nam) - \u0110\u00F4ng (Tr\u1EE5c 6)"
+      }
+    },
+    {
+      "core": "T1A",
+      "panel": "T1A_W4",
+      "side": "Nam",
+      "x0Mm": 16500,
+      "y0Mm": 0,
+      "x1Mm": 13900,
+      "y1Mm": 0,
+      "lengthMm": 2600,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1A_W4",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1A (Nam) - Nam"
+      },
+      "vachTang1": {
+        "mark": "V1_T1A_W4",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1A (Nam) - Nam"
+      }
+    },
+    {
+      "core": "T1B",
+      "panel": "T1B_W1",
+      "side": "T\u00E2y (Tr\u1EE5c 5)",
+      "x0Mm": 13900,
+      "y0Mm": 25500,
+      "x1Mm": 13900,
+      "y1Mm": 27900,
+      "lengthMm": 2400,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1B_W1",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1B (B\u1EAFc) - T\u00E2y (Tr\u1EE5c 5)"
+      },
+      "vachTang1": {
+        "mark": "V1_T1B_W1",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1B (B\u1EAFc) - T\u00E2y (Tr\u1EE5c 5)"
+      }
+    },
+    {
+      "core": "T1B",
+      "panel": "T1B_W2",
+      "side": "B\u1EAFc",
+      "x0Mm": 13900,
+      "y0Mm": 27900,
+      "x1Mm": 16500,
+      "y1Mm": 27900,
+      "lengthMm": 2600,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1B_W2",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1B (B\u1EAFc) - B\u1EAFc"
+      },
+      "vachTang1": {
+        "mark": "V1_T1B_W2",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1B (B\u1EAFc) - B\u1EAFc"
+      }
+    },
+    {
+      "core": "T1B",
+      "panel": "T1B_W3",
+      "side": "\u0110\u00F4ng (Tr\u1EE5c 6)",
+      "x0Mm": 16500,
+      "y0Mm": 27900,
+      "x1Mm": 16500,
+      "y1Mm": 25500,
+      "lengthMm": 2400,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1B_W3",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1B (B\u1EAFc) - \u0110\u00F4ng (Tr\u1EE5c 6)"
+      },
+      "vachTang1": {
+        "mark": "V1_T1B_W3",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1B (B\u1EAFc) - \u0110\u00F4ng (Tr\u1EE5c 6)"
+      }
+    },
+    {
+      "core": "T1B",
+      "panel": "T1B_W4",
+      "side": "Nam",
+      "x0Mm": 16500,
+      "y0Mm": 25500,
+      "x1Mm": 13900,
+      "y1Mm": 25500,
+      "lengthMm": 2600,
+      "thicknessMm": 200,
+      "coVach": {
+        "mark": "CV_T1B_W4",
+        "baseLevel": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+        "topLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "C\u1ED5 V\u00E1ch Thang M\u00E1y T1B (B\u1EAFc) - Nam"
+      },
+      "vachTang1": {
+        "mark": "V1_T1B_W4",
+        "baseLevel": "T\u1EA7ng 1 (\u00B10.000)",
+        "topLevel": "T\u1EA7ng 2",
+        "baseOffsetMm": 0,
+        "topOffsetMm": 0,
+        "comments": "V\u00E1ch T\u1EA7ng 1 Thang M\u00E1y T1B (B\u1EAFc) - Nam"
+      }
+    }
+  ]
+}

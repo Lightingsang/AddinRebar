@@ -1,0 +1,46 @@
+﻿=== MENUKATA.CUI COMMAND MACROS ===
+MACRO: SetupKata                      | CMD: ^C^C_setupkata1           | HELP: Cài đặt thông số Kata | IMG: RCDATA_16_WALK-THROUGH_PLAY
+MACRO: Create link                    | CMD: ^C^C_tao_lien_ket         | HELP: Tạo liên kết | IMG: C:\kata_pro\Icon\link.bmp
+MACRO: Edit rebar                     | CMD: ^C^C_sua_thep             | HELP: Sửa thông tin thép | IMG: C:\kata_pro\Icon\link_edit.bmp
+MACRO: Update link                    | CMD: ^C^C_update_thep          | HELP: Cập nhật liên kết | IMG: C:\kata_pro\Icon\calculator_link.bmp
+MACRO: Delete link                    | CMD: ^C^C_xoa_lien_ket         | HELP: Xóa liên kết | IMG: C:\kata_pro\Icon\link_break.bmp
+MACRO: Copy and Link                  | CMD: ^C^C_copy_tao_lien_ket    | HELP: Copy và tạo liên kết | IMG: C:\kata_pro\Icon\copy.bmp
+MACRO: Find links                     | CMD: ^C^C_xem_lien_ket         | HELP: Tìm các liên kết với đối tượng chọn | IMG: C:\kata_pro\Icon\show_link.bmp
+MACRO: Clear Highlight                | CMD: ^C^C_xoa_highlight        | HELP: Xóa Highlight | IMG: C:\kata_pro\Icon\del_show_link.bmp
+MACRO: Draw rebar                     | CMD: ^C^C_ve_thep              | HELP: Vẽ thép | IMG: RCDATA_16_ERASE
+MACRO: Beam                           | CMD: ^C^C_ve_dam               | HELP: Dầm | IMG: 
+MACRO: Polyline Edit                  | CMD: ^C^C_sua_thep             | HELP: Edits polylines and three-dimensional polygon meshes:  PEDIT | IMG: RCDATA_16_PEDIT
+MACRO: Properties                     | CMD: ^C^C_sua_thep             | HELP: Controls properties of existing objects:  PROPERTIES | IMG: RCDATA_16_MODIFY
+MACRO: Calltag rebar                  | CMD: ^C^C_ghi_thep             | HELP: Tạo ghi chú thép | IMG: RCDATA_16_ATTEDI
+MACRO: Cut rebar                      | CMD: ^C^C_cat_thep             | HELP: Cắt thép | IMG: RCDATA_16_CUT
+MACRO: Column                         | CMD: ^C^C_ve_cot               | HELP: Cột | IMG: 
+MACRO: Stair                          | CMD: ^C^C_ve_thang             | HELP: Cầu thang | IMG: 
+MACRO: Foundation                     | CMD: ^C^C_ve_mong              | HELP: Móng | IMG: 
+MACRO: Beam shop                      | CMD: ^C^C_ve_dam_shop          | HELP: Dầm shop | IMG: 
+
+=== POP MENUS (PULLDOWN MENUS) ===
+
+POPMENU: [Kata]
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+
+POPMENU: Draw
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+   ITEM:  (MacroID: )
+
+=== RIBBON TABS & PANELS ===

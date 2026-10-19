@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Kata_Class_Lib_Revit</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="6FI1sbHZwsnSkKZ8P3.rOIc7hk5ivbobBotQG" />
+    <None Remove="vBnaqi3DiyrxoL21uG.40B6y0Ov13HyOnrvDu" />
+    <None Remove="icMAooTWWcCcufwJYN.00l2UBbK7dWencibX7" />
+    <None Remove="DpboT9akneOPZpLJWP.E8rx99WYrQ6bsUfCgQ" />
+    <None Remove="GfbWaZpXcXcOTJciXG.DppsHNCd4edKLgGOf4" />
+    <None Remove="BCOUkWcZUC9eWxAkce.UjF4RwtG81oxfpn6I3" />
+    <EmbeddedResource Include="6FI1sbHZwsnSkKZ8P3.rOIc7hk5ivbobBotQG" LogicalName="6FI1sbHZwsnSkKZ8P3.rOIc7hk5ivbobBotQG" />
+    <EmbeddedResource Include="vBnaqi3DiyrxoL21uG.40B6y0Ov13HyOnrvDu" LogicalName="vBnaqi3DiyrxoL21uG.40B6y0Ov13HyOnrvDu" />
+    <EmbeddedResource Include="icMAooTWWcCcufwJYN.00l2UBbK7dWencibX7" LogicalName="icMAooTWWcCcufwJYN.00l2UBbK7dWencibX7" />
+    <EmbeddedResource Include="DpboT9akneOPZpLJWP.E8rx99WYrQ6bsUfCgQ" LogicalName="DpboT9akneOPZpLJWP.E8rx99WYrQ6bsUfCgQ" />
+    <EmbeddedResource Include="GfbWaZpXcXcOTJciXG.DppsHNCd4edKLgGOf4" LogicalName="GfbWaZpXcXcOTJciXG.DppsHNCd4edKLgGOf4" />
+    <EmbeddedResource Include="BCOUkWcZUC9eWxAkce.UjF4RwtG81oxfpn6I3" LogicalName="BCOUkWcZUC9eWxAkce.UjF4RwtG81oxfpn6I3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System.Core" />
+    <Reference Include="RevitAPI" />
+    <Reference Include="RevitAPIUI" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\kata_pro\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

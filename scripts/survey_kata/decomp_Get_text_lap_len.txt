@@ -1,0 +1,11 @@
+﻿// Decompiled Kata_pro64_Cad2025.Setting::Get_text_lap_len
+
+// Method: Get_text_lap_len
+using System.Runtime.CompilerServices;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+public string Get_text_lap_len()
+{
+	return null;
+}
+

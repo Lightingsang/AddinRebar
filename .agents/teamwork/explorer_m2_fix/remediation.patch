@@ -1,0 +1,264 @@
+--- a/HPBim/src/HPBim.Core/Coordination/CadSourceSpec.cs
++++ b/HPBim/src/HPBim.Core/Coordination/CadSourceSpec.cs
+@@ -18,6 +18,6 @@ public sealed record CadSourceSpec
+     public double? Diameter { get; init; }
+     public IReadOnlyList<string> Supports { get; init; } = Array.Empty<string>();
+     public IReadOnlyList<string> CrossCheckSources { get; init; } = Array.Empty<string>();
+-    public bool CrossCheckPassed { get; init; } = true;
++    public bool CrossCheckPassed { get; init; } = false;
+     public string RawNotes { get; init; } = string.Empty;
+ }
+
+--- a/HPBim/src/HPBim.Core/Coordination/FailFastGate.cs
++++ b/HPBim/src/HPBim.Core/Coordination/FailFastGate.cs
+@@ -3,6 +3,7 @@ namespace HPBim.Core.Coordination;
+ 
+ using System;
+ using System.Collections.Generic;
++using System.Linq;
+ 
+ /// <summary>
+ /// Interface for Fail-Fast engineering gate evaluating coordination element readiness.
+@@ -88,18 +89,22 @@ public sealed class FailFastGate : IFailFastGate
+     private static void CheckElevations(CadSourceSpec spec, CoordinationCategory category, List<string> violations)
+     {
+-        if (!spec.TopElevation.HasValue)
++        if (!spec.TopElevation.HasValue || !IsFinite(spec.TopElevation.Value))
+         {
+-            violations.Add("FF-3: Thiếu thông số cao độ đỉnh (TopElevation).");
++            violations.Add("FF-3: Thiếu thông số cao độ đỉnh (TopElevation không hợp lệ hoặc không xác định).");
+         }
+ 
+-        if (category == CoordinationCategory.Footing && !spec.BottomElevation.HasValue)
++        if (category == CoordinationCategory.Footing && (!spec.BottomElevation.HasValue || !IsFinite(spec.BottomElevation.Value)))
+         {
+             violations.Add("FF-3: Đài móng thiếu cao độ đáy đài (BottomElevation) để xác định độ ngàm cọc.");
+         }
++        else if (spec.BottomElevation.HasValue && !IsFinite(spec.BottomElevation.Value))
++        {
++            violations.Add("FF-3: Sai lệch thông số cao độ đáy (BottomElevation không hợp lệ).");
++        }
+ 
+-        if (spec.TopElevation.HasValue && spec.BottomElevation.HasValue)
++        if (spec.TopElevation.HasValue && spec.BottomElevation.HasValue &&
++            IsFinite(spec.TopElevation.Value) && IsFinite(spec.BottomElevation.Value))
+         {
+             if (spec.BottomElevation.Value >= spec.TopElevation.Value)
+             {
+@@ -111,8 +116,10 @@ public sealed class FailFastGate : IFailFastGate
+     private static void CheckDimensions(CadSourceSpec spec, CoordinationCategory category, List<string> violations)
+     {
+         if (category == CoordinationCategory.Pile)
+         {
+-            bool hasValidDiameter = spec.Diameter.HasValue && spec.Diameter.Value > 0;
+-            bool hasValidRect = spec.Width.HasValue && spec.Height.HasValue &&
+-                                spec.Width.Value > 0 && spec.Height.Value > 0;
++            bool hasValidDiameter = spec.Diameter.HasValue && IsFinite(spec.Diameter.Value) && spec.Diameter.Value > 0;
++            bool hasValidRect = spec.Width.HasValue && spec.Height.HasValue &&
++                                IsFinite(spec.Width.Value) && IsFinite(spec.Height.Value) &&
++                                spec.Width.Value > 0 && spec.Height.Value > 0;
+ 
+             if (!hasValidDiameter && !hasValidRect)
+             {
+@@ -122,12 +129,12 @@ public sealed class FailFastGate : IFailFastGate
+             return;
+         }
+ 
+-        if (!spec.Width.HasValue || spec.Width.Value <= 0)
++        if (!spec.Width.HasValue || !IsFinite(spec.Width.Value) || spec.Width.Value <= 0)
+         {
+             violations.Add("FF-4: Thiếu hoặc sai lệch chiều rộng tiết diện (Width <= 0).");
+         }
+ 
+-        if (!spec.Height.HasValue || spec.Height.Value <= 0)
++        if (!spec.Height.HasValue || !IsFinite(spec.Height.Value) || spec.Height.Value <= 0)
+         {
+             violations.Add("FF-4: Thiếu hoặc sai lệch chiều cao tiết diện (Height <= 0).");
+         }
+@@ -135,16 +142,28 @@ public sealed class FailFastGate : IFailFastGate
+     private static void CheckSupports(CadSourceSpec spec, CoordinationCategory category, List<string> violations)
+     {
++        var validSupports = spec.Supports != null
++            ? spec.Supports.Where(s => !string.IsNullOrWhiteSpace(s)).ToList()
++            : new List<string>();
++
+         if (category == CoordinationCategory.GradeBeam)
+         {
+-            if (spec.Supports == null || spec.Supports.Count < 2)
++            if (validSupports.Count < 2)
+             {
+                 violations.Add("FF-5: Giằng móng thiếu điểm tựa liên kết 2 đầu (yêu cầu ít nhất 2 điểm tựa).");
+             }
+             return;
+         }
+ 
+         if (category == CoordinationCategory.Pile)
+         {
+-            if (spec.Supports == null || spec.Supports.Count < 1)
++            if (validSupports.Count < 1)
+             {
+                 violations.Add("FF-5: Cọc thiếu định vị đài móng liên kết bao quanh.");
+             }
+             return;
+         }
+ 
++        if (category == CoordinationCategory.Footing)
++        {
++            if (validSupports.Count < 1)
++            {
++                violations.Add("FF-5: Đài móng thiếu định vị điểm tựa liên kết (cọc hoặc lưới trục).");
++            }
++            return;
++        }
++
+         if (category == CoordinationCategory.Column)
+         {
+-            if (spec.Supports == null || spec.Supports.Count < 1)
++            if (validSupports.Count < 1)
+             {
+                 violations.Add("FF-5: Cột thiếu định vị điểm tựa móng hoặc dầm sàn liên kết.");
+             }
+@@ -168,4 +187,6 @@ public sealed class FailFastGate : IFailFastGate
+             violations.Add("FF-6: Cấu kiện chưa vượt qua đối soát chéo 6 nguồn hoặc có mâu thuẫn.");
+         }
+     }
++
++    private static bool IsFinite(double value) => !double.IsNaN(value) && !double.IsInfinity(value);
+ }
+
+--- a/HPBim/src/HPBim.Cli/Commands/AnalyzeFootingsCommand.cs
++++ b/HPBim/src/HPBim.Cli/Commands/AnalyzeFootingsCommand.cs
+@@ -88,7 +88,7 @@ public sealed class AnalyzeFootingsCommand
+             capIndex++;
+         }
+ 
+-        if (args.HasFlag("fail-fast") && clusterViolations.Count > 0)
++        if (clusterViolations.Count > 0)
+         {
+             throw new FailFastCoordinationException("FootingClusters", clusterViolations);
+         }
+
+--- a/HPBim/src/HPBim.Cli/Commands/BuildGradeBeamNetworkCommand.cs
++++ b/HPBim/src/HPBim.Cli/Commands/BuildGradeBeamNetworkCommand.cs
+@@ -120,7 +120,7 @@ public sealed class BuildGradeBeamNetworkCommand
+             Console.WriteLine($"  [{b.Axis}] {b.Name, -8} Type: {b.TypeName, -10} L={b.Length, 6:F0}mm từ ({b.StartX, 7:F0}, {b.StartY, 7:F0}) đến ({b.EndX, 7:F0}, {b.EndY, 7:F0})");
+         }
+ 
+-        if (args.HasFlag("fail-fast") && unverifiedList.Count > 0)
++        if (unverifiedList.Count > 0)
+         {
+             throw new FailFastCoordinationException("BeamNetwork", unverifiedList);
+         }
+
+--- a/HPBim/src/HPBim.Cli/Commands/GenerateGradeBeamsCommand.cs
++++ b/HPBim/src/HPBim.Cli/Commands/GenerateGradeBeamsCommand.cs
+@@ -86,9 +86,6 @@ public sealed class GenerateGradeBeamsCommand
+             _formatter.WriteError($"[FailFastGate] Phát hiện {violations.Count} dầm vi phạm ĐIỀU 0 (thiếu handle/tiết diện/điểm tựa).");
+             _formatter.WriteWarning("DỪNG NGAY LẬP TỨC: Cấm dựng dầm ma hoặc phỏng đoán vào Revit.");
+-            if (!args.HasFlag("force-unverified"))
+-            {
+-                throw new FailFastCoordinationException("GenerateGradeBeams", violations.Take(10));
+-            }
++            throw new FailFastCoordinationException("GenerateGradeBeams", violations);
+         }
+ 
+@@ -187,19 +184,9 @@ public sealed class GenerateGradeBeamsCommand
+         var symbolsDict = new Dictionary<string, FamilySymbol>(StringComparer.OrdinalIgnoreCase);
+-        FamilySymbol defaultSymbol = null;
+         foreach (var s in symbolCollector)
+         {
+             symbolsDict[s.Name] = s;
+-            if (s.Name.Equals("B_200x400", StringComparison.OrdinalIgnoreCase)) defaultSymbol = s;
+         }
+-
+-        if (defaultSymbol == null && symbolsDict.Count > 0)
+-        {
+-            defaultSymbol = symbolsDict.Values.First();
+-        }
+-
+-        if (defaultSymbol == null)
+-        {
+-            throw new InvalidOperationException("Không tìm thấy FamilySymbol loại Structural Framing nào trong Revit.");
+-        }
+@@ -224,7 +211,7 @@ public sealed class GenerateGradeBeamsCommand
+             if (!symbolsDict.TryGetValue(typeName, out var sym))
+             {
+-                sym = defaultSymbol;
++                throw new InvalidOperationException($"[ĐIỀU 0] Không tìm thấy FamilySymbol '{typeName}' trong Revit. Cấm tự gán loại mặc định.");
+             }
+
+--- a/HPBim/src/HPBim.Cli/Commands/GenerateFoundationSlabsCommand.cs
++++ b/HPBim/src/HPBim.Cli/Commands/GenerateFoundationSlabsCommand.cs
+@@ -12,6 +12,7 @@ using HPBim.Cli.CommandLine;
+ using HPBim.Cli.Formatting;
+ using HPBim.Client.Connection;
++using HPBim.Core.Coordination;
+ using HPRebar.Mcp.Contracts;
+ using HPRebar.Mcp.Contracts.Messages;
+ 
+@@ -24,9 +25,14 @@ public sealed class GenerateFoundationSlabsCommand
+     private const string TargetFloorType = "HP-ES-CAP-CON-B20-1000";
+     private readonly ConsoleFormatter _formatter;
+     private readonly IRevitPipeClient? _injectedClient;
++    private readonly IFailFastGate _failFastGate;
+ 
+-    public GenerateFoundationSlabsCommand(ConsoleFormatter? formatter = null, IRevitPipeClient? injectedClient = null)
++    public GenerateFoundationSlabsCommand(
++        ConsoleFormatter? formatter = null,
++        IRevitPipeClient? injectedClient = null,
++        IFailFastGate? failFastGate = null)
+     {
+         _formatter = formatter ?? new ConsoleFormatter();
+         _injectedClient = injectedClient;
++        _failFastGate = failFastGate ?? new FailFastGate();
+     }
+@@ -48,6 +54,46 @@ public sealed class GenerateFoundationSlabsCommand
+         using var docJson = JsonDocument.Parse(await File.ReadAllTextAsync(dataPath, ct).ConfigureAwait(false));
++        if (docJson.RootElement.TryGetProperty("isSpeculativeCluster", out var specClusterProp) && specClusterProp.GetBoolean())
++        {
++            _formatter.WriteError("[FailFastGate] File dữ liệu chứa các cụm đài phỏng đoán (isSpeculativeCluster == true) vi phạm ĐIỀU 0.");
++            _formatter.WriteWarning("DỪNG NGAY LẬP TỨC: Cấm dựng đài móng phỏng đoán vào Revit.");
++            throw new FailFastCoordinationException("FoundationSlabs", "Dữ liệu đài móng là cụm gom tự do phỏng đoán, không đủ cơ sở để dựng mô hình theo ĐIỀU 0.");
++        }
++
+         var footingsElem = docJson.RootElement.GetProperty("footings");
++        var violations = new List<string>();
++        foreach (var f in footingsElem.EnumerateArray())
++        {
++            string name = f.TryGetProperty("name", out var np) ? np.GetString() ?? "" : "";
++            string handle = f.TryGetProperty("handle", out var hp) ? hp.GetString() ?? "" : "";
++            double topZ = f.TryGetProperty("topZ", out var tzp) ? tzp.GetDouble() / 1000.0 : -1.600;
++            double bottomZ = f.TryGetProperty("bottomZ", out var bzp) ? bzp.GetDouble() / 1000.0 : -2.600;
++            double width = f.TryGetProperty("widthX", out var wxp) ? wxp.GetDouble() : 0.0;
++            double height = f.TryGetProperty("widthY", out var wyp) ? wyp.GetDouble() : 0.0;
++            var piles = f.TryGetProperty("pileIndices", out var pip)
++                ? pip.EnumerateArray().Select(p => $"PILE-{p.GetInt32()}").ToList()
++                : (IReadOnlyList<string>)Array.Empty<string>();
++
++            var spec = new CadSourceSpec
++            {
++                Handle = handle,
++                Layer = "DK_MONG",
++                TopElevation = topZ,
++                BottomElevation = bottomZ,
++                Width = width > 0 ? width : null,
++                Height = height > 0 ? height : null,
++                Supports = piles,
++                CrossCheckPassed = f.TryGetProperty("crossCheckPassed", out var ccp) && ccp.GetBoolean()
++            };
++
++            var eval = _failFastGate.EvaluateCadSource(spec, CoordinationCategory.Footing, name);
++            if (!eval.IsPassed)
++            {
++                violations.Add($"[{name}] {string.Join("; ", eval.Violations)}");
++            }
++        }
++
++        if (violations.Count > 0)
++        {
++            _formatter.WriteError($"[FailFastGate] Phát hiện {violations.Count} đài móng vi phạm ĐIỀU 0 (thiếu handle/cao độ/tiết diện/điểm tựa).");
++            _formatter.WriteWarning("DỪNG NGAY LẬP TỨC: Cấm dựng đài móng chưa đủ cơ sở vào Revit.");
++            throw new FailFastCoordinationException("GenerateFoundationSlabs", violations);
++        }
++
+         _formatter.WriteSuccess($"Đã tải {footingsElem.GetArrayLength()} đài móng từ {dataPath}");

@@ -1,0 +1,1240 @@
+{
+  "Uuid": "da28c993-04c7-46a6-be35-ee05c430eb47",
+  "IsCustomNode": false,
+  "Description": "Đồ thị trực quan tự động dựng toàn bộ 295 cấu kiện dầm sàn/đà kiềng Tầng 1 từ bản vẽ CAD (đầy đủ đầu vào File Path, tự động nối liên hoàn 24 dây nối giữa 21 nodes).",
+  "Name": "VeHeDamTang1_DaKieng",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Line": {
+        "Key": "Autodesk.DesignScript.Geometry.Line",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [
+    {
+      "Id": "5e0f305fb6774c01b78c61333a179e3a",
+      "Name": "File Path: CAD JSON Model",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\story1_grade_beams_model.json",
+      "Description": "Duyệt chọn file JSON bóc tách chi tiết CAD"
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "ef27f4e7c0854ecfbbf96e7f6a5d1198",
+      "Name": "Watch: Bảng Nghiệm Thu Hệ Dầm",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Bảng nghiệm thu toàn bộ hệ dầm Tầng 1"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "5e0f305fb6774c01b78c61333a179e3a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4ac15581b2bb471789117d4d0d55abf5",
+          "Name": "",
+          "Description": "File Path",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Duyệt chọn file JSON bóc tách chi tiết CAD",
+      "HintPath": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\story1_grade_beams_model.json",
+      "InputValue": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\story1_grade_beams_model.json"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "394363c2a2164e2193a10face2126876",
+      "Inputs": [
+        {
+          "Id": "2188fb5f3a184d6aa20ae3ccc1ea8dcf",
+          "Name": "IN[0]",
+          "Description": "File Path",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "874fe9a0762346f78af8b27532e6bbcb",
+          "Name": "OUT",
+          "Description": "Start Points",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Đọc CAD JSON -> Tạo 295 Điểm Đầu (Start Points)",
+      "Code": "# -*- coding: utf-8 -*-\nimport json, clr\nclr.AddReference('ProtoGeometry')\nfrom Autodesk.DesignScript.Geometry import Point\n\nfile_path = IN[0]\nwith open(file_path, 'r', encoding='utf-8') as f:\n    data = json.load(f)\n\npts = []\nfor b in data.get('beams', []):\n    x = float(b['StartX']) / 304.8\n    y = float(b['StartY']) / 304.8\n    pts.append(Point.ByCoordinates(x, y, 0.0))\nOUT = pts\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "581e2cf8be9e45c2b1903fa5fed74797",
+      "Inputs": [
+        {
+          "Id": "ff107891a7e44ee7b2f347c686fae2bf",
+          "Name": "IN[0]",
+          "Description": "File Path",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f580e952e52044e38fe9a23cb2e4c74c",
+          "Name": "OUT",
+          "Description": "End Points",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Đọc CAD JSON -> Tạo 295 Điểm Cuối (End Points)",
+      "Code": "# -*- coding: utf-8 -*-\nimport json, clr\nclr.AddReference('ProtoGeometry')\nfrom Autodesk.DesignScript.Geometry import Point\n\nfile_path = IN[0]\nwith open(file_path, 'r', encoding='utf-8') as f:\n    data = json.load(f)\n\npts = []\nfor b in data.get('beams', []):\n    x = float(b['EndX']) / 304.8\n    y = float(b['EndY']) / 304.8\n    pts.append(Point.ByCoordinates(x, y, 0.0))\nOUT = pts\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "c4c08259f53b4ae79ed33518ecc3ced1",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Line.ByStartPointEndPoint@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point",
+      "Inputs": [
+        {
+          "Id": "e51336ef46a84ddf99d27c454bd81471",
+          "Name": "startPoint",
+          "Description": "Start Point\n\nPoint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7f1a3442d2014311a9b1c1a65364926e",
+          "Name": "endPoint",
+          "Description": "End Point\n\nPoint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "de9c19fbe3fa4a758f87d9bc02e038b4",
+          "Name": "Line",
+          "Description": "Line",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Dựng 295 đường tim dầm (Line.ByStartPointEndPoint)"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Levels, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "88d731faac14406ab2645107883b78e6",
+      "SelectedIndex": 0,
+      "SelectedString": "Tầng 1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "98148ca9920a42bd8d1f9fab93513613",
+          "Name": "Levels",
+          "Description": "Levels",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Chọn cao trình Tầng 1"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "9ab7ca4628614b01b0e208d8f66260d1",
+      "Inputs": [
+        {
+          "Id": "31b345c204f9401fbec97256bdc6a4ce",
+          "Name": "IN[0]",
+          "Description": "File Path",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dd213144334a435ca14273e2d932e2df",
+          "Name": "OUT",
+          "Description": "FamilySymbols",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Đọc CAD JSON -> Khớp đúng 295 FamilySymbol (B_100x300, B_200x300, B_200x400...)",
+      "Code": "# -*- coding: utf-8 -*-\nimport json, clr\nclr.AddReference('RevitServices')\nclr.AddReference('RevitAPI')\nfrom Autodesk.Revit.DB import *\nfrom RevitServices.Persistence import DocumentManager\n\nfile_path = IN[0]\nwith open(file_path, 'r', encoding='utf-8') as f:\n    data = json.load(f)\n\ndoc = DocumentManager.Instance.CurrentDBDocument\ntype_names = [b['TypeName'] for b in data.get('beams', [])]\n\ncollector = FilteredElementCollector(doc).OfClass(FamilySymbol).OfCategory(BuiltInCategory.OST_StructuralFraming)\nsymbol_map = {s.Name: s for s in collector}\n\nsymbols = []\nfor name in type_names:\n    sym = symbol_map.get(name)\n    if sym and not sym.IsActive:\n        sym.Activate()\n    symbols.append(sym)\nOUT = symbols\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "22de58824e0045cab567799d3afa5104",
+      "FunctionSignature": "Revit.Elements.StructuralFraming.BeamByCurve@Autodesk.DesignScript.Geometry.Curve,Revit.Elements.Level,Revit.Elements.FamilyType",
+      "Inputs": [
+        {
+          "Id": "93bff539cb6a444999a1038d92039da2",
+          "Name": "curve",
+          "Description": "Curve\n\nCurve",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d49a56ceb30644f4aff8917b251664d6",
+          "Name": "level",
+          "Description": "Level\n\nLevel",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "92c00fabb3f44d1496fe7e81276cad8e",
+          "Name": "structuralFramingType",
+          "Description": "FamilyType\n\nFamilyType",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f20adf64f69a433694ab09f4823e78ed",
+          "Name": "StructuralFraming",
+          "Description": "StructuralFraming",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Tạo 295 dầm Revit đúng vị trí & đúng từng tiết diện"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "52360541dd2249828f26815137c59fbc",
+      "Inputs": [
+        {
+          "Id": "3ff1c48db9e54e87b1c3087ed6c9184e",
+          "Name": "IN[0]",
+          "Description": "File Path",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "13ebecbb4af6457481d9cdc1b298bb3f",
+          "Name": "OUT",
+          "Description": "Marks List",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Đọc CAD JSON -> Trích xuất 295 mã Mark",
+      "Code": "# -*- coding: utf-8 -*-\nimport json\n\nfile_path = IN[0]\nwith open(file_path, 'r', encoding='utf-8') as f:\n    data = json.load(f)\n\nOUT = [str(b['Mark']) for b in data.get('beams', [])]\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "c151e3691edd4486a189ba85aa715ac4",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1e1d0664e3154cb5a682c5081bef1c79",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Tên tham số Mark",
+      "Code": "\"Mark\";"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "60c66148e0cd40d0bc068433ea0cc54c",
+      "FunctionSignature": "Revit.Elements.Element.SetParameterByName@string,var",
+      "Inputs": [
+        {
+          "Id": "3cb3f4da05f04158a99be7c660ebedc6",
+          "Name": "element",
+          "Description": "Element\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "37696d7785914dc2aa0cdd3cb0c04531",
+          "Name": "parameterName",
+          "Description": "parameterName\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ff6ff57cd3d840ab96246420b8aaca98",
+          "Name": "value",
+          "Description": "value\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "627bb2075fc44887ae3c59eeaa160b9c",
+          "Name": "Element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Gán tham số Mark cho 295 dầm"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "898279c9f31c44c7b1870c8e42473fbf",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ebae0514244d40708e091165d7b967cb",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Tên tham số z Justification",
+      "Code": "\"z Justification\";"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "5f092b166a454d3e9385c4dcf39a5433",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "42953cf9bb554e8f8a01400a77786de3",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Giá trị Top (0)",
+      "Code": "0;"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "44a3cdc70a364f2989c1e4a68b6fb40b",
+      "FunctionSignature": "Revit.Elements.Element.SetParameterByName@string,var",
+      "Inputs": [
+        {
+          "Id": "be6d362e91b14c8988f343670b0fc42b",
+          "Name": "element",
+          "Description": "Element\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "004ef1dfc3b24c7e83980254c163ad22",
+          "Name": "parameterName",
+          "Description": "parameterName\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "58375891c0e04b88a150511f28fbec68",
+          "Name": "value",
+          "Description": "value\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5a746553691048ee8bdb97818aa98afe",
+          "Name": "Element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Căn phẳng mặt trên dầm (Top = 0)"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "cf798417c77a41d39b9ff6cc9e3b78ce",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a01b4a6f3e934f0b882857a0448a335b",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Tên tham số y Justification",
+      "Code": "\"y Justification\";"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "ea0082ee37fb46beb2d5ab53611919ec",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ff26d5109fc1472c8948896d893b3c03",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Giá trị Origin (2)",
+      "Code": "2;"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "df49340028594d64baf246f42dd0bd9a",
+      "FunctionSignature": "Revit.Elements.Element.SetParameterByName@string,var",
+      "Inputs": [
+        {
+          "Id": "f33a9758dc0149ea9d5774d8cdac0d49",
+          "Name": "element",
+          "Description": "Element\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4bad33852db747bfa80ca704810212ad",
+          "Name": "parameterName",
+          "Description": "parameterName\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "09a98c4e1fc74529b7d5b87f2aaee5c1",
+          "Name": "value",
+          "Description": "value\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fbc37cbbe6c4430a950326bc918bdc12",
+          "Name": "Element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Căn tim dầm trùng tim lưới CAD (Origin = 2)"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "a5eca34c03134c6a9b33bbfc860f63c2",
+      "Inputs": [
+        {
+          "Id": "8a204d4871ec41e7af9edc481e6af77a",
+          "Name": "IN[0]",
+          "Description": "File Path",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ce1a78e098134c60954e8f30b2bb59a4",
+          "Name": "OUT",
+          "Description": "Z-Offsets (Feet)",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Đọc CAD JSON -> Lấy mảng Z-Offset (-900mm cho DK.a')",
+      "Code": "# -*- coding: utf-8 -*-\nimport json\n\nfile_path = IN[0]\nwith open(file_path, 'r', encoding='utf-8') as f:\n    data = json.load(f)\n\n# Quy đổi ZOffset từ mm sang Feet cho Revit\nOUT = [float(b.get('ZOffsetMm', 0)) / 304.8 for b in data.get('beams', [])]\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Id": "e13465c190864c35b28299ad4eea8ac0",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c7264092b5af427ea1d460e9e4488c9d",
+          "Name": "",
+          "Description": "Value at Line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Tên tham số z Offset Value",
+      "Code": "\"z Offset Value\";"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "Id": "daff67fffaaf431baa0134fb43dcba57",
+      "FunctionSignature": "Revit.Elements.Element.SetParameterByName@string,var",
+      "Inputs": [
+        {
+          "Id": "932be2f0affd4ad79d20809bb95d809c",
+          "Name": "element",
+          "Description": "Element\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d1f865bed04c44b687d23f8c6695fc26",
+          "Name": "parameterName",
+          "Description": "parameterName\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4887d8e476684cbc97397f6ed983d621",
+          "Name": "value",
+          "Description": "value\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0c3dfab9b3b54fbbba41a0afc33ee6d2",
+          "Name": "Element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Giật hạ cốt đỉnh dầm xuống -1.000m (-900mm) cho DK.a'"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Id": "da4f4ed0e0a84a98a010b2adb1bf861a",
+      "Inputs": [
+        {
+          "Id": "39d827796e2649d2b05b31161facfbe9",
+          "Name": "IN[0]",
+          "Description": "Beams",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9b462f8385a64b82a36e6fed3b377c27",
+          "Name": "OUT",
+          "Description": "Audit Result",
+          "Type": "unknown",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Khóa liên kết nút 2 đầu dầm (StructuralFramingUtils.DisallowJoinAtEnd)",
+      "Code": "# -*- coding: utf-8 -*-\nimport clr\nclr.AddReference('RevitAPI')\nfrom Autodesk.Revit.DB.Structure import StructuralFramingUtils\n\nbeams = UnwrapElement(IN[0]) if isinstance(IN[0], list) else [UnwrapElement(IN[0])]\ncount = 0\nfor b in beams:\n    if b:\n        StructuralFramingUtils.DisallowJoinAtEnd(b, 0)\n        StructuralFramingUtils.DisallowJoinAtEnd(b, 1)\n        count += 1\n\nOUT = {\n    'status': 'SUCCESS',\n    'totalBeams': len(beams),\n    'disallowJoinApplied': count,\n    'message': f'Đã khóa liên kết 2 đầu thành công cho {count} dầm đà kiềng Tầng 1!'\n}\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 320.0,
+      "WatchHeight": 180.0,
+      "Id": "ef27f4e7c0854ecfbbf96e7f6a5d1198",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "a49362c2b4d547fe80cc507a887a2754",
+          "Name": "",
+          "Description": "Node-to-watch",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "79a0d782ab0e43438e6fd67d104e2ede",
+          "Name": "",
+          "Description": "Output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Bảng nghiệm thu toàn bộ hệ dầm Tầng 1"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "4ac15581b2bb471789117d4d0d55abf5",
+      "End": "2188fb5f3a184d6aa20ae3ccc1ea8dcf",
+      "Id": "b4154a7befcc4097b76f2bef2c62515d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4ac15581b2bb471789117d4d0d55abf5",
+      "End": "ff107891a7e44ee7b2f347c686fae2bf",
+      "Id": "c5b3310240274d2f9f73bab3e41aa76b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4ac15581b2bb471789117d4d0d55abf5",
+      "End": "31b345c204f9401fbec97256bdc6a4ce",
+      "Id": "b18ec21cd8c244b0b4f65a9c1404d0ee",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4ac15581b2bb471789117d4d0d55abf5",
+      "End": "3ff1c48db9e54e87b1c3087ed6c9184e",
+      "Id": "8a24296fe95b48328d1598e7641f9a8d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4ac15581b2bb471789117d4d0d55abf5",
+      "End": "8a204d4871ec41e7af9edc481e6af77a",
+      "Id": "b35481512d9b42388f4caeb2bf0bf704",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "874fe9a0762346f78af8b27532e6bbcb",
+      "End": "e51336ef46a84ddf99d27c454bd81471",
+      "Id": "79185706cfb44dae98786765ee4290fb",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f580e952e52044e38fe9a23cb2e4c74c",
+      "End": "7f1a3442d2014311a9b1c1a65364926e",
+      "Id": "6909c35fd5ce4e76befb8774cb6f41a1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "de9c19fbe3fa4a758f87d9bc02e038b4",
+      "End": "93bff539cb6a444999a1038d92039da2",
+      "Id": "4a21499ff71742b0913446e697336f4e",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "98148ca9920a42bd8d1f9fab93513613",
+      "End": "d49a56ceb30644f4aff8917b251664d6",
+      "Id": "cf5afbe688354da39b42f1939c8af5fb",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "dd213144334a435ca14273e2d932e2df",
+      "End": "92c00fabb3f44d1496fe7e81276cad8e",
+      "Id": "f6d63bc4bab24add8337427a85a70703",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f20adf64f69a433694ab09f4823e78ed",
+      "End": "3cb3f4da05f04158a99be7c660ebedc6",
+      "Id": "615962e63a464111bd24f0768012a8c3",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "1e1d0664e3154cb5a682c5081bef1c79",
+      "End": "37696d7785914dc2aa0cdd3cb0c04531",
+      "Id": "691e2b8f8d5d4531a2c6b003c3b96563",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "13ebecbb4af6457481d9cdc1b298bb3f",
+      "End": "ff6ff57cd3d840ab96246420b8aaca98",
+      "Id": "48a55903044d4d378ceda2eda56cd126",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "627bb2075fc44887ae3c59eeaa160b9c",
+      "End": "be6d362e91b14c8988f343670b0fc42b",
+      "Id": "d2bd2cfab7d24c63904e78238c86bb8d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "ebae0514244d40708e091165d7b967cb",
+      "End": "004ef1dfc3b24c7e83980254c163ad22",
+      "Id": "0166cd3e19b7409faf77c9f19283a2ec",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "42953cf9bb554e8f8a01400a77786de3",
+      "End": "58375891c0e04b88a150511f28fbec68",
+      "Id": "d55fd97c8296404abbe11f9f88d2cf8b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5a746553691048ee8bdb97818aa98afe",
+      "End": "f33a9758dc0149ea9d5774d8cdac0d49",
+      "Id": "1871e4396b1a4e67aa233f88e9a3292d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a01b4a6f3e934f0b882857a0448a335b",
+      "End": "4bad33852db747bfa80ca704810212ad",
+      "Id": "fa6ff79846da4b169295708960f8e567",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "ff26d5109fc1472c8948896d893b3c03",
+      "End": "09a98c4e1fc74529b7d5b87f2aaee5c1",
+      "Id": "c454c5dabead4ad4ae996c8dfb8b8b71",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "fbc37cbbe6c4430a950326bc918bdc12",
+      "End": "932be2f0affd4ad79d20809bb95d809c",
+      "Id": "1a9862d3e6394136b5ed6003f0fb5581",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "c7264092b5af427ea1d460e9e4488c9d",
+      "End": "d1f865bed04c44b687d23f8c6695fc26",
+      "Id": "be60e06c94134300a5fecabf7d7232f5",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "ce1a78e098134c60954e8f30b2bb59a4",
+      "End": "4887d8e476684cbc97397f6ed983d621",
+      "Id": "67cc7e053e204f27aabd373ce1d6768a",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "0c3dfab9b3b54fbbba41a0afc33ee6d2",
+      "End": "39d827796e2649d2b05b31161facfbe9",
+      "Id": "a9cabda9e59347a1ba378a06109dd855",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "9b462f8385a64b82a36e6fed3b377c27",
+      "End": "a49362c2b4d547fe80cc507a887a2754",
+      "Id": "dcbead1fdb194a4d813fe0f562480502",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "Antigravity & HP Dynamo MCP",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b750d4b-bd62-408c-ac42-64949e6070a8",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.2.1.5342",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "5e0f305fb6774c01b78c61333a179e3a",
+        "Name": "File Path: CAD JSON Model",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 100.0,
+        "Y": 350.0
+      },
+      {
+        "Id": "394363c2a2164e2193a10face2126876",
+        "Name": "1. Tạo 295 Điểm Đầu (Start Points)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 550.0,
+        "Y": 150.0
+      },
+      {
+        "Id": "581e2cf8be9e45c2b1903fa5fed74797",
+        "Name": "2. Tạo 295 Điểm Cuối (End Points)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 550.0,
+        "Y": 350.0
+      },
+      {
+        "Id": "9ab7ca4628614b01b0e208d8f66260d1",
+        "Name": "3. Khớp 295 FamilySymbol",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 550.0,
+        "Y": 550.0
+      },
+      {
+        "Id": "52360541dd2249828f26815137c59fbc",
+        "Name": "4. Lấy 295 Mã Mark",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 550.0,
+        "Y": 750.0
+      },
+      {
+        "Id": "a5eca34c03134c6a9b33bbfc860f63c2",
+        "Name": "5. Lấy 295 Cao Độ Z-Offset",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 550.0,
+        "Y": 950.0
+      },
+      {
+        "Id": "c4c08259f53b4ae79ed33518ecc3ced1",
+        "Name": "Line.ByStartPointEndPoint",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1050.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "88d731faac14406ab2645107883b78e6",
+        "Name": "Levels ('Tầng 1')",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1050.0,
+        "Y": 500.0
+      },
+      {
+        "Id": "22de58824e0045cab567799d3afa5104",
+        "Name": "StructuralFraming.BeamByCurve",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1500.0,
+        "Y": 350.0
+      },
+      {
+        "Id": "c151e3691edd4486a189ba85aa715ac4",
+        "Name": "CodeBlock ('Mark')",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1850.0,
+        "Y": 150.0
+      },
+      {
+        "Id": "60c66148e0cd40d0bc068433ea0cc54c",
+        "Name": "Element.SetParameterByName (Mark)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 2150.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "898279c9f31c44c7b1870c8e42473fbf",
+        "Name": "CodeBlock ('z Justification')",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 2500.0,
+        "Y": 150.0
+      },
+      {
+        "Id": "5f092b166a454d3e9385c4dcf39a5433",
+        "Name": "CodeBlock (0)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 2500.0,
+        "Y": 300.0
+      },
+      {
+        "Id": "44a3cdc70a364f2989c1e4a68b6fb40b",
+        "Name": "Element.SetParameterByName (z Justification)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 2800.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "cf798417c77a41d39b9ff6cc9e3b78ce",
+        "Name": "CodeBlock ('y Justification')",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 3150.0,
+        "Y": 150.0
+      },
+      {
+        "Id": "ea0082ee37fb46beb2d5ab53611919ec",
+        "Name": "CodeBlock (2)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 3150.0,
+        "Y": 300.0
+      },
+      {
+        "Id": "df49340028594d64baf246f42dd0bd9a",
+        "Name": "Element.SetParameterByName (y Justification)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 3450.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "e13465c190864c35b28299ad4eea8ac0",
+        "Name": "CodeBlock ('z Offset Value')",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 3800.0,
+        "Y": 150.0
+      },
+      {
+        "Id": "daff67fffaaf431baa0134fb43dcba57",
+        "Name": "Element.SetParameterByName (z Offset Value)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 4100.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "da4f4ed0e0a84a98a010b2adb1bf861a",
+        "Name": "Khóa Nút Liên Kết 2 Đầu (Python)",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 4550.0,
+        "Y": 250.0
+      },
+      {
+        "Id": "ef27f4e7c0854ecfbbf96e7f6a5d1198",
+        "Name": "Bảng Nghiệm Thu Hệ Dầm",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 4950.0,
+        "Y": 250.0
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "eae2f21b3e1a478daddfa0904005cb4f",
+        "Title": "1. ĐẦU VÀO DỮ LIỆU TỪ CAD (FILE PATH & EXTRACTORS)",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "5e0f305fb6774c01b78c61333a179e3a",
+          "394363c2a2164e2193a10face2126876",
+          "581e2cf8be9e45c2b1903fa5fed74797",
+          "9ab7ca4628614b01b0e208d8f66260d1",
+          "52360541dd2249828f26815137c59fbc",
+          "a5eca34c03134c6a9b33bbfc860f63c2"
+        ],
+        "HasNestedGroups": false,
+        "Left": 50.0,
+        "Top": 80.0,
+        "Width": 900.0,
+        "Height": 1050.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 80.0,
+        "InitialHeight": 1050.0,
+        "TextblockHeight": 45.0,
+        "Background": "#FFFFC048"
+      },
+      {
+        "Id": "56e41a5264cb481ea2b2d3cae0d89995",
+        "Title": "2. HÌNH HỌC TIM DẦM & LEVEL (GEOMETRY & LEVEL)",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "c4c08259f53b4ae79ed33518ecc3ced1",
+          "88d731faac14406ab2645107883b78e6"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1000.0,
+        "Top": 150.0,
+        "Width": 420.0,
+        "Height": 550.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 150.0,
+        "InitialHeight": 550.0,
+        "TextblockHeight": 45.0,
+        "Background": "#FF20BF6B"
+      },
+      {
+        "Id": "7ed5d04997824b409ef068da0da2d82a",
+        "Title": "3. KHỞI TẠO CẤU KIỆN DẦM REVIT (BEAM BY CURVE)",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "22de58824e0045cab567799d3afa5104"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1450.0,
+        "Top": 200.0,
+        "Width": 350.0,
+        "Height": 450.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 200.0,
+        "InitialHeight": 450.0,
+        "TextblockHeight": 45.0,
+        "Background": "#FF8854D0"
+      },
+      {
+        "Id": "33f0fe4f41c3462e9e4593ebb38fd5d0",
+        "Title": "4. CHUỖI GÁN THAM SỐ TỰ ĐỘNG (MARK, TOP, ORIGIN, Z-OFFSET)",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "c151e3691edd4486a189ba85aa715ac4",
+          "60c66148e0cd40d0bc068433ea0cc54c",
+          "898279c9f31c44c7b1870c8e42473fbf",
+          "5f092b166a454d3e9385c4dcf39a5433",
+          "44a3cdc70a364f2989c1e4a68b6fb40b",
+          "cf798417c77a41d39b9ff6cc9e3b78ce",
+          "ea0082ee37fb46beb2d5ab53611919ec",
+          "df49340028594d64baf246f42dd0bd9a",
+          "e13465c190864c35b28299ad4eea8ac0",
+          "daff67fffaaf431baa0134fb43dcba57"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1820.0,
+        "Top": 80.0,
+        "Width": 2650.0,
+        "Height": 550.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 80.0,
+        "InitialHeight": 550.0,
+        "TextblockHeight": 45.0,
+        "Background": "#FFFF9F43"
+      },
+      {
+        "Id": "0fc86981801d4361900e5e3a1a434279",
+        "Title": "5. KHÓA NÚT LIÊN KẾT & BẢNG NGHIỆM THU (DISALLOW JOIN & WATCH)",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "da4f4ed0e0a84a98a010b2adb1bf861a",
+          "ef27f4e7c0854ecfbbf96e7f6a5d1198"
+        ],
+        "HasNestedGroups": false,
+        "Left": 4500.0,
+        "Top": 150.0,
+        "Width": 850.0,
+        "Height": 500.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 150.0,
+        "InitialHeight": 500.0,
+        "TextblockHeight": 45.0,
+        "Background": "#FFEB3B5A"
+      }
+    ],
+    "X": 50.0,
+    "Y": 50.0,
+    "Zoom": 0.45
+  }
+}

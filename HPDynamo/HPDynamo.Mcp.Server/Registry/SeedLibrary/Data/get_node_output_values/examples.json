@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Inspect outputs of all active nodes",
+    "args": {
+      "limit": 20,
+      "includeGeometry": false
+    }
+  },
+  {
+    "title": "Inspect detailed geometry outputs for specific point node",
+    "args": {
+      "nodeIds": [
+        "Point.ByCoordinates"
+      ],
+      "includeGeometry": true,
+      "limit": 10
+    }
+  }
+]

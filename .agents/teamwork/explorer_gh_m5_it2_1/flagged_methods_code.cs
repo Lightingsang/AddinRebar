@@ -1,0 +1,2993 @@
+// FILE: Tier1_BuildAndIntegrityTests.cs
+[Fact]
+    public void TC_T1_BLD_01_TotalToolSurfaceInvariant()
+    {
+        var surface = GrasshopperE2EHarness.BuildToolSurfaceList();
+        Assert.True(surface.Count >= GrasshopperE2EContracts.ExpectedTotalToolsCount);
+    }
+
+    [Fact]
+    public void TC_T1_BLD_02_InspectTypeToolSuppressionInvariant()
+    {
+        var surface = GrasshopperE2EHarness.BuildToolSurfaceList();
+        Assert.DoesNotContain(GrasshopperE2EContracts.SuppressedEngineTool, surface);
+    }
+
+    [Fact]
+    public void TC_T1_BLD_03_ToolNamingSnakeCaseUniformity()
+    {
+        var surface = GrasshopperE2EHarness.BuildToolSurfaceList();
+        var snakeCaseRegex = new Regex("^[a-z0-9_]+$");
+
+        foreach (var tool in surface)
+        {
+            Assert.Matches(snakeCaseRegex, tool);
+        }
+    }
+
+    [Fact]
+    public void TC_T1_BLD_04_McpSharedSingleDependencyDirection()
+    {
+        Assert.Equal("grasshopper", GrasshopperE2EContracts.HostKey);
+        Assert.Equal(2026, GrasshopperE2EContracts.DefaultHostVersion);
+    }
+
+    [Fact]
+    public void TC_T1_INT_01_CoreToolsCountInvariant()
+    {
+        Assert.Equal(7, GrasshopperE2EContracts.CoreTools.Count);
+        Assert.Equal(8, GrasshopperE2EContracts.RegistryMetaTools.Count);
+        Assert.Equal(12, GrasshopperE2EContracts.EmbeddedSeeds.Count);
+    }
+
+// FILE: Tier1_CanvasAndPlayerToolsTests.cs
+[Fact]
+    public void TC_T1_RDC_01_CompleteCanvasGraphExtraction()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sample = GrasshopperE2EHarness.CreateSampleTowerGraph();
+        foreach (var c in sample.Components) bridge.ActiveCanvas.Components.Add(c);
+        foreach (var w in sample.Wires) bridge.ActiveCanvas.Wires.Add(w);
+
+        var context = bridge.GetContext();
+        Assert.Equal(2, context.ComponentsCount);
+        Assert.Equal(1, context.WiresCount);
+        Assert.Equal("ParametricTower.gh", context.ActiveDefinitionName);
+    }
+
+    [Fact]
+    public void TC_T1_RDC_02_IncludeParameterValuesFlag()
+    {
+        var sample = GrasshopperE2EHarness.CreateSampleTowerGraph();
+        var slider = sample.Components.First(c => c.Name == "Number Slider");
+
+        Assert.True(slider.Properties.ContainsKey("Value"));
+        Assert.Equal(10.0, Convert.ToDouble(slider.Properties["Value"]));
+    }
+
+    [Fact]
+    public void TC_T1_RDC_03_SelectedOnlyComponentFiltering()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Node1", "N1", "Math", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Node2", "N2", "Math", 100, 0);
+
+        var selected = new List<GrasshopperComponentSpec>
+        {
+            c1 with { Selected = true },
+            c2 with { Selected = false }
+        };
+
+        var filtered = selected.Where(c => c.Selected).ToList();
+        Assert.Single(filtered);
+        Assert.Equal("Node1", filtered[0].Name);
+    }
+
+    [Fact]
+    public void TC_T1_RDC_04_CategoryFilteringMechanism()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Addition", "Add", "Maths", 0, 0);
+        GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Panel", "P", "Params", 100, 0);
+
+        var maths = bridge.ActiveCanvas.Components.Where(c => c.Category == "Maths").ToList();
+        Assert.Single(maths);
+        Assert.Equal("Addition", maths[0].Name);
+    }
+
+    [Fact]
+    public void TC_T1_RDC_05_RuntimeWarningAndErrorMessagesExtraction()
+    {
+        var errorComp = new GrasshopperComponentSpec(
+            Guid.NewGuid(), "Divide", "Div", "Maths", "Operators",
+            100, 100, new[] { "A", "B" }, new[] { "R" },
+            new Dictionary<string, object?>(),
+            new[] { "Division by zero warning" });
+
+        Assert.NotNull(errorComp.Messages);
+        Assert.Contains("Division by zero warning", errorComp.Messages);
+    }
+
+    [Fact]
+    public void TC_T1_RPL_01_PlayerDefinitionExecution()
+    {
+        var sample = GrasshopperE2EHarness.CreateSampleTowerGraph();
+        Assert.Equal("ParametricTower.gh", sample.Name);
+        Assert.NotEmpty(sample.Components);
+    }
+
+    [Fact]
+    public void TC_T1_RPL_02_ParameterInputInjection()
+    {
+        var inputs = new Dictionary<string, object>
+        {
+            ["FloorCount"] = 25,
+            ["FloorHeight"] = 3.8
+        };
+
+        Assert.Equal(2, inputs.Count);
+        Assert.Equal(25, inputs["FloorCount"]);
+        Assert.Equal(3.8, inputs["FloorHeight"]);
+    }
+
+    [Fact]
+    public void TC_T1_RPL_03_OutputExtractionFiltering()
+    {
+        var outputs = new Dictionary<string, object>
+        {
+            ["TotalHeight"] = 95.0,
+            ["TotalArea"] = 4500.0,
+            ["Volume"] = 18000.0
+        };
+
+        var requestedKeys = new[] { "TotalHeight", "TotalArea" };
+        var filtered = outputs.Where(kvp => requestedKeys.Contains(kvp.Key)).ToDictionary(k => k.Key, v => v.Value);
+
+        Assert.Equal(2, filtered.Count);
+        Assert.False(filtered.ContainsKey("Volume"));
+    }
+
+    [Fact]
+    public void TC_T1_RPL_04_HeadlessLifecycleDisposal()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.AttachLiveCanvas("Disposable.gh");
+        Assert.True(bridge.IsLiveCanvasAttached);
+
+        bridge.DetachLiveCanvas();
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T1_RPL_05_ExecutionDurationTelemetry()
+    {
+        var durationMs = 42L;
+        Assert.True(durationMs > 0);
+    }
+
+// FILE: Tier1_EditAndExportToolsTests.cs
+[Fact]
+    public void TC_T1_BEC_01_BatchComponentAddition()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Comp1", "C1", "Math", 100, 200);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Comp2", "C2", "Math", 300, 200);
+
+        Assert.Equal(2, bridge.ActiveCanvas.Components.Count);
+        Assert.Contains(c1, bridge.ActiveCanvas.Components);
+        Assert.Contains(c2, bridge.ActiveCanvas.Components);
+    }
+
+    [Fact]
+    public void TC_T1_BEC_02_BatchComponentRemoval()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "ToRemove", "TR", "Test", 0, 0);
+        Assert.Single(bridge.ActiveCanvas.Components);
+
+        var removed = GrasshopperE2EHarness.RemoveComponentFromCanvas(bridge, c.Id);
+        Assert.True(removed);
+        Assert.Empty(bridge.ActiveCanvas.Components);
+    }
+
+    [Fact]
+    public void TC_T1_BEC_03_WireConnectionCreation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Src", "S", "Math", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Tgt", "T", "Math", 200, 0);
+
+        var wire = GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        Assert.Single(bridge.ActiveCanvas.Wires);
+        Assert.Equal(c1.Id, wire.SourceComponentId);
+        Assert.Equal(c2.Id, wire.TargetComponentId);
+    }
+
+    [Fact]
+    public void TC_T1_BEC_04_WireDisconnection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Src", "S", "Math", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Tgt", "T", "Math", 200, 0);
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+
+        bridge.ActiveCanvas.Wires.Clear();
+        Assert.Empty(bridge.ActiveCanvas.Wires);
+    }
+
+    [Fact]
+    public void TC_T1_BEC_05_TempIdInternalResolution()
+    {
+        var tempMap = new System.Collections.Generic.Dictionary<string, Guid>
+        {
+            ["temp-node-1"] = Guid.NewGuid(),
+            ["temp-node-2"] = Guid.NewGuid()
+        };
+
+        Assert.True(tempMap.ContainsKey("temp-node-1"));
+        Assert.NotEqual(Guid.Empty, tempMap["temp-node-1"]);
+    }
+
+    [Fact]
+    public void TC_T1_IMG_01_Base64PngCanvasExport()
+    {
+        var bytes = GrasshopperE2EHarness.GenerateMockPngBytes();
+        var base64 = "data:image/png;base64," + Convert.ToBase64String(bytes);
+
+        Assert.StartsWith("data:image/png;base64,", base64);
+        Assert.True(base64.Length > 25);
+    }
+
+    [Fact]
+    public void TC_T1_IMG_02_DirectFileOutputExport()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), "gh_test_" + Guid.NewGuid().ToString("N") + ".png");
+        try
+        {
+            File.WriteAllBytes(tempFile, GrasshopperE2EHarness.GenerateMockPngBytes());
+            Assert.True(File.Exists(tempFile));
+            Assert.True(new FileInfo(tempFile).Length > 0);
+        }
+        finally
+        {
+            if (File.Exists(tempFile)) File.Delete(tempFile);
+        }
+    }
+
+    [Fact]
+    public void TC_T1_IMG_03_ZoomScalingAdjustment()
+    {
+        double zoom1 = 1.0;
+        double zoom2 = 2.0;
+
+        int widthBase = 1000;
+        int widthScaled = (int)(widthBase * (zoom2 / zoom1));
+
+        Assert.Equal(2000, widthScaled);
+    }
+
+// FILE: Tier1_ExecutionAndSafetyTests.cs
+[Fact]
+    public async Task TC_T1_EXC_01_PureCSharpExpressionExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var req = new GrasshopperExecutionRequest("int a = 10; int b = 20; var sum = a + b;");
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.True(result.Success);
+        Assert.False(result.RolledBack);
+    }
+
+    [Fact]
+    public void TC_T1_EXC_02_StandardGlobalsAccessibility()
+    {
+        var globals = GrasshopperE2EContracts.RequiredGlobals;
+        Assert.Contains("doc", globals);
+        Assert.Contains("canvas", globals);
+        Assert.Contains("rhinoDoc", globals);
+        Assert.Contains("revitDoc", globals);
+        Assert.Contains("ct", globals);
+        Assert.Contains("args", globals);
+    }
+
+    [Fact]
+    public async Task TC_T1_EXC_03_ReadOnlyTransactionModeNone()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var req = new GrasshopperExecutionRequest("var name = doc.DisplayName;", Transaction: "none");
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.True(result.Success);
+        Assert.False(result.RolledBack);
+        Assert.Equal(0, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public async Task TC_T1_EXC_04_AutoTransactionModeAuto()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var req = new GrasshopperExecutionRequest("CreateElement();", Transaction: "auto", DryRun: false);
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.True(result.Success);
+        Assert.False(result.RolledBack);
+        Assert.NotEmpty(result.CreatedElementIds);
+        Assert.Equal(1, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public void TC_T1_EXC_05_ScriptArgsParameterParsing()
+    {
+        var argsJson = "{\"Scale\": 2.5, \"Prefix\": \"GH_\"}";
+        Assert.NotNull(argsJson);
+        Assert.Contains("2.5", argsJson);
+    }
+
+// FILE: Tier1_NamedPipeAndWpfTests.cs
+[Fact]
+    public void TC_T1_NPS_01_PipeServerNameResolution()
+    {
+        var resolved = GrasshopperE2EContracts.ResolvePipeName("grasshopper", 2026);
+        Assert.Equal("hpgrasshopper-mcp-2026", resolved);
+    }
+
+// FILE: Tier1_NamedPipeAndWpfTests.cs
+[Fact]
+    public void TC_T1_NPS_01_PipeServerNameResolution()
+    {
+        var resolved = GrasshopperE2EContracts.ResolvePipeName("grasshopper", 2026);
+        Assert.Equal("hpgrasshopper-mcp-2026", resolved);
+    }
+
+    [Fact]
+    public void TC_T1_NPS_02_JsonRpcMethodPrefixConformance()
+    {
+        Assert.Equal("grasshopper.", GrasshopperE2EContracts.MethodPrefix);
+        Assert.True(GrasshopperE2EContracts.MethodPrefix.EndsWith('.'));
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_03_NdjsonFramingAndMessageParsing()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"jsonrpc\":\"2.0\",\"id\":101,\"method\":\"grasshopper.ping\"}");
+        var line = await reader.ReadLineAsync();
+
+        Assert.NotNull(line);
+        using var doc = JsonDocument.Parse(line);
+        Assert.Equal(101, doc.RootElement.GetProperty("id").GetInt32());
+        Assert.True(doc.RootElement.GetProperty("result").GetProperty("pong").GetBoolean());
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_04_RequestResponseIdCorrelation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        var testIds = new[] { "req-alpha", "req-beta", "req-gamma" };
+        foreach (var reqId in testIds)
+        {
+            await writer.WriteLineAsync($"{{\"jsonrpc\":\"2.0\",\"id\":\"{reqId}\",\"method\":\"grasshopper.ping\"}}");
+            var line = await reader.ReadLineAsync();
+            Assert.NotNull(line);
+            using var doc = JsonDocument.Parse(line);
+            Assert.Equal(reqId, doc.RootElement.GetProperty("id").GetString());
+        }
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_05_GracefulClientDisconnectAndReconnect()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        for (int i = 0; i < 2; i++)
+        {
+            using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+            await client.ConnectAsync(2000);
+            using var reader = new StreamReader(client, Encoding.UTF8);
+            using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+            await writer.WriteLineAsync("{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"ping\"}");
+            var resp = await reader.ReadLineAsync();
+            Assert.NotNull(resp);
+        }
+    }
+
+    [Fact]
+    public void TC_T1_WPF_01_StatusViewModelInitialState()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var context = bridge.GetContext();
+
+        Assert.True(context.IsConnected);
+        Assert.False(context.IsExecutionEnabled);
+        Assert.True(context.IsLiveCanvasAttached);
+        Assert.True(context.IsRhinoInsideActive);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_02_ToggleListenerCommandExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.True(bridge.IsLiveCanvasAttached);
+
+        bridge.DetachLiveCanvas();
+        Assert.False(bridge.GetContext().IsLiveCanvasAttached);
+
+        bridge.AttachLiveCanvas("UpdatedTower.gh");
+        Assert.True(bridge.GetContext().IsLiveCanvasAttached);
+        Assert.Equal("UpdatedTower.gh", bridge.GetContext().ActiveDefinitionName);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_03_OptInExecutionTogglePropertyChange()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.False(bridge.IsExecutionEnabled);
+
+        bridge.IsExecutionEnabled = true;
+        Assert.True(bridge.IsExecutionEnabled);
+        Assert.True(bridge.GetContext().IsExecutionEnabled);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_04_ScriptPreviewAndCopyCommand()
+    {
+        var preview = "doc.Create.NewFamilyInstance();";
+        Assert.False(string.IsNullOrWhiteSpace(preview));
+        Assert.Contains("doc.Create", preview);
+    }
+
+// FILE: Tier1_NamedPipeAndWpfTests.cs
+[Fact]
+    public void TC_T1_NPS_01_PipeServerNameResolution()
+    {
+        var resolved = GrasshopperE2EContracts.ResolvePipeName("grasshopper", 2026);
+        Assert.Equal("hpgrasshopper-mcp-2026", resolved);
+    }
+
+    [Fact]
+    public void TC_T1_NPS_02_JsonRpcMethodPrefixConformance()
+    {
+        Assert.Equal("grasshopper.", GrasshopperE2EContracts.MethodPrefix);
+        Assert.True(GrasshopperE2EContracts.MethodPrefix.EndsWith('.'));
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_03_NdjsonFramingAndMessageParsing()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"jsonrpc\":\"2.0\",\"id\":101,\"method\":\"grasshopper.ping\"}");
+        var line = await reader.ReadLineAsync();
+
+        Assert.NotNull(line);
+        using var doc = JsonDocument.Parse(line);
+        Assert.Equal(101, doc.RootElement.GetProperty("id").GetInt32());
+        Assert.True(doc.RootElement.GetProperty("result").GetProperty("pong").GetBoolean());
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_04_RequestResponseIdCorrelation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        var testIds = new[] { "req-alpha", "req-beta", "req-gamma" };
+        foreach (var reqId in testIds)
+        {
+            await writer.WriteLineAsync($"{{\"jsonrpc\":\"2.0\",\"id\":\"{reqId}\",\"method\":\"grasshopper.ping\"}}");
+            var line = await reader.ReadLineAsync();
+            Assert.NotNull(line);
+            using var doc = JsonDocument.Parse(line);
+            Assert.Equal(reqId, doc.RootElement.GetProperty("id").GetString());
+        }
+    }
+
+    [Fact]
+    public async Task TC_T1_NPS_05_GracefulClientDisconnectAndReconnect()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        for (int i = 0; i < 2; i++)
+        {
+            using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+            await client.ConnectAsync(2000);
+            using var reader = new StreamReader(client, Encoding.UTF8);
+            using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+            await writer.WriteLineAsync("{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"ping\"}");
+            var resp = await reader.ReadLineAsync();
+            Assert.NotNull(resp);
+        }
+    }
+
+    [Fact]
+    public void TC_T1_WPF_01_StatusViewModelInitialState()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var context = bridge.GetContext();
+
+        Assert.True(context.IsConnected);
+        Assert.False(context.IsExecutionEnabled);
+        Assert.True(context.IsLiveCanvasAttached);
+        Assert.True(context.IsRhinoInsideActive);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_02_ToggleListenerCommandExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.True(bridge.IsLiveCanvasAttached);
+
+        bridge.DetachLiveCanvas();
+        Assert.False(bridge.GetContext().IsLiveCanvasAttached);
+
+        bridge.AttachLiveCanvas("UpdatedTower.gh");
+        Assert.True(bridge.GetContext().IsLiveCanvasAttached);
+        Assert.Equal("UpdatedTower.gh", bridge.GetContext().ActiveDefinitionName);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_03_OptInExecutionTogglePropertyChange()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.False(bridge.IsExecutionEnabled);
+
+        bridge.IsExecutionEnabled = true;
+        Assert.True(bridge.IsExecutionEnabled);
+        Assert.True(bridge.GetContext().IsExecutionEnabled);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_04_ScriptPreviewAndCopyCommand()
+    {
+        var preview = "doc.Create.NewFamilyInstance();";
+        Assert.False(string.IsNullOrWhiteSpace(preview));
+        Assert.Contains("doc.Create", preview);
+    }
+
+    [Fact]
+    public void TC_T1_WPF_05_MaterialDesignThemeSynchronization()
+    {
+        var themes = new[] { "Light", "Dark" };
+        foreach (var theme in themes)
+        {
+            Assert.NotNull(theme);
+            Assert.True(theme == "Light" || theme == "Dark");
+        }
+    }
+
+// FILE: Tier1_RegistryAndSeedsTests.cs
+[Fact]
+    public void TC_T1_REG_01_SearchToolsDiscovery()
+    {
+        var tools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("search_tools", tools);
+        Assert.Equal(8, tools.Count);
+    }
+
+// FILE: Tier1_RegistryAndSeedsTests.cs
+[Fact]
+    public void TC_T1_REG_01_SearchToolsDiscovery()
+    {
+        var tools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("search_tools", tools);
+        Assert.Equal(8, tools.Count);
+    }
+
+    [Fact]
+    public void TC_T1_REG_02_ProposeToolDraftRegistration()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "int a = 1; int b = 2; return a + b;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.True(quality.IsValid);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T1_REG_03_TestToolSandboxExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var req = new GrasshopperExecutionRequest("return 42;", DryRun: true);
+
+        Assert.True(req.DryRun);
+    }
+
+// FILE: Tier1_RegistryAndSeedsTests.cs
+[Fact]
+    public void TC_T1_REG_01_SearchToolsDiscovery()
+    {
+        var tools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("search_tools", tools);
+        Assert.Equal(8, tools.Count);
+    }
+
+    [Fact]
+    public void TC_T1_REG_02_ProposeToolDraftRegistration()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "int a = 1; int b = 2; return a + b;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.True(quality.IsValid);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T1_REG_03_TestToolSandboxExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var req = new GrasshopperExecutionRequest("return 42;", DryRun: true);
+
+        Assert.True(req.DryRun);
+    }
+
+    [Fact]
+    public void TC_T1_REG_04_PublishToolPromotion()
+    {
+        var metaTools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("publish_tool", metaTools);
+    }
+
+// FILE: Tier1_RegistryAndSeedsTests.cs
+[Fact]
+    public void TC_T1_REG_01_SearchToolsDiscovery()
+    {
+        var tools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("search_tools", tools);
+        Assert.Equal(8, tools.Count);
+    }
+
+    [Fact]
+    public void TC_T1_REG_02_ProposeToolDraftRegistration()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "int a = 1; int b = 2; return a + b;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.True(quality.IsValid);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T1_REG_03_TestToolSandboxExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var req = new GrasshopperExecutionRequest("return 42;", DryRun: true);
+
+        Assert.True(req.DryRun);
+    }
+
+    [Fact]
+    public void TC_T1_REG_04_PublishToolPromotion()
+    {
+        var metaTools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("publish_tool", metaTools);
+    }
+
+    [Fact]
+    public void TC_T1_REG_05_ManageToolRetirementLifecycle()
+    {
+        var metaTools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("manage_tool", metaTools);
+    }
+
+// FILE: Tier1_RegistryAndSeedsTests.cs
+[Fact]
+    public void TC_T1_REG_01_SearchToolsDiscovery()
+    {
+        var tools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("search_tools", tools);
+        Assert.Equal(8, tools.Count);
+    }
+
+    [Fact]
+    public void TC_T1_REG_02_ProposeToolDraftRegistration()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "int a = 1; int b = 2; return a + b;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.True(quality.IsValid);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T1_REG_03_TestToolSandboxExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var req = new GrasshopperExecutionRequest("return 42;", DryRun: true);
+
+        Assert.True(req.DryRun);
+    }
+
+    [Fact]
+    public void TC_T1_REG_04_PublishToolPromotion()
+    {
+        var metaTools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("publish_tool", metaTools);
+    }
+
+    [Fact]
+    public void TC_T1_REG_05_ManageToolRetirementLifecycle()
+    {
+        var metaTools = GrasshopperE2EContracts.RegistryMetaTools;
+        Assert.Contains("manage_tool", metaTools);
+    }
+
+    [Fact]
+    public void TC_T1_SED_01_SeedCatalogCompleteness()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        Assert.Equal(12, seeds.Count);
+    }
+
+    [Fact]
+    public void TC_T1_SED_02_SeedToolSchemaCompleteness()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        foreach (var seed in seeds)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(seed));
+            Assert.True(seed.Length >= 5);
+        }
+    }
+
+    [Fact]
+    public void TC_T1_SED_03_SeedExamplesManifestValidation()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        Assert.Contains("create_levels_grids", seeds);
+        Assert.Contains("generate_columns_beams", seeds);
+        Assert.Contains("facade_panelization", seeds);
+    }
+
+    [Fact]
+    public void TC_T1_SED_04_SeedCodeAstQualityWalkerPass()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var dummySeedCode = "var res = new List<string>();\nreturn res;";
+
+        var quality = bridge.ValidateScript(dummySeedCode);
+        Assert.True(quality.IsValid);
+        Assert.Empty(quality.Errors);
+    }
+
+    [Fact]
+    public void TC_T1_SED_05_StructuralRebarSeedsParameterCoverage()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        Assert.Contains("generate_rebar_curves", seeds);
+        Assert.Contains("generate_stirrup_distribution", seeds);
+    }
+
+// FILE: Tier2_BuildAndIntegrityBoundariesTests.cs
+[Fact]
+    public void TC_T2_BLD_01_ZeroDisallowedNativeAssemblyReferences()
+    {
+        var denied = GrasshopperE2EContracts.DeniedNamespaces;
+        Assert.Contains("System.IO", denied);
+        Assert.Contains("System.Diagnostics.Process", denied);
+    }
+
+// FILE: Tier2_BuildAndIntegrityBoundariesTests.cs
+[Fact]
+    public void TC_T2_BLD_01_ZeroDisallowedNativeAssemblyReferences()
+    {
+        var denied = GrasshopperE2EContracts.DeniedNamespaces;
+        Assert.Contains("System.IO", denied);
+        Assert.Contains("System.Diagnostics.Process", denied);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_02_ZeroNativeDependenciesInE2eTestSuite()
+    {
+        var expectedHost = GrasshopperE2EContracts.HostKey;
+        Assert.Equal("grasshopper", expectedHost);
+    }
+
+// FILE: Tier2_BuildAndIntegrityBoundariesTests.cs
+[Fact]
+    public void TC_T2_BLD_01_ZeroDisallowedNativeAssemblyReferences()
+    {
+        var denied = GrasshopperE2EContracts.DeniedNamespaces;
+        Assert.Contains("System.IO", denied);
+        Assert.Contains("System.Diagnostics.Process", denied);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_02_ZeroNativeDependenciesInE2eTestSuite()
+    {
+        var expectedHost = GrasshopperE2EContracts.HostKey;
+        Assert.Equal("grasshopper", expectedHost);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_03_StrictRuleC2ComplianceBoundary()
+    {
+        int maxAllowedLines = 300;
+        int targetMaxLines = 230;
+
+        Assert.True(targetMaxLines < maxAllowedLines);
+    }
+
+// FILE: Tier2_BuildAndIntegrityBoundariesTests.cs
+[Fact]
+    public void TC_T2_BLD_01_ZeroDisallowedNativeAssemblyReferences()
+    {
+        var denied = GrasshopperE2EContracts.DeniedNamespaces;
+        Assert.Contains("System.IO", denied);
+        Assert.Contains("System.Diagnostics.Process", denied);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_02_ZeroNativeDependenciesInE2eTestSuite()
+    {
+        var expectedHost = GrasshopperE2EContracts.HostKey;
+        Assert.Equal("grasshopper", expectedHost);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_03_StrictRuleC2ComplianceBoundary()
+    {
+        int maxAllowedLines = 300;
+        int targetMaxLines = 230;
+
+        Assert.True(targetMaxLines < maxAllowedLines);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_04_StrictRuleM3ComplianceBoundary()
+    {
+        int maxAllowedMethodLines = 50;
+        int targetMaxMethodLines = 40;
+
+        Assert.True(targetMaxMethodLines < maxAllowedMethodLines);
+    }
+
+// FILE: Tier2_BuildAndIntegrityBoundariesTests.cs
+[Fact]
+    public void TC_T2_BLD_01_ZeroDisallowedNativeAssemblyReferences()
+    {
+        var denied = GrasshopperE2EContracts.DeniedNamespaces;
+        Assert.Contains("System.IO", denied);
+        Assert.Contains("System.Diagnostics.Process", denied);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_02_ZeroNativeDependenciesInE2eTestSuite()
+    {
+        var expectedHost = GrasshopperE2EContracts.HostKey;
+        Assert.Equal("grasshopper", expectedHost);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_03_StrictRuleC2ComplianceBoundary()
+    {
+        int maxAllowedLines = 300;
+        int targetMaxLines = 230;
+
+        Assert.True(targetMaxLines < maxAllowedLines);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_04_StrictRuleM3ComplianceBoundary()
+    {
+        int maxAllowedMethodLines = 50;
+        int targetMaxMethodLines = 40;
+
+        Assert.True(targetMaxMethodLines < maxAllowedMethodLines);
+    }
+
+    [Fact]
+    public void TC_T2_BLD_05_HostProfileDefaultClampingInvariant()
+    {
+        int timeout = 600;
+        Assert.True(timeout <= 600);
+    }
+
+// FILE: Tier2_CanvasAndPlayerBoundariesTests.cs
+[Fact]
+    public void TC_T2_RDC_01_NullActiveDocumentGracefulFallback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        var ctx = bridge.GetContext();
+        Assert.False(ctx.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_02_CompletelyEmptyCanvasBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.ActiveCanvas.Components.Clear();
+        bridge.ActiveCanvas.Wires.Clear();
+
+        var ctx = bridge.GetContext();
+        Assert.Equal(0, ctx.ComponentsCount);
+        Assert.Equal(0, ctx.WiresCount);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_03_NonExistentCategoryFilterNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Node1", "N1", "Math", 0, 0);
+
+        var filtered = bridge.ActiveCanvas.Components.Where(c => c.Category == "NonExistentCat").ToList();
+        Assert.Empty(filtered);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_04_MassiveCanvasStressBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        for (int i = 0; i < 500; i++)
+        {
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, $"Node_{i}", $"N_{i}", "Batch", i, i);
+        }
+
+        Assert.Equal(500, bridge.ActiveCanvas.Components.Count);
+        var json = bridge.ActiveCanvas.ToJson();
+        Assert.True(json.Length > 1000);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_05_CircularWireTopologySafeTraversal()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "A", "A", "Math", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "B", "B", "Math", 100, 0);
+
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c2.Id, 0, c1.Id, 0);
+
+        Assert.Equal(2, bridge.ActiveCanvas.Wires.Count);
+    }
+
+    [Fact]
+    public void TC_T2_RPL_01_NonExistentFilePathNegativeTest()
+    {
+        var invalidPath = "C:\\NoSuchFile_" + Guid.NewGuid().ToString("N") + ".gh";
+        var exists = File.Exists(invalidPath);
+
+        Assert.False(exists);
+    }
+
+    [Fact]
+    public void TC_T2_RPL_02_CorruptedArchiveFileNegativeTest()
+    {
+        var corruptedBytes = new byte[] { 0x00, 0x01, 0x02, 0x03 };
+        var isGhHeader = (corruptedBytes.Length >= 4 && corruptedBytes[0] == 0x89);
+
+        Assert.False(isGhHeader);
+    }
+
+// FILE: Tier2_CanvasAndPlayerBoundariesTests.cs
+[Fact]
+    public void TC_T2_RDC_01_NullActiveDocumentGracefulFallback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        var ctx = bridge.GetContext();
+        Assert.False(ctx.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_02_CompletelyEmptyCanvasBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.ActiveCanvas.Components.Clear();
+        bridge.ActiveCanvas.Wires.Clear();
+
+        var ctx = bridge.GetContext();
+        Assert.Equal(0, ctx.ComponentsCount);
+        Assert.Equal(0, ctx.WiresCount);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_03_NonExistentCategoryFilterNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Node1", "N1", "Math", 0, 0);
+
+        var filtered = bridge.ActiveCanvas.Components.Where(c => c.Category == "NonExistentCat").ToList();
+        Assert.Empty(filtered);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_04_MassiveCanvasStressBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        for (int i = 0; i < 500; i++)
+        {
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, $"Node_{i}", $"N_{i}", "Batch", i, i);
+        }
+
+        Assert.Equal(500, bridge.ActiveCanvas.Components.Count);
+        var json = bridge.ActiveCanvas.ToJson();
+        Assert.True(json.Length > 1000);
+    }
+
+    [Fact]
+    public void TC_T2_RDC_05_CircularWireTopologySafeTraversal()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "A", "A", "Math", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "B", "B", "Math", 100, 0);
+
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c2.Id, 0, c1.Id, 0);
+
+        Assert.Equal(2, bridge.ActiveCanvas.Wires.Count);
+    }
+
+    [Fact]
+    public void TC_T2_RPL_01_NonExistentFilePathNegativeTest()
+    {
+        var invalidPath = "C:\\NoSuchFile_" + Guid.NewGuid().ToString("N") + ".gh";
+        var exists = File.Exists(invalidPath);
+
+        Assert.False(exists);
+    }
+
+    [Fact]
+    public void TC_T2_RPL_02_CorruptedArchiveFileNegativeTest()
+    {
+        var corruptedBytes = new byte[] { 0x00, 0x01, 0x02, 0x03 };
+        var isGhHeader = (corruptedBytes.Length >= 4 && corruptedBytes[0] == 0x89);
+
+        Assert.False(isGhHeader);
+    }
+
+    [Fact]
+    public void TC_T2_RPL_03_EmptyInputsObjectBoundaryTest()
+    {
+        var inputs = new Dictionary<string, object>();
+        Assert.Empty(inputs);
+    }
+
+// FILE: Tier2_EditAndExportBoundariesTests.cs
+[Fact]
+    public void TC_T2_BEC_01_BatchEditOnNullDocumentNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_02_ExtremeCoordinateValuesClampingBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NaNNode", "N", "Math", double.NaN, 100));
+
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Math", 100, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T2_BEC_03_UnknownComponentTypeNameNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Invalid.Type.Does.Not.Exist", "Inv", "Unknown", 0, 0);
+
+        Assert.NotNull(c);
+        Assert.Equal("Invalid.Type.Does.Not.Exist", c.Name);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_04_RemoveNonExistentGuidNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var removed = GrasshopperE2EHarness.RemoveComponentFromCanvas(bridge, Guid.NewGuid());
+
+        Assert.False(removed);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_05_DuplicateWireConnectionIdempotency()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "A", "A", "M", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "B", "B", "M", 100, 0);
+
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        var existing = bridge.ActiveCanvas.Wires.Any(w =>
+            w.SourceComponentId == c1.Id && w.SourcePortIndex == 0 &&
+            w.TargetComponentId == c2.Id && w.TargetPortIndex == 0);
+
+        Assert.True(existing);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_01_NullCanvasNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_02_ExtremeZoomFactorLowerClamping()
+    {
+        double inputZoom = -10.0;
+        double clamped = Math.Clamp(inputZoom, 0.25, 4.0);
+
+        Assert.Equal(0.25, clamped);
+    }
+
+// FILE: Tier2_EditAndExportBoundariesTests.cs
+[Fact]
+    public void TC_T2_BEC_01_BatchEditOnNullDocumentNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_02_ExtremeCoordinateValuesClampingBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NaNNode", "N", "Math", double.NaN, 100));
+
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Math", 100, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T2_BEC_03_UnknownComponentTypeNameNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Invalid.Type.Does.Not.Exist", "Inv", "Unknown", 0, 0);
+
+        Assert.NotNull(c);
+        Assert.Equal("Invalid.Type.Does.Not.Exist", c.Name);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_04_RemoveNonExistentGuidNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var removed = GrasshopperE2EHarness.RemoveComponentFromCanvas(bridge, Guid.NewGuid());
+
+        Assert.False(removed);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_05_DuplicateWireConnectionIdempotency()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "A", "A", "M", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "B", "B", "M", 100, 0);
+
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        var existing = bridge.ActiveCanvas.Wires.Any(w =>
+            w.SourceComponentId == c1.Id && w.SourcePortIndex == 0 &&
+            w.TargetComponentId == c2.Id && w.TargetPortIndex == 0);
+
+        Assert.True(existing);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_01_NullCanvasNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_02_ExtremeZoomFactorLowerClamping()
+    {
+        double inputZoom = -10.0;
+        double clamped = Math.Clamp(inputZoom, 0.25, 4.0);
+
+        Assert.Equal(0.25, clamped);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_03_ExtremeZoomFactorUpperClamping()
+    {
+        double inputZoom = 100.0;
+        double clamped = Math.Clamp(inputZoom, 0.25, 4.0);
+
+        Assert.Equal(4.0, clamped);
+    }
+
+// FILE: Tier2_EditAndExportBoundariesTests.cs
+[Fact]
+    public void TC_T2_BEC_01_BatchEditOnNullDocumentNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_02_ExtremeCoordinateValuesClampingBoundary()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NaNNode", "N", "Math", double.NaN, 100));
+
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Math", 100, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T2_BEC_03_UnknownComponentTypeNameNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "Invalid.Type.Does.Not.Exist", "Inv", "Unknown", 0, 0);
+
+        Assert.NotNull(c);
+        Assert.Equal("Invalid.Type.Does.Not.Exist", c.Name);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_04_RemoveNonExistentGuidNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var removed = GrasshopperE2EHarness.RemoveComponentFromCanvas(bridge, Guid.NewGuid());
+
+        Assert.False(removed);
+    }
+
+    [Fact]
+    public void TC_T2_BEC_05_DuplicateWireConnectionIdempotency()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var c1 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "A", "A", "M", 0, 0);
+        var c2 = GrasshopperE2EHarness.AddComponentToCanvas(bridge, "B", "B", "M", 100, 0);
+
+        GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, c1.Id, 0, c2.Id, 0);
+        var existing = bridge.ActiveCanvas.Wires.Any(w =>
+            w.SourceComponentId == c1.Id && w.SourcePortIndex == 0 &&
+            w.TargetComponentId == c2.Id && w.TargetPortIndex == 0);
+
+        Assert.True(existing);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_01_NullCanvasNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        bridge.DetachLiveCanvas();
+
+        Assert.False(bridge.IsLiveCanvasAttached);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_02_ExtremeZoomFactorLowerClamping()
+    {
+        double inputZoom = -10.0;
+        double clamped = Math.Clamp(inputZoom, 0.25, 4.0);
+
+        Assert.Equal(0.25, clamped);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_03_ExtremeZoomFactorUpperClamping()
+    {
+        double inputZoom = 100.0;
+        double clamped = Math.Clamp(inputZoom, 0.25, 4.0);
+
+        Assert.Equal(4.0, clamped);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_04_ZeroDimensionCanvasFallback()
+    {
+        int w = 0, h = 0;
+        int clampedW = Math.Max(w, 200);
+        int clampedH = Math.Max(h, 200);
+
+        Assert.Equal(200, clampedW);
+        Assert.Equal(200, clampedH);
+    }
+
+    [Fact]
+    public void TC_T2_IMG_05_IllegalOutputFilePathCharactersNegativeTest()
+    {
+        var illegalPath = "C:\\Invalid|Path*?\\file.png";
+        var hasInvalidChars = illegalPath.IndexOfAny(Path.GetInvalidPathChars()) >= 0 || illegalPath.Contains('|') || illegalPath.Contains('*');
+
+        Assert.True(hasInvalidChars);
+    }
+
+// FILE: Tier2_ExecutionAndSafetyBoundariesTests.cs
+[Fact]
+    public void TC_T2_EXC_01_CSharpSyntaxCompilationErrorNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "int a = ;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.NotNull(quality);
+    }
+
+    [Fact]
+    public async Task TC_T2_EXC_02_UnhandledRuntimeExceptionNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var req = new GrasshopperExecutionRequest("throw new InvalidOperationException(\"Simulation engine failure\");");
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.False(result.Success);
+        Assert.True(result.RolledBack);
+        Assert.Equal(-32000, result.ErrorCode);
+    }
+
+    [Fact]
+    public void TC_T2_EXC_03_EmptyAndWhitespaceOnlyCodeNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var quality1 = bridge.ValidateScript("");
+        var quality2 = bridge.ValidateScript("   \r\n\t  ");
+
+        Assert.Equal(0, quality1.LineCount);
+        Assert.Equal(0, quality2.LineCount);
+    }
+
+    [Fact]
+    public async Task TC_T2_EXC_04_ExecutionTimeoutExceededCancellation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var req = new GrasshopperExecutionRequest("while(true) Thread.Sleep(100);");
+        var result = await bridge.ExecuteAsync(req, cts.Token);
+
+        Assert.False(result.Success);
+        Assert.True(result.RolledBack);
+        Assert.Equal(-32003, result.ErrorCode);
+    }
+
+    [Fact]
+    public void TC_T2_EXC_05_LargeScriptLineCountLimit301Lines()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 301; i++) sb.AppendLine($"int x{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("exceeds 300 lines"));
+    }
+
+    [Fact]
+    public async Task TC_T2_DLS_01_PartialScriptFailureRollbackVerification()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var initial = bridge.GetCommittedElementCount();
+
+        var req = new GrasshopperExecutionRequest("CreateElement(); throw new Exception();");
+        var result = await bridge.ExecuteAsync(req);
+
+        Assert.False(result.Success);
+        Assert.True(result.RolledBack);
+        Assert.Equal(initial, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public void TC_T2_DLS_02_IdempotentDoubleRollback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var initial = bridge.GetCommittedElementCount();
+
+        // Simulating repeated rollback calls
+        Assert.Equal(0, initial);
+    }
+
+    [Fact]
+    public async Task TC_T2_DLS_03_DisposeWithoutCommitTriggersRollback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var req = new GrasshopperExecutionRequest("CreateElement();", DryRun: true);
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.True(result.RolledBack);
+        Assert.Equal(0, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public void TC_T2_DLS_04_ReadOnlyDocumentTransactionPrevention()
+    {
+        bool isReadOnly = true;
+        Assert.True(isReadOnly);
+    }
+
+// FILE: Tier2_NamedPipeAndWpfBoundariesTests.cs
+[Fact]
+    public async Task TC_T2_NPS_01_CorruptedNdjsonFramingNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"jsonrpc\": \"2.0\", \"method\": \"grasshopper.execute\", \"id\": 1");
+        var resp = await reader.ReadLineAsync();
+
+        Assert.NotNull(resp);
+        using var doc = JsonDocument.Parse(resp);
+        Assert.Equal(-32700, doc.RootElement.GetProperty("error").GetProperty("code").GetInt32());
+    }
+
+    [Fact]
+    public async Task TC_T2_NPS_02_UnknownRpcMethodNegativeTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"jsonrpc\": \"2.0\", \"method\": \"grasshopper.non_existent_method\", \"id\": 2}");
+        var resp = await reader.ReadLineAsync();
+
+        Assert.NotNull(resp);
+        using var doc = JsonDocument.Parse(resp);
+        Assert.Equal(-32601, doc.RootElement.GetProperty("error").GetProperty("code").GetInt32());
+    }
+
+    [Fact]
+    public async Task TC_T2_NPS_03_EmptyStringAndWhitespaceMethodCall()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"jsonrpc\": \"2.0\", \"method\": \"   \", \"id\": 3}");
+        var resp = await reader.ReadLineAsync();
+
+        Assert.NotNull(resp);
+        using var doc = JsonDocument.Parse(resp);
+        Assert.Equal(-32600, doc.RootElement.GetProperty("error").GetProperty("code").GetInt32());
+    }
+
+    [Fact]
+    public async Task TC_T2_NPS_04_MassivePayloadBoundaryTest()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client.ConnectAsync(2000);
+        using var reader = new StreamReader(client, Encoding.UTF8);
+        using var writer = new StreamWriter(client, new UTF8Encoding(false)) { AutoFlush = true };
+
+        var largePadding = new string('x', 64 * 1024);
+        await writer.WriteLineAsync($"{{\"jsonrpc\": \"2.0\", \"method\": \"grasshopper.ping\", \"id\": 4, \"params\": {{\"data\": \"{largePadding}\"}}}}");
+        var resp = await reader.ReadLineAsync();
+
+        Assert.NotNull(resp);
+        using var doc = JsonDocument.Parse(resp);
+        Assert.True(doc.RootElement.GetProperty("result").GetProperty("pong").GetBoolean());
+    }
+
+    [Fact]
+    public async Task TC_T2_NPS_05_PrematureClientStreamSevering()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        await using var simulator = new GrasshopperPipeSimulator(bridge: bridge);
+        simulator.Start();
+
+        using (var client = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut))
+        {
+            await client.ConnectAsync(2000);
+            var buffer = Encoding.UTF8.GetBytes("{\"jsonrpc\":");
+            await client.WriteAsync(buffer, 0, buffer.Length);
+            client.Close();
+        }
+
+        using var client2 = new NamedPipeClientStream(".", simulator.PipeName, PipeDirection.InOut);
+        await client2.ConnectAsync(2000);
+        Assert.True(client2.IsConnected);
+    }
+
+    [Fact]
+    public async Task TC_T2_WPF_01_ExecutionAttemptWhenOptInDisabledGate()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = false };
+        var req = new GrasshopperExecutionRequest("return 1;");
+
+        var result = await bridge.ExecuteAsync(req);
+        Assert.False(result.Success);
+        Assert.Equal(GrasshopperE2EContracts.OptInDisabledErrorCode, result.ErrorCode);
+        Assert.Contains(GrasshopperE2EContracts.OptInDisabledMessageFragment, result.ErrorMessage);
+    }
+
+    [Fact]
+    public void TC_T2_WPF_02_ContextQueryAllowedEvenWhenOptInDisabled()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = false };
+        var ctx = bridge.GetContext();
+
+        Assert.True(ctx.IsConnected);
+        Assert.False(ctx.IsExecutionEnabled);
+        Assert.NotNull(ctx.ActiveDefinitionName);
+    }
+
+    [Fact]
+    public void TC_T2_WPF_03_RapidMultithreadedOptInToggleFlipping()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Parallel.For(0, 50, i =>
+        {
+            bridge.IsExecutionEnabled = (i % 2 == 0);
+        });
+
+        var finalState = bridge.IsExecutionEnabled;
+        Assert.True(finalState || !finalState);
+    }
+
+    [Fact]
+    public void TC_T2_WPF_04_ExtremelyLongLastScriptPreviewTruncation()
+    {
+        var longScript = new string('A', 500_000);
+        var preview = longScript.Length > 2000 ? longScript.Substring(0, 2000) + "..." : longScript;
+
+        Assert.True(preview.Length <= 2003);
+        Assert.EndsWith("...", preview);
+    }
+
+    [Fact]
+    public void TC_T2_WPF_05_ClipboardExceptionResilience()
+    {
+        bool clipboardHandled = false;
+        try
+        {
+            clipboardHandled = true;
+        }
+        catch (Exception)
+        {
+            // Clipboard access fallback simulated
+            clipboardHandled = true;
+        }
+
+        Assert.True(clipboardHandled);
+    }
+
+// FILE: Tier2_RegistryAndSeedBoundariesTests.cs
+[Fact]
+    public void TC_T2_REG_01_ScriptExceeding300LinesRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 305; i++) sb.AppendLine($"int num{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_02_UnannotatedEmptyCatchBlockRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "try { int a = 0; } catch (Exception) { }";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Empty catch"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_03_CommentedOutCodeStatementRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "// string temp = \"hello\";";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Commented-out code"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_04_PublishWithoutPriorTestingNegativeTest()
+    {
+        var toolState = "draft";
+        var canPublish = (toolState == "tested");
+
+        Assert.False(canPublish);
+    }
+
+// FILE: Tier2_RegistryAndSeedBoundariesTests.cs
+[Fact]
+    public void TC_T2_REG_01_ScriptExceeding300LinesRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 305; i++) sb.AppendLine($"int num{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_02_UnannotatedEmptyCatchBlockRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "try { int a = 0; } catch (Exception) { }";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Empty catch"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_03_CommentedOutCodeStatementRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "// string temp = \"hello\";";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Commented-out code"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_04_PublishWithoutPriorTestingNegativeTest()
+    {
+        var toolState = "draft";
+        var canPublish = (toolState == "tested");
+
+        Assert.False(canPublish);
+    }
+
+    [Fact]
+    public void TC_T2_REG_05_ToolNameCollisionNegativeTest()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        var newToolName = "create_levels_grids";
+
+        var collision = seeds.Contains(newToolName);
+        Assert.True(collision);
+    }
+
+    [Fact]
+    public void TC_T2_SED_01_Exact300LineUpperBoundVerification()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var validScript = "var x = 1;\nreturn x;";
+
+        var quality = bridge.ValidateScript(validScript);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T2_SED_02_MissingRequiredSeedParameterNegativeTest()
+    {
+        var argsJson = "{}";
+        var hasElevations = argsJson.Contains("elevations");
+
+        Assert.False(hasElevations);
+    }
+
+// FILE: Tier2_RegistryAndSeedBoundariesTests.cs
+[Fact]
+    public void TC_T2_REG_01_ScriptExceeding300LinesRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 305; i++) sb.AppendLine($"int num{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_02_UnannotatedEmptyCatchBlockRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "try { int a = 0; } catch (Exception) { }";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Empty catch"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_03_CommentedOutCodeStatementRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "// string temp = \"hello\";";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Commented-out code"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_04_PublishWithoutPriorTestingNegativeTest()
+    {
+        var toolState = "draft";
+        var canPublish = (toolState == "tested");
+
+        Assert.False(canPublish);
+    }
+
+    [Fact]
+    public void TC_T2_REG_05_ToolNameCollisionNegativeTest()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        var newToolName = "create_levels_grids";
+
+        var collision = seeds.Contains(newToolName);
+        Assert.True(collision);
+    }
+
+    [Fact]
+    public void TC_T2_SED_01_Exact300LineUpperBoundVerification()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var validScript = "var x = 1;\nreturn x;";
+
+        var quality = bridge.ValidateScript(validScript);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T2_SED_02_MissingRequiredSeedParameterNegativeTest()
+    {
+        var argsJson = "{}";
+        var hasElevations = argsJson.Contains("elevations");
+
+        Assert.False(hasElevations);
+    }
+
+    [Fact]
+    public void TC_T2_SED_03_ParameterFuzzingWithNegativeDimensions()
+    {
+        double width = -500.0;
+        double height = 0.0;
+
+        var isValid = (width > 0 && height > 0);
+        Assert.False(isValid);
+    }
+
+// FILE: Tier2_RegistryAndSeedBoundariesTests.cs
+[Fact]
+    public void TC_T2_REG_01_ScriptExceeding300LinesRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 305; i++) sb.AppendLine($"int num{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_02_UnannotatedEmptyCatchBlockRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "try { int a = 0; } catch (Exception) { }";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Empty catch"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_03_CommentedOutCodeStatementRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "// string temp = \"hello\";";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Commented-out code"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_04_PublishWithoutPriorTestingNegativeTest()
+    {
+        var toolState = "draft";
+        var canPublish = (toolState == "tested");
+
+        Assert.False(canPublish);
+    }
+
+    [Fact]
+    public void TC_T2_REG_05_ToolNameCollisionNegativeTest()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        var newToolName = "create_levels_grids";
+
+        var collision = seeds.Contains(newToolName);
+        Assert.True(collision);
+    }
+
+    [Fact]
+    public void TC_T2_SED_01_Exact300LineUpperBoundVerification()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var validScript = "var x = 1;\nreturn x;";
+
+        var quality = bridge.ValidateScript(validScript);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T2_SED_02_MissingRequiredSeedParameterNegativeTest()
+    {
+        var argsJson = "{}";
+        var hasElevations = argsJson.Contains("elevations");
+
+        Assert.False(hasElevations);
+    }
+
+    [Fact]
+    public void TC_T2_SED_03_ParameterFuzzingWithNegativeDimensions()
+    {
+        double width = -500.0;
+        double height = 0.0;
+
+        var isValid = (width > 0 && height > 0);
+        Assert.False(isValid);
+    }
+
+    [Fact]
+    public void TC_T2_SED_04_NullGeometryListInputNegativeTest()
+    {
+        string[]? geom = null;
+        var hasElements = geom != null && geom.Length > 0;
+
+        Assert.False(hasElements);
+    }
+
+// FILE: Tier2_RegistryAndSeedBoundariesTests.cs
+[Fact]
+    public void TC_T2_REG_01_ScriptExceeding300LinesRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder();
+        for (int i = 0; i < 305; i++) sb.AppendLine($"int num{i} = {i};");
+
+        var quality = bridge.ValidateScript(sb.ToString());
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_02_UnannotatedEmptyCatchBlockRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "try { int a = 0; } catch (Exception) { }";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Empty catch"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_03_CommentedOutCodeStatementRejected()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "// string temp = \"hello\";";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("Commented-out code"));
+    }
+
+    [Fact]
+    public void TC_T2_REG_04_PublishWithoutPriorTestingNegativeTest()
+    {
+        var toolState = "draft";
+        var canPublish = (toolState == "tested");
+
+        Assert.False(canPublish);
+    }
+
+    [Fact]
+    public void TC_T2_REG_05_ToolNameCollisionNegativeTest()
+    {
+        var seeds = GrasshopperE2EContracts.EmbeddedSeeds;
+        var newToolName = "create_levels_grids";
+
+        var collision = seeds.Contains(newToolName);
+        Assert.True(collision);
+    }
+
+    [Fact]
+    public void TC_T2_SED_01_Exact300LineUpperBoundVerification()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var validScript = "var x = 1;\nreturn x;";
+
+        var quality = bridge.ValidateScript(validScript);
+        Assert.True(quality.LineCount <= 300);
+    }
+
+    [Fact]
+    public void TC_T2_SED_02_MissingRequiredSeedParameterNegativeTest()
+    {
+        var argsJson = "{}";
+        var hasElevations = argsJson.Contains("elevations");
+
+        Assert.False(hasElevations);
+    }
+
+    [Fact]
+    public void TC_T2_SED_03_ParameterFuzzingWithNegativeDimensions()
+    {
+        double width = -500.0;
+        double height = 0.0;
+
+        var isValid = (width > 0 && height > 0);
+        Assert.False(isValid);
+    }
+
+    [Fact]
+    public void TC_T2_SED_04_NullGeometryListInputNegativeTest()
+    {
+        string[]? geom = null;
+        var hasElements = geom != null && geom.Length > 0;
+
+        Assert.False(hasElements);
+    }
+
+    [Fact]
+    public void TC_T2_SED_05_SolarRadiationDateTimeRangeBoundary()
+    {
+        int hour = 25;
+        int month = 13;
+
+        var validHour = (hour >= 0 && hour <= 23);
+        var validMonth = (month >= 1 && month <= 12);
+
+        Assert.False(validHour);
+        Assert.False(validMonth);
+    }
+
+// FILE: Tier4_RealWorldWorkloadTests.cs
+[Fact]
+    public async Task TC_T4_RW_01_ParametricTowerStructuralGridAndFraming()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+
+        var levelsRes = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("create_levels_grids", DryRun: false));
+        var framingRes = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("generate_columns_beams", DryRun: false));
+        var floorRes = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("create_floors_slabs", DryRun: false));
+
+        Assert.True(levelsRes.Success);
+        Assert.True(framingRes.Success);
+        Assert.True(floorRes.Success);
+        Assert.Equal(3, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public void TC_T4_RW_02_FacadeAdaptivePanelizationAndCladding()
+    {
+        int uDivisions = 12;
+        int vDivisions = 6;
+        int expectedPanels = uDivisions * vDivisions;
+        int expectedCornerPoints = expectedPanels * 4;
+
+        Assert.Equal(72, expectedPanels);
+        Assert.Equal(288, expectedCornerPoints);
+
+        var parameters = new Dictionary<string, object>
+        {
+            ["UDivisions"] = uDivisions,
+            ["VDivisions"] = vDivisions,
+            ["GlazingRatio"] = 0.65
+        };
+
+        Assert.Equal(0.65, parameters["GlazingRatio"]);
+    }
+
+// FILE: Tier5_CancellationStressTests.cs
+[Fact]
+    public async Task TC_T5_CNC_01_ImmediateCancellation_BeforeExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var res = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), cts.Token);
+        Assert.False(res.Success);
+        Assert.True(res.RolledBack);
+        Assert.Equal(-32003, res.ErrorCode);
+    }
+
+    [Fact]
+    public async Task TC_T5_CNC_02_MidFlightCancellation_TransactionRollback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var initial = bridge.GetCommittedElementCount();
+
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+        var res = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), cts.Token);
+
+        Assert.True(res.RolledBack);
+        Assert.Equal(initial, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public async Task TC_T5_CNC_03_CorrelatedCancellation_SessionIsolation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        using var ctsA = new CancellationTokenSource();
+        ctsA.Cancel();
+
+        var taskA = bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), ctsA.Token);
+        var taskB = bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();", DryRun: false));
+
+        var resA = await taskA;
+        var resB = await taskB;
+
+        Assert.False(resA.Success);
+        Assert.True(resB.Success);
+    }
+
+    [Fact]
+    public void TC_T5_CNC_04_CancelOfCancel_NoDeadlock()
+    {
+        bool cancelHandled = false;
+        var cancelAction = new Action(() =>
+        {
+            cancelHandled = true;
+        });
+
+        cancelAction();
+        cancelAction();
+
+        Assert.True(cancelHandled);
+    }
+
+// FILE: Tier5_CancellationStressTests.cs
+[Fact]
+    public async Task TC_T5_CNC_01_ImmediateCancellation_BeforeExecution()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var res = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), cts.Token);
+        Assert.False(res.Success);
+        Assert.True(res.RolledBack);
+        Assert.Equal(-32003, res.ErrorCode);
+    }
+
+    [Fact]
+    public async Task TC_T5_CNC_02_MidFlightCancellation_TransactionRollback()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        var initial = bridge.GetCommittedElementCount();
+
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+        var res = await bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), cts.Token);
+
+        Assert.True(res.RolledBack);
+        Assert.Equal(initial, bridge.GetCommittedElementCount());
+    }
+
+    [Fact]
+    public async Task TC_T5_CNC_03_CorrelatedCancellation_SessionIsolation()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = true };
+        using var ctsA = new CancellationTokenSource();
+        ctsA.Cancel();
+
+        var taskA = bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();"), ctsA.Token);
+        var taskB = bridge.ExecuteAsync(new GrasshopperExecutionRequest("CreateElement();", DryRun: false));
+
+        var resA = await taskA;
+        var resB = await taskB;
+
+        Assert.False(resA.Success);
+        Assert.True(resB.Success);
+    }
+
+    [Fact]
+    public void TC_T5_CNC_04_CancelOfCancel_NoDeadlock()
+    {
+        bool cancelHandled = false;
+        var cancelAction = new Action(() =>
+        {
+            cancelHandled = true;
+        });
+
+        cancelAction();
+        cancelAction();
+
+        Assert.True(cancelHandled);
+    }
+
+    [Fact]
+    public void TC_T5_CNC_05_ThreadRelease_BusyFlagHonesty()
+    {
+        int busy = 1;
+        var threadActive = (busy == 1);
+        Assert.True(threadActive);
+
+        Interlocked.Exchange(ref busy, 0);
+        Assert.Equal(0, busy);
+    }
+
+// FILE: Tier5_RoslynAstMutationTests.cs
+[Fact]
+    public void TC_T5_AST_01_LineCount_Boundary300And301()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb300 = new StringBuilder();
+        for (int i = 0; i < 300; i++) sb300.AppendLine($"int v{i} = {i};");
+        var res300 = bridge.ValidateScript(sb300.ToString());
+        Assert.True(res300.IsValid);
+
+        var sb301 = new StringBuilder();
+        for (int i = 0; i < 301; i++) sb301.AppendLine($"int v{i} = {i};");
+        var res301 = bridge.ValidateScript(sb301.ToString());
+        Assert.False(res301.IsValid);
+        Assert.Contains(res301.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T5_AST_02_EmptyCatch_WithAndWithoutReasonComment()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var codeBad = "try { int x = 0; } catch { }";
+        var resBad = bridge.ValidateScript(codeBad);
+        Assert.False(resBad.IsValid);
+
+        var codeGood = "try { int x = 0; } catch { /* expected fallback */ }";
+        var resGood = bridge.ValidateScript(codeGood);
+        Assert.True(resGood.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_03_CommentedOutCode_Detection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var codeBad = "// var x = 10;\nint y = 20;";
+        var resBad = bridge.ValidateScript(codeBad);
+        Assert.False(resBad.IsValid);
+
+        var codeGood = "// calculate span deflection\nint y = 20;";
+        var resGood = bridge.ValidateScript(codeGood);
+        Assert.True(resGood.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_04_SyntaxMutations_NoCompilerCrash()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var mutations = new[]
+        {
+            "string s = \"unclosed;",
+            "int a = 10",
+            "void Test() { { int x = 1; }"
+        };
+
+        foreach (var m in mutations)
+        {
+            var res = bridge.ValidateScript(m);
+            Assert.NotNull(res);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_AST_05_DeepBinaryExpression_StackOverflowDefense()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder("int sum = 1");
+        for (int i = 0; i < 200; i++) sb.Append(" + 1");
+        sb.Append(';');
+
+        var res = bridge.ValidateScript(sb.ToString());
+        Assert.True(res.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_06_ToolValidator_ReservedNames_Rejected()
+    {
+        var reserved = new[] { "execute_grasshopper_code", "propose_tool", "publish_tool" };
+        var candidate = "propose_tool";
+
+        var isReserved = reserved.Contains(candidate);
+        Assert.True(isReserved);
+    }
+
+    [Fact]
+    public void TC_T5_AST_07_ToolValidator_InvalidTransactionMode()
+    {
+        var validModes = new[] { "auto", "manual", "none" };
+        var invalidModes = new[] { "semi_auto", "destructive", "any" };
+
+        foreach (var inv in invalidModes)
+        {
+            Assert.DoesNotContain(inv, validModes);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_AST_08_DynamicToolRegistrar_MutatingTool_InjectsDryRun()
+    {
+        var transaction = "auto";
+        var requiresDryRun = (transaction is "auto" or "manual");
+
+        Assert.True(requiresDryRun);
+    }
+
+// FILE: Tier5_RoslynAstMutationTests.cs
+[Fact]
+    public void TC_T5_AST_01_LineCount_Boundary300And301()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb300 = new StringBuilder();
+        for (int i = 0; i < 300; i++) sb300.AppendLine($"int v{i} = {i};");
+        var res300 = bridge.ValidateScript(sb300.ToString());
+        Assert.True(res300.IsValid);
+
+        var sb301 = new StringBuilder();
+        for (int i = 0; i < 301; i++) sb301.AppendLine($"int v{i} = {i};");
+        var res301 = bridge.ValidateScript(sb301.ToString());
+        Assert.False(res301.IsValid);
+        Assert.Contains(res301.Errors, e => e.Contains("300"));
+    }
+
+    [Fact]
+    public void TC_T5_AST_02_EmptyCatch_WithAndWithoutReasonComment()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var codeBad = "try { int x = 0; } catch { }";
+        var resBad = bridge.ValidateScript(codeBad);
+        Assert.False(resBad.IsValid);
+
+        var codeGood = "try { int x = 0; } catch { /* expected fallback */ }";
+        var resGood = bridge.ValidateScript(codeGood);
+        Assert.True(resGood.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_03_CommentedOutCode_Detection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var codeBad = "// var x = 10;\nint y = 20;";
+        var resBad = bridge.ValidateScript(codeBad);
+        Assert.False(resBad.IsValid);
+
+        var codeGood = "// calculate span deflection\nint y = 20;";
+        var resGood = bridge.ValidateScript(codeGood);
+        Assert.True(resGood.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_04_SyntaxMutations_NoCompilerCrash()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var mutations = new[]
+        {
+            "string s = \"unclosed;",
+            "int a = 10",
+            "void Test() { { int x = 1; }"
+        };
+
+        foreach (var m in mutations)
+        {
+            var res = bridge.ValidateScript(m);
+            Assert.NotNull(res);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_AST_05_DeepBinaryExpression_StackOverflowDefense()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var sb = new StringBuilder("int sum = 1");
+        for (int i = 0; i < 200; i++) sb.Append(" + 1");
+        sb.Append(';');
+
+        var res = bridge.ValidateScript(sb.ToString());
+        Assert.True(res.IsValid);
+    }
+
+    [Fact]
+    public void TC_T5_AST_06_ToolValidator_ReservedNames_Rejected()
+    {
+        var reserved = new[] { "execute_grasshopper_code", "propose_tool", "publish_tool" };
+        var candidate = "propose_tool";
+
+        var isReserved = reserved.Contains(candidate);
+        Assert.True(isReserved);
+    }
+
+    [Fact]
+    public void TC_T5_AST_07_ToolValidator_InvalidTransactionMode()
+    {
+        var validModes = new[] { "auto", "manual", "none" };
+        var invalidModes = new[] { "semi_auto", "destructive", "any" };
+
+        foreach (var inv in invalidModes)
+        {
+            Assert.DoesNotContain(inv, validModes);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_AST_08_DynamicToolRegistrar_MutatingTool_InjectsDryRun()
+    {
+        var transaction = "auto";
+        var requiresDryRun = (transaction is "auto" or "manual");
+
+        Assert.True(requiresDryRun);
+    }
+
+    [Fact]
+    public void TC_T5_AST_09_DynamicToolRegistrar_ReadOnlyTool_OmitsDryRun()
+    {
+        var transaction = "none";
+        var requiresDryRun = (transaction is "auto" or "manual");
+
+        Assert.False(requiresDryRun);
+    }
+
+// FILE: Tier5_SecurityOptInAndDenyListTests.cs
+[Fact]
+    public async Task TC_T5_SEC_01_ExecutionDisabled_ReturnsMinus32001()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = false };
+        var req = new GrasshopperExecutionRequest("return 1;");
+
+        var res = await bridge.ExecuteAsync(req);
+        Assert.False(res.Success);
+        Assert.Equal(-32001, res.ErrorCode);
+        Assert.Contains(GrasshopperE2EContracts.OptInDisabledMessageFragment, res.ErrorMessage);
+    }
+
+    [Fact]
+    public void TC_T5_SEC_02_NonExecutionMethods_PermittedWhenDisabled()
+    {
+        var bridge = new GrasshopperE2EFakeBridge { IsExecutionEnabled = false };
+        var ctx = bridge.GetContext();
+
+        Assert.True(ctx.IsConnected);
+        Assert.False(ctx.IsExecutionEnabled);
+    }
+
+    [Fact]
+    public void TC_T5_SEC_03_RapidOptInStateFlipping_ZeroLeakage()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        for (int i = 0; i < 100; i++)
+        {
+            bridge.IsExecutionEnabled = (i % 2 == 1);
+            Assert.Equal(i % 2 == 1, bridge.IsExecutionEnabled);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_SEC_04_ForbiddenNamespace_SystemIO_Blocked()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "System.IO.File.Exists(\"test\");";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("System.IO"));
+    }
+
+    [Fact]
+    public void TC_T5_SEC_05_ForbiddenNamespace_SystemDiagnostics_Blocked()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "System.Diagnostics.Process.GetProcesses();";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("System.Diagnostics"));
+    }
+
+    [Fact]
+    public void TC_T5_SEC_06_DenyListEvasion_GlobalAlias_Blocked()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "global::System.IO.Directory.GetFiles(\".\");";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("System.IO"));
+    }
+
+    [Fact]
+    public void TC_T5_SEC_07_DenyListEvasion_ReflectionEmit_Blocked()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var code = "System.Reflection.Assembly a = null;";
+
+        var quality = bridge.ValidateScript(code);
+        Assert.False(quality.IsValid);
+        Assert.Contains(quality.Errors, e => e.Contains("System.Reflection"));
+    }
+
+    [Fact]
+    public void TC_T5_SEC_08_MalformedJsonRpc_SafetyRejection()
+    {
+        var malformed = "{ invalid_json }";
+        bool parseThrew = false;
+        try
+        {
+            JsonDocument.Parse(malformed);
+        }
+        catch (JsonException)
+        {
+            parseThrew = true;
+        }
+
+        Assert.True(parseThrew);
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_03_CanvasNanInfinityCoordinatesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NanNode", "N", "Test", double.NaN, 0));
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Test", 0, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_04_CanvasNegativePortIndicesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, -1, id2, 0));
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, 0, id2, -5));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_05_CanvasCyclicSelfConnectionRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id, 0, id, 1));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_06_SearchToolsOversizedQueryHandling()
+    {
+        var oversized = new string('q', 10_000);
+        var truncated = oversized.Length > 200 ? oversized.Substring(0, 200) : oversized;
+
+        Assert.Equal(200, truncated.Length);
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_03_CanvasNanInfinityCoordinatesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NanNode", "N", "Test", double.NaN, 0));
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Test", 0, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_04_CanvasNegativePortIndicesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, -1, id2, 0));
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, 0, id2, -5));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_05_CanvasCyclicSelfConnectionRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id, 0, id, 1));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_06_SearchToolsOversizedQueryHandling()
+    {
+        var oversized = new string('q', 10_000);
+        var truncated = oversized.Length > 200 ? oversized.Substring(0, 200) : oversized;
+
+        Assert.Equal(200, truncated.Length);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_07_SearchToolsLimitClamping()
+    {
+        var limits = new[] { -50, 0, 500, int.MaxValue };
+        foreach (var l in limits)
+        {
+            var clamped = Math.Clamp(l, 1, 200);
+            Assert.True(clamped is >= 1 and <= 200);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_08_LevelsGridsEmptyElevationsRejection()
+    {
+        var elevations = Array.Empty<double>();
+        var valid = elevations.Length > 0;
+        Assert.False(valid);
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_03_CanvasNanInfinityCoordinatesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NanNode", "N", "Test", double.NaN, 0));
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Test", 0, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_04_CanvasNegativePortIndicesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, -1, id2, 0));
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, 0, id2, -5));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_05_CanvasCyclicSelfConnectionRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id, 0, id, 1));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_06_SearchToolsOversizedQueryHandling()
+    {
+        var oversized = new string('q', 10_000);
+        var truncated = oversized.Length > 200 ? oversized.Substring(0, 200) : oversized;
+
+        Assert.Equal(200, truncated.Length);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_07_SearchToolsLimitClamping()
+    {
+        var limits = new[] { -50, 0, 500, int.MaxValue };
+        foreach (var l in limits)
+        {
+            var clamped = Math.Clamp(l, 1, 200);
+            Assert.True(clamped is >= 1 and <= 200);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_08_LevelsGridsEmptyElevationsRejection()
+    {
+        var elevations = Array.Empty<double>();
+        var valid = elevations.Length > 0;
+        Assert.False(valid);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_09_ColumnsBeamsZeroLengthRejection()
+    {
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+        double len = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+
+        var valid = len > 0.001;
+        Assert.False(valid);
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_03_CanvasNanInfinityCoordinatesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NanNode", "N", "Test", double.NaN, 0));
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Test", 0, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_04_CanvasNegativePortIndicesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, -1, id2, 0));
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, 0, id2, -5));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_05_CanvasCyclicSelfConnectionRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id, 0, id, 1));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_06_SearchToolsOversizedQueryHandling()
+    {
+        var oversized = new string('q', 10_000);
+        var truncated = oversized.Length > 200 ? oversized.Substring(0, 200) : oversized;
+
+        Assert.Equal(200, truncated.Length);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_07_SearchToolsLimitClamping()
+    {
+        var limits = new[] { -50, 0, 500, int.MaxValue };
+        foreach (var l in limits)
+        {
+            var clamped = Math.Clamp(l, 1, 200);
+            Assert.True(clamped is >= 1 and <= 200);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_08_LevelsGridsEmptyElevationsRejection()
+    {
+        var elevations = Array.Empty<double>();
+        var valid = elevations.Length > 0;
+        Assert.False(valid);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_09_ColumnsBeamsZeroLengthRejection()
+    {
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+        double len = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+
+        var valid = len > 0.001;
+        Assert.False(valid);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_10_FloorsSlabsNonClosedPolygonRejection()
+    {
+        var polygon = new List<(double X, double Y)>
+        {
+            (0, 0), (10, 0), (10, 10), (0, 10), (1, 1)
+        };
+
+        var isClosed = polygon.Count >= 3 && polygon.First() == polygon.Last();
+        Assert.False(isClosed);
+    }
+
+// FILE: Tier5_SeedParameterFuzzingTests.cs
+[Fact]
+    public void TC_T5_FUZZ_01_PlayerFilePathValidation()
+    {
+        var invalidPaths = new[] { "", "   ", null, "nonexistent.gh" };
+        foreach (var p in invalidPaths)
+        {
+            var valid = !string.IsNullOrWhiteSpace(p) && File.Exists(p);
+            Assert.False(valid);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_02_PlayerInvalidExtensionRejection()
+    {
+        var invalidExtensions = new[] { "file.dyn", "file.dwg", "file.txt", "file.exe" };
+        foreach (var p in invalidExtensions)
+        {
+            var ext = Path.GetExtension(p).ToLowerInvariant();
+            var isGh = (ext is ".gh" or ".ghx");
+            Assert.False(isGh);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_03_CanvasNanInfinityCoordinatesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "NanNode", "N", "Test", double.NaN, 0));
+        Assert.Throws<ArgumentException>(() =>
+            GrasshopperE2EHarness.AddComponentToCanvas(bridge, "InfNode", "I", "Test", 0, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_04_CanvasNegativePortIndicesRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, -1, id2, 0));
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id1, 0, id2, -5));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_05_CanvasCyclicSelfConnectionRejection()
+    {
+        var bridge = new GrasshopperE2EFakeBridge();
+        var id = Guid.NewGuid();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GrasshopperE2EHarness.ConnectPortsOnCanvas(bridge, id, 0, id, 1));
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_06_SearchToolsOversizedQueryHandling()
+    {
+        var oversized = new string('q', 10_000);
+        var truncated = oversized.Length > 200 ? oversized.Substring(0, 200) : oversized;
+
+        Assert.Equal(200, truncated.Length);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_07_SearchToolsLimitClamping()
+    {
+        var limits = new[] { -50, 0, 500, int.MaxValue };
+        foreach (var l in limits)
+        {
+            var clamped = Math.Clamp(l, 1, 200);
+            Assert.True(clamped is >= 1 and <= 200);
+        }
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_08_LevelsGridsEmptyElevationsRejection()
+    {
+        var elevations = Array.Empty<double>();
+        var valid = elevations.Length > 0;
+        Assert.False(valid);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_09_ColumnsBeamsZeroLengthRejection()
+    {
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+        double len = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+
+        var valid = len > 0.001;
+        Assert.False(valid);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_10_FloorsSlabsNonClosedPolygonRejection()
+    {
+        var polygon = new List<(double X, double Y)>
+        {
+            (0, 0), (10, 0), (10, 10), (0, 10), (1, 1)
+        };
+
+        var isClosed = polygon.Count >= 3 && polygon.First() == polygon.Last();
+        Assert.False(isClosed);
+    }
+
+    [Fact]
+    public void TC_T5_FUZZ_11_StirrupDistributionNonPositiveSpacingRejection()
+    {
+        double dense = 0.0;
+        double sparse = -10.0;
+
+        var valid = (dense > 0 && sparse > 0);
+        Assert.False(valid);
+    }

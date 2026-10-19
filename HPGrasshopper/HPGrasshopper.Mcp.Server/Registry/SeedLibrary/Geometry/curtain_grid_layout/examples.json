@@ -1,0 +1,20 @@
+[
+  {
+    "title": "standard_office_glazing",
+    "args": {
+      "curtainWallElementId": 123456,
+      "uSpacingMeters": 1.5,
+      "vSpacingMeters": 3.0,
+      "layoutRule": "FixedDistance"
+    }
+  },
+  {
+    "title": "narrow_mullion_facade",
+    "args": {
+      "curtainWallElementId": 654321,
+      "uSpacingMeters": 1.0,
+      "vSpacingMeters": 2.5,
+      "layoutRule": "FixedDistance"
+    }
+  }
+]

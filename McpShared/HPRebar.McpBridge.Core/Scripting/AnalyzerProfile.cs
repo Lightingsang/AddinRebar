@@ -62,6 +62,23 @@ public sealed class AnalyzerProfile
         transactionTypeNames: Array.Empty<string>(),
         transactionMethodNames: new[] { "CommitChanges" });
 
+    /// <summary>
+    ///     Dynamo in Revit: scripts modifying Revit elements or managing their own transaction scopes
+    ///     construct <c>new Transaction(doc, …)</c>, <c>new TransactionGroup(doc, …)</c>, or
+    ///     <c>new SubTransaction(doc, …)</c>.
+    /// </summary>
+    public static readonly AnalyzerProfile Dynamo = new AnalyzerProfile(
+        transactionTypeNames: new[] { "Transaction", "TransactionGroup", "SubTransaction" },
+        transactionMethodNames: Array.Empty<string>());
+
+    /// <summary>
+    ///     Grasshopper in Revit via Rhino.Inside.Revit: scripts modifying Revit elements construct
+    ///     <c>new Transaction(doc, …)</c>, <c>new TransactionGroup(doc, …)</c>, or <c>new SubTransaction(doc, …)</c>.
+    /// </summary>
+    public static readonly AnalyzerProfile Grasshopper = new AnalyzerProfile(
+        transactionTypeNames: new[] { "Transaction", "TransactionGroup", "SubTransaction" },
+        transactionMethodNames: Array.Empty<string>());
+
     public AnalyzerProfile(IReadOnlyCollection<string> transactionTypeNames, IReadOnlyCollection<string> transactionMethodNames)
     {
         TransactionTypeNames = new HashSet<string>(transactionTypeNames, StringComparer.Ordinal);

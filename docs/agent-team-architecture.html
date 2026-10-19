@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HP Ecosystem — Kiến trúc & Mô phỏng Hoạt động Đội hình Agent Team</title>
+  <style>
+    :root {
+      --bg-base: #0b0f19;
+      --bg-surface: #131b2e;
+      --bg-card: #1a243d;
+      --bg-card-hover: #223052;
+      --border: #2a395c;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --accent-purple: #c084fc;
+      --opus-bg: rgba(192, 132, 252, 0.16);
+      --opus-border: #c084fc;
+      --sonnet-bg: rgba(56, 189, 248, 0.16);
+      --sonnet-border: #38bdf8;
+      --haiku-bg: rgba(52, 211, 153, 0.16);
+      --haiku-border: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #172554 0%, var(--bg-base) 45%);
+      color: var(--text-primary);
+      line-height: 1.55;
+      min-height: 100vh;
+      padding-bottom: 48px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(19, 27, 46, 0.88);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 28px;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #0b0f19;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .brand-title h1 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-title p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-pill strong {
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 24px auto 0;
+      padding: 0 28px;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
+      color: var(--text-primary);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.22s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Layout Grid for Tab 1 */
+    .arch-layout {
+      display: grid;
+      grid-template-columns: 1fr 410px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 1120px) {
+      .arch-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tier-box {
+      background: rgba(19, 27, 46, 0.75);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .tier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .tier-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tier-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 14px;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .agent-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      border-color: var(--accent-blue);
+    }
+
+    .agent-card.selected {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.25), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .agent-card.dimmed {
+      opacity: 0.35;
+    }
+
+    .agent-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .agent-name {
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .model-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    .model-opus {
+      background: var(--opus-bg);
+      color: #e9d5ff;
+      border: 1px solid var(--opus-border);
+    }
+
+    .model-sonnet {
+      background: var(--sonnet-bg);
+      color: #bae6fd;
+      border: 1px solid var(--sonnet-border);
+    }
+
+    .model-haiku {
+      background: var(--haiku-bg);
+      color: #a7f3d0;
+      border: 1px solid var(--haiku-border);
+    }
+
+    .agent-role {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 6px;
+    }
+
+    .agent-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .agent-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      font-size: 10.5px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: "Cascadia Code", Consolas, monospace;
+    }
+
+    .connector-arrow {
+      text-align: center;
+      margin: -6px 0 10px;
+      color: var(--accent-blue);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* Deliverables Matrix */
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 10px;
+    }
+
+    .deliv-pill {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .deliv-pill:hover, .deliv-pill.active-deliv {
+      border-color: var(--accent-emerald);
+      background: rgba(52, 211, 153, 0.12);
+    }
+
+    .deliv-pill h4 {
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 12.5px;
+      color: var(--accent-emerald);
+      margin-bottom: 3px;
+    }
+
+    .deliv-pill p {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Inspector Panel */
+    .inspector-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .inspector-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .inspector-header h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .inspector-section {
+      margin-bottom: 14px;
+    }
+
+    .inspector-section h4 {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-amber);
+      margin-bottom: 6px;
+    }
+
+    .inspector-list {
+      list-style: none;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .inspector-list li {
+      margin-bottom: 5px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .inspector-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent-blue);
+    }
+
+    .code-snippet {
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 11.5px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    /* Tab 2: Workflow Simulator */
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .scenario-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .scenario-btn {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .scenario-btn.active {
+      background: rgba(52, 211, 153, 0.18);
+      color: #a7f3d0;
+      border-color: var(--accent-emerald);
+    }
+
+    .step-nav-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      background: var(--accent-blue);
+      color: #0b0f19;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .action-btn.secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .sim-pipeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .sim-step-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sim-step-card.active-step {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
+    }
+
+    .sim-step-card.completed-step {
+      border-color: rgba(52, 211, 153, 0.5);
+    }
+
+    .step-num {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-agents {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .sim-detail-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .sim-detail-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Tab 3: Reference Tables */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .ref-table th, .ref-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table th {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .ref-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .section-heading {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 18px 0 10px;
+      color: var(--accent-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge">HP</div>
+        <div class="brand-title">
+          <h1>Kiến trúc & Điều phối Đội hình Agent Team (HP Ecosystem)</h1>
+          <p>8 Core Agents + Cầu nối tương thích • 12 Deliverables + McpShared • Clean Code Governance (Q-B1..Q-B3)</p>
+        </div>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill"><strong>8</strong> Core Agents</div>
+        <div class="stat-pill"><strong>4 Opus</strong> • <strong>2 Sonnet</strong> • <strong>2 Haiku</strong></div>
+        <div class="stat-pill"><strong>12</strong> Deliverables + <strong>McpShared</strong></div>
+        <div class="stat-pill">Agent Teams: <strong>ENABLED</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-arch', this)">
+        1. Sơ đồ Mạng lưới 8 Agents ↔ 12 Deliverables (Tương tác)
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-sim', this)">
+        2. Mô phỏng 4 Kịch bản Phối hợp Thực tế (Step-by-Step)
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-ref', this)">
+        3. Bảng Lệnh Kích hoạt, File Ownership & Giao thức Trạng thái
+      </button>
+    </div>
+
+    <!-- TAB 1: ARCHITECTURE & INTERACTIVE INSPECTOR -->
+    <div id="tab-arch" class="tab-panel active">
+      <div class="arch-layout">
+        <div>
+          <!-- TIER 1 -->
+          <div class="tier-box">
+            <div class="tier-header">
+              <div class="tier-title">Tầng 1 — Điều phối, Kiến trúc & Nghiên cứu (Planning & Scouting Layer)</div>
+              <div class="tier-subtitle">Khóa kiến trúc, phân rã phase & gán quyền sở hữu file (File Ownership)</div>
+            </div>
+            <div class="agent-grid">
+              <div class="agent-card selected" data-agent="planner" onclick="selectAgent('planner')">
+                <div class="agent-card-top">
+                  <span class="agent-name">planner</span>
+                  <span class="model-badge model-opus">opus</span>
+                </div>
+                <div class="agent-role">Principal Tech Lead & Architect</div>
+                <div class="agent-desc">Phân tích yêu cầu ≥ 3 files, tạo plan đa phase trong <code>./plans/</code>, chia việc độc lập cho 2 nhánh Developer.</div>
+                <div class="agent-tags">
+                  <span class="tag">plans/</span>
+                  <span class="tag">ADR-0001..0007</span>
+                  <span class="tag">TaskCreate</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="researcher" onclick="selectAgent('researcher')">
+                <div class="agent-card-top">
+                  <span class="agent-name">researcher</span>
+                  <span class="model-badge model-haiku">haiku</span>
+                </div>
+                <div class="agent-role">Technical & SDK Research Analyst</div>
+                <div class="agent-desc">Tra cứu nhanh Revit API, AutoCAD/Civil3D .NET, CSI OAPI, Tekla, Navisworks, TCVN và đối chiếu <code>path:line</code>.</div>
+                <div class="agent-tags">
+                  <span class="tag">Read-only</span>
+                  <span class="tag">Query Fan-out</span>
+                  <span class="tag">SDK Docs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="connector-arrow">▼ Giao Task + Ranh giới File Ownership (Git Worktree Isolation) ▼</div>
+
+          <!-- TIER 2 -->
+          <div class="tier-box">
+            <div class="tier-header">
+              <div class="tier-title">Tầng 2 — Thực thi Chuyên sâu (Domain Implementation Layer)</div>
+              <div class="tier-subtitle">Chuyên môn hóa theo 2 nhánh kiến trúc cốt lõi của Repository + Cầu nối <code>fullstack-developer</code></div>
+            </div>
+            <div class="agent-grid">
+              <div class="agent-card" data-agent="addin-wpf-developer" onclick="selectAgent('addin-wpf-developer')">
+                <div class="agent-card-top">
+                  <span class="agent-name">addin-wpf-developer</span>
+                  <span class="model-badge model-opus">opus</span>
+                </div>
+                <div class="agent-role">CAD/BIM Add-In, TCVN & WPF Specialist</div>
+                <div class="agent-desc">Triển khai Feature Folder <code>HPRebar</code>, tính toán kết cấu <code>HPDcePro</code>, <code>HPAutoCad</code> GeoLink/AEC & giao diện WPF MaterialDesign.</div>
+                <div class="agent-tags">
+                  <span class="tag">HPRebar/</span>
+                  <span class="tag">HPDcePro/</span>
+                  <span class="tag">WPF MVVM</span>
+                  <span class="tag">ExternalEvent</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="mcp-host-developer" onclick="selectAgent('mcp-host-developer')">
+                <div class="agent-card-top">
+                  <span class="agent-name">mcp-host-developer</span>
+                  <span class="model-badge model-opus">opus</span>
+                </div>
+                <div class="agent-role">MCP Engine, 11 Bridges & Seeds Specialist</div>
+                <div class="agent-desc">Phát triển <code>McpShared/</code>, 11 MCP Host Bridges & Stdio Servers, Roslyn ScriptGuard, 12 embedded seeds & Civil3D mirror sync.</div>
+                <div class="agent-tags">
+                  <span class="tag">McpShared/</span>
+                  <span class="tag">11 MCP Hosts</span>
+                  <span class="tag">Roslyn Q-B1..B3</span>
+                  <span class="tag">Named Pipe</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="fullstack-developer" onclick="selectAgent('fullstack-developer')">
+                <div class="agent-card-top">
+                  <span class="agent-name">fullstack-developer</span>
+                  <span class="model-badge model-opus">opus</span>
+                </div>
+                <div class="agent-role">Compatibility Router cho /bs:team cook</div>
+                <div class="agent-desc">Cầu nối tự động nhận diện glob file được giao để áp dụng chuẩn của <code>addin-wpf-developer</code> hoặc <code>mcp-host-developer</code>.</div>
+                <div class="agent-tags">
+                  <span class="tag">/bs:team cook</span>
+                  <span class="tag">Worktree Dev</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="connector-arrow">▼ Kiểm thử Tự động • Điều tra Lỗi • Kiểm định Clean Code • Đồng bộ Docs/Git ▼</div>
+
+          <!-- TIER 3 -->
+          <div class="tier-box">
+            <div class="tier-header">
+              <div class="tier-title">Tầng 3 — Kiểm định Chất lượng, Gỡ lỗi & Hậu cần (Verification & Release Layer)</div>
+              <div class="tier-subtitle">Chặn lỗi biên dịch, kiểm tra Q-B1..Q-B3, chạy xUnit/Net48Tests & đồng bộ CLAUDE.md ↔ AGENTS.md</div>
+            </div>
+            <div class="agent-grid">
+              <div class="agent-card" data-agent="debugger" onclick="selectAgent('debugger')">
+                <div class="agent-card-top">
+                  <span class="agent-name">debugger</span>
+                  <span class="model-badge model-sonnet">sonnet</span>
+                </div>
+                <div class="agent-role">Root-Cause & Interop Debugger</div>
+                <div class="agent-desc">Điều tra lỗi ALC Loader, net48 binding, Named Pipe timeout (-32001/-32002), COM attach, Revit ExternalEvent bằng đa giả thuyết.</div>
+                <div class="agent-tags">
+                  <span class="tag">ALC / net48</span>
+                  <span class="tag">Pipe / COM</span>
+                  <span class="tag">Competing Hypotheses</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="tester" onclick="selectAgent('tester')">
+                <div class="agent-card-top">
+                  <span class="agent-name">tester</span>
+                  <span class="model-badge model-sonnet">sonnet</span>
+                </div>
+                <div class="agent-role">Multi-TFM QA & Harness Lead</div>
+                <div class="agent-desc">Chạy và viết test xUnit (net8/net10), Net48Tests, Seed compile tests, Civil3D Mirror tests & Python live harnesses.</div>
+                <div class="agent-tags">
+                  <span class="tag">MTP Runner</span>
+                  <span class="tag">Seed Compile</span>
+                  <span class="tag">Mirror Test</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="code-reviewer" onclick="selectAgent('code-reviewer')">
+                <div class="agent-card-top">
+                  <span class="agent-name">code-reviewer</span>
+                  <span class="model-badge model-opus">opus</span>
+                </div>
+                <div class="agent-role">Staff Clean Code Governance Auditor</div>
+                <div class="agent-desc">Kiểm định <code>HP_CLEAN_CODE_CORE.md</code>, <code>host-appendix/*</code>, <code>Q-B1..Q-B3</code>, Feature Folder Convention & ranh giới phụ thuộc.</div>
+                <div class="agent-tags">
+                  <span class="tag">Q-B1..Q-B3</span>
+                  <span class="tag">Checklist</span>
+                  <span class="tag">Read-only</span>
+                </div>
+              </div>
+
+              <div class="agent-card" data-agent="docs-git-manager" onclick="selectAgent('docs-git-manager')">
+                <div class="agent-card-top">
+                  <span class="agent-name">docs-git-manager</span>
+                  <span class="model-badge model-haiku">haiku</span>
+                </div>
+                <div class="agent-role">Docs Sync & Release Hygiene</div>
+                <div class="agent-desc">Đồng bộ <code>CLAUDE.md</code> ↔ <code>AGENTS.md</code>, cập nhật <code>./docs/</code>, kiểm tra <code>skill_sync</code> và tạo Conventional Commits an toàn.</div>
+                <div class="agent-tags">
+                  <span class="tag">AGENTS.md Sync</span>
+                  <span class="tag">./docs/</span>
+                  <span class="tag">Git Safety</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DELIVERABLES MAP -->
+          <div class="tier-box">
+            <div class="tier-header">
+              <div class="tier-title">Bản đồ 12 Deliverables + McpShared (Bấm vào từng mục để lọc Agent phụ trách)</div>
+              <div class="tier-subtitle">Mọi MCP Host chỉ tham chiếu <code>../McpShared/</code> — Không tham chiếu chéo giữa các Host</div>
+            </div>
+            <div class="deliverables-grid">
+              <div class="deliv-pill" onclick="filterByDeliverable('HPRebar', ['planner','addin-wpf-developer','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPRebar/</h4>
+                <p>Revit R23–R27 Add-In + Core + Revit MCP</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('McpShared', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>McpShared/</h4>
+                <p>Host-neutral MCP Engine (net48/net8/net10)</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('HPAutoCad', ['planner','addin-wpf-developer','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPAutoCad/</h4>
+                <p>AutoCAD 2026 MCP + AEC + HPGeoLink</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('HPCivil3d', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPCivil3d/</h4>
+                <p>Civil 3D 2026 MCP + Mirror Test</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('HPNavis_Tekla', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPNavis/ & HPTekla/</h4>
+                <p>In-process .NET Framework 4.8 MCPs</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('COM_Hosts', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPEtabs / SAP / Robot / Excel</h4>
+                <p>Out-of-process COM + R/W/D Snapshots</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('HPPowerBi', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPPowerBi/</h4>
+                <p>AMO-TOM / ADOMD + Cloud REST MCP</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('VisualProg', ['planner','mcp-host-developer','tester','code-reviewer','debugger'])">
+                <h4>HPDynamo/ & HPGrasshopper/</h4>
+                <p>Dynamo 3.7 & Rhino.Inside.Revit MCPs</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('HPDcePro', ['planner','addin-wpf-developer','tester','code-reviewer','debugger'])">
+                <h4>HPDcePro/</h4>
+                <p>TCVN Structural & Rebar Ecosystem (9 projs)</p>
+              </div>
+              <div class="deliv-pill" onclick="filterByDeliverable('DocsGit', ['planner','docs-git-manager','researcher'])">
+                <h4>docs/ & scripts/skill_sync/</h4>
+                <p>CLAUDE.md ↔ AGENTS.md & Portable Skills</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSPECTOR PANEL -->
+        <div class="inspector-card" id="inspector">
+          <div class="inspector-header">
+            <h3>
+              <span id="insp-name">planner</span>
+              <span id="insp-badge" class="model-badge model-opus">opus</span>
+            </h3>
+            <p id="insp-role" style="font-size: 13px; color: var(--accent-blue); font-weight: 600;">
+              Principal Tech Lead & Architect
+            </p>
+          </div>
+
+          <div class="inspector-section">
+            <h4>Nhiệm vụ cốt lõi trong dự án</h4>
+            <ul class="inspector-list" id="insp-duties"></ul>
+          </div>
+
+          <div class="inspector-section">
+            <h4>Phạm vi File Ownership (Quyền sửa file)</h4>
+            <div class="code-snippet" id="insp-ownership"></div>
+          </div>
+
+          <div class="inspector-section">
+            <h4>Quy tắc Clean Code & Cổng kiểm soát bắt buộc</h4>
+            <ul class="inspector-list" id="insp-rules"></ul>
+          </div>
+
+          <div class="inspector-section">
+            <h4>Cách gọi Agent này</h4>
+            <div class="code-snippet" id="insp-invoke"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: WORKFLOW SIMULATOR -->
+    <div id="tab-sim" class="tab-panel">
+      <div class="sim-controls">
+        <div class="scenario-selector">
+          <button class="scenario-btn active" onclick="loadScenario(0, this)">
+            Kịch bản 1: Thêm Feature Rebar / WPF UI (HPRebar & HPDcePro)
+          </button>
+          <button class="scenario-btn" onclick="loadScenario(1, this)">
+            Kịch bản 2: Thêm/Sửa MCP Tool & Seed (McpShared + 11 Hosts)
+          </button>
+          <button class="scenario-btn" onclick="loadScenario(2, this)">
+            Kịch bản 3: Điều tra Lỗi Đa Giả thuyết (/bs:team debug)
+          </button>
+          <button class="scenario-btn" onclick="loadScenario(3, this)">
+            Kịch bản 4: Audit Clean Code & Release (/bs:team review)
+          </button>
+        </div>
+        <div class="step-nav-btns">
+          <button class="action-btn secondary" onclick="prevStep()">◀ Bước trước</button>
+          <button class="action-btn" onclick="nextStep()">Bước tiếp theo ▶</button>
+        </div>
+      </div>
+
+      <div id="sim-pipeline-container" class="sim-pipeline"></div>
+
+      <div class="sim-detail-box">
+        <div>
+          <h3 id="sim-detail-title" style="font-size: 17px; color: var(--accent-blue); margin-bottom: 10px;"></h3>
+          <p id="sim-detail-desc" style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;"></p>
+          <h4 style="font-size: 12px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 8px;">
+            Hành động & Giao tiếp nội bộ giữa các Agent
+          </h4>
+          <ul class="inspector-list" id="sim-detail-actions"></ul>
+        </div>
+        <div>
+          <h4 style="font-size: 12px; text-transform: uppercase; color: var(--accent-emerald); margin-bottom: 8px;">
+            Thông điệp / Lệnh thực thi & Cổng nghiệm thu (Gate)
+          </h4>
+          <div class="code-snippet" id="sim-detail-code"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: COMMAND & PROTOCOL REFERENCE -->
+    <div id="tab-ref" class="tab-panel">
+      <h3 class="section-heading">1. Bảng Lệnh Kích hoạt Đội hình Agent Team & Subagents</h3>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Tình huống sử dụng</th>
+            <th>Lệnh kích hoạt nhanh</th>
+            <th>Các Agent tham gia</th>
+            <th>Cơ chế cô lập & Nghiệm thu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Phát triển tính năng lớn (≥ 3 files, đa nhánh)</strong></td>
+            <td><code>/bs:team cook &lt;plan-path&gt; --devs 2</code></td>
+            <td><code>planner</code> → <code>addin-wpf-developer</code> / <code>mcp-host-developer</code> (qua <code>fullstack-developer</code>) → <code>tester</code> → <code>docs-git-manager</code></td>
+            <td>Mỗi dev chạy trên 1 <code>git worktree</code> riêng; chỉ merge khi <code>tester</code> báo pass toàn bộ test suite.</td>
+          </tr>
+          <tr>
+            <td><strong>Nghiên cứu kỹ thuật / SDK đa góc nhìn</strong></td>
+            <td><code>/bs:team research "&lt;chủ đề&gt;" --researchers 3</code></td>
+            <td>3 × <code>researcher</code> chạy song song (Architecture / Alternatives / Risks)</td>
+            <td>Read-only 100%, tổng hợp báo cáo vào <code>plans/reports/research-summary-*.md</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Điều tra lỗi khó (ALC, Pipe timeout, COM, net48)</strong></td>
+            <td><code>/bs:team debug "&lt;mô tả lỗi&gt;" --debuggers 3</code></td>
+            <td>3 × <code>debugger</code> kiểm chứng 3 giả thuyết đối kháng</td>
+            <td>Các debugger gửi <code>SendMessage</code> phản biện lẫn nhau, giữ lại duy nhất giả thuyết có bằng chứng thực nghiệm.</td>
+          </tr>
+          <tr>
+            <td><strong>Kiểm định Clean Code & Bảo mật trước PR</strong></td>
+            <td><code>/bs:team review &lt;scope&gt; --reviewers 3</code></td>
+            <td>3 × <code>code-reviewer</code> (Clean Code Q-B1..B3 / Performance / Security & Host Safety)</td>
+            <td>Đối chiếu <code>HP_CLEAN_CODE_CORE.md</code> + <code>CODE_REVIEW_CHECKLIST.md</code> với dẫn chứng <code>path:line</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Giao việc đơn lẻ cho 1 Chuyên gia (Tiết kiệm token)</strong></td>
+            <td>Gọi trực tiếp trong chat: <em>"Dùng <code>addin-wpf-developer</code> (hoặc <code>mcp-host-developer</code>) để..."</em></td>
+            <td>1 Subagent chuyên biệt duy nhất</td>
+            <td>Phù hợp khi sửa 1–2 module rõ ràng, không cần tốn token khởi tạo cả Team đa phiên.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="section-heading">2. Ma trận Phân quyền Sở hữu File (Disjoint File Ownership Matrix)</h3>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Model</th>
+            <th>Được phép sửa (Write / Edit Globs)</th>
+            <th>Cấm sửa (Read-Only / Ngoài phạm vi)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>planner</code></td>
+            <td><span class="model-badge model-opus">opus</span></td>
+            <td><code>plans/**</code></td>
+            <td>Toàn bộ code sản phẩm <code>*.cs</code>, <code>*.xaml</code>, <code>*.py</code></td>
+          </tr>
+          <tr>
+            <td><code>researcher</code></td>
+            <td><span class="model-badge model-haiku">haiku</span></td>
+            <td><code>plans/reports/**</code>, <code>plans/*/research/**</code></td>
+            <td>Toàn bộ source code trong repo (Chỉ có quyền Read/Grep/WebSearch)</td>
+          </tr>
+          <tr>
+            <td><code>addin-wpf-developer</code></td>
+            <td><span class="model-badge model-opus">opus</span></td>
+            <td><code>HPRebar/HPRebar/**</code>, <code>HPRebar/HPRebar.Core/**</code>, <code>HPDcePro/**</code>, <code>HPAutoCad/HPAutoCad/**</code>, <code>HPAutoCad/HPAutoCad.Core/**</code>, <code>HPAutoCad/HPAutoCad.Aec/**</code></td>
+            <td><code>McpShared/**</code> và các project <code>*.McpBridge</code> / <code>*.Mcp.Server</code></td>
+          </tr>
+          <tr>
+            <td><code>mcp-host-developer</code></td>
+            <td><span class="model-badge model-opus">opus</span></td>
+            <td><code>McpShared/**</code>, <code>HP*/**/*Mcp*</code>, <code>HPCivil3d/**</code>, <code>HPNavis/**</code>, <code>HPEtabs/**</code>, <code>HPSap2000/**</code>, <code>HPRobot/**</code>, <code>HPTekla/**</code>, <code>HPExcel/**</code>, <code>HPPowerBi/**</code>, <code>HPDynamo/**</code>, <code>HPGrasshopper/**</code></td>
+            <td>Code nghiệp vụ Rebar/DCE thuần không thuộc tầng MCP</td>
+          </tr>
+          <tr>
+            <td><code>tester</code></td>
+            <td><span class="model-badge model-sonnet">sonnet</span></td>
+            <td><code>**/*.Tests/**</code>, <code>**/tools/harness/**</code>, <code>plans/reports/**</code></td>
+            <td>Code sản phẩm chính (không được sửa code sản phẩm để ép test xanh)</td>
+          </tr>
+          <tr>
+            <td><code>debugger</code></td>
+            <td><span class="model-badge model-sonnet">sonnet</span></td>
+            <td><code>plans/reports/**</code> + file cụ thể được Lead giao sửa lỗi</td>
+            <td>Các module ngoài phạm vi bug đang điều tra</td>
+          </tr>
+          <tr>
+            <td><code>code-reviewer</code></td>
+            <td><span class="model-badge model-opus">opus</span></td>
+            <td><code>plans/reports/**</code> (Không có tool Edit/Write code)</td>
+            <td>100% source code (Đảm bảo tính độc lập khách quan khi audit)</td>
+          </tr>
+          <tr>
+            <td><code>docs-git-manager</code></td>
+            <td><span class="model-badge model-haiku">haiku</span></td>
+            <td><code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>docs/**</code>, <code>plans/**</code></td>
+            <td>Toàn bộ code C# / XAML sản phẩm</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const agentsData = {
+      "planner": {
+        name: "planner",
+        model: "opus",
+        modelClass: "model-opus",
+        role: "Principal Tech Lead & System Architect",
+        duties: [
+          "Đọc ARCHITECTURE.md, DEPENDENCY_RULES.md và HP_CLEAN_CODE_CORE.md trước khi lập kế hoạch.",
+          "Phân rã yêu cầu lớn (≥ 3 files) thành các phase độc lập trong ./plans/<YYMMDD-HHmm>-<slug>/.",
+          "Phân công đúng nhánh: giao việc Add-In/WPF/TCVN cho addin-wpf-developer và việc MCP/Bridge/Seeds cho mcp-host-developer.",
+          "Thiết lập ranh giới File Ownership không chồng lấn để chạy song song trên Git Worktrees."
+        ],
+        ownership: "plans/<YYMMDD-HHmm>-<slug>/plan.md (< 80 dòng)\nplans/<YYMMDD-HHmm>-<slug>/phase-XX-*.md",
+        rules: [
+          "Mỗi tham chiếu symbol phải được grep xác thực và ghi rõ file:line.",
+          "Đảm bảo thiết kế mỗi class/file mới < 300 dòng (Q-B3) và XAML < 500 dòng.",
+          "Tạm dừng chờ User xác nhận nếu thêm dependency mới, đổi wire contract trong McpShared/ hoặc thao tác không thể hoàn tác."
+        ],
+        invoke: "Agent(subagent_type=\"planner\", prompt=\"Lập kế hoạch triển khai...\")\n# Hoặc qua skill: /bs:plan <mô tả yêu cầu>"
+      },
+      "researcher": {
+        name: "researcher",
+        model: "haiku",
+        modelClass: "model-haiku",
+        role: "Technical & Host SDK Research Analyst",
+        duties: [
+          "Tra cứu nhanh codebase nội bộ và tài liệu SDK của 12 deliverables (Revit API, AutoCAD/Civil3D .NET, CSI OAPI, Tekla, Navisworks, AMO-TOM, TCVN).",
+          "Chạy song song nhiều góc độ nghiên cứu khi kích hoạt /bs:team research.",
+          "Lập bảng so sánh trade-off (hiệu năng, tương thích net48 vs net8/net10, thread safety, cơ chế rollback/snapshot)."
+        ],
+        ownership: "Read-only trên toàn bộ codebase.\nGhi báo cáo vào: plans/reports/researcher-*.md",
+        rules: [
+          "Chỉ kết luận khi có dẫn chứng path:line trong repo hoặc ≥ 2 nguồn tài liệu chính통.",
+          "Tối ưu hóa token: viết báo cáo súc tích, xếp hạng phương án khuyến nghị rõ ràng."
+        ],
+        invoke: "Agent(subagent_type=\"researcher\", prompt=\"Nghiên cứu API...\")\n# Hoặc: /bs:team research \"<chủ đề>\" --researchers 3"
+      },
+      "addin-wpf-developer": {
+        name: "addin-wpf-developer",
+        model: "opus",
+        modelClass: "model-opus",
+        role: "Senior CAD/BIM Add-In, TCVN & WPF MVVM Engineer",
+        duties: [
+          "Phát triển tính năng cho HPRebar/ (Revit R23–R27), HPDcePro/ (TCVN 5574/10304/5575/2737, AutoCAD 80 lệnh, Revit, Excel BOQ), và HPAutoCad/ (GeoLink VN-2000 & AEC Engine).",
+          "Xây dựng giao diện WPF chuẩn MaterialDesignInXamlToolkit 5.3.2 + CommunityToolkit.Mvvm.",
+          "Đảm bảo quản lý vòng đời cửa sổ Modeless qua ExternalEventHandler (Revit) và EnterContextualReflection (AutoCAD)."
+        ],
+        ownership: "HPRebar/HPRebar/**, HPRebar/HPRebar.Core/**\nHPDcePro/**\nHPAutoCad/HPAutoCad/**, HPAutoCad.Core/**, HPAutoCad.Aec/**",
+        rules: [
+          "Tuân thủ nghiêm ngặt Feature Folder Convention: 4 thư mục số ít (Model, Service, View, ViewModel) + đúng 4 file gốc.",
+          "Dùng alias using RevitView = Autodesk.Revit.DB.View; để tránh lỗi CS0118.",
+          "Font Segoe UI bắt buộc (cấm Roboto), DynamicResource cho toàn bộ màu sắc, XAML < 500 dòng, C# < 300 dòng (ViewModel < 250)."
+        ],
+        invoke: "Agent(subagent_type=\"addin-wpf-developer\", isolation=\"worktree\", prompt=\"Triển khai feature...\")"
+      },
+      "mcp-host-developer": {
+        name: "mcp-host-developer",
+        model: "opus",
+        modelClass: "model-opus",
+        role: "Principal MCP Engine, Host Bridges & Seeds Engineer",
+        duties: [
+          "Phát triển và bảo trì McpShared/ (Contracts, McpBridge.Core, Mcp.Server.Core) cùng toàn bộ 11 MCP Host Bridges & Stdio Servers.",
+          "Viết và cập nhật 12 embedded seed tools cho từng host, bộ kiểm tra Roslyn ScriptGuard và ScriptQualityAnalyzer.",
+          "Đồng bộ 24 mirrored files giữa HPAutoCad và HPCivil3d theo HPCivil3d/tools/mirror-tokens.json."
+        ],
+        ownership: "McpShared/**\nHPRebar/*Mcp*, HPAutoCad/*Mcp*, HPCivil3d/**, HPNavis/**, HPEtabs/**, HPSap2000/**, HPRobot/**, HPTekla/**, HPExcel/**, HPPowerBi/**, HPDynamo/**, HPGrasshopper/**",
+        rules: [
+          "Chiều phụ thuộc duy nhất: HP<Host>/ -> McpShared/. Cấm tuyệt đối tham chiếu chéo giữa các Host.",
+          "Mọi seed tool phải vượt qua cổng Q-B1 (không code comment), Q-B2 (không catch rỗng), Q-B3 (≤ 300 dòng) và khớp default giữa tool.json với code.cs.",
+          "Đảm bảo cơ chế an toàn: Transaction/Savepoint rollback cho dryRun (In-process) và 3-tier R/W/D + file snapshot (.EDB/.SDB/.rtd/.xlsx) cho COM hosts."
+        ],
+        invoke: "Agent(subagent_type=\"mcp-host-developer\", isolation=\"worktree\", prompt=\"Thêm/sửa MCP tool...\")"
+      },
+      "fullstack-developer": {
+        name: "fullstack-developer",
+        model: "opus",
+        modelClass: "model-opus",
+        role: "Compatibility Developer Bridge cho /bs:team cook",
+        duties: [
+          "Đóng vai trò cầu nối tương thích khi skill /bs:team cook khởi tạo các developer teammates.",
+          "Tự động kiểm tra danh sách File ownership được giao để nạp quy tắc của addin-wpf-developer hoặc mcp-host-developer."
+        ],
+        ownership: "Theo glob File ownership được giao trong từng Task của /bs:team cook.",
+        rules: [
+          "Áp dụng đầy đủ HP_CLEAN_CODE_CORE.md (Q-B1..Q-B3) và chạy dotnet build + dotnet test trước khi báo hoàn thành."
+        ],
+        invoke: "# Tự động được gọi bởi:\n/bs:team cook <plan-path> --devs 2"
+      },
+      "debugger": {
+        name: "debugger",
+        model: "sonnet",
+        modelClass: "model-sonnet",
+        role: "Senior Systems & Interop Root-Cause Debugger",
+        duties: [
+          "Điều tra lỗi phức tạp bằng phương pháp lập 2–3 giả thuyết đối kháng (Competing Hypotheses).",
+          "Chẩn đoán lỗi AssemblyLoadContext (AutoCAD/Civil3D/Revit), lỗi binding System.Text.Json trên net48 (Roamer.exe/Tekla), lỗi Named Pipe (-32001/-32002/-32003) và COM attach."
+        ],
+        ownership: "plans/reports/debugger-*.md\nChỉ sửa file code khi được giao rõ trong phạm vi bug.",
+        rules: [
+          "Không suy đoán cảm tính: mọi kết luận nguyên nhân gốc rễ phải có bằng chứng từ log, stack trace hoặc thực nghiệm.",
+          "Khi chạy trong /bs:team debug, chủ động gửi SendMessage phản biện giả thuyết của các debugger khác."
+        ],
+        invoke: "Agent(subagent_type=\"debugger\", prompt=\"Điều tra nguyên nhân lỗi...\")\n# Hoặc: /bs:team debug \"<triệu chứng lỗi>\" --debuggers 3"
+      },
+      "tester": {
+        name: "tester",
+        model: "sonnet",
+        modelClass: "model-sonnet",
+        role: "Multi-TFM QA & Verification Lead",
+        duties: [
+          "Thực thi và viết mới unit tests, contract tests, seed-compilation tests, Civil3D mirror tests và E2E tests.",
+          "Tự động ánh xạ các file thay đổi trong git diff sang đúng bộ test của deliverable tương ứng."
+        ],
+        ownership: "**/*.Tests/**\n**/tools/harness/**\nplans/reports/tester-*.md",
+        rules: [
+          "CẤM truyền cờ --nologo vào dotnet test (do Microsoft.Testing.Platform sẽ từ chối).",
+          "Không bao giờ mock các kiểu sealed của Host (như Revit Document); không dùng dữ liệu giả/xóa assert để ép pass build.",
+          "Phân biệt minh bạch giữa ĐÃ TEST TỰ ĐỘNG và CHƯA TEST (khi phần mềm host chưa mở)."
+        ],
+        invoke: "Agent(subagent_type=\"tester\", prompt=\"Chạy kiểm thử và viết test cho...\")"
+      },
+      "code-reviewer": {
+        name: "code-reviewer",
+        model: "opus",
+        modelClass: "model-opus",
+        role: "Principal Staff Reviewer & Clean Code Auditor",
+        duties: [
+          "Chạy CODE_REVIEW_CHECKLIST.md trên mọi bản diff trước khi merge hoặc bàn giao.",
+          "Kiểm tra nghiêm ngặt Q-B1..Q-B3, ranh giới phụ thuộc McpShared, Feature Folder Convention và an toàn luồng/transaction của từng Host."
+        ],
+        ownership: "Read-only 100% đối với source code.\nXuất báo cáo tại: plans/reports/code-reviewer-*.md",
+        rules: [
+          "Mọi phát hiện phải gắn mức độ [CRITICAL | IMPORTANT | MODERATE] kèm mã quy tắc (VD: Q-B3, R4) và tọa độ path:line.",
+          "Không tự ý lật ngược các quyết định kỹ thuật đã được xác minh (verified by file:line) hoặc đã được User chốt."
+        ],
+        invoke: "Agent(subagent_type=\"code-reviewer\", prompt=\"Review các thay đổi vừa thực hiện...\")\n# Hoặc: /bs:team review <scope> --reviewers 3"
+      },
+      "docs-git-manager": {
+        name: "docs-git-manager",
+        model: "haiku",
+        modelClass: "model-haiku",
+        role: "Documentation Sync & Git Release Specialist",
+        duties: [
+          "Kiểm tra đồng bộ giữa CLAUDE.md và AGENTS.md cùng hệ thống skill_sync (.claude <-> .agents).",
+          "Cập nhật ./docs/ (system-architecture, code-standards, changelog, roadmap) khớp với code thực tế.",
+          "Thực hiện kiểm tra an toàn trước khi commit (git status/diff, chặn file nhạy cảm/scratch) và tạo Conventional Commits."
+        ],
+        ownership: "CLAUDE.md, AGENTS.md, docs/**, plans/**",
+        rules: [
+          "Không bao giờ ghi đè làm mất nội dung riêng của AGENTS.md; chạy python scripts/sync-agent-skills.py check để kiểm chứng.",
+          "Luôn tóm tắt thay đổi và chờ xác nhận trước khi git commit hoặc git push."
+        ],
+        invoke: "Agent(subagent_type=\"docs-git-manager\", prompt=\"Cập nhật tài liệu và chuẩn bị commit...\")"
+      }
+    };
+
+    const scenarios = [
+      {
+        name: "Kịch bản 1: Thêm Feature Rebar / WPF UI mới (HPRebar & HPDcePro)",
+        steps: [
+          {
+            num: "Bước 1",
+            title: "Khảo sát & Lập Kế hoạch",
+            agents: ["researcher", "planner"],
+            desc: "Khi bạn yêu cầu thêm một tính năng mới (≥ 3 files) trong HPRebar hoặc HPDcePro, Lead gọi researcher tra cứu nhanh các class liên quan và giao planner lập kế hoạch 6-phase.",
+            actions: [
+              "researcher grep các mẫu chuẩn trong ColumnRebar/, BeamRebar/ và HPDcePro.Core/.",
+              "planner thiết kế cấu trúc Feature Folder (Model, Service, View, ViewModel + 4 file gốc Command/ExternalEventHandler/Request/SelectionFilter).",
+              "planner tách task độc lập kèm ranh giới File ownership rõ ràng."
+            ],
+            code: "# Lệnh điều phối:\nAgent(subagent_type=\"planner\", prompt=\"Lập kế hoạch feature mới theo Feature Folder Convention\")\n\n# Đầu ra:\nplans/261019-0630-new-rebar-feature/plan.md (< 80 dòng)\nplans/261019-0630-new-rebar-feature/phase-01-core-service.md\nplans/261019-0630-new-rebar-feature/phase-02-wpf-ui.md"
+          },
+          {
+            num: "Bước 2",
+            title: "Triển khai Logic & Giao diện WPF",
+            agents: ["addin-wpf-developer"],
+            desc: "addin-wpf-developer nhận task, viết phần tính toán thuần trong Core/Service và xây dựng cửa sổ Modeless WPF dùng MaterialDesign 5.3.2.",
+            actions: [
+              "Viết class tính toán/dịch vụ trong Service/ (< 300 dòng, sealed class, nullable enable).",
+              "Xây dựng ViewModel kế thừa ObservableObject (< 250 dòng) và View XAML (< 500 dòng, Segoe UI, DynamicResource).",
+              "Đảm bảo mọi thao tác ghi Revit Document đi qua <FeatureName>ExternalEventHandler.Execute."
+            ],
+            code: "# Cổng kiểm tra Build bắt buộc tại bước 2:\ndotnet build HPRebar/HPRebar.slnx -c Debug.R26 -p:DeployAddin=false\n# Kết quả: 0 Error(s), 0 CS0118 (nhờ using RevitView = Autodesk.Revit.DB.View;)"
+          },
+          {
+            num: "Bước 3",
+            title: "Kiểm thử Tự động xUnit",
+            agents: ["tester"],
+            desc: "Sau khi addin-wpf-developer báo DONE, tester tự động được mở khóa (unblocked) để viết và chạy unit test cho tầng logic thuần.",
+            actions: [
+              "Kiểm tra git diff để xác định các class mới trong HPRebar.Core hoặc HPDcePro.Core.",
+              "Viết unit test bao phủ happy path và biên lỗi mà không mock đối tượng Revit Document.",
+              "Chạy dotnet test (không dùng --nologo) và xuất bảng tổng hợp."
+            ],
+            code: "dotnet test HPRebar/HPRebar.Core.Tests\ndotnet test HPDcePro/HPDcePro.Core.Tests\n\n# Báo cáo trạng thái:\nStatus: DONE — Toàn bộ test suite xanh 100%"
+          },
+          {
+            num: "Bước 4",
+            title: "Audit Clean Code & Đóng gói",
+            agents: ["code-reviewer", "docs-git-manager"],
+            desc: "code-reviewer kiểm tra toàn bộ bản diff theo CODE_REVIEW_CHECKLIST.md trước khi docs-git-manager cập nhật tài liệu và chuẩn bị commit.",
+            actions: [
+              "code-reviewer rà soát Q-B1 (commented code), Q-B2 (empty catch), Q-B3 (≤ 300 dòng) và chuẩn MVVM.",
+              "docs-git-manager cập nhật docs/ hoặc changelog nếu có thay đổi kiến trúc.",
+              "Tổng hợp Kết quả Triển khai theo đúng chuẩn Antigravity Style gửi tới bạn."
+            ],
+            code: "# Gate nghiệm thu cuối:\n[CRITICAL: 0 | IMPORTANT: 0 | MODERATE: 0]\n✅ Đạt chuẩn HP_CLEAN_CODE_CORE.md + host-appendix/revit.md"
+          }
+        ]
+      },
+      {
+        name: "Kịch bản 2: Thêm/Sửa MCP Tool & Seed (McpShared + 11 Hosts)",
+        steps: [
+          {
+            num: "Bước 1",
+            title: "Phân tích Contract & Host Profile",
+            agents: ["researcher", "planner"],
+            desc: "Xác định thay đổi nằm ở engine chung McpShared/ hay ở từng Host cụ thể (Revit, AutoCAD, Civil3D, Navisworks, ETABS, SAP2000, Robot, Tekla, Excel, PowerBI, Dynamo, Grasshopper).",
+            actions: [
+              "Kiểm tra xem có ảnh hưởng tới wire DTO trong HPRebar.Mcp.Contracts (netstandard2.0;net48) hay không.",
+              "Nếu chạm vào HPAutoCad.McpBridge, planner đánh dấu bắt buộc đồng bộ sang HPCivil3d theo mirror-tokens.json.",
+              "Lên danh sách các bước theo TOOL_DEVELOPMENT_WORKFLOW.md (16 bước)."
+            ],
+            code: "# Ràng buộc kiến trúc bất biến:\nHP<Host>/ ──references──▶ McpShared/ (CẤM tham chiếu chéo giữa các Host)"
+          },
+          {
+            num: "Bước 2",
+            title: "Triển khai Bridge / Seed & Quality Gate",
+            agents: ["mcp-host-developer"],
+            desc: "mcp-host-developer viết code C# cho Bridge/Server hoặc cập nhật generator của embedded seeds.",
+            actions: [
+              "Đảm bảo script seed ≤ 300 dòng (Q-B3), không có comment code (Q-B1), không dùng #r/#load hoặc global::System.IO.",
+              "Giữ đồng nhất giá trị mặc định giữa tool.json và code.cs.",
+              "Với host COM (ETABS/SAP2000/Robot/Excel): đảm bảo phân loại R/W/D và tạo snapshot trước khi ghi."
+            ],
+            code: "# Nếu sửa file đối xứng giữa AutoCAD & Civil 3D:\n# Đồng bộ theo HPCivil3d/tools/mirror-tokens.json"
+          },
+          {
+            num: "Bước 3",
+            title: "Kiểm thử Đa TFM & Mirror Test",
+            agents: ["tester"],
+            desc: "tester chạy bộ test của McpShared (cả net10 và net48) cùng bộ test biên dịch seed của từng Host.",
+            actions: [
+              "Chạy HPRebar.Mcp.Server.Core.Tests (net10) và HPRebar.McpBridge.Core.Net48Tests (net48).",
+              "Chạy <Host>.Mcp.Server.Tests để kiểm chứng mọi embedded seed biên dịch thành công với SDK của Host.",
+              "Chạy HPCivil3d.McpBridge.Tests để đảm bảo 24 file mirror không bị lệch."
+            ],
+            code: "dotnet test McpShared/HPRebar.Mcp.Server.Core.Tests\ndotnet test McpShared/HPRebar.McpBridge.Core.Net48Tests\ndotnet test HPCivil3d/HPCivil3d.McpBridge.Tests\ndotnet test HPCivil3d/HPCivil3d.Mcp.Server.Tests"
+          },
+          {
+            num: "Bước 4",
+            title: "Review An toàn Host & Đồng bộ Docs",
+            agents: ["code-reviewer", "docs-git-manager"],
+            desc: "code-reviewer kiểm định theo host-appendix tương ứng; docs-git-manager đồng bộ danh mục tool trong skill/docs.",
+            actions: [
+              "code-reviewer kiểm tra dryRun rollback (Transaction/UndoRecorder/Savepoint) và snapshot safety.",
+              "docs-git-manager kiểm tra python scripts/sync-agent-skills.py check nếu có cập nhật skill MCP."
+            ],
+            code: "python scripts/sync-agent-skills.py check\n# Status: DONE — Sẵn sàng nghiệm thu"
+          }
+        ]
+      },
+      {
+        name: "Kịch bản 3: Điều tra Lỗi Khó Đa Giả thuyết (/bs:team debug)",
+        steps: [
+          {
+            num: "Bước 1",
+            title: "Khởi tạo 3 Giả thuyết Đối kháng",
+            agents: ["planner", "debugger"],
+            desc: "Khi gặp lỗi phức tạp (VD: FileLoadException khi nạp bundle vào AutoCAD/Revit hoặc lỗi timeout pipe -32002), Lead tách 3 giả thuyết độc lập.",
+            actions: [
+              "Giả thuyết 1 (Debugger-1): Lỗi rò rỉ NuGet dependency vào dự án .Loader hoặc thiếu ILRepack merge.",
+              "Giả thuyết 2 (Debugger-2): Lỗi lệch phiên bản assembly (System.Text.Json / MaterialDesign) trong AssemblyLoadContext.",
+              "Giả thuyết 3 (Debugger-3): Lỗi deadlock/modal chặn MainThreadQueue trên UI thread của Host."
+            ],
+            code: "/bs:team debug \"AutoCAD 2026 báo FileLoadException khi gọi lệnh MCP\" --debuggers 3"
+          },
+          {
+            num: "Bước 2",
+            title: "Điều tra Song song & Phản biện Chéo",
+            agents: ["debugger"],
+            desc: "3 debugger chạy song song, thu thập bằng chứng từ .csproj, bin/, log Serilog và gửi SendMessage phản biện lẫn nhau.",
+            actions: [
+              "Debugger-1 kiểm tra file .Loader.csproj và phát hiện có 1 PackageReference không gắn ExcludeAssets=runtime.",
+              "Debugger-2 và Debugger-3 kiểm tra log, xác nhận giả thuyết của mình không khớp và xác nhận bằng chứng của Debugger-1."
+            ],
+            code: "SendMessage(type=\"message\", recipient=\"debugger-2\", message=\"Đã tìm thấy bằng chứng trong Loader.csproj:line 18 — rò rỉ DLL runtime.\")"
+          },
+          {
+            num: "Bước 3",
+            title: "Sửa Lỗi tại Gốc & Kiểm chứng",
+            agents: ["mcp-host-developer", "tester"],
+            desc: "Sau khi hội tụ về nguyên nhân gốc rễ duy nhất, Developer sửa đúng điểm lỗi và Tester chạy lại toàn bộ bài kiểm tra.",
+            actions: [
+              "Sửa cấu hình .csproj / ALC resolver đúng chuẩn autocad-civil.md.",
+              "Chạy build và bộ test để đảm bảo không phát sinh lỗi hồi quy."
+            ],
+            code: "# Báo cáo lưu tại:\nplans/reports/debug-autocad-fileload.md"
+          }
+        ]
+      },
+      {
+        name: "Kịch bản 4: Audit Clean Code & Release (/bs:team review)",
+        steps: [
+          {
+            num: "Bước 1",
+            title: "Phân tách 3 Mũi Kiểm định Độc lập",
+            agents: ["code-reviewer"],
+            desc: "Trước khi merge nhánh lớn hoặc phát hành, /bs:team review khởi chạy 3 code-reviewer song song theo 3 trọng tâm.",
+            actions: [
+              "Reviewer-1: Kiểm tra HP_CLEAN_CODE_CORE.md (Q-B1..Q-B3, độ dài hàm/file, đặt tên, không dùng mã F1/phase trong comment).",
+              "Reviewer-2: Kiểm tra An toàn Host (Revit Transaction/ExternalEvent, AutoCAD ALC/Ribbon, COM Snapshot R/W/D).",
+              "Reviewer-3: Kiểm tra Bảo mật ScriptGuard (chặn global::System.IO, #r/#load) & độ phủ Test."
+            ],
+            code: "/bs:team review HPAutoCad/ --reviewers 3"
+          },
+          {
+            num: "Bước 2",
+            title: "Qua Cổng Simplify-Gate & Sửa Điểm Nghẽn",
+            agents: ["addin-wpf-developer", "mcp-host-developer"],
+            desc: "Nếu có phát hiện mức CRITICAL hoặc IMPORTANT (hoặc hook simplify-gate cảnh báo diff lớn), Developer tinh gọn lại code mà giữ nguyên hành vi.",
+            actions: [
+              "Xử lý triệt để các phát hiện CRITICAL / IMPORTANT có dẫn chứng path:line.",
+              "Không tự ý đảo ngược các quyết định thiết kế đã được User chốt."
+            ],
+            code: "# Cổng kiểm tra tự động:\nTask(subagent_type=\"code-simplifier\", prompt=\"Simplify keeping behavior identical\")"
+          },
+          {
+            num: "Bước 3",
+            title: "Đồng bộ CLAUDE.md ↔ AGENTS.md & Commit",
+            agents: ["docs-git-manager"],
+            desc: "docs-git-manager kiểm tra đồng bộ tài liệu, rà soát git status/diff và tóm tắt thay đổi để bạn duyệt commit.",
+            actions: [
+              "Chạy python scripts/sync-agent-skills.py check để đảm bảo .claude và .agents đồng bộ 100%.",
+              "Kiểm tra không có file .env, thông tin mật hay file tạm trong scratch/ bị stage.",
+              "Đề xuất commit message chuẩn Conventional Commits."
+            ],
+            code: "git status --short\n# Đề xuất: feat(autocad-mcp): add layer batch validation seed tool"
+          }
+        ]
+      }
+    ];
+
+    let currentScenarioIdx = 0;
+    let currentStepIdx = 0;
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function selectAgent(agentId) {
+      const data = agentsData[agentId];
+      if (!data) return;
+
+      document.querySelectorAll('.deliv-pill').forEach(p => p.classList.remove('active-deliv'));
+      document.querySelectorAll('.agent-card').forEach(card => {
+        card.classList.remove('dimmed');
+        if (card.dataset.agent === agentId) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+
+      document.getElementById('insp-name').textContent = data.name;
+      const badge = document.getElementById('insp-badge');
+      badge.textContent = data.model;
+      badge.className = 'model-badge ' + data.modelClass;
+      document.getElementById('insp-role').textContent = data.role;
+
+      const dutiesEl = document.getElementById('insp-duties');
+      dutiesEl.innerHTML = data.duties.map(d => `<li>${d}</li>`).join('');
+
+      document.getElementById('insp-ownership').textContent = data.ownership;
+
+      const rulesEl = document.getElementById('insp-rules');
+      rulesEl.innerHTML = data.rules.map(r => `<li>${r}</li>`).join('');
+
+      document.getElementById('insp-invoke').textContent = data.invoke;
+    }
+
+    function filterByDeliverable(delivKey, activeAgents) {
+      document.querySelectorAll('.deliv-pill').forEach(p => p.classList.remove('active-deliv'));
+      event.currentTarget.classList.add('active-deliv');
+
+      document.querySelectorAll('.agent-card').forEach(card => {
+        const ag = card.dataset.agent;
+        if (activeAgents.includes(ag)) {
+          card.classList.remove('dimmed');
+        } else {
+          card.classList.add('dimmed');
+        }
+      });
+
+      if (activeAgents.length > 0) {
+        selectAgent(activeAgents[1] || activeAgents[0]);
+        document.querySelectorAll('.agent-card').forEach(card => {
+          const ag = card.dataset.agent;
+          if (!activeAgents.includes(ag)) card.classList.add('dimmed');
+        });
+      }
+    }
+
+    function loadScenario(idx, btn) {
+      currentScenarioIdx = idx;
+      currentStepIdx = 0;
+      document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderScenario();
+    }
+
+    function renderScenario() {
+      const sc = scenarios[currentScenarioIdx];
+      const container = document.getElementById('sim-pipeline-container');
+      container.innerHTML = sc.steps.map((st, idx) => {
+        const stateClass = idx === currentStepIdx ? 'active-step' : (idx < currentStepIdx ? 'completed-step' : '');
+        const badges = st.agents.map(a => `<span class="tag">${a}</span>`).join('');
+        return `
+          <div class="sim-step-card ${stateClass}" onclick="goToStep(${idx})">
+            <div class="step-num">${st.num}</div>
+            <div class="step-title">${st.title}</div>
+            <div class="step-agents">${badges}</div>
+          </div>
+        `;
+      }).join('');
+
+      const active = sc.steps[currentStepIdx];
+      document.getElementById('sim-detail-title').textContent = `${active.num}: ${active.title}`;
+      document.getElementById('sim-detail-desc').textContent = active.desc;
+      document.getElementById('sim-detail-actions').innerHTML = active.actions.map(a => `<li>${a}</li>`).join('');
+      document.getElementById('sim-detail-code').textContent = active.code;
+    }
+
+    function goToStep(idx) {
+      currentStepIdx = idx;
+      renderScenario();
+    }
+
+    function nextStep() {
+      const sc = scenarios[currentScenarioIdx];
+      currentStepIdx = (currentStepIdx + 1) % sc.steps.length;
+      renderScenario();
+    }
+
+    function prevStep() {
+      const sc = scenarios[currentScenarioIdx];
+      currentStepIdx = (currentStepIdx - 1 + sc.steps.length) % sc.steps.length;
+      renderScenario();
+    }
+
+    // Initialize default view
+    selectAgent('planner');
+    renderScenario();
+  </script>
+</body>
+</html>

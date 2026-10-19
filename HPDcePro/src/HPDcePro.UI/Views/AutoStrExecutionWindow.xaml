@@ -1,0 +1,85 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.AutoStrExecutionWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Tiến Trình Tự Động Hóa Kết Cấu 24 Bước (AutoStrWindow)"
+                  Height="720" Width="1020"
+                  MinHeight="600" MinWidth="850"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header & Progress -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="AUTOSTR - QUY TRÌNH THIẾT KẾ &amp; XUẤT HỒ SƠ 24 BƯỚC TỰ ĐỘNG" Style="{StaticResource Text.Title}"/>
+                        <TextBlock Text="{Binding CurrentStepName, StringFormat='{}Bước hiện tại: {0}'}" Style="{StaticResource Text.Muted}"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Text="{Binding OverallProgressPercentage, StringFormat='{}{0:F0}%'}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center"/>
+                </Grid>
+                <ProgressBar Value="{Binding OverallProgressPercentage}" Maximum="100" Height="8" Margin="0,10,0,0" Foreground="{DynamicResource Brush.Accent}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Body: 24 Steps DataGrid + Console -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Steps Table -->
+            <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                <DataGrid ItemsSource="{Binding Steps}" Style="{StaticResource StandardDataGrid}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding StepNumber}" Width="40"/>
+                        <DataGridTextColumn Header="Tên bước quy trình" Binding="{Binding StepName}" Width="1.5*"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*"/>
+                        <DataGridTextColumn Header="Thông điệp" Binding="{Binding Message}" Width="1.5*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Console Log -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <DockPanel>
+                    <TextBlock Text="NHẬT KÝ THỰC THI (REALTIME LOG)" Style="{StaticResource Text.Subtitle}" DockPanel.Dock="Top" Margin="0,0,0,8"/>
+                    <ListBox ItemsSource="{Binding ExecutionLogs}" Background="Transparent" BorderThickness="0" FontFamily="Consolas" FontSize="12"/>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <Button Content="Bắt đầu chạy AutoStr" Command="{Binding StartPipelineCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Left"/>
+                <Button Content="Hủy bỏ" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Left" Margin="8,0,0,0"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

@@ -15,7 +15,7 @@ def rpc(proc, msg_id, method, params=None):
         msg["params"] = params
     proc.stdin.write((json.dumps(msg) + "\n").encode("utf-8"))
     proc.stdin.flush()
-    deadline = time.time() + 180
+    deadline = time.time() + 600
     while time.time() < deadline:
         line = proc.stdout.readline()
         if not line:
@@ -73,10 +73,27 @@ def main():
             result = rpc(proc, 2, "tools/list", {})
         elif method == "tools/call":
             name = rest[2]
-            arguments = json.loads(rest[3]) if len(rest) > 3 else {}
+            if len(rest) > 3:
+                raw_arg = rest[3]
+                if raw_arg.startswith("@"):
+                    with open(raw_arg[1:], "r", encoding="utf-8") as f:
+                        arguments = json.load(f)
+                else:
+                    arguments = json.loads(raw_arg)
+            else:
+                arguments = {}
             result = rpc(proc, 2, "tools/call", {"name": name, "arguments": arguments})
         else:
-            result = rpc(proc, 2, method, json.loads(rest[2]) if len(rest) > 2 else {})
+            if len(rest) > 2:
+                raw_arg = rest[2]
+                if raw_arg.startswith("@"):
+                    with open(raw_arg[1:], "r", encoding="utf-8") as f:
+                        call_params = json.load(f)
+                else:
+                    call_params = json.loads(raw_arg)
+            else:
+                call_params = {}
+            result = rpc(proc, 2, method, call_params)
         text = json.dumps(result, indent=2, ensure_ascii=False)
         if out:
             with open(out, "w", encoding="utf-8") as f:

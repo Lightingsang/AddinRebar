@@ -1,0 +1,52 @@
+{
+  "name": "connect_node_ports",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Wire",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "wire",
+    "connector",
+    "connect",
+    "port",
+    "workspace"
+  ],
+  "title": "Connect Dynamo node ports",
+  "description": "Creates a wire (connector) between an output port of an upstream source node and an input port of a downstream target node in the active Dynamo workspace.",
+  "notes": "Executes DynamoModel.MakeConnectionCommand to link ports and update execution graph topology.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "sourceNodeId",
+      "sourcePortIndex",
+      "targetNodeId",
+      "targetPortIndex"
+    ],
+    "properties": {
+      "sourceNodeId": {
+        "type": "string",
+        "description": "GUID or unique name of the upstream source node providing the output"
+      },
+      "sourcePortIndex": {
+        "type": "integer",
+        "description": "0-based index of the output port on the source node"
+      },
+      "targetNodeId": {
+        "type": "string",
+        "description": "GUID or unique name of the downstream target node receiving the input"
+      },
+      "targetPortIndex": {
+        "type": "integer",
+        "description": "0-based index of the input port on the target node"
+      }
+    },
+    "additionalProperties": false
+  }
+}

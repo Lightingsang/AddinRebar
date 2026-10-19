@@ -1,33 +1,20 @@
-# Dispatch: Explorer Survey 2 (Beam Rebar Geometry & Math in HPRebar.Core)
+# Dispatch: Explorer Survey 2 (Target Solution Inventory & Mocks Audit)
 
-- **Role**: teamwork_preview_explorer
-- **Task**: Map existing beam rebar geometry calculations in `HPRebar.Core` and determine architecture for `KataRebar` geometric calculation engine.
-- **Authoritative Request**: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md (under ## 2026-09-27T15:57:37Z)
-- **Scope**:
-  1. Investigate `HPRebar.Core/BeamRebar/` and `HPRebar.Core.Tests/BeamRebar/`.
-  2. Examine how 3D rebar curves, coordinate systems (beam local vs global), covers, stirrups, continuous bars, and cutoffs are modeled in `HPRebar.Core`.
-  3. Determine how `KataBeamRebarSpec` translates into 3D curves:
-     - Continuous top & bottom bars with anchorage into end supports (hook 90° or lap length).
-     - Support top additional bar cutoffs (L/4, L/3, or sheet settings).
-     - Mid-span bottom additional bar cutoffs relative to clear span faces.
-     - Stirrup distribution (support dense L/4, mid-span sparse L/2, closed stirrup, U cap, C cross tie).
-     - Side bars / torsion bars / web skin.
-  4. Ensure zero references to `Autodesk.Revit.*` in `HPRebar.Core` (`netstandard2.0`).
-- **Deliverable**: Write a comprehensive survey report to `report.md` in your working directory and deliver `handoff.md`.
+- Working Directory: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\explorer_survey_2\`
+- Parent Orchestrator: `orchestrator_25`
+- Role: `teamwork_preview_explorer`
 
-## 2026-09-27T16:01:00Z
+## Mandatory Reference Documents
+- `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\ORIGINAL_REQUEST.md` (Read header `## 2026-10-18T05:27:06Z` carefully)
+- `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\orchestrator_25\DISPATCH.md`
 
-<USER_REQUEST>
-You are explorer_survey_2 (Core Beam Rebar Math Explorer).
-Your working directory is: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\explorer_survey_2
-Read your dispatch instructions at: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\explorer_survey_2\DISPATCH.md
-Read the authoritative user request at: g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\ORIGINAL_REQUEST.md under header ## 2026-09-27T15:57:37Z.
+## Mission
+Survey the existing `HPDcePro/HPDcePro.slnx` solution and all its projects. Audit existing codebase for mocks, placeholders, and dummy data. Check coverage of AutoCAD Jigs, UI Forms, and build readiness.
 
-Your mission:
-1. Investigate existing beam rebar models and algorithms in `HPRebar.Core/BeamRebar/` and tests in `HPRebar.Core.Tests/BeamRebar/`.
-2. Check existing coordinate math, polyline/curve representations, beam spans and supports modeling, cover handling, stirrup distribution (3-zone support L/4 vs midspan L/2), anchorage hook (90° bend), top additional bar cutoffs (L/4, L/3, sheet parameters), bottom additional bar cutoffs, cantilever spans, and side bars.
-3. Determine what domain models and calculators already exist that can be reused vs what dedicated classes are needed for `KataRebar` (e.g., `KataRebarCalculator`, `KataRebarLayoutResult`, `KataRebarCurve`, `KataStirrupZone`).
-4. Ensure the design maintains 100% netstandard2.0 purity with ZERO references to `Autodesk.Revit.*`.
-5. Propose a clear calculation pipeline from `KataBeamRebarSpec` + Beam geometry inputs -> 3D rebar curves and layout.
-6. Write your comprehensive findings to `report.md` and handoff to `handoff.md`, then send a message when complete.
-</USER_REQUEST>
+## Detailed Tasks
+1. Inspect `HPDcePro/HPDcePro.slnx` and all project files (`HPDcePro.Core`, `HPDcePro.UI`, `HPDcePro.AutoCad`, `HPDcePro.Revit`, `HPDcePro.Excel`, `HPDcePro.Mcp`, `HPDcePro.Desktop`, and test projects).
+2. Scan for and catalog all existing mocks/placeholders/sample functions (e.g. `CalculateSampleBeam`, `GenerateSampleColumnBuffer`, dummy returns) across all files in `HPDcePro/`.
+3. Audit CAD interactive Jigs in `HPDcePro.AutoCad`: verify which of the 11 required Jigs (`VeMBKC_JIG`, `JigSlabRebar`, `TagLeader`, `TagChiaThep`, `ijgRaithepchamtron`, `ijgVeDaiVong`, `JigVeDaiC`, `VePolylineBatKy`, `ijgVeThepVachCT`, `JigVeVachHam`, `DimNhanhMBKC`) currently exist, are partial, or are missing.
+4. Audit UI Forms in `HPDcePro.UI`: verify status of specialized dialogs (`DamCong_Frm`, `MongCoc_Frm`, `MongCoc_FrmLopThepThem`, `MongCoc_FrmChonThepTuDong`, `ThangMoi_Frm`, `CocBT_Frm`, `TKT_frmMain`, `AutoStrWindow`, `Bea_ToiUuCatThepV2`, `DcePalette`, `DceRibbon`, etc.).
+5. Run a test build `dotnet build HPDcePro/HPDcePro.slnx -c Debug --disable-build-servers -m:1` and test run `dotnet test HPDcePro/HPDcePro.slnx -c Debug --disable-build-servers -m:1` to determine current compiler errors/warnings and test results.
+6. Write comprehensive report to `.agents/teamwork/explorer_survey_2/handoff.md`.

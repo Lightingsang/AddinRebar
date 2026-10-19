@@ -1,0 +1,45 @@
+{
+  "AllPassed": true,
+  "Steps": [
+    {
+      "Name": "B\u01B0\u1EDBc 1: K\u1EBFt n\u1ED1i h\u1EA1 t\u1EA7ng Named Pipe Revit 2026",
+      "Passed": true,
+      "Details": "\u0110\u00E3 k\u1EBFt n\u1ED1i tr\u1EF1c ti\u1EBFp ti\u1EBFn tr\u00ECnh Revit 2026."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 2: Ki\u1EC3m to\u00E1n Level T\u1EA7ng 1 (K\u1EBFt c\u1EA5u) (-0.100m)",
+      "Passed": true,
+      "Details": "Level t\u1ED3n t\u1EA1i t\u1EA1i elevation = -100mm"
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 3: Ki\u1EC3m to\u00E1n Level T\u1EA7ng 1 (\u00B10.000) tham chi\u1EBFu ki\u1EBFn tr\u00FAc",
+      "Passed": true,
+      "Details": "Level t\u1ED3n t\u1EA1i t\u1EA1i elevation = 0mm"
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 4: Ki\u1EC3m to\u00E1n x\u00F3a b\u1ECF 2 Level th\u1EEBa (T\u1EA7ng M\u00F3ng \u0026 \u0110\u00E1y \u0110\u00E0i M\u00F3ng)",
+      "Passed": true,
+      "Details": "\u0110\u00E3 x\u00F3a s\u1EA1ch 2 Level T\u1EA7ng M\u00F3ng v\u00E0 \u0110\u00E1y \u0110\u00E0i M\u00F3ng."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 5: Ki\u1EC3m to\u00E1n 188 Gi\u1EB1ng M\u00F3ng neo ph\u1EB3ng \u0110\u1EC9nh \u0110\u00E0i M\u00F3ng (-1.600m)",
+      "Passed": true,
+      "Details": "100% 188/188 gi\u1EB1ng m\u00F3ng neo ch\u00EDnh x\u00E1c t\u1EA1i Level \u0110\u1EC9nh \u0110\u00E0i M\u00F3ng (-1.600m)."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 6: Ki\u1EC3m to\u00E1n 72 C\u1ED5 C\u1ED9t M\u00F3ng ng\u00E0m v\u00E0o s\u00E0n th\u00F4 T\u1EA7ng 1 (h=1500mm)",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 72/72 C\u1ED5 C\u1ED9t ng\u00E0m Base=\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng (-1.6m), Top=T\u1EA7ng 1 KC (-0.1m), h=1500mm."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 7: Ki\u1EC3m to\u00E1n 72 C\u1ED9t Th\u00E2n T\u1EA7ng 1 \u0111\u1EB7t tr\u00EAn s\u00E0n th\u00F4 T\u1EA7ng 1 (h=4400mm)",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 72/72 C\u1ED9t T\u1EA7ng 1 ch\u00E2n t\u1EA1i T\u1EA7ng 1 KC (-0.1m), Top=T\u1EA7ng 2 (\u002B4.3m), h=4400mm."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 8: Ki\u1EC3m to\u00E1n 16 V\u00E1ch Thang M\u00E1y T1A \u0026 T1B li\u00EAn k\u1EBFt \u0111\u00FAng T\u1EA7ng 1 KC",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 8/8 C\u1ED5 V\u00E1ch (h=1500mm) v\u00E0 8/8 V\u00E1ch T1 (h=4400mm) kh\u1EDBp s\u00E0n th\u00F4 -0.100m."
+    }
+  ]
+}

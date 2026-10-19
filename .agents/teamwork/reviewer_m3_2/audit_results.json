@@ -1,0 +1,212 @@
+{
+  "timestamp": "2026-10-07T06:26:08.291504+00:00",
+  "grids": {
+    "count": 27,
+    "all_pinned": true
+  },
+  "levels": {
+    "count": 10,
+    "all_pinned": true
+  },
+  "piles": {
+    "count": 196,
+    "z_dist": {
+      "-2500": 122,
+      "-2700": 50,
+      "-2800": 24
+    }
+  },
+  "footings": {
+    "count": 72,
+    "thickness_dist": {
+      "1000": 56,
+      "1200": 12,
+      "1300": 4
+    },
+    "topz_errors": 0
+  },
+  "beams": {
+    "count": 192,
+    "sec_dist": {
+      "200x300": 22,
+      "300x400": 157,
+      "200x400": 2,
+      "300x600": 11
+    },
+    "topz_errors": 0
+  },
+  "continuity": {
+    "unsupported_ends_count": 17,
+    "unsupported_ends": [
+      {
+        "beam_id": 9912615,
+        "mark": "BN-1",
+        "end": "start",
+        "pt": [
+          -3831.4,
+          23250
+        ]
+      },
+      {
+        "beam_id": 9912735,
+        "mark": "BN-1",
+        "end": "start",
+        "pt": [
+          518.5,
+          -400
+        ]
+      },
+      {
+        "beam_id": 9912759,
+        "mark": "BN-1",
+        "end": "end",
+        "pt": [
+          518.6,
+          28300
+        ]
+      },
+      {
+        "beam_id": 9912767,
+        "mark": "BN-1",
+        "end": "end",
+        "pt": [
+          17468.6,
+          2280
+        ]
+      },
+      {
+        "beam_id": 9912547,
+        "mark": "BN-2",
+        "end": "start",
+        "pt": [
+          17568.5,
+          2800
+        ]
+      },
+      {
+        "beam_id": 9912763,
+        "mark": "GM-1",
+        "end": "start",
+        "pt": [
+          13918.6,
+          750
+        ]
+      },
+      {
+        "beam_id": 9912741,
+        "mark": "GM-10a",
+        "end": "end",
+        "pt": [
+          23618.6,
+          24400
+        ]
+      },
+      {
+        "beam_id": 9912619,
+        "mark": "GM-14",
+        "end": "start",
+        "pt": [
+          -3831.4,
+          4650
+        ]
+      },
+      {
+        "beam_id": 9912621,
+        "mark": "GM-14",
+        "end": "start",
+        "pt": [
+          -3831.4,
+          20850
+        ]
+      },
+      {
+        "beam_id": 9912631,
+        "mark": "GM-14",
+        "end": "start",
+        "pt": [
+          -3831.4,
+          7050
+        ]
+      },
+      {
+        "beam_id": 9912747,
+        "mark": "GM-19b",
+        "end": "start",
+        "pt": [
+          23618.6,
+          3500
+        ]
+      },
+      {
+        "beam_id": 9912487,
+        "mark": "GM-2",
+        "end": "start",
+        "pt": [
+          42818.6,
+          -50
+        ]
+      },
+      {
+        "beam_id": 9912489,
+        "mark": "GM-2",
+        "end": "start",
+        "pt": [
+          42818.6,
+          -300
+        ]
+      },
+      {
+        "beam_id": 9912637,
+        "mark": "GM-2",
+        "end": "start",
+        "pt": [
+          29418.6,
+          29150
+        ]
+      },
+      {
+        "beam_id": 9912637,
+        "mark": "GM-2",
+        "end": "end",
+        "pt": [
+          35668.6,
+          29150
+        ]
+      },
+      {
+        "beam_id": 9912467,
+        "mark": "GM-5b",
+        "end": "start",
+        "pt": [
+          29868.5,
+          4700
+        ]
+      },
+      {
+        "beam_id": 9912531,
+        "mark": "GM-5b",
+        "end": "end",
+        "pt": [
+          44218.5,
+          4700
+        ]
+      }
+    ]
+  },
+  "pile_embedment": {
+    "embedment_violations": 0,
+    "containment_violations": 5
+  },
+  "ledger_check": {
+    "ledger_elements_count": 460,
+    "missing_in_live": 0,
+    "missing_in_ledger": 0,
+    "sec_tol_errs": 0,
+    "z_tol_errs": 0
+  },
+  "integrity_check": {
+    "integrity_violations_found": 0,
+    "findings": []
+  },
+  "verdict": "REQUEST_CHANGES"
+}

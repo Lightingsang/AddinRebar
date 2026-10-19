@@ -23,7 +23,7 @@
                             <ComboBox ItemsSource="{Binding SupportTopBars}"
                                       SelectedItem="{Binding Session.SelectedSupportEditor, Mode=TwoWay}"
                                       DisplayMemberPath="SupportName"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <Button Grid.Column="2"
@@ -31,7 +31,7 @@
                                 Content="{Binding Localization.Strings.ApplyAll}"
                                 Command="{Binding ApplySupportToAllCommand}"
                                 VerticalAlignment="Bottom"
-                                MinWidth="130" Height="28"/>
+                                MinWidth="130"/>
                     </Grid>
 
                     <!-- Layer 1 Top Settings -->
@@ -46,12 +46,16 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding DataContext.Localization.Strings.Count, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Extension Ratio (L/3)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Layer1ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Layer1ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -59,7 +63,7 @@
                             <ComboBox ItemsSource="{Binding DataContext.Session.BarTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       SelectedItem="{Binding BarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
 
@@ -79,17 +83,23 @@
 
                             <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                                 <TextBlock Text="Layer 2 Count" Style="{DynamicResource Caption}"/>
-                                <TextBox Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="{DynamicResource Spacing.SmallTop}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                                 <TextBlock Text="Extension Ratio (L/4)" Style="{DynamicResource Caption}"/>
-                                <TextBox Text="{Binding Layer2ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Text="{Binding Layer2ExtensionRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="{DynamicResource Spacing.SmallTop}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                                 <TextBlock Text="Vertical Gap (mm)" Style="{DynamicResource Caption}"/>
-                                <TextBox Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="{DynamicResource Spacing.SmallTop}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -115,7 +125,7 @@
                             <ComboBox ItemsSource="{Binding SpanBottomBars}"
                                       SelectedItem="{Binding Session.SelectedSpanEditor, Mode=TwoWay}"
                                       DisplayMemberPath="SpanName"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <Button Grid.Column="2"
@@ -123,7 +133,7 @@
                                 Content="{Binding Localization.Strings.ApplyAll}"
                                 Command="{Binding ApplySpanToAllCommand}"
                                 VerticalAlignment="Bottom"
-                                MinWidth="130" Height="28"/>
+                                MinWidth="130"/>
                     </Grid>
 
                     <!-- Layer 1 Bottom Settings -->
@@ -138,12 +148,16 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding DataContext.Localization.Strings.Count, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Layer1Count, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Cutoff Ratio (Ln/7)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding CutoffRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding CutoffRatio, StringFormat={}{0:0.###}, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -151,7 +165,7 @@
                             <ComboBox ItemsSource="{Binding DataContext.Session.BarTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       SelectedItem="{Binding BarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
 
@@ -171,12 +185,16 @@
 
                             <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                                 <TextBlock Text="Layer 2 Count" Style="{DynamicResource Caption}"/>
-                                <TextBox Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Text="{Binding Layer2Count, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="{DynamicResource Spacing.SmallTop}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                                 <TextBlock Text="Vertical Gap (mm)" Style="{DynamicResource Caption}"/>
-                                <TextBox Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                <TextBox Style="{DynamicResource NumberTextBox}"
+                                         Text="{Binding LayerGap, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="{DynamicResource Spacing.SmallTop}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

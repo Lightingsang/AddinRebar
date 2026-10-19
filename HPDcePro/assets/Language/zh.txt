@@ -1,0 +1,1258 @@
+﻿#name	中文
+# File tra ngon ngu DCE Excel - ma: zh
+# Dinh dang: <chuoi tieng Viet goc><TAB><ban dich>
+# Dong bat dau bang # la ghi chu. Xuong dong trong cau dich ghi \n
+# Bo trong phan dich = phan mem tu dung tieng Viet (KHONG loi).
+# PHAI LUU UTF-8. Sua o day de va ban dich sai ma KHONG can doi code.
+#------------------------------------------------------------------------
+
+ (có thể bạn đã bấm Hủy ở hộp thoại UAC): 	 (您可能在 UAC 对话框中点击了取消): 
+ - Không có trong thư viện vật liệu. Bạn vui lòng nâng cấp phần mềm hoặc khai báo thủ công	 - 材料库中没有此项。请升级软件或手动定义
+ CHƯA được đăng ký API (COM) với Windows.	 尚未在 Windows 中注册 API (COM)。
+ Lỗi không đổi được tên point	 错误: 无法重命名节点
+ Pier!	 Pier!
+ Sheet Nội lực	 行 (内力表)
+ Tiết diện không được tìm thấy (highlight mầu cam)	 未找到截面 (橙色高亮)
+ Tiết diện được update (highlight mầu đỏ)	 截面已更新 (红色高亮)
+ Tên Tiền tố	 名称前缀
+ Tên tổ hợp bao	 包络组合名称
+ Tạo địa chỉ Text dưới tên dầm (cột A) để dò tìm	 在梁名称下方 (A 列) 创建文本地址以便查找
+ chưa chạy, khởi động nó ?	 未运行，是否启动？
+ chưa sẵn sàng. Hãy đóng hộp thoại đang mở hoặc thoát khỏi lệnh đang thực hiện	 尚未就绪。请关闭打开的对话框或退出正在执行的命令
+ có kích thước hoặc tiết diện hoặc số tầng hoặc trục địa phương không giống Label 	 的尺寸、截面、层数或局部坐标轴不同于 Label 
+ của Etabs nguồn và Etabs đích cần giống nhau!	 源 ETABS 与目标 ETABS 必须一致！
+ của Safe nguồn và Safe đích cần giống nhau!	 源 SAFE 与目标 SAFE 必须一致！
+ của ver: 	 版本: 
+ không thành công!	 失败！
+ là 1 cây dầm Liên tục, Nhiều nhịp nhưng bên Bảng tính dầm không được sắp xếp liên tục Liền nhau, Hãy kiểm tra lại bảng tính!	 是一根连续多跨梁，但在梁计算表中未连续相邻排列，请检查计算表！
+ lần!	 次！
+ rồi bấm kết nối lại.	 然后再次点击连接。
+ tên dầm	 梁名称
+ và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).	 与 Excel 的运行权限不同 (一个以管理员身份运行，另一个以普通身份运行)。
+ xdata on 	
+ | Error: 	 | 错误: 
+ Đối tượng được select bên mô hình	 在模型中选中的对象
+" (ret = 	
+" (ret=	
+" trong file Excel đang Active.	" 位于当前活动的 Excel 文件中。
+" trong file đang Active.	" 位于当前活动文件中。
+" từ Etabs (ret = 	" 来自 ETABS (ret = 
+% Vùng thép chịu kéo	% 受拉钢筋区
+(*D)	
+(*L)	
+(1.35D + 1.5L)	(1.35D + 1.5L)
+(L)	
+(Lớp)	(层)
+(m)	
+(mm)	
+(độ)	(度)
++ Cao độ	+ 标高
+- Cập nhập Strip Safe tương ứng Đài Móng trong bảng tính cũ chọn 'No'.	- 若要按旧计算表中的承台更新 SAFE 板带，请选择 'No'。
+- Cột BI, BJ, BK trong bảng tính cột!	- 柱计算表中的 BI、BJ、BK 列！
+- Cột BO, BP, BQ trong bảng tính Vách!	- 墙计算表中的 BO、BP、BQ 列！
+- Hoặc Etabs chưa mở khóa	- 或者 ETABS 尚未解锁
+- Làm mới lại bảng tính Excel chọn 'Yes'.	- 若要刷新 Excel 计算表，请选择 'Yes'。
+- Nếu cột thép tăng cường điền bằng 2*1 có nghĩa:	- 若附加钢筋列填写为 2*1，其含义为：
+- THÊM HOẶC BỚT DẦM cần nhấn nút 'Chuyển DL tính => vẽ' để phần mềm cập nhập số lượng mới	- 增加或删除梁后，需点击 '计算数据 => 图纸' 按钮，软件才会更新新的数量
+- Trong một Model Etabs không được có 2 Unique Name trùng tên (mặc định của CSI không phải của DBIM)	- 同一个 ETABS 模型中不能有两个相同的 Unique Name (这是 CSI 的默认设置，非 DBIM 的)
+1 số Phần tử cần xem lại trên mô hình: 	模型中有部分构件需要复核: 
+1 số phần tử cần xem lại trên mô hình: 	模型中有部分构件需要复核: 
+1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?	1. 是否将所有设置恢复到初始状态？
+1. Chọn tải trọng nguồn	1. 选择源荷载
+1. Cài 'Microsoft Print to PDF' in mặc định.	1. 设 'Microsoft Print to PDF' 为默认。
+10a200	
+1: Trong quá trình chạy không tác động vào chuột (vì phần mềm đang điều khiển chuột)	1: 运行过程中请勿操作鼠标 (软件正在控制鼠标)
+2. Tham số tính toán	2. 计算参数
+2. Thời gian chờ các bước	2. 各步骤等待时间
+3. Loadcase & Combo đầu ra	3. 输出工况与组合
+3. Thời gian chờ chuyển tầng	3. 切换楼层等待时间
+< ĐK thép TC < ĐKT L1 +	< 附加筋直径 < L1 直径 +
+>>> Giá trị giới hạn võng	>>> 挠度限值
+>>> Hệ số phần dài hạn	>>> 长期部分系数
+>>> Manual by CSI	>>> CSI 手册
+>>> Modulus of rupture (ACI)	>>> 断裂模量 (ACI)
+>>> Tham khảo EC	>>> 参考 EC
+>>> Tham khảo TCVN	>>> 参考 TCVN
+>>> Tính hàm lượng	>>> 计算配筋率
+>>> YouTube	
+AI Support	AI 助手
+API Etabs	ETABS API
+API script FAILED to complete.	API 脚本执行失败。
+AUTO-REBAR ? ? ?	自动配筋 ? ? ?
+AUTOCAD API	AUTOCAD API
+Access (*.mdb, *.accdb)	
+Account	账户
+Activate 	激活 
+Admin	管理员
+Admin: Nguyễn Văn Duy	管理员: Nguyen Van Duy
+Allow angled neutral axis	允许中和轴倾斜
+Allow angled neutral axis (BDTT)	允许中和轴倾斜 (BDTT)
+ApiKey	
+ApiUrl	
+Assign	指定
+Assign Pier Frame	指定 Pier Frame
+Assign Pier Shell	指定 Pier Shell
+Auto Rebars	自动配筋
+AutoCAD	
+BASIC DESIGN	基本设计
+BEAM	梁
+Basic Design	基本设计
+Beam Schedule	梁表
+Brace forces	支撑内力
+BricsCAD	
+Bóc tách khối lượng	工程量统计
+Bước 1: Select dầm bên etabs (hoặc safe)	步骤 1: 在 ETABS (或 SAFE) 中选择梁
+Bước Strip (mm)	板带步长 (mm)
+Bước nhảy Momen (dùng chọn thép nứt)	弯矩步长 (用于裂缝配筋选择)
+Bước nhảy a đối với Pier (vì pier k có Location)	Pier 的步长 a (Pier 没有 Location)
+BẠN ĐANG SELECT CỘT BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	您正在 ETABS 中选择柱 - DBIM 优先处理这些柱
+BẠN ĐANG SELECT VÁCH BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	您正在 ETABS 中选择墙 - DBIM 优先处理这些构件
+Bạn chưa chọn gói để mua!	您尚未选择要购买的套餐！
+Bạn chưa nhập License để gia hạn!	您尚未输入要续期的许可证！
+Bạn có muốn Cập nhập kích thước Dài, Rộng từ etabs?	是否从 ETABS 更新长度和宽度？
+Bạn có muốn khởi động Etabs tự động?	是否自动启动 ETABS？
+Bạn có muốn khởi động SAFE tự động?	是否自动启动 SAFE？
+Bạn có muốn khởi động SAP2000 tự động?	是否自动启动 SAP2000？
+Bạn cần nhập Mật khẩu để xem danh sách license!	查看许可证列表需要输入密码！
+Bạn đã pick tại: X = 	您拾取的位置: X = 
+Bạn đã tạo loadcase 	您已创建工况 
+Bạn đã tạo loadcombination 	您已创建荷载组合 
+Bảng "	表 "
+Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.	双击某一行即可立即使用该密钥。灰色行表示该密钥无法在本机使用。
+Bỏ Lún	无沉降
+Bỏ qua cột tầng: 	跳过楼层柱: 
+Bỏ qua nội lực strip giao dầm, vách	忽略与梁、墙相交处的板带内力
+Bỏ qua tầng cuối	跳过顶层
+Bố trí thép	配筋
+Bố trí thép dầm trên bản vẽ (không sử dụng Etabs)	在图纸上布置梁钢筋 (不使用 ETABS)
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!	安装包缺少离线使用所需的数据，选择 Yes 将自动进行第二次安装！
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!	安装包缺少离线使用所需的数据，选择 Yes 将自动安装！
+CAD API	CAD API
+CHẠY SUỐT	通长
+CHỌN THÉP CHỦ 1	选择主筋 1
+CHỌN THÉP CHỦ 2	选择主筋 2
+CHỌN THÉP ĐAI TỰ ĐỘNG	自动选择箍筋
+CHỨC NĂNG KHÁC	其他功能
+CLOSE	关闭
+COLUMN WALL	柱 / 剪力墙
+CSI API	CSI API
+Calculate The Volume	工程量计算
+Cannot run API script: 	无法运行 API 脚本: 
+Cao độ +0.00 trong mô hình Etabs so với cao độ mặt đất ngoài thực tế là bao nhiêu?	ETABS 模型中的 +0.00 标高相对于实际地面标高是多少？
+Cases - Combo	工况 - 组合
+Chat AI để hỗ trợ	与 AI 对话获取支持
+Check Internet	检查网络
+Check Overturning	抗倾覆验算
+Check hệ số Kw	验算 Kw 系数
+Check tỷ số nén:	验算轴压比:
+Chiều cao dầm điển hình:	典型梁高:
+Chiều dài 1 thanh thép phải nằm trong khoảng 3000mm - 15000mm! (Ô L1)	单根钢筋长度必须在 3000mm 至 15000mm 之间！(单元格 L1)
+Chiều dài nối = 	搭接长度 = 
+Chiều dài nối thép = 	钢筋搭接长度 = 
+Chiều dài nối thép:	钢筋搭接长度:
+Chiều dày chia lớp phân tố nên < 	分层厚度宜小于 
+Chiều dày sàn	板厚
+Chiều dày đất 	土层厚度 
+ChooseColor	
+Chuyển DL tính => vẽ	计算数据 => 图纸
+Chuyển dữ liệu	传输数据
+Chuyển quyền sử dụng	转移使用权
+Chuyển quyền sử dụng: 	转移使用权: 
+Chuyển vị tăng thêm thẳng đứng (f - f4)	附加竖向位移 (f - f4)
+Chuẩn bị Kill File => chú ý ~~	准备 Kill File => 注意 ~~
+Chênh lệch bề rộng 2 dầm liên tục <=	两根连续梁的宽度差 <=
+Chênh lệch ĐK giữa 2 lớp:	两层钢筋直径差:
+Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!	我们已收到移除设备码的请求！
+Chưa chọn danh sách tầng!	尚未选择楼层列表！
+Chưa chọn tải tường xây!	尚未选择墙体荷载！
+Chưa chọn đủ tổ hợp!	选择的组合不足！
+Chưa có thiết kế cột tròn theo Eurocode	暂不支持按 Eurocode 进行圆柱设计
+Chưa có thiết kế cột tròn với tọa độ thép khai báo trước	暂不支持按预先定义的钢筋坐标进行圆柱设计
+Chưa có tài khoản nào được đăng nhập!	尚未登录任何账户！
+Chưa có tính toán cột tròn theo EC2!	暂无按 EC2 进行的圆柱计算！
+Chưa design phần tử trong Etabs hoặc chưa select phần tử cần lấy diện tích thép trong Etabs!	尚未在 ETABS 中设计构件，或未在 ETABS 中选择需要获取钢筋面积的构件！
+Chưa nhập license!	尚未输入许可证！
+Chưa nhập mã thiết bị!	尚未输入设备码！
+Chưa nhập tên thiết bị!	尚未输入设备名称！
+Chưa điền tên dầm!	尚未填写梁名称！
+Chỉ chọn 1 tầng để tính toán!	只能选择 1 个楼层进行计算！
+Chỉ các dầm được chọn	仅选中的梁
+Chỉ in TMTT những dòng mà cột A có highline mầu đỏ	仅打印 A 列标为红色高亮的行的计算书
+Chỉ update Hàm	仅更新公式
+Chỉnh sửa nội lực làm đẹp thuyết minh tính toán?	是否调整内力以美化计算书？
+Chọn Etabs cột bên phải!	请在右侧栏中选择 ETABS！
+Chọn Thép	选择钢筋
+Chọn Tower:	选择 Tower:
+Chọn Tầng Update:	选择要更新的楼层:
+Chọn Yes để làm mới bảng tính Excel!	选择 Yes 以刷新 Excel 计算表！
+Chọn bề rộng dầm	选择梁宽
+Chọn file chứa Prompt AI	选择包含 AI 提示词的文件
+Chọn gói:	选择套餐:
+Chọn lại thép tầng dưới >= Tầng trên	重新选筋使下层 >= 上层
+Chọn sơ bộ SL cọc	初选桩数
+Chọn sơ bộ cọc	初选桩型
+Chọn thép	选择钢筋
+Chọn thép móng cọc	选择桩基础钢筋
+Chọn thép thỏa điều kiện nứt	选择满足裂缝条件的钢筋
+Chọn thép tự động	自动选筋
+Chọn thép tự động ngay bây giờ?	现在就自动选筋吗？
+Chọn thép tự động.	自动选择钢筋。
+Chọn tải tường:	选择墙体荷载:
+Chọn tầng:	选择楼层:
+Chọn tổ hợp nội lực	选择内力组合
+Chọn yes để tính toán gió theo 2737-2023	选择 Yes 按 TCVN 2737-2023 计算风荷载
+Chủ tài khoản: Nguyễn Văn Duy	账户所有人: Nguyen Van Duy
+Chức năng Combie Nội lực chỉ sử dụng cho tính toán cường độ	内力合并功能仅用于强度计算
+Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 	远程账户注销功能将在以下时间后生效: 
+Chức năng Remove Device sẽ hoạt động sau: 	移除设备功能将在以下时间后生效: 
+Chức năng chỉ sử dụng với Etabs > V19	此功能仅适用于 ETABS > V19
+Chức năng chỉ sử dụng với SAFE > V19	此功能仅适用于 SAFE > V19
+Chức năng chỉ áp dụng cho ETABS 18 trở lên	此功能仅适用于 ETABS 18 及以上版本
+Chức năng khác	其他功能
+Chức năng này CSI chỉ hỗ trợ từ phiên bản Etabs 2018 trở lên!	CSI 仅在 ETABS 2018 及以上版本支持此功能！
+Chức năng này chưa được hoàn thiện với license dùng thử!	试用版许可证不支持此功能！
+Chức năng này chỉ dành riêng cho việc paste dữ liệu thủ công vào excel, không thông qua file access. Đồng ý tiếp tục?	此功能仅用于手动将数据粘贴到 Excel，不经过 Access 文件。是否继续？
+Chức năng này sẽ gộp các thanh thép có chiều dài, đường kính giống nhau để tối ưu tổ hợp thép cho nhanh!	此功能会合并长度和直径相同的钢筋，以加快钢筋组合速度！
+Click 1 điểm bất kỳ trên màn hình...	在屏幕上任意点击一点...
+Click đúp vào text box để lấy tên dầm ở ô cells trên Excel	双击文本框可从 Excel 单元格获取梁名称
+Close	关闭
+Closed	已关闭
+Co ngót	收缩
+Color:	颜色:
+Column Braced	柱有侧向约束
+Column forces	柱内力
+Combie nội lực cũ	合并旧内力
+Combie với nội lực vừa load trước đó	与刚加载的内力合并
+Combined	已合并
+Combined Group được chọn	合并选中的 Group
+Combined Nội lực	合并内力
+Combined Thép	合并钢筋
+Combined Toàn bộ Group	合并整个 Group
+Combined thép theo dầm đầu Group	按 Group 首根梁合并钢筋
+Combo	组合
+Combo Võng	挠度组合
+Complete	完成
+Complete!	完成！
+Compression	受压
+Concrete Beam Flexure Envelope - ACI 318-19	混凝土梁受弯包络 - ACI 318-19
+Có thể các dầm liên tục KHÔNG được sắp xếp liên tục bên bảng tính, cần xem lại các dầm này!	这些连续梁在计算表中可能未连续排列，请复核！
+Create	创建
+CÀI ĐẶT	设置
+Cài đặt chung	通用设置
+Cài đặt các thông số chung cho cột vách.	设置柱与剪力墙的通用参数。
+Cài đặt các thông số thiết kế Sàn.	设置板设计参数。
+Cài đặt các thông số thiết kế dầm.	设置梁设计参数。
+Các Load Case kiểu Response Spectrum hiện có:	现有的反应谱工况:
+Các bước nạp tiền & gia hạn:	充值与续期步骤:
+Các dầm sau đây bị trùng Unique Name nên không rename được: 	以下梁的 Unique Name 重复，无法重命名: 
+Các dầm trùng tên: 	名称重复的梁: 
+Các load pattern kiểu Wind trong model:	模型中的风荷载 Load Pattern:
+Các đối tượng sau chưa được tính toán Vì Vùng biên chọn chưa hợp lý: 	以下对象未计算，因为所选边缘构件区域不合理: 
+Các đối tượng sau chưa được tính toán Vì Vật liệu thép hoặc bê tông chọn chưa hợp lý: 	以下对象未计算，因为所选钢筋或混凝土材料不合理: 
+Các đối tượng sau chưa được tính toán Vì nó là hình dạng khác hình chữ nhật: 	以下对象未计算，因为其形状非矩形: 
+Có 	共有 
+Có cập nhập tên Group bên sheets tính toán cột?	是否更新柱计算表中的 Group 名称？
+Có cập nhập tên Group bên sheets tính toán vách?	是否更新墙计算表中的 Group 名称？
+Có lỗi khi khởi động 	启动时发生错误 
+Có lỗi khi xóa cấu hình: 	删除配置时发生错误: 
+Căn chỉnh lại kích thước cột và ẩn hiện cột tự động:	自动调整列宽并自动显示/隐藏列:
+Cấu tạo động đất (Chỉ áp dụng đai C trong vẽ Cột)	抗震构造 (仅在绘制柱时使用 C 型箍筋)
+Cấu tạo động đất:	抗震构造:
+CẦN LƯU Ý XEM LẠI CƯỜNG ĐỘ BÊ TÔNG TRONG FILE TÍNH	请复核计算文件中的混凝土强度
+Cần Select các Point update 'Unique Name' trong Etabs trước!	请先在 ETABS 中选择需要更新 'Unique Name' 的节点！
+Cần Select các dầm trong Etabs trước!	请先在 ETABS 中选择梁！
+Cần Select các dầm update 'Unique Name' trong Etabs trước!	请先在 ETABS 中选择需要更新 'Unique Name' 的梁！
+Cần select trước các phần tử sàn (MÓNG) trong Etabs!	请先在 ETABS 中选择板 (基础) 构件！
+Cần select trước các phần tử sàn (MÓNG) trong mô hình!	请先在模型中选择板 (基础) 构件！
+Cần điền đai C cho vách!. Ví dụ: T8a400	必须填写墙的 C 型箍筋！例如: T8a400
+Cần điền đai bao cho vách!. Ví dụ: T10a200	必须填写墙的外围箍筋！例如: T10a200
+Cần điền đai biên cho vách!. Ví dụ: T10a100	必须填写墙的边缘箍筋！例如: T10a100
+Cần đăng xuất và đăng nhập lại tài khoản để làm mới dữ liệu!	需要退出并重新登录账户以刷新数据！
+Cần để hiển thị sheet ColumnDesign hoặc Sheet WallDesign để phân biệt đang tính cột hay tính vách!	需要切换到 ColumnDesign 或 WallDesign 工作表，软件才能区分当前是算柱还是算墙！
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt bạn đang tính Cột hay bạn đang tính Vách!	请将 Excel 停留在 ColumnDesign 或 WallDesign 工作表，软件才能区分您在算柱还是算墙！
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt tính Cột và tính Vách!	请将 Excel 停留在 ColumnDesign 或 WallDesign 工作表，以便软件区分柱计算与墙计算！
+Cần để màn hình Excel ở sheet ColumnDesign để cập nhập UniqueName!	请将 Excel 停留在 ColumnDesign 工作表以更新 UniqueName！
+Cần để màn hình Excel ở sheet ColumnDetail hoặc sheet WallDetail để phần mềm phân biệt vẽ Cột và vẽ Vách!	请将 Excel 停留在 ColumnDetail 或 WallDetail 工作表，以便软件区分绘制柱与绘制墙！
+CẬP NHẬP SỐ DƯ	更新余额
+Cập nhập số dư	更新余额
+Cắt thép	钢筋下料
+Cọc Biên	边桩
+Cỡ chữ	字号
+Cỡ chữ:	字号:
+DCE ACCOUNT	DCE 账户
+DCE Excel	
+DCE PRO	
+DCE Steel	
+DS Tổ hợp	
+DS Tổ hợp tính cột	
+DS dầm	
+DS tổ hợp tính dầm	
+Danh sách Group dầm giống nhau	
+Danh sách tầng	
+Dbim Version 	
+Dbim_AI	
+DceAddin	
+Define	
+Design Nhanh.	快速设计。
+Design nhanh	快速设计
+Dev Info	开发者信息
+Displ - Drifts Wind	
+Diện tích thép gia cường <= DT thép chạy suốt	附加钢筋面积 <= 通长钢筋面积
+Download và cài đặt phiên bản mới: 	下载并安装新版本: 
+Drifts (Pdelta) model 2	
+Drifts,M,V Pdelta Model 1	
+DÙNG LOAD NỘI LỰC MỚI HOẶC UPDATE	使用新的内力加载或更新
+Dòng chọn chưa phù hợp! chọn lại dòng xem thuyết minh!	所选行不合适！请重新选择要查看计算书的行！
+Dòng:	行:
+Dùng M tính toán để KT hình thành vết nứt	使用计算弯矩 M 校核裂缝出现
+Dùng Slab trong để tìm kích thước	使用内部 Slab 查找尺寸
+Dùng key này để đăng nhập	使用此密钥登录
+Dùng tài khoản DBIM đã đăng ký tại dcejsc.com	使用在 dcejsc.com 注册的 DBIM 账户
+Dầm Phương X có góc hợp bởi	X 方向梁的夹角由
+Dữ liệu sheet: BEAM CONNECTIVITY DATA lỗi định dạng	工作表数据: BEAM CONNECTIVITY DATA 格式错误
+Dữ liệu thiết kế sẽ bị xóa vĩnh viễn?	设计数据将被永久删除，是否继续？
+Dữ liệu thép cũ sẽ bị xóa vĩnh viễn?	旧的钢筋数据将被永久删除，是否继续？
+Dữ liệu thép dầm được chọn sẽ bị xóa vĩnh viễn?	所选梁的钢筋数据将被永久删除，是否继续？
+Dữ liệu từ Etabs	ETABS 数据
+Dữ liệu từ Revit	来自 Revit 的数据
+Dữ liệu xuất ra không có tiết diện cột tròn, Nếu dự án có cột tròn vui lòng xuất thêm bảng dữ liệu: 	导出的数据中没有圆柱截面。若项目中有圆柱，请另外导出数据表: 
+Dự toán KL	工程量概算
+Dự toán khối lượng	工程量概算
+Dự toán khối lượng thép và bê tông.	概算钢筋与混凝土工程量。
+ENV ULSV	
+EXIT	退出
+Edit Unique	编辑 Unique
+Email (*)	邮箱 (*)
+Email: duynv.ksxd@gmail.com	
+End conditions (Bottom):	端部约束 (底部):
+End conditions (Top):	端部约束 (顶部):
+EnjiCAD	
+Enjoyed !	完成！
+Etabs (Frame)	
+Etabs (Strip)	
+Etabs <=> Cad	Etabs <=> Cad
+Etabs Link	Etabs 链接
+Etabs Stiffness Modifiers to Safe	Etabs 刚度折减系数传至 Safe
+Etabs Stiffness Modifiers to Safe.	Etabs 刚度折减系数传至 Safe。
+Etabs Table to Etabs	Etabs 表格传至 Etabs
+Etabs Uniform Load Sets to Safe	Etabs 均布荷载组传至 Safe
+Ex Cad	
+Ex to Cad	
+Excel có số dòng: 1.048.576	Excel 共有 1,048,576 行
+Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!	Excel 已断开连接，请重新导出数据！
+Exit	退出
+Export Drawing Data	导出图纸数据
+Export Strip to Cad	导出板带至 Cad
+Export Tên dầm ra Excel	导出梁名称至 Excel
+FAILED to complete.	执行失败。
+FS B:	
+FS BOT	
+FS T:	
+FS TOP	
+Failed!	失败！
+Failed! Không gán được DatabaseTablesApplyEditedTables Etabs Đích!	失败！无法对目标 ETABS 执行 DatabaseTablesApplyEditedTables！
+Failed! Không gán được DatabaseTablesApplyEditedTables Safe Đích!	失败！无法对目标 SAFE 执行 DatabaseTablesApplyEditedTables！
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Etabs Đích!	失败！无法对目标 ETABS 执行 DatabaseTablesSetTableForEditingArray！
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Safe Đích!	失败！无法对目标 SAFE 执行 DatabaseTablesSetTableForEditingArray！
+Failed! Không kết nối được Safe Đích!	失败！无法连接到目标 SAFE！
+File Excel Active cuối cùng không được nhận dạng là file Cọc!	最后活动的 Excel 文件未被识别为桩基文件！
+File Excel Hỗ trợ combo Etabs chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	支持 ETABS 组合的 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel Thuyết minh tính toán sức chịu tải cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	桩承载力计算书 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel check gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	风荷载校核 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel check tỷ số nén chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	轴压比校核 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel dầm chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	梁计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel sàn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	板计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính cột vách chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	柱墙计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	风荷载计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính móng đơn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	独立基础计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính toán và chọn số lượng cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	计算与选择桩数的 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính đài móng chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	承台计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tính động đất chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	地震作用计算 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+File Excel tổ hợp thép chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	钢筋组合 Excel 文件未打开，或不是最后活动的文件。是否打开它？
+Find	查找
+Foundation	基础
+Frame	
+Fs<=1 Đạt	Fs<=1 满足
+Fs>=1 Đạt	Fs>=1 满足
+Get Area Assignments Summary	获取面构件指定汇总
+Get DATA	获取数据
+Get Etabs	获取 Etabs
+Get Load Cases	获取工况
+Get Load Combo	获取荷载组合
+Get Uniform Load Sets	获取均布荷载组
+GetLength	
+Gia cường bên trái và phải gối luôn bằng nhau	支座左右两侧的加强筋始终相同
+Gia hạn license cũ	续期旧许可证
+Giá tiền	价格
+Giá tiền: 	价格: 
+Giải thích	说明
+Giới hạn FS Min:	FS 最小限值:
+Giới hạn FS<=	FS 限值 <=
+Giữ thép cũ, kết nối Lable Etabs (Safe) và tên Dầm CAD	保留旧钢筋，关联 ETABS (SAFE) Label 与 CAD 梁名称
+Group Zalo 1	
+Group Zalo 2	
+Group Zalo 3	
+Group dầm giống nhau	相同梁分组
+GstarCAD	
+Gán Etabs	指定
+Góc tạo bởi 2 dầm liên tục <	两根连续梁的夹角 <
+Gói	套餐
+Góp ý	意见反馈
+Gối	支座
+Gối tựa 2 đầu dầm (Sau khi đã kết nối Cad - Etabs)	梁两端支座 (在完成 CAD - ETABS 关联后)
+Gộp các thép giống nhau để tổ hợp thép nhanh hơn.	合并相同钢筋以加快钢筋组合。
+Gộp cột giống nhau Design (lấy từ các cột select bên etabs)	合并相同的柱进行设计 (取自在 ETABS 中选中的柱)
+Gộp thép	合并钢筋
+Gửi email đặt lại mật khẩu tới:	将重置密码邮件发送至:
+HD P1	
+HL thép vùng nén bằng	受压区配筋率等于
+HL tối thiểu:	最小配筋率:
+HOẠT TẢI 1	活荷载 1
+HOẠT TẢI 2	活荷载 2
+HOẶC	或
+Hiển thị các chức năng liên kết mô hình Etabs.	显示 ETABS 模型联动功能。
+Hiển thị các chức năng thiết kế giai đoạn Basic Design.	显示基本设计阶段的功能。
+Hiển thị các chức năng thiết kế móng.	显示基础设计功能。
+Hiển thị dữ liệu lấy từ Etabs qua Excel.	在 Excel 中显示从 ETABS 获取的数据。
+Hiển thị dữ liệu lấy từ Safe qua Excel.	在 Excel 中显示从 SAFE 获取的数据。
+Hiện	显示
+Hiện mật khẩu	显示密码
+Hoàn tất dọn dẹp. Báo cáo lưu tại:	清理完成。报告保存于:
+Hoặc quy định mầu ở đây:	或在此指定颜色:
+Hàm lượng thép tối thiểu:	最小配筋率:
+Hãy vào thư mục cài đặt 	请进入以下软件的安装目录: 
+Hướng dẫn	使用指南
+Hướng dẫn P.1	指南 P.1
+Hướng dẫn P1	指南 P1
+Hướng dẫn nạp tiền	充值指南
+Hướng dẫn sử dụng: 	使用手册: 
+Hạn dùng	有效期
+Hệ số C0 (tính cắt TCVN)	C0 系数 (TCVN 抗剪计算)
+Hệ số kể đến sự phân bố không đều biến dạng tương đối	考虑相对应变分布不均匀的系数
+Hệ số phần dài hạn	长期部分系数
+Hệ số quy đổi cốt thép về bê tông Alpha_s 	钢筋换算为混凝土的系数 Alpha_s 
+Hệ số quy đổi cốt thép về bê tông Alpha_s  tính theo CT (5574-2018)	钢筋换算为混凝土的系数 Alpha_s，按 TCVN 5574-2018 公式计算
+Họ và tên (*)	姓名 (*)
+Hủy	取消
+Import Tên dầm từ Excel vừa xuất ra	从刚导出的 Excel 导入梁名称
+In PDF	打印 PDF
+In TM	打印
+In thuyết minh biểu đồ tương tác	打印相关曲线计算书
+In thuyết minh dạng bảng	以表格形式打印计算书
+In thuyết minh tính toán	打印计算书
+In thuyết minh đai	打印箍筋计算书
+In ấn	打印
+In ấn và xem thuyết minh tính toán cột vách.	打印并查看柱墙计算书。
+In ấn và xem thuyết minh tính toán dầm.	打印并查看梁计算书。
+In ấn và xem thuyết minh tính toán sàn.	打印并查看板计算书。
+Joint Loads Assignments - Force	节点荷载指定 - 力
+Joint Loads Assignments - Force.	节点荷载指定 - 力。
+KC dầm giao nhịp cách mép gối tối thiểu để bố trí gia cường đai:	交叉梁距支座边缘的最小距离 (用于布置附加箍筋):
+KC khe - giữa 2 lớp thép chủ:	两层主筋之间的净距:
+KC thép đai bố trí tự động:	自动布置的箍筋间距:
+KIỂM TRA TỔNG THỂ: Không có kết quả cắt nào được tạo ra!	总体检查: 未生成任何下料结果！
+KR:	
+Kc giữa 2 lớp thép:	两层钢筋之间的间距:
+Key bản quyền	许可证密钥
+Key này KHÔNG dùng được trên máy hiện tại:	此密钥无法在当前机器上使用:
+Khi triển khai dầm luôn luôn lấy tên Group và SL tương ứng để vẽ	绘制梁时始终取 Group 名称及对应数量
+Kho thép	钢筋库存
+Khoảng cách 2 dầm liên tục <=	两根连续梁之间的距离 <=
+Khoảng cách 2 lần nối:	两次搭接之间的距离:
+Khoảng cách thép giá:	架立筋间距:
+Khoảng cách đủ để đổ BT	满足混凝土浇筑的间距
+Khác	其他
+Không Sử dụng thép tận dụng	不使用余料钢筋
+Không Thể đăng xuất tài khoản!	无法退出账户！
+Không chạy được 	无法运行 
+Không có Group nào được chọn!	未选择任何 Group！
+Không có Workbook nào đang được mở!	没有打开任何工作簿！
+Không có Worksheet nào đang được mở!	没有打开任何工作表！
+Không có bảng Shell Uniform Load Sets ở Etabs Nguồn!	源 ETABS 中没有 Shell Uniform Load Sets 表！
+Không có bảng Shell Uniform Load Sets ở Safe Nguồn!	源 SAFE 中没有 Shell Uniform Load Sets 表！
+Không có dữ liệu Pier Forces - Kiểm tra lại Access xuất từ Etabs!	没有 Pier Forces 数据 - 请检查从 ETABS 导出的 Access 文件！
+Không có dữ liệu Pier Section - Kiểm tra lại Access xuất từ Etabs!	没有 Pier Section 数据 - 请检查从 ETABS 导出的 Access 文件！
+Không có dữ liệu nội lực tầng được chọn	所选楼层没有内力数据
+Không có mô hình Etabs nào được mở	没有打开任何 ETABS 模型
+Không có phân tử sàn nào được select trước trong Etabs!	未在 ETABS 中预先选择任何板构件！
+Không có tầng nào của Etabs trùng tên tầng trong sheet 	ETABS 中没有楼层名称与工作表中的楼层名称一致 
+Không cắt thép khi L<=	不切断钢筋，当 L<=
+Không hỗ trợ tiêu chuẩn hiện tại!	不支持当前规范！
+Không kết nối được Safe Nguồn!	无法连接到源 SAFE！
+Không kết nối được máy chủ để gửi email đặt lại mật khẩu.	无法连接服务器发送重置密码邮件。
+Không kết nối được máy chủ để đăng ký tài khoản.	无法连接服务器注册账户。
+Không liên kết Revit với Etabs	不关联 Revit 与 ETABS
+Không load được dữ liệu động đất từ Excel.	无法从 Excel 加载地震数据。
+Không lấy được nội lực Design Forces từ ETABS!	无法从 ETABS 获取 Design Forces！
+Không sử dụng kho thép cũ	不使用旧的钢筋库存
+Không thể SetCaseSelectedForOutput 	无法执行 SetCaseSelectedForOutput 
+Không thể gửi yêu cầu lấy lại mật khẩu!	无法发送找回密码的请求！
+Không thể hiện vị trí nhịp dầm	不显示梁跨位置
+Không thể khai báo Patterns: 	无法定义 Patterns: 
+Không thể khai báo load Cases: 	无法定义荷载工况: 
+Không thể khai báo load Combo: 	无法定义荷载组合: 
+Không thể khởi động trình cập nhật: 	无法启动更新程序: 
+Không thể load nội lực combo: 	无法加载组合内力: 
+Không thể lấy danh sách license!	无法获取许可证列表！
+Không thể mở form đăng ký tài khoản!	无法打开账户注册窗口！
+Không thể đăng ký tài khoản!	无法注册账户！
+Không thể đăng nhập!	无法登录！
+Không thể đăng xuất!	无法退出登录！
+Không truy cập được bản vẽ đang mở trong CAD.	无法访问 CAD 中当前打开的图纸。
+Không tìm thấy 	未找到 
+Không tìm thấy Nội lực	未找到内力
+Không tìm thấy Sheets 	未找到工作表 
+Không tìm thấy bảng 	未找到表 
+Không tìm thấy bảng Area Load Assignments - Uniform Load Sets	未找到表 Area Load Assignments - Uniform Load Sets
+Không tìm thấy bảng Nội lực 	未找到内力表 
+Không tìm thấy bảng Shell Uniform Load Sets	未找到表 Shell Uniform Load Sets
+Không tìm thấy bảng: Concrete Slab Design - Flexure and Shear Data	未找到表: Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy dầm nào trong các phần tử đã chọn!	在所选构件中未找到任何梁！
+Không tìm thấy file cập nhật tại: 	未在以下位置找到更新文件: 
+Không tìm thấy file cập nhật!	未找到更新文件！
+Không tìm thấy file excel chứa sheet 'Column Detail'	未找到包含工作表 'Column Detail' 的 Excel 文件
+Không tìm thấy file excel chứa sheet 'ColumnDesign'	未找到包含工作表 'ColumnDesign' 的 Excel 文件
+Không tìm thấy file excel chứa sheet 'DATABEAM'	未找到包含工作表 'DATABEAM' 的 Excel 文件
+Không tìm thấy file excel chứa sheet 'TienLuong'	未找到包含工作表 'TienLuong' 的 Excel 文件
+Không tìm thấy file excel chứa sheet 'TinhDam'	未找到包含工作表 'TinhDam' 的 Excel 文件
+Không tìm thấy phần tử nào được chọn (select) trong ETABS!	在 ETABS 中未找到任何被选中的构件！
+Không tìm thấy phần tử nào được chọn (selects) trước trong model, Cần quét chọn Point muốn xuất DL nội lực!	模型中没有预先选中的构件，需要框选要导出内力数据的节点！
+Không tìm thấy phần tử sàn bên Safe!	在 SAFE 中未找到板构件！
+Không tìm thấy sheet "	未找到工作表 "
+Không tìm thấy sheets: 	未找到工作表: 
+Không tìm thấy trường 	未找到字段 
+Không tìm thấy trường FBotArea của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 FBotArea
+Không tìm thấy trường FBotMoment của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 FBotMoment
+Không tìm thấy trường FTopArea của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 FTopArea
+Không tìm thấy trường FTopMoment của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 FTopMoment
+Không tìm thấy trường Station của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 Station
+Không tìm thấy trường Story	未找到字段 Story
+Không tìm thấy trường StripObject của bảng Concrete Slab Design - Flexure and Shear Data	在表 Concrete Slab Design - Flexure and Shear Data 中未找到字段 StripObject
+Không tìm thấy tài khoản nào được đăng nhập!	未找到任何已登录的账户！
+Không tìm thấy tên dầm cũ trong file Excel: 	在 Excel 文件中未找到旧的梁名称: 
+Không tìm thấy tên tổ hợp tương ứng: 	未找到对应的组合名称: 
+Không tìm thấy vị trí dòng: 	未找到行位置: 
+Không tìm thấy ứng dụng GenCol được mở!	未找到已打开的 GenCol 程序！
+Không tồn tại dữ liệu bề rộng dầm: 	不存在梁宽数据: 
+Không xác định Sheet tính toán sức chịu tải cọc, vui lòng kiểm tra lại!	无法识别桩承载力计算工作表，请重新检查！
+Không đọc được bảng "	无法读取表 "
+Không đọc được danh sách tầng từ Etabs.	无法从 ETABS 读取楼层列表。
+Khởi động lại máy tính sau khi cài đặt xong	安装完成后请重启计算机
+Kiểm tra	检查
+Kiểm tra kết nối mạng để sử dụng tính năng này!	请检查网络连接后再使用此功能！
+Kiểm tra kết nối mạng để đăng nhập tài khoản!	请检查网络连接后再登录！
+Kiểm tra kết nối mạng để đăng xuất tài khoản!	请检查网络连接后再退出登录！
+Kiểm tra kết nối mạng!	请检查网络连接！
+Kính gửi Quý Khách,	尊敬的客户，
+Ký hiệu cho số nhánh đai:	箍筋肢数的符号:
+KẾT NỐI API	API 连接
+Kết hợp đầu vào là Kho thép và các thanh Nguyên có chiều dài L=	输入为钢筋库存与整料钢筋的组合，整料长度 L=
+Kết nối CAD API	连接 CAD API
+Kết nối Cad - Excel	关联 CAD - Excel
+Kết nối MBCK - Strip	关联桩位图 - 板带
+Kết nối lable Etabs (Safe) và tên dầm trên CAD	关联 ETABS (SAFE) 标签与 CAD 中的梁名称
+Kết nối thành công: 	连接成功: 
+Kết nối với AUTOCAD API.	连接 AUTOCAD API。
+Kết nối với CSI API.	连接 CSI API。
+Kết nối đến: 	正在连接: 
+Kỹ sư kết cấu	结构工程师
+L API	
+L gối chung giữa 2 dầm liên tục <=	两根连续梁的共用支座长度 <=
+LAccess	
+LICENSE CỦA TÔI	我的许可证
+LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY	本机可用的许可证
+License Trial giới hạn chức năng tính toán cột vách!	试用版许可证限制柱墙计算功能！
+License Trial giới hạn chức năng tính toán dầm!	试用版许可证限制梁计算功能！
+License Trial giới hạn chức năng tính toán sàn!	试用版许可证限制板计算功能！
+License Trial giới hạn chức năng tính toán, vẽ móng & cọc!	试用版许可证限制基础与桩的计算及绘图功能！
+License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	许可证开头或结尾有空格，请仔细核对！是否继续？
+License của bạn không thể sử dụng chức năng này!	您的许可证无法使用此功能！
+License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?	试用版许可证退出登录后将无法再次登录，是否继续？
+License dùng được	可用许可证
+License giới hạn chức năng tính toán cột vách!	许可证限制柱墙计算功能！
+License giới hạn chức năng tính toán dầm!	许可证限制梁计算功能！
+License giới hạn chức năng tính toán sàn!	许可证限制板计算功能！
+License giới hạn chức năng tính toán, vẽ móng & cọc!	许可证限制基础与桩的计算及绘图功能！
+License hết hạn sử dụng!	许可证已过期！
+License timeout offline!	离线许可证已超时！
+License:	
+License: 	
+Liên kết khác	其他连接
+Load (Update) Nội lực	加载 (更新) 内力
+Load API SLS	
+Load API ULS	
+Load Design Forces	加载 Design Forces
+Load File thành công!	文件加载成功！
+Load Nội lực	加载内力
+Load Nội lực:	加载内力:
+Load Txt	加载 Txt
+Load access có thể nhanh hơn!	通过 Access 加载可能更快！
+Load data Etabs	从 Etabs 加载数据
+Load dữ liệu nội lực.	加载内力数据。
+Load dữ liệu thành công!	数据加载成功！
+Load nội lực	加载内力
+Load nội lực tính toán	加载计算内力
+Load nội lực:	加载内力:
+Load text file GenCol	加载 GenCol 文本文件
+Load tổ hợp nội lực để tính nứt:	加载裂缝计算内力组合:
+Load tổ hợp tính nứt (dài hạn)	加载裂缝计算组合 (长期)
+Load tổ hợp tính nứt (tổng tải)	加载裂缝计算组合 (总荷载)
+Load tổ hợp tính toán ULS	加载 ULS 计算组合
+LoadCases sau không được lấy thành công: 	以下 LoadCase 未能成功获取: 
+LogOut license Vip	注销 Vip 许可证
+Login	登录
+Logout	退出登录
+Loại cấu kiện	构件类型
+Loại cấu kiện:	构件类型:
+Loại thép Chủ:	主筋类型:
+Loại đai Cột:	柱箍筋类型:
+Luôn bố trí KC đai gối:	始终采用支座箍筋间距:
+Làm mới bảng tính (API)	刷新计算表 (API)
+Làm mới mầu sắc bảng tính.	刷新计算表颜色。
+Làm đẹp thuyết minh	美化计算书
+Lícense sau khi mua mới sẽ hiện ở đây...	新购买的许可证将显示在此处...
+LícenseKey...	
+Lưu TK	保存账户
+Lưu cấu hình	保存配置
+Lưu dữ liệu	保存数据
+Lưu ý mở khóa cho mô hình để thao tác!	注意: 请先解锁模型再进行操作！
+Lưu ý tất cả các phần tử liên quan tới bảng 	请注意与该表相关的所有构件 
+Lưu ý:	注意:
+Lưu ý: Chức năng này sẽ xóa toàn bộ file PHỤ sinh ra trong quá trình phân tích của Etabs, Safe và file phụ có đuôi .bak của Autocad! để giải phóng dữ liệu	注意: 此功能将删除 ETABS、SAFE 分析过程中生成的全部辅助文件以及 AutoCAD 的 .bak 文件，以释放空间
+Lưu ý: Cần cài đặt hệ số αcc (Strength factor) trong Prokon trùng khớp hệ số αcc (Strength factor) trong Excel	注意: Prokon 中设置的强度系数 alpha-cc 必须与 Excel 中的一致
+Lấy Abs(momen) Max trên 1 Station strip	取一个板带 Station 上的 Abs(弯矩) 最大值
+Lấy Astt Max của (Etabs và Excel (cột Q, AH))	取 (ETABS 与 Excel Q、AH 列) 最大计算 As
+Lấy DL Ván Khuân (Etabs API)	获取模板数据 (ETABS API)
+Lấy DL tính toán	获取计算数据
+Lấy Diện tích thép design từ mô hình (cần design strip bên model)	从模型获取设计钢筋面积 (需在模型中完成板带设计)
+Lấy Handle (địa chỉ) bằng cách select các đối tượng bên Autocad.	通过在 AutoCAD 中选择对象获取 Handle (地址)。
+Lấy Handle (địa chỉ) bằng cách vẽ Line bên Autocad.	通过在 AutoCAD 中绘制 Line 获取 Handle (地址)。
+Lấy Handle (địa chỉ) bằng cách vẽ Polyline bên Autocad.	通过在 AutoCAD 中绘制 Polyline 获取 Handle (地址)。
+Lấy Handle (địa chỉ) bằng cách vẽ Rectang bên Autocad.	通过在 AutoCAD 中绘制 Rectang 获取 Handle (地址)。
+Lấy diện tích thép Model	获取模型钢筋面积
+Lấy diện tích thép từ Etabs Design	从 ETABS Design 获取钢筋面积
+Lấy diện tích thép từ Model	从模型获取钢筋面积
+Lấy dữ liệu ETABS thành công.	成功获取 ETABS 数据。
+Lấy momen design từ mô hình (cần design strip bên model trước)	从模型获取设计弯矩 (需先在模型中完成板带设计)
+Lấy momen design, nội lực giới hạn về mặc định	将设计弯矩与内力限值恢复默认
+Lấy mã máy	获取机器码
+Lấy nội lực từ tổ hợp:	从以下组合取内力:
+Lấy tên Label Gốc trong Excel ở cột	从 Excel 的此列取原始 Label 名称
+Lấy tọa độ thép cột vách HCN người dùng nhập từ Excel.	从 Excel 读取用户输入的矩形柱墙钢筋坐标。
+Lọc	筛选
+Lọc Momen tính Nhịp từ khoảng:	跨中弯矩取值范围:
+Lọc NL (Paste DL thủ công)	筛选内力 (手动粘贴数据)
+Lọc momen tính Gối trong khoảng:	支座弯矩取值范围:
+Lỗi	错误
+Lỗi ApplyEditedTables (ret = 	ApplyEditedTables 错误 (ret = 
+Lỗi ApplyEditedTables RS Function (ret=	ApplyEditedTables RS Function 错误 (ret=
+Lỗi ApplyEditedTables RS Load Case (ret=	ApplyEditedTables RS Load Case 错误 (ret=
+Lỗi SetTableForEditingArray "	SetTableForEditingArray 错误 "
+Lỗi SetTableForEditingArray bảng "	SetTableForEditingArray 错误，表 "
+Lỗi cột chiều dài - không phải là số tự nhiên: 	长度列错误 - 不是自然数: 
+Lỗi cột số lượng - không phải là số tự nhiên: 	数量列错误 - 不是自然数: 
+Lỗi cột đường kính - không phải là số tự nhiên: 	直径列错误 - 不是自然数: 
+Lỗi khi chạy update: 	运行更新时出错: 
+Lỗi lưu nhánh đai!	保存箍筋肢数时出错！
+Lỗi lưu số lượng thép tương ứng bề rộng	保存与宽度对应的钢筋数量时出错
+Lỗi nội lực lable: 	内力错误，label: 
+Lỗi đổi tên dầm: 	梁重命名错误: 
+Lỗi!	错误！
+Lỗi!    	错误！    
+Lỗi: 	错误: 
+Lớp bê tông bảo vệ:	混凝土保护层:
+Made by Nguyễn Văn Duy - Zalo: 0989 111 206	
+Mail: nguyenduyahnt@gmail.com	
+Minimum Reinforcing Ratio	
+Model AI	
+Model Etabs chưa có Load Case kiểu Modal.	ETABS 模型中没有 Modal 类型的工况。
+Model Etabs phải có ít nhất 2 load pattern kiểu Wind (1 cho phương X, 1 cho phương Y).	ETABS 模型必须至少有 2 个 Wind 类型的 load pattern (X 向 1 个，Y 向 1 个)。
+Modulus of rupture (ACI)	
+Momen:	弯矩:
+Mua License Mới	购买新许可证
+Mua cho Email:	为此邮箱购买:
+Mua license	购买许可证
+Mua license mới	购买新许可证
+Mua mới hoặc gia hạn bản quyền DCE.	购买或续期 DCE 许可证。
+MÔ HÌNH ETABS CHƯA ĐƯỢC PHÂN TÍCH!	ETABS 模型尚未进行分析！
+Mác Bê Tông:	混凝土强度等级:
+Mác Thép Dọc đk <=	纵筋强度等级，直径 <=
+Mác Thép Dọc đk >	纵筋强度等级，直径 >
+Mác Thép Dọc:	纵筋强度等级:
+Mác Thép Đai <= 8:	箍筋强度等级 <= 8:
+Mác Thép Đai > 8:	箍筋强度等级 > 8:
+Mác thép đai đk >	箍筋强度等级，直径 >
+Máy tính chặn kết nối internet (Hoặc máy tính không có internet)	计算机阻止了网络连接 (或计算机没有网络)
+Máy tính đã được đăng nhập trước đó: 	此计算机此前已登录: 
+Máy tính: 	计算机: 
+Máy tính: ...	计算机: ...
+Mã OC	OC 代码
+Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	设备码开头或结尾有空格，请仔细核对！是否继续？
+Mã thiết bị:	设备码:
+Móc đai:	箍筋弯钩:
+Mô hình AI	AI 模型
+Mô hình Etabs chưa 'run' hoặc không tìm thấy Lable tồn tại!	ETABS 模型尚未运行分析，或未找到存在的 Label！
+Mô hình nguồn:	源模型:
+Mô hình {selectedAI} hiện tại chưa hỗ trợ phân tích hình ảnh. Vui lòng chọn Gemini hoặc ChatGPT!	模型 {selectedAI} 目前不支持图像分析。请选择 Gemini 或 ChatGPT！
+Mô hình đích:	目标模型:
+Mảng có số dòng: 	数组的行数: 
+Mầu thể hiện vị trí Mid là số tự nhiên < 256	表示 Mid 位置的颜色为小于 256 的自然数
+Mầu thể hiện vị trí Start là số tự nhiên < 256	表示 Start 位置的颜色为小于 256 的自然数
+MẬT KHẨU CẤP 2	二级密码
+Mật khẩu (*)	密码 (*)
+Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	密码开头或结尾有空格，请仔细核对！是否继续？
+Mật khẩu cấp 2:	二级密码:
+Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.	密码至少 6 个字符。注册后请查收邮件以激活账户。
+Mật khẩu:	密码:
+Mọi góp ý xin gửi về:	所有意见请发送至:
+Mục 8.1.3.3.1 TCVN 5574-2018; Công thức 94 - 95	TCVN 5574-2018 第 8.1.3.3.1 条; 公式 94 - 95
+Nguyễn Văn Duy	
+Nhóm nghề:	职业:
+Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!	请先输入 DBIM 账户的邮箱和密码，然后点击 "可用许可证"！
+Nhập Email...	输入邮箱...
+Nhập Mã thiết bị...	输入设备码...
+Nhập tên Load Case động đất phương X:	输入 X 向地震工况名称:
+Nhập tên Load Case động đất phương Y:	输入 Y 向地震工况名称:
+Nhập tên load pattern gió phương X:	输入 X 向风荷载 load pattern 名称:
+Nhập tên load pattern gió phương Y:	输入 Y 向风荷载 load pattern 名称:
+Nhập tên thiết bị...	输入设备名称...
+Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!	在 "账户" 栏中输入已注册的邮箱地址，然后点击 "忘记密码？"！
+Nhịp	跨
+Not load 'Pier Label GetSection Properties' – runs faster.	
+NumberResults = nothing	NumberResults = nothing
+Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!	若该许可证允许多台机器使用，请远程注销该设备！
+Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!	若您已完成续期，请退出并重新登录，以便系统更新新的有效期！
+Nếu được hãy thay dấu '-' thành dấu '.'	如有可能，请将 '-' 替换为 '.'
+Nội dung	内容
+Nội dung chuyển khoản:	转账附言:
+OPTION	
+Omit slenderness momen	忽略长细比附加弯矩
+Omit slenderness momen (BDTT)	忽略长细比附加弯矩 (BDTT)
+Option:	选项:
+P.2	
+PP NLGH (Chỉ áp dụng tính CỘT HCN và dùng TCVN)	极限状态法 (仅适用于按 TCVN 计算的矩形柱)
+PY:	
+Patterns - Cases	Patterns - Cases
+Phiên bản:	版本:
+Phát hiện 	检测到 
+Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!	软件只连接最先打开的 SAFE；请关闭 SAFE 后重新打开以重置！
+Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!	软件只连接最先打开的 ETABS；请关闭 ETABS 后重新打开以重置！
+Phần mềm không phân biệt được update tiết diện B,H sheets ColumnDesign hay WallDesign!, vui lòng chỉ rõ bằng cách Active Sheet đó	软件无法判断应更新 ColumnDesign 还是 WallDesign 工作表中的 B、H 截面！请激活相应工作表以明确指定
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào	软件将用来自 ETABS 的设计钢筋面积覆盖写入
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào cột P và AG trong bảng tính dầm!	软件将用来自 ETABS 的设计钢筋面积覆盖写入梁计算表的 P 列和 AG 列！
+Pier	
+Pier forces	Pier 内力
+Pu File Etabs, Safe, Cad	清理 Etabs、Safe、Cad 辅助文件
+Quên mật khẩu?	忘记密码？
+Remove Device	移除设备
+Remove Device License Vip	移除 Vip 许可证设备
+Remove không thành công! Kiểm tra kết nối mạng	移除失败！请检查网络连接
+Reset All Default	全部恢复默认
+Reset bảng tính	重置计算表
+SLAB	板
+Safe (Frame)	
+Safe (Strip)	
+Safe Table to Safe	Safe 表格传至 Safe
+Sai số	容差
+Sai số bắt điểm dầm trong model (<10):	模型中梁的捕捉容差 (<10):
+Sao chép key	复制密钥
+Sap2000	
+Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	若关闭所有 ETABS 并重新打开后仍无法连接，请按以下步骤重新注册 API:
+Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	若关闭所有 SAFE 并重新打开后仍无法连接，请按以下步骤重新注册 API:
+Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	若关闭所有 SAP2000 并重新打开后仍无法连接，请按以下步骤重新注册 API:
+Save	保存
+Schedule 2	表 2
+Schedule 3	表 3
+Seismic	地震
+Select MDB File	选择 MDB 文件
+Set Load Cases	设置荷载工况
+Set Load Combo	设置荷载组合
+Setup quan điểm tính	设置计算假定
+Show data to Excel	在 Excel 中显示数据
+Show dữ liệu nội lực từ mô hình ra Excel (Làm mới Excel)?	在 Excel 中显示模型内力数据 (刷新 Excel)？
+Show dữ liệu tính toán	显示计算数据
+Sort Data	数据排序
+Sync Model Points Safe	同步模型节点至 Safe
+Sàn có 2 phương vuông góc, trọng tâm thép được tính đến lớp ngoài	板为双向受力，钢筋重心计算至外层
+Sắp xếp và gộp các cấu kiện giống nhau.	排序并合并相同构件。
+SỐ LƯỢNG THÉP CÓ THỂ CÓ Ở LỚP CHẠY SUỐT VÀ LỚP TĂNG CƯỜNG	通长层与附加层可能的钢筋数量
+Số bắt đầu:	起始编号:
+Số dòng quá lớn 	行数过多 
+Số dư tài khoàn:	账户余额:
+Số dầm đổi tên thành công = 0	成功重命名的梁数量 = 0
+Số lượng nhánh đai tính toán:	计算采用的箍筋肢数:
+Số lớp <= 3	层数 <= 3
+Số lớp >=2	层数 >= 2
+Số ngày sử dụng	使用天数
+Số ngày sử dụng: 	使用天数: 
+Số tài khoản: 19033419323019	
+Số tầng gộp tính chung 1 lần:	合并为一次计算的楼层数:
+Số điện thoại (*)	电话号码 (*)
+Sử dụng hàm Excel tính cho Combo nguy hiểm nhất	使用 Excel 公式计算最不利组合
+Sử dụng kho thép cũ	使用旧的钢筋库存
+Sử dụng license cũ để đăng nhập vào tài khoản!	使用旧许可证登录账户！
+Sử dụng license mới để đăng nhập vào tài khoản!	使用新许可证登录账户！
+Sử dụng thép tận dụng	使用余料钢筋
+Sửa	编辑
+TH tính nứt (dài hạn)	裂缝组合 (长期)
+TH tính nứt (tổng tải)	裂缝组合 (总荷载)
+TH tính toán ULS	ULS 计算组合
+THÉP	钢筋
+THÔNG TIN LIÊN HỆ	联系方式
+TMTT	
+TMTT Sàn	板计算书
+TUỲ CHỌN NÂNG CAO	高级选项
+Tab Basic Design	基本设计选项卡
+Telegram: 	
+Tension	受拉
+Test Tổ hợp thép.	测试钢筋组合。
+Thao tác không thành công!	操作失败！
+Thao tác không thành công, Xem lại dữ liệu Frame Assignments - Summary trong file Access	操作失败。请检查 Access 文件中的 Frame Assignments - Summary 数据
+Thao tác không thành công, Xem lại dữ liệu:	操作失败。请检查数据:
+Thao tác không thành công, dữ liệu cần có bảng:	操作失败，数据中必须包含表:
+Thao tác không thành công, không tìm thấy Sheets: 	
+Thiết bị	设备
+Thiết kế	设计
+Thiết kế Dầm 	梁设计 
+Thiết kế bằng bảng tính Excel BDTT (Cấu kiện nén uốn)	使用 BDTT Excel 计算表进行设计 (压弯构件)
+Thiết kế cột vách	柱墙设计
+Thiết kế cột vách.	柱墙设计。
+Thiết kế hoặc in thuyết minh và lấy kết quả từ Prokon	设计或打印计算书并从 Prokon 获取结果
+Thiết kế tự động	自动设计
+Thiết kế đai (TCVN)	箍筋设计 (TCVN)
+Thuyết minh	计算书
+Thuyết minh SCT cọc	桩承载力计算书
+Thuyết minh SCT cọc 	桩承载力计算书 
+Thuyết minh tính toán	计算书
+Thép dọc	纵筋
+Thép rải đều Bot:	底部均布钢筋:
+Thép rải đều Top:	顶部均布钢筋:
+Thép sàn lớp dưới:	板底钢筋:
+Thép sàn lớp trên:	板顶钢筋:
+Thép thanh	直条钢筋
+Thép tăng cường loại 1:	附加钢筋类型 1:
+Thép tăng cường loại 2:	附加钢筋类型 2:
+Thép tăng cường loại 3:	附加钢筋类型 3:
+Thép tăng cường loại 4:	附加钢筋类型 4:
+Thép tăng cường loại 5:	附加钢筋类型 5:
+Thép tăng cường loại 6:	附加钢筋类型 6:
+Thép tăng cường loại 7:	附加钢筋类型 7:
+Thép tăng cường loại 8:	附加钢筋类型 8:
+Thép tăng cường loại 9:	附加钢筋类型 9:
+Thép tận dụng	余料钢筋
+Thép đai	箍筋
+Thêm	添加
+Thêm Group (lấy từ các dầm select bên etabs)	添加 Group (取自在 ETABS 中选中的梁)
+Thêm Số lượng ngày	增加使用天数
+Thêm dầm vào bảng tính	将梁添加到计算表
+Thêm đuôi hậu tố vào file Prokon	为 Prokon 文件添加后缀
+Thông báo	提示
+Thông số chung Cột, Vách.	柱、墙的通用参数。
+Thông tin liên hệ nhà phát triển.	开发者联系方式。
+Thông tin nhập chưa chính xác, vui lòng xem lại!	输入的信息不正确，请重新核对！
+Thông tin tài khoản	账户信息
+Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!	计算机时间已被修改，请检查！
+Thực hiện thành công đổi tên: 	重命名成功: 
+Thực hiện đổi tên thành công: 	重命名成功: 
+Tiêu chuẩn tính toán:	计算规范:
+Tiêu chuẩn:	规范:
+Tiến hành đăng xuất:	正在退出登录:
+Tower:	
+Toàn bộ nhịp của dầm được chọn	所选梁的全部跨
+Trân trọng!	此致敬礼！
+Trạng thái	状态
+Trợ lý AI.	AI 助手。
+Trừ chiều cao tính toán (mm):	有效高度扣减值 (mm):
+TÍNH GIÓ ĐỘNG	风振计算
+Tài Khoản:	账户:
+Tài khoản	账户
+Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	账户开头或结尾有空格，请仔细核对！是否继续？
+Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM	同一账户可用于 dcejsc.com 网站及全部 DBIM 软件
+Tài khoản:	账户:
+Tác dụng dài hạn của tải trọng thường xuyên và tạm thời dài hạn	永久荷载与长期临时荷载的长期作用
+Tác dụng ngắn hạn của toàn bộ tải trọng	全部荷载的短期作用
+Tác dụng ngắn hạn của tải trọng thường xuyên	永久荷载的短期作用
+Tác dụng ngắn hạn của tải trọng thường xuyên và tạm thời dài hạn	永久荷载与长期临时荷载的短期作用
+Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng	作者诚挚欢迎同行提出宝贵意见，使软件不断
+Tên Load Case phương X và phương Y không được trùng nhau.	X 向与 Y 向的工况名称不能相同。
+Tên bảng replace	替换表名称
+Tên dầm cũ:	旧梁名称:
+Tên dầm lấy bằng Unique Names	以 Unique Names 作为梁名称
+Tên dầm mới đã tồn tại trong file excel vì thế không thể đổi tên (trùng tên)	新梁名称在 Excel 文件中已存在，因此无法重命名 (名称重复)
+Tên dầm mới:	新梁名称:
+Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?	该梁名称已存在，是否覆盖数据？
+Tên file combine:	合并文件名称:
+Tên file tính dầm:	梁计算文件名称:
+Tên load pattern vừa nhập không phải load pattern kiểu Wind của model.	刚输入的 load pattern 不是模型中 Wind 类型的 load pattern。
+Tên ngân hàng: Techcombank	银行名称: Techcombank
+Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	设备名称开头或结尾有空格，请仔细核对！是否继续？
+Tên thiết bị:	设备名称:
+Tên tiền tố	名称前缀
+Tên tiền tố PX	PX 名称前缀
+Tên tiền tố không đặt ký tự chứa dấu '-'	名称前缀中不能含有 '-' 字符
+Tên tiền tố loại vách dính liền:	连体墙类型的名称前缀:
+Tên tiền tố:	名称前缀:
+Tên tầng trong Etabs không đặt dạng số!, vui lòng chỉnh tên tầng trong mô hình Etabs và load lại nội lực.	ETABS 中的楼层名称不应为纯数字！请在 ETABS 模型中修改楼层名称后重新加载内力。
+Tên tầng trong mô hình không nên đặt dạng số, vì đặt dạng số sẽ dễ bị sót trong 1 số trường hợp đặc biệt	模型中的楼层名称不宜为纯数字，因为在某些特殊情况下容易被遗漏
+Tìm dầm giao tại gối, nhịp	查找在支座与跨中相交的梁
+Tìm dữ liệu	查找数据
+Tìm hình dáng gối tựa	查找支座形状
+Tìm kích thước gối theo thứ tự dòng số:	按行序查找支座尺寸:
+Tìm kích thước gối toàn bộ dầm	查找所有梁的支座尺寸
+Tìm kích thước gối đầu và cuối dầm	查找梁首尾端的支座尺寸
+Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 	在 Excel 文件中找到多于 1 个旧梁名称: 
+Tính Cọc	桩计算
+Tính Excel	Excel 计算
+Tính Móng	基础设计
+Tính Prokon (Mục này dành cho tính toán bằng phần mềm Prokon)	Prokon 计算 (本节用于使用 Prokon 软件计算)
+Tính cắt	抗剪计算
+Tính gió	风计算
+Tính gió:	风荷载计算:
+Tính lable Etabs	计算 ETABS 标签
+Tính lặp toàn bộ các section và tổ hợp	对全部截面与组合进行迭代计算
+Tính nhanh các cặp nội lực tương ứng:	快速计算对应的内力对:
+Tính nứt (dài hạn) (ưu tiên load trước)	裂缝计算 (长期) (优先先加载)
+Tính nứt (tổng tải) (ưu tiên load trước)	裂缝计算 (总荷载) (优先先加载)
+Tính nứt:	裂缝:
+Tính toán SCT cọc	桩承载力计算
+Tính toán cường độ (load sau cùng)	强度计算 (最后加载)
+Tính toán cột vách.	柱墙计算。
+Tính toán k tăng	不递增计算
+Tính toán nứt	裂缝计算
+Tính toán tự tăng	自动递增计算
+Tính toán đài cọc	承台计算
+Tính toán, thiết kế võng, nứt	挠度与裂缝计算设计
+Tính toán, thiết kế đai xoắn:	抗扭箍筋计算设计:
+Tính và đặt tên bản vẽ cho Lable Etabs:	为 ETABS Label 计算并指定图纸名称:
+Tính động đất	地震作用计算
+TĂNG CƯỜNG	附加
+TĨNH TẢI	恒荷载
+Tạo combo	创建组合
+Tạo combo EC	创建 EC 组合
+Tạo file Prokon	创建 Prokon 文件
+Tạo loadcase kiểm tra võng	创建挠度校核工况
+Tạo mới file Prokon trước khi tính toán hoặc in thuyết minh	在计算或打印计算书之前新建 Prokon 文件
+Tải dữ liệu nội lực từ Etabs.	从 ETABS 加载内力数据。
+Tải dữ liệu nội lực từ Safe.	从 SAFE 加载内力数据。
+Tải dữ liệu từ file text với hình dạng cột vách bất kỳ.	从文本文件加载任意柱墙形状的数据。
+Tải lại	重新加载
+Tải thiết kế:	设计荷载:
+Tầng bắt đầu	起始楼层
+Tầng chọn	所选楼层
+Tầng kết thúc	结束楼层
+Tọa độ chuẩn: X = 	基准坐标: X = 
+Tổ hợp chọn	所选组合
+Tổ hợp chọn tính cột	柱计算所选组合
+Tổ hợp chọn tính dầm	梁计算所选组合
+Tổ hợp kiểm tra độ võng toàn phần (f1 - f2 + f3)	总挠度校核组合 (f1 - f2 + f3)
+Tổ hợp nội lực	内力组合
+Tổ hợp nội lực:	内力组合:
+Tổ hợp thiết kế	设计组合
+Tổ hợp thép loại 1	钢筋组合类型 1
+Tổ hợp thép loại 2	钢筋组合类型 2
+Tổ hợp thép.	钢筋组合。
+Tổ hợp tính toán:	计算组合:
+Tổ hợp động đất	地震组合
+Tổng hợp dầm	梁汇总
+Từ biến	徐变
+Tự chọn thép rải đều (nếu có cài đặt)	自动选择均布钢筋 (若已设置)
+Tự cấu hình cho Model AI bất kỳ hoặc bạn muốn cái đặt riêng cho AI theo phong các	可自行配置任意 AI 模型，或按您的风格单独设置 AI
+Tự động dò tìm	自动查找
+Tự động gộp tầng	自动合并楼层
+Tự động tùy chỉnh Mode dao động gió theo Phương X và Phương Y?	是否自动调整 X 向和 Y 向的风振振型？
+Tỷ số nén	轴压比
+Uniform Load Sets.	均布荷载组。
+UniqueName Cột Etabs bằng cột AO sheet ColumnDesign	ETABS 柱 UniqueName = ColumnDesign 表 AO 列
+Update Phần mềm.	更新软件。
+Update Unique Name in Excel	在 Excel 中更新 Unique Name
+Update Unique Name in Model	在模型中更新 Unique Name
+Update nội lực	更新内力
+View	显示
+Việc Update nội lực vào bảng tính	将内力更新到计算表
+Vui lòng MỞ LẠI 	请重新打开 
+Vui lòng chọn loại mô hình AI sẽ hỗ trợ bạn và điền APIKey tương ứng!	请选择将为您提供支持的 AI 模型并填写对应的 APIKey！
+Vui lòng chọn ít nhất 1 tải trọng!	请至少选择 1 个荷载！
+Vui lòng mở khóa mô hình	请解锁模型
+Vui lòng mở khóa mô hình!	请解锁模型！
+Vui lòng nhập giá trị Hệ số vượt tải gió!	请输入风荷载分项系数！
+Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.	更新软件时请关闭 AutoCAD 和 Excel。
+Vui lòng đợi trong 5-15p sau đó nhấn nút	请等待 5-15 分钟，然后点击按钮
+Ví dụ điền B1-*;B2-*;(Với  dấu * đại diện nhịp -1, -2...)	例如填写 B1-*;B2-*; (其中 * 代表跨 -1、-2...)
+Ví dụ điền B1-1;B2-1;(Với B1-1, B2-1... là tên dầm)	例如填写 B1-1;B2-1; (其中 B1-1、B2-1... 为梁名称)
+Vùng tới hạn:	临界区:
+Vị trí:	位置:
+Website: 	
+Xem TM	查看
+Xem Thuyết minh dòng số thứ tự:	查看第几行的计算书:
+Xem Thuyết minh tính toán	查看计算书
+Xem lại dữ liệu dòng 	请复核该行的数据 
+Xem thuyết minh chi tiết dòng thứ:	查看第几行的详细计算书:
+Xuất DL tính qua file vẽ dầm mặt cắt	将计算数据导出到梁剖面图文件
+Xuất Thuyết minh	导出计算书
+Xuất dữ liệu bản vẽ	导出图纸数据
+Xuất dữ liệu dự toán	导出概算数据
+Xuất dữ liệu text ra file cad	将文本数据导出到 CAD 文件
+Xuất dữ liệu thiết kế ra cad (color):	将设计数据导出到 CAD (颜色):
+Xuất dữ liệu tính toán qua Autocad	将计算数据导出到 AutoCAD
+Xuất dữ liệu tính toán qua sheet vẽ	将计算数据导出到绘图工作表
+Xuất dữ liệu tính toán qua sheets vẽ.	将计算数据导出到绘图工作表。
+Xuất thuyết minh tên dầm kèm theo vi trí nhịp?	导出计算书时是否附带梁名称与跨位置？
+Xuất tiên lượng Bê tông + ván khuân	导出混凝土 + 模板工程量
+Xuất tên bản vẽ từ Excel -> Cad	将图纸名称从 Excel 导出至 CAD
+XÁC NHẬN	确认
+Xác nhận gia hạn	确认续期
+Xác nhận mật khẩu (*)	确认密码 (*)
+Xác nhận thanh toán	确认支付
+Xóa	删除
+Xóa DL	删除
+Xóa dầm	删除梁
+Xóa lưu toàn bộ cấu hình	删除全部已保存的配置
+Xảy ra lỗi:	发生错误:
+Youtube: 	
+aiPrompt	
+cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.	改进软件功能，更好地服务于您的工作。
+f(500)	
+m = 	
+progeCAD	
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS LỚN	正在连接 ETABS - 请稍候 - 这不是 DBIM 的缺陷，而是 ETABS 模型较大
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS NẶNG	正在连接 ETABS - 请稍候 - 这不是 DBIM 的缺陷，而是 ETABS 模型较重
+ĐK thép chủ bố trí tự động:	自动布置的主筋直径:
+ĐK thép đai bố trí tự động:	自动布置的箍筋直径:
+ĐK Đai <=	箍筋直径<=
+ĐK:	Ø:
+ĐKT L1 +	
+ĐT: 0989.111.206	
+Đai vùng nối thép:	搭接区箍筋:
+Đang cắt thép đường kính:	正在下料的钢筋直径:
+Đang tính toán...	正在计算...
+Điền HS cọc biên	填写边桩系数
+Điền KR Bot giống Top	底部间距同顶部
+Điền lại ô P và AG trong bảng tính!	请重新填写计算表中的 P 和 AG 单元格！
+Điền lại ô Q và AH trong bảng tính!	请重新填写计算表中的 Q 和 AH 单元格！
+Điền thủ công	手动填写
+Điểm nối đầu cách sàn:	首个搭接点距板的距离:
+Đã chạy 	已运行 
+Đã cập nhật thành công!, Hãy mở lại mô hình và trải nghiệm	更新成功！请重新打开模型体验
+Đã gán xong tải gió vào Etabs:	已将风荷载指定到 ETABS:
+Đã gán xong tải động đất vào Etabs:	已将地震荷载指定到 ETABS:
+Đã lưu kết nối AutoCAD	已保存 AutoCAD 连接
+Đã lưu kết nối Autocad	已保存 AutoCAD 连接
+Đã lưu kết nối BricsCAD	已保存 BricsCAD 连接
+Đã lưu kết nối EnjiCAD	已保存 EnjiCAD 连接
+Đã lưu kết nối GstarCAD	已保存 GstarCAD 连接
+Đã lưu kết nối ZWCAD	已保存 ZWCAD 连接
+Đã lưu kết nối progeCAD	已保存 progeCAD 连接
+Đã xóa toàn bộ cấu hình và mã API Key trên thiết bị này!	本设备上的全部配置与 API Key 已删除！
+Đã xảy ra lỗi khi co kéo hình ảnh: 	缩放图片时发生错误: 
+Đính kèm ảnh	附加图片
+ĐĂNG KÝ	注册
+ĐĂNG KÝ TÀI KHOẢN	注册账户
+ĐĂNG KÝ TÀI KHOẢN DBIM	注册 DBIM 账户
+ĐĂNG NHẬP	登录
+ĐĂNG NHẬP TÀI KHOẢN	登录账户
+Đăng Xuất	退出登录
+Đăng ký tài khoản DBIM với email:	使用以下邮箱注册 DBIM 账户:
+Đăng ký tài khoản mới	注册新账户
+Đăng nhập lại để sử dụng!	请重新登录后使用！
+Đăng nhập thành công!	登录成功！
+Đăng nhập tài khoản DCE.	登录 DCE 账户。
+Đăng xuất	退出登录
+Đăng xuất sau đó đăng nhập lại tài khoản để cập nhập chức năng license!	请退出后重新登录，以便更新许可证功能！
+Đăng xuất thiết bị hiện tại	注销当前设备
+Đăng xuất thiết bị khác	注销其他设备
+Đăng xuất thành công!	已成功退出登录！
+Đăng xuất tài khoản DCE.	退出 DCE 账户。
+Đường dẫn khởi động Etabs: 	ETABS 启动路径: 
+Đường dẫn khởi động Mô hình: 	模型启动路径: 
+Đường dẫn khởi động SAP2000: 	SAP2000 启动路径: 
+Đường dẫn khởi động Safe: 	SAFE 启动路径: 
+Đường kính chạy suốt Dưới L1:	底部通长 L1 直径:
+Đường kính chạy suốt Trên L1:	顶部通长 L1 直径:
+Đường kính thép chạy suốt lớp dưới = ĐK thép chạy suốt lớp trên	底部通长钢筋直径 = 顶部通长钢筋直径
+Đường kính thép giá:	架立筋直径:
+Đường kính tính toán:	计算直径:
+Đảo đầu	反向
+Đẩy thép gia cường Lớp 1 ở cột n2 và d2; Lớp 2 ở cột n3, d3; Lớp 3 ở cột n4, d4 .	将附加钢筋第 1 层写入 n2、d2 列；第 2 层写入 n3、d3；第 3 层写入 n4、d4。
+Đặt Pier tự động:	自动指定 Pier:
+Đặt lại tên toàn bộ Pier cho Frame - Column?	是否重新命名 Frame - Column 的全部 Pier？
+Đặt lại tên toàn bộ Pier cho Shell - Wall?	是否重新命名 Shell - Wall 的全部 Pier？
+Đặt thép giá khi H>=	布置架立筋，当 H>=
+Đặt tên	命名
+Đặt tên Etabs	ETABS 命名
+Đặt tên cho dầm muốn thêm: 	为要添加的梁命名: 
+Đặt tên thành công 	命名成功 
+Để cập nhật in ấn tự động, hệ thống cần đóng toàn bộ ứng dụng ETABS đang chạy.	为更新自动打印功能，系统需要关闭所有正在运行的 ETABS 程序。
+Địa chỉ	地址
+Đọc tọa độ Prokon	读取 Prokon 坐标
+Đồng bộ point mô hình safe.	同步 SAFE 模型节点。
+Đổi tên	重命名
+Đổi tên dầm	梁重命名
+Đổi tên không thành công	重命名失败
+Độ ẩm:	湿度:
+Ưu tiên bố trí thép cho:	优先为以下部位配筋:
+αcc (Strength factor):	
+αcc (dùng trong check Vd):	αcc (用于 Vd 校核):
+γb (Concrete):	γb (混凝土):
+γc (Concrete):	γc (混凝土):
+γc (dùng trong check Vd):	γc (用于 Vd 校核):
+γs (Steel):	γs (钢筋):
+Ẩn Vật liệu thiết kế thép chủ	隐藏主筋设计材料
+Ẩn Vật liệu thiết kế thép đai	隐藏箍筋设计材料
+Ẩn tên nhịp dầm	隐藏梁跨名称
+► BẤM ĐỂ NẠP TIỀN QUA WEBSITE	► 点击通过网站充值
+✔️ License activated successfully!	
+❌ Invalid license key!	
+Language	语言
+Chọn ngôn ngữ hiển thị của phần mềm.	选择软件的显示语言。
+# ---- Form Excel nhom B - bo sung 2026-09-13 ----
+ĐT: 0989.111.206	电话: 0989.111.206
+Số tài khoản: 19033419323019	账号: 19033419323019
+Liên hệ Zalo/sđt: 0989.111.206	Zalo/电话: 0989.111.206
+ĐKT lớp 1 k vượt quá (TOP/BOT):	第 1 层钢筋最大直径 (TOP/BOT):
+Danh sách Group dầm giống nhau	相同梁编组列表
+Số thanh cắt / số thanh cần	下料根数 / 所需根数
+CK được coi là vách khi dài/rộng >	按墙处理，当长宽比 >
+DS Tổ hợp	组合列表
+Danh sách tầng	楼层列表
+DS Cột/Vách	柱墙列表
+Cột/Vách chọn	所选柱墙
+DS tổ hợp tính dầm	梁计算组合
+DS Tổ hợp tính cột	柱计算组合
+DS dầm	梁列表
+Giới hạn nứt dài hạn (T/B):	长期裂缝限值 (T/B):
+BTBV (T/B) (mép - mép đai)	保护层 (T/B) (边缘-箍筋)
+Fs = As chọn / As tính toán	Fs = 实配 As / 计算 As
+Đai gia cường dầm giao nhịp / đai vai bò	交叉梁附加箍筋 / 吊筋
+HL thép tối thiểu của cấu kiện có H/B <=4:	H/B <= 4 构件最小配筋率:
+HL thép tối thiểu của cấu kiện có H/B > 4:	H/B > 4 构件最小配筋率:
+KC a tính tới H cột / 2	间距 a 算至柱 H / 2
+Lưu ý: Chức năng sử dụng Database Tables API, yêu cầu ETABS/SAFE v21 trở lên	注意: 使用 Database Tables API, 需 ETABS/SAFE v21 及以上
+Nứt dài hạn / Ngắn hạn	长期 / 短期裂缝
+Tải thiết kế / Độ ẩm	设计荷载 / 湿度
+BTBV trên / Dưới (mm)	上/下保护层 (mm)
+Mác Bê Tông / Mác thép	混凝土 / 钢筋等级
+Giới hạn nứt dài/ngắn hạn (Top)	长/短期裂缝限值 (Top)
+Tiêu chuẩn/Mác BT	规范 / 混凝土等级
+Tải thiết kế/ độ ẩm	设计荷载 / 湿度
+BTBV Top/Bot (mép BT - mép thép)	上/下保护层 (混凝土-钢筋)
+# ---- Form Excel nhom D - bo sung 2026-09-13 ----
+Hướng dẫn sử dụng: https://dcejsc.com/dbim-tong-hop-huong-dan-su-dung	使用指南: https://dcejsc.com/dbim-tong-hop-huong-dan-su-dung
+ĐKT L1 +	L1 直径 +
+Giới hạn nứt ngắn hạn (T/B)	短期裂缝限值 (T/B)
+Giới hạn nứt dài/ngắn hạn (Bot)	长/短期裂缝限值 (Bot)
+# [RA SOAT 3 - 20260913_112417] bo sung ban dich
+Bê tông	混凝土
+Check hệ kết cấu	检查结构体系
+Thép	钢筋
+Tài khoản này có mật khẩu cấp 2.	此账户设有二级密码。
+Tính Móng Đơn	独立基础计算
+Đóng	关闭
+# [RA SOAT 3 - 20260913_214150] bo sung ban dich
+Ngày	天
+đ	越南盾
+# [RA SOAT 3 - 20260913_214804] bo sung ban dich
+(Đã gồm khuyến mãi	(已含优惠
+Bạn cần thanh toán:	您需要支付:
+Gia hạn license cho gói:	续期许可证的套餐:
+Gói:	套餐:
+Hạn sử dụng hiện tại:	当前到期日:
+Số lượng:	数量:
+Số tiền cần thanh toán:	应付金额:
+Xác nhận gia hạn?	确认续期？
+Xác nhận mua license mới?	确认购买新许可证？
+# [RA SOAT 3 - 20260914_060652] bo sung ban dich
+(Nhấn 'Esc' để kết thúc lệnh)	(按 'Esc' 结束命令)
+Chọn gốc tọa độ:	选择坐标原点:
+Chọn điểm Tim Trục: 	选择轴线中心点: 
+Chọn điểm bên phải gối: 	选择支座右侧点: 
+Chọn điểm bên trái gối: 	选择支座左侧点: 
+Click điểm 	点击点 
+Click điểm 1	点击点 1
+Click điểm 2	点击点 2
+Click điểm Cuối	点击终点
+Click điểm đầu	点击起点
+# [RA SOAT 3 - 20260914_061621] bo sung ban dich
+ bằng quyền Admin ngay bây giờ không?	 (以 Admin 权限)？
+ bằng quyền Administrator.	 (以 Administrator 权限)。
+- Excel và CAD phải chạy CÙNG QUYỀN: cùng là Administrator, 	- Excel 与 CAD 必须以相同权限运行: 都以 Administrator 身份运行, 
+- Hãy mở sẵn 1 bản vẽ rồi thử lại.	- 请先打开一张图纸再重试。
+- Đóng hộp thoại / kết thúc lệnh đang chạy dở trong CAD.	- 关闭 CAD 中的对话框 / 结束正在执行的命令。
+1. Hàm chỉ tính cho 1 cặp nội lực duy nhất là cặp nội lực đang hiện hữu ở excel	1. 该函数只计算一组内力，即 Excel 中当前显示的内力
+2. Hàm rất nặng, có thể gây chậm excel hoặc đơ excel với các máy cấu hình yếu	2. 该函数计算量很大，在低配置电脑上可能使 Excel 变慢或卡死
+3. Cần lưu file trước khi sử dụng hàm tránh bị đơ Excel	3. 使用该函数前请先保存文件，以防 Excel 卡死
+4. Hàm không tính cho vách Lõi thang và các tiết diện bất kỳ được lấy từ Autocad qua	4. 该函数不计算核心筒墙及从 AutoCAD 导入的任意截面
+Bạn có muốn mở file tính gió không?	是否打开风荷载计算文件？
+Bạn có muốn phần mềm TỰ ĐỘNG chạy 	是否让软件立即自动运行 
+Bạn có muốn đóng ETABS và cập nhật ngay không?	是否立即关闭 ETABS 并更新？
+Chú ý	注意
+Chọn No để tính toán gió theo 2737-1995	选择 No 按 TCVN 2737-1995 计算风荷载
+Chọn Yes để đồng ý, chọn No để tự nhập lại tên.	选择 Yes 表示同意，选择 No 自行重新输入名称。
+GÁN GIÓ VÀO ETABS	将风荷载指定到 ETABS
+GÁN ĐỘNG ĐẤT VÀO ETABS	将地震荷载指定到 ETABS
+Hoàn tất đăng ký	注册完成
+HÃY LƯU LẠI MODEL ETABS TRƯỚC KHI CHỌN YES	选择 YES 前请先保存 ETABS 模型
+Load Case chưa tồn tại sẽ được tạo mới.	不存在的 Load Case 将被新建。
+Modal Case sử dụng                     : 	使用的 Modal Case                      : 
+Model ETABS chưa chạy Analysis (chưa Run).	ETABS 模型尚未运行分析 (未 Run)。
+Mất đăng ký API 	API 注册丢失: 
+Nhập số dương nếu muốn cộng thêm cao độ, Nhập số âm nếu muốn trừ đi cao độ	输入正数表示增加标高，输入负数表示减少标高
+Phím tắt: nhấn F5 trong ETABS để chạy Analysis.	快捷键: 在 ETABS 中按 F5 运行分析。
+Thiết kế Cột, Vách BDTT	柱、墙设计 BDTT
+Vui lòng thực hiện Analyze → Run Analysis trong ETABS	请在 ETABS 中执行 Analyze → Run Analysis
+Xác nhận cập nhật cài đặt	确认更新设置
+hoặc cùng KHÔNG phải Administrator.	或都不以 Administrator 身份运行。
+trước khi load nội lực về Excel.	然后再将内力读取到 Excel。
+Đây là nguyên nhân khiến phần mềm không kết nối được. Cần chạy lại file 	这就是软件无法连接的原因。需要重新运行文件 
+Để tối ưu chẵn thép nhất có thể?	以尽可能优化为整料钢筋？
+Động đất phương X sẽ gán vào Load Case : 	X 向地震将指定到 Load Case : 
+Động đất phương Y sẽ gán vào Load Case : 	Y 向地震将指定到 Load Case : 
+# [RA SOAT 3 - 20260914_063138] bo sung ban dich
+  • Các load pattern tham gia khối lượng (TT, HT...) và hệ số tương ứng	  • 参与质量的 load pattern (TT, HT...) 及相应系数
+  • Hệ số hoạt tải ψE theo TCVN (thường 0.24 cho nhà ở/văn phòng)	  • 按 TCVN 取活荷载系数 ψE (住宅/办公通常为 0.24)
+  • Mass Source đang Default có đúng ý đồ tính toán không	  • 当前 Default Mass Source 是否符合计算意图
+ điểm phổ)	 个谱点)
+- Joint Coordinates (với Etabs 17 trở xuống)	- Joint Coordinates (适用于 Etabs 17 及更早版本)
+- Mass Source : (dùng Default Mass Source của model — bạn tự khai báo)	- Mass Source : (使用模型的 Default Mass Source — 需自行定义)
+- Point Object Connectivity (Với Etabs 18 trở lên)	- Point Object Connectivity (适用于 Etabs 18 及更高版本)
+- Số tầng gán  : 	- 指定楼层数  : 
+- Điểm đặt lực : 	- 荷载作用点 : 
+Bê tông bảo vệ = 	混凝土保护层 = 
+Bạn có muốn chạy lại phân tích (Run Analysis) ngay không?	是否立即重新运行分析 (Run Analysis)？
+Gió phương X sẽ gán vào : 	X 向风荷载将指定到 : 
+Gió phương Y sẽ gán vào : 	Y 向风荷载将指定到 : 
+Hoặc	或
+Khai báo Mass Source sai sẽ làm kết quả động đất sai hoàn toàn.	Mass Source 定义错误将导致地震结果完全错误。
+Không mở được thư mục: 	无法打开文件夹: 
+Không đổi được ngôn ngữ: 	无法切换语言: 
+Loại đai =	箍筋类型 =
+Lớp bê tông bảo vệ = 	混凝土保护层 = 
+Móc đai = 	箍筋弯钩 = 
+Thể tích bê tông = 	混凝土体积 = 
+Tiêu chuẩn sử dụng = 	采用规范 = 
+Trong file Access	(Access 文件中)
+Trước khi chạy phân tích, hãy vào Define → Mass Source kiểm tra lại:	运行分析之前，请进入 Define → Mass Source 检查:
+Tọa độ tương đối so với Prokon (phần lấy fs):  X = 	相对于 Prokon 的坐标 (取 fs 部分):  X = 
+Tổng Khối lượng thép = 	钢筋总重量 = 
+hãy vào Define → Mass Source kiểm tra lại các load pattern tham gia	请进入 Define → Mass Source 检查参与质量的 load pattern
+khối lượng và hệ số tương ứng cho đúng.	及其相应系数是否正确。
+mà tâm khối lượng lại phụ thuộc Mass Source. Trước khi chạy phân tích,	而质心取决于 Mass Source。运行分析之前，
+mặc định (0,0)	默认 (0,0)
+tâm khối lượng từng tầng	各楼层质心
+Điểm đặt lực gió lấy theo tâm khối lượng (Centers Of Mass And Rigidity),	风荷载作用点取自质心 (Centers Of Mass And Rigidity)，
+⚠ LƯU Ý: Chương trình KHÔNG tự khai báo Mass Source.	⚠ 注意: 程序不会自动定义 Mass Source。
+# [RA SOAT 3 - 20260914_064917] bo sung ban dich
+ (vd: C:\Program Files\Computers and Structures\...),	 (如: C:\Program Files\Computers and Structures\...),
+ => Run as administrator, sau đó mở lại 	 => Run as administrator, 然后重新打开 
+ Sheet Beam Forces	 行 (Beam Forces 表)
+ Tên dầm không giống nhau: 	 — 梁名称不一致: 
+Dòng thứ 	第 
+Hướng dẫn đăng ký API	API 注册指南
+chuột phải 	右键单击 
+# [RA SOAT 3 - 20260914_065432] bo sung ban dich
+ => Run as administrator.	 => Run as administrator。
+, chuột phải 	, 右键单击 
+Hãy tự vào thư mục cài đặt 	请手动进入以下软件的安装目录: 
+Hãy vào C:\Program Files\Computers and Structures\... chuột phải 	请进入 C:\Program Files\Computers and Structures\... 并右键单击 
+# [RA SOAT 3 - 20260914_154001] bo sung ban dich
+Mã Khuyến mãi (nếu có)	优惠码 (如有)
+[Đã chọn {0} ảnh]	[已选择 {0} 张图片]

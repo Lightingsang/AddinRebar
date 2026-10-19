@@ -1,0 +1,30 @@
+{
+  "artifactType": "HPBim.Model.v1",
+  "schemaVersion": "1.0.0",
+  "projectName": "NhaPho_Live_DryRun_Test",
+  "units": "Millimeters",
+  "levels": [
+    {
+      "name": "Level_Test_L1",
+      "elevationM": 0.0,
+      "floorNumber": 1
+    },
+    {
+      "name": "Level_Test_L2",
+      "elevationM": 3.6,
+      "floorNumber": 2
+    }
+  ],
+  "grids": [
+    {
+      "name": "Grid_Test_1",
+      "startPoint": { "x": 0.0, "y": 0.0 },
+      "endPoint": { "x": 10000.0, "y": 0.0 }
+    },
+    {
+      "name": "Grid_Test_2",
+      "startPoint": { "x": 0.0, "y": 5000.0 },
+      "endPoint": { "x": 10000.0, "y": 5000.0 }
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.FoundationSlabWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  Title="HPDcePro - Móng Cọc, Móng Đơn, Bản Sàn, Cầu Thang &amp; Lanh Tô"
+                  Height="720" Width="980" MinHeight="600" MinWidth="800"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}" BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="KẾT CẤU PHẦN NGẦM, SÀN, THANG BỘ &amp; LANH TÔ" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Móng cọc (1-N cọc), móng đơn nông, bản sàn 2 phương Marcus, cầu thang BTCT và lanh tô cửa" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding CapStatusText}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Tabs -->
+        <mah:MetroAnimatedTabControl Grid.Row="1" Margin="0,8,0,8">
+            <!-- TAB 1: PILE CAP -->
+            <TabItem Header="1. MÓNG CỌC (PILE CAP)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Kích thước đài cọc &amp; Cột" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Rộng B (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CapWidthBMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Dài L (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CapLengthLMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Cao H (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding CapThicknessHMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="2. Tải trọng &amp; Sức chịu tải cọc" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Đúng tâm N (kN)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CapAxialNKn, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Momen Mx (kNm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CapMomentMxKnm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Sức tải P_cp (kN)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding PileCapacityRcKn, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ TÍNH TOÁN ĐÀI CỌC" Style="{StaticResource Text.Section}"/>
+                            <Separator Margin="0,4,0,12"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Phản lực cọc Max:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding MaxPileReactionKn, StringFormat={}{0:F1} kN}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Phản lực cọc Min:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding MinPileReactionKn, StringFormat={}{0:F1} kN}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Tỷ số tải cọc (P/Pcp):" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PileCapacityRatio, StringFormat={}{0:P1}}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Tỷ số chọc thủng đài:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding CapPunchingRatio, StringFormat={}{0:P1}}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép đáy AsX yêu cầu:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding CapRequiredAsXMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép đáy AsY yêu cầu:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding CapRequiredAsYMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Button Content="Tính toán Đài Cọc" Command="{Binding CalculatePileCapCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 2: PAD FOOTING -->
+            <TabItem Header="2. MÓNG ĐƠN (PAD FOOTING)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Tiết diện móng &amp; Độ sâu chôn" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Bề rộng B (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding PadWidthBMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Chiều dài L (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding PadLengthLMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Độ sâu Df (m)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding PadDepthM, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="2. Tải trọng &amp; Đất nền" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Đúng tâm N (kN)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding PadAxialNKn, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Momen Mx (kNm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding PadMomentMxKnm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Sức chịu đất Rtc (kPa)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding AllowableSoilRtcKpa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ MÓNG ĐƠN" Style="{StaticResource Text.Section}"/>
+                            <Separator Margin="0,4,0,12"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Áp lực đất Pmax:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PadBasePressureMaxKpa, StringFormat={}{0:F1} kPa}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Áp lực đất Pmin:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PadBasePressureMinKpa, StringFormat={}{0:F1} kPa}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Chọc thủng pyramid:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PadPunchingRatio, StringFormat={}{0:P1}}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép móng AsX:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PadRequiredAsXMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép móng AsY:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding PadRequiredAsYMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Button Content="Tính toán Móng Đơn" Command="{Binding CalculatePadFootingCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 3: TWO-WAY SLAB -->
+            <TabItem Header="3. BẢN SÀN (TWO-WAY SLAB)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Kích thước ô bản sàn" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Cạnh ngắn Lx (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding SlabSpanLxMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Cạnh dài Ly (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SlabSpanLyMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Chiều dày H (mm)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding SlabThicknessHMm, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="2. Tải trọng tác dụng" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Tĩnh tải g (kN/m2)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding SlabDeadGKnM2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Hoạt tải p (kN/m2)" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SlabLivePKnM2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StandardTextBox}"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ TÍNH TOÁN BẢN SÀN" Style="{StaticResource Text.Section}"/>
+                            <Separator Margin="0,4,0,12"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Tỷ số cạnh lambda:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlabAspectRatio, StringFormat={}{0:F2}}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Momen nhịp Mx:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlabSpanMomentMxKnm, StringFormat={}{0:F2} kNm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Momen gối Mx:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlabSupportMomentMxKnm, StringFormat={}{0:F2} kNm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép đáy B1 (X):" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlabRequiredAsBotX, StringFormat={}{0:F0} mm2/m}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép gối T1 (X):" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlabRequiredAsTopX, StringFormat={}{0:F0} mm2/m}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Button Content="Tính toán Bản Sàn" Command="{Binding CalculateSlabCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 4: STAIR & LINTEL -->
+            <TabItem Header="4. CẦU THANG &amp; LANH TÔ">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Stair Panel -->
+                    <Border Grid.Column="0" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="CẦU THANG BỘ BTCT" Style="{StaticResource Text.Section}"/>
+                            <Separator Margin="0,4,0,12"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Chiều cao bậc hr:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StairRiserHeightMm, StringFormat={}{0:F0} mm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Bề rộng bậc bt:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StairTreadWidthMm, StringFormat={}{0:F0} mm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Công thức 2hr + bt:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StairBlondelValue, StringFormat={}{0:F0} mm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Momen tính toán M:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StairMaxMomentKnm, StringFormat={}{0:F1} kNm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép chủ yêu cầu As:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding StairRequiredAsMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Button Content="Tính toán Cầu Thang" Command="{Binding CalculateStaircaseCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- Lintel Panel -->
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="LANH TÔ CỬA" Style="{StaticResource Text.Section}"/>
+                            <Separator Margin="0,4,0,12"/>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Momen lanh tô M:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding LintelMomentKnm, StringFormat={}{0:F2} kNm}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Lực cắt lanh tô V:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding LintelShearKn, StringFormat={}{0:F2} kN}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép chủ đáy (2 thanh):" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding LintelMainBarDia, StringFormat={}2Phi{0}}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Thép yêu cầu As:" Style="{StaticResource Text.Muted}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding LintelRequiredAsMm2, StringFormat={}{0:F0} mm2}" Style="{StaticResource Text.Bold}"/>
+                            </Grid>
+                            <Button Content="Tính toán Lanh Tô" Command="{Binding CalculateLintelCommand}" Style="{StaticResource PrimaryButton}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </mah:MetroAnimatedTabControl>
+
+        <!-- Footer Buttons -->
+        <Border Grid.Row="2" Padding="0,8,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Xuất bản vẽ CAD" Command="{Binding ExportCadCommand}" Style="{StaticResource SecondaryButton}" Width="150" Margin="0,0,8,0"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource PrimaryButton}" Width="100"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

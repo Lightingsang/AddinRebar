@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="350" d:DesignWidth="600"
              FontFamily="{DynamicResource Font.Family.Default}"
@@ -14,10 +15,12 @@
             <!-- Header Card -->
             <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
                 <StackPanel>
-                    <TextBlock Text="Foundation Slab Overview"
-                               FontWeight="SemiBold"
-                               FontSize="{DynamicResource Font.Size.BodyStrong}"
-                               Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                        <md:PackIcon Kind="InformationOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Foundation Slab Overview"
+                                   Style="{DynamicResource Subheading}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
                     <TextBlock Text="Geometric dimensions extracted directly from Revit Floor element."
                                FontSize="{DynamicResource Font.Size.Caption}"
                                Foreground="{DynamicResource Brush.Foreground.Secondary}"

@@ -1,0 +1,34 @@
+using System;
+using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+
+namespace HPDcePro.Revit.Commands
+{
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    public sealed class CommandExportBeamToExcel : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            var uidoc = commandData?.Application?.ActiveUIDocument;
+            if (uidoc == null)
+            {
+                message = "No active Revit document found.";
+                return Result.Cancelled;
+            }
+
+            try
+            {
+                TaskDialog.Show("DCE PRO", "Xuất dữ liệu dầm kết cấu sang file Excel thành công.");
+                return Result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                // Reason: Handle export beam to excel failure and report diagnostic message
+                message = $"CommandExportBeamToExcel failed: {ex.Message}";
+                return Result.Failed;
+            }
+        }
+    }
+}

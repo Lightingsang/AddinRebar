@@ -1,0 +1,98 @@
+﻿================================================================================
+FILE: C:\kata_pro\Iso_QHPlus.xls
+================================================================================
+Sheet Count: 3
+
+########################################
+SHEET: LoaiThep
+########################################
+UsedRange: string Address (Variant, Variant, XlReferenceStyle, Variant, Variant) {get} 
+Row 1: [1,3] L1
+Row 2: [2,2] L1 | [2,3] L2 | [2,11] L1 | [2,13] STT | [2,14] Ø | [2,15] TL/cây | [2,16] Cây/bó | [2,17] TL/md
+Row 3: [3,2] L1 | [3,3] L2 | [3,11] L1 | [3,13] 1 | [3,14] 6 | [3,17]     0.222  (Formula: =ROUND((PI()*6^2/4)*7850*10^-6,3))
+Row 4: [4,3] L2 | [4,11] L1 | [4,13] 2 | [4,14] 8 | [4,17]     0.395  (Formula: =ROUND((PI()*8^2/4)*7850*10^-6,3))
+Row 5: [5,3] L2 | [5,11] L1 | [5,13] 3 | [5,14] 10 | [5,15] 7.22 | [5,16] 380 | [5,17]     0.617  (Formula: =ROUND(O5/11.7,3))
+Row 6: [6,2] L1 | [6,3] L2 | [6,13] 4 | [6,14] 12 | [6,15] 10.39 | [6,16] 280 | [6,17]     0.888  (Formula: =ROUND(O6/11.7,3))
+Row 7: [7,2] L1 | [7,3] L2 | [7,13] 5 | [7,14] 14 | [7,15] 14.16 | [7,16] 200 | [7,17]     1.210  (Formula: =ROUND(O7/11.7,3))
+Row 8: [8,2] L1 | [8,3] L2 | [8,11] L1 | [8,13] 6 | [8,14] 16 | [8,15] 18.49 | [8,16] 160 | [8,17]     1.580  (Formula: =ROUND(O8/11.7,3))
+Row 9: [9,2] L1 | [9,3] L2 | [9,11] L1 | [9,13] 7 | [9,14] 18 | [9,15] 23.4 | [9,16] 120 | [9,17]     2.000  (Formula: =ROUND(O9/11.7,3))
+Row 10: [10,2] L1 | [10,3] L2 | [10,11] L1 | [10,13] 8 | [10,14] 20 | [10,15] 28.9 | [10,16] 110 | [10,17]     2.470  (Formula: =ROUND(O10/11.7,3))
+Row 11: [11,2] L1 | [11,3] L2 | [11,11] L1 | [11,13] 9 | [11,14] 22 | [11,15] 34.87 | [11,16] 80 | [11,17]     2.980  (Formula: =ROUND(O11/11.7,3))
+Row 12: [12,2] L1 | [12,3] L2 | [12,13] 10 | [12,14] 25 | [12,15] 45.05 | [12,16] 65 | [12,17]     3.850  (Formula: =ROUND(O12/11.7,3))
+Row 13: [13,2] L1 | [13,3] L2 | [13,13] 11 | [13,14] 28 | [13,15] 56.63 | [13,16] 55 | [13,17]     4.840  (Formula: =ROUND(O13/11.7,3))
+Row 14: [14,2] L2 | [14,3] L1 | [14,4] L3 | [14,10] L1 | [14,11] L2 | [14,13] 12 | [14,14] 32 | [14,15] 73.83 | [14,16] 45 | [14,17]     6.310  (Formula: =ROUND(O14/11.7,3))
+Row 15: [15,2] L2 | [15,3] L1 | [15,4] L3 | [15,10] L1 | [15,11] L2 | [15,13] 13 | [15,14] 36 | [15,15] 93.48 | [15,17]     7.990  (Formula: =ROUND(O15/11.7,3))
+Row 16: [16,3] L1 | [16,10] L2 | [16,11] L3 | [16,13] 14 | [16,14] 40 | [16,15] 115.4 | [16,17]     9.863  (Formula: =ROUND(O16/11.7,3))
+Row 17: [17,3] L1 | [17,10] L2 | [17,11] L3
+Row 18: [18,2] L1 | [18,3] L2 | [18,10] L1 | [18,11] L3
+Row 19: [19,2] L1 | [19,3] L2 | [19,10] L1 | [19,11] L3
+Row 20: [20,2] L1 | [20,3] L2 | [20,10] L3 | [20,11] L4
+Row 21: [21,2] L1 | [21,3] L2 | [21,10] L3 | [21,11] L4
+Row 22: [22,2] L1 | [22,3] L2 | [22,10] L1 | [22,11] L3
+Row 23: [23,2] L1 | [23,3] L2 | [23,10] L1 | [23,11] L3
+Row 24: [24,2] L1 | [24,3] L2 | [24,11] L1
+Row 25: [25,3] L1 | [25,6] L2 | [25,8] L1
+Row 26: [26,3] L1 | [26,6] L2 | [26,8] L1
+Row 27: [27,3] L1 | [27,6] L2 | [27,8] L1
+Row 28: [28,3] L1 | [28,6] L2 | [28,8] L1
+Row 29: [29,2] L1 | [29,3] L2 | [29,8] L3
+Row 30: [30,2] L1 | [30,3] L2 | [30,8] L3 | [30,11] L4
+Row 31: [31,2] L1 | [31,3] L4 | [31,4] L2 | [31,8] L3 | [31,11] L4
+Row 32: [32,3] L3 | [32,6] L2 | [32,11] L1
+Row 33: [33,2] L4 | [33,3] L3 | [33,6] L2 | [33,11] L1
+Row 34: [34,2] L4 | [34,3] L3 | [34,6] L2 | [34,10] L4 | [34,11] L1
+Row 35: [35,3] L1 | [35,7] L1
+
+########################################
+SHEET: Dang_thep
+########################################
+UsedRange: string Address (Variant, Variant, XlReferenceStyle, Variant, Variant) {get} 
+Row 1: [1,1] BẢNG KHỐI LƯỢNG THÉP CHUẨN
+Row 2: [2,1] Tên cấu kiện | [2,2] Dạng thép của Kata | [2,3] Số hiệu | [2,4] Hình Dáng - Kích thước | [2,14] Đường kính (mm) | [2,15] Số thanh /1 CK | [2,16] Số cấu kiện | [2,17] Tổng số thanh | [2,18] Chiều dài 1 thanh (mm) | [2,19] Tổng chiều dài (m) | [2,20] Trọng lượng đơn vị (Kg/m) | [2,21] Tổng trọng lượng (kg) | [2,22] Ghi chú | [2,23] Mã chuyển kích thước
+Row 3: [3,16]  KIEÄN
+Row 4: [4,2] 01 | [4,5] L1 | [4,14] 20 | [4,15] 2 | [4,16] 1 | [4,17]         2  (Formula: =O4*P4) | [4,18]                -    (Formula: =SUM(D4:M4)) | [4,19]               -    (Formula: =Q4*R4/1000) | [4,20]                2.470  (Formula: =IFERROR(VLOOKUP(N4,LoaiThep!$N$3:$Q$16,4,0),"-")) | [4,21]                    -    (Formula: =IFERROR(T4*S4,"-")) | [4,23] E
+Row 5: [5,2] 02 | [5,4] L1 | [5,5] L2 | [5,13] L1 (Formula: =D5) | [5,14] 20 | [5,15] 2 | [5,16] 1 | [5,17]         2  (Formula: =O5*P5) | [5,18]                -    (Formula: =SUM(D5:M5)) | [5,19]               -    (Formula: =Q5*R5/1000) | [5,20]                2.470  (Formula: =IFERROR(VLOOKUP(N5,LoaiThep!$N$3:$Q$16,4,0),"-")) | [5,21]                    -    (Formula: =IFERROR(T5*S5,"-")) | [5,23] DE
+Row 6: [6,2] 02a | [6,4] L1 | [6,5] L2 | [6,13] L1 (Formula: =D6) | [6,14] 20 | [6,15] 2 | [6,16] 1 | [6,17]         2  (Formula: =O6*P6) | [6,18]                -    (Formula: =SUM(D6:M6)) | [6,19]               -    (Formula: =Q6*R6/1000) | [6,20]                2.470  (Formula: =IFERROR(VLOOKUP(N6,LoaiThep!$N$3:$Q$16,4,0),"-")) | [6,21]                    -    (Formula: =IFERROR(T6*S6,"-")) | [6,23] DE
+Row 7: [7,2] 03 | [7,4] L1 | [7,5] L2 | [7,14] 20 | [7,15] 2 | [7,16] 1 | [7,17]         2  (Formula: =O7*P7) | [7,18]                -    (Formula: =SUM(D7:M7)) | [7,19]               -    (Formula: =Q7*R7/1000) | [7,20]                2.470  (Formula: =IFERROR(VLOOKUP(N7,LoaiThep!$N$3:$Q$16,4,0),"-")) | [7,21]                    -    (Formula: =IFERROR(T7*S7,"-")) | [7,23] DE
+Row 8: [8,2] 04 | [8,4] L1 | [8,5] L2 | [8,13] L3 | [8,14] 20 | [8,15] 2 | [8,16] 1 | [8,17]         2  (Formula: =O8*P8) | [8,18]                -    (Formula: =SUM(D8:M8)) | [8,19]               -    (Formula: =Q8*R8/1000) | [8,20]                2.470  (Formula: =IFERROR(VLOOKUP(N8,LoaiThep!$N$3:$Q$16,4,0),"-")) | [8,21]                    -    (Formula: =IFERROR(T8*S8,"-")) | [8,23] DEM
+Row 9: [9,2] 05 | [9,6] L3 | [9,8] L2 | [9,9] L2 (Formula: =H9) | [9,10] L1 (Formula: =L9) | [9,11] L3 (Formula: =F9) | [9,12] L1 | [9,14] 20 | [9,15] 2 | [9,16] 1 | [9,17]         2  (Formula: =O9*P9) | [9,18]                -    (Formula: =SUM(D9:M9)) | [9,19]               -    (Formula: =Q9*R9/1000) | [9,20]                2.470  (Formula: =IFERROR(VLOOKUP(N9,LoaiThep!$N$3:$Q$16,4,0),"-")) | [9,21]                    -    (Formula: =IFERROR(T9*S9,"-")) | [9,23] LHF
+Row 10: [10,2] 06 | [10,5] L1 | [10,7] L3 (Formula: =J10) | [10,8] L2 | [10,10] L3 | [10,11] L1 (Formula: =E10) | [10,14] 20 | [10,15] 2 | [10,16] 1 | [10,17]         2  (Formula: =O10*P10) | [10,18]                -    (Formula: =SUM(D10:M10)) | [10,19]               -    (Formula: =Q10*R10/1000) | [10,20]                2.470  (Formula: =IFERROR(VLOOKUP(N10,LoaiThep!$N$3:$Q$16,4,0),"-")) | [10,21]                    -    (Formula: =IFERROR(T10*S10,"-")) | [10,23] EHJ
+Row 11: [11,2] 07 | [11,6] L1 | [11,9] L2 | [11,14] 20 | [11,15] 2 | [11,16] 1 | [11,17]         2  (Formula: =O11*P11) | [11,18]                -    (Formula: =SUM(D11:M11)) | [11,19]               -    (Formula: =Q11*R11/1000) | [11,20]                2.470  (Formula: =IFERROR(VLOOKUP(N11,LoaiThep!$N$3:$Q$16,4,0),"-")) | [11,21]                    -    (Formula: =IFERROR(T11*S11,"-")) | [11,23] FI
+Row 12: [12,2] 08 | [12,4] L1 | [12,5] L2 | [12,9] L3 | [12,14] 20 | [12,15] 2 | [12,16] 1 | [12,17]         2  (Formula: =O12*P12) | [12,18]                -    (Formula: =SUM(D12:M12)) | [12,19]               -    (Formula: =Q12*R12/1000) | [12,20]                2.470  (Formula: =IFERROR(VLOOKUP(N12,LoaiThep!$N$3:$Q$16,4,0),"-")) | [12,21]                    -    (Formula: =IFERROR(T12*S12,"-")) | [12,23] DEI
+Row 13: [13,2] 08a | [13,4] L1 | [13,5] L2 | [13,9] L3 | [13,14] 20 | [13,15] 2 | [13,16] 1 | [13,17]         2  (Formula: =O13*P13) | [13,18]                -    (Formula: =SUM(D13:M13)) | [13,19]               -    (Formula: =Q13*R13/1000) | [13,20]                2.470  (Formula: =IFERROR(VLOOKUP(N13,LoaiThep!$N$3:$Q$16,4,0),"-")) | [13,21]                    -    (Formula: =IFERROR(T13*S13,"-")) | [13,23] DEI
+Row 14: [14,2] 09/09a/38 | [14,4] L1 | [14,5] L2 | [14,13] L1 | [14,14] 20 | [14,15] 2 | [14,16] 1 | [14,17]         2  (Formula: =O14*P14) | [14,18]                -    (Formula: =SUM(D14:M14)) | [14,19]               -    (Formula: =Q14*R14/1000) | [14,20]                2.470  (Formula: =IFERROR(VLOOKUP(N14,LoaiThep!$N$3:$Q$16,4,0),"-")) | [14,21]                    -    (Formula: =IFERROR(T14*S14,"-")) | [14,23] DEM
+Row 15: [15,2] 10 | [15,5] L1 | [15,8] L2 | [15,10] L3 | [15,14] 20 | [15,15] 2 | [15,16] 1 | [15,17]         2  (Formula: =O15*P15) | [15,18]                -    (Formula: =SUM(D15:M15)) | [15,19]               -    (Formula: =Q15*R15/1000) | [15,20]                2.470  (Formula: =IFERROR(VLOOKUP(N15,LoaiThep!$N$3:$Q$16,4,0),"-")) | [15,21]                    -    (Formula: =IFERROR(T15*S15,"-")) | [15,23] EHJ
+Row 16: [16,2] 11 | [16,4] L1 | [16,5] L2 | [16,8] L3 | [16,12] L4 | [16,14] 20 | [16,15] 2 | [16,16] 1 | [16,17]         2  (Formula: =O16*P16) | [16,18]                -    (Formula: =SUM(D16:M16)) | [16,19]               -    (Formula: =Q16*R16/1000) | [16,20]                2.470  (Formula: =IFERROR(VLOOKUP(N16,LoaiThep!$N$3:$Q$16,4,0),"-")) | [16,21]                    -    (Formula: =IFERROR(T16*S16,"-")) | [16,23] DEHL
+Row 17: [17,2] 12 | [17,4] L1 | [17,5] L2 | [17,7] L3 | [17,10] L4 | [17,14] 20 | [17,15] 2 | [17,16] 1 | [17,17]         2  (Formula: =O17*P17) | [17,18]                -    (Formula: =SUM(D17:M17)) | [17,19]               -    (Formula: =Q17*R17/1000) | [17,20]                2.470  (Formula: =IFERROR(VLOOKUP(N17,LoaiThep!$N$3:$Q$16,4,0),"-")) | [17,21]                    -    (Formula: =IFERROR(T17*S17,"-")) | [17,23] DEGJ
+Row 18: [18,2] 12a | [18,4] L1 | [18,5] L2 | [18,7] L3 | [18,10] L4 | [18,14] 20 | [18,15] 2 | [18,16] 1 | [18,17]         2  (Formula: =O18*P18) | [18,18]                -    (Formula: =SUM(D18:M18)) | [18,19]               -    (Formula: =Q18*R18/1000) | [18,20]                2.470  (Formula: =IFERROR(VLOOKUP(N18,LoaiThep!$N$3:$Q$16,4,0),"-")) | [18,21]                    -    (Formula: =IFERROR(T18*S18,"-")) | [18,23] DEGJ
+Row 19: [19,2] 13 | [19,4] L1 | [19,5] L2 | [19,7] L3 | [19,8] L4 | [19,10] L3 (Formula: =G19) | [19,11] L5 | [19,14] 20 | [19,15] 2 | [19,16] 1 | [19,17]         2  (Formula: =O19*P19) | [19,18]                -    (Formula: =SUM(D19:M19)) | [19,19]               -    (Formula: =Q19*R19/1000) | [19,20]                2.470  (Formula: =IFERROR(VLOOKUP(N19,LoaiThep!$N$3:$Q$16,4,0),"-")) | [19,21]                    -    (Formula: =IFERROR(T19*S19,"-")) | [19,23] DEGHK
+Row 20: [20,2] 14 | [20,4] L1 | [20,5] L2 | [20,9] L3 | [20,13] L4 | [20,14] 20 | [20,15] 2 | [20,16] 1 | [20,17]         2  (Formula: =O20*P20) | [20,18]                -    (Formula: =SUM(D20:M20)) | [20,19]               -    (Formula: =Q20*R20/1000) | [20,20]                2.470  (Formula: =IFERROR(VLOOKUP(N20,LoaiThep!$N$3:$Q$16,4,0),"-")) | [20,21]                    -    (Formula: =IFERROR(T20*S20,"-")) | [20,23] DEIM
+Row 21: [21,2] 15 | [21,6] L1 | [21,8] L2 | [21,10] L3 | [21,14] 20 | [21,15] 2 | [21,16] 1 | [21,17]         2  (Formula: =O21*P21) | [21,18]                -    (Formula: =SUM(D21:M21)) | [21,19]               -    (Formula: =Q21*R21/1000) | [21,20]                2.470  (Formula: =IFERROR(VLOOKUP(N21,LoaiThep!$N$3:$Q$16,4,0),"-")) | [21,21]                    -    (Formula: =IFERROR(T21*S21,"-")) | [21,23] FHJ
+Row 22: [22,2] 18 | [22,4] L1 | [22,5] L2 | [22,13] L3 | [22,14] 20 | [22,15] 2 | [22,16] 1 | [22,17]         2  (Formula: =O22*P22) | [22,18]                -    (Formula: =SUM(D22:M22)) | [22,19]               -    (Formula: =Q22*R22/1000) | [22,20]                2.470  (Formula: =IFERROR(VLOOKUP(N22,LoaiThep!$N$3:$Q$16,4,0),"-")) | [22,21]                    -    (Formula: =IFERROR(T22*S22,"-")) | [22,23] DEM
+Row 23: [23,2] 19 | [23,7] L1 | [23,10] L2 | [23,14] 20 | [23,15] 2 | [23,16] 1 | [23,17]         2  (Formula: =O23*P23) | [23,18] #VALUE! (Formula: =2*G23+J23*PI()) | [23,19] #VALUE! (Formula: =Q23*R23/1000) | [23,20]                2.470  (Formula: =IFERROR(VLOOKUP(N23,LoaiThep!$N$3:$Q$16,4,0),"-")) | [23,21]  -  (Formula: =IFERROR(T23*S23,"-")) | [23,23] GJ
+Row 24: [24,2] 20 | [24,6] L3 | [24,8] L2 | [24,9] L2 (Formula: =H24) | [24,10] L1 | [24,11] L3 (Formula: =F24) | [24,12] L4 | [24,14] 20 | [24,15] 2 | [24,16] 1 | [24,17]         2  (Formula: =O24*P24) | [24,18]                -    (Formula: =SUM(D24:M24)) | [24,19]               -    (Formula: =Q24*R24/1000) | [24,20]                2.470  (Formula: =IFERROR(VLOOKUP(N24,LoaiThep!$N$3:$Q$16,4,0),"-")) | [24,21]                    -    (Formula: =IFERROR(T24*S24,"-")) | [24,23] JHFL
+Row 25: [25,2] 21 | [25,4] L1 | [25,5] L2 | [25,8] L3 | [25,11] L4 | [25,13] L5 | [25,14] 20 | [25,15] 2 | [25,16] 1 | [25,17]         2  (Formula: =O25*P25) | [25,18]                -    (Formula: =SUM(D25:M25)) | [25,19]               -    (Formula: =Q25*R25/1000) | [25,20]                2.470  (Formula: =IFERROR(VLOOKUP(N25,LoaiThep!$N$3:$Q$16,4,0),"-")) | [25,21]                    -    (Formula: =IFERROR(T25*S25,"-")) | [25,23] DEHKM
+Row 26: [26,2] 22 | [26,4] L1 | [26,5] L2 | [26,8] L3 | [26,14] 20 | [26,15] 2 | [26,16] 1 | [26,17]         2  (Formula: =O26*P26) | [26,18]                -    (Formula: =SUM(D26:M26)) | [26,19]               -    (Formula: =Q26*R26/1000) | [26,20]                2.470  (Formula: =IFERROR(VLOOKUP(N26,LoaiThep!$N$3:$Q$16,4,0),"-")) | [26,21]                    -    (Formula: =IFERROR(T26*S26,"-")) | [26,23] DEH
+Row 27: [27,2] 23 | [27,4] L1 | [27,5] L2 | [27,8] L3 | [27,10] L4 | [27,13] L1 (Formula: =D27) | [27,14] 20 | [27,15] 2 | [27,16] 1 | [27,17]         2  (Formula: =O27*P27) | [27,18]                -    (Formula: =SUM(D27:M27)) | [27,19]               -    (Formula: =Q27*R27/1000) | [27,20]                2.470  (Formula: =IFERROR(VLOOKUP(N27,LoaiThep!$N$3:$Q$16,4,0),"-")) | [27,21]                    -    (Formula: =IFERROR(T27*S27,"-")) | [27,23] DEHJ
+Row 28: [28,2] 24 | [28,4] L2 | [28,5] L1 | [28,7] L3 | [28,14] 20 | [28,15] 2 | [28,16] 1 | [28,17]         2  (Formula: =O28*P28) | [28,18]                -    (Formula: =SUM(D28:M28)) | [28,19]               -    (Formula: =Q28*R28/1000) | [28,20]                2.470  (Formula: =IFERROR(VLOOKUP(N28,LoaiThep!$N$3:$Q$16,4,0),"-")) | [28,21]                    -    (Formula: =IFERROR(T28*S28,"-")) | [28,23] EDG
+Row 29: [29,2] 25 | [29,4] L2 | [29,5] L1 | [29,7] L3 | [29,12] L1 (Formula: =E29) | [29,14] 20 | [29,15] 2 | [29,16] 1 | [29,17]         2  (Formula: =O29*P29) | [29,18]                -    (Formula: =SUM(D29:M29)) | [29,19]               -    (Formula: =Q29*R29/1000) | [29,20]                2.470  (Formula: =IFERROR(VLOOKUP(N29,LoaiThep!$N$3:$Q$16,4,0),"-")) | [29,21]                    -    (Formula: =IFERROR(T29*S29,"-")) | [29,23] EDG
+Row 30: [30,2] 26 | [30,4] L2 | [30,5] L1 | [30,6] L3 | [30,8] L4 | [30,10] L5 | [30,13] L1 (Formula: =E30) | [30,14] 20 | [30,15] 2 | [30,16] 1 | [30,17]         2  (Formula: =O30*P30) | [30,18]                -    (Formula: =SUM(D30:M30)) | [30,19]               -    (Formula: =Q30*R30/1000) | [30,20]                2.470  (Formula: =IFERROR(VLOOKUP(N30,LoaiThep!$N$3:$Q$16,4,0),"-")) | [30,21]                    -    (Formula: =IFERROR(T30*S30,"-")) | [30,23] EDFHJ
+Row 31: [31,2] 27 | [31,5] L1 | [31,6] L2 | [31,8] L3 | [31,10] L4 | [31,12] L1 (Formula: =E31) | [31,14] 20 | [31,15] 2 | [31,16] 1 | [31,17]         2  (Formula: =O31*P31) | [31,18]                -    (Formula: =SUM(D31:M31)) | [31,19]               -    (Formula: =Q31*R31/1000) | [31,20]                2.470  (Formula: =IFERROR(VLOOKUP(N31,LoaiThep!$N$3:$Q$16,4,0),"-")) | [31,21]                    -    (Formula: =IFERROR(T31*S31,"-")) | [31,23] EFHJ
+Row 32: [32,2] 28 | [32,4] L1 | [32,5] L2 | [32,9] L3 | [32,13] L1 (Formula: =D32) | [32,14] 20 | [32,15] 2 | [32,16] 1 | [32,17]         2  (Formula: =O32*P32) | [32,18]                -    (Formula: =SUM(D32:M32)) | [32,19]               -    (Formula: =Q32*R32/1000) | [32,20]                2.470  (Formula: =IFERROR(VLOOKUP(N32,LoaiThep!$N$3:$Q$16,4,0),"-")) | [32,21]                    -    (Formula: =IFERROR(T32*S32,"-")) | [32,23] DEI
+Row 33: [33,2] 31/33 | [33,4] L2 | [33,5] L1 | [33,7] L3 | [33,11] L1 (Formula: =E33) | [33,13] L4 | [33,14] 20 | [33,15] 2 | [33,16] 1 | [33,17]         2  (Formula: =O33*P33) | [33,18]                -    (Formula: =SUM(D33:M33)) | [33,19]               -    (Formula: =Q33*R33/1000) | [33,20]                2.470  (Formula: =IFERROR(VLOOKUP(N33,LoaiThep!$N$3:$Q$16,4,0),"-")) | [33,21]                    -    (Formula: =IFERROR(T33*S33,"-")) | [33,23] EDGM
+Row 34: [34,2] 35 | [34,4] L1 | [34,6] L2 | [34,7] L3 | [34,8] L4 | [34,10] L3 (Formula: =G34) | [34,11] L5 | [34,13] L1 (Formula: =D34) | [34,14] 20 | [34,15] 2 | [34,16] 1 | [34,17]         2  (Formula: =O34*P34) | [34,18]                -    (Formula: =SUM(D34:M34)) | [34,19]               -    (Formula: =Q34*R34/1000) | [34,20]                2.470  (Formula: =IFERROR(VLOOKUP(N34,LoaiThep!$N$3:$Q$16,4,0),"-")) | [34,21]                    -    (Formula: =IFERROR(T34*S34,"-")) | [34,23] DFGHK
+Row 35: [35,2] 36 | [35,4] L1 | [35,6] L2 | [35,7] L3 | [35,8] L4 | [35,10] L3 (Formula: =G35) | [35,11] L5 | [35,13] L1 (Formula: =D35) | [35,14] 20 | [35,15] 2 | [35,16] 1 | [35,17]         2  (Formula: =O35*P35) | [35,18]                -    (Formula: =SUM(D35:M35)) | [35,19]               -    (Formula: =Q35*R35/1000) | [35,20]                2.470  (Formula: =IFERROR(VLOOKUP(N35,LoaiThep!$N$3:$Q$16,4,0),"-")) | [35,21]                    -    (Formula: =IFERROR(T35*S35,"-")) | [35,23] DFGHK
+
+########################################
+SHEET: Output_QHP
+########################################
+UsedRange: string Address (Variant, Variant, XlReferenceStyle, Variant, Variant) {get} 
+Row 1: [1,2] Thông tin dự án
+Row 2: [2,2] Có thể chèn hoặc xóa dòng khu vực này
+Row 4: [4,1] BẢNG KHỐI LƯỢNG THÉP | [4,25] TỔNG HỢP CỐT THÉP
+Row 5: [5,1] Tên cấu kiện | [5,2] Tên cấu kiện | [5,3] Số hiệu | [5,4] Hình Dáng - Kích thước | [5,14] Đường kính (mm) | [5,15] Số thanh /1 CK | [5,16] Số cấu kiện | [5,17] Tổng số thanh | [5,18] Chiều dài 1 thanh (mm) | [5,19] Tổng chiều dài (m) | [5,20] Trọng lượng đơn vị (Kg/m) | [5,21] Tổng trọng lượng (kg) | [5,22] Ghi chú | [5,23] Dạng thép | [5,25] ĐƯỜNG KÍNH | [5,26]  (Formula: =SMALL_kata($N7:$N2001,1)) | [5,27]  (Formula: =SMALL_kata($N7:$N2001,2)) | [5,28]  (Formula: =SMALL_kata($N7:$N2001,3)) | [5,29]  (Formula: =SMALL_kata($N7:$N2001,4)) | [5,30]  (Formula: =SMALL_kata($N7:$N2001,5))
+Row 6: [6,16]  KIEÄN | [6,25] CHIỀU DÀI  | [6,26]  (Formula: =SUMIF($N7:$N2001,Z5,$S7:$S2001)) | [6,27]  (Formula: =SUMIF($N7:$N2001,AA5,$S7:$S2001)) | [6,28]  (Formula: =SUMIF($N7:$N2001,AB5,$S7:$S2001)) | [6,29]  (Formula: =SUMIF($N7:$N2001,AC5,$S7:$S2001)) | [6,30]  (Formula: =SUMIF($N7:$N2001,AD5,$S7:$S2001))
+Row 7: [7,25] TRỌNG LƯỢNG | [7,26]  (Formula: =Z6*tra_bang_kl(Z5)) | [7,27]  (Formula: =AA6*tra_bang_kl(AA5)) | [7,28]  (Formula: =AB6*tra_bang_kl(AB5)) | [7,29]  (Formula: =AC6*tra_bang_kl(AC5)) | [7,30]  (Formula: =AD6*tra_bang_kl(AD5))
+Row 8: [8,25] NHÓM Ø<=10 | [8,26]  (Formula: =SUMIF(Z5:AO5,"<=10",Z7:AO7))
+Row 9: [9,25] NHÓM 10<Ø<=18 | [9,26]  (Formula: =SUM(Z7:AO7)-Z8-Z10)
+Row 10: [10,25] NHÓM 18<Ø | [10,26]  (Formula: =SUMIF(Z5:AO5,">18",Z7:AO7))

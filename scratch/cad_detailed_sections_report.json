@@ -1,0 +1,626 @@
+[
+  {
+    "target": "\u0110C-1 (MC 1-1)",
+    "totalFound": 13,
+    "items": [
+      {
+        "text": "%%C12a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 914.2,
+        "dy": -2934.5
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2492,
+        "dy": -3151.3
+      },
+      {
+        "text": "%%C12a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.3,
+        "dy": -2901.7
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1931.9,
+        "dy": -3151.3
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 4808.4,
+        "dy": 4604.4
+      },
+      {
+        "text": "%%C12a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2433.1,
+        "dy": 2208.3
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2855.9,
+        "dy": 1980.5
+      },
+      {
+        "text": "%%C12a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 1336.6,
+        "dy": 2218.2
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2874.9,
+        "dy": 1980.5
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 637.6,
+        "dy": 6172.5
+      },
+      {
+        "text": "CT",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2088.2,
+        "dy": 7967.2
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 1-1}",
+        "layer": "Text CK",
+        "dx": -0,
+        "dy": -0.8
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -25.1,
+        "dy": -212.8
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-2 (MC 2-2)",
+    "totalFound": 12,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.5,
+        "dy": 3702.9
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.5,
+        "dy": 4281.8
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2124.3,
+        "dy": 4044.1
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2080.3,
+        "dy": 3475.1
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 914.2,
+        "dy": -3362.5
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2492,
+        "dy": -3579.3
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1782.4,
+        "dy": -3329.7
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -289.3,
+        "dy": -3579.3
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 6608.4,
+        "dy": 6098.9
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2323,
+        "dy": 7237.7
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 2-2}",
+        "layer": "Text CK",
+        "dx": -0,
+        "dy": -0.8
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -25.1,
+        "dy": -212.8
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-2\u0027 (MC 2\u0027-2\u0027)",
+    "totalFound": 12,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514,
+        "dy": 3617.6
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514,
+        "dy": 4196.5
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2123.7,
+        "dy": 3958.8
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2079.7,
+        "dy": 3389.8
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 6608.9,
+        "dy": 6013.6
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2323.5,
+        "dy": 7152.4
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 1028.7,
+        "dy": -2494.2
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2606.4,
+        "dy": -2711
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1781.9,
+        "dy": -2461.4
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -288.8,
+        "dy": -2711
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 2\u0027-2\u0027}",
+        "layer": "Text CK",
+        "dx": 0.5,
+        "dy": -0.4
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -24.6,
+        "dy": -212.4
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-3 (MC 3-3)",
+    "totalFound": 14,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514,
+        "dy": 2682.9
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514,
+        "dy": 3261.8
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2123.8,
+        "dy": 3024.1
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2079.8,
+        "dy": 2455.1
+      },
+      {
+        "text": "3%%C10",
+        "layer": "03-TEXT(0.2)",
+        "dx": 1870.8,
+        "dy": 7994
+      },
+      {
+        "text": "CT",
+        "layer": "03-TEXT(0.2)",
+        "dx": 1435.7,
+        "dy": 7815.7
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 6608.9,
+        "dy": 5078.9
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2323.4,
+        "dy": 6217.7
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2881.8,
+        "dy": -993.8
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4459.6,
+        "dy": -1210.6
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3421.3,
+        "dy": -7177.5
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4981.6,
+        "dy": -7427.1
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 3-3}",
+        "layer": "Text CK",
+        "dx": 0.4,
+        "dy": -0.8
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -24.7,
+        "dy": -212.7
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-3\u0027 (MC 3\u0027-3\u0027)",
+    "totalFound": 13,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.1,
+        "dy": 2827.8
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.1,
+        "dy": 3406.8
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2123.9,
+        "dy": 3169.1
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2079.9,
+        "dy": 2600.1
+      },
+      {
+        "text": "CT",
+        "layer": "03-TEXT(0.2)",
+        "dx": 1435.5,
+        "dy": 7960.6
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 6608.7,
+        "dy": 5223.9
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2323.3,
+        "dy": 6362.7
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2881.7,
+        "dy": -757.8
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4459.5,
+        "dy": -974.6
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3421.2,
+        "dy": -7207
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4981.5,
+        "dy": -7456.6
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 3\u0027-3\u0027}",
+        "layer": "Text CK",
+        "dx": 0.3,
+        "dy": -0.8
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -24.8,
+        "dy": -212.8
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-4 (MC 4-4)",
+    "totalFound": 12,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.3,
+        "dy": 3198.8
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -1514.3,
+        "dy": 3777.8
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2124.1,
+        "dy": 3540.1
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2080.1,
+        "dy": 2971.1
+      },
+      {
+        "text": "[COTE Cote Ubc-01]: -2.600",
+        "layer": "COTE",
+        "dx": 6608.6,
+        "dy": 5594.9
+      },
+      {
+        "text": "L=500",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2323.1,
+        "dy": 6733.7
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2728,
+        "dy": -837.8
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4305.8,
+        "dy": -1054.6
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3879,
+        "dy": -6327.6
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 5563.4,
+        "dy": -6577.2
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 4-4}",
+        "layer": "Text CK",
+        "dx": 0.1,
+        "dy": 0
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -25,
+        "dy": -211.9
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-5 (MC 5-5)",
+    "totalFound": 10,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2984.8,
+        "dy": 3018.8
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -2984.8,
+        "dy": 3597.8
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3594.6,
+        "dy": 3360.1
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3550.6,
+        "dy": 2791.1
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3312.7,
+        "dy": -333.4
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4890.5,
+        "dy": -550.2
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2340.3,
+        "dy": 485.2
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3874,
+        "dy": 268.4
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 5-5}",
+        "layer": "Text CK",
+        "dx": 0.6,
+        "dy": -0.5
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -24.5,
+        "dy": -212.4
+      }
+    ]
+  },
+  {
+    "target": "\u0110C-6 (MC 6-6)",
+    "totalFound": 10,
+    "items": [
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3111.5,
+        "dy": -1407.3
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": 4689.3,
+        "dy": -1624.1
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": 2139.1,
+        "dy": -588.7
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": 3672.9,
+        "dy": -805.5
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3186,
+        "dy": 2599.1
+      },
+      {
+        "text": "%%C14a150",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3186,
+        "dy": 3178
+      },
+      {
+        "text": "2",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3795.7,
+        "dy": 2940.3
+      },
+      {
+        "text": "1",
+        "layer": "03-TEXT(0.2)",
+        "dx": -3751.7,
+        "dy": 2371.3
+      },
+      {
+        "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 6-6}",
+        "layer": "Text CK",
+        "dx": 0.4,
+        "dy": -0.2
+      },
+      {
+        "text": "TY\u00DB LE\u00C4 1:25",
+        "layer": "Text TL",
+        "dx": -24.7,
+        "dy": -212.1
+      }
+    ]
+  }
+]

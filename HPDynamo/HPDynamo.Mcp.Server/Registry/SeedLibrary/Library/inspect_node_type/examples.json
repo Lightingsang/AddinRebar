@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Inspect Point.ByCoordinates creation signature",
+    "args": {
+      "nodeType": "DSCoreNodes.Point.ByCoordinates"
+    }
+  },
+  {
+    "title": "Inspect Revit Wall creation node",
+    "args": {
+      "nodeType": "Revit.Elements.Wall.ByCurveAndLevels"
+    }
+  }
+]

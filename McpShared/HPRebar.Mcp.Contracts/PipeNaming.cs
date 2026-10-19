@@ -57,6 +57,16 @@ public static class PipeNaming
     /// </summary>
     public const string TeklaHost = "tekla";
 
+    /// <summary>
+    ///     Autodesk Dynamo in Revit; pipe <c>hpdynamo-mcp-{version}</c> (e.g. 2026).
+    /// </summary>
+    public const string DynamoHost = "dynamo";
+
+    /// <summary>
+    ///     McNeel Grasshopper in Revit via Rhino.Inside.Revit; pipe <c>hpgrasshopper-mcp-{version}</c> (e.g. 2026).
+    /// </summary>
+    public const string GrasshopperHost = "grasshopper";
+
     /// <summary>Revit pipe, e.g. <c>hprebar-mcp-r2026</c>. Unchanged since the first release.</summary>
     public static string For(int revitVersion) => Prefix + revitVersion;
 
@@ -82,6 +92,8 @@ public static class PipeNaming
             ExcelHost => "hpexcel-mcp-" + version,
             RobotHost => "hprobot-mcp-" + version,
             TeklaHost => "hptekla-mcp-" + version,
+            DynamoHost => "hpdynamo-mcp-" + version,
+            GrasshopperHost => "hpgrasshopper-mcp-" + version,
             _ => "hp" + key + "-mcp-" + version,
         };
     }

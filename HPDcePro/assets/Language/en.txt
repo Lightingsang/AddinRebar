@@ -1,0 +1,1258 @@
+﻿#name	English
+# File tra ngon ngu DCE Excel - ma: en
+# Dinh dang: <chuoi tieng Viet goc><TAB><ban dich>
+# Dong bat dau bang # la ghi chu. Xuong dong trong cau dich ghi \n
+# Bo trong phan dich = phan mem tu dung tieng Viet (KHONG loi).
+# PHAI LUU UTF-8. Sua o day de va ban dich sai ma KHONG can doi code.
+#------------------------------------------------------------------------
+
+ (có thể bạn đã bấm Hủy ở hộp thoại UAC): 	 (you may have clicked Cancel in the UAC dialog): 
+ - Không có trong thư viện vật liệu. Bạn vui lòng nâng cấp phần mềm hoặc khai báo thủ công	 - Not found in the material library. Please upgrade the software or declare it manually
+ CHƯA được đăng ký API (COM) với Windows.	 is NOT registered as an API (COM) with Windows.
+ Lỗi không đổi được tên point	 Error: could not rename point
+ Pier!	 Pier!
+ Sheet Nội lực	 of the Internal force sheet
+ Tiết diện không được tìm thấy (highlight mầu cam)	 Section not found (highlighted in orange)
+ Tiết diện được update (highlight mầu đỏ)	 Section updated (highlighted in red)
+ Tên Tiền tố	 Name prefix
+ Tên tổ hợp bao	 Envelope combo
+ Tạo địa chỉ Text dưới tên dầm (cột A) để dò tìm	 Add Text address below beam name (col. A) for lookup
+ chưa chạy, khởi động nó ?	 is not running, start it?
+ chưa sẵn sàng. Hãy đóng hộp thoại đang mở hoặc thoát khỏi lệnh đang thực hiện	 is not ready. Close the open dialog or exit the running command
+ có kích thước hoặc tiết diện hoặc số tầng hoặc trục địa phương không giống Label 	 has a size, section, number of stories or local axis different from Label 
+ của Etabs nguồn và Etabs đích cần giống nhau!	 of the source ETABS and the target ETABS must be identical!
+ của Safe nguồn và Safe đích cần giống nhau!	 of the source SAFE and the target SAFE must be identical!
+ của ver: 	 of version: 
+ không thành công!	 failed!
+ là 1 cây dầm Liên tục, Nhiều nhịp nhưng bên Bảng tính dầm không được sắp xếp liên tục Liền nhau, Hãy kiểm tra lại bảng tính!	 is one continuous multi-span beam, but in the beam worksheet it is not arranged continuously and adjacently. Please check the worksheet!
+ lần!	 time(s)!
+ rồi bấm kết nối lại.	 then click Connect again.
+ tên dầm	 beam name
+ và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).	 and Excel are running with DIFFERENT privileges (one as 'Run as administrator', the other normally).
+ xdata on 	
+ | Error: 	 | Error: 
+ Đối tượng được select bên mô hình	 Objects selected in the model
+" (ret = 	
+" (ret=	
+" trong file Excel đang Active.	" in the active Excel file.
+" trong file đang Active.	" in the active file.
+" từ Etabs (ret = 	" from ETABS (ret = 
+% Vùng thép chịu kéo	% Tension rebar zone
+(*D)	
+(*L)	
+(1.35D + 1.5L)	(1.35D + 1.5L)
+(L)	
+(Lớp)	(Layer)
+(m)	
+(mm)	
+(độ)	(deg)
++ Cao độ	+ Elev.
+- Cập nhập Strip Safe tương ứng Đài Móng trong bảng tính cũ chọn 'No'.	- To update the SAFE strips matching the pile caps in the old worksheet, choose 'No'.
+- Cột BI, BJ, BK trong bảng tính cột!	- Columns BI, BJ, BK in the column worksheet!
+- Cột BO, BP, BQ trong bảng tính Vách!	- Columns BO, BP, BQ in the wall worksheet!
+- Hoặc Etabs chưa mở khóa	- Or ETABS has not been unlocked
+- Làm mới lại bảng tính Excel chọn 'Yes'.	- To refresh the Excel worksheet, choose 'Yes'.
+- Nếu cột thép tăng cường điền bằng 2*1 có nghĩa:	- If the additional rebar column is filled as 2*1 it means:
+- THÊM HOẶC BỚT DẦM cần nhấn nút 'Chuyển DL tính => vẽ' để phần mềm cập nhập số lượng mới	- When ADDING OR REMOVING BEAMS you must click 'Transfer calc data => drawing' so the software updates the new quantity
+- Trong một Model Etabs không được có 2 Unique Name trùng tên (mặc định của CSI không phải của DBIM)	- Within one ETABS model there must not be two identical Unique Names (this is a CSI default, not a DBIM one)
+1 số Phần tử cần xem lại trên mô hình: 	Some elements need to be reviewed in the model: 
+1 số phần tử cần xem lại trên mô hình: 	Some elements need to be reviewed in the model: 
+1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?	1. Do you want to reset all settings to their original state?
+1. Chọn tải trọng nguồn	1. Select the source load
+1. Cài 'Microsoft Print to PDF' in mặc định.	1. Set 'Microsoft Print to PDF' as default.
+10a200	
+1: Trong quá trình chạy không tác động vào chuột (vì phần mềm đang điều khiển chuột)	1: Do not touch the mouse while it is running (the software is controlling the mouse)
+2. Tham số tính toán	2. Calculation parameters
+2. Thời gian chờ các bước	2. Wait time per step
+3. Loadcase & Combo đầu ra	3. Output load cases & combos
+3. Thời gian chờ chuyển tầng	3. Story switch wait
+< ĐK thép TC < ĐKT L1 +	< Add. bar dia < L1 dia +
+>>> Giá trị giới hạn võng	>>> Deflection limit value
+>>> Hệ số phần dài hạn	>>> Long-term portion factor
+>>> Manual by CSI	>>> Manual by CSI
+>>> Modulus of rupture (ACI)	>>> Modulus of rupture (ACI)
+>>> Tham khảo EC	>>> EC reference
+>>> Tham khảo TCVN	>>> TCVN reference
+>>> Tính hàm lượng	>>> Reinforcement ratio
+>>> YouTube	
+AI Support	AI Support
+API Etabs	ETABS API
+API script FAILED to complete.	API script FAILED to complete.
+AUTO-REBAR ? ? ?	AUTO-REBAR ? ? ?
+AUTOCAD API	AUTOCAD API
+Access (*.mdb, *.accdb)	
+Account	Account
+Activate 	Activate 
+Admin	Admin
+Admin: Nguyễn Văn Duy	Admin: Nguyen Van Duy
+Allow angled neutral axis	Allow angled neutral axis
+Allow angled neutral axis (BDTT)	Allow angled neutral axis (BDTT)
+ApiKey	
+ApiUrl	
+Assign	Assign
+Assign Pier Frame	Assign Pier Frame
+Assign Pier Shell	Assign Pier Shell
+Auto Rebars	Auto Rebars
+AutoCAD	
+BASIC DESIGN	BASIC DESIGN
+BEAM	BEAM
+Basic Design	Basic Design
+Beam Schedule	Beam Schedule
+Brace forces	Brace forces
+BricsCAD	
+Bóc tách khối lượng	Quantity take-off
+Bước 1: Select dầm bên etabs (hoặc safe)	Step 1: Select beams in ETABS (or SAFE)
+Bước Strip (mm)	Strip step (mm)
+Bước nhảy Momen (dùng chọn thép nứt)	Moment step (used for crack rebar selection)
+Bước nhảy a đối với Pier (vì pier k có Location)	Step a for Pier (piers have no Location)
+BẠN ĐANG SELECT CỘT BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	YOU ARE SELECTING COLUMNS IN ETABS - DBIM GIVES THESE COLUMNS PRIORITY
+BẠN ĐANG SELECT VÁCH BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	YOU ARE SELECTING WALLS IN ETABS - DBIM GIVES THESE COLUMNS PRIORITY
+Bạn chưa chọn gói để mua!	You have not selected a package to buy!
+Bạn chưa nhập License để gia hạn!	You have not entered a License to renew!
+Bạn có muốn Cập nhập kích thước Dài, Rộng từ etabs?	Do you want to update the Length and Width from ETABS?
+Bạn có muốn khởi động Etabs tự động?	Do you want ETABS to start automatically?
+Bạn có muốn khởi động SAFE tự động?	Do you want SAFE to start automatically?
+Bạn có muốn khởi động SAP2000 tự động?	Do you want SAP2000 to start automatically?
+Bạn cần nhập Mật khẩu để xem danh sách license!	You must enter the password to view the license list!
+Bạn đã pick tại: X = 	You picked at: X = 
+Bạn đã tạo loadcase 	You have created load case 
+Bạn đã tạo loadcombination 	You have created load combination 
+Bảng "	Table "
+Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.	Double-click a row to use that key immediately. Grey rows are keys that cannot be used on this machine.
+Bỏ Lún	No settl.
+Bỏ qua cột tầng: 	Skip columns of story: 
+Bỏ qua nội lực strip giao dầm, vách	Ignore strip forces at beams, walls
+Bỏ qua tầng cuối	Skip the last story
+Bố trí thép	Rebar arrangement
+Bố trí thép dầm trên bản vẽ (không sử dụng Etabs)	Arrange beam rebar on the drawing (without using ETABS)
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!	The installer is missing data needed for Offline use. Choose Yes to install automatically a second time!
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!	The installer is missing data needed for Offline use. Choose Yes to install automatically!
+CAD API	CAD API
+CHẠY SUỐT	CONTINUOUS
+CHỌN THÉP CHỦ 1	SELECT MAIN BAR 1
+CHỌN THÉP CHỦ 2	SELECT MAIN BAR 2
+CHỌN THÉP ĐAI TỰ ĐỘNG	AUTO STIRRUP SELECTION
+CHỨC NĂNG KHÁC	OTHER FUNCTIONS
+CLOSE	CLOSE
+COLUMN WALL	COLUMN WALL
+CSI API	CSI API
+Calculate The Volume	Calculate The Volume
+Cannot run API script: 	Cannot run API script: 
+Cao độ +0.00 trong mô hình Etabs so với cao độ mặt đất ngoài thực tế là bao nhiêu?	What is elevation +0.00 in the ETABS model relative to the actual ground level?
+Cases - Combo	Cases - Combo
+Chat AI để hỗ trợ	AI chat support
+Check Internet	Check Internet
+Check Overturning	Check Overturning
+Check hệ số Kw	Check Kw factor
+Check tỷ số nén:	Check compression ratio:
+Chiều cao dầm điển hình:	Typical beam depth:
+Chiều dài 1 thanh thép phải nằm trong khoảng 3000mm - 15000mm! (Ô L1)	The length of one rebar must be between 3000mm and 15000mm! (Cell L1)
+Chiều dài nối = 	Lap length = 
+Chiều dài nối thép = 	Rebar lap length = 
+Chiều dài nối thép:	Rebar lap length:
+Chiều dày chia lớp phân tố nên < 	The sub-layer thickness should be < 
+Chiều dày sàn	Slab thickness
+Chiều dày đất 	Soil layer thickness 
+ChooseColor	
+Chuyển DL tính => vẽ	Calc data => drawing
+Chuyển dữ liệu	Transfer data
+Chuyển quyền sử dụng	Transfer usage rights
+Chuyển quyền sử dụng: 	Transfer usage rights: 
+Chuyển vị tăng thêm thẳng đứng (f - f4)	Additional vertical displacement (f - f4)
+Chuẩn bị Kill File => chú ý ~~	Preparing to Kill File => attention ~~
+Chênh lệch bề rộng 2 dầm liên tục <=	Width diff. of 2 cont. beams <=
+Chênh lệch ĐK giữa 2 lớp:	Dia. difference, 2 layers:
+Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!	We have received the request to remove the device code!
+Chưa chọn danh sách tầng!	No story list selected!
+Chưa chọn tải tường xây!	No masonry wall load selected!
+Chưa chọn đủ tổ hợp!	Not enough combinations selected!
+Chưa có thiết kế cột tròn theo Eurocode	Circular column design to Eurocode is not available yet
+Chưa có thiết kế cột tròn với tọa độ thép khai báo trước	Circular column design with pre-defined rebar coordinates is not available yet
+Chưa có tài khoản nào được đăng nhập!	No account is logged in!
+Chưa có tính toán cột tròn theo EC2!	Circular column calculation to EC2 is not available!
+Chưa design phần tử trong Etabs hoặc chưa select phần tử cần lấy diện tích thép trong Etabs!	Elements have not been designed in ETABS, or no element is selected in ETABS to get the rebar area!
+Chưa nhập license!	License not entered!
+Chưa nhập mã thiết bị!	Device code not entered!
+Chưa nhập tên thiết bị!	Device name not entered!
+Chưa điền tên dầm!	Beam name not filled in!
+Chỉ chọn 1 tầng để tính toán!	Select only 1 story for the calculation!
+Chỉ các dầm được chọn	Selected beams only
+Chỉ in TMTT những dòng mà cột A có highline mầu đỏ	Only print calc report for red-highlighted col. A rows
+Chỉ update Hàm	Only update formulas
+Chỉnh sửa nội lực làm đẹp thuyết minh tính toán?	Adjust internal forces to tidy up the calculation report?
+Chọn Etabs cột bên phải!	Select ETABS in the right-hand column!
+Chọn Thép	Select Rebar
+Chọn Tower:	Select Tower:
+Chọn Tầng Update:	Story to update:
+Chọn Yes để làm mới bảng tính Excel!	Choose Yes to refresh the Excel worksheet!
+Chọn bề rộng dầm	Select beam width
+Chọn file chứa Prompt AI	Select the file containing the AI Prompt
+Chọn gói:	Select package:
+Chọn lại thép tầng dưới >= Tầng trên	Re-select rebar: lower >= upper
+Chọn sơ bộ SL cọc	Preliminary pile count
+Chọn sơ bộ cọc	Preliminary pile
+Chọn thép	Rebar
+Chọn thép móng cọc	Select pile-cap rebar
+Chọn thép thỏa điều kiện nứt	Select rebar satisfying the crack condition
+Chọn thép tự động	Auto rebar selection
+Chọn thép tự động ngay bây giờ?	Select rebar automatically right now?
+Chọn thép tự động.	Automatic rebar selection.
+Chọn tải tường:	Select wall load:
+Chọn tầng:	Select story:
+Chọn tổ hợp nội lực	Select internal force combination
+Chọn yes để tính toán gió theo 2737-2023	Choose Yes to calculate wind to TCVN 2737-2023
+Chủ tài khoản: Nguyễn Văn Duy	Account owner: Nguyen Van Duy
+Chức năng Combie Nội lực chỉ sử dụng cho tính toán cường độ	The internal-force Combine function is only for strength design
+Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 	Remote account LogOut will be available after: 
+Chức năng Remove Device sẽ hoạt động sau: 	Remove Device will be available after: 
+Chức năng chỉ sử dụng với Etabs > V19	This function only works with ETABS > V19
+Chức năng chỉ sử dụng với SAFE > V19	This function only works with SAFE > V19
+Chức năng chỉ áp dụng cho ETABS 18 trở lên	This function only applies to ETABS 18 and later
+Chức năng khác	Other functions
+Chức năng này CSI chỉ hỗ trợ từ phiên bản Etabs 2018 trở lên!	CSI only supports this function from ETABS 2018 onwards!
+Chức năng này chưa được hoàn thiện với license dùng thử!	This function is not available with a trial license!
+Chức năng này chỉ dành riêng cho việc paste dữ liệu thủ công vào excel, không thông qua file access. Đồng ý tiếp tục?	This function is only for pasting data into Excel manually, not through an Access file. Continue?
+Chức năng này sẽ gộp các thanh thép có chiều dài, đường kính giống nhau để tối ưu tổ hợp thép cho nhanh!	This function merges rebars with the same length and diameter to speed up rebar combination!
+Click 1 điểm bất kỳ trên màn hình...	Click any point on the screen...
+Click đúp vào text box để lấy tên dầm ở ô cells trên Excel	Double-click the box to take the beam name from the Excel cell
+Close	
+Closed	
+Co ngót	Shrink.
+Color:	
+Column Braced	
+Column forces	
+Combie nội lực cũ	Combine old forces
+Combie với nội lực vừa load trước đó	Combine with forces just loaded
+Combined	
+Combined Group được chọn	Combined selected Group
+Combined Nội lực	Combined internal forces
+Combined Thép	Combined rebar
+Combined Toàn bộ Group	Combined whole Group
+Combined thép theo dầm đầu Group	Combine rebar by 1st beam of Group
+Combo	
+Combo Võng	Defl. Combo
+Complete	
+Complete!	
+Compression	
+Concrete Beam Flexure Envelope - ACI 318-19	
+Có thể các dầm liên tục KHÔNG được sắp xếp liên tục bên bảng tính, cần xem lại các dầm này!	The continuous beams may NOT be arranged continuously in the worksheet, please review these beams!
+Create	
+CÀI ĐẶT	SETTINGS
+Cài đặt chung	General settings
+Cài đặt các thông số chung cho cột vách.	Set the common parameters for columns and walls.
+Cài đặt các thông số thiết kế Sàn.	Set the slab design parameters.
+Cài đặt các thông số thiết kế dầm.	Set the beam design parameters.
+Các Load Case kiểu Response Spectrum hiện có:	Existing Response Spectrum load cases:
+Các bước nạp tiền & gia hạn:	Top-up & renewal steps:
+Các dầm sau đây bị trùng Unique Name nên không rename được: 	The following beams have duplicate Unique Names and cannot be renamed: 
+Các dầm trùng tên: 	Beams with duplicate names: 
+Các load pattern kiểu Wind trong model:	Wind-type load patterns in the model:
+Các đối tượng sau chưa được tính toán Vì Vùng biên chọn chưa hợp lý: 	The following objects were not calculated because the selected boundary zone is not valid: 
+Các đối tượng sau chưa được tính toán Vì Vật liệu thép hoặc bê tông chọn chưa hợp lý: 	The following objects were not calculated because the selected steel or concrete material is not valid: 
+Các đối tượng sau chưa được tính toán Vì nó là hình dạng khác hình chữ nhật: 	The following objects were not calculated because they are not rectangular: 
+Có 	There are 
+Có cập nhập tên Group bên sheets tính toán cột?	Update the Group names in the column calculation sheet?
+Có cập nhập tên Group bên sheets tính toán vách?	Update the Group names in the wall calculation sheet?
+Có lỗi khi khởi động 	An error occurred while starting 
+Có lỗi khi xóa cấu hình: 	An error occurred while deleting the configuration: 
+Căn chỉnh lại kích thước cột và ẩn hiện cột tự động:	Auto-resize columns and auto show/hide columns:
+Cấu tạo động đất (Chỉ áp dụng đai C trong vẽ Cột)	Seismic detailing (C stirrups only in Column drawing)
+Cấu tạo động đất:	Seismic detailing:
+CẦN LƯU Ý XEM LẠI CƯỜNG ĐỘ BÊ TÔNG TRONG FILE TÍNH	PLEASE REVIEW THE CONCRETE STRENGTH IN THE CALCULATION FILE
+Cần Select các Point update 'Unique Name' trong Etabs trước!	You must first Select the Points whose 'Unique Name' is to be updated in ETABS!
+Cần Select các dầm trong Etabs trước!	You must first Select the beams in ETABS!
+Cần Select các dầm update 'Unique Name' trong Etabs trước!	You must first Select the beams whose 'Unique Name' is to be updated in ETABS!
+Cần select trước các phần tử sàn (MÓNG) trong Etabs!	You must first select the slab (FOUNDATION) elements in ETABS!
+Cần select trước các phần tử sàn (MÓNG) trong mô hình!	You must first select the slab (FOUNDATION) elements in the model!
+Cần điền đai C cho vách!. Ví dụ: T8a400	You must enter the C stirrup for the wall! Example: T8a400
+Cần điền đai bao cho vách!. Ví dụ: T10a200	You must enter the enclosing stirrup for the wall! Example: T10a200
+Cần điền đai biên cho vách!. Ví dụ: T10a100	You must enter the boundary stirrup for the wall! Example: T10a100
+Cần đăng xuất và đăng nhập lại tài khoản để làm mới dữ liệu!	You must log out and log in again to refresh the data!
+Cần để hiển thị sheet ColumnDesign hoặc Sheet WallDesign để phân biệt đang tính cột hay tính vách!	You must display the ColumnDesign sheet or the WallDesign sheet so the software can tell whether you are designing a column or a wall!
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt bạn đang tính Cột hay bạn đang tính Vách!	Keep the Excel screen on the ColumnDesign or WallDesign sheet so the software can tell whether you are designing a Column or a Wall!
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt tính Cột và tính Vách!	Keep the Excel screen on the ColumnDesign or WallDesign sheet so the software can distinguish Column design from Wall design!
+Cần để màn hình Excel ở sheet ColumnDesign để cập nhập UniqueName!	Keep the Excel screen on the ColumnDesign sheet to update the UniqueName!
+Cần để màn hình Excel ở sheet ColumnDetail hoặc sheet WallDetail để phần mềm phân biệt vẽ Cột và vẽ Vách!	Keep the Excel screen on the ColumnDetail or WallDetail sheet so the software can distinguish drawing a Column from drawing a Wall!
+CẬP NHẬP SỐ DƯ	UPDATE BALANCE
+Cập nhập số dư	Update balance
+Cắt thép	Cut rebar
+Cọc Biên	Edge
+Cỡ chữ	Font size
+Cỡ chữ:	Font size:
+DCE ACCOUNT	DCE ACCOUNT
+DCE Excel	
+DCE PRO	
+DCE Steel	
+DS Tổ hợp	
+DS Tổ hợp tính cột	
+DS dầm	
+DS tổ hợp tính dầm	
+Danh sách Group dầm giống nhau	
+Danh sách tầng	
+Dbim Version 	
+Dbim_AI	
+DceAddin	
+Define	
+Design Nhanh.	Quick Design.
+Design nhanh	Quick design
+Dev Info	Dev Info
+Displ - Drifts Wind	
+Diện tích thép gia cường <= DT thép chạy suốt	Additional rebar area <= continuous rebar area
+Download và cài đặt phiên bản mới: 	Download and install the new version: 
+Drifts (Pdelta) model 2	
+Drifts,M,V Pdelta Model 1	
+DÙNG LOAD NỘI LỰC MỚI HOẶC UPDATE	USE NEW INTERNAL FORCE LOAD OR UPDATE
+Dòng chọn chưa phù hợp! chọn lại dòng xem thuyết minh!	The selected row is not valid! Select the row again to view the calculation report!
+Dòng:	Row:
+Dùng M tính toán để KT hình thành vết nứt	Use the design M to check crack formation
+Dùng Slab trong để tìm kích thước	Use inner Slab to find sizes
+Dùng key này để đăng nhập	Use this key to log in
+Dùng tài khoản DBIM đã đăng ký tại dcejsc.com	Use the DBIM account registered at dcejsc.com
+Dầm Phương X có góc hợp bởi	X-direction beams have an angle formed by
+Dữ liệu sheet: BEAM CONNECTIVITY DATA lỗi định dạng	Sheet data: BEAM CONNECTIVITY DATA has a format error
+Dữ liệu thiết kế sẽ bị xóa vĩnh viễn?	The design data will be permanently deleted?
+Dữ liệu thép cũ sẽ bị xóa vĩnh viễn?	The old rebar data will be permanently deleted?
+Dữ liệu thép dầm được chọn sẽ bị xóa vĩnh viễn?	The selected beam rebar data will be permanently deleted?
+Dữ liệu từ Etabs	Data from ETABS
+Dữ liệu từ Revit	Data from Revit
+Dữ liệu xuất ra không có tiết diện cột tròn, Nếu dự án có cột tròn vui lòng xuất thêm bảng dữ liệu: 	The exported data contains no circular column section. If the project has circular columns please also export the data table: 
+Dự toán KL	Quantity
+Dự toán khối lượng	Quantity estimate
+Dự toán khối lượng thép và bê tông.	Estimate the quantity of rebar and concrete.
+ENV ULSV	
+EXIT	
+Edit Unique	
+Email (*)	
+Email: duynv.ksxd@gmail.com	
+End conditions (Bottom):	
+End conditions (Top):	
+EnjiCAD	
+Enjoyed !	
+Etabs (Frame)	
+Etabs (Strip)	
+Etabs <=> Cad	
+Etabs Link	
+Etabs Stiffness Modifiers to Safe	Etabs Stiffness Modifiers to Safe
+Etabs Stiffness Modifiers to Safe.	Etabs Stiffness Modifiers to Safe.
+Etabs Table to Etabs	
+Etabs Uniform Load Sets to Safe	
+Ex Cad	
+Ex to Cad	
+Excel có số dòng: 1.048.576	Excel has 1,048,576 rows
+Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!	Excel has been disconnected, please export the data again!
+Exit	
+Export Drawing Data	
+Export Strip to Cad	
+Export Tên dầm ra Excel	Export beam names to Excel
+FAILED to complete.	FAILED to complete.
+FS B:	
+FS BOT	
+FS T:	
+FS TOP	
+Failed!	
+Failed! Không gán được DatabaseTablesApplyEditedTables Etabs Đích!	Failed! Could not apply DatabaseTablesApplyEditedTables to the target ETABS!
+Failed! Không gán được DatabaseTablesApplyEditedTables Safe Đích!	Failed! Could not apply DatabaseTablesApplyEditedTables to the target SAFE!
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Etabs Đích!	Failed! Could not apply DatabaseTablesSetTableForEditingArray to the target ETABS!
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Safe Đích!	Failed! Could not apply DatabaseTablesSetTableForEditingArray to the target SAFE!
+Failed! Không kết nối được Safe Đích!	Failed! Could not connect to the target SAFE!
+File Excel Active cuối cùng không được nhận dạng là file Cọc!	The last active Excel file is not recognised as a Pile file!
+File Excel Hỗ trợ combo Etabs chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The Excel file supporting ETABS combos is not open, or is not the last active file. Do you want to open it?
+File Excel Thuyết minh tính toán sức chịu tải cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The Excel calculation report file for pile bearing capacity is not open, or is not the last active file. Do you want to open it?
+File Excel check gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The wind-check Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel check tỷ số nén chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The compression-ratio check Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel dầm chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The beam Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel sàn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The slab Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tính cột vách chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The column/wall Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tính gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The wind calculation Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tính móng đơn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The spread-footing Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tính toán và chọn số lượng cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The Excel file for calculating and selecting the number of piles is not open, or is not the last active file. Do you want to open it?
+File Excel tính đài móng chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The pile-cap Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tính động đất chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The seismic calculation Excel file is not open, or is not the last active file. Do you want to open it?
+File Excel tổ hợp thép chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	The rebar combination Excel file is not open, or is not the last active file. Do you want to open it?
+Find	
+Foundation	
+Frame	
+Fs<=1 Đạt	Fs<=1 OK
+Fs>=1 Đạt	Fs>=1 OK
+Get Area Assignments Summary	
+Get DATA	
+Get Etabs	
+Get Load Cases	
+Get Load Combo	
+Get Uniform Load Sets	
+GetLength	
+Gia cường bên trái và phải gối luôn bằng nhau	Left & right support reinforcement always equal
+Gia hạn license cũ	Renew old license
+Giá tiền	Price
+Giá tiền: 	Price: 
+Giải thích	Explain
+Giới hạn FS Min:	FS Min limit:
+Giới hạn FS<=	FS limit <=
+Giữ thép cũ, kết nối Lable Etabs (Safe) và tên Dầm CAD	Keep old bars; link ETABS (SAFE) Label to CAD beam
+Group Zalo 1	
+Group Zalo 2	
+Group Zalo 3	
+Group dầm giống nhau	Group of identical beams
+GstarCAD	
+Gán Etabs	Assign
+Góc tạo bởi 2 dầm liên tục <	Angle formed by 2 continuous beams <
+Gói	Package
+Góp ý	Feedback
+Gối	Sup
+Gối tựa 2 đầu dầm (Sau khi đã kết nối Cad - Etabs)	Supports at beam ends (after CAD - ETABS linked)
+Gộp các thép giống nhau để tổ hợp thép nhanh hơn.	Merge identical rebars for faster rebar combination.
+Gộp cột giống nhau Design (lấy từ các cột select bên etabs)	Merge identical columns (from columns selected in ETABS)
+Gộp thép	Merge rebar
+Gửi email đặt lại mật khẩu tới:	Send a password-reset email to:
+HD P1	
+HL thép vùng nén bằng	Compression rebar ratio =
+HL tối thiểu:	Min. ratio:
+HOẠT TẢI 1	LIVE LOAD 1
+HOẠT TẢI 2	LIVE LOAD 2
+HOẶC	OR
+Hiển thị các chức năng liên kết mô hình Etabs.	Show the ETABS model link functions.
+Hiển thị các chức năng thiết kế giai đoạn Basic Design.	Show the Basic Design stage functions.
+Hiển thị các chức năng thiết kế móng.	Show the foundation design functions.
+Hiển thị dữ liệu lấy từ Etabs qua Excel.	Show data taken from ETABS in Excel.
+Hiển thị dữ liệu lấy từ Safe qua Excel.	Show data taken from SAFE in Excel.
+Hiện	Show
+Hiện mật khẩu	Show password
+Hoàn tất dọn dẹp. Báo cáo lưu tại:	Cleanup complete. Report saved at:
+Hoặc quy định mầu ở đây:	Or define the colour here:
+Hàm lượng thép tối thiểu:	Minimum rebar ratio:
+Hãy vào thư mục cài đặt 	Go to the installation folder of 
+Hướng dẫn	Guide
+Hướng dẫn P.1	Guide P.1
+Hướng dẫn P1	Guide P1
+Hướng dẫn nạp tiền	Top-up guide
+Hướng dẫn sử dụng: 	User guide: 
+Hạn dùng	Expiry
+Hệ số C0 (tính cắt TCVN)	C0 factor (TCVN shear)
+Hệ số kể đến sự phân bố không đều biến dạng tương đối	Factor accounting for non-uniform distribution of relative strain
+Hệ số phần dài hạn	Long-term factor
+Hệ số quy đổi cốt thép về bê tông Alpha_s 	Steel-to-concrete conversion factor Alpha_s 
+Hệ số quy đổi cốt thép về bê tông Alpha_s  tính theo CT (5574-2018)	Steel-to-concrete factor Alpha_s per TCVN 5574-2018
+Họ và tên (*)	Full name (*)
+Hủy	Cancel
+Import Tên dầm từ Excel vừa xuất ra	Import beam names from Excel
+In PDF	
+In TM	Print
+In thuyết minh biểu đồ tương tác	Print interaction-diagram report
+In thuyết minh dạng bảng	Print the report in table form
+In thuyết minh tính toán	Print the calculation report
+In thuyết minh đai	Print the stirrup report
+In ấn	Printing
+In ấn và xem thuyết minh tính toán cột vách.	Print and view the column/wall calculation report.
+In ấn và xem thuyết minh tính toán dầm.	Print and view the beam calculation report.
+In ấn và xem thuyết minh tính toán sàn.	Print and view the slab calculation report.
+Joint Loads Assignments - Force	
+Joint Loads Assignments - Force.	Joint Loads Assignments - Force.
+KC dầm giao nhịp cách mép gối tối thiểu để bố trí gia cường đai:	Min. crossing-beam distance from support edge for stirrups:
+KC khe - giữa 2 lớp thép chủ:	Clear gap, 2 main bar layers:
+KC thép đai bố trí tự động:	Auto stirrup spacing:
+KIỂM TRA TỔNG THỂ: Không có kết quả cắt nào được tạo ra!	OVERALL CHECK: no cutting result was produced!
+KR:	
+Kc giữa 2 lớp thép:	Spacing, 2 bar layers:
+Key bản quyền	License key
+Key này KHÔNG dùng được trên máy hiện tại:	This key CANNOT be used on the current machine:
+Khi triển khai dầm luôn luôn lấy tên Group và SL tương ứng để vẽ	Detail beams always by Group name and its quantity
+Kho thép	Rebar stock
+Khoảng cách 2 dầm liên tục <=	Distance, 2 cont. beams <=
+Khoảng cách 2 lần nối:	Distance between 2 laps:
+Khoảng cách thép giá:	Erection rebar spacing:
+Khoảng cách đủ để đổ BT	Spacing for concrete pouring
+Khác	Other
+Không Sử dụng thép tận dụng	Do not use salvaged rebar
+Không Thể đăng xuất tài khoản!	Could not log out of the account!
+Không chạy được 	Could not run 
+Không có Group nào được chọn!	No Group is selected!
+Không có Workbook nào đang được mở!	No Workbook is open!
+Không có Worksheet nào đang được mở!	No Worksheet is open!
+Không có bảng Shell Uniform Load Sets ở Etabs Nguồn!	There is no Shell Uniform Load Sets table in the source ETABS!
+Không có bảng Shell Uniform Load Sets ở Safe Nguồn!	There is no Shell Uniform Load Sets table in the source SAFE!
+Không có dữ liệu Pier Forces - Kiểm tra lại Access xuất từ Etabs!	No Pier Forces data - please check the Access file exported from ETABS!
+Không có dữ liệu Pier Section - Kiểm tra lại Access xuất từ Etabs!	No Pier Section data - please check the Access file exported from ETABS!
+Không có dữ liệu nội lực tầng được chọn	There is no internal force data for the selected story
+Không có mô hình Etabs nào được mở	No ETABS model is open
+Không có phân tử sàn nào được select trước trong Etabs!	No slab element was selected beforehand in ETABS!
+Không có tầng nào của Etabs trùng tên tầng trong sheet 	No ETABS story name matches a story name in the sheet 
+Không cắt thép khi L<=	Do not cut rebar when L<=
+Không hỗ trợ tiêu chuẩn hiện tại!	The current design code is not supported!
+Không kết nối được Safe Nguồn!	Could not connect to the source SAFE!
+Không kết nối được máy chủ để gửi email đặt lại mật khẩu.	Could not connect to the server to send the password-reset email.
+Không kết nối được máy chủ để đăng ký tài khoản.	Could not connect to the server to register the account.
+Không liên kết Revit với Etabs	Do not link Revit with ETABS
+Không load được dữ liệu động đất từ Excel.	Could not load the seismic data from Excel.
+Không lấy được nội lực Design Forces từ ETABS!	Could not get the Design Forces from ETABS!
+Không sử dụng kho thép cũ	Don't use old rebar stock
+Không thể SetCaseSelectedForOutput 	Could not SetCaseSelectedForOutput 
+Không thể gửi yêu cầu lấy lại mật khẩu!	Could not send the password-recovery request!
+Không thể hiện vị trí nhịp dầm	Do not show the beam span position
+Không thể khai báo Patterns: 	Could not define Patterns: 
+Không thể khai báo load Cases: 	Could not define load Cases: 
+Không thể khai báo load Combo: 	Could not define load Combo: 
+Không thể khởi động trình cập nhật: 	Could not start the updater: 
+Không thể load nội lực combo: 	Could not load the combo internal forces: 
+Không thể lấy danh sách license!	Could not get the license list!
+Không thể mở form đăng ký tài khoản!	Could not open the account registration form!
+Không thể đăng ký tài khoản!	Could not register the account!
+Không thể đăng nhập!	Could not log in!
+Không thể đăng xuất!	Could not log out!
+Không truy cập được bản vẽ đang mở trong CAD.	Could not access the drawing currently open in CAD.
+Không tìm thấy 	Not found 
+Không tìm thấy Nội lực	Internal forces not found
+Không tìm thấy Sheets 	Sheets not found 
+Không tìm thấy bảng 	Table not found 
+Không tìm thấy bảng Area Load Assignments - Uniform Load Sets	Table Area Load Assignments - Uniform Load Sets not found
+Không tìm thấy bảng Nội lực 	Internal force table not found 
+Không tìm thấy bảng Shell Uniform Load Sets	Table Shell Uniform Load Sets not found
+Không tìm thấy bảng: Concrete Slab Design - Flexure and Shear Data	Table not found: Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy dầm nào trong các phần tử đã chọn!	No beam was found among the selected elements!
+Không tìm thấy file cập nhật tại: 	Update file not found at: 
+Không tìm thấy file cập nhật!	Update file not found!
+Không tìm thấy file excel chứa sheet 'Column Detail'	No Excel file containing the sheet 'Column Detail' was found
+Không tìm thấy file excel chứa sheet 'ColumnDesign'	No Excel file containing the sheet 'ColumnDesign' was found
+Không tìm thấy file excel chứa sheet 'DATABEAM'	No Excel file containing the sheet 'DATABEAM' was found
+Không tìm thấy file excel chứa sheet 'TienLuong'	No Excel file containing the sheet 'TienLuong' was found
+Không tìm thấy file excel chứa sheet 'TinhDam'	No Excel file containing the sheet 'TinhDam' was found
+Không tìm thấy phần tử nào được chọn (select) trong ETABS!	No element is selected in ETABS!
+Không tìm thấy phần tử nào được chọn (selects) trước trong model, Cần quét chọn Point muốn xuất DL nội lực!	No element was selected beforehand in the model. You must window-select the Points whose internal force data you want to export!
+Không tìm thấy phần tử sàn bên Safe!	No slab element was found in SAFE!
+Không tìm thấy sheet "	Sheet not found "
+Không tìm thấy sheets: 	Sheets not found: 
+Không tìm thấy trường 	Field not found 
+Không tìm thấy trường FBotArea của bảng Concrete Slab Design - Flexure and Shear Data	Field FBotArea not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FBotMoment của bảng Concrete Slab Design - Flexure and Shear Data	Field FBotMoment not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FTopArea của bảng Concrete Slab Design - Flexure and Shear Data	Field FTopArea not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FTopMoment của bảng Concrete Slab Design - Flexure and Shear Data	Field FTopMoment not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường Station của bảng Concrete Slab Design - Flexure and Shear Data	Field Station not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường Story	Field Story not found
+Không tìm thấy trường StripObject của bảng Concrete Slab Design - Flexure and Shear Data	Field StripObject not found in table Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy tài khoản nào được đăng nhập!	No logged-in account was found!
+Không tìm thấy tên dầm cũ trong file Excel: 	The old beam name was not found in the Excel file: 
+Không tìm thấy tên tổ hợp tương ứng: 	The matching combination name was not found: 
+Không tìm thấy vị trí dòng: 	Row position not found: 
+Không tìm thấy ứng dụng GenCol được mở!	No open GenCol application was found!
+Không tồn tại dữ liệu bề rộng dầm: 	No beam width data exists: 
+Không xác định Sheet tính toán sức chịu tải cọc, vui lòng kiểm tra lại!	The pile bearing capacity calculation sheet could not be identified, please check again!
+Không đọc được bảng "	Could not read table "
+Không đọc được danh sách tầng từ Etabs.	Could not read the story list from ETABS.
+Khởi động lại máy tính sau khi cài đặt xong	Restart the computer after the installation finishes
+Kiểm tra	Check
+Kiểm tra kết nối mạng để sử dụng tính năng này!	Check your network connection to use this feature!
+Kiểm tra kết nối mạng để đăng nhập tài khoản!	Check your network connection to log in!
+Kiểm tra kết nối mạng để đăng xuất tài khoản!	Check your network connection to log out!
+Kiểm tra kết nối mạng!	Check your network connection!
+Kính gửi Quý Khách,	Dear Customer,
+Ký hiệu cho số nhánh đai:	Symbol for stirrup legs:
+KẾT NỐI API	API CONNECTION
+Kết hợp đầu vào là Kho thép và các thanh Nguyên có chiều dài L=	Input combines the Rebar stock and whole bars of length L=
+Kết nối CAD API	Connect CAD API
+Kết nối Cad - Excel	Link CAD - Excel
+Kết nối MBCK - Strip	Link pile layout - Strip
+Kết nối lable Etabs (Safe) và tên dầm trên CAD	Link the ETABS (SAFE) label with the beam name in CAD
+Kết nối thành công: 	Connected successfully: 
+Kết nối với AUTOCAD API.	Connect to the AUTOCAD API.
+Kết nối với CSI API.	Connect to the CSI API.
+Kết nối đến: 	Connecting to: 
+Kỹ sư kết cấu	Structural engineer
+L API	
+L gối chung giữa 2 dầm liên tục <=	Shared support L, 2 continuous beams <=
+LAccess	
+LICENSE CỦA TÔI	MY LICENSE
+LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY	LICENSES USABLE ON THIS MACHINE
+License Trial giới hạn chức năng tính toán cột vách!	The Trial license limits the column/wall calculation feature!
+License Trial giới hạn chức năng tính toán dầm!	The Trial license limits the beam calculation feature!
+License Trial giới hạn chức năng tính toán sàn!	The Trial license limits the slab calculation feature!
+License Trial giới hạn chức năng tính toán, vẽ móng & cọc!	The Trial license limits the foundation & pile calculation and drawing features!
+License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	The License has a leading OR trailing space, please check it carefully! Do you want to continue?
+License của bạn không thể sử dụng chức năng này!	Your License cannot use this feature!
+License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?	After logging out, a trial license cannot log in again. Do you want to continue?
+License dùng được	Usable license
+License giới hạn chức năng tính toán cột vách!	The License limits the column/wall calculation feature!
+License giới hạn chức năng tính toán dầm!	The License limits the beam calculation feature!
+License giới hạn chức năng tính toán sàn!	The License limits the slab calculation feature!
+License giới hạn chức năng tính toán, vẽ móng & cọc!	The License limits the foundation & pile calculation and drawing features!
+License hết hạn sử dụng!	The License has expired!
+License timeout offline!	Offline license timeout!
+License:	
+License: 	
+Liên kết khác	Other link
+Load (Update) Nội lực	Load/Update forces
+Load API SLS	
+Load API ULS	
+Load Design Forces	
+Load File thành công!	File loaded successfully!
+Load Nội lực	Load internal forces
+Load Nội lực:	Load internal forces:
+Load Txt	
+Load access có thể nhanh hơn!	Loading from Access may be faster!
+Load data Etabs	Load data Etabs
+Load dữ liệu nội lực.	Load the internal force data.
+Load dữ liệu thành công!	Data loaded successfully!
+Load nội lực	Load internal forces
+Load nội lực tính toán	Load design internal forces
+Load nội lực:	Load internal forces:
+Load text file GenCol	Load text file GenCol
+Load tổ hợp nội lực để tính nứt:	Load crack-calc combination:
+Load tổ hợp tính nứt (dài hạn)	Load crack combination (long-term)
+Load tổ hợp tính nứt (tổng tải)	Load crack combination (total load)
+Load tổ hợp tính toán ULS	Load the ULS design combination
+LoadCases sau không được lấy thành công: 	The following LoadCases were not retrieved successfully: 
+LogOut license Vip	LogOut Vip license
+Login	Login
+Logout	Logout
+Loại cấu kiện	Member type
+Loại cấu kiện:	Member type:
+Loại thép Chủ:	Main rebar type:
+Loại đai Cột:	Column stirrup type:
+Luôn bố trí KC đai gối:	Always use support spacing:
+Làm mới bảng tính (API)	Refresh sheet (API)
+Làm mới mầu sắc bảng tính.	Refresh the worksheet colours.
+Làm đẹp thuyết minh	Beautify report
+Lícense sau khi mua mới sẽ hiện ở đây...	The newly purchased License will appear here...
+LícenseKey...	
+Lưu TK	Save account
+Lưu cấu hình	Save config
+Lưu dữ liệu	Save data
+Lưu ý mở khóa cho mô hình để thao tác!	Note: unlock the model before operating!
+Lưu ý tất cả các phần tử liên quan tới bảng 	Note that all elements related to the table 
+Lưu ý:	Note:
+Lưu ý: Chức năng này sẽ xóa toàn bộ file PHỤ sinh ra trong quá trình phân tích của Etabs, Safe và file phụ có đuôi .bak của Autocad! để giải phóng dữ liệu	Note: This function will delete all AUXILIARY files generated during ETABS and SAFE analysis, and AutoCAD .bak files, to free up space
+Lưu ý: Cần cài đặt hệ số αcc (Strength factor) trong Prokon trùng khớp hệ số αcc (Strength factor) trong Excel	Note: The Strength factor alpha-cc set in Prokon must match the Strength factor alpha-cc in Excel
+Lấy Abs(momen) Max trên 1 Station strip	Abs(moment) Max per strip Station
+Lấy Astt Max của (Etabs và Excel (cột Q, AH))	Max As,req of (ETABS, Excel cols Q, AH)
+Lấy DL Ván Khuân (Etabs API)	Get formwork data (ETABS)
+Lấy DL tính toán	Get calculation data
+Lấy Diện tích thép design từ mô hình (cần design strip bên model)	Get design rebar area from model (design strips first)
+Lấy Handle (địa chỉ) bằng cách select các đối tượng bên Autocad.	Get the Handle (address) by selecting objects in AutoCAD.
+Lấy Handle (địa chỉ) bằng cách vẽ Line bên Autocad.	Get the Handle (address) by drawing a Line in AutoCAD.
+Lấy Handle (địa chỉ) bằng cách vẽ Polyline bên Autocad.	Get the Handle (address) by drawing a Polyline in AutoCAD.
+Lấy Handle (địa chỉ) bằng cách vẽ Rectang bên Autocad.	Get the Handle (address) by drawing a Rectangle in AutoCAD.
+Lấy diện tích thép Model	Get the Model rebar area
+Lấy diện tích thép từ Etabs Design	Rebar area from ETABS Design
+Lấy diện tích thép từ Model	Get rebar area from Model
+Lấy dữ liệu ETABS thành công.	ETABS data retrieved successfully.
+Lấy momen design từ mô hình (cần design strip bên model trước)	Get design moment from model (design strips first)
+Lấy momen design, nội lực giới hạn về mặc định	Reset the design moment and limit internal forces to default
+Lấy mã máy	Get machine code
+Lấy nội lực từ tổ hợp:	Forces from combo:
+Lấy tên Label Gốc trong Excel ở cột	Original Label name in Excel, col.
+Lấy tọa độ thép cột vách HCN người dùng nhập từ Excel.	Use rect. col./wall rebar coords entered in Excel.
+Lọc	Filter
+Lọc Momen tính Nhịp từ khoảng:	Filter the span moment from range:
+Lọc NL (Paste DL thủ công)	Filter forces (manual paste)
+Lọc momen tính Gối trong khoảng:	Filter support moment in range:
+Lỗi	Error
+Lỗi ApplyEditedTables (ret = 	ApplyEditedTables error (ret = 
+Lỗi ApplyEditedTables RS Function (ret=	ApplyEditedTables RS Function error (ret=
+Lỗi ApplyEditedTables RS Load Case (ret=	ApplyEditedTables RS Load Case error (ret=
+Lỗi SetTableForEditingArray "	SetTableForEditingArray error "
+Lỗi SetTableForEditingArray bảng "	SetTableForEditingArray error, table "
+Lỗi cột chiều dài - không phải là số tự nhiên: 	Length column error - not a natural number: 
+Lỗi cột số lượng - không phải là số tự nhiên: 	Quantity column error - not a natural number: 
+Lỗi cột đường kính - không phải là số tự nhiên: 	Diameter column error - not a natural number: 
+Lỗi khi chạy update: 	Error while running the update: 
+Lỗi lưu nhánh đai!	Error saving the stirrup legs!
+Lỗi lưu số lượng thép tương ứng bề rộng	Error saving the rebar quantity for the corresponding width
+Lỗi nội lực lable: 	Internal force error, label: 
+Lỗi đổi tên dầm: 	Beam rename error: 
+Lỗi!	Error!
+Lỗi!    	Error!    
+Lỗi: 	Error: 
+Lớp bê tông bảo vệ:	Concrete cover:
+Made by Nguyễn Văn Duy - Zalo: 0989 111 206	
+Mail: nguyenduyahnt@gmail.com	
+Minimum Reinforcing Ratio	
+Model AI	
+Model Etabs chưa có Load Case kiểu Modal.	The ETABS model has no Modal-type Load Case.
+Model Etabs phải có ít nhất 2 load pattern kiểu Wind (1 cho phương X, 1 cho phương Y).	The ETABS model must have at least 2 Wind-type load patterns (1 for the X direction, 1 for the Y direction).
+Modulus of rupture (ACI)	
+Momen:	Moment:
+Mua License Mới	Buy a New License
+Mua cho Email:	Buy for Email:
+Mua license	Buy
+Mua license mới	Buy license
+Mua mới hoặc gia hạn bản quyền DCE.	Buy or renew a DCE license.
+MÔ HÌNH ETABS CHƯA ĐƯỢC PHÂN TÍCH!	THE ETABS MODEL HAS NOT BEEN ANALYSED!
+Mác Bê Tông:	Concrete grade:
+Mác Thép Dọc đk <=	Long. bar grade, dia <=
+Mác Thép Dọc đk >	Long. bar grade, dia >
+Mác Thép Dọc:	Long. bar grade:
+Mác Thép Đai <= 8:	Stirrup grade <= 8:
+Mác Thép Đai > 8:	Stirrup grade > 8:
+Mác thép đai đk >	Stirrup grade, dia >
+Máy tính chặn kết nối internet (Hoặc máy tính không có internet)	The computer is blocking the internet connection (or the computer has no internet)
+Máy tính đã được đăng nhập trước đó: 	This computer was already logged in previously: 
+Máy tính: 	Computer: 
+Máy tính: ...	Computer: ...
+Mã OC	OC code
+Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	The device code has a leading OR trailing space, please check it carefully! Do you want to continue?
+Mã thiết bị:	Device code:
+Móc đai:	Stirrup hook:
+Mô hình AI	AI model
+Mô hình Etabs chưa 'run' hoặc không tìm thấy Lable tồn tại!	The ETABS model has not been 'run', or no existing Label was found!
+Mô hình nguồn:	Source model:
+Mô hình {selectedAI} hiện tại chưa hỗ trợ phân tích hình ảnh. Vui lòng chọn Gemini hoặc ChatGPT!	The model {selectedAI} does not currently support image analysis. Please choose Gemini or ChatGPT!
+Mô hình đích:	Target model:
+Mảng có số dòng: 	The array has this many rows: 
+Mầu thể hiện vị trí Mid là số tự nhiên < 256	The colour marking the Mid position is a natural number < 256
+Mầu thể hiện vị trí Start là số tự nhiên < 256	The colour marking the Start position is a natural number < 256
+MẬT KHẨU CẤP 2	LEVEL-2 PASSWORD
+Mật khẩu (*)	Password (*)
+Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	The password has a leading OR trailing space, please check it carefully! Do you want to continue?
+Mật khẩu cấp 2:	Level-2 password:
+Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.	Password: at least 6 characters. After registering, check your email to activate the account.
+Mật khẩu:	Password:
+Mọi góp ý xin gửi về:	Please send all feedback to:
+Mục 8.1.3.3.1 TCVN 5574-2018; Công thức 94 - 95	Clause 8.1.3.3.1 TCVN 5574-2018; Formulas 94 - 95
+Nguyễn Văn Duy	
+Nhóm nghề:	Occupation:
+Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!	Enter the Email and Password of your DBIM account first, then click "Usable license"!
+Nhập Email...	Enter Email...
+Nhập Mã thiết bị...	Enter the device code...
+Nhập tên Load Case động đất phương X:	Enter the name of the X-direction seismic Load Case:
+Nhập tên Load Case động đất phương Y:	Enter the name of the Y-direction seismic Load Case:
+Nhập tên load pattern gió phương X:	Enter the name of the X-direction wind load pattern:
+Nhập tên load pattern gió phương Y:	Enter the name of the Y-direction wind load pattern:
+Nhập tên thiết bị...	Enter the device name...
+Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!	Enter the registered Email address in the "Account" box, then click "Forgot password?"!
+Nhịp	Span
+Not load 'Pier Label GetSection Properties' – runs faster.	
+NumberResults = nothing	NumberResults = nothing
+Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!	If the license allows multiple machines, please log out the device remotely!
+Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!	If you have already renewed, please log out and log in again so the system updates the new expiry date!
+Nếu được hãy thay dấu '-' thành dấu '.'	If possible, replace the '-' character with '.'
+Nội dung	Content
+Nội dung chuyển khoản:	Transfer note:
+OPTION	
+Omit slenderness momen	
+Omit slenderness momen (BDTT)	
+Option:	
+P.2	
+PP NLGH (Chỉ áp dụng tính CỘT HCN và dùng TCVN)	Limit-state method (rect. COLUMNS, TCVN only)
+PY:	
+Patterns - Cases	
+Phiên bản:	Version:
+Phát hiện 	Detected 
+Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!	The software only connects to the first SAFE opened; please close SAFE and reopen it to reset!
+Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!	The software only connects to the first ETABS opened; please close ETABS and reopen it to reset!
+Phần mềm không phân biệt được update tiết diện B,H sheets ColumnDesign hay WallDesign!, vui lòng chỉ rõ bằng cách Active Sheet đó	The software cannot tell whether to update the B,H section in the ColumnDesign or WallDesign sheet! Please make it explicit by activating that sheet
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào	The software will OVERWRITE the design rebar area from ETABS into
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào cột P và AG trong bảng tính dầm!	The software will OVERWRITE the design rebar area from ETABS into columns P and AG of the beam worksheet!
+Pier	
+Pier forces	
+Pu File Etabs, Safe, Cad	Pu File Etabs, Safe, Cad
+Quên mật khẩu?	Forgot password?
+Remove Device	
+Remove Device License Vip	Remove Device Vip License
+Remove không thành công! Kiểm tra kết nối mạng	Remove failed! Check the network connection
+Reset All Default	
+Reset bảng tính	Reset the worksheet
+SLAB	SLAB
+Safe (Frame)	
+Safe (Strip)	
+Safe Table to Safe	Safe Table to Safe
+Sai số	Tol.
+Sai số bắt điểm dầm trong model (<10):	Beam snap tolerance in model (<10):
+Sao chép key	Copy key
+Sap2000	
+Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	If it still cannot connect after closing all ETABS instances and reopening, re-register the API following these steps:
+Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	If it still cannot connect after closing all SAFE instances and reopening, re-register the API following these steps:
+Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	If it still cannot connect after closing all SAP2000 instances and reopening, re-register the API following these steps:
+Save	
+Schedule 2	
+Schedule 3	
+Seismic	
+Select MDB File	Select MDB File
+Set Load Cases	
+Set Load Combo	
+Setup quan điểm tính	Set the calculation approach
+Show data to Excel	Show data to Excel
+Show dữ liệu nội lực từ mô hình ra Excel (Làm mới Excel)?	Show the internal force data from the model in Excel (refresh Excel)?
+Show dữ liệu tính toán	Show the calculation data
+Sort Data	Sort Data
+Sync Model Points Safe	Sync Model Points Safe
+Sàn có 2 phương vuông góc, trọng tâm thép được tính đến lớp ngoài	Two-way slab: rebar centroid measured to the outer layer
+Sắp xếp và gộp các cấu kiện giống nhau.	Sort and merge identical members.
+SỐ LƯỢNG THÉP CÓ THỂ CÓ Ở LỚP CHẠY SUỐT VÀ LỚP TĂNG CƯỜNG	POSSIBLE REBAR QTY: CONTINUOUS + EXTRA LAYERS
+Số bắt đầu:	Start number:
+Số dòng quá lớn 	The number of rows is too large 
+Số dư tài khoàn:	Account balance:
+Số dầm đổi tên thành công = 0	Number of beams successfully renamed = 0
+Số lượng nhánh đai tính toán:	Stirrup legs in calculation:
+Số lớp <= 3	Number of layers <= 3
+Số lớp >=2	Number of layers >= 2
+Số ngày sử dụng	Number of days
+Số ngày sử dụng: 	Number of days: 
+Số tài khoản: 19033419323019	
+Số tầng gộp tính chung 1 lần:	Stories merged per run:
+Số điện thoại (*)	Phone number (*)
+Sử dụng hàm Excel tính cho Combo nguy hiểm nhất	Use Excel formula for the most critical Combo
+Sử dụng kho thép cũ	Use the old rebar stock
+Sử dụng license cũ để đăng nhập vào tài khoản!	Use the old license to log in to the account!
+Sử dụng license mới để đăng nhập vào tài khoản!	Use the new license to log in to the account!
+Sử dụng thép tận dụng	Use salvaged rebar
+Sửa	Edit
+TH tính nứt (dài hạn)	Crack (long-term)
+TH tính nứt (tổng tải)	Crack (total load)
+TH tính toán ULS	ULS design combo
+THÉP	REBAR
+THÔNG TIN LIÊN HỆ	CONTACT INFORMATION
+TMTT	
+TMTT Sàn	Slab calculation report
+TUỲ CHỌN NÂNG CAO	ADVANCED OPTIONS
+Tab Basic Design	Basic Design tab
+Telegram: 	
+Tension	
+Test Tổ hợp thép.	Test the rebar combination.
+Thao tác không thành công!	The operation failed!
+Thao tác không thành công, Xem lại dữ liệu Frame Assignments - Summary trong file Access	The operation failed. Review the Frame Assignments - Summary data in the Access file
+Thao tác không thành công, Xem lại dữ liệu:	The operation failed. Review the data:
+Thao tác không thành công, dữ liệu cần có bảng:	The operation failed, the data must contain the table:
+Thao tác không thành công, không tìm thấy Sheets: 	
+Thiết bị	Device
+Thiết kế	Design
+Thiết kế Dầm 	Beam design 
+Thiết kế bằng bảng tính Excel BDTT (Cấu kiện nén uốn)	Design via BDTT Excel (compression-bending members)
+Thiết kế cột vách	Column and wall design
+Thiết kế cột vách.	Column and wall design.
+Thiết kế hoặc in thuyết minh và lấy kết quả từ Prokon	Design or print the report and take the results from Prokon
+Thiết kế tự động	Automatic design
+Thiết kế đai (TCVN)	Stirrup (TCVN)
+Thuyết minh	Calculation report
+Thuyết minh SCT cọc	Pile capacity report
+Thuyết minh SCT cọc 	Pile capacity report 
+Thuyết minh tính toán	Calculation report
+Thép dọc	Long. rebar
+Thép rải đều Bot:	Uniform Bot rebar:
+Thép rải đều Top:	Uniform Top rebar:
+Thép sàn lớp dưới:	Bottom slab rebar:
+Thép sàn lớp trên:	Top slab rebar:
+Thép thanh	Bar rebar
+Thép tăng cường loại 1:	Additional rebar type 1:
+Thép tăng cường loại 2:	Additional rebar type 2:
+Thép tăng cường loại 3:	Additional rebar type 3:
+Thép tăng cường loại 4:	Additional rebar type 4:
+Thép tăng cường loại 5:	Additional rebar type 5:
+Thép tăng cường loại 6:	Additional rebar type 6:
+Thép tăng cường loại 7:	Additional rebar type 7:
+Thép tăng cường loại 8:	Additional rebar type 8:
+Thép tăng cường loại 9:	Additional rebar type 9:
+Thép tận dụng	Salvaged rebar
+Thép đai	Stirrup
+Thêm	Add
+Thêm Group (lấy từ các dầm select bên etabs)	Add Group (from ETABS sel.)
+Thêm Số lượng ngày	Add number of days
+Thêm dầm vào bảng tính	Add a beam to the worksheet
+Thêm đuôi hậu tố vào file Prokon	Append a suffix to the Prokon file
+Thông báo	Notice
+Thông số chung Cột, Vách.	General parameters for Columns and Walls.
+Thông tin liên hệ nhà phát triển.	Developer contact information.
+Thông tin nhập chưa chính xác, vui lòng xem lại!	The information entered is incorrect, please review it!
+Thông tin tài khoản	Account information
+Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!	The computer time has been changed. Please check it!
+Thực hiện thành công đổi tên: 	Rename completed successfully: 
+Thực hiện đổi tên thành công: 	Rename completed successfully: 
+Tiêu chuẩn tính toán:	Design code:
+Tiêu chuẩn:	Code:
+Tiến hành đăng xuất:	Logging out:
+Tower:	
+Toàn bộ nhịp của dầm được chọn	All spans of the selected beam
+Trân trọng!	Best regards!
+Trạng thái	Status
+Trợ lý AI.	AI assistant.
+Trừ chiều cao tính toán (mm):	Depth deduction (mm):
+TÍNH GIÓ ĐỘNG	DYNAMIC WIND CALCULATION
+Tài Khoản:	Account:
+Tài khoản	Account
+Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	The account has a leading OR trailing space, please check it carefully! Do you want to continue?
+Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM	One account is shared between the dcejsc.com website and all DBIM software
+Tài khoản:	Account:
+Tác dụng dài hạn của tải trọng thường xuyên và tạm thời dài hạn	Long-term effect of permanent and long-term temporary loads
+Tác dụng ngắn hạn của toàn bộ tải trọng	Short-term effect of the total load
+Tác dụng ngắn hạn của tải trọng thường xuyên	Short-term effect of the permanent load
+Tác dụng ngắn hạn của tải trọng thường xuyên và tạm thời dài hạn	Short-term effect of permanent and long-term temporary loads
+Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng	The author warmly welcomes feedback from fellow engineers so that it keeps getting
+Tên Load Case phương X và phương Y không được trùng nhau.	The X-direction and Y-direction Load Case names must not be identical.
+Tên bảng replace	Replace table name
+Tên dầm cũ:	Old beam:
+Tên dầm lấy bằng Unique Names	Beam name from Unique Names
+Tên dầm mới đã tồn tại trong file excel vì thế không thể đổi tên (trùng tên)	The new beam name already exists in the Excel file, so it cannot be renamed (duplicate name)
+Tên dầm mới:	New beam:
+Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?	The beam name already exists, do you want to overwrite the data?
+Tên file combine:	Combine file name:
+Tên file tính dầm:	Beam calc file:
+Tên load pattern vừa nhập không phải load pattern kiểu Wind của model.	The load pattern name just entered is not a Wind-type load pattern of the model.
+Tên ngân hàng: Techcombank	Bank name: Techcombank
+Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	The device name has a leading OR trailing space, please check it carefully! Do you want to continue?
+Tên thiết bị:	Device name:
+Tên tiền tố	Name prefix
+Tên tiền tố PX	PX name prefix
+Tên tiền tố không đặt ký tự chứa dấu '-'	The name prefix must not contain the '-' character
+Tên tiền tố loại vách dính liền:	Prefix for attached wall type:
+Tên tiền tố:	Name prefix:
+Tên tầng trong Etabs không đặt dạng số!, vui lòng chỉnh tên tầng trong mô hình Etabs và load lại nội lực.	Story names in ETABS must not be numeric! Please adjust the story names in the ETABS model and reload the internal forces.
+Tên tầng trong mô hình không nên đặt dạng số, vì đặt dạng số sẽ dễ bị sót trong 1 số trường hợp đặc biệt	Story names in the model should not be numeric, because numeric names can be missed in some special cases
+Tìm dầm giao tại gối, nhịp	Find beams crossing supports/spans
+Tìm dữ liệu	Find data
+Tìm hình dáng gối tựa	Find the support shape
+Tìm kích thước gối theo thứ tự dòng số:	Find the support size by row order:
+Tìm kích thước gối toàn bộ dầm	Find the support sizes of all beams
+Tìm kích thước gối đầu và cuối dầm	Find the support sizes at the start and end of the beam
+Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 	More than 1 old beam name was found in the Excel file: 
+Tính Cọc	Pile calculation
+Tính Excel	Excel calculation
+Tính Móng	Foundation Design
+Tính Prokon (Mục này dành cho tính toán bằng phần mềm Prokon)	Prokon calculation (this section is for calculation with the Prokon software)
+Tính cắt	Shear
+Tính gió	Wind
+Tính gió:	Wind calculation:
+Tính lable Etabs	Calculate the ETABS label
+Tính lặp toàn bộ các section và tổ hợp	Iterate over all sections and combinations
+Tính nhanh các cặp nội lực tương ứng:	Quickly compute the corresponding internal force pairs:
+Tính nứt (dài hạn) (ưu tiên load trước)	Crack calc. (long-term) (load first)
+Tính nứt (tổng tải) (ưu tiên load trước)	Crack calc. (total load) (load first)
+Tính nứt:	Crack:
+Tính toán SCT cọc	Pile capacity
+Tính toán cường độ (load sau cùng)	Strength calculation (load this last)
+Tính toán cột vách.	Column and wall calculation.
+Tính toán k tăng	Calc without increase
+Tính toán nứt	Crack calculation
+Tính toán tự tăng	Auto-increment calc
+Tính toán đài cọc	Pile cap calculation
+Tính toán, thiết kế võng, nứt	Deflection & crack design
+Tính toán, thiết kế đai xoắn:	Torsion stirrup design:
+Tính và đặt tên bản vẽ cho Lable Etabs:	Calculate and assign drawing names for the ETABS Label:
+Tính động đất	Seismic calculation
+TĂNG CƯỜNG	ADDITIONAL
+TĨNH TẢI	DEAD LOAD
+Tạo combo	Create
+Tạo combo EC	Create EC
+Tạo file Prokon	Create Prokon file
+Tạo loadcase kiểm tra võng	Create a deflection check load case
+Tạo mới file Prokon trước khi tính toán hoặc in thuyết minh	New Prokon file before calculating or printing report
+Tải dữ liệu nội lực từ Etabs.	Load the internal force data from ETABS.
+Tải dữ liệu nội lực từ Safe.	Load the internal force data from SAFE.
+Tải dữ liệu từ file text với hình dạng cột vách bất kỳ.	Load data from a text file with any column/wall shape.
+Tải lại	Reload
+Tải thiết kế:	Design load:
+Tầng bắt đầu	Start story
+Tầng chọn	Selected story
+Tầng kết thúc	End story
+Tọa độ chuẩn: X = 	Reference coordinate: X = 
+Tổ hợp chọn	Combination
+Tổ hợp chọn tính cột	Column combination
+Tổ hợp chọn tính dầm	Beam combination
+Tổ hợp kiểm tra độ võng toàn phần (f1 - f2 + f3)	Combination for checking the total deflection (f1 - f2 + f3)
+Tổ hợp nội lực	Internal force combination
+Tổ hợp nội lực:	Internal force combination:
+Tổ hợp thiết kế	Design combination
+Tổ hợp thép loại 1	Rebar combination type 1
+Tổ hợp thép loại 2	Rebar combination type 2
+Tổ hợp thép.	Rebar combination.
+Tổ hợp tính toán:	Combination:
+Tổ hợp động đất	Seismic combination
+Tổng hợp dầm	Beam summary
+Từ biến	Creep
+Tự chọn thép rải đều (nếu có cài đặt)	Auto-select uniform rebar (if configured)
+Tự cấu hình cho Model AI bất kỳ hoặc bạn muốn cái đặt riêng cho AI theo phong các	Configure any AI model yourself, or set the AI up in your own style
+Tự động dò tìm	Auto-detect
+Tự động gộp tầng	Auto-merge stories
+Tự động tùy chỉnh Mode dao động gió theo Phương X và Phương Y?	Automatically adjust the wind vibration Mode for the X and Y directions?
+Tỷ số nén	Compression ratio
+Uniform Load Sets.	Uniform Load Sets.
+UniqueName Cột Etabs bằng cột AO sheet ColumnDesign	ETABS column UniqueName = column AO of ColumnDesign
+Update Phần mềm.	Update the software.
+Update Unique Name in Excel	Update Unique Name in Excel
+Update Unique Name in Model	Update Unique Name in Model
+Update nội lực	Update forces
+View	
+Việc Update nội lực vào bảng tính	Updating the internal forces into the worksheet
+Vui lòng MỞ LẠI 	Please REOPEN 
+Vui lòng chọn loại mô hình AI sẽ hỗ trợ bạn và điền APIKey tương ứng!	Please choose the AI model that will assist you and enter the matching APIKey!
+Vui lòng chọn ít nhất 1 tải trọng!	Please select at least 1 load!
+Vui lòng mở khóa mô hình	Please unlock the model
+Vui lòng mở khóa mô hình!	Please unlock the model!
+Vui lòng nhập giá trị Hệ số vượt tải gió!	Please enter the wind load factor!
+Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.	Please close AutoCAD and Excel when updating the software.
+Vui lòng đợi trong 5-15p sau đó nhấn nút	Please wait 5-15 minutes, then press the button
+Ví dụ điền B1-*;B2-*;(Với  dấu * đại diện nhịp -1, -2...)	E.g. B1-*;B2-*; (* stands for span -1, -2...)
+Ví dụ điền B1-1;B2-1;(Với B1-1, B2-1... là tên dầm)	E.g. B1-1;B2-1; (B1-1, B2-1... are beam names)
+Vùng tới hạn:	Critical zone:
+Vị trí:	Pos.:
+Website: 	
+Xem TM	View
+Xem Thuyết minh dòng số thứ tự:	View report for row no.:
+Xem Thuyết minh tính toán	View the calculation report
+Xem lại dữ liệu dòng 	Review the data of row 
+Xem thuyết minh chi tiết dòng thứ:	View the detailed report for row:
+Xuất DL tính qua file vẽ dầm mặt cắt	Export calc data to the beam section drawing file
+Xuất Thuyết minh	Export the report
+Xuất dữ liệu bản vẽ	Export the drawing data
+Xuất dữ liệu dự toán	Export estimate
+Xuất dữ liệu text ra file cad	Export the text data to a CAD file
+Xuất dữ liệu thiết kế ra cad (color):	Export design to CAD (colour):
+Xuất dữ liệu tính toán qua Autocad	Export calculation data to AutoCAD
+Xuất dữ liệu tính toán qua sheet vẽ	Export calc. data to drawing sheet
+Xuất dữ liệu tính toán qua sheets vẽ.	Export the calculation data to the drawing sheets.
+Xuất thuyết minh tên dầm kèm theo vi trí nhịp?	Export the report with the beam name and span position?
+Xuất tiên lượng Bê tông + ván khuân	Export concrete + formwork qty
+Xuất tên bản vẽ từ Excel -> Cad	Export drawing names from Excel -> CAD
+XÁC NHẬN	CONFIRM
+Xác nhận gia hạn	Confirm renewal
+Xác nhận mật khẩu (*)	Confirm password (*)
+Xác nhận thanh toán	Confirm payment
+Xóa	Del
+Xóa DL	Del data
+Xóa dầm	Delete beam
+Xóa lưu toàn bộ cấu hình	Delete all config
+Xảy ra lỗi:	An error occurred:
+Youtube: 	
+aiPrompt	
+cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.	improving the software's features and better supporting your work.
+f(500)	
+m = 	
+progeCAD	
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS LỚN	CONNECTING TO ETABS - PLEASE WAIT - THIS IS NOT A DBIM BUG, THE ETABS MODEL IS SIMPLY LARGE
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS NẶNG	CONNECTING TO ETABS - PLEASE WAIT - THIS IS NOT A DBIM BUG, THE ETABS MODEL IS SIMPLY HEAVY
+ĐK thép chủ bố trí tự động:	Auto main rebar diameter:
+ĐK thép đai bố trí tự động:	Auto-arranged stirrup diameter:
+ĐK Đai <=	Stirrup Ø <=
+ĐK:	Dia:
+ĐKT L1 +	
+ĐT: 0989.111.206	
+Đai vùng nối thép:	Stirrup in the lap zone:
+Đang cắt thép đường kính:	Cutting rebar of diameter:
+Đang tính toán...	Calculating...
+Điền HS cọc biên	Edge pile factor
+Điền KR Bot giống Top	Bot spacing = Top
+Điền lại ô P và AG trong bảng tính!	Re-enter cells P and AG in the worksheet!
+Điền lại ô Q và AH trong bảng tính!	Re-enter cells Q and AH in the worksheet!
+Điền thủ công	Enter manually
+Điểm nối đầu cách sàn:	First lap point to slab:
+Đã chạy 	Ran 
+Đã cập nhật thành công!, Hãy mở lại mô hình và trải nghiệm	Updated successfully! Please reopen the model and try it out
+Đã gán xong tải gió vào Etabs:	Wind loads have been assigned to ETABS:
+Đã gán xong tải động đất vào Etabs:	Seismic loads have been assigned to ETABS:
+Đã lưu kết nối AutoCAD	AutoCAD connection saved
+Đã lưu kết nối Autocad	AutoCAD connection saved
+Đã lưu kết nối BricsCAD	BricsCAD connection saved
+Đã lưu kết nối EnjiCAD	EnjiCAD connection saved
+Đã lưu kết nối GstarCAD	GstarCAD connection saved
+Đã lưu kết nối ZWCAD	ZWCAD connection saved
+Đã lưu kết nối progeCAD	progeCAD connection saved
+Đã xóa toàn bộ cấu hình và mã API Key trên thiết bị này!	All configuration and API Keys on this device have been deleted!
+Đã xảy ra lỗi khi co kéo hình ảnh: 	An error occurred while resizing the image: 
+Đính kèm ảnh	Attach image
+ĐĂNG KÝ	REGISTER
+ĐĂNG KÝ TÀI KHOẢN	REGISTER AN ACCOUNT
+ĐĂNG KÝ TÀI KHOẢN DBIM	REGISTER A DBIM ACCOUNT
+ĐĂNG NHẬP	LOG IN
+ĐĂNG NHẬP TÀI KHOẢN	LOG IN TO ACCOUNT
+Đăng Xuất	Log Out
+Đăng ký tài khoản DBIM với email:	Register a DBIM account with the email:
+Đăng ký tài khoản mới	Register a new account
+Đăng nhập lại để sử dụng!	Log in again to use it!
+Đăng nhập thành công!	Logged in successfully!
+Đăng nhập tài khoản DCE.	Log in to the DCE account.
+Đăng xuất	Log out
+Đăng xuất sau đó đăng nhập lại tài khoản để cập nhập chức năng license!	Log out and then log in again so the license features are updated!
+Đăng xuất thiết bị hiện tại	Log out the current device
+Đăng xuất thiết bị khác	Log out another device
+Đăng xuất thành công!	Logged out successfully!
+Đăng xuất tài khoản DCE.	Log out of the DCE account.
+Đường dẫn khởi động Etabs: 	ETABS startup path: 
+Đường dẫn khởi động Mô hình: 	Model startup path: 
+Đường dẫn khởi động SAP2000: 	SAP2000 startup path: 
+Đường dẫn khởi động Safe: 	SAFE startup path: 
+Đường kính chạy suốt Dưới L1:	Continuous Bottom L1 diameter:
+Đường kính chạy suốt Trên L1:	Continuous Top L1 diameter:
+Đường kính thép chạy suốt lớp dưới = ĐK thép chạy suốt lớp trên	Bottom continuous rebar diameter = top continuous rebar diameter
+Đường kính thép giá:	Erection rebar diameter:
+Đường kính tính toán:	Design diameter:
+Đảo đầu	Flip ends
+Đẩy thép gia cường Lớp 1 ở cột n2 và d2; Lớp 2 ở cột n3, d3; Lớp 3 ở cột n4, d4 .	Put add. rebar Layer 1 in cols n2, d2; Layer 2 in n3, d3; Layer 3 in n4, d4.
+Đặt Pier tự động:	Assign Pier automatically:
+Đặt lại tên toàn bộ Pier cho Frame - Column?	Rename all Piers for Frame - Column?
+Đặt lại tên toàn bộ Pier cho Shell - Wall?	Rename all Piers for Shell - Wall?
+Đặt thép giá khi H>=	Erection bar if H>=
+Đặt tên	Assign name
+Đặt tên Etabs	Assign ETABS name
+Đặt tên cho dầm muốn thêm: 	Name the beam to be added: 
+Đặt tên thành công 	Renamed successfully 
+Để cập nhật in ấn tự động, hệ thống cần đóng toàn bộ ứng dụng ETABS đang chạy.	To update automatic printing, the system needs to close all running ETABS applications.
+Địa chỉ	Address
+Đọc tọa độ Prokon	Read the Prokon coordinates
+Đồng bộ point mô hình safe.	Sync the SAFE model points.
+Đổi tên	Rename
+Đổi tên dầm	Rename beam
+Đổi tên không thành công	Rename failed
+Độ ẩm:	Humidity:
+Ưu tiên bố trí thép cho:	Prioritise rebar arrangement for:
+αcc (Strength factor):	
+αcc (dùng trong check Vd):	αcc (used in Vd check):
+γb (Concrete):	
+γc (Concrete):	
+γc (dùng trong check Vd):	γc (in Vd check):
+γs (Steel):	
+Ẩn Vật liệu thiết kế thép chủ	Hide the main rebar design material
+Ẩn Vật liệu thiết kế thép đai	Hide the stirrup design material
+Ẩn tên nhịp dầm	Hide the beam span name
+► BẤM ĐỂ NẠP TIỀN QUA WEBSITE	► CLICK TO TOP UP ONLINE
+✔️ License activated successfully!	
+❌ Invalid license key!	
+Language	Language
+Chọn ngôn ngữ hiển thị của phần mềm.	Choose the display language of the software.
+# ---- Form Excel nhom B - bo sung 2026-09-13 ----
+ĐT: 0989.111.206	Tel: 0989.111.206
+Số tài khoản: 19033419323019	Account no.: 19033419323019
+Liên hệ Zalo/sđt: 0989.111.206	Zalo / Phone: 0989.111.206
+ĐKT lớp 1 k vượt quá (TOP/BOT):	Layer-1 bar dia max (TOP/BOT):
+Danh sách Group dầm giống nhau	List of identical beam groups
+Số thanh cắt / số thanh cần	Bars cut / bars needed
+CK được coi là vách khi dài/rộng >	Member is a wall when L/W >
+DS Tổ hợp	Combination list
+Danh sách tầng	Storey list
+DS Cột/Vách	Column / wall list
+Cột/Vách chọn	Selected col/wall
+DS tổ hợp tính dầm	Beam design combos
+DS Tổ hợp tính cột	Col. design combos
+DS dầm	Beam list
+Giới hạn nứt dài hạn (T/B):	Long-term crack limit (T/B):
+BTBV (T/B) (mép - mép đai)	Cover (T/B) (edge - stirrup)
+Fs = As chọn / As tính toán	Fs = As prov. / As req.
+Đai gia cường dầm giao nhịp / đai vai bò	Extra stirrup at crossing beam / hanger bar
+HL thép tối thiểu của cấu kiện có H/B <=4:	Min rebar ratio, member H/B <= 4:
+HL thép tối thiểu của cấu kiện có H/B > 4:	Min rebar ratio, member H/B > 4:
+KC a tính tới H cột / 2	Spacing a to col H/2
+Lưu ý: Chức năng sử dụng Database Tables API, yêu cầu ETABS/SAFE v21 trở lên	Note: uses the Database Tables API, needs ETABS/SAFE v21 or newer
+Nứt dài hạn / Ngắn hạn	Long / short-term crack
+Tải thiết kế / Độ ẩm	Design load / humidity
+BTBV trên / Dưới (mm)	Top / bottom cover (mm)
+Mác Bê Tông / Mác thép	Concrete / steel grade
+Giới hạn nứt dài/ngắn hạn (Top)	Long/short-term crack limit (Top)
+Tiêu chuẩn/Mác BT	Code/conc. grade
+Tải thiết kế/ độ ẩm	Design load/RH
+BTBV Top/Bot (mép BT - mép thép)	Cover Top/Bot (concrete - bar)
+# ---- Form Excel nhom D - bo sung 2026-09-13 ----
+Hướng dẫn sử dụng: https://dcejsc.com/dbim-tong-hop-huong-dan-su-dung	User guide: https://dcejsc.com/dbim-tong-hop-huong-dan-su-dung
+ĐKT L1 +	L1 dia +
+Giới hạn nứt ngắn hạn (T/B)	Short-term crack limit (T/B)
+Giới hạn nứt dài/ngắn hạn (Bot)	Long/short-term crack limit (Bot)
+# [RA SOAT 3 - 20260913_112417] bo sung ban dich
+Bê tông	Concrete
+Check hệ kết cấu	Check struct. system
+Thép	Rebar
+Tài khoản này có mật khẩu cấp 2.	This account has a level-2 password.
+Tính Móng Đơn	Spread footing design
+Đóng	Close
+# [RA SOAT 3 - 20260913_214150] bo sung ban dich
+Ngày	days
+đ	VND
+# [RA SOAT 3 - 20260913_214804] bo sung ban dich
+(Đã gồm khuyến mãi	(Discount included:
+Bạn cần thanh toán:	You need to pay:
+Gia hạn license cho gói:	Renew license for package:
+Gói:	Package:
+Hạn sử dụng hiện tại:	Current expiry date:
+Số lượng:	Quantity:
+Số tiền cần thanh toán:	Amount to pay:
+Xác nhận gia hạn?	Confirm renewal?
+Xác nhận mua license mới?	Confirm purchase of a new license?
+# [RA SOAT 3 - 20260914_060652] bo sung ban dich
+(Nhấn 'Esc' để kết thúc lệnh)	(press 'Esc' to end the command)
+Chọn gốc tọa độ:	Pick the origin:
+Chọn điểm Tim Trục: 	Pick the grid axis point: 
+Chọn điểm bên phải gối: 	Pick the right support point: 
+Chọn điểm bên trái gối: 	Pick the left support point: 
+Click điểm 	Click point 
+Click điểm 1	Click point 1
+Click điểm 2	Click point 2
+Click điểm Cuối	Click the end point
+Click điểm đầu	Click the start point
+# [RA SOAT 3 - 20260914_061621] bo sung ban dich
+ bằng quyền Admin ngay bây giờ không?	 as Admin now?
+ bằng quyền Administrator.	 as Administrator.
+- Excel và CAD phải chạy CÙNG QUYỀN: cùng là Administrator, 	- Excel and CAD must run with the SAME PRIVILEGES: both as Administrator, 
+- Hãy mở sẵn 1 bản vẽ rồi thử lại.	- Open a drawing first and try again.
+- Đóng hộp thoại / kết thúc lệnh đang chạy dở trong CAD.	- Close any dialog / finish any unfinished command in CAD.
+1. Hàm chỉ tính cho 1 cặp nội lực duy nhất là cặp nội lực đang hiện hữu ở excel	1. The function calculates only one force pair: the one currently shown in Excel
+2. Hàm rất nặng, có thể gây chậm excel hoặc đơ excel với các máy cấu hình yếu	2. The function is very heavy and may slow down or freeze Excel on low-spec computers
+3. Cần lưu file trước khi sử dụng hàm tránh bị đơ Excel	3. Save the file before using the function in case Excel freezes
+4. Hàm không tính cho vách Lõi thang và các tiết diện bất kỳ được lấy từ Autocad qua	4. The function does not calculate core walls or arbitrary sections imported from AutoCAD
+Bạn có muốn mở file tính gió không?	Do you want to open the wind calculation file?
+Bạn có muốn phần mềm TỰ ĐỘNG chạy 	Do you want the software to AUTOMATICALLY run 
+Bạn có muốn đóng ETABS và cập nhật ngay không?	Do you want to close ETABS and update now?
+Chú ý	Attention
+Chọn No để tính toán gió theo 2737-1995	Choose No to calculate wind to TCVN 2737-1995
+Chọn Yes để đồng ý, chọn No để tự nhập lại tên.	Choose Yes to accept, choose No to re-enter the names.
+GÁN GIÓ VÀO ETABS	ASSIGN WIND TO ETABS
+GÁN ĐỘNG ĐẤT VÀO ETABS	ASSIGN SEISMIC TO ETABS
+Hoàn tất đăng ký	Registration complete
+HÃY LƯU LẠI MODEL ETABS TRƯỚC KHI CHỌN YES	SAVE THE ETABS MODEL BEFORE CHOOSING YES
+Load Case chưa tồn tại sẽ được tạo mới.	Load Cases that do not exist will be created.
+Modal Case sử dụng                     : 	Modal Case used                        : 
+Model ETABS chưa chạy Analysis (chưa Run).	The ETABS model has not run Analysis (not Run yet).
+Mất đăng ký API 	API registration lost: 
+Nhập số dương nếu muốn cộng thêm cao độ, Nhập số âm nếu muốn trừ đi cao độ	Enter a positive number to add to the elevation, or a negative number to subtract from it
+Phím tắt: nhấn F5 trong ETABS để chạy Analysis.	Shortcut: press F5 in ETABS to run Analysis.
+Thiết kế Cột, Vách BDTT	Column, Wall Design BDTT
+Vui lòng thực hiện Analyze → Run Analysis trong ETABS	Please perform Analyze → Run Analysis in ETABS
+Xác nhận cập nhật cài đặt	Confirm settings update
+hoặc cùng KHÔNG phải Administrator.	or both NOT as Administrator.
+trước khi load nội lực về Excel.	before loading internal forces into Excel.
+Đây là nguyên nhân khiến phần mềm không kết nối được. Cần chạy lại file 	This is why the software cannot connect. You need to run the file 
+Để tối ưu chẵn thép nhất có thể?	To optimize for whole bars as much as possible?
+Động đất phương X sẽ gán vào Load Case : 	X-direction seismic will be assigned to Load Case : 
+Động đất phương Y sẽ gán vào Load Case : 	Y-direction seismic will be assigned to Load Case : 
+# [RA SOAT 3 - 20260914_063138] bo sung ban dich
+  • Các load pattern tham gia khối lượng (TT, HT...) và hệ số tương ứng	  • The load patterns included in the mass (TT, HT...) and their factors
+  • Hệ số hoạt tải ψE theo TCVN (thường 0.24 cho nhà ở/văn phòng)	  • Live-load factor ψE per TCVN (usually 0.24 for residential/office)
+  • Mass Source đang Default có đúng ý đồ tính toán không	  • Whether the current Default Mass Source matches the design intent
+ điểm phổ)	 spectrum points)
+- Joint Coordinates (với Etabs 17 trở xuống)	- Joint Coordinates (for Etabs 17 and earlier)
+- Mass Source : (dùng Default Mass Source của model — bạn tự khai báo)	- Mass Source : (uses the model's Default Mass Source — you define it)
+- Point Object Connectivity (Với Etabs 18 trở lên)	- Point Object Connectivity (for Etabs 18 and later)
+- Số tầng gán  : 	- Stories assigned  : 
+- Điểm đặt lực : 	- Load application point : 
+Bê tông bảo vệ = 	Concrete cover = 
+Bạn có muốn chạy lại phân tích (Run Analysis) ngay không?	Do you want to rerun the analysis (Run Analysis) now?
+Gió phương X sẽ gán vào : 	X-direction wind will be assigned to : 
+Gió phương Y sẽ gán vào : 	Y-direction wind will be assigned to : 
+Hoặc	Or
+Khai báo Mass Source sai sẽ làm kết quả động đất sai hoàn toàn.	A wrong Mass Source definition makes the seismic results completely wrong.
+Không mở được thư mục: 	Could not open the folder: 
+Không đổi được ngôn ngữ: 	Could not change the language: 
+Loại đai =	Stirrup type =
+Lớp bê tông bảo vệ = 	Concrete cover = 
+Móc đai = 	Stirrup hook = 
+Thể tích bê tông = 	Concrete volume = 
+Tiêu chuẩn sử dụng = 	Design code used = 
+Trong file Access	in the Access file
+Trước khi chạy phân tích, hãy vào Define → Mass Source kiểm tra lại:	Before running the analysis, go to Define → Mass Source and check:
+Tọa độ tương đối so với Prokon (phần lấy fs):  X = 	Coordinate relative to Prokon (fs part):  X = 
+Tổng Khối lượng thép = 	Total steel weight = 
+hãy vào Define → Mass Source kiểm tra lại các load pattern tham gia	go to Define → Mass Source and check the load patterns included
+khối lượng và hệ số tương ứng cho đúng.	in the mass and their factors.
+mà tâm khối lượng lại phụ thuộc Mass Source. Trước khi chạy phân tích,	and the center of mass depends on the Mass Source. Before running the analysis,
+mặc định (0,0)	default (0,0)
+tâm khối lượng từng tầng	center of mass of each story
+Điểm đặt lực gió lấy theo tâm khối lượng (Centers Of Mass And Rigidity),	The wind load application point is taken from the center of mass (Centers Of Mass And Rigidity),
+⚠ LƯU Ý: Chương trình KHÔNG tự khai báo Mass Source.	⚠ NOTE: The program does NOT define the Mass Source automatically.
+# [RA SOAT 3 - 20260914_064917] bo sung ban dich
+ (vd: C:\Program Files\Computers and Structures\...),	 (e.g. C:\Program Files\Computers and Structures\...),
+ => Run as administrator, sau đó mở lại 	 => Run as administrator, then reopen 
+ Sheet Beam Forces	 of sheet Beam Forces
+ Tên dầm không giống nhau: 	 — beam names do not match: 
+Dòng thứ 	Row 
+Hướng dẫn đăng ký API	API registration guide
+chuột phải 	right-click 
+# [RA SOAT 3 - 20260914_065432] bo sung ban dich
+ => Run as administrator.	 => Run as administrator.
+, chuột phải 	, right-click 
+Hãy tự vào thư mục cài đặt 	Go manually to the installation folder of 
+Hãy vào C:\Program Files\Computers and Structures\... chuột phải 	Go to C:\Program Files\Computers and Structures\... and right-click 
+# [RA SOAT 3 - 20260914_154001] bo sung ban dich
+Mã Khuyến mãi (nếu có)	Promo code (if any)
+[Đã chọn {0} ảnh]	[{0} images selected]

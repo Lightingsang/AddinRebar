@@ -1,0 +1,60 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPDynamo (Revit 2026 & Dynamo 3.7 MCP Subsystem).
+    Enforces shared properties, paths to McpShared, and assembly resolution
+    for Autodesk Revit 2026 and Dynamo for Revit 3.7.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);xUnit1051;NU1701;MSB3277</NoWarn>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+
+    <!-- Version Pins -->
+    <RevitYear Condition="'$(RevitYear)' == ''">2026</RevitYear>
+    <DynamoVersion Condition="'$(DynamoVersion)' == ''">3.7</DynamoVersion>
+
+    <!-- McpShared Projects Relative Resolution -->
+    <McpSharedDir Condition="'$(McpSharedDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\McpShared\'))</McpSharedDir>
+    <McpContractsProjectPath>$(McpSharedDir)HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj</McpContractsProjectPath>
+    <McpBridgeCoreProjectPath>$(McpSharedDir)HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj</McpBridgeCoreProjectPath>
+    <McpServerCoreProjectPath>$(McpSharedDir)HPRebar.Mcp.Server.Core\HPRebar.Mcp.Server.Core.csproj</McpServerCoreProjectPath>
+
+    <!-- Revit 2026 Base Directory Resolution -->
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == '' And '$(HPREBAR_REVIT_DIR)' != ''">$(HPREBAR_REVIT_DIR)</RevitInstallDir>
+    <_RevitRegLocation Condition="'$(RevitInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\Revit\$(RevitYear)\REVIT-05:0409', 'InstallationLocation', null, RegistryView.Registry64))</_RevitRegLocation>
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == '' And '$(_RevitRegLocation)' != ''">$(_RevitRegLocation)</RevitInstallDir>
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == ''">$(ProgramW6432)\Autodesk\Revit $(RevitYear)\</RevitInstallDir>
+    <RevitInstallDir Condition="!HasTrailingSlash('$(RevitInstallDir)')">$(RevitInstallDir)\</RevitInstallDir>
+
+    <!-- Dynamo for Revit Directory Resolution -->
+    <DynamoInstallDir Condition="'$(DynamoInstallDir)' == '' And '$(HPDYNAMO_DYNAMO_DIR)' != ''">$(HPDYNAMO_DYNAMO_DIR)</DynamoInstallDir>
+    <DynamoInstallDir Condition="'$(DynamoInstallDir)' == ''">$(RevitInstallDir)AddIns\DynamoForRevit\</DynamoInstallDir>
+    <DynamoInstallDir Condition="!HasTrailingSlash('$(DynamoInstallDir)')">$(DynamoInstallDir)\</DynamoInstallDir>
+
+    <!-- Dynamo Revit Subdirectory (RevitNodes.dll, RevitServices.dll, DynamoRevitDS.dll) -->
+    <DynamoRevitDir>$(DynamoInstallDir)Revit\</DynamoRevitDir>
+
+    <!-- Deployment Folders (per-user AppData) -->
+    <RevitAddinsDeployDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\Revit\Addins\$(RevitYear)\</RevitAddinsDeployDir>
+    <DynamoViewExtensionsDeployDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Dynamo\Dynamo Revit\$(DynamoVersion)\viewExtensions\</DynamoViewExtensionsDeployDir>
+
+    <!-- API Availability Diagnostics -->
+    <RevitApiAvailable>false</RevitApiAvailable>
+    <RevitApiAvailable Condition="Exists('$(RevitInstallDir)RevitAPI.dll')">true</RevitApiAvailable>
+
+    <DynamoApiAvailable>false</DynamoApiAvailable>
+    <DynamoApiAvailable Condition="Exists('$(DynamoInstallDir)DynamoCore.dll') And Exists('$(DynamoRevitDir)DynamoRevitDS.dll')">true</DynamoApiAvailable>
+  </PropertyGroup>
+
+  <!-- Global ItemDefinitionGroup: Guaranteed defense against bin pollution with host assemblies -->
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>false</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+
+</Project>

@@ -1,0 +1,150 @@
+{
+  "name": "batch_edit_graph",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Graph",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "tags": [
+    "graph",
+    "batch",
+    "nodes",
+    "wires",
+    "properties",
+    "edit",
+    "performance"
+  ],
+  "title": "Batch edit Dynamo graph",
+  "description": "Performs multiple graph editing operations (add nodes, connect wires, set properties) in a single transaction with Automatic run mode temporarily paused to prevent redundant cascade evaluations.",
+  "notes": "Allows mapping temporary node IDs ($n1, $n2) to newly created node GUIDs for immediate wire connections in the same batch.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "nodes": {
+        "type": "array",
+        "description": "List of nodes to place on canvas",
+        "items": {
+          "type": "object",
+          "required": [
+            "nodeType",
+            "x",
+            "y"
+          ],
+          "properties": {
+            "tempId": {
+              "type": "string",
+              "description": "Temporary ID (e.g. '$n1') to reference this node in wires and properties within the same batch"
+            },
+            "nodeType": {
+              "type": "string",
+              "description": "Creation name or type of the node (e.g. 'CodeBlock', 'CoreNodeModels.Watch')"
+            },
+            "x": {
+              "type": "number",
+              "description": "Canvas X coordinate"
+            },
+            "y": {
+              "type": "number",
+              "description": "Canvas Y coordinate"
+            },
+            "name": {
+              "type": "string",
+              "description": "Optional custom display name for the node"
+            },
+            "initialValue": {
+              "type": "string",
+              "description": "Optional initial code or value string for the node"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "wires": {
+        "type": "array",
+        "description": "List of wires to connect between ports",
+        "items": {
+          "type": "object",
+          "required": [
+            "fromNode",
+            "toNode"
+          ],
+          "properties": {
+            "fromNode": {
+              "type": "string",
+              "description": "Source node tempId, GUID, or name"
+            },
+            "fromPort": {
+              "type": "integer",
+              "default": 0,
+              "description": "Source node output port index (0-based)"
+            },
+            "toNode": {
+              "type": "string",
+              "description": "Target node tempId, GUID, or name"
+            },
+            "toPort": {
+              "type": "integer",
+              "default": 0,
+              "description": "Target node input port index (0-based)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "properties": {
+        "type": "array",
+        "description": "List of property updates for nodes",
+        "items": {
+          "type": "object",
+          "required": [
+            "nodeId"
+          ],
+          "properties": {
+            "nodeId": {
+              "type": "string",
+              "description": "Node tempId, GUID, or name"
+            },
+            "name": {
+              "type": "string",
+              "description": "New display name"
+            },
+            "value": {
+              "type": "string",
+              "description": "New value or code content"
+            },
+            "isFrozen": {
+              "type": "boolean",
+              "description": "Whether to freeze the node execution"
+            },
+            "x": {
+              "type": "number",
+              "description": "New canvas X coordinate"
+            },
+            "y": {
+              "type": "number",
+              "description": "New canvas Y coordinate"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "runEvaluation": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to run graph evaluation once after all batch changes are applied"
+      },
+      "dryRun": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, rolls back canvas additions and Revit transactions"
+      }
+    },
+    "additionalProperties": false
+  }
+}

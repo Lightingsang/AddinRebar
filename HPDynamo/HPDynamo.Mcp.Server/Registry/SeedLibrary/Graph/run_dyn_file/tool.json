@@ -1,0 +1,51 @@
+{
+  "name": "run_dyn_file",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Graph",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 120,
+  "destructive": true,
+  "tags": [
+    "graph",
+    "execute",
+    "run",
+    "dyn",
+    "headless"
+  ],
+  "title": "Execute a Dynamo graph (.dyn) file",
+  "description": "Executes a Dynamo (.dyn) graph file either on the active canvas or headlessly, applying optional parameter overrides to input nodes and extracting output values from terminal or Watch nodes. Under dryRun, element changes in Revit are rolled back via TransactionGroup.",
+  "notes": "Uses DynamoModel.OpenFileCommand and WorkspaceModel.Run() on canvas, or DynamoRevitApp journal execution headlessly.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "filePath"
+    ],
+    "properties": {
+      "filePath": {
+        "type": "string",
+        "description": "Absolute file path to the .dyn graph file"
+      },
+      "inputs": {
+        "type": "object",
+        "description": "Dictionary of node names or GUIDs mapped to override values (e.g. {\"SpanLength\": 6000, \"BarDiameter\": 20})"
+      },
+      "runHeadless": {
+        "type": "boolean",
+        "default": false,
+        "description": "Force headless evaluation via RevitDynamoModel even if Dynamo canvas UI is open"
+      },
+      "extractOutputs": {
+        "type": "boolean",
+        "default": true,
+        "description": "Extract evaluated output values from terminal or Watch nodes after execution"
+      }
+    },
+    "additionalProperties": false
+  }
+}

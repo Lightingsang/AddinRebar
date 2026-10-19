@@ -1,0 +1,1766 @@
+[
+  {
+    "pile_idx": 0,
+    "x": 1250,
+    "y": -550,
+    "footing_id": "ĐC-2-05",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 1,
+    "x": 1250,
+    "y": 350,
+    "footing_id": "ĐC-2-05",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 2,
+    "x": 700,
+    "y": 4350,
+    "footing_id": "ĐC-4-01",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 3,
+    "x": 1600,
+    "y": 4350,
+    "footing_id": "ĐC-4-01",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 4,
+    "x": 700,
+    "y": 5250,
+    "footing_id": "ĐC-4-01",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 5,
+    "x": 1600,
+    "y": 5250,
+    "footing_id": "ĐC-4-01",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 6,
+    "x": -750,
+    "y": 9500,
+    "footing_id": "ĐC-5-01",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2801.6
+  },
+  {
+    "pile_idx": 7,
+    "x": -750,
+    "y": 10400,
+    "footing_id": "ĐC-5-01",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2383.5
+  },
+  {
+    "pile_idx": 8,
+    "x": 150,
+    "y": 9950,
+    "footing_id": "ĐC-5-01",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1817.4
+  },
+  {
+    "pile_idx": 9,
+    "x": 1050,
+    "y": 10400,
+    "footing_id": "ĐC-5-01",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 884.1
+  },
+  {
+    "pile_idx": 10,
+    "x": 1050,
+    "y": 9500,
+    "footing_id": "ĐC-5-01",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1717.5
+  },
+  {
+    "pile_idx": 11,
+    "x": -750,
+    "y": 17500,
+    "footing_id": "ĐC-5-02",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1749.1
+  },
+  {
+    "pile_idx": 12,
+    "x": -750,
+    "y": 18400,
+    "footing_id": "ĐC-5-02",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 944.1
+  },
+  {
+    "pile_idx": 13,
+    "x": 150,
+    "y": 17950,
+    "footing_id": "ĐC-5-02",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1249.6
+  },
+  {
+    "pile_idx": 14,
+    "x": 1050,
+    "y": 18400,
+    "footing_id": "ĐC-5-02",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1445.1
+  },
+  {
+    "pile_idx": 15,
+    "x": 1050,
+    "y": 17500,
+    "footing_id": "ĐC-5-02",
+    "footing_type": "ĐC-5",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2063.1
+  },
+  {
+    "pile_idx": 16,
+    "x": 700,
+    "y": 22650,
+    "footing_id": "ĐC-4-07",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 17,
+    "x": 700,
+    "y": 23550,
+    "footing_id": "ĐC-4-07",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 18,
+    "x": 1600,
+    "y": 23550,
+    "footing_id": "ĐC-4-07",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 19,
+    "x": 1600,
+    "y": 22650,
+    "footing_id": "ĐC-4-07",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 20,
+    "x": 1250,
+    "y": 27550,
+    "footing_id": "ĐC-2-26",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 21,
+    "x": 1250,
+    "y": 28450,
+    "footing_id": "ĐC-2-26",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 22,
+    "x": 6400,
+    "y": 28300,
+    "footing_id": "ĐC-3-15",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1937.1
+  },
+  {
+    "pile_idx": 23,
+    "x": 7300,
+    "y": 28300,
+    "footing_id": "ĐC-3-15",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1239.0
+  },
+  {
+    "pile_idx": 24,
+    "x": 6850,
+    "y": 27500,
+    "footing_id": "ĐC-3-15",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2149.2
+  },
+  {
+    "pile_idx": 25,
+    "x": 6400,
+    "y": 23550,
+    "footing_id": "ĐC-4-08",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 26,
+    "x": 7300,
+    "y": 23550,
+    "footing_id": "ĐC-4-08",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 27,
+    "x": 6400,
+    "y": 22650,
+    "footing_id": "ĐC-4-08",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 28,
+    "x": 7300,
+    "y": 22650,
+    "footing_id": "ĐC-4-08",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 29,
+    "x": 6400,
+    "y": 18400,
+    "footing_id": "ĐC-4-06",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1350.1
+  },
+  {
+    "pile_idx": 30,
+    "x": 7300,
+    "y": 18400,
+    "footing_id": "ĐC-4-06",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 785.8
+  },
+  {
+    "pile_idx": 31,
+    "x": 6400,
+    "y": 17500,
+    "footing_id": "ĐC-4-06",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1997.7
+  },
+  {
+    "pile_idx": 32,
+    "x": 7300,
+    "y": 17500,
+    "footing_id": "ĐC-4-06",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1669.0
+  },
+  {
+    "pile_idx": 33,
+    "x": 6400,
+    "y": 10400,
+    "footing_id": "ĐC-4-05",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 34,
+    "x": 7300,
+    "y": 10400,
+    "footing_id": "ĐC-4-05",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 35,
+    "x": 6400,
+    "y": 9500,
+    "footing_id": "ĐC-4-05",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 36,
+    "x": 7300,
+    "y": 9500,
+    "footing_id": "ĐC-4-05",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 37,
+    "x": 6400,
+    "y": 5250,
+    "footing_id": "ĐC-4-02",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 38,
+    "x": 7300,
+    "y": 5250,
+    "footing_id": "ĐC-4-02",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 39,
+    "x": 6400,
+    "y": 4350,
+    "footing_id": "ĐC-4-02",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 40,
+    "x": 7300,
+    "y": 4350,
+    "footing_id": "ĐC-4-02",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 41,
+    "x": 6850,
+    "y": 400,
+    "footing_id": "ĐC-3-01",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1048.2
+  },
+  {
+    "pile_idx": 42,
+    "x": 6400,
+    "y": -400,
+    "footing_id": "ĐC-3-01",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1892.0
+  },
+  {
+    "pile_idx": 43,
+    "x": 7300,
+    "y": -400,
+    "footing_id": "ĐC-3-01",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1389.1
+  },
+  {
+    "pile_idx": 44,
+    "x": 9850,
+    "y": 350,
+    "footing_id": "ĐC-2-06",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 45,
+    "x": 9850,
+    "y": -550,
+    "footing_id": "ĐC-2-06",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 46,
+    "x": 9400,
+    "y": 4350,
+    "footing_id": "ĐC-4-03",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2232.8
+  },
+  {
+    "pile_idx": 47,
+    "x": 10300,
+    "y": 4350,
+    "footing_id": "ĐC-4-03",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1759.7
+  },
+  {
+    "pile_idx": 48,
+    "x": 10300,
+    "y": 5250,
+    "footing_id": "ĐC-4-03",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 963.6
+  },
+  {
+    "pile_idx": 49,
+    "x": 9400,
+    "y": 5250,
+    "footing_id": "ĐC-4-03",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1678.4
+  },
+  {
+    "pile_idx": 50,
+    "x": 9750,
+    "y": 9500,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2309.2
+  },
+  {
+    "pile_idx": 51,
+    "x": 8850,
+    "y": 9500,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 3006.0
+  },
+  {
+    "pile_idx": 52,
+    "x": 10650,
+    "y": 9500,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1802.4
+  },
+  {
+    "pile_idx": 53,
+    "x": 8850,
+    "y": 10400,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2619.6
+  },
+  {
+    "pile_idx": 54,
+    "x": 9750,
+    "y": 10400,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1777.2
+  },
+  {
+    "pile_idx": 55,
+    "x": 10650,
+    "y": 10400,
+    "footing_id": "ĐC-6-02",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1036.7
+  },
+  {
+    "pile_idx": 56,
+    "x": 8850,
+    "y": 17500,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 3006.0
+  },
+  {
+    "pile_idx": 57,
+    "x": 9750,
+    "y": 17500,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2309.2
+  },
+  {
+    "pile_idx": 58,
+    "x": 10650,
+    "y": 17500,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1802.4
+  },
+  {
+    "pile_idx": 59,
+    "x": 8850,
+    "y": 18400,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2619.6
+  },
+  {
+    "pile_idx": 60,
+    "x": 9750,
+    "y": 18400,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1777.2
+  },
+  {
+    "pile_idx": 61,
+    "x": 10650,
+    "y": 18400,
+    "footing_id": "ĐC-6-03",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1036.7
+  },
+  {
+    "pile_idx": 62,
+    "x": 9400,
+    "y": 22650,
+    "footing_id": "ĐC-4-09",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2232.8
+  },
+  {
+    "pile_idx": 63,
+    "x": 10300,
+    "y": 22650,
+    "footing_id": "ĐC-4-09",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1759.7
+  },
+  {
+    "pile_idx": 64,
+    "x": 9400,
+    "y": 23550,
+    "footing_id": "ĐC-4-09",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1678.4
+  },
+  {
+    "pile_idx": 65,
+    "x": 10300,
+    "y": 23550,
+    "footing_id": "ĐC-4-09",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 963.6
+  },
+  {
+    "pile_idx": 66,
+    "x": 9850,
+    "y": 27550,
+    "footing_id": "ĐC-2-27",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 67,
+    "x": 9850,
+    "y": 28450,
+    "footing_id": "ĐC-2-27",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 68,
+    "x": 13950,
+    "y": 28400,
+    "footing_id": "ĐC-2-21",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 69,
+    "x": 13950,
+    "y": 27500,
+    "footing_id": "ĐC-2-21",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 70,
+    "x": 13950,
+    "y": 25900,
+    "footing_id": "ĐC-2-20",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1604.7
+  },
+  {
+    "pile_idx": 71,
+    "x": 13950,
+    "y": 25000,
+    "footing_id": "ĐC-2-20",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2177.9
+  },
+  {
+    "pile_idx": 72,
+    "x": 13950,
+    "y": 2900,
+    "footing_id": "ĐC-2-11",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1604.7
+  },
+  {
+    "pile_idx": 73,
+    "x": 13950,
+    "y": 2000,
+    "footing_id": "ĐC-2-11",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2177.9
+  },
+  {
+    "pile_idx": 74,
+    "x": 13950,
+    "y": 400,
+    "footing_id": "ĐC-2-04",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 870.3
+  },
+  {
+    "pile_idx": 75,
+    "x": 13950,
+    "y": -500,
+    "footing_id": "ĐC-2-04",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1578.0
+  },
+  {
+    "pile_idx": 76,
+    "x": 16550,
+    "y": -500,
+    "footing_id": "ĐC-2-01",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1144.1
+  },
+  {
+    "pile_idx": 77,
+    "x": 16550,
+    "y": 400,
+    "footing_id": "ĐC-2-01",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1875.4
+  },
+  {
+    "pile_idx": 78,
+    "x": 16800,
+    "y": 2150,
+    "footing_id": "ĐC-3'-01",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2376.6
+  },
+  {
+    "pile_idx": 79,
+    "x": 16350,
+    "y": 2950,
+    "footing_id": "ĐC-3'-01",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1613.3
+  },
+  {
+    "pile_idx": 80,
+    "x": 17250,
+    "y": 2950,
+    "footing_id": "ĐC-3'-01",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 3235.4
+  },
+  {
+    "pile_idx": 81,
+    "x": 15800,
+    "y": 4350,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1317.7
+  },
+  {
+    "pile_idx": 82,
+    "x": 16700,
+    "y": 4350,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2309.2
+  },
+  {
+    "pile_idx": 83,
+    "x": 17600,
+    "y": 4350,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1802.4
+  },
+  {
+    "pile_idx": 84,
+    "x": 17600,
+    "y": 5250,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1036.7
+  },
+  {
+    "pile_idx": 85,
+    "x": 16700,
+    "y": 5250,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1777.2
+  },
+  {
+    "pile_idx": 86,
+    "x": 15800,
+    "y": 5250,
+    "footing_id": "ĐC-6-01",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2619.6
+  },
+  {
+    "pile_idx": 87,
+    "x": 16900,
+    "y": 12250,
+    "footing_id": "ĐC-3-07",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1237.6
+  },
+  {
+    "pile_idx": 88,
+    "x": 16900,
+    "y": 13150,
+    "footing_id": "ĐC-3-07",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1932.7
+  },
+  {
+    "pile_idx": 89,
+    "x": 16100,
+    "y": 12700,
+    "footing_id": "ĐC-3-07",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2148.5
+  },
+  {
+    "pile_idx": 90,
+    "x": 16900,
+    "y": 14750,
+    "footing_id": "ĐC-3-09",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1874.8
+  },
+  {
+    "pile_idx": 91,
+    "x": 16900,
+    "y": 15650,
+    "footing_id": "ĐC-3-09",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 92,
+    "x": 16100,
+    "y": 15200,
+    "footing_id": "ĐC-3-09",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2018.6
+  },
+  {
+    "pile_idx": 93,
+    "x": 17600,
+    "y": 22650,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1799.5
+  },
+  {
+    "pile_idx": 94,
+    "x": 17600,
+    "y": 23550,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1034.4
+  },
+  {
+    "pile_idx": 95,
+    "x": 16700,
+    "y": 23550,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 1775.9
+  },
+  {
+    "pile_idx": 96,
+    "x": 16700,
+    "y": 22650,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2306.9
+  },
+  {
+    "pile_idx": 97,
+    "x": 15800,
+    "y": 22650,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 3004.2
+  },
+  {
+    "pile_idx": 98,
+    "x": 15800,
+    "y": 23550,
+    "footing_id": "ĐC-6-04",
+    "footing_type": "ĐC-6",
+    "pile_top_z": -2.8,
+    "dist_to_text": 2760.2
+  },
+  {
+    "pile_idx": 99,
+    "x": 17250,
+    "y": 24950,
+    "footing_id": "ĐC-3'-02",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1239.0
+  },
+  {
+    "pile_idx": 100,
+    "x": 16350,
+    "y": 24950,
+    "footing_id": "ĐC-3'-02",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1773.9
+  },
+  {
+    "pile_idx": 101,
+    "x": 16800,
+    "y": 25750,
+    "footing_id": "ĐC-3'-02",
+    "footing_type": "ĐC-3'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1749.8
+  },
+  {
+    "pile_idx": 102,
+    "x": 16550,
+    "y": 27500,
+    "footing_id": "ĐC-2-22",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 103,
+    "x": 16550,
+    "y": 28400,
+    "footing_id": "ĐC-2-22",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 104,
+    "x": 23650,
+    "y": 27950,
+    "footing_id": "ĐC-1-07",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1656.6
+  },
+  {
+    "pile_idx": 105,
+    "x": 23650,
+    "y": 24700,
+    "footing_id": "ĐC-2-19",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1843.9
+  },
+  {
+    "pile_idx": 106,
+    "x": 23650,
+    "y": 25600,
+    "footing_id": "ĐC-2-19",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1068.6
+  },
+  {
+    "pile_idx": 107,
+    "x": 24100,
+    "y": 23450,
+    "footing_id": "ĐC-3-12",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 108,
+    "x": 23200,
+    "y": 23450,
+    "footing_id": "ĐC-3-12",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1864.2
+  },
+  {
+    "pile_idx": 109,
+    "x": 23650,
+    "y": 22650,
+    "footing_id": "ĐC-3-12",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2022.5
+  },
+  {
+    "pile_idx": 110,
+    "x": 23700,
+    "y": 15650.1,
+    "footing_id": "ĐC-2'-03",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1861.6
+  },
+  {
+    "pile_idx": 111,
+    "x": 23700,
+    "y": 14750.1,
+    "footing_id": "ĐC-2'-03",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1513.4
+  },
+  {
+    "pile_idx": 112,
+    "x": 23700,
+    "y": 13150.1,
+    "footing_id": "ĐC-2'-01",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1558.6
+  },
+  {
+    "pile_idx": 113,
+    "x": 23700,
+    "y": 12250.1,
+    "footing_id": "ĐC-2'-01",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1012.1
+  },
+  {
+    "pile_idx": 114,
+    "x": 23650,
+    "y": 5250,
+    "footing_id": "ĐC-3-05",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1648.3
+  },
+  {
+    "pile_idx": 115,
+    "x": 23200,
+    "y": 4450,
+    "footing_id": "ĐC-3-05",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2480.3
+  },
+  {
+    "pile_idx": 116,
+    "x": 24100,
+    "y": 4450,
+    "footing_id": "ĐC-3-05",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1890.1
+  },
+  {
+    "pile_idx": 117,
+    "x": 23650,
+    "y": 3200,
+    "footing_id": "ĐC-2-10",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1551.5
+  },
+  {
+    "pile_idx": 118,
+    "x": 23650,
+    "y": 2300,
+    "footing_id": "ĐC-2-10",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  },
+  {
+    "pile_idx": 119,
+    "x": 23650,
+    "y": -50,
+    "footing_id": "ĐC-1-01",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2122.9
+  },
+  {
+    "pile_idx": 120,
+    "x": 29100,
+    "y": -500,
+    "footing_id": "ĐC-2-02",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1359.6
+  },
+  {
+    "pile_idx": 121,
+    "x": 29100,
+    "y": 400,
+    "footing_id": "ĐC-2-02",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 751.1
+  },
+  {
+    "pile_idx": 122,
+    "x": 29100,
+    "y": 2300,
+    "footing_id": "ĐC-2-09",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1437.6
+  },
+  {
+    "pile_idx": 123,
+    "x": 28650,
+    "y": 4450,
+    "footing_id": "ĐC-3-04",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2463.2
+  },
+  {
+    "pile_idx": 124,
+    "x": 29550,
+    "y": 4450,
+    "footing_id": "ĐC-3-04",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1874.2
+  },
+  {
+    "pile_idx": 125,
+    "x": 29100,
+    "y": 3200,
+    "footing_id": "ĐC-2-09",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1822.4
+  },
+  {
+    "pile_idx": 126,
+    "x": 29100,
+    "y": 5250,
+    "footing_id": "ĐC-3-04",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1631.3
+  },
+  {
+    "pile_idx": 127,
+    "x": 29150,
+    "y": 12250.1,
+    "footing_id": "ĐC-2'-02",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1418.7
+  },
+  {
+    "pile_idx": 128,
+    "x": 29150,
+    "y": 13150.1,
+    "footing_id": "ĐC-2'-02",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 859.6
+  },
+  {
+    "pile_idx": 129,
+    "x": 29150,
+    "y": 14750.1,
+    "footing_id": "ĐC-2'-04",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1913.8
+  },
+  {
+    "pile_idx": 130,
+    "x": 29150,
+    "y": 15650.1,
+    "footing_id": "ĐC-2'-04",
+    "footing_type": "ĐC-2'",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1527.3
+  },
+  {
+    "pile_idx": 131,
+    "x": 29100,
+    "y": 22650,
+    "footing_id": "ĐC-3-11",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1855.6
+  },
+  {
+    "pile_idx": 132,
+    "x": 29550,
+    "y": 23450,
+    "footing_id": "ĐC-3-11",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 978.1
+  },
+  {
+    "pile_idx": 133,
+    "x": 28650,
+    "y": 23450,
+    "footing_id": "ĐC-3-11",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1781.6
+  },
+  {
+    "pile_idx": 134,
+    "x": 29100,
+    "y": 24700,
+    "footing_id": "ĐC-2-18",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1233.9
+  },
+  {
+    "pile_idx": 135,
+    "x": 29100,
+    "y": 25600,
+    "footing_id": "ĐC-2-18",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 712.5
+  },
+  {
+    "pile_idx": 136,
+    "x": 29100,
+    "y": 27500,
+    "footing_id": "ĐC-2-28",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2279.6
+  },
+  {
+    "pile_idx": 137,
+    "x": 29100,
+    "y": 28400,
+    "footing_id": "ĐC-2-28",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1558.5
+  },
+  {
+    "pile_idx": 138,
+    "x": 35800,
+    "y": 28400,
+    "footing_id": "ĐC-2-23",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 139,
+    "x": 35800,
+    "y": 27500,
+    "footing_id": "ĐC-2-23",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 140,
+    "x": 35350,
+    "y": 23550,
+    "footing_id": "ĐC-4-10",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 141,
+    "x": 36250,
+    "y": 23550,
+    "footing_id": "ĐC-4-10",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 142,
+    "x": 36250,
+    "y": 22650,
+    "footing_id": "ĐC-4-10",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 143,
+    "x": 35350,
+    "y": 22650,
+    "footing_id": "ĐC-4-10",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 144,
+    "x": 35800,
+    "y": 18400,
+    "footing_id": "ĐC-2-16",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 790.4
+  },
+  {
+    "pile_idx": 145,
+    "x": 35800,
+    "y": 17500,
+    "footing_id": "ĐC-2-16",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1443.6
+  },
+  {
+    "pile_idx": 146,
+    "x": 35800,
+    "y": 15650,
+    "footing_id": "ĐC-2-14",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 867.5
+  },
+  {
+    "pile_idx": 147,
+    "x": 35800,
+    "y": 14750,
+    "footing_id": "ĐC-2-14",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1573.7
+  },
+  {
+    "pile_idx": 148,
+    "x": 35800,
+    "y": 10400,
+    "footing_id": "ĐC-2-12",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 149,
+    "x": 35800,
+    "y": 9500,
+    "footing_id": "ĐC-2-12",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 150,
+    "x": 35350,
+    "y": 5250,
+    "footing_id": "ĐC-4-04",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1768.3
+  },
+  {
+    "pile_idx": 151,
+    "x": 36250,
+    "y": 5250,
+    "footing_id": "ĐC-4-04",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1028.7
+  },
+  {
+    "pile_idx": 152,
+    "x": 36250,
+    "y": 4350,
+    "footing_id": "ĐC-4-04",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 1796.2
+  },
+  {
+    "pile_idx": 153,
+    "x": 35350,
+    "y": 4350,
+    "footing_id": "ĐC-4-04",
+    "footing_type": "ĐC-4",
+    "pile_top_z": -2.7,
+    "dist_to_text": 2301.1
+  },
+  {
+    "pile_idx": 154,
+    "x": 35800,
+    "y": 400,
+    "footing_id": "ĐC-2-03",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 776.5
+  },
+  {
+    "pile_idx": 155,
+    "x": 35800,
+    "y": -500,
+    "footing_id": "ĐC-2-03",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1416.1
+  },
+  {
+    "pile_idx": 156,
+    "x": 40800,
+    "y": -500,
+    "footing_id": "ĐC-2-07",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 157,
+    "x": 40800,
+    "y": 400,
+    "footing_id": "ĐC-2-07",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 158,
+    "x": 41250,
+    "y": 4450,
+    "footing_id": "ĐC-3-02",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1333.0
+  },
+  {
+    "pile_idx": 159,
+    "x": 40350,
+    "y": 4450,
+    "footing_id": "ĐC-3-02",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1875.2
+  },
+  {
+    "pile_idx": 160,
+    "x": 40800,
+    "y": 5250,
+    "footing_id": "ĐC-3-02",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1057.2
+  },
+  {
+    "pile_idx": 161,
+    "x": 40800,
+    "y": 9500,
+    "footing_id": "ĐC-2-13",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 162,
+    "x": 40800,
+    "y": 10400,
+    "footing_id": "ĐC-2-13",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 163,
+    "x": 40800,
+    "y": 14750,
+    "footing_id": "ĐC-2-15",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 164,
+    "x": 40800,
+    "y": 15650,
+    "footing_id": "ĐC-2-15",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 165,
+    "x": 40800,
+    "y": 19550,
+    "footing_id": "ĐC-2-17",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 166,
+    "x": 40800,
+    "y": 20450,
+    "footing_id": "ĐC-2-17",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 167,
+    "x": 40800,
+    "y": 22650,
+    "footing_id": "ĐC-3-13",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2022.5
+  },
+  {
+    "pile_idx": 168,
+    "x": 41250,
+    "y": 23450,
+    "footing_id": "ĐC-3-13",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 169,
+    "x": 40350,
+    "y": 23450,
+    "footing_id": "ĐC-3-13",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1864.2
+  },
+  {
+    "pile_idx": 170,
+    "x": 40800,
+    "y": 27500,
+    "footing_id": "ĐC-2-24",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 171,
+    "x": 40800,
+    "y": 28400,
+    "footing_id": "ĐC-2-24",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 172,
+    "x": 45100,
+    "y": 28400,
+    "footing_id": "ĐC-2-25",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 173,
+    "x": 45100,
+    "y": 27500,
+    "footing_id": "ĐC-2-25",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 174,
+    "x": 45500,
+    "y": 23450,
+    "footing_id": "ĐC-3-14",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 175,
+    "x": 44600,
+    "y": 23450,
+    "footing_id": "ĐC-3-14",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1864.2
+  },
+  {
+    "pile_idx": 176,
+    "x": 45050,
+    "y": 22650,
+    "footing_id": "ĐC-3-14",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2022.5
+  },
+  {
+    "pile_idx": 177,
+    "x": 45400,
+    "y": 18400,
+    "footing_id": "ĐC-3-10",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 178,
+    "x": 45400,
+    "y": 17500,
+    "footing_id": "ĐC-3-10",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1874.8
+  },
+  {
+    "pile_idx": 179,
+    "x": 44600,
+    "y": 17950,
+    "footing_id": "ĐC-3-10",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2018.6
+  },
+  {
+    "pile_idx": 180,
+    "x": 45400,
+    "y": 14400,
+    "footing_id": "ĐC-3-08",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 181,
+    "x": 45400,
+    "y": 13500,
+    "footing_id": "ĐC-3-08",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1874.8
+  },
+  {
+    "pile_idx": 182,
+    "x": 44600,
+    "y": 13950,
+    "footing_id": "ĐC-3-08",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2018.6
+  },
+  {
+    "pile_idx": 183,
+    "x": 44600,
+    "y": 9950,
+    "footing_id": "ĐC-3-06",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2018.6
+  },
+  {
+    "pile_idx": 184,
+    "x": 45400,
+    "y": 10400,
+    "footing_id": "ĐC-3-06",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1121.5
+  },
+  {
+    "pile_idx": 185,
+    "x": 45400,
+    "y": 9500,
+    "footing_id": "ĐC-3-06",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1874.8
+  },
+  {
+    "pile_idx": 186,
+    "x": 44600,
+    "y": 4450,
+    "footing_id": "ĐC-3-03",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1738.3
+  },
+  {
+    "pile_idx": 187,
+    "x": 45050,
+    "y": 5250,
+    "footing_id": "ĐC-3-03",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1733.2
+  },
+  {
+    "pile_idx": 188,
+    "x": 45500,
+    "y": 4450,
+    "footing_id": "ĐC-3-03",
+    "footing_type": "ĐC-3",
+    "pile_top_z": -2.5,
+    "dist_to_text": 2458.5
+  },
+  {
+    "pile_idx": 189,
+    "x": 45100,
+    "y": 400,
+    "footing_id": "ĐC-2-08",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1031.5
+  },
+  {
+    "pile_idx": 190,
+    "x": 45100,
+    "y": -500,
+    "footing_id": "ĐC-2-08",
+    "footing_type": "ĐC-2",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1797.8
+  },
+  {
+    "pile_idx": 191,
+    "x": 48950,
+    "y": 4750,
+    "footing_id": "ĐC-1-02",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  },
+  {
+    "pile_idx": 192,
+    "x": 48950,
+    "y": 9950,
+    "footing_id": "ĐC-1-03",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  },
+  {
+    "pile_idx": 193,
+    "x": 48950,
+    "y": 13950,
+    "footing_id": "ĐC-1-04",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  },
+  {
+    "pile_idx": 194,
+    "x": 48950,
+    "y": 17950,
+    "footing_id": "ĐC-1-05",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  },
+  {
+    "pile_idx": 195,
+    "x": 48950,
+    "y": 23150,
+    "footing_id": "ĐC-1-06",
+    "footing_type": "ĐC-1",
+    "pile_top_z": -2.5,
+    "dist_to_text": 1146.6
+  }
+]

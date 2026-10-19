@@ -1,0 +1,247 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.SteelConnectionWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  Title="HPDcePro - Liên Kết Thép, Bản Đế Chân Cột &amp; Khung Tiền Chế (TCVN 5575:2024)"
+                  Height="700" Width="960" MinHeight="580" MinWidth="780"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}" BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="KẾT CẤU THÉP &amp; LIÊN KẾT NHÀ CÔNG NGHIỆP" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Liên kết nối dầm-cột mặt bích mở rộng, bản đế chân cột bu lông neo và khung Zamil tiền chế" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding MomentConnectionStatus}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Tabs -->
+        <mah:MetroAnimatedTabControl Grid.Row="1" Margin="0,8,0,8">
+            <!-- TAB 1: MOMENT CONNECTION -->
+            <TabItem Header="1. LIÊN KẾT MOMENT (TCVN 5575:2024)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Tiết diện Dầm &amp; Cột Thép" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="Chiều cao Dầm Hb (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding BeamDepthMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2">
+                                        <TextBlock Text="Bề rộng cánh Dầm Bfb (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding BeamFlangeWidthMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
+                                        <TextBlock Text="Dày cánh Dầm Tfb (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding BeamFlangeThicknessMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,4,0,0">
+                                        <TextBlock Text="Dày bụng Dầm Twb (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding BeamWebThicknessMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Header="2. Nội lực &amp; Bu lông Cường độ cao" Style="{StaticResource GroupBox.Header}" Margin="0,8,0,0">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="Momen Msd (kNm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding MomentKnm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2">
+                                        <TextBlock Text="Lực cắt Vsd (kN):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding ShearKn, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
+                                        <TextBlock Text="Đường kính Bu lông (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding BoltDiameterMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,4,0,0">
+                                        <TextBlock Text="Số hàng Bu lông kéo:" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding TensionBoltRows, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                            <Button Content="TÍNH TOÁN LIÊN KẾT MOMENT" Command="{Binding CalculateMomentConnectionCommand}" Style="{StaticResource Button.Primary}" Margin="0,12,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Results Column -->
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ KIỂM TRA MẶT BÍCH (TCVN 5575)" Style="{StaticResource Text.Title}" Margin="0,0,0,8"/>
+                            <TextBlock Text="Dày bản bích yêu cầu tp,req (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding RequiredPlateThicknessMm, StringFormat='{}{0:F1} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Tỷ số tương tác Bu lông (N/B)^2+(V/Vb)^2:" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding BoltInteractionRatio, StringFormat='{}{0:F2}'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Tỷ số ứng suất đường hàn:" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding WeldStressRatio, StringFormat='{}{0:F2}'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Gia cường sườn bụng cột:" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding StiffenersRequired, StringFormat='{}Yêu cầu sườn: {0}'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="{Binding MomentConnectionSummary}" Style="{StaticResource Text.Muted}" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 2: BASE PLATE -->
+            <TabItem Header="2. BẢN ĐẾ CHÂN CỘT (BASE PLATE)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Kích thước Bản đế &amp; Cổ móng" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="Dài bản đế L (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding PlateLengthMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2">
+                                        <TextBlock Text="Rộng bản đế B (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding PlateWidthMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
+                                        <TextBlock Text="Dày bản đế t (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding PlateThicknessMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,4,0,0">
+                                        <TextBlock Text="Đường kính Bu lông neo (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding AnchorBoltDiameterMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                            <Button Content="TÍNH TOÁN BẢN ĐẾ &amp; BU LÔNG NEO" Command="{Binding CalculateBasePlateCommand}" Style="{StaticResource Button.Primary}" Margin="0,12,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ KIỂM TRA BẢN ĐẾ" Style="{StaticResource Text.Title}" Margin="0,0,0,8"/>
+                            <TextBlock Text="Ứng suất nén mặt bê tông (MPa):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding BearingStressMpa, StringFormat='{}{0:F2} MPa'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Dày bản đế yêu cầu tbp (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding RequiredBasePlateThicknessMm, StringFormat='{}{0:F1} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Lực kéo bu lông neo (kN):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding AnchorTensionKn, StringFormat='{}{0:F1} kN'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Chiều dài chôn ngàm Lembed (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding EmbedmentLengthMm, StringFormat='{}{0:F0} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="{Binding BasePlateSummary}" Style="{StaticResource Text.Muted}" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 3: GABLE FRAME -->
+            <TabItem Header="3. KHUNG TIỀN CHẾ ZAMIL (GABLE FRAME)">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <GroupBox Header="1. Thông số hình học Khung Zamil" Style="{StaticResource GroupBox.Header}">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="Nhịp khung Span (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding FrameSpanMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2">
+                                        <TextBlock Text="Chiều cao giọt tranh H (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding FrameEaveHeightMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,4,0,0">
+                                        <TextBlock Text="Độ dốc mái (%):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding FrameSlopePercent, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,4,0,0">
+                                        <TextBlock Text="Khoảng cách xà gồ mục tiêu (mm):" Style="{StaticResource Text.Label}"/>
+                                        <TextBox Text="{Binding TargetPurlinSpacingMm, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                            <Button Content="TÍNH TOÁN KHUNG &amp; RẢI XÀ GỒ" Command="{Binding CalculateGableFrameCommand}" Style="{StaticResource Button.Primary}" Margin="0,12,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ KHUNG TIỀN CHẾ" Style="{StaticResource Text.Title}" Margin="0,0,0,8"/>
+                            <TextBlock Text="Cao độ đỉnh mái Apex (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding ApexHeightMm, StringFormat='{}{0:F0} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Bước xà gồ thực tế (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding ActualPurlinSpacingMm, StringFormat='{}{0:F0} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Số đường xà gồ mỗi mái:" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding PurlinsPerRafter, StringFormat='{}{0} đường'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Momen tại nách khung (kNm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding KneeMomentKnm, StringFormat='{}{0:F1} kNm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                            <TextBlock Text="Độ võng đỉnh mái (mm):" Style="{StaticResource Text.Label}"/>
+                            <TextBlock Text="{Binding RidgeDeflectionMm, StringFormat='{}{0:F1} mm'}" Style="{StaticResource Text.Bold}" Margin="0,0,0,6"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </mah:MetroAnimatedTabControl>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="TCVN 5575:2024 - Thiết kế kết cấu thép &amp; liên kết bu lông, bản đế, xà gồ mái" Style="{StaticResource Text.Muted}" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="XUẤT CAD DRAFTING" Command="{Binding ExportCadDraftingCommand}" Style="{StaticResource Button.Primary}"/>
+                <Button Grid.Column="3" Content="ĐÓNG" Click="CloseButton_Click" Style="{StaticResource Button.Secondary}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

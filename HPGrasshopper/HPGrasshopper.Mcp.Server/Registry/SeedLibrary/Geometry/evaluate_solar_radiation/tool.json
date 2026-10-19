@@ -1,0 +1,65 @@
+{
+  "name": "evaluate_solar_radiation",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "geometry",
+    "solar",
+    "radiation",
+    "sun",
+    "analysis",
+    "facade"
+  ],
+  "title": "Solar Radiation and Incident Angle Analysis",
+  "description": "Solar and shadow analysis on Revit surfaces using Grasshopper vectors and surface normals.",
+  "notes": "Calculates cosine incident angle and incident radiation intensity per surface panel.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "sunVector",
+      "targetSurfaceNormals"
+    ],
+    "properties": {
+      "sunVector": {
+        "type": "object",
+        "properties": {
+          "x": { "type": "number" },
+          "y": { "type": "number" },
+          "z": { "type": "number" }
+        },
+        "required": ["x", "y", "z"],
+        "description": "Normalized solar radiation incident direction vector."
+      },
+      "targetSurfaceNormals": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "normalX": { "type": "number" },
+            "normalY": { "type": "number" },
+            "normalZ": { "type": "number" },
+            "area": { "type": "number" }
+          },
+          "required": ["id", "normalX", "normalY", "normalZ"]
+        },
+        "description": "Array of surface panel normals and surface areas in square meters."
+      },
+      "directRadiationWatts": {
+        "type": "number",
+        "default": 1000.0,
+        "description": "Direct normal solar irradiance in Watts per square meter."
+      }
+    },
+    "additionalProperties": false
+  }
+}

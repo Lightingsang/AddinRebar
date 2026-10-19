@@ -1,0 +1,38 @@
+{
+  "name": "inspect_node_type",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Library",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "library",
+    "inspect",
+    "node",
+    "ports",
+    "signature",
+    "schema"
+  ],
+  "title": "Inspect Dynamo node type",
+  "description": "Inspects detailed signature and port specifications of a Dynamo node type, including input ports (names, types, default values), output ports, declaring assembly, category, and documentation.",
+  "notes": "Queries node specifications from Dynamo search model and node creation metadata.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "nodeType"
+    ],
+    "properties": {
+      "nodeType": {
+        "type": "string",
+        "description": "Full name, creation name, or class name of the node type to inspect (e.g. 'DSCoreNodes.Point.ByCoordinates', 'Revit.Elements.Wall.ByCurveAndLevels', 'CoreNodeModels.Watch')"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -25,8 +25,9 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.ContinuousBarCount}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.TopBarCount, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.TopBarCount, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -34,21 +35,21 @@
                             <ComboBox ItemsSource="{Binding Session.BarTypes}"
                                       SelectedItem="{Binding Session.TopBarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Start Anchorage" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding TopAnchorageOptions}"
                                       SelectedItem="{Binding Session.TopStartAnchorage}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="End Anchorage" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding TopAnchorageOptions}"
                                       SelectedItem="{Binding Session.TopEndAnchorage}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -71,8 +72,9 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.ContinuousBarCount}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.BottomBarCount, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.BottomBarCount, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -80,21 +82,21 @@
                             <ComboBox ItemsSource="{Binding Session.BarTypes}"
                                       SelectedItem="{Binding Session.BottomBarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Start Anchorage" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding BottomAnchorageOptions}"
                                       SelectedItem="{Binding Session.BottomStartAnchorage}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="End Anchorage" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding BottomAnchorageOptions}"
                                       SelectedItem="{Binding Session.BottomEndAnchorage}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -117,20 +119,23 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.Cover}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.Cover, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.Cover, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Max Stock Length (mm)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.MaxStockLength, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.MaxStockLength, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Lap Multiplier (x d)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.LapFactor, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.LapFactor, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}" VerticalAlignment="Center">

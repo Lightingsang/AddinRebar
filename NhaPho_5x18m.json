@@ -1,0 +1,2958 @@
+{
+  "projectName": "Nha Pho 5x18m (3 Tang)",
+  "levels": [
+    {
+      "name": "TRET",
+      "elevationM": 0.15,
+      "heightMm": 3650,
+      "floorNumber": 1,
+      "isStructural": true
+    },
+    {
+      "name": "LAU 1",
+      "elevationM": 3.8,
+      "heightMm": 3400,
+      "floorNumber": 2,
+      "isStructural": true
+    },
+    {
+      "name": "LAU 2",
+      "elevationM": 7.2,
+      "heightMm": 3400,
+      "floorNumber": 3,
+      "isStructural": true
+    },
+    {
+      "name": "SAN THUONG",
+      "elevationM": 10.6,
+      "heightMm": 2800,
+      "floorNumber": 4,
+      "isStructural": true
+    },
+    {
+      "name": "MAI CHE THANG",
+      "elevationM": 13.4,
+      "heightMm": 0,
+      "floorNumber": 5,
+      "isStructural": false
+    }
+  ],
+  "grids": [
+    {
+      "name": "1",
+      "coordinateMm": 0,
+      "direction": "x",
+      "startPoint": {
+        "x": 0,
+        "y": -1500
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 6500
+      }
+    },
+    {
+      "name": "2",
+      "coordinateMm": 5500,
+      "direction": "x",
+      "startPoint": {
+        "x": 5500,
+        "y": -1500
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 6500
+      }
+    },
+    {
+      "name": "3",
+      "coordinateMm": 9500,
+      "direction": "x",
+      "startPoint": {
+        "x": 9500,
+        "y": -1500
+      },
+      "endPoint": {
+        "x": 9500,
+        "y": 6500
+      }
+    },
+    {
+      "name": "4",
+      "coordinateMm": 13000,
+      "direction": "x",
+      "startPoint": {
+        "x": 13000,
+        "y": -1500
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 6500
+      }
+    },
+    {
+      "name": "5",
+      "coordinateMm": 18000,
+      "direction": "x",
+      "startPoint": {
+        "x": 18000,
+        "y": -1500
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 6500
+      }
+    },
+    {
+      "name": "A",
+      "coordinateMm": 0,
+      "direction": "y",
+      "startPoint": {
+        "x": -1500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 19500,
+        "y": 0
+      }
+    },
+    {
+      "name": "B",
+      "coordinateMm": 5000,
+      "direction": "y",
+      "startPoint": {
+        "x": -1500,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 19500,
+        "y": 5000
+      }
+    }
+  ],
+  "columns": [
+    {
+      "id": "C_1_A",
+      "centerLocation": {
+        "x": 0,
+        "y": 0
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_1_B",
+      "centerLocation": {
+        "x": 0,
+        "y": 5000
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_2_A",
+      "centerLocation": {
+        "x": 5500,
+        "y": 0
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_2_B",
+      "centerLocation": {
+        "x": 5500,
+        "y": 5000
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_3_A",
+      "centerLocation": {
+        "x": 9500,
+        "y": 0
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_3_B",
+      "centerLocation": {
+        "x": 9500,
+        "y": 5000
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_4_A",
+      "centerLocation": {
+        "x": 13000,
+        "y": 0
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_4_B",
+      "centerLocation": {
+        "x": 13000,
+        "y": 5000
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_5_A",
+      "centerLocation": {
+        "x": 18000,
+        "y": 0
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    },
+    {
+      "id": "C_5_B",
+      "centerLocation": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 220,
+      "depthMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "rotationDeg": 0,
+      "material": "Concrete - B20"
+    }
+  ],
+  "walls": [
+    {
+      "id": "W1_01",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "thicknessMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_01_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 15600,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_02",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_02_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 6200,
+          "widthMm": 1800,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_03",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_03_D1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 700,
+          "widthMm": 3600,
+          "heightMm": 2600,
+          "sillHeightMm": 0,
+          "kind": "opening",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_04",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_04_D5",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1800,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_05",
+      "startPoint": {
+        "x": 5500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_05_OP",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1400,
+          "widthMm": 2200,
+          "heightMm": 2400,
+          "sillHeightMm": 0,
+          "kind": "opening",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_06",
+      "startPoint": {
+        "x": 9500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 9500,
+        "y": 1900
+      },
+      "thicknessMm": 110,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_06_D4",
+          "hostWallId": "",
+          "distanceAlongWallMm": 500,
+          "widthMm": 800,
+          "heightMm": 2100,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W1_07",
+      "startPoint": {
+        "x": 9500,
+        "y": 1900
+      },
+      "endPoint": {
+        "x": 11400,
+        "y": 1900
+      },
+      "thicknessMm": 110,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": []
+    },
+    {
+      "id": "W1_08",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "TRET",
+      "topLevel": "LAU 1",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W1_08_OP",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2000,
+          "widthMm": 2600,
+          "heightMm": 2400,
+          "sillHeightMm": 0,
+          "kind": "opening",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_01",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_01_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 4200,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_02",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_02_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 4200,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_03",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_03_S3",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1200,
+          "widthMm": 2600,
+          "heightMm": 2300,
+          "sillHeightMm": 0,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_04",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_04_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1500,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_05",
+      "startPoint": {
+        "x": 1500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 1500,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_05_D6",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2100,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_06",
+      "startPoint": {
+        "x": 7800,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 7800,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_06_D2",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2000,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_07",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_07_D2",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2000,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_08",
+      "startPoint": {
+        "x": 10500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 10500,
+        "y": 2400
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W2_08_D4",
+          "hostWallId": "",
+          "distanceAlongWallMm": 900,
+          "widthMm": 800,
+          "heightMm": 2100,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W2_09",
+      "startPoint": {
+        "x": 10500,
+        "y": 2400
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 2400
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 1",
+      "topLevel": "LAU 2",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": []
+    },
+    {
+      "id": "W3_01",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_01_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 4200,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_02",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_02_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 4200,
+          "widthMm": 1600,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_03",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_03_S3",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1200,
+          "widthMm": 2600,
+          "heightMm": 2300,
+          "sillHeightMm": 0,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_04",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_04_S1",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1600,
+          "widthMm": 1400,
+          "heightMm": 1400,
+          "sillHeightMm": 900,
+          "kind": "window",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_05",
+      "startPoint": {
+        "x": 1500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 1500,
+        "y": 5000
+      },
+      "thicknessMm": 220,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_05_D6",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2100,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_06",
+      "startPoint": {
+        "x": 7800,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 7800,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_06_D3",
+          "hostWallId": "",
+          "distanceAlongWallMm": 1900,
+          "widthMm": 1600,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door2",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_07",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_07_D2",
+          "hostWallId": "",
+          "distanceAlongWallMm": 2000,
+          "widthMm": 900,
+          "heightMm": 2200,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_08",
+      "startPoint": {
+        "x": 15600,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 15600,
+        "y": 2200
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": [
+        {
+          "id": "W3_08_D4",
+          "hostWallId": "",
+          "distanceAlongWallMm": 700,
+          "widthMm": 800,
+          "heightMm": 2100,
+          "sillHeightMm": 0,
+          "kind": "door",
+          "swing": "left"
+        }
+      ]
+    },
+    {
+      "id": "W3_09",
+      "startPoint": {
+        "x": 15600,
+        "y": 2200
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 2200
+      },
+      "thicknessMm": 110,
+      "baseLevel": "LAU 2",
+      "topLevel": "SAN THUONG",
+      "baseOffsetMm": 0,
+      "topOffsetMm": 0,
+      "openings": []
+    }
+  ],
+  "beams": [
+    {
+      "id": "D1_LAU 1_1",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 1",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 1_2",
+      "startPoint": {
+        "x": 5500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 1",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 1_3",
+      "startPoint": {
+        "x": 9500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 9500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 1",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 1_4",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 1",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 1_5",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 1",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_LAU 1_A",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 1",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_LAU 1_B",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 1",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D3_LAU 1_1",
+      "startPoint": {
+        "x": 0,
+        "y": 2500
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 2500
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 1",
+      "beamType": "D3",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 2_1",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 2",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 2_2",
+      "startPoint": {
+        "x": 5500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 2",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 2_3",
+      "startPoint": {
+        "x": 9500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 9500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 2",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 2_4",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 2",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_LAU 2_5",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "LAU 2",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_LAU 2_A",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 2",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_LAU 2_B",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 2",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D3_LAU 2_1",
+      "startPoint": {
+        "x": 0,
+        "y": 2500
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 2500
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "LAU 2",
+      "beamType": "D3",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_SAN THUONG_1",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "SAN THUONG",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_SAN THUONG_2",
+      "startPoint": {
+        "x": 5500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "SAN THUONG",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_SAN THUONG_3",
+      "startPoint": {
+        "x": 9500,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 9500,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "SAN THUONG",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_SAN THUONG_4",
+      "startPoint": {
+        "x": 13000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 13000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "SAN THUONG",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D1_SAN THUONG_5",
+      "startPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 400,
+      "level": "SAN THUONG",
+      "beamType": "D1",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_SAN THUONG_A",
+      "startPoint": {
+        "x": 0,
+        "y": 0
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 0
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "SAN THUONG",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D2_SAN THUONG_B",
+      "startPoint": {
+        "x": 0,
+        "y": 5000
+      },
+      "endPoint": {
+        "x": 18000,
+        "y": 5000
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "SAN THUONG",
+      "beamType": "D2",
+      "isTieBeam": false
+    },
+    {
+      "id": "D3_SAN THUONG_1",
+      "startPoint": {
+        "x": 0,
+        "y": 2500
+      },
+      "endPoint": {
+        "x": 5500,
+        "y": 2500
+      },
+      "widthMm": 200,
+      "heightMm": 300,
+      "level": "SAN THUONG",
+      "beamType": "D3",
+      "isTieBeam": false
+    }
+  ],
+  "slabs": [
+    {
+      "id": "S1_LAU 1",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 0,
+            "y": 2500
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 1",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S2_LAU 1",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 1",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S3_LAU 1",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 5000
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 1",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S4_LAU 1",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 13000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 5000
+          },
+          {
+            "x": 13000,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 1",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S1_LAU 2",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 0,
+            "y": 2500
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 2",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S2_LAU 2",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 2",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S3_LAU 2",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 5000
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 2",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S4_LAU 2",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 13000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 5000
+          },
+          {
+            "x": 13000,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "LAU 2",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S1_SAN THUONG",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 0,
+            "y": 2500
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "SAN THUONG",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S2_SAN THUONG",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 2500
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "SAN THUONG",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S3_SAN THUONG",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 5000
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "SAN THUONG",
+      "elevationOffsetMm": 0,
+      "voids": []
+    },
+    {
+      "id": "S4_SAN THUONG",
+      "boundary": {
+        "vertices": [
+          {
+            "x": 13000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 5000
+          },
+          {
+            "x": 13000,
+            "y": 5000
+          }
+        ]
+      },
+      "thicknessMm": 100,
+      "level": "SAN THUONG",
+      "elevationOffsetMm": 0,
+      "voids": []
+    }
+  ],
+  "rooms": [
+    {
+      "name": "Gara o to",
+      "tagLocation": {
+        "x": 2750,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 26.4,
+      "level": "TRET",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Phong khach",
+      "tagLocation": {
+        "x": 7500,
+        "y": 3300
+      },
+      "theoreticalAreaM2": 19.2,
+      "level": "TRET",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 5500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 0
+          },
+          {
+            "x": 9500,
+            "y": 5000
+          },
+          {
+            "x": 5500,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Gieng troi \u002B cau thang",
+      "tagLocation": {
+        "x": 11250,
+        "y": 3600
+      },
+      "level": "TRET",
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "WC 1",
+      "tagLocation": {
+        "x": 10600,
+        "y": 1700
+      },
+      "theoreticalAreaM2": 3,
+      "level": "TRET",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 9500,
+            "y": 0
+          },
+          {
+            "x": 11100,
+            "y": 0
+          },
+          {
+            "x": 11100,
+            "y": 1900
+          },
+          {
+            "x": 9500,
+            "y": 1900
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Bep \u002B phong an",
+      "tagLocation": {
+        "x": 15500,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 24,
+      "level": "TRET",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 13000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 5000
+          },
+          {
+            "x": 13000,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Ban cong",
+      "tagLocation": {
+        "x": 750,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 3.6,
+      "level": "LAU 1",
+      "tagRotationDeg": 90
+    },
+    {
+      "name": "Phong ngu master 1",
+      "tagLocation": {
+        "x": 4650,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 30.5,
+      "level": "LAU 1",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 1500,
+            "y": 0
+          },
+          {
+            "x": 7800,
+            "y": 0
+          },
+          {
+            "x": 7800,
+            "y": 5000
+          },
+          {
+            "x": 1500,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Sanh \u002B thong tang",
+      "tagLocation": {
+        "x": 9150,
+        "y": 3600
+      },
+      "level": "LAU 1",
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "WC 2",
+      "tagLocation": {
+        "x": 11750,
+        "y": 2100
+      },
+      "theoreticalAreaM2": 5.6,
+      "level": "LAU 1",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 10500,
+            "y": 0
+          },
+          {
+            "x": 12900,
+            "y": 0
+          },
+          {
+            "x": 12900,
+            "y": 2400
+          },
+          {
+            "x": 10500,
+            "y": 2400
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Phong ngu master 2",
+      "tagLocation": {
+        "x": 15500,
+        "y": 3500
+      },
+      "theoreticalAreaM2": 24,
+      "level": "LAU 1",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 13000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 5000
+          },
+          {
+            "x": 13000,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Ban cong",
+      "tagLocation": {
+        "x": 750,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 3.6,
+      "level": "LAU 2",
+      "tagRotationDeg": 90
+    },
+    {
+      "name": "Phong tho gia tien",
+      "tagLocation": {
+        "x": 4650,
+        "y": 2500
+      },
+      "theoreticalAreaM2": 30.5,
+      "level": "LAU 2",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 1500,
+            "y": 0
+          },
+          {
+            "x": 7800,
+            "y": 0
+          },
+          {
+            "x": 7800,
+            "y": 5000
+          },
+          {
+            "x": 1500,
+            "y": 5000
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Sanh \u002B thong tang",
+      "tagLocation": {
+        "x": 9150,
+        "y": 3600
+      },
+      "level": "LAU 2",
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "Phong ngu master 3",
+      "tagLocation": {
+        "x": 14400,
+        "y": 3500
+      },
+      "theoreticalAreaM2": 17,
+      "level": "LAU 2",
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "WC 3",
+      "tagLocation": {
+        "x": 16800,
+        "y": 1900
+      },
+      "theoreticalAreaM2": 5.3,
+      "level": "LAU 2",
+      "boundaryPolygon": {
+        "vertices": [
+          {
+            "x": 15600,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 0
+          },
+          {
+            "x": 18000,
+            "y": 2200
+          },
+          {
+            "x": 15600,
+            "y": 2200
+          }
+        ]
+      },
+      "tagRotationDeg": 0
+    },
+    {
+      "name": "San phoi",
+      "tagLocation": {
+        "x": 16850,
+        "y": 4100
+      },
+      "level": "LAU 2",
+      "tagRotationDeg": 0
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "FX_1_01",
+      "category": "furniture",
+      "familyName": "XE-OTO",
+      "location": {
+        "x": 2600,
+        "y": 2500,
+        "z": 150
+      },
+      "rotationDeg": 90,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_02",
+      "category": "furniture",
+      "familyName": "XE-MAY",
+      "location": {
+        "x": 4600,
+        "y": 900,
+        "z": 150
+      },
+      "rotationDeg": 90,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_03",
+      "category": "furniture",
+      "familyName": "SOFA",
+      "location": {
+        "x": 7300,
+        "y": 4400,
+        "z": 150
+      },
+      "rotationDeg": 180,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_04",
+      "category": "furniture",
+      "familyName": "BAN-TRA",
+      "location": {
+        "x": 7300,
+        "y": 3300,
+        "z": 150
+      },
+      "rotationDeg": 0,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_05",
+      "category": "electrical",
+      "familyName": "TIVI",
+      "location": {
+        "x": 7300,
+        "y": 700,
+        "z": 150
+      },
+      "rotationDeg": 0,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_06",
+      "category": "sanitary",
+      "familyName": "BON-CAU",
+      "location": {
+        "x": 10100,
+        "y": 800,
+        "z": 150
+      },
+      "rotationDeg": 90,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_07",
+      "category": "sanitary",
+      "familyName": "LAVABO",
+      "location": {
+        "x": 11000,
+        "y": 500,
+        "z": 150
+      },
+      "rotationDeg": 0,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_08",
+      "category": "kitchen",
+      "familyName": "BEP-NAU",
+      "location": {
+        "x": 14200,
+        "y": 4600,
+        "z": 150
+      },
+      "rotationDeg": 180,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_09",
+      "category": "sanitary",
+      "familyName": "CHAU-RUA-CHEN",
+      "location": {
+        "x": 15400,
+        "y": 4600,
+        "z": 150
+      },
+      "rotationDeg": 180,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_10",
+      "category": "kitchen",
+      "familyName": "TU-LANH",
+      "location": {
+        "x": 13600,
+        "y": 4600,
+        "z": 150
+      },
+      "rotationDeg": 180,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_1_11",
+      "category": "furniture",
+      "familyName": "BAN-AN-6",
+      "location": {
+        "x": 15900,
+        "y": 2200,
+        "z": 150
+      },
+      "rotationDeg": 90,
+      "level": "TRET",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_01",
+      "category": "furniture",
+      "familyName": "GIUONG-DOI",
+      "location": {
+        "x": 4200,
+        "y": 2500,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_02",
+      "category": "furniture",
+      "familyName": "TU-QUAN-AO",
+      "location": {
+        "x": 6900,
+        "y": 2500,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_03",
+      "category": "sanitary",
+      "familyName": "BON-CAU",
+      "location": {
+        "x": 11000,
+        "y": 700,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_04",
+      "category": "sanitary",
+      "familyName": "LAVABO",
+      "location": {
+        "x": 12400,
+        "y": 500,
+        "z": 3800
+      },
+      "rotationDeg": 0,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_05",
+      "category": "sanitary",
+      "familyName": "VOI-SEN",
+      "location": {
+        "x": 11200,
+        "y": 1800,
+        "z": 3800
+      },
+      "rotationDeg": 0,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_06",
+      "category": "sanitary",
+      "familyName": "PHEU-THU",
+      "location": {
+        "x": 12000,
+        "y": 1500,
+        "z": 3800
+      },
+      "rotationDeg": 0,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_07",
+      "category": "furniture",
+      "familyName": "GIUONG-DOI",
+      "location": {
+        "x": 15200,
+        "y": 2500,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_08",
+      "category": "furniture",
+      "familyName": "TU-QUAN-AO",
+      "location": {
+        "x": 17400,
+        "y": 2500,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_2_09",
+      "category": "electrical",
+      "familyName": "TIVI",
+      "location": {
+        "x": 13400,
+        "y": 2500,
+        "z": 3800
+      },
+      "rotationDeg": 90,
+      "level": "LAU 1",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_01",
+      "category": "furniture",
+      "familyName": "GIUONG-DOI",
+      "location": {
+        "x": 14000,
+        "y": 3900,
+        "z": 7200
+      },
+      "rotationDeg": 0,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_02",
+      "category": "furniture",
+      "familyName": "TU-QUAN-AO",
+      "location": {
+        "x": 13400,
+        "y": 2600,
+        "z": 7200
+      },
+      "rotationDeg": 90,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_03",
+      "category": "sanitary",
+      "familyName": "BON-CAU",
+      "location": {
+        "x": 16300,
+        "y": 700,
+        "z": 7200
+      },
+      "rotationDeg": 90,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_04",
+      "category": "sanitary",
+      "familyName": "LAVABO",
+      "location": {
+        "x": 17300,
+        "y": 500,
+        "z": 7200
+      },
+      "rotationDeg": 0,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_05",
+      "category": "sanitary",
+      "familyName": "VOI-SEN",
+      "location": {
+        "x": 16600,
+        "y": 1600,
+        "z": 7200
+      },
+      "rotationDeg": 0,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    },
+    {
+      "id": "FX_3_06",
+      "category": "sanitary",
+      "familyName": "PHEU-THU",
+      "location": {
+        "x": 17400,
+        "y": 1400,
+        "z": 7200
+      },
+      "rotationDeg": 0,
+      "level": "LAU 2",
+      "widthMm": 0,
+      "depthMm": 0,
+      "heightMm": 0,
+      "mountingType": "Floor"
+    }
+  ],
+  "pipes": [
+    {
+      "id": "P_SUP_T1",
+      "systemType": "waterSupply",
+      "diameterMm": 25,
+      "points": [
+        {
+          "x": 600,
+          "y": 4600,
+          "z": 300
+        },
+        {
+          "x": 14000,
+          "y": 4600,
+          "z": 300
+        },
+        {
+          "x": 14000,
+          "y": 4200,
+          "z": 300
+        }
+      ],
+      "slope": 0,
+      "material": "PPR",
+      "level": "TRET"
+    },
+    {
+      "id": "P_SOIL_T1",
+      "systemType": "soilDrain",
+      "diameterMm": 114,
+      "points": [
+        {
+          "x": 10100,
+          "y": 900,
+          "z": -200
+        },
+        {
+          "x": 16500,
+          "y": 900,
+          "z": -300
+        },
+        {
+          "x": 16500,
+          "y": 300,
+          "z": -350
+        }
+      ],
+      "slope": 0.02,
+      "material": "uPVC",
+      "level": "TRET"
+    },
+    {
+      "id": "P_WASTE_T1",
+      "systemType": "wasteDrain",
+      "diameterMm": 60,
+      "points": [
+        {
+          "x": 11000,
+          "y": 400,
+          "z": -200
+        },
+        {
+          "x": 15900,
+          "y": 400,
+          "z": -300
+        },
+        {
+          "x": 15900,
+          "y": 4400,
+          "z": -350
+        }
+      ],
+      "slope": 0.02,
+      "material": "uPVC",
+      "level": "TRET"
+    }
+  ],
+  "rebars": [
+    {
+      "id": "RB-M-01",
+      "hostElementId": "M1_M2",
+      "barMark": 1,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 1620,
+      "quantity": 40,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-M-02",
+      "hostElementId": "M1_M2",
+      "barMark": 2,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 820,
+      "quantity": 80,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-M-03",
+      "hostElementId": "GM1_GM2",
+      "barMark": 3,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 19600,
+      "quantity": 8,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-M-04",
+      "hostElementId": "GM1_GM2",
+      "barMark": 4,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 1060,
+      "quantity": 162,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-M-05",
+      "hostElementId": "GM3_GM7",
+      "barMark": 5,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 5960,
+      "quantity": 20,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-M-06",
+      "hostElementId": "GM3_GM7",
+      "barMark": 6,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 1060,
+      "quantity": 95,
+      "spacingMm": 0,
+      "coverMm": 50,
+      "zone": "Foundation"
+    },
+    {
+      "id": "RB-FL-01",
+      "hostElementId": "D1",
+      "barMark": 1,
+      "diameterMm": 18,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 5200,
+      "quantity": 45,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-02",
+      "hostElementId": "D1",
+      "barMark": 2,
+      "diameterMm": 18,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 5200,
+      "quantity": 45,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-03",
+      "hostElementId": "D1",
+      "barMark": 3,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 1150,
+      "quantity": 420,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-04",
+      "hostElementId": "D2",
+      "barMark": 4,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 18400,
+      "quantity": 18,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-05",
+      "hostElementId": "D2",
+      "barMark": 5,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 18400,
+      "quantity": 18,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-06",
+      "hostElementId": "D2",
+      "barMark": 6,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 950,
+      "quantity": 570,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-07",
+      "hostElementId": "D3",
+      "barMark": 7,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 9700,
+      "quantity": 6,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-08",
+      "hostElementId": "D3",
+      "barMark": 8,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 950,
+      "quantity": 150,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-09",
+      "hostElementId": "S1_S2",
+      "barMark": 9,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 5800,
+      "quantity": 102,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-10",
+      "hostElementId": "S1_S2",
+      "barMark": 10,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 2800,
+      "quantity": 222,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-11",
+      "hostElementId": "S1_S2",
+      "barMark": 11,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 1420,
+      "quantity": 648,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-12",
+      "hostElementId": "S3",
+      "barMark": 12,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 4300,
+      "quantity": 102,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-13",
+      "hostElementId": "S3",
+      "barMark": 13,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 5300,
+      "quantity": 81,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-14",
+      "hostElementId": "S3",
+      "barMark": 14,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 1420,
+      "quantity": 366,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-15",
+      "hostElementId": "S4",
+      "barMark": 15,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 5300,
+      "quantity": 102,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-16",
+      "hostElementId": "S4",
+      "barMark": 16,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 5300,
+      "quantity": 102,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-17",
+      "hostElementId": "S4",
+      "barMark": 17,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 1420,
+      "quantity": 408,
+      "spacingMm": 0,
+      "coverMm": 15,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-18",
+      "hostElementId": "C1",
+      "barMark": 18,
+      "diameterMm": 18,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 3800,
+      "quantity": 120,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-FL-19",
+      "hostElementId": "C1",
+      "barMark": 19,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 800,
+      "quantity": 660,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Superstructure"
+    },
+    {
+      "id": "RB-ST-01",
+      "hostElementId": "BT1",
+      "barMark": 1,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "hookEnd",
+      "lengthMm": 3800,
+      "quantity": 24,
+      "spacingMm": 0,
+      "coverMm": 20,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-02",
+      "hostElementId": "BT1",
+      "barMark": 2,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 1100,
+      "quantity": 51,
+      "spacingMm": 0,
+      "coverMm": 20,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-03",
+      "hostElementId": "BT2",
+      "barMark": 3,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "hookEnd",
+      "lengthMm": 3800,
+      "quantity": 24,
+      "spacingMm": 0,
+      "coverMm": 20,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-04",
+      "hostElementId": "BT2",
+      "barMark": 4,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "straight",
+      "lengthMm": 1100,
+      "quantity": 51,
+      "spacingMm": 0,
+      "coverMm": 20,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-05",
+      "hostElementId": "CN",
+      "barMark": 5,
+      "diameterMm": 10,
+      "steelGrade": "CB240-T",
+      "shapeType": "hookEnd",
+      "lengthMm": 2600,
+      "quantity": 27,
+      "spacingMm": 0,
+      "coverMm": 20,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-06",
+      "hostElementId": "DCT",
+      "barMark": 6,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 3000,
+      "quantity": 12,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-07",
+      "hostElementId": "DCN",
+      "barMark": 7,
+      "diameterMm": 16,
+      "steelGrade": "CB300-V",
+      "shapeType": "straight",
+      "lengthMm": 3000,
+      "quantity": 12,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Stair"
+    },
+    {
+      "id": "RB-ST-08",
+      "hostElementId": "DCT_DCN",
+      "barMark": 8,
+      "diameterMm": 8,
+      "steelGrade": "CB240-T",
+      "shapeType": "closedStirrup",
+      "lengthMm": 900,
+      "quantity": 162,
+      "spacingMm": 0,
+      "coverMm": 25,
+      "zone": "Stair"
+    }
+  ]
+}

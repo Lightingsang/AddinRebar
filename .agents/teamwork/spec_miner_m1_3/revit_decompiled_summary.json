@@ -1,0 +1,445 @@
+{
+  "DBimRevit.CommandLogin": {
+    "decl": "public class CommandLogin : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandLogin : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandLogin()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void ShowDangNhap()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandLogin()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandLogout": {
+    "decl": "public class CommandLogout : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandLogout : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandLogout()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandLogout()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddBeam": {
+    "decl": "public class CommandAddBeam : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Diagnostics;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddBeam : DbimViewModelBase, IExternalCommand\n{\n\tpublic struct TextDam\n\t{\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate string OgspnwydjA;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double amQpxuFBNe;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double bsmpGkuGCf;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double[] kawpiIGeYh;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double kAZpJNM0Fd;\n\n\t\tpublic string NoiDung\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double KichThuocB\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double KichThuocH\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double[] InsertionPoint\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double Rotation\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic TextDam()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\tpublic struct ThongTinLineDam\n\t{\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double[] P7ppI4LP5M;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double[] SgnpXWrDlf;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double[] gelpv2xnew;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate double[] l8iphKqd4b;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate string KNqp51bQjY;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double aKppbKUoZ7;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double R2KpY19ToM;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double MBYpCE5u3r;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate bool imepqLkBEI;\n\n\t\tpublic double[] StartPointTrai\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double[] EndPointTrai\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double[] StartPointPhai\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double[] EndPointPhai\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic string TenDam\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double KichThuocB\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double KichThuocH\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double Rotation\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic bool TinhTrangLine\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn true;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic ThongTinLineDam()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddBeam()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void weUu1DlC5e(ThongTinLineDam P_0, double[] P_1, ref XYZ P_2, ref XYZ P_3, Level P_4, XYZ P_5)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void dr0uuHWWbi(ref ThongTinLineDam P_0, ref List<ThongTinLineDam> P_1)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void cJhu7OZe0v(ref ThongTinLineDam P_0, ref ThongTinLineDam P_1)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void N16u3QUlJr(ref ThongTinLineDam P_0, List<TextDam> P_1, int P_2, int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void rEKutCdxAo(object P_0, ref List<ThongTinLineDam> P_1, ref List<TextDam> P_2, ref int P_3, ref int P_4, ref string P_5)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void f13uMROcqr(int P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool gXcuKSL2re(ref double[] P_0)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceBeamCadToRevit donuH5Unyg(List<Family> P_0, List<Level> P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void CGrurPkFXI(ThongTinLineDam P_0, string P_1)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddBeam()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddColumn": {
+    "decl": "public class CommandAddColumn : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddColumn : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddColumn()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool FfxuN0SuWK(DceBlockColumn.ThongTinBlockCot_DCE P_0, ref List<XYZ> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void K8xujBe0sm(int P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool EAxu8LehLL(ref double[] P_0)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceCadToRevit zQEuB0ItmA(List<Family> P_0, List<Level> P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool FMauOlHS06(string P_0, double P_1, double P_2, double P_3, double[] P_4, double P_5, double[] P_6, DceCadToRevit P_7, XYZ P_8, Document P_9)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object L5EufGXJ9T(DceBlockColumn.ThongTinBlockCot_DCE P_0, string P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddColumn()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddGird": {
+    "decl": "public class CommandAddGird : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddGird : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddGird()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void RMjudTK1Wl(object P_0, ref XYZ P_1, ref XYZ P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object md0uE9e7dX(XYZ P_0, XYZ P_1, double[] P_2, string P_3)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddGird()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddSlab": {
+    "decl": "public class CommandAddSlab : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddSlab : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddSlab()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool v5cuypxJAW(List<double> P_0)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object lpsuFJPFN7(XYZ P_0, XYZ P_1, double P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool zh2uPl1Ysu(List<XYZ> P_0, List<XYZ> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool s1vunxhgbj(List<XYZ> P_0, List<double> P_1, double[] P_2, DceSlabCadToRevit P_3, ref List<XYZ> P_4, ref List<double> P_5, ref List<CurveArray> P_6, int P_7, XYZ P_8, Document P_9)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool WdZuxnpaE6(List<XYZ> P_0, ref List<XYZ> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void yYxuGaGpeJ(int P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceSlabCadToRevit tf6uiniLgk(List<string> P_0, List<Level> P_1, ref Document P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool XZTuJUygFB(ref double[] P_0)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddSlab()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddWall": {
+    "decl": "public class CommandAddWall : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddWall : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddWall()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool MWE7aLObg2(DceBlockColumn.ThongTinBlockCot_DCE P_0, double[] P_1, DceWallCadToRevit P_2, XYZ P_3, Document P_4)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object l0J716uq9R(DceBlockColumn.ThongTinBlockCot_DCE P_0, string P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void XFM7uiiorR(int P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceWallCadToRevit KFt77XKYSo(List<string> P_0, List<Level> P_1, ref Document P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool g9v73LxCbN(ref double[] P_0)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool z9e7t2rJPE(DceBlockColumn.ThongTinBlockCot_DCE P_0, ref List<XYZ> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddWall()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAutoCut": {
+    "decl": "public class CommandAutoCut : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAutoCut : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAutoCut()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAutoCut()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAutoJoin": {
+    "decl": "public class CommandAutoJoin : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAutoJoin : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAutoJoin()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate List<Element> GetElement(List<ElementId> ListE, string ElementType, Document doc)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate List<Element> z1j7LpuejU(string P_0, Document P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool IQC7NfoWSJ(string P_0, string P_1, ref List<string> P_2)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAutoJoin()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandBatchUnjoin": {
+    "decl": "public class CommandBatchUnjoin : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandBatchUnjoin : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandBatchUnjoin()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandBatchUnjoin()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandBeamDisallowJoin": {
+    "decl": "public class CommandBeamDisallowJoin : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandBeamDisallowJoin : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandBeamDisallowJoin()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandBeamDisallowJoin()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandCreateCope": {
+    "decl": "public class CommandCreateCope : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandCreateCope : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandCreateCope()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandCreateCope()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandJoinByOrder": {
+    "decl": "public class CommandJoinByOrder : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandJoinByOrder : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandJoinByOrder()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandJoinByOrder()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.DceBeamBreaks": {
+    "decl": "public class DceBeamBreaks : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing Autodesk.Revit.UI.Selection;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class DceBeamBreaks : IExternalCommand\n{\n\tpublic class BeamSelectionFilter : ISelectionFilter\n\t{\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tpublic BeamSelectionFilter()\n\t\t{\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tpublic bool AllowElement(Element elem)\n\t\t{\n\t\t\treturn true;\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tpublic bool AllowReference(Reference reference, XYZ position)\n\t\t{\n\t\t\treturn true;\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic BeamSelectionFilter()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic DceBeamBreaks()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceBreakBeams FMP7xXTjym(List<Family> P_0, List<Family> P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic DceBeamBreaks()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandDatTenDam": {
+    "decl": "public class CommandDatTenDam : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Data;\nusing System.Runtime.CompilerServices;\nusing System.Windows;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandDatTenDam : IExternalCommand\n{\n\tpublic delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandDatTenDam()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool mTY3kDvtHA(ref DceSetName P_0, ref UIDocument P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool I9d3LCJOV7(ref DceSetName P_0, ref UIDocument P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate string IvK3NaHaoB(DataTable P_0, string P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool y5Q3jyU6no(object[] P_0, DataTable P_1, int P_2, object P_3)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void QAu38JQCBC(Element P_0, ref DceSetName P_1, Document P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void EhW3BYZ1oC(DceSetName P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceSetName moH3O55cly(ref Document P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool SKu3fpmPDq(ref List<ElementId> P_0, DceSetName P_1, UIDocument P_2)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandDatTenDam()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandDceSetup": {
+    "decl": "public class CommandDceSetup : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandDceSetup : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandDceSetup()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceSetup asw3isYPOb(string P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandDceSetup()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandExportBeamToExcel": {
+    "decl": "public class CommandExportBeamToExcel : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandExportBeamToExcel : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandExportBeamToExcel()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void TimTenTrucVaDoLechTruc(ref DceBlockBeam.RevitBeam Beam, List<Grid_Info> listGirds)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate DceExportBeamToExcel LK0tuk5AZj()\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void XuLyCacDamCungTen(ref DceBlockBeam.RevitBeam RevitBeams, ref List<DceBlockBeam.RevitBeam> ListRevitBeams)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void XacDinhKichThuocGoiVaTachDam(ref DceBlockBeam.RevitBeam RevitBeams, ref List<DceBlockBeam.RevitBeam> ListRevitBeams, ref List<DceBlockColumn.RevitColumn> ListRevitColumn, ref List<DceBlockWall.RevitWall> ListRevitWall, ref Document doc, DceProcess DceProcess = null, bool NgatDam = true, bool TimDamGiao = true, bool TimSanGiao = true, string NoiDungHienThiTHem = \"\")\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void b6Et7NaLVB(ref DceBlockBeam.RevitBeam P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void t3dt3SWsgZ(ref int P_0, List<XYZ> P_1, XYZ P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate List<XYZ> oO2ttHG9Al(List<XYZ> P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object yBVtMxLSWT(object P_0, int P_1)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void pKPtKiDMQM(List<DceBlockBeam.RevitBeam> P_0, ref DceProcess P_1, XYZ P_2, int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void X9jtHC49NR(List<DceBlockBeam.RevitBeam> P_0, DceExportBeamToExcel P_1, int P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void etitrSEfrE(ref DceBlockBeam.RevitBeam P_0, ref DceBlockBeam.RevitBeam P_1, ref DceBlockBeam.RevitBeam P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic bool GanDLApplicationExcel(ref object AP, ref object WB, ref object WS, ref object WSTD, ref object Ws_BanVe)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void xlCalculationManual(object AP)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void SafeReleaseComObject(ref object obj)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void GanDLApplicationExcelNothing(ref object AP)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic bool AcTiveWorkBook(string SheetName, object AP, ref object Wb)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic bool CheckGiaoDiemDamVaDam(ref DceBlockBeam.RevitBeam RevitBeam, DceBlockBeam.RevitBeam DamGiao, ref List<DceBlockBeam.RevitBeam> ListRevitBeams, bool TachGiuaDam)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic bool TimViTriDamGiaoDam(ref DceBlockBeam.RevitBeam RevitBeam, DceBlockBeam.RevitBeam DamGiao)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool Cq8to7CfqN(ref DceBlockBeam.RevitBeam P_0, DceBlockWall.RevitWall P_1, ref List<DceBlockBeam.RevitBeam> P_2)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool gCAtUOEL8w(ref DceBlockBeam.RevitBeam P_0, DceBlockColumn.RevitColumn P_1, ref List<DceBlockBeam.RevitBeam> P_2)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool z2AtRdQnMS(ref XYZ P_0, ref XYZ P_1, ref XYZ P_2, ref XYZ P_3, ref XYZ P_4, ref XYZ P_5, ref DceBlockBeam.RevitBeam P_6, ref List<DceBlockBeam.RevitBeam> P_7, bool P_8, double P_9, double P_10)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void mMqtp9Hv99(ref XYZ P_0, XYZ P_1, ref int P_2, int P_3, ref string P_4, bool P_5, double P_6, double P_7, int P_8)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool mr2t9P0eLJ(ref XYZ P_0, ref XYZ P_1, ref XYZ P_2, ref XYZ P_3, ref XYZ P_4, ref XYZ P_5, ref DceBlockBeam.RevitBeam P_6, int P_7, int P_8)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandExportBeamToExcel()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandExportToAutocad": {
+    "decl": "public class CommandExportToAutocad : IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandExportToAutocad : IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandExportToAutocad()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool x77t4hJJC2(List<XYZ> P_0, List<XYZ> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool B2Mt0cwm5O(double[] P_0, List<double[]> P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate XYZ qmQtDSYDRj(XYZ P_0, XYZ P_1, double[] P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void GlOtWs7cPe(DceBlockBeam.RevitBeam P_0, XYZ P_1, double[] P_2, int P_3, double P_4)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void BRYtVVA0V7(DceBlockColumn.RevitColumn P_0, XYZ P_1, double[] P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void p1ptmQU3E2(DceBlockWall.RevitWall P_0, XYZ P_1, double[] P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate CurveArray uswt6OdSNC(EdgeArray P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void s81tcUjhmd(Element P_0, XYZ P_1, double[] P_2, ref List<double[]> P_3, ref List<double[]> P_4, ref List<object> P_5)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate List<XYZ> u96tet0oCw(List<XYZ> P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandExportToAutocad()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandCreateAnalytical": {
+    "decl": "public class CommandCreateAnalytical : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Diagnostics;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.DB.Structure;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandCreateAnalytical : DbimViewModelBase, IExternalCommand\n{\n\tpublic struct DanhSachCot\n\t{\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ BAE9KMLdd3;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ Uy49HLGrH1;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate AnalyticalMember BBD9rZ7WME;\n\n\t\tpublic XYZ DiemDau\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic XYZ DiemCuoi\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic AnalyticalMember AnalyticalMember\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic DanhSachCot()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\tpublic struct DanhSachDam\n\t{\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ WkD9oI5ciA;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ Lgc9Ujn0En;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate AnalyticalMember zZ39R7qHe7;\n\n\t\tpublic XYZ DiemDau\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic XYZ DiemCuoi\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic AnalyticalMember AnalyticalMember\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic DanhSachDam()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\tpublic struct DanhSachVach\n\t{\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ ALX9pL3NR0;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate XYZ xDT99tA6Vp;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate XYZ JgK92oEJLd;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate XYZ eNL9SsBBBV;\n\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate AnalyticalPanel AX09khoOCd;\n\n\t\tpublic XYZ D1\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic XYZ D2\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic XYZ D3\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic XYZ D4\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic AnalyticalPanel AnalyticalPanel\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic DanhSachVach()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\tpublic struct DanhSachSan\n\t{\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate List<XYZ> oKJ9LCWRal;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate AnalyticalPanel GY99Ny0Ok0;\n\n\t\tpublic List<XYZ> listPoint\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic AnalyticalPanel AnalyticalPanel\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic DanhSachSan()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandCreateAnalytical()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic static List<XYZ> GetAllGridIntersections()\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate double qFDtAXuNHC(EdgeArray P_0)\n\t{\n\t\treturn 0.0;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate double? A81tdlS3gq(List<double> P_0, double P_1, double P_2)\n\t{\n\t\t//IL_0004: Expected VT, but got Obj\n\t\treturn (double?)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic XYZ SnapPointToNearbyGrid_Optimized(XYZ diem1, List<XYZ> allPoints, List<double> levelElevation, double Dz, double Dx, double Dy, int LamtronPoint)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void SnapDamToOthers(ref DanhSachDam dam, List<XYZ> allPoints, List<DanhSachDam> listDanhSachDam, double saiSo)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void qfqtEtwspF(ref DanhSachDam P_0, List<XYZ> P_1, ref bool P_2, ref bool P_3, double P_4)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate XYZ FAhtyvHFcF(XYZ P_0, XYZ P_1, List<DanhSachDam> P_2, double P_3)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool IGftFP4DUo(XYZ P_0, XYZ P_1, XYZ P_2, double P_3)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate XYZ MhVtPQxcTj(XYZ P_0, XYZ P_1, XYZ P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandCreateAnalytical()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandEtabsToRevit": {
+    "decl": "public class CommandEtabsToRevit : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandEtabsToRevit : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandEtabsToRevit()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate EtabsToRevit wn0tnLr97S(List<Family> P_0, List<Family> P_1, List<string> P_2, List<string> P_3)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandEtabsToRevit()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandExportToEtabs": {
+    "decl": "public class CommandExportToEtabs : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandExportToEtabs : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandExportToEtabs()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void eU3txjKwCc(Element P_0, RevitToEtabs P_1, DceEtabs P_2, ref List<string> P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void nlWtG6KLfL(Element P_0, RevitToEtabs P_1, DceEtabs P_2, ref List<string> P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void Exiti9lQji(Element P_0, RevitToEtabs P_1, DceEtabs P_2, ref List<string> P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void UAQtJ0DgAC(Element P_0, RevitToEtabs P_1, DceEtabs P_2, ref List<string> P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate RevitToEtabs iT3tInFG0J(DceEtabs P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object y9MtX2DtS8(List<string> P_0, string P_1, string P_2)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandExportToEtabs()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandXuatKhoiLuong": {
+    "decl": "public class CommandXuatKhoiLuong : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandXuatKhoiLuong : DbimViewModelBase, IExternalCommand\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandXuatKhoiLuong()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic void GanSapXepTenDam(ref DceBlockBeam.RevitBeam Beam, string TenDam)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void wYRHdClYXB(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void DSUHEbdORV(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void iVOHyX1U4O(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void GEtHFac128(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void RpQHPTe7Ua(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void lagHnaHjd4(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void awoHxsp1LS(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void loaHGIer2Z(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void GtkHiQv6Lq(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void hcsHJMliXX(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void HI2HIMlvOW(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void ugrHXhnyJW(object P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void SAiHvnU6go(object P_0, ref int P_1, DceBlockColumn.RevitColumn P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void aJbHh5ltRh(object P_0, ref int P_1, DceBlockColumn.RevitColumn P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void BPOH56f2nU(object P_0, ref int P_1, DceBlockWall.RevitWall P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void tMhHbmgK7p(object P_0, ref int P_1, DceBlockWall.RevitWall P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void t7JHYf6i70(object P_0, ref int P_1, DceBlockSlab.RevitSlab P_2, ref int P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void KFJHC7vbGf(object P_0, ref int P_1, DceBlockBeam.RevitBeam P_2, ref int P_3, ref List<string> P_4)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void LmLHqnFZa4(object P_0, ref int P_1, DceBlockBeam.RevitBeam P_2, ref int P_3, ref List<string> P_4)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate object pP1HzsbmtB()\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate RevitXuatKhoiLuong OV5rZJXU0w()\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandXuatKhoiLuong()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.CommandAddRebarBeam": {
+    "decl": "public class CommandAddRebarBeam : DbimViewModelBase, IExternalCommand",
+    "attributes": [
+      "[Transaction(/*Could not decode attribute arguments.*/)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Collections.Generic;\nusing System.Diagnostics;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.DB.Structure;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\n[Transaction(/*Could not decode attribute arguments.*/)]\npublic class CommandAddRebarBeam : DbimViewModelBase, IExternalCommand\n{\n\tpublic struct ThongTinNhipDam\n\t{\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\t[CompilerGenerated]\n\t\tprivate List<DceBlockBeam.RevitBeam> YM09jbDwBF;\n\n\t\t[CompilerGenerated]\n\t\t[DebuggerBrowsable(DebuggerBrowsableState.Never)]\n\t\tprivate double rNO98OTaBd;\n\n\t\tpublic List<DceBlockBeam.RevitBeam> ListRevitBeam\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn null;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\tpublic double Length\n\t\t{\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn 0.0;\n\t\t\t}\n\t\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\t\t[CompilerGenerated]\n\t\t\tset\n\t\t\t{\n\t\t\t}\n\t\t}\n\n\t\t[MethodImpl(MethodImplOptions.NoInlining)]\n\t\tstatic ThongTinNhipDam()\n\t\t{\n\t\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t\t}\n\t}\n\n\tprivate double JFlrQkCGLO;\n\n\tprivate double ugQrw8lJjF;\n\n\tprivate double IIGrAQPaJC;\n\n\tprivate double DM7rdaEmWJ;\n\n\tprivate double vpgrEiZwcP;\n\n\tprivate double EvFryjC6hY;\n\n\tprivate List<RebarBarType> nZ4rFXLLSw;\n\n\tprivate List<RebarShape> UN0rPrbI07;\n\n\tprivate RebarShape wAPrnnh9t0;\n\n\tprivate double U3Irxool6k;\n\n\tprivate List<DceBlockBeam.RevitBeam> jD4rGDbVe0;\n\n\tprivate List<ThongTinNhipDam> Rt5rimeIFj;\n\n\tprivate List<string> tOxrJuWK0I;\n\n\tprivate List<double> wROrIUpQ6J;\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic CommandAddRebarBeam()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate bool dUtrfjUAqx(object P_0, DceProcess P_1)\n\t{\n\t\treturn true;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate List<int> fgUrlvhjvY(string P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void mJ1r4P0hKN(ref DceBlockBeam.RevitBeam P_0, List<int> P_1, string P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void SCrr0bVh0q(ref DceBlockBeam.RevitBeam P_0, List<int> P_1, string P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void An3rDYOXrb(ref DceBlockBeam.RevitBeam P_0, ref DceBlockBeam.RevitBeam P_1, string P_2)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void IxprWUFITB(ref DceBlockBeam.RevitBeam P_0, string P_1)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void YBbrVvSNnW(ref DceBlockBeam.RevitBeam P_0, double P_1, double P_2, double P_3, double P_4, double P_5, double P_6, double P_7, double P_8, double P_9, double P_10)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate double WHirmfD0Mk(ref List<DceBlockBeam.RevitBeam> P_0, ref DceBlockBeam.RevitBeam P_1, int P_2, double P_3)\n\t{\n\t\treturn 0.0;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate double udAr6i5c9P(ref List<DceBlockBeam.RevitBeam> P_0, ref DceBlockBeam.RevitBeam P_1, int P_2, double P_3)\n\t{\n\t\treturn 0.0;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void Xa4rcv66bC(ref DceBlockBeam.RevitBeam P_0)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void FT6reqPDlF(object P_0, DceProcess P_1)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void ghIrgkLtag(string P_0, ref double P_1, ref double P_2, ref double P_3)\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate void Uf8rsbBN1x()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate RebarBarType wwTrTpVnf6(int P_0)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic List<Rebar> VeThepDaiDam(DceBlockBeam.RevitBeam RevitBeam, double Lstart, double LMid, double LEnd, double KhoangRaiStart, double KhoangRaiMid, double KhoangRaiEnd, RebarShape ShapeThepDai, RebarBarType DuongKinh, double DaiBatDauCachMep)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Rebar AddThepDai(Document doc, RebarShape rebarShape, RebarBarType RebarBarType, Element Host, XYZ Origin, XYZ Xvec, XYZ Yvec, XYZ XscaleToBox, XYZ YscaleToBox, double Spacing, double Arraylength, bool OnNormalOnBar = true, bool includeFirstBar = true, bool includeLastBar = true)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Rebar AddThepChu(Document doc, RebarStyle RebarStyle, RebarBarType RebarBarType, RebarHookType startHook, RebarHookType endHook, Element host, XYZ norm, IList<Curve> curves, DceRevitCompat.HuongMocThep StartHookOrient, DceRevitCompat.HuongMocThep EndHookOrient, bool UseExistingShapeIfpossible, bool createNewShape, int numberofbarPoition, double arrlength, bool barsonNormalSide = true, bool includeFirstBar = true, bool includeLastBar = true)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic CommandAddRebarBeam()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  },
+  "DBimRevit.AdskApplication": {
+    "decl": "public class AdskApplication : IExternalApplication",
+    "attributes": [
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]",
+      "[MethodImpl(MethodImplOptions.NoInlining)]"
+    ],
+    "raw": "using System.Drawing;\nusing System.Runtime.CompilerServices;\nusing Autodesk.Revit.UI;\nusing QZjTpHLsXQoNCGj58vI;\n\nnamespace DBimRevit;\n\npublic class AdskApplication : IExternalApplication\n{\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic AdskApplication()\n\t{\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result OnStartup(UIControlledApplication app)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tpublic Result OnShutdown(UIControlledApplication app)\n\t{\n\t\t//IL_0002: Unknown result type (might be due to invalid IL or missing references)\n\t\treturn (Result)(object)null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate PushButton qgg9iXMBC(RibbonPanel P_0, string P_1, string P_2, string P_3, string P_4, Bitmap P_5)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tprivate PushButtonData j6m2tX74B(string P_0, string P_1, string P_2, string P_3, Bitmap P_4)\n\t{\n\t\treturn null;\n\t}\n\n\t[MethodImpl(MethodImplOptions.NoInlining)]\n\tstatic AdskApplication()\n\t{\n\t\tQF3HDhLgvyaOAfQS7A4.Nn7NdTIRYj();\n\t\tQF3HDhLgvyaOAfQS7A4.UXeNZl0ELq();\n\t}\n}\n"
+  }
+}

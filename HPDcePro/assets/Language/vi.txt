@@ -1,0 +1,1106 @@
+﻿#name	Tiếng Việt
+# File tra ngon ngu DCE Excel - ma: vi
+# Dinh dang: <chuoi tieng Viet goc><TAB><ban dich>
+# Dong bat dau bang # la ghi chu. Xuong dong trong cau dich ghi \n
+# Bo trong phan dich = phan mem tu dung tieng Viet (KHONG loi).
+# PHAI LUU UTF-8. Sua o day de va ban dich sai ma KHONG can doi code.
+#------------------------------------------------------------------------
+
+ (có thể bạn đã bấm Hủy ở hộp thoại UAC): 	 (có thể bạn đã bấm Hủy ở hộp thoại UAC): 
+ - Không có trong thư viện vật liệu. Bạn vui lòng nâng cấp phần mềm hoặc khai báo thủ công	 - Không có trong thư viện vật liệu. Bạn vui lòng nâng cấp phần mềm hoặc khai báo thủ công
+ CHƯA được đăng ký API (COM) với Windows.	 CHƯA được đăng ký API (COM) với Windows.
+ Lỗi không đổi được tên point	 Lỗi không đổi được tên point
+ Pier!	 Pier!
+ Sheet Nội lực	 Sheet Nội lực
+ Tiết diện không được tìm thấy (highlight mầu cam)	 Tiết diện không được tìm thấy (highlight mầu cam)
+ Tiết diện được update (highlight mầu đỏ)	 Tiết diện được update (highlight mầu đỏ)
+ Tên Tiền tố	 Tên Tiền tố
+ Tên tổ hợp bao	 Tên tổ hợp bao
+ Tạo địa chỉ Text dưới tên dầm (cột A) để dò tìm	 Tạo địa chỉ Text dưới tên dầm (cột A) để dò tìm
+ chưa chạy, khởi động nó ?	 chưa chạy, khởi động nó ?
+ chưa sẵn sàng. Hãy đóng hộp thoại đang mở hoặc thoát khỏi lệnh đang thực hiện	 chưa sẵn sàng. Hãy đóng hộp thoại đang mở hoặc thoát khỏi lệnh đang thực hiện
+ có kích thước hoặc tiết diện hoặc số tầng hoặc trục địa phương không giống Label 	 có kích thước hoặc tiết diện hoặc số tầng hoặc trục địa phương không giống Label 
+ của Etabs nguồn và Etabs đích cần giống nhau!	 của Etabs nguồn và Etabs đích cần giống nhau!
+ của Safe nguồn và Safe đích cần giống nhau!	 của Safe nguồn và Safe đích cần giống nhau!
+ của ver: 	 của ver: 
+ không thành công!	 không thành công!
+ là 1 cây dầm Liên tục, Nhiều nhịp nhưng bên Bảng tính dầm không được sắp xếp liên tục Liền nhau, Hãy kiểm tra lại bảng tính!	 là 1 cây dầm Liên tục, Nhiều nhịp nhưng bên Bảng tính dầm không được sắp xếp liên tục Liền nhau, Hãy kiểm tra lại bảng tính!
+ lần!	 lần!
+ rồi bấm kết nối lại.	 rồi bấm kết nối lại.
+ tên dầm	 tên dầm
+ và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).	 và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).
+ xdata on 	 xdata on 
+ | Error: 	 | Error: 
+ Đối tượng được select bên mô hình	 Đối tượng được select bên mô hình
+" (ret = 	" (ret = 
+" (ret=	" (ret=
+" trong file Excel đang Active.	" trong file Excel đang Active.
+" trong file đang Active.	" trong file đang Active.
+" từ Etabs (ret = 	" từ Etabs (ret = 
+% Vùng thép chịu kéo	% Vùng thép chịu kéo
+(*D)	(*D)
+(*L)	(*L)
+(1.35D + 1.5L)	(1.35D + 1.5L)
+(L)	(L)
+(Lớp)	(Lớp)
+(m)	(m)
+(mm)	(mm)
+(độ)	(độ)
++ Cao độ	+ Cao độ
+- Cập nhập Strip Safe tương ứng Đài Móng trong bảng tính cũ chọn 'No'.	- Cập nhập Strip Safe tương ứng Đài Móng trong bảng tính cũ chọn 'No'.
+- Cột BI, BJ, BK trong bảng tính cột!	- Cột BI, BJ, BK trong bảng tính cột!
+- Cột BO, BP, BQ trong bảng tính Vách!	- Cột BO, BP, BQ trong bảng tính Vách!
+- Hoặc Etabs chưa mở khóa	- Hoặc Etabs chưa mở khóa
+- Làm mới lại bảng tính Excel chọn 'Yes'.	- Làm mới lại bảng tính Excel chọn 'Yes'.
+- Nếu cột thép tăng cường điền bằng 2*1 có nghĩa:	- Nếu cột thép tăng cường điền bằng 2*1 có nghĩa:
+- THÊM HOẶC BỚT DẦM cần nhấn nút 'Chuyển DL tính => vẽ' để phần mềm cập nhập số lượng mới	- THÊM HOẶC BỚT DẦM cần nhấn nút 'Chuyển DL tính => vẽ' để phần mềm cập nhập số lượng mới
+- Trong một Model Etabs không được có 2 Unique Name trùng tên (mặc định của CSI không phải của DBIM)	- Trong một Model Etabs không được có 2 Unique Name trùng tên (mặc định của CSI không phải của DBIM)
+1 số Phần tử cần xem lại trên mô hình: 	1 số Phần tử cần xem lại trên mô hình: 
+1 số phần tử cần xem lại trên mô hình: 	1 số phần tử cần xem lại trên mô hình: 
+1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?	1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?
+1. Chọn tải trọng nguồn	1. Chọn tải trọng nguồn
+1. Cài 'Microsoft Print to PDF' in mặc định.	1. Cài 'Microsoft Print to PDF' in mặc định.
+10a200	10a200
+1: Trong quá trình chạy không tác động vào chuột (vì phần mềm đang điều khiển chuột)	1: Trong quá trình chạy không tác động vào chuột (vì phần mềm đang điều khiển chuột)
+2. Tham số tính toán	2. Tham số tính toán
+2. Thời gian chờ các bước	2. Thời gian chờ các bước
+3. Loadcase & Combo đầu ra	3. Loadcase & Combo đầu ra
+3. Thời gian chờ chuyển tầng	3. Thời gian chờ chuyển tầng
+< ĐK thép TC < ĐKT L1 +	< ĐK thép TC < ĐKT L1 +
+>>> Giá trị giới hạn võng	>>> Giá trị giới hạn võng
+>>> Hệ số phần dài hạn	>>> Hệ số phần dài hạn
+>>> Manual by CSI	>>> Manual by CSI
+>>> Modulus of rupture (ACI)	>>> Modulus of rupture (ACI)
+>>> Tham khảo EC	>>> Tham khảo EC
+>>> Tham khảo TCVN	>>> Tham khảo TCVN
+>>> Tính hàm lượng	>>> Tính hàm lượng
+>>> YouTube	>>> YouTube
+AI Support	AI Support
+API Etabs	API Etabs
+API script FAILED to complete.	API script FAILED to complete.
+AUTO-REBAR ? ? ?	AUTO-REBAR ? ? ?
+AUTOCAD API	AUTOCAD API
+Access (*.mdb, *.accdb)	Access (*.mdb, *.accdb)
+Account	Account
+Activate 	Activate 
+Admin	Admin
+Admin: Nguyễn Văn Duy	Admin: Nguyễn Văn Duy
+Allow angled neutral axis	Allow angled neutral axis
+Allow angled neutral axis (BDTT)	Allow angled neutral axis (BDTT)
+ApiKey	ApiKey
+ApiUrl	ApiUrl
+Assign	Assign
+Assign Pier Frame	Assign Pier Frame
+Assign Pier Shell	Assign Pier Shell
+Auto Rebars	Auto Rebars
+AutoCAD	AutoCAD
+BASIC DESIGN	BASIC DESIGN
+BEAM	BEAM
+Basic Design	Basic Design
+Beam Schedule	Beam Schedule
+Brace forces	Brace forces
+BricsCAD	BricsCAD
+Bóc tách khối lượng	Bóc tách khối lượng
+Bước 1: Select dầm bên etabs (hoặc safe)	Bước 1: Select dầm bên etabs (hoặc safe)
+Bước Strip (mm)	Bước Strip (mm)
+Bước nhảy Momen (dùng chọn thép nứt)	Bước nhảy Momen (dùng chọn thép nứt)
+Bước nhảy a đối với Pier (vì pier k có Location)	Bước nhảy a đối với Pier (vì pier k có Location)
+BẠN ĐANG SELECT CỘT BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	BẠN ĐANG SELECT CỘT BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY
+BẠN ĐANG SELECT VÁCH BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY	BẠN ĐANG SELECT VÁCH BÊN ETABS - DBIM ƯU TIÊN NHỮNG CỘT NÀY
+Bạn chưa chọn gói để mua!	Bạn chưa chọn gói để mua!
+Bạn chưa nhập License để gia hạn!	Bạn chưa nhập License để gia hạn!
+Bạn có muốn Cập nhập kích thước Dài, Rộng từ etabs?	Bạn có muốn Cập nhập kích thước Dài, Rộng từ etabs?
+Bạn có muốn khởi động Etabs tự động?	Bạn có muốn khởi động Etabs tự động?
+Bạn có muốn khởi động SAFE tự động?	Bạn có muốn khởi động SAFE tự động?
+Bạn có muốn khởi động SAP2000 tự động?	Bạn có muốn khởi động SAP2000 tự động?
+Bạn cần nhập Mật khẩu để xem danh sách license!	Bạn cần nhập Mật khẩu để xem danh sách license!
+Bạn đã pick tại: X = 	Bạn đã pick tại: X = 
+Bạn đã tạo loadcase 	Bạn đã tạo loadcase 
+Bạn đã tạo loadcombination 	Bạn đã tạo loadcombination 
+Bảng "	Bảng "
+Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.	Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.
+Bỏ Lún	Bỏ Lún
+Bỏ qua cột tầng: 	Bỏ qua cột tầng: 
+Bỏ qua nội lực strip giao dầm, vách	Bỏ qua nội lực strip giao dầm, vách
+Bỏ qua tầng cuối	Bỏ qua tầng cuối
+Bố trí thép	Bố trí thép
+Bố trí thép dầm trên bản vẽ (không sử dụng Etabs)	Bố trí thép dầm trên bản vẽ (không sử dụng Etabs)
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!	Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!
+Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!	Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!
+CAD API	CAD API
+CHẠY SUỐT	CHẠY SUỐT
+CHỌN THÉP CHỦ 1	CHỌN THÉP CHỦ 1
+CHỌN THÉP CHỦ 2	CHỌN THÉP CHỦ 2
+CHỌN THÉP ĐAI TỰ ĐỘNG	CHỌN THÉP ĐAI TỰ ĐỘNG
+CHỨC NĂNG KHÁC	CHỨC NĂNG KHÁC
+CLOSE	CLOSE
+COLUMN WALL	COLUMN WALL
+CSI API	CSI API
+Calculate The Volume	Calculate The Volume
+Cannot run API script: 	Cannot run API script: 
+Cao độ +0.00 trong mô hình Etabs so với cao độ mặt đất ngoài thực tế là bao nhiêu?	Cao độ +0.00 trong mô hình Etabs so với cao độ mặt đất ngoài thực tế là bao nhiêu?
+Cases - Combo	Cases - Combo
+Chat AI để hỗ trợ	Chat AI để hỗ trợ
+Check Internet	Check Internet
+Check Overturning	Check Overturning
+Check hệ số Kw	Check hệ số Kw
+Check tỷ số nén:	Check tỷ số nén:
+Chiều cao dầm điển hình:	Chiều cao dầm điển hình:
+Chiều dài 1 thanh thép phải nằm trong khoảng 3000mm - 15000mm! (Ô L1)	Chiều dài 1 thanh thép phải nằm trong khoảng 3000mm - 15000mm! (Ô L1)
+Chiều dài nối = 	Chiều dài nối = 
+Chiều dài nối thép = 	Chiều dài nối thép = 
+Chiều dài nối thép:	Chiều dài nối thép:
+Chiều dày chia lớp phân tố nên < 	Chiều dày chia lớp phân tố nên < 
+Chiều dày sàn	Chiều dày sàn
+Chiều dày đất 	Chiều dày đất 
+ChooseColor	ChooseColor
+Chuyển DL tính => vẽ	Chuyển DL tính => vẽ
+Chuyển dữ liệu	Chuyển dữ liệu
+Chuyển quyền sử dụng	Chuyển quyền sử dụng
+Chuyển quyền sử dụng: 	Chuyển quyền sử dụng: 
+Chuyển vị tăng thêm thẳng đứng (f - f4)	Chuyển vị tăng thêm thẳng đứng (f - f4)
+Chuẩn bị Kill File => chú ý ~~	Chuẩn bị Kill File => chú ý ~~
+Chênh lệch bề rộng 2 dầm liên tục <=	Chênh lệch bề rộng 2 dầm liên tục <=
+Chênh lệch ĐK giữa 2 lớp:	Chênh lệch ĐK giữa 2 lớp:
+Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!	Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!
+Chưa chọn danh sách tầng!	Chưa chọn danh sách tầng!
+Chưa chọn tải tường xây!	Chưa chọn tải tường xây!
+Chưa chọn đủ tổ hợp!	Chưa chọn đủ tổ hợp!
+Chưa có thiết kế cột tròn theo Eurocode	Chưa có thiết kế cột tròn theo Eurocode
+Chưa có thiết kế cột tròn với tọa độ thép khai báo trước	Chưa có thiết kế cột tròn với tọa độ thép khai báo trước
+Chưa có tài khoản nào được đăng nhập!	Chưa có tài khoản nào được đăng nhập!
+Chưa có tính toán cột tròn theo EC2!	Chưa có tính toán cột tròn theo EC2!
+Chưa design phần tử trong Etabs hoặc chưa select phần tử cần lấy diện tích thép trong Etabs!	Chưa design phần tử trong Etabs hoặc chưa select phần tử cần lấy diện tích thép trong Etabs!
+Chưa nhập license!	Chưa nhập license!
+Chưa nhập mã thiết bị!	Chưa nhập mã thiết bị!
+Chưa nhập tên thiết bị!	Chưa nhập tên thiết bị!
+Chưa điền tên dầm!	Chưa điền tên dầm!
+Chỉ chọn 1 tầng để tính toán!	Chỉ chọn 1 tầng để tính toán!
+Chỉ các dầm được chọn	Chỉ các dầm được chọn
+Chỉ in TMTT những dòng mà cột A có highline mầu đỏ	Chỉ in TMTT những dòng mà cột A có highline mầu đỏ
+Chỉ update Hàm	Chỉ update Hàm
+Chỉnh sửa nội lực làm đẹp thuyết minh tính toán?	Chỉnh sửa nội lực làm đẹp thuyết minh tính toán?
+Chọn Etabs cột bên phải!	Chọn Etabs cột bên phải!
+Chọn Thép	Chọn Thép
+Chọn Tower:	Chọn Tower:
+Chọn Tầng Update:	Chọn Tầng Update:
+Chọn Yes để làm mới bảng tính Excel!	Chọn Yes để làm mới bảng tính Excel!
+Chọn bề rộng dầm	Chọn bề rộng dầm
+Chọn file chứa Prompt AI	Chọn file chứa Prompt AI
+Chọn gói:	Chọn gói:
+Chọn lại thép tầng dưới >= Tầng trên	Chọn lại thép tầng dưới >= Tầng trên
+Chọn sơ bộ SL cọc	Chọn sơ bộ SL cọc
+Chọn sơ bộ cọc	Chọn sơ bộ cọc
+Chọn thép	Chọn thép
+Chọn thép móng cọc	Chọn thép móng cọc
+Chọn thép thỏa điều kiện nứt	Chọn thép thỏa điều kiện nứt
+Chọn thép tự động	Chọn thép tự động
+Chọn thép tự động ngay bây giờ?	Chọn thép tự động ngay bây giờ?
+Chọn thép tự động.	Chọn thép tự động.
+Chọn tải tường:	Chọn tải tường:
+Chọn tầng:	Chọn tầng:
+Chọn tổ hợp nội lực	Chọn tổ hợp nội lực
+Chọn yes để tính toán gió theo 2737-2023	Chọn yes để tính toán gió theo 2737-2023
+Chủ tài khoản: Nguyễn Văn Duy	Chủ tài khoản: Nguyễn Văn Duy
+Chức năng Combie Nội lực chỉ sử dụng cho tính toán cường độ	Chức năng Combie Nội lực chỉ sử dụng cho tính toán cường độ
+Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 	Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 
+Chức năng Remove Device sẽ hoạt động sau: 	Chức năng Remove Device sẽ hoạt động sau: 
+Chức năng chỉ sử dụng với Etabs > V19	Chức năng chỉ sử dụng với Etabs > V19
+Chức năng chỉ sử dụng với SAFE > V19	Chức năng chỉ sử dụng với SAFE > V19
+Chức năng chỉ áp dụng cho ETABS 18 trở lên	Chức năng chỉ áp dụng cho ETABS 18 trở lên
+Chức năng khác	Chức năng khác
+Chức năng này CSI chỉ hỗ trợ từ phiên bản Etabs 2018 trở lên!	Chức năng này CSI chỉ hỗ trợ từ phiên bản Etabs 2018 trở lên!
+Chức năng này chưa được hoàn thiện với license dùng thử!	Chức năng này chưa được hoàn thiện với license dùng thử!
+Chức năng này chỉ dành riêng cho việc paste dữ liệu thủ công vào excel, không thông qua file access. Đồng ý tiếp tục?	Chức năng này chỉ dành riêng cho việc paste dữ liệu thủ công vào excel, không thông qua file access. Đồng ý tiếp tục?
+Chức năng này sẽ gộp các thanh thép có chiều dài, đường kính giống nhau để tối ưu tổ hợp thép cho nhanh!	Chức năng này sẽ gộp các thanh thép có chiều dài, đường kính giống nhau để tối ưu tổ hợp thép cho nhanh!
+Click 1 điểm bất kỳ trên màn hình...	Click 1 điểm bất kỳ trên màn hình...
+Click đúp vào text box để lấy tên dầm ở ô cells trên Excel	Click đúp vào text box để lấy tên dầm ở ô cells trên Excel
+Close	Close
+Closed	Closed
+Co ngót	Co ngót
+Color:	Color:
+Column Braced	Column Braced
+Column forces	Column forces
+Combie nội lực cũ	Combie nội lực cũ
+Combie với nội lực vừa load trước đó	Combie với nội lực vừa load trước đó
+Combined	Combined
+Combined Group được chọn	Combined Group được chọn
+Combined Nội lực	Combined Nội lực
+Combined Thép	Combined Thép
+Combined Toàn bộ Group	Combined Toàn bộ Group
+Combined thép theo dầm đầu Group	Combined thép theo dầm đầu Group
+Combo	Combo
+Combo Võng	Combo Võng
+Complete	Complete
+Complete!	Complete!
+Compression	Compression
+Concrete Beam Flexure Envelope - ACI 318-19	Concrete Beam Flexure Envelope - ACI 318-19
+Có thể các dầm liên tục KHÔNG được sắp xếp liên tục bên bảng tính, cần xem lại các dầm này!	Có thể các dầm liên tục KHÔNG được sắp xếp liên tục bên bảng tính, cần xem lại các dầm này!
+Create	Create
+CÀI ĐẶT	CÀI ĐẶT
+Cài đặt chung	Cài đặt chung
+Cài đặt các thông số chung cho cột vách.	Cài đặt các thông số chung cho cột vách.
+Cài đặt các thông số thiết kế Sàn.	Cài đặt các thông số thiết kế Sàn.
+Cài đặt các thông số thiết kế dầm.	Cài đặt các thông số thiết kế dầm.
+Các Load Case kiểu Response Spectrum hiện có:	Các Load Case kiểu Response Spectrum hiện có:
+Các bước nạp tiền & gia hạn:	Các bước nạp tiền & gia hạn:
+Các dầm sau đây bị trùng Unique Name nên không rename được: 	Các dầm sau đây bị trùng Unique Name nên không rename được: 
+Các dầm trùng tên: 	Các dầm trùng tên: 
+Các load pattern kiểu Wind trong model:	Các load pattern kiểu Wind trong model:
+Các đối tượng sau chưa được tính toán Vì Vùng biên chọn chưa hợp lý: 	Các đối tượng sau chưa được tính toán Vì Vùng biên chọn chưa hợp lý: 
+Các đối tượng sau chưa được tính toán Vì Vật liệu thép hoặc bê tông chọn chưa hợp lý: 	Các đối tượng sau chưa được tính toán Vì Vật liệu thép hoặc bê tông chọn chưa hợp lý: 
+Các đối tượng sau chưa được tính toán Vì nó là hình dạng khác hình chữ nhật: 	Các đối tượng sau chưa được tính toán Vì nó là hình dạng khác hình chữ nhật: 
+Có 	Có 
+Có cập nhập tên Group bên sheets tính toán cột?	Có cập nhập tên Group bên sheets tính toán cột?
+Có cập nhập tên Group bên sheets tính toán vách?	Có cập nhập tên Group bên sheets tính toán vách?
+Có lỗi khi khởi động 	Có lỗi khi khởi động 
+Có lỗi khi xóa cấu hình: 	Có lỗi khi xóa cấu hình: 
+Căn chỉnh lại kích thước cột và ẩn hiện cột tự động:	Căn chỉnh lại kích thước cột và ẩn hiện cột tự động:
+Cấu tạo động đất (Chỉ áp dụng đai C trong vẽ Cột)	Cấu tạo động đất (Chỉ áp dụng đai C trong vẽ Cột)
+Cấu tạo động đất:	Cấu tạo động đất:
+CẦN LƯU Ý XEM LẠI CƯỜNG ĐỘ BÊ TÔNG TRONG FILE TÍNH	CẦN LƯU Ý XEM LẠI CƯỜNG ĐỘ BÊ TÔNG TRONG FILE TÍNH
+Cần Select các Point update 'Unique Name' trong Etabs trước!	Cần Select các Point update 'Unique Name' trong Etabs trước!
+Cần Select các dầm trong Etabs trước!	Cần Select các dầm trong Etabs trước!
+Cần Select các dầm update 'Unique Name' trong Etabs trước!	Cần Select các dầm update 'Unique Name' trong Etabs trước!
+Cần select trước các phần tử sàn (MÓNG) trong Etabs!	Cần select trước các phần tử sàn (MÓNG) trong Etabs!
+Cần select trước các phần tử sàn (MÓNG) trong mô hình!	Cần select trước các phần tử sàn (MÓNG) trong mô hình!
+Cần điền đai C cho vách!. Ví dụ: T8a400	Cần điền đai C cho vách!. Ví dụ: T8a400
+Cần điền đai bao cho vách!. Ví dụ: T10a200	Cần điền đai bao cho vách!. Ví dụ: T10a200
+Cần điền đai biên cho vách!. Ví dụ: T10a100	Cần điền đai biên cho vách!. Ví dụ: T10a100
+Cần đăng xuất và đăng nhập lại tài khoản để làm mới dữ liệu!	Cần đăng xuất và đăng nhập lại tài khoản để làm mới dữ liệu!
+Cần để hiển thị sheet ColumnDesign hoặc Sheet WallDesign để phân biệt đang tính cột hay tính vách!	Cần để hiển thị sheet ColumnDesign hoặc Sheet WallDesign để phân biệt đang tính cột hay tính vách!
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt bạn đang tính Cột hay bạn đang tính Vách!	Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt bạn đang tính Cột hay bạn đang tính Vách!
+Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt tính Cột và tính Vách!	Cần để màn hình Excel ở sheet ColumnDesign hoặc sheet WallDesign để phần mềm phân biệt tính Cột và tính Vách!
+Cần để màn hình Excel ở sheet ColumnDesign để cập nhập UniqueName!	Cần để màn hình Excel ở sheet ColumnDesign để cập nhập UniqueName!
+Cần để màn hình Excel ở sheet ColumnDetail hoặc sheet WallDetail để phần mềm phân biệt vẽ Cột và vẽ Vách!	Cần để màn hình Excel ở sheet ColumnDetail hoặc sheet WallDetail để phần mềm phân biệt vẽ Cột và vẽ Vách!
+CẬP NHẬP SỐ DƯ	CẬP NHẬP SỐ DƯ
+Cập nhập số dư	Cập nhập số dư
+Cắt thép	Cắt thép
+Cọc Biên	Cọc Biên
+Cỡ chữ	Cỡ chữ
+Cỡ chữ:	Cỡ chữ:
+DCE ACCOUNT	DCE ACCOUNT
+DCE Excel	DCE Excel
+DCE PRO	DCE PRO
+DCE Steel	DCE Steel
+DS Tổ hợp	DS Tổ hợp
+DS Tổ hợp tính cột	DS Tổ hợp tính cột
+DS dầm	DS dầm
+DS tổ hợp tính dầm	DS tổ hợp tính dầm
+Danh sách Group dầm giống nhau	Danh sách Group dầm giống nhau
+Danh sách tầng	Danh sách tầng
+Dbim Version 	Dbim Version 
+Dbim_AI	Dbim_AI
+DceAddin	DceAddin
+Define	Define
+Design Nhanh.	Design Nhanh.
+Design nhanh	Design nhanh
+Dev Info	Dev Info
+Displ - Drifts Wind	Displ - Drifts Wind
+Diện tích thép gia cường <= DT thép chạy suốt	Diện tích thép gia cường <= DT thép chạy suốt
+Download và cài đặt phiên bản mới: 	Download và cài đặt phiên bản mới: 
+Drifts (Pdelta) model 2	Drifts (Pdelta) model 2
+Drifts,M,V Pdelta Model 1	Drifts,M,V Pdelta Model 1
+DÙNG LOAD NỘI LỰC MỚI HOẶC UPDATE	DÙNG LOAD NỘI LỰC MỚI HOẶC UPDATE
+Dòng chọn chưa phù hợp! chọn lại dòng xem thuyết minh!	Dòng chọn chưa phù hợp! chọn lại dòng xem thuyết minh!
+Dòng:	Dòng:
+Dùng M tính toán để KT hình thành vết nứt	Dùng M tính toán để KT hình thành vết nứt
+Dùng Slab trong để tìm kích thước	Dùng Slab trong để tìm kích thước
+Dùng key này để đăng nhập	Dùng key này để đăng nhập
+Dùng tài khoản DBIM đã đăng ký tại dcejsc.com	Dùng tài khoản DBIM đã đăng ký tại dcejsc.com
+Dầm Phương X có góc hợp bởi	Dầm Phương X có góc hợp bởi
+Dữ liệu sheet: BEAM CONNECTIVITY DATA lỗi định dạng	Dữ liệu sheet: BEAM CONNECTIVITY DATA lỗi định dạng
+Dữ liệu thiết kế sẽ bị xóa vĩnh viễn?	Dữ liệu thiết kế sẽ bị xóa vĩnh viễn?
+Dữ liệu thép cũ sẽ bị xóa vĩnh viễn?	Dữ liệu thép cũ sẽ bị xóa vĩnh viễn?
+Dữ liệu thép dầm được chọn sẽ bị xóa vĩnh viễn?	Dữ liệu thép dầm được chọn sẽ bị xóa vĩnh viễn?
+Dữ liệu từ Etabs	Dữ liệu từ Etabs
+Dữ liệu từ Revit	Dữ liệu từ Revit
+Dữ liệu xuất ra không có tiết diện cột tròn, Nếu dự án có cột tròn vui lòng xuất thêm bảng dữ liệu: 	Dữ liệu xuất ra không có tiết diện cột tròn, Nếu dự án có cột tròn vui lòng xuất thêm bảng dữ liệu: 
+Dự toán KL	Dự toán KL
+Dự toán khối lượng	Dự toán khối lượng
+Dự toán khối lượng thép và bê tông.	Dự toán khối lượng thép và bê tông.
+ENV ULSV	ENV ULSV
+EXIT	EXIT
+Edit Unique	Edit Unique
+Email (*)	Email (*)
+Email: duynv.ksxd@gmail.com	Email: duynv.ksxd@gmail.com
+End conditions (Bottom):	End conditions (Bottom):
+End conditions (Top):	End conditions (Top):
+EnjiCAD	EnjiCAD
+Enjoyed !	Enjoyed !
+Etabs (Frame)	Etabs (Frame)
+Etabs (Strip)	Etabs (Strip)
+Etabs <=> Cad	Etabs <=> Cad
+Etabs Link	Etabs Link
+Etabs Stiffness Modifiers to Safe	Etabs Stiffness Modifiers to Safe
+Etabs Stiffness Modifiers to Safe.	Etabs Stiffness Modifiers to Safe.
+Etabs Table to Etabs	Etabs Table to Etabs
+Etabs Uniform Load Sets to Safe	Etabs Uniform Load Sets to Safe
+Ex Cad	Ex Cad
+Ex to Cad	Ex to Cad
+Excel có số dòng: 1.048.576	Excel có số dòng: 1.048.576
+Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!	Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!
+Exit	Exit
+Export Drawing Data	Export Drawing Data
+Export Strip to Cad	Export Strip to Cad
+Export Tên dầm ra Excel	Export Tên dầm ra Excel
+FAILED to complete.	FAILED to complete.
+FS B:	FS B:
+FS BOT	FS BOT
+FS T:	FS T:
+FS TOP	FS TOP
+Failed!	Failed!
+Failed! Không gán được DatabaseTablesApplyEditedTables Etabs Đích!	Failed! Không gán được DatabaseTablesApplyEditedTables Etabs Đích!
+Failed! Không gán được DatabaseTablesApplyEditedTables Safe Đích!	Failed! Không gán được DatabaseTablesApplyEditedTables Safe Đích!
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Etabs Đích!	Failed! Không gán được DatabaseTablesSetTableForEditingArray Etabs Đích!
+Failed! Không gán được DatabaseTablesSetTableForEditingArray Safe Đích!	Failed! Không gán được DatabaseTablesSetTableForEditingArray Safe Đích!
+Failed! Không kết nối được Safe Đích!	Failed! Không kết nối được Safe Đích!
+File Excel Active cuối cùng không được nhận dạng là file Cọc!	File Excel Active cuối cùng không được nhận dạng là file Cọc!
+File Excel Hỗ trợ combo Etabs chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel Hỗ trợ combo Etabs chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel Thuyết minh tính toán sức chịu tải cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel Thuyết minh tính toán sức chịu tải cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel check gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel check gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel check tỷ số nén chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel check tỷ số nén chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel dầm chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel dầm chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel sàn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel sàn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính cột vách chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính cột vách chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính gió chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính móng đơn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính móng đơn chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính toán và chọn số lượng cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính toán và chọn số lượng cọc chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính đài móng chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính đài móng chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tính động đất chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tính động đất chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+File Excel tổ hợp thép chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?	File Excel tổ hợp thép chưa được mở, Hoặc chưa phải file Active cuối cùng. Bạn có muốn mở nó?
+Find	Find
+Foundation	Foundation
+Frame	Frame
+Fs<=1 Đạt	Fs<=1 Đạt
+Fs>=1 Đạt	Fs>=1 Đạt
+Get Area Assignments Summary	Get Area Assignments Summary
+Get DATA	Get DATA
+Get Etabs	Get Etabs
+Get Load Cases	Get Load Cases
+Get Load Combo	Get Load Combo
+Get Uniform Load Sets	Get Uniform Load Sets
+GetLength	GetLength
+Gia cường bên trái và phải gối luôn bằng nhau	Gia cường bên trái và phải gối luôn bằng nhau
+Gia hạn license cũ	Gia hạn license cũ
+Giá tiền	Giá tiền
+Giá tiền: 	Giá tiền: 
+Giải thích	Giải thích
+Giới hạn FS Min:	Giới hạn FS Min:
+Giới hạn FS<=	Giới hạn FS<=
+Giữ thép cũ, kết nối Lable Etabs (Safe) và tên Dầm CAD	Giữ thép cũ, kết nối Lable Etabs (Safe) và tên Dầm CAD
+Group Zalo 1	Group Zalo 1
+Group Zalo 2	Group Zalo 2
+Group Zalo 3	Group Zalo 3
+Group dầm giống nhau	Group dầm giống nhau
+GstarCAD	GstarCAD
+Gán Etabs	Gán Etabs
+Góc tạo bởi 2 dầm liên tục <	Góc tạo bởi 2 dầm liên tục <
+Gói	Gói
+Góp ý	Góp ý
+Gối	Gối
+Gối tựa 2 đầu dầm (Sau khi đã kết nối Cad - Etabs)	Gối tựa 2 đầu dầm (Sau khi đã kết nối Cad - Etabs)
+Gộp các thép giống nhau để tổ hợp thép nhanh hơn.	Gộp các thép giống nhau để tổ hợp thép nhanh hơn.
+Gộp cột giống nhau Design (lấy từ các cột select bên etabs)	Gộp cột giống nhau Design (lấy từ các cột select bên etabs)
+Gộp thép	Gộp thép
+Gửi email đặt lại mật khẩu tới:	Gửi email đặt lại mật khẩu tới:
+HD P1	HD P1
+HL thép vùng nén bằng	HL thép vùng nén bằng
+HL tối thiểu:	HL tối thiểu:
+HOẠT TẢI 1	HOẠT TẢI 1
+HOẠT TẢI 2	HOẠT TẢI 2
+HOẶC	HOẶC
+Hiển thị các chức năng liên kết mô hình Etabs.	Hiển thị các chức năng liên kết mô hình Etabs.
+Hiển thị các chức năng thiết kế giai đoạn Basic Design.	Hiển thị các chức năng thiết kế giai đoạn Basic Design.
+Hiển thị các chức năng thiết kế móng.	Hiển thị các chức năng thiết kế móng.
+Hiển thị dữ liệu lấy từ Etabs qua Excel.	Hiển thị dữ liệu lấy từ Etabs qua Excel.
+Hiển thị dữ liệu lấy từ Safe qua Excel.	Hiển thị dữ liệu lấy từ Safe qua Excel.
+Hiện	Hiện
+Hiện mật khẩu	Hiện mật khẩu
+Hoàn tất dọn dẹp. Báo cáo lưu tại:	Hoàn tất dọn dẹp. Báo cáo lưu tại:
+Hoặc quy định mầu ở đây:	Hoặc quy định mầu ở đây:
+Hàm lượng thép tối thiểu:	Hàm lượng thép tối thiểu:
+Hãy vào thư mục cài đặt 	Hãy vào thư mục cài đặt 
+Hướng dẫn	Hướng dẫn
+Hướng dẫn P.1	Hướng dẫn P.1
+Hướng dẫn P1	Hướng dẫn P1
+Hướng dẫn nạp tiền	Hướng dẫn nạp tiền
+Hướng dẫn sử dụng: 	Hướng dẫn sử dụng: 
+Hạn dùng	Hạn dùng
+Hệ số C0 (tính cắt TCVN)	Hệ số C0 (tính cắt TCVN)
+Hệ số kể đến sự phân bố không đều biến dạng tương đối	Hệ số kể đến sự phân bố không đều biến dạng tương đối
+Hệ số phần dài hạn	Hệ số phần dài hạn
+Hệ số quy đổi cốt thép về bê tông Alpha_s 	Hệ số quy đổi cốt thép về bê tông Alpha_s 
+Hệ số quy đổi cốt thép về bê tông Alpha_s  tính theo CT (5574-2018)	Hệ số quy đổi cốt thép về bê tông Alpha_s  tính theo CT (5574-2018)
+Họ và tên (*)	Họ và tên (*)
+Hủy	Hủy
+Import Tên dầm từ Excel vừa xuất ra	Import Tên dầm từ Excel vừa xuất ra
+In PDF	In PDF
+In TM	In TM
+In thuyết minh biểu đồ tương tác	In thuyết minh biểu đồ tương tác
+In thuyết minh dạng bảng	In thuyết minh dạng bảng
+In thuyết minh tính toán	In thuyết minh tính toán
+In thuyết minh đai	In thuyết minh đai
+In ấn	In ấn
+In ấn và xem thuyết minh tính toán cột vách.	In ấn và xem thuyết minh tính toán cột vách.
+In ấn và xem thuyết minh tính toán dầm.	In ấn và xem thuyết minh tính toán dầm.
+In ấn và xem thuyết minh tính toán sàn.	In ấn và xem thuyết minh tính toán sàn.
+Joint Loads Assignments - Force	Joint Loads Assignments - Force
+Joint Loads Assignments - Force.	Joint Loads Assignments - Force.
+KC dầm giao nhịp cách mép gối tối thiểu để bố trí gia cường đai:	KC dầm giao nhịp cách mép gối tối thiểu để bố trí gia cường đai:
+KC khe - giữa 2 lớp thép chủ:	KC khe - giữa 2 lớp thép chủ:
+KC thép đai bố trí tự động:	KC thép đai bố trí tự động:
+KIỂM TRA TỔNG THỂ: Không có kết quả cắt nào được tạo ra!	KIỂM TRA TỔNG THỂ: Không có kết quả cắt nào được tạo ra!
+KR:	KR:
+Kc giữa 2 lớp thép:	Kc giữa 2 lớp thép:
+Key bản quyền	Key bản quyền
+Key này KHÔNG dùng được trên máy hiện tại:	Key này KHÔNG dùng được trên máy hiện tại:
+Khi triển khai dầm luôn luôn lấy tên Group và SL tương ứng để vẽ	Khi triển khai dầm luôn luôn lấy tên Group và SL tương ứng để vẽ
+Kho thép	Kho thép
+Khoảng cách 2 dầm liên tục <=	Khoảng cách 2 dầm liên tục <=
+Khoảng cách 2 lần nối:	Khoảng cách 2 lần nối:
+Khoảng cách thép giá:	Khoảng cách thép giá:
+Khoảng cách đủ để đổ BT	Khoảng cách đủ để đổ BT
+Khác	Khác
+Không Sử dụng thép tận dụng	Không Sử dụng thép tận dụng
+Không Thể đăng xuất tài khoản!	Không Thể đăng xuất tài khoản!
+Không chạy được 	Không chạy được 
+Không có Group nào được chọn!	Không có Group nào được chọn!
+Không có Workbook nào đang được mở!	Không có Workbook nào đang được mở!
+Không có Worksheet nào đang được mở!	Không có Worksheet nào đang được mở!
+Không có bảng Shell Uniform Load Sets ở Etabs Nguồn!	Không có bảng Shell Uniform Load Sets ở Etabs Nguồn!
+Không có bảng Shell Uniform Load Sets ở Safe Nguồn!	Không có bảng Shell Uniform Load Sets ở Safe Nguồn!
+Không có dữ liệu Pier Forces - Kiểm tra lại Access xuất từ Etabs!	Không có dữ liệu Pier Forces - Kiểm tra lại Access xuất từ Etabs!
+Không có dữ liệu Pier Section - Kiểm tra lại Access xuất từ Etabs!	Không có dữ liệu Pier Section - Kiểm tra lại Access xuất từ Etabs!
+Không có dữ liệu nội lực tầng được chọn	Không có dữ liệu nội lực tầng được chọn
+Không có mô hình Etabs nào được mở	Không có mô hình Etabs nào được mở
+Không có phân tử sàn nào được select trước trong Etabs!	Không có phân tử sàn nào được select trước trong Etabs!
+Không có tầng nào của Etabs trùng tên tầng trong sheet 	Không có tầng nào của Etabs trùng tên tầng trong sheet 
+Không cắt thép khi L<=	Không cắt thép khi L<=
+Không hỗ trợ tiêu chuẩn hiện tại!	Không hỗ trợ tiêu chuẩn hiện tại!
+Không kết nối được Safe Nguồn!	Không kết nối được Safe Nguồn!
+Không kết nối được máy chủ để gửi email đặt lại mật khẩu.	Không kết nối được máy chủ để gửi email đặt lại mật khẩu.
+Không kết nối được máy chủ để đăng ký tài khoản.	Không kết nối được máy chủ để đăng ký tài khoản.
+Không liên kết Revit với Etabs	Không liên kết Revit với Etabs
+Không load được dữ liệu động đất từ Excel.	Không load được dữ liệu động đất từ Excel.
+Không lấy được nội lực Design Forces từ ETABS!	Không lấy được nội lực Design Forces từ ETABS!
+Không sử dụng kho thép cũ	Không sử dụng kho thép cũ
+Không thể SetCaseSelectedForOutput 	Không thể SetCaseSelectedForOutput 
+Không thể gửi yêu cầu lấy lại mật khẩu!	Không thể gửi yêu cầu lấy lại mật khẩu!
+Không thể hiện vị trí nhịp dầm	Không thể hiện vị trí nhịp dầm
+Không thể khai báo Patterns: 	Không thể khai báo Patterns: 
+Không thể khai báo load Cases: 	Không thể khai báo load Cases: 
+Không thể khai báo load Combo: 	Không thể khai báo load Combo: 
+Không thể khởi động trình cập nhật: 	Không thể khởi động trình cập nhật: 
+Không thể load nội lực combo: 	Không thể load nội lực combo: 
+Không thể lấy danh sách license!	Không thể lấy danh sách license!
+Không thể mở form đăng ký tài khoản!	Không thể mở form đăng ký tài khoản!
+Không thể đăng ký tài khoản!	Không thể đăng ký tài khoản!
+Không thể đăng nhập!	Không thể đăng nhập!
+Không thể đăng xuất!	Không thể đăng xuất!
+Không truy cập được bản vẽ đang mở trong CAD.	Không truy cập được bản vẽ đang mở trong CAD.
+Không tìm thấy 	Không tìm thấy 
+Không tìm thấy Nội lực	Không tìm thấy Nội lực
+Không tìm thấy Sheets 	Không tìm thấy Sheets 
+Không tìm thấy bảng 	Không tìm thấy bảng 
+Không tìm thấy bảng Area Load Assignments - Uniform Load Sets	Không tìm thấy bảng Area Load Assignments - Uniform Load Sets
+Không tìm thấy bảng Nội lực 	Không tìm thấy bảng Nội lực 
+Không tìm thấy bảng Shell Uniform Load Sets	Không tìm thấy bảng Shell Uniform Load Sets
+Không tìm thấy bảng: Concrete Slab Design - Flexure and Shear Data	Không tìm thấy bảng: Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy dầm nào trong các phần tử đã chọn!	Không tìm thấy dầm nào trong các phần tử đã chọn!
+Không tìm thấy file cập nhật tại: 	Không tìm thấy file cập nhật tại: 
+Không tìm thấy file cập nhật!	Không tìm thấy file cập nhật!
+Không tìm thấy file excel chứa sheet 'Column Detail'	Không tìm thấy file excel chứa sheet 'Column Detail'
+Không tìm thấy file excel chứa sheet 'ColumnDesign'	Không tìm thấy file excel chứa sheet 'ColumnDesign'
+Không tìm thấy file excel chứa sheet 'DATABEAM'	Không tìm thấy file excel chứa sheet 'DATABEAM'
+Không tìm thấy file excel chứa sheet 'TienLuong'	Không tìm thấy file excel chứa sheet 'TienLuong'
+Không tìm thấy file excel chứa sheet 'TinhDam'	Không tìm thấy file excel chứa sheet 'TinhDam'
+Không tìm thấy phần tử nào được chọn (select) trong ETABS!	Không tìm thấy phần tử nào được chọn (select) trong ETABS!
+Không tìm thấy phần tử nào được chọn (selects) trước trong model, Cần quét chọn Point muốn xuất DL nội lực!	Không tìm thấy phần tử nào được chọn (selects) trước trong model, Cần quét chọn Point muốn xuất DL nội lực!
+Không tìm thấy phần tử sàn bên Safe!	Không tìm thấy phần tử sàn bên Safe!
+Không tìm thấy sheet "	Không tìm thấy sheet "
+Không tìm thấy sheets: 	Không tìm thấy sheets: 
+Không tìm thấy trường 	Không tìm thấy trường 
+Không tìm thấy trường FBotArea của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường FBotArea của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FBotMoment của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường FBotMoment của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FTopArea của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường FTopArea của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường FTopMoment của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường FTopMoment của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường Station của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường Station của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy trường Story	Không tìm thấy trường Story
+Không tìm thấy trường StripObject của bảng Concrete Slab Design - Flexure and Shear Data	Không tìm thấy trường StripObject của bảng Concrete Slab Design - Flexure and Shear Data
+Không tìm thấy tài khoản nào được đăng nhập!	Không tìm thấy tài khoản nào được đăng nhập!
+Không tìm thấy tên dầm cũ trong file Excel: 	Không tìm thấy tên dầm cũ trong file Excel: 
+Không tìm thấy tên tổ hợp tương ứng: 	Không tìm thấy tên tổ hợp tương ứng: 
+Không tìm thấy vị trí dòng: 	Không tìm thấy vị trí dòng: 
+Không tìm thấy ứng dụng GenCol được mở!	Không tìm thấy ứng dụng GenCol được mở!
+Không tồn tại dữ liệu bề rộng dầm: 	Không tồn tại dữ liệu bề rộng dầm: 
+Không xác định Sheet tính toán sức chịu tải cọc, vui lòng kiểm tra lại!	Không xác định Sheet tính toán sức chịu tải cọc, vui lòng kiểm tra lại!
+Không đọc được bảng "	Không đọc được bảng "
+Không đọc được danh sách tầng từ Etabs.	Không đọc được danh sách tầng từ Etabs.
+Khởi động lại máy tính sau khi cài đặt xong	Khởi động lại máy tính sau khi cài đặt xong
+Kiểm tra	Kiểm tra
+Kiểm tra kết nối mạng để sử dụng tính năng này!	Kiểm tra kết nối mạng để sử dụng tính năng này!
+Kiểm tra kết nối mạng để đăng nhập tài khoản!	Kiểm tra kết nối mạng để đăng nhập tài khoản!
+Kiểm tra kết nối mạng để đăng xuất tài khoản!	Kiểm tra kết nối mạng để đăng xuất tài khoản!
+Kiểm tra kết nối mạng!	Kiểm tra kết nối mạng!
+Kính gửi Quý Khách,	Kính gửi Quý Khách,
+Ký hiệu cho số nhánh đai:	Ký hiệu cho số nhánh đai:
+KẾT NỐI API	KẾT NỐI API
+Kết hợp đầu vào là Kho thép và các thanh Nguyên có chiều dài L=	Kết hợp đầu vào là Kho thép và các thanh Nguyên có chiều dài L=
+Kết nối CAD API	Kết nối CAD API
+Kết nối Cad - Excel	Kết nối Cad - Excel
+Kết nối MBCK - Strip	Kết nối MBCK - Strip
+Kết nối lable Etabs (Safe) và tên dầm trên CAD	Kết nối lable Etabs (Safe) và tên dầm trên CAD
+Kết nối thành công: 	Kết nối thành công: 
+Kết nối với AUTOCAD API.	Kết nối với AUTOCAD API.
+Kết nối với CSI API.	Kết nối với CSI API.
+Kết nối đến: 	Kết nối đến: 
+Kỹ sư kết cấu	Kỹ sư kết cấu
+L API	L API
+L gối chung giữa 2 dầm liên tục <=	L gối chung giữa 2 dầm liên tục <=
+LAccess	LAccess
+LICENSE CỦA TÔI	LICENSE CỦA TÔI
+LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY	LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY
+License Trial giới hạn chức năng tính toán cột vách!	License Trial giới hạn chức năng tính toán cột vách!
+License Trial giới hạn chức năng tính toán dầm!	License Trial giới hạn chức năng tính toán dầm!
+License Trial giới hạn chức năng tính toán sàn!	License Trial giới hạn chức năng tính toán sàn!
+License Trial giới hạn chức năng tính toán, vẽ móng & cọc!	License Trial giới hạn chức năng tính toán, vẽ móng & cọc!
+License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+License của bạn không thể sử dụng chức năng này!	License của bạn không thể sử dụng chức năng này!
+License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?	License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?
+License dùng được	License dùng được
+License giới hạn chức năng tính toán cột vách!	License giới hạn chức năng tính toán cột vách!
+License giới hạn chức năng tính toán dầm!	License giới hạn chức năng tính toán dầm!
+License giới hạn chức năng tính toán sàn!	License giới hạn chức năng tính toán sàn!
+License giới hạn chức năng tính toán, vẽ móng & cọc!	License giới hạn chức năng tính toán, vẽ móng & cọc!
+License hết hạn sử dụng!	License hết hạn sử dụng!
+License timeout offline!	License timeout offline!
+License:	License:
+License: 	License: 
+Liên kết khác	Liên kết khác
+Load (Update) Nội lực	Load (Update) Nội lực
+Load API SLS	Load API SLS
+Load API ULS	Load API ULS
+Load Design Forces	Load Design Forces
+Load File thành công!	Load File thành công!
+Load Nội lực	Load Nội lực
+Load Nội lực:	Load Nội lực:
+Load Txt	Load Txt
+Load access có thể nhanh hơn!	Load access có thể nhanh hơn!
+Load data Etabs	Load data Etabs
+Load dữ liệu nội lực.	Load dữ liệu nội lực.
+Load dữ liệu thành công!	Load dữ liệu thành công!
+Load nội lực	Load nội lực
+Load nội lực tính toán	Load nội lực tính toán
+Load nội lực:	Load nội lực:
+Load text file GenCol	Load text file GenCol
+Load tổ hợp nội lực để tính nứt:	Load tổ hợp nội lực để tính nứt:
+Load tổ hợp tính nứt (dài hạn)	Load tổ hợp tính nứt (dài hạn)
+Load tổ hợp tính nứt (tổng tải)	Load tổ hợp tính nứt (tổng tải)
+Load tổ hợp tính toán ULS	Load tổ hợp tính toán ULS
+LoadCases sau không được lấy thành công: 	LoadCases sau không được lấy thành công: 
+LogOut license Vip	LogOut license Vip
+Login	Login
+Logout	Logout
+Loại cấu kiện	Loại cấu kiện
+Loại cấu kiện:	Loại cấu kiện:
+Loại thép Chủ:	Loại thép Chủ:
+Loại đai Cột:	Loại đai Cột:
+Luôn bố trí KC đai gối:	Luôn bố trí KC đai gối:
+Làm mới bảng tính (API)	Làm mới bảng tính (API)
+Làm mới mầu sắc bảng tính.	Làm mới mầu sắc bảng tính.
+Làm đẹp thuyết minh	Làm đẹp thuyết minh
+Lícense sau khi mua mới sẽ hiện ở đây...	Lícense sau khi mua mới sẽ hiện ở đây...
+LícenseKey...	LícenseKey...
+Lưu TK	Lưu TK
+Lưu cấu hình	Lưu cấu hình
+Lưu dữ liệu	Lưu dữ liệu
+Lưu ý mở khóa cho mô hình để thao tác!	Lưu ý mở khóa cho mô hình để thao tác!
+Lưu ý tất cả các phần tử liên quan tới bảng 	Lưu ý tất cả các phần tử liên quan tới bảng 
+Lưu ý:	Lưu ý:
+Lưu ý: Chức năng này sẽ xóa toàn bộ file PHỤ sinh ra trong quá trình phân tích của Etabs, Safe và file phụ có đuôi .bak của Autocad! để giải phóng dữ liệu	Lưu ý: Chức năng này sẽ xóa toàn bộ file PHỤ sinh ra trong quá trình phân tích của Etabs, Safe và file phụ có đuôi .bak của Autocad! để giải phóng dữ liệu
+Lưu ý: Cần cài đặt hệ số αcc (Strength factor) trong Prokon trùng khớp hệ số αcc (Strength factor) trong Excel	Lưu ý: Cần cài đặt hệ số αcc (Strength factor) trong Prokon trùng khớp hệ số αcc (Strength factor) trong Excel
+Lấy Abs(momen) Max trên 1 Station strip	Lấy Abs(momen) Max trên 1 Station strip
+Lấy Astt Max của (Etabs và Excel (cột Q, AH))	Lấy Astt Max của (Etabs và Excel (cột Q, AH))
+Lấy DL Ván Khuân (Etabs API)	Lấy DL Ván Khuân (Etabs API)
+Lấy DL tính toán	Lấy DL tính toán
+Lấy Diện tích thép design từ mô hình (cần design strip bên model)	Lấy Diện tích thép design từ mô hình (cần design strip bên model)
+Lấy Handle (địa chỉ) bằng cách select các đối tượng bên Autocad.	Lấy Handle (địa chỉ) bằng cách select các đối tượng bên Autocad.
+Lấy Handle (địa chỉ) bằng cách vẽ Line bên Autocad.	Lấy Handle (địa chỉ) bằng cách vẽ Line bên Autocad.
+Lấy Handle (địa chỉ) bằng cách vẽ Polyline bên Autocad.	Lấy Handle (địa chỉ) bằng cách vẽ Polyline bên Autocad.
+Lấy Handle (địa chỉ) bằng cách vẽ Rectang bên Autocad.	Lấy Handle (địa chỉ) bằng cách vẽ Rectang bên Autocad.
+Lấy diện tích thép Model	Lấy diện tích thép Model
+Lấy diện tích thép từ Etabs Design	Lấy diện tích thép từ Etabs Design
+Lấy diện tích thép từ Model	Lấy diện tích thép từ Model
+Lấy dữ liệu ETABS thành công.	Lấy dữ liệu ETABS thành công.
+Lấy momen design từ mô hình (cần design strip bên model trước)	Lấy momen design từ mô hình (cần design strip bên model trước)
+Lấy momen design, nội lực giới hạn về mặc định	Lấy momen design, nội lực giới hạn về mặc định
+Lấy mã máy	Lấy mã máy
+Lấy nội lực từ tổ hợp:	Lấy nội lực từ tổ hợp:
+Lấy tên Label Gốc trong Excel ở cột	Lấy tên Label Gốc trong Excel ở cột
+Lấy tọa độ thép cột vách HCN người dùng nhập từ Excel.	Lấy tọa độ thép cột vách HCN người dùng nhập từ Excel.
+Lọc	Lọc
+Lọc Momen tính Nhịp từ khoảng:	Lọc Momen tính Nhịp từ khoảng:
+Lọc NL (Paste DL thủ công)	Lọc NL (Paste DL thủ công)
+Lọc momen tính Gối trong khoảng:	Lọc momen tính Gối trong khoảng:
+Lỗi	Lỗi
+Lỗi ApplyEditedTables (ret = 	Lỗi ApplyEditedTables (ret = 
+Lỗi ApplyEditedTables RS Function (ret=	Lỗi ApplyEditedTables RS Function (ret=
+Lỗi ApplyEditedTables RS Load Case (ret=	Lỗi ApplyEditedTables RS Load Case (ret=
+Lỗi SetTableForEditingArray "	Lỗi SetTableForEditingArray "
+Lỗi SetTableForEditingArray bảng "	Lỗi SetTableForEditingArray bảng "
+Lỗi cột chiều dài - không phải là số tự nhiên: 	Lỗi cột chiều dài - không phải là số tự nhiên: 
+Lỗi cột số lượng - không phải là số tự nhiên: 	Lỗi cột số lượng - không phải là số tự nhiên: 
+Lỗi cột đường kính - không phải là số tự nhiên: 	Lỗi cột đường kính - không phải là số tự nhiên: 
+Lỗi khi chạy update: 	Lỗi khi chạy update: 
+Lỗi lưu nhánh đai!	Lỗi lưu nhánh đai!
+Lỗi lưu số lượng thép tương ứng bề rộng	Lỗi lưu số lượng thép tương ứng bề rộng
+Lỗi nội lực lable: 	Lỗi nội lực lable: 
+Lỗi đổi tên dầm: 	Lỗi đổi tên dầm: 
+Lỗi!	Lỗi!
+Lỗi!    	Lỗi!    
+Lỗi: 	Lỗi: 
+Lớp bê tông bảo vệ:	Lớp bê tông bảo vệ:
+Made by Nguyễn Văn Duy - Zalo: 0989 111 206	Made by Nguyễn Văn Duy - Zalo: 0989 111 206
+Mail: nguyenduyahnt@gmail.com	Mail: nguyenduyahnt@gmail.com
+Minimum Reinforcing Ratio	Minimum Reinforcing Ratio
+Model AI	Model AI
+Model Etabs chưa có Load Case kiểu Modal.	Model Etabs chưa có Load Case kiểu Modal.
+Model Etabs phải có ít nhất 2 load pattern kiểu Wind (1 cho phương X, 1 cho phương Y).	Model Etabs phải có ít nhất 2 load pattern kiểu Wind (1 cho phương X, 1 cho phương Y).
+Modulus of rupture (ACI)	Modulus of rupture (ACI)
+Momen:	Momen:
+Mua License Mới	Mua License Mới
+Mua cho Email:	Mua cho Email:
+Mua license	Mua license
+Mua license mới	Mua license mới
+Mua mới hoặc gia hạn bản quyền DCE.	Mua mới hoặc gia hạn bản quyền DCE.
+MÔ HÌNH ETABS CHƯA ĐƯỢC PHÂN TÍCH!	MÔ HÌNH ETABS CHƯA ĐƯỢC PHÂN TÍCH!
+Mác Bê Tông:	Mác Bê Tông:
+Mác Thép Dọc đk <=	Mác Thép Dọc đk <=
+Mác Thép Dọc đk >	Mác Thép Dọc đk >
+Mác Thép Dọc:	Mác Thép Dọc:
+Mác Thép Đai <= 8:	Mác Thép Đai <= 8:
+Mác Thép Đai > 8:	Mác Thép Đai > 8:
+Mác thép đai đk >	Mác thép đai đk >
+Máy tính chặn kết nối internet (Hoặc máy tính không có internet)	Máy tính chặn kết nối internet (Hoặc máy tính không có internet)
+Máy tính đã được đăng nhập trước đó: 	Máy tính đã được đăng nhập trước đó: 
+Máy tính: 	Máy tính: 
+Máy tính: ...	Máy tính: ...
+Mã OC	Mã OC
+Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Mã thiết bị:	Mã thiết bị:
+Móc đai:	Móc đai:
+Mô hình AI	Mô hình AI
+Mô hình Etabs chưa 'run' hoặc không tìm thấy Lable tồn tại!	Mô hình Etabs chưa 'run' hoặc không tìm thấy Lable tồn tại!
+Mô hình nguồn:	Mô hình nguồn:
+Mô hình {selectedAI} hiện tại chưa hỗ trợ phân tích hình ảnh. Vui lòng chọn Gemini hoặc ChatGPT!	Mô hình {selectedAI} hiện tại chưa hỗ trợ phân tích hình ảnh. Vui lòng chọn Gemini hoặc ChatGPT!
+Mô hình đích:	Mô hình đích:
+Mảng có số dòng: 	Mảng có số dòng: 
+Mầu thể hiện vị trí Mid là số tự nhiên < 256	Mầu thể hiện vị trí Mid là số tự nhiên < 256
+Mầu thể hiện vị trí Start là số tự nhiên < 256	Mầu thể hiện vị trí Start là số tự nhiên < 256
+MẬT KHẨU CẤP 2	MẬT KHẨU CẤP 2
+Mật khẩu (*)	Mật khẩu (*)
+Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Mật khẩu cấp 2:	Mật khẩu cấp 2:
+Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.	Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.
+Mật khẩu:	Mật khẩu:
+Mọi góp ý xin gửi về:	Mọi góp ý xin gửi về:
+Mục 8.1.3.3.1 TCVN 5574-2018; Công thức 94 - 95	Mục 8.1.3.3.1 TCVN 5574-2018; Công thức 94 - 95
+Nguyễn Văn Duy	Nguyễn Văn Duy
+Nhóm nghề:	Nhóm nghề:
+Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!	Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!
+Nhập Email...	Nhập Email...
+Nhập Mã thiết bị...	Nhập Mã thiết bị...
+Nhập tên Load Case động đất phương X:	Nhập tên Load Case động đất phương X:
+Nhập tên Load Case động đất phương Y:	Nhập tên Load Case động đất phương Y:
+Nhập tên load pattern gió phương X:	Nhập tên load pattern gió phương X:
+Nhập tên load pattern gió phương Y:	Nhập tên load pattern gió phương Y:
+Nhập tên thiết bị...	Nhập tên thiết bị...
+Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!	Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!
+Nhịp	Nhịp
+Not load 'Pier Label GetSection Properties' – runs faster.	Not load 'Pier Label GetSection Properties' – runs faster.
+NumberResults = nothing	NumberResults = nothing
+Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!	Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!
+Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!	Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!
+Nếu được hãy thay dấu '-' thành dấu '.'	Nếu được hãy thay dấu '-' thành dấu '.'
+Nội dung	Nội dung
+Nội dung chuyển khoản:	Nội dung chuyển khoản:
+OPTION	OPTION
+Omit slenderness momen	Omit slenderness momen
+Omit slenderness momen (BDTT)	Omit slenderness momen (BDTT)
+Option:	Option:
+P.2	P.2
+PP NLGH (Chỉ áp dụng tính CỘT HCN và dùng TCVN)	PP NLGH (Chỉ áp dụng tính CỘT HCN và dùng TCVN)
+PY:	PY:
+Patterns - Cases	Patterns - Cases
+Phiên bản:	Phiên bản:
+Phát hiện 	Phát hiện 
+Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!	Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!
+Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!	Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!
+Phần mềm không phân biệt được update tiết diện B,H sheets ColumnDesign hay WallDesign!, vui lòng chỉ rõ bằng cách Active Sheet đó	Phần mềm không phân biệt được update tiết diện B,H sheets ColumnDesign hay WallDesign!, vui lòng chỉ rõ bằng cách Active Sheet đó
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào	Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào
+Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào cột P và AG trong bảng tính dầm!	Phần mềm sẽ GHI ĐÈ diện tích thép design từ etabs vào cột P và AG trong bảng tính dầm!
+Pier	Pier
+Pier forces	Pier forces
+Pu File Etabs, Safe, Cad	Pu File Etabs, Safe, Cad
+Quên mật khẩu?	Quên mật khẩu?
+Remove Device	Remove Device
+Remove Device License Vip	Remove Device License Vip
+Remove không thành công! Kiểm tra kết nối mạng	Remove không thành công! Kiểm tra kết nối mạng
+Reset All Default	Reset All Default
+Reset bảng tính	Reset bảng tính
+SLAB	SLAB
+Safe (Frame)	Safe (Frame)
+Safe (Strip)	Safe (Strip)
+Safe Table to Safe	Safe Table to Safe
+Sai số	Sai số
+Sai số bắt điểm dầm trong model (<10):	Sai số bắt điểm dầm trong model (<10):
+Sao chép key	Sao chép key
+Sap2000	Sap2000
+Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Save	Save
+Schedule 2	Schedule 2
+Schedule 3	Schedule 3
+Seismic	Seismic
+Select MDB File	Select MDB File
+Set Load Cases	Set Load Cases
+Set Load Combo	Set Load Combo
+Setup quan điểm tính	Setup quan điểm tính
+Show data to Excel	Show data to Excel
+Show dữ liệu nội lực từ mô hình ra Excel (Làm mới Excel)?	Show dữ liệu nội lực từ mô hình ra Excel (Làm mới Excel)?
+Show dữ liệu tính toán	Show dữ liệu tính toán
+Sort Data	Sort Data
+Sync Model Points Safe	Sync Model Points Safe
+Sàn có 2 phương vuông góc, trọng tâm thép được tính đến lớp ngoài	Sàn có 2 phương vuông góc, trọng tâm thép được tính đến lớp ngoài
+Sắp xếp và gộp các cấu kiện giống nhau.	Sắp xếp và gộp các cấu kiện giống nhau.
+SỐ LƯỢNG THÉP CÓ THỂ CÓ Ở LỚP CHẠY SUỐT VÀ LỚP TĂNG CƯỜNG	SỐ LƯỢNG THÉP CÓ THỂ CÓ Ở LỚP CHẠY SUỐT VÀ LỚP TĂNG CƯỜNG
+Số bắt đầu:	Số bắt đầu:
+Số dòng quá lớn 	Số dòng quá lớn 
+Số dư tài khoàn:	Số dư tài khoàn:
+Số dầm đổi tên thành công = 0	Số dầm đổi tên thành công = 0
+Số lượng nhánh đai tính toán:	Số lượng nhánh đai tính toán:
+Số lớp <= 3	Số lớp <= 3
+Số lớp >=2	Số lớp >=2
+Số ngày sử dụng	Số ngày sử dụng
+Số ngày sử dụng: 	Số ngày sử dụng: 
+Số tài khoản: 19033419323019	Số tài khoản: 19033419323019
+Số tầng gộp tính chung 1 lần:	Số tầng gộp tính chung 1 lần:
+Số điện thoại (*)	Số điện thoại (*)
+Sử dụng hàm Excel tính cho Combo nguy hiểm nhất	Sử dụng hàm Excel tính cho Combo nguy hiểm nhất
+Sử dụng kho thép cũ	Sử dụng kho thép cũ
+Sử dụng license cũ để đăng nhập vào tài khoản!	Sử dụng license cũ để đăng nhập vào tài khoản!
+Sử dụng license mới để đăng nhập vào tài khoản!	Sử dụng license mới để đăng nhập vào tài khoản!
+Sử dụng thép tận dụng	Sử dụng thép tận dụng
+Sửa	Sửa
+TH tính nứt (dài hạn)	TH tính nứt (dài hạn)
+TH tính nứt (tổng tải)	TH tính nứt (tổng tải)
+TH tính toán ULS	TH tính toán ULS
+THÉP	THÉP
+THÔNG TIN LIÊN HỆ	THÔNG TIN LIÊN HỆ
+TMTT	TMTT
+TMTT Sàn	TMTT Sàn
+TUỲ CHỌN NÂNG CAO	TUỲ CHỌN NÂNG CAO
+Tab Basic Design	Tab Basic Design
+Telegram: 	Telegram: 
+Tension	Tension
+Test Tổ hợp thép.	Test Tổ hợp thép.
+Thao tác không thành công!	Thao tác không thành công!
+Thao tác không thành công, Xem lại dữ liệu Frame Assignments - Summary trong file Access	Thao tác không thành công, Xem lại dữ liệu Frame Assignments - Summary trong file Access
+Thao tác không thành công, Xem lại dữ liệu:	Thao tác không thành công, Xem lại dữ liệu:
+Thao tác không thành công, dữ liệu cần có bảng:	Thao tác không thành công, dữ liệu cần có bảng:
+Thao tác không thành công, không tìm thấy Sheets: 	Thao tác không thành công, không tìm thấy Sheets: 
+Thiết bị	Thiết bị
+Thiết kế	Thiết kế
+Thiết kế Dầm 	Thiết kế Dầm 
+Thiết kế bằng bảng tính Excel BDTT (Cấu kiện nén uốn)	Thiết kế bằng bảng tính Excel BDTT (Cấu kiện nén uốn)
+Thiết kế cột vách	Thiết kế cột vách
+Thiết kế cột vách.	Thiết kế cột vách.
+Thiết kế hoặc in thuyết minh và lấy kết quả từ Prokon	Thiết kế hoặc in thuyết minh và lấy kết quả từ Prokon
+Thiết kế tự động	Thiết kế tự động
+Thiết kế đai (TCVN)	Thiết kế đai (TCVN)
+Thuyết minh	Thuyết minh
+Thuyết minh SCT cọc	Thuyết minh SCT cọc
+Thuyết minh SCT cọc 	Thuyết minh SCT cọc 
+Thuyết minh tính toán	Thuyết minh tính toán
+Thép dọc	Thép dọc
+Thép rải đều Bot:	Thép rải đều Bot:
+Thép rải đều Top:	Thép rải đều Top:
+Thép sàn lớp dưới:	Thép sàn lớp dưới:
+Thép sàn lớp trên:	Thép sàn lớp trên:
+Thép thanh	Thép thanh
+Thép tăng cường loại 1:	Thép tăng cường loại 1:
+Thép tăng cường loại 2:	Thép tăng cường loại 2:
+Thép tăng cường loại 3:	Thép tăng cường loại 3:
+Thép tăng cường loại 4:	Thép tăng cường loại 4:
+Thép tăng cường loại 5:	Thép tăng cường loại 5:
+Thép tăng cường loại 6:	Thép tăng cường loại 6:
+Thép tăng cường loại 7:	Thép tăng cường loại 7:
+Thép tăng cường loại 8:	Thép tăng cường loại 8:
+Thép tăng cường loại 9:	Thép tăng cường loại 9:
+Thép tận dụng	Thép tận dụng
+Thép đai	Thép đai
+Thêm	Thêm
+Thêm Group (lấy từ các dầm select bên etabs)	Thêm Group (lấy từ các dầm select bên etabs)
+Thêm Số lượng ngày	Thêm Số lượng ngày
+Thêm dầm vào bảng tính	Thêm dầm vào bảng tính
+Thêm đuôi hậu tố vào file Prokon	Thêm đuôi hậu tố vào file Prokon
+Thông báo	Thông báo
+Thông số chung Cột, Vách.	Thông số chung Cột, Vách.
+Thông tin liên hệ nhà phát triển.	Thông tin liên hệ nhà phát triển.
+Thông tin nhập chưa chính xác, vui lòng xem lại!	Thông tin nhập chưa chính xác, vui lòng xem lại!
+Thông tin tài khoản	Thông tin tài khoản
+Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!	Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!
+Thực hiện thành công đổi tên: 	Thực hiện thành công đổi tên: 
+Thực hiện đổi tên thành công: 	Thực hiện đổi tên thành công: 
+Tiêu chuẩn tính toán:	Tiêu chuẩn tính toán:
+Tiêu chuẩn:	Tiêu chuẩn:
+Tiến hành đăng xuất:	Tiến hành đăng xuất:
+Tower:	Tower:
+Toàn bộ nhịp của dầm được chọn	Toàn bộ nhịp của dầm được chọn
+Trân trọng!	Trân trọng!
+Trạng thái	Trạng thái
+Trợ lý AI.	Trợ lý AI.
+Trừ chiều cao tính toán (mm):	Trừ chiều cao tính toán (mm):
+TÍNH GIÓ ĐỘNG	TÍNH GIÓ ĐỘNG
+Tài Khoản:	Tài Khoản:
+Tài khoản	Tài khoản
+Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM	Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM
+Tài khoản:	Tài khoản:
+Tác dụng dài hạn của tải trọng thường xuyên và tạm thời dài hạn	Tác dụng dài hạn của tải trọng thường xuyên và tạm thời dài hạn
+Tác dụng ngắn hạn của toàn bộ tải trọng	Tác dụng ngắn hạn của toàn bộ tải trọng
+Tác dụng ngắn hạn của tải trọng thường xuyên	Tác dụng ngắn hạn của tải trọng thường xuyên
+Tác dụng ngắn hạn của tải trọng thường xuyên và tạm thời dài hạn	Tác dụng ngắn hạn của tải trọng thường xuyên và tạm thời dài hạn
+Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng	Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng
+Tên Load Case phương X và phương Y không được trùng nhau.	Tên Load Case phương X và phương Y không được trùng nhau.
+Tên bảng replace	Tên bảng replace
+Tên dầm cũ:	Tên dầm cũ:
+Tên dầm lấy bằng Unique Names	Tên dầm lấy bằng Unique Names
+Tên dầm mới đã tồn tại trong file excel vì thế không thể đổi tên (trùng tên)	Tên dầm mới đã tồn tại trong file excel vì thế không thể đổi tên (trùng tên)
+Tên dầm mới:	Tên dầm mới:
+Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?	Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?
+Tên file combine:	Tên file combine:
+Tên file tính dầm:	Tên file tính dầm:
+Tên load pattern vừa nhập không phải load pattern kiểu Wind của model.	Tên load pattern vừa nhập không phải load pattern kiểu Wind của model.
+Tên ngân hàng: Techcombank	Tên ngân hàng: Techcombank
+Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Tên thiết bị:	Tên thiết bị:
+Tên tiền tố	Tên tiền tố
+Tên tiền tố PX	Tên tiền tố PX
+Tên tiền tố không đặt ký tự chứa dấu '-'	Tên tiền tố không đặt ký tự chứa dấu '-'
+Tên tiền tố loại vách dính liền:	Tên tiền tố loại vách dính liền:
+Tên tiền tố:	Tên tiền tố:
+Tên tầng trong Etabs không đặt dạng số!, vui lòng chỉnh tên tầng trong mô hình Etabs và load lại nội lực.	Tên tầng trong Etabs không đặt dạng số!, vui lòng chỉnh tên tầng trong mô hình Etabs và load lại nội lực.
+Tên tầng trong mô hình không nên đặt dạng số, vì đặt dạng số sẽ dễ bị sót trong 1 số trường hợp đặc biệt	Tên tầng trong mô hình không nên đặt dạng số, vì đặt dạng số sẽ dễ bị sót trong 1 số trường hợp đặc biệt
+Tìm dầm giao tại gối, nhịp	Tìm dầm giao tại gối, nhịp
+Tìm dữ liệu	Tìm dữ liệu
+Tìm hình dáng gối tựa	Tìm hình dáng gối tựa
+Tìm kích thước gối theo thứ tự dòng số:	Tìm kích thước gối theo thứ tự dòng số:
+Tìm kích thước gối toàn bộ dầm	Tìm kích thước gối toàn bộ dầm
+Tìm kích thước gối đầu và cuối dầm	Tìm kích thước gối đầu và cuối dầm
+Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 	Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 
+Tính Cọc	Tính Cọc
+Tính Excel	Tính Excel
+Tính Móng	Tính Móng
+Tính Prokon (Mục này dành cho tính toán bằng phần mềm Prokon)	Tính Prokon (Mục này dành cho tính toán bằng phần mềm Prokon)
+Tính cắt	Tính cắt
+Tính gió	Tính gió
+Tính gió:	Tính gió:
+Tính lable Etabs	Tính lable Etabs
+Tính lặp toàn bộ các section và tổ hợp	Tính lặp toàn bộ các section và tổ hợp
+Tính nhanh các cặp nội lực tương ứng:	Tính nhanh các cặp nội lực tương ứng:
+Tính nứt (dài hạn) (ưu tiên load trước)	Tính nứt (dài hạn) (ưu tiên load trước)
+Tính nứt (tổng tải) (ưu tiên load trước)	Tính nứt (tổng tải) (ưu tiên load trước)
+Tính nứt:	Tính nứt:
+Tính toán SCT cọc	Tính toán SCT cọc
+Tính toán cường độ (load sau cùng)	Tính toán cường độ (load sau cùng)
+Tính toán cột vách.	Tính toán cột vách.
+Tính toán k tăng	Tính toán k tăng
+Tính toán nứt	Tính toán nứt
+Tính toán tự tăng	Tính toán tự tăng
+Tính toán đài cọc	Tính toán đài cọc
+Tính toán, thiết kế võng, nứt	Tính toán, thiết kế võng, nứt
+Tính toán, thiết kế đai xoắn:	Tính toán, thiết kế đai xoắn:
+Tính và đặt tên bản vẽ cho Lable Etabs:	Tính và đặt tên bản vẽ cho Lable Etabs:
+Tính động đất	Tính động đất
+TĂNG CƯỜNG	TĂNG CƯỜNG
+TĨNH TẢI	TĨNH TẢI
+Tạo combo	Tạo combo
+Tạo combo EC	Tạo combo EC
+Tạo file Prokon	Tạo file Prokon
+Tạo loadcase kiểm tra võng	Tạo loadcase kiểm tra võng
+Tạo mới file Prokon trước khi tính toán hoặc in thuyết minh	Tạo mới file Prokon trước khi tính toán hoặc in thuyết minh
+Tải dữ liệu nội lực từ Etabs.	Tải dữ liệu nội lực từ Etabs.
+Tải dữ liệu nội lực từ Safe.	Tải dữ liệu nội lực từ Safe.
+Tải dữ liệu từ file text với hình dạng cột vách bất kỳ.	Tải dữ liệu từ file text với hình dạng cột vách bất kỳ.
+Tải lại	Tải lại
+Tải thiết kế:	Tải thiết kế:
+Tầng bắt đầu	Tầng bắt đầu
+Tầng chọn	Tầng chọn
+Tầng kết thúc	Tầng kết thúc
+Tọa độ chuẩn: X = 	Tọa độ chuẩn: X = 
+Tổ hợp chọn	Tổ hợp chọn
+Tổ hợp chọn tính cột	Tổ hợp chọn tính cột
+Tổ hợp chọn tính dầm	Tổ hợp chọn tính dầm
+Tổ hợp kiểm tra độ võng toàn phần (f1 - f2 + f3)	Tổ hợp kiểm tra độ võng toàn phần (f1 - f2 + f3)
+Tổ hợp nội lực	Tổ hợp nội lực
+Tổ hợp nội lực:	Tổ hợp nội lực:
+Tổ hợp thiết kế	Tổ hợp thiết kế
+Tổ hợp thép loại 1	Tổ hợp thép loại 1
+Tổ hợp thép loại 2	Tổ hợp thép loại 2
+Tổ hợp thép.	Tổ hợp thép.
+Tổ hợp tính toán:	Tổ hợp tính toán:
+Tổ hợp động đất	Tổ hợp động đất
+Tổng hợp dầm	Tổng hợp dầm
+Từ biến	Từ biến
+Tự chọn thép rải đều (nếu có cài đặt)	Tự chọn thép rải đều (nếu có cài đặt)
+Tự cấu hình cho Model AI bất kỳ hoặc bạn muốn cái đặt riêng cho AI theo phong các	Tự cấu hình cho Model AI bất kỳ hoặc bạn muốn cái đặt riêng cho AI theo phong các
+Tự động dò tìm	Tự động dò tìm
+Tự động gộp tầng	Tự động gộp tầng
+Tự động tùy chỉnh Mode dao động gió theo Phương X và Phương Y?	Tự động tùy chỉnh Mode dao động gió theo Phương X và Phương Y?
+Tỷ số nén	Tỷ số nén
+Uniform Load Sets.	Uniform Load Sets.
+UniqueName Cột Etabs bằng cột AO sheet ColumnDesign	UniqueName Cột Etabs bằng cột AO sheet ColumnDesign
+Update Phần mềm.	Update Phần mềm.
+Update Unique Name in Excel	Update Unique Name in Excel
+Update Unique Name in Model	Update Unique Name in Model
+Update nội lực	Update nội lực
+View	View
+Việc Update nội lực vào bảng tính	Việc Update nội lực vào bảng tính
+Vui lòng MỞ LẠI 	Vui lòng MỞ LẠI 
+Vui lòng chọn loại mô hình AI sẽ hỗ trợ bạn và điền APIKey tương ứng!	Vui lòng chọn loại mô hình AI sẽ hỗ trợ bạn và điền APIKey tương ứng!
+Vui lòng chọn ít nhất 1 tải trọng!	Vui lòng chọn ít nhất 1 tải trọng!
+Vui lòng mở khóa mô hình	Vui lòng mở khóa mô hình
+Vui lòng mở khóa mô hình!	Vui lòng mở khóa mô hình!
+Vui lòng nhập giá trị Hệ số vượt tải gió!	Vui lòng nhập giá trị Hệ số vượt tải gió!
+Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.	Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.
+Vui lòng đợi trong 5-15p sau đó nhấn nút	Vui lòng đợi trong 5-15p sau đó nhấn nút
+Ví dụ điền B1-*;B2-*;(Với  dấu * đại diện nhịp -1, -2...)	Ví dụ điền B1-*;B2-*;(Với  dấu * đại diện nhịp -1, -2...)
+Ví dụ điền B1-1;B2-1;(Với B1-1, B2-1... là tên dầm)	Ví dụ điền B1-1;B2-1;(Với B1-1, B2-1... là tên dầm)
+Vùng tới hạn:	Vùng tới hạn:
+Vị trí:	Vị trí:
+Website: 	Website: 
+Xem TM	Xem TM
+Xem Thuyết minh dòng số thứ tự:	Xem Thuyết minh dòng số thứ tự:
+Xem Thuyết minh tính toán	Xem Thuyết minh tính toán
+Xem lại dữ liệu dòng 	Xem lại dữ liệu dòng 
+Xem thuyết minh chi tiết dòng thứ:	Xem thuyết minh chi tiết dòng thứ:
+Xuất DL tính qua file vẽ dầm mặt cắt	Xuất DL tính qua file vẽ dầm mặt cắt
+Xuất Thuyết minh	Xuất Thuyết minh
+Xuất dữ liệu bản vẽ	Xuất dữ liệu bản vẽ
+Xuất dữ liệu dự toán	Xuất dữ liệu dự toán
+Xuất dữ liệu text ra file cad	Xuất dữ liệu text ra file cad
+Xuất dữ liệu thiết kế ra cad (color):	Xuất dữ liệu thiết kế ra cad (color):
+Xuất dữ liệu tính toán qua Autocad	Xuất dữ liệu tính toán qua Autocad
+Xuất dữ liệu tính toán qua sheet vẽ	Xuất dữ liệu tính toán qua sheet vẽ
+Xuất dữ liệu tính toán qua sheets vẽ.	Xuất dữ liệu tính toán qua sheets vẽ.
+Xuất thuyết minh tên dầm kèm theo vi trí nhịp?	Xuất thuyết minh tên dầm kèm theo vi trí nhịp?
+Xuất tiên lượng Bê tông + ván khuân	Xuất tiên lượng Bê tông + ván khuân
+Xuất tên bản vẽ từ Excel -> Cad	Xuất tên bản vẽ từ Excel -> Cad
+XÁC NHẬN	XÁC NHẬN
+Xác nhận gia hạn	Xác nhận gia hạn
+Xác nhận mật khẩu (*)	Xác nhận mật khẩu (*)
+Xác nhận thanh toán	Xác nhận thanh toán
+Xóa	Xóa
+Xóa DL	Xóa DL
+Xóa dầm	Xóa dầm
+Xóa lưu toàn bộ cấu hình	Xóa lưu toàn bộ cấu hình
+Xảy ra lỗi:	Xảy ra lỗi:
+Youtube: 	Youtube: 
+aiPrompt	aiPrompt
+cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.	cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.
+f(500)	f(500)
+m = 	m = 
+progeCAD	progeCAD
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS LỚN	ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS LỚN
+ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS NẶNG	ĐANG KẾT NỐI ETABS - XIN VUI LÒNG CHỜ - ĐÂY KHÔNG PHẢI LỖI DO PHIÊN BẢN DBIM MÀ VÌ MODEL ETABS NẶNG
+ĐK thép chủ bố trí tự động:	ĐK thép chủ bố trí tự động:
+ĐK thép đai bố trí tự động:	ĐK thép đai bố trí tự động:
+ĐK Đai <=	ĐK Đai <=
+ĐK:	ĐK:
+ĐKT L1 +	ĐKT L1 +
+ĐT: 0989.111.206	ĐT: 0989.111.206
+Đai vùng nối thép:	Đai vùng nối thép:
+Đang cắt thép đường kính:	Đang cắt thép đường kính:
+Đang tính toán...	Đang tính toán...
+Điền HS cọc biên	Điền HS cọc biên
+Điền KR Bot giống Top	Điền KR Bot giống Top
+Điền lại ô P và AG trong bảng tính!	Điền lại ô P và AG trong bảng tính!
+Điền lại ô Q và AH trong bảng tính!	Điền lại ô Q và AH trong bảng tính!
+Điền thủ công	Điền thủ công
+Điểm nối đầu cách sàn:	Điểm nối đầu cách sàn:
+Đã chạy 	Đã chạy 
+Đã cập nhật thành công!, Hãy mở lại mô hình và trải nghiệm	Đã cập nhật thành công!, Hãy mở lại mô hình và trải nghiệm
+Đã gán xong tải gió vào Etabs:	Đã gán xong tải gió vào Etabs:
+Đã gán xong tải động đất vào Etabs:	Đã gán xong tải động đất vào Etabs:
+Đã lưu kết nối AutoCAD	Đã lưu kết nối AutoCAD
+Đã lưu kết nối Autocad	Đã lưu kết nối Autocad
+Đã lưu kết nối BricsCAD	Đã lưu kết nối BricsCAD
+Đã lưu kết nối EnjiCAD	Đã lưu kết nối EnjiCAD
+Đã lưu kết nối GstarCAD	Đã lưu kết nối GstarCAD
+Đã lưu kết nối ZWCAD	Đã lưu kết nối ZWCAD
+Đã lưu kết nối progeCAD	Đã lưu kết nối progeCAD
+Đã xóa toàn bộ cấu hình và mã API Key trên thiết bị này!	Đã xóa toàn bộ cấu hình và mã API Key trên thiết bị này!
+Đã xảy ra lỗi khi co kéo hình ảnh: 	Đã xảy ra lỗi khi co kéo hình ảnh: 
+Đính kèm ảnh	Đính kèm ảnh
+ĐĂNG KÝ	ĐĂNG KÝ
+ĐĂNG KÝ TÀI KHOẢN	ĐĂNG KÝ TÀI KHOẢN
+ĐĂNG KÝ TÀI KHOẢN DBIM	ĐĂNG KÝ TÀI KHOẢN DBIM
+ĐĂNG NHẬP	ĐĂNG NHẬP
+ĐĂNG NHẬP TÀI KHOẢN	ĐĂNG NHẬP TÀI KHOẢN
+Đăng Xuất	Đăng Xuất
+Đăng ký tài khoản DBIM với email:	Đăng ký tài khoản DBIM với email:
+Đăng ký tài khoản mới	Đăng ký tài khoản mới
+Đăng nhập lại để sử dụng!	Đăng nhập lại để sử dụng!
+Đăng nhập thành công!	Đăng nhập thành công!
+Đăng nhập tài khoản DCE.	Đăng nhập tài khoản DCE.
+Đăng xuất	Đăng xuất
+Đăng xuất sau đó đăng nhập lại tài khoản để cập nhập chức năng license!	Đăng xuất sau đó đăng nhập lại tài khoản để cập nhập chức năng license!
+Đăng xuất thiết bị hiện tại	Đăng xuất thiết bị hiện tại
+Đăng xuất thiết bị khác	Đăng xuất thiết bị khác
+Đăng xuất thành công!	Đăng xuất thành công!
+Đăng xuất tài khoản DCE.	Đăng xuất tài khoản DCE.
+Đường dẫn khởi động Etabs: 	Đường dẫn khởi động Etabs: 
+Đường dẫn khởi động Mô hình: 	Đường dẫn khởi động Mô hình: 
+Đường dẫn khởi động SAP2000: 	Đường dẫn khởi động SAP2000: 
+Đường dẫn khởi động Safe: 	Đường dẫn khởi động Safe: 
+Đường kính chạy suốt Dưới L1:	Đường kính chạy suốt Dưới L1:
+Đường kính chạy suốt Trên L1:	Đường kính chạy suốt Trên L1:
+Đường kính thép chạy suốt lớp dưới = ĐK thép chạy suốt lớp trên	Đường kính thép chạy suốt lớp dưới = ĐK thép chạy suốt lớp trên
+Đường kính thép giá:	Đường kính thép giá:
+Đường kính tính toán:	Đường kính tính toán:
+Đảo đầu	Đảo đầu
+Đẩy thép gia cường Lớp 1 ở cột n2 và d2; Lớp 2 ở cột n3, d3; Lớp 3 ở cột n4, d4 .	Đẩy thép gia cường Lớp 1 ở cột n2 và d2; Lớp 2 ở cột n3, d3; Lớp 3 ở cột n4, d4 .
+Đặt Pier tự động:	Đặt Pier tự động:
+Đặt lại tên toàn bộ Pier cho Frame - Column?	Đặt lại tên toàn bộ Pier cho Frame - Column?
+Đặt lại tên toàn bộ Pier cho Shell - Wall?	Đặt lại tên toàn bộ Pier cho Shell - Wall?
+Đặt thép giá khi H>=	Đặt thép giá khi H>=
+Đặt tên	Đặt tên
+Đặt tên Etabs	Đặt tên Etabs
+Đặt tên cho dầm muốn thêm: 	Đặt tên cho dầm muốn thêm: 
+Đặt tên thành công 	Đặt tên thành công 
+Để cập nhật in ấn tự động, hệ thống cần đóng toàn bộ ứng dụng ETABS đang chạy.	Để cập nhật in ấn tự động, hệ thống cần đóng toàn bộ ứng dụng ETABS đang chạy.
+Địa chỉ	Địa chỉ
+Đọc tọa độ Prokon	Đọc tọa độ Prokon
+Đồng bộ point mô hình safe.	Đồng bộ point mô hình safe.
+Đổi tên	Đổi tên
+Đổi tên dầm	Đổi tên dầm
+Đổi tên không thành công	Đổi tên không thành công
+Độ ẩm:	Độ ẩm:
+Ưu tiên bố trí thép cho:	Ưu tiên bố trí thép cho:
+αcc (Strength factor):	αcc (Strength factor):
+αcc (dùng trong check Vd):	αcc (dùng trong check Vd):
+γb (Concrete):	γb (Concrete):
+γc (Concrete):	γc (Concrete):
+γc (dùng trong check Vd):	γc (dùng trong check Vd):
+γs (Steel):	γs (Steel):
+Ẩn Vật liệu thiết kế thép chủ	Ẩn Vật liệu thiết kế thép chủ
+Ẩn Vật liệu thiết kế thép đai	Ẩn Vật liệu thiết kế thép đai
+Ẩn tên nhịp dầm	Ẩn tên nhịp dầm
+► BẤM ĐỂ NẠP TIỀN QUA WEBSITE	► BẤM ĐỂ NẠP TIỀN QUA WEBSITE
+✔️ License activated successfully!	✔️ License activated successfully!
+❌ Invalid license key!	❌ Invalid license key!
+Language	Language
+Chọn ngôn ngữ hiển thị của phần mềm.	Chọn ngôn ngữ hiển thị của phần mềm.

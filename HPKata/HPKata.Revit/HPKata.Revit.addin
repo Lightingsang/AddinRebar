@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>HPKata Revit 2026</Name>
+    <Assembly>C:\HPKata\HPKata.Revit.dll</Assembly>
+    <AddInId>C184E347-734B-4811-9A77-9E49B7423D19</AddInId>
+    <FullClassName>HPKata.Revit.Entry.HPKataApplication</FullClassName>
+    <VendorId>HPRB</VendorId>
+    <VendorDescription>HPRebar Team - HPKata Structural Rebar Suite</VendorDescription>
+  </AddIn>
+  <ManifestSettings>
+    <UseRevitContext>False</UseRevitContext>
+    <ContextName>HPKata.Revit</ContextName>
+  </ManifestSettings>
+</RevitAddIns>

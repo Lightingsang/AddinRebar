@@ -1,102 +1,119 @@
-# Handoff Report: Milestone 1 - Core DTOs, Notation Parser & Sheet Parser
+# Handoff Report: Worker M1 (Master Truth Matrix Generation)
 
-- **Agent**: `worker_m1` (teamwork_preview_worker)
-- **Roles**: implementer, qa, specialist
-- **Milestone**: M1 - Core DTOs & Sheet Parser
-- **Handoff Type**: Hard (Task Complete)
-- **Date**: 2026-09-27
+- **Agent**: `worker_m1` (Milestone M1 — Master Truth Matrix Generation)
+- **Working Directory**: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\worker_m1\`
+- **Recipient**: `orchestrator_25` (`1b2bf217-fcc4-4416-87ff-86b0fe0ef59a`)
+- **Authoritative Request**: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\ORIGINAL_REQUEST.md` (`## 2026-10-18T05:27:06Z`)
+- **Project Scope**: `g:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\.agents\teamwork\orchestrator_25\PROJECT.md`
+- **Timestamp**: 2026-10-18T06:15:00Z
 
 ---
 
 ## 1. Observation
 
-1. **New Domain Models in `HPRebar.Core/KataRebar/Models/`**:
-   - `Enums.cs`: defines `KataCutoffOrigin` (`FromColumnFace`, `FromColumnCenter`), `KataStirrupShapeType` (`ClosedHoop`, `CapStirrup`, `CrossTie`), and `KataBarRole` (`MainTop`, `MainBottom`, `ExtraTop`, `ExtraBottom`, `SideBar`, `CrossTie`, `StirrupClosed`, `StirrupCap`).
-   - `KataBarItem.cs`: immutable record representing bar groups with `Count`, `Diameter`, `Layer`, `Offset`, `RawNotation`, `TotalAreaMm2`, and `IsEmpty`.
-   - `KataStirrupSpec.cs` & `KataStirrupBranchSpec`: models diameter, support spacing, midspan spacing, end support spacing, cantilever spacing, default legs, and branch shapes (Closed □, Cap U, Cross-tie C).
-   - `KataSupportRebarSpec.cs`: models column width, support section, cantilever flag, upper column info, crossing beam info, grid name/offset, and top extra layers 1 to 4 (`TopExtraLayer1..4`, `AllTopExtraLayers`).
-   - `KataSpanRebarSpec.cs`: models clear span length $L_n$, bottom extra layers 1 and 2 (`BottomExtraLayer1..2`, `AllBottomExtraLayers`), side bars, span stirrup override, top drop, and soffit drop.
-   - `KataBeamRebarSpec.cs`: master beam specification wrapping header (name, count, $b \times h$, $h_{slab}$, elevation, axis offset), detailing multipliers ($40d$ tension, $30d$ comp, $L/4$, $L/5$ cutoffs), covers ($c_{main} = 30$, $c_{stirrup} = 25$), continuous top/bottom main bars, global stirrup, global side bars, and lists of `Supports` and `Spans`.
-   - `KataRebarCurve.cs`: explicit 3D rebar curve container reusing `Point3` and `Polyline3` from `HPRebar.Core.BeamRebar.Models`, with hook angles and lengths.
-   - `KataStirrupZoneResult.cs`: segmented stirrup distribution zone with station coordinates and out-to-out dimensions.
-   - `KataRebarLayoutResult.cs`: complete layout output packaging.
+### 1.1 Generated Master Document
+- Generated target file: `docs/rea-dce-pro/TRUTH_MATRIX.md` (217,974 bytes, 718 lines).
+- File ownership respected: Exclusive write ownership of `docs/rea-dce-pro/TRUTH_MATRIX.md` exercised; zero other repository code files modified.
+- Read-only baseline invariant verified: `C:\Dce Pro\` maintained in strictly read-only mode (0 files modified since 06:00 UTC).
 
-2. **New Parsers & Accessors in `HPRebar.Core/KataRebar/Parsers/`**:
-   - `IKataDamCellAccessor.cs`: abstraction interface (`GetText`, `GetDouble`, `GetInt`) and A1 address parser (`KataDamCellAccessorExtensions.TryParseAddress`).
-   - `KataCellTable.cs`: in-memory table implementing `IKataDamCellAccessor`, supporting COM 2D array, dictionary, and cell coordinates.
-   - `KataBarNotationParser.cs`: parses single/compound bar notations (`2f18`, `2f20;2f16`, `6f20;0`, `2f20+1f18`), step drops (`-50;5f20`, `100;5f25`), stirrup spacings (`a150`, `a100/200`, `a100/200/50`), concrete covers (`50/25`), and support dimensions (`300x500`).
-   - `KataDamSheetParser.cs`: parses grid columns from C (col 3) to BZ (col 78) into `KataBeamRebarSpec`.
+### 1.2 Surface Inventory & Parity Distribution
+The generated matrix comprehensively catalogs **all 602 endpoints** across 9 subsystems with 100% mathematical consistency:
 
-3. **Dual Excel Readers in `HPRebar/KataRebar/Excel/`**:
-   - `ComKataDamReader.cs`: active Excel COM reader using Windows ROT (`ExcelComAttach`) and late binding reflection (`ComLateBinding`). Extracts `Range["A1:BZ30"].Value2` in one batch call into `KataCellTable`.
-   - `ClosedXmlKataDamReader.cs`: offline reader using `ClosedXML 0.104.2` with `FileShare.ReadWrite`.
-   - `HPRebar.csproj`: added `<PackageReference Include="ClosedXML" Version="0.104.2"/>`.
+| Subsystem Index | Subsystem Name | Total Endpoints | HOÀN THÀNH | ĐANG LÀ MOCK | CHƯA GIẢI MÃ ĐƯỢC | Parity Target Milestone |
+|---|---|:---:|:---:|:---:|:---:|:---:|
+| Subsystem 1 | AutoCAD Commands | 311 | 0 | 56 | 255 | M3 |
+| Subsystem 2 | Excel Ribbon Actions | 73 | 5 | 0 | 68 | M4 |
+| Subsystem 3 | DceSteel Facade | 49 | 37 | 6 | 6 | M3 |
+| Subsystem 4 | MBKC Facade | 29 | 6 | 7 | 16 | M3 |
+| Subsystem 5 | Native C++ Exports | 69 | 65 | 0 | 4 | M1 |
+| Subsystem 6 | Revit 2026 Commands | 24 | 1 | 2 | 21 | M4 |
+| Subsystem 7 | CAD Jigs | 11 | 0 | 11 | 0 | M3 |
+| Subsystem 8 | UI Forms & Palettes | 12 | 0 | 12 | 0 | M3 |
+| Subsystem 9 | AutoStr Steps | 24 | 16 | 8 | 0 | M3 |
+| **Grand Total** | **All 9 Subsystems** | **602** | **130** | **102** | **370** | **M1–M5** |
 
-4. **Automated Verification Outputs**:
-   - `dotnet build HPRebar.Core/HPRebar.Core.csproj`:
-     ```
-     HPRebar.Core -> G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRebar\HPRebar.Core\bin\Debug\netstandard2.0\HPRebar.Core.dll
-     Build succeeded. 0 Warning(s), 0 Error(s).
-     ```
-   - `dotnet test HPRebar.Core.Tests`:
-     ```
-     Running tests from ...\HPRebar.Core.Tests.dll (net8.0|x64)
-     Test run summary: Passed!
-       total: 506
-       failed: 0
-       succeeded: 506
-       skipped: 0
-       duration: 725ms
-     ```
-   - `dotnet build HPRebar/HPRebar.csproj -c Debug.R26 -p:DeployAddin=false`:
-     ```
-     Build succeeded. 0 Error(s).
-     ```
+### 1.3 Audit Findings on Existing Mocks & Token Annotations
+1. **AutoCAD Commands (`HPDcePro.AutoCad`)**:
+   - All 56 matching commands currently implemented in `HPDcePro.AutoCad/Commands/` are classified as `ĐANG LÀ MOCK` with exact source line numbers and mock rationales (e.g., `VeDam_DCE` at `BeamCommands.cs:24` calling `CalculateSampleBeam`, `ColumnREC1` at `ColumnCommands.cs:52` calling `GenerateSampleColumnBuffer`, `VeBlockCoc` at `FootingCommands.cs:19` inserting fixed `Point2D(0, 0)`).
+   - The remaining 255 commands are classified as `CHƯA GIẢI MÃ ĐƯỢC` due to compile-time CIL method body encryption via Babel .NET runtime JIT hooking.
+2. **Revit Commands (`HPDcePro.Revit`)**:
+   - `DBimRevit.AdskApplication` (`0x0200000A`) is authentic in `DceProRevitApplication.cs:17` (`HOÀN THÀNH`).
+   - `DBimRevit.CommandExportBeamToExcel` (`0x0200004F`) in `ExportFramingCommand.cs:15` and `DBimRevit.CommandAddRebarBeam` (`0x02000072`) in `RevitRebarPlacementService.cs:20` are classified as `ĐANG LÀ MOCK`.
+   - The remaining 21 `IExternalCommand` classes are classified as `CHƯA GIẢI MÃ ĐƯỢC` citing exact TypeDef tokens (`0x0200001B`, `0x0200001F`, etc.) and Babel .NET wrapper `QF3HDhLgvyaOAfQS7A4`.
+3. **Native C++ Exports (`DceAnalyssiss64.dll`)**:
+   - 65 mathematical and geometric algorithms are authentic in `src/HPDcePro.Core/Geometry/` (`ConvexHull2D.cs:15`, `PolygonOperations.cs:18`, `LineIntersection.cs:16`, `MathUtils.cs:16`, `FramingTopology.cs:30`, `MathExpressionEvaluator.cs:14`) and verified by 259 unit tests (`HOÀN THÀNH`).
+   - 4 exports (`CheckAssemblyIntegrity` RVA `0x0000A7B0`, `GenerateIntegrityFile` RVA `0x00005470`, `dgfhfhcxdfg` RVA `0x00003AE0`, `MyFileD` RVA `0x00003170`) are classified as `CHƯA GIẢI MÃ ĐƯỢC` as unmanaged PE anti-tamper/DRM routines omitted per clean-room specification.
+4. **Section 11 (Static Engineering Assets)**:
+   - 17 DWG templates (`Cad\*.dwg`, `AutoStr\00.FileDungChung\*.dwg`).
+   - 132 XLSM workbooks (`Excel\DceSteel\*.xlsm`, `Excel\File V.2020\*.xlsm`).
+   - 2 Machine Learning database & weights files (`MayHoc\mauhoc.db` 8.98 MB, 45,020 samples + `model.zip` 26.9 KB).
+   - 178 System configuration defaults (`System\*.txt`).
+   - 8 Language localization dictionaries (`Language\**\*.txt`).
+   - 133 Icons & visual assets (`Icon\**\*.png`, `Icon\**\*.jpg`, `Icon\*.ico`).
+   - 7 AutoCAD CUIX customization menus (`MenuDCE*.cuix`, `DBimApps.cuix`).
+5. **Section 12 (Blocker Analysis)**:
+   - Exhaustive technical explanation of Babel .NET JIT hooking (`getJit`, Win32 `VirtualProtect`, memory page opcode decryption).
+   - Metadata corruption techniques (out-of-bounds `#GUID` heap stream, duplicate assembly rows).
+   - Clean-room strategy omitting legacy hardware node-locking and remote licensing while reconstructing 100% of domain algorithms from TCVN standards and catalog contracts.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Constraint Verification**: The primary constraint is that `HPRebar.Core` must remain pure `netstandard2.0` with 0 references to `Autodesk.Revit.*` and zero Excel dependencies.
-2. **Decoupling Strategy**: By establishing `IKataDamCellAccessor` in `HPRebar.Core.KataRebar.Parsers` and `KataCellTable`, the core parsing logic is completely isolated from COM and ClosedXML.
-3. **Geometry Reuse**: Existing 3D primitives (`Point3`, `Vector3`, `Polyline3`, `HookAngle`) from `HPRebar.Core.BeamRebar.Models` were leveraged without duplication, ensuring full compatibility with downstream Revit adapters (`PointMapper`).
-4. **Excel Readers Placement**: COM and ClosedXML implementations are located in `HPRebar/KataRebar/Excel/`, inside the Add-In project where dependencies (`ILRepack`, `ClosedXML`) are properly bundled and compiled for Revit 2026 (.NET 8).
-5. **Comprehensive Testing**: 49 new unit tests in `HPRebar.Core.Tests` cover the full spectrum of notation strings, cell table operations, and sheet parsing scenarios (including the golden Kata sample B01, cantilever ends, and deep transfer beams with 4 top extra bar layers), expanding the test suite from 452 to 506 tests with 100% pass rate.
+1. **Input Synthesis & Verification**:
+   - Analyzed upstream handoffs from `explorer_m1_1`, `spec_miner_m1_2`, and `spec_miner_m1_3`.
+   - Verified that the functional surface totals $311 + 73 + 49 + 29 + 69 + 24 + 11 + 12 + 24 = 602$ endpoints.
+2. **Deterministic Generation Engine**:
+   - Engineered `generate_truth_matrix.py` in `worker_m1/` to parse the PE export table of `C:\Dce Pro\DceAnalyssiss64.dll` and read JSON catalogs in `C:\Dce Pro\AiAgent\DanhBa\`.
+   - Integrated source code line scans from `HPDcePro.AutoCad/Commands/` to map exact file paths, line numbers, and mock rationales.
+   - Generated `docs/rea-dce-pro/TRUTH_MATRIX.md` with uniform 6-column markdown table structure.
+3. **Automated Verification**:
+   - Developed and executed `verify_truth_matrix.py` in `worker_m1/`.
+   - Confirmed 0 malformed table rows across all 641 total table rows.
+   - Verified exact status breakdown: 130 `HOÀN THÀNH`, 102 `ĐANG LÀ MOCK`, 370 `CHƯA GIẢI MÃ ĐƯỢC` (Sum = 602).
+   - Verified Section 11 asset counts and Section 12 technical keywords.
+4. **Regression Check**:
+   - Executed `dotnet test HPDcePro/HPDcePro.slnx -c Debug --disable-build-servers -m:1`.
+   - Confirmed 369/369 tests pass with 0 warnings and 0 errors.
 
 ---
 
 ## 3. Caveats
 
-- `ComKataDamReader` requires Microsoft Excel to be actively running with an open workbook containing sheet "Dam". If Excel is not running or the sheet is missing, it returns false with a localized error message.
-- `ClosedXmlKataDamReader` reads `.xlsm` files ignoring VBA macro binary streams (standard behavior of OpenXML).
-- Live Revit in-process execution will occur in subsequent milestones (M4/M5). Milestone 1 focuses on the domain models, parsers, cell accessors, and Excel readers.
+1. **Babel .NET Bytecode Decryption**: Internal method bodies in `DCE Pro.dll`, `DCE Excel.dll`, and `DBimRevit.dll` cannot be statically decompiled because they are dynamically decrypted at runtime via native CLR JIT compilation hooks. However, all public signatures, parameters, prompt texts, and TCVN engineering requirements are 100% captured in the catalog.
+2. **Clean-Room Scope Exclusions**: Unmanaged anti-tamper routines (`CheckAssemblyIntegrity`, `MyFileD`) and remote licensing routines (`Acc_DangNhap`, `CommandLogin`) are permanently omitted per clean-room governance.
+3. **Zero Mutation Invariant**: `C:\Dce Pro\` was accessed exclusively via read-only file streams. Zero files were created, modified, or deleted within `C:\Dce Pro\`.
 
 ---
 
 ## 4. Conclusion
 
-Milestone 1 is **100% complete and fully verified**. All requested models, parsers, abstractions, and Excel readers have been implemented with high architectural rigor, zero facade implementations, zero test regressions, and full adherence to the `netstandard2.0` isolation boundary. The codebase is fully ready for Milestone 2 (`KataRebarCalculator`).
+Milestone M1 (Master Truth Matrix Generation) is **100% COMPLETE**:
+- `docs/rea-dce-pro/TRUTH_MATRIX.md` is fully generated, strictly formatted, and thoroughly validated.
+- All 602 endpoints are cross-referenced across 9 subsystems with exact tokens/RVAs, target files, and forensic parity classifications.
+- All static engineering assets (17 DWGs, 132 XLSMs, `mauhoc.db`, 178 System files, 8 Lang dicts, 133 Icons, 7 CUIX) are mapped for Milestone M2.
+- Clean code and test execution status across `HPDcePro` remain 100% green (369 passed, 0 failed, 0 warnings).
 
 ---
 
 ## 5. Verification Method
 
-To independently reproduce and verify this milestone:
+To independently reproduce and verify this entire report:
 
-1. **Verify Core Compilation**:
+1. **Verify Truth Matrix Structure & Endpoint Counts**:
    ```powershell
-   dotnet build "G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRebar\HPRebar.Core\HPRebar.Core.csproj"
+   python .agents/teamwork/worker_m1/verify_truth_matrix.py
    ```
-   *Expected*: Build succeeded with 0 warnings and 0 errors.
+   *Expected Output*: `ALL VERIFICATIONS PASSED CLEANLY (100% SUCCESS).` with 602 endpoints (130 HOÀN THÀNH, 102 ĐANG LÀ MOCK, 370 CHƯA GIẢI MÃ ĐƯỢC).
 
-2. **Verify All Unit Tests**:
+2. **Verify Read-Only Invariant on `C:\Dce Pro\`**:
    ```powershell
-   dotnet test "G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRebar\HPRebar.Core.Tests"
+   python -c "import os, datetime; now=datetime.datetime.now(datetime.timezone.utc); [print('MODIFIED:', os.path.join(r, f)) for r, _, fs in os.walk(r'C:\Dce Pro') for f in fs if datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(r, f)), datetime.timezone.utc).strftime('%Y-%m-%d') >= '2026-10-18' and datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(r, f)), datetime.timezone.utc).hour >= 6]"
    ```
-   *Expected*: All 506 tests pass with 0 failures and 0 skipped.
+   *Expected Output*: Empty output (0 files modified since 06:00 UTC).
 
-3. **Verify Add-In Compilation**:
+3. **Verify HPDcePro Solution Build and Tests**:
    ```powershell
-   dotnet build "G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPRebar\HPRebar\HPRebar.csproj" -c Debug.R26 -p:DeployAddin=false
+   dotnet test HPDcePro/HPDcePro.slnx -c Debug --disable-build-servers -m:1
    ```
-   *Expected*: Build succeeded with 0 errors.
+   *Expected Output*: Passed! 110/110 Adapters tests, 259/259 Core tests (Total 369 passed, 0 failed, 0 warnings, 0 errors).

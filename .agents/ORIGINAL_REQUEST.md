@@ -700,3 +700,72 @@ In Revit 2026 (.NET 8):
 - [ ] Reading active Excel `Kata.xlsm` sheet `Dam` populates the preview UI with beam dimensions and rebar layout.
 - [ ] Executing "Tạo thép / Generate Rebar" creates actual 3D `Rebar` instances in the Revit host beam with correct diameter, layout rules, and covers.
 - [ ] Running the command a second time on the same beam cleanly replaces prior Kata rebar without duplicates.
+
+## Follow-up — 2026-10-05T23:21:03Z
+
+Xây dựng Deliverable độc lập cấp cao HPBim/ viết 100% bằng C# .NET với solution HPBim.slnx, tuân thủ nghiêm ngặt quy định HP Clean Code Governance của kho mã nguồn 01_AddinRebar (chỉ tham chiếu McpShared/, không tham chiếu chéo). Hệ thống kế thừa và chuyển đổi logic hình học, chuẩn TCVN và quy trình soát lỗi từ vn-autocad-skill (Python -> C#) để tự động sinh mô hình BIM 3D bản địa (Kiến trúc, Kết cấu, MEP) trực tiếp trong Revit 2026 thông qua hạ tầng Revit MCP Named Pipe hiện có, điều khiển bởi CLI Tool và bộ Agent AI chuyên môn.
+
+Working directory: G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPBim
+Integrity mode: development
+
+Tham chiếu:
+- Quy chuẩn Clean Code bắt buộc: docs/clean-code/HP_CLEAN_CODE_CORE.md, docs/architecture/ARCHITECTURE.md, docs/clean-code/host-appendix/revit.md
+- Logic thiết kế & hình học TCVN tham khảo: G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\vn-autocad-skill-main (Python vncad -> port sang C#)
+- Nền tảng chia sẻ: McpShared/ (Contracts, Core, Roslyn compiler, Named Pipe)
+- Hạ tầng Revit MCP hiện hữu: Pipe \\.\pipe\hprebar-mcp-r2026 của HPRebar.McpBridge
+- Benchmark Ground-Truth: Bộ dữ liệu nha_pho_5x18m (port sang C# test fixture NhaPho5x18mFixture.cs)
+
+## Requirements
+
+### R1. Cấu Trúc Solution & Domain C# Thuần (HPBim.Core)
+- Khởi tạo solution HPBim/HPBim.slnx, global.json, Directory.Build.props tuân thủ tiêu chuẩn repo.
+- Xây dựng thư viện C# thuần HPBim.Core (target netstandard2.0, tuyệt đối không tham chiếu Autodesk.Revit.*):
+  - Chuyển đổi toàn bộ cấu trúc dữ liệu hình học từ vncad sang C#: AxisGrid, LevelDef, WallDef, ColumnDef, BeamDef, SlabDef, OpeningDef, RoomDef, MepFixtureDef, PipeRunDef, RebarDef.
+  - Triển khai logic tính toán không gian, bù trừ offset, định vị cửa, tính toán diện tích phòng khép kín, và quy tắc cấu tạo cốt thép TCVN thuần C#.
+  - Xây dựng QC Engine thuần C# kiểm tra va chạm (clash), quy chuẩn khoảng cách và quy chuẩn TCVN trên dữ liệu trước khi gửi sang Revit.
+
+### R2. Bộ Điều Phối & Client Giao Tiếp Revit (HPBim.Client)
+- Xây dựng thư viện HPBim.Client (target net8.0 / net10.0, tham chiếu HPBim.Core và McpShared):
+  - Kết nối trực tiếp tới Named Pipe \\.\pipe\hprebar-mcp-r2026 của HPRebar.McpBridge đang chạy trong Revit 2026.
+  - Quản lý quy trình dựng hình theo trật tự chuẩn BIM: Levels -> Grids -> Columns/Beams/Floors -> Walls -> Doors/Windows -> Rooms -> MEP.
+  - Tự động kiểm tra Family/Type trong Document; nếu thiếu Type (như Cột 220x220, Tường 110), Client phát lệnh sinh/nhân bản Type và gán đúng kích thước thông qua script Revit API.
+  - Hỗ trợ chế độ chạy thử nghiệm an toàn (dryRun: true rollback TransactionGroup).
+
+### R3. Ứng Dụng Dòng Lệnh HPBim CLI & Bộ Tác Tử AI (HPBim.Cli & Agents)
+- Xây dựng console executable HPBim.Cli (net10.0) cung cấp các lệnh:
+  - validate --input <model.json>: Soát lỗi hình học, clash và kiểm tra hợp chuẩn TCVN offline.
+  - generate --input <model.json> [--dry-run]: Kết nối tới Revit pipe và dispatch tạo dựng mô hình.
+  - verify --input <model.json>: Truy vấn mô hình Revit và đối soát số lượng, tọa độ với schema.
+  - estimate --input <model.json>: Xuất bảng bóc tách khối lượng (BOQ).
+- Đóng gói bộ hướng dẫn/vai trò Agent (Kiến trúc, Kết cấu, MEP, Soát lỗi, Điều phối) tương thích với Antigravity và Claude Code để AI tự chủ thiết kế và thực thi qua CLI.
+
+### R4. Kịch Bản Kiểm Thử & Xác Thực Khách Quan (xUnit / MTP Tests)
+- HPBim.Core.Tests: Bộ Unit Test xUnit v3 / MTP độc lập (chạy trong vài giây không cần Revit):
+  - Chuyển đổi trọn bộ dữ liệu nha_pho_5x18m thành NhaPho5x18mFixture.cs.
+  - Test kiểm tra tính toán hình học, giải thuật phân chia không gian, hàm lượng thép TCVN và bộ soát lỗi QC.
+- HPBim.Client.Tests: Bộ test tích hợp kiểm tra kết nối Named Pipe và round-trip đối soát với Revit 2026.
+
+## Acceptance Criteria
+
+### Tuân Thủ Clean Code & Kiến Trúc
+- [ ] 100% mã nguồn mới được viết bằng C# (không sử dụng runtime Python).
+- [ ] Tuân thủ triệt để HP_CLEAN_CODE_CORE.md: Phương thức <= 50 dòng, lớp <= 300 dòng, không catch exception rỗng không có lý do giải thích, không code thừa.
+- [ ] Không có tham chiếu chéo giữa các MCP folders (HPBim chỉ tham chiếu McpShared/).
+- [ ] HPBim.Core hoàn toàn không tham chiếu Autodesk.Revit.* và chạy được trên mọi môi trường .NET.
+
+### Độ Chính Xác Benchmark NhaPho5x18m
+- [ ] Toàn bộ 100% Unit test trong HPBim.Core.Tests chạy PASS qua lệnh dotnet test.
+- [ ] Lệnh hpbim generate --input NhaPho_5x18m.json dựng thành công trong Revit 2026:
+  - 5 Levels đúng cao độ lý thuyết (+0.150m, +3.800m, +7.200m, +10.600m, +13.400m).
+  - Hệ trục Grids X1-X5, YA-YB.
+  - 10 Cột BTCT 220x220 tại các giao điểm trục.
+  - Toàn bộ tường bao 220, tường ngăn 110, tự động host chính xác cửa đi và cửa sổ.
+  - Toàn bộ các phòng (Rooms) khép kín và tính đúng diện tích.
+  - Hệ dầm và bản sàn các tầng.
+  - Thiết bị vệ sinh và đường ống cấp thoát nước cơ bản.
+- [ ] Lệnh hpbim verify trả về kết quả khớp 100% số lượng element thực tế trong Revit so với thiết kế.
+- [ ] Chế độ --dry-run rollback sạch sẽ 100% không làm thay đổi trạng thái Document.
+
+## Follow-up — 2026-10-06T00:48:56Z
+
+The server was restarted. The user instructed to continue ('tiep tuc'). Resume orchestration for the HPBim deliverable. Generation 1 completed M1 Iteration 2 with a soft handoff documented in `.agents/orchestrator_10/handoff.md`. Spawn or resume the Orchestrator (Generation 2) to fix the M1 audit finding in QcEngine, complete M1 verification, and execute Milestones M2, M3, M4, and M5 to completion.

@@ -26,6 +26,7 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <!-- Control styles, merged into HPRebar.McpBridge.dll by the RepackMaterialDesign target below (see HPRebar.csproj). -->
         <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="MahApps.Metro" Version="2.4.11"/>
         <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true"/>
 
         <!-- Logging -->
@@ -60,17 +61,17 @@
               Link="Resources\Themes\%(Filename)%(Extension)"/>
     </ItemGroup>
 
-    <!-- Only the toolkit is merged (IsRepackable stays off for Roslyn): WPF binds BAML types by simple name and takes the
-         last-loaded copy across load contexts, so a loose MaterialDesignThemes.Wpf.dll would mix with any other add-in's.
+    <!-- Only the UI toolkits are merged (IsRepackable stays off for Roslyn): WPF binds BAML types by simple name and takes the
+         last-loaded copy across load contexts, so loose MaterialDesign/MahApps DLLs would mix with any other add-in's.
          Primary input = the obj DLL, so an incremental build never merges twice; runs before Nice3point deploys the output. -->
     <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
         <PropertyGroup>
             <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
             <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
         </PropertyGroup>
-        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
-        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml"/>
-        <Message Importance="high" Text="RepackMaterialDesign: toolkit merged into $(AssemblyName).dll"/>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)MahApps.Metro.dll&quot; &quot;$(OutDir)ControlzEx.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)MahApps.Metro.dll;$(OutDir)ControlzEx.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml;$(OutDir)MahApps.Metro.xml;$(OutDir)ControlzEx.xml"/>
+        <Message Importance="high" Text="RepackMaterialDesign: UI toolkits merged into $(AssemblyName).dll"/>
     </Target>
 
 </Project>

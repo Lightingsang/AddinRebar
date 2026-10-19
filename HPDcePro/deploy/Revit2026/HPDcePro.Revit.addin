@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>HPDcePro Structural Suite</Name>
+    <Assembly>HPDcePro\HPDcePro.Revit.dll</Assembly>
+    <AddInId>A7D3E912-5B4C-4F18-9E2A-6C8D4B103F79</AddInId>
+    <FullClassName>HPDcePro.Revit.DceProRevitApplication</FullClassName>
+    <VendorId>HPREBAR</VendorId>
+    <VendorDescription>HPRebar - HPDcePro Structural Engineering &amp; Detailing Suite</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Name>HPDcePro Control Center</Name>
+    <Assembly>HPDcePro\HPDcePro.Revit.dll</Assembly>
+    <AddInId>B8E4F023-6C5D-4A29-8F3B-7D9E5C214A80</AddInId>
+    <FullClassName>HPDcePro.Revit.DceProControlCenterCommand</FullClassName>
+    <Text>HPDcePro Control Center (GETFORM)</Text>
+    <VendorId>HPREBAR</VendorId>
+    <VendorDescription>HPRebar - HPDcePro Structural Engineering &amp; Detailing Suite</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Name>HPDcePro Export Framing</Name>
+    <Assembly>HPDcePro\HPDcePro.Revit.dll</Assembly>
+    <AddInId>C9F5A134-7D6E-4B30-9A4C-8E0F6D325B91</AddInId>
+    <FullClassName>HPDcePro.Revit.ExportFramingCommand</FullClassName>
+    <Text>HPDcePro Export Structural Framing &amp; Columns</Text>
+    <VendorId>HPREBAR</VendorId>
+    <VendorDescription>HPRebar - HPDcePro Structural Engineering &amp; Detailing Suite</VendorDescription>
+  </AddIn>
+</RevitAddIns>

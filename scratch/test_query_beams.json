@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":true,\"message\":\"The script does not compile. Fix the listed errors and retry.\",\"warnings\":[],\"logs\":[],\"diagnostics\":[{\"line\":1,\"column\":133,\"id\":\"CS1056\",\"message\":\"Unexpected character '\\\\'\"},{\"line\":1,\"column\":175,\"id\":\"CS1056\",\"message\":\"Unexpected character '\\\\'\"},{\"line\":1,\"column\":184,\"id\":\"CS1002\",\"message\":\"; expected\"}],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":5,\"truncated\":false,\"runId\":64}"
+      }
+    ],
+    "isError": true
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

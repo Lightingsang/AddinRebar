@@ -13,6 +13,11 @@ public sealed record BeamContinuousStack
     {
     }
 
+    public BeamContinuousStack(IReadOnlyList<BeamSpan> spans)
+        : this(spans, Array.Empty<BeamSupportNode>(), null)
+    {
+    }
+
     public BeamContinuousStack(
         IReadOnlyList<BeamSpan> spans,
         IReadOnlyList<BeamSupportNode> supports,

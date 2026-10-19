@@ -1,0 +1,163 @@
+--- a/HPDynamo/tools/harness/benchmark_session.py
++++ b/HPDynamo/tools/harness/benchmark_session.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""HPDynamo MCP Persistent Session Benchmark Engine.
++"""HPDynamo MCP Persistent Session Benchmark Engine (Proposed Remediation).
+ 
+ Implements honest, empirical measurements across workloads WL-01..WL-05:
+ - Startup latency vs steady-state warm latency using persistent stdio session.
+@@ -55,25 +55,51 @@
+ 
+ def evaluate_outcome(resp):
+     """Three-tier outcome validator: returns (status, is_success, is_offline, error_detail)."""
+-    if not resp:
+-        return "FAIL", False, False, "Empty or null response"
++    if not isinstance(resp, dict):
++        return "FAIL", False, False, "Malformed response: not a dict"
++
+     if "error" in resp:
+         err = resp["error"]
+-        return "FAIL", False, False, f"RPC Error {err.get('code', -1)}: {err.get('message', 'Error')}"
+-
+-    res = resp.get("result", {})
+-    texts = [c.get("text", "") for c in res.get("content", []) if isinstance(c, dict) and c.get("type") == "text"]
++        if isinstance(err, dict):
++            code = err.get("code", -1)
++            msg = err.get("message", "Error")
++            return "FAIL", False, False, f"RPC Error {code}: {msg}"
++        return "FAIL", False, False, f"RPC Error: {err}"
++
++    if "result" not in resp or resp["result"] is None:
++        return "FAIL", False, False, "Missing or null result field"
++
++    res = resp["result"]
++    if not isinstance(res, dict):
++        return "FAIL", False, False, "Malformed result: not a dict"
++
++    content = res.get("content")
++    if not isinstance(content, list) or len(content) == 0:
++        return "FAIL", False, False, "Missing or empty content in result"
++
++    texts = []
++    for c in content:
++        if isinstance(c, dict) and c.get("type") == "text":
++            txt = c.get("text")
++            if txt is not None:
++                texts.append(str(txt))
+     joined = "\n".join(texts).strip()
+ 
++    if not joined:
++        return "FAIL", False, False, "Empty text in tool content"
++
++    is_offline = "Dynamo bridge not connected" in joined or "pipe hpdynamo-mcp-2026" in joined
+     if res.get("isError"):
+-        if "Dynamo bridge not connected" in joined or "pipe hpdynamo-mcp-2026" in joined:
++        if is_offline:
+             return "SKIP", False, True, "Dynamo bridge not connected (offline mode)"
+         if "No document is open in Revit" in joined:
+             return "SKIP", False, True, "No document open in Revit"
+         return "FAIL", False, False, f"MCP isError: {joined}"
+ 
+-    if "Dynamo bridge not connected" in joined:
++    if is_offline:
+         return "SKIP", False, True, "Dynamo bridge not connected (offline mode)"
++    if "No document is open in Revit" in joined:
++        return "SKIP", False, True, "No document open in Revit"
+     if "The script does not compile" in joined:
+         return "FAIL", False, False, f"Compile Error: {joined}"
+     if "Execution failed" in joined or "Exception thrown" in joined:
+@@ -124,8 +150,10 @@
+     ]
+ 
+ 
+-def build_workload_record(wl, status_label, stats, cold_ms, startup_ms, samples, err_detail, req_bytes, resp_bytes):
++def build_workload_record(wl, status_label, stats, cold_ms, startup_ms, samples, err_detail, req_bytes, resp_bytes, failure_count=None):
+     """Format single workload result object."""
++    if failure_count is None:
++        failure_count = 1 if "FAILED" in status_label else 0
+     return {
+         "id": wl["id"], "name": wl["name"], "tool": wl["tool"], "arguments": wl["args"],
+         "baseline": wl["baseline"],
+@@ -140,7 +168,7 @@
+             "rawSamples": samples,
+             "samplesCount": len(samples),
+             "successCount": len(samples),
+-            "failureCount": 1 if "FAILED" in status_label else 0,
++            "failureCount": failure_count,
+             "errorDetails": err_detail,
+         },
+     }
+@@ -158,23 +186,48 @@
+     zero_stats = {"p50": 0.0, "p95": 0.0, "min": 0.0, "max": 0.0, "mean": 0.0}
+     if tier_status == "SKIP":
+         print(f"SKIPPED ({err_detail})")
+-        return "SKIP", build_workload_record(wl, "CHƯA TEST (Bridge Offline)", zero_stats, cold_ms, startup_ms, [], err_detail, req_b, resp_b)
++        return "SKIP", build_workload_record(wl, "CHƯA TEST (Bridge Offline)", zero_stats, cold_ms, startup_ms, [], err_detail, req_b, resp_b, failure_count=0)
+     if tier_status == "FAIL":
+         print(f"FAILED ({err_detail})")
+-        return "FAIL", build_workload_record(wl, f"FAILED ({err_detail})", zero_stats, cold_ms, startup_ms, [], err_detail, req_b, resp_b)
++        return "FAIL", build_workload_record(wl, f"FAILED ({err_detail})", zero_stats, cold_ms, startup_ms, [], err_detail, req_b, resp_b, failure_count=1)
+ 
+     warm_samples = []
++    warm_failures = 0
++    bridge_offline_during_warm = False
++    last_warm_err = ""
++
+     for _ in range(warm_runs):
+         tw0 = time.perf_counter()
+         w_resp = server.call(wl["tool"], wl["args"])
+         w_ms = round((time.perf_counter() - tw0) * 1000.0, 2)
+-        _, w_ok, _, _ = evaluate_outcome(w_resp)
++        _, w_ok, w_offline, w_detail = evaluate_outcome(w_resp)
++        if w_offline:
++            bridge_offline_during_warm = True
++            last_warm_err = w_detail
++            break
+         if w_ok:
+             warm_samples.append(w_ms)
++        else:
++            warm_failures += 1
++            last_warm_err = w_detail
++
++    if bridge_offline_during_warm:
++        print(f"SKIPPED ({last_warm_err})")
++        return "SKIP", build_workload_record(wl, "CHƯA TEST (Bridge Offline During Warm)", zero_stats, cold_ms, startup_ms, warm_samples, last_warm_err, req_b, resp_b, failure_count=warm_failures)
++
++    if warm_runs > 0 and len(warm_samples) == 0:
++        err_msg = last_warm_err or f"All {warm_runs} warm runs failed"
++        print(f"FAILED ({err_msg})")
++        return "FAIL", build_workload_record(wl, f"FAILED (All {warm_runs} warm runs failed)", zero_stats, cold_ms, startup_ms, [], err_msg, req_b, resp_b, failure_count=warm_failures)
+ 
+     stats = compute_latency_stats(warm_samples)
++    if warm_failures > 0:
++        label = f"Verified Live (Degraded: {len(warm_samples)}/{warm_runs} passed)"
++        print(f"PASSED (p50: {stats['p50']}ms, p95: {stats['p95']}ms, Req/Resp: {req_b}B/{resp_b}B, Degraded: {warm_failures} failed)")
++        return "PASS", build_workload_record(wl, label, stats, cold_ms, startup_ms, warm_samples, last_warm_err, req_b, resp_b, failure_count=warm_failures)
++
+     print(f"PASSED (p50: {stats['p50']}ms, p95: {stats['p95']}ms, Req/Resp: {req_b}B/{resp_b}B)")
+-    return "PASS", build_workload_record(wl, "Verified Live (Persistent Session)", stats, cold_ms, startup_ms, warm_samples, "", req_b, resp_b)
++    return "PASS", build_workload_record(wl, "Verified Live (Persistent Session)", stats, cold_ms, startup_ms, warm_samples, "", req_b, resp_b, failure_count=0)
+ 
+ 
+ def run_benchmark(server_exe, warm_runs=10, cold_runs=1):
+
+--- a/HPDynamo/tools/harness/run-benchmark.ps1
++++ b/HPDynamo/tools/harness/run-benchmark.ps1
+@@ -129,12 +129,12 @@
+ 
+     if (-not $SandboxDir -or -not (Test-Path $SandboxDir)) { return }
+ 
+-    # Constraint 1: Directory must be inside %TEMP%\HPDynamoBenchmark
+-    $tempCanonical = [System.IO.Path]::GetFullPath($env:TEMP).TrimEnd('\', '/')
++    # Constraint 1: Directory must be strictly inside %TEMP%\HPDynamoBenchmark\
++    $sandboxRootCanonical = [System.IO.Path]::GetFullPath((Join-Path $env:TEMP "HPDynamoBenchmark")).TrimEnd('\', '/')
++    $requiredPrefix = $sandboxRootCanonical + [System.IO.Path]::DirectorySeparatorChar
+     $targetCanonical = [System.IO.Path]::GetFullPath($SandboxDir).TrimEnd('\', '/')
+ 
+-    if (-not $targetCanonical.StartsWith($tempCanonical, [StringComparison]::OrdinalIgnoreCase) -or
+-        -not $targetCanonical.Contains("HPDynamoBenchmark")) {
++    if (-not $targetCanonical.StartsWith($requiredPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+         Write-Error "SECURITY REFUSAL: Target directory '$SandboxDir' is outside %TEMP%\HPDynamoBenchmark. Deletion aborted."
+         return
+     }

@@ -1,0 +1,214 @@
+{
+  "Timestamp": "2026-10-18T04:32:30.9823029Z",
+  "TotalTests": 34,
+  "Passed": 32,
+  "Failed": 2,
+  "SuccessRatePct": 94.12,
+  "Verdict": "REJECT",
+  "Results": [
+    {
+      "Suite": "Suite1",
+      "TestName": "C:\\HPKata\\Kata.xlsm exists",
+      "Passed": true,
+      "Details": "Missing master Kata.xlsm"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "C:\\HPKata\\Kata ENG.xlsm exists",
+      "Passed": true,
+      "Details": "Missing Kata ENG.xlsm"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "C:\\HPKata\\Iso_QHPlus.xls exists",
+      "Passed": true,
+      "Details": "Missing Iso_QHPlus.xls"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "C:\\HPKata\\Iso_kata.dwg exists",
+      "Passed": true,
+      "Details": "Missing Iso_kata.dwg"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "C:\\HPKata\\Goi lenh.lsp exists",
+      "Passed": true,
+      "Details": "Missing Goi lenh.lsp"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "Directory C:\\HPKata\\dangthep exists",
+      "Passed": true,
+      "Details": "Missing dir dangthep"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "Directory C:\\HPKata\\Cot exists",
+      "Passed": true,
+      "Details": "Missing dir Cot"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "Directory C:\\HPKata\\Icon exists",
+      "Passed": true,
+      "Details": "Missing dir Icon"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "Directory C:\\HPKata\\IMG exists",
+      "Passed": true,
+      "Details": "Missing dir IMG"
+    },
+    {
+      "Suite": "Suite1",
+      "TestName": "Directory C:\\HPKata\\Temp exists",
+      "Passed": true,
+      "Details": "Missing dir Temp"
+    },
+    {
+      "Suite": "Suite2",
+      "TestName": "ReadBeamSheet on actual C:\\HPKata\\Kata.xlsm",
+      "Passed": true,
+      "Details": "Success=True, Mark=\u0027B01\u0027, Spans=16, Supports=17"
+    },
+    {
+      "Suite": "Suite2",
+      "TestName": "ReadColumnSheet on actual C:\\HPKata\\Kata.xlsm",
+      "Passed": true,
+      "Details": "Success=True, Mark=\u0027C1\u0027, Stories=6"
+    },
+    {
+      "Suite": "Suite2",
+      "TestName": "ReadWallSheet on actual C:\\HPKata\\Kata.xlsm",
+      "Passed": true,
+      "Details": "Success=True, Mark=\u0027V1\u0027, Stories=6"
+    },
+    {
+      "Suite": "Suite2",
+      "TestName": "ReadBeamSheet with null workbookPath (ambient)",
+      "Passed": true,
+      "Details": "Failed resolving ambient KataWorkbookPath: C:\\HPKata\\Kata.xlsm"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "Beam Roundtrip mutation integrity",
+      "Passed": true,
+      "Details": "Write=True, Read=True, Mark=\u0027D_CHALLENGE_ADV\u0027, W=380, H=820"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "Column Roundtrip mutation integrity",
+      "Passed": true,
+      "Details": "Write=True, Read=True, Mark=\u0027C_CHALLENGE_ADV\u0027, Story0_W=750"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "Wall Roundtrip mutation integrity",
+      "Passed": true,
+      "Details": "Write=True, Read=True, Mark=\u0027W_CHALLENGE_ADV\u0027, Lw=4200"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "ExportSchedule to Thong_ke returns true",
+      "Passed": true,
+      "Details": "Export failed"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "Schedule Title A1 == \u0027B\u1EA2NG TH\u1ED0NG K\u00CA C\u1ED0T TH\u00C9P\u0027",
+      "Passed": true,
+      "Details": "Actual: \u0027B\u1EA2NG TH\u1ED0NG K\u00CA C\u1ED0T TH\u00C9P\u0027"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "Summary Bins Match Mathematical Oracle",
+      "Passed": true,
+      "Details": "Small: 10.17 vs 10.17, Med: 52.07 vs 52.07, Large: 246.59 vs 246.59, Total: 308.84 vs 308.84, Couplers: 8 vs 8"
+    },
+    {
+      "Suite": "Suite3",
+      "TestName": "ExportQhPlusSchedule creates Output_QHP sheet in XLSX",
+      "Passed": true,
+      "Details": "Success=True, Exists=True, SheetExists=True"
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "ReadBeamSheet on non-existent path returns false cleanly",
+      "Passed": true,
+      "Details": "Unexpectedly returned: False"
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "ReadBeamSheet on 0-byte file (detect unhandled exception)",
+      "Passed": false,
+      "Details": "Unhandled exception: FileFormatException: Archive file cannot be size 0."
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "ReadBeamSheet on junk binary file (detect unhandled exception)",
+      "Passed": false,
+      "Details": "Unhandled exception: FileFormatException: File contains corrupted data."
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "ClosedXmlSession throws expected exception on BIFF8 .xls file",
+      "Passed": true,
+      "Details": "Caught expected: ArgumentException"
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "ReadBeamSheet on blank \u0027Dam\u0027 sheet yields safe default DTO",
+      "Passed": true,
+      "Details": "ReadOk=True, Mark=\u0027B01\u0027, Spans=0"
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "Extreme 50 Spans Boundary: Detect col \u003C= 80 truncation limit",
+      "Passed": true,
+      "Details": "Wrote 50 spans, reloaded 39 spans (col \u003C= 80 limit truncates to 39)"
+    },
+    {
+      "Suite": "Suite4",
+      "TestName": "Extreme 120 Stories Boundary: Detect row \u003C= 100 truncation limit",
+      "Passed": true,
+      "Details": "Wrote 120 stories, reloaded 91 stories (row \u003C= 100 limit truncates to 91)"
+    },
+    {
+      "Suite": "Suite5",
+      "TestName": "Concurrent Reads (8 threads on actual Kata.xlsm)",
+      "Passed": true,
+      "Details": "8/8 threads succeeded"
+    },
+    {
+      "Suite": "Suite5",
+      "TestName": "Concurrent Writes (8 threads on isolated copies)",
+      "Passed": true,
+      "Details": "8/8 succeeded"
+    },
+    {
+      "Suite": "Suite6",
+      "TestName": "OpenSession(preferCom: false) yields KataClosedXmlSession",
+      "Passed": true,
+      "Details": "Session type: KataClosedXmlSession, IsComSession=False"
+    },
+    {
+      "Suite": "Suite6",
+      "TestName": "Headless session reads cell Dam!B3 correctly",
+      "Passed": true,
+      "Details": "SheetExists=True, Mark=\u0027B01\u0027"
+    },
+    {
+      "Suite": "Suite7",
+      "TestName": "C:\\HPKata\\Kata.xlsm exists prior to test verification",
+      "Passed": true,
+      "Details": "Master file missing from C:\\HPKata"
+    },
+    {
+      "Suite": "Suite7",
+      "TestName": "Forensic confirmation of File.Delete(C:\\HPKata\\Kata.xlsm) defect in RevitExportExcelRunnerTests",
+      "Passed": true,
+      "Details": "Proven: line 100 in RevitExportExcelRunnerTests deletes C:\\HPKata\\Kata.xlsm whenever it exists"
+    }
+  ]
+}

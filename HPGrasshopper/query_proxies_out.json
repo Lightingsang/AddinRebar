@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Code execution is disabled. Ask the user to tick 'Allow AI Grasshopper execution' in the HPGrasshopper MCP Bridge window inside Revit."
+      }
+    ],
+    "isError": true
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

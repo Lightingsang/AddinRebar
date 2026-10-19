@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":true,\"message\":\"The script does not compile. Fix the listed errors and retry.\",\"warnings\":[],\"logs\":[],\"diagnostics\":[{\"line\":95,\"column\":34,\"id\":\"CS0234\",\"message\":\"The type or namespace name 'Applications' does not exist in the namespace 'Dynamo' (are you missing an assembly reference?)\"},{\"line\":98,\"column\":23,\"id\":\"CS0234\",\"message\":\"The type or namespace name 'Applications' does not exist in the namespace 'Dynamo' (are you missing an assembly reference?)\"}],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":1951,\"truncated\":false,\"runId\":62}"
+      }
+    ],
+    "isError": true
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,305 @@
+﻿// Decompiled Type: Kata_pro64_Cad2025.Set_Load
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using ISiwrxGXiXvnhkWZpeEl;
+using jVggQdGZ6R75GvpjNUX3;
+using Kata_Class_Lib_Revit;
+using Microsoft.VisualBasic.CompilerServices;
+using RtxmCnGXUtQI8E4SKxQf;
+
+namespace Kata_pro64_Cad2025;
+
+[StandardModule]
+public sealed class Set_Load
+{
+	public static string[] list_type_load;
+
+	public static string[] list_key_load;
+
+	public static Dictionary<diem, Dictionary<string, string>> Dict_JointLoads;
+
+	public static Dictionary<PolygonModule.Polygon, Dictionary<string, string>> Dict_FrameLoads;
+
+	public static Dictionary<PolygonModule.Polygon, Dictionary<string, string>> Dict_ShellLoads;
+
+	public static Dictionary<PolygonModule.Polygon, string> Dict_CKLoads;
+
+	public static Dictionary<string, string> Dict_AreaName_CKLoad;
+
+	private static Dictionary<string, Dictionary<string, string>> yniWfLBEfyX;
+
+	private static Dictionary<string, Dictionary<string, List<string>>> go6WfHlmxiD;
+
+	private static Dictionary<string, List<object>> HSbWfe9JDrW;
+
+	private static Set_Load DYM0DrKKWkWJTEbPBwiV;
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	static Set_Load()
+	{
+		xavXIGGZSoyV1HnLMpd5.gOPGOJJyT3f();
+		int num = 2;
+		while (true)
+		{
+			int num2 = num;
+			while (true)
+			{
+				int num3 = num2;
+				while (true)
+				{
+					switch (num3)
+					{
+					case 3:
+						list_type_load = new string[4]
+						{
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x282F6C06 ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_56330623acd7467e9db22ad7afc833e4),
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0xE6020A7 ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_5486703c56664911aaf2e369920182dc),
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x33B27BAC ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_a31bb1b9f16a46dc83b76cfa609b40f8),
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x6F0E2298 ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_54a7af69d1034b5a9b08dc5dce1f4e16)
+						};
+						num3 = 2;
+						if (<Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_66b9ef7858114b73b71fce63cce49431 == 0)
+						{
+							num3 = 0;
+						}
+						continue;
+					case 2:
+						xavXIGGZSoyV1HnLMpd5.Aa7GOw9OvSt();
+						num3 = 6;
+						if (<Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_77cef53e84b943bc80ce2f56a64f4296 != 0)
+						{
+							num3 = 1;
+						}
+						continue;
+					case 4:
+						return;
+					case 1:
+						goto end_IL_000e;
+					case 5:
+						fQTU1lGXrG3VcpaXN7GA.OaoKYZBvFOY();
+						num3 = 3;
+						continue;
+					case 0:
+						list_key_load = new string[3]
+						{
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x65B92D1B ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_b4facacaf3294c119d8ab903bbea015e),
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x1604283B ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_1f6995568d0648c68be3c7c44a15ce4d),
+							xavXIGGZSoyV1HnLMpd5.s6pGOOaQua3(0x5633472E ^ <Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_939957a86c09407c97177950f83ce776)
+						};
+						num3 = 4;
+						continue;
+					}
+					switch (num2)
+					{
+					case 993:
+						break;
+					default:
+						return;
+					case 12:
+						Lmx1rnGXf3t52keVsJny.J2MK5rWvVFT();
+						num3 = 5;
+						if (<Module>{c00760f1-ae75-483f-936b-b88583f2e4c3}.m_a855ac8cc534431490a208aa3216eabd.m_9721064114694f6582786a9cc7195c62 == 0)
+						{
+							num3 = 4;
+						}
+						continue;
+					}
+					break;
+				}
+				continue;
+				end_IL_000e:
+				break;
+			}
+			xavXIGGZSoyV1HnLMpd5.UZnGZYBOHVO();
+			num = 12;
+		}
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static object color_load(string TypeLoad)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Select_Joint_Load(string taitrong, string layer)
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Get_CK_Dict_Loads()
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Save_CK_Dict_Loads()
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static bool Delete_CK_Dict_Loads(string CK_key_load)
+	{
+		return true;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static bool Add_CK_Dict_Loads(string CK_key_load, Dictionary<string, string> Dict_type_load)
+	{
+		return true;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static bool Update_CK_Dict_Loads(string CK_key_load, Dictionary<string, string> Dict_type_load)
+	{
+		return true;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static string CheckKhac_CK_Dict_Loads(string CK_key_load, Dictionary<string, string> Dict_type_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static Dictionary<string, string> Get_CK_Dict_type_load(string CK_name)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static Dictionary<string, Dictionary<string, string>> Get_CK_Dict_Loads(string Key_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<string> Get_List_CK_loads(string Key_load, string Type_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<string> Get_List_CK_loads(string Key_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<string> Get_List_Type_load(string CK_name)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static string Get_Key_load(string CK_name)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static string Get_gtri_from_CKKeyType(string CK_name, string Key_load, string Type_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static string Check_gtri_from_CKKey(string CK_name, string Key_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static string Get_gtri_from_Layer(string layer_name, [Optional][DefaultParameterValue("")] ref string type_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Get_List_Loads()
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<string> Get_List_gtri_loads(string Key_load, string Type_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static Dictionary<string, List<string>> Get_Dict_Loads(string Key_load)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void rename_layer_load(string Key_load, string Type_load, int item, string gtri)
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Change_layer_Objectload(string Key_load, string Type_load, int item, string gtri)
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void check_add_layer_load(string Key_load, string gtri, string Type_load = "")
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static bool Check_layer_key_load(string layer_name, List<string> List_CK_loads, Dictionary<string, List<string>> Dict_Loads, ref string gtri)
+	{
+		return true;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Highlight_Key_load(string Key_load)
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Delete_select_load(string Key_load, string gtri, string Type_load = "")
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Highlight_select_load(string Key_load, string gtri, string Type_load = "")
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Clear_Highlight_select_load()
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<PolygonModule.Polygon> Select_object_Load(string layer, string keyload)
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static List<info_CurveGrid> Select_tap_grid()
+	{
+		return null;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	public static void Gan_tai_Etabs()
+	{
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	internal static bool PQppTrKKGFnHrTYIka1m()
+	{
+		return true;
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	internal static Set_Load LTkJCCKKw2Z5F93uUaCQ()
+	{
+		return null;
+	}
+}
+

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Kata_Class_Lib</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="3hLGA5qxOmcJbOToWF.vQn9C1to51FlGQOx5u" />
+    <None Remove="XgvWexEKmsAMEwM7kU.FnE2YqlK2r0rfqFQsR" />
+    <None Remove="tDl0UwZZZKSsbEHsLg.pI5itlhtKYsaNF3Ohg" />
+    <None Remove="M5VulKW5UJSWRLLTDe.hw223FKt5r698OrEt2" />
+    <None Remove="klF7yfVeKFvhSUC3gx.jH37QiYD0uIXQmfoY2" />
+    <None Remove="kxvHF230r2jpgdAgy0.j2wibSbuklu9mbtdb0" />
+    <EmbeddedResource Include="3hLGA5qxOmcJbOToWF.vQn9C1to51FlGQOx5u" LogicalName="3hLGA5qxOmcJbOToWF.vQn9C1to51FlGQOx5u" />
+    <EmbeddedResource Include="XgvWexEKmsAMEwM7kU.FnE2YqlK2r0rfqFQsR" LogicalName="XgvWexEKmsAMEwM7kU.FnE2YqlK2r0rfqFQsR" />
+    <EmbeddedResource Include="tDl0UwZZZKSsbEHsLg.pI5itlhtKYsaNF3Ohg" LogicalName="tDl0UwZZZKSsbEHsLg.pI5itlhtKYsaNF3Ohg" />
+    <EmbeddedResource Include="M5VulKW5UJSWRLLTDe.hw223FKt5r698OrEt2" LogicalName="M5VulKW5UJSWRLLTDe.hw223FKt5r698OrEt2" />
+    <EmbeddedResource Include="klF7yfVeKFvhSUC3gx.jH37QiYD0uIXQmfoY2" LogicalName="klF7yfVeKFvhSUC3gx.jH37QiYD0uIXQmfoY2" />
+    <EmbeddedResource Include="kxvHF230r2jpgdAgy0.j2wibSbuklu9mbtdb0" LogicalName="kxvHF230r2jpgdAgy0.j2wibSbuklu9mbtdb0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System.Core" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\kata_pro\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

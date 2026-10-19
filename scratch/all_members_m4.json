@@ -1,0 +1,1098 @@
+[
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IIntentJournal.cs",
+    "Member": "RecordIntentAsync",
+    "Kind": "Method",
+    "Start": 21,
+    "End": 21,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IIntentJournal.cs",
+    "Member": "UpdateStatusAsync",
+    "Kind": "Method",
+    "Start": 26,
+    "End": 30,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IIntentJournal.cs",
+    "Member": "GetIncompleteIntentsAsync",
+    "Kind": "Method",
+    "Start": 35,
+    "End": 35,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IIntentJournal.cs",
+    "Member": "GetIntentAsync",
+    "Kind": "Method",
+    "Start": 40,
+    "End": 40,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IIntentJournal.cs",
+    "Member": "PruneOldEntriesAsync",
+    "Kind": "Method",
+    "Start": 46,
+    "End": 46,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "IntentJournal",
+    "Kind": "Constructor",
+    "Start": 30,
+    "End": 37,
+    "Lines": 8
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "RecordIntentAsync",
+    "Kind": "Method",
+    "Start": 39,
+    "End": 47,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "UpdateStatusAsync",
+    "Kind": "Method",
+    "Start": 49,
+    "End": 70,
+    "Lines": 22
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "GetIncompleteIntentsAsync",
+    "Kind": "Method",
+    "Start": 72,
+    "End": 80,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "GetIntentAsync",
+    "Kind": "Method",
+    "Start": 82,
+    "End": 92,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "PruneOldEntriesAsync",
+    "Kind": "Method",
+    "Start": 94,
+    "End": 120,
+    "Lines": 27
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "RewriteCompactedJournalAsync",
+    "Kind": "Method",
+    "Start": 122,
+    "End": 140,
+    "Lines": 19
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "AppendLineWithFlushAsync",
+    "Kind": "Method",
+    "Start": 142,
+    "End": 162,
+    "Lines": 21
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "ReadLatestRecordsMapAsync",
+    "Kind": "Method",
+    "Start": 164,
+    "End": 175,
+    "Lines": 12
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "ReadLatestRecordsMapCoreAsync",
+    "Kind": "Method",
+    "Start": 177,
+    "End": 201,
+    "Lines": 25
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "EnsureDirectoryExists",
+    "Kind": "Method",
+    "Start": 203,
+    "End": 210,
+    "Lines": 8
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "CreateJsonOptions",
+    "Kind": "Method",
+    "Start": 212,
+    "End": 222,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "ThrowIfDisposed",
+    "Kind": "Method",
+    "Start": 224,
+    "End": 227,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "Dispose",
+    "Kind": "Method",
+    "Start": 229,
+    "End": 233,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\IntentJournal.cs",
+    "Member": "DisposeAsync",
+    "Kind": "Method",
+    "Start": 235,
+    "End": 239,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\TimeoutPolicy.cs",
+    "Member": "ComputeExecutionBudget",
+    "Kind": "Method",
+    "Start": 18,
+    "End": 27,
+    "Lines": 10
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\TimeoutPolicy.cs",
+    "Member": "ComputeTotalTimeout",
+    "Kind": "Method",
+    "Start": 29,
+    "End": 30,
+    "Lines": 2
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\TimeoutPolicy.cs",
+    "Member": "CalculateExecutionBudget",
+    "Kind": "Method",
+    "Start": 32,
+    "End": 32,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\TimeoutPolicy.cs",
+    "Member": "CalculateTotalTimeout",
+    "Kind": "Method",
+    "Start": 34,
+    "End": 34,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Connection\\TimeoutPolicy.cs",
+    "Member": "Validate",
+    "Kind": "Method",
+    "Start": 36,
+    "End": 46,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptByOperationIdAsync",
+    "Kind": "Method",
+    "Start": 13,
+    "End": 15,
+    "Lines": 3
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptByPlanHashAsync",
+    "Kind": "Method",
+    "Start": 17,
+    "End": 19,
+    "Lines": 3
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptAsync",
+    "Kind": "Method",
+    "Start": 21,
+    "End": 24,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IExtensibleStorageReceiptReader.cs",
+    "Member": "GetAllReceiptsAsync",
+    "Kind": "Method",
+    "Start": 26,
+    "End": 27,
+    "Lines": 2
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageQueryScriptTemplate.cs",
+    "Member": "GetQueryScript",
+    "Kind": "Method",
+    "Start": 8,
+    "End": 10,
+    "Lines": 3
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageQueryScriptTemplate.cs",
+    "Member": "GetQueryHeaderScript",
+    "Kind": "Method",
+    "Start": 12,
+    "End": 28,
+    "Lines": 17
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageQueryScriptTemplate.cs",
+    "Member": "GetQueryFilterAndReturnScript",
+    "Kind": "Method",
+    "Start": 30,
+    "End": 57,
+    "Lines": 28
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "ExtensibleStorageReceiptReader",
+    "Kind": "Constructor",
+    "Start": 21,
+    "End": 24,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptByOperationIdAsync",
+    "Kind": "Method",
+    "Start": 26,
+    "End": 36,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptByPlanHashAsync",
+    "Kind": "Method",
+    "Start": 38,
+    "End": 50,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "FindReceiptAsync",
+    "Kind": "Method",
+    "Start": 52,
+    "End": 66,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "GetAllReceiptsAsync",
+    "Kind": "Method",
+    "Start": 68,
+    "End": 72,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "QueryReceiptsAsync",
+    "Kind": "Method",
+    "Start": 74,
+    "End": 103,
+    "Lines": 30
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "ParseReceipts",
+    "Kind": "Method",
+    "Start": 105,
+    "End": 130,
+    "Lines": 26
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "ParseSingleReceipt",
+    "Kind": "Method",
+    "Start": 132,
+    "End": 146,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ExtensibleStorageReceiptReader.cs",
+    "Member": "ParseElementMap",
+    "Kind": "Method",
+    "Start": 148,
+    "End": 165,
+    "Lines": 18
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileResult.cs",
+    "Member": "Committed",
+    "Kind": "Method",
+    "Start": 19,
+    "End": 28,
+    "Lines": 10
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileResult.cs",
+    "Member": "RolledBack",
+    "Kind": "Method",
+    "Start": 30,
+    "End": 38,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileResult.cs",
+    "Member": "StillUnknown",
+    "Kind": "Method",
+    "Start": 40,
+    "End": 48,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileResult.cs",
+    "Member": "NoOp",
+    "Kind": "Method",
+    "Start": 50,
+    "End": 55,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IReconcileService.cs",
+    "Member": "ReconcileAllUnknownIntentsAsync",
+    "Kind": "Method",
+    "Start": 14,
+    "End": 14,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\IReconcileService.cs",
+    "Member": "ReconcileIntentAsync",
+    "Kind": "Method",
+    "Start": 16,
+    "End": 16,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileService.cs",
+    "Member": "ReconcileService",
+    "Kind": "Constructor",
+    "Start": 23,
+    "End": 33,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileService.cs",
+    "Member": "ReconcileAllUnknownIntentsAsync",
+    "Kind": "Method",
+    "Start": 35,
+    "End": 51,
+    "Lines": 17
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileService.cs",
+    "Member": "ReconcileIntentAsync",
+    "Kind": "Method",
+    "Start": 53,
+    "End": 62,
+    "Lines": 10
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileService.cs",
+    "Member": "ReconcileSingleIntentAsync",
+    "Kind": "Method",
+    "Start": 64,
+    "End": 87,
+    "Lines": 24
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Recovery\\ReconcileService.cs",
+    "Member": "ApplyCommittedReceiptAsync",
+    "Kind": "Method",
+    "Start": 89,
+    "End": 105,
+    "Lines": 17
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.Receipt.cs",
+    "Member": "GetReceiptScript",
+    "Kind": "Method",
+    "Start": 5,
+    "End": 7,
+    "Lines": 3
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.Receipt.cs",
+    "Member": "GetReceiptHeaderAndSchemaScript",
+    "Kind": "Method",
+    "Start": 9,
+    "End": 38,
+    "Lines": 30
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.Receipt.cs",
+    "Member": "GetReceiptStorageScript",
+    "Kind": "Method",
+    "Start": 40,
+    "End": 82,
+    "Lines": 43
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "ExecutePlanJournaledAsync",
+    "Kind": "Method",
+    "Start": 18,
+    "End": 21,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "ExecutePlanWithJournalAsync",
+    "Kind": "Method",
+    "Start": 23,
+    "End": 26,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "ExecutePlanWithJournalAsync",
+    "Kind": "Method",
+    "Start": 28,
+    "End": 32,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "ExecutePlanJournaledAsync",
+    "Kind": "Method",
+    "Start": 34,
+    "End": 46,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "ApplyTimeoutBudget",
+    "Kind": "Method",
+    "Start": 48,
+    "End": 56,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "DispatchPlanSafelyAsync",
+    "Kind": "Method",
+    "Start": 58,
+    "End": 88,
+    "Lines": 31
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "CreateOutcomeUnknownResult",
+    "Kind": "Method",
+    "Start": 90,
+    "End": 100,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "RecordPreDispatchIntentAsync",
+    "Kind": "Method",
+    "Start": 102,
+    "End": 118,
+    "Lines": 17
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "RecordPostDispatchOutcomeAsync",
+    "Kind": "Method",
+    "Start": 120,
+    "End": 142,
+    "Lines": 23
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.IntentJournal.cs",
+    "Member": "RecordExceptionOutcomeAsync",
+    "Kind": "Method",
+    "Start": 144,
+    "End": 154,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "IntentJournalTests",
+    "Kind": "Constructor",
+    "Start": 17,
+    "End": 22,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "Dispose",
+    "Kind": "Method",
+    "Start": 24,
+    "End": 38,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "RecordIntentAsync_WritesRecordToJsonlFile_WithValidJson",
+    "Kind": "Method",
+    "Start": 40,
+    "End": 66,
+    "Lines": 27
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "UpdateStatusAsync_AppendsNewStateLine_ReflectsLatestStatus",
+    "Kind": "Method",
+    "Start": 68,
+    "End": 91,
+    "Lines": 24
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "GetIncompleteIntentsAsync_FiltersPendingInFlightOutcomeUnknown_IgnoresCommittedAndFailed",
+    "Kind": "Method",
+    "Start": 93,
+    "End": 111,
+    "Lines": 19
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "CorruptedJournalLines_GracefullySkipped_PreservesValidRecords",
+    "Kind": "Method",
+    "Start": 113,
+    "End": 134,
+    "Lines": 22
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "PruneOldEntriesAsync_RemovesExpiredTerminalRecords_PreservesIncompleteRecords",
+    "Kind": "Method",
+    "Start": 136,
+    "End": 154,
+    "Lines": 19
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "ConcurrentAppends_ThreadSafe_NoLineInterleaving",
+    "Kind": "Method",
+    "Start": 156,
+    "End": 179,
+    "Lines": 24
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTests.cs",
+    "Member": "Dispose_DisallowsFurtherOperations",
+    "Kind": "Method",
+    "Start": 181,
+    "End": 189,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "Defaults_MatchSpecification",
+    "Kind": "Method",
+    "Start": 9,
+    "End": 19,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "ComputeExecutionBudget_NonPositiveCount_ReturnsDefaultBudget",
+    "Kind": "Method",
+    "Start": 21,
+    "End": 29,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "ComputeExecutionBudget_ScalesLinearlyWithItemCount",
+    "Kind": "Method",
+    "Start": 31,
+    "End": 41,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "ComputeExecutionBudget_ClampsToMaxBudget",
+    "Kind": "Method",
+    "Start": 43,
+    "End": 50,
+    "Lines": 8
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "ComputeTotalTimeout_SumsQueueDeadlineToExecutionBudget",
+    "Kind": "Method",
+    "Start": 52,
+    "End": 63,
+    "Lines": 12
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "Validate_SucceedsOnDefaultConfiguration",
+    "Kind": "Method",
+    "Start": 65,
+    "End": 70,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTests.cs",
+    "Member": "Validate_ThrowsOnZeroOrNegativeTimeouts",
+    "Kind": "Method",
+    "Start": 72,
+    "End": 86,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "FindReceiptByOperationId_MatchesExpectedReceipt",
+    "Kind": "Method",
+    "Start": 14,
+    "End": 40,
+    "Lines": 27
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "FindReceiptByOperationId_ReturnsNullWhenNotFound",
+    "Kind": "Method",
+    "Start": 42,
+    "End": 50,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "FindReceiptByPlanHash_ReturnsLatestMatchingReceipt",
+    "Kind": "Method",
+    "Start": 52,
+    "End": 80,
+    "Lines": 29
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "GetAllReceipts_ReturnsAllStoredReceipts",
+    "Kind": "Method",
+    "Start": 82,
+    "End": 93,
+    "Lines": 12
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "FindReceiptAsync_FallsBackToPlanHash_WhenOpIdNotFound",
+    "Kind": "Method",
+    "Start": 95,
+    "End": 107,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "ParseReceipts_WithCorruptedElementMapJson_ReturnsEmptyGracefully",
+    "Kind": "Method",
+    "Start": 109,
+    "End": 131,
+    "Lines": 23
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "ParseReceipts_WithNullOrEmptyJson_ReturnsEmptyList",
+    "Kind": "Method",
+    "Start": 133,
+    "End": 141,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "BimPlanRunnerScriptTemplate_ContainsExtensibleStorageReceiptLogic",
+    "Kind": "Method",
+    "Start": 143,
+    "End": 153,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ExtensibleStorageReceiptReaderTests.cs",
+    "Member": "ExtensibleStorageQueryScriptTemplate_GeneratesValidQueryScript",
+    "Kind": "Method",
+    "Start": 155,
+    "End": 168,
+    "Lines": 14
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileServiceTests",
+    "Kind": "Constructor",
+    "Start": 19,
+    "End": 24,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "Dispose",
+    "Kind": "Method",
+    "Start": 26,
+    "End": 40,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileAllUnknownIntents_WhenNoIncompleteIntents_ReturnsNoOp",
+    "Kind": "Method",
+    "Start": 42,
+    "End": 54,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileIntent_WhenReceiptFound_UpdatesLedgerAndMarksCommitted",
+    "Kind": "Method",
+    "Start": 56,
+    "End": 98,
+    "Lines": 43
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileIntent_WhenReceiptAbsent_MarksIntentFailedAndRolledBack",
+    "Kind": "Method",
+    "Start": 100,
+    "End": 127,
+    "Lines": 28
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileIntent_WhenPipeThrowsIOException_ReturnsStillUnknownWithoutFailingIntent",
+    "Kind": "Method",
+    "Start": 129,
+    "End": 156,
+    "Lines": 28
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileIntent_WhenIntentNotInJournal_ReturnsStillUnknown",
+    "Kind": "Method",
+    "Start": 158,
+    "End": 168,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTests.cs",
+    "Member": "ReconcileAllUnknownIntents_MultipleIntents_ReconcilesEachSequentially",
+    "Kind": "Method",
+    "Start": 170,
+    "End": 196,
+    "Lines": 27
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "AutoReconcileIdempotencyTests",
+    "Kind": "Constructor",
+    "Start": 23,
+    "End": 28,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "Dispose",
+    "Kind": "Method",
+    "Start": 30,
+    "End": 43,
+    "Lines": 14
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "EndToEnd_Timeout_AutoReconcile_RerunPlan_CreatesZeroDuplicates",
+    "Kind": "Method",
+    "Start": 45,
+    "End": 60,
+    "Lines": 16
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "RunPhase1_TimeoutExecutionAsync",
+    "Kind": "Method",
+    "Start": 62,
+    "End": 76,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "SetupPhase2_RevitCommittedReceipt",
+    "Kind": "Method",
+    "Start": 78,
+    "End": 92,
+    "Lines": 15
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "RunPhase2_AutoReconciliationAsync",
+    "Kind": "Method",
+    "Start": 94,
+    "End": 113,
+    "Lines": 20
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "RunPhase3_RerunPlanAndVerifyZeroDuplicatesAsync",
+    "Kind": "Method",
+    "Start": 115,
+    "End": 127,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "ConfigureFakePipeForNoOpRerun",
+    "Kind": "Method",
+    "Start": 129,
+    "End": 158,
+    "Lines": 30
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "EndToEnd_Disconnect_ReceiptAbsent_ReconcileRollsBack_AllowsCleanRerun",
+    "Kind": "Method",
+    "Start": 160,
+    "End": 194,
+    "Lines": 35
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "DryRun_DoesNotRecordInJournal_AndRollsBackCleanly",
+    "Kind": "Method",
+    "Start": 196,
+    "End": 215,
+    "Lines": 20
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\AutoReconcileIdempotencyTests.cs",
+    "Member": "BuildTestPlan",
+    "Kind": "Method",
+    "Start": 217,
+    "End": 239,
+    "Lines": 23
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetScriptCode",
+    "Kind": "Method",
+    "Start": 10,
+    "End": 17,
+    "Lines": 8
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetPreambleScript",
+    "Kind": "Method",
+    "Start": 19,
+    "End": 22,
+    "Lines": 4
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetPreambleHelpersAndPreFlightScript",
+    "Kind": "Method",
+    "Start": 24,
+    "End": 58,
+    "Lines": 35
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetPreambleDatumCollectorsScript",
+    "Kind": "Method",
+    "Start": 60,
+    "End": 90,
+    "Lines": 31
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetPreambleTypeCollectorsScript",
+    "Kind": "Method",
+    "Start": 92,
+    "End": 125,
+    "Lines": 34
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetLoopCloseScript",
+    "Kind": "Method",
+    "Start": 127,
+    "End": 144,
+    "Lines": 18
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPlanRunnerScriptTemplate.cs",
+    "Member": "GetEpilogueScript",
+    "Kind": "Method",
+    "Start": 146,
+    "End": 158,
+    "Lines": 13
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "BimPipelineEngine",
+    "Kind": "Constructor",
+    "Start": 30,
+    "End": 45,
+    "Lines": 16
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "ExecuteAsync",
+    "Kind": "Method",
+    "Start": 47,
+    "End": 79,
+    "Lines": 33
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "ExecuteAtomicDryRunAsync",
+    "Kind": "Method",
+    "Start": 81,
+    "End": 103,
+    "Lines": 23
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "FormatErrorMessage",
+    "Kind": "Method",
+    "Start": 105,
+    "End": 111,
+    "Lines": 7
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "ExecuteSequentialStagesAsync",
+    "Kind": "Method",
+    "Start": 113,
+    "End": 137,
+    "Lines": 25
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "ExecuteStageStepAsync",
+    "Kind": "Method",
+    "Start": 139,
+    "End": 149,
+    "Lines": 11
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "BuildStageResult",
+    "Kind": "Method",
+    "Start": 151,
+    "End": 182,
+    "Lines": 32
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "CreateSequentialStageFailedResult",
+    "Kind": "Method",
+    "Start": 184,
+    "End": 197,
+    "Lines": 14
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "CreateSequentialStageSuccessResult",
+    "Kind": "Method",
+    "Start": 199,
+    "End": 210,
+    "Lines": 12
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineEngine.cs",
+    "Member": "GetDefaultGenerators",
+    "Kind": "Method",
+    "Start": 212,
+    "End": 217,
+    "Lines": 6
+  },
+  {
+    "File": "HPBim\\src\\HPBim.Client\\Pipeline\\BimPipelineResult.cs",
+    "Member": "Failure",
+    "Kind": "Method",
+    "Start": 34,
+    "End": 41,
+    "Lines": 8
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "AddSimulatedReceipt",
+    "Kind": "Method",
+    "Start": 32,
+    "End": 32,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "ConnectAsync",
+    "Kind": "Method",
+    "Start": 36,
+    "End": 44,
+    "Lines": 9
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "DisconnectAsync",
+    "Kind": "Method",
+    "Start": 46,
+    "End": 50,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "ExecuteAsync",
+    "Kind": "Method",
+    "Start": 52,
+    "End": 92,
+    "Lines": 41
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "HandleQueryExtensibleStorageReceipts",
+    "Kind": "Method",
+    "Start": 94,
+    "End": 125,
+    "Lines": 32
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "PingAsync",
+    "Kind": "Method",
+    "Start": 127,
+    "End": 128,
+    "Lines": 2
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "CancelAsync",
+    "Kind": "Method",
+    "Start": 133,
+    "End": 142,
+    "Lines": 10
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "GetContextAsync",
+    "Kind": "Method",
+    "Start": 144,
+    "End": 148,
+    "Lines": 5
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "Dispose",
+    "Kind": "Method",
+    "Start": 150,
+    "End": 150,
+    "Lines": 1
+  },
+  {
+    "File": "HPBim\\tests\\HPBim.Client.Tests\\Fakes\\FakeRevitPipeClient.cs",
+    "Member": "DisposeAsync",
+    "Kind": "Method",
+    "Start": 151,
+    "End": 155,
+    "Lines": 5
+  }
+]

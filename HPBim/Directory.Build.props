@@ -1,0 +1,15 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPBim.
+    High-level BIM Deliverable automating native 3D BIM model generation in Revit 2026.
+    Zero Autodesk API references in Core; communication via Revit MCP Named Pipe.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);xUnit1051;NU1701</NoWarn>
+  </PropertyGroup>
+
+</Project>

@@ -28,7 +28,7 @@
                             <TextBlock Text="{Binding Localization.Strings.StirrupLayout}" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding LayoutOptions}"
                                       SelectedItem="{Binding Session.StirrupLayout}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -36,25 +36,28 @@
                             <ComboBox ItemsSource="{Binding Session.BarTypes}"
                                       SelectedItem="{Binding Session.StirrupBarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.DenseSpacing}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.StirrupSpacingDense, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.StirrupSpacingDense, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.MidspanSpacing}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.StirrupSpacingSparse, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.StirrupSpacingSparse, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="4" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.StartOffset}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.StirrupStartOffset, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.StirrupStartOffset, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
 
@@ -85,8 +88,9 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Depth Threshold (mm)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.DepthThreshold, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.DepthThreshold, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
@@ -94,13 +98,14 @@
                             <ComboBox ItemsSource="{Binding Session.BarTypes}"
                                       SelectedItem="{Binding Session.SideBarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Max Vertical Spacing (mm)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.MaxVerticalSpacing, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.MaxVerticalSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
 
@@ -121,13 +126,14 @@
                             <ComboBox ItemsSource="{Binding Session.BarTypes}"
                                       SelectedItem="{Binding Session.CrossTieBarType}"
                                       DisplayMemberPath="Name"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Tie Spacing Along Beam (mm)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.CrossTieSpacing, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.CrossTieSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -153,14 +159,16 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Pairs Per Joint Side" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.HangingStirrupsPerSide, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.HangingStirrupsPerSide, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="Hanging Tie Spacing (mm)" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.HangingStirrupSpacing, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource NumberTextBox}"
+                                     Text="{Binding Session.HangingStirrupSpacing, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

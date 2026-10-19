@@ -1,0 +1,198 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.MongCocWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                  Title="HPDcePro - Thiết Kế Đài Móng Cọc (MongCoc_Frm)"
+                  Height="720" Width="960"
+                  MinHeight="600" MinWidth="800"
+                  WindowStartupLocation="CenterScreen"
+                  GlowBrush="{DynamicResource Brush.Accent}"
+                  BorderThickness="1"
+                  TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="THIẾT KẾ ĐÀI CỌC BTCT (TCVN 5574:2018 &amp; TCVN 10304:2025)" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Kiểm tra phản lực đầu cọc, đâm thủng cột, đâm thủng cọc góc, cắt 1 phương và tính cốt thép" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <Border Grid.Column="1" Padding="12,6" CornerRadius="4" Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusSummary}" FontWeight="Bold" Foreground="{DynamicResource Brush.AccentText}"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Body -->
+        <Grid Grid.Row="1" Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Inputs -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <GroupBox Header="1. Kích thước đài &amp; Cột" Style="{StaticResource GroupBox.Header}">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Ký hiệu đài:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CapMark}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Bề rộng B (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CapWidthBMm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Chiều dài L (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CapLengthLMm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Chiều cao H (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CapThicknessHMm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Kích thước cột (mm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ColumnWidthMm}" Style="{StaticResource StandardTextBox}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="2. Tải trọng &amp; Sức chịu tải cọc" Style="{StaticResource GroupBox.Header}" Margin="0,8,0,0">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Lực dọc N (kN):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AxialForceNKn}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Mô men Mx (kNm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MomentMxKnm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Mô men My (kNm):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MomentMyKnm}" Style="{StaticResource StandardTextBox}"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Sức chịu tải Rc (kN):" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PileCapacityRcKn}" Style="{StaticResource StandardTextBox}"/>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Outputs -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}">
+                <StackPanel>
+                    <TextBlock Text="KẾT QUẢ KIỂM TOÁN ĐÀI CỌC" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,12"/>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Phản lực lớn nhất R_max (kN):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding MaxPileReactionKn, StringFormat='{}{0:F1}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Hệ số tải trọng cọc (R/Rc):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding PileCapacityRatio, StringFormat='{}{0:F2}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Tỉ số đâm thủng cột:" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ColumnPunchingRatio, StringFormat='{}{0:F2}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Tỉ số đâm thủng cọc góc:" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding CornerPilePunchingRatio, StringFormat='{}{0:F2}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Tỉ số cắt một phương:" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding OneWayShearRatio, StringFormat='{}{0:F2}'}" FontWeight="Bold"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Thép yêu cầu As_X (mm²):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding RequiredAsXMm2, StringFormat='{}{0:F1}'}" FontWeight="Bold" Foreground="{DynamicResource Brush.Accent}"/>
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Thép yêu cầu As_Y (mm²):" Foreground="{DynamicResource Brush.TextMuted}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding RequiredAsYMm2, StringFormat='{}{0:F1}'}" FontWeight="Bold" Foreground="{DynamicResource Brush.Accent}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Actions -->
+        <Border Grid.Row="2" Style="{StaticResource Card.Panel}">
+            <DockPanel LastChildFill="False">
+                <Button Content="Tính toán" Command="{Binding CalculateCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Left"/>
+                <Button Content="Lớp thép thêm..." Click="OpenLopThepThem_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Left" Margin="8,0,0,0"/>
+                <Button Content="Chọn thép tự động..." Click="OpenChonThepTuDong_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Left" Margin="8,0,0,0"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

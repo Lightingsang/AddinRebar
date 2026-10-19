@@ -1,0 +1,1512 @@
+﻿
+==========================================
+TYPE: Kata_Class_Lib.Bien_chung (Base: System.Object)
+  FIELD: Object uiapp
+  FIELD: Object app
+  FIELD: Object uidoc
+  FIELD: Object doc
+  FIELD: String Kata_Sectiontype
+  FIELD: String Kata_Multi_Tag_Rebar
+  FIELD: String Kata_Tag_Rebar
+  FIELD: String Kata_Dimstyle_Tag_Rebar
+  FIELD: String Kata_Tag_Rebar_Varies
+  FIELD: String Kata_Dimstyle_Runlength
+  FIELD: String Kata_Dimstyle
+  FIELD: String Kata_GridType
+  FIELD: String Kata_LevelType
+  FIELD: String Cog90_type_name
+  FIELD: String hook135_type_name
+  FIELD: String hook180_type_name
+  FIELD: String ARROWHEAD
+  FIELD: String DIAGONALHEAD
+  FIELD: String OPENDOT
+  FIELD: String Kata_Beam_FmlName
+  FIELD: String Kata_Col_FmlName
+  FIELD: String Kata_Single_FmlName
+  FIELD: String Kata_Ctnuos_FmlName
+  FIELD: String SavePath_Image_goc
+  FIELD: String SavePath_Image_out
+  FIELD: String transfer_file_name
+  FIELD: String transfer_file_name_ME
+  FIELD: String folder_chua_Family
+  FIELD: Bien_chung xhW2w2U0KGe0ghuGiiC
+  METHOD: Void .cctor()
+  METHOD: String appPath()
+  METHOD: String Ten_Vach(Double w)
+  METHOD: String Ten_San(Double s)
+  METHOD: Boolean vE7ZMbUjSNl5sesmbo9()
+  METHOD: Bien_chung s4pdNLUX8xZZAWbUjb4()
+
+==========================================
+TYPE: Kata_Class_Lib.Bien_chung_cad (Base: System.Object)
+  FIELD: diem XVtor
+  FIELD: diem YVtor
+  FIELD: diem ZVtor
+  FIELD: Boolean Revit_run
+  FIELD: Object acDoc
+  FIELD: Object acDocEd
+  FIELD: Object acCurDb
+  FIELD: Object acadapp
+  FIELD: Object AcadMo
+  FIELD: Object AcadUt
+  FIELD: Object docObj
+  FIELD: Object ExcelApp
+  FIELD: Object Excelsheet
+  FIELD: Int32 SW_RESTORE
+  FIELD: Int32 SW_SHOW
+  FIELD: Bien_chung_cad gT486JDgfTXObyB8MHX
+  METHOD: Void .cctor()
+  METHOD: Boolean SetForegroundWindow(IntPtr hWnd)
+  METHOD: IntPtr SetFocus(IntPtr hWnd)
+  METHOD: IntPtr FindWindow(String lpClassName, String lpWindowName)
+  METHOD: Boolean IsIconic(IntPtr hwnd)
+  METHOD: Boolean ShowWindow(IntPtr hWnd, Int32 nCmdShow)
+  METHOD: Int32 GetActiveObject(Guid& rclsid, IntPtr pvReserved, IntPtr& ppunk)
+  METHOD: Object GetObject_core(String progID)
+  METHOD: Void FocusWindow(String strWindowCaption, String strClassName)
+  METHOD: Boolean XoaWiXDw2vTMVV8ZN4m()
+  METHOD: Bien_chung_cad YlbG65DuNTff3xJqLOC()
+
+==========================================
+TYPE: Kata_Class_Lib.Curve_Tu_Tao (Base: System.Object)
+  FIELD: XYZ EndPoint1
+  FIELD: XYZ EndPoint2
+  FIELD: Curve_Tu_Tao yC25hiO42Pd1dJRcgZA
+  METHOD: Void .ctor(XYZ p1, XYZ p2)
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean q7pDE9O6N9mlE8SIvSP()
+  METHOD: Curve_Tu_Tao xjScJhO1Z21X2Rmj9g6()
+
+==========================================
+TYPE: Kata_Class_Lib.diem (Base: System.Object)
+  PROP: Double X
+  PROP: Double Y
+  PROP: Double Z
+  FIELD: Double QD93nTsyav
+  FIELD: Double tpU3Q8jiyK
+  FIELD: Double mM93J776yU
+  FIELD: diem BqiSPtO3faMTXlir0pN
+  METHOD: Void .ctor(Double a, Double b, Double c)
+  METHOD: Void .ctor()
+  METHOD: Double get_X()
+  METHOD: Void set_X(Double value)
+  METHOD: Double get_Y()
+  METHOD: Void set_Y(Double value)
+  METHOD: Double get_Z()
+  METHOD: Void set_Z(Double value)
+  METHOD: diem Mirror(CurveXYZ cMirror)
+  METHOD: diem RotateZ(diem center, Double ang)
+  METHOD: diem TranslateBetween2System(diem pGoc1, diem vecto1, diem pGoc2, diem vecto2)
+  METHOD: diem TranslateBetween2System(TranslateSystem tr)
+  METHOD: diem Project(CurveXYZ c)
+  METHOD: diem Project(diem p, diem vecto)
+  METHOD: diem Clone()
+  METHOD: diem ToZ0()
+  METHOD: diem MakeYPositive()
+  METHOD: diem MakeYNegative()
+  METHOD: diem op_Addition(diem p1, diem p2)
+  METHOD: diem op_Subtraction(diem p1, diem p2)
+  METHOD: diem op_Multiply(diem p1, Double d)
+  METHOD: diem op_Multiply(Double d, diem p1)
+  METHOD: diem op_Division(diem p1, Double d)
+  METHOD: diem op_UnaryNegation(diem p1)
+  METHOD: Boolean op_Equality(diem p1, diem p2)
+  METHOD: Boolean op_Inequality(diem p1, diem p2)
+  METHOD: Double DistanceTo(diem P2)
+  METHOD: Double DistanceSquared(diem P2)
+  METHOD: Double Dot(diem p)
+  METHOD: diem CrossProduct(diem P2)
+  METHOD: diem Normalize()
+  METHOD: Double GetLength()
+  METHOD: Double DotProduct(diem p2)
+  METHOD: diem RoundVecto()
+  METHOD: diem Round_td_Cad(Int32 number)
+  METHOD: diem Absolute()
+  METHOD: Void .cctor()
+  METHOD: Boolean kYNbo5ObtmDdyxuxRUb()
+  METHOD: diem T6W96bOWLmmOuF7kpv5()
+
+==========================================
+TYPE: Kata_Class_Lib.FillStyleEnum (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: FillStyleEnum Transparent
+  FIELD: FillStyleEnum Solid
+
+==========================================
+TYPE: Kata_Class_Lib.Hinh_hoc_khong_gian (Base: System.Object)
+  FIELD: Int32 Xax3rNJFDu
+  FIELD: Hinh_hoc_khong_gian QgiZajUgPvjsiiJPy7d
+  METHOD: Void .cctor()
+  METHOD: diem DoubleArrayToDiem(Double[] arr)
+  METHOD: Double[] DiemToDoubleArray(diem p)
+  METHOD: List`1 Giao2PolygonTraVeListGiao(Polygon pl1, Polygon pl2)
+  METHOD: Polygon TaoHCNTu2MatPhang(mat_phang_diem mp1, mat_phang_diem mp2, diem goc, Double d)
+  METHOD: List`1 CreateHCN(diem pgiua, Double w, Double h, diem xv, diem yv)
+  METHOD: diem Giao2DuongThang(diem p1, diem vecto1, diem p2, diem vecto2)
+  METHOD: diem Giao2DuongThang(CurveXYZ c1, CurveXYZ c2)
+  METHOD: diem Todiem(XYZ p)
+  METHOD: diem Todiemmm(XYZ p)
+  METHOD: XYZ ToXYZ(diem p)
+  METHOD: XYZ ToXYZfeet(diem p)
+  METHOD: List`1 ToListdiem(List`1 p)
+  METHOD: List`1 ToListXYZ(List`1 p)
+  METHOD: Polygon ToPolygon(List`1 p, Boolean isClosed)
+  METHOD: Double getLengthBaseOnL(String text, Double L)
+  METHOD: Double GTorE1(Double x)
+  METHOD: Point GetcbPositionInForm(CheckBox btn, diem p, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl)
+  METHOD: Point GetControlPositionInForm(Control ctrl, diem p, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl)
+  METHOD: TextBox CloneTextBoxIfNotExist(GroupBox grview, TextBox original, EventHandler textChangedHandler, String newTextBoxName)
+  METHOD: Boolean IsTextBoxExist(GroupBox grview, String newTextBoxName)
+  METHOD: CheckBox CloneCheckBoxIfExist(GroupBox grview, CheckBox original, EventHandler textChangedHandler, String newTextBoxName)
+  METHOD: Void ve_diem_thep_tren_form(PreviewCanvas canvas, List`1 list_xyz, Double phi, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, Boolean visiblee, Boolean limitPhi)
+  METHOD: Void tao_lineshape_from_list_Line_diem(PreviewCanvas canvas, List`1 list_Line_diem, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, Boolean visiblee)
+  METHOD: Void tao_lineshape_from_list_point(PreviewCanvas canvas, List`1 list_point, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, Boolean visiblee)
+  METHOD: Void tao_lineshape_from_list_curveXYZ(PreviewCanvas canvas, List`1 listCurve, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, Boolean visiblee, Double width)
+  METHOD: Void jRI3Gl0OlZ(Object  , Object  , Object  , Point  , Object  , Object  , Object  , Double  , Color  , Single  )
+  METHOD: PointF f063Me261D(Object  , Point  , Object  , Object  , Object  , Double  )
+  METHOD: Double get_maxx_listdiem(List`1 listdiem)
+  METHOD: diem getPointCheoNamDuoi(diem point_giua, diem point_1, Double x, diem point_2, Double y)
+  METHOD: Void tao_break_line(PreviewCanvas canvas, Line_diem l, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color)
+  METHOD: Void tao_break_line(PreviewCanvas canvas, CurveXYZ l, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color)
+  METHOD: Void Tao_dim_tu_tap_XYZ_text(PreviewCanvas canvas, List`1 listXYZ, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, TextBox ExistingTextBox, GroupBox groupView, Double dx, Double dy, Boolean start, Boolean isRound10, Boolean isEnabled)
+  METHOD: Void Tao_dim_tu_TextBox_co_san(PreviewCanvas canvas, diem pDau, diem pCuoi, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, TextBox ExistingTextBox, Double dx, Double dy)
+  METHOD: TextBox getTextBox(GroupBox groupBox, String textBoxName)
+  METHOD: Void tao_cao_do(PreviewCanvas canvas, TextBox Ct, diem xyzcaodo, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl)
+  METHOD: Point GetBtnPositionInForm(Button btn, diem p, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl)
+  METHOD: Void DeleteTextBoxesInGroupView(Control groupView, String txt)
+  METHOD: Void DeleteCheckBoxesInGroupView(Control groupView, String txt)
+  METHOD: Void HideComponentsInGroupView(Control groupView, String txt)
+  METHOD: diem trans3dTo2d(diem goc3d, diem point3d, diem goc2d, diem xvecto, diem yvecto)
+  METHOD: Boolean nam_giua(diem p1, diem p2, diem p3, diem vecto)
+  METHOD: Void tao_dim_from_2_points(PreviewCanvas canvas, diem p1, diem p2, Point gocve, diem goc, diem xvecto, diem yvecto, Double tl, Color color, Boolean visiblee, Double size)
+  METHOD: Boolean kiem_tra_diem_nam_trong_list_diem(diem point0, List`1 list_diem)
+  METHOD: Void them_tap_point_vao_list_Line_diems(List`1& mang_Line_diems, List`1 mang_point)
+  METHOD: Double kc_2diem(diem P1, diem P2)
+  METHOD: Double cos_2vecto_diem(diem A, diem B)
+  METHOD: Boolean kiem_tra_cung_huong_diem(diem A, diem B, Double eps)
+  METHOD: Boolean kiem_tra_nguoc_huong_diem(diem A, diem B, Double eps)
+  METHOD: Boolean kiem_tra_cung_phuong_diem(diem A_vecto, diem B_vecto, Double precision)
+  METHOD: Boolean cungPhuong(diem vecA, diem vecB, Double precision)
+  METHOD: Boolean cungHuong(diem vecA, diem vecB)
+  METHOD: Boolean nguocHuong(diem vecA, diem vecB)
+  METHOD: Boolean vuongGoc(diem vecA, diem vecB, Double eps)
+  METHOD: Boolean kiem_tra_vuong_goc_diem(diem A, diem B, Double eps)
+  METHOD: Double length_vecto_diem(diem vecto)
+  METHOD: Boolean kiem_tra_hinh_chu_nhat_diem(List`1 list_point_vao)
+  METHOD: Boolean kiem_tra_trung_low_strict_diem(diem point_1, diem point_2)
+  METHOD: Boolean kiem_tra_trung_voi_list_point_diem(diem point0, List`1 list_point)
+  METHOD: List`1 duong_bao_diem(List`1 list_point, mat_phang_diem mp)
+  METHOD: Double alpha_0_360_diem(diem veecto_1, diem veecto_2, diem normal)
+  METHOD: Double GocQuetVectoDenVecto(diem v1, diem v2)
+  METHOD: List`1 sap_xep_list_point_theo_vecto_diem(List`1 list_point_vao, diem vecto)
+  METHOD: Void sap_xep_2_point_theo_vecto_stronger_diem(diem& p1, diem& p2, diem vecto)
+  METHOD: Double kc_giua_2_duong_thang_diem(diem pgoc1, diem vecto1, diem pgoc2, diem vecto2)
+  METHOD: Double kc_giua_2_Line_diem(Line_diem line1, Line_diem line2)
+  METHOD: diem point_cheo_diem(diem point_giua, diem point_1, Double x, diem point_2, Double y)
+  METHOD: List`1 get_list_line_from_list_point_diem(List`1 listP)
+  METHOD: diem xoay_alpha_diem(diem pgoc, diem p, Double gocxoay, diem xvecto, diem yvecto)
+  METHOD: mat_phang_diem tao_mp_tu_3_diem(diem point_1, diem point_2, diem point_3)
+  METHOD: mat_phang_diem tao_mp_tu_normal_and_origin_diem(diem normal, diem origin)
+  METHOD: Double kc_diem_den_mp(mat_phang_diem mp, diem point)
+  METHOD: diem hc_diem_tren_mp(mat_phang_diem mp, diem point)
+  METHOD: diem doi_xung_diem_qua_mp(mat_phang_diem mp, diem point)
+  METHOD: Boolean kiem_tra_diem_thuoc_list_diem(List`1 listdiem, diem point)
+  METHOD: diem giao_giua_mp_va_2_diem(mat_phang_diem mp, diem point_1, diem point_2)
+  METHOD: List`1 list_point_giao_mat_phang_diem(List`1 list_point_vao, mat_phang_diem mp)
+  METHOD: List`1 list_point_giao_mat_phang_loai_khong_tao_vong_diem(List`1 list_point_vao, mat_phang_diem mp)
+  METHOD: List`1 list_point_giao_vuong_goc_mat_phang_diem(List`1 list_point_vao, mat_phang_diem mp)
+  METHOD: List`1 loai_bo_point_trung_diem(List`1 list_point, Double delta)
+  METHOD: List`1 LoaiBoDiemLap(List`1 listPxyz, Double delta)
+  METHOD: List`1 loai_bo_z_trung(List`1 list_z)
+  METHOD: Boolean kiem_tra_trung_diem(diem point_1, diem point_2, Double delta)
+  METHOD: List`1 sap_xep_list_point_theo_vecto_stronger_diem(List`1 list_point_vao, diem vecto)
+  METHOD: Double get_minx_listdiem(List`1 listdiem)
+  METHOD: Double get_miny_listdiem(List`1 listdiem)
+  METHOD: Double get_maxy_listdiem(List`1 listdiem)
+  METHOD: Double kc_lon_nhat_list_diem_theo_vecto(List`1 listdiem, diem vecto)
+  METHOD: diem hc_diem_tren_duong_thang(diem pgoc, diem vecto, diem p)
+  METHOD: XYZ hinh_chieu_1diem_mp(XYZ O, XYZ M, XYZ vecto_pt)
+  METHOD: Double kc_lon_nhat_list_XYZ_theo_vecto(List`1 listXYZ, XYZ vecto)
+  METHOD: Boolean kiem_tra_trung(XYZ point_1, XYZ point_2)
+  METHOD: Boolean kiem_tra_trung_low_strict(XYZ point_1, XYZ point_2)
+  METHOD: Boolean kiem_tra_trung_voi_list_point(XYZ point0, List`1 list_point)
+  METHOD: List`1 duong_bao(List`1 list_point, mat_phang mp)
+  METHOD: Double alpha_0_360(XYZ veecto_1, XYZ veecto_2, XYZ normal)
+  METHOD: List`1 sap_xep_list_point_theo_vecto(List`1 list_point_vao, XYZ vecto)
+  METHOD: List`1 sap_xep_list_point_theo_vecto_stronger(List`1 list_point_vao, XYZ vecto)
+  METHOD: Void sap_xep_2_point_theo_vecto_stronger(XYZ& p1, XYZ& p2, XYZ vecto)
+  METHOD: XYZ hc_XYZ_tren_duong_thang(XYZ pgoc, XYZ vecto, XYZ p)
+  METHOD: XYZ point_cheo(XYZ point_giua, XYZ point_1, Double x, XYZ point_2, Double y)
+  METHOD: Boolean check_mat_bang(List`1 list_xyz)
+  METHOD: Boolean kiem_tra_diem_nam_trong_list_xyz(XYZ point0, List`1 list_xyz)
+  METHOD: Boolean kiem_tra_diem_nam_trong_khong_nam_tren_list_xyz(XYZ point0, List`1 list_xyz)
+  METHOD: Double kc_giua_2_duong_thang(XYZ pgoc1, XYZ vecto1, XYZ pgoc2, XYZ vecto2)
+  METHOD: Boolean kiem_tra_diem_nam_tren_doan_thang(XYZ p, Line_Tu_Tao l)
+  METHOD: XYZ get_normal_list_xyz(List`1 listxyz)
+  METHOD: List`1 get_list_point_nam_trong_cach_1_khoang_d(List`1 list_xyz, Double d)
+  METHOD: Boolean kiem_tra_diem_nam_trong_2_diem_cung_z(XYZ point_check, XYZ point_1_cung_z, XYZ point_2_cung_z)
+  METHOD: List`1 loai_bo_list_xyz_trung_khac_z(List`1 llxyz)
+  METHOD: Boolean kiem_tra_list_xyz_trung_khac_z(List`1 lxyz1, List`1 lxyz2)
+  METHOD: Double dien_tich(List`1 listp)
+  METHOD: Boolean nam_tren_mp(XYZ p, mat_phang mp)
+  METHOD: XYZ dd_XYZ(XYZ d, Double x, Double y, Double z)
+  METHOD: XYZ ddg_XYZ(XYZ Di, Double l, Double ang)
+  METHOD: Double kc_2XYZ(XYZ P1, XYZ P2)
+  METHOD: Double kc_2XYZ_OXY(XYZ P1, XYZ P2)
+  METHOD: Double cos_2vecto(XYZ A, XYZ B)
+  METHOD: Boolean kiem_tra_cung_huong(XYZ A_vecto, XYZ B_vecto)
+  METHOD: Boolean kiem_tra_nguoc_huong(XYZ A_vecto, XYZ B_vecto)
+  METHOD: Boolean kiem_tra_cung_phuong(XYZ A_vecto, XYZ B_vecto)
+  METHOD: Boolean kiem_tra_vuong_goc(XYZ A_vecto, XYZ B_vecto)
+  METHOD: Double length_vecto(XYZ vecto)
+  METHOD: mat_phang tao_mp_tu_3_xyz(XYZ point_1, XYZ point_2, XYZ point_3)
+  METHOD: mat_phang tao_mp_tu_normal_and_origin(XYZ normal, XYZ origin)
+  METHOD: Double kc_xyz_den_mp(mat_phang mp, XYZ point)
+  METHOD: XYZ hc_XYZ_tren_mp(mat_phang mp, XYZ point)
+  METHOD: XYZ doi_xung_XYZ_qua_mp(mat_phang mp, XYZ point)
+  METHOD: Boolean kiem_tra_diem_thuoc_list_xyz(List`1 listxyz, XYZ point)
+  METHOD: XYZ giao_giua_mp_va_2_XYZ(mat_phang mp, XYZ point_1, XYZ point_2)
+  METHOD: Boolean kiem_tra_hinh_chu_nhat(List`1 list_point_vao)
+  METHOD: List`1 list_point_giao_mat_phang(List`1 list_point_vao, mat_phang mp)
+  METHOD: List`1 list_point_giao_mat_phang_loai_khong_tao_vong(List`1 list_point_vao, mat_phang mp)
+  METHOD: List`1 loai_bo_point_trung(List`1 list_point)
+  METHOD: Void dich_chuyen_list_point_1_doan(List`1& listxyz, XYZ vecto)
+  METHOD: Boolean vvhVpEUwLXqIBPFDD6a()
+  METHOD: Hinh_hoc_khong_gian MygYK0UuKpuo4obGX4E()
+
+==========================================
+TYPE: Kata_Class_Lib.Hinh_hoc_phang (Base: System.Object)
+  FIELD: Hinh_hoc_phang EKxjDZUFryb4T30KJ08
+  METHOD: diem ArrayToDiemZ0(Double[] arr, Int32 item_Star)
+  METHOD: Double goc_uon_thep(Object P, Int32 i)
+  METHOD: Double Tan_goc_bo(Object P, Int32 i)
+  METHOD: Double goc_uon_thep_bo(Object P, Int32 i)
+  METHOD: Double goc_uon_thep_do_thuc(Object P, Int32 i)
+  METHOD: Double goc_uon_thep_do(Object P, Int32 i)
+  METHOD: Double goc_uon_thep_bo_do(Object P, Int32 i)
+  METHOD: Boolean ktr_goc_vuong_4d(diem d1, diem d2, diem d3, diem d4)
+  METHOD: Boolean ktr_goc_vuong(diem d1, diem d2, diem d3)
+  METHOD: Double ktra_giua(diem& d1, diem& d2, diem& A)
+  METHOD: diem dd_giua(diem& d1, diem& d2)
+  METHOD: Double fx(diem& d1, diem& d2, diem& A)
+  METHOD: Boolean cung_phia(diem& d1, diem& d2, diem& A, diem& B)
+  METHOD: Boolean giao_2_doan(diem& d1, diem& d2, diem& A, diem& B)
+  METHOD: diem giao_4d(diem A, diem B, diem C, diem D)
+  METHOD: diem hc_diem_dt(diem d, diem A, diem B)
+  METHOD: diem dd(diem Di, Double x, Double y)
+  METHOD: diem ddg(diem Di, Double l, Double ang)
+  METHOD: Int64 kc(diem P1, diem P2)
+  METHOD: Double kc_thuc(diem P1, diem P2)
+  METHOD: Double kc_diem_duongthang(diem D, diem P1, diem P2)
+  METHOD: Double xdgoc(diem d1, diem d2)
+  METHOD: Double xdCos3d(diem d1, diem d2, diem d3)
+  METHOD: Double xdCos4d(diem d1, diem d2, diem p1, diem p2)
+  METHOD: Double xdgoc3d(diem d1, diem d2, diem d3)
+  METHOD: Double Sin2Vecto(diem u, diem v, Double eps)
+  METHOD: Double Cos2Vecto(diem u, diem v, Double eps)
+  METHOD: Void .cctor()
+  METHOD: Boolean K453dbUzTS0Cry0oqha()
+  METHOD: Hinh_hoc_phang NFo8iPOB97iWGGe2BJb()
+
+==========================================
+TYPE: Kata_Class_Lib.Info_Beam3D (Base: Kata_Class_Lib.PolygonModule/Polygon)
+  FIELD: Polygon CenterLine
+  FIELD: List`1 thep
+  FIELD: Int32 B
+  FIELD: String Name
+  FIELD: String Namei
+  FIELD: TypeBeam TypeBeam
+  FIELD: String Level
+  FIELD: String Handle
+  FIELD: String Layer_Load
+  FIELD: Info_Beam3D XyKZbNOwFfMRPy2C9dQ
+  METHOD: Void UpdatePolygonFromCenterLine()
+  METHOD: diem StartPoint()
+  METHOD: diem EndPoint()
+  METHOD: Void .ctor()
+  METHOD: Void .ctor(Object NewHandle)
+  METHOD: Void .ctor(Info_Beam3D newBeam3D)
+  METHOD: Void ReverseBeam3D()
+  METHOD: Info_Beam3D Clone()
+  METHOD: Boolean IsDamCong()
+  METHOD: CurveXYZ GetStraightCenterLine()
+  METHOD: Void .cctor()
+  METHOD: Boolean vCerL9Oux3YM3kveY86()
+  METHOD: Info_Beam3D CYGZnSOFGPj12vgLDeT()
+
+==========================================
+TYPE: Kata_Class_Lib.info_BeamEtabs_DataTable (Base: System.Object)
+  FIELD: String Label
+  FIELD: String FrameName
+  FIELD: diem d1
+  FIELD: diem d2
+  FIELD: Double[] Location_As
+  FIELD: Double[] As_top
+  FIELD: Double[] As_bot
+  FIELD: Double[] As_shear
+  FIELD: Double[] Location_NL
+  FIELD: Double[] M_top
+  FIELD: Double[] M_bot
+  FIELD: Double[] V
+  FIELD: info_BeamEtabs_DataTable K5U7E5OLU6NIyJds6jV
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean Br67XWOHX1gkvCNjTTe()
+  METHOD: info_BeamEtabs_DataTable CqHEwkO05fkWWYkhcvF()
+
+==========================================
+TYPE: Kata_Class_Lib.info_BeamEtabs_Noiluc (Base: System.ValueType)
+  FIELD: Double M_top
+  FIELD: Double M_bot
+  FIELD: Double V
+
+==========================================
+TYPE: Kata_Class_Lib.info_BeamEtabs_Thep (Base: System.ValueType)
+  FIELD: Int32 As_top
+  FIELD: Int32 As_bot
+  FIELD: Int32 As_shear
+
+==========================================
+TYPE: Kata_Class_Lib.info_Block_Beam_Rebar (Base: System.Object)
+  FIELD: Boolean U_ngoai
+  FIELD: info_thep_sldk thep_t
+  FIELD: info_thep_sldk thep_d
+  FIELD: info_thep_sldk[] thep_gc
+  FIELD: info_dai_gccl cd
+  FIELD: info_dai_gccl a_dai
+  FIELD: List`1 dai_gc_input
+  FIELD: info_Block_Beam_Rebar VJogZDO2xRJBLGR4S5L
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean FFyCh3OpIMFYYkgv2T9()
+  METHOD: info_Block_Beam_Rebar Hkh3yaO9B4lyL58tTW5()
+
+==========================================
+TYPE: Kata_Class_Lib.info_BlockBeam_AllData1nhip (Base: System.Object)
+  FIELD: info_BlockBeam_DataEtabs DataEtabs
+  FIELD: info_BlockBeam_ThepBoTri ThepBoTri
+  FIELD: diem d1
+  FIELD: diem d2
+  FIELD: Int32 b
+  FIELD: Int32 h
+  FIELD: List`1 vtr_show
+  FIELD: String handle
+  FIELD: Int32 nhip_block
+  FIELD: info_BlockBeam_AllData1nhip V57LGCO8gPqO6aJdcAs
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean htD6NFOyStqGHTYM50b()
+  METHOD: info_BlockBeam_AllData1nhip NUiWKKO5928eUN3prGO()
+
+==========================================
+TYPE: Kata_Class_Lib.info_BlockBeam_DataEtabs (Base: System.Object)
+  FIELD: String Label
+  FIELD: info_BeamEtabs_Thep[] Thep
+  FIELD: info_BeamEtabs_Noiluc[] Noiluc
+  FIELD: info_BlockBeam_DataEtabs eoowyCOaQrSahjLnZVB
+  METHOD: Void .ctor()
+  METHOD: info_BlockBeam_DataEtabs Copy()
+  METHOD: Void Reverse()
+  METHOD: Void .cctor()
+  METHOD: Boolean e5PUSdORNto3ORiVI8R()
+  METHOD: info_BlockBeam_DataEtabs Gd4g5kOd2OHcFGJP42a()
+
+==========================================
+TYPE: Kata_Class_Lib.info_BlockBeam_ThepBoTri (Base: System.Object)
+  FIELD: Int32 phi_do_gia
+  FIELD: Int32 phi_ke
+  FIELD: Boolean U_ngoai
+  FIELD: Int32 lap_xoan
+  FIELD: info_thep_sldk thep_t
+  FIELD: info_thep_sldk thep_d
+  FIELD: info_thep_sldk[0...,0...] thep_gc
+  FIELD: info_thep_gia cot_gia
+  FIELD: info_dai_gccl cd
+  FIELD: info_dai_gccl[] a_dai
+  FIELD: List`1 dai_gc_input
+  FIELD: info_BlockBeam_ThepBoTri jQcikuOelV9917pwD2q
+  METHOD: Void .ctor()
+  METHOD: info_BlockBeam_ThepBoTri Copy()
+  METHOD: Void Reverse()
+  METHOD: Void .cctor()
+  METHOD: Boolean fT5hUmOvwbPn7IdPedb()
+  METHOD: info_BlockBeam_ThepBoTri acpbElOiZERhCIgFIeR()
+
+==========================================
+TYPE: Kata_Class_Lib.info_cog_hook (Base: System.ValueType)
+  FIELD: Double Rad_vt
+  FIELD: Double Rad_dai
+  FIELD: Double Rad_nhon
+  FIELD: Double Cog
+  FIELD: Double hook135
+  FIELD: Double hook180
+
+==========================================
+TYPE: Kata_Class_Lib.Info_ColumnWall3D (Base: Kata_Class_Lib.PolygonModule/Polygon)
+  FIELD: diem Center
+  FIELD: String Name
+  FIELD: Int32 TypeColumnWall
+  FIELD: String Handle
+  FIELD: Info_ColumnWall3D j1YIbMkb2MRHe2JcO7U
+  METHOD: Void .ctor(Object NewHandle)
+  METHOD: Void .ctor(Info_ColumnWall3D newColumnWall3D)
+  METHOD: Void AddPolygon(Polygon newPolygon)
+  METHOD: Int32 L()
+  METHOD: Double ang()
+  METHOD: diem StartPoint()
+  METHOD: diem EndPoint()
+  METHOD: Int32 B()
+  METHOD: Boolean Wall()
+  METHOD: Void .cctor()
+  METHOD: Boolean ybObgXkWmdIlfUpPWLc()
+  METHOD: Info_ColumnWall3D ASt6ijkKa98voaHnVZS()
+
+==========================================
+TYPE: Kata_Class_Lib.info_cot (Base: System.ValueType)
+  FIELD: Double y
+  FIELD: Int32 b
+  FIELD: Int32 h
+  FIELD: String ten
+  FIELD: Boolean bop_deu
+  FIELD: Boolean cat_thep
+
+==========================================
+TYPE: Kata_Class_Lib.info_cot_dam (Base: System.ValueType)
+  FIELD: Int32 duoiB
+  FIELD: Int32 duoiH
+  FIELD: Int32 tren
+  FIELD: Int32 lech
+
+==========================================
+TYPE: Kata_Class_Lib.info_coupler (Base: System.ValueType)
+  FIELD: Int32 dmax
+  FIELD: Int32 dmin
+  FIELD: Boolean thuan_nghich
+  FIELD: Int32 sl
+  FIELD: String ten_ck
+  FIELD: Int32 sl_ck
+
+==========================================
+TYPE: Kata_Class_Lib.info_CurveGrid (Base: Kata_Class_Lib.PolygonModule/CurveXYZ)
+  FIELD: String Handle
+  FIELD: String Name
+  FIELD: info_CurveGrid nK41MQkNc1wXjRg4pWO
+  METHOD: Void .ctor(Object NewHandle)
+  METHOD: Void AddCurveXYZ(CurveXYZ newCurve)
+  METHOD: Void .cctor()
+  METHOD: Boolean lnFDtokTbh64bkiaBJ5()
+  METHOD: info_CurveGrid XkwgE3k4PBiKilV6RWF()
+
+==========================================
+TYPE: Kata_Class_Lib.info_dai (Base: System.ValueType)
+  FIELD: Int32 STT
+  FIELD: Double h
+  FIELD: Double b
+  FIELD: Int32 sl
+  FIELD: String Dang
+
+==========================================
+TYPE: Kata_Class_Lib.Info_dai_cot (Base: System.ValueType)
+  FIELD: Int32 cd
+  FIELD: Int32 a1
+  FIELD: Int32 a2
+  FIELD: Int32 a_dam
+  FIELD: Double dai_dau_cot
+  FIELD: Int32 cd_v
+  FIELD: Int32 a_v1
+  FIELD: Int32 a_v2
+  FIELD: Int32 sl_v
+  FIELD: Int32 r_v
+  FIELD: Int32 cd_h
+  FIELD: Int32 a_h1
+  FIELD: Int32 a_h2
+  FIELD: Int32 sl_h
+  FIELD: Int32 r_h
+  FIELD: Int32 cdc_v
+  FIELD: Int32 ac_v1
+  FIELD: Int32 ac_v2
+  FIELD: Int32 slc_v
+  FIELD: Int32 slc_v_giua
+  FIELD: Int32 cdc_h
+  FIELD: Int32 ac_h1
+  FIELD: Int32 ac_h2
+  FIELD: Int32 slc_h
+  FIELD: Int32 cdc
+  FIELD: Int32 ac1
+  FIELD: Int32 ac2
+  FIELD: Int32 vtri_b
+  FIELD: Int32 vtri_h
+
+==========================================
+TYPE: Kata_Class_Lib.info_dai_gc (Base: System.Object)
+  FIELD: String Dang
+  FIELD: Double rong
+  FIELD: Double[] x
+  FIELD: Int32 phi
+  FIELD: info_dai_gc SjYyF7Oxv5gjkRrARHK
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean H8b0k3OG7tvbK1B1klX()
+  METHOD: info_dai_gc wd3CZwOMIGY1rWkNlyP()
+
+==========================================
+TYPE: Kata_Class_Lib.info_dai_gc_input (Base: System.ValueType)
+  FIELD: Int32 v1
+  FIELD: Int32 v2
+  FIELD: String dang
+
+==========================================
+TYPE: Kata_Class_Lib.info_dai_gccl (Base: System.ValueType)
+  FIELD: Int32 gc
+  FIELD: Int32 cl
+
+==========================================
+TYPE: Kata_Class_Lib.info_dam_giao_cotcay (Base: System.ValueType)
+  FIELD: Int32 b
+  FIELD: Int32 h
+  FIELD: diem goc
+  FIELD: Int32 dy
+  FIELD: Int32 h_dc
+
+==========================================
+TYPE: Kata_Class_Lib.info_dam_giao_taicot (Base: System.ValueType)
+  FIELD: Int32 b
+  FIELD: Int32 h
+  FIELD: Int32 lt
+
+==========================================
+TYPE: Kata_Class_Lib.info_Frame_Load (Base: System.Object)
+  FIELD: CurveXYZ Frame
+  FIELD: Double Value_Start
+  FIELD: Double Value_End
+  FIELD: String Handle
+  FIELD: String Descript
+  FIELD: info_Frame_Load GKNmVdkttGDC3TY2pNA
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean Ri72Z6kESdiXFxTHdqC()
+  METHOD: info_Frame_Load jJ9tECklOahQBRHGfE7()
+
+==========================================
+TYPE: Kata_Class_Lib.info_giat_WC (Base: System.ValueType)
+  FIELD: Int32 v1
+  FIELD: Int32 v2
+  FIELD: Int32 dz
+
+==========================================
+TYPE: Kata_Class_Lib.info_hoiMainBeam (Base: System.ValueType)
+  FIELD: String dam_xet
+  FIELD: Boolean kq
+
+==========================================
+TYPE: Kata_Class_Lib.info_Joint_Load (Base: System.Object)
+  FIELD: diem Joint
+  FIELD: Double Value
+  FIELD: String Handle
+  FIELD: String Descript
+  FIELD: info_Joint_Load hCc8sukZOT7hpSF1wHX
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean KcG8T3khTsn1dno2JNO()
+  METHOD: info_Joint_Load zbqOy8kqSiJdpwYEp4Z()
+
+==========================================
+TYPE: Kata_Class_Lib.info_JointReaction_Etabs (Base: System.Object)
+  FIELD: String pointName
+  FIELD: diem Joint
+  FIELD: Double Fx
+  FIELD: Double Fy
+  FIELD: Double Fz
+  FIELD: Double Mx
+  FIELD: Double My
+  FIELD: Double Mz
+  FIELD: info_JointReaction_Etabs XcsogqOAiyJAE2LjlmO
+  METHOD: Void .ctor(String pointName_, diem Joint_, Double Fz_, Double Mx_, Double My_)
+  METHOD: Void .ctor()
+  METHOD: String GetJsonString()
+  METHOD: Void .cctor()
+  METHOD: Boolean OkRT5hOPcXafpYsa3bb()
+  METHOD: info_JointReaction_Etabs RCmD2WOS12oHqAXMfOs()
+
+==========================================
+TYPE: Kata_Class_Lib.info_lap_anchor (Base: System.ValueType)
+  FIELD: Double lap_comp
+  FIELD: Double lap_tens
+  FIELD: Double anchor_comp
+  FIELD: Double anchor_tens
+
+==========================================
+TYPE: Kata_Class_Lib.info_mc (Base: System.Object)
+  FIELD: Double b
+  FIELD: Double h
+  FIELD: Double y_tam
+  FIELD: Int32 a_dai
+  FIELD: Int32 a_dai_gc
+  FIELD: Int32 phi_dai
+  FIELD: String dai_gc
+  FIELD: List`1[] t
+  FIELD: List`1[] D
+  FIELD: List`1 Gia
+  FIELD: String dim_data
+  FIELD: String dim_data1
+  FIELD: info_tai_dam h_san
+  FIELD: info_mc lFrkN2OO7INHmR8s8T0
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean HQYpTMOkAt5StK73RL7()
+  METHOD: info_mc JOEGs0ODqDjatQ9xhyV()
+
+==========================================
+TYPE: Kata_Class_Lib.info_mc_cot (Base: System.Object)
+  FIELD: Double b
+  FIELD: Double h
+  FIELD: info_thep[0...,0...] thep
+  FIELD: Int32[] D
+  FIELD: Int32 STT
+  FIELD: String dim_data
+  FIELD: info_mc_cot S6ZbnAOIcXX5GykCHm0
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean sdsOudOo5tOcrZiO1u8()
+  METHOD: info_mc_cot u0AvwxOUXtAhdvcTAth()
+
+==========================================
+TYPE: Kata_Class_Lib.info_SecondBeam (Base: System.ValueType)
+  FIELD: Double x
+  FIELD: Double y
+  FIELD: Double ang
+  FIELD: String type
+
+==========================================
+TYPE: Kata_Class_Lib.info_Shell_Load (Base: System.Object)
+  FIELD: Polygon Shell
+  FIELD: Double Value
+  FIELD: String Handle
+  FIELD: String Descript
+  FIELD: info_Shell_Load pu4EankVBi3ABRER411
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean eC57Z9kYl5PtlbfAwjD()
+  METHOD: info_Shell_Load ckgZpNkCL9g51TbJcAd()
+
+==========================================
+TYPE: Kata_Class_Lib.Info_Slab3D (Base: Kata_Class_Lib.PolygonModule/Polygon)
+  PROP: Object obj
+  FIELD: Int16 Pri
+  FIELD: String Level
+  FIELD: String Handle
+  FIELD: String Layer_Load
+  FIELD: Object R6J3c0V9A6
+  FIELD: Info_Slab3D MatBMCOzwYjiZXvfLX2
+  METHOD: Object get_obj()
+  METHOD: Void set_obj(Object AutoPropertyValue)
+  METHOD: Void .ctor(Object NewHandle)
+  METHOD: Void .ctor(Polygon newPolygon)
+  METHOD: Void AddPolygon(Polygon newPolygon, Boolean getNewThick)
+  METHOD: Void CopyFrom(Info_Slab3D info)
+  METHOD: Void .cctor()
+  METHOD: Boolean ziMMJUkB8exEU2FSaAK()
+  METHOD: Info_Slab3D ckSYBVk3CkQ1TNy0E1e()
+
+==========================================
+TYPE: Kata_Class_Lib.info_tai_dam (Base: System.ValueType)
+  FIELD: info_tai_dam1 left
+  FIELD: info_tai_dam1 right
+  FIELD: Boolean kodim
+
+==========================================
+TYPE: Kata_Class_Lib.info_thep (Base: System.Object)
+  FIELD: diem goc
+  FIELD: Object thep
+  FIELD: String Dang
+  FIELD: Int32 STT
+  FIELD: Int32 phi
+  FIELD: String kc
+  FIELD: Object sl
+  FIELD: Int32 sl_ck
+  FIELD: Double[] L
+  FIELD: Double[] delta_L
+  FIELD: String goc_uon
+  FIELD: String ten_ck
+  FIELD: String stt_thep_chinh
+  FIELD: String chu_thich
+  FIELD: String ghi_chu_ren
+  FIELD: String truoc_sh
+  FIELD: info_thep Mn2PIvOr3xBNtSd2Moc
+  METHOD: Void .ctor()
+  METHOD: info_thep Copy()
+  METHOD: info_thep Copy_full()
+  METHOD: Void .cctor()
+  METHOD: Boolean u2mZMAOnL8yb3bE1bdl()
+  METHOD: info_thep vFx6XeOQE5jIE5qFpNj()
+
+==========================================
+TYPE: Kata_Class_Lib.info_thep_gc_goi (Base: System.ValueType)
+  FIELD: Int32 loai
+  FIELD: Int32 sl1
+  FIELD: Int32 sl2
+  FIELD: Int32 phi1
+  FIELD: Int32 phi2
+  FIELD: Boolean keo
+
+==========================================
+TYPE: Kata_Class_Lib.info_thep_gc_nhip (Base: System.ValueType)
+  FIELD: Int32 sl
+  FIELD: Int32 phi
+  FIELD: Boolean keo
+
+==========================================
+TYPE: Kata_Class_Lib.info_thep_gia (Base: System.ValueType)
+  FIELD: Int32 STT
+  FIELD: Int32 sl
+  FIELD: Int32 lop
+  FIELD: Int32 phi
+  FIELD: Byte thep_ngang
+
+==========================================
+TYPE: Kata_Class_Lib.info_thep_sldk (Base: System.ValueType)
+  FIELD: Int32 sl
+  FIELD: Int32 dk
+
+==========================================
+TYPE: Kata_Class_Lib.info_tietdien (Base: System.ValueType)
+  FIELD: Boolean thep_t_lientuc
+  FIELD: Boolean thep_d_lientuc
+  FIELD: Double b
+  FIELD: Double ht
+  FIELD: Double hd
+  FIELD: Int32 sl_t
+  FIELD: Int32 phi_t
+  FIELD: Int32 sl_d
+  FIELD: Int32 phi_d
+
+==========================================
+TYPE: Kata_Class_Lib.info_truc (Base: System.ValueType)
+  FIELD: String ten
+  FIELD: Double Lt
+
+==========================================
+TYPE: Kata_Class_Lib.info_vedam (Base: System.Object)
+  FIELD: Int32 so_ck
+  FIELD: Int32 nhip
+  FIELD: Double ct_dam
+  FIELD: Double lt_dam
+  FIELD: String ten_dam
+  FIELD: String ten_truc
+  FIELD: Double[] h
+  FIELD: info_tietdien[] td
+  FIELD: info_tai_dam[] h_san
+  FIELD: Double[] L
+  FIELD: info_cot_dam[] c
+  FIELD: List`1[] List_dam_giao_cotcay_nhip
+  FIELD: info_dam_giao_taicot[] dg
+  FIELD: info_truc[] truc
+  FIELD: Int32 phi_do_gia
+  FIELD: Int32 phi_ke
+  FIELD: Boolean U_ngoai
+  FIELD: Int32 lap_xoan
+  FIELD: info_thep_gc_goi[0...,0...] thep_goi
+  FIELD: info_thep_gc_nhip[0...,0...] thep_nhip
+  FIELD: info_thep_gia[] cot_gia
+  FIELD: info_dai_gccl[] cd
+  FIELD: info_dai_gccl[0...,0...] a_dai
+  FIELD: List`1[] dai_gc_input
+  FIELD: info_vedam cLBqHsOJuLUWCEQF80E
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean gESQHtOcUwdl4XFwrVA()
+  METHOD: info_vedam agkXEmO7JkAG9A38LDV()
+
+==========================================
+TYPE: Kata_Class_Lib.info_viewport (Base: System.ValueType)
+  FIELD: diem d1
+  FIELD: diem d2
+  FIELD: Double tl
+
+==========================================
+TYPE: Kata_Class_Lib.InfoBlockOng (Base: System.Object)
+  FIELD: diem insertPoint
+  FIELD: Double dia
+  FIELD: KieuOngEnum kieuOng
+  FIELD: InfoBlockOng oQwvOCkkkVIJXaRXmdh
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean iWAKw1kD4wUiXZMggCO()
+  METHOD: InfoBlockOng DgCBC3kxBv5fTIRfgcd()
+
+==========================================
+TYPE: Kata_Class_Lib.InfoDoiTuong (Base: System.Object)
+  FIELD: String ten
+  FIELD: Object dt
+  FIELD: Polygon polygon
+  FIELD: KieuOngEnum kieuOng
+  FIELD: Double caoDo
+  FIELD: Int32 duongKinh
+  FIELD: Int32 index
+  FIELD: Int32 order
+  FIELD: Boolean capEndODau
+  FIELD: Boolean capEndOCuoi
+  FIELD: InfoDoiTuong rCDH8Oko8mYsJGYiWn2
+  METHOD: Void .ctor()
+  METHOD: String GetText()
+  METHOD: Boolean IsValid()
+  METHOD: InfoDoiTuong Copy()
+  METHOD: Void .cctor()
+  METHOD: Boolean HxV82ukUIhJyu9LR61j()
+  METHOD: InfoDoiTuong KJeFjRkObyabntKLXSY()
+
+==========================================
+TYPE: Kata_Class_Lib.InfoThep (Base: System.Object)
+  FIELD: Double f
+  FIELD: Double a
+  FIELD: Double n
+  FIELD: Double dbm1
+  FIELD: Double dbm2
+  FIELD: Double cover
+  FIELD: InfoThep EECYQjOjpo9DsgSKb5l
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean A5uJQLOXjMrAMkTHTPO()
+  METHOD: InfoThep TrQi1GOgGFDMexCiLCd()
+
+==========================================
+TYPE: Kata_Class_Lib.KieuOngEnum (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: KieuOngEnum OngCapNuoc
+  FIELD: KieuOngEnum OngThongHoi
+  FIELD: KieuOngEnum OngThoatPhanTieu
+  FIELD: KieuOngEnum OngThoatNuocSinhHoat
+  FIELD: KieuOngEnum OngThoatNuocMua
+  FIELD: KieuOngEnum OngCapNuocNong
+  FIELD: KieuOngEnum None
+
+==========================================
+TYPE: Kata_Class_Lib.Line_diem (Base: System.Object)
+  FIELD: diem EndPoint1
+  FIELD: diem EndPoint2
+  FIELD: Line_diem bg7eGaOqmHi0BEyCr82
+  METHOD: Void .ctor(diem p1, diem p2)
+  METHOD: Void .ctor()
+  METHOD: diem Vecto()
+  METHOD: diem Mid()
+  METHOD: Double Length()
+  METHOD: Void .cctor()
+  METHOD: Boolean qcHv0bOtYM1WLP3jaF1()
+  METHOD: Line_diem FKQXmnOEPrGCjPpoF7n()
+
+==========================================
+TYPE: Kata_Class_Lib.Line_Tu_Tao (Base: System.Object)
+  FIELD: XYZ EndPoint1
+  FIELD: XYZ EndPoint2
+  FIELD: Line_Tu_Tao pMpIHfOCYEXCdlk3VCX
+  METHOD: Void .ctor(XYZ p1, XYZ p2)
+  METHOD: Void .ctor()
+  METHOD: XYZ Vecto()
+  METHOD: XYZ Mid()
+  METHOD: Double Length()
+  METHOD: Void .cctor()
+  METHOD: Boolean hqZINTONJpunfaY9qEr()
+  METHOD: Line_Tu_Tao mckvvIOTOgNurZ9oImu()
+
+==========================================
+TYPE: Kata_Class_Lib.LineShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: Single X1
+  PROP: Single Y1
+  PROP: Single X2
+  PROP: Single Y2
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: DashStyle BorderStyle
+  PROP: Boolean Enabled
+  FIELD: Single QwXAT5EnR
+  FIELD: Single JnxPmOWSn
+  FIELD: Single evQSQkLdM
+  FIELD: Single L7TactnKf
+  FIELD: Color FEMREsbq9
+  FIELD: Single D99d3K9ty
+  FIELD: DashStyle Tg08DlRtl
+  FIELD: Boolean d2PyeDs23
+  FIELD: LineShape lMX2b2UD48VZ75VyYdO
+  METHOD: Void .ctor()
+  METHOD: Single get_X1()
+  METHOD: Void set_X1(Single AutoPropertyValue)
+  METHOD: Single get_Y1()
+  METHOD: Void set_Y1(Single AutoPropertyValue)
+  METHOD: Single get_X2()
+  METHOD: Void set_X2(Single AutoPropertyValue)
+  METHOD: Single get_Y2()
+  METHOD: Void set_Y2(Single AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: DashStyle get_BorderStyle()
+  METHOD: Void set_BorderStyle(DashStyle AutoPropertyValue)
+  METHOD: Boolean get_Enabled()
+  METHOD: Void set_Enabled(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean Bhcj0FUxZUniBpETl6M()
+  METHOD: LineShape I6j6sGUGKx6Q6YQHU6J()
+
+==========================================
+TYPE: Kata_Class_Lib.Loai_dam (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: Loai_dam dam
+  FIELD: Loai_dam giang_mong
+  FIELD: Loai_dam dam_mong
+
+==========================================
+TYPE: Kata_Class_Lib.Loai_thep_gc_goi (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: Loai_thep_gc_goi kothep
+  FIELD: Loai_thep_gc_goi bangthep
+  FIELD: Loai_thep_gc_goi catthep
+  FIELD: Loai_thep_gc_goi catthep_all
+
+==========================================
+TYPE: Kata_Class_Lib.mat_phang (Base: System.Object)
+  FIELD: Double a
+  FIELD: Double b
+  FIELD: Double c
+  FIELD: Double d
+  FIELD: XYZ origin
+  FIELD: XYZ normal
+  FIELD: mat_phang ysbe7tOlSCPkQE4eW16
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean GVQALuOVUeYPHS9fmdX()
+  METHOD: mat_phang B6nSBYOY9xKFb4LFFCg()
+
+==========================================
+TYPE: Kata_Class_Lib.mat_phang_diem (Base: System.Object)
+  FIELD: Double a
+  FIELD: Double b
+  FIELD: Double c
+  FIELD: Double d
+  FIELD: diem origin
+  FIELD: diem normal
+  FIELD: mat_phang_diem Q6dEmhOKwSRNvFB0IXD
+  METHOD: Void .ctor()
+  METHOD: Boolean IsParallelTo(mat_phang_diem mp, Double delta)
+  METHOD: Boolean IsCoincidentWith(mat_phang_diem mp, Double delta)
+  METHOD: Void .cctor()
+  METHOD: Boolean hSBe44OZ6lVVwa6Esbx()
+  METHOD: mat_phang_diem f4xsJLOhp3At8DFcjGO()
+
+==========================================
+TYPE: Kata_Class_Lib.My.MyApplication (Base: Microsoft.VisualBasic.ApplicationServices.ApplicationBase)
+  FIELD: Object W0YBtjUBesXLcVxoISD
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean EWqf6kU34i27YBVByma()
+  METHOD: MyApplication X4xXfnUbQ9QeLV2uk2S()
+
+==========================================
+TYPE: Kata_Class_Lib.OffSetPosition (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: OffSetPosition JustOffset
+  FIELD: OffSetPosition Outside
+  FIELD: OffSetPosition Inside
+
+==========================================
+TYPE: Kata_Class_Lib.OvalShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: PointF Location
+  PROP: Single Width
+  PROP: Single Height
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: Color FillColor
+  PROP: FillStyleEnum FillStyle
+  PROP: Boolean Enabled
+  FIELD: PointF q9Hgwbu5e
+  FIELD: Single NohwN7JAE
+  FIELD: Single K9TuJd1J7
+  FIELD: Color ICiFGjGs2
+  FIELD: Single fy6zbR5NC
+  FIELD: Color nLP3BbZx49
+  FIELD: FillStyleEnum H8v33CnP5a
+  FIELD: Boolean deX3bHhq3T
+  FIELD: OvalShape r9cW0sUQaRPJSHNsuL4
+  METHOD: Void .ctor()
+  METHOD: PointF get_Location()
+  METHOD: Void set_Location(PointF AutoPropertyValue)
+  METHOD: Single get_Width()
+  METHOD: Void set_Width(Single AutoPropertyValue)
+  METHOD: Single get_Height()
+  METHOD: Void set_Height(Single AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Color get_FillColor()
+  METHOD: Void set_FillColor(Color AutoPropertyValue)
+  METHOD: FillStyleEnum get_FillStyle()
+  METHOD: Void set_FillStyle(FillStyleEnum AutoPropertyValue)
+  METHOD: Boolean get_Enabled()
+  METHOD: Void set_Enabled(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean GqGpWIUJabP6y7yxZgV()
+  METHOD: OvalShape slxAMxUcN19sJR4hNy9()
+
+==========================================
+TYPE: Kata_Class_Lib.PolygonModule (Base: System.Object)
+  FIELD: Action`4 HighLightFunc
+  FIELD: Double originalDelta
+  FIELD: Double delta
+  FIELD: Double deltaSquare
+  FIELD: String textSan
+  FIELD: Boolean includeThick
+  FIELD: PolygonModule xyvPXTUYYacAKdHvfHy
+  METHOD: Void .cctor()
+  METHOD: CurveXYZ ToZ0(CurveXYZ c)
+  METHOD: diem ToZ0(diem p)
+  METHOD: Polygon ToZ0(Polygon pl)
+  METHOD: CurveXYZ ToZ(CurveXYZ c, Double z)
+  METHOD: diem ToZ(diem p, Double z)
+  METHOD: Polygon ToZ(Polygon pl, Double z)
+  METHOD: diem ToFeet(diem p)
+  METHOD: CurveXYZ ToFeet(CurveXYZ c)
+  METHOD: Polygon ToFeet(Polygon pl)
+  METHOD: Polygon Bao2Polygon(Polygon polygon1, Polygon polygon2, Action ErrorAction)
+  METHOD: Boolean IsTempCurveValid(CurveXYZ curve, Polygon polygon1, Polygon polygon2)
+  METHOD: Boolean IsTempCurveValidTruPolygon(CurveXYZ curve, Polygon polygon1, Polygon polygon2)
+  METHOD: Boolean IsInPolygon(diem p, Polygon polygon, Double newdeltaOn)
+  METHOD: Boolean IsOnPolygon(diem p, Polygon polygon, Double newdelta)
+  METHOD: Boolean IsOutsidePolygon(diem p, Polygon polygon, Double newdelta)
+  METHOD: Boolean IsOnInPolygon(diem p, Polygon polygon, Double newdelta)
+  METHOD: Double CalculateDeltaBaseOnCurves(CurveXYZ curve1, CurveXYZ curve2)
+  METHOD: Boolean IsSameThick(Polygon poly)
+  METHOD: Polygon AdjustCoppha(Polygon polygon1, Polygon polygon2)
+  METHOD: Tuple`2 SnapPoints(Polygon poly1, Polygon poly2, Boolean makeClose)
+  METHOD: Boolean IsNear(diem p1, diem p2, Double delta)
+  METHOD: Polygon SnapPointsUtil(Polygon pl1, Polygon pl2)
+  METHOD: Polygon SnapToXY(Polygon poly)
+  METHOD: Void ModifyPointOfPolygonListXYZ(List`1& listxyz, Int32 index, diem newp, Boolean isClosed)
+  METHOD: List`1 GiaoCOPPHA(Polygon polygon1, Polygon polygon2)
+  METHOD: Polygon Giao2Polygon(Polygon polygon1, Polygon polygon2, Action ErrorAction)
+  METHOD: Polygon Giao2PolygonKhongKin(Polygon polyKhongKin, Polygon polyKin, Action ErrorAction)
+  METHOD: List`1 ListPolygonBaoNhau(List`1 listPolygon, Boolean baoNhauTaoLoTrong, Int32 runTime, Action`1 CheckTimeRun)
+  METHOD: Polygon Bao2PolygonByOffset(Polygon pl1, Polygon pl2)
+  METHOD: List`1 ListPolygonBaoNhauByOffset(List`1 listPolygon, Double offset, Boolean baoNhauTaoLoTrong, Int32 runTime, Action`1 CheckTimeRun, Boolean soSanhTOCVaThickKhiGop)
+  METHOD: List`1 ListPolygonBBBaoNhauLighter(List`1 listPolygon, Boolean baoNhauTaoLoTrong, Int32 runTime, Action`1 CheckTimeRun, Double offset, Boolean soSanhTOCVaThickKhiGop)
+  METHOD: Polygon GetBBListPolygon(List`1 listPlChiTiet)
+  METHOD: Polygon GetBBListDiem(List`1 listDiem)
+  METHOD: Polygon CreateHCNBy2Point(diem p1, diem p2)
+  METHOD: HashSet`1 GetSubHashSet(HashSet`1 processed, List`1 listPolygon, Polygon mainPoly)
+  METHOD: Boolean IsPolygonConnectPolygon(Polygon mainPolygon, Polygon subPolygon)
+  METHOD: List`1 TruPolygonBangPolygon(Polygon polygon1, Polygon polygon2)
+  METHOD: CurveXYZ ConnectTwoCurves(CurveXYZ c1, CurveXYZ c2)
+  METHOD: Int64 eQ7GeJP02(Int64  , Int64  )
+  METHOD: ValueTuple`2 NjeMe067d(Object  )
+  METHOD: List`1 BondCurves(List`1 edges, Boolean bondClosed, Polygon templatePoly)
+  METHOD: String PointKey(diem p)
+  METHOD: List`1 TruPolygonBangNhieuPolygon(Polygon mainPolygon, List`1 listPolygon, Action`1 CheckTimeRun)
+  METHOD: List`1 FindFacesFromEdges(List`1 edges, Boolean includeOuterFace, Boolean removeTeemingPoints)
+  METHOD: List`1 SplitCurvesAtIntersections(List`1 curves)
+  METHOD: Polygon NormalizePolygon(Polygon pl, Double delta)
+  METHOD: String PolygonKey(Polygon pl, Double delta)
+  METHOD: Int64 Q(Double x, Double delta)
+  METHOD: String CurveKey(CurveXYZ c, Double delta)
+  METHOD: List`1 LoaiBoPolyTrung(List`1 listPl, Double delta)
+  METHOD: List`1 SnapPointsListCurve(List`1 listSubCurve, List`1 listMainCurve)
+  METHOD: List`1 LoaiBoCurveTrung(List`1 listCurve, Double delta)
+  METHOD: List`1 RemoveSameCurvesIncludeThick(List`1 curves, Boolean includeThick, Double delta)
+  METHOD: Boolean kmVdWAUC1nMlkLygkbp()
+  METHOD: PolygonModule y7PQDyUNc4lOUuS44iO()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewArcShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: RectangleF Bounds
+  PROP: Single StartAngle
+  PROP: Single SweepAngle
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  FIELD: RectangleF slH3sUEY3X
+  FIELD: Single p3M3Ir2hnW
+  FIELD: Single G5Y3okrSAr
+  FIELD: Color yoo3UPTlwT
+  FIELD: Single KyP3OvM2Nd
+  FIELD: PreviewArcShape H8PW75U5eZt0JyUQZJC
+  METHOD: Void .ctor(RectangleF bounds, Single startAngle, Single sweepAngle, Color color, Single width)
+  METHOD: RectangleF get_Bounds()
+  METHOD: Void set_Bounds(RectangleF AutoPropertyValue)
+  METHOD: Single get_StartAngle()
+  METHOD: Void set_StartAngle(Single AutoPropertyValue)
+  METHOD: Single get_SweepAngle()
+  METHOD: Void set_SweepAngle(Single AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean z0saHoU2wZOliRA9OH9()
+  METHOD: PreviewArcShape VPiwCoUphsvjmhRGB5s()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewCanvas (Base: System.Windows.Forms.Panel)
+  PROP: Int32 ShapeCount
+  PROP: Boolean AutoInvalidate
+  PROP: PreviewShapeCollection Shapes
+  FIELD: List`1 M5mJxtTb5
+  FIELD: PreviewShapeCollection AEBcLAIJG
+  FIELD: Boolean PL37IY7YY
+  FIELD: PreviewCanvas sXakXbUTbRLcFp1dluP
+  METHOD: Void .ctor()
+  METHOD: Int32 get_ShapeCount()
+  METHOD: Boolean get_AutoInvalidate()
+  METHOD: Void set_AutoInvalidate(Boolean AutoPropertyValue)
+  METHOD: PreviewShapeCollection get_Shapes()
+  METHOD: Void ClearShapes()
+  METHOD: Void AddLine(Single x1, Single y1, Single x2, Single y2, Color color, Single width)
+  METHOD: Void AddLine(PointF p1, PointF p2, Color color, Single width)
+  METHOD: Void AddRectangle(RectangleF bounds, Color borderColor, Single borderWidth, Color fillColor, Boolean filled)
+  METHOD: Void AddCircle(Single centerX, Single centerY, Single diameter, Color borderColor, Single borderWidth, Color fillColor, Boolean filled)
+  METHOD: Void AddEllipse(RectangleF bounds, Color borderColor, Single borderWidth, Color fillColor, Boolean filled)
+  METHOD: Void AddArc(RectangleF bounds, Single startAngle, Single sweepAngle, Color color, Single width)
+  METHOD: Void AddPolyline(IEnumerable`1 points, Color color, Boolean closed, Single width)
+  METHOD: IReadOnlyList`1 SnapshotShapes()
+  METHOD: Void OnPaint(PaintEventArgs e)
+  METHOD: Void D5qr02rDy()
+  METHOD: Void yyan5N1qW(PreviewShape  )
+  METHOD: Void NPVQuuDo1(PreviewShape  )
+  METHOD: Void .cctor()
+  METHOD: Boolean bHtOT4U4130gxu8IPt0()
+  METHOD: PreviewCanvas R2cAuvU6U7sn2d8IH6h()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewEllipseShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: RectangleF Bounds
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: Color FillColor
+  PROP: Boolean Filled
+  FIELD: RectangleF PCB3495Dkg
+  FIELD: Color gC536xaAh7
+  FIELD: Single pTw31oT0Za
+  FIELD: Color Aok3f8disM
+  FIELD: Boolean SHj3m8tJVP
+  FIELD: PreviewEllipseShape jjWCPxUd2g2LoI4gIwm
+  METHOD: Void .ctor(RectangleF bounds, Color borderColor, Single borderWidth, Color fillColor, Boolean filled)
+  METHOD: RectangleF get_Bounds()
+  METHOD: Void set_Bounds(RectangleF AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Color get_FillColor()
+  METHOD: Void set_FillColor(Color AutoPropertyValue)
+  METHOD: Boolean get_Filled()
+  METHOD: Void set_Filled(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean nCjljwU8g5YJN94wO9s()
+  METHOD: PreviewEllipseShape rvtA5QUycxilE5JPjd1()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewLineShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: PointF StartPoint
+  PROP: PointF EndPoint
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  FIELD: PointF EnE3WraWCw
+  FIELD: PointF GTH3KtbcVq
+  FIELD: Color O1e3ZuO4vD
+  FIELD: Single d8x3hvIn2g
+  FIELD: PreviewLineShape EBo899U78bLGhLtI6mf
+  METHOD: Void .ctor(PointF p1, PointF p2, Color color, Single width)
+  METHOD: PointF get_StartPoint()
+  METHOD: Void set_StartPoint(PointF AutoPropertyValue)
+  METHOD: PointF get_EndPoint()
+  METHOD: Void set_EndPoint(PointF AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean fTemxYUeVMgJn43Nxsb()
+  METHOD: PreviewLineShape X80krBUvSmCe1dp0kUL()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewPolylineShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: List`1 Points
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: Boolean IsClosed
+  FIELD: List`1 EGN3qJ3nrp
+  FIELD: Color KOi3tiBgu9
+  FIELD: Single C9L3EOa9eH
+  FIELD: Boolean kor3lJAcqb
+  FIELD: PreviewPolylineShape VMQLVyUiIVCP0RySwFF
+  METHOD: Void .ctor(List`1 points, Color color, Boolean closed, Single width)
+  METHOD: List`1 get_Points()
+  METHOD: Void set_Points(List`1 AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Boolean get_IsClosed()
+  METHOD: Void set_IsClosed(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean tdRxIiUAwekjGTfu3Ra()
+  METHOD: PreviewPolylineShape TO5iccUPtO7xBAiXSKv()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewRectangleShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: RectangleF Bounds
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: Color FillColor
+  PROP: Boolean Filled
+  FIELD: RectangleF x6V3VP12Es
+  FIELD: Color Vd13Y0D506
+  FIELD: Single Yah3CGfjto
+  FIELD: Color NFY3NHedI1
+  FIELD: Boolean dMs3T1epJE
+  FIELD: PreviewRectangleShape Sdcq91USY4sYMVlvug8
+  METHOD: Void .ctor(RectangleF bounds, Color borderColor, Single borderWidth, Color fillColor, Boolean filled)
+  METHOD: RectangleF get_Bounds()
+  METHOD: Void set_Bounds(RectangleF AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Color get_FillColor()
+  METHOD: Void set_FillColor(Color AutoPropertyValue)
+  METHOD: Boolean get_Filled()
+  METHOD: Void set_Filled(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean EWRPvyUaGjiEjLItnwu()
+  METHOD: PreviewRectangleShape VVMtkQURN65ZkEPVgc7()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewShape (Base: System.Object)
+  PROP: String Name
+  PROP: Boolean Visible
+  FIELD: String C6DvlMgEO
+  FIELD: Boolean qyvi8kRoy
+  FIELD: PreviewShape CfEaISUUlKoQGcpl9Dh
+  METHOD: Void .ctor()
+  METHOD: String get_Name()
+  METHOD: Void set_Name(String AutoPropertyValue)
+  METHOD: Boolean get_Visible()
+  METHOD: Void set_Visible(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean rn3pC5UOhTjwtPKV2UF()
+  METHOD: PreviewShape voBkQfUkFtosnLjytFD()
+
+==========================================
+TYPE: Kata_Class_Lib.PreviewShapeCollection (Base: System.Object)
+  FIELD: PreviewCanvas eIjeMRfvK
+  FIELD: PreviewShapeCollection LCdAPmU1O1mxOL1QQXd
+  METHOD: Void .ctor(PreviewCanvas owner)
+  METHOD: Void Clear()
+  METHOD: Void Add(PreviewShape shape)
+  METHOD: Void AddRange(IEnumerable`1 shapes)
+  METHOD: Void Remove(PreviewShape shape)
+  METHOD: Void .cctor()
+  METHOD: Boolean zmGk7CUffmftMTY5pQW()
+  METHOD: PreviewShapeCollection QeiuKBUmP6yMCCrsFbL()
+
+==========================================
+TYPE: Kata_Class_Lib.Pub_Function (Base: System.Object)
+  FIELD: Boolean yAd3enIHCg
+  FIELD: Pub_Function O6ALmwkG28ZSkN9qCve
+  METHOD: Void .cctor()
+  METHOD: String BoDauTiengViet(String s)
+  METHOD: Int32 dem_thoi_gian()
+  METHOD: Void them_diem(diem[]& array_diem, Int32& dem, Double x, Double y)
+  METHOD: Void ReDimDiem(diem[]& arr, Int32 newSize)
+  METHOD: Void ReDimPreserveDiem(diem[]& arr, Int32 newSize)
+  METHOD: Void ReDimDiem2D(diem[0...,0...]& arr, Int32 newSizeX, Int32 newSizeY)
+  METHOD: String lay_TagString_att(Object varatts, String TagString)
+  METHOD: String kieu_leader(String name)
+  METHOD: List`1 loai_bo_name_trung(List`1 listname)
+  METHOD: String chuyen_sldk(info_thep_sldk& thep_sldk)
+  METHOD: Double tinh_bieu_thuc(String text)
+  METHOD: String cao_trinh(Object z)
+  METHOD: Double max(Double x, Double y)
+  METHOD: Double min(Double x, Double y)
+  METHOD: Boolean round_angXY(Double& ang_radian, Int32 delta_do)
+  METHOD: Double round_td_cad(Double& x, Int32 number)
+  METHOD: Boolean xap_xi(Double x1, Double x2, Double delta)
+  METHOD: Double Round50(Double length)
+  METHOD: Double Round50InFeet(Double length)
+  METHOD: Double Round10(Double length)
+  METHOD: Double Round5(Double length)
+  METHOD: Double Round10InFeet(Double length)
+  METHOD: Double lam_tron_len_50_don_vi_mm(Double length)
+  METHOD: Double lam_tron_len_10_don_vi_mm(Double length)
+  METHOD: Double lam_tron_len_50mm_don_vi_feet(Double a)
+  METHOD: Void SetIsInMm(Boolean value)
+  METHOD: Double mm(Double a)
+  METHOD: Double feet(Double a)
+  METHOD: Boolean so_chan(Int32 x)
+  METHOD: Boolean so_le(Int32 x)
+  METHOD: Object NhoHonVaKhongXapXi(Double a, Double b, Double delta)
+  METHOD: Object LonHonVaKhongXapXi(Double a, Double b, Double delta)
+  METHOD: Object NhoHonHoacXapXi(Double a, Double b, Double delta)
+  METHOD: Object LonHonHoacXapXi(Double a, Double b, Double delta)
+  METHOD: Boolean NamTrongKhoang(Double value, Double a, Double b)
+  METHOD: Boolean NamTrongDoan(Double value, Double a, Double b)
+  METHOD: Int32 dt_thep(Int32 D, Int32 sl)
+  METHOD: Double dt_thep_cm2(Int32 D, Int32 sl)
+  METHOD: Int32 dt_thep(info_thep_sldk thep_sldk)
+  METHOD: Int32 dt_thepShear(info_dai_gccl cd, info_dai_gccl a, List`1 dai_gc)
+  METHOD: Boolean qWyOCQkM7iiRb2vRgGs()
+  METHOD: Pub_Function NF32DNkrRcv143olK1T()
+
+==========================================
+TYPE: Kata_Class_Lib.Pub_Sub (Base: System.Object)
+  FIELD: Pub_Sub X3c25hD0Jj8ZklHEBjF
+  METHOD: Void hoan_vi(Object& x, Object& y)
+  METHOD: Void dao_mang_all(Object& x)
+  METHOD: Void dao_mang(Object& x, Int32 v1, Int32 v2)
+  METHOD: Void Tach_TenNhip(String Text, String& Ten, Int32& Nhip)
+  METHOD: Void tach_sohieu(String x, String& stt, String& stt_thep_chinh, String& tr_sh)
+  METHOD: Int32 chuyen_gtri(String x)
+  METHOD: Void chuyen_phi(String x, Int32& phi1, Int32& phi2)
+  METHOD: Void chuyen_thep(String x, Int32& sl, Int32& phi)
+  METHOD: Void chuyen_thep_goi(String x, info_thep_gc_goi& thep)
+  METHOD: Void chuyen_thep_nhip(String x, info_thep_gc_nhip& thep)
+  METHOD: Void chuyen_cot_gia(String x, Int32& lop, Int32& sl, Byte& thep_ngang)
+  METHOD: Void chuyen_dam_giao(String x, info_dam_giao_taicot& dg)
+  METHOD: Void chuyen_cot_gia1(String x, Int32& lop, Int32& sl, Byte& thep_ngang, Int32& phi)
+  METHOD: Void chuyen_h_san(String x, info_tai_dam& h_san, Int32 h_dam)
+  METHOD: Void chuyen_ht(String x, Double& delta_h, Int32& sl, Int32& phi, Boolean& thep_lientuc)
+  METHOD: Void chuyen_dai1(String x, Int32& a)
+  METHOD: Void chuyen_dai(String x, Int32& phi, Int32& a)
+  METHOD: Void chuyen_a_bv(String x, Int32& a1, Int32& a2, Int32& a3)
+  METHOD: Void chuyen_dai2(String x, Int32& phi, Int32& a1, Int32& a2, Int32& a3, Double& dai_dau_cot)
+  METHOD: Void chuyen_2double(String x, Double& gt1, Double& gt2)
+  METHOD: Void chuyen_2text(String x, String& text1, String& text2)
+  METHOD: Void chuyen_dai3(String x, Int32& phi, Int32& a1, Int32& a2, Int32& a3)
+  METHOD: Void chuyen_R3(String x, Int32& r1, Int32& r2, Int32& r3)
+  METHOD: Void .cctor()
+  METHOD: Boolean UmTLmtDjLx4pTrQMxDF()
+  METHOD: Pub_Sub jLqJDxDXPOcsMaCeHiV()
+
+==========================================
+TYPE: Kata_Class_Lib.RectangleShape (Base: Kata_Class_Lib.PreviewShape)
+  PROP: PointF Location
+  PROP: Single Width
+  PROP: Single Height
+  PROP: Color BorderColor
+  PROP: Single BorderWidth
+  PROP: Color FillColor
+  PROP: FillStyleEnum FillStyle
+  PROP: Single CornerRadius
+  PROP: Boolean Enabled
+  FIELD: PointF Tj35SA1xw
+  FIELD: Single lNc2tC1eh
+  FIELD: Single yXKp0F6s7
+  FIELD: Color e4d9kTaNd
+  FIELD: Single bW6LqNUMP
+  FIELD: Color f9AHq9FYg
+  FIELD: FillStyleEnum biD0NKF4N
+  FIELD: Single R2Zj6dI72
+  FIELD: Boolean EgoXPlDRf
+  FIELD: RectangleShape wPs0Y8UMwQ7FSp7vFaK
+  METHOD: Void .ctor()
+  METHOD: Void .ctor(Single x, Single y, Single width, Single height)
+  METHOD: PointF get_Location()
+  METHOD: Void set_Location(PointF AutoPropertyValue)
+  METHOD: Single get_Width()
+  METHOD: Void set_Width(Single AutoPropertyValue)
+  METHOD: Single get_Height()
+  METHOD: Void set_Height(Single AutoPropertyValue)
+  METHOD: Color get_BorderColor()
+  METHOD: Void set_BorderColor(Color AutoPropertyValue)
+  METHOD: Single get_BorderWidth()
+  METHOD: Void set_BorderWidth(Single AutoPropertyValue)
+  METHOD: Color get_FillColor()
+  METHOD: Void set_FillColor(Color AutoPropertyValue)
+  METHOD: FillStyleEnum get_FillStyle()
+  METHOD: Void set_FillStyle(FillStyleEnum AutoPropertyValue)
+  METHOD: Single get_CornerRadius()
+  METHOD: Void set_CornerRadius(Single AutoPropertyValue)
+  METHOD: Boolean get_Enabled()
+  METHOD: Void set_Enabled(Boolean AutoPropertyValue)
+  METHOD: Void Draw(Graphics graphics)
+  METHOD: Void .cctor()
+  METHOD: Boolean yP66G1UrIlKpq7UmxwH()
+  METHOD: RectangleShape W2Sud2UnfxiklQH1A5P()
+
+==========================================
+TYPE: Kata_Class_Lib.Sosanh_Chu_Socuoi (Base: System.Object)
+  FIELD: Sosanh_Chu_Socuoi qvhreSk63KcAjWTgVN5
+  METHOD: Void .ctor()
+  METHOD: Int32 Compare(String x, String y)
+  METHOD: ValueTuple`2 CY837sHwXo(String  )
+  METHOD: Void .cctor()
+  METHOD: Boolean tOBaoCk1jkUsIBgSGnt()
+  METHOD: Sosanh_Chu_Socuoi rI5WjMkf6N1keffmb2c()
+
+==========================================
+TYPE: Kata_Class_Lib.thep_in (Base: System.Object)
+  FIELD: Int32[] b
+  FIELD: Int32[] h
+  FIELD: Int32[] phi
+  FIELD: Int32 noi
+  FIELD: Int32 delta_noi
+  FIELD: thep_in U5WlrgOflhRmDvQsfOy
+  METHOD: Void .ctor()
+  METHOD: Void .cctor()
+  METHOD: Boolean wqQ0lbOmvaEutU2xuHd()
+  METHOD: thep_in FCgOWVOsCIQQ4sxtwHC()
+
+==========================================
+TYPE: Kata_Class_Lib.TypeBeam (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: TypeBeam Left_beam
+  FIELD: TypeBeam Right_beam
+  FIELD: TypeBeam Mid_beam
+  FIELD: TypeBeam No_slab
+
+==========================================
+TYPE: Kata_Class_Lib.TypeColumnWall (Base: System.Enum)
+  FIELD: Int32 value__
+  FIELD: TypeColumnWall TopBot
+  FIELD: TypeColumnWall OnlyBot
+  FIELD: TypeColumnWall OnlyTop
+
+==========================================
+TYPE: Kata_Class_Lib.XYZ (Base: System.Object)
+  PROP: Double X
+  PROP: Double Y
+  PROP: Double Z
+  FIELD: Double z7o3kTD0gS
+  FIELD: Double n0a3DcKWWI
+  FIELD: Double Sav3xGpE6C
+  FIELD: XYZ n1O1DbU9tLZ6q0DQPtW
+  METHOD: Void .ctor(Double a, Double b, Double c)
+  METHOD: Void .ctor()
+  METHOD: Void .ctor(diem d)
+  METHOD: Double get_X()
+  METHOD: Void set_X(Double value)
+  METHOD: Double get_Y()
+  METHOD: Void set_Y(Double value)
+  METHOD: Double get_Z()
+  METHOD: Void set_Z(Double value)
+  METHOD: XYZ op_Addition(XYZ p1, XYZ p2)
+  METHOD: XYZ op_Subtraction(XYZ p1, XYZ p2)
+  METHOD: XYZ op_Multiply(XYZ p1, Double d)
+  METHOD: XYZ op_Multiply(Double d, XYZ p1)
+  METHOD: XYZ op_Division(XYZ p1, Double d)
+  METHOD: XYZ op_UnaryNegation(XYZ p1)
+  METHOD: Double DistanceTo(XYZ P2)
+  METHOD: XYZ CrossProduct(XYZ P2)
+  METHOD: XYZ Normalize()
+  METHOD: Double GetLength()
+  METHOD: Double DotProduct(XYZ p2)
+  METHOD: diem ToDiem()
+  METHOD: Void .cctor()
+  METHOD: Boolean jwuAGLUL20gFgbSreg8()
+  METHOD: XYZ err4odUHPM5AxeikwH2()

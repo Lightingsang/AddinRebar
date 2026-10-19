@@ -1,0 +1,47 @@
+﻿HUONG DAN SUA BAN DICH - DCE Excel
+=========================================================================
+
+1. CHON NGON NGU
+   Tren thanh ribbon DceAddin -> nhom DCE ACCOUNT -> nut "Language".
+   Chon ngon ngu roi bam Dong y, sau do DONG VA MO LAI Excel.
+
+2. CAC FILE TRONG THU MUC NAY
+   vi.txt   Tieng Viet (ban goc, de doi chieu)
+   en.txt   Tieng Anh
+   zh.txt   Tieng Trung
+   Moi dong co dang:   <chuoi tieng Viet goc><TAB><ban dich>
+   Dong bat dau bang # la ghi chu.
+   Dong dau file co  #name<TAB>Ten hien thi  -> ten hien ra trong hop chon ngon ngu.
+
+3. SUA KHI DICH SAI
+   Mo file bang Notepad++ / VSCode (PHAI luu lai o dinh dang UTF-8).
+   Sua phan sau dau TAB. KHONG duoc sua phan truoc dau TAB (do la khoa tra cuu).
+   Bo trong phan dich  ->  phan mem tu dung tieng Viet, KHONG bao gio loi.
+
+4. BAN VA RIENG - KHONG BI MAT KHI CAP NHAT PHAN MEM
+   Dat ban sua cua ban vao thu muc  Custom   Vi du:  Language\Custom\en.txt
+   File trong Custom duoc nap SAU nen se GHI DE len file goc.
+   Ban cap nhat phan mem chi de len en.txt / zh.txt, KHONG dung toi Custom.
+
+5. THEM NGON NGU MOI - KHONG CAN SUA CODE
+   Copy en.txt thanh ja.txt (hoac ma bat ky), dich lai, sua dong #name.
+   Mo lai Excel -> ngon ngu moi tu dong xuat hien trong danh sach.
+
+6. CHUOI CHUA DICH
+   Khi chay, nhung chuoi chua co ban dich duoc ghi ra:
+   Language\ThieuBanDich\<ma>_thieu.txt
+   Ban co the dich bo sung roi dan vao file Custom.
+
+7. LUU Y AN TOAN
+   Co mot so chu CO Y KHONG dich vi chung vua hien thi vua duoc phan mem
+   dung lam gia tri so sanh / ghi vao o Excel. Dich chung se lam SAI KET QUA.
+   Nhung chuoi do khong co trong file nay.
+
+8. CAM DICH (co bang chung trong ma nguon - dich vao se lam SAI KET QUA)
+   Dong                      -> nut Chung_LicenseKhaDung (khong nam trong danh sach duoc dich)
+   Cac chuoi co XUONG DONG trong giao dien (vi du "Lay ma may\r\nhien tai") khong tra duoc
+   bang file nay - dong trong file khong the chua xuong dong that; de trong la dung.
+
+9. KIEM TRA SAU KHI SUA
+   Mo form o 100% va 150% (Settings > Display > Scale). Chu dai hon ban tieng Viet
+   co the bi cat / de len o ben canh -> rut gon ban dich, KHONG sua kich thuoc form.

@@ -1,0 +1,58 @@
+{
+  "name": "generate_stirrup_distribution",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "revit",
+    "stirrup",
+    "rebar",
+    "framing",
+    "beam",
+    "spacing"
+  ],
+  "title": "Calculate Parametric Stirrup Distribution along Framing Axis",
+  "description": "Calculate zoned stirrup reinforcement distribution and bar counts across support and mid-span zones along a structural beam without creating rebar elements.",
+  "notes": "Calculates zoned stirrup distribution (support dense and mid-span sparse zones) along beam span length.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "beamElementId"
+    ],
+    "properties": {
+      "beamElementId": {
+        "type": "integer",
+        "description": "Element ID of host structural beam."
+      },
+      "denseSpacingMm": {
+        "type": "number",
+        "default": 100.0,
+        "description": "Dense stirrup spacing near supports in millimeters."
+      },
+      "sparseSpacingMm": {
+        "type": "number",
+        "default": 200.0,
+        "description": "Sparse stirrup spacing in mid-span in millimeters."
+      },
+      "supportZoneRatio": {
+        "type": "number",
+        "default": 0.25,
+        "description": "Span fraction for dense support zone (e.g. 0.25 for L/4)."
+      },
+      "stirrupDiameterMm": {
+        "type": "number",
+        "default": 8.0,
+        "description": "Stirrup bar diameter in millimeters."
+      }
+    },
+    "additionalProperties": false
+  }
+}

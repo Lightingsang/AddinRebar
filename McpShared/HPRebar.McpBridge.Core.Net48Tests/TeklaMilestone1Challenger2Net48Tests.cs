@@ -258,7 +258,7 @@ public sealed class TeklaMilestone1Challenger2Net48Tests
         string[] forbiddenPrefixes =
         [
             "Tekla", "RevitAPI", "AcDbMgd", "AcMgd", "Autodesk.Navisworks", "ETABSv1",
-            "SAP2000v1", "RobotOM", "Microsoft.Office.Interop.Excel", "Microsoft.AnalysisServices",
+            "SAP2000v1", "RobotOM", "Microsoft.Office.Interop.Excel", "Microsoft.AnalysisServices", "Dynamo",
         ];
 
         foreach (var prefix in forbiddenPrefixes)

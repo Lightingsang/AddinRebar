@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"revitVersion\":\"2026\",\"host\":\"revit\",\"hostVersion\":\"2026\",\"docTitle\":\"TemplateAIModel\",\"docPath\":\"D:\\\\OneDrive\\\\BIM\\\\02-Hoang Phuc\\\\01-Template\\\\03-Revit\\\\HoanThanh\\\\TemplateAIModel.rvt\",\"isFamily\":false,\"isReadOnly\":false,\"isModifiable\":false,\"units\":{\"length\":\"Millimeters\"},\"activeView\":{\"id\":9922873,\"name\":\"MẶT BẰNG DẦM SÀN TẦNG 1\",\"type\":\"EngineeringPlan\"},\"selection\":[],\"openDocs\":[\"TemplateAIModel\"],\"executionEnabled\":false}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

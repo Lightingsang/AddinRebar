@@ -1,0 +1,30 @@
+﻿HUONG DAN SUA BAN DICH - DCE Pro (AutoCAD / ZWCAD / GstarCAD / BricsCAD / progeCAD)
+=========================================================================
+
+1. CAC FILE TRONG THU MUC NAY  (Language\Cad\)
+   vi.txt   Tieng Viet (ban goc, de doi chieu)
+   en.txt   Tieng Anh
+   zh.txt   Tieng Trung
+   Moi dong co dang:   <chuoi goc><TAB><ban dich>
+   Dong bat dau bang # la ghi chu. Phan dich de TRONG -> phan mem dung chuoi goc.
+
+2. SUA KHI DICH SAI
+   Mo bang Notepad++ / VSCode, luu UTF-8. CHI sua phan SAU dau TAB.
+   Ban sua rieng nen dat o  Language\Cad\Custom\<ma>.txt  (nap sau, ghi de, khong mat khi cap nhat).
+
+3. CAM DICH - TUYET DOI GIU TRONG (ke ca trong Custom)
+   MC 1-1   MC 2-2   MC 3-3
+      -> Form cau thang doc lai tieu de tab va so voi "MC 1-1"... Dich = loi NullReference, thoat lenh.
+   Kata-DBIM
+   RibbonRow   RibbonRow2   RibbonRow3   (khoa bo cuc hang ribbon, khong phai chu hien thi)
+   Etabs  Safe  Sap  None  2D  3D  Column  Wall  Beam  Slab  Pile  Point  Beam Loads
+      -> Palette CSI dung chinh chu nay de chon layer / che do ket noi.
+   Ten Ck   va moi tu khoa dong lenh (Keywords) nhu Setup / Continue tren dong lenh CAD
+      -> dong lenh CAD so sanh dung chu tieng Anh.
+
+4. RIBBON
+   AutoCAD / ZWCAD / BricsCAD: chu tren ribbon lay tu file nay (dong lenh khong doi).
+   GstarCAD / progeCAD: ribbon nap tu file CUIX (DBimApps.cuix) nen KHONG doi theo ngon ngu.
+
+5. CHUOI CHUA DICH
+   Luc chay, chuoi chua co ban dich duoc ghi vao  Cad\ThieuBanDich\<ma>_thieu.txt

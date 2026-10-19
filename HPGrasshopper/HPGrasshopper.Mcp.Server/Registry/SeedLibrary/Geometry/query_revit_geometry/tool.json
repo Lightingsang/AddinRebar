@@ -1,0 +1,49 @@
+{
+  "name": "query_revit_geometry",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Geometry",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "geometry",
+    "query",
+    "solid",
+    "volume",
+    "boundingbox",
+    "analysis"
+  ],
+  "title": "Query Revit Element Geometry Summaries",
+  "description": "Queries Revit elements and returns geometric summaries (solid count, volume in cubic meters, surface area in square meters, and bounding boxes) without modifying the document.",
+  "notes": "Calculates solid volume, surface area, and bounding dimensions in meters from Revit element geometry.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "elementIds"
+    ],
+    "properties": {
+      "elementIds": {
+        "type": "array",
+        "items": { "type": "integer" },
+        "description": "List of Revit Element IDs to inspect."
+      },
+      "detailLevel": {
+        "type": "string",
+        "default": "Fine",
+        "description": "Geometry detail level: Coarse, Medium, Fine."
+      },
+      "includeFaces": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to extract face surface area summaries."
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,10 @@
+﻿// Decompiled Kata_pro64_Cad2025.Setting::Setting_ok
+
+// Method: Setting_ok
+using System.Runtime.CompilerServices;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+public void Setting_ok()
+{
+}
+

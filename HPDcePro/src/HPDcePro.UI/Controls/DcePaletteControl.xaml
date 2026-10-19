@@ -1,0 +1,60 @@
+<UserControl x:Class="HPDcePro.UI.Controls.DcePaletteControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource Card.Panel}" Margin="4">
+        <TabControl>
+            <!-- Tab 1: Dầm & Cột -->
+            <TabItem Header="Dầm &amp; Cột">
+                <StackPanel Margin="8">
+                    <Button Content="Vẽ Dầm DCE (VeDam_DCE)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Mặt Cắt Dầm (VeMCD_DCE)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Vẽ Cột DCE (VeCotDcePro)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Cột REC1 Đai Đơn (ColumnREC1)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Cột Ci Đai Xoắn (ColumnCi)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tab 2: Móng & Sàn -->
+            <TabItem Header="Móng &amp; Sàn">
+                <StackPanel Margin="8">
+                    <Button Content="Vẽ Móng Cọc (VeMongCoc_DCE)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Vẽ Móng Đơn (VeMongDon_DCE)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Vẽ Thép Sàn Top X (VeThepSanTopX)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Thép Cầu Thang (VeThang_DCE)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tab 3: Thống Kê & Cắt Thép -->
+            <TabItem Header="Thống Kê">
+                <StackPanel Margin="8">
+                    <Button Content="Bảng Thống Kê (TKT_DCE)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Tối Ưu Cắt Thép (ToiUuCatThep)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Sửa Số Lượng (TKTSSOLUONGCAUKIEN)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Sửa Đường Kính (TKTSDUONGKINHTHEP)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tab 4: AutoStr -->
+            <TabItem Header="AutoStr">
+                <StackPanel Margin="8">
+                    <Button Content="AutoStr 24 Bước (AutoStr)" Style="{StaticResource PrimaryButton}" Margin="0,4"/>
+                    <Button Content="Trung Tâm Điều Khiển (GETFORM)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                    <Button Content="Máy Học AI (DceMayHoc)" Style="{StaticResource SecondaryButton}" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Border>
+</UserControl>

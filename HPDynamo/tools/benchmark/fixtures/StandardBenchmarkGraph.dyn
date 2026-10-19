@@ -1,0 +1,235 @@
+{
+  "Uuid": "b3c8f5d0-7e12-4f8a-9d2a-1c6e4b8a9e01",
+  "IsCustomNode": false,
+  "Description": "Standard Self-Contained Benchmark Graph (5 Nodes, 4 Wires, 0 External Dependencies)",
+  "Name": "StandardBenchmarkGraph",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Vector": {
+        "Key": "Autodesk.DesignScript.Geometry.Vector",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Line": {
+        "Key": "Autodesk.DesignScript.Geometry.Line",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNodeModel",
+      "CodeText": "x = 1000;\ny = 2000;",
+      "Id": "c0de0001-0001-0001-0001-000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "00000001-out1-0001-0001-000000000001",
+          "Name": "x",
+          "Description": "x",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00000001-out2-0001-0001-000000000002",
+          "Name": "y",
+          "Description": "y",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Coordinate Inputs",
+      "X": 100.0,
+      "Y": 100.0
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double",
+      "Id": "c0de0002-0002-0002-0002-000000000002",
+      "Inputs": [
+        {
+          "Id": "00000002-inp1-0002-0002-000000000001",
+          "Name": "x",
+          "Description": "x coordinate",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00000002-inp2-0002-0002-000000000002",
+          "Name": "y",
+          "Description": "y coordinate",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00000002-inp3-0002-0002-000000000003",
+          "Name": "z",
+          "Description": "z coordinate",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "00000002-out1-0002-0002-000000000001",
+          "Name": "Point",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Point By Coordinates",
+      "X": 300.0,
+      "Y": 100.0
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Vector.ZAxis",
+      "Id": "c0de0003-0003-0003-0003-000000000003",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "00000003-out1-0003-0003-000000000001",
+          "Name": "Vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Vector ZAxis",
+      "X": 300.0,
+      "Y": 250.0
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Line.ByStartPointDirectionLength@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Vector,double",
+      "Id": "c0de0004-0004-0004-0004-000000000004",
+      "Inputs": [
+        {
+          "Id": "00000004-inp1-0004-0004-000400000001",
+          "Name": "startPoint",
+          "Description": "Start Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00000004-inp2-0004-0004-000400000002",
+          "Name": "direction",
+          "Description": "Direction",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00000004-inp3-0004-0004-000400000003",
+          "Name": "length",
+          "Description": "Length",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "00000004-out1-0004-0004-000400000001",
+          "Name": "Line",
+          "Description": "Line",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Line By Start Point Direction Length",
+      "X": 550.0,
+      "Y": 150.0
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "c0de0005-0005-0005-0005-000000000005",
+      "Inputs": [
+        {
+          "Id": "00000005-inp1-0005-0005-000500000001",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "00000005-out1-0005-0005-000500000001",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Result Watcher",
+      "X": 800.0,
+      "Y": 150.0
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "00000001-out1-0001-0001-000000000001",
+      "End": "00000002-inp1-0002-0002-000000000001",
+      "Id": "wire-0001-0001-0001-000000000001"
+    },
+    {
+      "Start": "00000001-out2-0001-0001-000000000002",
+      "End": "00000002-inp2-0002-0002-000000000002",
+      "Id": "wire-0002-0002-0002-000000000002"
+    },
+    {
+      "Start": "00000002-out1-0002-0002-000000000001",
+      "End": "00000004-inp1-0004-0004-000400000001",
+      "Id": "wire-0003-0003-0003-000000000003"
+    },
+    {
+      "Start": "00000003-out1-0003-0003-000000000001",
+      "End": "00000004-inp2-0004-0004-000400000002",
+      "Id": "wire-0004-0004-0004-000000000004"
+    }
+  ],
+  "X": 50.0,
+  "Y": 50.0,
+  "Zoom": 1.0
+}

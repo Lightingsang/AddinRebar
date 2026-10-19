@@ -1,0 +1,72 @@
+﻿=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Ve_san() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Ve_san_polyline() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Ve_san_4d() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Chia_san1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Trien_khai_day_san() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Khai_thong_tin_san() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Thong_ke_san() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Phan_loai_san1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Chuyen_block_thep_san_sang_theplk1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::show_thep_rai1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Drop_panel1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+
+=== Method: System.Void Kata_pro64_Cad2025.Lenh_thep::Ve_thep_openning1() ===
+  0000: nop 
+  0001: nop 
+  0002: nop 
+  0003: ret 
+

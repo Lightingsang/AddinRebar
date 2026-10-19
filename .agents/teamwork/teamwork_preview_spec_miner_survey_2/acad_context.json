@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"host\":\"autocad\",\"hostVersion\":\"2026\",\"autocad\":{\"insunits\":\"Inches\",\"measurement\":\"English\",\"currentLayout\":\"Model\",\"currentLayer\":\"0\",\"isModelSpace\":true,\"isQuiescent\":true,\"isNamedDrawing\":true},\"docTitle\":\"C:\\\\Users\\\\STR-HP03\\\\Downloads\\\\10. KC Móng đc 9 tầng-16.4.2026 (điều chỉnh theo MB mới)\\\\2. MBKC.dwg\",\"docPath\":\"C:\\\\Users\\\\STR-HP03\\\\Downloads\\\\10. KC Móng đc 9 tầng-16.4.2026 (điều chỉnh theo MB mới)\\\\2. MBKC.dwg\",\"isReadOnly\":false,\"isModifiable\":true,\"units\":{\"length\":\"Inches\"},\"activeView\":{\"id\":31,\"name\":\"Model\",\"type\":\"Model\"},\"selection\":[],\"openDocs\":[\"C:\\\\Users\\\\STR-HP03\\\\Downloads\\\\10. KC Móng đc 9 tầng-16.4.2026 (điều chỉnh theo MB mới)\\\\2. MBKC.dwg\",\"C:\\\\Users\\\\STR-HP03\\\\Downloads\\\\10. KC Móng đc 9 tầng-16.4.2026 (điều chỉnh theo MB mới)\\\\3. CHI TIET.dwg\",\"C:\\\\Users\\\\STR-HP03\\\\Downloads\\\\10. KC Móng đc 9 tầng-16.4.2026 (điều chỉnh theo MB mới)\\\\khung ten.dwg\"],\"executionEnabled\":true}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

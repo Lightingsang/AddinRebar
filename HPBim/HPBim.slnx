@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/HPBim.Core/HPBim.Core.csproj" />
+    <Project Path="src/HPBim.Client/HPBim.Client.csproj" />
+    <Project Path="src/HPBim.Cli/HPBim.Cli.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HPBim.Core.Tests/HPBim.Core.Tests.csproj" />
+    <Project Path="tests/HPBim.Client.Tests/HPBim.Client.Tests.csproj" />
+    <Project Path="tests/HPBim.E2E.Tests/HPBim.E2E.Tests.csproj" />
+  </Folder>
+</Solution>

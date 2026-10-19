@@ -1,0 +1,46 @@
+{
+  "name": "export_model_to_rhino",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Generic",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "export",
+    "rhino",
+    "3dm",
+    "layers",
+    "revit",
+    "hierarchy"
+  ],
+  "title": "Plan Rhino 3DM Layer Hierarchy from Revit Model",
+  "description": "Plan Rhino 3DM layer hierarchy structure based on Revit categories and levels without writing 3DM files to disk.",
+  "notes": "Generates target layer naming, hierarchy, RGB colors, scale factors, and element counts for Rhino 3DM export planning.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "categories": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "List of Revit BuiltInCategory names to export."
+      },
+      "targetRhinoUnits": {
+        "type": "string",
+        "default": "Meters",
+        "description": "Target Rhino document unit system (Meters, Millimeters, Feet)."
+      },
+      "groupByLevel": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to nest layers under Level parents."
+      }
+    },
+    "additionalProperties": false
+  }
+}

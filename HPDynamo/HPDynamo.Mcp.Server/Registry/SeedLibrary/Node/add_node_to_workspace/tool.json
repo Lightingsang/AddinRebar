@@ -1,0 +1,55 @@
+{
+  "name": "add_node_to_workspace",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Node",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "node",
+    "workspace",
+    "create",
+    "place",
+    "canvas"
+  ],
+  "title": "Add node to Dynamo workspace",
+  "description": "Places a new node instance onto the active Dynamo workspace canvas at specified coordinates (X, Y), optionally setting its display name or initial value. Supports CodeBlock, standard Core nodes, and Revit nodes.",
+  "notes": "Executes DynamoModel.CreateNodeCommand within the active workspace.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "nodeType",
+      "x",
+      "y"
+    ],
+    "properties": {
+      "nodeType": {
+        "type": "string",
+        "description": "Node creation identifier or type name (e.g. 'DSCoreNodes.Point', 'CodeBlock', 'CoreNodeModels.Watch', 'DSCore.Color.ByARGB')"
+      },
+      "x": {
+        "type": "number",
+        "description": "Horizontal position X on the workspace canvas in pixels"
+      },
+      "y": {
+        "type": "number",
+        "description": "Vertical position Y on the workspace canvas in pixels"
+      },
+      "name": {
+        "type": "string",
+        "description": "Optional custom display title for the created node"
+      },
+      "initialValue": {
+        "type": "string",
+        "description": "Optional initial value or code expression (used when creating a CodeBlock, String, or Number node)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

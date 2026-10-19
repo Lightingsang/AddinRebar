@@ -1,0 +1,79 @@
+{
+  "total": 6,
+  "entities": [
+    {
+      "type": "DBText",
+      "layer": "03-TEXT(0.2)",
+      "text": "CT",
+      "pos": {
+        "x": 570455.4,
+        "y": -64649.6
+      }
+    },
+    {
+      "type": "Polyline",
+      "layer": "A_Breakline_S_0.09",
+      "closed": false,
+      "verts": 8,
+      "area": 0,
+      "points": [
+        {
+          "x": 566582,
+          "y": -58990.4
+        },
+        {
+          "x": 566622,
+          "y": -58990.4
+        },
+        {
+          "x": 567162,
+          "y": -58990.4
+        },
+        {
+          "x": 567162,
+          "y": -58870.4
+        },
+        {
+          "x": 567282,
+          "y": -59110.4
+        },
+        {
+          "x": 567282,
+          "y": -58990.4
+        },
+        {
+          "x": 567822,
+          "y": -58990.4
+        },
+        {
+          "x": 567862,
+          "y": -58990.4
+        }
+      ]
+    },
+    {
+      "type": "Dimension",
+      "layer": "Dim shx",
+      "text": "",
+      "measurement": 100
+    },
+    {
+      "type": "Dimension",
+      "layer": "Dim shx",
+      "text": "",
+      "measurement": 250
+    },
+    {
+      "type": "Dimension",
+      "layer": "Dim shx",
+      "text": "",
+      "measurement": 350
+    },
+    {
+      "type": "Dimension",
+      "layer": "Dim shx",
+      "text": "",
+      "measurement": 600
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+=== LAYERS ===
+LAYER: 0 | Color: 7 | Linetype: Continuous
+LAYER: kata_net khung | Color: 3 | Linetype: Continuous
+LAYER: kata_dim | Color: 8 | Linetype: Continuous
+LAYER: Defpoints | Color: 7 | Linetype: Continuous
+LAYER: kata_grid | Color: 8 | Linetype: CENTER
+LAYER: kata_text | Color: 7 | Linetype: Continuous
+LAYER: kata_thep chu | Color: 1 | Linetype: Continuous
+LAYER: kata_net thay | Color: 4 | Linetype: Continuous
+LAYER: kata_thep dai | Color: 220 | Linetype: Continuous
+LAYER: kata_net manh | Color: 8 | Linetype: Continuous
+LAYER: kata_net khuat | Color: 9 | Linetype: HIDDEN
+LAYER: kata_thep - V | Color: 2 | Linetype: Continuous
+LAYER: kata_thep - H | Color: 1 | Linetype: Continuous
+=== DIMSTYLES ===
+DIMSTYLE: Standard
+DIMSTYLE: kata_dim_iso
+DIMSTYLE: kata_dim_50
+DIMSTYLE: kata_dim_25
+DIMSTYLE: kata_dim_20
+DIMSTYLE: kata_dim_100
+DIMSTYLE: kata_dim_40
+DIMSTYLE: kata_dim_70
+DIMSTYLE: kata_dim_30
+DIMSTYLE: kata_rai_thep
+DIMSTYLE: kata_dim_150
+DIMSTYLE: kata_dim_200
+DIMSTYLE: kata_dim_15
+DIMSTYLE: kata_dim_80
+DIMSTYLE: kata_dim_120
+DIMSTYLE: kata_dim_250
+DIMSTYLE: kata_dim_300
+=== TEXT STYLES ===
+STYLE: Standard | Font: txt | Height: 0.00 | Width: 1.00
+STYLE: kata_text | Font: arial.ttf | Height: 0.00 | Width: 0.80
+STYLE: {18b73a54-fa43-428c-adcb-c1c7bbdf2c84} | Font: Simplex.shx | Height: 0.00 | Width: 1.00
+=== BLOCKS ===
+BLOCK: dang01
+BLOCK: dang03
+BLOCK: dang04
+BLOCK: dang05
+BLOCK: Tieude
+BLOCK: kata_block_ArchTick
+BLOCK: dang02
+BLOCK: dang33
+BLOCK: kata_block_KHT
+BLOCK: _Open30
+BLOCK: dang06
+BLOCK: dang11
+BLOCK: dang16
+BLOCK: dang21
+BLOCK: dang26
+BLOCK: dang31
+BLOCK: dang36
+BLOCK: dang07
+BLOCK: dang12
+BLOCK: dang17
+BLOCK: dang22
+BLOCK: dang27
+BLOCK: dang32
+BLOCK: dang37
+BLOCK: dang08
+BLOCK: dang13
+BLOCK: dang18
+BLOCK: dang23
+BLOCK: dang28
+BLOCK: dang38
+BLOCK: dang09
+BLOCK: dang14
+BLOCK: dang19
+BLOCK: dang24
+BLOCK: dang29
+BLOCK: dang34
+BLOCK: dang39
+BLOCK: dang10
+BLOCK: dang15
+BLOCK: dang20
+BLOCK: dang25
+BLOCK: dang30
+BLOCK: dang35
+BLOCK: dang40
+BLOCK: kata_block_CT
+BLOCK: kata_block_HDSEC
+BLOCK: kata_block_GRID
+BLOCK: kata_block_THEP
+BLOCK: kata_block_TD
+BLOCK: kata_block_SECBAL
+BLOCK: dang43
+BLOCK: dang44
+BLOCK: dang08a
+BLOCK: dang12a
+BLOCK: dang13a
+BLOCK: dang43a
+BLOCK: dang42
+BLOCK: dang41
+BLOCK: *D59
+BLOCK: *D60
+BLOCK: *D61
+BLOCK: *D62
+BLOCK: *D63
+BLOCK: *D64
+BLOCK: *D65
+BLOCK: *D66
+BLOCK: *D67
+BLOCK: *D68
+BLOCK: *D69
+BLOCK: *D70
+BLOCK: *D71
+BLOCK: *D72
+BLOCK: *D73
+BLOCK: *D74
+BLOCK: *D75
+BLOCK: *D76
+BLOCK: *D77
+BLOCK: *D78
+BLOCK: *U79
+BLOCK: *U80
+BLOCK: *U81
+BLOCK: Bo tri thep san
+BLOCK: Bo tri thep san nho
+BLOCK: *U84
+BLOCK: *U85
+BLOCK: kata_block_COUPLER
+BLOCK: kata_block_RUNTIC
+BLOCK: kata_block_LEADERTIC
+BLOCK: *D89
+BLOCK: dang02a
+BLOCK: dang09a
+BLOCK: kata_block_KHTCT
+BLOCK: dang45
+BLOCK: *D94
+BLOCK: dang46
+BLOCK: kata_block_REN
+BLOCK: dang47
+BLOCK: Bo tri thep bien phap
+BLOCK: dang48
+BLOCK: dang49
+BLOCK: *D101
+BLOCK: dang50
+BLOCK: *D103
+BLOCK: *D104
+BLOCK: *D105
+BLOCK: dang52
+BLOCK: dang51
+BLOCK: *D108
+BLOCK: dang51a
+BLOCK: *D110
+BLOCK: dang49a
+BLOCK: *D112
+BLOCK: *D113
+BLOCK: dang53
+BLOCK: dang54
+BLOCK: dang55
+BLOCK: *D117
+BLOCK: dang56
+BLOCK: dang57
+BLOCK: *D120
+BLOCK: dang58
+BLOCK: *D122
+BLOCK: dang59
+BLOCK: *D124
+BLOCK: dang45a
+BLOCK: *D126
+BLOCK: dang53a
+BLOCK: dang60
+BLOCK: *D129
+BLOCK: *D130
+BLOCK: *D131
+BLOCK: *D132
+BLOCK: *D133
+BLOCK: dang61
+BLOCK: *D135
+BLOCK: *D136
+BLOCK: *D137
+BLOCK: *D138
+BLOCK: *D139
+BLOCK: dang62
+BLOCK: dang62a
+BLOCK: *D142
+BLOCK: *D143
+BLOCK: *D144
+BLOCK: *D145
+BLOCK: *D146
+BLOCK: dang63
+BLOCK: *D148
+BLOCK: *D149
+BLOCK: *D150
+BLOCK: *D151
+BLOCK: *D152
+BLOCK: *D153
+BLOCK: *D154
+BLOCK: *D155
+BLOCK: kata_block_Danhmuc
+BLOCK: kata_block_Ten
+BLOCK: dang23a
+BLOCK: kata_block_KHTCTSH
+BLOCK: *U160
+BLOCK: dang64
+BLOCK: dang65
+BLOCK: dang65a
+BLOCK: *D164
+BLOCK: dang66
+BLOCK: dang00
+BLOCK: kata_block_COUPLER_SPEC
+BLOCK: dangCoupler
+BLOCK: TieudeCoupler
+BLOCK: *U170
+BLOCK: *D171
+BLOCK: dang24a
+BLOCK: Tieude_ENG
+BLOCK: TieudeCoupler_ENG
+BLOCK: kata_block_3D
+BLOCK: *U176
+BLOCK: dang67
+BLOCK: *D178
+BLOCK: *D179
+BLOCK: _Integral
+BLOCK: kata_block_Beam_plan
+BLOCK: Kata_Block_Column&Wall
+BLOCK: *U183
+BLOCK: *U184
+BLOCK: Kata_Block_Beam_Rebar
+BLOCK: kata_block_Wipe
+BLOCK: kata_block_Second_Beam
+BLOCK: *U188
+BLOCK: dang35a
+BLOCK: Kata_Block_Mong_Don
+BLOCK: dang40a
+BLOCK: *U192
+BLOCK: Kata_Block_ColumnCircle

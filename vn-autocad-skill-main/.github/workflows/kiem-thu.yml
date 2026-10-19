@@ -1,0 +1,39 @@
+name: kiem-thu
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Bo soat do be rong chu bang chinh phong Times New Roman. Linux khong co
+      # san phong nay nen phai cai; thieu phong thi cac test phu thuoc tu bo qua.
+      - name: Cai phong Times New Roman (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get update
+          sudo apt-get install -y ttf-mscorefonts-installer
+          fc-cache -f
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cai thu vien
+        run: pip install -e ".[test]"
+
+      - name: Lam moi bo nho phong cua ezdxf
+        run: python -c "from ezdxf.fonts import fonts; fonts.build_system_font_cache()"
+        continue-on-error: true
+
+      - name: Chay kiem thu
+        run: pytest -q -rs

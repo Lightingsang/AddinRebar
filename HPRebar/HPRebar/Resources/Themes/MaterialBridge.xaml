@@ -9,6 +9,8 @@
         Product palette: primary #0696D7 (Revit blue, the accent every host uses), secondary #E0641E (steel).
     -->
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
         <md:CustomColorTheme BaseTheme="Dark" PrimaryColor="#0696D7" SecondaryColor="#E0641E"/>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
     </ResourceDictionary.MergedDictionaries>
@@ -18,6 +20,10 @@
         the toolkit is ILRepack-merged, and Revit dialogs use Segoe UI anyway. Never use {md:MaterialDesignFont} in HP XAML.
     -->
     <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.SymbolTheme">Segoe MDL2 Assets</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Window.Title">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Header">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Control">Segoe UI</FontFamily>
 
     <!-- ===== Buttons: the legacy keys, re-based on the toolkit ===== -->
     <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -78,5 +84,44 @@
     <Style x:Key="SearchTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">
         <Setter Property="md:HintAssist.Hint" Value="Tìm kiếm..."/>
         <Setter Property="Tag" Value="Tìm kiếm..."/>
+    </Style>
+
+    <!-- ===== Combo boxes ===== -->
+    <Style x:Key="StandardComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+    </Style>
+
+    <!-- ===== Check boxes &amp; Radio buttons ===== -->
+    <Style x:Key="StandardCheckBox" TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="StandardRadioButton" TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- ===== Card Panel (Content grouping) ===== -->
+    <Style x:Key="Card.Panel" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.15" Color="#000000"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

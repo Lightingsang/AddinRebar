@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="550" d:DesignWidth="600"
              FontFamily="{DynamicResource Font.Family.Default}"
@@ -15,11 +16,12 @@
             <!-- Bottom Mat Reinforcement -->
             <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
                 <StackPanel>
-                    <TextBlock Text="Bottom Mat (Lớp Dưới)"
-                               FontWeight="SemiBold"
-                               FontSize="{DynamicResource Font.Size.BodyStrong}"
-                               Foreground="{DynamicResource Brush.Foreground.Primary}"
-                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+                    <StackPanel Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallBottom}">
+                        <md:PackIcon Kind="Grid" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Bottom Mat (Lớp Dưới)"
+                                   Style="{DynamicResource Subheading}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -76,11 +78,12 @@
             <Border Style="{DynamicResource Card}" Margin="{DynamicResource Spacing.SmallBottom}">
                 <StackPanel>
                     <DockPanel LastChildFill="False" Margin="{DynamicResource Spacing.SmallBottom}">
-                        <TextBlock Text="Top Mat (Lớp Trên)"
-                                   FontWeight="SemiBold"
-                                   FontSize="{DynamicResource Font.Size.BodyStrong}"
-                                   Foreground="{DynamicResource Brush.Foreground.Primary}"
-                                   VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <md:PackIcon Kind="GridLarge" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Top Mat (Lớp Trên)"
+                                       Style="{DynamicResource Subheading}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
                         <CheckBox DockPanel.Dock="Right"
                                   Content="Enable Top Mat"
                                   IsChecked="{Binding IsTopMatEnabled, UpdateSourceTrigger=PropertyChanged}"
@@ -141,11 +144,12 @@
             <!-- Concrete Covers & Hooks -->
             <Border Style="{DynamicResource Card}">
                 <StackPanel>
-                    <TextBlock Text="Clear Cover &amp; Anchorage Hooks"
-                               FontWeight="SemiBold"
-                               FontSize="{DynamicResource Font.Size.BodyStrong}"
-                               Foreground="{DynamicResource Brush.Foreground.Primary}"
-                               Margin="{DynamicResource Spacing.SmallBottom}"/>
+                    <StackPanel Orientation="Horizontal" Margin="{DynamicResource Spacing.SmallBottom}">
+                        <md:PackIcon Kind="ShieldCheckOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Clear Cover &amp; Anchorage Hooks"
+                                   Style="{DynamicResource Subheading}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
 
                     <Grid>
                         <Grid.ColumnDefinitions>

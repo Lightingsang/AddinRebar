@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":\"Compiled successfully\",\"valueType\":\"String\",\"warnings\":[],\"logs\":[\"DisallowJoinAtEnd exists: The input argument \\\"familyInstance\\\" of function Autodesk::Revit::Proxy::DB::Structure::StructuralFramingUtilsProxy::DisallowJoinAtEnd or one item in the collection is null at line 118 of file F:\\\\Ship_5_0\\\\2026_px64\\\\Source\\\\Structural\\\\StructuralDBAPI\\\\gensrc\\\\APIStructuralUtilitiesProxy.cpp.\\r\\nParameter name: familyInstance\",\"dryRun=true: All Revit document modifications rolled back cleanly.\"],\"diagnostics\":[],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":true,\"timedOut\":false,\"durationMs\":7,\"truncated\":false,\"runId\":10}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

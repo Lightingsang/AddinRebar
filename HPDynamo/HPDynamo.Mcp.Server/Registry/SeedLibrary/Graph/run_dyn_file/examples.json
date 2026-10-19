@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Execute rebar graph on canvas with span parameter override",
+    "args": {
+      "filePath": "C:\\DynamoGraphs\\BeamRebarDistribution.dyn",
+      "inputs": {
+        "SpanLength": 6000,
+        "BarDiameter": 20
+      },
+      "runHeadless": false,
+      "extractOutputs": true
+    }
+  },
+  {
+    "title": "Execute graph headlessly without opening UI",
+    "args": {
+      "filePath": "C:\\DynamoGraphs\\AutomatedGridSetup.dyn",
+      "inputs": {},
+      "runHeadless": true,
+      "extractOutputs": false
+    }
+  }
+]

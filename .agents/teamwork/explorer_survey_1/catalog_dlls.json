@@ -1,0 +1,2852 @@
+[
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AdWindows.dll",
+    "absolute_path": "C:\\Dce Pro\\AdWindows.dll",
+    "size_bytes": 2238400,
+    "size_mb": 2.13,
+    "sha256": "9680d19a36434395870d6ca3738fead6153f5da2d8a762ddeb2ae78b7f99eb96",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "BcDCE Pro.dll",
+    "absolute_path": "C:\\Dce Pro\\BcDCE Pro.dll",
+    "size_bytes": 47074200,
+    "size_mb": 44.89,
+    "sha256": "c54e54642656c4a618574027078d9a7cb6cbf265fc8b2755b3bfc38a6df1e303",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "BouncyCastle.Cryptography.dll",
+    "absolute_path": "C:\\Dce Pro\\BouncyCastle.Cryptography.dll",
+    "size_bytes": 4657816,
+    "size_mb": 4.44,
+    "sha256": "3d7ced058d7264036323f8cfd87d3203761b5fe45dfddf1ebce069c1e36b81b8",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "BrxMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\BrxMgd.dll",
+    "size_bytes": 5679712,
+    "size_mb": 5.42,
+    "sha256": "773b2f7558987b5a126390386db08b2ca65b46d65fc6347520aa484a25bd065d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "CpuMathNative.dll",
+    "absolute_path": "C:\\Dce Pro\\CpuMathNative.dll",
+    "size_bytes": 43312,
+    "size_mb": 0.04,
+    "sha256": "95cc6c3ce20008641e8b4f82f1720439c78b1a0f7ed09f0f68ddddc8c056efcc",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "CSiAPIv1.dll",
+    "absolute_path": "C:\\Dce Pro\\CSiAPIv1.dll",
+    "size_bytes": 1187392,
+    "size_mb": 1.13,
+    "sha256": "a4e74cbdb51ff13dfacc2fb81f1d39bf76b4e5260c5d891eeac06431909e27a6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "DCE Pro.dll",
+    "absolute_path": "C:\\Dce Pro\\DCE Pro.dll",
+    "size_bytes": 46747544,
+    "size_mb": 44.58,
+    "sha256": "8f7b56d1f916351fb91a8464628471499f59006ac3ba5e362b9df8dbc1225780",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "DceAnalyssiss32.dll",
+    "absolute_path": "C:\\Dce Pro\\DceAnalyssiss32.dll",
+    "size_bytes": 287744,
+    "size_mb": 0.27,
+    "sha256": "e4c14f521123acad09326c67c269e9bd18d382c4fd2fbb59da0b9cec0d193793",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "DceAnalyssiss64.dll",
+    "absolute_path": "C:\\Dce Pro\\DceAnalyssiss64.dll",
+    "size_bytes": 346624,
+    "size_mb": 0.33,
+    "sha256": "eee3663ab1d345b16532566a0fc1199f544730a4e9e7ac6282863c1a9c75dfbd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ETABS2016.dll",
+    "absolute_path": "C:\\Dce Pro\\ETABS2016.dll",
+    "size_bytes": 215472,
+    "size_mb": 0.21,
+    "sha256": "19efccdabab63fb518c0afbbdb2c7f4e8c586c6aec77b7c271f3aa63d8df15d4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ETABSv17.dll",
+    "absolute_path": "C:\\Dce Pro\\ETABSv17.dll",
+    "size_bytes": 229808,
+    "size_mb": 0.22,
+    "sha256": "0aa754ad95440c48b37a506887847077151b371b65ee5d628bb1a694d58abe93",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcCoreMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\GcCoreMgd.dll",
+    "size_bytes": 1408008,
+    "size_mb": 1.34,
+    "sha256": "4af54a41a17b72b3736de193dc292346f47e20862b0db607a13d533a4a6edd9b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcDbMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\GcDbMgd.dll",
+    "size_bytes": 8566792,
+    "size_mb": 8.17,
+    "sha256": "140926702770a99c5b9f4071b1cab851e60551f83b763165fbfd6373c6783fb9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcDbMgdBrep.dll",
+    "absolute_path": "C:\\Dce Pro\\GcDbMgdBrep.dll",
+    "size_bytes": 581640,
+    "size_mb": 0.55,
+    "sha256": "8fad40301b590949ca9c8d0e2677c06a2d8356584962a8e689973cd69a89e2a3",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcDCE Pro.dll",
+    "absolute_path": "C:\\Dce Pro\\GcDCE Pro.dll",
+    "size_bytes": 46866840,
+    "size_mb": 44.7,
+    "sha256": "85300f1f0d4e0cc2a9ad90cd0572ea87c04f164225f77c1d896afc3ae2cc77f5",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\GcMgd.dll",
+    "size_bytes": 1671176,
+    "size_mb": 1.59,
+    "sha256": "d00bf09779a1f3beda63a9db9171f5703c0bb56338cde8d1fd0970f787c133dd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "GcMPolygonMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\GcMPolygonMgd.dll",
+    "size_bytes": 473096,
+    "size_mb": 0.45,
+    "sha256": "e6ea555e949b3216af247c818f4bc552460584c4929244d798de774e265f44f1",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "IcCoreMgd_25.12_17.dll",
+    "absolute_path": "C:\\Dce Pro\\IcCoreMgd_25.12_17.dll",
+    "size_bytes": 687024,
+    "size_mb": 0.66,
+    "sha256": "07a48c1dca6988df799cc379603e99b1457f543843446c212166ee8fea5cd5b3",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "IcDCE Pro.dll",
+    "absolute_path": "C:\\Dce Pro\\IcDCE Pro.dll",
+    "size_bytes": 46933912,
+    "size_mb": 44.76,
+    "sha256": "c76ba3c87071d9450816ce9c94779602eea38bd474e2157aa7c6c3cae1cd81b1",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "IcMgd_25.12_17.dll",
+    "absolute_path": "C:\\Dce Pro\\IcMgd_25.12_17.dll",
+    "size_bytes": 1522608,
+    "size_mb": 1.45,
+    "sha256": "80591ea92fe329f0b9be50b666a83631523ed1ba5e9422a7c7c7dd325a29f3fa",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "libgcc_s_seh-1.dll",
+    "absolute_path": "C:\\Dce Pro\\libgcc_s_seh-1.dll",
+    "size_bytes": 1266641,
+    "size_mb": 1.21,
+    "sha256": "e16de83d48247cde2581ec36279102dda00b7d7b36558cad72164e3c4caae0a4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "libstdc++-6.dll",
+    "absolute_path": "C:\\Dce Pro\\libstdc++-6.dll",
+    "size_bytes": 19442799,
+    "size_mb": 18.54,
+    "sha256": "1766f6e252410086c26400ab085e017e7ad5e8993f3d19dda87a13a1e978f0a2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "libvosk.dll",
+    "absolute_path": "C:\\Dce Pro\\libvosk.dll",
+    "size_bytes": 25989632,
+    "size_mb": 24.79,
+    "sha256": "9ee0301e8c29ba7e2219e99664bcb687fe2575d0379b76b3d0be39ccc0112038",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "libwinpthread-1.dll",
+    "absolute_path": "C:\\Dce Pro\\libwinpthread-1.dll",
+    "size_bytes": 592104,
+    "size_mb": 0.56,
+    "sha256": "5b60907df42009f1ba437e7f2a6278651be97f4993869105d8a31086138e4570",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Bcl.AsyncInterfaces.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Bcl.AsyncInterfaces.dll",
+    "size_bytes": 26424,
+    "size_mb": 0.03,
+    "sha256": "707ddc8b6a4119bf614d669ec379f2443c2b180d655ac4b86e7496a30fc604e8",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Bcl.HashCode.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Bcl.HashCode.dll",
+    "size_bytes": 26920,
+    "size_mb": 0.03,
+    "sha256": "52cc2a8d5041a28e3a535f91ce60bf8891a5148058305f1fb108ad612dbbe00e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Bcl.Numerics.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Bcl.Numerics.dll",
+    "size_bytes": 21296,
+    "size_mb": 0.02,
+    "sha256": "b9aa29c4145c18c5e5367c43360837409f635ae341d91dd1a12bba55626e3785",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+    "size_bytes": 63784,
+    "size_mb": 0.06,
+    "sha256": "19edd4f5e69a4589dc314909b5854a22f89c4b9ab040591771397b2cb1a17ba6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.DependencyInjection.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.DependencyInjection.dll",
+    "size_bytes": 84608,
+    "size_mb": 0.08,
+    "sha256": "d6de20035b25367a82da6180c45511d9077374c5f96f6cc5fedd2107d61efb9c",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.Logging.Abstractions.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.Logging.Abstractions.dll",
+    "size_bytes": 67856,
+    "size_mb": 0.06,
+    "sha256": "b4e0e778afdc76403792390b056f68de0ced742d16c5b0347d9cca6930f4761b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.Logging.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.Logging.dll",
+    "size_bytes": 44656,
+    "size_mb": 0.04,
+    "sha256": "4d1ca57435ba7d3193a1657cbda1c66ad39cf4f449a069332544f73ee2e779e4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.Options.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.Options.dll",
+    "size_bytes": 58480,
+    "size_mb": 0.06,
+    "sha256": "ac83168b7316e7b9f8e0806d3cce8030d2f41ad08caa085bfd4e877f5ae65827",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.Extensions.Primitives.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.Extensions.Primitives.dll",
+    "size_bytes": 43120,
+    "size_mb": 0.04,
+    "sha256": "60df37bef5b47e822c02cf8547de3b2a836973e517efbaf090f14086d5155c9b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.Core.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.Core.dll",
+    "size_bytes": 422664,
+    "size_mb": 0.4,
+    "sha256": "b07c3c921f5d98a179c3a18a459e5036a25f6c2e7b40031be8e2cee95d920168",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.CpuMath.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.CpuMath.dll",
+    "size_bytes": 63240,
+    "size_mb": 0.06,
+    "sha256": "fd6c6618d3d3ac17965a8e9595813d4cd6194fd059e0eab6255b11eb96267984",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.Data.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.Data.dll",
+    "size_bytes": 1568520,
+    "size_mb": 1.5,
+    "sha256": "a0ca9598928255174d2db1f4c497fe74f2cf2797260bfb91e5fcef496a815a6d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.DataView.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.DataView.dll",
+    "size_bytes": 48400,
+    "size_mb": 0.05,
+    "sha256": "1b380c7d5435c25f091a4c7e82dcd990d252cad71c12a822f754dc7785c953a8",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.KMeansClustering.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.KMeansClustering.dll",
+    "size_bytes": 56632,
+    "size_mb": 0.05,
+    "sha256": "10d4ae65017486be1873b863b295928879723f22a5a923e1ee800bbb9e28b324",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.PCA.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.PCA.dll",
+    "size_bytes": 53520,
+    "size_mb": 0.05,
+    "sha256": "7486636b34142bcec68ad79780c9f5b9a67bf2cf47ba46b9f5eec21567d45050",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.StandardTrainers.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.StandardTrainers.dll",
+    "size_bytes": 327432,
+    "size_mb": 0.31,
+    "sha256": "0bca7acf3574430d8a168ebfdafd8d0eba206b9ab5e6368baee296ecee5537e0",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Microsoft.ML.Transforms.dll",
+    "absolute_path": "C:\\Dce Pro\\Microsoft.ML.Transforms.dll",
+    "size_bytes": 773392,
+    "size_mb": 0.74,
+    "sha256": "0e9ebde9e9da52e7eaf6a56a24153e043d971369c3f0703ca58a88b997698b53",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "NAudio.Core.dll",
+    "absolute_path": "C:\\Dce Pro\\NAudio.Core.dll",
+    "size_bytes": 187904,
+    "size_mb": 0.18,
+    "sha256": "fcf493fc47a2f478a65303886b975fbdbf714cbb1f2d79f7fce97e4bb16b01a8",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "NAudio.WinMM.dll",
+    "absolute_path": "C:\\Dce Pro\\NAudio.WinMM.dll",
+    "size_bytes": 57344,
+    "size_mb": 0.05,
+    "sha256": "749a01ebbb5edd8b1a03c5263b04de6acadecf52e4cc84d7412bc6e93f180958",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Newtonsoft.Json.dll",
+    "absolute_path": "C:\\Dce Pro\\Newtonsoft.Json.dll",
+    "size_bytes": 721320,
+    "size_mb": 0.69,
+    "sha256": "f0c07af0e84d4dd4da4bd7823ba4535bc0481b3bf623ed40b659b68147a6bb75",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.BarCodes.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.BarCodes.dll",
+    "size_bytes": 32256,
+    "size_mb": 0.03,
+    "sha256": "8cdcecbc297ca33ccba22fe25cb89750af4dbd7289ce01eaae2c98e837008689",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.Charting.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.Charting.dll",
+    "size_bytes": 88576,
+    "size_mb": 0.08,
+    "sha256": "dee811622af396450c591f959595cd6fd1415f9d20bb4d12a6ca24082a5c9225",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.Cryptography.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.Cryptography.dll",
+    "size_bytes": 13312,
+    "size_mb": 0.01,
+    "sha256": "1a69f4067bb551a38b8b03821c8d79625dc72aedb9106ecd368f18b87486143a",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.dll",
+    "size_bytes": 799232,
+    "size_mb": 0.76,
+    "sha256": "b3a6ae252ebc9f16a04944fa66c82782604e9a773b973d9ff8a43f8cab26e719",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.Quality.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.Quality.dll",
+    "size_bytes": 40960,
+    "size_mb": 0.04,
+    "sha256": "cd9c33ec71a6e702eec06fae7feb8e872a3b803408d739566af83abbdc61009a",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.Shared.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.Shared.dll",
+    "size_bytes": 26112,
+    "size_mb": 0.02,
+    "sha256": "ad30af67d13f532372a350cd83b1c64d04fd8aad64c4695caaf2e4322609f235",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.Snippets.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.Snippets.dll",
+    "size_bytes": 154624,
+    "size_mb": 0.15,
+    "sha256": "bf8359d7ad1292d06aadb8ad0f996a33fd163fa7bf35b9628e50d727d37e10bd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.System.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.System.dll",
+    "size_bytes": 10240,
+    "size_mb": 0.01,
+    "sha256": "361b75ae4da87cd63f4b451bbc2239770d9175d9cfaa466c41a6fb495991f221",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharp.WPFonts.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharp.WPFonts.dll",
+    "size_bytes": 421888,
+    "size_mb": 0.4,
+    "sha256": "5db891b3ae62ae87deda3e037b504336316003e4e5c4dc9574311da64824d712",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "PdfSharpCore.dll",
+    "absolute_path": "C:\\Dce Pro\\PdfSharpCore.dll",
+    "size_bytes": 529920,
+    "size_mb": 0.51,
+    "sha256": "2d0b77461bcdafc6093361f43da16516b58c19c9b038d86be664294278e998fd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "QRCoder.dll",
+    "absolute_path": "C:\\Dce Pro\\QRCoder.dll",
+    "size_bytes": 154112,
+    "size_mb": 0.15,
+    "sha256": "5ae2792c76262943a4e34140bbd64b2aa7d9ed5c5822680c00d9eaa322412680",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "RestSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\RestSharp.dll",
+    "size_bytes": 185856,
+    "size_mb": 0.18,
+    "sha256": "b6578ee18f67b633f7ec4526395fe1061fadfed10310b424bb9f2fb0a0cdcdeb",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "SixLabors.Fonts.dll",
+    "absolute_path": "C:\\Dce Pro\\SixLabors.Fonts.dll",
+    "size_bytes": 1142272,
+    "size_mb": 1.09,
+    "sha256": "3d811d1c37a1f0e17f365f00603029eb53e240526537e2cd99fe4227aabf36aa",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "SixLabors.ImageSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\SixLabors.ImageSharp.dll",
+    "size_bytes": 1211392,
+    "size_mb": 1.16,
+    "sha256": "eafe70f90806fdb69297b9271a526c618c60383e9272f932eb18b086f1e07a1e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Buffers.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Buffers.dll",
+    "size_bytes": 23816,
+    "size_mb": 0.02,
+    "sha256": "2d78d770c9cb997199154ae8c018b9f1d1efbc86729f7264dde6dbad2a12cac3",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.CodeDom.dll",
+    "absolute_path": "C:\\Dce Pro\\System.CodeDom.dll",
+    "size_bytes": 30488,
+    "size_mb": 0.03,
+    "sha256": "a3fb4f972deff1db79dba1c36fac443933401aba05cdce43b163534151854c9d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Collections.Immutable.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Collections.Immutable.dll",
+    "size_bytes": 259336,
+    "size_mb": 0.25,
+    "sha256": "8369f2b30cea5dba95c432d8433eefa782e70a90f38712609f45e678ef7db3f2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Data.SQLite.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Data.SQLite.dll",
+    "size_bytes": 345600,
+    "size_mb": 0.33,
+    "sha256": "dafa4a7e1186e5fe8223317f654795b9142d72917006edad03ee3d1de5162bc6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Diagnostics.DiagnosticSource.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Diagnostics.DiagnosticSource.dll",
+    "size_bytes": 166512,
+    "size_mb": 0.16,
+    "sha256": "81e664880042e451495a1be22624ab4ab5e8a06803eeda5bdda7c69df2439815",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Memory.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Memory.dll",
+    "size_bytes": 145200,
+    "size_mb": 0.14,
+    "sha256": "d5e8e4866f9cfa66f7765660f84b210198893e55335487afe5ebda342c0e913d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Numerics.Tensors.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Numerics.Tensors.dll",
+    "size_bytes": 94520,
+    "size_mb": 0.09,
+    "sha256": "5910b638c7ef2cabe2570782b3b6db94e02d41f43fd8deae4cf7c35277ca0ef6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Numerics.Vectors.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Numerics.Vectors.dll",
+    "size_bytes": 110344,
+    "size_mb": 0.11,
+    "sha256": "20c2fa81b8c70d651099d762954f285fd4f942e63b2d7217c145dab8d4b2f4c9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Runtime.CompilerServices.Unsafe.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Runtime.CompilerServices.Unsafe.dll",
+    "size_bytes": 19256,
+    "size_mb": 0.02,
+    "sha256": "08cbd7278b66f1e68425a82d4b97181a4130d93e3dd91831407aba7212ccdacf",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Security.Cryptography.Pkcs.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Security.Cryptography.Pkcs.dll",
+    "size_bytes": 22176,
+    "size_mb": 0.02,
+    "sha256": "89436836e39a6bb4275613ce45226ffa10e590151296343560221441d7a79670",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Threading.Channels.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Threading.Channels.dll",
+    "size_bytes": 78600,
+    "size_mb": 0.07,
+    "sha256": "28b2710729bec1881664afd56189dbf3a06311521ad92d204b752bd4f81deacc",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.Threading.Tasks.Extensions.dll",
+    "absolute_path": "C:\\Dce Pro\\System.Threading.Tasks.Extensions.dll",
+    "size_bytes": 25984,
+    "size_mb": 0.02,
+    "sha256": "4f81ffd0dc7204db75afc35ea4291769b07c440592f28894260eea76626a23c6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "System.ValueTuple.dll",
+    "absolute_path": "C:\\Dce Pro\\System.ValueTuple.dll",
+    "size_bytes": 25232,
+    "size_mb": 0.02,
+    "sha256": "e905d102585b22c6df04f219af5cbdbfa7bc165979e9788b62df6dcc165e10f4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_Mgd.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_Mgd.dll",
+    "size_bytes": 6104152,
+    "size_mb": 5.82,
+    "sha256": "38fd61dde955d1360b3c76463832a16e63e15a51d7a73309d7c0edec8fee6a42",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_MgdBrep.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_MgdBrep.dll",
+    "size_bytes": 169056,
+    "size_mb": 0.16,
+    "sha256": "de7750a208a2df8da6c87f1091a410a7f0b34606a29699bb320947eab21291c2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_MgdBrep_25.12_17.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_MgdBrep_25.12_17.dll",
+    "size_bytes": 308144,
+    "size_mb": 0.29,
+    "sha256": "38edd18b689faef528c36b691a9b197172e55b1592f8f18a589fb062095f8c83",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_MgdDbConstraints.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_MgdDbConstraints.dll",
+    "size_bytes": 355424,
+    "size_mb": 0.34,
+    "sha256": "454fdefec2415267ada35e8ba4fbcfb7c95edc28c30ae87a77b3290fd33979ef",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_MgdDbConstraints_25.12_17.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_MgdDbConstraints_25.12_17.dll",
+    "size_bytes": 708528,
+    "size_mb": 0.68,
+    "sha256": "1cea4712867881249aba93b643af88a5a7196c63744b00e7b8c51a516907212b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "TD_Mgd_25.12_17.dll",
+    "absolute_path": "C:\\Dce Pro\\TD_Mgd_25.12_17.dll",
+    "size_bytes": 8776112,
+    "size_mb": 8.37,
+    "sha256": "6b92d2728ae3580eb23cf728ecab5793d06569a8dd968d79286009cba73c742a",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.Core.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.Core.dll",
+    "size_bytes": 50176,
+    "size_mb": 0.05,
+    "sha256": "99d14182e4adaa579de84e158651edb0e3ce8611450947aa642f66ffafe63b8f",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.dll",
+    "size_bytes": 4237312,
+    "size_mb": 4.04,
+    "sha256": "028ba443a649e20b8ed68eb9b6eba59ed82dd3b529529093b9004cd551662991",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.DocumentLayoutAnalysis.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.DocumentLayoutAnalysis.dll",
+    "size_bytes": 246272,
+    "size_mb": 0.23,
+    "sha256": "525fa7f6d1aadee1161f18d3113a1a899e3c8f049c6679d9d2cda9d4845e962b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.Fonts.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.Fonts.dll",
+    "size_bytes": 1090048,
+    "size_mb": 1.04,
+    "sha256": "96c08ac8955de81a8c7c62c35b253c3d2330b2f2e423439d077abcad579802f4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.Package.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.Package.dll",
+    "size_bytes": 4608,
+    "size_mb": 0.0,
+    "sha256": "2c466586f9ee876ab443e8b479dbbd16425eebe1e90b9c4e86d472a078dbe1e2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.Tokenization.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.Tokenization.dll",
+    "size_bytes": 23040,
+    "size_mb": 0.02,
+    "sha256": "e0cc9c27fed1fe7e34ba4035b21acec209d0183ea66c4ea40f46a486758af062",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "UglyToad.PdfPig.Tokens.dll",
+    "absolute_path": "C:\\Dce Pro\\UglyToad.PdfPig.Tokens.dll",
+    "size_bytes": 48128,
+    "size_mb": 0.05,
+    "sha256": "3c655a795b06139c2cfdd48eb88079b30b5cfb277b198bfbfe3733d3c25fdc79",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "Vosk.dll",
+    "absolute_path": "C:\\Dce Pro\\Vosk.dll",
+    "size_bytes": 7680,
+    "size_mb": 0.01,
+    "sha256": "de3edd25d742954a073a46abb07b3924ba9f21e0decb4ec96efa131875c77169",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZcCui.dll",
+    "absolute_path": "C:\\Dce Pro\\ZcCui.dll",
+    "size_bytes": 663592,
+    "size_mb": 0.63,
+    "sha256": "2380e16f07446640ae416a66050ba0f032a68aa4f04f622536abbd2dc64922d9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZcWindows.dll",
+    "absolute_path": "C:\\Dce Pro\\ZcWindows.dll",
+    "size_bytes": 1627176,
+    "size_mb": 1.55,
+    "sha256": "141cec45ac3d0ff855de4b4dc6c8eb2da340446b05a2457abccc944e1ba637f9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZdWindows.dll",
+    "absolute_path": "C:\\Dce Pro\\ZdWindows.dll",
+    "size_bytes": 1431080,
+    "size_mb": 1.36,
+    "sha256": "cf0aefe7219605eee3f54bad1688825b344db7825036c54b051adf3d6fdf3218",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwDatabaseMgd.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwDatabaseMgd.dll",
+    "size_bytes": 6552616,
+    "size_mb": 6.25,
+    "sha256": "9258ff0cdfdaee773c538c17e9950a7e90505a4a1830049b3d6eeb92a554edc0",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwDatabaseMgdBrep.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwDatabaseMgdBrep.dll",
+    "size_bytes": 194088,
+    "size_mb": 0.19,
+    "sha256": "b3805f2c9607badf22981657e0e30d811771b7e241bd2b0283b9d340d3460bd6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwDCE Pro.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwDCE Pro.dll",
+    "size_bytes": 46772120,
+    "size_mb": 44.61,
+    "sha256": "c42ad424a2b3ceb087360e02d94d071efcf9fa64d7bcf7e0c6eccaccbc87df8e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwManaged.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwManaged.dll",
+    "size_bytes": 2944040,
+    "size_mb": 2.81,
+    "sha256": "30baab833366e6c1fd8c29a972f46b99e01c36547fc008d98efb3ad85bcd6962",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwSoft.ZwCAD.Interop.Common.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwSoft.ZwCAD.Interop.Common.dll",
+    "size_bytes": 1154088,
+    "size_mb": 1.1,
+    "sha256": "0ded6ba664d142a1da4e9538aacb6a03b54c6b50ca47a0fd3d9874754731636b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "ZwSoft.ZwCAD.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\ZwSoft.ZwCAD.Interop.dll",
+    "size_bytes": 1291816,
+    "size_mb": 1.23,
+    "sha256": "3b96524f924fd394ba40c8eec76c53a4de187420b53ff24b718b680bd7dd566f",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\CSiAPIv1.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\CSiAPIv1.dll",
+    "size_bytes": 1207840,
+    "size_mb": 1.15,
+    "sha256": "f9acce9c2dcc2927d2d87bd4af394ef3fbe684b0aa7fc95c7ebf622be4c0aea4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\DceAnalyssiss32.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\DceAnalyssiss32.dll",
+    "size_bytes": 37888,
+    "size_mb": 0.04,
+    "sha256": "f2e8a0970dc113af970b4f0caebf7ab3486ce23c84674220461e4ee6411cf367",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\DceAnalyssiss64.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\DceAnalyssiss64.dll",
+    "size_bytes": 42496,
+    "size_mb": 0.04,
+    "sha256": "6b2268c75ffbd7cf7b5c7118db92c9293966e682990955f0ddb556a445a4cf8a",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\DceSteel.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\DceSteel.dll",
+    "size_bytes": 21345280,
+    "size_mb": 20.36,
+    "sha256": "d99486e9ae08c0776dc4970fe8a5584ef94d2675baba1c6d234e9e4a2a42e213",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\EntityFramework.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\EntityFramework.dll",
+    "size_bytes": 4991352,
+    "size_mb": 4.76,
+    "sha256": "ff42bca704605e187abb45523868b15128d6af1c28ad40a4579d507d34a953b2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\EntityFramework.SqlServer.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\EntityFramework.SqlServer.dll",
+    "size_bytes": 591752,
+    "size_mb": 0.56,
+    "sha256": "a960dd4d2f0f37b3c09ffb9567c32426b8791310d7eb935c04c819c3d46bd49e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\ETABS2016.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\ETABS2016.dll",
+    "size_bytes": 215472,
+    "size_mb": 0.21,
+    "sha256": "19efccdabab63fb518c0afbbdb2c7f4e8c586c6aec77b7c271f3aa63d8df15d4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\ExcelApi.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\ExcelApi.dll",
+    "size_bytes": 4257280,
+    "size_mb": 4.06,
+    "sha256": "92143724a8e45719ca0011642710606fba1ed352ac44e72c78acb40eabf3c5ed",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\Microsoft.Win32.Registry.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\Microsoft.Win32.Registry.dll",
+    "size_bytes": 26496,
+    "size_mb": 0.03,
+    "sha256": "e9a9d281c1a708aaae366f82fd6a1742f65da2918cc4fa5eaaaada0be24277d9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\NetOffice.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\NetOffice.dll",
+    "size_bytes": 91136,
+    "size_mb": 0.09,
+    "sha256": "4ba2d6d2d7d7fa450b1e49a7e32c22531c2da3fb24752afad81858f4c260fbb6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\Newtonsoft.Json.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\Newtonsoft.Json.dll",
+    "size_bytes": 526336,
+    "size_mb": 0.5,
+    "sha256": "575e30f98e4ea42c9e516edc8bbb29ad8b50b173a3e6b36b5ba39e133cce9406",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\OfficeApi.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\OfficeApi.dll",
+    "size_bytes": 910848,
+    "size_mb": 0.87,
+    "sha256": "38efb5da262502bf7b4a39729a7647d01c6c1b1d7ef38bbd0fd1e976198650ba",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\RestSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\RestSharp.dll",
+    "size_bytes": 194560,
+    "size_mb": 0.19,
+    "sha256": "757073edc4eb2ffe8f4e6aed30065e5e8e6803e652cbef2e851f356fdad53248",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\stdole.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\stdole.dll",
+    "size_bytes": 16384,
+    "size_mb": 0.02,
+    "sha256": "d6cdf961c6d2712fe1958815e51a30960d79fff1e97788b7741627dba972e8f7",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v1.0.3705"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\System.Data.SQLite.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\System.Data.SQLite.dll",
+    "size_bytes": 364544,
+    "size_mb": 0.35,
+    "sha256": "19ad18ad0a128f690667c7239dbaf89629abe43a6bb365bac295b72a8cc26318",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\VBIDEApi.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\VBIDEApi.dll",
+    "size_bytes": 92160,
+    "size_mb": 0.09,
+    "sha256": "77c44c8d63ec099e7423acada63e31cb922fa41ce56edabec6adf21b07c244d6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\accoremgd.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\accoremgd.dll",
+    "size_bytes": 954136,
+    "size_mb": 0.91,
+    "sha256": "7dbf142925fc7b9fa5bd84b7f6254bd52b9d8691e16a06744b6b13aed5f495f0",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\acdbmgd.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\acdbmgd.dll",
+    "size_bytes": 6444824,
+    "size_mb": 6.15,
+    "sha256": "9058435cf36623e6840823b724a24dc606f1246072bf21900058d3fa1532ef43",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\acmgd.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\acmgd.dll",
+    "size_bytes": 3493664,
+    "size_mb": 3.33,
+    "sha256": "ef7174bf6fef37b7d1b4afd9e296168964a7a52454512712e9530bf8f8b34e3e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\AdWindows.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\AdWindows.dll",
+    "size_bytes": 2353504,
+    "size_mb": 2.24,
+    "sha256": "a1f43efa768194c8bf0e67d5b2fe41fc31f60fe67a9c579de8cc88ae52fee67d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\BouncyCastle.Cryptography.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\BouncyCastle.Cryptography.dll",
+    "size_bytes": 6867736,
+    "size_mb": 6.55,
+    "sha256": "c26320939255a03e67d30ecb06e4894f9ba3c5fd10b339b5b71520f276f07bac",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\CSiAPIv1.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\CSiAPIv1.dll",
+    "size_bytes": 1207840,
+    "size_mb": 1.15,
+    "sha256": "f9acce9c2dcc2927d2d87bd4af394ef3fbe684b0aa7fc95c7ebf622be4c0aea4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelAutocad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelAutocad.dll",
+    "size_bytes": 4401664,
+    "size_mb": 4.2,
+    "sha256": "0ae34512af8106db0e8ccca42e1fbe4d1db94db5fccf3b1660d431457c7a0b79",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelEnjicad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelEnjicad.dll",
+    "size_bytes": 4186624,
+    "size_mb": 3.99,
+    "sha256": "074a3f8442115d177d479c4ccc37d67da3fd537476a64096313b5510e55f495d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelZwcad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelZwcad.dll",
+    "size_bytes": 4203008,
+    "size_mb": 4.01,
+    "sha256": "23b293564ec387e48a206af69823405ba9639d6cc3f8602a93ecddda0e3f8cfc",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DceAnalyssiss32.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DceAnalyssiss32.dll",
+    "size_bytes": 37888,
+    "size_mb": 0.04,
+    "sha256": "f2e8a0970dc113af970b4f0caebf7ab3486ce23c84674220461e4ee6411cf367",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DceAnalyssiss64.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DceAnalyssiss64.dll",
+    "size_bytes": 42496,
+    "size_mb": 0.04,
+    "sha256": "6b2268c75ffbd7cf7b5c7118db92c9293966e682990955f0ddb556a445a4cf8a",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\EntityFramework.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\EntityFramework.dll",
+    "size_bytes": 4991352,
+    "size_mb": 4.76,
+    "sha256": "ff42bca704605e187abb45523868b15128d6af1c28ad40a4579d507d34a953b2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\EntityFramework.SqlServer.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\EntityFramework.SqlServer.dll",
+    "size_bytes": 591752,
+    "size_mb": 0.56,
+    "sha256": "a960dd4d2f0f37b3c09ffb9567c32426b8791310d7eb935c04c819c3d46bd49e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\ETABS2016.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\ETABS2016.dll",
+    "size_bytes": 215472,
+    "size_mb": 0.21,
+    "sha256": "19efccdabab63fb518c0afbbdb2c7f4e8c586c6aec77b7c271f3aa63d8df15d4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\Microsoft.Bcl.AsyncInterfaces.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\Microsoft.Bcl.AsyncInterfaces.dll",
+    "size_bytes": 27952,
+    "size_mb": 0.03,
+    "sha256": "8458663f7aab15bc352ddc8f8b74ff8eb654c1096940c45fe53cc55772a484e5",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\Microsoft.Win32.Registry.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\Microsoft.Win32.Registry.dll",
+    "size_bytes": 26496,
+    "size_mb": 0.03,
+    "sha256": "e9a9d281c1a708aaae366f82fd6a1742f65da2918cc4fa5eaaaada0be24277d9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\Newtonsoft.Json.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\Newtonsoft.Json.dll",
+    "size_bytes": 717736,
+    "size_mb": 0.68,
+    "sha256": "12246aa5e14245cbd1a0b8794851defd46e6d782c60eb650ba5aa90ef8447eee",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\RestSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\RestSharp.dll",
+    "size_bytes": 194560,
+    "size_mb": 0.19,
+    "sha256": "757073edc4eb2ffe8f4e6aed30065e5e8e6803e652cbef2e851f356fdad53248",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Buffers.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Buffers.dll",
+    "size_bytes": 23816,
+    "size_mb": 0.02,
+    "sha256": "2d78d770c9cb997199154ae8c018b9f1d1efbc86729f7264dde6dbad2a12cac3",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Data.SQLite.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Data.SQLite.dll",
+    "size_bytes": 444600,
+    "size_mb": 0.42,
+    "sha256": "ba07f6daba18c815a7506e13031e19f2a6025858dca0d16ff71f98cf65a95208",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.IO.Pipelines.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.IO.Pipelines.dll",
+    "size_bytes": 85768,
+    "size_mb": 0.08,
+    "sha256": "e8d669bf49946b8676b41cfe83098cdfcc705acb65943ab4ed0251b6f3cef8ed",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Management.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Management.dll",
+    "size_bytes": 72968,
+    "size_mb": 0.07,
+    "sha256": "c5f69a258fc609d42e6d50903e9b4449027f4d332faa8daec04bdc3cb9286d4b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Memory.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Memory.dll",
+    "size_bytes": 145200,
+    "size_mb": 0.14,
+    "sha256": "d5e8e4866f9cfa66f7765660f84b210198893e55335487afe5ebda342c0e913d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Numerics.Vectors.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Numerics.Vectors.dll",
+    "size_bytes": 110344,
+    "size_mb": 0.11,
+    "sha256": "20c2fa81b8c70d651099d762954f285fd4f942e63b2d7217c145dab8d4b2f4c9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Runtime.CompilerServices.Unsafe.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Runtime.CompilerServices.Unsafe.dll",
+    "size_bytes": 19256,
+    "size_mb": 0.02,
+    "sha256": "08cbd7278b66f1e68425a82d4b97181a4130d93e3dd91831407aba7212ccdacf",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Text.Encodings.Web.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Text.Encodings.Web.dll",
+    "size_bytes": 87824,
+    "size_mb": 0.08,
+    "sha256": "57a550322613a35684a21db3f3aacc88cc6be24ecff3832c82d8746213b1fff9",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Text.Json.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Text.Json.dll",
+    "size_bytes": 777480,
+    "size_mb": 0.74,
+    "sha256": "59355c679bcdf3425951ab5998b05396a93179f51a636acb1650cc37512553b6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\System.Threading.Tasks.Extensions.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\System.Threading.Tasks.Extensions.dll",
+    "size_bytes": 27960,
+    "size_mb": 0.03,
+    "sha256": "af4e13ef418fd89b432de20cd1dfb7fa10a7179c8dd049c9856316e50c5949ca",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "de\\PdfSharpCore.resources.dll",
+    "absolute_path": "C:\\Dce Pro\\de\\PdfSharpCore.resources.dll",
+    "size_bytes": 6144,
+    "size_mb": 0.01,
+    "sha256": "eb5661821c5b7b22b911d49f4d64ed0630a0fa09a78306d4ad99d6bd7f1c743c",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\BouncyCastle.Cryptography.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\BouncyCastle.Cryptography.dll",
+    "size_bytes": 4657816,
+    "size_mb": 4.44,
+    "sha256": "3d7ced058d7264036323f8cfd87d3203761b5fe45dfddf1ebce069c1e36b81b8",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\CSiAPIv1.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\CSiAPIv1.dll",
+    "size_bytes": 1187392,
+    "size_mb": 1.13,
+    "sha256": "a4e74cbdb51ff13dfacc2fb81f1d39bf76b4e5260c5d891eeac06431909e27a6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\DCE Excel.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\DCE Excel.dll",
+    "size_bytes": 11384216,
+    "size_mb": 10.86,
+    "sha256": "6f2e820a8cd10c39fa4843ccf863699bd61b432713a531c0d2272320070374be",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\DceAnalyssiss32.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\DceAnalyssiss32.dll",
+    "size_bytes": 287744,
+    "size_mb": 0.27,
+    "sha256": "e4c14f521123acad09326c67c269e9bd18d382c4fd2fbb59da0b9cec0d193793",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\DceAnalyssiss64.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\DceAnalyssiss64.dll",
+    "size_bytes": 346624,
+    "size_mb": 0.33,
+    "sha256": "eee3663ab1d345b16532566a0fc1199f544730a4e9e7ac6282863c1a9c75dfbd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\ETABS2016.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\ETABS2016.dll",
+    "size_bytes": 241584,
+    "size_mb": 0.23,
+    "sha256": "b302c8be8416f0c186f5e5caf0588317f6318e3d35a9bb96650f6fb81543e101",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\ETABSv17.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\ETABSv17.dll",
+    "size_bytes": 229808,
+    "size_mb": 0.22,
+    "sha256": "0aa754ad95440c48b37a506887847077151b371b65ee5d628bb1a694d58abe93",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\ExcelDna.Integration.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\ExcelDna.Integration.dll",
+    "size_bytes": 215552,
+    "size_mb": 0.21,
+    "sha256": "f17809e250bbe0fbdfd35fedc30a3038a23a52d02820e86a8adcb63356bacd52",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v2.0.50727"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\Newtonsoft.Json.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\Newtonsoft.Json.dll",
+    "size_bytes": 526336,
+    "size_mb": 0.5,
+    "sha256": "575e30f98e4ea42c9e516edc8bbb29ad8b50b173a3e6b36b5ba39e133cce9406",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\QRCoder.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\QRCoder.dll",
+    "size_bytes": 154112,
+    "size_mb": 0.15,
+    "sha256": "5ae2792c76262943a4e34140bbd64b2aa7d9ed5c5822680c00d9eaa322412680",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\RestSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\RestSharp.dll",
+    "size_bytes": 185856,
+    "size_mb": 0.18,
+    "sha256": "b6578ee18f67b633f7ec4526395fe1061fadfed10310b424bb9f2fb0a0cdcdeb",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\System.Data.SQLite.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\System.Data.SQLite.dll",
+    "size_bytes": 364544,
+    "size_mb": 0.35,
+    "sha256": "19ad18ad0a128f690667c7239dbaf89629abe43a6bb365bac295b72a8cc26318",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\System.Threading.Tasks.Extensions.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\System.Threading.Tasks.Extensions.dll",
+    "size_bytes": 25984,
+    "size_mb": 0.02,
+    "sha256": "4f81ffd0dc7204db75afc35ea4291769b07c440592f28894260eea76626a23c6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "x64\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\x64\\SQLite.Interop.dll",
+    "size_bytes": 1537024,
+    "size_mb": 1.47,
+    "sha256": "6469a24ce59de8170c35ee5e1dd33f8ccfd651bc51896b5bc322f9ab02610608",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "x86\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\x86\\SQLite.Interop.dll",
+    "size_bytes": 1246208,
+    "size_mb": 1.19,
+    "sha256": "a7f95a7eed84db9cf419c03a7c05231fdedf3a042fd10259e6938eedbda3a1ac",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\x64\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\x64\\SQLite.Interop.dll",
+    "size_bytes": 1662976,
+    "size_mb": 1.59,
+    "sha256": "96c952efa25720eec63437df20e20b8959dde5230c6f1d5c30be68cf72665532",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "V.2020\\x86\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\V.2020\\x86\\SQLite.Interop.dll",
+    "size_bytes": 1266176,
+    "size_mb": 1.21,
+    "sha256": "ba0bf347cd8966e53efa282df84a9f966bbc2ff99642ee0be5b2a86644bb7f5e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AiAgent\\BienDich\\Microsoft.CodeAnalysis.CSharp.dll",
+    "absolute_path": "C:\\Dce Pro\\AiAgent\\BienDich\\Microsoft.CodeAnalysis.CSharp.dll",
+    "size_bytes": 6501536,
+    "size_mb": 6.2,
+    "sha256": "2a3b34ce70db9896a3e34b8a5620c3c437b2b246e90645ded5ca09f4fb597d60",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AiAgent\\BienDich\\Microsoft.CodeAnalysis.dll",
+    "absolute_path": "C:\\Dce Pro\\AiAgent\\BienDich\\Microsoft.CodeAnalysis.dll",
+    "size_bytes": 2895520,
+    "size_mb": 2.76,
+    "sha256": "57994f7fa7abcc571a31c4e98b02c3eb573dae8f581f0c264cdec97f38cf1560",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelAutocad_Secure\\DbimSteelAutocad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelAutocad_Secure\\DbimSteelAutocad.dll",
+    "size_bytes": 4108800,
+    "size_mb": 3.92,
+    "sha256": "f25a4e090a95a38964bc64ca9b879f4a2c126a02952438d97e5be4aca5d65172",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelEnjicad_Secure\\DbimSteelEnjicad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelEnjicad_Secure\\DbimSteelEnjicad.dll",
+    "size_bytes": 3990016,
+    "size_mb": 3.81,
+    "sha256": "98bf9d3158b8a633bddcfed4f5fd34e215df484bd81e4b3d6b60c47f45085f42",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\DbimSteelZwcad_Secure\\DbimSteelZwcad.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelZwcad_Secure\\DbimSteelZwcad.dll",
+    "size_bytes": 4004352,
+    "size_mb": 3.82,
+    "sha256": "67abfc1ac59f742c23d1a3167d04c2d7c9e82a77b63442c30f48ce12437dfcf2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\x64\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\x64\\SQLite.Interop.dll",
+    "size_bytes": 2005688,
+    "size_mb": 1.91,
+    "sha256": "1111916dc329a13bd627b2cd90c9b2263de9923fd0bb6059c69c52332f360c37",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\x86\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\x86\\SQLite.Interop.dll",
+    "size_bytes": 1592504,
+    "size_mb": 1.52,
+    "sha256": "553693b15bda4bbf7788bee09b8bd325ffe4db151686f432194c58e15b9b4f1e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteelCad\\runtimes\\win\\lib\\net8.0\\System.Management.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteelCad\\runtimes\\win\\lib\\net8.0\\System.Management.dll",
+    "size_bytes": 311984,
+    "size_mb": 0.3,
+    "sha256": "b2d6e7e991dc9ef154b29f4966f04fd8ed4ebb2c1d1242ea1d5f3e90f8ae5143",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\x64\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\x64\\SQLite.Interop.dll",
+    "size_bytes": 1662976,
+    "size_mb": 1.59,
+    "sha256": "96c952efa25720eec63437df20e20b8959dde5230c6f1d5c30be68cf72665532",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "C:\\Dce Pro",
+    "relative_path": "AddinSteel\\x86\\SQLite.Interop.dll",
+    "absolute_path": "C:\\Dce Pro\\AddinSteel\\x86\\SQLite.Interop.dll",
+    "size_bytes": 1266176,
+    "size_mb": 1.21,
+    "sha256": "ba0bf347cd8966e53efa282df84a9f966bbc2ff99642ee0be5b2a86644bb7f5e",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\BouncyCastle.Cryptography.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\BouncyCastle.Cryptography.dll",
+    "size_bytes": 4870808,
+    "size_mb": 4.65,
+    "sha256": "5d5cdba3ebf5fc4564bd47dcdbe747215df905f192b6893a2a2caa9369875b39",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\CSiAPIv1.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\CSiAPIv1.dll",
+    "size_bytes": 1187392,
+    "size_mb": 1.13,
+    "sha256": "a4e74cbdb51ff13dfacc2fb81f1d39bf76b4e5260c5d891eeac06431909e27a6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\DBimRevit.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\DBimRevit.dll",
+    "size_bytes": 2105752,
+    "size_mb": 2.01,
+    "sha256": "d747b8cfdcbaae250188576d562717348d20583a5aed2681275f09b6335faeef",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": false,
+      "has_exports": false,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\DceAnalyssiss32.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\DceAnalyssiss32.dll",
+    "size_bytes": 287744,
+    "size_mb": 0.27,
+    "sha256": "e4c14f521123acad09326c67c269e9bd18d382c4fd2fbb59da0b9cec0d193793",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\DceAnalyssiss64.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\DceAnalyssiss64.dll",
+    "size_bytes": 346624,
+    "size_mb": 0.33,
+    "sha256": "eee3663ab1d345b16532566a0fc1199f544730a4e9e7ac6282863c1a9c75dfbd",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\EntityFramework.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\EntityFramework.dll",
+    "size_bytes": 4977744,
+    "size_mb": 4.75,
+    "sha256": "eadbac604efe1ea0272d1285f48e358541978aa1d198ef0420b0e522c793b8b4",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\EntityFramework.SqlServer.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\EntityFramework.SqlServer.dll",
+    "size_bytes": 591440,
+    "size_mb": 0.56,
+    "sha256": "be2bcdc9c0ff4a2865c8e5296f6a3c87c22411ff268e5eff30fdcf5f8b2561e2",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\ETABS2016.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\ETABS2016.dll",
+    "size_bytes": 241584,
+    "size_mb": 0.23,
+    "sha256": "b302c8be8416f0c186f5e5caf0588317f6318e3d35a9bb96650f6fb81543e101",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\ETABSv1.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\ETABSv1.dll",
+    "size_bytes": 252336,
+    "size_mb": 0.24,
+    "sha256": "f02bb6c1da619142303d4e67ec62a3ec33655aaa5371bd1ae789436d01cf6a48",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\ETABSv17.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\ETABSv17.dll",
+    "size_bytes": 229808,
+    "size_mb": 0.22,
+    "sha256": "0aa754ad95440c48b37a506887847077151b371b65ee5d628bb1a694d58abe93",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\Newtonsoft.Json.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\Newtonsoft.Json.dll",
+    "size_bytes": 712464,
+    "size_mb": 0.68,
+    "sha256": "22c649f75fce5be7c7ccda8880473b634ef69ecf33f5d1ab8ad892caf47d5a07",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\RestSharp.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\RestSharp.dll",
+    "size_bytes": 185856,
+    "size_mb": 0.18,
+    "sha256": "a14523e0f657da086a0994bf43f0240378401cc4b0af12dce71192f1ad613c70",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\sni.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\sni.dll",
+    "size_bytes": 160040,
+    "size_mb": 0.15,
+    "sha256": "68705c4ef9ab818f2956a78e05f3fefce501a1448793b073b46110beb49b47d6",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\SQLite.Interop.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\SQLite.Interop.dll",
+    "size_bytes": 2005688,
+    "size_mb": 1.91,
+    "sha256": "1111916dc329a13bd627b2cd90c9b2263de9923fd0bb6059c69c52332f360c37",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.CodeDom.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.CodeDom.dll",
+    "size_bytes": 183568,
+    "size_mb": 0.18,
+    "sha256": "be0fb6612acb0dec95ab01a47a4480114636f85c9ad3c6d13b566cc392b46ad5",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Data.SqlClient.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Data.SqlClient.dll",
+    "size_bytes": 1023360,
+    "size_mb": 0.98,
+    "sha256": "5f79c075d83904ac64510c3dc77e45980ea38b82204e39c3913531bfff78585b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Data.SQLite.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Data.SQLite.dll",
+    "size_bytes": 446136,
+    "size_mb": 0.43,
+    "sha256": "fa3d7678272b10dfa0be3d959f0aea38a58b75caf1bba06d6781218ced489620",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Data.SQLite.EF6.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Data.SQLite.EF6.dll",
+    "size_bytes": 206520,
+    "size_mb": 0.2,
+    "sha256": "4f7cb99bed4c0c2e0e221a9487c7697f8c882e7288ffb993908e592fff5446d5",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Diagnostics.EventLog.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Diagnostics.EventLog.dll",
+    "size_bytes": 173840,
+    "size_mb": 0.17,
+    "sha256": "7963020877590ce0955b570539f66930c11f60afa186aede0c1ed29db8aa5fa3",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Diagnostics.EventLog.Messages.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Diagnostics.EventLog.Messages.dll",
+    "size_bytes": 801032,
+    "size_mb": 0.76,
+    "sha256": "15794cca1e1abe5f3240c1b17678c203a8a414ffbfef4154bf9c1ff4327d8fdf",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.Management.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.Management.dll",
+    "size_bytes": 312600,
+    "size_mb": 0.3,
+    "sha256": "c7d977c7daa173940461995bb233a1fb3cc1f5d40602655355e011f85cf83a3d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\System.ServiceProcess.ServiceController.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\System.ServiceProcess.ServiceController.dll",
+    "size_bytes": 90392,
+    "size_mb": 0.09,
+    "sha256": "9d4c84daf9d68eba4f1f2a904977ea93b12f9f18dbe294c4a1a0cfde335a41ae",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": true,
+      "has_exports": false,
+      "clr_version": "v4.0.30319"
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\x64\\SQLite.Interop.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\x64\\SQLite.Interop.dll",
+    "size_bytes": 1796784,
+    "size_mb": 1.71,
+    "sha256": "10c9ccec863ed80850c7b7080e4f2e34b133ce259d1ae3ea7a305cebf6e2940d",
+    "pe": {
+      "is_pe": true,
+      "machine": "x64",
+      "is_managed": true,
+      "has_exports": true,
+      "clr_version": null
+    }
+  },
+  {
+    "scope": "Revit Unpacked",
+    "relative_path": "app\\2026\\AddinDbimDcepro\\x86\\SQLite.Interop.dll",
+    "absolute_path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\x86\\SQLite.Interop.dll",
+    "size_bytes": 1421496,
+    "size_mb": 1.36,
+    "sha256": "98b0e0e7cde328d21284687dd359e36a42d39a329d4353d3c39def990b46a18b",
+    "pe": {
+      "is_pe": true,
+      "machine": "x86",
+      "is_managed": false,
+      "has_exports": true,
+      "clr_version": null
+    }
+  }
+]

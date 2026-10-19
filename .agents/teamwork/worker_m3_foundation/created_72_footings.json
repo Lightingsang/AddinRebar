@@ -1,0 +1,650 @@
+[
+  {
+    "id": 9911872,
+    "mark": "ĐC-2-01",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911879,
+    "mark": "ĐC-1-01",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911886,
+    "mark": "ĐC-2-02",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911893,
+    "mark": "ĐC-2-03",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911900,
+    "mark": "ĐC-3-01",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911907,
+    "mark": "ĐC-2-04",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911914,
+    "mark": "ĐC-2-05",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911921,
+    "mark": "ĐC-2-06",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911928,
+    "mark": "ĐC-2-07",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911935,
+    "mark": "ĐC-2-08",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911942,
+    "mark": "ĐC-2-09",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911949,
+    "mark": "ĐC-2-10",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911956,
+    "mark": "ĐC-3'-01",
+    "comment": "ĐC-3'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911963,
+    "mark": "ĐC-2-11",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911970,
+    "mark": "ĐC-1-02",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911977,
+    "mark": "ĐC-3-02",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911984,
+    "mark": "ĐC-3-03",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9911991,
+    "mark": "ĐC-4-01",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9911998,
+    "mark": "ĐC-4-02",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912005,
+    "mark": "ĐC-4-03",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912012,
+    "mark": "ĐC-4-04",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912019,
+    "mark": "ĐC-6-01",
+    "comment": "ĐC-6",
+    "typeName": "HP-ES-CAP-CON-B20-1300",
+    "topZ": -1600,
+    "botZ": -2900,
+    "thickMm": 1300
+  },
+  {
+    "id": 9912026,
+    "mark": "ĐC-3-04",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912033,
+    "mark": "ĐC-3-05",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912040,
+    "mark": "ĐC-1-03",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912047,
+    "mark": "ĐC-5-01",
+    "comment": "ĐC-5",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912054,
+    "mark": "ĐC-4-05",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912061,
+    "mark": "ĐC-2-12",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912068,
+    "mark": "ĐC-2-13",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912075,
+    "mark": "ĐC-6-02",
+    "comment": "ĐC-6",
+    "typeName": "HP-ES-CAP-CON-B20-1300",
+    "topZ": -1600,
+    "botZ": -2900,
+    "thickMm": 1300
+  },
+  {
+    "id": 9912082,
+    "mark": "ĐC-3-06",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912089,
+    "mark": "ĐC-3-07",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912096,
+    "mark": "ĐC-2'-01",
+    "comment": "ĐC-2'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912103,
+    "mark": "ĐC-2'-02",
+    "comment": "ĐC-2'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912110,
+    "mark": "ĐC-2'-03",
+    "comment": "ĐC-2'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912117,
+    "mark": "ĐC-1-04",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912124,
+    "mark": "ĐC-3-08",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912131,
+    "mark": "ĐC-2'-04",
+    "comment": "ĐC-2'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912138,
+    "mark": "ĐC-2-14",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912145,
+    "mark": "ĐC-2-15",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912152,
+    "mark": "ĐC-3-09",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912159,
+    "mark": "ĐC-2-16",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912166,
+    "mark": "ĐC-1-05",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912173,
+    "mark": "ĐC-5-02",
+    "comment": "ĐC-5",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912180,
+    "mark": "ĐC-4-06",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912187,
+    "mark": "ĐC-6-03",
+    "comment": "ĐC-6",
+    "typeName": "HP-ES-CAP-CON-B20-1300",
+    "topZ": -1600,
+    "botZ": -2900,
+    "thickMm": 1300
+  },
+  {
+    "id": 9912194,
+    "mark": "ĐC-3-10",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912201,
+    "mark": "ĐC-2-17",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912208,
+    "mark": "ĐC-1-06",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912215,
+    "mark": "ĐC-3-11",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912222,
+    "mark": "ĐC-3-12",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912229,
+    "mark": "ĐC-3-13",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912236,
+    "mark": "ĐC-3-14",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912243,
+    "mark": "ĐC-4-07",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912250,
+    "mark": "ĐC-4-08",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912257,
+    "mark": "ĐC-4-09",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912264,
+    "mark": "ĐC-6-04",
+    "comment": "ĐC-6",
+    "typeName": "HP-ES-CAP-CON-B20-1300",
+    "topZ": -1600,
+    "botZ": -2900,
+    "thickMm": 1300
+  },
+  {
+    "id": 9912271,
+    "mark": "ĐC-4-10",
+    "comment": "ĐC-4",
+    "typeName": "HP-ES-CAP-CON-B20-1200",
+    "topZ": -1600,
+    "botZ": -2800,
+    "thickMm": 1200
+  },
+  {
+    "id": 9912278,
+    "mark": "ĐC-2-18",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912285,
+    "mark": "ĐC-3'-02",
+    "comment": "ĐC-3'",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912292,
+    "mark": "ĐC-2-19",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912299,
+    "mark": "ĐC-2-20",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912306,
+    "mark": "ĐC-1-07",
+    "comment": "ĐC-1",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912313,
+    "mark": "ĐC-2-21",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912320,
+    "mark": "ĐC-2-22",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912327,
+    "mark": "ĐC-2-23",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912334,
+    "mark": "ĐC-2-24",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912341,
+    "mark": "ĐC-2-25",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912348,
+    "mark": "ĐC-2-26",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912355,
+    "mark": "ĐC-2-27",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912362,
+    "mark": "ĐC-3-15",
+    "comment": "ĐC-3",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  },
+  {
+    "id": 9912369,
+    "mark": "ĐC-2-28",
+    "comment": "ĐC-2",
+    "typeName": "HP-ES-CAP-CON-B20-1000",
+    "topZ": -1600,
+    "botZ": -2600,
+    "thickMm": 1000
+  }
+]

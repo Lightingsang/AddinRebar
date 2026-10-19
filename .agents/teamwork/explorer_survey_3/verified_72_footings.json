@@ -1,0 +1,2723 @@
+{
+  "totalFootings": 72,
+  "totalPiles": 196,
+  "classification": "NHOM_1",
+  "footings": [
+    {
+      "id": "ĐC-2-01",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        77,
+        78
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 16550.0,
+      "centerY": -50.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 16100.0,
+          "y": -850.0
+        },
+        {
+          "x": 17000.0,
+          "y": -850.0
+        },
+        {
+          "x": 17000.0,
+          "y": 750.0
+        },
+        {
+          "x": 16100.0,
+          "y": 750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-01",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        120
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": -50.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 23300.0,
+          "y": -400.0
+        },
+        {
+          "x": 24000.0,
+          "y": -400.0
+        },
+        {
+          "x": 24000.0,
+          "y": 300.0
+        },
+        {
+          "x": 23300.0,
+          "y": 300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-02",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        121,
+        122
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29100.0,
+      "centerY": -50.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28650.0,
+          "y": -850.0
+        },
+        {
+          "x": 29550.0,
+          "y": -850.0
+        },
+        {
+          "x": 29550.0,
+          "y": 750.0
+        },
+        {
+          "x": 28650.0,
+          "y": 750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-03",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        155,
+        156
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": -50.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 35350.0,
+          "y": -850.0
+        },
+        {
+          "x": 36250.0,
+          "y": -850.0
+        },
+        {
+          "x": 36250.0,
+          "y": 750.0
+        },
+        {
+          "x": 35350.0,
+          "y": 750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-01",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        42,
+        43,
+        44
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": -133.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 5750.0,
+          "y": -880.0
+        },
+        {
+          "x": 7950.0,
+          "y": -880.0
+        },
+        {
+          "x": 7950.0,
+          "y": 620.0
+        },
+        {
+          "x": 5750.0,
+          "y": 620.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-04",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        75,
+        75
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 13950.0,
+      "centerY": -500.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 13500.0,
+          "y": -1300.0
+        },
+        {
+          "x": 14400.0,
+          "y": -1300.0
+        },
+        {
+          "x": 14400.0,
+          "y": 300.0
+        },
+        {
+          "x": 13500.0,
+          "y": 300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-05",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        1,
+        2
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 1250.0,
+      "centerY": -100.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 800.0,
+          "y": -900.0
+        },
+        {
+          "x": 1700.0,
+          "y": -900.0
+        },
+        {
+          "x": 1700.0,
+          "y": 700.0
+        },
+        {
+          "x": 800.0,
+          "y": 700.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-06",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        45,
+        46
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 9850.0,
+      "centerY": -100.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 9400.0,
+          "y": -900.0
+        },
+        {
+          "x": 10300.0,
+          "y": -900.0
+        },
+        {
+          "x": 10300.0,
+          "y": 700.0
+        },
+        {
+          "x": 9400.0,
+          "y": 700.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-07",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        157,
+        158
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": -50.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 40350.0,
+          "y": -850.0
+        },
+        {
+          "x": 41250.0,
+          "y": -850.0
+        },
+        {
+          "x": 41250.0,
+          "y": 750.0
+        },
+        {
+          "x": 40350.0,
+          "y": 750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-08",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        190,
+        191
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45100.0,
+      "centerY": -50.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 44650.0,
+          "y": -850.0
+        },
+        {
+          "x": 45550.0,
+          "y": -850.0
+        },
+        {
+          "x": 45550.0,
+          "y": 750.0
+        },
+        {
+          "x": 44650.0,
+          "y": 750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-09",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        123,
+        126
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29100.0,
+      "centerY": 2750.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28650.0,
+          "y": 1950.0
+        },
+        {
+          "x": 29550.0,
+          "y": 1950.0
+        },
+        {
+          "x": 29550.0,
+          "y": 3550.0
+        },
+        {
+          "x": 28650.0,
+          "y": 3550.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-10",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        118,
+        118
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": 2300.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 23200.0,
+          "y": 1500.0
+        },
+        {
+          "x": 24100.0,
+          "y": 1500.0
+        },
+        {
+          "x": 24100.0,
+          "y": 3100.0
+        },
+        {
+          "x": 23200.0,
+          "y": 3100.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3'-01",
+      "type": "ĐC-3'",
+      "pileCount": 3,
+      "pileStts": [
+        79,
+        80,
+        82
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 400",
+      "centerX": 16316.7,
+      "centerY": 3150.0,
+      "widthX": 1700.0,
+      "widthY": 2900.0,
+      "areaM2": 4.93,
+      "vertices": [
+        {
+          "x": 15470.0,
+          "y": 1700.0
+        },
+        {
+          "x": 17170.0,
+          "y": 1700.0
+        },
+        {
+          "x": 17170.0,
+          "y": 4600.0
+        },
+        {
+          "x": 15470.0,
+          "y": 4600.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-11",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        73,
+        74
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 13950.0,
+      "centerY": 2450.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 13500.0,
+          "y": 1650.0
+        },
+        {
+          "x": 14400.0,
+          "y": 1650.0
+        },
+        {
+          "x": 14400.0,
+          "y": 3250.0
+        },
+        {
+          "x": 13500.0,
+          "y": 3250.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-02",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        192
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 48950.0,
+      "centerY": 4750.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 48600.0,
+          "y": 4400.0
+        },
+        {
+          "x": 49300.0,
+          "y": 4400.0
+        },
+        {
+          "x": 49300.0,
+          "y": 5100.0
+        },
+        {
+          "x": 48600.0,
+          "y": 5100.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-02",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        159,
+        160,
+        161
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 4716.7,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 39700.0,
+          "y": 3970.0
+        },
+        {
+          "x": 41900.0,
+          "y": 3970.0
+        },
+        {
+          "x": 41900.0,
+          "y": 5470.0
+        },
+        {
+          "x": 39700.0,
+          "y": 5470.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-03",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        187,
+        187,
+        188
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45200.0,
+      "centerY": 4983.3,
+      "widthX": 1160.0,
+      "widthY": 2200.0,
+      "areaM2": 2.552,
+      "vertices": [
+        {
+          "x": 44620.0,
+          "y": 3880.0
+        },
+        {
+          "x": 45780.0,
+          "y": 3880.0
+        },
+        {
+          "x": 45780.0,
+          "y": 6080.0
+        },
+        {
+          "x": 44620.0,
+          "y": 6080.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-01",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 1150.0,
+      "centerY": 4800.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 350.0,
+          "y": 4000.0
+        },
+        {
+          "x": 1950.0,
+          "y": 4000.0
+        },
+        {
+          "x": 1950.0,
+          "y": 5600.0
+        },
+        {
+          "x": 350.0,
+          "y": 5600.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-02",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        38,
+        39,
+        40,
+        41
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": 4800.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 6050.0,
+          "y": 4000.0
+        },
+        {
+          "x": 7650.0,
+          "y": 4000.0
+        },
+        {
+          "x": 7650.0,
+          "y": 5600.0
+        },
+        {
+          "x": 6050.0,
+          "y": 5600.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-03",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        47,
+        48,
+        49,
+        50
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 9850.0,
+      "centerY": 4800.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 9050.0,
+          "y": 4000.0
+        },
+        {
+          "x": 10650.0,
+          "y": 4000.0
+        },
+        {
+          "x": 10650.0,
+          "y": 5600.0
+        },
+        {
+          "x": 9050.0,
+          "y": 5600.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-04",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        151,
+        152,
+        153,
+        154
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 4800.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 35000.0,
+          "y": 4000.0
+        },
+        {
+          "x": 36600.0,
+          "y": 4000.0
+        },
+        {
+          "x": 36600.0,
+          "y": 5600.0
+        },
+        {
+          "x": 35000.0,
+          "y": 5600.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-6-01",
+      "type": "ĐC-6",
+      "pileCount": 6,
+      "pileStts": [
+        81,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.9,
+      "thicknessMm": 1300,
+      "pileTopElevation": -2.8,
+      "concreteGrade": "Mác 400",
+      "centerX": 16941.7,
+      "centerY": 4566.7,
+      "widthX": 2500.0,
+      "widthY": 3000.0,
+      "areaM2": 7.5,
+      "vertices": [
+        {
+          "x": 15690.0,
+          "y": 3070.0
+        },
+        {
+          "x": 18190.0,
+          "y": 3070.0
+        },
+        {
+          "x": 18190.0,
+          "y": 6070.0
+        },
+        {
+          "x": 15690.0,
+          "y": 6070.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-04",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        125,
+        126,
+        127
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 28950.0,
+      "centerY": 4300.0,
+      "widthX": 1140.0,
+      "widthY": 2760.0,
+      "areaM2": 3.146,
+      "vertices": [
+        {
+          "x": 28380.0,
+          "y": 2920.0
+        },
+        {
+          "x": 29520.0,
+          "y": 2920.0
+        },
+        {
+          "x": 29520.0,
+          "y": 5680.0
+        },
+        {
+          "x": 28380.0,
+          "y": 5680.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-05",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        115,
+        116,
+        117
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": 4716.7,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 22550.0,
+          "y": 3970.0
+        },
+        {
+          "x": 24750.0,
+          "y": 3970.0
+        },
+        {
+          "x": 24750.0,
+          "y": 5470.0
+        },
+        {
+          "x": 22550.0,
+          "y": 5470.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-03",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        193
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 48950.0,
+      "centerY": 9950.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 48600.0,
+          "y": 9600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 9600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 10300.0
+        },
+        {
+          "x": 48600.0,
+          "y": 10300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-5-01",
+      "type": "ĐC-5",
+      "pileCount": 5,
+      "pileStts": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 150.0,
+      "centerY": 9950.0,
+      "widthX": 2500.0,
+      "widthY": 1600.0,
+      "areaM2": 4.0,
+      "vertices": [
+        {
+          "x": -1100.0,
+          "y": 9150.0
+        },
+        {
+          "x": 1400.0,
+          "y": 9150.0
+        },
+        {
+          "x": 1400.0,
+          "y": 10750.0
+        },
+        {
+          "x": -1100.0,
+          "y": 10750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-05",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        34,
+        35,
+        36,
+        37
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": 9950.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 6050.0,
+          "y": 9150.0
+        },
+        {
+          "x": 7650.0,
+          "y": 9150.0
+        },
+        {
+          "x": 7650.0,
+          "y": 10750.0
+        },
+        {
+          "x": 6050.0,
+          "y": 10750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-12",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        149,
+        150
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 9950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 35350.0,
+          "y": 9150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 9150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 10750.0
+        },
+        {
+          "x": 35350.0,
+          "y": 10750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-13",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        162,
+        163
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 9950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 40350.0,
+          "y": 9150.0
+        },
+        {
+          "x": 41250.0,
+          "y": 9150.0
+        },
+        {
+          "x": 41250.0,
+          "y": 10750.0
+        },
+        {
+          "x": 40350.0,
+          "y": 10750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-6-02",
+      "type": "ĐC-6",
+      "pileCount": 6,
+      "pileStts": [
+        52,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.9,
+      "thicknessMm": 1300,
+      "pileTopElevation": -2.8,
+      "concreteGrade": "Mác 400",
+      "centerX": 9600.0,
+      "centerY": 9950.0,
+      "widthX": 2500.0,
+      "widthY": 1600.0,
+      "areaM2": 4.0,
+      "vertices": [
+        {
+          "x": 8350.0,
+          "y": 9150.0
+        },
+        {
+          "x": 10850.0,
+          "y": 9150.0
+        },
+        {
+          "x": 10850.0,
+          "y": 10750.0
+        },
+        {
+          "x": 8350.0,
+          "y": 10750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-06",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        184,
+        185,
+        186
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45133.3,
+      "centerY": 9950.0,
+      "widthX": 1500.0,
+      "widthY": 2200.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 44380.0,
+          "y": 8850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 8850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 11050.0
+        },
+        {
+          "x": 44380.0,
+          "y": 11050.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-07",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        88,
+        89,
+        90
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 16633.3,
+      "centerY": 12700.0,
+      "widthX": 1500.0,
+      "widthY": 2200.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 15880.0,
+          "y": 11600.0
+        },
+        {
+          "x": 17380.0,
+          "y": 11600.0
+        },
+        {
+          "x": 17380.0,
+          "y": 13800.0
+        },
+        {
+          "x": 15880.0,
+          "y": 13800.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2'-01",
+      "type": "ĐC-2'",
+      "pileCount": 2,
+      "pileStts": [
+        113,
+        114
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23700.0,
+      "centerY": 12700.1,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 23250.0,
+          "y": 11900.0
+        },
+        {
+          "x": 24150.0,
+          "y": 11900.0
+        },
+        {
+          "x": 24150.0,
+          "y": 13500.0
+        },
+        {
+          "x": 23250.0,
+          "y": 13500.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2'-02",
+      "type": "ĐC-2'",
+      "pileCount": 2,
+      "pileStts": [
+        128,
+        129
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29150.0,
+      "centerY": 12700.1,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28700.0,
+          "y": 11900.0
+        },
+        {
+          "x": 29600.0,
+          "y": 11900.0
+        },
+        {
+          "x": 29600.0,
+          "y": 13500.0
+        },
+        {
+          "x": 28700.0,
+          "y": 13500.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2'-03",
+      "type": "ĐC-2'",
+      "pileCount": 2,
+      "pileStts": [
+        111,
+        112
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23700.0,
+      "centerY": 15200.1,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 23250.0,
+          "y": 14400.0
+        },
+        {
+          "x": 24150.0,
+          "y": 14400.0
+        },
+        {
+          "x": 24150.0,
+          "y": 16000.0
+        },
+        {
+          "x": 23250.0,
+          "y": 16000.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-04",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        194
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 48950.0,
+      "centerY": 13950.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 48600.0,
+          "y": 13600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 13600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 14300.0
+        },
+        {
+          "x": 48600.0,
+          "y": 14300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-08",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        181,
+        182,
+        183
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45133.3,
+      "centerY": 13950.0,
+      "widthX": 1500.0,
+      "widthY": 2200.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 44380.0,
+          "y": 12850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 12850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 15050.0
+        },
+        {
+          "x": 44380.0,
+          "y": 15050.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2'-04",
+      "type": "ĐC-2'",
+      "pileCount": 2,
+      "pileStts": [
+        130,
+        131
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29150.0,
+      "centerY": 15200.1,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28700.0,
+          "y": 14400.0
+        },
+        {
+          "x": 29600.0,
+          "y": 14400.0
+        },
+        {
+          "x": 29600.0,
+          "y": 16000.0
+        },
+        {
+          "x": 28700.0,
+          "y": 16000.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-14",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        147,
+        148
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 15200.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 35350.0,
+          "y": 14400.0
+        },
+        {
+          "x": 36250.0,
+          "y": 14400.0
+        },
+        {
+          "x": 36250.0,
+          "y": 16000.0
+        },
+        {
+          "x": 35350.0,
+          "y": 16000.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-15",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        164,
+        165
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 15200.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 40350.0,
+          "y": 14400.0
+        },
+        {
+          "x": 41250.0,
+          "y": 14400.0
+        },
+        {
+          "x": 41250.0,
+          "y": 16000.0
+        },
+        {
+          "x": 40350.0,
+          "y": 16000.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-09",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        91,
+        92,
+        93
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 16633.3,
+      "centerY": 15200.0,
+      "widthX": 1500.0,
+      "widthY": 2200.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 15880.0,
+          "y": 14100.0
+        },
+        {
+          "x": 17380.0,
+          "y": 14100.0
+        },
+        {
+          "x": 17380.0,
+          "y": 16300.0
+        },
+        {
+          "x": 15880.0,
+          "y": 16300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-16",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        145,
+        146
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 17950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 35350.0,
+          "y": 17150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 17150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 18750.0
+        },
+        {
+          "x": 35350.0,
+          "y": 18750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-05",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        195
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 48950.0,
+      "centerY": 17950.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 48600.0,
+          "y": 17600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 17600.0
+        },
+        {
+          "x": 49300.0,
+          "y": 18300.0
+        },
+        {
+          "x": 48600.0,
+          "y": 18300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-5-02",
+      "type": "ĐC-5",
+      "pileCount": 5,
+      "pileStts": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 150.0,
+      "centerY": 17950.0,
+      "widthX": 2500.0,
+      "widthY": 1600.0,
+      "areaM2": 4.0,
+      "vertices": [
+        {
+          "x": -1100.0,
+          "y": 17150.0
+        },
+        {
+          "x": 1400.0,
+          "y": 17150.0
+        },
+        {
+          "x": 1400.0,
+          "y": 18750.0
+        },
+        {
+          "x": -1100.0,
+          "y": 18750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-06",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        30,
+        31,
+        32,
+        33
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": 17950.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 6050.0,
+          "y": 17150.0
+        },
+        {
+          "x": 7650.0,
+          "y": 17150.0
+        },
+        {
+          "x": 7650.0,
+          "y": 18750.0
+        },
+        {
+          "x": 6050.0,
+          "y": 18750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-6-03",
+      "type": "ĐC-6",
+      "pileCount": 6,
+      "pileStts": [
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.9,
+      "thicknessMm": 1300,
+      "pileTopElevation": -2.8,
+      "concreteGrade": "Mác 400",
+      "centerX": 9750.0,
+      "centerY": 17950.0,
+      "widthX": 2500.0,
+      "widthY": 1600.0,
+      "areaM2": 4.0,
+      "vertices": [
+        {
+          "x": 8500.0,
+          "y": 17150.0
+        },
+        {
+          "x": 11000.0,
+          "y": 17150.0
+        },
+        {
+          "x": 11000.0,
+          "y": 18750.0
+        },
+        {
+          "x": 8500.0,
+          "y": 18750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-10",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        178,
+        179,
+        180
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45133.3,
+      "centerY": 17950.0,
+      "widthX": 1500.0,
+      "widthY": 2200.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 44380.0,
+          "y": 16850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 16850.0
+        },
+        {
+          "x": 45880.0,
+          "y": 19050.0
+        },
+        {
+          "x": 44380.0,
+          "y": 19050.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-17",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        166,
+        167
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 20000.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 40350.0,
+          "y": 19200.0
+        },
+        {
+          "x": 41250.0,
+          "y": 19200.0
+        },
+        {
+          "x": 41250.0,
+          "y": 20800.0
+        },
+        {
+          "x": 40350.0,
+          "y": 20800.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-06",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        196
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 48950.0,
+      "centerY": 23150.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 48600.0,
+          "y": 22800.0
+        },
+        {
+          "x": 49300.0,
+          "y": 22800.0
+        },
+        {
+          "x": 49300.0,
+          "y": 23500.0
+        },
+        {
+          "x": 48600.0,
+          "y": 23500.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-11",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        132,
+        133,
+        134
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29100.0,
+      "centerY": 23183.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 28000.0,
+          "y": 22430.0
+        },
+        {
+          "x": 30200.0,
+          "y": 22430.0
+        },
+        {
+          "x": 30200.0,
+          "y": 23930.0
+        },
+        {
+          "x": 28000.0,
+          "y": 23930.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-12",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        108,
+        109,
+        110
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": 23183.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 22550.0,
+          "y": 22430.0
+        },
+        {
+          "x": 24750.0,
+          "y": 22430.0
+        },
+        {
+          "x": 24750.0,
+          "y": 23930.0
+        },
+        {
+          "x": 22550.0,
+          "y": 23930.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-13",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        168,
+        169,
+        170
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 23183.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 39700.0,
+          "y": 22430.0
+        },
+        {
+          "x": 41900.0,
+          "y": 22430.0
+        },
+        {
+          "x": 41900.0,
+          "y": 23930.0
+        },
+        {
+          "x": 39700.0,
+          "y": 23930.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-14",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        175,
+        176,
+        177
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45050.0,
+      "centerY": 23183.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 43950.0,
+          "y": 22430.0
+        },
+        {
+          "x": 46150.0,
+          "y": 22430.0
+        },
+        {
+          "x": 46150.0,
+          "y": 23930.0
+        },
+        {
+          "x": 43950.0,
+          "y": 23930.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-07",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 1150.0,
+      "centerY": 23100.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 350.0,
+          "y": 22300.0
+        },
+        {
+          "x": 1950.0,
+          "y": 22300.0
+        },
+        {
+          "x": 1950.0,
+          "y": 23900.0
+        },
+        {
+          "x": 350.0,
+          "y": 23900.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-08",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        26,
+        27,
+        28,
+        29
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": 23100.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 6050.0,
+          "y": 22300.0
+        },
+        {
+          "x": 7650.0,
+          "y": 22300.0
+        },
+        {
+          "x": 7650.0,
+          "y": 23900.0
+        },
+        {
+          "x": 6050.0,
+          "y": 23900.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-09",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        63,
+        64,
+        65,
+        66
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 9850.0,
+      "centerY": 23100.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 9050.0,
+          "y": 22300.0
+        },
+        {
+          "x": 10650.0,
+          "y": 22300.0
+        },
+        {
+          "x": 10650.0,
+          "y": 23900.0
+        },
+        {
+          "x": 9050.0,
+          "y": 23900.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-6-04",
+      "type": "ĐC-6",
+      "pileCount": 6,
+      "pileStts": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        100
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.9,
+      "thicknessMm": 1300,
+      "pileTopElevation": -2.8,
+      "concreteGrade": "Mác 400",
+      "centerX": 16941.7,
+      "centerY": 23333.3,
+      "widthX": 2500.0,
+      "widthY": 3000.0,
+      "areaM2": 7.5,
+      "vertices": [
+        {
+          "x": 15690.0,
+          "y": 21830.0
+        },
+        {
+          "x": 18190.0,
+          "y": 21830.0
+        },
+        {
+          "x": 18190.0,
+          "y": 24830.0
+        },
+        {
+          "x": 15690.0,
+          "y": 24830.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-4-10",
+      "type": "ĐC-4",
+      "pileCount": 4,
+      "pileStts": [
+        141,
+        142,
+        143,
+        144
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.8,
+      "thicknessMm": 1200,
+      "pileTopElevation": -2.7,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 23100.0,
+      "widthX": 1600.0,
+      "widthY": 1600.0,
+      "areaM2": 2.56,
+      "vertices": [
+        {
+          "x": 35000.0,
+          "y": 22300.0
+        },
+        {
+          "x": 36600.0,
+          "y": 22300.0
+        },
+        {
+          "x": 36600.0,
+          "y": 23900.0
+        },
+        {
+          "x": 35000.0,
+          "y": 23900.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-18",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        135,
+        136
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29100.0,
+      "centerY": 25150.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28650.0,
+          "y": 24350.0
+        },
+        {
+          "x": 29550.0,
+          "y": 24350.0
+        },
+        {
+          "x": 29550.0,
+          "y": 25950.0
+        },
+        {
+          "x": 28650.0,
+          "y": 25950.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3'-02",
+      "type": "ĐC-3'",
+      "pileCount": 3,
+      "pileStts": [
+        99,
+        101,
+        102
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 400",
+      "centerX": 16316.7,
+      "centerY": 24750.0,
+      "widthX": 1700.0,
+      "widthY": 2900.0,
+      "areaM2": 4.93,
+      "vertices": [
+        {
+          "x": 15470.0,
+          "y": 23300.0
+        },
+        {
+          "x": 17170.0,
+          "y": 23300.0
+        },
+        {
+          "x": 17170.0,
+          "y": 26200.0
+        },
+        {
+          "x": 15470.0,
+          "y": 26200.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-19",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        106,
+        106
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": 25600.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 23200.0,
+          "y": 24800.0
+        },
+        {
+          "x": 24100.0,
+          "y": 24800.0
+        },
+        {
+          "x": 24100.0,
+          "y": 26400.0
+        },
+        {
+          "x": 23200.0,
+          "y": 26400.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-20",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        71,
+        72
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 13950.0,
+      "centerY": 25450.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 13500.0,
+          "y": 24650.0
+        },
+        {
+          "x": 14400.0,
+          "y": 24650.0
+        },
+        {
+          "x": 14400.0,
+          "y": 26250.0
+        },
+        {
+          "x": 13500.0,
+          "y": 26250.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-1-07",
+      "type": "ĐC-1",
+      "pileCount": 1,
+      "pileStts": [
+        105
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 23650.0,
+      "centerY": 27950.0,
+      "widthX": 700.0,
+      "widthY": 700.0,
+      "areaM2": 0.49,
+      "vertices": [
+        {
+          "x": 23300.0,
+          "y": 27600.0
+        },
+        {
+          "x": 24000.0,
+          "y": 27600.0
+        },
+        {
+          "x": 24000.0,
+          "y": 28300.0
+        },
+        {
+          "x": 23300.0,
+          "y": 28300.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-21",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        69,
+        70
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 13950.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 13500.0,
+          "y": 27150.0
+        },
+        {
+          "x": 14400.0,
+          "y": 27150.0
+        },
+        {
+          "x": 14400.0,
+          "y": 28750.0
+        },
+        {
+          "x": 13500.0,
+          "y": 28750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-22",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        103,
+        104
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 16550.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 16100.0,
+          "y": 27150.0
+        },
+        {
+          "x": 17000.0,
+          "y": 27150.0
+        },
+        {
+          "x": 17000.0,
+          "y": 28750.0
+        },
+        {
+          "x": 16100.0,
+          "y": 28750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-23",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        139,
+        140
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 35800.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 35350.0,
+          "y": 27150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 27150.0
+        },
+        {
+          "x": 36250.0,
+          "y": 28750.0
+        },
+        {
+          "x": 35350.0,
+          "y": 28750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-24",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        171,
+        172
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 40800.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 40350.0,
+          "y": 27150.0
+        },
+        {
+          "x": 41250.0,
+          "y": 27150.0
+        },
+        {
+          "x": 41250.0,
+          "y": 28750.0
+        },
+        {
+          "x": 40350.0,
+          "y": 28750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-25",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        173,
+        174
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 45100.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 44650.0,
+          "y": 27150.0
+        },
+        {
+          "x": 45550.0,
+          "y": 27150.0
+        },
+        {
+          "x": 45550.0,
+          "y": 28750.0
+        },
+        {
+          "x": 44650.0,
+          "y": 28750.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-26",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        21,
+        22
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 1250.0,
+      "centerY": 28000.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 800.0,
+          "y": 27200.0
+        },
+        {
+          "x": 1700.0,
+          "y": 27200.0
+        },
+        {
+          "x": 1700.0,
+          "y": 28800.0
+        },
+        {
+          "x": 800.0,
+          "y": 28800.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-27",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        67,
+        68
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 9850.0,
+      "centerY": 28000.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 9400.0,
+          "y": 27200.0
+        },
+        {
+          "x": 10300.0,
+          "y": 27200.0
+        },
+        {
+          "x": 10300.0,
+          "y": 28800.0
+        },
+        {
+          "x": 9400.0,
+          "y": 28800.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-3-15",
+      "type": "ĐC-3",
+      "pileCount": 3,
+      "pileStts": [
+        23,
+        24,
+        25
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 6850.0,
+      "centerY": 28033.3,
+      "widthX": 2200.0,
+      "widthY": 1500.0,
+      "areaM2": 3.3,
+      "vertices": [
+        {
+          "x": 5750.0,
+          "y": 27280.0
+        },
+        {
+          "x": 7950.0,
+          "y": 27280.0
+        },
+        {
+          "x": 7950.0,
+          "y": 28780.0
+        },
+        {
+          "x": 5750.0,
+          "y": 28780.0
+        }
+      ]
+    },
+    {
+      "id": "ĐC-2-28",
+      "type": "ĐC-2",
+      "pileCount": 2,
+      "pileStts": [
+        137,
+        138
+      ],
+      "topElevation": -1.6,
+      "bottomElevation": -2.6,
+      "thicknessMm": 1000,
+      "pileTopElevation": -2.5,
+      "concreteGrade": "Mác 300",
+      "centerX": 29100.0,
+      "centerY": 27950.0,
+      "widthX": 900.0,
+      "widthY": 1600.0,
+      "areaM2": 1.44,
+      "vertices": [
+        {
+          "x": 28650.0,
+          "y": 27150.0
+        },
+        {
+          "x": 29550.0,
+          "y": 27150.0
+        },
+        {
+          "x": 29550.0,
+          "y": 28750.0
+        },
+        {
+          "x": 28650.0,
+          "y": 28750.0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+<Window x:Class="HPKata.UI.Views.QsTakeoffWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        mc:Ignorable="d"
+        Title="HPKata — Bóc tách Khối lượng QS &amp; Cốp pha (QS / xuatQS)"
+        Height="620" Width="950"
+        MinHeight="480" MinWidth="750"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="BẢNG TÍNH KHỐI LƯỢNG BÊ TÔNG &amp; CỐP PHA (QS TAKEOFF)" Style="{StaticResource Text.Title}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Summary Cards -->
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="0,0,6,0" Padding="12" Background="{DynamicResource Brush.Card}" CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Text="Tổng bê tông (m³)" Style="{StaticResource Text.Muted}"/>
+                    <TextBlock Text="{Binding TotalVolumeM3, StringFormat='{}{0:F2}'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Brush.Accent}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Margin="6,0,6,0" Padding="12" Background="{DynamicResource Brush.Card}" CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Text="Tổng cốp pha (m²)" Style="{StaticResource Text.Muted}"/>
+                    <TextBlock Text="{Binding TotalFormworkM2, StringFormat='{}{0:F2}'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Brush.Text}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Margin="6,0,6,0" Padding="12" Background="{DynamicResource Brush.Card}" CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Text="Dầm / Sàn (m³)" Style="{StaticResource Text.Muted}"/>
+                    <TextBlock Text="{Binding BeamVolumeM3, StringFormat='{}{0:F1}'}" FontSize="16" FontWeight="SemiBold"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3" Margin="6,0,0,0" Padding="12" Background="{DynamicResource Brush.Card}" CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Text="Cột / Vách (m³)" Style="{StaticResource Text.Muted}"/>
+                    <TextBlock Text="{Binding ColumnVolumeM3, StringFormat='{}{0:F1}'}" FontSize="16" FontWeight="SemiBold"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Elements DataGrid -->
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Items}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  Background="{DynamicResource Brush.Surface}"
+                  BorderBrush="{DynamicResource Brush.Border}"
+                  BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tầng" Binding="{Binding Story}" Width="100"/>
+                <DataGridTextColumn Header="Ký hiệu" Binding="{Binding ItemMark}" Width="90"/>
+                <DataGridTextColumn Header="Cấu kiện" Binding="{Binding MemberType}" Width="100"/>
+                <DataGridTextColumn Header="SL" Binding="{Binding Count}" Width="50"/>
+                <DataGridTextColumn Header="Dài (m)" Binding="{Binding LengthM, StringFormat='{}{0:F2}'}" Width="80"/>
+                <DataGridTextColumn Header="Cao (m)" Binding="{Binding HeightM, StringFormat='{}{0:F2}'}" Width="80"/>
+                <DataGridTextColumn Header="Thể tích (m³)" Binding="{Binding TotalVolumeM3, StringFormat='{}{0:F3}'}" Width="110"/>
+                <DataGridTextColumn Header="Cốp pha (m²)" Binding="{Binding FormworkAreaM2, StringFormat='{}{0:F2}'}" Width="110"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Actions -->
+        <Grid Grid.Row="3" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" VerticalAlignment="Center" Style="{StaticResource Text.Muted}"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Tính lại (Recalculate)" Command="{Binding RecalculateCommand}" Margin="0,0,8,0" Style="{StaticResource Button.Secondary}"/>
+                <Button Content="Xuất Excel (Kata_QS)" Command="{Binding ExportExcelCommand}" Style="{StaticResource Button.Primary}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

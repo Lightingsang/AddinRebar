@@ -1,0 +1,1196 @@
+{
+  "phien_ban": 2,
+  "nguon": "TCVN 2737:2023 — Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ và Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe. Kỹ sư cung cấp ảnh bảng 11/10/2026; đối chiếu nguyên văn từng mục 16/10/2026 (ảnh TCXD 1–4).",
+  "don_vi": {
+    "q_kt": "kN/m2 (giá trị tiêu chuẩn, không nhỏ hơn)",
+    "Q_kt_kN": "kN tập trung (chỉ bãi đỗ xe; q và Q không áp đồng thời trong một tổ hợp)"
+  },
+  "cach_dung": [
+    "Đọc hiểu kiến trúc: AI đọc công năng từng phòng (chữ tên phòng + ảnh đồ đạc) ⇒ chọn 'ma'. 'tu_khoa_goi_y' chỉ là gợi ý cho AI/luật nền, KHÔNG là nguồn quyết định duy nhất.",
+    "Không phân biệt được công năng theo tiêu chuẩn ⇒ dùng hoạt tải CÀI ĐẶT CHUNG của AutoStr (ma_mac_dinh = null).",
+    "Model ETABS: mỗi loại công năng một tiết diện sàn tên 'type_san_etabs' (cùng chiều dày/vật liệu với sàn chung), gán hoạt tải q_kt riêng.",
+    "Tách ô sàn ĐƠN GIẢN: hình 4 cạnh, bám tường / dầm / biên đường phân tích lực; không tách đa giác phức tạp làm hỏng sơ đồ tính. Ô nhỏ lẫn công năng ⇒ lấy công năng có q lớn hơn cho cả ô (an toàn)."
+  ],
+  "ma_mac_dinh": null,
+  "uu_tien_khi_lan": "lấy q_kt lớn nhất trong ô; công năng mơ hồ giữa nhiều loại ⇒ lấy loại q lớn hơn (an toàn) — trừ các quy tắc theo loại công trình trong theo_loai_cong_trinh",
+  "loai": [
+    {
+      "ma": "A1_SAN",
+      "nhom": "A1",
+      "khu_vuc": "A - Khu vực ở",
+      "ten": "Căn hộ nhà ở; phòng ngủ (mầm non, trại trẻ mồ côi, nhà nghỉ, dưỡng lão, ký túc xá, khách sạn); phòng ngủ và nghỉ (bệnh viện, nhà nghỉ dưỡng); bếp và vệ sinh — sàn",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực A: Khu vực ở",
+        "A1: Căn hộ nhà ở; phòng ngủ của trường mầm non và trại trẻ mồ côi; phòng ngủ của nhà nghỉ, nhà dưỡng lão, ký túc xá và khách sạn; phòng ngủ và nghỉ của bệnh viện và nhà nghỉ dưỡng; bếp và vệ sinh:",
+        "a) Sàn"
+      ],
+      "q_kt": 1.5,
+      "type_san_etabs": "SAN_A1_SAN",
+      "tu_khoa_goi_y": [
+        "phòng ngủ",
+        "p.ngủ",
+        "pn",
+        "ngủ",
+        "phòng khách",
+        "p.khách",
+        "sinh hoạt",
+        "shc",
+        "bếp",
+        "ăn",
+        "phòng ăn",
+        "wc",
+        "vệ sinh",
+        "vs",
+        "tắm",
+        "thờ",
+        "phòng thờ",
+        "giặt",
+        "kho nhà ở",
+        "căn hộ"
+      ]
+    },
+    {
+      "ma": "A1_BCLG",
+      "nhom": "A1",
+      "khu_vuc": "A - Khu vực ở",
+      "ten": "Căn hộ / phòng ngủ… — ban công, lô gia",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực A: Khu vực ở",
+        "A1: Căn hộ nhà ở; phòng ngủ của trường mầm non và trại trẻ mồ côi; phòng ngủ của nhà nghỉ, nhà dưỡng lão, ký túc xá và khách sạn; phòng ngủ và nghỉ của bệnh viện và nhà nghỉ dưỡng; bếp và vệ sinh:",
+        "b) Ban công, lô gia"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_A1_BCLG",
+      "tu_khoa_goi_y": [
+        "ban công",
+        "bc",
+        "lô gia",
+        "logia",
+        "loggia"
+      ]
+    },
+    {
+      "ma": "A2",
+      "nhom": "A2",
+      "khu_vuc": "A - Khu vực ở",
+      "ten": "Sảnh, phòng chờ, hành lang, cầu thang bộ thông với khu vực A1",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực A: Khu vực ở",
+        "A2: Sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan) thông với khu vực A1"
+      ],
+      "q_kt": 3.0,
+      "type_san_etabs": "SAN_A2",
+      "tu_khoa_goi_y": [
+        "sảnh",
+        "hành lang",
+        "hl",
+        "cầu thang",
+        "thang bộ",
+        "chiếu nghỉ",
+        "phòng chờ",
+        "lối đi"
+      ]
+    },
+    {
+      "ma": "B1_SAN",
+      "nhom": "B1",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "Phòng làm việc trụ sở cơ quan, nghiên cứu khoa học; phòng sinh hoạt (vệ sinh, tắm, để quần áo) của cơ sở công nghiệp, công trình công cộng — sàn",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B1: Phòng làm việc của trụ sở cơ quan, phòng làm việc cho người nghiên cứu khoa học; phòng sinh hoạt (phòng vệ sinh, phòng tắm, phòng để quần áo) của cơ sở công nghiệp và của nhà và công trình công cộng:",
+        "a) Sàn"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_B1_SAN",
+      "tu_khoa_goi_y": [
+        "phòng làm việc",
+        "văn phòng",
+        "vp",
+        "phòng giám đốc",
+        "thay đồ",
+        "vệ sinh công cộng"
+      ]
+    },
+    {
+      "ma": "B1_BCLG",
+      "nhom": "B1",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "B1 — ban công, lô gia",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B1: Phòng làm việc của trụ sở cơ quan, phòng làm việc cho người nghiên cứu khoa học; phòng sinh hoạt (phòng vệ sinh, phòng tắm, phòng để quần áo) của cơ sở công nghiệp và của nhà và công trình công cộng:",
+        "b) Ban công, lô gia"
+      ],
+      "q_kt": 2.5,
+      "type_san_etabs": "SAN_B1_BCLG",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "B2_SAN",
+      "nhom": "B2",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "Phòng làm việc / thí nghiệm cơ sở y tế, giáo dục; phòng máy tính; bếp nhà công cộng; dịch vụ đời sống (cắt tóc, xưởng mỹ thuật…) — sàn",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B2: Phòng làm việc và phòng thí nghiệm của cơ sở y tế; phòng thí nghiệm của cơ sở giáo dục, đào tạo, khoa học; phòng máy tính; khu bếp nhà công cộng; phòng của cơ sở dịch vụ đời sống (cắt tóc, xưởng mỹ thuật và tương tự):",
+        "a) Sàn"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_B2_SAN",
+      "tu_khoa_goi_y": [
+        "thí nghiệm",
+        "phòng máy tính",
+        "bếp công cộng",
+        "bếp ăn tập thể",
+        "cắt tóc",
+        "salon",
+        "spa",
+        "phòng khám"
+      ]
+    },
+    {
+      "ma": "B2_BCLG",
+      "nhom": "B2",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "B2 — ban công, lô gia",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B2: Phòng làm việc và phòng thí nghiệm của cơ sở y tế; phòng thí nghiệm của cơ sở giáo dục, đào tạo, khoa học; phòng máy tính; khu bếp nhà công cộng; phòng của cơ sở dịch vụ đời sống (cắt tóc, xưởng mỹ thuật và tương tự):",
+        "b) Ban công, lô gia"
+      ],
+      "q_kt": 2.5,
+      "type_san_etabs": "SAN_B2_BCLG",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "B3",
+      "nhom": "B3",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "Gian phòng kỹ thuật",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B3: Gian phòng kỹ thuật"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_B3",
+      "tu_khoa_goi_y": [
+        "kỹ thuật",
+        "phòng kỹ thuật",
+        "pkt",
+        "tủ điện",
+        "máy bơm",
+        "hộp kỹ thuật"
+      ]
+    },
+    {
+      "ma": "B4",
+      "nhom": "B4",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "Sảnh, phòng chờ, hành lang, cầu thang bộ thông với B1, B2, B3",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B4: Sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan) thông với các khu vực B1, B2 và B3"
+      ],
+      "q_kt": 3.0,
+      "type_san_etabs": "SAN_B4",
+      "tu_khoa_goi_y": [
+        "sảnh",
+        "hành lang",
+        "cầu thang",
+        "phòng chờ"
+      ]
+    },
+    {
+      "ma": "B5",
+      "nhom": "B5",
+      "khu_vuc": "B - Làm việc, văn phòng, kỹ thuật",
+      "ten": "Khu vực bảo dưỡng và sửa chữa thiết bị trong phòng xưởng",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực B: Khu vực làm việc, văn phòng, kỹ thuật",
+        "B5: Các khu vực bảo dưỡng và sửa chữa thiết bị trong các phòng xưởng"
+      ],
+      "q_kt": 1.5,
+      "type_san_etabs": "SAN_B5",
+      "tu_khoa_goi_y": [
+        "bảo dưỡng",
+        "sửa chữa thiết bị"
+      ]
+    },
+    {
+      "ma": "C1_1",
+      "nhom": "C1",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Phòng học cơ sở giáo dục, lễ tân",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C1: Các khu vực có bàn và tương tự:",
+        "C1.1 Phòng học của cơ sở giáo dục, lễ tân"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_C1_1",
+      "tu_khoa_goi_y": [
+        "phòng học",
+        "lớp học",
+        "lễ tân",
+        "quầy lễ tân"
+      ]
+    },
+    {
+      "ma": "C1_2",
+      "nhom": "C1",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Phòng đọc sách",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C1: Các khu vực có bàn và tương tự:",
+        "C1.2 Phòng đọc sách"
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_C1_2",
+      "tu_khoa_goi_y": [
+        "phòng đọc",
+        "thư viện",
+        "đọc sách"
+      ]
+    },
+    {
+      "ma": "C1_3",
+      "nhom": "C1",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Phòng ăn (quán cà phê, nhà hàng, nhà ăn)",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C1: Các khu vực có bàn và tương tự:",
+        "C1.3 Phòng ăn, ví dụ: trong quán cà phê, nhà hàng, nhà ăn"
+      ],
+      "q_kt": 3.0,
+      "type_san_etabs": "SAN_C1_3",
+      "tu_khoa_goi_y": [
+        "nhà hàng",
+        "cà phê",
+        "cafe",
+        "coffee",
+        "nhà ăn",
+        "căng tin",
+        "canteen"
+      ]
+    },
+    {
+      "ma": "C1_4",
+      "nhom": "C1",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Sảnh, phòng chờ, hành lang, cầu thang bộ thông với C1.1–C1.3",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C1: Các khu vực có bàn và tương tự:",
+        "C1.4 Sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan) thông với các khu vực C1.1, C1.2 và C1.3"
+      ],
+      "q_kt": 3.0,
+      "type_san_etabs": "SAN_C1_4",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "C2_1",
+      "nhom": "C2",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Khu có ghế gắn cố định: rạp chiếu phim, rạp hát, nhà thờ, phòng hòa nhạc, hội trường, phòng họp, phòng chờ",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C2: Các khu vực có ghế gắn cố định:",
+        "C2.1 Rạp chiếu phim, rạp hát, nhà thờ, phòng hòa nhạc, phòng hội trường, phòng họp, phòng chờ"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_C2_1",
+      "tu_khoa_goi_y": [
+        "hội trường",
+        "phòng họp",
+        "rạp",
+        "nhà thờ",
+        "hòa nhạc",
+        "giảng đường"
+      ]
+    },
+    {
+      "ma": "C2_2",
+      "nhom": "C2",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Sảnh, phòng chờ, hành lang, cầu thang bộ thông với C2.1",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C2: Các khu vực có ghế gắn cố định:",
+        "C2.2 Sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan) thông với khu vực C2.1"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_C2_2",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "C3",
+      "nhom": "C3",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Khu người đi lại tự do: nhà thờ, bảo tàng, triển lãm, trưng bày; sảnh công trình công cộng, trụ sở, khách sạn, bệnh viện; sân ga; cầu vượt bộ hành",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C3: Khu vực người đi lại tự do, ví dụ: các khu vực trong nhà thờ, bảo tàng; các gian phòng triển lãm, các gian phòng trưng bày và tương tự, và các khu vực thông với chúng trong công trình công cộng, trụ sở cơ quan, khách sạn, bệnh viện; sân ga đường sắt; cầu vượt bộ hành sân ga"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_C3",
+      "tu_khoa_goi_y": [
+        "bảo tàng",
+        "triển lãm",
+        "trưng bày",
+        "showroom",
+        "sảnh khách sạn",
+        "sảnh bệnh viện"
+      ]
+    },
+    {
+      "ma": "C4",
+      "nhom": "C4",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Khu người hoạt động nhiều: khiêu vũ, thể hình, bida… và sảnh/hành lang/cầu thang thông với chúng",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C4: Khu vực người hoạt động nhiều, ví dụ: phòng khiêu vũ, phòng tập thể hình, phòng bida và các khu vực thông với chúng như sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan)"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_C4",
+      "tu_khoa_goi_y": [
+        "gym",
+        "thể hình",
+        "khiêu vũ",
+        "bida",
+        "bi-a",
+        "yoga",
+        "aerobic"
+      ]
+    },
+    {
+      "ma": "C5_1",
+      "nhom": "C5",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Tập trung rất đông người: hòa nhạc, thể thao, khán đài; ban công và các phòng tập trung đông người thông với ban công đó; sân khấu, sân thượng, sân ga lớn, tàu điện ngầm, gian lánh nạn",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C5: Khu vực tập trung rất đông người",
+        "C5.1 Khu vực có các sự kiện cộng đồng như: phòng hòa nhạc; phòng tập thể thao, khán đài; ban công và các phòng tập trung đông người thông với ban công đó; sân khấu; sân thượng; cầu vượt bộ hành tại sân ga đường sắt lớn; sân ga đường sắt lớn, tàu điện ngầm, tàu điện trên cao và tương tự; gian lánh nạn"
+      ],
+      "q_kt": 5.0,
+      "type_san_etabs": "SAN_C5_1",
+      "tu_khoa_goi_y": [
+        "khán đài",
+        "sân khấu",
+        "nhà thi đấu",
+        "sân thượng khách sạn",
+        "sân thượng công cộng",
+        "lánh nạn",
+        "tầng lánh nạn"
+      ],
+      "ghi_chu": "Sân thượng: CHỈ khách sạn / công trình công cộng mới lấy C5.1 = 5,0; nhà ở phổ thông, dân dụng lấy I2 = 1,5 (kỹ sư chốt 11/10/2026)."
+    },
+    {
+      "ma": "C5_2",
+      "nhom": "C5",
+      "khu_vuc": "C - Tập trung đông người",
+      "ten": "Sảnh, phòng chờ, hành lang, cầu thang bộ thông với C5.1",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực C: Khu vực có thể tập trung đông người, trừ các khu vực A, B và D",
+        "C5: Khu vực tập trung rất đông người",
+        "C5.2 Sảnh, phòng chờ, hành lang, cầu thang bộ (với các đường đi lại liên quan) thông với khu vực C5.1"
+      ],
+      "q_kt": 5.0,
+      "type_san_etabs": "SAN_C5_2",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "D1",
+      "nhom": "D1",
+      "khu_vuc": "D - Thương mại",
+      "ten": "Khu vực cửa hàng kinh doanh bán lẻ",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực D: Khu vực thương mại",
+        "D1: Khu vực cửa hàng kinh doanh bán lẻ"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_D1",
+      "tu_khoa_goi_y": [
+        "cửa hàng",
+        "shop",
+        "kinh doanh",
+        "bán hàng",
+        "ki ốt",
+        "kiot",
+        "kiosk"
+      ]
+    },
+    {
+      "ma": "D2",
+      "nhom": "D2",
+      "khu_vuc": "D - Thương mại",
+      "ten": "Khu bán hàng trong trung tâm thương mại, siêu thị",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực D: Khu vực thương mại",
+        "D2: Khu vực bán hàng ở trung tâm thương mại, siêu thị và tương tự"
+      ],
+      "q_kt": 5.0,
+      "type_san_etabs": "SAN_D2",
+      "tu_khoa_goi_y": [
+        "siêu thị",
+        "trung tâm thương mại",
+        "ttm",
+        "mall"
+      ]
+    },
+    {
+      "ma": "H",
+      "nhom": "H",
+      "khu_vuc": "H - Mái không sử dụng",
+      "ten": "Mái không sử dụng, chỉ có người đi lại sửa chữa",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực H: Mái không sử dụng, chỉ có người đi lại sửa chữa"
+      ],
+      "q_kt": 0.3,
+      "type_san_etabs": "SAN_H",
+      "tu_khoa_goi_y": [
+        "mái",
+        "mái tôn",
+        "mái ngói",
+        "mái bê tông",
+        "sê nô",
+        "seno",
+        "ô văng",
+        "mái tum"
+      ]
+    },
+    {
+      "ma": "I1",
+      "nhom": "I1",
+      "khu_vuc": "I - Mái có sử dụng",
+      "ten": "Mái có sử dụng — những chỗ tập trung đông người (từ phòng xưởng, phòng họp lớn, hội trường…)",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực I: Mái có sử dụng",
+        "I1: Những chỗ tập trung đông người (đi từ các phòng xưởng, phòng họp lớn, phòng hội trường và tương tự)"
+      ],
+      "q_kt": 4.0,
+      "type_san_etabs": "SAN_I1",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "I2",
+      "nhom": "I2",
+      "khu_vuc": "I - Mái có sử dụng",
+      "ten": "Mái có sử dụng — những chỗ nghỉ ngơi; SÂN THƯỢNG nhà ở phổ thông, dân dụng",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực I: Mái có sử dụng",
+        "I2: Những chỗ nghỉ ngơi"
+      ],
+      "q_kt": 1.5,
+      "type_san_etabs": "SAN_I2",
+      "tu_khoa_goi_y": [
+        "sân thượng",
+        "sân phơi",
+        "vườn mái",
+        "sân vườn mái",
+        "mái có sử dụng"
+      ],
+      "ghi_chu": "Sân thượng nhà ở phổ thông / dân dụng = 1,5 (kỹ sư chốt 11/10/2026); khách sạn / công trình công cộng ⇒ C5_1."
+    },
+    {
+      "ma": "I3",
+      "nhom": "I3",
+      "khu_vuc": "I - Mái có sử dụng",
+      "ten": "Mái có sử dụng — những chỗ khác",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực I: Mái có sử dụng",
+        "I3: Những chỗ khác"
+      ],
+      "q_kt": 0.7,
+      "type_san_etabs": "SAN_I3",
+      "tu_khoa_goi_y": []
+    },
+    {
+      "ma": "L1",
+      "nhom": "L1",
+      "khu_vuc": "L - Chăn nuôi",
+      "ten": "Khu vực chăn nuôi gia súc nhỏ (theo nhiệm vụ thiết kế, không nhỏ hơn)",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực L: Khu vực chăn nuôi",
+        "L1: Khu vực chăn nuôi gia súc nhỏ",
+        "1) Tải trọng cho các khu vực này lấy theo nhiệm vụ thiết kế trên cơ sở giải pháp công nghệ, nhưng không nhỏ hơn các giá trị nêu tại các khu vực L1 và L2."
+      ],
+      "q_kt": 2.0,
+      "type_san_etabs": "SAN_L1",
+      "tu_khoa_goi_y": [
+        "chuồng",
+        "chăn nuôi gia súc nhỏ"
+      ],
+      "ghi_chu": "Lấy theo nhiệm vụ thiết kế, không nhỏ hơn giá trị này."
+    },
+    {
+      "ma": "L2",
+      "nhom": "L2",
+      "khu_vuc": "L - Chăn nuôi",
+      "ten": "Khu vực chăn nuôi gia súc lớn (theo nhiệm vụ thiết kế, không nhỏ hơn)",
+      "bang": "Bảng 4 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn phân bố đều q_k,t lên sàn, mái, cầu thang bộ",
+      "nguyen_van": [
+        "Khu vực L: Khu vực chăn nuôi",
+        "L2: Khu vực chăn nuôi gia súc lớn",
+        "1) Tải trọng cho các khu vực này lấy theo nhiệm vụ thiết kế trên cơ sở giải pháp công nghệ, nhưng không nhỏ hơn các giá trị nêu tại các khu vực L1 và L2."
+      ],
+      "q_kt": 5.0,
+      "type_san_etabs": "SAN_L2",
+      "tu_khoa_goi_y": [
+        "chăn nuôi gia súc lớn"
+      ],
+      "ghi_chu": "Lấy theo nhiệm vụ thiết kế, không nhỏ hơn giá trị này."
+    },
+    {
+      "ma": "F_DO",
+      "nhom": "F",
+      "khu_vuc": "F - Bãi đỗ xe ≤ 30 kN",
+      "ten": "Bãi đỗ xe trong nhà, xe tổng trọng lượng ≤ 30 kN — khu vực đỗ xe",
+      "bang": "Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe",
+      "nguyen_van": [
+        "Khu vực F: Bãi đỗ xe trong nhà cho phương tiện giao thông có tổng trọng lượng không lớn hơn 30 kN:",
+        "a) Khu vực đỗ xe"
+      ],
+      "q_kt": 3.5,
+      "Q_kt_kN": 20.0,
+      "type_san_etabs": "SAN_F_DO",
+      "tu_khoa_goi_y": [
+        "gara",
+        "garage",
+        "để xe",
+        "đỗ xe",
+        "nhà xe",
+        "bãi xe",
+        "hầm xe",
+        "ô tô"
+      ]
+    },
+    {
+      "ma": "F_DOC",
+      "nhom": "F",
+      "khu_vuc": "F - Bãi đỗ xe ≤ 30 kN",
+      "ten": "Bãi đỗ xe ≤ 30 kN — đường dốc, đoạn đường vào cửa tầng hầm / nửa hầm",
+      "bang": "Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe",
+      "nguyen_van": [
+        "Khu vực F: Bãi đỗ xe trong nhà cho phương tiện giao thông có tổng trọng lượng không lớn hơn 30 kN:",
+        "b) Đường dốc và đoạn đường vào cửa tầng hầm/nửa hầm"
+      ],
+      "q_kt": 5.0,
+      "Q_kt_kN": 25.0,
+      "type_san_etabs": "SAN_F_DOC",
+      "tu_khoa_goi_y": [
+        "dốc xe",
+        "ram dốc",
+        "đường dốc",
+        "lối xuống hầm"
+      ]
+    },
+    {
+      "ma": "G_DO",
+      "nhom": "G",
+      "khu_vuc": "G - Bãi đỗ xe 30–160 kN",
+      "ten": "Bãi đỗ xe 30 kN < tổng trọng lượng ≤ 160 kN — khu vực đỗ xe",
+      "bang": "Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe",
+      "nguyen_van": [
+        "Khu vực G: Bãi đỗ xe trong nhà cho phương tiện giao thông có tổng trọng lượng lớn hơn 30 kN nhưng không lớn hơn 160 kN:",
+        "a) Khu vực đỗ xe"
+      ],
+      "q_kt": 5.0,
+      "Q_kt_kN": 90.0,
+      "type_san_etabs": "SAN_G_DO",
+      "tu_khoa_goi_y": [
+        "xe tải",
+        "bãi xe tải"
+      ],
+      "ghi_chu": "Lấy theo nhiệm vụ thiết kế trên cơ sở giải pháp công nghệ (Bảng 5 chú thích 2)."
+    },
+    {
+      "ma": "G_DOC",
+      "nhom": "G",
+      "khu_vuc": "G - Bãi đỗ xe 30–160 kN",
+      "ten": "Bãi đỗ xe 30–160 kN — đường dốc, đoạn vào cửa tầng hầm / nửa hầm",
+      "bang": "Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe",
+      "nguyen_van": [
+        "Khu vực G: Bãi đỗ xe trong nhà cho phương tiện giao thông có tổng trọng lượng lớn hơn 30 kN nhưng không lớn hơn 160 kN:",
+        "b) Đường dốc và đoạn đường vào cửa tầng hầm/nửa hầm"
+      ],
+      "q_kt": 7.0,
+      "Q_kt_kN": 100.0,
+      "type_san_etabs": "SAN_G_DOC",
+      "tu_khoa_goi_y": []
+    }
+  ],
+  "cau_thang_etabs": {
+    "sdl_kN_m2": 3.0,
+    "ma_hoat_tai": "A2",
+    "ghi_chu": "Kỹ sư chốt 11/10/2026: KHÔNG mở lỗ cầu thang trong ETABS (thiếu tải) — vẽ mảng sàn bình thường, tiết diện riêng S<h>_THANG, tĩnh tải SDL 3 kN/m², hoạt tải theo mã. Chỉ lỗ cầu thang bộ; thang máy / thông tầng vẫn là lỗ. Mặt bằng kết cấu vẽ lỗ bình thường."
+  },
+  "theo_loai_cong_trinh": [
+    {
+      "cong_nang": "sân thượng",
+      "nha_o_dan_dung": "I2",
+      "khach_san_cong_cong": "C5_1",
+      "ghi_chu": "kỹ sư chốt 11/10/2026: nhà ở phổ thông, dân dụng 1,5; khách sạn / công trình công cộng 5,0"
+    }
+  ],
+  "dieu_chinh": [
+    {
+      "chu_thich": 1,
+      "noi_dung": "Cầu thang bộ và tiền sảnh (trước cửa ra vào chính) của nhà ở và tổ hợp cao > 75 m; công trình công cộng cao > 50 m; nhà đa năng có gian phòng công năng công cộng ở độ cao > 50 m ⇒ q_kt ≥ 5,0 kN/m².",
+      "ap_cho": [
+        "A2",
+        "B4",
+        "C1_4",
+        "C2_2",
+        "C3"
+      ],
+      "dieu_kien": {
+        "nha_o_cao_tren_m": 75,
+        "cong_cong_cao_tren_m": 50,
+        "da_nang_phong_cong_cong_cao_tren_m": 50
+      },
+      "q_kt_toi_thieu": 5.0,
+      "nguyen_van": "CHÚ THÍCH 1: Riêng cầu thang bộ và tiền sảnh (trước cửa ra vào chính) của nhà ở và tổ hợp cao trên 75 m; công trình công cộng cao trên 50 m và nhà đa năng (mà trong đó các gian phòng có công năng công cộng được bố trí ở độ cao trên 50 m) thì q_k,t lấy không nhỏ hơn 5,0 kN/m².",
+      "ap_cho_ten_san": [
+        "THANG",
+        "SANH"
+      ]
+    },
+    {
+      "chu_thich": 2,
+      "noi_dung": "Sảnh, phòng chờ, hành lang tầng 1 của các nhà và công trình nêu tại chú thích 1 ⇒ q_kt ≥ 4,0 kN/m².",
+      "ap_cho": [
+        "A2",
+        "B4",
+        "C1_4",
+        "C2_2",
+        "C3"
+      ],
+      "dieu_kien": {
+        "tang": "T1",
+        "nhu_chu_thich": 1
+      },
+      "q_kt_toi_thieu": 4.0,
+      "nguyen_van": "CHÚ THÍCH 2: Riêng sảnh, phòng chờ, hành lang tầng 1 của các nhà và công trình nêu tại CHÚ THÍCH 1 thì q_k,t lấy không nhỏ hơn 4,0 kN/m².",
+      "ap_cho_ten_san": [
+        "SANH",
+        "HLANG"
+      ]
+    },
+    {
+      "chu_thich": 3,
+      "noi_dung": "Phòng khiêu vũ, sân khấu nhà hát, khán đài thể thao phải kể tác dụng động tần số 2 Hz, biên độ 1,7 kPa — theo tiêu chuẩn thiết kế / nhiệm vụ thiết kế.",
+      "ap_cho": [
+        "C4",
+        "C5_1"
+      ],
+      "canh_bao_ky_su": true,
+      "nguyen_van": "CHÚ THÍCH 3: Khi thiết kế các gian phòng khiêu vũ, sân khấu nhà hát và khán đài công trình thể thao thì phải kể đến tác dụng động của tải trọng với tần số bằng 2 Hz và biên độ bằng 1,7 kPa. Giá trị hệ số động lực, cũng như diện tích tác dụng được quy định trong các tiêu chuẩn về thiết kế hoặc trong nhiệm vụ thiết kế."
+    }
+  ],
+  "theo_nhiem_vu_thiet_ke": [
+    {
+      "ma": "G1",
+      "nhom": "G1",
+      "khu_vuc": "G1 - Bãi đỗ xe > 160 kN",
+      "ten": "Bãi đỗ xe cho phương tiện giao thông có tổng trọng lượng lớn hơn 160 kN — theo nhiệm vụ thiết kế",
+      "bang": "Bảng 5 – Giá trị tiêu chuẩn của tải trọng tạm thời ngắn hạn tương đương thẳng đứng phân bố đều và cục bộ lên các sàn (sàn tầng, sàn mái và sàn trên nền đất) của bãi đỗ xe",
+      "nguyen_van": [
+        "Khu vực G1: Bãi đỗ xe cho phương tiện giao thông có tổng trọng lượng lớn hơn 160 kN",
+        "Theo nhiệm vụ thiết kế"
+      ],
+      "q_kt": null,
+      "Q_kt_kN": null,
+      "type_san_etabs": "SAN_G1",
+      "tu_khoa_goi_y": [],
+      "canh_bao_ky_su": true,
+      "ghi_chu": "Không có số trong TCVN — kỹ sư nhập theo nhiệm vụ thiết kế (mã không tự gán)."
+    }
+  ],
+  "bang5_chu_thich": [
+    "CHÚ THÍCH 1: Tổng trọng lượng là tổng của trọng lượng bản thân phương tiện giao thông và tải trọng có ích lớn nhất trong xe.",
+    "CHÚ THÍCH 2: Giá trị tiêu chuẩn của tải trọng đối với khu vực G cần được lấy theo nhiệm vụ thiết kế trên cơ sở giải pháp công nghệ.",
+    "CHÚ THÍCH 3: Giá trị q_k,t dùng để xác định hiệu ứng tổng thể và giá trị Q_k,t dùng để xác định hiệu ứng cục bộ. Các giá trị q_k,t và Q_k,t không áp dụng đồng thời trong một tổ hợp tải trọng."
+  ],
+  "dong_nghia": {
+    "cach_dung": "Chữ tên phòng ⇒ thường hoá ⇒ thay cụm \"bien_the\" bằng \"chuan\" (trọn từ, dài trước) ⇒ tra từ khoá bảng / tên sàn. Không ra ⇒ AI quản lý chọn mã (mã kiểm: mã phải có trong bảng).",
+    "chan_khop": [
+      "tong hop",
+      "hop kim"
+    ],
+    "thay": [
+      [
+        "p",
+        "phong"
+      ],
+      [
+        "ph",
+        "phong"
+      ],
+      [
+        "pn",
+        "phong ngu"
+      ],
+      [
+        "pk",
+        "phong khach"
+      ],
+      [
+        "p kt",
+        "phong ky thuat"
+      ],
+      [
+        "psh",
+        "sinh hoat"
+      ],
+      [
+        "shc",
+        "sinh hoat chung"
+      ],
+      [
+        "p shc",
+        "sinh hoat chung"
+      ],
+      [
+        "vs",
+        "ve sinh"
+      ],
+      [
+        "w c",
+        "wc"
+      ],
+      [
+        "toilet",
+        "wc"
+      ],
+      [
+        "toilette",
+        "wc"
+      ],
+      [
+        "nha ve sinh",
+        "ve sinh"
+      ],
+      [
+        "nha tam",
+        "ve sinh"
+      ],
+      [
+        "bedroom",
+        "phong ngu"
+      ],
+      [
+        "master bedroom",
+        "phong ngu"
+      ],
+      [
+        "bed room",
+        "phong ngu"
+      ],
+      [
+        "living room",
+        "phong khach"
+      ],
+      [
+        "living",
+        "phong khach"
+      ],
+      [
+        "kitchen",
+        "bep"
+      ],
+      [
+        "pantry",
+        "bep"
+      ],
+      [
+        "dining",
+        "phong an"
+      ],
+      [
+        "dining room",
+        "phong an"
+      ],
+      [
+        "bathroom",
+        "ve sinh"
+      ],
+      [
+        "restroom",
+        "ve sinh"
+      ],
+      [
+        "balcony",
+        "ban cong"
+      ],
+      [
+        "loggia",
+        "lo gia"
+      ],
+      [
+        "corridor",
+        "hanh lang"
+      ],
+      [
+        "lobby",
+        "sanh"
+      ],
+      [
+        "foyer",
+        "sanh"
+      ],
+      [
+        "stair",
+        "cau thang"
+      ],
+      [
+        "stairs",
+        "cau thang"
+      ],
+      [
+        "staircase",
+        "cau thang"
+      ],
+      [
+        "garage",
+        "gara"
+      ],
+      [
+        "parking",
+        "de xe"
+      ],
+      [
+        "terrace",
+        "san thuong"
+      ],
+      [
+        "roof",
+        "mai"
+      ],
+      [
+        "office",
+        "van phong"
+      ],
+      [
+        "meeting room",
+        "phong hop"
+      ],
+      [
+        "storage",
+        "kho"
+      ],
+      [
+        "store room",
+        "kho"
+      ],
+      [
+        "laundry",
+        "giat"
+      ],
+      [
+        "altar",
+        "phong tho"
+      ],
+      [
+        "tho cung",
+        "phong tho"
+      ],
+      [
+        "reception",
+        "le tan"
+      ],
+      [
+        "hop ky thuat",
+        "phong ky thuat"
+      ],
+      [
+        "hop gen",
+        "phong ky thuat"
+      ],
+      [
+        "study",
+        "phong lam viec"
+      ],
+      [
+        "p giam doc",
+        "phong giam doc"
+      ],
+      [
+        "ki ot",
+        "kiot"
+      ]
+    ]
+  },
+  "ten_san_ma": {
+    "cach_dung": "Mã theo tên sàn công năng + loại công trình. Nhiều mã ⇒ mơ hồ theo TCVN (phụ thuộc khu vực nó thông với) ⇒ AI chọn; không AI ⇒ q lớn nhất + KỸ SƯ KIỂM.",
+    "nha_o": {
+      "PNGU": [
+        "A1_SAN"
+      ],
+      "PKHACH": [
+        "A1_SAN"
+      ],
+      "PSHC": [
+        "A1_SAN"
+      ],
+      "BEP": [
+        "A1_SAN"
+      ],
+      "PAN": [
+        "A1_SAN"
+      ],
+      "WC": [
+        "A1_SAN"
+      ],
+      "PTHO": [
+        "A1_SAN"
+      ],
+      "KHO": [
+        "A1_SAN"
+      ],
+      "GIAT": [
+        "A1_SAN"
+      ],
+      "BCONG": [
+        "A1_BCLG"
+      ],
+      "LOGIA": [
+        "A1_BCLG"
+      ],
+      "SANH": [
+        "A2"
+      ],
+      "HLANG": [
+        "A2"
+      ],
+      "THANG": [
+        "A2"
+      ],
+      "STHUONG": [
+        "I2"
+      ],
+      "MAI": [
+        "H"
+      ],
+      "GARA": [
+        "F_DO"
+      ],
+      "VP": [
+        "B1_SAN"
+      ],
+      "PHOP": [
+        "C2_1"
+      ],
+      "CUAHANG": [
+        "D1"
+      ],
+      "KYTHUAT": [
+        "B3"
+      ],
+      "PHOC": [
+        "C1_1"
+      ]
+    },
+    "van_phong": {
+      "PNGU": [
+        "A1_SAN"
+      ],
+      "PKHACH": [
+        "C1_1"
+      ],
+      "PSHC": [
+        "B1_SAN"
+      ],
+      "BEP": [
+        "B2_SAN"
+      ],
+      "PAN": [
+        "C1_3"
+      ],
+      "WC": [
+        "B1_SAN"
+      ],
+      "GIAT": [
+        "B1_SAN"
+      ],
+      "BCONG": [
+        "B1_BCLG"
+      ],
+      "LOGIA": [
+        "B1_BCLG"
+      ],
+      "SANH": [
+        "B4"
+      ],
+      "HLANG": [
+        "B4"
+      ],
+      "THANG": [
+        "B4"
+      ],
+      "STHUONG": [
+        "I1",
+        "I2"
+      ],
+      "MAI": [
+        "H"
+      ],
+      "GARA": [
+        "F_DO"
+      ],
+      "VP": [
+        "B1_SAN"
+      ],
+      "PHOP": [
+        "C2_1"
+      ],
+      "CUAHANG": [
+        "D1"
+      ],
+      "KYTHUAT": [
+        "B3"
+      ],
+      "PHOC": [
+        "C1_1"
+      ]
+    },
+    "cong_cong": {
+      "PNGU": [
+        "A1_SAN"
+      ],
+      "PKHACH": [
+        "C1_1",
+        "C3"
+      ],
+      "PSHC": [
+        "B1_SAN"
+      ],
+      "BEP": [
+        "B2_SAN"
+      ],
+      "PAN": [
+        "C1_3"
+      ],
+      "WC": [
+        "B1_SAN"
+      ],
+      "GIAT": [
+        "B1_SAN"
+      ],
+      "BCONG": [
+        "A1_BCLG",
+        "B1_BCLG",
+        "B2_BCLG",
+        "C5_1"
+      ],
+      "LOGIA": [
+        "A1_BCLG",
+        "B1_BCLG",
+        "B2_BCLG"
+      ],
+      "SANH": [
+        "C3"
+      ],
+      "HLANG": [
+        "A2",
+        "B4",
+        "C1_4",
+        "C2_2"
+      ],
+      "THANG": [
+        "A2",
+        "B4",
+        "C1_4",
+        "C2_2"
+      ],
+      "STHUONG": [
+        "C5_1"
+      ],
+      "MAI": [
+        "H"
+      ],
+      "GARA": [
+        "F_DO"
+      ],
+      "VP": [
+        "B1_SAN"
+      ],
+      "PHOP": [
+        "C2_1"
+      ],
+      "CUAHANG": [
+        "D1"
+      ],
+      "KYTHUAT": [
+        "B3"
+      ],
+      "PHOC": [
+        "C1_1"
+      ]
+    }
+  },
+  "loai_cong_trinh": {
+    "chon_tay": null,
+    "ghi_chu": "chon_tay = \"nha_o\" | \"van_phong\" | \"cong_cong\" ⇒ dùng luôn (đặt bản sao file này trong 00.FileDungChung của dự án). null ⇒ tự nhận theo chữ phòng cả dự án.",
+    "mac_dinh": "nha_o",
+    "cong_cong_tu_khoa": [
+      "khách sạn",
+      "hotel",
+      "lễ tân",
+      "bệnh viện",
+      "phòng bệnh",
+      "trường học",
+      "lớp học",
+      "giảng đường",
+      "hội trường",
+      "siêu thị",
+      "trung tâm thương mại",
+      "nhà thi đấu",
+      "rạp",
+      "bảo tàng",
+      "nhà văn hóa"
+    ],
+    "van_phong_ten_san": [
+      "VP",
+      "PHOP"
+    ],
+    "nha_o_ten_san": [
+      "PNGU",
+      "PKHACH",
+      "PSHC",
+      "PTHO",
+      "BEP"
+    ]
+  }
+}

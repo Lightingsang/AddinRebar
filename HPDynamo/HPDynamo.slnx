@@ -1,0 +1,27 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <!-- HPDynamo MCP: In-Process Dual-Lifecycle Bridge running inside Revit.exe / Dynamo 3.7,
+       stdio MCP Server executable launched by AI coding agents, and unit / E2E acceptance test suites.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPDynamo.McpBridge/HPDynamo.McpBridge.csproj" />
+  <Project Path="HPDynamo.McpBridge.Tests/HPDynamo.McpBridge.Tests.csproj" />
+  <Project Path="HPDynamo.Mcp.Server/HPDynamo.Mcp.Server.csproj" />
+  <Project Path="HPDynamo.Mcp.Server.Tests/HPDynamo.Mcp.Server.Tests.csproj" />
+  <Project Path="HPDynamo.E2E.Tests/HPDynamo.E2E.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

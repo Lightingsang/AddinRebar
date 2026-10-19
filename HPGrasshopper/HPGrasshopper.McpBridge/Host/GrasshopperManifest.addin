@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>HPGrasshopper MCP Bridge</Name>
+    <Assembly>HPGrasshopper.McpBridge\HPGrasshopper.McpBridge.dll</Assembly>
+    <AddInId>F6D264A7-876D-4158-9A3E-81DE1234ABCD</AddInId>
+    <FullClassName>HPGrasshopper.McpBridge.Host.GrasshopperAddinApplication</FullClassName>
+    <VendorId>HPRB</VendorId>
+    <VendorDescription>HPRebar Grasshopper MCP Subsystem</VendorDescription>
+  </AddIn>
+  <ManifestSettings>
+    <UseRevitContext>False</UseRevitContext>
+    <ContextName>HPGrasshopper.McpBridge</ContextName>
+  </ManifestSettings>
+</RevitAddIns>

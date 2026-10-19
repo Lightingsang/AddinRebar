@@ -1,0 +1,52 @@
+﻿// Decompiled jVggQdGZ6R75GvpjNUX3.xavXIGGZSoyV1HnLMpd5::gUiGO6Dv37S
+
+// Method: gUiGO6Dv37S
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using HBmFNkGXOFtP5QqulsoZ;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+private static List<nint> gUiGO6Dv37S()
+{
+	List<nint> list = new List<nint>();
+	string[] array = File.ReadAllLines("/proc/self/maps");
+	foreach (string obj in array)
+	{
+		long num = BitConverter.ToInt64(Type.GetTypeFromHandle(B6lRCcGXZUqXJeYiIong.XuoKYMwsW2E(33555790)).Assembly.ManifestModule.ModuleVersionId.ToByteArray(), 0);
+		long num2 = BitConverter.ToInt64(Enumerable.Reverse(BitConverter.GetBytes(num)).ToArray(), 0);
+		string[] array2 = obj.Split(' ');
+		string text = array2[0];
+		if (array2[1][0] != 'r')
+		{
+			continue;
+		}
+		long num3 = Convert.ToInt64(text.Split('-')[0], 16);
+		if (Convert.ToInt64(text.Split('-')[1], 16) - num3 < 72)
+		{
+			continue;
+		}
+		nint item = new IntPtr(num3);
+		nint num4 = new IntPtr(num3 + 64);
+		if (!VDEGO1AB8mc(num4, 8))
+		{
+			continue;
+		}
+		try
+		{
+			long num5 = Marshal.ReadInt64(num4);
+			if (num5 == num || num5 == num2)
+			{
+				list.Add(item);
+			}
+		}
+		catch
+		{
+		}
+	}
+	return list;
+}
+

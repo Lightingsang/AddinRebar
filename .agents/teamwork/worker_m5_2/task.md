@@ -1,0 +1,11 @@
+# Worker M5.2 Task Tracker (Forensic Remediation)
+- [ ] Task 1: Replace all 64 mock command implementations in HPDcePro.AutoCad/Commands/ with genuine PromptHelper + geometry/XData logic
+- [ ] Task 2: Replace 6 mock commands in Subsystem 3 (DceSteel) and 7 mock commands in Subsystem 4 (MBKC) with genuine logic
+- [ ] Task 3: Update docs/rea-dce-pro/TRUTH_MATRIX.md:
+  - Update all 77 rows to HOÀN THÀNH
+  - Keep all 296 Babel JIT-encrypted rows as CHƯA GIẢI MÃ ĐƯỢC
+  - Synchronize Section 1 Summary Statistics Table to exact row tallies: 306 HOÀN THÀNH | 0 ĐANG LÀ MOCK | 296 CHƯA GIẢI MÃ ĐƯỢC (Total 602)
+- [ ] Task 4: Run python tools/verification/run_all_truth_matrix_verifications.py (Assert 0 discrepancies)
+- [ ] Task 5: Execute sequential build and direct test runners (HPDcePro.Core.Tests.exe + HPDcePro.Adapters.Tests.exe)
+- [ ] Task 6: Verify C:\Dce Pro remains 100% untouched (1,554 files)
+- [ ] Task 7: Write handoff report to .agents/teamwork/worker_m5_2/handoff.md

@@ -1,0 +1,3866 @@
+[
+  {
+    "text": "(200x350)",
+    "x": 390492.7,
+    "y": -377978.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 400645.5,
+    "y": -375355.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 404246.9,
+    "y": -374781.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 387426.5,
+    "y": -375112.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 390482.2,
+    "y": -396612.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 390464.7,
+    "y": -401221.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 404256.5,
+    "y": -400024.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -401244.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -401244.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "* TIEÁN HAØNH THÍ NGHIEÄM NEÙN TÓNH CUÛA COÏC ÑEÅ XAÙC ÑÒNH CHÍNH XAÙC",
+    "x": 328794.6,
+    "y": -51050.7,
+    "rot": 0,
+    "layer": "KC-2"
+  },
+  {
+    "text": "* TIEÁT DIEÄN BEÂ TOÂNG COÁT THEÙP 300x300 (mm)",
+    "x": 308139,
+    "y": -52452.2,
+    "rot": 0,
+    "layer": "KC-2"
+  },
+  {
+    "text": "DK.a",
+    "x": 226141.4,
+    "y": -70752.4,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "ÑAØ KIEÀNG TIEÁT DIEÄN 100x300",
+    "x": 235766.2,
+    "y": -115519,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "DK.a",
+    "x": 234655.6,
+    "y": -115486.2,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 229225.5,
+    "y": -70656.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 236525.5,
+    "y": -70621.3,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 240862.1,
+    "y": -70311.9,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 248516.2,
+    "y": -71120.3,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 243580.6,
+    "y": -70518.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 260558.8,
+    "y": -70518.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 264845.5,
+    "y": -71065.1,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 256066.7,
+    "y": -70518.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 264124.8,
+    "y": -77145,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a'",
+    "x": 267874.8,
+    "y": -77145,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "DK.a'",
+    "x": 268098.8,
+    "y": -84490.9,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "DK.a'",
+    "x": 268098.8,
+    "y": -88440.9,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "DK.a",
+    "x": 268098.8,
+    "y": -93640.9,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "DK.a",
+    "x": 264198.8,
+    "y": -93640.9,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 264198.8,
+    "y": -80440.9,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 264198.8,
+    "y": -88440.9,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 253195.1,
+    "y": -95113.7,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 258068.4,
+    "y": -98925.6,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 259756.3,
+    "y": -99127.3,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 260209.2,
+    "y": -100306.7,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 264611.2,
+    "y": -99699.6,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 254401,
+    "y": -100306.7,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 239806.9,
+    "y": -99624.3,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 241174.1,
+    "y": -96239.4,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 235712.6,
+    "y": -96239.4,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 236349.3,
+    "y": -97838.4,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 229215.2,
+    "y": -98645.3,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 226413.4,
+    "y": -100247.8,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 226906.2,
+    "y": -93146.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 226906.2,
+    "y": -88396.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 233142.6,
+    "y": -87533.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 233206.2,
+    "y": -88846.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 226906.2,
+    "y": -80396.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 226906.2,
+    "y": -77644.6,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 219060.3,
+    "y": -83001.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.b",
+    "x": 222783.7,
+    "y": -70300.9,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 221583.7,
+    "y": -70300.9,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 219101.5,
+    "y": -70561.5,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 219922.8,
+    "y": -98017.5,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 221194.7,
+    "y": -98842.6,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 222394.7,
+    "y": -98842.6,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.b",
+    "x": 226616.6,
+    "y": -98741.6,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "ÑAØ KIEÀNG TIEÁT DIEÄN 200x300",
+    "x": 235766.2,
+    "y": -116182.8,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "DK.b",
+    "x": 234655.6,
+    "y": -116150,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.a",
+    "x": 257145.7,
+    "y": -73273.6,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a",
+    "x": 254864.8,
+    "y": -73087.5,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "DK.a'",
+    "x": 268024.8,
+    "y": -82345,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "DK.b",
+    "x": 226936.2,
+    "y": -70556.2,
+    "rot": 0,
+    "layer": "CS1-T2"
+  },
+  {
+    "text": "DK.a",
+    "x": 219060.3,
+    "y": -87727.4,
+    "rot": 0,
+    "layer": "a"
+  },
+  {
+    "text": "ÑAØ KIEÀNG TIEÁT DIEÄN 100x300, COTE -1.000",
+    "x": 235766.2,
+    "y": -116831.9,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "DK.a'",
+    "x": 234655.6,
+    "y": -116799.1,
+    "rot": 0,
+    "layer": "a'"
+  },
+  {
+    "text": "ÑAØ KIEÀNG COTE -1.000",
+    "x": 235766.2,
+    "y": -113313.9,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "SAØN DAØY THAO TAÙC (XEM BAÛN VEÕ CHI TIEÁT)",
+    "x": 249022.9,
+    "y": -358670.5,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "(200x350)",
+    "x": 400969.7,
+    "y": -400626.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 400950.7,
+    "y": -375161.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 390464.7,
+    "y": -373964.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -373959.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -373959.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -399367.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -399367.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -397595.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -397595.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -375859.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -375859.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 397768.7,
+    "y": -376994.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 401584.2,
+    "y": -376994.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 387426.5,
+    "y": -399886.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 393026.5,
+    "y": -399886.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 393026.5,
+    "y": -375112.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 396026.5,
+    "y": -375112.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 396026.5,
+    "y": -399886.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 400645.5,
+    "y": -400707.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 403253.4,
+    "y": -374805.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 403253.4,
+    "y": -400268.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "CHI TIEÁT VAI COÄT (SL=2) \r\nTYÛ LEÄ 1/25",
+    "x": 879611.4,
+    "y": -490712.9,
+    "rot": 0,
+    "layer": "0"
+  },
+  {
+    "text": "CHI TIEÁT NOÁI THEÙP COÄT",
+    "x": 761636.7,
+    "y": -61838,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT COÄT CAÁY",
+    "x": 773732.3,
+    "y": -56195.5,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT NOÁI THEÙP COÄT",
+    "x": 837846.7,
+    "y": -59432.9,
+    "rot": 6.28,
+    "layer": "Text bung san"
+  },
+  {
+    "text": "CHI TIEÁT COÄT (BOÅ TRUÏ) CAÁY TREÂN ÑAØ",
+    "x": 850639.1,
+    "y": -52461.7,
+    "rot": 6.28,
+    "layer": "Text bung san"
+  },
+  {
+    "text": "(200x300)",
+    "x": 508674.1,
+    "y": -38373.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 513131.6,
+    "y": -38373.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 473960.7,
+    "y": -38373.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 470703.5,
+    "y": -35609.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 482122.5,
+    "y": -38373.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 488223.6,
+    "y": -37356.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 470703.5,
+    "y": -11338.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 488292.1,
+    "y": -10351,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 482122.5,
+    "y": -8872.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 474067,
+    "y": -8872.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 508688.5,
+    "y": -8872.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 513212,
+    "y": -8872.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -26075.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -21962.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -18732.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -16197.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 469315.7,
+    "y": -16527.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 469315.7,
+    "y": -32736.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467773.3,
+    "y": -33227.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -29323.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 466834.1,
+    "y": -31963.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 468679.2,
+    "y": -30213.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467773.3,
+    "y": -19332.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467773.3,
+    "y": -14016.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467773.3,
+    "y": -23332.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467424.9,
+    "y": -27332.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 467773.3,
+    "y": -17105,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 469706.4,
+    "y": -15689,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 469509,
+    "y": -32089.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "CHI TIEÁT BOÅ TRUÏ CAÁY TREÂN ÑAØ",
+    "x": 527134.3,
+    "y": -50024,
+    "rot": 6.28,
+    "layer": "Text bung san"
+  },
+  {
+    "text": "%%UCHI TIEÁT LÖÔÙI THEÙP B",
+    "x": 436644.7,
+    "y": -63222.6,
+    "rot": 0,
+    "layer": "3"
+  },
+  {
+    "text": "%%UCHI TIEÁT LÖÔÙI THEÙP C",
+    "x": 436826.7,
+    "y": -54753.2,
+    "rot": 0,
+    "layer": "3"
+  },
+  {
+    "text": "%%U CHI TIEÁT COÏC BTCT ÑOAÏN 1  ( L = 8000 )",
+    "x": 389747,
+    "y": -47954.8,
+    "rot": 0,
+    "layer": "3"
+  },
+  {
+    "text": "%%U CHI TIEÁT COÏC BTCT ÑOAÏN 2  ( L = 7000 )",
+    "x": 390239.1,
+    "y": -61621.2,
+    "rot": 0,
+    "layer": "3"
+  },
+  {
+    "text": "%%U CHI TIEÁT MOÙC CAÅU",
+    "x": 425167.1,
+    "y": -44333.3,
+    "rot": 0,
+    "layer": "KC_Ghichu"
+  },
+  {
+    "text": "CỌC TIẾT DIỆN VUÔNG 300x300 (mm)",
+    "x": 427885.2,
+    "y": -9631.9,
+    "rot": 0,
+    "layer": "02-TEXTNOTE(0.3)"
+  },
+  {
+    "text": "300x300",
+    "x": 439388.5,
+    "y": -9535.7,
+    "rot": 0,
+    "layer": "03-TEXT(0.2)"
+  },
+  {
+    "text": "THÍ NGHIEÄM XUYEÂN TIEÂU CHUAÅN (SPT)",
+    "x": 390099.7,
+    "y": -9438.5,
+    "rot": 0,
+    "layer": "Viet"
+  },
+  {
+    "text": "_CHI TIEÁT COÏC",
+    "x": 448562.3,
+    "y": -57038.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 431729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT MOÙNG",
+    "x": 700562.3,
+    "y": -57038.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT MOÙNG",
+    "x": 616562.3,
+    "y": -57038.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_ MAËT CAÉT CHI TIEÁT COÄT",
+    "x": 873204.5,
+    "y": -57038.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 641729.2,
+    "y": -424758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 620729.2,
+    "y": -424758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 599729.2,
+    "y": -424758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 578729.2,
+    "y": -424758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 557729.2,
+    "y": -424758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 410729.2,
+    "y": -360358.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 457632,
+    "y": -359963.3,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 431729.2,
+    "y": -360358.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 389729.2,
+    "y": -360358.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 520632,
+    "y": -300563.3,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 583979.2,
+    "y": -300958.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 562979.2,
+    "y": -300958.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 541979.2,
+    "y": -300958.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 494729.2,
+    "y": -300958.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 473729.2,
+    "y": -300958.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 557729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 536729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 515729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 494729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 473729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 452729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 410729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 389729.2,
+    "y": -241558.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 410729.2,
+    "y": -182158.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ SAØN",
+    "x": 389729.2,
+    "y": -182158.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 578729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 557729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 536729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 515729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 494729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 473729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 452729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 431729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 410729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 389729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "MAËT CAÉT CHI TIEÁT COÄT\r\n TYÛ LEÄ 1/100",
+    "x": 822677.7,
+    "y": -41345.7,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "1. ÑÔN VÒ THI COÂNG PHAÛI TUAÂN THUÛ NGHIEÂM NGAËT CAÙC BAÛN VEÕ GHI CHUÙ CHUNG, CAÙC BAÛN VEÕ CHI TIEÁT VAØ BAÛN \r\n   VEÕ CHÆ DAÃN KYÕ THUAÄT.\r\n\r\n2. KHI ÑOÏC BAÛN VEÕ, CAÙC KÍCH THÖÔÙC ÑÖÔÏC ÖU TIEÂN HÔN CAÙC TYÛ LEÄ GHI TREÂN BAÛN VEÕ, TUYEÄT ÑOÁI KHOÂNG ÑÖÔÏC\r\n    LAÁY KÍCH THÖÔÙC THEO TYÛ LEÄ ÑO TREÂN BAÛN VEÕ.\r\n\r\n3. TAÁT CAÛ CAÙC KÍCH THÖÔÙC TREÂN BAÛN VEÕ THIEÁT KEÁ ÑÖÔÏC GHI BAÈNG MILIMEÙT (MM), CAO TRÌNH GHI BAÈNG MEÙT (M)\r\n    NGOAÏI TRÖØ KHI COÙ CHÆ ÑÒNH KHAÙC TREÂN BAÛN VEÕ.\r\n\r\n4. CAÙC HAÏNG MUÏC COÂNG TRÌNH ÑÖÔÏC THIEÁT KEÁ THEO TIEÂU CHUAÅN XAÂY DÖÏNG VIEÄT NAM AÁN BAÛN MÔÙI NHAÁT VAØ\r\n    CAÙC QUY ÑÒNH PHAÙP QUY LIEÂN QUAN ÑEÁN COÂNG TAÙC THI COÂNG TRONG XAÂY DÖÏNG.\r\n\r\n5. NHAØ THAÀU PHAÛI COÙ TRAÙCH NHIEÄM KIEÅM TRA, ÑOÁI CHIEÁU CAÙC BAÛN VEÕ THIEÁT KEÁ CUÛA TAÁT CAÛ CAÙC PHAÀN NHÖ: \r\n    KIEÁN TRUÙC, KEÁT CAÁU, ÑIEÄN, NÖÔÙC v.v... VAØ THOÂNG BAÙO CHO NHÖÕNG NGÖÔØI COÙ THAÅM QUYEÀN ÔÛ COÂNG TRÌNH\r\n    VEÀ NHÖÕNG ÑIEÀU KHOÂNG THOÁNG NHAÁT. \r\n\r\n6. MOÏI VAÁN ÑEÀ XAÛY RA (NEÁU COÙ) TRONG QUAÙ TRÌNH THI COÂNG GIÖÕA CAÙC BEÂN KYÕ THUAÄT VÔÙI NHAU, THÌ PHAÛI \r\n    ÑÖÔÏC GIAÛI QUYEÁT TREÂN TINH THAÀN HÔÏP TAÙC VAØ GIAÛI QUYEÁT VAÁN ÑEÀ.\r\n\r\n7. NHAØ THAÀU PHAÛI KIEÅM TRA THAÄT CHÍNH XAÙC TÖØNG HAÏNG MUÏC TRÖÔÙC KHI GIA COÂNG LAÉP DÖÏNG.\r\n\r\n8. NEÁU COÙ SÖÏ KHOÂNG KHÔÙP VEÀ BAÛN VEÕ GIÖÕA CAÙC BOÄ MOÂN VÔÙI NHAU THÌ THÖÙ TÖÏ GIAÛI QUYEÁT VAÁN ÑEÀ NHÖ SAU:\r\n8.1. BAÛN VEÕ THIEÁT KEÁ KIEÁN TRUÙC.\r\n8.2. BAÛN VEÕ THIEÁT KEÁ KEÁT CAÁU.\r\n8.3. BAÛN VEÕ THIEÁT KEÁ HEÄ THOÁNG KYÕ THUAÄT.\r\n\r\n9. NHÖÕNG GHI CHUÙ RIEÂNG TREÂN TÖØNG BAÛN VEÕ THIEÁT KEÁ KYÕ THUAÄT SEÕ COÙ ÑOÄ ÖU TIEÂN HÔN SO VÔÙI GHI CHUÙ CHUNG.\r\n\r\n10. THÖÙ TÖÏ ÖU TIEÂN KHI COÙ SÖÏ MAÂU THUAÃN GIÖÕA CAÙC TAØI LIEÄU, BAÛN VEÕ THIEÁT KEÁ NHÖ SAU:\r\n10.1. TIEÂU CHUAÅN VIEÄT NAM (TCVN).\r\n10.2. TIEÂU CHUAÅN NGAØNH (TCN), TIEÂU CHUAÅN XAÂY DÖÏNG (TCXD).\r\n10.3. CAÙC CHÆ DAÃN KYÕ THUAÄT COÙ LIEÂN QUAN.\r\n\r\n11. XEM CAÙC BAÛN VEÕ KIEÁN TRUÙC ÑEÅ BIEÁT THEÂM:\r\n11.1. KÍCH THÖÔÙC VAØ VÒ TRÍ CUÛA CAÙC LOÃ CÖÛA ÑI, CÖÛA SOÅ.\r\n11.2. KÍCH THÖÔÙC VAØ VÒ TRÍ CUÛA CAÙC THAØNH, GÔØ BEÂ TOÂNG, RAÕNH TIEÂU NÖÔÙC SAØN, ÑAÙNH DOÁC CAÙC KHU VÖÏC TUÏT\r\n        COÁT, CAÙC NÔI VAÙT CAÏNH, SOI RAÕNH, CAÙC PHAÀN ÑAÉP THEÂM v.v...\r\n11.3. KÍCH THÖÔÙC VAØ VÒ TRÍ CUÛA CAÙC LOÃ TREÂN SAØN, VAÙCH BEÂ TOÂNG, CAÙC LOÃ XUYEÂN ÑAØ.\r\n\r\n11.4. CAÙC LÔÙP HOAØN THIEÄN SAØN, SAØN MAÙI.\r\n\r\n11.5. CAÙC CHI TIEÁT KHUNG CÖÛA SOÅ, CÖÛA ÑI, BEÄ CÖÛA, KHUNG VAÙCH KÍNH , GIAÈNG TÖÔØNG v.v...\r\n\r\n12. TAÁT CAÛ CAÙC COTE CAO ÑOÄ CUÛA SAØN GHI TREÂN BAÛN VEÕ LAØ COÁT MAËT TREÂN CUÛA BAÛN CHÒU LÖÏC. COÁT MAËT SAØN\r\n     HOAØN THIEÄN XEM ÔÛ BAÛN VEÕ KIEÁN TRUÙC.\r\n\r\n13. XEM THEÂM BAÛN VEÕ CÔ KHÍ, ÑIEÄN, NÖÔÙC ÑEÅ BIEÁT THEÂM:\r\n13.1. CAÙC ÑÖÔØNG OÁNG DAÃN, OÁNG NOÁI, KHUNG, MOÙC TREO, CAÙC RAÕNH, CAÙC LOÃ THOÂNG OÂ TÖÔØNG v.v...\r\n13.2. CAÙC ÑÖÔØNG OÁNG CHAÏY DAÂY ÑIEÄN, HOÄP ÑIEÄN, ÑAÀU RA TREÂN TÖÔØNG VAØ SAØN\r\n\r\n14. NHAØ THAÀU PHAÛI LAÄP BAÛN VEÕ CHEÁ TAÏO, KEÁ HOAÏCH CAÀN THIEÁT ÑEÅ HOAØN THAØNH COÂNG VIEÄC VAØ GIÖÕ LAÏI CAÙC \r\n     BAÛN VEÕ LIEÂN QUAN ÑEÅ PHUÏC VUÏ CHO VIEÄC LAØM BAÛN VEÕ HOAØN COÂNG SAU NAØY.\r\n\r\n15. NHAØ THAÀU PHAÛI ÑEÄ TRÌNH BIEÄN PHAÙP THI COÂNG CHO MOÃI HAÏNG MUÏC COÂNG VIEÄC, VAØ ÑÖÔÏC CHUÛ ÑAÀU TÖ\r\n     CHAÁP THUAÄN.\r\n\r\n16. BAÛNG THOÁNG KEÂ COÁT THEÙP ÔÛ PHAÀN KEÁT CAÁU CHÆ MANG TÍNH CHAÁT THAM KHAÛO PHUÏC VUÏ CHO COÂNG VIEÄC \r\n     DÖÏ TOAÙN, KHOÂNG ÑÖÔÏC DUØNG VAØO VIEÄC CAÉT HAY UOÁN ÑEÅ THI COÂNG.\r\n\r\n17. NHAØ THAÀU, CAÙC NHAØ CUNG CAÁP THIEÁT BÒ PHAÛI PHOÁI HÔÏP CHAËT CHEÕ VAØ CHÒU TRAÙCH NHIEÄM TRONG VIEÄC LAÉP\r\n     ÑAËT HEÄ THOÁNG THIEÁT BÒ ÑEÅ ÑAÛM BAÛO AN TOAØN KEÁT CAÁU COÂNG TRÌNH.\r\n\r\n18. NHAØ THAÀU PHAÛI CHUAÅN BÒ TRÖÔÙC VÒ TRÍ TAÁT CUÛA CAÛ CAÙC OÁNG NOÁI, BU LOÂNG NEO, NHÖÕNG KEÁT CAÁU CHOÂN \r\n     TRÖÔÙC TRONG BEÂ TOÂNG NHÖ ÑAÕ THEÅ HIEÄN TÖØ BAÛN VEÕ KIEÁN TRUÙC, KEÁT CAÁU VAØ CÔ KHÍ.\r\n\r\n19. BAÛN VEÕ THI COÂNG COÂNG TRÌNH PHAÛI ÑÖÔÏC TÖ VAÁN CUÛA PHÍA CHUÛ ÑAÀU TÖ KIEÅM DUYEÄT, VAØ PHAÛI ÑÖÔÏC SÖÏ\r\n     ÑOÀNG YÙ PHEÂ DUYEÄT CUÛA CHUÛ ÑAÀU TÖ TRÖÔÙC KHI THI COÂNG.\r\n\r\n20. NÖÔÙC SÖÛ DUÏNG TRONG BTCT LAØ NÖÔÙC SAÏCH, NEÁU SÖÛ DUÏNG NÖÔÙC NGAÀM YEÂU CAÀU ÑOÄ Ph=6.8->7.2",
+    "x": 206860.8,
+    "y": -11860.7,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "LANH TOÂ CHO CÖÛA SOÅ VAØ CÖÛA ÑI NEÁU KHOÂNG COÙ CHI TIEÁT THÌ ÑÖÔÏC QUI ÑÒNH NHÖ SAU \r\n1. BEÀ ROÄNG CÖÛA ÑI VAØ CÖÛA SOÅ KYÙ HIEÄU LAØ W (m) \r\n2. BEÀ ROÄNG VAØ CHIEÀU CAO ÑAØ LANH TOÂ LAÀN LÖÔÏT LAØ B (mm) VAØ H (mm)\r\n3. ÑOAÏN GOÁI CUÛA ÑAØ LANH TOÂ VAØO TÖÔØNG MOÃI BEÂN, L (mm)\r\n4. LÔÙP BEÂ TOÂNG BAÛO VEÄ ÑAØ LANH TOÂ, a (mm) \r\n5. ÑÖÔØNG KÍNH THEÙP DOÏC, THEÙP ÑAI, D (mm)",
+    "x": 224892.5,
+    "y": -20916.5,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT GIAÛM COÄT",
+    "x": 244670.8,
+    "y": -10528.2,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "ÑOÁI VÔÙI CAÙC CAÁU KIEÄN DAÀM, ÑAØ SAØN, ÑAØ KIEÀNG, ÑAØ GIAÈNG v.v...NEÁU CHÆ THEÅ HIEÄN MAËT CAÉT NGANG MAØ KHOÂNG\r\nTHEÅ HIEÄN MAËT CAÉT DOÏC THÌ VIEÄC BOÁ TRÍ COÁT THEÙP DOÏC, THEÙP DOÏC TAÊNG CÖÔØNG VAØ COÁT ÑAI ÑÖÔÏC BOÁ TRÍ THEO\r\nCHI TIEÁT DAÀM ÑIEÅN HÌNH NHÖ SAU:\r\n1. L1, L2 LAØ NHÒP TÍNH TOAÙN CUÛA DAÀM, TÍNH TÖØ HAI MEÙP COÄT\r\n2. H LAØ CHIEÀU CAO DAÀM",
+    "x": 242835.6,
+    "y": -28823.3,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "KHOAÛNG CAÙCH ÑAËT COÁT ÑAI ÑAÀU TIEÂN",
+    "x": 244991.1,
+    "y": -31504.7,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT GIA CÖÔØNG LOÃ SAØN, VAÙCH,  LOÃ XUYEÂN ÑAØ",
+    "x": 244670.8,
+    "y": -44174.4,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT GIA CÖÔØNG THEÙP",
+    "x": 247743.3,
+    "y": -46169.3,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT GIA CÖÔØNG THEÙP",
+    "x": 255423.3,
+    "y": -46169.3,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT NEO THEÙP TAÏI NUÙT DAÀM",
+    "x": 262719.8,
+    "y": -10528.2,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "ÑOÁI VÔÙI CAÙC CAÁU KIEÄN DAÀM, ÑAØ SAØN, ÑAØ KIEÀNG, ÑAØ GIAÈNG v.v...NEÁU KHOÂNG CHÆ ÑÒNH CHIEÀU DAØI ÑOAÏN NEO\r\nTHEÙP TAÏI NUÙT THÌ VIEÄC NEO THEÙP TAÏI NUÙT XEM CHI TIEÁT SAU:",
+    "x": 260884.5,
+    "y": -11483.6,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "CHI TIEÁT THEÙP GIAÙ (THEÙP CAÁU TAÏO) TRONG BOÁ TRÍ THEÙP OÂ SAØN",
+    "x": 262719.8,
+    "y": -25872.1,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "1. CAO TRÌNH MOÙNG ÑÖÔÏC THIEÁT KEÁ CAÊN CÖÙ THEO BAÙO CAÙO KHAÛO SAÙT ÑÒA CHAÁT VAØ ÑÖÔÏC ÑAËT VAØO LÔÙP ÑAÁT COÙ\r\n    KHAÛ  NAÊNG TIEÁP NHAÄN  TAÛI TROÏNG CUÛA COÂNG TRÌNH.\r\n2. TRONG QUAÙ TRÌNH THI COÂNG, NEÁU GAËP COÂNG TRÌNH NGAÀM HOAËC CAÙC TAÀNG ÑÒA TAÀNG KHOÂNG TOÁT \r\n    NHAØ THAÀU THI COÂNG PHAÛI BAÙO CHO ÑÔN VÒ THIEÁT KEÁ KIEÅM TRA ÑEÅ COÙ BIEÄN PHAÙP ÑIEÀU CHÆNH VAØ XÖÛ LYÙ.\r\n3. CAÙC MOÙNG TIEÁP GIAÙP VÔÙI COÂNG TRÌNH LAÂN CAÄN, CAÀN PHAÛI COÙ BIEÄN PHAÙP KEØ CHAÉN ÑAÁT ÑEÅ TRAÙNH SAÏT LÔÛ.\r\n4. TRÖÔÙC KHI LAÊM LE BEÂ TOÂNG ÑAÙ LOÙT MOÙNG CAÀN PHAÛI LAØM SAÏCH VAØ TAÏO PHAÚNG HOÁ MOÙNG.\r\n5. THI COÂNG MOÙNG TRONG ÑIEÀU KIEÄN KHOÂNG TOÁT (MÖA), CAÀN PHAÛI COÙ BIEÄN PHAÙP TIEÂU NÖÔÙC HOÁ MOÙNG.\r\n6. BEÂ TOÂNG MOÙNG CHÆ ÑÖÔÏC ÑOÅ KHI HOÁ MOÙNG KHOÂ RAÙO NÖÔÙC.",
+    "x": 260876.4,
+    "y": -53490.5,
+    "rot": 0,
+    "layer": "Text1-S"
+  },
+  {
+    "text": "_CHI TIEÁT ÑAØ KIEÀNG",
+    "x": 599729.2,
+    "y": -122758.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "CHI TIEÁT BT LOÙT ÑAØ KIEÀNG",
+    "x": 270981.7,
+    "y": -113943,
+    "rot": 0,
+    "layer": "Text-Beam-Shx-S"
+  },
+  {
+    "text": "CHI TIEÁT TÖÔØNG THU HOÀI TH-1, SL:10 \r\nTYÛ LEÄ 1/50",
+    "x": 919635.9,
+    "y": -493729.9,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT TÖÔØNG THU HOÀI TH-3, SL:5 \r\nTYÛ LEÄ 1/50",
+    "x": 937478.6,
+    "y": -493576.3,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT TÖÔØNG THU HOÀI TH-2, SL:2 \r\nTYÛ LEÄ 1/50",
+    "x": 922265.2,
+    "y": -501800.9,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT TÖÔØNG THU HOÀI TH-4, SL:4 \r\nTYÛ LEÄ 1/50",
+    "x": 936871.8,
+    "y": -501797.3,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT XAØ GOÀ MAÙI\r\nTL:1/10",
+    "x": 941981.3,
+    "y": -506224.5,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "CHI TIEÁT THEÙP CHÔØ XAØ GOÀ\r\nTL:1/10",
+    "x": 947921.8,
+    "y": -506108.5,
+    "rot": 0,
+    "layer": "TEXT-S"
+  },
+  {
+    "text": "_MB XAØ GOÀ , TÖÔØNG HOÀI MAÙI (TAÀNG 3)\r\n_CHI TIEÁT SAØN KYÕ THUAÄT",
+    "x": 990734.1,
+    "y": -499797.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "(200x350)",
+    "x": 959394,
+    "y": -464930.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 966659.3,
+    "y": -459524.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 959495.1,
+    "y": -453541.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 954450.3,
+    "y": -459524.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 959495.1,
+    "y": -457016.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 959495.1,
+    "y": -461778.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 962161.7,
+    "y": -459524.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 957379.5,
+    "y": -459524.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 978518.6,
+    "y": -453488.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 978619.7,
+    "y": -464877.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 978619.7,
+    "y": -456705.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 978619.7,
+    "y": -461489,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 973574.9,
+    "y": -459296.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 985684.1,
+    "y": -459296.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 976504.1,
+    "y": -459259.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 981276.1,
+    "y": -459259.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "_CHI TIEÁT THANG T1",
+    "x": 280562.3,
+    "y": -570432.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT THANG T1A",
+    "x": 364562.3,
+    "y": -570668.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT THANG T1 (TIEÁP THEO)\r\n_CHI TIEÁT THANG T1A (TIEÁP THEO)",
+    "x": 448278.5,
+    "y": -570371.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT THANG T2,T3",
+    "x": 540406.7,
+    "y": -569525.4,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_CHI TIEÁT THANG T2A,T3A",
+    "x": 637806.7,
+    "y": -569525.4,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG BEÄ CÖÛA TAÀNG 2\r\n_CHI TIEÁT BEÄ CÖÛA TAÀNG 2",
+    "x": 448315,
+    "y": -634764.3,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG BEÄ CÖÛA TAÀNG 3\r\n_CHI TIEÁT BEÄ CÖÛA TAÀNG 3",
+    "x": 616322.8,
+    "y": -634763.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG BEÄ CÖÛA TAÀNG 4\r\n_CHI TIEÁT BEÄ CÖÛA TAÀNG 4",
+    "x": 784322.8,
+    "y": -634763.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG ÑAN & GIAÈNG TÖÔØNG MAÙI\r\n_CHI TIEÁT ÑAN & GIAÈNG TÖÔØNG MAÙI",
+    "x": 1035939.3,
+    "y": -634763.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG LANH TOÂ BEÄ CÖÛA TAÀNG AÙP MAÙI\r\n_CHI TIEÁT LANH TOÂ BEÄ CÖÛA TAÀNG AÙP MAÙI",
+    "x": 951729.3,
+    "y": -634763.8,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "MAËT CAÉT A-A SAØN TAÀNG 3 (TIEÁP THEO)  \r\nTYÛ LEÄ 1/25",
+    "x": 396083,
+    "y": -287787.7,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT A (BEÄ ÑÔÕ TRUÏ THANG SAÉT)  \r\nTYÛ LEÄ 1/25",
+    "x": 291245.5,
+    "y": -166411.5,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "_MAËT BAÈNG RAM DOÁC\r\n_CHI TIEÁT RAM DOÁC",
+    "x": 806065.5,
+    "y": -570462.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "_MAËT BAÈNG BEÄ CÖÛA TAÀNG 1\r\n_CHI TIEÁT BEÄ CÖÛA TAÀNG 1",
+    "x": 280113.5,
+    "y": -634659.3,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "Tieát dieän theùp hoäp",
+    "x": 353416,
+    "y": -463810.6,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "Tieát dieän theùp hoäp",
+    "x": 353416,
+    "y": -477471.6,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT XAØ GOÀ VAØ TÖÔØNG XAÂY\r\nTYÛ LEÄ 1/25",
+    "x": 276050.1,
+    "y": -483204.8,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "CHI TIEÁT DIEÀM TOLE\r\nTL: 1/25",
+    "x": 282998.9,
+    "y": -479643.5,
+    "rot": 0,
+    "layer": "Text"
+  },
+  {
+    "text": "_MAËT BAÈNG RAM DOÁC\r\n_CHI TIEÁT RAM DOÁC",
+    "x": 722065.5,
+    "y": -570462.2,
+    "rot": 0,
+    "layer": "Text tieu de"
+  },
+  {
+    "text": "(200x300)",
+    "x": 650541,
+    "y": -527517.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 651376.4,
+    "y": -532499.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 651376.4,
+    "y": -540499.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 651376.4,
+    "y": -548499.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 650541,
+    "y": -555117.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219111.2,
+    "y": -189636.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219037,
+    "y": -219704,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223572.5,
+    "y": -189923.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232640.8,
+    "y": -192349.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232640.8,
+    "y": -194755.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232640.8,
+    "y": -215610.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 257675.3,
+    "y": -215654.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 210456.5,
+    "y": -211602.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 210456.5,
+    "y": -206652.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 210456.5,
+    "y": -198144.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 210456.5,
+    "y": -203040.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 257694.3,
+    "y": -194594.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223572.5,
+    "y": -219431.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 229964.7,
+    "y": -219411.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 234897.7,
+    "y": -219411.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233687.7,
+    "y": -219411.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217135.4,
+    "y": -192403.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 229964.7,
+    "y": -189903.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 234897.7,
+    "y": -189903.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233590.7,
+    "y": -189903.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 259941.2,
+    "y": -217318.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 255172.9,
+    "y": -217288.2,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 254336.4,
+    "y": -196166.5,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 254764.1,
+    "y": -198270.4,
+    "rot": 0.79,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 254250.8,
+    "y": -211402,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 254928.7,
+    "y": -213468.4,
+    "rot": 0.79,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 256965.9,
+    "y": -212037.4,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261759.3,
+    "y": -215655.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261764.8,
+    "y": -194599.4,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 260129.4,
+    "y": -192611.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 255476.8,
+    "y": -192611.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232640.8,
+    "y": -217818.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK12-Y",
+    "x": 251490.2,
+    "y": -93438.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261197.1,
+    "y": -160290.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261818.1,
+    "y": -157561.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265307.8,
+    "y": -140037.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 257342.7,
+    "y": -139343.1,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 256978.7,
+    "y": -154068,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261216.3,
+    "y": -134023.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261799.1,
+    "y": -134595.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261799.1,
+    "y": -159300.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 261818.1,
+    "y": -135914.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265307.8,
+    "y": -152637.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217098.9,
+    "y": -373345,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 236580,
+    "y": -397296.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 236580,
+    "y": -374427.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219148.1,
+    "y": -400614.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219148.1,
+    "y": -370562.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223215.4,
+    "y": -400360.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223215.4,
+    "y": -370824,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233417.7,
+    "y": -400388.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230970.9,
+    "y": -400388.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233417.7,
+    "y": -370839.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230970.9,
+    "y": -370839.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 233068.7,
+    "y": -318648.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 233068.7,
+    "y": -322376,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 233100.4,
+    "y": -327297.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 233056.3,
+    "y": -313798,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 228818.7,
+    "y": -318648.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 228818.7,
+    "y": -322376,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 228850.4,
+    "y": -327297.2,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x350)",
+    "x": 228806.3,
+    "y": -313798,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216900.9,
+    "y": -308414.2,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219148.1,
+    "y": -335724.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219148.1,
+    "y": -305647.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232065.7,
+    "y": -273678,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 238165.7,
+    "y": -273633.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 241865.7,
+    "y": -273579.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219158.2,
+    "y": -277978.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 219157.3,
+    "y": -247891.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223506.2,
+    "y": -277740.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233482.7,
+    "y": -277741.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 231002.2,
+    "y": -277741.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 234809.7,
+    "y": -248215.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230660.2,
+    "y": -252099.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233377.2,
+    "y": -252099.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230660.2,
+    "y": -273801.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK23-Y",
+    "x": 216766.8,
+    "y": -79954.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217370,
+    "y": -80019.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK23-Y",
+    "x": 216766.8,
+    "y": -83948.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217370,
+    "y": -84013.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK23-Y",
+    "x": 216766.8,
+    "y": -87700.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217370,
+    "y": -87764.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK23-Y",
+    "x": 216766.8,
+    "y": -91474.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217370,
+    "y": -91538.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223215.4,
+    "y": -305908.7,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233417.7,
+    "y": -305924.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230970.9,
+    "y": -305924.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233630.7,
+    "y": -331708.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223075.1,
+    "y": -335474.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233417.7,
+    "y": -335474.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230089.7,
+    "y": -335474.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(100x300)",
+    "x": 216233.2,
+    "y": -94274.6,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216106.8,
+    "y": -95134,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216106.8,
+    "y": -92888.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216106.8,
+    "y": -78117.2,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216106.8,
+    "y": -75898.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(100x300)",
+    "x": 216233.2,
+    "y": -77698.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 241865.7,
+    "y": -253229.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 238165.7,
+    "y": -253229.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232065.7,
+    "y": -253229.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233009.5,
+    "y": -274799.2,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 216950.9,
+    "y": -250700.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223506.2,
+    "y": -248193.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233482.7,
+    "y": -248215.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 231002.2,
+    "y": -248215.8,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 234859.7,
+    "y": -277752.1,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK22-Y",
+    "x": 218736.3,
+    "y": -74898.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK22-Y",
+    "x": 218736.3,
+    "y": -97704.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 217125.6,
+    "y": -85807.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK21-X",
+    "x": 217163.5,
+    "y": -85213.1,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-X",
+    "x": 217071.9,
+    "y": -81171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-X",
+    "x": 217087.4,
+    "y": -89171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK20-X",
+    "x": 217237,
+    "y": -93427.1,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 218302.6,
+    "y": -93412,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK20-X",
+    "x": 217237,
+    "y": -77737.4,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 218302.6,
+    "y": -77722.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK18-X",
+    "x": 222636.6,
+    "y": -70786.6,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK19-X",
+    "x": 229837.8,
+    "y": -70786.6,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK19-X",
+    "x": 232453.6,
+    "y": -70786.6,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK19-X",
+    "x": 232453.6,
+    "y": -100342,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK19-X",
+    "x": 228816,
+    "y": -100342,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK18-X",
+    "x": 221957.8,
+    "y": -100342,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK17-Y",
+    "x": 258990.2,
+    "y": -98782.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 214884.2,
+    "y": -92720.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 215634.9,
+    "y": -89198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 215634.9,
+    "y": -85198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 215634.9,
+    "y": -81198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 214946.2,
+    "y": -78916.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK18-Y",
+    "x": 258940.2,
+    "y": -78886.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223024.8,
+    "y": -100290.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 230935.9,
+    "y": -70740.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233497.7,
+    "y": -70740.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 223702.3,
+    "y": -70771.4,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 218690.3,
+    "y": -73841.3,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK2-Y",
+    "x": 220171.3,
+    "y": -92868.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK3-Y",
+    "x": 224940.2,
+    "y": -88315.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(100x300)",
+    "x": 241354.3,
+    "y": -98707.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233532.2,
+    "y": -100290.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 229864.8,
+    "y": -100290.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 218714.3,
+    "y": -96661.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK-1",
+    "x": 224940.2,
+    "y": -74214.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5-X",
+    "x": 221245.7,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 243827.4,
+    "y": -74071.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -97813.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -74257.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233634.2,
+    "y": -310333.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 231827.7,
+    "y": -310333.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233018.2,
+    "y": -251139.5,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 256505.8,
+    "y": -254801.5,
+    "rot": 5.5,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 233377.2,
+    "y": -273801.9,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK17-X",
+    "x": 258013.9,
+    "y": -90355.6,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK16-X",
+    "x": 254703.5,
+    "y": -73854,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 254624.7,
+    "y": -74400.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK3-Y",
+    "x": 224940.2,
+    "y": -97810.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-X",
+    "x": 225786.4,
+    "y": -89171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-X",
+    "x": 225600.9,
+    "y": -81171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 225451.6,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-X",
+    "x": 221262.4,
+    "y": -89171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-X",
+    "x": 221262.4,
+    "y": -81171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 237517,
+    "y": -96371.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 238374.9,
+    "y": -74733.9,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-Y",
+    "x": 224940.2,
+    "y": -80172.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK3-Y",
+    "x": 224940.2,
+    "y": -92884.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK3-Y",
+    "x": 224940.2,
+    "y": -84630.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK2-Y",
+    "x": 220100.8,
+    "y": -74713.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK2-Y",
+    "x": 219340.2,
+    "y": -80265.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK2-Y",
+    "x": 220100.8,
+    "y": -97704.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK1-Y",
+    "x": 218140.2,
+    "y": -87966.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK1-Y",
+    "x": 218140.2,
+    "y": -84968.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK1-X",
+    "x": 225651.4,
+    "y": -71903.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 232388.7,
+    "y": -71903.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 229621.1,
+    "y": -71903.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 220985,
+    "y": -71903.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 225651.4,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 232408.3,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 228992.9,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 221113.1,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 229098.7,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK4-X",
+    "x": 232443.1,
+    "y": -73671.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5'-Y",
+    "x": 232708.6,
+    "y": -75759.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5'-Y",
+    "x": 232708.6,
+    "y": -73246.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5-X",
+    "x": 226084.8,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK1-X",
+    "x": 222788.6,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5-Y",
+    "x": 232708.6,
+    "y": -96032,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234385.6,
+    "y": -96179,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5-Y",
+    "x": 232708.6,
+    "y": -98721.8,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -99407.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-X",
+    "x": 232536.6,
+    "y": -97405.8,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 235404,
+    "y": -75681.8,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -73636.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -78999.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -82963.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -89339.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 238263.9,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 243678.1,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK8-Y",
+    "x": 241866.1,
+    "y": -96000.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK8-Y",
+    "x": 242519.5,
+    "y": -99022.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -99032.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247210,
+    "y": -96154.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -93326.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -89543.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -85977.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5-X",
+    "x": 244181.5,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5-X",
+    "x": 230204,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5-X",
+    "x": 237331.1,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK9-Y",
+    "x": 241840.2,
+    "y": -86511.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-X",
+    "x": 235257.3,
+    "y": -86421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK7-X",
+    "x": 230459.4,
+    "y": -89621.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -92884.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -80021.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -88825.8,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -84054.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK-3",
+    "x": 234640.2,
+    "y": -86372.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK6-Y",
+    "x": 234640.2,
+    "y": -92930.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK15-Y",
+    "x": 257090.2,
+    "y": -98775.5,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK15-Y",
+    "x": 260240.2,
+    "y": -98782.9,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK4-Y",
+    "x": 228040.2,
+    "y": -86499.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-X",
+    "x": 230290.7,
+    "y": -86421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK11-X",
+    "x": 239209.3,
+    "y": -86421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK11-X",
+    "x": 244012.8,
+    "y": -86421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK10-Y",
+    "x": 243090.2,
+    "y": -91758.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-X",
+    "x": 230290.7,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK13-X",
+    "x": 238161.8,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK13-X",
+    "x": 243658.8,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK7-Y",
+    "x": 236790.2,
+    "y": -80989.8,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK9-Y",
+    "x": 241840.2,
+    "y": -83074.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK9-Y",
+    "x": 241840.2,
+    "y": -79204.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK9-Y",
+    "x": 242516,
+    "y": -73944.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -73363.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -75689.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK11-Y",
+    "x": 247190.1,
+    "y": -81216.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK14-Y",
+    "x": 255740.2,
+    "y": -72866.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 256335.6,
+    "y": -72944,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK15-X",
+    "x": 256848,
+    "y": -74621,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK19-Y",
+    "x": 259540.2,
+    "y": -74421.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5-X",
+    "x": 249440.1,
+    "y": -94521.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK11-X",
+    "x": 249271.5,
+    "y": -86421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK13-X",
+    "x": 249271.5,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 249440.1,
+    "y": -74071.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 249290.8,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 243599.5,
+    "y": -96371.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK3-X",
+    "x": 249440.9,
+    "y": -96371.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 242911.6,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 249448.5,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 243593.2,
+    "y": -71911.8,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 249441.4,
+    "y": -71271.3,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 256723.8,
+    "y": -71911.8,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 260787.3,
+    "y": -71911.8,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 260841.1,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK2-X",
+    "x": 254738.7,
+    "y": -99171.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 257979.1,
+    "y": -90911.6,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK16-Y",
+    "x": 257640.2,
+    "y": -92219.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "(200x300)",
+    "x": 257617.3,
+    "y": -91178.7,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK8-X",
+    "x": 260236.4,
+    "y": -92671.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK8-X",
+    "x": 255450.7,
+    "y": -92671.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK17-Y",
+    "x": 258990.2,
+    "y": -92075.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5'-X",
+    "x": 260149.7,
+    "y": -94421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5'-X",
+    "x": 255364.1,
+    "y": -94421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK12-X",
+    "x": 264400.4,
+    "y": -94421.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265441,
+    "y": -94398.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK21-Y",
+    "x": 267040.2,
+    "y": -93274.2,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK21-Y",
+    "x": 267040.2,
+    "y": -88570.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK21-Y",
+    "x": 267040.2,
+    "y": -84122.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK21-Y",
+    "x": 267040.2,
+    "y": -79189.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -74398.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -79189.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -84122.1,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -88570.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -92776,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK20-Y",
+    "x": 263140.2,
+    "y": -98821.4,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 255301.4,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK5a-X",
+    "x": 260306.5,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK12-X",
+    "x": 264725.6,
+    "y": -75921.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265766.3,
+    "y": -75898.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK10-X",
+    "x": 260102.2,
+    "y": -89221.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK10-X",
+    "x": 255282.1,
+    "y": -89221.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK13-X",
+    "x": 259954.2,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK13-X",
+    "x": 255282.1,
+    "y": -84021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK12-X",
+    "x": 264517.6,
+    "y": -89221.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265558.2,
+    "y": -89198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK12-X",
+    "x": 264387.1,
+    "y": -85221.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265427.7,
+    "y": -85198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK12-X",
+    "x": 264697.7,
+    "y": -81221.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 265738.3,
+    "y": -81198.3,
+    "rot": 0,
+    "layer": "TTN"
+  },
+  {
+    "text": "DK14-X",
+    "x": 260299.7,
+    "y": -79121.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK14-X",
+    "x": 255282.1,
+    "y": -79121.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK18-Y",
+    "x": 258940.2,
+    "y": -82983.7,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -73917.3,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -81018.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -83962.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -89095,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -93457,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK13-Y",
+    "x": 253890.2,
+    "y": -99077.6,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK9-X",
+    "x": 248762.6,
+    "y": -89871.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "DK12-Y",
+    "x": 251490.2,
+    "y": -81010,
+    "rot": 1.57,
+    "layer": "DK-Y"
+  },
+  {
+    "text": "DK9-X",
+    "x": 249440.1,
+    "y": -78021.2,
+    "rot": 0,
+    "layer": "DK-X"
+  },
+  {
+    "text": "(200x300)",
+    "x": 231818.9,
+    "y": -331664.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232624.6,
+    "y": -333963.8,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232653,
+    "y": -308304.5,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232638.4,
+    "y": -250705.9,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "(200x300)",
+    "x": 232638.4,
+    "y": -276125.1,
+    "rot": 1.57,
+    "layer": "TTN"
+  },
+  {
+    "text": "CHI TIEÁT A",
+    "x": 833023.7,
+    "y": -493282.3,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT A",
+    "x": 211724.2,
+    "y": -493565.3,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT B",
+    "x": 229276.8,
+    "y": -488656.1,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT GIAÈNG KEØO GK-1\r\nVAØ KEØO K-1",
+    "x": 277848.4,
+    "y": -474838.8,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT C",
+    "x": 242363.8,
+    "y": -488754.4,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "MAËT CAÉT CHI TIEÁT XAØ GOÀ\r\nC200x65x20x3",
+    "x": 265784.8,
+    "y": -503981.3,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT XAØ GOÀ VAØ KEØO K-1",
+    "x": 255452.6,
+    "y": -482986.6,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT THEÙP I VAØO ÑAØ BTCT",
+    "x": 356152.3,
+    "y": -459824.1,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT THEÙP I VAØO KEØO K-2",
+    "x": 365847.9,
+    "y": -478000.1,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT THEÙP HOÄP VAØO TÖÔØNG (ÑAØ BTCT)",
+    "x": 364269.4,
+    "y": -489337.1,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT THEÙP HOÄP VAØ THEÙP I",
+    "x": 356144.4,
+    "y": -499243.1,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT LIEÂN KEÁT XAØ GOÀ VAØ0 ÑAØ BTCT",
+    "x": 255273.8,
+    "y": -493814.4,
+    "rot": 0,
+    "layer": "Text CK-KT"
+  },
+  {
+    "text": "CHI TIEÁT ÑAØ XIEÂN DX-SK1",
+    "x": 702845.1,
+    "y": -557326.9,
+    "rot": 0,
+    "layer": "Text CK"
+  },
+  {
+    "text": "CHI TIEÁT ÑAØ XIEÂN DX1",
+    "x": 679089.3,
+    "y": -532306.5,
+    "rot": 0,
+    "layer": "Text CK"
+  },
+  {
+    "text": "MAËT CAÉT 1-1 CHI TIEÁT BAÛN THANG",
+    "x": 757969.9,
+    "y": -559339.4,
+    "rot": 0,
+    "layer": "Text CK"
+  },
+  {
+    "text": "CHI TIEÁT BAÛN THANG",
+    "x": 740281,
+    "y": -559339.4,
+    "rot": 0,
+    "layer": "Text CK"
+  },
+  {
+    "text": "CHI TIEÁT MOÙC TREO PLAN, TL: 1/25",
+    "x": 977288.5,
+    "y": -498073.9,
+    "rot": 0,
+    "layer": "Text CK"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"host\":\"dynamo\",\"hostVersion\":\"2026\",\"dynamo\":{\"isLive\":false,\"dynamoVersion\":\"3.7.0.11777\",\"runType\":\"Manual\",\"nodeCount\":0,\"wireCount\":0,\"selectedNodeCount\":0,\"hasUnsavedChanges\":false},\"docTitle\":\"TemplateAIModel\",\"docPath\":\"D:\\\\OneDrive\\\\BIM\\\\02-Hoang Phuc\\\\01-Template\\\\03-Revit\\\\HoanThanh\\\\TemplateAIModel.rvt\",\"isReadOnly\":false,\"isModifiable\":false,\"units\":{\"length\":\"autodesk.unit.unit:millimeters-1.0.1\"},\"selection\":[],\"openDocs\":[\"TemplateAIModel\"],\"executionEnabled\":true}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

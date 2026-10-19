@@ -1,0 +1,776 @@
+{
+  "grids": [
+    {
+      "name": "1",
+      "x0": -0,
+      "y0": -6202,
+      "x1": -0,
+      "y1": 31503.3
+    },
+    {
+      "name": "10",
+      "x0": 38300,
+      "y0": -6202,
+      "x1": 38300,
+      "y1": 31503.3
+    },
+    {
+      "name": "11",
+      "x0": 40800,
+      "y0": -6202,
+      "x1": 40800,
+      "y1": 31503.3
+    },
+    {
+      "name": "12",
+      "x0": 45000,
+      "y0": -6202,
+      "x1": 45000,
+      "y1": 31503.3
+    },
+    {
+      "name": "13",
+      "x0": 48900,
+      "y0": -6202,
+      "x1": 48900,
+      "y1": 31503.3
+    },
+    {
+      "name": "2",
+      "x0": 1300,
+      "y0": -6202,
+      "x1": 1300,
+      "y1": 31503.3
+    },
+    {
+      "name": "3",
+      "x0": 6900,
+      "y0": -6202,
+      "x1": 6900,
+      "y1": 31503.3
+    },
+    {
+      "name": "4",
+      "x0": 9900,
+      "y0": -6202,
+      "x1": 9900,
+      "y1": 31503.3
+    },
+    {
+      "name": "5",
+      "x0": 13900,
+      "y0": -6202,
+      "x1": 13900,
+      "y1": 31503.3
+    },
+    {
+      "name": "6",
+      "x0": 16500,
+      "y0": -6202,
+      "x1": 16500,
+      "y1": 31503.3
+    },
+    {
+      "name": "7",
+      "x0": 23700,
+      "y0": -6202,
+      "x1": 23700,
+      "y1": 31503.3
+    },
+    {
+      "name": "8",
+      "x0": 29050,
+      "y0": -6202,
+      "x1": 29050,
+      "y1": 31503.3
+    },
+    {
+      "name": "9",
+      "x0": 35750,
+      "y0": -6202,
+      "x1": 35750,
+      "y1": 31503.3
+    },
+    {
+      "name": "A",
+      "x0": -5465.1,
+      "y0": 0,
+      "x1": 54429,
+      "y1": 0
+    },
+    {
+      "name": "B",
+      "x0": -5465.1,
+      "y0": 2800,
+      "x1": 54429,
+      "y1": 2800
+    },
+    {
+      "name": "C",
+      "x0": -5465.1,
+      "y0": 4650,
+      "x1": 54429,
+      "y1": 4650
+    },
+    {
+      "name": "D",
+      "x0": -5465.1,
+      "y0": 7150,
+      "x1": 54429,
+      "y1": 7150
+    },
+    {
+      "name": "E",
+      "x0": -5465.1,
+      "y0": 9950,
+      "x1": 54429,
+      "y1": 9950
+    },
+    {
+      "name": "F",
+      "x0": -5465.1,
+      "y0": 12750,
+      "x1": 54429,
+      "y1": 12750
+    },
+    {
+      "name": "G",
+      "x0": -5465.1,
+      "y0": 13950,
+      "x1": 54429,
+      "y1": 13950
+    },
+    {
+      "name": "H",
+      "x0": -5465.1,
+      "y0": 15150,
+      "x1": 54429,
+      "y1": 15150
+    },
+    {
+      "name": "I",
+      "x0": -5465.1,
+      "y0": 17950,
+      "x1": 54429,
+      "y1": 17950
+    },
+    {
+      "name": "J",
+      "x0": -5465.1,
+      "y0": 20000,
+      "x1": 54429,
+      "y1": 20000
+    },
+    {
+      "name": "K",
+      "x0": -5465.1,
+      "y0": 20750,
+      "x1": 54429,
+      "y1": 20750
+    },
+    {
+      "name": "L",
+      "x0": -5465.1,
+      "y0": 23250,
+      "x1": 54429,
+      "y1": 23250
+    },
+    {
+      "name": "M",
+      "x0": -5465.1,
+      "y0": 25100,
+      "x1": 54429,
+      "y1": 25100
+    },
+    {
+      "name": "N",
+      "x0": -5465.1,
+      "y0": 27900,
+      "x1": 54429,
+      "y1": 27900
+    }
+  ],
+  "levels": [
+    {
+      "name": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+      "elevationMm": -1600
+    },
+    {
+      "name": "T\u1EA7ng 1",
+      "elevationMm": -100
+    },
+    {
+      "name": "\u00B10.000",
+      "elevationMm": 0
+    },
+    {
+      "name": "T\u1EA7ng 2",
+      "elevationMm": 4300
+    },
+    {
+      "name": "T\u1EA7ng 3",
+      "elevationMm": 8650
+    },
+    {
+      "name": "T\u1EA7ng 4",
+      "elevationMm": 13000
+    },
+    {
+      "name": "T\u1EA7ng \u00C1p M\u00E1i",
+      "elevationMm": 16600
+    },
+    {
+      "name": "T\u1EA7ng M\u00E1i",
+      "elevationMm": 19400
+    },
+    {
+      "name": "\u0110\u1EC9nh M\u00E1i",
+      "elevationMm": 20400
+    }
+  ],
+  "foundationSymbols": [
+    {
+      "family": "15_STR_MongBangDungTam_CoLotMong(Line)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "16_STR_MongBangDungTam_KhongDieu_CoLotMong(Line)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "17_STR_MongBangLechTam_CoLotMong(Line)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "11_STR_MongDonDungTam_KhongDieu_CoLotMong",
+      "name": "MD_1600x1800x500"
+    },
+    {
+      "family": "13_STR_MongDonLechTam_1.4_CoLotMong",
+      "name": "MD_1400x1400x500"
+    },
+    {
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "name": "MongLechTam_1.4"
+    },
+    {
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "name": "MongLechTam_1.2"
+    },
+    {
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "name": "MongDungTam"
+    },
+    {
+      "family": "18_STR_MongBangTongHop_CoLotMong(Point)",
+      "name": "MongBangDungTam"
+    },
+    {
+      "family": "18_STR_MongBangTongHop_CoLotMong(Point)",
+      "name": "MongBangLechTam"
+    },
+    {
+      "family": "1_STR_Coc_Vuong",
+      "name": "P_200x200"
+    },
+    {
+      "family": "2_STR_Coc_VuongMui",
+      "name": "P_300x300"
+    },
+    {
+      "family": "2_STR_Coc_VuongMui",
+      "name": "P_200x200"
+    },
+    {
+      "family": "2_STR_Coc_VuongMui",
+      "name": "P_250x250"
+    },
+    {
+      "family": "3_STR_Coc_VuongThan",
+      "name": "P_200x200"
+    },
+    {
+      "family": "3_STR_Coc_VuongThan",
+      "name": "P_250x250"
+    },
+    {
+      "family": "3_STR_Coc_VuongThan",
+      "name": "P_300x300"
+    },
+    {
+      "family": "5_STR_Dai_1Coc",
+      "name": "DC_C250"
+    },
+    {
+      "family": "5_STR_Dai_1Coc",
+      "name": "DC_C300"
+    },
+    {
+      "family": "6_STR_Dai_2Coc",
+      "name": "DC_C300"
+    },
+    {
+      "family": "6_STR_Dai_2Coc",
+      "name": "DC_C250"
+    },
+    {
+      "family": "6_STR_Dai_2Coc",
+      "name": "DC_C500"
+    },
+    {
+      "family": "7_STR_Dai_3Coc",
+      "name": "DC_C300"
+    },
+    {
+      "family": "7_STR_Dai_3Coc",
+      "name": "DC_C250"
+    },
+    {
+      "family": "7_STR_Dai_3Coc",
+      "name": "DC_C400"
+    },
+    {
+      "family": "8_STR_Dai_4Coc",
+      "name": "DC_C300"
+    },
+    {
+      "family": "8_STR_Dai_4Coc",
+      "name": "DC_C250"
+    },
+    {
+      "family": "8_STR_Dai_4Coc",
+      "name": "DC_C400"
+    },
+    {
+      "family": "9_STR_MongHop_CoLotMong",
+      "name": "MD_1600x1800x500"
+    },
+    {
+      "family": "M_Footing-Rectangular",
+      "name": "1200x1200x400"
+    },
+    {
+      "family": "12_STR_MongDonLechTam_1.2_CoLotMong",
+      "name": "MD_1200x1400x500"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_1600x1800x500"
+    },
+    {
+      "family": "24_STR_MongDonLechTam_1.2_KhongLotMong",
+      "name": "MD_1200x1400x500"
+    },
+    {
+      "family": "25_STR_MongDonLechTam_1.4_KhongLotMong",
+      "name": "MD_1400x1400x500"
+    },
+    {
+      "family": "23_STR_MongDonDungTam_KhongDieu_KhongLotMong",
+      "name": "MD_1600x1800x500"
+    },
+    {
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "21_STR_MongBangLechTam_CoLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "20_STR_MongBangDungTam_KhongDieu_CoLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "27_STR_MongBangDungTam_KhongDieu_KhongLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+      "name": "MB_1600x700"
+    },
+    {
+      "family": "1_STR_Coc_Vuong",
+      "name": "P_300x300"
+    },
+    {
+      "family": "4_STR_Coc_Tron",
+      "name": "P300"
+    },
+    {
+      "family": "4_STR_Coc_Tron",
+      "name": "P400"
+    },
+    {
+      "family": "1_STR_Coc_Vuong",
+      "name": "P_400x400"
+    },
+    {
+      "family": "1_STR_Coc_Vuong",
+      "name": "P_250x250"
+    },
+    {
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "name": "MD_550x250"
+    },
+    {
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "name": "MD_2000x2400x600"
+    },
+    {
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "name": "MB_2000x8700x700"
+    },
+    {
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "name": "MB_2000x9600x700"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2000x2400x600"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2000x8700x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2000x6300x700"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2000x2000x600"
+    },
+    {
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "name": "MD_2000x2000x600"
+    },
+    {
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "name": "MD_2200x2000x600"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2200x2000x600"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2200x10500x700"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_1000x1000x400"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2400x5350x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x5400x700"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2800x2400x600"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2400x2800x600"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2800x5400x800"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x5400x800"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x4900x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2200x3600x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2200x8000x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x9600x700"
+    },
+    {
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "name": "MD_2600x2800x600"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2400x4700x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x11000x700"
+    },
+    {
+      "family": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+      "name": "MB_2200x11000x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2000x7700x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2200x8600x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2400x4700x800"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2600x7800x800"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2000x4000x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2800x4400x700"
+    },
+    {
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "name": "MB_2000x4350x700"
+    }
+  ],
+  "columnSymbols": [
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I100"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I120"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I150"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I175"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I194"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I200"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I250"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I284"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I298"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I300"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I346"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I350"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I396"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I400"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I450"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I500"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I588"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I596"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I600"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I700"
+    },
+    {
+      "family": "2_STR_Column_ConcreteRectangular_TongHop",
+      "name": "C_200x200"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I (150x100x6x8)"
+    },
+    {
+      "family": "7_STR_Column_TietDien_I_1_Doan",
+      "name": "I-(350-950)x215x6x10"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x200"
+    },
+    {
+      "family": "6_STR_Column_TietDien_I",
+      "name": "I-(200x200x6x8)"
+    },
+    {
+      "family": "7_STR_Column_TietDien_I_1_Doan",
+      "name": "I-(200-400)x150x6x8"
+    },
+    {
+      "family": "5_STR_Column_ConcreteRound",
+      "name": "C_200"
+    },
+    {
+      "family": "3_STR_Column_Concrete_1_VaiCot",
+      "name": "C_300x500"
+    },
+    {
+      "family": "4_STR_Column_Concrete_2_VaiCot",
+      "name": "C_300x500"
+    },
+    {
+      "family": "8_STR_Column_Section_Tube",
+      "name": "100x100x3"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x400"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x400"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x400"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x450"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x500"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x250"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x700"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x500"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x300"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x200"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x450"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x450"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x500"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x550"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x300"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_450x750"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x550"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x350"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x250"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x300"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x300"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x500"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_500x500"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_600x600"
+    },
+    {
+      "family": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_600x700"
+    }
+  ],
+  "pileCount": 0
+}

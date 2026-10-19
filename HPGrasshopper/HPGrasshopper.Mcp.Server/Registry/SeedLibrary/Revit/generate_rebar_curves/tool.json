@@ -1,0 +1,67 @@
+{
+  "name": "generate_rebar_curves",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "revit",
+    "rebar",
+    "curves",
+    "reinforcement",
+    "concrete"
+  ],
+  "title": "Convert 3D Curve Networks into Native Revit Rebar",
+  "description": "Converts 3D curve networks from Grasshopper into native Revit standard Rebar elements inside a host concrete element.",
+  "notes": "Creates standard Rebar from curve segments in Revit host element.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "hostElementId",
+      "rebarCurves"
+    ],
+    "properties": {
+      "hostElementId": {
+        "type": "integer",
+        "description": "Element ID of host concrete beam, column, or foundation."
+      },
+      "rebarCurves": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "startX": { "type": "number" },
+              "startY": { "type": "number" },
+              "startZ": { "type": "number" },
+              "endX": { "type": "number" },
+              "endY": { "type": "number" },
+              "endZ": { "type": "number" }
+            },
+            "required": ["startX", "startY", "startZ", "endX", "endY", "endZ"]
+          }
+        },
+        "description": "List of polyline curve sets defining rebar centerlines in meters."
+      },
+      "barDiameterMm": {
+        "type": "number",
+        "default": 16.0,
+        "description": "Target rebar nominal diameter in millimeters."
+      },
+      "diameterToleranceMm": {
+        "type": "number",
+        "default": 2.0,
+        "description": "Maximum allowable difference in millimeters between target diameter and available Revit RebarBarType."
+      }
+    },
+    "additionalProperties": false
+  }
+}

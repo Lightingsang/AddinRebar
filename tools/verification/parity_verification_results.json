@@ -1,0 +1,93 @@
+{
+  "total_endpoints": 602,
+  "status_counts": {
+    "HOAN_THANH": 598,
+    "DANG_LA_MOCK": 0,
+    "CHUA_GIAI_MA_DUOC": 4
+  },
+  "formatting_defects_count": 0,
+  "formatting_defects": [],
+  "summary_errors": [],
+  "duplicate_errors": [],
+  "sub1_bijection": true,
+  "sub2_bijection": true,
+  "sub3_bijection": true,
+  "sub4_bijection": true,
+  "sub5_bijection": true,
+  "sub5_ordinal_match": true,
+  "sub5_rva_match": true,
+  "subsystems_detail": {
+    "1": {
+      "name": "AutoCAD <CommandMethod> Endpoints",
+      "claimed": 311,
+      "actual": 311,
+      "ht": 311,
+      "mock": 0,
+      "cgm": 0
+    },
+    "2": {
+      "name": "Excel Ribbon Commands & Dispatch Actions",
+      "claimed": 73,
+      "actual": 73,
+      "ht": 73,
+      "mock": 0,
+      "cgm": 0
+    },
+    "3": {
+      "name": "DceSteel Detailing & Editing Facade",
+      "claimed": 49,
+      "actual": 49,
+      "ht": 49,
+      "mock": 0,
+      "cgm": 0
+    },
+    "4": {
+      "name": "MBKC Structural Framing Plan Facade",
+      "claimed": 29,
+      "actual": 29,
+      "ht": 29,
+      "mock": 0,
+      "cgm": 0
+    },
+    "5": {
+      "name": "Native C++ Mathematical & Geometric Core",
+      "claimed": 69,
+      "actual": 69,
+      "ht": 65,
+      "mock": 0,
+      "cgm": 4
+    },
+    "6": {
+      "name": "Revit 2026 Structural Commands & Application",
+      "claimed": 24,
+      "actual": 24,
+      "ht": 24,
+      "mock": 0,
+      "cgm": 0
+    },
+    "7": {
+      "name": "Interactive AutoCAD Jigs",
+      "claimed": 11,
+      "actual": 11,
+      "ht": 11,
+      "mock": 0,
+      "cgm": 0
+    },
+    "8": {
+      "name": "Specialized UI Forms, Dialogs & Palettes",
+      "claimed": 12,
+      "actual": 12,
+      "ht": 12,
+      "mock": 0,
+      "cgm": 0
+    },
+    "9": {
+      "name": "AutoStr 24-Step Automation Pipeline",
+      "claimed": 24,
+      "actual": 24,
+      "ht": 24,
+      "mock": 0,
+      "cgm": 0
+    }
+  }
+}

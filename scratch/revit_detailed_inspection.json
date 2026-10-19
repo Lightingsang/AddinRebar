@@ -1,0 +1,1636 @@
+{
+  "totalGrids": 27,
+  "totalLevels": 9,
+  "totalViews": 4,
+  "viewNames": [
+    "East (\u0110\u00F4ng) (Elevation)",
+    "North (B\u1EAFc) (Elevation)",
+    "South (Nam) (Elevation)",
+    "West (T\u00E2y) (Elevation)"
+  ],
+  "allLevelTypes": [
+    {
+      "id": "333",
+      "name": "8mm Head",
+      "symbolName": "M_Level Head - Circle",
+      "familyName": "M_Level Head - Circle"
+    },
+    {
+      "id": "9267296",
+      "name": "HP_Level_T1_(\u002B)",
+      "symbolName": "HP_Cote_(\u002B)",
+      "familyName": "HP_Level_T1"
+    },
+    {
+      "id": "9267412",
+      "name": "HP_Level_T1_(\u00B1)",
+      "symbolName": "HP_Cote_(\u00B1)",
+      "familyName": "HP_Level_T1"
+    },
+    {
+      "id": "9267468",
+      "name": "HP_Level_T2_(\u002B)",
+      "symbolName": "Cote_(\u002B)",
+      "familyName": "STR_Level_T2"
+    },
+    {
+      "id": "9267492",
+      "name": "HP_Level_T2_(\u00B1)",
+      "symbolName": "Cote_(\u00B1)",
+      "familyName": "STR_Level_T2"
+    },
+    {
+      "id": "9267516",
+      "name": "HP_Level_T3_(\u002B)",
+      "symbolName": "Cote_(\u002B)",
+      "familyName": "STR_Level_T3"
+    },
+    {
+      "id": "9267540",
+      "name": "HP_Level_T3_(\u00B1)",
+      "symbolName": "Cote_(\u00B1)",
+      "familyName": "STR_Level_T3"
+    }
+  ],
+  "allGridTypes": [
+    {
+      "id": "374",
+      "name": "6.5mm Bubble",
+      "symbolName": "M_Grid Head - Circle",
+      "familyName": "M_Grid Head - Circle"
+    },
+    {
+      "id": "100008",
+      "name": "6.5mm Bubble Custom Gap",
+      "symbolName": "M_Grid Head - Circle",
+      "familyName": "M_Grid Head - Circle"
+    },
+    {
+      "id": "100000",
+      "name": "6.5mm Bubble Gap",
+      "symbolName": "M_Grid Head - Circle",
+      "familyName": "M_Grid Head - Circle"
+    },
+    {
+      "id": "9747778",
+      "name": "HP-Grids",
+      "symbolName": "Grid Heads",
+      "familyName": "HP-Grids-A1"
+    },
+    {
+      "id": "644962",
+      "name": "HP-Grids-A1",
+      "symbolName": "Grid Heads",
+      "familyName": "HP_Grid_Heads"
+    },
+    {
+      "id": "8671385",
+      "name": "HP-Grids-A3",
+      "symbolName": "Grid Heads A3",
+      "familyName": "HP-Grids-A3"
+    }
+  ],
+  "grids": [
+    {
+      "id": "9907394",
+      "name": "1",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -0,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": -0,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907403",
+      "name": "10",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 38300,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 38300,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907404",
+      "name": "11",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 40800,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 40800,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907405",
+      "name": "12",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 45000,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 45000,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907406",
+      "name": "13",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 48900,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 48900,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907395",
+      "name": "2",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 1300,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 1300,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907396",
+      "name": "3",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 6900,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 6900,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907397",
+      "name": "4",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 9900,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 9900,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907398",
+      "name": "5",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 13900,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 13900,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907399",
+      "name": "6",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 16500,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 16500,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907400",
+      "name": "7",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 23700,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 23700,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907401",
+      "name": "8",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 29050,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 29050,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907402",
+      "name": "9",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": 35750,
+        "y": -6202,
+        "z": 0
+      },
+      "end": {
+        "x": 35750,
+        "y": 31503.3,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907407",
+      "name": "A",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 0,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 0,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907408",
+      "name": "B",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 2800,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 2800,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907409",
+      "name": "C",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 4650,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 4650,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907410",
+      "name": "D",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 7150,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 7150,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907411",
+      "name": "E",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 9950,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 9950,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907412",
+      "name": "F",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 12750,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 12750,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907413",
+      "name": "G",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 13950,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 13950,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907414",
+      "name": "H",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 15150,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 15150,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907415",
+      "name": "I",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 17950,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 17950,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907416",
+      "name": "J",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 20000,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 20000,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907417",
+      "name": "K",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 20750,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 20750,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907418",
+      "name": "L",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 23250,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 23250,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907419",
+      "name": "M",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 25100,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 25100,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907420",
+      "name": "N",
+      "typeName": "HP-Grids",
+      "pinned": true,
+      "start": {
+        "x": -5465.1,
+        "y": 27900,
+        "z": 0
+      },
+      "end": {
+        "x": 54429,
+        "y": 27900,
+        "z": 0
+      },
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "viewType": "Elevation",
+          "b0": false,
+          "b1": false,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "viewType": "Elevation",
+          "b0": true,
+          "b1": false,
+          "extentType": "Model"
+        }
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "id": "9907884",
+      "name": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": -1600,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9922149",
+      "name": "T\u1EA7ng 1",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": -100,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "5390167",
+      "name": "\u00B10.000",
+      "typeName": "HP_Level_T1_(\u00B1)",
+      "pinned": false,
+      "elevationMm": 0,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907885",
+      "name": "T\u1EA7ng 2",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 4300,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907886",
+      "name": "T\u1EA7ng 3",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 8650,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907887",
+      "name": "T\u1EA7ng 4",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 13000,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907888",
+      "name": "T\u1EA7ng \u00C1p M\u00E1i",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 16600,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907889",
+      "name": "T\u1EA7ng M\u00E1i",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 19400,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    },
+    {
+      "id": "9907890",
+      "name": "\u0110\u1EC9nh M\u00E1i",
+      "typeName": "HP_Level_T1_(\u002B)",
+      "pinned": false,
+      "elevationMm": 20400,
+      "views": [
+        {
+          "viewName": "East (\u0110\u00F4ng)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "North (B\u1EAFc)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "South (Nam)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        },
+        {
+          "viewName": "West (T\u00E2y)",
+          "b0": true,
+          "b1": true,
+          "extentType": "Model"
+        }
+      ]
+    }
+  ]
+}

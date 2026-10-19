@@ -1,0 +1,45 @@
+{
+  "name": "export_graph_to_image",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Export",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 60,
+  "destructive": false,
+  "tags": [
+    "export",
+    "image",
+    "png",
+    "jpeg",
+    "screenshot",
+    "canvas",
+    "graph"
+  ],
+  "title": "Export graph to image",
+  "description": "Export a screenshot / image rendering of the active Dynamo canvas workspace to a PNG or JPEG file on disk. Read-only.",
+  "notes": "Requires an active Dynamo canvas session. Triggers workspace canvas rendering via DynamoViewModel.OnRequestSaveImage. Does not modify graph state.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "outputPath": {
+        "type": "string",
+        "description": "Optional file path where the exported image will be saved (e.g. 'C:\\Temp\\dynamo_graph.png'). If omitted, writes to %TEMP% with a timestamp."
+      },
+      "format": {
+        "type": "string",
+        "enum": [
+          "PNG",
+          "JPEG"
+        ],
+        "default": "PNG",
+        "description": "Image export format: 'PNG' or 'JPEG' (default 'PNG')"
+      }
+    },
+    "additionalProperties": false
+  }
+}

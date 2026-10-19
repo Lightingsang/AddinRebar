@@ -68,12 +68,6 @@
                       IsReadOnly="True"
                       HeadersVisibility="Column"
                       GridLinesVisibility="Horizontal"
-                      Background="{DynamicResource Brush.Surface}"
-                      RowBackground="{DynamicResource Brush.Surface}"
-                      AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
-                      Foreground="{DynamicResource Brush.Foreground.Primary}"
-                      BorderBrush="{DynamicResource Brush.Border}"
-                      HorizontalGridLinesBrush="{DynamicResource Brush.Border}"
                       MaxHeight="180">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Span" Binding="{Binding Name}" Width="100"/>
@@ -97,12 +91,6 @@
                       IsReadOnly="True"
                       HeadersVisibility="Column"
                       GridLinesVisibility="Horizontal"
-                      Background="{DynamicResource Brush.Surface}"
-                      RowBackground="{DynamicResource Brush.Surface}"
-                      AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
-                      Foreground="{DynamicResource Brush.Foreground.Primary}"
-                      BorderBrush="{DynamicResource Brush.Border}"
-                      HorizontalGridLinesBrush="{DynamicResource Brush.Border}"
                       MaxHeight="150">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Support" Binding="{Binding Name}" Width="120"/>

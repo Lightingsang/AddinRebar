@@ -1,0 +1,18 @@
+[
+  {
+    "title": "standard_three_story_building",
+    "args": {
+      "elevations": [0.0, 3.6, 7.2, 10.8],
+      "gridSpacings": [6.0, 6.0, 6.0],
+      "gridLength": 25.0
+    }
+  },
+  {
+    "title": "high_ceiling_warehouse",
+    "args": {
+      "elevations": [0.0, 5.5, 11.0],
+      "gridSpacings": [9.0, 9.0],
+      "gridLength": 40.0
+    }
+  }
+]

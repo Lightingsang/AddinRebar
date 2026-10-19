@@ -1,0 +1,46 @@
+{
+  "name": "search_nodes_library",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Library",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "none",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "library",
+    "search",
+    "nodes",
+    "categories",
+    "packages"
+  ],
+  "title": "Search Dynamo nodes library",
+  "description": "Searches the loaded Dynamo node library across built-in core nodes, Revit nodes, DesignScript functions, and third-party packages matching a query keyword or category filter.",
+  "notes": "Queries DynamoModel.SearchModel entries with fallback to loaded AppDomain node types.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "query"
+    ],
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Search keyword matching node name, description, or full type signature (e.g. 'Rebar', 'Point', 'Wall', 'List.Map')"
+      },
+      "category": {
+        "type": "string",
+        "description": "Optional category prefix or namespace to filter results (e.g. 'Revit.Elements', 'Geometry.Points')"
+      },
+      "maxResults": {
+        "type": "integer",
+        "default": 50,
+        "description": "Maximum number of search results to return (clamped between 1 and 200)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

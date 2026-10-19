@@ -1,0 +1,136 @@
+<Window x:Class="HPKata.UI.Views.DrawingUtilityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        xmlns:layout="clr-namespace:HPKata.Core.DrawingLayout.Models;assembly=HPKata.Core"
+        mc:Ignorable="d"
+        Title="HPKata — Tiện ích Bản vẽ: Lưới trục, Sắp xếp Bản vẽ &amp; Danh mục (vg / sbv / danhmuc)"
+        Height="620" Width="900"
+        MinHeight="480" MinWidth="750"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <TextBlock Text="TIỆN ÍCH DÀN TRANG BẢN VẼ &amp; LƯỚI TRỤC (DRAWING UTILITIES)" Style="{StaticResource Text.Title}"/>
+        </Border>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="1" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}">
+            <!-- Tab 1: Grid Generator -->
+            <TabItem Header="Lưới trục (Grid Axis)">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                        <TextBlock Text="Khoảng cách nhịp trục X (mm, cách nhau dấu phẩy):" Style="{StaticResource Text.Muted}"/>
+                        <TextBox Text="{Binding XSpansText, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+
+                        <TextBlock Text="Khoảng cách nhịp trục Y (mm, cách nhau dấu phẩy):" Style="{StaticResource Text.Muted}"/>
+                        <TextBox Text="{Binding YSpansText, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Tỷ lệ vẽ (1:X):" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Text="{Binding Scale, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                            <Button Content="Tạo lưới trục (Generate)" Command="{Binding GenerateGridCommand}" Margin="16,0,0,0" Style="{StaticResource Button.Primary}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding GeneratedAxes}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tên trục" Binding="{Binding Label}" Width="80"/>
+                            <DataGridTextColumn Header="X1 (mm)" Binding="{Binding StartX, StringFormat='{}{0:F0}'}" Width="100"/>
+                            <DataGridTextColumn Header="Y1 (mm)" Binding="{Binding StartY, StringFormat='{}{0:F0}'}" Width="100"/>
+                            <DataGridTextColumn Header="X2 (mm)" Binding="{Binding EndX, StringFormat='{}{0:F0}'}" Width="100"/>
+                            <DataGridTextColumn Header="Y2 (mm)" Binding="{Binding EndY, StringFormat='{}{0:F0}'}" Width="100"/>
+                            <DataGridTextColumn Header="Góc (rad)" Binding="{Binding AngleRad, StringFormat='{}{0:F2}'}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Grid.Row="2" Text="{Binding GridStatusMessage}" Margin="0,8,0,0" Style="{StaticResource Text.Muted}"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 2: Sheet Arranger -->
+            <TabItem Header="Sắp xếp Bản vẽ (Sheet Arranger)">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+                        <TextBlock Text="Khổ giấy:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox ItemsSource="{Binding Source={x:Type layout:SheetFormat}, Converter={x:Null}}"
+                                  SelectedItem="{Binding SelectedFormat}" Width="90"/>
+                        <CheckBox Content="Ngang (Landscape)" IsChecked="{Binding IsLandscape}" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                        <Button Content="Sắp xếp 2D Shelf Packing" Command="{Binding ArrangeSheetsCommand}" Margin="24,0,0,0" Style="{StaticResource Button.Primary}"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding ArrangedSheets}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Bản vẽ #" Binding="{Binding SheetIndex}" Width="80"/>
+                            <DataGridTextColumn Header="Khổ giấy" Binding="{Binding SheetDefinition.Format}" Width="90"/>
+                            <DataGridTextColumn Header="Số chi tiết đặt" Binding="{Binding PlacedBlocks.Count}" Width="120"/>
+                            <DataGridTextColumn Header="Hệ số sử dụng (%)" Binding="{Binding UtilizationRatio, StringFormat='{}{0:F1}%'}" Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Grid.Row="2" Text="{Binding SheetStatusMessage}" Margin="0,8,0,0" Style="{StaticResource Text.Muted}"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 3: Drawing Index -->
+            <TabItem Header="Danh mục Bản vẽ (Drawing Register)">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button Content="Tổng hợp Danh mục (danhmuc)" Command="{Binding GenerateIndexCommand}" Style="{StaticResource Button.Primary}"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding IndexItems}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="STT" Binding="{Binding Order}" Width="60"/>
+                            <DataGridTextColumn Header="Ký hiệu" Binding="{Binding SheetNumber}" Width="120"/>
+                            <DataGridTextColumn Header="Tên bản vẽ" Binding="{Binding DrawingTitle}" Width="*"/>
+                            <DataGridTextColumn Header="Tỷ lệ" Binding="{Binding Scale}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Grid.Row="2" Text="{Binding IndexStatusMessage}" Margin="0,8,0,0" Style="{StaticResource Text.Muted}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

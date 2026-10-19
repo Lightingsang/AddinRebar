@@ -1,0 +1,81 @@
+diff --git a/HPDynamo/HPDynamo.E2E.Tests/Contracts/DynamoE2EContracts.cs b/HPDynamo/HPDynamo.E2E.Tests/Contracts/DynamoE2EContracts.cs
+--- a/HPDynamo/HPDynamo.E2E.Tests/Contracts/DynamoE2EContracts.cs
++++ b/HPDynamo/HPDynamo.E2E.Tests/Contracts/DynamoE2EContracts.cs
+@@ -71,7 +71,8 @@ public static class DynamoE2EContracts
+         "get_node_output_values",
+         "export_graph_to_image",
+         "validate_dyn_file",
+-        "create_code_block_node"
++        "create_code_block_node",
++        "batch_edit_graph"
+     });
+ 
+     public static readonly string SuppressedEngineTool = "inspect_type";
+diff --git a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier1_ContractsAndServerTests.cs b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier1_ContractsAndServerTests.cs
+--- a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier1_ContractsAndServerTests.cs
++++ b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier1_ContractsAndServerTests.cs
+@@ -9,7 +9,7 @@ namespace HPDynamo.E2E.Tests.Tiers;
+ 
+ /// <summary>
+ /// Tier 1: Category-Partition (Feature Coverage) - Part 1:
+-/// McpShared Contracts, Host Profiles, Server Tools, and 24-Tool Surface Invariants.
++/// McpShared Contracts, Host Profiles, Server Tools, and 25-Tool Surface Invariants.
+ /// </summary>
+ public sealed class Tier1_ContractsAndServerTests
+ {
+@@ -78,7 +78,7 @@ public sealed class Tier1_ContractsAndServerTests
+-    public void TC_T1_SRV_01_ToolSurface_Count_IsExactly24Tools()
++    public void TC_T1_SRV_01_ToolSurface_Count_IsExactly25Tools()
+     {
+         var tools = DynamoE2ETestHarness.BuildToolSurfaceList();
+-        Assert.Equal(24, tools.Count);
++        Assert.Equal(25, tools.Count);
+     }
+ 
+     [Fact]
+@@ -124,6 +124,7 @@ public sealed class Tier1_ContractsAndServerTests
+-    public void TC_T1_SRV_08_EmbeddedSeeds_ContainsAll12SpecifiedSeeds()
++    public void TC_T1_SRV_08_EmbeddedSeeds_ContainsAll13SpecifiedSeeds()
+     {
+-        Assert.Equal(12, DynamoE2EContracts.EmbeddedSeeds.Count);
++        Assert.Equal(13, DynamoE2EContracts.EmbeddedSeeds.Count);
+         Assert.Contains("run_dyn_file", DynamoE2EContracts.EmbeddedSeeds);
+         Assert.Contains("create_code_block_node", DynamoE2EContracts.EmbeddedSeeds);
++        Assert.Contains("batch_edit_graph", DynamoE2EContracts.EmbeddedSeeds);
+     }
+diff --git a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier3_CrossFeatureInteractionTests.cs b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier3_CrossFeatureInteractionTests.cs
+--- a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier3_CrossFeatureInteractionTests.cs
++++ b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier3_CrossFeatureInteractionTests.cs
+@@ -67,3 +67,3 @@ public sealed class Tier3_CrossFeatureInteractionTests
+         var tools = DynamoE2ETestHarness.BuildToolSurfaceList();
+-        Assert.Equal(24, tools.Count);
++        Assert.Equal(25, tools.Count);
+     }
+@@ -125,10 +125,10 @@ public sealed class Tier3_CrossFeatureInteractionTests
+-    public void TC_T3_INT_07_DualLifecycleSwitch_HeadlessToLiveCanvas_Maintains24ToolsSurface()
++    public void TC_T3_INT_07_DualLifecycleSwitch_HeadlessToLiveCanvas_Maintains25ToolsSurface()
+     {
+         var bridge = new DynamoE2EFakeBridge();
+         var toolsBefore = DynamoE2ETestHarness.BuildToolSurfaceList();
+-        Assert.Equal(24, toolsBefore.Count);
++        Assert.Equal(25, toolsBefore.Count);
+         Assert.False(bridge.GetContext().IsLiveCanvasAttached);
+ 
+         bridge.AttachLiveCanvas("LiveSession");
+         var toolsAfter = DynamoE2ETestHarness.BuildToolSurfaceList();
+-        Assert.Equal(24, toolsAfter.Count);
++        Assert.Equal(25, toolsAfter.Count);
+         Assert.True(bridge.GetContext().IsLiveCanvasAttached);
+     }
+ 
+@@ -148,3 +148,3 @@ public sealed class Tier3_CrossFeatureInteractionTests
+         var tools = DynamoE2ETestHarness.BuildToolSurfaceList();
+-        Assert.Equal(24, tools.Count);
++        Assert.Equal(25, tools.Count);
+     }
+diff --git a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier5_SeedParameterFuzzingTests.cs b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier5_SeedParameterFuzzingTests.cs
+--- a/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier5_SeedParameterFuzzingTests.cs
++++ b/HPDynamo/HPDynamo.E2E.Tests/Tiers/Tier5_SeedParameterFuzzingTests.cs
+@@ -11,1 +11,1 @@ namespace HPDynamo.E2E.Tests.Tiers;
+-/// Tier 5: Adversarial Parameter Fuzzing Suite for all 12 Published Seeds.
++/// Tier 5: Adversarial Parameter Fuzzing Suite for all 13 Published Seeds.

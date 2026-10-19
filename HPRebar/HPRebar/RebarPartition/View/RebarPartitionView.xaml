@@ -1,0 +1,335 @@
+<Window x:Class="HPRebar.RebarPartition.View.RebarPartitionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPRebar.RebarPartition.ViewModel"
+        xmlns:model="clr-namespace:HPRebar.RebarPartition.Model"
+        mc:Ignorable="d"
+        Title="HPRebar — Quản lý Cốt thép: Gán Partition"
+        Width="1100" Height="720"
+        MinWidth="900" MinHeight="580"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Foreground.Primary}"
+        FontFamily="{DynamicResource Font.Family.Default}"
+        FontSize="{DynamicResource Font.Size.Body}">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Main Content -->
+            <RowDefinition Height="Auto"/> <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. Header Information Bar -->
+        <Border Grid.Row="0" Style="{DynamicResource Card}" Padding="12,10" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <md:PackIcon Kind="TagMultipleOutline" Width="24" Height="24" Foreground="{DynamicResource Brush.Accent}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="GÁN PARTITION CỐT THÉP THEO CẤU KIỆN HOST" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Accent}"/>
+                </StackPanel>
+
+                <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Tổng quét: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalFound}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Cần gán: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalToUpdate}" FontWeight="Bold" Foreground="#FFD32F2F"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{DynamicResource Tag}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Đã khớp: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
+                            <TextBlock Text="{Binding TotalMatching}" FontWeight="Bold" Foreground="#FF388E3C"/>
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
+            </Grid>
+        </Border>
+
+        <!-- 2. Main Content Split View -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/> <!-- Settings Form -->
+                <ColumnDefinition Width="*"/>   <!-- Preview Table -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel: Settings -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,12,0">
+                <StackPanel>
+                    <!-- Scope Selection -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="FilterOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="1. Phạm vi quét thép (Scope)" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <ComboBox SelectedValue="{Binding SelectedScope}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Margin="0,0,0,4">
+                                <model:PartitionScope>ActiveView</model:PartitionScope>
+                                <model:PartitionScope>ActiveSelection</model:PartitionScope>
+                                <model:PartitionScope>EntireModel</model:PartitionScope>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Host Categories -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="LayersOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="2. Cấu kiện Host áp dụng" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <ItemsControl ItemsSource="{Binding HostCategories}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected}"
+                                                  Content="{Binding DisplayName}"
+                                                  Margin="0,3"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Partition Naming Rule -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="TextBoxOutline" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="3. Nguồn tên Partition" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <ComboBox SelectedValue="{Binding SelectedSource}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Margin="0,0,0,8">
+                                <model:PartitionSourceParameter>ElementName</model:PartitionSourceParameter>
+                                <model:PartitionSourceParameter>Mark</model:PartitionSourceParameter>
+                                <model:PartitionSourceParameter>TypeName</model:PartitionSourceParameter>
+                                <model:PartitionSourceParameter>Comments</model:PartitionSourceParameter>
+                                <model:PartitionSourceParameter>LevelAndMark</model:PartitionSourceParameter>
+                                <model:PartitionSourceParameter>Custom</model:PartitionSourceParameter>
+                            </ComboBox>
+
+                            <!-- Custom Parameter Name (Visible if Custom chosen) -->
+                            <TextBox Text="{Binding CustomParameterName, UpdateSourceTrigger=PropertyChanged}"
+                                     md:HintAssist.Hint="Tên tham số riêng trên Host"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     Visibility="{Binding IsCustomParamVisible, Converter={StaticResource BoolToVis}}"
+                                     Margin="0,0,0,8"/>
+
+                            <Grid Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Grid.Column="0"
+                                         Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged}"
+                                         md:HintAssist.Hint="Tiền tố (Prefix)"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Suffix, UpdateSourceTrigger=PropertyChanged}"
+                                         md:HintAssist.Hint="Hậu tố (Suffix)"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Number Element Parameter -->
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <md:PackIcon Kind="Counter" Width="18" Height="18" Foreground="{DynamicResource Brush.Accent}"/>
+                                <TextBlock Text="4. Số lượng cấu kiện (Number Element)" Style="{DynamicResource Subheading}" Margin="6,0,0,0"/>
+                            </StackPanel>
+
+                            <CheckBox IsChecked="{Binding AssignNumberElement}"
+                                      Content="Gán tham số 'Number Element'"
+                                      Margin="0,0,0,4"/>
+
+                            <CheckBox IsChecked="{Binding GroupContinuousGeometry}"
+                                      IsEnabled="{Binding AssignNumberElement}"
+                                      Content="Gộp dầm/cột liên tục theo hình học"
+                                      Margin="0,0,0,6"/>
+
+                            <TextBox Text="{Binding NumberElementParamName, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding AssignNumberElement}"
+                                     md:HintAssist.Hint="Tên tham số Number Element"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Preview Action Button -->
+                    <Button Command="{Binding PreviewCommand}"
+                            Style="{DynamicResource SecondaryButton}"
+                            Height="40"
+                            Margin="0,4,0,8"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource BoolToVis}, ConverterParameter=Inverse}">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="Magnify" Width="18" Height="18" Margin="0,0,8,0"/>
+                            <TextBlock Text="QUÉT &amp; XEM TRƯỚC (PREVIEW)" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right Panel: DataGrid Preview -->
+            <Border Grid.Column="1" Style="{DynamicResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Table Toolbar -->
+                    <Border Grid.Row="0" Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1" Padding="12,8">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="BẢNG DỰ KIẾN CẬP NHẬT" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource Brush.Foreground.Primary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Command="{Binding SelectAllCommand}"
+                                        Style="{DynamicResource LinkButton}"
+                                        Content="Chọn tất cả" Height="28" Padding="8,0" Margin="0,0,4,0"/>
+                                <Button Command="{Binding DeselectAllCommand}"
+                                        Style="{DynamicResource LinkButton}"
+                                        Content="Bỏ chọn" Height="28" Padding="8,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- DataGrid -->
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding PreviewItems}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              GridLinesVisibility="Horizontal"
+                              HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
+                              Background="Transparent"
+                              RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Áp dụng"
+                                                    Binding="{Binding IsIncluded, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="65"/>
+
+                            <DataGridTextColumn Header="Rebar ID"
+                                                Binding="{Binding RebarIdText}"
+                                                IsReadOnly="True"
+                                                Width="95"/>
+
+                            <DataGridTextColumn Header="Loại Host"
+                                                Binding="{Binding HostCategory}"
+                                                IsReadOnly="True"
+                                                Width="140"/>
+
+                            <DataGridTextColumn Header="Tên cấu kiện Host"
+                                                Binding="{Binding HostName}"
+                                                IsReadOnly="True"
+                                                Width="160"/>
+
+                            <DataGridTextColumn Header="Giá trị nguồn"
+                                                Binding="{Binding SourceValue}"
+                                                IsReadOnly="True"
+                                                Width="110"/>
+
+                            <DataGridTextColumn Header="Partition hiện tại"
+                                                Binding="{Binding CurrentPartition}"
+                                                IsReadOnly="True"
+                                                Width="125"/>
+
+                            <DataGridTextColumn Header="Partition mới"
+                                                Binding="{Binding TargetPartition}"
+                                                IsReadOnly="True"
+                                                FontWeight="Bold"
+                                                Width="125"/>
+
+                            <DataGridTextColumn Header="Số lượng CK"
+                                                Binding="{Binding HostCountText}"
+                                                IsReadOnly="True"
+                                                Width="90"/>
+
+                            <DataGridTextColumn Header="Trạng thái"
+                                                Binding="{Binding StatusText}"
+                                                IsReadOnly="True"
+                                                Width="110"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 3. Footer Bar -->
+        <Border Grid.Row="2" Style="{DynamicResource Card}" Padding="12,10" Margin="0,8,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Status & Progress -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="{Binding IsBusy}"
+                                 Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
+                                 Height="4"
+                                 Margin="0,0,16,4"/>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="{DynamicResource Brush.Foreground.Secondary}"
+                               FontSize="12"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <!-- Actions -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding CloseCommand}"
+                            Style="{DynamicResource SecondaryButton}"
+                            Content="ĐÓNG"
+                            Width="90" Height="36" Margin="0,0,8,0"/>
+
+                    <Button Command="{Binding ApplyCommand}"
+                            Style="{DynamicResource PrimaryButton}"
+                            Width="160" Height="36"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource BoolToVis}, ConverterParameter=Inverse}">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="CheckBold" Width="16" Height="16" Margin="0,0,6,0"/>
+                            <TextBlock Text="ÁP DỤNG PARTITION" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,408 @@
+{
+  "existingInstanceCount": 144,
+  "totalTypes": 55,
+  "targetParams": [
+    {
+      "name": "b",
+      "valMm": 300,
+      "isReadOnly": false
+    },
+    {
+      "name": "h",
+      "valMm": 300,
+      "isReadOnly": false
+    },
+    {
+      "name": "STR_ConcreteCover",
+      "valMm": 25,
+      "isReadOnly": false
+    }
+  ],
+  "types": [
+    {
+      "id": 608865,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I100",
+      "width": 55,
+      "height": 100
+    },
+    {
+      "id": 608867,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I120",
+      "width": 64,
+      "height": 120
+    },
+    {
+      "id": 608869,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I150",
+      "width": 75,
+      "height": 150
+    },
+    {
+      "id": 608871,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I175",
+      "width": 90,
+      "height": 175
+    },
+    {
+      "id": 608873,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I194",
+      "width": 150,
+      "height": 194
+    },
+    {
+      "id": 608875,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I200",
+      "width": 200,
+      "height": 200
+    },
+    {
+      "id": 608877,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I250",
+      "width": 125,
+      "height": 250
+    },
+    {
+      "id": 608879,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I284",
+      "width": 124,
+      "height": 284
+    },
+    {
+      "id": 608881,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I298",
+      "width": 149,
+      "height": 298
+    },
+    {
+      "id": 608883,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I300",
+      "width": 150,
+      "height": 300
+    },
+    {
+      "id": 608885,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I346",
+      "width": 174,
+      "height": 346
+    },
+    {
+      "id": 608887,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I350",
+      "width": 175,
+      "height": 350
+    },
+    {
+      "id": 608889,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I396",
+      "width": 199,
+      "height": 396
+    },
+    {
+      "id": 608891,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I400",
+      "width": 200,
+      "height": 400
+    },
+    {
+      "id": 608893,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I450",
+      "width": 200,
+      "height": 450
+    },
+    {
+      "id": 608895,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I500",
+      "width": 200,
+      "height": 500
+    },
+    {
+      "id": 608897,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I588",
+      "width": 300,
+      "height": 588
+    },
+    {
+      "id": 608899,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I596",
+      "width": 199,
+      "height": 596
+    },
+    {
+      "id": 608901,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I600",
+      "width": 200,
+      "height": 600
+    },
+    {
+      "id": 608903,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I700",
+      "width": 300,
+      "height": 700
+    },
+    {
+      "id": 7654333,
+      "familyName": "2_STR_Column_ConcreteRectangular_TongHop",
+      "name": "C_200x200",
+      "width": 200,
+      "height": 200
+    },
+    {
+      "id": 7686307,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I (150x100x6x8)",
+      "width": 100,
+      "height": 150
+    },
+    {
+      "id": 8252384,
+      "familyName": "7_STR_Column_TietDien_I_1_Doan",
+      "name": "I-(350-950)x215x6x10",
+      "width": 215,
+      "height": 0
+    },
+    {
+      "id": 8685850,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x200",
+      "width": 200,
+      "height": 200
+    },
+    {
+      "id": 8744454,
+      "familyName": "6_STR_Column_TietDien_I",
+      "name": "I-(200x200x6x8)",
+      "width": 200,
+      "height": 200
+    },
+    {
+      "id": 8751153,
+      "familyName": "7_STR_Column_TietDien_I_1_Doan",
+      "name": "I-(200-400)x150x6x8",
+      "width": 150,
+      "height": 0
+    },
+    {
+      "id": 8753130,
+      "familyName": "5_STR_Column_ConcreteRound",
+      "name": "C_200",
+      "width": 200,
+      "height": 0
+    },
+    {
+      "id": 9274040,
+      "familyName": "3_STR_Column_Concrete_1_VaiCot",
+      "name": "C_300x500",
+      "width": 300,
+      "height": 500
+    },
+    {
+      "id": 9278601,
+      "familyName": "4_STR_Column_Concrete_2_VaiCot",
+      "name": "C_300x500",
+      "width": 300,
+      "height": 500
+    },
+    {
+      "id": 9280476,
+      "familyName": "8_STR_Column_Section_Tube",
+      "name": "100x100x3",
+      "width": 100,
+      "height": 100
+    },
+    {
+      "id": 9298901,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x400",
+      "width": 300,
+      "height": 400
+    },
+    {
+      "id": 9299495,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x400",
+      "width": 200,
+      "height": 400
+    },
+    {
+      "id": 9299497,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x400",
+      "width": 250,
+      "height": 400
+    },
+    {
+      "id": 9299499,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x450",
+      "width": 300,
+      "height": 450
+    },
+    {
+      "id": 9299501,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_200x500",
+      "width": 200,
+      "height": 500
+    },
+    {
+      "id": 9299503,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x250",
+      "width": 300,
+      "height": 250
+    },
+    {
+      "id": 9299505,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x700",
+      "width": 400,
+      "height": 700
+    },
+    {
+      "id": 9299507,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x500",
+      "width": 300,
+      "height": 500
+    },
+    {
+      "id": 9299509,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x300",
+      "width": 300,
+      "height": 300
+    },
+    {
+      "id": 9299511,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_300x200",
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": 9299716,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x450",
+      "width": 350,
+      "height": 450
+    },
+    {
+      "id": 9299733,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x450",
+      "width": 250,
+      "height": 450
+    },
+    {
+      "id": 9299903,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x500",
+      "width": 350,
+      "height": 500
+    },
+    {
+      "id": 9299943,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x550",
+      "width": 250,
+      "height": 550
+    },
+    {
+      "id": 9300065,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x300",
+      "width": 350,
+      "height": 300
+    },
+    {
+      "id": 9300121,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_450x750",
+      "width": 450,
+      "height": 750
+    },
+    {
+      "id": 9300162,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x550",
+      "width": 350,
+      "height": 550
+    },
+    {
+      "id": 9300348,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x350",
+      "width": 350,
+      "height": 350
+    },
+    {
+      "id": 9300412,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_350x250",
+      "width": 350,
+      "height": 250
+    },
+    {
+      "id": 9427453,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_250x300",
+      "width": 250,
+      "height": 300
+    },
+    {
+      "id": 9921912,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x300",
+      "width": 400,
+      "height": 300
+    },
+    {
+      "id": 9921914,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_400x500",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "id": 9921916,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_500x500",
+      "width": 500,
+      "height": 500
+    },
+    {
+      "id": 9921918,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_600x600",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "id": 9921920,
+      "familyName": "1_STR_Column_ConcreteRectangular_DungTam",
+      "name": "C_600x700",
+      "width": 600,
+      "height": 700
+    }
+  ]
+}

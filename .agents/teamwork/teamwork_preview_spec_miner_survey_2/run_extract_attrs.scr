@@ -1,0 +1,36 @@
+(setvar "SECURELOAD" 0)
+(setq f (open "g:/09-PROJECT AI/01_Revit/02_CshapRevit/01_AddinRebar/.agents/teamwork/teamwork_preview_spec_miner_survey_2/block_attributes.txt" "w"))
+
+(setq blk (tblnext "BLOCK" T))
+(while blk
+  (setq blkname (cdr (assoc 2 blk)))
+  (write-line (strcat "BLOCK: " blkname) f)
+  (setq ent (cdr (assoc -2 blk)))
+  (while ent
+    (setq ed (entget ent))
+    (setq etype (cdr (assoc 0 ed)))
+    (if (= etype "ATTDEF")
+      (progn
+        (setq tag (cdr (assoc 2 ed)))
+        (setq prompt (cdr (assoc 3 ed)))
+        (setq defval (cdr (assoc 1 ed)))
+        (setq hgt (cdr (assoc 40 ed)))
+        (setq style (cdr (assoc 7 ed)))
+        (setq layer (cdr (assoc 8 ed)))
+        (setq flags (cdr (assoc 70 ed)))
+        (write-line (strcat "  ATTDEF: Tag=" (vl-prin1-to-string tag) 
+                            " Prompt=" (vl-prin1-to-string prompt) 
+                            " Default=" (vl-prin1-to-string defval) 
+                            " Height=" (vl-prin1-to-string hgt) 
+                            " Style=" (vl-prin1-to-string style) 
+                            " Layer=" (vl-prin1-to-string layer) 
+                            " Flags=" (vl-prin1-to-string flags)) f)
+      )
+    )
+    (setq ent (entnext ent))
+  )
+  (setq blk (tblnext "BLOCK"))
+)
+(close f)
+QUIT
+_Y

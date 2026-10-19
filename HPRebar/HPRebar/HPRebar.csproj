@@ -27,6 +27,8 @@
              MaterialDesignThemes.Wpf ever exists in Revit, so another add-in's copy cannot be mixed in (WPF binds
              BAML by simple name). Needs ThemeInfo.cs; the window font stays Segoe UI (see MaterialBridge.xaml). -->
         <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="MahApps.Metro" Version="2.4.11"/>
+        <PackageReference Include="HelixToolkit.Wpf" Version="3.1.2"/>
 
         <!-- Logging -->
         <PackageReference Include="Serilog" Version="4.4.0"/>

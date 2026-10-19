@@ -1,0 +1,2823 @@
+{
+  "drawing": "G:\\04-THAM KHAO\\03-CAD\\04-HOI TRUONG TAN DONG HIEP\\KC-HT-90-TLTT-16.dwg",
+  "sheetTitles": [
+    {
+      "layer": "0",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;CHI TIE\u00C1T VAI CO\u00C4T (SL=2) \\P\\H0.6x;TY\u00DB LE\u00C4 1/25             }",
+      "x": 879611.4,
+      "y": -490712.9,
+      "height": 600
+    },
+    {
+      "layer": "Text bung san",
+      "text": "{\\H0.6x;CHI TIE\u00C1T NO\u00C1I THE\u00D9P CO\u00C4T}",
+      "x": 837846.7,
+      "y": -59432.9,
+      "height": 500
+    },
+    {
+      "layer": "Text bung san",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;CHI TIE\u00C1T CO\u00C4T (BO\u00C5 TRU\u00CF) CA\u00C1Y TRE\u00C2N \u00D1A\u00D8 }",
+      "x": 850639.1,
+      "y": -52461.7,
+      "height": 500
+    },
+    {
+      "layer": "3",
+      "text": "%%UCHI TIE\u00C1T L\u00D6\u00D4\u00D9I THE\u00D9P B",
+      "x": 436644.7,
+      "y": -63222.6,
+      "height": 600
+    },
+    {
+      "layer": "3",
+      "text": "%%UCHI TIE\u00C1T L\u00D6\u00D4\u00D9I THE\u00D9P C",
+      "x": 436826.7,
+      "y": -54753.2,
+      "height": 600
+    },
+    {
+      "layer": "3",
+      "text": "%%U CHI TIE\u00C1T CO\u00CFC BTCT \u00D1OA\u00CFN 1  ( L = 8000 )",
+      "x": 389747,
+      "y": -47954.8,
+      "height": 600
+    },
+    {
+      "layer": "3",
+      "text": "%%U CHI TIE\u00C1T CO\u00CFC BTCT \u00D1OA\u00CFN 2  ( L = 7000 )",
+      "x": 390239.1,
+      "y": -61621.2,
+      "height": 600
+    },
+    {
+      "layer": "KC_Ghichu",
+      "text": "%%U CHI TIE\u00C1T MO\u00D9C CA\u00C5U",
+      "x": 425167.1,
+      "y": -44333.3,
+      "height": 500
+    },
+    {
+      "layer": "Text",
+      "text": "{\\LMA\u00CBT CA\u00C9T CHI TIE\u00C1T CO\u00C4T}\\P {\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;TY\u00DB LE\u00C4 1/100}",
+      "x": 822677.7,
+      "y": -41345.7,
+      "height": 750
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LCHI TIE\u00C1T A (BE\u00C4 \u00D1\u00D4\u00D5 TRU\u00CF THANG SA\u00C9T)  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 291245.5,
+      "y": -166411.5,
+      "height": 750
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.5333x;\\LCHI TIE\u00C1T LIE\u00C2N KE\u00C1T XA\u00D8 GO\u00C0 VA\u00D8 T\u00D6\u00D4\u00D8NG XA\u00C2Y\\P\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 276050.1,
+      "y": -483204.8,
+      "height": 750
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.4667x;\\LCHI TIE\u00C1T DIE\u00C0M TOLE\\P\\H0.8571x;\\lTL: 1/25}",
+      "x": 282998.9,
+      "y": -479643.5,
+      "height": 750
+    }
+  ],
+  "elevationNotes": [
+    {
+      "block": "kata_block_CT",
+      "tag": "CT",
+      "text": "-1.000",
+      "x": 596139.2,
+      "y": -123261.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 458780,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 464402.3,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 469726.1,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 475340.5,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 497114.7,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 502657.5,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 475344.6,
+      "y": -53160.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 480683.8,
+      "y": -53160.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 485962,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 491584.4,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 496908.2,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 513395.4,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 502438.2,
+      "y": -59347.2
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 507981,
+      "y": -59347.2
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 507781,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 502260.7,
+      "y": -52815.5
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 518570,
+      "y": -52815.5
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459031.3,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 464467.7,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 486040.9,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 491477.3,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 480637.1,
+      "y": -46679.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 507739.4,
+      "y": -46679.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 513175.9,
+      "y": -46679.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 518966.8,
+      "y": -47126.3
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 458769.4,
+      "y": -52815.5
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 464216.4,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 469652.8,
+      "y": -53205.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 513479,
+      "y": -59849.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 519149,
+      "y": -59449.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 469642.2,
+      "y": -58948.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 475340.5,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 480776.9,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 485951.5,
+      "y": -58948.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 491649.7,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 497086.1,
+      "y": -59361
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459085.9,
+      "y": -10344.2
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459085.9,
+      "y": -15793.8
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459085.9,
+      "y": -21339.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459085.9,
+      "y": -26796.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 459085.9,
+      "y": -32309.5
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 524658.4,
+      "y": -47673.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.000",
+      "x": 526357.4,
+      "y": -23422.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 555631.4,
+      "y": -40652.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 555631.4,
+      "y": -44652.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 553589.4,
+      "y": -11820.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 553589.4,
+      "y": -15820.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 612572.7,
+      "y": -39956.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 612572.7,
+      "y": -43956.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 591954.6,
+      "y": -10756.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 591954.6,
+      "y": -14756.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 573416.9,
+      "y": -10737.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 573416.9,
+      "y": -14737.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 594718.8,
+      "y": -39956.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.800",
+      "x": 594718.8,
+      "y": -44756.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 613920.6,
+      "y": -9997.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.800",
+      "x": 613920.6,
+      "y": -14797.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.900",
+      "x": 627607.9,
+      "y": -37616.8
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 627607.9,
+      "y": -32416.8
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 641819.2,
+      "y": -19209.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 667097.2,
+      "y": -41789.2
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 671266.1,
+      "y": -19209.6
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 697197.8,
+      "y": -41789.2
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.000",
+      "x": 526780,
+      "y": -16803.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 573864.9,
+      "y": -39701.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-2.600",
+      "x": 573864.9,
+      "y": -43701.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 573105.9,
+      "y": -9817.4
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 591643.6,
+      "y": -9836.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 613609.6,
+      "y": -9077.9
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 573553.9,
+      "y": -38781.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 555320.4,
+      "y": -39732.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 594407.8,
+      "y": -39036.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 612261.7,
+      "y": -39036.1
+    },
+    {
+      "block": "Cote Ubc-01",
+      "tag": "\u002B3.600",
+      "text": "-1.370",
+      "x": 553278.4,
+      "y": -10900.6
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.200",
+      "x": 762448.2,
+      "y": -524734.3
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.200",
+      "x": 762048.2,
+      "y": -530156.4
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.200",
+      "x": 735819.7,
+      "y": -544199.7
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.200",
+      "x": 803002.6,
+      "y": -539750
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.450",
+      "x": 291629,
+      "y": -638206.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.450",
+      "x": 299327,
+      "y": -638206.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.450",
+      "x": 306814.6,
+      "y": -638206.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.000",
+      "x": 313310.3,
+      "y": -638206.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.000",
+      "x": 320160.7,
+      "y": -638206.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "\u002B0.450",
+      "x": 349451.1,
+      "y": -637825.1
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 690863.7,
+      "y": -528998.2
+    },
+    {
+      "block": "CODE-02",
+      "tag": "\u002B3.600",
+      "text": "-1.600",
+      "x": 670545.2,
+      "y": -528998.2
+    }
+  ],
+  "matchedTexts": [
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG \u0110\u00C0 KI\u1EC0NG \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 \u0110\u00C0 D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 245972.9,
+      "y": -113434.1,
+      "height": 240
+    },
+    {
+      "layer": "KC-2",
+      "text": "* TIE\u00C1T DIE\u00C4N BE\u00C2 TO\u00C2NG CO\u00C1T THE\u00D9P 300x300 (mm)",
+      "x": 308139,
+      "y": -52452.2,
+      "height": 250
+    },
+    {
+      "layer": "3",
+      "text": "\u002B THE\u00D9P \u00D1K \u003E= 10 (CB400-V) , Rs = 3500 KG/cm2",
+      "x": 331388.9,
+      "y": -58292.8,
+      "height": 250
+    },
+    {
+      "layer": "3",
+      "text": "\u002B THE\u00D9P \u00D1K \u003C 10 (CB240-T), Rs = 2100 KG/cm2",
+      "x": 331388.9,
+      "y": -58912.6,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 270653,
+      "y": -294171.4,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- TO\u00C0N B\u1ED8 S\u00C0N M\u00C1I \u0110\u1ED4 B\u00CA T\u00D4NG  D\u00C0Y 100mm\\P- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\H0.9999x;\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 415072.3,
+      "y": -413160.6,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "BA\u00DBN THANG DA\u00D8Y 120mm, COTE MA\u00CBT TRE\u00C2N \u002B8.650",
+      "x": 272124,
+      "y": -288493.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 THANG COTE MA\u00CBT TRE\u00C2N \u002B7.630",
+      "x": 272124,
+      "y": -281632.5,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 THANG COTE MA\u00CBT TRE\u00C2N \u002B6.230",
+      "x": 272124,
+      "y": -282575.7,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 222066.8,
+      "y": -261060.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 228772,
+      "y": -273512.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 228772,
+      "y": -253027.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 233123.5,
+      "y": -261060.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 265124.6,
+      "y": -261060.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 254892.2,
+      "y": -250745.2,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 254892.2,
+      "y": -275722.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 KIE\u00C0NG TIE\u00C1T DIE\u00C4N 100x300, COTE -1.000",
+      "x": 235766.2,
+      "y": -116831.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 KIE\u00C0NG COTE -1.000",
+      "x": 235766.2,
+      "y": -113313.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "SA\u00D8N VE\u00C4 SINH, HA\u00CF COTE SO V\u00D4\u00D9I SA\u00D8N D\u00D6\u00D4NG 100mm",
+      "x": 249043.4,
+      "y": -353710.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 247572.5,
+      "y": -346527,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE SO V\u00D4\u00D9I SA\u00D8N D\u00D6\u00D4NG 100mm",
+      "x": 249022.9,
+      "y": -356593.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 221749.2,
+      "y": -319230,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 229789.1,
+      "y": -308117,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 229789.1,
+      "y": -333766.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 244382.2,
+      "y": -330734,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 244382.2,
+      "y": -310302.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 230506.7,
+      "y": -318869,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 397857.9,
+      "y": -400520.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 397857.9,
+      "y": -375132.2,
+      "height": 200
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 21\\P\\H0.625x;(COTE \u002B8.650 ---\u003E \u002B9.700)}",
+      "x": 275664.6,
+      "y": -277698.5,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 4\\P\\H0.625x;(COTE \u002B8.650 ---\u003E \u002B13.000)}",
+      "x": 275863.1,
+      "y": -272362.1,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 4\\P\\H0.625x;(COTE \u002B13.000 ---\u003E \u002B14.050)}",
+      "x": 273498.6,
+      "y": -346837.9,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 226218,
+      "y": -261060.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 389728.5,
+      "y": -375958.3,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 389737,
+      "y": -400220.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 226060.5,
+      "y": -319230,
+      "height": 200
+    },
+    {
+      "layer": "Chu",
+      "text": "Bu lon 12M20x350X6.6",
+      "x": 853086.9,
+      "y": -501800.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 241557.9,
+      "y": -420927.9,
+      "height": 240
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 11\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002B19.400)}",
+      "x": 220587.7,
+      "y": -417359.8,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 3\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002B20.400)}",
+      "x": 226878.4,
+      "y": -417359.8,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-3, SL: 15\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002B17.650)}",
+      "x": 233387.2,
+      "y": -417359.8,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-4, SL: 2\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002BMA\u00D9I)}",
+      "x": 257419.5,
+      "y": -417410.3,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-5, SL: 1\\P\\H0.625x;(COTE \u002B16.600 ---\u003E \u002BMA\u00D9I)}",
+      "x": 264253,
+      "y": -417359.8,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=140mm",
+      "x": 223121.7,
+      "y": -391259.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 221735.2,
+      "y": -384049.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 229838,
+      "y": -373601.3,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 229574.5,
+      "y": -398213.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 225790,
+      "y": -384084.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=140mm",
+      "x": 223121.7,
+      "y": -377985.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 215131,
+      "y": -384049.8,
+      "height": 200
+    },
+    {
+      "layer": "Text bung san",
+      "text": "\\A1;COTE \u00D1A\u00D8",
+      "x": 770292.3,
+      "y": -53226.6,
+      "height": 200
+    },
+    {
+      "layer": "Text bung san",
+      "text": "\\A1;COTE \u00D1A\u00D8 D\u00D6\u00D4\u00D9I",
+      "x": 757520.1,
+      "y": -59350.8,
+      "height": 200
+    },
+    {
+      "layer": "Text bung san",
+      "text": "\\A1;COTE \u00D1A\u00D8 TRE\u00C2N",
+      "x": 757600.1,
+      "y": -50081.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- C\u00C1C M\u1EB6T C\u1EAET CHI TI\u1EBET NGANG C\u1ED8T L\u00C0 \u0110I\u1EC2N H\u00CCNH C\u1EE6A T\u1EA6NG 1\\P\\H0.9999x;- B\u00CA T\u00D4NG C\u1ED8T \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 C\u1ED8T D\u00C0Y 25mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=30%%C\\H0.9991x;\\W0.65;      }",
+      "x": 769396.9,
+      "y": -58721.8,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\\A1;COTE \u00D1A\u00D8 D\u00D6\u00D4\u00D9I\u00D8",
+      "x": 834539.1,
+      "y": -55486.6,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\\A1;COTE \u00D1A\u00D8 TRE\u00C2N",
+      "x": 834672.6,
+      "y": -46286.6,
+      "height": 200
+    },
+    {
+      "layer": "Chu",
+      "text": "\\A1;COTE \u00D1A\u00D8",
+      "x": 847516,
+      "y": -48936.2,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 800059.6,
+      "y": -38547,
+      "height": 300
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;(---\u003E COTE \u002B5.200)}",
+      "x": 845516.1,
+      "y": -30677.2,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 805148.2,
+      "y": -57719,
+      "height": 300
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 813303.8,
+      "y": -57719,
+      "height": 300
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 821459.5,
+      "y": -57719,
+      "height": 300
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- B\u00CA T\u00D4NG GI\u1EB0NG M\u00D3NG \u0110\u00C1 10x20 M\u00C1C 250 (B20)",
+      "x": 523654.3,
+      "y": -53490.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- C\u1ED0T TH\u00C9P %%C \u003E= 10  (CB400-V), Rs = 3500 kG/ CM2",
+      "x": 523654.3,
+      "y": -54090.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- C\u1ED0T TH\u00C9P %%C \u003C 10 (CB240-T), Rs = 2100 kG/ CM2",
+      "x": 523654.3,
+      "y": -54690.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P \u0110\u00C0 GI\u1EB0NG M\u00D3NG D\u00C0Y 50 mm",
+      "x": 523654.3,
+      "y": -55290.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- \u0110O\u1EA0N  N\u1ED0T C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG \u003E= 30%%C",
+      "x": 523654.3,
+      "y": -56639.5,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- \u0110O\u1EA0N NEO C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG V\u00C0O \u0110\u00C0I \u003E= 40%%C",
+      "x": 523654.3,
+      "y": -57239.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P M\u00D3NG D\u00C0Y 50 mm",
+      "x": 523654.3,
+      "y": -55975.7,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "HE\u00C4 \u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -1.600",
+      "x": 526352.8,
+      "y": -10009,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -0.800",
+      "x": 526352.8,
+      "y": -11578.7,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- B\u00CA T\u00D4NG L\u00D3T GI\u1EB0NG M\u00D3NG, B\u00D3 N\u1EC0N, \u0110\u00C0 PH\u1EE4 (N\u1EBEU C\u00D3)",
+      "x": 523654.3,
+      "y": -58454.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "- B\u00CA T\u00D4NG L\u00D3T \u0110\u00C0I C\u1ECCC (M\u00D3NG) D\u00C0Y 100mm",
+      "x": 523654.3,
+      "y": -57848.5,
+      "height": 250
+    },
+    {
+      "layer": "BT-1",
+      "text": "(COTE -1.600 ---\u003E -0.100)",
+      "x": 460142.8,
+      "y": -43160.3,
+      "height": 250
+    },
+    {
+      "layer": "BT-2",
+      "text": "(COTE -1.600 ---\u003E -0.100)",
+      "x": 465624.4,
+      "y": -43160.3,
+      "height": 250
+    },
+    {
+      "layer": "Text bung san",
+      "text": "GI\u1EB0NG M\u00D3NG",
+      "x": 529299,
+      "y": -47214,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 552365.5,
+      "y": -35448.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 552365.5,
+      "y": -64648.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 570960.3,
+      "y": -64648.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 590453.8,
+      "y": -35448.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 570960.3,
+      "y": -35448.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 608880.5,
+      "y": -35291.8,
+      "height": 250
+    },
+    {
+      "layer": "BT-1\u0027",
+      "text": "(COTE -1.600 ---\u003E -0.100)",
+      "x": 528027.3,
+      "y": -36549.3,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- TO\u00C0N B\u1ED8 S\u00C0N M\u00C1I \u0110\u1ED4 B\u00CA T\u00D4NG  D\u00C0Y 100mm\\P- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\H0.9999x;\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H1x;s\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H1x;s\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 518727.1,
+      "y": -418231.9,
+      "height": 240
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "text": "M\u1EB6T \u0110\u00C0I C\u1ECCC",
+      "x": 411847.1,
+      "y": -9914.2,
+      "height": 220
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "text": "-1.600",
+      "x": 411777.4,
+      "y": -10594,
+      "height": 250
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "text": "C\u1ECCC TI\u1EBET DI\u1EC6N VU\u00D4NG 300x300 (mm)",
+      "x": 427885.2,
+      "y": -9631.9,
+      "height": 277.7
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "text": "300x300",
+      "x": 439388.5,
+      "y": -9535.7,
+      "height": 277.7
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "text": "L\u1EF0C \u00C9P \u0110\u1EA6U C\u1ECCC L\u1EDAN NH\u1EA4T Y\u00CAU C\u1EA6U KHI THI C\u00D4NG (T)",
+      "x": 427885.2,
+      "y": -11947,
+      "height": 277.7
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "text": "L\u1EF0C \u00C9P \u0110\u1EA6U C\u1ECCC Y\u00CAU C\u1EA6U KHI THI C\u00D4NG",
+      "x": 427885.2,
+      "y": -24463.2,
+      "height": 277.7
+    },
+    {
+      "layer": "Hatch",
+      "text": "-1.20",
+      "x": 376269.8,
+      "y": -13396.5,
+      "height": 220
+    },
+    {
+      "layer": "01-DIM(0.18)",
+      "text": "\u0110O\u1EA0N C\u1ECCC NG\u00C0M V\u00C0O TRONG \u0110\u1EA4T NGUY\u00CAN TH\u1ED4",
+      "x": 404972.2,
+      "y": -27480.8,
+      "height": 220
+    },
+    {
+      "layer": "Text1-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;1. \u00D1\u00D4N V\u00D2 THI CO\u00C2NG PHA\u00DBI TUA\u00C2N THU\u00DB NGHIE\u00C2M NGA\u00CBT CA\u00D9C BA\u00DBN VE\u00D5 GHI CHU\u00D9 CHUNG, CA\u00D9C BA\u00DBN VE\u00D5 CHI TIE\u00C1T VA\u00D8 BA\u00DBN \\P   VE\u00D5 CH\u00C6 DA\u00C3N KY\u00D5 THUA\u00C4T.\\P\\P2. KHI \u00D1O\u00CFC BA\u00DBN VE\u00D5, CA\u00D9C K\u00CDCH TH\u00D6\u00D4\u00D9C \u00D1\u00D6\u00D4\u00CFC \u00D6U TIE\u00C2N H\u00D4N CA\u00D9C TY\u00DB LE\u00C4 GHI TRE\u00C2N BA\u00DBN VE\u00D5, TUYE\u00C4T \u00D1O\u00C1I KHO\u00C2NG \u00D1\u00D6\u00D4\u00CFC\\P    LA\u00C1Y K\u00CDCH TH\u00D6\u00D4\u00D9C THEO TY\u00DB LE\u00C4 \u00D1O TRE\u00C2N BA\u00DBN VE\u00D5.\\P\\P3. TA\u00C1T CA\u00DB CA\u00D9C K\u00CDCH TH\u00D6\u00D4\u00D9C TRE\u00C2N BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 \u00D1\u00D6\u00D4\u00CFC GHI BA\u00C8NG MILIME\u00D9T (MM), CAO TR\u00CCNH GHI BA\u00C8NG ME\u00D9T (M)\\P    NGOA\u00CFI TR\u00D6\u00D8 KHI CO\u00D9 CH\u00C6 \u00D1\u00D2NH KHA\u00D9C TRE\u00C2N BA\u00DBN VE\u00D5.\\P\\P4. CA\u00D9C HA\u00CFNG MU\u00CFC CO\u00C2NG TR\u00CCNH \u00D1\u00D6\u00D4\u00CFC THIE\u00C1T KE\u00C1 THEO TIE\u00C2U CHUA\u00C5N XA\u00C2Y D\u00D6\u00CFNG VIE\u00C4T NAM A\u00C1N BA\u00DBN M\u00D4\u00D9I NHA\u00C1T VA\u00D8\\P    CA\u00D9C QUY \u00D1\u00D2NH PHA\u00D9P QUY LIE\u00C2N QUAN \u00D1E\u00C1N CO\u00C2NG TA\u00D9C THI CO\u00C2NG TRONG XA\u00C2Y D\u00D6\u00CFNG.\\P\\P5. NHA\u00D8 THA\u00C0U PHA\u00DBI CO\u00D9 TRA\u00D9CH NHIE\u00C4M KIE\u00C5M TRA, \u00D1O\u00C1I CHIE\u00C1U CA\u00D9C BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 CU\u00DBA TA\u00C1T CA\u00DB CA\u00D9C PHA\u00C0N NH\u00D6: \\P    KIE\u00C1N TRU\u00D9C, KE\u00C1T CA\u00C1U, \u00D1IE\u00C4N, N\u00D6\u00D4\u00D9C v.v... VA\u00D8 THO\u00C2NG BA\u00D9O CHO NH\u00D6\u00D5NG NG\u00D6\u00D4\u00D8I CO\u00D9 THA\u00C5M QUYE\u00C0N \u00D4\u00DB CO\u00C2NG TR\u00CCNH\\P    VE\u00C0 NH\u00D6\u00D5NG \u00D1IE\u00C0U KHO\u00C2NG THO\u00C1NG NHA\u00C1T. \\P\\P6. MO\u00CFI VA\u00C1N \u00D1E\u00C0 XA\u00DBY RA (NE\u00C1U CO\u00D9) TRONG QUA\u00D9 TR\u00CCNH THI CO\u00C2NG GI\u00D6\u00D5A CA\u00D9C BE\u00C2N KY\u00D5 THUA\u00C4T V\u00D4\u00D9I NHAU, TH\u00CC PHA\u00DBI \\P    \u00D1\u00D6\u00D4\u00CFC GIA\u00DBI QUYE\u00C1T TRE\u00C2N TINH THA\u00C0N H\u00D4\u00CFP TA\u00D9C VA\u00D8 GIA\u00DBI QUYE\u00C1T VA\u00C1N \u00D1E\u00C0.\\P\\P7. NHA\u00D8 THA\u00C0U PHA\u00DBI KIE\u00C5M TRA THA\u00C4T CH\u00CDNH XA\u00D9C T\u00D6\u00D8NG HA\u00CFNG MU\u00CFC TR\u00D6\u00D4\u00D9C KHI GIA CO\u00C2NG LA\u00C9P D\u00D6\u00CFNG.\\P\\P8. NE\u00C1U CO\u00D9 S\u00D6\u00CF KHO\u00C2NG KH\u00D4\u00D9P VE\u00C0 BA\u00DBN VE\u00D5 GI\u00D6\u00D5A CA\u00D9C BO\u00C4 MO\u00C2N V\u00D4\u00D9I NHAU TH\u00CC TH\u00D6\u00D9 T\u00D6\u00CF GIA\u00DBI QUYE\u00C1T VA\u00C1N \u00D1E\u00C0 NH\u00D6 SAU:\\P8.1. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KIE\u00C1N TRU\u00D9C.\\P8.2. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KE\u00C1T CA\u00C1U.\\P8.3. BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 HE\u00C4 THO\u00C1NG KY\u00D5 THUA\u00C4T.\\P\\P9. NH\u00D6\u00D5NG GHI CHU\u00D9 RIE\u00C2NG TRE\u00C2N T\u00D6\u00D8NG BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 KY\u00D5 THUA\u00C4T SE\u00D5 CO\u00D9 \u00D1O\u00C4 \u00D6U TIE\u00C2N H\u00D4N SO V\u00D4\u00D9I GHI CHU\u00D9 CHUNG.\\P\\P10. TH\u00D6\u00D9 T\u00D6\u00CF \u00D6U TIE\u00C2N KHI CO\u00D9 S\u00D6\u00CF MA\u00C2U THUA\u00C3N GI\u00D6\u00D5A CA\u00D9C TA\u00D8I LIE\u00C4U, BA\u00DBN VE\u00D5 THIE\u00C1T KE\u00C1 NH\u00D6 SAU:\\P10.1. TIE\u00C2U CHUA\u00C5N VIE\u00C4T NAM (TCVN).\\P10.2. TIE\u00C2U CHUA\u00C5N NGA\u00D8NH (TCN), TIE\u00C2U CHUA\u00C5N XA\u00C2Y D\u00D6\u00CFNG (TCXD).\\P10.3. CA\u00D9C CH\u00C6 DA\u00C3N KY\u00D5 THUA\u00C4T CO\u00D9 LIE\u00C2N QUAN.\\P\\P11. XEM CA\u00D9C BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C \u00D1E\u00C5 BIE\u00C1T THE\u00C2M:\\P11.1. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C LO\u00C3 C\u00D6\u00DBA \u00D1I, C\u00D6\u00DBA SO\u00C5.\\P11.2. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C THA\u00D8NH, G\u00D4\u00D8 BE\u00C2 TO\u00C2NG, RA\u00D5NH TIE\u00C2U N\u00D6\u00D4\u00D9C SA\u00D8N, \u00D1A\u00D9NH DO\u00C1C CA\u00D9C KHU V\u00D6\u00CFC TU\u00CFT\\P        CO\u00C1T, CA\u00D9C N\u00D4I VA\u00D9T CA\u00CFNH, SOI RA\u00D5NH, CA\u00D9C PHA\u00C0N \u00D1A\u00C9P THE\u00C2M v.v...\\P11.3. K\u00CDCH TH\u00D6\u00D4\u00D9C VA\u00D8 V\u00D2 TR\u00CD CU\u00DBA CA\u00D9C LO\u00C3 TRE\u00C2N SA\u00D8N, VA\u00D9CH BE\u00C2 TO\u00C2NG, CA\u00D9C LO\u00C3 XUYE\u00C2N \u00D1A\u00D8.\\P\\P11.4. CA\u00D9C L\u00D4\u00D9P HOA\u00D8N THIE\u00C4N SA\u00D8N, SA\u00D8N MA\u00D9I.\\P\\P11.5. CA\u00D9C CHI TIE\u00C1T KHUNG C\u00D6\u00DBA SO\u00C5, C\u00D6\u00DBA \u00D1I, BE\u00C4 C\u00D6\u00DBA, KHUNG VA\u00D9CH K\u00CDNH , GIA\u00C8NG T\u00D6\u00D4\u00D8NG v.v...\\P\\P12. TA\u00C1T CA\u00DB CA\u00D9C COTE CAO \u00D1O\u00C4 CU\u00DBA SA\u00D8N GHI TRE\u00C2N BA\u00DBN VE\u00D5 LA\u00D8 CO\u00C1T MA\u00CBT TRE\u00C2N CU\u00DBA BA\u00DBN CH\u00D2U L\u00D6\u00CFC. CO\u00C1T MA\u00CBT SA\u00D8N\\P     HOA\u00D8N THIE\u00C4N XEM \u00D4\u00DB BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C.\\P\\P13. XEM THE\u00C2M BA\u00DBN VE\u00D5 C\u00D4 KH\u00CD, \u00D1IE\u00C4N, N\u00D6\u00D4\u00D9C \u00D1E\u00C5 BIE\u00C1T THE\u00C2M:\\P13.1. CA\u00D9C \u00D1\u00D6\u00D4\u00D8NG O\u00C1NG DA\u00C3N, O\u00C1NG NO\u00C1I, KHUNG, MO\u00D9C TREO, CA\u00D9C RA\u00D5NH, CA\u00D9C LO\u00C3 THO\u00C2NG O\u00C2 T\u00D6\u00D4\u00D8NG v.v...\\P13.2. CA\u00D9C \u00D1\u00D6\u00D4\u00D8NG O\u00C1NG CHA\u00CFY DA\u00C2Y \u00D1IE\u00C4N, HO\u00C4P \u00D1IE\u00C4N, \u00D1A\u00C0U RA TRE\u00C2N T\u00D6\u00D4\u00D8NG VA\u00D8 SA\u00D8N\\P\\P14. NHA\u00D8 THA\u00C0U PHA\u00DBI LA\u00C4P BA\u00DBN VE\u00D5 CHE\u00C1 TA\u00CFO, KE\u00C1 HOA\u00CFCH CA\u00C0N THIE\u00C1T \u00D1E\u00C5 HOA\u00D8N THA\u00D8NH CO\u00C2NG VIE\u00C4C VA\u00D8 GI\u00D6\u00D5 LA\u00CFI CA\u00D9C \\P     BA\u00DBN VE\u00D5 LIE\u00C2N QUAN \u00D1E\u00C5 PHU\u00CFC VU\u00CF CHO VIE\u00C4C LA\u00D8M BA\u00DBN VE\u00D5 HOA\u00D8N CO\u00C2NG SAU NA\u00D8Y.\\P\\P15. NHA\u00D8 THA\u00C0U PHA\u00DBI \u00D1E\u00C4 TR\u00CCNH BIE\u00C4N PHA\u00D9P THI CO\u00C2NG CHO MO\u00C3I HA\u00CFNG MU\u00CFC CO\u00C2NG VIE\u00C4C, VA\u00D8 \u00D1\u00D6\u00D4\u00CFC CHU\u00DB \u00D1A\u00C0U T\u00D6\\P     CHA\u00C1P THUA\u00C4N.\\P\\P16. BA\u00DBNG THO\u00C1NG KE\u00C2 CO\u00C1T THE\u00D9P \u00D4\u00DB PHA\u00C0N KE\u00C1T CA\u00C1U CH\u00C6 MANG T\u00CDNH CHA\u00C1T THAM KHA\u00DBO PHU\u00CFC VU\u00CF CHO CO\u00C2NG VIE\u00C4C \\P     D\u00D6\u00CF TOA\u00D9N, KHO\u00C2NG \u00D1\u00D6\u00D4\u00CFC DU\u00D8NG VA\u00D8O VIE\u00C4C CA\u00C9T HAY UO\u00C1N \u00D1E\u00C5 THI CO\u00C2NG.\\P\\P17. NHA\u00D8 THA\u00C0U, CA\u00D9C NHA\u00D8 CUNG CA\u00C1P THIE\u00C1T B\u00D2 PHA\u00DBI PHO\u00C1I H\u00D4\u00CFP CHA\u00CBT CHE\u00D5 VA\u00D8 CH\u00D2U TRA\u00D9CH NHIE\u00C4M TRONG VIE\u00C4C LA\u00C9P\\P     \u00D1A\u00CBT HE\u00C4 THO\u00C1NG THIE\u00C1T B\u00D2 \u00D1E\u00C5 \u00D1A\u00DBM BA\u00DBO AN TOA\u00D8N KE\u00C1T CA\u00C1U CO\u00C2NG TR\u00CCNH.\\P\\P18. NHA\u00D8 THA\u00C0U PHA\u00DBI CHUA\u00C5N B\u00D2 TR\u00D6\u00D4\u00D9C V\u00D2 TR\u00CD TA\u00C1T CU\u00DBA CA\u00DB CA\u00D9C O\u00C1NG NO\u00C1I, BU LO\u00C2NG NEO, NH\u00D6\u00D5NG KE\u00C1T CA\u00C1U CHO\u00C2N \\P     TR\u00D6\u00D4\u00D9C TRONG BE\u00C2 TO\u00C2NG NH\u00D6 \u00D1A\u00D5 THE\u00C5 HIE\u00C4N T\u00D6\u00D8 BA\u00DBN VE\u00D5 KIE\u00C1N TRU\u00D9C, KE\u00C1T CA\u00C1U VA\u00D8 C\u00D4 KH\u00CD.\\P\\P19. BA\u00DBN VE\u00D5 THI CO\u00C2NG CO\u00C2NG TR\u00CCNH PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC T\u00D6 VA\u00C1N CU\u00DBA PH\u00CDA CHU\u00DB \u00D1A\u00C0U T\u00D6 KIE\u00C5M DUYE\u00C4T, VA\u00D8 PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC S\u00D6\u00CF\\P     \u00D1O\u00C0NG Y\u00D9 PHE\u00C2 DUYE\u00C4T CU\u00DBA CHU\u00DB \u00D1A\u00C0U T\u00D6 TR\u00D6\u00D4\u00D9C KHI THI CO\u00C2NG.\\P\\P20. \\A1;N\u00D6\u00D4\u00D9C S\u00D6\u00DB DU\u00CFNG TRONG BTCT LA\u00D8 N\u00D6\u00D4\u00D9C SA\u00CFCH, NE\u00C1U S\u00D6\u00DB DU\u00CFNG N\u00D6\u00D4\u00D9C NGA\u00C0M YE\u00C2U CA\u00C0U \u00D1O\u00C4 Ph=6.8-\u003E7.2}",
+      "x": 206860.8,
+      "y": -11860.7,
+      "height": 200
+    },
+    {
+      "layer": "Text1-S",
+      "text": "1. CO\u00C1T THE\u00D9P CA\u00C0N \u00D1\u00D6\u00D4\u00CFC LA\u00D8M SA\u00CFCH TR\u00D6\u00D4\u00D9C KHI \u00D1O\u00C5 BE\u00C2 TO\u00C2NG ( NE\u00C1U CO\u00C1T THE\u00D9P B\u00D2 BA\u00C5N, R\u00C6 SE\u00D9T v.v...)\\P2. CO\u00C1T THE\u00D9P CH\u00D4\u00D8 PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC BA\u00DBO QUA\u00DBN NE\u00C1U TH\u00D4\u00D8I GIAN QUA\u00D9 MO\u00C4T THA\u00D9NG, BA\u00C8NG CA\u00D9CH QUE\u00D9T HAI L\u00D4\u00D9P XI MA\u00CANG\\P    \u00D1E\u00C5 BA\u00DBO VE\u00C4 VA\u00D8 PHA\u00DBI \u00D1\u00D6\u00D4\u00CFC KIE\u00C5M TRA \u00D1\u00D2NH KY\u00D8.\\P3. TRONG CA\u00C1U KIE\u00C4N CH\u00D2U NE\u00D9N, CO\u00C1T THE\u00D9P CHU\u00DB CA\u00C0N \u00D1\u00D6\u00D4\u00CFC GIA CO\u00C2NG THA\u00DANG, KHO\u00C2NG B\u00D2 CONG VE\u00C2NH.\\P4. C\u00D6\u00D4\u00D8NG \u00D1O\u00C4 CO\u00C1T THE\u00D9P CH\u00D2U L\u00D6\u00CFC:\\P4.1.CO\u00C1T THE\u00D9P CB240-T : Rs = 2100 Kg/cm2\\P4.2.CO\u00C1T THE\u00D9P CB400-V : Rs = 3500 Kg/cm2\\P4.3.CO\u00C1T THE\u00D9P CB500-V : Rs = 4350 Kg/cm2",
+      "x": 206587,
+      "y": -56829.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG \u0110\u00C0\\C1; D15.4-Y\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB500-V) , Rs\\H1.0003x; =4350 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 \u0110\u00C0 D\u00C0Y 25mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 259073,
+      "y": -346527,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG \u0110\u00C0 D15.4-Y \u0110\u00C1 10x20 M\u00C1C 400 (B30)\\C47;\\P\\pxt40;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB500-V) , Rs\\H1.0003x; =4350 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10  (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 \u0110\u00C0 D\u00C0Y 25mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 454312.8,
+      "y": -360674.3,
+      "height": 60
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 246065.9,
+      "y": -175018.6,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 260759.1,
+      "y": -144346.2,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 858888.8,
+      "y": -53073.4,
+      "height": 300
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC",
+      "x": 609158,
+      "y": -59578,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;-\\C47; \\C256;B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-6\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 523697.8,
+      "y": -60296.7,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P\\pxt10;- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 608258.1,
+      "y": -61566,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;COTE}",
+      "x": 222891.8,
+      "y": -120080,
+      "height": 300
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 4\\P\\H0.625x;(COTE \u002B13.300 ---\u003E \u002B16.600)}",
+      "x": 275863.1,
+      "y": -267047.1,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.5333x;\\LMA\u00CBT CA\u00C9T A-A SA\u00D8N COTE \u002B16.600  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 208894,
+      "y": -411738.9,
+      "height": 750
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE \u002B4.300-\u003E\u002B8.650)",
+      "x": 384694.8,
+      "y": -635020.4,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "SL: 14, H= 4350",
+      "x": 384694.8,
+      "y": -635495.4,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE \u002B8.650-\u003E\u002B13.000)",
+      "x": 563262.5,
+      "y": -635061.2,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "SL: 14, H= 4350",
+      "x": 563262.5,
+      "y": -635536.2,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE \u002B9.600-\u003E\u002B13.000)",
+      "x": 570313.5,
+      "y": -635061.2,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "SL: 12, H= 3400",
+      "x": 570313.5,
+      "y": -635536.2,
+      "height": 250
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-A, SL: 8\\P\\H0.625x;(COTE -0.100 ---\u003E \u002B19.400)}",
+      "x": 265687.2,
+      "y": -115099.2,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 314999.7,
+      "y": -293747.4,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "BA\u00DBN THANG DA\u00D8Y 120mm, COTE MA\u00CBT TRE\u00C2N \u002B8.650",
+      "x": 304301,
+      "y": -293073.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 THANG COTE MA\u00CBT TRE\u00C2N \u002B7.630",
+      "x": 327037.7,
+      "y": -294195.2,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 THANG COTE MA\u00CBT TRE\u00C2N \u002B6.230",
+      "x": 327037.7,
+      "y": -295138.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 304227.3,
+      "y": -263978.7,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 312772,
+      "y": -276466.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 312772,
+      "y": -255981.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 316988.5,
+      "y": -264469.7,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 349672,
+      "y": -261306.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 345929,
+      "y": -253056.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 345929,
+      "y": -278575.9,
+      "height": 200
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 21\\P\\H0.625x;(COTE \u002B8.650 ---\u003E \u002B9.700)}",
+      "x": 341518,
+      "y": -298479.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 4\\P\\H0.625x;(COTE \u002B8.650 ---\u003E \u002B16.600)}",
+      "x": 341518,
+      "y": -293143.3,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 309738.5,
+      "y": -264679.2,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "SA\u00D8N VE\u00C4 SINH, HA\u00CF COTE SO V\u00D4\u00D9I SA\u00D8N D\u00D6\u00D4NG 100mm",
+      "x": 354565.2,
+      "y": -314122.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 353094.3,
+      "y": -306938.9,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE SO V\u00D4\u00D9I SA\u00D8N D\u00D6\u00D4NG 100mm",
+      "x": 354544.8,
+      "y": -317005.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 300958,
+      "y": -319953.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 319799.2,
+      "y": -330734,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 319799.2,
+      "y": -310302.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 306906,
+      "y": -319039.4,
+      "height": 200
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 4\\P\\H0.625x;(COTE \u002B13.000 ---\u003E \u002B14.050)}",
+      "x": 356832.6,
+      "y": -324765.5,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\LMA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N COTE \u002B16.600\\P\\fVNI-Avo|b0|i0|c0|p2;\\H0.6x;\\lTY\u00DB LE\u00C4 1/100}",
+      "x": 319556.5,
+      "y": -405961.9,
+      "height": 750
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 352395.8,
+      "y": -418009.4,
+      "height": 240
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H0.53333x;\\LMA\u00CBT CA\u00C9T A-A SA\u00D8N COTE \u002B16.600  \\P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H0.75x;\\lTY\u00DB LE\u00C4 1/25}",
+      "x": 318646.5,
+      "y": -418203.2,
+      "height": 750
+    },
+    {
+      "layer": "Text tieu de",
+      "text": "_ MA\u00CBT BA\u00C8NG THE\u00D9P SA\u00D8N COTE \u002B16.600",
+      "x": 364137.8,
+      "y": -418627.7,
+      "height": 227.9
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , R\\H0.7x;\\S^a;\\H1.429x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), R\\H0.7x;\\S^a;\\H1.429x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 353043.9,
+      "y": -177194.6,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 349510.1,
+      "y": -143607,
+      "height": 200
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-B, SL: 9\\P\\H0.625x;(COTE -0.100 ---\u003E \u002B3.800)}",
+      "x": 214332.5,
+      "y": -111634.5,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-C, SL: 2\\P\\H0.625x;(COTE -0.100 ---\u003E \u002B4.300)}",
+      "x": 214332.5,
+      "y": -118191.5,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-3, SL: 4\\P\\H0.625x;(COTE \u002B8.650 ---\u003E \u002B13.000)}",
+      "x": 210162.6,
+      "y": -292475.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 2\\P\\H0.625x;(COTE \u002B13.000 ---\u003E \u002B16.600)}",
+      "x": 273950.6,
+      "y": -355258.7,
+      "height": 375
+    },
+    {
+      "layer": "TDD-R",
+      "text": "B\u00CA T\u00D4NG L\u00D3T",
+      "x": 732624.2,
+      "y": -556236.6,
+      "height": 375
+    },
+    {
+      "layer": "TDD-R",
+      "text": "B\u1EA2N M\u00C3 BM1 %%C600x12",
+      "x": 759660.1,
+      "y": -570338.9,
+      "height": 375
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE -0.100-\u003E\u002B4.300)",
+      "x": 269737.8,
+      "y": -634891.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "SL: 13, H= 4400",
+      "x": 269737.8,
+      "y": -635366.5,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 254984.3,
+      "y": -233273.8,
+      "height": 240
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE (COTE MA\u00CBT TRE\u00C2N \u00D1A\u00D8 \u002B3.900)",
+      "x": 267336.3,
+      "y": -236732.6,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE (COTE MA\u00CBT TRE\u00C2N \u00D1A\u00D8 \u002B4.200)",
+      "x": 267336.3,
+      "y": -237641.4,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "SA\u00D8N VE\u00C4 SINH HA\u00CF COTE 120mm SO V\u00D4\u00D9I SA\u00D8N D\u00D6\u00D4NG",
+      "x": 267336.3,
+      "y": -235859.2,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 226194.8,
+      "y": -203166.7,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 229304.7,
+      "y": -211590.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 255115,
+      "y": -193990.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 255282.5,
+      "y": -215736.4,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 257631.7,
+      "y": -217501.9,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 249003.3,
+      "y": -217390.3,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 249017.6,
+      "y": -192820.8,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=120mm",
+      "x": 251807,
+      "y": -202061.5,
+      "height": 200
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "H=100mm",
+      "x": 215798.5,
+      "y": -197970.5,
+      "height": 200
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;CO\u00C4T CA\u00C1Y Cc-1, SL: 2\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B7.630)}",
+      "x": 219988.5,
+      "y": -234990.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;CO\u00C4T CA\u00C1Y Cc-2, SL: 4\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B6.230)}",
+      "x": 227139.2,
+      "y": -234990.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 3\\P\\H0.625x;(COTE \u002B4.200 ---\u003E \u002B5.200)}",
+      "x": 234653,
+      "y": -234990.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 2\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B5.200)}",
+      "x": 242167.1,
+      "y": -234990.7,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-3, SL: 3\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B5.200)}",
+      "x": 249340.2,
+      "y": -234990.7,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\f.VnArial|b0|i0|c0|p34;\\W0.75;\\P\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\l- B\u00CA T\u00D4NG S\u00C0N, \u0110\u00C0 S\u00C0N \u0110\u00C1 10x20 M\u00C1C 250 (B20)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 S\u00C0N D\u00C0Y 15mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "x": 290796.2,
+      "y": -218527.9,
+      "height": 240
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;CO\u00C4T CA\u00C1Y Cc-1, SL: 2\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B7.630)}",
+      "x": 359790.5,
+      "y": -191243.4,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;CO\u00C4T CA\u00C1Y Cc-2, SL: 2\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B6.230)}",
+      "x": 359790.5,
+      "y": -196787.9,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-1, SL: 2\\P\\H0.625x;(COTE \u002B4.200 ---\u003E \u002B5.200)}",
+      "x": 359790.5,
+      "y": -202332.4,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-2, SL: 1\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B5.200)}",
+      "x": 359790.5,
+      "y": -207876.9,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-3, SL: 3\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B5.200)}",
+      "x": 359790.5,
+      "y": -213421.4,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-4, SL: 5\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B8.650)}",
+      "x": 211648.6,
+      "y": -227310.2,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-6, SL: 2\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B7.360)}",
+      "x": 211648.6,
+      "y": -238841.2,
+      "height": 375
+    },
+    {
+      "layer": "Text",
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;\\H1.067x;BO\u00C5 TRU\u00CF BT-5, SL: 3\\P\\H0.625x;(COTE \u002B4.300 ---\u003E \u002B7.900)}",
+      "x": 211648.6,
+      "y": -233009.2,
+      "height": 375
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE (COTE MA\u00CBT TRE\u00C2N \u00D1A\u00D8 \u002B3.900)",
+      "x": 354827.9,
+      "y": -221900.9,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 HA\u00CF COTE (COTE MA\u00CBT TRE\u00C2N \u00D1A\u00D8 \u002B4.200)",
+      "x": 354827.9,
+      "y": -222809.7,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "SA\u00D8N VE\u00C4 SINH HA\u00CF COTE DA\u00D8Y 120mm (COTE \u002B4.200)",
+      "x": 354827.9,
+      "y": -221027.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B16.870)",
+      "x": 392377.5,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.350)",
+      "x": 424978.3,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.770)",
+      "x": 457017.1,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B16.870)",
+      "x": 501577.5,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.350)",
+      "x": 534178.3,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.770)",
+      "x": 566217.1,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Chu",
+      "text": "Bu lon 12M20x350X6.6",
+      "x": 276077,
+      "y": -495378.3,
+      "height": 250
+    },
+    {
+      "layer": "Text",
+      "text": "(m2)",
+      "x": 347542.4,
+      "y": -504942.6,
+      "height": 200
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B16.870)",
+      "x": 610777.5,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.350)",
+      "x": 643378.3,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.770)",
+      "x": 675417.1,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B16.870)",
+      "x": 719977.5,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.350)",
+      "x": 752578.3,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "Text TL",
+      "text": "(COTE: \u002B17.770)",
+      "x": 784617.1,
+      "y": -505076.5,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 BO\u00D9 NE\u00C0N COTE -1.600",
+      "x": 664586.8,
+      "y": -524414.8,
+      "height": 250
+    },
+    {
+      "layer": "TEXT-S",
+      "text": "\u00D1A\u00D8 KIE\u00C0NG COTE -0.100",
+      "x": 664586.8,
+      "y": -523583.3,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE -0.100}",
+      "x": 685513.3,
+      "y": -541155.6,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE -0.800}",
+      "x": 685513.3,
+      "y": -546355.6,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE -0.800}",
+      "x": 686301.7,
+      "y": -557955.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE -0.100}",
+      "x": 686301.7,
+      "y": -560455.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE \u002B5.200}",
+      "x": 717045.8,
+      "y": -539137.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;{\\fArial|b0|i0|c0|p34;COTE \u002B4.300}",
+      "x": 717045.8,
+      "y": -545458.7,
+      "height": 250
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm1 (300x400x{\\C1;12})",
+      "x": 871384,
+      "y": -479315.8,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm1 (300x400x{\\C1;12})",
+      "x": 841284.1,
+      "y": -480415.9,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm1 (300x400x{\\C1;12})",
+      "x": 838275.7,
+      "y": -502885.2,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "\\A1;{\\fVNI-Helve-Condense|b1|i0|c0|p2;GHI CHU\u00D9 KE\u00C1T CA\u00C1U THE\u00D9P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\P- The\u00F9p CT34 co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00EDnh toa\u00F9n Rs = 2100kg/cm\\H0.7x;\\S2^;\\H1.429x;\\P- Ca\u00F9c bulon co\u00F9 \u00F1\u00F6\u00F4\u00F8ng k\u00EDnh d\u003E=16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n :  8.8\\P                    Rcbl = 2300Kg/cm2\\P                    Rkbl = 2500kG/cm2 \\P- Ca\u00F9c bulong d\u003C16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n : 4.6\\P                    Rcbl = 1500Kg/cm2\\P                    Rkbl = 1750kG/cm2 \\P- Que ha\u00F8n E42 (hoa\u00EBc loa\u00EFi co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00F6\u00F4ng \u00F1\u00F6\u00F4ng)\\P\\H0.9997x;- Ke\u00E1t ca\u00E1u the\u00F9p \u00F1\u00F6\u00F4\u00EFc s\u00F4n 1 l\u00F4\u00F9p cho\u00E1ng se\u00F9t va\u00F8 2 l\u00F4\u00F9p ma\u00F8u.}",
+      "x": 861825.4,
+      "y": -497338.1,
+      "height": 250
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm2 (300x1000x{\\C1;10})",
+      "x": 870497.8,
+      "y": -470662.9,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm2 (300x1000x{\\C1;10})",
+      "x": 824627.8,
+      "y": -452709.3,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm2 (300x1000x{\\C1;10})",
+      "x": 882936,
+      "y": -452709.3,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm2 (300x1000x{\\C1;10})",
+      "x": 830367.4,
+      "y": -468242.7,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Bm3",
+      "x": 836043.1,
+      "y": -473546.2,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Bm3",
+      "x": 831843.5,
+      "y": -456643.8,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Bm3",
+      "x": 879304.5,
+      "y": -456643.8,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm1 (250x400x{\\C1;12})",
+      "x": 215910,
+      "y": -496138.8,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn Ma\u00F5 Bm1 (250x400x{\\C1;12})",
+      "x": 216033.8,
+      "y": -482924,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn ma\u00F5 Bm1-C\\P(200x580x{\\C1;10})",
+      "x": 231777.4,
+      "y": -476781.6,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "8M18x60 (B8.8)",
+      "x": 230661.1,
+      "y": -480223.9,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn ma\u00F5 Bm2\\P(200x580x{\\C1;10})",
+      "x": 232087.9,
+      "y": -502963.4,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "\\A1;{\\fVNI-Helve-Condense|b1|i0|c0|p2;GHI CHU\u00D9 KE\u00C1T CA\u00C1U THE\u00D9P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\P- The\u00F9p CT34 co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00EDnh toa\u00F9n Rs = 2100kg/cm\\H0.7x;\\S2^;\\H1.429x;\\P- Ca\u00F9c bulon co\u00F9 \u00F1\u00F6\u00F4\u00F8ng k\u00EDnh d\u003E=16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n :  8.8\\P                    Rcbl = 2300Kg/cm2\\P                    Rkbl = 2500kG/cm2 \\P- Ca\u00F9c bulong d\u003C16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n : 4.6\\P                    Rcbl = 1500Kg/cm2\\P                    Rkbl = 1750kG/cm2 \\P- Que ha\u00F8n E42 (hoa\u00EBc loa\u00EFi co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00F6\u00F4ng \u00F1\u00F6\u00F4ng)\\P- Xa\u00F8 go\u00E0 C200x65x20x3, loa\u00EFi tra\u00F9ng ke\u00F5m\\P\\H0.9997x;- Ke\u00E1t ca\u00E1u the\u00F9p \u00F1\u00F6\u00F4\u00EFc s\u00F4n 1 l\u00F4\u00F9p cho\u00E1ng se\u00F9t va\u00F8 2 l\u00F4\u00F9p ma\u00F8u.\\P-Chie\u00E0u cao \u00F1\u00F6\u00F4\u00F8ng ha\u00F8n ke\u00F8o the\u00F9p Hh=8mm}",
+      "x": 273850.8,
+      "y": -498938.2,
+      "height": 250
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "Ba\u00FBn ma\u00F5 Bm3\\P(200x600x{\\C1;10})",
+      "x": 245305.5,
+      "y": -503269.8,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "4M16x60 B6.6",
+      "x": 273173.3,
+      "y": -471519.9,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "4M16x60 B6.6",
+      "x": 280689.1,
+      "y": -471519.9,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "4M12x40",
+      "x": 252334.8,
+      "y": -474048.1,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "2M12x40",
+      "x": 251859.7,
+      "y": -487523.2,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "8M18x60 (B8.8)",
+      "x": 238972.5,
+      "y": -481343.2,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "4M16x60 B6.6",
+      "x": 358847.7,
+      "y": -452474.1,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "4M16x60 (B6.6)",
+      "x": 367984.6,
+      "y": -462968.3,
+      "height": 200
+    },
+    {
+      "layer": "Text CK-KT",
+      "text": "\\A1;{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\H1.2x;GHI CHU\u00D9 KE\u00C1T CA\u00C1U THE\u00D9P\\fVNI-Helve-Condense|b0|i0|c0|p2;\\P\\H0.8333x;- The\u00F9p CT34 co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00EDnh toa\u00F9n Rs = 2100kg/cm\\H0.7x;\\S2^;\\H1.429x;\\P- Ca\u00F9c bulon co\u00F9 \u00F1\u00F6\u00F4\u00F8ng k\u00EDnh d\u003E=16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n :  6.6\\P                    Rcbl = 2300Kg/cm2\\P                    Rkbl = 2500kG/cm2 \\P- Ca\u00F9c bulong d\u003C16 \\P Ca\u00E1p \u00F1o\u00E4 be\u00E0n : 5.6\\P                    Rcbl = 1500Kg/cm2\\P                    Rkbl = 1750kG/cm2 \\P- Que ha\u00F8n E42 (hoa\u00EBc loa\u00EFi co\u00F9 c\u00F6\u00F4\u00F8ng \u00F1o\u00E4 t\u00F6\u00F4ng \u00F1\u00F6\u00F4ng)\\P\\H0.9997x;- Ke\u00E1t ca\u00E1u the\u00F9p \u00F1\u00F6\u00F4\u00EFc s\u00F4n 1 l\u00F4\u00F9p cho\u00E1ng se\u00F9t va\u00F8 2 l\u00F4\u00F9p ma\u00F8u.}",
+      "x": 362278.2,
+      "y": -493281.7,
+      "height": 250
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LLANH TO\u00C2 THANG MA\u00D9Y LTTM1-T1}",
+      "x": 322092.7,
+      "y": -635241.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LGIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I GTM5}",
+      "x": 1008194.6,
+      "y": -636718.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "\\A1;{\\LDIE\u00C0M MA\u00D9I DM2}",
+      "x": 690492.7,
+      "y": -632657.9,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LDIE\u00C0M MA\u00D9I DM1a}",
+      "x": 682771,
+      "y": -632125.9,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LDIE\u00C0M MA\u00D9I DM1}",
+      "x": 675720.1,
+      "y": -632125.9,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LLANH TO\u00C2 THANG MA\u00D9Y LTTM1-T3}",
+      "x": 668669.1,
+      "y": -632125.9,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LDIE\u00C0M MA\u00D9I DM3}",
+      "x": 939500.7,
+      "y": -633430.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LLANH TO\u00C2 THANG MA\u00D9Y LTTM1-T4}",
+      "x": 857821.9,
+      "y": -632125.9,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LGIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I GTM4}",
+      "x": 1001143.7,
+      "y": -636718.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LGIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I GTM3}",
+      "x": 994092.7,
+      "y": -636718.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LGIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I GTM1}",
+      "x": 979990.9,
+      "y": -636718.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LGIA\u00C8NG T\u00D6\u00D4\u00D8NG MA\u00D9I GTM2}",
+      "x": 987041.8,
+      "y": -636718.1,
+      "height": 350
+    },
+    {
+      "layer": "Text CK",
+      "text": "{\\LLANH TO\u00C2 THANG MA\u00D9Y LTTM1-T2}",
+      "x": 497247.6,
+      "y": -636703.4,
+      "height": 350
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 318518.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 317553,
+      "y": -615436.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 315918.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 317553,
+      "y": -617169.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 319185.8,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 315918.5,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 317553,
+      "y": -591669.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T1",
+      "x": 317553,
+      "y": -589269.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM5",
+      "x": 1019018.5,
+      "y": -598853.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM5",
+      "x": 1019018.5,
+      "y": -608253.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM2",
+      "x": 664802.1,
+      "y": -592736.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1a",
+      "x": 667818.5,
+      "y": -593103.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 667718.5,
+      "y": -592003.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 666668.5,
+      "y": -591703.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 667553,
+      "y": -591019.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 662202.1,
+      "y": -591519.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 661218.5,
+      "y": -590703.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM2",
+      "x": 664802.1,
+      "y": -614369.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1a",
+      "x": 667818.5,
+      "y": -614003.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 667718.5,
+      "y": -615103.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 666668.5,
+      "y": -615403.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 667553,
+      "y": -616086.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 662202.1,
+      "y": -615586.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM1",
+      "x": 661218.5,
+      "y": -616403.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 653553,
+      "y": -615436.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 655185.8,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 653553,
+      "y": -617169.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 651918.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 655185.8,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 651918.5,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 653553,
+      "y": -591669.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T3",
+      "x": 653553,
+      "y": -589269.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM3",
+      "x": 900735.8,
+      "y": -598753.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;DM3",
+      "x": 900735.8,
+      "y": -608353.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 822518.5,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 822518.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 821553,
+      "y": -615436.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 821553,
+      "y": -617169.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 819918.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 819918.5,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 821553,
+      "y": -591669.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T4",
+      "x": 821553,
+      "y": -589269.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 987902.1,
+      "y": -613519.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 987902.1,
+      "y": -617769.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM4",
+      "x": 1006252.1,
+      "y": -613519.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 991518.5,
+      "y": -615978.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 980918.5,
+      "y": -615478.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM1",
+      "x": 978202.1,
+      "y": -618336.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM4",
+      "x": 1020118.5,
+      "y": -603553.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM4",
+      "x": 1006252.1,
+      "y": -593586.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM3",
+      "x": 983918.5,
+      "y": -603553.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 991518.5,
+      "y": -591128.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 980918.5,
+      "y": -591628.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 987902.1,
+      "y": -592919.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM2",
+      "x": 987902.1,
+      "y": -588669.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;GTM1",
+      "x": 978202.1,
+      "y": -588769.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 485553,
+      "y": -615436.8,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 487185.8,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 485553,
+      "y": -617169.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 483918.5,
+      "y": -616303.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 487185.8,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 483918.5,
+      "y": -590803.2,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 485553,
+      "y": -591669.5,
+      "height": 250
+    },
+    {
+      "layer": "BC4",
+      "text": "\\A1;LTTM1-T2",
+      "x": 485553,
+      "y": -589269.5,
+      "height": 250
+    }
+  ]
+}

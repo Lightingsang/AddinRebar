@@ -109,7 +109,18 @@ public sealed class RequestDispatcher
                 return JsonRpcEnvelope.Success(id, new BridgePingResult(true, HostVersion, _settings.ExecutionEnabled, _executor.IsBusy));
 
             case JsonRpcMethods.CancelSuffix:
-                return JsonRpcEnvelope.Success(id, _executor.Cancel());
+            {
+                var cancelParams = request.ParamsAs<CancelParams>();
+                if (cancelParams?.Id == id)
+                {
+                    return JsonRpcEnvelope.Success(id, new CancelResult(false, false));
+                }
+                var effectiveSessionId = cancelParams?.SessionId ?? writer.SessionId;
+                var result = _executor is ICorrelatedCancelExecutor correlated
+                    ? correlated.Cancel(cancelParams?.Id, effectiveSessionId)
+                    : _executor.Cancel();
+                return JsonRpcEnvelope.Success(id, result);
+            }
 
             case JsonRpcMethods.InspectSuffix:
             {
@@ -171,7 +182,13 @@ public sealed class RequestDispatcher
         var progress = new SynchronousProgress<ScriptProgress>(p =>
             writer.Post(JsonRpcEnvelope.Notification(progressMethod, new ProgressParams(id, p.Current, p.Total, p.Message))));
 
-        var result = await _executor.ExecuteAsync(parameters, progress, cancellationToken).ConfigureAwait(false);
+        var effectiveParameters = parameters.SessionId != null
+            ? parameters
+            : parameters with { SessionId = writer.SessionId };
+
+        var result = _executor is ICorrelatedCancelExecutor correlated
+            ? await correlated.ExecuteAsync(id, effectiveParameters, progress, cancellationToken).ConfigureAwait(false)
+            : await _executor.ExecuteAsync(effectiveParameters, progress, cancellationToken).ConfigureAwait(false);
 
         return JsonRpcEnvelope.Success(id, result);
     }

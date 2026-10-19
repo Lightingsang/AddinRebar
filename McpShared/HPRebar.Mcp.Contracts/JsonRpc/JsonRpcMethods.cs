@@ -42,6 +42,8 @@ public static class JsonRpcMethods
     public const string ExcelPrefix = "excel.";
     public const string RobotPrefix = "robot.";
     public const string TeklaPrefix = "tekla.";
+    public const string DynamoPrefix = "dynamo.";
+    public const string GrasshopperPrefix = "grasshopper.";
 
     /// <summary>Builds <c>{prefix}{suffix}</c>; the prefix must end with a dot, otherwise the suffix could not be split off again.</summary>
     public static string For(string prefix, string suffix)

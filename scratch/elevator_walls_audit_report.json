@@ -1,0 +1,45 @@
+{
+  "AllPassed": true,
+  "Steps": [
+    {
+      "Name": "B\u01B0\u1EDBc 1: K\u1EBFt n\u1ED1i h\u1EA1 t\u1EA7ng Named Pipe Revit 2026",
+      "Passed": true,
+      "Details": "\u0110\u00E3 k\u1EBFt n\u1ED1i tr\u1EF1c ti\u1EBFp ti\u1EBFn tr\u00ECnh Revit 2026."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 2: \u0110\u1ED1i so\u00E1t t\u1ED5ng s\u1ED1 l\u01B0\u1EE3ng v\u00E1ch",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 16/16 di\u1EC7n v\u00E1ch (8 C\u1ED5 V\u00E1ch \u002B 8 V\u00E1ch T1)."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 3: Ki\u1EC3m to\u00E1n C\u1ED5 V\u00E1ch M\u00F3ng (-1.600m -\u003E 0.000m)",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 8/8 c\u1ED5 v\u00E1ch, li\u00EAn k\u1EBFt \u0111\u00FAng \u0110\u1EC9nh \u0110\u00E0i M\u00F3ng."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 4: Ki\u1EC3m to\u00E1n V\u00E1ch T\u1EA7ng 1 (0.000m -\u003E \u002B4.300m)",
+      "Passed": true,
+      "Details": "Th\u1EF1c t\u1EBF 8/8 v\u00E1ch t\u1EA7ng 1, li\u00EAn k\u1EBFt \u0111\u00FAng T\u1EA7ng 1 -\u003E T\u1EA7ng 2."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 5: Ki\u1EC3m to\u00E1n chi\u1EC1u d\u00E0y v\u00E1ch t = 200mm",
+      "Passed": true,
+      "Details": "100% v\u00E1ch \u0111\u1EA1t chi\u1EC1u d\u00E0y 200.0mm (sai s\u1ED1 = 0.0mm)."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 6: G\u00E1n thu\u1ED9c t\u00EDnh Shear Wall chu\u1EA9n xu\u1EA5t ETABS",
+      "Passed": true,
+      "Details": "100% c\u1EA5u ki\u1EC7n \u0111\u01B0\u1EE3c g\u00E1n StructuralWallUsage.Shear."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 7: \u0110\u1ED1i so\u00E1t t\u1ECDa \u0111\u1ED9 h\u00ECnh h\u1ECDc 2 bu\u1ED3ng T1A \u0026 T1B",
+      "Passed": true,
+      "Details": "T1A t\u00E2m (15200, 1200), T1B t\u00E2m (15200, 26700), sai s\u1ED1 \u003C= 1.0mm."
+    },
+    {
+      "Name": "B\u01B0\u1EDBc 8: Ki\u1EC3m to\u00E1n t\u00EDnh duy nh\u1EA5t Mark \u0026 kh\u00F4ng va ch\u1EA1m",
+      "Passed": true,
+      "Details": "16/16 Mark duy nh\u1EA5t, kh\u00F4ng c\u00F3 c\u1EA5u ki\u1EC7n tr\u00F9ng l\u1EB7p."
+    }
+  ]
+}

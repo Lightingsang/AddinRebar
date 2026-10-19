@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>HPDynamo MCP Bridge</Name>
+    <Assembly>HPDynamo.McpBridge\HPDynamo.McpBridge.dll</Assembly>
+    <AddInId>C281F04A-9815-4D1E-83B4-F8B2E571A912</AddInId>
+    <FullClassName>HPDynamo.McpBridge.Entry.DynamoRevitApp</FullClassName>
+    <VendorId>HPRB</VendorId>
+    <VendorDescription>HPRebar Dynamo MCP Subsystem</VendorDescription>
+  </AddIn>
+  <ManifestSettings>
+    <UseRevitContext>False</UseRevitContext>
+    <ContextName>HPDynamo.McpBridge</ContextName>
+  </ManifestSettings>
+</RevitAddIns>

@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Rename and freeze node",
+    "args": {
+      "nodeId": "Point.ByCoordinates",
+      "name": "Beam Start Point",
+      "isFrozen": true
+    }
+  },
+  {
+    "title": "Update slider input value and canvas position",
+    "args": {
+      "nodeId": "Integer Slider",
+      "value": "20",
+      "x": 250.0,
+      "y": 300.0
+    }
+  }
+]

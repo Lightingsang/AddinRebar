@@ -21,6 +21,9 @@ public sealed class ExecuteResult
     /// <summary>Human-readable explanation when <see cref="IsError"/>; never contains machine paths or stack traces.</summary>
     public string? Message { get; set; }
 
+    /// <summary>Warnings captured from Revit or host during execution (e.g. via AutoDismissFailurePreprocessor).</summary>
+    public IReadOnlyList<string> Warnings { get; set; } = System.Array.Empty<string>();
+
     public IReadOnlyList<string> Logs { get; set; } = System.Array.Empty<string>();
 
     public IReadOnlyList<ScriptDiagnostic> Diagnostics { get; set; } = System.Array.Empty<ScriptDiagnostic>();

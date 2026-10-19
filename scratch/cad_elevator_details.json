@@ -1,0 +1,59 @@
+{
+  "total": 6,
+  "dims": [
+    {
+      "measurement": 400,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 665252.4,
+      "maxX": 665935,
+      "minY": -43489.2,
+      "maxY": -41689.2
+    },
+    {
+      "measurement": 300,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 663952.4,
+      "maxX": 665352.4,
+      "minY": -43990.4,
+      "maxY": -43389.2
+    },
+    {
+      "measurement": 150,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 654874.2,
+      "maxX": 655674.2,
+      "minY": -46993,
+      "maxY": -46571.5
+    },
+    {
+      "measurement": 750,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 655474.2,
+      "maxX": 658674.2,
+      "minY": -46993,
+      "maxY": -46270.9
+    },
+    {
+      "measurement": 150,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 659774.2,
+      "maxX": 661713.5,
+      "minY": -45770.9,
+      "maxY": -44970.9
+    },
+    {
+      "measurement": 650,
+      "text": "",
+      "layer": "Dim shx",
+      "minX": 657974.2,
+      "maxX": 661713.5,
+      "minY": -45170.9,
+      "maxY": -42370.9
+    }
+  ]
+}

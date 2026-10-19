@@ -1,0 +1,370 @@
+<Window x:Class="HPKata.UI.Views.SetupView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        mc:Ignorable="d"
+        Title="HPKata — Cấu hình hệ thống (Setup 86 thông số)"
+        Height="620" Width="780"
+        MinHeight="500" MinWidth="650"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="CẤU HÌNH THÔNG SỐ KATA (GOI LENH.LSP)" Style="{StaticResource Text.Title}"/>
+                <TextBlock Text=" — 86 Parameters" Style="{StaticResource Text.Muted}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Categorized Tabs -->
+        <TabControl Grid.Row="1" Background="{DynamicResource Brush.Surface}" BorderBrush="{DynamicResource Brush.Border}">
+            <!-- Tab 1: Layers & Text -->
+            <TabItem Header="Lớp bản vẽ &amp; Chữ">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Cấu hình lớp AutoCAD / CAD Layers" Style="{StaticResource Text.Section}"/>
+                        <Grid Margin="0,4,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Kích thước (Dim):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerDim, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Nét thấy:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerNetThay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Khung bản vẽ:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerNetKhung, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Nét khuất:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerNetKhuat, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Lưới trục (Grid):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerGrid, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Thép chủ:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerThepChu, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Thép đai chính:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerThepDai, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Thép đai phụ:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerThepDaiPhu, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="4" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Nét mảnh:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerNetManh, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Chữ ghi chú (Text):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerText, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="5" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Layer Tag thép:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LayerTextTag, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Chiều cao chữ ghi chú (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding AnnotationTextH, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 2: Dimension & Notation -->
+            <TabItem Header="Kích thước &amp; Ký hiệu">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Ký hiệu &amp; Kiểu đo kích thước" Style="{StaticResource Text.Section}"/>
+                        <Grid Margin="0,4,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Tiền tố bước đai (vd: a):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding SpacingPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Tên kiểu đo (DimStyle):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DimStyleName, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Ký hiệu thép trơn (d &lt; 10):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding SmallBarPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Ký hiệu thép gờ (d &gt;= 10):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DeformedBarPrefix, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Dấu phân cách số hiệu (vd: -):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding TagSeparator, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Bán kính vòng tròn Tag (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding TagCircleRadius, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Kiểu mũi tên chỉ dẫn (0=Closed, 1=Tick):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LeaderArrowType, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Vẽ mũi tên chỉ dẫn (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DrawLeaderArrow, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 3: Rebar Detailing -->
+            <TabItem Header="Cốt thép &amp; Uốn">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Quy chuẩn hình học &amp; Uốn cốt thép" Style="{StaticResource Text.Section}"/>
+                        <Grid Margin="0,4,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Lớp bê tông bảo vệ (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding ConcreteCoverMm, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Đường kính thép cơ sở (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding BaseBarDiameter, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Góc móc đai mặc định (135/180):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DefaultHookAngle, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Bước làm tròn chiều dài cắt (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding CutLengthRoundStep, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Vẽ bo góc bán kính uốn (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DrawFilletRadius, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Khấu trừ dãn dài khi uốn (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding ApplyBendDeduction, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Tự động đánh lại số hiệu (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding AutoRenumberMarks, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Vẽ móc 90° trên mặt đứng dầm (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DrawElevationHooks, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 4: Spacing & Splices -->
+            <TabItem Header="Nối chồng &amp; Neo">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Quy chuẩn nối chồng &amp; Cắt thép dầm/cột" Style="{StaticResource Text.Section}"/>
+                        <Grid Margin="0,4,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Hệ số chiều dài nối nén (x d):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LapLengthMultiplier, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Hệ số chiều dài neo kéo (x d):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding TensionAnchorMult, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Tỷ lệ vị trí nối cột (H/6):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding ColSpliceRatio, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Độ so le nối buộc (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding StaggeredOffsetMm, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Điểm cắt thép trên dầm L1 (vd: 0.2L):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding BeamTopCutoffL1, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Gốc tính L1 (mép cột):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding BeamCutoffDatumL1, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Điểm cắt thép trên dầm L2 (vd: 0.25L):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding BeamTopCutoffL2, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Gốc tính L2 (mép cột):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding BeamCutoffDatumL2, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 5: Scheduling & Stock -->
+            <TabItem Header="Thống kê &amp; Cắt thép">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Cấu hình bảng thống kê &amp; Tối ưu cắt thép 11.7m" Style="{StaticResource Text.Section}"/>
+                        <Grid Margin="0,4,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Chiều dài thanh thương mại (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding StandardBarLength, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Chiều dài đoạn thừa tối thiểu nhập kho (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding MinRemnantLength, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Ngôn ngữ giao diện &amp; bảng biểu:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding LanguageUiSched, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Mẫu bảng thống kê (Default/QHPlus):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding TableTemplate, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Vẽ hình dạng thanh trong bảng (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding DrawShapeInSched, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Gộp các thanh giống nhau (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding GroupSameRebar, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="In mã QR trên tem bó thép (0/1):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding PrintQrCodeOnTag, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                <TextBlock Text="Đường kính tối thiểu dùng Coupler (mm):" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding CouplerMinDia, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Margin="0,8,0,8" Padding="8,4" Background="{DynamicResource Brush.Surface}" CornerRadius="4">
+            <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource Text.Muted}"/>
+        </Border>
+
+        <!-- Action Footer -->
+        <Grid Grid.Row="3" Margin="0,4,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Mặc định" Command="{Binding ResetToDefaultsCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Hủy bỏ" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                <Button Content="Áp dụng &amp; Lưu" Command="{Binding ApplyAndCloseCommand}" Style="{StaticResource PrimaryButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

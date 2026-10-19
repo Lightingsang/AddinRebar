@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"host\":\"autocad\",\"hostVersion\":\"2026\",\"autocad\":{\"insunits\":\"Inches\",\"measurement\":\"English\",\"currentLayout\":\"Model\",\"currentLayer\":\"A_Breakline_S_0.09\",\"isModelSpace\":true,\"isQuiescent\":true,\"isNamedDrawing\":true},\"docTitle\":\"G:\\\\04-THAM KHAO\\\\03-CAD\\\\04-HOI TRUONG TAN DONG HIEP\\\\KC-HT-90-TLTT-16.dwg\",\"docPath\":\"G:\\\\04-THAM KHAO\\\\03-CAD\\\\04-HOI TRUONG TAN DONG HIEP\\\\KC-HT-90-TLTT-16.dwg\",\"isReadOnly\":false,\"isModifiable\":true,\"units\":{\"length\":\"Inches\"},\"activeView\":{\"id\":31,\"name\":\"Model\",\"type\":\"Model\"},\"selection\":[],\"openDocs\":[\"G:\\\\04-THAM KHAO\\\\03-CAD\\\\04-HOI TRUONG TAN DONG HIEP\\\\KC-HT-90-TLTT-16.dwg\"],\"executionEnabled\":true}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

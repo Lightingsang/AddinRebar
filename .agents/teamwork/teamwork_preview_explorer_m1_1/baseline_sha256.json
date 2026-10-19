@@ -1,0 +1,2378 @@
+[
+  {
+    "rel_path": "AdWindows.dll",
+    "bytes": 2280312,
+    "sha256": "a5374b3d69ac945bcb5a2ed243dfb34e321a16799223bd1247fe9cb67a276ed0",
+    "mtime_utc": "2018-11-14T06:42:34+00:00"
+  },
+  {
+    "rel_path": "BouncyCastle.Cryptography.dll",
+    "bytes": 4695200,
+    "sha256": "7419a1723e300f6b772bf8153138f92da1bc47fc7d7fe096bdfacdff88d6751f",
+    "mtime_utc": "2025-07-31T11:18:52+00:00"
+  },
+  {
+    "rel_path": "Clipper2Lib.dll",
+    "bytes": 103936,
+    "sha256": "e9bf01e01f494ef6072cd46c792ed4f3004288a92b1e98c1f44931e558b8a5d0",
+    "mtime_utc": "2025-12-17T11:16:14+00:00"
+  },
+  {
+    "rel_path": "Docnet.Core.dll",
+    "bytes": 81920,
+    "sha256": "a596d9f7a0d71f52593aefe794139c1327e2c7901731e9c2f9d564992d81c8aa",
+    "mtime_utc": "2023-09-04T18:55:04+00:00"
+  },
+  {
+    "rel_path": "ETABSv1.dll",
+    "bytes": 331784,
+    "sha256": "853a8596d62e7211515b56404ae2ac287ec3bfe48667e8ac699606e48fff5382",
+    "mtime_utc": "2024-10-17T07:08:04+00:00"
+  },
+  {
+    "rel_path": "Goi lenh - Gstarcad.lsp",
+    "bytes": 3855,
+    "sha256": "0fa407d50b7b4e126c8f5e53eec252c345fab7f696f19d081d63ae8aaa8a21f4",
+    "mtime_utc": "2026-09-04T05:48:34+00:00"
+  },
+  {
+    "rel_path": "Goi lenh - Zwcad.lsp",
+    "bytes": 3264,
+    "sha256": "3f8dcdc3b8af0adebbdad76e093e7838515ad24bc806cbb96fc3205b9a0e8332",
+    "mtime_utc": "2026-09-04T05:49:10+00:00"
+  },
+  {
+    "rel_path": "Goi lenh.lsp",
+    "bytes": 6161,
+    "sha256": "e14af6a75e38e9140f01bdd336b52b24a5b9e4e827cd2ca1fbf4955975c9e57e",
+    "mtime_utc": "2026-10-17T14:09:04.724626+00:00"
+  },
+  {
+    "rel_path": "GrxCAD.Interop.dll",
+    "bytes": 1275392,
+    "sha256": "4a287b5e913c75f9b1cdf2dfd80551ac4f9c1b71e43dfdbcf18b285541abbfd1",
+    "mtime_utc": "2020-04-10T00:20:58+00:00"
+  },
+  {
+    "rel_path": "ISO_KATA.EDB",
+    "bytes": 269975,
+    "sha256": "5c90cad368575f779b4b2d355c05ee7d8a38cb104a14832891d2b70164df16fa",
+    "mtime_utc": "2025-11-22T10:20:50+00:00"
+  },
+  {
+    "rel_path": "Iso_QHPlus.xls",
+    "bytes": 562176,
+    "sha256": "a9ab0d36bf784e9057106607c89c75caa9c928d4f935cf611dddb7a34f5fc5fc",
+    "mtime_utc": "2025-10-01T15:25:58+00:00"
+  },
+  {
+    "rel_path": "Iso_kata.dwg",
+    "bytes": 376108,
+    "sha256": "308e3489ce9fe902b35b61fd567e4579434d3136c2628aae8ae535ed95e9e9d7",
+    "mtime_utc": "2026-08-31T05:39:30+00:00"
+  },
+  {
+    "rel_path": "Kata ENG.xlsm",
+    "bytes": 186618,
+    "sha256": "807e38d7b245c2378f7fee5003b4c53052879e0219e1952afec62391113eb378",
+    "mtime_utc": "2020-12-15T04:42:32+00:00"
+  },
+  {
+    "rel_path": "Kata-GCAD.xlsm",
+    "bytes": 178873,
+    "sha256": "f31607243df405a0d9a554cff8f152df145a69b555c02fcf8313923dc185a73f",
+    "mtime_utc": "2019-10-22T05:16:26+00:00"
+  },
+  {
+    "rel_path": "Kata-ZwCad.xlsm",
+    "bytes": 179551,
+    "sha256": "e44f15f0fd4aceef5b5b6f386e74081f37feabdae272b8ff709debb1fa94be0d",
+    "mtime_utc": "2021-07-01T07:58:50+00:00"
+  },
+  {
+    "rel_path": "Kata.xlsm",
+    "bytes": 474860,
+    "sha256": "bcb285b3316c38d5b319524adcf34492299efea408a37bf291f2fbea2ce5a419",
+    "mtime_utc": "2026-10-03T23:46:18.850374+00:00"
+  },
+  {
+    "rel_path": "Kata_Class_Lib.dll",
+    "bytes": 843776,
+    "sha256": "e3690a631c20ad9e93835459762a372225cde77d144602072b4b9fc77ba5a85f",
+    "mtime_utc": "2026-09-21T04:06:44.533040+00:00"
+  },
+  {
+    "rel_path": "Kata_Class_Lib_Revit.dll",
+    "bytes": 1086464,
+    "sha256": "38e31337456cb171a675943c7e1723bb068e8a194db9471d9e679002393785d9",
+    "mtime_utc": "2026-09-21T04:06:45.955693+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64.dll",
+    "bytes": 3415040,
+    "sha256": "5da9a37be8fea727da725df05cc89108b5fe3e6071958b012e3fcc2441b01b44",
+    "mtime_utc": "2022-09-22T17:46:42+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64_Cad2013.dll",
+    "bytes": 16851456,
+    "sha256": "f2f675d224e1455a65f3c3490f7d1b33f9f8dee0550574d4f51f2673f75f8e50",
+    "mtime_utc": "2026-09-21T04:05:22.763338+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64_Cad2025.dll",
+    "bytes": 16791552,
+    "sha256": "4a1313848d459c3e633ddd9792c38d4e9757e68d09381bddcd17160249180100",
+    "mtime_utc": "2026-09-21T04:05:03.359227+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64_GstarCad.dll",
+    "bytes": 14343680,
+    "sha256": "ac9ac5de57f759cb101c224a113a7c5761c09842c7070ab59a17345f26744cff",
+    "mtime_utc": "2026-09-21T04:05:55.746711+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64_GstarCad2025.dll",
+    "bytes": 16811520,
+    "sha256": "af1477b7cc8e63e32895dd1243e47a511cccdcf8a2080c75af66bed140fcf196",
+    "mtime_utc": "2026-09-21T04:06:16.705988+00:00"
+  },
+  {
+    "rel_path": "Kata_pro64_ZwCad.dll",
+    "bytes": 14457344,
+    "sha256": "699c2876160253f5a2a8937c4275d0285a0a34e20747b1b94708c121d26beb5f",
+    "mtime_utc": "2026-09-21T04:06:42.261934+00:00"
+  },
+  {
+    "rel_path": "Microsoft.Data.SqlClient.SNI.dll",
+    "bytes": 503728,
+    "sha256": "31e14dea08c9e6d215431d81fa8c51e477d4c13411a4b903caf9e00149392e46",
+    "mtime_utc": "2024-02-20T22:30:22+00:00"
+  },
+  {
+    "rel_path": "Microsoft.Data.SqlClient.dll",
+    "bytes": 2131064,
+    "sha256": "b0813bee5d78d2361bcf17d03c24f7b1a220d9359ea9b49ecd96fabd7522e3a8",
+    "mtime_utc": "2024-08-27T18:46:52+00:00"
+  },
+  {
+    "rel_path": "Microsoft.Identity.Client.dll",
+    "bytes": 1581488,
+    "sha256": "79e839b32270d3277899910c7fc8d579e7fd6b4a4045e7fb9493840770156124",
+    "mtime_utc": "2024-06-06T22:09:30+00:00"
+  },
+  {
+    "rel_path": "Microsoft.SqlServer.Server.dll",
+    "bytes": 23976,
+    "sha256": "a9dca1b42bc875f966b78b2c0880e62b838f0ed6567166d7f1f07ae4b76ec4bf",
+    "mtime_utc": "2022-01-27T17:19:08+00:00"
+  },
+  {
+    "rel_path": "Microsoft.VisualBasic.PowerPacks.Vs.dll",
+    "bytes": 269344,
+    "sha256": "8ddb71776b12fc6011e8af0e1df4fb4b72414b05d4d11cb0b17fae71a356405e",
+    "mtime_utc": "2012-07-26T12:41:24+00:00"
+  },
+  {
+    "rel_path": "Newtonsoft.Json.dll",
+    "bytes": 711952,
+    "sha256": "e1e27af7b07eeedf5ce71a9255f0422816a6fc5849a483c6714e1b472044fa9d",
+    "mtime_utc": "2023-09-20T15:05:54+00:00"
+  },
+  {
+    "rel_path": "QRCoder.dll",
+    "bytes": 126464,
+    "sha256": "2abf42160302b0f44ea7dcc2e1c1ef910106df8835b0d94f9ced9428655b89e1",
+    "mtime_utc": "2020-11-17T16:57:42+00:00"
+  },
+  {
+    "rel_path": "Security.dll",
+    "bytes": 16384,
+    "sha256": "7e3823b20977bb432ee531fe25fa33ada91febdfd794c60128cf4bf83e6dc657",
+    "mtime_utc": "2013-11-26T16:05:40+00:00"
+  },
+  {
+    "rel_path": "System.Management.dll",
+    "bytes": 312072,
+    "sha256": "fff7c1e9f12a99c2c52a6c0ae81075be78dbef7dbc4f1162164990b4ccf6eadd",
+    "mtime_utc": "2023-10-31T15:06:38+00:00"
+  },
+  {
+    "rel_path": "System.Security.Principal.Windows.dll",
+    "bytes": 186640,
+    "sha256": "0426f0c5e24142ddbffc6261653cd34d930d5c2f10eb7b4a54799cdc9c37f398",
+    "mtime_utc": "2023-10-31T12:51:28+00:00"
+  },
+  {
+    "rel_path": "UglyToad.PdfPig.Core.dll",
+    "bytes": 41984,
+    "sha256": "310a915c371e77c3eb01d414ee359d8caeb9d211492f6283df4d77768ff5895e",
+    "mtime_utc": "2023-06-05T13:22:54+00:00"
+  },
+  {
+    "rel_path": "UglyToad.PdfPig.Fonts.dll",
+    "bytes": 1019392,
+    "sha256": "0f5c8d9200ef098912b214e619a8fd910fe2e86a414c2f3f7f54adc13f4f1f3b",
+    "mtime_utc": "2023-06-05T13:22:58+00:00"
+  },
+  {
+    "rel_path": "UglyToad.PdfPig.Tokenization.dll",
+    "bytes": 20992,
+    "sha256": "53ef9876c680b915242a39c06356589fee22bda1fc20f76c54461d352fe32a13",
+    "mtime_utc": "2023-06-05T13:22:56+00:00"
+  },
+  {
+    "rel_path": "UglyToad.PdfPig.Tokens.dll",
+    "bytes": 43008,
+    "sha256": "426ae09518639b84efd82237e5a533351af37620ad83d248fe095e381cdcc35f",
+    "mtime_utc": "2023-06-05T13:22:56+00:00"
+  },
+  {
+    "rel_path": "UglyToad.PdfPig.dll",
+    "bytes": 3956736,
+    "sha256": "dd5ed12576a2a7709d5291ca0df81894de5dc73400e01d003574f02500e24a8d",
+    "mtime_utc": "2023-06-05T13:22:58+00:00"
+  },
+  {
+    "rel_path": "iTextSharp.LGPLv2.Core.dll",
+    "bytes": 9474048,
+    "sha256": "ae97dbb336fac426253a8793c696cc9ff30c2208bed87ee63577ea13998d9222",
+    "mtime_utc": "2026-06-30T10:47:32+00:00"
+  },
+  {
+    "rel_path": "kata-cad-integrity.json",
+    "bytes": 1025,
+    "sha256": "690d2d85d08484e5744f464e4c058949230eb220ec736e7cf5e78d1bd16aca5a",
+    "mtime_utc": "2026-09-21T04:06:46.613589+00:00"
+  },
+  {
+    "rel_path": "kata-cad-integrity.sig",
+    "bytes": 512,
+    "sha256": "13bda4d3b8f920b6feee8ef8b7fd7d74f54265fae715f1ecb5cf085ac713630f",
+    "mtime_utc": "2026-09-21T04:06:46.617613+00:00"
+  },
+  {
+    "rel_path": "kata.ico",
+    "bytes": 16958,
+    "sha256": "3b8b5159217eac0065493b72bbb79ad686d52eeb1c040101831728f4079b7fa1",
+    "mtime_utc": "2011-12-26T18:26:08+00:00"
+  },
+  {
+    "rel_path": "kata_pro.dll",
+    "bytes": 1011712,
+    "sha256": "2c6ab3af0338c7a33345d3a1a156d0aa13265cd81101f4d574a0ac1f50fb6c88",
+    "mtime_utc": "2015-08-21T10:46:58+00:00"
+  },
+  {
+    "rel_path": "menukata.cui",
+    "bytes": 36718,
+    "sha256": "b030507bad8da98d955ad0325f2a08ea70d1b1b88e8a600ac0d76ea07990090b",
+    "mtime_utc": "2015-11-03T09:10:00+00:00"
+  },
+  {
+    "rel_path": "menukata.cuix",
+    "bytes": 224049,
+    "sha256": "63115bc3f9ea98945cd21cfcc1efee40f032e1a4053604ddc64c331bf661ed5e",
+    "mtime_utc": "2020-02-12T03:29:10+00:00"
+  },
+  {
+    "rel_path": "menukata.mnr",
+    "bytes": 56559,
+    "sha256": "aa3fbd89fdfd5016c532b75408d2c9786759e785a7ecc8cb7d7dd6e9184d6e17",
+    "mtime_utc": "2026-09-22T22:27:14.688346+00:00"
+  },
+  {
+    "rel_path": "menukata_light.mnr",
+    "bytes": 56559,
+    "sha256": "b5705a4fe2e43ea2bde10d364790c08f941e3c7a67e003daf1f7d794cccefd4b",
+    "mtime_utc": "2026-09-22T22:27:14.708572+00:00"
+  },
+  {
+    "rel_path": "pdfium.dll",
+    "bytes": 4968960,
+    "sha256": "bca96944d731dd72877116d3472083c847fe307fc58ca39bce16cbe998c478f1",
+    "mtime_utc": "2023-09-04T18:54:52+00:00"
+  },
+  {
+    "rel_path": "twain.dll",
+    "bytes": 180,
+    "sha256": "62fe9aecbbb0deed0abf42afbca971d351dfa4260ed6aa50f103f0366c9fce8c",
+    "mtime_utc": "2026-10-17T14:13:56.695295+00:00"
+  },
+  {
+    "rel_path": "~$Kata.xlsm",
+    "bytes": 165,
+    "sha256": "10cf2d12f68ccd87ea8188a5d69f6a84c94e2ae8572ad028c07a9174e992b294",
+    "mtime_utc": "2026-09-27T06:06:02.290650+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Lap Bar.wmf",
+    "bytes": 22642,
+    "sha256": "6dd5cc414d29924b30ea1f8eb62bea4c684849c01a9eb9bdbeea54ecbd8ceb9f",
+    "mtime_utc": "2020-10-16T06:54:50+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Lap Fix L Bar 1.wmf",
+    "bytes": 20492,
+    "sha256": "98ae7b5c0d7fd42b597b9fef091ba67cdeecade7763d5453fca58f91702d5b4f",
+    "mtime_utc": "2020-10-16T06:33:38+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Lap Fix L Bar.wmf",
+    "bytes": 20454,
+    "sha256": "a01a5e2a68d5a1080e8e168de991d1c990577dd4e5ee8792593c7ef66e917fc6",
+    "mtime_utc": "2020-10-16T06:33:52+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Lap&Top Bar 1.wmf",
+    "bytes": 22946,
+    "sha256": "64fa25e163dc0a3abe92624b35a43431067c9a1e6f1fa59fdeb4a653cd214b6b",
+    "mtime_utc": "2020-10-18T16:26:46+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Lap&Top Bar.wmf",
+    "bytes": 22946,
+    "sha256": "39a85f480b8eb214cfc948cd32c7155294228e6bacc6d3be3e8334f786b6d14a",
+    "mtime_utc": "2020-10-18T16:27:02+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Top Bar -.wmf",
+    "bytes": 22410,
+    "sha256": "45eb80eca060e54a5060f1f98ac189cc511973623d0769a670c2ce599eb60657",
+    "mtime_utc": "2020-10-16T06:32:24+00:00"
+  },
+  {
+    "rel_path": "Cot\\Crank Top Bar.wmf",
+    "bytes": 22742,
+    "sha256": "d2de5c84b3e41b0fe50058551e51b302747b2cc6dadce03f43c36924035fe61f",
+    "mtime_utc": "2020-10-16T06:29:44+00:00"
+  },
+  {
+    "rel_path": "Cot\\Fix L Bar -.wmf",
+    "bytes": 22410,
+    "sha256": "45eb80eca060e54a5060f1f98ac189cc511973623d0769a670c2ce599eb60657",
+    "mtime_utc": "2020-10-16T06:32:56+00:00"
+  },
+  {
+    "rel_path": "Cot\\Fix L Bar.wmf",
+    "bytes": 20172,
+    "sha256": "22ff322e3fc8b028ca4065fd9c62dcfe4d61fa72dfeee2b22342e46972ad0453",
+    "mtime_utc": "2020-10-16T06:33:16+00:00"
+  },
+  {
+    "rel_path": "Cot\\Starter L Bar.wmf",
+    "bytes": 16252,
+    "sha256": "be3f11d4010dbd24fb5c822d8d0f296d0d3a14d67382c8b210883c6bcb810c37",
+    "mtime_utc": "2020-10-16T06:28:34+00:00"
+  },
+  {
+    "rel_path": "Cot\\Starter U Bar.wmf",
+    "bytes": 23168,
+    "sha256": "0343ab45cf152d7fa37fa4c30e13bb2a19ec9913b682da30d8d5d55390211e49",
+    "mtime_utc": "2020-10-16T06:31:22+00:00"
+  },
+  {
+    "rel_path": "Cot\\Straight Bar -.wmf",
+    "bytes": 21728,
+    "sha256": "21e2481df2b084a3a1940d063b954e51ccc609d9b70564106bddd672ef822a05",
+    "mtime_utc": "2020-10-16T06:32:00+00:00"
+  },
+  {
+    "rel_path": "Cot\\Straight Bar.wmf",
+    "bytes": 23488,
+    "sha256": "594e5aec7d1576d62f3940b0da21cddec886749cf711c67caee2680b5656aee1",
+    "mtime_utc": "2020-10-16T19:30:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\00.wmf",
+    "bytes": 1644,
+    "sha256": "04e20a0e1269d862485e3d56c830e02d37dfe55dda1dba2a16ca3c89f0069dc3",
+    "mtime_utc": "2019-01-23T21:52:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\01.wmf",
+    "bytes": 1646,
+    "sha256": "ffed671e91150ae1280a54a5b585373c391491a3269216b12e5115a7476f3214",
+    "mtime_utc": "2015-04-02T15:42:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\02.wmf",
+    "bytes": 2398,
+    "sha256": "33d60dc384040ea77aca3c343660ee54bd3da7993e6aa99297ff9ac78fb7f8fb",
+    "mtime_utc": "2015-04-02T15:43:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\02a.wmf",
+    "bytes": 2462,
+    "sha256": "9606ed17a139b127e268c176c288d03fa9ccac4dbc3447247daba86c5d5f9be6",
+    "mtime_utc": "2015-08-15T19:06:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\03.wmf",
+    "bytes": 1918,
+    "sha256": "e1d87f46d523ad4b441ee3ff2d6e52bb7977a67a6a085303cfcf48c36a52cc78",
+    "mtime_utc": "2015-04-02T15:42:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\04.wmf",
+    "bytes": 2190,
+    "sha256": "b995285ffb680696b9c9215a8a615a3e099896e8747bbcb4785202bfe9bbade4",
+    "mtime_utc": "2015-04-02T15:43:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\05.wmf",
+    "bytes": 2194,
+    "sha256": "f2e3b51baa797b88ebe7271f6d4213039caf0bb812af7d3640c6e16aa11f8046",
+    "mtime_utc": "2015-04-02T15:43:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\05a.wmf",
+    "bytes": 2288,
+    "sha256": "d5068d00bd9ae890acc8004ec0aeba79653b03bd062cdc774897c1a5958ec493",
+    "mtime_utc": "2016-05-15T09:05:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\06.wmf",
+    "bytes": 2198,
+    "sha256": "308e909d100b02d6fdb479cc3f1f252c165d0edd9536a8c5c2ed7feba3869fdf",
+    "mtime_utc": "2015-04-02T15:44:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\07.wmf",
+    "bytes": 1918,
+    "sha256": "00eaa05a07e38a81d1b035fc804d6eeeabacc3daa595a333e46981a52a875300",
+    "mtime_utc": "2015-04-02T15:44:34+00:00"
+  },
+  {
+    "rel_path": "dangthep\\07a.wmf",
+    "bytes": 1918,
+    "sha256": "ba2c6b8a3cefef20a34c91997519c3fcba7a7341f697debaadd3728adf5887fe",
+    "mtime_utc": "2016-05-15T05:04:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\08.wmf",
+    "bytes": 2190,
+    "sha256": "7ff4156bde42f4a13c10538a77eb930251c82c0053caae83bedb431f31d6c456",
+    "mtime_utc": "2015-04-02T15:44:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\08a.wmf",
+    "bytes": 2190,
+    "sha256": "5f115781f54c1f276a98454bcb2633e12d7b39cda46feb6694bc8a1741ae4fa5",
+    "mtime_utc": "2015-04-02T15:57:26+00:00"
+  },
+  {
+    "rel_path": "dangthep\\09.wmf",
+    "bytes": 2318,
+    "sha256": "d678b6fcaa7b7f81e0d35f2047f6f0105c3189b572d10fad94503f70398145d3",
+    "mtime_utc": "2015-04-02T15:45:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\09a.wmf",
+    "bytes": 2358,
+    "sha256": "2af8c7e417c6707fe922dcb38dffff2a8342bbf10e9262c7affdfe05478b6f96",
+    "mtime_utc": "2015-08-15T19:07:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\10.wmf",
+    "bytes": 2190,
+    "sha256": "e78c46fcdb37b2a434794205379530eb547c08e711e1c8711d55c6aece48bcd6",
+    "mtime_utc": "2015-04-02T15:45:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\11.wmf",
+    "bytes": 2462,
+    "sha256": "275f56d845153ed7a46cc200734cedaab14ab96caac3df050435d219b25c4662",
+    "mtime_utc": "2015-04-02T15:45:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\12.wmf",
+    "bytes": 2462,
+    "sha256": "39ad923262c4c400611be0f663e5b2c8909e5830db5c2c67fbd6e0c7b75740e1",
+    "mtime_utc": "2015-04-02T15:45:48+00:00"
+  },
+  {
+    "rel_path": "dangthep\\12a.wmf",
+    "bytes": 2462,
+    "sha256": "90095f50f44426c86e21bc7b0fd0ec11ffc9d6914c6181f22cede6345a29ed20",
+    "mtime_utc": "2015-04-02T15:57:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\13.wmf",
+    "bytes": 2738,
+    "sha256": "65ca6d9170953196b54a8139cebcf21a7660af8264de0962c3e4a9837576ae33",
+    "mtime_utc": "2015-04-02T15:45:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\13a.wmf",
+    "bytes": 2738,
+    "sha256": "7203feae9e816f15bcf53648e06739595c0053f72e3ef910045d109960449acd",
+    "mtime_utc": "2015-04-02T15:57:46+00:00"
+  },
+  {
+    "rel_path": "dangthep\\14.wmf",
+    "bytes": 2462,
+    "sha256": "dcbbf7f1caf58578bbb8838e76cf37ec2fe2050e6a6ce38e6e2b4508e3536ad1",
+    "mtime_utc": "2015-04-02T15:46:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\15.wmf",
+    "bytes": 2190,
+    "sha256": "10986bf9d11243833798c9d3f3f0fc64f53d6daaf2b2acff6a1cc367d4fe2f80",
+    "mtime_utc": "2015-04-02T15:46:20+00:00"
+  },
+  {
+    "rel_path": "dangthep\\15a.wmf",
+    "bytes": 2190,
+    "sha256": "60d05ed76a7bff4db8e6239b554d3c723f18dcb67a7d3383090dbe7bd99a5365",
+    "mtime_utc": "2016-06-26T03:59:24+00:00"
+  },
+  {
+    "rel_path": "dangthep\\16.wmf",
+    "bytes": 4354,
+    "sha256": "4af6c13ee80d7f4472b9a5e0a57f6f4e9cbf8c478efeed9828dd75fb2731e4db",
+    "mtime_utc": "2015-04-02T15:46:34+00:00"
+  },
+  {
+    "rel_path": "dangthep\\17.wmf",
+    "bytes": 3812,
+    "sha256": "b9a963313d7f0be27b58e767ea726ef33a744514949cc1afd386a4e7bcd7f112",
+    "mtime_utc": "2015-04-02T15:46:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\18.wmf",
+    "bytes": 2190,
+    "sha256": "ef3c47400ccffd888f5a1adbec14af6703e375d27e7d420eb3a80287f5b7f4d9",
+    "mtime_utc": "2015-04-02T15:46:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\18a.wmf",
+    "bytes": 2190,
+    "sha256": "05be52ddbb30cfe24bd388b65cc72198c989fd9de226b4b17e21d48475402f5b",
+    "mtime_utc": "2016-05-15T04:53:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\19.wmf",
+    "bytes": 2466,
+    "sha256": "476eca4eace7b7090c6ecf023770e8ec629c9589f0508cd7d6b9d743cc0bb446",
+    "mtime_utc": "2015-04-02T15:47:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\20.wmf",
+    "bytes": 2462,
+    "sha256": "6bf16d7d087c0b99a1e449dae614534caddd61d2bbba3f77499c63fe9baad955",
+    "mtime_utc": "2015-04-02T15:47:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\21.wmf",
+    "bytes": 2734,
+    "sha256": "7f5e3fa1c2f4d1e63ce7837adf654dfe2ca485c22aca3931288aafcee8877457",
+    "mtime_utc": "2015-04-02T15:47:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\22.wmf",
+    "bytes": 2286,
+    "sha256": "0d9aa99048eaf582e3c843fc1d6e5cdc410a539eeab1ac471c99372bc408dc9c",
+    "mtime_utc": "2015-04-02T15:47:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\23.wmf",
+    "bytes": 2870,
+    "sha256": "4c0abd24acb1f92d3df9d489d9fdd8355e68285966883f4ccde5ac6aea243326",
+    "mtime_utc": "2015-04-02T15:47:56+00:00"
+  },
+  {
+    "rel_path": "dangthep\\23a.wmf",
+    "bytes": 2938,
+    "sha256": "08ac9aad54d631117859de10c26e356884bc3b588b6e447cac3e6a7e9a24e38a",
+    "mtime_utc": "2017-07-01T10:00:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\24.wmf",
+    "bytes": 2254,
+    "sha256": "9199f4c6a3df18ea1f413fa5cbedb08dc04debdf0c9281a06e3b6083980ec71f",
+    "mtime_utc": "2015-04-02T15:48:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\24a.wmf",
+    "bytes": 2362,
+    "sha256": "2bc9383dcfc0644a2c72e1b33be389e966c976d78fc5582ac922830151ad3afd",
+    "mtime_utc": "2018-09-19T10:51:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\25.wmf",
+    "bytes": 2654,
+    "sha256": "824764bdb67c88e1b150eb8e103254be6d0b109a53d54126631f28775da56e91",
+    "mtime_utc": "2015-04-02T15:48:18+00:00"
+  },
+  {
+    "rel_path": "dangthep\\26.wmf",
+    "bytes": 3442,
+    "sha256": "fb9b8fc1945bdfd2c0457631891f5358a2a080cb9a718571ff19070dd1b3b255",
+    "mtime_utc": "2015-04-02T15:48:26+00:00"
+  },
+  {
+    "rel_path": "dangthep\\27.wmf",
+    "bytes": 2926,
+    "sha256": "86fb5a8d1ab0ccf0df0f31dbfc485437dbb17edf19e7582b1c9a71f45396c673",
+    "mtime_utc": "2015-04-02T15:48:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\28.wmf",
+    "bytes": 2670,
+    "sha256": "3b622943b7f49b200ef4d8bf97549271950056b226a199a0f24454a47d0730c6",
+    "mtime_utc": "2015-04-02T15:48:48+00:00"
+  },
+  {
+    "rel_path": "dangthep\\29.wmf",
+    "bytes": 2894,
+    "sha256": "2ef8350a6a61b9f3d3a573328d4f8f64748fa5d1e4785c28bf8892feeb370f29",
+    "mtime_utc": "2015-04-02T15:54:20+00:00"
+  },
+  {
+    "rel_path": "dangthep\\30.wmf",
+    "bytes": 3218,
+    "sha256": "cad812d9eb2c52bf0f6f02bc113111ff470c9c0eba8f0b852750ac57f3976459",
+    "mtime_utc": "2015-04-02T15:54:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\31.wmf",
+    "bytes": 2910,
+    "sha256": "9da0344be3625e3d4e9539caf7a19f982531b1a473f5a56667602f563ada955c",
+    "mtime_utc": "2015-04-02T15:55:18+00:00"
+  },
+  {
+    "rel_path": "dangthep\\32.wmf",
+    "bytes": 2550,
+    "sha256": "f40da06f92ae0e6bd5c96816322d9e012080164b1a693534e86fff3adaee4362",
+    "mtime_utc": "2015-04-02T15:55:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\33.wmf",
+    "bytes": 2926,
+    "sha256": "6fec8aee58d00f2ba4fed679e69633956122ff9939dc976c59ca26eb857cd7ea",
+    "mtime_utc": "2015-04-02T15:55:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\34.wmf",
+    "bytes": 2968,
+    "sha256": "2e5397880d6508e23e60095b71ead6886322e7e358f533dde5e2e247fad7bdf6",
+    "mtime_utc": "2015-04-02T15:55:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\35.wmf",
+    "bytes": 3550,
+    "sha256": "8022b3f1a140a1a66c98507cba42a52a88fd880869e22e5d8e9eff24b04bfe0d",
+    "mtime_utc": "2015-04-02T15:56:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\36.wmf",
+    "bytes": 3790,
+    "sha256": "5047670688a21fff38880a08b6c00c82b05291f7c0a2cc85d7b209ab0e0af59b",
+    "mtime_utc": "2015-04-02T15:56:12+00:00"
+  },
+  {
+    "rel_path": "dangthep\\37.wmf",
+    "bytes": 2734,
+    "sha256": "311ecec8860a50ea0d6851e0a62a25a94b561df5ff4803140cd22abade8124c0",
+    "mtime_utc": "2015-04-02T15:56:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\38.wmf",
+    "bytes": 2366,
+    "sha256": "f86743191fa193d4e941effcf568e642f0e91f43149780a7aba5ed75d7ad930e",
+    "mtime_utc": "2015-04-02T15:56:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\39.wmf",
+    "bytes": 3108,
+    "sha256": "0288f65e72a4cd4107d5e554f9706d4641d63cff1d40603466ba68c268f29b0e",
+    "mtime_utc": "2015-04-02T15:56:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\40.wmf",
+    "bytes": 3926,
+    "sha256": "37863419438d6e18a3628024eca0b827962ce45260500b2e70488a05ef52152e",
+    "mtime_utc": "2015-04-02T15:56:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\41.wmf",
+    "bytes": 1922,
+    "sha256": "c8f2e2b8ca2f5f8eea748547c99de9601981093000069da1d585cf37e3d837ed",
+    "mtime_utc": "2016-03-14T03:49:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\42.wmf",
+    "bytes": 2190,
+    "sha256": "f1499d0d29ce190b029c2e87d003612c004a1cd4af8e5b89fff81fcdc48b14d6",
+    "mtime_utc": "2016-03-14T03:49:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\43.wmf",
+    "bytes": 3010,
+    "sha256": "e469e4d146af42c97b03c4db32756eddf0b51e799a199840749a13aac12f2175",
+    "mtime_utc": "2015-04-02T15:57:08+00:00"
+  },
+  {
+    "rel_path": "dangthep\\43a.wmf",
+    "bytes": 3010,
+    "sha256": "07ad3b93f7c1002fb3d1431a31728af0dc25087d2921d262acf0b3ff436f7cde",
+    "mtime_utc": "2015-04-02T15:57:56+00:00"
+  },
+  {
+    "rel_path": "dangthep\\44.wmf",
+    "bytes": 2466,
+    "sha256": "70b7c2d3d1c1d2ce9dde688e6480220f46da78a456a121a363ff0867685e5b77",
+    "mtime_utc": "2015-04-02T15:57:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\45.wmf",
+    "bytes": 2734,
+    "sha256": "512aafeaea760583e680f2053d7adb7d099de800771d8af645b1b4338738f67f",
+    "mtime_utc": "2015-09-29T03:30:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\45a.wmf",
+    "bytes": 2734,
+    "sha256": "9d7b7030d85ac7ba1f48cff69be27eb450ab1f87ca4970c45b270a1a8d2d617b",
+    "mtime_utc": "2016-06-27T14:49:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\46.wmf",
+    "bytes": 2734,
+    "sha256": "4adf395c91458480db061fe9f1ef8e7d1e50135f8927bba101572dbef6867d02",
+    "mtime_utc": "2015-09-29T04:15:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\47.wmf",
+    "bytes": 2734,
+    "sha256": "f4da27b440ed9b0471809935a3f9d072eb77ad8f22de3115f4d4ebe142461801",
+    "mtime_utc": "2015-12-22T07:58:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\48.wmf",
+    "bytes": 2476,
+    "sha256": "0e4997e7d19e70df166ab2e432a60d6d3eaef2721dd14a585964927c5e912d9e",
+    "mtime_utc": "2016-02-27T09:06:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\49.wmf",
+    "bytes": 2734,
+    "sha256": "812a942eb8d97fa161853f965f73b8451c718940f57382b530920246d15f18c4",
+    "mtime_utc": "2016-02-27T09:06:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\49a.wmf",
+    "bytes": 2734,
+    "sha256": "fade2ca42891981b36d9af2b64af3723620cadb244250e768ff58dc6a85c4347",
+    "mtime_utc": "2016-03-27T10:34:20+00:00"
+  },
+  {
+    "rel_path": "dangthep\\50.wmf",
+    "bytes": 2476,
+    "sha256": "bc889f8e61b045f5d02ab01d88910222adfa9447d86087dcf0e54614fea1e408",
+    "mtime_utc": "2016-02-29T03:49:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\51.wmf",
+    "bytes": 3026,
+    "sha256": "c6571c7eb49529dbc184613bfbf247c8ff1dae6bc8312580f9689ccf8f7be9f9",
+    "mtime_utc": "2018-03-24T18:18:46+00:00"
+  },
+  {
+    "rel_path": "dangthep\\51a.wmf",
+    "bytes": 3006,
+    "sha256": "5c4a716db167ca3e7fd04ea6cdbbdd0c4733448a9b4174acc312908a93ebb198",
+    "mtime_utc": "2016-03-27T04:22:40+00:00"
+  },
+  {
+    "rel_path": "dangthep\\52.wmf",
+    "bytes": 2006,
+    "sha256": "0b0a3fb2b64e4befd29a1ea436c8108a96e2699d710567528665adbbd077fd63",
+    "mtime_utc": "2016-03-27T04:22:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\53.wmf",
+    "bytes": 2734,
+    "sha256": "d22aee09e56b2f1b8d24c85db5049e839b22069ac9c4f5d4d4329030162b4c4b",
+    "mtime_utc": "2016-05-15T05:06:34+00:00"
+  },
+  {
+    "rel_path": "dangthep\\53a.wmf",
+    "bytes": 2734,
+    "sha256": "0d600fcb01353e64660e0f71af8d20d5e30702623b5d5f2ecf509dcfe13139f0",
+    "mtime_utc": "2016-06-27T15:41:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\54.wmf",
+    "bytes": 2462,
+    "sha256": "9f8a075d2470a16353c255787488a9db82793d6bcab622a01307776dedd6689c",
+    "mtime_utc": "2016-05-15T05:16:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\55.wmf",
+    "bytes": 3006,
+    "sha256": "d1ace6afb47fe5b74c8aba0ab59369fe39fdeb61364f92f121ab33a361795933",
+    "mtime_utc": "2016-05-15T05:16:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\56.wmf",
+    "bytes": 2530,
+    "sha256": "117f569befa2e75103f31ff390b059b8a42d1023504a9a23226c7afb06129f25",
+    "mtime_utc": "2016-06-14T16:07:24+00:00"
+  },
+  {
+    "rel_path": "dangthep\\57.wmf",
+    "bytes": 2246,
+    "sha256": "ff8b857849c98c91b5cbff7633bdc0cc31da2a86c099d943b3021dac240b5637",
+    "mtime_utc": "2016-06-14T16:07:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\58.wmf",
+    "bytes": 2302,
+    "sha256": "ec7ec4179fdd932e28dd14967d58cdee20ffc4fcba443fc957a0d539bd41b04b",
+    "mtime_utc": "2016-06-17T17:21:04+00:00"
+  },
+  {
+    "rel_path": "dangthep\\59.wmf",
+    "bytes": 2574,
+    "sha256": "68a3e3171888e2c6a52feef7ac38892db98ed8373c6c16f8139110a6a0635122",
+    "mtime_utc": "2016-06-17T17:54:48+00:00"
+  },
+  {
+    "rel_path": "dangthep\\60.wmf",
+    "bytes": 2734,
+    "sha256": "d7537a6ed9d37c2b0d77d5e66cdaa00ee645aed7d5acb09227beba7f0a577566",
+    "mtime_utc": "2016-06-27T14:49:30+00:00"
+  },
+  {
+    "rel_path": "dangthep\\61.wmf",
+    "bytes": 5588,
+    "sha256": "5b21985792504ecee651e5d4a92f394039eff31f9a7353f41b1af276afcfac24",
+    "mtime_utc": "2016-12-21T08:22:24+00:00"
+  },
+  {
+    "rel_path": "dangthep\\62.wmf",
+    "bytes": 5316,
+    "sha256": "dd43765f6ec1b8557e8c3417e6c4bef5dcbeaa520e05050b647983db662f215e",
+    "mtime_utc": "2016-12-21T08:23:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\62a.wmf",
+    "bytes": 5316,
+    "sha256": "cf20389e6b6228848d708bdf1ecb694d5e6d92173178ec58133591d60fa67d43",
+    "mtime_utc": "2016-12-21T08:23:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\63.wmf",
+    "bytes": 5030,
+    "sha256": "74ff09b2c5706d18202a468968bcf12a198db5d914eb41287c1e9a9fcc47ed90",
+    "mtime_utc": "2016-12-21T08:24:02+00:00"
+  },
+  {
+    "rel_path": "dangthep\\64.wmf",
+    "bytes": 2966,
+    "sha256": "50a1a4a1162174dd797054bb71a9913e14c4400b448d89065f5c30300757ab90",
+    "mtime_utc": "2018-03-24T18:12:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\65.wmf",
+    "bytes": 3006,
+    "sha256": "e0be02a969b80f6ba254dbca60ce94f19d5000c814a5328110ad9f7cdda5092a",
+    "mtime_utc": "2016-03-27T04:22:20+00:00"
+  },
+  {
+    "rel_path": "dangthep\\65a.wmf",
+    "bytes": 3026,
+    "sha256": "e227b027eeaccd18e8d26b127750ed6db8b200907d141d597e6a77173c2bd13f",
+    "mtime_utc": "2018-03-24T18:17:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\66.wmf",
+    "bytes": 3026,
+    "sha256": "435dca1844ad586fd82513a999d55ca3eb7d08c8293836ed16d39a49184db53b",
+    "mtime_utc": "2018-04-02T22:59:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\67.wmf",
+    "bytes": 9370,
+    "sha256": "145b9e50770efa9f3c5dad13951486ba15f19cbffa2f88822d1dd7f44645759d",
+    "mtime_utc": "2019-10-26T10:23:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang00.wmf",
+    "bytes": 2146,
+    "sha256": "d2bd563ed3052597e2bc08b3a1bb1b2b142b3aff13f297f6924ca5772f6dad1c",
+    "mtime_utc": "2019-01-23T21:53:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang01.wmf",
+    "bytes": 2500,
+    "sha256": "b62d161f9627bba3a2d7f0d42aa95303e416c313bb47827d78fc7b96047a8a18",
+    "mtime_utc": "2015-03-31T16:09:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang02.wmf",
+    "bytes": 8028,
+    "sha256": "5eb9285c7efd3e766e7b391c7e7251c21e9b19f2b76e61cbda5e6560efecabd6",
+    "mtime_utc": "2015-03-31T16:10:12+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang03.wmf",
+    "bytes": 3052,
+    "sha256": "a5dd9e108dc3a7c5088c3ccde4e09730ecca38cae8c1e13e91e71092acd5f547",
+    "mtime_utc": "2015-03-31T16:10:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang04.wmf",
+    "bytes": 3528,
+    "sha256": "333acda949d36374ae94f7ec8f3be8cfaee5b144e3db2fc76e92c4cc6b27852b",
+    "mtime_utc": "2015-03-31T16:10:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang05.wmf",
+    "bytes": 3808,
+    "sha256": "77d31e3425474431137149de16d7f97f8fad263df55dd1bf00b1df1662f26b24",
+    "mtime_utc": "2015-03-31T16:11:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang06.wmf",
+    "bytes": 3848,
+    "sha256": "aa827936e8aa0416ce33754f9999c7f0e7de45fc4a9517c05b42d5b78a4b7f0d",
+    "mtime_utc": "2015-03-31T16:11:46+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang07.wmf",
+    "bytes": 2944,
+    "sha256": "65dbe59dfd95c2dc986451ba72759adb6689c5ec7bc78b52cfd0df74633c4cda",
+    "mtime_utc": "2015-03-31T16:12:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang08.wmf",
+    "bytes": 3544,
+    "sha256": "7b73e8963639fd4d32f6f128c920f8c7bce0253163fb155bfd90649f227d8d02",
+    "mtime_utc": "2015-03-31T16:12:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang08a.wmf",
+    "bytes": 3624,
+    "sha256": "75313ced759f9790a4ca8ec443e25486b5678bd893f18b5c27806047b8b51ea6",
+    "mtime_utc": "2015-03-31T17:00:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang09.wmf",
+    "bytes": 9374,
+    "sha256": "933c6573ea2e8e9d898a443a659a27e554fb1c0af12e5a561b0216228fc76421",
+    "mtime_utc": "2013-05-10T09:32:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang10.wmf",
+    "bytes": 3420,
+    "sha256": "f73b0937bd68863d57a0f0f9cb8d63710941c6606a526439189e9f66ccb27c88",
+    "mtime_utc": "2013-05-10T09:33:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang11.wmf",
+    "bytes": 3962,
+    "sha256": "1381cd457de09ffb2b1f93bcdeb6dd7ecc491e9b4cc102424d7e46618b23268b",
+    "mtime_utc": "2013-05-10T09:33:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang12.wmf",
+    "bytes": 3916,
+    "sha256": "755d3481294fd16d97c929fefc390b15e6d0da435f34bf5f3c215038bf4552b1",
+    "mtime_utc": "2013-05-10T09:52:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang12a.wmf",
+    "bytes": 3996,
+    "sha256": "0dee84986c124638b72631223d735fb9c80cc7b2283787af117100b41edadc45",
+    "mtime_utc": "2015-03-31T17:14:32+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang13.wmf",
+    "bytes": 4572,
+    "sha256": "7d373f7e72deeb55c9a82350725ffa480ba66bed3722948211c568039b1e73f4",
+    "mtime_utc": "2013-05-10T09:51:46+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang13a.wmf",
+    "bytes": 4652,
+    "sha256": "2a1aa73caf0aaaf76c4284ab333e56e8cea2080eda47b2e3d6c390cb01d43781",
+    "mtime_utc": "2015-03-31T17:01:54+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang14.wmf",
+    "bytes": 3928,
+    "sha256": "9e3637b12abf6794ec1cd18f9788b73fc81d700f6b1a463f9d77c12983a27fb0",
+    "mtime_utc": "2013-05-10T09:51:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang15.wmf",
+    "bytes": 3420,
+    "sha256": "120db2232f82ac1f553d462b67a250a3a6107c63f85864d82dbafc0e8646e153",
+    "mtime_utc": "2013-05-10T09:50:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang16.wmf",
+    "bytes": 15534,
+    "sha256": "4948f0b6f5204f53e4568548f9b9c5342dd511e2afe95ca1e849d23ab09a1e9a",
+    "mtime_utc": "2015-03-31T16:14:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang17.wmf",
+    "bytes": 8432,
+    "sha256": "298b0ae9af14678d25740d36275d13c89f3500b12d9ce00c8977e1ff4eeb7f24",
+    "mtime_utc": "2015-03-31T16:14:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang18.wmf",
+    "bytes": 3628,
+    "sha256": "8b4996a1761cca1b395a1e464875a120f0188d61df65c983ced8870b31ef33b6",
+    "mtime_utc": "2013-05-10T09:48:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang19.wmf",
+    "bytes": 19354,
+    "sha256": "357f725926324a4d2e47b89768509bdbf2728aaf2dce54b0791b9cea607b2406",
+    "mtime_utc": "2015-03-31T16:16:30+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang20.wmf",
+    "bytes": 4144,
+    "sha256": "058f49848e15d06b34309de71d3c1af9c1d9bf346e2c0a25e06ef11d6eeba7fa",
+    "mtime_utc": "2015-03-31T16:25:34+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang21.wmf",
+    "bytes": 4376,
+    "sha256": "a52c53063c4a92a7668b40654850fa76faed8ef2c5da1251e8bdfed19be14968",
+    "mtime_utc": "2014-10-27T09:02:46+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang22.wmf",
+    "bytes": 5444,
+    "sha256": "0f3b1e05756562dd2df44179cca075c4b713096adc09094d1c12eb10964f75e9",
+    "mtime_utc": "2013-05-12T04:57:56+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang23.wmf",
+    "bytes": 7456,
+    "sha256": "35fe3d13f4c9a66aa753d3b1faf9409f888a192b4c9af5af9e583e84cc9eda1c",
+    "mtime_utc": "2013-05-12T04:57:40+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang23a.wmf",
+    "bytes": 10214,
+    "sha256": "0198b3368ce0285062ac8cfee438782ab9ce0096a4e5c5045d3b7befc39241e4",
+    "mtime_utc": "2017-07-01T10:02:40+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang24.wmf",
+    "bytes": 7260,
+    "sha256": "4de1f17601b1767b6fdfdbb993e8631b1761b1945be6eac784dddb1909d79e7e",
+    "mtime_utc": "2013-06-04T07:28:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang24a.wmf",
+    "bytes": 7292,
+    "sha256": "91c61454f9611b14fbf03ca51401ba62b6d40e2cecc435048b42258606c9c338",
+    "mtime_utc": "2018-09-19T10:45:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang25.wmf",
+    "bytes": 7488,
+    "sha256": "e2351614071de4b3d6ac7fe1e65713757261647f2dde04d1e9e173613020ddaa",
+    "mtime_utc": "2013-05-12T04:57:06+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang26.wmf",
+    "bytes": 12708,
+    "sha256": "75f00cd2b655af9b327e46a69faa06eef3b313835951ec806017cd929041b644",
+    "mtime_utc": "2013-05-12T04:56:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang27.wmf",
+    "bytes": 7792,
+    "sha256": "f1ab07deeab07cd48a0f2d796a97faac5460b5926d57480d9a4e1b09291b271c",
+    "mtime_utc": "2013-05-12T04:56:26+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang28.wmf",
+    "bytes": 6848,
+    "sha256": "7fa64c1257ca55f42f3c6e0e64b37c9d7fd3960055c36f6d1d7fa2a77e689e70",
+    "mtime_utc": "2013-05-12T04:56:08+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang29.wmf",
+    "bytes": 8036,
+    "sha256": "371a9890da4b2e1cda36428bf3f0f1c49ead4ef69a84f8054e1bad7f5a044b38",
+    "mtime_utc": "2013-05-12T04:55:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang30.wmf",
+    "bytes": 7988,
+    "sha256": "7e0d5fc7a36386a368de8c13597cc6d9037818328f8de7e0430bfdfbf3bed6f2",
+    "mtime_utc": "2015-03-31T16:26:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang31.wmf",
+    "bytes": 8042,
+    "sha256": "0f03e0264e80e358c0c6ee6be2d8a7f6bd1086a09d737fdd7c9af46aee40b44b",
+    "mtime_utc": "2013-05-12T05:26:02+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang32.wmf",
+    "bytes": 5926,
+    "sha256": "6536b48ea3ae04718bed1f4e801ff25ee4d1ee87e81a68c21b2f63421821a445",
+    "mtime_utc": "2013-05-12T05:25:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang33.wmf",
+    "bytes": 8024,
+    "sha256": "09402f1aa2b81caed5929ec7c6032b7eb3ef4ae40cad55fcf9b1c092cf3fed4b",
+    "mtime_utc": "2013-05-12T05:25:30+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang34.wmf",
+    "bytes": 7702,
+    "sha256": "330fb51127975337299226ce3b250e8d065da93eb1fc210e5d6521d640d020ec",
+    "mtime_utc": "2013-05-12T05:25:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang35.wmf",
+    "bytes": 6154,
+    "sha256": "7f01e61cff6dcf81e2e966a91b6785ca6dbec8a2501ff7a426c74ed78feb02df",
+    "mtime_utc": "2013-05-12T05:25:00+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang36.wmf",
+    "bytes": 8882,
+    "sha256": "ed2c4a3f2769c522799e98fea715c0a5e849b742acefe4777d57040cfc0a1747",
+    "mtime_utc": "2013-05-12T05:24:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang37.wmf",
+    "bytes": 4788,
+    "sha256": "8f4d56f467c740f65cdcf9fe98403af5ca359997e06b66e6c0166f3b805eb0b0",
+    "mtime_utc": "2013-05-12T05:24:26+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang38.wmf",
+    "bytes": 6392,
+    "sha256": "7a957134586f2231430f289b4425cf5aa5073fdf6461a9a5c689ad625cca2fa1",
+    "mtime_utc": "2013-05-12T05:24:06+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang39.wmf",
+    "bytes": 10890,
+    "sha256": "54ae5955c4f8e5e96669804394072c9d1313bc81d77984d4f9c4bb7b7ae4b232",
+    "mtime_utc": "2013-05-12T05:23:48+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang40.wmf",
+    "bytes": 43776,
+    "sha256": "67c62df6e28b03bf08e989550e6fdad0a3808b99ebb3615fc873ce89babcdfe6",
+    "mtime_utc": "2013-05-12T05:23:24+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang43.wmf",
+    "bytes": 5108,
+    "sha256": "b2b7b186610a20db93430f0c9f9564f617c438828f59a61c26e2edce9cb4ecfb",
+    "mtime_utc": "2015-03-23T16:13:26+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang43a.wmf",
+    "bytes": 5188,
+    "sha256": "801761aec1384ea9043c80f57ce63b4cc5201a873198fbe1be43c3538d036311",
+    "mtime_utc": "2015-03-31T17:02:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang44.wmf",
+    "bytes": 3996,
+    "sha256": "098f279ecf5d4f914846841bc0a220a6bff71d2c29340ac2cfd59c502e34534b",
+    "mtime_utc": "2015-03-31T17:08:28+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang45.wmf",
+    "bytes": 4400,
+    "sha256": "1f056f096bc5bf84723c67600343c67a0218a7dc36e6d449a918d6f5ad9eee72",
+    "mtime_utc": "2015-09-29T03:35:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang46.wmf",
+    "bytes": 4472,
+    "sha256": "f31a52fbd88f254d81225c7d72f34a20c207955d5e0cbdc5b2a2659c092046ad",
+    "mtime_utc": "2015-09-29T04:16:08+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang47.wmf",
+    "bytes": 4388,
+    "sha256": "b27393883c5fc59fc23d014d9635e0d79bf23f442bad957c5be2c3a59042dc28",
+    "mtime_utc": "2015-12-22T07:53:20+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang48.wmf",
+    "bytes": 4464,
+    "sha256": "2e762b23780a8fc75a5c44aca94ad787a658e76395cc7a74db5d02d02c5c71a9",
+    "mtime_utc": "2016-02-27T09:09:02+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang49.wmf",
+    "bytes": 4376,
+    "sha256": "c886578fe9ad7c8a7fd23c405e5716908dbeebb5435dbbb7f1893493ed4137b4",
+    "mtime_utc": "2016-02-27T09:09:30+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang49a.wmf",
+    "bytes": 4488,
+    "sha256": "ee785848018a470f6de4b3d1249f502117d0b26f035362e2ca85c09c38becc8a",
+    "mtime_utc": "2016-03-27T10:33:44+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang50.wmf",
+    "bytes": 4344,
+    "sha256": "2b54340691c5fe8a8cb26affbf636c2735641807dcdbe2e4c6a8142eb0c3d570",
+    "mtime_utc": "2016-02-29T03:50:58+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang51.wmf",
+    "bytes": 4708,
+    "sha256": "478db8065d88611faabccd80adb6477b054aecffab8bc7018c6a4dc40b6b504c",
+    "mtime_utc": "2018-03-24T18:16:42+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang51a.wmf",
+    "bytes": 4952,
+    "sha256": "1645a7f5ac686ca58b8ef263f90580fd9cc477a3bfbc6d3717d06b391ca41b9b",
+    "mtime_utc": "2016-03-27T04:20:10+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang52.wmf",
+    "bytes": 5928,
+    "sha256": "5a654cc139e45b60c7d4762183624a83fdd423c0a1bf0cb215300aa02d184245",
+    "mtime_utc": "2016-03-27T04:20:30+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang53.wmf",
+    "bytes": 4416,
+    "sha256": "2e447fa74fe7097a7eaca777f82bc146875e99960db239e36c080166b9a66b66",
+    "mtime_utc": "2016-05-15T05:21:24+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang53a.wmf",
+    "bytes": 4432,
+    "sha256": "e977c657f121a26ccb2eb7a8656018b8ba5c76781eca90b445803f829f9b15f5",
+    "mtime_utc": "2016-06-27T15:40:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang54.wmf",
+    "bytes": 3972,
+    "sha256": "6033f4043e14b13ad760cbe873dc3c0dddb4f8555993147bd45d9246453b5691",
+    "mtime_utc": "2016-05-15T05:21:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang55.wmf",
+    "bytes": 4908,
+    "sha256": "00e740eddda6615e38311dab88be6ead5b57838cb10152f6eba642f603c4be53",
+    "mtime_utc": "2016-05-15T05:22:12+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang56.wmf",
+    "bytes": 5816,
+    "sha256": "b104e1ae565d29956b7d69d83b4d5a762e23a210a0789dbd762d83ca967e1aac",
+    "mtime_utc": "2016-06-14T16:05:40+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang57.wmf",
+    "bytes": 4656,
+    "sha256": "35a88fa90d1f568892ae2e57fb9835d07cfb23c4169d686d1512d7f322e4bd82",
+    "mtime_utc": "2016-06-14T16:06:18+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang58.wmf",
+    "bytes": 3622,
+    "sha256": "c5a1fa2377b396f13851dd8b46d7bda9f58e29b2426c1436f7905152f0e12362",
+    "mtime_utc": "2016-06-17T17:19:22+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang59.wmf",
+    "bytes": 4036,
+    "sha256": "b4aa45476a73d2a03c1f82bc8c32ef94951a0a8fcb96d30110f5c7ca97d34e16",
+    "mtime_utc": "2016-06-17T17:55:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang60.wmf",
+    "bytes": 4512,
+    "sha256": "65c199d8e9e79d297f75f1f14523c97482ea349ccf6c3af28fcbb0d50572cf4d",
+    "mtime_utc": "2016-06-27T14:50:50+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang61.wmf",
+    "bytes": 8232,
+    "sha256": "751d5737bd6f07bcb13e31886a390da1100754ed9eaf392b0908d7e129b6b1e2",
+    "mtime_utc": "2016-12-21T08:25:06+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang62.wmf",
+    "bytes": 7764,
+    "sha256": "8dd3417d3b9b590cd940c4cfe12b337f14c4bce8b20d4bc29034b33f8355ec5f",
+    "mtime_utc": "2016-12-21T08:25:36+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang63.wmf",
+    "bytes": 7244,
+    "sha256": "9cd61b34dfdae6b97afb89727d17628d161e3564fe4f97c5674c2989855cd86c",
+    "mtime_utc": "2016-12-21T08:26:16+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang64.wmf",
+    "bytes": 9556,
+    "sha256": "90d20cac636f742b22a56ed239d594fd844030ae2959698931fea23575b723c8",
+    "mtime_utc": "2018-03-24T18:13:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang65.wmf",
+    "bytes": 4784,
+    "sha256": "72cada1a0e90ac57b6a8a78cc3ca322558bc29676631c7635b790ce09f6d9d9b",
+    "mtime_utc": "2018-03-24T18:27:52+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang65a.wmf",
+    "bytes": 4864,
+    "sha256": "17a2d63bfe0eb9632de301c0a33909ad91f5e6e4050d54881c1dc7d880640ba6",
+    "mtime_utc": "2018-03-24T18:17:14+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang66.wmf",
+    "bytes": 4936,
+    "sha256": "ff5e1132c31c4c482c1f11b781a8329b58e005d901d250e418eb2f4af610cf90",
+    "mtime_utc": "2018-04-02T22:58:38+00:00"
+  },
+  {
+    "rel_path": "dangthep\\dang67.wmf",
+    "bytes": 9846,
+    "sha256": "14f7e96db1e2ec8840f52fef9bd62549e973effde75d573fadaaf5d7cfc7d10c",
+    "mtime_utc": "2019-10-26T10:25:06+00:00"
+  },
+  {
+    "rel_path": "Icon\\ArrangeDrawing.png",
+    "bytes": 4816,
+    "sha256": "50822490419e2519a2029b4e28c5b55e2415fb4e6c11c384c5ca0467e7ba8b80",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Beam.png",
+    "bytes": 2891,
+    "sha256": "d27d0dc4d00a683c8d956f3b0689d31513f3cb52fdb195e89a6559ade321fa0a",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Build Model From Cad.png",
+    "bytes": 5464,
+    "sha256": "7d08b92f43c597f01a482941e165aac92842c3f752a39622409e165b1e743dd9",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Calltag_rebar.bmp",
+    "bytes": 366,
+    "sha256": "5bccea15af90cddc9d0eff1e7b96678d1ac6c8af5000b6c2e1e13171024ef9a5",
+    "mtime_utc": "2019-11-19T08:45:08+00:00"
+  },
+  {
+    "rel_path": "Icon\\Column.png",
+    "bytes": 2460,
+    "sha256": "9152f314cb43b0f31cd40c388ecd545050c0a351a9064eace2484e197008cc24",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Continuous Footing.png",
+    "bytes": 4421,
+    "sha256": "0a4bed902bc4652f457dd97701824fe17e647acb7ec41dd230a5b494f62243ec",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Cut_rebar.bmp",
+    "bytes": 266,
+    "sha256": "1318faf434d75b66a116c5f7a66e81fc48d9cb15259e189a29c52cb49b3bcc9d",
+    "mtime_utc": "2019-11-19T08:46:30+00:00"
+  },
+  {
+    "rel_path": "Icon\\Draw_rebar.bmp",
+    "bytes": 822,
+    "sha256": "01c713cae1cd215059426bb4c31669bb9fc87414b279876b7083c93fa1545d25",
+    "mtime_utc": "2019-11-19T08:41:22+00:00"
+  },
+  {
+    "rel_path": "Icon\\FLoor.png",
+    "bytes": 3349,
+    "sha256": "2d456b59771ea35649ebdf5458a816105680cf935771bcd2917def01bd438582",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Isolated Footing.png",
+    "bytes": 3465,
+    "sha256": "76b1f0834563e124f6814592511dbc23999115ca0a8837ca7ca997339bcfaca4",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Load Family.png",
+    "bytes": 3036,
+    "sha256": "287cff8c8569f68cd7cd12c34a9ad7a5715728a6fd3139c920a493f0176a1edd",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Pile Cap.png",
+    "bytes": 3865,
+    "sha256": "55f767839cfe045608746065db9e4e93b970cc5deca1e00306ddd6adecca35b7",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Pile.png",
+    "bytes": 1845,
+    "sha256": "853f91d00788b054d54b836a45fa9810f918b652b02d70af484e4c4bb1950a2a",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ramp.png",
+    "bytes": 2799,
+    "sha256": "0ba371d78c91796f141c9239fc5003909b53b0bd4babc11c2460cd0674e8d393",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Stair.png",
+    "bytes": 2828,
+    "sha256": "4d801585f0a1d68909cd51c0a031ae9fffc05e1d77a14b12a9d49b4670b2e429",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Update HideElement In Section.png",
+    "bytes": 3879,
+    "sha256": "be583bf07d29af7375375a0e556010524f2267323ed18855b92befbb19d92858",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Update Rebar Image.png",
+    "bytes": 2458,
+    "sha256": "1a76929d3a2c43ddb6490a9bde96d5321158f9d4901fddaa016cd40311405040",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\Wall.png",
+    "bytes": 2937,
+    "sha256": "3cad73506f5b75de6293d957da68bd8a23e1f3b5a5b3b50c03fa8f94e6e13ee1",
+    "mtime_utc": "2022-10-14T08:40:38+00:00"
+  },
+  {
+    "rel_path": "Icon\\calculator_link.bmp",
+    "bytes": 3126,
+    "sha256": "208c0e7225a6db6672fe748676da1ad449f24c2b96ea7be1ff74245719f04014",
+    "mtime_utc": "2011-12-20T15:32:22+00:00"
+  },
+  {
+    "rel_path": "Icon\\copy.bmp",
+    "bytes": 49206,
+    "sha256": "4f842a1de27169c8e3ce2fd9643238ea593022b1aee073cb416e80205ef0c8c9",
+    "mtime_utc": "2012-01-01T08:18:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\del_show_link.bmp",
+    "bytes": 2934,
+    "sha256": "51bb38fbb5a638caed9234b0aae14320a01566264f774dd75e44700e5c1b19bc",
+    "mtime_utc": "2012-02-08T18:32:10+00:00"
+  },
+  {
+    "rel_path": "Icon\\link.bmp",
+    "bytes": 3126,
+    "sha256": "2f246ea3cff523707342f10b299fef6ba89e5851df724509d0c71eace8703bdf",
+    "mtime_utc": "2011-12-20T15:21:02+00:00"
+  },
+  {
+    "rel_path": "Icon\\link_break.bmp",
+    "bytes": 3126,
+    "sha256": "b7a5165f8723ced8695c06e2db9c837d2a5b97d23395e8711db338440b4fca71",
+    "mtime_utc": "2011-12-20T15:19:04+00:00"
+  },
+  {
+    "rel_path": "Icon\\link_edit.bmp",
+    "bytes": 3126,
+    "sha256": "d60950450727ea4f4880f1d74b0d6bff15ce823ca67cfdbe7d505c19439b211b",
+    "mtime_utc": "2011-12-20T15:23:42+00:00"
+  },
+  {
+    "rel_path": "Icon\\show_link.bmp",
+    "bytes": 2934,
+    "sha256": "5f7c85c0b0ad1cefb076629f2e75cbed739646045faa2c9ac8f55e738a5f8891",
+    "mtime_utc": "2012-02-08T18:26:40+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Add_thep_dam.png",
+    "bytes": 255,
+    "sha256": "97bade9cad13c23e8e429257f30db5f9499e8ee338dddff8a7b7e051ead7c7aa",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Etabs.png",
+    "bytes": 406,
+    "sha256": "413eaa78c8f7456e85067cc15abf52c2bc520f2ffccb6fd73c90979ce61f8cc5",
+    "mtime_utc": "2026-04-28T00:01:16+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\QS.png",
+    "bytes": 292,
+    "sha256": "753fbc2b2f35cf12589123dec912ea59b36b4b44b073f3964276b3243e22c323",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\QS_mbkc.png",
+    "bytes": 272,
+    "sha256": "9788786a6844fc9dfbff914291df12d07fee691ee969ffa9c76e1a8be407f99b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\QS_tru.png",
+    "bytes": 269,
+    "sha256": "446b7b1c5bcd5cc61b583cf582895d2317557bc4e7546fb0fe1a32d612fc8063",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Ribbon_Command_Clicks.txt",
+    "bytes": 54,
+    "sha256": "1332b66958a4482aebd682634fac4a1b9a56885a0c52b07bfca3b02b6b0f88bc",
+    "mtime_utc": "2026-09-22T22:32:29.066565+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Save_thep_dam.png",
+    "bytes": 259,
+    "sha256": "b929267686db3b89ad5c395f19b07f8d907dea8d171f2077c0f2ec152093b1f7",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Save_thep_dam_all.png",
+    "bytes": 246,
+    "sha256": "af252157a0cbf34a46ab104309450d9216ac33a6996b42812cfcfb6fdf7ed658",
+    "mtime_utc": "2026-07-08T06:36:44+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\Unhideatt.png",
+    "bytes": 264,
+    "sha256": "2d822741f089853585da9408b8d3d35802b90d83001e7dbdb8a55263681e8213",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\cat_dam.png",
+    "bytes": 454,
+    "sha256": "0fe3b98563bb40395a448a894727140ccd3ff5b3c2d83470965d4a52c2a5c682",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\cat_doituong.png",
+    "bytes": 419,
+    "sha256": "e362d7e8dad2cae5a192973dbb9f7b92f2aea4811a2bdf0461f2d55168c3ae24",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\cat_thep.png",
+    "bytes": 379,
+    "sha256": "e8166d8f7b891601bc7ed1f14fe3388a5808bf30baa3c35c4e80f13c30df04b9",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\cat_tuy_y.png",
+    "bytes": 427,
+    "sha256": "149a581df7cf71e3c2b5d326e169e05fbb80645799c29b314a2677d7db763b67",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\check_lap.png",
+    "bytes": 415,
+    "sha256": "88174317eeef8aa74093669b55e59e275f63ebec31cdcb6a883f6b88d828e025",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\chia_san.png",
+    "bytes": 358,
+    "sha256": "685688cc3a3d66b7ed18c39761b3eb36cb6f038d1ab328ffaed8d1520d40ba3f",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\chia_tam.png",
+    "bytes": 279,
+    "sha256": "7e10c79978a35db4bbac7919ca4e0200a9d54367943ffb44a9138fc22eda5a5b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\chuyen.png",
+    "bytes": 323,
+    "sha256": "7842cf79884ca3abe6500e58b4a742d3533a56730ad17e3b6975c1c17f0cdc32",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\copy_tao_lien_ket.png",
+    "bytes": 308,
+    "sha256": "f01271228d692d5c20ece61a1002ce0534f688e1a30ca21e92394c0793674ea4",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dai135.png",
+    "bytes": 240,
+    "sha256": "73d468b92cd838dee14f67c1fdaed4ddc8858eac4ea9b229b88a25585a7871fc",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dai180.png",
+    "bytes": 237,
+    "sha256": "be6c67df672bfe29347ce151a3c418a33b2fdcf79bf42972dfd377e70348ad6d",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dai90.png",
+    "bytes": 238,
+    "sha256": "ad88322074d4e44aede7c871465799f90dda34909c734918a5a5ced122ce1575",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dai90135.png",
+    "bytes": 235,
+    "sha256": "50adc7fe27de94336c0e6e68f05f122a4f59792939622549a9ec9556e57147b5",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dam_giao.png",
+    "bytes": 285,
+    "sha256": "e958bbcc8befdaa4a555aada2fc08dcaec8013d4d2f76d4c82e69a7589b4bfd4",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\danhmuc.png",
+    "bytes": 251,
+    "sha256": "e42c301908404447ca7387bdeba5480020d59dd68cd5add48ce41e3860f3c1f6",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dimcot.png",
+    "bytes": 255,
+    "sha256": "6a534a6db20e056240adddb017f7428663f22146fb539cf61895fc91d4097a81",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dimthep.png",
+    "bytes": 188,
+    "sha256": "5b73ac1ff5efdd44072e700ebf6af16dafdf7c50de54c80afb138d3ae4f87c28",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\doi_mau_thep.png",
+    "bytes": 237,
+    "sha256": "f53a5cb309db9728ef3e14d5674ac1e4a5689248d05b3d43d948a22e848fe991",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\dten.png",
+    "bytes": 228,
+    "sha256": "b8959d2162b54d101420ff01eb7b21bfffe9fba56b186001ab1cb6507f19f6d5",
+    "mtime_utc": "2026-04-28T00:01:16+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ghi_thep.png",
+    "bytes": 366,
+    "sha256": "5bccea15af90cddc9d0eff1e7b96678d1ac6c8af5000b6c2e1e13171024ef9a5",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\giao_dam.png",
+    "bytes": 236,
+    "sha256": "8111569dc105584b5d5eab7939a4386ba051ee1e840a44e7fb36685d4ae218e2",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\hideatt.png",
+    "bytes": 333,
+    "sha256": "785b82e72a9aed264231ee2d37d0661c4eabe1c55db8cd97508c76cb0b8ab7f8",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\in_tem_thep.png",
+    "bytes": 271,
+    "sha256": "609c6b907930ebae11b43f365d360cceb0a92d657015cbb7f9f333cc5b31a1c9",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\loadbeam.png",
+    "bytes": 268,
+    "sha256": "c11dd54f60038bd01d5dbc4b988981f4025d384aba5593bf3ea9798b4a9f0d95",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\loadcolumn.png",
+    "bytes": 276,
+    "sha256": "6dfcda2abf380aaeace4d5156613cd5f3c35e150e494d80aa6224721c19a3bd4",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\loadwall.png",
+    "bytes": 261,
+    "sha256": "78ff9e405149a829143cbe9d6e947c9a1de98e935769ddc803cdbff743eaac7c",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\neo_thep.png",
+    "bytes": 266,
+    "sha256": "d456ffc3a8bee6978c7c36dd438d08ea59c4c801a14161dc0980acd2d4a97677",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\nhan_thep.png",
+    "bytes": 194,
+    "sha256": "1a74bf8b9a98a78053e1a60309541f2921e2ff99588f5aef1b5d1a07395b90f7",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\op_gach.png",
+    "bytes": 271,
+    "sha256": "9531767e35db4e2dff717c941457824b8477b61ab0ab6cd039f7948af83d1ce3",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\pdfkata.png",
+    "bytes": 249,
+    "sha256": "b381d57f8cf77d61b88e8cacadd147ffe8635537f3aad164b697f8fdbdecd759",
+    "mtime_utc": "2026-07-08T06:36:44+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\pick_diem_san.png",
+    "bytes": 294,
+    "sha256": "5e20e08e7c59fa0fecb18b7e9ff2237ff4143f76f6f60a8a336b75f9555960db",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\pukata.png",
+    "bytes": 373,
+    "sha256": "536ebbffd326c0fb13ef719c54b065fafb3d27ff9ecfd675326c21054e7d5344",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\quet_dam.png",
+    "bytes": 383,
+    "sha256": "a64ebf1d0eb7fdbb08c1bba66533609f4c88f1dee4e717b9bacc73e5cbca6668",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\quet_dam_all.png",
+    "bytes": 265,
+    "sha256": "5bf1c87d4de91edde0e6e9b083c5b89ba95a3f354b617b72bea744ef62e826ec",
+    "mtime_utc": "2026-07-08T06:36:44+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\rai_mong.png",
+    "bytes": 187,
+    "sha256": "063c3cca5cbc1617a6578595707ba6eb8e884a77167c10176e5774ea9cc4e45d",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\raicot.png",
+    "bytes": 343,
+    "sha256": "56ac1220cee3e3964c693ad8019b2740750050e393326bab8cfc788b331e8926",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\raidam.png",
+    "bytes": 231,
+    "sha256": "f9a25c6ce089583ede69368b5ec183eb50ff91beaa30a8fdfe881ffbe2f83ba6",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\sap_ban_ve.png",
+    "bytes": 300,
+    "sha256": "2c2eb4e37bce60a5718803bc349a18562656f3db2db57cd41805ead334a880c4",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\setupthep.png",
+    "bytes": 229,
+    "sha256": "03e932d8abd605b5260ad2127090ca7fe362b315d2d5c1a261f18f60d87a9cb3",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\show_thep_dam.png",
+    "bytes": 345,
+    "sha256": "2b4eb0aa4a1f397c4a34222d18524654c3fae45839e7d6eb4769b1b64143682c",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\show_thep_rai.png",
+    "bytes": 302,
+    "sha256": "d02f616bc07691dbaa1ca2f6e3129447c84dae47a0a759eea14b0ba25b9e9e88",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ssan.png",
+    "bytes": 269,
+    "sha256": "82a3bd55414826535256b4a1d78c6200c68cd299e99b9faff91d669926738995",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\sstk.png",
+    "bytes": 290,
+    "sha256": "e1191fad5d92dd95ef19d5039a51b801ff9fc186d00b26e61556923013c814ad",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\stt0.png",
+    "bytes": 200,
+    "sha256": "7b82f42a3703faf356e3097f2f9f78ba2db201c6c207cfc086c2329238780078",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\stt1.png",
+    "bytes": 203,
+    "sha256": "61162c24d78ae680721ea7cc66a17fc02785351089eaa8359679817fed5687ba",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\sua_moc_dai.png",
+    "bytes": 313,
+    "sha256": "ec781efd76c30063a05af2d434742c341d90c771faf3f55542673d4b33447511",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\sua_thep.png",
+    "bytes": 728,
+    "sha256": "96aa195b03b174d8414c9305bd224e329eaa0a0194dc0148158c20d5c92cc757",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\sua_thong_ke.png",
+    "bytes": 344,
+    "sha256": "41c7e3cd812455801bfb8867310191bc4c66083a921db9a0280686a63d79bec2",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tao_lien_ket.png",
+    "bytes": 594,
+    "sha256": "e8bca80c6802970b3c93558328a77ef48c22a0229e924c9d093d721cc4260aaf",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\taomv.png",
+    "bytes": 228,
+    "sha256": "32d6866cd598462ac12a6b63150973b4a7f5150ab0e3a2746e344e41ad3250d3",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\taomv1.png",
+    "bytes": 206,
+    "sha256": "3262fb75c7b3e58b2e9b5aaea5c5f890d2d4e72237679120db5f1296dc461640",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\taothep.png",
+    "bytes": 180,
+    "sha256": "db359e9ba2233841627e03a685124c83042683e11595067d51b5d952865e17ab",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\textblock.png",
+    "bytes": 193,
+    "sha256": "b5d09c4194abcc9637e046cb294584a18b148507c45a80b5c05cd6cd6edc2810",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\thong_ke_block_san.png",
+    "bytes": 358,
+    "sha256": "b93a496297a2066a40baf009b0df50a84ae2902add9098ee27577a439d63286f",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\thong_ke_coupler.png",
+    "bytes": 307,
+    "sha256": "cdf3e2a1637389a7a1cc18195bd70c17072b457bd06cdc14779af993b160d82a",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\thong_ke_thep.png",
+    "bytes": 254,
+    "sha256": "277b3ef8344f36b9e2caeb2437a2986c94485fc884370e8b007b6c289007b2b9",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tim_ten_ck.png",
+    "bytes": 411,
+    "sha256": "96df502706846edb04a43c1d23b5ebdb16419e22d39a1d66eb765048510dc354",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\timqs.png",
+    "bytes": 302,
+    "sha256": "b78aa6bdc0e75073e346fc3acaae932febb7bc512ecf19c21b5c05ef868cac3f",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\timthep.png",
+    "bytes": 358,
+    "sha256": "234f960898efed292e155e4acbdc4460f07e605926fa40cea776d215b91231e4",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tkcot.png",
+    "bytes": 330,
+    "sha256": "c8a3477e674224f8ff048dfe5f2e18f501fa65746db02542d3d828c7b3918c71",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tkdam.png",
+    "bytes": 297,
+    "sha256": "c412debc924cbcf76ae45c3676ccb181a02dacec39cea6e74c9ce6d7465705c3",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tkten.png",
+    "bytes": 313,
+    "sha256": "16a57761c7ffc45db1bbb5b36f0de6c5e543148168b64de27d00d35e6e6e5155",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\to_hop_thep.png",
+    "bytes": 180,
+    "sha256": "0bd9f8d9bc5836b69fd279420f235cdcf88615c292070a6bf7b2ffc4b0a38160",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\toexcel.png",
+    "bytes": 311,
+    "sha256": "02e7ba821e8e65e4bc63af20542d0565fb94dc6401fe5a6b95016363b3dc7bca",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\toexcelqh.png",
+    "bytes": 321,
+    "sha256": "1369fc94b5e0c4bdad86cbe064699f864f358c2061aa9488ebd4be12fb7601a5",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\tong_hop_thep.png",
+    "bytes": 325,
+    "sha256": "8ccaa400dc6eeff2e0e24e028992d0bb27ff9ebe06994be1adcc1fcbf8004003",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\update_thep.png",
+    "bytes": 362,
+    "sha256": "f0610e87d4c9c0f8698e6e3b35d821148c306e389b379eb035cc5afef97b40a6",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_cot.png",
+    "bytes": 227,
+    "sha256": "2275787e6a648df1fbd258119943061afffb04a1cd26a66b1f208fa1d27a2d73",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_cot_shop.png",
+    "bytes": 226,
+    "sha256": "2b96e5c9e841aa84c785da7ef47c5844bfd3c900ae6428dfa7de2b5cd5cabfe5",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam.png",
+    "bytes": 202,
+    "sha256": "3e4a2f5b66f5a15c7fc1fe61e6625d245ffda4a9445c219419ecdc87b5e57b40",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_damMC_all.png",
+    "bytes": 205,
+    "sha256": "f977c3297c43fc6f8310947ab7ba69e972052ac664fe6fc50470fb06a01d5417",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_all.png",
+    "bytes": 289,
+    "sha256": "6212b2eb7b267b8861242f8d6ec7520c2254fda6c16fbca16d7c274e209d06f3",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_all_shop.png",
+    "bytes": 214,
+    "sha256": "fba62793cfdba782a498c93addaec5d4ad3a69167ae7a7490024b54e584e1e14",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_cong.png",
+    "bytes": 277,
+    "sha256": "b1467564e8f7487785c6932a8d957b208c178d0f487d0ce828a8cd7cf9df503b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_mc.png",
+    "bytes": 202,
+    "sha256": "09ba7cd0f117a94c1cd8f82172be61bde2c77a0e3f563e6db7ce653dfbd0652b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_mong.png",
+    "bytes": 229,
+    "sha256": "6512d75b265209bac72e189fe4e5450fab69c428a1bf1409024ce7cbcaff4356",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_shop.png",
+    "bytes": 206,
+    "sha256": "2df5cf171133e2454ce8c5e4dc7fe06c553aaa31f78ee15c880cb0d5c26910cd",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_dam_xien.png",
+    "bytes": 237,
+    "sha256": "1e97982ce62fe737d9737d9342f1488339723559864c1bf1f997342772f27e50",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_giang_mong.png",
+    "bytes": 230,
+    "sha256": "e6c9c9adfb40399b5355c29fc2ba4f9d062fdedad46695368f94cd2cceac1165",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_giang_shop.png",
+    "bytes": 250,
+    "sha256": "f6f5f61512aba6d78218da65948b381009d559a007d5fc3222dfade5e4bc42aa",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_grid.png",
+    "bytes": 203,
+    "sha256": "e0ad3f266c2357200054ac6e2ae7523c3975f70e2fd38add2457588bc2d1c962",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_loi_vach.png",
+    "bytes": 253,
+    "sha256": "e90624af2fa02599e2a0ff524fd7d25d010e82f5eacb23bd287f16e89986be0e",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_mat_bang_mong.png",
+    "bytes": 231,
+    "sha256": "d181e55f304b2b65f23af072455d3f21a1a42b285a3c8358245d5fe729bcb9fd",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_mong_coc.png",
+    "bytes": 305,
+    "sha256": "216622fb3991c2adc2778ecaca6363929d407b9cd74763e21abc0f81c2acc2e4",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_mong_coc_giat_cap.png",
+    "bytes": 341,
+    "sha256": "7803422f24328efed79b68641ff5934b3296e612edf3243ea22145d245d4f812",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_mong_don.png",
+    "bytes": 186,
+    "sha256": "c4782f9c882a453949bacdd2161aa858819642e8850d473a3f9b471ba7f0b012",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_san.png",
+    "bytes": 253,
+    "sha256": "d5320d07eee920187b5442b85d33dd0c80a17ec8e4512411ac4801275f0d8ddd",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_thang.png",
+    "bytes": 182,
+    "sha256": "9aeb0e816f70c1034bbb6b2c203df7e7d0148d51c9fa0188a4e879c1adc9ad01",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_thep.png",
+    "bytes": 545,
+    "sha256": "ecada76171c1462a2ece9f125d83093180ef82b12467bede86830e4dacadec69",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_vach.png",
+    "bytes": 184,
+    "sha256": "b24985196fef46288174976459b2bcafa9aa7b348743a3f20f62389ce4b8d07b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\ve_vach_shop.png",
+    "bytes": 204,
+    "sha256": "b641890b815939e028da3a8b31a15b5ab17d04131605babf06df58249b3282b0",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\velanhto.png",
+    "bytes": 230,
+    "sha256": "5cd4c0b22c42e322e7d409a328788d46a3ee1287df09a47435e2bc37e9e99f3b",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\vemc.png",
+    "bytes": 289,
+    "sha256": "b0f8aec939d5605f876f1d43dc39106f37ab26d635d186f5e138c5ff08515f7c",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\vesan4d.png",
+    "bytes": 286,
+    "sha256": "582f9d93d584ee6ae477f309aca857f54d1a3161878053c1df4ece2ed494638a",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\vesanpl.png",
+    "bytes": 456,
+    "sha256": "ecb8e39fbc44086af303e5e3a5c2c82404f14118c651aa4f91d18c80d686d835",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\xem_lien_ket.png",
+    "bytes": 293,
+    "sha256": "575f514b127d06494f726435ffb2c92cd6353d16fdab3b1e692add56e8cbc577",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\xoa_highlight.png",
+    "bytes": 802,
+    "sha256": "3241eb0b2a363347f8a91916e604c163d93355c2b022848ef6b68549564debd4",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\xoa_lien_ket.png",
+    "bytes": 750,
+    "sha256": "6f35cffeddd8b8de1eadc94c1980b0012d4eb21e0d388ddc9b583e85c720e2c1",
+    "mtime_utc": "2026-04-27T23:55:32+00:00"
+  },
+  {
+    "rel_path": "Icon\\Ribbon\\xuatQS.png",
+    "bytes": 303,
+    "sha256": "a222aaf4a47756bfc648c768f8d47ae343c5c5d9547e49bfa497943631345e22",
+    "mtime_utc": "2026-05-23T16:21:26+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-00.png",
+    "bytes": 2405,
+    "sha256": "49a4ae38e646d667ce47e7c74241219bf64d03dfdabdb642918d3d763e4719d6",
+    "mtime_utc": "2020-10-26T09:03:10+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-11.png",
+    "bytes": 2838,
+    "sha256": "40f951ba2c6f5a70c2eaf20a626794bc98dce483b354a9d21c408b3644335011",
+    "mtime_utc": "2020-10-26T09:03:30+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-12.png",
+    "bytes": 2146,
+    "sha256": "bfa6700c3c4978bcb811ad9ca27729deb5632eab8bbbd77e11c2b04b5b974129",
+    "mtime_utc": "2021-06-05T07:45:16+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-13.png",
+    "bytes": 2048,
+    "sha256": "8518f41621741a57ec3ab7ce0ee6c33217d17ca5bc0e605e98eb9b9407a7baf3",
+    "mtime_utc": "2021-06-05T07:46:08+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-14.png",
+    "bytes": 2753,
+    "sha256": "240e8963024e6d0120cd20822a72281ec0e72e042781ec0415c223d2edcab30c",
+    "mtime_utc": "2021-06-05T07:46:54+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-15.png",
+    "bytes": 2595,
+    "sha256": "be6daee4428fd8849a454507128dfdc486ad07c6fa339c3a566bc068e7b8084e",
+    "mtime_utc": "2021-06-05T07:47:38+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-21.PNG",
+    "bytes": 3154,
+    "sha256": "d996a3741d477df53af4e6cee2080efdfaf41780866e00a49ed6f390c863ff59",
+    "mtime_utc": "2020-10-26T09:03:44+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-22.PNG",
+    "bytes": 4127,
+    "sha256": "b73ba0517b979c99e879b517076240263f5228875e921c3f0fecf008574fd365",
+    "mtime_utc": "2020-10-26T09:04:00+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-23.png",
+    "bytes": 1877,
+    "sha256": "19b0d8935d94d75c763b5647a57984d643bef17415ddf6b0556b435637e617e6",
+    "mtime_utc": "2021-06-05T07:48:18+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-24.png",
+    "bytes": 2185,
+    "sha256": "ea212c1621188976f0d075d52c58fc4450c10ca3861f840ac3af48123cde7bee",
+    "mtime_utc": "2021-06-05T07:49:32+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-25.png",
+    "bytes": 2852,
+    "sha256": "4ff0e65e8181ad433eda4e47a52b909148ee021bc6b9d7e2cb4f511add2f4119",
+    "mtime_utc": "2021-06-05T07:50:16+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-26.PNG",
+    "bytes": 4502,
+    "sha256": "4ecffdbc0c210d0ff435787664ba45bab5da5d7010f9f92a9e65c41eb9c8c3d5",
+    "mtime_utc": "2020-10-26T09:04:18+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-27.png",
+    "bytes": 2333,
+    "sha256": "1547a09403dc1177bde919cb16f1a12f714476df056b4431f0eef1a28d1e0336",
+    "mtime_utc": "2021-06-05T07:51:20+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-28.png",
+    "bytes": 2305,
+    "sha256": "04c9f2708bb5d5d363498df00726d09700113f94b6157cf39d785d76cabfc21a",
+    "mtime_utc": "2021-06-05T07:52:16+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-29.png",
+    "bytes": 2319,
+    "sha256": "d80333f0ce54ee22f6d8416ea9633a6e83fba2e3fc1ba27de48620876d69695a",
+    "mtime_utc": "2021-06-05T07:52:58+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-31.png",
+    "bytes": 1882,
+    "sha256": "ab1d6e101481e1aa4d010da5db925edf51b041bfddae01dccdb6f03329802f57",
+    "mtime_utc": "2021-06-05T07:53:32+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-32.png",
+    "bytes": 1884,
+    "sha256": "6e1c39bedae7ecef8ffd236d9ec1dd581fd3921b1abf1607d3efb99548dda689",
+    "mtime_utc": "2021-06-05T07:54:04+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-34.PNG",
+    "bytes": 7813,
+    "sha256": "3254b181c248568776d8a2f82c2bbac55383734dfd6488d1c6084873bb4531c1",
+    "mtime_utc": "2020-10-26T09:04:32+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-35.PNG",
+    "bytes": 7764,
+    "sha256": "e541b428b557faff428e51a7760a5fac5c1b869dea23156414570fe4e021e82c",
+    "mtime_utc": "2020-10-26T09:08:12+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-36.png",
+    "bytes": 2357,
+    "sha256": "9f78d6525b6ff5019eedbb4d7e3c1c26b7e4595d9de3e991c6a9d2db42c4c37d",
+    "mtime_utc": "2021-06-05T07:54:36+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-41.png",
+    "bytes": 1890,
+    "sha256": "d41589b6368ac79b9ec9b1fe29f17cc2b30114c08044f5f56c7f9a83357d8f7a",
+    "mtime_utc": "2021-06-05T07:55:10+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-44.png",
+    "bytes": 1888,
+    "sha256": "2599b5412139719d5b0490acfe99df8535e950b2314ade04a575649d988fe27c",
+    "mtime_utc": "2021-06-05T07:55:44+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-46.PNG",
+    "bytes": 8312,
+    "sha256": "a41d8a12c32918de098f175db3093c5b83f8ddbdbd8f5c0efc1202231e3bd2d8",
+    "mtime_utc": "2020-10-26T09:13:12+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-47.PNG",
+    "bytes": 5597,
+    "sha256": "0ede9dd3db41dec7498c3c30f58e9cab625fb45355d687f38fecc8deb2ee1934",
+    "mtime_utc": "2020-10-26T09:12:42+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-51.PNG",
+    "bytes": 4831,
+    "sha256": "a7c769c8e1d4da3dc993285a5e202b58f9dfabb4b69d834ccc24a9f62bc9be75",
+    "mtime_utc": "2020-10-26T09:12:24+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-67.png",
+    "bytes": 3034,
+    "sha256": "4bce87176dfb92123ec0fe4d868b4ce63a7bbfb1553db536d92cc1f3b9589b5a",
+    "mtime_utc": "2021-06-05T07:56:24+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-75.png",
+    "bytes": 3116,
+    "sha256": "35339f21a4a80f2d098250d95b69f4f62e9c143d5d0e982d42e69ce6ebafd10b",
+    "mtime_utc": "2021-06-05T07:56:52+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-77.png",
+    "bytes": 4373,
+    "sha256": "23d019b71826ed685c466106cc8c30b4664ccf293f2e0d3ee58193314e399571",
+    "mtime_utc": "2021-06-05T07:57:28+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-78.png",
+    "bytes": 2273,
+    "sha256": "344e2ccfc6186d01cd87c4ecae641d4d7680d060ee1400def42ad7a979b759b6",
+    "mtime_utc": "2021-06-05T07:58:06+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-13.PNG",
+    "bytes": 9054,
+    "sha256": "554f2f9ddffe98f6b1301913c014c4cc10c9359487a20f7e0ae17d8f6c2f921a",
+    "mtime_utc": "2020-10-26T09:11:52+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-13a.PNG",
+    "bytes": 8946,
+    "sha256": "f2c01020ca438883ef3fc5e96f79621ff3a016ed47c18727fe520738129f0ee0",
+    "mtime_utc": "2020-10-26T09:11:08+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-21.PNG",
+    "bytes": 8055,
+    "sha256": "76b3c44e166b5dcd64c2b90f7a904d1b910ca6d9050419c1aa548203ebbb6067",
+    "mtime_utc": "2020-10-26T09:10:06+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-251.PNG",
+    "bytes": 8157,
+    "sha256": "3f54be3b85cb29225e6ef943f2b46c0fea197e8dd58601de4ba5662a858c6473",
+    "mtime_utc": "2020-10-26T09:08:32+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-251a.PNG",
+    "bytes": 7424,
+    "sha256": "ae867fae7f386d2330ab5f1d7603931d4a39e89cc130e2e99afbb5de102e46bf",
+    "mtime_utc": "2020-10-26T09:08:58+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-43.PNG",
+    "bytes": 9211,
+    "sha256": "88041fadbddd98f3eb2e20c6a01759d529a4232c940f8ce90874bb4e068beeec",
+    "mtime_utc": "2020-10-29T20:08:12+00:00"
+  },
+  {
+    "rel_path": "IMG\\Kata-99-43a.PNG",
+    "bytes": 9117,
+    "sha256": "15e522ac536d6fbc7ec009aac629e89fdedf2d244d5ef15130a5e75dadb8d42f",
+    "mtime_utc": "2020-10-29T20:08:44+00:00"
+  },
+  {
+    "rel_path": "IMG\\empty.png",
+    "bytes": 2269,
+    "sha256": "d20f1b44fb31cfe7cf253ba45f83f3277fcccc0603f8d473e778abb97854b69b",
+    "mtime_utc": "2021-01-07T08:46:10+00:00"
+  }
+]

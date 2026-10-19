@@ -1,0 +1,416 @@
+[
+  {
+    "id": 9928278,
+    "mark": "DK.a_9-10",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928279,
+    "mark": "DK.a_10-11",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928288,
+    "mark": "DK.a_I-J",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928298,
+    "mark": "DK.a_B-C",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928316,
+    "mark": "DK.a_SEC_X_176",
+    "currentType": "B_300x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928318,
+    "mark": "DK.a'_SEC_Y_370",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": -900.0,
+    "typeChanged": true,
+    "offsetChanged": true
+  },
+  {
+    "id": 9928319,
+    "mark": "DK.a'_SEC_Y_371",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": -900.0,
+    "typeChanged": true,
+    "offsetChanged": true
+  },
+  {
+    "id": 9928323,
+    "mark": "DK.b_SEC_X_174",
+    "currentType": "B_300x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928325,
+    "mark": "DK.a_SEC_X_223",
+    "currentType": "B_100x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928326,
+    "mark": "DK.a_SEC_X_183",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928327,
+    "mark": "DK.a_SEC_Y_313",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928329,
+    "mark": "DK.a_SEC_Y_360",
+    "currentType": "B_300x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928332,
+    "mark": "DK.b_SEC_X_159",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928347,
+    "mark": "DK.a_SEC_X_232",
+    "currentType": "B_100x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928352,
+    "mark": "DK.a_SEC_X_231",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928363,
+    "mark": "DK.a_SEC_X_162",
+    "currentType": "B_300x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928364,
+    "mark": "DK.b_SEC_X_170",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928365,
+    "mark": "DK.b_SEC_X_173",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928367,
+    "mark": "DK.a_SEC_X_229",
+    "currentType": "B_300x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928368,
+    "mark": "DK.a_SEC_X_233",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928371,
+    "mark": "DK.a_SEC_X_249",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928374,
+    "mark": "DK.a_SEC_Y_338",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928375,
+    "mark": "DK.a_SEC_Y_359",
+    "currentType": "B_200x500",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928376,
+    "mark": "DK.a_SEC_Y_366",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928377,
+    "mark": "DK.a_SEC_Y_367",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928378,
+    "mark": "DK.a_SEC_Y_337",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928379,
+    "mark": "DK.a_SEC_Y_346",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928384,
+    "mark": "DK.b_SEC_Y_331",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928386,
+    "mark": "DK.b_SEC_X_157",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928387,
+    "mark": "DK.b_SEC_X_171",
+    "currentType": "B_200x300",
+    "targetType": "B_200x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": false,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928393,
+    "mark": "DK.a_SEC_Y_372",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928396,
+    "mark": "DK.a_SEC_X_218",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928397,
+    "mark": "DK.a_SEC_Y_289",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928398,
+    "mark": "DK.a_SEC_Y_344",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928400,
+    "mark": "DK.a'_SEC_Y_369",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": -900.0,
+    "typeChanged": true,
+    "offsetChanged": true
+  },
+  {
+    "id": 9928401,
+    "mark": "DK.a'_SEC_Y_373",
+    "currentType": "B_200x300",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": -900.0,
+    "typeChanged": true,
+    "offsetChanged": true
+  },
+  {
+    "id": 9928407,
+    "mark": "DK.a_SEC_X_230",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928408,
+    "mark": "DK.a_SEC_X_237",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928413,
+    "mark": "DK.a_SEC_Y_286",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928416,
+    "mark": "DK.a_SEC_Y_303",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928420,
+    "mark": "DK.a_SEC_Y_341",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928422,
+    "mark": "DK.a_SEC_Y_348",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928431,
+    "mark": "DK.a_SEC_Y_358",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928435,
+    "mark": "DK.a_SEC_Y_379",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928447,
+    "mark": "DK.a_SEC_Y_393",
+    "currentType": "B_200x400",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  },
+  {
+    "id": 9928451,
+    "mark": "DK.a_SEC_Y_397",
+    "currentType": "B_200x500",
+    "targetType": "B_100x300",
+    "targetZOffsetMm": 0.0,
+    "typeChanged": true,
+    "offsetChanged": false
+  }
+]

@@ -1,0 +1,150 @@
+--- a/HPDynamo/HPDynamo.McpBridge/Execution/CanvasGraphRunner.cs
++++ b/HPDynamo/HPDynamo.McpBridge/Execution/CanvasGraphRunner.cs
+@@ -75,17 +75,7 @@ public sealed class CanvasGraphRunner
+         ArgumentNullException.ThrowIfNull(viewModel);
+-        if (!File.Exists(filePath))
+-            throw new FileNotFoundException("Dynamo file not found", filePath);
+-
+-        log($"Opening and executing file '{Path.GetFileName(filePath)}' on canvas");
+-
+-        viewModel.OpenIfSavedCommand.Execute(new DynamoModel.OpenFileCommand(filePath, false));
+-        var ws = viewModel.Model.CurrentWorkspace as HomeWorkspaceModel
+-                 ?? throw new InvalidOperationException("Failed to load workspace onto canvas.");
+-
+-        if (args.HasValue && args.Value.ValueKind == JsonValueKind.Object)
+-        {
+-            ApplyParameterOverrides(ws, args.Value, log);
+-        }
++        var ws = LoadWorkspaceFromFile(viewModel, filePath, args, log);
+ 
+         bool evalOk = DynamoEvaluationSync.RunAndWait(
+             viewModel.Model,
+@@ -134,44 +124,11 @@ public sealed class CanvasGraphRunner
+         var ws = viewModel.Model.CurrentWorkspace as HomeWorkspaceModel
+                  ?? throw new InvalidOperationException("Active workspace is not available.");
+ 
+-        log("Placing DesignScript CodeBlock node on canvas");
+-
+-        double x = 100.0;
+-        double y = 100.0;
+-        if (ws.Nodes.Any())
+-        {
+-#pragma warning disable CS0618
+-            x = ws.Nodes.Max(n => n.X) + 250.0;
+-            y = ws.Nodes.First().Y;
+-#pragma warning restore CS0618
+-        }
+-
+-        var cbn = new CodeBlockNodeModel(code, Guid.NewGuid(), x, y, viewModel.Model.LibraryServices, ws.ElementResolver);
+-        viewModel.Model.ExecuteCommand(new DynamoModel.CreateNodeCommand(cbn, x, y, false, false));
++        var cbn = PlaceCodeBlockNode(viewModel, ws, code, log);
+ 
+         try
+         {
+-            bool evalOk = DynamoEvaluationSync.RunAndWait(
+-                viewModel.Model,
+-                () => ws.Run(),
+-                TimeSpan.FromSeconds(30),
+-                ct,
+-                log);
+-
+-            if (!evalOk)
+-            {
+-                if (ct.IsCancellationRequested)
+-                    throw new OperationCanceledException("DesignScript evaluation was cancelled.", ct);
+-                throw new InvalidOperationException("DesignScript evaluation failed or timed out.");
+-            }
+-
+-            if (cbn.State == ElementState.Error)
+-            {
+-                throw new InvalidOperationException("DesignScript CodeBlock node evaluated to error state.");
+-            }
+-
+-            var outputs = ExtractOutputs(viewModel.Model.EngineController, cbn);
+-            log($"DesignScript executed on canvas with {outputs.Count} outputs");
++            var outputs = EvaluateDesignScriptNode(viewModel, ws, cbn, ct, log);
+ 
+             if (dryRun)
+             {
+@@ -190,6 +147,74 @@ public sealed class CanvasGraphRunner
+         }
+     }
+ 
++    private static HomeWorkspaceModel LoadWorkspaceFromFile(
++        DynamoViewModel viewModel,
++        string filePath,
++        JsonElement? args,
++        Action<string?> log)
++    {
++        if (!File.Exists(filePath))
++            throw new FileNotFoundException("Dynamo file not found", filePath);
++
++        log($"Opening and executing file '{Path.GetFileName(filePath)}' on canvas");
++
++        viewModel.OpenIfSavedCommand.Execute(new DynamoModel.OpenFileCommand(filePath, false));
++        var ws = viewModel.Model.CurrentWorkspace as HomeWorkspaceModel
++                 ?? throw new InvalidOperationException("Failed to load workspace onto canvas.");
++
++        if (args.HasValue && args.Value.ValueKind == JsonValueKind.Object)
++        {
++            ApplyParameterOverrides(ws, args.Value, log);
++        }
++
++        return ws;
++    }
++
++    private static CodeBlockNodeModel PlaceCodeBlockNode(
++        DynamoViewModel viewModel,
++        HomeWorkspaceModel ws,
++        string code,
++        Action<string?> log)
++    {
++        log("Placing DesignScript CodeBlock node on canvas");
++
++        double x = 100.0;
++        double y = 100.0;
++        if (ws.Nodes.Any())
++        {
++#pragma warning disable CS0618
++            x = ws.Nodes.Max(n => n.X) + 250.0;
++            y = ws.Nodes.First().Y;
++#pragma warning restore CS0618
++        }
++
++        var cbn = new CodeBlockNodeModel(code, Guid.NewGuid(), x, y, viewModel.Model.LibraryServices, ws.ElementResolver);
++        viewModel.Model.ExecuteCommand(new DynamoModel.CreateNodeCommand(cbn, x, y, false, false));
++        return cbn;
++    }
++
++    private static Dictionary<string, object?> EvaluateDesignScriptNode(
++        DynamoViewModel viewModel,
++        HomeWorkspaceModel ws,
++        CodeBlockNodeModel cbn,
++        CancellationToken ct,
++        Action<string?> log)
++    {
++        bool evalOk = DynamoEvaluationSync.RunAndWait(
++            viewModel.Model,
++            () => ws.Run(),
++            TimeSpan.FromSeconds(30),
++            ct,
++            log);
++
++        if (!evalOk)
++        {
++            if (ct.IsCancellationRequested)
++                throw new OperationCanceledException("DesignScript evaluation was cancelled.", ct);
++            throw new InvalidOperationException("DesignScript evaluation failed or timed out.");
++        }
++
++        if (cbn.State == ElementState.Error)
++        {
++            throw new InvalidOperationException("DesignScript CodeBlock node evaluated to error state.");
++        }
++
++        var outputs = ExtractOutputs(viewModel.Model.EngineController, cbn);
++        log($"DesignScript executed on canvas with {outputs.Count} outputs");
++        return outputs;
++    }
++
+     private static void ApplyParameterOverrides(WorkspaceModel ws, JsonElement overrides, Action<string?> log)

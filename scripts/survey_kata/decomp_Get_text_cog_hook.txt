@@ -1,0 +1,11 @@
+﻿// Decompiled Kata_pro64_Cad2025.Setting::Get_text_cog_hook
+
+// Method: Get_text_cog_hook
+using System.Runtime.CompilerServices;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+public string Get_text_cog_hook()
+{
+	return null;
+}
+

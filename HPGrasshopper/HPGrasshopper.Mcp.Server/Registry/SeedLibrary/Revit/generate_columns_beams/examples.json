@@ -1,0 +1,33 @@
+[
+  {
+    "title": "single_bay_portal_frame",
+    "args": {
+      "columnPoints": [
+        { "x": 0.0, "y": 0.0, "z": 0.0 },
+        { "x": 6.0, "y": 0.0, "z": 0.0 }
+      ],
+      "beamLines": [
+        { "startX": 0.0, "startY": 0.0, "startZ": 3.6, "endX": 6.0, "endY": 0.0, "endZ": 3.6 }
+      ],
+      "columnHeight": 3.6
+    }
+  },
+  {
+    "title": "four_column_grid_cell",
+    "args": {
+      "columnPoints": [
+        { "x": 0.0, "y": 0.0, "z": 0.0 },
+        { "x": 8.0, "y": 0.0, "z": 0.0 },
+        { "x": 8.0, "y": 6.0, "z": 0.0 },
+        { "x": 0.0, "y": 6.0, "z": 0.0 }
+      ],
+      "beamLines": [
+        { "startX": 0.0, "startY": 0.0, "startZ": 4.0, "endX": 8.0, "endY": 0.0, "endZ": 4.0 },
+        { "startX": 8.0, "startY": 0.0, "startZ": 4.0, "endX": 8.0, "endY": 6.0, "endZ": 4.0 },
+        { "startX": 8.0, "startY": 6.0, "startZ": 4.0, "endX": 0.0, "endY": 6.0, "endZ": 4.0 },
+        { "startX": 0.0, "startY": 6.0, "startZ": 4.0, "endX": 0.0, "endY": 0.0, "endZ": 4.0 }
+      ],
+      "columnHeight": 4.0
+    }
+  }
+]

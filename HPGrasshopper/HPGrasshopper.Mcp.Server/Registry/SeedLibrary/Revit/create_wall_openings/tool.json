@@ -1,0 +1,53 @@
+{
+  "name": "create_wall_openings",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "revit",
+    "opening",
+    "wall",
+    "door",
+    "window",
+    "cut"
+  ],
+  "title": "Cut Parametric Openings in Host Walls",
+  "description": "Cut doors, windows, or rectangular openings in host walls from Grasshopper bounding boxes and location coordinates.",
+  "notes": "Creates native Revit Wall Opening elements given corner coordinates in feet.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "wallElementId",
+      "openings"
+    ],
+    "properties": {
+      "wallElementId": {
+        "type": "integer",
+        "description": "Element ID of host Revit Wall."
+      },
+      "openings": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "startX": { "type": "number" },
+            "bottomZ": { "type": "number" },
+            "width": { "type": "number" },
+            "height": { "type": "number" }
+          },
+          "required": ["startX", "bottomZ", "width", "height"]
+        },
+        "description": "List of rectangular openings with local start coordinate, bottom elevation, width, and height in meters."
+      }
+    },
+    "additionalProperties": false
+  }
+}

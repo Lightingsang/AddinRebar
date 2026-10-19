@@ -1,0 +1,725 @@
+{
+  "orig_sha256": "5da9a37be8fea727da725df05cc89108b5fe3e6071958b012e3fcc2441b01b44",
+  "norm_sha256": "7f5ed1a4fd1bc81f9ae14fd33d4ed02dd4f8201d9035146643944f1c8a518107",
+  "bsjb_offset": 2555068,
+  "num_streams_offset": 2555102,
+  "orig_num_streams": 9,
+  "inspect-managed-artifact": {
+    "evidence_id": "ev_acde17b59c751adb77d47c9b713981365c4cbac98bf6fc4612f5a3015c5faa58",
+    "classification": {
+      "status": "managed",
+      "container": "pe",
+      "runtime_family": "unknown",
+      "implementation": "cil",
+      "managed_architecture": "anycpu",
+      "evidence": [
+        {
+          "code": "cli-header-observed",
+          "detail": "A file-backed PE CLI header and metadata root were admitted.",
+          "file_offset": 2552832
+        },
+        {
+          "code": "managed-architecture-derived",
+          "detail": "Managed architecture anycpu is derived from PE machine and CLI flags.",
+          "file_offset": 2552848
+        }
+      ]
+    },
+    "mvid": "bbd4ae56-f1b0-40a2-9947-bfa11d121d13",
+    "module_name": "Kata_pro64.dll",
+    "references": [
+      {
+        "name": "mscorlib",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "1b960802b155541df3837ade50790da7e91762d14b8e011fa8223424ff75acdb",
+          "token": "b77a5c561934e089"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000001",
+        "row_offset": 2715536
+      },
+      {
+        "name": "Microsoft.VisualBasic",
+        "version": "8.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "971150dd73dc318e68a98cce9b91ac7dea2d43c562b4f5a9a2f4272c7e29477e",
+          "token": "b03f5f7f11d50a3a"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000002",
+        "row_offset": 2715560
+      },
+      {
+        "name": "System",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "1b960802b155541df3837ade50790da7e91762d14b8e011fa8223424ff75acdb",
+          "token": "b77a5c561934e089"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000003",
+        "row_offset": 2715584
+      },
+      {
+        "name": "System.Windows.Forms",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "1b960802b155541df3837ade50790da7e91762d14b8e011fa8223424ff75acdb",
+          "token": "b77a5c561934e089"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000004",
+        "row_offset": 2715608
+      },
+      {
+        "name": "System.Drawing",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "971150dd73dc318e68a98cce9b91ac7dea2d43c562b4f5a9a2f4272c7e29477e",
+          "token": "b03f5f7f11d50a3a"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000005",
+        "row_offset": 2715632
+      },
+      {
+        "name": "Microsoft.VisualBasic.PowerPacks.Vs",
+        "version": "10.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "971150dd73dc318e68a98cce9b91ac7dea2d43c562b4f5a9a2f4272c7e29477e",
+          "token": "b03f5f7f11d50a3a"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000006",
+        "row_offset": 2715656
+      },
+      {
+        "name": "System.Data",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "1b960802b155541df3837ade50790da7e91762d14b8e011fa8223424ff75acdb",
+          "token": "b77a5c561934e089"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000007",
+        "row_offset": 2715680
+      },
+      {
+        "name": "System.Management",
+        "version": "2.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "971150dd73dc318e68a98cce9b91ac7dea2d43c562b4f5a9a2f4272c7e29477e",
+          "token": "b03f5f7f11d50a3a"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000008",
+        "row_offset": 2715704
+      },
+      {
+        "name": "System.Core",
+        "version": "3.5.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "public-key-token",
+          "byte_length": 8,
+          "sha256": "1b960802b155541df3837ade50790da7e91762d14b8e011fa8223424ff75acdb",
+          "token": "b77a5c561934e089"
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x23000009",
+        "row_offset": 2715728
+      },
+      {
+        "name": "acdbmgd",
+        "version": "18.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "none",
+          "byte_length": 0,
+          "sha256": null,
+          "token": null
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x2300000a",
+        "row_offset": 2715752
+      },
+      {
+        "name": "acmgd",
+        "version": "18.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "none",
+          "byte_length": 0,
+          "sha256": null,
+          "token": null
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x2300000b",
+        "row_offset": 2715776
+      },
+      {
+        "name": "fLRdgwEdbxfmIjINdSEeWsWnANhf",
+        "version": "0.0.0.0",
+        "culture": null,
+        "flags": 1,
+        "public_key_or_token": {
+          "kind": "none",
+          "byte_length": 0,
+          "sha256": null,
+          "token": null
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x2300000c",
+        "row_offset": 2715800
+      },
+      {
+        "name": "Security",
+        "version": "1.0.0.0",
+        "culture": null,
+        "flags": 0,
+        "public_key_or_token": {
+          "kind": "none",
+          "byte_length": 0,
+          "sha256": null,
+          "token": null
+        },
+        "hash_value_sha256": null,
+        "hash_value_length": 0,
+        "token": "0x2300000d",
+        "row_offset": 2715824
+      }
+    ],
+    "resources": [
+      {
+        "name": "Kata_pro64.setting_tk_thep_bvbs.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000001",
+        "row_offset": 2715848
+      },
+      {
+        "name": "Kata_pro64.Edit_nhiu_thep.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000002",
+        "row_offset": 2715862
+      },
+      {
+        "name": "Kata_pro64.Input_slab.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000003",
+        "row_offset": 2715876
+      },
+      {
+        "name": "Kata_pro64.Cat_thep_thay_doi.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000004",
+        "row_offset": 2715890
+      },
+      {
+        "name": "Kata_pro64.Info_rebar.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000005",
+        "row_offset": 2715904
+      },
+      {
+        "name": "Kata_pro64.Info_slab.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000006",
+        "row_offset": 2715918
+      },
+      {
+        "name": "Kata_pro64.Setting_atlas.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000007",
+        "row_offset": 2715932
+      },
+      {
+        "name": "Kata_pro64.In_off.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000008",
+        "row_offset": 2715946
+      },
+      {
+        "name": "Kata_pro64.Edit_tk_thep.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000009",
+        "row_offset": 2715960
+      },
+      {
+        "name": "Kata_pro64.TK_kieu_xuat.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000a",
+        "row_offset": 2715974
+      },
+      {
+        "name": "Kata_pro64.User_kho_thep.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000b",
+        "row_offset": 2715988
+      },
+      {
+        "name": "Kata_pro64.Check_time_run.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000c",
+        "row_offset": 2716002
+      },
+      {
+        "name": "Kata_pro64.TK_san.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000d",
+        "row_offset": 2716016
+      },
+      {
+        "name": "Kata_pro64.view_san.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000e",
+        "row_offset": 2716030
+      },
+      {
+        "name": "Kata_pro64.view_mong_don.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800000f",
+        "row_offset": 2716044
+      },
+      {
+        "name": "Kata_pro64.Input1.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000010",
+        "row_offset": 2716058
+      },
+      {
+        "name": "Kata_pro64.Tim_thep.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000011",
+        "row_offset": 2716072
+      },
+      {
+        "name": "Kata_pro64.Edit_thep.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000012",
+        "row_offset": 2716086
+      },
+      {
+        "name": "Kata_pro64.TK_ten.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000013",
+        "row_offset": 2716100
+      },
+      {
+        "name": "Kata_pro64.Customer.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000014",
+        "row_offset": 2716114
+      },
+      {
+        "name": "Kata_pro64.Main_rebar_Column.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000015",
+        "row_offset": 2716128
+      },
+      {
+        "name": "Kata_pro64.QS_form.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000016",
+        "row_offset": 2716142
+      },
+      {
+        "name": "Kata_pro64.Setting.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000017",
+        "row_offset": 2716156
+      },
+      {
+        "name": "Kata_pro64.Input_select.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000018",
+        "row_offset": 2716170
+      },
+      {
+        "name": "Kata_pro64.Danh_ten.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x28000019",
+        "row_offset": 2716184
+      },
+      {
+        "name": "Kata_pro64.Lanh_to.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800001a",
+        "row_offset": 2716198
+      },
+      {
+        "name": "Kata_pro64.view_mat_cat_dam.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800001b",
+        "row_offset": 2716212
+      },
+      {
+        "name": "Kata_pro64.view_thang.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800001c",
+        "row_offset": 2716226
+      },
+      {
+        "name": "Kata_pro64.Round_thep_chay.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800001d",
+        "row_offset": 2716240
+      },
+      {
+        "name": "j=;c(U/c?7>|\\[Y %so'UU\\,\\]f.resources",
+        "flags": 1,
+        "visibility": "public",
+        "implementation_token": "0x2300000c",
+        "embedded": false,
+        "declared_offset": 0,
+        "data_length": null,
+        "data_sha256": null,
+        "token": "0x2800001e",
+        "row_offset": 2716254
+      }
+    ],
+    "attributes_count": 2931
+  },
+  "inspect-managed-members": {
+    "evidence_id": "ev_ccc2e9e991f329df73ff4acd3bb0a520f54169cec0c0bf6a63bf89dbe5f75c37",
+    "types_count": 166,
+    "methods_count": 4720,
+    "fields_count": 1613,
+    "member_refs_count": 1212,
+    "call_edges_count": 55,
+    "field_accesses_count": 60,
+    "user_strings_count": 3,
+    "user_strings": {
+      "state": "partial",
+      "literals": [],
+      "issues": [
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x046c7abc",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x0b89c0e4",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x0cb66aeb",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x2bd5b5d5",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x3b4a0ae9",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0x3e0d91cf",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0xa08703a7",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0xcafd9a96",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        },
+        {
+          "code": "invalid-heap-index",
+          "scope": "metadata.#US:0xee332d66",
+          "offset": null,
+          "detail": "ldstr operand does not name an item inside #US"
+        }
+      ]
+    },
+    "sample_types": [
+      "<Module>",
+      "‫‬⁭‫⁫‫‮‭‫⁯‮⁫⁪‌‫‬‍⁪‬⁫‌‬‬⁫​⁭‮‮‎‭​⁫‌⁯‫​⁮‌⁮⁯‮",
+      "​⁫‏⁭‮‪​‌⁫⁪‮‎⁯​‏‮⁬‭⁮‭⁬‌⁬‮​⁭⁪‍‎​​‫​‭​‬‫⁯‪‮‮",
+      "⁫​‏‌‎⁫⁮⁬‪⁭‏​​​⁮⁭⁯‭‏‭‮‎‮⁬‍⁭‪‌⁯‮‭⁯‭​​‬⁬‬‬‏‮",
+      "‎‎‏‮⁯​⁫‬⁫⁯⁬‎‮‮‪⁫‬‌‪⁫⁯⁪‏‪​‭‫‭‌‌‫‎‏‬‬‪‮⁮‮‫‮",
+      "‪‭⁯‮‫‌⁯‮‮⁮⁪‪‮⁯⁭⁫‍‍​‎‎‎‮‮⁮‬⁬‮⁯‮⁪‪‏‬⁮⁬‎‎‪⁯‮",
+      "⁭‫‪⁪⁯‫⁫‏⁯‏⁬⁮⁯‏‪‌‭‌‎⁬⁪‏⁪​⁬⁮⁯‭‍⁬⁭⁭​⁭⁬‭‪‮​‬‮",
+      "⁫‮‎‪​‏⁬‏⁭‮‬⁮‮‌‮⁯‏⁭⁮‪‌‫‏​⁮​‪⁮⁭⁫‌‪‮​‎‭⁫‫‌‮",
+      "⁬⁫‪⁭‎⁫⁮‫⁪‭⁪​‫⁪‍⁯⁬‫⁪‮‍⁯⁮‮⁬‭‮⁮⁪⁭‌‏‌‮‏‬⁪‭⁪‮‮",
+      "⁮‏‭‎‌⁮‮⁬‫‌‎‬⁯⁬‍‬‫‮⁬‍‎⁬‬⁮‫‌⁭⁮‍⁭‪‬⁬‏⁭‫‎‍‬⁭‮",
+      "⁫⁪‮‪​⁭⁪⁮⁬‭‪‬‍⁮⁬‫‍⁮‮‏⁯⁪⁬‌‪‬​​⁯‬‎⁫‏⁫‫⁮⁯‭⁭⁫‮",
+      "‬⁭‮‮‭⁮⁮‬​⁪‭⁪‭‮‫‫⁪‫‎‬‬⁭⁪‫‪⁪‍‬⁬⁮‪⁬⁫‪⁮‏‫‎‫‏‮",
+      "⁭‏‮⁮⁯⁪‬‮‍⁭​⁭​⁬‪⁭⁪⁪⁬⁭‏‎‫‌‪⁭‍‬⁭​⁭‭‪⁪‎⁫⁬‪​⁬‮",
+      "⁪‬‎‬‏‪⁬​‬‮⁪‌⁯‫‏‎‌⁪⁬‏⁯‬‬⁮⁯⁭‬‬​‭⁪⁪‌‫‫‮​‍⁭‌‮",
+      "⁯⁯‍‮​‫‏‮‫⁪⁪⁫⁭⁫‍⁪‮⁯​⁯⁫‏‍​⁪⁯‮⁭‮‌⁪⁭‫⁭‬‏‪‎⁯‎‮",
+      "‌‍‫⁮‪‪‏‍‫‌‍‎‬⁯​‭‬⁭⁫‮⁯‫‌​⁬‪‎​‭‍‭⁮‎⁪​⁪‬​⁪‌‮",
+      "⁪⁬⁬‪‭⁫⁭‎⁭‬‮‪‏‭‍‭‎‍⁯‍⁬⁪⁫‮‪‌‭⁬​​‎⁯⁬‮⁬⁫⁫‫⁪⁬‮`1",
+      "Kata_pro64.My.MySettings",
+      "⁬‮‮‭‫​‏‍⁬‏‏‎​⁬‬‍⁮‎‎⁭⁫‮‮⁯‮‮⁫⁭‍‪‏​⁬‪⁭⁮​⁬​‮‮",
+      "Kata_pro64.Cat_thep_thay_doi",
+      "Kata_pro64.Check_time_run",
+      "Kata_pro64.Customer",
+      "Kata_pro64.Danh_ten",
+      "Kata_pro64.Edit_nhiu_thep",
+      "Kata_pro64.Edit_thep",
+      "Kata_pro64.Edit_tk_thep",
+      "Kata_pro64.Info_rebar",
+      "Kata_pro64.Input1",
+      "Kata_pro64.Input_select",
+      "Kata_pro64.Input_slab",
+      "Kata_pro64.In_off",
+      "Kata_pro64.Lanh_to",
+      "Kata_pro64.QS_form",
+      "Kata_pro64.Round_thep_chay",
+      "Kata_pro64.setting_tk_thep_bvbs",
+      "Kata_pro64.Tim_thep",
+      "info_sh_vitri_thep",
+      "Kata_pro64.TK_kieu_xuat",
+      "Kata_pro64.TK_san",
+      "Kata_pro64.TK_ten"
+    ]
+  },
+  "inspect-managed-native-boundaries": {
+    "evidence_id": "ev_606175309220230a9c487b1120b7924ea84d5e5cb2225c69ac868e0d8e607bb7",
+    "pinvoke_methods": [],
+    "native_methods": []
+  },
+  "inspect-pe-resources": {
+    "evidence_id": "ev_391ba6f0a7edb4da66c0ae0f87937163643f2d874e77a7d95bacd00bd41ff1d5",
+    "entries_count": null
+  }
+}

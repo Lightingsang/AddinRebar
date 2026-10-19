@@ -1,0 +1,4 @@
+﻿rai_mong=2
+tkcot=1
+ve_mong_coc=1
+ve_mong_don=1

@@ -1,0 +1,275 @@
+<Window x:Class="HPKata.UI.Views.DetailingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:HPKata.UI.ViewModels"
+        xmlns:conv="clr-namespace:HPKata.UI.Converters"
+        mc:Ignorable="d"
+        Title="HPKata — Chi tiết &amp; Uốn cốt thép (85 Hình dạng chuẩn)"
+        Height="580" Width="840"
+        MinHeight="480" MinWidth="700"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush.Background}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPKata.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+            <conv:NumberFormatConverter x:Key="NumFmt"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="0,0,0,8" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="KHAI BÁO &amp; TÍNH TOÁN HÌNH HỌC THANH THÉP" Style="{StaticResource Text.Title}"/>
+                <TextBlock Text=" — 85 Shapes Catalog" Style="{StaticResource Text.Muted}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content Area (2 columns: Inputs & Calculation Summary) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.4*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1.0*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left / Center: Shape & Parameters -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Shape Selection Card -->
+                    <Border Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="Hình dạng thanh thép (Rebar Shape)" Style="{StaticResource Text.Section}"/>
+                            <TextBlock Text="Chọn hình dạng trong danh mục 85 dạng chuẩn Kata / TCVN:" Style="{StaticResource Text.Muted}" Margin="0,0,0,6"/>
+                            <ComboBox ItemsSource="{Binding Shapes}"
+                                      SelectedItem="{Binding SelectedShape, Mode=TwoWay}"
+                                      DisplayMemberPath="Description">
+                            </ComboBox>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Mã dạng (Shape Code):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBlock Text="{Binding SelectedShape.ShapeCode}" Style="{StaticResource Text.Bold}" FontSize="14" Foreground="{DynamicResource Brush.Accent}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Revit Shape Tương đương:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBlock Text="{Binding SelectedShape.RevitShapeEquivalent}" Style="{StaticResource Text.Bold}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Detailing Dimensions Card -->
+                    <Border Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="Kích thước các đoạn (mm) &amp; Góc uốn" Style="{StaticResource Text.Section}"/>
+
+                            <Grid Margin="0,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- L1 -->
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL1Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L1 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L1, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- L2 -->
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL2Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L2 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L2, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- L3 -->
+                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL3Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L3 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L3, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- L4 -->
+                                <StackPanel Grid.Row="1" Grid.Column="2" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL4Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L4 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L4, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- L5 -->
+                                <StackPanel Grid.Row="2" Grid.Column="0" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL5Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L5 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L5, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- L6 -->
+                                <StackPanel Grid.Row="2" Grid.Column="2" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsL6Visible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Đoạn L6 (mm):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding L6, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <!-- Angle & Bend deduction -->
+                                <StackPanel Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin.Row}" Visibility="{Binding IsAngleVisible, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Góc uốn α (°):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding AngleDeg, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="0,12,0,0">
+                                    <CheckBox Content="Khấu trừ dãn dài khi uốn" IsChecked="{Binding ApplyBendDeduction}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Member & Identification Card -->
+                    <Border Style="{StaticResource Card.Panel}">
+                        <StackPanel>
+                            <TextBlock Text="Thông tin cấu kiện &amp; Bố trí" Style="{StaticResource Text.Section}"/>
+                            <Grid Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Tên CK:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding ComponentMark, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Số hiệu (STT):" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding BarMark, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="Bước đai / Rải:" Style="{StaticResource Text.Muted}"/>
+                                    <TextBox Text="{Binding Spacing, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right: Properties & Real-Time Calculation Card -->
+            <Border Grid.Column="2" Style="{StaticResource Card.Panel}" VerticalAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Thuộc tính vật liệu" Style="{StaticResource Text.Section}"/>
+
+                        <TextBlock Text="Đường kính thanh (Φ mm):" Style="{StaticResource Text.Muted}" Margin="0,4,0,2"/>
+                        <ComboBox ItemsSource="{Binding Diameters}" SelectedItem="{Binding Diameter, Mode=TwoWay}"/>
+
+                        <TextBlock Text="Mác thép (Grade):" Style="{StaticResource Text.Muted}" Margin="0,8,0,2"/>
+                        <ComboBox ItemsSource="{Binding SteelGrades}" SelectedItem="{Binding SteelGrade, Mode=TwoWay}"/>
+
+                        <TextBlock Text="Kiểu móc neo (Hook):" Style="{StaticResource Text.Muted}" Margin="0,8,0,2"/>
+                        <ComboBox ItemsSource="{Binding HookTypes}" SelectedItem="{Binding HookType, Mode=TwoWay}"/>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Số thanh / CK:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding CountPerMember, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Số cấu kiện:" Style="{StaticResource Text.Muted}"/>
+                                <TextBox Text="{Binding MemberCount, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Real-Time Calculation Metrics -->
+                    <Border Grid.Row="2" Background="{DynamicResource Brush.Background}" CornerRadius="4" Padding="12" Margin="0,16,0,0" VerticalAlignment="Bottom">
+                        <StackPanel>
+                            <TextBlock Text="KẾT QUẢ TÍNH TOÁN" Style="{StaticResource Text.Section}"/>
+
+                            <Grid Margin="0,6,0,4">
+                                <TextBlock Text="Chiều dài cắt (L cắt):" Style="{StaticResource Text.Muted}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding CuttingLengthMm, Converter={StaticResource NumFmt}, ConverterParameter='N0'}" Style="{StaticResource Text.Bold}" FontSize="15" Foreground="{DynamicResource Brush.Accent}"/>
+                                    <TextBlock Text=" mm" Style="{StaticResource Text.Muted}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Margin="0,4,0,4">
+                                <TextBlock Text="Trọng lượng đơn vị:" Style="{StaticResource Text.Muted}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding UnitMassKgPerM, Converter={StaticResource NumFmt}, ConverterParameter='F3'}" Style="{StaticResource Text.Bold}"/>
+                                    <TextBlock Text=" kg/m" Style="{StaticResource Text.Muted}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Margin="0,4,0,4">
+                                <TextBlock Text="Tổng số lượng thanh:" Style="{StaticResource Text.Muted}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding TotalCount}" Style="{StaticResource Text.Bold}"/>
+                                    <TextBlock Text=" thanh" Style="{StaticResource Text.Muted}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Margin="0,4,0,4">
+                                <TextBlock Text="Tổng chiều dài:" Style="{StaticResource Text.Muted}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding TotalLengthM, Converter={StaticResource NumFmt}, ConverterParameter='F2'}" Style="{StaticResource Text.Bold}"/>
+                                    <TextBlock Text=" m" Style="{StaticResource Text.Muted}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Border Height="1" Background="{DynamicResource Brush.Border}" Margin="0,6,0,6"/>
+
+                            <Grid Margin="0,4,0,0">
+                                <TextBlock Text="TỔNG TRỌNG LƯỢNG:" Style="{StaticResource Text.Bold}" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding TotalWeightKg, Converter={StaticResource NumFmt}, ConverterParameter='F2'}" FontSize="16" Style="{StaticResource Text.Bold}" Foreground="{DynamicResource Brush.Warning}"/>
+                                    <TextBlock Text=" kg" Style="{StaticResource Text.Bold}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Footer Actions -->
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Hủy bỏ" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                <Button Content="Áp dụng &amp; Chèn thanh" Command="{Binding ApplyCommand}" Style="{StaticResource PrimaryButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,2853 @@
+﻿#name	Tiếng Việt
+# Tu dien DCE Pro (CAD) - ma: vi
+# Dinh dang: <chuoi tieng Viet goc><TAB><ban dich>
+# Tu dien RIENG cua ban CAD (tach khoi ban Excel de khong lay nhiem rui ro).
+# Lua chon ngon ngu DUNG CHUNG voi Excel: System\NgonNgu.txt
+# Bo trong phan dich = phan mem tu dung tieng Viet (KHONG loi).
+#------------------------------------------------------------------------
+
+ (có thể bạn đã bấm Hủy ở hộp thoại UAC): 	 (có thể bạn đã bấm Hủy ở hộp thoại UAC): 
+ - Của cấu kiện: 	 - Của cấu kiện: 
+ Block không đọc được nội dung và chưa được thống kê đã Highline trên bản vẽ	 Block không đọc được nội dung và chưa được thống kê đã Highline trên bản vẽ
+ Chưa hỗ trợ tính năng này!	 Chưa hỗ trợ tính năng này!
+ Chứa dữ liệu kéo thép (ký tự '-') nhưng không xác định loại thép cần tăng cường!	 Chứa dữ liệu kéo thép (ký tự '-') nhưng không xác định loại thép cần tăng cường!
+ Copy thành công: 	 Copy thành công: 
+ Của Etabs!	 Của Etabs!
+ Polyline thép (có dữ liệu ẩn)	 Polyline thép (có dữ liệu ẩn)
+ bị trống	 bị trống
+ chứa dữ liệu không hợp lệ để gán THÊM liên kết!	 chứa dữ liệu không hợp lệ để gán THÊM liên kết!
+ cảnh báo.	 cảnh báo.
+ khung tên nghi ngờ. Vẽ khung kiểm tra cho tất cả?	 khung tên nghi ngờ. Vẽ khung kiểm tra cho tất cả?
+ không thành công!	 không thành công!
+ không?	 không?
+ lần!	 lần!
+ mục, nhưng có 	 mục, nhưng có 
+ nhấn lệnh XoaDLDataDCE để xóa dữ liệu ẩn trong đường bao	 nhấn lệnh XoaDLDataDCE để xóa dữ liệu ẩn trong đường bao
+ phải là số tự nhiên!	 phải là số tự nhiên!
+ thanh thép bị bỏ qua (đã tô chọn sẵn trên bản vẽ).	 thanh thép bị bỏ qua (đã tô chọn sẵn trên bản vẽ).
+ trong File Excel!	 trong File Excel!
+ trong file excel. Kiểm tra lại Excel	 trong file excel. Kiểm tra lại Excel
+ trong file iso: 	 trong file iso: 
+ và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).	 và Excel đang chạy KHÁC quyền (một bên 'Run as administrator', một bên chạy bình thường).
+ vị trí Cột bên Excel!	 vị trí Cột bên Excel!
+ ĐK 	 ĐK 
+ Đối tượng chưa có đã được thêm vào dòng cuối của bảng tính dầm!	 Đối tượng chưa có đã được thêm vào dòng cuối của bảng tính dầm!
+ Đối tượng chưa đúng quy tắc đặt tên! 	 Đối tượng chưa đúng quy tắc đặt tên! 
+ Đối tượng không đủ thông số cần thiết để tính toán.	 Đối tượng không đủ thông số cần thiết để tính toán.
+ Đối tượng!	 Đối tượng!
+ đối tượng copy không thành công do khác TÊN CẤU KIỆN hoặc không phải là thép đã được highlight	 đối tượng copy không thành công do khác TÊN CẤU KIỆN hoặc không phải là thép đã được highlight
+ đối tượng copy không thành công do không thỏa mãn điều kiện lọc.	 đối tượng copy không thành công do không thỏa mãn điều kiện lọc.
+ đối tượng cần chú ý, vì không xác định được số lượng hoặc đường kính hoặc số lượng cấu kiện	 đối tượng cần chú ý, vì không xác định được số lượng hoặc đường kính hoặc số lượng cấu kiện
+ đối tượng không đủ thông tin cần thiết hoặc chưa đúng quy tắc đặt tên: 	 đối tượng không đủ thông tin cần thiết hoặc chưa đúng quy tắc đặt tên: 
+ ở Excel, Vui lòng kiểm tra lại!	 ở Excel, Vui lòng kiểm tra lại!
+ — tạm dùng style hiện hành.	 — tạm dùng style hiện hành.
+" chưa có đơn vị.	" chưa có đơn vị.
+" thành công.	" thành công.
+" vào BẢN VẼ HIỆN HÀNH:	" vào BẢN VẼ HIỆN HÀNH:
+" vào bản vẽ hiện hành:	" vào bản vẽ hiện hành:
+" đã là 	" đã là 
+" — không có gì để cập nhật.	" — không có gì để cập nhật.
+- Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!	- Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt lần 2!
+- Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!	- Bộ cài thiếu dữ liệu để sử dụng Offline, Chọn Yes để tự động cài đặt!
+- Chọn 'NO' thêm liên kết.	- Chọn 'NO' thêm liên kết.
+- Chọn 'YES' để xóa liên kết cũ và chèn liên kết mới.	- Chọn 'YES' để xóa liên kết cũ và chèn liên kết mới.
+- Chức năng Refresh View CÓ THỂ gây treo Etabs hoặc Autocad! cân nhắc khi sử dụng!	- Chức năng Refresh View CÓ THỂ gây treo Etabs hoặc Autocad! cân nhắc khi sử dụng!
+- Các đối tượng đã chọn không phụ hợp để Group	- Các đối tượng đã chọn không phụ hợp để Group
+- Lệnh này sẽ đưa Z về 0 cho từng loại đối tượng theo cách phù hợp.	- Lệnh này sẽ đưa Z về 0 cho từng loại đối tượng theo cách phù hợp.
+- Nếu lệnh này không áp dụng được với các đối tượng có Elevation khác 0 thì hãy thử lệnh FLATTEN của Autocad!	- Nếu lệnh này không áp dụng được với các đối tượng có Elevation khác 0 thì hãy thử lệnh FLATTEN của Autocad!
+- PA1 sẽ có xác suất dùng chiều dài (L) ưu tiên nhiều nhất	- PA1 sẽ có xác suất dùng chiều dài (L) ưu tiên nhiều nhất
+- TÍNH NĂNG ĐANG PHÁT TRIỂN - CÂN NHẮC KHI SỬ DỤNG ĐỂ HỖ TRỢ MÔ HÌNH!	- TÍNH NĂNG ĐANG PHÁT TRIỂN - CÂN NHẮC KHI SỬ DỤNG ĐỂ HỖ TRỢ MÔ HÌNH!
+- Điền số dương (ví dụ 500) để chỉ rải đai bao phía ngoài	- Điền số dương (ví dụ 500) để chỉ rải đai bao phía ngoài
+- Đọc file iso không thành công: 	- Đọc file iso không thành công: 
+- Đối tượng chứa tên trục không phải là Block ATT!	- Đối tượng chứa tên trục không phải là Block ATT!
+- Đối tượng được chọn không cùng tên cấu kiện: 	- Đối tượng được chọn không cùng tên cấu kiện: 
+- Đối tượng được chọn không phải Block ATT!	- Đối tượng được chọn không phải Block ATT!
+- Đối tượng được chọn không thể chèn thêm dữ liệu! 	- Đối tượng được chọn không thể chèn thêm dữ liệu! 
+- Đối tượng được chọn không xác định!	- Đối tượng được chọn không xác định!
+. Kiểm tra lại Excel	. Kiểm tra lại Excel
+1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?	1. Bạn có muốn làm mới toàn bộ cài đặt về trạng thái ban đầu?
+1. PHẦN MỀM SẼ ĐĂNG XUẤT TÀI KHOẢN TỰ ĐỘNG VÀ SAU ĐÓ ĐĂNG NHẬP LẠI!	1. PHẦN MỀM SẼ ĐĂNG XUẤT TÀI KHOẢN TỰ ĐỘNG VÀ SAU ĐÓ ĐĂNG NHẬP LẠI!
+2 điểm click quá gần nhau! 	2 điểm click quá gần nhau! 
+2 điểm gióng không được trùng nhau	2 điểm gióng không được trùng nhau
+2 điểm nhấn trùng nhau, không xác định được trục dầm.	2 điểm nhấn trùng nhau, không xác định được trục dầm.
+API script FAILED to complete.	API script FAILED to complete.
+AutoStr — Bước {nhan}: thiếu thông số bắt buộc	AutoStr — Bước {nhan}: thiếu thông số bắt buộc
+AutoStr — Xác nhận ghi đè	AutoStr — Xác nhận ghi đè
+BTBV nhập không đúng định dạng!	BTBV nhập không đúng định dạng!
+Block không xác định chiều dài! 	Block không xác định chiều dài! 
+Block này không chứa dữ liệu liên kết đến Text trong Danh mục!	Block này không chứa dữ liệu liên kết đến Text trong Danh mục!
+Block được chọn không phù hợp!	Block được chọn không phù hợp!
+Block đặt tên không đúng định dạng! 	Block đặt tên không đúng định dạng! 
+Bước bố trí hoặc tổng chiều dài đoạn rải thép không hợp lệ!	Bước bố trí hoặc tổng chiều dài đoạn rải thép không hợp lệ!
+Bước bố trí thép không hợp lệ!	Bước bố trí thép không hợp lệ!
+Bạn chưa chọn gói để mua!	Bạn chưa chọn gói để mua!
+Bạn chưa nhập License để gia hạn!	Bạn chưa nhập License để gia hạn!
+Bạn có chắc chắn tiếp tục sửa toàn bộ các đối tượng có layer: 	Bạn có chắc chắn tiếp tục sửa toàn bộ các đối tượng có layer: 
+Bạn có muốn lấy dữ liệu dầm từ excel không?	Bạn có muốn lấy dữ liệu dầm từ excel không?
+Bạn có muốn xóa toàn bộ dữ liệu?	Bạn có muốn xóa toàn bộ dữ liệu?
+Bạn cần nhập Mật khẩu để xem danh sách license!	Bạn cần nhập Mật khẩu để xem danh sách license!
+Bạn đang select phần tử bên Etabs	Bạn đang select phần tử bên Etabs
+Bạn đang sử dụng chức năng Auto rename Layer nên luôn phải ưu tiên file ISO!	Bạn đang sử dụng chức năng Auto rename Layer nên luôn phải ưu tiên file ISO!
+Bản vẽ hiện hành không dùng block nào của file iso "	Bản vẽ hiện hành không dùng block nào của file iso "
+Bấm nút đổi hình dạng để đổi loại thép!	Bấm nút đổi hình dạng để đổi loại thép!
+Bẻ móc đai cuối điền 10d hoặc 100mm thì tương ứng đai gia cường sẽ bẻ móc 10d hoặc 100mm	Bẻ móc đai cuối điền 10d hoặc 100mm thì tương ứng đai gia cường sẽ bẻ móc 10d hoặc 100mm
+Bẻ móc đai cuối điền chưa chính xác:	Bẻ móc đai cuối điền chưa chính xác:
+Bẻ móc đai đầu điền 10d hoặc 100mm thì tương ứng đai gia cường sẽ bẻ móc 10d hoặc 100mm	Bẻ móc đai đầu điền 10d hoặc 100mm thì tương ứng đai gia cường sẽ bẻ móc 10d hoặc 100mm
+Bẻ móc đai đầu điền chưa chính xác:	Bẻ móc đai đầu điền chưa chính xác:
+Bề rộng tường: 	Bề rộng tường: 
+CHÚ Ý: 'Làm tròn thép' đang để 	CHÚ Ý: 'Làm tròn thép' đang để 
+CHÚ Ý: Chiều dài nhỏ nhất xét cắt thép = 	CHÚ Ý: Chiều dài nhỏ nhất xét cắt thép = 
+CHỨC NĂNG SHOPDRAWING DẦM TÍNH VÙNG ĐƯỢC PHÉP NỐI VỚI CHIỀU DÀI L TỪ TIM CỘT CHỈ ÁP DỤNG KHI SHOP TỪNG DẦM.	CHỨC NĂNG SHOPDRAWING DẦM TÍNH VÙNG ĐƯỢC PHÉP NỐI VỚI CHIỀU DÀI L TỪ TIM CỘT CHỈ ÁP DỤNG KHI SHOP TỪNG DẦM.
+CSI chưa hỗ trợ tính năng này cho Etabs 2017 trở xuống!	CSI chưa hỗ trợ tính năng này cho Etabs 2017 trở xuống!
+Cannot run API script: 	Cannot run API script: 
+Chiều dài Dầm nhỏ, không thể tạo!	Chiều dài Dầm nhỏ, không thể tạo!
+Chiều dài Vách nhỏ, không thể tạo!	Chiều dài Vách nhỏ, không thể tạo!
+Chiều dài còn lại sau khi cắt quá nhỏ: 	Chiều dài còn lại sau khi cắt quá nhỏ: 
+Chiều dài móc hoặc góc móc không hợp lệ.  Hãy kiểm tra cài đặt.	Chiều dài móc hoặc góc móc không hợp lệ.  Hãy kiểm tra cài đặt.
+Chiều dài nối thép đk 	Chiều dài nối thép đk 
+Chiều dài thanh thép phải nằm trong khoảng 3000mm - 15000mm!	Chiều dài thanh thép phải nằm trong khoảng 3000mm - 15000mm!
+Chiều dài thông thủy nhịp điền không đúng định dạng!	Chiều dài thông thủy nhịp điền không đúng định dạng!
+Chiều dày sàn thay thế phải là số nguyên lớn hơn 0!	Chiều dày sàn thay thế phải là số nguyên lớn hơn 0!
+Chênh lệch cho phép không được lớn hơn hoặc bằng khoảng cách tối đa giữa các cọc trong đài!	Chênh lệch cho phép không được lớn hơn hoặc bằng khoảng cách tối đa giữa các cọc trong đài!
+Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!	Chúng tôi đã nhận được yêu cầu loại bỏ mã thiết bị!
+Chưa Click điểm gối nhịp trên mặt bằng!	Chưa Click điểm gối nhịp trên mặt bằng!
+Chưa chọn Spring	Chưa chọn Spring
+Chưa chọn layer bao sàn!	Chưa chọn layer bao sàn!
+Chưa chọn layer dầm!	Chưa chọn layer dầm!
+Chưa chọn thư mục dự án hoặc thư mục gốc không tồn tại.	Chưa chọn thư mục dự án hoặc thư mục gốc không tồn tại.
+Chưa click đủ point hoặc số point là số lẻ. cần pick >= 4 điểm và số point click là số chẵn.	Chưa click đủ point hoặc số point là số lẻ. cần pick >= 4 điểm và số point click là số chẵn.
+Chưa có PointSpring được chọn	Chưa có PointSpring được chọn
+Chưa có dầm nào được Copy!	Chưa có dầm nào được Copy!
+Chưa có point nào được chọn trước bên Etabs.	Chưa có point nào được chọn trước bên Etabs.
+Chưa có point nào được chọn trước để làm chuẩn so sánh.	Chưa có point nào được chọn trước để làm chuẩn so sánh.
+Chưa có tài khoản nào được đăng nhập!	Chưa có tài khoản nào được đăng nhập!
+Chưa gán trục dầm (hoặc thiếu XData) → không thể xác định phương chính.	Chưa gán trục dầm (hoặc thiếu XData) → không thể xác định phương chính.
+Chưa hỗ trợ tính năng này	Chưa hỗ trợ tính năng này
+Chưa kết nối CSI.	Chưa kết nối CSI.
+Chưa kết nối CSI. Vào tab 'Mô hình' → Connect trước.	Chưa kết nối CSI. Vào tab 'Mô hình' → Connect trước.
+Chưa nhập license!	Chưa nhập license!
+Chưa nhập mã thiết bị!	Chưa nhập mã thiết bị!
+Chưa nhập số lượng thanh!	Chưa nhập số lượng thanh!
+Chưa nhập tiết diện Sàn	Chưa nhập tiết diện Sàn
+Chưa nhập tiết diện cột!	Chưa nhập tiết diện cột!
+Chưa nhập tiết diện dầm	Chưa nhập tiết diện dầm
+Chưa nhập tiết diện sàn!	Chưa nhập tiết diện sàn!
+Chưa nhập tiết diện vách!	Chưa nhập tiết diện vách!
+Chưa nhập tên dầm!	Chưa nhập tên dầm!
+Chưa nhập tên thiết bị!	Chưa nhập tên thiết bị!
+Chưa quét chọn Polyline bao đài, vui lòng xem lại!	Chưa quét chọn Polyline bao đài, vui lòng xem lại!
+Chưa quét chọn Polyline bao, vui lòng xem lại!	Chưa quét chọn Polyline bao, vui lòng xem lại!
+Chưa quét chọn đối tượng cột, vui lòng xem lại!	Chưa quét chọn đối tượng cột, vui lòng xem lại!
+Chưa thể tag nhiều hơn 1 loại thép cùng lúc!	Chưa thể tag nhiều hơn 1 loại thép cùng lúc!
+Chưa thể tag nhiều hơn 2 loại thép cùng lúc!	Chưa thể tag nhiều hơn 2 loại thép cùng lúc!
+Chưa điền bước bố trí!	Chưa điền bước bố trí!
+Chưa điền bề rộng dầm!	Chưa điền bề rộng dầm!
+Chưa điền chiều cao dầm!	Chưa điền chiều cao dầm!
+Chưa điền chiều dài móc đai!	Chưa điền chiều dài móc đai!
+Chưa điền khoảng rải thép đai!	Chưa điền khoảng rải thép đai!
+Chưa điền số cấu kiện!	Chưa điền số cấu kiện!
+Chưa điền tên cấu kiện	Chưa điền tên cấu kiện
+Chưa điền tên cấu kiện!	Chưa điền tên cấu kiện!
+Chưa điền tên dầm!	Chưa điền tên dầm!
+Chưa điền đường kính thép dọc!	Chưa điền đường kính thép dọc!
+Chưa đặt cỡ chữ cơ bản (HeightTextMtext) trong DceSetup!	Chưa đặt cỡ chữ cơ bản (HeightTextMtext) trong DceSetup!
+Chưa đối tượng sàn nào được chọn trước trong mô hình để tạo strip!	Chưa đối tượng sàn nào được chọn trước trong mô hình để tạo strip!
+Chỉ Select 2 đối tượng để tự động vẽ dầm!	Chỉ Select 2 đối tượng để tự động vẽ dầm!
+Chỉ chọn 1 đối tượng copy!	Chỉ chọn 1 đối tượng copy!
+Chỉ chọn 1 đối tượng thép!	Chỉ chọn 1 đối tượng thép!
+Chỉ chọn tối đa 1 đối tượng!	Chỉ chọn tối đa 1 đối tượng!
+Chỉ chọn đối đa 1 đối tượng thép chủ!	Chỉ chọn đối đa 1 đối tượng thép chủ!
+Chỉ fix lỗi được khi các đối tượng vẫn còn Group hoặc Select từng tổ hợp thép sàn 1!	Chỉ fix lỗi được khi các đối tượng vẫn còn Group hoặc Select từng tổ hợp thép sàn 1!
+Chọn 1 Block tag, 1 polyline thép và 1 DIMENSION để tạo biến thiên cho dim	Chọn 1 Block tag, 1 polyline thép và 1 DIMENSION để tạo biến thiên cho dim
+Chọn Spring cho cọc (tab 'Móng cọc' → cmbSpring).	Chọn Spring cho cọc (tab 'Móng cọc' → cmbSpring).
+Chọn Spring cho cọc.	Chọn Spring cho cọc.
+Chọn Vật liệu đài (bê tông).	Chọn Vật liệu đài (bê tông).
+Chức năng 'Gộp số lượng nếu SH giống nhau ở MCN' Nếu kích hoạt sẽ gây lỗi khi chỉnh sửa thép về sau!	Chức năng 'Gộp số lượng nếu SH giống nhau ở MCN' Nếu kích hoạt sẽ gây lỗi khi chỉnh sửa thép về sau!
+Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 	Chức năng LogOut tài khoản từ xa sẽ hoạt động sau: 
+Chức năng Remove Device sẽ hoạt động sau: 	Chức năng Remove Device sẽ hoạt động sau: 
+Chức năng khóa, vui lòng liên hệ tác giả để được hỗ trợ!	Chức năng khóa, vui lòng liên hệ tác giả để được hỗ trợ!
+Chức năng này chưa hỗ trợ cho phiên bản cad của bạn!	Chức năng này chưa hỗ trợ cho phiên bản cad của bạn!
+Chức năng này chưa được hoàn thiện với license dùng thử!	Chức năng này chưa được hoàn thiện với license dùng thử!
+Chức năng này chỉ dành cho etabs 2018 hoặc safe V20 trở lên!	Chức năng này chỉ dành cho etabs 2018 hoặc safe V20 trở lên!
+Chức năng này chỉ dùng cho cột hình chữ nhật!	Chức năng này chỉ dùng cho cột hình chữ nhật!
+Complete	Complete
+CÁC THÔNG SỐ LÀM TRÒN BÊN TRÁI LẦN LƯỢT LÀ:	CÁC THÔNG SỐ LÀM TRÒN BÊN TRÁI LẦN LƯỢT LÀ:
+Các cọc trùng vị trí:	Các cọc trùng vị trí:
+Các dầm trùng tên hoặc MÔ HÌNH ĐANG BỊ KHÓA: 	Các dầm trùng tên hoặc MÔ HÌNH ĐANG BỊ KHÓA: 
+Các phần tử sàn phần mềm đang để mặc định Cardinal (insertion Point)= Middle, người dùng cần điều chỉnh về Top hoặc Bot cho phù hợp với Model kết cấu!	Các phần tử sàn phần mềm đang để mặc định Cardinal (insertion Point)= Middle, người dùng cần điều chỉnh về Top hoặc Bot cho phù hợp với Model kết cấu!
+Các thép chọn chưa phù hợp, cần chọn lại!	Các thép chọn chưa phù hợp, cần chọn lại!
+Các thông số sau đây không thay đổi vì trùng lặp:	Các thông số sau đây không thay đổi vì trùng lặp:
+Các trường Etabs trả về:	Các trường Etabs trả về:
+Các ô dữ liệu sau không được bỏ trống: 	Các ô dữ liệu sau không được bỏ trống: 
+Các điểm pick chọn không nằm trên thanh thép!	Các điểm pick chọn không nằm trên thanh thép!
+Các điểm vẽ vách không phải hình chữ nhật! 	Các điểm vẽ vách không phải hình chữ nhật! 
+Các đối tượng Select chưa hợp lệ!, vui lòng chọn lại!	Các đối tượng Select chưa hợp lệ!, vui lòng chọn lại!
+Các đối tượng được Highline có nhiều hơn một từ khóa tìm kiếm! 	Các đối tượng được Highline có nhiều hơn một từ khóa tìm kiếm! 
+Có lỗi liên kết thép sàn; Bạn có muốn dừng lại để kiểm tra?	Có lỗi liên kết thép sàn; Bạn có muốn dừng lại để kiểm tra?
+Có nhiều hơn 1 dầm tên là: 	Có nhiều hơn 1 dầm tên là: 
+Có nhiều hơn 2 point đang được chọn bên Etabs!	Có nhiều hơn 2 point đang được chọn bên Etabs!
+Có phải bạn đang muốn vẽ tỷ lệ	Có phải bạn đang muốn vẽ tỷ lệ
+Có: 	Có: 
+Cạnh X nhập phải là số nguyên dương. 	Cạnh X nhập phải là số nguyên dương. 
+Cạnh Y nhập phải là số nguyên dương. 	Cạnh Y nhập phải là số nguyên dương. 
+Cảnh báo	Cảnh báo
+Cần chuyển dấu chấm thành dấu phảy ngăn cách đơn vị Excel!	Cần chuyển dấu chấm thành dấu phảy ngăn cách đơn vị Excel!
+Cần click nút tìm số thứ tự dầm 	Cần click nút tìm số thứ tự dầm 
+Cần có 2 point chọn trước đó để làm chuẩn Extend.	Cần có 2 point chọn trước đó để làm chuẩn Extend.
+Cần select các phần tử trong Etabs để tiến hành Export!	Cần select các phần tử trong Etabs để tiến hành Export!
+Cập nhật từ file iso "	Cập nhật từ file iso "
+Cột 'Màu Sắc' là số nguyên dương nhập giá trị từ 1 => 255, ví dụ nhập: 2	Cột 'Màu Sắc' là số nguyên dương nhập giá trị từ 1 => 255, ví dụ nhập: 2
+Cột đường kính là số nguyên dương, ví dụ nhập: 10	Cột đường kính là số nguyên dương, ví dụ nhập: 10
+Cỡ chữ cơ bản không hợp lệ!	Cỡ chữ cơ bản không hợp lệ!
+Cỡ chữ cơ bản phải lớn hơn 0!	Cỡ chữ cơ bản phải lớn hơn 0!
+Cỡ chữ text phải là số nguyên dương!	Cỡ chữ text phải là số nguyên dương!
+Cỡ chữ trong file iso "	Cỡ chữ trong file iso "
+Dim gốc không nằm trong group nào!	Dim gốc không nằm trong group nào!
+Do Cấu trúc mô hình sap không phân theo tầng mà theo cao độ, Bạn cần điền Tên tầng update dạng cao độ: 	Do Cấu trúc mô hình sap không phân theo tầng mà theo cao độ, Bạn cần điền Tên tầng update dạng cao độ: 
+Download và cài đặt phiên bản mới: 	Download và cài đặt phiên bản mới: 
+Dòng được chọn bên excel không có handel được lưu, Không xác định được bên autocad!	Dòng được chọn bên excel không có handel được lưu, Không xác định được bên autocad!
+Dữ liệu Excel chưa hợp lệ nên KHÔNG cập nhật gì (	Dữ liệu Excel chưa hợp lệ nên KHÔNG cập nhật gì (
+Dữ liệu có chiều dài 	Dữ liệu có chiều dài 
+Dữ liệu license không hợp lệ! Vui lòng đăng xuất và đăng nhập lại.	Dữ liệu license không hợp lệ! Vui lòng đăng xuất và đăng nhập lại.
+Dữ liệu mới đã được cập nhập theo dự án, tuy nhiên bạn cần đăng nhập lại tài khoản đến khi thành công!	Dữ liệu mới đã được cập nhập theo dự án, tuy nhiên bạn cần đăng nhập lại tài khoản đến khi thành công!
+Dữ liệu nhập vào không chính xác, vui lòng xem lại!	Dữ liệu nhập vào không chính xác, vui lòng xem lại!
+Dữ liệu sẽ bị xóa vĩnh viễn?	Dữ liệu sẽ bị xóa vĩnh viễn?
+Dữ liệu đã tồn tại: 	Dữ liệu đã tồn tại: 
+Dữ liệu đã được lưu	Dữ liệu đã được lưu
+Etabs 	Etabs 
+Excel Chọn số lượng cọc chưa được mở, Bạn có muốn mở nó?	Excel Chọn số lượng cọc chưa được mở, Bạn có muốn mở nó?
+Excel Cầu thang chưa được mở, Bạn có muốn mở nó?	Excel Cầu thang chưa được mở, Bạn có muốn mở nó?
+Excel Cột chưa được mở, Bạn có muốn mở nó?	Excel Cột chưa được mở, Bạn có muốn mở nó?
+Excel Dầm chưa được mở, Bạn có muốn mở nó?	Excel Dầm chưa được mở, Bạn có muốn mở nó?
+Excel Móng chưa được mở, Bạn có muốn mở nó?	Excel Móng chưa được mở, Bạn có muốn mở nó?
+Excel dữ liệu sàn chưa được mở, Bạn có muốn mở nó?	Excel dữ liệu sàn chưa được mở, Bạn có muốn mở nó?
+Excel dữ liệu thép lanh tô chưa được mở, Bạn có muốn mở nó?	Excel dữ liệu thép lanh tô chưa được mở, Bạn có muốn mở nó?
+Excel không đúng định dạng (cần tối thiểu 10 cột A..J đến 'Handle').	Excel không đúng định dạng (cần tối thiểu 10 cột A..J đến 'Handle').
+Excel thuyết minh cọc chưa được mở, Bạn có muốn mở nó?	Excel thuyết minh cọc chưa được mở, Bạn có muốn mở nó?
+Excel thống kê thép chưa được mở, Bạn có muốn mở nó?	Excel thống kê thép chưa được mở, Bạn có muốn mở nó?
+Excel tính móng đơn chưa được mở, Bạn có muốn mở nó?	Excel tính móng đơn chưa được mở, Bạn có muốn mở nó?
+Excel vẽ cọc khoan nhồi chưa được mở hoặc do excel đang chạy ẩn, Bạn có muốn mở nó?	Excel vẽ cọc khoan nhồi chưa được mở hoặc do excel đang chạy ẩn, Bạn có muốn mở nó?
+Excel vẽ dầm mặt cắt chưa được mở, Bạn có muốn mở nó?	Excel vẽ dầm mặt cắt chưa được mở, Bạn có muốn mở nó?
+Excel vẽ móng chưa được mở, Bạn có muốn mở nó?	Excel vẽ móng chưa được mở, Bạn có muốn mở nó?
+Excel đang bị Minimize (thu nhỏ) dưới thanh taskbar, Hãy hiển thị nó lên trên màn hình rồi thao tác lại!	Excel đang bị Minimize (thu nhỏ) dưới thanh taskbar, Hãy hiển thị nó lên trên màn hình rồi thao tác lại!
+Excel đang ở CHẾ ĐỘ SỬA Ô (con trỏ còn nhấp nháy trong cell) nên không thể kết nối, dễ gây treo phần mềm.	Excel đang ở CHẾ ĐỘ SỬA Ô (con trỏ còn nhấp nháy trong cell) nên không thể kết nối, dễ gây treo phần mềm.
+Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!	Excel đã ngắt kết nối, vui lòng xuất dữ liệu mới!
+File Excel Active cuối cùng không được nhận dạng là file TM cọc!	File Excel Active cuối cùng không được nhận dạng là file TM cọc!
+File Excel Active cuối cùng không được nhận dạng là file tính móng!	File Excel Active cuối cùng không được nhận dạng là file tính móng!
+File Excel Tối ưu cắt thép chưa được mở HOẶC ô B2 không chứa ký tự 'Tên Ck', Bạn có muốn mở nó?	File Excel Tối ưu cắt thép chưa được mở HOẶC ô B2 không chứa ký tự 'Tên Ck', Bạn có muốn mở nó?
+File Excel Tối ưu cắt thép chưa được mở, Bạn có muốn mở nó?	File Excel Tối ưu cắt thép chưa được mở, Bạn có muốn mở nó?
+File Excel đã tồn tại:	File Excel đã tồn tại:
+File iso đang được mở hoặc bị khóa, không ghi được:	File iso đang được mở hoặc bị khóa, không ghi được:
+File không đúng định dạng dự án AutoStr.	File không đúng định dạng dự án AutoStr.
+Ghép file PDF thất bại! Các bản vẽ rời vẫn được giữ trong:	Ghép file PDF thất bại! Các bản vẽ rời vẫn được giữ trong:
+GÁN LẠI SPRING CHO MÔ HÌNH?	GÁN LẠI SPRING CHO MÔ HÌNH?
+Gán không thành công do đối tượng chọn không phải là Block & polyline! 	Gán không thành công do đối tượng chọn không phải là Block & polyline! 
+Gán tải không thành công!	Gán tải không thành công!
+Gửi email đặt lại mật khẩu tới:	Gửi email đặt lại mật khẩu tới:
+Hai đường thẳng không có điểm giao!	Hai đường thẳng không có điểm giao!
+Handel được lưu không chính xác hoặc đối tượng bên autocad đã bị xóa	Handel được lưu không chính xác hoặc đối tượng bên autocad đã bị xóa
+Hoàn Thành: 	Hoàn Thành: 
+Hãy kiểm tra lại!	Hãy kiểm tra lại!
+Hình dạng thép sàn không xác định, điều chỉnh lại thông số: Custom Block (Hình dạng) trong 'Dcesetup'.	Hình dạng thép sàn không xác định, điều chỉnh lại thông số: Custom Block (Hình dạng) trong 'Dcesetup'.
+Hướng dẫn copy tải tường	Hướng dẫn copy tải tường
+Key này KHÔNG dùng được trên máy hiện tại:	Key này KHÔNG dùng được trên máy hiện tại:
+Khai báo Spring '{tenSpring}' thất bại (ret={ret}).	Khai báo Spring '{tenSpring}' thất bại (ret={ret}).
+Khai báo tiết diện không thành công	Khai báo tiết diện không thành công
+Khi shop Sole thép sàn sẽ tự động tịnh tiến cây thép sole thứ 2 một khoảng 40d hoặc 500mm tùy vào cài đặt ở ô bên trái.	Khi shop Sole thép sàn sẽ tự động tịnh tiến cây thép sole thứ 2 một khoảng 40d hoặc 500mm tùy vào cài đặt ở ô bên trái.
+Khoảng cách dùng để bỏ qua chiều dài góc bo tròn giữa 2 góc vuông.	Khoảng cách dùng để bỏ qua chiều dài góc bo tròn giữa 2 góc vuông.
+Khoảng cách giữa 2 lớp thép dầm nên >= 50mm để trình bày hợp lý!	Khoảng cách giữa 2 lớp thép dầm nên >= 50mm để trình bày hợp lý!
+Khoảng cách giữa 2 lớp thép dầm nên để >= 50mm để trình bày bản vẽ được hợp lý nhất!	Khoảng cách giữa 2 lớp thép dầm nên để >= 50mm để trình bày bản vẽ được hợp lý nhất!
+Khoảng cách không thể bằng 0!	Khoảng cách không thể bằng 0!
+Khoảng cách rải con kê nhập không đúng format. Ví dụ nhập: 800x800	Khoảng cách rải con kê nhập không đúng format. Ví dụ nhập: 800x800
+Khoảng cách từ đối tượng đến gốc tọa độ (0,0,0) quá xa, hay move đối tượng lại gần gốc tọa độ hơn!	Khoảng cách từ đối tượng đến gốc tọa độ (0,0,0) quá xa, hay move đối tượng lại gần gốc tọa độ hơn!
+Khoảng cách từ đối tượng đến gốc tọa độ quá xa, hay move đối tượng lại gần gốc tọa độ hơn!	Khoảng cách từ đối tượng đến gốc tọa độ quá xa, hay move đối tượng lại gần gốc tọa độ hơn!
+Khoảng rải không được phép = 0!	Khoảng rải không được phép = 0!
+Khoảng rải thép mới không để trống và phải là số tự nhiên!	Khoảng rải thép mới không để trống và phải là số tự nhiên!
+Không Thể đăng xuất tài khoản!	Không Thể đăng xuất tài khoản!
+Không Xác định Polyline Strip tương ứng đài, chọn lại!	Không Xác định Polyline Strip tương ứng đài, chọn lại!
+Không chạy được 	Không chạy được 
+Không có Point nào được select trước trong mô hình!	Không có Point nào được select trước trong mô hình!
+Không có cọc phù hợp để thống kê	Không có cọc phù hợp để thống kê
+Không có cột nào phù hợp hoặc không có point nào được chọn sẵn bên mô hình, cần kiểm tra lại	Không có cột nào phù hợp hoặc không có point nào được chọn sẵn bên mô hình, cần kiểm tra lại
+Không có dim nào được chọn	Không có dim nào được chọn
+Không có dầm nào trong file Excel tên là: 	Không có dầm nào trong file Excel tên là: 
+Không có dầm nào được select trước bên model Etabs!	Không có dầm nào được select trước bên model Etabs!
+Không có dữ liệu cấu kiện hoặc layout để xử lý.	Không có dữ liệu cấu kiện hoặc layout để xử lý.
+Không có dữ liệu dầm cũ và dầm mới để đổi tên hàng loạt	Không có dữ liệu dầm cũ và dầm mới để đổi tên hàng loạt
+Không có dữ liệu hoặc lỗi kết nối SheetSet.	Không có dữ liệu hoặc lỗi kết nối SheetSet.
+Không có dữ liệu!	Không có dữ liệu!
+Không có giao cắt giữa dim và dầm đã chọn!	Không có giao cắt giữa dim và dầm đã chọn!
+Không có group tương ứng để tạo đoạn trừ dim!	Không có group tương ứng để tạo đoạn trừ dim!
+Không có nội dung Text!	Không có nội dung Text!
+Không có phần tử Point nào được select trước trong mô hình!	Không có phần tử Point nào được select trước trong mô hình!
+Không có thép sàn (POLYLINE) nào được chọn, vui lòng xem lại!	Không có thép sàn (POLYLINE) nào được chọn, vui lòng xem lại!
+Không có thư viện cho Block: 	Không có thư viện cho Block: 
+Không có đối tượng nào khớp với mẫu đã chọn.	Không có đối tượng nào khớp với mẫu đã chọn.
+Không có đối tượng nào được chọn bên Etabs!	Không có đối tượng nào được chọn bên Etabs!
+Không ghép được dầm từ layer '	Không ghép được dầm từ layer '
+Không kết nối được máy chủ để gửi email đặt lại mật khẩu.	Không kết nối được máy chủ để gửi email đặt lại mật khẩu.
+Không kết nối được máy chủ để đăng ký tài khoản.	Không kết nối được máy chủ để đăng ký tài khoản.
+Không lưu được thông số!	Không lưu được thông số!
+Không lấy được vùng chọn từ Excel.	Không lấy được vùng chọn từ Excel.
+Không mở được file: 	Không mở được file: 
+Không mở được: 	Không mở được: 
+Không nạp được thông số!	Không nạp được thông số!
+Không sử dụng Insertion Point Cột cho tầng Base, Vui lòng chuyển tầng update	Không sử dụng Insertion Point Cột cho tầng Base, Vui lòng chuyển tầng update
+Không thể gán thông tin vào block thép vì không nhận dạng được thông tin thép, khoảng rải ở Block	Không thể gán thông tin vào block thép vì không nhận dạng được thông tin thép, khoảng rải ở Block
+Không thể gán thông tin vì Block có nhiều hơn 2 ATT chứa dữ liệu thép khác nhau! 	Không thể gán thông tin vì Block có nhiều hơn 2 ATT chứa dữ liệu thép khác nhau! 
+Không thể gửi yêu cầu lấy lại mật khẩu!	Không thể gửi yêu cầu lấy lại mật khẩu!
+Không thể khai báo Patterns: 	Không thể khai báo Patterns: 
+Không thể khởi động trình cập nhật: 	Không thể khởi động trình cập nhật: 
+Không thể kết nối Excel hoặc lỗi không xác định!	Không thể kết nối Excel hoặc lỗi không xác định!
+Không thể kết nối Excel! Có thể Excel đang chạy ngầm	Không thể kết nối Excel! Có thể Excel đang chạy ngầm
+Không thể lấy danh sách license!	Không thể lấy danh sách license!
+Không thể mở form đăng ký tài khoản!	Không thể mở form đăng ký tài khoản!
+Không thể tái tạo polyline vì không xác định được đường biên ngoài cột!	Không thể tái tạo polyline vì không xác định được đường biên ngoài cột!
+Không thể tái tạo polyline vì không xác định được đường biên trong cột!	Không thể tái tạo polyline vì không xác định được đường biên trong cột!
+Không thể tạo trục, Nếu mô hình đang có hệ trục cũ hãy xóa nó trước khi tạo hệ trục mới hoặc chọn TableGridOption còn lại!	Không thể tạo trục, Nếu mô hình đang có hệ trục cũ hãy xóa nó trước khi tạo hệ trục mới hoặc chọn TableGridOption còn lại!
+Không thể xoá load case cơ bản '{colName}'.	Không thể xoá load case cơ bản '{colName}'.
+Không thể xóa file SheetSet cũ:	Không thể xóa file SheetSet cũ:
+Không thể đăng ký tài khoản!	Không thể đăng ký tài khoản!
+Không thể đăng nhập!	Không thể đăng nhập!
+Không thể đăng xuất!	Không thể đăng xuất!
+Không thể đọc file: 	Không thể đọc file: 
+Không thể đọc được cấu trúc bảng Grid từ Etabs. Vui lòng kiểm tra lại kết nối!	Không thể đọc được cấu trúc bảng Grid từ Etabs. Vui lòng kiểm tra lại kết nối!
+Không thể đọc được cấu trúc bảng Strip Object Connectivity từ Etabs. Vui lòng kiểm tra lại kết nối!	Không thể đọc được cấu trúc bảng Strip Object Connectivity từ Etabs. Vui lòng kiểm tra lại kết nối!
+Không thể đọc được định dạng chữ	Không thể đọc được định dạng chữ
+Không tim thấy cạnh tương ứng trên polyline song song với thép! 	Không tim thấy cạnh tương ứng trên polyline song song với thép! 
+Không truy xuất được dữ liệu 	Không truy xuất được dữ liệu 
+Không tìm thấy 	Không tìm thấy 
+Không tìm thấy Block liên kết (có thể đã bị xóa)!	Không tìm thấy Block liên kết (có thể đã bị xóa)!
+Không tìm thấy Dim Style: 	Không tìm thấy Dim Style: 
+Không tìm thấy Excel đang chạy!	Không tìm thấy Excel đang chạy!
+Không tìm thấy Khung nào có chứa XData hợp lệ.	Không tìm thấy Khung nào có chứa XData hợp lệ.
+Không tìm thấy Model Etabs!	Không tìm thấy Model Etabs!
+Không tìm thấy block khung tên: 	Không tìm thấy block khung tên: 
+Không tìm thấy cấu kiện: 	Không tìm thấy cấu kiện: 
+Không tìm thấy dầm tương ứng trong etabs để đặt tải, bạn có muốn tạo nó?	Không tìm thấy dầm tương ứng trong etabs để đặt tải, bạn có muốn tạo nó?
+Không tìm thấy dữ liệu	Không tìm thấy dữ liệu
+Không tìm thấy dữ liệu liên kết Block Danh Mục Bản Vẽ hợp lệ.	Không tìm thấy dữ liệu liên kết Block Danh Mục Bản Vẽ hợp lệ.
+Không tìm thấy dữ liệu thông số móng (regapp 	Không tìm thấy dữ liệu thông số móng (regapp 
+Không tìm thấy dữ liệu thống kê!	Không tìm thấy dữ liệu thống kê!
+Không tìm thấy file DWG: 	Không tìm thấy file DWG: 
+Không tìm thấy file Excel dầm!	Không tìm thấy file Excel dầm!
+Không tìm thấy file cập nhật tại: 	Không tìm thấy file cập nhật tại: 
+Không tìm thấy file cập nhật!	Không tìm thấy file cập nhật!
+Không tìm thấy file iso:	Không tìm thấy file iso:
+Không tìm thấy khung tên nào trong bản vẽ với tên: 	Không tìm thấy khung tên nào trong bản vẽ với tên: 
+Không tìm thấy layer trục được chỉ định	Không tìm thấy layer trục được chỉ định
+Không tìm thấy polyline KÍN nào trên layer bao sàn trong vùng chọn: 	Không tìm thấy polyline KÍN nào trên layer bao sàn trong vùng chọn: 
+Không tìm thấy tag thép tương ứng số hiệu: 	Không tìm thấy tag thép tương ứng số hiệu: 
+Không tìm thấy thư viện thép cho cấu kiện: 	Không tìm thấy thư viện thép cho cấu kiện: 
+Không tìm thấy tài khoản nào được đăng nhập!	Không tìm thấy tài khoản nào được đăng nhập!
+Không tìm thấy tên dầm 	Không tìm thấy tên dầm 
+Không tìm thấy tên dầm cũ trong file Excel: 	Không tìm thấy tên dầm cũ trong file Excel: 
+Không tìm thấy tên dầm: 	Không tìm thấy tên dầm: 
+Không tìm thấy tọa độ tham chiếu vị trí cột trong autocad	Không tìm thấy tọa độ tham chiếu vị trí cột trong autocad
+Không tìm thấy đối tượng nào có kích thước hợp lệ để bao khung.	Không tìm thấy đối tượng nào có kích thước hợp lệ để bao khung.
+Không tìm được Block Cọc	Không tìm được Block Cọc
+Không tìm được Block có tag ATT = 	Không tìm được Block có tag ATT = 
+Không tồn tại đối tượng, tỷ lệ, layer trong file hiện hành và trong file iso	Không tồn tại đối tượng, tỷ lệ, layer trong file hiện hành và trong file iso
+Không vẽ được cột tầng Base, Vui lòng chuyển tầng update	Không vẽ được cột tầng Base, Vui lòng chuyển tầng update
+Không xác định dòng được chọn bên excel!	Không xác định dòng được chọn bên excel!
+Không xác định tên đài móng, Chọn lại	Không xác định tên đài móng, Chọn lại
+Không xác định được khoảng biến thiên ở Block tag!	Không xác định được khoảng biến thiên ở Block tag!
+Không xác định được đối tượng để mô hình strip!	Không xác định được đối tượng để mô hình strip!
+Không xác định được đối tượng: 	Không xác định được đối tượng: 
+Không đúng định dạng dữ liệu đầu vào từ Excel	Không đúng định dạng dữ liệu đầu vào từ Excel
+Không đúng định dạng tiêu đề cột tọa độ!	Không đúng định dạng tiêu đề cột tọa độ!
+Không đọc được cỡ chữ chuẩn: file iso "	Không đọc được cỡ chữ chuẩn: file iso "
+Không đọc được dim gốc!	Không đọc được dim gốc!
+Không đọc được dữ liệu thép!	Không đọc được dữ liệu thép!
+Không đọc được dữ liệu từ Excel.	Không đọc được dữ liệu từ Excel.
+Không đọc được dữ liệu!	Không đọc được dữ liệu!
+Không đọc được polyline ranh đất.	Không đọc được polyline ranh đất.
+Không đọc được tên block nào từ đối tượng đã chọn!	Không đọc được tên block nào từ đối tượng đã chọn!
+Không đủ dữ liệu Cấu kiện hoặc Layout.	Không đủ dữ liệu Cấu kiện hoặc Layout.
+Kiểm tra kết nối Internet:	Kiểm tra kết nối Internet:
+Kiểm tra kết nối mạng để sử dụng tính năng này!	Kiểm tra kết nối mạng để sử dụng tính năng này!
+Kiểm tra kết nối mạng để đăng nhập tài khoản!	Kiểm tra kết nối mạng để đăng nhập tài khoản!
+Kiểm tra kết nối mạng để đăng xuất tài khoản!	Kiểm tra kết nối mạng để đăng xuất tài khoản!
+Kích thước chia lớn hơn chiều dài cây thép: 	Kích thước chia lớn hơn chiều dài cây thép: 
+Kích thước dầm giao chưa điền!	Kích thước dầm giao chưa điền!
+Kích thước dầm giao không đúng format!	Kích thước dầm giao không đúng format!
+Kích thước thép kê sàn nhập chưa đúng!	Kích thước thép kê sàn nhập chưa đúng!
+Kính gửi Quý Khách,	Kính gửi Quý Khách,
+Kết nối thành công: 	Kết nối thành công: 
+Kết nối đến: 	Kết nối đến: 
+Layer Thép không để layer 0 hoặc layer Defpoints => kiểm tra lại!	Layer Thép không để layer 0 hoặc layer Defpoints => kiểm tra lại!
+Layer khoảng rải trùng tên với layer tag	Layer khoảng rải trùng tên với layer tag
+Layer khoảng rải trùng tên với layer thép	Layer khoảng rải trùng tên với layer thép
+Layer không được để nét 0 hoặc nét Defpoints	Layer không được để nét 0 hoặc nét Defpoints
+Layer thép và layer tag trùng tên!	Layer thép và layer tag trùng tên!
+Layout mẫu chọn bên trái không được chứa Viewport. Nếu có chứa Viewport sẽ bị lỗi tắt Cad	Layout mẫu chọn bên trái không được chứa Viewport. Nếu có chứa Viewport sẽ bị lỗi tắt Cad
+License Trial giới hạn chức năng model Etabs!	License Trial giới hạn chức năng model Etabs!
+License Trial giới hạn chức năng tính toán dầm!	License Trial giới hạn chức năng tính toán dầm!
+License Trial giới hạn chức năng tính toán, vẽ móng & cọc!	License Trial giới hạn chức năng tính toán, vẽ móng & cọc!
+License Trial giới hạn chức năng vẽ Cột vách!	License Trial giới hạn chức năng vẽ Cột vách!
+License Trial giới hạn chức năng vẽ cầu thang!	License Trial giới hạn chức năng vẽ cầu thang!
+License Trial giới hạn chức năng vẽ dầm!	License Trial giới hạn chức năng vẽ dầm!
+License Trial giới hạn chức năng vẽ lanh tô!	License Trial giới hạn chức năng vẽ lanh tô!
+License Trial giới hạn chức năng vẽ sàn!	License Trial giới hạn chức năng vẽ sàn!
+License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	License có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+License của bạn không thể sử dụng chức năng này!	License của bạn không thể sử dụng chức năng này!
+License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?	License dùng thử sau khi đăng xuất sẽ không đăng nhập lại được, bạn có muốn tiếp tục?
+License giới hạn chức năng model Etabs!	License giới hạn chức năng model Etabs!
+License giới hạn chức năng tính toán dầm!	License giới hạn chức năng tính toán dầm!
+License giới hạn chức năng tính toán, vẽ móng & cọc!	License giới hạn chức năng tính toán, vẽ móng & cọc!
+License giới hạn chức năng vẽ Cột vách!	License giới hạn chức năng vẽ Cột vách!
+License giới hạn chức năng vẽ cầu thang!	License giới hạn chức năng vẽ cầu thang!
+License giới hạn chức năng vẽ dầm!	License giới hạn chức năng vẽ dầm!
+License giới hạn chức năng vẽ lanh tô!	License giới hạn chức năng vẽ lanh tô!
+License giới hạn chức năng vẽ sàn!	License giới hạn chức năng vẽ sàn!
+License hết hạn sử dụng!	License hết hạn sử dụng!
+License timeout offline!	License timeout offline!
+Line tường có sẵn dữ liệu tải: 	Line tường có sẵn dữ liệu tải: 
+Load case '{newName}' đã tồn tại.	Load case '{newName}' đã tồn tại.
+Loại liên kết này chưa có!	Loại liên kết này chưa có!
+Loại tường: 	Loại tường: 
+Luu ý không Shop 2 thanh thép có cùng số hiệu trong 1 lần quét chọn!, Undo và shop thép lại	Luu ý không Shop 2 thanh thép có cùng số hiệu trong 1 lần quét chọn!, Undo và shop thép lại
+Làm mới toàn bộ dữ liệu?	Làm mới toàn bộ dữ liệu?
+Làm tròn móc đai kín không vượt quá 50mm!	Làm tròn móc đai kín không vượt quá 50mm!
+Làm tròn thép chỉ nên trong khoảng 1-10mm (nên để = 1)!	Làm tròn thép chỉ nên trong khoảng 1-10mm (nên để = 1)!
+Làm tròn thống kê thép không vượt quá 50mm!	Làm tròn thống kê thép không vượt quá 50mm!
+Lý do lỗi: 	Lý do lỗi: 
+Lưu dự án lỗi: 	Lưu dự án lỗi: 
+Lưu ý khi delete đối tượng sẽ không thể thao tác Undo quay lại được! chọn Yes để tiếp tục!	Lưu ý khi delete đối tượng sẽ không thể thao tác Undo quay lại được! chọn Yes để tiếp tục!
+Lưu ý mở khóa cho mô hình để thao tác!	Lưu ý mở khóa cho mô hình để thao tác!
+Lưu ý:	Lưu ý:
+Lệnh này không chuyển đổi được các thép biến thiên!	Lệnh này không chuyển đổi được các thép biến thiên!
+Lỗi SheetSet	Lỗi SheetSet
+Lỗi chưa cập nhật chiều dài râu thép	Lỗi chưa cập nhật chiều dài râu thép
+Lỗi chọn khung: 	Lỗi chọn khung: 
+Lỗi chọn ranh đất: 	Lỗi chọn ranh đất: 
+Lỗi chọn đối tượng đích, vui lòng chọn lại!	Lỗi chọn đối tượng đích, vui lòng chọn lại!
+Lỗi chọn đối tượng, vui lòng chọn lại!	Lỗi chọn đối tượng, vui lòng chọn lại!
+Lỗi dầm: 	Lỗi dầm: 
+Lỗi ghi sheet BanVe: 	Lỗi ghi sheet BanVe: 
+Lỗi ghi tọa độ thép!	Lỗi ghi tọa độ thép!
+Lỗi khai báo Spring: 	Lỗi khai báo Spring: 
+Lỗi khi chạy update: 	Lỗi khi chạy update: 
+Lỗi khi lấy dữ liệu từ excel!	Lỗi khi lấy dữ liệu từ excel!
+Lỗi khi xuất Excel: 	Lỗi khi xuất Excel: 
+Lỗi khi đặt clipboard: 	Lỗi khi đặt clipboard: 
+Lỗi lấy dữ liệu thép!	Lỗi lấy dữ liệu thép!
+Lỗi mở DceSetup2: 	Lỗi mở DceSetup2: 
+Lỗi mở Setup nối thép: 	Lỗi mở Setup nối thép: 
+Lỗi nhập thông số: 	Lỗi nhập thông số: 
+Lỗi reset: 	Lỗi reset: 
+Lỗi thông số đầu vào!	Lỗi thông số đầu vào!
+Lỗi tìm neo thép giá - xem lại quy tắc điền neo thép ở File excel vẽ dầm	Lỗi tìm neo thép giá - xem lại quy tắc điền neo thép ở File excel vẽ dầm
+Lỗi tìm neo thép lớp dưới - xem lại quy tắc điền neo thép ở File excel vẽ dầm	Lỗi tìm neo thép lớp dưới - xem lại quy tắc điền neo thép ở File excel vẽ dầm
+Lỗi tìm neo thép lớp trên - xem lại quy tắc điền neo thép ở File excel vẽ dầm	Lỗi tìm neo thép lớp trên - xem lại quy tắc điền neo thép ở File excel vẽ dầm
+Lỗi tạo SheetSet Database:	Lỗi tạo SheetSet Database:
+Lỗi tạo cấu trúc SheetSet:	Lỗi tạo cấu trúc SheetSet:
+Lỗi tạo khung bao: 	Lỗi tạo khung bao: 
+Lỗi tạo móng cọc: 	Lỗi tạo móng cọc: 
+Lỗi xuất Excel: 	Lỗi xuất Excel: 
+Lỗi đổi tên khung: 	Lỗi đổi tên khung: 
+Lỗi đổi tỷ lệ khung: 	Lỗi đổi tỷ lệ khung: 
+Lỗi đổi ưu tiên khung: 	Lỗi đổi ưu tiên khung: 
+Lỗi: (CÓ THỂ) khoảng cách từ đối tượng đến gốc tọa (0,0,0) độ quá xa, hay move đối tượng lại gần gốc tọa độ hơn!	Lỗi: (CÓ THỂ) khoảng cách từ đối tượng đến gốc tọa (0,0,0) độ quá xa, hay move đối tượng lại gần gốc tọa độ hơn!
+Lỗi: Layer Bao bê tông không được trùng với Layer Lỗ mở hoặc Sàn vệ sinh.	Lỗi: Layer Bao bê tông không được trùng với Layer Lỗ mở hoặc Sàn vệ sinh.
+Lỗi: Vùng sàn không kín hoặc khe hở quá lớn	Lỗi: Vùng sàn không kín hoặc khe hở quá lớn
+Lỗi: Vùng sàn không kín hoặc khe hở quá lớn (> 	Lỗi: Vùng sàn không kín hoặc khe hở quá lớn (> 
+Máy tính chặn kết nối internet (Hoặc máy tính không có internet)	Máy tính chặn kết nối internet (Hoặc máy tính không có internet)
+Máy tính đã được đăng nhập trước đó: 	Máy tính đã được đăng nhập trước đó: 
+Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Mã thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Mô hình đã có hệ trục sẵn, Vui lòng xóa hệ trục đó và thử lại chức năng này!	Mô hình đã có hệ trục sẵn, Vui lòng xóa hệ trục đó và thử lại chức năng này!
+Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Mật khẩu có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Mẹo: Double Click vào ô text để kéo thép tăng cường chạy suốt	Mẹo: Double Click vào ô text để kéo thép tăng cường chạy suốt
+Một số đối tượng không cùng tên cấu kiện (Polyline, Dimension, Block)... Kiểm tra lại	Một số đối tượng không cùng tên cấu kiện (Polyline, Dimension, Block)... Kiểm tra lại
+Mở Excel + chọn vùng + chạy lại lệnh.	Mở Excel + chọn vùng + chạy lại lệnh.
+Mở dự án lỗi: 	Mở dự án lỗi: 
+Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!	Nhập Email và Mật khẩu của tài khoản DBIM trước, sau đó bấm "License dùng được"!
+Nhập tên Spring vào ô bên cạnh trước khi khai báo.	Nhập tên Spring vào ô bên cạnh trước khi khai báo.
+Nhập tên hệ trục (ví dụ G1) trước khi tạo.	Nhập tên hệ trục (ví dụ G1) trước khi tạo.
+Nhập Đường kính cọc > 0.	Nhập Đường kính cọc > 0.
+Nhập Đường kính cọc và SCT cọc > 0.	Nhập Đường kính cọc và SCT cọc > 0.
+Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!	Nhập địa chỉ Email đã đăng ký vào ô "Tài khoản", sau đó bấm "Quên mật khẩu?"!
+Not Complete!	Not Complete!
+Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!	Nếu license được phép sử dụng nhiều máy vui lòng đăng xuất thiết bị từ xa!
+Nếu thép phải bẻ ke thì sẽ lấy max của các thông số bên cạnh (vì thực tế không thể bẻ ke 1cm hay 2cm vì quá ngắn)	Nếu thép phải bẻ ke thì sẽ lấy max của các thông số bên cạnh (vì thực tế không thể bẻ ke 1cm hay 2cm vì quá ngắn)
+Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!	Nếu đã gia hạn vui lòng đăng xuất và đăng nhập lại để hệ thống cập nhập HSD mới!
+Nội dung nhập chưa đúng quy tắc!	Nội dung nhập chưa đúng quy tắc!
+Object có chứa dữ liệu ẩn, Xóa dữ liệu ẩn để có thể chỉnh sửa bình thường!	Object có chứa dữ liệu ẩn, Xóa dữ liệu ẩn để có thể chỉnh sửa bình thường!
+Paste tải không thành công 1!	Paste tải không thành công 1!
+Paste tải không thành công 2!	Paste tải không thành công 2!
+Paste tải không thành công 3!	Paste tải không thành công 3!
+Phiên bản CAD: 	Phiên bản CAD: 
+Phiên bản Cad không phù hợp, lỗi thống kê thép đai cấu kiện:  	Phiên bản Cad không phù hợp, lỗi thống kê thép đai cấu kiện:  
+Phiên bản mới yêu cầu đăng nhập lại để xác thực bảo mật.	Phiên bản mới yêu cầu đăng nhập lại để xác thực bảo mật.
+Phát hiện 1 số dầm sai kích thước được highlight mầu đỏ!, cần lưu ý các dầm này	Phát hiện 1 số dầm sai kích thước được highlight mầu đỏ!, cần lưu ý các dầm này
+Phát hiện có nhiều dầm trùng tên nhau, bạn có muốn tự động đổi tên?	Phát hiện có nhiều dầm trùng tên nhau, bạn có muốn tự động đổi tên?
+Phát hiện kho thép đang mở	Phát hiện kho thép đang mở
+Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!	Phần mềm chỉ kết nối với SAFE mở đầu tiên; vui lòng tắt SAFE và mở lại để reset!
+Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!	Phần mềm chỉ kết nối với etabs mở đầu tiên; vui lòng tắt Etabs và mở lại để reset!
+Phần mềm phân biệt được bạn đang tính cột hay tính dầm, hãy để màn hình hiện tại là sheets ColumnDesign hoặc WallDesign	Phần mềm phân biệt được bạn đang tính cột hay tính dầm, hãy để màn hình hiện tại là sheets ColumnDesign hoặc WallDesign
+Phần tử Cột, Vách, Dầm nếu các tầng giống nhau, hãy sử dụng chức năng 'Edit\Replicate...' Của etabs để Coppy từ phần tử đã có sang vị trí mới!	Phần tử Cột, Vách, Dầm nếu các tầng giống nhau, hãy sử dụng chức năng 'Edit\Replicate...' Của etabs để Coppy từ phần tử đã có sang vị trí mới!
+Phần tử được chọn không có dữ liệu! 	Phần tử được chọn không có dữ liệu! 
+Polyline chứa dữ liệu không hợp lệ để gán THÊM liên kết dim!	Polyline chứa dữ liệu không hợp lệ để gán THÊM liên kết dim!
+Polyline có dữ liệu không phù hợp để chuyển đổi thành thép chấm tròn!	Polyline có dữ liệu không phù hợp để chuyển đổi thành thép chấm tròn!
+Polyline gốc số hiệu 	Polyline gốc số hiệu 
+Polyline mẫu và đường Dim không giao nhau!	Polyline mẫu và đường Dim không giao nhau!
+Remove không thành công! Kiểm tra kết nối mạng	Remove không thành công! Kiểm tra kết nối mạng
+SL ≤ 1, không tính được bước biến thiên!	SL ≤ 1, không tính được bước biến thiên!
+Sai quy tắc đoạn neo 	Sai quy tắc đoạn neo 
+Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ Etabs và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ SAFE và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:	Sau khi tắt toàn bộ SAP2000 và mở lại vẫn không kết nối được, Tiến hành đăng ký lại API theo hướng dẫn sau:
+Select thiếu đường dim!	Select thiếu đường dim!
+Số Block được thay thế: 	Số Block được thay thế: 
+Số lượng đối tượng	Số lượng đối tượng
+Số hiệu trong cad: 	Số hiệu trong cad: 
+Số khoảng rải thép mới phải là số tự nhiên và > 0	Số khoảng rải thép mới phải là số tự nhiên và > 0
+Số lượng Polyline bạn đang chọn là: 	Số lượng Polyline bạn đang chọn là: 
+Số lượng cấu kiện mới phải là số tự nhiên và > 0	Số lượng cấu kiện mới phải là số tự nhiên và > 0
+Số lượng cọc nhập phải là số nguyên dương. 	Số lượng cọc nhập phải là số nguyên dương. 
+Số lượng khoảng rải không khớp với số lượng đã có, yêu cầu không xóa hoặc thêm khoảng rải (chỉ chỉnh sửa).	Số lượng khoảng rải không khớp với số lượng đã có, yêu cầu không xóa hoặc thêm khoảng rải (chỉ chỉnh sửa).
+Số lượng không để trống và phải là số tự nhiên!	Số lượng không để trống và phải là số tự nhiên!
+Số lượng thép cũ, Số lượng thép mới không để trống và phải là số tự nhiên!	Số lượng thép cũ, Số lượng thép mới không để trống và phải là số tự nhiên!
+Số point < 3 nên không thể vẽ sàn	Số point < 3 nên không thể vẽ sàn
+Số point < 4 nên không thể vẽ vách	Số point < 4 nên không thể vẽ vách
+Số thứ tự phải là số tự nhiên! Thử lại	Số thứ tự phải là số tự nhiên! Thử lại
+Số điểm giao lẻ (	Số điểm giao lẻ (
+Số đường kính thép mới phải là số tự nhiên và > 0	Số đường kính thép mới phải là số tự nhiên và > 0
+Sử dụng license cũ để đăng nhập vào tài khoản!	Sử dụng license cũ để đăng nhập vào tài khoản!
+Sử dụng license mới để đăng nhập vào tài khoản!	Sử dụng license mới để đăng nhập vào tài khoản!
+Sử dụng lệnh DongUngDungChayAn để đóng ứng dụng chạy ngầm!	Sử dụng lệnh DongUngDungChayAn để đóng ứng dụng chạy ngầm!
+TOÀN BỘ KÍCH THƯỚC GỐI = 0, cần xem lại khai báo kích thước gối nhịp ở Excel!	TOÀN BỘ KÍCH THƯỚC GỐI = 0, cần xem lại khai báo kích thước gối nhịp ở Excel!
+Tag thép có khoảng rải chỉ chọn tối đa 1 đối tượng!	Tag thép có khoảng rải chỉ chọn tối đa 1 đối tượng!
+Text này không chứa dữ liệu liên kết đến Block!	Text này không chứa dữ liệu liên kết đến Block!
+Thiếu dữ liệu	Thiếu dữ liệu
+Thoát lệnh Chọn lại Tag ATT Hoặc chọn lại Block chuẩn có tag ATT = 	Thoát lệnh Chọn lại Tag ATT Hoặc chọn lại Block chuẩn có tag ATT = 
+Thành công 	Thành công 
+Thành công dò tìm 	Thành công dò tìm 
+Thành công: 	Thành công: 
+Thép của bạn là loại thép có khoảng rải	Thép của bạn là loại thép có khoảng rải
+Thép dầm sẽ nhấn cổ chai khi chênh cao mép trên dầm <= 	Thép dầm sẽ nhấn cổ chai khi chênh cao mép trên dầm <= 
+Thép dọc đang lớn hơn thép chiếu ngang nhưng được đang đặt bên trong!	Thép dọc đang lớn hơn thép chiếu ngang nhưng được đang đặt bên trong!
+Thép không có dữ liệu!	Thép không có dữ liệu!
+Thép không có giao điểm với 2 đường biên!	Thép không có giao điểm với 2 đường biên!
+Thép đai nhập chưa đúng hoặc chưa nhập thép đai!	Thép đai nhập chưa đúng hoặc chưa nhập thép đai!
+Thêm không thành công! 	Thêm không thành công! 
+Thông báo	Thông báo
+Thông số này không hỗ trợ: 	Thông số này không hỗ trợ: 
+Thông tin nhập chưa chính xác, vui lòng xem lại!	Thông tin nhập chưa chính xác, vui lòng xem lại!
+Thông tin số hiệu cũ bên excel không khớp! 	Thông tin số hiệu cũ bên excel không khớp! 
+Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!	Thời gian máy tính bị thay đổi, Vui lòng kiểm tra lại!
+Thứ tự dữ liệu trong File Excel đã thay đổi, Vui lòng xuất dữ liệu mới từ Excel ra Cad để chỉnh sửa!	Thứ tự dữ liệu trong File Excel đã thay đổi, Vui lòng xuất dữ liệu mới từ Excel ra Cad để chỉnh sửa!
+Thực hiện đổi tên: 	Thực hiện đổi tên: 
+Tiến hành đăng xuất:	Tiến hành đăng xuất:
+Trùng tên	Trùng tên
+Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Tài khoản có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Tên cấu kiện không được để trống!	Tên cấu kiện không được để trống!
+Tên cấu kiện mới không để trống!	Tên cấu kiện mới không để trống!
+Tên cấu kiện đã tồn tại, bạn có muốn ghi đè?	Tên cấu kiện đã tồn tại, bạn có muốn ghi đè?
+Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?	Tên dầm đã tồn tại, bạn có muốn ghi đè dữ liệu?
+Tên dầm đặt không đúng quy tắc!	Tên dầm đặt không đúng quy tắc!
+Tên dầm đặt không đúng quy tắc: 	Tên dầm đặt không đúng quy tắc: 
+Tên dầm: 	Tên dầm: 
+Tên file iso đặt chưa đúng quy tắc, hãy giữ nguyên tiền tố của file iso gốc, chỉ thay phần hậu tố (phía sau)	Tên file iso đặt chưa đúng quy tắc, hãy giữ nguyên tiền tố của file iso gốc, chỉ thay phần hậu tố (phía sau)
+Tên file iso đặt chưa đúng quy tắc, hãy giữ nguyên tiền tố file iso gốc, chỉ thay phần hậu tố.	Tên file iso đặt chưa đúng quy tắc, hãy giữ nguyên tiền tố file iso gốc, chỉ thay phần hậu tố.
+Tên khung in ấn hoặc Đường dẫn in ấn chưa chọn, hãy click đúp vào ô Text box để chọn!	Tên khung in ấn hoặc Đường dẫn in ấn chưa chọn, hãy click đúp vào ô Text box để chọn!
+Tên khung in ấn không hợp lệ, hãy click đúp vào ô Text box để chọn lại!	Tên khung in ấn không hợp lệ, hãy click đúp vào ô Text box để chọn lại!
+Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?	Tên thiết bị có khoảng trắng ở đầu HOẶC ở cuối, Cần kiểm tra lại cho chính xác! bạn có muốn tiếp tục?
+Tên trục gối 	Tên trục gối 
+Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 	Tìm thấy nhiều hơn 1 tên dầm cũ trong file Excel: 
+TẮT TOÀN BỘ AUTOCAD ĐI VÀ MỞ LẠI ĐỂ CẬP NHẬP DỮ LIỆU MỚI!	TẮT TOÀN BỘ AUTOCAD ĐI VÀ MỞ LẠI ĐỂ CẬP NHẬP DỮ LIỆU MỚI!
+Tắt chế độ Ưu tiên vùng nối thép hơn ưu tiên nối sole = False	Tắt chế độ Ưu tiên vùng nối thép hơn ưu tiên nối sole = False
+Tắt chế độ Ưu tiên vùng nối thép được phép hơn là ưu tiên nối sole = False	Tắt chế độ Ưu tiên vùng nối thép được phép hơn là ưu tiên nối sole = False
+Tổng diện tích rải thép cấu tạo: 	Tổng diện tích rải thép cấu tạo: 
+Tổng diện tích rải thép kê: 	Tổng diện tích rải thép kê: 
+Từ khóa tìm kiếm và từ khóa thay thế không được để trống!	Từ khóa tìm kiếm và từ khóa thay thế không được để trống!
+Tự động gộp các dầm giống nhau chỉ vẽ 1 lần?	Tự động gộp các dầm giống nhau chỉ vẽ 1 lần?
+Tỷ lệ Dim không có sẵn, Vui lòng tạo thêm Dim style name: 	Tỷ lệ Dim không có sẵn, Vui lòng tạo thêm Dim style name: 
+Tỷ lệ không có sẵn, Vui lòng tạo thêm Dim style name: 	Tỷ lệ không có sẵn, Vui lòng tạo thêm Dim style name: 
+Tỷ lệ sơ đồ không hợp lệ.	Tỷ lệ sơ đồ không hợp lệ.
+Tỷ lệ đổi cỡ chữ = 	Tỷ lệ đổi cỡ chữ = 
+Version Etabs 18 và Etabs 19 hay bị lỗi xóa mất strip trong Etabs, bạn có muốn tiếp tục?	Version Etabs 18 và Etabs 19 hay bị lỗi xóa mất strip trong Etabs, bạn có muốn tiếp tục?
+Version Etabs 18 và Etabs 19 hay bị lỗi xóa mất tải khi ghi bảng, bạn có chắc muốn tiếp tục?	Version Etabs 18 và Etabs 19 hay bị lỗi xóa mất tải khi ghi bảng, bạn có chắc muốn tiếp tục?
+Version Etabs 18 và Etabs 19 không hỗ trợ tính năng này!	Version Etabs 18 và Etabs 19 không hỗ trợ tính năng này!
+Vui lòng Click lại điểm khác nằm trên polyline	Vui lòng Click lại điểm khác nằm trên polyline
+Vui lòng chuyển tầng update khác tầng 	Vui lòng chuyển tầng update khác tầng 
+Vui lòng chọn ít nhất một khoảng cách	Vui lòng chọn ít nhất một khoảng cách
+Vui lòng chọn ít nhất một đường kính phi	Vui lòng chọn ít nhất một đường kính phi
+Vui lòng nhập số nguyên dương	Vui lòng nhập số nguyên dương
+Vui lòng nhập tên khung trước khi chọn!	Vui lòng nhập tên khung trước khi chọn!
+Vui lòng nhập tỷ lệ khung là một số nguyên hợp lệ!	Vui lòng nhập tỷ lệ khung là một số nguyên hợp lệ!
+Vui lòng nhập ít nhất 1 Header (không tính STT)!	Vui lòng nhập ít nhất 1 Header (không tính STT)!
+Vui lòng nhập đầy đủ Tên, Tỷ lệ (phải là số nguyên) và Ưu tiên trước khi tạo khung!	Vui lòng nhập đầy đủ Tên, Tỷ lệ (phải là số nguyên) và Ưu tiên trước khi tạo khung!
+Vui lòng nhập đầy đủ Tên, Tỷ lệ và Ưu tiên!	Vui lòng nhập đầy đủ Tên, Tỷ lệ và Ưu tiên!
+Vui lòng nhập độ ưu tiên xếp khung trước khi chọn!	Vui lòng nhập độ ưu tiên xếp khung trước khi chọn!
+Vui lòng thử lại!	Vui lòng thử lại!
+Vui lòng tạo thêm iso tỷ lệ này!	Vui lòng tạo thêm iso tỷ lệ này!
+Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.	Vui lòng tắt Autocad và Excel khi cập nhập phần mềm.
+Ví dụ điền 10d hoặc 100mm	Ví dụ điền 10d hoặc 100mm
+Ví dụ điền 200mm hoặc 10d	Ví dụ điền 200mm hoặc 10d
+Ví dụ:	Ví dụ:
+Ví dụ: điền 1 thì toàn bộ strip sẽ vẽ rộng 1 mét xuyên suốt	Ví dụ: điền 1 thì toàn bộ strip sẽ vẽ rộng 1 mét xuyên suốt
+Vùng chọn Excel rỗng.	Vùng chọn Excel rỗng.
+Vùng chọn cắt thép chưa hợp lý	Vùng chọn cắt thép chưa hợp lý
+Vẫn chạy tiếp?	Vẫn chạy tiếp?
+Vẽ không thành công, Không có phần tử Point nào được select trước trong mô hình hoặc mô hình đang khóa!	Vẽ không thành công, Không có phần tử Point nào được select trước trong mô hình hoặc mô hình đang khóa!
+Vị trí cột chỉ nhập 1(giữa) hoặc 2(trên trái) hoặc 3(giữa trái). 	Vị trí cột chỉ nhập 1(giữa) hoặc 2(trên trái) hoặc 3(giữa trái). 
+Xuất dữ liệu ra excel để điều chỉnh?	Xuất dữ liệu ra excel để điều chỉnh?
+Xác nhận gia hạn	Xác nhận gia hạn
+Xác nhận thanh toán	Xác nhận thanh toán
+Xác nhận đóng toàn bộ các File Autocad	Xác nhận đóng toàn bộ các File Autocad
+Xác nhận đóng toàn bộ các File Etabs	Xác nhận đóng toàn bộ các File Etabs
+Xác nhận đóng toàn bộ các File Excel	Xác nhận đóng toàn bộ các File Excel
+Xóa hết dữ liệu cũ từ file Excel?	Xóa hết dữ liệu cũ từ file Excel?
+chưa hỗ trợ vẽ dạng tiết diện 	chưa hỗ trợ vẽ dạng tiết diện 
+có 	có 
+không tìm thấy dầm: 	không tìm thấy dầm: 
+không tồn tại tỷ lệ: 	không tồn tại tỷ lệ: 
+mm — quá lớn!	mm — quá lớn!
+Ô "	Ô "
+Ô "Chiều dài min xét cắt thép" (Shopdrawing → Cắt thép) — giá trị "	Ô "Chiều dài min xét cắt thép" (Shopdrawing → Cắt thép) — giá trị "
+Ô "Chiều dài min xét cắt thép" (tab Shop Drawing) — giá trị "	Ô "Chiều dài min xét cắt thép" (tab Shop Drawing) — giá trị "
+Ô "Độ dày hatch" đang khai theo bước nét trên giấy: "	Ô "Độ dày hatch" đang khai theo bước nét trên giấy: "
+Ô J2 không có dữ liệu hoặc dữ liệu điền không đúng quy tắc!	Ô J2 không có dữ liệu hoặc dữ liệu điền không đúng quy tắc!
+Ô J2 không có dữ liệu!	Ô J2 không có dữ liệu!
+Ô J3 không có dữ liệu hoặc dữ liệu điền không đúng quy tắc!	Ô J3 không có dữ liệu hoặc dữ liệu điền không đúng quy tắc!
+Ô J3 không có dữ liệu!	Ô J3 không có dữ liệu!
+Ô đc chọn bên Excel đặt vị trí chưa đúng, Hãy chọn đúng ô C24 hoặc các ô tương tự khác như E24; G24; I24 để bắt đầu lấy kích thước dầm giao tại gối!	Ô đc chọn bên Excel đặt vị trí chưa đúng, Hãy chọn đúng ô C24 hoặc các ô tương tự khác như E24; G24; I24 để bắt đầu lấy kích thước dầm giao tại gối!
+Đang dùng Auto rename Layer nên luôn phải ưu tiên file ISO! Hãy tắt Auto rename Layer trong DcelayerSetup!	Đang dùng Auto rename Layer nên luôn phải ưu tiên file ISO! Hãy tắt Auto rename Layer trong DcelayerSetup!
+Điểm bắt đầu vẽ nhập vào không hợp lệ	Điểm bắt đầu vẽ nhập vào không hợp lệ
+Điểm click không nằm trên polyline!	Điểm click không nằm trên polyline!
+Điểm pick không nằm trên đường bao hoặc 	Điểm pick không nằm trên đường bao hoặc 
+Điểm vừa click không nằm trên polyline!	Điểm vừa click không nằm trên polyline!
+Đoạn trừ dim không đúng định dạng!	Đoạn trừ dim không đúng định dạng!
+Đoạn trừ dim phải là số nguyên dương	Đoạn trừ dim phải là số nguyên dương
+Đánh số hiệu cọc	Đánh số hiệu cọc
+Đã bật chế độ theo dõi theo thời gian, tương tác trực tiếp giữa autocad và mô hình 	Đã bật chế độ theo dõi theo thời gian, tương tác trực tiếp giữa autocad và mô hình 
+Đã chọn ngôn ngữ: 	Đã chọn ngôn ngữ: 
+Đã cập nhật 	Đã cập nhật 
+Đã cập nhật iso "	Đã cập nhật iso "
+Đã cập nhật thông số theo dự án!	Đã cập nhật thông số theo dự án!
+Đã khai báo Spring '{tenSpring}' (Kx={kx}, Ky={ky}, Kz={kz}).	Đã khai báo Spring '{tenSpring}' (Kx={kx}, Ky={ky}, Kz={kz}).
+Đã lưu thông số theo dự án!	Đã lưu thông số theo dự án!
+Đã shop xong 	Đã shop xong 
+Đã tính xong. Có 	Đã tính xong. Có 
+Đã xuất dữ liệu xong!	Đã xuất dữ liệu xong!
+Đã xảy ra lỗi khi co kéo hình ảnh: 	Đã xảy ra lỗi khi co kéo hình ảnh: 
+Đã đổi cỡ chữ file iso "	Đã đổi cỡ chữ file iso "
+Đăng ký tài khoản DBIM với email:	Đăng ký tài khoản DBIM với email:
+Đăng nhập lại tài khoản DBIM, Tắt toàn bộ Autocad đi mở lại để phần mềm cập nhập dữ liệu	Đăng nhập lại tài khoản DBIM, Tắt toàn bộ Autocad đi mở lại để phần mềm cập nhập dữ liệu
+Đăng nhập lại để cập nhập chức năng license!	Đăng nhập lại để cập nhập chức năng license!
+Đăng nhập lại để sử dụng!	Đăng nhập lại để sử dụng!
+Đăng nhập thành công!	Đăng nhập thành công!
+Đăng xuất thành công!	Đăng xuất thành công!
+Đường bao không được chứa dữ liệu	Đường bao không được chứa dữ liệu
+Đường bao là một đường polyline có cao độ Z khác 0! hoặc Poly không khép kín	Đường bao là một đường polyline có cao độ Z khác 0! hoặc Poly không khép kín
+Đường dim và thép được chọn không có giao điểm!	Đường dim và thép được chọn không có giao điểm!
+Đường kính thép không phải số nguyên!	Đường kính thép không phải số nguyên!
+Đường kính thép lấy bằng Dữ liệu ẩn của chấm thép (click đúp vào chấm thép để kiểm tra!)	Đường kính thép lấy bằng Dữ liệu ẩn của chấm thép (click đúp vào chấm thép để kiểm tra!)
+Đường kính thép mới không để trống và phải là số tự nhiên!	Đường kính thép mới không để trống và phải là số tự nhiên!
+Đặt lại TOÀN BỘ thông số móng về mặc định và dựng lại từ tập chọn cũ?	Đặt lại TOÀN BỘ thông số móng về mặc định và dựng lại từ tập chọn cũ?
+Định dạng chưa có thư viện để chuyển đổi polyline: 	Định dạng chưa có thư viện để chuyển đổi polyline: 
+Định dạng chưa đúng, thiếu đơn vị 'mm' hoặc 'd'	Định dạng chưa đúng, thiếu đơn vị 'mm' hoặc 'd'
+Định dạng nhập chưa đúng, Ví dụ 10d hoặc 100mm!	Định dạng nhập chưa đúng, Ví dụ 10d hoặc 100mm!
+Đối tượng DIMENSION không thể xuất diện tích, Vui lòng chọn lại Polyline	Đối tượng DIMENSION không thể xuất diện tích, Vui lòng chọn lại Polyline
+Đối tượng Line không thể xuất diện tích, Vui lòng chọn lại Polyline	Đối tượng Line không thể xuất diện tích, Vui lòng chọn lại Polyline
+Đối tượng này chưa có dữ liệu vách!	Đối tượng này chưa có dữ liệu vách!
+Đối tượng vừa chọn không phải là thép DBIM, Vui lòng chọn lại!	Đối tượng vừa chọn không phải là thép DBIM, Vui lòng chọn lại!
+Đối tượng được chọn không có dữ liệu Số Hiệu!	Đối tượng được chọn không có dữ liệu Số Hiệu!
+Đối tượng được chọn không có khoảng rải	Đối tượng được chọn không có khoảng rải
+Đối tượng được chọn không phải Block cột DCE, Vui lòng chọn lại!	Đối tượng được chọn không phải Block cột DCE, Vui lòng chọn lại!
+Đối tượng được chọn không phải là polyline khép kín	Đối tượng được chọn không phải là polyline khép kín
+Đối tượng được chọn không xác định là Mtext hoặc Text!	Đối tượng được chọn không xác định là Mtext hoặc Text!
+Đối tượng được chọn không xác định là đường Line!	Đối tượng được chọn không xác định là đường Line!
+Đối tượng được chọn không xác định!	Đối tượng được chọn không xác định!
+Đối tượng được chọn không xác định! Vui lòng chọn lại	Đối tượng được chọn không xác định! Vui lòng chọn lại
+Đối tượng được chọn không xác định, Chọn lại TEXT HOẶC MTEXT HOẶC BLOCK ATT HOẶC THÉP	Đối tượng được chọn không xác định, Chọn lại TEXT HOẶC MTEXT HOẶC BLOCK ATT HOẶC THÉP
+Đối tượng được chọn phải là Polyline	Đối tượng được chọn phải là Polyline
+Đổi thành công: 	Đổi thành công: 
+Đổi tên không thành công	Đổi tên không thành công
+đối tượng được chọn có cao độ Z khác 0, Vui lòng đưa toàn bộ các đối tượng về cùng mặt phẳng có cao độ Z=0! 	đối tượng được chọn có cao độ Z khác 0, Vui lòng đưa toàn bộ các đối tượng về cùng mặt phẳng có cao độ Z=0! 
+Nhập 'ALL' để vẽ toàn bộ dầm!	Nhập 'ALL' để vẽ toàn bộ dầm!
+Nhập 'ALL' để vẽ toàn bộ, bắt đầu từ dầm stt: 	Nhập 'ALL' để vẽ toàn bộ, bắt đầu từ dầm stt: 
+Nhập 'ALL' để vẽ toàn bộ, bắt đầu từ dầm: 	Nhập 'ALL' để vẽ toàn bộ, bắt đầu từ dầm: 
+Nhập tên combo:	Nhập tên combo:
+Nhập tên dầm (hoặc số thứ tự dầm trong bảng tính excel) để kết thúc vẽ: 	Nhập tên dầm (hoặc số thứ tự dầm trong bảng tính excel) để kết thúc vẽ: 
+Nhập tên dầm bắt đầu (hoặc số thứ tự dầm bắt đầu trong bảng tính excel): 	Nhập tên dầm bắt đầu (hoặc số thứ tự dầm bắt đầu trong bảng tính excel): 
+Nhập tên dầm kết thúc (hoặc số thứ tự dầm kết thúc trong bảng tính excel): 	Nhập tên dầm kết thúc (hoặc số thứ tự dầm kết thúc trong bảng tính excel): 
+Thêm combo	Thêm combo
+Đổi tên combo:	Đổi tên combo:
+Chọn một nét cắt để bỏ khỏi lượt vẽ; lặp cho tới khi ESC. Xoá hết thì tự quay về 1 mặt cắt mặc định phương X qua tim	Chọn một nét cắt để bỏ khỏi lượt vẽ; lặp cho tới khi ESC. Xoá hết thì tự quay về 1 mặt cắt mặc định phương X qua tim
+Chọn một đa tuyến rồi nhập GÓC VÁT (độ) của mái dốc — 0 là không vát. Chỉ có tác dụng khi TOC ≠ 0	Chọn một đa tuyến rồi nhập GÓC VÁT (độ) của mái dốc — 0 là không vát. Chỉ có tác dụng khi TOC ≠ 0
+Chọn thang tầng dưới đã vẽ để nối tiếp	Chọn thang tầng dưới đã vẽ để nối tiếp
+Click để chọn hình dạng thép từ bảng ảnh	Click để chọn hình dạng thép từ bảng ảnh
+Gõ để tìm cài đặt theo tên (mọi danh mục)	Gõ để tìm cài đặt theo tên (mọi danh mục)
+Hoàn tác (Undo)	Hoàn tác (Undo)
+Hướng dẫn: điền số trần (cách cũ) hay "2mm" (bước nét trên giấy, đồng bộ mọi bản vẽ)	Hướng dẫn: điền số trần (cách cũ) hay "2mm" (bước nét trên giấy, đồng bộ mọi bản vẽ)
+Làm lại (Redo)	Làm lại (Redo)
+Lấy dữ liệu từ thang đã vẽ trên bản vẽ	Lấy dữ liệu từ thang đã vẽ trên bản vẽ
+Lấy lại thông số từ dầm cong đã vẽ trên bản vẽ	Lấy lại thông số từ dầm cong đã vẽ trên bản vẽ
+Lấy lại thông số từ móng đã vẽ trên bản vẽ	Lấy lại thông số từ móng đã vẽ trên bản vẽ
+Nhặt 2 điểm trên bản vẽ để vạch thêm một lát cắt (nét trên layer 	Nhặt 2 điểm trên bản vẽ để vạch thêm một lát cắt (nét trên layer 
+Quét chọn nhiều đa tuyến rồi nhập độ giật mép trên so với MẶT TRÊN ĐÀI (+ nhô lên, − tụt xuống); lặp cho tới khi ESC	Quét chọn nhiều đa tuyến rồi nhập độ giật mép trên so với MẶT TRÊN ĐÀI (+ nhô lên, − tụt xuống); lặp cho tới khi ESC
+Quét chọn nhiều đa tuyến trên bản vẽ rồi nhập bề dày H chung cho cả lô; lặp cho tới khi ESC	Quét chọn nhiều đa tuyến trên bản vẽ rồi nhập bề dày H chung cho cả lô; lặp cho tới khi ESC
+Số bậc gác trên chiếu nghỉ dưới của vế 1	Số bậc gác trên chiếu nghỉ dưới của vế 1
+Số bậc gác trên chiếu nghỉ dưới của vế 2	Số bậc gác trên chiếu nghỉ dưới của vế 2
+Số bậc gác trên chiếu nghỉ dưới của vế 3	Số bậc gác trên chiếu nghỉ dưới của vế 3
+Số bậc trên bản nghiêng của vế 1	Số bậc trên bản nghiêng của vế 1
+Số bậc trên bản nghiêng của vế 2 (mặt cắt 2-2)	Số bậc trên bản nghiêng của vế 2 (mặt cắt 2-2)
+Số bậc trên bản nghiêng của vế 3	Số bậc trên bản nghiêng của vế 3
+Thép lớp DƯỚI — phương X	Thép lớp DƯỚI — phương X
+Thép lớp DƯỚI — phương Y	Thép lớp DƯỚI — phương Y
+Thép lớp TRÊN — phương X	Thép lớp TRÊN — phương X
+Thép lớp TRÊN — phương Y	Thép lớp TRÊN — phương Y
+Trả mọi thông số về bộ mặc định	Trả mọi thông số về bộ mặc định
+Vẽ bản shop (thép đã cắt) của dầm cong	Vẽ bản shop (thép đã cắt) của dầm cong
+Vẽ mặt bằng + các mặt cắt ra bản vẽ	Vẽ mặt bằng + các mặt cắt ra bản vẽ
+Vẽ mặt bằng + mặt cắt móng cọc ra bản vẽ	Vẽ mặt bằng + mặt cắt móng cọc ra bản vẽ
+Vẽ mặt đứng + các mặt cắt dầm cong ra bản vẽ	Vẽ mặt đứng + các mặt cắt dầm cong ra bản vẽ
+Đóng form	Đóng form
+Đọc lại đài móng và trả thông số về mặc định	Đọc lại đài móng và trả thông số về mặc định
+Dừng	Dừng
+Gửi	Gửi
+Hãng:	Hãng:
+Hội thoại mới	Hội thoại mới
+Khoá API:	Khoá API:
+Lưu	Lưu
+Model:	Model:
+Trợ lý kỹ thuật kết cấu trong CAD	Trợ lý kỹ thuật kết cấu trong CAD
+% Bot	% Bot
+% Top	% Top
+Apply	Apply
+As chọn	As chọn
+As yêu cầu	As yêu cầu
+BxH etabs	BxH etabs
+Chi tiết	Chi tiết
+Diện tích chọn:	Diện tích chọn:
+Diện tích yc:	Diện tích yc:
+Dữ liệu thiết kế dầm	Dữ liệu thiết kế dầm
+FS Bot	FS Bot
+FS Top	FS Top
+Fs Bot	Fs Bot
+Fs Top:	Fs Top:
+Hiển thị text	Hiển thị text
+Name cad	Name cad
+Name etabs	Name etabs
+Ok - All	Ok - All
+Show cấu tạo đai xoắn	Show cấu tạo đai xoắn
+Show dt thép yc lớp dưới	Show dt thép yc lớp dưới
+Show dt thép yc lớp trên	Show dt thép yc lớp trên
+Show thép chọn lớp dưới	Show thép chọn lớp dưới
+Show thép chọn lớp trên	Show thép chọn lớp trên
+Thép giá	Thép giá
+Thép giá:	Thép giá:
+Thép lớp 1:	Thép lớp 1:
+Thép lớp 2:	Thép lớp 2:
+Thép lớp 3:	Thép lớp 3:
+Thép lớp 4:	Thép lớp 4:
+Thép lớp 5:	Thép lớp 5:
+Thép đai	Thép đai
+Tên dầm Cad:	Tên dầm Cad:
+Tên dầm Etabs:	Tên dầm Etabs:
+Vị trí dầm	Vị trí dầm
+Xoắn:	Xoắn:
+acr1 B	acr1 B
+acr1 T	acr1 T
+acr2 B	acr2 B
+acr2 T	acr2 T
+Chọn Text đổi tên liên tục	Chọn Text đổi tên liên tục
+Chọn toàn bộ tên cũ để đổi hàng loạt	Chọn toàn bộ tên cũ để đổi hàng loạt
+Chọn toàn bộ tên mới để đổi hàng loạt	Chọn toàn bộ tên mới để đổi hàng loạt
+Color:	Color:
+Combined Thép trong thiết kế dầm	Combined Thép trong thiết kế dầm
+Cấu kiện khác	Cấu kiện khác
+Cỡ chữ:	Cỡ chữ:
+Foundation	Foundation
+Hỗ trợ Design	Hỗ trợ Design
+Hỗ trợ thẩm tra tính toán dầm	Hỗ trợ thẩm tra tính toán dầm
+Kiểm tra KT gối dầm	Kiểm tra KT gối dầm
+Link Tên Cột từ Cad-Etabs và điền vào Excel	Link Tên Cột từ Cad-Etabs và điền vào Excel
+Lấy Dữ Liệu từ Excel - Beam Design Đưa ra CAD	Lấy Dữ Liệu từ Excel - Beam Design Đưa ra CAD
+Lấy thông tin vẽ dầm (Gối, Cao độ...) ra excel	Lấy thông tin vẽ dầm (Gối, Cao độ...) ra excel
+Mầu 6	Mầu 6
+Mỗi nhịp dầm là 1 tên khác	Mỗi nhịp dầm là 1 tên khác
+Nhập tên dầm:	Nhập tên dầm:
+Thẩm tra dầm	Thẩm tra dầm
+Tên dầm cũ:	Tên dầm cũ:
+Tên dầm mới:	Tên dầm mới:
+Tìm STT dầm ->	Tìm STT dầm ->
+Tính toán dầm	Tính toán dầm
+Tạo MBKC từ Excel	Tạo MBKC từ Excel
+Update DL tính dầm	Update DL tính dầm
+Vị trí	Vị trí
+Xuất DL ra Cad	Xuất DL ra Cad
+Xuất DL thiết kế	Xuất DL thiết kế
+Xuất DL tính dầm	Xuất DL tính dầm
+Xuất Strip Móng ra Cad	Xuất Strip Móng ra Cad
+Xuất thép Sàn ra Cad	Xuất thép Sàn ra Cad
+Xuất tên Dầm	Xuất tên Dầm
+Xuất đường bao sàn	Xuất đường bao sàn
+Đảo đầu	Đảo đầu
+Đặt tên Unique dầm trong Model	Đặt tên Unique dầm trong Model
+Đặt tên dầm (Unique)	Đặt tên dầm (Unique)
+Đọc thép dầm ->	Đọc thép dầm ->
+Đổi tên	Đổi tên
+Đổi tên cách 1	Đổi tên cách 1
+Đổi tên cách 2	Đổi tên cách 2
+Đổi tên cách 3	Đổi tên cách 3
+Cỡ chữ	Cỡ chữ
+Gán Trục	Gán Trục
+H sàn vệ sinh	H sàn vệ sinh
+Layer Bao Bê tông sàn	Layer Bao Bê tông sàn
+Layer Bao sàn vệ sinh	Layer Bao sàn vệ sinh
+Layer Cột Vách	Layer Cột Vách
+Layer Lỗ mở	Layer Lỗ mở
+Layer quy định dầm	Layer quy định dầm
+Lấy ĐT Block Exreft	Lấy ĐT Block Exreft
+Mặt bằng kết cấu	Mặt bằng kết cấu
+TRIM Nét dầm nằm trong Cột	TRIM Nét dầm nằm trong Cột
+Thao tác với MBKC	Thao tác với MBKC
+Thống kê bê tông ván khuôn dầm sàn	Thống kê bê tông ván khuôn dầm sàn
+Tạo MBKC Block từ Line và rectangle	Tạo MBKC Block từ Line và rectangle
+Tạo MBKC Từ các đường biên sàn và lỗ mở	Tạo MBKC Từ các đường biên sàn và lỗ mở
+Tạo đường phân tích lực từ MBKC	Tạo đường phân tích lực từ MBKC
+Xuất dữ liệu VẼ HOẶC TÍNH DẦM	Xuất dữ liệu VẼ HOẶC TÍNH DẦM
+Auto gióng toàn bộ điểm pick trên 1 đường thẳng	Auto gióng toàn bộ điểm pick trên 1 đường thẳng
+BV Trung Quốc	BV Trung Quốc
+BV từ DBIM	BV từ DBIM
+Chọn Text thép lớp dưới	Chọn Text thép lớp dưới
+Chọn Text thép lớp trên	Chọn Text thép lớp trên
+Chọn Text thông số chung	Chọn Text thông số chung
+Chọn cột trên MB	Chọn cột trên MB
+Chọn dầm trên MB	Chọn dầm trên MB
+Get Length	Get Length
+Get Length Column	Get Length Column
+Gán Trục 1	Gán Trục 1
+Gán Trục 2	Gán Trục 2
+Khai báo nhanh	Khai báo nhanh
+Làm tròn:	Làm tròn:
+LẤY DỮ LIỆU TỪ BLOCK TÊN DẦM	LẤY DỮ LIỆU TỪ BLOCK TÊN DẦM
+Lấy DL trên MB	Lấy DL trên MB
+Pick rectang	Pick rectang
+Pick điểm bản cũ	Pick điểm bản cũ
+Pick điểm bản mới	Pick điểm bản mới
+Pick điểm lấy dầm giao tại gối	Pick điểm lấy dầm giao tại gối
+XÓA DỮ LIỆU NHẬP BÊN EXCEL	XÓA DỮ LIỆU NHẬP BÊN EXCEL
+Đảo đầu dầm	Đảo đầu dầm
+*Tỷ lệ vẽ	*Tỷ lệ vẽ
+Chỉ dim 2 cạnh	Chỉ dim 2 cạnh
+Dim 2 hàng	Dim 2 hàng
+Dim Cột	Dim Cột
+Draw Rectang	Draw Rectang
+Góc:	Góc:
+Lùi tên dầm:	Lùi tên dầm:
+LƯU Ý: CÓ THỂ ĐỔI LỆNH TẮT LISP FILE:	LƯU Ý: CÓ THỂ ĐỔI LỆNH TẮT LISP FILE:
+Lấy trục từ Block hoặc Exreft	Lấy trục từ Block hoặc Exreft
+Lệnh 111:	Lệnh 111:
+Lệnh 111: Chỉ hiện thị kích thước dầm	Lệnh 111: Chỉ hiện thị kích thước dầm
+Lệnh 222:	Lệnh 222:
+Lệnh 222: Chỉ hiện thị tên dầm	Lệnh 222: Chỉ hiện thị tên dầm
+Lệnh 333:	Lệnh 333:
+Lệnh 333: Hiện thị tên + kích thước dầm	Lệnh 333: Hiện thị tên + kích thước dầm
+Lệnh 444:	Lệnh 444:
+Lệnh 444: Ẩn tên + kích thước dầm	Lệnh 444: Ẩn tên + kích thước dầm
+Lệnh 555: Thay đổi nhanh bề rộng dầm	Lệnh 555: Thay đổi nhanh bề rộng dầm
+Lệnh Tắt	Lệnh Tắt
+Mirror Block	Mirror Block
+Pick Cạnh	Pick Cạnh
+Quét thư viện Block dùng để truy bắt điểm	Quét thư viện Block dùng để truy bắt điểm
+Reset Block	Reset Block
+Reset Text Block	Reset Text Block
+Reset line Block	Reset line Block
+Sai số BĐ reset Block	Sai số BĐ reset Block
+Select Block cột	Select Block cột
+Select Grid	Select Grid
+Text xếp 1 phía	Text xếp 1 phía
+Thay thế	Thay thế
+Tạo cột từ rectangle	Tạo cột từ rectangle
+Tự truy bắt điểm	Tự truy bắt điểm
+Tỷ lệ:	Tỷ lệ:
+Vẽ = Line + Text	Vẽ = Line + Text
+Vẽ Block Dầm	Vẽ Block Dầm
+Vẽ Block dầm	Vẽ Block dầm
+Vẽ cột vách	Vẽ cột vách
+Vị trí Text:	Vị trí Text:
+Bê tông lót móng:	Bê tông lót móng:
+Chiều cao:	Chiều cao:
+Chiều rộng:	Chiều rộng:
+Dầm ngắn khi L<	Dầm ngắn khi L<
+H sàn:	H sàn:
+L thông thủy	L thông thủy
+Link dữ liệu vào file Excel mặt cắt	Link dữ liệu vào file Excel mặt cắt
+Lấy DL cũ	Lấy DL cũ
+Neo thép dưới:	Neo thép dưới:
+Neo thép giá:	Neo thép giá:
+Neo thép trên:	Neo thép trên:
+Số cấu kiện:	Số cấu kiện:
+THÔNG SỐ CHUNG	THÔNG SỐ CHUNG
+Thép Tăng cường lớp 1:	Thép Tăng cường lớp 1:
+Thép Tăng cường lớp 2:	Thép Tăng cường lớp 2:
+Thép Tăng cường lớp 3:	Thép Tăng cường lớp 3:
+Thép chạy suốt:	Thép chạy suốt:
+Thép Đai:	Thép Đai:
+VD MC từ Excel	VD MC từ Excel
+Vẽ dạng Gối - Nhịp	Vẽ dạng Gối - Nhịp
+Vẽ dầm mặt cắt	Vẽ dầm mặt cắt
+Vẽ dầm xiên	Vẽ dầm xiên
+Đai C đỡ lớp tăng cường:	Đai C đỡ lớp tăng cường:
+Đai C đỡ thép giá:	Đai C đỡ thép giá:
+Đai Xoắn:	Đai Xoắn:
+Lưu dữ liệu	Lưu dữ liệu
+Thoát	Thoát
+Tên cấu kiện trực thuộc:	Tên cấu kiện trực thuộc:
+Vị trí nhịp đai dầm:	Vị trí nhịp đai dầm:
+Vị trí đai mặt cắt dọc dầm:	Vị trí đai mặt cắt dọc dầm:
+Chiều dài 1 thanh thép (mm):	Chiều dài 1 thanh thép (mm):
+Chiều dài sắt vụn (VD: 2000, 20d):	Chiều dài sắt vụn (VD: 2000, 20d):
+Chạy	Chạy
+Hủy	Hủy
+Tối Ưu Cắt Thép V2	Tối Ưu Cắt Thép V2
+Tỷ lệ sơ đồ cắt thép:	Tỷ lệ sơ đồ cắt thép:
+Độ lệch cho phép khi cắt (mm):	Độ lệch cho phép khi cắt (mm):
+90-135 C	90-135 C
+90-180 C	90-180 C
+Bẻ ke thép	Bẻ ke thép
+Bẻ móc đai cuối	Bẻ móc đai cuối
+Bẻ móc đai đầu	Bẻ móc đai đầu
+Bẻ tối thiểu:	Bẻ tối thiểu:
+Hướng dẫn	Hướng dẫn
+Hỗ trợ BeamDetail	Hỗ trợ BeamDetail
+Kéo thép 2 đầu	Kéo thép 2 đầu
+Kích thước dầm giao	Kích thước dầm giao
+Lưu ý: xem lại đoạn trừ dim sau khi chèn thép gia cường	Lưu ý: xem lại đoạn trừ dim sau khi chèn thép gia cường
+Thép đai gia cường	Thép đai gia cường
+Tính lại đoạn neo	Tính lại đoạn neo
+Vd: 10d hoặc 100mm	Vd: 10d hoặc 100mm
+Vẽ lại thép đai (offset thép đai)	Vẽ lại thép đai (offset thép đai)
+Đai 135 180C	Đai 135 180C
+Đai 135C	Đai 135C
+Đai 135V	Đai 135V
+Đai 180C	Đai 180C
+Đai 90 135V	Đai 90 135V
+Đai 90V	Đai 90V
+Đai C Khác	Đai C Khác
+Đai gia cường dầm	Đai gia cường dầm
+Đai vai bò	Đai vai bò
+Cao độ	Cao độ
+Chiều rộng bản chiếu nghỉ	Chiều rộng bản chiếu nghỉ
+Chiều rộng bản thang	Chiều rộng bản thang
+DRAW	DRAW
+GET DATA	GET DATA
+H thang	H thang
+H tầng:	H tầng:
+Không bắt buộc - Dùng tính chiều cao thang	Không bắt buộc - Dùng tính chiều cao thang
+Loại Thang	Loại Thang
+Neo thép cầu thang:	Neo thép cầu thang:
+SH bắt đầu:	SH bắt đầu:
+Số bậc	Số bậc
+TK Chấm thép CN dưới	TK Chấm thép CN dưới
+TK Chấm thép CN trên	TK Chấm thép CN trên
+Thép chiếu nghỉ dưới	Thép chiếu nghỉ dưới
+Thép chiếu nghỉ trên	Thép chiếu nghỉ trên
+Thép chấm dưới	Thép chấm dưới
+Thép chấm trên	Thép chấm trên
+Thép dọc lớp dưới	Thép dọc lớp dưới
+Thép dọc lớp trên	Thép dọc lớp trên
+Tổng số bậc	Tổng số bậc
+Tự động số hiệu	Tự động số hiệu
+Tỷ lệ vẽ	Tỷ lệ vẽ
+Vẽ Cầu Thang	Vẽ Cầu Thang
+Vẽ thép Chiếu nghỉ dưới	Vẽ thép Chiếu nghỉ dưới
+Vẽ thép Chiếu nghỉ trên	Vẽ thép Chiếu nghỉ trên
+Vị trí thép CN	Vị trí thép CN
+Chia đối tượng	Chia đối tượng
+Chọn Khung tên in ấn:	Chọn Khung tên in ấn:
+Chọn khổ giấy	Chọn khổ giấy
+Chọn máy in:	Chọn máy in:
+Chọn nét in:	Chọn nét in:
+Chọn trước REC và Khung tên	Chọn trước REC và Khung tên
+Chọn trước Rec và khung tên	Chọn trước Rec và khung tên
+Click đúp vào ô text box chọn đường dẫn lưu file	Click đúp vào ô text box chọn đường dẫn lưu file
+Cắt đúng trục	Cắt đúng trục
+Cắt đúng trục + kéo dài hết khung	Cắt đúng trục + kéo dài hết khung
+Cột giãn rộng, ô Header số	Cột giãn rộng, ô Header số
+Cỡ chữ danh mục bản vẽ	Cỡ chữ danh mục bản vẽ
+DMBV	DMBV
+Dưới lên trên	Dưới lên trên
+Headers	Headers
+IN BẢN VẼ	IN BẢN VẼ
+In theo Select	In theo Select
+In theo danh mục BV	In theo danh mục BV
+In theo vùng nhìn thấy (khung xanh)	In theo vùng nhìn thấy (khung xanh)
+In ấn tự động	In ấn tự động
+Khoảng cách giữa 2 Khung tên:	Khoảng cách giữa 2 Khung tên:
+Khoảng cách giữa 2 View X:	Khoảng cách giữa 2 View X:
+Khoảng cách giữa 2 View Y:	Khoảng cách giữa 2 View Y:
+Name Tag	Name Tag
+Overlap khi chia đối tượng quá khổ:	Overlap khi chia đối tượng quá khổ:
+Phải qua trái	Phải qua trái
+Rã Xclip	Rã Xclip
+Sai số chồng lấn xếp khung:	Sai số chồng lấn xếp khung:
+Sắp xếp BV	Sắp xếp BV
+Sắp xếp theo ô Header số	Sắp xếp theo ô Header số
+Sắp xếp tối ưu	Sắp xếp tối ưu
+Theo Trên xuống dưới	Theo Trên xuống dưới
+Theo thứ tự Chọn	Theo thứ tự Chọn
+Trái qua phải	Trái qua phải
+Trên xuống dưới	Trên xuống dưới
+Tên khung:	Tên khung:
+Tạo DMBV	Tạo DMBV
+Tạo khung Viewport	Tạo khung Viewport
+Tự Nối File pdf	Tự Nối File pdf
+Tỷ lệ Chuẩn của Khung tên	Tỷ lệ Chuẩn của Khung tên
+Tỷ lệ giãn giữa 2 dòng	Tỷ lệ giãn giữa 2 dòng
+Tỷ lệ khung:	Tỷ lệ khung:
+Update Block	Update Block
+Update DMBV	Update DMBV
+Vẽ Khung	Vẽ Khung
+Vẽ Khung 2	Vẽ Khung 2
+Xem liên kết	Xem liên kết
+Xóa file pdf rời	Xóa file pdf rời
+Đổi Tỷ lệ	Đổi Tỷ lệ
+Đổi tên khung	Đổi tên khung
+Đổi ưu tiên	Đổi ưu tiên
+Ưu tiên theo Cột	Ưu tiên theo Cột
+Ưu tiên theo hàng	Ưu tiên theo hàng
+Ưu tiên xếp khung:	Ưu tiên xếp khung:
+Ưu tiên xếp kín bản vẽ (sẽ không chuẩn thứ tự)	Ưu tiên xếp kín bản vẽ (sẽ không chuẩn thứ tự)
+Email (*)	Email (*)
+Hiện mật khẩu	Hiện mật khẩu
+Họ và tên (*)	Họ và tên (*)
+Mật khẩu (*)	Mật khẩu (*)
+Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.	Mật khẩu tối thiểu 6 ký tự. Sau khi đăng ký, kiểm tra email để kích hoạt tài khoản.
+Số điện thoại (*)	Số điện thoại (*)
+Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM	Tài khoản dùng chung cho website dcejsc.com và toàn bộ phần mềm DBIM
+Xác nhận mật khẩu (*)	Xác nhận mật khẩu (*)
+Đóng	Đóng
+ĐĂNG KÝ	ĐĂNG KÝ
+ĐĂNG KÝ TÀI KHOẢN	ĐĂNG KÝ TÀI KHOẢN
+ĐĂNG KÝ TÀI KHOẢN DBIM	ĐĂNG KÝ TÀI KHOẢN DBIM
+Địa chỉ	Địa chỉ
+DBIM Layer	DBIM Layer
+Mẹo: Click đúp vào ô Text để lấy tên layer trực tiếp trong file cad	Mẹo: Click đúp vào ô Text để lấy tên layer trực tiếp trong file cad
+Mẹo: dùng lệnh "DceLayerOn" để chủ động đổi layer	Mẹo: dùng lệnh "DceLayerOn" để chủ động đổi layer
+Tự động đổi layer	Tự động đổi layer
+*D	*D
+*L	*L
+*TLV	*TLV
+10 TLV	10 TLV
+2 thép khác số lượng sẽ khác số hiệu	2 thép khác số lượng sẽ khác số hiệu
+2 thép nối sole cùng vị trí đánh khác số hiệu	2 thép nối sole cùng vị trí đánh khác số hiệu
+2 đầu	2 đầu
+Att Tag (Số hiệu thép):	Att Tag (Số hiệu thép):
+Att Tag (Đường kính và KC):	Att Tag (Đường kính và KC):
+Auto sắp xếp vị trí thép shop Dầm	Auto sắp xếp vị trí thép shop Dầm
+Beam Shop Drawings:	Beam Shop Drawings:
+Btbv đai (trái && phải) (mm):	Btbv đai (trái && phải) (mm):
+Btbv đai (trên && dưới) (mm):	Btbv đai (trên && dưới) (mm):
+Bán kính Góc bo tròn đai C:	Bán kính Góc bo tròn đai C:
+Bẻ ke thép dưới	Bẻ ke thép dưới
+Bẻ ke thép trên 2 đầu qua	Bẻ ke thép trên 2 đầu qua
+Bẻ ke:	Bẻ ke:
+Bẻ móc đai C  khi Đk <	Bẻ móc đai C  khi Đk <
+Bỏ dim phần nhấn thép (gộp đoạn thẳng hàng)	Bỏ dim phần nhấn thép (gộp đoạn thẳng hàng)
+Chia 2 vùng tới hạn =	Chia 2 vùng tới hạn =
+Chia đôi đai bao Vách	Chia đôi đai bao Vách
+Chia đôi đai bao Vách Option 2	Chia đôi đai bao Vách Option 2
+Chiều cao chữ:	Chiều cao chữ:
+Chiều dài cắt thép là bội của:	Chiều dài cắt thép là bội của:
+Chiều dài nhấn cổ chai tối thiểu:	Chiều dài nhấn cổ chai tối thiểu:
+Chiều dài nhỏ nhất xét cắt thép >=	Chiều dài nhỏ nhất xét cắt thép >=
+Chiều dài nối thép:	Chiều dài nối thép:
+Chèn Block Cọc:	Chèn Block Cọc:
+Chèn Block Dầm:	Chèn Block Dầm:
+Chèn Block Trục:	Chèn Block Trục:
+Chèn Block lanh tô:	Chèn Block lanh tô:
+Chèn block cột chữ nhật:	Chèn block cột chữ nhật:
+Chèn block cột tròn:	Chèn block cột tròn:
+Chênh mép trên && dưới max:	Chênh mép trên && dưới max:
+Chế độ vẽ MCN:	Chế độ vẽ MCN:
+Chế độ vẽ đai:	Chế độ vẽ đai:
+Chỉ chia đôi bao vách khi L>	Chỉ chia đôi bao vách khi L>
+Chỉ kéo hết cột thép chạy suốt lớp dưới	Chỉ kéo hết cột thép chạy suốt lớp dưới
+Chỉ kéo hết cột thép chạy suốt lớp trên	Chỉ kéo hết cột thép chạy suốt lớp trên
+Click	Click
+ColumnWall	ColumnWall
+Coppy dữ liệu ẩn (DCE)	Coppy dữ liệu ẩn (DCE)
+Custom Block (Chiều Dài):	Custom Block (Chiều Dài):
+Custom Block (Hình dạng):	Custom Block (Hình dạng):
+Custom Block (Khoảng rải):	Custom Block (Khoảng rải):
+Custom Block (Móc Phải):	Custom Block (Móc Phải):
+Custom Block (Móc Trái):	Custom Block (Móc Trái):
+Cách	Cách
+Cắt Thép (click đọc)	Cắt Thép (click đọc)
+Cắt chẵn chiều dài thép cuối	Cắt chẵn chiều dài thép cuối
+Cắt chẵn thép ưu tiên shop	Cắt chẵn thép ưu tiên shop
+Cắt sole cùng 1 lớp thép:	Cắt sole cùng 1 lớp thép:
+Cột đc coi là ngắn khi H <	Cột đc coi là ngắn khi H <
+DCE PRO	DCE PRO
+DCE SETUP	DCE SETUP
+Dim Btbv	Dim Btbv
+Dim H sàn	Dim H sàn
+Dim MCN bên phải	Dim MCN bên phải
+Dim chiều cao dầm	Dim chiều cao dầm
+Dim mép cột đến trục:	Dim mép cột đến trục:
+Dim thép	Dim thép
+Dim ĐV	Dim ĐV
+Dùng Chung	Dùng Chung
+Font Chữ:	Font Chữ:
+Form hình thức bản vẽ:	Form hình thức bản vẽ:
+Ghi Chiều dài thép	Ghi Chiều dài thép
+Ghi L thép	Ghi L thép
+Ghi SL	Ghi SL
+Ghi Tỷ lệ vẽ ở MCN Dầm:	Ghi Tỷ lệ vẽ ở MCN Dầm:
+Ghi cao độ MCN	Ghi cao độ MCN
+Ghi chiều dài	Ghi chiều dài
+Ghi chiều dài thép	Ghi chiều dài thép
+Ghi diện tích thép bố trí trên mặt cắt dọc dầm	Ghi diện tích thép bố trí trên mặt cắt dọc dầm
+Ghi diện tích thép bố trí trên mặt cắt ngang	Ghi diện tích thép bố trí trên mặt cắt ngang
+Ghi kích thước từng nhịp	Ghi kích thước từng nhịp
+Ghi số lượng thép có KR:	Ghi số lượng thép có KR:
+Ghi tiếng Việt trong vẽ chi tiết	Ghi tiếng Việt trong vẽ chi tiết
+Ghi tên trục ở mặt cắt ngang	Ghi tên trục ở mặt cắt ngang
+Ghi tổng thép vẽ cột	Ghi tổng thép vẽ cột
+Giá	Giá
+Gán dữ liệu Text vào Line dầm:	Gán dữ liệu Text vào Line dầm:
+Gán liên kết thép (Data):	Gán liên kết thép (Data):
+Góc quay ký hiệu cắt thép:	Góc quay ký hiệu cắt thép:
+Góc Đai vai bò	Góc Đai vai bò
+Góp ý	Góp ý
+Gộp số lượng nếu SH giống nhau ở MCN	Gộp số lượng nếu SH giống nhau ở MCN
+Gợi ý	Gợi ý
+Height Text + Mtext	Height Text + Mtext
+Hỗ trợ dựng Model Etabs:	Hỗ trợ dựng Model Etabs:
+K cắt trùng mặt cắt	K cắt trùng mặt cắt
+KC Join 2Point - 1 (G vuông)	KC Join 2Point - 1 (G vuông)
+KC giữa 2 lần nối:	KC giữa 2 lần nối:
+KC giữa 2 lớp thép (mm):	KC giữa 2 lớp thép (mm):
+KC giữa 2 thép chủ có đai k vượt quá:	KC giữa 2 thép chủ có đai k vượt quá:
+KC thông thủy 2 lớp thép:	KC thông thủy 2 lớp thép:
+KC tới tag thép (mm):	KC tới tag thép (mm):
+KR thép đai dưới móng:	KR thép đai dưới móng:
+Khe hở đai C tối thiểu:	Khe hở đai C tối thiểu:
+Khoảng cách tối thiểu giữa 2 mối nối:	Khoảng cách tối thiểu giữa 2 mối nối:
+Khoảng rải đai vùng nối thép:	Khoảng rải đai vùng nối thép:
+Không Nối thép trong vùng cột	Không Nối thép trong vùng cột
+Không bẻ ke thép lớp dưới qua mặt trên dầm	Không bẻ ke thép lớp dưới qua mặt trên dầm
+Không bẻ ke thép lớp dưới:	Không bẻ ke thép lớp dưới:
+Không bẻ ke thép lớp trên qua mặt dưới dầm	Không bẻ ke thép lớp trên qua mặt dưới dầm
+Không hacth vùng được phép nối	Không hacth vùng được phép nối
+Không trừ bỏ thép đai ở vị trí dầm giao nhịp	Không trừ bỏ thép đai ở vị trí dầm giao nhịp
+Kéo thép Vị trí cắt > 50%:	Kéo thép Vị trí cắt > 50%:
+Ký hiệu thép < 10, =10	Ký hiệu thép < 10, =10
+L nối thép vùng biên và giữa vách giống nhau	L nối thép vùng biên và giữa vách giống nhau
+L tới hạn cột: Max(Hc,450) - 5.4.3.2.2 - 9386	L tới hạn cột: Max(Hc,450) - 5.4.3.2.2 - 9386
+L ưu tiên	L ưu tiên
+Leader chỉ thép (Polyline):	Leader chỉ thép (Polyline):
+Linetype scale:	Linetype scale:
+Loại Đai cột tròn:	Loại Đai cột tròn:
+Luôn gộp các thép giống nhau khi thống kê thép	Luôn gộp các thép giống nhau khi thống kê thép
+Luôn kéo thép lớp dưới ở 2 đầu dầm đến hết cột	Luôn kéo thép lớp dưới ở 2 đầu dầm đến hết cột
+Luôn kéo thép lớp trên ở 2 đầu dầm đến hết cột	Luôn kéo thép lớp trên ở 2 đầu dầm đến hết cột
+Luôn Ưu tiên Layer, Block, đối tượng trong File ISO	Luôn Ưu tiên Layer, Block, đối tượng trong File ISO
+Làm tròn Lên L móc đai:	Làm tròn Lên L móc đai:
+Làm tròn SL lên (RoundUp) với thép có khoảng rải	Làm tròn SL lên (RoundUp) với thép có khoảng rải
+Làm tròn TKT các đoạn chi tiết	Làm tròn TKT các đoạn chi tiết
+Làm tròn TKT tổng:	Làm tròn TKT tổng:
+Làm tròn đoạn nối - KC 2 đ nối:	Làm tròn đoạn nối - KC 2 đ nối:
+Làm tròn đoạn nối thép là bội số của:	Làm tròn đoạn nối thép là bội số của:
+Lưu dữ liệu theo DA	Lưu dữ liệu theo DA
+Lưu ý	Lưu ý
+Lưu ý: chỉ đai ngoài cùng trong dầm:	Lưu ý: chỉ đai ngoài cùng trong dầm:
+Lấy DL hình dáng gối tựa dầm:	Lấy DL hình dáng gối tựa dầm:
+Lấy DL kích thước gối tựa dầm:	Lấy DL kích thước gối tựa dầm:
+Lấy dữ liệu theo DA	Lấy dữ liệu theo DA
+Lệnh sửa thép, tên CK:	Lệnh sửa thép, tên CK:
+Lệnh tắt	Lệnh tắt
+Lớp BTBV (mm):	Lớp BTBV (mm):
+Move Thép Bot xuống:	Move Thép Bot xuống:
+Move Thép Top lên:	Move Thép Top lên:
+Móc đai C (Lần ĐK):	Móc đai C (Lần ĐK):
+Móc đai U bao (Lần ĐK):	Móc đai U bao (Lần ĐK):
+Móc đai U trong (Lần ĐK):	Móc đai U trong (Lần ĐK):
+Mọi góp ý xin gửi về:	Mọi góp ý xin gửi về:
+Neo dư	Neo dư
+Nguyễn Văn Duy	Nguyễn Văn Duy
+Ngắt liên kết với Dim khi shopdrawing thép sàn (thép cố định)	Ngắt liên kết với Dim khi shopdrawing thép sàn (thép cố định)
+Nôi coupler đk>=	Nôi coupler đk>=
+Nối Sole	Nối Sole
+Nối nhấn cổ chai khi Đk>	Nối nhấn cổ chai khi Đk>
+Nối đuổi	Nối đuổi
+Nối đầu cách sàn (mm):	Nối đầu cách sàn (mm):
+Nối đồng trục...............	Nối đồng trục...............
+PHÍM TẮT	PHÍM TẮT
+Quét thống kê thép:	Quét thống kê thép:
+Reset Default	Reset Default
+Rải thép nhưng không cắt thép	Rải thép nhưng không cắt thép
+Rải thép sàn Bot PX:	Rải thép sàn Bot PX:
+Rải thép sàn Bot PY:	Rải thép sàn Bot PY:
+Rải thép sàn Top PX:	Rải thép sàn Top PX:
+Rải thép sàn Top PY:	Rải thép sàn Top PY:
+Rải thép sàn lệnh B1,B2 bằng polyline và text	Rải thép sàn lệnh B1,B2 bằng polyline và text
+Rải đài cọc và cọc:	Rải đài cọc và cọc:
+Rải đối tượng theo đường dẫn:	Rải đối tượng theo đường dẫn:
+SL Đai trên mặt cắt dọc:	SL Đai trên mặt cắt dọc:
+STRETCH thép sẽ update chiều dài	STRETCH thép sẽ update chiều dài
+STRETCH thép sẽ update số hiệu	STRETCH thép sẽ update số hiệu
+Shop drawing	Shop drawing
+Số hiệu thép sau khi cắt đặt dạng 1a; 1b; 1c...	Số hiệu thép sau khi cắt đặt dạng 1a; 1b; 1c...
+Sử dụng chức năng Field (tắt = K dùng ở mọi nơi)	Sử dụng chức năng Field (tắt = K dùng ở mọi nơi)
+Sửa bảng TKT (Số lượng CK):	Sửa bảng TKT (Số lượng CK):
+Sửa bảng TKT (ĐK thép):	Sửa bảng TKT (ĐK thép):
+Sửa bảng thống kê thép:	Sửa bảng thống kê thép:
+Tag C đỡ thép giá	Tag C đỡ thép giá
+Text Đài Móng:	Text Đài Móng:
+Thay đổi sắp xếp L ưu tiên sẽ ra PA cắt thép khác	Thay đổi sắp xếp L ưu tiên sẽ ra PA cắt thép khác
+Thuyết minh PL Cọc:	Thuyết minh PL Cọc:
+Thép Gia Cường gối lấy đối xứng nhịp lớn	Thép Gia Cường gối lấy đối xứng nhịp lớn
+Thép có 1 đai C vùng biên vách	Thép có 1 đai C vùng biên vách
+Thép có 1 đai C vùng giữa vách	Thép có 1 đai C vùng giữa vách
+Thép giống nhau SH khác nhau	Thép giống nhau SH khác nhau
+Thông số làm tròn:	Thông số làm tròn:
+Thư viện L	Thư viện L
+Thống kê bê tông	Thống kê bê tông
+Thống kê thép sàn:	Thống kê thép sàn:
+Thống kê trung bình cộng với thép biến thiên	Thống kê trung bình cộng với thép biến thiên
+Thống kê đai C theo chiều dài thực tế	Thống kê đai C theo chiều dài thực tế
+Thống kê đai Vòng theo chiều dài thực tế	Thống kê đai Vòng theo chiều dài thực tế
+Tim cột	Tim cột
+Triển khai cắt chi tiết thép giá	Triển khai cắt chi tiết thép giá
+Trân trọng!	Trân trọng!
+Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng	Tác giả rất mong nhận được sự góp ý từ quý bạn đồng nghiệp để ngày càng
+Tạo Field chiều dài	Tạo Field chiều dài
+Tạo Khung MCN;    H Khung =	Tạo Khung MCN;    H Khung =
+Tạo Viewport bên Layout:	Tạo Viewport bên Layout:
+Tạo bảng thống kê thép:	Tạo bảng thống kê thép:
+Tối ưu cắt thép	Tối ưu cắt thép
+Tối ưu tổ hợp chẵn thép (shop dầm)	Tối ưu tổ hợp chẵn thép (shop dầm)
+Tổng chiều dài 2 thanh thép cắt gần nhau >=	Tổng chiều dài 2 thanh thép cắt gần nhau >=
+Tổng hợp thống kê thép:	Tổng hợp thống kê thép:
+Tỷ lệ vẽ thống kê thép:	Tỷ lệ vẽ thống kê thép:
+Update dữ liệu dầm vào Excel:	Update dữ liệu dầm vào Excel:
+Vùng nối thép lấy ĐK min (tầng trên, tầng  dưới)	Vùng nối thép lấy ĐK min (tầng trên, tầng  dưới)
+Vùng nối thép:	Vùng nối thép:
+Vẽ Móng Cọc:	Vẽ Móng Cọc:
+Vẽ Móng Đơn:	Vẽ Móng Đơn:
+Vẽ Mặt Cắt dọc theo cạnh H	Vẽ Mặt Cắt dọc theo cạnh H
+Vẽ cấu kiện Cột:	Vẽ cấu kiện Cột:
+Vẽ cấu kiện Vách:	Vẽ cấu kiện Vách:
+Vẽ cầu thang:	Vẽ cầu thang:
+Vẽ dầm mặt cắt:	Vẽ dầm mặt cắt:
+Vẽ lanh tô:	Vẽ lanh tô:
+Vẽ mặt cắt ngang:	Vẽ mặt cắt ngang:
+Vẽ một cấu kiện dầm:	Vẽ một cấu kiện dầm:
+Vẽ thép đai gia cường tại nhịp cả đai phía trong	Vẽ thép đai gia cường tại nhịp cả đai phía trong
+Vẽ toàn bộ dầm:	Vẽ toàn bộ dầm:
+Vẽ đai trong mặt cắt dọc:	Vẽ đai trong mặt cắt dọc:
+Vị trí ghi MC 1-1; 2-2; ...	Vị trí ghi MC 1-1; 2-2; ...
+Width factor Text + Mtext	Width factor Text + Mtext
+Xuất Dữ liệu Dầm vào Excel:	Xuất Dữ liệu Dầm vào Excel:
+Xuất Hình dạng và thép vách:	Xuất Hình dạng và thép vách:
+Xuất tọa độ Cọc:	Xuất tọa độ Cọc:
+Xuất tọa độ Strip:	Xuất tọa độ Strip:
+Xóa dữ liệu ẩn (DCE)	Xóa dữ liệu ẩn (DCE)
+Xóa liên kết thép (Data):	Xóa liên kết thép (Data):
+cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.	cải thiện tính năng phần mềm, hỗ trợ tốt hơn cho công việc.
+dầm	dầm
+k rải đai trong dầm	k rải đai trong dầm
+kéo thép giá hết cột	kéo thép giá hết cột
+từ mép	từ mép
+Áp vào ISO	Áp vào ISO
+Ô Leader để trống sẽ lấy theo tỷ lệ hoặc nhập 208	Ô Leader để trống sẽ lấy theo tỷ lệ hoặc nhập 208
+Ý NGHĨA	Ý NGHĨA
+ĐK thép chấm tròn cố định bằng:	ĐK thép chấm tròn cố định bằng:
+ĐT: 0989.111.206	ĐT: 0989.111.206
+Đai cột tròn loại 2 có bẻ móc giống đai thường	Đai cột tròn loại 2 có bẻ móc giống đai thường
+Đim định vị thép tăng cường dầm	Đim định vị thép tăng cường dầm
+Đoạn Overlap Đai tròn:	Đoạn Overlap Đai tròn:
+Đoạn kéo thép đai vai bò:	Đoạn kéo thép đai vai bò:
+Đoạn ký hiệu cắt thép:	Đoạn ký hiệu cắt thép:
+Đánh Gối - Nhịp ở MCN	Đánh Gối - Nhịp ở MCN
+Đánh tên Cọc:	Đánh tên Cọc:
+Đánh tên ở MCN đơn giản	Đánh tên ở MCN đơn giản
+Đặt tên Block dầm tự động:	Đặt tên Block dầm tự động:
+Đặt tên Text, Block dầm:	Đặt tên Text, Block dầm:
+Đặt tên số hiệu thép:	Đặt tên số hiệu thép:
+Độ	Độ
+Độ lệch L thép phần Shop (mm)	Độ lệch L thép phần Shop (mm)
+Độ lệch vùng nối cho phép:	Độ lệch vùng nối cho phép:
+độ	độ
+độ khi H>=	độ khi H>=
+Ưu tiên dùng chiều dài dư thép cắt trước cho cắt sau.	Ưu tiên dùng chiều dài dư thép cắt trước cho cắt sau.
+Ưu tiên vùng nối thép được phép hơn là ưu tiên nối sole	Ưu tiên vùng nối thép được phép hơn là ưu tiên nối sole
+Ẩn MCD	Ẩn MCD
+Ẩn mặt cắt dọc	Ẩn mặt cắt dọc
+Bỏ thép chấm tròn	Bỏ thép chấm tròn
+Chiều cao bể	Chiều cao bể
+Chiều cao vách	Chiều cao vách
+Chiều dài neo thép	Chiều dài neo thép
+Chiều dài thép ngang	Chiều dài thép ngang
+Chiều dài:	Chiều dài:
+Chiều rộng vách	Chiều rộng vách
+Chọn Thép	Chọn Thép
+Chọn tag thép có sẵn hoặc thép có dữ liệu để gán liên kết	Chọn tag thép có sẵn hoặc thép có dữ liệu để gán liên kết
+Có dầm đáy bo quanh	Có dầm đáy bo quanh
+Có thép chờ	Có thép chờ
+Gán LK	Gán LK
+Gán Liên kết	Gán Liên kết
+Gán liên kết thép	Gán liên kết thép
+Gán liên kết thép có sử dụng khoảng rải (Gán với dim)	Gán liên kết thép có sử dụng khoảng rải (Gán với dim)
+Hoặc khoảng rải	Hoặc khoảng rải
+Kích thước dầm dưới	Kích thước dầm dưới
+Kích thước dầm trên	Kích thước dầm trên
+Móc Đai: ...............................	Móc Đai: ...............................
+Mầu sau khi đổi:	Mầu sau khi đổi:
+Name Tag SH:	Name Tag SH:
+Offset thép dọc:	Offset thép dọc:
+Offset đai vòng:	Offset đai vòng:
+Pick Điểm	Pick Điểm
+Pick điểm	Pick điểm
+Reset số hiệu	Reset số hiệu
+Rải thép	Rải thép
+Rải thép chấm tròn	Rải thép chấm tròn
+Select thép cùng chiều kim đồng hồ	Select thép cùng chiều kim đồng hồ
+Số lượng:	Số lượng:
+Tag chấm tròn	Tag chấm tròn
+Thay thế đai vòng = 2C	Thay thế đai vòng = 2C
+Thép chấm tròn	Thép chấm tròn
+Thép ngang (chấm thép)	Thép ngang (chấm thép)
+Thép đứng	Thép đứng
+Thông số chung (Lệnh tắt của gán liên kết là GT_DCE)	Thông số chung (Lệnh tắt của gán liên kết là GT_DCE)
+Tên cấu kiện:	Tên cấu kiện:
+Tự vẽ dim	Tự vẽ dim
+Vùng biên lấy Max của:	Vùng biên lấy Max của:
+Vẽ bể phốt	Vẽ bể phốt
+Vẽ thép	Vẽ thép
+Vẽ vách hầm	Vẽ vách hầm
+Vẽ vách thang máy	Vẽ vách thang máy
+Vẽ đai C	Vẽ đai C
+Vẽ đai Vòng	Vẽ đai Vòng
+Vẽ đai vòng	Vẽ đai vòng
+Vị trí băng cản nước	Vị trí băng cản nước
+Xóa tag cũ khi gán LK	Xóa tag cũ khi gán LK
+x Cạnh dài	x Cạnh dài
+x Cạnh ngắn	x Cạnh ngắn
+Điền thông số để gán dữ liệu cho thép (Nếu để trống ô số hiệu thì phần mềm sẽ tự 	Điền thông số để gán dữ liệu cho thép (Nếu để trống ô số hiệu thì phần mềm sẽ tự 
+Đoạn trừ dim:	Đoạn trừ dim:
+Đường kính thép dọc	Đường kính thép dọc
+Đường kính đai	Đường kính đai
+Đường kính đai vòng ngoài	Đường kính đai vòng ngoài
+Định dạng đọc Text thép:	Định dạng đọc Text thép:
+Đọc Text bên phải dấu + (Nếu Text dạng 2T18+2T16)	Đọc Text bên phải dấu + (Nếu Text dạng 2T18+2T16)
+Đổi mầu thanh thép sau khi gán xong	Đổi mầu thanh thép sau khi gán xong
+Đổi vị trí	Đổi vị trí
+Khung layout	Khung layout
+2 Model	2 Model
+Auto Click tọa độ:	Auto Click tọa độ:
+Bảng thống kê tên cấu kiện và tên bản vẽ tương ứng	Bảng thống kê tên cấu kiện và tên bản vẽ tương ứng
+Copy Layout dwg	Copy Layout dwg
+Cắt tại trục + Full khung	Cắt tại trục + Full khung
+Kích thước khung tên bên Layout (BxH) (mm):	Kích thước khung tên bên Layout (BxH) (mm):
+Layout:	Layout:
+LayoutVPs	LayoutVPs
+Model <=> Vp	Model <=> Vp
+New - Copy layout	New - Copy layout
+Sắp trên xuống dưới	Sắp trên xuống dưới
+Theo thứ tự Select	Theo thứ tự Select
+Tạo MV	Tạo MV
+Tạo Viewport	Tạo Viewport
+Tự động xếp Khung tên	Tự động xếp Khung tên
+Tỷ lệ (Khung người dùng tự vẽ)	Tỷ lệ (Khung người dùng tự vẽ)
+Vp 2 Model	Vp 2 Model
+Ưu tiên xếp kín bản vẽ (sẽ k chuẩn thứ tự)	Ưu tiên xếp kín bản vẽ (sẽ k chuẩn thứ tự)
+Check Internet	Check Internet
+Dùng tài khoản DBIM đã đăng ký tại dcejsc.com	Dùng tài khoản DBIM đã đăng ký tại dcejsc.com
+Hiện	Hiện
+Kiểm tra	Kiểm tra
+License dùng được	License dùng được
+License:	License:
+LogOut license Vip	LogOut license Vip
+Lưu TK	Lưu TK
+Mua license	Mua license
+Mã OC	Mã OC
+Mật khẩu:	Mật khẩu:
+Nhập Email...	Nhập Email...
+Quên mật khẩu?	Quên mật khẩu?
+Reset All Default	Reset All Default
+TUỲ CHỌN NÂNG CAO	TUỲ CHỌN NÂNG CAO
+Tài khoản:	Tài khoản:
+ĐĂNG NHẬP	ĐĂNG NHẬP
+ĐĂNG NHẬP TÀI KHOẢN	ĐĂNG NHẬP TÀI KHOẢN
+Đăng ký tài khoản mới	Đăng ký tài khoản mới
+Đăng nhập	Đăng nhập
+Đăng xuất	Đăng xuất
+Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.	Bấm đúp vào một dòng để dùng ngay key đó. Dòng chữ xám là key không dùng được trên máy này.
+Dùng key này để đăng nhập	Dùng key này để đăng nhập
+Gói	Gói
+Hạn dùng	Hạn dùng
+Key bản quyền	Key bản quyền
+LICENSE CỦA TÔI	LICENSE CỦA TÔI
+LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY	LICENSE DÙNG ĐƯỢC TRÊN MÁY NÀY
+Máy tính: ...	Máy tính: ...
+Sao chép key	Sao chép key
+Thiết bị	Thiết bị
+Tải lại	Tải lại
+Lấy mã máy	Lấy mã máy
+Mã thiết bị:	Mã thiết bị:
+Nhập Mã thiết bị...	Nhập Mã thiết bị...
+Nhập tên thiết bị...	Nhập tên thiết bị...
+Remove Device	Remove Device
+Remove Device License Vip	Remove Device License Vip
+Tài khoản	Tài khoản
+Tên thiết bị:	Tên thiết bị:
+Đăng Xuất	Đăng Xuất
+Đăng xuất thiết bị hiện tại	Đăng xuất thiết bị hiện tại
+Đăng xuất thiết bị khác	Đăng xuất thiết bị khác
+MẬT KHẨU CẤP 2	MẬT KHẨU CẤP 2
+Mật khẩu cấp 2:	Mật khẩu cấp 2:
+XÁC NHẬN	XÁC NHẬN
+Đang vẽ...	Đang vẽ...
+*đk	*đk
+Chiều dài 1 thanh thép:	Chiều dài 1 thanh thép:
+Chiều dài nối thép mm	Chiều dài nối thép mm
+Ngoài vùng:	Ngoài vùng:
+Nếu không có chỉ định cụ thể từ Excel, đối với Tool vẽ CỘT, VÁCH phần mềm luôn lấ	Nếu không có chỉ định cụ thể từ Excel, đối với Tool vẽ CỘT, VÁCH phần mềm luôn lấ
+Save	Save
+Setup thông số chung (Cột, Vách, Móng, Các thép không quy định Top, Bot)	Setup thông số chung (Cột, Vách, Móng, Các thép không quy định Top, Bot)
+Setup thông số có quy định là thép giá (Dầm, Sàn...)	Setup thông số có quy định là thép giá (Dầm, Sàn...)
+Setup thông số có quy định là thép lớp dưới (Dầm, Sàn...)	Setup thông số có quy định là thép lớp dưới (Dầm, Sàn...)
+Setup thông số có quy định là thép lớp trên (Dầm, Sàn...)	Setup thông số có quy định là thép lớp trên (Dầm, Sàn...)
+mm, sử dụng chiều dài nối trong vùng cho phép	mm, sử dụng chiều dài nối trong vùng cho phép
+ĐKT	ĐKT
+Đường kính lớn hơn	Đường kính lớn hơn
+Đường kính nhỏ hơn hoặc bằng	Đường kính nhỏ hơn hoặc bằng
+Ưu tiên nối theo bảng dữ liệu mm này	Ưu tiên nối theo bảng dữ liệu mm này
+Back	Back
+Chọn thép xem tổ hợp	Chọn thép xem tổ hợp
+Chọn vùng xem tổ hợp	Chọn vùng xem tổ hợp
+Next	Next
+Stt bên Excel:	Stt bên Excel:
+Vẽ sơ đồ cắt thép	Vẽ sơ đồ cắt thép
+Xem tổ hợp thép	Xem tổ hợp thép
+Dữ liệu thiết kế cột	Dữ liệu thiết kế cột
+Kích thước:	Kích thước:
+Show kích thước	Show kích thước
+Show kích thước vùng biên	Show kích thước vùng biên
+Show số lượng thép X	Show số lượng thép X
+Show số lượng thép Y	Show số lượng thép Y
+Show số lượng thép biên PX	Show số lượng thép biên PX
+Show số lượng thép biên PY1	Show số lượng thép biên PY1
+Show số lượng thép biên PY2	Show số lượng thép biên PY2
+Show số lượng thép giữa PX	Show số lượng thép giữa PX
+Show đường kính thép	Show đường kính thép
+Tổng thép:	Tổng thép:
+Đk thép:	Đk thép:
+2f25	2f25
+3f25	3f25
+8f8a50	8f8a50
+B cột phải:	B cột phải:
+B cột trái:	B cột trái:
+Bố trí đều với	Bố trí đều với
+Cắt thép gia cường gối:	Cắt thép gia cường gối:
+Cắt thép gia cường nhịp:	Cắt thép gia cường nhịp:
+Form_Dam_Cong	Form_Dam_Cong
+Giống đai ngoài	Giống đai ngoài
+Giữa nhịp:	Giữa nhịp:
+Gần gối:	Gần gối:
+Hình dạng dầm cong	Hình dạng dầm cong
+Khoảng	Khoảng
+Khoảng cách đai gia cường	Khoảng cách đai gia cường
+Lấy dữ liệu từ tên dầm	Lấy dữ liệu từ tên dầm
+Lớp 1:	Lớp 1:
+Lớp 2:	Lớp 2:
+Lớp 3:	Lớp 3:
+Neo thép vùng kéo:	Neo thép vùng kéo:
+Neo thép vùng nén:	Neo thép vùng nén:
+Số lớp cốt giá:	Số lớp cốt giá:
+Thép chịu lực dưới:	Thép chịu lực dưới:
+Thép chịu lực trên:	Thép chịu lực trên:
+Thép gia	Thép gia
+Thép đai tại nút:	Thép đai tại nút:
+Thông số chung từ Excel	Thông số chung từ Excel
+Thông số khác	Thông số khác
+Tên dầm:	Tên dầm:
+Tỷ lệ bản vẽ dầm:	Tỷ lệ bản vẽ dầm:
+Tỷ lệ vẽ mặt cắt:	Tỷ lệ vẽ mặt cắt:
+Vẽ dầm cong	Vẽ dầm cong
+Vẽ dầm cong shop	Vẽ dầm cong shop
+b dầm (mm):	b dầm (mm):
+h dầm (mm):	h dầm (mm):
+Đai C:	Đai C:
+Đai U:	Đai U:
+Đai □:	Đai □:
+Đường kính cốt giá:	Đường kính cốt giá:
+Đường kính đai:	Đường kính đai:
+Danh Sách	Danh Sách
+GenC	GenC
+Xóa	Xóa
+Chuyển quyền sử dụng	Chuyển quyền sử dụng
+Chọn gói:	Chọn gói:
+Chủ tài khoản: Nguyễn Văn Duy	Chủ tài khoản: Nguyễn Văn Duy
+Các bước nạp tiền & gia hạn:	Các bước nạp tiền & gia hạn:
+CẬP NHẬP SỐ DƯ	CẬP NHẬP SỐ DƯ
+Cập nhập số dư	Cập nhập số dư
+Gia hạn license cũ	Gia hạn license cũ
+Giá tiền	Giá tiền
+Hướng dẫn nạp tiền	Hướng dẫn nạp tiền
+Lícense sau khi mua mới sẽ hiện ở đây...	Lícense sau khi mua mới sẽ hiện ở đây...
+Mua License Mới	Mua License Mới
+Mua cho Email:	Mua cho Email:
+Mua license mới	Mua license mới
+Nhóm nghề:	Nhóm nghề:
+Nội dung	Nội dung
+Nội dung chuyển khoản:	Nội dung chuyển khoản:
+Số dư tài khoàn:	Số dư tài khoàn:
+Số ngày sử dụng	Số ngày sử dụng
+Số tài khoản: 19033419323019	Số tài khoản: 19033419323019
+Thêm Số lượng ngày	Thêm Số lượng ngày
+Thông tin tài khoản	Thông tin tài khoản
+Tài Khoản:	Tài Khoản:
+Tên ngân hàng: Techcombank	Tên ngân hàng: Techcombank
+Vui lòng đợi trong 5-15p sau đó nhấn nút	Vui lòng đợi trong 5-15p sau đó nhấn nút
+► BẤM ĐỂ NẠP TIỀN QUA WEBSITE	► BẤM ĐỂ NẠP TIỀN QUA WEBSITE
+Trục X Autocad tương ứng trục:	Trục X Autocad tương ứng trục:
+Trục Y Autocad tương ứng trục:	Trục Y Autocad tương ứng trục:
+VePhanTichLuc	VePhanTichLuc
+BTBV Thép Đai	BTBV Thép Đai
+Bước thép dọc	Bước thép dọc
+Bước thép đai	Bước thép đai
+Chiều dài mới:	Chiều dài mới:
+Chiều dài rải	Chiều dài rải
+Khoảng cách......................	Khoảng cách......................
+Làm tròn rải thép chủ	Làm tròn rải thép chủ
+Lấy dữ liệu vách	Lấy dữ liệu vách
+Thép chủ có 1 đai C vùng biên	Thép chủ có 1 đai C vùng biên
+Thép chủ có 1 đai C vùng giữa	Thép chủ có 1 đai C vùng giữa
+Triển khai đai C	Triển khai đai C
+Triển khai đai bao	Triển khai đai bao
+Triển khai đai biên	Triển khai đai biên
+Tự động tag thép dọc	Tự động tag thép dọc
+Tỷ Lệ Vẽ	Tỷ Lệ Vẽ
+Vẽ Vách Thang	Vẽ Vách Thang
+Vẽ Vách hình dạng bất kỳ	Vẽ Vách hình dạng bất kỳ
+ĐK thép chủ vùng biên	ĐK thép chủ vùng biên
+ĐK thép chủ vùng giữa	ĐK thép chủ vùng giữa
+Đường kính đai C	Đường kính đai C
+Đường kính đai biên	Đường kính đai biên
+Đổi L chấm thép	Đổi L chấm thép
+Đổi chiều dài chấm thép:	Đổi chiều dài chấm thép:
+Chênh lệch cho phép tọa độ X và Y để sắp xếp cọc trên xuống dưới - trái quá phải:	Chênh lệch cho phép tọa độ X và Y để sắp xếp cọc trên xuống dưới - trái quá phải:
+Khoảng cách tối đa giữa các cọc trong 1 đài:	Khoảng cách tối đa giữa các cọc trong 1 đài:
+Select cọc theo Type và đường kính	Select cọc theo Type và đường kính
+Sắp xếp từ trên xuống dưới, từ trái qua phải	Sắp xếp từ trên xuống dưới, từ trái qua phải
+Số bắt đầu	Số bắt đầu
+TagName	TagName
+Thay Thế Cọc	Thay Thế Cọc
+Thuyết minh cọc	Thuyết minh cọc
+Thống kê cọc	Thống kê cọc
+Tiền tố cọc	Tiền tố cọc
+Xem thứ tự cọc	Xem thứ tự cọc
+Xuất tọa độ Excel	Xuất tọa độ Excel
+Xuất tọa độ cad	Xuất tọa độ cad
+Xuất tọa độ cọc	Xuất tọa độ cọc
+Xuất tọa độ đơn vị mét	Xuất tọa độ đơn vị mét
+pick	pick
+Delete Dim and Tag	Delete Dim and Tag
+DimRebar	DimRebar
+Không dim thép	Không dim thép
+Không tag thép	Không tag thép
+Move Rebar	Move Rebar
+Tạo bản sao, di chuyển thép	Tạo bản sao, di chuyển thép
+Tỷ lệ dim	Tỷ lệ dim
+Xóa Block Tag và Dim cũ	Xóa Block Tag và Dim cũ
+Xóa thép cũ	Xóa thép cũ
+Xóa tất cả các dim được chọn	Xóa tất cả các dim được chọn
+(Tên hệ trục)	(Tên hệ trục)
++ NÊN CHIA THẬT SÀN MÓNG ĐI QUA CÁC ĐIỂM CỌC	+ NÊN CHIA THẬT SÀN MÓNG ĐI QUA CÁC ĐIỂM CỌC
+Add Grid	Add Grid
+Angle:	Angle:
+Auto RS Point	Auto RS Point
+Chiều dày sàn phía trên tường	Chiều dày sàn phía trên tường
+Chiều rộng strip	Chiều rộng strip
+Chuyển Line thành strip	Chuyển Line thành strip
+Chọn line tường có sẵn ở MBKC khác	Chọn line tường có sẵn ở MBKC khác
+Chọn trước Point cột bên mô hình Etabs, và mô hình móng vào các cột đó	Chọn trước Point cột bên mô hình Etabs, và mô hình móng vào các cột đó
+Chọn trước sàn bên mô hình Etabs	Chọn trước sàn bên mô hình Etabs
+Click đọc hướng dẫn	Click đọc hướng dẫn
+Copy Tải dầm	Copy Tải dầm
+Define	Define
+Distance:	Distance:
+Draw Spring Using pick Point	Draw Spring Using pick Point
+Draw Strip Polyline	Draw Strip Polyline
+Draw Strip Rectang X	Draw Strip Rectang X
+Draw Strip Rectang Y	Draw Strip Rectang Y
+Dày trát tổng:	Dày trát tổng:
+Edit Point	Edit Point
+Export Strip to Cad	Export Strip to Cad
+Export to Cad	Export to Cad
+Extend Point	Extend Point
+Get Point Spring	Get Point Spring
+GÁN TẢI	GÁN TẢI
+Gán trục	Gán trục
+Gán tải sẵn:	Gán tải sẵn:
+Gán tải tường	Gán tải tường
+Hệ số gán tải:	Hệ số gán tải:
+Insertion Point Col	Insertion Point Col
+Insertion Point Column	Insertion Point Column
+KLR Gạch:	KLR Gạch:
+KLR Vữa:	KLR Vữa:
+Khai báo cột:	Khai báo cột:
+Khai báo dầm:	Khai báo dầm:
+Khai báo sàn:	Khai báo sàn:
+Khai báo vách:	Khai báo vách:
+Layer:	Layer:
+Loại Tải Gán	Loại Tải Gán
+Lấy duy nhất 1 Tọa độ điểm trung bình toàn bộ point được chọn	Lấy duy nhất 1 Tọa độ điểm trung bình toàn bộ point được chọn
+Lấy duy nhất 1 sàn là BAO	Lấy duy nhất 1 sàn là BAO
+Mat (Beam,Slab):	Mat (Beam,Slab):
+Material (Column):	Material (Column):
+Material (Wall):	Material (Wall):
+Model Móng lấy dữ liệu từ Excel	Model Móng lấy dữ liệu từ Excel
+Move Point	Move Point
+Move Point X	Move Point X
+Move Point Y	Move Point Y
+Mét	Mét
+Or PolarPoints:	Or PolarPoints:
+Paste Tải	Paste Tải
+Properties	Properties
+Quy điểm thẳng hàng với 2 phương vuông góc (mm)	Quy điểm thẳng hàng với 2 phương vuông góc (mm)
+Quy định bề rộng strip:	Quy định bề rộng strip:
+Rebar (Beam):	Rebar (Beam):
+Refresh Point	Refresh Point
+RefreshView	RefreshView
+Rộng tường:	Rộng tường:
+SAVE	SAVE
+Sai số bắt điểm:	Sai số bắt điểm:
+Scale tải:	Scale tải:
+Section Beam:	Section Beam:
+Section Column:	Section Column:
+Section Slab:	Section Slab:
+Section Wall:	Section Wall:
+Select Spring and Pilecap	Select Spring and Pilecap
+Strip	Strip
+Số Model Etabs mở:	Số Model Etabs mở:
+Tên tải	Tên tải
+Tọa độ làm tròn:	Tọa độ làm tròn:
+Tự quy định chiều cao tường:	Tự quy định chiều cao tường:
+Vẽ 1 Line dầm phương X qua điểm select trước trong Mô hình	Vẽ 1 Line dầm phương X qua điểm select trước trong Mô hình
+Vẽ 1 Line dầm phương Y qua điểm select trước trong Mô hình	Vẽ 1 Line dầm phương Y qua điểm select trước trong Mô hình
+Vẽ từ Cad 3D	Vẽ từ Cad 3D
+Admin: Nguyễn Văn Duy	Admin: Nguyễn Văn Duy
+Group Zalo 1	Group Zalo 1
+Group Zalo 2	Group Zalo 2
+Group Zalo 3	Group Zalo 3
+Kỹ sư kết cấu	Kỹ sư kết cấu
+Mail: nguyenduyahnt@gmail.com	Mail: nguyenduyahnt@gmail.com
+THÔNG TIN LIÊN HỆ	THÔNG TIN LIÊN HỆ
+Cao:	Cao:
+Kê phải:	Kê phải:
+Kê trái:	Kê trái:
+Lanh Tô	Lanh Tô
+Làm tròn L lanh tô	Làm tròn L lanh tô
+Name:	Name:
+Số tầng điển hình (thống kê lanh tô, bổ trụ):	Số tầng điển hình (thống kê lanh tô, bổ trụ):
+T Ngang:	T Ngang:
+Thép dọc:	Thép dọc:
+Tính cả đai	Tính cả đai
+Vẽ MC bổ trụ	Vẽ MC bổ trụ
+Vẽ MC lanh tô	Vẽ MC lanh tô
+Width:	Width:
+ô văng	ô văng
+Đặt tên bổ trụ	Đặt tên bổ trụ
+Đối tượng là LT	Đối tượng là LT
+Chiều dài chấm thép:	Chiều dài chấm thép:
+Cập nhập số lượng đai Dầm, Cột, Vách ...........................................	Cập nhập số lượng đai Dầm, Cột, Vách ...........................................
+Hiển thị lại tag thép:	Hiển thị lại tag thép:
+Khoảng rải thép cũ:	Khoảng rải thép cũ:
+Khoảng rải thép mới:	Khoảng rải thép mới:
+Replace dữ liệu ẩn:	Replace dữ liệu ẩn:
+Reset Block tag thép sàn ........................................................	Reset Block tag thép sàn ........................................................
+Số lượng cấu kiện mới:	Số lượng cấu kiện mới:
+Số lượng thép cũ:	Số lượng thép cũ:
+Số lượng thép mới:	Số lượng thép mới:
+Sửa Tên cấu kiện:	Sửa Tên cấu kiện:
+Thép kép:	Thép kép:
+Xem liên kết tag => thép	Xem liên kết tag => thép
+Đường kính cũ:	Đường kính cũ:
+Đường kính mới:	Đường kính mới:
+Gán Liên Kết dim:	Gán Liên Kết dim:
+Khoảng rải:	Khoảng rải:
+Lưu chọn vùng	Lưu chọn vùng
+Select dim	Select dim
+Số hiệu thép:	Số hiệu thép:
+Tạo dim mới	Tạo dim mới
+Số lượng thép	Số lượng thép
+Đường kính thép:	Đường kính thép:
+*Lưu ý chung:	*Lưu ý chung:
+0mm	0mm
+150mm	150mm
+20a200	20a200
+300mm	300mm
+350mm	350mm
+500mm	500mm
+50mm	50mm
+Bẻ ke chân cột	Bẻ ke chân cột
+Bẻ ke chân vách	Bẻ ke chân vách
+Bẻ ke đầu cột	Bẻ ke đầu cột
+Bẻ ke đầu vách	Bẻ ke đầu vách
+Bẻ móc đai đứng:	Bẻ móc đai đứng:
+Bề dày sàn hầm:	Bề dày sàn hầm:
+Chiều dài râu thép:	Chiều dài râu thép:
+Chỉnh tuỳ chọn đai	Chỉnh tuỳ chọn đai
+Cover dưới:	Cover dưới:
+Cover ngang:	Cover ngang:
+Cover thép đai:	Cover thép đai:
+Cover trên:	Cover trên:
+Có	Có
+Cột 1	Cột 1
+Dạng thép:	Dạng thép:
+DỮ LIỆU CHUNG	DỮ LIỆU CHUNG
+Gia cường 1	Gia cường 1
+Gia cường xiên	Gia cường xiên
+Kc thép chịu lực	Kc thép chịu lực
+Khoá đầu cột:	Khoá đầu cột:
+Không	Không
+Kiểu rải đai C	Kiểu rải đai C
+Kiểu đai gia cường	Kiểu đai gia cường
+Lấy dữ liệu từ tên móng	Lấy dữ liệu từ tên móng
+Lớp dưới: 0; Lớp trên: 0	Lớp dưới: 0; Lớp trên: 0
+Neo ngang(X,Y):	Neo ngang(X,Y):
+Neo sàn:	Neo sàn:
+Neo xiên:	Neo xiên:
+Neo đứng(Z):	Neo đứng(Z):
+Sl thép phương ngắn	Sl thép phương ngắn
+Số thanh cột tròn:	Số thanh cột tròn:
+Số thanh phương X:	Số thanh phương X:
+Số thanh phương Y:	Số thanh phương Y:
+Số đai C cột tròn:	Số đai C cột tròn:
+THÉP CẤU TẠO	THÉP CẤU TẠO
+THÉP CỘT VÁCH	THÉP CỘT VÁCH
+THÉP GIA CƯỜNG	THÉP GIA CƯỜNG
+THÔNG SỐ KHÁC	THÔNG SỐ KHÁC
+Thép cấu tạo:	Thép cấu tạo:
+Thép cột:	Thép cột:
+Thép trên:	Thép trên:
+Thép xiên:	Thép xiên:
+Thép đai vòng:	Thép đai vòng:
+Thép đai đứng:	Thép đai đứng:
+Thép đai:	Thép đai:
+Thêm lớp thép dưới	Thêm lớp thép dưới
+Thêm lớp thép ngang	Thêm lớp thép ngang
+Thêm lớp thép trên	Thêm lớp thép trên
+Thêm thép GC dưới	Thêm thép GC dưới
+Thêm thép GC trên	Thêm thép GC trên
+Tên móng:	Tên móng:
+Tỷ lệ mặt bằng:	Tỷ lệ mặt bằng:
+Tỷ lệ mặt cắt:	Tỷ lệ mặt cắt:
+Vẽ móng cọc v2	Vẽ móng cọc v2
+Đai C phương X:	Đai C phương X:
+Đai C phương Y:	Đai C phương Y:
+Đai gia cường C	Đai gia cường C
+Đai □ phương X:	Đai □ phương X:
+Đai □ phương Y:	Đai □ phương Y:
+Đoạn chồng lên nhau:	Đoạn chồng lên nhau:
+Định dạng:	Định dạng:
+Đổi vị trí thép dưới	Đổi vị trí thép dưới
+Đổi vị trí thép trên	Đổi vị trí thép trên
+Form_Lop_Thep_Them	Form_Lop_Thep_Them
+Lớp:	Lớp:
+Thép phương X:	Thép phương X:
+Thép phương Y:	Thép phương Y:
+Tách thép đỡ từ lớp	Tách thép đỡ từ lớp
+của lớp thép ngang	của lớp thép ngang
+f20a100	f20a100
+Cọc khoan nhồi	Cọc khoan nhồi
+Vẽ Cọc	Vẽ Cọc
+Dim 2 hàng khi khoảng cách <=	Dim 2 hàng khi khoảng cách <=
+Dim Cọc	Dim Cọc
+Dim Đài Cọc (Draw Rec)	Dim Đài Cọc (Draw Rec)
+Dim Đài Cọc (Pick Poly)	Dim Đài Cọc (Pick Poly)
+Dim Đài Cọc (Select Poly)	Dim Đài Cọc (Select Poly)
+Khoảng cách 2 dim:	Khoảng cách 2 dim:
+Khoảng cách chân dim:	Khoảng cách chân dim:
+Khoảng cách cọc trong 1 đài:	Khoảng cách cọc trong 1 đài:
+Lần Tỷ lệ	Lần Tỷ lệ
+300x300	300x300
+BT Lót:	BT Lót:
+Chọn Block Cột	Chọn Block Cột
+Dim kích thước đài	Dim kích thước đài
+Góc quay	Góc quay
+Hide layer cọc 3D	Hide layer cọc 3D
+KC giữa 2 cọc	KC giữa 2 cọc
+Loại cọc	Loại cọc
+Làm tròn kích thước	Làm tròn kích thước
+Lấy DL Excel	Lấy DL Excel
+Mép cọc - mép đài	Mép cọc - mép đài
+SL cọc	SL cọc
+Vẽ MC	Vẽ MC
+Đk cọc	Đk cọc
+BT Lót móng:	BT Lót móng:
+Cạnh X:	Cạnh X:
+Dim đài	Dim đài
+Kích thước cột:	Kích thước cột:
+Lấy dữ liệu từ Excel	Lấy dữ liệu từ Excel
+Nhập kích thước => Excel	Nhập kích thước => Excel
+Rải móng đơn	Rải móng đơn
+Auto kéo thép	Auto kéo thép
+BT lót móng	BT lót móng
+BTBV thành	BTBV thành
+Cao cổ cột	Cao cổ cột
+Cao giằng móng	Cao giằng móng
+Cao độ móng	Cao độ móng
+Chia 2 Đai	Chia 2 Đai
+Chia 4 Đai	Chia 4 Đai
+Chiều cao móng	Chiều cao móng
+Có thép lớp trên	Có thép lớp trên
+H sàn =	H sàn =
+Kéo thép lớp dưới lên	Kéo thép lớp dưới lên
+Kéo thép lớp trên xuống	Kéo thép lớp trên xuống
+Lấy dữ liệu cũ	Lấy dữ liệu cũ
+Móng hình dạng chữ nhật	Móng hình dạng chữ nhật
+Neo thép chủ	Neo thép chủ
+Ngàm cọc	Ngàm cọc
+Nằm ngoài	Nằm ngoài
+Phương X vẽ bởi:	Phương X vẽ bởi:
+Thép C	Thép C
+Thép Ngang:	Thép Ngang:
+Thép chống nứt ngang	Thép chống nứt ngang
+Thép dưới cạnh X	Thép dưới cạnh X
+Thép dưới cạnh Y	Thép dưới cạnh Y
+Thép trên cạnh X	Thép trên cạnh X
+Thép trên cạnh Y	Thép trên cạnh Y
+Thép đứng nối giữa lớp trên và dưới	Thép đứng nối giữa lớp trên và dưới
+Thông số kích thước:	Thông số kích thước:
+Thông số thép (Lưu ý H sàn có thể nhập số âm hoặc dương)	Thông số thép (Lưu ý H sàn có thể nhập số âm hoặc dương)
+Vẽ MB	Vẽ MB
+mm ( - hoặc + )	mm ( - hoặc + )
+ĐC1	ĐC1
+12a100	12a100
+CT đáy móng	CT đáy móng
+Cao đà kiềng	Cao đà kiềng
+MĐ1	MĐ1
+Nằm dưới	Nằm dưới
+Số hiệu thép 2 phương khác nhau	Số hiệu thép 2 phương khác nhau
+Thép cạnh X	Thép cạnh X
+Thép cạnh Y	Thép cạnh Y
+Diện Tích  (mm2)	Diện Tích  (mm2)
+Draw Polyline	Draw Polyline
+Note	Note
+Select Dim	Select Dim
+Select Line, Polyline	Select Line, Polyline
+Số Cấu kiện	Số Cấu kiện
+Xuất Excel	Xuất Excel
+Xóa DL vùng chọn	Xóa DL vùng chọn
+Xóa dòng chọn	Xóa dòng chọn
+Xóa toàn bộ	Xóa toàn bộ
+BTBV (Bot):	BTBV (Bot):
+BTBV (Giá):	BTBV (Giá):
+BTBV (Top):	BTBV (Top):
+BTBV:	BTBV:
+Bo vuông thép:	Bo vuông thép:
+Dim đoạn neo	Dim đoạn neo
+Dim đầy đủ đoạn neo	Dim đầy đủ đoạn neo
+EXTEND 2 đầu dầm tìm gối:	EXTEND 2 đầu dầm tìm gối:
+Góc bẻ:	Góc bẻ:
+Khoảng cách giữa 2 lớp thép:	Khoảng cách giữa 2 lớp thép:
+Không bẻ ke (cắt thẳng)	Không bẻ ke (cắt thẳng)
+Layer Bao Bê tông dầm, sàn:	Layer Bao Bê tông dầm, sàn:
+Luôn bẻ ke (kể cả khi đủ neo)	Luôn bẻ ke (kể cả khi đủ neo)
+Làm tròn neo:	Làm tròn neo:
+Neo Dưới (Bot):	Neo Dưới (Bot):
+Neo Giá:	Neo Giá:
+Neo Trên (Top):	Neo Trên (Top):
+Neo mặc định:	Neo mặc định:
+Nếu neo không đủ, phải bẻ ke thì bẻ tối thiểu:	Nếu neo không đủ, phải bẻ ke thì bẻ tối thiểu:
+Nếu phải bẻ ke thì luôn giữ nguyên lớp bê tông bảo vệ, neo dư (không lùi thép)	Nếu phải bẻ ke thì luôn giữ nguyên lớp bê tông bảo vệ, neo dư (không lùi thép)
+Shop Loại dầm Gán liên kết	Shop Loại dầm Gán liên kết
+Shop Rebar — Cấu hình & tính lại đoạn neo thép	Shop Rebar — Cấu hình & tính lại đoạn neo thép
+Shop thép bất kỳ	Shop thép bất kỳ
+Shop thép bất kỳ có thể dùng lệnh tắt CutThep_DCE, CutThepSole_DCE, CutThepReverse_DCE, CutThepSoleReverse_DCE sẽ có nhiều tùy biến hơn.	Shop thép bất kỳ có thể dùng lệnh tắt CutThep_DCE, CutThepSole_DCE, CutThepReverse_DCE, CutThepSoleReverse_DCE sẽ có nhiều tùy biến hơn.
+Tính neo bằng cách select polyline (đường biên)	Tính neo bằng cách select polyline (đường biên)
+Tính đoạn neo thép	Tính đoạn neo thép
+Vẽ đoạn đc phép cắt thép	Vẽ đoạn đc phép cắt thép
+Đoạn bẻ móc	Đoạn bẻ móc
+①  THÔNG SỐ NEO THÉP	①  THÔNG SỐ NEO THÉP
+②  PHƯƠNG THỨC BẺ KE	②  PHƯƠNG THỨC BẺ KE
+③  BẺ MÓC ĐẦU THÉP	③  BẺ MÓC ĐẦU THÉP
+④  HIỂN THỊ & TÙY CHỌN	④  HIỂN THỊ & TÙY CHỌN
+⑤  THỰC THI	⑤  THỰC THI
+Bố trí thép:	Bố trí thép:
+Dữ liệu thiết kế sàn	Dữ liệu thiết kế sàn
+Show Chiều dày sàn	Show Chiều dày sàn
+Show thép bố trí Bot L1	Show thép bố trí Bot L1
+Show thép bố trí Bot L2	Show thép bố trí Bot L2
+Show thép bố trí Bot L3	Show thép bố trí Bot L3
+Show thép bố trí Bot L4	Show thép bố trí Bot L4
+Show thép bố trí Bot L5	Show thép bố trí Bot L5
+Show thép bố trí Top L1	Show thép bố trí Top L1
+Show thép bố trí Top L2	Show thép bố trí Top L2
+Show thép bố trí Top L3	Show thép bố trí Top L3
+Show thép bố trí Top L4	Show thép bố trí Top L4
+Show thép bố trí Top L5	Show thép bố trí Top L5
+Tên Strip:	Tên Strip:
+Vị trí:	Vị trí:
+Hình dáng thép	Hình dáng thép
+Check lỗi thép sàn (1 thép chỉ link 1 dim)	Check lỗi thép sàn (1 thép chỉ link 1 dim)
+Lệch tọa độ cho phép:	Lệch tọa độ cho phép:
+Sắp xếp thứ tự số hiệu theo thứ tự quét chọn	Sắp xếp thứ tự số hiệu theo thứ tự quét chọn
+Sắp xếp thứ tự trên xuống dưới, trái qua phải	Sắp xếp thứ tự trên xuống dưới, trái qua phải
+Số hiệu bắt đầu:	Số hiệu bắt đầu:
+Thép giống nhau gộp chung 1 số hiệu	Thép giống nhau gộp chung 1 số hiệu
+Tên tiền tố:	Tên tiền tố:
+Đặt số hiệu thép	Đặt số hiệu thép
+* tỷ lệ vẽ	* tỷ lệ vẽ
+Add Boundary	Add Boundary
+Block to Poly	Block to Poly
+Bê tông bảo vệ sàn:	Bê tông bảo vệ sàn:
+C.dày sàn (mỏ thép mũ):	C.dày sàn (mỏ thép mũ):
+Chia thép	Chia thép
+Chia thép tăng cường nhịp	Chia thép tăng cường nhịp
+Chiều dài lệch cho phép L ưu tiên:	Chiều dài lệch cho phép L ưu tiên:
+Chấm thép dưới	Chấm thép dưới
+Chấm thép lớp dưới nằm phía dưới	Chấm thép lớp dưới nằm phía dưới
+Chấm thép lớp trên nằm phía trên	Chấm thép lớp trên nằm phía trên
+Chấm thép trên	Chấm thép trên
+Circle:	Circle:
+Con kê sàn 1	Con kê sàn 1
+Create Field	Create Field
+Cắt thép từ các thép rải chi tiết trên mặt bằng	Cắt thép từ các thép rải chi tiết trên mặt bằng
+Dim phía dưới thép	Dim phía dưới thép
+Dim phía trên thép	Dim phía trên thép
+Dim thép (Thép gia cường lớp trên)	Dim thép (Thép gia cường lớp trên)
+Dim định vị	Dim định vị
+Fix lỗi Copy	Fix lỗi Copy
+Gióng thép	Gióng thép
+Gán liên kết	Gán liên kết
+Gộp thép + dim	Gộp thép + dim
+Gộp thép rời	Gộp thép rời
+Gộp thép rời rạc tự động	Gộp thép rời rạc tự động
+Hoặc (lần đk):	Hoặc (lần đk):
+Hình dáng thép phải	Hình dáng thép phải
+Hình dáng thép trái	Hình dáng thép trái
+KC rải:	KC rải:
+Khai báo chiều cao dầm	Khai báo chiều cao dầm
+Khai báo giật cao độ sàn	Khai báo giật cao độ sàn
+Khoảng cách từ dim đến đối tượng:	Khoảng cách từ dim đến đối tượng:
+Không chia thép khi chiều dài nhịp <=	Không chia thép khi chiều dài nhịp <=
+Không cắt thép khi  L Nhịp <=	Không cắt thép khi  L Nhịp <=
+Không vẽ thép sàn	Không vẽ thép sàn
+Kê S 2	Kê S 2
+Kê S 3	Kê S 3
+L Móc (mm):	L Móc (mm):
+Loại Thép:	Loại Thép:
+Làm tròn	Làm tròn
+Lấy đối tượng ra ngoài Block (Exreft)	Lấy đối tượng ra ngoài Block (Exreft)
+Lớp dưới	Lớp dưới
+Lớp trên	Lớp trên
+Lớp trên vẽ dạng tăng cường	Lớp trên vẽ dạng tăng cường
+Move hàng dim dưới lên:	Move hàng dim dưới lên:
+Move hàng dim trên lên:	Move hàng dim trên lên:
+Neo (×dk):	Neo (×dk):
+Nhịp min:	Nhịp min:
+Offset mép sàn:	Offset mép sàn:
+Ofs KR P	Ofs KR P
+Ofs KR T	Ofs KR T
+Ofs Phải:	Ofs Phải:
+Ofs Trái:	Ofs Trái:
+Rebar Layout	Rebar Layout
+Reset BlockTag	Reset BlockTag
+Rải tự động	Rải tự động
+Số CK:	Số CK:
+Số Lượng thanh thép rời rạc tối thiểu để tạo thành Group >	Số Lượng thanh thép rời rạc tối thiểu để tạo thành Group >
+Số hiệu:	Số hiệu:
+TKT Cấu tạo	TKT Cấu tạo
+Thép kép	Thép kép
+Thép lớp dưới	Thép lớp dưới
+Thép lớp trên	Thép lớp trên
+Tái tạo Group	Tái tạo Group
+Tên CK:	Tên CK:
+Tỷ lệ vẽ 1:	Tỷ lệ vẽ 1:
+Tỷ lệ vẽ:	Tỷ lệ vẽ:
+Un Boundary	Un Boundary
+Vẽ Thép Nhanh	Vẽ Thép Nhanh
+Vẽ mặt cắt	Vẽ mặt cắt
+Vẽ mặt cắt sàn xiên	Vẽ mặt cắt sàn xiên
+Vẽ song song 2 lớp	Vẽ song song 2 lớp
+Vẽ thép chạy suốt	Vẽ thép chạy suốt
+Vẽ thép rải đều 2 lớp	Vẽ thép rải đều 2 lớp
+Vẽ thép tăng cường	Vẽ thép tăng cường
+Vệ sinh	Vệ sinh
+Đoạn chia	Đoạn chia
+Đoạn chia thép tăng cường:	Đoạn chia thép tăng cường:
+Đổi hình dáng	Đổi hình dáng
+Đổi khoảng rải	Đổi khoảng rải
+Đổi đường kính	Đổi đường kính
+Ưu tiên cắt chẵn thép phù hợp L ưu tiên phần shop	Ưu tiên cắt chẵn thép phù hợp L ưu tiên phần shop
+Giá trị	Giá trị
+Hoặc đoạn rải:	Hoặc đoạn rải:
+Hỗ trợ Thống kê Cốt thép	Hỗ trợ Thống kê Cốt thép
+Số Cấu kiện:	Số Cấu kiện:
+Thông số	Thông số
+Update Chọn Vùng	Update Chọn Vùng
+Và bước bố trí:	Và bước bố trí:
+Chọn dim	Chọn dim
+Số Hiệu:	Số Hiệu:
+Tỷ lệ tag:	Tỷ lệ tag:
+Điền tự động	Điền tự động
+Hình dạng mặt bằng	Hình dạng mặt bằng
+Hình dạng thang	Hình dạng thang
+Kiểu bố trí:	Kiểu bố trí:
+Loại cầu thang	Loại cầu thang
+Loại thang:	Loại thang:
+Lấy dữ liệu	Lấy dữ liệu
+Lớp bảo vệ:	Lớp bảo vệ:
+MC 1-1	MC 1-1
+MC 2-2	MC 2-2
+MC 3-3	MC 3-3
+Mặt bằng chung	Mặt bằng chung
+Mặt bằng chung — số bậc · nối thang tầng dưới	Mặt bằng chung — số bậc · nối thang tầng dưới
+Neo thép (d):	Neo thép (d):
+Rộng bản CN:	Rộng bản CN:
+Rộng bản thang:	Rộng bản thang:
+Số bậc thang:	Số bậc thang:
+TK chấm CN dưới	TK chấm CN dưới
+TK chấm CN trên	TK chấm CN trên
+TL bằng:	TL bằng:
+TL cắt:	TL cắt:
+Thang 1 vế	Thang 1 vế
+Thang 2 vế	Thang 2 vế
+Thang 2 vế thẳng	Thang 2 vế thẳng
+Thang 3 vế	Thang 3 vế
+Thép CN lớp dưới:	Thép CN lớp dưới:
+Thép CN lớp trên:	Thép CN lớp trên:
+Thép bậc:	Thép bậc:
+Thép chấm dưới:	Thép chấm dưới:
+Thép chấm trên:	Thép chấm trên:
+Thép chờ - đoạn dọc:	Thép chờ - đoạn dọc:
+Thép chờ - đoạn ngang:	Thép chờ - đoạn ngang:
+Thép dọc lớp dưới:	Thép dọc lớp dưới:
+Thép dọc lớp trên:	Thép dọc lớp trên:
+Thông số chung	Thông số chung
+Thẳng	Thẳng
+Tùy chọn vẽ	Tùy chọn vẽ
+Vẽ thang	Vẽ thang
+Vẽ thang shop	Vẽ thang shop
+Vẽ thép CN dưới	Vẽ thép CN dưới
+Vẽ thép CN trên	Vẽ thép CN trên
+Vẽ thép trên mặt bằng	Vẽ thép trên mặt bằng
+Vẽ thép dạng xiên	Vẽ thép dạng xiên
+Vị trí thép CN:	Vị trí thép CN:
+Xoay	Xoay
+ZigZac	ZigZac
+bậc CN1	bậc CN1
+bậc xiên	bậc xiên
+view_thang	view_thang
+Đối xứng	Đối xứng
+Đồng bộ thép vế 1 - vế 3	Đồng bộ thép vế 1 - vế 3
+3D	3D
+Add Strip theo BAO sàn chọn trước (Etabs)	Add Strip theo BAO sàn chọn trước (Etabs)
+Add Strip từng sàn chọn trước (Etabs)	Add Strip từng sàn chọn trước (Etabs)
+Assign	Assign
+Assign Spring	Assign Spring
+B Loads	B Loads
+CN ẩn ??	CN ẩn ??
+Cao dầm (mm):	Cao dầm (mm):
+Cao đài (mm):	Cao đài (mm):
+Chiều Dài tường Min:	Chiều Dài tường Min:
+Chiều Rộng tường Max:	Chiều Rộng tường Max:
+Chiều Rộng tường Min:	Chiều Rộng tường Min:
+Chiều cao tầng	Chiều cao tầng
+Chiều dày trát:	Chiều dày trát:
+Chiều rộng strip(mm):	Chiều rộng strip(mm):
+Chọn ranh đất	Chọn ranh đất
+Define Section	Define Section
+Export Strip → CAD	Export Strip → CAD
+Frame loads	Frame loads
+Grid - Hệ trục	Grid - Hệ trục
+Gán tải	Gán tải
+Gán tải (Assign Load)	Gán tải (Assign Load)
+Góc quay đài (độ):	Góc quay đài (độ):
+Hệ số	Hệ số
+Hệ số an toàn:	Hệ số an toàn:
+Hệ trục:	Hệ trục:
+KC tối thiểu→ranh:	KC tối thiểu→ranh:
+Khai báo Spring	Khai báo Spring
+Khối lượng riêng Vữa:	Khối lượng riêng Vữa:
+Khối lượng riêng gạch:	Khối lượng riêng gạch:
+Line → Strip	Line → Strip
+Material Definition	Material Definition
+Model đài tại point đang chọn	Model đài tại point đang chọn
+Mép cọc→đài (mm):	Mép cọc→đài (mm):
+Móng cọc	Móng cọc
+Mô hình	Mô hình
+P Base	P Base
+Px (m):	Px (m):
+Py:	Py:
+Rectang X	Rectang X
+Rectang Y	Rectang Y
+Rộng dầm (mm):	Rộng dầm (mm):
+SCT cọc (kN):	SCT cọc (kN):
+Scale tải (hệ số)	Scale tải (hệ số)
+Select tường Kiến Trúc	Select tường Kiến Trúc
+Snap Tol:	Snap Tol:
+Strip X:	Strip X:
+Strip Y:	Strip Y:
+Thông số cọc + Đài	Thông số cọc + Đài
+Tên strip:	Tên strip:
+Tạo Model móng cọc	Tạo Model móng cọc
+Tạo hệ trục	Tạo hệ trục
+Tầng | Tower:	Tầng | Tower:
+Tổ hợp kiểm tra cọc:	Tổ hợp kiểm tra cọc:
+Unique	Unique
+Visibility - Draw	Visibility - Draw
+Vẽ Line dầm X qua Point	Vẽ Line dầm X qua Point
+Vẽ Line dầm Y qua Point đã chọn trước	Vẽ Line dầm Y qua Point đã chọn trước
+Đã copy:	Đã copy:
+Đường kính (mm):	Đường kính (mm):
+① Vẽ Strip trong CAD	① Vẽ Strip trong CAD
+② Đồng bộ Etabs	② Đồng bộ Etabs
+ⓘ Click đọc hướng dẫn bề rộng	ⓘ Click đọc hướng dẫn bề rộng
+Chưa có khoá cho hãng này.	Chưa có khoá cho hãng này.
+Đã có khoá (mã hoá theo tài khoản Windows này).	Đã có khoá (mã hoá theo tài khoản Windows này).
+Chưa chạy	Chưa chạy
+Chọn file CAD kiến trúc cho 	Chọn file CAD kiến trúc cho 
+Chọn file CAD kiến trúc tầng móng	Chọn file CAD kiến trúc tầng móng
+Chọn thư mục Excel gốc (gõ tên bất kỳ rồi Save — sẽ lấy folder)	Chọn thư mục Excel gốc (gõ tên bất kỳ rồi Save — sẽ lấy folder)
+Chọn thư mục dự án (gõ tên file bất kỳ rồi Save — sẽ lấy folder)	Chọn thư mục dự án (gõ tên file bất kỳ rồi Save — sẽ lấy folder)
+Không tìm thấy dữ liệu gió cho địa danh này.	Không tìm thấy dữ liệu gió cho địa danh này.
+Lưu dự án AutoStr	Lưu dự án AutoStr
+Lỗi lọc Huyện: 	Lỗi lọc Huyện: 
+Lỗi lọc Xã: 	Lỗi lọc Xã: 
+Lỗi tra cứu: 	Lỗi tra cứu: 
+Lỗi tải dữ liệu gió: 	Lỗi tải dữ liệu gió: 
+Mở dự án AutoStr	Mở dự án AutoStr
+Đang đọc dữ liệu gió...	Đang đọc dữ liệu gió...
+Đã tra: 	Đã tra: 
+Đã tải 	Đã tải 
+✔ Hoàn thành	✔ Hoàn thành
+Cắt dầm...	Cắt dầm...
+Lưu bảng thống kê	Lưu bảng thống kê
+Phân tích...	Phân tích...
+Tính khối lượng dầm & ván khuôn...	Tính khối lượng dầm & ván khuôn...
+Tính khối lượng sàn...	Tính khối lượng sàn...
+Tính toán liên kết...	Tính toán liên kết...
+Vẽ debug cạnh giáp biên & trục dầm...	Vẽ debug cạnh giáp biên & trục dầm...
+Vẽ kết quả...	Vẽ kết quả...
+Vẽ tên dầm lên mặt bằng...	Vẽ tên dầm lên mặt bằng...
+Xác định gối tựa & tên trục...	Xác định gối tựa & tên trục...
+Đặt tên dầm tự động...	Đặt tên dầm tự động...
+T1B1	T1B1
+Chọn trước Rectang và Khung tên	Chọn trước Rectang và Khung tên
+Đã Chọn Khung, bấm để hủy	Đã Chọn Khung, bấm để hủy
+*L Nối	*L Nối
+Chọn nơi lấy các thông số theo dự án	Chọn nơi lấy các thông số theo dự án
+Bỏ dim đã chọn	Bỏ dim đã chọn
+Chọn Layout để Copy	Chọn Layout để Copy
+Chọn file CAD để copy Layout	Chọn file CAD để copy Layout
+De-Select ALL	De-Select ALL
+Hủy bỏ	Hủy bỏ
+Select ALL	Select ALL
+Xóa các layout đã chọn ở file gốc sau khi copy	Xóa các layout đã chọn ở file gốc sau khi copy
+Đồng ý	Đồng ý
+Dbim Version 	Dbim Version 
+Máy tính: 	Máy tính: 
+Nếu không có chỉ định cụ thể từ Excel, đối với Tool Vẽ CỘT, VÁCH phần mềm luôn lấy chiều dài nối bằng: 	Nếu không có chỉ định cụ thể từ Excel, đối với Tool Vẽ CỘT, VÁCH phần mềm luôn lấy chiều dài nối bằng: 
+Nếu không có chỉ định cụ thể từ Excel, đối với Tool vẽ CỘT, VÁCH phần mềm luôn lấy chiều dài nối bằng: 	Nếu không có chỉ định cụ thể từ Excel, đối với Tool vẽ CỘT, VÁCH phần mềm luôn lấy chiều dài nối bằng: 
+Lớp 1	Lớp 1
+Lớp 2	Lớp 2
+Lớp 3	Lớp 3
+Số cầu kiện:	Số cầu kiện:
+Triển khai dầm cong	Triển khai dầm cong
+DCE Pro — Model chưa được lưu, chọn nơi lưu để tiếp tục	DCE Pro — Model chưa được lưu, chọn nơi lưu để tiếp tục
+DCE - Quét đối tượng ẩn	DCE - Quét đối tượng ẩn
+Fix Block Ẩn	Fix Block Ẩn
+Gồm block ref hỏng	Gồm block ref hỏng
+Quét + đánh dấu	Quét + đánh dấu
+Tên Cấu Kiện	Tên Cấu Kiện
+Xóa hết (chỉ rác) + dọn marker	Xóa hết (chỉ rác) + dọn marker
+Xóa đối tượng đã chọn	Xóa đối tượng đã chọn
+Đã xóa rác + dọn marker (giữ nội dung thật).	Đã xóa rác + dọn marker (giữ nội dung thật).
+Đã xóa đối tượng đã chọn.	Đã xóa đối tượng đã chọn.
+Chọn text từ CAD...	Chọn text từ CAD...
+DCE Máy Học — Nhận dạng text thép	DCE Máy Học — Nhận dạng text thép
+Dạy & Học lại (lưu kết quả đã sửa)	Dạy & Học lại (lưu kết quả đã sửa)
+Kết quả nhận dạng (sửa trực tiếp nếu sai)	Kết quả nhận dạng (sửa trực tiếp nếu sai)
+Phân tích	Phân tích
+Sẵn sàng.	Sẵn sàng.
+Text thép	Text thép
+Vui lòng nhập hoặc chọn text trước.	Vui lòng nhập hoặc chọn text trước.
+Đã phân tích. Sửa kết quả nếu sai rồi nhấn 'Dạy & Học lại'.	Đã phân tích. Sửa kết quả nếu sai rồi nhấn 'Dạy & Học lại'.
+Gộp đoạn trùng (	Gộp đoạn trùng (
+Nhận diện cặp tường (	Nhận diện cặp tường (
+Chuyển quyền sử dụng: 	Chuyển quyền sử dụng: 
+Giá tiền: 	Giá tiền: 
+LícenseKey...	LícenseKey...
+Số ngày sử dụng: 	Số ngày sử dụng: 
+As chọn Bot:	As chọn Bot:
+As chọn Top:	As chọn Top:
+HL thép Bot:	HL thép Bot:
+HL thép Top:	HL thép Top:
+Hệ số Fs Bot:	Hệ số Fs Bot:
+Hệ số Fs Top:	Hệ số Fs Top:
+Momen Bot:	Momen Bot:
+Momen Top:	Momen Top:
+Momen giới hạn Bot:	Momen giới hạn Bot:
+Momen giới hạn Top:	Momen giới hạn Top:
+Update	Update
+Admin	Admin
+Edit	Edit
+Rải đài cọc	Rải đài cọc
+Sửa nhiều thép	Sửa nhiều thép
+Sửa thép	Sửa thép
+View	View
+Vẽ lanh tô	Vẽ lanh tô
+Vẽ móng cọc	Vẽ móng cọc
+Vẽ móng đơn	Vẽ móng đơn
+  (Mọi thay đổi ở đây tự lưu ngay)	  (Mọi thay đổi ở đây tự lưu ngay)
+Chiều dài (mm):	Chiều dài (mm):
+DCE Setup	DCE Setup
+Lỗi lưu: 	Lỗi lưu: 
+Thêm vào Ưu tiên	Thêm vào Ưu tiên
+Thư viện	Thư viện
+→ ISO	→ ISO
+✔ Đã lưu cài đặt.	✔ Đã lưu cài đặt.
+⭐ Ưu tiên (thứ tự dùng)	⭐ Ưu tiên (thứ tự dùng)
+Export to Cad 3D	Export to Cad 3D
+Get Point	Get Point
+Số model Etabs mở: 	Số model Etabs mở: 
+Số model Safe mở: 	Số model Safe mở: 
+Số model Sap mở: 	Số model Sap mở: 
+Hướng dẫn sử dụng: 	Hướng dẫn sử dụng: 
+Telegram: 	Telegram: 
+Website: 	Website: 
+Youtube: 	Youtube: 
+Bắt buộc kiểm tra lại vị trí các lớp thép và bảng thống kê thép	Bắt buộc kiểm tra lại vị trí các lớp thép và bảng thống kê thép
+Bẻ móc đai đứng	Bẻ móc đai đứng
+Bẻ móc:	Bẻ móc:
+Bề dày sàn hầm	Bề dày sàn hầm
+Chưa có mặt bằng móng.	Chưa có mặt bằng móng.
+Cover thép đai	Cover thép đai
+H sàn hầm:	H sàn hầm:
+Hiện mặt bằng	Hiện mặt bằng
+Khóa đầu cột	Khóa đầu cột
+Lớp dưới: 	Lớp dưới: 
+Neo sàn	Neo sàn
+Quét chọn mặt bằng	Quét chọn mặt bằng
+Râu thép cọc:	Râu thép cọc:
+Số đai C cột tròn	Số đai C cột tròn
+Sửa vát mảng	Sửa vát mảng
+Thêm mặt cắt	Thêm mặt cắt
+Vừa khung	Vừa khung
+Xoá mặt cắt	Xoá mặt cắt
+Đai C phương X	Đai C phương X
+Đai C phương Y	Đai C phương Y
+Đai □ phương X	Đai □ phương X
+Đai □ phương Y	Đai □ phương Y
+Đoạn chồng:	Đoạn chồng:
+Bỏ chọn	Bỏ chọn
+Chọn tất cả	Chọn tất cả
+Khoảng cách a	Khoảng cách a
+Thêm	Thêm
+Tính toán thép tự động	Tính toán thép tự động
+Đường kính phi	Đường kính phi
+Ưu tiên gần As nhất tuyệt đối	Ưu tiên gần As nhất tuyệt đối
+Triển khai thép thêm	Triển khai thép thêm
+Xoá dòng	Xoá dòng
+Nạp dữ liệu các đường biên sàn: 	Nạp dữ liệu các đường biên sàn: 
+Apply To Rebar	Apply To Rebar
+Cột 'Màu Sắc' nhập giá trị 1 => 255	Cột 'Màu Sắc' nhập giá trị 1 => 255
+Màu Sắc	Màu Sắc
+Rebar Color Bylayer	Rebar Color Bylayer
+Tạo Lớp Phủ	Tạo Lớp Phủ
+Đường Kính	Đường Kính
+Khai báo chiều cao dầm - 	Khai báo chiều cao dầm - 
+Khai báo giật cao độ sàn - 	Khai báo giật cao độ sàn - 
+Chọn hình dạng thép	Chọn hình dạng thép
+Gõ để lọc (vd: TK27) — click vào hình để chọn:	Gõ để lọc (vd: TK27) — click vào hình để chọn:
+D =	D =
+L1 =	L1 =
+L2 =	L2 =
+L3 =	L3 =
+L4 =	L4 =
+L5 =	L5 =
+L6 =	L6 =
+M =	M =
+M1 =	M1 =
+M2 =	M2 =
+X =	X =
+Cấu kiện và tỷ lệ	Cấu kiện và tỷ lệ
+Cốt thép	Cốt thép
+Lật đối xứng vế	Lật đối xứng vế
+Mặc định	Mặc định
+Nối vào thép chờ	Nối vào thép chờ
+Số bậc thang	Số bậc thang
+TL mặt bằng:	TL mặt bằng:
+TL mặt cắt:	TL mặt cắt:
+Thép CN của mặt cắt này lấy theo	Thép CN của mặt cắt này lấy theo
+Thép bậc thang	Thép bậc thang
+Thép chờ – đoạn dọc:	Thép chờ – đoạn dọc:
+Thép chờ – đoạn ngang:	Thép chờ – đoạn ngang:
+Thể hiện mặt cắt	Thể hiện mặt cắt
+Tự tính cao độ chiếu nghỉ theo số bậc	Tự tính cao độ chiếu nghỉ theo số bậc
+VẼ THANG	VẼ THANG
+[Nối thang cũ] chọn thang tầng dưới ĐÃ VẼ để lấy chiếu nghỉ trên của nó 	[Nối thang cũ] chọn thang tầng dưới ĐÃ VẼ để lấy chiếu nghỉ trên của nó 
+Độ dốc vát nhấn nối thép (cao/dài):	Độ dốc vát nhấn nối thép (cao/dài):
+Độ dốc vát nhấn nối thép (cao/dài)	Độ dốc vát nhấn nối thép (cao/dài)
+Độ dốc đoạn vát khi cây thép sau phải nhấn lệch 1 đường kính để chui vào mối nối. 1/10 = cao 1 phần thì vát dài 10 phần. Chiều dài vát = ĐK thép × mẫu số, không nhỏ hơn ô "L nhãn cổ chai tối thiểu". Mẫu số càng lớn thì vát càng thoải và sai số chiều dài khi bật "Bỏ dim phần nhấn thép" càng nhỏ. Ô này RIÊNG cho shop, không liên quan ô "Nhãn cổ chai" của tab Dầm	Độ dốc đoạn vát khi cây thép sau phải nhấn lệch 1 đường kính để chui vào mối nối. 1/10 = cao 1 phần thì vát dài 10 phần. Chiều dài vát = ĐK thép × mẫu số, không nhỏ hơn ô "L nhãn cổ chai tối thiểu". Mẫu số càng lớn thì vát càng thoải và sai số chiều dài khi bật "Bỏ dim phần nhấn thép" càng nhỏ. Ô này RIÊNG cho shop, không liên quan ô "Nhãn cổ chai" của tab Dầm
+(Chỉ chế độ Start-Mid-End) Ghi tên trục ở mặt cắt ngang dầm	(Chỉ chế độ Start-Mid-End) Ghi tên trục ở mặt cắt ngang dầm
+(Chỉ chế độ Start-Mid-End) Tắt sơ đồ dầm	(Chỉ chế độ Start-Mid-End) Tắt sơ đồ dầm
+(Không có mục nào)	(Không có mục nào)
+(Mọi thay đổi ở đây tự lưu ngay)	(Mọi thay đổi ở đây tự lưu ngay)
+) đang khai theo bước nét trên giấy: "	) đang khai theo bước nét trên giấy: "
+) — giá trị chưa có đơn vị.	) — giá trị chưa có đơn vị.
+B1/B2 bằng polyline	B1/B2 bằng polyline
+BTBV & KC đai đầu tiên	BTBV & KC đai đầu tiên
+BTBV đai dưới	BTBV đai dưới
+BTBV đai phải	BTBV đai phải
+BTBV đai trái	BTBV đai trái
+BTBV đai trên	BTBV đai trên
+Block chi tiết thép dầm phía NGOÀI	Block chi tiết thép dầm phía NGOÀI
+Block chi tiết thép dầm phía TRONG	Block chi tiết thép dầm phía TRONG
+Bo góc đai C	Bo góc đai C
+Bán kính bo góc đai C	Bán kính bo góc đai C
+Bán kính bo tròn góc của đai C	Bán kính bo tròn góc của đai C
+Bật dim cho thép trong shop	Bật dim cho thép trong shop
+Bật dim định vị thép tăng cường trong shop, bật đường Gióng cột	Bật dim định vị thép tăng cường trong shop, bật đường Gióng cột
+Bật kiểm tra/cảnh báo lỗi dữ liệu khi thống kê thép	Bật kiểm tra/cảnh báo lỗi dữ liệu khi thống kê thép
+Bẻ Móc đai C đỡ lớp tăng cường (ĐK < 16mm)	Bẻ Móc đai C đỡ lớp tăng cường (ĐK < 16mm)
+Bẻ Móc đai C đỡ lớp tăng cường khi đường kính < 16mm (theo d)	Bẻ Móc đai C đỡ lớp tăng cường khi đường kính < 16mm (theo d)
+Bẻ ke / neo / chạy suốt	Bẻ ke / neo / chạy suốt
+Bẻ ke lớp dưới	Bẻ ke lớp dưới
+Bẻ ke lớp dưới dầm	Bẻ ke lớp dưới dầm
+Bẻ ke lớp trên	Bẻ ke lớp trên
+Bẻ ke tối thiểu	Bẻ ke tối thiểu
+Bẻ ke tối thiểu (d)	Bẻ ke tối thiểu (d)
+Bẻ ke tối thiểu (mm)	Bẻ ke tối thiểu (mm)
+Bẻ móc cho đai tròn loại 2	Bẻ móc cho đai tròn loại 2
+Bẻ móc đai tròn loại 2	Bẻ móc đai tròn loại 2
+Bẻ thép chân cột và đỉnh cột	Bẻ thép chân cột và đỉnh cột
+Bề rộng mặt cắt dọc cột (mm; 0 = tự động)	Bề rộng mặt cắt dọc cột (mm; 0 = tự động)
+Bề rộng mặt cắt dọc vách (mm; 0 = tự động)	Bề rộng mặt cắt dọc vách (mm; 0 = tự động)
+Bỏ dim nhãn	Bỏ dim nhãn
+Bỏ dim phần nhấn thép (gộp lại thành dim thẳng)	Bỏ dim phần nhấn thép (gộp lại thành dim thẳng)
+Bỏ dim định vị vùng nối	Bỏ dim định vị vùng nối
+Bộ font ghi chú: Unicode / TCVN3 / VNI	Bộ font ghi chú: Unicode / TCVN3 / VNI
+Cao độ mặt cắt ngang	Cao độ mặt cắt ngang
+Chia cột thành 3 đoạn rải đai, 2 đầu là vùng tới hạn	Chia cột thành 3 đoạn rải đai, 2 đầu là vùng tới hạn
+Chiều Rộng Mặt Cắt Dọc	Chiều Rộng Mặt Cắt Dọc
+Chiều cao chữ Mtext	Chiều cao chữ Mtext
+Chiều cao chữ Mtext mặc định	Chiều cao chữ Mtext mặc định
+Chiều cao chữ ghi thép sàn	Chiều cao chữ ghi thép sàn
+Chiều cao chữ thép sàn	Chiều cao chữ thép sàn
+Chiều cao dầm áp dụng đai vai bò (mm)	Chiều cao dầm áp dụng đai vai bò (mm)
+Chiều cao dầm đai vai bò	Chiều cao dầm đai vai bò
+Chiều dài Móc đai Kín	Chiều dài Móc đai Kín
+Chiều dài Móc đai Kín cột/vách. Nhập 6 → 6d cho CẢ 2 móc; 10/15 → móc đầu 10d, móc cuối 15d; 50mm → đúng 50mm (không nhân d)	Chiều dài Móc đai Kín cột/vách. Nhập 6 → 6d cho CẢ 2 móc; 10/15 → móc đầu 10d, móc cuối 15d; 50mm → đúng 50mm (không nhân d)
+Chiều dài bẻ ke thép lớp dưới (vd 15d, 1000mm)	Chiều dài bẻ ke thép lớp dưới (vd 15d, 1000mm)
+Chiều dài min xét cắt thép	Chiều dài min xét cắt thép
+Chiều dài móc đai C PHẢI. Nhập 6 → 6d; 6/80 → 6d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai C PHẢI. Nhập 6 → 6d; 6/80 → 6d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai C TRÁI. Nhập 6 → 6d; 6/80 → 6d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai C TRÁI. Nhập 6 → 6d; 6/80 → 6d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai C bên PHẢI. Nhập 8 → 8d; 8/80 → 8d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai C bên PHẢI. Nhập 8 → 8d; 8/80 → 8d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai C bên TRÁI. Nhập 8 → 8d; 8/80 → 8d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai C bên TRÁI. Nhập 8 → 8d; 8/80 → 8d nhưng tối thiểu 80mm; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai chữ U bao ngoài. Nhập 10 → 10d; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai chữ U bao ngoài. Nhập 10 → 10d; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai chữ U trong. Nhập 8 → 8d; 80mm → đúng 80mm (không nhân d)	Chiều dài móc đai chữ U trong. Nhập 8 → 8d; 80mm → đúng 80mm (không nhân d)
+Chiều dài móc đai kín NGOÀI của dầm. Nhập 10 → 10d cho CẢ 2 móc; 10/15 → móc đầu 10d, móc cuối 15d; 50mm → đúng 50mm (không nhân d)	Chiều dài móc đai kín NGOÀI của dầm. Nhập 10 → 10d cho CẢ 2 móc; 10/15 → móc đầu 10d, móc cuối 15d; 50mm → đúng 50mm (không nhân d)
+Chiều dài móc đai kín TRONG của dầm. Cú pháp như móc đai kín NGOÀI (10 · 10/15 · 50mm · 10/50mm)	Chiều dài móc đai kín TRONG của dầm. Cú pháp như móc đai kín NGOÀI (10 · 10/15 · 50mm · 10/50mm)
+Chiều dài nhịp lớp Dưới tính từ Tim cột	Chiều dài nhịp lớp Dưới tính từ Tim cột
+Chiều dài nhịp lớp Trên tính từ Tim cột	Chiều dài nhịp lớp Trên tính từ Tim cột
+Chiều dài tối thiểu mới xét cắt thép — PHẢI kèm đơn vị: 2.5d (theo d = L nối) hoặc 2000mm (theo mm)	Chiều dài tối thiểu mới xét cắt thép — PHẢI kèm đơn vị: 2.5d (theo d = L nối) hoặc 2000mm (theo mm)
+Chiều dài tối thiểu để vẽ nhấn cổ chai trong shop (mm)	Chiều dài tối thiểu để vẽ nhấn cổ chai trong shop (mm)
+Chiều dài đoạn ký hiệu cắt thép (mm), mặc định 70mm	Chiều dài đoạn ký hiệu cắt thép (mm), mặc định 70mm
+Chiều dài đoạn tới hạn cột (H/4…H/8) — hiệu lực khi bật Tiêu chuẩn SD	Chiều dài đoạn tới hạn cột (H/4…H/8) — hiệu lực khi bật Tiêu chuẩn SD
+Chiều rộng khung tên (mm)	Chiều rộng khung tên (mm)
+Cho phép chia 3 lần cắt trong 1 lớp (loại trừ với 'Ưu tiên vùng nối')	Cho phép chia 3 lần cắt trong 1 lớp (loại trừ với 'Ưu tiên vùng nối')
+Cho phép cắt sole trong cùng 1 lớp (mở khoá 'Cắt 3 lần 1 lớp' + tịnh tiến thép sàn)	Cho phép cắt sole trong cùng 1 lớp (mở khoá 'Cắt 3 lần 1 lớp' + tịnh tiến thép sàn)
+Chung	Chung
+Chuyển các dim kích thước mặt cắt ngang sang bên phải	Chuyển các dim kích thước mặt cắt ngang sang bên phải
+Chuyển dim MCN sang bên phải	Chuyển dim MCN sang bên phải
+Chênh mép dưới max	Chênh mép dưới max
+Chênh mép trên max	Chênh mép trên max
+Chế độ vẽ MCN cột	Chế độ vẽ MCN cột
+Chế độ vẽ mặt cắt ngang	Chế độ vẽ mặt cắt ngang
+Chỉ Kéo hết cột với thép chạy suốt lớp dưới	Chỉ Kéo hết cột với thép chạy suốt lớp dưới
+Chỉ Kéo hết cột với thép chạy suốt lớp trên	Chỉ Kéo hết cột với thép chạy suốt lớp trên
+Chỉ chia đôi bao vách khi L> (mm)	Chỉ chia đôi bao vách khi L> (mm)
+Chỉ chia đôi đai bao vách khi cạnh dài đai > trị số này (mm). 0 = không giới hạn	Chỉ chia đôi đai bao vách khi cạnh dài đai > trị số này (mm). 0 = không giới hạn
+Chỉ rải thép, không cắt thép	Chỉ rải thép, không cắt thép
+Chỉ shop dầm: ghi vị trí lớp thép vào att VITRI của tag thép (Top lớp 1 = "- T1", Top lớp 2 = "- T2", Bot lớp 1 = "- B1", thép giá = "- G1"...). Lớp xác định bằng cách bắn 7 tia dọc thân thanh trên mặt cắt dọc rồi bỏ phiếu, dung sai = KC giữa 2 lớp thép / 2. Block tag phải có att VITRI	Chỉ shop dầm: ghi vị trí lớp thép vào att VITRI của tag thép (Top lớp 1 = "- T1", Top lớp 2 = "- T2", Bot lớp 1 = "- B1", thép giá = "- G1"...). Lớp xác định bằng cách bắn 7 tia dọc thân thanh trên mặt cắt dọc rồi bỏ phiếu, dung sai = KC giữa 2 lớp thép / 2. Block tag phải có att VITRI
+Chữ, tỷ lệ, khung	Chữ, tỷ lệ, khung
+CÔNG TẮC TỔNG dùng FIELD của toàn bộ chương trình. Bật: lấy chiều dài thép / kích thước tiết diện tự động bằng FIELD (sẽ tự bật Ghi chiều dài thép shop). Tắt: mọi nơi có FIELD (thép shop, cột, vách, lanh tô, dầm, cọc...) chuyển sang ghi text tĩnh — dùng khi CAD lỗi chức năng FIELD	CÔNG TẮC TỔNG dùng FIELD của toàn bộ chương trình. Bật: lấy chiều dài thép / kích thước tiết diện tự động bằng FIELD (sẽ tự bật Ghi chiều dài thép shop). Tắt: mọi nơi có FIELD (thép shop, cột, vách, lanh tô, dầm, cọc...) chuyển sang ghi text tĩnh — dùng khi CAD lỗi chức năng FIELD
+Cắt 3 lần 1 lớp	Cắt 3 lần 1 lớp
+Cắt chẵn cây thép cuối cùng	Cắt chẵn cây thép cuối cùng
+Cắt chẵn cây thép cuối cùng (không nên Cắt chẵn => Đúng thiết kế)	Cắt chẵn cây thép cuối cùng (không nên Cắt chẵn => Đúng thiết kế)
+Cắt chẵn cây thép lớp dưới	Cắt chẵn cây thép lớp dưới
+Cắt chẵn cây thép lớp trên	Cắt chẵn cây thép lớp trên
+Cắt chẵn shop bot	Cắt chẵn shop bot
+Cắt chẵn shop top	Cắt chẵn shop top
+Cắt chẵn thép cột (loại trừ với 'Ẩn mặt cắt dọc cột')	Cắt chẵn thép cột (loại trừ với 'Ẩn mặt cắt dọc cột')
+Cắt chẵn thép thiết kế với phần shop (mở khoá độ lệch + chặn shop top/bot + dim định vị)	Cắt chẵn thép thiết kế với phần shop (mở khoá độ lệch + chặn shop top/bot + dim định vị)
+Cắt chẵn thép với phần shop	Cắt chẵn thép với phần shop
+Cắt sole cùng 1 lớp	Cắt sole cùng 1 lớp
+Cắt thép đai vòng vách	Cắt thép đai vòng vách
+Cắt thép đai vòng vách (loại trừ với Option 2)	Cắt thép đai vòng vách (loại trừ với Option 2)
+Cắt thép đai vòng vách - phương án 2 (loại trừ với phương án 1)	Cắt thép đai vòng vách - phương án 2 (loại trừ với phương án 1)
+Cắt thép đai vòng vách — phương án 2 (loại trừ phương án 1)	Cắt thép đai vòng vách — phương án 2 (loại trừ phương án 1)
+Cố định Hiển thị Đường kính thép Chấm tròn	Cố định Hiển thị Đường kính thép Chấm tròn
+Cố định chiều cao khung cột/vách	Cố định chiều cao khung cột/vách
+Cố định chiều cao khung cột/vách (để trống = tự động)	Cố định chiều cao khung cột/vách (để trống = tự động)
+Cột Vách	Cột Vách
+Cột ngắn	Cột ngắn
+Cột nối coupler	Cột nối coupler
+DCE vẫn lưu đúng giá trị bạn nhập.	DCE vẫn lưu đúng giá trị bạn nhập.
+DCE đã hoàn về giá trị "	DCE đã hoàn về giá trị "
+Dim Thép	Dim Thép
+Dim cao dầm	Dim cao dầm
+Dim chiều cao dầm (mở khoá rải đai trong dầm)	Dim chiều cao dầm (mở khoá rải đai trong dầm)
+Dim chiều cao sàn	Dim chiều cao sàn
+Dim chiều cao sàn (khi bật sẽ tắt Dim lớp BT bảo vệ)	Dim chiều cao sàn (khi bật sẽ tắt Dim lớp BT bảo vệ)
+Dim lớp BT bảo vệ	Dim lớp BT bảo vệ
+Dim lớp bê tông bảo vệ	Dim lớp bê tông bảo vệ
+Dim mép cột đến trục	Dim mép cột đến trục
+Dim từ mép cột đến: Tim trục / Yes / No	Dim từ mép cột đến: Tim trục / Yes / No
+Dim định vị các đoạn thép cắt chẵn	Dim định vị các đoạn thép cắt chẵn
+Dim định vị thép tăng cường	Dim định vị thép tăng cường
+Dim, Tag thép	Dim, Tag thép
+File ISO mẫu (Form bản vẽ). Giữ nguyên tiền tố tên file ISO gốc, chỉ đổi hậu tố	File ISO mẫu (Form bản vẽ). Giữ nguyên tiền tố tên file ISO gốc, chỉ đổi hậu tố
+Font chữ	Font chữ
+Form bản vẽ (danh sách động)	Form bản vẽ (danh sách động)
+Ghi Mặt Cắt Ngang Dầm: Gối - Nhịp nếu dầm đó bố trí đúng kiểu gối nhịp	Ghi Mặt Cắt Ngang Dầm: Gối - Nhịp nếu dầm đó bố trí đúng kiểu gối nhịp
+Ghi Tên Dầm ở Mặt cắt ngang nếu dầm chỉ có 1 mặt cắt	Ghi Tên Dầm ở Mặt cắt ngang nếu dầm chỉ có 1 mặt cắt
+Ghi cao độ tại mặt cắt ngang	Ghi cao độ tại mặt cắt ngang
+Ghi chiều dài dầm	Ghi chiều dài dầm
+Ghi chiều dài thép cột	Ghi chiều dài thép cột
+Ghi chiều dài thép shop	Ghi chiều dài thép shop
+Ghi chiều dài thép sàn	Ghi chiều dài thép sàn
+Ghi chiều dài thép sàn (Yes/No)	Ghi chiều dài thép sàn (Yes/No)
+Ghi chiều dài thép trong shop (tự bật khi dùng Field length)	Ghi chiều dài thép trong shop (tự bật khi dùng Field length)
+Ghi chú song ngữ cho cột/vách	Ghi chú song ngữ cho cột/vách
+Ghi diện tích thép MCN vách	Ghi diện tích thép MCN vách
+Ghi diện tích thép bố trí MCD	Ghi diện tích thép bố trí MCD
+Ghi diện tích thép bố trí trên MCN vách	Ghi diện tích thép bố trí trên MCN vách
+Ghi diện tích thép bố trí trên mặt cắt dọc	Ghi diện tích thép bố trí trên mặt cắt dọc
+Ghi kích thước nhịp	Ghi kích thước nhịp
+Ghi kích thước nhịp dầm	Ghi kích thước nhịp dầm
+Ghi số lượng dầm	Ghi số lượng dầm
+Ghi số lượng thép có Khoảng Rải	Ghi số lượng thép có Khoảng Rải
+Ghi tên trục ở MCN dầm	Ghi tên trục ở MCN dầm
+Ghi tỷ lệ ở mặt cắt	Ghi tỷ lệ ở mặt cắt
+Ghi vị trí lớp thép (- T1/- B1...) vào tag thép shop dầm	Ghi vị trí lớp thép (- T1/- B1...) vào tag thép shop dầm
+Giá trị bẻ thép trên, theo d hoặc mm (vd 40d, -50mm). Bắt buộc có đơn vị 'd' hoặc 'mm'	Giá trị bẻ thép trên, theo d hoặc mm (vd 40d, -50mm). Bắt buộc có đơn vị 'd' hoặc 'mm'
+Giá trị nên nằm trong khoảng 0.5mm - 10mm (thường dùng 2mm).	Giá trị nên nằm trong khoảng 0.5mm - 10mm (thường dùng 2mm).
+Gán Tag cho Đai C đỡ lớp thép giá (hanger)	Gán Tag cho Đai C đỡ lớp thép giá (hanger)
+Gán Tag Đai C đỡ lớp thép giá	Gán Tag Đai C đỡ lớp thép giá
+Góc móc đai kín cột/vách (90 / 135 / 90-135)	Góc móc đai kín cột/vách (90 / 135 / 90-135)
+Góc quay ký hiệu cắt thép	Góc quay ký hiệu cắt thép
+Góc quay ký hiệu cắt thép (độ). Các giá trị: 0, 15, 20, 30, 150, 160, 165	Góc quay ký hiệu cắt thép (độ). Các giá trị: 0, 15, 20, 30, 150, 160, 165
+Góc quay móc C	Góc quay móc C
+Góc quay móc C phải (độ)	Góc quay móc C phải (độ)
+Góc quay móc C trái (độ)	Góc quay móc C trái (độ)
+Góc quay móc C2	Góc quay móc C2
+Góc quay móc U	Góc quay móc U
+Góc quay móc đai C Phải (độ)	Góc quay móc đai C Phải (độ)
+Góc quay móc đai C trái (độ)	Góc quay móc đai C trái (độ)
+Góc quay móc đai U (độ): 135 hoặc 180	Góc quay móc đai U (độ): 135 hoặc 180
+Góc quay móc đai kín (độ)	Góc quay móc đai kín (độ)
+Góc quay đai kín	Góc quay đai kín
+Góc xiên của đai vai bò (độ)	Góc xiên của đai vai bò (độ)
+Góc xiên đai vai bò	Góc xiên đai vai bò
+Gộp SL nếu SH giống ở MCN	Gộp SL nếu SH giống ở MCN
+Gộp số lượng nếu số hiệu giống nhau ở MCN. LƯU Ý: kích hoạt có thể gây lỗi khi chỉnh sửa thép về sau!	Gộp số lượng nếu số hiệu giống nhau ở MCN. LƯU Ý: kích hoạt có thể gây lỗi khi chỉnh sửa thép về sau!
+Hiển thị số hiệu thép dạng chữ	Hiển thị số hiệu thép dạng chữ
+Hệ số bề rộng chữ	Hệ số bề rộng chữ
+Hệ số bề rộng chữ (Width factor) khi tạo Text/Mtext	Hệ số bề rộng chữ (Width factor) khi tạo Text/Mtext
+Hệ số tỷ lệ loại nét (LTSCALE) khi vẽ	Hệ số tỷ lệ loại nét (LTSCALE) khi vẽ
+Hệ số vị trí cắt thép lớp dưới (tỷ lệ nhịp)	Hệ số vị trí cắt thép lớp dưới (tỷ lệ nhịp)
+Hệ số vị trí cắt thép lớp trên (tỷ lệ nhịp)	Hệ số vị trí cắt thép lớp trên (tỷ lệ nhịp)
+KC 2 mối nối	KC 2 mối nối
+KC 2 đai tối thiểu	KC 2 đai tối thiểu
+KC giữa 2 lần nối cột	KC giữa 2 lần nối cột
+KC giữa 2 lớp thép (≥50)	KC giữa 2 lớp thép (≥50)
+KC join 2 điểm thành 1	KC join 2 điểm thành 1
+KC rải đai dưới móng	KC rải đai dưới móng
+KC rải đai trong dầm	KC rải đai trong dầm
+KC thông thủy 2 lớp thép cột	KC thông thủy 2 lớp thép cột
+KC từ vị trí lớp thép tới tag thép (mm)	KC từ vị trí lớp thép tới tag thép (mm)
+KC đai C biên	KC đai C biên
+KC đai C giữa	KC đai C giữa
+KC đai đầu tiên đến mép	KC đai đầu tiên đến mép
+Khe hở đai C (cột/vách)	Khe hở đai C (cột/vách)
+Khe hở đai C (mm)	Khe hở đai C (mm)
+Khi bẻ ke theo giá trị tối thiểu, chiều dài neo có thể dư → chọn neo dư; bỏ chọn = để neo đủ	Khi bẻ ke theo giá trị tối thiểu, chiều dài neo có thể dư → chọn neo dư; bỏ chọn = để neo đủ
+Khi chọn 1 thép dùng lệnh TagThep_DCE: nối thêm (L=xxx) vào cuối nội dung tag. Chiều dài làm tròn theo LamTronTKT	Khi chọn 1 thép dùng lệnh TagThep_DCE: nối thêm (L=xxx) vào cuối nội dung tag. Chiều dài làm tròn theo LamTronTKT
+Khi kéo (stretch) thép: cập nhật lại CHIỀU DÀI thép	Khi kéo (stretch) thép: cập nhật lại CHIỀU DÀI thép
+Khi kéo (stretch) thép: cập nhật lại SỐ HIỆU thép	Khi kéo (stretch) thép: cập nhật lại SỐ HIỆU thép
+Khi kéo (stretch) thép: tự cập nhật chiều dài	Khi kéo (stretch) thép: tự cập nhật chiều dài
+Khi kéo (stretch) thép: tự cập nhật số hiệu	Khi kéo (stretch) thép: tự cập nhật số hiệu
+Khoảng cách 2 đai tối thiểu (mm) — khi loại đai cột = Tự động	Khoảng cách 2 đai tối thiểu (mm) — khi loại đai cột = Tự động
+Khoảng cách giữa 2 lần nối thép cột (mm)	Khoảng cách giữa 2 lần nối thép cột (mm)
+Khoảng cách giữa 2 lớp thép (nên ≥ 50mm để trình bày hợp lý)	Khoảng cách giữa 2 lớp thép (nên ≥ 50mm để trình bày hợp lý)
+Khoảng cách lệch giữa 2 cây thép nối với nhau (mm)	Khoảng cách lệch giữa 2 cây thép nối với nhau (mm)
+Khoảng cách lệch giữa 2 cây thép sole (vd 10TLV)	Khoảng cách lệch giữa 2 cây thép sole (vd 10TLV)
+Khoảng cách tối thiểu giữa 2 mối nối (thông thủy tối thiểu)	Khoảng cách tối thiểu giữa 2 mối nối (thông thủy tối thiểu)
+Khoảng cách từ vị trí lớp thép (- T1/- B1...) tới tag thép, ghi vào thông số động "VitriThep X" của block tag. Chỉ dùng khi bật "Ghi vị trí lớp thép"	Khoảng cách từ vị trí lớp thép (- T1/- B1...) tới tag thép, ghi vào thông số động "VitriThep X" của block tag. Chỉ dùng khi bật "Ghi vị trí lớp thép"
+Khoảng cách từ đai đầu tiên đến mép cấu kiện (mm)	Khoảng cách từ đai đầu tiên đến mép cấu kiện (mm)
+Khoảng cách đai C ở GIỮA	Khoảng cách đai C ở GIỮA
+Khoảng cách để bỏ qua chiều dài góc bo tròn giữa 2 góc vuông; = 0 thì luôn tính cả chiều dài góc bo vào tổng	Khoảng cách để bỏ qua chiều dài góc bo tròn giữa 2 góc vuông; = 0 thì luôn tính cả chiều dài góc bo vào tổng
+Khoảng dịch lên khi sắp xếp shop dầm	Khoảng dịch lên khi sắp xếp shop dầm
+Khoảng dịch xuống khi sắp xếp shop dầm	Khoảng dịch xuống khi sắp xếp shop dầm
+Khoảng hở tối thiểu của đai C (mm)	Khoảng hở tối thiểu của đai C (mm)
+Khoảng hở đai C tối thiểu	Khoảng hở đai C tối thiểu
+Khoảng lệch cắt thép	Khoảng lệch cắt thép
+Khoảng lệch khi cắt cho 2 thanh thép sole (vd 10TLV)	Khoảng lệch khi cắt cho 2 thanh thép sole (vd 10TLV)
+Khoảng rải đai phần dưới móng (mm)	Khoảng rải đai phần dưới móng (mm)
+Khoảng thông thủy giữa 2 lớp thép cột (mm)	Khoảng thông thủy giữa 2 lớp thép cột (mm)
+Khoảng tịnh tiến thép sàn khi sole	Khoảng tịnh tiến thép sàn khi sole
+Khung cột 2	Khung cột 2
+Khác	Khác
+Không bẻ ke lớp dưới quá mặt trên	Không bẻ ke lớp dưới quá mặt trên
+Không bẻ ke lớp trên quá mặt dưới	Không bẻ ke lớp trên quá mặt dưới
+Không bẻ ke thép lớp dưới vượt quá mặt trên dầm	Không bẻ ke thép lớp dưới vượt quá mặt trên dầm
+Không bẻ ke thép lớp dưới — chỉ 2 đầu (loại trừ các tùy chọn khác)	Không bẻ ke thép lớp dưới — chỉ 2 đầu (loại trừ các tùy chọn khác)
+Không bẻ ke thép lớp dưới — chỉ ở 2 đầu dầm	Không bẻ ke thép lớp dưới — chỉ ở 2 đầu dầm
+Không bẻ ke thép lớp dưới — toàn bộ	Không bẻ ke thép lớp dưới — toàn bộ
+Không bẻ ke thép lớp dưới — toàn bộ (loại trừ các tùy chọn khác)	Không bẻ ke thép lớp dưới — toàn bộ (loại trừ các tùy chọn khác)
+Không bẻ ke thép lớp trên vượt quá mặt dưới dầm	Không bẻ ke thép lớp trên vượt quá mặt dưới dầm
+Không hatch tại vùng nối	Không hatch tại vùng nối
+Không hatch vùng nối	Không hatch vùng nối
+Không nối thép Giá trong vùng cột	Không nối thép Giá trong vùng cột
+Không nối thép lớp DƯỚI trong vùng cột	Không nối thép lớp DƯỚI trong vùng cột
+Không nối thép lớp TRÊN trong vùng cột (cần bật 'Không nối thép vùng cột' + 'Nối dưới liên tục')	Không nối thép lớp TRÊN trong vùng cột (cần bật 'Không nối thép vùng cột' + 'Nối dưới liên tục')
+Không nối thép trong vùng cột — lớp DƯỚI	Không nối thép trong vùng cột — lớp DƯỚI
+Không nối thép trong vùng cột — lớp TRÊN	Không nối thép trong vùng cột — lớp TRÊN
+Không nối thép trong vùng cột — thép Giá	Không nối thép trong vùng cột — thép Giá
+Không nối thép vùng cột	Không nối thép vùng cột
+Không rải đai trong dầm	Không rải đai trong dầm
+Không rải đai trong dầm (bỏ chọn = rải đai bình thường)	Không rải đai trong dầm (bỏ chọn = rải đai bình thường)
+Không trừ dim dầm giao nhịp	Không trừ dim dầm giao nhịp
+Không trừ dim tại vị trí dầm giao nhịp	Không trừ dim tại vị trí dầm giao nhịp
+Kiểm tra & lọc bỏ mối nối nếu vị trí cắt trùng với mặt cắt. Khi bỏ chọn: luôn cho phép cắt kể cả trùng	Kiểm tra & lọc bỏ mối nối nếu vị trí cắt trùng với mặt cắt. Khi bỏ chọn: luôn cho phép cắt kể cả trùng
+Kiểm tra không cắt trùng mặt cắt	Kiểm tra không cắt trùng mặt cắt
+Kiểu thể hiện đai trong mặt cắt dọc (Two / Three / Full Link)	Kiểu thể hiện đai trong mặt cắt dọc (Two / Three / Full Link)
+Kiểu đai trong mặt cắt dọc vách (Two / Full Link)	Kiểu đai trong mặt cắt dọc vách (Two / Full Link)
+Kiểu đường leader (polyline) khi ghi chú thép (vd Dce_206MV)	Kiểu đường leader (polyline) khi ghi chú thép (vd Dce_206MV)
+Kéo dài thép tăng cường tại gối (số âm = rút ngắn)	Kéo dài thép tăng cường tại gối (số âm = rút ngắn)
+Kéo dài thép tăng cường tại gối khi 2 thanh thép cắt cùng vị trí. Số âm = rút ngắn (mm hoặc L/12…)	Kéo dài thép tăng cường tại gối khi 2 thanh thép cắt cùng vị trí. Số âm = rút ngắn (mm hoặc L/12…)
+Kéo hết cột thép chạy suốt trên	Kéo hết cột thép chạy suốt trên
+Kéo lại dim đai cột (hiệu lực khi bật 'Cắt chẵn thép cột')	Kéo lại dim đai cột (hiệu lực khi bật 'Cắt chẵn thép cột')
+Kéo thép GIÁ tới hết cột	Kéo thép GIÁ tới hết cột
+Kéo thép Giá tới hết cột	Kéo thép Giá tới hết cột
+Kéo thép gia cường tại gối đối xứng theo nhịp lớn hơn	Kéo thép gia cường tại gối đối xứng theo nhịp lớn hơn
+Kéo thép đai vai bò	Kéo thép đai vai bò
+Ký hiệu & hatch	Ký hiệu & hatch
+Ký hiệu khoảng rải	Ký hiệu khoảng rải
+Ký hiệu Ø (đai < 10)	Ký hiệu Ø (đai < 10)
+Ký hiệu Ø (đai = 10)	Ký hiệu Ø (đai = 10)
+Ký hiệu Ø (đai > 10)	Ký hiệu Ø (đai > 10)
+Ký hiệu đường kính cho đai < 10 (vd %%c = Ø)	Ký hiệu đường kính cho đai < 10 (vd %%c = Ø)
+Ký hiệu đường kính cho đai = 10 (vd %%c = Ø)	Ký hiệu đường kính cho đai = 10 (vd %%c = Ø)
+Ký hiệu đường kính cho đai > 10 (vd %%c = Ø)	Ký hiệu đường kính cho đai > 10 (vd %%c = Ø)
+Ký tự đặt trước khoảng cách rải thép (vd a200)	Ký tự đặt trước khoảng cách rải thép (vd a200)
+L dư trước ưu tiên sau	L dư trước ưu tiên sau
+L móc đai C phải	L móc đai C phải
+L móc đai C trái	L móc đai C trái
+L nhãn cổ chai tối thiểu	L nhãn cổ chai tối thiểu
+L nối thép vùng biên và vùng giữa giống nhau	L nối thép vùng biên và vùng giữa giống nhau
+L tới hạn cột: Max (Hc, 450mm) - 5.4.3.2.2-TCVN 9386	L tới hạn cột: Max (Hc, 450mm) - 5.4.3.2.2-TCVN 9386
+L tới hạn cột: Max (Hc,450) - 5.4.3.2.2 - TCVN 9386	L tới hạn cột: Max (Hc,450) - 5.4.3.2.2 - TCVN 9386
+Leader polyline	Leader polyline
+Linetype scale	Linetype scale
+Loại hatch	Loại hatch
+Loại đai cột tròn	Loại đai cột tròn
+Loại đai cột tròn. Loại 2 mở khoá đoạn overlap + bẻ móc	Loại đai cột tròn. Loại 2 mở khoá đoạn overlap + bẻ móc
+Loại đai vẽ cột	Loại đai vẽ cột
+Luôn Bẻ thép lớp trên 2 đầu	Luôn Bẻ thép lớp trên 2 đầu
+Luôn bẻ ke lớp dưới dầm	Luôn bẻ ke lớp dưới dầm
+Luôn bẻ ke thép lớp dưới dầm (mở khoá chiều dài + phương án)	Luôn bẻ ke thép lớp dưới dầm (mở khoá chiều dài + phương án)
+Luôn bẻ ke thép lớp trên	Luôn bẻ ke thép lớp trên
+Luôn bẻ thép lớp trên 2 đầu	Luôn bẻ thép lớp trên 2 đầu
+Luôn kéo thép lớp dưới 2 đầu hết cột	Luôn kéo thép lớp dưới 2 đầu hết cột
+Luôn kéo thép lớp dưới 2 đầu đến hết cột	Luôn kéo thép lớp dưới 2 đầu đến hết cột
+Luôn kéo thép lớp trên 2 đầu hết cột	Luôn kéo thép lớp trên 2 đầu hết cột
+Luôn kéo thép lớp trên 2 đầu đến hết cột	Luôn kéo thép lớp trên 2 đầu đến hết cột
+Luôn neo thép trong phạm vi cột	Luôn neo thép trong phạm vi cột
+Luôn ưu tiên ISO	Luôn ưu tiên ISO
+Luôn ưu tiên file/layer chuẩn ISO (bắt buộc bật nếu dùng Auto rename Layer)	Luôn ưu tiên file/layer chuẩn ISO (bắt buộc bật nếu dùng Auto rename Layer)
+Làm tròn & thống kê	Làm tròn & thống kê
+Làm tròn (bẻ ke · thép gia cường · rải đai gối)	Làm tròn (bẻ ke · thép gia cường · rải đai gối)
+Làm tròn KC 2 đoạn nối	Làm tròn KC 2 đoạn nối
+Làm tròn L đai gia cường gối	Làm tròn L đai gia cường gối
+Làm tròn LÊN L móc đai kín/C/xoắn/U — dầm/cột/vách (1 = không làm tròn)	Làm tròn LÊN L móc đai kín/C/xoắn/U — dầm/cột/vách (1 = không làm tròn)
+Làm tròn LÊN chiều dài móc đai theo bước này (vd 6d×8=48 → 50). Áp cho đai KÍN · đai C · đai XOẮN · đai U · đai kín cầu thang. Đai xoắn 40d làm tròn theo NỬA móc. Để 1 = KHÔNG làm tròn (y bản cũ). Giá trị nhập bằng mm không bị làm tròn	Làm tròn LÊN chiều dài móc đai theo bước này (vd 6d×8=48 → 50). Áp cho đai KÍN · đai C · đai XOẮN · đai U · đai kín cầu thang. Đai xoắn 40d làm tròn theo NỬA móc. Để 1 = KHÔNG làm tròn (y bản cũ). Giá trị nhập bằng mm không bị làm tròn
+Làm tròn LÊN số lượng thanh thép theo khoảng rải	Làm tròn LÊN số lượng thanh thép theo khoảng rải
+Làm tròn TKT chi tiết & dim các đoạn chi tiết	Làm tròn TKT chi tiết & dim các đoạn chi tiết
+Làm tròn chiều dài nối thép	Làm tròn chiều dài nối thép
+Làm tròn chiều dài rải đai gia cường tại gối	Làm tròn chiều dài rải đai gia cường tại gối
+Làm tròn chiều dài thép gia cường (ở gối hoặc nhịp)	Làm tròn chiều dài thép gia cường (ở gối hoặc nhịp)
+Làm tròn chiều dài thép trong shop (mm) — NÊN ĐỂ = 1. Tối đa 10; để lớn hơn sẽ làm tròn LÊN sai thiết kế (2550 thành 2600) và không cắt đúng được chiều dài lẻ (2920)	Làm tròn chiều dài thép trong shop (mm) — NÊN ĐỂ = 1. Tối đa 10; để lớn hơn sẽ làm tròn LÊN sai thiết kế (2550 thành 2600) và không cắt đúng được chiều dài lẻ (2920)
+Làm tròn chiều dài trong bảng thống kê thép / chiều dài thép tổng (≤ 50mm)	Làm tròn chiều dài trong bảng thống kê thép / chiều dài thép tổng (≤ 50mm)
+Làm tròn khoảng cách giữa 2 đoạn nối	Làm tròn khoảng cách giữa 2 đoạn nối
+Làm tròn lên SL thép theo KR	Làm tròn lên SL thép theo KR
+Làm tròn nối thép	Làm tròn nối thép
+Làm tròn thép	Làm tròn thép
+Làm tròn thép gia cường GN	Làm tròn thép gia cường GN
+Làm tròn thống kê thép / chiều dài thép tổng (≤50)	Làm tròn thống kê thép / chiều dài thép tổng (≤50)
+Làm tròn thống kê thép chi tiết và dim các đoạn chi tiết trong dimrebar	Làm tròn thống kê thép chi tiết và dim các đoạn chi tiết trong dimrebar
+Làm tròn đoạn bẻ ke dầm	Làm tròn đoạn bẻ ke dầm
+Làm tròn đoạn bẻ ke dầm (≥ 1)	Làm tròn đoạn bẻ ke dầm (≥ 1)
+Làm tròn đoạn nối	Làm tròn đoạn nối
+Làm tròn đoạn nối thép trong shop	Làm tròn đoạn nối thép trong shop
+Lưu cài đặt Theo Dự Án	Lưu cài đặt Theo Dự Án
+Lưu thông số theo dự án:	Lưu thông số theo dự án:
+Lấy Cài đặt theo Dự án	Lấy Cài đặt theo Dự án
+Lớp BTBV vẽ MCD	Lớp BTBV vẽ MCD
+Lớp BTBV vẽ cột	Lớp BTBV vẽ cột
+Lớp bê tông bảo vệ khi vẽ cột (mm)	Lớp bê tông bảo vệ khi vẽ cột (mm)
+Lớp bê tông bảo vệ khi vẽ mặt cắt dọc (mm)	Lớp bê tông bảo vệ khi vẽ mặt cắt dọc (mm)
+Lớp bê tông bảo vệ tới đai bên PHẢI (mm)	Lớp bê tông bảo vệ tới đai bên PHẢI (mm)
+Lớp bê tông bảo vệ tới đai bên TRÁI (mm)	Lớp bê tông bảo vệ tới đai bên TRÁI (mm)
+Lớp bê tông bảo vệ tới đai phía DƯỚI (mm)	Lớp bê tông bảo vệ tới đai phía DƯỚI (mm)
+Lớp bê tông bảo vệ tới đai phía TRÊN (mm)	Lớp bê tông bảo vệ tới đai phía TRÊN (mm)
+Move lên shop	Move lên shop
+Move xuống shop	Move xuống shop
+Móc đai U bao	Móc đai U bao
+Móc đai U trong	Móc đai U trong
+Móc đai kín Ngoài (đai kín ngoài dầm)	Móc đai kín Ngoài (đai kín ngoài dầm)
+Móc đai kín Trong (đai kín phía trong dầm)	Móc đai kín Trong (đai kín phía trong dầm)
+Móc đai kín cột/vách	Móc đai kín cột/vách
+Móc đai xoắn	Móc đai xoắn
+Móc đai/góc quay	Móc đai/góc quay
+Mẫu hatch mặt cắt (vd ANSI31)	Mẫu hatch mặt cắt (vd ANSI31)
+Mật độ hatch. Số trần (vd 50) = PatternScale thô như cũ — mỗi loại pattern và mỗi tỷ lệ vẽ ra một mật độ khác nhau. Có đơn vị (vd 2mm) = bước nét mong muốn TRÊN GIẤY, phần mềm tự quy đổi theo tỷ lệ vẽ và theo bước gốc của pattern nên mọi bản vẽ in ra cùng mật độ	Mật độ hatch. Số trần (vd 50) = PatternScale thô như cũ — mỗi loại pattern và mỗi tỷ lệ vẽ ra một mật độ khác nhau. Có đơn vị (vd 2mm) = bước nét mong muốn TRÊN GIẤY, phần mềm tự quy đổi theo tỷ lệ vẽ và theo bước gốc của pattern nên mọi bản vẽ in ra cùng mật độ
+Mặt cắt & thể hiện	Mặt cắt & thể hiện
+Mốc bẻ ke thép lớp trên: Mép trên / Mép dưới	Mốc bẻ ke thép lớp trên: Mép trên / Mép dưới
+Mức chi tiết mặt cắt ngang cột (Rút gọn / Đầy đủ / …Xếp giữa)	Mức chi tiết mặt cắt ngang cột (Rút gọn / Đầy đủ / …Xếp giữa)
+Mức chi tiết thể hiện đai ở MCN. Chế độ Start-Mid-End mở thêm tùy chọn ghi tên trục / tắt sơ đồ dầm	Mức chi tiết thể hiện đai ở MCN. Chế độ Start-Mid-End mở thêm tùy chọn ghi tên trục / tắt sơ đồ dầm
+Neo & kéo thép tại cột	Neo & kéo thép tại cột
+Neo Dư	Neo Dư
+Nguồn loại đai cột: Dữ liệu Excel / Tự động (chế độ Tự động mở khoá KC 2 đai tối thiểu)	Nguồn loại đai cột: Dữ liệu Excel / Tự động (chế độ Tự động mở khoá KC 2 đai tối thiểu)
+Ngôn ngữ	Ngôn ngữ
+Ngôn ngữ hiển thị / Display language	Ngôn ngữ hiển thị / Display language
+Ngưỡng bẻ ke vuông cho cột (mm)	Ngưỡng bẻ ke vuông cho cột (mm)
+Ngưỡng tổng chiều dài 2 thanh thép shop gần nhau (mm)	Ngưỡng tổng chiều dài 2 thanh thép shop gần nhau (mm)
+Ngưỡng tổng chiều dài 2 thanh thép shop gần nhau (mm) — phải lớn hơn hoặc bằng	Ngưỡng tổng chiều dài 2 thanh thép shop gần nhau (mm) — phải lớn hơn hoặc bằng
+Ngắt liên kết dim của thép sàn (chuyển thép sàn thành loại thép cố số lượng cố định)	Ngắt liên kết dim của thép sàn (chuyển thép sàn thành loại thép cố số lượng cố định)
+Nhãn cổ chai	Nhãn cổ chai
+Nhận dạng hình dáng "móc đơn": TK45 (1 móc 135°), TK46 (1 móc 180°), TK47 (đai C 2 móc 135°+180°). Tắt = tính như cũ (chiều dài cộng cả cung bo)	Nhận dạng hình dáng "móc đơn": TK45 (1 móc 135°), TK46 (1 móc 180°), TK47 (đai C 2 móc 135°+180°). Tắt = tính như cũ (chiều dài cộng cả cung bo)
+Nhận dạng mảnh cắt đai C 1 móc (TK45/46/47)	Nhận dạng mảnh cắt đai C 1 móc (TK45/46/47)
+Nhập thông số theo dự án từ thư mục	Nhập thông số theo dự án từ thư mục
+Nếu nhập 1/2 thì theo phương X: cách 1 thép chủ có 1 thép đai. Theo phương Y cách 2 thép chủ có 1 thép đai	Nếu nhập 1/2 thì theo phương X: cách 1 thép chủ có 1 thép đai. Theo phương Y cách 2 thép chủ có 1 thép đai
+Nếu thép phải bẻ ke thì lấy MAX các thông số bên cạnh (không thể bẻ ke quá ngắn)	Nếu thép phải bẻ ke thì lấy MAX các thông số bên cạnh (không thể bẻ ke quá ngắn)
+Nối dưới liên tục	Nối dưới liên tục
+Nối thép	Nối thép
+Nối thép cột	Nối thép cột
+Nối thép cột bằng coupler	Nối thép cột bằng coupler
+Nối thép sole	Nối thép sole
+Nối thép sole (so le vị trí mối nối)	Nối thép sole (so le vị trí mối nối)
+Nối thép đồng trục	Nối thép đồng trục
+Nối thép đồng trục (mở khoá vị trí nối đồng trục)	Nối thép đồng trục (mở khoá vị trí nối đồng trục)
+Nối đuổi thép liên tục 11700mm	Nối đuổi thép liên tục 11700mm
+Nội dung ghi ở mặt cắt: tên cấu kiện và/hoặc tỷ lệ	Nội dung ghi ở mặt cắt: tên cấu kiện và/hoặc tỷ lệ
+Overlap đai tròn loại 2	Overlap đai tròn loại 2
+PA cắt thép trong 1 vùng nối	PA cắt thép trong 1 vùng nối
+PA1: xác suất dùng L ưu tiên nhiều nhất; PA2: ít hơn nhưng ít mối nối hơn (PA2 + bỏ hết L ưu tiên → ít mối nối nhất); PA3: trung tính	PA1: xác suất dùng L ưu tiên nhiều nhất; PA2: ít hơn nhưng ít mối nối hơn (PA2 + bỏ hết L ưu tiên → ít mối nối nhất); PA3: trung tính
+Phương án bẻ ke lớp dưới: kéo hết cột / không kéo, neo dư / neo đủ	Phương án bẻ ke lớp dưới: kéo hết cột / không kéo, neo dư / neo đủ
+Phương án bẻ ke lớp trên: kéo hết cột / không kéo, neo dư / neo đủ	Phương án bẻ ke lớp trên: kéo hết cột / không kéo, neo dư / neo đủ
+Phương án bẻ ke thép lớp DƯỚI (kéo hết cột / không kéo + neo dư / neo đủ)	Phương án bẻ ke thép lớp DƯỚI (kéo hết cột / không kéo + neo dư / neo đủ)
+Phương án bẻ ke thép lớp TRÊN (kéo hết cột / không kéo + neo dư / neo đủ)	Phương án bẻ ke thép lớp TRÊN (kéo hết cột / không kéo + neo dư / neo đủ)
+Reset cài đặt về mặc định	Reset cài đặt về mặc định
+Reset toàn bộ cài đặt về mặc định	Reset toàn bộ cài đặt về mặc định
+Rải thép nhưng không cắt	Rải thép nhưng không cắt
+Rộng MCD cột	Rộng MCD cột
+Rộng MCD vách	Rộng MCD vách
+Sai số cho phép của vùng nối (mm)	Sai số cho phép của vùng nối (mm)
+Sai số vùng nối	Sai số vùng nối
+Setup chiều dài nối thép (QTKT)	Setup chiều dài nối thép (QTKT)
+Shopdrawing	Shopdrawing
+Song ngữ cột vách	Song ngữ cột vách
+Số dương (vd 500): chỉ rải đai bao phía ngoài; số âm (vd -500): rải toàn bộ đai (cả đai trong)	Số dương (vd 500): chỉ rải đai bao phía ngoài; số âm (vd -500): rải toàn bộ đai (cả đai trong)
+Số hiệu dạng chữ	Số hiệu dạng chữ
+Sử dụng Tiếng Việt trong các bản vẽ chi tiết	Sử dụng Tiếng Việt trong các bản vẽ chi tiết
+Sử dụng chức năng Field (tắt = không dùng ở mọi nơi)	Sử dụng chức năng Field (tắt = không dùng ở mọi nơi)
+TK trung bình cộng thép biến thiên	TK trung bình cộng thép biến thiên
+TKTS gộp thép giống nhau	TKTS gộp thép giống nhau
+Tag chiều dài thép	Tag chiều dài thép
+Tag hình dạng	Tag hình dạng
+Tag khoảng rải	Tag khoảng rải
+Tag móc phải	Tag móc phải
+Tag móc trái	Tag móc trái
+Tag số hiệu thép	Tag số hiệu thép
+Tag thép sàn	Tag thép sàn
+Tag thép trong shop	Tag thép trong shop
+Tag ĐK và KC	Tag ĐK và KC
+Text dim đoạn nối thép ghi kèm bội số d, VD "30d=720". Chỉ có tác dụng khi chiều dài nối nhập theo d (không bật 'Ưu tiên nối thép theo mm'). Đoạn nối thẳng: số đo động theo CAD; đoạn nối cong: ghi số cứng theo chiều dài thật dọc cây thép	Text dim đoạn nối thép ghi kèm bội số d, VD "30d=720". Chỉ có tác dụng khi chiều dài nối nhập theo d (không bật 'Ưu tiên nối thép theo mm'). Đoạn nối thẳng: số đo động theo CAD; đoạn nối cong: ghi số cứng theo chiều dài thật dọc cây thép
+Thép dầm nhấn cổ chai khi chênh cao mép DƯỚI ≤ giá trị (mm)	Thép dầm nhấn cổ chai khi chênh cao mép DƯỚI ≤ giá trị (mm)
+Thép dầm nhấn cổ chai khi chênh cao mép TRÊN ≤ giá trị (mm)	Thép dầm nhấn cổ chai khi chênh cao mép TRÊN ≤ giá trị (mm)
+Thép dầm nhấn cổ chai khi tỷ lệ Chiều cao nhấn (H) / Chiều dài nhấn (B) ≤ giá trị	Thép dầm nhấn cổ chai khi tỷ lệ Chiều cao nhấn (H) / Chiều dài nhấn (B) ≤ giá trị
+Thép gia cường & khác	Thép gia cường & khác
+Thép giống nhau đánh số hiệu khác nhau (khi bật: các thanh thép giống hệt nhau sẽ được tách thành các số hiệu khác nhau)	Thép giống nhau đánh số hiệu khác nhau (khi bật: các thanh thép giống hệt nhau sẽ được tách thành các số hiệu khác nhau)
+Thép khác SL khác số hiệu	Thép khác SL khác số hiệu
+Thép khác số lượng thì đánh khác số hiệu	Thép khác số lượng thì đánh khác số hiệu
+Thép sole khác số hiệu	Thép sole khác số hiệu
+Thép sole thì đánh khác số hiệu	Thép sole thì đánh khác số hiệu
+Thép sàn dim sole	Thép sàn dim sole
+Thép sàn: ngắt liên kết giữa các dim	Thép sàn: ngắt liên kết giữa các dim
+Thư viện → Ưu	Thư viện → Ưu
+Thể hiện & mặt cắt	Thể hiện & mặt cắt
+Thống kê bê tông cột/vách	Thống kê bê tông cột/vách
+Thống kê bê tông dầm	Thống kê bê tông dầm
+Thống kê khối lượng bê tông cột/vách	Thống kê khối lượng bê tông cột/vách
+Thống kê khối lượng bê tông dầm	Thống kê khối lượng bê tông dầm
+Thống kê theo trung bình cộng với thép biến thiên chiều dài	Thống kê theo trung bình cộng với thép biến thiên chiều dài
+Thống kê thép sàn: gộp các thanh giống nhau	Thống kê thép sàn: gộp các thanh giống nhau
+Tiếng Việt	Tiếng Việt
+Triển khai (vẽ rải) đai cột	Triển khai (vẽ rải) đai cột
+Triển khai thép giá trong shop dầm	Triển khai thép giá trong shop dầm
+Trước khi shop dầm: lấy các thanh 'Thép dư' của sơ đồ cắt thép cũ làm chiều dài phôi ưu tiên. Tắt = chạy y hệt logic cũ	Trước khi shop dầm: lấy các thanh 'Thép dư' của sơ đồ cắt thép cũ làm chiều dài phôi ưu tiên. Tắt = chạy y hệt logic cũ
+Tách SH thép cột	Tách SH thép cột
+Tách số hiệu thép cột (khi bật sẽ khoá 3 tùy chọn so sánh SH bên dưới)	Tách số hiệu thép cột (khi bật sẽ khoá 3 tùy chọn so sánh SH bên dưới)
+Tên thuộc tính (attribute) lưu chiều dài thép trong block sàn — chỉ đổi khi hiểu rõ	Tên thuộc tính (attribute) lưu chiều dài thép trong block sàn — chỉ đổi khi hiểu rõ
+Tên thuộc tính khoảng rải thép sàn	Tên thuộc tính khoảng rải thép sàn
+Tên thuộc tính kiểu hình dạng (TypeOfBlock) thép sàn	Tên thuộc tính kiểu hình dạng (TypeOfBlock) thép sàn
+Tên thuộc tính móc phải trong block thép sàn	Tên thuộc tính móc phải trong block thép sàn
+Tên thuộc tính móc trái trong block thép sàn	Tên thuộc tính móc trái trong block thép sàn
+Tên thuộc tính số hiệu thép sàn	Tên thuộc tính số hiệu thép sàn
+Tên thuộc tính đường kính và khoảng cách thép sàn	Tên thuộc tính đường kính và khoảng cách thép sàn
+Tính chiều dài nối thép vách theo biên/giữa	Tính chiều dài nối thép vách theo biên/giữa
+Tính chiều dài đai C theo kích thước thực tế	Tính chiều dài đai C theo kích thước thực tế
+Tính chiều dài đai C theo kích thước thực tế (tính cả góc bo tròn)	Tính chiều dài đai C theo kích thước thực tế (tính cả góc bo tròn)
+Tính chiều dài đai vòng theo kích thước thực tế	Tính chiều dài đai vòng theo kích thước thực tế
+Tính chiều dài đai vòng theo kích thước thực tế (tính cả góc bo tròn)	Tính chiều dài đai vòng theo kích thước thực tế (tính cả góc bo tròn)
+Tính và Ghi số lượng với thép có khoảng rải	Tính và Ghi số lượng với thép có khoảng rải
+Tạo FIELD chiều dài thép cột (mở khoá khi 'Ghi chiều dài thép cột')	Tạo FIELD chiều dài thép cột (mở khoá khi 'Ghi chiều dài thép cột')
+Tạo field thép cột	Tạo field thép cột
+Tạo khung MCN	Tạo khung MCN
+Tạo khung cột kiểu 2	Tạo khung cột kiểu 2
+Tạo khung mặt cắt ngang (mở khoá Khung cột 2 + cố định chiều cao khung)	Tạo khung mặt cắt ngang (mở khoá Khung cột 2 + cố định chiều cao khung)
+Tắt chế độ Cho phép chia 3 lần cắt / 1 lớp trong shop dầm = False	Tắt chế độ Cho phép chia 3 lần cắt / 1 lớp trong shop dầm = False
+Tịnh tiến thép sàn	Tịnh tiến thép sàn
+Tối ưu tổ hợp cắt chẵn thép	Tối ưu tổ hợp cắt chẵn thép
+Tự chuẩn hoá cao độ Z / Normal trước khi tính (tắt = giữ hành vi cũ)	Tự chuẩn hoá cao độ Z / Normal trước khi tính (tắt = giữ hành vi cũ)
+Tự cắt thép Trên/Dưới/Giá khi kích thước gối > N×d. Định dạng: Trên/Dưới/Giá (vd 100/100/100 = cắt khi gối > 100d)	Tự cắt thép Trên/Dưới/Giá khi kích thước gối > N×d. Định dạng: Trên/Dưới/Giá (vd 100/100/100 = cắt khi gối > 100d)
+Tự cắt thép trên/dưới/giá khi KT gối > N×d (vd 100/100/100)	Tự cắt thép trên/dưới/giá khi KT gối > N×d (vd 100/100/100)
+Tự sắp xếp vị trí các bản vẽ shop dầm (mở khoá khoảng dịch lên/xuống)	Tự sắp xếp vị trí các bản vẽ shop dầm (mở khoá khoảng dịch lên/xuống)
+Tự động sắp xếp vị trí shop	Tự động sắp xếp vị trí shop
+Tỷ lệ vẽ bảng thống kê thép	Tỷ lệ vẽ bảng thống kê thép
+Tỷ lệ vẽ mặt cắt dọc	Tỷ lệ vẽ mặt cắt dọc
+Tỷ lệ vẽ mặt cắt dọc (mẫu số quy đổi kích thước)	Tỷ lệ vẽ mặt cắt dọc (mẫu số quy đổi kích thước)
+Tỷ lệ vẽ mặt cắt ngang	Tỷ lệ vẽ mặt cắt ngang
+Tỷ lệ vẽ mặt cắt ngang (mẫu số quy đổi kích thước)	Tỷ lệ vẽ mặt cắt ngang (mẫu số quy đổi kích thước)
+Tỷ lệ vẽ shop dầm (mặt cắt dọc)	Tỷ lệ vẽ shop dầm (mặt cắt dọc)
+Tỷ lệ vẽ shop dầm (mặt cắt ngang)	Tỷ lệ vẽ shop dầm (mặt cắt ngang)
+Tỷ lệ vẽ shop dọc	Tỷ lệ vẽ shop dọc
+Tỷ lệ vẽ shop ngang	Tỷ lệ vẽ shop ngang
+Tỷ lệ vẽ shop thép sàn	Tỷ lệ vẽ shop thép sàn
+Tỷ lệ vẽ shop thép sàn, cutThep, CutThepSole…	Tỷ lệ vẽ shop thép sàn, cutThep, CutThepSole…
+Tỷ lệ vẽ thống kê thép	Tỷ lệ vẽ thống kê thép
+Tỷ lệ, sắp xếp, sàn	Tỷ lệ, sắp xếp, sàn
+Vùng nối thép	Vùng nối thép
+Vùng nối thép (Trên & Dưới)	Vùng nối thép (Trên & Dưới)
+Vùng nối thép lấy ĐK min (tầng trên, tầng dưới)	Vùng nối thép lấy ĐK min (tầng trên, tầng dưới)
+Vùng nối thép lớp DƯỚI: cách mép một đoạn = hệ số × L (vd 0.125)	Vùng nối thép lớp DƯỚI: cách mép một đoạn = hệ số × L (vd 0.125)
+Vùng nối thép lớp TRÊN: cách mép một đoạn = hệ số × L (vd 0.25)	Vùng nối thép lớp TRÊN: cách mép một đoạn = hệ số × L (vd 0.25)
+Vùng được phép cắt thép lớp Dưới tính bắt đầu từ mép Cột	Vùng được phép cắt thép lớp Dưới tính bắt đầu từ mép Cột
+Vùng được phép cắt thép lớp Trên tính bắt đầu từ mép Cột	Vùng được phép cắt thép lớp Trên tính bắt đầu từ mép Cột
+Vùng được phép nối/cắt thép lớp DƯỚI nằm ở: Nhịp hay Gối	Vùng được phép nối/cắt thép lớp DƯỚI nằm ở: Nhịp hay Gối
+Vùng được phép nối/cắt thép lớp TRÊN nằm ở: Nhịp hay Gối	Vùng được phép nối/cắt thép lớp TRÊN nằm ở: Nhịp hay Gối
+Vẽ MC dọc theo cạnh H	Vẽ MC dọc theo cạnh H
+Vẽ mặt cắt dọc theo cạnh H thay vì cạnh B (chỉ áp dụng cột chữ nhật; cột vuông/tròn bỏ qua)	Vẽ mặt cắt dọc theo cạnh H thay vì cạnh B (chỉ áp dụng cột chữ nhật; cột vuông/tròn bỏ qua)
+Vẽ phạm vi B1/B2 bằng polyline	Vẽ phạm vi B1/B2 bằng polyline
+Vị trí cắt thép (Trên & Dưới)	Vị trí cắt thép (Trên & Dưới)
+Vị trí cắt thép lớp DƯỚI: tại Gối hay Nhịp	Vị trí cắt thép lớp DƯỚI: tại Gối hay Nhịp
+Vị trí cắt thép lớp TRÊN: tại Gối hay Nhịp	Vị trí cắt thép lớp TRÊN: tại Gối hay Nhịp
+Vị trí mặt cắt 1-1/2-2	Vị trí mặt cắt 1-1/2-2
+Vị trí nối đồng trục	Vị trí nối đồng trục
+Vị trí nối đồng trục: Trên / Dưới	Vị trí nối đồng trục: Trên / Dưới
+Vị trí vùng nối thép: Chân cột / Giữa cột	Vị trí vùng nối thép: Chân cột / Giữa cột
+Xuất thông số theo dự án ra thư mục	Xuất thông số theo dự án ra thư mục
+Xóa khỏi thư viện	Xóa khỏi thư viện
+Xếp layout & block chi tiết	Xếp layout & block chi tiết
+Yêu cầu nhập kèm đơn vị, ví dụ: 2000mm (theo mm) hoặc 2.5d (theo đường kính).	Yêu cầu nhập kèm đơn vị, ví dụ: 2000mm (theo mm) hoặc 2.5d (theo đường kính).
+và không cắt đúng được các chiều dài lẻ như 2920.	và không cắt đúng được các chiều dài lẻ như 2920.
+Ô VÀNG (trái) = mô tả ý nghĩa — bạn có thể sửa thành ghi chú riêng (tự lưu) · giữa = giá trị · phải = tên cài đặt	Ô VÀNG (trái) = mô tả ý nghĩa — bạn có thể sửa thành ghi chú riêng (tự lưu) · giữa = giá trị · phải = tên cài đặt
+ĐK coupler cột vách	ĐK coupler cột vách
+ĐK nối nhãn cổ chai	ĐK nối nhãn cổ chai
+ĐK thép chấm tròn	ĐK thép chấm tròn
+Đai	Đai
+Đai cột	Đai cột
+Đai trong MCD cột/vách	Đai trong MCD cột/vách
+Đai trong mặt cắt dọc	Đai trong mặt cắt dọc
+Đai tại vùng nối thép (Bằng vùng tới hạn / Không tùy chỉnh) — khoá khi vùng nối ở Giữa cột	Đai tại vùng nối thép (Bằng vùng tới hạn / Không tùy chỉnh) — khoá khi vùng nối ở Giữa cột
+Đai vùng nối thép	Đai vùng nối thép
+Điểm nối đầu cách mặt sàn (mm)	Điểm nối đầu cách mặt sàn (mm)
+Điểm nối đầu cách sàn	Điểm nối đầu cách sàn
+Đoạn Ký Hiệu Cắt Thép	Đoạn Ký Hiệu Cắt Thép
+Đoạn LL đai xoắn (d). Nhập 40 → 40d; nhập 10/10 → trái 10d, phải 10d; nhập 10/10/10 → thêm đuôi bẻ L 10d chéo 45° vào trong ở cả 2 đầu. Cần điền T.LINK ở Excel để vẽ đai xoắn	Đoạn LL đai xoắn (d). Nhập 40 → 40d; nhập 10/10 → trái 10d, phải 10d; nhập 10/10/10 → thêm đuôi bẻ L 10d chéo 45° vào trong ở cả 2 đầu. Cần điền T.LINK ở Excel để vẽ đai xoắn
+Đoạn bẻ ke tối thiểu theo d	Đoạn bẻ ke tối thiểu theo d
+Đoạn bẻ ke tối thiểu theo mm	Đoạn bẻ ke tối thiểu theo mm
+Đoạn bẻ thép lớp trên 2 đầu (theo d hoặc mm, vd 40d / -50mm)	Đoạn bẻ thép lớp trên 2 đầu (theo d hoặc mm, vd 40d / -50mm)
+Đoạn chồng (overlap) của đai tròn loại 2	Đoạn chồng (overlap) của đai tròn loại 2
+Đoạn kéo thép tại đai vai bò (theo d)	Đoạn kéo thép tại đai vai bò (theo d)
+Đoạn tới hạn cột	Đoạn tới hạn cột
+Đánh Gối - Nhịp Ở Mặt Cắt Ngang	Đánh Gối - Nhịp Ở Mặt Cắt Ngang
+Đánh tên ô ở MCN đơn giản	Đánh tên ô ở MCN đơn giản
+Đã tự đưa về	Đã tự đưa về
+Đơn vị & ký hiệu	Đơn vị & ký hiệu
+Đơn vị 2 mối nối	Đơn vị 2 mối nối
+Đơn vị KC 2 lần nối	Đơn vị KC 2 lần nối
+Đơn vị bán kính bo góc đai C: mm hoặc theo d (đường kính)	Đơn vị bán kính bo góc đai C: mm hoặc theo d (đường kính)
+Đơn vị góc bo tròn đai C	Đơn vị góc bo tròn đai C
+Đơn vị khoảng cách 2 lần nối: mm / d / L nối	Đơn vị khoảng cách 2 lần nối: mm / d / L nối
+Đơn vị khoảng cách 2 mối nối: mm / d	Đơn vị khoảng cách 2 mối nối: mm / d
+Đường kính Cố định để vẽ thép dạng chấm tròn	Đường kính Cố định để vẽ thép dạng chấm tròn
+Đường kính ≥ giá trị thì nối bằng coupler	Đường kính ≥ giá trị thì nối bằng coupler
+Đường kính ≥ giá trị thì nối kiểu nhấn cổ chai	Đường kính ≥ giá trị thì nối kiểu nhấn cổ chai
+Đặt mặt cắt 1-1/2-2 phía Trong hay Ngoài dầm	Đặt mặt cắt 1-1/2-2 phía Trong hay Ngoài dầm
+Để lớn hơn thì thép thiết kế bị làm tròn LÊN (ví dụ 2550 thành 2600)	Để lớn hơn thì thép thiết kế bị làm tròn LÊN (ví dụ 2550 thành 2600)
+Định nghĩa cột ngắn (vd 1500/1500)	Định nghĩa cột ngắn (vd 1500/1500)
+Đối xứng thép gối theo nhịp lớn	Đối xứng thép gối theo nhịp lớn
+Độ dày hatch (số, hoặc "2mm" = bước nét trên giấy)	Độ dày hatch (số, hoặc "2mm" = bước nét trên giấy)
+Độ lệch cho phép khi cắt chẵn thép với phần shop (mm)	Độ lệch cho phép khi cắt chẵn thép với phần shop (mm)
+Độ lệch cắt chẵn thép với shop	Độ lệch cắt chẵn thép với shop
+Ưu tiên dùng chiều dài dư của lần cắt thép trước cho lần cắt sau trong cùng 1 đợt cắt	Ưu tiên dùng chiều dài dư của lần cắt thép trước cho lần cắt sau trong cùng 1 đợt cắt
+Ưu tiên vùng nối hơn nối sole	Ưu tiên vùng nối hơn nối sole
+Ưu tiên vùng nối được phép hơn là ưu tiên nối sole	Ưu tiên vùng nối được phép hơn là ưu tiên nối sole
+Ưu → Thư viện	Ưu → Thư viện
+Ẩn mặt cắt dọc cột	Ẩn mặt cắt dọc cột
+Ẩn mặt cắt dọc cột (mở khoá 'Ẩn số hiệu thép'; loại trừ 'Cắt chẵn thép cột')	Ẩn mặt cắt dọc cột (mở khoá 'Ẩn số hiệu thép'; loại trừ 'Cắt chẵn thép cột')
+Ẩn mặt cắt dọc dầm	Ẩn mặt cắt dọc dầm
+Ẩn mặt cắt dọc dầm trong shop	Ẩn mặt cắt dọc dầm trong shop
+Ẩn số hiệu thép (hiệu lực theo 'Ẩn mặt cắt dọc cột')	Ẩn số hiệu thép (hiệu lực theo 'Ẩn mặt cắt dọc cột')
+Ẩn tên nhịp dầm trên bản vẽ	Ẩn tên nhịp dầm trên bản vẽ
+…dưới	…dưới
+▲ Lên	▲ Lên
+▼ Xuống	▼ Xuống
+Block chi tiết thép dầm phía ngoài	Block chi tiết thép dầm phía ngoài
+Block chi tiết thép dầm phía trong	Block chi tiết thép dầm phía trong
+Bỏ dim định vị vùng được phép nối thép dầm	Bỏ dim định vị vùng được phép nối thép dầm
+Chiều dài nối thép	Chiều dài nối thép
+Chiều rộng khung tên	Chiều rộng khung tên
+Cắt chẵn thép cột	Cắt chẵn thép cột
+Cắt thép	Cắt thép
+Dim đoạn nối ghi dạng 30d=720	Dim đoạn nối ghi dạng 30d=720
+Dầm	Dầm
+Ghim/bỏ ghim vào ⭐ Hay dùng	Ghim/bỏ ghim vào ⭐ Hay dùng
+Không nối thép trong vùng cột	Không nối thép trong vùng cột
+Kéo lại dim đai cột	Kéo lại dim đai cột
+Luôn Highline và kiểm soát lỗi khi thống kê thép	Luôn Highline và kiểm soát lỗi khi thống kê thép
+Neo thép luôn trong cột	Neo thép luôn trong cột
+Quét thép dư trước khi shop	Quét thép dư trước khi shop
+Sàn	Sàn
+Tag Thép	Tag Thép
+Tag thép (1 thép): hiển thị chiều dài (L=...)	Tag thép (1 thép): hiển thị chiều dài (L=...)
+Thép Shop Dầm xếp trùng layout cũ	Thép Shop Dầm xếp trùng layout cũ
+Thép giống nhau đánh số hiệu khác nhau	Thép giống nhau đánh số hiệu khác nhau
+Triển khai đai cột	Triển khai đai cột
+Tạo Dim Sole khi shopdrawing thép sàn sole	Tạo Dim Sole khi shopdrawing thép sàn sole
+Tắt sơ đồ dầm	Tắt sơ đồ dầm
+Vách	Vách
+Áp cỡ chữ này vào TOÀN BỘ text/mtext/thuộc tính/dim trong file iso đang chọn (có backup + xem trước)	Áp cỡ chữ này vào TOÀN BỘ text/mtext/thuộc tính/dim trong file iso đang chọn (có backup + xem trước)
+Ẩn số hiệu thép	Ẩn số hiệu thép
+Ẩn số hiệu thép khi vẽ chi tiết	Ẩn số hiệu thép khi vẽ chi tiết
+Ẩn tên nhịp dầm	Ẩn tên nhịp dầm
+⭐ Hay dùng	⭐ Hay dùng
+📏 Thư viện thép	📏 Thư viện thép
+Gộp thép giống nhau	Gộp thép giống nhau
+Gộp thép giống nhau:	Gộp thép giống nhau:

@@ -1,0 +1,226 @@
+{
+  "cotes": [
+    {
+      "cote": "-0.100",
+      "count": 5,
+      "sampleX": 524658.4,
+      "sampleY": -41673.6
+    },
+    {
+      "cote": "-0.600",
+      "count": 1,
+      "sampleX": 256620,
+      "sampleY": -113658.5
+    },
+    {
+      "cote": "-1.370",
+      "count": 8,
+      "sampleX": 573105.9,
+      "sampleY": -9817.4
+    },
+    {
+      "cote": "-1.600",
+      "count": 55,
+      "sampleX": 458780,
+      "sampleY": -47126.3
+    },
+    {
+      "cote": "-2.000",
+      "count": 2,
+      "sampleX": 526357.4,
+      "sampleY": -23422.9
+    },
+    {
+      "cote": "-2.600",
+      "count": 6,
+      "sampleX": 555631.4,
+      "sampleY": -44652.1
+    },
+    {
+      "cote": "-2.800",
+      "count": 2,
+      "sampleX": 594718.8,
+      "sampleY": -44756.1
+    },
+    {
+      "cote": "-2.900",
+      "count": 1,
+      "sampleX": 627607.9,
+      "sampleY": -37616.8
+    },
+    {
+      "cote": "\u002B13.000",
+      "count": 9,
+      "sampleX": 346620.8,
+      "sampleY": -497518.9
+    },
+    {
+      "cote": "\u002B14.150",
+      "count": 8,
+      "sampleX": 330259,
+      "sampleY": -496368.9
+    },
+    {
+      "cote": "\u002B14.900",
+      "count": 8,
+      "sampleX": 501650.5,
+      "sampleY": -451826.6
+    },
+    {
+      "cote": "\u002B15.850",
+      "count": 8,
+      "sampleX": 396782.3,
+      "sampleY": -490596.6
+    },
+    {
+      "cote": "\u002B16.600",
+      "count": 6,
+      "sampleX": 392548.9,
+      "sampleY": -447212.7
+    },
+    {
+      "cote": "\u002B20.400",
+      "count": 2,
+      "sampleX": 346620.8,
+      "sampleY": -490118.9
+    }
+  ],
+  "footingTitles": [
+    {
+      "txt": "\u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P",
+      "layer": "TEXT-S",
+      "x": 235766.2,
+      "y": -112482.4
+    },
+    {
+      "txt": "\u00D1A\u00D8 KIE\u00C0NG TIE\u00C1T DIE\u00C4N 100x300, COTE -1.000",
+      "layer": "TEXT-S",
+      "x": 235766.2,
+      "y": -116831.9
+    },
+    {
+      "txt": "\u00D1A\u00D8 KIE\u00C0NG COTE -1.000",
+      "layer": "TEXT-S",
+      "x": 235766.2,
+      "y": -113313.9
+    },
+    {
+      "txt": "- B\u00CA T\u00D4NG GI\u1EB0NG M\u00D3NG \u0110\u00C1 10x20 M\u00C1C 250 (B20)",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -53490.8
+    },
+    {
+      "txt": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P \u0110\u00C0 GI\u1EB0NG M\u00D3NG D\u00C0Y 50 mm",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -55290.8
+    },
+    {
+      "txt": "- \u0110O\u1EA0N  N\u1ED0T C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG \u003E= 30%%C",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -56639.5
+    },
+    {
+      "txt": "- \u0110O\u1EA0N NEO C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG V\u00C0O \u0110\u00C0I \u003E= 40%%C",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -57239.8
+    },
+    {
+      "txt": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P M\u00D3NG D\u00C0Y 50 mm",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -55975.7
+    },
+    {
+      "txt": "HE\u00C4 \u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -1.600",
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -10009
+    },
+    {
+      "txt": "\u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -0.800",
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -11578.7
+    },
+    {
+      "txt": "- B\u00CA T\u00D4NG L\u00D3T GI\u1EB0NG M\u00D3NG, B\u00D3 N\u1EC0N, \u0110\u00C0 PH\u1EE4 (N\u1EBEU C\u00D3)",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -58454.4
+    },
+    {
+      "txt": "- B\u00CA T\u00D4NG L\u00D3T \u0110\u00C0I C\u1ECCC (M\u00D3NG) D\u00C0Y 100mm",
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -57848.5
+    },
+    {
+      "txt": "(COTE -1.600 ---\u003E -0.100)",
+      "layer": "BT-1",
+      "x": 460142.8,
+      "y": -43160.3
+    },
+    {
+      "txt": "(COTE -1.600 ---\u003E -0.100)",
+      "layer": "BT-2",
+      "x": 465624.4,
+      "y": -43160.3
+    },
+    {
+      "txt": "GI\u1EB0NG M\u00D3NG",
+      "layer": "Text bung san",
+      "x": 529299,
+      "y": -47214
+    },
+    {
+      "txt": "(COTE -1.600 ---\u003E -0.100)",
+      "layer": "BT-1\u0027",
+      "x": 528027.3,
+      "y": -36549.3
+    },
+    {
+      "txt": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;-\\C47; \\C256;B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-6\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "layer": "TEXT-S",
+      "x": 523697.8,
+      "y": -60296.7
+    },
+    {
+      "txt": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P\\pxt10;- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }",
+      "layer": "TEXT-S",
+      "x": 608258.1,
+      "y": -61566
+    },
+    {
+      "txt": "\u00D1A\u00D8 BO\u00D9 NE\u00C0N COTE -1.600",
+      "layer": "TEXT-S",
+      "x": 664586.8,
+      "y": -524414.8
+    }
+  ],
+  "pileNotes": [
+    "* \u00D1E\u00C0 C\u00D6\u00D4NG TH\u00D6\u00DB TA\u00DBI T\u00C6NH CO\u00CFC CA\u00C0N \u00D1\u00D6\u00D4\u00CFC \u00D1\u00D4N V\u00D2 T\u00D6 VA\u00C1N THIE\u00C1T KE\u00C1",
+    "\u00D1\u00D4N V\u00D2 THIE\u00C1T KE\u00C1 XEM XE\u00D9T \u0026 CO\u00D9 Y\u00D9 KIE\u00C1N TR\u00D6\u00D4\u00D9C KHI \u00D1U\u00D9C CO\u00CFC \u00D1A\u00CFI TRA\u00D8",
+    "* CA\u00C0N THIE\u00C1T PHA\u00DBI G\u00D4\u00DBI BA\u00D9O CA\u00D9O KE\u00C1T QUA\u00DB TH\u00CD NGHIE\u00C4M T\u00D3NH CU\u00DBA CO\u00CFC CHO",
+    "S\u00D6\u00D9C CH\u00D2U TA\u00DBI CU\u00D5NG NH\u00D6 CHIE\u00C0U DA\u00D8I CU\u00DBA CO\u00CFC .",
+    "* TIE\u00C1N HA\u00D8NH TH\u00CD NGHIE\u00C4M NE\u00D9N T\u00D3NH CU\u00DBA CO\u00CFC \u00D1E\u00C5 XA\u00D9C \u00D1\u00D2NH CH\u00CDNH XA\u00D9C",
+    "* S\u00D6\u00D9C CH\u00D2U TA\u00DBI T\u00CDNH TOA\u00D9N CU\u00DBA CO\u00CFC : Ptk=45 TA\u00C1N",
+    "* CO\u00CFC \u00D1\u00D6\u00D4\u00CFC HA\u00CF XUO\u00C1NG \u00D1A\u00C1T BA\u00C8NG PH\u00D6\u00D4NG PHA\u00D9P E\u00D9P DO\u00CFC TRU\u00CFC",
+    "* SO\u00C1 L\u00D6\u00D4\u00CFNG CO\u00CFC TH\u00D6\u00DB T\u00D3NH : 02 CO\u00CFC",
+    "* TH\u00CD NGHIE\u00C4M NE\u00D9N TH\u00D6\u00DB T\u00D3NH CO\u00CFC THEO TCXDVN HIE\u00C4N HA\u00D8NH",
+    "* TO\u00C5NG SO\u00C1 TIM CO\u00CFC : 196",
+    "* BE\u00C2 TO\u00C2NG CO\u00CFC CO\u00D9 CA\u00C1P \u00D1O\u00C4 BE\u00C0N B22.5 (MAC 300) - Rb = 130 MPa.",
+    "* CHIE\u00C0U DA\u00D8I CO\u00CFC D\u00D6\u00CF KIE\u00C1N 15m, CO\u00CFC MU\u00D5I DA\u00D8I 8m ,CO\u00CFC BA\u00C8NG DA\u00D8I 7m",
+    "* \u00D1IE\u00C0U KIE\u00C4N E\u00D9P CO\u00CFC",
+    "-KHI THI CO\u00C2NG E\u00D9P CO\u00CFC , CO\u00CFC PHA\u00DBI \u00D1A\u00CFT 100% C\u00D6\u00D4\u00D8NG \u00D1O\u00C4 VA\u00C4T LIE\u00C4U THEO THIE\u00C1T KE\u00C1.",
+    "-CO\u00CFC \u00D1\u00D6\u00D4\u00CFC CO\u00C2NG NHA\u00C4N E\u00D9P XONG KHI THO\u00DBA MA\u00D5N CA\u00D9C \u00D1IE\u00C0U KIE\u00C4N SAU :",
+    "b) \u00D1O\u00C4 NGHIE\u00C2NG CU\u00DBA CO\u00CFC SO V\u00D4\u00D9I PH\u00D6\u00D4NG THA\u00DANG \u00D1\u00D6\u00D9NG:",
+    "i \u003C= 1% VA\u00D8 VA\u00C4N TO\u00C1C E\u00D9P CO\u00CFC   V  \u003C= 1M / PHU\u00D9T",
+    "* CO\u00CFC TH\u00D6\u00DB T\u00D3NH KHO\u00C2NG B\u00D2 PHA\u00D9 HOA\u00CFI",
+    "* PH\u00D6\u00D4NG A\u00D9N CO\u00CFC E\u00D9P CO\u00D9 KE\u00C1T H\u00D4\u00CFP KHOAN DA\u00C3N CO\u00CFC, \u00D1\u00D6\u00D4\u00D8NG K\u00CDNH LO\u00C3 KHOAN DA\u00C3N CO\u00CFC D=200mm",
+    "* MU\u00D5I CO\u00CFC CA\u00C9M VA\u00D8O L\u00D4\u00D9P \u00D1A\u00C1T T\u00D6\u00CF NHIE\u00C2N SO V\u00D4\u00D9I \u00D1A\u00D9Y LO\u00C3 KHOAN DA\u00C3N MO\u00C4T \u00D1OA\u00CFN \u003E=1,5m"
+  ]
+}

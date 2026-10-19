@@ -1,0 +1,880 @@
+﻿=== TYPE: Kata_pro64_Cad2025.Setting (Base: System.Windows.Forms.Form) ===
+
+--- FIELDS ---
+Field: System.ComponentModel.IContainer QhXUEgRMs1
+Field: System.Windows.Forms.GroupBox A0SUyG1moj
+Field: System.Windows.Forms.TextBox u5oUNkqRn0
+Field: System.Windows.Forms.Label jsCURAOqH0
+Field: System.Windows.Forms.TextBox E1qU4K41KC
+Field: System.Windows.Forms.Label hxPUtFDbVm
+Field: System.Windows.Forms.TextBox nTAUPAeUAw
+Field: System.Windows.Forms.Label PDfU3qeEt3
+Field: System.Windows.Forms.TextBox XH8Ub8YFHM
+Field: System.Windows.Forms.Label ulGULKWYuJ
+Field: System.Windows.Forms.TextBox SDcUHGZqJh
+Field: System.Windows.Forms.Label zNKUehQ3Ae
+Field: System.Windows.Forms.TextBox e19UAT2k5K
+Field: System.Windows.Forms.Label oK8USAg3eg
+Field: System.Windows.Forms.TextBox X7dU6raEyd
+Field: System.Windows.Forms.Label MEQUpTBBLX
+Field: System.Windows.Forms.TextBox LCCU1XZ1LI
+Field: System.Windows.Forms.Label M6nU9DKTqG
+Field: System.Windows.Forms.TextBox BH7UVxNtvm
+Field: System.Windows.Forms.Label cyrUJcSjW8
+Field: System.Windows.Forms.TextBox MJkUI7lNF0
+Field: System.Windows.Forms.Label MHMUu95yIv
+Field: System.Windows.Forms.TextBox cvNUrMA4dI
+Field: System.Windows.Forms.Label GMdUUxYlBY
+Field: System.Windows.Forms.TextBox kgwUQSqbLY
+Field: System.Windows.Forms.Label W50Uvmj0cT
+Field: System.Windows.Forms.Button g3qUoP4DaH
+Field: System.Windows.Forms.Button uChUTjE78U
+Field: System.Windows.Forms.TextBox xOXUgxetJb
+Field: System.Windows.Forms.Label UPPUCv0iwr
+Field: System.Windows.Forms.TextBox uFdUYPM1Dh
+Field: System.Windows.Forms.Label AQmU5kRW2a
+Field: System.Windows.Forms.TextBox PufUxehKct
+Field: System.Windows.Forms.Label iivUduSGhQ
+Field: System.Windows.Forms.ComboBox b57UzY2DYr
+Field: System.Windows.Forms.Label Pu2QF8nj6U
+Field: System.Windows.Forms.ComboBox R1UQqZO0xZ
+Field: System.Windows.Forms.Label YDxQWsdY1t
+Field: System.Windows.Forms.Label tE0QGbl7Ho
+Field: System.Windows.Forms.ComboBox xmTQwICV11
+Field: System.Windows.Forms.Label YkMQltRUxd
+Field: System.Windows.Forms.ComboBox nvqQKWfeSU
+Field: System.Windows.Forms.GroupBox QmTQjLAfRi
+Field: System.Windows.Forms.CheckBox DfOQc5Ibty
+Field: System.Windows.Forms.CheckBox na9QMmldqH
+Field: System.Windows.Forms.CheckBox EdbQ0KDZRF
+Field: System.Windows.Forms.CheckBox BtyQZVPvVh
+Field: System.Windows.Forms.CheckBox MCXQOrgNWA
+Field: System.Windows.Forms.Label weGQB6crYt
+Field: System.Windows.Forms.ComboBox aKvQX0F9H0
+Field: System.Windows.Forms.CheckBox rHPQag64xj
+Field: System.Windows.Forms.CheckBox PboQfh3UCH
+Field: System.Windows.Forms.CheckBox WXoQiw11JH
+Field: System.Windows.Forms.GroupBox tL6QniZHjg
+Field: System.Windows.Forms.TabControl T1GQsXMh2x
+Field: System.Windows.Forms.TabPage XX2Q2od90S
+Field: System.Windows.Forms.TabPage IiXQmxEu5I
+Field: System.Windows.Forms.TabPage i9AQ7eDseK
+Field: System.Windows.Forms.Label ocLQD7o74j
+Field: System.Windows.Forms.TextBox UMJQk719kf
+Field: System.Windows.Forms.TextBox O11Q8lpLxF
+Field: System.Windows.Forms.Label FFiQhTyZTb
+Field: System.Windows.Forms.TextBox J1iQEvunnO
+Field: System.Windows.Forms.Label H2QQyXBXqX
+Field: System.Windows.Forms.CheckBox gAbQN6jN5F
+Field: System.Windows.Forms.ComboBox VCsQRISvpA
+Field: System.Windows.Forms.Label NlFQ4bwlmI
+Field: System.Windows.Forms.TextBox UpvQtFcIiG
+Field: System.Windows.Forms.Label WkSQP4uXSv
+Field: System.Windows.Forms.CheckBox g8FQ3ucRoS
+Field: System.Windows.Forms.Label BmjQb0I3kI
+Field: System.Windows.Forms.TextBox Rv2QLNKc93
+Field: System.Windows.Forms.CheckBox ceTQHTogJk
+Field: System.Windows.Forms.Timer we7QeYkX3S
+Field: System.Windows.Forms.Label oPKQAfFtbF
+Field: System.Windows.Forms.ComboBox jgcQSw4blV
+Field: System.Windows.Forms.CheckBox b4JQ6X1974
+Field: System.Windows.Forms.TextBox u4XQpqkwKx
+Field: System.Windows.Forms.Label GfkQ1V6CZ3
+Field: System.Windows.Forms.DataGridView JV2Q9itBL0
+Field: System.Windows.Forms.Label VnRQVMwRsb
+Field: System.Windows.Forms.TextBox bb2QJff5eU
+Field: System.Windows.Forms.TextBox uW5QILWetd
+Field: System.Windows.Forms.Label ftYQuhrY9a
+Field: System.Windows.Forms.TabPage u6NQr6vxKI
+Field: System.Windows.Forms.GroupBox avBQUBwFLH
+Field: System.Windows.Forms.TextBox Ko8QQX1jNK
+Field: System.Windows.Forms.Label pEmQvaLi5J
+Field: System.Windows.Forms.ComboBox e15Qo9aeOc
+Field: System.Windows.Forms.Label vlBQTmYBbR
+Field: System.Windows.Forms.TextBox iS6QgPoRmn
+Field: System.Windows.Forms.Label rKlQCH91ZV
+Field: System.Windows.Forms.PictureBox CdLQY79HRG
+Field: System.Windows.Forms.Label MebQ5aXWK5
+Field: System.Windows.Forms.ComboBox VfnQxE7ikq
+Field: System.Windows.Forms.Label aUEQdRxlOZ
+Field: System.Windows.Forms.TextBox KWbQz9gGdN
+Field: System.Windows.Forms.Label b63vFxvvjr
+Field: System.Windows.Forms.TextBox x3WvqBl3Zi
+Field: System.Windows.Forms.Label RfevWXgiUt
+Field: System.Windows.Forms.Label oCKvGNdjFa
+Field: System.Windows.Forms.ComboBox SOXvwuE2pF
+Field: System.Windows.Forms.Label GvkvlJ3Bao
+Field: System.Windows.Forms.ComboBox hQdvKKgfXx
+Field: System.Windows.Forms.CheckBox X44vj7r25j
+Field: System.Windows.Forms.GroupBox YlGvcEyHtv
+Field: System.Windows.Forms.CheckBox MnuvMtnjnk
+Field: System.Windows.Forms.DataGridView wJRv0LnL6s
+Field: System.Windows.Forms.Label G7FvZFR78Q
+Field: System.Windows.Forms.ComboBox h5jvODRGpT
+Field: System.Windows.Forms.Timer VnmvBbxVTy
+Field: System.Windows.Forms.CheckBox lC9vXswbol
+Field: System.Windows.Forms.CheckBox hJFvawMYav
+Field: System.Windows.Forms.Label UF6vfHhF2q
+Field: System.Windows.Forms.ComboBox SN7vi82osb
+Field: System.Windows.Forms.TabPage zDTvndRwyA
+Field: System.Windows.Forms.DataGridView v9qvsgaWfG
+Field: System.Windows.Forms.CheckBox PTLv24ggQ9
+Field: System.Windows.Forms.CheckBox iFvvm48Kpj
+Field: System.Windows.Forms.DataGridView Ywvv74tSsN
+Field: System.Windows.Forms.CheckBox QtdvDiacMM
+Field: System.Windows.Forms.GroupBox RTSvkmIdmS
+Field: System.Windows.Forms.TextBox JFMv8Zr1Io
+Field: System.Windows.Forms.Label xrMvhpuYHn
+Field: System.Windows.Forms.TextBox ib9vEBB3gM
+Field: System.Windows.Forms.Label b29vyLic7d
+Field: System.Windows.Forms.DataGridViewTextBoxColumn IHEvNa5Ykq
+Field: System.Windows.Forms.DataGridViewTextBoxColumn US0vRWSEvX
+Field: System.Windows.Forms.Label DdQv4CBKVh
+Field: System.Windows.Forms.TextBox a3KvtYctYh
+Field: System.Windows.Forms.CheckBox liavP90O2S
+Field: System.Windows.Forms.Label Xhbv3ti56p
+Field: System.Windows.Forms.ComboBox GjRvbuDWHC
+Field: System.Windows.Forms.TextBox grSvLZQPoG
+Field: System.Windows.Forms.Label bYjvHDYBQj
+Field: System.Windows.Forms.CheckBox MHOveRKMJc
+Field: System.Windows.Forms.TabPage uuMvABJoKf
+Field: System.Windows.Forms.CheckBox v7QvST9Kr7
+Field: System.Windows.Forms.Panel vSZv6HCpO1
+Field: System.Windows.Forms.TabPage seyvpPLylm
+Field: System.Windows.Forms.GroupBox Dvtv1pU67e
+Field: System.Windows.Forms.TextBox Lhgv9HBuwl
+Field: System.Windows.Forms.CheckBox AievV7Mv96
+Field: System.Windows.Forms.Label Gt2vJTPyMs
+Field: System.Windows.Forms.TextBox UUovIVpFws
+Field: System.Windows.Forms.Label xrivuetC5C
+Field: System.Windows.Forms.DataGridViewTextBoxColumn Ux4vrO6PEY
+Field: System.Windows.Forms.DataGridViewTextBoxColumn tLgvUfW4kc
+Field: System.Windows.Forms.DataGridViewTextBoxColumn YLKvQKDU4r
+Field: System.Windows.Forms.DataGridViewTextBoxColumn UO4vvnjyfH
+Field: System.Windows.Forms.DataGridViewTextBoxColumn XRDvo0g13J
+Field: System.Windows.Forms.DataGridViewTextBoxColumn i9yvTOW4GQ
+Field: System.Windows.Forms.DataGridViewTextBoxColumn OT7vgka2dV
+Field: System.Windows.Forms.DataGridViewTextBoxColumn yfJvCcqjPy
+Field: System.Windows.Forms.DataGridViewTextBoxColumn blZvYXOtgW
+Field: System.Windows.Forms.DataGridViewTextBoxColumn c8Yv55hU4A
+Field: System.Windows.Forms.GroupBox HixvxhyZoO
+Field: System.Windows.Forms.GroupBox UVYvdupdBS
+Field: System.Windows.Forms.TextBox QgWvzdUaSl
+Field: System.Windows.Forms.CheckBox Aa1oFT6lsR
+Field: System.Windows.Forms.Label y2Xoq8orDS
+Field: System.Windows.Forms.TextBox CVxoWVUVGd
+Field: System.Windows.Forms.Label IhSoG18r5C
+Field: System.Windows.Forms.TextBox frsowrM3yR
+Field: System.Windows.Forms.Label AXLolAsD96
+Field: System.Windows.Forms.TextBox DpuoKmxNbW
+Field: System.Windows.Forms.Label LvyojTo52Y
+Field: System.Windows.Forms.TextBox uBwocQMUmC
+Field: System.Windows.Forms.Label CejoMZED6A
+Field: System.Windows.Forms.CheckBox UGko0ZQGfv
+Field: System.Windows.Forms.RichTextBox jymoZJBoKV
+Field: System.Windows.Forms.TextBox uVPoOgcf9c
+Field: System.Windows.Forms.Label wZcoBGPH3t
+Field: System.Windows.Forms.Label ndXoXDuLf4
+Field: System.Windows.Forms.Label JGioaboO4U
+Field: System.Windows.Forms.Label w3pofZpFCG
+Field: System.Windows.Forms.ComboBox cHpoitffEY
+Field: System.Windows.Forms.ComboBox PcconpO0BK
+Field: System.Windows.Forms.DataGridViewComboBoxColumn IyjosjYSSt
+Field: System.Windows.Forms.DataGridViewComboBoxColumn qZZo2NRxNk
+Field: System.Windows.Forms.CheckBox JJuomdNLq3
+Field: System.Windows.Forms.TextBox Xyyo7NgbHv
+Field: System.Windows.Forms.Label Jc8oDHh42C
+Field: System.Windows.Forms.GroupBox xJVoknMHr2
+Field: System.Windows.Forms.CheckBox UG0o8UydTQ
+Field: System.Windows.Forms.Label DWXohRmLmH
+Field: System.Windows.Forms.TextBox xIPoERlpHy
+Field: System.Windows.Forms.ComboBox DogoyJG353
+Field: System.Windows.Forms.Label sSLoNgs99v
+Field: System.Windows.Forms.Label BR8oRMBWtK
+Field: System.Windows.Forms.ComboBox JZDo4bUlx3
+Field: System.Windows.Forms.Label k3DotSPwLj
+Field: System.Windows.Forms.Label tSboPBLMdn
+Field: System.Windows.Forms.ComboBox fJ0o3w2370
+Field: System.Windows.Forms.Panel LaSobjS9G7
+Field: System.Windows.Forms.CheckBox SUaoLuw0sd
+Field: System.Windows.Forms.Label qQ0oHYry1m
+Field: System.Windows.Forms.CheckBox PU1oeNW04I
+Field: System.Windows.Forms.Label kbpoAdDhnb
+Field: System.Windows.Forms.Panel GQ6oScUKRM
+Field: System.Windows.Forms.CheckBox mDno66Trpb
+Field: System.Windows.Forms.CheckBox ibfopCRKn5
+Field: System.Windows.Forms.CheckBox dgWo1swcHx
+Field: System.String fWco9vfQod
+Field: System.Windows.Forms.Timer DO9oVNnYou
+Field: System.Int32 t5ooJEORUf
+Field: System.String[] arLoIFDoFd
+Field: System.Collections.Generic.Dictionary`2<System.String,Kata_pro64_Cad2025.Kata_Ribbon/KataRibbonCommandInfo> b5mouDwPTx
+Field: System.Int32 cCXorF4ZyU
+Field: System.Windows.Forms.TextBox[] lenh_tat
+Field: System.Windows.Forms.Label[] lenh_tatL
+Field: System.String[] VrsoUo1AYZ
+Field: System.Collections.Generic.Dictionary`2<System.Int32,System.Windows.Forms.LinkLabel> yGDoQHw0rR
+Field: Kata_pro64_Cad2025.Setting C8Wydtlg43sNWaK8OiN7
+
+--- PROPERTIES ---
+Prop: System.Windows.Forms.GroupBox GroupBox2
+Prop: System.Windows.Forms.TextBox layer_text
+Prop: System.Windows.Forms.Label layer_textL
+Prop: System.Windows.Forms.TextBox layer_net_manh
+Prop: System.Windows.Forms.Label layer_net_manhL
+Prop: System.Windows.Forms.TextBox layer_thep_dai_khuat
+Prop: System.Windows.Forms.Label layer_thep_dai_khuatL
+Prop: System.Windows.Forms.TextBox layer_thep_dai
+Prop: System.Windows.Forms.Label layer_thep_daiL
+Prop: System.Windows.Forms.TextBox layer_thep_doc
+Prop: System.Windows.Forms.Label layer_thep_docL
+Prop: System.Windows.Forms.TextBox layer_grid
+Prop: System.Windows.Forms.Label layer_gridL
+Prop: System.Windows.Forms.TextBox layer_hidden
+Prop: System.Windows.Forms.Label layer_hiddenL
+Prop: System.Windows.Forms.TextBox layer_table
+Prop: System.Windows.Forms.Label layer_tableL
+Prop: System.Windows.Forms.TextBox layer_border
+Prop: System.Windows.Forms.Label layer_borderL
+Prop: System.Windows.Forms.TextBox layer_dim
+Prop: System.Windows.Forms.Label kata_dimL
+Prop: System.Windows.Forms.TextBox Style_Dim
+Prop: System.Windows.Forms.Label Style_DimL
+Prop: System.Windows.Forms.TextBox Style_text
+Prop: System.Windows.Forms.Label Style_textL
+Prop: System.Windows.Forms.Button OK
+Prop: System.Windows.Forms.Button Cancel
+Prop: System.Windows.Forms.TextBox phi_gai
+Prop: System.Windows.Forms.Label phi_gaiL
+Prop: System.Windows.Forms.TextBox phi_tron
+Prop: System.Windows.Forms.Label phi_tronL
+Prop: System.Windows.Forms.TextBox khkc
+Prop: System.Windows.Forms.Label khkcL
+Prop: System.Windows.Forms.ComboBox ty_le
+Prop: System.Windows.Forms.Label ty_leL
+Prop: System.Windows.Forms.ComboBox Dai_C
+Prop: System.Windows.Forms.Label Dai_CL
+Prop: System.Windows.Forms.Label phi_crankL
+Prop: System.Windows.Forms.ComboBox phi_crank
+Prop: System.Windows.Forms.Label phi_couplerL
+Prop: System.Windows.Forms.ComboBox phi_coupler
+Prop: System.Windows.Forms.GroupBox GroupBox_nt_beam
+Prop: System.Windows.Forms.CheckBox noi_duoi_goi
+Prop: System.Windows.Forms.CheckBox noi_tren_giua
+Prop: System.Windows.Forms.CheckBox Moc_cat
+Prop: System.Windows.Forms.CheckBox dung_neo_cot_duoi
+Prop: System.Windows.Forms.CheckBox ko_be_ke_duoi
+Prop: System.Windows.Forms.Label ty_le_uonL
+Prop: System.Windows.Forms.ComboBox ty_le_uon
+Prop: System.Windows.Forms.CheckBox giu_lai_stt
+Prop: System.Windows.Forms.CheckBox noi_duoi_giua
+Prop: System.Windows.Forms.CheckBox noi_tren_goi
+Prop: System.Windows.Forms.GroupBox GroupBox_neo_dam
+Prop: System.Windows.Forms.TabControl TabControl
+Prop: System.Windows.Forms.TabPage General_index
+Prop: System.Windows.Forms.TabPage Short_commands_TabPage
+Prop: System.Windows.Forms.TabPage Detail_rebar
+Prop: System.Windows.Forms.Label phi_10L
+Prop: System.Windows.Forms.TextBox phi_10
+Prop: System.Windows.Forms.TextBox L_max
+Prop: System.Windows.Forms.Label L_maxL
+Prop: System.Windows.Forms.TextBox L_min
+Prop: System.Windows.Forms.Label L_minL
+Prop: System.Windows.Forms.CheckBox Ghi_sl_thep_rai
+Prop: System.Windows.Forms.ComboBox vung_noi_tu_duoi
+Prop: System.Windows.Forms.Label Label18
+Prop: System.Windows.Forms.TextBox vung_noi_L_duoi
+Prop: System.Windows.Forms.Label vung_noi_L_duoiL
+Prop: System.Windows.Forms.CheckBox rut_gon_mc_dam
+Prop: System.Windows.Forms.Label text_dvi_ke
+Prop: System.Windows.Forms.TextBox be_ke
+Prop: System.Windows.Forms.CheckBox Check_be_ke
+Prop: System.Windows.Forms.Label thep_thay_doiL
+Prop: System.Windows.Forms.ComboBox thep_thay_doi
+Prop: System.Windows.Forms.CheckBox bo_90
+Prop: System.Windows.Forms.TextBox round_neo_noi
+Prop: System.Windows.Forms.Label round_neo_noiL
+Prop: System.Windows.Forms.DataGridView Grid_dk_mau
+Prop: System.Windows.Forms.Label text_dvi_daiC
+Prop: System.Windows.Forms.TextBox L_moc_daiC
+Prop: System.Windows.Forms.TextBox round_be_ke
+Prop: System.Windows.Forms.Label round_be_keL
+Prop: System.Windows.Forms.TabPage Stretch_rebar
+Prop: System.Windows.Forms.GroupBox GroupBox_do_gian
+Prop: System.Windows.Forms.TextBox do_dan_text
+Prop: System.Windows.Forms.Label L_do_dan_d
+Prop: System.Windows.Forms.ComboBox do_dan_dang
+Prop: System.Windows.Forms.Label do_dan_dangL
+Prop: System.Windows.Forms.TextBox do_dan_d
+Prop: System.Windows.Forms.Label do_dan_dL
+Prop: System.Windows.Forms.PictureBox Hinh_thep
+Prop: System.Windows.Forms.Label do_dan_textL
+Prop: System.Windows.Forms.ComboBox vung_noi_tu_tren
+Prop: System.Windows.Forms.Label Label24
+Prop: System.Windows.Forms.TextBox vung_noi_L_tren
+Prop: System.Windows.Forms.Label vung_noi_L_trenL
+Prop: System.Windows.Forms.TextBox L_min_cat
+Prop: System.Windows.Forms.Label L_min_catL
+Prop: System.Windows.Forms.Label dai_damL
+Prop: System.Windows.Forms.ComboBox dai_dam
+Prop: System.Windows.Forms.Label LanguageL
+Prop: System.Windows.Forms.ComboBox Language
+Prop: System.Windows.Forms.CheckBox Check_L_ke_Rad
+Prop: System.Windows.Forms.GroupBox GroupBox1
+Prop: System.Windows.Forms.CheckBox Check_Auto_fix_hook_cog
+Prop: System.Windows.Forms.DataGridView Grid_hook_cog
+Prop: System.Windows.Forms.Label Round_slL
+Prop: System.Windows.Forms.ComboBox Round_sl
+Prop: System.Windows.Forms.CheckBox show_ten_tai_mc
+Prop: System.Windows.Forms.CheckBox rut_gon_dim
+Prop: System.Windows.Forms.Label style_leader_thanhL
+Prop: System.Windows.Forms.ComboBox style_leader_thanh
+Prop: System.Windows.Forms.TabPage Specific
+Prop: System.Windows.Forms.DataGridView Grid_Unit_mass
+Prop: System.Windows.Forms.CheckBox Check_Unit_mass
+Prop: System.Windows.Forms.CheckBox Check_lap_len
+Prop: System.Windows.Forms.DataGridView Grid_lap_len
+Prop: System.Windows.Forms.CheckBox Check_betong_coppha
+Prop: System.Windows.Forms.GroupBox GroupBox_noi_thep
+Prop: System.Windows.Forms.TextBox kc_nt
+Prop: System.Windows.Forms.Label kc_ntL
+Prop: System.Windows.Forms.TextBox nt
+Prop: System.Windows.Forms.Label ntL
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn1
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn2
+Prop: System.Windows.Forms.Label Lnt_han_che
+Prop: System.Windows.Forms.TextBox nt_han_che
+Prop: System.Windows.Forms.CheckBox check_nt_han_che
+Prop: System.Windows.Forms.Label UnitL
+Prop: System.Windows.Forms.ComboBox Unit
+Prop: System.Windows.Forms.TextBox ds
+Prop: System.Windows.Forms.Label dsL
+Prop: System.Windows.Forms.CheckBox Cat_thep_chay_suot_dam
+Prop: System.Windows.Forms.TabPage Tab_Update_info
+Prop: System.Windows.Forms.CheckBox Show_d_noi
+Prop: System.Windows.Forms.Panel Short_commands
+Prop: System.Windows.Forms.TabPage DefaultRebar
+Prop: System.Windows.Forms.GroupBox damGiaoGrb
+Prop: System.Windows.Forms.TextBox DaiVaiBoTb
+Prop: System.Windows.Forms.CheckBox CoDaiVaiBoCb
+Prop: System.Windows.Forms.Label DaiVaiBoLb
+Prop: System.Windows.Forms.TextBox DaiGiaCuongTb
+Prop: System.Windows.Forms.Label DaiGCLb
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Dia
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn R
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Cog
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Hook135
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Hook
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn3
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn4
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Column1
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Column2
+Prop: System.Windows.Forms.DataGridViewTextBoxColumn Column3
+Prop: System.Windows.Forms.GroupBox DuLieuThepGiaCuongGrb
+Prop: System.Windows.Forms.GroupBox cotCayGrb
+Prop: System.Windows.Forms.TextBox DaiVaiBoCotCayTb
+Prop: System.Windows.Forms.CheckBox CoDaiVaiBoCotCayCb
+Prop: System.Windows.Forms.Label DaiVaiBoCotCayLb
+Prop: System.Windows.Forms.TextBox DaiGiaCuongCotCayTb
+Prop: System.Windows.Forms.Label daiGCCotCayLb
+Prop: System.Windows.Forms.TextBox kc_2mep
+Prop: System.Windows.Forms.Label kc_2mepL
+Prop: System.Windows.Forms.TextBox MocDaiVaiBoCotCayTb
+Prop: System.Windows.Forms.Label MocDaiVaiBoCotCayLb
+Prop: System.Windows.Forms.TextBox MocDaiVaiBoTb
+Prop: System.Windows.Forms.Label MocDaiVaiBoLb
+Prop: System.Windows.Forms.CheckBox toi_uu_moi_noi
+Prop: System.Windows.Forms.RichTextBox TB_Update_info
+Prop: System.Windows.Forms.TextBox Neo_gia
+Prop: System.Windows.Forms.Label Neo_giaL
+Prop: System.Windows.Forms.Label text_dvi_neo_gia
+Prop: System.Windows.Forms.Label GocDaiVaiBoCotCayLb
+Prop: System.Windows.Forms.Label GocDaiVaiBoLb
+Prop: System.Windows.Forms.ComboBox GocBeDaiVaiBoCotCayCb
+Prop: System.Windows.Forms.ComboBox GocBeDaiVaiBoCb
+Prop: System.Windows.Forms.DataGridViewComboBoxColumn DK
+Prop: System.Windows.Forms.DataGridViewComboBoxColumn color
+Prop: System.Windows.Forms.CheckBox tkt_cot_vach_tang
+Prop: System.Windows.Forms.TextBox round_cat_thep_dam
+Prop: System.Windows.Forms.Label round_cat_thep_damL
+Prop: System.Windows.Forms.GroupBox GroupBox_round
+Prop: System.Windows.Forms.CheckBox show_all_dai
+Prop: System.Windows.Forms.Label text_dvi_daiCN
+Prop: System.Windows.Forms.TextBox L_moc_daiCN
+Prop: System.Windows.Forms.ComboBox Dai_CN
+Prop: System.Windows.Forms.Label Dai_CNL
+Prop: System.Windows.Forms.Label SpecCotCayLb
+Prop: System.Windows.Forms.ComboBox SpecCb
+Prop: System.Windows.Forms.Label SpecLb
+Prop: System.Windows.Forms.Label GhiChuSpecLb
+Prop: System.Windows.Forms.ComboBox SpecCotCayCb
+Prop: System.Windows.Forms.Panel Panel1
+Prop: System.Windows.Forms.CheckBox ThroughCotCayCb
+Prop: System.Windows.Forms.Label ThroughCotCayLb
+Prop: System.Windows.Forms.CheckBox ThroughCb
+Prop: System.Windows.Forms.Label ThroughLb
+Prop: System.Windows.Forms.Panel Panel2
+Prop: System.Windows.Forms.CheckBox daiGCDamGiaoTaiGoiCb
+Prop: System.Windows.Forms.CheckBox ThayDoiDKTheoNhipCb
+Prop: System.Windows.Forms.CheckBox BoQuaNhanCoChaiKhiTinhDai
+
+--- METHODS ---
+Method: System.Void .ctor()
+Method: System.Void Dispose(Boolean disposing)
+Method: System.Void oJMrQCDraQ()
+Method: System.Windows.Forms.GroupBox oBrG89j86NO()
+Method: System.Void ruQG8VuU1N9(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TextBox pkQGz37AwQO()
+Method: System.Void HfsGzb3vo2B(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label qmjGzLuvjJp()
+Method: System.Void xdNGzHUJsQe(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox g9TGzeKhesr()
+Method: System.Void O7KGzAXEbPt(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label xOoGzS5XI5l()
+Method: System.Void VSJGz6qn18E(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox hqDGzpjMr4j()
+Method: System.Void tPEGz1JIJyv(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label LL4Gz9lKhKP()
+Method: System.Void XPiGzV33Dv8(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox jiSGzJsJpJd()
+Method: System.Void Eo4GzInoAk4(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label v4GGzueaASY()
+Method: System.Void j6EGzreElWL(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox QFpGzUuo1IY()
+Method: System.Void OSRGzQtTapC(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label eHaGzvsB2Lo()
+Method: System.Void J45GzoDRT9k(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox aPfGzT61FNK()
+Method: System.Void ogBGzgb1Lo4(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label zcFGzCyBXj0()
+Method: System.Void eWEGzYnTXl4(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox hUnGz5N35c9()
+Method: System.Void SRGGzx5CKKh(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label Ux4Gzdc6LRb()
+Method: System.Void RmxGzzLGb78(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox SHcwFFTXR4o()
+Method: System.Void HdhwFqUI8MI(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label GFMwFW83Pcc()
+Method: System.Void lLGwFG25GgP(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox M4ewFweY5A3()
+Method: System.Void NjuwFlnKt9q(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label yEEwFKhgd3a()
+Method: System.Void BVkwFjm6VUS(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox SwpwFcmBrVS()
+Method: System.Void WKMwFMFA50H(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label q2jwF050TYy()
+Method: System.Void MwCwFZW3wYH(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox nNYwFOLj3vu()
+Method: System.Void fFowFBtj3Fg(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label J1cwFXysiIL()
+Method: System.Void cSDwFagQTCU(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox hcSwFfetH4G()
+Method: System.Void fuUwFiG7XdA(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label deywFnNhG1U()
+Method: System.Void XPZwFs4sXAQ(Label WithEventsValue)
+Method: System.Windows.Forms.Button get_OK()
+Method: System.Void set_OK(Button WithEventsValue)
+Method: System.Windows.Forms.Button h72Gh91gwWV()
+Method: System.Void hMjGhVAJQ9v(Button WithEventsValue)
+Method: System.Windows.Forms.TextBox XHbwF2aMJer()
+Method: System.Void yiPwFm2Q8Uk(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label VNewF7Ioori()
+Method: System.Void mRfwFDtIU0T(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox r4KwFk8t6Oj()
+Method: System.Void ecjwF8fPXxB(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label D9mwFhuWDy7()
+Method: System.Void mKBwFErJ7BG(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox CAPwFy3lydR()
+Method: System.Void LR9wFN2dysg(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label MhUwFRm7vCY()
+Method: System.Void zuKwF4BwNxy(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox zB0wFtjyUVZ()
+Method: System.Void HdWwFPgk8P2(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label CbqwF3dkp59()
+Method: System.Void AQ9wFbUNckY(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox GTCwFLP6IIy()
+Method: System.Void bQMwFHgkN6R(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label ER5wFe34h20()
+Method: System.Void zQfwFA0KxTj(Label WithEventsValue)
+Method: System.Windows.Forms.Label MNywFSxk0Gx()
+Method: System.Void OnUwF6XnM1p(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox m6qwFprVC3M()
+Method: System.Void kbRwF14o4GG(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label YYTwF9QSo69()
+Method: System.Void oKZwFV5xRva(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox bx4wFJXKSRc()
+Method: System.Void CPJwFIORy5e(ComboBox WithEventsValue)
+Method: System.Windows.Forms.GroupBox tS0wFuiabbE()
+Method: System.Void W9dwFr974Ua(GroupBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox w8xwFUXLUgZ()
+Method: System.Void KJIwFQVBn7d(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox okPwFvYH0Ab()
+Method: System.Void zHXwFoH3ZAp(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox YGVwFTwYx9q()
+Method: System.Void UwbwFgcRFEt(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox lNmwFCOZRvm()
+Method: System.Void d9UwFYBe9Ri(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox UGjwF52TwHy()
+Method: System.Void VHrwFx5Aci7(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label w90wFdtM0iK()
+Method: System.Void bLvwFzppfvq(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox IMowqF53j8d()
+Method: System.Void H4IwqqJWyyx(ComboBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox csowqWmjW1h()
+Method: System.Void AxawqG5LSwa(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox niDwqwUv83D()
+Method: System.Void seKwql5AZpg(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox hmswqKhJ1OG()
+Method: System.Void JHOwqj2nV9I(CheckBox WithEventsValue)
+Method: System.Windows.Forms.GroupBox xo8wqcWR4fp()
+Method: System.Void RIVwqM93vgu(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TabControl i6vwq0NVwBH()
+Method: System.Void t2CwqZAb7ZL(TabControl WithEventsValue)
+Method: System.Windows.Forms.TabPage U6uwqOEoOCS()
+Method: System.Void nb0wqB036Z4(TabPage WithEventsValue)
+Method: System.Windows.Forms.TabPage hV0wqXAJ1bf()
+Method: System.Void FLbwqa2W39s(TabPage WithEventsValue)
+Method: System.Windows.Forms.TabPage A9owqfv1bAY()
+Method: System.Void T8lwqiSPUDX(TabPage WithEventsValue)
+Method: System.Windows.Forms.Label htIwqnDEXw3()
+Method: System.Void PkwwqsL32q8(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox eMCwq2N9fgG()
+Method: System.Void HdAwqmUYKNC(TextBox WithEventsValue)
+Method: System.Windows.Forms.TextBox LSSwq7Ntvic()
+Method: System.Void bbIwqDo1rW0(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label AFnwqkiwS2J()
+Method: System.Void dPBwq8HRvZZ(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox YDMwqhnNCwC()
+Method: System.Void olowqE3NKXg(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label eSOwqyBdY0x()
+Method: System.Void MrJwqNqiUmM(Label WithEventsValue)
+Method: System.Windows.Forms.CheckBox O5vwqRC12KE()
+Method: System.Void frVwq4I0lo9(CheckBox WithEventsValue)
+Method: System.Windows.Forms.ComboBox Igywqt9sqsu()
+Method: System.Void vHVwqPkXyFG(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label JPeGe0cy2Bb()
+Method: System.Void JvBGeZEtlQh(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox R9cwq3RvPic()
+Method: System.Void EUcwqb5IZCU(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label JyewqLVbrnS()
+Method: System.Void nmwwqHhpI7A(Label WithEventsValue)
+Method: System.Windows.Forms.CheckBox qZtwqe1iiEx()
+Method: System.Void NZ5wqATuGJH(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label F4NwqSryxoK()
+Method: System.Void GCOwq66HHni(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox Hf1wqpXsr00()
+Method: System.Void Ymtwq1SPpX7(TextBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox kMbwq9sOawL()
+Method: System.Void KxswqVDsx7r(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Timer CCFwqJt9nGR()
+Method: System.Void CJLwqIBVEsg(Timer WithEventsValue)
+Method: System.Windows.Forms.Label Y41wquViQlD()
+Method: System.Void iWowqrP3phy(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox dWswqUpQu69()
+Method: System.Void OfgwqQ209YR(ComboBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox xjlwqvp9elY()
+Method: System.Void yjHwqoVaByk(CheckBox WithEventsValue)
+Method: System.Windows.Forms.TextBox OK5wqTlNKBC()
+Method: System.Void GBVwqgQO7l7(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label TJ2wqCTBtBX()
+Method: System.Void OKSwqYGnKKY(Label WithEventsValue)
+Method: System.Windows.Forms.DataGridView mJbwq5gvLtX()
+Method: System.Void u4Xwqx7551p(DataGridView WithEventsValue)
+Method: System.Windows.Forms.Label k8ZwqdhrFVb()
+Method: System.Void MxGwqzCZZKR(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox OxuwWFXw6YI()
+Method: System.Void JUOwWqfkosm(TextBox WithEventsValue)
+Method: System.Windows.Forms.TextBox fYiwWWBuZmt()
+Method: System.Void saiwWGYCUPl(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label jdEwWwsT4I7()
+Method: System.Void PmMwWl5e8ge(Label WithEventsValue)
+Method: System.Windows.Forms.TabPage bCXwWKeFUdt()
+Method: System.Void VtYwWjWa0bI(TabPage WithEventsValue)
+Method: System.Windows.Forms.GroupBox GNOwWcod4NG()
+Method: System.Void YxGwWMHhcSv(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TextBox mjywW0GnYYA()
+Method: System.Void ar3wWZIiQ5c(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label odhwWOPJfZs()
+Method: System.Void M8bwWB20qXJ(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox l7hwWXDZkT8()
+Method: System.Void oYDwWauL5FC(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label RYEwWfHXMGT()
+Method: System.Void NOqwWipuYyM(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox djgwWnV0fqc()
+Method: System.Void LFmwWs6YvAq(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label kj7wW2WqmwG()
+Method: System.Void OAuwWmOWl3H(Label WithEventsValue)
+Method: System.Windows.Forms.PictureBox uIUGhtbnBlV()
+Method: System.Void xJTGhPyw6KQ(PictureBox WithEventsValue)
+Method: System.Windows.Forms.Label xdXwW77AWFD()
+Method: System.Void csKwWDTeAxe(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox gN7wWkpC0CL()
+Method: System.Void t7UwW85rujA(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label xNHG4FI3EdS()
+Method: System.Void KhJG4qk3b7X(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox bCgwWhbQr1I()
+Method: System.Void XfAwWEOFFMI(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label cW6wWycpVbr()
+Method: System.Void VbDwWN2NvTP(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox nlkwWR4X4Y7()
+Method: System.Void CPewW4b02Fm(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label Fc4wWtvV4hR()
+Method: System.Void bnkwWP4h6jC(Label WithEventsValue)
+Method: System.Windows.Forms.Label IyjwW3j2oHy()
+Method: System.Void ajOwWbtPKbi(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox lN4wWLwgTXL()
+Method: System.Void PU9wWHi0meR(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label VMGwWeQipLH()
+Method: System.Void InIwWATlqop(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox DkmwWSG8tko()
+Method: System.Void CeKwW6HcTWO(ComboBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox CigwWpxGV6N()
+Method: System.Void tMvwW1obj8A(CheckBox WithEventsValue)
+Method: System.Windows.Forms.GroupBox SV1GDOSrCNB()
+Method: System.Void wSbGDBvegrB(GroupBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox FCuwW98nor1()
+Method: System.Void y5lwWV7dVLJ(CheckBox WithEventsValue)
+Method: System.Windows.Forms.DataGridView dyFwWJAuyXF()
+Method: System.Void qfOwWIfmuP8(DataGridView WithEventsValue)
+Method: System.Windows.Forms.Label msSwWuIVJ3J()
+Method: System.Void qXAwWrnsH9Y(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox oWxwWUrR4Cl()
+Method: System.Void MI6wWQqegZB(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Timer AVswWviT0jb()
+Method: System.Void RARwWoaEg7B(Timer WithEventsValue)
+Method: System.Windows.Forms.CheckBox dxUwWTeWqPb()
+Method: System.Void A9SwWg9Aqsh(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox vxiwWCBonhh()
+Method: System.Void g08wWYA1nP7(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label lm8wW50xA2i()
+Method: System.Void Xp4wWx82Svb(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox lBxwWdC8mZo()
+Method: System.Void G8lwWzUh2wJ(ComboBox WithEventsValue)
+Method: System.Windows.Forms.TabPage he3wGFhUL2Y()
+Method: System.Void l1UwGqGR4uW(TabPage WithEventsValue)
+Method: System.Windows.Forms.DataGridView qimwGWZHN6y()
+Method: System.Void w8hwGGCK8lO(DataGridView WithEventsValue)
+Method: System.Windows.Forms.CheckBox OdOwGwaRm84()
+Method: System.Void XtkwGlmMwIT(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox ldVwGK85Xni()
+Method: System.Void vVJwGjUIfoW(CheckBox WithEventsValue)
+Method: System.Windows.Forms.DataGridView HDRwGcYE2e1()
+Method: System.Void DxywGMtViw1(DataGridView WithEventsValue)
+Method: System.Windows.Forms.CheckBox EXEwG04UK5a()
+Method: System.Void VHbwGZNnPlt(CheckBox WithEventsValue)
+Method: System.Windows.Forms.GroupBox UY4wGOaJXnS()
+Method: System.Void lopwGBjebti(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TextBox HbowGXXBT0I()
+Method: System.Void W9mwGagvA6d(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label p0ewGfYy6K8()
+Method: System.Void XAZwGi4hv6v(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox kNRwGn0s2uj()
+Method: System.Void uLvwGsOBfaE(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label nQqwG2ruwSM()
+Method: System.Void FnqwGm1na3j(Label WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn F2XGuU6JGmh()
+Method: System.Void GQeGuQPJM2o(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn CCVGuvZ8LOT()
+Method: System.Void YRYGuoNtZER(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.Label JBtwG72hyjB()
+Method: System.Void pwQwGDqVpEQ(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox yOdwGkGyRnT()
+Method: System.Void bKFwG8kO24C(TextBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox n2rwGhbWfJh()
+Method: System.Void G3KwGESVHsH(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label G6hwGypMRIY()
+Method: System.Void daswGNMBamw(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox hB3wGRnZxJ5()
+Method: System.Void LhvwG46kioL(ComboBox WithEventsValue)
+Method: System.Windows.Forms.TextBox InmwGtyqMef()
+Method: System.Void QBNwGP21hqG(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label GHCwG3LykLb()
+Method: System.Void BOiwGbfoZ0K(Label WithEventsValue)
+Method: System.Windows.Forms.CheckBox KSCwGLhR9E7()
+Method: System.Void rHQwGHD6cQd(CheckBox WithEventsValue)
+Method: System.Windows.Forms.TabPage KkswGesqxVa()
+Method: System.Void pnZwGAn10Dx(TabPage WithEventsValue)
+Method: System.Windows.Forms.CheckBox sNowGSXPEFJ()
+Method: System.Void AAjwG6hNmmp(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Panel eodwGpllieY()
+Method: System.Void v62wG1h1QFN(Panel WithEventsValue)
+Method: System.Windows.Forms.TabPage fHswG9Vkfei()
+Method: System.Void rglwGVJ02rx(TabPage WithEventsValue)
+Method: System.Windows.Forms.GroupBox RDQwGJmvu2i()
+Method: System.Void fYUwGISClbZ(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TextBox CkvwGuUdOEF()
+Method: System.Void DcBwGrrXXvU(TextBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox qMAwGU52Mr1()
+Method: System.Void RsCwGQCJbBN(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label FxGwGvotYcg()
+Method: System.Void RtBwGoXFLAO(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox zTOwGTqWMO0()
+Method: System.Void nLBwGg4vcXj(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label DkCwGCvNy6T()
+Method: System.Void uNRwGYwgGWj(Label WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn rv5wG5jKThu()
+Method: System.Void CRawGxvrDjs(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn qaPwGdfFi6q()
+Method: System.Void i1iwGzwUc0G(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn ggXwwF8bRJv()
+Method: System.Void jGIwwquH9tf(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn SEBwwWqx6dH()
+Method: System.Void Jw8wwGKTDsK(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn OnEwwwWfDBV()
+Method: System.Void hOewwlR25y6(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn SnBGUWeXl8i()
+Method: System.Void ftaGUGwobXA(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn P06GUwIX0U7()
+Method: System.Void vaDGUlsyR10(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn RMiwwKkp6oh()
+Method: System.Void rp3wwjadgWx(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn aSAwwcfAyuV()
+Method: System.Void OVYwwMPBf6K(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewTextBoxColumn Oe1ww09Djej()
+Method: System.Void FP2wwZKpIwM(DataGridViewTextBoxColumn WithEventsValue)
+Method: System.Windows.Forms.GroupBox Qe8wwOHbKeJ()
+Method: System.Void FCHwwB0xFU2(GroupBox WithEventsValue)
+Method: System.Windows.Forms.GroupBox DTiwwXE68tj()
+Method: System.Void g8iwwaWeKIN(GroupBox WithEventsValue)
+Method: System.Windows.Forms.TextBox kSdwwfEdGBX()
+Method: System.Void EmswwiwmwWK(TextBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox C16wwnCwYv7()
+Method: System.Void TipwwsjsItZ(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label vBlww2xWOLW()
+Method: System.Void yo2wwmL7ESd(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox o6oww7sim4X()
+Method: System.Void cwmwwDhoimy(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label mVAwwkWAag9()
+Method: System.Void iQeww84AsZt(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox a7Owwhca86C()
+Method: System.Void JnTwwE8vKEc(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label gbQwwyrIiwE()
+Method: System.Void TFcwwNFEQdL(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox NTiwwR6gZun()
+Method: System.Void ulVww4vbvEw(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label X4OwwtQnOZ8()
+Method: System.Void RldwwPe3nDp(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox UPaww35O792()
+Method: System.Void MyWwwbrtUh5(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label N1JwwLaBynD()
+Method: System.Void OjMwwHScVx5(Label WithEventsValue)
+Method: System.Windows.Forms.CheckBox USRwweBgR3u()
+Method: System.Void A3OwwAjK06P(CheckBox WithEventsValue)
+Method: System.Windows.Forms.RichTextBox fwkwwSqHVyD()
+Method: System.Void jPaww6mmcXs(RichTextBox WithEventsValue)
+Method: System.Windows.Forms.TextBox Yn8wwpBglof()
+Method: System.Void hcsww15HPfF(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label nbnww9vJywB()
+Method: System.Void kTFwwV8PdRK(Label WithEventsValue)
+Method: System.Windows.Forms.Label gmBwwJGiu7s()
+Method: System.Void N46wwIvI33g(Label WithEventsValue)
+Method: System.Windows.Forms.Label GTMwwuB5419()
+Method: System.Void uFLwwrWHMOc(Label WithEventsValue)
+Method: System.Windows.Forms.Label uK6wwUeae80()
+Method: System.Void KMZwwQX8sHL(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox YCfwwvb78Vy()
+Method: System.Void XARwwoMrptI(ComboBox WithEventsValue)
+Method: System.Windows.Forms.ComboBox H8KwwTwfB0M()
+Method: System.Void GgdwwghNxsU(ComboBox WithEventsValue)
+Method: System.Windows.Forms.DataGridViewComboBoxColumn OjvwwC05aNQ()
+Method: System.Void EQpwwY8BROU(DataGridViewComboBoxColumn WithEventsValue)
+Method: System.Windows.Forms.DataGridViewComboBoxColumn KJEww5aM171()
+Method: System.Void mWZwwxDQMgk(DataGridViewComboBoxColumn WithEventsValue)
+Method: System.Windows.Forms.CheckBox nfRwwdgV6qy()
+Method: System.Void T7lwwzK0fIN(CheckBox WithEventsValue)
+Method: System.Windows.Forms.TextBox TWLwlF9kYcx()
+Method: System.Void TiywlqRVj0j(TextBox WithEventsValue)
+Method: System.Windows.Forms.Label XODwlWVhT75()
+Method: System.Void xWuwlGW8BuG(Label WithEventsValue)
+Method: System.Windows.Forms.GroupBox U0Nwlwvu6sB()
+Method: System.Void aIpwll09MwW(GroupBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox BF8wlKCj1Nd()
+Method: System.Void qcnwljCpkYY(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label s9XwlcKSvOw()
+Method: System.Void zCmwlM2rLHp(Label WithEventsValue)
+Method: System.Windows.Forms.TextBox pGtwl0E06nL()
+Method: System.Void i2EwlZyod8h(TextBox WithEventsValue)
+Method: System.Windows.Forms.ComboBox ueqwlO1wL7q()
+Method: System.Void o20wlB3XZa9(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label gW8wlX7TvRd()
+Method: System.Void Dyowla0I7Dr(Label WithEventsValue)
+Method: System.Windows.Forms.Label pbUwlfU3uLx()
+Method: System.Void jl4wliwYedT(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox u2Uwln02bMk()
+Method: System.Void DwpwlsYJokX(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Label DTBwl2LFM3e()
+Method: System.Void H5mwlm68u8v(Label WithEventsValue)
+Method: System.Windows.Forms.Label L1xwl7VT09s()
+Method: System.Void JpdwlDUvTVN(Label WithEventsValue)
+Method: System.Windows.Forms.ComboBox DCUwlk8EHm4()
+Method: System.Void cZJwl8ER5KE(ComboBox WithEventsValue)
+Method: System.Windows.Forms.Panel HydGEwqR7tk()
+Method: System.Void NTgGElM9C7k(Panel WithEventsValue)
+Method: System.Windows.Forms.CheckBox pWDwlhuxRce()
+Method: System.Void YiEwlEYvlcL(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label gIiwlyobmhv()
+Method: System.Void T0xwlNC1Cpx(Label WithEventsValue)
+Method: System.Windows.Forms.CheckBox I7MwlRtORDZ()
+Method: System.Void GCYwl46Dp1m(CheckBox WithEventsValue)
+Method: System.Windows.Forms.Label LarwltR5PBa()
+Method: System.Void F3EwlPDPZJK(Label WithEventsValue)
+Method: System.Windows.Forms.Panel lqmGEdTBU6E()
+Method: System.Void XYnGEzym2cS(Panel WithEventsValue)
+Method: System.Windows.Forms.CheckBox lx6wl3RechA()
+Method: System.Void Cciwlbuqrpw(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox eajwlLGiPhs()
+Method: System.Void bIhwlHIYlVx(CheckBox WithEventsValue)
+Method: System.Windows.Forms.CheckBox io1wlem5Nk3()
+Method: System.Void iRQwlAlHehq(CheckBox WithEventsValue)
+Method: System.Void fO8rv6TDqT()
+Method: System.Void fVqroT43SS()
+Method: System.Void kXvrTlAZet(Object  , EventArgs  )
+Method: System.Void wEOrgDE7K8(Object  , EventArgs  )
+Method: System.Void update_Location(Object dt, Double tl_x, Double tl_y)
+Method: System.Void a9CrClGb28(Boolean  )
+Method: System.Void JvkrYTXPGn(Object  , EventArgs  )
+Method: System.Int32 Edmr5w8iQM(List`1  , Int32  )
+Method: System.Void QSJrxQMYwl(Object  , EventArgs  )
+Method: System.Void AsArdGltwQ(Object  , EventArgs  )
+Method: System.Void LoadFromGoiLenhText(String x, StreamReader sr)
+Method: System.Void Load_setting()
+Method: System.String Get_text_cog_hook()
+Method: System.String get_text_unit_mass()
+Method: System.String Get_text_lap_len()
+Method: System.Void Setting_ok()
+Method: System.Int32 Mau_text_to_index(String text)
+Method: System.Void Doi_d_mm(String& text, Double gtri, Double ranh)
+Method: System.Void qDfrzcLRDT(Object  , EventArgs  )
+Method: System.Void eHLUFKY4bu(Object  , EventArgs  )
+Method: System.Void WdqUqTmPhR(Object  , EventArgs  )
+Method: System.Void tWJUW28wDV(Object  , EventArgs  )
+Method: System.Void tKFUGXqyDt(Object  , EventArgs  )
+Method: System.Void yLrUwxHJ7Q(Object  , EventArgs  )
+Method: System.Void ybuUlRQjoB(Object  , EventArgs  )
+Method: System.Void caJUK4MYvW(Object  , EventArgs  )
+Method: System.Void gw3Uj7i0cT(Object  , EventArgs  )
+Method: System.Void DtaUcexR4U(Object  , EventArgs  )
+Method: System.Void rjWUMiftnW(Object  , EventArgs  )
+Method: System.Void d86U0oIfRO(Object  , EventArgs  )
+Method: System.Void rSKUZOvYQm(Object  , EventArgs  )
+Method: System.Void IneUO7ZPU5(Object  , EventArgs  )
+Method: System.Void j1BUB1EYKX(Object  , EventArgs  )
+Method: System.Void l09UXZpQoL(Object  , EventArgs  )
+Method: System.Void vrGUaXBdtg(Object  , EventArgs  )
+Method: System.Void W4gUfiPmcs(Object  , EventArgs  )
+Method: System.String Translate(String text)
+Method: System.Void iOuUirxAaa(Object  , EventArgs  )
+Method: System.Void u6GUn7TZ4Z(Object  , EventArgs  )
+Method: System.Void iU4UsLlZg1(Object  , EventArgs  )
+Method: System.Void LbwU2djMlC(Object  , EventArgs  )
+Method: System.Void SVuUmaJCha(Object  , LinkClickedEventArgs  )
+Method: System.Void dbaU7TGhZc(Object  , LinkLabelLinkClickedEventArgs  )
+Method: System.Void AddLink(String url)
+Method: System.Void Ij1UDN7bia(Object  , EventArgs  )
+Method: System.Void aZmUkdUQYX(Object  , EventArgs  )
+Method: System.Void tdBU88e1UG(Object  , EventArgs  )
+Method: System.Void QbqUh1ssOF(Object  , EventArgs  )
+Method: System.Void _Lambda$__818-0(Object ignored)
+Method: System.Void .cctor()
+Method: System.Boolean pGdKtalgt2WWBM9kcnDN()
+Method: Kata_pro64_Cad2025.Setting tvb5kwlgPPBVSCLX1M1L()

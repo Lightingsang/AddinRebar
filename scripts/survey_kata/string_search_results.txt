@@ -1,0 +1,18 @@
+﻿
+=== SEARCHING IN Kata_Class_Lib.dll ===
+
+=== SEARCHING IN Kata_Class_Lib_Revit.dll ===
+Error reading kata_pro.dll: Format of the executable (.exe) or library (.dll) is invalid.
+
+=== SEARCHING IN Kata_pro64.dll ===
+Error reading Kata_pro64.dll: Member already attached
+
+=== SEARCHING IN Kata_pro64_Cad2013.dll ===
+
+=== SEARCHING IN Kata_pro64_Cad2025.dll ===
+
+=== SEARCHING IN Kata_pro64_GstarCad.dll ===
+
+=== SEARCHING IN Kata_pro64_GstarCad2025.dll ===
+
+=== SEARCHING IN Kata_pro64_ZwCad.dll ===

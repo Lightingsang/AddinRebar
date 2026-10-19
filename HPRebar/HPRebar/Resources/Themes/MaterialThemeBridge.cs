@@ -10,16 +10,18 @@ namespace HPRebar.Resources.Themes;
 /// <summary>
 ///     Keeps a window's two theme layers in step: the hand-tuned HP palette (ThemeDark/ThemeLight.xaml, the source
 ///     of every <c>Brush.*</c> token) and the MaterialDesign theme that styles the controls. Each apply builds one
-///     overlay dictionary — the palette plus the MaterialDesign brushes re-derived from it (window, card, text and
-///     validation colours come from the <c>Color.*</c> tokens) — and swaps it in at the top of the window's merged
-///     dictionaries. Only a top-level replacement re-evaluates every <c>{DynamicResource}</c> in a shown window;
-///     mutating a nested dictionary changes the lookup result but not what is on screen. Never uses
+///     overlay dictionary — the palette plus the MaterialDesign theme derived from the active BaseTheme and seed
+///     brand colors (without hardcoding surface colors that defeat toolkit theme palettes) — and swaps it in at the
+///     top of the window's merged dictionaries. Only a top-level replacement re-evaluates every <c>{DynamicResource}</c>
+///     in a shown window; mutating a nested dictionary changes the lookup result but not what is on screen. Never uses
 ///     <c>PaletteHelper</c>: an add-in has no <c>Application.Current</c> resources.
 /// </summary>
 public static class MaterialThemeBridge
 {
     // Palette files live beside this file in whichever assembly links it (HPRebar, HPRebar.McpBridge, ...).
     private const string PaletteFolder = "Resources/Themes";
+    private const string MahAppsDarkUri = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml";
+    private const string MahAppsLightUri = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml";
     private static readonly string AssemblyName = typeof(MaterialThemeBridge).Assembly.GetName().Name!;
     private static readonly string DarkUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeDark.xaml";
     private static readonly string LightUri = $"pack://application:,,,/{AssemblyName};component/{PaletteFolder}/ThemeLight.xaml";
@@ -39,7 +41,7 @@ public static class MaterialThemeBridge
         window.Closed += (_, _) => host.Changed -= OnChanged;
     }
 
-    /// <summary>One-shot: palette + MaterialDesign brushes for <paramref name="dark" />, swapped in at top level.</summary>
+    /// <summary>One-shot: palette + MaterialDesign and MahApps brushes for <paramref name="dark" />, swapped in at top level.</summary>
     public static void Apply(Window window, bool dark, Func<bool, ImageSource>? icon = null)
     {
 #if NETCOREAPP
@@ -50,23 +52,20 @@ public static class MaterialThemeBridge
 #endif
         if (icon is not null) window.Icon = icon(dark);
 
+        var mahAppsPalette = new ResourceDictionary { Source = new Uri(dark ? MahAppsDarkUri : MahAppsLightUri) };
         var palette = new ResourceDictionary { Source = new Uri(dark ? DarkUri : LightUri) };
         var overlay = new ResourceDictionary { [OverlayMarker] = true };
+        overlay.MergedDictionaries.Add(mahAppsPalette);
         overlay.MergedDictionaries.Add(palette);
 
-        // The CustomColorTheme merged by MaterialBridge.xaml only lends its primary/secondary colours; the brushes the
-        // templates read are written into the overlay, which sits above it in lookup order.
+        // The CustomColorTheme merged by MaterialBridge.xaml provides its brand primary (#0696D7) and secondary (#E0641E)
+        // colors. The overlay sets the theme derived from the active BaseTheme (Dark or Light) and preserves toolkit
+        // surface, card, popup, and background colors naturally without hardcoding HP palette colors over them.
         if (FindThemeDictionary(window.Resources) is { } seed)
         {
             var seedTheme = seed.GetTheme();
             var theme = Theme.Create(dark ? BaseTheme.Dark : BaseTheme.Light, seedTheme.PrimaryMid.Color, seedTheme.SecondaryMid.Color);
-            theme.Background = Token(palette, "Color.Background", theme.Background);
-            theme.Foreground = Token(palette, "Color.Foreground.Primary", theme.Foreground);
-            theme.ForegroundLight = Token(palette, "Color.Foreground.Secondary", theme.ForegroundLight);
             theme.ValidationError = Token(palette, "Color.Danger", theme.ValidationError);
-            theme.Cards.Background = Token(palette, "Color.SurfaceElevated", theme.Cards.Background);
-            theme.Cards.Border = Token(palette, "Color.Border", theme.Cards.Border);
-            theme.ToolTips.Background = Token(palette, "Color.SurfaceElevated", theme.ToolTips.Background);
             overlay.SetTheme(theme);
         }
 

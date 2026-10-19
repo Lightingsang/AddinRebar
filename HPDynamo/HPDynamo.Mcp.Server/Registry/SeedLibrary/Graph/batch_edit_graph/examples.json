@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Batch create two nodes and connect them with a wire",
+    "args": {
+      "nodes": [
+        {
+          "tempId": "$code1",
+          "nodeType": "CodeBlock",
+          "x": 100.0,
+          "y": 100.0,
+          "name": "Inputs",
+          "initialValue": "span = 6000;"
+        },
+        {
+          "tempId": "$watch1",
+          "nodeType": "CoreNodeModels.Watch",
+          "x": 400.0,
+          "y": 100.0,
+          "name": "Result Preview"
+        }
+      ],
+      "wires": [
+        {
+          "fromNode": "$code1",
+          "fromPort": 0,
+          "toNode": "$watch1",
+          "toPort": 0
+        }
+      ],
+      "runEvaluation": false,
+      "dryRun": false
+    }
+  },
+  {
+    "title": "Batch create a node and configure properties with dryRun preview",
+    "args": {
+      "nodes": [
+        {
+          "tempId": "$math1",
+          "nodeType": "CodeBlock",
+          "x": 200.0,
+          "y": 150.0,
+          "name": "Calculation",
+          "initialValue": "a + b;"
+        }
+      ],
+      "properties": [
+        {
+          "nodeId": "$math1",
+          "name": "Beam Length Formula",
+          "isFrozen": true
+        }
+      ],
+      "runEvaluation": false,
+      "dryRun": true
+    }
+  }
+]

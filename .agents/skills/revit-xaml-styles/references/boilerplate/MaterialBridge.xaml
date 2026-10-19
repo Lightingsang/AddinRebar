@@ -9,6 +9,8 @@
         Màu sắc được MaterialThemeBridge đồng bộ tự động theo Dark/Light của host runtime.
     -->
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
         <md:CustomColorTheme BaseTheme="Dark" PrimaryColor="#0696D7" SecondaryColor="#E0641E"/>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
     </ResourceDictionary.MergedDictionaries>
@@ -19,6 +21,10 @@
         gây crash hoặc lỗi hiển thị. Segoe UI là font hệ thống chuẩn của Windows, Revit và AutoCAD.
     -->
     <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.SymbolTheme">Segoe MDL2 Assets</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Window.Title">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Header">Segoe UI</FontFamily>
+    <FontFamily x:Key="MahApps.Fonts.Family.Control">Segoe UI</FontFamily>
 
     <!-- ===== Bảng nút bấm phân cấp (Tiered Buttons) ===== -->
     <!-- Primary Button: Dùng cho CTA chính (Lưu, Chạy, Xuất...) -->

@@ -205,9 +205,7 @@ public sealed class GuardProfile
             // Interactive UI picking methods that block waiting for mouse clicks
             "PickObject", "PickObjects", "PickPoint", "PickPoints", "PickLine", "PickPolygon", "PickFace",
             // Direct commit bypass on any receiver (bridge owns transaction commit and dryRun enforcement)
-            "CommitChanges",
-            // Application shutdown
-            "Exit", "Quit",
+            "CommitChanges", "Exit", "Quit",
         },
         deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
         {
@@ -216,12 +214,39 @@ public sealed class GuardProfile
         },
         deniedNamespaces: new[]
         {
-            "System.Windows.Forms",
-            "Tekla.Structures.Dialog",
-            "Tekla.Structures.Drawing.UI",
-            "HPTekla.McpBridge",
-            "HPRebar.McpBridge.Core.Host",
+            "System.Windows.Forms", "Tekla.Structures.Dialog", "Tekla.Structures.Drawing.UI", "HPTekla.McpBridge", "HPRebar.McpBridge.Core.Host",
         });
+
+    /// <summary>
+    ///     Autodesk Dynamo in Revit (.NET 8 / Revit 2026).
+    ///     Denied: Modal dialogs (MessageBox, TaskDialog) that freeze the main thread and pipe communication,
+    ///     application shutdown (Exit, Quit, CloseApplication), direct process exits, and bridge internals.
+    /// </summary>
+    public static readonly GuardProfile Dynamo = new GuardProfile(
+        "Dynamo",
+        deniedIdentifiers: new[] { "MessageBox", "TaskDialog" },
+        deniedMembers: new[] { "Show", "ShowModal", "Exit", "Quit", "CloseApplication" },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            ["app"] = new[] { "Exit", "Quit" },
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPDynamo.McpBridge", "HPRebar.McpBridge.Core.Host" });
+
+    /// <summary>
+    ///     Grasshopper in Revit via Rhino.Inside.Revit (.NET 8 / Revit 2026).
+    ///     Denied: Modal dialogs (MessageBox, TaskDialog) that freeze the main thread and pipe communication,
+    ///     application shutdown (RhinoApp.Exit, Quit, CloseApplication), direct process exits, and bridge internals.
+    /// </summary>
+    public static readonly GuardProfile Grasshopper = new GuardProfile(
+        "Grasshopper",
+        deniedIdentifiers: new[] { "MessageBox", "TaskDialog" },
+        deniedMembers: new[] { "Show", "ShowModal", "Exit", "Quit", "CloseApplication" },
+        deniedMembersOnIdentifier: new Dictionary<string, string[]>(StringComparer.Ordinal)
+        {
+            ["app"] = new[] { "Exit", "Quit" },
+            ["rhinoDoc"] = new[] { "Dispose" },
+        },
+        deniedNamespaces: new[] { "System.Windows.Forms", "HPGrasshopper.McpBridge", "HPRebar.McpBridge.Core.Host" });
 
     public GuardProfile(
         string hostName,

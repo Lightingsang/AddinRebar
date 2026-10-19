@@ -1,0 +1,316 @@
+[
+  {
+    "label": "DCE Pro.dll",
+    "path": "C:\\Dce Pro\\DCE Pro.dll",
+    "evidence_id": "ev_ed758bff25f1af5a627893edbd32e1e1b91f7080e1aba614c04a4fe099b760d2",
+    "sha256": "8f7b56d1f916351fb91a8464628471499f59006ac3ba5e362b9df8dbc1225780",
+    "byte_length": 46747544,
+    "format": "pe",
+    "pe_architecture": "x86",
+    "classification_status": "managed",
+    "runtime_family": "dotnet-framework",
+    "managed_architecture": "anycpu",
+    "assembly_name": "DCE Pro",
+    "assembly_version": "1.0.0.0",
+    "assembly_token": "0x20000001",
+    "coverage_state": "partial",
+    "coverage_issues": [
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Module",
+        "offset": 33242664,
+        "detail": "Module table must contain exactly one row; found 2"
+      },
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Assembly",
+        "offset": 38906716,
+        "detail": "Assembly table can contain at most one row; found 2"
+      },
+      {
+        "code": "invalid-guid",
+        "scope": "metadata.#GUID",
+        "offset": 41761968,
+        "detail": "GUID heap index is outside #GUID"
+      },
+      {
+        "code": "invalid-heap-index",
+        "scope": "metadata.#Blob",
+        "offset": 4335680751,
+        "detail": "Blob heap index is outside #Blob"
+      }
+    ],
+    "references_count": 40,
+    "key_references": [
+      "mscorlib",
+      "System.Xaml",
+      "Microsoft.VisualBasic",
+      "System",
+      "System.Windows.Forms",
+      "PresentationFramework",
+      "accoremgd",
+      "WindowsBase",
+      "System.Drawing",
+      "Acdbmgd"
+    ],
+    "resources_count": 6
+  },
+  {
+    "label": "DceSteel.dll",
+    "path": "C:\\Dce Pro\\AddinSteel\\DceSteel.dll",
+    "evidence_id": "ev_1ec88a1f5e664359cb52a4a6e95be1571cef1a5a3cd6a1cbfff3779ed863a9dd",
+    "sha256": "d99486e9ae08c0776dc4970fe8a5584ef94d2675baba1c6d234e9e4a2a42e213",
+    "byte_length": 21345280,
+    "format": "pe",
+    "pe_architecture": "x86",
+    "classification_status": "managed",
+    "runtime_family": "dotnet-framework",
+    "managed_architecture": "anycpu",
+    "assembly_name": "DceSteel",
+    "assembly_version": "1.0.0.0",
+    "assembly_token": "0x20000001",
+    "coverage_state": "partial",
+    "coverage_issues": [
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Module",
+        "offset": 7454356,
+        "detail": "Module table must contain exactly one row; found 2"
+      },
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Assembly",
+        "offset": 9132964,
+        "detail": "Assembly table can contain at most one row; found 2"
+      },
+      {
+        "code": "invalid-guid",
+        "scope": "metadata.#GUID",
+        "offset": 10592040,
+        "detail": "GUID heap index is outside #GUID"
+      },
+      {
+        "code": "invalid-heap-index",
+        "scope": "metadata.#Blob",
+        "offset": 4304510823,
+        "detail": "Blob heap index is outside #Blob"
+      }
+    ],
+    "references_count": 16,
+    "key_references": [
+      "mscorlib",
+      "Microsoft.VisualBasic",
+      "System",
+      "System.Windows.Forms",
+      "ExcelDna.Integration",
+      "System.Drawing",
+      "System.Core",
+      "CSiAPIv1",
+      "ETABS2016",
+      "System.Management"
+    ],
+    "resources_count": 314
+  },
+  {
+    "label": "DbimSteelAutocad.dll",
+    "path": "C:\\Dce Pro\\AddinSteelCad\\DbimSteelAutocad.dll",
+    "evidence_id": "ev_ac56541df7f364900dbf1fcbead5f7a710b2d5eace79b1de3a93bb65921212d5",
+    "sha256": "0ae34512af8106db0e8ccca42e1fbe4d1db94db5fccf3b1660d431457c7a0b79",
+    "byte_length": 4401664,
+    "format": "pe",
+    "pe_architecture": "x86",
+    "classification_status": "managed",
+    "runtime_family": "dotnet-framework",
+    "managed_architecture": "anycpu",
+    "assembly_name": "DbimSteelAutocad",
+    "assembly_version": "1.0.0.0",
+    "assembly_token": "0x20000001",
+    "coverage_state": "partial",
+    "coverage_issues": [
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Module",
+        "offset": 3004104,
+        "detail": "Module table must contain exactly one row; found 2"
+      },
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Assembly",
+        "offset": 3571624,
+        "detail": "Assembly table can contain at most one row; found 2"
+      },
+      {
+        "code": "invalid-guid",
+        "scope": "metadata.#GUID",
+        "offset": 4794840,
+        "detail": "GUID heap index is outside #GUID"
+      },
+      {
+        "code": "invalid-heap-index",
+        "scope": "metadata.#Blob",
+        "offset": 4298713623,
+        "detail": "Blob heap index is outside #Blob"
+      }
+    ],
+    "references_count": 21,
+    "key_references": [
+      "mscorlib",
+      "Microsoft.VisualBasic",
+      "System",
+      "System.Windows.Forms",
+      "accoremgd",
+      "System.Drawing",
+      "Acdbmgd",
+      "CSiAPIv1",
+      "Newtonsoft.Json",
+      "System.Core"
+    ],
+    "resources_count": 66
+  },
+  {
+    "label": "DCE Excel.dll",
+    "path": "C:\\Dce Pro\\V.2020\\DCE Excel.dll",
+    "evidence_id": "ev_0617111468c61b91997b49b65a2680d4b09c8b90afe2da0e783db10001c33d07",
+    "sha256": "6f2e820a8cd10c39fa4843ccf863699bd61b432713a531c0d2272320070374be",
+    "byte_length": 11384216,
+    "format": "pe",
+    "pe_architecture": "x86",
+    "classification_status": "managed",
+    "runtime_family": "dotnet-framework",
+    "managed_architecture": "anycpu",
+    "assembly_name": "DCE Excel",
+    "assembly_version": "1.0.0.0",
+    "assembly_token": "0x20000001",
+    "coverage_state": "partial",
+    "coverage_issues": [
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Module",
+        "offset": 7753896,
+        "detail": "Module table must contain exactly one row; found 2"
+      },
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Assembly",
+        "offset": 8893844,
+        "detail": "Assembly table can contain at most one row; found 2"
+      },
+      {
+        "code": "invalid-guid",
+        "scope": "metadata.#GUID",
+        "offset": 10324300,
+        "detail": "GUID heap index is outside #GUID"
+      },
+      {
+        "code": "invalid-heap-index",
+        "scope": "metadata.#Blob",
+        "offset": 4304243083,
+        "detail": "Blob heap index is outside #Blob"
+      }
+    ],
+    "references_count": 21,
+    "key_references": [
+      "mscorlib",
+      "Microsoft.VisualBasic",
+      "System",
+      "System.Windows.Forms",
+      "ExcelDna.Integration",
+      "System.Drawing",
+      "System.Core",
+      "Newtonsoft.Json",
+      "System.Data",
+      "ETABS2016"
+    ],
+    "resources_count": 6
+  },
+  {
+    "label": "DBimRevit.dll",
+    "path": "g:\\09-PROJECT AI\\01_Revit\\02_CshapRevit\\01_AddinRebar\\scratch\\dce_rvt_unpacked\\app\\2026\\AddinDbimDcepro\\DBimRevit.dll",
+    "evidence_id": "ev_d7d432ae2543ebdbd7b8fb4d110ab27befad1ce0e5e36d9f4532b1f58703b6e7",
+    "sha256": "d747b8cfdcbaae250188576d562717348d20583a5aed2681275f09b6335faeef",
+    "byte_length": 2105752,
+    "format": "pe",
+    "pe_architecture": "x86_64",
+    "classification_status": "managed",
+    "runtime_family": "modern-dotnet",
+    "managed_architecture": "x86_64",
+    "assembly_name": "DBimRevit",
+    "assembly_version": "0.0.0.0",
+    "assembly_token": "0x20000001",
+    "coverage_state": "partial",
+    "coverage_issues": [
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Module",
+        "offset": 119484,
+        "detail": "Module table must contain exactly one row; found 2"
+      },
+      {
+        "code": "invalid-row",
+        "scope": "metadata.Assembly",
+        "offset": 273758,
+        "detail": "Assembly table can contain at most one row; found 2"
+      },
+      {
+        "code": "invalid-guid",
+        "scope": "metadata.#GUID",
+        "offset": 1413840,
+        "detail": "GUID heap index is outside #GUID"
+      }
+    ],
+    "references_count": 50,
+    "key_references": [
+      "System.Runtime",
+      "System.Configuration.ConfigurationManager",
+      "System.Windows.Forms",
+      "PresentationFramework",
+      "System.Drawing.Common",
+      "RevitAPIUI",
+      "PresentationCore",
+      "System.ComponentModel.Primitives",
+      "System.Drawing.Primitives",
+      "Microsoft.VisualBasic.Core"
+    ],
+    "resources_count": 13
+  },
+  {
+    "label": "DceAnalyssiss64.dll",
+    "path": "C:\\Dce Pro\\DceAnalyssiss64.dll",
+    "evidence_id": "ev_23b4e9c6dac47d63efce3fdc9d498e253bee505c75a8885a1e1f3e6dcc0e6ccf",
+    "sha256": "eee3663ab1d345b16532566a0fc1199f544730a4e9e7ac6282863c1a9c75dfbd",
+    "byte_length": 346624,
+    "format": "pe",
+    "pe_architecture": "x86_64",
+    "classification_status": "not-managed",
+    "runtime_family": "unknown",
+    "managed_architecture": "unknown",
+    "assembly_name": null,
+    "assembly_version": null,
+    "assembly_token": null,
+    "coverage_state": "unavailable",
+    "coverage_issues": [],
+    "references_count": 0,
+    "key_references": [],
+    "resources_count": 0
+  },
+  {
+    "label": "DceAnalyssiss32.dll",
+    "path": "C:\\Dce Pro\\DceAnalyssiss32.dll",
+    "evidence_id": "ev_e2ba5ebfc89a380478952fa4b93ade83e8959913aaba8bc5d4567f890525c2d4",
+    "sha256": "e4c14f521123acad09326c67c269e9bd18d382c4fd2fbb59da0b9cec0d193793",
+    "byte_length": 287744,
+    "format": "pe",
+    "pe_architecture": "x86",
+    "classification_status": "not-managed",
+    "runtime_family": "unknown",
+    "managed_architecture": "unknown",
+    "assembly_name": null,
+    "assembly_version": null,
+    "assembly_token": null,
+    "coverage_state": "unavailable",
+    "coverage_issues": [],
+    "references_count": 0,
+    "key_references": [],
+    "resources_count": 0
+  }
+]

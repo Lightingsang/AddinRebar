@@ -11,6 +11,16 @@ using Serilog;
 namespace HPRebar.BeamRebar.ViewModel;
 
 /// <summary>
+/// Display modes for the continuous beam preview pane.
+/// </summary>
+public enum BeamPreviewMode
+{
+    TwoD,
+    ThreeD,
+    Split
+}
+
+/// <summary>
 /// Master ViewModel managing the continuous beam reinforcement window, tabs, runner execution,
 /// progress reporting, language toggling, and theming.
 /// </summary>
@@ -22,6 +32,7 @@ public sealed partial class BeamRebarViewModel : ObservableObject
     [ObservableProperty] private int _progress;
     [ObservableProperty] private int _progressMaximum = 1;
     [ObservableProperty] private string _statusMessage = string.Empty;
+    [ObservableProperty] private BeamPreviewMode _previewMode = BeamPreviewMode.TwoD;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(RunCommand))]
@@ -53,6 +64,55 @@ public sealed partial class BeamRebarViewModel : ObservableObject
     public BeamRebarSession Session { get; }
     public LocalizationService Localization { get; }
     public ObservableCollection<BeamRebarTabViewModel> Tabs { get; }
+
+    public bool IsTwoDMode
+    {
+        get => PreviewMode == BeamPreviewMode.TwoD;
+        set
+        {
+            if (value)
+            {
+                PreviewMode = BeamPreviewMode.TwoD;
+            }
+        }
+    }
+
+    public bool IsThreeDMode
+    {
+        get => PreviewMode == BeamPreviewMode.ThreeD;
+        set
+        {
+            if (value)
+            {
+                PreviewMode = BeamPreviewMode.ThreeD;
+            }
+        }
+    }
+
+    public bool IsSplitMode
+    {
+        get => PreviewMode == BeamPreviewMode.Split;
+        set
+        {
+            if (value)
+            {
+                PreviewMode = BeamPreviewMode.Split;
+            }
+        }
+    }
+
+    partial void OnPreviewModeChanged(BeamPreviewMode value)
+    {
+        OnPropertyChanged(nameof(IsTwoDMode));
+        OnPropertyChanged(nameof(IsThreeDMode));
+        OnPropertyChanged(nameof(IsSplitMode));
+    }
+
+    [RelayCommand]
+    private void SetPreviewMode(BeamPreviewMode mode)
+    {
+        PreviewMode = mode;
+    }
 
     [RelayCommand]
     private void ToggleLanguage()

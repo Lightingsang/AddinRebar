@@ -1,0 +1,140 @@
+{
+  "AllPassed": false,
+  "TotalBeams": 292,
+  "OriginJustCount": 292,
+  "LeftJustCount": 0,
+  "AvgCadEdgeDevMm": 0.5,
+  "MaxCadEdgeDevMm": 1.5,
+  "Steps": [
+    {
+      "StepNumber": 1,
+      "Name": "Ki\u1EC3m to\u00E1n S\u1ED1 l\u01B0\u1EE3ng D\u1EA7m S\u00E0n T\u1EA7ng 1",
+      "Expected": "295 d\u1EA7m",
+      "Actual": "292 d\u1EA7m",
+      "Passed": false
+    },
+    {
+      "StepNumber": 2,
+      "Name": "Ki\u1EC3m to\u00E1n Cao tr\u00ECnh \u0026 Cao \u0111\u1ED9 \u0110\u1EC9nh D\u1EA7m",
+      "Expected": "Level \u0027T\u1EA7ng 1\u0027, \u0110\u1EC9nh: -100.0 mm (Sai s\u1ED1 \u003C= 1mm)",
+      "Actual": "100% \u0111\u1EA1t chu\u1EA9n -100.0 mm (292/292)",
+      "Passed": true
+    },
+    {
+      "StepNumber": 3,
+      "Name": "Ki\u1EC3m to\u00E1n Ti\u1EBFt di\u1EC7n H\u00ECnh h\u1ECDc (b x h)",
+      "Expected": "9 lo\u1EA1i ti\u1EBFt di\u1EC7n kh\u1EDBp chu\u1EA9n thi\u1EBFt k\u1EBF",
+      "Actual": "C\u00F3 sai l\u1EC7ch ch\u1EE7ng lo\u1EA1i ti\u1EBFt di\u1EC7n",
+      "Passed": false
+    },
+    {
+      "StepNumber": 4,
+      "Name": "Ki\u1EC3m to\u00E1n \u0110\u1ECBnh v\u1ECB Tim D\u1EA7m (Y Justification \u0026 Offset)",
+      "Expected": "Origin (tr\u00F9ng tim) / Left \u002B Offset (l\u1EC7ch tim/bi\u00EAn)",
+      "Actual": "Origin: 292 d\u1EA7m, Left: 0 d\u1EA7m (100% h\u1EE3p l\u1EC7)",
+      "Passed": true
+    },
+    {
+      "StepNumber": 5,
+      "Name": "Ki\u1EC3m to\u00E1n Kh\u00F3a Li\u00EAn k\u1EBFt \u0110\u1EA7u D\u1EA7m (Disallow Join)",
+      "Expected": "100% d\u1EA7m kh\u00F3a li\u00EAn k\u1EBFt 2 \u0111\u1EA7u (tr\u00E1nh v\u00E1t x\u00E9n miter)",
+      "Actual": "100% \u0111\u00E3 kh\u00F3a (292/292)",
+      "Passed": true
+    },
+    {
+      "StepNumber": 6,
+      "Name": "Ki\u1EC3m to\u00E1n Ph\u00E2n \u0111o\u1EA1n Span-by-Span Chu\u1EA9n ETABS",
+      "Expected": "Nh\u1ECBp d\u1EA7m li\u00EAn t\u1EE5c gi\u1EEFa c\u00E1c tim c\u1ED9t/d\u1EA7m ph\u1EE5, L \u003E= 250mm",
+      "Actual": "100% li\u00EAn t\u1EE5c nh\u1ECBp chu\u1EA9n (292/292)",
+      "Passed": true
+    },
+    {
+      "StepNumber": 7,
+      "Name": "Ki\u1EC3m to\u00E1n Dung sai Tr\u00F9ng kh\u1EDBp N\u00E9t CAD",
+      "Expected": "Sai l\u1EC7ch m\u00E9p d\u1EA7m so v\u1EDBi CAD \u003C= 2.0 mm",
+      "Actual": "\u0110\u1ED9 l\u1EC7ch max: 1.5 mm, TB: 0.5 mm (\u0110\u1EA0T)",
+      "Passed": true
+    },
+    {
+      "StepNumber": 8,
+      "Name": "K\u1EBFt lu\u1EADn Nghi\u1EC7m thu K\u1EF9 thu\u1EADt Cu\u1ED1i c\u00F9ng",
+      "Expected": "100% ti\u00EAu ch\u00ED \u0111\u1EA1t chu\u1EA9n TCVN \u0026 \u0110I\u1EC0U 0",
+      "Actual": "KH\u00D4NG \u0110\u1EA0T - Y\u00CAU C\u1EA6U S\u1EECA L\u1ED6I",
+      "Passed": false
+    }
+  ],
+  "TypeStats": [
+    {
+      "TypeName": "B_300x400",
+      "Width": 300,
+      "Height": 400,
+      "ExpectedCount": 39,
+      "ActualCount": 39,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_200x400",
+      "Width": 200,
+      "Height": 400,
+      "ExpectedCount": 164,
+      "ActualCount": 164,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_200x500",
+      "Width": 200,
+      "Height": 500,
+      "ExpectedCount": 35,
+      "ActualCount": 34,
+      "Diff": -1
+    },
+    {
+      "TypeName": "B_200x300",
+      "Width": 200,
+      "Height": 300,
+      "ExpectedCount": 41,
+      "ActualCount": 39,
+      "Diff": -2
+    },
+    {
+      "TypeName": "B_300x300",
+      "Width": 300,
+      "Height": 300,
+      "ExpectedCount": 2,
+      "ActualCount": 2,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_300x600",
+      "Width": 300,
+      "Height": 600,
+      "ExpectedCount": 2,
+      "ActualCount": 2,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_100x400",
+      "Width": 100,
+      "Height": 400,
+      "ExpectedCount": 2,
+      "ActualCount": 2,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_100x300",
+      "Width": 100,
+      "Height": 300,
+      "ExpectedCount": 6,
+      "ActualCount": 6,
+      "Diff": 0
+    },
+    {
+      "TypeName": "B_500x400",
+      "Width": 500,
+      "Height": 400,
+      "ExpectedCount": 4,
+      "ActualCount": 4,
+      "Diff": 0
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+﻿// Decompiled Kata_pro64_Cad2013.Lenh_thep::Goi_setting
+using System.Runtime.CompilerServices;
+using Autodesk.AutoCAD.Runtime;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+[CommandMethod("setupkata1")]
+public void Goi_setting()
+{
+}
+

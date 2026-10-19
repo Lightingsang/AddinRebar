@@ -1,0 +1,27 @@
+{
+  "totalTang1": 295,
+  "disallowJoinCount": 295,
+  "dka": {
+    "total": 35,
+    "correct": 35
+  },
+  "dkap": {
+    "total": 4,
+    "correct": 4,
+    "correctOffset": 4
+  },
+  "dkb": {
+    "total": 7,
+    "correct": 7
+  },
+  "typeBreakdown": {
+    "B_300x400": 35,
+    "B_200x400": 134,
+    "B_200x500": 33,
+    "B_200x300": 41,
+    "B_300x300": 1,
+    "B_100x300": 45,
+    "B_300x600": 2,
+    "B_500x400": 4
+  }
+}

@@ -1,0 +1,6 @@
+# Thong nhat xuong dong giua Windows va Linux
+* text=auto
+*.png binary
+*.dxf binary
+*.dwg binary
+*.xlsx binary

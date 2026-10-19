@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":{\"count\":8,\"ents\":[{\"type\":\"Line\",\"p1\":{\"x\":6518.6,\"y\":750},\"p2\":{\"x\":6112.3,\"y\":100},\"len\":766.5},{\"type\":\"Line\",\"p1\":{\"x\":6018.6,\"y\":-200},\"p2\":{\"x\":6018.6,\"y\":-400},\"len\":200},{\"type\":\"Line\",\"p1\":{\"x\":6018.6,\"y\":-600},\"p2\":{\"x\":6018.6,\"y\":-750},\"len\":150},{\"type\":\"Line\",\"p1\":{\"x\":6018.6,\"y\":-750},\"p2\":{\"x\":7618.5,\"y\":-750},\"len\":1600},{\"type\":\"Line\",\"p1\":{\"x\":7618.5,\"y\":-750},\"p2\":{\"x\":7618.5,\"y\":-200},\"len\":550},{\"type\":\"Line\",\"p1\":{\"x\":7524.8,\"y\":100},\"p2\":{\"x\":7118.6,\"y\":750},\"len\":766.5},{\"type\":\"Line\",\"p1\":{\"x\":7118.6,\"y\":750},\"p2\":{\"x\":6968.6,\"y\":750},\"len\":150},{\"type\":\"Line\",\"p1\":{\"x\":6668.6,\"y\":750},\"p2\":{\"x\":6518.6,\"y\":750},\"len\":150}]},\"valueType\":\"object\",\"logs\":[],\"diagnostics\":[],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":12,\"truncated\":false,\"runId\":87,\"hint\":\"This run succeeded and looks reusable. To keep it as a tool: get_run 87 (shows literals to turn into args), then propose_tool. Skip if it was a one-off.\"}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

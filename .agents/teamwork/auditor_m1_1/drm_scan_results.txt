@@ -1,0 +1,54 @@
+Total pattern matches across M1 artifacts: 53
+[Security\.dll] .agents\teamwork\orchestrator_16\BRIEFING.md:34 -> - Never decompile, copy, or circumvent Security.dll, hardware locks, or license checks in C:\kata_pro.
+[\blicens(e|ing)\b] .agents\teamwork\orchestrator_16\BRIEFING.md:34 -> - Never decompile, copy, or circumvent Security.dll, hardware locks, or license checks in C:\kata_pro.
+[Security\.dll] .agents\teamwork\orchestrator_16\DISPATCH.md:35 -> - NEVER decompile, copy, or circumvent `Security.dll` or licensing DRM.
+[\blicens(e|ing)\b] .agents\teamwork\orchestrator_16\DISPATCH.md:35 -> - NEVER decompile, copy, or circumvent `Security.dll` or licensing DRM.
+[Security\.dll] .agents\teamwork\orchestrator_16\DISPATCH.md:65 -> 1. Never decompile, copy, or circumvent Security.dll, hardware locks, or license checks in C:\kata_pro.
+[\blicens(e|ing)\b] .agents\teamwork\orchestrator_16\DISPATCH.md:65 -> 1. Never decompile, copy, or circumvent Security.dll, hardware locks, or license checks in C:\kata_pro.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_1\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\BRIEFING.md:31 -> - Use PowerShell and .NET reflection / IL inspection to probe `Kata_pro64_Cad2025.dll` and `Kata_Class_Lib.dll` safely without touching `Sec
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\DISPATCH.md:20 -> - Never touch Security.dll or licensing code.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_1\DISPATCH.md:20 -> - Never touch Security.dll or licensing code.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\DISPATCH.md:47 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_1\DISPATCH.md:47 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\handoff.md:30 -> - `C:\kata_pro\Security.dll` was strictly excluded from all analysis and never loaded.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\survey_commands_config_report.md:13 -> This report provides the exhaustive clean-room reverse-engineering survey of the **KataPro** structural rebar detailing suite installed at `
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_1\survey_commands_config_report.md:13 -> This report provides the exhaustive clean-room reverse-engineering survey of the **KataPro** structural rebar detailing suite installed at `
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_1\survey_commands_config_report.md:490 -> 5. B\u1ea3o \u0111\u1ea3m tu\xe2n th\u1ee7 tuy\u1ec7t \u0111\u1ed1i quy \u0111\u1ecbnh kh\xf4ng \u0111\u1ee5ng ch\u1ea1m v\xe0o `Security.dll` hay c\u01a1 ch\u1ebf b\u1ea3n quy\u1ec1n.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_2\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\BRIEFING.md:34 -> - Use read-only inspection tools: Python / PowerShell / .NET reflection / IL inspection on Kata_pro64_Cad2025.dll, Kata_Class_Lib.dll, and C
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\DISPATCH.md:18 -> - Never touch Security.dll or licensing code.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_2\DISPATCH.md:18 -> - Never touch Security.dll or licensing code.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\DISPATCH.md:43 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_2\DISPATCH.md:43 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\handoff.md:46 -> 5. Therefore, a complete, clean-room specification can be constructed that enables native AutoCAD/Revit tools to read, generate, and edit Ka
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\handoff.md:52 -> - **Hardware/Licensing Code**: Per strict instructions, `Security.dll`, dongle communications, and activation modules were intentionally nev
+[\bdongle\b] .agents\teamwork\teamwork_preview_spec_miner_survey_2\handoff.md:52 -> - **Hardware/Licensing Code**: Per strict instructions, `Security.dll`, dongle communications, and activation modules were intentionally nev
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_2\handoff.md:52 -> - **Hardware/Licensing Code**: Per strict instructions, `Security.dll`, dongle communications, and activation modules were intentionally nev
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_2\survey_dwg_shapes_report.md:8 -> **Cam k\u1ebft tu\xe2n th\u1ee7**: Ho\xe0n to\xe0n tu\xe2n th\u1ee7 nguy\xean t\u1eafc Clean-Room. Kh\xf4ng tr\xedch xu\u1ea5t, ch\u1ec9nh s\u1eeda, d\u1ecbch ng\u01b0\u1ee3c ho\u1eb7c v\u01b0\u1ee3t qua b\u1ea5t k\u1ef3 c\u01a1 ch\u1ebf b\u1ea3o v\u1ec7 p
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_3\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_3\BRIEFING.md:14 -> - NEVER decompile, copy, or circumvent Security.dll, hardware locks, or licensing checks.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_3\DISPATCH.md:18 -> - Never touch Security.dll or licensing code.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_3\DISPATCH.md:18 -> - Never touch Security.dll or licensing code.
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_3\handoff.md:71 -> 1. **Security & DRM Exclusion:** In strict adherence to governance constraints, `Security.dll`, license dongles, and hardware locking mechan
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_3\handoff.md:71 -> 1. **Security & DRM Exclusion:** In strict adherence to governance constraints, `Security.dll`, license dongles, and hardware locking mechan
+[Security\.dll] .agents\teamwork\teamwork_preview_spec_miner_survey_3\survey_scheduling_interop_report.md:26 -> - **Zero licensing/DRM inspection**: `Security.dll` was strictly ignored, never loaded, decompiled, or analyzed.
+[\blicens(e|ing)\b] .agents\teamwork\teamwork_preview_spec_miner_survey_3\survey_scheduling_interop_report.md:26 -> - **Zero licensing/DRM inspection**: `Security.dll` was strictly ignored, never loaded, decompiled, or analyzed.
+[Security\.dll] .agents\teamwork\worker_m1\BRIEFING.md:23 -> - Never touch Security.dll or licensing code.
+[\blicens(e|ing)\b] .agents\teamwork\worker_m1\BRIEFING.md:23 -> - Never touch Security.dll or licensing code.
+[Security\.dll] .agents\teamwork\worker_m1\DISPATCH.md:25 -> - Never touch Security.dll or licensing code.
+[\blicens(e|ing)\b] .agents\teamwork\worker_m1\DISPATCH.md:25 -> - Never touch Security.dll or licensing code.
+[Security\.dll] .agents\teamwork\worker_m1\handoff.md:57 -> - **Security & Licensing**: In accordance with the mandatory Clean-Room Integrity Mandate, `Security.dll`, hardware dongle checks, license f
+[\bdongle\b] .agents\teamwork\worker_m1\handoff.md:57 -> - **Security & Licensing**: In accordance with the mandatory Clean-Room Integrity Mandate, `Security.dll`, hardware dongle checks, license f
+[\blicens(e|ing)\b] .agents\teamwork\worker_m1\handoff.md:57 -> - **Security & Licensing**: In accordance with the mandatory Clean-Room Integrity Mandate, `Security.dll`, hardware dongle checks, license f
+[\blicens(e|ing)\b] .agents\teamwork\worker_m1\handoff.md:86 -> - Ensure zero licensing/DRM references exist.
+[\bcrack\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:61 -> - Secondary beam hanger stirrups ($5\Phi 10a50$) and anti-crack diagonal bars ($2\Phi 14$) at beam-beam intersections.
+[\bcrack\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:367 -> | **73** | 224 | `SecBeamAntiCrack1`| `2f14` | `string` | Spec | Left diagonal anti-crack rebar ($2\Phi 14$) | `Setting.RfevWXgiUt` / `thep_
+[\bcrack\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:371 -> | **77** | 228 | `SecBeamAntiCrack2`| `2f14` | `string` | Spec | Right diagonal anti-crack rebar ($2\Phi 14$) | `Setting.MnuvMtnjnk` / `thep
+[\bcrack\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:728 -> | **`dang58`** | Opening Corner Diagonal Bar | Sloped bar with 90\xb0 end cogs | $L_1, L_2, L_3, \text{goc}$ | $L_{\text{cut}} = L_1 + 2L_2$ | 
+[\blicens(e|ing)\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:1002 -> 1. **Zero Licensing/DRM Decompilation**:
+[Security\.dll] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:1003 -> `Security.dll` was strictly excluded from inspection, reflection, and loading. No hardware dongle checks, license files, or activation algor
+[\bdongle\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:1003 -> `Security.dll` was strictly excluded from inspection, reflection, and loading. No hardware dongle checks, license files, or activation algor
+[\blicens(e|ing)\b] docs\hpkata\HPKATA_REVERSE_ENGINEERING_BLUEPRINT.md:1003 -> `Security.dll` was strictly excluded from inspection, reflection, and loading. No hardware dongle checks, license files, or activation algor

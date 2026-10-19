@@ -1,0 +1,218 @@
+﻿====================================================================================================
+EXHAUSTIVE MEMBER-BY-MEMBER CENSUS ACROSS ALL 10 TIER 5 TEST FILES (ROSLYN COMPILER AST)
+====================================================================================================
+
+FILE: BimModelSchemaValidatorAdversarialCoverageTests.cs
+  Path: HPBim\tests\HPBim.Core.Tests\Adversarial\BimModelSchemaValidatorAdversarialCoverageTests.cs
+  Physical Lines: 272 (Rule C2 <= 300: PASS)
+  Classes: BimModelSchemaValidatorAdversarialCoverageTests (L10-L271, 262 lines)
+  Test Methods: 10, Total Members: 10
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      Validate_RebarHostResolution_UnderscorePrefixAndBrokenRef | SpanWithAttr: 37 (L211-L247) | SpanDecl: 37 (L211-L247)
+    [PASS      ] Method      Validate_WallOpening_BeyondWallBoundary_Rejected | SpanWithAttr: 33 (L116-L148) | SpanDecl: 33 (L116-L148)
+    [PASS      ] Method      Validate_UnicodeAndVietnameseDiacriticLevelNames_ResolvesAndPasses | SpanWithAttr: 29 (L12-L40) | SpanDecl: 29 (L12-L40)
+    [PASS      ] Method      Validate_GridLengthNear1mmBoundary_StrictBoundaryEnforcement | SpanWithAttr: 28 (L87-L114) | SpanDecl: 28 (L87-L114)
+    [PASS      ] Method      Validate_WallOpening_NegativeOffset_Rejected  | SpanWithAttr: 27 (L150-L176) | SpanDecl: 27 (L150-L176)
+    [PASS      ] Method      Validate_EmojiAndSpecialCharactersInLevelNames_PassesIfMatching | SpanWithAttr: 25 (L42-L66) | SpanDecl: 25 (L42-L66)
+    [PASS      ] Method      Validate_PipeRunDef_DegeneratePointsList_Rejected | SpanWithAttr: 22 (L249-L270) | SpanDecl: 22 (L249-L270)
+    [PASS      ] Method      Validate_ExtremeCoordinates_NaNInGrids_Rejected | SpanWithAttr: 18 (L68-L85) | SpanDecl: 18 (L68-L85)
+    [PASS      ] Method      Validate_CorruptedJsonNodes_NonArrayLevels_Rejected | SpanWithAttr: 16 (L178-L193) | SpanDecl: 16 (L178-L193)
+    [PASS      ] Method      Validate_CorruptedJsonNodes_TypeMismatchInElevation_Rejected | SpanWithAttr: 15 (L195-L209) | SpanDecl: 15 (L195-L209)
+----------------------------------------------------------------------------------------------------
+
+FILE: IdempotentElementResolverAdversarialCoverageTests.cs
+  Path: HPBim\tests\HPBim.Core.Tests\Adversarial\IdempotentElementResolverAdversarialCoverageTests.cs
+  Physical Lines: 187 (Rule C2 <= 300: PASS)
+  Classes: IdempotentElementResolverAdversarialCoverageTests (L9-L186, 178 lines), DynamicExistenceQuery (L11-L22, 12 lines)
+  Test Methods: 7, Total Members: 10
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      Resolve_MultiHandleProvenanceCollisions_ResolvesConsistently | SpanWithAttr: 35 (L73-L107) | SpanDecl: 35 (L73-L107)
+    [PASS      ] Method      Resolve_FullRecreateToNoOpLifecycle_EndToEndSimulation | SpanWithAttr: 32 (L154-L185) | SpanDecl: 32 (L154-L185)
+    [PASS      ] Method      Resolve_CaseInsensitiveTypeNameAndLevel_ResolvesToNoOpWithoutUpdate | SpanWithAttr: 23 (L109-L131) | SpanDecl: 23 (L109-L131)
+    [PASS      ] Method      Resolve_MissingResourceOrTypeName_GracefulNoOp | SpanWithAttr: 20 (L133-L152) | SpanDecl: 20 (L133-L152)
+    [PASS      ] Method      Resolve_TombstonedEmptyTargetUniqueId_ResolvesToCreate | SpanWithAttr: 18 (L24-L41) | SpanDecl: 18 (L24-L41)
+    [PASS      ] Method      Resolve_ElementMissingInHostDocument_ResolvesToRecreate | SpanWithAttr: 15 (L43-L57) | SpanDecl: 15 (L43-L57)
+    [PASS      ] Method      Resolve_QueryReturnsNull_ResolvesToRecreate   | SpanWithAttr: 13 (L59-L71) | SpanDecl: 13 (L59-L71)
+    [PASS      ] Method      Register                                      | SpanWithAttr:  2 (L15-L16) | SpanDecl:  2 (L15-L16)
+    [PASS      ] Method      QueryElement                                  | SpanWithAttr:  2 (L20-L21) | SpanDecl:  2 (L20-L21)
+    [PASS      ] Method      Remove                                        | SpanWithAttr:  1 (L18-L18) | SpanDecl:  1 (L18-L18)
+----------------------------------------------------------------------------------------------------
+
+FILE: CompositeSourceKeyAdversarialCoverageTests.cs
+  Path: HPBim\tests\HPBim.Core.Tests\Adversarial\CompositeSourceKeyAdversarialCoverageTests.cs
+  Physical Lines: 127 (Rule C2 <= 300: PASS)
+  Classes: CompositeSourceKeyAdversarialCoverageTests (L8-L126, 119 lines)
+  Test Methods: 8, Total Members: 8
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      Stress_MassiveKeyLookupAndCollisionResistance | SpanWithAttr: 31 (L82-L112) | SpanDecl: 31 (L82-L112)
+    [PASS      ] Method      CompareTo_ConsistentWithEqualsContract        | SpanWithAttr: 14 (L67-L80) | SpanDecl: 14 (L67-L80)
+    [PASS      ] Method      Parse_NumericCategory_ParsesIfDefined_OrRejectsIfNotDefined | SpanWithAttr: 13 (L43-L55) | SpanDecl: 13 (L43-L55)
+    [PASS      ] Method      Equals_And_HashCode_EmptyKeyContract          | SpanWithAttr: 12 (L114-L125) | SpanDecl: 12 (L114-L125)
+    [PASS      ] Method      Parse_FilenameWithEmbeddedHash_ParsesCorrectlyInBracketedFormat | SpanWithAttr: 10 (L10-L19) | SpanDecl: 10 (L10-L19)
+    [PASS      ] Method      Parse_MultipleColonsInHandle_PreservesAllColons | SpanWithAttr: 10 (L21-L30) | SpanDecl: 10 (L21-L30)
+    [PASS      ] Method      Parse_ExoticWhitespaceAndTabsAroundDelimiters_TrimsProperly | SpanWithAttr: 10 (L32-L41) | SpanDecl: 10 (L32-L41)
+    [PASS      ] Method      Parse_MalformedDelimiters_ThrowsFormatException | SpanWithAttr:  9 (L57-L65) | SpanDecl:  9 (L57-L65)
+----------------------------------------------------------------------------------------------------
+
+FILE: MeasuredGeometricVerifierAdversarialCoverageTests.cs
+  Path: HPBim\tests\HPBim.Core.Tests\Adversarial\MeasuredGeometricVerifierAdversarialCoverageTests.cs
+  Physical Lines: 256 (Rule C2 <= 300: PASS)
+  Classes: MeasuredGeometricVerifierAdversarialCoverageTests (L11-L255, 245 lines)
+  Test Methods: 8, Total Members: 8
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      AuditColumn_DecimalRoundingNearToleranceBoundaries_StrictZeroMm | SpanWithAttr: 37 (L21-L57) | SpanDecl: 37 (L21-L57)
+    [PASS      ] Method      AuditLinearStructure_VN2000_ExtremeCoordinatesScaleAndOffsets | SpanWithAttr: 36 (L117-L152) | SpanDecl: 36 (L117-L152)
+    [PASS      ] Method      AuditBeam_ElevationBoundary_Strict1mmThreshold | SpanWithAttr: 31 (L59-L89) | SpanDecl: 31 (L59-L89)
+    [PASS      ] Method      AuditPlan_ListOverload_DictionaryMappingByUniqueIdAndKey | SpanWithAttr: 26 (L229-L254) | SpanDecl: 26 (L229-L254)
+    [PASS      ] Method      AuditPile_CenterBoundary_Strict2mmThreshold   | SpanWithAttr: 25 (L91-L115) | SpanDecl: 25 (L91-L115)
+    [PASS      ] Method      AuditLevel_ScaleConversionFromMetersToMillimeters | SpanWithAttr: 25 (L178-L202) | SpanDecl: 25 (L178-L202)
+    [PASS      ] Method      AuditItem_UnmeasurableCurve_Rule0_Inconclusive_NeverPass | SpanWithAttr: 24 (L204-L227) | SpanDecl: 24 (L204-L227)
+    [PASS      ] Method      AuditWall_EndpointOffsetExceedsTolerance_FlaggedAsDefect | SpanWithAttr: 23 (L154-L176) | SpanDecl: 23 (L154-L176)
+----------------------------------------------------------------------------------------------------
+
+FILE: IntentJournalTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Connection\IntentJournalTier5AdversarialTests.cs
+  Physical Lines: 181 (Rule C2 <= 300: PASS)
+  Classes: IntentJournalTier5AdversarialTests (L12-L180, 169 lines)
+  Test Methods: 7, Total Members: 9
+  Catch Blocks: 1
+    - Catch at L30-L33: Statements=0, HasComment=True, Rationale=[// Transient file lock cleanup tolerance]
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      ConcurrentOperations_HighLoad_AppendAndReadSimultaneously_PreservesAllOperations | SpanWithAttr: 32 (L65-L96) | SpanDecl: 32 (L65-L96)
+    [PASS      ] Method      RapidStatusMutations_SameOperation_PersistsAndReadsLatestStateInCacheAndColdRestart | SpanWithAttr: 28 (L36-L63) | SpanDecl: 28 (L36-L63)
+    [PASS      ] Method      FileCorruption_BlankLinesAndMalformedRecords_GracefullyExtractsValidRecords | SpanWithAttr: 24 (L98-L121) | SpanDecl: 24 (L98-L121)
+    [PASS      ] Method      DisposedState_CallingAnyMethod_ThrowsObjectDisposedException | SpanWithAttr: 20 (L123-L142) | SpanDecl: 20 (L123-L142)
+    [PASS      ] Method      UpdateStatus_ForUnrecordedOperation_CreatesNewRecordAndAppendsToDisk | SpanWithAttr: 18 (L154-L171) | SpanDecl: 18 (L154-L171)
+    [PASS      ] Method      Dispose                                       | SpanWithAttr: 11 (L24-L34) | SpanDecl: 11 (L24-L34)
+    [PASS      ] Method      PruneOldEntries_WhenFileDoesNotExist_ReturnsZero | SpanWithAttr:  9 (L144-L152) | SpanDecl:  9 (L144-L152)
+    [PASS      ] Method      RecordIntent_NullArgument_ThrowsArgumentNullException | SpanWithAttr:  7 (L173-L179) | SpanDecl:  7 (L173-L179)
+    [PASS      ] Constructor IntentJournalTier5AdversarialTests            | SpanWithAttr:  6 (L17-L22) | SpanDecl:  6 (L17-L22)
+----------------------------------------------------------------------------------------------------
+
+FILE: TimeoutPolicyTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Connection\TimeoutPolicyTier5AdversarialTests.cs
+  Physical Lines: 130 (Rule C2 <= 300: PASS)
+  Classes: TimeoutPolicyTier5AdversarialTests (L7-L129, 123 lines)
+  Test Methods: 11, Total Members: 11
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      ComputeExecutionBudget_ClampsStrictlyToMaxExecutionBudget | SpanWithAttr: 19 (L80-L98) | SpanDecl: 19 (L80-L98)
+    [PASS      ] Method      ComputeTotalTimeout_SumOfQueueDeadlineAndExecutionBudget | SpanWithAttr: 13 (L100-L112) | SpanDecl: 13 (L100-L112)
+    [PASS      ] Method      ComputeExecutionBudget_ZeroOrNegativeItems_ReturnsDefaultExecutionBudget | SpanWithAttr: 11 (L59-L69) | SpanDecl: 11 (L59-L69)
+    [PASS      ] Method      Validate_MaxLessThanBase_ThrowsArgumentOutOfRangeException | SpanWithAttr: 10 (L37-L46) | SpanDecl: 10 (L37-L46)
+    [PASS      ] Method      Validate_ExactEquality_BaseAndMaxBudget_ValidatesSuccessfully | SpanWithAttr: 10 (L48-L57) | SpanDecl: 10 (L48-L57)
+    [PASS      ] Method      Validate_NonPositiveTransportTimeout_ThrowsArgumentOutOfRangeException | SpanWithAttr:  9 (L9-L17) | SpanDecl:  9 (L9-L17)
+    [PASS      ] Method      Validate_NonPositiveQueueDeadline_ThrowsArgumentOutOfRangeException | SpanWithAttr:  8 (L19-L26) | SpanDecl:  8 (L19-L26)
+    [PASS      ] Method      Validate_NonPositiveBaseExecutionBudget_ThrowsArgumentOutOfRangeException | SpanWithAttr:  8 (L28-L35) | SpanDecl:  8 (L28-L35)
+    [PASS      ] Method      ComputeExecutionBudget_OneItem_ReturnsBasePlusOneIncrement | SpanWithAttr:  8 (L71-L78) | SpanDecl:  8 (L71-L78)
+    [PASS      ] Method      ComputeExecutionBudget_HugeCountIntMax_CalculatesSafelyWithoutOverflow | SpanWithAttr:  7 (L114-L120) | SpanDecl:  7 (L114-L120)
+    [PASS      ] Method      CustomPerItemBudget_ZeroPerItem_YieldsConstantBaseBudget | SpanWithAttr:  7 (L122-L128) | SpanDecl:  7 (L122-L128)
+----------------------------------------------------------------------------------------------------
+
+FILE: ReceiptReaderTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Recovery\ReceiptReaderTier5AdversarialTests.cs
+  Physical Lines: 192 (Rule C2 <= 300: PASS)
+  Classes: ReceiptReaderTier5AdversarialTests (L10-L191, 182 lines)
+  Test Methods: 10, Total Members: 10
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      ParseReceipts_ArrayContainingNonObjects_GracefullySkipsNonObjects | SpanWithAttr: 29 (L43-L71) | SpanDecl: 29 (L43-L71)
+    [PASS      ] Method      FindReceiptAsync_PrioritizesOperationIdOverPlanHash | SpanWithAttr: 27 (L123-L149) | SpanDecl: 27 (L123-L149)
+    [PASS      ] Method      ParseReceipts_MissingOrCorruptedFields_DefaultsGracefully | SpanWithAttr: 23 (L73-L95) | SpanDecl: 23 (L73-L95)
+    [PASS      ] Method      FindReceiptAsync_FallsBackToPlanHash_WhenOperationIdMissing | SpanWithAttr: 20 (L151-L170) | SpanDecl: 20 (L151-L170)
+    [PASS      ] Method      ParseReceipts_ReceiptsArrayMissingOrNonArray_ReturnsEmptyList | SpanWithAttr: 15 (L27-L41) | SpanDecl: 15 (L27-L41)
+    [PASS      ] Method      ParseReceipts_NullOrNonObjectRoot_ReturnsEmptyList | SpanWithAttr: 14 (L12-L25) | SpanDecl: 14 (L12-L25)
+    [PASS      ] Method      ParseElementMap_EdgeCasesAndInvalidInputs_ReturnsEmptyDictionary | SpanWithAttr: 14 (L97-L110) | SpanDecl: 14 (L97-L110)
+    [PASS      ] Method      ParseElementMap_ValidKeyValues_ParsesAllEntries | SpanWithAttr: 10 (L112-L121) | SpanDecl: 10 (L112-L121)
+    [PASS      ] Method      FindReceiptAsync_WhenNeitherMatches_ReturnsNull | SpanWithAttr:  9 (L172-L180) | SpanDecl:  9 (L172-L180)
+    [PASS      ] Method      AutoConnect_WhenPipeClientDisconnected_ConnectsBeforeQuery | SpanWithAttr:  9 (L182-L190) | SpanDecl:  9 (L182-L190)
+----------------------------------------------------------------------------------------------------
+
+FILE: ReconcileServiceTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Recovery\ReconcileServiceTier5AdversarialTests.cs
+  Physical Lines: 186 (Rule C2 <= 300: PASS)
+  Classes: ReconcileServiceTier5AdversarialTests (L14-L185, 172 lines)
+  Test Methods: 6, Total Members: 8
+  Catch Blocks: 1
+    - Catch at L32-L35: Statements=0, HasComment=True, Rationale=[// Transient lock cleanup tolerance]
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [ *** VIOLATION (> 50) ***] Method      ReconcileAllUnknownIntents_InterleavedStatuses_ReconcilesEachAccurately | SpanWithAttr: 59 (L38-L96) | SpanDecl: 59 (L38-L96)
+    [PASS      ] Method      ReconcileIntent_NetworkSeveredDuringQuery_ReturnsStillUnknownAndPreservesIntentState | SpanWithAttr: 20 (L128-L147) | SpanDecl: 20 (L128-L147)
+    [PASS      ] Method      ReconcileIntent_PipeTimeoutDuringQuery_ReturnsStillUnknownAndPreservesIntentState | SpanWithAttr: 20 (L149-L168) | SpanDecl: 20 (L149-L168)
+    [PASS      ] Method      ReconcileIntent_MissingInJournal_ReturnsStillUnknownWithExplanation | SpanWithAttr: 15 (L112-L126) | SpanDecl: 15 (L112-L126)
+    [PASS      ] Method      AutoConnect_WhenPipeDisconnected_ConnectsAutomatically | SpanWithAttr: 15 (L170-L184) | SpanDecl: 15 (L170-L184)
+    [PASS      ] Method      ReconcileAllUnknownIntents_WhenNoIncompleteIntents_ReturnsNoOp | SpanWithAttr: 13 (L98-L110) | SpanDecl: 13 (L98-L110)
+    [PASS      ] Method      Dispose                                       | SpanWithAttr: 11 (L26-L36) | SpanDecl: 11 (L26-L36)
+    [PASS      ] Constructor ReconcileServiceTier5AdversarialTests         | SpanWithAttr:  6 (L19-L24) | SpanDecl:  6 (L19-L24)
+----------------------------------------------------------------------------------------------------
+
+FILE: BimPlanRunnerScriptTemplateTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Pipeline\BimPlanRunnerScriptTemplateTier5AdversarialTests.cs
+  Physical Lines: 103 (Rule C2 <= 300: PASS)
+  Classes: BimPlanRunnerScriptTemplateTier5AdversarialTests (L10-L102, 93 lines)
+  Test Methods: 6, Total Members: 6
+  Catch Blocks: 0
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      ScriptTemplate_ContainsAllMandatoryCategories | SpanWithAttr: 26 (L38-L63) | SpanDecl: 26 (L38-L63)
+    [PASS      ] Method      ScriptTemplate_Epilogue_ReturnsExpectedSummaryStructure | SpanWithAttr: 14 (L88-L101) | SpanDecl: 14 (L88-L101)
+    [PASS      ] Method      ScriptTemplate_ContainsExtensibleStorageReceiptSchemaDefinition | SpanWithAttr: 13 (L74-L86) | SpanDecl: 13 (L74-L86)
+    [PASS      ] Method      GetScriptCode_ParsesAsValidCSharpScript_WithZeroSyntaxErrors | SpanWithAttr: 12 (L12-L23) | SpanDecl: 12 (L12-L23)
+    [PASS      ] Method      Preamble_ContainsMandatoryCoordinateAndPreflightHelpers | SpanWithAttr: 12 (L25-L36) | SpanDecl: 12 (L25-L36)
+    [PASS      ] Method      ScriptTemplate_ContainsUnsupportedCategoryDefensiveBranch | SpanWithAttr:  8 (L65-L72) | SpanDecl:  8 (L65-L72)
+----------------------------------------------------------------------------------------------------
+
+FILE: BimPipelineEngineTier5AdversarialTests.cs
+  Path: HPBim\tests\HPBim.Client.Tests\Pipeline\BimPipelineEngineTier5AdversarialTests.cs
+  Physical Lines: 239 (Rule C2 <= 300: PASS)
+  Classes: BimPipelineEngineTier5AdversarialTests (L17-L238, 222 lines)
+  Test Methods: 7, Total Members: 10
+  Catch Blocks: 1
+    - Catch at L35-L38: Statements=0, HasComment=True, Rationale=[// Transient test lock cleanup tolerance]
+  Commented Code Findings (Q-B1): 0
+
+  Members (sorted by line span descending):
+    [PASS      ] Method      ExecutePlanAsync_ElementFailure_IdentifiesFailedElementsAndSetsOverallFailure | SpanWithAttr: 38 (L174-L211) | SpanDecl: 38 (L174-L211)
+    [PASS      ] Method      ExecutePlanJournaled_ApplyExecution_UnexpectedRollback_FailsWithExplicitMessage | SpanWithAttr: 26 (L99-L124) | SpanDecl: 26 (L99-L124)
+    [PASS      ] Method      ExecutePlanJournaled_CalculatesTimeoutFromPolicy_WhenPlanTimeoutZero | SpanWithAttr: 25 (L213-L237) | SpanDecl: 25 (L213-L237)
+    [PASS      ] Method      ExecutePlanAsync_RevitWarnings_PropagatesToResultAndStageResults | SpanWithAttr: 24 (L149-L172) | SpanDecl: 24 (L149-L172)
+    [PASS      ] Method      ExecutePlanJournaled_DryRun_UnconfirmedRollback_FailsWithExplicitMessage | SpanWithAttr: 22 (L126-L147) | SpanDecl: 22 (L126-L147)
+    [PASS      ] Method      CreatePlan                                    | SpanWithAttr: 19 (L41-L59) | SpanDecl: 19 (L41-L59)
+    [PASS      ] Method      ExecutePlanJournaled_PipeDisconnectDuringExecution_MarksOutcomeUnknownAndRecordsJournal | SpanWithAttr: 18 (L61-L78) | SpanDecl: 18 (L61-L78)
+    [PASS      ] Method      ExecutePlanJournaled_PipeTimeoutDuringExecution_MarksOutcomeUnknownAndRecordsJournal | SpanWithAttr: 18 (L80-L97) | SpanDecl: 18 (L80-L97)
+    [PASS      ] Method      Dispose                                       | SpanWithAttr: 11 (L29-L39) | SpanDecl: 11 (L29-L39)
+    [PASS      ] Constructor BimPipelineEngineTier5AdversarialTests        | SpanWithAttr:  6 (L22-L27) | SpanDecl:  6 (L22-L27)
+----------------------------------------------------------------------------------------------------
+
+====================================================================================================
+GLOBAL SUMMARY OF ALL 10 FILES
+====================================================================================================
+Total Files Analyzed: 10
+Total Physical Lines: 1873
+Total Test Methods ([Fact]/[Theory]): 80
+Total Members (Methods + Ctors): 90
+Rule C2 File Violations (> 300 lines): 0
+Rule M3 Member Violations (> 50 lines): 1
+VIOLATING MEMBERS:
+  ReconcileServiceTier5AdversarialTests.cs: ReconcileAllUnknownIntents_InterleavedStatuses_ReconcilesEachAccurately (59 lines with attr, 59 lines decl only, L38-L96)

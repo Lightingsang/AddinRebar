@@ -1,0 +1,22 @@
+{
+  "name": "vn-autocad-skill",
+  "version": "1.0.0",
+  "description": "Quy trinh tron goi dung ho so ban ve thiet ke thi cong nha o chuan Viet Nam (TCVN): kien truc, ket cau, co dien, soat loi tu dong, xuat DWG qua AutoCAD va du toan Excel lay khoi luong tu chinh ban ve.",
+  "author": {
+    "name": "andyluu98"
+  },
+  "homepage": "https://github.com/andyluu98/vn-autocad-skill",
+  "repository": "https://github.com/andyluu98/vn-autocad-skill",
+  "license": "Apache-2.0",
+  "keywords": [
+    "autocad",
+    "dxf",
+    "dwg",
+    "tcvn",
+    "xay-dung",
+    "kien-truc",
+    "ket-cau",
+    "du-toan",
+    "vietnam"
+  ]
+}

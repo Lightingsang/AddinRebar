@@ -40,6 +40,8 @@ HOSTS = {
     "excel": ("HPExcel", "HPEXCEL_MCP_", "HostVersion", 2026, "get_excel_context", "HPExcel/Snapshots"),
     "powerbi": ("HPPowerBi", "HPPOWERBI_MCP_", "HostVersion", 2026, "get_powerbi_context", "HPPowerBi/Snapshots"),
     "tekla": ("HPTekla", "HPTEKLA_MCP_", "HostVersion", 2025, "get_tekla_context", "HPTekla/McpBridge/snapshots"),
+    "dynamo": ("HPDynamo", "HPDYNAMO_MCP_", "HostVersion", 2026, "get_dynamo_context", None),
+    "grasshopper": ("HPGrasshopper", "HPGRASSHOPPER_MCP_", "HostVersion", 2026, "get_grasshopper_context", None),
 }
 
 SCHEMA = {"type": "object", "properties": {"count": {"type": "integer", "default": 2}}}

@@ -16,9 +16,10 @@ SDK Nice3point đã tích hợp sẵn ILRepack tự động. Chỉ cần khai b�
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Khai báo MaterialDesignThemes (khuyên dùng 5.2.1 hoặc 5.3.2) -->
+        <!-- Khai báo MaterialDesignThemes (5.2.1 hoặc 5.3.2) & MahApps.Metro (2.4.11) -->
         <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
         <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+        <PackageReference Include="MahApps.Metro" Version="2.4.11" />
     </ItemGroup>
 </Project>
 ```
@@ -39,23 +40,24 @@ Với các dự án AutoCAD.NET hoặc add-in không dùng SDK Nice3point, sử 
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- MaterialDesign Packages -->
+        <!-- MaterialDesign & MahApps.Metro Packages -->
         <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
         <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+        <PackageReference Include="MahApps.Metro" Version="2.4.11" />
         <!-- ILRepack tool (PrivateAssets + ExcludeAssets để không copy ra output) -->
         <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
-    <!-- Target tự động gộp các DLL MaterialDesign vào assembly chính ngay sau khi build -->
+    <!-- Target tự động gộp các DLL MaterialDesign & MahApps.Metro vào assembly chính ngay sau khi build -->
     <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(OutDir)MaterialDesignThemes.Wpf.dll')">
         <PropertyGroup>
             <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
             <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
         </PropertyGroup>
-        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;" />
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(OutDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(OutDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(OutDir)MaterialDesignColors.dll&quot; &quot;$(OutDir)MahApps.Metro.dll&quot; &quot;$(OutDir)ControlzEx.dll&quot; &quot;$(OutDir)Microsoft.Xaml.Behaviors.dll&quot;" />
         <!-- Xóa các file DLL rời rạc sau khi đã merge -->
-        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml" />
-        <Message Importance="high" Text="RepackMaterialDesign: MaterialDesign đã được gộp thành công vào $(AssemblyName).dll" />
+        <Delete Files="$(OutDir)MaterialDesignThemes.Wpf.dll;$(OutDir)MaterialDesignColors.dll;$(OutDir)MahApps.Metro.dll;$(OutDir)ControlzEx.dll;$(OutDir)Microsoft.Xaml.Behaviors.dll;$(OutDir)MaterialDesignThemes.Wpf.xml;$(OutDir)MahApps.Metro.xml;$(OutDir)ControlzEx.xml" />
+        <Message Importance="high" Text="RepackMaterialDesign: MaterialDesign &amp; MahApps.Metro đã được gộp thành công vào $(AssemblyName).dll" />
     </Target>
 </Project>
 ```

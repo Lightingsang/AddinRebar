@@ -1,0 +1,98 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>HPKata.AutoCad</RootNamespace>
+    <AssemblyName>HPKata.AutoCad</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AutocadPackageVersion Condition="'$(AutocadPackageVersion)' == ''">25.1.0</AutocadPackageVersion>
+    <DeployBundle Condition="'$(DeployBundle)' == ''">true</DeployBundle>
+    <BundleDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\ApplicationPlugins\HPKata.bundle\</BundleDir>
+    <BundleContentsDir>$(BundleDir)Contents\</BundleContentsDir>
+    <MSBuildWarningsAsMessages>MSB3061;MSB3021;MSB3026;MSB3027</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoCAD.NET" Version="$(AutocadPackageVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HPKata.Core\HPKata.Core.csproj" />
+    <ProjectReference Include="..\HPKata.UI\HPKata.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="HPKata.AutoCad.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Bundle\PackageContents.xml" />
+    <None Update="GoiLenh_HPKata.lsp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Distribution\Assets\katapro_b01_blueprint.json" Link="katapro_b01_blueprint.json" Condition="Exists('..\Distribution\Assets\katapro_b01_blueprint.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Distribution\Assets\katapro_c1_blueprint.json" Link="katapro_c1_blueprint.json" Condition="Exists('..\Distribution\Assets\katapro_c1_blueprint.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Distribution\Assets\katapro_v1_blueprint.json" Link="katapro_v1_blueprint.json" Condition="Exists('..\Distribution\Assets\katapro_v1_blueprint.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="DeployAutoCadBundle" AfterTargets="Build" Condition="'$(DeployBundle)' == 'true' And '$(DesignTimeBuild)' != 'true'">
+    <Delete Files="$(BundleContentsDir)HPKata.AutoCad.dll" ContinueOnError="true" />
+    <Delete Files="C:\HPKata\HPKata.AutoCad.dll" Condition="Exists('C:\HPKata')" ContinueOnError="true" />
+
+    <PropertyGroup>
+      <_AcadDllLocked Condition="Exists('$(BundleContentsDir)HPKata.AutoCad.dll')">true</_AcadDllLocked>
+      <_CHpKataLocked Condition="Exists('C:\HPKata\HPKata.AutoCad.dll')">true</_CHpKataLocked>
+    </PropertyGroup>
+
+    <Message Importance="high"
+             Condition="'$(_AcadDllLocked)' == 'true' Or '$(_CHpKataLocked)' == 'true'"
+             Text="[HPKata.AutoCad] AutoCAD 2026 is currently locking HPKata.AutoCad.dll. Updating blueprint JSON assets in place." />
+
+    <ItemGroup>
+      <_BundleManifest Include="$(MSBuildThisFileDirectory)Bundle\PackageContents.xml" />
+      <_BundlePayloads Include="$(TargetDir)**\*" Exclude="$(TargetDir)acdbmgd*.dll;$(TargetDir)acmgd*.dll;$(TargetDir)accoremgd*.dll;$(TargetDir)AdWindows*.dll;$(TargetDir)AcWindows*.dll" />
+      <_BlueprintPayloads Include="$(TargetDir)*.json;$(TargetDir)*.lsp" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(_BundleManifest)"
+          DestinationFolder="$(BundleDir)"
+          Condition="'$(_AcadDllLocked)' != 'true'"
+          Retries="0" ContinueOnError="true" />
+
+    <Copy SourceFiles="@(_BundlePayloads)"
+          DestinationFiles="@(_BundlePayloads->'$(BundleContentsDir)%(RecursiveDir)%(Filename)%(Extension)')"
+          Condition="'$(_AcadDllLocked)' != 'true'"
+          Retries="0" ContinueOnError="true" />
+
+    <Copy SourceFiles="@(_BundlePayloads)"
+          DestinationFolder="C:\HPKata\"
+          Condition="Exists('C:\HPKata') And '$(_CHpKataLocked)' != 'true'"
+          Retries="0" ContinueOnError="true" />
+
+    <Copy SourceFiles="@(_BlueprintPayloads)"
+          DestinationFolder="C:\HPKata\"
+          Condition="Exists('C:\HPKata')"
+          Retries="0" ContinueOnError="true" />
+
+    <Message Importance="high"
+             Condition="'$(_AcadDllLocked)' != 'true' And '$(_CHpKataLocked)' != 'true'"
+             Text="[HPKata.AutoCad] Deployed HPKata.bundle to $(BundleDir) and C:\HPKata\" />
+  </Target>
+
+</Project>

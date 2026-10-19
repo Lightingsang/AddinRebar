@@ -1,0 +1,24 @@
+[
+  {
+    "title": "noon_summer_sun_analysis",
+    "args": {
+      "sunVector": { "x": 0.0, "y": -0.5, "z": 0.866 },
+      "targetSurfaceNormals": [
+        { "id": 1, "normalX": 0.0, "normalY": -1.0, "normalZ": 0.0, "area": 12.0 },
+        { "id": 2, "normalX": 1.0, "normalY": 0.0, "normalZ": 0.0, "area": 12.0 }
+      ],
+      "directRadiationWatts": 950.0
+    }
+  },
+  {
+    "title": "morning_winter_sun_analysis",
+    "args": {
+      "sunVector": { "x": 0.707, "y": -0.5, "z": 0.5 },
+      "targetSurfaceNormals": [
+        { "id": 101, "normalX": 1.0, "normalY": 0.0, "normalZ": 0.0, "area": 15.0 },
+        { "id": 102, "normalX": 0.0, "normalY": 0.0, "normalZ": 1.0, "area": 45.0 }
+      ],
+      "directRadiationWatts": 800.0
+    }
+  }
+]

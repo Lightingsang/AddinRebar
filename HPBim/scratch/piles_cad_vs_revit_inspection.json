@@ -1,0 +1,535 @@
+{
+  "cad": {
+    "found": true,
+    "blockName": "Rec-TT",
+    "entityCount": 4,
+    "overallSize": {
+      "width": 500,
+      "height": 500,
+      "minX": -250,
+      "minY": -250,
+      "maxX": 250,
+      "maxY": 250
+    },
+    "entities": [
+      {
+        "type": "Polyline",
+        "layer": "Rec-TT",
+        "color": 256,
+        "bounds": {
+          "minX": -125,
+          "minY": -125,
+          "maxX": 125,
+          "maxY": 125
+        }
+      },
+      {
+        "type": "Line",
+        "layer": "Rec-TT",
+        "color": 8,
+        "bounds": {
+          "minX": 0,
+          "minY": -250,
+          "maxX": 0,
+          "maxY": 250
+        }
+      },
+      {
+        "type": "Line",
+        "layer": "Rec-TT",
+        "color": 8,
+        "bounds": {
+          "minX": -250,
+          "minY": 0,
+          "maxX": 250,
+          "maxY": 0
+        }
+      },
+      {
+        "type": "DBPoint",
+        "layer": "Point coc",
+        "color": 256,
+        "bounds": {
+          "minX": 0,
+          "minY": 0,
+          "maxX": 0,
+          "maxY": 0
+        }
+      }
+    ]
+  },
+  "revit": {
+    "totalSymbols": 80,
+    "symbols": [
+      {
+        "id": "8206658",
+        "familyName": "1_STR_Coc_Vuong",
+        "symbolName": "P_200x200"
+      },
+      {
+        "id": "9220937",
+        "familyName": "1_STR_Coc_Vuong",
+        "symbolName": "P_250x250"
+      },
+      {
+        "id": "9215809",
+        "familyName": "1_STR_Coc_Vuong",
+        "symbolName": "P_300x300"
+      },
+      {
+        "id": "9217193",
+        "familyName": "1_STR_Coc_Vuong",
+        "symbolName": "P_400x400"
+      },
+      {
+        "id": "9396955",
+        "familyName": "10_STR_MongDonDungTam_CoLotMong",
+        "symbolName": "MD_2000x2000x600"
+      },
+      {
+        "id": "9337778",
+        "familyName": "10_STR_MongDonDungTam_CoLotMong",
+        "symbolName": "MD_2000x2400x600"
+      },
+      {
+        "id": "9396966",
+        "familyName": "10_STR_MongDonDungTam_CoLotMong",
+        "symbolName": "MD_2200x2000x600"
+      },
+      {
+        "id": "9223656",
+        "familyName": "10_STR_MongDonDungTam_CoLotMong",
+        "symbolName": "MD_550x250"
+      },
+      {
+        "id": "8190481",
+        "familyName": "11_STR_MongDonDungTam_KhongDieu_CoLotMong",
+        "symbolName": "MD_1600x1800x500"
+      },
+      {
+        "id": "8702479",
+        "familyName": "12_STR_MongDonLechTam_1.2_CoLotMong",
+        "symbolName": "MD_1200x1400x500"
+      },
+      {
+        "id": "8195119",
+        "familyName": "13_STR_MongDonLechTam_1.4_CoLotMong",
+        "symbolName": "MD_1400x1400x500"
+      },
+      {
+        "id": "8196886",
+        "familyName": "14_STR_MongDonTongHop_CoLotMong",
+        "symbolName": "MongDungTam"
+      },
+      {
+        "id": "8196884",
+        "familyName": "14_STR_MongDonTongHop_CoLotMong",
+        "symbolName": "MongLechTam_1.2"
+      },
+      {
+        "id": "8196882",
+        "familyName": "14_STR_MongDonTongHop_CoLotMong",
+        "symbolName": "MongLechTam_1.4"
+      },
+      {
+        "id": "8126313",
+        "familyName": "15_STR_MongBangDungTam_CoLotMong(Line)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "8158065",
+        "familyName": "16_STR_MongBangDungTam_KhongDieu_CoLotMong(Line)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "8172864",
+        "familyName": "17_STR_MongBangLechTam_CoLotMong(Line)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "8198078",
+        "familyName": "18_STR_MongBangTongHop_CoLotMong(Point)",
+        "symbolName": "MongBangDungTam"
+      },
+      {
+        "id": "8198080",
+        "familyName": "18_STR_MongBangTongHop_CoLotMong(Point)",
+        "symbolName": "MongBangLechTam"
+      },
+      {
+        "id": "9153665",
+        "familyName": "19_STR_MongBangDungTam_CoLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9337881",
+        "familyName": "19_STR_MongBangDungTam_CoLotMong(Point)",
+        "symbolName": "MB_2000x8700x700"
+      },
+      {
+        "id": "9337904",
+        "familyName": "19_STR_MongBangDungTam_CoLotMong(Point)",
+        "symbolName": "MB_2000x9600x700"
+      },
+      {
+        "id": "8216842",
+        "familyName": "2_STR_Coc_VuongMui",
+        "symbolName": "P_200x200"
+      },
+      {
+        "id": "8216844",
+        "familyName": "2_STR_Coc_VuongMui",
+        "symbolName": "P_250x250"
+      },
+      {
+        "id": "8216840",
+        "familyName": "2_STR_Coc_VuongMui",
+        "symbolName": "P_300x300"
+      },
+      {
+        "id": "9177574",
+        "familyName": "20_STR_MongBangDungTam_KhongDieu_CoLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9173085",
+        "familyName": "21_STR_MongBangLechTam_CoLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9451689",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_1000x1000x400"
+      },
+      {
+        "id": "8709431",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_1600x1800x500"
+      },
+      {
+        "id": "9396792",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2000x2000x600"
+      },
+      {
+        "id": "9344143",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2000x2400x600"
+      },
+      {
+        "id": "9398179",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2200x2000x600"
+      },
+      {
+        "id": "9455023",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2400x2800x600"
+      },
+      {
+        "id": "9457116",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2600x2800x600"
+      },
+      {
+        "id": "9451740",
+        "familyName": "22_STR_MongDonDungTam_KhongLotMong",
+        "symbolName": "MD_2800x2400x600"
+      },
+      {
+        "id": "9150113",
+        "familyName": "23_STR_MongDonDungTam_KhongDieu_KhongLotMong",
+        "symbolName": "MD_1600x1800x500"
+      },
+      {
+        "id": "8710277",
+        "familyName": "24_STR_MongDonLechTam_1.2_KhongLotMong",
+        "symbolName": "MD_1200x1400x500"
+      },
+      {
+        "id": "8711095",
+        "familyName": "25_STR_MongDonLechTam_1.4_KhongLotMong",
+        "symbolName": "MD_1400x1400x500"
+      },
+      {
+        "id": "9183410",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9461281",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2000x4000x700"
+      },
+      {
+        "id": "9470872",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2000x4350x700"
+      },
+      {
+        "id": "9344248",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2000x6300x700"
+      },
+      {
+        "id": "9459427",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2000x7700x700"
+      },
+      {
+        "id": "9344167",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2000x8700x700"
+      },
+      {
+        "id": "9451405",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2200x10500x700"
+      },
+      {
+        "id": "9457078",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2200x3600x700"
+      },
+      {
+        "id": "9457091",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2200x8000x700"
+      },
+      {
+        "id": "9459453",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2200x8600x700"
+      },
+      {
+        "id": "9457280",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2400x4700x700"
+      },
+      {
+        "id": "9459466",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2400x4700x800"
+      },
+      {
+        "id": "9451702",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2400x5350x700"
+      },
+      {
+        "id": "9457340",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x11000x700"
+      },
+      {
+        "id": "9457065",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x4900x700"
+      },
+      {
+        "id": "9451716",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x5400x700"
+      },
+      {
+        "id": "9457042",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x5400x800"
+      },
+      {
+        "id": "9460715",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x7800x800"
+      },
+      {
+        "id": "9457104",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2600x9600x700"
+      },
+      {
+        "id": "9462056",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2800x4400x700"
+      },
+      {
+        "id": "9456979",
+        "familyName": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+        "symbolName": "MB_2800x5400x800"
+      },
+      {
+        "id": "9185050",
+        "familyName": "27_STR_MongBangDungTam_KhongDieu_KhongLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9187280",
+        "familyName": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+        "symbolName": "MB_1600x700"
+      },
+      {
+        "id": "9458316",
+        "familyName": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+        "symbolName": "MB_2200x11000x700"
+      },
+      {
+        "id": "8218196",
+        "familyName": "3_STR_Coc_VuongThan",
+        "symbolName": "P_200x200"
+      },
+      {
+        "id": "8218198",
+        "familyName": "3_STR_Coc_VuongThan",
+        "symbolName": "P_250x250"
+      },
+      {
+        "id": "8218200",
+        "familyName": "3_STR_Coc_VuongThan",
+        "symbolName": "P_300x300"
+      },
+      {
+        "id": "9215821",
+        "familyName": "4_STR_Coc_Tron",
+        "symbolName": "P300"
+      },
+      {
+        "id": "9215875",
+        "familyName": "4_STR_Coc_Tron",
+        "symbolName": "P400"
+      },
+      {
+        "id": "8227717",
+        "familyName": "5_STR_Dai_1Coc",
+        "symbolName": "DC_C250"
+      },
+      {
+        "id": "8228524",
+        "familyName": "5_STR_Dai_1Coc",
+        "symbolName": "DC_C300"
+      },
+      {
+        "id": "8232673",
+        "familyName": "6_STR_Dai_2Coc",
+        "symbolName": "DC_C250"
+      },
+      {
+        "id": "8232671",
+        "familyName": "6_STR_Dai_2Coc",
+        "symbolName": "DC_C300"
+      },
+      {
+        "id": "8235187",
+        "familyName": "6_STR_Dai_2Coc",
+        "symbolName": "DC_C500"
+      },
+      {
+        "id": "8239444",
+        "familyName": "7_STR_Dai_3Coc",
+        "symbolName": "DC_C250"
+      },
+      {
+        "id": "8239442",
+        "familyName": "7_STR_Dai_3Coc",
+        "symbolName": "DC_C300"
+      },
+      {
+        "id": "8239446",
+        "familyName": "7_STR_Dai_3Coc",
+        "symbolName": "DC_C400"
+      },
+      {
+        "id": "8240825",
+        "familyName": "8_STR_Dai_4Coc",
+        "symbolName": "DC_C250"
+      },
+      {
+        "id": "8240823",
+        "familyName": "8_STR_Dai_4Coc",
+        "symbolName": "DC_C300"
+      },
+      {
+        "id": "8240827",
+        "familyName": "8_STR_Dai_4Coc",
+        "symbolName": "DC_C400"
+      },
+      {
+        "id": "8592348",
+        "familyName": "9_STR_MongHop_CoLotMong",
+        "symbolName": "MD_1600x1800x500"
+      },
+      {
+        "id": "8612989",
+        "familyName": "M_Footing-Rectangular",
+        "symbolName": "1200x1200x400"
+      }
+    ],
+    "totalPlaced": 196,
+    "samplePiles": [
+      {
+        "id": "9907667",
+        "name": "P_300x300",
+        "symbolName": "P_300x300",
+        "familyName": "1_STR_Coc_Vuong",
+        "level": "T\u1EA7ng M\u00F3ng",
+        "locZMm": -2500,
+        "offsetMm": -1500,
+        "lengthMm": 0,
+        "minZMm": -9650,
+        "maxZMm": -2500
+      },
+      {
+        "id": "9907668",
+        "name": "P_300x300",
+        "symbolName": "P_300x300",
+        "familyName": "1_STR_Coc_Vuong",
+        "level": "T\u1EA7ng M\u00F3ng",
+        "locZMm": -2500,
+        "offsetMm": -1500,
+        "lengthMm": 0,
+        "minZMm": -9650,
+        "maxZMm": -2500
+      },
+      {
+        "id": "9907669",
+        "name": "P_300x300",
+        "symbolName": "P_300x300",
+        "familyName": "1_STR_Coc_Vuong",
+        "level": "T\u1EA7ng M\u00F3ng",
+        "locZMm": -2500,
+        "offsetMm": -1500,
+        "lengthMm": 0,
+        "minZMm": -9650,
+        "maxZMm": -2500
+      },
+      {
+        "id": "9907670",
+        "name": "P_300x300",
+        "symbolName": "P_300x300",
+        "familyName": "1_STR_Coc_Vuong",
+        "level": "T\u1EA7ng M\u00F3ng",
+        "locZMm": -2500,
+        "offsetMm": -1500,
+        "lengthMm": 0,
+        "minZMm": -9650,
+        "maxZMm": -2500
+      },
+      {
+        "id": "9907671",
+        "name": "P_300x300",
+        "symbolName": "P_300x300",
+        "familyName": "1_STR_Coc_Vuong",
+        "level": "T\u1EA7ng M\u00F3ng",
+        "locZMm": -2500,
+        "offsetMm": -1500,
+        "lengthMm": 0,
+        "minZMm": -9650,
+        "maxZMm": -2500
+      }
+    ],
+    "placedSummary": [
+      {
+        "type": "1_STR_Coc_Vuong: P_300x300",
+        "count": 196
+      }
+    ]
+  }
+}

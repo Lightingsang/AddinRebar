@@ -1,0 +1,1353 @@
+=== Bo tri thep bien phap (2 attrs) ===
+  Tag: KHT             Prompt:                           Default: 1               Height: 2.0      Layer: kata_text      
+  Tag: DKT             Prompt:                           Default: %%C8-200        Height: 2.5      Layer: kata_text      
+
+=== Bo tri thep san (2 attrs) ===
+  Tag: KHT             Prompt:                           Default: 1               Height: 2.0      Layer: kata_text      
+  Tag: DKT             Prompt:                           Default: %%c12a200       Height: 2.5      Layer: kata_text      
+
+=== Bo tri thep san nho (2 attrs) ===
+  Tag: KHT             Prompt:                           Default: 1               Height: 2.0      Layer: kata_text      
+  Tag: DKT             Prompt:                           Default: %%C8-200        Height: 2.5      Layer: kata_text      
+
+=== Kata_Block_Beam_Rebar (7 attrs) ===
+  Tag: T3              Prompt: T3:                       Default:                 Height: 2.0      Layer: kata_thep chu  
+  Tag: T2              Prompt: T2:                       Default: 2f20            Height: 2.0      Layer: kata_thep chu  
+  Tag: T1              Prompt: T1:                       Default: 2f20+1f20       Height: 2.0      Layer: kata_thep chu  
+  Tag: SHEAR           Prompt: Shear:                    Default: 10/8a100        Height: 2.0      Layer: kata_thep dai  
+  Tag: B1              Prompt: B1:                       Default: 2f20+1f20       Height: 2.0      Layer: kata_thep chu  
+  Tag: B2              Prompt: B2:                       Default: 2f20            Height: 2.0      Layer: kata_thep chu  
+  Tag: B3              Prompt: B3:                       Default:                 Height: 2.0      Layer: kata_thep chu  
+
+=== Kata_Block_Column&Wall (1 attrs) ===
+  Tag: NAME            Prompt: Nh\U+1EADp tên:           Default:                 Height: 250.0    Layer: kata_text      
+
+=== Kata_Block_ColumnCircle (1 attrs) ===
+  Tag: NAME            Prompt: Nh\U+1EADp tên:           Default:                 Height: 250.0    Layer: kata_text      
+
+=== Kata_Block_Mong_Don (4 attrs) ===
+  Tag: NAME            Prompt: Nh\U+1EADp tên móng:      Default: M01             Height: 2.5      Layer: kata_text      
+  Tag: H               Prompt: Nh\U+1EADp Chi\U+1EC1u Cao Móng: Default: 500             Height: 1.0      Layer: Defpoints      
+  Tag: T               Prompt: Nh\U+1EADp Chi\U+1EC1u Cao B\U+1EADt Móng: Default: 200             Height: 1.0      Layer: Defpoints      
+  Tag: CT              Prompt: Nh\U+1EADp Cao Trình \U+0110áy Móng: Default: -1.500          Height: 1.0      Layer: Defpoints      
+
+=== Tieude (0 attrs) ===
+
+=== TieudeCoupler (0 attrs) ===
+
+=== TieudeCoupler_ENG (0 attrs) ===
+
+=== Tieude_ENG (0 attrs) ===
+
+=== _Integral (0 attrs) ===
+
+=== _Open30 (0 attrs) ===
+
+=== dang00 (9 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 00000000        Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang01 (9 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 00000000        Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang02 (11 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang02a (11 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang03 (10 attrs) ===
+  Tag: 10              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 09              Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 08              Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 07              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 06              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 05              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 04              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 03              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 02              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 01              Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang04 (11 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang05 (11 attrs) ===
+  Tag: D03             Prompt: 1                         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 0000            Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 1000            Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang06 (12 attrs) ===
+  Tag: 001             Prompt: nhap so hieu thep         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: nhap so hieu thep         Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: nhap so hieu thep         Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: nhap so hieu thep         Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: nhap so hieu thep         Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: nhap so hieu thep         Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: nhap so hieu thep         Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang07 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L3                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang08 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang08a (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang09 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L1                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang09a (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L1                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang10 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang11 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang12 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang12a (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang13 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang13a (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang14 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang15 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L1                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang16 (14 attrs) ===
+  Tag: 001             Prompt: 1                         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 150.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L2                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L1                        Default: 7               Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang17 (12 attrs) ===
+  Tag: 001             Prompt: 1                         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L1                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang18 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L1                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang19 (10 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: DK                        Default: 4               Height: 250.0    Layer: kata_text      
+  Tag: 005             Prompt: CD1T                      Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: SCK                       Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: ST1CK                     Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: STTB                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: TCD                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TL                        Default: 10              Height: 250.0    Layer: kata_text      
+
+=== dang20 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang21 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L1                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang22 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang23 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang23a (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang24 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang24a (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang25 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L1                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang26 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L1                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang27 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang28 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L1                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang29 (13 attrs) ===
+  Tag: 001             Prompt: 1                         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang30 (14 attrs) ===
+  Tag: 001             Prompt: 1                         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L1a                       Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang31 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang32 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang33 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang34 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 150.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang35 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L1                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang35a (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang36 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L1                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang37 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang38 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L1                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang39 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang40 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 125.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 125.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 125.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang40a (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 125.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 125.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 125.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 125.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang41 (10 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: DK                        Default: 4               Height: 250.0    Layer: kata_text      
+  Tag: 005             Prompt: CD1T                      Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: SCK                       Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: ST1CK                     Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 08              Prompt: STTB                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: TCD                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TL                        Default: 10              Height: 250.0    Layer: kata_text      
+
+=== dang42 (11 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: CD1T                      Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: SCK                       Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: ST1CK                     Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 09              Prompt: STTB                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TCD                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TL                        Default: 11              Height: 250.0    Layer: kata_text      
+
+=== dang43 (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang43a (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang44 (13 attrs) ===
+  Tag: 001             Prompt: nhap so hieu thep         Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: nhap so hieu thep         Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: nhap so hieu thep         Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: nhap so hieu thep         Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: nhap so hieu thep         Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: nhap so hieu thep         Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: nhap so hieu thep         Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: nhap so hieu thep         Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang45 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang45a (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang46 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang47 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang48 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang49 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang49a (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang50 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang51 (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang51a (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang52 (10 attrs) ===
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: D03             Prompt: nhap so hieu thep         Default: 6               Height: 250.0    Layer: kata_text      
+
+=== dang53 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang53a (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang54 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang55 (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang56 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang57 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang58 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang59 (12 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: DK                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: DK                        Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: CD1T                      Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: SCK                       Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: ST1CK                     Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: STTB                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: TCD                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TL                        Default: 12              Height: 250.0    Layer: kata_text      
+
+=== dang60 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L1                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang61 (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang62 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang62a (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang63 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang64 (13 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: DK                        Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: CD1T                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: SCK                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: ST1CK                     Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: STTB                      Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: TCD                       Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TL                        Default: 13              Height: 250.0    Layer: kata_text      
+
+=== dang65 (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang65a (15 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: goc                       Default: 45              Height: 150.0    Layer: kata_text      
+  Tag: 009             Prompt: DK                        Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: CD1T                      Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: SCK                       Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: ST1CK                     Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: STTB                      Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TCD                       Default: 14              Height: 250.0    Layer: kata_text      
+  Tag: 015             Prompt: TL                        Default: 15              Height: 250.0    Layer: kata_text      
+
+=== dang66 (14 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 66              Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: L3                        Default: 4               Height: 200.0    Layer: kata_text      
+  Tag: 005             Prompt: L4                        Default: 5               Height: 200.0    Layer: kata_text      
+  Tag: 006             Prompt: L5                        Default: 6               Height: 200.0    Layer: kata_text      
+  Tag: 007             Prompt: L6                        Default: 7               Height: 200.0    Layer: kata_text      
+  Tag: 008             Prompt: DK                        Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: CD1T                      Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: SCK                       Default: 10              Height: 250.0    Layer: kata_text      
+  Tag: 011             Prompt: ST1CK                     Default: 11              Height: 250.0    Layer: kata_text      
+  Tag: 012             Prompt: STTB                      Default: 12              Height: 250.0    Layer: kata_text      
+  Tag: 013             Prompt: TCD                       Default: 13              Height: 250.0    Layer: kata_text      
+  Tag: 014             Prompt: TL                        Default: 14              Height: 250.0    Layer: kata_text      
+
+=== dang67 (10 attrs) ===
+  Tag: 001             Prompt: SH                        Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: 002             Prompt: L1                        Default: 2               Height: 200.0    Layer: kata_text      
+  Tag: 003             Prompt: L2                        Default: 3               Height: 200.0    Layer: kata_text      
+  Tag: 004             Prompt: DK                        Default: 4               Height: 250.0    Layer: kata_text      
+  Tag: 005             Prompt: CD1T                      Default: 5               Height: 250.0    Layer: kata_text      
+  Tag: 006             Prompt: SCK                       Default: 6               Height: 250.0    Layer: kata_text      
+  Tag: 007             Prompt: ST1CK                     Default: 7               Height: 250.0    Layer: kata_text      
+  Tag: 008             Prompt: STTB                      Default: 8               Height: 250.0    Layer: kata_text      
+  Tag: 009             Prompt: TCD                       Default: 9               Height: 250.0    Layer: kata_text      
+  Tag: 010             Prompt: TL                        Default: 10              Height: 250.0    Layer: kata_text      
+
+=== dangCoupler (6 attrs) ===
+  Tag: L               Prompt: Chieu dai                 Default: 50              Height: 125.0    Layer: kata_text      
+  Tag: DK              Prompt: nhap so duong kinh        Default: 20              Height: 250.0    Layer: kata_text      
+  Tag: SCK             Prompt: nhap so luong cau kien    Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: SL1             Prompt: nhap so luong 1 cau kien  Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: SL              Prompt: nhap so luong toan bo     Default: 1               Height: 250.0    Layer: kata_text      
+  Tag: GHI_CHU         Prompt: nhap ghi chu              Default:                 Height: 200.0    Layer: kata_text      
+
+=== kata_block_3D (0 attrs) ===
+
+=== kata_block_ArchTick (0 attrs) ===
+
+=== kata_block_Beam_plan (3 attrs) ===
+  Tag: NAME            Prompt: Nh\U+1EADp tên:           Default: Beam 01         Height: 2.5      Layer: kata_text      
+  Tag: BXH             Prompt: Nh\U+1EADp BxH:           Default: (200x400)       Height: 2.5      Layer: kata_text      
+  Tag: TOC             Prompt: Nh\U+1EADp cao \U+0111\U+1ED9 trên so v\U+1EDBi sàn: Default: 0               Height: 1.0      Layer: Defpoints      
+
+=== kata_block_COUPLER (0 attrs) ===
+
+=== kata_block_COUPLER_SPEC (4 attrs) ===
+  Tag: D               Prompt: \U+0110\U+01B0\U+1EDDng kính Default: 20              Height: 1.0      Layer: Defpoints      
+  Tag: D               Prompt: \U+0110\U+01B0\U+1EDDng kính Default: 20              Height: 1.0      Layer: Defpoints      
+  Tag: D               Prompt: \U+0110\U+01B0\U+1EDDng kính Default: 20              Height: 1.0      Layer: Defpoints      
+  Tag: D               Prompt: \U+0110\U+01B0\U+1EDDng kính Default: 20              Height: 1.0      Layer: Defpoints      
+
+=== kata_block_CT (1 attrs) ===
+  Tag: CT              Prompt: Cao trinh                 Default: %%p0.000        Height: 2.5      Layer: 0              
+
+=== kata_block_Danhmuc (4 attrs) ===
+  Tag: DRAWING.NO      Prompt: DRAWING.NO                Default: KC-00           Height: 4.0      Layer: kata_text      
+  Tag: REV             Prompt: REV                       Default: 01              Height: 2.5      Layer: kata_text      
+  Tag: DATE            Prompt: DATE                      Default: 00-00-0000      Height: 2.5      Layer: kata_text      
+  Tag: TITLE           Prompt: TITLE                     Default: XXX             Height: 4.0      Layer: kata_text      
+
+=== kata_block_GRID (1 attrs) ===
+  Tag: GRID            Prompt: GRID                      Default: 01              Height: 5.0      Layer: 0              
+
+=== kata_block_HDSEC (5 attrs) ===
+  Tag: SECTDET1        Prompt: Enter Heading :           Default: SECTION 1       Height: 5.0      Layer: 0              
+  Tag: SECTDET2        Prompt: Enter Heading :           Default: SECTION 2       Height: 5.0      Layer: 0              
+  Tag: DETT            Prompt: Enter Number :            Default: 1               Height: 5.0      Layer: 0              
+  Tag: C/REF           Prompt: Enter Cross Ref :         Default: -               Height: 3.5      Layer: 0              
+  Tag: SSCALE          Prompt: Enter Scale :             Default: SCALE 1 :       Height: 2.5      Layer: 0              
+
+=== kata_block_KHT (10 attrs) ===
+  Tag: SH1             Prompt: So hieu thep:             Default: 1               Height: 2.5      Layer: kata_text      
+  Tag: SH2             Prompt: So hieu thep:             Default: 2               Height: 2.5      Layer: kata_text      
+  Tag: DK1             Prompt: Duong kinh thep:          Default: %%c20           Height: 2.5      Layer: kata_text      
+  Tag: KC1             Prompt: Khoang canh thep          Default: @200            Height: 2.5      Layer: kata_text      
+  Tag: DKKC1           Prompt: Duong kinh thep:          Default: %%c8@200        Height: 2.5      Layer: kata_text      
+  Tag: SH4             Prompt: So hieu thep:             Default: 4               Height: 2.5      Layer: kata_text      
+  Tag: SH3             Prompt: So hieu thep:             Default: 3               Height: 2.5      Layer: kata_text      
+  Tag: DK2             Prompt: Duong kinh thep:          Default: %%c20           Height: 2.5      Layer: kata_text      
+  Tag: KC2             Prompt: Khoang canh thep          Default: @200            Height: 2.5      Layer: kata_text      
+  Tag: DKKC2           Prompt: Duong kinh thep:          Default: %%c8@200        Height: 2.5      Layer: kata_text      
+
+=== kata_block_KHTCT (2 attrs) ===
+  Tag: CHU_THICH       Prompt: Chu thich:                Default: XXX             Height: 2.5      Layer: kata_text      
+  Tag: CONG_THUC       Prompt: Cong thuc:                Default: sh-sl-dk-kc-(L123456) Height: 0.5      Layer: Defpoints      
+
+=== kata_block_KHTCTSH (3 attrs) ===
+  Tag: CHU_THICH       Prompt: Chu thich:                Default: XXX             Height: 2.5      Layer: kata_text      
+  Tag: CONG_THUC       Prompt: Cong thuc:                Default: sh-sl-dk-kc-(L123456) Height: 0.5      Layer: Defpoints      
+  Tag: SH              Prompt: So hieu thep:             Default: 1               Height: 2.5      Layer: kata_text      
+
+=== kata_block_LEADERTIC (0 attrs) ===
+
+=== kata_block_REN (0 attrs) ===
+
+=== kata_block_RUNTIC (0 attrs) ===
+
+=== kata_block_SECBAL (1 attrs) ===
+  Tag: DETAIL          Prompt: Enter Section No:         Default: A               Height: 2.5      Layer: 0              
+
+=== kata_block_Second_Beam (0 attrs) ===
+
+=== kata_block_TD (3 attrs) ===
+  Tag: SECTDET1        Prompt: Enter Heading :           Default: SECTION 1       Height: 5.0      Layer: 0              
+  Tag: SECTDET2        Prompt: Enter Heading :           Default: SECTION 2       Height: 5.0      Layer: 0              
+  Tag: SSCALE          Prompt: Enter Scale :             Default: SCALE 1 :       Height: 2.5      Layer: 0              
+
+=== kata_block_THEP (0 attrs) ===
+
+=== kata_block_Ten (2 attrs) ===
+  Tag: TEN             Prompt: Tên:                      Default: XXX             Height: 2.5      Layer: 0              
+  Tag: CHU_THICH       Prompt: Chu_thich                 Default:                 Height: 2.5      Layer: 0              
+
+=== kata_block_Wipe (0 attrs) ===
+

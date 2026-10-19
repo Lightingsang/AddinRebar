@@ -1,0 +1,2727 @@
+{
+  "dang00": {
+    "block_name": "dang00",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "ANY SHAPE"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=12, arcs=0"
+  },
+  "dang01": {
+    "block_name": "dang01",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=15, arcs=0"
+  },
+  "dang02": {
+    "block_name": "dang02",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=45, arcs=0"
+  },
+  "dang02a": {
+    "block_name": "dang02a",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang03": {
+    "block_name": "dang03",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=16, arcs=0"
+  },
+  "dang04": {
+    "block_name": "dang04",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=18, arcs=0"
+  },
+  "dang05": {
+    "block_name": "dang05",
+    "dwg_prompts": [
+      "1",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=18, arcs=0"
+  },
+  "dang06": {
+    "block_name": "dang06",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=19, arcs=0"
+  },
+  "dang07": {
+    "block_name": "dang07",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=17, arcs=0"
+  },
+  "dang08": {
+    "block_name": "dang08",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=16, arcs=0"
+  },
+  "dang08a": {
+    "block_name": "dang08a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=18, arcs=0"
+  },
+  "dang09": {
+    "block_name": "dang09",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=53, arcs=0"
+  },
+  "dang09a": {
+    "block_name": "dang09a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang10": {
+    "block_name": "dang10",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=17, arcs=0"
+  },
+  "dang11": {
+    "block_name": "dang11",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=19, arcs=0"
+  },
+  "dang12": {
+    "block_name": "dang12",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=19, arcs=0"
+  },
+  "dang12a": {
+    "block_name": "dang12a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang13": {
+    "block_name": "dang13",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang13a": {
+    "block_name": "dang13a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=23, arcs=0"
+  },
+  "dang14": {
+    "block_name": "dang14",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=20, arcs=0"
+  },
+  "dang15": {
+    "block_name": "dang15",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=18, arcs=0"
+  },
+  "dang16": {
+    "block_name": "dang16",
+    "dwg_prompts": [
+      "1",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=89, arcs=0"
+  },
+  "dang17": {
+    "block_name": "dang17",
+    "dwg_prompts": [
+      "1",
+      "L1",
+      "L2",
+      "L3",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=50, arcs=0"
+  },
+  "dang18": {
+    "block_name": "dang18",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=17, arcs=0"
+  },
+  "dang19": {
+    "block_name": "dang19",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=122, arcs=0"
+  },
+  "dang20": {
+    "block_name": "dang20",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=18, arcs=0"
+  },
+  "dang21": {
+    "block_name": "dang21",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L1",
+      "DK",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=20, arcs=0"
+  },
+  "dang22": {
+    "block_name": "dang22",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=27, arcs=0"
+  },
+  "dang23": {
+    "block_name": "dang23",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=33, arcs=0"
+  },
+  "dang23a": {
+    "block_name": "dang23a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=58, arcs=0"
+  },
+  "dang24": {
+    "block_name": "dang24",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=43, arcs=0"
+  },
+  "dang24a": {
+    "block_name": "dang24a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=44, arcs=0"
+  },
+  "dang25": {
+    "block_name": "dang25",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=35, arcs=0"
+  },
+  "dang26": {
+    "block_name": "dang26",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=56, arcs=0"
+  },
+  "dang27": {
+    "block_name": "dang27",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=37, arcs=0"
+  },
+  "dang28": {
+    "block_name": "dang28",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=30, arcs=0"
+  },
+  "dang29": {
+    "block_name": "dang29",
+    "dwg_prompts": [
+      "1",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=36, arcs=0"
+  },
+  "dang30": {
+    "block_name": "dang30",
+    "dwg_prompts": [
+      "1",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1a",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1a"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=40, arcs=0"
+  },
+  "dang31": {
+    "block_name": "dang31",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L4",
+      "L1",
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=36, arcs=0"
+  },
+  "dang32": {
+    "block_name": "dang32",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=27, arcs=0"
+  },
+  "dang33": {
+    "block_name": "dang33",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L1",
+      "L1",
+      "L2",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=36, arcs=0"
+  },
+  "dang34": {
+    "block_name": "dang34",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=38, arcs=0"
+  },
+  "dang35": {
+    "block_name": "dang35",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=26, arcs=0"
+  },
+  "dang35a": {
+    "block_name": "dang35a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang36": {
+    "block_name": "dang36",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L2",
+      "L1",
+      "L4",
+      "L5",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=42, arcs=0"
+  },
+  "dang37": {
+    "block_name": "dang37",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang38": {
+    "block_name": "dang38",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=29, arcs=0"
+  },
+  "dang39": {
+    "block_name": "dang39",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=54, arcs=0"
+  },
+  "dang40": {
+    "block_name": "dang40",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=271, arcs=0"
+  },
+  "dang40a": {
+    "block_name": "dang40a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang41": {
+    "block_name": "dang41",
+    "dwg_prompts": [
+      "SH",
+      "L2",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L2",
+      "L1"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang42": {
+    "block_name": "dang42",
+    "dwg_prompts": [
+      "SH",
+      "L2",
+      "L1",
+      "L3",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L2",
+      "L1",
+      "L3"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang43": {
+    "block_name": "dang43",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=23, arcs=0"
+  },
+  "dang43a": {
+    "block_name": "dang43a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=25, arcs=0"
+  },
+  "dang44": {
+    "block_name": "dang44",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=22, arcs=0"
+  },
+  "dang45": {
+    "block_name": "dang45",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L5",
+      "L4",
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang45a": {
+    "block_name": "dang45a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang46": {
+    "block_name": "dang46",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang47": {
+    "block_name": "dang47",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L5",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=22, arcs=0"
+  },
+  "dang48": {
+    "block_name": "dang48",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang49": {
+    "block_name": "dang49",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L5",
+      "L4",
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang49a": {
+    "block_name": "dang49a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L5",
+      "L4",
+      "L3",
+      "L2",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=23, arcs=0"
+  },
+  "dang50": {
+    "block_name": "dang50",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=20, arcs=0"
+  },
+  "dang51": {
+    "block_name": "dang51",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L6",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang51a": {
+    "block_name": "dang51a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L6",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=23, arcs=0"
+  },
+  "dang52": {
+    "block_name": "dang52",
+    "dwg_prompts": [
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep",
+      "nhap so hieu thep"
+    ],
+    "legs": [],
+    "wmf_texts": [
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=35, arcs=0"
+  },
+  "dang53": {
+    "block_name": "dang53",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L5",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=20, arcs=0"
+  },
+  "dang53a": {
+    "block_name": "dang53a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L5",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=22, arcs=0"
+  },
+  "dang54": {
+    "block_name": "dang54",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=20, arcs=0"
+  },
+  "dang55": {
+    "block_name": "dang55",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L6",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang56": {
+    "block_name": "dang56",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L3",
+      "L1",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=30, arcs=0"
+  },
+  "dang57": {
+    "block_name": "dang57",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L3",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=27, arcs=0"
+  },
+  "dang58": {
+    "block_name": "dang58",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L3",
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=17, arcs=0"
+  },
+  "dang59": {
+    "block_name": "dang59",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "DK",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L3",
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=19, arcs=0"
+  },
+  "dang60": {
+    "block_name": "dang60",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L1"
+    ],
+    "wmf_texts": [
+      "L4",
+      "L5",
+      "L2",
+      "L3",
+      "L1"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=19, arcs=0"
+  },
+  "dang61": {
+    "block_name": "dang61",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "L7"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=65, arcs=0"
+  },
+  "dang62": {
+    "block_name": "dang62",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=64, arcs=0"
+  },
+  "dang62a": {
+    "block_name": "dang62a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "goc"
+    ],
+    "wmf_texts": [],
+    "has_dwg": true,
+    "has_wmf": false,
+    "wmf_summary": "none"
+  },
+  "dang63": {
+    "block_name": "dang63",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L5",
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=63, arcs=0"
+  },
+  "dang64": {
+    "block_name": "dang64",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=54, arcs=0"
+  },
+  "dang65": {
+    "block_name": "dang65",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L4",
+      "L6",
+      "L5",
+      "L3"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang65a": {
+    "block_name": "dang65a",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "goc"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L6",
+      "L5"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=23, arcs=0"
+  },
+  "dang66": {
+    "block_name": "dang66",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6"
+    ],
+    "wmf_texts": [
+      "L2",
+      "L3",
+      "L4",
+      "L1",
+      "L5",
+      "L6"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=21, arcs=0"
+  },
+  "dang67": {
+    "block_name": "dang67",
+    "dwg_prompts": [
+      "SH",
+      "L1",
+      "L2",
+      "DK",
+      "CD1T",
+      "SCK",
+      "ST1CK",
+      "STTB",
+      "TCD",
+      "TL"
+    ],
+    "legs": [
+      "L1",
+      "L2"
+    ],
+    "wmf_texts": [
+      "L1",
+      "L2"
+    ],
+    "has_dwg": true,
+    "has_wmf": true,
+    "wmf_summary": "lines=0, polys=62, arcs=0"
+  }
+}

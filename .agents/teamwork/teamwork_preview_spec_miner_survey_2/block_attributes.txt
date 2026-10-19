@@ -1,0 +1,1336 @@
+BLOCK: dang01
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="00000000" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang03
+  ATTDEF: Tag="10" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="09" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="08" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="07" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="06" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="05" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="04" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="02" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="01" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang04
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang05
+  ATTDEF: Tag="D03" Prompt="1" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="0000" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="1000" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Tieude
+BLOCK: kata_block_ArchTick
+BLOCK: dang02
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang33
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_KHT
+  ATTDEF: Tag="SH1" Prompt="So hieu thep:" Default="1" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH2" Prompt="So hieu thep:" Default="2" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DK1" Prompt="Duong kinh thep:" Default="%%c20" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="KC1" Prompt="Khoang canh thep" Default="@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKKC1" Prompt="Duong kinh thep:" Default="%%c8@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH4" Prompt="So hieu thep:" Default="4" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH3" Prompt="So hieu thep:" Default="3" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DK2" Prompt="Duong kinh thep:" Default="%%c20" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="KC2" Prompt="Khoang canh thep" Default="@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKKC2" Prompt="Duong kinh thep:" Default="%%c8@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: _Open30
+BLOCK: dang06
+  ATTDEF: Tag="001" Prompt="nhap so hieu thep" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="nhap so hieu thep" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="nhap so hieu thep" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="nhap so hieu thep" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="nhap so hieu thep" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="nhap so hieu thep" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="nhap so hieu thep" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang11
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang16
+  ATTDEF: Tag="001" Prompt="1" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L2" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L1" Default="7" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang21
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L1" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang26
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L1" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang31
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6 " Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang36
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L1" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang07
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L3" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang12
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang17
+  ATTDEF: Tag="001" Prompt="1" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L1" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang22
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang27
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang32
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang37
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang08
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang13
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang18
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L1" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang23
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang28
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L1" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang38
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L1" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang09
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L1" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang14
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang19
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="DK" Default="4" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="CD1T" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="SCK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="ST1CK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="STTB" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="TCD" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TL" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang24
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang29
+  ATTDEF: Tag="001" Prompt="1" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang34
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang39
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang10
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang15
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L1" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang20
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang25
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L1" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang30
+  ATTDEF: Tag="001" Prompt="1" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L1a" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang35
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L1" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang40
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_CT
+  ATTDEF: Tag="CT" Prompt="Cao trinh" Default="%%p0.000" Height=2.5 Style="kata_text" Layer="0" Flags=0
+BLOCK: kata_block_HDSEC
+  ATTDEF: Tag="SECTDET1" Prompt="Enter Heading :" Default="SECTION 1" Height=5.0 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="SECTDET2" Prompt="Enter Heading :" Default="SECTION 2" Height=5.0 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="DETT" Prompt="Enter Number :" Default="1" Height=5.0 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="C/REF" Prompt="Enter Cross Ref :" Default="-" Height=3.5 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="SSCALE" Prompt="Enter Scale :" Default="SCALE 1 : " Height=2.5 Style="kata_text" Layer="0" Flags=0
+BLOCK: kata_block_GRID
+  ATTDEF: Tag="GRID" Prompt="GRID" Default="01" Height=5.0 Style="kata_text" Layer="0" Flags=0
+BLOCK: kata_block_THEP
+BLOCK: kata_block_TD
+  ATTDEF: Tag="SECTDET1" Prompt="Enter Heading :" Default="SECTION 1" Height=5.0 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="SECTDET2" Prompt="Enter Heading :" Default="SECTION 2" Height=5.0 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="SSCALE" Prompt="Enter Scale :" Default="SCALE 1 : " Height=2.5 Style="kata_text" Layer="0" Flags=0
+BLOCK: kata_block_SECBAL
+  ATTDEF: Tag="DETAIL" Prompt="Enter Section No:" Default="A" Height=2.5 Style="kata_text" Layer="0" Flags=0
+BLOCK: dang43
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang44
+  ATTDEF: Tag="001" Prompt="nhap so hieu thep" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="nhap so hieu thep" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="nhap so hieu thep" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="nhap so hieu thep" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="nhap so hieu thep" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="nhap so hieu thep" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="nhap so hieu thep" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="nhap so hieu thep" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang08a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang12a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang13a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang43a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang42
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="09" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang41
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="DK" Default="4" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="CD1T" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="SCK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="ST1CK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="08" Prompt="STTB" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="TCD" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TL" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D59
+BLOCK: *D60
+BLOCK: *D61
+BLOCK: *D62
+BLOCK: *D63
+BLOCK: *D64
+BLOCK: *D65
+BLOCK: *D66
+BLOCK: *D67
+BLOCK: *D68
+BLOCK: *D69
+BLOCK: *D70
+BLOCK: *D71
+BLOCK: *D72
+BLOCK: *D73
+BLOCK: *D74
+BLOCK: *D75
+BLOCK: *D76
+BLOCK: *D77
+BLOCK: *D78
+BLOCK: *U79
+  ATTDEF: Tag="GRID" Prompt="GRID" Default="01" Height=5.0 Style="kata_text" Layer="0" Flags=0
+BLOCK: *U80
+  ATTDEF: Tag="SH1" Prompt="So hieu thep:" Default="1" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH2" Prompt="So hieu thep:" Default="2" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DK1" Prompt="Duong kinh thep:" Default="%%c20" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="KC1" Prompt="Khoang canh thep" Default="@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKKC1" Prompt="Duong kinh thep:" Default="%%c8@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH4" Prompt="So hieu thep:" Default="4" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SH3" Prompt="So hieu thep:" Default="3" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DK2" Prompt="Duong kinh thep:" Default="%%c20" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="KC2" Prompt="Khoang canh thep" Default="@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKKC2" Prompt="Duong kinh thep:" Default="%%c8@200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U81
+  ATTDEF: Tag="DETAIL" Prompt="Enter Section No:" Default="A" Height=2.5 Style="kata_text" Layer="0" Flags=0
+BLOCK: Bo tri thep san
+  ATTDEF: Tag="KHT" Prompt="" Default="1" Height=2.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKT" Prompt="" Default="%%c12a200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Bo tri thep san nho
+  ATTDEF: Tag="KHT" Prompt="" Default="1" Height=2.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKT" Prompt="" Default="%%C8-200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U84
+  ATTDEF: Tag="KHT" Prompt="" Default="1" Height=2.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKT" Prompt="" Default="%%C8-200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U85
+  ATTDEF: Tag="KHT" Prompt="" Default="1" Height=2.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKT" Prompt="" Default="%%c12a200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_COUPLER
+BLOCK: kata_block_RUNTIC
+BLOCK: kata_block_LEADERTIC
+BLOCK: *D89
+BLOCK: dang02a
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang09a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L1" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_KHTCT
+  ATTDEF: Tag="CHU_THICH" Prompt="Chu thich:" Default="XXX" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="CONG_THUC" Prompt="Cong thuc:" Default="sh-sl-dk-kc-(L123456)" Height=0.5 Style="kata_text" Layer="Defpoints" Flags=0
+BLOCK: dang45
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D94
+BLOCK: dang46
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_REN
+BLOCK: dang47
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Bo tri thep bien phap
+  ATTDEF: Tag="KHT" Prompt="" Default="1" Height=2.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DKT" Prompt="" Default="%%C8-200" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang48
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang49
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D101
+BLOCK: dang50
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D103
+BLOCK: *D104
+BLOCK: *D105
+BLOCK: dang52
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang51
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D108
+BLOCK: dang51a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D110
+BLOCK: dang49a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D112
+BLOCK: *D113
+BLOCK: dang53
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang54
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang55
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D117
+BLOCK: dang56
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang57
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D120
+BLOCK: dang58
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D122
+BLOCK: dang59
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D124
+BLOCK: dang45a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D126
+BLOCK: dang53a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang60
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D129
+BLOCK: *D130
+BLOCK: *D131
+BLOCK: *D132
+BLOCK: *D133
+BLOCK: dang61
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D135
+BLOCK: *D136
+BLOCK: *D137
+BLOCK: *D138
+BLOCK: *D139
+BLOCK: dang62
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang62a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D142
+BLOCK: *D143
+BLOCK: *D144
+BLOCK: *D145
+BLOCK: *D146
+BLOCK: dang63
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D148
+BLOCK: *D149
+BLOCK: *D150
+BLOCK: *D151
+BLOCK: *D152
+BLOCK: *D153
+BLOCK: *D154
+BLOCK: *D155
+BLOCK: kata_block_Danhmuc
+  ATTDEF: Tag="DRAWING.NO" Prompt="DRAWING.NO" Default="KC-00" Height=4.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="REV" Prompt="REV" Default="01" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DATE" Prompt="DATE" Default="00-00-0000" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="TITLE" Prompt="TITLE" Default="XXX" Height=4.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_Ten
+  ATTDEF: Tag="TEN" Prompt="Tên:" Default="XXX" Height=2.5 Style="kata_text" Layer="0" Flags=0
+  ATTDEF: Tag="CHU_THICH" Prompt="Chu_thich" Default="" Height=2.5 Style="kata_text" Layer="0" Flags=1
+BLOCK: dang23a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L1" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_KHTCTSH
+  ATTDEF: Tag="CHU_THICH" Prompt="Chu thich:" Default="XXX" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="CONG_THUC" Prompt="Cong thuc:" Default="sh-sl-dk-kc-(L123456)" Height=0.5 Style="kata_text" Layer="Defpoints" Flags=0
+  ATTDEF: Tag="SH" Prompt="So hieu thep:" Default="1" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U160
+  ATTDEF: Tag="CHU_THICH" Prompt="Chu thich:" Default="XXX" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="CONG_THUC" Prompt="Cong thuc:" Default="sh-sl-dk-kc-(L123456)" Height=0.5 Style="kata_text" Layer="Defpoints" Flags=0
+  ATTDEF: Tag="SH" Prompt="So hieu thep:" Default="1" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang64
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6 " Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="DK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="CD1T" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="SCK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="ST1CK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="STTB" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TCD" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TL" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang65
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang65a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="goc" Default="45" Height=150.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="DK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="CD1T" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="SCK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="ST1CK" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="STTB" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TCD" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="015" Prompt="TL" Default="15" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D164
+BLOCK: dang66
+  ATTDEF: Tag="001" Prompt="SH" Default="66" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="L5" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="L6" Default="7" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="DK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="CD1T" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="SCK" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="ST1CK" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="STTB" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="013" Prompt="TCD" Default="13" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="014" Prompt="TL" Default="14" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang00
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="00000000" Prompt="nhap so hieu thep" Default="6" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="D03" Prompt="nhap so hieu thep" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: kata_block_COUPLER_SPEC
+  ATTDEF: Tag="D" Prompt="\U+0110\U+01B0\U+1EDDng kính" Default="20" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+  ATTDEF: Tag="D" Prompt="\U+0110\U+01B0\U+1EDDng kính" Default="20" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+  ATTDEF: Tag="D" Prompt="\U+0110\U+01B0\U+1EDDng kính" Default="20" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+  ATTDEF: Tag="D" Prompt="\U+0110\U+01B0\U+1EDDng kính" Default="20" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+BLOCK: dangCoupler
+  ATTDEF: Tag="L" Prompt="Chieu dai" Default="50" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DK" Prompt="nhap so duong kinh" Default="20" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SCK" Prompt="nhap so luong cau kien" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SL1" Prompt="nhap so luong 1 cau kien" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="SL" Prompt="nhap so luong toan bo" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="GHI_CHU" Prompt="nhap ghi chu" Default="" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: TieudeCoupler
+BLOCK: *U170
+  ATTDEF: Tag="D" Prompt="\U+0110\U+01B0\U+1EDDng kính" Default="20" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+BLOCK: *D171
+BLOCK: dang24a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Tieude_ENG
+BLOCK: TieudeCoupler_ENG
+BLOCK: kata_block_3D
+BLOCK: *U176
+BLOCK: dang67
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="DK" Default="4" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="CD1T" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="SCK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="ST1CK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="STTB" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="TCD" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TL" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *D178
+BLOCK: *D179
+BLOCK: _Integral
+BLOCK: kata_block_Beam_plan
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên:" Default="Beam 01" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="BXH" Prompt="Nh\U+1EADp BxH:" Default="(200x400)" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="TOC" Prompt="Nh\U+1EADp cao \U+0111\U+1ED9 trên so v\U+1EDBi sàn:" Default="0" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+BLOCK: Kata_Block_Column&Wall
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên:" Default="" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U183
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên:" Default="Beam 01" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="BXH" Prompt="Nh\U+1EADp BxH:" Default="(200x400)" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="TOC" Prompt="Nh\U+1EADp cao \U+0111\U+1ED9 trên so v\U+1EDBi sàn:" Default="0" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=0
+BLOCK: *U184
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên:" Default="" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Kata_Block_Beam_Rebar
+  ATTDEF: Tag="T3" Prompt="T3:" Default="" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+  ATTDEF: Tag="T2" Prompt="T2:" Default="2f20" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+  ATTDEF: Tag="T1" Prompt="T1:" Default="2f20+1f20" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+  ATTDEF: Tag="SHEAR" Prompt="Shear:" Default="10/8a100" Height=2.0 Style="kata_text" Layer="kata_thep dai" Flags=0
+  ATTDEF: Tag="B1" Prompt="B1:" Default="2f20+1f20" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+  ATTDEF: Tag="B2" Prompt="B2:" Default="2f20" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+  ATTDEF: Tag="B3" Prompt="B3:" Default="" Height=2.0 Style="kata_text" Layer="kata_thep chu" Flags=0
+BLOCK: kata_block_Wipe
+BLOCK: kata_block_Second_Beam
+BLOCK: *U188
+  ATTDEF: Tag="DRAWING.NO" Prompt="DRAWING.NO" Default="KC-00" Height=4.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="REV" Prompt="REV" Default="01" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="DATE" Prompt="DATE" Default="00-00-0000" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="TITLE" Prompt="TITLE" Default="XXX" Height=4.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: dang35a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=200.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="DK" Default="5" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="CD1T" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="SCK" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="ST1CK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="STTB" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="TCD" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TL" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: Kata_Block_Mong_Don
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên móng:" Default="M01" Height=2.5 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="H" Prompt="Nh\U+1EADp Chi\U+1EC1u Cao Móng:" Default="500" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=1
+  ATTDEF: Tag="T" Prompt="Nh\U+1EADp Chi\U+1EC1u Cao B\U+1EADt Móng:" Default="200" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=1
+  ATTDEF: Tag="CT" Prompt="Nh\U+1EADp Cao Trình \U+0110áy Móng:" Default="-1.500" Height=1.0 Style="kata_text" Layer="Defpoints" Flags=1
+BLOCK: dang40a
+  ATTDEF: Tag="001" Prompt="SH" Default="1" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="002" Prompt="L1" Default="2" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="003" Prompt="L2" Default="3" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="004" Prompt="L3" Default="4" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="005" Prompt="L4" Default="5" Height=125.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="006" Prompt="DK" Default="6" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="007" Prompt="CD1T" Default="7" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="008" Prompt="SCK" Default="8" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="009" Prompt="ST1CK" Default="9" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="010" Prompt="STTB" Default="10" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="011" Prompt="TCD" Default="11" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+  ATTDEF: Tag="012" Prompt="TL" Default="12" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0
+BLOCK: *U192
+BLOCK: Kata_Block_ColumnCircle
+  ATTDEF: Tag="NAME" Prompt="Nh\U+1EADp tên:" Default="" Height=250.0 Style="kata_text" Layer="kata_text" Flags=0

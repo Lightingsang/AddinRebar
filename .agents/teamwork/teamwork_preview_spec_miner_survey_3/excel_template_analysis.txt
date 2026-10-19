@@ -1,0 +1,370 @@
+================================================================================
+FILE: C:\kata_pro\Kata.xlsm
+================================================================================
+Sheets: ['Vach', 'Cot', 'Dam', 'ThepDamAllMBKC', 'save_info', 'Thong_ke', 'Thong_ke_QS', 'To_hop_thep', 'Kho_thep', 'Kata_QS', 'BEAM DESIGN', 'SLAB DESIGN', 'In_tem_thep', 'Data', 'Gan_tag_block']
+
+
+########################################
+SHEET: Vach (max_row=216, max_column=48)
+########################################
+Row   1: A1: Bề rộng dầm (mm) | C1: 800 | D1: Bề rộng vùng biên | F1: 675 | G1: 1:25 | H1: 1:30 | I1: 1:50 | J1: 1:100
+Row   2: A2: Chiều dày sàn (mm) | C2: 200 | D2: Tỷ lệ bản vẽ cột | F2: 1:30 | G2: 1:20 | H2: 1:25 | I2: 1:30 | J2: 1:40
+Row   3: A3: Tên vách | C3: V1 | D3: Tỷ lệ vẽ mặt cắt | F3: 1:20 | H3: False | I3: False | J3: 2 | K3: True
+Row   4: A4: Số cấu kiện | C4: 1 | D4: a bảo vệ (mm) | F4: 30/100 | G4: Đai bao | H4: d10a100/200
+Row   5: A5: Cao trình đáy đài móng (m) | C5: -5.5 | D5: Đoạn bẻ ke (d) | F5: 15 | G5: Đai gc | H5: d8a400
+Row   7: A7: TẦNG | B7: Chiều cao | C7: Kích thước vách | E7: Số cây thép chịu lực | I7: Đường kính thép | J7: Vị trí nối thép | K7: Chiều cao dầm | L7: Đai tự bố trí
+Row   8: B8: m | C8: Cạnh dài | D8: Cạnh ngắn | E8: Cạnh dài | G8: Cạnh ngắn | L8: Đai bao | M8: Đai biên | N8: Đai C Ver | P8: Đai C Hor
+Row   9: A9: PILECAPS | B9: 1.5 | C9: mm | D9: mm | E9: Biên | F9: Giữa | G9: Lớp 1 | H9: Lớp 2 | I9: mm | J9: mm | K9: mm | L9: đk+kc | M9: đk+kc | N9: đk+kc | O9: Số lượng | P9: đk+kc | Q9: Số lượng
+Row  10: A10: BASEMENT | B10: 3 | C10: 3000 | D10: 600 | E10: 7 | F10: 11 | G10: 7 | H10: 7 | I10: 25 | K10: 600 | L10: d10a100/200 | M10: d10a100/200 | N10: d10a400 | O10: 2/3 | P10: d10a400 | Q10: 2
+Row  11: A11: FLOOR 1 | B11: 3.5 | C11: 3000 | D11: 600 | E11: 7 | F11: 11 | G11: 7 | H11: 7 | I11: 25 | K11: 600 | L11: d10a100/200 | M11: d10a100/200 | N11: d10a400 | O11: 2/3 | P11: d10a400 | Q11: 2
+Row  12: A12: FLOOR 2 | B12: 3.9 | C12: 3000 | D12: 600 | E12: 7 | F12: 11 | G12: 7 | H12: 7 | I12: 25/20 | K12: 400 | L12: d10a100/200 | M12: d10a100/200 | N12: d10a400 | O12: 2/3 | P12: d10a400 | Q12: 2
+Row  13: A13: FLOOR 3 | B13: 4.6 | C13: 3000 | D13: 600 | E13: 7 | F13: 11 | G13: 7 | H13: 7 | I13: 20 | K13: 400 | L13: d10a100/200 | M13: d10a100/200 | N13: d10a400 | O13: 2/3 | P13: d10a400 | Q13: 2
+Row  14: A14: FLOOR 4 | B14: 3.3 | C14: 3000 | D14: 600 | E14: 7 | F14: 11 | G14: 7 | H14: 7 | I14: 20 | K14: 600 | L14: d10a100/200 | M14: d10a100/200 | N14: d10a400 | O14: 2/3 | P14: d10a400 | Q14: 2
+Row  15: A15: FLOOR 5 | B15: 3.3 | C15: 3000 | D15: 600 | E15: 7 | F15: 11 | G15: 7 | H15: 7 | I15: 20 | K15: 400 | L15: d10a100/200 | M15: d10a100/200 | N15: d10a400 | O15: 2/3 | P15: d10a400 | Q15: 2
+Row  22: S22: Mặt cắt bố trí thép chịu lực tầng | V22: FLOOR 1
+
+########################################
+SHEET: Cot (max_row=216, max_column=53)
+########################################
+Row   1: A1: Bề rộng dầm (mm) | C1: 800 | G1: 1:25 | H1: 1:30 | I1: 1:50 | J1: 1:100
+Row   2: A2: Chiều dày sàn (mm) | C2: 200 | D2: Tỷ lệ bản vẽ cột | F2: 1:30 | G2: 1:20 | H2: 1:25 | I2: 1:30 | J2: 1:40
+Row   3: A3: =IF(D1>0,"Tên vách", "Tên cột") | C3: C1 | D3: Tỷ lệ vẽ mặt cắt | F3: 1:20 | G3: False | H3: False | I3: True | J3: 2 | K3: True
+Row   4: A4: Số cấu kiện | C4: 1 | D4: a bảo vệ (mm) | F4: 30/100 | G4: Đai bao | H4: d10a100/200
+Row   5: A5: Cao trình đáy đài móng (m) | C5: -5.5 | D5: Đoạn bẻ ke (d) | F5: 15 | G5: Đai gc | H5: d8a400
+Row   7: A7: TẦNG | B7: Chiều cao | C7: =IF(F1>0,"Kích thước vách", "Kích thước cột") | E7: Số cây thép chịu lực | I7: Đường kính thép | J7: Vị trí nối thép | K7: Chiều cao dầm | L7: Đai bao | M7: Đai gia cường tự bố trí
+Row   8: B8: m | C8: =IF(F1>0,"Cạnh dài", "b") | D8: =IF(F1>0,"Cạnh ngắn", "h") | E8: =IF(F1>0,"Cạnh dài", "Cạnh b") | G8: =IF(F1>0,"Cạnh ngắn", "Cạnh h") | M8: Đai □ Ver | P8: Đai □ Hor | S8: Đai C Ver | U8: Đai C Hor
+Row   9: A9: PILECAPS | B9: 1.5 | C9: mm | D9: mm | E9: Lớp 1 | F9: Lớp 2 | G9: Lớp 1 | H9: Lớp 2 | I9: mm | J9: mm | K9: mm | L9: đk+kc | M9: tỷ lệ | N9: đk+kc | O9: Số lượng | P9: tỷ lệ | Q9: đk+kc | R9: Số lượng | S9: đk+kc | T9: Số lượng | U9: đk+kc | V9: Số lượng
+Row  10: A10: BASEMENT | B10: 3 | C10: 1000 | D10: 800 | E10: 7 | F10: 7 | G10: 7 | H10: 7 | I10: 25 | K10: 600 | L10: d10a100/200 | M10: 0.5 | N10: d10a400 | P10: 0.5 | Q10: d10a400 | S10: d10a400 | T10: 2 | U10: d10a400 | V10: 2
+Row  11: A11: FLOOR 1 | B11: 3.5 | C11: 1000 | D11: 800 | E11: 7 | F11: 7 | G11: 7 | H11: 7 | I11: 25 | K11: 600 | L11: d10a100/200 | M11: 0.5 | N11: d10a400 | P11: 0.5 | Q11: d10a400 | S11: d10a400 | T11: 2 | U11: d10a400 | V11: 2
+Row  12: A12: FLOOR 2 | B12: 3.9 | C12: 1000 | D12: 800 | E12: 7 | F12: 7 | G12: 7 | H12: 7 | I12: 25/20 | K12: 400 | L12: d10a100/200 | M12: 0.5 | N12: d10a400 | P12: 0.5 | Q12: d10a400 | S12: d10a400 | T12: 2 | U12: d10a400 | V12: 2
+Row  13: A13: FLOOR 3 | B13: 4.6 | C13: 1000 | D13: 800 | E13: 7 | F13: 7 | G13: 7 | H13: 7 | I13: 20 | K13: 400 | L13: d10a100/200 | M13: 0.5 | N13: d10a400 | P13: 0.5 | Q13: d10a400 | S13: d10a400 | T13: 2 | U13: d10a400 | V13: 2
+Row  14: A14: FLOOR 4 | B14: 3.3 | C14: 1000 | D14: 800 | E14: 7 | F14: 7 | G14: 7 | H14: 7 | I14: 20 | K14: 600 | L14: d10a100/200 | M14: 0.5 | N14: d10a400 | P14: 0.5 | Q14: d10a400 | S14: d10a400 | T14: 2 | U14: d10a400 | V14: 2
+Row  15: A15: FLOOR 5 | B15: 3.3 | C15: 1000 | D15: 800 | E15: 7 | F15: 7 | G15: 7 | H15: 7 | I15: 20 | K15: 400 | L15: d10a100/200 | M15: 0.5 | N15: d10a400 | P15: 0.5 | Q15: d10a400 | S15: d10a400 | T15: 2 | U15: d10a400 | V15: 2
+Row  22: X22: Mặt cắt bố trí thép chịu lực tầng | AA22: FLOOR 1
+
+########################################
+SHEET: Dam (max_row=80, max_column=37)
+########################################
+Row   1: A1: Tỷ lệ bản vẽ dầm | B1: 1:50 | E1: Kéo thép gia cường | G1: 500 | I1: True | M1: 1:70 | N1: 1:50 | O1: 1:40 | P1: 1:30 | Q1: 1:25
+Row   2: A2: Tỷ lệ vẽ mặt cắt | B2: 1:25 | E2: Neo thép vùng kéo (d) | G2: 40 | K2: Info Author:  | N2: 1:40 | O2: 1:30 | P2: 1:25 | Q2: 1:20
+Row   3: A3: Tên dầm | B3: B01 | E3: Neo thép vùng nén (d) | G3: 30 | H3: 0.2 | I3: L từ mép cột | K3: Tam, Nguyen Kha | N3: L từ mép cột
+Row   4: A4: Số cấu kiện | B4: 1 | E4: Đường kính cốt giá | G4: 12 | K4: Civil Engineer | N4: L từ tâm cột
+Row   5: A5: h dầm (mm) | B5: 1100 | E5: Số lớp cốt giá | G5: 2 | H5: 0.25 | I5: L từ mép cột | K5: Phone: 0985373800 | N5: L từ tâm cột, tính từ tâm
+Row   6: A6: b dầm (mm) | B6: 500 | E6: Đường kính đai (mm) | G6: 10 | K6: Email: khatamxd@gmail.com | N6: L từ mép dầm bẹt
+Row   7: A7: h sàn (mm) | B7: 150 | E7: Khoảng cách đai  | F7: Gần gối | G7: a150 | H7: False | J7: a500 | K7: Work: Designing structure buildings and 
+Row   8: A8: Tên trục dầm | F8: giữa nhịp | G8: a200 | I8: 2 | K8: design spreadsheets link Excel with Autocad
+Row   9: A9: Độ lệch của trục | B9: -100 | F9: Công xôn | G9: 150 | H9: a bảo vệ thép chủ/đai | J9: 50/25
+Row  10: A10: Cao trình dầm | B10: +3.300 | C10: Cột | D10: Nhịp | E10: Cột  | F10: Nhịp | G10: Cột  | H10: Nhịp | I10: Cột  | J10: Nhịp | K10: Cột  | L10: Nhịp | M10: Cột  | N10: Nhịp | O10: Cột  | P10: Nhịp | Q10: Cột  | R10: Nhịp | S10: Cột  | T10: Nhịp | U10: Cột  | V10: Nhịp | W10: Cột  | X10: Nhịp | Y10: Cột  | Z10: Nhịp | AA10: Cột  | AB10: Nhịp | AC10: Cột 
+Row  11: A11: Thép chịu lực trên | B11: 6f25 | C11: 400 | D11: 10400 | E11: 400 | F11: 6500 | G11: 400 | H11: 2500 | I11: 0 | J11: 4000 | K11: 400 | L11: 6200 | M11: 400 | N11: 2000 | O11: 0
+Row  12: A12: Thép chịu lực dưới | B12: 6f25
+Row  13: A13: Thép gia cường trên | B13: lớp 1
+Row  14: B14: lớp 2 | C14: 6f25 | E14: 6f20 | G14: 2f20 | K14: 2f20;2f16 | M14: 2f16
+Row  15: B15: lớp 3 | E15: 6f20;0
+Row  16: B16: lớp 3
+Row  17: A17: Thép gia cường dưới | B17: lớp 2 | D17: 6f25 | F17: 2f20 | I17: 2f20 | J17: - | L17: 2f20
+Row  18: B18: lớp 1
+Row  19: A19: Giật mép trên dầm;thép chịu lực | H19: -50 | J19: 0 | L19: 3f20 | N19: -200
+Row  20: A20: Bề rộng dầm giao tại cột (mm) | C20: 400x500 | E20: 400 | F20: 0f12 | G20: 400 | K20: 400x800 | L20: 300 | M20: 400 | N20: 1f12
+Row  21: A21: Độ lệch dầm giao so với tâm cột | F21: 400 | L21: 3f20 | N21: 0
+Row  22: A22: Tên các trục cột | C22: 1 | E22: 2 | G22: 3 | I22: 4 | K22: 5 | M22: 6
+Row  23: A23: Độ lệch của trục so với tâm cột | C23: -150
+Row  24: K24: *
+Row  25: A25: Đai □ | C25: Đai U | D25: 3-4 | M25: Đai C | N25: 2
+Row  26: A26: Đai U | C26: Đai C | D26: 2
+Row  27: A27: Đai C | C27: Đai C | D27: 5
+Row  28: A28: 1
+
+########################################
+SHEET: ThepDamAllMBKC (max_row=103, max_column=44)
+########################################
+Row   1: A1: BẢNG NHẬP LIỆU THÉP DẦM ALL MBKC
+Row   2: A2: Handle Autocad | B2: Mã dạng | F2: sldk | G2: sldk | H2: sldk | I2: sldk | J2: sldk | K2: sldk | L2: sldk | M2: sldk | N2: sldk | O2: sldk | P2: sldk | Q2: sldk | R2: sldk | S2: sldk | T2: sldk | U2: sldk | V2: sldk | W2: sldk | X2: sldk | Y2: sldk | Z2: sldk | AA2: sldk | AB2: sldk | AC2: sldk
+Row   3: B3: Name | C3: Span | D3: Width | E3: Height | F3: T1.0 | G3: T1.1 | H3: T1.2 | I3: T1.3 | J3: T2.0 | K3: T2.1 | L3: T2.2 | M3: T2.3 | N3: T3.0 | O3: T3.1 | P3: T3.2 | Q3: T3.3 | R3: B1.0 | S3: B1.1 | T3: B1.2 | U3: B1.3 | V3: B2.0 | W3: B2.1 | X3: B2.2 | Y3: B2.3 | Z3: B3.0 | AA3: B3.1 | AB3: B3.2 | AC3: B3.3
+
+########################################
+SHEET: save_info (max_row=1, max_column=1)
+########################################
+
+########################################
+SHEET: Thong_ke (max_row=12, max_column=37)
+########################################
+Row   1: A1: BẢNG THỐNG KÊ CỐT THÉP | U1: TỔNG HỢP CỐT THÉP
+Row   2: A2: TÊN CẤU KIỆN | B2: SỐ HIỆU | C2: HÌNH DÁNG VÀ KÍCH THƯỚC (mm) | K2: Ø (mm) | L2: Chiều dài 1 thanh ko kể nối thép | M2: CHIỀU DÀI | N2: SỐ C.KIỆN | O2: SỐ THANH | Q2: TỔNG | R2: TỔNG | S2: TỔNG/CẤU KIỆN | U2: ĐƯỜNG KÍNH | V2: =SMALL_kata($K5:$K2000,1) | W2: =SMALL_kata($K5:$K2000,2) | X2: =SMALL_kata($K5:$K2000,3) | Y2: =SMALL_kata($K5:$K2000,4) | Z2: =SMALL_kata($K5:$K2000,5) | AA2: =SMALL_kata($K5:$K2000,6) | AB2: =SMALL_kata($K5:$K2000,7) | AC2: =SMALL_kata($K5:$K2000,8)
+Row   3: M3:  1 THANH | O3: MỘT CK | P3: TOÀN BỘ | Q3: CHIỀU DÀI | R3: TRỌNG LƯỢNG | S3: TRỌNG LƯỢNG | U3: CHIỀU DÀI  | V3: =SUMIF($K:$K,V2,$Q:$Q) | W3: =SUMIF($K:$K,W2,$Q:$Q) | X3: =SUMIF($K:$K,X2,$Q:$Q) | Y3: =SUMIF($K:$K,Y2,$Q:$Q) | Z3: =SUMIF($K:$K,Z2,$Q:$Q) | AA3: =SUMIF($K:$K,AA2,$Q:$Q) | AB3: =SUMIF($K:$K,AB2,$Q:$Q) | AC3: =SUMIF($K:$K,AC2,$Q:$Q)
+Row   4: C4: DẠNG | D4: L1 | E4: L2 | F4: L3 | G4: L4 | H4: L5 | I4: L6 | J4: Ghi chú | M4: (mm) | Q4: (m) | R4: (kg) | S4: (kg) | U4: TRỌNG LƯỢNG | V4: =V3*tra_bang_kl(V2) | W4: =W3*tra_bang_kl(W2) | X4: =X3*tra_bang_kl(X2) | Y4: =Y3*tra_bang_kl(Y2) | Z4: =Z3*tra_bang_kl(Z2) | AA4: =AA3*tra_bang_kl(AA2) | AB4: =AB3*tra_bang_kl(AB2) | AC4: =AC3*tra_bang_kl(AC2)
+Row   5: U5: NHÓM Ø<=10 | V5: =SUMIF(V2:AK2,"<=10",V4:AK4)
+Row   6: U6: NHÓM 10<Ø<=18 | V6: =SUM(V4:AK4)-V5-V7
+Row   7: U7: NHÓM 18<Ø | V7: =SUMIF(V2:AK2,">18",V4:AK4)
+Row   9: U9: BẢNG THỐNG KÊ COUPLER
+Row  10: U10: TÊN CẤU KIỆN | V10: KÍCH THƯỚC (mm) | W10: Ø (mm) | X10: SỐ C.KIỆN | Y10: SỐ THANH | AA10: GHI CHÚ
+Row  11: Y11: MỘT CK | Z11: TOÀN BỘ
+
+########################################
+SHEET: Thong_ke_QS (max_row=10, max_column=40)
+########################################
+Row   1: B1: Thông tin dự án
+Row   2: B2: Có thể chèn hoặc xóa dòng khu vực này
+Row   4: A4: BẢNG THỐNG KÊ CỐT THÉP | X4: TỔNG HỢP CỐT THÉP
+Row   5: A5: Tên cấu kiện | B5: Số hiệu | C5: Hình dáng và kích thước | K5: Ø | L5: Chiều dài 1 thanh ko kể nối thép | M5: Chiều dài thanh | N5: Số cấu kiện | O5: Số thanh | Q5: Tổng chiều dài | R5: Khối lượng (tấn) | V5: Ghi chú | X5: ĐƯỜNG KÍNH
+Row   6: O6: 1 CK | P6: Toàn bộ | R6: Tổng | S6: D≤10mm | T6: D≤18mm | U6: D>18mm | X6: CHIỀU DÀI  | Y6: =SUMIF($K:$K,Y5,$Q:$Q) | Z6: =SUMIF($K:$K,Z5,$Q:$Q) | AA6: =SUMIF($K:$K,AA5,$Q:$Q) | AB6: =SUMIF($K:$K,AB5,$Q:$Q) | AC6: =SUMIF($K:$K,AC5,$Q:$Q)
+Row   7: C7: (mm) | D7: L1 | E7: L2 | F7: L3 | G7: L4 | H7: L5 | I7: L6 | J7: Ghi chú | K7: (mm) | M7: (mm) | Q7: (m) | R7: (kg) | S7: (kg) | T7: (kg) | U7: (kg) | X7: TRỌNG LƯỢNG | Y7: =Y6*tra_bang_kl(Y5) | Z7: =Z6*tra_bang_kl(Z5) | AA7: =AA6*tra_bang_kl(AA5) | AB7: =AB6*tra_bang_kl(AB5) | AC7: =AC6*tra_bang_kl(AC5)
+Row   8: L8: =IF(ABS(D8-11700)<=10,11700,D8) | X8: NHÓM Ø<=10 | Y8: =SUMIF(Y5:AN5,"<=10",Y7:AN7)
+Row   9: X9: NHÓM 10<Ø<=18 | Y9: =SUM(Y7:AN7)-Y8-Y10
+Row  10: X10: NHÓM 18<Ø | Y10: =SUMIF(Y5:AN5,">18",Y7:AN7)
+
+########################################
+SHEET: To_hop_thep (max_row=38, max_column=25)
+########################################
+Row   1: A1: Đoạn thừa | B1: BẢNG HƯỚNG DẪN CẮT THÉP ĐÃ KẾT HỢP | I1: BẢNG THỐNG KÊ CỐT THÉP CHỜ KẾT HỢP | Q1: BẢNG CẮT THÉP TÓM TẮT | W1: THÉP THÀNH PHẨM
+Row   2: B2: Ø | C2: Chiều dài | D2: Số lượng | E2: Mô tả cách cắt thép | I2: Tên cấu kiện | J2: Số hiệu | K2: Ø | L2: Chiều dài | M2: Số lượng | Q2: Ø | R2: Chiều dài | S2: Số lượng | T2: Mô tả cách cắt thép | U2: Đoạn thừa | W2: Ø | X2: Chiều dài | Y2: Số lượng
+
+########################################
+SHEET: Kho_thep (max_row=14, max_column=10)
+########################################
+Row   1: A1: KHO THÉP TRƯỚC TỔ HỢP | E1: KHO THÉP SAU TỔ HỢP
+Row   2: A2: Ø | B2: CHIỀU DÀI | C2: SỐ LƯỢNG | E2: Ø | F2: CHIỀU DÀI | G2: SỐ LƯỢNG | I2: TỔNG Ø6 | J2: 0
+Row   3: E3: 12 | F3: 11700 | G3: -57 | I3: TỔNG Ø8 | J3: 0
+Row   4: E4: 12 | F4: 60 | G4: 4
+Row   5: E5: 12 | F5: 80 | G5: 8
+Row   6: E6: 12 | F6: 330 | G6: 28
+Row   7: E7: 12 | F7: 670 | G7: 1
+Row   8: E8: 12 | F8: 1110 | G8: 3
+Row   9: E9: 12 | F9: 2140 | G9: 1
+Row  10: E10: 14 | F10: 11700 | G10: -8
+Row  11: E11: 14 | F11: 100 | G11: 8
+Row  12: E12: 16 | F12: 11700 | G12: -13
+Row  13: E13: 16 | F13: 750 | G13: 12
+Row  14: E14: 16 | F14: 2940 | G14: 1
+
+########################################
+SHEET: Kata_QS (max_row=2, max_column=10)
+########################################
+Row   1: A1: Tên bản vẽ | B1: Hạng mục | C1: Số lượng | D1: Diện tích (m2)
+-A- | E1: Chiều dài (m)
+-L- | F1: Chiều cao (m)
+-H- | G1: Tổng diện tích (m2) | H1: Tổng chiều dài (m) | I1: Tổng thể tích (m3) | J1: Diện tích xung quanh (m2)
+Row   2: A2: (0) | B2: (1) | C2: (2) | D2: (3) | E2: (4) | F2: (5) | G2: (6) = (3)x(2) | H2: (7)=(4)x(2) | I2: (8)=(3)x(5) | J2: (9)=(4)x(5)
+
+########################################
+SHEET: BEAM DESIGN (max_row=16, max_column=94)
+########################################
+Row   1: D1: VIẾT CHƯƠNG TRÌNH
+NGUYỄN KHẢ TAM
+Tel: 0985373800
+ Mail: khatamxd@gmail.com; 
+Row   4: C4: Project: | R4: Item: | V4: CALCULATE BEAM
+Row   5: C5: Client: | R5: Caculated: | V5: NGUYỄN KHẢ TAM
+Row   6: C6: Location: | R6: Date: | V6: =NOW()
+Row   7: C7: Article: | R7: Check: | V7: NGUYỄN KHẢ TAM
+Row   9: C9:  Vật liệu  | F9: Cường độ tính toán | R9: Hệ số giới hạn | W9:      Modul dan hoi
+Row  10: C10: Cấp bền bêtông | F10: B20 | H10: Rb =  | I10: =HLOOKUP($F$10,Data!$D$2:$S$14,6,0) | M10: Rbt= | N10: =HLOOKUP($F$10,Data!$D$2:$S$14,7,0) | R10: aR = | S10: =S11*(1-0.5*S11) | W10: Eb = | X10: =HLOOKUP($F$10,Data!$D$2:$S$14,8,0)
+Row  11: C11: Thép  dọc | F11: CB300-V | H11: Rs =  | I11: =HLOOKUP($F$11,Data!$D$17:$N$24,5,0) | M11: Rsc= | N11: =HLOOKUP($F$11,Data!$D$17:$N$24,6,0) | R11: xR = | S11: =(0.85-0.008*I10)/(1+I11/500*(1-(0.85-0.008*I10)/1.1)) | W11: jb1 =     | X11: =1-0.01*I10
+Row  12: C12: Thép đai | F12: CB240-T | H12: Rsw=  | I12: =HLOOKUP($F$12,Data!$D$17:$N$24,7,0) | M12: abv= | N12: 30 | R12: α = | S12: =X12/X10 | W12: Es = | X12: =HLOOKUP($F$11,Data!$D$17:$N$24,8,0)
+Row  13: B13: THÔNG SỐ TÍNH TOÁN CỐT THÉP
+Row  14: B14: Cấu kiện | C14: Tên Etabs | D14: b | E14: h | F14: Vị trí | G14: Tính toán thớ trên | R14: Tính toán thớ dưới | AC14: Tính toán chịu cắt
+Row  15: G15: M | H15: a' | I15: Hệ số | K15: As | L15: Thép chạy suốt | M15: Thép gia cường | P15: As tk | Q15: mtk% | R15: M | S15: a | T15: Hệ số | V15: As | W15: Thép chạy suốt | X15: Thép gia cường | AA15: As tk | AB15: mtk% | AC15: Q
+Row  16: D16: (cm) | E16: (cm) | G16: KNm | H16: (cm) | I16:  a | J16: ξ | K16: (cm2) | M16: Lớp 1 | N16: Lớp 2 | O16: Lớp 3 | P16: (cm2) | R16: KNm | S16: (cm) | T16:  a | U16: ξ | V16: (cm2) | X16: Lớp 1 | Y16: Lớp 2 | Z16: Lớp 3 | AA16: (mm2) | AC16: kN
+
+########################################
+SHEET: SLAB DESIGN (max_row=29, max_column=20)
+########################################
+Row   3: C3: Dự án: | G3: Phần: | H3: TÍNH TOÁN THÉP MÓNG
+Row   4: C4: Chủ đầu tư: | G4: Thực hiện: | H4: Nguyễn Khả Tam
+Row   5: C5: Địa diểm | G5: Ngày: | H5: =NOW()
+Row   6: C6: Hạng mục: | G6: Kiểm tra: | H6: Nguyễn Khả Tam
+Row   8: C8: 1. Vật liệu:
+Row   9: C9: Chọn cấp độ bền bê tông | E9: B40 | F9:     Có: Rb =  | G9: =HLOOKUP($E$9,Data!$D$2:$S$14,6,0) | H9: (MPa)
+Row  10: F10: Eb =  | G10: =HLOOKUP($E$9,Data!$D$2:$S$14,8,0) | H10: (MPa)
+Row  11: C11: Chọn cốt thép | E11: CB300-V | F11: Rs=Rsc = | G11: =HLOOKUP($E$11,Data!$D$17:$N$24,5,0) | H11: (MPa) | K11: 7
+Row  12: F12: Es = | G12: =HLOOKUP($E$11,Data!$D$17:$N$24,8,0) | H12: (MPa)
+Row  13: C13: 2. Kiểm tra đài:
+Row  15: C15: Công thức kiểm tra
+Row  20: C20: MÓNG M1
+Row  21: C21: TÍNH TOÁN THÉP LỚP DƯỚI
+Row  22: C22: Vị trí (strip) | D22: Momen sàn | E22: Chiều dày h(mm) | F22: a(mm) | G22: ho | H22: As | I22: Thép bố trí | K22: As đã Chọn | L22: Kiểm tra
+Row  23: D23: (kNm/m) | G23: (mm) | H23: (mm2) | I23: Lớp 1 | J23: Lớp 2 | K23: (mm2) | N23: Phi | O23: a | P23: Phi | Q23: a | R23:  a | S23: ξ
+Row  24: C24: X1-max | D24: 250 | E24: 1000 | F24: 100 | G24: =E24-F24 | H24: =S24*$G$9/$G$11*G24*10^3 | I24: =CONCATENATE("F",FIXED(N24,0,0),$O$23,FIXED(O24,0,0)) | J24: =IF(Q24<>"",CONCATENATE("F",FIXED(P24,0,0),$Q$23,FIXED(Q24,0,0)),"") | K24: =1000/O24*PI()*N24^2/4+IF(Q24>0,1000/Q24*PI()*P24^2/4) | L24: =IF(K24>=H24,"OK","False") | N24: 16 | O24: 200 | P24: 14 | Q24: 200 | R24: =ABS(D24)/$G$9/G24^2*10^3 | S24: =1-SQRT(1-2*R24) | T24: =IF(E24=E27,"ok")
+Row  25: C25: Y1-max | D25: 200 | E25: 1000 | F25: 115 | G25: =E25-F25 | H25: =S25*$G$9/$G$11*G25*10^3 | I25: =CONCATENATE("F",FIXED(N25,0,0),$O$23,FIXED(O25,0,0)) | J25: =IF(Q25<>"",CONCATENATE("F",FIXED(P25,0,0),$Q$23,FIXED(Q25,0,0)),"") | K25: =1000/O25*PI()*N25^2/4+IF(Q25>0,1000/Q25*PI()*P25^2/4) | L25: =IF(K25>=H25,"OK","False") | N25: 16 | O25: 200 | R25: =ABS(D25)/$G$9/G25^2*10^3 | S25: =1-SQRT(1-2*R25) | T25: =IF(E25=E28,"ok")
+Row  26: C26: TÍNH TOÁN THÉP LỚP TRÊN
+Row  27: C27: X1-min | D27: -150 | E27: 1000 | F27: 60 | G27: =E27-F27 | H27: =S27*$G$9/$G$11*G27*10^3 | I27: =CONCATENATE("F",FIXED(N27,0,0),$O$23,FIXED(O27,0,0)) | J27: =IF(Q27<>"",CONCATENATE("F",FIXED(P27,0,0),$Q$23,FIXED(Q27,0,0)),"") | K27: =1000/O27*PI()*N27^2/4+IF(Q27>0,1000/Q27*PI()*P27^2/4) | L27: =IF(K27>=H27,"OK","False") | N27: 14 | O27: 200 | R27: =ABS(D27)/$G$9/G27^2*10^3 | S27: =1-SQRT(1-2*R27)
+Row  28: C28: Y1-min | D28: -140 | E28: 1000 | F28: 75 | G28: =E28-F28 | H28: =S28*$G$9/$G$11*G28*10^3 | I28: =CONCATENATE("F",FIXED(N28,0,0),$O$23,FIXED(O28,0,0)) | J28: =IF(Q28<>"",CONCATENATE("F",FIXED(P28,0,0),$Q$23,FIXED(Q28,0,0)),"") | K28: =1000/O28*PI()*N28^2/4+IF(Q28>0,1000/Q28*PI()*P28^2/4) | L28: =IF(K28>=H28,"OK","False") | N28: 14 | O28: 200 | R28: =ABS(D28)/$G$9/G28^2*10^3 | S28: =1-SQRT(1-2*R28)
+
+########################################
+SHEET: In_tem_thep (max_row=780, max_column=16)
+########################################
+Row   1: A1: DỰ ÁN: 
+Row   2: A2: KHÁCH HÀNG: 
+Row   3: A3: ĐƠN HÀNG: 
+Row   4: A4: CẤU KIỆN: 
+Row   5: A5: SỐ HIỆU: 
+Row   9: F9: Cây
+Row  11: F11: mm
+Row  12: F12: KG
+
+########################################
+SHEET: Data (max_row=24, max_column=19)
+########################################
+Row   1: A1: THÔNG SỐ THIẾT KẾ CỦA BÊ TÔNG TCVN 5574-2018
+Row   2: A2: Kí hiệu | B2: Định nghĩa | C2: Trích dẫn | D2: B10 | E2: B15 | F2: B20 | G2: B22.5 | H2: B25 | I2: B30 | J2: B35 | K2: B40 | L2: B45 | M2: B50 | N2: B55 | O2: B60 | P2: B70 | Q2: B80 | R2: B90 | S2: B100
+Row   3: A3: Rm | B3: Cường độ chịu nén trung bình (MPa) | C3: Phụ lục A.2 | D3: =D4/0.7786 | E3: =E4/0.7786 | F3: =F4/0.7786 | G3: 28.9 | H3: =H4/0.7786 | I3: =I4/0.7786 | J3: =J4/0.7786 | K3: =K4/0.7786 | L3: =L4/0.7786 | M3: =M4/0.7786 | N3: =N4/0.7786 | O3: =O4/0.7786 | P3: =P4/0.7786 | Q3: =Q4/0.7786 | R3: =R4/0.7786 | S3: =S4/0.7786
+Row   4: A4: B | B4: Cấp độ chịu nén đặc trưng (MPa) | C4: Phụ lục A.1 | D4: 10 | E4: 15 | F4: 20 | G4: 22.5 | H4: 25 | I4: 30 | J4: 35 | K4: 40 | L4: 45 | M4: 50 | N4: 55 | O4: 60 | P4: 70 | Q4: 80 | R4: 90 | S4: 100
+Row   5: A5: Rb,n = Rb,ser | B5: Cường độ nén tiêu chuẩn (MPa) | C5: Bảng 6 | D5: 7.5 | E5: 11 | F5: 15 | G5: 16.7 | H5: 18.5 | I5: 22 | J5: 25.5 | K5: 29 | L5: 32 | M5: 36 | N5: 39.5 | O5: 43 | P5: 50 | Q5: 57 | R5: 64 | S5: 71
+Row   6: A6: Rbt,n = Rbt,ser | B6: Cường độ kéo tiêu chuẩn (MPa) | C6: Bảng 6 | D6: 0.85 | E6: 1.1 | F6: 1.35 | G6: 1.5 | H6: 1.55 | I6: 1.75 | J6: 1.95 | K6: 2.1 | L6: 2.25 | M6: 2.45 | N6: 2.6 | O6: 2.75 | P6: 3 | Q6: 3.3 | R6: 3.6 | S6: 3.8
+Row   7: A7: Rb | B7: Cường độ chịu nén tính toán (MPa) | C7: Bảng 7 | D7: 6 | E7: 8.5 | F7: 11.5 | G7: 13 | H7: 14.5 | I7: 17 | J7: 19.5 | K7: 22 | L7: 25 | M7: 27.5 | N7: 30 | O7: 33 | P7: 37 | Q7: 41 | R7: 44 | S7: 47.5
+Row   8: A8: Rbt | B8: Cường độ chịu kéo tính toán (MPa) | C8: Bảng 7 | D8: 0.56 | E8: 0.75 | F8: 0.9 | G8: 1 | H8: 1.05 | I8: 1.15 | J8: 1.3 | K8: 1.4 | L8: 1.5 | M8: 1.6 | N8: 1.7 | O8: 1.8 | P8: 1.9 | Q8: 2.1 | R8: 2.15 | S8: 2.2
+Row   9: A9: Eb | B9: Mô đun đàn hồi ban đầu (MPa) | C9: Bảng 10 | D9: 19000 | E9: 24000 | F9: 27000 | G9: 28750 | H9: 30000 | I9: 32500 | J9: 34500 | K9: 36000 | L9: 37000 | M9: 38000 | N9: 39000 | O9: 39500 | P9: 41000 | Q9: 42000 | R9: 42500 | S9: 43000
+Row  10: A10: jb,cr | B10: Hế số từ biến của bê tông, độ ẩm tương đối >75% | C10: Bảng 11 | D10: 2.8 | E10: 2.4 | F10: 2 | G10: 1.9 | H10: 1.8 | I10: 1.6 | J10: 1.5 | K10: 1.4 | L10: 1.3 | M10: 1.2 | N10: 1.1 | O10: 1 | P10: 1 | Q10: 1 | R10: 1 | S10: 1
+Row  11: B11: Từ 45% đến 75 % | D11: 3.9 | E11: 3.4 | F11: 2.8 | G11: =(H11+F11)/2 | H11: 2.5 | I11: 2.3 | J11: 2.1 | K11: 1.9 | L11: 1.8 | M11: 1.6 | N11: 1.5 | O11: 1.4 | P11: 1.4 | Q11: 1.4 | R11: 1.4 | S11: 1.4
+Row  12: B12: Dưới 40% | D12: 5.6 | E12: 4.8 | F12: 4 | G12: =(H12+F12)/2 | H12: 3.6 | I12: 3.2 | J12: 3 | K12: 2.8 | L12: 2.6 | M12: 2.4 | N12: 2.2 | O12: 2 | P12: 2 | Q12: 2 | R12: 2 | S12: 2
+Row  13: A13:  nb,P | B13: Hệ số Poát xông  | C13: mục 6.1.3.5 | D13: 0.2 | E13: 0.2 | F13: 0.2 | G13: 0.2 | H13: 0.2 | I13: 0.2 | J13: 0.2 | K13: 0.2 | L13: 0.2 | M13: 0.2 | N13: 0.2 | O13: 0.2 | P13: 0.2 | Q13: 0.2 | R13: 0.2 | S13: 0.2
+Row  14: A14:  abt | B14: Hệ số biến dạng nhiệt (biến thiên -400C đến +500C) | C14: mục 6.1.3.6 | D14: 1e-05 | E14: 1e-05 | F14: 1e-05 | G14: 1e-05 | H14: 1e-05 | I14: 1e-05 | J14: 1e-05 | K14: 1e-05 | L14: 1e-05 | M14: 1e-05 | N14: 1e-05 | O14: 1e-05 | P14: 1e-05 | Q14: 1e-05 | R14: 1e-05 | S14: 1e-05
+Row  16: A16: THÔNG SỐ THIẾT KẾ CỦA THÉP | D16: TCVN 1651-2018 | J16: JIS G3112-2010
+Row  17: A17: Kí hiệu | B17: Định nghĩa | C17: Trích dẫn | D17: CB240-T | E17: CB300-T | F17: CB300-V | G17: CB400-V | H17: CB500-V | I17: CB600-V | J17: SD295 | K17: SD345 | L17: SD390 | M17: SD490
+Row  18: A18: fu | B18: Giới hạn bền | C18: Bảng C1 | D18: 380 | E18: 440 | F18: 450 | G18: 570 | H18: 650 | I18: 710 | J18: 440 | K18: 490 | L18: 560 | M18: 620
+Row  19: A19: fy | B19: Giới hạn chảy | C19: Bảng C1 | D19: 240 | E19: 300 | F19: 300 | G19: 400 | H19: 500 | I19: 600 | J19: 295 | K19: 345 | L19: 390 | M19: 490
+Row  20: A20: Rs,n = Rs,ser | B20: Cường độ kéo, nén tiêu chuẩn (MPa) | C20: Bảng 12 | D20: 240 | E20: 300 | F20: 300 | G20: 400 | H20: 500 | I20: 600 | J20: 295 | K20: 345 | L20: 390 | M20: 490
+Row  21: A21: Rs | B21: Cường độ kéo tính toán (MPa) | C21: Bảng 13 | D21: 210 | E21: 260 | F21: 260 | G21: 350 | H21: 435 | I21: 520 | J21: =J20/1.15 | K21: =K20/1.15 | L21: =L20/1.15 | M21: =M20/1.15
+Row  22: A22: Rsc  | B22: Cường độ  nén tính toán (MPa) | C22: Bảng 13 | D22: 210 | E22: 260 | F22: 260 | G22: 350 | H22: 400 | I22: 400 | J22: 257 | K22: 300 | L22: 339 | M22: 400
+Row  23: A23: Rsw | B23: Cường độ cắt tính toán | C23: Bảng 14 | D23: 170 | E23: 210 | F23: 210 | G23: 280 | H23: 300 | I23: 300 | J23: =J22*0.7 | K23: =K22*0.7 | L23: =L22*0.7 | M23: =M22*0.7
+Row  24: A24: Es | B24: Mô đun đàn hồi của thép | C24: Mục 6.2.3.3 | D24: 200000 | E24: 200000 | F24: 200000 | G24: 200000 | H24: 200000 | I24: 200000 | J24: 200000 | K24: 200000 | L24: 200000 | M24: 200000
+
+########################################
+SHEET: Gan_tag_block (max_row=3, max_column=4)
+########################################
+Row   1: A1: Tên block | B1: kata_block_Ten | D1: Lệnh "ganblock"
+Row   2: A2: KEY | B2: COLOR | C2: TAG PHỤ
+Row   3: A3: TEN | B3: MÀU | C3: CHU_THICH
+================================================================================
+FILE: C:\kata_pro\Kata ENG.xlsm
+================================================================================
+Sheets: ['Vach', 'Cot', 'Dam', 'save_info', 'Thong_ke', 'To_hop_thep', 'Kho_thep', 'Kata_QS', 'Contact Information', 'Gan_tag_block']
+
+
+########################################
+SHEET: Vach (max_row=216, max_column=48)
+########################################
+Row   1: A1: Beam width (mm) | C1: 800 | D1: Width of edge zone | F1: 675 | G1: 1:25 | H1: 1:30 | I1: 1:50 | J1: 1:100
+Row   2: A2: Slab thickness (mm) | C2: 200 | D2: Column scale | F2: 1:30 | G2: 1:20 | H2: 1:25 | I2: 1:30 | J2: 1:40
+Row   3: A3: Wall mark | C3: V1 | D3: Cross section scale | F3: 1:20 | H3: False | I3: False | J3: 2
+Row   4: A4: No of wall | C4: 1 | D4: Bar cover (mm) | F4: 30 | G4: main stirrup | H4: d10a100/200
+Row   5: A5: Foundation elevation (m) | C5: -5.5 | D5: End bar (d) | F5: 15 | G5: add stirrup | H5: d8a400
+Row   7: A7: Level | B7: Heigh | C7: Wall geometry | E7: No of main bar | I7: Bar Diameter | J7: Lap position | K7: Beam depth | L7: Đai tự bố trí
+Row   8: B8: m | C8: Length | D8: Width | E8: Length | G8: Width | L8: Main stirrup | M8: Edge stirrup | N8: Stirrup C vertical | P8: Stirrup C horizontal
+Row   9: A9: PILECAPS | B9: 1.5 | C9: mm | D9: mm | E9: Edge | F9: Middle | G9: Layer 1 | H9: Layer 2 | I9: mm | J9: mm | K9: mm | L9: đk+kc | M9: đk+kc | N9: đk+kc | O9: Số lượng | P9: đk+kc | Q9: Số lượng
+Row  10: A10: BASEMENT | B10: 3 | C10: 3000 | D10: 600 | E10: 7 | F10: 11 | G10: 7 | H10: 7 | I10: 25 | J10: 150 | K10: 600 | L10: d10a100/200 | M10: d10a100/200 | N10: d10a400 | O10: 2/3 | P10: d10a400 | Q10: 2
+Row  11: A11: FLOOR 1 | B11: 3.5 | C11: 3000 | D11: 600 | E11: 7 | F11: 11 | G11: 7 | H11: 7 | I11: 25 | J11: 150 | K11: 600 | L11: d10a100/200 | M11: d10a100/200 | N11: d10a400 | O11: 2/3 | P11: d10a400 | Q11: 2
+Row  12: A12: FLOOR 2 | B12: 3.9 | C12: 3000 | D12: 600 | E12: 7 | F12: 11 | G12: 7 | H12: 7 | I12: 25/20 | J12: 150 | K12: 400 | L12: d10a100/200 | M12: d10a100/200 | N12: d10a400 | O12: 2/3 | P12: d10a400 | Q12: 2
+Row  13: A13: FLOOR 3 | B13: 4.6 | C13: 3000 | D13: 600 | E13: 7 | F13: 11 | G13: 7 | H13: 7 | I13: 20 | J13: 150 | K13: 400 | L13: d10a100/200 | M13: d10a100/200 | N13: d10a400 | O13: 2/3 | P13: d10a400 | Q13: 2
+Row  14: A14: FLOOR 4 | B14: 3.3 | C14: 3000 | D14: 600 | E14: 7 | F14: 11 | G14: 7 | H14: 7 | I14: 20 | J14: 150 | K14: 600 | L14: d10a100/200 | M14: d10a100/200 | N14: d10a400 | O14: 2/3 | P14: d10a400 | Q14: 2
+Row  15: A15: FLOOR 5 | B15: 3.3 | C15: 3000 | D15: 600 | E15: 7 | F15: 11 | G15: 7 | H15: 7 | I15: 20 | J15: 150 | K15: 400 | L15: d10a100/200 | M15: d10a100/200 | N15: d10a400 | O15: 2/3 | P15: d10a400 | Q15: 2
+Row  22: S22: Main bar cross section at level: | V22: FLOOR 1
+
+########################################
+SHEET: Cot (max_row=216, max_column=53)
+########################################
+Row   1: A1: Beam width (mm) | C1: 800 | D1: True | G1: 1:25 | H1: 1:30 | I1: 1:50 | J1: 1:100
+Row   2: A2: Slab thickness (mm) | C2: 200 | D2: Column scale | F2: 1:30 | G2: 1:20 | H2: 1:25 | I2: 1:30 | J2: 1:40
+Row   3: A3: Wall mark | C3: C1 | D3: Cross section scale | F3: 1:20 | G3: False | H3: False | I3: True | J3: 2
+Row   4: A4: No of wall | C4: 1 | D4: Bar cover (mm) | F4: 30 | G4: Main stirrup | H4: d10a100/200
+Row   5: A5: Foundation elevation (m) | C5: -5.5 | D5: End bar (d) | F5: 15 | G5: add stirrup | H5: d8a400
+Row   7: A7: Level | B7: Heigh | C7: Wall geometry | E7: No of main bar | I7: Bar Diameter | J7: Lap position | K7: Beam depth | L7: Main Stirrup | M7: Đai gia cường tự bố trí
+Row   8: B8: m | C8: Length | D8: Width | E8: Length | G8: Width | M8: Square stirrup veritcal | P8: Square stirrup horizontal | S8: Stirrup C Ver | U8: Stirrup C Hor
+Row   9: A9: PILECAPS | B9: 1.5 | C9: mm | D9: mm | E9: =IF(D1>0,"Biên", "Lớp 1") | F9: =IF(D1>0,"Giữa", "Lớp 2") | G9: Lớp 1 | H9: Lớp 2 | I9: mm | J9: mm | K9: mm | L9: Diameter/spacing | M9: scale | N9: Diameter/spacing | O9: quantity | P9: scale | Q9: Diameter/spacing | R9: quantity | S9: Diameter/spacing | T9: quantity | U9: Diameter/spacing | V9: quantity
+Row  10: A10: BASEMENT | B10: 3 | C10: 1000 | D10: 800 | E10: 7 | F10: 7 | G10: 7 | H10: 7 | I10: 25 | J10: 150 | K10: 600 | L10: d10a100/200 | M10: 0.5 | N10: d10a400 | P10: 0.5 | Q10: d10a400 | S10: d10a400 | T10: 2 | U10: d10a400 | V10: 2
+Row  11: A11: FLOOR 1 | B11: 3.5 | C11: 1000 | D11: 800 | E11: 7 | F11: 7 | G11: 7 | H11: 7 | I11: 25 | J11: 150 | K11: 600 | L11: d10a100/200 | M11: 0.5 | N11: d10a400 | P11: 0.5 | Q11: d10a400 | S11: d10a400 | T11: 2 | U11: d10a400 | V11: 2
+Row  12: A12: FLOOR 2 | B12: 3.9 | C12: 1000 | D12: 800 | E12: 7 | F12: 7 | G12: 7 | H12: 7 | I12: 25/20 | J12: 150 | K12: 400 | L12: d10a100/200 | M12: 0.5 | N12: d10a400 | P12: 0.5 | Q12: d10a400 | S12: d10a400 | T12: 2 | U12: d10a400 | V12: 2
+Row  13: A13: FLOOR 3 | B13: 4.6 | C13: 1000 | D13: 800 | E13: 7 | F13: 7 | G13: 7 | H13: 7 | I13: 20 | J13: 150 | K13: 400 | L13: d10a100/200 | M13: 0.5 | N13: d10a400 | P13: 0.5 | Q13: d10a400 | S13: d10a400 | T13: 2 | U13: d10a400 | V13: 2
+Row  14: A14: FLOOR 4 | B14: 3.3 | C14: 1000 | D14: 800 | E14: 7 | F14: 7 | G14: 7 | H14: 7 | I14: 20 | J14: 150 | K14: 600 | L14: d10a100/200 | M14: 0.5 | N14: d10a400 | P14: 0.5 | Q14: d10a400 | S14: d10a400 | T14: 2 | U14: d10a400 | V14: 2
+Row  15: A15: FLOOR 5 | B15: 3.3 | C15: 1000 | D15: 800 | E15: 7 | F15: 7 | G15: 7 | H15: 7 | I15: 20 | J15: 150 | K15: 400 | L15: d10a100/200 | M15: 0.5 | N15: d10a400 | P15: 0.5 | Q15: d10a400 | S15: d10a400 | T15: 2 | U15: d10a400 | V15: 2
+Row  22: X22: Main bar cross section at level: | AA22: FLOOR 1
+
+########################################
+SHEET: Dam (max_row=80, max_column=37)
+########################################
+Row   1: A1: Longitudinal section scale | B1: 1:50 | E1: Length of between additional bar on 2 layer | G1: 500 | I1: False | M1: 1:70 | N1: 1:50 | O1: 1:40 | P1: 1:30 | Q1: 1:25
+Row   2: A2: Cross section scale | B2: 1:40 | E2: Top bar length to support (d) | G2: 40 | L2: Info Author:  | N2: 1:40 | O2: 1:30 | P2: 1:25 | Q2: 1:20
+Row   3: A3: Beam Mark | B3: B01 | E3: Bottom bar length to support (d) | G3: 30 | H3: 0.2 | I3: L from edge of support | L3: Tam, Nguyen Kha | N3: L from edge of support
+Row   4: A4: Quantity | B4: 1 | E4: Side bar diameter | G4: 12 | L4: Civil Engineer | N4: L from central of support, from edge of support
+Row   5: A5: Beam Depth (mm) | B5: 1000 | E5: No of side bar | G5: 3x4 | H5: 0.25 | I5: L from edge of flat beam | L5: Phone: 0985373800 | N5: L from edge of flat beam
+Row   6: A6: Beam Width (mm) | B6: 500 | E6: Stirrup bar diameter (mm) | G6: 10 | H6: 25 | L6: Email: khatamxd@gmail.com | N6: L from central of support, from edge of support
+Row   7: A7: Slab thickness (mm) | B7: 150 | E7: Main stirrup spacing | F7: Support | G7: a150 | H7: False | J7: a500 | L7: Work: Designing structure buildings and 
+Row   8: A8: Axis | F8: Span | G8: a200 | I8: 2 | L8: design spreadsheets link Excel with Autocad
+Row   9: A9: Eccentric axis | B9: -100 | F9: Cantilever | G9: 150 | H9: Cover mainbars/ stirrup | J9: 50/25 | L9: http://katapro.net
+Row  10: A10: Elevation | B10: +3.300 | C10: Support | D10: Span | E10: Support | F10: Span | G10: Support | H10: Span | I10: Support | J10: Span | K10: Support | L10: Span | M10: Support | N10: Span | O10: Support | P10: Span | Q10: Support | R10: Span | S10: Support | T10: Span | U10: Support | V10: Span | W10: Support | X10: Span | Y10: Support | Z10: Span | AA10: Support | AB10: Span | AC10: Support
+Row  11: A11: Top main Bar | B11: 4f16 | C11: 400 | D11: 6200 | E11: 400 | F11: 6000 | G11: 400 | H11: 6000 | I11: 400 | J11: 6000 | K11: 400 | L11:  
+Row  12: A12: Bottom main Bar | B12: 4f16
+Row  13: A13: Additional top bars | B13: Layer 1 | C13: 2f20 | E13: -
+Row  14: B14: Layer 2 | C14: 2f20 | E14: 2f20 | G14: 2f20;2f25 | I14: 2f20 | K14: 2f20
+Row  15: B15: Layer 3
+Row  16: B16: Layer 3
+Row  17: A17: Additional bottom bars | B17: Layer 2 | D17: 2f20 | F17: 2f20 | H17: 2f20
+Row  18: B18: Layer 1
+Row  19: A19: Beam raise up; main bars | E19: 0 | F19: 100;5f25 | G19: 500;100 | H19: 0 | I19: 500;100
+Row  20: A20: Beam width at gridline | C20: 400 | E20: 400 | F20: 2f12 | G20: 400 | H20: 600 | I20: 500 | K20: 400
+Row  21: A21: Eccentricity between intersected beam and column centroid | F21: -100;5f20 | H21: 0 | I21: 500
+Row  22: A22: Column axis name | C22: 1 | E22: 2 | F22: a100/200/50 | G22: 3 | I22: 4
+Row  23: A23: Eccentricity of axis to column centroid | C23: 0 | E23: 0 | F23: a100/200/50 | G23: 0 | I23: 0
+Row  25: A25: Stirrup □ | C25: Stirrup C | D25: 2 | E25: Stirrup U | G25: Stirrup □
+Row  26: A26: Stirrup U | C26: Stirrup C | D26: 3
+Row  27: A27: Stirrup C
+Row  28: A28: 1
+
+########################################
+SHEET: save_info (max_row=1, max_column=1)
+########################################
+
+########################################
+SHEET: Thong_ke (max_row=7, max_column=37)
+########################################
+Row   1: A1: BAR BENDING SCHEDULE | U1: BAR SUMARY
+Row   2: A2: ITEMS | B2: BAR MARK | C2: BAR SHAPE (mm) | K2: Ø (mm) | L2: Chiều dài 1 thanh ko kể nối thép | M2: LENGTH | N2: NO OF ITEMS | O2: NO OF BAR | Q2: TOTAL | R2: TOTAL | S2: TOTAL/ITEMS | U2: DIAMETER | V2: =SMALL_kata($K5:$K1990,1) | W2: =SMALL_kata($K5:$K1990,2) | X2: =SMALL_kata($K5:$K1990,3) | Y2: =SMALL_kata($K5:$K1990,4) | Z2: =SMALL_kata($K5:$K1990,5) | AA2: =SMALL_kata($K5:$K1990,6) | AB2: =SMALL_kata($K5:$K1990,7) | AC2: =SMALL_kata($K5:$K1990,8)
+Row   3: M3: 1 BAR | O3: 1 ITEM | P3: TOTAL | Q3: LENGTH | R3: WEIGHT | S3: WEIGHT | U3: LENGTH | V3: =SUMIF($K:$K,V2,$Q:$Q) | W3: =SUMIF($K:$K,W2,$Q:$Q) | X3: =SUMIF($K:$K,X2,$Q:$Q) | Y3: =SUMIF($K:$K,Y2,$Q:$Q) | Z3: =SUMIF($K:$K,Z2,$Q:$Q) | AA3: =SUMIF($K:$K,AA2,$Q:$Q) | AB3: =SUMIF($K:$K,AB2,$Q:$Q) | AC3: =SUMIF($K:$K,AC2,$Q:$Q)
+Row   4: C4: TYPE | D4: L1 | E4: L2 | F4: L3 | G4: L4 | H4: L5 | I4: L6 | J4: Ghi chú | M4: (mm) | Q4: (m) | R4: (kg) | S4: (kg) | U4: WEIGHT | V4: =V3*tra_bang_kl(V2) | W4: =W3*tra_bang_kl(W2) | X4: =X3*tra_bang_kl(X2) | Y4: =Y3*tra_bang_kl(Y2) | Z4: =Z3*tra_bang_kl(Z2) | AA4: =AA3*tra_bang_kl(AA2) | AB4: =AB3*tra_bang_kl(AB2) | AC4: =AC3*tra_bang_kl(AC2)
+Row   5: U5: Ø<=10 | V5: =SUMIF(V2:AK2,"<=10",V4:AK4)
+Row   6: U6: 10<Ø<=18 | V6: =SUM(V4:AK4)-V5-V7
+Row   7: U7: 18<Ø | V7: =SUMIF(V2:AK2,">18",V4:AK4)
+
+########################################
+SHEET: To_hop_thep (max_row=76, max_column=25)
+########################################
+Row   1: A1: Excess of bar | B1: Cutting bar describe (Coordinated) | G1: Quy trình tổ hợp thép | I1: Cutting bar describe (waiting for coordinating) | Q1: Cutting bar sumary | W1: Production
+Row   2: B2: Ø | C2: Length | D2: Quantity | E2: Bar guidline table | G2: Xét với 1 loại đường kính thép | I2: items | J2: bar mark | K2: Ø | L2: length | M2: quantity | Q2: Ø | R2: Length | S2: Quantity | T2: Cutting bar table guidline | U2: Excess of bar | W2: Ø | X2: Length | Y2: Quatity
+Row   3: G3: * Kata lấy dữ liệu từ sheet Kho_thep và table bên phải như sau: | I3: Móng M1 | J3: 7 | K3: 10 | L3: 3165 | M3: 13
+Row   5: G5:      - Ở sheet Kho_thep ta có được các thanh có chiều dài L0=11700, L1, L2... gọi tắc là Li
+Row   7: G7:      - Ở table bên phải ta có được các thanh có chiều dài X1, X2…Các thanh này sinh ra các thanh X11 (=X1+X1), X12 (=X1+X2)…Cuối cùng ta có được tập hợp các thanh gọi tắc là Xi
+Row  12: G12: * Lệnh vẽ dầm shop và lệnh cắt thép sẽ tính toán vị trí cắt để cho ra nhiều nhất các thanh Yi=Li hoặc Yi=Li-Xi. Còn lại là các thanh Zi
+Row  15: G15: * Đánh lệnh tổ hợp thép chọn các thanh thép Yi và Zi trên bản vẽ:
+Row  17: G17:      - Các thanh Yi sẽ được đưa vào table bên phải. Cột chiều dài =Li, cột mô tả cách cắt thép =(Yi+Xi). Loại bỏ các thanh Li ra khỏi sheet kho_thep, các thanh Xi ra khỏi table bên phải
+Row  21: G21:      - Các thanh Zi sẽ được đưa vào table bên trái gia nhập vào tập các thanh Xi cho lần tổ hợp thép sau
+Row  25: G25: * Cuối cùng ta sẽ có 2 tables với các thanh thép nằm ở table bên phải thì lượng hao hụt thép xem như bằng 0. Các thanh thép nằm ở table bên phải chúng ta có thể tự phối hợp thép vì số lượng của nó khá nhỏ. 
+Row  30: G30: Nếu làm theo cách truyền thống, thép không được tính toán vị trí cắt ở bước triển khai bản vẽ shop ta chỉ được các thanh thép ở table bên phải nhưng với số lượng rất lớn dẫn đến khó phối hợp thép. Phát sinh hao hụt lớn
+
+########################################
+SHEET: Kho_thep (max_row=4, max_column=24)
+########################################
+Row   1: A1: Kho thép đã cắt lẻ cần tận dụng
+Row   2: A2: Ø10 | C2: Ø12 | E2: Ø14 | G2: Ø16 | I2: Ø18 | K2: Ø20 | M2: Ø22 | O2: Ø25 | Q2: Ø28 | S2: Ø32 | U2: Ø36 | W2: Ø40
+Row   3: A3: Length | B3: Quantity | C3: Length | D3: Quantity | E3: Length | F3: Quantity | G3: Length | H3: Quantity | I3: Length | J3: Quantity | K3: Length | L3: Quantity | M3: Length | N3: Quantity | O3: Length | P3: Quantity | Q3: Length | R3: Quantity | S3: Length | T3: Quantity | U3: Length | V3: Quantity | W3: Length | X3: Quantity
+
+########################################
+SHEET: Kata_QS (max_row=2, max_column=10)
+########################################
+Row   1: A1: Drawing nae | B1: Hạng mục | C1: Quantity | D1: Area (m2)
+-A- | E1: Length (m)
+-L- | F1: Heigh (m)
+-H- | G1: Area total (m2) | H1: Total length (m) | I1: Total volume(m3) | J1: Perimeter (m2)
+Row   2: A2: (0) | B2: (1) | C2: (2) | D2: (3) | E2: (4) | F2: (5) | G2: (6) = (3)x(2) | H2: (7)=(4)x(2) | I2: (8)=(3)x(5) | J2: (9)=(4)x(5)
+
+########################################
+SHEET: Contact Information (max_row=3, max_column=2)
+########################################
+Row   1: A1: Website | B1: http://katapro.net
+Row   2: A2: Contact:  | B2: katapro.kinhdoanh@gmail.com
+Row   3: A3: phone: | B3: +8490800054
+
+########################################
+SHEET: Gan_tag_block (max_row=3, max_column=4)
+########################################
+Row   1: A1: Tên block | B1: kata_block_Ten | D1: Lệnh "ganblock"
+Row   2: A2: KEY | B2: COLOR | C2: TAG PHỤ
+Row   3: A3: TEN | B3: MÀU | C3: CHU_THICH

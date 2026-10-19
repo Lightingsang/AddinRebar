@@ -1,0 +1,43 @@
+# Progress Log
+
+Last visited: 2026-10-17T08:08:30Z
+
+- [x] Initialized DISPATCH.md and BRIEFING.md
+- [x] Read mandatory documents:
+  - [x] ORIGINAL_REQUEST.md (under ## 2026-10-17T06:46:41Z)
+  - [x] orchestrator_17/PROJECT.md
+  - [x] orchestrator_17/DEAD_ENDS.md
+  - [x] reviewer_m1_2/review.md & handoff.md
+  - [x] explorer_m1_remediation/remediation_plan.md & handoff.md
+- [x] Inspect existing implementation in HPKata codebase
+- [x] Execute Remediation:
+  - [x] Step 1: Revit Framing Rebar Geometry Fix:
+    - [x] Created `FramingRebarGeometryCalculator.cs` and `RevitPoint3D.cs`
+    - [x] Fixed bottom bar elevation to `startPt.Z - heightFt + coverFt`
+    - [x] Implemented multi-bar transverse distribution across clear width $(b - 2c)$
+    - [x] Implemented closed rectangular stirrup hoop generation along span
+    - [x] Updated `RebarCreationService.cs` to support `RebarStyle.StirrupTie`
+  - [x] Step 2: AutoCAD Controllers Remediation:
+    - [x] Created `BeamTakeoffRegistry.cs`
+    - [x] Removed all hardcoded facade outputs in `BeamTakeoffController.cs`, wired ModelSpace scanning, dynamic table population via `BeamScheduleAggregator.cs`, and Excel export via `BeamPlanScheduleWorkbookGenerator.cs`
+    - [x] Implemented genuine `KATA_BEAM_DATA` DWG extension dictionary serialization and interactive layer addition in `BeamPersistenceController.cs`
+    - [x] Implemented genuine structured load assignment (`GanTai`, `HoatTai`) via `XDataService.cs` in `BeamEtabsController.cs`
+    - [x] Dynamically resolved parameters in `BeamShopController.cs`, `BeamSectionController.cs`, and `BeamIntersectionController.cs`
+  - [x] Step 3: Revit Framing Analyzer Chaining Fix:
+    - [x] Created `FramingChainCalculator.cs` for bidirectional collinear chain expansion
+    - [x] Handled interior seed beams and reversed curve orientations ($\vec{u}_1 \cdot \vec{u}_2 \approx -1$)
+    - [x] Refactored `RevitFramingAnalyzer.cs` to delegate to `FramingChainCalculator`
+  - [x] Step 4: Add Unit Tests in Revit.Tests and AutoCad.Tests:
+    - [x] Added `FramingRebarGeometryTests.cs` (5 tests) in `HPKata.Revit.Tests`
+    - [x] Added `FramingChainCalculatorTests.cs` (3 tests) in `HPKata.Revit.Tests`
+    - [x] Added `BeamControllerTests.cs` (5 tests) in `HPKata.AutoCad.Tests`
+- [x] Build & Test verification:
+  - [x] `dotnet build HPKata/HPKata.slnx --disable-build-servers -m:1`: 0 warnings, 0 errors
+  - [x] `dotnet test HPKata/HPKata.slnx --disable-build-servers -m:1`: 514/514 passed (100% green)
+- [x] Clean code audit:
+  - [x] Rule C2 (<= 300 lines/file): 0 violations
+  - [x] Rule M3 (<= 50 lines/method): 0 violations
+  - [x] Rule Q-B1 (0 dead code/TODOs): 0 violations
+  - [x] Rule Q-B2 (0 unannotated empty catches): 0 violations
+  - [x] Rule R5 (304.8 isolation): 0 violations
+- [x] Prepared changes.md & handoff.md

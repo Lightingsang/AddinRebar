@@ -25,48 +25,6 @@
                 <ResourceDictionary Source="pack://application:,,,/HPRebar;component/Resources/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
-            <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
-                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
-                <Setter Property="Margin" Value="0,0,0,6"/>
-            </Style>
-
-            <Style x:Key="CardBorderStyle" TargetType="Border">
-                <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="CornerRadius" Value="6"/>
-                <Setter Property="Padding" Value="12"/>
-                <Setter Property="Margin" Value="0,0,0,10"/>
-            </Style>
-
-            <Style x:Key="BadgeBorderStyle" TargetType="Border">
-                <Setter Property="Background" Value="{DynamicResource Brush.GridLine}"/>
-                <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="Padding" Value="8,3"/>
-                <Setter Property="Margin" Value="0,0,8,0"/>
-            </Style>
-
-            <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
-                <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
-                <Setter Property="Padding" Value="8,6"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource Brush.GridLine}"/>
-                <Setter Property="BorderThickness" Value="0,0,1,1"/>
-            </Style>
-
-            <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource Brush.GridLine}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -78,7 +36,7 @@
         </Grid.RowDefinitions>
 
         <!-- 1. Header Information Bar -->
-        <Border Grid.Row="0" Style="{StaticResource CardBorderStyle}" Padding="12,10" Margin="0,0,0,12">
+        <Border Grid.Row="0" Style="{DynamicResource Card}" Padding="12,10" Margin="0,0,0,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -91,31 +49,31 @@
                 </StackPanel>
 
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Border Style="{StaticResource BadgeBorderStyle}">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Tiết diện: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
                             <TextBlock Text="{Binding DimensionsText, FallbackValue='-'}"/>
                         </StackPanel>
                     </Border>
-                    <Border Style="{StaticResource BadgeBorderStyle}">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Tầng: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
                             <TextBlock Text="{Binding LevelText, FallbackValue='-'}"/>
                         </StackPanel>
                     </Border>
-                    <Border Style="{StaticResource BadgeBorderStyle}">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Nhịp: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
                             <TextBlock Text="{Binding SpansCountText, FallbackValue='-'}"/>
                         </StackPanel>
                     </Border>
-                    <Border Style="{StaticResource BadgeBorderStyle}">
+                    <Border Style="{DynamicResource Tag}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Chiều dài: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
                             <TextBlock Text="{Binding TotalLengthText, FallbackValue='-'}"/>
                         </StackPanel>
                     </Border>
-                    <Border Style="{StaticResource BadgeBorderStyle}">
+                    <Border Style="{DynamicResource Tag}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Khối lượng thép: " Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
                             <TextBlock Text="{Binding SteelWeightText, FallbackValue='-'}"/>
@@ -136,33 +94,37 @@
             <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,12,0">
                 <StackPanel>
                     <!-- Card A: Nguồn Excel -->
-                    <Border Style="{StaticResource CardBorderStyle}">
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
                         <StackPanel>
-                            <TextBlock Text="Nguồn dữ liệu KATA (Sheet Dam)" Style="{StaticResource SectionHeaderStyle}"/>
+                            <TextBlock Text="Nguồn dữ liệu KATA (Sheet Dam)" Style="{DynamicResource Subheading}" Margin="0,0,0,6"/>
                             <TextBlock Text="{Binding WorkbookName}" TextWrapping="Wrap" Margin="0,0,0,4"/>
                             <TextBlock Text="Đọc từ workbook đang kích hoạt trong Excel (kể cả chỉnh sửa chưa lưu)."
                                        FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"
                                        TextWrapping="Wrap" Margin="0,0,0,8"/>
-                            <Button Content="Đọc lại Excel" Command="{Binding RefreshFromExcelCommand}"
+                            <Button Content="Đọc lại Excel"
+                                    Style="{DynamicResource SecondaryButton}"
+                                    Command="{Binding RefreshFromExcelCommand}"
                                     AutomationProperties.AutomationId="KataRebarRefreshExcel"/>
                         </StackPanel>
                     </Border>
 
                     <!-- Card B: Khớp Dầm Revit -->
-                    <Border Style="{StaticResource CardBorderStyle}">
+                    <Border Style="{DynamicResource Card}" Margin="0,0,0,10">
                         <StackPanel>
-                            <TextBlock Text="Dải dầm mô hình Revit" Style="{StaticResource SectionHeaderStyle}"/>
+                            <TextBlock Text="Dải dầm mô hình Revit" Style="{DynamicResource Subheading}" Margin="0,0,0,6"/>
                             <TextBlock Text="{Binding MatchStatusText}" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="{DynamicResource Brush.Foreground.Secondary}"/>
 
-                            <Button Content="Chọn dầm trong Revit" Command="{Binding RepickBeamsCommand}"
+                            <Button Content="Chọn dầm trong Revit"
+                                    Style="{DynamicResource SecondaryButton}"
+                                    Command="{Binding RepickBeamsCommand}"
                                     AutomationProperties.AutomationId="KataRebarPickBeams"/>
                         </StackPanel>
                     </Border>
 
                     <!-- Card C: Ghép nối RebarBarType -->
-                    <Border Style="{StaticResource CardBorderStyle}">
+                    <Border Style="{DynamicResource Card}">
                         <StackPanel>
-                            <TextBlock Text="Ghép nối Kiểu thép Revit" Style="{StaticResource SectionHeaderStyle}"/>
+                            <TextBlock Text="Ghép nối Kiểu thép Revit" Style="{DynamicResource Subheading}" Margin="0,0,0,6"/>
                             <TextBlock Text="Khớp theo đường kính (±0.5 mm). Đường kính không có kiểu thép sẽ để trống: tải kiểu thép vào dự án hoặc chọn kiểu khác."
                                        FontSize="{DynamicResource Font.Size.Caption}" Foreground="{DynamicResource Brush.Foreground.Secondary}"
                                        TextWrapping="Wrap" Margin="0,0,0,8"/>
@@ -174,8 +136,6 @@
                                       HeadersVisibility="Column"
                                       GridLinesVisibility="Horizontal"
                                       HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
-                                      RowStyle="{StaticResource DataGridRowStyle}"
-                                      ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}"
                                       MaxHeight="260">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Vai trò" Binding="{Binding Role}" Width="110" IsReadOnly="True"/>
@@ -198,7 +158,7 @@
             </ScrollViewer>
 
             <!-- Right Pane: Tabs for Structural Rebar Detailing -->
-            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Padding="4">
+            <Border Grid.Column="1" Style="{DynamicResource Card}" Padding="4">
                 <TabControl Background="Transparent" BorderThickness="0">
                     <!-- Tab 1: Cốt thép dọc (Chủ, Gia cường, Thép mang) -->
                     <TabItem Header="Cốt thép dọc" FontWeight="SemiBold">
@@ -208,8 +168,6 @@
                                   HeadersVisibility="Column"
                                   GridLinesVisibility="Horizontal"
                                   HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
-                                  RowStyle="{StaticResource DataGridRowStyle}"
-                                  ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}"
                                   Margin="4,8,4,4">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Nhóm thép" Binding="{Binding Category}" Width="150"/>
@@ -230,8 +188,6 @@
                                   HeadersVisibility="Column"
                                   GridLinesVisibility="Horizontal"
                                   HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
-                                  RowStyle="{StaticResource DataGridRowStyle}"
-                                  ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}"
                                   Margin="4,8,4,4">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Nhịp #" Binding="{Binding SpanNumber}" Width="60"/>
@@ -251,8 +207,6 @@
                                   HeadersVisibility="Column"
                                   GridLinesVisibility="Horizontal"
                                   HorizontalGridLinesBrush="{DynamicResource Brush.GridLine}"
-                                  RowStyle="{StaticResource DataGridRowStyle}"
-                                  ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}"
                                   Margin="4,8,4,4">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Vùng rải" Binding="{Binding ZoneName}" Width="120"/>
@@ -319,6 +273,7 @@
 
             <Button Grid.Column="1"
                     Content="Tạo cốt thép 3D"
+                    Style="{DynamicResource PrimaryButton}"
                     AutomationProperties.AutomationId="KataRebarGenerate"
                     Command="{Binding GenerateRebarCommand}"
                     FontWeight="Bold"
@@ -327,6 +282,7 @@
 
             <Button Grid.Column="2"
                     Content="Đóng"
+                    Style="{DynamicResource SecondaryButton}"
                     AutomationProperties.AutomationId="KataRebarClose"
                     Command="{Binding CloseCommand}"
                     Padding="16,8"/>

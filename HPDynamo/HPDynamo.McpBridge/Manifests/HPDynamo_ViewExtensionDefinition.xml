@@ -1,0 +1,4 @@
+<ViewExtensionDefinition>
+  <AssemblyPath>..\..\..\..\Autodesk\Revit\Addins\2026\HPDynamo.McpBridge\HPDynamo.McpBridge.dll</AssemblyPath>
+  <TypeName>HPDynamo.McpBridge.Entry.DynamoBridgeViewExtension</TypeName>
+</ViewExtensionDefinition>

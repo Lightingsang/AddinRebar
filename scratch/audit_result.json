@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":{\"TotalBeams\":295,\"Level\":\"Tầng 1\",\"LevelElevationMm\":-100,\"OriginJustCount\":295,\"TopJustCount\":295,\"DisallowJoinBothEndsCount\":295,\"ElevationMinus100Count\":295,\"DisallowJoinPercentage\":100,\"TypeBreakdown\":{\"B_300x400\":39,\"B_200x400\":164,\"B_200x500\":35,\"B_200x300\":41,\"B_300x300\":2,\"B_300x600\":2,\"B_100x400\":2,\"B_100x300\":6,\"B_500x400\":4},\"AllPassed\":true},\"valueType\":\"<>f__AnonymousType0#1`10\",\"warnings\":[],\"logs\":[\"Kiem toan: 295 dam tai Tầng 1. DisallowJoin: 295/295, OriginJust: 295/295, TopJust: 295/295, Elev -100mm: 295/295.\",\"dryRun=true: All Revit document modifications rolled back cleanly.\"],\"diagnostics\":[],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":true,\"timedOut\":false,\"durationMs\":59,\"truncated\":false,\"runId\":22,\"hint\":\"This run succeeded and looks reusable. To keep it as a tool: get_run 22 (shows literals to turn into args), then propose_tool. Skip if it was a one-off.\"}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

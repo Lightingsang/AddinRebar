@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <!-- HPGrasshopper MCP: In-Process Dual-Lifecycle Bridge running inside Revit 2026 / Rhino.Inside.Revit (Rhino 8),
+       stdio MCP Server executable launched by AI coding agents, and unit acceptance test suites.
+       Shared engine, always referenced by relative path, never copied:
+         ../McpShared/HPRebar.Mcp.Contracts
+         ../McpShared/HPRebar.McpBridge.Core
+         ../McpShared/HPRebar.Mcp.Server.Core -->
+  <Project Path="HPGrasshopper.McpBridge/HPGrasshopper.McpBridge.csproj" />
+  <Project Path="HPGrasshopper.McpBridge.Tests/HPGrasshopper.McpBridge.Tests.csproj" />
+  <Project Path="HPGrasshopper.Mcp.Server/HPGrasshopper.Mcp.Server.csproj" />
+  <Project Path="HPGrasshopper.Mcp.Server.Tests/HPGrasshopper.Mcp.Server.Tests.csproj" />
+  <Project Path="HPGrasshopper.E2E.Tests/HPGrasshopper.E2E.Tests.csproj" />
+  <Folder Name="/Shared/">
+    <Project Path="../McpShared/HPRebar.Mcp.Contracts/HPRebar.Mcp.Contracts.csproj" />
+    <Project Path="../McpShared/HPRebar.McpBridge.Core/HPRebar.McpBridge.Core.csproj" />
+    <Project Path="../McpShared/HPRebar.Mcp.Server.Core/HPRebar.Mcp.Server.Core.csproj" />
+  </Folder>
+</Solution>

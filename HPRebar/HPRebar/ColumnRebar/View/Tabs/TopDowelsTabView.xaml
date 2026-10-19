@@ -46,12 +46,7 @@
                   ItemsSource="{Binding Session.SelectedColumn.Splices}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
-                  HeadersVisibility="Column"
-                  Background="{DynamicResource Brush.Surface}"
-                  RowBackground="{DynamicResource Brush.Surface}"
-                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
-                  Foreground="{DynamicResource Brush.Foreground.Primary}"
-                  BorderBrush="{DynamicResource Brush.Border}">
+                  HeadersVisibility="Column">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="No" Binding="{Binding BarNumber}" IsReadOnly="True" Width="70"/>
                 <DataGridCheckBoxColumn Header="Top" Binding="{Binding IsTopDowels, UpdateSourceTrigger=PropertyChanged}" Width="80"/>

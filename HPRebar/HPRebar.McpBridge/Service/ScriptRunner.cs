@@ -64,6 +64,7 @@ public sealed class ScriptRunner
 
         TransactionGroup? group = null;
         Transaction? transaction = null;
+        AutoDismissFailurePreprocessor? failurePreprocessor = null;
         object? value = null;
         string? message = null;
         var rolledBack = false;
@@ -80,7 +81,7 @@ public sealed class ScriptRunner
             if (mode == TransactionModes.Auto)
             {
                 transaction = new Transaction(doc, "MCP script");
-                AutoDismissFailurePreprocessor.ApplyTo(transaction);
+                failurePreprocessor = AutoDismissFailurePreprocessor.ApplyTo(transaction);
                 transaction.Start();
             }
 
@@ -142,6 +143,7 @@ public sealed class ScriptRunner
         {
             IsError = message is not null,
             Message = message,
+            Warnings = failurePreprocessor?.Warnings ?? (IReadOnlyList<string>)Array.Empty<string>(),
             Logs = logs,
             Changed = counter.Counts,
             RolledBack = rolledBack,

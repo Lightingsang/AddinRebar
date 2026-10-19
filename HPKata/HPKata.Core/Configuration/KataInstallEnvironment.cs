@@ -1,0 +1,103 @@
+using System;
+using System.Threading;
+
+namespace HPKata.Core.Configuration
+{
+    /// <summary>
+    /// Thread-safe static accessor and environment provider for HPKata.
+    /// Supports test isolation and ambient scoping via <see cref="AsyncLocal{T}"/>.
+    /// </summary>
+    public static class KataInstallEnvironment
+    {
+        /// <summary>
+        /// Default installation root directory for HPKata: @"C:\HPKata".
+        /// </summary>
+        public const string DefaultRootDirectory = @"C:\HPKata";
+
+        private static readonly IKataInstallEnvironment _defaultEnvironment =
+            new DefaultKataInstallEnvironment(DefaultRootDirectory);
+
+        private static IKataInstallEnvironment? _globalEnvironment;
+        private static readonly AsyncLocal<IKataInstallEnvironment?> _currentScope =
+            new AsyncLocal<IKataInstallEnvironment?>();
+
+        /// <summary>
+        /// Gets the current active <see cref="IKataInstallEnvironment"/>.
+        /// Precedence: Ambient Scope (AsyncLocal) -> Global Override -> Default (@"C:\HPKata").
+        /// </summary>
+        public static IKataInstallEnvironment Current =>
+            _currentScope.Value ?? _globalEnvironment ?? _defaultEnvironment;
+
+        /// <summary>
+        /// Gets the canonical path to the 86-parameter configuration file (Goi lenh.lsp).
+        /// </summary>
+        public static string GetConfigFilePath() => Current.GoiLenhLspPath;
+
+        /// <summary>
+        /// Sets a process-wide global fallback environment.
+        /// Pass null to reset to the default @"C:\HPKata" installation environment.
+        /// </summary>
+        /// <param name="environment">The environment instance, or null to reset.</param>
+        public static void SetGlobal(IKataInstallEnvironment? environment)
+        {
+            _globalEnvironment = environment;
+        }
+
+        /// <summary>
+        /// Resets the process-wide global environment to default.
+        /// </summary>
+        public static void ResetGlobal()
+        {
+            _globalEnvironment = null;
+        }
+
+        /// <summary>
+        /// Activates an ambient environment rooted at <paramref name="rootDirectory"/> for the current execution context.
+        /// Disposing the returned token restores the previous environment.
+        /// </summary>
+        /// <param name="rootDirectory">The root directory path.</param>
+        /// <returns>A token that restores the previous scope when disposed.</returns>
+        public static IDisposable UseRootDirectory(string rootDirectory)
+        {
+            if (string.IsNullOrWhiteSpace(rootDirectory))
+            {
+                throw new ArgumentException("Root directory cannot be null or whitespace.", nameof(rootDirectory));
+            }
+
+            return UseEnvironment(new DefaultKataInstallEnvironment(rootDirectory));
+        }
+
+        /// <summary>
+        /// Activates the given <paramref name="environment"/> for the current execution context.
+        /// Disposing the returned token restores the previous environment.
+        /// </summary>
+        /// <param name="environment">The environment to activate.</param>
+        /// <returns>A token that restores the previous scope when disposed.</returns>
+        public static IDisposable UseEnvironment(IKataInstallEnvironment environment)
+        {
+            if (environment == null)
+            {
+                throw new ArgumentNullException(nameof(environment));
+            }
+
+            var previous = _currentScope.Value;
+            _currentScope.Value = environment;
+            return new ScopeToken(() => _currentScope.Value = previous);
+        }
+
+        private sealed class ScopeToken : IDisposable
+        {
+            private Action? _disposeAction;
+
+            public ScopeToken(Action disposeAction)
+            {
+                _disposeAction = disposeAction;
+            }
+
+            public void Dispose()
+            {
+                Interlocked.Exchange(ref _disposeAction, null)?.Invoke();
+            }
+        }
+    }
+}

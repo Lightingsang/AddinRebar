@@ -61,6 +61,18 @@ public sealed class RibbonIcons
         McpBridge = Glyph(
             (ink, "M2,4 H30 V28 H2 Z M4,8 H28 V26 H4 Z"),
             (McpAccent, "M10,10 H12 V14 H10 Z M20,10 H22 V14 H20 Z M8,14 H24 V20 H8 Z M14,20 H18 V24 H14 Z"));
+
+        // Rebar Partition: bar layout with partition divider badges.
+        RebarPartition = Glyph(
+            (ink, "M2,4 H30 V28 H2 Z M4,6 H28 V26 H4 Z"),
+            (Steel, "M6,8 H26 V10 H6 Z M6,14 H26 V16 H6 Z M6,20 H26 V22 H6 Z"),
+            (McpAccent, "M12,6 H14 V26 H12 Z M20,6 H22 V26 H20 Z"));
+
+        // Join Elements: Two intersecting structural solids (vertical column and horizontal beam) joined together.
+        JoinElements = Glyph(
+            (ink, "M4,10 H28 V18 H4 Z M6,12 H26 V16 H6 Z"),
+            (ink, "M10,2 H18 V30 H10 Z M12,4 H16 V28 H12 Z"),
+            (McpAccent, "M12,12 H16 V16 H12 Z"));
     }
 
     /// <summary>Continuous beam run exported to Kata Excel.</summary>
@@ -77,6 +89,12 @@ public sealed class RibbonIcons
 
     /// <summary>Footing with a column stub and the bottom reinforcement mat.</summary>
     public ImageSource FoundationRebar { get; }
+
+    /// <summary>Assign and manage rebar partitions.</summary>
+    public ImageSource RebarPartition { get; }
+
+    /// <summary>Auto Join structural geometry elements.</summary>
+    public ImageSource JoinElements { get; }
 
     /// <summary>Window with a plug — the MCP bridge status window.</summary>
     public ImageSource McpBridge { get; }

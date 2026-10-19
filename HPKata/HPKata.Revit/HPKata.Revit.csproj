@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>HPKata.Revit</RootNamespace>
+    <AssemblyName>HPKata.Revit</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RevitPackageVersion Condition="'$(RevitPackageVersion)' == ''">2026.0.4</RevitPackageVersion>
+    <DeployAddin Condition="'$(DeployAddin)' == ''">true</DeployAddin>
+    <RevitAddinsDir>$([System.Environment]::GetFolderPath(SpecialFolder.ApplicationData))\Autodesk\Revit\Addins\2026\</RevitAddinsDir>
+    <RevitPluginDir>$(RevitAddinsDir)HPKata.Revit\</RevitPluginDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitPackageVersion)" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitPackageVersion)" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HPKata.Core\HPKata.Core.csproj" />
+    <ProjectReference Include="..\HPKata.UI\HPKata.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="HPKata.Revit.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="HPKata.Revit.addin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="DeployRevitAddin" AfterTargets="Build" Condition="'$(DeployAddin)' == 'true' And '$(DesignTimeBuild)' != 'true'">
+    <Delete Files="$(RevitPluginDir)HPKata.Revit.dll" ContinueOnError="true" />
+
+    <PropertyGroup>
+      <_RevitDllLocked Condition="Exists('$(RevitPluginDir)HPKata.Revit.dll')">true</_RevitDllLocked>
+    </PropertyGroup>
+
+    <Message Importance="high"
+             Condition="'$(_RevitDllLocked)' == 'true'"
+             Text="[HPKata.Revit] Revit 2026 is currently locking $(RevitPluginDir)HPKata.Revit.dll. Skipped auto-deploy; use AddinManager or close Revit to update." />
+
+    <ItemGroup Condition="'$(_RevitDllLocked)' != 'true'">
+      <_AddinManifest Include="$(MSBuildThisFileDirectory)HPKata.Revit.addin" />
+      <_PluginPayloads Include="$(TargetDir)**\*" Exclude="$(TargetDir)HPKata.Revit.addin;$(TargetDir)RevitAPI*.dll;$(TargetDir)AdWindows.dll;$(TargetDir)UIFramework*.dll" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(_AddinManifest)"
+          DestinationFolder="$(RevitAddinsDir)"
+          Condition="'$(_RevitDllLocked)' != 'true'" />
+
+    <Copy SourceFiles="@(_PluginPayloads)"
+          DestinationFiles="@(_PluginPayloads->'$(RevitPluginDir)%(RecursiveDir)%(Filename)%(Extension)')"
+          Condition="'$(_RevitDllLocked)' != 'true'" />
+
+    <Copy SourceFiles="@(_PluginPayloads)"
+          DestinationFolder="C:\HPKata\"
+          Condition="Exists('C:\HPKata') And '$(_RevitDllLocked)' != 'true'"
+          ContinueOnError="true" />
+
+    <Message Importance="high"
+             Condition="'$(_RevitDllLocked)' != 'true'"
+             Text="[HPKata.Revit] Deployed HPKata.Revit.addin and payload to $(RevitAddinsDir) and C:\HPKata\" />
+  </Target>
+
+</Project>

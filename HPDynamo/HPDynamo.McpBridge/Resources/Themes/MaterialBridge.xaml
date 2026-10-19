@@ -1,0 +1,108 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!--
+        MaterialDesign for the bridge window.
+        Merged first by the window so the palette and DynamoTheme.xaml keep the last word.
+        Product palette: primary #0696D7, secondary #E0641E.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <md:CustomColorTheme BaseTheme="Dark" PrimaryColor="#0696D7" SecondaryColor="#E0641E"/>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Segoe UI everywhere (the product font; the toolkit's Roboto markup is never used in HP XAML). -->
+    <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+
+    <!-- ===== Bảng nút bấm phân cấp (Tiered Action Buttons) ===== -->
+    <!-- Primary Button: Raised accent CTA -->
+    <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Accent.Foreground}"/>
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource Brush.Accent.Foreground}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="md:ButtonAssist.CornerRadius" Value="4"/>
+    </Style>
+
+    <!-- Secondary Button: Outlined action -->
+    <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="md:ButtonAssist.CornerRadius" Value="4"/>
+    </Style>
+
+    <!-- Danger Button: Destructive action -->
+    <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Danger}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Danger}"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="TextBlock.Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <!-- IconButton: 32x32 icon button -->
+    <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground.Primary}"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- LinkButton: Flat hyperlink button -->
+    <Style x:Key="LinkButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Caption}"/>
+        <Setter Property="Padding" Value="4,0"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- ===== Input Controls ===== -->
+    <Style x:Key="StandardTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+    </Style>
+
+    <Style x:Key="StandardComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.Family.Default}"/>
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="md:TextFieldAssist.TextFieldCornerRadius" Value="4"/>
+    </Style>
+
+    <!-- ===== Card Panel (Nhóm nội dung phân tầng) ===== -->
+    <Style x:Key="Card.Panel" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.15" Color="#000000"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

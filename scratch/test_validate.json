@@ -1,0 +1,13 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"isError\":false,\"value\":{\"success\":true,\"isValid\":true,\"graphName\":\"VeHeDamTang1_DaKieng\",\"graphId\":\"da28c993-04c7-46a6-be35-ee05c430eb47\",\"nodeCount\":3,\"wireCount\":2,\"issuesCount\":0,\"issues\":[],\"warningsCount\":0,\"warnings\":[],\"packageDependencies\":[],\"summary\":\"Graph 'VeHeDamTang1_DaKieng' is valid (3 nodes, 2 wires)\"},\"valueType\":\"<>f__AnonymousType0#1`12\",\"warnings\":[],\"logs\":[\"Validated graph 'VeHeDamTang1_DaKieng': Valid=True, Issues=0, Warnings=0, Nodes=3, Wires=2\"],\"diagnostics\":[],\"changed\":{\"added\":0,\"modified\":0,\"deleted\":0},\"rolledBack\":false,\"timedOut\":false,\"durationMs\":10,\"truncated\":false,\"runId\":12}"
+      }
+    ],
+    "isError": false
+  },
+  "id": 2,
+  "jsonrpc": "2.0"
+}

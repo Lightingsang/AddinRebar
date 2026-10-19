@@ -1,0 +1,112 @@
+{
+  "HPBim\\tests\\HPBim.Core.Tests\\Adversarial\\BimModelSchemaValidatorAdversarialCoverageTests.cs": {
+    "lines": 271,
+    "c2_pass": true,
+    "test_count": 10,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Core.Tests\\Adversarial\\IdempotentElementResolverAdversarialCoverageTests.cs": {
+    "lines": 186,
+    "c2_pass": true,
+    "test_count": 7,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Core.Tests\\Adversarial\\CompositeSourceKeyAdversarialCoverageTests.cs": {
+    "lines": 126,
+    "c2_pass": true,
+    "test_count": 8,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Core.Tests\\Adversarial\\MeasuredGeometricVerifierAdversarialCoverageTests.cs": {
+    "lines": 255,
+    "c2_pass": true,
+    "test_count": 8,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Connection\\IntentJournalTier5AdversarialTests.cs": {
+    "lines": 180,
+    "c2_pass": true,
+    "test_count": 3,
+    "m3_violations": [
+      [
+        "FileCorruption_BlankLinesAndMalformedRecords_GracefullyExtractsValidRecords",
+        98,
+        180,
+        83
+      ]
+    ],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Connection\\TimeoutPolicyTier5AdversarialTests.cs": {
+    "lines": 129,
+    "c2_pass": true,
+    "test_count": 11,
+    "m3_violations": [],
+    "dummy_asserts": [
+      [
+        "Validate_ExactEquality_BaseAndMaxBudget_ValidatesSuccessfully",
+        "NO_ASSERTION",
+        "No Assert statements in test method"
+      ]
+    ],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReceiptReaderTier5AdversarialTests.cs": {
+    "lines": 191,
+    "c2_pass": true,
+    "test_count": 10,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Recovery\\ReconcileServiceTier5AdversarialTests.cs": {
+    "lines": 185,
+    "c2_pass": true,
+    "test_count": 6,
+    "m3_violations": [
+      [
+        "ReconcileAllUnknownIntents_InterleavedStatuses_ReconcilesEachAccurately",
+        38,
+        96,
+        59
+      ]
+    ],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Pipeline\\BimPlanRunnerScriptTemplateTier5AdversarialTests.cs": {
+    "lines": 102,
+    "c2_pass": true,
+    "test_count": 6,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  },
+  "HPBim\\tests\\HPBim.Client.Tests\\Pipeline\\BimPipelineEngineTier5AdversarialTests.cs": {
+    "lines": 238,
+    "c2_pass": true,
+    "test_count": 7,
+    "m3_violations": [],
+    "dummy_asserts": [],
+    "commented_code": [],
+    "empty_catches": []
+  }
+}

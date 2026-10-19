@@ -1,0 +1,111 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>HPDynamo.McpBridge</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Version>0.1.0</Version>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <NoWarn>$(NoWarn);MSB3277</NoWarn>
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+    </PropertyGroup>
+
+    <!-- Global ItemDefinitionGroup: Guaranteed defense against bin pollution -->
+    <ItemDefinitionGroup>
+        <Reference>
+            <Private>false</Private>
+        </Reference>
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HPDynamo.McpBridge.Tests" />
+        <InternalsVisibleTo Include="HPDynamo.E2E.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- NuGet Dependencies -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="MaterialDesignThemes" Version="5.3.2"/>
+        <PackageReference Include="ILRepack" Version="2.0.46" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Shared McpShared Engine Projects -->
+        <ProjectReference Include="..\..\McpShared\HPRebar.Mcp.Contracts\HPRebar.Mcp.Contracts.csproj"/>
+        <ProjectReference Include="..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj"/>
+    </ItemGroup>
+
+    <!-- Revit 2026 Core Reference Assemblies (Never copied to bin) -->
+    <ItemGroup>
+        <Reference Include="RevitAPI">
+            <HintPath>$(RevitInstallDir)RevitAPI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+            <HintPath>$(RevitInstallDir)RevitAPIUI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="AdWindows">
+            <HintPath>$(RevitInstallDir)AdWindows.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Dynamo 3.7 Core & Revit Integration Assemblies (Never copied to bin) -->
+    <ItemGroup>
+        <Reference Include="DynamoCore">
+            <HintPath>$(DynamoInstallDir)DynamoCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ProtoCore">
+            <HintPath>$(DynamoInstallDir)ProtoCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="DynamoCoreWpf">
+            <HintPath>$(DynamoInstallDir)DynamoCoreWpf.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="DynamoServices">
+            <HintPath>$(DynamoInstallDir)DynamoServices.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="DynamoApplications">
+            <HintPath>$(DynamoInstallDir)DynamoApplications.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RevitNodes">
+            <HintPath>$(DynamoRevitDir)RevitNodes.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="DynamoRevitDS">
+            <HintPath>$(DynamoRevitDir)DynamoRevitDS.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RevitServices">
+            <HintPath>$(DynamoRevitDir)RevitServices.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Repack MaterialDesign toolkit into HPDynamo.McpBridge.dll to prevent WPF BAML collisions in Revit.exe -->
+    <Target Name="RepackMaterialDesign" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(TargetDir)MaterialDesignThemes.Wpf.dll')">
+        <PropertyGroup>
+            <_RepackExe>$(PkgILRepack)\tools\ILRepack.exe</_RepackExe>
+            <_RepackLib>@(ReferencePath->'%(RelativeDir)'->Distinct()->'/lib:&quot;%(Identity) &quot;', ' ')</_RepackLib>
+        </PropertyGroup>
+        <Exec Command="&quot;$(_RepackExe)&quot; /union /parallel /noRepackRes $(_RepackLib) /out:&quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;@(IntermediateAssembly->'%(FullPath)')&quot; &quot;$(TargetDir)MaterialDesignThemes.Wpf.dll&quot; &quot;$(TargetDir)MaterialDesignColors.dll&quot; &quot;$(TargetDir)Microsoft.Xaml.Behaviors.dll&quot;"/>
+        <Delete Files="$(TargetDir)MaterialDesignThemes.Wpf.dll;$(TargetDir)MaterialDesignColors.dll;$(TargetDir)Microsoft.Xaml.Behaviors.dll;$(TargetDir)MaterialDesignThemes.Wpf.xml"
+                Retries="5"
+                RetryDelayMilliseconds="300"
+                ContinueOnError="true" />
+        <Message Importance="high" Text="RepackMaterialDesign: MaterialDesignThemes merged into $(AssemblyName).dll"/>
+    </Target>
+
+</Project>

@@ -1,0 +1,2140 @@
+{
+  "totalFootings": 57,
+  "totalPilesInFootings": 196,
+  "footings": [
+    {
+      "Name": "\u0110C-5C-01",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 150,
+      "CenterY": 9950,
+      "WidthX": 2500,
+      "WidthY": 1600,
+      "AreaM2": 4,
+      "Vertices": [
+        {
+          "X": -1100,
+          "Y": 9150
+        },
+        {
+          "X": 1400,
+          "Y": 9150
+        },
+        {
+          "X": 1400,
+          "Y": 10750
+        },
+        {
+          "X": -1100,
+          "Y": 10750
+        }
+      ],
+      "PileStts": [
+        7,
+        8,
+        9,
+        11,
+        10
+      ]
+    },
+    {
+      "Name": "\u0110C-5C-02",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 150,
+      "CenterY": 17950,
+      "WidthX": 2500,
+      "WidthY": 1600,
+      "AreaM2": 4,
+      "Vertices": [
+        {
+          "X": -1100,
+          "Y": 17150
+        },
+        {
+          "X": 1400,
+          "Y": 17150
+        },
+        {
+          "X": 1400,
+          "Y": 18750
+        },
+        {
+          "X": -1100,
+          "Y": 18750
+        }
+      ],
+      "PileStts": [
+        12,
+        13,
+        14,
+        16,
+        15
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-03",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 1150,
+      "CenterY": 4800,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 350,
+          "Y": 4000
+        },
+        {
+          "X": 1950,
+          "Y": 4000
+        },
+        {
+          "X": 1950,
+          "Y": 5600
+        },
+        {
+          "X": 350,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-04",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 1150,
+      "CenterY": 23100,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 350,
+          "Y": 22300
+        },
+        {
+          "X": 1950,
+          "Y": 22300
+        },
+        {
+          "X": 1950,
+          "Y": 23900
+        },
+        {
+          "X": 350,
+          "Y": 23900
+        }
+      ],
+      "PileStts": [
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-05",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 1250,
+      "CenterY": -100,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 900,
+          "Y": -900
+        },
+        {
+          "X": 1600,
+          "Y": -900
+        },
+        {
+          "X": 1600,
+          "Y": 700
+        },
+        {
+          "X": 900,
+          "Y": 700
+        }
+      ],
+      "PileStts": [
+        1,
+        2
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-06",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 1250,
+      "CenterY": 28000,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 900,
+          "Y": 27200
+        },
+        {
+          "X": 1600,
+          "Y": 27200
+        },
+        {
+          "X": 1600,
+          "Y": 28800
+        },
+        {
+          "X": 900,
+          "Y": 28800
+        }
+      ],
+      "PileStts": [
+        21,
+        22
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-07",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 6850,
+      "CenterY": 0,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": -750
+        },
+        {
+          "X": 7650,
+          "Y": -750
+        },
+        {
+          "X": 7650,
+          "Y": 750
+        },
+        {
+          "X": 6050,
+          "Y": 750
+        }
+      ],
+      "PileStts": [
+        42,
+        43,
+        44
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-08",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 6850,
+      "CenterY": 4800,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": 4000
+        },
+        {
+          "X": 7650,
+          "Y": 4000
+        },
+        {
+          "X": 7650,
+          "Y": 5600
+        },
+        {
+          "X": 6050,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "Name": "\u0110C-10C-09",
+      "PileCount": 10,
+      "FloorType": "HP-ES-CAP-CON-B20-1300",
+      "ThicknessMm": 1300,
+      "TopZMm": -1600,
+      "BottomZMm": -2900,
+      "PileTopZMm": -2800,
+      "CenterX": 8525,
+      "CenterY": 9950,
+      "WidthX": 4950,
+      "WidthY": 1600,
+      "AreaM2": 7.92,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": 9150
+        },
+        {
+          "X": 11000,
+          "Y": 9150
+        },
+        {
+          "X": 11000,
+          "Y": 10750
+        },
+        {
+          "X": 6050,
+          "Y": 10750
+        }
+      ],
+      "PileStts": [
+        34,
+        35,
+        36,
+        37,
+        52,
+        54,
+        52,
+        53,
+        55,
+        56
+      ]
+    },
+    {
+      "Name": "\u0110C-10C-10",
+      "PileCount": 10,
+      "FloorType": "HP-ES-CAP-CON-B20-1300",
+      "ThicknessMm": 1300,
+      "TopZMm": -1600,
+      "BottomZMm": -2900,
+      "PileTopZMm": -2800,
+      "CenterX": 8525,
+      "CenterY": 17950,
+      "WidthX": 4950,
+      "WidthY": 1600,
+      "AreaM2": 7.92,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": 17150
+        },
+        {
+          "X": 11000,
+          "Y": 17150
+        },
+        {
+          "X": 11000,
+          "Y": 18750
+        },
+        {
+          "X": 6050,
+          "Y": 18750
+        }
+      ],
+      "PileStts": [
+        30,
+        31,
+        32,
+        33,
+        57,
+        60,
+        58,
+        59,
+        61,
+        62
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-11",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 6850,
+      "CenterY": 23100,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": 22300
+        },
+        {
+          "X": 7650,
+          "Y": 22300
+        },
+        {
+          "X": 7650,
+          "Y": 23900
+        },
+        {
+          "X": 6050,
+          "Y": 23900
+        }
+      ],
+      "PileStts": [
+        26,
+        27,
+        28,
+        29
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-12",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 6850,
+      "CenterY": 27900,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 6050,
+          "Y": 27150
+        },
+        {
+          "X": 7650,
+          "Y": 27150
+        },
+        {
+          "X": 7650,
+          "Y": 28650
+        },
+        {
+          "X": 6050,
+          "Y": 28650
+        }
+      ],
+      "PileStts": [
+        23,
+        24,
+        25
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-13",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 9850,
+      "CenterY": 4800,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 9050,
+          "Y": 4000
+        },
+        {
+          "X": 10650,
+          "Y": 4000
+        },
+        {
+          "X": 10650,
+          "Y": 5600
+        },
+        {
+          "X": 9050,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-14",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 9850,
+      "CenterY": 23100,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 9050,
+          "Y": 22300
+        },
+        {
+          "X": 10650,
+          "Y": 22300
+        },
+        {
+          "X": 10650,
+          "Y": 23900
+        },
+        {
+          "X": 9050,
+          "Y": 23900
+        }
+      ],
+      "PileStts": [
+        63,
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-15",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 9850,
+      "CenterY": -100,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 9500,
+          "Y": -900
+        },
+        {
+          "X": 10200,
+          "Y": -900
+        },
+        {
+          "X": 10200,
+          "Y": 700
+        },
+        {
+          "X": 9500,
+          "Y": 700
+        }
+      ],
+      "PileStts": [
+        45,
+        46
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-16",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 9850,
+      "CenterY": 28000,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 9500,
+          "Y": 27200
+        },
+        {
+          "X": 10200,
+          "Y": 27200
+        },
+        {
+          "X": 10200,
+          "Y": 28800
+        },
+        {
+          "X": 9500,
+          "Y": 28800
+        }
+      ],
+      "PileStts": [
+        67,
+        68
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-17",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 13950,
+      "CenterY": 1200,
+      "WidthX": 700,
+      "WidthY": 4100,
+      "AreaM2": 2.87,
+      "Vertices": [
+        {
+          "X": 13600,
+          "Y": -850
+        },
+        {
+          "X": 14300,
+          "Y": -850
+        },
+        {
+          "X": 14300,
+          "Y": 3250
+        },
+        {
+          "X": 13600,
+          "Y": 3250
+        }
+      ],
+      "PileStts": [
+        73,
+        74,
+        75,
+        75
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-18",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 13950,
+      "CenterY": 26700,
+      "WidthX": 700,
+      "WidthY": 4100,
+      "AreaM2": 2.87,
+      "Vertices": [
+        {
+          "X": 13600,
+          "Y": 24650
+        },
+        {
+          "X": 14300,
+          "Y": 24650
+        },
+        {
+          "X": 14300,
+          "Y": 28750
+        },
+        {
+          "X": 13600,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        69,
+        70,
+        71,
+        72
+      ]
+    },
+    {
+      "Name": "\u0110C-11C-19",
+      "PileCount": 11,
+      "FloorType": "HP-ES-CAP-CON-B20-1300",
+      "ThicknessMm": 1300,
+      "TopZMm": -1600,
+      "BottomZMm": -2900,
+      "PileTopZMm": -2800,
+      "CenterX": 16700,
+      "CenterY": 2375,
+      "WidthX": 2500,
+      "WidthY": 6450,
+      "AreaM2": 16.12,
+      "Vertices": [
+        {
+          "X": 15450,
+          "Y": -850
+        },
+        {
+          "X": 17950,
+          "Y": -850
+        },
+        {
+          "X": 17950,
+          "Y": 5600
+        },
+        {
+          "X": 15450,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        86,
+        87,
+        85
+      ]
+    },
+    {
+      "Name": "\u0110C-11C-20",
+      "PileCount": 11,
+      "FloorType": "HP-ES-CAP-CON-B20-1300",
+      "ThicknessMm": 1300,
+      "TopZMm": -1600,
+      "BottomZMm": -2900,
+      "PileTopZMm": -2800,
+      "CenterX": 16700,
+      "CenterY": 25525,
+      "WidthX": 2500,
+      "WidthY": 6450,
+      "AreaM2": 16.12,
+      "Vertices": [
+        {
+          "X": 15450,
+          "Y": 22300
+        },
+        {
+          "X": 17950,
+          "Y": 22300
+        },
+        {
+          "X": 17950,
+          "Y": 28750
+        },
+        {
+          "X": 15450,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "Name": "\u0110C-6C-21",
+      "PileCount": 6,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 16500,
+      "CenterY": 13950,
+      "WidthX": 1500,
+      "WidthY": 4100,
+      "AreaM2": 6.15,
+      "Vertices": [
+        {
+          "X": 15750,
+          "Y": 11900
+        },
+        {
+          "X": 17250,
+          "Y": 11900
+        },
+        {
+          "X": 17250,
+          "Y": 16000
+        },
+        {
+          "X": 15750,
+          "Y": 16000
+        }
+      ],
+      "PileStts": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ]
+    },
+    {
+      "Name": "\u0110C-5C-22",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 23650,
+      "CenterY": 3775,
+      "WidthX": 1600,
+      "WidthY": 3650,
+      "AreaM2": 5.84,
+      "Vertices": [
+        {
+          "X": 22850,
+          "Y": 1950
+        },
+        {
+          "X": 24450,
+          "Y": 1950
+        },
+        {
+          "X": 24450,
+          "Y": 5600
+        },
+        {
+          "X": 22850,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        115,
+        116,
+        117,
+        118,
+        118
+      ]
+    },
+    {
+      "Name": "\u0110C-5C-23",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 23650,
+      "CenterY": 24125,
+      "WidthX": 1600,
+      "WidthY": 3650,
+      "AreaM2": 5.84,
+      "Vertices": [
+        {
+          "X": 22850,
+          "Y": 22300
+        },
+        {
+          "X": 24450,
+          "Y": 22300
+        },
+        {
+          "X": 24450,
+          "Y": 25950
+        },
+        {
+          "X": 22850,
+          "Y": 25950
+        }
+      ],
+      "PileStts": [
+        106,
+        106,
+        108,
+        109,
+        110
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-24",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 23650,
+      "CenterY": -50,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 23300,
+          "Y": -400
+        },
+        {
+          "X": 24000,
+          "Y": -400
+        },
+        {
+          "X": 24000,
+          "Y": 300
+        },
+        {
+          "X": 23300,
+          "Y": 300
+        }
+      ],
+      "PileStts": [
+        120
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-25",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 23650,
+      "CenterY": 27950,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 23300,
+          "Y": 27600
+        },
+        {
+          "X": 24000,
+          "Y": 27600
+        },
+        {
+          "X": 24000,
+          "Y": 28300
+        },
+        {
+          "X": 23300,
+          "Y": 28300
+        }
+      ],
+      "PileStts": [
+        105
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-26",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 23700,
+      "CenterY": 13950.1,
+      "WidthX": 700,
+      "WidthY": 4100,
+      "AreaM2": 2.87,
+      "Vertices": [
+        {
+          "X": 23350,
+          "Y": 11900.1
+        },
+        {
+          "X": 24050,
+          "Y": 11900.1
+        },
+        {
+          "X": 24050,
+          "Y": 16000.1
+        },
+        {
+          "X": 23350,
+          "Y": 16000.1
+        }
+      ],
+      "PileStts": [
+        111,
+        112,
+        113,
+        114
+      ]
+    },
+    {
+      "Name": "\u0110C-5C-27",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 29100,
+      "CenterY": 3775,
+      "WidthX": 1600,
+      "WidthY": 3650,
+      "AreaM2": 5.84,
+      "Vertices": [
+        {
+          "X": 28300,
+          "Y": 1950
+        },
+        {
+          "X": 29900,
+          "Y": 1950
+        },
+        {
+          "X": 29900,
+          "Y": 5600
+        },
+        {
+          "X": 28300,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        123,
+        126,
+        125,
+        126,
+        127
+      ]
+    },
+    {
+      "Name": "\u0110C-5C-28",
+      "PileCount": 5,
+      "FloorType": "HP-ES-CAP-CON-B20-1200",
+      "ThicknessMm": 1200,
+      "TopZMm": -1600,
+      "BottomZMm": -2800,
+      "PileTopZMm": -2700,
+      "CenterX": 29100,
+      "CenterY": 24125,
+      "WidthX": 1600,
+      "WidthY": 3650,
+      "AreaM2": 5.84,
+      "Vertices": [
+        {
+          "X": 28300,
+          "Y": 22300
+        },
+        {
+          "X": 29900,
+          "Y": 22300
+        },
+        {
+          "X": 29900,
+          "Y": 25950
+        },
+        {
+          "X": 28300,
+          "Y": 25950
+        }
+      ],
+      "PileStts": [
+        132,
+        133,
+        134,
+        135,
+        136
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-29",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 29100,
+      "CenterY": -50,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 28750,
+          "Y": -850
+        },
+        {
+          "X": 29450,
+          "Y": -850
+        },
+        {
+          "X": 29450,
+          "Y": 750
+        },
+        {
+          "X": 28750,
+          "Y": 750
+        }
+      ],
+      "PileStts": [
+        121,
+        122
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-30",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 29100,
+      "CenterY": 27950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 28750,
+          "Y": 27150
+        },
+        {
+          "X": 29450,
+          "Y": 27150
+        },
+        {
+          "X": 29450,
+          "Y": 28750
+        },
+        {
+          "X": 28750,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        137,
+        138
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-31",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 29150,
+      "CenterY": 13950.1,
+      "WidthX": 700,
+      "WidthY": 4100,
+      "AreaM2": 2.87,
+      "Vertices": [
+        {
+          "X": 28800,
+          "Y": 11900.1
+        },
+        {
+          "X": 29500,
+          "Y": 11900.1
+        },
+        {
+          "X": 29500,
+          "Y": 16000.1
+        },
+        {
+          "X": 28800,
+          "Y": 16000.1
+        }
+      ],
+      "PileStts": [
+        128,
+        129,
+        130,
+        131
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-32",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 4800,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 35000,
+          "Y": 4000
+        },
+        {
+          "X": 36600,
+          "Y": 4000
+        },
+        {
+          "X": 36600,
+          "Y": 5600
+        },
+        {
+          "X": 35000,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        151,
+        152,
+        153,
+        154
+      ]
+    },
+    {
+      "Name": "\u0110C-4C-33",
+      "PileCount": 4,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 23100,
+      "WidthX": 1600,
+      "WidthY": 1600,
+      "AreaM2": 2.56,
+      "Vertices": [
+        {
+          "X": 35000,
+          "Y": 22300
+        },
+        {
+          "X": 36600,
+          "Y": 22300
+        },
+        {
+          "X": 36600,
+          "Y": 23900
+        },
+        {
+          "X": 35000,
+          "Y": 23900
+        }
+      ],
+      "PileStts": [
+        141,
+        142,
+        143,
+        144
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-34",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": -50,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 35450,
+          "Y": -850
+        },
+        {
+          "X": 36150,
+          "Y": -850
+        },
+        {
+          "X": 36150,
+          "Y": 750
+        },
+        {
+          "X": 35450,
+          "Y": 750
+        }
+      ],
+      "PileStts": [
+        155,
+        156
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-35",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 9950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 35450,
+          "Y": 9150
+        },
+        {
+          "X": 36150,
+          "Y": 9150
+        },
+        {
+          "X": 36150,
+          "Y": 10750
+        },
+        {
+          "X": 35450,
+          "Y": 10750
+        }
+      ],
+      "PileStts": [
+        149,
+        150
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-36",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 15200,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 35450,
+          "Y": 14400
+        },
+        {
+          "X": 36150,
+          "Y": 14400
+        },
+        {
+          "X": 36150,
+          "Y": 16000
+        },
+        {
+          "X": 35450,
+          "Y": 16000
+        }
+      ],
+      "PileStts": [
+        147,
+        148
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-37",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 17950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 35450,
+          "Y": 17150
+        },
+        {
+          "X": 36150,
+          "Y": 17150
+        },
+        {
+          "X": 36150,
+          "Y": 18750
+        },
+        {
+          "X": 35450,
+          "Y": 18750
+        }
+      ],
+      "PileStts": [
+        145,
+        146
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-38",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 35800,
+      "CenterY": 27950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 35450,
+          "Y": 27150
+        },
+        {
+          "X": 36150,
+          "Y": 27150
+        },
+        {
+          "X": 36150,
+          "Y": 28750
+        },
+        {
+          "X": 35450,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        139,
+        140
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-39",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 4850,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 40000,
+          "Y": 4100
+        },
+        {
+          "X": 41600,
+          "Y": 4100
+        },
+        {
+          "X": 41600,
+          "Y": 5600
+        },
+        {
+          "X": 40000,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        159,
+        160,
+        161
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-40",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 23050,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 40000,
+          "Y": 22300
+        },
+        {
+          "X": 41600,
+          "Y": 22300
+        },
+        {
+          "X": 41600,
+          "Y": 23800
+        },
+        {
+          "X": 40000,
+          "Y": 23800
+        }
+      ],
+      "PileStts": [
+        168,
+        169,
+        170
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-41",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": -50,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 40450,
+          "Y": -850
+        },
+        {
+          "X": 41150,
+          "Y": -850
+        },
+        {
+          "X": 41150,
+          "Y": 750
+        },
+        {
+          "X": 40450,
+          "Y": 750
+        }
+      ],
+      "PileStts": [
+        157,
+        158
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-42",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 9950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 40450,
+          "Y": 9150
+        },
+        {
+          "X": 41150,
+          "Y": 9150
+        },
+        {
+          "X": 41150,
+          "Y": 10750
+        },
+        {
+          "X": 40450,
+          "Y": 10750
+        }
+      ],
+      "PileStts": [
+        162,
+        163
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-43",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 15200,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 40450,
+          "Y": 14400
+        },
+        {
+          "X": 41150,
+          "Y": 14400
+        },
+        {
+          "X": 41150,
+          "Y": 16000
+        },
+        {
+          "X": 40450,
+          "Y": 16000
+        }
+      ],
+      "PileStts": [
+        164,
+        165
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-44",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 20000,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 40450,
+          "Y": 19200
+        },
+        {
+          "X": 41150,
+          "Y": 19200
+        },
+        {
+          "X": 41150,
+          "Y": 20800
+        },
+        {
+          "X": 40450,
+          "Y": 20800
+        }
+      ],
+      "PileStts": [
+        166,
+        167
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-45",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 40800,
+      "CenterY": 27950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 40450,
+          "Y": 27150
+        },
+        {
+          "X": 41150,
+          "Y": 27150
+        },
+        {
+          "X": 41150,
+          "Y": 28750
+        },
+        {
+          "X": 40450,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        171,
+        172
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-46",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45050,
+      "CenterY": 4850,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 44250,
+          "Y": 4100
+        },
+        {
+          "X": 45850,
+          "Y": 4100
+        },
+        {
+          "X": 45850,
+          "Y": 5600
+        },
+        {
+          "X": 44250,
+          "Y": 5600
+        }
+      ],
+      "PileStts": [
+        187,
+        187,
+        188
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-47",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45000,
+      "CenterY": 9950,
+      "WidthX": 1500,
+      "WidthY": 1600,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 44250,
+          "Y": 9150
+        },
+        {
+          "X": 45750,
+          "Y": 9150
+        },
+        {
+          "X": 45750,
+          "Y": 10750
+        },
+        {
+          "X": 44250,
+          "Y": 10750
+        }
+      ],
+      "PileStts": [
+        184,
+        185,
+        186
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-48",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45000,
+      "CenterY": 13950,
+      "WidthX": 1500,
+      "WidthY": 1600,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 44250,
+          "Y": 13150
+        },
+        {
+          "X": 45750,
+          "Y": 13150
+        },
+        {
+          "X": 45750,
+          "Y": 14750
+        },
+        {
+          "X": 44250,
+          "Y": 14750
+        }
+      ],
+      "PileStts": [
+        181,
+        182,
+        183
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-49",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45000,
+      "CenterY": 17950,
+      "WidthX": 1500,
+      "WidthY": 1600,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 44250,
+          "Y": 17150
+        },
+        {
+          "X": 45750,
+          "Y": 17150
+        },
+        {
+          "X": 45750,
+          "Y": 18750
+        },
+        {
+          "X": 44250,
+          "Y": 18750
+        }
+      ],
+      "PileStts": [
+        178,
+        179,
+        180
+      ]
+    },
+    {
+      "Name": "\u0110C-3C-50",
+      "PileCount": 3,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45050,
+      "CenterY": 23050,
+      "WidthX": 1600,
+      "WidthY": 1500,
+      "AreaM2": 2.4,
+      "Vertices": [
+        {
+          "X": 44250,
+          "Y": 22300
+        },
+        {
+          "X": 45850,
+          "Y": 22300
+        },
+        {
+          "X": 45850,
+          "Y": 23800
+        },
+        {
+          "X": 44250,
+          "Y": 23800
+        }
+      ],
+      "PileStts": [
+        175,
+        176,
+        177
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-51",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45100,
+      "CenterY": -50,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 44750,
+          "Y": -850
+        },
+        {
+          "X": 45450,
+          "Y": -850
+        },
+        {
+          "X": 45450,
+          "Y": 750
+        },
+        {
+          "X": 44750,
+          "Y": 750
+        }
+      ],
+      "PileStts": [
+        190,
+        191
+      ]
+    },
+    {
+      "Name": "\u0110C-2C-52",
+      "PileCount": 2,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 45100,
+      "CenterY": 27950,
+      "WidthX": 700,
+      "WidthY": 1600,
+      "AreaM2": 1.12,
+      "Vertices": [
+        {
+          "X": 44750,
+          "Y": 27150
+        },
+        {
+          "X": 45450,
+          "Y": 27150
+        },
+        {
+          "X": 45450,
+          "Y": 28750
+        },
+        {
+          "X": 44750,
+          "Y": 28750
+        }
+      ],
+      "PileStts": [
+        173,
+        174
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-53",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 48950,
+      "CenterY": 4750,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 48600,
+          "Y": 4400
+        },
+        {
+          "X": 49300,
+          "Y": 4400
+        },
+        {
+          "X": 49300,
+          "Y": 5100
+        },
+        {
+          "X": 48600,
+          "Y": 5100
+        }
+      ],
+      "PileStts": [
+        192
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-54",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 48950,
+      "CenterY": 9950,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 48600,
+          "Y": 9600
+        },
+        {
+          "X": 49300,
+          "Y": 9600
+        },
+        {
+          "X": 49300,
+          "Y": 10300
+        },
+        {
+          "X": 48600,
+          "Y": 10300
+        }
+      ],
+      "PileStts": [
+        193
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-55",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 48950,
+      "CenterY": 13950,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 48600,
+          "Y": 13600
+        },
+        {
+          "X": 49300,
+          "Y": 13600
+        },
+        {
+          "X": 49300,
+          "Y": 14300
+        },
+        {
+          "X": 48600,
+          "Y": 14300
+        }
+      ],
+      "PileStts": [
+        194
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-56",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 48950,
+      "CenterY": 17950,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 48600,
+          "Y": 17600
+        },
+        {
+          "X": 49300,
+          "Y": 17600
+        },
+        {
+          "X": 49300,
+          "Y": 18300
+        },
+        {
+          "X": 48600,
+          "Y": 18300
+        }
+      ],
+      "PileStts": [
+        195
+      ]
+    },
+    {
+      "Name": "\u0110C-1C-57",
+      "PileCount": 1,
+      "FloorType": "HP-ES-CAP-CON-B20-1000",
+      "ThicknessMm": 1000,
+      "TopZMm": -1600,
+      "BottomZMm": -2600,
+      "PileTopZMm": -2500,
+      "CenterX": 48950,
+      "CenterY": 23150,
+      "WidthX": 700,
+      "WidthY": 700,
+      "AreaM2": 0.49,
+      "Vertices": [
+        {
+          "X": 48600,
+          "Y": 22800
+        },
+        {
+          "X": 49300,
+          "Y": 22800
+        },
+        {
+          "X": 49300,
+          "Y": 23500
+        },
+        {
+          "X": 48600,
+          "Y": 23500
+        }
+      ],
+      "PileStts": [
+        196
+      ]
+    }
+  ]
+}

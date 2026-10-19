@@ -1,0 +1,18 @@
+[
+  {
+    "title": "structural_frame_meters_export",
+    "args": {
+      "categories": ["OST_Columns", "OST_Framing", "OST_Floors"],
+      "targetRhinoUnits": "Meters",
+      "groupByLevel": true
+    }
+  },
+  {
+    "title": "full_architectural_flat_export",
+    "args": {
+      "categories": ["OST_Walls", "OST_Windows", "OST_Doors"],
+      "targetRhinoUnits": "Millimeters",
+      "groupByLevel": false
+    }
+  }
+]

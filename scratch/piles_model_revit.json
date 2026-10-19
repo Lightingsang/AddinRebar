@@ -1,0 +1,1592 @@
+{
+  "projectName": "Hội trường Tân Đông Hiệp (KC-HT-90-TLTT-16.dwg)",
+  "totalPiles": 196,
+  "originRef": "Tim cọc P1 (gốc tọa độ 0,0)",
+  "cadOriginMm": {
+    "x": 304040.2401574803,
+    "y": -39292.125984251965
+  },
+  "dimensionsMm": {
+    "spanX": 50748.0,
+    "spanY": 29727.0,
+    "spanX_meters": 50.75,
+    "spanY_meters": 29.73
+  },
+  "defaultSpecs": {
+    "pileType": "Cọc ly tâm D400",
+    "diameterMm": 400,
+    "lengthMm": 15000,
+    "topLevelMm": -1000,
+    "pileCapHeightMm": 900
+  },
+  "piles": [
+    {
+      "name": "P1",
+      "handle": "6FD5D6",
+      "cad_x_mm": 304040.2,
+      "cad_y_mm": -39292.1,
+      "revit_x_mm": 0.0,
+      "revit_y_mm": 0.0
+    },
+    {
+      "name": "P2",
+      "handle": "6FD5D7",
+      "cad_x_mm": 304016.2,
+      "cad_y_mm": -37921.6,
+      "revit_x_mm": -24.0,
+      "revit_y_mm": 1370.5
+    },
+    {
+      "name": "P3",
+      "handle": "6FD5D8",
+      "cad_x_mm": 302966.7,
+      "cad_y_mm": -34715.1,
+      "revit_x_mm": -1073.5,
+      "revit_y_mm": 4577.0
+    },
+    {
+      "name": "P4",
+      "handle": "6FD5D9",
+      "cad_x_mm": 304283.2,
+      "cad_y_mm": -34531.6,
+      "revit_x_mm": 243.0,
+      "revit_y_mm": 4760.5
+    },
+    {
+      "name": "P5",
+      "handle": "6FD5DA",
+      "cad_x_mm": 302684.7,
+      "cad_y_mm": -32945.6,
+      "revit_x_mm": -1355.5,
+      "revit_y_mm": 6346.5
+    },
+    {
+      "name": "P6",
+      "handle": "6FD5DB",
+      "cad_x_mm": 304231.7,
+      "cad_y_mm": -32869.6,
+      "revit_x_mm": 191.5,
+      "revit_y_mm": 6422.5
+    },
+    {
+      "name": "P7",
+      "handle": "6FD5DC",
+      "cad_x_mm": 301578.7,
+      "cad_y_mm": -29574.6,
+      "revit_x_mm": -2461.5,
+      "revit_y_mm": 9717.5
+    },
+    {
+      "name": "P8",
+      "handle": "6FD5DD",
+      "cad_x_mm": 301265.2,
+      "cad_y_mm": -27775.6,
+      "revit_x_mm": -2775.0,
+      "revit_y_mm": 11516.5
+    },
+    {
+      "name": "P9",
+      "handle": "6FD5DE",
+      "cad_x_mm": 302454.2,
+      "cad_y_mm": -27968.6,
+      "revit_x_mm": -1586.0,
+      "revit_y_mm": 11323.5
+    },
+    {
+      "name": "P10",
+      "handle": "6FD5DF",
+      "cad_x_mm": 303900.2,
+      "cad_y_mm": -27800.1,
+      "revit_x_mm": -140.0,
+      "revit_y_mm": 11492.0
+    },
+    {
+      "name": "P11",
+      "handle": "6FD5E0",
+      "cad_x_mm": 303924.7,
+      "cad_y_mm": -29454.1,
+      "revit_x_mm": -115.5,
+      "revit_y_mm": 9838.0
+    },
+    {
+      "name": "P12",
+      "handle": "6FD5E1",
+      "cad_x_mm": 301302.2,
+      "cad_y_mm": -21550.1,
+      "revit_x_mm": -2738.0,
+      "revit_y_mm": 17742.0
+    },
+    {
+      "name": "P13",
+      "handle": "6FD5E2",
+      "cad_x_mm": 301132.7,
+      "cad_y_mm": -19815.6,
+      "revit_x_mm": -2907.5,
+      "revit_y_mm": 19476.5
+    },
+    {
+      "name": "P14",
+      "handle": "6FD5E3",
+      "cad_x_mm": 302625.7,
+      "cad_y_mm": -19904.1,
+      "revit_x_mm": -1414.5,
+      "revit_y_mm": 19388.0
+    },
+    {
+      "name": "P15",
+      "handle": "6FD5E4",
+      "cad_x_mm": 304006.2,
+      "cad_y_mm": -19791.6,
+      "revit_x_mm": -34.0,
+      "revit_y_mm": 19500.5
+    },
+    {
+      "name": "P16",
+      "handle": "6FD5E5",
+      "cad_x_mm": 304022.2,
+      "cad_y_mm": -21453.1,
+      "revit_x_mm": -18.0,
+      "revit_y_mm": 17839.0
+    },
+    {
+      "name": "P17",
+      "handle": "6FD5E6",
+      "cad_x_mm": 302738.7,
+      "cad_y_mm": -16466.1,
+      "revit_x_mm": -1301.5,
+      "revit_y_mm": 22826.0
+    },
+    {
+      "name": "P18",
+      "handle": "6FD5E7",
+      "cad_x_mm": 302673.7,
+      "cad_y_mm": -14561.6,
+      "revit_x_mm": -1366.5,
+      "revit_y_mm": 24730.5
+    },
+    {
+      "name": "P19",
+      "handle": "6FD5E8",
+      "cad_x_mm": 304368.7,
+      "cad_y_mm": -14602.1,
+      "revit_x_mm": 328.5,
+      "revit_y_mm": 24690.0
+    },
+    {
+      "name": "P20",
+      "handle": "6FD5E9",
+      "cad_x_mm": 304392.7,
+      "cad_y_mm": -16271.6,
+      "revit_x_mm": 352.5,
+      "revit_y_mm": 23020.5
+    },
+    {
+      "name": "P21",
+      "handle": "6FD5EA",
+      "cad_x_mm": 304177.2,
+      "cad_y_mm": -11160.1,
+      "revit_x_mm": 137.0,
+      "revit_y_mm": 28132.0
+    },
+    {
+      "name": "P22",
+      "handle": "6FD5EB",
+      "cad_x_mm": 303109.7,
+      "cad_y_mm": -9759.6,
+      "revit_x_mm": -930.5,
+      "revit_y_mm": 29532.5
+    },
+    {
+      "name": "P23",
+      "handle": "6FD5EC",
+      "cad_x_mm": 308218.7,
+      "cad_y_mm": -9782.1,
+      "revit_x_mm": 4178.5,
+      "revit_y_mm": 29510.0
+    },
+    {
+      "name": "P24",
+      "handle": "6FD5ED",
+      "cad_x_mm": 310126.2,
+      "cad_y_mm": -9798.6,
+      "revit_x_mm": 6086.0,
+      "revit_y_mm": 29493.5
+    },
+    {
+      "name": "P25",
+      "handle": "6FD5EE",
+      "cad_x_mm": 309774.2,
+      "cad_y_mm": -11295.6,
+      "revit_x_mm": 5734.0,
+      "revit_y_mm": 27996.5
+    },
+    {
+      "name": "P26",
+      "handle": "6FD5EF",
+      "cad_x_mm": 308342.7,
+      "cad_y_mm": -14594.6,
+      "revit_x_mm": 4302.5,
+      "revit_y_mm": 24697.5
+    },
+    {
+      "name": "P27",
+      "handle": "6FD5F0",
+      "cad_x_mm": 310123.2,
+      "cad_y_mm": -14557.6,
+      "revit_x_mm": 6083.0,
+      "revit_y_mm": 24734.5
+    },
+    {
+      "name": "P28",
+      "handle": "6FD5F1",
+      "cad_x_mm": 308403.7,
+      "cad_y_mm": -16394.6,
+      "revit_x_mm": 4363.5,
+      "revit_y_mm": 22897.5
+    },
+    {
+      "name": "P29",
+      "handle": "6FD5F2",
+      "cad_x_mm": 310163.7,
+      "cad_y_mm": -16337.1,
+      "revit_x_mm": 6123.5,
+      "revit_y_mm": 22955.0
+    },
+    {
+      "name": "P30",
+      "handle": "6FD5F3",
+      "cad_x_mm": 308252.7,
+      "cad_y_mm": -19762.6,
+      "revit_x_mm": 4212.5,
+      "revit_y_mm": 19529.5
+    },
+    {
+      "name": "P31",
+      "handle": "6FD5F4",
+      "cad_x_mm": 310153.2,
+      "cad_y_mm": -19762.6,
+      "revit_x_mm": 6113.0,
+      "revit_y_mm": 19529.5
+    },
+    {
+      "name": "P32",
+      "handle": "6FD5F5",
+      "cad_x_mm": 308318.7,
+      "cad_y_mm": -21546.1,
+      "revit_x_mm": 4278.5,
+      "revit_y_mm": 17746.0
+    },
+    {
+      "name": "P33",
+      "handle": "6FD5F6",
+      "cad_x_mm": 310169.7,
+      "cad_y_mm": -21471.6,
+      "revit_x_mm": 6129.5,
+      "revit_y_mm": 17820.5
+    },
+    {
+      "name": "P34",
+      "handle": "6FD5F7",
+      "cad_x_mm": 308364.7,
+      "cad_y_mm": -27742.1,
+      "revit_x_mm": 4324.5,
+      "revit_y_mm": 11550.0
+    },
+    {
+      "name": "P35",
+      "handle": "6FD5F8",
+      "cad_x_mm": 310003.7,
+      "cad_y_mm": -27700.6,
+      "revit_x_mm": 5963.5,
+      "revit_y_mm": 11591.5
+    },
+    {
+      "name": "P36",
+      "handle": "6FD5F9",
+      "cad_x_mm": 308372.7,
+      "cad_y_mm": -29434.1,
+      "revit_x_mm": 4332.5,
+      "revit_y_mm": 9858.0
+    },
+    {
+      "name": "P37",
+      "handle": "6FD5FA",
+      "cad_x_mm": 310044.7,
+      "cad_y_mm": -29492.1,
+      "revit_x_mm": 6004.5,
+      "revit_y_mm": 9800.0
+    },
+    {
+      "name": "P38",
+      "handle": "6FD5FB",
+      "cad_x_mm": 308066.7,
+      "cad_y_mm": -33133.6,
+      "revit_x_mm": 4026.5,
+      "revit_y_mm": 6158.5
+    },
+    {
+      "name": "P39",
+      "handle": "6FD5FC",
+      "cad_x_mm": 310065.2,
+      "cad_y_mm": -32773.6,
+      "revit_x_mm": 6025.0,
+      "revit_y_mm": 6518.5
+    },
+    {
+      "name": "P40",
+      "handle": "6FD5FD",
+      "cad_x_mm": 308401.2,
+      "cad_y_mm": -34770.1,
+      "revit_x_mm": 4361.0,
+      "revit_y_mm": 4522.0
+    },
+    {
+      "name": "P41",
+      "handle": "6FD5FE",
+      "cad_x_mm": 310169.2,
+      "cad_y_mm": -34586.1,
+      "revit_x_mm": 6129.0,
+      "revit_y_mm": 4706.0
+    },
+    {
+      "name": "P42",
+      "handle": "6FD5FF",
+      "cad_x_mm": 308807.2,
+      "cad_y_mm": -37838.6,
+      "revit_x_mm": 4767.0,
+      "revit_y_mm": 1453.5
+    },
+    {
+      "name": "P43",
+      "handle": "6FD600",
+      "cad_x_mm": 308254.7,
+      "cad_y_mm": -39436.1,
+      "revit_x_mm": 4214.5,
+      "revit_y_mm": -144.0
+    },
+    {
+      "name": "P44",
+      "handle": "6FD601",
+      "cad_x_mm": 310111.2,
+      "cad_y_mm": -39436.1,
+      "revit_x_mm": 6071.0,
+      "revit_y_mm": -144.0
+    },
+    {
+      "name": "P45",
+      "handle": "6FD602",
+      "cad_x_mm": 311804.7,
+      "cad_y_mm": -37736.1,
+      "revit_x_mm": 7764.5,
+      "revit_y_mm": 1556.0
+    },
+    {
+      "name": "P46",
+      "handle": "6FD603",
+      "cad_x_mm": 311613.7,
+      "cad_y_mm": -39146.1,
+      "revit_x_mm": 7573.5,
+      "revit_y_mm": 146.0
+    },
+    {
+      "name": "P47",
+      "handle": "6FD604",
+      "cad_x_mm": 311737.2,
+      "cad_y_mm": -34809.6,
+      "revit_x_mm": 7697.0,
+      "revit_y_mm": 4482.5
+    },
+    {
+      "name": "P48",
+      "handle": "6FD605",
+      "cad_x_mm": 312870.2,
+      "cad_y_mm": -34775.6,
+      "revit_x_mm": 8830.0,
+      "revit_y_mm": 4516.5
+    },
+    {
+      "name": "P49",
+      "handle": "6FD606",
+      "cad_x_mm": 313108.2,
+      "cad_y_mm": -32894.6,
+      "revit_x_mm": 9068.0,
+      "revit_y_mm": 6397.5
+    },
+    {
+      "name": "P50",
+      "handle": "6FD607",
+      "cad_x_mm": 311396.2,
+      "cad_y_mm": -32809.6,
+      "revit_x_mm": 7356.0,
+      "revit_y_mm": 6482.5
+    },
+    {
+      "name": "P51",
+      "handle": "6FD608",
+      "cad_x_mm": 310898.2,
+      "cad_y_mm": -29482.1,
+      "revit_x_mm": 6858.0,
+      "revit_y_mm": 9810.0
+    },
+    {
+      "name": "P52",
+      "handle": "6FD609",
+      "cad_x_mm": 311822.2,
+      "cad_y_mm": -29405.1,
+      "revit_x_mm": 7782.0,
+      "revit_y_mm": 9887.0
+    },
+    {
+      "name": "P53",
+      "handle": "6FD60A",
+      "cad_x_mm": 313225.7,
+      "cad_y_mm": -29473.6,
+      "revit_x_mm": 9185.5,
+      "revit_y_mm": 9818.5
+    },
+    {
+      "name": "P54",
+      "handle": "6FD60B",
+      "cad_x_mm": 311360.2,
+      "cad_y_mm": -27652.6,
+      "revit_x_mm": 7320.0,
+      "revit_y_mm": 11639.5
+    },
+    {
+      "name": "P55",
+      "handle": "6FD60C",
+      "cad_x_mm": 312352.7,
+      "cad_y_mm": -27661.1,
+      "revit_x_mm": 8312.5,
+      "revit_y_mm": 11631.0
+    },
+    {
+      "name": "P56",
+      "handle": "6FD60D",
+      "cad_x_mm": 313353.7,
+      "cad_y_mm": -27738.1,
+      "revit_x_mm": 9313.5,
+      "revit_y_mm": 11554.0
+    },
+    {
+      "name": "P57",
+      "handle": "6FD60E",
+      "cad_x_mm": 310922.2,
+      "cad_y_mm": -21489.6,
+      "revit_x_mm": 6882.0,
+      "revit_y_mm": 17802.5
+    },
+    {
+      "name": "P58",
+      "handle": "6FD60F",
+      "cad_x_mm": 312143.2,
+      "cad_y_mm": -21558.1,
+      "revit_x_mm": 8103.0,
+      "revit_y_mm": 17734.0
+    },
+    {
+      "name": "P59",
+      "handle": "6FD610",
+      "cad_x_mm": 313148.7,
+      "cad_y_mm": -21463.6,
+      "revit_x_mm": 9108.5,
+      "revit_y_mm": 17828.5
+    },
+    {
+      "name": "P60",
+      "handle": "6FD611",
+      "cad_x_mm": 311352.2,
+      "cad_y_mm": -19711.1,
+      "revit_x_mm": 7312.0,
+      "revit_y_mm": 19581.0
+    },
+    {
+      "name": "P61",
+      "handle": "6FD612",
+      "cad_x_mm": 312297.7,
+      "cad_y_mm": -19694.1,
+      "revit_x_mm": 8257.5,
+      "revit_y_mm": 19598.0
+    },
+    {
+      "name": "P62",
+      "handle": "6FD613",
+      "cad_x_mm": 313226.2,
+      "cad_y_mm": -19677.1,
+      "revit_x_mm": 9186.0,
+      "revit_y_mm": 19615.0
+    },
+    {
+      "name": "P63",
+      "handle": "6FD614",
+      "cad_x_mm": 311730.7,
+      "cad_y_mm": -16475.1,
+      "revit_x_mm": 7690.5,
+      "revit_y_mm": 22817.0
+    },
+    {
+      "name": "P64",
+      "handle": "6FD615",
+      "cad_x_mm": 312665.2,
+      "cad_y_mm": -16475.1,
+      "revit_x_mm": 8625.0,
+      "revit_y_mm": 22817.0
+    },
+    {
+      "name": "P65",
+      "handle": "6FD616",
+      "cad_x_mm": 311436.2,
+      "cad_y_mm": -14529.1,
+      "revit_x_mm": 7396.0,
+      "revit_y_mm": 24763.0
+    },
+    {
+      "name": "P66",
+      "handle": "6FD617",
+      "cad_x_mm": 312881.7,
+      "cad_y_mm": -14615.6,
+      "revit_x_mm": 8841.5,
+      "revit_y_mm": 24676.5
+    },
+    {
+      "name": "P67",
+      "handle": "6FD618",
+      "cad_x_mm": 312725.7,
+      "cad_y_mm": -11278.1,
+      "revit_x_mm": 8685.5,
+      "revit_y_mm": 28014.0
+    },
+    {
+      "name": "P68",
+      "handle": "6FD619",
+      "cad_x_mm": 311693.2,
+      "cad_y_mm": -9864.6,
+      "revit_x_mm": 7653.0,
+      "revit_y_mm": 29427.5
+    },
+    {
+      "name": "P69",
+      "handle": "6FD61A",
+      "cad_x_mm": 315761.7,
+      "cad_y_mm": -9890.6,
+      "revit_x_mm": 11721.5,
+      "revit_y_mm": 29401.5
+    },
+    {
+      "name": "P70",
+      "handle": "6FD61B",
+      "cad_x_mm": 316807.7,
+      "cad_y_mm": -11249.6,
+      "revit_x_mm": 12767.5,
+      "revit_y_mm": 28042.5
+    },
+    {
+      "name": "P71",
+      "handle": "6FD61C",
+      "cad_x_mm": 316920.2,
+      "cad_y_mm": -12609.6,
+      "revit_x_mm": 12880.0,
+      "revit_y_mm": 26682.5
+    },
+    {
+      "name": "P72",
+      "handle": "6FD61D",
+      "cad_x_mm": 315938.2,
+      "cad_y_mm": -13917.1,
+      "revit_x_mm": 11898.0,
+      "revit_y_mm": 25375.0
+    },
+    {
+      "name": "P73",
+      "handle": "6FD6C8",
+      "cad_x_mm": 316846.7,
+      "cad_y_mm": -35406.6,
+      "revit_x_mm": 12806.5,
+      "revit_y_mm": 3885.5
+    },
+    {
+      "name": "P74",
+      "handle": "6FD6C9",
+      "cad_x_mm": 315672.7,
+      "cad_y_mm": -36663.1,
+      "revit_x_mm": 11632.5,
+      "revit_y_mm": 2629.0
+    },
+    {
+      "name": "P75",
+      "handle": "6FD6CA",
+      "cad_x_mm": 316956.2,
+      "cad_y_mm": -38125.1,
+      "revit_x_mm": 12916.0,
+      "revit_y_mm": 1167.0
+    },
+    {
+      "name": "P76",
+      "handle": "6FD6CB",
+      "cad_x_mm": 315666.2,
+      "cad_y_mm": -39452.6,
+      "revit_x_mm": 11626.0,
+      "revit_y_mm": -160.5
+    },
+    {
+      "name": "P77",
+      "handle": "6FD6CC",
+      "cad_x_mm": 319478.2,
+      "cad_y_mm": -39486.6,
+      "revit_x_mm": 15438.0,
+      "revit_y_mm": -194.5
+    },
+    {
+      "name": "P78",
+      "handle": "6FD6CD",
+      "cad_x_mm": 318433.2,
+      "cad_y_mm": -37998.6,
+      "revit_x_mm": 14393.0,
+      "revit_y_mm": 1293.5
+    },
+    {
+      "name": "P79",
+      "handle": "6FD6CE",
+      "cad_x_mm": 319622.2,
+      "cad_y_mm": -36810.6,
+      "revit_x_mm": 15582.0,
+      "revit_y_mm": 2481.5
+    },
+    {
+      "name": "P80",
+      "handle": "6FD6CF",
+      "cad_x_mm": 318224.2,
+      "cad_y_mm": -35413.6,
+      "revit_x_mm": 14184.0,
+      "revit_y_mm": 3878.5
+    },
+    {
+      "name": "P81",
+      "handle": "6FD6D0",
+      "cad_x_mm": 320092.2,
+      "cad_y_mm": -35400.6,
+      "revit_x_mm": 16052.0,
+      "revit_y_mm": 3891.5
+    },
+    {
+      "name": "P82",
+      "handle": "6FD6D1",
+      "cad_x_mm": 317820.7,
+      "cad_y_mm": -34687.1,
+      "revit_x_mm": 13780.5,
+      "revit_y_mm": 4605.0
+    },
+    {
+      "name": "P83",
+      "handle": "6FD6D2",
+      "cad_x_mm": 319483.7,
+      "cad_y_mm": -34510.6,
+      "revit_x_mm": 15443.5,
+      "revit_y_mm": 4781.5
+    },
+    {
+      "name": "P84",
+      "handle": "6FD6D3",
+      "cad_x_mm": 320458.7,
+      "cad_y_mm": -34536.6,
+      "revit_x_mm": 16418.5,
+      "revit_y_mm": 4755.5
+    },
+    {
+      "name": "P85",
+      "handle": "6FD6D4",
+      "cad_x_mm": 320530.7,
+      "cad_y_mm": -33326.6,
+      "revit_x_mm": 16490.5,
+      "revit_y_mm": 5965.5
+    },
+    {
+      "name": "P86",
+      "handle": "6FD6D5",
+      "cad_x_mm": 319391.7,
+      "cad_y_mm": -32947.1,
+      "revit_x_mm": 15351.5,
+      "revit_y_mm": 6345.0
+    },
+    {
+      "name": "P87",
+      "handle": "6FD6D6",
+      "cad_x_mm": 317781.7,
+      "cad_y_mm": -32940.6,
+      "revit_x_mm": 13741.5,
+      "revit_y_mm": 6351.5
+    },
+    {
+      "name": "P88",
+      "handle": "6FD6D7",
+      "cad_x_mm": 319754.2,
+      "cad_y_mm": -26811.6,
+      "revit_x_mm": 15714.0,
+      "revit_y_mm": 12480.5
+    },
+    {
+      "name": "P89",
+      "handle": "6FD6D8",
+      "cad_x_mm": 319701.7,
+      "cad_y_mm": -25081.6,
+      "revit_x_mm": 15661.5,
+      "revit_y_mm": 14210.5
+    },
+    {
+      "name": "P90",
+      "handle": "6FD6D9",
+      "cad_x_mm": 318234.7,
+      "cad_y_mm": -26375.6,
+      "revit_x_mm": 14194.5,
+      "revit_y_mm": 12916.5
+    },
+    {
+      "name": "P91",
+      "handle": "6FD6DA",
+      "cad_x_mm": 319709.7,
+      "cad_y_mm": -24100.6,
+      "revit_x_mm": 15669.5,
+      "revit_y_mm": 15191.5
+    },
+    {
+      "name": "P92",
+      "handle": "6FD6DB",
+      "cad_x_mm": 319709.7,
+      "cad_y_mm": -22651.1,
+      "revit_x_mm": 15669.5,
+      "revit_y_mm": 16641.0
+    },
+    {
+      "name": "P93",
+      "handle": "6FD6DC",
+      "cad_x_mm": 318226.2,
+      "cad_y_mm": -23822.6,
+      "revit_x_mm": 14186.0,
+      "revit_y_mm": 15469.5
+    },
+    {
+      "name": "P94",
+      "handle": "6FD6DD",
+      "cad_x_mm": 320490.7,
+      "cad_y_mm": -16249.6,
+      "revit_x_mm": 16450.5,
+      "revit_y_mm": 23042.5
+    },
+    {
+      "name": "P95",
+      "handle": "6FD6DE",
+      "cad_x_mm": 320430.7,
+      "cad_y_mm": -14713.6,
+      "revit_x_mm": 16390.5,
+      "revit_y_mm": 24578.5
+    },
+    {
+      "name": "P96",
+      "handle": "6FD6DF",
+      "cad_x_mm": 319339.7,
+      "cad_y_mm": -14640.6,
+      "revit_x_mm": 15299.5,
+      "revit_y_mm": 24651.5
+    },
+    {
+      "name": "P97",
+      "handle": "6FD6E0",
+      "cad_x_mm": 319366.2,
+      "cad_y_mm": -16349.6,
+      "revit_x_mm": 15326.0,
+      "revit_y_mm": 22942.5
+    },
+    {
+      "name": "P98",
+      "handle": "6FD6E1",
+      "cad_x_mm": 317782.7,
+      "cad_y_mm": -16469.1,
+      "revit_x_mm": 13742.5,
+      "revit_y_mm": 22823.0
+    },
+    {
+      "name": "P99",
+      "handle": "6FD6E2",
+      "cad_x_mm": 317942.2,
+      "cad_y_mm": -14567.6,
+      "revit_x_mm": 13902.0,
+      "revit_y_mm": 24724.5
+    },
+    {
+      "name": "P100",
+      "handle": "6FD6E3",
+      "cad_x_mm": 320088.2,
+      "cad_y_mm": -13871.6,
+      "revit_x_mm": 16048.0,
+      "revit_y_mm": 25420.5
+    },
+    {
+      "name": "P101",
+      "handle": "6FD6E4",
+      "cad_x_mm": 318214.2,
+      "cad_y_mm": -13825.1,
+      "revit_x_mm": 14174.0,
+      "revit_y_mm": 25467.0
+    },
+    {
+      "name": "P102",
+      "handle": "6FD6E5",
+      "cad_x_mm": 319761.2,
+      "cad_y_mm": -12652.1,
+      "revit_x_mm": 15721.0,
+      "revit_y_mm": 26640.0
+    },
+    {
+      "name": "P103",
+      "handle": "6FD6E7",
+      "cad_x_mm": 319435.7,
+      "cad_y_mm": -11234.1,
+      "revit_x_mm": 15395.5,
+      "revit_y_mm": 28058.0
+    },
+    {
+      "name": "P104",
+      "handle": "6FD6E8",
+      "cad_x_mm": 318436.7,
+      "cad_y_mm": -9893.6,
+      "revit_x_mm": 14396.5,
+      "revit_y_mm": 29398.5
+    },
+    {
+      "name": "P105",
+      "handle": "6FD6E9",
+      "cad_x_mm": 325541.2,
+      "cad_y_mm": -10227.1,
+      "revit_x_mm": 21501.0,
+      "revit_y_mm": 29065.0
+    },
+    {
+      "name": "P106",
+      "handle": "6FD6EA",
+      "cad_x_mm": 326653.7,
+      "cad_y_mm": -12854.1,
+      "revit_x_mm": 22613.5,
+      "revit_y_mm": 26438.0
+    },
+    {
+      "name": "P107",
+      "handle": "6FD6EB",
+      "cad_x_mm": 325344.7,
+      "cad_y_mm": -13987.6,
+      "revit_x_mm": 21304.5,
+      "revit_y_mm": 25304.5
+    },
+    {
+      "name": "P108",
+      "handle": "6FD6EC",
+      "cad_x_mm": 327022.7,
+      "cad_y_mm": -14773.6,
+      "revit_x_mm": 22982.5,
+      "revit_y_mm": 24518.5
+    },
+    {
+      "name": "P109",
+      "handle": "6FD6ED",
+      "cad_x_mm": 325026.7,
+      "cad_y_mm": -14836.6,
+      "revit_x_mm": 20986.5,
+      "revit_y_mm": 24455.5
+    },
+    {
+      "name": "P110",
+      "handle": "6FD6EE",
+      "cad_x_mm": 326609.7,
+      "cad_y_mm": -16138.1,
+      "revit_x_mm": 22569.5,
+      "revit_y_mm": 23154.0
+    },
+    {
+      "name": "P111",
+      "handle": "6FD6EF",
+      "cad_x_mm": 325462.7,
+      "cad_y_mm": -22717.1,
+      "revit_x_mm": 21422.5,
+      "revit_y_mm": 16575.0
+    },
+    {
+      "name": "P112",
+      "handle": "6FD6F0",
+      "cad_x_mm": 326703.2,
+      "cad_y_mm": -23966.1,
+      "revit_x_mm": 22663.0,
+      "revit_y_mm": 15326.0
+    },
+    {
+      "name": "P113",
+      "handle": "6FD6F1",
+      "cad_x_mm": 325489.7,
+      "cad_y_mm": -25176.1,
+      "revit_x_mm": 21449.5,
+      "revit_y_mm": 14116.0
+    },
+    {
+      "name": "P114",
+      "handle": "6FD6F2",
+      "cad_x_mm": 326792.2,
+      "cad_y_mm": -26311.1,
+      "revit_x_mm": 22752.0,
+      "revit_y_mm": 12981.0
+    },
+    {
+      "name": "P115",
+      "handle": "6FD6F3",
+      "cad_x_mm": 326562.2,
+      "cad_y_mm": -33157.6,
+      "revit_x_mm": 22522.0,
+      "revit_y_mm": 6134.5
+    },
+    {
+      "name": "P116",
+      "handle": "6FD6F4",
+      "cad_x_mm": 325002.2,
+      "cad_y_mm": -34521.1,
+      "revit_x_mm": 20962.0,
+      "revit_y_mm": 4771.0
+    },
+    {
+      "name": "P117",
+      "handle": "6FD6F5",
+      "cad_x_mm": 326914.7,
+      "cad_y_mm": -34528.6,
+      "revit_x_mm": 22874.5,
+      "revit_y_mm": 4763.5
+    },
+    {
+      "name": "P118",
+      "handle": "6FD6F6",
+      "cad_x_mm": 326717.7,
+      "cad_y_mm": -35331.1,
+      "revit_x_mm": 22677.5,
+      "revit_y_mm": 3961.0
+    },
+    {
+      "name": "P119",
+      "handle": "6FD6F7",
+      "cad_x_mm": 325399.2,
+      "cad_y_mm": -36427.1,
+      "revit_x_mm": 21359.0,
+      "revit_y_mm": 2865.0
+    },
+    {
+      "name": "P120",
+      "handle": "6FD6F8",
+      "cad_x_mm": 325588.2,
+      "cad_y_mm": -38250.6,
+      "revit_x_mm": 21548.0,
+      "revit_y_mm": 1041.5
+    },
+    {
+      "name": "P121",
+      "handle": "6FD6F9",
+      "cad_x_mm": 332062.2,
+      "cad_y_mm": -39116.6,
+      "revit_x_mm": 28022.0,
+      "revit_y_mm": 175.5
+    },
+    {
+      "name": "P122",
+      "handle": "6FD6FA",
+      "cad_x_mm": 330899.7,
+      "cad_y_mm": -37897.1,
+      "revit_x_mm": 26859.5,
+      "revit_y_mm": 1395.0
+    },
+    {
+      "name": "P123",
+      "handle": "6FD6FB",
+      "cad_x_mm": 332001.2,
+      "cad_y_mm": -36378.6,
+      "revit_x_mm": 27961.0,
+      "revit_y_mm": 2913.5
+    },
+    {
+      "name": "P124",
+      "handle": "6FD6FC",
+      "cad_x_mm": 330676.2,
+      "cad_y_mm": -35194.1,
+      "revit_x_mm": 26636.0,
+      "revit_y_mm": 4098.0
+    },
+    {
+      "name": "P125",
+      "handle": "6FD6FD",
+      "cad_x_mm": 330483.7,
+      "cad_y_mm": -34265.6,
+      "revit_x_mm": 26443.5,
+      "revit_y_mm": 5026.5
+    },
+    {
+      "name": "P126",
+      "handle": "6FD6FE",
+      "cad_x_mm": 332377.7,
+      "cad_y_mm": -34396.6,
+      "revit_x_mm": 28337.5,
+      "revit_y_mm": 4895.5
+    },
+    {
+      "name": "P127",
+      "handle": "6FD6FF",
+      "cad_x_mm": 332031.7,
+      "cad_y_mm": -33216.6,
+      "revit_x_mm": 27991.5,
+      "revit_y_mm": 6075.5
+    },
+    {
+      "name": "P128",
+      "handle": "6FD700",
+      "cad_x_mm": 332245.2,
+      "cad_y_mm": -26702.6,
+      "revit_x_mm": 28205.0,
+      "revit_y_mm": 12589.5
+    },
+    {
+      "name": "P129",
+      "handle": "6FD701",
+      "cad_x_mm": 330901.7,
+      "cad_y_mm": -25228.1,
+      "revit_x_mm": 26861.5,
+      "revit_y_mm": 14064.0
+    },
+    {
+      "name": "P130",
+      "handle": "6FD702",
+      "cad_x_mm": 332157.2,
+      "cad_y_mm": -23983.6,
+      "revit_x_mm": 28117.0,
+      "revit_y_mm": 15308.5
+    },
+    {
+      "name": "P131",
+      "handle": "6FD703",
+      "cad_x_mm": 330829.2,
+      "cad_y_mm": -22759.1,
+      "revit_x_mm": 26789.0,
+      "revit_y_mm": 16533.0
+    },
+    {
+      "name": "P132",
+      "handle": "6FD704",
+      "cad_x_mm": 330975.7,
+      "cad_y_mm": -16313.6,
+      "revit_x_mm": 26935.5,
+      "revit_y_mm": 22978.5
+    },
+    {
+      "name": "P133",
+      "handle": "6FD705",
+      "cad_x_mm": 332534.7,
+      "cad_y_mm": -14851.6,
+      "revit_x_mm": 28494.5,
+      "revit_y_mm": 24440.5
+    },
+    {
+      "name": "P134",
+      "handle": "6FD706",
+      "cad_x_mm": 330503.2,
+      "cad_y_mm": -14770.6,
+      "revit_x_mm": 26463.0,
+      "revit_y_mm": 24521.5
+    },
+    {
+      "name": "P135",
+      "handle": "6FD707",
+      "cad_x_mm": 332162.7,
+      "cad_y_mm": -13879.6,
+      "revit_x_mm": 28122.5,
+      "revit_y_mm": 25412.5
+    },
+    {
+      "name": "P136",
+      "handle": "6FD708",
+      "cad_x_mm": 330841.2,
+      "cad_y_mm": -12781.6,
+      "revit_x_mm": 26801.0,
+      "revit_y_mm": 26510.5
+    },
+    {
+      "name": "P137",
+      "handle": "6FD709",
+      "cad_x_mm": 332054.2,
+      "cad_y_mm": -11140.1,
+      "revit_x_mm": 28014.0,
+      "revit_y_mm": 28152.0
+    },
+    {
+      "name": "P138",
+      "handle": "6FD70A",
+      "cad_x_mm": 330908.2,
+      "cad_y_mm": -9913.1,
+      "revit_x_mm": 26868.0,
+      "revit_y_mm": 29379.0
+    },
+    {
+      "name": "P139",
+      "handle": "6FD70B",
+      "cad_x_mm": 337529.7,
+      "cad_y_mm": -10008.1,
+      "revit_x_mm": 33489.5,
+      "revit_y_mm": 29284.0
+    },
+    {
+      "name": "P140",
+      "handle": "6FD70C",
+      "cad_x_mm": 338785.7,
+      "cad_y_mm": -11188.6,
+      "revit_x_mm": 34745.5,
+      "revit_y_mm": 28103.5
+    },
+    {
+      "name": "P141",
+      "handle": "6FD70D",
+      "cad_x_mm": 337169.7,
+      "cad_y_mm": -14649.6,
+      "revit_x_mm": 33129.5,
+      "revit_y_mm": 24642.5
+    },
+    {
+      "name": "P142",
+      "handle": "6FD70E",
+      "cad_x_mm": 338994.7,
+      "cad_y_mm": -14694.6,
+      "revit_x_mm": 34954.5,
+      "revit_y_mm": 24597.5
+    },
+    {
+      "name": "P143",
+      "handle": "6FD70F",
+      "cad_x_mm": 339167.2,
+      "cad_y_mm": -16090.6,
+      "revit_x_mm": 35127.0,
+      "revit_y_mm": 23201.5
+    },
+    {
+      "name": "P144",
+      "handle": "6FD710",
+      "cad_x_mm": 337387.2,
+      "cad_y_mm": -16428.6,
+      "revit_x_mm": 33347.0,
+      "revit_y_mm": 22863.5
+    },
+    {
+      "name": "P145",
+      "handle": "6FD711",
+      "cad_x_mm": 338632.7,
+      "cad_y_mm": -19820.1,
+      "revit_x_mm": 34592.5,
+      "revit_y_mm": 19472.0
+    },
+    {
+      "name": "P146",
+      "handle": "6FD712",
+      "cad_x_mm": 338715.7,
+      "cad_y_mm": -21328.1,
+      "revit_x_mm": 34675.5,
+      "revit_y_mm": 17964.0
+    },
+    {
+      "name": "P147",
+      "handle": "6FD713",
+      "cad_x_mm": 338772.7,
+      "cad_y_mm": -22893.1,
+      "revit_x_mm": 34732.5,
+      "revit_y_mm": 16399.0
+    },
+    {
+      "name": "P148",
+      "handle": "6FD714",
+      "cad_x_mm": 338825.7,
+      "cad_y_mm": -23907.1,
+      "revit_x_mm": 34785.5,
+      "revit_y_mm": 15385.0
+    },
+    {
+      "name": "P149",
+      "handle": "6FD715",
+      "cad_x_mm": 338666.2,
+      "cad_y_mm": -27792.6,
+      "revit_x_mm": 34626.0,
+      "revit_y_mm": 11499.5
+    },
+    {
+      "name": "P150",
+      "handle": "6FD716",
+      "cad_x_mm": 338696.7,
+      "cad_y_mm": -29306.6,
+      "revit_x_mm": 34656.5,
+      "revit_y_mm": 9985.5
+    },
+    {
+      "name": "P151",
+      "handle": "6FD717",
+      "cad_x_mm": 337145.2,
+      "cad_y_mm": -32992.1,
+      "revit_x_mm": 33105.0,
+      "revit_y_mm": 6300.0
+    },
+    {
+      "name": "P152",
+      "handle": "6FD718",
+      "cad_x_mm": 338993.2,
+      "cad_y_mm": -32907.6,
+      "revit_x_mm": 34953.0,
+      "revit_y_mm": 6384.5
+    },
+    {
+      "name": "P153",
+      "handle": "6FD719",
+      "cad_x_mm": 339054.7,
+      "cad_y_mm": -34517.1,
+      "revit_x_mm": 35014.5,
+      "revit_y_mm": 4775.0
+    },
+    {
+      "name": "P154",
+      "handle": "6FD71A",
+      "cad_x_mm": 337413.7,
+      "cad_y_mm": -34747.1,
+      "revit_x_mm": 33373.5,
+      "revit_y_mm": 4545.0
+    },
+    {
+      "name": "P155",
+      "handle": "6FD71B",
+      "cad_x_mm": 337615.7,
+      "cad_y_mm": -37931.6,
+      "revit_x_mm": 33575.5,
+      "revit_y_mm": 1360.5
+    },
+    {
+      "name": "P156",
+      "handle": "6FD71C",
+      "cad_x_mm": 338748.2,
+      "cad_y_mm": -39233.1,
+      "revit_x_mm": 34708.0,
+      "revit_y_mm": 59.0
+    },
+    {
+      "name": "P157",
+      "handle": "6FD71D",
+      "cad_x_mm": 342683.2,
+      "cad_y_mm": -39262.6,
+      "revit_x_mm": 38643.0,
+      "revit_y_mm": 29.5
+    },
+    {
+      "name": "P158",
+      "handle": "6FD71E",
+      "cad_x_mm": 343692.2,
+      "cad_y_mm": -37929.1,
+      "revit_x_mm": 39652.0,
+      "revit_y_mm": 1363.0
+    },
+    {
+      "name": "P159",
+      "handle": "6FD71F",
+      "cad_x_mm": 344031.7,
+      "cad_y_mm": -34518.6,
+      "revit_x_mm": 39991.5,
+      "revit_y_mm": 4773.5
+    },
+    {
+      "name": "P160",
+      "handle": "6FD720",
+      "cad_x_mm": 342167.7,
+      "cad_y_mm": -34580.1,
+      "revit_x_mm": 38127.5,
+      "revit_y_mm": 4712.0
+    },
+    {
+      "name": "P161",
+      "handle": "6FD721",
+      "cad_x_mm": 343785.2,
+      "cad_y_mm": -33221.6,
+      "revit_x_mm": 39745.0,
+      "revit_y_mm": 6070.5
+    },
+    {
+      "name": "P162",
+      "handle": "6FD722",
+      "cad_x_mm": 343678.7,
+      "cad_y_mm": -29324.1,
+      "revit_x_mm": 39638.5,
+      "revit_y_mm": 9968.0
+    },
+    {
+      "name": "P163",
+      "handle": "6FD723",
+      "cad_x_mm": 342681.7,
+      "cad_y_mm": -27920.1,
+      "revit_x_mm": 38641.5,
+      "revit_y_mm": 11372.0
+    },
+    {
+      "name": "P164",
+      "handle": "6FD724",
+      "cad_x_mm": 343731.7,
+      "cad_y_mm": -24192.6,
+      "revit_x_mm": 39691.5,
+      "revit_y_mm": 15099.5
+    },
+    {
+      "name": "P165",
+      "handle": "6FD725",
+      "cad_x_mm": 342541.7,
+      "cad_y_mm": -22651.6,
+      "revit_x_mm": 38501.5,
+      "revit_y_mm": 16640.5
+    },
+    {
+      "name": "P166",
+      "handle": "6FD726",
+      "cad_x_mm": 343607.2,
+      "cad_y_mm": -19463.1,
+      "revit_x_mm": 39567.0,
+      "revit_y_mm": 19829.0
+    },
+    {
+      "name": "P167",
+      "handle": "6FD727",
+      "cad_x_mm": 342775.7,
+      "cad_y_mm": -17833.1,
+      "revit_x_mm": 38735.5,
+      "revit_y_mm": 21459.0
+    },
+    {
+      "name": "P168",
+      "handle": "6FD728",
+      "cad_x_mm": 343665.2,
+      "cad_y_mm": -16150.6,
+      "revit_x_mm": 39625.0,
+      "revit_y_mm": 23141.5
+    },
+    {
+      "name": "P169",
+      "handle": "6FD729",
+      "cad_x_mm": 344050.2,
+      "cad_y_mm": -14740.6,
+      "revit_x_mm": 40010.0,
+      "revit_y_mm": 24551.5
+    },
+    {
+      "name": "P170",
+      "handle": "6FD72A",
+      "cad_x_mm": 342278.7,
+      "cad_y_mm": -14740.6,
+      "revit_x_mm": 38238.5,
+      "revit_y_mm": 24551.5
+    },
+    {
+      "name": "P171",
+      "handle": "6FD72B",
+      "cad_x_mm": 343746.2,
+      "cad_y_mm": -11243.6,
+      "revit_x_mm": 39706.0,
+      "revit_y_mm": 28048.5
+    },
+    {
+      "name": "P172",
+      "handle": "6FD72C",
+      "cad_x_mm": 342590.7,
+      "cad_y_mm": -9784.6,
+      "revit_x_mm": 38550.5,
+      "revit_y_mm": 29507.5
+    },
+    {
+      "name": "P173",
+      "handle": "6FD72D",
+      "cad_x_mm": 348268.7,
+      "cad_y_mm": -9885.1,
+      "revit_x_mm": 44228.5,
+      "revit_y_mm": 29407.0
+    },
+    {
+      "name": "P174",
+      "handle": "6FD72E",
+      "cad_x_mm": 346963.2,
+      "cad_y_mm": -11473.6,
+      "revit_x_mm": 42923.0,
+      "revit_y_mm": 27818.5
+    },
+    {
+      "name": "P175",
+      "handle": "6FD72F",
+      "cad_x_mm": 348279.2,
+      "cad_y_mm": -14811.6,
+      "revit_x_mm": 44239.0,
+      "revit_y_mm": 24480.5
+    },
+    {
+      "name": "P176",
+      "handle": "6FD730",
+      "cad_x_mm": 346458.2,
+      "cad_y_mm": -14693.6,
+      "revit_x_mm": 42418.0,
+      "revit_y_mm": 24598.5
+    },
+    {
+      "name": "P177",
+      "handle": "6FD731",
+      "cad_x_mm": 348186.2,
+      "cad_y_mm": -16126.6,
+      "revit_x_mm": 44146.0,
+      "revit_y_mm": 23165.5
+    },
+    {
+      "name": "P178",
+      "handle": "6FD732",
+      "cad_x_mm": 348368.7,
+      "cad_y_mm": -19776.1,
+      "revit_x_mm": 44328.5,
+      "revit_y_mm": 19516.0
+    },
+    {
+      "name": "P179",
+      "handle": "6FD733",
+      "cad_x_mm": 348278.2,
+      "cad_y_mm": -21612.6,
+      "revit_x_mm": 44238.0,
+      "revit_y_mm": 17679.5
+    },
+    {
+      "name": "P180",
+      "handle": "6FD734",
+      "cad_x_mm": 346645.7,
+      "cad_y_mm": -21178.1,
+      "revit_x_mm": 42605.5,
+      "revit_y_mm": 18114.0
+    },
+    {
+      "name": "P181",
+      "handle": "6FD735",
+      "cad_x_mm": 348236.7,
+      "cad_y_mm": -23803.1,
+      "revit_x_mm": 44196.5,
+      "revit_y_mm": 15489.0
+    },
+    {
+      "name": "P182",
+      "handle": "6FD736",
+      "cad_x_mm": 348307.7,
+      "cad_y_mm": -25445.1,
+      "revit_x_mm": 44267.5,
+      "revit_y_mm": 13847.0
+    },
+    {
+      "name": "P183",
+      "handle": "6FD737",
+      "cad_x_mm": 346630.2,
+      "cad_y_mm": -25115.6,
+      "revit_x_mm": 42590.0,
+      "revit_y_mm": 14176.5
+    },
+    {
+      "name": "P184",
+      "handle": "6FD738",
+      "cad_x_mm": 346654.2,
+      "cad_y_mm": -29083.1,
+      "revit_x_mm": 42614.0,
+      "revit_y_mm": 10209.0
+    },
+    {
+      "name": "P185",
+      "handle": "6FD739",
+      "cad_x_mm": 348208.7,
+      "cad_y_mm": -27897.1,
+      "revit_x_mm": 44168.5,
+      "revit_y_mm": 11395.0
+    },
+    {
+      "name": "P186",
+      "handle": "6FD73A",
+      "cad_x_mm": 348142.2,
+      "cad_y_mm": -29651.1,
+      "revit_x_mm": 44102.0,
+      "revit_y_mm": 9641.0
+    },
+    {
+      "name": "P187",
+      "handle": "6FD73B",
+      "cad_x_mm": 347918.7,
+      "cad_y_mm": -33067.6,
+      "revit_x_mm": 43878.5,
+      "revit_y_mm": 6224.5
+    },
+    {
+      "name": "P188",
+      "handle": "6FD73C",
+      "cad_x_mm": 348380.7,
+      "cad_y_mm": -34670.6,
+      "revit_x_mm": 44340.5,
+      "revit_y_mm": 4621.5
+    },
+    {
+      "name": "P189",
+      "handle": "6FD73D",
+      "cad_x_mm": 346476.9,
+      "cad_y_mm": -35392.6,
+      "revit_x_mm": 42436.7,
+      "revit_y_mm": 3899.5
+    },
+    {
+      "name": "P190",
+      "handle": "6FD73E",
+      "cad_x_mm": 347909.7,
+      "cad_y_mm": -37825.1,
+      "revit_x_mm": 43869.5,
+      "revit_y_mm": 1467.0
+    },
+    {
+      "name": "P191",
+      "handle": "6FD73F",
+      "cad_x_mm": 348071.7,
+      "cad_y_mm": -39326.6,
+      "revit_x_mm": 44031.5,
+      "revit_y_mm": -34.5
+    },
+    {
+      "name": "P192",
+      "handle": "6FD740",
+      "cad_x_mm": 351632.7,
+      "cad_y_mm": -34352.1,
+      "revit_x_mm": 47592.5,
+      "revit_y_mm": 4940.0
+    },
+    {
+      "name": "P193",
+      "handle": "6FD741",
+      "cad_x_mm": 351701.7,
+      "cad_y_mm": -29062.6,
+      "revit_x_mm": 47661.5,
+      "revit_y_mm": 10229.5
+    },
+    {
+      "name": "P194",
+      "handle": "6FD742",
+      "cad_x_mm": 351771.7,
+      "cad_y_mm": -24984.6,
+      "revit_x_mm": 47731.5,
+      "revit_y_mm": 14307.5
+    },
+    {
+      "name": "P195",
+      "handle": "6FD743",
+      "cad_x_mm": 351714.7,
+      "cad_y_mm": -21056.6,
+      "revit_x_mm": 47674.5,
+      "revit_y_mm": 18235.5
+    },
+    {
+      "name": "P196",
+      "handle": "6FD744",
+      "cad_x_mm": 351880.7,
+      "cad_y_mm": -15797.1,
+      "revit_x_mm": 47840.5,
+      "revit_y_mm": 23495.0
+    }
+  ]
+}

@@ -23,4 +23,8 @@
         <EnableDefaultPageItems>false</EnableDefaultPageItems>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\McpShared\HPRebar.McpBridge.Core\HPRebar.McpBridge.Core.csproj" />
+    </ItemGroup>
+
 </Project>

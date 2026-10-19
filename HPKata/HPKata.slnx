@@ -1,0 +1,20 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="HPKata.Core/HPKata.Core.csproj" />
+  <Project Path="HPKata.Core.Tests/HPKata.Core.Tests.csproj" />
+  <Project Path="HPKata.UI/HPKata.UI.csproj" />
+  <Project Path="HPKata.UI.Tests/HPKata.UI.Tests.csproj" />
+  <Project Path="HPKata.AutoCad/HPKata.AutoCad.csproj" />
+  <Project Path="HPKata.AutoCad.Tests/HPKata.AutoCad.Tests.csproj" />
+  <Project Path="HPKata.Revit/HPKata.Revit.csproj" />
+  <Project Path="HPKata.Revit.Tests/HPKata.Revit.Tests.csproj" />
+  <Project Path="HPKata.E2E.Tests/HPKata.E2E.Tests.csproj" />
+  <Project Path="HPKata.Installer/HPKata.Installer.csproj" />
+</Solution>

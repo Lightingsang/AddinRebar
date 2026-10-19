@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Get overall active graph statistics and error summary",
+    "args": {
+      "includeNodeList": false,
+      "includeErrors": true
+    }
+  },
+  {
+    "title": "Inspect entire active workspace including all node records",
+    "args": {
+      "includeNodeList": true,
+      "includeErrors": true
+    }
+  }
+]

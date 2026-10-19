@@ -1,0 +1,681 @@
+{
+  "Subsystem_2": {
+    "catalog_count": 73,
+    "tm_count": 73,
+    "missing": [],
+    "extra": [],
+    "statuses": {
+      "CHƯA GIẢI MÃ ĐƯỢC": 68,
+      "HOÀN THÀNH": 5
+    },
+    "rows": [
+      {
+        "Legacy Identifier": "`APIAUTOCAD`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/ket_noi_api)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “AUTOCAD API” của DCE Excel, nhóm Kết nối API. Kết nối với AUTOCAD API. Gọi `GhiFileText`.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`APICAD`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/ket_noi_api)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “CAD API” của DCE Excel, nhóm Kết nối API. Kết nối CAD API (AutoCAD / ZWCAD / GstarCAD / .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`APICSI`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/ket_noi_api)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “CSI API” của DCE Excel, nhóm Kết nối API. Kết nối với CSI API. Mở form `Chung_CSIAPI`. N.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bas_Show`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/mong)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Basic Design” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng thiết kế.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_CalculateTheVolume`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Calculate The Volume” của DCE Excel, nhóm Dầm. Dự toán khối lượng thép và bê tông. Mở fo.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_ChooseColor`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “ChooseColor” của DCE Excel, nhóm Dầm. Làm mới mầu sắc bảng tính. Mở form `DCE_Beam_Desig.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_Design`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Auto Rebars” của DCE Excel, nhóm Dầm. Chọn thép tự động. Mở form `Bea_AutoDesign`. Nút t.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_ExportDrawingData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**ClosedXML Exporter**. Headless report & schedule workbook generator without COM dependency. Verified by adapter tests.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/ClosedXmlReportExporter.cs`",
+        "Parity Status": "HOÀN THÀNH"
+      },
+      {
+        "Legacy Identifier": "`Bea_ExportSize`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**ClosedXML Exporter**. Headless report & schedule workbook generator without COM dependency. Verified by adapter tests.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/ClosedXmlReportExporter.cs`",
+        "Parity Status": "HOÀN THÀNH"
+      },
+      {
+        "Legacy Identifier": "`Bea_LoadData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Load data Etabs” của DCE Excel, nhóm Dầm. Tải dữ liệu nội lực từ Etabs. Mở form `Bea_Loa.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_Print`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Calcsheets” của DCE Excel, nhóm Dầm. In ấn và xem thuyết minh tính toán dầm. Mở form `Be.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Bea_Setup`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Setup” của DCE Excel, nhóm Dầm. Cài đặt các thông số thiết kế dầm. Mở form `Bea_Setup`. .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_CalculateTheVolume`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Calculate The Volume” của DCE Excel, nhóm Cột vách. Dự toán khối lượng thép và bê tông. .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_ChooseColor`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “ChooseColor” của DCE Excel, nhóm Cột vách. Làm mới mầu sắc bảng tính. Mở form `DCE_Col_W.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_Design`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Design” của DCE Excel, nhóm Cột vách. Thiết kế cột vách. Mở form `DCE_Col_Wall_Design`..",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_Design2`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Design nhanh” của DCE Excel, nhóm Cột vách. Design Nhanh. Mở form `DCE_Col_Wall_Design`..",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_ExportDrawingData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**ClosedXML Exporter**. Headless report & schedule workbook generator without COM dependency. Verified by adapter tests.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/ClosedXmlReportExporter.cs`",
+        "Parity Status": "HOÀN THÀNH"
+      },
+      {
+        "Legacy Identifier": "`Col_ExportSize`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**ClosedXML Exporter**. Headless report & schedule workbook generator without COM dependency. Verified by adapter tests.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/ClosedXmlReportExporter.cs`",
+        "Parity Status": "HOÀN THÀNH"
+      },
+      {
+        "Legacy Identifier": "`Col_LoadData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Load data Etabs” của DCE Excel, nhóm Cột vách. Tải dữ liệu nội lực từ Etabs. Mở form `Co.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_LoadDataGenCol`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Load text file GenCol” của DCE Excel, nhóm Cột vách. Tải dữ liệu từ file text với hình d.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_Print`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Calcsheets” của DCE Excel, nhóm Cột vách. In ấn và xem thuyết minh tính toán cột vách. M.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_Setup`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Setup” của DCE Excel, nhóm Cột vách. Cài đặt các thông số chung cho cột vách. Mở form `C.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Col_SortData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot_vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Sort Data” của DCE Excel, nhóm Cột vách. Sắp xếp và gộp các cấu kiện giống nhau. Mở form.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DbimPuFile`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Pu File Etabs, Safe, Cad” của DCE Excel, nhóm ETABS / SAFE. Xóa các file mở rộng của Eta.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceAI`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “AI Support” của DCE Excel, nhóm Tài khoản & hệ thống. Trợ lý AI. Mở form `Dbim_Gemini`. .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceAdmin`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Dev Info” của DCE Excel, nhóm Tài khoản & hệ thống. Thông tin liên hệ nhà phát triển. Mở.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceLanguage`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Language” của DCE Excel, nhóm Tài khoản & hệ thống. Chọn ngôn ngữ hiển thị của phần mềm..",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceLogin`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Login” của DCE Excel, nhóm Tài khoản & hệ thống. Đăng nhập tài khoản DCE. Mở form `Chung.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceLogout`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Logout” của DCE Excel, nhóm Tài khoản & hệ thống. Đăng xuất tài khoản DCE. Mở form `Chun.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DceUpdate`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Update” của DCE Excel, nhóm Tài khoản & hệ thống. Update Phần mềm. Gọi `updatePhanMemDBI.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DrawLine`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cau_noi_cad)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “DrawLine” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Line b.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DrawPolyLine`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cau_noi_cad)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “DrawPolyLine” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Po.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`DrawREC`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cau_noi_cad)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “DrawREC” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách vẽ Rectang.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`ESStiffnessModifiers`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Etabs Stiffness Modifiers to Safe” của DCE Excel, nhóm ETABS / SAFE. Etabs Stiffness Mod.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`ESUniformLoadSetsToSafe`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Etabs Uniform Load Sets to Safe” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`EtaSTableToEta`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Etabs Table to Etabs” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở form `DceQ.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Eta_Show`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/mong)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Etabs Link” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng liên kết m.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Fou_Show`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/mong)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Tính Móng” của DCE Excel, nhóm Móng & cơ bản & ETABS. Hiển thị các chức năng thiết kế mó.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`GopThepDaiToHop`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/to_hop_thep)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Gộp thép” của DCE Excel, nhóm Tổ hợp thép. Gộp các thép giống nhau để tổ hợp thép nhanh .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`PointSafeToPointSafe`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Sync Model Points Safe” của DCE Excel, nhóm ETABS / SAFE. Đồng bộ point mô hình safe. Mở.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`SafeTableToSafe`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Safe Table to Safe” của DCE Excel, nhóm ETABS / SAFE. Joint Loads Assignments - Force. M.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`SelectHandle`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cau_noi_cad)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “SelectHandle” của DCE Excel, nhóm Cầu nối sang CAD. Lấy Handle (địa chỉ) bằng cách selec.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Sla_ChooseColor`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “ChooseColor” của DCE Excel, nhóm Sàn. Làm mới mầu sắc bảng tính. Mở form `DCE_Slab_Desig.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Sla_Design`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Auto Rebars” của DCE Excel, nhóm Sàn. Chọn thép tự động. Mở form `Sla_ChonThepTuDong`. N.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Sla_ExportSize`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**ClosedXML Exporter**. Headless report & schedule workbook generator without COM dependency. Verified by adapter tests.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/ClosedXmlReportExporter.cs`",
+        "Parity Status": "HOÀN THÀNH"
+      },
+      {
+        "Legacy Identifier": "`Sla_LoadData`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Load data Etabs” của DCE Excel, nhóm Sàn. Tải dữ liệu nội lực từ Safe. Mở form `Sla_Load.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Sla_Print`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Calcsheets” của DCE Excel, nhóm Sàn. In ấn và xem thuyết minh tính toán sàn. Mở form `Sl.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`Sla_Setup`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Setup” của DCE Excel, nhóm Sàn. Cài đặt các thông số thiết kế Sàn. Mở form `Sla_Setup`. .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`ToHop`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/to_hop_thep)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Tổ hợp thép loại 1” của DCE Excel, nhóm Tổ hợp thép. Tổ hợp thép. Mở form `Bea_ToHopThep.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`ToHop2`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/to_hop_thep)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Tổ hợp thép loại 2” của DCE Excel, nhóm Tổ hợp thép. Test Tổ hợp thép. Mở form `Bea_ToHo.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`UniformLoadSets`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/etabs_safe)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Get Uniform Load Sets” của DCE Excel, nhóm ETABS / SAFE. Uniform Load Sets. Mở form `Dce.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`licenseissuance`<br>`HostRibbon.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/tai_khoan)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nút ribbon “Mua mới/Gia hạn” của DCE Excel, nhóm Tài khoản & hệ thống. Mua mới hoặc gia hạn bản quyề.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.PhienBan`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/mat_tien_doc)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Bản mặt tiền đọc của DCE Excel: tên bảng tính đang mở và danh sách mọi sheet trong đó — CHỈ ĐỌC, khô.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.LietKeChucNang`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/mat_tien_doc)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Liệt kê những bảng mà trợ lý đọc được trong file DCE Excel đang mở, kèm tên sheet, dòng dữ liệu bắt .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocBangDam`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc bảng tính dầm (sheet TinhDam): tên dầm, nhãn, b, h, mặt cắt, số thanh và đường kính lớp trên / l.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocBangCot`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc bảng chi tiết cột (sheet Column Detail): tên pier, tầng, tiết diện, chiều cao, thép dọc, đai bao.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocBangSan`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc dải tính sàn (sheet STRIP DESIGN) ở dạng Ô THÔ A..AZ kèm đúng dòng tiêu đề của file — CHỈ ĐỌC, k.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.KiemTraDauVaoDam`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Soi trước file tính dầm: đủ bốn sheet bắt buộc (THDL, TinhDam, TM_CT_TCVN, DCE_Pro_Beam) chưa, bao n.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocKetQuaDam`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc KẾT QUẢ thiết kế dầm (sheet TinhDam) theo đúng nghĩa cột của mã in thuyết minh: M3, Mu, As yêu c.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocKetQuaCot`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc KẾT QUẢ thiết kế CỘT (sheet ColumnDesign) — ô thô kèm tiêu đề dòng 1–2 của chính file (có cột Ch.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocKetQuaVach`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/vach)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Đọc KẾT QUẢ thiết kế VÁCH (sheet WallDesign) — ô thô kèm tiêu đề thật + quy ước FS của sản phẩm. CHỈ.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.KiemTraDauVaoCot`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Soi file tính cột vách: đủ 4 sheet bắt buộc (như GanDLApplicationExcelColumn đòi) chưa, số dòng Colu.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.KiemTraDauVaoSan`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Soi file tính sàn: đủ 4 sheet STRIP FORCES/FILTER/DESIGN/REPORT (như GanDLApplicationExcelSlabDesign.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.TrangThaiWorkbook`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/meta)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Nhận ra bảng tính đang mở là file DCE Excel loại nào (dầm / cột vách / sàn / đài cọc / SCT cọc) theo.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_InThuyetMinhDam`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. In thuyết minh tính toán DẦM = nút «In thuyết minh tính toán» của form Calcsheets dầm, tham số mặc đ.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_InThuyetMinhCot`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. In thuyết minh CỘT / VÁCH dạng bảng = nhánh in dạng bảng của form Calcsheets cột vách. GHI vào bảng .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_ChonThepSan`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. Chọn thép SÀN tự động = nút «Chọn thép tự động» của form Auto Rebars nhóm Sàn (ô rải đều mặc định = .",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_AiTinhToanDam`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. TÍNH DẦM từ ETABS = đúng chuỗi AutoStr_TinhToanDam (tải nội lực theo tổ hợp THDL cột DA/DB/DC → tính.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_AiChuyenDuLieuVeDam`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. CHUYỂN kết quả tính DẦM sang sheet vẽ, không tính lại = nút «Xóa DL» + «Chuyển DL tính => vẽ» của fo.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_AiTinhToanCot`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. TÍNH CỘT VÁCH từ ETABS = đúng chuỗi AutoStr_TinhToanCot (lấy danh sách cột + tầng từ ETABS → tải nội.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_AiXuatDuLieuVeCot`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/cot)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. CHUYỂN kết quả tính CỘT VÁCH sang sheet vẽ, không tải lại nội lực = bước 3 → 5 của AutoStr_TinhToanC.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`AutoStr.AutoStr_InThuyetMinhSan`<br>`AutoStr_ExcelCommand.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/san)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. In thuyết minh SÀN = nhánh «In thuyết minh tính toán» của nút OK form Calcsheets nhóm Sàn với giá tr.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      },
+      {
+        "Legacy Identifier": "`MatTienDceExcel.DocDamDaLuuDuLieuVe`<br>`MatTienDceExcel.Dispatch`",
+        "Subsystem": "Excel Ribbon (dce_excel/dam)",
+        "Token/RVA": "MethodToken: `0x06000042`",
+        "Inspection Result": "**Babel .NET JIT Hook**. Compiled VBA/COM dispatch routine in `V.2020\\DCE Excel.dll`. KIỂM TRA (không xuất gì): dầm nào đã có dữ liệu trong sheet DL_DCE (nơi nút «Lưu» của form Bea_Expor.",
+        "HPDcePro Target File": "`src/HPDcePro.Excel/Ribbon/ExcelRibbonDispatch.cs`",
+        "Parity Status": "CHƯA GIẢI MÃ ĐƯỢC"
+      }
+    ]
+  },
+  "Subsystem_3": {
+    "catalog_count": 49,
+    "tm_count": 49,
+    "missing": [],
+    "extra": [],
+    "statuses": {
+      "CHƯA GIẢI MÃ ĐƯỢC": 6,
+      "HOÀN THÀNH": 37,
+      "ĐANG LÀ MOCK": 6
+    }
+  },
+  "Subsystem_4": {
+    "catalog_count": 29,
+    "tm_count": 29,
+    "missing": [],
+    "extra": [],
+    "statuses": {
+      "CHƯA GIẢI MÃ ĐƯỢC": 16,
+      "HOÀN THÀNH": 6,
+      "ĐANG LÀ MOCK": 7
+    }
+  },
+  "Subsystem_5": {
+    "pe_count": 69,
+    "tm_count": 69,
+    "mismatches": [],
+    "statuses": {
+      "HOÀN THÀNH": 65,
+      "CHƯA GIẢI MÃ ĐƯỢC": 4
+    }
+  },
+  "Subsystem_6": {
+    "extracted_count": 24,
+    "tm_count": 24,
+    "mismatches": [],
+    "statuses": {
+      "HOÀN THÀNH": 1,
+      "CHƯA GIẢI MÃ ĐƯỢC": 21,
+      "ĐANG LÀ MOCK": 2
+    }
+  },
+  "Subsystem_9": {
+    "tm_count": 24,
+    "statuses": {
+      "HOÀN THÀNH": 16,
+      "ĐANG LÀ MOCK": 8
+    },
+    "steps": [
+      "AutoStrStep.S01_TaoSheetSet",
+      "AutoStrStep.S02_LuoiTrucExrefCot",
+      "AutoStrStep.S03_DinhViCot",
+      "AutoStrStep.S04_MBKC",
+      "AutoStrStep.S05_DuongPhanTichLuc",
+      "AutoStrStep.S06_TaiTuong",
+      "AutoStrStep.S07_BuildEtabsModel",
+      "AutoStrStep.S08_TinhToanDamExcel",
+      "AutoStrStep.S09_VeChiTietDam",
+      "AutoStrStep.S10_TinhToanCotExcel",
+      "AutoStrStep.S11_VeChiTietCotVach",
+      "AutoStrStep.S12_VeChiTietSan",
+      "AutoStrStep.S13_MBMongCoc",
+      "AutoStrStep.S14_DPTLMong",
+      "AutoStrStep.S15_EtabsMong",
+      "AutoStrStep.S16_TTMong",
+      "AutoStrStep.S17_VeMong",
+      "AutoStrStep.S18_TTGiangM",
+      "AutoStrStep.S19_VeGiangM",
+      "AutoStrStep.S20_CKPhu",
+      "AutoStrStep.S21_DanhMuc",
+      "AutoStrStep.S22_MoSheetSet",
+      "AutoStrStep.S23_InAn",
+      "AutoStrStep.S24_TMTT"
+    ]
+  },
+  "Section_11": {
+    "dwgs": 17,
+    "xlsms": 132,
+    "cuixs": 7,
+    "mauhoc_sz": 8982528,
+    "sys_files": 178,
+    "lang_files": 8,
+    "icon_files": 133
+  }
+}

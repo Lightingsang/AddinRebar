@@ -17,3 +17,46 @@ command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRebar\output\HPR
 
 [mcp_servers.hprebar-revit.env]
 HPREBAR_MCP_Bridge__RevitVersion = "2026"
+
+[mcp_servers.hprebar-etabs]
+command = 'G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPEtabs\output\HPEtabs.Mcp.Server\HPEtabs.Mcp.Server.exe'
+
+[mcp_servers.hprebar-etabs.env]
+HPETABS_MCP_Bridge__HostVersion = "22"
+
+[mcp_servers.hprebar-excel]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPExcel\output\HPExcel.Mcp.Server\HPExcel.Mcp.Server.exe'
+
+[mcp_servers.hprebar-excel.env]
+HPEXCEL_MCP_Bridge__HostVersion = "2026"
+
+[mcp_servers.hprebar-navis]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPNavis\output\HPNavis.Mcp.Server\HPNavis.Mcp.Server.exe'
+
+[mcp_servers.hprebar-navis.env]
+HPNAVIS_MCP_Bridge__HostVersion = "2026"
+
+[mcp_servers.hprebar-powerbi]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPPowerBi\output\HPPowerBi.Mcp.Server\HPPowerBi.Mcp.Server.exe'
+
+[mcp_servers.hprebar-powerbi.env]
+HPPOWERBI_MCP_Bridge__HostVersion = "2026"
+
+[mcp_servers.hprebar-robot]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPRobot\output\HPRobot.Mcp.Server\HPRobot.Mcp.Server.exe'
+
+[mcp_servers.hprebar-robot.env]
+HPROBOT_MCP_Bridge__HostVersion = "2026"
+
+[mcp_servers.hprebar-sap2000]
+command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPSap2000\output\HPSap2000.Mcp.Server\HPSap2000.Mcp.Server.exe'
+
+[mcp_servers.hprebar-sap2000.env]
+HPSAP2000_MCP_Bridge__HostVersion = "27"
+
+[mcp_servers.hprebar-grasshopper]
+command = 'G:\09-PROJECT AI\01_Revit\02_CshapRevit\01_AddinRebar\HPGrasshopper\output\HPGrasshopper.Mcp.Server\HPGrasshopper.Mcp.Server.exe'
+
+[mcp_servers.hprebar-grasshopper.env]
+HPGRASSHOPPER_MCP_Bridge__HostVersion = "2026"
+

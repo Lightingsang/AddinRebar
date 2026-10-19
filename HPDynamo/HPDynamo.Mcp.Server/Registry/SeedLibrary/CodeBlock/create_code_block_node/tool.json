@@ -1,0 +1,53 @@
+{
+  "name": "create_code_block_node",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "CodeBlock",
+  "host": "dynamo",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 30,
+  "destructive": false,
+  "tags": [
+    "codeblock",
+    "designscript",
+    "node",
+    "create",
+    "authoring",
+    "script",
+    "canvas"
+  ],
+  "title": "Create Code Block node",
+  "description": "Create a DesignScript Code Block node on the active Dynamo canvas workspace with specified script code, position (X, Y), and parse syntax. Modifies active graph workspace with undo recording.",
+  "notes": "Requires an active Dynamo workspace. Creates a CodeBlockNodeModel, parses inputs and outputs via ElementResolver, and registers node via DynamoModel.CreateNodeCommand.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "code"
+    ],
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "DesignScript code statements for the code block (e.g. 'x = 100; y = 200; Point.ByCoordinates(x, y, 0);')"
+      },
+      "x": {
+        "type": "number",
+        "default": 100.0,
+        "description": "X coordinate for placement on canvas (default 100.0)"
+      },
+      "y": {
+        "type": "number",
+        "default": 100.0,
+        "description": "Y coordinate for placement on canvas (default 100.0)"
+      },
+      "title": {
+        "type": "string",
+        "description": "Optional custom nickname or title for the Code Block node"
+      }
+    },
+    "additionalProperties": false
+  }
+}

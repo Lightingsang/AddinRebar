@@ -126,12 +126,7 @@
                   ItemsSource="{Binding Positions}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  HeadersVisibility="Column"
-                  Background="{DynamicResource Brush.Surface}"
-                  RowBackground="{DynamicResource Brush.Surface}"
-                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
-                  Foreground="{DynamicResource Brush.Foreground.Primary}"
-                  BorderBrush="{DynamicResource Brush.Border}">
+                  HeadersVisibility="Column">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="No" Binding="{Binding BarNumber}" Width="80"/>
                 <DataGridTextColumn Header="X" Binding="{Binding X0, StringFormat={}{0:0.#}}" Width="140"/>

@@ -1,0 +1,10 @@
+﻿// Method: System.Void Kata_pro64_Cad2013.Setting::LoadFromGoiLenhText(System.String,System.IO.StreamReader)
+HasBody: True
+Instructions count: 4
+Variables count: 0
+
+Instructions:
+  IL_0000: nop 
+  IL_0001: nop 
+  IL_0002: nop 
+  IL_0003: ret 

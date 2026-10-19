@@ -147,7 +147,7 @@ internal static class KataElevationGallery
 
         private object Support(int kind, double start, double end, (double, double)? upper = null, string? section = null) =>
             Activator.CreateInstance(_support, Enum.ToObject(_kind, kind), Interval(start, end), $"S{start}", section,
-                upper is { } u ? Interval(u.Item1, u.Item2) : null, null)!;
+                upper is { } u ? Interval(u.Item1, u.Item2) : null, null, null)!;
 
         private object Grid(string name, double station) => Activator.CreateInstance(_grid, name, station)!;
 

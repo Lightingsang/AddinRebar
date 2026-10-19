@@ -1,0 +1,376 @@
+diff --git a/HPKata/HPKata.Revit/Commands/ColumnRebarCommands.cs b/HPKata/HPKata.Revit/Commands/ColumnRebarCommands.cs
+--- a/HPKata/HPKata.Revit/Commands/ColumnRebarCommands.cs
++++ b/HPKata/HPKata.Revit/Commands/ColumnRebarCommands.cs
+@@ -26,45 +26,20 @@
+             var uidoc = uiapp.ActiveUIDocument;
+             if (uidoc == null) return Result.Cancelled;
+-            var doc = uidoc.Document;
+ 
+             try
+             {
+                 var refCol = uidoc.Selection.PickObject(
+                     ObjectType.Element,
+                     new ColumnSelectionFilter(),
+                     "Select a Structural Column to detail with HPKata:");
+ 
+-                var col = doc.GetElement(refCol) as FamilyInstance;
+-                if (col == null) return Result.Cancelled;
+-
+-                var adapter = KataExcelAdapterProvider.Current;
+-                var vm = new ColumnDetailingViewModel(adapter)
+-                {
+-                    ColumnMark = col.Name
+-                };
+-
+-                string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
+-                if (File.Exists(kataPath) && adapter.ReadColumnSheet(kataPath, out var sheetData))
+-                {
+-                    if (string.Equals(sheetData.ColumnMark, col.Name, StringComparison.OrdinalIgnoreCase))
+-                    {
+-                        vm.ReadExcelCommand.Execute(null);
+-                    }
+-                }
+-
+-                var view = new ColumnDetailingWindow(vm);
+-                bool? dialogResult = RevitWindowHelper.ShowModal(view, uiapp);
+-
+-                if (vm.ResultLayout != null)
+-                {
+-                    using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {col.Name}");
+-                    tr.Start();
+-                    ColumnRebarGenerator.GenerateColumnRebar(doc, col, vm.ResultLayout);
+-                    tr.Commit();
+-                    TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in column '{col.Name}'.");
++                if (uidoc.Document.GetElement(refCol) is not FamilyInstance col)
++                {
++                    return Result.Cancelled;
+                 }
+ 
++                ShowDialogAndGenerateRebar(uiapp, uidoc.Document, col);
+                 return Result.Succeeded;
+             }
+             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+@@ -76,6 +51,39 @@
+                 return Result.Failed;
+             }
+         }
++
++        private static void ShowDialogAndGenerateRebar(UIApplication uiapp, Document doc, FamilyInstance col)
++        {
++            var vm = CreateViewModel(col);
++            var view = new ColumnDetailingWindow(vm);
++            RevitWindowHelper.ShowModal(view, uiapp);
++
++            if (vm.ResultLayout != null)
++            {
++                using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {col.Name}");
++                tr.Start();
++                ColumnRebarGenerator.GenerateColumnRebar(doc, col, vm.ResultLayout);
++                tr.Commit();
++                TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in column '{col.Name}'.");
++            }
++        }
++
++        private static ColumnDetailingViewModel CreateViewModel(FamilyInstance col)
++        {
++            var adapter = KataExcelAdapterProvider.Current;
++            var vm = new ColumnDetailingViewModel(adapter)
++            {
++                ColumnMark = col.Name
++            };
++
++            string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
++            if (File.Exists(kataPath) && adapter.ReadColumnSheet(kataPath, out var sheetData))
++            {
++                if (string.Equals(sheetData.ColumnMark, col.Name, StringComparison.OrdinalIgnoreCase))
++                {
++                    vm.ReadExcelCommand.Execute(null);
++                }
++            }
++
++            return vm;
++        }
+ 
+         private sealed class ColumnSelectionFilter : ISelectionFilter
+diff --git a/HPKata/HPKata.Revit/Commands/FramingRebarCommands.cs b/HPKata/HPKata.Revit/Commands/FramingRebarCommands.cs
+--- a/HPKata/HPKata.Revit/Commands/FramingRebarCommands.cs
++++ b/HPKata/HPKata.Revit/Commands/FramingRebarCommands.cs
+@@ -26,45 +26,20 @@
+             var uidoc = uiapp.ActiveUIDocument;
+             if (uidoc == null) return Result.Cancelled;
+-            var doc = uidoc.Document;
+ 
+             try
+             {
+                 var refBeam = uidoc.Selection.PickObject(
+                     ObjectType.Element,
+                     new FramingSelectionFilter(),
+                     "Select a Structural Framing beam to detail with HPKata:");
+ 
+-                var beam = doc.GetElement(refBeam) as FamilyInstance;
+-                if (beam == null) return Result.Cancelled;
+-
+-                var adapter = KataExcelAdapterProvider.Current;
+-                var vm = new BeamDetailingViewModel(adapter)
+-                {
+-                    BeamMark = beam.Name
+-                };
+-
+-                string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
+-                if (File.Exists(kataPath) && adapter.ReadBeamSheet(kataPath, out var sheetData))
+-                {
+-                    if (string.Equals(sheetData.BeamMark, beam.Name, StringComparison.OrdinalIgnoreCase))
+-                    {
+-                        vm.ReadExcelCommand.Execute(null);
+-                    }
+-                }
+-
+-                var view = new BeamDetailingWindow(vm);
+-                bool? dialogResult = RevitWindowHelper.ShowModal(view, uiapp);
+-
+-                if (vm.ResultLayout != null)
+-                {
+-                    using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {beam.Name}");
+-                    tr.Start();
+-                    FramingRebarGenerator.GenerateFramingRebar(doc, beam, vm.ResultLayout);
+-                    tr.Commit();
+-                    TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in beam '{beam.Name}'.");
++                if (uidoc.Document.GetElement(refBeam) is not FamilyInstance beam)
++                {
++                    return Result.Cancelled;
+                 }
+ 
++                ShowDialogAndGenerateRebar(uiapp, uidoc.Document, beam);
+                 return Result.Succeeded;
+             }
+             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+@@ -76,6 +51,39 @@
+                 return Result.Failed;
+             }
+         }
++
++        private static void ShowDialogAndGenerateRebar(UIApplication uiapp, Document doc, FamilyInstance beam)
++        {
++            var vm = CreateViewModel(beam);
++            var view = new BeamDetailingWindow(vm);
++            RevitWindowHelper.ShowModal(view, uiapp);
++
++            if (vm.ResultLayout != null)
++            {
++                using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {beam.Name}");
++                tr.Start();
++                FramingRebarGenerator.GenerateFramingRebar(doc, beam, vm.ResultLayout);
++                tr.Commit();
++                TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in beam '{beam.Name}'.");
++            }
++        }
++
++        private static BeamDetailingViewModel CreateViewModel(FamilyInstance beam)
++        {
++            var adapter = KataExcelAdapterProvider.Current;
++            var vm = new BeamDetailingViewModel(adapter)
++            {
++                BeamMark = beam.Name
++            };
++
++            string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
++            if (File.Exists(kataPath) && adapter.ReadBeamSheet(kataPath, out var sheetData))
++            {
++                if (string.Equals(sheetData.BeamMark, beam.Name, StringComparison.OrdinalIgnoreCase))
++                {
++                    vm.ReadExcelCommand.Execute(null);
++                }
++            }
++
++            return vm;
++        }
+ 
+         private sealed class FramingSelectionFilter : ISelectionFilter
+diff --git a/HPKata/HPKata.Revit/Commands/WallRebarCommands.cs b/HPKata/HPKata.Revit/Commands/WallRebarCommands.cs
+--- a/HPKata/HPKata.Revit/Commands/WallRebarCommands.cs
++++ b/HPKata/HPKata.Revit/Commands/WallRebarCommands.cs
+@@ -26,45 +26,20 @@
+             var uidoc = uiapp.ActiveUIDocument;
+             if (uidoc == null) return Result.Cancelled;
+-            var doc = uidoc.Document;
+ 
+             try
+             {
+                 var refWall = uidoc.Selection.PickObject(
+                     ObjectType.Element,
+                     new WallSelectionFilter(),
+                     "Select a Structural Wall to detail with HPKata:");
+ 
+-                var wall = doc.GetElement(refWall) as Wall;
+-                if (wall == null) return Result.Cancelled;
+-
+-                var adapter = KataExcelAdapterProvider.Current;
+-                var vm = new WallDetailingViewModel(adapter)
+-                {
+-                    WallMark = wall.Name
+-                };
+-
+-                string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
+-                if (File.Exists(kataPath) && adapter.ReadWallSheet(kataPath, out var sheetData))
+-                {
+-                    if (string.Equals(sheetData.WallMark, wall.Name, StringComparison.OrdinalIgnoreCase))
+-                    {
+-                        vm.ReadExcelCommand.Execute(null);
+-                    }
+-                }
+-
+-                var view = new WallDetailingWindow(vm);
+-                bool? dialogResult = RevitWindowHelper.ShowModal(view, uiapp);
+-
+-                if (vm.ResultModel != null)
+-                {
+-                    using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {wall.Name}");
+-                    tr.Start();
+-                    WallRebarGenerator.GenerateWallRebar(doc, wall, vm.ResultModel);
+-                    tr.Commit();
+-                    TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in shear wall '{wall.Name}'.");
++                if (uidoc.Document.GetElement(refWall) is not Wall wall)
++                {
++                    return Result.Cancelled;
+                 }
+ 
++                ShowDialogAndGenerateRebar(uiapp, uidoc.Document, wall);
+                 return Result.Succeeded;
+             }
+             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+@@ -76,6 +51,39 @@
+                 return Result.Failed;
+             }
+         }
++
++        private static void ShowDialogAndGenerateRebar(UIApplication uiapp, Document doc, Wall wall)
++        {
++            var vm = CreateViewModel(wall);
++            var view = new WallDetailingWindow(vm);
++            RevitWindowHelper.ShowModal(view, uiapp);
++
++            if (vm.ResultModel != null)
++            {
++                using var tr = new Transaction(doc, $"HPKata: Generate Rebar for {wall.Name}");
++                tr.Start();
++                WallRebarGenerator.GenerateWallRebar(doc, wall, vm.ResultModel);
++                tr.Commit();
++                TaskDialog.Show("HPKata", $"Successfully generated 3D rebar in shear wall '{wall.Name}'.");
++            }
++        }
++
++        private static WallDetailingViewModel CreateViewModel(Wall wall)
++        {
++            var adapter = KataExcelAdapterProvider.Current;
++            var vm = new WallDetailingViewModel(adapter)
++            {
++                WallMark = wall.Name
++            };
++
++            string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
++            if (File.Exists(kataPath) && adapter.ReadWallSheet(kataPath, out var sheetData))
++            {
++                if (string.Equals(sheetData.WallMark, wall.Name, StringComparison.OrdinalIgnoreCase))
++                {
++                    vm.ReadExcelCommand.Execute(null);
++                }
++            }
++
++            return vm;
++        }
+ 
+         private sealed class WallSelectionFilter : ISelectionFilter
+diff --git a/HPKata/HPKata.Revit/Runners/RevitExportExcelRunner.cs b/HPKata/HPKata.Revit/Runners/RevitExportExcelRunner.cs
+--- a/HPKata/HPKata.Revit/Runners/RevitExportExcelRunner.cs
++++ b/HPKata/HPKata.Revit/Runners/RevitExportExcelRunner.cs
+@@ -46,8 +46,13 @@
+         if (!success)
+         {
++            string fallbackPath = IsMasterLibraryAsset(resolvedPath)
++                ? ResolveDocumentFallbackPath(context)
++                : resolvedPath;
++
+             var report = RebarScheduleAggregator.GenerateReport(items, applyBendDeduction);
+-            ClosedXmlExporter.ExportScheduleToFile(report, resolvedPath);
++            ClosedXmlExporter.ExportScheduleToFile(report, fallbackPath);
++            resolvedPath = fallbackPath;
+         }
+ 
+         context.WriteNotification($"Đã xuất bảng thống kê thép ra Excel: {resolvedPath}");
+@@ -62,12 +67,6 @@
+             return outputFilePath!;
+         }
+ 
+-        string kataPath = KataInstallEnvironment.Current.KataWorkbookPath;
+-        if (File.Exists(kataPath))
+-        {
+-            return kataPath;
+-        }
+-
+         if (!string.IsNullOrWhiteSpace(context.DocumentPath))
+         {
+             string? dir = Path.GetDirectoryName(context.DocumentPath);
+@@ -81,3 +80,17 @@
+         return Path.Combine(Path.GetTempPath(), $"{safeTitle}_ThongKeThep.xlsx");
+     }
++
++    private static bool IsMasterLibraryAsset(string path)
++    {
++        var env = KataInstallEnvironment.Current;
++        return string.Equals(path, env.KataWorkbookPath, StringComparison.OrdinalIgnoreCase)
++            || string.Equals(path, env.KataEngWorkbookPath, StringComparison.OrdinalIgnoreCase)
++            || string.Equals(path, env.IsoQhPlusPath, StringComparison.OrdinalIgnoreCase);
++    }
++
++    private static string ResolveDocumentFallbackPath(IRevitDocumentContext context)
++    {
++        string safeTitle = string.IsNullOrWhiteSpace(context.DocumentTitle) ? "RevitDoc" : context.DocumentTitle;
++        return Path.Combine(Path.GetTempPath(), $"{safeTitle}_ThongKeThep_Fallback.xlsx");
++    }
+ }
+diff --git a/HPKata/HPKata.Revit.Tests/Runners/RevitExportExcelRunnerTests.cs b/HPKata/HPKata.Revit.Tests/Runners/RevitExportExcelRunnerTests.cs
+--- a/HPKata/HPKata.Revit.Tests/Runners/RevitExportExcelRunnerTests.cs
++++ b/HPKata/HPKata.Revit.Tests/Runners/RevitExportExcelRunnerTests.cs
+@@ -1,5 +1,7 @@
++using System;
+ using System.IO;
+ using ClosedXML.Excel;
++using HPKata.Core.Configuration;
+ using HPKata.Revit.Abstractions;
+ using HPKata.Revit.Runners;
+ using HPKata.Revit.Tests.Mocks;
+@@ -90,13 +92,28 @@
+     public void Execute_ResolvesOutputPathFromContextTitle()
+     {
++        string isolatedDir = Path.Combine(Path.GetTempPath(), $"HPKataTest_{Guid.NewGuid():N}");
++        Directory.CreateDirectory(isolatedDir);
++        using var envScope = KataInstallEnvironment.UseRootDirectory(isolatedDir);
++
+         var context = CreateTestContext();
+         string generatedPath = RevitExportExcelRunner.Execute(context, outputFilePath: null);
+ 
+         try
+         {
+-            Assert.True(File.Exists(generatedPath));
++            Assert.True(File.Exists(generatedPath), "Generated Excel file must exist on disk.");
+             Assert.Contains("DuAnTest", generatedPath);
+         }
+         finally
+         {
+-            if (File.Exists(generatedPath)) File.Delete(generatedPath);
++            if (File.Exists(generatedPath) && !IsMasterInstallationAsset(generatedPath))
++            {
++                File.Delete(generatedPath);
++            }
++            if (Directory.Exists(isolatedDir))
++            {
++                Directory.Delete(isolatedDir, recursive: true);
++            }
+         }
+     }
++
++    private static bool IsMasterInstallationAsset(string path)
++    {
++        string defaultRoot = KataInstallEnvironment.DefaultRootDirectory;
++        return path.StartsWith(defaultRoot, StringComparison.OrdinalIgnoreCase);
++    }

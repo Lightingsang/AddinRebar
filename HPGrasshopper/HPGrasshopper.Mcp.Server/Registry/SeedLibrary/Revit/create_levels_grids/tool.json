@@ -1,0 +1,53 @@
+{
+  "name": "create_levels_grids",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "revit",
+    "level",
+    "grid",
+    "parametric",
+    "datum"
+  ],
+  "title": "Create Parametric Levels and Axis Grids",
+  "description": "Generates native Revit Level and Grid elements from parametric elevation arrays and 2D spacing vectors defined in Grasshopper.",
+  "notes": "Creates Level elements from elevations in meters and Grid lines from spacing vectors.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "elevations",
+      "gridSpacings"
+    ],
+    "properties": {
+      "elevations": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "description": "Array of level elevations in meters."
+      },
+      "gridSpacings": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "description": "Array of column grid spacings in meters along X axis."
+      },
+      "gridLength": {
+        "type": "number",
+        "default": 30.0,
+        "description": "Length of grid lines in meters along Y axis."
+      }
+    },
+    "additionalProperties": false
+  }
+}

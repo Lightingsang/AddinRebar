@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Disconnect all wires from first input port of Point node",
+    "args": {
+      "nodeId": "Point.ByCoordinates",
+      "portIndex": 0,
+      "portType": "input"
+    }
+  },
+  {
+    "title": "Disconnect specific wire between CodeBlock and RebarBarType",
+    "args": {
+      "nodeId": "CodeBlockNode",
+      "portIndex": 0,
+      "portType": "output",
+      "targetNodeId": "RebarBarType.ByName",
+      "targetPortIndex": 0
+    }
+  }
+]

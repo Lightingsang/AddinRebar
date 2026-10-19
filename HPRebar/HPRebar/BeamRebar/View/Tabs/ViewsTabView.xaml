@@ -28,15 +28,16 @@
 
                         <StackPanel Grid.Column="0" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.ElevationViewName}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource StandardTextBox}"
+                                     Text="{Binding Session.DetailViewName, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="View Scale (1:N)" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding ScaleOptions}"
                                       SelectedItem="{Binding Session.ElevationScale}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -64,13 +65,14 @@
                             <TextBlock Text="Sections Per Span" Style="{DynamicResource Caption}"/>
                             <ComboBox ItemsSource="{Binding SectionsPerSpanOptions}"
                                       SelectedItem="{Binding Session.SectionsPerSpan}"
-                                      Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                                      Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.SectionViewPrefix}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource StandardTextBox}"
+                                     Text="{Binding Session.SectionPrefix, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -102,8 +104,9 @@
 
                         <StackPanel Grid.Column="2" Margin="{DynamicResource Spacing.SmallHorizontal}">
                             <TextBlock Text="{Binding Localization.Strings.Partition}" Style="{DynamicResource Caption}"/>
-                            <TextBox Text="{Binding Session.PartitionName, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="28" Margin="{DynamicResource Spacing.SmallTop}"/>
+                            <TextBox Style="{DynamicResource StandardTextBox}"
+                                     Text="{Binding Session.PartitionName, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="{DynamicResource Spacing.SmallTop}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

@@ -1,0 +1,30 @@
+{
+  "project": "KC-HT-90-TLTT-16 (Hoi Truong Tan Dong Hiep)",
+  "updatedAt": "2026-10-07T03:00:00Z",
+  "primeDirective": "Khi chua du co so de ket luan, hay dung lai va bao chua du thong tin. Khong duoc suy doan de hoan thanh cong viec. Tha de mot cau kien chua dung con hon dung sai nhung bao dung.",
+  "activePhase": "PHAN_MONG",
+  "phaseStatus": "inProgress",
+  "qualityGate": "GATE_1_MODEL_CLEANUP",
+  "tolerances": {
+    "sectionDimensionMm": 0.0,
+    "elevationMm": 1.0,
+    "planPositionMm": 1.0,
+    "pileCenterMm": 2.0
+  },
+  "summary": {
+    "totalElements": 0,
+    "step1_ReadCad": 0,
+    "step2_CheckAndClassify": 0,
+    "step3_ModelRevit": 0,
+    "step4_QaqcAudit": 0,
+    "step5_RouteFix": 0,
+    "step6_ReAudit": 0,
+    "step7_ConfirmedPass": 0,
+    "group1_ReadyToModel": 0,
+    "group2_ConflictingInfo": 0,
+    "group3_MissingInfo": 0,
+    "unresolvedHalt": 0
+  },
+  "elements": [],
+  "rfis": []
+}

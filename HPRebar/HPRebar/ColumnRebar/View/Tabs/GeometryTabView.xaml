@@ -33,13 +33,7 @@
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   HeadersVisibility="Column"
-                  GridLinesVisibility="Horizontal"
-                  Background="{DynamicResource Brush.Surface}"
-                  RowBackground="{DynamicResource Brush.Surface}"
-                  AlternatingRowBackground="{DynamicResource Brush.SurfaceElevated}"
-                  Foreground="{DynamicResource Brush.Foreground.Primary}"
-                  BorderBrush="{DynamicResource Brush.Border}"
-                  HorizontalGridLinesBrush="{DynamicResource Brush.Border}">
+                  GridLinesVisibility="Horizontal">
             <DataGrid.Columns>
                 <!-- Literal header: a DataGrid column is not part of the visual tree, so a
                      RelativeSource binding to the view cannot resolve and would silently show nothing. -->

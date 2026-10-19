@@ -1,0 +1,927 @@
+{
+  "totalFloorTypes": 33,
+  "floorTypes": [
+    {
+      "id": "9911874",
+      "name": "\u0110C-1",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "9911865",
+      "name": "\u0110C-2",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "9912103",
+      "name": "\u0110C-2\u0027",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "9911897",
+      "name": "\u0110C-3",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "9911955",
+      "name": "\u0110C-3\u0027",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "9911992",
+      "name": "\u0110C-4",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1200
+    },
+    {
+      "id": "9912052",
+      "name": "\u0110C-5",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1200
+    },
+    {
+      "id": "9912022",
+      "name": "\u0110C-6",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1300
+    },
+    {
+      "id": "8247743",
+      "name": "HP-ES-CAP-CON-B20-1000",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1000
+    },
+    {
+      "id": "8247775",
+      "name": "HP-ES-CAP-CON-B20-1100",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1100
+    },
+    {
+      "id": "8247807",
+      "name": "HP-ES-CAP-CON-B20-1200",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1200
+    },
+    {
+      "id": "9414540",
+      "name": "HP-ES-CAP-CON-B20-1300",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 1300
+    },
+    {
+      "id": "77929",
+      "name": "HP-ES-CAP-CON-B20-150",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 150
+    },
+    {
+      "id": "81199",
+      "name": "HP-ES-CAP-CON-B20-200",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 200
+    },
+    {
+      "id": "81200",
+      "name": "HP-ES-CAP-CON-B20-250",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 250
+    },
+    {
+      "id": "81201",
+      "name": "HP-ES-CAP-CON-B20-300",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 300
+    },
+    {
+      "id": "8247615",
+      "name": "HP-ES-CAP-CON-B20-400",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 400
+    },
+    {
+      "id": "2779713",
+      "name": "HP-ES-CAP-CON-B20-500",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 500
+    },
+    {
+      "id": "4873848",
+      "name": "HP-ES-CAP-CON-B20-600",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 600
+    },
+    {
+      "id": "8247647",
+      "name": "HP-ES-CAP-CON-B20-700",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 700
+    },
+    {
+      "id": "8247679",
+      "name": "HP-ES-CAP-CON-B20-800",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 800
+    },
+    {
+      "id": "8247711",
+      "name": "HP-ES-CAP-CON-B20-900",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 900
+    },
+    {
+      "id": "5731314",
+      "name": "HP-ES-SLAB-CON-B20-100",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 100
+    },
+    {
+      "id": "5743046",
+      "name": "HP-ES-SLAB-CON-B20-120",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 120
+    },
+    {
+      "id": "8055591",
+      "name": "HP-ES-SLAB-CON-B20-140",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 140
+    },
+    {
+      "id": "8818659",
+      "name": "HP-ES-SLAB-CON-B20-150",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 150
+    },
+    {
+      "id": "8584492",
+      "name": "HP-ES-SLAB-CON-B20-200",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 200
+    },
+    {
+      "id": "8584579",
+      "name": "HP-ES-SLAB-CON-B20-300",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 300
+    },
+    {
+      "id": "8055593",
+      "name": "HP-ES-SLAB-CON-B20-50",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 50
+    },
+    {
+      "id": "32840",
+      "name": "HP-ES-SLAB-DECK-B20-D75",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 75
+    },
+    {
+      "id": "32839",
+      "name": "HP-ES-SLAB-DECK-B35-D210",
+      "category": "Floors",
+      "catId": "-2000032",
+      "thicknessMm": 210
+    },
+    {
+      "id": "8616816",
+      "name": "HP-ES-SLAB-LEAN-B10-50",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 50
+    },
+    {
+      "id": "8298279",
+      "name": "HP-ES-SLAB-LEAN-B10-60",
+      "category": "Structural Foundations",
+      "catId": "-2001300",
+      "thicknessMm": 60
+    }
+  ],
+  "totalFoundationTypes": 106,
+  "foundationTypes": [
+    {
+      "id": "8612989",
+      "name": "1200x1200x400",
+      "family": "M_Footing-Rectangular",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "74960",
+      "name": "Bearing Footing - 900 x 300",
+      "family": "WallFoundationType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8227717",
+      "name": "DC_C250",
+      "family": "5_STR_Dai_1Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8232673",
+      "name": "DC_C250",
+      "family": "6_STR_Dai_2Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8239444",
+      "name": "DC_C250",
+      "family": "7_STR_Dai_3Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8240825",
+      "name": "DC_C250",
+      "family": "8_STR_Dai_4Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8228524",
+      "name": "DC_C300",
+      "family": "5_STR_Dai_1Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8232671",
+      "name": "DC_C300",
+      "family": "6_STR_Dai_2Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8239442",
+      "name": "DC_C300",
+      "family": "7_STR_Dai_3Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8240823",
+      "name": "DC_C300",
+      "family": "8_STR_Dai_4Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8239446",
+      "name": "DC_C400",
+      "family": "7_STR_Dai_3Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8240827",
+      "name": "DC_C400",
+      "family": "8_STR_Dai_4Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8235187",
+      "name": "DC_C500",
+      "family": "6_STR_Dai_2Coc",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9911874",
+      "name": "\u0110C-1",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9911865",
+      "name": "\u0110C-2",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9912103",
+      "name": "\u0110C-2\u0027",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9911897",
+      "name": "\u0110C-3",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9911955",
+      "name": "\u0110C-3\u0027",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9911992",
+      "name": "\u0110C-4",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9912052",
+      "name": "\u0110C-5",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9912022",
+      "name": "\u0110C-6",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247743",
+      "name": "HP-ES-CAP-CON-B20-1000",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247775",
+      "name": "HP-ES-CAP-CON-B20-1100",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247807",
+      "name": "HP-ES-CAP-CON-B20-1200",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9414540",
+      "name": "HP-ES-CAP-CON-B20-1300",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "77929",
+      "name": "HP-ES-CAP-CON-B20-150",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "81199",
+      "name": "HP-ES-CAP-CON-B20-200",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "81200",
+      "name": "HP-ES-CAP-CON-B20-250",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "81201",
+      "name": "HP-ES-CAP-CON-B20-300",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247615",
+      "name": "HP-ES-CAP-CON-B20-400",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "2779713",
+      "name": "HP-ES-CAP-CON-B20-500",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "4873848",
+      "name": "HP-ES-CAP-CON-B20-600",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247647",
+      "name": "HP-ES-CAP-CON-B20-700",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247679",
+      "name": "HP-ES-CAP-CON-B20-800",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8247711",
+      "name": "HP-ES-CAP-CON-B20-900",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8616816",
+      "name": "HP-ES-SLAB-LEAN-B10-50",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8298279",
+      "name": "HP-ES-SLAB-LEAN-B10-60",
+      "family": "FloorType",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8126313",
+      "name": "MB_1600x700",
+      "family": "15_STR_MongBangDungTam_CoLotMong(Line)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8158065",
+      "name": "MB_1600x700",
+      "family": "16_STR_MongBangDungTam_KhongDieu_CoLotMong(Line)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8172864",
+      "name": "MB_1600x700",
+      "family": "17_STR_MongBangLechTam_CoLotMong(Line)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9153665",
+      "name": "MB_1600x700",
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9173085",
+      "name": "MB_1600x700",
+      "family": "21_STR_MongBangLechTam_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9177574",
+      "name": "MB_1600x700",
+      "family": "20_STR_MongBangDungTam_KhongDieu_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9183410",
+      "name": "MB_1600x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9185050",
+      "name": "MB_1600x700",
+      "family": "27_STR_MongBangDungTam_KhongDieu_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9187280",
+      "name": "MB_1600x700",
+      "family": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9461281",
+      "name": "MB_2000x4000x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9470872",
+      "name": "MB_2000x4350x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9344248",
+      "name": "MB_2000x6300x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9459427",
+      "name": "MB_2000x7700x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9337881",
+      "name": "MB_2000x8700x700",
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9344167",
+      "name": "MB_2000x8700x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9337904",
+      "name": "MB_2000x9600x700",
+      "family": "19_STR_MongBangDungTam_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9451405",
+      "name": "MB_2200x10500x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9458316",
+      "name": "MB_2200x11000x700",
+      "family": "29_STR_MongBangLechTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457078",
+      "name": "MB_2200x3600x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457091",
+      "name": "MB_2200x8000x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9459453",
+      "name": "MB_2200x8600x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457280",
+      "name": "MB_2400x4700x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9459466",
+      "name": "MB_2400x4700x800",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9451702",
+      "name": "MB_2400x5350x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457340",
+      "name": "MB_2600x11000x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457065",
+      "name": "MB_2600x4900x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9451716",
+      "name": "MB_2600x5400x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457042",
+      "name": "MB_2600x5400x800",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9460715",
+      "name": "MB_2600x7800x800",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457104",
+      "name": "MB_2600x9600x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9462056",
+      "name": "MB_2800x4400x700",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9456979",
+      "name": "MB_2800x5400x800",
+      "family": "26_STR_MongBangDungTam_KhongLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9451689",
+      "name": "MD_1000x1000x400",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8702479",
+      "name": "MD_1200x1400x500",
+      "family": "12_STR_MongDonLechTam_1.2_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8710277",
+      "name": "MD_1200x1400x500",
+      "family": "24_STR_MongDonLechTam_1.2_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8195119",
+      "name": "MD_1400x1400x500",
+      "family": "13_STR_MongDonLechTam_1.4_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8711095",
+      "name": "MD_1400x1400x500",
+      "family": "25_STR_MongDonLechTam_1.4_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8190481",
+      "name": "MD_1600x1800x500",
+      "family": "11_STR_MongDonDungTam_KhongDieu_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8592348",
+      "name": "MD_1600x1800x500",
+      "family": "9_STR_MongHop_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8709431",
+      "name": "MD_1600x1800x500",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9150113",
+      "name": "MD_1600x1800x500",
+      "family": "23_STR_MongDonDungTam_KhongDieu_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9396792",
+      "name": "MD_2000x2000x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9396955",
+      "name": "MD_2000x2000x600",
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9337778",
+      "name": "MD_2000x2400x600",
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9344143",
+      "name": "MD_2000x2400x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9396966",
+      "name": "MD_2200x2000x600",
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9398179",
+      "name": "MD_2200x2000x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9455023",
+      "name": "MD_2400x2800x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9457116",
+      "name": "MD_2600x2800x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9451740",
+      "name": "MD_2800x2400x600",
+      "family": "22_STR_MongDonDungTam_KhongLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9223656",
+      "name": "MD_550x250",
+      "family": "10_STR_MongDonDungTam_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8198078",
+      "name": "MongBangDungTam",
+      "family": "18_STR_MongBangTongHop_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8198080",
+      "name": "MongBangLechTam",
+      "family": "18_STR_MongBangTongHop_CoLotMong(Point)",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8196886",
+      "name": "MongDungTam",
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8196884",
+      "name": "MongLechTam_1.2",
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8196882",
+      "name": "MongLechTam_1.4",
+      "family": "14_STR_MongDonTongHop_CoLotMong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8206658",
+      "name": "P_200x200",
+      "family": "1_STR_Coc_Vuong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8216842",
+      "name": "P_200x200",
+      "family": "2_STR_Coc_VuongMui",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8218196",
+      "name": "P_200x200",
+      "family": "3_STR_Coc_VuongThan",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8216844",
+      "name": "P_250x250",
+      "family": "2_STR_Coc_VuongMui",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8218198",
+      "name": "P_250x250",
+      "family": "3_STR_Coc_VuongThan",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9220937",
+      "name": "P_250x250",
+      "family": "1_STR_Coc_Vuong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8216840",
+      "name": "P_300x300",
+      "family": "2_STR_Coc_VuongMui",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "8218200",
+      "name": "P_300x300",
+      "family": "3_STR_Coc_VuongThan",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9215809",
+      "name": "P_300x300",
+      "family": "1_STR_Coc_Vuong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9217193",
+      "name": "P_400x400",
+      "family": "1_STR_Coc_Vuong",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9215821",
+      "name": "P300",
+      "family": "4_STR_Coc_Tron",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "9215875",
+      "name": "P400",
+      "family": "4_STR_Coc_Tron",
+      "category": "Structural Foundations"
+    },
+    {
+      "id": "99980",
+      "name": "Retaining Footing - 600 x 300 x 300",
+      "family": "WallFoundationType",
+      "category": "Structural Foundations"
+    }
+  ],
+  "levels": [
+    {
+      "id": "9907883",
+      "name": "\u0110\u00E1y \u0110\u00E0i M\u00F3ng",
+      "elevMm": -2600
+    },
+    {
+      "id": "9907884",
+      "name": "\u0110\u1EC9nh \u0110\u00E0i M\u00F3ng",
+      "elevMm": -1600
+    },
+    {
+      "id": "9907393",
+      "name": "T\u1EA7ng M\u00F3ng",
+      "elevMm": -1000
+    },
+    {
+      "id": "5390167",
+      "name": "T\u1EA7ng 1 (\u00B10.000)",
+      "elevMm": 0
+    },
+    {
+      "id": "9907885",
+      "name": "T\u1EA7ng 2",
+      "elevMm": 4300
+    },
+    {
+      "id": "9907886",
+      "name": "T\u1EA7ng 3",
+      "elevMm": 8650
+    },
+    {
+      "id": "9907887",
+      "name": "T\u1EA7ng 4",
+      "elevMm": 13000
+    },
+    {
+      "id": "9907888",
+      "name": "T\u1EA7ng \u00C1p M\u00E1i",
+      "elevMm": 16600
+    },
+    {
+      "id": "9907889",
+      "name": "T\u1EA7ng M\u00E1i",
+      "elevMm": 19400
+    },
+    {
+      "id": "9907890",
+      "name": "\u0110\u1EC9nh M\u00E1i",
+      "elevMm": 20400
+    }
+  ]
+}

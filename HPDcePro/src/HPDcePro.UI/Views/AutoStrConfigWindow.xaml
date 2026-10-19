@@ -1,0 +1,171 @@
+<mah:MetroWindow x:Class="HPDcePro.UI.Views.AutoStrConfigWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:vm="clr-namespace:HPDcePro.UI.ViewModels"
+                 Title="HPDcePro - Cấu Hình Dự Án AutoStr (.autostr)"
+                 Height="680" Width="880"
+                 MinHeight="500" MinWidth="700"
+                 WindowStartupLocation="CenterScreen"
+                 GlowBrush="{DynamicResource Brush.Accent}"
+                 BorderThickness="1"
+                 TitleCharacterCasing="Normal">
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HPDcePro.UI;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Header Card -->
+        <Border Grid.Row="0" Style="{StaticResource Card.Panel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="CẤU HÌNH DỰ ÁN KẾT CẤU TỰ ĐỘNG AUTOSTR" Style="{StaticResource Text.Title}"/>
+                    <TextBlock Text="Thiết lập dữ liệu dự án, tầng cao độ, mác vật liệu và các bước triển khai" Style="{StaticResource Text.Muted}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Tải File..." Click="LoadFileButton_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                    <Button Content="Lưu File..." Click="SaveFileButton_Click" Style="{StaticResource PrimaryButton}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="1">
+            <!-- Tab 1: General & Materials -->
+            <TabItem Header="Thông tin chung &amp; Vật liệu">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="8">
+                    <StackPanel>
+                        <GroupBox Header="Thông tin hồ sơ công trình" Style="{StaticResource GroupBox.Header}">
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin.Row}">
+                                    <TextBlock Text="Tên Dự án" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Text="{Binding TenDuAn}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin.Row}">
+                                    <TextBlock Text="Tên Công trình" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Text="{Binding TenCongTrinh}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" Grid.Column="0">
+                                    <TextBlock Text="Địa chỉ xây dựng" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Text="{Binding DiaChiCongTrinh}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2">
+                                    <TextBlock Text="Chủ đầu tư" Style="{StaticResource Text.Label}"/>
+                                    <TextBox Text="{Binding ChuDauTu}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Quy định vật liệu mặc định" Style="{StaticResource GroupBox.Header}">
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Bê tông Cột - Vách" Style="{StaticResource Text.Label}"/>
+                                    <ComboBox ItemsSource="{Binding AvailableConcreteGrades}" SelectedItem="{Binding MacBtCotVach}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Bê tông Dầm - Sàn" Style="{StaticResource Text.Label}"/>
+                                    <ComboBox ItemsSource="{Binding AvailableConcreteGrades}" SelectedItem="{Binding MacBtDamSan}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="Cốt thép chủ" Style="{StaticResource Text.Label}"/>
+                                    <ComboBox ItemsSource="{Binding AvailableSteelGrades}" SelectedItem="{Binding MacThep}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 2: Floors -->
+            <TabItem Header="Hệ tầng &amp; Cao độ">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding Floors}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="STT" Binding="{Binding StoryIndex}" Width="50"/>
+                            <DataGridTextColumn Header="Tên tầng" Binding="{Binding TenTang}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Ký hiệu" Binding="{Binding KyHieuTang}" Width="80"/>
+                            <DataGridTextColumn Header="Chiều cao (mm)" Binding="{Binding ChieuCaoTang}" Width="120"/>
+                            <DataGridTextColumn Header="Cao độ (mm)" Binding="{Binding CaoDoTang}" Width="120"/>
+                            <DataGridCheckBoxColumn Header="Triển khai" Binding="{Binding SuDung}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
+                        <Button Content="Thêm Tầng" Command="{Binding AddFloorCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 3: Steps -->
+            <TabItem Header="Các bước thực thi (24 Bước)">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding Steps}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Bước #" Binding="{Binding StepNumber}" Width="70"/>
+                            <DataGridTextColumn Header="Nội dung thực thi AutoStr" Binding="{Binding Name}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="Kích hoạt" Binding="{Binding IsEnabled}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
+                        <Button Content="Chọn Tất Cả" Command="{Binding SelectAllStepsCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,0"/>
+                        <Button Content="Bỏ Chọn Tất Cả" Command="{Binding DeselectAllStepsCommand}" Style="{StaticResource SecondaryButton}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Footer -->
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Style="{StaticResource Text.Muted}" VerticalAlignment="Center"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="▶ Chạy Pipeline 24 Bước" Command="{Binding RunPipelineCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0"/>
+                <Button Content="Đóng" Click="CloseButton_Click" Style="{StaticResource SecondaryButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

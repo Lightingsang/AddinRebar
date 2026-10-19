@@ -8,7 +8,7 @@ Your role is to analyze user requirements, delegate tasks to appropriate sub-age
 
 ## Clean Code Governance — HP MCP repository (MANDATORY)
 
-Applies to **every new or changed C# line** in `HPRebar/` (rebar add-in, `HPRebar.Core`, Revit MCP), `McpShared/` and the MCP folders `HPAutoCad/`, `HPCivil3d/`, `HPNavis/`, `HPEtabs/`, `HPSap2000/`, `HPPowerBi/`, `HPExcel/`, `HPRobot/`, `HPTekla/`, to tools an AI proposes at run time and to embedded seeds (ADR-0007; existing code is not refactored — Boy Scout on touched lines only; `HPGeo/` is retired). This section was formerly "Clean Code Governance — RevitAddinAI". Before planning, writing or reviewing such a change, the host coding agent **must read**:
+Applies to **every new or changed C# line** in `HPRebar/` (rebar add-in, `HPRebar.Core`, Revit MCP), `McpShared/` and the MCP folders `HPAutoCad/`, `HPCivil3d/`, `HPNavis/`, `HPEtabs/`, `HPSap2000/`, `HPPowerBi/`, `HPExcel/`, `HPRobot/`, `HPTekla/`, `HPDynamo/`, `HPGrasshopper/`, to tools an AI proposes at run time and to embedded seeds (ADR-0007; existing code is not refactored — Boy Scout on touched lines only; `HPGeo/` is retired). This section was formerly "Clean Code Governance — RevitAddinAI". Before planning, writing or reviewing such a change, the host coding agent **must read**:
 
 1. `docs/architecture/ARCHITECTURE.md` — as-is map, target layers, where code goes (HPRebar; the MCP folders follow "Repository Layout" below)
 2. `docs/clean-code/HP_CLEAN_CODE_CORE.md` — the host-neutral binding rules ([PCC] book / [PROJECT]; ids N, M, FM, C, S, D, K, CM, T, P, Q); numbers are review triggers, not limits, except the three blocking runtime rules Q-B1…Q-B3
@@ -24,7 +24,7 @@ Non-negotiable: AI-generated code is unreviewed code until the checklist passes;
 
 ## Repository Layout
 
-This repo bundles **ten deliverables** plus one shared library folder; treat them as separate concerns — do not cross-wire them. The only permitted dependency direction is MCP folder (`HPRebar/`, `HPAutoCad/`, `HPNavis/`, `HPEtabs/`, `HPCivil3d/`, `HPSap2000/`, `HPPowerBi/`, `HPExcel/`, `HPRobot/`, `HPTekla/`) → `McpShared/`; the MCP folders never reference each other (one named exception, tooling and tests only: `HPCivil3d/`'s mirror test reads `HPAutoCad/**` source text and its live harness runs `HPAutoCad/tools/harness/{bridge.scr, run-live-verify.ps1}` for the isolation steps — see "HPCivil3d MCP Bridge"):
+This repo bundles **twelve deliverables** plus one shared library folder; treat them as separate concerns — do not cross-wire them. The only permitted dependency direction is MCP folder (`HPRebar/`, `HPAutoCad/`, `HPNavis/`, `HPEtabs/`, `HPCivil3d/`, `HPSap2000/`, `HPPowerBi/`, `HPExcel/`, `HPRobot/`, `HPTekla/`, `HPDynamo/`, `HPGrasshopper/`) → `McpShared/`; the MCP folders never reference each other (one named exception, tooling and tests only: `HPCivil3d/`'s mirror test reads `HPAutoCad/**` source text and its live harness runs `HPAutoCad/tools/harness/{bridge.scr, run-live-verify.ps1}` for the isolation steps — see "HPCivil3d MCP Bridge"):
 
 | Path | What it is | Stack |
 |---|---|---|
@@ -39,6 +39,9 @@ This repo bundles **ten deliverables** plus one shared library folder; treat the
 | `HPExcel/` | The **Excel MCP** (standalone WPF desktop bridge HPExcel.McpBridge net8.0-windows + stdio server HPExcel.Mcp.Server net10; connects out-of-process to Microsoft Excel via COM Interop and headless via ClosedXML; 3-tier safety R/W/D with automatic .xlsx snapshots in .hpexcel_snapshots/ or %TEMP%; pipe hpexcel-mcp-2026; MaterialDesignThemes 5.3.2 UI; 24 tools = 4 core + 8 registry + 12 embedded seeds). Own HPExcel.slnx + global.json + Directory.Build.props; references ../McpShared/ only. Tests HPExcel.McpBridge.Tests (110) + HPExcel.Mcp.Server.Tests (90). | C# / net8.0-windows · net10 / Microsoft.Office.Interop.Excel 15.0 + ClosedXML 0.104.2 |
 | `HPRobot/` | The **Robot Structural Analysis 2026 MCP** (standalone WPF desktop bridge `HPRobot.McpBridge` net8.0-windows + stdio server `HPRobot.Mcp.Server` net10; connects out-of-process to Autodesk Robot Structural Analysis Professional 2026 via COM Interop `RobotOM.dll`; 3-tier safety R/W/D with automatic `.rtd` snapshots in `.hprobot_snapshots/` or `%TEMP%`; pipe `hprobot-mcp-2026`; MaterialDesignThemes 5.3.2 UI; 24 tools = 4 core + 8 registry + 12 embedded seeds). Own `HPRobot.slnx` + `global.json` + `Directory.Build.props`; references `../McpShared/` only. Tests `HPRobot.McpBridge.Tests` (197) + `HPRobot.Mcp.Server.Tests` (97). | C# / net8.0-windows · net10 / RobotOM (COM) |
 | `HPTekla/` | The **Tekla Structures 2025 MCP** (`HPTekla.McpBridge` in-process plugin inside `TeklaStructures.exe` net48 + `HPTekla.Mcp.Server` net10 stdio exe, **24 tools** = 4 core + 8 registry + 12 embedded seeds). In-process plugin connecting via Tekla Open API; Named Pipe `hptekla-mcp-2025`; 3-tier safety (Read, Write, Destructive); native transaction savepoint rollback for `dryRun` (`SetTestSavePoint`/`RollbackToTestSavePoint`); automatic `.db1`/`.db2` model database snapshots before writes; WPF modeless status dialog with theme sync. Own `HPTekla.slnx` + `global.json` + `Directory.Build.props` (references installed Tekla Open API 2025.0); references `../McpShared/` only. Tests `HPTekla.Mcp.Server.Tests` (96) + `HPTekla.McpBridge.Tests` (24). | C# / net48 · net10 / Tekla Open API 2025.0 (installed) |
+| `HPDynamo/` | The **Dynamo 3.7 (Revit 2026) MCP** (`HPDynamo.McpBridge` in-process plugin inside `Revit.exe` net8.0-windows + `HPDynamo.Mcp.Server` net10 stdio exe, **24 tools** = 4 core + 8 registry + 12 embedded seeds). In-process plugin connecting via Dynamo for Revit 3.7 API; Named Pipe `hpdynamo-mcp-2026`; 2-tier safety (Revit `TransactionGroup` rollback on `dryRun: true` + Dynamo `UndoRecorder`); WPF modeless status dialog with theme sync. Own `HPDynamo.slnx` + `global.json` + `Directory.Build.props`; references `../McpShared/` only. Tests `HPDynamo.McpBridge.Tests` + `HPDynamo.Mcp.Server.Tests` + `HPDynamo.E2E.Tests`. | C# / net8.0-windows · net10 / DynamoRevit 3.7 + RevitAPI 2026 |
+| `HPGrasshopper/` | The **Grasshopper (Rhino.Inside.Revit) 2026 MCP** (`HPGrasshopper.McpBridge` in-process plugin inside `Revit.exe` with Rhino 8 net10.0-windows + `HPGrasshopper.Mcp.Server` net10 stdio exe, **24 tools** = 5 core + 8 registry + 12 embedded seeds + context). In-process plugin connecting via Rhino.Inside.Revit, Grasshopper API, and RhinoCommon; Named Pipe `hpgrasshopper-mcp-2026`; 2-tier safety (Revit `TransactionGroup` rollback on `dryRun: true` + Grasshopper `GH_UndoRecord` on canvas edits); WPF modeless status dialog with theme sync. Own `HPGrasshopper.slnx` + `global.json` + `Directory.Build.props` (references installed Rhino 8 and RhinoInside.Revit); references `../McpShared/` only. Tests `HPGrasshopper.McpBridge.Tests` (110) + `HPGrasshopper.Mcp.Server.Tests` (77) + `HPGrasshopper.E2E.Tests` (181). | C# / net10.0-windows · net10 / RhinoCommon 8 + Grasshopper API + RhinoInside.Revit + RevitAPI 2026 |
+| `HPDcePro/` | The **DCE Pro Structural Engineering & Rebar Detailing Ecosystem** (`HPDcePro.Core` netstandard2.0/net8.0, `HPDcePro.UI` WPF + MahApps.Metro 2.4.11, `HPDcePro.AutoCad` AutoCAD 2025/2026 `.bundle` with 80 commands & legacy XData parity, `HPDcePro.Revit` Revit 2026 add-in, `HPDcePro.Excel` ClosedXML BOQ + 22 Vietnamese UDFs, `HPDcePro.Mcp` stdio MCP server `hpdcepro-mcp` with 12 structural tools, `HPDcePro.Desktop` standalone WPF hub). Own `HPDcePro.slnx` (9 projects) + `global.json` + `Directory.Build.props`. Tests `HPDcePro.Core.Tests` (259) + `HPDcePro.Adapters.Tests` (110). Docs in `docs/rea-dce-pro/`. | C# / netstandard2.0 · net8.0 · net8.0-windows / MahApps.Metro 2.4.11 + ClosedXML 0.104.2 + Microsoft.Data.Sqlite |
 | `revit-market-research/` | Apify actor scraping the Revit plugin market | Node ≥24 / TypeScript / Crawlee / vitest |
 | `scripts/skill_sync/` + `tests/skill-sync/` | Engine that keeps `.claude/`, `.agents/`, `.codex/` agent configs in sync | Python 3 / stdlib `unittest` |
 | `course-website/` | Static lesson site (`index.html`, `lesson-01..04.html`), deployed via `vercel.json` | Plain HTML |
@@ -335,6 +338,42 @@ dotnet publish HPTekla/HPTekla.Mcp.Server -c Release -r win-x64 -p:PublishSingle
 
 # Run unattended live verification harness (requires Tekla Structures 2025 running)
 powershell -ExecutionPolicy Bypass -File HPTekla/tools/harness/run-live-verify.ps1
+```
+
+## HPGrasshopper MCP Bridge (Dynamic Grasshopper / Rhino.Inside.Revit MCP Server)
+
+Milestones M1–M5 complete (2026-10-10), certified by Victory Auditor. Dual-lifecycle in-process bridge inside **Revit 2026** via **Rhino.Inside.Revit** (Rhino 8, .NET 8 / .NET 10 CLR), with stdio server and live verification harness.
+
+- **Architecture:** In-process bridge (`HPGrasshopper.McpBridge`, net10.0-windows7.0) hosted inside `Revit.exe` with active Rhino.Inside.Revit context. Dispatches Grasshopper operations safely to the UI/solver thread, enforces dual-layer safety, and serves named pipe `hpgrasshopper-mcp-2026` (`PipeNaming.GrasshopperHost`) with JSON-RPC method prefix `grasshopper.`. Stdio MCP server (`HPGrasshopper.Mcp.Server`, net10.0) communicates over named pipe; references `../McpShared/` only.
+- **Projects in `HPGrasshopper.slnx` (5 projects):**
+  - `HPGrasshopper.McpBridge` (net10.0-windows7.0): In-process Revit+Grasshopper plugin with WPF modeless status dialog (MaterialDesign 5.3.2, dark/light theme sync, Revit Ribbon button). Dispatches Roslyn scripts and canvas commands to Grasshopper UI thread.
+  - `HPGrasshopper.Mcp.Server` (net10.0): Console stdio executable speaking standard MCP 2.2.0. Uses `HPRebar.Mcp.Server.Core` with `GrasshopperHostProfile`. 24 tools = 5 core + 8 registry + 12 embedded seeds + context.
+  - `HPGrasshopper.McpBridge.Tests` (net10.0-windows7.0): 110 xUnit tests covering canvas serialization, component parameter binding, undo/transaction scopes, and dispatcher queues.
+  - `HPGrasshopper.Mcp.Server.Tests` (net10.0): 77 xUnit tests covering host profile, registry lifecycle, schema generation, and ADR-0007 script quality checks on all 12 embedded seeds.
+  - `HPGrasshopper.E2E.Tests` (net10.0): 181 xUnit tests across 5 Tiers (Canvas, Player, Mutation, Roslyn C#, Image Export).
+- **Dual-Layer Safety & Transactions:**
+  - **Outer Revit Safety:** `TransactionGroup` rollback when `dryRun = true` on elements created or modified in Revit.
+  - **Inner Grasshopper Safety:** `CanvasUndoScope` recording `GH_UndoRecord` on canvas mutations so users can undo via Ctrl+Z.
+- **Tool Surface (24 tools):**
+  - **5 Core Tools:** `read_grasshopper_canvas`, `run_grasshopper_player`, `batch_edit_grasshopper_canvas`, `execute_grasshopper_code` (globals `doc`, `canvas`, `rhinoDoc`, `revitDoc`, `ct`, `log`, `args`), `export_grasshopper_canvas_image` + `get_grasshopper_context`.
+  - **8 Registry Meta Tools:** `search_tools`, `propose_tool`, `test_tool`, `publish_tool`, `list_tools`, `get_tool_source`, `retire_tool`, `view_tool_docs`.
+  - **12 Embedded Seeds:** Levels/Grids generator, columns/beams parametric, curve-to-rebar, stirrups, adaptive floors, wall openings, curtain grids, DirectShape builder, solar radiation analysis, facade panelization, query geometry, export to Rhino.
+- **Build & Verification:**
+```bash
+# Build solution (0 errors)
+dotnet build HPGrasshopper/HPGrasshopper.slnx -c Release
+dotnet build HPGrasshopper/HPGrasshopper.slnx -c Debug
+
+# Run all test suites (368 tests, 100% pass)
+dotnet test HPGrasshopper/HPGrasshopper.McpBridge.Tests/HPGrasshopper.McpBridge.Tests.csproj
+dotnet test HPGrasshopper/HPGrasshopper.Mcp.Server.Tests/HPGrasshopper.Mcp.Server.Tests.csproj
+dotnet test HPGrasshopper/HPGrasshopper.E2E.Tests/HPGrasshopper.E2E.Tests.csproj
+
+# Publish server executable for .mcp.json registration
+dotnet publish HPGrasshopper/HPGrasshopper.Mcp.Server/HPGrasshopper.Mcp.Server.csproj -c Release -o HPGrasshopper/output/HPGrasshopper.Mcp.Server
+
+# Run unattended live verification harness
+powershell -ExecutionPolicy Bypass -File HPGrasshopper/tools/harness/run-live-verify.ps1 -Mock
 ```
 
 ## HPAutoCad — HPGeoLink (VN-2000 ↔ WGS84 ↔ KMZ)
@@ -1074,6 +1113,22 @@ Unofficial client for Google Gemini Notebook, wired in on three surfaces. Upstre
 - Credentials live at `~/.notebooklm/profiles/<profile>/`, outside the worktree, and must stay there. `storage_state.json` is a live Google session; it and `master_token.json` are matched by `.claude/hooks/lib/privacy-checker.cjs` and `.gitignore`.
 - Auth is interactive (`notebooklm login`) and does not self-heal. Check with `notebooklm auth check --test --json` before anything that spends quota.
 - Free tier is the binding constraint: **3 audio/day**, 10 quiz·flashcards·mind-map·report/day, 50 chats/day, rolling reset windows. Any pipeline must be idempotent and cache what it already produced.
+
+## REA — Reverse Engineer Anything (`rea-agents`)
+
+Local static/runtime reverse-engineering toolkit (`morluto/rea`, MIT) wired in on three surfaces for inspecting vendor `.NET` assemblies (`RevitAPI.dll`, `AcDbMgd.dll`, `AeccDbMgd.dll`, `ETABSv1.dll`, `SAP2000v1.dll`, `RobotOM.dll`, `Tekla.Structures.dll`), native PE/ELF binaries, and Electron/JS bundles without loading or executing target code.
+
+| Surface | Where | Notes |
+|---|---|---|
+| CLI `rea` | `npm install --global --ignore-scripts rea-agents@6.5.0` → `%AppData%\npm\rea.cmd` | Pinned at `6.5.0` (Node 24.x >= 24.11). Verified Windows native addon SHA-256 |
+| Agent skill | `.agents/skills/reverse-engineer-anything/` + mirror `.agents/skills/reverse-engineer-anything/` | `SKILL.md` + `LICENSE` + `references/*.md` (synced via `scripts/sync-agent-skills.py`) |
+| MCP server | `.mcp.json` → `cmd.exe /d /c %AppData%\npm\rea.cmd mcp` | 207 tools (`REA_MCP_INPUT_SCHEMA_PROFILE=compact`), stdio |
+
+**Rules — project isolation & clean-code boundaries:**
+
+- **Never run `rea setup` or `npx rea-agents setup` without `--dry-run`.** Default setup writes user-global `~/.claude.json`, `~/.gemini/config/mcp_config.json`, `~/.codex/config.toml`, and `.agents/skills/`, which this repository forbids. Keep MCP registration in project `.mcp.json` and skills in `.claude/skills/reverse-engineer-anything/` ↔ `.agents/skills/reverse-engineer-anything/`.
+- **Skip REA for ordinary repository source code.** Use standard file/grep tools for code in this repo; invoke REA only when inspecting compiled `.dll`/`.exe` artifacts (e.g., comparing `RevitAPI.dll` across R23–R27 via `compare_managed_members` or inspecting CIL/signatures via `inspect_managed_members` with `"detail": "summary"`).
+- **100% local static analysis for .NET:** The 7 managed tools (`inspect_managed_artifact`, `inspect_managed_members`, `inspect_managed_native_boundaries`, `compare_managed_members`, `verify_managed_native_boundaries`, `import_managed_reconstruction`, `project_managed_application_graph`) need no Ghidra/Hopper/IDA installation and make zero network requests.
 
 ## [IMPORTANT] Consider Modularization
 

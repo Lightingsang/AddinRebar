@@ -1,0 +1,3599 @@
+{
+  "totalItems": 599,
+  "items": [
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -53490.8,
+      "text": "- B\u00CA T\u00D4NG GI\u1EB0NG M\u00D3NG \u0110\u00C1 10x20 M\u00C1C 250 (B20)"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -54090.8,
+      "text": "- C\u1ED0T TH\u00C9P %%C \u003E= 10  (CB400-V), Rs = 3500 kG/ CM2"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -54690.8,
+      "text": "- C\u1ED0T TH\u00C9P %%C \u003C 10 (CB240-T), Rs = 2100 kG/ CM2"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -55290.8,
+      "text": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P \u0110\u00C0 GI\u1EB0NG M\u00D3NG D\u00C0Y 50 mm"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -56639.5,
+      "text": "- \u0110O\u1EA0N  N\u1ED0T C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG \u003E= 30%%C"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -57239.8,
+      "text": "- \u0110O\u1EA0N NEO C\u1ED0T TH\u00C9P GI\u1EB0NG M\u00D3NG V\u00C0O \u0110\u00C0I \u003E= 40%%C"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -55975.7,
+      "text": "- L\u1EDAP BT B\u1EA2O V\u1EC6 C\u1ED0T TH\u00C9P M\u00D3NG D\u00C0Y 50 mm"
+    },
+    {
+      "layer": "Text CK",
+      "x": 523882.3,
+      "y": -52622.8,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LGHI CHU\u00D9:}"
+    },
+    {
+      "layer": "DC-7",
+      "x": 520135.4,
+      "y": -13516.6,
+      "text": "\u0110C-1"
+    },
+    {
+      "layer": "DC-7",
+      "x": 520135.4,
+      "y": -18716.6,
+      "text": "\u0110C-1"
+    },
+    {
+      "layer": "DC-7",
+      "x": 520135.4,
+      "y": -22716.6,
+      "text": "\u0110C-1"
+    },
+    {
+      "layer": "DC-7",
+      "x": 520135.4,
+      "y": -26716.6,
+      "text": "\u0110C-1"
+    },
+    {
+      "layer": "DC-7",
+      "x": 520135.4,
+      "y": -31916.6,
+      "text": "\u0110C-1"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -10009,
+      "text": "HE\u00C4 \u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -1.600"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 524959.7,
+      "y": -8924.9,
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\LCHU\u00D9 TH\u00CDCH:}"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -10793.9,
+      "text": "BA\u00DBN BE\u00C2 TO\u00C2NG DA\u00D8Y 100mm"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -11578.7,
+      "text": "\u00D1A\u00D8 CHA\u00C2N BA\u00C4C CA\u00C1P COTE -0.800"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 526352.8,
+      "y": -12363.5,
+      "text": "BA\u00DBN BE\u00C2 TO\u00C2NG DA\u00D8Y 120mm"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -58454.4,
+      "text": "- B\u00CA T\u00D4NG L\u00D3T GI\u1EB0NG M\u00D3NG, B\u00D3 N\u1EC0N, \u0110\u00C0 PH\u1EE4 (N\u1EBEU C\u00D3)"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523926,
+      "y": -59051.3,
+      "text": "\u0110\u00C1 10x20 M\u00C1C 150, D\u00C0Y 60mm"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523654.3,
+      "y": -57848.5,
+      "text": "- B\u00CA T\u00D4NG L\u00D3T \u0110\u00C0I C\u1ECCC (M\u00D3NG) D\u00C0Y 100mm"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520072.4,
+      "y": -52988,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520082,
+      "y": -54015.5,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520072.4,
+      "y": -55043.1,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520899.1,
+      "y": -55575.1,
+      "text": "4%%C20"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520519.1,
+      "y": -54259.2,
+      "text": "2%%C12"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520477,
+      "y": -52585,
+      "text": "4%%C20"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520519.1,
+      "y": -53266.1,
+      "text": "%%C8a150"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521374.2,
+      "y": -52741,
+      "text": "1"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521656.5,
+      "y": -55731,
+      "text": "2"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521400.1,
+      "y": -54415.1,
+      "text": "3"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521655.9,
+      "y": -53422.1,
+      "text": "4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520519.1,
+      "y": -53721.7,
+      "text": "%%C8a400"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521659.5,
+      "y": -53877.6,
+      "text": "5"
+    },
+    {
+      "layer": "GM-1",
+      "x": 520163.7,
+      "y": -51008,
+      "text": "TL: 1/25,  L=5850"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520434.8,
+      "y": -47298.8,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520434.8,
+      "y": -48553.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520007.3,
+      "y": -47298.8,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520007.3,
+      "y": -48553.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 521261.5,
+      "y": -49085.9,
+      "text": "3%%C18"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520839.4,
+      "y": -46895.8,
+      "text": "3%%C18"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521736.6,
+      "y": -47051.8,
+      "text": "1"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 522019,
+      "y": -49241.9,
+      "text": "2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520788.7,
+      "y": -47911,
+      "text": "%%C8a150"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 522022,
+      "y": -48067,
+      "text": "3"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520251.4,
+      "y": -59622.4,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 520251.4,
+      "y": -60877.5,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 521078.1,
+      "y": -61409.5,
+      "text": "2%%C16"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520656,
+      "y": -59219.4,
+      "text": "2%%C16"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521553.2,
+      "y": -59375.4,
+      "text": "1"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521835.5,
+      "y": -61565.5,
+      "text": "2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 520698.1,
+      "y": -59965.2,
+      "text": "%%C6a200"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 521838.5,
+      "y": -60121.2,
+      "text": "3"
+    },
+    {
+      "layer": "BN1",
+      "x": 520180.3,
+      "y": -63202,
+      "text": "TL: 1/25,  {\\fArial|b0|i0|c161|p34;\u03A3}L=14800"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 527134.3,
+      "y": -50024,
+      "text": "{\\fVNI-Helve-Condense|b0|i0|c0|p2;CHI TIE\u00C1T BO\u00C5 TRU\u00CF CA\u00C1Y TRE\u00C2N \u00D1A\u00D8 }"
+    },
+    {
+      "layer": "COTE",
+      "x": 524658.4,
+      "y": -47673.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 524658.4,
+      "y": -41673.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-0.100"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 528644.9,
+      "y": -43541.3,
+      "text": "B\u1ED4 TR\u1EE4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 525834.8,
+      "y": -44660.4,
+      "text": "TH\u00C9P D\u1ECCC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 528354.5,
+      "y": -45867.5,
+      "text": "\u0110AI %%C6@150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 529047,
+      "y": -41214,
+      "text": "\u0110\u00C0 KI\u1EC0NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 529299,
+      "y": -47214,
+      "text": "GI\u1EB0NG M\u00D3NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 527567.7,
+      "y": -50364.8,
+      "text": "TL: 1/25"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 526802,
+      "y": -23888.3,
+      "text": "3%%C6"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 527845.1,
+      "y": -22339.9,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 527511.4,
+      "y": -22484.3,
+      "text": "1"
+    },
+    {
+      "layer": "Text TB",
+      "x": 526434.1,
+      "y": -24035.3,
+      "text": "2"
+    },
+    {
+      "layer": "BBT",
+      "x": 528878.2,
+      "y": -25450.4,
+      "text": "\\A1;{\\LBA\u00DBN BBT-1}"
+    },
+    {
+      "layer": "BBT",
+      "x": 528867.8,
+      "y": -25655,
+      "text": "SL: 1, {\\fArial|b0|i0|c161|p34;\u03A3}L= 17900"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529886.9,
+      "y": -22382.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529406.9,
+      "y": -22382.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529406.9,
+      "y": -23262.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529886.9,
+      "y": -23262.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 527233.1,
+      "y": -17349.3,
+      "text": "2%%C6"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 527388.2,
+      "y": -15799.9,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 527105.4,
+      "y": -15944.3,
+      "text": "1"
+    },
+    {
+      "layer": "Text TB",
+      "x": 526844.8,
+      "y": -17496.3,
+      "text": "2"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529518,
+      "y": -15763.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529038,
+      "y": -15763.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529038,
+      "y": -16643.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 529518,
+      "y": -16643.9,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "COTE",
+      "x": 526357.4,
+      "y": -23422.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.000"
+    },
+    {
+      "layer": "BBT",
+      "x": 528876.7,
+      "y": -18767.9,
+      "text": "\\A1;{\\LBA\u00DBN BBT-2}"
+    },
+    {
+      "layer": "BBT",
+      "x": 528866.3,
+      "y": -18972.6,
+      "text": "SL: 1, {\\fArial|b0|i0|c161|p34;\u03A3}L= 3700"
+    },
+    {
+      "layer": "DC-2",
+      "x": 542703.3,
+      "y": -63482.7,
+      "text": "\u00D1C-2"
+    },
+    {
+      "layer": "DC-2",
+      "x": 542678.3,
+      "y": -64358,
+      "text": "28"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545629.4,
+      "y": -39304.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545629.4,
+      "y": -39873.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545153.7,
+      "y": -39542.4,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545148.8,
+      "y": -40111.4,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 547508.5,
+      "y": -47048.1,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 547508.5,
+      "y": -46469.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546898.7,
+      "y": -46706.9,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546942.7,
+      "y": -47275.9,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 550893.3,
+      "y": -41737.1,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 550458.2,
+      "y": -41915.3,
+      "text": "CT"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 549937.2,
+      "y": -54113.5,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551515,
+      "y": -54330.3,
+      "text": "1"
+    },
+    {
+      "layer": "R THEP",
+      "x": 548153.1,
+      "y": -55209.2,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 548153.1,
+      "y": -58009.2,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 547240.6,
+      "y": -54080.7,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 548733.7,
+      "y": -54330.3,
+      "text": "2"
+    },
+    {
+      "layer": "COTE",
+      "x": 555631.4,
+      "y": -40652.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 555631.4,
+      "y": -44652.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 543624.7,
+      "y": -56653.9,
+      "text": "[Block Daucat-03] A=2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 553618,
+      "y": -56653.9,
+      "text": "[Block Daucat-03] A=2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551346,
+      "y": -43513.3,
+      "text": "L=500"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546255.4,
+      "y": -10602.4,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546255.4,
+      "y": -11171.4,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545600.3,
+      "y": -10840.1,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545595.4,
+      "y": -11409.1,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 549695.2,
+      "y": -23359.5,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551273,
+      "y": -23576.3,
+      "text": "1"
+    },
+    {
+      "layer": "R THEP",
+      "x": 547911.1,
+      "y": -24455.2,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 547911.1,
+      "y": -27255.2,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 547266.7,
+      "y": -23326.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546849.1,
+      "y": -23576.3,
+      "text": "2"
+    },
+    {
+      "layer": "COTE",
+      "x": 553589.4,
+      "y": -11820.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 553589.4,
+      "y": -15820.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 551576,
+      "y": -25899.9,
+      "text": "[Block Daucat-03] A=1"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 545794.2,
+      "y": -25899.9,
+      "text": "[Block Daucat-03] A=1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 546347.9,
+      "y": -18216.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 545925.1,
+      "y": -18444.5,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 550117.6,
+      "y": -18206.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551655.9,
+      "y": -18444.5,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 549418.6,
+      "y": -14252.5,
+      "text": "L=500"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 552365.5,
+      "y": -35448.4,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551860.6,
+      "y": -35449.6,
+      "text": "CT"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 552365.5,
+      "y": -64648.4,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 551860.6,
+      "y": -64649.6,
+      "text": "CT"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 571724.5,
+      "y": -26148.5,
+      "text": "[Block TDV-TYPE1] 10=7; A="
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601970.7,
+      "y": -38608.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601970.7,
+      "y": -39177.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601495.1,
+      "y": -38846.5,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601490.2,
+      "y": -39415.5,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 604449.9,
+      "y": -46352.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 604449.9,
+      "y": -45773.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 603840.1,
+      "y": -46010.9,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 603884.1,
+      "y": -46579.9,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 607834.7,
+      "y": -41041.1,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 607399.5,
+      "y": -41219.4,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 612572.7,
+      "y": -39956.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 612572.7,
+      "y": -43956.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608287.3,
+      "y": -42817.3,
+      "text": "L=500"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 570960.3,
+      "y": -64648.4,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 570455.4,
+      "y": -64649.6,
+      "text": "CT"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 590752.4,
+      "y": -25378.8,
+      "text": "[Block TDV-TYPE1] 10=L; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 585111.7,
+      "y": -32198.6,
+      "text": "[Block TDV-TYPE1] 10=9; A="
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 590453.8,
+      "y": -35448.4,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 589948.9,
+      "y": -35449.6,
+      "text": "CT"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581952.5,
+      "y": -9408.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581952.5,
+      "y": -9977.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581476.9,
+      "y": -9646.5,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581472,
+      "y": -10215.5,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 583831.7,
+      "y": -17152.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 583831.7,
+      "y": -16573.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 583221.9,
+      "y": -16810.9,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 583265.9,
+      "y": -17379.9,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 587216.5,
+      "y": -11841.1,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 586781.4,
+      "y": -12019.4,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 591954.6,
+      "y": -10756.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 591954.6,
+      "y": -14756.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 587669.1,
+      "y": -13617.3,
+      "text": "L=500"
+    },
+    {
+      "layer": "R THEP",
+      "x": 584476.2,
+      "y": -22778.8,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 584476.2,
+      "y": -29178.8,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 588074,
+      "y": -21188.8,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 589651.8,
+      "y": -21405.6,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 589225,
+      "y": -26678.6,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 590909.4,
+      "y": -26928.2,
+      "text": "2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 579206.2,
+      "y": -25868.4,
+      "text": "[Block Daucat-03] A=4"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 566573.9,
+      "y": -30422,
+      "text": "[Block TDV-TYPE1] 10=H; A="
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563414.9,
+      "y": -9390,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563414.9,
+      "y": -9959,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 562939.2,
+      "y": -9627.7,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 562934.4,
+      "y": -10196.7,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565294,
+      "y": -17133.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565294,
+      "y": -16554.5,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 564684.3,
+      "y": -16792.2,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 564728.3,
+      "y": -17361.2,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 568678.9,
+      "y": -11822.4,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 568243.7,
+      "y": -12000.6,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 573416.9,
+      "y": -10737.4,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 573416.9,
+      "y": -14737.4,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 569131.5,
+      "y": -13598.6,
+      "text": "L=500"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 567836.7,
+      "y": -23245.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 569414.4,
+      "y": -23462,
+      "text": "1"
+    },
+    {
+      "layer": "R THEP",
+      "x": 565938.6,
+      "y": -24548.5,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 565938.6,
+      "y": -27748.5,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565026.1,
+      "y": -23212.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 566519.2,
+      "y": -23462,
+      "text": "2"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 570960.3,
+      "y": -35448.4,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 570455.4,
+      "y": -35449.6,
+      "text": "CT"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 593134.7,
+      "y": -55294.4,
+      "text": "[Block TDV-TYPE1] 10=I; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 585675.9,
+      "y": -61284.7,
+      "text": "[Block TDV-TYPE1] 10=1; A="
+    },
+    {
+      "layer": "DC-5",
+      "x": 586515.7,
+      "y": -63012.6,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-5}"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581813.3,
+      "y": -38608.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581813.3,
+      "y": -39177.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581337.7,
+      "y": -38846.5,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581332.8,
+      "y": -39415.5,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 582426.2,
+      "y": -47152.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 582426.2,
+      "y": -46573.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581816.4,
+      "y": -46810.9,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 581860.4,
+      "y": -47379.9,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 590058.9,
+      "y": -41041.1,
+      "text": "4%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 589572.2,
+      "y": -41219.4,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 594718.8,
+      "y": -39956.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 594718.8,
+      "y": -44756.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.800"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 592976.6,
+      "y": -25868.4,
+      "text": "[Block Daucat-03] A=4"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 573393,
+      "y": -26245.6,
+      "text": "[Block Daucat-03] A=2\u0027"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 561128.7,
+      "y": -26245.6,
+      "text": "[Block Daucat-03] A=2\u0027"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 578927.9,
+      "y": -55388.4,
+      "text": "[Block Daucat-03] A=5"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 594774.4,
+      "y": -55388.4,
+      "text": "[Block Daucat-03] A=5"
+    },
+    {
+      "layer": "R THEP",
+      "x": 584302.9,
+      "y": -52094.4,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 588723.7,
+      "y": -50504.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 590301.5,
+      "y": -50721.2,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 587751.3,
+      "y": -49685.8,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 589285,
+      "y": -49902.6,
+      "text": "2"
+    },
+    {
+      "layer": "R THEP",
+      "x": 584302.9,
+      "y": -58494.4,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 611975.1,
+      "y": -25705.4,
+      "text": "[Block TDV-TYPE1] 10=I; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 606077.7,
+      "y": -31591.7,
+      "text": "[Block TDV-TYPE1] 10=4; A="
+    },
+    {
+      "layer": "R THEP",
+      "x": 603504.7,
+      "y": -22505.4,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 607925.5,
+      "y": -21200.3,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 609503.3,
+      "y": -21417.1,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 606953.1,
+      "y": -20381.7,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608486.9,
+      "y": -20598.5,
+      "text": "2"
+    },
+    {
+      "layer": "R THEP",
+      "x": 603504.7,
+      "y": -28905.4,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601015.1,
+      "y": -8650.5,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601015.1,
+      "y": -9219.5,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 600539.5,
+      "y": -8888.2,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 600534.6,
+      "y": -9457.2,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601628,
+      "y": -17193.9,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601628,
+      "y": -16615,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601018.3,
+      "y": -16852.7,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 601062.3,
+      "y": -17421.7,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 609260.7,
+      "y": -11082.8,
+      "text": "4%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608774,
+      "y": -11261.1,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 613920.6,
+      "y": -9997.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 613920.6,
+      "y": -14797.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.800"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 598220.7,
+      "y": -25775.9,
+      "text": "[Block Daucat-03] A=6"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 613553.7,
+      "y": -25775.9,
+      "text": "[Block Daucat-03] A=6"
+    },
+    {
+      "layer": "MDTN",
+      "x": 629991.8,
+      "y": -32416.8,
+      "text": "[Block Dirt-01] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 632239.6,
+      "y": -28397.9,
+      "text": "%%C6a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 630083.9,
+      "y": -34370.2,
+      "text": "%%C6a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 633353.9,
+      "y": -36909.3,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 630914.9,
+      "y": -38335.5,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 632769.9,
+      "y": -44464.6,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 630925.3,
+      "y": -46003.1,
+      "text": "%%C10a150"
+    },
+    {
+      "layer": "TDVD_S",
+      "x": 627366.2,
+      "y": -44282.8,
+      "text": "[Block Trucdv-2018-01] A=; E="
+    },
+    {
+      "layer": "TDVD_S",
+      "x": 631623.7,
+      "y": -48395.4,
+      "text": "[Block Trucdv-2018-01] A=; E="
+    },
+    {
+      "layer": "COTE",
+      "x": 630521.9,
+      "y": -35063.6,
+      "text": "[Block DC-02] A=A"
+    },
+    {
+      "layer": "COTE",
+      "x": 632321.9,
+      "y": -35063.6,
+      "text": "[Block DC-02] A=A"
+    },
+    {
+      "layer": "Text CK",
+      "x": 631665.4,
+      "y": -30240.7,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T A-A}"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 632537.6,
+      "y": -27703.4,
+      "text": "2%%C14"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 632537.6,
+      "y": -29115.2,
+      "text": "2%%C14"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 630667.8,
+      "y": -46179.6,
+      "text": "1"
+    },
+    {
+      "layer": "Cote-",
+      "x": 627607.9,
+      "y": -37616.8,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.900"
+    },
+    {
+      "layer": "Cote-",
+      "x": 627607.9,
+      "y": -32416.8,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 633986.3,
+      "y": -44641.1,
+      "text": "2"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 630596.2,
+      "y": -38497.4,
+      "text": "1"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 634551.6,
+      "y": -37087.1,
+      "text": "2"
+    },
+    {
+      "layer": "Cote-",
+      "x": 629594.1,
+      "y": -32416.8,
+      "text": "[Block MDTN-01] M\u0110TN=M\u0110TN"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 632408.8,
+      "y": -35561.9,
+      "text": "4%%C14"
+    },
+    {
+      "layer": "A_Hatch_S_CONC_0.09",
+      "x": 633641.6,
+      "y": -37856.8,
+      "text": "[Block Dirt-01] "
+    },
+    {
+      "layer": "A_Hatch_S_CONC_0.09",
+      "x": 632214.6,
+      "y": -37856.8,
+      "text": "[Block Dirt-01] "
+    },
+    {
+      "layer": "A_Hatch_S_CONC_0.09",
+      "x": 630816.6,
+      "y": -37856.8,
+      "text": "[Block Dirt-01] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 634206.9,
+      "y": -38331.1,
+      "text": "\u00D1A\u00C1T \u00D1A\u00C0M CHA\u00CBT"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 633374.6,
+      "y": -27862.1,
+      "text": "3"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 633374.6,
+      "y": -29273.9,
+      "text": "3"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 633371.6,
+      "y": -28568,
+      "text": "4"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 626667.5,
+      "y": -44853.3,
+      "text": "[Block Daucat-03] A=P"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 635487.5,
+      "y": -44853.3,
+      "text": "[Block Daucat-03] A=P"
+    },
+    {
+      "layer": "Text CK",
+      "x": 632081.4,
+      "y": -40043.4,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T P-P}"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 634110.9,
+      "y": -37660.1,
+      "text": "LO\u00D9T \u00D1A\u00D9 10x20 MA\u00D9C 150"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 655574.2,
+      "y": -50291.7,
+      "text": "[Block TDV-TYPE1] 10=6; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 645174.2,
+      "y": -50291.7,
+      "text": "[Block TDV-TYPE1] 10=5; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 641016.1,
+      "y": -45070.9,
+      "text": "[Block TDV-TYPE1] 10=M; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 641016.1,
+      "y": -33870.9,
+      "text": "[Block TDV-TYPE1] 10=N; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 685021.1,
+      "y": -48992.4,
+      "text": "[Block TDV-TYPE1] 10=6; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 674621.1,
+      "y": -48992.4,
+      "text": "[Block TDV-TYPE1] 10=5; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 670886.8,
+      "y": -43527.6,
+      "text": "[Block TDV-TYPE1] 10=A; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 671012.6,
+      "y": -32327.6,
+      "text": "[Block TDV-TYPE1] 10=B; A="
+    },
+    {
+      "layer": "Text bung san",
+      "x": 645832.8,
+      "y": -16138,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 645832.8,
+      "y": -17823.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 646996.4,
+      "y": -17971.5,
+      "text": "5"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 645915.6,
+      "y": -15410.7,
+      "text": "VA\u00D9CH V-1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 656541.6,
+      "y": -15410.7,
+      "text": "VA\u00D9CH V-1"
+    },
+    {
+      "layer": "Text TB",
+      "x": 652507.8,
+      "y": -18862,
+      "text": "3"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 651327.7,
+      "y": -18730,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648912,
+      "y": -18730,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 648518,
+      "y": -18862,
+      "text": "2"
+    },
+    {
+      "layer": "Text TB",
+      "x": 653616.8,
+      "y": -21472,
+      "text": "4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 652430.5,
+      "y": -21340,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 654069.2,
+      "y": -16138,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 653926.3,
+      "y": -17823.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 653628.2,
+      "y": -17971.5,
+      "text": "5"
+    },
+    {
+      "layer": "Text TB",
+      "x": 653769.1,
+      "y": -16285.6,
+      "text": "6"
+    },
+    {
+      "layer": "Text TB",
+      "x": 646869.3,
+      "y": -16285.6,
+      "text": "6"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 658288.8,
+      "y": -22435.1,
+      "text": "\u00D1A\u00D8I CO\u00CFC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 642275.4,
+      "y": -22576,
+      "text": "\u00D1A\u00D8I CO\u00CFC"
+    },
+    {
+      "layer": "COTE",
+      "x": 641819.2,
+      "y": -13209.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-0.100"
+    },
+    {
+      "layer": "COTE",
+      "x": 641819.2,
+      "y": -19209.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 655574.2,
+      "y": -24369.4,
+      "text": "[Block TDV-TYPE1] 10=6; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 645174.2,
+      "y": -24369.4,
+      "text": "[Block TDV-TYPE1] 10=5; A="
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648853.4,
+      "y": -32681.9,
+      "text": "VA\u00D9CH V-2"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 662629.2,
+      "y": -44830.2,
+      "text": "V\u00C1CH V-2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 664729.3,
+      "y": -44816.3,
+      "text": "TY\u00DB LE\u00C4: 1/25"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 662947.4,
+      "y": -39597.2,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 662804.5,
+      "y": -40483.1,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 662506.4,
+      "y": -40630.8,
+      "text": "5"
+    },
+    {
+      "layer": "Text TB",
+      "x": 662650.4,
+      "y": -39744.9,
+      "text": "7"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 666439.3,
+      "y": -44816.3,
+      "text": "(SL: 2)"
+    },
+    {
+      "layer": "TDVD_S",
+      "x": 664452.4,
+      "y": -33464.8,
+      "text": "[Block Trucdv-2018-01] A=; E="
+    },
+    {
+      "layer": "COTE",
+      "x": 667097.2,
+      "y": -35789.2,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-0.100"
+    },
+    {
+      "layer": "COTE",
+      "x": 667097.2,
+      "y": -41789.2,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 675279.7,
+      "y": -16138,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 675279.7,
+      "y": -17823.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 676443.3,
+      "y": -17971.5,
+      "text": "5"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 675362.5,
+      "y": -15410.7,
+      "text": "VA\u00D9CH V-1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 685988.5,
+      "y": -15410.7,
+      "text": "VA\u00D9CH V-1"
+    },
+    {
+      "layer": "Text TB",
+      "x": 681954.7,
+      "y": -18862,
+      "text": "3"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 680774.6,
+      "y": -18730,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 678358.9,
+      "y": -18730,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 677964.9,
+      "y": -18862,
+      "text": "2"
+    },
+    {
+      "layer": "Text TB",
+      "x": 683063.7,
+      "y": -21472,
+      "text": "4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 681877.4,
+      "y": -21340,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 683516.1,
+      "y": -16138,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 683373.2,
+      "y": -17054.8,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 683075.1,
+      "y": -17202.5,
+      "text": "5"
+    },
+    {
+      "layer": "Text TB",
+      "x": 683216,
+      "y": -16285.6,
+      "text": "6"
+    },
+    {
+      "layer": "Text TB",
+      "x": 676316.2,
+      "y": -16285.6,
+      "text": "6"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 687735.7,
+      "y": -22435.1,
+      "text": "\u00D1A\u00D8I CO\u00CFC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 671722.3,
+      "y": -22576,
+      "text": "\u00D1A\u00D8I CO\u00CFC"
+    },
+    {
+      "layer": "COTE",
+      "x": 671266.1,
+      "y": -13209.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-0.100"
+    },
+    {
+      "layer": "COTE",
+      "x": 671266.1,
+      "y": -19209.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 685021.1,
+      "y": -24369.4,
+      "text": "[Block TDV-TYPE1] 10=6; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 674621.1,
+      "y": -24369.4,
+      "text": "[Block TDV-TYPE1] 10=5; A="
+    },
+    {
+      "layer": "Text bung san",
+      "x": 679850,
+      "y": -32738.6,
+      "text": "VA\u00D9CH V-2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 657431.8,
+      "y": -38651.4,
+      "text": "[Block Daucat-03] A=1"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 644504.3,
+      "y": -38651.4,
+      "text": "[Block Daucat-03] A=1"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 673997.4,
+      "y": -38651.4,
+      "text": "[Block Daucat-03] A=2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 686970,
+      "y": -38651.4,
+      "text": "[Block Daucat-03] A=2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648347.8,
+      "y": -37900.6,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 648786.7,
+      "y": -37578.5,
+      "text": "3"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648347.8,
+      "y": -39102.5,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 648796,
+      "y": -38780.4,
+      "text": "1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 650270.2,
+      "y": -36980.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 649948.1,
+      "y": -36544.6,
+      "text": "4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 651823.4,
+      "y": -36980.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 651501.2,
+      "y": -36541.5,
+      "text": "2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 677794.7,
+      "y": -37957.4,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 678233.6,
+      "y": -37635.3,
+      "text": "3"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 677794.7,
+      "y": -39159.3,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 678242.9,
+      "y": -38837.1,
+      "text": "1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 679717.1,
+      "y": -37037.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 679395,
+      "y": -36601.3,
+      "text": "4"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 681270.3,
+      "y": -37037.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 680948.1,
+      "y": -36598.2,
+      "text": "2"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 608880.5,
+      "y": -35291.8,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608375.6,
+      "y": -35293.1,
+      "text": "CT"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 692729.8,
+      "y": -44830.2,
+      "text": "V\u00C1CH V-2"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 694829.9,
+      "y": -44816.3,
+      "text": "TY\u00DB LE\u00C4: 1/25"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 693048,
+      "y": -39597.2,
+      "text": "%%C8a200"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 692905.1,
+      "y": -40483.1,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "Text TB",
+      "x": 692607,
+      "y": -40630.8,
+      "text": "5"
+    },
+    {
+      "layer": "Text TB",
+      "x": 692751,
+      "y": -39744.9,
+      "text": "7"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 696539.9,
+      "y": -44816.3,
+      "text": "(SL: 2)"
+    },
+    {
+      "layer": "TDVD_S",
+      "x": 694553,
+      "y": -33464.8,
+      "text": "[Block Trucdv-2018-01] A=; E="
+    },
+    {
+      "layer": "COTE",
+      "x": 697197.8,
+      "y": -35789.2,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-0.100"
+    },
+    {
+      "layer": "COTE",
+      "x": 697197.8,
+      "y": -41789.2,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 526780,
+      "y": -16803.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.000"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 550184.7,
+      "y": -12279.6,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 550869.2,
+      "y": -12457.8,
+      "text": "CT"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 528106.9,
+      "y": -33369.7,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 527251.8,
+      "y": -33369.7,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 528106.9,
+      "y": -34224.8,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 527251.8,
+      "y": -34224.8,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Text bung san",
+      "x": 528795,
+      "y": -32966.8,
+      "text": "4%%C18"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 529587.1,
+      "y": -33122.8,
+      "text": "1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 528539.4,
+      "y": -34011.6,
+      "text": "%%C6a150"
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 529609.4,
+      "y": -34139.1,
+      "text": "2"
+    },
+    {
+      "layer": "BT-1\u0027",
+      "x": 527857.8,
+      "y": -36305.1,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LBT-1\\fVNI-Helve-Condense|b0|i0|c0|p2;\u0027, SL=2}"
+    },
+    {
+      "layer": "BT-1\u0027",
+      "x": 528027.3,
+      "y": -36549.3,
+      "text": "(COTE -1.600 ---\u003E -0.100)"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 527679.3,
+      "y": -33369.7,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 527679.3,
+      "y": -34224.8,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "Stt-Steel",
+      "x": 529587.1,
+      "y": -34671.8,
+      "text": "1"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 528795,
+      "y": -34500.6,
+      "text": "4%%C18"
+    },
+    {
+      "layer": "KHUNGTEN",
+      "x": 621618.2,
+      "y": -64965.6,
+      "text": "[Block khung ten A1-HOITRUONG] "
+    },
+    {
+      "layer": "Text KHUNG",
+      "x": 621618.2,
+      "y": -64965.6,
+      "text": "[Block noi dung khung ten] "
+    },
+    {
+      "layer": "Text tieu de",
+      "x": 616562.3,
+      "y": -57038.2,
+      "text": "_CHI TIE\u00C1T MO\u00D9NG"
+    },
+    {
+      "layer": "KHUNGTEN",
+      "x": 537618.2,
+      "y": -64965.6,
+      "text": "[Block khung ten A1-HOITRUONG] "
+    },
+    {
+      "layer": "Text KHUNG",
+      "x": 537618.2,
+      "y": -64965.6,
+      "text": "[Block noi dung khung ten] "
+    },
+    {
+      "layer": "Text tieu de",
+      "x": 532562.3,
+      "y": -57038.2,
+      "text": "_ MA\u00CBT BA\u00C8NG BO\u00C1 TR\u00CD \u00D1A\u00D8I CO\u00CFC \u002B GIA\u00C8NG MO\u00D9NG \u002B BO\u00D9 NE\u00C0N"
+    },
+    {
+      "layer": "STT_BAN_VE",
+      "x": 531935.2,
+      "y": -63762.5,
+      "text": "[Block KT] KHBV=KC:04/84"
+    },
+    {
+      "layer": "STT_BAN_VE",
+      "x": 615935.2,
+      "y": -63762.5,
+      "text": "[Block KT] KHBV=KC:05/84"
+    },
+    {
+      "layer": "STT_BAN_VE",
+      "x": 699935.2,
+      "y": -63762.5,
+      "text": "[Block KT] KHBV=KC:06/84"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 685676.9,
+      "y": -17770.8,
+      "text": "B\u0102NG C\u1EA2N N\u01AF\u1EDAC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 682774.3,
+      "y": -18639.9,
+      "text": "M\u1EA0CH NG\u1EEANG THI C\u00D4NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 672743.1,
+      "y": -17770.8,
+      "text": "B\u0102NG C\u1EA2N N\u01AF\u1EDAC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 675139.7,
+      "y": -18639.9,
+      "text": "M\u1EA0CH NG\u1EEANG THI C\u00D4NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 643296.2,
+      "y": -17770.8,
+      "text": "B\u0102NG C\u1EA2N N\u01AF\u1EDAC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 645692.8,
+      "y": -18639.9,
+      "text": "M\u1EA0CH NG\u1EEANG THI C\u00D4NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 656230,
+      "y": -17770.8,
+      "text": "B\u0102NG C\u1EA2N N\u01AF\u1EDAC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 653327.4,
+      "y": -18639.9,
+      "text": "M\u1EA0CH NG\u1EEANG THI C\u00D4NG"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 695208.8,
+      "y": -40350.4,
+      "text": "B\u0102NG C\u1EA2N N\u01AF\u1EDAC"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 692306.2,
+      "y": -41219.4,
+      "text": "M\u1EA0CH NG\u1EEANG THI C\u00D4NG"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 567022,
+      "y": -60933.8,
+      "text": "[Block TDV-TYPE1] 10=8; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 573701.1,
+      "y": -54287.1,
+      "text": "[Block TDV-TYPE1] 10=L; A="
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563862.8,
+      "y": -38353.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563862.8,
+      "y": -38922.7,
+      "text": "%%C12a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563387.2,
+      "y": -38591.4,
+      "text": "3"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 563382.3,
+      "y": -39160.4,
+      "text": "4"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565742,
+      "y": -46097.1,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565742,
+      "y": -45518.2,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565132.2,
+      "y": -45755.9,
+      "text": "2"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 565176.2,
+      "y": -46324.9,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 569126.8,
+      "y": -40786,
+      "text": "3%%C10"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 568691.7,
+      "y": -40964.3,
+      "text": "CT"
+    },
+    {
+      "layer": "COTE",
+      "x": 573864.9,
+      "y": -39701.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.600"
+    },
+    {
+      "layer": "COTE",
+      "x": 573864.9,
+      "y": -43701.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-2.600"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 569579.4,
+      "y": -42562.3,
+      "text": "L=500"
+    },
+    {
+      "layer": "DC-3",
+      "x": 567254.5,
+      "y": -62622.2,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-3}"
+    },
+    {
+      "layer": "R THEP",
+      "x": 566386.5,
+      "y": -52087.1,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 566386.5,
+      "y": -58087.1,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 570137.8,
+      "y": -49773.8,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 571715.6,
+      "y": -49990.6,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 570677.3,
+      "y": -55957.5,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 572237.6,
+      "y": -56207.1,
+      "text": "2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 561627.3,
+      "y": -54318.1,
+      "text": "[Block Daucat-03] A=3"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 575361.9,
+      "y": -54318.1,
+      "text": "[Block Daucat-03] A=3"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 609158,
+      "y": -59578,
+      "text": "TH\u00C9P C\u1EA4U T\u1EA0O XUNG QUANH CHU VI \u0110\u00C0I C\u1ECCC"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608653.1,
+      "y": -59579.2,
+      "text": "CT"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 612710.1,
+      "y": -54516.6,
+      "text": "[Block TDV-TYPE1] 10=B; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 604729.9,
+      "y": -61420.4,
+      "text": "[Block TDV-TYPE1] 10=6; A="
+    },
+    {
+      "layer": "R THEP",
+      "x": 606146,
+      "y": -52516.6,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "R THEP",
+      "x": 606146,
+      "y": -58516.6,
+      "text": "[Block _ClosedBlank] "
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 608845.7,
+      "y": -49937.8,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 610423.5,
+      "y": -50154.6,
+      "text": "1"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 609385.2,
+      "y": -56387,
+      "text": "%%C14a150"
+    },
+    {
+      "layer": "03-TEXT(0.2)",
+      "x": 610945.5,
+      "y": -56636.6,
+      "text": "2"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 600088.6,
+      "y": -54499.6,
+      "text": "[Block Daucat-03] A=3\u0027"
+    },
+    {
+      "layer": "Kich thuoc A",
+      "x": 614303.8,
+      "y": -54499.6,
+      "text": "[Block Daucat-03] A=3\u0027"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 523697.8,
+      "y": -60296.7,
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;-\\C47; \\C256;B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-6\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\pxt10;\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }"
+    },
+    {
+      "layer": "TEXT-S",
+      "x": 608258.1,
+      "y": -61566,
+      "text": "{\\fVNI-Avo|b0|i0|c0|p2;\\H1.25x;\\W1;\\LGHI CHU\u00D9:\\P\\A1;\\Fuv-abc,@extfont2|c128;\\H0.7998x;\\W0.75;\\l- B\u00CA T\u00D4NG \u0110\u00C0I C\u1ECCC \\C1;\u0110C-3\u0027\\C256; \u0110\u00C1 10x20 \\C1;M\u00C1C 400 (B30)\\C47;\\P\\C256;- C\u1ED0T TH\u00C9P \u003E= %%C10 (CB400-V) , Rs\\H1.0003x; =3500 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P\\pxt10;- C\u1ED0T TH\u00C9P \u003C %%C10 (CB240-T), Rs\\H1.0003x; =2100 KG/ cm\\H0.7x;\\S2^;\\H1.429x;\\P- L\u1EDAP B\u00CA T\u00D4NG B\u1EA2O V\u1EC6 M\u00D3NG D\u00C0Y 50mm\\P- CHI\u1EC0U D\u00C0I \u0110O\u1EA0N N\u1ED0I TH\u00C9P C\u1ED0T TH\u00C9P \u003E=40%%C\\H0.9991x;\\W0.65;      }"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648401.6,
+      "y": -21604.7,
+      "text": "BT LO\u00D9T \u00D1A\u00D9 10x20, MA\u00D9C 150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 678711.1,
+      "y": -21597.7,
+      "text": "BT LO\u00D9T \u00D1A\u00D9 10x20, MA\u00D9C 150"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 648062.6,
+      "y": -19883.3,
+      "text": "%%C10"
+    },
+    {
+      "layer": "Text TB",
+      "x": 648958.9,
+      "y": -20015.3,
+      "text": "5a"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 647686.6,
+      "y": -20200.7,
+      "text": "a800/800"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 677509.5,
+      "y": -19883.3,
+      "text": "%%C10"
+    },
+    {
+      "layer": "Text TB",
+      "x": 678405.8,
+      "y": -20015.3,
+      "text": "5a"
+    },
+    {
+      "layer": "Text bung san",
+      "x": 677133.5,
+      "y": -20200.7,
+      "text": "a800/800"
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 528106.9,
+      "y": -33804.5,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "GHI CHU",
+      "x": 527251.8,
+      "y": -33804.5,
+      "text": "[Block A$C18C96ACB] "
+    },
+    {
+      "layer": "COTE",
+      "x": 573105.9,
+      "y": -9817.4,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 574078.9,
+      "y": -9817.4,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 574388.5,
+      "y": -9817.4,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 591643.6,
+      "y": -9836.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 592616.6,
+      "y": -9836.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 592926.1,
+      "y": -9836.1,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 613609.6,
+      "y": -9077.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 614582.6,
+      "y": -9077.9,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 614892.1,
+      "y": -9077.9,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 573553.9,
+      "y": -38781.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 574526.9,
+      "y": -38781.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 574836.4,
+      "y": -38781.1,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 555320.4,
+      "y": -39732.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 556293.4,
+      "y": -39732.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 556603,
+      "y": -39732.1,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 594407.8,
+      "y": -39036.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 595380.8,
+      "y": -39036.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 595690.3,
+      "y": -39036.1,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 612261.7,
+      "y": -39036.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 613234.7,
+      "y": -39036.1,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 613544.3,
+      "y": -39036.1,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "COTE",
+      "x": 553278.4,
+      "y": -10900.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=-1.370"
+    },
+    {
+      "layer": "COTE",
+      "x": 554251.4,
+      "y": -10900.6,
+      "text": "[Block Cote Ubc-01] \u002B3.600=MDHT"
+    },
+    {
+      "layer": "KC_Hatch-E",
+      "x": 554561,
+      "y": -10900.6,
+      "text": "[Block MyBlock4] "
+    },
+    {
+      "layer": "DC-3\u0027",
+      "x": 604184.9,
+      "y": -62992.7,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-3\u0027}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 567256.4,
+      "y": -48780.8,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 3-3}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 549023,
+      "y": -50751.8,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 2-2}"
+    },
+    {
+      "layer": "DC-2\u0027",
+      "x": 566988.4,
+      "y": -32292.5,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-2\u0027}"
+    },
+    {
+      "layer": "DC-7",
+      "x": 548584,
+      "y": -31504.5,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-1}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 548781,
+      "y": -20425.8,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 1-1}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 566808.5,
+      "y": -20751.4,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 2\u0027-2\u0027}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 585346.1,
+      "y": -20351,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 4-4}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 604814.4,
+      "y": -19793.2,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 6-6}"
+    },
+    {
+      "layer": "DC-2",
+      "x": 548826,
+      "y": -62478.5,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-2}"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 577103.3,
+      "y": -64352.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 577103.3,
+      "y": -63482.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 596770.8,
+      "y": -64352.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 596770.8,
+      "y": -63482.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 568510,
+      "y": -38304.1,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 567656.1,
+      "y": -37803.2,
+      "text": "[Block CHEO-flat-1] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 566787.9,
+      "y": -37803.2,
+      "text": "[Block CHEO-flat-2] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 568454.5,
+      "y": -37370.1,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 623913.6,
+      "y": -64352.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 623913.6,
+      "y": -63482.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 607103.7,
+      "y": -8600.9,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 606311.8,
+      "y": -8100,
+      "text": "[Block CHEO-flat-3] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 604643.6,
+      "y": -8100,
+      "text": "[Block CHEO-flat-4] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 607048.2,
+      "y": -7666.9,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 596770.8,
+      "y": -35152.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 596770.8,
+      "y": -34282.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 587901.9,
+      "y": -38559.2,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 587110,
+      "y": -38058.3,
+      "text": "[Block CHEO-flat-5] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 585441.8,
+      "y": -38058.3,
+      "text": "[Block CHEO-flat-6] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 587846.4,
+      "y": -37625.2,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 568062,
+      "y": -9340.4,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 567208.2,
+      "y": -8839.5,
+      "text": "[Block CHEO-flat-7] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 566339.9,
+      "y": -8839.5,
+      "text": "[Block CHEO-flat-8] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 568006.5,
+      "y": -8406.4,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 558508.5,
+      "y": -35152.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 558508.5,
+      "y": -34282.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 586599.7,
+      "y": -9359.2,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 585745.8,
+      "y": -8858.3,
+      "text": "[Block CHEO-flat-9] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 584877.6,
+      "y": -8858.3,
+      "text": "[Block CHEO-flat-10] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 586544.2,
+      "y": -8425.2,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 577103.3,
+      "y": -35152.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 577103.3,
+      "y": -34282.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 558508.5,
+      "y": -64352.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 558508.5,
+      "y": -63482.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 607217.8,
+      "y": -38559.2,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 606564,
+      "y": -38058.3,
+      "text": "[Block CHEO-flat-11] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 604495.7,
+      "y": -38058.3,
+      "text": "[Block CHEO-flat-12] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 607162.4,
+      "y": -37625.2,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 539913.6,
+      "y": -35152.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 539913.6,
+      "y": -34282.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 547458.6,
+      "y": -10127.6,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 547514,
+      "y": -9193.6,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 550276.5,
+      "y": -39255.1,
+      "text": "(xem chi tie\u00E1t co\u00E4t)"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 549422.7,
+      "y": -38754.2,
+      "text": "[Block CHEO-flat-15] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 548554.4,
+      "y": -38754.2,
+      "text": "[Block CHEO-flat-16] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 550221,
+      "y": -38321.1,
+      "text": "The\u00F9p ch\u00F4\u00F8 cha\u00E2n co\u00E4t"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 539913.6,
+      "y": -64352.6,
+      "text": "SO\u00C1 L\u00D6\u00D4\u00CFNG"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 539913.6,
+      "y": -63482.7,
+      "text": "CA\u00C1U KIE\u00C4N"
+    },
+    {
+      "layer": "Text CK",
+      "x": 605964.3,
+      "y": -49180.8,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 3\u0027-3\u0027}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 585411.6,
+      "y": -50171.5,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 5-5}"
+    },
+    {
+      "layer": "DC-4",
+      "x": 585772,
+      "y": -33586.2,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-4}"
+    },
+    {
+      "layer": "DC-6",
+      "x": 604257.8,
+      "y": -33377.2,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG \u00D1A\u00D8I CO\u00CFC \u00D1C-6}"
+    },
+    {
+      "layer": "DC-7",
+      "x": 542703.3,
+      "y": -34282.7,
+      "text": "\u00D1C-1"
+    },
+    {
+      "layer": "DC-7",
+      "x": 542678.3,
+      "y": -35158,
+      "text": "7"
+    },
+    {
+      "layer": "DC-2\u0027",
+      "x": 561298.1,
+      "y": -34282.7,
+      "text": "\u00D1C-2\u0027"
+    },
+    {
+      "layer": "DC-2\u0027",
+      "x": 561273.1,
+      "y": -35158,
+      "text": "4"
+    },
+    {
+      "layer": "DC-4",
+      "x": 579893,
+      "y": -34282.7,
+      "text": "\u00D1C-4"
+    },
+    {
+      "layer": "DC-4",
+      "x": 579868,
+      "y": -35158,
+      "text": "10"
+    },
+    {
+      "layer": "DC-6",
+      "x": 599560.4,
+      "y": -34282.7,
+      "text": "\u00D1C-6"
+    },
+    {
+      "layer": "DC-6",
+      "x": 599535.4,
+      "y": -35158,
+      "text": "4"
+    },
+    {
+      "layer": "DC-3\u0027",
+      "x": 599560.4,
+      "y": -63482.7,
+      "text": "\u00D1C-3\u0027"
+    },
+    {
+      "layer": "DC-3\u0027",
+      "x": 599535.4,
+      "y": -64358,
+      "text": "2"
+    },
+    {
+      "layer": "DC-5",
+      "x": 579893,
+      "y": -63482.7,
+      "text": "\u00D1C-5"
+    },
+    {
+      "layer": "DC-5",
+      "x": 579868,
+      "y": -64358,
+      "text": "2"
+    },
+    {
+      "layer": "DC-3",
+      "x": 561298.1,
+      "y": -63482.7,
+      "text": "\u00D1C-3"
+    },
+    {
+      "layer": "DC-3",
+      "x": 561273.1,
+      "y": -64358,
+      "text": "15"
+    },
+    {
+      "layer": "Text TL",
+      "x": 604789.3,
+      "y": -20005.1,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 585321,
+      "y": -20562.9,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 566783.4,
+      "y": -20963.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 548755.9,
+      "y": -20637.8,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 548558.9,
+      "y": -31809.7,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 566963.3,
+      "y": -32597.7,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 548997.9,
+      "y": -50963.8,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 585386.5,
+      "y": -50383.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 567231.3,
+      "y": -48992.7,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 567229.4,
+      "y": -62927.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 680181.4,
+      "y": -27137.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 650312.4,
+      "y": -27137.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 632056.3,
+      "y": -40255.3,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 631720,
+      "y": -30484.9,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 631579,
+      "y": -51325.8,
+      "text": "TY\u00DB LE\u00C4 1:25,"
+    },
+    {
+      "layer": "Text TL",
+      "x": 604232.7,
+      "y": -33598.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 586490.6,
+      "y": -63317.8,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 585746.9,
+      "y": -33891.4,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 604159.8,
+      "y": -63297.9,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 605939.2,
+      "y": -49392.8,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text TL",
+      "x": 548800.9,
+      "y": -62783.7,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 548312.4,
+      "y": -9626.7,
+      "text": "[Block CHEO-flat-8] "
+    },
+    {
+      "layer": "02-TEXTNOTE(0.3)",
+      "x": 549180.7,
+      "y": -9626.7,
+      "text": "[Block CHEO-flat-8] "
+    },
+    {
+      "layer": "MP",
+      "x": 626703.3,
+      "y": -63482.7,
+      "text": "MP"
+    },
+    {
+      "layer": "MP",
+      "x": 626678.3,
+      "y": -64358,
+      "text": "7"
+    },
+    {
+      "layer": "MP",
+      "x": 631599.1,
+      "y": -51081.7,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG MO\u00D9NG PHU\u00CF MP}"
+    },
+    {
+      "layer": "PIT",
+      "x": 650573.3,
+      "y": -54143.3,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG PIT THANG MA\u00D9Y}"
+    },
+    {
+      "layer": "Text TL",
+      "x": 650548.2,
+      "y": -54364.5,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "PIT",
+      "x": 680735,
+      "y": -54143.3,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT BA\u00C8NG PIT THANG MA\u00D9Y}"
+    },
+    {
+      "layer": "Text TL",
+      "x": 680709.9,
+      "y": -54364.5,
+      "text": "TY\u00DB LE\u00C4 1:25"
+    },
+    {
+      "layer": "Text CK",
+      "x": 680206.5,
+      "y": -26925.4,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 2-2}"
+    },
+    {
+      "layer": "Text CK",
+      "x": 650337.5,
+      "y": -26925.4,
+      "text": "{\\fVNI-Helve-Condense|b1|i0|c0|p2;\\LMA\u00CBT CA\u00C9T 1-1}"
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523803.9,
+      "y": -37486.2,
+      "text": "[Block TDV-TYPE1] 10=A; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -34686.2,
+      "text": "[Block TDV-TYPE1] 10=B; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -32836.2,
+      "text": "[Block TDV-TYPE1] 10=C; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -27536.2,
+      "text": "[Block TDV-TYPE1] 10=E; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -19536.2,
+      "text": "[Block TDV-TYPE1] 10=I; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523803.9,
+      "y": -14236.2,
+      "text": "[Block TDV-TYPE1] 10=L; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -12386.2,
+      "text": "[Block TDV-TYPE1] 10=M; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -9586.2,
+      "text": "[Block TDV-TYPE1] 10=N; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -30336.2,
+      "text": "[Block TDV-TYPE1] 10=D; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -24736.2,
+      "text": "[Block TDV-TYPE1] 10=F; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -23536.2,
+      "text": "[Block TDV-TYPE1] 10=G; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -22336.2,
+      "text": "[Block TDV-TYPE1] 10=H; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 523835.3,
+      "y": -16736.2,
+      "text": "[Block TDV-TYPE1] 10=K; A="
+    },
+    {
+      "layer": "DAU TRUC",
+      "x": 525064.7,
+      "y": -17486.2,
+      "text": "[Block TDV-TYPE1] 10=J; A="
+    }
+  ]
+}

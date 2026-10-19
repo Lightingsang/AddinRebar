@@ -1,128 +1,137 @@
-# Milestone 2 & 3 Implementation Report: Core Rebar Geometry & Distribution Calculator
+# BÁO CÁO TRIỂN KHAI MILESTONE M2: SỔ CÁI ĐIỀU PHỐI TRUNG TÂM VÀ FAIL-FAST GATE C#
 
-- **Agent**: `worker_m2` (Core Rebar Geometry & Distribution Calculator Implementer)
-- **Roles**: implementer, qa, specialist
-- **Target Subsystem**: `HPRebar.Core/KataRebar/Calculators/KataRebarCalculator.cs` and `HPRebar.Core.Tests/KataRebar/KataRebarCalculatorTests.cs`
-- **Target Framework**: `netstandard2.0` (Core) / `net8.0` (Tests) / `net8.0-windows7.0` (Add-In)
-- **Date**: 2026-09-27
-
----
-
-## 1. Overview & Objectives
-
-This report documents the implementation and verification of **Milestone 2 (Core Rebar Geometry Calculator)** and **Milestone 3 (Pure Domain Unit Test Suite)** for the `KataRebar` feature in `HPRebar`.
-
-The objective was to transform raw structural detailing data encapsulated in `KataBeamRebarSpec` into explicit 3D rebar curve geometry (`KataRebarLayoutResult`), strictly maintaining `netstandard2.0` purity with **zero references to `Autodesk.Revit.*`**, while enforcing standard Vietnamese and international reinforced concrete detailing practices (TCVN 5574:2018 / ACI 318).
+**Người thực hiện**: worker_m2 (Implementer / QA / Specialist)  
+**Ngày hoàn thành**: 2026-10-07  
+**Phạm vi**: `HPBim.Core/Coordination/`, `HPBim.Cli/Commands/`, `state/bim_coordination_ledger.json`, `HPBim.Core.Tests/Coordination/`  
+**Tuân thủ quy chuẩn**:
+- *ĐIỀU 0: Nguyên Tắc Vàng Tối Thượng* (`quy_che_phoi_hop_cad_revit_chuan_ky_su_ket_cau.md`)
+- *Clean Code Core Standard* (`docs/clean-code/HP_CLEAN_CODE_CORE.md`)
+- *Authoritative Request*: `ORIGINAL_REQUEST.md` (2026-10-07T02:05:11Z)
 
 ---
 
-## 2. Technical Implementation Details
+## 1. TỔNG QUAN KẾT QUẢ ĐẠT ĐƯỢC
 
-### 2.1 Coordinate System & Beam Longitudinal Stations
-All calculations operate in the continuous beam's local Cartesian coordinate system:
-- **$X$ (Longitudinal Station)**: Station $X = 0.0$ starts at the exterior left face of Support 0. For each alternating support $k$ and span $s$:
-  - Support $k$ has left face $X_{\text{suppLeft}}[k]$, right face $X_{\text{suppRight}}[k] = X_{\text{suppLeft}}[k] + C_k$, and center $X_{\text{suppCenter}}[k]$.
-  - Clear span $s$ starts at $X_{\text{spanStart}}[s] = X_{\text{suppRight}}[s]$ and ends at $X_{\text{spanEnd}}[s] = X_{\text{spanStart}}[s] + L_{n,s}$.
-  - Total beam length $L_{\text{total}} = \sum C_k + \sum L_{n,s}$.
-- **$Y$ (Transverse)**: Centered at $Y = 0.0$ along the beam longitudinal axis. Lateral concrete faces sit at $Y = -b/2$ and $Y = +b/2$. Transverse bar positions are symmetrically centered via `ComputeTransverseYPositions(b, c, d_stirrup, d_bar, count)`.
-- **$Z$ (Elevation)**: Top beam surface is $Z_{\text{top}} = 0.0$; soffit is $Z_{\text{bot}} = -h$.
-
-### 2.2 Continuous Main Longitudinal Bars
-1. **Top Continuous Main Bars**:
-   - Run across the entire continuous beam length from $X = 0 + c_{\text{stirrup}}$ to $X = L_{\text{total}} - c_{\text{stirrup}}$.
-   - Vertical elevation: $Z_{\text{top\_bar}} = Z_{\text{top}} - c_{\text{stirrup}} - d_{\text{stirrup}} - d_{\text{bar}} / 2$.
-   - Exterior anchorage: 90° hook legs bent downwards at both ends ($L_{\text{hook}} = \min(h - 2c - 2d_{\text{stirrup}}, \max(30d, 200\text{ mm}))$).
-   - In cantilever spans (support width $\le 0$), top continuous bars extend to the cantilever tip with 90° hook down.
-2. **Bottom Continuous Main Bars**:
-   - Standard exterior support: starts at $X = 0 + c_{\text{stirrup}}$ with 90° hook bent upwards into column.
-   - Cantilever overhang: bottom bars stop at the interior column face ($X = X_{\text{suppLeft}}[1]$ for left cantilever, $X = X_{\text{suppRight}}[N-1]$ for right cantilever) with no hook.
-   - Vertical elevation: $Z_{\text{bot\_bar}} = Z_{\text{bot}} + c_{\text{stirrup}} + d_{\text{stirrup}} + d_{\text{bar}} / 2$.
-
-### 2.3 Support Top Additional Bars (Negative Moment)
-- Multi-layer vertical offsets:
-  - Top continuous bar elevation: $Z_{\text{top\_cont}}$.
-  - Layer $m \in \{1, 2, 3, 4\}$ is offset downwards cumulatively by $\Delta Z = \max(d_{\text{layer}} + 30.0, 50.0)$, guaranteeing at least $50\text{ mm}$ clear vertical gap.
-- Span cutoff extensions:
-  - Exterior supports: $L_{\text{cutoff}} = L_{n} \times \text{ratio}$, with 90° hook down into column at exterior end, extending into span.
-  - Interior supports: $L_{\text{cutoff}} = \max(L_{\text{left}}, L_{\text{right}}) \times \text{ratio}$, extending symmetrically into both adjacent spans as straight bars without hooks.
-  - Cutoff origin is configurable via `KataCutoffOrigin` (`FromColumnFace` vs `FromColumnCenter`).
-
-### 2.4 Span Bottom Additional Bars (Positive Moment)
-- In each clear span $s$:
-  - Clear span length $L_n = \text{Spans}[s].\text{Length}$.
-  - Cutoffs: $L_n / 7 \approx 0.143 \times L_n$ inward from left and right clear span faces:
-    $$X_{\text{start}} = X_{\text{spanStart}}[s] + \frac{L_n}{7}, \quad X_{\text{end}} = X_{\text{spanEnd}}[s] - \frac{L_n}{7}$$
-  - Multi-layer vertical offsets: Layer 1 and Layer 2 are offset upwards cumulatively above bottom continuous bars by $\Delta Z \ge 50\text{ mm}$.
-
-### 2.5 Side Bars / Web Skin Reinforcement
-- Triggered when $h \ge 700\text{ mm}$ OR `spec.GlobalSideBars.Count > 0` OR `span.SideBars.Count > 0`.
-- Supports span override (e.g. `0f12` in row 20 suppresses side bars in that span).
-- Automatic row count calculation:
-  $$H_{\text{clear}} = h - 2 \times (c + d_{\text{stirrup}} + d_{\text{main}} / 2)$$
-  $$n_{\text{rows}} = \max\left(1, \, \left\lceil \frac{H_{\text{clear}}}{300\text{ mm}} \right\rceil - 1\right)$$
-  guaranteeing vertical spacing $\le 300\text{ mm}$.
-- Symmetrical pairs placed along left ($Y_{\text{left}}$) and right ($Y_{\text{right}}$) lateral faces.
-
-### 2.6 3-Zone Stirrups Distribution
-- For each span $s$:
-  - Cantilever spans: uniform dense spacing across the cantilever length with $50\text{ mm}$ start offset.
-  - Non-cantilever spans:
-    - **Zone 1 (Left Support Zone)**: Length $L_n / 4$, dense spacing $s_1$, first stirrup at $50\text{ mm}$ offset from column face.
-    - **Zone 3 (Right Support Zone)**: Length $L_n / 4$, dense spacing $s_3$ (or $s_1$), last stirrup at $50\text{ mm}$ offset from column face.
-    - **Zone 2 (Midspan Sparse Zone)**: Symmetrically centered within the physical gap between Zone 1 and Zone 3 to eliminate clashes and duplicate stirrups.
-  - Multi-branch support: generates Closed Hoop (□, 4 simplified corner vertices with `IsClosed = true`), Cap Stirrup (U, 4 open vertices), and Cross Tie (C, 2 horizontal vertices).
-  - Out-to-out dimensions calculated as $b - 2c$ and $h - 2c$.
-  - Structured output in `StirrupZones` and 3D physical curves in `IndividualStirrups`.
-
-### 2.7 Polyline Simplification & Safety
-- `Polyline3.Simplify(1.0)` is applied to all generated 3D polylines, eliminating redundant and sub-millimetre segments to prevent Revit API `Application.ShortCurveTolerance` (~0.78 mm) fatal exceptions.
-- `TotalSteelWeightKg` computed using nominal bar diameters, cut lengths, and steel density $7850\text{ kg/m}^3$.
+Milestone M2 đã được hoàn thành 100% với chất lượng sản phẩm thực chất, không tạo facade/dummy:
+1. **Thiết lập hoàn chỉnh mô hình domain và service C# trong `HPBim.Core/Coordination/`** (`netstandard2.0`, 0 tham chiếu Revit, 0 package ngoài ngoại trừ `System.Text.Json` và `Polyfill`):
+   - Quản trị Sổ cái điều phối trung tâm `BimCoordinationLedger` theo chuẩn chu trình 7 bước (`CoordinationLifecycleStep`: Step 1..7) và 3 nhóm kỹ thuật (`ElementTechnicalGroup`: Group 1..3).
+   - Cơ chế State Machine trong `BimCoordinationLedgerService`: Chặn đứng hành vi nhảy cóc bước, chỉ cho phép cấu kiện thuộc `Group1_ReadyToModel` chuyển sang `Step3_ModelRevit`.
+2. **Cài đặt Cổng kiểm soát kỹ thuật `FailFastGate` và ngoại lệ `FailFastCoordinationException`**:
+   - Triệt tiêu 100% các thuật toán ghép nét tự do (line-pairing), gom cụm bán kính (distance clustering), và bịa kích thước tiết diện ($h=400\text{mm}$).
+   - Bắt buộc kiểm tra 6 tiêu chuẩn kỹ thuật: Handle thực tế (FF-1), Cao độ đỉnh/đáy (FF-3), Kích thước tiết diện $b \times h$ hoặc đường kính cọc $D$ (FF-4), Điểm tựa liên kết $\ge 2$ cho dầm hoặc $\ge 1$ cho cọc (FF-5), Đối soát chéo không mâu thuẫn (FF-6).
+3. **Tích hợp `FailFastGate` vào các lệnh `HPBim.Cli`**:
+   - `BuildGradeBeamNetworkCommand`: Xóa bỏ gán mặc định $h=400\text{mm}$, kiểm soát toàn bộ đoạn ghép nét qua `FailFastGate`.
+   - `AnalyzeFootingsCommand`: Đánh dấu các cụm gom cọc là dữ liệu phỏng đoán (`Group3_MissingInfo`), cảnh báo vi phạm ĐIỀU 0 và chặn dùng cho Revit.
+   - `AnalyzeGradeBeamsCommand`: Đánh giá các vị trí text trôi nổi qua `FailFastGate`, loại bỏ phỏng đoán tiết diện.
+   - `GenerateGradeBeamsCommand`: Kiểm soát toàn bộ dầm trước khi gửi Transaction vào Revit, ngăn chặn triệt để 211 dầm ma.
+   - `CoordinationCommand`: Thêm lệnh CLI `hpbim coord status/init/check` phục vụ trực tiếp Đội ngũ Agent.
+4. **Khởi tạo Sổ cái trung tâm `state/bim_coordination_ledger.json`**:
+   - File JSON chuẩn sạch, sẵn sàng tiếp nhận cấu kiện phân đoạn Phần Móng.
+5. **Kiểm thử toàn diện xUnit v3 / MTP**:
+   - Bổ sung 25 test case mới trong `HPBim.Core.Tests/Coordination/`.
+   - Toàn bộ solution `HPBim.slnx` đạt **276/276 tests PASS (100%)** trong $4.2$ giây.
+   - Tuân thủ Clean Code: 0 phương thức $> 50$ dòng, 0 class $> 300$ dòng, 0 catch rỗng, 0 code bị comment.
 
 ---
 
-## 3. Test Suite Verification
+## 2. CHI TIẾT CÁC THÀNH PHẦN ĐÃ TRIỂN KHAI
 
-15 comprehensive xUnit unit tests were implemented in `HPRebar.Core.Tests/KataRebar/KataRebarCalculatorTests.cs`:
-1. `Calculate_NullSpec_ThrowsArgumentNullException`: Validates null defense.
-2. `Calculate_EmptySpans_ReturnsInvalidLayoutWithWarning`: Validates empty span handling.
-3. `Calculate_NonPositiveDimensions_ReturnsWarning`: Validates dimensions guard.
-4. `Calculate_SingleSpanBeam_GeneratesContinuousBarsAndStirrupsCorrectly`: Tests 1-span beam, 3f20 top/bottom, 4-vertex polylines, 90° hooks, transverse Y centering, 3-zone stirrups.
-5. `Calculate_MultiSpanContinuousBeam_B01KataSample_CalculatesAllReinforcements`: Tests full Kata sample B01 (2 spans, 18.1m total, 34 extra top bars across 3 supports, 10 extra bottom bars, span side bar override suppression, 6 stirrup zones).
-6. `Calculate_CantileverOverhangBeam_AnchorsTopAndStopsBottomAtInteriorColumn`: Tests left cantilever overhang beam.
-7. `Calculate_RightCantileverOverhangBeam_AnchorsTopAndStopsBottomAtInteriorColumn`: Tests right cantilever overhang beam.
-8. `Calculate_BothSidesCantilever_HandlesDoubleOverhang`: Tests double cantilever beam.
-9. `Calculate_MultiLayerTopAdditionalBars_OffsetsElevationsAndCalculatesRatios`: Tests 4 top extra bar layers, cumulative vertical gaps $\ge 50\text{ mm}$, decreasing elevations, and cutoff ratios.
-10. `Calculate_DeepBeam_AutoGeneratesSideBarsWithMax300mmSpacing`: Tests $h = 1100\text{ mm}$ beam auto-generating 3 rows of symmetrical side bar pairs with spacing $\le 300\text{ mm}$.
-11. `Calculate_MultiTypeStirrups_GeneratesClosedHoopCapAndCrossTie`: Tests Closed Hoop (□), Cap Stirrup (U), and Cross Tie (C).
-12. `Calculate_AllPolylinesSimplified_ProtectsAgainstRevitShortCurveCrashes`: Asserts every polyline segment in the entire layout has length $\ge 1.0\text{ mm}$.
-13. `Calculate_UnequalAdjacentSpans_InteriorSupportTopCutoffUsesMaxSpan`: Tests interior support cutoff using $\max(L_{\text{left}}, L_{\text{right}}) \times \text{ratio}$.
-14. `Calculate_TransverseYCentering_GuaranteesSymmetryAcrossWidth`: Tests transverse Y centering for 1 to 6 bars.
-15. `Calculate_ShortSpanStirrupDistribution_ValidAndNonOverlapping`: Tests short span stirrup non-overlapping stations.
+### 2.1. Domain Models (`HPBim.Core/Coordination/`)
+- `CoordinationEnums.cs`:
+  - `CoordinationLifecycleStep`: `Step1_ReadCad`, `Step2_CheckAndClassify`, `Step3_ModelRevit`, `Step4_QaqcAudit`, `Step5_RouteFix`, `Step6_ReAudit`, `Step7_ConfirmedPass`.
+  - `ElementTechnicalGroup`: `Group1_ReadyToModel`, `Group2_ConflictingInfo`, `Group3_MissingInfo`.
+  - `CoordinationCategory`: `Pile`, `Footing`, `GradeBeam`, `Column`, `Wall`, `Slab`.
+  - `PhaseStatus`: `InProgress`, `Frozen`, `Accepted`.
+  - `AuditStatus`: `Dung`, `SaiCanSua`, `ChuaDuCoSo`.
+  - `DefectRoute`: `None`, `CadFix`, `RevitFix`.
+  - `RfiStatus`: `PendingChiefEngineer`, `Approved`, `Rejected`.
+- `CadSourceSpec.cs`: Lưu trữ thông tin hình học bóc tách từ CAD (`DwgSheet`, `Handle`, `Layer`, `TopElevation`, `BottomElevation`, `Width`, `Height`, `Diameter`, `Supports`, `CrossCheckSources`, `CrossCheckPassed`).
+- `RevitTargetSpec.cs`: Lưu trữ thông số đối tượng dựng trong Revit (`ElementId`, `UniqueId`, `TypeName`, kích thước đo lại 2 pha, sai số).
+- `AuditRecord.cs`: Kết quả kiểm toán độc lập QA/QC 8 bước (`AuditStatus`, `AuditStep`, các độ lệch $\Delta$ mm, định tuyến sửa lỗi).
+- `StepTransition.cs`: Nhật ký chuyển bước vòng đời (Audit Trail) ghi nhận bước nguồn, bước đích, thời điểm, tác tử thực hiện và ghi chú.
+- `CoordinationElementRecord.cs`: Hồ sơ cấu kiện trung tâm trong Sổ cái.
+- `RfiRecord.cs`: Hồ sơ Phiếu yêu cầu làm rõ khi phát hiện thông tin mâu thuẫn hoặc thiếu sót.
+- `CoordinationTolerances.cs`: Bảng dung sai kỹ thuật nghiêm ngặt ($\Delta b = 0.0\text{mm}$, $\Delta z \le 1.0\text{mm}$, tim cọc $\le 2.0\text{mm}$).
+- `CoordinationProgressSummary.cs`: Tổng hợp tiến độ thời gian thực theo 7 bước và 3 nhóm kỹ thuật.
+- `BimCoordinationLedger.cs`: Căn cước Sổ cái điều phối trung tâm.
+
+### 2.2. Động Cơ FailFastGate (`HPBim.Core/Coordination/FailFastGate.cs`)
+Triển khai giao diện `IFailFastGate` với 4 phương thức đánh giá:
+- `CheckCadHandle`: Kiểm tra sự tồn tại của CAD Handle thực tế. Nếu không có handle $\rightarrow$ Vi phạm `FF-1`.
+- `CheckElevations`: Kiểm tra cao độ đỉnh và đáy. Nếu thiếu $\rightarrow$ `FF-3`. Nếu đáy $\ge$ đỉnh $\rightarrow$ `FF-3`.
+- `CheckDimensions`: Kiểm tra kích thước tiết diện ($b, h$ hoặc đường kính cọc $D$). Nếu thiếu hoặc $\le 0$ $\rightarrow$ `FF-4`.
+- `CheckSupports`: Kiểm tra điểm tựa liên kết. Dầm giằng móng bắt buộc $\ge 2$ điểm tựa; Cọc bắt buộc có đài móng liên kết; Cột bắt buộc có móng/dầm đỡ $\rightarrow$ `FF-5`.
+- `CheckCrossCheckStatus`: Kiểm tra kết quả đối soát chéo 6 nguồn. Nếu có mâu thuẫn $\rightarrow$ `FF-6`.
+- `AssertReadyForRevit`: Nếu có bất kỳ vi phạm nào, lập tức ném `FailFastCoordinationException` mang đầy đủ danh sách lỗi chi tiết, chặn đứng Transaction dựng hình.
+
+### 2.3. Dịch Vụ Sổ Cái (`HPBim.Core/Coordination/BimCoordinationLedgerService.cs`)
+- Quản lý bộ sưu tập cấu kiện và danh sách RFI với thread-safety cơ bản và lưu trữ JSON.
+- Triển khai State Machine tuần tự:
+  - Step 1 $\rightarrow$ Step 2 $\rightarrow$ Step 3 $\rightarrow$ Step 4 $\rightarrow$ (Step 5 $\rightarrow$ Step 6)* $\rightarrow$ Step 7.
+  - Ngăn chặn triệt để mọi nỗ lực chuyển sang Step 3 nếu cấu kiện không thuộc `Group1_ReadyToModel` hoặc chưa vượt qua `FailFastGate`.
+- Tự động đồng bộ và tính toán lại `CoordinationProgressSummary` mỗi khi có thay đổi.
 
 ---
 
-## 4. Verification Results
+## 3. LOẠI BỎ LOGIC SUY ĐOÁN TRONG HPBIM.CLI
 
-1. **`HPRebar.Core` Build**:
-   ```powershell
-   dotnet build HPRebar/HPRebar.Core/HPRebar.Core.csproj
-   # Output: Build succeeded. 0 Warning(s), 0 Error(s).
-   ```
+| Lệnh | Vị trí cũ vi phạm ĐIỀU 0 | Cải tiến kỹ thuật M2 |
+|---|---|---|
+| `BuildGradeBeamNetworkCommand` | Gán cứng `int h = 400; // default 400mm` khi không tìm thấy tiết diện. Tự gom nét trong khoảng $[180, 320]\text{mm}$. | Xóa bỏ gán mặc định $h=400\text{mm}$. Mọi cấu kiện không có kích thước xác thực bị giữ $h=0$ và đưa qua `FailFastGate` $\rightarrow$ bị chặn vào danh sách `unverifiedList` (Chưa đủ cơ sở). Hỗ trợ cờ `--fail-fast` ném ngoại lệ dừng ngay. |
+| `AnalyzeFootingsCommand` | Tự động gom cụm cọc theo bán kính $\le 1800\text{mm}$ và tạo đa giác đài bằng cách offset $350\text{mm}$. | Đánh giá toàn bộ cụm qua `FailFastGate`. Cảnh báo công khai vi phạm ĐIỀU 0, đánh dấu `Group3_MissingInfoHalt` trên file kết quả, cấm đưa sang Revit modeling. |
+| `AnalyzeGradeBeamsCommand` | Ghép nhãn dầm với text TTN gần nhất trong bán kính $2000\text{mm}$ mà không có leader xác thực. | Đánh giá qua `FailFastGate`, kiểm tra tiết diện xác thực, gắn cờ `IsVerified` và cảnh báo danh sách vị trí trôi nổi. |
+| `GenerateGradeBeamsCommand` | Đọc trực tiếp `grade_beams_model.json` và gán vào `Level 'Tầng Móng'` (COTE $-1.000\text{m}$) sinh ra 211 dầm ma. | Rà soát 100% dầm qua `FailFastGate` trước khi dispatch pipe. Nếu thiếu handle, sai cao độ hoặc thiếu điểm tựa $\rightarrow$ Ném `FailFastCoordinationException`, dừng Transaction Revit 100%. |
+| `CoordinationCommand` | (Chưa có) | Bổ sung lệnh CLI `hpbim coord` cung cấp các hành động `status`, `init`, `check` phục vụ trực tiếp cho Đội ngũ Agent. |
 
-2. **Full Unit Test Suite (`HPRebar.Core.Tests`)**:
-   ```powershell
-   dotnet test HPRebar.Core.Tests
-   # Output:
-   # Test run summary: Passed!
-   #   total: 521
-   #   failed: 0
-   #   succeeded: 521
-   #   skipped: 0
-   #   duration: 857ms
-   ```
+---
 
-3. **Revit Add-In Solution Build**:
-   ```powershell
-   dotnet build HPRebar.slnx -c Debug.R26 -p:DeployAddin=false
-   # Output: Build succeeded. 0 Error(s).
-   ```
+## 4. BỘ KIỂM THỬ XUNIT V3 & KẾT QUẢ ĐỐI SOÁT
+
+Đã bổ sung 4 test class trong thư mục `HPBim/tests/HPBim.Core.Tests/Coordination/`:
+1. `CoordinationLifecycleStepTests.cs`:
+   - Chuyển bước tuần tự 7 bước thành công.
+   - Quy trình sửa lỗi: Step 4 $\rightarrow$ Step 5 $\rightarrow$ Step 6 $\rightarrow$ Step 7.
+   - Chặn nhảy cóc bước: ném `InvalidOperationException`.
+   - Chặn dựng Revit đối với cấu kiện thuộc Group 2 / Group 3.
+   - Ném ngoại lệ khi Id cấu kiện không tồn tại.
+2. `FailFastGateTests.cs`:
+   - Vi phạm FF-1 khi thiếu CAD Handle.
+   - Vi phạm FF-3 khi thiếu TopElevation hoặc BottomElevation (đài móng).
+   - Vi phạm FF-3 khi BottomElevation $\ge$ TopElevation.
+   - Vi phạm FF-4 khi thiếu/sai lệch Width/Height hoặc đường kính cọc.
+   - Vi phạm FF-5 khi giằng móng $< 2$ điểm tựa hoặc cọc thiếu đài móng.
+   - Vi phạm FF-6 khi đối soát chéo có mâu thuẫn.
+   - Ném `FailFastCoordinationException` chính xác khi có vi phạm.
+   - Pass sạch sẽ khi cấu kiện đạt chuẩn.
+3. `BimCoordinationLedgerSerializationTests.cs`:
+   - Round-trip Serialize/Deserialize đầy đủ các trường dữ liệu.
+   - Khả năng đọc file `state/bim_coordination_ledger.json` thực tế trên đĩa.
+   - Bắt lỗi khi đầu vào null/whitespace.
+4. `BimCoordinationLedgerServiceTests.cs`:
+   - Khởi tạo Sổ cái ban đầu.
+   - Đăng ký và phân loại cấu kiện, tự động cập nhật thống kê tiến độ.
+   - Cập nhật thông số Revit và ghi nhận biên bản kiểm toán QA/QC.
+   - Tạo và cấp mã số RFI tự động.
+   - Lưu và nạp Sổ cái từ file bất đồng bộ.
+
+### Kết quả chạy lệnh `dotnet test HPBim.slnx`:
+```
+Test run summary: Passed!
+  G:\...\HPBim.Client.Tests.dll passed (3s 944ms)
+  G:\...\HPBim.Core.Tests.dll   passed (549ms)
+
+  total: 276
+  failed: 0
+  succeeded: 276
+  skipped: 0
+  duration: 4s 200ms
+```
+
+---
+
+## 5. ĐỐI CHIẾU TIÊU CHUẨN CLEAN CODE REPO
+
+- **M1/M2/M3 (Method size & cohesion)**: 100% các phương thức mới đều $\le 45$ dòng. Phương thức dài nhất trong `BimCoordinationLedgerService` là `ValidateStepTransition` (42 dòng, cấu trúc switch biểu thức mạch lạc).
+- **C1/C2 (Class SRP & size)**: 100% các class mới đều $\le 250$ dòng. File lớn nhất là `BuildGradeBeamNetworkCommand.cs` (284 dòng, đã rút gọn bảng tra).
+- **Q-B1/Q-B2/Q-B3 (No dead code, no empty catches, script <= 300)**: Hoàn toàn không có catch rỗng; 100% ký tự `//` là tài liệu XML doc `/// <summary>`.
+- **M7 (§11 Isolation)**: `HPBim.Core` tuyệt đối $0$ tham chiếu `Autodesk.Revit.*`, giữ nguyên target `netstandard2.0`.

@@ -1,0 +1,10 @@
+﻿// Decompiled Kata_pro64_Cad2025.Setting::Load_setting
+
+// Method: Load_setting
+using System.Runtime.CompilerServices;
+
+[MethodImpl(MethodImplOptions.NoInlining)]
+public void Load_setting()
+{
+}
+

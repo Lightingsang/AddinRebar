@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Connect Point output port 0 to Line.ByStartPointEndPoint input port 0",
+    "args": {
+      "sourceNodeId": "3b2f4c1e-09a1-4cf4-9275-55e110b96851",
+      "sourcePortIndex": 0,
+      "targetNodeId": "8f1a2b3c-4d5e-6f70-8192-a3b4c5d6e7f8",
+      "targetPortIndex": 0
+    }
+  },
+  {
+    "title": "Connect Point to second input port",
+    "args": {
+      "sourceNodeId": "Point.ByCoordinates",
+      "sourcePortIndex": 0,
+      "targetNodeId": "Line.ByStartPointEndPoint",
+      "targetPortIndex": 1
+    }
+  }
+]

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0"
+                    AutodeskProduct="AutoCAD"
+                    ProductType="Application"
+                    Name="HPDcePro"
+                    AppVersion="1.0.0"
+                    Description="HPDcePro Structural Concrete, Steel Detailing &amp; AutoStr 24-Step Automation Suite for AutoCAD 2025–2026"
+                    ProductCode="{E8B4D2F1-9C3A-4E7B-8A1D-5F2C6E9A0B3D}">
+  <CompanyDetails Name="HPRebar" />
+  <Components Description="AutoCAD 2025–2026 (.NET 8) HPDcePro Structural Suite">
+    <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R25.0" SeriesMax="R25.1" />
+    <ComponentEntry AppName="HPDcePro.AutoCad"
+                    Version="1.0.0"
+                    ModuleName="./Contents/HPDcePro.AutoCad.dll"
+                    AppType=".NET"
+                    LoadOnAutoCADStartup="True" />
+    <ComponentEntry AppName="HPDcePro.LispAliases"
+                    Version="1.0.0"
+                    ModuleName="./Contents/HPDcePro.lsp"
+                    AppType="Lisp"
+                    LoadOnAutoCADStartup="True" />
+  </Components>
+</ApplicationPackage>

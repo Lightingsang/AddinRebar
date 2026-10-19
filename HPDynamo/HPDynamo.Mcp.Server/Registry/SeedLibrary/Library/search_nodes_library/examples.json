@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Search for rebar creation nodes in Revit library",
+    "args": {
+      "query": "Rebar",
+      "category": "Revit.Elements",
+      "maxResults": 25
+    }
+  },
+  {
+    "title": "Search for geometric curve operations",
+    "args": {
+      "query": "Curve",
+      "category": "",
+      "maxResults": 50
+    }
+  }
+]

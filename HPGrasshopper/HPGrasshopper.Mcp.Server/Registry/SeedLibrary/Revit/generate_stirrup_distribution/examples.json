@@ -1,0 +1,22 @@
+[
+  {
+    "title": "standard_continuous_beam",
+    "args": {
+      "beamElementId": 123456,
+      "denseSpacingMm": 100.0,
+      "sparseSpacingMm": 200.0,
+      "supportZoneRatio": 0.25,
+      "stirrupDiameterMm": 8.0
+    }
+  },
+  {
+    "title": "heavy_shear_beam",
+    "args": {
+      "beamElementId": 654321,
+      "denseSpacingMm": 75.0,
+      "sparseSpacingMm": 150.0,
+      "supportZoneRatio": 0.33,
+      "stirrupDiameterMm": 10.0
+    }
+  }
+]

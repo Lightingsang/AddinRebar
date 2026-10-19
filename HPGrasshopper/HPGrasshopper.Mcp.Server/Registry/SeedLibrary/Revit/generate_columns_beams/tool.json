@@ -1,0 +1,68 @@
+{
+  "name": "generate_columns_beams",
+  "version": 1,
+  "status": "published",
+  "author": "hprebar",
+  "category": "Revit",
+  "host": "grasshopper",
+  "hostVersions": [
+    "2026"
+  ],
+  "transaction": "auto",
+  "timeoutSeconds": 60,
+  "destructive": true,
+  "tags": [
+    "revit",
+    "column",
+    "beam",
+    "framing",
+    "structural"
+  ],
+  "title": "Generate Columns and Beams from Centerlines",
+  "description": "Creates native Revit Structural Columns and Structural Framing beams along Grasshopper centerlines with assigned FamilySymbol and Level.",
+  "notes": "Places Structural Columns at given point coordinates and Structural Framing along line vectors.",
+  "inputSchema": {
+    "type": "object",
+    "required": [
+      "columnPoints",
+      "beamLines"
+    ],
+    "properties": {
+      "columnPoints": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": ["x", "y"]
+        },
+        "description": "Array of 3D points in meters for column base locations."
+      },
+      "beamLines": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "startX": { "type": "number" },
+            "startY": { "type": "number" },
+            "startZ": { "type": "number" },
+            "endX": { "type": "number" },
+            "endY": { "type": "number" },
+            "endZ": { "type": "number" }
+          },
+          "required": ["startX", "startY", "endX", "endY"]
+        },
+        "description": "Array of 3D line endpoints in meters for beam centerlines."
+      },
+      "columnHeight": {
+        "type": "number",
+        "default": 3.6,
+        "description": "Default column height in meters if unattached."
+      }
+    },
+    "additionalProperties": false
+  }
+}

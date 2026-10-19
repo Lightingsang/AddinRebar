@@ -1,0 +1,52 @@
+﻿=== TYPE: Kata_pro64_Cad2025.Set_Load (Base: System.Object) ===
+
+--- FIELDS ---
+Field: System.String[] list_type_load
+Field: System.String[] list_key_load
+Field: System.Collections.Generic.Dictionary`2<Kata_Class_Lib_Revit.diem,System.Collections.Generic.Dictionary`2<System.String,System.String>> Dict_JointLoads
+Field: System.Collections.Generic.Dictionary`2<Kata_Class_Lib_Revit.PolygonModule/Polygon,System.Collections.Generic.Dictionary`2<System.String,System.String>> Dict_FrameLoads
+Field: System.Collections.Generic.Dictionary`2<Kata_Class_Lib_Revit.PolygonModule/Polygon,System.Collections.Generic.Dictionary`2<System.String,System.String>> Dict_ShellLoads
+Field: System.Collections.Generic.Dictionary`2<Kata_Class_Lib_Revit.PolygonModule/Polygon,System.String> Dict_CKLoads
+Field: System.Collections.Generic.Dictionary`2<System.String,System.String> Dict_AreaName_CKLoad
+Field: System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.Dictionary`2<System.String,System.String>> yniWfLBEfyX
+Field: System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.List`1<System.String>>> go6WfHlmxiD
+Field: System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.List`1<System.Object>> HSbWfe9JDrW
+Field: Kata_pro64_Cad2025.Set_Load DYM0DrKKWkWJTEbPBwiV
+
+--- PROPERTIES ---
+
+--- METHODS ---
+Method: System.Void .cctor()
+Method: System.Object color_load(String TypeLoad)
+Method: System.Void Select_Joint_Load(String taitrong, String layer)
+Method: System.Void Get_CK_Dict_Loads()
+Method: System.Void Save_CK_Dict_Loads()
+Method: System.Boolean Delete_CK_Dict_Loads(String CK_key_load)
+Method: System.Boolean Add_CK_Dict_Loads(String CK_key_load, Dictionary`2 Dict_type_load)
+Method: System.Boolean Update_CK_Dict_Loads(String CK_key_load, Dictionary`2 Dict_type_load)
+Method: System.String CheckKhac_CK_Dict_Loads(String CK_key_load, Dictionary`2 Dict_type_load)
+Method: System.Collections.Generic.Dictionary`2<System.String,System.String> Get_CK_Dict_type_load(String CK_name)
+Method: System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.Dictionary`2<System.String,System.String>> Get_CK_Dict_Loads(String Key_load)
+Method: System.Collections.Generic.List`1<System.String> Get_List_CK_loads(String Key_load, String Type_load)
+Method: System.Collections.Generic.List`1<System.String> Get_List_CK_loads(String Key_load)
+Method: System.Collections.Generic.List`1<System.String> Get_List_Type_load(String CK_name)
+Method: System.String Get_Key_load(String CK_name)
+Method: System.String Get_gtri_from_CKKeyType(String CK_name, String Key_load, String Type_load)
+Method: System.String Check_gtri_from_CKKey(String CK_name, String Key_load)
+Method: System.String Get_gtri_from_Layer(String layer_name, String& type_load)
+Method: System.Void Get_List_Loads()
+Method: System.Collections.Generic.List`1<System.String> Get_List_gtri_loads(String Key_load, String Type_load)
+Method: System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.List`1<System.String>> Get_Dict_Loads(String Key_load)
+Method: System.Void rename_layer_load(String Key_load, String Type_load, Int32 item, String gtri)
+Method: System.Void Change_layer_Objectload(String Key_load, String Type_load, Int32 item, String gtri)
+Method: System.Void check_add_layer_load(String Key_load, String gtri, String Type_load)
+Method: System.Boolean Check_layer_key_load(String layer_name, List`1 List_CK_loads, Dictionary`2 Dict_Loads, String& gtri)
+Method: System.Void Highlight_Key_load(String Key_load)
+Method: System.Void Delete_select_load(String Key_load, String gtri, String Type_load)
+Method: System.Void Highlight_select_load(String Key_load, String gtri, String Type_load)
+Method: System.Void Clear_Highlight_select_load()
+Method: System.Collections.Generic.List`1<Kata_Class_Lib_Revit.PolygonModule/Polygon> Select_object_Load(String layer, String keyload)
+Method: System.Collections.Generic.List`1<Kata_Class_Lib_Revit.info_CurveGrid> Select_tap_grid()
+Method: System.Void Gan_tai_Etabs()
+Method: System.Boolean PQppTrKKGFnHrTYIka1m()
+Method: Kata_pro64_Cad2025.Set_Load LTkJCCKKw2Z5F93uUaCQ()
