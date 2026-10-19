@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vncad"
+version = "1.0.0"
+description = "Thu vien Python dung ho so ban ve thi cong xay dung chuan Viet Nam (TCVN) ra DXF, DWG, PNG, PDF va du toan Excel"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+dependencies = [
+    "ezdxf>=1.4",
+    "matplotlib>=3.8",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "Pillow>=10"]
+
+[tool.setuptools]
+packages = ["vncad"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
