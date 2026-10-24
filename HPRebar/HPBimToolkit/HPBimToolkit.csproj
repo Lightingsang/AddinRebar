@@ -1,0 +1,77 @@
+<Project Sdk="Nice3point.Revit.Sdk/6.2.3">
+
+    <PropertyGroup>
+        <UseWPF>true</UseWPF>
+        <DeployAddin>true</DeployAddin>
+        <LaunchRevit>true</LaunchRevit>
+        <!-- WebView2 is taken from Revit's own install folder at run time, so there is nothing to merge. -->
+        <IsRepackable>false</IsRepackable>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <RootNamespace>HPBimToolkit</RootNamespace>
+        <!-- Revit 2026 only: it ships WebView2 1.0.2478.35 beside Revit.exe, which this add-in compiles against. -->
+        <Configurations>Debug.R26;Release.R26</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Revit Dependencies -->
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
+
+        <!-- Compile-only: the exact version Revit 2026 ships. Nothing is copied (no runtime/native/build assets),
+             so the add-in binds to the copy Revit, Dynamo and Sentiment already use instead of a rival one. -->
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35"
+                          ExcludeAssets="runtime;native;build;buildTransitive" PrivateAssets="all"/>
+
+        <!-- Logging -->
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
+
+        <!-- Development Dependencies -->
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPBimToolkit.Core\HPBimToolkit.Core.csproj"/>
+    </ItemGroup>
+
+    <!-- Frontend: HPBimToolkit.Frontend is built with npm (Node >= 24) and its dist/ embedded as wwwroot/<path>
+         resources, served by EmbeddedAssetServer. -p:SkipFrontendBuild=true embeds an existing dist/ without npm. -->
+    <PropertyGroup>
+        <FrontendDir>$(MSBuildProjectDirectory)\..\HPBimToolkit.Frontend\</FrontendDir>
+        <FrontendDist>$(FrontendDir)dist\</FrontendDist>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrontendSource Include="$(FrontendDir)src\**\*;$(FrontendDir)index.html;$(FrontendDir)package.json;$(FrontendDir)package-lock.json;$(FrontendDir)vite.config.ts;$(FrontendDir)tsconfig*.json"/>
+    </ItemGroup>
+
+    <!-- npm writes node_modules/.package-lock.json on install, so a changed lock file re-installs. -->
+    <Target Name="InstallFrontend"
+            Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package-lock.json')"
+            Inputs="$(FrontendDir)package-lock.json" Outputs="$(FrontendDir)node_modules\.package-lock.json">
+        <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(FrontendDir)"/>
+    </Target>
+
+    <!-- Incremental: npm runs only when a frontend source is newer than dist/index.html. -->
+    <Target Name="BuildFrontend" DependsOnTargets="InstallFrontend"
+            Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package.json')"
+            Inputs="@(FrontendSource)" Outputs="$(FrontendDist)index.html">
+        <Exec Command="npm run build" WorkingDirectory="$(FrontendDir)"/>
+    </Target>
+
+    <!-- Items are added inside a target because dist/ may not exist when the project is evaluated. -->
+    <Target Name="EmbedFrontend" BeforeTargets="PrepareForBuild" DependsOnTargets="BuildFrontend">
+        <ItemGroup>
+            <_FrontendFile Include="$(FrontendDist)**\*"/>
+            <EmbeddedResource Include="@(_FrontendFile)" WithCulture="false"
+                              LogicalName="$([System.String]::Copy('wwwroot/%(RecursiveDir)%(Filename)%(Extension)').Replace('\','/'))"/>
+        </ItemGroup>
+        <Warning Condition="'@(_FrontendFile)' == ''" Text="HPBimToolkit.Frontend/dist is empty: the pane will show the 'not built' placeholder."/>
+        <Message Importance="high" Condition="'@(_FrontendFile)' != ''" Text="EmbedFrontend: @(_FrontendFile->Count()) frontend files embedded"/>
+    </Target>
+
+</Project>
+

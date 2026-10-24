@@ -11,6 +11,7 @@ One file per decision, `NNNN-kebab-title.md`, never renumbered. Status: **Propos
 | [0005](0005-static-policy.md) | Static policy and mutable-state allowlist | Accepted |
 | [0006](0006-kata-feature-boundary.md) | Kata Export / Kata Rebar boundary | Accepted — option A |
 | [0007](0007-hp-clean-code-scope.md) | Extend the clean-code governance to every MCP folder and to AI-proposed tools | Accepted |
+| [0008](0008-bim-toolkit-webview2-ui.md) | HP BIM Toolkit: separate add-in with a WebView2 + React UI | Accepted |
 
 Template:
 

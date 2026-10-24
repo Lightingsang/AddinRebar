@@ -148,6 +148,46 @@
       <Build Solution="Release.R27|*" Project="false" />
     </Project>
   </Folder>
+  <Folder Name="/BimToolkit/">
+    <!-- HP BIM Toolkit (ADR-0008): a separate Revit 2026 add-in. It compiles against the WebView2 copy Revit 2026
+         ships, so it exists only under the R26 configurations; Core and its tests are plain net8 projects. -->
+    <Project Path="HPBimToolkit/HPBimToolkit.csproj">
+      <BuildType Solution="Debug.R26|*" Project="Debug.R26" />
+      <BuildType Solution="Release.R26|*" Project="Release.R26" />
+      <Build Solution="Debug.R23|*" Project="false" />
+      <Build Solution="Debug.R24|*" Project="false" />
+      <Build Solution="Debug.R25|*" Project="false" />
+      <Build Solution="Debug.R27|*" Project="false" />
+      <Build Solution="Release.R23|*" Project="false" />
+      <Build Solution="Release.R24|*" Project="false" />
+      <Build Solution="Release.R25|*" Project="false" />
+      <Build Solution="Release.R27|*" Project="false" />
+    </Project>
+    <Project Path="HPBimToolkit.Core/HPBimToolkit.Core.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
+    <Project Path="HPBimToolkit.Core.Tests/HPBimToolkit.Core.Tests.csproj">
+      <BuildType Solution="Debug.R23|*" Project="Debug" />
+      <BuildType Solution="Debug.R24|*" Project="Debug" />
+      <BuildType Solution="Debug.R25|*" Project="Debug" />
+      <BuildType Solution="Debug.R26|*" Project="Debug" />
+      <BuildType Solution="Debug.R27|*" Project="Debug" />
+      <BuildType Solution="Release.R23|*" Project="Release" />
+      <BuildType Solution="Release.R24|*" Project="Release" />
+      <BuildType Solution="Release.R25|*" Project="Release" />
+      <BuildType Solution="Release.R26|*" Project="Release" />
+      <BuildType Solution="Release.R27|*" Project="Release" />
+    </Project>
+  </Folder>
   <Project Path="HPRebar.Core/HPRebar.Core.csproj">
     <BuildType Solution="Debug.R23|*" Project="Debug" />
     <BuildType Solution="Debug.R24|*" Project="Debug" />

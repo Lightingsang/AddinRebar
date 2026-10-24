@@ -38,7 +38,7 @@
 - File-scoped namespace (`namespace MyAddIn.ViewModels;` không có `{}`).
 
 ### WPF / MVVM rules
-- **MANDATORY UI**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2).
+- **MANDATORY UI**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2). Ngoại lệ duy nhất: add-in `HPRebar/HPBimToolkit` dùng WebView2 + React theo [ADR-0008](docs/architecture/adr/0008-bim-toolkit-webview2-ui.md).
 - **MUST** dùng `CommunityToolkit.Mvvm` — KHÔNG tự viết `INotifyPropertyChanged`/`RelayCommand`.
 - `sealed partial class XxxViewModel : ObservableObject` — partial bắt buộc cho source generator.
 - `[ObservableProperty]` trên private field, `[RelayCommand]` trên method.

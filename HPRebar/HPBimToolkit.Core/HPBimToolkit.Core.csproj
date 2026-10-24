@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Host-free half of the HP BIM Toolkit: wire contracts, protocol parsing, dispatcher and pure aggregation.
+         Never references Autodesk.* so everything here is testable without Revit (ADR-0008). -->
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPBimToolkit.Core</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+
+</Project>

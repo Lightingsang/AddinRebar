@@ -1,0 +1,14 @@
+<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>HP BIM Toolkit</Name>
+        <Assembly>HPBimToolkit\HPBimToolkit.dll</Assembly>
+        <AddInId>39486F0D-E4D4-40F7-B78E-CA8D818C126F</AddInId>
+        <FullClassName>HPBimToolkit.Host.ToolkitApplication</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>HPBimToolkit</ContextName>
+    </ManifestSettings>
+</RevitAddIns>
