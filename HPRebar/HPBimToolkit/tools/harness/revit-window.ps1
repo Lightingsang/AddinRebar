@@ -3,13 +3,15 @@
     Win32 helpers for the live harness, always scoped to ONE Revit process id (the harness's own copy):
       wait-dialog  -Title <exact>            prints FOUND / NOT_FOUND within -TimeoutSec
       close-dialog -Title <exact> [-Button]  clicks the button (default Cancel), else sends WM_CLOSE
+      fill-dialog  -Title <exact> -Text <t> -Button <b>  sets the dialog's first Edit box to the text, then clicks the button
       keys         -Keys <SendKeys text>     brings the Revit main window to the front and sends the keys
 .NOTES
     Windows PowerShell 5.1 or pwsh. Never touches a window of another process.
 #>
 param(
     [Parameter(Mandatory)] [int] $RevitPid,
-    [Parameter(Mandatory)] [ValidateSet('wait-dialog', 'close-dialog', 'keys')] [string] $Action,
+    [Parameter(Mandatory)] [ValidateSet('wait-dialog', 'close-dialog', 'fill-dialog', 'keys')] [string] $Action,
+    [string] $Text = '',
     [string] $Title = '',
     [string] $Button = 'Cancel',
     [string] $Keys = '',
@@ -26,6 +28,15 @@ public static class HkWin {
   [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr h, out uint pid);
   [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
   [DllImport("user32.dll")] public static extern IntPtr SendMessage(IntPtr h, uint msg, IntPtr w, IntPtr l);
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr SendMessage(IntPtr h, uint msg, IntPtr w, string l);
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)] static extern int GetClassName(IntPtr h, StringBuilder t, int n);
+  [DllImport("user32.dll")] public static extern IntPtr GetDlgItem(IntPtr h, int id);
+  // First VISIBLE child of that class: an Open dialog also holds a hidden address-bar Edit before its File name box.
+  public static IntPtr FindChildClass(IntPtr parent, string className) {
+    IntPtr found = IntPtr.Zero;
+    EnumChildWindows(parent, (h, l) => { if (!IsWindowVisible(h)) return true; var sb = new StringBuilder(256); GetClassName(h, sb, 256);
+      if (sb.ToString() == className) { found = h; return false; } return true; }, IntPtr.Zero);
+    return found; }
   [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr h, uint msg, IntPtr w, IntPtr l);
   [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
   [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
@@ -66,6 +77,20 @@ switch ($Action) {
         $btn = [HkWin]::FindButton($h, $Button)
         if ($btn -ne [IntPtr]::Zero) { [HkWin]::SendMessage($btn, 0x00F5, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null; "CLICKED $Button" }
         else { [HkWin]::PostMessage($h, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null; 'WM_CLOSE' }
+    }
+    'fill-dialog' {
+        # WM_SETTEXT + BM_CLICK by window handle: works whichever window is in front, so no keys go astray.
+        $h = Wait-Dialog
+        if ($h -eq [IntPtr]::Zero) { 'NOT_FOUND'; break }
+        # Common file dialogs: the File name combo is control 0x47C (cmb13) with its Edit inside; else the first visible Edit.
+        $nameCombo = [HkWin]::GetDlgItem($h, 0x47C)
+        $edit = if ($nameCombo -ne [IntPtr]::Zero) { [HkWin]::FindChildClass($nameCombo, 'Edit') } else { [IntPtr]::Zero }
+        if ($edit -eq [IntPtr]::Zero) { $edit = [HkWin]::FindChildClass($h, 'Edit') }
+        $btn = [HkWin]::FindButton($h, $Button)
+        if ($edit -eq [IntPtr]::Zero -or $btn -eq [IntPtr]::Zero) { throw "dialog '$Title' has no Edit box or no '$Button' button" }
+        [HkWin]::SendMessage($edit, 0x000C, [IntPtr]::Zero, $Text) | Out-Null
+        [HkWin]::SendMessage($btn, 0x00F5, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null
+        "FILLED $Title"
     }
     'keys' {
         $main = [HkWin]::Find($revitPid, 'Autodesk Revit', $true)

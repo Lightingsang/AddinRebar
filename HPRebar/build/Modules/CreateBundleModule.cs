@@ -15,8 +15,8 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Create one Autodesk .bundle package per add-in project: the rebar add-in and the MCP bridge ship
-///     as separate bundles so either can be installed, updated or removed on its own.
+///     Create one Autodesk .bundle package per add-in project: the rebar add-in, the MCP bridge and the BIM Toolkit ship
+///     as separate bundles so each can be installed, updated or removed on its own.
 /// </summary>
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<CompileProjectModule>]
@@ -27,7 +27,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
         var versioningResult = await context.GetModule<ResolveVersioningModule>();
         var versioning = versioningResult.ValueOrDefault!;
 
-        FileInfo[] addins = [Projects.HPRebar, Projects.HPRebar_McpBridge];
+        FileInfo[] addins = [Projects.HPRebar, Projects.HPRebar_McpBridge, Projects.HPBimToolkit];
 
         foreach (var addin in addins)
         {

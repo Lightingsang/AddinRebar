@@ -27,7 +27,8 @@ public sealed class CreateInstallerModule(IOptions<BuildOptions> buildOptions) :
         var versioningResult = await context.GetModule<ResolveVersioningModule>();
         var versioning = versioningResult.ValueOrDefault!;
 
-        var wixTarget = new File(Projects.HPRebar.FullName);
+        // Add-ins in the MSI: one feature each under every Revit version they were published for.
+        FileInfo[] wixTargets = [Projects.HPRebar, Projects.HPBimToolkit];
         var wixInstaller = new File(Projects.Installer.FullName);
         var wixToolFolder = await InstallWixAsync(context, cancellationToken);
 
@@ -43,13 +44,19 @@ public sealed class CreateInstallerModule(IOptions<BuildOptions> buildOptions) :
 
         builderFile.ShouldNotBeNull($"No installer builder was found for the project: {wixInstaller.NameWithoutExtension}");
 
-        var targetDirectories = wixTarget.Folder!
-            .GetFolder("bin")
-            .GetFolders(folder => folder.Name == "publish")
+        // Every add-in must contribute: a missing one would otherwise leave the MSI without it and the pipeline green.
+        var targetDirectories = wixTargets
+            .SelectMany(target =>
+            {
+                var publishFolders = new File(target.FullName).Folder!
+                    .GetFolder("bin")
+                    .GetFolders(folder => folder.Name == "publish")
+                    .ToArray();
+                publishFolders.ShouldNotBeEmpty($"No publish output for {Path.GetFileNameWithoutExtension(target.Name)} to put in the installer");
+                return publishFolders;
+            })
             .Select(folder => folder.Path)
             .ToArray();
-
-        targetDirectories.ShouldNotBeEmpty("No content were found to create an installer");
 
         await context.Shell.Command.ExecuteCommandLineTool(
             new GenericCommandLineToolOptions(builderFile.Path)

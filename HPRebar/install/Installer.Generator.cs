@@ -8,16 +8,15 @@ public static partial class Generator
 {
     /// <summary>
     ///     Generates Wix directories for the installer, one per Revit version found in the given content directories.
+    ///     Each content directory is one add-in published for one version; it becomes its own feature under that version.
     /// </summary>
     public static (int Version, Dir Directory)[] GenerateWixEntities(string[] args)
     {
         var versionStorages = new Dictionary<int, List<WixEntity>>();
-        var revitFeature = new Feature
-        {
-            Name = "Revit Add-in",
-            Description = "Revit add-in installation files",
-            Display = FeatureDisplay.expand
-        };
+        // Two levels only (version → add-in): WixSharp 2.14 writes no Feature at all when the files sit three levels
+        // deep, and every component then lands in WiX's hidden default feature. Revisit after a WixSharp upgrade by
+        // decompiling the MSI (`wix msi decompile`) and checking its Feature elements.
+        var versionFeatures = new Dictionary<int, Feature>();
 
         foreach (var directory in args)
         {
@@ -28,14 +27,28 @@ public static partial class Generator
             }
 
             var version = int.Parse(fileVersion);
+            if (!versionFeatures.TryGetValue(version, out var versionFeature))
+            {
+                versionFeature = new Feature
+                {
+                    Name = fileVersion,
+                    Description = $"Install add-ins for Revit {fileVersion}",
+                    Display = FeatureDisplay.expand,
+                    ConfigurableDir = $"INSTALL{fileVersion}"
+                };
+
+                versionFeatures.Add(version, versionFeature);
+            }
+
+            // Add-ins of one version share its Addins folder; a feature each lets the user leave one out.
+            var addinName = GetAddinName(directoryInfo);
             var feature = new Feature
             {
-                Name = fileVersion,
-                Description = $"Install add-in for Revit {fileVersion}",
-                ConfigurableDir = $"INSTALL{fileVersion}"
+                Name = addinName,
+                Description = $"Install {addinName} for Revit {fileVersion}"
             };
 
-            revitFeature.Add(feature);
+            versionFeature.Add(feature);
 
             var files = new Files(feature, $@"{directory}\*.*");
             if (versionStorages.TryGetValue(version, out var storage))
@@ -75,6 +88,15 @@ public static partial class Generator
             default:
                 return false;
         }
+    }
+
+    /// <summary>
+    ///     The add-in a content directory holds, named after its .addin manifest (falls back to the directory name).
+    /// </summary>
+    private static string GetAddinName(DirectoryInfo directory)
+    {
+        var manifest = directory.EnumerateFiles("*.addin").FirstOrDefault();
+        return manifest is null ? directory.Name : Path.GetFileNameWithoutExtension(manifest.Name);
     }
 
     /// <summary>

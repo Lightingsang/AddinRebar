@@ -9,6 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Beside the exe, so the icons resolve whatever directory the pipeline runs the builder from. -->
+        <None Update="Resources\Icons\*" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="WixSharp.Core" Version="2.14.1"/>
         <PackageReference Include="WixSharp.Msi.Core" Version="2.14.1"/>
     </ItemGroup>

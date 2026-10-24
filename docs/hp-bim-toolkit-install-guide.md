@@ -23,6 +23,18 @@ dotnet build HPRebar/HPBimToolkit/HPBimToolkit.csproj -c Debug.R26
 - Không có Node: build frontend một lần ở máy khác rồi `-p:SkipFrontendBuild=true` (nhúng `dist/` có sẵn). `dist/` trống → pane hiện trang "chưa build".
 - Lần đầu Revit hỏi "Security - Unsigned Add-In" (DLL chưa ký) → chọn *Always Load* (hoặc *Load Once*).
 
+## Cài từ gói phát hành
+
+`dotnet run -- pack` (thư mục `HPRebar/build/`) sinh vào `output/` ở gốc repo:
+
+| File | Nội dung |
+|---|---|
+| `HPBimToolkit.bundle.zip` | Autodesk bundle riêng của toolkit (`Contents/2026/`): giải nén vào `%AppData%\Autodesk\ApplicationPlugins\` |
+| `HPRebar-<version>-SingleUser.msi` / `-MultiUser.msi` | cài HPRebar (2023–2027) + HP BIM Toolkit (2026); cây feature theo năm → add-in, bỏ chọn **HPBimToolkit** dưới **2026** nếu không cần |
+
+> [!WARNING]
+> `pack` dọn mọi thư mục `bin`/`obj` dưới gốc repo và thư mục `output/` (trừ khi chạy trên CI), và các project có `DeployAddin=true` copy bản Release vào `%AppData%\Autodesk\Revit\Addins\<năm>\`. Chạy trên một bản clone/worktree sạch, Revit đóng.
+
 ## Cài thủ công (máy không build)
 
 Copy từ `HPRebar/HPBimToolkit/bin/Release.R26/publish/` (hoặc Debug): `HPBimToolkit.addin` và thư mục `HPBimToolkit\` vào `%AppData%\Autodesk\Revit\Addins\2026\`. Gỡ: xoá hai mục đó.
@@ -70,10 +82,25 @@ Sự kiện và đường lỗi (hộp thoại modal → TIMEOUT, đổi view, x
 node HPRebar/HPBimToolkit/tools/harness/live-verify-events.mjs 9333 <pid>
 ```
 
+Vòng đời (đổi theme Sáng/Tối trong Options rồi trả lại như cũ, đóng tài liệu → trang trống, mở lại bản sao): 
+
+```bash
+node HPRebar/HPBimToolkit/tools/harness/live-verify-lifecycle.mjs 9333 <pid> <đường dẫn MODEL_COPY> --theme
+```
+
+Theme là cài đặt theo user, dùng chung với mọi Revit của user đó: bước theme chỉ chạy khi có `--theme` (hỏi người dùng trước) và luôn đặt lại theme ban đầu, kể cả khi một kiểm tra hỏng. Script giả định Revit giao diện tiếng Anh. Hộp thoại Options/Open được điều khiển bằng window message (`revit-options.ps1`, `revit-window.ps1 fill-dialog`), không gõ phím vào hộp thoại chọn file.
+
 Hiệu năng trên model đang mở: `node HPRebar/HPBimToolkit/tools/harness/perf-statistics.mjs 9333`.
 
 ## Mở rộng module mới
 
 1. C#: thư mục `HPBimToolkit/Modules/<Tên>/` với lớp `: IToolkitModule` đăng ký lệnh `<module>.<verb>` trên `CommandDispatcher`; đọc/ghi Revit qua `RevitRequestQueue`; thêm vào mảng `modules` trong `ToolkitApplication.Compose` (trước `AppModule`).
-2. Contracts: DTO trong `HPBimToolkit.Core/Contracts`, tên lệnh trong `BridgeNames.cs`, test hình dạng JSON trong `WireFormatTests`.
-3. Frontend: kiểu trong `src/bridge/protocol.ts` (`CommandMap`/`EventMap`), trang trong `src/modules/<tên>/`, bật `isAvailable` trong `src/modules/registry.ts` và thêm route trong `App.tsx`.
+2. Contracts: DTO trong `HPBimToolkit.Core/Contracts`, tên lệnh trong `BridgeNames.cs`, test hình dạng JSON trong `WireFormatTests`; khai báo lệnh/event và kiểu payload trong `HPBimToolkit.Core.Tests/TypeScript/ProtocolCatalog.cs`.
+3. Sinh lại kiểu TypeScript (`src/bridge/contracts.generated.ts`, không sửa tay):
+
+   ```bash
+   HPBIM_UPDATE_CONTRACTS=1 dotnet test HPRebar/HPBimToolkit.Core.Tests
+   ```
+
+   Không chạy lại → `TypeScriptContractsTests` báo file lệch contract.
+4. Frontend: trang trong `src/modules/<tên>/`, bật `isAvailable` trong `src/modules/registry.ts` và thêm route trong `App.tsx`. `src/bridge/protocol.ts` chỉ còn envelope + re-export kiểu sinh tự động.

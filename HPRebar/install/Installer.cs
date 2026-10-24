@@ -9,6 +9,8 @@ var customName = args.FirstOrDefault(a => a.StartsWith("--name="))?.Substring("-
 var cleanArgs = args.Where(a => !a.StartsWith("--name=")).ToArray();
 
 var versioning = Versioning.CreateFromVersionString(cleanArgs[0]);
+// The pipeline runs this builder from the git root, which is not the folder holding install\: icons come from beside the exe.
+var icons = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");
 var project = new Project
 {
     OutDir = "output",
@@ -17,13 +19,13 @@ var project = new Project
     UI = WUI.WixUI_FeatureTree,
     MajorUpgrade = MajorUpgrade.Default,
     GUID = new Guid("00715D27-1C0F-4D86-857D-2D1E32FE98D8"),
-    BannerImage = @"install\Resources\Icons\BannerImage.png",
-    BackgroundImage = @"install\Resources\Icons\BackgroundImage.png",
+    BannerImage = Path.Combine(icons, "BannerImage.png"),
+    BackgroundImage = Path.Combine(icons, "BackgroundImage.png"),
     Version = versioning.VersionPrefix,
     ControlPanelInfo =
     {
         Manufacturer = Environment.UserName,
-        ProductIcon = @"install\Resources\Icons\ShellIcon.ico"
+        ProductIcon = Path.Combine(icons, "ShellIcon.ico")
     }
 };
 
