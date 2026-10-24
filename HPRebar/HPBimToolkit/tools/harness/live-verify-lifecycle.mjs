@@ -109,6 +109,9 @@ const noStats = await call('dashboard.getStatistics', { scope: 'model' });
 check('with no document: getDocumentInfo answers hasDocument false, statistics NO_DOCUMENT',
   noDocument.ok && noDocument.payload.hasDocument === false && noStats.ok === false && noStats.error.code === 'NO_DOCUMENT');
 check('page shows its empty state', (await text()).includes('Chưa mở tài liệu'));
+const malformed = await call('dashboard.showElements', { ids: [] });
+check('a malformed showElements is BAD_REQUEST even with no document (validated before the Revit queue)',
+  malformed.ok === false && malformed.error.code === 'BAD_REQUEST', JSON.stringify(malformed.error));
 
 // --- 3. reopen the copy through Open (path set by WM_SETTEXT, never typed) ---
 await page.evaluate('window.__events = []');

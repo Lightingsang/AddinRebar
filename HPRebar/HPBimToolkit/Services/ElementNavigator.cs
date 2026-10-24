@@ -1,5 +1,6 @@
 using Autodesk.Revit.UI;
 using HPBimToolkit.Core.Contracts;
+using HPBimToolkit.Core.Domain.Dashboard;
 using RevitView = Autodesk.Revit.DB.View;
 
 namespace HPBimToolkit.Services;
@@ -10,19 +11,17 @@ namespace HPBimToolkit.Services;
 /// </summary>
 public static class ElementNavigator
 {
-    /// <summary>Bounds the work an id list from the page can cause.</summary>
-    public const int MaxRequestedIds = 10_000;
-
-    public static ShowElementsResult Show(UIApplication app, ShowElementsRequest request)
+    /// <param name="source">What the request names, from <see cref="ShowElementsRules.SourceOf" /> (already validated).</param>
+    public static ShowElementsResult Show(UIApplication app, ShowElementsRequest request, ShowElementsSource source)
     {
         var uiDocument = ActiveDocument.Require(app);
-        if (request.CurrentSelection)
+        if (source == ShowElementsSource.CurrentSelection)
         {
             var selected = uiDocument.Selection.GetElementIds();
             return new ShowElementsResult(selected.Count, ZoomInActiveView(uiDocument, selected));
         }
 
-        var ids = ResolveIds(uiDocument, request);
+        var ids = ResolveIds(uiDocument, request, source);
         uiDocument.Selection.SetElementIds(ids);
         var zoomed = request.Mode == ShowMode.Zoom ? ZoomInActiveView(uiDocument, ids) : 0;
         return new ShowElementsResult(ids.Count, zoomed);
@@ -55,27 +54,17 @@ public static class ElementNavigator
         !view.IsTemplate && view is not ViewSchedule &&
         view.ViewType is not (ViewType.ProjectBrowser or ViewType.SystemBrowser or ViewType.Internal or ViewType.Undefined);
 
-    private static List<ElementId> ResolveIds(UIDocument uiDocument, ShowElementsRequest request)
+    private static List<ElementId> ResolveIds(UIDocument uiDocument, ShowElementsRequest request, ShowElementsSource source)
     {
-        if (request.Ids is { Count: > 0 } requested)
+        if (source == ShowElementsSource.Ids)
         {
-            if (requested.Count > MaxRequestedIds)
-            {
-                throw new BridgeException(BridgeErrorCodes.BadRequest, $"At most {MaxRequestedIds} ids can be shown at once.");
-            }
-
             var document = uiDocument.Document;
-            return requested.Select(value => new ElementId(value)).Where(id => document.GetElement(id) is not null).ToList();
+            return request.Ids!.Select(value => new ElementId(value)).Where(id => document.GetElement(id) is not null).ToList();
         }
 
-        if (request.CategoryId is { } categoryId)
-        {
-            return ScopeCollector.Instances(uiDocument, request.Scope)
-                .OfCategoryId(new ElementId(categoryId))
-                .ToElementIds()
-                .ToList();
-        }
-
-        throw new BridgeException(BridgeErrorCodes.BadRequest, "Give categoryId, a non-empty ids list or currentSelection.");
+        return ScopeCollector.Instances(uiDocument, request.Scope)
+            .OfCategoryId(new ElementId(request.CategoryId!.Value))
+            .ToElementIds()
+            .ToList();
     }
 }

@@ -1,4 +1,6 @@
+using HPBimToolkit.Core.Application;
 using HPBimToolkit.Core.Contracts;
+using HPBimToolkit.Core.Domain.Dashboard;
 using HPBimToolkit.Core.Protocol;
 using HPBimToolkit.Core.Statistics;
 using HPBimToolkit.ExternalEvents;
@@ -15,7 +17,7 @@ public sealed class DashboardModule(RevitRequestQueue queue, ModelChangeTally ch
     /// </summary>
     public static readonly TimeSpan StatisticsTimeout = TimeSpan.FromSeconds(120);
 
-    private (Task<object?> Task, StatisticsScope Scope, CancellationToken Token)? _statisticsRun;
+    private readonly SingleFlightRun<StatisticsScope> _statistics = new("Statistics for the other scope are still being counted.");
 
     public void Register(CommandDispatcher dispatcher)
     {
@@ -28,27 +30,18 @@ public sealed class DashboardModule(RevitRequestQueue queue, ModelChangeTally ch
             queue.RunAsync<object?>(SelectionReader.Read, token));
 
         dispatcher.Register<ShowElementsRequest>(CommandNames.ShowElements, (request, token) =>
-            queue.RunAsync<object?>(app => ElementNavigator.Show(app, request), token));
+        {
+            // Validated here, before the queue: a bad request never waits for Revit's API thread.
+            var source = ShowElementsRules.SourceOf(request);
+            return queue.RunAsync<object?>(app => ElementNavigator.Show(app, request, source), token);
+        });
 
         dispatcher.Register<OpenToolRequest>(CommandNames.OpenTool, (request, token) =>
             queue.RunAsync<object?>(app => ToolLauncher.Open(app, request), token));
     }
 
-    /// <summary>
-    ///     One count at a time. A second request for the same scope joins the run in progress; a request for another scope
-    ///     answers BUSY until it ends. A run whose own request already timed out is abandoned (Revit will skip it), so a
-    ///     retry after a modal dialog queues a fresh run instead of inheriting the cancellation.
-    /// </summary>
-    private Task<object?> ReadStatisticsAsync(StatisticsRequest request, CancellationToken token)
-    {
-        if (_statisticsRun is { Task.IsCompleted: false, Token.IsCancellationRequested: false } running)
-        {
-            return running.Scope == request.Scope
-                ? running.Task
-                : throw new BridgeException(BridgeErrorCodes.Busy, "Statistics for the other scope are still being counted.");
-        }
-
-        var run = queue.RunAsync<object?>(app =>
+    private Task<object?> ReadStatisticsAsync(StatisticsRequest request, CancellationToken token) =>
+        _statistics.Run(request.Scope, token, () => queue.RunAsync<object?>(app =>
         {
             var statistics = ModelStatisticsReader.Read(app, request.Scope, token);
             if (!token.IsCancellationRequested)
@@ -58,8 +51,5 @@ public sealed class DashboardModule(RevitRequestQueue queue, ModelChangeTally ch
             }
 
             return statistics;
-        }, token);
-        _statisticsRun = (run, request.Scope, token);
-        return run;
-    }
+        }, token));
 }
