@@ -12,6 +12,7 @@ One file per decision, `NNNN-kebab-title.md`, never renumbered. Status: **Propos
 | [0006](0006-kata-feature-boundary.md) | Kata Export / Kata Rebar boundary | Accepted — option A |
 | [0007](0007-hp-clean-code-scope.md) | Extend the clean-code governance to every MCP folder and to AI-proposed tools | Accepted |
 | [0008](0008-bim-toolkit-webview2-ui.md) | HP BIM Toolkit: separate add-in with a WebView2 + React UI | Accepted |
+| [0009](0009-bim-toolkit-uses-hprebar-core.md) | HP BIM Toolkit uses HPRebar.Core for Kata; Kata's Revit adapters are ported | Accepted |
 
 Template:
 

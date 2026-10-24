@@ -3,7 +3,7 @@
 | # | Hiện tượng | Nguyên nhân | Cách xử lý |
 |---|---|---|---|
 | 1 | Log add-in ghi vào file của add-in khác | Các add-in mang Serilog dạng DLL rời dùng chung một bản trong Revit → `Log.Logger` ai ghi sau thắng | `Serilog.Core.Logger` riêng truyền qua constructor; không dùng `Log.Logger` (HPRebar không bị vì Serilog đã ILRepack) |
-| 2 | Revit treo "Not Responding" khi mở model (1/3 lần) | Nạp assembly lười bên trong callback COM của WebView2 → kẹt trong `AddInLoadContext.Load` | `DependencyPreloader` nạp sẵn ở `OnStartup` + `Dispatcher.BeginInvoke` ra khỏi callback |
+| 2 | Revit treo "Not Responding" khi pane nhận message đầu tiên (ngẫu nhiên) | JIT lần đầu bind assembly lười qua `AddInLoadContext.Load` của Revit, hàm này duyệt mọi assembly và kẹt khi add-in khác đang nạp DLL (dump: `System.Text.Json` ↔ `EPPlus.Interfaces`) | `DependencyPreloader` ở `OnStartup`: nạp reference, resolve mọi TypeRef của assembly trong thư mục toolkit, JIT trước code toolkit (best effort, ~0,4 s) + `Dispatcher.BeginInvoke` ra khỏi callback COM. Thêm assembly mới vào thư mục toolkit là tự được phủ |
 | 3 | Mọi request TIMEOUT liên tiếp | `ShowElements` mở hộp thoại modal "search closed views" | Chỉ zoom phần tử view hiện hành thấy |
 | 4 | Revit đứng 18 s | `SetElementIds` ~20 000 phần tử | Trang xác nhận trên 5 000 |
 | 5 | Category lạ đứng đầu thống kê (Materials, `<Sketch>`…) | Đếm cả category ẩn/bookkeeping | `IsVisibleInUI`, không subcategory, Model/Annotation, loại Materials/ProjectInformation/Sheets/ColorFillSchema/PipeSegments |
