@@ -1,10 +1,10 @@
 using HPBimToolkit.Core.Application;
 using HPBimToolkit.Core.Contracts;
 using HPBimToolkit.Core.Domain.Dashboard;
-using HPBimToolkit.Core.Protocol;
 using HPBimToolkit.Core.Statistics;
 using HPBimToolkit.ExternalEvents;
 using HPBimToolkit.Services;
+using HPWebHost.Protocol;
 
 namespace HPBimToolkit.Modules.Dashboard;
 

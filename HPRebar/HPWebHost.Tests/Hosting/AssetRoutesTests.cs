@@ -1,7 +1,7 @@
-using HPBimToolkit.Core.Hosting;
+using HPWebHost.Hosting;
 using Xunit;
 
-namespace HPBimToolkit.Core.Tests.Hosting;
+namespace HPWebHost.Tests.Hosting;
 
 public sealed class AssetRoutesTests
 {

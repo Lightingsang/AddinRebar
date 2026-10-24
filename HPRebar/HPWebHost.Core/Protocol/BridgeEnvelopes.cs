@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace HPBimToolkit.Core.Contracts;
+namespace HPWebHost.Protocol;
 
 /// <summary>Message kinds of protocol v1, as they appear in the <c>kind</c> field.</summary>
 public static class EnvelopeKinds

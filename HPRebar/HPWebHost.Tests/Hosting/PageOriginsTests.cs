@@ -1,10 +1,12 @@
-using HPBimToolkit.Core.Hosting;
+using HPWebHost.Hosting;
 using Xunit;
 
-namespace HPBimToolkit.Core.Tests.Hosting;
+namespace HPWebHost.Tests.Hosting;
 
 public sealed class PageOriginsTests
 {
+    private const string Host = "toolkit.hpbim.local";
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -14,7 +16,7 @@ public sealed class PageOriginsTests
     [InlineData("http://localhost.evil.com:5173/")]
     public void Resolve_NoSafeDevServer_UsesEmbeddedPage(string? devUrl)
     {
-        var origins = PageOrigins.Resolve(devUrl);
+        var origins = PageOrigins.Resolve(Host, devUrl);
 
         Assert.False(origins.IsDevServer);
         Assert.Equal("https://toolkit.hpbim.local/index.html", origins.StartUrl);
@@ -26,7 +28,7 @@ public sealed class PageOriginsTests
     [InlineData("http://127.0.0.1:4000/app", "http://127.0.0.1:4000")]
     public void Resolve_LocalDevServer_UsesIt(string devUrl, string expectedOrigin)
     {
-        var origins = PageOrigins.Resolve(devUrl);
+        var origins = PageOrigins.Resolve(Host, devUrl);
 
         Assert.True(origins.IsDevServer);
         Assert.Equal(expectedOrigin, origins.TrustedOrigin);
@@ -43,6 +45,16 @@ public sealed class PageOriginsTests
     [InlineData(null, false)]
     public void IsTrusted_EmbeddedOrigin_MatchesSchemeHostAndPortOnly(string? source, bool expected)
     {
-        Assert.Equal(expected, PageOrigins.Resolve(null).IsTrusted(source));
+        Assert.Equal(expected, PageOrigins.Resolve(Host, null).IsTrusted(source));
+    }
+
+    [Fact]
+    public void Resolve_StartPage_OpensThatPageOnItsOwnHost()
+    {
+        var origins = PageOrigins.Resolve("kata.hprebar.local", null, "kata.html");
+
+        Assert.Equal("https://kata.hprebar.local/kata.html", origins.StartUrl);
+        Assert.Equal("https://kata.hprebar.local", origins.EmbeddedOrigin);
+        Assert.False(origins.IsTrusted("https://toolkit.hpbim.local/index.html"));
     }
 }

@@ -1,4 +1,5 @@
 using HPBimToolkit.Core.Contracts;
+using HPWebHost.Protocol;
 
 namespace HPBimToolkit.Core.Tests.TypeScript;
 

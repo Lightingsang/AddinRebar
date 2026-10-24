@@ -1,26 +1,18 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
-using HPBimToolkit.Core.Hosting;
 using Microsoft.Web.WebView2.Core;
 using Serilog;
 
-namespace HPBimToolkit.Host;
+namespace HPWebHost.Hosting;
 
 /// <summary>
-///     Serves the frontend build embedded in this assembly on <see cref="PageOrigins.EmbeddedOrigin" />, so the pane
-///     needs no loose files and no network. Requests to that host never leave the process.
+///     Serves the frontend build embedded in <c>assembly</c> on <see cref="PageOrigins.EmbeddedOrigin" />, so the
+///     window needs no loose files and no network. Requests to that host never leave the process.
 /// </summary>
-public sealed class EmbeddedAssetServer(Assembly assembly, PageOrigins origins, ILogger logger)
+/// <param name="productName">Named on the placeholder page shown when the add-in was built without its frontend.</param>
+public sealed class EmbeddedAssetServer(Assembly assembly, PageOrigins origins, string productName, ILogger logger)
 {
-    private const string MissingFrontendPage = """
-        <!doctype html><html><head><meta charset="utf-8"><title>HP BIM Toolkit</title></head>
-        <body style="font-family:Segoe UI,sans-serif;padding:16px">
-        <h3>HP BIM Toolkit</h3>
-        <p>The dashboard page was not built into this add-in. Build HPBimToolkit with Node.js 24 installed
-        (the build runs <code>npm ci</code> and <code>npm run build</code> in HPBimToolkit.Frontend).</p>
-        </body></html>
-        """;
 
     /// <summary>Hooks the virtual host into <paramref name="core" /> and opens the start page.</summary>
     public void Attach(CoreWebView2 core)
@@ -31,11 +23,11 @@ public sealed class EmbeddedAssetServer(Assembly assembly, PageOrigins origins, 
         }
         else
         {
-            core.AddWebResourceRequestedFilter($"{PageOrigins.EmbeddedOrigin}/*", CoreWebView2WebResourceContext.All);
+            core.AddWebResourceRequestedFilter($"{origins.EmbeddedOrigin}/*", CoreWebView2WebResourceContext.All);
             core.WebResourceRequested += (_, e) => e.Response = CreateResponse(core.Environment, e.Request.Uri);
         }
 
-        // The pane only ever shows the toolkit page: no navigation away, no pop-up windows.
+        // The window only ever shows its own page: no navigation away, no pop-up windows.
         core.NavigationStarting += (_, e) =>
         {
             if (!origins.IsTrusted(e.Uri))
@@ -58,10 +50,10 @@ public sealed class EmbeddedAssetServer(Assembly assembly, PageOrigins origins, 
         var resourceName = AssetRoutes.ToResourceName(new Uri(requestUri).AbsolutePath);
         var stream = resourceName is null ? null : assembly.GetManifestResourceStream(resourceName);
 
-        if (stream is null && resourceName == AssetRoutes.ResourcePrefix + AssetRoutes.IndexPath)
+        if (stream is null && resourceName is not null && AssetRoutes.IsHtml(resourceName))
         {
-            logger.Warning("No embedded frontend in {Assembly}; serving the placeholder page", assembly.GetName().Name);
-            stream = new MemoryStream(Encoding.UTF8.GetBytes(MissingFrontendPage));
+            logger.Warning("{Page} is not embedded in {Assembly}; serving the placeholder page", resourceName, assembly.GetName().Name);
+            stream = new MemoryStream(Encoding.UTF8.GetBytes(MissingFrontendPage()));
         }
 
         if (stream is null)
@@ -72,6 +64,15 @@ public sealed class EmbeddedAssetServer(Assembly assembly, PageOrigins origins, 
 
         return environment.CreateWebResourceResponse(stream, 200, "OK", BuildHeaders(resourceName!));
     }
+
+    private string MissingFrontendPage() => $"""
+        <!doctype html><html><head><meta charset="utf-8"><title>{productName}</title></head>
+        <body style="font-family:Segoe UI,sans-serif;padding:16px">
+        <h3>{productName}</h3>
+        <p>The page was not built into this add-in. Build it with Node.js 24 installed
+        (the build runs <code>npm ci</code> and <code>npm run build</code> in HPBimToolkit.Frontend).</p>
+        </body></html>
+        """;
 
     private static string BuildHeaders(string resourceName)
     {

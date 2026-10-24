@@ -1,7 +1,6 @@
 using System.Text.Json;
-using HPBimToolkit.Core.Contracts;
 
-namespace HPBimToolkit.Core.Protocol;
+namespace HPWebHost.Protocol;
 
 /// <summary>Reads a request payload as a typed record; a payload that does not fit is the caller's error (BAD_REQUEST).</summary>
 public static class PayloadReader

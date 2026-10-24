@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <!-- Host-free half of the HP BIM Toolkit: wire contracts, protocol parsing, dispatcher and pure aggregation.
-         Never references Autodesk.* so everything here is testable without Revit (ADR-0008). Kata's rules come from
-         HPRebar.Core, one source for the web module and the WPF tool (ADR-0009, DEPENDENCY_RULES D8). -->
+    <!-- Host-free half of the HP BIM Toolkit: the dashboard's wire contracts, rules and pure aggregation; the protocol
+         itself comes from HPWebHost.Core (ADR-0010). Never references Autodesk.*, so it is testable without Revit. -->
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <LangVersion>latest</LangVersion>
@@ -13,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\HPRebar.Core\HPRebar.Core.csproj"/>
+        <ProjectReference Include="..\HPWebHost.Core\HPWebHost.Core.csproj"/>
     </ItemGroup>
 
 </Project>

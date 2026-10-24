@@ -1,8 +1,8 @@
 using System.Reflection;
 using HPBimToolkit.Core.Contracts;
-using HPBimToolkit.Core.Protocol;
 using HPBimToolkit.Infrastructure;
 using HPBimToolkit.Services;
+using HPWebHost.Protocol;
 
 namespace HPBimToolkit.Modules;
 

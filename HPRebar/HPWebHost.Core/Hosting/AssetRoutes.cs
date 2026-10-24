@@ -1,4 +1,4 @@
-namespace HPBimToolkit.Core.Hosting;
+namespace HPWebHost.Hosting;
 
 /// <summary>
 ///     Maps URLs of the toolkit's virtual host to the frontend files embedded in the add-in, and says how to serve them.

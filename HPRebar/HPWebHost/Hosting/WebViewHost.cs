@@ -1,37 +1,41 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using Serilog;
 using Grid = System.Windows.Controls.Grid;
 
-namespace HPBimToolkit.Host;
+namespace HPWebHost.Hosting;
+
+/// <summary>Who owns a <see cref="WebViewHost" />: where its browser profile lives and what its failure text names.</summary>
+/// <param name="UserDataFolder">Browser profile folder; Revit's install folder is read-only, so it must live elsewhere.</param>
+/// <param name="DebugPortVariable">Environment variable that, set to a port, opens the DevTools protocol for harnesses.</param>
+/// <param name="ProductName">Named in the message shown when the browser cannot start.</param>
+/// <param name="LogFolder">Shown with that message, so the user knows where to look.</param>
+public sealed record WebViewHostOptions(string UserDataFolder, string DebugPortVariable, string ProductName, string LogFolder);
 
 /// <summary>
-///     The dockable pane's content: a WebView2 created the first time the pane is shown (Revit builds every pane at
-///     start-up, a browser per hidden pane would cost start time for nothing). Owns the browser and nothing else —
-///     what is loaded into it and what its messages mean belong to the caller.
+///     A WebView2 created the first time the control is shown (Revit builds every dockable pane at start-up, a browser
+///     per hidden pane would cost start time for nothing). Owns the browser and nothing else — what is loaded into it
+///     and what its messages mean belong to the caller.
 /// </summary>
 public sealed class WebViewHost : UserControl, IDisposable
 {
-    private const string DebugPortVariable = "HPBIM_TOOLKIT_DEBUG_PORT";
-
     private readonly Grid _root = new();
-    private readonly string _userDataFolder;
+    private readonly WebViewHostOptions _options;
     private readonly Action<CoreWebView2> _navigate;
     private readonly ILogger _logger;
     private WebView2? _webView;
     private bool _hasStarted;
     private bool _isDisposed;
 
-    /// <param name="userDataFolder">Browser profile folder; Revit's install folder is read-only, so it must live elsewhere.</param>
     /// <param name="navigate">Loads the first page once the browser core exists (handlers are attached before it runs).</param>
-    public WebViewHost(string userDataFolder, Action<CoreWebView2> navigate, ILogger logger)
+    public WebViewHost(WebViewHostOptions options, Action<CoreWebView2> navigate, ILogger logger)
     {
-        _userDataFolder = userDataFolder;
+        _options = options;
         _navigate = navigate;
         _logger = logger;
         Content = _root;
@@ -101,19 +105,24 @@ public sealed class WebViewHost : UserControl, IDisposable
     {
         LogWebViewAssembly();
         var options = new CoreWebView2EnvironmentOptions();
-        var userDataFolder = _userDataFolder;
-        var debugPort = Environment.GetEnvironmentVariable(DebugPortVariable);
+        var userDataFolder = _options.UserDataFolder;
+        var debugPort = Environment.GetEnvironmentVariable(_options.DebugPortVariable);
         if (!string.IsNullOrEmpty(debugPort))
         {
             // Opt-in for the live harness only: it reads the page through the DevTools protocol on this port. Its own
             // profile, because a profile already open in another Revit with other browser arguments refuses to start.
             options.AdditionalBrowserArguments = $"--remote-debugging-port={debugPort}";
-            userDataFolder = $"{_userDataFolder}-debug-{debugPort}";
+            userDataFolder = $"{_options.UserDataFolder}-debug-{debugPort}";
             _logger.Warning("WebView2 remote debugging enabled on port {Port}", debugPort);
         }
 
         Directory.CreateDirectory(userDataFolder);
         var environment = await CoreWebView2Environment.CreateAsync(null, userDataFolder, options);
+        if (_isDisposed)
+        {
+            return; // the window closed while the browser environment was being created
+        }
+
         var webView = new WebView2();
         _root.Children.Add(webView);
         _webView = webView;
@@ -121,6 +130,7 @@ public sealed class WebViewHost : UserControl, IDisposable
         await webView.EnsureCoreWebView2Async(environment);
         if (_isDisposed)
         {
+            webView.Dispose(); // Dispose ran before the control existed or while it was starting
             return;
         }
 
@@ -143,7 +153,7 @@ public sealed class WebViewHost : UserControl, IDisposable
         _navigate(core);
     }
 
-    /// <summary>A crashed page reloads itself; a dead browser process cannot be revived, so the pane says what happened.</summary>
+    /// <summary>A crashed page reloads itself; a dead browser process cannot be revived, so the control says what happened.</summary>
     private void OnProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
     {
         _logger.Error("WebView2 process failed: {Kind} ({Reason}, exit code {ExitCode})", e.ProcessFailedKind, e.Reason, e.ExitCode);
@@ -157,7 +167,7 @@ public sealed class WebViewHost : UserControl, IDisposable
         {
             _webView?.Dispose();
             _webView = null;
-            ShowStartFailure(new InvalidOperationException("The browser process stopped. Restart Revit to use the dashboard again."));
+            ShowStartFailure(new InvalidOperationException($"The browser process stopped. Restart Revit to use {_options.ProductName} again."));
         }
     }
 
@@ -176,8 +186,8 @@ public sealed class WebViewHost : UserControl, IDisposable
         _root.Children.Clear();
         _root.Children.Add(new TextBlock
         {
-            Text = "HP BIM Toolkit could not start its browser (Microsoft Edge WebView2).\n\n" +
-                   $"{exception.Message}\n\nLog: %LocalAppData%\\HPBimToolkit\\logs",
+            Text = $"{_options.ProductName} could not start its browser (Microsoft Edge WebView2).\n\n" +
+                   $"{exception.Message}\n\nLog: {_options.LogFolder}",
             TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(16),
         });

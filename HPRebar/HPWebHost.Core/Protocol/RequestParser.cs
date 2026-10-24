@@ -1,7 +1,6 @@
 using System.Text.Json;
-using HPBimToolkit.Core.Contracts;
 
-namespace HPBimToolkit.Core.Protocol;
+namespace HPWebHost.Protocol;
 
 /// <summary>Either a well-formed request or the failure response to send instead.</summary>
 public sealed record RequestParseResult(RequestEnvelope? Request, ResponseEnvelope? Rejection)

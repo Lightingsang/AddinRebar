@@ -1,14 +1,14 @@
-using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using Autodesk.Revit.UI;
 using HPBimToolkit.Bridge;
 using HPBimToolkit.Core.Contracts;
-using HPBimToolkit.Core.Hosting;
-using HPBimToolkit.Core.Protocol;
 using HPBimToolkit.Core.Statistics;
 using HPBimToolkit.ExternalEvents;
 using HPBimToolkit.Infrastructure;
-using HPBimToolkit.Modules;
 using HPBimToolkit.Modules.Dashboard;
+using HPBimToolkit.Modules;
+using HPWebHost.Hosting;
+using HPWebHost.Protocol;
 using Nice3point.Revit.Toolkit.External;
 using Serilog.Core;
 
@@ -21,7 +21,10 @@ namespace HPBimToolkit.Host;
 [UsedImplicitly]
 public sealed class ToolkitApplication : ExternalApplication
 {
+    private const string ProductName = "HP BIM Toolkit";
+    private const string VirtualHost = "toolkit.hpbim.local";
     private const string DevServerVariable = "HPBIM_TOOLKIT_DEV_URL";
+    private const string DebugPortVariable = "HPBIM_TOOLKIT_DEBUG_PORT";
 
     /// <summary>Default for quick commands, waiting for Revit to become idle included; statistics have their own budget.</summary>
     private static readonly TimeSpan RequestTimeout = TimeSpan.FromSeconds(30);
@@ -38,7 +41,8 @@ public sealed class ToolkitApplication : ExternalApplication
         _logger = ToolkitLogger.Create();
         try
         {
-            DependencyPreloader.Preload(_logger, typeof(ToolkitApplication).Assembly, typeof(CommandDispatcher).Assembly);
+            DependencyPreloader.Preload(_logger, typeof(ToolkitApplication).Assembly, typeof(ModelChangeTally).Assembly,
+                typeof(WebViewHost).Assembly, typeof(CommandDispatcher).Assembly);
             Compose(_logger);
             CreateRibbon();
             _logger.Information("HP BIM Toolkit started in Revit {Version}; pane {PaneId} registered",
@@ -72,15 +76,16 @@ public sealed class ToolkitApplication : ExternalApplication
 
     private void Compose(Logger logger)
     {
-        var origins = PageOrigins.Resolve(Environment.GetEnvironmentVariable(DevServerVariable));
-        var assets = new EmbeddedAssetServer(typeof(ToolkitApplication).Assembly, origins, logger);
+        var origins = PageOrigins.Resolve(VirtualHost, Environment.GetEnvironmentVariable(DevServerVariable));
+        var assets = new EmbeddedAssetServer(typeof(ToolkitApplication).Assembly, origins, ProductName, logger);
         var changes = new ModelChangeTally();
         var theme = new HostThemeState();
         theme.Refresh();
         var dispatcher = new CommandDispatcher(RequestTimeout, TranslateRevitException);
 
         _queue = new RevitRequestQueue(logger);
-        _host = new WebViewHost(ToolkitPaths.WebViewProfile, assets.Attach, logger);
+        _host = new WebViewHost(new WebViewHostOptions(ToolkitPaths.WebViewProfile, DebugPortVariable, ProductName, ToolkitPaths.LogFolder),
+            assets.Attach, logger);
         _transport = new WebMessageTransport(_host, dispatcher, origins, logger);
 
         IToolkitModule[] modules =

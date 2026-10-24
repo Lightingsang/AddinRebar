@@ -1,8 +1,7 @@
-using HPBimToolkit.Core.Contracts;
-using HPBimToolkit.Core.Protocol;
+using HPWebHost.Protocol;
 using Xunit;
 
-namespace HPBimToolkit.Core.Tests.Protocol;
+namespace HPWebHost.Tests.Protocol;
 
 public sealed class RequestParserTests
 {

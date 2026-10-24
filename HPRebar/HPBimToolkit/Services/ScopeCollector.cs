@@ -1,5 +1,6 @@
 using Autodesk.Revit.UI;
 using HPBimToolkit.Core.Contracts;
+using HPWebHost.Protocol;
 using RevitView = Autodesk.Revit.DB.View;
 
 namespace HPBimToolkit.Services;

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- WebView2 half of the hosting shared by HP BIM Toolkit and HPRebar's Kata Export window (ADR-0010): the browser
+         control, the embedded-asset server and the message transport. The toolkit ships it beside its DLL; HPRebar
+         ILRepack-merges it, so no assembly named HPWebHost ever exists in HPRebar's load context. -->
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPWebHost</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Compile-only: the exact version Revit 2026 ships; the add-ins bind to the copy beside Revit.exe. -->
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35"
+                          ExcludeAssets="runtime;native;build;buildTransitive" PrivateAssets="all"/>
+        <PackageReference Include="Serilog" Version="4.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HPWebHost.Core\HPWebHost.Core.csproj"/>
+    </ItemGroup>
+
+</Project>

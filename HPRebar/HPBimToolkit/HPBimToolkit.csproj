@@ -35,43 +35,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\HPBimToolkit.Core\HPBimToolkit.Core.csproj"/>
+        <ProjectReference Include="..\HPWebHost\HPWebHost.csproj"/>
     </ItemGroup>
 
-    <!-- Frontend: HPBimToolkit.Frontend is built with npm (Node >= 24) and its dist/ embedded as wwwroot/<path>
-         resources, served by EmbeddedAssetServer. -p:SkipFrontendBuild=true embeds an existing dist/ without npm. -->
-    <PropertyGroup>
-        <FrontendDir>$(MSBuildProjectDirectory)\..\HPBimToolkit.Frontend\</FrontendDir>
-        <FrontendDist>$(FrontendDir)dist\</FrontendDist>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <FrontendSource Include="$(FrontendDir)src\**\*;$(FrontendDir)index.html;$(FrontendDir)package.json;$(FrontendDir)package-lock.json;$(FrontendDir)vite.config.ts;$(FrontendDir)tsconfig*.json"/>
-    </ItemGroup>
-
-    <!-- npm writes node_modules/.package-lock.json on install, so a changed lock file re-installs. -->
-    <Target Name="InstallFrontend"
-            Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package-lock.json')"
-            Inputs="$(FrontendDir)package-lock.json" Outputs="$(FrontendDir)node_modules\.package-lock.json">
-        <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(FrontendDir)"/>
-    </Target>
-
-    <!-- Incremental: npm runs only when a frontend source is newer than dist/index.html. -->
-    <Target Name="BuildFrontend" DependsOnTargets="InstallFrontend"
-            Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package.json')"
-            Inputs="@(FrontendSource)" Outputs="$(FrontendDist)index.html">
-        <Exec Command="npm run build" WorkingDirectory="$(FrontendDir)"/>
-    </Target>
-
-    <!-- Items are added inside a target because dist/ may not exist when the project is evaluated. -->
-    <Target Name="EmbedFrontend" BeforeTargets="PrepareForBuild" DependsOnTargets="BuildFrontend">
-        <ItemGroup>
-            <_FrontendFile Include="$(FrontendDist)**\*"/>
-            <EmbeddedResource Include="@(_FrontendFile)" WithCulture="false"
-                              LogicalName="$([System.String]::Copy('wwwroot/%(RecursiveDir)%(Filename)%(Extension)').Replace('\','/'))"/>
-        </ItemGroup>
-        <Warning Condition="'@(_FrontendFile)' == ''" Text="HPBimToolkit.Frontend/dist is empty: the pane will show the 'not built' placeholder."/>
-        <Message Importance="high" Condition="'@(_FrontendFile)' != ''" Text="EmbedFrontend: @(_FrontendFile->Count()) frontend files embedded"/>
-    </Target>
+    <!-- Frontend: built with npm (Node >= 24) and embedded as wwwroot/<path> resources; see the imported file. -->
+    <Import Project="..\HPBimToolkit.Frontend\embed-frontend.targets"/>
 
 </Project>
 

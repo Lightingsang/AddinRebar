@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Host-free half of the WebView2 hosting shared by HP BIM Toolkit and HPRebar's Kata Export window (ADR-0010):
+         protocol v1 envelopes, parser, dispatcher, asset routes and page origins. No Autodesk.*, no WPF, no WebView2,
+         so it is tested by HPWebHost.Tests without Revit. -->
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>HPWebHost</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+
+</Project>

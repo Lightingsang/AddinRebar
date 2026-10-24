@@ -1,7 +1,7 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 
-namespace HPBimToolkit.Core.Protocol;
+namespace HPWebHost.Protocol;
 
 /// <summary>The one serializer configuration for the wire: camelCase names and enums, nulls kept (the page tests for them).</summary>
 public static class BridgeJson

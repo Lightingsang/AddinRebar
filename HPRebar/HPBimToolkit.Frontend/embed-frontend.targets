@@ -1,0 +1,34 @@
+<Project>
+
+    <!-- Builds HPBimToolkit.Frontend (npm, Node >= 24) and embeds its dist/ as wwwroot/<path> resources, served by
+         HPWebHost's EmbeddedAssetServer. Imported by HP BIM Toolkit and by HPRebar for Revit 2026 (ADR-0010); the build
+         script holds a lock, so the two projects never run npm at the same time. -p:SkipFrontendBuild=true embeds an
+         existing dist/ without npm. -->
+    <PropertyGroup>
+        <FrontendDir>$(MSBuildThisFileDirectory)</FrontendDir>
+        <FrontendDist>$(FrontendDir)dist\</FrontendDist>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrontendSource Include="$(FrontendDir)src\**\*;$(FrontendDir)index.html;$(FrontendDir)kata.html;$(FrontendDir)package.json;$(FrontendDir)package-lock.json;$(FrontendDir)vite.config.ts;$(FrontendDir)tsconfig*.json"/>
+    </ItemGroup>
+
+    <!-- Incremental: the script runs only when a frontend source is newer than dist/kata.html (the last page added). -->
+    <Target Name="BuildFrontend"
+            Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package.json')"
+            Inputs="@(FrontendSource)" Outputs="$(FrontendDist)kata.html">
+        <Exec Command="node &quot;$(FrontendDir)tools\build-frontend-once.mjs&quot;" WorkingDirectory="$(FrontendDir)"/>
+    </Target>
+
+    <!-- Items are added inside a target because dist/ may not exist when the project is evaluated. -->
+    <Target Name="EmbedFrontend" BeforeTargets="PrepareForBuild" DependsOnTargets="BuildFrontend">
+        <ItemGroup>
+            <_FrontendFile Include="$(FrontendDist)**\*"/>
+            <EmbeddedResource Include="@(_FrontendFile)" WithCulture="false"
+                              LogicalName="$([System.String]::Copy('wwwroot/%(RecursiveDir)%(Filename)%(Extension)').Replace('\','/'))"/>
+        </ItemGroup>
+        <Warning Condition="'@(_FrontendFile)' == ''" Text="HPBimToolkit.Frontend/dist is empty: the window will show the 'not built' placeholder."/>
+        <Message Importance="high" Condition="'@(_FrontendFile)' != ''" Text="EmbedFrontend: @(_FrontendFile->Count()) frontend files embedded into $(AssemblyName)"/>
+    </Target>
+
+</Project>

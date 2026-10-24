@@ -1,11 +1,8 @@
 using System.Diagnostics;
-using HPBimToolkit.Core.Contracts;
-using HPBimToolkit.Core.Hosting;
-using HPBimToolkit.Core.Protocol;
-using HPBimToolkit.Host;
+using HPWebHost.Protocol;
 using Serilog;
 
-namespace HPBimToolkit.Bridge;
+namespace HPWebHost.Hosting;
 
 /// <summary>
 ///     Carries protocol v1 over the WebView: page messages → parser → dispatcher → response, and Revit events → page.

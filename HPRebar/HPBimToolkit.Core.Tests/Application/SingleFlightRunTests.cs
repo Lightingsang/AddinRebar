@@ -1,5 +1,6 @@
 using HPBimToolkit.Core.Application;
 using HPBimToolkit.Core.Contracts;
+using HPWebHost.Protocol;
 using Xunit;
 
 namespace HPBimToolkit.Core.Tests.Application;

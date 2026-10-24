@@ -1,7 +1,6 @@
 using System.Text.Json;
-using HPBimToolkit.Core.Contracts;
 
-namespace HPBimToolkit.Core.Protocol;
+namespace HPWebHost.Protocol;
 
 /// <summary>Runs one command. The token is cancelled when the caller gives up or the command's timeout elapses.</summary>
 public delegate Task<object?> BridgeCommandHandler(JsonElement? payload, CancellationToken cancellationToken);

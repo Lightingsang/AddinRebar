@@ -1,4 +1,4 @@
-namespace HPBimToolkit.Core.Contracts;
+namespace HPWebHost.Protocol;
 
 /// <summary>Error codes of protocol v1. The page switches on these, so they never change once shipped.</summary>
 public static class BridgeErrorCodes

@@ -1,9 +1,8 @@
 using System.Text.Json;
-using HPBimToolkit.Core.Contracts;
-using HPBimToolkit.Core.Protocol;
+using HPWebHost.Protocol;
 using Xunit;
 
-namespace HPBimToolkit.Core.Tests.Protocol;
+namespace HPWebHost.Tests.Protocol;
 
 public sealed class CommandDispatcherTests
 {
@@ -145,14 +144,14 @@ public sealed class CommandDispatcherTests
     public async Task DispatchAsync_TypedPayloadDoesNotFit_ReturnsBadRequest()
     {
         var dispatcher = new CommandDispatcher(TimeSpan.FromSeconds(5));
-        dispatcher.Register<StatisticsRequest>(CommandNames.GetStatistics, (request, _) => Task.FromResult<object?>(request.Scope));
+        dispatcher.Register<ScopedRequest>("scoped", (request, _) => Task.FromResult<object?>(request.Scope));
 
-        var good = await dispatcher.DispatchAsync(Request(CommandNames.GetStatistics, """{"scope":"activeView"}"""));
-        var missing = await dispatcher.DispatchAsync(Request(CommandNames.GetStatistics));
-        var bad = await dispatcher.DispatchAsync(Request(CommandNames.GetStatistics, """{"scope":"everything"}"""));
+        var good = await dispatcher.DispatchAsync(Request("scoped", """{"scope":"activeView"}"""));
+        var missing = await dispatcher.DispatchAsync(Request("scoped"));
+        var bad = await dispatcher.DispatchAsync(Request("scoped", """{"scope":"everything"}"""));
 
-        Assert.Equal(StatisticsScope.ActiveView, good.Payload);
-        Assert.Equal(StatisticsScope.Model, missing.Payload);
+        Assert.Equal(Scope.ActiveView, good.Payload);
+        Assert.Equal(Scope.Model, missing.Payload);
         Assert.Equal(BridgeErrorCodes.BadRequest, bad.Error!.Code);
     }
 
@@ -164,6 +163,14 @@ public sealed class CommandDispatcherTests
 
         Assert.Throws<InvalidOperationException>(() => dispatcher.Register("once", (_, _) => Task.FromResult<object?>(null)));
     }
+
+    public enum Scope
+    {
+        Model,
+        ActiveView,
+    }
+
+    public sealed record ScopedRequest(Scope Scope = Scope.Model);
 
     private static RequestEnvelope Request(string command, string? payloadJson = null) =>
         new("r1", command, payloadJson is null ? null : JsonDocument.Parse(payloadJson).RootElement.Clone());
