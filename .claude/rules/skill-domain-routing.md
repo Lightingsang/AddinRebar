@@ -9,6 +9,7 @@ User wants to...
 ├── Tạo Revit Add-In mới (scaffold)         → /bs:revit-addin
 ├── Setup multi-version (Revit 2022–2027)   → /bs:revit-addin
 ├── Viết ViewModel/View (MVVM + Toolkit)    → /bs:revit-wpf-mvvm
+├── Add-in giao diện web (WebView2 + React), module mới cho HP BIM Toolkit → /revit-webview-addin
 ├── Style XAML (Theme.xaml, dark/light)     → /bs:revit-xaml-styles
 ├── Debug add-in trong Revit (F5)           → /bs:revit-debug
 ├── Troubleshoot FileLoadException, deploy  → /bs:revit-debug
