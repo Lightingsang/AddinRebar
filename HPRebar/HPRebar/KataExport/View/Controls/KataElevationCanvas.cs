@@ -148,7 +148,16 @@ public sealed partial class KataElevationCanvas : FrameworkElement
         set => SetValue(ShowSectionProperty, value);
     }
 
+    /// <summary>Raised after every paint: the Revit 2026 web window then reads the recorded drawing and sends it as SVG.</summary>
+    internal event Action? Rendered;
+
     protected override void OnRender(DrawingContext drawingContext)
+    {
+        Paint(drawingContext);
+        Rendered?.Invoke();
+    }
+
+    private void Paint(DrawingContext drawingContext)
     {
         var palette = _palette ??= KataCanvasPalette.From(this);
         var draw = new KataDrawPrimitives(drawingContext, VisualTreeHelper.GetDpi(this).PixelsPerDip);

@@ -44,6 +44,23 @@
         <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
     </ItemGroup>
 
+    <!-- Kata Export web window, Revit 2026 only (ADR-0010). WebView2 is compile-only at the version Revit 2026 ships:
+         nothing is copied, so ILRepack has nothing to merge and the add-in binds to the copy beside Revit.exe. The
+         other versions keep the WPF window and never compile the web sources. -->
+    <ItemGroup Condition="'$(RevitVersion)' == '2026'">
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35"
+                          ExcludeAssets="runtime;native;build;buildTransitive" PrivateAssets="all"/>
+        <!-- Shared WebView2 hosting, ILRepack-merged into HPRebar.dll like every dependency. -->
+        <ProjectReference Include="..\HPWebHost\HPWebHost.csproj"/>
+    </ItemGroup>
+
+    <!-- The Kata Export page (kata.html of HPBimToolkit.Frontend), embedded for the Revit 2026 web window. -->
+    <Import Project="..\HPBimToolkit.Frontend\embed-frontend.targets" Condition="'$(RevitVersion)' == '2026'"/>
+
+    <ItemGroup Condition="'$(RevitVersion)' != '2026'">
+        <Compile Remove="KataExport\View\Web\**"/>
+    </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\HPRebar.Core\HPRebar.Core.csproj"/>
     </ItemGroup>

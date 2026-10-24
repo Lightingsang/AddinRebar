@@ -14,7 +14,7 @@
 | D5 | `HPRebar.Mcp.Server` never references Revit; `McpShared` never references `HPRebar/` | Enforced | csproj (CLAUDE.md "HPRebar MCP Bridge") |
 | D6 | No new NuGet package without a plan + user approval (Planning Mode trigger) | Enforced | review |
 | D7 | Remove packages nothing uses (`ClosedXML` is merged into `HPRebar.dll` but unused) | Target | `grep -rn "ClosedXML\|XLWorkbook" HPRebar/HPRebar --include=*.cs` |
-| D8 | `HPBimToolkit.Core` → `HPRebar.Core` only (Kata rules, ADR-0009); `HPBimToolkit` → `HPBimToolkit.Core` and may use `HPRebar.Core` types through it (ported Kata adapters); neither references the rebar add-in `HPRebar/HPRebar` (Kata adapters are ported, listed in the plan's port ledger) | Enforced | csproj |
+| D8 | `HPBimToolkit`/`HPBimToolkit.Core` never reference `HPRebar.Core` or the rebar add-in, and the rebar add-in never references the toolkit; `HPRebar` references `Microsoft.Web.WebView2` compile-only and only when `RevitVersion` is 2026 (ADR-0010) | Enforced | csproj |
 
 ## 2. Between feature folders (add-in and Core)
 

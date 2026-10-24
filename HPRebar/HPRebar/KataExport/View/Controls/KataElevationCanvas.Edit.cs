@@ -95,33 +95,44 @@ public sealed partial class KataElevationCanvas
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
-        if (e.Key == Key.Escape)
+        if (KeyPressed(e.Key, Keyboard.Modifiers)) e.Handled = true;
+    }
+
+    /// <summary>Esc, Delete and Ctrl+Z on the drawing; true when the key did something (else Esc still closes the window).</summary>
+    internal bool KeyPressed(Key key, ModifierKeys modifiers)
+    {
+        if (key == Key.Escape)
         {
-            // Handled only when it closed or dropped something: otherwise Esc still closes the window.
             if (SectionPanel() is not null)
             {
                 CloseSection();
-                e.Handled = true;
+                return true;
             }
-            else if (SelectedKeys is not null)
+
+            if (SelectedKeys is not null)
             {
                 ClearBarSelection();
-                e.Handled = true;
+                return true;
             }
         }
-        else if (e.Key == Key.Delete && SelectedKeys is { } keys && RemoveBarsCommand is { } remove && remove.CanExecute(keys))
+        else if (key == Key.Delete && SelectedKeys is { } keys && RemoveBarsCommand is { } remove && remove.CanExecute(keys))
         {
             ClearBarSelection();
             remove.Execute(keys);
-            e.Handled = true;
+            return true;
         }
-        else if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && UndoRemoveBarsCommand is { } undo && undo.CanExecute(null))
+        else if (key == Key.Z && (modifiers & ModifierKeys.Control) != 0 && UndoRemoveBarsCommand is { } undo && undo.CanExecute(null))
         {
             ClearBarSelection();
             undo.Execute(null);
-            e.Handled = true;
+            return true;
         }
+
+        return false;
     }
+
+    /// <summary>A group of bars is selected on the plan shown (the hint at the bottom tells how to delete it).</summary>
+    internal bool HasBarSelection => SelectedKeys is not null;
 
     /// <summary>Every line of the selected group, over the drawing in the accent colour, and how to delete it.</summary>
     private void PaintBarSelection(KataDrawPrimitives draw, KataCanvasPalette palette, KataElevationScene scene, KataRebarDrawing drawing, KataStationMap map)

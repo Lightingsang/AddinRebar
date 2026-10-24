@@ -14,7 +14,7 @@ metadata:
 
 # Revit add-in giao diện web (WebView2 + React) — quy trình
 
-Mẫu chuẩn đang chạy thật: **HP BIM Toolkit** (Revit 2026, live-verified). Mọi việc mới bắt đầu từ code đó, không dựng lại từ đầu. Ngoại lệ UI: ADR-0008 (`docs/architecture/adr/0008-bim-toolkit-webview2-ui.md`) cho phép WebView2 + React **chỉ** với HP BIM Toolkit — tính năng web mới là module của toolkit; add-in mới muốn dùng web phải được người dùng duyệt + ADR mới (mặc định WPF + MaterialDesign). Hướng dẫn chung (không phải lời ADR): web cho công cụ nhiều dữ liệu, hộp thoại nhỏ để WPF.
+Mẫu chuẩn đang chạy thật: **HP BIM Toolkit** (Revit 2026, live-verified). Mọi việc mới bắt đầu từ code đó, không dựng lại từ đầu. Ngoại lệ UI: ADR-0008 (`docs/architecture/adr/0008-bim-toolkit-webview2-ui.md`) cho phép WebView2 + React với HP BIM Toolkit, ADR-0010 thêm cửa sổ Kata Export của HPRebar (chỉ R26, giữ ViewModel WPF làm máy trạng thái) — tính năng web mới khác là module của toolkit; add-in mới muốn dùng web phải được người dùng duyệt + ADR mới (mặc định WPF + MaterialDesign). Hướng dẫn chung (không phải lời ADR): web cho công cụ nhiều dữ liệu, hộp thoại nhỏ để WPF.
 
 ## Bước 0 — Scout trước, rồi mới quyết
 
@@ -27,7 +27,7 @@ Mẫu chuẩn đang chạy thật: **HP BIM Toolkit** (Revit 2026, live-verified
 | Lớp | Nơi đặt | Được phép | Cấm |
 |---|---|---|---|
 | Frontend | `HPBimToolkit.Frontend/src/modules/<module>/`, UI kit `src/ui/` | state UI, gọi `bridge.request`, nghe event | gọi mạng ngoài, giữ token, logic Revit |
-| Bridge (hợp đồng) | `HPBimToolkit.Core/Contracts`, `Protocol/` | DTO `record`, tên lệnh/event, parse, timeout, mã lỗi | tham chiếu `Autodesk.*` |
+| Bridge (hợp đồng) | DTO: `HPBimToolkit.Core/Contracts`; protocol dùng chung (envelope, parser, dispatcher, timeout): `HPWebHost.Core/Protocol` | DTO `record`, tên lệnh/event, parse, timeout, mã lỗi | tham chiếu `Autodesk.*` |
 | Domain | `HPBimToolkit.Core/Domain/<Module>/` (cũ: `Statistics/`) | quy tắc nghiệp vụ thuần, validate | Revit API, I/O |
 | Application | `HPBimToolkit.Core/Application/` + `HPBimToolkit/Modules/<Module>/` | điều phối use case, đăng ký lệnh, validate trước khi xếp hàng | thuật toán (đưa xuống Domain), gọi API ngoài queue |
 | Infrastructure | `HPBimToolkit/Services/` (adapter Revit → DTO), `ExternalEvents/`, `Bridge/`, `Host/`, `Infrastructure/` | Revit API trên API thread, WebView2, log | trả object Revit cho trang |

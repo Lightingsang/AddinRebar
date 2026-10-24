@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Interop;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -24,7 +25,7 @@ namespace HPRebar.KataExport;
 [Transaction(TransactionMode.Manual)]
 public sealed class KataExportCommand : ExternalCommand
 {
-    private static KataExportView? _window;
+    private static Window? _window;
 
     public override void Execute()
     {
@@ -85,7 +86,7 @@ public sealed class KataExportCommand : ExternalCommand
 
             var handler = new KataExportExternalEventHandler(document, uiDocument.ActiveView);
             var viewModel = new KataExportViewModel(session, handler, new KataRebarTypeResolver(document));
-            var view = new KataExportView(viewModel);
+            var view = CreateWindow(viewModel);
 
             new WindowInteropHelper(view).Owner = Application.MainWindowHandle;
 
@@ -103,5 +104,19 @@ public sealed class KataExportCommand : ExternalCommand
             Log.Error(ex, "Kata Export: Lỗi khi đọc dữ liệu dầm");
             RevitDialogs.Error("Kata Export", $"Không thể đọc thông tin dải dầm đã chọn:{Environment.NewLine}{ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Both windows run the same view model. Revit 2026 opens the web one (ADR-0010) unless HPREBAR_KATA_UI=wpf asks
+    /// for the WPF window, kept as the fallback; the other versions only have the WPF window.
+    /// </summary>
+    private static Window CreateWindow(KataExportViewModel viewModel)
+    {
+        // Multi-version: the Kata Export web window exists on Revit 2026 only (ADR-0010)
+#if REVIT2026
+        if (!string.Equals(Environment.GetEnvironmentVariable("HPREBAR_KATA_UI"), "wpf", StringComparison.OrdinalIgnoreCase))
+            return new View.Web.KataWebWindow(viewModel);
+#endif
+        return new KataExportView(viewModel);
     }
 }

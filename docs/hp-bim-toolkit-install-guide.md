@@ -95,7 +95,7 @@ Hiệu năng trên model đang mở: `node HPRebar/HPBimToolkit/tools/harness/pe
 ## Mở rộng module mới
 
 1. C#: thư mục `HPBimToolkit/Modules/<Tên>/` với lớp `: IToolkitModule` đăng ký lệnh `<module>.<verb>` trên `CommandDispatcher`; đọc/ghi Revit qua `RevitRequestQueue`; thêm vào mảng `modules` trong `ToolkitApplication.Compose` (trước `AppModule`).
-2. Contracts: DTO trong `HPBimToolkit.Core/Contracts`, tên lệnh trong `BridgeNames.cs`, test hình dạng JSON trong `WireFormatTests`; khai báo lệnh/event và kiểu payload trong `HPBimToolkit.Core.Tests/TypeScript/ProtocolCatalog.cs`.
+2. Contracts: DTO trong `HPBimToolkit.Core/Contracts` (envelope, parser, dispatcher dùng chung nằm ở `HPWebHost.Core`), tên lệnh trong `BridgeNames.cs`, test hình dạng JSON trong `WireFormatTests`; khai báo lệnh/event và kiểu payload trong `HPBimToolkit.Core.Tests/TypeScript/ProtocolCatalog.cs`.
 3. Sinh lại kiểu TypeScript (`src/bridge/contracts.generated.ts`, không sửa tay):
 
    ```bash

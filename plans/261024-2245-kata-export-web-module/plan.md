@@ -1,5 +1,7 @@
 # Kata Export — module web trong HP BIM Toolkit (Export + tạo thép)
 
+> **Bỏ (2026-10-24, người dùng):** Kata ở lại HPRebar — thay bằng `plans/261024-2345-kata-export-web-ui-hprebar/` (ADR-0010). Phase 1 của plan này cất ở `git stash` "toolkit Kata phase 1 (superseded…)".
+
 2026-10-24. Quy trình: skill `/revit-webview-addin`. Nguồn: tool WPF `HPRebar/HPRebar/KataExport` (66 file, 7,5k dòng) + `KataRebar` (46 file, 3,8k dòng), engine `HPRebar.Core/KataExport` + `KataRebar` (~12k dòng, thuần).
 
 ## Quyết định người dùng (2026-10-24)

@@ -1,6 +1,6 @@
 # 0009 — HP BIM Toolkit uses HPRebar.Core for Kata; Kata's Revit adapters are ported
 
-- **Status:** Accepted (2026-10-24, by user)
+- **Status:** Superseded by [0010](0010-kata-export-web-ui-in-hprebar.md) (2026-10-24, by user: Kata stays in the rebar add-in; the toolkit reference, ported adapter and D8 were removed)
 - **Tags:** [PROJECT] [REVIT]
 
 ## Context

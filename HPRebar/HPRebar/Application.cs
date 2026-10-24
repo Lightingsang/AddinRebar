@@ -28,6 +28,19 @@ namespace HPRebar
         public override void OnStartup()
         {
             CreateLogger();
+            // Multi-version: the Kata Export web window exists on Revit 2026 only (ADR-0010)
+#if REVIT2026
+            try
+            {
+                KataExport.View.Web.KataWebWarmUp.Run();
+            }
+            catch (Exception exception)
+            {
+                // Binding the WebView2 types happens when Run is compiled, before its own try: a broken WebView2 must
+                // cost the Kata web window only, never the whole add-in.
+                Log.Warning(exception, "Kata web: WebView2 could not be bound at start-up");
+            }
+#endif
 
             try
             {
