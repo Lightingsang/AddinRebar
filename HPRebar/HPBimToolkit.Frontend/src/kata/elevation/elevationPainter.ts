@@ -5,7 +5,7 @@
 import type { KataWebColumn, KataWebSupport } from '../kataScene';
 import { LabelLane } from './labelLane';
 import type { Palette } from './palette';
-import { BUBBLE_RADIUS, FOOTING_PX, LOWER_STUB_PX, UPPER_STUB_PX, beamFaces, isVisible, isZeroWidth, screenSpan, sx, sy, type Scene } from './scene';
+import { BUBBLE_RADIUS, FOOTING_PX, LOWER_STUB_PX, UPPER_STUB_PX, beamFaces, beamPieces, facesAt, isVisible, isZeroWidth, screenSpan, sx, sy, type Scene } from './scene';
 import { ShapeList, type Shape } from './shapes';
 import { TEXT_SIZE, measure } from './text';
 import { contains, mid } from './viewport';
@@ -40,18 +40,28 @@ function paintGridLines(scene: Scene, palette: Palette, out: ShapeList): void {
 function paintFrame(scene: Scene, palette: Palette, out: ShapeList): void {
   const elevation = scene.elevation;
 
-  // Spans: beam top and bottom lines.
+  // Spans: each beam's own top and bottom lines, with a step where the next beam of the span sits higher or lower.
   for (const column of elevation.columns) {
     if (column.kind !== 'span') continue;
-    const left = sx(scene, column.extent.start);
-    const right = sx(scene, column.extent.end);
-    if (!isVisible(scene, left, right)) continue;
-    const faces = beamFaces(elevation, column.extent);
-    const top = sy(scene, faces.top);
-    const bottom = sy(scene, faces.bottom);
-    out.box(palette.beamFill, undefined, left, top, right, bottom);
-    out.line(palette.outline, left, top, right, top);
-    out.line(palette.outline, left, bottom, right, bottom);
+    if (!isVisible(scene, sx(scene, column.extent.start), sx(scene, column.extent.end))) continue;
+    const pieces = beamPieces(elevation, column.extent);
+    if (pieces.length === 0) {
+      const faces = beamFaces(elevation, column.extent);
+      pieces.push({ start: column.extent.start, end: column.extent.end, top: faces.top, bottom: faces.bottom });
+    }
+    pieces.forEach((piece, i) => {
+      const left = sx(scene, piece.start);
+      const right = sx(scene, piece.end);
+      const top = sy(scene, piece.top);
+      const bottom = sy(scene, piece.bottom);
+      out.box(palette.beamFill, undefined, left, top, right, bottom);
+      out.line(palette.outline, left, top, right, top);
+      out.line(palette.outline, left, bottom, right, bottom);
+      const previous = pieces[i - 1];
+      if (!previous) return;
+      if (previous.top !== piece.top) out.line(palette.outline, left, sy(scene, previous.top), left, top);
+      if (previous.bottom !== piece.bottom) out.line(palette.outline, left, sy(scene, previous.bottom), left, bottom);
+    });
   }
 
   for (const support of elevation.supports) paintSupport(scene, palette, out, support);
@@ -76,8 +86,8 @@ function paintSupport(scene: Scene, palette: Palette, out: ShapeList, support: K
     .at(-1);
   const spanRight = columns.slice(support.columnIndex + 1).find((c) => c.kind === 'span' && Math.abs(c.extent.start - support.extent.end) < 10);
   const own = beamFaces(elevation, support.extent);
-  const facesLeft = spanLeft ? beamFaces(elevation, spanLeft.extent) : own;
-  const facesRight = spanRight ? beamFaces(elevation, spanRight.extent) : own;
+  const facesLeft = spanLeft ? facesAt(elevation, spanLeft.extent, spanLeft.extent.end) : own;
+  const facesRight = spanRight ? facesAt(elevation, spanRight.extent, spanRight.extent.start) : own;
 
   let topMm = Math.max(spanLeft ? facesLeft.top : -Infinity, spanRight ? facesRight.top : -Infinity);
   if (!Number.isFinite(topMm)) topMm = own.top;

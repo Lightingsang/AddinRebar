@@ -97,6 +97,31 @@ export function beamFaces(elevation: KataWebElevation, extent: KataWebRange): { 
   return Number.isFinite(top) ? { top, bottom } : { top: elevation.topMm, bottom: elevation.bottomMm };
 }
 
+export interface BeamPiece {
+  start: number;
+  end: number;
+  top: number;
+  bottom: number;
+}
+
+/**
+ * The beams under `extent`, each cut to it, in station order. A span made of several beams (a deeper or dropped piece
+ * between a support and a transfer column) keeps one box per beam, so its steps show.
+ */
+export function beamPieces(elevation: KataWebElevation, extent: KataWebRange): BeamPiece[] {
+  return elevation.beams
+    .map((b) => ({ start: Math.max(b.extent.start, extent.start), end: Math.min(b.extent.end, extent.end), top: b.topMm, bottom: b.bottomMm }))
+    .filter((p) => p.end - p.start > 1)
+    .sort((a, b) => a.start - b.start);
+}
+
+/** Top and bottom of the beam of `span` that meets a support edge at `station` (the span's first or last piece). */
+export function facesAt(elevation: KataWebElevation, span: KataWebRange, station: number): { top: number; bottom: number } {
+  const inside = station <= mid(span) ? { start: station, end: station + 1 } : { start: station - 1, end: station };
+  const piece = beamPieces(elevation, span).find((p) => overlaps(p, inside, 0));
+  return piece ? { top: piece.top, bottom: piece.bottom } : beamFaces(elevation, span);
+}
+
 /** A column's screen span, at least `minPx` wide so zero-width columns stay visible. */
 export function screenSpan(scene: Scene, extent: KataWebRange, minPx: number): { left: number; right: number } {
   const left = sx(scene, extent.start);
