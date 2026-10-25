@@ -52,7 +52,8 @@ export function sectionFrame(section: KataWebSection, width: number, height: num
 
 /**
  * An AutoCAD polyline with bulges as an SVG path: a bulge b turns the segment into an arc of 4·atan(b), counter-clockwise
- * for b > 0 in the drawing (z up), i.e. clockwise on screen (y down) — SVG's sweep flag 1.
+ * for b > 0. The drawing is shown the right way up (z up = screen up), so the arc is counter-clockwise on screen too,
+ * and SVG's sweep flag 1 is the positive-angle direction of a y-down screen, i.e. clockwise: b > 0 is flag 0.
  */
 export function bulgePath(vertices: KataWebVertex[], point: (x: number, z: number) => Point): string {
   if (vertices.length === 0) return '';
@@ -69,7 +70,7 @@ export function bulgePath(vertices: KataWebVertex[], point: (x: number, z: numbe
     const [ax, ay] = point(from.x, from.z);
     const theta = 4 * Math.atan(Math.abs(from.bulge));
     const radius = Math.hypot(x - ax, y - ay) / (2 * Math.sin(theta / 2));
-    d += ` A${f(radius)} ${f(radius)} 0 ${theta > Math.PI ? 1 : 0} ${from.bulge > 0 ? 1 : 0} ${f(x)} ${f(y)}`;
+    d += ` A${f(radius)} ${f(radius)} 0 ${theta > Math.PI ? 1 : 0} ${from.bulge > 0 ? 0 : 1} ${f(x)} ${f(y)}`;
   }
   return d;
 }

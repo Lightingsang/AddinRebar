@@ -65,9 +65,27 @@ describe('plain section card', () => {
 describe('section drawing', () => {
   it('turns a bulge of 1 into a half circle and −0.414 into a clockwise quarter (drawing z up)', () => {
     const p = (x: number, z: number): [number, number] => [x, -z];
-    expect(bulgePath([{ x: 0, z: 0, bulge: 1 }, { x: 10, z: 0, bulge: 0 }], p)).toBe('M0 0 A5 5 0 0 1 10 0');
+    expect(bulgePath([{ x: 0, z: 0, bulge: 1 }, { x: 10, z: 0, bulge: 0 }], p)).toBe('M0 0 A5 5 0 0 0 10 0');
     const quarter = bulgePath([{ x: 0, z: 0, bulge: -Math.tan(Math.PI / 8) }, { x: 10, z: 10, bulge: 0 }], p);
-    expect(quarter).toMatch(/^M0 0 A10 10 0 0 0 10 -10$/);
+    expect(quarter).toMatch(/^M0 0 A10 10 0 0 1 10 -10$/);
+  });
+
+  it("bends the stirrups as Kata's drawing does: hooks over the top bars, corners rounded inside the hoop", () => {
+    // Drawing mm straight to screen px, z up: the arcs' midpoints are read back from the SVG path and turned to mm.
+    const p = (x: number, z: number): [number, number] => [x, -z];
+    const stirrups = section.lines.filter((l) => l.pen === 'stirrup');
+    const hoop = stirrups.find((l) => l.vertices.length === 12)!;
+    const u = stirrups.find((l) => l.vertices.length === 10)!;
+    const topBar = Math.max(...section.bars.map((b) => b.z));
+
+    // The U's 180° hook (half circle, bulge 1, from its tail leg to the long leg) passes over the top bar's centre.
+    const hook = arcMidpoints(bulgePath(u.vertices, p))[0]!;
+    expect(-hook[1]).toBeGreaterThan(topBar);
+    // The hoop's top-left corner (bulge −0.414 from the left leg to the top) bends toward the outer corner.
+    const left = Math.min(...hoop.vertices.map((v) => v.x));
+    const top = Math.max(...hoop.vertices.map((v) => v.z));
+    const corner = arcMidpoints(bulgePath(hoop.vertices, p)).find(([x, y]) => x < left + 10 && -y > top - 10)!;
+    expect(corner).toBeDefined();
   });
 
   it('fits the section in the panel and zooms about the cursor', () => {
@@ -89,3 +107,30 @@ describe('section drawing', () => {
     expect(shapes.filter((s) => s.t === 'path')).toHaveLength(section.lines.length);
   });
 });
+
+/** The midpoint of every arc of an SVG path made of M / L / A (circular arcs, no rotation), per the SVG arc rules. */
+function arcMidpoints(d: string): [number, number][] {
+  const out: [number, number][] = [];
+  let at: [number, number] = [0, 0];
+  for (const [, cmd, args] of d.matchAll(/([MLA])([^MLA]*)/g)) {
+    const n = args!.trim().split(/[\s,]+/).map(Number);
+    if (cmd !== 'A') {
+      at = [n[0]!, n[1]!];
+      continue;
+    }
+    const [r, , , large, sweep, x2, y2] = n as [number, number, number, number, number, number, number];
+    const [x1, y1] = at;
+    const hx = (x1 - x2) / 2;
+    const hy = (y1 - y2) / 2;
+    const k = Math.sqrt(Math.max(0, (r * r - hx * hx - hy * hy) / (hx * hx + hy * hy))) * (large === sweep ? -1 : 1);
+    const cx = k * hy + (x1 + x2) / 2;
+    const cy = -k * hx + (y1 + y2) / 2;
+    const a1 = Math.atan2(y1 - cy, x1 - cx);
+    let delta = Math.atan2(y2 - cy, x2 - cx) - a1;
+    if (sweep === 1 && delta < 0) delta += 2 * Math.PI;
+    if (sweep === 0 && delta > 0) delta -= 2 * Math.PI;
+    out.push([cx + r * Math.cos(a1 + delta / 2), cy + r * Math.sin(a1 + delta / 2)]);
+    at = [x2, y2];
+  }
+  return out;
+}
