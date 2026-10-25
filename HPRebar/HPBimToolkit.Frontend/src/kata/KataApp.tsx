@@ -3,6 +3,7 @@ import { Badge, Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useToast } from '../ui/Toast';
 import { ElevationView } from './ElevationView';
+import { NativeElevation } from './elevation/NativeElevation';
 import { KataColumnsTable } from './KataColumnsTable';
 import { KataParameters } from './KataParameters';
 import type { KataBridge, KataViewState } from './kataContracts';
@@ -17,8 +18,18 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   );
 }
 
+/** `?renderer=native|svg` on the page forces one drawing, to compare them; otherwise the page draws what it can itself. */
+const forcedRenderer = new URLSearchParams(window.location.search).get('renderer');
+
+/** The page draws everything itself once the scene has come; the WPF picture only before that, or when forced. */
+function drawsNatively(kata: KataController): boolean {
+  if (!kata.scene) return false;
+  return forcedRenderer !== 'svg';
+}
+
 function ElevationCard({ state, kata }: { state: KataViewState; kata: KataController }) {
   const busy = state.isBusy;
+  const scene = kata.scene;
   return (
     <Card title="Mặt đứng dải dầm" className="flex min-h-0 flex-col">
       <div className="mb-1.5 flex shrink-0 flex-wrap items-center gap-1.5">
@@ -44,7 +55,27 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
         {state.selectionText}
       </div>
       <div className="min-h-[260px] flex-1">
-        <ElevationView drawing={kata.drawing} gesture={kata.gesture} setViewport={kata.setViewport} onUnhandledEscape={() => kata.run('close')} />
+        {scene && drawsNatively(kata) ? (
+          <NativeElevation
+            elevation={scene.elevation}
+            rebar={scene.rebar}
+            stationMap={scene.stationMap}
+            showRebar={state.showRebar}
+            showBarTags={state.showBarTags}
+            showSection={state.showSection}
+            canUndoRemoveBars={state.can.undoRemoveBars}
+            loadSection={kata.loadSection}
+            removeBars={kata.removeBars}
+            undoRemoveBars={() => kata.run('undoRemoveBars')}
+            theme={state.theme}
+            selectedColumn={state.selectedColumn}
+            focus={kata.focus}
+            onSelectColumn={(selectedColumn) => kata.update({ selectedColumn })}
+            onUnhandledEscape={() => kata.run('close')}
+          />
+        ) : (
+          <ElevationView drawing={kata.drawing} gesture={kata.gesture} setViewport={kata.setViewport} onUnhandledEscape={() => kata.run('close')} />
+        )}
       </div>
       <p className="mt-1 shrink-0 text-[11px] text-muted">Lăn chuột: phóng to · giữ chuột giữa hoặc Shift + kéo: di chuyển · nháy đúp chuột giữa: toàn dải · bấm: chọn cột / nhóm thép</p>
     </Card>

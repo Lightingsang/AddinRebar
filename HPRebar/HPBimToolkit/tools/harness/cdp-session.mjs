@@ -41,12 +41,40 @@ export async function connectToToolkitPage(port, { timeoutMs = 30000, urlPart = 
       socket.send(JSON.stringify({ id, method, params }));
     });
 
+  // Real input events in page coordinates (CSS pixels), as the user's mouse would send them.
+  const mouseEvent = (type, x, y, extra = {}) => send('Input.dispatchMouseEvent', { type, x, y, ...extra });
+  const buttons = { left: 1, middle: 4 };
+
   return {
     url: target.url,
     async evaluate(expression) {
       const result = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
       if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description ?? 'evaluation failed');
       return result.result.value;
+    },
+    mouse: {
+      /** deltaY < 0 scrolls up (zooms in on the elevation). */
+      wheel: (x, y, deltaY) => mouseEvent('mouseWheel', x, y, { deltaX: 0, deltaY }),
+      async click(x, y, button = 'left') {
+        await mouseEvent('mousePressed', x, y, { button, buttons: buttons[button], clickCount: 1 });
+        await mouseEvent('mouseReleased', x, y, { button, buttons: 0, clickCount: 1 });
+      },
+      async drag(x1, y1, x2, y2, { button = 'left', steps = 8 } = {}) {
+        await mouseEvent('mousePressed', x1, y1, { button, buttons: buttons[button], clickCount: 1 });
+        for (let i = 1; i <= steps; i++) {
+          await mouseEvent('mouseMoved', x1 + ((x2 - x1) * i) / steps, y1 + ((y2 - y1) * i) / steps, { button, buttons: buttons[button] });
+        }
+        await mouseEvent('mouseReleased', x2, y2, { button, buttons: 0, clickCount: 1 });
+      },
+    },
+    keyboard: {
+      /** A key press to the focused element; `key` as KeyboardEvent.key ('Delete', 'Escape', 'z'), Ctrl when asked. */
+      async press(key, { ctrl = false } = {}) {
+        const codes = { Delete: 46, Escape: 27, z: 90 };
+        const base = { key, code: key.length === 1 ? `Key${key.toUpperCase()}` : key, windowsVirtualKeyCode: codes[key] ?? 0, modifiers: ctrl ? 2 : 0 };
+        await send('Input.dispatchKeyEvent', { type: 'keyDown', ...base });
+        await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base });
+      },
     },
     close: () => socket.close(),
   };

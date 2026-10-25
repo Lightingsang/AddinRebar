@@ -1,6 +1,7 @@
 import { BridgeError } from '../bridge/bridgeClient';
 import { EventHub } from '../bridge/eventHub';
 import type { KataAction, KataBridge, KataCanvasInput, KataCommandMap, KataEventMap, KataPreviewColumn, KataUpdateRequest, KataViewState } from './kataContracts';
+import type { KataWebColumn, KataWebScene, KataWebSection } from './kataScene';
 
 const column = (letter: string, kind: string, row11: string, row19 = '', row20 = '', row21 = '', row22 = '', row23 = ''): KataPreviewColumn => ({
   letter, kind, row11, row19, row20, row21, row22, row23,
@@ -41,6 +42,20 @@ export function mockKataState(): KataViewState {
   };
 }
 
+const kindName = (c: KataWebColumn, scene: KataWebScene) =>
+  c.kind === 'span'
+    ? `Nhịp ${c.spanNumber}`
+    : c.kind === 'joint'
+      ? 'Nối'
+      : c.kind === 'freeEnd'
+        ? 'Đầu tự do'
+        : ({ foundation: 'Móng', beam: 'Dầm giao', column: 'Cột' } as const)[scene.elevation.supports.find((s) => s.columnIndex === c.index)?.kind ?? 'column'];
+
+/** The table rows of a scene, as KataPreviewBuilder writes them. */
+export function previewColumns(scene: KataWebScene): KataPreviewColumn[] {
+  return scene.elevation.columns.map((c) => column(c.letter, kindName(c, scene), c.row11, c.row19, c.row20, c.row21, c.row22, c.row23));
+}
+
 /** A plain elevation of the mock columns, so the dev page shows something drawn by "the host". */
 function mockSvg(state: KataViewState, width: number, height: number): string {
   const lengths = state.columns.map((c) => Number(c.row11) || 0);
@@ -74,9 +89,23 @@ export class KataMockBridge implements KataBridge {
   private revision = 0;
   private readonly latencyMs: number;
 
-  constructor(options: { latencyMs?: number; state?: Partial<KataViewState> } = {}) {
+  private readonly scene: KataWebScene | null;
+  private readonly sections: Record<number, KataWebSection>;
+  private readonly removals: string[][] = [];
+  private sceneRevision = 1;
+  private focusSerial = 0;
+
+  /**
+   * @param options.scene A scene the page draws itself (the B03 fixture in `npm run dev`); its columns fill the table.
+   * @param options.sections Sections the host would build, by cut number.
+   */
+  constructor(options: { latencyMs?: number; state?: Partial<KataViewState>; scene?: KataWebScene; sections?: Record<number, KataWebSection> } = {}) {
     this.latencyMs = options.latencyMs ?? 150;
-    this.state = { ...this.state, ...options.state };
+    this.scene = options.scene ?? null;
+    this.sections = options.sections ?? {};
+    this.state = { ...this.state, ...(this.scene ? { columns: previewColumns(this.scene), showRebar: false, showSection: false } : {}), ...options.state };
+    // The host sends the scene once the page is up.
+    if (this.scene) setTimeout(() => this.events.emit('kata.scene', { revision: 1, scene: this.scene }), this.latencyMs);
   }
 
   on: KataBridge['on'] = (event, handler) => this.events.on(event, handler);
@@ -101,6 +130,12 @@ export class KataMockBridge implements KataBridge {
         return null;
       case 'kata.canvas':
         return this.gesture(payload as KataCanvasInput);
+      case 'kata.section':
+        return this.sections[(payload as { number: number }).number] ?? null;
+      case 'kata.removeBars':
+        this.removals.push((payload as { keys: string[] }).keys);
+        this.emitScene();
+        return null;
       default:
         throw new BridgeError({ code: 'UNKNOWN_COMMAND', message: `Lệnh không tồn tại: ${String(command)}` });
     }
@@ -134,11 +169,37 @@ export class KataMockBridge implements KataBridge {
       loadRebar: "Đã đọc thép dầm 'DY7': 24 thanh, 182.4 kg — kiểm tra rồi bấm Tạo thép.",
       refreshExcel: 'Sẵn sàng ghi sang Excel.',
     };
+    if (action === 'frameAll') this.focus(null);
+    if (action === 'undoRemoveBars' && this.removals.pop()) this.emitScene();
+    if (action === 'previousSpan' || action === 'nextSpan') this.stepSpan(action === 'nextSpan' ? 1 : -1);
     if (status[action]) {
       this.setState({ ...this.state, status: status[action]!, hasError: false, can: { ...this.state.can, generateRebar: action === 'loadRebar' || this.state.can.generateRebar } });
     }
 
     return { started: true };
+  }
+
+  /** The scene without the bar groups removed so far, as the view model would send it. */
+  private emitScene(): void {
+    if (!this.scene?.rebar) return;
+    const removed = new Set(this.removals.flat());
+    const lines = this.scene.rebar.lines.filter((l) => !l.keys.some((k) => removed.has(k)));
+    this.setState({ ...this.state, can: { ...this.state.can, undoRemoveBars: this.removals.length > 0 } });
+    this.events.emit('kata.scene', { revision: ++this.sceneRevision, scene: { ...this.scene, rebar: { ...this.scene.rebar, lines } } });
+  }
+
+  private focus(columnIndex: number | null): void {
+    this.events.emit('kata.focus', { columnIndex, serial: ++this.focusSerial });
+  }
+
+  /** The span after or before the selected column (KataElevation.SpanStep), selected and framed. */
+  private stepSpan(direction: number): void {
+    const spans = this.state.columns.flatMap((c, i) => (c.kind.startsWith('Nhịp') ? [i] : []));
+    const current = this.state.selectedColumn;
+    const next = current < 0 ? (direction > 0 ? spans[0] : spans.at(-1)) : direction > 0 ? spans.find((i) => i > current) : spans.filter((i) => i < current).at(-1);
+    if (next === undefined) return;
+    this.update({ selectedColumn: next });
+    this.focus(next);
   }
 
   private gesture(input: KataCanvasInput): { handled: boolean } {
