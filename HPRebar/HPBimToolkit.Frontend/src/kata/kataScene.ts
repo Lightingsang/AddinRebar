@@ -245,3 +245,53 @@ export interface KataFocusEvent {
   columnIndex: number | null;
   serial: number;
 }
+
+// The 3D view (KataWeb3dModels.cs): the layout's local mm, X along the beam, Y across from its centre line, Z up from
+// its top.
+
+export type KataBarRole =
+  | 'mainTop'
+  | 'mainBottom'
+  | 'extraTop'
+  | 'extraBottom'
+  | 'sideBar'
+  | 'crossTie'
+  | 'stirrupClosed'
+  | 'stirrupCap'
+  | 'hangerBar';
+
+export type KataWeb3dBoxKind = 'beam' | 'column';
+
+export interface KataWebPoint3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+/** One bar shape laid at each offset along X; `key` empty for bars that go only with their zone. */
+export interface KataWeb3dGroup {
+  key: string;
+  role: KataBarRole;
+  diameter: number;
+  number: number;
+  points: KataWebPoint3[];
+  closed: boolean;
+  offsets: number[];
+}
+
+export interface KataWeb3dBox {
+  x1: number;
+  x2: number;
+  y1: number;
+  y2: number;
+  z1: number;
+  z2: number;
+  kind: KataWeb3dBoxKind;
+}
+
+export interface KataWeb3dModel {
+  groups: KataWeb3dGroup[];
+  concrete: KataWeb3dBox[];
+  length: number;
+  barCount: number;
+}

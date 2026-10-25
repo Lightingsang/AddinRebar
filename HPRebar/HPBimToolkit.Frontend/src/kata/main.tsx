@@ -6,7 +6,7 @@ import { ToastProvider } from '../ui/Toast';
 import { KataApp } from './KataApp';
 import type { KataBridge, KataCommandMap, KataEventMap } from './kataContracts';
 import { KataMockBridge } from './kataMockBridge';
-import type { KataWebScene, KataWebSection } from './kataScene';
+import type { KataWeb3dModel, KataWebScene, KataWebSection } from './kataScene';
 
 // Inside HPRebar's Kata Export window (WebView2) the real bridge; in a normal browser (npm run dev) the mock.
 // The mock draws the B03 fixture (loaded on demand, so the add-in's build never carries it).
@@ -14,8 +14,16 @@ const port = window.chrome?.webview;
 
 async function createBridge(): Promise<KataBridge> {
   if (port) return new RevitBridgeClient<KataCommandMap, KataEventMap>(port);
-  const [scene, section] = await Promise.all([import('./__fixtures__/kata-scene-b03.json'), import('./__fixtures__/kata-section-b03-1.json')]);
-  return new KataMockBridge({ scene: scene.default as unknown as KataWebScene, sections: { 1: section.default as unknown as KataWebSection } });
+  const [scene, section, model3d] = await Promise.all([
+    import('./__fixtures__/kata-scene-b03.json'),
+    import('./__fixtures__/kata-section-b03-1.json'),
+    import('./__fixtures__/kata-model3d-b03.json'),
+  ]);
+  return new KataMockBridge({
+    scene: scene.default as unknown as KataWebScene,
+    sections: { 1: section.default as unknown as KataWebSection },
+    model3d: model3d.default as unknown as KataWeb3dModel,
+  });
 }
 
 void createBridge().then((bridge) =>

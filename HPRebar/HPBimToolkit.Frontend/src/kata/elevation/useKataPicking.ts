@@ -4,13 +4,21 @@ import { SAME_SPOT_PX, barHits } from './kataHit';
 import type { Point } from './kataElevationPainter';
 import type { SectionState } from './SectionPanel';
 
+/** A bar selection kept above the drawing, so the elevation and the 3D view share it (keys of the plan shown). */
+export interface SharedBarSelection {
+  keys: string[] | null;
+  set(keys: string[] | null): void;
+}
+
 /**
  * The bar group selected on Kata's elevation, for the plan it was picked on (a new plan — bars removed, the sheet read
- * again — drops it, as the WPF canvas did); a second click on the same spot takes the next line under it.
+ * again — drops it, as the WPF canvas did); a second click on the same spot takes the next line under it. With
+ * `shared`, the keys live there (the 3D view reads and sets the same ones).
  */
-export function useBarSelection(rebar: KataWebRebar | null) {
+export function useBarSelection(rebar: KataWebRebar | null, shared?: SharedBarSelection) {
   const [selection, setSelection] = useState<{ rebar: KataWebRebar; keys: string[]; line: number; at: Point } | null>(null);
-  const keys = selection && selection.rebar === rebar ? selection.keys : null;
+  const own = selection && selection.rebar === rebar ? selection.keys : null;
+  const keys = shared ? (rebar ? shared.keys : null) : own;
 
   /** Selects the group of the line under `at`; false when there is none. */
   const pick = useCallback(
@@ -25,12 +33,16 @@ export function useBarSelection(rebar: KataWebRebar | null) {
       }
       const line = hits[index]!;
       setSelection({ rebar, keys: line.keys, line: rebar.lines.indexOf(line), at });
+      shared?.set(line.keys);
       return true;
     },
-    [rebar, selection],
+    [rebar, selection, shared],
   );
 
-  const clear = useCallback(() => setSelection(null), []);
+  const clear = useCallback(() => {
+    setSelection(null);
+    shared?.set(null);
+  }, [shared]);
   return { keys, pick, clear };
 }
 

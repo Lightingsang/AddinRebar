@@ -18,7 +18,7 @@ import { visibleShapes } from './drawingTools';
 import { ElevationTools } from './ElevationTools';
 import { Minimap } from './Minimap';
 import { useDrawingTools } from './useDrawingTools';
-import { useBarSelection, useSection } from './useKataPicking';
+import { useBarSelection, useSection, type SharedBarSelection } from './useKataPicking';
 import { useElevationView } from './useElevationView';
 import { toStation } from './viewport';
 
@@ -43,6 +43,8 @@ interface NativeElevationProps {
   notify(text: string): void;
   /** Esc the drawing did not use: the window closes on it, as the WPF window did. */
   onUnhandledEscape(): void;
+  /** The bar selection shared with the 3D view; the elevation keeps its own without it. */
+  sharedSelection?: SharedBarSelection;
 }
 
 /** The floating Kata section panel down the right of the drawing (KataElevationCanvas.Section), null when there is no room. */
@@ -78,7 +80,7 @@ export function NativeElevation(props: NativeElevationProps) {
   const view = useElevationView(box, elevation, selectedColumn, focus, options);
   const { viewport } = view;
   const withCard = cardShown && cardFits(view.size.width, view.size.height);
-  const selection = useBarSelection(kata);
+  const selection = useBarSelection(kata, props.sharedSelection);
 
   const scene = useMemo(() => {
     if (!viewport) return null;

@@ -5,6 +5,8 @@ import { describe, expect, it } from 'vitest';
 import contractsSource from '../../../HPRebar/KataExport/View/Web/KataWebContracts.cs?raw';
 import previewColumnSource from '../../../HPRebar/KataExport/ViewModel/KataPreviewColumn.cs?raw';
 import sceneModelsSource from '../../../HPRebar.Core/KataExport/Web/KataWebSceneModels.cs?raw';
+import model3dSource from '../../../HPRebar.Core/KataExport/Web/KataWeb3dModels.cs?raw';
+import kataEnumsSource from '../../../HPRebar.Core/KataRebar/Models/Enums.cs?raw';
 import elevationDrawingSource from '../../../HPRebar.Core/KataRebar/Models/KataElevationDrawing.cs?raw';
 import sectionDrawingSource from '../../../HPRebar.Core/KataRebar/Models/KataSectionDrawing.cs?raw';
 import elevationModelsSource from '../../../HPRebar.Core/KataExport/Models/KataElevationModels.cs?raw';
@@ -14,8 +16,8 @@ import tagStateSource from '../../../HPRebar.Core/KataRebar/Models/KataTagState.
 import contractsTypescript from './kataContracts.ts?raw';
 import sceneTypescript from './kataScene.ts?raw';
 
-const csharp = [contractsSource, previewColumnSource, sceneModelsSource].join('\n');
-const csharpEnums = [elevationDrawingSource, sectionDrawingSource, elevationModelsSource, runModelsSource, barTagBuilderSource, tagStateSource].join('\n');
+const csharp = [contractsSource, previewColumnSource, sceneModelsSource, model3dSource].join('\n');
+const csharpEnums = [model3dSource, kataEnumsSource, elevationDrawingSource, sectionDrawingSource, elevationModelsSource, runModelsSource, barTagBuilderSource, tagStateSource].join('\n');
 const typescript = contractsTypescript + sceneTypescript;
 
 const camel = (name: string) => name[0]!.toLowerCase() + name.slice(1);
@@ -74,12 +76,12 @@ describe('kataContracts.ts mirrors KataWebContracts.cs', () => {
   });
 
   it.each(
-    [...sceneModelsSource.matchAll(/public sealed record (KataWeb\w+)\(/g)].map((m) => m[1]!),
+    [...(sceneModelsSource + model3dSource).matchAll(/public sealed record (KataWeb\w+)\(/g)].map((m) => m[1]!),
   )('scene record %s has the same fields', (record) => {
     expect(interfaceKeys(record).sort()).toEqual(recordFields(record).sort());
   });
 
-  it.each(['KataDrawingPen', 'KataDimStyle', 'KataColumnKind', 'KataSupportKind', 'KataTagKind', 'KataLeaderArrow', 'KataTagLayout'])(
+  it.each(['KataDrawingPen', 'KataDimStyle', 'KataColumnKind', 'KataSupportKind', 'KataTagKind', 'KataLeaderArrow', 'KataTagLayout', 'KataBarRole', 'KataWeb3dBoxKind'])(
     'enum %s has the same members',
     (name) => {
       expect(unionMembers(name)).toEqual(enumMembers(name));

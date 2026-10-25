@@ -14,6 +14,8 @@ export default defineConfig({
     target: 'es2022',
     modulePreload: { polyfill: false },
     assetsInlineLimit: 0,
+    // three.js (~560 kB) is its own chunk, loaded from the embedded resources only when Kata Export's 3D tab opens.
+    chunkSizeWarningLimit: 650,
     rollupOptions: {
       input: { index: 'index.html', kata: 'kata.html' },
     },

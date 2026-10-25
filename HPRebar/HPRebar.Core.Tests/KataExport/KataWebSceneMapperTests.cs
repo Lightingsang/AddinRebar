@@ -108,12 +108,55 @@ public sealed class KataWebSceneMapperTests
     }
 
     [Fact]
+    public void The_3d_model_draws_every_bar_the_plan_counts()
+    {
+        var plan = B03Plan();
+
+        var model = KataWeb3dMapper.Map(plan);
+
+        Assert.Equal(plan.Layout.TotalBarCount, model.BarCount);
+        Assert.Equal(model.BarCount, model.Groups.Sum(g => g.Offsets.Count));
+        Assert.All(model.Groups, g => Assert.True(g.Points.Count >= 2, $"{g.Role} {g.Key} has {g.Points.Count} points"));
+    }
+
+    [Fact]
+    public void The_3d_model_keys_its_bars_as_the_elevation_does()
+    {
+        var plan = B03Plan();
+        var layout = plan.Layout;
+
+        var keys = KataWeb3dMapper.Map(plan).Groups.Select(g => g.Key).Where(k => k.Length > 0).ToHashSet();
+
+        Assert.All(layout.LongitudinalBars, b => Assert.Contains(KataLayoutRemoval.Key(b), keys));
+        Assert.All(layout.StirrupZones.Where(z => z.Count > 0), z => Assert.Contains(KataLayoutRemoval.Key(z), keys));
+        var elevationKeys = KataWebSceneMapper.Map(B03Elevation(), plan, KataStationMap.Identity).Rebar!.Lines.SelectMany(l => l.Keys).ToHashSet();
+        Assert.Subset(elevationKeys, keys);
+    }
+
+    [Fact]
+    public void The_3d_concrete_follows_the_spans_and_columns()
+    {
+        var plan = B03Plan();
+        var stations = KataBeamStations.From(plan.Spec);
+
+        var concrete = KataWeb3dMapper.Map(plan).Concrete;
+
+        var beams = concrete.Where(b => b.Kind == KataWeb3dBoxKind.Beam).ToList();
+        Assert.Equal(stations.SpanStart[0], beams.Min(b => b.X1), 1);
+        Assert.Equal(stations.SpanEnd[^1], beams.Max(b => b.X2), 1);
+        Assert.Equal(-plan.Spec.DepthOf(0), beams[0].Z1, 1);
+        Assert.Equal(plan.Spec.WidthOf(0), beams[0].Y2 - beams[0].Y1, 1);
+        Assert.Equal(stations.SupportWidth.Count(w => w > 0), concrete.Count(b => b.Kind == KataWeb3dBoxKind.Column));
+    }
+
+    [Fact]
     public void The_scene_stays_small()
     {
         var json = JsonSerializer.Serialize(KataWebSceneMapper.Map(B03Elevation(), B03Plan(), KataStationMap.Identity), Wire);
 
         // Four spans, 33.6 m: the page should never need more than a few hundred kilobytes for one run.
         Assert.InRange(Encoding.UTF8.GetByteCount(json), 1, 400_000);
+        Assert.InRange(Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(KataWeb3dMapper.Map(B03Plan()), Wire)), 1, 400_000);
     }
 
     [Fact]
@@ -125,6 +168,7 @@ public sealed class KataWebSceneMapperTests
         {
             ["kata-scene-b03.json"] = KataWebSceneMapper.Map(B03Elevation(), plan, B03StationMap()),
             [$"kata-section-b03-{cut.Number}.json"] = KataWebSceneMapper.MapSection(plan, cut.Number, mirror: false)!,
+            ["kata-model3d-b03.json"] = KataWeb3dMapper.Map(plan),
         };
 
         bool update = Environment.GetEnvironmentVariable(UpdateVariable) == "1";

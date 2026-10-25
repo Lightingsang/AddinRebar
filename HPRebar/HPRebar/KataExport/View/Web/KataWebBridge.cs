@@ -60,6 +60,7 @@ internal sealed partial class KataWebBridge : IDisposable
         dispatcher.Register<KataCanvasInput>(KataWebCommands.Canvas, (input, _) => Answer(new KataCanvasResult(Gesture(input))));
         dispatcher.Register<KataSectionRequest>(KataWebCommands.Section, (request, _) => Answer(Section(request)));
         dispatcher.Register<KataRemoveBarsRequest>(KataWebCommands.RemoveBars, (request, _) => Answer(RemoveBars(request)));
+        dispatcher.Register(KataWebCommands.Model3d, (_, _) => Answer(Model3d()));
     }
 
     public void Dispose()

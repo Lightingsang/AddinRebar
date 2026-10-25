@@ -1,9 +1,12 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Badge, Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useToast } from '../ui/Toast';
 import { ElevationView } from './ElevationView';
 import { NativeElevation } from './elevation/NativeElevation';
+import type { SharedBarSelection } from './elevation/useKataPicking';
+import type { KataWebRebar } from './kataScene';
+import { Model3dPanel } from './model3d/Model3dPanel';
 import { KataColumnsTable } from './KataColumnsTable';
 import { KataParameters } from './KataParameters';
 import type { KataBridge, KataViewState } from './kataContracts';
@@ -31,23 +34,51 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
   const notify = useToast();
   const busy = state.isBusy;
   const scene = kata.scene;
+  const rebar = scene?.rebar ?? null;
+  const [want3d, setWant3d] = useState(false);
+  // One bar selection for both views, for the plan it was picked on.
+  const [picked, setPicked] = useState<{ rebar: KataWebRebar | null; keys: string[] | null }>({ rebar: null, keys: null });
+  const pickedKeys = picked.rebar === rebar ? picked.keys : null;
+  const shared = useMemo<SharedBarSelection>(() => ({ keys: pickedKeys, set: (keys) => setPicked({ rebar, keys }) }), [pickedKeys, rebar]);
+  const show3d = want3d && rebar !== null && drawsNatively(kata);
+  const tab = (active: boolean) => `px-2 py-0.5 text-[12px] font-semibold ${active ? 'bg-[var(--accent)] text-white' : 'text-muted'}`;
   return (
     <Card title="Mặt đứng dải dầm" className="flex min-h-0 flex-col">
       <div className="mb-1.5 flex shrink-0 flex-wrap items-center gap-1.5">
-        <Button icon="select" onClick={() => kata.run('previousSpan')} disabled={state.columns.length === 0}>
-          Trước
-        </Button>
-        <Button onClick={() => kata.run('nextSpan')} disabled={state.columns.length === 0}>
-          Tiếp
-        </Button>
-        <Toggle label="Đảo chiều" checked={state.isReverse} onChange={(reverse) => kata.update({ reverse })} />
-        <Button icon="zoom" onClick={() => kata.run('frameAll')}>
-          Toàn dải
-        </Button>
-        <span className="mx-1 h-4 w-px bg-line" />
-        <Toggle label="Hiện thép" checked={state.showRebar} onChange={(showRebar) => kata.update({ showRebar })} />
-        <Toggle label="Hiện số hiệu" checked={state.showBarTags} onChange={(showBarTags) => kata.update({ showBarTags })} />
-        <Toggle label="Hiện mặt cắt" checked={state.showSection} onChange={(showSection) => kata.update({ showSection })} />
+        <div className="inline-flex overflow-hidden rounded border border-line" role="tablist" aria-label="Kiểu xem">
+          <button type="button" role="tab" aria-selected={!show3d} className={tab(!show3d)} onClick={() => setWant3d(false)}>
+            2D
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={show3d}
+            className={tab(show3d)}
+            disabled={rebar === null || !drawsNatively(kata)}
+            title={rebar === null ? 'Đọc thép Excel trước' : 'Dầm và thép trong không gian'}
+            onClick={() => setWant3d(true)}
+          >
+            3D
+          </button>
+        </div>
+        {show3d ? null : (
+          <>
+            <Button icon="select" onClick={() => kata.run('previousSpan')} disabled={state.columns.length === 0}>
+              Trước
+            </Button>
+            <Button onClick={() => kata.run('nextSpan')} disabled={state.columns.length === 0}>
+              Tiếp
+            </Button>
+            <Toggle label="Đảo chiều" checked={state.isReverse} onChange={(reverse) => kata.update({ reverse })} />
+            <Button icon="zoom" onClick={() => kata.run('frameAll')}>
+              Toàn dải
+            </Button>
+            <span className="mx-1 h-4 w-px bg-line" />
+            <Toggle label="Hiện thép" checked={state.showRebar} onChange={(showRebar) => kata.update({ showRebar })} />
+            <Toggle label="Hiện số hiệu" checked={state.showBarTags} onChange={(showBarTags) => kata.update({ showBarTags })} />
+            <Toggle label="Hiện mặt cắt" checked={state.showSection} onChange={(showSection) => kata.update({ showSection })} />
+          </>
+        )}
         <Button className="ml-auto" disabled={busy || !state.can.undoRemoveBars} onClick={() => kata.run('undoRemoveBars')} title="Ctrl+Z trên hình">
           Hoàn tác xóa
         </Button>
@@ -56,8 +87,21 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
         {state.selectionText}
       </div>
       <div className="min-h-[360px] flex-1">
-        {scene && drawsNatively(kata) ? (
+        {show3d && rebar ? (
+          <Model3dPanel
+            rebar={rebar}
+            loadModel3d={kata.loadModel3d}
+            theme={state.theme}
+            selectedKeys={shared.keys}
+            onSelectKeys={shared.set}
+            removeBars={kata.removeBars}
+            canUndoRemoveBars={state.can.undoRemoveBars}
+            undoRemoveBars={() => kata.run('undoRemoveBars')}
+            onUnhandledEscape={() => kata.run('close')}
+          />
+        ) : scene && drawsNatively(kata) ? (
           <NativeElevation
+            sharedSelection={shared}
             elevation={scene.elevation}
             rebar={scene.rebar}
             stationMap={scene.stationMap}
@@ -80,7 +124,11 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
           <ElevationView drawing={kata.drawing} gesture={kata.gesture} setViewport={kata.setViewport} onUnhandledEscape={() => kata.run('close')} />
         )}
       </div>
-      <p className="mt-1 shrink-0 text-[11px] text-muted">Lăn chuột: phóng to · giữ chuột giữa hoặc Shift + kéo: di chuyển · nháy đúp chuột giữa: toàn dải · bấm: chọn cột / nhóm thép</p>
+      <p className="mt-1 shrink-0 text-[11px] text-muted">
+        {show3d
+          ? 'Kéo chuột trái: xoay · chuột phải hoặc giữa: di chuyển · lăn: phóng to · bấm: chọn nhóm thép (Delete xóa, Ctrl+Z hoàn tác)'
+          : 'Lăn chuột: phóng to · giữ chuột giữa hoặc Shift + kéo: di chuyển · nháy đúp chuột giữa: toàn dải · bấm: chọn cột / nhóm thép'}
+      </p>
     </Card>
   );
 }

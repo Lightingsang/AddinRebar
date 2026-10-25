@@ -25,6 +25,9 @@ public static class KataWebCommands
 
     /// <summary>Strikes bar groups off the plan (<see cref="KataRemoveBarsRequest" />); undone by the undoRemoveBars action.</summary>
     public const string RemoveBars = "kata.removeBars";
+
+    /// <summary>The current plan as the page's 3D view draws it (<see cref="HPRebar.Core.KataExport.Web.KataWeb3dModel" />), built when asked.</summary>
+    public const string Model3d = "kata.model3d";
 }
 
 public static class KataWebEvents

@@ -1,7 +1,7 @@
 import { BridgeError } from '../bridge/bridgeClient';
 import { EventHub } from '../bridge/eventHub';
 import type { KataAction, KataBridge, KataCanvasInput, KataCommandMap, KataEventMap, KataPreviewColumn, KataUpdateRequest, KataViewState } from './kataContracts';
-import type { KataWebColumn, KataWebScene, KataWebSection } from './kataScene';
+import type { KataWeb3dModel, KataWebColumn, KataWebScene, KataWebSection } from './kataScene';
 
 const column = (letter: string, kind: string, row11: string, row19 = '', row20 = '', row21 = '', row22 = '', row23 = ''): KataPreviewColumn => ({
   letter, kind, row11, row19, row20, row21, row22, row23,
@@ -91,6 +91,7 @@ export class KataMockBridge implements KataBridge {
 
   private readonly scene: KataWebScene | null;
   private readonly sections: Record<number, KataWebSection>;
+  private readonly model3d: KataWeb3dModel | null;
   private readonly removals: string[][] = [];
   private sceneRevision = 1;
   private focusSerial = 0;
@@ -98,11 +99,13 @@ export class KataMockBridge implements KataBridge {
   /**
    * @param options.scene A scene the page draws itself (the B03 fixture in `npm run dev`); its columns fill the table.
    * @param options.sections Sections the host would build, by cut number.
+   * @param options.model3d The plan in 3D, without the bars struck off so far.
    */
-  constructor(options: { latencyMs?: number; state?: Partial<KataViewState>; scene?: KataWebScene; sections?: Record<number, KataWebSection> } = {}) {
+  constructor(options: { latencyMs?: number; state?: Partial<KataViewState>; scene?: KataWebScene; sections?: Record<number, KataWebSection>; model3d?: KataWeb3dModel } = {}) {
     this.latencyMs = options.latencyMs ?? 150;
     this.scene = options.scene ?? null;
     this.sections = options.sections ?? {};
+    this.model3d = options.model3d ?? null;
     this.state = { ...this.state, ...(this.scene ? { columns: previewColumns(this.scene), showRebar: false, showSection: false } : {}), ...options.state };
     // The host sends the scene once the page is up.
     if (this.scene) setTimeout(() => this.events.emit('kata.scene', { revision: 1, scene: this.scene }), this.latencyMs);
@@ -132,6 +135,11 @@ export class KataMockBridge implements KataBridge {
         return this.gesture(payload as KataCanvasInput);
       case 'kata.section':
         return this.sections[(payload as { number: number }).number] ?? null;
+      case 'kata.model3d': {
+        if (!this.model3d) throw new BridgeError({ code: 'BAD_REQUEST', message: 'There is no rebar plan: read the bars from Excel first.' });
+        const removed = new Set(this.removals.flat());
+        return { ...this.model3d, groups: this.model3d.groups.filter((g) => !removed.has(g.key)) };
+      }
       case 'kata.removeBars':
         this.removals.push((payload as { keys: string[] }).keys);
         this.emitScene();

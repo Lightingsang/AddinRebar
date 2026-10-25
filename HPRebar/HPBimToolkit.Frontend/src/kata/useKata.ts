@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { errorText } from '../bridge/errorText';
 import type { KataAction, KataBridge, KataCanvasInput, KataDrawingFrame, KataUpdateRequest, KataViewState } from './kataContracts';
-import type { KataFocusEvent, KataWebScene, KataWebSection } from './kataScene';
+import type { KataFocusEvent, KataWeb3dModel, KataWebScene, KataWebSection } from './kataScene';
 
 type Notify = (text: string, tone?: 'info' | 'success' | 'error') => void;
 
@@ -18,6 +18,8 @@ export interface KataController {
   gesture(input: KataCanvasInput): Promise<boolean>;
   /** Kata's section `number` of the plan shown, built by the host when asked (null: no such cut). */
   loadSection(number: number): Promise<KataWebSection | null>;
+  /** The plan shown, in 3D, built by the host when asked. */
+  loadModel3d(): Promise<KataWeb3dModel>;
   /** Strikes bar groups off the plan through the view model (undo: the undoRemoveBars action). */
   removeBars(keys: string[]): void;
   setViewport(width: number, height: number): void;
@@ -79,6 +81,8 @@ export function useKata(bridge: KataBridge, notify: Notify): KataController {
 
   const loadSection = useCallback((number: number) => bridge.request('kata.section', { number }), [bridge]);
 
+  const loadModel3d = useCallback(() => bridge.request('kata.model3d'), [bridge]);
+
   const removeBars = useCallback((keys: string[]) => void bridge.request('kata.removeBars', { keys }).catch(fail), [bridge, fail]);
 
   const setViewport = useCallback(
@@ -86,5 +90,5 @@ export function useKata(bridge: KataBridge, notify: Notify): KataController {
     [bridge, fail],
   );
 
-  return { state, drawing, scene, focus, loadError, update, run, gesture, loadSection, removeBars, setViewport };
+  return { state, drawing, scene, focus, loadError, update, run, gesture, loadSection, loadModel3d, removeBars, setViewport };
 }

@@ -4,13 +4,14 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { ToastProvider } from '../ui/Toast';
 import { KataApp } from './KataApp';
 import fixture from './__fixtures__/kata-scene-b03.json';
+import model3dFixture from './__fixtures__/kata-model3d-b03.json';
 import sectionFixture from './__fixtures__/kata-section-b03-1.json';
 import { frameAll, kataFrameOptions } from './elevation/framing';
 import { kataPoint } from './elevation/kataElevationPainter';
 import { tagBand } from './elevation/kataTagPainter';
 import { buildScene } from './elevation/scene';
 import { KataMockBridge } from './kataMockBridge';
-import type { KataWebScene, KataWebSection } from './kataScene';
+import type { KataWeb3dModel, KataWebScene, KataWebSection } from './kataScene';
 
 beforeAll(() => {
   // jsdom has no layout: the drawing area reports a fixed size once.
@@ -162,7 +163,8 @@ describe('KataApp drawing the scene itself', () => {
   }
 
   async function renderKataMode() {
-    const bridge = renderKata(new KataMockBridge({ latencyMs: 0, scene, sections: { 1: section }, state: { showRebar: true, showSection: true } }));
+    const model3d = model3dFixture as unknown as KataWeb3dModel;
+    const bridge = renderKata(new KataMockBridge({ latencyMs: 0, scene, sections: { 1: section }, model3d, state: { showRebar: true, showSection: true } }));
     await waitFor(() => expect(screen.getByTestId('kata-elevation')).toHaveAttribute('data-mode', 'kata'));
     await waitFor(() => expect(screen.getByTestId('kata-elevation')).toHaveAttribute('data-scale'));
     const area = screen.getByTestId('kata-elevation');
@@ -236,5 +238,36 @@ describe('KataApp drawing the scene itself', () => {
     await userEvent.keyboard('{Escape}');
     expect(area).not.toHaveAttribute('data-measuring');
   });
-});
 
+  it('the 3D tab shows the plan with the bar picked on the elevation, Delete removes it from there too', async () => {
+    const { bridge, area, click } = await renderKataMode();
+    const bar = scene.rebar!.lines.find((l) => l.pen === 'bar' && l.keys.length > 0)!;
+    const a = kataScreen(bar.points[0]!.x, bar.points[0]!.z);
+    const b = kataScreen(bar.points[1]!.x, bar.points[1]!.z);
+    click([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]);
+    await waitFor(() => expect(Number(area.getAttribute('data-selected'))).toBeGreaterThan(0));
+    const picked = Number(area.getAttribute('data-selected'));
+
+    await userEvent.click(screen.getByRole('tab', { name: '3D' }));
+    const view = await screen.findByTestId('kata-3d');
+    expect(bridge.calls.some((call) => call.command === 'kata.model3d')).toBe(true);
+    expect(view).toHaveAttribute('data-selected', String(picked));
+    expect(screen.getByTestId('kata-3d-count')).toHaveTextContent(`${model3dFixture.barCount}/${model3dFixture.barCount} thanh`);
+    expect(screen.queryByRole('button', { name: 'Tiếp' })).toBeNull();
+
+    view.focus();
+    await userEvent.keyboard('{Delete}');
+    const removal = bridge.calls.find((call) => call.command === 'kata.removeBars');
+    expect(removal?.payload).toEqual({ keys: bar.keys });
+
+    // The new plan's model replaces the old one in the same view: focus and WebGL context stay, Ctrl+Z works there.
+    await waitFor(() => expect(bridge.calls.filter((call) => call.command === 'kata.model3d')).toHaveLength(2));
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Hoàn tác xóa' })).toBeEnabled());
+    expect(screen.getByTestId('kata-3d')).toBe(view);
+    await userEvent.keyboard('{Control>}z{/Control}');
+    expect(bridge.calls).toContainEqual({ command: 'kata.run', payload: { action: 'undoRemoveBars' } });
+
+    await userEvent.click(screen.getByRole('tab', { name: '2D' }));
+    expect(await screen.findByTestId('kata-elevation')).toBeInTheDocument();
+  });
+});

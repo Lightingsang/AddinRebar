@@ -21,6 +21,8 @@ internal sealed partial class KataWebBridge
     private int _sceneRevision;
     private readonly Dictionary<(int Number, bool Mirror), KataWebSection?> _sections = new();
     private KataRebarPlan? _sectionsPlan;
+    private KataWeb3dModel? _model3d;
+    private KataRebarPlan? _model3dPlan;
 
     private void OnSceneInputChanged(string? property)
     {
@@ -80,6 +82,25 @@ internal sealed partial class KataWebBridge
         {
             Log.Error(ex, "Kata web: section {Number} could not be built", request.Number);
             throw new BridgeException(BridgeErrorCodes.Internal, $"Section {request.Number} could not be drawn: {ex.Message}");
+        }
+    }
+
+    /// <summary>The plan in 3D, built once per plan (a removal makes a new plan).</summary>
+    private KataWeb3dModel Model3d()
+    {
+        var plan = _viewModel.RebarPlan
+            ?? throw new BridgeException(BridgeErrorCodes.BadRequest, "There is no rebar plan: read the bars from Excel first.");
+        if (ReferenceEquals(plan, _model3dPlan) && _model3d is not null) return _model3d;
+        try
+        {
+            _model3d = KataWeb3dMapper.Map(plan);
+            _model3dPlan = plan;
+            return _model3d;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Kata web: the 3D model could not be built");
+            throw new BridgeException(BridgeErrorCodes.Internal, $"The 3D view could not be built: {ex.Message}");
         }
     }
 

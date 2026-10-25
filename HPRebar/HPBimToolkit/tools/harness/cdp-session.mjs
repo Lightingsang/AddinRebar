@@ -55,6 +55,8 @@ export async function connectToToolkitPage(port, { timeoutMs = 30000, urlPart = 
     mouse: {
       /** deltaY < 0 scrolls up (zooms in on the elevation). */
       wheel: (x, y, deltaY) => mouseEvent('mouseWheel', x, y, { deltaX: 0, deltaY }),
+      /** A move with no button held (hover). */
+      move: (x, y) => mouseEvent('mouseMoved', x, y, { buttons: 0 }),
       async click(x, y, button = 'left') {
         await mouseEvent('mousePressed', x, y, { button, buttons: buttons[button], clickCount: 1 });
         await mouseEvent('mouseReleased', x, y, { button, buttons: 0, clickCount: 1 });
@@ -76,6 +78,8 @@ export async function connectToToolkitPage(port, { timeoutMs = 30000, urlPart = 
         await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base });
       },
     },
+    /** The page as a PNG, base64. */
+    screenshot: async () => (await send('Page.captureScreenshot', { format: 'png' })).data,
     close: () => socket.close(),
   };
 }
