@@ -77,7 +77,7 @@ export function SectionPanel({ number, state, theme, rect, caption, onClose }: S
 
   return (
     <div
-      className="absolute overflow-hidden border"
+      className="absolute cursor-default overflow-hidden border"
       style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height, background: palette.fill, borderColor: palette.kata.grey }}
       data-testid="kata-section-panel"
       data-section={number}

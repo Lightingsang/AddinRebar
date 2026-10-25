@@ -66,6 +66,8 @@ export function NativeElevation(props: NativeElevationProps) {
   const press = useRef<(Press & { lastX: number; lastY: number }) | null>(null);
   const [openFlag, setOpenFlag] = useState<{ number: number; x: number } | null>(null);
   const [hover, setHover] = useState<{ keys: string[]; x: number; y: number } | null>(null);
+  // A section flag under the cursor (it opens its section when clicked), for the pointing hand.
+  const [overFlag, setOverFlag] = useState(false);
 
   // With the bars shown the run is drawn as Kata's elevation, framed with its own band; otherwise as read from Revit,
   // with the section card on the right when there is a plan and the sections are shown.
@@ -144,9 +146,10 @@ export function NativeElevation(props: NativeElevationProps) {
       tools.measureMove(p);
       return;
     }
-    if (!kata || !point) return;
+    if (!kata || !point || !viewport) return;
     const line = barHits(kata.lines, p, point)[0];
     setHover((before) => (line ? { keys: line.keys, x: p[0], y: p[1] } : before ? null : before));
+    setOverFlag(showSection && !line && flagAt(kata.flags, p, point, viewport.scale) !== null);
   };
 
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
@@ -221,12 +224,16 @@ export function NativeElevation(props: NativeElevationProps) {
       data-scale={viewport?.scale.toFixed(5)}
       data-selected={selection.keys?.length ?? 0}
       data-measuring={tools.measuring || undefined}
-      className="relative h-full min-h-0 w-full cursor-crosshair overflow-hidden rounded border border-line outline-none select-none"
-      style={{ background: palette.fill }}
+      className="relative h-full min-h-0 w-full overflow-hidden rounded border border-line outline-none select-none"
+      // An arrow over the drawing, a hand over what a click picks (a bar, a section flag), a cross only to measure.
+      style={{ background: palette.fill, cursor: tools.measuring ? 'crosshair' : hover || overFlag ? 'pointer' : 'default' }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
-      onPointerLeave={() => setHover(null)}
+      onPointerLeave={() => {
+        setHover(null);
+        setOverFlag(false);
+      }}
       onPointerCancel={() => (press.current = null)}
       onAuxClick={(e) => e.button === 1 && e.detail === 2 && view.frameWhole()}
       onKeyDown={onKeyDown}

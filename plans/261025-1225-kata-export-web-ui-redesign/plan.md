@@ -31,6 +31,11 @@ User: no "HPRebar Kata Pro" badge, no Đóng button (Esc / window X still close)
 - Review [reports/code-review-v6.md](reports/code-review-v6.md): 1 High (Esc in the ViewCube menu closed the window) + 6 Medium fixed; 2D/3D tabs moved into the card toolbar.
 - Checks: typecheck, lint, vitest 166 ✅; R26 build + deploy ✅; live on a B03 copy (Dam kata test): kata-web 16/16, web-rebar 9/9 (read only), native 14/14, tools 6/6, 3d 19/19, new `live-verify-kata-prefs.mjs` 7/7 (removes the choices from the shared WebView2 profile). Screenshots `mockup/live-v6-*.png`, browser `mockup/kata-v6-*.png`.
 
+## v6.1 — stirrup bends, cursor (user 2026-10-25)
+- Section arcs were drawn with the SVG sweep flag inverted (hooks as cups under the bars); fixed in `sectionPainter.bulgePath`, checked against T2-DY7.dwg read through the AutoCAD MCP ([before](reports/stirrup-hooks-before.png), [after vs DWG](reports/stirrup-hooks-after-vs-dwg.png)) and live on a Dam kata copy, beam B01 ([section 1-1](reports/live-section-hooks-zoom.png)).
+- Cursor: arrow over the drawing and the section panel, hand over a bar or a section flag (2D) and a bar (3D), cross only while measuring.
+- Live (B01): web-rebar 9/9, native 14/14, tools 6/6, 3d 20/20 (hover now zooms in first: a 33.6 m run is ~30 px high from the front), prefs 7/7.
+
 ## v5.1 — no image export; Revit navigation and ViewCube in 3D (user 2026-10-25)
 "Bỏ chức năng xuất ảnh, view 3d thép phải zoom, pan, xoay, viewcube giống revit hoàn toàn" (+ a picture of Revit's ViewCube).
 - Removed: the drawing's "Xuất hình" menu (SVG / PNG ×2 / ×4 / print), `elevation/exportDrawing.ts`, its test and the harness step. The host's generic download-to-Save-dialog path in HPWebHost stays (unused by Kata now).

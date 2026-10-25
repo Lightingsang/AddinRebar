@@ -305,6 +305,7 @@ export default function Rebar3DView(props: Rebar3DViewProps) {
       ref={box}
       tabIndex={0}
       className="relative h-full w-full overflow-hidden rounded outline-none"
+      style={{ cursor: hover ? 'pointer' : 'default' }}
       data-testid="kata-3d"
       data-groups={model.groups.length}
       data-instances={instances}

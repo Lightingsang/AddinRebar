@@ -213,6 +213,12 @@ describe('KataApp drawing the scene itself', () => {
     const bar = scene.rebar!.lines.find((l) => l.pen === 'bar' && l.keys.length > 0)!;
     const a = kataScreen(bar.points[0]!.x, bar.points[0]!.z);
     const b = kataScreen(bar.points[1]!.x, bar.points[1]!.z);
+    // An arrow over the drawing, a hand over a bar a click would pick.
+    expect(area.style.cursor).toBe('default');
+    fireEvent.pointerMove(area, { clientX: (a[0] + b[0]) / 2, clientY: (a[1] + b[1]) / 2, pointerId: 1 });
+    await waitFor(() => expect(area.style.cursor).toBe('pointer'));
+    fireEvent.pointerMove(area, { clientX: 2, clientY: 2, pointerId: 1 });
+    await waitFor(() => expect(area.style.cursor).toBe('default'));
     click([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]);
     await waitFor(() => expect(Number(area.getAttribute('data-selected'))).toBeGreaterThan(0));
 

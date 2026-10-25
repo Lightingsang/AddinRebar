@@ -114,12 +114,18 @@ for (const [item, projection] of [['Phối cảnh', 'perspective'], ['Trực gia
   check(`menu ${item}`, v.projection === projection, v.projection);
 }
 
-// Hover then pick: sweep the front view's middle rows until a tooltip names a bar group.
+// Hover then pick: sweep the front view's middle rows until a tooltip names a bar group. A long run is only a few
+// pixels high from the front, so zoom in on its middle first (wheel about the cursor) until the beam fills the rows.
 await clickCube('FRONT');
 v = await view();
+for (let i = 0; i < 4; i++) {
+  await page.mouse.wheel(v.left + v.width * 0.3, v.top + v.height * 0.5, -500);
+  await sleep(150);
+}
+await sleep(300);
 let picked = null;
-outer: for (const fy of [0.5, 0.45, 0.55, 0.4, 0.6, 0.35, 0.65]) {
-  for (let fx = 0.1; fx <= 0.9; fx += 0.02) {
+outer: for (const fy of [0.5, 0.45, 0.55, 0.4, 0.6, 0.35, 0.65, 0.3, 0.7]) {
+  for (let fx = 0.1; fx <= 0.9; fx += 0.01) {
     const x = v.left + v.width * fx;
     const y = v.top + v.height * fy;
     await page.mouse.move(x, y);
@@ -132,6 +138,8 @@ outer: for (const fy of [0.5, 0.45, 0.55, 0.4, 0.6, 0.35, 0.65]) {
 }
 check('hovering a bar names it', !!picked, picked?.tooltip ?? 'no tooltip on the sampled rows');
 if (picked) {
+  const hand = await page.evaluate(`document.querySelector('[data-testid=kata-3d]').style.cursor`);
+  check('the cursor is a hand over a bar (an arrow elsewhere)', hand === 'pointer', hand);
   await page.mouse.click(picked.x, picked.y);
   v = await waitView((x) => x.selected > 0, 3000);
   check('a click selects its group', v.selected > 0, `${v.selected} key(s)`);
