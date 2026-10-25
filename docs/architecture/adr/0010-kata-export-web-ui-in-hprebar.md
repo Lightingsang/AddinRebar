@@ -3,6 +3,7 @@
 - **Status:** Accepted (2026-10-24, by user — design approved with plan `plans/261024-2345-kata-export-web-ui-hprebar/`)
 - **Tags:** [REVIT] [PROJECT]
 - **Supersedes:** [0009](0009-bim-toolkit-uses-hprebar-core.md)
+- **Superseded in part by:** [0011](0011-kata-export-web-only-native-drawing.md) — decisions 1 (WPF fallback, WPF window on other versions) and 3 (hidden canvas → SVG)
 
 ## Context
 The user wants the Kata Export window rebuilt with the web stack of the `/revit-webview-addin` workflow — not a new tool: the button HPRebar ▸ Kata Export stays, the session read, the Excel and rebar services and the `HPRebar.Core` engine stay. ADR-0009 had moved Kata into HP BIM Toolkit as a separate web module with ported adapters; the user reversed that (same day): the tool stays in the rebar add-in. ADR-0008 allows a WebView2 + React UI only in HP BIM Toolkit; HPRebar builds for R23–R27 (net48 / net8 / net10), while only Revit 2026's WebView2 (1.0.2478.35 beside `Revit.exe`) has been checked.

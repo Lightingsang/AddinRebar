@@ -64,8 +64,6 @@ describe('kataContracts.ts mirrors KataWebContracts.cs', () => {
     ['KataHeaderState', 'KataHeaderState'],
     ['KataCommandStates', 'KataCommandStates'],
     ['KataUpdateRequest', 'KataUpdateRequest'],
-    ['KataCanvasInput', 'KataCanvasInput'],
-    ['KataDrawingFrame', 'KataDrawingFrame'],
     ['KataPreviewColumn', 'KataPreviewColumn'],
     ['KataSectionRequest', 'KataSectionRequest'],
     ['KataRemoveBarsRequest', 'KataRemoveBarsRequest'],
@@ -94,8 +92,8 @@ describe('kataContracts.ts mirrors KataWebContracts.cs', () => {
     }
   });
 
-  it('every action and gesture is in its union', () => {
-    for (const name of [...constants('KataWebActions'), ...constants('KataCanvasGestures')]) {
+  it('every action is in its union', () => {
+    for (const name of constants('KataWebActions')) {
       expect(typescript).toContain(`'${name}'`);
     }
   });

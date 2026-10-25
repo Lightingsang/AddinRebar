@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Badge, Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useToast } from '../ui/Toast';
-import { ElevationView } from './ElevationView';
 import { NativeElevation } from './elevation/NativeElevation';
 import type { SharedBarSelection } from './elevation/useKataPicking';
 import type { KataWebRebar } from './kataScene';
@@ -21,15 +20,6 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   );
 }
 
-/** `?renderer=native|svg` on the page forces one drawing, to compare them; otherwise the page draws what it can itself. */
-const forcedRenderer = new URLSearchParams(window.location.search).get('renderer');
-
-/** The page draws everything itself once the scene has come; the WPF picture only before that, or when forced. */
-function drawsNatively(kata: KataController): boolean {
-  if (!kata.scene) return false;
-  return forcedRenderer !== 'svg';
-}
-
 function ElevationCard({ state, kata }: { state: KataViewState; kata: KataController }) {
   const notify = useToast();
   const busy = state.isBusy;
@@ -40,7 +30,7 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
   const [picked, setPicked] = useState<{ rebar: KataWebRebar | null; keys: string[] | null }>({ rebar: null, keys: null });
   const pickedKeys = picked.rebar === rebar ? picked.keys : null;
   const shared = useMemo<SharedBarSelection>(() => ({ keys: pickedKeys, set: (keys) => setPicked({ rebar, keys }) }), [pickedKeys, rebar]);
-  const show3d = want3d && rebar !== null && drawsNatively(kata);
+  const show3d = want3d && rebar !== null;
   const tab = (active: boolean) => `px-2 py-0.5 text-[12px] font-semibold ${active ? 'bg-[var(--accent)] text-white' : 'text-muted'}`;
   return (
     <Card title="Mặt đứng dải dầm" className="flex min-h-0 flex-col">
@@ -54,7 +44,7 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
             role="tab"
             aria-selected={show3d}
             className={tab(show3d)}
-            disabled={rebar === null || !drawsNatively(kata)}
+            disabled={rebar === null}
             title={rebar === null ? 'Đọc thép Excel trước' : 'Dầm và thép trong không gian'}
             onClick={() => setWant3d(true)}
           >
@@ -99,7 +89,7 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
             undoRemoveBars={() => kata.run('undoRemoveBars')}
             onUnhandledEscape={() => kata.run('close')}
           />
-        ) : scene && drawsNatively(kata) ? (
+        ) : scene ? (
           <NativeElevation
             sharedSelection={shared}
             elevation={scene.elevation}
@@ -121,7 +111,13 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
             onUnhandledEscape={() => kata.run('close')}
           />
         ) : (
-          <ElevationView drawing={kata.drawing} gesture={kata.gesture} setViewport={kata.setViewport} onUnhandledEscape={() => kata.run('close')} />
+          <div
+            className={`flex h-full items-center justify-center rounded border border-line px-4 text-center text-[12px] ${kata.sceneError ? 'text-steel' : 'text-muted'}`}
+            data-testid="kata-elevation-waiting"
+            role={kata.sceneArrived ? 'alert' : undefined}
+          >
+            {kata.sceneError ?? (kata.sceneArrived ? 'Chưa có mặt đứng cho dải dầm này — xem dòng trạng thái và cảnh báo.' : 'Đang dựng mặt đứng dải dầm…')}
+          </div>
         )}
       </div>
       <p className="mt-1 shrink-0 text-[11px] text-muted">

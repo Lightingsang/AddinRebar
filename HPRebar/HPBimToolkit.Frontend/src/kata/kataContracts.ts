@@ -82,27 +82,6 @@ export type KataAction =
   | 'frameAll'
   | 'close';
 
-export type KataGesture = 'zoom' | 'pan' | 'click' | 'zoomExtents' | 'key';
-
-export interface KataCanvasInput {
-  kind: KataGesture;
-  x?: number;
-  y?: number;
-  dx?: number;
-  dy?: number;
-  notches?: number;
-  key?: 'Delete' | 'Escape' | 'z';
-  ctrl?: boolean;
-}
-
-export interface KataDrawingFrame {
-  revision: number;
-  width: number;
-  height: number;
-  svg: string;
-  hasBarSelection: boolean;
-}
-
 export interface KataSectionRequest {
   number: number;
   /** Seen from the other side; left out = as the elevation shows the run. */
@@ -115,10 +94,9 @@ export interface KataRemoveBarsRequest {
 
 export interface KataCommandMap {
   'kata.getState': { request: undefined; response: KataViewState };
+  'kata.ready': { request: undefined; response: null };
   'kata.update': { request: KataUpdateRequest; response: KataViewState };
   'kata.run': { request: { action: KataAction }; response: { started: boolean } };
-  'kata.viewport': { request: { width: number; height: number }; response: null };
-  'kata.canvas': { request: KataCanvasInput; response: { handled: boolean } };
   'kata.section': { request: KataSectionRequest; response: KataWebSection | null };
   'kata.removeBars': { request: KataRemoveBarsRequest; response: null };
   'kata.model3d': { request: undefined; response: KataWeb3dModel };
@@ -126,7 +104,6 @@ export interface KataCommandMap {
 
 export interface KataEventMap {
   'kata.state': KataViewState;
-  'kata.drawing': KataDrawingFrame;
   'kata.scene': KataSceneFrame;
   'kata.focus': KataFocusEvent;
 }

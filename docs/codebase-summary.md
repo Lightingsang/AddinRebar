@@ -189,18 +189,19 @@ i18n: `UiStrings` record ~110 field, `UiStringsCatalog.English`/`.Vietnamese`, �
 Xây lại tool pyRevit/Dynamo "Kata Export to Excel" (plan `plans/260926-2317-kata-export-hprebar/`). Tool đo một dải dầm thẳng trong Revit rồi ghi vào sheet `Dam` của workbook **Kata Pro** đang mở: B3:B10 và các hàng 11/19/21/22/23 từ cột C, 1 cột = 1 gối hoặc 1 nhịp. Hợp đồng từng ô nằm ở `reports/kata-cell-contract.md` của plan.
 
 ```text
-Ribbon HPRebar ▸ Rebar ▸ Kata Export → KataExportCommand (selection | PickObjects)
+Ribbon HPRebar ▸ Rebar ▸ Kata Export (chỉ Revit 2026) → KataExportCommand (selection | PickObjects)
   → Service: KataRunReader → KataSupportCollector (cột / vách / móng / dầm giao, cột trên)
              → KataGridReader → KataHeaderReader → KataExportSession (mm, trạm s dọc trục)
   → HPRebar.Core/KataExport: KataSegmenter (1D gối/nhịp/joint, console) → KataRowBuilder → KataSheet
-  → Window: mặt đứng (KataElevationBuilder → KataElevationCanvas) + bảng cột C..BZ, chọn cột đồng bộ 2 chiều
+  → KataWebWindow (WebView2, trang kata.html): mặt đứng/mặt cắt/3D do trang tự vẽ từ KataWebSceneMapper/KataWeb3dMapper
+    + bảng cột C..BZ, chọn cột đồng bộ 2 chiều
     (Name/Count/Reverse tính lại pure) → KataExcelWriter (COM) → Highlight dầm (ExternalEvent)
 ```
 
 - **Đo gối:** đường dò chạy dọc tim dầm ở 4 cao độ, cắt với solid của gối (`Solid.IntersectWithCurve`). Dầm được chọn và dầm giao dùng hình học gốc (`GetOriginalGeometry`) để không bị ảnh hưởng bởi join hay cut.
 - **Excel:** dùng `oleaut32!GetActiveObject` và late binding `InvokeMember`, không thêm package. Quy tắc text/số của ô nằm trong `KataExcelCell` (core): B10 luôn là text `+3.300`; tên như `1-2` được ghi kèm tiền tố `'`.
-- **Mặt đứng:** `KataElevationBuilder` (core) dựng hình từ chính sheet sẽ ghi — mỗi số vẽ là chữ của ô Kata, số cột và hàng 11 phải khớp sheet (sai chiều → từ chối); `KataElevationViewport` (core) lo zoom/pan 2 chiều kiểu CAD (lăn = phóng quanh con trỏ, chuột giữa hoặc Shift+kéo trái = pan, nhấp đúp = toàn dải), tỉ lệ đứng = max(tỉ lệ ngang, 60 px / h dầm) nên toàn dải vẫn đọc được và zoom sâu về 1:1; lệnh đóng khung co vừa chiều cao như ZOOM Extents. `View/Controls/KataElevationCanvas` vẽ bằng `OnRender` (painter + annotations, chữ không vừa thì bỏ), palette từ token `Brush.Canvas.*`, đổi theme qua DP `SurfaceBrush`. Chỉ hình học, không thép.
-- **Test:** `HPRebar.Core.Tests/KataExport` gồm segmenter, row builder, ca biên, ô Excel, mặt đứng và viewport. Ảnh ngoài Revit: `HPRebar/tools/theme-gallery` (`KataElevationGallery`, 5 cảnh dark/light).
+- **Mặt đứng:** `KataElevationBuilder` (core) dựng hình từ chính sheet sẽ ghi — mỗi số vẽ là chữ của ô Kata, số cột và hàng 11 phải khớp sheet (sai chiều → từ chối); trang `src/kata/elevation/viewport.ts` lo zoom/pan 2 chiều kiểu CAD (lăn = phóng quanh con trỏ, chuột giữa hoặc Shift+kéo trái = pan, nhấp đúp = toàn dải), tỉ lệ đứng = max(tỉ lệ ngang, 60 px / h dầm) nên toàn dải vẫn đọc được và zoom sâu về 1:1; lệnh đóng khung co vừa chiều cao như ZOOM Extents. Từ 2026-10-25 (ADR-0011) cửa sổ WPF và canvas `View/Controls/` đã xoá: trang web (`HPBimToolkit.Frontend/src/kata/elevation/`, port 1:1 của painter WPF) vẽ từ bản ghi mm `kata.scene`, zoom/pan/chọn ngay trong trang; thêm minimap, tìm số hiệu, đo, lớp, xuất SVG/PNG/in và hình 3D three.js (`src/kata/model3d/`).
+- **Test:** `HPRebar.Core.Tests/KataExport` gồm segmenter, row builder, ca biên, ô Excel, mặt đứng và viewport. Hình vẽ của trang: vitest trên fixture JSON do Core test sinh (`HPREBAR_UPDATE_KATA_FIXTURES=1`).
 - **Live:** đã chạy 1 lần trên model BTCT thật, khớp phép đo độc lập (`reports/phase-06-live-verify.md`).
 
 ## Feature: Kata Rebar (MVP)

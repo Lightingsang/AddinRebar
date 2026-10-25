@@ -1,6 +1,6 @@
 // Pointer handling of the elevation, as in the WPF canvas (AutoCAD-like): the wheel zooms around the cursor, the middle
 // button or Shift + left drag pans, a middle double click is Zoom Extents, a left click (no drag) picks. The page only
-// classifies gestures; the host's canvas does the zooming, panning and picking.
+// classifies gestures; the drawing does the zooming, panning and picking.
 
 /** A press that travels less than this is a click (the WPF canvas uses the same threshold). */
 export const DRAG_THRESHOLD_PX = 4;
@@ -22,11 +22,6 @@ export type Release = { kind: 'click'; x: number; y: number } | { kind: 'pan'; x
 export function startPress(x: number, y: number, button: number, shift: boolean): Press | null {
   if (button !== 0 && button !== 1) return null;
   return { x, y, button, panning: button === 1 || shift };
-}
-
-/** How far a pan has moved so far (for the live preview while dragging). */
-export function panOffset(press: Press, x: number, y: number): { dx: number; dy: number } {
-  return press.panning ? { dx: x - press.x, dy: y - press.y } : { dx: 0, dy: 0 };
 }
 
 /** What a release means: a click where it was pressed, a whole pan, or nothing (a left drag without Shift). */

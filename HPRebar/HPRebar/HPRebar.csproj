@@ -14,6 +14,12 @@
         <DefineConstants>$(DefineConstants);KATA_ONLY</DefineConstants>
     </PropertyGroup>
 
+    <!-- Kata Export exists on Revit 2026 only (ADR-0011): a Kata-only build of another version would ship the rebar
+         tools instead. -->
+    <Target Name="RefuseKataOnlyOutsideRevit2026" BeforeTargets="Build" Condition="'$(KataOnly)' == 'true' and '$(RevitVersion)' != '2026'">
+        <Error Text="KataOnly needs a Revit 2026 configuration (Kata Export is web-only, ADR-0011); got Revit $(RevitVersion)."/>
+    </Target>
+
     <ItemGroup>
         <!-- Revit Dependencies -->
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
@@ -44,9 +50,9 @@
         <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
     </ItemGroup>
 
-    <!-- Kata Export web window, Revit 2026 only (ADR-0010). WebView2 is compile-only at the version Revit 2026 ships:
-         nothing is copied, so ILRepack has nothing to merge and the add-in binds to the copy beside Revit.exe. The
-         other versions keep the WPF window and never compile the web sources. -->
+    <!-- Kata Export, Revit 2026 only (ADR-0011): its window is a web page in WebView2, compile-only at the version
+         Revit 2026 ships: nothing is copied, so ILRepack has nothing to merge and the add-in binds to the copy beside
+         Revit.exe. The other versions compile neither the command nor the web sources (no Kata Export button). -->
     <ItemGroup Condition="'$(RevitVersion)' == '2026'">
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35"
                           ExcludeAssets="runtime;native;build;buildTransitive" PrivateAssets="all"/>
@@ -58,6 +64,7 @@
     <Import Project="..\HPBimToolkit.Frontend\embed-frontend.targets" Condition="'$(RevitVersion)' == '2026'"/>
 
     <ItemGroup Condition="'$(RevitVersion)' != '2026'">
+        <Compile Remove="KataExport\KataExportCommand.cs"/>
         <Compile Remove="KataExport\View\Web\**"/>
     </ItemGroup>
 

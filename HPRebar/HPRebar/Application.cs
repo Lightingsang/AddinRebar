@@ -28,7 +28,7 @@ namespace HPRebar
         public override void OnStartup()
         {
             CreateLogger();
-            // Multi-version: the Kata Export web window exists on Revit 2026 only (ADR-0010)
+            // Multi-version: Kata Export web only — the command and its window exist on Revit 2026 only (ADR-0011)
 #if REVIT2026
             try
             {
@@ -69,7 +69,8 @@ namespace HPRebar
 
         private void CreateRibbon()
         {
-#if KATA_ONLY
+            // Multi-version: Kata Export web only — the command and its window exist on Revit 2026 only (ADR-0011)
+#if KATA_ONLY && REVIT2026
             var kataPanel = Application.CreatePanel("Kata", "HPRebar");
             Track(kataPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
 #else
@@ -78,7 +79,9 @@ namespace HPRebar
             Track(rebarPanel.AddPushButton<ColumnRebarCommand>("Column Rebar"), icons => icons.ColumnRebar);
             Track(rebarPanel.AddPushButton<BeamRebarCommand>("Beam Rebar"), icons => icons.BeamRebar);
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
+#if REVIT2026
             Track(rebarPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
+#endif
             Track(rebarPanel.AddPushButton<KataRebarCommand>("Kata Rebar"), icons => icons.KataRebar);
 #endif
 

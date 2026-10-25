@@ -238,7 +238,10 @@ export interface KataWebSection {
 
 export interface KataSceneFrame {
   revision: number;
+  /** Null when the run has no elevation (the status says why) or it could not be built. */
   scene: KataWebScene | null;
+  /** Why the scene could not be built. */
+  error?: string | null;
 }
 
 export interface KataFocusEvent {

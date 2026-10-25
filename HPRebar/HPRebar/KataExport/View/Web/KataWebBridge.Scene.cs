@@ -55,8 +55,9 @@ internal sealed partial class KataWebBridge
             }
             catch (Exception ex)
             {
-                // The page keeps the scene it has; the state still tells the user what the view model did.
+                // The page must neither wait for a scene that never comes nor keep the previous plan's bars on screen.
                 Log.Error(ex, "Kata web: the scene could not be built");
+                _publish(KataWebEvents.Scene, new KataSceneFrame(++_sceneRevision, null, $"Không dựng được hình vẽ: {ex.Message}"));
             }
         });
     }

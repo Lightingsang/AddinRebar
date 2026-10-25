@@ -1,63 +1,46 @@
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
-using HPRebar.KataExport.View.Controls;
 using HPRebar.KataExport.ViewModel;
 using HPRebar.Resources.Themes;
 using HPWebHost.Protocol;
-using HPWebHost.Rendering;
 using Serilog;
-
-// WPF types, not the Revit ones the SDK imports globally.
-using Point = System.Windows.Point;
 
 namespace HPRebar.KataExport.View.Web;
 
 /// <summary>
 ///     The web window's code-behind: turns <see cref="KataExportViewModel" /> into <see cref="KataViewState" /> for the
-///     page, runs the page's commands on the same view-model commands the WPF window binds, and forwards gestures on the
-///     drawing to the <see cref="KataElevationCanvas" /> the window keeps hidden behind the browser — the elevation is
-///     painted by the WPF painters and sent as SVG. Everything runs on the window's UI thread (the transport dispatches
-///     page messages there); state and drawing are each sent at most once per dispatcher pass.
+///     page, runs the page's commands on the view-model commands, and sends what the page draws as model-space records
+///     (the Scene partial). Everything runs on the window's UI thread (the transport dispatches page messages there);
+///     state and scene are each sent at most once per dispatcher pass.
 /// </summary>
 internal sealed partial class KataWebBridge : IDisposable
 {
-    private const double MinViewport = 50.0;
-    private const double MaxViewport = 8000.0;
-
     private readonly KataExportViewModel _viewModel;
-    private readonly KataElevationCanvas _canvas;
     private readonly IHostTheme _theme;
     private readonly Action<string, object> _publish;
     private readonly Dispatcher _dispatcher;
     private bool _statePending;
-    private bool _drawingPending;
-    private string? _lastSvg;
-    private int _revision;
 
     /// <param name="publish">Sends an event to the page (dropped while the page is not up).</param>
-    public KataWebBridge(KataExportViewModel viewModel, KataElevationCanvas canvas, IHostTheme theme, Action<string, object> publish)
+    /// <param name="dispatcher">The window's: page messages and view-model changes arrive on it.</param>
+    public KataWebBridge(KataExportViewModel viewModel, Dispatcher dispatcher, IHostTheme theme, Action<string, object> publish)
     {
         _viewModel = viewModel;
-        _canvas = canvas;
         _theme = theme;
         _publish = publish;
-        _dispatcher = canvas.Dispatcher;
+        _dispatcher = dispatcher;
         _viewModel.PropertyChanged += OnViewModelChanged;
-        _canvas.Rendered += ScheduleDrawing;
         _theme.Changed += OnThemeChanged;
     }
 
     public void Register(CommandDispatcher dispatcher)
     {
         dispatcher.Register(KataWebCommands.GetState, (_, _) => Answer(State()));
+        dispatcher.Register(KataWebCommands.Ready, (_, _) => Answer(Ready()));
         dispatcher.Register<KataUpdateRequest>(KataWebCommands.Update, (request, _) => Answer(Update(request)));
         dispatcher.Register<KataRunRequest>(KataWebCommands.Run, (request, _) => Answer(Run(request.Action)));
-        dispatcher.Register<KataViewportRequest>(KataWebCommands.Viewport, (request, _) => Answer(Resize(request)));
-        dispatcher.Register<KataCanvasInput>(KataWebCommands.Canvas, (input, _) => Answer(new KataCanvasResult(Gesture(input))));
         dispatcher.Register<KataSectionRequest>(KataWebCommands.Section, (request, _) => Answer(Section(request)));
         dispatcher.Register<KataRemoveBarsRequest>(KataWebCommands.RemoveBars, (request, _) => Answer(RemoveBars(request)));
         dispatcher.Register(KataWebCommands.Model3d, (_, _) => Answer(Model3d()));
@@ -66,20 +49,17 @@ internal sealed partial class KataWebBridge : IDisposable
     public void Dispose()
     {
         _viewModel.PropertyChanged -= OnViewModelChanged;
-        _canvas.Rendered -= ScheduleDrawing;
         _theme.Changed -= OnThemeChanged;
     }
 
-    /// <summary>Sends the state and the drawing again, e.g. once the page has loaded.</summary>
-    public void Resend()
-    {
-        _lastSvg = null;
-        ScheduleState();
-        ScheduleDrawing();
-        ScheduleScene();
-    }
-
     private static Task<object?> Answer(object? value) => Task.FromResult(value);
+
+    /// <summary>The page says so once it has loaded (or reloaded): the scene it draws follows as an event.</summary>
+    private object? Ready()
+    {
+        ScheduleScene();
+        return null;
+    }
 
     private KataViewState State()
     {
@@ -172,48 +152,6 @@ internal sealed partial class KataWebBridge : IDisposable
         return new KataRunResult(true);
     }
 
-    private object? Resize(KataViewportRequest request)
-    {
-        if (!double.IsFinite(request.Width) || !double.IsFinite(request.Height))
-            throw new BridgeException(BridgeErrorCodes.BadRequest, "Width and height must be numbers.");
-
-        _canvas.Width = Math.Clamp(Math.Round(request.Width), MinViewport, MaxViewport);
-        _canvas.Height = Math.Clamp(Math.Round(request.Height), MinViewport, MaxViewport);
-        Resend();
-        return null;
-    }
-
-    private bool Gesture(KataCanvasInput input)
-    {
-        var at = new Point(input.X, input.Y);
-        switch (input.Kind)
-        {
-            case KataCanvasGestures.Zoom:
-                return _canvas.ZoomAt(at, Math.Clamp(input.Notches, -10.0, 10.0));
-            case KataCanvasGestures.Pan:
-                _canvas.PanFrom(at, new Vector(input.Dx, input.Dy));
-                return true;
-            case KataCanvasGestures.Click:
-                _canvas.ClickAt(at);
-                return true;
-            case KataCanvasGestures.ZoomExtents:
-                _canvas.ZoomExtentsAt(at);
-                return true;
-            case KataCanvasGestures.Key:
-                return KeyOf(input.Key) is { } key && _canvas.KeyPressed(key, input.Ctrl ? ModifierKeys.Control : ModifierKeys.None);
-            default:
-                throw new BridgeException(BridgeErrorCodes.BadRequest, $"Unknown gesture '{input.Kind}'.");
-        }
-    }
-
-    private static Key? KeyOf(string? key) => key switch
-    {
-        "Delete" => Key.Delete,
-        "Escape" => Key.Escape,
-        "z" or "Z" => Key.Z,
-        _ => null,
-    };
-
     private void OnViewModelChanged(object? sender, PropertyChangedEventArgs e)
     {
         ScheduleState();
@@ -230,29 +168,6 @@ internal sealed partial class KataWebBridge : IDisposable
         {
             _statePending = false;
             _publish(KataWebEvents.State, State());
-        });
-    }
-
-    /// <summary>After a paint, reads what WPF recorded (nothing is painted twice) and sends it when it changed.</summary>
-    private void ScheduleDrawing()
-    {
-        if (_drawingPending) return;
-        _drawingPending = true;
-        _dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
-        {
-            _drawingPending = false;
-            try
-            {
-                var svg = DrawingSvgWriter.Write(VisualTreeHelper.GetDrawing(_canvas), _canvas.ActualWidth, _canvas.ActualHeight);
-                if (svg == _lastSvg) return;
-                _lastSvg = svg;
-                _publish(KataWebEvents.Drawing, new KataDrawingFrame(++_revision, _canvas.ActualWidth, _canvas.ActualHeight, svg, _canvas.HasBarSelection));
-            }
-            catch (Exception ex)
-            {
-                // A drawing that cannot be written leaves the page on the previous one; the WPF canvas logs its own failures.
-                Log.Error(ex, "Kata web: the elevation could not be written as SVG");
-            }
         });
     }
 

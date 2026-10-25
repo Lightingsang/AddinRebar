@@ -21,14 +21,14 @@ RevitEventPublisher (Bridge/) ── SelectionChanged / ViewActivated / Document
 | Project | TFM | Phụ thuộc | Ghi chú |
 |---|---|---|---|
 | `HPWebHost.Core` | net8.0 | không gì của Revit | protocol v1 dùng chung: envelope, `RequestParser`, `CommandDispatcher`, `AssetRoutes`, `PageOrigins` (ADR-0010) |
-| `HPWebHost` | net8.0-windows | HPWebHost.Core, WebView2 (compile-only), Serilog | `WebViewHost`, `EmbeddedAssetServer`, `WebMessageTransport`, `DrawingSvgWriter` (WPF Drawing → SVG) |
+| `HPWebHost` | net8.0-windows | HPWebHost.Core, WebView2 (compile-only), Serilog | `WebViewHost`, `EmbeddedAssetServer`, `WebMessageTransport` |
 | `HPWebHost.Tests` | net8.0-windows | HPWebHost | xUnit v3 (protocol + SVG writer) |
 | `HPBimToolkit.Core` | net8.0 | HPWebHost.Core | Contracts, Domain, Application, Statistics; xUnit được |
 | `HPBimToolkit` | net8.0-windows, `Debug.R26`/`Release.R26` | Core, HPWebHost, Revit API, WebView2 (compile-only) | Host, Bridge, ExternalEvents, Services, Modules, Infrastructure |
 | `HPBimToolkit.Core.Tests` | net8.0 | Core | xUnit v3 + generator TS |
 | `HPBimToolkit.Frontend` | npm | — | mỗi cửa sổ một trang (`index.html` toolkit, `kata.html` Kata Export của HPRebar); `embed-frontend.targets` nhúng bản build vào DLL, `tools/build-frontend-once.mjs` khoá để 2 project không chạy npm cùng lúc |
 
-Frontend → (JSON) → contracts ← add-in. Không add-in nào tham chiếu add-in khác. `HPRebar/HPRebar` (add-in thép) chỉ dùng chung `HPWebHost*` + frontend cho cửa sổ Kata Export R26 (ADR-0010): giữ `KataExportViewModel` làm máy trạng thái, canvas WPF ẩn sau WebView2 vẽ rồi gửi SVG — mẫu cho cửa sổ WPF có sẵn muốn chuyển sang web mà không viết lại nghiệp vụ.
+Frontend → (JSON) → contracts ← add-in. Không add-in nào tham chiếu add-in khác. `HPRebar/HPRebar` (add-in thép) chỉ dùng chung `HPWebHost*` + frontend cho cửa sổ Kata Export R26 (ADR-0010, ADR-0011): giữ `KataExportViewModel` làm máy trạng thái, Core dựng bản ghi hình vẽ thuần (mm) → trang tự vẽ SVG/three.js, zoom/pan/chọn ở trang, chỉ lệnh sửa quay về host — mẫu cho cửa sổ WPF có sẵn muốn chuyển sang web mà không viết lại nghiệp vụ.
 
 ## Đặt code mới
 
@@ -55,6 +55,6 @@ Quy tắc tách: logic test được mà không cần `Document` → Core. Adapt
 
 ## Add-in Revit mới (không phải module của toolkit)
 
-Điều kiện trước: ADR-0008 và `.claude/rules/development-rules.md` cho phép WebView2 + React với HP BIM Toolkit (và ADR-0010: cửa sổ Kata Export của HPRebar trên R26); add-in mới mặc định WPF + MaterialDesign. Muốn add-in mới dùng web → người dùng duyệt + ADR mới mở rộng ngoại lệ. Ưu tiên thêm module vào toolkit thay vì add-in mới.
+Điều kiện trước: ADR-0008 và `.claude/rules/development-rules.md` cho phép WebView2 + React với HP BIM Toolkit (và ADR-0010/0011: cửa sổ Kata Export của HPRebar, chỉ R26); add-in mới mặc định WPF + MaterialDesign. Muốn add-in mới dùng web → người dùng duyệt + ADR mới mở rộng ngoại lệ. Ưu tiên thêm module vào toolkit thay vì add-in mới.
 
 Khi đã được duyệt: copy cấu trúc 4 project của toolkit, đổi tên + GUID `.addin` + `ContextName` + virtual host + pane id + thư mục log/WebView2 riêng (hai add-in dùng chung profile WebView2 với option khác nhau sẽ không tạo được environment). Giữ nguyên: queue, dispatcher, transport, asset server, preload, logger riêng.

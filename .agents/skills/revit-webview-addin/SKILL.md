@@ -19,7 +19,7 @@ This skill is shared by Codex and Google Antigravity.
 
 # Revit add-in giao diện web (WebView2 + React) — quy trình
 
-Mẫu chuẩn đang chạy thật: **HP BIM Toolkit** (Revit 2026, live-verified). Mọi việc mới bắt đầu từ code đó, không dựng lại từ đầu. Ngoại lệ UI: ADR-0008 (`docs/architecture/adr/0008-bim-toolkit-webview2-ui.md`) cho phép WebView2 + React với HP BIM Toolkit, ADR-0010 thêm cửa sổ Kata Export của HPRebar (chỉ R26, giữ ViewModel WPF làm máy trạng thái) — tính năng web mới khác là module của toolkit; add-in mới muốn dùng web phải được người dùng duyệt + ADR mới (mặc định WPF + MaterialDesign). Hướng dẫn chung (không phải lời ADR): web cho công cụ nhiều dữ liệu, hộp thoại nhỏ để WPF.
+Mẫu chuẩn đang chạy thật: **HP BIM Toolkit** (Revit 2026, live-verified). Mọi việc mới bắt đầu từ code đó, không dựng lại từ đầu. Ngoại lệ UI: ADR-0008 (`docs/architecture/adr/0008-bim-toolkit-webview2-ui.md`) cho phép WebView2 + React với HP BIM Toolkit, ADR-0010 + ADR-0011 thêm cửa sổ Kata Export của HPRebar (chỉ R26, giữ ViewModel WPF làm máy trạng thái, trang tự vẽ từ bản ghi mm, không còn cửa sổ WPF) — tính năng web mới khác là module của toolkit; add-in mới muốn dùng web phải được người dùng duyệt + ADR mới (mặc định WPF + MaterialDesign). Hướng dẫn chung (không phải lời ADR): web cho công cụ nhiều dữ liệu, hộp thoại nhỏ để WPF.
 
 ## Bước 0 — Scout trước, rồi mới quyết
 

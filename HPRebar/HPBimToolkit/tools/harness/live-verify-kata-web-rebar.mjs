@@ -31,7 +31,9 @@ const call = (command, payload, timeoutMs = 30000) =>
     setTimeout(() => resolve({ timedOut: true }), ${timeoutMs});
   })`);
 const state = async () => (await call('kata.getState')).payload;
-const svg = () => page.evaluate(`document.querySelector('[data-testid=kata-elevation] svg')?.outerHTML ?? ''`);
+const svg = () => page.evaluate(`document.querySelector('[data-testid=kata-elevation] > svg')?.outerHTML ?? ''`);
+const view = () => page.evaluate(`(() => { const e = document.querySelector('[data-testid=kata-elevation]'); if (!e) return null; const r = e.getBoundingClientRect();
+  return { left: r.left, top: r.top, width: r.width, height: r.height, selected: Number(e.dataset.selected ?? 0), tooltip: e.querySelector('[role=tooltip]')?.innerText ?? null }; })()`);
 const waitIdle = async (ms) => {
   const deadline = Date.now() + ms;
   let s = await state();
@@ -60,27 +62,37 @@ check('Hiện số hiệu off removes the bar tags', noTags.length < barsSvg.len
 await call('kata.update', { showBarTags: true });
 await sleep(800);
 
-// Find a bar line by scanning the drawing's middle band for a click that selects a group (the canvas hit-tests lines).
-const box = await page.evaluate(`(() => { const r = document.querySelector('[data-testid=kata-elevation]').getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; })()`);
+// Hover then pick: sweep the drawing's middle band until the tooltip names a bar group (the page hit-tests its lines).
+const area = await view();
 let picked = null;
-for (let y = Math.round(box.h * 0.2); y < box.h * 0.8 && !picked; y += 3) {
-  const x = Math.round(box.w * 0.3);
-  await call('kata.canvas', { kind: 'click', x, y });
-  const hasSelection = await page.evaluate(`new Promise((resolve) => setTimeout(() => resolve(document.querySelector('[data-testid=kata-elevation] svg')?.outerHTML.includes('Delete: xóa') ?? false), 250))`);
-  if (hasSelection) picked = { x, y };
+outer: for (let fy = 0.2; fy < 0.8; fy += 0.015) {
+  for (const fx of [0.3, 0.5, 0.7]) {
+    const x = area.left + area.width * fx;
+    const y = area.top + area.height * fy;
+    await page.mouse.move(x, y);
+    const tooltip = (await view())?.tooltip;
+    if (tooltip) {
+      picked = { x, y, tooltip };
+      break outer;
+    }
+  }
 }
-check('a click on a bar selects its group (WPF hit test, hint drawn)', picked !== null, picked ? `at ${picked.x},${picked.y}` : 'no bar found in the scanned band');
+check('hovering a bar names it in a tooltip', picked !== null, picked ? picked.tooltip.replace(/\n/g, ' · ') : 'no bar found in the scanned band');
 
 if (picked) {
+  await page.mouse.click(picked.x, picked.y);
+  await sleep(300);
+  const selected = (await view()).selected;
+  check('a click on a bar selects its group', selected > 0, `${selected} key(s)`);
   const before = await state();
-  const deleted = await call('kata.canvas', { kind: 'key', key: 'Delete' });
-  await sleep(500);
+  await page.keyboard.press('Delete');
+  await sleep(800);
   const after = await state();
-  check('Delete removes the selected group through the view model', deleted.payload?.handled && after.can.undoRemoveBars && after.status.includes('Đã xóa'), after.status);
-  const undo = await call('kata.canvas', { kind: 'key', key: 'z', ctrl: true });
-  await sleep(500);
+  check('Delete removes the selected group through the view model', after.can.undoRemoveBars && after.status.includes('Đã xóa'), after.status);
+  await page.keyboard.press('z', { ctrl: true });
+  await sleep(800);
   const undone = await state();
-  check('Ctrl+Z restores it', undo.payload?.handled && !undone.can.undoRemoveBars && undone.status.includes('hoàn tác'), undone.status);
+  check('Ctrl+Z restores it', !undone.can.undoRemoveBars && undone.status.includes('hoàn tác'), undone.status);
   check('the plan after undo matches the plan before the removal', undone.warnings.length === before.warnings.length);
 }
 

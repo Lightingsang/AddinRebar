@@ -7,7 +7,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using HPRebar.KataExport.Service;
-using HPRebar.KataExport.View;
+using HPRebar.KataExport.View.Web;
 using HPRebar.KataExport.ViewModel;
 using HPRebar.KataRebar.Service;
 using JetBrains.Annotations;
@@ -20,6 +20,8 @@ namespace HPRebar.KataExport;
 /// Entry point for the Kata Export tool.
 /// Reads the selected continuous beam chain, opens the modeless preview window,
 /// and exports geometric span/support data to KATA Excel.
+/// The window is a web page (WebView2) and exists on Revit 2026 only (ADR-0011): HPRebar.csproj compiles this
+/// command for that version alone and Application.cs adds its ribbon buttons only there.
 /// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
@@ -86,7 +88,7 @@ public sealed class KataExportCommand : ExternalCommand
 
             var handler = new KataExportExternalEventHandler(document, uiDocument.ActiveView);
             var viewModel = new KataExportViewModel(session, handler, new KataRebarTypeResolver(document));
-            var view = CreateWindow(viewModel);
+            if (OpenWindow(viewModel, handler) is not { } view) return;
 
             new WindowInteropHelper(view).Owner = Application.MainWindowHandle;
 
@@ -107,16 +109,21 @@ public sealed class KataExportCommand : ExternalCommand
     }
 
     /// <summary>
-    /// Both windows run the same view model. Revit 2026 opens the web one (ADR-0010) unless HPREBAR_KATA_UI=wpf asks
-    /// for the WPF window, kept as the fallback; the other versions only have the WPF window.
+    /// The window is the only way into the tool, so a WebView2 that cannot be bound gets its own message, and the
+    /// handler's ExternalEvent (otherwise disposed when the window closes) is released.
     /// </summary>
-    private static Window CreateWindow(KataExportViewModel viewModel)
+    private static KataWebWindow? OpenWindow(KataExportViewModel viewModel, KataExportExternalEventHandler handler)
     {
-        // Multi-version: the Kata Export web window exists on Revit 2026 only (ADR-0010)
-#if REVIT2026
-        if (!string.Equals(Environment.GetEnvironmentVariable("HPREBAR_KATA_UI"), "wpf", StringComparison.OrdinalIgnoreCase))
-            return new View.Web.KataWebWindow(viewModel);
-#endif
-        return new KataExportView(viewModel);
+        try
+        {
+            return new KataWebWindow(viewModel);
+        }
+        catch (Exception ex)
+        {
+            handler.Dispose();
+            Log.Error(ex, "Kata Export: the web window could not be created");
+            RevitDialogs.Error("Kata Export", $"Không mở được cửa sổ Kata Export (WebView2 của Revit 2026):{Environment.NewLine}{ex.Message}");
+            return null;
+        }
     }
 }

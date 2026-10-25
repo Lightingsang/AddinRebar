@@ -1,5 +1,5 @@
-// Placement of the elevation on screen, one scale in both directions as in AutoCAD (port of
-// HPRebar.Core/KataExport/Calculators/KataElevationViewport.cs): screen x = offsetX + station × scale, screen y =
+// Placement of the elevation on screen, one scale in both directions as in AutoCAD (ported
+// from the C# viewport of the former WPF window): screen x = offsetX + station × scale, screen y =
 // offsetY + (depth below the highest beam top) × scale. Immutable; every gesture returns a new viewport.
 
 import type { KataWebRange } from '../kataScene';

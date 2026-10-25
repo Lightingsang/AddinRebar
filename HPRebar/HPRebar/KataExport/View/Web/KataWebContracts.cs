@@ -8,17 +8,14 @@ public static class KataWebCommands
 {
     public const string GetState = "kata.getState";
 
+    /// <summary>The page has loaded (or reloaded) and listens: the host sends the scene (<see cref="KataWebEvents.Scene" />).</summary>
+    public const string Ready = "kata.ready";
+
     /// <summary>Changes what the user can edit on the window: parameters, direction, selected column, layers.</summary>
     public const string Update = "kata.update";
 
     /// <summary>Starts one of <see cref="KataWebActions" />; the outcome arrives as <see cref="KataWebEvents.State" />.</summary>
     public const string Run = "kata.run";
-
-    /// <summary>The size of the page's drawing area: the elevation is painted to fit it.</summary>
-    public const string Viewport = "kata.viewport";
-
-    /// <summary>A gesture on the drawing (<see cref="KataCanvasInput.Kind" />), handled by the WPF canvas itself.</summary>
-    public const string Canvas = "kata.canvas";
 
     /// <summary>Kata's section n-n of the current plan (<see cref="KataSectionRequest" />), built when asked.</summary>
     public const string Section = "kata.section";
@@ -35,9 +32,6 @@ public static class KataWebEvents
     /// <summary>Everything the page shows except the drawing, sent whenever it changes.</summary>
     public const string State = "kata.state";
 
-    /// <summary>The elevation as SVG, sent whenever the canvas paints something different.</summary>
-    public const string Drawing = "kata.drawing";
-
     /// <summary>What the page draws itself (<see cref="KataSceneFrame" />), sent when the elevation, plan or station map change.</summary>
     public const string Scene = "kata.scene";
 
@@ -45,7 +39,7 @@ public static class KataWebEvents
     public const string Focus = "kata.focus";
 }
 
-/// <summary>What <see cref="KataWebCommands.Run" /> can start; the same commands the WPF window's buttons run.</summary>
+/// <summary>What <see cref="KataWebCommands.Run" /> can start: the view model's commands of the same names.</summary>
 public static class KataWebActions
 {
     public const string Export = "export";
@@ -58,16 +52,6 @@ public static class KataWebActions
     public const string NextSpan = "nextSpan";
     public const string FrameAll = "frameAll";
     public const string Close = "close";
-}
-
-/// <summary>Kinds of <see cref="KataCanvasInput" />.</summary>
-public static class KataCanvasGestures
-{
-    public const string Zoom = "zoom";
-    public const string Pan = "pan";
-    public const string Click = "click";
-    public const string ZoomExtents = "zoomExtents";
-    public const string Key = "key";
 }
 
 public sealed record KataViewState(
@@ -120,26 +104,6 @@ public sealed record KataRunRequest(string Action = "");
 
 public sealed record KataRunResult(bool Started);
 
-/// <summary>Size of the drawing area in CSS pixels (= WPF device-independent pixels).</summary>
-public sealed record KataViewportRequest(double Width = 0, double Height = 0);
-
-/// <param name="Kind">One of <see cref="KataCanvasGestures" />.</param>
-/// <param name="X">Where the gesture happened, in drawing pixels (a pan's start point).</param>
-/// <param name="Dx">A pan's whole movement.</param>
-/// <param name="Notches">Wheel notches, + zooms in.</param>
-/// <param name="Key">For <see cref="KataCanvasGestures.Key" />: <c>Delete</c>, <c>Escape</c> or <c>z</c>.</param>
-public sealed record KataCanvasInput(
-    string Kind = "",
-    double X = 0,
-    double Y = 0,
-    double Dx = 0,
-    double Dy = 0,
-    double Notches = 0,
-    string? Key = null,
-    bool Ctrl = false);
-
-public sealed record KataCanvasResult(bool Handled);
-
 /// <param name="Mirror">Seen from the other side; null = as the elevation shows the run (mirrored when it is drawn backwards).</param>
 public sealed record KataSectionRequest(int Number = 0, bool? Mirror = null);
 
@@ -147,12 +111,10 @@ public sealed record KataSectionRequest(int Number = 0, bool? Mirror = null);
 public sealed record KataRemoveBarsRequest(IReadOnlyList<string>? Keys = null);
 
 /// <param name="Revision">Grows with every scene sent; the page drops an older one arriving late.</param>
-public sealed record KataSceneFrame(int Revision, KataWebScene? Scene);
+/// <param name="Scene">Null when the run has no elevation (the state's status says why) or it could not be built.</param>
+/// <param name="Error">Why the scene could not be built; null otherwise.</param>
+public sealed record KataSceneFrame(int Revision, KataWebScene? Scene, string? Error = null);
 
 /// <param name="ColumnIndex">The span to frame with its two supports; null frames the whole run.</param>
 /// <param name="Serial">Makes a repeated request a new one.</param>
 public sealed record KataFocusEvent(int? ColumnIndex, int Serial);
-
-/// <param name="Revision">Grows with every drawing sent; the page drops an older one arriving late.</param>
-/// <param name="HasBarSelection">A bar group is selected: Delete removes it.</param>
-public sealed record KataDrawingFrame(int Revision, double Width, double Height, string Svg, bool HasBarSelection);

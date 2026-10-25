@@ -1,5 +1,4 @@
-// The same cases as HPRebar.Core.Tests/KataExport/KataElevationViewportTests.cs: the page must frame and zoom exactly
-// as the WPF canvas did.
+// The cases of the former C# viewport tests: the page frames and zooms exactly as the WPF window did.
 import { describe, expect, it } from 'vitest';
 import { centreBand, ensureVisible, fit, panBy, shrinkToHeight, toScreen, toScreenY, toStation, zoomAt, type Viewport } from './viewport';
 

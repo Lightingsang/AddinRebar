@@ -32,21 +32,28 @@ function renderKata(bridge = new KataMockBridge({ latencyMs: 0 })) {
 }
 
 describe('KataApp', () => {
-  it('shows the header cells, the table and the drawing the host sends', async () => {
-    renderKata();
+  it('shows the header cells and the table, and waits for the scene before drawing', async () => {
+    renderKata(new KataMockBridge({ latencyMs: 0 }).withSceneDelay(60_000));
 
     expect(await screen.findByText('DY7')).toBeInTheDocument();
     expect(screen.getByText('+3.600')).toBeInTheDocument();
     const table = screen.getByRole('table', { name: 'Các ô ghi sang Kata Excel' });
     expect(within(table).getByText('Nhịp 2')).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByTestId('kata-elevation').querySelector('svg')).not.toBeNull());
+    expect(screen.getByTestId('kata-elevation-waiting')).toHaveTextContent('Đang dựng mặt đứng');
+    expect(screen.queryByTestId('kata-elevation')).toBeNull();
   });
 
-  it('reports the drawing area size so the host paints to fit it', async () => {
-    const bridge = renderKata();
+  it('a run without an elevation says so instead of waiting', async () => {
+    renderKata();
 
-    await screen.findByText('DY7');
-    expect(bridge.calls.some((call) => call.command === 'kata.viewport')).toBe(true);
+    await waitFor(() => expect(screen.getByTestId('kata-elevation-waiting')).toHaveTextContent('Chưa có mặt đứng'));
+    expect(screen.getByRole('alert')).toBe(screen.getByTestId('kata-elevation-waiting'));
+  });
+
+  it('a scene the host could not build shows why', async () => {
+    renderKata(new KataMockBridge({ latencyMs: 0, sceneError: 'Không dựng được hình vẽ: boom' }));
+
+    await waitFor(() => expect(screen.getByTestId('kata-elevation-waiting')).toHaveTextContent('Không dựng được hình vẽ: boom'));
   });
 
   it('a click on a table column selects it through the host', async () => {
@@ -86,16 +93,6 @@ describe('KataApp', () => {
 
     expect(bridge.calls).toContainEqual({ command: 'kata.update', payload: { nameParameter: 'Mark' } });
   });
-
-  it('Delete on the drawing is sent as a key gesture', async () => {
-    const bridge = renderKata();
-    await screen.findByText('DY7');
-
-    screen.getByTestId('kata-elevation').focus();
-    await userEvent.keyboard('{Delete}');
-
-    expect(bridge.calls).toContainEqual({ command: 'kata.canvas', payload: { kind: 'key', key: 'Delete', ctrl: false } });
-  });
 });
 
 describe('KataApp drawing the scene itself', () => {
@@ -115,7 +112,7 @@ describe('KataApp drawing the scene itself', () => {
     delete (HTMLElement.prototype as { clientHeight?: number }).clientHeight;
   });
 
-  it('draws the plain elevation natively, without asking the host for a picture', async () => {
+  it('draws the plain elevation from the scene the host sends after the first state', async () => {
     const bridge = renderKata(new KataMockBridge({ latencyMs: 0, scene }));
 
     const area = await screen.findByTestId('kata-elevation');
@@ -123,7 +120,7 @@ describe('KataApp drawing the scene itself', () => {
     await waitFor(() => expect(screen.getByTestId('kata-elevation')).toHaveAttribute('data-scale'));
     await waitFor(() => expect(screen.getByTestId('kata-elevation').querySelector('svg text')).not.toBeNull());
     expect(area.ownerDocument.body).toHaveTextContent('Nhịp 1');
-    expect(bridge.calls.some((call) => call.command === 'kata.viewport' || call.command === 'kata.canvas')).toBe(false);
+    expect(bridge.calls.map((call) => call.command)).toEqual(['kata.getState', 'kata.ready']);
   });
 
   it('a click on a span selects it through the view model', async () => {

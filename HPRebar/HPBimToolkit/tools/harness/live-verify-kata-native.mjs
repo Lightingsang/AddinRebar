@@ -131,11 +131,20 @@ async function kataPicking() {
     console.log('SKIP flags (none drawn)');
   }
 
-  const bar = await page.evaluate(`(() => { const e = document.querySelector('[data-testid=kata-elevation] [data-id^=line-]'); if (!e) return null;
+  // Lines of every pen carry a line- id: hover the middle of each first segment until the tooltip names a bar.
+  const candidates = await page.evaluate(`[...document.querySelectorAll('[data-testid=kata-elevation] > svg [data-id^=line-]')].slice(0, 400).map((e) => {
     const n = e.points.numberOfItems; const a = e.points.getItem(0), b = e.points.getItem(Math.min(1, n - 1)); const box = e.ownerSVGElement.getBoundingClientRect();
-    return { x: box.left + (a.x + b.x) / 2, y: box.top + (a.y + b.y) / 2 }; })()`);
+    return { x: box.left + (a.x + b.x) / 2, y: box.top + (a.y + b.y) / 2 }; })`);
+  let bar = null;
+  for (const point of candidates) {
+    await page.mouse.move(point.x, point.y);
+    if (await page.evaluate(`!!document.querySelector('[data-testid=kata-elevation] [role=tooltip]')`)) {
+      bar = point;
+      break;
+    }
+  }
   if (!bar) {
-    console.log('SKIP bar picking (the plan draws no bars: blocked sheet)');
+    console.log(candidates.length ? 'SKIP bar picking (no line answers with a tooltip)' : 'SKIP bar picking (the plan draws no bars: blocked sheet)');
     return;
   }
   await page.mouse.click(bar.x, bar.y);
@@ -150,7 +159,7 @@ async function kataPicking() {
   check('Delete removes the group through the view model', removedSent && undoable);
   await page.keyboard.press('z', { ctrl: true });
   await sleep(1000);
-  check('Ctrl+Z restores it', !(await call('kata.getState')).payload.can.undoRemoveBars);
+  check('Ctrl+Z restores it', undoable && !(await call('kata.getState')).payload.can.undoRemoveBars);
 }
 
 page.close();

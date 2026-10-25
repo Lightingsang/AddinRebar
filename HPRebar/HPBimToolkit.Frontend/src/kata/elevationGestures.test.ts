@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DRAG_THRESHOLD_PX, endPress, panOffset, startPress, wheelNotches } from './elevationGestures';
+import { DRAG_THRESHOLD_PX, endPress, startPress, wheelNotches } from './elevationGestures';
 
 describe('elevation gestures', () => {
   it('a left press released in place is a click where it was pressed', () => {
@@ -12,12 +12,10 @@ describe('elevation gestures', () => {
     const press = startPress(100, 50, 0, false)!;
 
     expect(endPress(press, 100 + DRAG_THRESHOLD_PX + 1, 50)).toBeNull();
-    expect(panOffset(press, 140, 50)).toEqual({ dx: 0, dy: 0 });
   });
 
   it('the middle button and Shift + left pan by the whole movement from the press point', () => {
     for (const press of [startPress(10, 20, 1, false)!, startPress(10, 20, 0, true)!]) {
-      expect(panOffset(press, 40, 5)).toEqual({ dx: 30, dy: -15 });
       expect(endPress(press, 40, 5)).toEqual({ kind: 'pan', x: 10, y: 20, dx: 30, dy: -15 });
     }
   });
