@@ -55,11 +55,17 @@ public static class KataBottomMainBarRuns
 
         // A crank must lie between the previous crank (or the span's start) and the end of the deeper span.
         var cut = new bool[n + 1];
+        // A console as deep as the span beside it and shorter than that span's lap into it has no bars of its own:
+        // they would lie on the span's bars, which run on to its tip (T1-DY8, console 216).
+        var runToTip = new bool[n + 1];
+        bool LapReachesTip(int k) => k == 1 && Cantilever(0)
+            ? st.SupportEnd[1] - Straight(1) <= st.SupportStart[0] + rules.BottomEndCover
+            : st.SupportStart[n - 1] + Straight(n - 2) >= st.SupportEnd[n] - rules.BottomEndCover;
         double reached = st.SpanStart[0];
         for (int k = 1; k < n; k++)
         {
             double step = Depth(k) - Depth(k - 1);
-            // A console always has bottom bars of its own: the span beside it laps into it (B01 at M).
+            // A deeper or shallower console has bottom bars of its own: the span beside it laps into it (B01 at M).
             double d = Math.Max(D(k - 1), D(k));
             if (n > 1 && (Cantilever(k - 1) || Cantilever(k)))
             {
@@ -67,7 +73,9 @@ public static class KataBottomMainBarRuns
                 reached = st.SpanStart[k];
                 // Evidence (B01) is a console 400 deeper; at about the same depth the lapped bars lie on each other.
                 double lapGap = Math.Abs(step) - d;
-                if (lapGap < rules.LayerGap(d, d))
+                if (Math.Abs(step) < 1e-6 && LapReachesTip(k))
+                    runToTip[k] = true;
+                else if (lapGap < rules.LayerGap(d, d))
                     warnings.Add($"Thép chủ dưới qua gối {k + 1}: nhịp và console gần cùng đáy — thanh nối chồng của console chỉ cách {Math.Max(0.0, lapGap):0} mm, kiểm tra trong Revit.");
                 continue;
             }
@@ -105,18 +113,23 @@ public static class KataBottomMainBarRuns
             int last = s - 1;
             if (first == last && Cantilever(first))
             {
-                runs.Add(ConsoleRun(st, rules, ends, first, Z(first), D(first), diameter, warnings));
+                if (!runToTip[first == 0 ? 1 : first])
+                    runs.Add(ConsoleRun(st, rules, ends, first, Z(first), D(first), diameter, warnings));
                 first = s;
                 continue;
             }
 
             KataBarEnd start = first == 0
                 ? ends.EndSupport(0)
+                : runToTip[first]
+                    ? new KataBarEnd(st.SupportStart[0] + rules.BottomEndCover, 0.0, 0.0)
                 : Depth(first) > Depth(first - 1)
                     ? ends.Step(first, -1, DeepLegRoom(ends, first, Z(first)), D(first))
                     : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomEndCover, st.SupportEnd[first] - Straight(first)), 0.0, 0.0);
             KataBarEnd end = last == n - 1
                 ? ends.EndSupport(n)
+                : runToTip[last + 1]
+                    ? new KataBarEnd(st.SupportEnd[n] - rules.BottomEndCover, 0.0, 0.0)
                 : Depth(last) > Depth(last + 1)
                     ? ends.Step(last + 1, +1, DeepLegRoom(ends, last + 1, Z(last)), D(last))
                     : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomEndCover, st.SupportStart[last + 1] + Straight(last)), 0.0, 0.0);
