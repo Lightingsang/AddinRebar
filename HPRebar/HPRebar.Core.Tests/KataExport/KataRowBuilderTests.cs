@@ -235,6 +235,27 @@ public sealed class KataRowBuilderTests
     }
 
     [Fact]
+    public void SpanSplitWhereTheSectionChangesLikeB01OfT2Dy7()
+    {
+        // B01, third span: 500x650 beam 50 mm down from grid 3 to grid 4, then the 500x700 beam to grid 5.
+        var input = new KataRunInput(
+            new[] { Piece(0, 2700, b: 500, h: 650, zOffset: -50, key: "B3"), Piece(2700, 6900, b: 500, h: 700, key: "B4") },
+            new[] { Column(-200, 200), Column(6700, 7100) },
+            new[] { Grid("3", 0), Grid("4", 2700), Grid("5", 6900) },
+            Header with { HeightMm = 1100, WidthMm = 500 });
+
+        var sheet = KataRowBuilder.Build(input);
+
+        Assert.Equal(new object?[] { 400.0, 2500.0, 0.0, 4000.0, 400.0 }, sheet.Row11);
+        Assert.Equal(new object?[] { 0.0, -50.0, 0.0, 0.0, 0.0 }, sheet.Row19);
+        Assert.Equal(400.0, sheet.Row21[1]);
+        Assert.Equal("", sheet.Row21[2]);
+        Assert.Equal(400.0, sheet.Row21[3]);
+        Assert.Equal(new object?[] { "3", "", "4", "", "5" }, sheet.Row22);
+        Assert.Equal(0.0, sheet.Row23[2]);
+    }
+
+    [Fact]
     public void MidpointsRoundAwayFromZero()
     {
         var input = new KataRunInput(

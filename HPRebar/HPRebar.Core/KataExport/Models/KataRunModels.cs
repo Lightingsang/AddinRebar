@@ -93,6 +93,9 @@ public sealed record KataBuildOptions
     /// <summary>Write the run from its far end: order reversed and offsets negated.</summary>
     public bool Reverse { get; init; }
 
-    /// <summary>Put a zero-width support where two framing elements meet without a support.</summary>
+    /// <summary>
+    /// Put a zero-width support wherever two framing elements meet without a support, identical ones included.
+    /// A meeting where the section or the top changes always gets one (Kata has one section per span).
+    /// </summary>
     public bool InsertJoints { get; init; } = false;
 }

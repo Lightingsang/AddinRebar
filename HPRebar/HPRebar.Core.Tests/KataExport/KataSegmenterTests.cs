@@ -68,10 +68,10 @@ public sealed class KataSegmenterTests
     }
 
     [Fact]
-    public void TwoBeamElementsWithoutSupportMergeIntoOneContinuousSpanByDefault()
+    public void TwoIdenticalBeamElementsWithoutSupportMergeIntoOneContinuousSpanByDefault()
     {
         var input = new KataRunInput(
-            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, h: 600, key: "B2") },
+            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, key: "B2") },
             new[] { Column(-200, 200), Column(5800, 6200) },
             Array.Empty<KataGridCrossing>(),
             Header);
@@ -84,11 +84,32 @@ public sealed class KataSegmenterTests
         Assert.Equal(5600, result.Segments[1].Extent.Length, Precision);
     }
 
+    [Theory]
+    [InlineData(600.0, 0.0)] // deeper beam
+    [InlineData(500.0, -50.0)] // same depth, top 50 mm lower
+    public void BeamsOfAnotherSectionOrTopMeetAtAZeroWidthJointByDefault(double h, double zOffset)
+    {
+        // Kata gives a span one section and one top: B01 of T2-DY7 splits its third span where a 500x650 beam
+        // 50 mm down meets the 500x700 beam.
+        var input = new KataRunInput(
+            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, h: h, zOffset: zOffset, key: "B2") },
+            new[] { Column(-200, 200), Column(5800, 6200) },
+            Array.Empty<KataGridCrossing>(),
+            Header);
+
+        var result = KataSegmenter.Segment(input);
+
+        Assert.Equal(
+            new[] { KataSegmentKind.Support, KataSegmentKind.Span, KataSegmentKind.Joint, KataSegmentKind.Span, KataSegmentKind.Support },
+            result.Segments.Select(s => s.Kind));
+        Assert.Equal(3000, result.Segments[2].Extent.Start, Precision);
+    }
+
     [Fact]
-    public void JointBetweenTwoBeamElementsWithoutSupportBecomesZeroWidthJointWhenJointsEnabled()
+    public void JointBetweenTwoIdenticalBeamElementsWithoutSupportBecomesZeroWidthJointWhenJointsEnabled()
     {
         var input = new KataRunInput(
-            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, h: 600, key: "B2") },
+            new[] { Piece(0, 3000, key: "B1"), Piece(3000, 6000, key: "B2") },
             new[] { Column(-200, 200), Column(5800, 6200) },
             Array.Empty<KataGridCrossing>(),
             Header);

@@ -37,9 +37,12 @@ public static class KataElevationBuilder
             .Aggregate(drawn, (range, upper) => upper is { } u ? range.Union(u) : range);
 
         var reach = new Interval1D(drawn.Start - GridReachMm, drawn.End + GridReachMm);
+        // A joint is zero wide: the grid written in its row 22 is the one within the joint snap of it.
         var supportExtents = natural
-            .Where(c => c.Kind == KataColumnKind.Support)
-            .Select(c => c.Extent)
+            .Where(c => c.Kind is KataColumnKind.Support or KataColumnKind.Joint)
+            .Select(c => c.Kind == KataColumnKind.Joint
+                ? new Interval1D(c.Extent.Start - KataTolerance.JointSnapMm, c.Extent.End + KataTolerance.JointSnapMm)
+                : c.Extent)
             .ToList();
         var row22Grids = new HashSet<string>(
             sheet.Row22.OfType<string>().Where(name => !string.IsNullOrEmpty(name)));
@@ -151,9 +154,9 @@ public static class KataElevationBuilder
         return new KataElevationSupport(index, support.Kind, map.Map(extent), sectionHeight, upper, crossing);
     }
 
-    /// <summary>Row 23 belongs to the grid written in row 22 of a support that the grid actually crosses.</summary>
+    /// <summary>Row 23 belongs to the grid written in row 22 of a support or joint that the grid actually crosses.</summary>
     private static string? GridOffset(KataGridCrossing grid, IReadOnlyList<KataElevationColumn> columns) =>
-        columns.FirstOrDefault(c => c.Kind == KataColumnKind.Support && c.Row22 == grid.Name)?.Row23;
+        columns.FirstOrDefault(c => c.Kind is KataColumnKind.Support or KataColumnKind.Joint && c.Row22 == grid.Name)?.Row23;
 
     private static IReadOnlyList<KataDimension> GridDimensions(IReadOnlyList<KataElevationGrid> grids)
     {

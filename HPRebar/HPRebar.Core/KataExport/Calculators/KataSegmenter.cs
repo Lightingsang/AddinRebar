@@ -25,7 +25,7 @@ public static class KataSegmenter
         int outside = input.Supports.Count(s => !s.Extent.Overlaps(run));
         if (outside > 0) warnings.Add($"{outside} support(s) outside the beam run were ignored.");
 
-        var joints = options.InsertJoints ? JointStations(pieces) : new List<double>();
+        var joints = JointStations(pieces, everyMeeting: options.InsertJoints);
         var segments = new List<KataSegment>();
         double cursor = run.Start;
         foreach (var support in supports)
@@ -109,18 +109,21 @@ public static class KataSegmenter
     }
 
     /// <summary>
-    /// Stations where one element ends and another begins, and that no element runs through:
-    /// an element lying inside a longer one is a duplicate, not a joint.
+    /// Stations where one element ends and another begins, and that no element runs through: an element lying
+    /// inside a longer one is a duplicate, not a joint. Kata gives each span one section and one top, so a meeting
+    /// where the section or the top changes is always a joint; identical elements meeting stay one span unless
+    /// <paramref name="everyMeeting" /> asks for a joint at every meeting.
     /// </summary>
-    private static List<double> JointStations(IReadOnlyList<KataBeamPiece> pieces)
+    private static List<double> JointStations(IReadOnlyList<KataBeamPiece> pieces, bool everyMeeting)
     {
         var stations = new List<double>();
         foreach (var piece in pieces)
         {
             double s = piece.Extent.End;
-            bool meetsNext = pieces.Any(p => !ReferenceEquals(p, piece) && Math.Abs(p.Extent.Start - s) <= KataTolerance.StationMm);
+            var next = pieces.FirstOrDefault(p => !ReferenceEquals(p, piece) && Math.Abs(p.Extent.Start - s) <= KataTolerance.StationMm);
             bool runsThrough = pieces.Any(p => p.Extent.Start < s - KataTolerance.StationMm && p.Extent.End > s + KataTolerance.StationMm);
-            if (!meetsNext || runsThrough) continue;
+            if (next is null || runsThrough) continue;
+            if (!everyMeeting && SameSection(piece, next)) continue;
             if (stations.Any(existing => Math.Abs(existing - s) < KataTolerance.StationMm)) continue;
             stations.Add(s);
         }
@@ -128,6 +131,11 @@ public static class KataSegmenter
         stations.Sort();
         return stations;
     }
+
+    private static bool SameSection(KataBeamPiece a, KataBeamPiece b) =>
+        Math.Abs(a.WidthMm - b.WidthMm) <= KataTolerance.StationMm
+        && Math.Abs(a.HeightMm - b.HeightMm) <= KataTolerance.StationMm
+        && Math.Abs(a.ZOffsetMm - b.ZOffsetMm) <= KataTolerance.StationMm;
 
     private static void AddSpans(List<KataSegment> segments, double from, double to, IReadOnlyList<KataBeamPiece> pieces, IReadOnlyList<double> joints)
     {

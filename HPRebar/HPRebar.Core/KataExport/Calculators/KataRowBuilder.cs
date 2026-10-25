@@ -38,7 +38,7 @@ public static class KataRowBuilder
                     rows.R20.Add(KataRow20.SupportCell(segment.Support!, input.Header.HeightMm));
                     break;
                 case KataSegmentKind.Joint:
-                    rows.Add(0.0, 0.0, Empty, Empty, Empty);
+                    AddJoint(rows, segment.Extent.Start, input.Grids, sign);
                     rows.R20.Add(null);
                     break;
                 default:
@@ -101,6 +101,17 @@ public static class KataRowBuilder
             : gridOffset;
 
         rows.Add(width, upper, crossingOffset, grid?.Name ?? Empty, gridOffset);
+    }
+
+    /// <summary>A joint carries the grid that crosses the run there, so Kata draws its bubble and grid dimensions.</summary>
+    private static void AddJoint(Rows rows, double station, IReadOnlyList<KataGridCrossing> grids, double sign)
+    {
+        var grid = grids
+            .Where(g => Math.Abs(g.StationMm - station) <= KataTolerance.JointSnapMm)
+            .OrderBy(g => Math.Abs(g.StationMm - station))
+            .FirstOrDefault();
+        object gridOffset = grid is null ? Empty : KataFormat.Round((grid.StationMm - station) * sign);
+        rows.Add(0.0, 0.0, Empty, grid?.Name ?? Empty, gridOffset);
     }
 
     private static IReadOnlyList<object?> Header(KataHeader header, double sign, List<string> warnings)
