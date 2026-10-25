@@ -43,6 +43,9 @@ public static class KataDamSheetParser
         double compLap = accessor.GetDouble("G3") ?? 30.0;
         double topCutoffL2 = accessor.GetDouble("H3") ?? 0.20;
         double topCutoffL1 = accessor.GetDouble("H5") ?? 0.25;
+        // I1: the check box "Cách điểm cắt thép gối = h" of the group "Cắt thép gia cường nhịp".
+        string i1Text = accessor.GetText("I1")?.Trim() ?? "";
+        bool spanCutFromSupportCut = i1Text.Equals("true", StringComparison.OrdinalIgnoreCase) || i1Text == "1";
 
         string originL1Text = accessor.GetText("I5") ?? "";
         var originL1 = originL1Text.IndexOf("tâm", StringComparison.OrdinalIgnoreCase) >= 0
@@ -172,6 +175,7 @@ public static class KataDamSheetParser
             TopCutoffRatioLayer2 = topCutoffL2,
             CutoffOriginLayer1 = originL1,
             CutoffOriginLayer2 = originL2,
+            SpanCutFromSupportCut = spanCutFromSupportCut,
             CoverMain = coverMain,
             CoverStirrup = coverStirrup,
             TopContinuous = topContinuous,

@@ -1574,11 +1574,11 @@
         "pen": "bar",
         "points": [
           {
-            "x": 2225,
+            "x": 1875,
             "z": -1090
           },
           {
-            "x": 2150,
+            "x": 1800,
             "z": -1115
           },
           {
@@ -1619,23 +1619,23 @@
           }
         ],
         "keys": [
-          "bar|ExtraBottom|66|25|9400|2|-203|2150",
-          "bar|ExtraBottom|67|25|9400|2|-122|2150",
-          "bar|ExtraBottom|68|25|9400|2|-41|2150",
-          "bar|ExtraBottom|69|25|9400|2|41|2150",
-          "bar|ExtraBottom|70|25|9400|2|122|2150",
-          "bar|ExtraBottom|71|25|9400|2|203|2150"
+          "bar|ExtraBottom|66|25|9750|2|-203|1800",
+          "bar|ExtraBottom|67|25|9750|2|-122|1800",
+          "bar|ExtraBottom|68|25|9750|2|-41|1800",
+          "bar|ExtraBottom|69|25|9750|2|41|1800",
+          "bar|ExtraBottom|70|25|9750|2|122|1800",
+          "bar|ExtraBottom|71|25|9750|2|203|1800"
         ]
       },
       {
         "pen": "bar",
         "points": [
           {
-            "x": 13525,
+            "x": 13725,
             "z": -790
           },
           {
-            "x": 13450,
+            "x": 13650,
             "z": -815
           },
           {
@@ -1676,8 +1676,8 @@
           }
         ],
         "keys": [
-          "bar|ExtraBottom|72|20|11750|2|-81|13450",
-          "bar|ExtraBottom|73|20|11750|2|81|13450"
+          "bar|ExtraBottom|72|20|11550|2|-81|13650",
+          "bar|ExtraBottom|73|20|11550|2|81|13650"
         ]
       },
       {
@@ -2472,22 +2472,22 @@
       {
         "x1": 400,
         "z1": -1200,
-        "x2": 2150,
+        "x2": 1800,
         "z2": -1200,
         "vertical": false,
         "lineAt": -1650,
         "style": "kata",
-        "text": "1750"
+        "text": "1400"
       },
       {
-        "x1": 2150,
+        "x1": 1800,
         "z1": -1200,
         "x2": 10800,
         "z2": -1200,
         "vertical": false,
         "lineAt": -1650,
         "style": "kata",
-        "text": "8650"
+        "text": "9000"
       },
       {
         "x1": 10800,
@@ -2522,22 +2522,22 @@
       {
         "x1": 11200,
         "z1": -900,
-        "x2": 13450,
+        "x2": 13650,
         "z2": -900,
         "vertical": false,
         "lineAt": -1650,
         "style": "kata",
-        "text": "2250"
+        "text": "2450"
       },
       {
-        "x1": 13450,
+        "x1": 13650,
         "z1": -900,
         "x2": 24600,
         "z2": -900,
         "vertical": false,
         "lineAt": -1650,
         "style": "kata",
-        "text": "11150"
+        "text": "10950"
       },
       {
         "x1": 24600,
@@ -3801,8 +3801,8 @@
         "spanIndex": 3
       }
     ],
-    "barCount": 571,
-    "steelWeightKg": 2931
+    "barCount": 570,
+    "steelWeightKg": 2937.7
   },
   "stationMap": {
     "origin": 0,

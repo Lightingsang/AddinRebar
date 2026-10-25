@@ -38,10 +38,11 @@ public sealed class KataJointCellsTests
     {
         var plan = Plan(B01());
 
-        // Joined span H + J: 18100 … 24600 (6500); cut min(0.2 L, L/6) = 1100 from each face (Kata: 18950 … 23300).
+        // Joined span H + J: 18100 … 24600 (6500, h 700); I1 ticked: one h short of the support bars' cut, H5 × L = 1650,
+        // so 950 from each face (Kata: 18950 … 23300 — its cut at a joint is not known yet).
         var joint = plan.Layout.ExtraBottomBars.Where(b => Extent(b).Min > 18100 && Extent(b).Max < 24600).ToList();
         Assert.Equal(2, joint.Count);
-        Assert.All(joint, b => { Assert.Equal(20.0, b.Diameter); Assert.Equal(19200, Extent(b).Min, 0); Assert.Equal(23500, Extent(b).Max, 0); });
+        Assert.All(joint, b => { Assert.Equal(20.0, b.Diameter); Assert.Equal(19050, Extent(b).Min, 0); Assert.Equal(23650, Extent(b).Max, 0); });
         Assert.Contains(plan.Skipped, s => s.StartsWith("I17") && s.Contains("R-51"));
     }
 

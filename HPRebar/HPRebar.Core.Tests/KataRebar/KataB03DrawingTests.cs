@@ -42,8 +42,8 @@ public sealed class KataB03DrawingTests
         Assert.All(bars.Where(b => b.BarNumber == 18), b => { Near(11100, MaxX(b), "D17 into E"); Assert.True(b.EndHookLength > 0.0); });
         Assert.Equal(6, bars.Count(b => b.BarNumber == 11));
         Assert.All(bars.Where(b => b.BarNumber == 11), b => { Near(10450, MinX(b), "run on from E"); Near(24900, MaxX(b), "into G"); });
-        // F17's own cut (Kata 13650, 2450 off E; HPRebar 13450) follows a rule not known yet: only its end is checked.
-        Assert.All(bars.Where(b => b.BarNumber == 19), b => Near(24900, MaxX(b), "F17 into G"));
+        // F17 starts one span depth (900) short of where E's top bars are cut (H5 × 13400 = 3350 off E), as I1 says.
+        Assert.All(bars.Where(b => b.BarNumber == 19), b => { Near(13650, MinX(b), "F17 cut off E"); Near(24900, MaxX(b), "F17 into G"); });
         // F17's 2Ø20 in the gaps either side of the middle of the 6Ø25 run on (between their ±41.5 and ±124.5), not on them.
         var f17 = bars.Where(b => b.BarNumber == 19).Select(b => b.TransverseY).OrderBy(y => y).ToList();
         var through = bars.Where(b => b.BarNumber == 11).Select(b => Math.Abs(b.TransverseY)).Distinct().OrderBy(y => y).ToList();

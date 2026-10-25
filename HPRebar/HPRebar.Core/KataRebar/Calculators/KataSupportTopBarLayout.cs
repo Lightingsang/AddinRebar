@@ -54,9 +54,9 @@ public static class KataSupportTopBarLayout
                 string cell = Cell(spec, k, KataTopLayerStack.FirstRow + layer);
                 if (sides.IsEmpty)
                 {
-                    // "0" is nothing, "-" in row 13 continues the neighbouring support's row (handled from there).
-                    if (KataTopBarContinuation.IsMark(spec, k, layer) && layer > 0)
-                        warnings.Add($"{cell} '-': nối tiếp thanh gối bên cạnh mới hỗ trợ ở hàng 13 — hàng này không vẽ.");
+                    // "0" is nothing, "-" continues the neighbouring support's row (handled from there).
+                    if (KataTopBarContinuation.IsMark(spec, k, layer) && !KataTopBarContinuation.Continues(spec, k, layer))
+                        warnings.Add($"{cell} '-': gối này có thép hàng dưới riêng — nối tiếp thanh gối bên cạnh ở hàng này chưa hỗ trợ, không vẽ.");
                     else if (!string.IsNullOrWhiteSpace(sides.Text) && sides.Text.Trim() is not ("0" or KataTopBarContinuation.Mark))
                         warnings.Add($"{cell} '{sides.Text}': không đọc được ký hiệu thép — không vẽ.");
                     continue;

@@ -61,6 +61,13 @@ public sealed record KataBeamRebarSpec
     public KataCutoffOrigin CutoffOriginLayer2 { get; init; } = KataCutoffOrigin.FromColumnCenter;
 
     /// <summary>
+    /// Sheet Dam cell I1, Kata's check box "Cách điểm cắt thép gối = h": the additional span bottom bars stop one
+    /// beam depth short of where the support's top bars are cut (H5 × L from the face or centre as I5 says), instead
+    /// of H3 × L from the support.
+    /// </summary>
+    public bool SpanCutFromSupportCut { get; init; }
+
+    /// <summary>
     /// First number of cell J9: distance from the concrete face to the CENTRE of the main bars in mm.
     /// 0 when J9 does not give it; the detailing rules then derive it from the stirrup cover.
     /// </summary>

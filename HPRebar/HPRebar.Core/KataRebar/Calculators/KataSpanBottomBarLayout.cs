@@ -14,7 +14,8 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// max(30, d) (the rules' layer gap), spread over the width with the larger bars at the edges, or on the stirrup when the level is
 /// empty. Both are straight. The inner row (17, or 18 alone) stops min(H3 × L from the support face or centre as
 /// I3 says, rounded up to the cut step; <see cref="KataDetailingRules.BottomExtraCutFraction"/> × L rounded to the nearest step)
-/// from each support face; row 18 under a filled row 17 reaches G1 closer to the supports, as Kata draws them.
+/// from each support face, or, with I1 ticked, one span depth short of the support's top bar cut; row 18 under a filled
+/// row 17 reaches G1 closer to the supports, as Kata draws them.
 /// </summary>
 public static class KataSpanBottomBarLayout
 {
@@ -113,7 +114,20 @@ public static class KataSpanBottomBarLayout
         double cap = rules.RoundNearest(rules.BottomExtraCutFraction * length);
 
         double Side(double supportWidth) => Math.Max(0.0, Math.Min(fromCentre ? reach - supportWidth / 2.0 : reach, cap));
-        return (Side(st.SupportWidth[s]), Side(st.SupportWidth[s + 1]));
+        if (!spec.SpanCutFromSupportCut)
+            return (Side(st.SupportWidth[s]), Side(st.SupportWidth[s + 1]));
+
+        // I1: one beam depth short of the support's top bar cut (T1-DX10 1750 − 500, B01 2600 − 1100, B03 F 3350 − 900);
+        // a console tip has no support bars to measure from and keeps the H3 rule.
+        double supportReach = rules.RoundUp((spec.TopCutoffRatioLayer1 > 0.0 ? spec.TopCutoffRatioLayer1 : 0.25) * length);
+        bool supportFromCentre = spec.CutoffOriginLayer1 == KataCutoffOrigin.FromColumnCenter;
+        double depth = spec.DepthOf(s);
+        double FromSupportCut(int k, double face, double origin) =>
+            st.SupportWidth[k] > 0.0 ? Math.Max(0.0, supportReach - Math.Abs(face - origin) - depth) : Side(st.SupportWidth[k]);
+
+        return (
+            FromSupportCut(s, st.SpanStart[s], supportFromCentre ? st.SupportCentre(s) : st.SpanStart[s]),
+            FromSupportCut(s + 1, st.SpanEnd[s], supportFromCentre ? st.SupportCentre(s + 1) : st.SpanEnd[s]));
     }
 
     /// <summary>

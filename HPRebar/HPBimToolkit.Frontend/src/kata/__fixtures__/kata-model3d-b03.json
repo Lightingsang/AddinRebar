@@ -1508,13 +1508,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|66|25|9400|2|-203|2150",
+      "key": "bar|ExtraBottom|66|25|9750|2|-203|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": -202.5,
           "z": -1097.5
         },
@@ -1535,13 +1535,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|67|25|9400|2|-122|2150",
+      "key": "bar|ExtraBottom|67|25|9750|2|-122|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": -121.5,
           "z": -1097.5
         },
@@ -1562,13 +1562,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|68|25|9400|2|-41|2150",
+      "key": "bar|ExtraBottom|68|25|9750|2|-41|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": -40.5,
           "z": -1097.5
         },
@@ -1589,13 +1589,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|69|25|9400|2|41|2150",
+      "key": "bar|ExtraBottom|69|25|9750|2|41|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": 40.5,
           "z": -1097.5
         },
@@ -1616,13 +1616,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|70|25|9400|2|122|2150",
+      "key": "bar|ExtraBottom|70|25|9750|2|122|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": 121.5,
           "z": -1097.5
         },
@@ -1643,13 +1643,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|71|25|9400|2|203|2150",
+      "key": "bar|ExtraBottom|71|25|9750|2|203|1800",
       "role": "extraBottom",
       "diameter": 25,
       "number": 18,
       "points": [
         {
-          "x": 2150,
+          "x": 1800,
           "y": 202.5,
           "z": -1097.5
         },
@@ -1670,13 +1670,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|72|20|11750|2|-81|13450",
+      "key": "bar|ExtraBottom|72|20|11550|2|-81|13650",
       "role": "extraBottom",
       "diameter": 20,
       "number": 19,
       "points": [
         {
-          "x": 13450,
+          "x": 13650,
           "y": -81,
           "z": -800
         },
@@ -1697,13 +1697,13 @@
       ]
     },
     {
-      "key": "bar|ExtraBottom|73|20|11750|2|81|13450",
+      "key": "bar|ExtraBottom|73|20|11550|2|81|13650",
       "role": "extraBottom",
       "diameter": 20,
       "number": 19,
       "points": [
         {
-          "x": 13450,
+          "x": 13650,
           "y": 81,
           "z": -800
         },
@@ -2928,12 +2928,12 @@
       "number": 23,
       "points": [
         {
-          "x": 13520,
+          "x": 13720,
           "y": -202.5,
           "z": -797.5
         },
         {
-          "x": 13520,
+          "x": 13720,
           "y": 202.5,
           "z": -797.5
         }
@@ -2961,8 +2961,7 @@
         9000,
         9500,
         10000,
-        10500,
-        11000
+        10500
       ]
     },
     {
@@ -3430,5 +3429,5 @@
     }
   ],
   "length": 33600,
-  "barCount": 571
+  "barCount": 570
 }

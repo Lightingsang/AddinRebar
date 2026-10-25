@@ -5,18 +5,25 @@ using HPRebar.Core.KataRebar.Models;
 namespace HPRebar.Core.KataRebar.Calculators;
 
 /// <summary>
-/// A "-" in row 13 over a support means, as Kata draws it: the row-13 bars of the neighbouring support run on to
-/// this one. Over an end support they anchor there like the main bars (at a cantilever tip they stop a cover short
+/// A "-" in one of rows 13-16 over a support means, as Kata draws it: the bars of that row of the neighbouring support
+/// run on to this one. Over an end support they anchor there like the main bars (at a cantilever tip they stop a cover short
 /// of it); over an interior support they run through it and stop H5 × L into the span beyond, G1 further when that
-/// support has lower rows of its own. Consecutive "-" chain: the bar runs on to the last of them (T2-DY14: G13 through
-/// I and on to the end beam K). Rows 14-16 do not take "-" yet (their levels would collide).
+/// support has rows of its own below that row. Consecutive "-" chain: the bar runs on to the last of them (T2-DY14: G13 through
+/// I and on to the end beam K; T1-DX10: E14 through short span F to the end support G14 "-").
 /// </summary>
 internal static class KataTopBarContinuation
 {
     public const string Mark = "-";
 
+    /// <remarks>
+    /// Rows 14-16 run on only over a "-" support with no rows of its own below them: the levels of such a support close
+    /// up under its own rows, so a passing bar would lie on one of them.
+    /// </remarks>
     public static bool Continues(KataBeamRebarSpec spec, int support, int layer) =>
-        layer == 0 && IsMark(spec, support, layer);
+        IsMark(spec, support, layer) && (layer == 0 || !HasRowsBelow(spec, support, layer));
+
+    private static bool HasRowsBelow(KataBeamRebarSpec spec, int support, int layer) =>
+        Enumerable.Range(layer + 1, 3 - layer).Any(lower => !KataTopLayerStack.Sides(spec, support, lower).IsEmpty);
 
     public static bool IsMark(KataBeamRebarSpec spec, int support, int layer) =>
         support >= 0 && support < spec.Supports.Count && KataTopLayerStack.Sides(spec, support, layer).Text.Trim() == Mark;
@@ -33,7 +40,7 @@ internal static class KataTopBarContinuation
                 ? KataSupportTopBarLayout.Anchor(spec, rules, st, 0, level, items)
                 : new KataBarEnd(st.SupportStart[0] + rules.StirrupCover, 0.0, 0.0);
 
-        double reach = Reach(spec, rules, next, spec.Spans[next - 1].Length);
+        double reach = Reach(spec, rules, next, layer, spec.Spans[next - 1].Length);
         double origin = FromCentre(spec) ? st.SupportCentre(next) : st.SupportStart[next];
         return new KataBarEnd(System.Math.Max(st.SupportStart[0] + rules.TopEndCover, origin - reach), 0.0, 0.0);
     }
@@ -51,7 +58,7 @@ internal static class KataTopBarContinuation
                 ? KataSupportTopBarLayout.Anchor(spec, rules, st, last, level, items)
                 : new KataBarEnd(st.SupportEnd[last] - rules.StirrupCover, 0.0, 0.0);
 
-        double reach = Reach(spec, rules, next, spec.Spans[next].Length);
+        double reach = Reach(spec, rules, next, layer, spec.Spans[next].Length);
         double origin = FromCentre(spec) ? st.SupportCentre(next) : st.SupportEnd[next];
         return new KataBarEnd(System.Math.Min(st.SupportEnd[last] - rules.TopEndCover, origin + reach), 0.0, 0.0);
     }
@@ -70,11 +77,10 @@ internal static class KataTopBarContinuation
     }
 
     /// <summary>H5 × L, one G1 further when the "-" support has lower rows of its own to stagger over.</summary>
-    private static double Reach(KataBeamRebarSpec spec, KataDetailingRules rules, int support, double span)
+    private static double Reach(KataBeamRebarSpec spec, KataDetailingRules rules, int support, int layer, double span)
     {
         double ratio = spec.TopCutoffRatioLayer1 > 0.0 ? spec.TopCutoffRatioLayer1 : 0.25;
-        bool lowerRows = Enumerable.Range(1, 3).Any(layer => !KataTopLayerStack.Sides(spec, support, layer).IsEmpty);
-        return rules.RoundUp(rules.RoundUp(ratio * span) + (lowerRows ? rules.CurtailedExtension : 0.0));
+        return rules.RoundUp(rules.RoundUp(ratio * span) + (HasRowsBelow(spec, support, layer) ? rules.CurtailedExtension : 0.0));
     }
 
     private static bool FromCentre(KataBeamRebarSpec spec) => spec.CutoffOriginLayer1 == KataCutoffOrigin.FromColumnCenter;
