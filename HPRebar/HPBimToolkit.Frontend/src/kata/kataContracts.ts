@@ -2,6 +2,7 @@
 // HPRebar/HPRebar/KataExport/View/Web/KataWebContracts.cs — keep both in step (field names are the C# names in camelCase).
 
 import type { TypedBridgeClient } from '../bridge/bridgeClient';
+import type { KataFocusEvent, KataSceneFrame, KataWebSection } from './kataScene';
 
 export type KataTheme = 'dark' | 'light';
 
@@ -102,17 +103,31 @@ export interface KataDrawingFrame {
   hasBarSelection: boolean;
 }
 
+export interface KataSectionRequest {
+  number: number;
+  /** Seen from the other side; left out = as the elevation shows the run. */
+  mirror?: boolean | null;
+}
+
+export interface KataRemoveBarsRequest {
+  keys: string[];
+}
+
 export interface KataCommandMap {
   'kata.getState': { request: undefined; response: KataViewState };
   'kata.update': { request: KataUpdateRequest; response: KataViewState };
   'kata.run': { request: { action: KataAction }; response: { started: boolean } };
   'kata.viewport': { request: { width: number; height: number }; response: null };
   'kata.canvas': { request: KataCanvasInput; response: { handled: boolean } };
+  'kata.section': { request: KataSectionRequest; response: KataWebSection | null };
+  'kata.removeBars': { request: KataRemoveBarsRequest; response: null };
 }
 
 export interface KataEventMap {
   'kata.state': KataViewState;
   'kata.drawing': KataDrawingFrame;
+  'kata.scene': KataSceneFrame;
+  'kata.focus': KataFocusEvent;
 }
 
 export type KataBridge = TypedBridgeClient<KataCommandMap, KataEventMap>;

@@ -23,7 +23,7 @@ namespace HPRebar.KataExport.View.Web;
 ///     painted by the WPF painters and sent as SVG. Everything runs on the window's UI thread (the transport dispatches
 ///     page messages there); state and drawing are each sent at most once per dispatcher pass.
 /// </summary>
-internal sealed class KataWebBridge : IDisposable
+internal sealed partial class KataWebBridge : IDisposable
 {
     private const double MinViewport = 50.0;
     private const double MaxViewport = 8000.0;
@@ -58,6 +58,8 @@ internal sealed class KataWebBridge : IDisposable
         dispatcher.Register<KataRunRequest>(KataWebCommands.Run, (request, _) => Answer(Run(request.Action)));
         dispatcher.Register<KataViewportRequest>(KataWebCommands.Viewport, (request, _) => Answer(Resize(request)));
         dispatcher.Register<KataCanvasInput>(KataWebCommands.Canvas, (input, _) => Answer(new KataCanvasResult(Gesture(input))));
+        dispatcher.Register<KataSectionRequest>(KataWebCommands.Section, (request, _) => Answer(Section(request)));
+        dispatcher.Register<KataRemoveBarsRequest>(KataWebCommands.RemoveBars, (request, _) => Answer(RemoveBars(request)));
     }
 
     public void Dispose()
@@ -73,6 +75,7 @@ internal sealed class KataWebBridge : IDisposable
         _lastSvg = null;
         ScheduleState();
         ScheduleDrawing();
+        ScheduleScene();
     }
 
     private static Task<object?> Answer(object? value) => Task.FromResult(value);
@@ -210,7 +213,11 @@ internal sealed class KataWebBridge : IDisposable
         _ => null,
     };
 
-    private void OnViewModelChanged(object? sender, PropertyChangedEventArgs e) => ScheduleState();
+    private void OnViewModelChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        ScheduleState();
+        OnSceneInputChanged(e.PropertyName);
+    }
 
     private void OnThemeChanged() => _dispatcher.BeginInvoke(ScheduleState);
 

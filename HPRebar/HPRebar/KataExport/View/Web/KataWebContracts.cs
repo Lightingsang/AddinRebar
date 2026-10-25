@@ -1,3 +1,4 @@
+using HPRebar.Core.KataExport.Web;
 using HPRebar.KataExport.ViewModel;
 
 namespace HPRebar.KataExport.View.Web;
@@ -18,6 +19,12 @@ public static class KataWebCommands
 
     /// <summary>A gesture on the drawing (<see cref="KataCanvasInput.Kind" />), handled by the WPF canvas itself.</summary>
     public const string Canvas = "kata.canvas";
+
+    /// <summary>Kata's section n-n of the current plan (<see cref="KataSectionRequest" />), built when asked.</summary>
+    public const string Section = "kata.section";
+
+    /// <summary>Strikes bar groups off the plan (<see cref="KataRemoveBarsRequest" />); undone by the undoRemoveBars action.</summary>
+    public const string RemoveBars = "kata.removeBars";
 }
 
 public static class KataWebEvents
@@ -27,6 +34,12 @@ public static class KataWebEvents
 
     /// <summary>The elevation as SVG, sent whenever the canvas paints something different.</summary>
     public const string Drawing = "kata.drawing";
+
+    /// <summary>What the page draws itself (<see cref="KataSceneFrame" />), sent when the elevation, plan or station map change.</summary>
+    public const string Scene = "kata.scene";
+
+    /// <summary>The view model asks the drawing to frame a span or the whole run (<see cref="KataFocusEvent" />).</summary>
+    public const string Focus = "kata.focus";
 }
 
 /// <summary>What <see cref="KataWebCommands.Run" /> can start; the same commands the WPF window's buttons run.</summary>
@@ -123,6 +136,19 @@ public sealed record KataCanvasInput(
     bool Ctrl = false);
 
 public sealed record KataCanvasResult(bool Handled);
+
+/// <param name="Mirror">Seen from the other side; null = as the elevation shows the run (mirrored when it is drawn backwards).</param>
+public sealed record KataSectionRequest(int Number = 0, bool? Mirror = null);
+
+/// <param name="Keys">Bar or stirrup-zone keys of the lines picked (<see cref="KataWebLine.Keys" />).</param>
+public sealed record KataRemoveBarsRequest(IReadOnlyList<string>? Keys = null);
+
+/// <param name="Revision">Grows with every scene sent; the page drops an older one arriving late.</param>
+public sealed record KataSceneFrame(int Revision, KataWebScene? Scene);
+
+/// <param name="ColumnIndex">The span to frame with its two supports; null frames the whole run.</param>
+/// <param name="Serial">Makes a repeated request a new one.</param>
+public sealed record KataFocusEvent(int? ColumnIndex, int Serial);
 
 /// <param name="Revision">Grows with every drawing sent; the page drops an older one arriving late.</param>
 /// <param name="HasBarSelection">A bar group is selected: Delete removes it.</param>
