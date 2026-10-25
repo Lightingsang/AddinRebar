@@ -65,13 +65,13 @@ public sealed class KataSupportTopBarTests
     }
 
     [Fact]
-    public void Bottom_legs_move_inboard_of_the_innermost_top_leg()
+    public void Bottom_legs_sit_one_step_inboard_of_the_main_top_leg_whatever_the_rows_below_it()
     {
         var bottom = Plan().Layout.MainBottomBars[0].Polyline.Points;
 
-        // inset 49 (row 14 level) + (18 + 20)/2 + 25 = 93 → centre 50 + 93 = 143, leg 600 − (400 − 143) = 343 → 350.
-        Assert.Equal(new Point3(143.0, -107.0, -207.0), bottom[0]);
-        Assert.Equal(new Point3(6657.0, -107.0, -207.0), bottom[3]);
+        // As Kata draws it: centre 50 + max(20, 25) = 75, outboard of the row-14 legs; leg 600 − (400 − 75) = 275.
+        Assert.Equal(new Point3(75.0, -107.0, -282.0), bottom[0]);
+        Assert.Equal(new Point3(6725.0, -107.0, -282.0), bottom[3]);
     }
 
     [Fact]

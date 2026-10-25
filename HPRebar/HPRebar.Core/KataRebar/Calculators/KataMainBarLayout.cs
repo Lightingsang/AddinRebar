@@ -45,9 +45,9 @@ public static class KataMainBarLayout
         if (!spec.BottomContinuous.IsEmpty)
         {
             var ends = new KataBottomMainBarRuns.EndSolver(
-                support => BottomEnd(spec, rules, stations, support, dTop, dBot, support == 0 ? topStart : topEnd),
+                support => BottomEnd(spec, rules, stations, support, dBot),
                 (support, outward, room, d) => Solve(stations, rules, support, outward, rules.BottomEndCover,
-                    rules.BottomAnchorageFactor * d, rules.MinimumLegFactor * d, room, 0.0),
+                    rules.BottomAnchorageFactor * d, rules.MinimumLegFactor * d, room, BottomLegOffset(rules, d)),
                 support => LowestTopCentre(spec, rules, support) - BottomLegClearance(spec, rules, support, dBot));
 
             double BarsOf(int span) => spec.BottomMainOf(span).IsEmpty ? dBot : spec.BottomMainOf(span).Diameter;
@@ -101,15 +101,13 @@ public static class KataMainBarLayout
         return new KataBarEnd(x, room, 0.0);
     }
 
-    /// <summary>Bottom bar end in an end support, its leg moved inboard of the top legs it would overlap.</summary>
+    /// <summary>Bottom bar end in an end support, its leg one step inboard of the main top leg.</summary>
     private static KataBarEnd BottomEnd(
         KataBeamRebarSpec spec,
         KataDetailingRules rules,
         KataBeamStations st,
         int support,
-        double dTop,
-        double dBot,
-        KataBarEnd topEnd)
+        double dBot)
     {
         // Cantilever: the bottom bars stop at the column face on the cantilever side, as before.
         if (st.SupportWidth[support] <= 0.0)
@@ -119,48 +117,14 @@ public static class KataMainBarLayout
         double required = rules.BottomAnchorageFactor * dBot;
         double minimumLeg = rules.MinimumLegFactor * dBot;
         double legRoom = LegRoom(spec, rules, support);
-        var end = Solve(st, rules, support, outward, rules.ColumnEndCover, required, minimumLeg, legRoom, 0.0);
-
-        // The bottom leg moves inboard of the innermost top leg it would overlap: the main bars' or an
-        // additional level's, whose bends already sit inboard by the level's inset.
-        double zBottom = -spec.SupportDepth(support) + rules.BottomBarCentreDepth;
-        var tops = TopEndsAt(spec, rules, st, support, dTop, topEnd).ToList();
-        double inset = 0.0;
-        // A leg moved inboard gets longer and may then reach a deeper top level: check once more with it.
-        for (int pass = 0; pass < 2; pass++)
-        {
-            foreach (var (level, top) in tops)
-            {
-                if (KataAnchorage.LegsOverlap(top, end, level.Z - zBottom))
-                    inset = Math.Max(inset, level.Inset + KataAnchorage.BottomLegInset(level.Diameter, dBot, rules.MinimumLegGap));
-            }
-
-            if (inset > 0.0) end = Solve(st, rules, support, outward, rules.ColumnEndCover, required, minimumLeg, legRoom, inset);
-        }
-
-        return end;
+        // As Kata draws it (T1-DX10 C: top 30, bottom 60, C14 80 from the outer face): the bottom leg sits one step
+        // inboard of the main top leg, outboard of the additional top rows, and runs the rest of the anchorage up
+        // even where it passes beside the top legs (user decision 2026-10-25: Kata's drawing over clash-free legs).
+        return Solve(st, rules, support, outward, rules.ColumnEndCover, required, minimumLeg, legRoom, BottomLegOffset(rules, dBot));
     }
 
-    /// <summary>The top bends in an end support: the main bars' and those of each additional level on the span side.</summary>
-    private static IEnumerable<(KataTopLevel Level, KataBarEnd End)> TopEndsAt(
-        KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int support, double dTop, KataBarEnd mainEnd)
-    {
-        bool first = support == 0;
-        var levels = KataTopLayerStack.At(spec, rules, support, first ? 1 : -1);
-        if (!spec.TopContinuous.IsEmpty)
-            yield return (levels[0] with { Diameter = dTop }, mainEnd);
-
-        foreach (var level in levels)
-        {
-            var bars = KataTopLayerStack.Sides(spec, support, level.Row - KataTopLayerStack.FirstRow).Side(first);
-            if (bars.Count > 0)
-                yield return (level, KataSupportTopBarLayout.Anchor(spec, rules, st, support, level, bars));
-        }
-
-        // Rows of a neighbouring support run on over "-" and bend here too (T1-DX10 E14 into G).
-        foreach (var (level, bars) in KataTopBarContinuation.ArrivingAt(spec, rules, st, support))
-            yield return (level, KataSupportTopBarLayout.Anchor(spec, rules, st, support, level, bars));
-    }
+    /// <summary>How far a bottom leg sits inboard of the main top leg: one bar or the minimum leg gap, whichever is larger.</summary>
+    internal static double BottomLegOffset(KataDetailingRules rules, double dBot) => Math.Max(dBot, rules.MinimumLegGap);
 
     /// <param name="outward">−1 when the support lies before the bar (smaller stations), +1 after it.</param>
     internal static KataBarEnd Solve(KataBeamStations st, KataDetailingRules rules, int support, int outward, double cover, double required, double minimumLeg, double legRoom, double inset)

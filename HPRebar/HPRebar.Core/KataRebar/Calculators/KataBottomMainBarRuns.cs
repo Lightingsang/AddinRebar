@@ -113,12 +113,12 @@ public static class KataBottomMainBarRuns
             KataBarEnd start = first == 0
                 ? ends.EndSupport(0)
                 : Depth(first) > Depth(first - 1)
-                    ? ends.Step(first, -1, DeepLegRoom(ends, rules, first, Depth(first) - Depth(first - 1), Z(first), D(first)), D(first))
+                    ? ends.Step(first, -1, DeepLegRoom(ends, first, Z(first)), D(first))
                     : new KataBarEnd(Math.Max(st.SupportStart[0] + rules.BottomEndCover, st.SupportEnd[first] - Straight(first)), 0.0, 0.0);
             KataBarEnd end = last == n - 1
                 ? ends.EndSupport(n)
                 : Depth(last) > Depth(last + 1)
-                    ? ends.Step(last + 1, +1, DeepLegRoom(ends, rules, last + 1, Depth(last) - Depth(last + 1), Z(last), D(last)), D(last))
+                    ? ends.Step(last + 1, +1, DeepLegRoom(ends, last + 1, Z(last)), D(last))
                     : new KataBarEnd(Math.Min(st.SupportEnd[n] - rules.BottomEndCover, st.SupportStart[last + 1] + Straight(last)), 0.0, 0.0);
 
             var path = new List<(double X, double Z)> { (start.X, Z(first)) };
@@ -174,15 +174,10 @@ public static class KataBottomMainBarRuns
     }
 
     /// <summary>
-    /// Longest up-turned leg of the deeper span's bar at a cut step: below the shallower span's bar (one bar and a
-    /// layer gap) and below the top bars over the support.
+    /// Longest up-turned leg of the deeper span's bar at a cut step: up to below the top bars over the support. It
+    /// passes the shallower span's bars anchored straight through the support, as Kata draws it (T1-DX10 E).
     /// </summary>
-    private static double DeepLegRoom(EndSolver ends, KataDetailingRules rules, int support, double step, double zDeep, double diameter)
-    {
-        double underShallow = step - diameter - rules.LayerGap(diameter, diameter);
-        double underTop = ends.TopRoom(support) - zDeep;
-        return Math.Max(0.0, Math.Min(underShallow, underTop));
-    }
+    private static double DeepLegRoom(EndSolver ends, int support, double zDeep) => Math.Max(0.0, ends.TopRoom(support) - zDeep);
 
     public static KataRebarCurve Bar(int id, double dia, double y, Run run)
     {

@@ -47,9 +47,9 @@ public sealed class KataRebarPlannerTests
     }
 
     [Fact]
-    public void Bottom_bars_sit_43_above_the_soffit_with_legs_moved_inboard()
+    public void Bottom_bars_sit_43_above_the_soffit_with_legs_one_step_inboard_of_the_top_legs()
     {
-        // 30d = 600: moved inboard by 45 the bar has 312 straight, so 288 is missing — the 15d = 300 leg wins.
+        // 30d = 600: one step (25) inboard of the top leg the bar has 325 straight, so the leg takes the missing 275.
         var bottom = PlanFor().Layout.MainBottomBars;
 
         double[] expectedY = { -107.0, -107.0 / 3.0, 107.0 / 3.0, 107.0 };
@@ -58,10 +58,10 @@ public sealed class KataRebarPlannerTests
         {
             var pts = bottom[i].Polyline.Points;
             Assert.Equal(expectedY[i], bottom[i].TransverseY, 6);
-            Assert.Equal(95.0, pts[0].X, 6);
-            Assert.Equal(-557.0 + 300.0, pts[0].Z, 6);
+            Assert.Equal(75.0, pts[0].X, 6);
+            Assert.Equal(-557.0 + 275.0, pts[0].Z, 6);
             Assert.Equal(-557.0, pts[1].Z, 6);
-            Assert.Equal(6705.0, pts[3].X, 6);
+            Assert.Equal(6725.0, pts[3].X, 6);
         }
     }
 

@@ -60,18 +60,34 @@ public sealed class KataT1Dx10DrawingTests
     }
 
     [Fact]
-    public void In_G_the_bottom_leg_of_span_F_stays_clear_of_E14s_leg()
+    public void The_end_legs_lie_in_Kata_s_order_main_top_then_bottom_then_the_additional_row()
     {
-        // E14 bends down in G beside the bottom bars of F bending up: the bottom leg moves inboard of it as it does
-        // of C14's leg in C (they lay 5 mm apart before E14's bend was known to the bottom bars).
+        // Kata (outer face → inboard): C 30 | 60 | 80 (C14), G 10315 | 10290 | 10255 (E14); one step apart, not
+        // moved clear of each other (user decision 2026-10-25: Kata's drawing over clash-free legs).
         var layout = Layout();
-        double e14 = layout.ExtraTopBars.Where(b => b.HostSupportIndex == 1).Select(MaxX).Max();
+        double topC = layout.MainTopBars.Select(MinX).Min(), topG = layout.MainTopBars.Select(MaxX).Max();
+        double bottomC = layout.MainBottomBars.Select(MinX).Min(), bottomG = layout.MainBottomBars.Select(MaxX).Max();
         double c14 = layout.ExtraTopBars.Where(b => b.HostSupportIndex == 0).Select(MinX).Min();
-        double bottomInC = layout.MainBottomBars.Select(MinX).Min();
-        var bottomF = layout.MainBottomBars.Where(b => MaxX(b) > 10000.0).ToList();
+        double e14 = layout.ExtraTopBars.Where(b => b.HostSupportIndex == 1).Select(MaxX).Max();
 
-        Assert.NotEmpty(bottomF);
-        Assert.All(bottomF, b => Assert.Equal(bottomInC - c14, e14 - MaxX(b), 1));
+        Assert.True(topC < bottomC && bottomC < c14, $"C: {topC:0} | {bottomC:0} | {c14:0}");
+        Assert.True(topG > bottomG && bottomG > e14, $"G: {topG:0} | {bottomG:0} | {e14:0}");
+        Near(60, bottomC, "bottom leg in C");
+        Near(10290, bottomG, "bottom leg in G");
+    }
+
+    [Fact]
+    public void In_C_the_bottom_bars_reach_the_far_face_and_turn_up_the_rest_of_G3()
+    {
+        // Kata: 440 along (to 60 from the outer face) + 100 up = 30 × 18; with G3 = 40 the leg takes the rest, 280.
+        foreach (var (g3, leg) in new[] { (30.0, 100.0), (40.0, 280.0) })
+        {
+            var table = Sheet();
+            table.Set("G3", g3);
+            var bar = KataRebarCalculator.Calculate(KataDamSheetParser.Parse(table)).MainBottomBars.OrderBy(MinX).First();
+            var points = bar.Polyline.Points;
+            Near(leg, points.Max(p => p.Z) - points.Min(p => p.Z) <= 0 ? 0 : points.Where(p => Math.Abs(p.X - MinX(bar)) < 1).Max(p => p.Z) - points.Where(p => Math.Abs(p.X - MinX(bar)) < 1).Min(p => p.Z), $"leg in C at G3 {g3}");
+        }
     }
 
     [Fact]

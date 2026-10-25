@@ -116,9 +116,10 @@ public sealed class KataSteppedBeamEdgeTests
     }
 
     [Fact]
-    public void The_deep_bar_at_a_cut_step_keeps_its_leg_under_the_shallow_bar()
+    public void The_deep_bar_at_a_cut_step_turns_up_past_the_shallow_bar_as_Kata_draws_it()
     {
-        // Steps of 150 cut ((150 − 22) / 400 > 1/6): Ø22, G3 30 → the deep leg would be about 250 and cross the shallow bar.
+        // Steps of 150 cut ((150 − 22) / 400 > 1/6): Ø22, G3 30 → the deep leg is about 250 and passes the shallow bar
+        // anchored straight through the support (T1-DX10 E; user decision 2026-10-25: Kata's drawing over clash-free legs).
         var table = TwoSteps(-150.0, 0.0);
         table.Set("B12", "2f22");
 
@@ -128,7 +129,7 @@ public sealed class KataSteppedBeamEdgeTests
         double legTop = deep.Polyline.Points.Last().Z;
         double shallowZ = shallow.Polyline.Points.First().Z;
 
-        Assert.True(shallowZ - legTop >= 22.0 + 30.0 - 1e-6, $"leg top {legTop}, shallow bar {shallowZ}");
+        Assert.True(legTop > shallowZ, $"leg top {legTop}, shallow bar {shallowZ}");
     }
 
     [Fact]

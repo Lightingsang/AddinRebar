@@ -138,12 +138,12 @@ public class KataRebarCalculatorTests
             Assert.True(pts[0].Z > pts[1].Z);
             Assert.True(pts[3].Z > pts[2].Z);
 
-            // 30d = 600 needs a 300 mm leg (15d) that overlaps the 450 mm top leg (room 514), so the bottom leg
-            // moves inboard by (20 + 20)/2 + 25 = 45: 600 − (400 − 50 − 45) = 295, raised to the 15d = 300 minimum.
-            Assert.Equal(95.0, pts[0].X, 6);
-            Assert.Equal(6705.0, pts[3].X, 6);
-            Assert.Equal(300.0, bar.StartHookLength, 6);
-            Assert.Equal(300.0, bar.EndHookLength, 6);
+            // As Kata draws it the bottom leg sits one step (max(d, leg gap) = 25) inboard of the top leg, beside it:
+            // 600 − (400 − 50 − 25) = 275 up, the rest of 30d.
+            Assert.Equal(75.0, pts[0].X, 6);
+            Assert.Equal(6725.0, pts[3].X, 6);
+            Assert.Equal(275.0, bar.StartHookLength, 6);
+            Assert.Equal(275.0, bar.EndHookLength, 6);
         }
 
         // 4. 3-Zone Stirrups
@@ -619,9 +619,9 @@ public class KataRebarCalculatorTests
         var console = result.MainBottomBars.Where(b => b.Polyline.Points.Min(p => p.X) > 5000).ToList();
         Assert.Equal(3, console.Count);
         Assert.All(console, b => { Assert.Equal(5400.0 + 45.0, b.Polyline.Points.Min(p => p.X), 1); Assert.Equal(7600.0 - 45.0, b.Polyline.Points.Max(p => p.X), 1); });
-        // Its leg would overlap the top-bar leg, so it moves inboard by (20 + 20)/2 + 25 = 45 mm.
+        // Its leg sits one step (max(d, leg gap) = 25) inboard of the top-bar leg, as Kata draws it.
         var botBar = result.MainBottomBars[0];
-        Assert.Equal(95.0, botBar.Polyline.Points[1].X);
+        Assert.Equal(75.0, botBar.Polyline.Points[1].X);
         Assert.Equal(6000.0, botBar.Polyline.Points[2].X); // 5400 + G3·d 600 into the console
         Assert.Equal(HookAngle.Hook90, botBar.StartHookAngle);
         Assert.Equal(HookAngle.None, botBar.EndHookAngle);
