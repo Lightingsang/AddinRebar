@@ -148,9 +148,53 @@ public sealed class WebViewHost : UserControl, IDisposable
             Dispatcher.BeginInvoke(() => MessageReceived?.Invoke(source, message));
         };
         core.ProcessFailed += OnProcessFailed;
+        core.DownloadStarting += OnDownloadStarting;
 
         _logger.Information("WebView2 runtime {Version} ready, profile {Folder}", environment.BrowserVersionString, userDataFolder);
         _navigate(core);
+    }
+
+    /// <summary>
+    ///     A file the page offers (an exported drawing, as a blob download) is saved where the user picks in a Save dialog
+    ///     owned by this window, never silently into the Downloads folder; cancelling the dialog cancels the download.
+    ///     The dialog runs from a normal dispatcher frame, outside WebView2's event.
+    /// </summary>
+    private void OnDownloadStarting(object? sender, CoreWebView2DownloadStartingEventArgs e)
+    {
+        var deferral = e.GetDeferral();
+        var suggested = Path.GetFileName(e.ResultFilePath);
+        Dispatcher.BeginInvoke(() =>
+        {
+            try
+            {
+                var extension = Path.GetExtension(suggested);
+                var dialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    FileName = suggested,
+                    DefaultExt = extension,
+                    Filter = extension.Length > 1 ? $"{extension.TrimStart('.').ToUpperInvariant()} (*{extension})|*{extension}" : "All files (*.*)|*.*",
+                };
+                if (dialog.ShowDialog(Window.GetWindow(this)) == true)
+                {
+                    e.ResultFilePath = dialog.FileName;
+                    e.Handled = true;
+                    _logger.Information("Saving {File} from the page", dialog.FileName);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Error(exception, "The page's download {File} could not be saved", suggested);
+                e.Cancel = true;
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        });
     }
 
     /// <summary>A crashed page reloads itself; a dead browser process cannot be revived, so the control says what happened.</summary>
