@@ -68,7 +68,7 @@ export function cadText(out: ShapeList, value: string, color: string, heightMm: 
   if (!value) return 0;
   const size = (heightMm * scale) / ARIAL_CAPS;
   if (size < MIN_FONT_PX) return 0;
-  out.shapes.push({
+  out.add({
     t: 'ctext',
     x,
     y: baselineY,

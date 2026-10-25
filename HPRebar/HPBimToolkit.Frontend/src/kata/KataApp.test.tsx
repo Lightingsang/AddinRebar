@@ -204,5 +204,37 @@ describe('KataApp drawing the scene itself', () => {
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(screen.queryByTestId('kata-section-panel')).toBeNull());
   });
+
+  it('the layer panel hides the bars, the find box frames each tag of a bar number in turn', async () => {
+    const { area } = await renderKataMode();
+    const bars = () => area.querySelectorAll('[data-id^=line-]').length;
+    const before = bars();
+    expect(before).toBeGreaterThan(0);
+
+    await userEvent.click(screen.getByRole('button', { name: /^Lớp/ }));
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Thép chủ / gia cường' }));
+    await waitFor(() => expect(bars()).toBeLessThan(before));
+
+    const number = scene.rebar!.tags[0]!.numbers[0]!;
+    const count = scene.rebar!.tags.filter((t) => t.numbers.includes(number)).length;
+    await userEvent.type(screen.getByRole('textbox', { name: 'Tìm số hiệu thanh' }), `${number}{Enter}`);
+    expect(screen.getByTestId('kata-find-result')).toHaveTextContent(`1/${count}`);
+    await userEvent.type(screen.getByRole('textbox', { name: 'Tìm số hiệu thanh' }), '{Enter}');
+    expect(screen.getByTestId('kata-find-result')).toHaveTextContent(count > 1 ? `2/${count}` : `1/${count}`);
+  });
+
+  it('the measure tool measures between two clicks and Esc leaves it', async () => {
+    const { area, click } = await renderKataMode();
+    await userEvent.click(screen.getByRole('button', { name: 'Đo' }));
+    expect(area).toHaveAttribute('data-measuring', 'true');
+    click(kataScreen(1000, 0));
+    click(kataScreen(4000, 0));
+    await waitFor(() => expect(area.querySelector('svg')!.textContent).toMatch(/L [\d.]+ mm/));
+
+    area.focus();
+    await userEvent.keyboard('{Escape}');
+    await userEvent.keyboard('{Escape}');
+    expect(area).not.toHaveAttribute('data-measuring');
+  });
 });
 

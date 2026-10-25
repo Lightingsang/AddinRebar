@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { KataFocusEvent, KataWebElevation, KataWebRange } from '../kataScene';
-import { MARGIN_PX, MAX_SCALE, WHEEL_STEP, frameAll, frameColumn, minScale, type FrameOptions } from './framing';
+import { FOCUS_MARGIN_PX, MARGIN_PX, MAX_SCALE, WHEEL_STEP, frame, frameAll, frameColumn, minScale, type FrameOptions } from './framing';
 import { ensureVisible, panBy, zoomAt, type Viewport } from './viewport';
 
 export interface ElevationView {
@@ -9,7 +9,25 @@ export interface ElevationView {
   zoom(x: number, y: number, notches: number): void;
   pan(dx: number, dy: number): void;
   frameWhole(): void;
+  /** Frames `range` (stations) as a span is framed, gliding there. */
+  frameRange(range: KataWebRange): void;
+  /** Pans so that station `x` sits in the middle of the area. */
+  centreOn(x: number): void;
 }
+
+/** How long a framing change glides (ms); a wheel notch or a drag is never animated. */
+const GLIDE_MS = 220;
+
+const ease = (t: number) => 1 - (1 - t) ** 3;
+
+const between = (a: Viewport, b: Viewport, t: number): Viewport => {
+  // Scale glides geometrically so that a large zoom does not rush through its first half.
+  const scale = a.scale * (b.scale / a.scale) ** t;
+  return { scale, offsetX: a.offsetX + (b.offsetX - a.offsetX) * t, offsetY: a.offsetY + (b.offsetY - a.offsetY) * t };
+};
+
+const canAnimate = () =>
+  typeof requestAnimationFrame === 'function' && !(typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 /** The same run rebuilt (a parameter changed) has the same bounds and columns; anything else is a new run. */
 const runKey = (e: KataWebElevation | null) => (e ? `${e.bounds.start}|${e.bounds.end}|${e.columns.length}` : '');
@@ -51,8 +69,40 @@ export function useElevationView(
     latest.current = { viewport, elevation, size, options, run };
   });
 
-  /** null = framed whole (refitted on resize). */
-  const setUser = useCallback((next: Viewport | null) => setManual(next ? { run: latest.current.run, viewport: next } : null), []);
+  const glide = useRef(0);
+
+  /** null = framed whole (refitted on resize). Any direct gesture stops a glide on its way. */
+  const setUser = useCallback((next: Viewport | null) => {
+    cancelAnimationFrame(glide.current);
+    setManual(next ? { run: latest.current.run, viewport: next } : null);
+  }, []);
+
+  /** Glides from the view on screen to `target` (null: framed whole), then holds it. */
+  const glideTo = useCallback(
+    (target: Viewport | null) => {
+      const { viewport: from, elevation: e, size: s, options: o, run: key } = latest.current;
+      const to = target ?? (e ? frameAll(e, s.width, s.height, o) : null);
+      if (!from || !to || !canAnimate()) {
+        setUser(target);
+        return;
+      }
+      cancelAnimationFrame(glide.current);
+      const started = performance.now();
+      // The frame time rAF passes may run on another clock than performance.now(): read one clock, keep t in 0…1.
+      const step = () => {
+        const t = Math.max(0, Math.min(1, (performance.now() - started) / GLIDE_MS));
+        if (t >= 1) {
+          setManual(target ? { run: key, viewport: target } : null);
+          return;
+        }
+        setManual({ run: key, viewport: between(from, to, ease(t)) });
+        glide.current = requestAnimationFrame(step);
+      };
+      glide.current = requestAnimationFrame(step);
+    },
+    [setUser],
+  );
+  useEffect(() => () => cancelAnimationFrame(glide.current), []);
 
   const zoom = useCallback(
     (x: number, y: number, notches: number) => {
@@ -71,16 +121,32 @@ export function useElevationView(
     [setUser],
   );
 
-  const frameWhole = useCallback(() => setUser(null), [setUser]);
+  const frameWhole = useCallback(() => glideTo(null), [glideTo]);
+
+  const frameRange = useCallback(
+    (range: KataWebRange) => {
+      const { elevation: e, size: s, options: o } = latest.current;
+      if (e && s.width > 0) glideTo(frame(e, range, s.width, s.height, FOCUS_MARGIN_PX, o));
+    },
+    [glideTo],
+  );
+
+  const centreOn = useCallback(
+    (x: number) => {
+      const { viewport: v, size: s } = latest.current;
+      if (v) setUser({ ...v, offsetX: s.width / 2 - x * v.scale });
+    },
+    [setUser],
+  );
 
   // The view model asks to frame a span (with its supports) or the whole run.
   useEffect(() => {
     if (!focus) return;
     const { elevation: e, size: s, options: o } = latest.current;
     if (!e || s.width < 1) return;
-    if (focus.columnIndex !== null && focus.columnIndex >= 0 && focus.columnIndex < e.columns.length) setUser(frameColumn(e, focus.columnIndex, s.width, s.height, o));
-    else setUser(null);
-  }, [focus, setUser]);
+    if (focus.columnIndex !== null && focus.columnIndex >= 0 && focus.columnIndex < e.columns.length) glideTo(frameColumn(e, focus.columnIndex, s.width, s.height, o));
+    else glideTo(null);
+  }, [focus, glideTo]);
 
   // A column picked in the table is brought into view sideways, without changing the zoom or the height.
   useEffect(() => {
@@ -91,5 +157,5 @@ export function useElevationView(
     if (next !== v) setUser(next);
   }, [selectedColumn, setUser]);
 
-  return { size, viewport, zoom, pan, frameWhole };
+  return { size, viewport, zoom, pan, frameWhole, frameRange, centreOn };
 }

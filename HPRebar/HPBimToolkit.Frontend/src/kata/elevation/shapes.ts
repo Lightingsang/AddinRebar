@@ -4,7 +4,10 @@
 import type { Pen } from './palette';
 import type { TextBox } from './text';
 
-export type Shape =
+/** Kata's drawing layers the layer panel turns on and off (the plain elevation has none). */
+export type LayerId = 'concrete' | 'grid' | 'bars' | 'stirrups' | 'dims' | 'flags' | 'tags' | 'notes';
+
+type Drawn =
   | { t: 'line'; x1: number; y1: number; x2: number; y2: number; pen: Pen }
   | { t: 'rect'; x1: number; y1: number; x2: number; y2: number; fill?: string; pen?: Pen }
   | { t: 'circle'; x: number; y: number; r: number; fill?: string; pen: Pen }
@@ -16,32 +19,42 @@ export type Shape =
   /** CAD text (kata_text): baseline through (x, y), font size in px, glyphs squeezed to `widthFactor`. */
   | { t: 'ctext'; x: number; y: number; text: string; size: number; color: string; anchor: 'start' | 'middle' | 'end'; vertical: boolean; widthFactor: number };
 
+/** A shape and the layer it was drawn on, if any. */
+export type Shape = Drawn & { layer?: LayerId };
+
 export class ShapeList {
   readonly shapes: Shape[] = [];
 
+  /** The layer given to every shape added from here on (undefined: none). */
+  layer: LayerId | undefined;
+
+  add(shape: Shape): void {
+    this.shapes.push(this.layer ? { ...shape, layer: this.layer } : shape);
+  }
+
   line(pen: Pen, x1: number, y1: number, x2: number, y2: number): void {
-    this.shapes.push({ t: 'line', x1, y1, x2, y2, pen });
+    this.add({ t: 'line', x1, y1, x2, y2, pen });
   }
 
   box(fill: string | undefined, pen: Pen | undefined, x1: number, y1: number, x2: number, y2: number): void {
-    this.shapes.push({ t: 'rect', x1, y1, x2, y2, fill, pen });
+    this.add({ t: 'rect', x1, y1, x2, y2, fill, pen });
   }
 
   poly(fill: string | undefined, pen: Pen | undefined, points: [number, number][], closed = false, id?: string): void {
-    if (points.length >= 2) this.shapes.push({ t: 'poly', points, pen, fill, closed: closed || fill !== undefined, id });
+    if (points.length >= 2) this.add({ t: 'poly', points, pen, fill, closed: closed || fill !== undefined, id });
   }
 
   circle(fill: string | undefined, pen: Pen, x: number, y: number, r: number): void {
-    this.shapes.push({ t: 'circle', x, y, r, fill, pen });
+    this.add({ t: 'circle', x, y, r, fill, pen });
   }
 
   /** `box` centred on `x` with its top at `top`. */
   centered(box: TextBox, color: string, x: number, top: number): void {
-    this.shapes.push({ t: 'text', x, top, box, color, anchor: 'middle' });
+    this.add({ t: 'text', x, top, box, color, anchor: 'middle' });
   }
 
   at(box: TextBox, color: string, left: number, top: number): void {
-    this.shapes.push({ t: 'text', x: left, top, box, color, anchor: 'start' });
+    this.add({ t: 'text', x: left, top, box, color, anchor: 'start' });
   }
 
   /** A dimension tick (CAD architectural 45-degree slash) at `x` on the line at `y`. */

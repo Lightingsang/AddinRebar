@@ -28,6 +28,7 @@ function drawsNatively(kata: KataController): boolean {
 }
 
 function ElevationCard({ state, kata }: { state: KataViewState; kata: KataController }) {
+  const notify = useToast();
   const busy = state.isBusy;
   const scene = kata.scene;
   return (
@@ -54,7 +55,7 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
       <div className="mb-1 shrink-0 truncate text-[12px] text-muted" data-testid="kata-selection">
         {state.selectionText}
       </div>
-      <div className="min-h-[260px] flex-1">
+      <div className="min-h-[360px] flex-1">
         {scene && drawsNatively(kata) ? (
           <NativeElevation
             elevation={scene.elevation}
@@ -67,6 +68,8 @@ function ElevationCard({ state, kata }: { state: KataViewState; kata: KataContro
             loadSection={kata.loadSection}
             removeBars={kata.removeBars}
             undoRemoveBars={() => kata.run('undoRemoveBars')}
+            beamName={state.header.beamName}
+            notify={(text) => notify(text, 'error')}
             theme={state.theme}
             selectedColumn={state.selectedColumn}
             focus={kata.focus}
@@ -162,7 +165,7 @@ export function KataApp({ bridge }: { bridge: KataBridge }) {
           {bridge.isMock && <Badge tone="warning">dữ liệu mẫu</Badge>}
         </div>
       </header>
-      <main className="grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto p-2 lg:grid-cols-[minmax(260px,320px)_1fr] lg:grid-rows-[minmax(400px,1fr)_auto_auto]">
+      <main className="grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto p-2 lg:grid-cols-[minmax(260px,320px)_1fr] lg:grid-rows-[minmax(500px,1fr)_auto_auto]">
         <KataParameters state={state} update={kata.update} />
         <ElevationCard state={state} kata={kata} />
         <div className="lg:col-span-2">

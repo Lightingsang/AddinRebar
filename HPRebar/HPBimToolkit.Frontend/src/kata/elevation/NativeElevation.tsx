@@ -14,6 +14,10 @@ import { buildScene, columnAt } from './scene';
 import { SectionPanel } from './SectionPanel';
 import { paintPicking } from './selectionPainter';
 import { ShapesSvg } from './ShapesSvg';
+import { visibleShapes } from './drawingTools';
+import { ElevationTools } from './ElevationTools';
+import { Minimap } from './Minimap';
+import { useDrawingTools } from './useDrawingTools';
 import { useBarSelection, useSection } from './useKataPicking';
 import { useElevationView } from './useElevationView';
 import { toStation } from './viewport';
@@ -34,6 +38,9 @@ interface NativeElevationProps {
   loadSection(number: number): Promise<KataWebSection | null>;
   removeBars(keys: string[]): void;
   undoRemoveBars(): void;
+  /** The beam's name, for the file names of saved drawings. */
+  beamName: string;
+  notify(text: string): void;
   /** Esc the drawing did not use: the window closes on it, as the WPF window did. */
   onUnhandledEscape(): void;
 }
@@ -54,6 +61,7 @@ function kataPanelRect(width: number, height: number) {
 export function NativeElevation(props: NativeElevationProps) {
   const { elevation, rebar, stationMap, showRebar, showBarTags, showSection, theme, selectedColumn, focus } = props;
   const box = useRef<HTMLDivElement>(null);
+  const svg = useRef<SVGSVGElement>(null);
   const press = useRef<(Press & { lastX: number; lastY: number }) | null>(null);
   const [openFlag, setOpenFlag] = useState<{ number: number; x: number } | null>(null);
   const [hover, setHover] = useState<{ keys: string[]; x: number; y: number } | null>(null);
@@ -87,6 +95,7 @@ export function NativeElevation(props: NativeElevationProps) {
   const panel = kataCut ? kataPanelRect(view.size.width, view.size.height) : plainCut ? { left: view.size.width - CARD.margin - CARD.width, top: CARD.margin, width: CARD.width, height: CARD.height } : null;
   const shownCut = panel ? (kataCut ?? plainCut) : null;
   const section = useSection(rebar, shownCut?.number ?? null, props.loadSection);
+  const tools = useDrawingTools({ kata, scene, point, stationMap, svg, frameRange: view.frameRange, notify: props.notify });
 
   const shapes = useMemo(() => {
     if (!scene || !point) return [];
@@ -101,6 +110,7 @@ export function NativeElevation(props: NativeElevationProps) {
     const plain = [...paintElevation(scene, palette), ...paintAnnotations(scene, palette)];
     return showSection && rebar ? [...plain, ...paintCutMarkers(scene, palette, rebar.cuts, stationMap, plainCut)] : plain;
   }, [scene, point, theme, kata, stationMap, kataCut, showBarTags, selection.keys, hover, showSection, rebar, plainCut]);
+  const drawn = [...visibleShapes(shapes, tools.hidden), ...tools.overlay(paletteFor(theme))];
 
   const at = (e: { clientX: number; clientY: number }): Point => {
     const element = box.current!;
@@ -128,7 +138,12 @@ export function NativeElevation(props: NativeElevationProps) {
       current.lastY = p[1];
       return;
     }
-    if (current || !kata || !point) return;
+    if (current) return;
+    if (tools.measuring) {
+      tools.measureMove(p);
+      return;
+    }
+    if (!kata || !point) return;
     const line = barHits(kata.lines, p, point)[0];
     setHover((before) => (line ? { keys: line.keys, x: p[0], y: p[1] } : before ? null : before));
   };
@@ -139,6 +154,10 @@ export function NativeElevation(props: NativeElevationProps) {
     if (!started || !viewport || !point) return;
     const p = at(e);
     if (endPress(started, p[0], p[1])?.kind !== 'click') return;
+    if (tools.measuring) {
+      tools.measureClick(p);
+      return;
+    }
     if (kata) {
       const flag = showSection ? flagAt(kata.flags, p, point, viewport.scale) : null;
       if (flag) {
@@ -166,13 +185,15 @@ export function NativeElevation(props: NativeElevationProps) {
     return () => element.removeEventListener('wheel', onWheel);
   }, [zoom]);
 
-  /** Esc closes the section, then drops the selection, then the window; Delete removes the group; Ctrl+Z undoes. */
+  /** Esc steps back (measure, section, selection, window); Delete removes the group; Ctrl+Z undoes. */
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const keys = selection.keys;
     if (e.key === 'Escape') {
-      if (kataCut) setOpenFlag(null);
-      else if (keys) selection.clear();
-      else props.onUnhandledEscape();
+      // The measure on screen and the measure tool go first, then the section, the selection, the window.
+      const used = tools.escape();
+      if (!used && kataCut) setOpenFlag(null);
+      else if (!used && keys) selection.clear();
+      else if (!used) props.onUnhandledEscape();
     } else if (e.key === 'Delete' && keys) {
       selection.clear();
       props.removeBars(keys);
@@ -197,6 +218,7 @@ export function NativeElevation(props: NativeElevationProps) {
       data-mode={kata ? 'kata' : 'plain'}
       data-scale={viewport?.scale.toFixed(5)}
       data-selected={selection.keys?.length ?? 0}
+      data-measuring={tools.measuring || undefined}
       className="relative h-full min-h-0 w-full cursor-crosshair overflow-hidden rounded border border-line outline-none select-none"
       style={{ background: palette.fill }}
       onPointerDown={onPointerDown}
@@ -208,11 +230,24 @@ export function NativeElevation(props: NativeElevationProps) {
       onKeyDown={onKeyDown}
     >
       {viewport && (
-        <svg className="pointer-events-none absolute left-0 top-0" width={view.size.width} height={view.size.height}>
-          <ShapesSvg shapes={shapes} />
+        <svg ref={svg} className="pointer-events-none absolute left-0 top-0" width={view.size.width} height={view.size.height}>
+          <ShapesSvg shapes={drawn} />
         </svg>
       )}
-      {hover && !press.current && (
+      <ElevationTools
+        palette={palette}
+        kata={kata !== null}
+        measuring={tools.measuring}
+        onMeasure={tools.setMeasuring}
+        hidden={tools.hidden}
+        onToggleLayer={tools.toggleLayer}
+        onFind={tools.find}
+        onExport={(kind) => void tools.exportAs(kind, props.beamName)}
+      />
+      {viewport && view.size.width >= 480 && !panel && (
+        <Minimap elevation={elevation} viewport={viewport} areaWidth={view.size.width} palette={palette} centreOn={view.centreOn} />
+      )}
+      {hover && !press.current && !tools.measuring && (
         <div
           role="tooltip"
           className="pointer-events-none absolute z-10 max-w-[320px] rounded border px-2 py-1 text-[11px] shadow"

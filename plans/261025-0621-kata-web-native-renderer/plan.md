@@ -1,6 +1,6 @@
 # Kata Export — native web renderer (Revit 2026)
 
-Status: **In progress** — user approved 2026-10-25 (three.js OK); phases 1–4 done. Follows `plans/261024-2345-kata-export-web-ui-hprebar/` (committed 17caa8d, 7b23d43).
+Status: **In progress** — user approved 2026-10-25 (three.js OK); phases 1–5 done. Follows `plans/261024-2345-kata-export-web-ui-hprebar/` (committed 17caa8d, 7b23d43).
 
 ## Goal
 Drop the hidden WPF `KataElevationCanvas` → SVG pipe on Revit 2026. The page draws the elevation, Kata's rebar elevation, bar tags and sections itself from model-space data (mm), with client-side zoom/pan and web-only features. Other Revit versions: not touched, not tested.
@@ -26,7 +26,7 @@ page gestures that change the model → commands: kata.update {selectedColumn}, 
 | 2 | [TS viewport + beam elevation layer](phase-02-viewport-elevation.md) — [report](reports/phase-02-viewport-elevation.md) | AFK | ✅ Done (live 7/7) |
 | 3 | [Rebar layers: Kata elevation (longitudinal section), tags, cuts](phase-03-rebar-layers.md) — [report](reports/phase-03-rebar-layers.md) | AFK | ✅ Done (live 9/9; bars live CHƯA TEST) |
 | 4 | [Interaction + cross sections](phase-04-interaction-sections.md) — [report](reports/phase-04-interaction-sections.md) | AFK | ✅ Done (live 11/11 + plain card live; bar pick live CHƯA TEST — needs a workbook matching the run) |
-| 5 | [Web features: minimap, find, export, measure, layers](phase-05-web-features.md) | AFK | Planned |
+| 5 | [Web features: minimap, find, export, measure, layers](phase-05-web-features.md) — [report](reports/phase-05-web-features.md) | AFK | ✅ Done (live 11/11 + 7/7; PNG/print live CHƯA TEST) |
 | 7 | [3D view (three.js)](phase-07-3d-view.md) | AFK | Planned |
 | 6 | [Cut-over: delete WPF window everywhere, live, review, docs](phase-06-cutover-verify.md) | HITL (Revit) | Planned |
 

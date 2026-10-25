@@ -7,13 +7,16 @@ import { BAR_PX, OUTLINE_PX, STYLE, TAG, THIN_PX, cadText, cadTextCentredOn, lin
 import { paintDims } from './kataDimPainter';
 import type { Palette, Pen } from './palette';
 import { isVisible, screenSpan, sx, sy, type Scene } from './scene';
-import { ShapeList, type Shape } from './shapes';
+import { ShapeList, type LayerId, type Shape } from './shapes';
 
 // kata_block_SECBAL at scale 25: stem −25..108.9, flag (0, 69.45)–(147.3, 108.9), number right-aligned 12.5 left of
 // the stem, its middle 43.75 up.
 export const FLAG = { stemBottom: -25, top: 108.9, slopeStart: 69.45, width: 147.3, textGap: 12.5, textMiddle: 43.75 } as const;
 
 export type Point = [number, number];
+
+/** The layer panel's layer of each Kata pen. */
+const PEN_LAYERS: Record<KataDrawingPen, LayerId> = { outline: 'concrete', hidden: 'concrete', thin: 'concrete', grid: 'grid', bar: 'bars', stirrup: 'stirrups' };
 
 /** Screen point of a drawing point (mm along the run in the layout's local X, mm up from the beam top). */
 export const kataPoint = (scene: Scene, map: KataWebStationMap) => (x: number, z: number): Point => [
@@ -49,12 +52,17 @@ export function paintKataElevation(scene: Scene, palette: Palette, rebar: KataWe
   // Bars last, over the stirrups and the concrete, as Kata's layer order shows them.
   const ordered = rebar.lines.map((line, index) => ({ line, index })).sort((a, b) => Number(a.line.pen === 'bar') - Number(b.line.pen === 'bar'));
   for (const { line, index } of ordered) {
+    out.layer = PEN_LAYERS[line.pen];
     out.poly(undefined, pens[line.pen], line.points.map((q) => p(q.x, q.z)), false, line.keys.length > 0 ? `line-${index}` : undefined);
   }
 
+  out.layer = 'dims';
   paintDims(out, rebar.dims, palette, p, scale, pens.thin, lineweight(k.run, THIN_PX, scale));
+  out.layer = 'flags';
   for (const flag of rebar.flags) paintFlag(out, scene, palette, p(flag.x, flag.z), flag, scale, flag.number === selectedFlag);
+  out.layer = 'grid';
   for (const bubble of rebar.bubbles) paintBubble(out, scene, palette, p(bubble.x, bubble.z), bubble, pens.thin, scale);
+  out.layer = 'notes';
   if (rebar.level) paintLevel(out, palette, p(rebar.level.x, rebar.level.z), rebar.level, pens.thin, scale);
   if (rebar.title) paintTitle(out, palette, p(rebar.title.x, rebar.title.z), rebar.title, scale);
   return out.shapes;

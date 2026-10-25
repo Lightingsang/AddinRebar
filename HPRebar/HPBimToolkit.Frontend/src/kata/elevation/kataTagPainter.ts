@@ -11,6 +11,7 @@ import { ShapeList, type Shape } from './shapes';
 
 export function paintTags(scene: Scene, palette: Palette, rebar: KataWebRebar, map: KataWebStationMap): Shape[] {
   const out = new ShapeList();
+  out.layer = 'tags';
   const s = scene.viewport.scale;
   const k = palette.kata;
   const leader = leaderPen(palette);

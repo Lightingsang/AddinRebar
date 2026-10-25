@@ -90,7 +90,7 @@ export function paintSection(section: KataWebSection, palette: Palette, width: n
     bar: weight(k.bar, BAR_PX),
   };
 
-  for (const line of section.lines) out.shapes.push({ t: 'path', d: bulgePath(line.vertices, p), pen: pens[line.pen] });
+  for (const line of section.lines) out.add({ t: 'path', d: bulgePath(line.vertices, p), pen: pens[line.pen] });
 
   const leader = weight(k.leader, THIN_PX);
   for (const mark of section.marks) out.circle(undefined, leader, ...p(mark.x, mark.z), mark.radius * scale);
