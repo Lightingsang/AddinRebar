@@ -30,6 +30,6 @@ cut = top extra reach − G1 = 1750 − 500 = 1250 (both ends). Does not explain
 |---|---|---|
 | 1 | `KataT1Dx10DrawingTests` (sheet + DWG numbers in asserts; JSON fixture not exported) | ✅ 13afc38 |
 | 2 | Rows 14-16 "-" continuation (gap 1) — only over a "-" support without own lower rows | ✅ 13afc38 |
-| 3 | Bottom main anchorage split (gap 2) — Kata schematic vs clash-free legs: user decision | 👤 |
+| 3 | Bottom main anchorage split (gap 2) — user 2026-10-25: keep HPRebar's clash-free legs (bottom leg moved inboard), not Kata's schematic | ✅ kept |
 | 4 | Bottom extra cut (gap 3): I1 "Cách điểm cắt thép gối = h" (user 2026-10-25) — also fixes B03 D17/F17 | ✅ 13afc38 |
-| 5 | Build R26 ✅; user loads via Add-in Manager in the open file, reads T1-DX10 | 👤 |
+| 5 | Build R26; live in the user's open file 2026-10-25: D17 1250/4400/1250, E14 (5) to G, numbers 1–9 as Kata (`reports/live-t1-dx10-*.png`) | ✅ |
