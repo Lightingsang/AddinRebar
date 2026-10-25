@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import fixture from '../__fixtures__/kata-scene-b03.json';
 import type { KataWebScene } from '../kataScene';
 import { KATA_MARGIN_PX, frameAll, kataFrameOptions } from './framing';
-import { BAR_PX, OUTLINE_PX, STYLE, lineweight } from './kataCad';
+import { BAR_PX, OUTLINE_PX, STYLE, THIN_PX, barPx, lineweight } from './kataCad';
 import { kataPoint, paintKataElevation } from './kataElevationPainter';
 import { paintTags, tagBand } from './kataTagPainter';
 import { paletteFor } from './palette';
@@ -53,9 +53,17 @@ describe('Kata elevation', () => {
     expect(lines.slice(firstBar).every((s) => s.pen?.color !== palette.kata.stirrup)).toBe(true);
   });
 
+  it("draws bars no wider than a bar on screen when zoomed out, Kata's 3 px when zoomed in", () => {
+    expect(viewport.scale).toBeLessThan(0.05); // the whole B03 run
+    expect(barPx(viewport.scale)).toBe(THIN_PX);
+    expect(barPx(0.06)).toBe(2);
+    expect(barPx(0.12)).toBe(BAR_PX);
+    expect(barPx(2)).toBe(BAR_PX);
+  });
+
   it('keeps lineweights in whole pixels and dashes hidden lines when they are long enough', () => {
     const bar = polys(shapes).find((s) => s.pen?.color === palette.kata.bar)!;
-    expect(bar.pen!.width).toBe(BAR_PX);
+    expect(bar.pen!.width).toBe(barPx(viewport.scale));
     expect(polys(shapes).some((s) => s.pen?.color === palette.kata.outline && s.pen.width === OUTLINE_PX)).toBe(true);
     expect(lineweight('#000', 1, 0.01, STYLE.hiddenDashes).dash).toBeUndefined(); // dashes under 2 px: solid
     expect(lineweight('#000', 1, 0.1, STYLE.hiddenDashes).dash).toBe('11.91 5.95');

@@ -15,6 +15,7 @@ One file per decision, `NNNN-kebab-title.md`, never renumbered. Status: **Propos
 | [0009](0009-bim-toolkit-uses-hprebar-core.md) | HP BIM Toolkit uses HPRebar.Core for Kata; Kata's Revit adapters are ported | Superseded by 0010 |
 | [0010](0010-kata-export-web-ui-in-hprebar.md) | Kata Export: WebView2 + React window inside HPRebar on Revit 2026 | Accepted; decisions 1 and 3 superseded by 0011 |
 | [0011](0011-kata-export-web-only-native-drawing.md) | Kata Export: web window only, drawn by the page, Revit 2026 only | Accepted |
+| [0012](0012-kata-page-ui-kit-and-viewer-choices.md) | Kata Export page: shadcn/ui kit, VI/EN and light/dark chosen in the page, no drawing export | Accepted |
 
 Template:
 

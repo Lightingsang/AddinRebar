@@ -1,7 +1,6 @@
 // Live verification of the web-only tools over the Kata Export drawing (Revit 2026, harness Revit on a model copy):
-// minimap, layers, measure, find a bar, and the export menu (the last step only opens the host's Save dialog; the
-// PowerShell caller checks it appeared and closes it, nothing is written). Read-only towards the model and Excel.
-// Usage: node live-verify-kata-tools.mjs [port] [--export]
+// minimap, layers, measure and find a bar. Read-only towards the model and Excel.
+// Usage: node live-verify-kata-tools.mjs [port]
 import { connectToToolkitPage, sleep } from './cdp-session.mjs';
 
 const port = Number(process.argv[2] ?? 9334);
@@ -82,14 +81,6 @@ if (number) {
   check('finding a bar number frames its tags', /^\d+\/\d+$/.test(result) || result.startsWith('Không có'), `${number}: ${result}`);
 } else {
   console.log('SKIP find (no bar numbers drawn: blocked sheet)');
-}
-
-// Export: only opens the host's Save dialog (the caller checks it and closes it).
-if (process.argv.includes('--export')) {
-  await clickText('Xuất hình');
-  await sleep(200);
-  const started = await q(`(() => { const b = [...document.querySelectorAll('[data-testid=kata-tools] button')].find((e) => e.textContent.startsWith('SVG')); if (!b) return false; b.click(); return true; })()`);
-  check('the export menu offers SVG and starts the download', started);
 }
 
 page.close();

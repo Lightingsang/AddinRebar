@@ -5,6 +5,7 @@
 import type { KataWebFlag, KataWebLine } from '../kataScene';
 import { STYLE, TAG } from './kataCad';
 import { FLAG, type Point } from './kataElevationPainter';
+import { KATA_STRINGS, type KataStrings } from '../i18n';
 
 /** Reach of a click around a drawn line (px), and of a click "on the same spot" (px). */
 export const LINE_REACH_PX = 6;
@@ -52,28 +53,20 @@ export function flagAt(flags: KataWebFlag[], at: Point, point: (x: number, z: nu
   return null;
 }
 
-const ROLE_NAMES: Record<string, string> = {
-  MainTop: 'Thép chủ trên',
-  MainBottom: 'Thép chủ dưới',
-  ExtraTop: 'Thép gia cường trên',
-  ExtraBottom: 'Thép gia cường dưới',
-  SideBar: 'Thép giá',
-  HangerBar: 'Thép vai bò',
-  CrossTie: 'Đai C',
-};
-
 /** One line per kind of bar or stirrup zone the keys stand for, e.g. "Thép chủ trên Ø20 · L 12 340 · lớp 1 · 2 thanh". */
-export function describeKeys(keys: readonly string[]): string[] {
+export function describeKeys(keys: readonly string[], t: KataStrings = KATA_STRINGS.vi): string[] {
   const groups = new Map<string, number>();
+  const barTexts = new Set<string>();
   for (const key of keys) {
     const f = key.split('|');
     const text =
       f[0] === 'bar'
-        ? `${ROLE_NAMES[f[1] ?? ''] ?? f[1]} Ø${f[3]} · L ${Number(f[4]).toLocaleString('vi-VN')} mm · lớp ${f[5]}`
+        ? t.barLine(t.barRoles[f[1] ?? ''] ?? f[1] ?? '', f[3] ?? '', Number(f[4]).toLocaleString(t.numberLocale), f[5] ?? '')
         : f[0] === 'zone'
-          ? `Vùng đai nhịp ${Number(f[1]) + 1} · ${f[3]} đai`
+          ? t.zoneLine(Number(f[1]) + 1, f[3] ?? '')
           : key;
+    if (f[0] === 'bar') barTexts.add(text);
     groups.set(text, (groups.get(text) ?? 0) + 1);
   }
-  return [...groups].map(([text, count]) => (count > 1 && text.startsWith('Thép') ? `${text} · ${count} thanh` : text));
+  return [...groups].map(([text, count]) => (count > 1 && barTexts.has(text) ? `${text} · ${t.barCount(count)}` : text));
 }

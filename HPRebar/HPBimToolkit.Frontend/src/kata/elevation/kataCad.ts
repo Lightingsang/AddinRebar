@@ -48,6 +48,17 @@ export const THIN_PX = 1;
 
 const devicePixels = () => (typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1);
 
+/** The bar diameter bar pens are sized by when the view is zoomed out. */
+const NOMINAL_BAR_MM = 25;
+
+/**
+ * Kata's bar lineweight in device pixels, never wider than a bar on screen: zoomed out on a whole run, layers 25 mm
+ * apart stay apart instead of merging into one band (at least 1 px, Kata's 3 px from about 0.1 px/mm).
+ */
+export function barPx(scale: number): number {
+  return Math.min(BAR_PX, Math.max(THIN_PX, Math.round(NOMINAL_BAR_MM * scale * devicePixels())));
+}
+
 /** A pen `px` device pixels wide, dashed by `dashesMm` at `scale` px/mm (solid once its dashes shrink under 2 px). */
 export function lineweight(color: string, px: number, scale: number, dashesMm?: readonly number[]): Pen {
   const pen: Pen = { color, width: px / devicePixels(), cad: true };

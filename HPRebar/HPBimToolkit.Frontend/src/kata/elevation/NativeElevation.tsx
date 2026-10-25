@@ -21,6 +21,7 @@ import { useDrawingTools } from './useDrawingTools';
 import { useBarSelection, useSection, type SharedBarSelection } from './useKataPicking';
 import { useElevationView } from './useElevationView';
 import { toStation } from './viewport';
+import { useT } from '../i18n';
 
 interface NativeElevationProps {
   elevation: KataWebElevation;
@@ -39,8 +40,6 @@ interface NativeElevationProps {
   removeBars(keys: string[]): void;
   undoRemoveBars(): void;
   /** The beam's name, for the file names of saved drawings. */
-  beamName: string;
-  notify(text: string): void;
   /** Esc the drawing did not use: the window closes on it, as the WPF window did. */
   onUnhandledEscape(): void;
   /** The bar selection shared with the 3D view; the elevation keeps its own without it. */
@@ -97,7 +96,7 @@ export function NativeElevation(props: NativeElevationProps) {
   const panel = kataCut ? kataPanelRect(view.size.width, view.size.height) : plainCut ? { left: view.size.width - CARD.margin - CARD.width, top: CARD.margin, width: CARD.width, height: CARD.height } : null;
   const shownCut = panel ? (kataCut ?? plainCut) : null;
   const section = useSection(rebar, shownCut?.number ?? null, props.loadSection);
-  const tools = useDrawingTools({ kata, scene, point, stationMap, svg, frameRange: view.frameRange, notify: props.notify });
+  const tools = useDrawingTools({ kata, scene, point, stationMap, frameRange: view.frameRange });
 
   const shapes = useMemo(() => {
     if (!scene || !point) return [];
@@ -209,12 +208,13 @@ export function NativeElevation(props: NativeElevationProps) {
   };
 
   const palette = paletteFor(theme);
+  const t = useT();
   return (
     <div
       ref={box}
       tabIndex={0}
       role="img"
-      aria-label="Mặt đứng dải dầm"
+      aria-label={t.elevation}
       data-testid="kata-elevation"
       data-renderer="native"
       data-mode={kata ? 'kata' : 'plain'}
@@ -237,14 +237,12 @@ export function NativeElevation(props: NativeElevationProps) {
         </svg>
       )}
       <ElevationTools
-        palette={palette}
         kata={kata !== null}
         measuring={tools.measuring}
         onMeasure={tools.setMeasuring}
         hidden={tools.hidden}
         onToggleLayer={tools.toggleLayer}
         onFind={tools.find}
-        onExport={(kind) => void tools.exportAs(kind, props.beamName)}
       />
       {viewport && view.size.width >= 480 && !panel && (
         <Minimap elevation={elevation} viewport={viewport} areaWidth={view.size.width} palette={palette} centreOn={view.centreOn} />
@@ -255,10 +253,10 @@ export function NativeElevation(props: NativeElevationProps) {
           className="pointer-events-none absolute z-10 max-w-[320px] rounded border px-2 py-1 text-[11px] shadow"
           style={{ left: hover.x + 14, top: hover.y + 14, background: palette.fill, color: palette.text, borderColor: palette.accent }}
         >
-          {describeKeys(hover.keys).map((text) => (
+          {describeKeys(hover.keys, t).map((text) => (
             <div key={text}>{text}</div>
           ))}
-          <div style={{ color: palette.mutedText }}>Bấm để chọn · Delete để xóa</div>
+          <div style={{ color: palette.mutedText }}>{t.pickHint}</div>
         </div>
       )}
       {panel && shownCut && section && (

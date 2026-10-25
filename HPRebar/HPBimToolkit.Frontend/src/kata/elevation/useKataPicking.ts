@@ -66,7 +66,7 @@ export function useSection(rebar: KataWebRebar | null, number: number | null, lo
         return { rebar, sections: map };
       });
     load(number).then(
-      (section) => store(section ? { status: 'ready', section } : { status: 'failed', message: 'không có mặt cắt này' }),
+      (section) => store(section ? { status: 'ready', section } : { status: 'failed', message: '' }),
       (error: unknown) => store({ status: 'failed', message: error instanceof Error ? error.message : String(error) }),
     );
     return () => {

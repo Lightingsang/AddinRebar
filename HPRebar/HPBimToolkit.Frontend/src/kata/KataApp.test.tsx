@@ -1,6 +1,6 @@
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { ToastProvider } from '../ui/Toast';
 import { KataApp } from './KataApp';
 import fixture from './__fixtures__/kata-scene-b03.json';
@@ -22,6 +22,12 @@ beforeAll(() => {
   } as unknown as typeof ResizeObserver;
 });
 
+beforeEach(() => {
+  // the page keeps the viewer's language and theme; every test starts from the defaults
+  window.localStorage.clear();
+  document.documentElement.classList.remove('dark');
+});
+
 function renderKata(bridge = new KataMockBridge({ latencyMs: 0 })) {
   render(
     <ToastProvider>
@@ -32,13 +38,14 @@ function renderKata(bridge = new KataMockBridge({ latencyMs: 0 })) {
 }
 
 describe('KataApp', () => {
-  it('shows the header cells and the table, and waits for the scene before drawing', async () => {
+  it('shows the cells B3:B10 and the workbook, no table of sheet cells, and waits for the scene before drawing', async () => {
     renderKata(new KataMockBridge({ latencyMs: 0 }).withSceneDelay(60_000));
 
     expect(await screen.findByText('DY7')).toBeInTheDocument();
-    expect(screen.getByText('+3.600')).toBeInTheDocument();
-    const table = screen.getByRole('table', { name: 'Các ô ghi sang Kata Excel' });
-    expect(within(table).getByText('Nhịp 2')).toBeInTheDocument();
+    const cells = screen.getByRole('region', { name: 'Thông số Kata' });
+    expect(cells).toHaveTextContent('Cao trình dầm+3.600');
+    expect(screen.getByTestId('kata-workbook')).toHaveTextContent('KataDam.xlsm');
+    expect(screen.queryByRole('table')).toBeNull();
     expect(screen.getByTestId('kata-elevation-waiting')).toHaveTextContent('Đang dựng mặt đứng');
     expect(screen.queryByTestId('kata-elevation')).toBeNull();
   });
@@ -54,16 +61,6 @@ describe('KataApp', () => {
     renderKata(new KataMockBridge({ latencyMs: 0, sceneError: 'Không dựng được hình vẽ: boom' }));
 
     await waitFor(() => expect(screen.getByTestId('kata-elevation-waiting')).toHaveTextContent('Không dựng được hình vẽ: boom'));
-  });
-
-  it('a click on a table column selects it through the host', async () => {
-    const bridge = renderKata();
-    const table = await screen.findByRole('table', { name: 'Các ô ghi sang Kata Excel' });
-
-    await userEvent.click(within(table).getByRole('columnheader', { name: 'F' }));
-
-    expect(bridge.calls).toContainEqual({ command: 'kata.update', payload: { selectedColumn: 3 } });
-    await waitFor(() => expect(screen.getByTestId('kata-selection')).toHaveTextContent('Cột F · Nhịp 2'));
   });
 
   it('the footer buttons run the view model commands and show the status it reports', async () => {
@@ -83,6 +80,44 @@ describe('KataApp', () => {
     expect(screen.getByRole('button', { name: 'Tạo thép Revit' })).toBeDisabled();
     await userEvent.click(screen.getByRole('button', { name: 'Đọc thép Excel' }));
     await waitFor(() => expect(screen.getByRole('button', { name: 'Tạo thép Revit' })).toBeEnabled());
+  });
+
+  it('the footer reads Xuất Excel, Đọc thép Excel, Tạo thép Revit from left to right, with no Đóng and no product badge', async () => {
+    renderKata();
+    await screen.findByText('DY7');
+
+    const names = Array.from(screen.getByTestId('kata-actions').querySelectorAll('button')).map((b) => b.textContent);
+    expect(names).toEqual(['Xuất Excel', 'Đọc thép Excel', 'Tạo thép Revit']);
+    expect(screen.queryByRole('button', { name: 'Đóng' })).toBeNull();
+    expect(screen.queryByText('HPRebar Kata Pro')).toBeNull();
+  });
+
+  it('the language switch turns the page into English and back, and is kept', async () => {
+    renderKata();
+    await screen.findByText('DY7');
+
+    await userEvent.click(screen.getByRole('button', { name: 'EN' }));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('BEAM EXPORT TO KATA EXCEL');
+    expect(screen.getByRole('button', { name: 'Export to Excel' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Kata parameters' })).toHaveTextContent('Beam level');
+    expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('aria-pressed', 'true');
+    expect(window.localStorage.getItem('hp.kata.lang')).toBe('en');
+
+    await userEvent.click(screen.getByRole('button', { name: 'VI' }));
+    expect(screen.getByRole('button', { name: 'Xuất Excel' })).toBeInTheDocument();
+  });
+
+  it('the theme switch overrides Revit theme and is kept', async () => {
+    renderKata();
+    await screen.findByText('DY7');
+    expect(document.documentElement).not.toHaveClass('dark');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Chuyển nền tối' }));
+    expect(document.documentElement).toHaveClass('dark');
+    expect(window.localStorage.getItem('hp.kata.theme')).toBe('dark');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Chuyển nền sáng' }));
+    expect(document.documentElement).not.toHaveClass('dark');
   });
 
   it('picking another name parameter sends it to the host', async () => {
@@ -236,6 +271,19 @@ describe('KataApp drawing the scene itself', () => {
     expect(area).not.toHaveAttribute('data-measuring');
   });
 
+  it('Esc that closes the ViewCube menu keeps the window open', async () => {
+    const { bridge } = await renderKataMode();
+    await userEvent.click(screen.getByRole('tab', { name: '3D' }));
+    await screen.findByTestId('kata-3d');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Tuỳ chọn ViewCube' }));
+    expect(await screen.findByRole('menuitem', { name: 'Về Home' })).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+
+    await waitFor(() => expect(screen.queryByRole('menuitem', { name: 'Về Home' })).toBeNull());
+    expect(bridge.calls).not.toContainEqual({ command: 'kata.run', payload: { action: 'close' } });
+  });
+
   it('the 3D tab shows the plan with the bar picked on the elevation, Delete removes it from there too', async () => {
     const { bridge, area, click } = await renderKataMode();
     const bar = scene.rebar!.lines.find((l) => l.pen === 'bar' && l.keys.length > 0)!;
@@ -249,7 +297,8 @@ describe('KataApp drawing the scene itself', () => {
     const view = await screen.findByTestId('kata-3d');
     expect(bridge.calls.some((call) => call.command === 'kata.model3d')).toBe(true);
     expect(view).toHaveAttribute('data-selected', String(picked));
-    expect(screen.getByTestId('kata-3d-count')).toHaveTextContent(`${model3dFixture.barCount}/${model3dFixture.barCount} thanh`);
+    expect(view).toHaveAttribute('data-instances', String(model3dFixture.barCount));
+    expect(screen.getByTestId('kata-3d-legend')).not.toHaveTextContent(/thanh|Lăn: zoom/);
     expect(screen.queryByRole('button', { name: 'Tiếp' })).toBeNull();
 
     view.focus();

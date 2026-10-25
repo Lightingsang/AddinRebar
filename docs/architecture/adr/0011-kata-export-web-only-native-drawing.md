@@ -3,6 +3,7 @@
 - **Status:** Accepted (2026-10-25, by user — plan `plans/261025-0621-kata-web-native-renderer/`)
 - **Tags:** [REVIT] [PROJECT]
 - **Supersedes:** [0010](0010-kata-export-web-ui-in-hprebar.md) decisions 1 and 3 (the rest of 0010 stands)
+- **Note (2026-10-25):** the drawing export (SVG / PNG / print) was removed at the user's request; see [0012](0012-kata-page-ui-kit-and-viewer-choices.md).
 
 ## Context
 ADR-0010 kept the WPF Kata Export window as the drawing engine: the web window hid a `KataElevationCanvas` behind the browser, read its recorded `Drawing` back as SVG after each paint and forwarded the page's gestures to it. Every zoom or pan went through the host. Every drawing record is already pure and in millimetres in `HPRebar.Core` (`KataElevation`, `KataElevationDrawing`, `KataSectionDrawing`, `KataBarTag`, the rebar plan). So the page can draw everything itself and do things the WPF window cannot: smooth client-side zoom, hover and tooltips, minimap, find, measure, layers, export, and a 3D view. The user decided (2026-10-25) to move the drawing to the web completely, to delete the WPF window in every version and to work on Revit 2026 only.

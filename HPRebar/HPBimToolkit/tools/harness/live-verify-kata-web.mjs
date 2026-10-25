@@ -42,7 +42,7 @@ check('kata.getState answers the view model state', state.ok && !!s?.header && A
   state.ok ? `${s.header.beamName} · ${s.header.elementCount} · ${s.columns.length} columns · ${state.ms} ms` : state.error?.message);
 if (expectedBeams !== null) check('the run read before the window has the selected beams', s?.header.elementCount.startsWith(`${expectedBeams} `), s?.header.elementCount);
 check('the table columns are lettered from C', s?.columns[0]?.letter === 'C' && s.columns.every((c, i) => c.letter.length > 0 && (i === 0 || c.letter !== s.columns[i - 1].letter)));
-check('the page shows the header and the table', await page.evaluate(`document.body.innerText.includes(${JSON.stringify(s?.header.beamName ?? '?')}) && !!document.querySelector('table')`));
+check('the page shows the cells B3:B10 and no table of sheet cells', await page.evaluate(`document.querySelector('[aria-label="Thông số Kata"]')?.innerText.includes(${JSON.stringify(s?.header.beamName ?? '?')}) && !document.querySelector('table')`));
 
 let v = await waitFor((x) => x?.renderer === 'native' && x.scale > 0 && x.texts > 0);
 check('the page draws the elevation from the scene the host sent', v?.renderer === 'native' && v.texts > 0, `${v?.shapes ?? 0} shapes, ${v?.texts ?? 0} texts, scale ${v?.scale}`);

@@ -2,6 +2,7 @@ import { useRef, type PointerEvent } from 'react';
 import type { KataWebElevation } from '../kataScene';
 import type { Palette } from './palette';
 import { toStation, type Viewport } from './viewport';
+import { useT } from '../i18n';
 
 const WIDTH = 220;
 const HEIGHT = 44;
@@ -21,6 +22,7 @@ interface MinimapProps {
  * supports only — enough to find one's way along a long beam.
  */
 export function Minimap({ elevation, viewport, areaWidth, palette, centreOn }: MinimapProps) {
+  const t = useT();
   const dragging = useRef(false);
   const { start, end } = elevation.bounds;
   const scale = (WIDTH - 2 * PAD) / Math.max(1, end - start);
@@ -42,7 +44,7 @@ export function Minimap({ elevation, viewport, areaWidth, palette, centreOn }: M
       className="absolute bottom-2 right-2 cursor-pointer rounded border"
       style={{ background: palette.fill, borderColor: palette.kata.grey }}
       data-testid="kata-minimap"
-      aria-label="Toàn dải dầm thu nhỏ"
+      aria-label={t.minimap}
       onPointerDown={(e) => {
         e.stopPropagation();
         dragging.current = true;

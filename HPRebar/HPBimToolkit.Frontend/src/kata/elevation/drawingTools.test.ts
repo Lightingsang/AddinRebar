@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import fixture from '../__fixtures__/kata-scene-b03.json';
 import type { KataWebScene } from '../kataScene';
 import { describeMeasure, findBar, snap, toModel, visibleShapes } from './drawingTools';
-import { fileName } from './exportDrawing';
 import { frameAll, kataFrameOptions } from './framing';
 import { kataPoint, paintKataElevation } from './kataElevationPainter';
 import { paintTags, tagBand } from './kataTagPainter';
@@ -59,9 +58,3 @@ describe('finding a bar', () => {
   });
 });
 
-describe('file names', () => {
-  it('carries the beam name and a stamp, without characters Windows refuses', () => {
-    expect(fileName('B03 (SL=1)', 'png')).toMatch(/^Kata_B03_\(SL=1\)_\d{12}\.png$/);
-    expect(fileName('A/B:C', 'svg')).toMatch(/^Kata_A_B_C_\d{12}\.svg$/);
-  });
-});

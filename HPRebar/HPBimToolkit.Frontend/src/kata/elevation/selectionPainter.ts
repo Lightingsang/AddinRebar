@@ -3,7 +3,7 @@
 // and the group under the cursor in a lighter accent.
 
 import type { KataWebLine } from '../kataScene';
-import { BAR_PX, lineweight } from './kataCad';
+import { barPx, lineweight } from './kataCad';
 import type { Point } from './kataElevationPainter';
 import type { Palette } from './palette';
 import { ShapeList, type Shape } from './shapes';
@@ -11,7 +11,7 @@ import { SMALL_TEXT_SIZE, measure } from './text';
 
 function groupLines(out: ShapeList, lines: KataWebLine[], keys: readonly string[], point: (x: number, z: number) => Point, color: string, scale: number): void {
   const selected = new Set(keys);
-  const pen = lineweight(color, BAR_PX + 2, scale);
+  const pen = lineweight(color, barPx(scale) + 2, scale);
   for (const line of lines) {
     if (line.keys.some((k) => selected.has(k))) out.poly(undefined, pen, line.points.map((q) => point(q.x, q.z)));
   }

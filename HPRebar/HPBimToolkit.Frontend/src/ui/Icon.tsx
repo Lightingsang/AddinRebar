@@ -10,6 +10,16 @@ const paths = {
   layers: 'M8 2 14 5 8 8 2 5 8 2ZM2 8l6 3 6-3M2 11l6 3 6-3',
   document: 'M4 1.5h5L12.5 5v9.5h-8.5v-13ZM9 1.5V5h3.5',
   close: 'M4 4l8 8M12 4l-8 8',
+  chevronLeft: 'M10 3.5 5.5 8l4.5 4.5',
+  chevronRight: 'M6 3.5 10.5 8 6 12.5',
+  expand: 'M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10',
+  undo: 'M5.5 3.5 2.5 6.5l3 3M2.5 6.5h7a3.5 3.5 0 0 1 0 7H7',
+  cube: 'M8 1.5 14 4.5v7L8 14.5 2 11.5v-7L8 1.5ZM2 4.5l6 3 6-3M8 7.5v7',
+  table: 'M2 3h12v10H2V3ZM2 6.5h12M2 10h12M6 3v10',
+  sliders: 'M3 4.5h10M3 11.5h10M6 3v3M10 10v3',
+  download: 'M8 2v8M5 7l3 3 3-3M3 13.5h10',
+  rebar: 'M2 5.5h12M2 10.5h12M4.5 3.5v9M8 3.5v9M11.5 3.5v9',
+  play: 'M5 3l8 5-8 5V3Z',
 } as const;
 
 export type IconName = keyof typeof paths;

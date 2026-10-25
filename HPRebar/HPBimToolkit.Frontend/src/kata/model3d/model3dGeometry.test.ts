@@ -1,9 +1,8 @@
-// The 3D view's geometry on the B03 fixture: every bar of the plan, tubes along the bar, framing and labels.
-import { PerspectiveCamera, Vector3 } from 'three';
+// The 3D view's geometry on the B03 fixture: every bar of the plan, tubes along the bar, bounds and labels.
 import { describe, expect, it } from 'vitest';
 import fixture from '../__fixtures__/kata-model3d-b03.json';
 import type { KataWeb3dModel } from '../kataScene';
-import { barGeometry, barSegments, describeGroup, modelBounds, presetCamera, roleColor } from './model3dGeometry';
+import { barGeometry, barSegments, describeGroup, modelBounds, roleColor } from './model3dGeometry';
 
 const model = fixture as unknown as KataWeb3dModel;
 
@@ -49,40 +48,6 @@ describe('framing', () => {
     expect(bounds.min.x).toBeLessThanOrEqual(0);
     expect(bounds.max.x).toBeGreaterThanOrEqual(model.length - 1);
     expect(bounds.max.z).toBeGreaterThan(0); // the column stubs stand above the beam
-  });
-
-  it('looks at the middle of the run from the side the preset names', () => {
-    const front = presetCamera('front', bounds, 35, 2);
-    expect(front.target.x).toBeCloseTo((bounds.min.x + bounds.max.x) / 2, 6);
-    expect(front.position.y).toBeLessThan(bounds.min.y);
-    expect(presetCamera('top', bounds, 35, 2).position.z).toBeGreaterThan(bounds.max.z);
-    expect(presetCamera('end', bounds, 35, 2).position.x).toBeLessThan(bounds.min.x);
-    // The whole 33.6 m run fits across a wide view: the camera stands at least half its length away.
-    expect(front.target.y - front.position.y).toBeGreaterThan(model.length / 2);
-  });
-});
-
-describe('preset framing', () => {
-  const bounds = modelBounds(model);
-
-  it.each(['iso', 'front', 'top', 'end'] as const)('%s holds the whole model, filling the view', (preset) => {
-    const aspect = 879 / 369; // the drawing area in Revit's Kata window
-    const { position, target } = presetCamera(preset, bounds, 35, aspect);
-    const camera = new PerspectiveCamera(35, aspect, 10, 1e7);
-    camera.up.set(0, 0, 1);
-    camera.position.set(position.x, position.y, position.z);
-    camera.lookAt(target.x, target.y, target.z);
-    camera.updateMatrixWorld();
-    let edge = 0;
-    for (const x of [bounds.min.x, bounds.max.x])
-      for (const y of [bounds.min.y, bounds.max.y])
-        for (const z of [bounds.min.z, bounds.max.z]) {
-          const p = new Vector3(x, y, z).project(camera);
-          expect(Math.abs(p.x)).toBeLessThanOrEqual(1);
-          expect(Math.abs(p.y)).toBeLessThanOrEqual(1);
-          edge = Math.max(edge, Math.abs(p.x), Math.abs(p.y));
-        }
-    expect(edge).toBeGreaterThan(0.8);
   });
 });
 

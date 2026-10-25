@@ -1,8 +1,6 @@
-import { useCallback, useState, type RefObject } from 'react';
+import { useCallback, useState } from 'react';
 import type { KataWebRange, KataWebRebar, KataWebStationMap } from '../kataScene';
 import { describeMeasure, findBar, snap, type ModelPoint } from './drawingTools';
-import type { ExportKind } from './ElevationTools';
-import { download, fileName, pngOf, printDrawing, svgDocument } from './exportDrawing';
 import { TAG } from './kataCad';
 import type { Point } from './kataElevationPainter';
 import type { Palette } from './palette';
@@ -18,16 +16,14 @@ interface ToolsInput {
   scene: Scene | null;
   point: ((x: number, z: number) => Point) | null;
   stationMap: KataWebStationMap;
-  svg: RefObject<SVGSVGElement | null>;
   frameRange(range: KataWebRange): void;
-  notify(text: string): void;
 }
 
 /**
  * The state of the web-only tools over the drawing: layers hidden, the measure tool (two clicks, snapped to the drawing,
- * the second point following the cursor until it is placed), the bar found last, and saving or printing the drawing.
+ * the second point following the cursor until it is placed), and the bar found last.
  */
-export function useDrawingTools({ kata, scene, point, stationMap, svg, frameRange, notify }: ToolsInput) {
+export function useDrawingTools({ kata, scene, point, stationMap, frameRange }: ToolsInput) {
   const [hidden, setHidden] = useState<ReadonlySet<LayerId>>(new Set());
   const [measuring, setMeasuringState] = useState(false);
   const [measurePoints, setMeasurePoints] = useState<{ a: ModelPoint; b: ModelPoint | null; cursor: ModelPoint | null } | null>(null);
@@ -81,19 +77,6 @@ export function useDrawingTools({ kata, scene, point, stationMap, svg, frameRang
     return { index, count: occurrences.length };
   };
 
-  const exportAs = async (kind: ExportKind, beam: string) => {
-    const element = svg.current;
-    if (!element) return;
-    try {
-      const text = svgDocument(element);
-      if (kind === 'svg') download(fileName(beam, 'svg'), new Blob([text], { type: 'image/svg+xml' }));
-      else if (kind === 'print') printDrawing(text);
-      else download(fileName(beam, 'png'), await pngOf(text, element.width.baseVal.value, element.height.baseVal.value, kind === 'png4' ? 4 : 2));
-    } catch (error) {
-      notify(`Không xuất được hình: ${error instanceof Error ? error.message : String(error)}`);
-    }
-  };
-
   /** The measure line and its reading, the tags of the bar found: drawn over everything else. */
   const overlay = (palette: Palette): Shape[] => {
     const out = new ShapeList();
@@ -126,5 +109,5 @@ export function useDrawingTools({ kata, scene, point, stationMap, svg, frameRang
     return out.shapes;
   };
 
-  return { hidden, toggleLayer, measuring, setMeasuring, measureClick, measureMove, escape, find, exportAs, overlay, clearFound: () => setFound(null) };
+  return { hidden, toggleLayer, measuring, setMeasuring, measureClick, measureMove, escape, find, overlay, clearFound: () => setFound(null) };
 }

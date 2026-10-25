@@ -61,12 +61,14 @@ export async function connectToToolkitPage(port, { timeoutMs = 30000, urlPart = 
         await mouseEvent('mousePressed', x, y, { button, buttons: buttons[button], clickCount: 1 });
         await mouseEvent('mouseReleased', x, y, { button, buttons: 0, clickCount: 1 });
       },
-      async drag(x1, y1, x2, y2, { button = 'left', steps = 8 } = {}) {
-        await mouseEvent('mousePressed', x1, y1, { button, buttons: buttons[button], clickCount: 1 });
+      /** `shift` holds Shift through the drag (Revit's Shift + middle orbit). */
+      async drag(x1, y1, x2, y2, { button = 'left', steps = 8, shift = false } = {}) {
+        const modifiers = shift ? 8 : 0;
+        await mouseEvent('mousePressed', x1, y1, { button, buttons: buttons[button], clickCount: 1, modifiers });
         for (let i = 1; i <= steps; i++) {
-          await mouseEvent('mouseMoved', x1 + ((x2 - x1) * i) / steps, y1 + ((y2 - y1) * i) / steps, { button, buttons: buttons[button] });
+          await mouseEvent('mouseMoved', x1 + ((x2 - x1) * i) / steps, y1 + ((y2 - y1) * i) / steps, { button, buttons: buttons[button], modifiers });
         }
-        await mouseEvent('mouseReleased', x2, y2, { button, buttons: 0, clickCount: 1 });
+        await mouseEvent('mouseReleased', x2, y2, { button, buttons: 0, clickCount: 1, modifiers });
       },
     },
     keyboard: {

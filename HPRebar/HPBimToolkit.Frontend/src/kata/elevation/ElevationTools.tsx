@@ -1,12 +1,10 @@
 import { useState, type KeyboardEvent } from 'react';
+import { Icon } from '../../ui/Icon';
 import { LAYERS } from './drawingTools';
-import type { Palette } from './palette';
 import type { LayerId } from './shapes';
-
-export type ExportKind = 'svg' | 'png2' | 'png4' | 'print';
+import { useT } from '../i18n';
 
 interface ElevationToolsProps {
-  palette: Palette;
   /** Kata's drawing is shown: the layers, finding a bar and snapping apply to it. */
   kata: boolean;
   measuring: boolean;
@@ -15,26 +13,27 @@ interface ElevationToolsProps {
   onToggleLayer(layer: LayerId): void;
   /** Finds bar `number` (the next occurrence when it is the same number again); returns how many tags carry it. */
   onFind(number: number): { index: number; count: number };
-  onExport(kind: ExportKind): void;
 }
 
-/** The tool strip over the drawing (web only): measure, layers, find a bar, save or print the drawing. */
-export function ElevationTools({ palette, kata, measuring, onMeasure, hidden, onToggleLayer, onFind, onExport }: ElevationToolsProps) {
-  const [open, setOpen] = useState<'layers' | 'export' | null>(null);
+/** The tool strip over the drawing (web only): measure, layers, find a bar. */
+export function ElevationTools({ kata, measuring, onMeasure, hidden, onToggleLayer, onFind }: ElevationToolsProps) {
+  const t = useT();
+  const [open, setOpen] = useState<'layers' | null>(null);
   const [query, setQuery] = useState('');
-  const [found, setFound] = useState<string | null>(null);
+  // what the last search found, kept as data so it reads in the language shown now
+  const [found, setFound] = useState<{ number: number; index: number; count: number } | 'empty' | null>(null);
   const button = (active: boolean) =>
-    `rounded border px-1.5 py-0.5 text-[11px] leading-4 ${active ? 'font-semibold' : ''}`;
-  const style = (active: boolean) => ({ background: active ? `${palette.accent}33` : palette.fill, color: palette.text, borderColor: active ? palette.accent : palette.kata.grey });
+    `inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11.5px] font-medium transition-colors ${active ? 'bg-accent-soft text-accent-strong' : 'text-ink hover:bg-panel-muted'}`;
+  const menu = 'absolute left-0 top-8 z-30 rounded-lg border border-line bg-panel p-1 text-ink shadow-lg';
 
   const find = () => {
     const number = Number(query);
     if (!Number.isInteger(number) || number <= 0) {
-      setFound('Nhập số hiệu thanh');
+      setFound('empty');
       return;
     }
     const { index, count } = onFind(number);
-    setFound(count === 0 ? `Không có thanh ${number}` : `${index + 1}/${count}`);
+    setFound({ number, index, count });
   };
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation(); // the drawing's own keys (Delete, Esc) are not the input's
@@ -44,25 +43,27 @@ export function ElevationTools({ palette, kata, measuring, onMeasure, hidden, on
 
   return (
     <div
-      className="absolute left-2 top-2 z-20 flex flex-wrap items-center gap-1"
+      className="absolute left-2 top-2 z-20 flex flex-wrap items-center gap-0.5 rounded-lg border border-line bg-panel/95 p-0.5 shadow-sm backdrop-blur"
       data-testid="kata-tools"
       onPointerDown={(e) => e.stopPropagation()}
       onPointerUp={(e) => e.stopPropagation()}
     >
-      <button type="button" className={button(measuring)} style={style(measuring)} aria-pressed={measuring} title="Đo khoảng cách: bấm hai điểm (bắt điểm vào nét thép, kích thước)" onClick={() => onMeasure(!measuring)}>
-        Đo
+      <button type="button" className={button(measuring)} aria-pressed={measuring} title={t.measureHint} onClick={() => onMeasure(!measuring)}>
+        <Icon name="tool" className="h-3.5 w-3.5" />
+        {t.measure}
       </button>
       {kata && (
         <div className="relative">
-          <button type="button" className={button(open === 'layers')} style={style(open === 'layers' || hidden.size > 0)} onClick={() => setOpen(open === 'layers' ? null : 'layers')}>
-            Lớp{hidden.size > 0 ? ` (${LAYERS.length - hidden.size}/${LAYERS.length})` : ''}
+          <button type="button" className={button(open === 'layers' || hidden.size > 0)} onClick={() => setOpen(open === 'layers' ? null : 'layers')}>
+            <Icon name="layers" className="h-3.5 w-3.5" />
+            {t.layers}{hidden.size > 0 ? ` (${LAYERS.length - hidden.size}/${LAYERS.length})` : ''}
           </button>
           {open === 'layers' && (
-            <div className="absolute left-0 top-6 w-48 rounded border p-1.5 shadow" style={{ background: palette.fill, borderColor: palette.kata.grey, color: palette.text }} data-testid="kata-layers">
+            <div className={`${menu} w-52 p-1.5`} data-testid="kata-layers">
               {LAYERS.map((layer) => (
-                <label key={layer.id} className="flex cursor-pointer items-center gap-1.5 py-0.5 text-[11px]">
+                <label key={layer.id} className="flex cursor-pointer items-center gap-2 rounded-md px-1.5 py-1 text-[12px] hover:bg-panel-muted">
                   <input type="checkbox" checked={!hidden.has(layer.id)} onChange={() => onToggleLayer(layer.id)} />
-                  {layer.label}
+                  {t.layerNames[layer.id] ?? layer.label}
                 </label>
               ))}
             </div>
@@ -70,13 +71,14 @@ export function ElevationTools({ palette, kata, measuring, onMeasure, hidden, on
         </div>
       )}
       {kata && (
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1 pl-1">
+          <Icon name="search" className="h-3.5 w-3.5 text-muted" />
           <input
-            aria-label="Tìm số hiệu thanh"
+            aria-label={t.findBar}
             inputMode="numeric"
-            placeholder="Tìm số hiệu"
-            className="w-20 rounded border px-1 py-0.5 text-[11px]"
-            style={{ background: palette.fill, color: palette.text, borderColor: palette.kata.grey }}
+            placeholder={t.findPlaceholder}
+            className="w-24 rounded-md border border-line bg-panel-muted px-2 py-0.5 text-[11.5px] text-ink"
+
             value={query}
             onChange={(e) => {
               setQuery(e.target.value.replace(/\D/g, ''));
@@ -85,42 +87,12 @@ export function ElevationTools({ palette, kata, measuring, onMeasure, hidden, on
             onKeyDown={onKeyDown}
           />
           {found && (
-            <span className="text-[11px]" style={{ color: palette.mutedText }} data-testid="kata-find-result">
-              {found}
+            <span className="pr-1 text-[11px] text-muted" data-testid="kata-find-result">
+              {found === 'empty' ? t.enterBarNumber : found.count === 0 ? t.noBar(found.number) : `${found.index + 1}/${found.count}`}
             </span>
           )}
         </span>
       )}
-      <div className="relative">
-        <button type="button" className={button(open === 'export')} style={style(open === 'export')} onClick={() => setOpen(open === 'export' ? null : 'export')}>
-          Xuất hình
-        </button>
-        {open === 'export' && (
-          <div className="absolute left-0 top-6 flex w-36 flex-col rounded border p-1 shadow" style={{ background: palette.fill, borderColor: palette.kata.grey }}>
-            {(
-              [
-                ['svg', 'SVG (vector)'],
-                ['png2', 'PNG ×2'],
-                ['png4', 'PNG ×4'],
-                ['print', 'In / PDF…'],
-              ] as const
-            ).map(([kind, label]) => (
-              <button
-                key={kind}
-                type="button"
-                className="rounded px-1.5 py-0.5 text-left text-[11px] hover:opacity-80"
-                style={{ color: palette.text }}
-                onClick={() => {
-                  setOpen(null);
-                  onExport(kind);
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }

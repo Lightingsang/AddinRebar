@@ -1,0 +1,102 @@
+/* The Kata Export page only (kata.html): the shared tokens of index.css re-coloured with the v2 palette, plus the
+   shadcn/ui tokens its components under src/components/ui read. The dashboard (index.html) keeps index.css alone. */
+@import '../index.css';
+@import 'tw-animate-css';
+
+:root {
+  /* HP tokens (index.css names), v2 light */
+  --surface: #eef2f7;
+  --panel: #ffffff;
+  --panel-muted: #f5f7fb;
+  --line: #e2e8f0;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --accent: #0284c7;
+  --accent-strong: #0369a1;
+  --accent-soft: rgba(2, 132, 199, 0.1);
+  --steel: #c2410c;
+  --danger: #e11d48;
+  --success: #15803d;
+
+  /* shadcn/ui tokens */
+  --radius: 0.65rem;
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--panel);
+  --card-foreground: var(--ink);
+  --popover: var(--panel);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--panel-muted);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent-foreground: var(--accent-strong);
+  --destructive: var(--danger);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--accent);
+  --canvas: #fbfcfe;
+  --canvas-dot: rgba(15, 23, 42, 0.06);
+  --glass: rgba(255, 255, 255, 0.84);
+  --warning: #d97706;
+  /* the three footer commands: Excel green, read blue, Revit orange (white text on each) */
+  --action-export: #1b7a42;
+  --action-read: #1f66c2;
+  --action-build: #b54a14;
+}
+
+.dark {
+  /* neutral greys of the Revit-dark window, blue actions, cyan values, orange warnings */
+  --surface: #26282c;
+  --panel: #303236;
+  --panel-muted: #3a3d42;
+  --line: #4a4d53;
+  --ink: #e8e9eb;
+  --muted: #a9adb3;
+  --accent: #1e88e5;
+  --accent-strong: #4fc3f7;
+  --accent-soft: rgba(30, 136, 229, 0.18);
+  --steel: #ffa726;
+  --danger: #ff5c5c;
+  --success: #43c26b;
+  --primary-foreground: #ffffff;
+  --canvas: #26272a;
+  --canvas-dot: rgba(255, 255, 255, 0.05);
+  --glass: rgba(48, 50, 54, 0.9);
+  --warning: #ffa726;
+  /* white text on blue: the dark accent is too light for it */
+  --primary: #1565c0;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-canvas: var(--canvas);
+  --color-glass: var(--glass);
+  --color-warning: var(--warning);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}

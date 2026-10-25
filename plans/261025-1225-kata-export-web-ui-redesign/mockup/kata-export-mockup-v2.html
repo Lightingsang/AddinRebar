@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kata Export — mockup v2</title>
+<style>
+  :root {
+    --bg: #0d1218; --surface: #121921; --panel: #18202a; --panel-2: #1f2834; --line: #29333f; --line-soft: #222b36;
+    --ink: #e6edf3; --muted: #8b98a8; --faint: #5f6b7a;
+    --accent: #38bdf8; --accent-strong: #0ea5e9; --accent-soft: rgba(56, 189, 248, .14);
+    --steel: #fb923c; --ok: #22c55e; --warn: #f59e0b; --danger: #f43f5e;
+    --canvas: #0a0f15; --dot: rgba(255, 255, 255, .05);
+    --beam: rgba(56, 189, 248, .10); --beam-line: #5eead4; --col: rgba(148, 163, 184, .16); --col-line: #94a3b8;
+    --bar: #f43f5e; --stirrup: #c084fc; --dim: #4ade80; --tag: #facc15;
+    --glass: rgba(24, 32, 42, .78); --shadow: 0 8px 28px rgba(0, 0, 0, .35);
+  }
+  [data-theme="light"] {
+    --bg: #eef2f7; --surface: #ffffff; --panel: #ffffff; --panel-2: #f5f7fb; --line: #e2e8f0; --line-soft: #edf1f6;
+    --ink: #0f172a; --muted: #64748b; --faint: #94a3b8;
+    --accent: #0284c7; --accent-strong: #0369a1; --accent-soft: rgba(2, 132, 199, .10);
+    --steel: #ea580c; --ok: #16a34a; --warn: #d97706; --danger: #e11d48;
+    --canvas: #fbfcfe; --dot: rgba(15, 23, 42, .06);
+    --beam: rgba(2, 132, 199, .07); --beam-line: #0891b2; --col: rgba(100, 116, 139, .14); --col-line: #64748b;
+    --bar: #e11d48; --stirrup: #9333ea; --dim: #15803d; --tag: #a16207;
+    --glass: rgba(255, 255, 255, .82); --shadow: 0 8px 24px rgba(15, 23, 42, .10);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink); font: 13px/1.45 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+    display: grid; grid-template-columns: 232px minmax(0, 1fr) 312px; grid-template-rows: 56px minmax(0, 1fr) auto 60px;
+    grid-template-areas: "top top top" "steps canvas inspector" "steps drawer inspector" "steps actions actions";
+    overflow: hidden;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  .icon { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* top bar */
+  .top { grid-area: top; display: flex; align-items: center; gap: 14px; padding: 0 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg, #0ea5e9, #6366f1); box-shadow: 0 4px 14px rgba(14, 165, 233, .35); }
+  .brand b { font-size: 14px; }
+  .crumb { color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .crumb strong { color: var(--ink); font-weight: 600; }
+  .pill { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 999px;
+    background: var(--panel-2); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(34, 197, 94, .18); }
+  .spacer { flex: 1; }
+  .ibtn { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; border: 1px solid transparent; background: transparent; color: var(--muted); position: relative; }
+  .ibtn:hover { background: var(--panel-2); color: var(--ink); border-color: var(--line); }
+  .badge { position: absolute; top: 3px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--warn); color: #111; font-size: 10px; font-weight: 700; display: grid; place-items: center; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); font-weight: 600; font-size: 12.5px; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { border: 0; color: #fff; background: linear-gradient(135deg, #0ea5e9, #2563eb); box-shadow: 0 6px 18px rgba(37, 99, 235, .35); padding: 0 18px; }
+  .btn.ghost { border-color: transparent; background: transparent; color: var(--muted); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* workflow steps */
+  .steps { grid-area: steps; background: var(--surface); border-right: 1px solid var(--line); padding: 18px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .steps h3 { margin: 0 6px 10px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .step { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 8px; border-radius: 10px; align-items: start; position: relative; }
+  .step:not(:last-of-type)::after { content: ''; position: absolute; left: 21px; top: 40px; bottom: -6px; width: 2px; background: var(--line); }
+  .step.done:not(:last-of-type)::after { background: var(--ok); opacity: .5; }
+  .num { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; border: 2px solid var(--line); color: var(--muted); background: var(--panel); z-index: 1; }
+  .step.done .num { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .step.active { background: var(--accent-soft); }
+  .step.active .num { border-color: var(--accent); color: var(--accent); }
+  .step b { display: block; font-size: 13px; }
+  .step span { color: var(--muted); font-size: 12px; }
+  .steps .foot { margin-top: auto; padding: 12px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .steps .foot b { color: var(--ink); }
+
+  /* canvas */
+  .canvas { grid-area: canvas; position: relative; margin: 12px 12px 0; border-radius: 14px; border: 1px solid var(--line); overflow: hidden;
+    background: var(--canvas) radial-gradient(var(--dot) 1px, transparent 1px) 0 0 / 18px 18px; }
+  .float { position: absolute; display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line);
+    backdrop-filter: blur(10px); box-shadow: var(--shadow); }
+  .float.toolbar { top: 12px; left: 12px; right: 12px; justify-content: center; flex-wrap: nowrap; width: max-content; max-width: calc(100% - 24px); margin: 0 auto; }
+  .float.zoom { left: 12px; bottom: 12px; }
+  .float.mini { right: 12px; bottom: 12px; padding: 6px; }
+  .seg { display: flex; padding: 3px; gap: 2px; border-radius: 9px; background: var(--panel-2); }
+  .seg button { white-space: nowrap; border: 0; background: transparent; padding: 5px 12px; border-radius: 7px; font-weight: 600; font-size: 12px; color: var(--muted); }
+  .seg button.on { background: var(--panel); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); }
+  .sep { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+  .chip { white-space: nowrap; border: 1px solid var(--line); background: transparent; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .chip.on { color: var(--ink); background: var(--panel-2); }
+  .tbtn { border: 0; background: transparent; height: 28px; min-width: 28px; padding: 0 8px; border-radius: 8px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+  .tbtn:hover { background: var(--panel-2); color: var(--ink); }
+  .search { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border-radius: 8px; background: var(--panel-2); color: var(--muted); font-size: 12px; white-space: nowrap; }
+  kbd { font: 600 10px/1 inherit; padding: 3px 5px; border-radius: 4px; border: 1px solid var(--line); color: var(--faint); margin-left: auto; }
+  .zoomval { font-variant-numeric: tabular-nums; font-size: 12px; font-weight: 600; width: 44px; text-align: center; }
+  svg.draw { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hint { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-size: 11.5px; color: var(--faint); }
+  .tooltip { position: absolute; padding: 8px 10px; border-radius: 10px; background: var(--glass); border: 1px solid var(--accent); box-shadow: var(--shadow); font-size: 12px; pointer-events: none; backdrop-filter: blur(10px); }
+  .tooltip b { color: var(--bar); }
+  .tooltip span { display: block; color: var(--muted); font-size: 11px; }
+
+  /* inspector */
+  .inspector { grid-area: inspector; background: var(--surface); border-left: 1px solid var(--line); overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi { padding: 12px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); }
+  .kpi span { font-size: 11.5px; color: var(--muted); }
+  .kpi b { display: block; font-size: 20px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .kpi b small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 3px; }
+  .card { border-radius: 12px; border: 1px solid var(--line); background: var(--panel); }
+  .card header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); }
+  .card header b { font-size: 13px; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .props { padding: 6px 14px 10px; }
+  .prop { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--line-soft); }
+  .prop:last-child { border: 0; }
+  .prop span { color: var(--muted); }
+  .prop b { font-variant-numeric: tabular-nums; }
+  .bars { padding: 6px 10px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .barrow { display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center; padding: 7px 6px; border-radius: 8px; }
+  .barrow:hover { background: var(--panel-2); }
+  .barrow i { width: 10px; height: 10px; border-radius: 3px; }
+  .barrow span { color: var(--muted); font-size: 12px; }
+  .section { padding: 12px; display: grid; place-items: center; }
+
+  /* drawer table */
+  .drawer { grid-area: drawer; margin: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .drawer header { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  .drawer header b { font-size: 13px; }
+  .drawer header span { color: var(--muted); font-size: 12px; }
+  .drawer.closed .sheet { display: none; }
+  .drawer.closed header { border-bottom: 0; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; font-variant-numeric: tabular-nums; font-size: 12.5px; }
+  th, td { padding: 6px 12px; text-align: center; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+  thead th { position: sticky; top: 0; background: var(--panel-2); color: var(--muted); font-size: 11.5px; font-weight: 700; cursor: pointer; }
+  tbody th { text-align: left; font-weight: 500; color: var(--muted); position: sticky; left: 0; background: var(--surface); }
+  tbody th small { color: var(--faint); margin-left: 6px; font-size: 10.5px; }
+  td.sel, th.sel { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  thead th.sel { background: var(--accent); color: #fff; }
+  td.span { font-weight: 600; color: var(--ink); }
+
+  /* actions */
+  .actions { grid-area: actions; display: flex; align-items: center; gap: 10px; padding: 0 16px; background: var(--surface); border-top: 1px solid var(--line); }
+  .status { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .status .ok { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: rgba(34, 197, 94, .14); color: var(--ok); }
+  .status b { display: block; font-size: 12.5px; }
+  .status span { color: var(--muted); font-size: 11.5px; }
+  .note { position: fixed; left: 50%; transform: translateX(-50%); top: 15px; z-index: 50; font-size: 11px; padding: 4px 10px; border-radius: 999px; background: var(--warn); color: #111; font-weight: 700; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-rebar" viewBox="0 0 16 16"><path d="M2 5.5h12M2 10.5h12M4.5 3.5v9M8 3.5v9M11.5 3.5v9"/></symbol>
+    <symbol id="i-file" viewBox="0 0 16 16"><path d="M4 1.5h5L12.5 5v9.5h-8.5v-13ZM9 1.5V5h3.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3"/></symbol>
+    <symbol id="i-select" viewBox="0 0 16 16"><path d="M3 3l4 10 1.5-4.5L13 7 3 3Z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.5 1.5h-11L4 11ZM6.5 14h3"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1"/></symbol>
+    <symbol id="i-close" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 16 16"><path d="M2 11 11 2l3 3-9 9-3-3ZM5 8l1.5 1.5M7 6l1 1M9 4l1.5 1.5"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 16 16"><path d="M8 2 14 5 8 8 2 5 8 2ZM2 8l6 3 6-3M2 11l6 3 6-3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 16 16"><path d="M7 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM10.5 10.5 14 14"/></symbol>
+    <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 13.5h10"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 16 16"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></symbol>
+    <symbol id="i-left" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+    <symbol id="i-right" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4.5"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></symbol>
+    <symbol id="i-play" viewBox="0 0 16 16"><path d="M3 8h9M9 4.5 12.5 8 9 11.5"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 16 16"><path d="M5.5 3.5 2.5 6.5l3 3M2.5 6.5h7a3.5 3.5 0 0 1 0 7H7"/></symbol>
+  </defs>
+</svg>
+
+<div class="note">BẢN MẪU — chưa phải add-in</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo"><svg class="icon"><use href="#i-rebar"/></svg></div>
+    <b>Kata Export</b>
+  </div>
+  <div class="crumb"><span>Dải dầm</span><svg class="icon" style="width:12px"><use href="#i-right"/></svg><strong>B03</strong><span>· 4 dầm · 33,6 m · +3.600</span></div>
+  <div class="spacer"></div>
+  <div class="pill"><span class="dot"></span><svg class="icon" style="width:14px;color:var(--ok)"><use href="#i-file"/></svg>KataB03.xlsm <span style="color:var(--muted)">· sheet Dam</span></div>
+  <button class="ibtn" title="Kiểm tra lại Excel"><svg class="icon"><use href="#i-refresh"/></svg></button>
+  <button class="ibtn" title="Cảnh báo"><svg class="icon"><use href="#i-bell"/></svg><span class="badge">7</span></button>
+  <button class="ibtn" title="Sáng / tối" id="theme"><svg class="icon"><use href="#i-sun"/></svg></button>
+  <button class="btn"><svg class="icon"><use href="#i-select"/></svg>Chọn lại dầm</button>
+  <button class="ibtn" title="Đóng"><svg class="icon"><use href="#i-close"/></svg></button>
+</header>
+
+<nav class="steps" aria-label="Các bước">
+  <h3>Quy trình</h3>
+  <div class="step done"><div class="num"><svg class="icon" style="width:14px"><use href="#i-check"/></svg></div><div><b>Chọn dải dầm</b><span>B03 · 4 phần tử</span></div></div>
+  <div class="step done"><div class="num"><svg class="icon" style="width:14px"><use href="#i-check"/></svg></div><div><b>Lập bảng Kata</b><span>9 cột C → K</span></div></div>
+  <div class="step active"><div class="num">3</div><div><b>Thép từ Excel</b><span>571 thanh · 2 931 kg</span></div></div>
+  <div class="step"><div class="num">4</div><div><b>Tạo thép Revit</b><span>Chưa tạo</span></div></div>
+  <div class="step"><div class="num">5</div><div><b>Xuất Excel</b><span>Ghi B3:B10 + hàng 11–23</span></div></div>
+  <div class="foot"><b>Mẹo:</b> bấm vào nhịp trên hình hoặc cột trong bảng để xem chi tiết bên phải. Rê chuột lên thanh thép để xem số hiệu.</div>
+</nav>
+
+<main class="canvas" id="canvas">
+  <div class="float toolbar">
+    <div class="seg" id="views"><button class="on">2D</button><button>3D</button><button>Mặt cắt</button></div>
+    <div class="sep"></div>
+    <button class="chip on"><i style="background:var(--bar)"></i>Thép</button>
+    <button class="chip on"><i style="background:var(--stirrup)"></i>Đai</button>
+    <button class="chip on"><i style="background:var(--tag)"></i>Số hiệu</button>
+    <div class="sep"></div>
+    <button class="tbtn" title="Đo"><svg class="icon"><use href="#i-ruler"/></svg></button>
+    <button class="tbtn" title="Lớp"><svg class="icon"><use href="#i-layers"/></svg></button>
+    <div class="search"><svg class="icon" style="width:14px"><use href="#i-search"/></svg>Số hiệu…</div>
+    <button class="tbtn" title="Xuất hình"><svg class="icon"><use href="#i-down"/></svg></button>
+  </div>
+  <svg class="draw" id="draw" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="float zoom">
+    <button class="tbtn" title="Nhịp trước"><svg class="icon"><use href="#i-left"/></svg></button>
+    <button class="tbtn" title="Nhịp sau"><svg class="icon"><use href="#i-right"/></svg></button>
+    <div class="sep"></div>
+    <button class="tbtn">−</button><span class="zoomval">100%</span><button class="tbtn">+</button>
+    <button class="tbtn" title="Toàn dải"><svg class="icon"><use href="#i-fit"/></svg>Toàn dải</button>
+  </div>
+  <div class="float mini"><svg width="150" height="44" id="mini"></svg></div>
+  <div class="tooltip" id="tip" style="left:520px; top:150px"><b>Thép chủ trên Ø25</b> · số hiệu 3<span>L 26 220 mm · lớp 1 · 6 thanh — bấm để chọn, Delete để xoá</span></div>
+</main>
+
+<section class="drawer" id="drawer">
+  <header>
+    <b>Bảng ô Kata</b><span>Ghi vào sheet Dam, từ cột C</span>
+    <div class="spacer"></div>
+    <div class="seg"><button class="on">Bảng ô</button><button>Thông số B3:B10</button><button>Cảnh báo 7</button></div>
+    <button class="ibtn" id="toggleDrawer" title="Thu gọn"><svg class="icon"><use href="#i-chev"/></svg></button>
+  </header>
+  <div class="sheet"><table id="table"></table></div>
+</section>
+
+<aside class="inspector">
+  <div class="kpis">
+    <div class="kpi"><span>Tổng thép</span><b>2 931<small>kg</small></b></div>
+    <div class="kpi"><span>Số thanh</span><b>571</b></div>
+    <div class="kpi"><span>Số nhịp</span><b>4</b></div>
+    <div class="kpi"><span>Chiều dài</span><b>33,6<small>m</small></b></div>
+  </div>
+  <div class="card">
+    <header><b id="selTitle">Nhịp 2</b><span class="tag" id="selCol">Cột F</span></header>
+    <div class="props" id="props"></div>
+  </div>
+  <div class="card">
+    <header><b>Thép trong nhịp</b><button class="tbtn" title="Hoàn tác xoá"><svg class="icon"><use href="#i-undo"/></svg></button></header>
+    <div class="bars" id="bars"></div>
+  </div>
+  <div class="card">
+    <header><b>Mặt cắt 2–2</b><span style="color:var(--muted);font-size:12px">giữa nhịp</span></header>
+    <div class="section"><svg width="180" height="200" id="section"></svg></div>
+  </div>
+</aside>
+
+<footer class="actions">
+  <div class="status">
+    <div class="ok"><svg class="icon"><use href="#i-check"/></svg></div>
+    <div><b>Đã đọc thép dầm B03 từ Excel</b><span>571 thanh, 2 931 kg — kiểm tra hình rồi bấm Tạo thép Revit</span></div>
+  </div>
+  <button class="btn ghost">Đóng</button>
+  <button class="btn"><svg class="icon"><use href="#i-down"/></svg>Đọc thép Excel</button>
+  <button class="btn"><svg class="icon"><use href="#i-rebar"/></svg>Tạo thép Revit</button>
+  <button class="btn primary">Xuất Excel<svg class="icon"><use href="#i-play"/></svg></button>
+</footer>
+
+<script>
+// Illustrative data (dầm B03 of the live test run); the drawing is a sketch of what the page draws, not the real painter.
+const cols = [
+  { L: 'C', kind: 'Cột', len: 400, grid: '1', r19: '400;0', r20: '·', r21: '-150', r22: '1' },
+  { L: 'D', kind: 'Nhịp 1', len: 10400, h: 1200, b: 500, r19: '0', r20: '500', r21: '0', r22: '·', bars: [['Thép chủ trên', '6Ø25', 'var(--bar)'], ['Thép chủ dưới', '5Ø25', 'var(--bar)'], ['Gia cường gối', '4Ø22', 'var(--steel)'], ['Đai kín Ø10', 'a100 / a200', 'var(--stirrup)']] },
+  { L: 'E', kind: 'Cột', len: 400, grid: '2', r19: '400;0', r20: '·', r21: '0', r22: '2' },
+  { L: 'F', kind: 'Nhịp 2', len: 13400, h: 900, b: 500, r19: '0', r20: '500', r21: '300', r22: '·', bars: [['Thép chủ trên', '6Ø25', 'var(--bar)'], ['Thép chủ dưới', '6Ø25', 'var(--bar)'], ['Gia cường nhịp', '3Ø22', 'var(--steel)'], ['Thép giá', '4Ø14', 'var(--dim)'], ['Đai kín Ø10', 'a100 / a200', 'var(--stirrup)']] },
+  { L: 'G', kind: 'Cột', len: 400, grid: '5', r19: '400;0', r20: '·', r21: '0', r22: '5' },
+  { L: 'H', kind: 'Nhịp 3', len: 6200, h: 900, b: 300, r19: '0', r20: '300', r21: '300', r22: '·', bars: [['Thép chủ trên', '3Ø22', 'var(--bar)'], ['Thép chủ dưới', '3Ø22', 'var(--bar)'], ['Đai kín Ø8', 'a100 / a150', 'var(--stirrup)']] },
+  { L: 'I', kind: 'Cột', len: 400, grid: '6', r19: '400;0', r20: '·', r21: '0', r22: '6' },
+  { L: 'J', kind: 'Nhịp 4', len: 2000, h: 900, b: 300, r19: '-200', r20: '300', r21: '100', r22: '·', bars: [['Thép chủ trên', '3Ø22', 'var(--bar)'], ['Thép chủ dưới', '2Ø18', 'var(--bar)'], ['Đai kín Ø8', 'a100', 'var(--stirrup)']] },
+  { L: 'K', kind: 'Đầu tự do', len: 0, r19: '0', r20: '·', r21: '', r22: '·' },
+];
+let selected = 3;
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs, parent, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; parent.appendChild(e); return e; };
+
+function draw() {
+  const svg = document.getElementById('draw'); svg.innerHTML = '';
+  const total = cols.reduce((s, c) => s + c.len, 0), x0 = 48, s = 904 / total, top = 170;
+  let x = x0;
+  const spans = [];
+  cols.forEach((c, i) => { c.x = x; c.w = c.len * s; x += c.w; if (c.h) spans.push(i); });
+  // columns + grid bubbles
+  cols.forEach((c) => {
+    if (c.kind !== 'Cột') return;
+    el('rect', { x: c.x, y: top - 70, width: c.w, height: 190, fill: 'var(--col)', stroke: 'var(--col-line)', 'stroke-width': 1 }, svg);
+    el('line', { x1: c.x + c.w / 2, y1: top + 120, x2: c.x + c.w / 2, y2: top + 176, stroke: 'var(--faint)', 'stroke-dasharray': '6 3 1 3' }, svg);
+    el('circle', { cx: c.x + c.w / 2, cy: top + 190, r: 13, fill: 'var(--panel)', stroke: 'var(--col-line)' }, svg);
+    el('text', { x: c.x + c.w / 2, y: top + 194.5, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: 'var(--ink)' }, svg, c.grid);
+  });
+  // beams, rebar, stirrups
+  spans.forEach((i) => {
+    const c = cols[i], d = c.h * s * 2.2;
+    if (i === selected) el('rect', { x: c.x - 6, y: top - 46, width: c.w + 12, height: d + 92, rx: 8, fill: 'var(--accent-soft)', stroke: 'var(--accent)', 'stroke-dasharray': '4 3' }, svg);
+    el('rect', { x: c.x, y: top, width: c.w, height: d, fill: 'var(--beam)', stroke: 'var(--beam-line)', 'stroke-width': 1.2 }, svg);
+    for (let t = c.x + 4; t < c.x + c.w - 2; t += (t - c.x < c.w * .22 || c.x + c.w - t < c.w * .22) ? 4 : 9)
+      el('line', { x1: t, y1: top + 3, x2: t, y2: top + d - 3, stroke: 'var(--stirrup)', 'stroke-width': .8, opacity: .8 }, svg);
+    el('text', { x: c.x + c.w / 2, y: top - 22, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 600, fill: 'var(--ink)' }, svg, `${c.kind} · ${c.b}×${c.h}`);
+    // dimension
+    el('line', { x1: c.x, y1: top + 100, x2: c.x + c.w, y2: top + 100, stroke: 'var(--dim)' }, svg);
+    el('text', { x: c.x + c.w / 2, y: top + 95, 'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--dim)', 'font-weight': 600 }, svg, c.len.toLocaleString('vi-VN'));
+  });
+  const first = cols[1], last = cols[7], dEnd = (c) => top + c.h * s * 2.2;
+  el('polyline', { points: `${first.x - 8},${top + 30} ${first.x - 8},${top + 4} ${last.x + last.w - 3},${top + 4} ${last.x + last.w - 3},${top + 22}`, fill: 'none', stroke: 'var(--bar)', 'stroke-width': 2.2, 'stroke-linejoin': 'round' }, svg);
+  spans.forEach((i) => { const c = cols[i]; el('line', { x1: c.x - 6, y1: dEnd(c) - 4, x2: c.x + c.w + 6, y2: dEnd(c) - 4, stroke: 'var(--bar)', 'stroke-width': 2.2 }, svg); });
+  [[cols[2], 4], [cols[4], 3], [cols[6], 3]].forEach(([c, n]) =>
+    el('line', { x1: c.x - 70 * n * .6, y1: top + 9, x2: c.x + c.w + 70 * n * .6, y2: top + 9, stroke: 'var(--steel)', 'stroke-width': 2 }, svg));
+  // bar tags
+  [[180, 1], [300, 2], [470, 3], [620, 4], [760, 5], [880, 6]].forEach(([tx, n]) => {
+    el('line', { x1: tx, y1: top + 4, x2: tx + 14, y2: top - 40, stroke: 'var(--faint)', 'stroke-width': .8 }, svg);
+    el('circle', { cx: tx + 22, cy: top - 46, r: 9, fill: 'var(--panel)', stroke: 'var(--tag)' }, svg);
+    el('text', { x: tx + 22, y: top - 42.5, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 700, fill: 'var(--tag)' }, svg, n);
+  });
+  // hovered bar highlight (matches the tooltip)
+  el('line', { x1: first.x - 8, y1: top + 4, x2: last.x + last.w - 3, y2: top + 4, stroke: 'var(--accent)', 'stroke-width': 5, opacity: .35 }, svg);
+  // clickable spans
+  spans.forEach((i) => { const c = cols[i]; const hit = el('rect', { x: c.x, y: top - 50, width: c.w, height: 160, fill: 'transparent' }, svg); hit.style.cursor = 'pointer'; hit.onclick = () => select(i); });
+  drawMini(spans, s, x0);
+}
+
+function drawMini(spans) {
+  const m = document.getElementById('mini'); m.innerHTML = '';
+  const total = cols.reduce((a, c) => a + c.len, 0), s = 140 / total;
+  let x = 5;
+  cols.forEach((c, i) => {
+    const w = c.len * s;
+    if (c.h) el('rect', { x, y: 14, width: w, height: c.h / 90, fill: i === selected ? 'var(--accent-soft)' : 'transparent', stroke: i === selected ? 'var(--accent)' : 'var(--beam-line)', 'stroke-width': .8 }, m);
+    else if (c.len) el('rect', { x, y: 8, width: Math.max(w, 1.5), height: 26, fill: 'var(--col-line)', opacity: .5 }, m);
+    x += w;
+  });
+}
+
+function table() {
+  const rows = [['Loại', '', (c) => c.kind], ['Kích thước gối / nhịp', '11', (c) => c.len], ['Giật mép trên dầm', '19', (c) => c.r19], ['Bề rộng dầm giao tại cột', '20', (c) => c.r20], ['Độ lệch dầm giao so với tâm cột', '21', (c) => c.r21], ['Tên các trục cột', '22', (c) => c.r22]];
+  const t = document.getElementById('table');
+  t.innerHTML = '<thead><tr><th style="text-align:left;position:sticky;left:0">Ô Excel</th>' + cols.map((c, i) => `<th data-i="${i}" class="${i === selected ? 'sel' : ''}">${c.L}</th>`).join('') + '</tr></thead><tbody>' +
+    rows.map(([label, row, f]) => `<tr><th>${label}${row ? `<small>hàng ${row}</small>` : ''}</th>` + cols.map((c, i) => `<td class="${i === selected ? 'sel' : ''} ${row === '' && c.h ? 'span' : ''}">${f(c)}</td>`).join('') + '</tr>').join('') + '</tbody>';
+  t.querySelectorAll('thead th[data-i]').forEach((th) => (th.onclick = () => select(Number(th.dataset.i))));
+}
+
+function inspector() {
+  const c = cols[selected];
+  document.getElementById('selTitle').textContent = c.kind;
+  document.getElementById('selCol').textContent = 'Cột ' + c.L;
+  const props = c.h ? [['Tiết diện b × h', `${c.b} × ${c.h} mm`], ['Chiều dài', `${c.len.toLocaleString('vi-VN')} mm`], ['Giật mép trên', `${c.r19} mm`], ['Dầm giao', `${c.r20} mm`], ['Lệch dầm giao', `${c.r21} mm`]]
+    : [['Kích thước', `${c.len} mm`], ['Trục', c.r22], ['Giật mép trên', c.r19]];
+  document.getElementById('props').innerHTML = props.map(([k, v]) => `<div class="prop"><span>${k}</span><b>${v}</b></div>`).join('');
+  document.getElementById('bars').innerHTML = (c.bars || [['Gối — không có thép riêng', '', 'var(--faint)']]).map(([n, q, col]) => `<div class="barrow"><i style="background:${col}"></i><div>${n}</div><span>${q}</span></div>`).join('');
+  section(c);
+}
+
+function section(c) {
+  const g = document.getElementById('section'); g.innerHTML = '';
+  if (!c.h) return;
+  const s = 150 / Math.max(c.h, 800), w = c.b * s, h = c.h * s, x = (180 - w) / 2, y = (200 - h) / 2;
+  el('rect', { x, y, width: w, height: h, rx: 2, fill: 'var(--beam)', stroke: 'var(--beam-line)', 'stroke-width': 1.4 }, g);
+  el('rect', { x: x + 7, y: y + 7, width: w - 14, height: h - 14, rx: 4, fill: 'none', stroke: 'var(--stirrup)', 'stroke-width': 1.6 }, g);
+  const n = c.b >= 500 ? 5 : 3;
+  for (let k = 0; k < n; k++) {
+    const cx = x + 12 + k * (w - 24) / (n - 1);
+    el('circle', { cx, cy: y + 12, r: 3.6, fill: 'var(--bar)' }, g);
+    el('circle', { cx, cy: y + h - 12, r: 3.6, fill: 'var(--bar)' }, g);
+  }
+  el('text', { x: 90, y: y + h + 16, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)' }, g, `${c.b} × ${c.h}`);
+}
+
+function select(i) { if (!cols[i].len && i !== 8) return; selected = i; draw(); table(); inspector(); }
+
+document.getElementById('theme').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark'; };
+document.getElementById('toggleDrawer').onclick = () => document.getElementById('drawer').classList.toggle('closed');
+document.querySelectorAll('#views button').forEach((b) => (b.onclick = () => { document.querySelectorAll('#views button').forEach((x) => x.classList.toggle('on', x === b)); }));
+if (new URLSearchParams(location.search).get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+draw(); table(); inspector();
+</script>
+</body>
+</html>

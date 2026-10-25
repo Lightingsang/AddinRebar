@@ -3,7 +3,7 @@
 // dimensions (kataDimPainter), section flags, grid bubbles, level mark and title. The bar tags are kataTagPainter's.
 
 import type { KataDrawingPen, KataWebBubble, KataWebFlag, KataWebLevel, KataWebRebar, KataWebStationMap, KataWebTitle } from '../kataScene';
-import { BAR_PX, OUTLINE_PX, STYLE, TAG, THIN_PX, cadText, cadTextCentredOn, lineweight } from './kataCad';
+import { OUTLINE_PX, STYLE, TAG, THIN_PX, barPx, cadText, cadTextCentredOn, lineweight } from './kataCad';
 import { paintDims } from './kataDimPainter';
 import type { Palette, Pen } from './palette';
 import { isVisible, screenSpan, sx, sy, type Scene } from './scene';
@@ -45,8 +45,8 @@ export function paintKataElevation(scene: Scene, palette: Palette, rebar: KataWe
     hidden: lineweight(k.hidden, THIN_PX, scale, STYLE.hiddenDashes),
     grid: lineweight(k.grey, THIN_PX, scale, STYLE.centerDashes),
     thin: lineweight(k.grey, THIN_PX, scale),
-    stirrup: lineweight(k.stirrup, BAR_PX, scale),
-    bar: lineweight(k.bar, BAR_PX, scale),
+    stirrup: lineweight(k.stirrup, barPx(scale), scale),
+    bar: lineweight(k.bar, barPx(scale), scale),
   };
 
   // Bars last, over the stirrups and the concrete, as Kata's layer order shows them.

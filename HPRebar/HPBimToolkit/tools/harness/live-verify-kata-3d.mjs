@@ -27,7 +27,7 @@ const view = () =>
   q(`(() => { const e = document.querySelector('[data-testid=kata-3d]'); if (!e) return null; const r = e.getBoundingClientRect();
     return { groups: Number(e.dataset.groups), instances: Number(e.dataset.instances), selected: Number(e.dataset.selected), renderMs: Number(e.dataset.renderMs),
       canvas: !!e.querySelector('canvas'), alert: e.querySelector('[role=alert]')?.textContent ?? null, tooltip: document.querySelector('[data-testid=kata-3d-tooltip]')?.textContent ?? null,
-      left: r.left, top: r.top, width: r.width, height: r.height }; })()`);
+      view: e.dataset.view ?? '', projection: e.dataset.projection ?? '', left: r.left, top: r.top, width: r.width, height: r.height }; })()`);
 const waitView = async (predicate, ms = 15000) => {
   const deadline = Date.now() + ms;
   let v = await view();
@@ -37,8 +37,28 @@ const waitView = async (predicate, ms = 15000) => {
   }
   return v;
 };
-const clickTab = (name) => q(`(() => { const t = [...document.querySelectorAll('[role=tab]')].find((b) => b.textContent.trim() === ${JSON.stringify(name)}); if (!t || t.disabled) return false; t.click(); return true; })()`);
-const clickTool = (label) => q(`(() => { const b = [...document.querySelectorAll('[data-testid=kata-3d-tools] button')].find((e) => e.textContent.trim() === ${JSON.stringify(label)}); if (!b) return false; b.click(); return true; })()`);
+/** Centre of an element on the page, or null. The tabs select on mouse down (Radix), so they get a real click. */
+const centreOf = (selector, text) =>
+  q(`(() => { const e = [...document.querySelectorAll(${JSON.stringify(selector)})].find((b) => ${text === undefined ? 'true' : `b.textContent.trim() === ${JSON.stringify(text)}`}); if (!e || e.disabled) return null; const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; })()`);
+const clickTab = async (name) => {
+  const at = await centreOf('[role=tab]', name);
+  if (!at) return false;
+  await page.mouse.click(...at);
+  return true;
+};
+/** Clicks a face of the ViewCube (TOP, FRONT, RIGHT… — one facing the camera) and waits for the turn. */
+const clickCube = async (face) => {
+  const at = await q(`(() => { const c = document.querySelector('[data-testid=kata-viewcube]'); if (!c) return null; const f = JSON.parse(c.dataset.faces || '{}')[${JSON.stringify(face)}]; if (!f) return null; const r = c.getBoundingClientRect(); return [r.left + f[0], r.top + f[1]]; })()`);
+  if (!at) return false;
+  await page.mouse.move(...at);
+  await page.mouse.click(...at);
+  await sleep(600);
+  return true;
+};
+const goHome = async () => {
+  await q(`document.querySelector('[aria-label="Về Home"]').click()`);
+  await sleep(600);
+};
 
 await call('kata.update', { showRebar: true });
 await sleep(800);
@@ -52,27 +72,50 @@ let v = await waitView((x) => x.canvas || x.alert);
 check('three.js draws in WebView2 (WebGL)', !!v?.canvas && !v.alert, v?.alert ?? `${v?.width}×${v?.height}`);
 check('every bar the plan counts is drawn', v?.instances === barCount, `${v?.instances}/${barCount}`);
 
-// Orbit: 20 drags, the render time of each frame read back.
+check("it opens on Revit's Home view, orthographic", v?.view === 'TOP FRONT RIGHT' && v.projection === 'orthographic', `${v?.view} · ${v?.projection}`);
+
+// Revit's orbit: Shift + middle drag, 20 times, the render time of each frame read back.
 const cx = v.left + v.width / 2;
 const cy = v.top + v.height / 2;
 const times = [];
 for (let i = 0; i < 20; i++) {
-  await page.mouse.drag(cx, cy, cx + 30, cy + (i % 2 ? 8 : -8), { steps: 3 });
+  await page.mouse.drag(cx, cy, cx + 30, cy + (i % 2 ? 8 : -8), { button: 'middle', steps: 3, shift: true });
   times.push((await view()).renderMs);
 }
 times.sort((a, b) => a - b);
 const median = times[Math.floor(times.length / 2)];
-check('orbiting renders each frame in under 16 ms (CPU side, median)', median < 16, `median ${median.toFixed(1)} ms, max ${times.at(-1).toFixed(1)} ms`);
+v = await view();
+check('Shift + middle drag orbits (CPU under 16 ms a frame, median)', v.view === '' && median < 16, `left Home: ${v.view === ''} · median ${median.toFixed(1)} ms, max ${times.at(-1).toFixed(1)} ms`);
+// A plain middle drag pans: the direction stays.
+await goHome();
+await page.mouse.drag(cx, cy, cx + 80, cy + 20, { button: 'middle', steps: 4 });
+await sleep(200);
+v = await view();
+check('a middle drag pans (the view keeps its direction)', v.view === 'TOP FRONT RIGHT', v.view);
 
-for (const preset of ['Mặt đứng', 'Mặt bằng', 'Đầu dầm', 'Phối cảnh']) {
-  const ok = await clickTool(preset);
-  await sleep(200);
-  check(`preset ${preset}`, ok);
+for (const face of ['FRONT', 'TOP', 'RIGHT']) {
+  await goHome();
+  const ok = await clickCube(face);
+  v = await view();
+  check(`ViewCube ${face}`, ok && v.view === face, v.view);
+}
+await goHome();
+v = await view();
+check('Home turns back to TOP FRONT RIGHT', v.view === 'TOP FRONT RIGHT', v.view);
+
+// The ViewCube menu: perspective and back.
+for (const [item, projection] of [['Phối cảnh', 'perspective'], ['Trực giao', 'orthographic']]) {
+  await page.mouse.click(...(await centreOf('[aria-label="Tuỳ chọn ViewCube"]')));
+  await sleep(300);
+  const at = await centreOf('[role=menuitemradio]', item);
+  if (at) await page.mouse.click(...at);
+  await sleep(300);
+  v = await view();
+  check(`menu ${item}`, v.projection === projection, v.projection);
 }
 
 // Hover then pick: sweep the front view's middle rows until a tooltip names a bar group.
-await clickTool('Mặt đứng');
-await sleep(300);
+await clickCube('FRONT');
 v = await view();
 let picked = null;
 outer: for (const fy of [0.5, 0.45, 0.55, 0.4, 0.6, 0.35, 0.65]) {
@@ -101,7 +144,7 @@ if (picked) {
 }
 
 if (shot) {
-  await clickTool('Phối cảnh');
+  await goHome();
   await page.mouse.move(v.left + 5, v.top + 5);
   await sleep(500);
   writeFileSync(shot, Buffer.from(await page.screenshot(), 'base64'));

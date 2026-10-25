@@ -6,6 +6,7 @@ import { WHEEL_STEP } from './framing';
 import { paletteFor } from './palette';
 import { FITTED, paintSection, zoomSection, type SectionView } from './sectionPainter';
 import { ShapesSvg } from './ShapesSvg';
+import { useT } from '../i18n';
 
 export type SectionState = { status: 'loading' } | { status: 'ready'; section: KataWebSection } | { status: 'failed'; message: string };
 
@@ -24,6 +25,7 @@ interface SectionPanelProps {
  * middle button or Shift + left drag pans, middle double click fits it again. Its events never reach the elevation.
  */
 export function SectionPanel({ number, state, theme, rect, caption, onClose }: SectionPanelProps) {
+  const t = useT();
   const box = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<{ number: number; view: SectionView }>({ number, view: FITTED });
   const current = view.number === number ? view.view : FITTED;
@@ -104,14 +106,14 @@ export function SectionPanel({ number, state, theme, rect, caption, onClose }: S
         )}
         {state.status !== 'ready' && (
           <div className="p-3 text-[11px]" style={{ color: palette.mutedText }}>
-            {state.status === 'loading' ? `Đang vẽ mặt cắt ${number}-${number}…` : `Không vẽ được mặt cắt ${number}-${number}: ${state.message}`}
+            {state.status === 'loading' ? t.drawingSection(number) : t.sectionFailed(number, state.message || t.noSuchSection)}
           </div>
         )}
       </div>
       {onClose && (
         <button
           type="button"
-          aria-label="Đóng mặt cắt"
+          aria-label={t.closeSection}
           className="absolute right-1 top-1 h-[18px] w-[18px] text-[13px] leading-none"
           style={{ background: palette.fill, color: palette.text }}
           onPointerDown={stop}

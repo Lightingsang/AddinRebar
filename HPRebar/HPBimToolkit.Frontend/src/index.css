@@ -48,7 +48,7 @@
   --color-steel: var(--steel);
   --color-danger: var(--danger);
   --color-success: var(--success);
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 html,

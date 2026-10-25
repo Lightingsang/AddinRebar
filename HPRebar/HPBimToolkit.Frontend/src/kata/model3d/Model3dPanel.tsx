@@ -3,6 +3,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import type { KataWeb3dModel, KataWebRebar } from '../kataScene';
 import type { Rebar3DViewProps } from './Rebar3DView';
+import { useT } from '../i18n';
 
 const Rebar3DView = lazy(() => import('./Rebar3DView'));
 
@@ -36,15 +37,16 @@ type Model3dPanelProps = Omit<Rebar3DViewProps, 'model'> & { rebar: KataWebRebar
 
 export function Model3dPanel({ rebar, loadModel3d, ...view }: Model3dPanelProps) {
   const loaded = useModel3d(rebar, loadModel3d);
+  const t = useT();
   const message = (text: string) => (
     <div className="flex h-full items-center justify-center text-[12px] text-muted" data-testid="kata-3d-state">
       {text}
     </div>
   );
-  if (!loaded) return message('Đang dựng hình 3D…');
-  if (loaded.status === 'failed') return message(`Không dựng được hình 3D: ${loaded.message}`);
+  if (!loaded) return message(t.building3d);
+  if (loaded.status === 'failed') return message(t.failed3d(loaded.message));
   return (
-    <Suspense fallback={message('Đang tải bộ vẽ 3D…')}>
+    <Suspense fallback={message(t.loading3d)}>
       <Rebar3DView model={loaded.model} {...view} />
     </Suspense>
   );

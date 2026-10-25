@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="vi" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kata Export — mockup v4</title>
+<script src="kata-v3-data.js"></script>
+<style>
+  /* shadcn/ui "zinc" tokens: the look the page gets from the real components. */
+  :root { --bg: #ffffff; --fg: #09090b; --card: #ffffff; --muted: #f4f4f5; --muted-fg: #71717a; --border: #e4e4e7; --primary: #0284c7; --primary-fg: #fff;
+    --ring: #0284c7; --soft: #f0f9ff; --chart1: #0ea5e9; --chart2: #6366f1; --chart3: #f97316; --chart4: #22c55e; --chart5: #e11d48;
+    --ok: #16a34a; --warn: #d97706; --bad: #e11d48; --draw: #fbfcfe; --beam: rgba(2,132,199,.08); --beamline: #0891b2; --bar: #e11d48; --stir: #9333ea; --sidebar: #fafafa; }
+  .dark { --bg: #09090b; --fg: #fafafa; --card: #0c0c0f; --muted: #18181b; --muted-fg: #a1a1aa; --border: #27272a; --primary: #38bdf8; --primary-fg: #04131d;
+    --ring: #38bdf8; --soft: rgba(56,189,248,.10); --ok: #22c55e; --warn: #f59e0b; --bad: #f43f5e; --draw: #0a0a0d; --beam: rgba(56,189,248,.09); --beamline: #5eead4; --bar: #fb7185; --stir: #c084fc; --sidebar: #0c0c0f; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font: 13px/1.5 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif; display: grid; grid-template-columns: 236px minmax(0, 1fr); overflow: hidden; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .muted { color: var(--muted-fg); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* sidebar */
+  aside { background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; gap: 14px; min-height: 0; }
+  .team { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); }
+  .logo { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; background: var(--fg); color: var(--bg); }
+  .team b { display: block; font-size: 13px; } .team span { font-size: 11.5px; }
+  .group h4 { margin: 0 8px 6px; font-size: 11px; font-weight: 600; color: var(--muted-fg); }
+  .nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav button { display: flex; align-items: center; gap: 10px; border: 0; background: transparent; padding: 7px 8px; border-radius: 8px; text-align: left; font-size: 13px; color: var(--muted-fg); }
+  .nav button:hover { background: var(--muted); color: var(--fg); }
+  .nav button.on { background: var(--muted); color: var(--fg); font-weight: 600; }
+  .nav .count { margin-left: auto; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 999px; background: var(--muted); border: 1px solid var(--border); }
+  .nav .count.warn { background: rgba(245,158,11,.15); color: var(--warn); border-color: transparent; }
+  .conn { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: var(--card); display: flex; flex-direction: column; gap: 8px; }
+  .conn .row { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+  .kv { display: flex; justify-content: space-between; font-size: 12px; } .kv span { color: var(--muted-fg); }
+  aside .foot { margin-top: auto; display: flex; gap: 6px; }
+
+  /* main */
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .top { height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid var(--border); }
+  .crumb { display: flex; align-items: center; gap: 8px; color: var(--muted-fg); font-size: 13px; } .crumb b { color: var(--fg); font-weight: 600; }
+  .vsep { width: 1px; height: 18px; background: var(--border); }
+  .spacer { flex: 1; }
+  .btn { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); font-weight: 500; font-size: 12.5px; white-space: nowrap; }
+  .btn:hover { background: var(--muted); }
+  .btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.icon { width: 32px; padding: 0; justify-content: center; }
+  .content { flex: 1; overflow: auto; padding: 18px 20px 24px; }
+  .title { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 16px; }
+  .title h1 { margin: 0; font-size: 22px; letter-spacing: -.02em; } .title p { margin: 2px 0 0; color: var(--muted-fg); }
+  .grid { display: grid; gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; min-width: 0; }
+  .card > header { display: flex; align-items: center; gap: 8px; padding: 14px 16px 10px; }
+  .card > header h3 { margin: 0; font-size: 14px; font-weight: 600; } .card > header p { margin: 0; font-size: 12px; color: var(--muted-fg); }
+  .card .body { padding: 0 16px 16px; }
+  .kpi { padding: 14px 16px; } .kpi .lab { display: flex; justify-content: space-between; color: var(--muted-fg); font-size: 12.5px; font-weight: 500; }
+  .kpi .val { font-size: 24px; font-weight: 700; letter-spacing: -.02em; margin-top: 6px; } .kpi .val small { font-size: 13px; font-weight: 500; color: var(--muted-fg); margin-left: 3px; }
+  .kpi .sub { font-size: 12px; color: var(--muted-fg); }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
+  .badge.ok { color: var(--ok); background: rgba(34,197,94,.12); border-color: transparent; }
+  .badge.warn { color: var(--warn); background: rgba(245,158,11,.14); border-color: transparent; }
+  .badge.blue { color: var(--primary); background: var(--soft); border-color: transparent; }
+  .chip { display: inline-block; font: 600 11.5px/18px ui-monospace, 'Cascadia Mono', Consolas, monospace; padding: 0 7px; border-radius: 6px; background: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
+  .chip.r { color: var(--bar); } .chip.s { color: var(--stir); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; font-weight: 500; color: var(--muted-fg); padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--muted); }
+  td.r, th.r { text-align: right; } td.c, th.c { text-align: center; }
+  .sect td { background: var(--muted); color: var(--muted-fg); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; }
+  .mark { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--warn); color: var(--warn); font-weight: 700; font-size: 11.5px; }
+  .bars .b { display: grid; grid-template-columns: 44px 1fr 74px; gap: 10px; align-items: center; margin: 9px 0; }
+  .bars .track { height: 10px; border-radius: 6px; background: var(--muted); overflow: hidden; } .bars .fill { height: 100%; border-radius: 6px; }
+  .draw { background: var(--draw); border-radius: 10px; border: 1px solid var(--border); }
+  .tabs { display: inline-flex; padding: 3px; gap: 2px; border-radius: 9px; background: var(--muted); }
+  .tabs button { border: 0; background: transparent; padding: 4px 12px; border-radius: 7px; font-weight: 500; font-size: 12.5px; color: var(--muted-fg); }
+  .tabs button.on { background: var(--card); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .warnrow { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); } .warnrow:last-child { border: 0; }
+  .settings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .setting { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; } .setting span { display: block; font-size: 11.5px; color: var(--muted-fg); } .setting b { font-size: 15px; }
+  .setting em { font-style: normal; font-size: 11px; color: var(--muted-fg); margin-left: 4px; }
+  .screen { display: none; } .screen.on { display: block; }
+  .note { position: fixed; left: 50%; transform: translateX(-50%); bottom: 10px; z-index: 50; font-size: 11px; padding: 3px 10px; border-radius: 999px; background: var(--warn); color: #111; font-weight: 700; }
+  td .sel { color: var(--primary); font-weight: 700; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="home" viewBox="0 0 16 16"><path d="M2.5 7 8 2.5 13.5 7v6.5h-11V7ZM6.5 13.5v-4h3v4"/></symbol>
+  <symbol id="beam" viewBox="0 0 16 16"><path d="M1.5 6h13v4h-13zM3.5 6v8M12.5 6v8M3.5 2v4M12.5 2v4"/></symbol>
+  <symbol id="sheet" viewBox="0 0 16 16"><path d="M2.5 2.5h11v11h-11zM2.5 6h11M2.5 9.5h11M6 2.5v11"/></symbol>
+  <symbol id="list" viewBox="0 0 16 16"><path d="M5.5 4h8M5.5 8h8M5.5 12h8M2.5 4h.01M2.5 8h.01M2.5 12h.01"/></symbol>
+  <symbol id="alert" viewBox="0 0 16 16"><path d="M8 2l6.5 11.5h-13L8 2ZM8 6.5v3M8 11.5v.5"/></symbol>
+  <symbol id="gear" viewBox="0 0 16 16"><path d="M8 10.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4ZM8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></symbol>
+  <symbol id="xls" viewBox="0 0 16 16"><path d="M3 1.5h6.5L13 5v9.5H3zM9.5 1.5V5H13M5.5 8l3 4M8.5 8l-3 4"/></symbol>
+  <symbol id="refresh" viewBox="0 0 16 16"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3"/></symbol>
+  <symbol id="panel" viewBox="0 0 16 16"><path d="M2.5 2.5h11v11h-11zM6 2.5v11"/></symbol>
+  <symbol id="down" viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 13.5h10"/></symbol>
+  <symbol id="arrow" viewBox="0 0 16 16"><path d="M3 8h9M9 4.5 12.5 8 9 11.5"/></symbol>
+  <symbol id="cursor" viewBox="0 0 16 16"><path d="M3 3l4 10 1.5-4.5L13 7 3 3Z"/></symbol>
+  <symbol id="sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1"/></symbol>
+  <symbol id="grid" viewBox="0 0 16 16"><path d="M2 5.5h12M2 10.5h12M4.5 3.5v9M8 3.5v9M11.5 3.5v9"/></symbol>
+</defs></svg>
+<div class="note">BẢN MẪU v4 — bỏ bảng ô Kata (đã có trong Excel) · số liệu thật B03, chưa phải add-in</div>
+
+<aside>
+  <div class="team"><div class="logo"><svg class="i"><use href="#grid"/></svg></div><div><b>Kata Export</b><span class="muted">HPRebar · Revit 2026</span></div></div>
+  <div class="group"><h4>Dầm B03</h4>
+    <div class="nav" id="nav">
+      <button data-s="overview" class="on"><svg class="i"><use href="#home"/></svg>Tổng quan</button>
+      <button data-s="elevation"><svg class="i"><use href="#beam"/></svg>Mặt đứng &amp; 3D</button>
+      <button data-s="schedule"><svg class="i"><use href="#list"/></svg>Thống kê thép<span class="count" id="nSched"></span></button>
+      <button data-s="warnings"><svg class="i"><use href="#alert"/></svg>Cảnh báo<span class="count warn">3</span></button>
+    </div>
+  </div>
+  <div class="group"><h4>Excel Kata</h4>
+    <div class="conn">
+      <div class="row"><span class="dot"></span><b>Đã kết nối</b><span class="spacer"></span><button class="btn icon ghost" title="Đọc lại"><svg class="i"><use href="#refresh"/></svg></button></div>
+      <div class="row"><svg class="i" style="color:var(--ok)"><use href="#xls"/></svg><span>KataB03.xlsm</span></div>
+      <div class="kv"><span>Sheet</span>Dam</div>
+      <div class="kv"><span>Đọc thép lúc</span>11:42</div>
+      <div class="kv"><span>Tỷ lệ bản vẽ</span>1:70</div>
+    </div>
+  </div>
+  <div class="foot"><button class="btn icon" id="theme" title="Sáng / tối"><svg class="i"><use href="#sun"/></svg></button><button class="btn" style="flex:1"><svg class="i"><use href="#gear"/></svg>Kata Settings</button></div>
+</aside>
+
+<main>
+  <div class="top">
+    <button class="btn icon ghost"><svg class="i"><use href="#panel"/></svg></button><div class="vsep"></div>
+    <div class="crumb"><span>Kata Export</span>›<span>B03</span>›<b id="crumb">Tổng quan</b></div>
+    <div class="spacer"></div>
+    <button class="btn"><svg class="i"><use href="#cursor"/></svg>Chọn lại dầm</button>
+    <button class="btn"><svg class="i"><use href="#down"/></svg>Đọc thép Excel</button>
+    <button class="btn"><svg class="i"><use href="#grid"/></svg>Tạo thép Revit</button>
+    <button class="btn primary">Xuất Excel<svg class="i"><use href="#arrow"/></svg></button>
+  </div>
+
+  <div class="content">
+    <!-- OVERVIEW -->
+    <section class="screen on" id="overview">
+      <div class="title"><div><h1>Dầm B03</h1><p id="subtitle"></p></div><span class="badge ok" style="margin-left:auto">● Sẵn sàng tạo thép Revit</span></div>
+      <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="kpis"></div>
+      <div class="grid" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr);margin-top:14px">
+        <div class="card"><header><div><h3>Mặt đứng dải dầm</h3><p>4 nhịp · bấm để mở trang Mặt đứng</p></div><span class="spacer"></span><div class="tabs"><button class="on">2D</button><button>3D</button></div></header>
+          <div class="body"><svg class="draw" id="mini" viewBox="0 0 760 200" width="100%"></svg></div></div>
+        <div class="card"><header><div><h3>Thép theo đường kính</h3><p>Khối lượng toàn dầm</p></div></header><div class="body bars" id="byDia"></div></div>
+      </div>
+      <div class="grid" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr);margin-top:14px">
+        <div class="card"><header><div><h3>Các nhịp</h3><p>Tiết diện, thép và đai theo sheet Dam</p></div></header><div class="body" style="padding:0"><table id="spans"></table></div></div>
+        <div class="card"><header><div><h3>Thông số thép</h3><p>Ô E1:J9 của sheet Dam</p></div><span class="spacer"></span><button class="btn" style="height:28px"><svg class="i"><use href="#xls"/></svg>Mở sheet Dam</button></header><div class="body" id="setmini"></div></div>
+      </div>
+    </section>
+
+    <!-- ELEVATION -->
+    <section class="screen" id="elevation">
+      <div class="title"><div><h1>Mặt đứng &amp; 3D</h1><p>Hình Kata vẽ từ plan; zoom, chọn thanh, xoá/hoàn tác như hiện tại</p></div>
+        <div class="tabs" style="margin-left:auto"><button class="on">2D</button><button>3D</button><button>Mặt cắt</button></div></div>
+      <div class="card"><div class="body" style="padding:12px"><svg class="draw" id="big" viewBox="0 0 1000 330" width="100%"></svg></div></div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="screen" id="schedule">
+      <div class="title"><div><h1>Thống kê cốt thép</h1><p>Theo mẫu sheet Thong_ke của Kata · từ plan đã đọc</p></div><span class="spacer"></span>
+        <div class="tabs"><button class="on">Tất cả</button><button>Thép dọc</button><button>Đai</button></div><button class="btn"><svg class="i"><use href="#down"/></svg>Xuất bảng</button></div>
+      <div class="grid" style="grid-template-columns:minmax(0,1fr) 250px">
+        <div class="card"><div class="body" style="padding:0;overflow:auto"><table id="sched"></table></div></div>
+        <div class="card" style="align-self:start"><header><div><h3>Tổng hợp theo Ø</h3><p>Chiều dài và khối lượng</p></div></header><div class="body" style="padding:0"><table id="sum"></table></div></div>
+      </div>
+    </section>
+
+    <!-- WARNINGS -->
+    <section class="screen" id="warnings">
+      <div class="title"><div><h1>Cảnh báo</h1><p>Từ lần đọc thép gần nhất</p></div></div>
+      <div class="card"><div class="body" style="padding-top:6px" id="warnList"></div></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const K = window.KATA, S = K.sheet;
+const fmt = (n, d = 0) => Number(n).toLocaleString('vi-VN', { maximumFractionDigits: d, minimumFractionDigits: d });
+const bar = (t) => String(t || '').replace(/(\d+)f(\d+)/g, '$1Ø$2');
+const chip = (t, cls = 'r') => t && t !== '-' ? t.split(';').filter((x) => x && x !== '0' && x !== '-').map((x) => `<span class="chip ${cls}">${bar(x)}</span>`).join(' ') : '<span class="muted">—</span>';
+const spans = K.spans.map((s) => { const [b, h] = s.sec.split('x').map(Number); return { ...s, b, h, L: Number(s.L) }; });
+const volume = spans.reduce((a, s) => a + s.b * s.h * s.L / 1e9, 0);
+const totalL = K.columns.reduce((a, c) => Math.max(a, c.e), 0);
+const schedKg = K.schedule.reduce((a, r) => a + r.kg, 0), scale = K.kg / schedKg;
+document.getElementById('subtitle').textContent = `${S.header.B4} cấu kiện · b×h ${S.header.B6}×${S.header.B5} · h sàn ${S.header.B7} · cao trình ${S.header.B10} · trục lệch ${S.header.B9} mm`;
+document.getElementById('nSched').textContent = K.schedule.length;
+
+// KPIs
+document.getElementById('kpis').innerHTML = [
+  ['Tổng thép', fmt(K.kg), 'kg', `${K.barCount} thanh · ${K.schedule.length} số hiệu`],
+  ['Bê tông', fmt(volume, 2), 'm³', `${spans.length} nhịp · dài ${fmt(totalL / 1000, 1)} m`],
+  ['Hàm lượng thép', fmt(K.kg / volume), 'kg/m³', 'trung bình cả dải'],
+  ['Thép chủ', bar(S.header.B11), '', `trên ${bar(S.header.B11)} · dưới ${bar(S.header.B12)}`],
+].map(([l, v, u, s]) => `<div class="card kpi"><div class="lab">${l}</div><div class="val num">${v}<small>${u}</small></div><div class="sub">${s}</div></div>`).join('');
+
+// weight by diameter
+const byD = {}; K.schedule.forEach((r) => (byD[r.d] = (byD[r.d] || 0) + r.kg * scale));
+const colors = { 10: 'var(--chart2)', 12: 'var(--chart4)', 16: 'var(--chart3)', 20: 'var(--chart1)', 25: 'var(--chart5)' };
+const maxD = Math.max(...Object.values(byD));
+document.getElementById('byDia').innerHTML = Object.entries(byD).sort((a, b) => b[1] - a[1]).map(([d, kg]) =>
+  `<div class="b"><b class="num">Ø${d}</b><div class="track"><div class="fill" style="width:${kg / maxD * 100}%;background:${colors[d]}"></div></div><span class="num" style="text-align:right">${fmt(kg)} kg</span></div>`).join('') +
+  `<div class="muted" style="font-size:12px;margin-top:12px">Ø25 chiếm ${fmt(byD[25] / K.kg * 100)}% khối lượng</div>`;
+
+// spans table (top/bottom from row 11/12 + extras by column, stirrups G6–G9)
+const cols = 'CDEFGHIJK';
+const colOf = (letter) => cols.indexOf(letter);
+document.getElementById('spans').innerHTML = '<thead><tr><th>Nhịp</th><th>Tiết diện</th><th class="r">Dài</th><th>Thép trên</th><th>Thép dưới</th><th>Gia cường dưới</th><th>Đai</th></tr></thead><tbody>' +
+  spans.map((s) => { const i = colOf(s.letter);
+    return `<tr><td><b>Nhịp ${s.n}</b> <span class="muted">· cột ${s.letter}</span></td><td class="num">${s.b} × ${s.h}</td><td class="r num">${fmt(s.L)}</td><td>${chip(S.header.B11)}</td><td>${chip(S.header.B12)}</td><td>${chip(S.rows['17'][i])}</td><td><span class="chip s">Ø${S.settings.G6} ${S.settings.G7}/${S.settings.G8}</span></td></tr>`; }).join('') + '</tbody>';
+
+// settings
+const settings = [
+  ['Neo vùng kéo', `${S.settings.G2}d`], ['Neo vùng nén', `${S.settings.G3}d`], ['Kéo thép gia cường', `${S.settings.G1}`, 'mm'],
+  ['Cốt giá', `Ø${S.settings.G4} × ${S.settings.G5} lớp`], ['Đai', `Ø${S.settings.G6}`], ['Bước đai', `${S.settings.G7} / ${S.settings.G8}`, 'gối / giữa'],
+  ['Đai công xôn', `a${S.settings.G9}`], ['Lớp bảo vệ', S.settings.J9, 'chủ / đai'], ['Cắt lớp 1 / 2', `${S.settings.H5}L / ${S.settings.H3}L`, 'từ mép cột'],
+];
+document.getElementById('setmini').innerHTML = settings.slice(0, 6).map(([k, v, e]) => `<div class="kv" style="padding:6px 0;border-bottom:1px dashed var(--border)"><span>${k}</span><b>${v}${e ? `<em class="muted" style="font-style:normal;font-weight:400"> ${e}</em>` : ''}</b></div>`).join('');
+
+// schedule
+const role = { mainTop: 'Thép chủ trên', mainBottom: 'Thép chủ dưới', extraTop: 'Gia cường trên', extraBottom: 'Gia cường dưới', sideBar: 'Thép giá', stirrupClosed: 'Đai kín', stirrupCap: 'Đai U', crossTie: 'Đai C' };
+function shape(r) {
+  const p = r.shape, xs = p.map((q) => q[0]), ys = p.map((q) => q[1]);
+  const w = Math.max(...xs) - Math.min(...xs) || 1, h = Math.max(...ys) - Math.min(...ys) || 1;
+  const stir = /stirrup|crossTie/.test(r.role), W = stir ? 40 : 104, H = stir ? 34 : 24;
+  const s = stir ? Math.min((W - 8) / w, (H - 8) / h) : (W - 8) / w, sy = stir ? s : Math.min(s * 6, (H - 8) / h);
+  const pts = p.map((q) => `${4 + (q[0] - Math.min(...xs)) * s},${H - 4 - (q[1] - Math.min(...ys)) * sy}`).join(' ');
+  return `<svg width="${W}" height="${H}" style="display:block"><polyline points="${pts}" fill="none" stroke="${stir ? 'var(--stir)' : 'var(--bar)'}" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
+}
+document.getElementById('sched').innerHTML = '<thead><tr><th class="c">Số hiệu</th><th>Loại</th><th>Hình dạng</th><th class="r">Ø</th><th>Các đoạn</th><th class="r">L (mm)</th><th class="r">SL</th><th class="r">Tổng (m)</th><th class="r">kg</th></tr></thead><tbody>' +
+  K.schedule.map((r) => `<tr><td class="c"><span class="mark">${r.number}</span></td><td>${role[r.role]}</td><td>${shape(r)}</td><td class="r num">${r.d}</td><td class="muted num">${r.segs.slice(0, 3).join(' · ')}${r.segs.length > 3 ? ' …' : ''}</td><td class="r num">${fmt(r.L)}</td><td class="r num">${r.n}</td><td class="r num">${fmt(r.n * r.L / 1000, 1)}</td><td class="r num"><b>${fmt(r.kg * scale, 1)}</b></td></tr>`).join('') + '</tbody>';
+const sumD = {}; K.schedule.forEach((r) => { const s = (sumD[r.d] ||= { L: 0, kg: 0, n: 0 }); s.L += r.n * r.L / 1000; s.kg += r.kg * scale; s.n += r.n; });
+document.getElementById('sum').innerHTML = '<thead><tr><th>Ø</th><th class="r">Thanh</th><th class="r">Dài (m)</th><th class="r">kg</th></tr></thead><tbody>' +
+  Object.entries(sumD).map(([d, s]) => `<tr><td><span class="chip ${d === '10' ? 's' : 'r'}">Ø${d}</span></td><td class="r num">${s.n}</td><td class="r num">${fmt(s.L, 1)}</td><td class="r num">${fmt(s.kg, 1)}</td></tr>`).join('') +
+  `<tr><td><b>Tổng</b></td><td class="r num"><b>${K.barCount}</b></td><td class="r num"><b>${fmt(Object.values(sumD).reduce((a, s) => a + s.L, 0), 1)}</b></td><td class="r num"><b>${fmt(K.kg)}</b></td></tr></tbody>`;
+
+// warnings (illustrative)
+document.getElementById('warnList').innerHTML = [
+  ['warn', '(ví dụ) Gối E: thép gia cường trên lớp 3 "6f20;0" — vế phải bằng 0, chỉ vẽ bên trái.'],
+  ['warn', '(ví dụ) Nhịp 4 (công xôn 2000): bước đai lấy a150 theo ô G9.'],
+  ['blue', '(ví dụ) Đai C hàng 25–27: dùng cách bố trí 3-4 / 2 / 5 như sheet.'],
+].map(([t, s]) => `<div class="warnrow"><span class="badge ${t}"><svg class="i" style="width:12px;height:12px"><use href="#alert"/></svg>${t === 'warn' ? 'Cảnh báo' : 'Ghi chú'}</span><span>${s}</span></div>`).join('');
+
+// elevation sketches (schematic, to scale along the run)
+function elevation(svg, W, H, labels) {
+  const g = document.getElementById(svg); const s = (W - 60) / totalL, top = H * 0.36, k = 3.2; let out = '';
+  K.columns.forEach((c) => {
+    const x = 30 + c.s * s, w = (c.e - c.s) * s;
+    if (c.kind === 'support') out += `<rect x="${x}" y="${top - 46}" width="${Math.max(w, 2)}" height="${H * 0.5}" fill="rgba(148,163,184,.15)" stroke="#94a3b8" stroke-width=".8"/>`;
+    if (c.kind === 'span') {
+      const [b, h] = c.sec.split('x').map(Number), d = h * s * k;
+      out += `<rect x="${x}" y="${top}" width="${w}" height="${d}" fill="var(--beam)" stroke="var(--beamline)" stroke-width="1"/>`;
+      for (let t = x + 3; t < x + w - 2; t += (t - x < w * .22 || x + w - t < w * .22) ? 3.5 : 7) out += `<line x1="${t}" y1="${top + 2}" x2="${t}" y2="${top + d - 2}" stroke="var(--stir)" stroke-width=".7" opacity=".8"/>`;
+      out += `<line x1="${x - 4}" y1="${top + d - 3}" x2="${x + w + 4}" y2="${top + d - 3}" stroke="var(--bar)" stroke-width="1.8"/>`;
+      if (labels) out += `<text x="${x + w / 2}" y="${top - 14}" text-anchor="middle" font-size="12" font-weight="600" fill="var(--fg)">${w > 130 ? `Nhịp ${c.n} · ${c.sec.replace('x', '×')}` : `N${c.n}`}</text>`;
+      out += `<text x="${x + w / 2}" y="${top + d + 26}" text-anchor="middle" font-size="11" fill="#22c55e">${fmt(c.e - c.s)}</text>`;
+    }
+  });
+  out += `<polyline points="${30 + 380 * s},${top + 20} ${30 + 380 * s},${top + 3} ${30 + totalL * s - 6},${top + 3} ${30 + totalL * s - 6},${top + 16}" fill="none" stroke="var(--bar)" stroke-width="1.8"/>`;
+  g.innerHTML = out;
+}
+elevation('mini', 760, 200, true); elevation('big', 1000, 330, true);
+
+// navigation + theme
+const titles = { overview: 'Tổng quan', elevation: 'Mặt đứng & 3D', schedule: 'Thống kê thép', warnings: 'Cảnh báo' };
+function show(id) {
+  document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
+  document.querySelectorAll('#nav button').forEach((b) => b.classList.toggle('on', b.dataset.s === id));
+  document.getElementById('crumb').textContent = titles[id];
+}
+document.querySelectorAll('#nav button').forEach((b) => (b.onclick = () => show(b.dataset.s)));
+document.getElementById('theme').onclick = () => document.documentElement.classList.toggle('dark');
+const q = new URLSearchParams(location.search);
+if (q.get('theme') === 'light') document.documentElement.classList.remove('dark');
+if (q.get('screen')) show(q.get('screen'));
+</script>
+</body>
+</html>

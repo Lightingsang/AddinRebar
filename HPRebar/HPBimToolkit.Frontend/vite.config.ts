@@ -8,6 +8,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
+  // `@/` = src/, as the shadcn/ui components under src/components/ui import their helpers.
+  resolve: { alias: { '@': '/src' } },
   build: {
     outDir: 'dist',
     emptyOutDir: true,

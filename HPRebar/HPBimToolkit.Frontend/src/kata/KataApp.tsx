@@ -1,225 +1,91 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Badge, Card } from '../ui/Card';
-import { Button } from '../ui/Button';
+import { useEffect, useState } from 'react';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { useToast } from '../ui/Toast';
-import { NativeElevation } from './elevation/NativeElevation';
-import type { SharedBarSelection } from './elevation/useKataPicking';
-import type { KataWebRebar } from './kataScene';
-import { Model3dPanel } from './model3d/Model3dPanel';
-import { KataColumnsTable } from './KataColumnsTable';
+import { ElevationCard } from './ElevationCard';
+import { KataFooter, KataWarnings } from './KataFooter';
+import { KataHeader } from './KataHeader';
 import { KataParameters } from './KataParameters';
-import type { KataBridge, KataViewState } from './kataContracts';
-import { useKata, type KataController } from './useKata';
+import { KATA_STRINGS, KataLangContext, type KataLang } from './i18n';
+import type { KataBridge, KataTheme } from './kataContracts';
+import { useKata } from './useKata';
 
-function Toggle({ label, checked, onChange }: { label: string; checked: boolean; onChange(value: boolean): void }) {
-  return (
-    <label className="inline-flex cursor-pointer items-center gap-1 text-[12px] font-semibold">
-      <input type="checkbox" className="accent-[var(--accent)]" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      {label}
-    </label>
-  );
-}
-
-function ElevationCard({ state, kata }: { state: KataViewState; kata: KataController }) {
-  const notify = useToast();
-  const busy = state.isBusy;
-  const scene = kata.scene;
-  const rebar = scene?.rebar ?? null;
-  const [want3d, setWant3d] = useState(false);
-  // One bar selection for both views, for the plan it was picked on.
-  const [picked, setPicked] = useState<{ rebar: KataWebRebar | null; keys: string[] | null }>({ rebar: null, keys: null });
-  const pickedKeys = picked.rebar === rebar ? picked.keys : null;
-  const shared = useMemo<SharedBarSelection>(() => ({ keys: pickedKeys, set: (keys) => setPicked({ rebar, keys }) }), [pickedKeys, rebar]);
-  const show3d = want3d && rebar !== null;
-  const tab = (active: boolean) => `px-2 py-0.5 text-[12px] font-semibold ${active ? 'bg-[var(--accent)] text-white' : 'text-muted'}`;
-  return (
-    <Card title="Mặt đứng dải dầm" className="flex min-h-0 flex-col">
-      <div className="mb-1.5 flex shrink-0 flex-wrap items-center gap-1.5">
-        <div className="inline-flex overflow-hidden rounded border border-line" role="tablist" aria-label="Kiểu xem">
-          <button type="button" role="tab" aria-selected={!show3d} className={tab(!show3d)} onClick={() => setWant3d(false)}>
-            2D
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={show3d}
-            className={tab(show3d)}
-            disabled={rebar === null}
-            title={rebar === null ? 'Đọc thép Excel trước' : 'Dầm và thép trong không gian'}
-            onClick={() => setWant3d(true)}
-          >
-            3D
-          </button>
-        </div>
-        {show3d ? null : (
-          <>
-            <Button icon="select" onClick={() => kata.run('previousSpan')} disabled={state.columns.length === 0}>
-              Trước
-            </Button>
-            <Button onClick={() => kata.run('nextSpan')} disabled={state.columns.length === 0}>
-              Tiếp
-            </Button>
-            <Toggle label="Đảo chiều" checked={state.isReverse} onChange={(reverse) => kata.update({ reverse })} />
-            <Button icon="zoom" onClick={() => kata.run('frameAll')}>
-              Toàn dải
-            </Button>
-            <span className="mx-1 h-4 w-px bg-line" />
-            <Toggle label="Hiện thép" checked={state.showRebar} onChange={(showRebar) => kata.update({ showRebar })} />
-            <Toggle label="Hiện số hiệu" checked={state.showBarTags} onChange={(showBarTags) => kata.update({ showBarTags })} />
-            <Toggle label="Hiện mặt cắt" checked={state.showSection} onChange={(showSection) => kata.update({ showSection })} />
-          </>
-        )}
-        <Button className="ml-auto" disabled={busy || !state.can.undoRemoveBars} onClick={() => kata.run('undoRemoveBars')} title="Ctrl+Z trên hình">
-          Hoàn tác xóa
-        </Button>
-      </div>
-      <div className="mb-1 shrink-0 truncate text-[12px] text-muted" data-testid="kata-selection">
-        {state.selectionText}
-      </div>
-      <div className="min-h-[360px] flex-1">
-        {show3d && rebar ? (
-          <Model3dPanel
-            rebar={rebar}
-            loadModel3d={kata.loadModel3d}
-            theme={state.theme}
-            selectedKeys={shared.keys}
-            onSelectKeys={shared.set}
-            removeBars={kata.removeBars}
-            canUndoRemoveBars={state.can.undoRemoveBars}
-            undoRemoveBars={() => kata.run('undoRemoveBars')}
-            onUnhandledEscape={() => kata.run('close')}
-          />
-        ) : scene ? (
-          <NativeElevation
-            sharedSelection={shared}
-            elevation={scene.elevation}
-            rebar={scene.rebar}
-            stationMap={scene.stationMap}
-            showRebar={state.showRebar}
-            showBarTags={state.showBarTags}
-            showSection={state.showSection}
-            canUndoRemoveBars={state.can.undoRemoveBars}
-            loadSection={kata.loadSection}
-            removeBars={kata.removeBars}
-            undoRemoveBars={() => kata.run('undoRemoveBars')}
-            beamName={state.header.beamName}
-            notify={(text) => notify(text, 'error')}
-            theme={state.theme}
-            selectedColumn={state.selectedColumn}
-            focus={kata.focus}
-            onSelectColumn={(selectedColumn) => kata.update({ selectedColumn })}
-            onUnhandledEscape={() => kata.run('close')}
-          />
-        ) : (
-          <div
-            className={`flex h-full items-center justify-center rounded border border-line px-4 text-center text-[12px] ${kata.sceneError ? 'text-steel' : 'text-muted'}`}
-            data-testid="kata-elevation-waiting"
-            role={kata.sceneArrived ? 'alert' : undefined}
-          >
-            {kata.sceneError ?? (kata.sceneArrived ? 'Chưa có mặt đứng cho dải dầm này — xem dòng trạng thái và cảnh báo.' : 'Đang dựng mặt đứng dải dầm…')}
-          </div>
-        )}
-      </div>
-      <p className="mt-1 shrink-0 text-[11px] text-muted">
-        {show3d
-          ? 'Kéo chuột trái: xoay · chuột phải hoặc giữa: di chuyển · lăn: phóng to · bấm: chọn nhóm thép (Delete xóa, Ctrl+Z hoàn tác)'
-          : 'Lăn chuột: phóng to · giữ chuột giữa hoặc Shift + kéo: di chuyển · nháy đúp chuột giữa: toàn dải · bấm: chọn cột / nhóm thép'}
-      </p>
-    </Card>
-  );
-}
-
-function Warnings({ warnings }: { warnings: string[] }) {
-  if (warnings.length === 0) return null;
-  return (
-    <Card title="Cảnh báo">
-      <ul className="max-h-28 list-disc overflow-y-auto pl-4 text-[12px] text-steel" data-testid="kata-warnings">
-        {warnings.map((warning) => (
-          <li key={warning}>{warning}</li>
-        ))}
-      </ul>
-    </Card>
-  );
-}
-
-function Footer({ state, kata }: { state: KataViewState; kata: KataController }) {
-  const busy = state.isBusy;
-  return (
-    <footer className="flex flex-wrap items-center gap-2 border-t border-line bg-panel px-3 py-2">
-      <span className="text-[12px] text-muted">
-        Số phần tử: <b className="text-ink">{state.header.elementCount}</b> · Tổng chiều dài: <b className="text-ink">{state.header.totalLength}</b>
-      </span>
-      <span role="status" className={`min-w-0 flex-1 truncate text-[12px] ${state.hasError ? 'text-danger' : 'text-success'}`} title={state.status}>
-        {state.status}
-      </span>
-      <Button disabled={!state.can.loadRebar} busy={busy} onClick={() => kata.run('loadRebar')}>
-        Đọc thép Excel
-      </Button>
-      <Button disabled={!state.can.generateRebar} onClick={() => kata.run('generateRebar')}>
-        Tạo thép Revit
-      </Button>
-      <Button variant="ghost" onClick={() => kata.run('close')}>
-        Đóng
-      </Button>
-      <Button variant="primary" disabled={!state.can.export} onClick={() => kata.run('export')}>
-        Xuất Excel
-      </Button>
-    </footer>
-  );
-}
-
-function Shell({ children }: { children: ReactNode }) {
-  return <div className="flex h-full min-w-0 flex-col">{children}</div>;
-}
-
-/** The Kata Export window: the same sheet, drawing and commands as the WPF window, from the same view model. */
+/**
+ * The Kata Export window over KataExportViewModel: the title and run commands, the cells B3:B10 beside the run's
+ * elevation, the warnings, and the commands that read, build and write. The cells written to the sheet are not
+ * repeated here: the Kata workbook shows them.
+ */
 export function KataApp({ bridge }: { bridge: KataBridge }) {
   const notify = useToast();
   const kata = useKata(bridge, notify);
-  const state = kata.state;
+  const [lang, setLang] = useState<KataLang>(() => (readChoice(LANG_KEY) === 'en' ? 'en' : 'vi'));
+  // The page follows Revit's theme until the user picks one with the header's switch.
+  const [themeChoice, setThemeChoice] = useState<KataTheme | null>(() => {
+    const saved = readChoice(THEME_KEY);
+    return saved === 'light' || saved === 'dark' ? saved : null;
+  });
+  const hostState = kata.state;
+  const theme = themeChoice ?? hostState?.theme ?? 'light';
+  const state = hostState && hostState.theme !== theme ? { ...hostState, theme } : hostState;
 
   useEffect(() => {
-    if (state) document.documentElement.classList.toggle('dark', state.theme === 'dark');
-  }, [state?.theme, state]);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  const pickLang = (next: KataLang) => {
+    setLang(next);
+    writeChoice(LANG_KEY, next);
+  };
+  const pickTheme = (next: KataTheme) => {
+    setThemeChoice(next);
+    writeChoice(THEME_KEY, next);
+  };
 
   if (!state) {
     return (
-      <Shell>
-        <div className="m-auto text-[13px] text-muted">{kata.loadError ?? 'Đang đọc dải dầm…'}</div>
-      </Shell>
+      <div className="flex h-full bg-background">
+        <div className="m-auto text-[13px] text-muted-foreground">{kata.loadError ?? KATA_STRINGS[lang].loading}</div>
+      </div>
     );
   }
 
   return (
-    <Shell>
-      <header className="flex flex-wrap items-center gap-2 border-b border-line bg-panel px-3 py-2">
-        <Badge tone="accent">HPRebar Kata Pro</Badge>
-        <h1 className="text-[14px] font-bold tracking-wide">XUẤT DẦM SANG KATA EXCEL</h1>
-        <div className="ml-auto flex items-center gap-2">
-          <Button icon="select" disabled={!state.can.repick} onClick={() => kata.run('repick')}>
-            Chọn lại dầm
-          </Button>
-          <Button icon="refresh" onClick={() => kata.run('refreshExcel')}>
-            Kiểm tra Excel
-          </Button>
-          <span className="text-[12px]" data-testid="kata-workbook">
-            <b>Excel: </b>
-            {state.workbook}
-          </span>
-          {bridge.isMock && <Badge tone="warning">dữ liệu mẫu</Badge>}
+    <KataLangContext.Provider value={lang}>
+      <TooltipProvider delayDuration={300}>
+        <div className="flex h-full min-w-0 flex-col bg-background text-foreground">
+          <KataHeader state={state} kata={kata} mock={!!bridge.isMock} lang={lang} onLang={pickLang} theme={theme} onTheme={pickTheme} />
+          <main className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] gap-2.5 p-3 md:grid-cols-[232px_minmax(0,1fr)]">
+            <KataParameters state={state} update={kata.update} />
+            <ElevationCard state={state} kata={kata} />
+          </main>
+          <div className="shrink-0 px-3 pb-2">
+            <KataWarnings warnings={state.warnings} />
+          </div>
+          <KataFooter state={state} kata={kata} />
         </div>
-      </header>
-      <main className="grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto p-2 lg:grid-cols-[minmax(260px,320px)_1fr] lg:grid-rows-[minmax(500px,1fr)_auto_auto]">
-        <KataParameters state={state} update={kata.update} />
-        <ElevationCard state={state} kata={kata} />
-        <div className="lg:col-span-2">
-          <KataColumnsTable columns={state.columns} selected={state.selectedColumn} onSelect={(selectedColumn) => kata.update({ selectedColumn })} />
-        </div>
-        <div className="lg:col-span-2">
-          <Warnings warnings={state.warnings} />
-        </div>
-      </main>
-      <Footer state={state} kata={kata} />
-    </Shell>
+      </TooltipProvider>
+    </KataLangContext.Provider>
   );
+}
+
+const LANG_KEY = 'hp.kata.lang';
+const THEME_KEY = 'hp.kata.theme';
+
+/** A viewer's own choice kept by the page; storage can be missing or refused, then the choice is simply not kept. */
+function readChoice(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeChoice(key: string, value: string): void {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // storage refused (private mode, policy): the choice lasts for this window only
+  }
 }
