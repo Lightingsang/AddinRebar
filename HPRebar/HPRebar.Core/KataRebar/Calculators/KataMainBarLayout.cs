@@ -156,6 +156,10 @@ public static class KataMainBarLayout
             if (bars.Count > 0)
                 yield return (level, KataSupportTopBarLayout.Anchor(spec, rules, st, support, level, bars));
         }
+
+        // Rows of a neighbouring support run on over "-" and bend here too (T1-DX10 E14 into G).
+        foreach (var (level, bars) in KataTopBarContinuation.ArrivingAt(spec, rules, st, support))
+            yield return (level, KataSupportTopBarLayout.Anchor(spec, rules, st, support, level, bars));
     }
 
     /// <param name="outward">−1 when the support lies before the bar (smaller stations), +1 after it.</param>

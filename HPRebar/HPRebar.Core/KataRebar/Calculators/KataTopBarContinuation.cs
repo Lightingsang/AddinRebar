@@ -76,6 +76,28 @@ internal static class KataTopBarContinuation
         return next < last && !KataTopLayerStack.Sides(spec, next + 1, 0).IsEmpty ? next + 1 : null;
     }
 
+    /// <summary>
+    /// The rows that run on over a "-" chain and anchor in end support <paramref name="end"/>: the level and bars of
+    /// the support they come from, so the bends they make there are known to the bars anchoring beside them.
+    /// </summary>
+    public static IEnumerable<(KataTopLevel Level, IReadOnlyList<KataBarItem> Items)> ArrivingAt(
+        KataBeamRebarSpec spec, KataDetailingRules rules, KataBeamStations st, int end)
+    {
+        int last = st.SpanCount;
+        if (end != 0 && end != last) yield break;
+        int inward = end == 0 ? 1 : -1;
+        for (int layer = 0; layer < 4; layer++)
+        {
+            if (!Continues(spec, end, layer)) continue;
+            int source = end + inward;
+            while (source > 0 && source < last && Continues(spec, source, layer)) source += inward;
+            var items = KataTopLayerStack.Sides(spec, source, layer).Side(right: end != 0);
+            int spanSide = source == 0 ? 1 : source == last ? -1 : 0;
+            var level = KataTopLayerStack.At(spec, rules, source, spanSide).FirstOrDefault(l => l.Row == KataTopLayerStack.FirstRow + layer);
+            if (items.Count > 0 && level is not null) yield return (level, items);
+        }
+    }
+
     /// <summary>H5 × L, one G1 further when the "-" support has lower rows of its own to stagger over.</summary>
     private static double Reach(KataBeamRebarSpec spec, KataDetailingRules rules, int support, int layer, double span)
     {

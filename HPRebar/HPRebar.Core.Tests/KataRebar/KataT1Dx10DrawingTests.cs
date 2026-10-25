@@ -60,6 +60,21 @@ public sealed class KataT1Dx10DrawingTests
     }
 
     [Fact]
+    public void In_G_the_bottom_leg_of_span_F_stays_clear_of_E14s_leg()
+    {
+        // E14 bends down in G beside the bottom bars of F bending up: the bottom leg moves inboard of it as it does
+        // of C14's leg in C (they lay 5 mm apart before E14's bend was known to the bottom bars).
+        var layout = Layout();
+        double e14 = layout.ExtraTopBars.Where(b => b.HostSupportIndex == 1).Select(MaxX).Max();
+        double c14 = layout.ExtraTopBars.Where(b => b.HostSupportIndex == 0).Select(MinX).Min();
+        double bottomInC = layout.MainBottomBars.Select(MinX).Min();
+        var bottomF = layout.MainBottomBars.Where(b => MaxX(b) > 10000.0).ToList();
+
+        Assert.NotEmpty(bottomF);
+        Assert.All(bottomF, b => Assert.Equal(bottomInC - c14, e14 - MaxX(b), 1));
+    }
+
+    [Fact]
     public void D17_stops_one_beam_depth_short_of_the_support_bars_cut()
     {
         // I1 ticked: C and E cut their top bars H5 × 6900 = 1750 into D; D17 stops 500 (h) short of that, 1250 off each face.
