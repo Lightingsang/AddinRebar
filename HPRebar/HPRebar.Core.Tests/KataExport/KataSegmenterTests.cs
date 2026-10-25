@@ -106,6 +106,24 @@ public sealed class KataSegmenterTests
     }
 
     [Fact]
+    public void TheRebarReadersRunKeepsASectionChangeInOneSpan()
+    {
+        // The sheet reader joins the sheet's joint back into one span with a top step, so the run it is compared
+        // with must not split there either.
+        var input = new KataRunInput(
+            new[] { Piece(0, 3000, h: 450, zOffset: -50, key: "B1"), Piece(3000, 6000, key: "B2") },
+            new[] { Column(-200, 200), Column(5800, 6200) },
+            Array.Empty<KataGridCrossing>(),
+            Header);
+
+        var result = KataSegmenter.Segment(input, new KataBuildOptions { SplitAtSectionChanges = false });
+
+        Assert.Equal(
+            new[] { KataSegmentKind.Support, KataSegmentKind.Span, KataSegmentKind.Support },
+            result.Segments.Select(s => s.Kind));
+    }
+
+    [Fact]
     public void JointBetweenTwoIdenticalBeamElementsWithoutSupportBecomesZeroWidthJointWhenJointsEnabled()
     {
         var input = new KataRunInput(

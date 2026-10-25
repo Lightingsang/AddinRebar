@@ -25,7 +25,9 @@ public static class KataSegmenter
         int outside = input.Supports.Count(s => !s.Extent.Overlaps(run));
         if (outside > 0) warnings.Add($"{outside} support(s) outside the beam run were ignored.");
 
-        var joints = JointStations(pieces, everyMeeting: options.InsertJoints);
+        var joints = options.InsertJoints || options.SplitAtSectionChanges
+            ? JointStations(pieces, everyMeeting: options.InsertJoints)
+            : new List<double>();
         var segments = new List<KataSegment>();
         double cursor = run.Start;
         foreach (var support in supports)

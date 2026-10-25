@@ -31,7 +31,10 @@ public static class KataBeamMatcher
                 .Select(p => new KataBeamPiece(p.Stations, p.WidthMm, p.HeightMm, p.ZOffsetMm, p.Element.UniqueId))
                 .ToList();
             var header = new KataHeader(null, null, pieces[0].HeightMm, pieces[0].WidthMm, 0.0);
-            var segmentation = KataSegmenter.Segment(new KataRunInput(pieces, supports, Array.Empty<KataGridCrossing>(), header));
+            // The sheet's joints at a change of section are joined back into one span by the sheet reader.
+            var segmentation = KataSegmenter.Segment(
+                new KataRunInput(pieces, supports, Array.Empty<KataGridCrossing>(), header),
+                new KataBuildOptions { SplitAtSectionChanges = false });
 
             var measured = new KataMeasuredBeam(
                 run.Pieces[0].WidthMm,

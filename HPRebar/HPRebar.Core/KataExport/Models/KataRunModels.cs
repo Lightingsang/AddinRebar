@@ -94,8 +94,12 @@ public sealed record KataBuildOptions
     public bool Reverse { get; init; }
 
     /// <summary>
-    /// Put a zero-width support wherever two framing elements meet without a support, identical ones included.
-    /// A meeting where the section or the top changes always gets one (Kata has one section per span).
+    /// Put a zero-width joint where two framing elements of another section or top meet without a support: the sheet
+    /// gives each span one section and one top. The rebar reader joins such a joint back into one span with a top step
+    /// (Kata draws the bars straight through it), so the run it measures turns this off.
     /// </summary>
+    public bool SplitAtSectionChanges { get; init; } = true;
+
+    /// <summary>Put a zero-width support wherever two framing elements meet without a support, identical ones included.</summary>
     public bool InsertJoints { get; init; } = false;
 }
