@@ -15,7 +15,8 @@ const ToastContext = createContext<Notify>(() => {});
 
 const DISMISS_AFTER_MS = 4000;
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+/** @param bottom Tailwind bottom offset of the stack: a page with a footer bar lifts it above the bar ('bottom-16'). */
+export function ToastProvider({ children, bottom = 'bottom-2' }: { children: ReactNode; bottom?: string }) {
   const [items, setItems] = useState<ToastItem[]>([]);
   const nextId = useRef(1);
 
@@ -39,7 +40,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={useMemo(() => notify, [notify])}>
       {children}
-      <div className="pointer-events-none fixed inset-x-2 bottom-2 z-50 flex flex-col items-end gap-1.5" aria-live="polite">
+      <div className={`pointer-events-none fixed inset-x-2 ${bottom} z-50 flex flex-col items-end gap-1.5`} aria-live="polite">
         {items.map((item) => (
           <div key={item.id} role="status" className={`pointer-events-auto flex max-w-full items-start gap-2 rounded-md border-l-4 bg-panel px-3 py-2 text-[12px] shadow-lg ${tones[item.tone]}`}>
             <span className="min-w-0 break-words">{item.text}</span>

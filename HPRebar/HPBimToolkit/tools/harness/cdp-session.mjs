@@ -74,12 +74,16 @@ export async function connectToToolkitPage(port, { timeoutMs = 30000, urlPart = 
     keyboard: {
       /** A key press to the focused element; `key` as KeyboardEvent.key ('Delete', 'Escape', 'z'), Ctrl when asked. */
       async press(key, { ctrl = false } = {}) {
-        const codes = { Delete: 46, Escape: 27, z: 90 };
+        const codes = { Delete: 46, Escape: 27, Enter: 13, a: 65, z: 90 };
         const base = { key, code: key.length === 1 ? `Key${key.toUpperCase()}` : key, windowsVirtualKeyCode: codes[key] ?? 0, modifiers: ctrl ? 2 : 0 };
         await send('Input.dispatchKeyEvent', { type: 'keyDown', ...base });
         await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base });
       },
+      /** Text typed into the focused element, as an IME would commit it (one input event). */
+      type: (text) => send('Input.insertText', { text }),
     },
+    /** Makes the page behave as focused although its window is not in front, so keys and typed text reach it. */
+    emulateFocus: () => send('Emulation.setFocusEmulationEnabled', { enabled: true }),
     /** The page as a PNG, base64. */
     screenshot: async () => (await send('Page.captureScreenshot', { format: 'png' })).data,
     close: () => socket.close(),

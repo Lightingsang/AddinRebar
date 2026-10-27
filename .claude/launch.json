@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bim-toolkit-frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "HPRebar/HPBimToolkit.Frontend", "run", "dev", "--", "--port", "5173", "--strictPort"],
+      "port": 5173
+    },
+    {
+      "name": "kata-ui-mockup",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5180", "--bind", "127.0.0.1", "--directory", "plans/261025-1225-kata-export-web-ui-redesign/mockup"],
+      "port": 5180
+    }
+  ]
+}

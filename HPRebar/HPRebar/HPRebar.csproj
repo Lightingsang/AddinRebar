@@ -65,6 +65,7 @@
 
     <ItemGroup Condition="'$(RevitVersion)' != '2026'">
         <Compile Remove="KataExport\KataExportCommand.cs"/>
+        <Compile Remove="KataExport\KataSettingsCommand.cs"/>
         <Compile Remove="KataExport\View\Web\**"/>
     </ItemGroup>
 

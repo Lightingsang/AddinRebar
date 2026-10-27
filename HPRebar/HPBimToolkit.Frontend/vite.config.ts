@@ -4,7 +4,8 @@ import { defineConfig } from 'vitest/config';
 
 // The build is embedded in the Revit add-ins and served from their virtual hosts under a strict CSP: relative asset URLs,
 // no inline scripts (no module-preload polyfill), nothing fetched from the network. One HTML page per window:
-// index.html = HP BIM Toolkit's dashboard pane, kata.html = HPRebar's Kata Export window (Revit 2026).
+// index.html = HP BIM Toolkit's dashboard pane, kata.html = HPRebar's Kata Export window, settings.html = its Kata
+// Settings window (both Revit 2026).
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
@@ -19,7 +20,7 @@ export default defineConfig({
     // three.js (~560 kB) is its own chunk, loaded from the embedded resources only when Kata Export's 3D tab opens.
     chunkSizeWarningLimit: 650,
     rollupOptions: {
-      input: { index: 'index.html', kata: 'kata.html' },
+      input: { index: 'index.html', kata: 'kata.html', settings: 'settings.html' },
     },
   },
   server: { port: 5173, strictPort: true },

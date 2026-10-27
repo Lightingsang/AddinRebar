@@ -1,7 +1,5 @@
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using HPRebar.Core.KataExport.Calculators;
 using HPRebar.Core.KataExport.Models;
 using HPRebar.Core.KataExport.Web;
@@ -21,16 +19,6 @@ namespace HPRebar.Core.Tests.KataExport;
 /// </summary>
 public sealed class KataWebSceneMapperTests
 {
-    private const string UpdateVariable = "HPREBAR_UPDATE_KATA_FIXTURES";
-
-    /// <summary>The page's wire format: HPWebHost's BridgeJson options (web defaults, camelCase enums).</summary>
-    private static readonly JsonSerializerOptions Wire = new(JsonSerializerDefaults.Web)
-    {
-        Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false) },
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-        WriteIndented = true,
-    };
-
     [Fact]
     public void Without_a_plan_the_scene_has_the_elevation_only()
     {
@@ -99,7 +87,7 @@ public sealed class KataWebSceneMapperTests
     [Fact]
     public void The_wire_shape_has_points_as_objects_and_enums_as_words()
     {
-        var json = JsonSerializer.Serialize(KataWebSceneMapper.Map(B03Elevation(), B03Plan(), KataStationMap.Identity), Wire);
+        var json = JsonSerializer.Serialize(KataWebSceneMapper.Map(B03Elevation(), B03Plan(), KataStationMap.Identity), KataPageFixtures.Wire);
 
         Assert.Contains("\"pen\": \"bar\"", json);
         Assert.Contains("\"kind\": \"support\"", json);
@@ -152,11 +140,11 @@ public sealed class KataWebSceneMapperTests
     [Fact]
     public void The_scene_stays_small()
     {
-        var json = JsonSerializer.Serialize(KataWebSceneMapper.Map(B03Elevation(), B03Plan(), KataStationMap.Identity), Wire);
+        var json = JsonSerializer.Serialize(KataWebSceneMapper.Map(B03Elevation(), B03Plan(), KataStationMap.Identity), KataPageFixtures.Wire);
 
         // Four spans, 33.6 m: the page should never need more than a few hundred kilobytes for one run.
         Assert.InRange(Encoding.UTF8.GetByteCount(json), 1, 400_000);
-        Assert.InRange(Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(KataWeb3dMapper.Map(B03Plan()), Wire)), 1, 400_000);
+        Assert.InRange(Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(KataWeb3dMapper.Map(B03Plan()), KataPageFixtures.Wire)), 1, 400_000);
     }
 
     [Fact]
@@ -171,25 +159,7 @@ public sealed class KataWebSceneMapperTests
             ["kata-model3d-b03.json"] = KataWeb3dMapper.Map(plan),
         };
 
-        bool update = Environment.GetEnvironmentVariable(UpdateVariable) == "1";
-        var stale = new List<string>();
-        foreach (var (name, value) in fixtures)
-        {
-            var path = Path.Combine(FixtureFolder(), name);
-            var expected = JsonSerializer.Serialize(value, Wire).ReplaceLineEndings("\n") + "\n";
-            var actual = File.Exists(path) ? File.ReadAllText(path).ReplaceLineEndings("\n") : null;
-            if (actual == expected) continue;
-
-            stale.Add(name);
-            if (!update) continue;
-            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-            File.WriteAllText(path, expected, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-        }
-
-        // A rewrite fails once too, so a run that left the variable set never hides drift.
-        Assert.True(stale.Count == 0, update
-            ? $"Rewritten from the mapper, review and commit: {string.Join(", ", stale)}."
-            : $"Missing or out of date with KataWebSceneMapper: {string.Join(", ", stale)}. Run `dotnet test` with {UpdateVariable}=1 and commit them.");
+        KataPageFixtures.AssertUpToDate("kata", fixtures, "KataWebSceneMapper");
     }
 
     private static KataElevation Elevation(KataRunInput input)
@@ -226,17 +196,5 @@ public sealed class KataWebSceneMapperTests
     {
         var supports = B03Elevation().Columns.Where(c => c.Kind == KataColumnKind.Support).ToList();
         return KataStationMap.For(supports[0].Extent.Start, supports[^1].Extent.End, sameOrder: true);
-    }
-
-    /// <summary>The page's fixtures, beside this test project under HPRebar/.</summary>
-    private static string FixtureFolder()
-    {
-        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
-        {
-            var frontend = Path.Combine(directory.FullName, "HPBimToolkit.Frontend");
-            if (Directory.Exists(frontend)) return Path.Combine(frontend, "src", "kata", "__fixtures__");
-        }
-
-        throw new DirectoryNotFoundException($"HPBimToolkit.Frontend not found above {AppContext.BaseDirectory}.");
     }
 }

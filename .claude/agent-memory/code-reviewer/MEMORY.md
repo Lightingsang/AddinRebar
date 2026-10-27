@@ -14,6 +14,7 @@
 - [Navis BIM coordinator checks](project-navis-bim-coordinator-review-checks.md) — identity w/ mutable attr, cap bypass via ids, ToDictionary dupes, RootItem.Children=levels, IL heavy fence; search sets: path vs name identity, 1 219-condition inventory > 64 KB; colours: success w/ nothing painted, positional codes, nesting; AI descriptions: rule gate scope by discipline, approval truthiness
 - [.mcp.json carries dev paths](project-tracked-mcp-json-carries-dev-path.md) — tracked file with machine paths; check it is not swept into a phase commit
 - [dotnet test from repo root runs 0 tests](project-dotnet-test-zero-tests-from-repo-root.md) — cd into the folder with global.json first
+- [HP BIM Toolkit review checks](project-hp-bim-toolkit-review-checks.md) — UI-thread dispatch, CANCELLED unreachable, no TransactionGroup across RunAsync, harness, JIT warm-up gaps, HPRebar.Core isolation
 
 ## Verified platform facts
 - [AutoCAD.NET assembly ownership + casing](project-autocad-net-assembly-ownership-and-casing.md) — AcCoreMgd vs AcMgd namespaces, lowercase `accoremgd` identity
@@ -31,5 +32,5 @@
 - [Wave refactor review checks](project-clean-code-wave-refactor-review-checks.md) — NaN/∞ guard gaps, hasher skips fields, FM5 step-down, old-vs-new differential probe recipe, beam splice B-xx, Wave 3 Core-move traps
 
 ## Kata rebar (HPRebar.Core)
-- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows, tie wrap, J7, canvas removal keys, row 20 "0", top-drop datum/width-cut/noise traps, console/swap double-cut stubs (2026-10-05), Revit ChangeNumber foreign bars + rollback, width-change spread clash, DY7 probe, long-section drafting fatal-in-group traps (2026-10-08)
+- [Kata review checks](project-kata-rebar-review-checks.md) — asymmetric T/P rows, tie wrap, J7, canvas removal keys, row 20 "0", top-drop datum/width-cut/noise traps, console/swap double-cut stubs (2026-10-05), Revit ChangeNumber foreign bars + rollback, width-change spread clash, DY7 probe, long-section drafting fatal-in-group traps (2026-10-08), web cut-over null/failed scene + getState side effect, Radix portal Esc bubbling + kata.css contrast (2026-10-25)
 - [Revit view scale/template facts](project-revit-view-scale-and-template-facts.md) — VIEW_SCALE is a template param, IsValidViewTemplate, TEXT_SIZE is paper size, Beam PlannedCount gaps

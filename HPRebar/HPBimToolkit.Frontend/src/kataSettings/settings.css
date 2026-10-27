@@ -1,0 +1,22 @@
+/* The settings page's search: a card, a group or the page with no visible row left hides itself, and the empty state
+   shows only then. Rows hide through their own `hidden` attribute (fields.tsx). */
+[data-section]:not(:has([data-row]:not([hidden]))),
+[data-group]:not(:has([data-row]:not([hidden]))) {
+  display: none;
+}
+
+[data-results]:has([data-row]:not([hidden])) [data-empty] {
+  display: none;
+}
+
+/* The boxes draw their own focus ring on the frame around the input (focus-within); index.css's global, unlayered
+   :focus-visible outline would add a second one inside it, and a layered Tailwind utility cannot override it. */
+input:focus-visible {
+  outline: none;
+}
+
+/* A thin scrollbar in the page's colours instead of the system one. */
+.settings-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--muted) 45%, transparent) transparent;
+}

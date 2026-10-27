@@ -10,13 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <FrontendSource Include="$(FrontendDir)src\**\*;$(FrontendDir)index.html;$(FrontendDir)kata.html;$(FrontendDir)package.json;$(FrontendDir)package-lock.json;$(FrontendDir)vite.config.ts;$(FrontendDir)tsconfig*.json"/>
+        <FrontendSource Include="$(FrontendDir)src\**\*;$(FrontendDir)index.html;$(FrontendDir)kata.html;$(FrontendDir)settings.html;$(FrontendDir)package.json;$(FrontendDir)package-lock.json;$(FrontendDir)vite.config.ts;$(FrontendDir)tsconfig*.json"/>
     </ItemGroup>
 
-    <!-- Incremental: the script runs only when a frontend source is newer than dist/kata.html (the last page added). -->
+    <!-- Incremental: the script runs only when a frontend source is newer than dist/settings.html (the last page added). -->
     <Target Name="BuildFrontend"
             Condition="'$(SkipFrontendBuild)' != 'true' And '$(DesignTimeBuild)' != 'true' And Exists('$(FrontendDir)package.json')"
-            Inputs="@(FrontendSource)" Outputs="$(FrontendDist)kata.html">
+            Inputs="@(FrontendSource)" Outputs="$(FrontendDist)settings.html">
         <Exec Command="node &quot;$(FrontendDir)tools\build-frontend-once.mjs&quot;" WorkingDirectory="$(FrontendDir)"/>
     </Target>
 

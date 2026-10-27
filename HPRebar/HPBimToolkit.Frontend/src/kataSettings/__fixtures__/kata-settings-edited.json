@@ -1,0 +1,154 @@
+{
+  "form": {
+    "detail": {
+      "closedStirrupHookAngle": 90,
+      "closedStirrupHookFactor": 6,
+      "crossTieHookAngle": 135,
+      "crossTieHookFactor": 8,
+      "roundCutExtraMm": 20,
+      "sideBarAnchorageFactor": 12,
+      "layerTieMinBarCount": 4,
+      "crankMinDiameter": 20,
+      "crankSlope": 10,
+      "curtailedExtensionMm": 300,
+      "denseZoneHeightFactor": 1.5,
+      "endZoneFraction": 0.3,
+      "bottomExtraCutFraction": 0.2,
+      "minimumLegFactor": 10,
+      "layerClearGap": 25,
+      "roundLegMm": 10,
+      "sideBarRequiredHeight": 600,
+      "showBarEndMarks": false,
+      "createKataDrawings": false,
+      "bottomLayerNoBend": true,
+      "topNotAnchoredIntoColumnBelow": false,
+      "alwaysBend": true,
+      "alwaysBendFactor": 15,
+      "cutContinuousBarsAtSpanEnds": true,
+      "differentNumbersForIdenticalBars": true,
+      "couplerMinDiameter": 25,
+      "maxBarLengthMm": 11000,
+      "minLengthForCuttingMm": 6000,
+      "minBarLengthFactor": 50,
+      "roundLapMm": 10,
+      "topLapAtMidspan": false,
+      "topLapAtSupport": true,
+      "bottomLapAtSupport": false,
+      "bottomLapAtMidspan": true,
+      "topLapZoneFraction": 0.3,
+      "topLapZoneFromCentre": true,
+      "bottomLapZoneFraction": 0.1,
+      "bottomLapZoneFromCentre": true,
+      "preferFewerLaps": true
+    },
+    "special": {
+      "useUnitMassTable": true,
+      "compressionLapFactor": 35,
+      "allowTensionZoneLap": true,
+      "tensionLapFactor": 45,
+      "crankToLapEdgeMm": 50,
+      "minLapGapMm": 30,
+      "cuttingToleranceMm": 20,
+      "useLapTable": true,
+      "massRows": [
+        {
+          "diameter": 10,
+          "kgPerM": 0.617
+        },
+        {
+          "diameter": 16,
+          "kgPerM": 1.578
+        }
+      ],
+      "lapRows": [
+        {
+          "diameter": 16,
+          "lapCompression": 480,
+          "lapTension": 640,
+          "anchorCompression": 400,
+          "anchorTension": 500
+        },
+        {
+          "diameter": 20,
+          "lapCompression": 600,
+          "lapTension": 800,
+          "anchorCompression": 500,
+          "anchorTension": 640
+        }
+      ]
+    },
+    "joints": {
+      "beam": {
+        "stirrups": "3f10a60",
+        "stirrupCountSpec": "W+H-1",
+        "stirrupsThroughJoint": true,
+        "hangerEnabled": false,
+        "hanger": "2f18",
+        "hangerTopLengthMm": 200,
+        "hangerAngleDegrees": 60
+      },
+      "column": {
+        "stirrups": "4f8a100",
+        "stirrupCountSpec": "H1",
+        "stirrupsThroughJoint": false,
+        "hangerEnabled": true,
+        "hanger": "1f14",
+        "hangerTopLengthMm": 0,
+        "hangerAngleDegrees": 45
+      }
+    }
+  },
+  "choices": {
+    "hookAngles": [
+      90,
+      135,
+      180
+    ],
+    "crankMinDiameters": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      25,
+      28,
+      30,
+      32,
+      36,
+      40
+    ],
+    "crankSlopes": [
+      4,
+      6,
+      10,
+      12
+    ],
+    "couplerMinDiameters": [
+      16,
+      18,
+      20,
+      22,
+      25,
+      28,
+      30,
+      32,
+      36,
+      40,
+      50
+    ],
+    "stirrupCountSpecs": [
+      "None",
+      "H1",
+      "H",
+      "W",
+      "W+H-1"
+    ],
+    "hangerAngles": [
+      45,
+      60
+    ]
+  },
+  "notice": null
+}

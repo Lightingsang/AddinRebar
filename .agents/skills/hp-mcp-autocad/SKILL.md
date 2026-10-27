@@ -1,6 +1,6 @@
 ---
 name: hp-mcp-autocad
-description: "Kết nối và điều khiển AutoCAD 2026 qua HPAutoCad MCP (server hprebar-autocad, tool mcp__hprebar-autocad__*): đọc DWG (layer, block, entity theo filter/handle, quan hệ không gian, đo), phân loại AEC (cột/dầm/tường/phòng/ống/duct), kiểm tra hình học, CAD standards, audit, lưới/cấu kiện/phòng/mạng MEP, clash + lỗ mở, sửa bản vẽ theo batch (entity, block, annotation, hatch, xref, tag, schedule, dimension) với dryRun, change set (ghi → preview → commit → rollback), script C# AutoCAD .NET qua execute_autocad_code, registry tool. TRIGGER when: user nhắc 'AutoCAD', 'DWG', 'bản vẽ', 'layer', 'block', 'handle', 'hprebar-autocad', 'HPMCPBRIDGE', 'clash', 'lỗ mở', 'phòng', 'lưới cột', 'change set', hoặc lỗi -32001/-32002/-32003/LAYER_LOCKED/INVALID_HANDLE từ tool AutoCAD. Khi cần đọc/phân tích/sửa bản vẽ AutoCAD đang mở qua MCP, viết script AutoCAD .NET, dùng change set, hoặc gỡ lỗi kết nối bridge AutoCAD. Keywords: autocad, dwg, mcp, bridge, aec, entity, layer, block, clash, room, grid, mep, changeset, handle."
+description: "Kết nối và điều khiển AutoCAD 2026 qua HPAutoCad MCP (server hprebar-autocad, tool mcp__hprebar-autocad__*): đọc DWG (layer, block, entity theo filter/handle, quan hệ không gian, đo), phân loại AEC (cột/dầm/tường/phòng/ống/duct), kiểm tra hình học, CAD standards, audit, lưới/cấu kiện/phòng/mạng MEP, clash + lỗ mở, sửa bản vẽ theo batch (entity, block, annotation, hatch, xref, tag, schedule, dimension) với dryRun, change set (ghi → preview → commit → rollback), script C# AutoCAD .NET qua execute_autocad_code, registry tool. TRIGGER when: user nhắc 'AutoCAD', 'DWG', 'bản vẽ', 'layer', 'block', 'handle', 'hprebar-autocad', 'HPMCPBRIDGE', 'clash', 'lỗ mở', 'phòng', 'lưới cột', 'change set', 'TCVN3', 'VNI', 'chữ tiếng Việt lỗi font', hoặc lỗi -32001/-32002/-32003/LAYER_LOCKED/INVALID_HANDLE từ tool AutoCAD. Khi cần đọc/phân tích/sửa bản vẽ AutoCAD đang mở qua MCP, viết script AutoCAD .NET, dùng change set, hoặc gỡ lỗi kết nối bridge AutoCAD. Keywords: autocad, dwg, mcp, bridge, aec, entity, layer, block, clash,..."
 metadata:
   author: hoang
   version: "1.0.0"
@@ -21,7 +21,7 @@ This skill is shared by Codex and Google Antigravity.
 
 ## Overview
 
-Dạy Claude dùng đúng 62 tool của MCP server `hprebar-autocad` (`mcp__hprebar-autocad__*`) trên bản vẽ AutoCAD 2026 đang mở: chuỗi **Claude → HPAutoCad.Mcp.Server (stdio) → pipe `hpautocad-mcp-2026` → HPAutoCad.McpBridge (bundle nạp trong acad.exe) → AutoCAD .NET API**. Mọi run là **một Transaction của bridge** (`tr`): `transaction: auto` commit, `none` chỉ đọc (ghi gì là lỗi), `dryRun: true` chạy thật rồi **rollback** — nên mọi ghi đều xem trước được, và `U` trong AutoCAD hoàn tác các run kể từ lệnh cuối của user.
+Dạy Claude dùng đúng 64 tool của MCP server `hprebar-autocad` (`mcp__hprebar-autocad__*`) trên bản vẽ AutoCAD 2026 đang mở: chuỗi **Claude → HPAutoCad.Mcp.Server (stdio) → pipe `hpautocad-mcp-2026` → HPAutoCad.McpBridge (bundle nạp trong acad.exe) → AutoCAD .NET API**. Mọi run là **một Transaction của bridge** (`tr`): `transaction: auto` commit, `none` chỉ đọc (ghi gì là lỗi), `dryRun: true` chạy thật rồi **rollback** — nên mọi ghi đều xem trước được, và `U` trong AutoCAD hoàn tác các run kể từ lệnh cuối của user.
 
 **Scope:** skill này xử lý *sử dụng* MCP AutoCAD (kết nối, chọn tool, gọi đúng args, đọc envelope, viết script, gỡ lỗi). **Không** xử lý: sửa source `HPAutoCad/` (xem `AGENTS.md` mục "HPAutoCad MCP Bridge" + "AEC engine"), Revit/Navisworks/ETABS MCP (server khác — `hp-mcp-etabs` cho ETABS), kết luận thiết kế (tool trả số liệu và phát hiện; quyết định kỹ thuật thuộc kỹ sư).
 
@@ -84,6 +84,8 @@ Quy ước chung: `tolerance` mm/độ (pointEquality 0.5, endpointConnection 10
 
 Tool ghi: `create_entities_batch` (items `{type: line|polyline|circle|arc|text|mtext|blockReference|dimension|hatch…, layer, …}`), `update_entities_batch` (`items[].set` hoặc `handles` + `set`: layer/color/linetype/text/heightMm/rotationDeg/geometry/move/rotate/scaleBy/attributes/textOverride), `manage_blocks_attributes` (`op` listDefinitions/findReferences/insert/readAttributes/writeAttributes/batchUpdateAttributes/inspectDynamic/setDynamic), `manage_annotations` (`op` create/update/delete/batchUpdate; text/mtext/dimension/mleader), `manage_hatches` (`op` create/update/delete/detectBoundary), `manage_xrefs` (`op` list/attach/detach/reload/unload/bind/resolveStatus — path `.dwg` tuyệt đối, không `..`, không UNC), `create_layer`, `draw_*`, `add_*`.
 
+**Chữ tiếng Việt mã cũ (TCVN3/VNI → Unicode):** `detect_vn_legacy_text` (chỉ đọc, cùng tham số) cho kế hoạch: text sẽ đổi + preview, style sẽ đổi font, style bị giữ, lỗi. Rồi `convert_vn_text_encoding` với `dryRun: true` → xác nhận → chạy thật. Font SHX (`vn_vni.shx`, `uv-abc.shx`) và VNI-* lạ cần `fontMap {"vn_vni.shx": "Arial"}` (thiếu → `NO_FONT_MAPPING`, không ghi gì). Style chỉ đổi font khi **mọi** text legacy của nó được đổi trong cùng run (lọc một phần → style giữ, text giữ). Text đã đổi mang XData `HP_VNCONVERT`, không bao giờ đổi lần hai. `sourceCharset` tcvn3/vni chỉ dùng kèm `handles`/`layers` (text VNI nằm dưới style Arial). Change set chỉ nhận `remapStyles: false`.
+
 ### 4. Change set — nhiều bước, một undo, rollback theo handle
 
 1. `begin_change_set {label}` → `CS-nnn` (per bản vẽ, sống trong process acad.exe, mất khi đóng bản vẽ; tối đa 20 set live).
@@ -138,7 +140,7 @@ Chi tiết: `references/troubleshooting.md`.
 
 ## Resources
 
-- `references/tool-catalog-core-registry.md`, `-drawing-data.md`, `-blocks-annotations-audit.md`, `-aec-structural.md`, `-arch-mep-coordination-changesets.md` — 62 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
+- `references/tool-catalog-core-registry.md`, `-drawing-data.md`, `-blocks-annotations-audit.md`, `-aec-structural.md`, `-arch-mep-coordination-changesets.md` — 64 tool: args, type, default, mô tả (sinh từ `tools/list`; tái tạo bằng `scripts/generate-tool-catalog.py`).
 - `references/script-contract.md` — globals, transaction/dryRun, guard, handle ↔ ObjectId, envelope, 4 script mẫu.
 - `references/workflows.md` — 6 workflow mẫu đầu-cuối (audit → markup, cột/dầm → tag/schedule, phòng → tag/diện tích, MEP → clash → lỗ mở, change set, toolify).
 - `references/troubleshooting.md` — triệu chứng → nguyên nhân → xử lý (bundle, SECURELOAD, busy, exe locked, seed cũ, quarantine).

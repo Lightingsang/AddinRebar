@@ -38,7 +38,7 @@
 - File-scoped namespace (`namespace MyAddIn.ViewModels;` không có `{}`).
 
 ### WPF / MVVM rules
-- **MANDATORY UI**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2). Ngoại lệ: add-in `HPRebar/HPBimToolkit` dùng WebView2 + React theo [ADR-0008](docs/architecture/adr/0008-bim-toolkit-webview2-ui.md), và cửa sổ Kata Export của HPRebar (chỉ Revit 2026, trang web tự vẽ) theo [ADR-0010](docs/architecture/adr/0010-kata-export-web-ui-in-hprebar.md) + [ADR-0011](docs/architecture/adr/0011-kata-export-web-only-native-drawing.md).
+- **MANDATORY UI**: Mọi add-in hoặc công cụ mới có giao diện WPF (Revit, AutoCAD, Civil 3D, standalone bridge...) **bắt buộc 100% sử dụng `MaterialDesignInXamlToolkit`** (v5.2.1 hoặc v5.3.2). Ngoại lệ: add-in `HPRebar/HPBimToolkit` dùng WebView2 + React theo [ADR-0008](docs/architecture/adr/0008-bim-toolkit-webview2-ui.md), và cửa sổ Kata Export của HPRebar (chỉ Revit 2026, trang web tự vẽ) theo [ADR-0010](docs/architecture/adr/0010-kata-export-web-ui-in-hprebar.md) + [ADR-0011](docs/architecture/adr/0011-kata-export-web-only-native-drawing.md), cùng cửa sổ Kata Settings (chỉ Revit 2026) theo [ADR-0013](docs/architecture/adr/0013-kata-settings-web-page.md).
 - **MUST** dùng `CommunityToolkit.Mvvm` — KHÔNG tự viết `INotifyPropertyChanged`/`RelayCommand`.
 - `sealed partial class XxxViewModel : ObservableObject` — partial bắt buộc cho source generator.
 - `[ObservableProperty]` trên private field, `[RelayCommand]` trên method.
