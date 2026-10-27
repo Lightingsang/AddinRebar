@@ -128,6 +128,30 @@ class PortableAdapterTests(unittest.TestCase):
         self.assertIn("<host-path>", text)
         self.assertNotIn("/Volumes/WORK", text)
 
+    def test_portable_render_folds_multiline_block_scalar_description(self) -> None:
+        source = b"""---
+name: block-scalar-skill
+description: >-
+  First line of description with "quoted text".
+  Second line of description.
+when_to_use: "Invoke for block scalar tests."
+keywords: [yaml, block-scalar]
+---
+
+# Block Scalar Skill
+"""
+        adapter = adapter_for("portable")
+        rendered = adapter.render("claude", "portable", _bundle("claude", source), "SKILL.md", source)
+        text = rendered.decode("utf-8")
+        frontmatter_lines = text.split("---", 2)[1].strip().splitlines()
+
+        self.assertEqual(2, len(frontmatter_lines))
+        self.assertEqual("name: block-scalar-skill", frontmatter_lines[0])
+        self.assertIn("First line of description with \\\"quoted text\\\". Second line of description.", frontmatter_lines[1])
+        self.assertIn("Invoke for block scalar tests.", frontmatter_lines[1])
+        self.assertIn("Keywords: yaml, block-scalar.", frontmatter_lines[1])
+        self.assertEqual((), adapter.validate("portable", _bundle("portable", rendered), "SKILL.md", rendered))
+
 
 if __name__ == "__main__":
     unittest.main()

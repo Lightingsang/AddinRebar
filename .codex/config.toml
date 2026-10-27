@@ -6,6 +6,19 @@ args = [
     "notebooklm-mcp",
 ]
 
+[mcp_servers.rea]
+command = 'C:\Program Files\nodejs\node.exe'
+args = [
+    'C:\Users\STR-HP03\AppData\Roaming\npm\node_modules\rea-agents\scripts\rea.mjs',
+    'mcp',
+]
+
+[mcp_servers.rea.env]
+REA_MCP_INPUT_SCHEMA_PROFILE = "compact"
+JAVA_HOME = 'C:\Tools\rea-engines\jdk-21'
+GHIDRA_INSTALL_DIR = 'C:\Tools\rea-engines\ghidra'
+REA_JADX_MCP_JAR = 'C:\Tools\rea-engines\jadx\jadx-headless-mcp-0.7.1-all.jar'
+
 [mcp_servers.hprebar-autocad]
 command = 'F:\1-CONG VIEC\05-AI\01_Revit\02_Csharp\AddinRebar\HPAutoCad\output\HPAutoCad.Mcp.Server\HPAutoCad.Mcp.Server.exe'
 

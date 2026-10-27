@@ -77,6 +77,7 @@ _TO_CLAUDE = (
 _MACHINE_PATH = re.compile(
     r"(?<![A-Za-z0-9_])(?:[A-Za-z]:[\\/][^`\"')\r\n]+|\\\\[^`\"')\r\n]+|/(?:Users|home|Volumes)/[^`\"')\r\n]+)"
 )
+_BLOCK_PREFIX = re.compile(r"^[>|][+-]?[0-9]*\.?\s*")
 _PORTABLE_FRONTMATTER_KEYS = {"name", "description", "license", "allowed-tools", "metadata"}
 
 
@@ -108,8 +109,26 @@ def _fold_routing_metadata(text: str) -> str:
     when = next((line.split(":", 1)[1].strip().strip("\"'") for line in lines[1:end] if line.startswith("when_to_use:")), "")
     keywords = next((line.split(":", 1)[1].strip().strip("[]") for line in lines[1:end] if line.startswith("keywords:")), "")
     raw = lines[description_index].split(":", 1)[1].strip()
-    quote = raw[0] if len(raw) > 1 and raw[0] in "\"'" and raw[-1] == raw[0] else ""
-    description = raw[1:-1] if quote else raw
+    continuation: list[str] = []
+    scan = description_index + 1
+    while scan < end and (lines[scan].startswith(" ") or not lines[scan].strip()):
+        if lines[scan].strip():
+            continuation.append(lines[scan].strip())
+        scan += 1
+    if raw.startswith((">", "|")):
+        trailing = _BLOCK_PREFIX.sub("", raw).strip()
+        parts = [" ".join(continuation)] if continuation else []
+        if trailing:
+            parts.append(trailing)
+        description = " ".join(part for part in parts if part)
+    else:
+        quote = raw[0] if len(raw) > 1 and raw[0] in "\"'" and raw[-1] == raw[0] else ""
+        try:
+            description = json.loads(raw) if quote == '"' else (raw[1:-1] if quote else raw)
+        except json.JSONDecodeError:
+            description = raw[1:-1] if quote else raw
+        if continuation:
+            description = " ".join([description] + continuation).strip()
     description = re.sub(r"\bClaude(?: Code)?\b", "coding agents", description)
     additions = []
     if when and when.casefold() not in description.casefold():
@@ -125,7 +144,10 @@ def _fold_routing_metadata(text: str) -> str:
 
     frontmatter: list[str] = [lines[0]]
     skip_block = False
-    for line in lines[1:end]:
+    for index in range(1, end):
+        if description_index < index < scan:
+            continue
+        line = lines[index]
         key = re.match(r"^([A-Za-z0-9_-]+):", line)
         if key:
             skip_block = key.group(1) not in _PORTABLE_FRONTMATTER_KEYS

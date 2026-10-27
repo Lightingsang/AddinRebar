@@ -1,8 +1,6 @@
 ---
 name: bs:context-engineering
-description: >-. Invoke for context budget, memory, or agent architecture issues. Keywords: context, tokens, limits, memory, optimization.
-  Check context usage limits, monitor time remaining, optimize token consumption, debug context failures.
-  Use when asking about context percentage, rate limits, usage warnings, context optimization, agent architectures, memory systems.
+description: "Check context usage limits, monitor time remaining, optimize token consumption, debug context failures. Use when asking about context percentage, rate limits, usage warnings, context optimization, agent architectures, memory systems. Invoke for context budget, memory, or agent architecture issues. Keywords: context, tokens, limits, memory, optimization."
 user-invocable: true
 when_to_use: "Invoke for context budget, memory, or agent architecture issues."
 category: utilities

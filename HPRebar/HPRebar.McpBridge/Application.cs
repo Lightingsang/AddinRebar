@@ -41,6 +41,7 @@ public class Application : ExternalApplication
     private EventHandler<ViewActivatedEventArgs>? _onViewActivated;
     private EventHandler<DocumentClosingEventArgs>? _onDocumentClosing;
     private EventHandler<ApplicationInitializedEventArgs>? _onInitialized;
+    private Action? _onHostStateChanged;
 
     public override void OnStartup()
     {
@@ -72,6 +73,10 @@ public class Application : ExternalApplication
         if (_onViewActivated is not null) Application.ViewActivated -= _onViewActivated;
         if (_onDocumentClosing is not null) Application.ControlledApplication.DocumentClosing -= _onDocumentClosing;
         if (_onInitialized is not null) Application.ControlledApplication.ApplicationInitialized -= _onInitialized;
+        if (_onHostStateChanged is not null && McpBridgeHost.Current is not null)
+        {
+            McpBridgeHost.Current.StateChanged -= _onHostStateChanged;
+        }
 
         McpBridgeHost.Current?.Dispose();
         _handler?.Dispose();
@@ -138,13 +143,24 @@ public class Application : ExternalApplication
             if (e.Document?.Title == handler.ActiveDocumentTitle) handler.SetActiveDocumentTitle(null);
         };
 
-        // Revit is fully up here; the self-check needs a UIApplication and the listener should not
-        // accept requests before the ribbon and events exist.
+        _onHostStateChanged = () =>
+        {
+            if (host.HasClient || host.ExecutionEnabled)
+            {
+                handler.EnsureSelfCheckStarted();
+            }
+        };
+        host.StateChanged += _onHostStateChanged;
+
+        // Revit is fully up here; the listener should not accept requests before the ribbon and events exist,
+        // while Roslyn warm-up is deferred until a client connects or execution is enabled.
         _onInitialized = (_, _) =>
         {
             MoveMcpPanelToFront();
-            ScriptingSelfCheck.Run(compiler, RevitContext.UiApplication);
-            if (settings.AutoStartListener) host.Start();
+            if (settings.AutoStartListener)
+            {
+                host.Start();
+            }
         };
 
         Application.ViewActivated += _onViewActivated;

@@ -29,6 +29,7 @@ public sealed class McpBridgeExternalEventHandler : IExternalEventHandler, IBrid
     private readonly TypeInspector _inspector;
     private readonly AuditLogger _audit;
     private int _busy;
+    private int _selfCheckStarted;
     private volatile CancellationTokenSource? _currentCancel;
     private string? _activeDocumentTitle;
 
@@ -59,6 +60,19 @@ public sealed class McpBridgeExternalEventHandler : IExternalEventHandler, IBrid
 
         _activeDocumentTitle = title;
         StateChanged?.Invoke();
+    }
+
+    /// <summary>Warms Roslyn in the background on first client connection or execution opt-in, off the startup path.</summary>
+    public void EnsureSelfCheckStarted()
+    {
+        if (Interlocked.Exchange(ref _selfCheckStarted, 1) != 0)
+        {
+            return;
+        }
+
+        _ = ScriptingSelfCheck.RunAsync(
+            _compiler,
+            work => RunOnRevitThreadAsync(new McpBridgeRequest("self-check", (uiapp, _) => work(uiapp)!, CancellationToken.None)));
     }
 
     public async Task<ExecuteResult> ExecuteAsync(ExecuteRequest request, IProgress<ScriptProgress>? progress, CancellationToken cancellationToken)

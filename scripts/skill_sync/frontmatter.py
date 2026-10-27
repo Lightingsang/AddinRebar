@@ -6,6 +6,7 @@ import re
 
 
 _FIELD = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):\s*(.*?)\s*$")
+_BLOCK_SCALAR_HEADER = re.compile(r"^[>|][+-]?[0-9]*(?:\s+#.*)?$")
 
 
 def parse_frontmatter(content: bytes) -> dict[str, str]:
@@ -18,10 +19,25 @@ def parse_frontmatter(content: bytes) -> dict[str, str]:
     except ValueError as error:
         raise ValueError("SKILL.md frontmatter is not closed") from error
     fields: dict[str, str] = {}
-    for line in lines[1:end]:
+    index = 1
+    while index < end:
+        line = lines[index]
         match = _FIELD.match(line)
         if match:
-            fields[match.group(1)] = match.group(2).strip('"\'')
+            key, raw_value = match.group(1), match.group(2)
+            if raw_value.startswith((">", "|")):
+                if not _BLOCK_SCALAR_HEADER.fullmatch(raw_value):
+                    raise ValueError(f"SKILL.md frontmatter has invalid YAML block scalar for {key}")
+                continuation: list[str] = []
+                index += 1
+                while index < end and (lines[index].startswith(" ") or not lines[index].strip()):
+                    if lines[index].strip():
+                        continuation.append(lines[index].strip())
+                    index += 1
+                fields[key] = " ".join(continuation)
+                continue
+            fields[key] = raw_value.strip("\"'")
+        index += 1
     if not fields.get("name") or not fields.get("description"):
         raise ValueError("SKILL.md frontmatter requires non-empty name and description")
     return fields

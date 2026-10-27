@@ -1,12 +1,6 @@
 ---
 name: excalidraw
-description: >-. Invoke for editable canvas diagrams or codebase visual maps. Keywords: diagrams, architecture, flowcharts, whiteboard, SVG.
-  Create Excalidraw diagrams — architecture, data flow, workflows, system design.
-  Use when user wants to visualize, diagram, draw architecture, show data flow,
-  create flowcharts, map components, or export .excalidraw files to PNG/SVG.
-  Supports two modes: live MCP canvas (real-time) or file-based JSON + Playwright
-  rendering. Also supports zero-config codebase auto-diagramming — just say
-  "diagram this repo" or "visualize the architecture".
+description: "Create Excalidraw diagrams — architecture, data flow, workflows, system design. Use when user wants to visualize, diagram, draw architecture, show data flow, create flowcharts, map components, or export .excalidraw files to PNG/SVG. Supports two modes: live MCP canvas (real-time) or file-based JSON + Playwright rendering. Also supports zero-config codebase auto-diagramming — just say \"diagram this repo\" or \"visualize the architecture\". Invoke for editable canvas diagrams or codebase visual maps. Keywords: diagrams, architecture, flowcharts, whiteboard, SVG."
 user-invocable: true
 when_to_use: "Invoke for editable canvas diagrams or codebase visual maps."
 category: dev-tools

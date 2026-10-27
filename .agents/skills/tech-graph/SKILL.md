@@ -1,12 +1,6 @@
 ---
 name: bs:tech-graph
-description: >-. Invoke for publish-grade architecture or flow diagrams. Keywords: diagrams, architecture, flowchart, sequence, svg, png, agent, memory, visualization.
-  Generate production-quality SVG+PNG technical diagrams — architecture, data
-  flow, flowchart, sequence, agent/memory, or concept maps — across 7 visual
-  styles. Use when user wants "generate diagram", "draw diagram", "visualize",
-  "architecture diagram", "flowchart", or any system/flow they want illustrated.
-  Pairs with /bs:preview --diagram for visual self-review and /bs:mermaidjs-v11
-  for inline-doc diagrams; this skill is the publish-grade output mode.
+description: "Generate production-quality SVG+PNG technical diagrams — architecture, data flow, flowchart, sequence, agent/memory, or concept maps — across 7 visual styles. Use when user wants \"generate diagram\", \"draw diagram\", \"visualize\", \"architecture diagram\", \"flowchart\", or any system/flow they want illustrated. Pairs with /bs:preview --diagram for visual self-review and /bs:mermaidjs-v11 for inline-doc diagrams; this skill is the publish-grade output mode. Invoke for publish-grade architecture or flow diagrams. Keywords: diagrams, architecture, flowchart, sequence, svg, png, agent, memory, visualization."
 user-invocable: true
 when_to_use: "Invoke for publish-grade architecture or flow diagrams."
 category: dev-tools
