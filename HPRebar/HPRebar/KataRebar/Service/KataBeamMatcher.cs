@@ -84,7 +84,7 @@ public static class KataBeamMatcher
     private static IReadOnlyList<KataMeasuredLoad> LoadsOn(KataSegment segment, IReadOnlyList<KataRunLoad> loads) => loads
         .Where(l => l.Extent.Mid >= segment.Extent.Start && l.Extent.Mid < segment.Extent.End)
         .OrderBy(l => l.Extent.Start)
-        .Select(l => new KataMeasuredLoad(l.Extent.Start - segment.Extent.Start, l.Extent.Length, l.SoffitBelowTopMm, l.IsColumn))
+        .Select(l => new KataMeasuredLoad(l.Extent.Start - segment.Extent.Start, l.Extent.Length, l.SoffitBelowTopMm, l.IsColumn, l.SectionWidthMm))
         .ToList();
 
     /// <summary>The framing elements over a span, clipped to it: their section and top (row 19) from the span's start.</summary>

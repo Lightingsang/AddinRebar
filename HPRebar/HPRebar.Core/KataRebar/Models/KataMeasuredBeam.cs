@@ -44,9 +44,10 @@ public sealed record KataMeasuredSegment(
 
 /// <summary>
 /// A beam framing into a span or a stub column standing on it, as Revit models it: where it starts (mm from the span's
-/// start, in the run's own axis order), its width along the beam, and a crossing beam's soffit below the run's top.
+/// start, in the run's own axis order), its width along the beam, and a crossing beam's soffit below the run's top and
+/// its own width b (0 when unknown).
 /// </summary>
-public sealed record KataMeasuredLoad(double StartMm, double WidthMm, double SoffitBelowTopMm, bool IsColumn);
+public sealed record KataMeasuredLoad(double StartMm, double WidthMm, double SoffitBelowTopMm, bool IsColumn, double SectionWidthMm = 0.0);
 
 /// <summary>
 /// One framing element over (part of) a span: where it starts (mm from the span's start, in the run's own axis

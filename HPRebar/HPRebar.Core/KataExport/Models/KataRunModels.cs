@@ -45,7 +45,8 @@ public sealed record KataSupport(
 /// </summary>
 /// <param name="Extent">Stations it covers along the run.</param>
 /// <param name="SoffitBelowTopMm">A beam's soffit below the run's top; 0 for a column.</param>
-public sealed record KataRunLoad(Interval1D Extent, double SoffitBelowTopMm, bool IsColumn);
+/// <param name="SectionWidthMm">A crossing beam's own width b (its type); 0 when unknown. A skewed beam covers more of the run.</param>
+public sealed record KataRunLoad(Interval1D Extent, double SoffitBelowTopMm, bool IsColumn, double SectionWidthMm = 0.0);
 
 /// <summary>A grid line crossing the beam axis at <paramref name="StationMm"/>.</summary>
 public sealed record KataGridCrossing(string Name, double StationMm);

@@ -31,3 +31,14 @@ Default stays true in Core (KataRebar window, tests unchanged); Kata Export page
 | 2 | Host + page (vitest 172/172, typecheck, lint) | ✅ |
 | 3 | Build Debug.R26 (24.97 MB repacked) | ✅ |
 | 4 | Live 2026-10-29, user Revit via AIM, 7 T1-DY8 elements, sheet cells written in memory into KataB03.xlsm opened read-only (closed unsaved): off 241 bars 413.2 kg + note "3 dầm giao…"; on 257 / 429.5 kg (`reports/live-t1-dy8-joint-*.png`) | ✅ |
+
+## Follow-up 2026-10-29
+
+User: checkbox to the top bar; joint rebar only at crossing beams with b >= 200 (narrower: nothing).
+
+- Checkbox moved from the footer to the top toolbar beside "Kiểm tra Excel".
+- `KataRunLoad` / `KataMeasuredLoad` / `KataSpanLoad` carry the crossing beam's own width b (type width; a skewed beam covers
+  more of the run than b). `KataRebarPlanner.MinJointBeamWidthMm` = 200: narrower beams dropped with a `[Bỏ qua]` line;
+  stub columns always kept. Unknown b falls back to the width along the run.
+- Core 1704/1704, vitest 172/172, build R26. Live T1-DY8 ticked: 249 bars / 421.7 kg, "2 dầm giao có b < 200" skipped,
+  the b >= 200 one in span 1 still reinforced (`reports/live-t1-dy8-joint-on-b200.png`).

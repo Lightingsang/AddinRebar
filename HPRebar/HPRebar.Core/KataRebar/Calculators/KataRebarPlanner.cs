@@ -13,6 +13,9 @@ namespace HPRebar.Core.KataRebar.Calculators;
 /// </summary>
 public static class KataRebarPlanner
 {
+    /// <summary>A crossing beam narrower than this (its b) gets no joint stirrups or hanger bars.</summary>
+    public const double MinJointBeamWidthMm = 200.0;
+
     /// <param name="measured">The picked beam as Revit models it; null before a beam is picked (sheet-only preview).</param>
     /// <param name="settings">The office detailing settings; null uses the Kata defaults.</param>
     /// <param name="preferReversed">The direction the sheet was written in, when known (see <see cref="KataSheetGeometryCheck.Compare"/>).</param>
@@ -46,7 +49,7 @@ public static class KataRebarPlanner
         }
 
         var notReinforced = new List<string>();
-        if (!addJointRebar) effective = WithoutLoads(effective, notReinforced);
+        effective = addJointRebar ? WithoutNarrowBeams(effective, notReinforced) : WithoutLoads(effective, notReinforced);
 
         var scope = KataScopeFilter.Apply(effective);
         blocking.AddRange(scope.Blocking);
@@ -73,6 +76,17 @@ public static class KataRebarPlanner
             Blocking = blocking.Distinct().ToList(),
             Warnings = warnings.Distinct().ToList()
         };
+    }
+
+    /// <summary>The spans without the crossing beams narrower than <see cref="MinJointBeamWidthMm"/>; stub columns stay.</summary>
+    private static KataBeamRebarSpec WithoutNarrowBeams(KataBeamRebarSpec spec, List<string> notes)
+    {
+        static bool Narrow(KataSpanLoad l) => !l.IsColumn && l.BeamWidthMm < MinJointBeamWidthMm - 0.5;
+        int narrow = spec.Spans.Sum(s => s.Loads.Count(Narrow));
+        if (narrow == 0) return spec;
+
+        notes.Add($"{narrow} dầm giao có b < {MinJointBeamWidthMm:0}: không vẽ đai gia cường và vai bò.");
+        return spec with { Spans = spec.Spans.Select(s => s with { Loads = s.Loads.Where(l => !Narrow(l)).ToList() }).ToList() };
     }
 
     /// <summary>The spans with nothing resting on them; <paramref name="notes"/> says what was left unreinforced.</summary>
@@ -141,7 +155,7 @@ public static class KataRebarPlanner
 
     /// <summary>What rests on the span in Revit: beams framing into it, stub columns on it.</summary>
     private static IReadOnlyList<KataSpanLoad> Loads(KataMeasuredSegment segment) => segment.LoadList
-        .Select(l => new KataSpanLoad(Snap(l.StartMm + l.WidthMm / 2.0), Snap(l.WidthMm), Snap(l.SoffitBelowTopMm), l.IsColumn))
+        .Select(l => new KataSpanLoad(Snap(l.StartMm + l.WidthMm / 2.0), Snap(l.WidthMm), Snap(l.SoffitBelowTopMm), l.IsColumn, Snap(l.SectionWidthMm)))
         .ToList();
 
     /// <summary>Measured sizes and levels to whole millimetres: modelling noise must not read as a step.</summary>

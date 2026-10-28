@@ -54,7 +54,8 @@ public static class KataSupportRules
             merged[i] = new KataRunLoad(
                 new Interval1D(System.Math.Min(m.Extent.Start, load.Extent.Start), System.Math.Max(m.Extent.End, load.Extent.End)),
                 m.IsColumn || load.IsColumn ? 0.0 : System.Math.Max(m.SoffitBelowTopMm, load.SoffitBelowTopMm),
-                m.IsColumn || load.IsColumn);
+                m.IsColumn || load.IsColumn,
+                System.Math.Max(m.SectionWidthMm, load.SectionWidthMm));
         }
 
         return merged;

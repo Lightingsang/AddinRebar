@@ -104,8 +104,8 @@ public static class KataSupportCollector
         private readonly IReadOnlyList<Line> _foundationProbes;
         private readonly List<KataSupport> _supports = new();
         private readonly List<Interval1D> _uppers = new();
-        private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section)> _beams = new();
-        private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section)> _oneSided = new();
+        private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section, double WidthMm)> _beams = new();
+        private readonly List<(Interval1D Extent, double SoffitFt, string Key, string Section, double WidthMm)> _oneSided = new();
         private readonly List<KataRunLoad> _loads = new();
         private readonly List<Interval1D> _standing = new();
         private int _broken, _parallelWalls, _stripFoundations, _carriedBeams, _loadsWithoutSoffit;
@@ -178,14 +178,14 @@ public static class KataSupportCollector
             foreach (var extent in crossed)
             {
                 // Across the run, a crossing beam's width is what the probe measured along the axis.
-                _beams.Add((extent, range?.BottomFt ?? double.MaxValue, crossing.UniqueId, KataFormat.Section(width ?? extent.Length, height)));
+                _beams.Add((extent, range?.BottomFt ?? double.MaxValue, crossing.UniqueId, KataFormat.Section(width ?? extent.Length, height), width ?? 0.0));
             }
 
             if (crossed.Count == 0 && OneSidedStation(line) is { } station)
             {
                 double half = (width ?? DefaultCrossingWidthMm) / 2.0;
                 _oneSided.Add((new Interval1D(station - half, station + half), range?.BottomFt ?? double.MaxValue, crossing.UniqueId,
-                    KataFormat.Section(width ?? DefaultCrossingWidthMm, height)));
+                    KataFormat.Section(width ?? DefaultCrossingWidthMm, height), width ?? 0.0));
             }
         }
 
@@ -216,7 +216,7 @@ public static class KataSupportCollector
                 else
                 {
                     _carriedBeams++;
-                    AddBeamLoad(beam.Extent, beam.SoffitFt);
+                    AddBeamLoad(beam.Extent, beam.SoffitFt, beam.WidthMm);
                 }
             }
 
@@ -227,7 +227,7 @@ public static class KataSupportCollector
                 if (hard.Any(s => s.Extent.Contains(beam.Extent.Mid, 1.0)))
                     _supports.Add(new KataSupport(KataSupportKind.Beam, beam.Extent, beam.Key, beam.Section));
                 else if (beam.SoffitFt > NearestPiece(beam.Extent.Mid).BottomFt + RevitUnits.MmToFt(CarryingSoffitToleranceMm))
-                    AddBeamLoad(beam.Extent, beam.SoffitFt);
+                    AddBeamLoad(beam.Extent, beam.SoffitFt, beam.WidthMm);
             }
 
             var warnings = new List<string>();
@@ -251,8 +251,8 @@ public static class KataSupportCollector
             return (supports, loads, warnings);
         }
 
-        /// <summary>A beam resting on the run: its extent along the run and its soffit below the run's top there.</summary>
-        private void AddBeamLoad(Interval1D extent, double soffitFt)
+        /// <summary>A beam resting on the run: its extent along the run, its soffit below the run's top there and its own width.</summary>
+        private void AddBeamLoad(Interval1D extent, double soffitFt, double widthMm)
         {
             if (soffitFt == double.MaxValue)
             {
@@ -260,7 +260,7 @@ public static class KataSupportCollector
                 return;
             }
 
-            _loads.Add(new KataRunLoad(extent, RevitUnits.FtToMm(NearestPiece(extent.Mid).TopFt - soffitFt), false));
+            _loads.Add(new KataRunLoad(extent, RevitUnits.FtToMm(NearestPiece(extent.Mid).TopFt - soffitFt), false, widthMm));
         }
 
         /// <summary>

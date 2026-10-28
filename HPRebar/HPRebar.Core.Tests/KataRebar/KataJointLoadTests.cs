@@ -45,6 +45,25 @@ public sealed class KataJointLoadTests
         Assert.DoesNotContain(on.Skipped, s => s.Contains("dầm giao"));
     }
 
+    [Theory]
+    [InlineData(150.0, 0.0, false)]   // b 150 crossing square on
+    [InlineData(220.0, 150.0, false)] // b 150 crossing skewed: 220 along the run, still narrow
+    [InlineData(200.0, 0.0, true)]
+    [InlineData(150.0, 200.0, true)]
+    public void Only_crossing_beams_200_wide_or_more_get_joint_rebar_while_stub_columns_always_do(double alongRun, double b, bool reinforced)
+    {
+        var spec = KataDamSheetParser.Parse(KataB01DrawingTests.Sheet());
+        var spans = spec.Spans.ToList();
+        spans[0] = spans[0] with { Loads = new[] { new KataSpanLoad(4900.0, alongRun, 900.0, false, b) } };
+        spans[1] = spans[1] with { Loads = new[] { new KataSpanLoad(3600.0, 150.0, 0.0, true) } };
+
+        var plan = KataRebarPlanner.Plan(spec with { Spans = spans }, null, addJointRebar: true);
+
+        Assert.Equal(reinforced, plan.Layout.HangerBars.Any(h => h.HostSpanIndex == 0));
+        Assert.Contains(plan.Layout.HangerBars, h => h.HostSpanIndex == 1);
+        Assert.Equal(!reinforced, plan.Skipped.Any(s => s.StartsWith("1 dầm giao có b < 200")));
+    }
+
     private static bool Same(double a, double b) => System.Math.Abs(a - b) <= 1.0;
 
     private static IEnumerable<double> Stations(KataRebarLayoutResult layout, int span, bool joint) => layout.StirrupZones

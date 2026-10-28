@@ -66,6 +66,19 @@ export function KataHeader({ state, kata, mock, lang, onLang, theme, onTheme }: 
           <RefreshCw />
           {t.checkExcel}
         </Button>
+        <label
+          className="inline-flex cursor-pointer items-center gap-1.5 ml-1 rounded-md border-l py-1 pr-1.5 pl-3 text-[12.5px] font-medium whitespace-nowrap hover:bg-secondary has-[:disabled]:cursor-default has-[:disabled]:opacity-60"
+          title={t.addJointRebarHint}
+        >
+          <input
+            type="checkbox"
+            className="size-3.5 accent-[var(--accent)]"
+            checked={state.addJointRebar}
+            disabled={state.isBusy}
+            onChange={(e) => kata.update({ addJointRebar: e.target.checked })}
+          />
+          {t.addJointRebar}
+        </label>
         <div className="ml-auto flex min-w-0 items-center gap-2.5 pr-1">
           <FileSpreadsheet className="size-6 shrink-0 text-success" aria-hidden="true" />
           <div className="min-w-0 text-right leading-tight">
