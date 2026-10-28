@@ -83,6 +83,7 @@ internal sealed partial class KataWebBridge : IDisposable
             vm.ShowRebar,
             vm.ShowSection,
             vm.ShowBarTags,
+            vm.AddJointRebar,
             new KataCommandStates(
                 vm.ExportCommand.CanExecute(null),
                 vm.RepickCommand.CanExecute(null),
@@ -100,6 +101,7 @@ internal sealed partial class KataWebBridge : IDisposable
         if (request.ShowRebar is { } showRebar) vm.ShowRebar = showRebar;
         if (request.ShowSection is { } showSection) vm.ShowSection = showSection;
         if (request.ShowBarTags is { } showBarTags) vm.ShowBarTags = showBarTags;
+        if (request.AddJointRebar is { } addJointRebar) vm.AddJointRebar = addJointRebar;
         if (request.SelectedColumn is { } column)
         {
             if (column < -1 || column >= vm.PreviewColumns.Count)

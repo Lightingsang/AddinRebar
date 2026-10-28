@@ -22,6 +22,29 @@ public sealed class KataJointLoadTests
         return KataRebarCalculator.Calculate(spec with { Spans = spans });
     }
 
+    private static KataRebarPlan Planned(bool addJointRebar)
+    {
+        var spec = KataDamSheetParser.Parse(KataB01DrawingTests.Sheet());
+        var spans = spec.Spans.ToList();
+        spans[0] = spans[0] with { Loads = new[] { new KataSpanLoad(4900.0, 400.0, 900.0, false) } };
+        spans[1] = spans[1] with { Loads = new[] { new KataSpanLoad(3600.0, 400.0, 0.0, true) } };
+        return KataRebarPlanner.Plan(spec with { Spans = spans }, null, addJointRebar: addJointRebar);
+    }
+
+    [Fact]
+    public void Without_the_joint_rebar_option_the_loads_get_no_joint_stirrups_or_hangers_and_the_plan_says_so()
+    {
+        var off = Planned(addJointRebar: false);
+        var on = Planned(addJointRebar: true);
+
+        Assert.Empty(off.Layout.HangerBars);
+        Assert.DoesNotContain(off.Layout.StirrupZones, z => KataJointStirrups.IsJointZone(z.ZoneName));
+        Assert.Contains(off.Skipped, s => s.StartsWith("1 dầm giao, 1 cột cấy"));
+        Assert.Equal(4, on.Layout.HangerBars.Count);
+        Assert.Contains(on.Layout.StirrupZones, z => KataJointStirrups.IsJointZone(z.ZoneName));
+        Assert.DoesNotContain(on.Skipped, s => s.Contains("dầm giao"));
+    }
+
     private static bool Same(double a, double b) => System.Math.Abs(a - b) <= 1.0;
 
     private static IEnumerable<double> Stations(KataRebarLayoutResult layout, int span, bool joint) => layout.StirrupZones

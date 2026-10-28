@@ -28,6 +28,9 @@ public sealed class KataExportRequest
     /// <summary>The direction the window writes the sheet in; it settles a run that reads the same both ways.</summary>
     public bool? PreferReversed { get; init; }
 
+    /// <summary>Reinforce the crossing beams and stub columns measured on the spans (rebar requests).</summary>
+    public bool AddJointRebar { get; init; }
+
     /// <summary>Bar type chosen for each diameter (generation).</summary>
     public IReadOnlyDictionary<double, ElementId>? BarTypeIds { get; init; }
 

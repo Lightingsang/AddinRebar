@@ -128,6 +128,18 @@ describe('KataApp', () => {
 
     expect(bridge.calls).toContainEqual({ command: 'kata.update', payload: { nameParameter: 'Mark' } });
   });
+
+  it('the joint rebar checkbox starts unticked and sends its choice to the host', async () => {
+    const bridge = renderKata();
+    await screen.findByText('DY7');
+    const box = screen.getByRole('checkbox', { name: 'Bổ sung dầm giao, cột cấy' });
+
+    expect(box).not.toBeChecked();
+    await userEvent.click(box);
+
+    expect(bridge.calls).toContainEqual({ command: 'kata.update', payload: { addJointRebar: true } });
+    expect(box).toBeChecked();
+  });
 });
 
 describe('KataApp drawing the scene itself', () => {

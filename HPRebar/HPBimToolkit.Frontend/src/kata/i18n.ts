@@ -122,6 +122,8 @@ const vi = {
   buildRebar: 'Tạo thép Revit',
   exportHint: 'Ghi dải dầm vào sheet Kata đang mở',
   readRebarHint: 'Đọc thép Kata đã tính từ Excel về hình vẽ',
+  addJointRebar: 'Bổ sung dầm giao, cột cấy',
+  addJointRebarHint: 'Thêm đai gia cường và vai bò tại dầm giao, cột cấy đo từ Revit; thông số lấy từ Kata Settings ▸ Thép mặc định',
   buildRebarHint: 'Tạo thép trong Revit theo thép đã đọc',
 };
 
@@ -244,6 +246,8 @@ const en: KataStrings = {
   buildRebar: 'Create rebar in Revit',
   exportHint: 'Write the beam run into the open Kata sheet',
   readRebarHint: 'Read the rebar Kata designed back into the drawing',
+  addJointRebar: 'Add crossing beams, stub columns',
+  addJointRebarHint: 'Add joint stirrups and hanger bars at the crossing beams and stub columns measured in Revit; sizes from Kata Settings ▸ Joint bars',
   buildRebarHint: 'Create the rebar in Revit from the rebar read',
 };
 

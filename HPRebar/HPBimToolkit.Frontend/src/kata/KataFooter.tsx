@@ -21,6 +21,19 @@ export function KataFooter({ state, kata }: { state: KataViewState; kata: KataCo
         {t.totalLength}: <b className="text-foreground">{state.header.totalLength}</b>
       </span>
       <div className="ml-auto flex flex-wrap items-center gap-2" data-testid="kata-actions">
+        <label
+          className="inline-flex cursor-pointer items-center gap-1.5 rounded-md px-1.5 py-1 text-[12.5px] font-medium whitespace-nowrap hover:bg-secondary has-[:disabled]:cursor-default has-[:disabled]:opacity-60"
+          title={t.addJointRebarHint}
+        >
+          <input
+            type="checkbox"
+            className="size-3.5 accent-[var(--accent)]"
+            checked={state.addJointRebar}
+            disabled={busy}
+            onChange={(e) => kata.update({ addJointRebar: e.target.checked })}
+          />
+          {t.addJointRebar}
+        </label>
         <Button className={action('bg-[var(--action-export)]')} disabled={!state.can.export} onClick={() => kata.run('export')} title={t.exportHint}>
           <FileSpreadsheet />
           {t.exportExcel}

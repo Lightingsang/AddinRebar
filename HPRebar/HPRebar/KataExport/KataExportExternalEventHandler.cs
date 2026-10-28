@@ -40,8 +40,12 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
     public async Task<KataExportSession?> RepickAsync() =>
         await Enqueue(new KataExportRequest(KataExportRequestKind.Repick)) as KataExportSession;
 
-    public async Task<KataRebarPreview> PreviewRebarAsync(IReadOnlyList<ElementId> beamIds, KataBeamRebarSpec spec, KataSettings settings, bool preferReversed) =>
-        await Enqueue(new KataExportRequest(KataExportRequestKind.PreviewRebar, beamIds) { Spec = spec, Settings = settings, PreferReversed = preferReversed }) as KataRebarPreview
+    public async Task<KataRebarPreview> PreviewRebarAsync(
+        IReadOnlyList<ElementId> beamIds, KataBeamRebarSpec spec, KataSettings settings, bool preferReversed, bool addJointRebar) =>
+        await Enqueue(new KataExportRequest(KataExportRequestKind.PreviewRebar, beamIds)
+        {
+            Spec = spec, Settings = settings, PreferReversed = preferReversed, AddJointRebar = addJointRebar
+        }) as KataRebarPreview
         ?? KataRebarPreview.Failed("Revit không trả kết quả đo dầm.");
 
     public async Task<KataRebarGenerationResult> GenerateRebarAsync(
@@ -49,6 +53,7 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
         KataBeamRebarSpec spec,
         KataSettings settings,
         bool preferReversed,
+        bool addJointRebar,
         IReadOnlyDictionary<double, ElementId> barTypeIds,
         IReadOnlyCollection<string> removedKeys,
         string? plannedFingerprint) =>
@@ -57,6 +62,7 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
             Spec = spec,
             Settings = settings,
             PreferReversed = preferReversed,
+            AddJointRebar = addJointRebar,
             BarTypeIds = barTypeIds,
             RemovedKeys = removedKeys,
             PlannedFingerprint = plannedFingerprint
@@ -141,7 +147,7 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
                             ? KataRebarGenerationResult.Failed("Chưa có dữ liệu sheet Dam.")
                             : KataRebarWorkflow.Generate(doc, View(uidoc), req.BeamIds ?? Array.Empty<ElementId>(), req.Spec,
                                 req.Settings ?? KataSettings.Default, req.BarTypeIds ?? new Dictionary<double, ElementId>(), req.PreferReversed,
-                                req.RemovedKeys, req.PlannedFingerprint));
+                                req.RemovedKeys, req.PlannedFingerprint, req.AddJointRebar));
                         break;
                 }
             }
@@ -157,7 +163,8 @@ public sealed class KataExportExternalEventHandler : IExternalEventHandler, IKat
         if (request.Spec is null) return KataRebarPreview.Failed("Chưa có dữ liệu sheet Dam.");
         if (request.BeamIds is null || request.BeamIds.Count == 0) return KataRebarPreview.Failed("Chưa chọn dầm trong Revit.");
 
-        var prepared = KataRebarWorkflow.Prepare(uidoc.Document, View(uidoc), request.BeamIds, request.Spec, request.Settings ?? KataSettings.Default, request.PreferReversed);
+        var prepared = KataRebarWorkflow.Prepare(uidoc.Document, View(uidoc), request.BeamIds, request.Spec, request.Settings ?? KataSettings.Default, request.PreferReversed,
+            request.AddJointRebar);
         return prepared.Plan is null
             ? KataRebarPreview.Failed($"Không đo được dầm: {prepared.Match.Message}")
             : new KataRebarPreview { IsSuccess = true, Plan = prepared.Plan, MeasureWarnings = prepared.Match.Warnings };

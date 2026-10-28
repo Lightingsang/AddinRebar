@@ -23,14 +23,15 @@ public static class KataRebarWorkflow
         IReadOnlyList<ElementId> beamIds,
         KataBeamRebarSpec spec,
         KataSettings settings,
-        bool? preferReversed = null)
+        bool? preferReversed = null,
+        bool addJointRebar = true)
     {
         var beams = beamIds.Select(doc.GetElement).Where(e => e is not null).ToList();
         var match = KataBeamMatcher.Measure(doc, view, beams);
         if (!match.IsSuccess || match.Measured is null)
             return new KataRebarPreparation(match, null);
 
-        return new KataRebarPreparation(match, KataRebarPlanner.Plan(spec, match.Measured, settings, preferReversed));
+        return new KataRebarPreparation(match, KataRebarPlanner.Plan(spec, match.Measured, settings, preferReversed, addJointRebar));
     }
 
     public static KataRebarGenerationResult Generate(
@@ -42,9 +43,10 @@ public static class KataRebarWorkflow
         IReadOnlyDictionary<double, ElementId> barTypeIds,
         bool? preferReversed = null,
         IReadOnlyCollection<string>? removedKeys = null,
-        string? plannedFingerprint = null)
+        string? plannedFingerprint = null,
+        bool addJointRebar = true)
     {
-        var prepared = Prepare(doc, view, beamIds, spec, settings, preferReversed);
+        var prepared = Prepare(doc, view, beamIds, spec, settings, preferReversed, addJointRebar);
         if (prepared.Plan is null)
             return KataRebarGenerationResult.Failed($"Không đo được dầm: {prepared.Match.Message}");
 

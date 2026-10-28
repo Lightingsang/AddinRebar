@@ -38,6 +38,7 @@ export function mockKataState(): KataViewState {
     showRebar: true,
     showSection: true,
     showBarTags: true,
+    addJointRebar: false,
     can: { export: true, repick: true, loadRebar: true, generateRebar: false, undoRemoveBars: false },
   };
 }
@@ -140,6 +141,7 @@ export class KataMockBridge implements KataBridge {
     if (request.showRebar !== undefined) next.showRebar = request.showRebar;
     if (request.showSection !== undefined) next.showSection = request.showSection;
     if (request.showBarTags !== undefined) next.showBarTags = request.showBarTags;
+    if (request.addJointRebar !== undefined) next.addJointRebar = request.addJointRebar;
     if (request.selectedColumn !== undefined) {
       next.selectedColumn = request.selectedColumn;
       const c = next.columns[request.selectedColumn];

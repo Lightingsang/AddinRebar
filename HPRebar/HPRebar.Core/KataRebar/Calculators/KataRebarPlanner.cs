@@ -16,7 +16,13 @@ public static class KataRebarPlanner
     /// <param name="measured">The picked beam as Revit models it; null before a beam is picked (sheet-only preview).</param>
     /// <param name="settings">The office detailing settings; null uses the Kata defaults.</param>
     /// <param name="preferReversed">The direction the sheet was written in, when known (see <see cref="KataSheetGeometryCheck.Compare"/>).</param>
-    public static KataRebarPlan Plan(KataBeamRebarSpec spec, KataMeasuredBeam? measured, KataSettings? settings = null, bool? preferReversed = null)
+    /// <param name="addJointRebar">
+    /// Reinforce the crossing beams and stub columns Revit measured on the spans (joint stirrups and hanger bars from the
+    /// settings' "Thép mặc định"). The sheet has no cell for them and Kata draws them only where its user added them, so
+    /// without this flag the spans carry no loads.
+    /// </param>
+    public static KataRebarPlan Plan(
+        KataBeamRebarSpec spec, KataMeasuredBeam? measured, KataSettings? settings = null, bool? preferReversed = null, bool addJointRebar = true)
     {
         if (spec is null) throw new ArgumentNullException(nameof(spec));
 
@@ -39,6 +45,9 @@ public static class KataRebarPlanner
             }
         }
 
+        var notReinforced = new List<string>();
+        if (!addJointRebar) effective = WithoutLoads(effective, notReinforced);
+
         var scope = KataScopeFilter.Apply(effective);
         blocking.AddRange(scope.Blocking);
         warnings.AddRange(scope.Warnings);
@@ -50,7 +59,7 @@ public static class KataRebarPlanner
         var layout = blocking.Count == 0
             ? KataRebarCalculator.Calculate(scope.Filtered, rules)
             : new KataRebarLayoutResult { BeamName = scope.Filtered.BeamName };
-        var skipped = scope.Skipped.ToList();
+        var skipped = scope.Skipped.Concat(notReinforced).ToList();
         warnings.AddRange(layout.Warnings);
         blocking.AddRange(layout.Blocking);
 
@@ -64,6 +73,18 @@ public static class KataRebarPlanner
             Blocking = blocking.Distinct().ToList(),
             Warnings = warnings.Distinct().ToList()
         };
+    }
+
+    /// <summary>The spans with nothing resting on them; <paramref name="notes"/> says what was left unreinforced.</summary>
+    private static KataBeamRebarSpec WithoutLoads(KataBeamRebarSpec spec, List<string> notes)
+    {
+        var loads = spec.Spans.SelectMany(s => s.Loads).ToList();
+        if (loads.Count == 0) return spec;
+
+        int beams = loads.Count(l => !l.IsColumn), columns = loads.Count - beams;
+        var kinds = new[] { beams > 0 ? $"{beams} dầm giao" : null, columns > 0 ? $"{columns} cột cấy" : null }.Where(k => k is not null);
+        notes.Add($"{string.Join(", ", kinds)} trên nhịp: không vẽ đai gia cường và vai bò (bật \"Bổ sung dầm giao, cột cấy\" để vẽ theo Kata Settings).");
+        return spec with { Spans = spec.Spans.Select(s => s with { Loads = Array.Empty<KataSpanLoad>() }).ToList() };
     }
 
     /// <summary>Run shapes this version cannot draw even when the sheet agrees with them.</summary>

@@ -17,13 +17,16 @@ public interface IKataExportRunner
 
     /// <summary>Measures the beams and plans the sheet on them, without changing the model.</summary>
     /// <param name="preferReversed">The direction the window writes the sheet in (settles a symmetric run).</param>
-    Task<KataRebarPreview> PreviewRebarAsync(IReadOnlyList<ElementId> beamIds, KataBeamRebarSpec spec, KataSettings settings, bool preferReversed);
+    /// <param name="addJointRebar">Reinforce the crossing beams and stub columns Revit measures on the spans.</param>
+    Task<KataRebarPreview> PreviewRebarAsync(
+        IReadOnlyList<ElementId> beamIds, KataBeamRebarSpec spec, KataSettings settings, bool preferReversed, bool addJointRebar);
 
     Task<KataRebarGenerationResult> GenerateRebarAsync(
         IReadOnlyList<ElementId> beamIds,
         KataBeamRebarSpec spec,
         KataSettings settings,
         bool preferReversed,
+        bool addJointRebar,
         IReadOnlyDictionary<double, ElementId> barTypeIds,
         IReadOnlyCollection<string> removedKeys,
         string? plannedFingerprint);

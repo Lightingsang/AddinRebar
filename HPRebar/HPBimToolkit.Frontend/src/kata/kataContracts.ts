@@ -57,6 +57,8 @@ export interface KataViewState {
   showRebar: boolean;
   showSection: boolean;
   showBarTags: boolean;
+  /** Joint stirrups and hanger bars at the crossing beams and stub columns Revit measures (Kata Settings ▸ Thép mặc định). */
+  addJointRebar: boolean;
   can: KataCommandStates;
 }
 
@@ -68,6 +70,7 @@ export interface KataUpdateRequest {
   showRebar?: boolean;
   showSection?: boolean;
   showBarTags?: boolean;
+  addJointRebar?: boolean;
 }
 
 export type KataAction =

@@ -72,6 +72,7 @@ public sealed record KataViewState(
     bool ShowRebar,
     bool ShowSection,
     bool ShowBarTags,
+    bool AddJointRebar,
     KataCommandStates Can);
 
 /// <summary>The cells B3:B10 as the sheet will receive them, plus the run's element count and length.</summary>
@@ -98,7 +99,8 @@ public sealed record KataUpdateRequest(
     int? SelectedColumn = null,
     bool? ShowRebar = null,
     bool? ShowSection = null,
-    bool? ShowBarTags = null);
+    bool? ShowBarTags = null,
+    bool? AddJointRebar = null);
 
 public sealed record KataRunRequest(string Action = "");
 

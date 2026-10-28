@@ -37,6 +37,12 @@ public sealed partial class KataExportViewModel
     [ObservableProperty] private bool _showRebar = true;
     [ObservableProperty] private bool _showSection = true;
     [ObservableProperty] private bool _showBarTags = true;
+
+    /// <summary>
+    /// Reinforce the crossing beams and stub columns Revit measures on the spans, with the settings' "Thép mặc định". Off
+    /// by default: the sheet has no cell for them and Kata draws them only where its user added them.
+    /// </summary>
+    [ObservableProperty] private bool _addJointRebar;
     [ObservableProperty] private IReadOnlyList<KataBarTypeMappingItem> _barTypeMappings = Array.Empty<KataBarTypeMappingItem>();
 
     [ObservableProperty]
@@ -78,7 +84,7 @@ public sealed partial class KataExportViewModel
         ShowState("Đang đo dầm trong Revit và bố trí thép...");
         try
         {
-            var preview = await _runner.PreviewRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse);
+            var preview = await _runner.PreviewRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse, AddJointRebar);
             ApplyPreview(preview);
         }
         catch (Exception ex)
@@ -187,7 +193,7 @@ public sealed partial class KataExportViewModel
         ShowState("Đang tạo cốt thép vào Revit...");
         try
         {
-            var result = await _runner.GenerateRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse, barTypeIds, RemovedKeys,
+            var result = await _runner.GenerateRebarAsync(_session.BeamIds, RebarSpec, KataSettingsStore.Load(), IsReverse, AddJointRebar, barTypeIds, RemovedKeys,
                 _plannedPlan is { } planned && RemovedKeys.Count > 0 ? KataLayoutRemoval.Fingerprint(planned.Layout) : null);
             ShowState(result.Message, error: !result.IsSuccess);
         }
@@ -200,6 +206,12 @@ public sealed partial class KataExportViewModel
         {
             IsBusy = false;
         }
+    }
+
+    /// <summary>A sheet already read is planned again so the drawing shows the choice at once.</summary>
+    partial void OnAddJointRebarChanged(bool value)
+    {
+        if (RebarSpec is not null && !IsBusy) _ = PreviewRebarAsync();
     }
 
     partial void OnIsBusyChanged(bool value)
