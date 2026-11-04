@@ -31,8 +31,8 @@ const newest = (entry) => {
   return readdirSync(entry).reduce((latest, name) => Math.max(latest, newest(path.join(entry, name))), stat.mtimeMs);
 };
 
-const sources = ['src', 'index.html', 'kata.html', 'package.json', 'package-lock.json', 'vite.config.ts', 'tsconfig.json', 'tsconfig.app.json', 'tsconfig.node.json'];
-const isBuilt = () => mtime(path.join(root, 'dist', 'kata.html')) > Math.max(...sources.map((s) => newest(path.join(root, s))));
+const sources = ['src', 'index.html', 'kata.html', 'settings.html', 'column.html', 'package.json', 'package-lock.json', 'vite.config.ts', 'tsconfig.json', 'tsconfig.app.json', 'tsconfig.node.json'];
+const isBuilt = () => mtime(path.join(root, 'dist', 'column.html')) > Math.max(...sources.map((s) => newest(path.join(root, s))));
 const isInstalled = () => mtime(path.join(root, 'node_modules', '.package-lock.json')) >= mtime(path.join(root, 'package-lock.json'));
 
 /** Runs npm; a failure is thrown (never process.exit here: the lock must be released by the finally below). */

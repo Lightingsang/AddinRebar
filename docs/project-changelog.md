@@ -2,6 +2,18 @@
 
 Ghi lại thay đổi đáng kể. Mục mới nhất ở trên.
 
+## 2026-11-04 — Kata Column Rebar: bản vẽ thép cột kiểu AutoCAD trên trang (plan `261104-0608`) + luật thép lớp 2
+
+Bước 2 thay lưới mặt cắt bằng một bản vẽ chung như Kata VC vẽ trong AutoCAD: mặt đứng theo b 1:30 (mỗi tầng thanh ngoài cùng của nhóm A trái / B phải theo lớp, nhãn `20Ø25` + số hiệu, nối chồng, bẻ 1:6, thép chờ có chân trong đài, vùng đai `Ø10a100`, cao độ + CT, ký hiệu mặt cắt, dim) và các mặt cắt 1-1… 1:20 bên phải; lăn chuột zoom, kéo di chuyển, nhấp đúp xem toàn bộ, bấm một thanh để tô nó trên mọi hình và xem Ø / chiều dài / nhóm / lớp / tầng. Theo theme trang. Live Revit 2026 bản sao 28: vẽ và chọn thanh chạy. **Luật lớp 2 sửa theo 17 bản vẽ VC:** F/H tính cả thanh hai đầu (F − 2 thanh giữa; H − 4 khi có hàng F), đường lớp 2 không còn thanh giữa = không có (cả đai); trước đây F=2 sai đai, F=H=3 dư 2 thanh. Biến thể E4/F2/G5/H3 giờ Revit đánh 21 số = Kata 21 (hết đai TẦNG 1 bị cắt ngắn). Review phase 6 mục Low: view thừa khi bớt tầng bị xoá, `KataColumnViewsStep` tách khỏi creator. Core 1823, vitest kataColumn 40.
+
+## 2026-11-03 — Kata Column Rebar: mặt cắt và mặt đứng thép
+
+Bước 2 vẽ mặt cắt từng tầng (bấm để xem to, có số hiệu). Mỗi lần Tạo thép còn tạo trong Revit: mỗi tầng một mặt bằng kết cấu cắt ngang cột (1:20, dim, tag) và một mặt đứng theo b (1:50, dim cao độ tầng, đoạn nối nhóm A/B, vùng đai, tag); chạy lại dùng lại view. Live trên bản sao detached: 6 + 1 view, 28 chuỗi dim, 84 tag. Kiểm tra bằng mắt: chờ người dùng.
+
+## 2026-11-03 — Kata Column Rebar: cột Revit → sheet Cot của Kata → thép cột thật trong Revit (plan `261103-1207`, ADR-0014)
+
+Nút mới **HPRebar ▸ Rebar ▸ Kata Column Rebar** (chỉ Revit 2026, trang web WebView2): chọn chồng cột → bước 1 ghi hình học (A–D/K, C1–C5, B9, thêm hàng đỉnh, C3/C4 từ `STR_ElementName`/`STR_ElementCount`) vào sheet `Cot` để Kata Pro `VC` vẽ CAD → bước 2 đọc lại thép từ Excel và tạo thép dọc, thép chờ, đai 4 vùng, đai trong/C trong Revit (một Undo, chạy lại thay thế lần trước). Hai nút dự kiến ban đầu (Export / Rebar) gộp làm một theo yêu cầu người dùng. Test Core 1779, vitest kataColumn 19; live Revit 2026 trên bản sao detached: 94 phần tử, chạy lại 94/94. Chưa so bằng mắt với bản vẽ VC; walls (`Vach`) và coupler chưa làm.
+
 ## 2026-10-04 — Clean code cho mọi MCP folder + kiểm chất lượng tool AI đề xuất (plan `261004-1005`, ADR-0007)
 
 **Tài liệu:** `docs/clean-code/HP_CLEAN_CODE_CORE.md` (rule host-neutral, giữ nguyên id; thêm P9 và Q-B1…Q-B3 / Q-W1…Q-W5) + 5 phụ lục `docs/clean-code/host-appendix/` (revit, autocad-civil A1–A16, com-standalone CO1–CO14, net48-inprocess NI1–NI12, powerbi PB1–PB8); Revit standard giữ tên file và các id Revit/HPRebar; checklist/workflow/DoD theo host; audit §2a H-01…H-08 (lỗi hành vi host khác, chỉ ghi nhận). **Code (McpShared):** `ScriptQuality` (walker Roslyn trong `ScriptAnalyzer.Analyze`), `AnalyzeResult.QualityAnalysed` + `QualityFindings` (additive), `ToolValidator` chặn `error` / cảnh báo `warning` / bridge cũ = "quality not analysed", sự kiện `quality_checked` gắn hash code, mục "Code quality" trong file review, dòng tương ứng trong thông báo publish ở policy auto. **Test:** engine 793, net48 115, `SeedQualityTests` trong cả 10 server (allowlist pin hash: Excel `read_table` Q-B2 ×2). `tools/list` 10 server không đổi byte nào; verified live Revit 2026 (5/5). `.editorconfig` (chỉ suggestion) cho 10 solution còn thiếu. Bridge của 9 host khác cần redeploy để phân tích chất lượng (CHƯA TEST).

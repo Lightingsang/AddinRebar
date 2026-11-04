@@ -9,6 +9,9 @@ namespace HPRebar.KataRebar.Service;
 public sealed record KataDamReadResult(KataCellTable? Cells, string WorkbookName, string Error)
 {
     public bool IsSuccess => Cells is not null;
+
+    /// <summary>Path and name of the workbook (Excel's FullName); empty when none was reached.</summary>
+    public string WorkbookFullName { get; init; } = "";
 }
 
 /// <summary>
@@ -25,7 +28,10 @@ public static class KataDamComReader
     private const uint RpcRetryLater = 0x8001010A;
     private const uint ExcelBusy = 0x800AC472;
 
-    public static KataDamReadResult Read()
+    public static KataDamReadResult Read() => Read(SheetName, RangeAddress);
+
+    /// <summary>The same read for another Kata sheet (sheet "Cot" of the column tools).</summary>
+    public static KataDamReadResult Read(string sheetName, string rangeAddress)
     {
         object? app = null, workbook = null, sheets = null, sheet = null, range = null;
         try
@@ -38,10 +44,11 @@ public static class KataDamComReader
                 return new KataDamReadResult(null, "", "Excel đang mở nhưng không có workbook nào được kích hoạt.");
 
             string name = ComLateBinding.Get(workbook, "Name")?.ToString() ?? "";
+            string fullName = ComLateBinding.Get(workbook, "FullName")?.ToString() ?? "";
             sheets = ComLateBinding.Get(workbook, "Worksheets");
             try
             {
-                sheet = ComLateBinding.Get(sheets!, "Item", SheetName);
+                sheet = ComLateBinding.Get(sheets!, "Item", sheetName);
             }
             catch (COMException ex) when (!IsBusy(ex))
             {
@@ -49,13 +56,13 @@ public static class KataDamComReader
             }
 
             if (sheet is null)
-                return new KataDamReadResult(null, name, $"Workbook '{name}' không có sheet '{SheetName}' — hãy kích hoạt workbook Kata.");
+                return new KataDamReadResult(null, name, $"Workbook '{name}' không có sheet '{sheetName}' — hãy kích hoạt workbook Kata.");
 
-            range = ComLateBinding.Get(sheet, "Range", RangeAddress);
+            range = ComLateBinding.Get(sheet, "Range", rangeAddress);
             if (range is null || ComLateBinding.Get(range, "Value2") is not object[,] values)
-                return new KataDamReadResult(null, name, $"Không đọc được vùng {RangeAddress} của sheet '{SheetName}'.");
+                return new KataDamReadResult(null, name, $"Không đọc được vùng {rangeAddress} của sheet '{sheetName}'.");
 
-            return new KataDamReadResult(new KataCellTable(WithoutErrorCells(values), startRow: 1, startCol: 1), name, "");
+            return new KataDamReadResult(new KataCellTable(WithoutErrorCells(values), startRow: 1, startCol: 1), name, "") { WorkbookFullName = fullName };
         }
         catch (COMException ex) when (IsBusy(ex))
         {

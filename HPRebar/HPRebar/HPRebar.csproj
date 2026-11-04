@@ -66,6 +66,13 @@
     <ItemGroup Condition="'$(RevitVersion)' != '2026'">
         <Compile Remove="KataExport\KataExportCommand.cs"/>
         <Compile Remove="KataExport\KataSettingsCommand.cs"/>
+        <Compile Remove="KataExport\KataColumnRebarCommand.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnRebarCreator.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnRebarSession.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnRoundHoopFactory.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnSectionViews.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnElevationView.cs"/>
+        <Compile Remove="KataExport\Service\KataColumnViewAnnotator.cs"/>
         <Compile Remove="KataExport\View\Web\**"/>
     </ItemGroup>
 

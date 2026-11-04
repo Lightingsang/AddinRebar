@@ -232,6 +232,25 @@ Cửa sổ Kata Export làm trọn vòng: Xuất Excel → user nhập thép she
 - Revit 2026: "Right" của móc tính theo hướng thanh ở cả hai đầu (đo live). Bản cài KataOnly: `tools/build-kata-installer.ps1` (`-p:KataOnly=true`, chung upgrade code với HPRebar).
 - Plan `plans/260929-0020-kata-export-rebar-roundtrip/`, live `reports/phase-07-live-verify.md`.
 
+## Feature: Kata Column Rebar
+
+Bản cho cột của Kata Export (plan `plans/261103-1207-kata-column/`, ADR-0014, chỉ Revit 2026): một nút, một cửa sổ web hai bước.
+
+```
+Ribbon HPRebar ▸ Rebar ▸ Kata Column Rebar → KataColumnRebarCommand (chọn chồng cột)
+  → Service/KataColumnStackReader (solid gốc, khung cột thấp nhất, cao dầm ở đầu cột, đài, STR_ElementName/Count)
+  → HPRebar.Core/KataExport/ColumnStack: KataColumnSheetBuilder (luật dấu b/h, cột tròn, hàng đỉnh)
+  → KataColumnWebWindow (column.html) + KataColumnWebBridge
+       bước 1: KataColumnExcelWriter (COM) → sheet Cot A–D/K + C1–C5/B9  (Kata Pro VC vẽ CAD)
+       bước 2: KataColumnRebarSession → KataDamComReader.Read("Cot", A1:V216)
+               → HPRebar.Core/KataRebar/ColumnStack: SpecReader → SectionPlanner/HoopPlanner/BarPlanner → RebarDesigner
+               → KataColumnRebarCreator: TransactionGroup = xoá thép cũ → cover → thép dọc → đai → đai trong/C → số hiệu
+```
+
+- **Nguồn sự thật:** `Kata.xlsm` thật (sheet `Cot`) + bản vẽ VC đo được; `SPEC_VeCot_Kata.md` chỉ là gợi ý. Hợp đồng ô: `reports/kata-column-cell-contract.md` của plan.
+- **Luật:** nối ≥ 30 × Ø của chính thanh; mặt cột đổi ≤ 75 mm → bẻ xiên 1:6, lớn hơn → cắt + neo F5·d + râu mới; tầng trên lớn hơn → cắm râu xuống tầng dưới; tầng đỉnh không có cột trên → neo dưới mái. Mỗi thanh nằm trong một mặt phẳng đứng: thanh góc lệch nối/chân/neo theo b hoặc theo hướng bẻ xiên của nó (Revit tự nắn đoạn uốn chéo và đánh số khác). Cột J bắt buộc ở mọi tầng.
+- **Test:** `HPRebar.Core.Tests/KataExport/ColumnStack` + `KataRebar/ColumnStack`; trang: vitest `src/kataColumn` trên fixture JSON do Core test sinh (`HPREBAR_UPDATE_KATA_FIXTURES=1`).
+
 ## Multi-version
 
 2 block `#if` trong toàn bộ codebase, cả hai có comment `// Multi-version:`:

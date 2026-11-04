@@ -1,0 +1,21 @@
+[
+ {"tag":"v00-base","cells":{}},
+ {"tag":"v01-b-neg-one-side","cells":{"C13":-800}},
+ {"tag":"v02-b-pos-both","cells":{"C13":800}},
+ {"tag":"v03-h-step","cells":{"D13":600}},
+ {"tag":"v04-h-neg","cells":{"D13":-600}},
+ {"tag":"v05-b-big-step","cells":{"C13":-500}},
+ {"tag":"v06-j-splice","cells":{"J11":1000,"J13":0}},
+ {"tag":"v07-row-ties","cells":{"N10":"d12a300","Q10":"d12a300","S10":"d12a300","U10":"d12a300","T10":"3","V10":"1","M10":0.3,"P10":0.7}},
+ {"tag":"v08-h5-tie","cells":{"H5":"d6a500"}},
+ {"tag":"v09-g3","cells":{"G3":true}},
+ {"tag":"v10-h3","cells":{"H3":true}},
+ {"tag":"v11-i3","cells":{"I3":false}},
+ {"tag":"v12-j3","cells":{"J3":1}},
+ {"tag":"v13-k3","cells":{"K3":false}},
+ {"tag":"v14-l-hoop","cells":{"L12":"d12a150","H4":"d8a120/250"}},
+ {"tag":"v15-roof-row","cells":{"A16":"ROOF","B16":3.3,"C16":1000,"D16":800,"E16":7,"F16":7,"G16":7,"H16":7,"I16":20,"K16":700,"L16":"d10a100/200"}},
+ {"tag":"v16-top-no-bars","cells":{"E15":"","F15":"","G15":"","H15":"","I15":""}},
+ {"tag":"v17-f4-f5","cells":{"F4":"40/150","F5":20}},
+ {"tag":"v18-c1-c2","cells":{"C1":300,"C2":120}}
+]

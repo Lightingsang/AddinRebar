@@ -17,6 +17,9 @@ internal static class KataSectionViews
 {
     public const int Scale = 25;
 
+    /// <summary>Characters Revit refuses in a view name.</summary>
+    private const string ForbiddenInViewName = @"\:{}[]|;<>?`~";
+
     /// <summary>A view of the run and how it was obtained.</summary>
     public sealed record Result(ViewSection View, bool Reused, string? Superseded);
 
@@ -46,10 +49,11 @@ internal static class KataSectionViews
         var view = ViewSection.CreateSection(doc, SectionType(doc).Id, box);
         // A section type may hand new views a template that locks scale and detail level: this view has none.
         view.ViewTemplateId = ElementId.InvalidElementId;
+        // Tagged before it is named, so a view whose naming fails is still found (and reused) by the next run.
+        KataDraftingStorage.Write(view, runKey, kind);
         view.Name = UniqueName(doc, viewName);
         view.Scale = Scale;
         view.DetailLevel = ViewDetailLevel.Fine;
-        KataDraftingStorage.Write(view, runKey, kind);
         return new Result(view, false, existing?.Name);
     }
 
@@ -106,7 +110,7 @@ internal static class KataSectionViews
             .OrderBy(t => t.DefaultTemplateId == ElementId.InvalidElementId ? 0 : 1)
             .ThenBy(t => IdValue(t.Id))
             .FirstOrDefault()
-        ?? throw new InvalidOperationException("Model không có loại view Section để tạo mặt cắt dầm.");
+        ?? throw new InvalidOperationException("Model không có loại view Section để tạo mặt cắt.");
 
     // Multi-version: ElementId.Value is long since 2024
     public static long IdValue(ElementId id) =>
@@ -116,9 +120,14 @@ internal static class KataSectionViews
         id.IntegerValue;
 #endif
 
-    /// <summary><paramref name="name"/>, or "<paramref name="name"/> (Kata)", "(Kata 2)"… when another view has it (any case).</summary>
-    private static string UniqueName(Document doc, string name)
+    /// <summary>
+    /// <paramref name="name"/> with the characters Revit refuses in a view name replaced by '-', or "… (Kata)",
+    /// "(Kata 2)"… when another view has it (any case).
+    /// </summary>
+    public static string UniqueName(Document doc, string name)
     {
+        name = new string(name.Select(c => ForbiddenInViewName.IndexOf(c) >= 0 ? '-' : c).ToArray()).Trim();
+        if (name.Length == 0) name = "Kata";
         var taken = new HashSet<string>(new FilteredElementCollector(doc).OfClass(typeof(RevitView)).Cast<RevitView>().Select(v => v.Name), StringComparer.OrdinalIgnoreCase);
         if (!taken.Contains(name)) return name;
         for (int i = 1; ; i++)

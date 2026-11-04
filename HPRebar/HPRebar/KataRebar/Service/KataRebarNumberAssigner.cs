@@ -49,8 +49,15 @@ public static class KataRebarNumberAssigner
                     g.Count(b => !ours.ContainsKey(b.Element.Id))))
                 .Where(g => g.Kata.Count > 0)
                 .ToList();
+            // What tells Revit's numbers apart, read before the swap renumbers them; logged only when a number is refused.
+            var described = numbered.Where(b => b.Partition == partition && ours.ContainsKey(b.Element.Id))
+                .GroupBy(b => b.Number)
+                .Select(g => $"{g.Key} (Kata {string.Join("/", g.Select(b => ours[b.Element.Id]).Distinct())}): {g.Count()} bars, {Describe(doc, g.Select(b => b.Element))}")
+                .ToList();
             var result = KataRebarNumberSwap.Apply(partition, groups, new RevitNumbering(schema, partition));
             warnings.AddRange(result.Warnings);
+            if (result.Warnings.Count > 0)
+                Log.Information("Kata Rebar: partition {Partition} numbers before the swap: {Groups}", partition, string.Join(" | ", described));
             Log.Information("Kata Rebar: Rebar Number in partition {Partition}: {Count} numbers, Kata {Numbers}, {Changed} changed, {Warnings} warnings",
                 partition, groups.Count, string.Join(",", groups.Select(g => g.Kata.Min()).Distinct().OrderBy(n => n)), result.Changed, result.Warnings.Count);
         }
@@ -65,6 +72,16 @@ public static class KataRebarNumberAssigner
             .WhereElementIsNotElementType()
             .Select(e => (Element: e, Partition: Text(e, BuiltInParameter.NUMBER_PARTITION_PARAM), Number: Number(e)))
             .Where(b => b.Number > 0);
+
+    /// <summary>Shape names, bar lengths (mm) and ids of a Revit number's bars, for the log.</summary>
+    private static string Describe(Document doc, IEnumerable<Element> bars)
+    {
+        var list = bars.OfType<Rebar>().ToList();
+        var shapes = list.Select(r => doc.GetElement(r.GetShapeId())?.Name ?? "free-form").Distinct();
+        var lengths = list.Select(r => (r.get_Parameter(BuiltInParameter.REBAR_ELEM_LENGTH)?.AsDouble() ?? 0) * 304.8)
+            .Select(mm => mm.ToString("0.0", CultureInfo.InvariantCulture)).Distinct();
+        return $"shapes {string.Join("/", shapes)}, lengths {string.Join("/", lengths)}, ids {string.Join(",", list.Select(r => r.Id))}";
+    }
 
     private static int Number(Element element) =>
         int.TryParse(Text(element, BuiltInParameter.REBAR_NUMBER), NumberStyles.Integer, CultureInfo.InvariantCulture, out int n) ? n : 0;

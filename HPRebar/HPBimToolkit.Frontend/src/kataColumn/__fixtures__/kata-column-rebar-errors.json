@@ -1,0 +1,16 @@
+{
+  "name": "C1",
+  "starterCount": 0,
+  "barCount": 0,
+  "rows": [],
+  "notes": [],
+  "errors": [
+    "J10: no lap position (BASEMENT); type where the laps start above the storey base.",
+    "J11: no lap position (FLOOR 1); type where the laps start above the storey base.",
+    "J12: no lap position (FLOOR 2); type where the laps start above the storey base.",
+    "J13: no lap position (FLOOR 3); type where the laps start above the storey base.",
+    "J14: no lap position (FLOOR 4); type where the laps start above the storey base."
+  ],
+  "sections": [],
+  "elevation": null
+}

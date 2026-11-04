@@ -20,8 +20,11 @@ internal static class KataDrawingDims
     private const double TickHalfMm = 5.0;
 
     /// <param name="toModel">A point of the drawing (its X right, Z up, mm) in the model, on the view's plane.</param>
+    /// <param name="drawingRight">The drawing's right in the model when it is not the view's (a column frame turned in a plan view).</param>
+    /// <param name="drawingUp">The drawing's up in the model, likewise.</param>
     /// <returns>Dimensions created and chains Revit refused (logged).</returns>
-    public static (int Created, int Refused) Create(Document doc, RevitView view, string runKey, IReadOnlyList<KataDimChain> chains, Func<double, double, XYZ> toModel)
+    public static (int Created, int Refused) Create(Document doc, RevitView view, string runKey, IReadOnlyList<KataDimChain> chains, Func<double, double, XYZ> toModel,
+        XYZ? drawingRight = null, XYZ? drawingUp = null)
     {
         var invisible = KataLineStyles.Invisible(doc);
         var type = doc.GetDefaultElementTypeId(ElementTypeGroup.LinearDimensionType);
@@ -29,7 +32,7 @@ internal static class KataDrawingDims
         foreach (var chain in chains.Where(c => c.Stations.Count >= 2))
         {
             XYZ Point(double along, double across) => chain.Vertical ? toModel(across, along) : toModel(along, across);
-            var tickDirection = (chain.Vertical ? view.RightDirection : view.UpDirection).Normalize();
+            var tickDirection = (chain.Vertical ? drawingRight ?? view.RightDirection : drawingUp ?? view.UpDirection).Normalize();
             var references = new ReferenceArray();
             var ticks = new List<ElementId>();
             foreach (var station in chain.Stations)

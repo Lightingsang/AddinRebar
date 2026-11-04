@@ -73,6 +73,7 @@ namespace HPRebar
 #if KATA_ONLY && REVIT2026
             var kataPanel = Application.CreatePanel("Kata", "HPRebar");
             Track(kataPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
+            Track(kataPanel.AddPushButton<KataColumnRebarCommand>("Kata Column Rebar"), icons => icons.KataColumnRebar);
 #else
             var rebarPanel = Application.CreatePanel("Rebar", "HPRebar");
             // Multi-version: Kata Settings web page only — the command and its window exist on Revit 2026 only (ADR-0013)
@@ -84,6 +85,7 @@ namespace HPRebar
             Track(rebarPanel.AddPushButton<FoundationRebarCommand>("Foundation Rebar"), icons => icons.FoundationRebar);
 #if REVIT2026
             Track(rebarPanel.AddPushButton<KataExportCommand>("Kata Export"), icons => icons.KataExport);
+            Track(rebarPanel.AddPushButton<KataColumnRebarCommand>("Kata Column Rebar"), icons => icons.KataColumnRebar);
 #endif
             Track(rebarPanel.AddPushButton<KataRebarCommand>("Kata Rebar"), icons => icons.KataRebar);
 #endif

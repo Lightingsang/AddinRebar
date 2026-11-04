@@ -56,6 +56,14 @@ public sealed class RibbonIcons
             (Steel, "M8,10 H10 V22 H8 Z M14,10 H16 V22 H14 Z M20,10 H22 V22 H20 Z M26,10 H28 V22 H26 Z"),
             (Steel, "M12,14 L18,14 L18,12 L22,16 L18,20 L18,18 L12,18 Z"));
 
+        // Kata Column Rebar: a column elevation (2 px ring) with two main bars and three hoops (their own part: one
+        // even-odd path would punch holes where they cross the bars), and the arrow of the round trip to the sheet.
+        KataColumnRebar = Glyph(
+            (ink, "M4,2 H18 V30 H4 Z M6,4 H16 V28 H6 Z"),
+            (Steel, "M8,4 H10 V28 H8 Z M12,4 H14 V28 H12 Z"),
+            (Steel, "M6,8 H16 V10 H6 Z M6,15 H16 V17 H6 Z M6,22 H16 V24 H6 Z"),
+            (Steel, "M20,14 H26 V12 L30,16 L26,20 V18 H20 Z"));
+
         // Kata Settings: three slider rails (2 px) with their knobs (4×8) at different positions.
         KataSettings = Glyph(
             (ink, "M4,6 H28 V8 H4 Z M4,14 H28 V16 H4 Z M4,22 H28 V24 H4 Z"),
@@ -73,6 +81,9 @@ public sealed class RibbonIcons
 
     /// <summary>Generate 3D beam reinforcement from Kata Excel.</summary>
     public ImageSource KataRebar { get; }
+
+    /// <summary>Column stack written to the Kata sheet "Cot" and its bars and hoops created from it.</summary>
+    public ImageSource KataColumnRebar { get; }
 
     /// <summary>Slider rails — the Kata settings dialog.</summary>
     public ImageSource KataSettings { get; }

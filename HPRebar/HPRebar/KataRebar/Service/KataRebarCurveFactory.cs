@@ -40,8 +40,8 @@ public static class KataRebarCurveFactory
     {
         var first = curves[0];
         var last = curves[curves.Count - 1];
-        bool startRight = IsRight(Direction(first), normal, startToward - first.GetEndPoint(0));
-        bool endRight = IsRight(Direction(last), normal, endToward - last.GetEndPoint(1));
+        bool startRight = IsRight(Tangent(first, 0), normal, startToward - first.GetEndPoint(0));
+        bool endRight = IsRight(Tangent(last, 1), normal, endToward - last.GetEndPoint(1));
 
         // Multi-version: rebar terminations — see Create.
 #if REVIT2026_OR_GREATER
@@ -62,7 +62,11 @@ public static class KataRebarCurveFactory
         return rebar ?? throw new InvalidOperationException($"Revit không tạo được thanh thép có móc '{barType.Name}'.");
     }
 
-    private static XYZ Direction(Curve curve) => (curve.GetEndPoint(1) - curve.GetEndPoint(0)).Normalize();
+    /// <summary>
+    /// The bar's direction at one end (normalised parameter 0 or 1): a line's own direction, an arc's tangent there —
+    /// the chord of a half-circle hoop is perpendicular to it and would leave the hook side to rounding.
+    /// </summary>
+    private static XYZ Tangent(Curve curve, double end) => curve.ComputeDerivatives(end, true).BasisX.Normalize();
 
     /// <summary>
     /// Which side is "Right", measured in Revit 2026: facing along the bar's direction (start to end) at both
