@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>HPFoundation.Core</RootNamespace>
+    <AssemblyName>HPFoundation.Core</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>

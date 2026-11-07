@@ -175,8 +175,11 @@ export interface KataColumnSectionDrawing {
   /** Face to the hoop's centre line: cover + hoop Ø / 2. */
   hoopOffsetMm: number;
   hoopDiameterMm: number;
+  /** The storey's densest hoop zone. */
+  hoopSpacingMm: number;
   hoopNumber: number;
   tieDiameterMm: number;
+  tieSpacingMm: number;
   bars: KataColumnSectionBar[];
   ties: KataColumnSectionTie[];
 }

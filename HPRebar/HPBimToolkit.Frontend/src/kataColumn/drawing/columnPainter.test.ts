@@ -5,6 +5,7 @@ import { paletteFor } from '../../kata/elevation/palette';
 import { barAt, barLabel, levelText, paintColumnSheet } from './columnPainter';
 import { describeBar } from './ColumnDrawing';
 import { COLUMN_STRINGS } from '../i18n';
+import { tieDetails } from './columnTieDetail';
 import { clampZoom, fit, layoutSheet, MAX_SCALE, SECTION_FACTOR, toScreen, zoomAt } from './columnSheet';
 
 const summary = sampleFixture as KataColumnRebarSummary;
@@ -39,6 +40,52 @@ describe('column sheet layout', () => {
     const far = { ...view, scale: view.scale / 4 };
     expect(clampZoom(far, zoomAt(far, 0.8, 0, 0), view.scale)).toBe(far);
     expect(clampZoom(view, zoomAt(view, 1.25, 0, 0), view.scale).scale).toBeCloseTo(view.scale * 1.25);
+  });
+});
+
+describe('taken-apart hoop and ties', () => {
+  const placed = sheet.sections.at(-1)!;
+  const d = placed.drawing;
+
+  it('keeps the shapes VC keeps: the hoop, then every tie moved its own way', () => {
+    const [hoop, ...ties] = tieDetails(d);
+    expect(hoop!.kind).toBe('hoop');
+    expect(hoop!.note).toBe('Ø10a100');
+    expect(ties).toHaveLength(d.ties.length);
+    expect(ties.every((t) => t.note === 'Ø8a400')).toBe(true);
+    expect(hoop!.x1).toBeGreaterThan(d.widthMm);
+
+    const centre = (t: { x1: number; x2: number; y1: number; y2: number }) => [(t.x1 + t.x2) / 2, (t.y1 + t.y2) / 2] as const;
+    const [hx, hy] = centre(hoop!);
+    const cross = ties.filter((t) => t.kind === 'cross');
+    // As j-all500: the horizontal C goes left of the hoop, the vertical C below it.
+    const across = cross.find((t) => t.y1 === t.y2)!;
+    const along = cross.find((t) => t.x1 === t.x2)!;
+    expect(centre(across)[0]).toBeLessThan(hx);
+    expect(centre(along)[1]).toBeLessThan(hy);
+    const closed = ties.filter((t) => t.kind === 'closed');
+    expect(closed.some((t) => centre(t)[0] > hx + 1)).toBe(true);
+    expect(closed.some((t) => centre(t)[1] > hy + 1)).toBe(true);
+  });
+
+  it('leaves a round section with its hoop alone', () => {
+    const round = { ...d, isRound: true, widthMm: 800, depthMm: 800, ties: [] };
+    expect(tieDetails(round).map((t) => t.kind)).toEqual(['hoop']);
+  });
+
+  it('keeps every section with its labels and details clear of the next one', () => {
+    for (let i = 1; i < sheet.sections.length; i++) expect(sheet.sections[i]!.frame.top).toBeLessThan(sheet.sections[i - 1]!.frame.bottom);
+    expect(Math.max(...sheet.sections.map((s) => s.frame.right))).toBeLessThanOrEqual(sheet.extents.right);
+    expect(sheet.extents.bottom).toBeLessThanOrEqual(sheet.sections.at(-1)!.frame.bottom);
+  });
+
+  it('labels each section per bar number, the counts adding up to its bars, and each shape with its spacing', () => {
+    for (const s of sheet.sections) expect(s.groups.reduce((n, g) => n + Number.parseInt(g.text, 10), 0)).toBe(s.drawing.bars.length);
+    const floor2 = sheet.sections.find((s) => s.drawing.level === 'FLOOR 2')!;
+    expect(floor2.groups.map((g) => g.text).sort()).toEqual(['24Ø25', '8Ø20', '8Ø20']);
+    expect(new Set(floor2.groups.map((g) => g.number)).size).toBe(3);
+    const words = texts(paintColumnSheet(sheet, zoomAt(view, 4, 800, 450), paletteFor('dark'), null).shapes);
+    expect(words.filter((w) => w === 'Ø8a400').length).toBe(sheet.sections.reduce((n, s) => n + s.drawing.ties.length, 0));
   });
 });
 

@@ -101,7 +101,7 @@ public sealed class KataColumnSectionDrawingTests
     [Fact]
     public void Dims_Round_DiameterOnly()
     {
-        var round = new KataColumnSectionDrawing("R", 0, true, 400, 400, 40, 10, 1, 8, Array.Empty<KataColumnSectionBar>(), Array.Empty<KataColumnSectionTie>());
+        var round = new KataColumnSectionDrawing("R", 0, true, 400, 400, 40, 10, 100, 1, 8, 400, Array.Empty<KataColumnSectionBar>(), Array.Empty<KataColumnSectionTie>());
 
         var chain = Assert.Single(KataColumnSectionDims.Chains(round));
         Assert.Equal(400, chain.Stations[^1].Along - chain.Stations[0].Along);

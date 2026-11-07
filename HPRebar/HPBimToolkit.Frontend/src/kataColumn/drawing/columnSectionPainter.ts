@@ -1,11 +1,21 @@
 // The storeys' sections of Kata's column drawing, as VC draws them at 1:20 beside the 1:30 elevation: concrete, hoop,
-// inner ties, bars (pick targets) with their numbers once legible, overall sizes and the "1-1" title.
+// inner ties, bars (pick targets) with their numbers once legible, the bar labels above, overall sizes, the "1-1"
+// title, and the hoop and ties taken apart beside it, each with its label.
 
 import { BAR_PX, OUTLINE_PX, THIN_PX, cadText, cadTextCentredOn, lineweight, STYLE } from '../../kata/elevation/kataCad';
 import type { Palette } from '../../kata/elevation/palette';
 import type { ShapeList } from '../../kata/elevation/shapes';
-import { SECTION_FACTOR, sectionPoint, toScreen, type PlacedSection, type SheetView } from './columnSheet';
-import { NUMBER_MIN_PX, TEXT_MM, TITLE_MM, mm, type BarHit } from './columnStyle';
+import { GROUP_LABEL_LINE_MM, GROUP_LABEL_RISE_MM, SECTION_FACTOR, sectionPoint, toScreen, type PlacedSection, type SheetView } from './columnSheet';
+import { LABEL_CIRCLE_MM, NUMBER_MIN_PX, TEXT_MM, TITLE_MM, mm, type BarHit } from './columnStyle';
+import { tagCircle } from './columnTag';
+import type { TieDetail } from './columnTieDetail';
+
+type At = (x: number, y: number) => [number, number];
+
+/** Section mm: a detail's leader rises this much, then runs this far to its label; a C tie's hook. */
+const LEADER_RISE_MM = 120;
+const LEADER_RUN_MM = 180;
+const HOOK_MM = 44;
 
 const P = (view: SheetView, x: number, y: number) => toScreen(view, x, y);
 
@@ -53,6 +63,9 @@ export function paintSection(out: ShapeList, hits: BarHit[], s: PlacedSection, v
 
   out.layer = 'dims';
   paintSectionDims(out, s, view, palette, at);
+  out.layer = 'tags';
+  paintGroupLabels(out, s, view, palette, at, highlight);
+  for (const detail of s.details) paintDetail(out, s, detail, view, palette, at, highlight);
   out.layer = 'notes';
   const [tx, ty] = at(d.widthMm / 2, -340 / SECTION_FACTOR);
   const titleWidth = cadText(out, s.name, palette.text, TITLE_MM, view.scale, tx, ty, 'centre');
@@ -62,8 +75,53 @@ export function paintSection(out: ShapeList, hits: BarHit[], s: PlacedSection, v
   out.layer = undefined;
 }
 
+/** The group labels from the middle of the top face, up and to the right, one line per group (VC's "(3) 20Ø25"). */
+function paintGroupLabels(out: ShapeList, s: PlacedSection, view: SheetView, palette: Palette, at: At, highlight: number | null) {
+  const d = s.drawing;
+  const pen = lineweight(palette.kata.leader, THIN_PX, view.scale);
+  s.groups.forEach((group, i) => {
+    const y = d.depthMm + GROUP_LABEL_RISE_MM + i * GROUP_LABEL_LINE_MM;
+    const end = d.widthMm / 2 + LEADER_RUN_MM;
+    out.poly(undefined, pen, [at(d.widthMm / 2, d.depthMm), at(d.widthMm / 2, y), at(end, y)]);
+    label(out, s, view, palette, at, end, y, group.number, group.text, 'right', group.number === highlight);
+  });
+}
+
+/** One taken-apart shape with its leader and label. */
+function paintDetail(out: ShapeList, s: PlacedSection, detail: TieDetail, view: SheetView, palette: Palette, at: At, highlight: number | null) {
+  const on = detail.number === highlight;
+  const pen = lineweight(on ? palette.selected : palette.kata.stirrup, detail.kind === 'hoop' ? BAR_PX - 1 : THIN_PX + 1, view.scale);
+  const { x1, y1, x2, y2 } = detail;
+  if (detail.kind === 'cross') {
+    // The leg, a hook on one side at each end, as Kata's "C".
+    const [hx, hy] = y1 === y2 ? [0, HOOK_MM] : [HOOK_MM, 0];
+    out.poly(undefined, pen, [at(x1 + hx, y1 + hy), at(x1, y1), at(x2, y2), at(x2 + hx, y2 + hy)]);
+  } else if (s.drawing.isRound) {
+    const [cx, cy] = at((x1 + x2) / 2, (y1 + y2) / 2);
+    out.circle(undefined, pen, cx, cy, ((x2 - x1) / 2) * SECTION_FACTOR * view.scale);
+  } else {
+    out.poly(undefined, pen, [at(x1, y1), at(x2, y1), at(x2, y2), at(x1, y2)], true);
+  }
+
+  const leader = lineweight(palette.kata.leader, THIN_PX, view.scale);
+  const { anchorX: ax, anchorY: ay, side } = detail;
+  const rise = side === 'beside' ? 0 : LEADER_RISE_MM;
+  const endX = side === 'left' ? ax - LEADER_RUN_MM : ax + LEADER_RUN_MM;
+  out.poly(undefined, leader, [at(ax, ay), at(ax, ay + rise), at(endX, ay + rise)]);
+  label(out, s, view, palette, at, endX, ay + rise, detail.number, detail.note, side === 'left' ? 'left' : 'right', on);
+}
+
+/** A numbered circle at the end of a leader (section mm) and its text beyond it. */
+function label(out: ShapeList, s: PlacedSection, view: SheetView, palette: Palette, at: At, x: number, y: number, number: number, text: string, side: 'left' | 'right', on: boolean) {
+  const reach = LABEL_CIRCLE_MM / SECTION_FACTOR;
+  const sign = side === 'left' ? -1 : 1;
+  tagCircle(out, view, palette, ...sectionPoint(s, x + sign * reach, y), number, on);
+  const [tx, ty] = at(x + sign * (2 * reach + 20), y);
+  cadTextCentredOn(out, text, on ? palette.selected : palette.kata.tagText, TEXT_MM, view.scale, tx, ty, side === 'left' ? 'right' : 'left');
+}
+
 /** The section's overall sizes: b under it, h on its right (Ø for a round one). */
-function paintSectionDims(out: ShapeList, s: PlacedSection, view: SheetView, palette: Palette, at: (x: number, y: number) => [number, number]) {
+function paintSectionDims(out: ShapeList, s: PlacedSection, view: SheetView, palette: Palette, at: At) {
   const d = s.drawing;
   const pen = lineweight(palette.kata.grey, THIN_PX, view.scale);
   const tick = lineweight(palette.kata.grey, OUTLINE_PX, view.scale);

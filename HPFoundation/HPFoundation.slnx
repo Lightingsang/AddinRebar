@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="HPFoundation.Core/HPFoundation.Core.csproj" />
+  <Project Path="HPFoundation.Core.Tests/HPFoundation.Core.Tests.csproj" />
+  <Project Path="HPFoundation.App/HPFoundation.App.csproj" />
+</Solution>

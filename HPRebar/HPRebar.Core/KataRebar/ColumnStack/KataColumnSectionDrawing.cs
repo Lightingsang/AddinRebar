@@ -23,6 +23,7 @@ public sealed record KataColumnSectionTie(string Kind, double X1, double Y1, dou
 /// <param name="WidthMm">b (the diameter when round).</param>
 /// <param name="DepthMm">h (the diameter when round).</param>
 /// <param name="HoopOffsetMm">From the face to the hoop's centre line: cover + hoop Ø / 2.</param>
+/// <param name="HoopSpacingMm">The storey's densest hoop zone, the spacing Kata labels a hoop with.</param>
 public sealed record KataColumnSectionDrawing(
     string Level,
     double CutElevationMm,
@@ -31,8 +32,10 @@ public sealed record KataColumnSectionDrawing(
     double DepthMm,
     double HoopOffsetMm,
     double HoopDiameterMm,
+    double HoopSpacingMm,
     int HoopNumber,
     double TieDiameterMm,
+    double TieSpacingMm,
     IReadOnlyList<KataColumnSectionBar> Bars,
     IReadOnlyList<KataColumnSectionTie> Ties);
 
@@ -119,8 +122,10 @@ public static class KataColumnSectionDrawings
             g.MaxYMm - g.MinYMm,
             spec.CoverMm + spec.Hoops.DiameterMm / 2,
             spec.Hoops.DiameterMm,
+            storey.HoopZones.Select(z => z.SpacingMm).DefaultIfEmpty(0).Min(),
             storey.HoopNumber,
             spec.Ties.DiameterMm,
+            storey.TieSet?.Zone.SpacingMm ?? 0,
             bars,
             ties);
     }

@@ -70,6 +70,14 @@
       "env": {
         "HPROBOT_MCP_Bridge__HostVersion": "2026"
       }
+    },
+    "rea": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "C:\\Users\\STR-HP03.HOANGPHUC\\AppData\\Roaming\\npm\\rea.cmd",
+        "mcp"
+      ]
     }
   }
 }

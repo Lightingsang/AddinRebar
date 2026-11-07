@@ -1,0 +1,5073 @@
+{
+  "sheetName": "MB1-4COT",
+  "cells": [
+    {
+      "address": "A1",
+      "Number": null,
+      "Text": "8.Tính toán móng băng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D1",
+      "Number": null,
+      "Text": "MB1-4COT",
+      "ErrorText": null,
+      "Formula": "=MID(CELL(\"filename\",A1),FIND(\"]\",CELL(\"filename\",A1))+1,255)"
+    },
+    {
+      "address": "A2",
+      "Number": null,
+      "Text": "a>Điều kiện địa chất công trình",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A3",
+      "Number": null,
+      "Text": "TT",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B3",
+      "Number": null,
+      "Text": "Lớp",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D3",
+      "Number": null,
+      "Text": "Độ sâu",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E3",
+      "Number": null,
+      "Text": "Chiều dày",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F3",
+      "Number": null,
+      "Text": "g",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G3",
+      "Number": null,
+      "Text": "C",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H3",
+      "Number": null,
+      "Text": "j",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I3",
+      "Number": null,
+      "Text": "E",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D4",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E4",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F4",
+      "Number": null,
+      "Text": "T/m3",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G4",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H4",
+      "Number": null,
+      "Text": "độ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I4",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A5",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B5",
+      "Number": null,
+      "Text": "Lớp đất tôn nền",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D5",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E5",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F5",
+      "Number": 1.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A6",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B6",
+      "Number": null,
+      "Text": "Lớp đất D",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D6",
+      "Number": 0.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D5+E6"
+    },
+    {
+      "address": "E6",
+      "Number": 0.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F6",
+      "Number": 1.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A7",
+      "Number": 3,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B7",
+      "Number": null,
+      "Text": "Lớp đất 1",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D7",
+      "Number": 4.7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D6+E7"
+    },
+    {
+      "address": "E7",
+      "Number": 4.2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F7",
+      "Number": 1.99,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G7",
+      "Number": 3.17,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H7",
+      "Number": 17.016666666666666,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=17+0.0166666666666667"
+    },
+    {
+      "address": "I7",
+      "Number": 1750.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A8",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B8",
+      "Number": null,
+      "Text": "Lớp đất 2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D8",
+      "Number": 15.2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D7+E8"
+    },
+    {
+      "address": "E8",
+      "Number": 10.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F8",
+      "Number": 1.99,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G8",
+      "Number": 3.79,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H8",
+      "Number": 16.9,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=16+0.9"
+    },
+    {
+      "address": "I8",
+      "Number": 2058,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A9",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B9",
+      "Number": null,
+      "Text": "Lớp đất 3",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D9",
+      "Number": 19.2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D8+E9"
+    },
+    {
+      "address": "E9",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F9",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G9",
+      "Number": 1.44,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H9",
+      "Number": 23.883333333333333,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=23+0.883333333333333"
+    },
+    {
+      "address": "I9",
+      "Number": 1784,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A10",
+      "Number": 6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B10",
+      "Number": null,
+      "Text": "Lớp đất 4",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D10",
+      "Number": 20.45,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D9+E10"
+    },
+    {
+      "address": "E10",
+      "Number": 1.25,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F10",
+      "Number": 2.02,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G10",
+      "Number": 3.89,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H10",
+      "Number": 17.616666666666667,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=17+0.616666666666667"
+    },
+    {
+      "address": "I10",
+      "Number": 2252,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A11",
+      "Number": 7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B11",
+      "Number": null,
+      "Text": "Lớp đất 5",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D11",
+      "Number": 20.45,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D10+E11"
+    },
+    {
+      "address": "A12",
+      "Number": 8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B12",
+      "Number": null,
+      "Text": "Lớp đất 6",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D12",
+      "Number": 20.45,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D11+E12"
+    },
+    {
+      "address": "A13",
+      "Number": 9,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B13",
+      "Number": null,
+      "Text": "Lớp đất 7",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D13",
+      "Number": 20.45,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D12+E13"
+    },
+    {
+      "address": "A14",
+      "Number": null,
+      "Text": "b>tải trọng tính toán",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A15",
+      "Number": null,
+      "Text": "STT",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B15",
+      "Number": null,
+      "Text": "Tên trục",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C15",
+      "Number": null,
+      "Text": "Ntto",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D15",
+      "Number": null,
+      "Text": "Mttox",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E15",
+      "Number": null,
+      "Text": "Qttox",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F15",
+      "Number": null,
+      "Text": "Mttoy",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G15",
+      "Number": null,
+      "Text": "Qttoy",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C16",
+      "Number": null,
+      "Text": "(T)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D16",
+      "Number": null,
+      "Text": "(T.m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E16",
+      "Number": null,
+      "Text": "(T)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F16",
+      "Number": null,
+      "Text": "(T.m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G16",
+      "Number": null,
+      "Text": "(T)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A17",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B17",
+      "Number": null,
+      "Text": "A",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C17",
+      "Number": 135,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D17",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E17",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F17",
+      "Number": 2.7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G17",
+      "Number": 1.7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A18",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A17+1"
+    },
+    {
+      "address": "B18",
+      "Number": null,
+      "Text": "B",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C18",
+      "Number": 116,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D18",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E18",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F18",
+      "Number": 3.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G18",
+      "Number": 1.9,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A19",
+      "Number": 3,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A18+1"
+    },
+    {
+      "address": "B19",
+      "Number": null,
+      "Text": "C",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C19",
+      "Number": 100.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D19",
+      "Number": 1.1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E19",
+      "Number": 1.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F19",
+      "Number": 3.1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G19",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A20",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B20",
+      "Number": null,
+      "Text": "D",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C20",
+      "Number": 51.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D20",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E20",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F20",
+      "Number": 2.6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G20",
+      "Number": 2.3,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A21",
+      "Number": null,
+      "Text": "c> Chọn sơ bộ kích thước móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A22",
+      "Number": null,
+      "Text": "Chọn chiều sâu chôn móng hm =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D22",
+      "Number": 1.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E22",
+      "Number": null,
+      "Text": "m ( so với mặt đất tự nhiên)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A23",
+      "Number": null,
+      "Text": "Chiều dày lớp đất trên móng H=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D23",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D22+E6"
+    },
+    {
+      "address": "E23",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A24",
+      "Number": null,
+      "Text": "Chọn chiều cao dầm móng h =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D24",
+      "Number": 0.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E24",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A25",
+      "Number": null,
+      "Text": "Chọn bề rộng móng b =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D25",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E25",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A26",
+      "Number": null,
+      "Text": "chiều dài a =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D26",
+      "Number": 11.700000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A29:E29)"
+    },
+    {
+      "address": "E26",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A27",
+      "Number": null,
+      "Text": "Console A",
+      "ErrorText": null,
+      "Formula": "=\"Console \"&B17"
+    },
+    {
+      "address": "B27",
+      "Number": null,
+      "Text": "A-B",
+      "ErrorText": null,
+      "Formula": "=B17&\"-\"&B18"
+    },
+    {
+      "address": "C27",
+      "Number": null,
+      "Text": "B-C",
+      "ErrorText": null,
+      "Formula": "=B18&\"-\"&B19"
+    },
+    {
+      "address": "D27",
+      "Number": null,
+      "Text": "C-D",
+      "ErrorText": null,
+      "Formula": "=B19&\"-\"&B20"
+    },
+    {
+      "address": "E27",
+      "Number": null,
+      "Text": "Console D",
+      "ErrorText": null,
+      "Formula": "=\"Console \"&B20"
+    },
+    {
+      "address": "F27",
+      "Number": null,
+      "Text": "x1",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G27",
+      "Number": null,
+      "Text": "x2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H27",
+      "Number": null,
+      "Text": "x3",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I27",
+      "Number": null,
+      "Text": "x4",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I28",
+      "Number": null,
+      "Text": "(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A29",
+      "Number": 1.6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B29",
+      "Number": 3.7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C29",
+      "Number": 3.7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D29",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E29",
+      "Number": 0.3,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F29",
+      "Number": 4.25,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM($A$29:$E$29)/2-A29"
+    },
+    {
+      "address": "G29",
+      "Number": 0.5499999999999998,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM($A$29:$E$29)/2-(B29+A29)"
+    },
+    {
+      "address": "H29",
+      "Number": 3.150000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM($A$29:$E$29)/2-(D29+E29)"
+    },
+    {
+      "address": "I29",
+      "Number": 5.550000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM($A$29:$E$29)/2-(E29)"
+    },
+    {
+      "address": "A30",
+      "Number": null,
+      "Text": " - Tổng tải trọng tính toán tại tâm móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B31",
+      "Number": null,
+      "Text": "=",
+      "ErrorText": null,
+      "Formula": "="
+    },
+    {
+      "address": "C31",
+      "Number": 403,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(C17:C20)"
+    },
+    {
+      "address": "D31",
+      "Number": null,
+      "Text": "T",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F31",
+      "Number": 335.83333333333337,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C31/1.2"
+    },
+    {
+      "address": "G31",
+      "Number": null,
+      "Text": "T",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A32",
+      "Number": null,
+      "Text": " - Tổng mô men tính toán tại tâm móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F34",
+      "Number": 42.85,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(SUM(D17:D20)+ABS(C17*F29+C18*G29-C19*H29-C20*I29)+SUM(E17:E20)*D24,2)"
+    },
+    {
+      "address": "G34",
+      "Number": null,
+      "Text": "T.m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C36",
+      "Number": 35.708333333333336,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F34/1.2"
+    },
+    {
+      "address": "D36",
+      "Number": null,
+      "Text": "T.m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D39",
+      "Number": 18.44,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(SUM(F17:F20)+SUM(G17:G20)*D24,2)"
+    },
+    {
+      "address": "E39",
+      "Number": null,
+      "Text": "T.m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C41",
+      "Number": 15.37,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(D39/1.2,2)"
+    },
+    {
+      "address": "D41",
+      "Number": null,
+      "Text": "T.m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A43",
+      "Number": null,
+      "Text": " - Xác định cường độ đất nền dưới đế móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A44",
+      "Number": null,
+      "Text": " - Từ kết quả khảo sát địa chất ta có",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E44",
+      "Number": null,
+      "Text": "c =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F44",
+      "Number": 3.17,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23))+1,$A$5:$I$10,7,1)"
+    },
+    {
+      "address": "G44",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E45",
+      "Number": null,
+      "Text": "j =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F45",
+      "Number": 17.016666666666666,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23))+1,$A$5:$I$10,8,1)"
+    },
+    {
+      "address": "G45",
+      "Number": null,
+      "Text": "độ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C46",
+      "Number": null,
+      "Text": "Tra bảng ta được",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E46",
+      "Number": null,
+      "Text": "A =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F46",
+      "Number": 0.394,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.25*PI()/((1/TAN(F45*PI()/180))+F45*PI()/180-PI()/2),3)"
+    },
+    {
+      "address": "E47",
+      "Number": null,
+      "Text": "B =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F47",
+      "Number": 2.576,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(1+PI()/(1/TAN(F45*PI()/180)+F45*PI()/180-PI()/2),3)"
+    },
+    {
+      "address": "E48",
+      "Number": null,
+      "Text": "D =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F48",
+      "Number": 5.149,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND((PI()*(1/TAN(F45*PI()/180))/(1/TAN(F45*PI()/180)+F45*PI()/180-PI()/2)),3)"
+    },
+    {
+      "address": "E50",
+      "Number": null,
+      "Text": "Tra bảng ta có",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A52",
+      "Number": null,
+      "Text": "Rtc=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B52",
+      "Number": 25.893434,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(F46*D25+F47*D22)*IF(D6>=D22,F6,F7)+F48*F44"
+    },
+    {
+      "address": "C52",
+      "Number": null,
+      "Text": "t/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A53",
+      "Number": null,
+      "Text": "Kiểm tra kích thước móng đã chọn",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A55",
+      "Number": null,
+      "Text": "Độ lệch tâm móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D55",
+      "Number": 0.11,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(C36/F31,2)"
+    },
+    {
+      "address": "E55",
+      "Number": null,
+      "Text": "< a/6 =",
+      "ErrorText": null,
+      "Formula": "=IF(F55>D55,\"< a/6 =\", \"> a/6 =\")"
+    },
+    {
+      "address": "F55",
+      "Number": 1.95,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(SUM(A29:E29)/6,2)"
+    },
+    {
+      "address": "D57",
+      "Number": 0.05,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(C41/F31,2)"
+    },
+    {
+      "address": "E57",
+      "Number": null,
+      "Text": "<b/6 =",
+      "ErrorText": null,
+      "Formula": "=IF(D57<F57,\"<b/6 =\",\">b/6 =\")"
+    },
+    {
+      "address": "F57",
+      "Number": 0.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(D25/6,2)"
+    },
+    {
+      "address": "A59",
+      "Number": null,
+      "Text": "=> Biểu đồ áp lực đất dưới đáy móng có hình thang",
+      "ErrorText": null,
+      "Formula": "=IF(F55>D55,\"=> Biểu đồ áp lực đất dưới đáy móng có hình thang\", \"=>Biểu đồ áp lực đất dưới đáy móng có hình tam giác\")"
+    },
+    {
+      "address": "D61",
+      "Number": 18.12952081354859,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(F31/(SUM(A29:E29)*D25)*(1+6*D55/SUM(A29:E29)+6*D57/D25)+D23*2)"
+    },
+    {
+      "address": "E61",
+      "Number": null,
+      "Text": "T/m2<1.2Rtc",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F61",
+      "Number": 31.072120799999997,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=1.2*B52"
+    },
+    {
+      "address": "G61",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H61",
+      "Number": null,
+      "Text": "=>Móng đủ chịu lực",
+      "ErrorText": null,
+      "Formula": "=IF(F61>=D61,\"=>Móng đủ chịu lực\",\"=>Móng không đủ chịu lực\")"
+    },
+    {
+      "address": "D64",
+      "Number": 15.160216840772396,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(F31/(SUM(A29:E29)*D25)*(1-6*D55/SUM(A29:E29))-6*D57/D25+D23*2)"
+    },
+    {
+      "address": "E64",
+      "Number": null,
+      "Text": "T/m2  >0 =>",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F64",
+      "Number": null,
+      "Text": "Đạt yêu cầu",
+      "ErrorText": null,
+      "Formula": "=IF(D64>0,\"Đạt yêu cầu\",\"Không đạt yêu cầu\")"
+    },
+    {
+      "address": "A66",
+      "Number": null,
+      "Text": " - Chiều cao cánh móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A67",
+      "Number": null,
+      "Text": "Chiều rộng dầm móng được chọn từ điều kiện",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F67",
+      "Number": null,
+      "Text": "1/bd=(0,45->0,55)h=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H67",
+      "Number": 0.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D24/2"
+    },
+    {
+      "address": "I67",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A68",
+      "Number": null,
+      "Text": "Chiều rộng tiết diện cột bc=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D68",
+      "Number": 0.35,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E68",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F68",
+      "Number": null,
+      "Text": "2/bd =bc+100=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H68",
+      "Number": 0.44999999999999996,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=+D68+0.1"
+    },
+    {
+      "address": "I68",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A69",
+      "Number": null,
+      "Text": "chọn bd =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B69",
+      "Number": 0.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C69",
+      "Number": null,
+      "Text": "m     ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D69",
+      "Number": null,
+      "Text": "Độ vươn cánh móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F69",
+      "Number": null,
+      "Text": "b1=(b-bd)/2 =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H69",
+      "Number": 0.95,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(D25-B69)/2"
+    },
+    {
+      "address": "I69",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A70",
+      "Number": null,
+      "Text": " Chiều cao cánh móng xác định từ điều kiện không đặt cốt đai và cốt xiên:",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A71",
+      "Number": null,
+      "Text": "h01=(1,45xRtcxb1)/Rk=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C71",
+      "Number": 0.4755760711333333,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=1.45*B52*H69/75"
+    },
+    {
+      "address": "D71",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E71",
+      "Number": null,
+      "Text": "   Và từ điều kiện cấu tạo h01<=>2/3h = ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I71",
+      "Number": 0.5333333333333333,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D24*2/3"
+    },
+    {
+      "address": "A72",
+      "Number": null,
+      "Text": "Chiều cao cánh móng h1 =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D72",
+      "Number": 0.6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E72",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A73",
+      "Number": null,
+      "Text": "- Kiểm tra độ lún móng:",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A74",
+      "Number": null,
+      "Text": "Ứng suất trung bình tiêu chuẩn dưới đáy móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C76",
+      "Number": 16.644868827160494,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(D61+D64)/2"
+    },
+    {
+      "address": "D76",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A78",
+      "Number": null,
+      "Text": "Ứng suất gây lún",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C78",
+      "Number": null,
+      "Text": "     sgl =stctb - gtbH=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E78",
+      "Number": 12.644868827160494,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C76-2*D23"
+    },
+    {
+      "address": "F78",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A79",
+      "Number": null,
+      "Text": "Ứng suất gây lún tại điểm thứ i",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E79",
+      "Number": null,
+      "Text": "sgli =sgl x Ko",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F79",
+      "Number": null,
+      "Text": "( Ko Hệ số tra bảng)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A80",
+      "Number": null,
+      "Text": "Ứng suất bản thân",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C80",
+      "Number": null,
+      "Text": "              sbt =gtbH=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E80",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*D23"
+    },
+    {
+      "address": "F80",
+      "Number": null,
+      "Text": "T/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A81",
+      "Number": null,
+      "Text": "Ứng suất bản thân tại diểm thứ i",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E81",
+      "Number": null,
+      "Text": "sgli =sbt +gihi",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A82",
+      "Number": null,
+      "Text": "gi Trọng lượng riêng của lớp đất thứ i",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A83",
+      "Number": null,
+      "Text": "hi độ dày của lớp đất thứ i",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A84",
+      "Number": null,
+      "Text": "Tính lún bằng phương pháp tổng lớp phân tố; chia lớp đất dưới đáy móng từng lớp có",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A85",
+      "Number": null,
+      "Text": "            độ dày:b/5 =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C85",
+      "Number": 0.48,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D25/5"
+    },
+    {
+      "address": "D85",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C86",
+      "Number": null,
+      "Text": "               BẢNG TÍNH LÚN",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A87",
+      "Number": null,
+      "Text": "Lớp đất",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B87",
+      "Number": null,
+      "Text": "Điểm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C87",
+      "Number": null,
+      "Text": "h (m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D87",
+      "Number": null,
+      "Text": "Lm/Bm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E87",
+      "Number": null,
+      "Text": "2z/Bm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F87",
+      "Number": null,
+      "Text": "Ko",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G87",
+      "Number": null,
+      "Text": "sgl(T/m2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H87",
+      "Number": null,
+      "Text": "sbt (T/m2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I87",
+      "Number": null,
+      "Text": "si(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "J87",
+      "Number": null,
+      "Text": "sbt/sgl",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A88",
+      "Number": null,
+      "Text": "Lớp 1",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B88",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C88",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D88",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E88",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C88/$D$25"
+    },
+    {
+      "address": "F88",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G88",
+      "Number": 12.644868827160494,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E78"
+    },
+    {
+      "address": "H88",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E80"
+    },
+    {
+      "address": "I88",
+      "Number": 0.003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G88+G89)*(C89-C88)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C88))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J88",
+      "Number": 0.3163338469283459,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H88/G88"
+    },
+    {
+      "address": "B89",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C89",
+      "Number": 0.48,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C85"
+    },
+    {
+      "address": "D89",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E89",
+      "Number": 0.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C89/$D$25"
+    },
+    {
+      "address": "F89",
+      "Number": 0.9772338779795611,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C89*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C89*C89))))+(0.5*$D$25*0.5*$D$26*C89)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C89*C89)/((0.5*$D$25*0.5*$D$25+C89*C89)*(0.5*$D$26*0.5*$D$26+C89*C89)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C89*C89))))/PI()"
+    },
+    {
+      "address": "G89",
+      "Number": 12.356994200508913,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F89*G$88"
+    },
+    {
+      "address": "H89",
+      "Number": 4.9552,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C88))+1,$A$5:$I$10,6,1)+H88"
+    },
+    {
+      "address": "I89",
+      "Number": 0.003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G89+G90)*(C90-C89)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C89))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J89",
+      "Number": 0.40100366801142656,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H89/G89"
+    },
+    {
+      "address": "B90",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B89+1"
+    },
+    {
+      "address": "C90",
+      "Number": 0.96,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C89+C$89"
+    },
+    {
+      "address": "D90",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E90",
+      "Number": 0.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C90/$D$25"
+    },
+    {
+      "address": "F90",
+      "Number": 0.8805878827726702,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C90*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C90*C90))))+(0.5*$D$25*0.5*$D$26*C90)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C90*C90)/((0.5*$D$25*0.5*$D$25+C90*C90)*(0.5*$D$26*0.5*$D$26+C90*C90)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C90*C90))))/PI()"
+    },
+    {
+      "address": "G90",
+      "Number": 11.134918268447397,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F90*G$88"
+    },
+    {
+      "address": "H90",
+      "Number": 5.910399999999999,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C89))+1,$A$5:$I$10,6,1)+H89"
+    },
+    {
+      "address": "I90",
+      "Number": 0.002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G90+G91)*(C91-C90)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C90))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J90",
+      "Number": 0.5307986872923962,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H90/G90"
+    },
+    {
+      "address": "B91",
+      "Number": 3,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B90+1"
+    },
+    {
+      "address": "C91",
+      "Number": 1.44,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C90+C$89"
+    },
+    {
+      "address": "D91",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E91",
+      "Number": 1.2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C91/$D$25"
+    },
+    {
+      "address": "F91",
+      "Number": 0.7540799865524946,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C91*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C91*C91))))+(0.5*$D$25*0.5*$D$26*C91)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C91*C91)/((0.5*$D$25*0.5*$D$25+C91*C91)*(0.5*$D$26*0.5*$D$26+C91*C91)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C91*C91))))/PI()"
+    },
+    {
+      "address": "G91",
+      "Number": 9.535242515143244,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F91*G$88"
+    },
+    {
+      "address": "H91",
+      "Number": 6.865599999999999,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C90))+1,$A$5:$I$10,6,1)+H90"
+    },
+    {
+      "address": "I91",
+      "Number": 0.002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G91+G92)*(C92-C91)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C91))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J91",
+      "Number": 0.7200236374792256,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H91/G91"
+    },
+    {
+      "address": "B92",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B91+1"
+    },
+    {
+      "address": "C92",
+      "Number": 1.92,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C91+C$89"
+    },
+    {
+      "address": "D92",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E92",
+      "Number": 1.6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C92/$D$25"
+    },
+    {
+      "address": "F92",
+      "Number": 0.6388779384077433,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C92*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C92*C92))))+(0.5*$D$25*0.5*$D$26*C92)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C92*C92)/((0.5*$D$25*0.5*$D$25+C92*C92)*(0.5*$D$26*0.5*$D$26+C92*C92)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C92*C92))))/PI()"
+    },
+    {
+      "address": "G92",
+      "Number": 8.078527727732636,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F92*G$88"
+    },
+    {
+      "address": "H92",
+      "Number": 7.820799999999998,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C91))+1,$A$5:$I$10,6,1)+H91"
+    },
+    {
+      "address": "I92",
+      "Number": 0.002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G92+G93)*(C93-C92)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C92))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J92",
+      "Number": 0.9680971909215724,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H92/G92"
+    },
+    {
+      "address": "B93",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B92+1"
+    },
+    {
+      "address": "C93",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C92+C$89"
+    },
+    {
+      "address": "D93",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E93",
+      "Number": 2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C93/$D$25"
+    },
+    {
+      "address": "F93",
+      "Number": 0.5447032812722096,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C93*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C93*C93))))+(0.5*$D$25*0.5*$D$26*C93)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C93*C93)/((0.5*$D$25*0.5*$D$25+C93*C93)*(0.5*$D$26*0.5*$D$26+C93*C93)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C93*C93))))/PI()"
+    },
+    {
+      "address": "G93",
+      "Number": 6.887701541410997,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F93*G$88"
+    },
+    {
+      "address": "H93",
+      "Number": 8.775999999999998,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C92))+1,$A$5:$I$10,6,1)+H92"
+    },
+    {
+      "address": "I93",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G93+G94)*(C94-C93)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C93))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J93",
+      "Number": 1.2741550932827106,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H93/G93"
+    },
+    {
+      "address": "B94",
+      "Number": 6,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B93+1"
+    },
+    {
+      "address": "C94",
+      "Number": 2.88,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C93+C$89"
+    },
+    {
+      "address": "D94",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E94",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C94/$D$25"
+    },
+    {
+      "address": "F94",
+      "Number": 0.4693749636435677,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C94*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C94*C94))))+(0.5*$D$25*0.5*$D$26*C94)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C94*C94)/((0.5*$D$25*0.5*$D$25+C94*C94)*(0.5*$D$26*0.5*$D$26+C94*C94)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C94*C94))))/PI()"
+    },
+    {
+      "address": "G94",
+      "Number": 5.935184846026139,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F94*G$88"
+    },
+    {
+      "address": "H94",
+      "Number": 9.731199999999998,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C93))+1,$A$5:$I$10,6,1)+H93"
+    },
+    {
+      "address": "I94",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G94+G95)*(C95-C94)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C94))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J94",
+      "Number": 1.6395782528180993,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H94/G94"
+    },
+    {
+      "address": "B95",
+      "Number": 7,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B94+1"
+    },
+    {
+      "address": "C95",
+      "Number": 3.36,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C94+C$89"
+    },
+    {
+      "address": "D95",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E95",
+      "Number": 2.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C95/$D$25"
+    },
+    {
+      "address": "F95",
+      "Number": 0.4087139363319311,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C95*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C95*C95))))+(0.5*$D$25*0.5*$D$26*C95)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C95*C95)/((0.5*$D$25*0.5*$D$25+C95*C95)*(0.5*$D$26*0.5*$D$26+C95*C95)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C95*C95))))/PI()"
+    },
+    {
+      "address": "G95",
+      "Number": 5.168134112749694,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F95*G$88"
+    },
+    {
+      "address": "H95",
+      "Number": 10.686399999999997,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C94))+1,$A$5:$I$10,6,1)+H94"
+    },
+    {
+      "address": "I95",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G95+G96)*(C96-C95)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C95))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J95",
+      "Number": 2.0677481982591823,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H95/G95"
+    },
+    {
+      "address": "B96",
+      "Number": 8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B95+1"
+    },
+    {
+      "address": "C96",
+      "Number": 3.84,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C95+C$89"
+    },
+    {
+      "address": "D96",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E96",
+      "Number": 3.2,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C96/$D$25"
+    },
+    {
+      "address": "F96",
+      "Number": 0.3591352786208525,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C96*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C96*C96))))+(0.5*$D$25*0.5*$D$26*C96)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C96*C96)/((0.5*$D$25*0.5*$D$25+C96*C96)*(0.5*$D$26*0.5*$D$26+C96*C96)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C96*C96))))/PI()"
+    },
+    {
+      "address": "G96",
+      "Number": 4.5412184893664165,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F96*G$88"
+    },
+    {
+      "address": "H96",
+      "Number": 11.641599999999997,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C95))+1,$A$5:$I$10,6,1)+H95"
+    },
+    {
+      "address": "I96",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G96+G97)*(C97-C96)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C96))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J96",
+      "Number": 2.5635410468048665,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H96/G96"
+    },
+    {
+      "address": "B97",
+      "Number": 9,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B96+1"
+    },
+    {
+      "address": "C97",
+      "Number": 4.32,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C96+C$89"
+    },
+    {
+      "address": "D97",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E97",
+      "Number": 3.6000000000000005,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C97/$D$25"
+    },
+    {
+      "address": "F97",
+      "Number": 0.31797985801228396,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C97*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C97*C97))))+(0.5*$D$25*0.5*$D$26*C97)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C97*C97)/((0.5*$D$25*0.5*$D$25+C97*C97)*(0.5*$D$26*0.5*$D$26+C97*C97)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C97*C97))))/PI()"
+    },
+    {
+      "address": "G97",
+      "Number": 4.02081359424445,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F97*G$88"
+    },
+    {
+      "address": "H97",
+      "Number": 12.596799999999996,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C96))+1,$A$5:$I$10,6,1)+H96"
+    },
+    {
+      "address": "I97",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G97+G98)*(C98-C97)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C97))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J97",
+      "Number": 3.132898281589465,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H97/G97"
+    },
+    {
+      "address": "B98",
+      "Number": 10,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B97+1"
+    },
+    {
+      "address": "C98",
+      "Number": 4.800000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C97+C$89"
+    },
+    {
+      "address": "D98",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E98",
+      "Number": 4.000000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C98/$D$25"
+    },
+    {
+      "address": "F98",
+      "Number": 0.28334174909507215,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C98*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C98*C98))))+(0.5*$D$25*0.5*$D$26*C98)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C98*C98)/((0.5*$D$25*0.5*$D$25+C98*C98)*(0.5*$D$26*0.5*$D$26+C98*C98)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C98*C98))))/PI()"
+    },
+    {
+      "address": "G98",
+      "Number": 3.5828192505654077,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F98*G$88"
+    },
+    {
+      "address": "H98",
+      "Number": 13.551999999999996,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C97))+1,$A$5:$I$10,6,1)+H97"
+    },
+    {
+      "address": "I98",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G98+G99)*(C99-C98)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C98))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J98",
+      "Number": 3.7824961440243863,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H98/G98"
+    },
+    {
+      "address": "B99",
+      "Number": 11,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B98+1"
+    },
+    {
+      "address": "C99",
+      "Number": 5.280000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C98+C$89"
+    },
+    {
+      "address": "D99",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E99",
+      "Number": 4.400000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C99/$D$25"
+    },
+    {
+      "address": "F99",
+      "Number": 0.2538509205194909,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C99*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C99*C99))))+(0.5*$D$25*0.5*$D$26*C99)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C99*C99)/((0.5*$D$25*0.5*$D$25+C99*C99)*(0.5*$D$26*0.5*$D$26+C99*C99)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C99*C99))))/PI()"
+    },
+    {
+      "address": "G99",
+      "Number": 3.209911591622906,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F99*G$88"
+    },
+    {
+      "address": "H99",
+      "Number": 14.507199999999996,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C98))+1,$A$5:$I$10,6,1)+H98"
+    },
+    {
+      "address": "I99",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G99+G100)*(C100-C99)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C99))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J99",
+      "Number": 4.519501421117106,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H99/G99"
+    },
+    {
+      "address": "B100",
+      "Number": 12,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B99+1"
+    },
+    {
+      "address": "C100",
+      "Number": 5.760000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C99+C$89"
+    },
+    {
+      "address": "D100",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E100",
+      "Number": 4.800000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C100/$D$25"
+    },
+    {
+      "address": "F100",
+      "Number": 0.22850480885197239,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C100*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C100*C100))))+(0.5*$D$25*0.5*$D$26*C100)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C100*C100)/((0.5*$D$25*0.5*$D$25+C100*C100)*(0.5*$D$26*0.5*$D$26+C100*C100)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C100*C100))))/PI()"
+    },
+    {
+      "address": "G100",
+      "Number": 2.889413334308573,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F100*G$88"
+    },
+    {
+      "address": "H100",
+      "Number": 15.462399999999995,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C99))+1,$A$5:$I$10,6,1)+H99"
+    },
+    {
+      "address": "I100",
+      "Number": 0.001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G100+G101)*(C101-C100)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C100))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J100",
+      "Number": 5.351397744449081,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H100/G100"
+    },
+    {
+      "address": "B101",
+      "Number": 13,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B100+1"
+    },
+    {
+      "address": "C101",
+      "Number": 6.240000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C100+C$89"
+    },
+    {
+      "address": "D101",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E101",
+      "Number": 5.200000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C101/$D$25"
+    },
+    {
+      "address": "F101",
+      "Number": 0.20655237974330395,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C101*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C101*C101))))+(0.5*$D$25*0.5*$D$26*C101)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C101*C101)/((0.5*$D$25*0.5*$D$25+C101*C101)*(0.5*$D$26*0.5*$D$26+C101*C101)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C101*C101))))/PI()"
+    },
+    {
+      "address": "G101",
+      "Number": 2.6118277477919207,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F101*G$88"
+    },
+    {
+      "address": "H101",
+      "Number": 16.417599999999997,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C100))+1,$A$5:$I$10,6,1)+H100"
+    },
+    {
+      "address": "I101",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(0.8*0.5*(G101+G102)*(C102-C101)/VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C101))+1,$A$5:$I$10,9,1),3)"
+    },
+    {
+      "address": "J101",
+      "Number": 6.285866291863883,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H101/G101"
+    },
+    {
+      "address": "B102",
+      "Number": 14,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B101+1"
+    },
+    {
+      "address": "C102",
+      "Number": 6.720000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C101+C$89"
+    },
+    {
+      "address": "D102",
+      "Number": 4.875000000000001,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUM(A$29:E$29)/$D$25"
+    },
+    {
+      "address": "E102",
+      "Number": 5.600000000000002,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*C102/$D$25"
+    },
+    {
+      "address": "F102",
+      "Number": 0.18741729633915402,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=2*((ATAN(0.5*$D$25*0.5*$D$26/(C102*SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C102*C102))))+(0.5*$D$25*0.5*$D$26*C102)*(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+2*C102*C102)/((0.5*$D$25*0.5*$D$25+C102*C102)*(0.5*$D$26*0.5*$D$26+C102*C102)*(SQRT(0.5*$D$25*0.5*$D$25+0.5*$D$26*0.5*$D$26+C102*C102))))/PI()"
+    },
+    {
+      "address": "G102",
+      "Number": 2.3698671281496693,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F102*G$88"
+    },
+    {
+      "address": "H102",
+      "Number": 17.372799999999998,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C$89*VLOOKUP(COUNTIF($D$5:$D$10,\"<=\"&($D$23+C101))+1,$A$5:$I$10,6,1)+H101"
+    },
+    {
+      "address": "J102",
+      "Number": 7.330706347897331,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=H102/G102"
+    },
+    {
+      "address": "A103",
+      "Number": null,
+      "Text": "Tại điểm 12 Ứng suất gây lún nhỏ hơn 0,2 ứng suất bản thân xem như tắt lún",
+      "ErrorText": null,
+      "Formula": "=CONCATENATE(\"Tại điểm\",\" \",COUNTIF(J88:J102,\"<5\"),\" \",\"Ứng suất gây lún nhỏ hơn 0,2 ứng suất bản thân xem như tắt lún\")"
+    },
+    {
+      "address": "D105",
+      "Number": 0.019000000000000006,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=SUMIF(J88:J102,\"<=5\",I88:I102)"
+    },
+    {
+      "address": "E105",
+      "Number": null,
+      "Text": "m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A107",
+      "Number": null,
+      "Text": "ta có Sgh=0,08m =>",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C107",
+      "Number": null,
+      "Text": "thõa mãn điều kiện về lún",
+      "ErrorText": null,
+      "Formula": "=IF(D105<0.08,\"thõa mãn điều kiện về lún\",\"không thõa điều kiện về lún\")"
+    },
+    {
+      "address": "A108",
+      "Number": null,
+      "Text": "d> Tính cốt thép cho móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A109",
+      "Number": null,
+      "Text": "   d1/ Cốt thép cho móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A110",
+      "Number": null,
+      "Text": "- Cấp độ bền bê tông",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C110",
+      "Number": null,
+      "Text": "B20",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D110",
+      "Number": null,
+      "Text": "Rb =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E110",
+      "Number": 115,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(C110=\"B15\",85,IF(C110=\"B20\",115,IF(C110=\"B22.5\",130,IF(C110=\"B25\",145,\"!!!\"))))"
+    },
+    {
+      "address": "F110",
+      "Number": null,
+      "Text": "kg/cm2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G110",
+      "Number": null,
+      "Text": "Rbt =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H110",
+      "Number": 9,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(E110=85,7.5,IF(E110=115,9,IF(E110=130,10,IF(E110=145,10.5,\"!!!\"))))"
+    },
+    {
+      "address": "I110",
+      "Number": null,
+      "Text": "kg/cm2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A111",
+      "Number": null,
+      "Text": "- Nhóm thép",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C111",
+      "Number": null,
+      "Text": "CB400-V",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D111",
+      "Number": null,
+      "Text": "Rs=",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E111",
+      "Number": 3500,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(C111=\"CB240-T\",2100,IF(C111=\"CB300-V\",2600,IF(C111=\"CB400-V\",3500,\"!!!\")))"
+    },
+    {
+      "address": "F111",
+      "Number": null,
+      "Text": "kG/cm2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G111",
+      "Number": null,
+      "Text": "Rsx =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H111",
+      "Number": 2800,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(E111=2100,1700,IF(E111=2600,2100,IF(E111=3500,2800,\"!!!\")))"
+    },
+    {
+      "address": "I111",
+      "Number": null,
+      "Text": "kG/cm2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A112",
+      "Number": null,
+      "Text": "      + Thép phương ngắn: Xem biểu đồ áp lực đất dưới đế móng phân bố đều ta có",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C114",
+      "Number": 18.35,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=ROUND(C31/(D25*SUM(A29:E29))+2*D23,2)"
+    },
+    {
+      "address": "D114",
+      "Number": null,
+      "Text": "t/m2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F114",
+      "Number": 8.2804375,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C114*H69^2/2"
+    },
+    {
+      "address": "G114",
+      "Number": null,
+      "Text": "t.m/m",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C116",
+      "Number": 4.779473304473305,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(F114*10^5)/0.9/E111/(D72-0.05)/100"
+    },
+    {
+      "address": "D116",
+      "Number": null,
+      "Text": "cm2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E116",
+      "Number": null,
+      "Text": "Bố trí thép ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F116",
+      "Number": null,
+      "Text": "f14",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G116",
+      "Number": null,
+      "Text": "a150",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H116",
+      "Number": null,
+      "Text": "Ta có Fa = 10.26 cm2",
+      "ErrorText": null,
+      "Formula": "=\"Ta có Fa =\"&\" \"&ROUND((RIGHT(F116,2))^2*3.14/4/100*1000/(RIGHT(G116,3)),2)&\" \"&\"cm2\""
+    },
+    {
+      "address": "A118",
+      "Number": null,
+      "Text": "      + Thép phương dài bố trí cấu tạo: ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E118",
+      "Number": null,
+      "Text": "Bố trí thép ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F118",
+      "Number": null,
+      "Text": "f12",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G118",
+      "Number": null,
+      "Text": "a200",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H118",
+      "Number": null,
+      "Text": "Ta có Fa = 5.65 cm2",
+      "ErrorText": null,
+      "Formula": "=\"Ta có Fa =\"&\" \"&ROUND((RIGHT(F118,2))^2*3.14/4/100*1000/(RIGHT(G118,3)),2)&\" \"&\"cm2\""
+    },
+    {
+      "address": "A119",
+      "Number": null,
+      "Text": "   d2/ Cốt thép cho dầm móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A120",
+      "Number": null,
+      "Text": "Xem dầm băng là dầm  trên nền đàn hồi chia dầm thành từng đoạn nhỏ có chiều dài ai ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A121",
+      "Number": null,
+      "Text": "ta có hệ số lò xo ki= nKAi ;  hệ số nề K = sgl/s ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A122",
+      "Number": null,
+      "Text": "S là độ lún trung bình của móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A123",
+      "Number": null,
+      "Text": "Rm: là cường độ đất nền tại vị trí đặt móng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A124",
+      "Number": null,
+      "Text": "Ai = b x ai",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B124",
+      "Number": null,
+      "Text": "Trong đó ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C124",
+      "Number": null,
+      "Text": "b: bề rộng móng băng",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A125",
+      "Number": null,
+      "Text": "n: là hệ số điều chỉnh ki",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B126",
+      "Number": null,
+      "Text": "BẢNG TÍNH HỆ SỐ LÒ XO ki",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A127",
+      "Number": null,
+      "Text": "b (m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B127",
+      "Number": null,
+      "Text": "ai(m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C127",
+      "Number": null,
+      "Text": "K(t/m3)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D127",
+      "Number": null,
+      "Text": "Ai(m2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E127",
+      "Number": null,
+      "Text": "n",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F127",
+      "Number": null,
+      "Text": "ki(T)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A128",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D25"
+    },
+    {
+      "address": "B128",
+      "Number": 0.1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C128",
+      "Number": 665.5194119558153,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=G88/D105"
+    },
+    {
+      "address": "D128",
+      "Number": 0.24,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A128*B128"
+    },
+    {
+      "address": "E128",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F128",
+      "Number": 159.72465886939565,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C128*D128*E128"
+    },
+    {
+      "address": "A129",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A128"
+    },
+    {
+      "address": "B129",
+      "Number": 0.05,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C129",
+      "Number": 665.5194119558153,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C128"
+    },
+    {
+      "address": "D129",
+      "Number": 0.12,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A129*B129"
+    },
+    {
+      "address": "E129",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E128"
+    },
+    {
+      "address": "F129",
+      "Number": 79.86232943469783,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C129*D129*E129"
+    },
+    {
+      "address": "A130",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A129"
+    },
+    {
+      "address": "C130",
+      "Number": 665.5194119558153,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C129"
+    },
+    {
+      "address": "D130",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A130*B130"
+    },
+    {
+      "address": "E130",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E128"
+    },
+    {
+      "address": "F130",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C130*D130*E130"
+    },
+    {
+      "address": "A131",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A128"
+    },
+    {
+      "address": "C131",
+      "Number": 665.5194119558153,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C129"
+    },
+    {
+      "address": "D131",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A131*B131"
+    },
+    {
+      "address": "E131",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E128"
+    },
+    {
+      "address": "F131",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C131*D131*E131"
+    },
+    {
+      "address": "A132",
+      "Number": 2.4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A129"
+    },
+    {
+      "address": "C132",
+      "Number": 665.5194119558153,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C130"
+    },
+    {
+      "address": "D132",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=A132*B132"
+    },
+    {
+      "address": "E132",
+      "Number": 1,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=E128"
+    },
+    {
+      "address": "F132",
+      "Number": 0,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C132*D132*E132"
+    },
+    {
+      "address": "B134",
+      "Number": null,
+      "Text": "BẢNG TÍNH CỐT THÉP DẦM BĂNG",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A135",
+      "Number": null,
+      "Text": "Đoạn dầm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B135",
+      "Number": null,
+      "Text": "vị trí",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C135",
+      "Number": null,
+      "Text": "M(T.m)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D135",
+      "Number": null,
+      "Text": "a(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E135",
+      "Number": null,
+      "Text": "b(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F135",
+      "Number": null,
+      "Text": "h(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G135",
+      "Number": null,
+      "Text": "A",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H135",
+      "Number": null,
+      "Text": "ξ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I135",
+      "Number": null,
+      "Text": "Fa(cm2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A136",
+      "Number": null,
+      "Text": "Console A",
+      "ErrorText": null,
+      "Formula": "=A27"
+    },
+    {
+      "address": "B136",
+      "Number": null,
+      "Text": "Gối A",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B17"
+    },
+    {
+      "address": "C136",
+      "Number": 42.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D136",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E136",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=B69*100"
+    },
+    {
+      "address": "F136",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=D24*100"
+    },
+    {
+      "address": "G136",
+      "Number": 0.13232850241545893,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C136*10^5/($E$110*E136*(F136-D136)^2)"
+    },
+    {
+      "address": "H136",
+      "Number": 0.9287607127434492,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G136))/2"
+    },
+    {
+      "address": "I136",
+      "Number": 17.555395788221457,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C136*10^5/H136/$E$111/(F136-D136)"
+    },
+    {
+      "address": "B137",
+      "Number": null,
+      "Text": "Gối A",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B17"
+    },
+    {
+      "address": "C137",
+      "Number": 47.8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D137",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E137",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F137",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G137",
+      "Number": 0.14778743961352658,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C137*10^5/($E$110*E137*(F137-D137)^2)"
+    },
+    {
+      "address": "H137",
+      "Number": 0.9196501878865738,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G137))/2"
+    },
+    {
+      "address": "I137",
+      "Number": 19.800489413665737,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C137*10^5/H137/$E$111/(F137-D137)"
+    },
+    {
+      "address": "A138",
+      "Number": null,
+      "Text": "A-B",
+      "ErrorText": null,
+      "Formula": "=B27"
+    },
+    {
+      "address": "B138",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C138",
+      "Number": 32,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D138",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E138",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F138",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G138",
+      "Number": 0.09893719806763285,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C138*10^5/($E$110*E138*(F138-D138)^2)"
+    },
+    {
+      "address": "H138",
+      "Number": 0.9478073257174155,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G138))/2"
+    },
+    {
+      "address": "I138",
+      "Number": 12.861766162494007,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C138*10^5/H138/$E$111/(F138-D138)"
+    },
+    {
+      "address": "B139",
+      "Number": null,
+      "Text": "Gối B",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B18"
+    },
+    {
+      "address": "C139",
+      "Number": 18,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D139",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E139",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F139",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G139",
+      "Number": 0.05565217391304348,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C139*10^5/($E$110*E139*(F139-D139)^2)"
+    },
+    {
+      "address": "H139",
+      "Number": 0.9713532783841418,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G139))/2"
+    },
+    {
+      "address": "I139",
+      "Number": 7.059370683907918,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C139*10^5/H139/$E$111/(F139-D139)"
+    },
+    {
+      "address": "B140",
+      "Number": null,
+      "Text": "Gối B",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B18"
+    },
+    {
+      "address": "C140",
+      "Number": 18,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D140",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E140",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F140",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G140",
+      "Number": 0.05565217391304348,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C140*10^5/($E$110*E140*(F140-D140)^2)"
+    },
+    {
+      "address": "H140",
+      "Number": 0.9713532783841418,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G140))/2"
+    },
+    {
+      "address": "I140",
+      "Number": 7.059370683907918,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C140*10^5/H140/$E$111/(F140-D140)"
+    },
+    {
+      "address": "A141",
+      "Number": null,
+      "Text": "B-C",
+      "ErrorText": null,
+      "Formula": "=C27"
+    },
+    {
+      "address": "B141",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C141",
+      "Number": 46.5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D141",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E141",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F141",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G141",
+      "Number": 0.14376811594202898,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C141*10^5/($E$110*E141*(F141-D141)^2)"
+    },
+    {
+      "address": "H141",
+      "Number": 0.9220378443089974,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G141))/2"
+    },
+    {
+      "address": "I141",
+      "Number": 19.212102652425646,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C141*10^5/H141/$E$111/(F141-D141)"
+    },
+    {
+      "address": "B142",
+      "Number": null,
+      "Text": "Gối C",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B19"
+    },
+    {
+      "address": "C142",
+      "Number": 10,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D142",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E142",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F142",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G142",
+      "Number": 0.030917874396135265,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C142*10^5/($E$110*E142*(F142-D142)^2)"
+    },
+    {
+      "address": "H142",
+      "Number": 0.9842943968310313,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G142))/2"
+    },
+    {
+      "address": "I142",
+      "Number": 3.8703093523530145,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C142*10^5/H142/$E$111/(F142-D142)"
+    },
+    {
+      "address": "B143",
+      "Number": null,
+      "Text": "Gối C",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B19"
+    },
+    {
+      "address": "C143",
+      "Number": 10,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D143",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E143",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F143",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G143",
+      "Number": 0.030917874396135265,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C143*10^5/($E$110*E143*(F143-D143)^2)"
+    },
+    {
+      "address": "H143",
+      "Number": 0.9842943968310313,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G143))/2"
+    },
+    {
+      "address": "I143",
+      "Number": 3.8703093523530145,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C143*10^5/H143/$E$111/(F143-D143)"
+    },
+    {
+      "address": "A144",
+      "Number": null,
+      "Text": "C-D",
+      "ErrorText": null,
+      "Formula": "=D27"
+    },
+    {
+      "address": "B144",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C144",
+      "Number": 22,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D144",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E144",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F144",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G144",
+      "Number": 0.06801932367149759,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C144*10^5/($E$110*E144*(F144-D144)^2)"
+    },
+    {
+      "address": "H144",
+      "Number": 0.9647476069483857,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G144))/2"
+    },
+    {
+      "address": "I144",
+      "Number": 8.68719685914781,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C144*10^5/H144/$E$111/(F144-D144)"
+    },
+    {
+      "address": "B145",
+      "Number": null,
+      "Text": "Gối D",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B20"
+    },
+    {
+      "address": "C145",
+      "Number": 8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D145",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E145",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F145",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G145",
+      "Number": 0.024734299516908212,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C145*10^5/($E$110*E145*(F145-D145)^2)"
+    },
+    {
+      "address": "H145",
+      "Number": 0.9874759996569533,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G145))/2"
+    },
+    {
+      "address": "I145",
+      "Number": 3.086271513107947,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C145*10^5/H145/$E$111/(F145-D145)"
+    },
+    {
+      "address": "A146",
+      "Number": null,
+      "Text": "Console D",
+      "ErrorText": null,
+      "Formula": "=E27"
+    },
+    {
+      "address": "B146",
+      "Number": null,
+      "Text": "Gối D",
+      "ErrorText": null,
+      "Formula": "=\"Gối \"&B20"
+    },
+    {
+      "address": "C146",
+      "Number": 8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D146",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$136"
+    },
+    {
+      "address": "E146",
+      "Number": 50,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$E$136"
+    },
+    {
+      "address": "F146",
+      "Number": 80,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$F$136"
+    },
+    {
+      "address": "G146",
+      "Number": 0.024734299516908212,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C146*10^5/($E$110*E146*(F146-D146)^2)"
+    },
+    {
+      "address": "H146",
+      "Number": 0.9874759996569533,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1+SQRT(1-2*G146))/2"
+    },
+    {
+      "address": "I146",
+      "Number": 3.086271513107947,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=C146*10^5/H146/$E$111/(F146-D146)"
+    },
+    {
+      "address": "C147",
+      "Number": null,
+      "Text": "BẢNG BỐ TRÍ CỐT THÉP DẦM BĂNG",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A148",
+      "Number": null,
+      "Text": "Đoạn dầm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B148",
+      "Number": null,
+      "Text": "vị trí",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C148",
+      "Number": null,
+      "Text": "Bố trí thép",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G148",
+      "Number": null,
+      "Text": "Fa(cm2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H148",
+      "Number": null,
+      "Text": "Fa(cm2)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I148",
+      "Number": null,
+      "Text": "Kết luận",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C149",
+      "Number": null,
+      "Text": "n",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D149",
+      "Number": null,
+      "Text": "f",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E149",
+      "Number": null,
+      "Text": "n",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F149",
+      "Number": null,
+      "Text": "f",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G149",
+      "Number": null,
+      "Text": "Bố trí",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H149",
+      "Number": null,
+      "Text": "Tính toán",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A150",
+      "Number": null,
+      "Text": "Console A",
+      "ErrorText": null,
+      "Formula": "=A136"
+    },
+    {
+      "address": "B150",
+      "Number": null,
+      "Text": "Gối A",
+      "ErrorText": null,
+      "Formula": "=B136"
+    },
+    {
+      "address": "C150",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D150",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E150",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F150",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G150",
+      "Number": 31.415000000000006,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D150^2)*C150/(4*100))+((3.1415*F150^2)*E150/(4*100))"
+    },
+    {
+      "address": "H150",
+      "Number": 17.555395788221457,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I136"
+    },
+    {
+      "address": "I150",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H150<G150,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B151",
+      "Number": null,
+      "Text": "Gối A",
+      "ErrorText": null,
+      "Formula": "=B137"
+    },
+    {
+      "address": "C151",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D151",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "E151",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F151",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G151",
+      "Number": 31.415000000000006,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D151^2)*C151/(4*100))+((3.1415*F151^2)*E151/(4*100))"
+    },
+    {
+      "address": "H151",
+      "Number": 19.800489413665737,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I137"
+    },
+    {
+      "address": "I151",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H151<G151,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "A152",
+      "Number": null,
+      "Text": "A-B",
+      "ErrorText": null,
+      "Formula": "=A138"
+    },
+    {
+      "address": "B152",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": "=B138"
+    },
+    {
+      "address": "C152",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D152",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "E152",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F152",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G152",
+      "Number": 31.415000000000006,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D152^2)*C152/(4*100))+((3.1415*F152^2)*E152/(4*100))"
+    },
+    {
+      "address": "H152",
+      "Number": 12.861766162494007,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I138"
+    },
+    {
+      "address": "I152",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H152<G152,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B153",
+      "Number": null,
+      "Text": "Gối B",
+      "ErrorText": null,
+      "Formula": "=B139"
+    },
+    {
+      "address": "C153",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D153",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G153",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D153^2)*C153/(4*100))+((3.1415*F153^2)*E153/(4*100))"
+    },
+    {
+      "address": "H153",
+      "Number": 7.059370683907918,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I139"
+    },
+    {
+      "address": "I153",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H153<G153,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B154",
+      "Number": null,
+      "Text": "Gối B",
+      "ErrorText": null,
+      "Formula": "=B140"
+    },
+    {
+      "address": "C154",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D154",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G154",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D154^2)*C154/(4*100))+((3.1415*F154^2)*E154/(4*100))"
+    },
+    {
+      "address": "H154",
+      "Number": 7.059370683907918,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I140"
+    },
+    {
+      "address": "I154",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H154<G154,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "A155",
+      "Number": null,
+      "Text": "B-C",
+      "ErrorText": null,
+      "Formula": "=A141"
+    },
+    {
+      "address": "B155",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": "=B141"
+    },
+    {
+      "address": "C155",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D155",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "E155",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F155",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G155",
+      "Number": 31.415000000000006,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D155^2)*C155/(4*100))+((3.1415*F155^2)*E155/(4*100))"
+    },
+    {
+      "address": "H155",
+      "Number": 19.212102652425646,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I141"
+    },
+    {
+      "address": "I155",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H155<G155,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B156",
+      "Number": null,
+      "Text": "Gối C",
+      "ErrorText": null,
+      "Formula": "=B142"
+    },
+    {
+      "address": "C156",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D156",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G156",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D156^2)*C156/(4*100))+((3.1415*F156^2)*E156/(4*100))"
+    },
+    {
+      "address": "H156",
+      "Number": 3.8703093523530145,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I142"
+    },
+    {
+      "address": "I156",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H156<G156,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B157",
+      "Number": null,
+      "Text": "Gối C",
+      "ErrorText": null,
+      "Formula": "=B143"
+    },
+    {
+      "address": "C157",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D157",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G157",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D157^2)*C157/(4*100))+((3.1415*F157^2)*E157/(4*100))"
+    },
+    {
+      "address": "H157",
+      "Number": 3.8703093523530145,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I143"
+    },
+    {
+      "address": "I157",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H157<G157,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "A158",
+      "Number": null,
+      "Text": "C-D",
+      "ErrorText": null,
+      "Formula": "=A144"
+    },
+    {
+      "address": "B158",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": "=B144"
+    },
+    {
+      "address": "C158",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D158",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G158",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D158^2)*C158/(4*100))+((3.1415*F158^2)*E158/(4*100))"
+    },
+    {
+      "address": "H158",
+      "Number": 8.68719685914781,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I144"
+    },
+    {
+      "address": "I158",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H158<G158,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "B159",
+      "Number": null,
+      "Text": "Gối D",
+      "ErrorText": null,
+      "Formula": "=B145"
+    },
+    {
+      "address": "C159",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D159",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G159",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D159^2)*C159/(4*100))+((3.1415*F159^2)*E159/(4*100))"
+    },
+    {
+      "address": "H159",
+      "Number": 3.086271513107947,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I145"
+    },
+    {
+      "address": "I159",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H159<G159,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "A160",
+      "Number": null,
+      "Text": "Console D",
+      "ErrorText": null,
+      "Formula": "=A146"
+    },
+    {
+      "address": "B160",
+      "Number": null,
+      "Text": "Gối D",
+      "ErrorText": null,
+      "Formula": "=B146"
+    },
+    {
+      "address": "C160",
+      "Number": 5,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$C$150"
+    },
+    {
+      "address": "D160",
+      "Number": 20,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=$D$150"
+    },
+    {
+      "address": "G160",
+      "Number": 15.707500000000003,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=((3.1415*D160^2)*C160/(4*100))+((3.1415*F160^2)*E160/(4*100))"
+    },
+    {
+      "address": "H160",
+      "Number": 3.086271513107947,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=I146"
+    },
+    {
+      "address": "I160",
+      "Number": null,
+      "Text": "Đạt",
+      "ErrorText": null,
+      "Formula": "=IF(H160<G160,\"Đạt\",\"Không đạt\")"
+    },
+    {
+      "address": "A161",
+      "Number": null,
+      "Text": "  d3/ Tính cốt đai",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A162",
+      "Number": null,
+      "Text": "Điều kiện đặt cốt đai",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D162",
+      "Number": null,
+      "Text": "Q1=0,6Rkbdh0 <Q< Q2=0,35Rnbdh0 ",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A164",
+      "Number": null,
+      "Text": "Bước cốt đai tính toán",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A166",
+      "Number": null,
+      "Text": "Bước cốt đai phải thõa mãn các điều kiện cấu tạo",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C168",
+      "Number": null,
+      "Text": "Uct2<=h/3",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D168",
+      "Number": null,
+      "Text": "( dầm có h>450)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F168",
+      "Number": null,
+      "Text": "Uct3<30cm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G168",
+      "Number": null,
+      "Text": "( dầm có h>450)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C169",
+      "Number": null,
+      "Text": "Uct2<=h/2",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D169",
+      "Number": null,
+      "Text": "( dầm có h>450)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F169",
+      "Number": null,
+      "Text": "Uct3<15cm",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G169",
+      "Number": null,
+      "Text": "( dầm có h>450)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A170",
+      "Number": null,
+      "Text": "Chọn cốt đai f =",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C170",
+      "Number": 8,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A171",
+      "Number": null,
+      "Text": "Q(t)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B171",
+      "Number": null,
+      "Text": "Q1(t)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "C171",
+      "Number": null,
+      "Text": "Q2(t)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "D171",
+      "Number": null,
+      "Text": "Utt(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "E171",
+      "Number": null,
+      "Text": "Uct1(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "F171",
+      "Number": null,
+      "Text": "Uct3(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "G171",
+      "Number": null,
+      "Text": "Uct3(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H171",
+      "Number": null,
+      "Text": "U min(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I171",
+      "Number": null,
+      "Text": "n",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A172",
+      "Number": 75,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B172",
+      "Number": 20.25,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(0.6*$H$110*E136*(F136-D136))/1000"
+    },
+    {
+      "address": "C172",
+      "Number": 150.9375,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(0.35*$E$110*E136*(F136-D136))/1000"
+    },
+    {
+      "address": "D172",
+      "Number": 20.26708992,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=($H$111*I172*(3.1416*C$170^2/400))*(8*$H$110*E136*(F136-D136)^2)/(A172*10^3)^2"
+    },
+    {
+      "address": "E172",
+      "Number": 50.625,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1.5*$H$110*E136*(F136-D136)^2)/(A172*10^3)"
+    },
+    {
+      "address": "F172",
+      "Number": 26.666666666666668,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F136/3"
+    },
+    {
+      "address": "G172",
+      "Number": 30,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(F136<45,15,30)"
+    },
+    {
+      "address": "H172",
+      "Number": 20.26708992,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=MIN(D172,E172,F172,G172)"
+    },
+    {
+      "address": "I172",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "A173",
+      "Number": 63,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "B173",
+      "Number": 20.25,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(0.6*$H$110*E138*(F138-D138))/1000"
+    },
+    {
+      "address": "C173",
+      "Number": 150.9375,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(0.35*$E$110*E138*(F138-D138))/1000"
+    },
+    {
+      "address": "D173",
+      "Number": 28.7232,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=($H$111*I173*(3.1416*C$170^2/400))*(8*$H$110*E138*(F138-D138)^2)/(A173*10^3)^2"
+    },
+    {
+      "address": "E173",
+      "Number": 60.267857142857146,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=(1.5*$H$110*E138*(F138-D138)^2)/(A173*10^3)"
+    },
+    {
+      "address": "F173",
+      "Number": 26.666666666666668,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=F138/3"
+    },
+    {
+      "address": "G173",
+      "Number": 30,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=IF(F137<45,15,30)"
+    },
+    {
+      "address": "H173",
+      "Number": 26.666666666666668,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": "=MIN(D173,E173,F173,G173)"
+    },
+    {
+      "address": "I173",
+      "Number": 4,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H174",
+      "Number": null,
+      "Text": "Vị trí",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I174",
+      "Number": null,
+      "Text": "U chọn(cm)",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H175",
+      "Number": null,
+      "Text": "Gối",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I175",
+      "Number": 15,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "H176",
+      "Number": null,
+      "Text": "Nhịp",
+      "ErrorText": null,
+      "Formula": null
+    },
+    {
+      "address": "I176",
+      "Number": 15,
+      "Text": null,
+      "ErrorText": null,
+      "Formula": null
+    }
+  ]
+}

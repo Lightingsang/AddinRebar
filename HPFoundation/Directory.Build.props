@@ -1,0 +1,26 @@
+<Project>
+
+  <!--
+    Directory.Build.props for HPFoundation.
+    Strip footing tool: Excel stays the calculator on a local copy, ETABS runs the model.
+    Stands alone: references no MCP folder and nothing from McpShared.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+  </PropertyGroup>
+
+  <!-- CSI publishes no NuGet package: compile against the installed ETABSv1.dll, found through its COM registration. -->
+  <PropertyGroup>
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == '' And '$(HPETABS_ETABS_DIR)' != ''">$(HPETABS_ETABS_DIR)</EtabsInstallDir>
+    <_EtabsLocalServer Condition="'$(EtabsInstallDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{e4f6d00f-51a5-4d65-a09a-ba00fcbf1f82}\LocalServer32', '', null, RegistryView.Registry64))</_EtabsLocalServer>
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == '' And '$(_EtabsLocalServer)' != ''">$([System.IO.Path]::GetDirectoryName($(_EtabsLocalServer.Trim('"'))))</EtabsInstallDir>
+    <EtabsInstallDir Condition="'$(EtabsInstallDir)' == ''">$(ProgramW6432)\Computers and Structures\ETABS 22\</EtabsInstallDir>
+    <EtabsInstallDir Condition="!HasTrailingSlash('$(EtabsInstallDir)')">$(EtabsInstallDir)\</EtabsInstallDir>
+    <EtabsApiAvailable>false</EtabsApiAvailable>
+    <EtabsApiAvailable Condition="Exists('$(EtabsInstallDir)ETABSv1.dll')">true</EtabsApiAvailable>
+  </PropertyGroup>
+
+</Project>

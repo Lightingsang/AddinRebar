@@ -3,6 +3,8 @@
 // Sheet mm: x to the right, y up (the elevation's z). One viewport scales the whole sheet, like paper.
 
 import type { KataColumnElevationDrawing, KataColumnSectionDrawing } from '../columnContracts';
+import { barLabel } from './columnStyle';
+import { tieDetails, type TieDetail } from './columnTieDetail';
 
 /** Scale of the sections against the elevation (1:20 beside 1:30). */
 export const SECTION_FACTOR = 30 / 20;
@@ -16,7 +18,20 @@ export const LABEL_ROOM_MM = 1600;
 /** Level lines reach this far left of the stack, for the level names and CT marks. */
 export const LEVEL_REACH_MM = 2400;
 
-const SECTION_GAP_MM = 1100;
+const SECTION_GAP_MM = 500;
+
+/** Section mm: leader rise to the first bar label, then one line per group; the title's room under the section. */
+export const GROUP_LABEL_RISE_MM = 120;
+export const GROUP_LABEL_LINE_MM = 110;
+const TITLE_ROOM_MM = 430;
+/** Section mm kept beside the details for their labels ("Ø10a100"). */
+const DETAIL_LABEL_ROOM_MM = 620;
+
+/** A section's bar label: a bar number and how many of it the section holds ("24Ø25"). */
+export interface SectionGroupLabel {
+  number: number;
+  text: string;
+}
 
 export interface PlacedSection {
   index: number;
@@ -25,6 +40,10 @@ export interface PlacedSection {
   /** Sheet position of the section's lower-left corner. */
   x: number;
   y: number;
+  groups: SectionGroupLabel[];
+  details: TieDetail[];
+  /** The section with its labels and details, on the sheet. */
+  frame: Extents;
 }
 
 export interface Extents {
@@ -56,13 +75,17 @@ export function layoutSheet(elevation: KataColumnElevationDrawing, sections: Kat
   // Top storey first, as the drawing reads from the roof down.
   for (let k = sections.length - 1; k >= 0; k--) {
     const drawing = sections[k]!;
-    const height = drawing.depthMm * SECTION_FACTOR;
-    const y = top - height;
-    placed.push({ index: k, name: elevation.cuts[k]?.name ?? `${k + 1}-${k + 1}`, drawing, x: sectionLeft, y });
-    top = y - SECTION_GAP_MM;
+    const groups = groupLabels(elevation, k);
+    const details = tieDetails(drawing);
+    const above = Math.max(GROUP_LABEL_RISE_MM + groups.length * GROUP_LABEL_LINE_MM, ...details.map((d) => d.y2 - drawing.depthMm + GROUP_LABEL_RISE_MM + GROUP_LABEL_LINE_MM));
+    const below = Math.max(TITLE_ROOM_MM, ...details.map((d) => -d.y1));
+    const right = Math.max(...details.map((d) => d.x2)) + DETAIL_LABEL_ROOM_MM;
+    const y = top - (above + drawing.depthMm) * SECTION_FACTOR;
+    const frame = { left: sectionLeft - 200, right: sectionLeft + right * SECTION_FACTOR, bottom: y - below * SECTION_FACTOR, top };
+    placed.push({ index: k, name: elevation.cuts[k]?.name ?? `${k + 1}-${k + 1}`, drawing, x: sectionLeft, y, groups, details, frame });
+    top = frame.bottom - SECTION_GAP_MM;
   }
 
-  const widest = Math.max(0, ...sections.map((s) => s.widthMm * SECTION_FACTOR));
   return {
     elevation,
     sections: placed,
@@ -71,11 +94,24 @@ export function layoutSheet(elevation: KataColumnElevationDrawing, sections: Kat
     labelRight,
     extents: {
       left: levelLeft,
-      right: sections.length > 0 ? sectionLeft + widest + 600 : labelRight + LABEL_ROOM_MM,
+      right: Math.max(labelRight + LABEL_ROOM_MM, ...placed.map((s) => s.frame.right)),
       bottom: Math.min(elevation.bottomMm - 800, top),
       top: elevation.topMm + 600,
     },
   };
+}
+
+/**
+ * The bar labels above a section, as VC writes them: one per group of a plain storey ("20Ø25" twice). VC joins a mixed
+ * group's Ø ("12Ø25+8Ø20") under one number; a line per number says which bar is which (24Ø25, 8Ø20, 8Ø20).
+ */
+function groupLabels(elevation: KataColumnElevationDrawing, storey: number): SectionGroupLabel[] {
+  const bars = elevation.bars.filter((b) => b.storey === storey && b.kind !== 'starter' && b.labelled);
+  const numbers = [...new Set(bars.map((b) => b.number))];
+  return numbers.map((number) => {
+    const own = bars.filter((b) => b.number === number);
+    return { number, text: barLabel({ count: own.reduce((n, b) => n + b.count, 0), diameterMm: own[0]!.diameterMm }) };
+  });
 }
 
 /** A section's own mm (x along b, y along h from its lower-left corner) on the sheet. */
@@ -121,9 +157,4 @@ export function clampZoom(previous: SheetView, next: SheetView, fitScale: number
   return next;
 }
 
-export const sectionExtents = (s: PlacedSection): Extents => ({
-  left: s.x - 400,
-  right: s.x + s.drawing.widthMm * SECTION_FACTOR + 400,
-  bottom: s.y - 700,
-  top: s.y + s.drawing.depthMm * SECTION_FACTOR + 400,
-});
+export const sectionExtents = (s: PlacedSection): Extents => s.frame;

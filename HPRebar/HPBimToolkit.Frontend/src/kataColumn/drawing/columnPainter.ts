@@ -9,16 +9,14 @@ import type { Palette, Pen } from '../../kata/elevation/palette';
 import { ShapeList } from '../../kata/elevation/shapes';
 import { paintSection } from './columnSectionPainter';
 import { DIM_GAP_MM, toScreen, type ColumnSheet, type SheetView } from './columnSheet';
-import { LABEL_CIRCLE_MM, LEVEL_TEXT_MM, TEXT_MM, TITLE_MM, mm, type BarHit, type PaintedSheet } from './columnStyle';
+import { LABEL_CIRCLE_MM, LEVEL_TEXT_MM, TEXT_MM, TITLE_MM, barLabel, mm, type BarHit, type PaintedSheet } from './columnStyle';
+import { tagCircle } from './columnTag';
 
-export type { BarHit, PaintedSheet } from './columnStyle';
+export { barLabel, type BarHit, type PaintedSheet } from './columnStyle';
 
 
 /** Level in metres as Kata's CT block writes it: "+2.500", "-4.000", "±0.000". */
 export const levelText = (zMm: number) => (Math.abs(zMm) < 0.5 ? '±0.000' : `${zMm > 0 ? '+' : '-'}${(Math.abs(zMm) / 1000).toFixed(3)}`);
-
-/** The label of a representative bar: "20Ø25". */
-export const barLabel = (bar: KataColumnDrawingBar) => `${bar.count}Ø${mm(bar.diameterMm)}`;
 
 export function paintColumnSheet(sheet: ColumnSheet, view: SheetView, palette: Palette, highlight: number | null): PaintedSheet {
   const out = new ShapeList();
@@ -201,12 +199,6 @@ function paintBarLabel(out: ShapeList, sheet: ColumnSheet, view: SheetView, pale
   tagCircle(out, view, palette, x, z, bar.number, on);
   const [tx, ty] = P(view, left ? x - LABEL_CIRCLE_MM - 30 : x + LABEL_CIRCLE_MM + 30, z);
   cadTextCentredOn(out, barLabel(bar), on ? palette.selected : palette.kata.tagText, TEXT_MM, view.scale, tx, ty, left ? 'right' : 'left');
-}
-
-function tagCircle(out: ShapeList, view: SheetView, palette: Palette, x: number, z: number, number: number, on = false) {
-  const [cx, cy] = P(view, x, z);
-  out.circle(undefined, lineweight(on ? palette.selected : palette.kata.circle, THIN_PX, view.scale), cx, cy, LABEL_CIRCLE_MM * view.scale);
-  cadTextCentredOn(out, String(number), on ? palette.selected : palette.kata.number, TEXT_MM * 0.9, view.scale, cx, cy, 'centre');
 }
 
 /** The bar number under (x, y) px, or null: segments within `reach` px, circles within their radius + `reach`. */

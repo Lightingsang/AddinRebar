@@ -37,3 +37,31 @@ Checks that found real defects in the Kata rebar core (2026-10-02 layer-spacer-t
 - Kata web page cut-over (2026-10-25, `KataWebBridge`/`useKata`): the page is the only Kata Export UI (no WPF fallback), so check every "scene not sent" path — a `KataWebSceneMapper` throw is log-only and `scene: null` (sheet error → `Elevation` null) renders the same "Đang dựng…" placeholder as "not arrived yet"; the mock bridge never sends a null scene. `kata.getState` schedules a scene on every call (harness polls it) and a re-sent scene is a new `rebar` object → page bar selection + section cache reset (identity-keyed). `#if KATA_ONLY && REVIT2026 … #else` sends a KataOnly non-R26 build to the full rebar panel. Light theme of page drawings has no test (paint tests use `paletteFor('dark')`).
 
 - Kata web UI v6 (2026-10-25, shadcn/Radix + Revit-style 3D): Radix portals (DropdownMenu/Select/Popover content in `document.body`) still bubble React synthetic events up the *React* tree — a parent `onKeyDown` that maps Esc → `kata.run('close')` closes the window when Esc only meant "dismiss menu" (Radix's escape listener calls `preventDefault`, never `stopPropagation`; check `e.defaultPrevented` or `currentTarget.contains(target)`). ViewCube drag reuses `rig.orbit` (shows the pivot ball) but only the main view's Shift+middle `pointerup` hides it. kata.css re-colours tokens — recompute WCAG for `--success`/`--steel` text and white-on-`--action-*`/`--primary` in dark (v6: 3.3 / 3.56 / 4.05–4.47 / 3.68). Prefs harness deletes `hp.kata.*` instead of restoring the user's prior values.
+
+- Kata Column Export (2026-11-03, `KataColumnStackReader` → sheet `Cot`): check the Revit adapter's geometry choices, Core is fine. Circle = "any vertical CylindricalFace" misreads rounded corners/sleeves as round (D = 0); K must be head − soffit from original solids (bbox height misses offset beams, outline head ± 50 mm drops them); storey range from cut solids breaks when a floor/beam cuts the column; frame from a round lowest column is arbitrary; writer clears A..V below the stack silently (no undo after COM). Sign rule: contract variants prove shrink only — growth and the h side of a negative D are assumptions. Template rows 16..216 A..V of Kata.xlsm are empty (cell dump `reports/kata-xlsm-cot-cells.txt`).
+
+## Column stack rebar plan (KataRebar/ColumnStack, 2026-11-03 review 5.5/10)
+- Probe every run for z-monotonic + no short segment: crank/cut point appended after lap crank-back folds when J+40d+30d+6d > clear (Kata sample J=1550).
+- Bar zone = bounding box: wrong for round upper storeys; larger upper storey never cuts/dowels → new face bars float.
+- A/B group by atan2 parity per storey; laps never paired across storeys → count/pitch change puts A beside B (no overlap).
+- Starter foot from sheet C5 absolute vs Revit storey z = datum trap; derive from base − B9.
+- Lap by group Ø (I a/b) vs bar Ø by layer — Kata parity under-laps Ø25 in group B (user decision).
+- Probe recipe: scratch net8 console referencing HPRebar.Core.csproj + linking KataColumnTestSheet.cs.
+
+## Column stack rebar, Revit side + web page (2026-11-03 review 6.5/10)
+- HPWebHost handlers registered as `Task.FromResult(sync())` make CommandDispatcher timeouts inert (WaitAsync starts after the work); only the page timeout bounds a run.
+- Check the page shows `generate.warnings` (hookless-hoop fallback, cover change, cleared Revit warnings) — dropped in v1.
+- Step 2 Excel read (`KataDamComReader`, ActiveWorkbook, Name only) vs step 1 write (FullName check): same-name workbooks in two folders look identical; Generate uses last plan, not the sheet now.
+- Busy state split between parent page and child view → Generate enabled during step-switch reload; Close queued mid-generate.
+- `KataRebarCurveFactory.IsRight` uses the chord as facing: for half-circle arcs dot ≈ 0 → hook side by float noise.
+- Shared beam services (cover, numbering) emit beam wording ("dầm", "J9", "B3") in column runs.
+
+## Column canvas drawing page (2026-11-04 review 7/10)
+- Representative-bar labels: check Σ label counts over ALL drawn bars == storey bar count (layer 1 + layer 2 same Ø were double-counted; test summed `First()` per group/Ø).
+- Page drawings in a scrollable `<main>`: React `onWheel` is passive → needs native `{passive:false}` listener (beam NativeElevation has it); also zoom clamps, pointercancel, refit-on-reload.
+
+## Column section/elevation views (2026-11-03 review 7/10)
+- View steps run through the fatal `KataTransactionRunner` → a commit error or uncaught exception type rolls back the bars; wrap view `runner.Run` in try/catch → warning.
+- `view.Name =` before `KataDraftingStorage.Write` → invalid name orphans an unstamped view per run (sections + `KataSectionViews.FindOrCreate`).
+- Elevation look = Z×B assumes right-handed frame; frame = raw column transform → mirrored column looks away from the stack.
+- Cut search minimises crossings over all storeys' runs → may cut where only k−1 lap bars exist; tag refusals only logged at Information.

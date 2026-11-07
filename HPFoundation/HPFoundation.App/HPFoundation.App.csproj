@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>HPFoundation.App</RootNamespace>
+    <AssemblyName>HPFoundation.App</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <IsPackable>false</IsPackable>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HPFoundation.Core\HPFoundation.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Compile against the installed wrapper and never copy it: EtabsInstallation resolves it from ETABS at run time. -->
+    <Reference Include="ETABSv1">
+      <HintPath>$(EtabsInstallDir)ETABSv1.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="RequireEtabsApi" BeforeTargets="ResolveAssemblyReferences" Condition="'$(EtabsApiAvailable)' != 'true'">
+    <Error Text="ETABS 22 OAPI not found at '$(EtabsInstallDir)ETABSv1.dll'. Install ETABS 22, or pass -p:EtabsInstallDir=&lt;dir&gt;." />
+  </Target>
+
+</Project>

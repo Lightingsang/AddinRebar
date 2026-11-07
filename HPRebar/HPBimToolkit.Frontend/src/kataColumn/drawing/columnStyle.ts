@@ -22,3 +22,6 @@ export interface PaintedSheet {
 }
 
 export const mm = (value: number) => Math.round(value).toString();
+
+/** The label of a representative bar: "20Ø25". */
+export const barLabel = (bar: { count: number; diameterMm: number }) => `${bar.count}Ø${mm(bar.diameterMm)}`;

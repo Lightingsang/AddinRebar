@@ -18,6 +18,7 @@ One file per decision, `NNNN-kebab-title.md`, never renumbered. Status: **Propos
 | [0012](0012-kata-page-ui-kit-and-viewer-choices.md) | Kata Export page: shadcn/ui kit, VI/EN and light/dark chosen in the page, no drawing export | Accepted |
 | [0013](0013-kata-settings-web-page.md) | Kata Settings: a web page on Revit 2026, the WPF dialog removed | Accepted |
 | [0014](0014-kata-column-export-web-page.md) | Kata Column Rebar: Revit column stacks into Kata sheet "Cot" and back as rebar, a web page on Revit 2026 | Accepted |
+| [0015](0015-hpfoundation-standalone-tool.md) | HPFoundation: strip footing automation as a standalone tool, Excel stays the calculator | Accepted |
 
 Template:
 

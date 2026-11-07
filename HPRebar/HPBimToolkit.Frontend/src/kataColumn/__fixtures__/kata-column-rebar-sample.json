@@ -55,8 +55,10 @@
       "depthMm": 800,
       "hoopOffsetMm": 35,
       "hoopDiameterMm": 10,
+      "hoopSpacingMm": 100,
       "hoopNumber": 16,
       "tieDiameterMm": 8,
+      "tieSpacingMm": 400,
       "bars": [
         {
           "x": 52.5,
@@ -382,8 +384,10 @@
       "depthMm": 800,
       "hoopOffsetMm": 35,
       "hoopDiameterMm": 10,
+      "hoopSpacingMm": 100,
       "hoopNumber": 16,
       "tieDiameterMm": 8,
+      "tieSpacingMm": 400,
       "bars": [
         {
           "x": 52.5,
@@ -709,8 +713,10 @@
       "depthMm": 800,
       "hoopOffsetMm": 35,
       "hoopDiameterMm": 10,
+      "hoopSpacingMm": 100,
       "hoopNumber": 16,
       "tieDiameterMm": 8,
+      "tieSpacingMm": 400,
       "bars": [
         {
           "x": 52.5,
@@ -1036,8 +1042,10 @@
       "depthMm": 800,
       "hoopOffsetMm": 35,
       "hoopDiameterMm": 10,
+      "hoopSpacingMm": 100,
       "hoopNumber": 16,
       "tieDiameterMm": 8,
+      "tieSpacingMm": 400,
       "bars": [
         {
           "x": 50,
@@ -1363,8 +1371,10 @@
       "depthMm": 800,
       "hoopOffsetMm": 35,
       "hoopDiameterMm": 10,
+      "hoopSpacingMm": 100,
       "hoopNumber": 16,
       "tieDiameterMm": 8,
+      "tieSpacingMm": 400,
       "bars": [
         {
           "x": 50,
